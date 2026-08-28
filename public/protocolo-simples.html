@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Protocolo 21 Dias de Reiki Integrativo</title>
+    <style>
+        :root {
+            --primary: #5b2c6f;
+            --secondary: #d4ac0d;
+            --bg: #f8f9fa;
+            --card-bg: #ffffff;
+            --text: #2c3e50;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+        }
+        .container {
+            max-width: 800px;
+            width: 100%;
+            background: var(--card-bg);
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+        }
+        h1, h2 {
+            color: var(--primary);
+            text-align: center;
+            margin-bottom: 5px;
+        }
+        .subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 25px;
+        }
+        .cycle {
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 20px;
+            background-color: #fafafa;
+        }
+        .cycle-title {
+            font-weight: bold;
+            color: var(--primary);
+            margin-bottom: 10px;
+            display: block;
+        }
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+            gap: 10px;
+        }
+        .day-card {
+            background: #fff;
+            border: 1px solid #ccc;
+            padding: 10px;
+            border-radius: 6px;
+            text-align: center;
+            cursor: pointer;
+            user-select: none;
+            transition: all 0.2s;
+        }
+        .day-card.completed {
+            background-color: #2ecc71;
+            color: white;
+            border-color: #27ae60;
+        }
+        .audio-section {
+            background: #f0e6f6;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            text-align: center;
+            border: 1px solid #dcd0e5;
+        }
+        .audio-input-box {
+            margin-top: 10px;
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+        }
+        input[type="text"] {
+            width: 70%;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        button {
+            padding: 8px 15px;
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        audio {
+            width: 100%;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Protocolo de 21 Dias de Reiki</h1>
+    <div class="subtitle">São Miguel, Chama Violeta e Raios de Ouro de São Rafael</div>
+
+    <!-- Player de Áudio Flexível (Via Link ou Google Drive) -->
+    <div class="audio-section">
+        <strong style="color: var(--primary); font-size: 1.1em;">Sessão Guiada de Tratamento à Distância</strong>
+        <p style="font-size:0.9em; margin: 5px 0; color: #555;">Cole o link direto do seu MP3 (Google Drive, Dropbox ou servidor) abaixo para carregar o áudio:</p>
+        
+        <div class="audio-input-box">
+            <input type="text" id="audioUrl" placeholder="Cole o link do seu arquivo MP3 aqui...">
+            <button onclick="carregarAudio()">Carregar</button>
+        </div>
+
+        <audio id="player" controls style="display:none;">
+            <source id="audioSource" src="" type="audio/mpeg">
+            Seu navegador não suporta a reprodução deste áudio.
+        </audio>
+    </div>
+
+    <!-- Ciclo 1 -->
+    <div class="cycle">
+        <span class="cycle-title">Ciclo 1: Proteção e Limpeza (São Miguel)</span>
+        <div class="grid" id="ciclo1"></div>
+    </div>
+
+    <!-- Ciclo 2 -->
+    <div class="cycle">
+        <span class="cycle-title">Ciclo 2: Transmutação de Padrões (Chama Violeta)</span>
+        <div class="grid" id="ciclo2"></div>
+    </div>
+
+    <!-- Ciclo 3 -->
+    <div class="cycle">
+        <span class="cycle-title">Ciclo 3: Regeneração e Cura (São Rafael)</span>
+        <div class="grid" id="ciclo3"></div>
+    </div>
+</div>
+
+<script>
+    const totalDias = 21;
+
+    // Gerenciamento dos dias
+    function renderizarDias() {
+        for (let i = 1; i <= totalDias; i++) {
+            const card = document.createElement('div');
+            card.className = 'day-card';
+            card.innerText = 'Dia ' + i;
+            
+            if (localStorage.getItem('reiki_dia_' + i) === 'true') {
+                card.classList.add('completed');
+            }
+
+            card.addEventListener('click', () => {
+                const completed = card.classList.toggle('completed');
+                localStorage.setItem('reiki_dia_' + i, completed);
+            });
+
+            if (i <= 7) {
+                document.getElementById('ciclo1').appendChild(card);
+            } else if (i <= 14) {
+                document.getElementById('ciclo2').appendChild(card);
+            } else {
+                document.getElementById('ciclo3').appendChild(card);
+            }
+        }
+    }
+
+    // Carregar link de áudio dinâmico
+    function carregarAudio() {
+        const url = document.getElementById('audioUrl').value;
+        if (url) {
+            const player = document.getElementById('player');
+            const source = document.getElementById('audioSource');
+            source.src = url;
+            player.load();
+            player.style.display = 'block';
+            localStorage.setItem('reiki_audio_url', url);
+        }
+    }
+
+    // Restaura o áudio salvo anteriormente
+    const audioSalvo = localStorage.getItem('reiki_audio_url');
+    if (audioSalvo) {
+        document.getElementById('audioUrl').value = audioSalvo;
+        carregarAudio();
+    }
+
+    renderizarDias();
+</script>
+
+</body>
+</html>

@@ -372,6 +372,20 @@ export default function MeditationSession({
   };
 
 
+  const handleCompleteGuidedJourney = () => {
+    setIsPlaying(false);
+    audioEngine.stopBG();
+    audioEngine.stopSpeech();
+    setSessionPhase('complete');
+  };
+
+  const togglePlayback = () => {
+    if (isPlaying) {
+      audioEngine.stopSpeech();
+    }
+    setIsPlaying(!isPlaying);
+  };
+
   const restartSession = () => {
     setActiveStageIndex(1);
     setIsPlaying(true);

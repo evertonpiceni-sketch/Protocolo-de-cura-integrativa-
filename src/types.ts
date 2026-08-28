@@ -26,7 +26,7 @@ export interface DayProgress {
 export interface SpecificTreatment {
   id: string;
   requestedAt: string;
-  durationDays?: 7 | 21; // 7 dias ou 21 dias
+  durationDays?: 1 | 7 | 21; // 1 dia (sessão única), 7 dias ou 21 dias
   category: 'prosperidade' | 'saude_fisica' | 'liberacao_emocional' | 'relacionamentos' | 'limpeza_espiritual' | 'outro';
   title: string;
   patientDescription: string;

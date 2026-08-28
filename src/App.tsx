@@ -4,7 +4,7 @@
  */
 
 import React, { useState, useEffect, useRef } from 'react';
-import { Sparkles, Calendar, BookOpen, Volume2, VolumeX, User, RefreshCw, Compass, Heart, Award, Info, X, Play, Clock, Smile, LogOut, Crown, Star, Check, Mic, Sliders, Activity, FileText, Globe, MessageCircle, Phone, Smartphone, Download, Leaf, Bell } from 'lucide-react';
+import { Sparkles, Calendar, BookOpen, Volume2, VolumeX, User, RefreshCw, Compass, Heart, Award, Info, X, Play, Clock, Smile, LogOut, Crown, Star, Check, Mic, Sliders, Activity, FileText, Globe, MessageCircle, Phone, Smartphone, Download, Leaf, Bell, Headphones } from 'lucide-react';
 import { DayProgress, UserProfile, UserAccount, DAILY_INSIGHTS, JOURNEY_7D_INSIGHTS, PROTOCOL_STAGES, AnamnesisData, SpecificTreatment, SessionCheckIn, JourneyType } from './types';
 import ProfileSetup from './components/ProfileSetup';
 import TrackerGrid from './components/TrackerGrid';
@@ -36,6 +36,8 @@ import { calculateAstralMap } from './utils/astrology';
 import { audioEngine } from './lib/audio';
 import { evaluateAchievements } from './lib/achievementsData';
 import { AppLanguage, SUPPORTED_LANGUAGES, UI_TRANSLATIONS } from './lib/i18n';
+import { AnimatePresence } from "motion/react";
+import SimpleProtocol from './components/SimpleProtocol';
 import { localNotificationManager } from './lib/notifications';
 
 const LOCAL_STORAGE_KEY_CURRENT_LOGIN = 'cura_integrada_logged_in_user_v1';
@@ -67,6 +69,7 @@ export default function App() {
   const [currentLanguage, setCurrentLanguage] = useState<AppLanguage>('pt');
   
   // Navigation & Interactive states
+  const [showSimpleProtocol, setShowSimpleProtocol] = useState(false);
   const [activeSessionDay, setActiveSessionDay] = useState<number | null>(null);
   const [isJournalOpen, setIsJournalOpen] = useState<boolean>(false);
   const [selectedDayDetail, setSelectedDayDetail] = useState<number | null>(null);
@@ -604,6 +607,13 @@ export default function App() {
 
   return (
     <>
+
+      <AnimatePresence>
+        {showSimpleProtocol && (
+          <SimpleProtocol onClose={() => setShowSimpleProtocol(false)} />
+        )}
+      </AnimatePresence>
+
       {activeSessionDay !== null ? (
                 <MeditationSession
           dayNumber={activeSessionDay}

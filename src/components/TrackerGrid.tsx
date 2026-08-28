@@ -13,7 +13,7 @@ import MindfulnessAffirmationWidget from './MindfulnessAffirmationWidget';
 import MoodEvolutionChart from './MoodEvolutionChart';
 import { evaluateBestTreatmentFromAnamnesis } from '../lib/anamnesisTreatmentEngine';
 import { audioEngine } from '../lib/audio';
-import { Sun, Moon, Compass } from 'lucide-react';
+import { Sun, Moon, Compass, Shield } from 'lucide-react';
 import {
   ResponsiveContainer,
   LineChart,
@@ -1076,87 +1076,127 @@ export default function TrackerGrid({
         );
       })()}
 
-      {/* Grid Header */}
+            {/* Grid Header */}
       <div className="flex items-center justify-between border-b border-slate-800 pb-3" id="grid-header-section">
         <h2 className="text-lg font-display font-medium text-slate-300 flex items-center gap-2">
           <Calendar size={18} className="text-indigo-400 shrink-0" />
           <span>{activeJourney === '7d' ? 'Alinhamento dos 7 Chakras' : 'Calendário de Alinhamento (21 Dias)'}</span>
         </h2>
-        <span className="text-xs text-slate-500 font-mono">
+        <span className="text-xs text-slate-500 font-mono hidden sm:inline">
           SELECIONE UM DIA PARA VER DETALHES
         </span>
       </div>
 
       {/* Days Grid (7 or 21 days) */}
-      <div className={`grid gap-4 ${activeJourney === '7d' ? 'grid-cols-1 sm:grid-cols-2 md:grid-cols-7' : 'grid-cols-2 sm:grid-cols-3 md:grid-cols-7'}`} id="calendar-days-grid">
-        {Array.from({ length: totalDays }, (_, index) => {
-          const dayNum = index + 1;
-          const status = getDayStatus(dayNum);
-          const insight = currentInsights[index];
-
-          let cardClass = "";
-          let iconElement = null;
-
-          if (status === 'completed') {
-            cardClass = "bg-emerald-950/15 border-emerald-500/30 hover:border-emerald-500/50 text-slate-300";
-            iconElement = <CheckCircle2 size={16} className="text-emerald-400" />;
-          } else if (status === 'ready') {
-            cardClass = "bg-indigo-950/40 border-indigo-500/50 hover:border-indigo-500 text-slate-100 ring-1 ring-indigo-500/30 animate-pulse-slow";
-            iconElement = <Play size={12} fill="currentColor" className="text-indigo-400" />;
-          } else if (status === 'missed') {
-            cardClass = "bg-slate-900/40 border-slate-700 hover:border-indigo-500/40 text-slate-400";
-            iconElement = <Clock size={16} className="text-amber-500/60" />;
-          } else if (status === 'trial_locked') {
-            cardClass = "bg-slate-950/80 border-amber-500/20 text-slate-500 hover:border-amber-500/40 hover:text-slate-300";
-            iconElement = <Lock size={14} className="text-amber-400/80" />;
-          } else {
-            cardClass = "bg-slate-950/40 border-slate-800/80 text-slate-600 cursor-not-allowed opacity-60";
-            iconElement = <Lock size={14} className="text-slate-700" />;
-          }
-
-          return (
-            <div
-              key={dayNum}
-              id={`day-card-${dayNum}`}
-              onClick={() => handleDayCardClick(dayNum, status)}
-              className={`p-4 rounded-2xl border flex flex-col justify-between min-h-32 transition-all duration-300 relative overflow-hidden group ${
-                status !== 'locked' ? 'cursor-pointer hover:-translate-y-0.5' : ''
-              } ${cardClass}`}
-            >
-              {/* Day Number badge */}
-              <div className="flex items-center justify-between w-full">
-                <span className="font-mono text-xs font-semibold">
-                  {activeJourney === '7d' ? `CHAKRA ${dayNum}` : `DIA ${dayNum.toString().padStart(2, '0')}`}
-                </span>
-                {iconElement}
+      <div className="space-y-8" id="calendar-days-grid">
+        {(() => {
+                    const renderCycle = (startDay: number, endDay: number, title: string, description: string, energeticGoal: string, icon: React.ReactNode, bgClass: string, borderClass: string) => (
+            <div className="space-y-4 mb-6">
+              {/* Transition / Cycle Intro Card */}
+              <div className={`p-4 rounded-2xl border ${bgClass.replace('20', '10')} ${borderClass} relative overflow-hidden group`}>
+                <div className="relative z-10">
+                  <div className="flex items-center gap-3 mb-2">
+                    <div className={`p-2 rounded-xl ${bgClass}`}>
+                      {icon}
+                    </div>
+                    <h3 className="text-sm md:text-base font-bold text-slate-200">{title}</h3>
+                  </div>
+                  <p className="text-[11px] sm:text-xs text-slate-400 mb-3 leading-relaxed max-w-2xl">
+                    {description}
+                  </p>
+                  <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-slate-900/50 border border-slate-700/50 text-[10px] sm:text-[11px] font-medium text-slate-300">
+                    <Compass size={12} className="text-slate-400" />
+                    <span>Objetivo: {energeticGoal}</span>
+                  </div>
+                </div>
               </div>
 
-              {/* Day focus insight title */}
-              <div className="mt-2">
-                <p className="text-[11px] font-sans font-medium line-clamp-2 leading-snug group-hover:text-slate-200">
-                  {insight?.title || `Sessão de Alinhamento`}
-                </p>
-              </div>
+              {/* Days Grid */}
+              <div className={`grid gap-3 grid-cols-2 sm:grid-cols-4 md:grid-cols-7`}>
+                {Array.from({ length: endDay - startDay + 1 }, (_, index) => {
+                  const dayNum = startDay + index;
+                  const status = getDayStatus(dayNum);
+                  const insight = currentInsights[dayNum - 1];
 
-              {/* Status micro label */}
-              <div className="mt-2 flex items-center justify-between text-[10px] font-mono tracking-wider opacity-60 uppercase">
-                <span>
-                  {status === 'completed' && "Concluído"}
-                  {status === 'ready' && "Disponível"}
-                  {status === 'missed' && "Pendente"}
-                  {status === 'trial_locked' && "Bloqueio Degustação / PRO"}
-                  {status === 'locked' && "Bloqueado"}
-                </span>
-                {status === 'ready' && (
-                  <span className="w-1.5 h-1.5 bg-indigo-400 rounded-full animate-ping" />
-                )}
-                {status === 'trial_locked' && (
-                  <span className="text-amber-400 text-[9px] font-bold">Desbloquear</span>
-                )}
+                  let cardClass = "";
+                  let iconElement = null;
+
+                  if (status === 'completed') {
+                    cardClass = "bg-emerald-950/15 border-emerald-500/30 hover:border-emerald-500/50 text-slate-300";
+                    iconElement = <CheckCircle2 size={16} className="text-emerald-400" />;
+                  } else if (status === 'ready') {
+                    cardClass = "bg-indigo-950/40 border-indigo-500/50 hover:border-indigo-500 text-slate-100 ring-1 ring-indigo-500/30 animate-pulse-slow";
+                    iconElement = <Play size={12} fill="currentColor" className="text-indigo-400" />;
+                  } else if (status === 'missed') {
+                    cardClass = "bg-slate-900/40 border-slate-700 hover:border-indigo-500/40 text-slate-400";
+                    iconElement = <Clock size={16} className="text-amber-500/60" />;
+                  } else if (status === 'trial_locked') {
+                    cardClass = "bg-slate-950/80 border-amber-500/20 text-slate-500 hover:border-amber-500/40 hover:text-slate-300";
+                    iconElement = <Lock size={14} className="text-amber-400/80" />;
+                  } else {
+                    cardClass = "bg-slate-950/40 border-slate-800/80 text-slate-600 cursor-not-allowed opacity-60";
+                    iconElement = <Lock size={14} className="text-slate-700" />;
+                  }
+
+                  return (
+                    <div
+                      key={dayNum}
+                      id={`day-card-${dayNum}`}
+                      onClick={() => handleDayCardClick(dayNum, status)}
+                      className={`p-3 rounded-2xl border flex flex-col justify-between min-h-[110px] transition-all duration-300 relative overflow-hidden group ${
+                        status !== 'locked' ? 'cursor-pointer hover:-translate-y-0.5' : ''
+                      } ${cardClass}`}
+                    >
+                      {/* Day Number badge */}
+                      <div className="flex items-center justify-between w-full">
+                        <span className="font-mono text-[11px] font-semibold">
+                          {activeJourney === '7d' ? `CHAKRA ${dayNum}` : `DIA ${dayNum.toString().padStart(2, '0')}`}
+                        </span>
+                        {iconElement}
+                      </div>
+
+                      {/* Day focus insight title */}
+                      <div className="mt-2">
+                        <p className="text-[10px] sm:text-[11px] font-sans font-medium line-clamp-2 leading-snug group-hover:text-slate-200">
+                          {insight?.title || `Sessão de Alinhamento`}
+                        </p>
+                      </div>
+
+                      {/* Status micro label */}
+                      <div className="mt-2 flex items-center justify-between text-[9px] font-mono tracking-wider opacity-60 uppercase">
+                        <span className="truncate">
+                          {status === 'completed' && "Concluído"}
+                          {status === 'ready' && "Disponível"}
+                          {status === 'missed' && "Pendente"}
+                          {status === 'trial_locked' && "Bloqueio PRO"}
+                          {status === 'locked' && "Bloqueado"}
+                        </span>
+                        {status === 'ready' && (
+                          <span className="w-1.5 h-1.5 bg-indigo-400 rounded-full animate-ping shrink-0" />
+                        )}
+                        {status === 'trial_locked' && (
+                          <span className="text-amber-400 text-[9px] font-bold shrink-0 ml-1">Abrir</span>
+                        )}
+                      </div>
+                    </div>
+                  );
+                })}
               </div>
             </div>
           );
-        })}
+
+                    if (activeJourney === '21d') {
+            return (
+              <>
+                {renderCycle(1, 7, "Ciclo 1: Proteção & Limpeza (São Miguel)", "Nesta fase inicial, o foco é a remoção de amarras, proteção espiritual e limpeza de energias densas, preparando seu campo para a cura profunda.", "Limpeza Profunda e Aterramento", <Shield size={16} className="text-indigo-400" />, "bg-indigo-500/20", "border-indigo-500/20")}
+                {renderCycle(8, 14, "Ciclo 2: Transmutação de Padrões (Chama Violeta)", "Aprofundamento na queima kármica, liberando traumas do passado, perdoando feridas profundas e ressignificando crenças limitantes.", "Liberação Emocional e Perdão", <Flame size={16} className="text-violet-400" />, "bg-violet-500/20", "border-violet-500/20")}
+                {renderCycle(15, 21, "Ciclo 3: Regeneração & Cura (São Rafael)", "O último ciclo atua na regeneração do seu DNA cósmico, selando o tratamento com frequências de saúde perfeita, paz e harmonia.", "Integração Celular e Saúde", <Sparkles size={16} className="text-emerald-400" />, "bg-emerald-500/20", "border-emerald-500/20")}
+              </>
+            );
+          } else {
+            return renderCycle(1, 7, "Alinhamento dos 7 Chakras", "Uma jornada intensiva de 7 dias focada na ativação, purificação e alinhamento sequencial dos seus centros magnéticos de energia.", "Equilíbrio Energético", <Sun size={16} className="text-amber-400" />, "bg-amber-500/20", "border-amber-500/20");
+          }
+        })()}
       </div>
     </div>
   );

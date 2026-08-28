@@ -42,7 +42,7 @@ export default function SpecificTreatmentModal({
   onConfirmTreatment
 }: SpecificTreatmentModalProps) {
   const [activeTab, setActiveTab] = useState<'request' | 'my_treatments'>('request');
-  const [durationDays, setDurationDays] = useState<7 | 21>(21);
+  const [durationDays, setDurationDays] = useState<1 | 7 | 21>(1); // Changed default to 1
   const [isCustomPrice, setIsCustomPrice] = useState<boolean>(false);
   const [customPriceInput, setCustomPriceInput] = useState<string>('59,90');
   const [selectedCategory, setSelectedCategory] = useState<string>('saude_fisica');
@@ -69,9 +69,9 @@ export default function SpecificTreatmentModal({
 
   if (!isOpen) return null;
 
-  // Pricing: 21 Days Complete is R$ 59,90, 7 Days is R$ 59,90, or Custom Value
+  // Pricing: 21 Days Complete is R$ 59,90, 7 Days is R$ 59,90, 1 Day (Sessão Única) is R$ 20,00
   const parsedCustomPrice = parseFloat(customPriceInput.replace(',', '.')) || 0;
-  const standardPrice = durationDays === 21 ? 59.9 : 59.9;
+  const standardPrice = durationDays === 21 ? 59.9 : (durationDays === 7 ? 59.9 : 20.0);
   const basePrice = isCustomPrice ? Math.max(0, parsedCustomPrice) : standardPrice;
   const discountAmount = discountPercent > 0 ? (basePrice * discountPercent) / 100 : 0;
   const finalPrice = Math.max(0, basePrice - discountAmount);
@@ -162,10 +162,15 @@ export default function SpecificTreatmentModal({
       }
 
       const discountNotice = appliedCoupon ? ` (Cupom: ${appliedCoupon} - Pago: ${formattedFinalPrice})` : ` (Valor: ${formattedFinalPrice})`;
+      let cycleText = '';
+      if (durationDays === 21) cycleText = 'Tratamento Completo R$ 59,90';
+      else if (durationDays === 7) cycleText = 'Ciclo Inicial R$ 59,90';
+      else cycleText = 'Tratamento à Distância R$ 20,00';
+      
       const whatsappText = encodeURIComponent(
         `Olá Éverton Rodrigo Piceni! Acabei de solicitar meu Tratamento Específico de ${durationDays} Dias${discountNotice}.\n\n` +
         `*Paciente:* ${userProfile.fullName || userProfile.name}\n` +
-        `*Ciclo Escolhido:* ${durationDays} Dias (${durationDays === 21 ? 'Tratamento Completo R$ 59,90' : 'Ciclo Inicial R$ 59,90'})\n` +
+        `*Ciclo Escolhido:* ${durationDays === 1 ? 'Sessão Única' : `${durationDays} Dias`} (${cycleText})\n` +
         `*Nascimento:* ${userProfile.birthDate || 'Não informado'}\n` +
         `*E-mail:* ${userProfile.email}\n` +
         `*Foco do Tratamento:* ${selectedCategory.toUpperCase()}\n` +
@@ -261,7 +266,7 @@ export default function SpecificTreatmentModal({
                   Frequência Canalizada: {lastCreatedTreatment.assignedFrequency?.toUpperCase()}
                 </span>
                 <span className="text-[10px] font-mono text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded border border-emerald-500/20">
-                  VALOR PAGO: R$ 70,00
+                  VALOR PAGO: {formattedFinalPrice}
                 </span>
               </div>
 
@@ -372,7 +377,36 @@ export default function SpecificTreatmentModal({
                 </button>
               </div>
 
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <div className="flex flex-col gap-3">
+                {/* 1 Day Plan (Distance Treatment) */}
+                <button
+                  type="button"
+                  onClick={() => {
+                    setDurationDays(1);
+                    if (!isCustomPrice) {
+                      setCustomPriceInput('20,00');
+                    }
+                  }}
+                  className={`p-3.5 rounded-2xl border text-left flex items-start gap-3 transition cursor-pointer relative ${
+                    durationDays === 1 && !isCustomPrice
+                      ? 'bg-indigo-950/50 border-indigo-500 text-indigo-200 shadow-md shadow-indigo-500/10'
+                      : 'bg-slate-950/60 border-slate-800 text-slate-400 hover:border-slate-700'
+                  }`}
+                >
+                  <div className={`p-2 rounded-xl shrink-0 mt-0.5 ${durationDays === 1 && !isCustomPrice ? 'bg-indigo-500/20 text-indigo-300' : 'bg-slate-900 text-slate-500'}`}>
+                    <Zap size={18} />
+                  </div>
+                  <div className="flex-1">
+                    <div className="flex items-center justify-between">
+                      <strong className="text-xs text-slate-100">Tratamento à Distância (Sessão Única)</strong>
+                      <span className="text-xs font-mono font-bold text-indigo-400">R$ 20,00</span>
+                    </div>
+                    <p className="text-[10px] text-slate-400 mt-0.5">
+                      Sessão única de envio energético programado à distância.
+                    </p>
+                  </div>
+                </button>
+
                 {/* 7 Days Plan */}
                 <button
                   type="button"
@@ -508,7 +542,7 @@ export default function SpecificTreatmentModal({
                       : 'text-slate-400 hover:text-slate-200'
                   }`}
                 >
-                  Solicitar Novo Tratamento (R$ 70,00)
+                  Solicitar Novo Tratamento
                 </button>
                 <button
                   type="button"
@@ -833,7 +867,7 @@ export default function SpecificTreatmentModal({
                   ) : (
                     <>
                       <Sparkles size={16} />
-                      <span>Confirmar & Iniciar Tratamento Específico (R$ 70,00)</span>
+                                            <span>Confirmar Tratamento ({formattedFinalPrice})</span>
                     </>
                   )}
                 </button>
