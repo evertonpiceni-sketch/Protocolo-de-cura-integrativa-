@@ -1,0 +1,12 @@
+[
+  {
+    "relation": ["delegate_permission/common.handle_all_urls"],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "com.evertonpiceni.curaintegrada",
+      "sha256_cert_fingerprints": [
+        "14:6D:E9:44:C5:9F:5C:7E:6D:71:0D:78:E8:29:9C:B6:CE:B8:31:73:96:A7:72:34:64:9F:A4:A8:ED:9A:91:EF"
+      ]
+    }
+  }
+]

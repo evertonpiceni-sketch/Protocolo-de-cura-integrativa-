@@ -1,0 +1,53 @@
+{
+  "name": "Protocolo de Cura Integrada - Éverton Piceni",
+  "short_name": "Cura Integrada",
+  "description": "Aplicativo oficial de meditação guiada, frequências sonoras e anamnese do Protocolo de Cura Integrada por Éverton Rodrigo Piceni.",
+  "start_url": "/",
+  "id": "/",
+  "display": "standalone",
+  "display_override": ["standalone", "window-controls-overlay", "minimal-ui"],
+  "orientation": "portrait-primary",
+  "background_color": "#020617",
+  "theme_color": "#0f172a",
+  "scope": "/",
+  "lang": "pt-BR",
+  "dir": "ltr",
+  "categories": ["lifestyle", "health", "wellness", "medical"],
+  "icons": [
+    {
+      "src": "/icon-192.svg",
+      "sizes": "192x192",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "/icon-512.svg",
+      "sizes": "512x512",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "/icon-maskable.svg",
+      "sizes": "512x512",
+      "type": "image/svg+xml",
+      "purpose": "maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Iniciar Meditação",
+      "short_name": "Meditação",
+      "description": "Abrir o protocolo diário de cura",
+      "url": "/?action=meditate",
+      "icons": [{ "src": "/icon-192.svg", "sizes": "192x192" }]
+    },
+    {
+      "name": "Frequências Sonoras",
+      "short_name": "Frequências",
+      "description": "Ouvir frequências quânticas de cura",
+      "url": "/?action=frequencies",
+      "icons": [{ "src": "/icon-192.svg", "sizes": "192x192" }]
+    }
+  ],
+  "prefer_related_applications": false
+}

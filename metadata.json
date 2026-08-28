@@ -1,0 +1,6 @@
+{
+  "name": "Protocolo de Cura Integrada",
+  "description": "Aplicativo de meditação guiada e acompanhamento diário para o Protocolo de Cura Integrada de 21 dias canalizado por Éverton Rodrigo Piceni.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
