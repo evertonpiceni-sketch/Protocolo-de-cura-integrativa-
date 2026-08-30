@@ -45,11 +45,11 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          grep -q 'mock-checkout' server.ts && {
+          if grep -q 'mock-checkout' server.ts; then
             echo 'Mock checkout is still present in server.ts.'
             exit 1
-          } || true
-          grep -q 'app.post("/api/user/upgrade"' server.ts && {
+          fi
+          if grep -q 'app.post("/api/user/upgrade"' server.ts; then
             echo 'Unsafe manual upgrade endpoint is still present.'
             exit 1
-          } || true
+          fi
