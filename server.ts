@@ -11,7 +11,10 @@ import rateLimit from "express-rate-limit";
 import { z } from "zod";
 import { getDb, saveDb } from "./src/db.js";
 
-const JWT_SECRET = process.env.JWT_SECRET || "super-secret-cura-21-dias-dev-key";
+const JWT_SECRET = process.env.JWT_SECRET;
+if (!JWT_SECRET || JWT_SECRET.length < 32) {
+  throw new Error("JWT_SECRET must be configured and contain at least 32 characters.");
+}
 
 // Initialize external APIs safely
 const getGemini = () => {
@@ -44,7 +47,7 @@ async function startServer() {
 
   // Security Headers
   app.use(helmet({
-    contentSecurityPolicy: false, // Disabled for dev compatibility (Vite WebSocket, iframes)
+    contentSecurityPolicy: process.env.NODE_ENV === "production" ? undefined : false
   }));
 
   // Rate Limiting
@@ -167,7 +170,7 @@ async function startServer() {
       const hashedPassword = await bcrypt.hash(password, salt);
       
       // Determine if it's first user to make them admin (optional, for safety we just set user)
-      const role = db.users.length === 0 ? "admin" : "user";
+      const role = "user";
       
       const newUser = {
         id: Date.now().toString(),
@@ -248,10 +251,12 @@ async function startServer() {
     
     if (profile) {
       db.users[userIndex].profile = {
+        ...db.users[userIndex].profile,
         ...profile,
         plan: db.users[userIndex].plan,
         subscriptionPlan: db.users[userIndex].profile.subscriptionPlan,
         subscriptionExpiresAt: db.users[userIndex].profile.subscriptionExpiresAt,
+        proActiveSince: db.users[userIndex].profile.proActiveSince,
       };
     }
     
@@ -266,50 +271,14 @@ async function startServer() {
   // Arquitetura de Pagamentos / Webhook (Conformidade Comercial)
   // TODO: Integrar com Stripe/Pagar.me
   
-  // Endpoint para o frontend iniciar o pagamento
-  app.post("/api/payment/create-checkout", authenticate, apiLimiter, (req: any, res: any) => {
-    const { planId } = req.body;
-    // Em produção, isso chamaria o Stripe API para criar uma sessão
-    // stripe.checkout.sessions.create({...})
-    res.json({ checkoutUrl: "/mock-checkout", sessionId: "mock_session_" + Date.now() });
+  // Endpoint para iniciar pagamento: fail-closed until a real gateway is configured.
+  app.post("/api/payment/create-checkout", authenticate, apiLimiter, (_req: any, res: any) => {
+    return res.status(503).json({ error: "Pagamento ainda não está configurado." });
   });
 
-  // Webhook seguro que realmente libera o plano (Chamado pelo gateway de pagamento)
-  app.post("/api/webhooks/payment", express.raw({ type: 'application/json' }), (req: any, res: any) => {
-    // 1. Validar a assinatura do webhook (ex: stripe.webhooks.constructEvent)
-    // const signature = req.headers['stripe-signature'];
-    
-    // Simulação do payload do webhook
-    const event = req.body; 
-    // if (event.type === 'checkout.session.completed') { ... liberar acesso ... }
-
-    res.json({ received: true });
-  });
-
-  // Mantendo o endpoint legado provisoriamente para manter o protótipo funcional,
-  // MAS em produção ele deve ser REMOVIDO e a lógica movida para o Webhook acima.
-  app.post("/api/user/upgrade", authenticate, (req: any, res: any) => {
-    const { planId, paymentMethod, price } = req.body;
-    const db = getDb();
-    const userIndex = db.users.findIndex(u => u.id === req.userId);
-    if (userIndex === -1) return res.status(404).json({ error: "Usuário não encontrado." });
-    
-    db.users[userIndex].plan = "pro";
-    db.users[userIndex].profile.plan = "pro";
-    db.users[userIndex].profile.subscriptionPlan = planId;
-    db.users[userIndex].profile.proActiveSince = new Date().toISOString();
-    
-    const expires = new Date();
-    if (planId.includes('7d')) expires.setDate(expires.getDate() + 7);
-    else if (planId === 'mensal') expires.setMonth(expires.getMonth() + 1);
-    else if (planId === 'trimestral') expires.setMonth(expires.getMonth() + 3);
-    else if (planId === 'semestral') expires.setMonth(expires.getMonth() + 6);
-    else if (planId === 'anual') expires.setFullYear(expires.getFullYear() + 1);
-    
-    db.users[userIndex].profile.subscriptionExpiresAt = expires.toISOString();
-    saveDb();
-    
-    res.json({ success: true, user: db.users[userIndex] });
+  // Webhook: fail-closed until gateway signature verification is implemented.
+  app.post("/api/webhooks/payment", express.raw({ type: "application/json" }), (_req: any, res: any) => {
+    return res.status(503).json({ error: "Webhook de pagamento ainda não está configurado." });
   });
 
   app.post("/api/anamnese", authenticate, apiLimiter, handleProcessAnamnese);
