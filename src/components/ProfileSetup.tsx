@@ -402,8 +402,9 @@ export default function ProfileSetup({ onComplete }: ProfileSetupProps) {
         <div className="absolute -top-12 -right-12 w-24 h-24 bg-indigo-500/10 rounded-full blur-xl pointer-events-none" />
 
         <div className="text-center space-y-2">
-          <div className="w-14 h-14 bg-indigo-500/10 border border-indigo-500/30 text-indigo-400 rounded-2xl flex items-center justify-center mx-auto mb-2 shadow-inner">
-            <Sparkles size={24} className="animate-pulse" />
+          <div className="w-24 h-24 sm:w-28 sm:h-28 rounded-full overflow-hidden border-[2px] border-indigo-500/40 shadow-[0_0_25px_rgba(99,102,241,0.25)] mx-auto mb-4 bg-slate-900 flex items-center justify-center relative group">
+            <div className="absolute inset-0 bg-indigo-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10 pointer-events-none"></div>
+            <img src="image_fccef69.png" alt="Everton Piceni Logo" className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" referrerPolicy="no-referrer" />
           </div>
           <span className="text-[10px] font-mono tracking-widest text-indigo-400 uppercase font-semibold">Terapia Integrada</span>
           <h1 className="text-xl md:text-2xl font-display font-medium text-slate-100 leading-tight">
