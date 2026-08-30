@@ -6,3 +6,19 @@ coverage/
 *.log
 .env*
 !.env.example
+*.pem
+*.key
+*.crt
+*.p12
+*.pfx
+secrets/
+credentials/
+
+# Local databases and runtime state
+*.db
+*.sqlite
+*.sqlite3
+
+# Editor / OS files
+.vscode/
+.idea/
