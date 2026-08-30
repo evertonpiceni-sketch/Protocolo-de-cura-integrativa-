@@ -219,9 +219,19 @@ export default function ProfileSetup({ onComplete }: ProfileSetupProps) {
       return;
     }
 
-    // Check if free 7-day coupon was provided
+        // Check if free 7-day coupon was provided
     const cleanCoupon = regCoupon.trim().toUpperCase();
-    const isFree7dCoupon = ['VIP7', 'GRATIS7', 'VIP', 'TESTEVIP', 'CURA7', '7DIAS', 'SETE7', 'PICENI7'].includes(cleanCoupon);
+    const isFree7dCouponMatch = ['VIP7', 'GRATIS7', 'VIP', 'TESTEVIP', 'CURA7', '7DIAS', 'SETE7', 'PICENI7'].includes(cleanCoupon);
+    
+    let isFree7dCoupon = false;
+    if (isFree7dCouponMatch) {
+      const vipCount = accounts.filter(acc => acc.profile.subscriptionPlan === 'teste_vip_7d').length;
+      if (vipCount >= 10) {
+        setError('O limite de 10 vagas para o cupom VIP7 já foi preenchido. Você ainda pode usar o app gratuitamente no Dia 1, ou assinar o plano PRO para desbloquear a jornada completa.');
+        return;
+      }
+      isFree7dCoupon = true;
+    }
 
     // Calculate Astral Map
     const astralMap = calculateAstralMap(birthDate, birthTime.trim(), birthCity.trim());

@@ -32,6 +32,10 @@ import DailyDiaryModal from './components/DailyDiaryModal';
 import ContactModal from './components/ContactModal';
 import PromoVideoModal from './components/PromoVideoModal';
 import MilestoneCelebrationModal from './components/MilestoneCelebrationModal';
+import DailyTipModal from './components/DailyTipModal';
+
+import DashboardCura from './components/DashboardCura';
+
 import { calculateAstralMap } from './utils/astrology';
 import { audioEngine } from './lib/audio';
 import { evaluateAchievements } from './lib/achievementsData';
@@ -98,6 +102,10 @@ export default function App() {
   const [showContactModal, setShowContactModal] = useState<boolean>(false);
   const [showPromoVideoModal, setShowPromoVideoModal] = useState<boolean>(false);
   const [showMilestoneModal, setShowMilestoneModal] = useState<boolean>(false);
+  const [showDashboardCura, setShowDashboardCura] = useState<boolean>(false);
+  const [showDailyTip, setShowDailyTip] = useState<boolean>(false);
+
+
   const [milestoneModalDay, setMilestoneModalDay] = useState<number>(8);
   const [inAppToast, setInAppToast] = useState<{ title: string; body: string } | null>(null);
   const [deferredInstallPrompt, setDeferredInstallPrompt] = useState<any>(null);
@@ -251,6 +259,15 @@ export default function App() {
           }
           setUserProfile(profile);
           
+          // Check if daily tip was seen today
+          const todayStr = new Date().toISOString().split('T')[0];
+          const lastTipDate = localStorage.getItem('cura_integrada_last_tip_date');
+          if (lastTipDate !== todayStr) {
+            setShowDailyTip(true);
+            localStorage.setItem('cura_integrada_last_tip_date', todayStr);
+          }
+
+          
           const parsedProgress = account.progress || defaultProgress;
           const cleanProgress = defaultProgress.map(def => {
             const match = parsedProgress.find(p => p.dayNumber === def.dayNumber);
@@ -325,10 +342,17 @@ export default function App() {
       audioEngine.startBG(bgMusic);
     }
 
-    // Check if welcome modal was seen
+        // Check if welcome modal was seen
     const seenWelcome = localStorage.getItem('cura_integrada_welcome_seen_v1');
     if (!seenWelcome) {
       setShowWelcomeModal(true);
+    } else {
+      const todayStr = new Date().toISOString().split('T')[0];
+      const lastTipDate = localStorage.getItem('cura_integrada_last_tip_date');
+      if (lastTipDate !== todayStr) {
+        setShowDailyTip(true);
+        localStorage.setItem('cura_integrada_last_tip_date', todayStr);
+      }
     }
   };
 
@@ -1306,6 +1330,21 @@ export default function App() {
               <div className="pt-6 border-t border-slate-800 space-y-3">
                 <span className="text-xs font-mono text-slate-500 uppercase block font-bold">Ferramentas & Acesso Especial</span>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setShowSettings(false);
+                      setShowDashboardCura(true);
+                    }}
+                    className="w-full text-left p-3 rounded-xl bg-slate-900 border border-slate-800 hover:border-indigo-500 hover:bg-slate-800 transition flex items-center justify-between group cursor-pointer"
+                  >
+                    <div className="flex items-center gap-2 text-sm text-slate-300 group-hover:text-white">
+                      <Activity size={16} className="text-indigo-400 group-hover:text-indigo-300" />
+                      <span>Dashboard de Progresso Analítico</span>
+                    </div>
+                  </button>
+
                   <button
                     type="button"
                     onClick={() => {
@@ -1673,6 +1712,18 @@ export default function App() {
             <BookOpen size={14} className="shrink-0" />
             <span>Diário</span>
           </button>
+
+          <button
+            onClick={() => setShowDashboardCura(true)}
+            className="px-2.5 sm:px-3 py-2 rounded-xl text-xs font-semibold flex items-center gap-1.5 transition cursor-pointer border bg-slate-900/90 border-slate-800 text-sky-400 hover:text-white hover:border-sky-500/50 shrink-0 shadow-sm"
+            id="bottom-btn-dashboard"
+            title="Dashboard Analítico de Evolução"
+          >
+            <Activity size={14} className="shrink-0" />
+            <span className="hidden sm:inline">Progresso Analítico</span>
+            <span className="sm:hidden">KPIs</span>
+          </button>
+
 
           {/* Ajustar Som */}
           <button
@@ -2144,6 +2195,21 @@ export default function App() {
           userProfile={userProfile}
           onOpenCertificate={() => setShowCertificateModal(true)}
         />
+      )}
+
+      
+      
+      {/* Daily Tip Modal (Tip of the Day) */}
+      {showDailyTip && (
+        <DailyTipModal 
+          onClose={() => setShowDailyTip(false)} 
+          userName={userProfile?.name} 
+        />
+      )}
+
+      {/* Dashboard Analítico */}
+      {showDashboardCura && (
+        <DashboardCura onClose={() => setShowDashboardCura(false)} progress={progress} />
       )}
 
       {/* Notificação / Toast Diário em Tempo Real */}
