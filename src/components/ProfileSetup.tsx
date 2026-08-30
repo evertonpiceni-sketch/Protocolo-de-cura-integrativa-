@@ -12,8 +12,6 @@ interface ProfileSetupProps {
   onComplete: (account: UserAccount) => void;
 }
 
-const LOCAL_STORAGE_KEY_ACCOUNTS = 'cura_integrada_accounts_v1';
-
 export default function ProfileSetup({ onComplete }: ProfileSetupProps) {
   const [activeTab, setActiveTab] = useState<'login' | 'register' | 'forgot'>('register');
   
@@ -159,21 +157,6 @@ export default function ProfileSetup({ onComplete }: ProfileSetupProps) {
   const [error, setError] = useState('');
   const [successMsg, setSuccessMsg] = useState('');
 
-  // Helper to load accounts
-  const getAccounts = (): UserAccount[] => {
-    const saved = localStorage.getItem(LOCAL_STORAGE_KEY_ACCOUNTS);
-    if (!saved) return [];
-    try {
-      return JSON.parse(saved);
-    } catch (e) {
-      return [];
-    }
-  };
-
-  // Helper to save accounts
-  const saveAccounts = (accounts: UserAccount[]) => {
-    localStorage.setItem(LOCAL_STORAGE_KEY_ACCOUNTS, JSON.stringify(accounts));
-  };
 
   const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -186,7 +169,7 @@ export default function ProfileSetup({ onComplete }: ProfileSetupProps) {
     if (!cleanEmail || !cleanEmail.includes('@')) return setError('Por favor, insira um e-mail válido.');
     const cleanLogin = regLogin.trim().toLowerCase();
     if (!cleanLogin || cleanLogin.length < 3) return setError('O login deve ter pelo menos 3 caracteres.');
-    if (!regPassword || regPassword.length < 4) return setError('A senha deve ter pelo menos 4 caracteres.');
+    if (!regPassword || regPassword.length < 12) return setError('A senha deve ter pelo menos 12 caracteres.');
 
     try {
       const res = await fetch('/api/auth/register', {
@@ -266,65 +249,12 @@ export default function ProfileSetup({ onComplete }: ProfileSetupProps) {
 
   const handleVerifyForReset = (e: React.FormEvent) => {
     e.preventDefault();
-    setError('');
-    const cleanId = forgotIdentifier.trim().toLowerCase();
-    if (!cleanId) {
-      setError('Por favor, informe seu login ou e-mail cadastrado.');
-      return;
-    }
-
-    const accounts = getAccounts();
-    const matched = accounts.find(acc => 
-      acc.login === cleanId || acc.email.toLowerCase() === cleanId
-    );
-
-    if (!matched) {
-      setError('Nenhuma conta encontrada com este login ou e-mail.');
-      return;
-    }
-
-    // If birth date is provided, verify it (or allow if matched directly)
-    if (forgotBirthDate && matched.birthDate && matched.birthDate !== forgotBirthDate) {
-      setError('A data de nascimento informada não confere com o cadastro.');
-      return;
-    }
-
-    setMatchedAccount(matched);
-    setRecoveryStep('reset');
-    setSuccessMsg(`Conta verificada para ${matched.fullName}! Defina sua nova senha.`);
+    setError('A recuperação de senha ainda não está configurada. Entre em contato com o suporte para receber instruções seguras.');
   };
 
   const handleSaveNewPassword = (e: React.FormEvent) => {
     e.preventDefault();
-    setError('');
-
-    if (!newPassword || newPassword.length < 4) {
-      setError('A nova senha deve ter no mínimo 4 caracteres.');
-      return;
-    }
-    if (newPassword !== confirmPassword) {
-      setError('As senhas digitadas não coincidem.');
-      return;
-    }
-    if (!matchedAccount) {
-      setError('Erro ao processar recuperação. Tente novamente.');
-      return;
-    }
-
-    const accounts = getAccounts();
-    const updatedAccounts = accounts.map(acc => {
-      if (acc.login === matchedAccount.login) {
-        return {
-          ...acc,
-          password: newPassword
-        };
-      }
-      return acc;
-    });
-
-    saveAccounts(updatedAccounts);
-    setRecoveryStep('done');
-    setSuccessMsg('Senha alterada com sucesso! Você já pode entrar.');
+    setError('A recuperação de senha ainda não está configurada. Nenhuma senha foi armazenada neste dispositivo.');
   };
 
   return (

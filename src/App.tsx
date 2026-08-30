@@ -45,8 +45,6 @@ import { AnimatePresence } from "motion/react";
 import SimpleProtocol from './components/SimpleProtocol';
 import { localNotificationManager } from './lib/notifications';
 
-const LOCAL_STORAGE_KEY_CURRENT_LOGIN = 'cura_integrada_logged_in_user_v1';
-const LOCAL_STORAGE_KEY_ACCOUNTS = 'cura_integrada_accounts_v1';
 
 const BG_TRACKS: Record<'396hz' | '528hz' | '432hz' | 'waves', string[]> = {
   '396hz': [
@@ -245,8 +243,7 @@ export default function App() {
         if (res.ok) {
           const data = await res.json();
           const account = data.user;
-          const profileWithAdmin = { ...account.profile, isAdmin: account.role === 'admin' };
-          setUserProfile(profileWithAdmin);
+          setUserProfile(account.profile);
           setProgress(account.progress || []);
           
           const nextUncompleted = account.progress?.find((p: any) => !p.completed);
@@ -294,7 +291,8 @@ export default function App() {
 
   // Profile Onboarding complete (Register or Login complete)
   const handleOnboardingComplete = (account: UserAccount) => {
-    localStorage.setItem(LOCAL_STORAGE_KEY_CURRENT_LOGIN, account.login);
+    // The cookie session was established by the backend login/register endpoint.
+    setIsLoggedIn(true);
     setUserProfile(account.profile);
     setProgress(account.progress);
     
@@ -1875,29 +1873,18 @@ export default function App() {
           onClose={() => setShowProModal(false)}
           userProfile={userProfile}
           onUpgradeSuccess={async (plan) => {
-            if (isLoggedIn) {
-              try {
-                const res = await fetch('/api/user/upgrade', {
-                  method: 'POST',
-                  headers: { 'Content-Type': 'application/json' },
-                  body: JSON.stringify({ planId: plan, paymentMethod: 'test', price: 0 })
-                });
-                if (res.ok) {
-                  const data = await res.json();
-                  setUserProfile(data.user.profile);
-                }
-              } catch (e) { console.error(e) }
-            } else {
-              const upgradedProfile: UserProfile = {
-                ...userProfile,
-                plan: 'pro',
-                subscriptionPlan: plan,
-                proActiveSince: new Date().toISOString()
-              };
-              saveProfile(upgradedProfile);
+            if (!isLoggedIn) return;
+            try {
+              await fetch('/api/payment/create-checkout', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ planId: plan })
+              });
+            } catch (error) {
+              console.error('Unable to start checkout', error);
             }
+            // Premium state is refreshed exclusively from /api/auth/me after a verified payment webhook.
             setShowProModal(false);
-            if (plan === 'arcanjo_7d') { setShowCertificateModal(false); } else { setShowCertificateModal(true); }
           }}
           onOpenContact={() => {
             setShowProModal(false);
