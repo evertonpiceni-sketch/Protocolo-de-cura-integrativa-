@@ -64,7 +64,8 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          grep -q 'role: "user"' server.ts
+          grep -Eq 'const role = ["'"']user["'"']' server.ts
+          grep -Eq 'role:[[:space:]]*role' server.ts
           if grep -q 'db.users.length === 0 ? "admin"' server.ts; then
             echo 'First-user admin escalation is still present.'
             exit 1
