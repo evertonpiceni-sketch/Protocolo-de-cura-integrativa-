@@ -5,6 +5,8 @@ import { createServer as createViteServer } from "vite";
 import { ElevenLabsClient } from "elevenlabs";
 import { GoogleGenAI, Type } from "@google/genai";
 
+npm install jsonwebtoken bcryptjs cookie-parser helmet express-rate-limit zod
+
 dotenv.config();
 
 let elevenlabsClientInstance: ElevenLabsClient | null = null;
