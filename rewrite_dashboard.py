@@ -1,4 +1,6 @@
-import React, { useState, useMemo, useEffect } from 'react';
+import re
+
+content = """import React, { useState, useMemo, useEffect } from 'react';
 import { DayProgress } from '../types';
 import {
   ResponsiveContainer,
@@ -389,3 +391,7 @@ export default function DashboardCura({ onClose, progress }: { onClose: () => vo
     </div>
   );
 }
+"""
+
+with open('src/components/DashboardCura.tsx', 'w') as f:
+    f.write(content)
