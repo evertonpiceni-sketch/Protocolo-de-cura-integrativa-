@@ -19,3 +19,35 @@ export const supabase = createClient(
     },
   }
 );
+
+export type AppRole = 'user' | 'admin';
+export type AppPlan = 'free' | 'pro';
+
+export interface AppIdentity {
+  id: string;
+  email: string | null;
+  role: AppRole;
+  plan: AppPlan;
+}
+
+export async function getCurrentIdentity(): Promise<AppIdentity | null> {
+  const { data: { user } } = await supabase.auth.getUser();
+  if (!user) return null;
+
+  const { data: profile, error } = await supabase
+    .from('profiles')
+    .select('role, plan')
+    .eq('id', user.id)
+    .single();
+
+  if (error || !profile) return null;
+
+  return {
+    id: user.id,
+    email: user.email ?? null,
+    role: profile.role as AppRole,
+    plan: profile.plan as AppPlan,
+  };
+}
+
+export const signOut = () => supabase.auth.signOut();
