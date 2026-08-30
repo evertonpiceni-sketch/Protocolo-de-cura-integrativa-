@@ -175,133 +175,47 @@ export default function ProfileSetup({ onComplete }: ProfileSetupProps) {
     localStorage.setItem(LOCAL_STORAGE_KEY_ACCOUNTS, JSON.stringify(accounts));
   };
 
-  const handleRegister = (e: React.FormEvent) => {
+  const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
     setSuccessMsg('');
 
-    if (!fullName.trim()) {
-      setError('Por favor, insira seu nome completo.');
-      return;
-    }
-    if (!birthDate) {
-      setError('Por favor, informe sua data de nascimento.');
-      return;
-    }
+    if (!fullName.trim()) return setError('Por favor, insira seu nome completo.');
+    if (!birthDate) return setError('Por favor, informe sua data de nascimento.');
     const cleanEmail = email.trim().toLowerCase();
-    if (!cleanEmail || !cleanEmail.includes('@')) {
-      setError('Por favor, insira um e-mail válido.');
-      return;
-    }
+    if (!cleanEmail || !cleanEmail.includes('@')) return setError('Por favor, insira um e-mail válido.');
     const cleanLogin = regLogin.trim().toLowerCase();
-    if (!cleanLogin || cleanLogin.length < 3) {
-      setError('O login deve ter pelo menos 3 caracteres.');
-      return;
-    }
-    if (!regPassword || regPassword.length < 4) {
-      setError('A senha deve ter pelo menos 4 caracteres.');
-      return;
-    }
+    if (!cleanLogin || cleanLogin.length < 3) return setError('O login deve ter pelo menos 3 caracteres.');
+    if (!regPassword || regPassword.length < 4) return setError('A senha deve ter pelo menos 4 caracteres.');
 
-    const accounts = getAccounts();
-
-    // 1. Check if login already exists
-    const loginExists = accounts.some(acc => acc.login.toLowerCase() === cleanLogin);
-    if (loginExists) {
-      setError('Este login já está em uso por outro consulente. Por favor, escolha outro nome de usuário.');
-      return;
-    }
-
-    // 2. Check if email already exists
-    const emailExists = accounts.some(acc => acc.email.toLowerCase() === cleanEmail);
-    if (emailExists) {
-      setError('Este e-mail já possui uma conta cadastrada. Por favor, clique na aba "Entrar / Acesso" ou recupere sua senha.');
-      return;
-    }
-
-        // Check if free 7-day coupon was provided
-    const cleanCoupon = regCoupon.trim().toUpperCase();
-    const isFree7dCouponMatch = ['VIP7', 'GRATIS7', 'VIP', 'TESTEVIP', 'CURA7', '7DIAS', 'SETE7', 'PICENI7'].includes(cleanCoupon);
-    
-    let isFree7dCoupon = false;
-    if (isFree7dCouponMatch) {
-      const vipCount = accounts.filter(acc => acc.profile.subscriptionPlan === 'teste_vip_7d').length;
-      if (vipCount >= 10) {
-        setError('O limite de 10 vagas para o cupom VIP7 já foi preenchido. Você ainda pode usar o app gratuitamente no Dia 1, ou assinar o plano PRO para desbloquear a jornada completa.');
+    try {
+      const res = await fetch('/api/auth/register', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ login: cleanLogin, password: regPassword, fullName, email: cleanEmail })
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        setError(data.error || 'Erro no cadastro.');
         return;
       }
-      isFree7dCoupon = true;
+      
+      const newAccount = {
+        login: data.user.login,
+        email: data.user.email,
+        profile: data.user.profile,
+        progress: data.user.progress,
+        role: data.user.role,
+        specificTreatments: []
+      } as any;
+      
+      setSuccessMsg('Conta criada com sucesso! Iniciando seu portal...');
+      setTimeout(() => onComplete(newAccount), 1500);
+    } catch (err) {
+      setError('Erro de conexão ao servidor.');
     }
-
-    // Calculate Astral Map
-    const astralMap = calculateAstralMap(birthDate, birthTime.trim(), birthCity.trim());
-
-    // Prepare default 21 days progress
-    const defaultProgress: DayProgress[] = Array.from({ length: 21 }, (_, index) => ({
-      dayNumber: index + 1,
-      completed: false,
-      journalText: '',
-      mood: 5
-    }));
-
-    // Prepare profile
-    const profile: UserProfile = {
-      name: fullName.trim(),
-      fullName: fullName.trim(),
-      birthDate,
-      birthTime: birthTime.trim() || undefined,
-      birthCity: birthCity.trim() || undefined,
-      email: cleanEmail,
-      phone: phone.trim() || undefined,
-      login: cleanLogin,
-      startedAt: new Date().toISOString(),
-      currentStreak: 0,
-      longestStreak: 0,
-      audioEnabled: true,
-      bgMusicVolume: 0.5,
-      voiceVolume: 0.8,
-      bgMusicType: musicType,
-      plan: isFree7dCoupon ? 'pro' : 'free',
-      subscriptionPlan: isFree7dCoupon ? 'teste_vip_7d' : undefined,
-      subscriptionExpiresAt: isFree7dCoupon ? new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString() : undefined,
-      voiceRate: 0.82,
-      voicePitch: 1.0,
-      preferredVoiceGender: voiceChoice,
-      preferredVoice: voiceChoice === 'masculina' ? 'Marcus' : 'Rachel',
-      voiceId: voiceChoice === 'masculina' ? 'Marcus' : '21m00Tcm4TlvDq8ikWAM',
-      astralMap
-    };
-
-    const newAccount: UserAccount = {
-      fullName: fullName.trim(),
-      birthDate,
-      birthTime: birthTime.trim() || undefined,
-      birthCity: birthCity.trim() || undefined,
-      email: cleanEmail,
-      phone: phone.trim() || undefined,
-      login: cleanLogin,
-      password: regPassword,
-      plan: isFree7dCoupon ? 'pro' : 'free',
-      profile,
-      progress: defaultProgress
-    };
-
-    // Save account
-    accounts.push(newAccount);
-    saveAccounts(accounts);
-
-    setSuccessMsg(
-      isFree7dCoupon
-        ? 'Conta criada com sucesso! 🌟 Cupom de 7 Dias Grátis ativado e seu Mapa Astral já foi calculado!'
-        : 'Conta criada com sucesso! Seu Mapa Astral e Energético foi calculado de presente para você.'
-    );
-
-    setTimeout(() => {
-      onComplete(newAccount);
-    }, 1200);
   };
-
-  const handleLogin = (e: React.FormEvent) => {
+  const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
 
@@ -315,18 +229,39 @@ export default function ProfileSetup({ onComplete }: ProfileSetupProps) {
       return;
     }
 
-    const accounts = getAccounts();
-    const account = accounts.find(acc => (acc.login === cleanLogin || acc.email.toLowerCase() === cleanLogin) && acc.password === logPassword);
-
-    if (!account) {
-      setError('Login ou senha incorretos.');
-      return;
+    try {
+      const res = await fetch('/api/auth/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ login: cleanLogin, password: logPassword })
+      });
+      const data = await res.json();
+      
+      if (!res.ok) {
+        setError(data.error || 'Erro ao realizar login.');
+        return;
+      }
+      
+      const account: UserAccount = {
+        login: data.user.login,
+        email: data.user.email || '',
+        password: '',
+        fullName: data.user.fullName || '',
+        profile: data.user.profile,
+        progress: data.user.progress || [],
+        createdAt: new Date().toISOString(),
+        lastActive: new Date().toISOString(),
+        role: data.user.role || 'user'
+      };
+      
+      setSuccessMsg(`Bem-vindo de volta, ${account.fullName}!`);
+      setTimeout(() => {
+        onComplete(account);
+      }, 1000);
+    } catch (err) {
+      console.error(err);
+      setError('Erro de conexão ao processar o login.');
     }
-
-    setSuccessMsg(`Bem-vindo de volta, ${account.fullName}!`);
-    setTimeout(() => {
-      onComplete(account);
-    }, 1000);
   };
 
   const handleVerifyForReset = (e: React.FormEvent) => {
@@ -833,9 +768,24 @@ export default function ProfileSetup({ onComplete }: ProfileSetupProps) {
               </div>
             </div>
 
+
+            <div className="flex items-start gap-2 mt-4 mb-2">
+              <input 
+                type="checkbox" 
+                id="lgpd-consent" 
+                required 
+                className="mt-0.5 shrink-0 bg-slate-900 border-slate-700 rounded text-indigo-600 focus:ring-indigo-500" 
+              />
+              <label htmlFor="lgpd-consent" className="text-[10px] text-slate-400 leading-tight">
+                Declaro que li e concordo com os Termos de Uso e a Política de Privacidade. 
+                Autorizo o tratamento dos meus dados (incluindo anamnese) estritamente para 
+                a formulação de práticas integrativas, conforme a LGPD.
+              </label>
+            </div>
+            
             <button
               type="submit"
-              className="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-medium py-3 rounded-xl transition duration-200 shadow-lg shadow-indigo-600/10 hover:shadow-indigo-600/20 text-xs tracking-wider uppercase cursor-pointer border-none mt-4"
+              className="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-medium py-3 rounded-xl transition duration-200 shadow-lg shadow-indigo-600/10 hover:shadow-indigo-600/20 text-xs tracking-wider uppercase cursor-pointer border-none"
               id="btn-complete-setup"
             >
               Criar Conta e Iniciar Cura

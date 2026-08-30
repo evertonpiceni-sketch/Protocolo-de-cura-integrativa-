@@ -122,7 +122,7 @@ const PAID_SUBSCRIPTION_PLANS: {
     title: 'Acesso Anual Pro (Master)',
     badge: '2 Áudios Inclusos!',
     badgeColor: 'bg-cyan-400 text-slate-950 font-bold',
-    priceFormatted: 'R$ 197,00',
+    priceFormatted: 'R$ 159,90',
     priceNumber: 197.00,
     periodText: 'por ano',
     description: 'Acesso anual + 1 Áudio de 7 dias + 1 Áudio de livre escolha inclusos.',

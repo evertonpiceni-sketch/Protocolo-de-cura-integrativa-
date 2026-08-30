@@ -201,6 +201,7 @@ export interface UserProfile {
   email: string;
   phone?: string;
   login: string;
+  isAdmin?: boolean;
   startedAt?: string;
   reminderTime?: string; // Format: "HH:MM"
   currentStreak: number;
@@ -263,6 +264,7 @@ export interface UserAccount {
   email: string;
   phone?: string;
   login: string;
+  isAdmin?: boolean;
   password?: string;
   plan?: 'free' | 'pro';
   profile: UserProfile;

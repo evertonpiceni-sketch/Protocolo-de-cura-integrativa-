@@ -72,6 +72,7 @@ export default function App() {
   const [progress, setProgress] = useState<DayProgress[]>([]);
   const [currentDay, setCurrentDay] = useState<number>(1);
   const [currentLanguage, setCurrentLanguage] = useState<AppLanguage>('pt');
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   
   // Navigation & Interactive states
   const [showSimpleProtocol, setShowSimpleProtocol] = useState(false);
@@ -236,96 +237,60 @@ export default function App() {
     return () => clearInterval(interval);
   }, [userProfile?.reminderTime, userProfile?.name]);
 
-  // Initialize and load saved state from localStorage on mount
+  // Initialize and load saved state from backend on mount
   useEffect(() => {
-    const activeLogin = localStorage.getItem(LOCAL_STORAGE_KEY_CURRENT_LOGIN);
-    const savedAccounts = localStorage.getItem(LOCAL_STORAGE_KEY_ACCOUNTS);
-
-    const defaultProgress: DayProgress[] = Array.from({ length: 21 }, (_, index) => ({
-      dayNumber: index + 1,
-      completed: false,
-      journalText: '',
-      mood: 5
-    }));
-
-    if (activeLogin && savedAccounts) {
+    const checkAuth = async () => {
       try {
-        const accounts = JSON.parse(savedAccounts) as UserAccount[];
-        const account = accounts.find(acc => acc.login === activeLogin.toLowerCase());
-        
-        if (account) {
-          const profile = account.profile;
-          if (profile && profile.audioEnabled === undefined) {
-            profile.audioEnabled = true;
-          }
-          setUserProfile(profile);
+        const res = await fetch('/api/auth/me');
+        if (res.ok) {
+          const data = await res.json();
+          const account = data.user;
+          const profileWithAdmin = { ...account.profile, isAdmin: account.role === 'admin' };
+          setUserProfile(profileWithAdmin);
+          setProgress(account.progress || []);
           
-          // Check if daily tip was seen today
-          const todayStr = new Date().toISOString().split('T')[0];
-          const lastTipDate = localStorage.getItem('cura_integrada_last_tip_date');
-          if (lastTipDate !== todayStr) {
-            setShowDailyTip(true);
-            localStorage.setItem('cura_integrada_last_tip_date', todayStr);
-          }
-
-          
-          const parsedProgress = account.progress || defaultProgress;
-          const cleanProgress = defaultProgress.map(def => {
-            const match = parsedProgress.find(p => p.dayNumber === def.dayNumber);
-            return match ? { ...def, ...match } : def;
-          });
-          setProgress(cleanProgress);
-          
-          const nextUncompleted = cleanProgress.find(p => !p.completed);
-          if (nextUncompleted) {
-            setCurrentDay(nextUncompleted.dayNumber);
-          } else {
-            setCurrentDay(21);
-          }
+          const nextUncompleted = account.progress?.find((p: any) => !p.completed);
+          setCurrentDay(nextUncompleted ? nextUncompleted.dayNumber : 21);
+          setIsLoggedIn(true);
+        } else {
+          setIsLoggedIn(false);
+          // Set some default state if not logged in
+          const defaultProgress: DayProgress[] = Array.from({ length: 21 }, (_, index) => ({
+            dayNumber: index + 1,
+            completed: false
+          }));
+          setProgress(defaultProgress);
         }
-      } catch (e) {
-        console.error("Error loading account data on mount", e);
+      } catch (err) {
+        setIsLoggedIn(false);
       }
-    }
+    };
+    checkAuth();
   }, []);
 
   // Save profile state whenever it changes
   const saveProfile = (newProfile: UserProfile) => {
     setUserProfile(newProfile);
-    if (newProfile.login) {
-      const saved = localStorage.getItem(LOCAL_STORAGE_KEY_ACCOUNTS);
-      let accounts: UserAccount[] = [];
-      if (saved) {
-        try { accounts = JSON.parse(saved); } catch (e) {}
-      }
-      const updatedAccounts = accounts.map(acc => {
-        if (acc.login === newProfile.login) {
-          return { ...acc, profile: newProfile };
-        }
-        return acc;
-      });
-      localStorage.setItem(LOCAL_STORAGE_KEY_ACCOUNTS, JSON.stringify(updatedAccounts));
+    if (isLoggedIn) {
+      fetch('/api/user/sync', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ profile: newProfile, progress })
+      }).catch(console.error);
     }
   };
 
-  // Save progress state whenever it changes
   const saveProgress = (newProgress: DayProgress[]) => {
     setProgress(newProgress);
-    if (userProfile && userProfile.login) {
-      const saved = localStorage.getItem(LOCAL_STORAGE_KEY_ACCOUNTS);
-      let accounts: UserAccount[] = [];
-      if (saved) {
-        try { accounts = JSON.parse(saved); } catch (e) {}
-      }
-      const updatedAccounts = accounts.map(acc => {
-        if (acc.login === userProfile.login) {
-          return { ...acc, progress: newProgress };
-        }
-        return acc;
-      });
-      localStorage.setItem(LOCAL_STORAGE_KEY_ACCOUNTS, JSON.stringify(updatedAccounts));
+    if (isLoggedIn) {
+      fetch('/api/user/sync', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ profile: userProfile, progress: newProgress })
+      }).catch(console.error);
     }
   };
+
 
   // Profile Onboarding complete (Register or Login complete)
   const handleOnboardingComplete = (account: UserAccount) => {
@@ -405,24 +370,13 @@ export default function App() {
 
     setProgress(updatedProgress);
 
-    // Save both updatedProfile and updatedProgress to accounts
-    if (updatedProfile && updatedProfile.login) {
-      const saved = localStorage.getItem(LOCAL_STORAGE_KEY_ACCOUNTS);
-      let accounts: UserAccount[] = [];
-      if (saved) {
-        try { accounts = JSON.parse(saved); } catch (e) {}
-      }
-      const updatedAccounts = accounts.map(acc => {
-        if (acc.login === updatedProfile!.login) {
-          return {
-            ...acc,
-            profile: updatedProfile!,
-            progress: updatedProgress
-          };
-        }
-        return acc;
-      });
-      localStorage.setItem(LOCAL_STORAGE_KEY_ACCOUNTS, JSON.stringify(updatedAccounts));
+    // Save to backend
+    if (isLoggedIn) {
+      fetch('/api/user/sync', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ profile: updatedProfile, progress: updatedProgress })
+      }).catch(console.error);
     }
 
     // 3. Move to next day automatically or lock on 21
@@ -466,39 +420,29 @@ export default function App() {
         };
         setUserProfile(updatedProfile);
 
-        // Update in accounts array
-        if (userProfile.login) {
-          const saved = localStorage.getItem(LOCAL_STORAGE_KEY_ACCOUNTS);
-          let accounts: UserAccount[] = [];
-          if (saved) {
-            try { accounts = JSON.parse(saved); } catch (e) {}
-          }
-          const updatedAccounts = accounts.map(acc => {
-            if (acc.login === userProfile.login) {
-              return {
-                ...acc,
-                profile: updatedProfile,
-                progress: defaultProgress
-              };
-            }
-            return acc;
-          });
-          localStorage.setItem(LOCAL_STORAGE_KEY_ACCOUNTS, JSON.stringify(updatedAccounts));
+        // Save to backend
+        if (isLoggedIn) {
+          fetch('/api/user/sync', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ profile: updatedProfile, progress: defaultProgress })
+          }).catch(console.error);
         }
       }
     }
   };
 
   // Log out the current user
-  const handleLogout = () => {
+  const handleLogout = async () => {
     audioEngine.stopBG();
-    localStorage.removeItem(LOCAL_STORAGE_KEY_CURRENT_LOGIN);
+    await fetch('/api/auth/logout', { method: 'POST' });
     setUserProfile(null);
     setProgress([]);
     setCurrentDay(1);
     setIsJournalOpen(false);
     setSelectedDayDetail(null);
     setShowSettings(false);
+    setIsLoggedIn(false);
   };
 
   // Retrieve mood description text
@@ -1770,13 +1714,17 @@ export default function App() {
             O Protocolo de Cura Integrada de 21 dias é canalizado energeticamente por <strong>Éverton Rodrigo Piceni</strong> para purificação física, mental e áurica.
           </p>
           <div className="flex items-center gap-3 text-xs text-slate-600">
-            <button
-              onClick={() => setShowAdminModal(true)}
-              className="text-slate-500 hover:text-amber-400 transition cursor-pointer underline text-[11px]"
-            >
-              Área do Terapeuta / Admin
-            </button>
-            <span>•</span>
+            {userProfile?.isAdmin && (
+              <>
+                <button
+                  onClick={() => setShowAdminModal(true)}
+                  className="text-slate-500 hover:text-amber-400 transition cursor-pointer underline text-[11px]"
+                >
+                  Área do Terapeuta / Admin
+                </button>
+                <span>•</span>
+              </>
+            )}
             <span className="text-[10px] font-mono text-slate-700 uppercase tracking-widest">
               Eu Sou Livre • Eu Sou Cura • Eu Estou em Paz
             </span>
@@ -1926,16 +1874,30 @@ export default function App() {
           isOpen={showProModal}
           onClose={() => setShowProModal(false)}
           userProfile={userProfile}
-          onUpgradeSuccess={(plan) => {
-            const upgradedProfile: UserProfile = {
-              ...userProfile,
-              plan: 'pro',
-              subscriptionPlan: plan,
-              proActiveSince: new Date().toISOString()
-            };
-            saveProfile(upgradedProfile);
+          onUpgradeSuccess={async (plan) => {
+            if (isLoggedIn) {
+              try {
+                const res = await fetch('/api/user/upgrade', {
+                  method: 'POST',
+                  headers: { 'Content-Type': 'application/json' },
+                  body: JSON.stringify({ planId: plan, paymentMethod: 'test', price: 0 })
+                });
+                if (res.ok) {
+                  const data = await res.json();
+                  setUserProfile(data.user.profile);
+                }
+              } catch (e) { console.error(e) }
+            } else {
+              const upgradedProfile: UserProfile = {
+                ...userProfile,
+                plan: 'pro',
+                subscriptionPlan: plan,
+                proActiveSince: new Date().toISOString()
+              };
+              saveProfile(upgradedProfile);
+            }
             setShowProModal(false);
-            setShowCertificateModal(true);
+            if (plan === 'arcanjo_7d') { setShowCertificateModal(false); } else { setShowCertificateModal(true); }
           }}
           onOpenContact={() => {
             setShowProModal(false);
