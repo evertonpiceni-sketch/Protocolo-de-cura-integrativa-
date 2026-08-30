@@ -367,13 +367,13 @@ export default function ProUpgradeModal({
             <div className="text-center space-y-2">
               <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-300 text-xs font-mono font-medium mb-1">
                 <Crown size={14} className="text-amber-400" />
-                <span>LIBERAÇÃO IMEDIATA DO APLICATIVO</span>
+                <span>CONFIRMAÇÃO SEGURA PELO SERVIDOR</span>
               </div>
               <h2 className="text-2xl md:text-3xl font-display font-medium text-slate-100">
                 Escolha o seu Plano de Acesso Pro
               </h2>
               <p className="text-xs md:text-sm text-slate-400 max-w-lg mx-auto">
-                Assim que o pagamento for concluído (PIX ou Cartão), o aplicativo é liberado instantaneamente na sua conta.
+                O acesso Pro é liberado somente após a confirmação segura do pagamento pelo servidor.
               </p>
             </div>
 

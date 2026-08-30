@@ -42,8 +42,6 @@ export const ADMIN_STORAGE_KEY_COUPONS = 'cura_integrada_admin_coupons_v1';
 
 export default function AdminPanelModal({ isOpen, onClose }: AdminPanelModalProps) {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [adminEmail, setAdminEmail] = useState('evertonpiceni@gmail.com');
-  const [adminPass, setAdminPass] = useState('');
   const [authError, setAuthError] = useState('');
 
   // Tabs inside admin panel
@@ -68,50 +66,26 @@ export default function AdminPanelModal({ isOpen, onClose }: AdminPanelModalProp
   const [allAccounts, setAllAccounts] = useState<any[]>([]);
   const [copiedLogin, setCopiedLogin] = useState<string | null>(null);
 
-  // Load existing data
+  // The server is the sole source of administrative authorization and user data.
   useEffect(() => {
-    try {
-      const savedAudios = localStorage.getItem(ADMIN_STORAGE_KEY_AUDIOS);
-      if (savedAudios) setCustomAudios(JSON.parse(savedAudios));
-
-      const savedCoupons = localStorage.getItem(ADMIN_STORAGE_KEY_COUPONS);
-      if (savedCoupons) {
-        setCoupons(JSON.parse(savedCoupons));
-      } else {
-        // Default initial coupons created by Éverton
-        const initialCoupons: CouponItem[] = [
-          { code: 'CURAPRO21', discountPercentage: 100, description: 'Bolsa 100% Gratuita VIP de Acesso Total', active: true, createdAt: new Date().toISOString() },
-          { code: 'LUZEVERTON', discountPercentage: 50, description: 'Desconto de 50% Especial', active: true, createdAt: new Date().toISOString() }
-        ];
-        setCoupons(initialCoupons);
-        localStorage.setItem(ADMIN_STORAGE_KEY_COUPONS, JSON.stringify(initialCoupons));
-      }
-
-      const savedAccs = localStorage.getItem('cura_integrada_accounts_v1');
-      if (savedAccs) setAllAccounts(JSON.parse(savedAccs));
-    } catch (e) {
-      console.error(e);
-    }
+    if (!isOpen) return;
+    fetch('/api/admin/users')
+      .then(async (response) => {
+        if (!response.ok) throw new Error('Admin authorization required');
+        const data = await response.json();
+        setAllAccounts(data.users || []);
+        setIsAuthenticated(true);
+        setAuthError('');
+      })
+      .catch(() => {
+        setIsAuthenticated(false);
+        setAllAccounts([]);
+        setAuthError('A sua sessão não possui acesso administrativo.');
+      });
   }, [isOpen]);
 
   if (!isOpen) return null;
 
-  const handleLogin = (e: React.FormEvent) => {
-    e.preventDefault();
-    // Éverton master login: email or master passwords
-    const cleanEmail = adminEmail.trim().toLowerCase();
-    const cleanPass = adminPass.trim();
-
-    if (
-      (cleanEmail === 'evertonpiceni@gmail.com' && (cleanPass === 'luz21' || cleanPass === 'everton2026' || cleanPass === 'admin' || cleanPass === 'cura21' || cleanPass.length >= 4)) ||
-      cleanPass === 'luz21' || cleanPass === 'everton2026'
-    ) {
-      setIsAuthenticated(true);
-      setAuthError('');
-    } else {
-      setAuthError('Senha de administrador incorreta. Tente novamente.');
-    }
-  };
 
   // Add custom audio
   const handleAddAudio = (e: React.FormEvent) => {
@@ -130,7 +104,6 @@ export default function AdminPanelModal({ isOpen, onClose }: AdminPanelModalProp
 
     const updated = [newItem, ...customAudios];
     setCustomAudios(updated);
-    localStorage.setItem(ADMIN_STORAGE_KEY_AUDIOS, JSON.stringify(updated));
 
     // Reset form
     setNewAudioTitle('');
@@ -142,7 +115,6 @@ export default function AdminPanelModal({ isOpen, onClose }: AdminPanelModalProp
   const handleDeleteAudio = (id: string) => {
     const updated = customAudios.filter(a => a.id !== id);
     setCustomAudios(updated);
-    localStorage.setItem(ADMIN_STORAGE_KEY_AUDIOS, JSON.stringify(updated));
   };
 
   // Add Coupon
@@ -160,7 +132,6 @@ export default function AdminPanelModal({ isOpen, onClose }: AdminPanelModalProp
 
     const updated = [newCoupon, ...coupons.filter(c => c.code !== newCoupon.code)];
     setCoupons(updated);
-    localStorage.setItem(ADMIN_STORAGE_KEY_COUPONS, JSON.stringify(updated));
 
     setNewCouponCode('');
     setNewCouponDesc('');
@@ -170,13 +141,11 @@ export default function AdminPanelModal({ isOpen, onClose }: AdminPanelModalProp
   const handleToggleCoupon = (code: string) => {
     const updated = coupons.map(c => c.code === code ? { ...c, active: !c.active } : c);
     setCoupons(updated);
-    localStorage.setItem(ADMIN_STORAGE_KEY_COUPONS, JSON.stringify(updated));
   };
 
   const handleDeleteCoupon = (code: string) => {
     const updated = coupons.filter(c => c.code !== code);
     setCoupons(updated);
-    localStorage.setItem(ADMIN_STORAGE_KEY_COUPONS, JSON.stringify(updated));
   };
 
   return (
@@ -221,54 +190,12 @@ export default function AdminPanelModal({ isOpen, onClose }: AdminPanelModalProp
 
         {/* Authentication Gate */}
         {!isAuthenticated ? (
-          <form onSubmit={handleLogin} className="max-w-md mx-auto space-y-4 py-6">
-            <div className="text-center space-y-1.5">
-              <Lock size={32} className="mx-auto text-amber-400 mb-2" />
-              <h3 className="text-base font-semibold text-slate-100">Acesso Restrito ao Administrador</h3>
-              <p className="text-xs text-slate-400 leading-relaxed">
-                Área exclusiva para Éverton Rodrigo Piceni inserir áudios canalizados, gerenciar cupons e consulentes.
-              </p>
-            </div>
-
-            {authError && (
-              <div className="p-3 rounded-xl bg-rose-500/10 border border-rose-500/30 text-rose-300 text-xs text-center font-mono">
-                {authError}
-              </div>
-            )}
-
-            <div className="space-y-3">
-              <div className="space-y-1">
-                <label className="text-[11px] font-mono text-slate-400 block uppercase">E-mail do Administrador</label>
-                <input
-                  type="email"
-                  value={adminEmail}
-                  onChange={(e) => setAdminEmail(e.target.value)}
-                  className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3.5 py-2.5 text-xs text-slate-200 focus:border-amber-500 outline-none font-mono"
-                  required
-                />
-              </div>
-
-              <div className="space-y-1">
-                <label className="text-[11px] font-mono text-slate-400 block uppercase">Senha Mestre</label>
-                <input
-                  type="password"
-                  placeholder="Digite sua senha de acesso..."
-                  value={adminPass}
-                  onChange={(e) => setAdminPass(e.target.value)}
-                  className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3.5 py-2.5 text-xs text-slate-200 focus:border-amber-500 outline-none"
-                  required
-                />
-              </div>
-
-              <button
-                type="submit"
-                className="w-full bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-slate-950 font-bold py-3 rounded-xl transition duration-200 text-xs tracking-wider uppercase flex items-center justify-center gap-2 cursor-pointer border-none shadow-lg shadow-amber-500/10 font-sans"
-              >
-                <Unlock size={15} />
-                <span>Entrar no Painel Administrativo</span>
-              </button>
-            </div>
-          </form>
+          <div className="max-w-md mx-auto space-y-4 py-6 text-center">
+            <Lock size={32} className="mx-auto text-amber-400 mb-2" />
+            <h3 className="text-base font-semibold text-slate-100">Acesso Restrito ao Administrador</h3>
+            <p className="text-xs text-slate-400 leading-relaxed">Entre pela conta principal. O servidor verifica a sua sessão e função antes de liberar esta área.</p>
+            {authError && <div className="p-3 rounded-xl bg-rose-500/10 border border-rose-500/30 text-rose-300 text-xs text-center font-mono">{authError}</div>}
+          </div>
         ) : (
           <div className="space-y-6">
             {/* Navigation Tabs */}
