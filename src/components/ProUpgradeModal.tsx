@@ -32,6 +32,22 @@ const PAID_SUBSCRIPTION_PLANS: {
   highlight?: boolean;
   compreende: string[];
 }[] = [
+{
+    id: 'arcanjo_7d',
+    title: 'Protocolo São Miguel, Rafael e Chama Violeta',
+    badge: '7 Chakras Divinos',
+    badgeColor: 'bg-violet-500 text-white font-bold',
+    priceFormatted: 'R$ 29,90',
+    priceNumber: 29.90,
+    periodText: 'acesso 7 dias',
+    description: 'Protocolo de Cura Arcanjo São Miguel, Raio de Ouro de São Rafael e Chama Violeta.',
+    compreende: [
+      'Alinhamento exato de 1 Chakra por dia (Cores, Nomes e Frequências)',
+      'Limpeza com Raio de Ouro de São Rafael',
+      'Transmutação profunda com a Chama Violeta',
+      'Proteção Divina de São Miguel Arcanjo'
+    ]
+  },
   {
     id: 'jornada_7d',
     title: 'Jornada 7 Dias',
@@ -106,7 +122,7 @@ const PAID_SUBSCRIPTION_PLANS: {
     title: 'Acesso Anual Pro (Master)',
     badge: '2 Áudios Inclusos!',
     badgeColor: 'bg-cyan-400 text-slate-950 font-bold',
-    priceFormatted: 'R$ 197,00',
+    priceFormatted: 'R$ 159,90',
     priceNumber: 197.00,
     periodText: 'por ano',
     description: 'Acesso anual + 1 Áudio de 7 dias + 1 Áudio de livre escolha inclusos.',

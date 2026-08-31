@@ -269,7 +269,6 @@ export default function AnamnesisModal({
           sintomas_fisicos: physicalSymptoms,
           estados_emocionais: emotionalState,
           chakras_desalinhados: chakraImbalance,
-          usuario_premium: userProfile.plan === 'pro'
         })
       });
 

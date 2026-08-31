@@ -590,7 +590,7 @@ export default function AdminPanelModal({ isOpen, onClose }: AdminPanelModalProp
                     {allAccounts.map((acc, idx) => {
                       const userAnamnesis = acc.profile?.anamnesis;
                       const userRec = userAnamnesis ? evaluateBestTreatmentFromAnamnesis(userAnamnesis, acc.profile) : null;
-                      const userPhone = acc.profile?.phone || '';
+                      const userPhone = acc.phone || acc.profile?.phone || '';
                       const isCopied = copiedLogin === acc.login;
 
                       return (
@@ -607,15 +607,15 @@ export default function AdminPanelModal({ isOpen, onClose }: AdminPanelModalProp
                                     {acc.profile?.fullName || acc.profile?.name || acc.login}
                                   </span>
                                   <span className={`text-[9px] font-mono px-2 py-0.5 rounded-full font-bold uppercase ${
-                                    acc.profile?.plan === 'pro'
+                                    (acc.profile?.plan === 'pro' || acc.plan === 'pro')
                                       ? 'bg-amber-500/20 text-amber-300 border border-amber-500/30'
                                       : 'bg-slate-800 text-slate-400'
                                   }`}>
-                                    {acc.profile?.plan === 'pro' ? '★ PRO VIP' : 'FREE'}
+                                    {(acc.profile?.plan === 'pro' || acc.plan === 'pro') ? `★ PRO VIP${acc.profile?.subscriptionPlan ? ` (${acc.profile.subscriptionPlan.replace(/_/g, ' ').toUpperCase()})` : ''}` : 'FREE'}
                                   </span>
                                 </div>
                                 <span className="text-[10px] font-mono text-slate-500">
-                                  Login: @{acc.login} • {acc.profile?.email || 'Sem e-mail'} {userPhone && `• WhatsApp: ${userPhone}`}
+                                  Login: @{acc.login} • {acc.email || acc.profile?.email || 'Sem e-mail'} {userPhone && `• WhatsApp: ${userPhone}`}
                                 </span>
                               </div>
                             </div>

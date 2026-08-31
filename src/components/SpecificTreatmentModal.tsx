@@ -42,9 +42,9 @@ export default function SpecificTreatmentModal({
   onConfirmTreatment
 }: SpecificTreatmentModalProps) {
   const [activeTab, setActiveTab] = useState<'request' | 'my_treatments'>('request');
-  const [durationDays, setDurationDays] = useState<1 | 7 | 21>(1); // Changed default to 1
+  const [durationDays, setDurationDays] = useState<1 | 7 | 21>(21); // Changed default to 1
   const [isCustomPrice, setIsCustomPrice] = useState<boolean>(false);
-  const [customPriceInput, setCustomPriceInput] = useState<string>('59,90');
+  const [customPriceInput, setCustomPriceInput] = useState<string>('99,90');
   const [selectedCategory, setSelectedCategory] = useState<string>('saude_fisica');
   const [treatmentTitle, setTreatmentTitle] = useState<string>('');
   const [patientDescription, setPatientDescription] = useState<string>('');
@@ -71,7 +71,7 @@ export default function SpecificTreatmentModal({
 
   // Pricing: 21 Days Complete is R$ 59,90, 7 Days is R$ 59,90, 1 Day (Sessão Única) is R$ 20,00
   const parsedCustomPrice = parseFloat(customPriceInput.replace(',', '.')) || 0;
-  const standardPrice = durationDays === 21 ? 59.9 : (durationDays === 7 ? 59.9 : 20.0);
+  const standardPrice = durationDays === 21 ? 99.9 : (durationDays === 7 ? 59.9 : 20.0);
   const basePrice = isCustomPrice ? Math.max(0, parsedCustomPrice) : standardPrice;
   const discountAmount = discountPercent > 0 ? (basePrice * discountPercent) / 100 : 0;
   const finalPrice = Math.max(0, basePrice - discountAmount);
@@ -163,7 +163,7 @@ export default function SpecificTreatmentModal({
 
       const discountNotice = appliedCoupon ? ` (Cupom: ${appliedCoupon} - Pago: ${formattedFinalPrice})` : ` (Valor: ${formattedFinalPrice})`;
       let cycleText = '';
-      if (durationDays === 21) cycleText = 'Tratamento Completo R$ 59,90';
+      if (durationDays === 21) cycleText = 'Tratamento Completo R$ 99,90';
       else if (durationDays === 7) cycleText = 'Ciclo Inicial R$ 59,90';
       else cycleText = 'Tratamento à Distância R$ 20,00';
       
@@ -348,7 +348,7 @@ export default function SpecificTreatmentModal({
                 <div className="flex items-baseline gap-1 justify-end">
                   {appliedCoupon && (
                     <span className="text-xs text-slate-500 line-through font-mono">
-                      {'R$ 59,90'}
+                      {durationDays === 21 ? 'R$ 99,90' : 'R$ 59,90'}
                     </span>
                   )}
                   <span className="text-2xl font-display font-bold text-emerald-300">{formattedFinalPrice}</span>
@@ -367,7 +367,7 @@ export default function SpecificTreatmentModal({
                   onClick={() => {
                     setIsCustomPrice(!isCustomPrice);
                     if (!isCustomPrice) {
-                      setCustomPriceInput('59,90');
+                      setCustomPriceInput('59,90'); // will be handled correctly by effect or manual
                     }
                   }}
                   className="text-[11px] font-mono text-emerald-400 hover:text-emerald-300 transition flex items-center gap-1 cursor-pointer"
@@ -442,7 +442,7 @@ export default function SpecificTreatmentModal({
                   onClick={() => {
                     setDurationDays(21);
                     if (!isCustomPrice) {
-                      setCustomPriceInput('59,90');
+                      setCustomPriceInput('99,90');
                     }
                   }}
                   className={`p-3.5 rounded-2xl border text-left flex items-start gap-3 transition cursor-pointer relative ${
@@ -460,7 +460,7 @@ export default function SpecificTreatmentModal({
                   <div className="flex-1">
                     <div className="flex items-center justify-between">
                       <strong className="text-xs text-slate-100">Tratamento de 21 Dias</strong>
-                      <span className="text-xs font-mono font-bold text-amber-300">R$ 59,90</span>
+                      <span className="text-xs font-mono font-bold text-amber-300">R$ 99,90</span>
                     </div>
                     <p className="text-[10px] text-slate-400 mt-0.5">
                       Ciclo completo de cura integrada, reprogramação celular e suporte quântico.
@@ -493,7 +493,7 @@ export default function SpecificTreatmentModal({
                       />
                     </div>
                     <div className="flex items-center gap-1">
-                      {['30,00', '50,00', '59,90', '70,00', '150,00'].map((val) => (
+                      {['30,00', '59,90', '99,90', '150,00'].map((val) => (
                         <button
                           key={val}
                           type="button"
@@ -754,7 +754,7 @@ export default function SpecificTreatmentModal({
                             Cupom "{appliedCoupon}" Ativo
                           </div>
                           <div className="text-[10px] text-slate-300">
-                            Valor reduzido de <span className="line-through text-slate-500">{'R$ 59,90'}</span> para <strong className="text-emerald-300 font-bold">{formattedFinalPrice}</strong>
+                            Valor reduzido de <span className="line-through text-slate-500">{durationDays === 21 ? 'R$ 99,90' : 'R$ 59,90'}</span> para <strong className="text-emerald-300 font-bold">{formattedFinalPrice}</strong>
                           </div>
                         </div>
                       </div>

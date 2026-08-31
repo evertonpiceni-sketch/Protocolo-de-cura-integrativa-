@@ -28,10 +28,16 @@ import AdminPanelModal from './components/AdminPanelModal';
 import HooponoponoModal from './components/HooponoponoModal';
 import AchievementsModal from './components/AchievementsModal';
 import SystemicQuestionsModal from './components/SystemicQuestionsModal';
+import ArcanjoProtocolView from './components/ArcanjoProtocolView';
 import DailyDiaryModal from './components/DailyDiaryModal';
 import ContactModal from './components/ContactModal';
 import PromoVideoModal from './components/PromoVideoModal';
 import MilestoneCelebrationModal from './components/MilestoneCelebrationModal';
+import DailyTipModal from './components/DailyTipModal';
+
+import { SpeedInsights } from '@vercel/speed-insights/react';
+import DashboardCura from './components/DashboardCura';
+
 import { calculateAstralMap } from './utils/astrology';
 import { audioEngine } from './lib/audio';
 import { evaluateAchievements } from './lib/achievementsData';
@@ -67,6 +73,7 @@ export default function App() {
   const [progress, setProgress] = useState<DayProgress[]>([]);
   const [currentDay, setCurrentDay] = useState<number>(1);
   const [currentLanguage, setCurrentLanguage] = useState<AppLanguage>('pt');
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   
   // Navigation & Interactive states
   const [showSimpleProtocol, setShowSimpleProtocol] = useState(false);
@@ -98,6 +105,10 @@ export default function App() {
   const [showContactModal, setShowContactModal] = useState<boolean>(false);
   const [showPromoVideoModal, setShowPromoVideoModal] = useState<boolean>(false);
   const [showMilestoneModal, setShowMilestoneModal] = useState<boolean>(false);
+  const [showDashboardCura, setShowDashboardCura] = useState<boolean>(false);
+  const [showDailyTip, setShowDailyTip] = useState<boolean>(false);
+
+
   const [milestoneModalDay, setMilestoneModalDay] = useState<number>(8);
   const [inAppToast, setInAppToast] = useState<{ title: string; body: string } | null>(null);
   const [deferredInstallPrompt, setDeferredInstallPrompt] = useState<any>(null);
@@ -227,87 +238,60 @@ export default function App() {
     return () => clearInterval(interval);
   }, [userProfile?.reminderTime, userProfile?.name]);
 
-  // Initialize and load saved state from localStorage on mount
+  // Initialize and load saved state from backend on mount
   useEffect(() => {
-    const activeLogin = localStorage.getItem(LOCAL_STORAGE_KEY_CURRENT_LOGIN);
-    const savedAccounts = localStorage.getItem(LOCAL_STORAGE_KEY_ACCOUNTS);
-
-    const defaultProgress: DayProgress[] = Array.from({ length: 21 }, (_, index) => ({
-      dayNumber: index + 1,
-      completed: false,
-      journalText: '',
-      mood: 5
-    }));
-
-    if (activeLogin && savedAccounts) {
+    const checkAuth = async () => {
       try {
-        const accounts = JSON.parse(savedAccounts) as UserAccount[];
-        const account = accounts.find(acc => acc.login === activeLogin.toLowerCase());
-        
-        if (account) {
-          const profile = account.profile;
-          if (profile && profile.audioEnabled === undefined) {
-            profile.audioEnabled = true;
-          }
-          setUserProfile(profile);
+        const res = await fetch('/api/auth/me');
+        if (res.ok) {
+          const data = await res.json();
+          const account = data.user;
+          const profileWithAdmin = { ...account.profile, isAdmin: account.role === 'admin' };
+          setUserProfile(profileWithAdmin);
+          setProgress(account.progress || []);
           
-          const parsedProgress = account.progress || defaultProgress;
-          const cleanProgress = defaultProgress.map(def => {
-            const match = parsedProgress.find(p => p.dayNumber === def.dayNumber);
-            return match ? { ...def, ...match } : def;
-          });
-          setProgress(cleanProgress);
-          
-          const nextUncompleted = cleanProgress.find(p => !p.completed);
-          if (nextUncompleted) {
-            setCurrentDay(nextUncompleted.dayNumber);
-          } else {
-            setCurrentDay(21);
-          }
+          const nextUncompleted = account.progress?.find((p: any) => !p.completed);
+          setCurrentDay(nextUncompleted ? nextUncompleted.dayNumber : 21);
+          setIsLoggedIn(true);
+        } else {
+          setIsLoggedIn(false);
+          // Set some default state if not logged in
+          const defaultProgress: DayProgress[] = Array.from({ length: 21 }, (_, index) => ({
+            dayNumber: index + 1,
+            completed: false
+          }));
+          setProgress(defaultProgress);
         }
-      } catch (e) {
-        console.error("Error loading account data on mount", e);
+      } catch (err) {
+        setIsLoggedIn(false);
       }
-    }
+    };
+    checkAuth();
   }, []);
 
   // Save profile state whenever it changes
   const saveProfile = (newProfile: UserProfile) => {
     setUserProfile(newProfile);
-    if (newProfile.login) {
-      const saved = localStorage.getItem(LOCAL_STORAGE_KEY_ACCOUNTS);
-      let accounts: UserAccount[] = [];
-      if (saved) {
-        try { accounts = JSON.parse(saved); } catch (e) {}
-      }
-      const updatedAccounts = accounts.map(acc => {
-        if (acc.login === newProfile.login) {
-          return { ...acc, profile: newProfile };
-        }
-        return acc;
-      });
-      localStorage.setItem(LOCAL_STORAGE_KEY_ACCOUNTS, JSON.stringify(updatedAccounts));
+    if (isLoggedIn) {
+      fetch('/api/user/sync', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ profile: newProfile, progress })
+      }).catch(console.error);
     }
   };
 
-  // Save progress state whenever it changes
   const saveProgress = (newProgress: DayProgress[]) => {
     setProgress(newProgress);
-    if (userProfile && userProfile.login) {
-      const saved = localStorage.getItem(LOCAL_STORAGE_KEY_ACCOUNTS);
-      let accounts: UserAccount[] = [];
-      if (saved) {
-        try { accounts = JSON.parse(saved); } catch (e) {}
-      }
-      const updatedAccounts = accounts.map(acc => {
-        if (acc.login === userProfile.login) {
-          return { ...acc, progress: newProgress };
-        }
-        return acc;
-      });
-      localStorage.setItem(LOCAL_STORAGE_KEY_ACCOUNTS, JSON.stringify(updatedAccounts));
+    if (isLoggedIn) {
+      fetch('/api/user/sync', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ profile: userProfile, progress: newProgress })
+      }).catch(console.error);
     }
   };
+
 
   // Profile Onboarding complete (Register or Login complete)
   const handleOnboardingComplete = (account: UserAccount) => {
@@ -325,10 +309,17 @@ export default function App() {
       audioEngine.startBG(bgMusic);
     }
 
-    // Check if welcome modal was seen
+        // Check if welcome modal was seen
     const seenWelcome = localStorage.getItem('cura_integrada_welcome_seen_v1');
     if (!seenWelcome) {
       setShowWelcomeModal(true);
+    } else {
+      const todayStr = new Date().toISOString().split('T')[0];
+      const lastTipDate = localStorage.getItem('cura_integrada_last_tip_date');
+      if (lastTipDate !== todayStr) {
+        setShowDailyTip(true);
+        localStorage.setItem('cura_integrada_last_tip_date', todayStr);
+      }
     }
   };
 
@@ -380,24 +371,13 @@ export default function App() {
 
     setProgress(updatedProgress);
 
-    // Save both updatedProfile and updatedProgress to accounts
-    if (updatedProfile && updatedProfile.login) {
-      const saved = localStorage.getItem(LOCAL_STORAGE_KEY_ACCOUNTS);
-      let accounts: UserAccount[] = [];
-      if (saved) {
-        try { accounts = JSON.parse(saved); } catch (e) {}
-      }
-      const updatedAccounts = accounts.map(acc => {
-        if (acc.login === updatedProfile!.login) {
-          return {
-            ...acc,
-            profile: updatedProfile!,
-            progress: updatedProgress
-          };
-        }
-        return acc;
-      });
-      localStorage.setItem(LOCAL_STORAGE_KEY_ACCOUNTS, JSON.stringify(updatedAccounts));
+    // Save to backend
+    if (isLoggedIn) {
+      fetch('/api/user/sync', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ profile: updatedProfile, progress: updatedProgress })
+      }).catch(console.error);
     }
 
     // 3. Move to next day automatically or lock on 21
@@ -441,39 +421,29 @@ export default function App() {
         };
         setUserProfile(updatedProfile);
 
-        // Update in accounts array
-        if (userProfile.login) {
-          const saved = localStorage.getItem(LOCAL_STORAGE_KEY_ACCOUNTS);
-          let accounts: UserAccount[] = [];
-          if (saved) {
-            try { accounts = JSON.parse(saved); } catch (e) {}
-          }
-          const updatedAccounts = accounts.map(acc => {
-            if (acc.login === userProfile.login) {
-              return {
-                ...acc,
-                profile: updatedProfile,
-                progress: defaultProgress
-              };
-            }
-            return acc;
-          });
-          localStorage.setItem(LOCAL_STORAGE_KEY_ACCOUNTS, JSON.stringify(updatedAccounts));
+        // Save to backend
+        if (isLoggedIn) {
+          fetch('/api/user/sync', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ profile: updatedProfile, progress: defaultProgress })
+          }).catch(console.error);
         }
       }
     }
   };
 
   // Log out the current user
-  const handleLogout = () => {
+  const handleLogout = async () => {
     audioEngine.stopBG();
-    localStorage.removeItem(LOCAL_STORAGE_KEY_CURRENT_LOGIN);
+    await fetch('/api/auth/logout', { method: 'POST' });
     setUserProfile(null);
     setProgress([]);
     setCurrentDay(1);
     setIsJournalOpen(false);
     setSelectedDayDetail(null);
     setShowSettings(false);
+    setIsLoggedIn(false);
   };
 
   // Retrieve mood description text
@@ -613,8 +583,13 @@ export default function App() {
           <SimpleProtocol onClose={() => setShowSimpleProtocol(false)} />
         )}
       </AnimatePresence>
-
-      {activeSessionDay !== null ? (
+      
+      {userProfile.subscriptionPlan === 'arcanjo_7d' ? (
+        <ArcanjoProtocolView 
+          userProfile={userProfile}
+          onLogout={handleLogout}
+        />
+      ) : activeSessionDay !== null ? (
                 <MeditationSession
           dayNumber={activeSessionDay}
           userName={userProfile.name}
@@ -649,8 +624,8 @@ export default function App() {
       <header className="bg-slate-900/80 backdrop-blur-md border-b border-slate-800/80 sticky top-0 z-30 px-3 sm:px-4 py-3" id="main-header">
         <div className="max-w-5xl mx-auto flex items-center justify-between gap-2 sm:gap-4">
           <div className="flex items-center gap-2 sm:gap-2.5 min-w-0">
-            <div className="p-2 bg-indigo-500/10 border border-indigo-500/20 text-indigo-400 rounded-xl shrink-0">
-              <Sparkles size={18} className="animate-pulse" />
+            <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-full overflow-hidden border-[1.5px] border-indigo-500/40 shadow-[0_0_12px_rgba(99,102,241,0.25)] shrink-0 bg-slate-900 flex items-center justify-center">
+              <img src="image_fccef69.png" alt="Everton Piceni Logo" className="w-full h-full object-cover hover:scale-105 transition-transform duration-500" referrerPolicy="no-referrer" />
             </div>
             <div className="min-w-0">
               <span className="text-[9px] font-mono tracking-widest text-indigo-400 uppercase font-semibold block truncate">Terapia Integrada</span>
@@ -1282,22 +1257,30 @@ export default function App() {
                 </div>
 
                 {userProfile.specificTreatments && userProfile.specificTreatments.length > 0 && (
-                  <div className="space-y-2 mt-2">
-                    <span className="text-[10px] font-mono text-slate-500 uppercase block">Tratamentos Registrados:</span>
-                    {userProfile.specificTreatments.map((t) => (
-                      <div key={t.id} className="p-3 bg-slate-950/80 border border-slate-850 rounded-xl space-y-1.5 text-xs">
-                        <div className="flex items-center justify-between">
-                          <span className="font-semibold text-emerald-300">{t.category}</span>
-                          <span className="text-[10px] font-mono text-slate-500">
-                            {new Date(t.requestedAt).toLocaleDateString('pt-BR')} • {t.prescribedFrequency.toUpperCase()}
-                          </span>
+                  <div className="space-y-3 mt-4 pt-2 border-t border-slate-800">
+                    <span className="text-[11px] font-mono text-slate-400 uppercase block font-bold mb-2">Seus Tratamentos Específicos ({userProfile.specificTreatments.length}):</span>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                      {userProfile.specificTreatments.map((t, idx) => (
+                        <div key={t.id || idx} className="p-4 bg-slate-950 border border-slate-800 hover:border-emerald-500/30 rounded-2xl flex flex-col justify-between space-y-2 text-xs transition shadow-sm">
+                          <div>
+                            <div className="flex items-center justify-between mb-1.5">
+                              <span className="font-bold text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded-full border border-emerald-500/20 text-[10px] uppercase">
+                                {t.category.replace(/_/g, ' ')}
+                              </span>
+                              <span className="text-[9px] font-mono text-slate-500">
+                                {new Date(t.requestedAt).toLocaleDateString('pt-BR')}
+                              </span>
+                            </div>
+                            <h4 className="font-semibold text-slate-200 text-[13px] leading-tight mb-1">{t.title || 'Tratamento Pontual'}</h4>
+                            <p className="text-slate-400 text-[11px] italic line-clamp-3 leading-relaxed">"{t.patientDescription || t.userCaseDescription}"</p>
+                          </div>
+                          <div className="pt-2 border-t border-slate-900/80 flex justify-between items-center text-[10px] text-indigo-300 font-mono mt-2">
+                            <span>Decreto: Ativo</span>
+                            <span className="font-bold">{t.assignedFrequency?.toUpperCase() || t.prescribedFrequency?.toUpperCase()}</span>
+                          </div>
                         </div>
-                        <p className="text-slate-400 text-[11px] italic">"{t.userCaseDescription}"</p>
-                        <div className="pt-1 border-t border-slate-900 flex justify-between items-center text-[10px] text-indigo-300">
-                          <span>Decreto: {t.customDecree}</span>
-                        </div>
-                      </div>
-                    ))}
+                      ))}
+                    </div>
                   </div>
                 )}
               </div>
@@ -1306,6 +1289,21 @@ export default function App() {
               <div className="pt-6 border-t border-slate-800 space-y-3">
                 <span className="text-xs font-mono text-slate-500 uppercase block font-bold">Ferramentas & Acesso Especial</span>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setShowSettings(false);
+                      setShowDashboardCura(true);
+                    }}
+                    className="w-full text-left p-3 rounded-xl bg-slate-900 border border-slate-800 hover:border-indigo-500 hover:bg-slate-800 transition flex items-center justify-between group cursor-pointer"
+                  >
+                    <div className="flex items-center gap-2 text-sm text-slate-300 group-hover:text-white">
+                      <Activity size={16} className="text-indigo-400 group-hover:text-indigo-300" />
+                      <span>Dashboard de Progresso Analítico</span>
+                    </div>
+                  </button>
+
                   <button
                     type="button"
                     onClick={() => {
@@ -1674,6 +1672,18 @@ export default function App() {
             <span>Diário</span>
           </button>
 
+          <button
+            onClick={() => setShowDashboardCura(true)}
+            className="px-2.5 sm:px-3 py-2 rounded-xl text-xs font-semibold flex items-center gap-1.5 transition cursor-pointer border bg-slate-900/90 border-slate-800 text-sky-400 hover:text-white hover:border-sky-500/50 shrink-0 shadow-sm"
+            id="bottom-btn-dashboard"
+            title="Dashboard Analítico de Evolução"
+          >
+            <Activity size={14} className="shrink-0" />
+            <span className="hidden sm:inline">Progresso Analítico</span>
+            <span className="sm:hidden">KPIs</span>
+          </button>
+
+
           {/* Ajustar Som */}
           <button
             onClick={() => setShowAudioSettingsModal(true)}
@@ -1705,13 +1715,17 @@ export default function App() {
             O Protocolo de Cura Integrada de 21 dias é canalizado energeticamente por <strong>Éverton Rodrigo Piceni</strong> para purificação física, mental e áurica.
           </p>
           <div className="flex items-center gap-3 text-xs text-slate-600">
-            <button
-              onClick={() => setShowAdminModal(true)}
-              className="text-slate-500 hover:text-amber-400 transition cursor-pointer underline text-[11px]"
-            >
-              Área do Terapeuta / Admin
-            </button>
-            <span>•</span>
+            {userProfile?.isAdmin && (
+              <>
+                <button
+                  onClick={() => setShowAdminModal(true)}
+                  className="text-slate-500 hover:text-amber-400 transition cursor-pointer underline text-[11px]"
+                >
+                  Área do Terapeuta / Admin
+                </button>
+                <span>•</span>
+              </>
+            )}
             <span className="text-[10px] font-mono text-slate-700 uppercase tracking-widest">
               Eu Sou Livre • Eu Sou Cura • Eu Estou em Paz
             </span>
@@ -1861,16 +1875,30 @@ export default function App() {
           isOpen={showProModal}
           onClose={() => setShowProModal(false)}
           userProfile={userProfile}
-          onUpgradeSuccess={(plan) => {
-            const upgradedProfile: UserProfile = {
-              ...userProfile,
-              plan: 'pro',
-              subscriptionPlan: plan,
-              proActiveSince: new Date().toISOString()
-            };
-            saveProfile(upgradedProfile);
+          onUpgradeSuccess={async (plan) => {
+            if (isLoggedIn) {
+              try {
+                const res = await fetch('/api/user/upgrade', {
+                  method: 'POST',
+                  headers: { 'Content-Type': 'application/json' },
+                  body: JSON.stringify({ planId: plan, paymentMethod: 'test', price: 0 })
+                });
+                if (res.ok) {
+                  const data = await res.json();
+                  setUserProfile(data.user.profile);
+                }
+              } catch (e) { console.error(e) }
+            } else {
+              const upgradedProfile: UserProfile = {
+                ...userProfile,
+                plan: 'pro',
+                subscriptionPlan: plan,
+                proActiveSince: new Date().toISOString()
+              };
+              saveProfile(upgradedProfile);
+            }
             setShowProModal(false);
-            setShowCertificateModal(true);
+            if (plan === 'arcanjo_7d') { setShowCertificateModal(false); } else { setShowCertificateModal(true); }
           }}
           onOpenContact={() => {
             setShowProModal(false);
@@ -2146,6 +2174,21 @@ export default function App() {
         />
       )}
 
+      
+      
+      {/* Daily Tip Modal (Tip of the Day) */}
+      {showDailyTip && (
+        <DailyTipModal 
+          onClose={() => setShowDailyTip(false)} 
+          userName={userProfile?.name} 
+        />
+      )}
+
+      {/* Dashboard Analítico */}
+      {showDashboardCura && (
+        <DashboardCura onClose={() => setShowDashboardCura(false)} progress={progress} />
+      )}
+
       {/* Notificação / Toast Diário em Tempo Real */}
       {inAppToast && (
         <div className="fixed top-5 right-5 z-50 max-w-sm p-4 rounded-2xl bg-gradient-to-br from-indigo-950 via-slate-900 to-purple-950 border-2 border-amber-500/50 shadow-2xl animate-fade-in flex items-start gap-3">
@@ -2162,6 +2205,9 @@ export default function App() {
           </button>
         </div>
       )}
+      {/* Vercel Speed Insights */}
+      <SpeedInsights />
+
         </div>
       )}
     </>
