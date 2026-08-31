@@ -1,6 +1,5 @@
 import express from "express";
 import path from "path";
-import { createServer as createViteServer } from "vite";
 import { GoogleGenAI } from "@google/genai";
 import { ElevenLabsClient } from "elevenlabs";
 import jwt from "jsonwebtoken";
@@ -41,9 +40,8 @@ const prepareTherapeuticSSML = (text: string) => {
     .replace(/,\s/g, ', <break time="0.5s" /> ');
 };
 
-async function startServer() {
+export function createApp() {
   const app = express();
-  const PORT = 3000;
 
   // Security Headers
   app.use(helmet({
@@ -527,20 +525,12 @@ async function startServer() {
     }
   });
 
-  // Vite middleware for dev / static for production
-  if (process.env.NODE_ENV !== "production") {
-    const vite = await createViteServer({
-      server: { middlewareMode: true },
-      appType: "spa",
-    });
-    app.use(vite.middlewares);
-  } else {
-    const distPath = path.join(process.cwd(), "dist");
-    app.use(express.static(distPath));
-    app.get("*", (_req, res) => {
-      res.sendFile(path.join(distPath, "index.html"));
-    });
-  }
+  // Serve the production frontend when this process is serving HTTP directly.
+  const distPath = path.join(process.cwd(), "dist");
+  app.use(express.static(distPath));
+  app.get("*", (_req, res) => {
+    res.sendFile(path.join(distPath, "index.html"));
+  });
 
 
   // Global Error Handler
@@ -549,9 +539,16 @@ async function startServer() {
     res.status(500).json({ error: "Ocorreu um erro interno no servidor." });
   });
 
+  return app;
+}
+
+const app = createApp();
+
+if (process.env.VERCEL !== "1") {
+  const PORT = Number(process.env.PORT || 3000);
   app.listen(PORT, "0.0.0.0", () => {
     console.log(`✨ Servidor do Protocolo de Cura Integrada rodando em http://localhost:${PORT}`);
   });
 }
 
-startServer();
+export default app;
