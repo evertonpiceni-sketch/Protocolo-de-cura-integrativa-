@@ -35,6 +35,7 @@ import PromoVideoModal from './components/PromoVideoModal';
 import MilestoneCelebrationModal from './components/MilestoneCelebrationModal';
 import DailyTipModal from './components/DailyTipModal';
 
+import { SpeedInsights } from '@vercel/speed-insights/react';
 import DashboardCura from './components/DashboardCura';
 
 import { calculateAstralMap } from './utils/astrology';
@@ -2204,6 +2205,9 @@ export default function App() {
           </button>
         </div>
       )}
+      {/* Vercel Speed Insights */}
+      <SpeedInsights />
+
         </div>
       )}
     </>
