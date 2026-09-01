@@ -70,27 +70,35 @@ const BG_TRACKS: Record<'396hz' | '528hz' | '432hz' | 'waves', string[]> = {
 
 // Security Monitoring: Intercept fetches to log 401/403 unauthorized access errors
 const originalFetch = window.fetch;
-window.fetch = async (...args) => {
-  const response = await originalFetch(...args);
-  if (response.status === 401 || response.status === 403) {
-    const url = typeof args[0] === 'string' ? args[0] : (args[0] instanceof Request ? args[0].url : 'unknown');
-    
-    // Prevent infinite loops by not intercepting our own logging endpoint
-    if (!url.includes('/api/logs/security')) {
-      originalFetch('/api/logs/security', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          status: response.status,
-          url: url,
-          timestamp: new Date().toISOString(),
-          userAgent: navigator.userAgent
-        })
-      }).catch(err => console.error("Error logging security event:", err));
+try {
+  Object.defineProperty(window, 'fetch', {
+    configurable: true,
+    writable: true,
+    value: async (...args: Parameters<typeof originalFetch>) => {
+      const response = await originalFetch(...args);
+      if (response.status === 401 || response.status === 403) {
+        const url = typeof args[0] === 'string' ? args[0] : (args[0] instanceof Request ? args[0].url : 'unknown');
+        
+        // Prevent infinite loops by not intercepting our own logging endpoint
+        if (!url.includes('/api/logs/security')) {
+          originalFetch('/api/logs/security', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              status: response.status,
+              url: url,
+              timestamp: new Date().toISOString(),
+              userAgent: navigator.userAgent
+            })
+          }).catch(err => console.error("Error logging security event:", err));
+        }
+      }
+      return response;
     }
-  }
-  return response;
-};
+  });
+} catch (e) {
+  console.warn("Security monitor could not intercept window.fetch", e);
+}
 
 export default function App() {
   const [userProfile, setUserProfile] = useState<UserProfile | null>(null);
