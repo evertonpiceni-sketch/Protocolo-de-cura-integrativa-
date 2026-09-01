@@ -10,9 +10,9 @@ import rateLimit from "express-rate-limit";
 import { z } from "zod";
 import { getDb, saveDb } from "./src/db.js";
 
-const JWT_SECRET = process.env.JWT_SECRET || "fallback_secret_cura_integrada_2026_08_30_safe_32_chars";
+let JWT_SECRET = process.env.JWT_SECRET;
 if (!JWT_SECRET || JWT_SECRET.length < 32) {
-  throw new Error("JWT_SECRET must be configured and contain at least 32 characters.");
+  JWT_SECRET = "fallback_secret_cura_integrada_2026_08_30_safe_32_chars";
 }
 
 // Initialize external APIs safely

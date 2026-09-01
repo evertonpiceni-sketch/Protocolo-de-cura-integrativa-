@@ -243,6 +243,7 @@ export default function ProfileSetup({ onComplete }: ProfileSetupProps) {
         email: data.user.email || '',
         password: '',
         fullName: data.user.fullName || '',
+        birthDate: data.user.profile?.birthDate || '',
         profile: data.user.profile,
         progress: data.user.progress || [],
         createdAt: new Date().toISOString(),
