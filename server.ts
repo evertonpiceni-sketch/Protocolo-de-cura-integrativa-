@@ -10,7 +10,7 @@ import rateLimit from "express-rate-limit";
 import { z } from "zod";
 import { getDb, saveDb } from "./src/db.js";
 
-const JWT_SECRET = process.env.JWT_SECRET || "fallback_secret_cura_integrada_2026_08_30_safe_32_chars";
+const JWT_SECRET = process.env.JWT_SECRET;
 if (!JWT_SECRET || JWT_SECRET.length < 32) {
   throw new Error("JWT_SECRET must be configured and contain at least 32 characters.");
 }
@@ -57,13 +57,13 @@ export function createApp() {
   
   const authLimiter = rateLimit({
     windowMs: 15 * 60 * 1000,
-    max: 30, // 30 auth attempts per 15 min
+    max: 30,
     message: { error: "Muitas tentativas de login, tente novamente mais tarde." }
   });
 
   const apiLimiter = rateLimit({
     windowMs: 15 * 60 * 1000,
-    max: 100, // 100 API calls per 15 min
+    max: 100,
     message: { error: "Limite de uso da API excedido." }
   });
 
@@ -82,19 +82,20 @@ export function createApp() {
       const db = getDb();
       const user = db.users.find(u => u.id === req.userId);
       if (!user) {
-         res.clearCookie("token");
-         return res.status(401).json({ error: "Usuário não encontrado." });
+        res.clearCookie("token");
+        return res.status(401).json({ error: "Usuário não encontrado." });
       }
       req.user = user;
       next();
     } catch (err) {
+      res.clearCookie("token");
       res.status(401).json({ error: "Sessão inválida ou expirada." });
     }
   };
 
   const authenticateAdmin = (req: any, res: any, next: any) => {
     if (!req.user || req.user.role !== 'admin') {
-       return res.status(403).json({ error: "Acesso administrativo negado." });
+      return res.status(403).json({ error: "Acesso administrativo negado." });
     }
     next();
   };
@@ -140,8 +141,6 @@ export function createApp() {
     res.json({ success: true });
   });
 
-
-  // Zod Schemas
   const registerSchema = z.object({
     login: z.string().min(3).max(50),
     password: z.string().min(6).max(100),
@@ -154,32 +153,29 @@ export function createApp() {
     password: z.string().min(6).max(100)
   });
 
-  // Auth Routes
   app.post("/api/auth/register", authLimiter, async (req, res) => {
     try {
       const { login, password, fullName, email } = registerSchema.parse(req.body);
-      
+      const normalizedLogin = login.trim().toLowerCase();
       const db = getDb();
-      if (db.users.find(u => u.login === login)) {
+      if (db.users.find(u => u.login === normalizedLogin)) {
         return res.status(400).json({ error: "Usuário já existe." });
       }
       
       const salt = await bcrypt.genSalt(10);
       const hashedPassword = await bcrypt.hash(password, salt);
-      
-      // Determine if it's first user to make them admin (optional, for safety we just set user)
       const role = "user";
       
       const newUser = {
         id: Date.now().toString(),
-        login,
+        login: normalizedLogin,
         password: hashedPassword,
-        fullName: fullName || login,
+        fullName: fullName || normalizedLogin,
         email: email || "",
         plan: "free",
         role: role,
         profile: {
-          name: fullName || login,
+          name: fullName || normalizedLogin,
           email: email || "",
           audioEnabled: true,
           bgMusicVolume: 0.5,
@@ -201,15 +197,16 @@ export function createApp() {
       const { password: _, ...userWithoutPassword } = newUser;
       res.json({ user: userWithoutPassword });
     } catch (e) {
-       res.status(400).json({ error: "Dados de registro inválidos." });
+      res.status(400).json({ error: "Dados de registro inválidos." });
     }
   });
 
   app.post("/api/auth/login", authLimiter, async (req, res) => {
     try {
       const { login, password } = loginSchema.parse(req.body);
+      const normalizedLogin = login.trim().toLowerCase();
       const db = getDb();
-      const user = db.users.find(u => u.login === login);
+      const user = db.users.find(u => u.login === normalizedLogin);
       
       if (!user) return res.status(400).json({ error: "Credenciais inválidas." });
       
@@ -222,12 +219,12 @@ export function createApp() {
       const { password: _, ...userWithoutPassword } = user;
       res.json({ user: userWithoutPassword });
     } catch (e) {
-       res.status(400).json({ error: "Dados de login inválidos." });
+      res.status(400).json({ error: "Dados de login inválidos." });
     }
   });
 
   app.post("/api/auth/logout", (req, res) => {
-    res.clearCookie("token");
+    res.clearCookie("token", { httpOnly: true, secure: process.env.NODE_ENV === "production", sameSite: "lax" });
     res.json({ success: true });
   });
 
@@ -266,15 +263,11 @@ export function createApp() {
     res.json({ success: true });
   });
 
-  // Arquitetura de Pagamentos / Webhook (Conformidade Comercial)
-  // TODO: Integrar com Stripe/Pagar.me
-  
-  // Endpoint para iniciar pagamento: fail-closed until a real gateway is configured.
+  // Payment endpoints remain fail-closed until a real gateway and signature verification are configured.
   app.post("/api/payment/create-checkout", authenticate, apiLimiter, (_req: any, res: any) => {
     return res.status(503).json({ error: "Pagamento ainda não está configurado." });
   });
 
-  // Webhook: fail-closed until gateway signature verification is implemented.
   app.post("/api/webhooks/payment", express.raw({ type: "application/json" }), (_req: any, res: any) => {
     return res.status(503).json({ error: "Webhook de pagamento ainda não está configurado." });
   });
@@ -304,8 +297,8 @@ export function createApp() {
           planName: isPremium ? "Plano PRO 21 Dias" : "Plano Gratuito 7 Dias",
           frequencyLabel: "528Hz",
           severityLevel: "moderado",
-          flowerRemedy: "Rescue Remedy",
-          essentialOil: "Lavanda",
+          flowerRemedy: isPremium ? "Rescue Remedy" : "",
+          essentialOil: isPremium ? "Lavanda" : "",
           flowerRemedyDescription: "Harmonização inicial.",
           essentialOilDescription: "Calmante.",
           premiumBlocked: !isPremium,
@@ -332,7 +325,7 @@ export function createApp() {
       });
       
       const text = response.text;
-      let parsed = {};
+      let parsed: any = {};
       try {
         parsed = JSON.parse(text || "{}");
       } catch (err) {
@@ -488,7 +481,7 @@ export function createApp() {
       if (voiceId === 'masculina' || voiceId === 'male' || voiceId === 'everton' || voiceId === 'Marcus') {
         resolvedVoiceId = process.env.ELEVENLABS_VOICE_ID || "Marcus";
       } else if (voiceId === 'feminina' || voiceId === 'female' || voiceId === 'sofia' || voiceId === 'Rachel') {
-        resolvedVoiceId = "21m00Tcm4TlvDq8ikWAM"; 
+        resolvedVoiceId = "21m00Tcm4TlvDq8ikWAM";
       }
 
       const audioStream = await client.generate({
@@ -525,15 +518,12 @@ export function createApp() {
     }
   });
 
-  // Serve the production frontend when this process is serving HTTP directly.
   const distPath = path.join(process.cwd(), "dist");
   app.use(express.static(distPath));
   app.get("*", (_req, res) => {
     res.sendFile(path.join(distPath, "index.html"));
   });
 
-
-  // Global Error Handler
   app.use((err: any, req: any, res: any, next: any) => {
     console.error("Erro interno:", err.message);
     res.status(500).json({ error: "Ocorreu um erro interno no servidor." });
