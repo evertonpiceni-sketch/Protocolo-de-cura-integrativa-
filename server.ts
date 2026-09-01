@@ -1,3 +1,5 @@
+import dotenv from "dotenv";
+dotenv.config({ override: true });
 import express from "express";
 import path from "path";
 import { GoogleGenAI } from "@google/genai";
@@ -10,21 +12,24 @@ import rateLimit from "express-rate-limit";
 import { z } from "zod";
 import { getDb, saveDb } from "./src/db.js";
 
-let JWT_SECRET = process.env.JWT_SECRET;
+const JWT_SECRET = process.env.JWT_SECRET;
+
 if (!JWT_SECRET || JWT_SECRET.length < 32) {
-  JWT_SECRET = "fallback_secret_cura_integrada_2026_08_30_safe_32_chars";
+  throw new Error(
+    "JWT_SECRET must be configured with at least 32 characters."
+  );
 }
 
 // Initialize external APIs safely
 const getGemini = () => {
-  if (process.env.GEMINI_API_KEY && process.env.GEMINI_API_KEY !== "SUA_CHAVE_AQUI") {
+  if (process.env.GEMINI_API_KEY && process.env.GEMINI_API_KEY.length > 5) {
     return new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
   }
   return null;
 };
 
 const getElevenLabs = () => {
-  if (process.env.ELEVENLABS_API_KEY && process.env.ELEVENLABS_API_KEY !== "SUA_CHAVE_ELEVENLABS") {
+  if (process.env.ELEVENLABS_API_KEY && process.env.ELEVENLABS_API_KEY.length > 5) {
     return new ElevenLabsClient({ apiKey: process.env.ELEVENLABS_API_KEY });
   }
   return null;
@@ -42,6 +47,9 @@ const prepareTherapeuticSSML = (text: string) => {
 
 export function createApp() {
   const app = express();
+  
+  // Trust proxy for reverse proxy environments (Cloud Run/Vercel)
+  app.set("trust proxy", 1);
 
   // Security Headers
   app.use(helmet({
@@ -52,18 +60,21 @@ export function createApp() {
   const globalLimiter = rateLimit({
     windowMs: 15 * 60 * 1000,
     max: 200,
+    validate: { xForwardedForHeader: false, trustProxy: false, forwardedHeader: false },
     message: { error: "Muitas requisições, tente novamente mais tarde." }
   });
   
   const authLimiter = rateLimit({
     windowMs: 15 * 60 * 1000,
     max: 30, // 30 auth attempts per 15 min
+    validate: { xForwardedForHeader: false, trustProxy: false, forwardedHeader: false },
     message: { error: "Muitas tentativas de login, tente novamente mais tarde." }
   });
 
   const apiLimiter = rateLimit({
     windowMs: 15 * 60 * 1000,
     max: 100, // 100 API calls per 15 min
+    validate: { xForwardedForHeader: false, trustProxy: false, forwardedHeader: false },
     message: { error: "Limite de uso da API excedido." }
   });
 
@@ -105,8 +116,8 @@ export function createApp() {
 
   app.get("/api/admin/status", authenticate, authenticateAdmin, (_req, res) => {
     res.json({ 
-      geminiConfigured: !!process.env.GEMINI_API_KEY && process.env.GEMINI_API_KEY !== "SUA_CHAVE_AQUI",
-      elevenlabsConfigured: !!process.env.ELEVENLABS_API_KEY && process.env.ELEVENLABS_API_KEY !== "SUA_CHAVE_ELEVENLABS"
+      geminiConfigured: !!process.env.GEMINI_API_KEY && process.env.GEMINI_API_KEY.length > 5,
+      elevenlabsConfigured: !!process.env.ELEVENLABS_API_KEY && process.env.ELEVENLABS_API_KEY.length > 5
     });
   });
 
@@ -403,7 +414,7 @@ export function createApp() {
   });
 
   app.get("/api/elevenlabs/status", (_req, res) => {
-    const hasKey = !!process.env.ELEVENLABS_API_KEY && process.env.ELEVENLABS_API_KEY !== "SUA_CHAVE_ELEVENLABS";
+    const hasKey = !!process.env.ELEVENLABS_API_KEY && process.env.ELEVENLABS_API_KEY.length > 5;
     res.json({
       configured: hasKey,
       defaultVoice: process.env.ELEVENLABS_VOICE_ID || "Marcus",
