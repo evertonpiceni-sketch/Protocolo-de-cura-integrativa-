@@ -87,12 +87,11 @@ export function getDb() {
   return db;
 }
 
-export function saveDb() {
+export async function saveDb(): Promise<void> {
+  const snapshot = JSON.stringify(db);
   writeLocalDatabase(db);
   if (UPSTASH_URL && UPSTASH_TOKEN) {
-    void redisCommand('set', [DB_KEY, JSON.stringify(db)]).catch((err) => {
-      console.error('Persistent database write failed:', err);
-    });
+    await redisCommand('set', [DB_KEY, snapshot]);
   }
 }
 
