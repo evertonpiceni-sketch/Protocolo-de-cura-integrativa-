@@ -51,12 +51,19 @@ async function redisCommand(command: string, args: string[] = []) {
   return payload.result ?? null;
 }
 
+function requireProductionPersistence() {
+  if (process.env.NODE_ENV === 'production' && (!UPSTASH_URL || !UPSTASH_TOKEN)) {
+    throw new Error('Persistent database is required in production. Configure UPSTASH_REDIS_REST_URL and UPSTASH_REDIS_REST_TOKEN (or KV_REST_API_URL/KV_REST_API_TOKEN).');
+  }
+}
+
 export async function initializeDb() {
   if (initialized) return;
   if (initializationPromise) return initializationPromise;
 
   initializationPromise = (async () => {
     try {
+      requireProductionPersistence();
       if (UPSTASH_URL && UPSTASH_TOKEN) {
         const remote = await redisCommand('get', [DB_KEY]);
         if (typeof remote === 'string' && remote.trim()) {
@@ -66,12 +73,10 @@ export async function initializeDb() {
       } else {
         const local = readLocalDatabase();
         if (local) db = local;
-        if (process.env.NODE_ENV === 'production') {
-          console.warn('Persistent database is not configured. Set UPSTASH_REDIS_REST_URL and UPSTASH_REDIS_REST_TOKEN (or KV_REST_API_URL/KV_REST_API_TOKEN).');
-        }
       }
     } catch (err) {
       console.error('Error initializing database:', err);
+      if (process.env.NODE_ENV === 'production') throw err;
       const local = readLocalDatabase();
       if (local) db = local;
     } finally {
@@ -88,8 +93,9 @@ export function getDb() {
 }
 
 export async function saveDb(): Promise<void> {
+  requireProductionPersistence();
   const snapshot = JSON.stringify(db);
-  writeLocalDatabase(db);
+  if (process.env.NODE_ENV !== 'production') writeLocalDatabase(db);
   if (UPSTASH_URL && UPSTASH_TOKEN) {
     await redisCommand('set', [DB_KEY, snapshot]);
   }
