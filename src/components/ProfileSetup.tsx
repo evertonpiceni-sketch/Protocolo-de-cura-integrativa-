@@ -246,9 +246,7 @@ export default function ProfileSetup({ onComplete }: ProfileSetupProps) {
         birthDate: data.user.profile?.birthDate || '',
         profile: data.user.profile,
         progress: data.user.progress || [],
-        createdAt: new Date().toISOString(),
-        lastActive: new Date().toISOString(),
-        role: data.user.role || 'user'
+        isAdmin: data.user.role === 'admin'
       };
       
       setSuccessMsg(`Bem-vindo de volta, ${account.fullName || account.login}!`);
