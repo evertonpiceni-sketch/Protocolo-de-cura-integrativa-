@@ -34,14 +34,18 @@ jobs:
       - name: Build
         run: npm run build
 
-      - name: Verify Vercel Express entrypoint
+      - name: Verify Vercel Express entrypoints
         shell: bash
         run: |
           set -euo pipefail
           grep -q 'export function createApp' server.ts
           grep -q 'export default app' server.ts
           grep -q 'import app from "../server"' api/index.ts
-          grep -q 'export default app' api/index.ts
+          grep -q 'export default async function handler' api/index.ts
+          grep -q 'await initializeDb()' api/index.ts
+          grep -q 'import app from "../server"' 'api/[...path].ts'
+          grep -q 'export default async function handler' 'api/[...path].ts'
+          grep -q 'await initializeDb()' 'api/[...path].ts'
           if grep -q 'createViteServer' server.ts; then
             echo 'Vite dev middleware must not be required by the Vercel server entrypoint.'
             exit 1
