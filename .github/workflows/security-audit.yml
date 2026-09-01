@@ -76,7 +76,7 @@ jobs:
             echo 'Insecure JWT fallback or placeholder detected.'
             exit 1
           fi
-          if grep -Eq 'JWT_SECRET[[:space:]]*=[[:space:]]*"|JWT_SECRET[[:space:]]*=[[:space:]]*'\'' server.ts; then
+          if grep -q 'JWT_SECRET = "' server.ts || grep -q "JWT_SECRET = '" server.ts; then
             echo 'JWT_SECRET must not be assigned a hard-coded value.'
             exit 1
           fi
