@@ -1,4 +1,4 @@
-import app from "../server";
+import app from "../server.js";
 import { initializeDb } from "../src/db.js";
 
 export default async function handler(req: any, res: any) {
