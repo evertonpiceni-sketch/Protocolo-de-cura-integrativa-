@@ -3,8 +3,9 @@ import path from 'path';
 
 const DB_FILE = path.join(process.cwd(), 'database.json');
 const DB_KEY = process.env.UPSTASH_DB_KEY || 'cura_integrada:database:v1';
-const UPSTASH_URL = process.env.UPSTASH_REDIS_REST_URL || process.env.KV_REST_API_URL;
+const UPSTASH_URL = (process.env.UPSTASH_REDIS_REST_URL || process.env.KV_REST_API_URL || '').replace(/\/$/, '');
 const UPSTASH_TOKEN = process.env.UPSTASH_REDIS_REST_TOKEN || process.env.KV_REST_API_TOKEN;
+const REDIS_TIMEOUT_MS = 8000;
 
 export interface Database {
   users: any[];
@@ -38,17 +39,34 @@ function writeLocalDatabase(snapshot: Database) {
 
 async function redisCommand(command: string, args: string[] = []) {
   if (!UPSTASH_URL || !UPSTASH_TOKEN) return null;
+
   const suffix = args.map(encodeURIComponent).join('/');
   const url = suffix ? `${UPSTASH_URL}/${command}/${suffix}` : `${UPSTASH_URL}/${command}`;
-  const response = await fetch(url, {
-    headers: { Authorization: `Bearer ${UPSTASH_TOKEN}` },
-  });
-  if (!response.ok) {
-    throw new Error(`Persistent database request failed: ${response.status}`);
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), REDIS_TIMEOUT_MS);
+
+  try {
+    const response = await fetch(url, {
+      headers: { Authorization: `Bearer ${UPSTASH_TOKEN}` },
+      signal: controller.signal,
+      cache: 'no-store',
+    });
+
+    if (!response.ok) {
+      throw new Error(`Persistent database request failed: ${response.status}`);
+    }
+
+    const payload = await response.json() as { result?: unknown; error?: string };
+    if (payload.error) throw new Error(payload.error);
+    return payload.result ?? null;
+  } catch (error) {
+    if (error instanceof Error && error.name === 'AbortError') {
+      throw new Error(`Persistent database request timed out after ${REDIS_TIMEOUT_MS}ms`);
+    }
+    throw error;
+  } finally {
+    clearTimeout(timeout);
   }
-  const payload = await response.json() as { result?: unknown; error?: string };
-  if (payload.error) throw new Error(payload.error);
-  return payload.result ?? null;
 }
 
 function requireProductionPersistence() {
@@ -64,23 +82,34 @@ export async function initializeDb() {
   initializationPromise = (async () => {
     try {
       requireProductionPersistence();
+
       if (UPSTASH_URL && UPSTASH_TOKEN) {
         const remote = await redisCommand('get', [DB_KEY]);
         if (typeof remote === 'string' && remote.trim()) {
           const parsed = JSON.parse(remote);
-          if (parsed && Array.isArray(parsed.users)) db = parsed;
+          if (!parsed || !Array.isArray(parsed.users)) {
+            throw new Error('Persistent database contains an invalid schema.');
+          }
+          db = parsed;
         }
       } else {
         const local = readLocalDatabase();
         if (local) db = local;
       }
+
+      initialized = true;
     } catch (err) {
       console.error('Error initializing database:', err);
-      if (process.env.NODE_ENV === 'production') throw err;
-      const local = readLocalDatabase();
-      if (local) db = local;
+      if (process.env.NODE_ENV !== 'production') {
+        const local = readLocalDatabase();
+        if (local) {
+          db = local;
+          initialized = true;
+          return;
+        }
+      }
+      throw err;
     } finally {
-      initialized = true;
       initializationPromise = null;
     }
   })();
