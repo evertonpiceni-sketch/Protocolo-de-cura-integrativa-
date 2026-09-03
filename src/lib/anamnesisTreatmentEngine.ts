@@ -4,6 +4,7 @@
  */
 
 import { AnamnesisData, UserProfile } from '../types';
+import { THERAPEUTIC_DISCLAIMER } from './anamnesisResponse';
 
 export interface TreatmentRecommendation {
   category: 'saude_fisica' | 'prosperidade' | 'liberacao_emocional' | 'relacionamentos' | 'limpeza_espiritual' | 'outro';
@@ -37,6 +38,7 @@ export interface TreatmentRecommendation {
   whatsappUrl: string;
   recommendedFloral?: string;
   recommendedAromatherapy?: string;
+  therapeuticDisclaimer: string;
 }
 
 export function evaluateBestTreatmentFromAnamnesis(
@@ -295,7 +297,7 @@ export function evaluateBestTreatmentFromAnamnesis(
     `✨ *Reikis Prescritos:* ${prescribedReikis.map(r => r.name).join(', ')}\n\n` +
     `Gostaria de tirar dúvidas e dar início ao meu tratamento personalizado!\n\n` +
     `---\n` +
-    `_Nota Terapêutica: O Protocolo de Cura Integrada e as sugestões de Florais de Bach e Óleos Essenciais atuam como práticas integrativas e tratamentos complementares. Eles não substituem, sob nenhuma hipótese, o diagnóstico, tratamento ou acompanhamento médico, psiquiátrico ou psicológico tradicional._`;
+    `_${THERAPEUTIC_DISCLAIMER}_`;
 
   const waEncoded = encodeURIComponent(waMsgText);
   const whatsappUrl = `https://wa.me/5551982215296?text=${waEncoded}`;
@@ -321,6 +323,7 @@ export function evaluateBestTreatmentFromAnamnesis(
     customDecree,
     recommendedFloral,
     recommendedAromatherapy,
+    therapeuticDisclaimer: THERAPEUTIC_DISCLAIMER,
     whatsappMessage: waMsgText,
     whatsappUrl
   };
