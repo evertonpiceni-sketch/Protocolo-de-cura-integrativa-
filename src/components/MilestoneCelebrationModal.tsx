@@ -5,7 +5,7 @@
 
 import React from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { Crown, Sparkles, Heart, Flame, Shield, CheckCircle2, MessageCircle, X, Send, Award } from 'lucide-react';
+import { Crown, Sparkles, Heart, Flame, Shield, CheckCircle2, MessageCircle, X, Send, Award, Share2 } from 'lucide-react';
 import { UserProfile } from '../types';
 
 interface MilestoneCelebrationModalProps {
@@ -76,6 +76,22 @@ export default function MilestoneCelebrationModal({
     alert('Mensagem copiada para a área de transferência!');
   };
 
+  const handleShare = async () => {
+    if (navigator.share) {
+      try {
+        await navigator.share({
+          title: 'Protocolo de Cura Integrada',
+          text: `Acabo de completar a ${badgeText} do meu Protocolo de Cura!\n\n${subtitle}`,
+          url: window.location.origin
+        });
+      } catch (error) {
+        console.warn('Share error:', error);
+      }
+    } else {
+      copyToClipboard();
+    }
+  };
+
   return (
     <AnimatePresence>
       <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/85 backdrop-blur-md overflow-y-auto">
@@ -143,6 +159,14 @@ export default function MilestoneCelebrationModal({
               </button>
             )}
 
+            <button
+              type="button"
+              onClick={handleShare}
+              className="flex-1 py-3 px-4 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs flex items-center justify-center gap-2 transition cursor-pointer shadow-lg shadow-indigo-600/20 text-center"
+            >
+              <Share2 size={16} />
+              <span className="hidden sm:inline">Compartilhar</span>
+            </button>
             <a
               href={whatsappUrl}
               target="_blank"
@@ -150,7 +174,7 @@ export default function MilestoneCelebrationModal({
               className="flex-1 py-3 px-4 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs flex items-center justify-center gap-2 transition cursor-pointer shadow-lg shadow-emerald-600/20 text-center"
             >
               <MessageCircle size={16} />
-              <span>Enviar no WhatsApp</span>
+              <span className="hidden sm:inline">WhatsApp</span>
             </a>
 
             <button
@@ -159,7 +183,7 @@ export default function MilestoneCelebrationModal({
               className="py-3 px-4 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 font-semibold text-xs flex items-center justify-center gap-1.5 transition cursor-pointer border border-slate-700"
             >
               <Send size={14} />
-              <span>Copiar</span>
+              <span className="hidden sm:inline">Copiar</span>
             </button>
           </div>
         </motion.div>

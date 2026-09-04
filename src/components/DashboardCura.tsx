@@ -11,7 +11,7 @@ import {
   Tooltip,
   Legend,
 } from 'recharts';
-import { MessageSquare, Send, Activity, Info } from 'lucide-react';
+import { MessageSquare, Send, Activity, Info, Calendar } from 'lucide-react';
 
 interface DayData {
   dia: string;
@@ -216,6 +216,71 @@ export default function DashboardCura({ onClose, progress }: { onClose: () => vo
             <span style={{ fontSize: '12px', color: '#10B981', marginTop: '4px', display: 'block' }}>
               {completionRate}% de conclusão no período
             </span>
+          </div>
+        </div>
+
+        {/* Mapa de Calor (Heatmap) */}
+        <div style={{ backgroundColor: '#FFFFFF', padding: '24px', borderRadius: '12px', border: '1px solid #E2E8F0', boxShadow: '0 1px 3px rgba(0,0,0,0.05)', marginBottom: '24px' }}>
+          <h2 style={{ fontSize: '16px', fontWeight: 600, marginTop: 0, marginBottom: '20px', color: '#334155', display: 'flex', alignItems: 'center', gap: '8px' }}>
+            <Calendar className="text-emerald-500" size={18} />
+            Mapa de Calor: Bem-Estar e Humor (21 Dias)
+          </h2>
+          
+          <div className="flex flex-wrap gap-2 md:gap-3 items-center">
+            {Array.from({ length: 21 }, (_, i) => i + 1).map(dayNum => {
+              const dayProg = progress.find(p => p.dayNumber === dayNum);
+              const isCompleted = dayProg?.completed;
+              const mood = dayProg?.mood || dayProg?.afterFeeling?.mood;
+              
+              let bgColor = '#F1F5F9'; // slate-100 (pending)
+              let tooltipText = `Dia ${dayNum}: Pendente`;
+              
+              if (isCompleted) {
+                if (!mood) {
+                   bgColor = '#CBD5E1'; // slate-300
+                   tooltipText = `Dia ${dayNum}: Concluído (Sem registro de humor)`;
+                } else {
+                   if (mood === 1) bgColor = '#F43F5E';
+                   else if (mood === 2) bgColor = '#F97316';
+                   else if (mood === 3) bgColor = '#FBBF24';
+                   else if (mood === 4) bgColor = '#34D399';
+                   else if (mood === 5) bgColor = '#10B981';
+                   else bgColor = '#10B981';
+                   
+                   tooltipText = `Dia ${dayNum}: Bem-estar ${mood}/5`;
+                }
+              }
+              
+              return (
+                <div 
+                  key={dayNum}
+                  title={tooltipText}
+                  className="relative group cursor-pointer transition-transform hover:scale-110 flex items-center justify-center font-mono text-[10px] sm:text-xs text-slate-400 font-bold"
+                  style={{
+                    width: 'clamp(32px, 5vw, 44px)',
+                    height: 'clamp(32px, 5vw, 44px)',
+                    backgroundColor: bgColor,
+                    borderRadius: '8px',
+                    boxShadow: 'inset 0 2px 4px rgba(0,0,0,0.05)',
+                    color: isCompleted && mood ? '#FFFFFF' : '#94A3B8'
+                  }}
+                >
+                  {dayNum}
+                  <span className="absolute -top-8 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity bg-slate-800 text-white text-[10px] px-2 py-1 rounded whitespace-nowrap z-10 pointer-events-none">
+                    {tooltipText}
+                  </span>
+                </div>
+              );
+            })}
+          </div>
+          
+          <div className="mt-6 flex flex-wrap items-center gap-4 text-[11px] text-slate-500 font-medium border-t border-slate-100 pt-4">
+            <div className="flex items-center gap-1.5"><div className="w-3 h-3 rounded-sm bg-slate-100 border border-slate-200"></div> Pendente</div>
+            <div className="flex items-center gap-1.5"><div className="w-3 h-3 rounded-sm" style={{backgroundColor: '#F43F5E'}}></div> Muito Ruim</div>
+            <div className="flex items-center gap-1.5"><div className="w-3 h-3 rounded-sm" style={{backgroundColor: '#F97316'}}></div> Ruim</div>
+            <div className="flex items-center gap-1.5"><div className="w-3 h-3 rounded-sm" style={{backgroundColor: '#FBBF24'}}></div> Neutro</div>
+            <div className="flex items-center gap-1.5"><div className="w-3 h-3 rounded-sm" style={{backgroundColor: '#34D399'}}></div> Bom</div>
+            <div className="flex items-center gap-1.5"><div className="w-3 h-3 rounded-sm" style={{backgroundColor: '#10B981'}}></div> Excelente</div>
           </div>
         </div>
 

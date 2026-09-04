@@ -7,7 +7,7 @@ import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import {
   GitBranch, Sparkles, Check, Heart, X, ChevronLeft, ChevronRight,
-  BookOpen, Volume2, Share2, Copy, CheckCircle2, Shield, Calendar, Award, Download
+  BookOpen, Volume2, VolumeX, Share2, Copy, CheckCircle2, Shield, Calendar, Award, Download
 } from 'lucide-react';
 import { DayProgress, UserProfile, SystemicQuestionItem } from '../types';
 import { SYSTEMIC_QUESTIONS_21D } from '../lib/systemicData';
@@ -36,6 +36,53 @@ export default function SystemicQuestionsModal({
   const [isSavedRecently, setIsSavedRecently] = useState<boolean>(false);
   const [isReadingVoice, setIsReadingVoice] = useState<boolean>(false);
   const [copiedSentence, setCopiedSentence] = useState<boolean>(false);
+  const [is639HzActive, setIs639HzActive] = useState<boolean>(true);
+
+  // 639 Hz Solfeggio frequency: melhora a compreensão, tolerância e relações interpessoais enquanto o usuário responde
+  useEffect(() => {
+    if (!isOpen) return;
+
+    if (is639HzActive) {
+      audioEngine.unlock();
+      audioEngine.setBGVolume(0.38);
+      audioEngine.startBG('639hz');
+    } else {
+      if (audioEngine.getCurrentSynthType() === '639hz') {
+        audioEngine.stopBG();
+      }
+    }
+
+    return () => {
+      if (audioEngine.getCurrentSynthType() === '639hz') {
+        audioEngine.stopBG();
+        if (userProfile?.audioEnabled && userProfile?.bgMusicType && userProfile?.bgMusicType !== 'none' && userProfile?.bgMusicType !== '639hz') {
+          audioEngine.startBG(userProfile.bgMusicType);
+        }
+      }
+    };
+  }, [isOpen, is639HzActive, userProfile?.audioEnabled, userProfile?.bgMusicType]);
+
+  const handleToggle639 = () => {
+    if (is639HzActive) {
+      audioEngine.stopBG();
+      setIs639HzActive(false);
+    } else {
+      audioEngine.unlock();
+      audioEngine.setBGVolume(0.38);
+      audioEngine.startBG('639hz');
+      setIs639HzActive(true);
+    }
+  };
+
+  const handleCloseModal = () => {
+    if (audioEngine.getCurrentSynthType() === '639hz') {
+      audioEngine.stopBG();
+      if (userProfile?.audioEnabled && userProfile?.bgMusicType && userProfile?.bgMusicType !== 'none' && userProfile?.bgMusicType !== '639hz') {
+        audioEngine.startBG(userProfile.bgMusicType);
+      }
+    }
+    onClose();
+  };
 
   // Sync answer when activeDay changes
   useEffect(() => {
@@ -94,7 +141,7 @@ export default function SystemicQuestionsModal({
 
         {/* Close button */}
         <button
-          onClick={onClose}
+          onClick={handleCloseModal}
           className="absolute top-5 right-5 w-8 h-8 rounded-full bg-slate-800/80 border border-slate-700 text-slate-400 hover:text-slate-200 flex items-center justify-center transition cursor-pointer z-10"
         >
           <X size={16} />
@@ -113,6 +160,43 @@ export default function SystemicQuestionsModal({
             <p className="text-xs sm:text-sm text-slate-400 max-w-xl mx-auto">
               Perguntas terapêuticas diárias canalizadas para destravar nós inconscientes, honrar sua linhagem e liberar seu destino.
             </p>
+          </div>
+
+          {/* 639 Hz Frequency Banner: Melhora a compreensão, tolerância e relações interpessoais */}
+          <div className="p-3 rounded-2xl bg-gradient-to-r from-emerald-950/60 via-teal-950/40 to-slate-950 border border-emerald-500/30 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2.5">
+            <div className="flex items-center gap-2.5">
+              <div className="relative w-8 h-8 rounded-xl bg-emerald-500/20 border border-emerald-500/40 flex items-center justify-center text-emerald-300 shrink-0">
+                <Heart size={16} className={is639HzActive ? 'scale-110 text-emerald-400 animate-pulse' : 'opacity-60'} />
+                {is639HzActive && (
+                  <span className="absolute -top-1 -right-1 flex h-2.5 w-2.5">
+                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                    <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500"></span>
+                  </span>
+                )}
+              </div>
+              <div>
+                <div className="flex items-center gap-2">
+                  <span className="text-xs font-semibold text-emerald-300">Frequência Solfeggio 639 Hz Ativa</span>
+                  <span className="text-[10px] px-1.5 py-0.5 rounded-full bg-emerald-500/20 border border-emerald-500/30 text-emerald-300 font-mono">Chakra Cardíaco</span>
+                </div>
+                <p className="text-[11px] text-slate-300 leading-snug">
+                  639 Hz: Melhora a compreensão, tolerância e relações interpessoais enquanto você reflete e responde.
+                </p>
+              </div>
+            </div>
+
+            <button
+              type="button"
+              onClick={handleToggle639}
+              className={`px-3 py-1.5 rounded-xl text-xs font-medium flex items-center gap-1.5 transition cursor-pointer border shrink-0 self-end sm:self-center ${
+                is639HzActive
+                  ? 'bg-emerald-600/30 border-emerald-500/50 text-emerald-200 hover:bg-emerald-600/50'
+                  : 'bg-slate-800 border-slate-700 text-slate-400 hover:text-slate-200'
+              }`}
+            >
+              {is639HzActive ? <Volume2 size={13} className="text-emerald-400 animate-pulse" /> : <VolumeX size={13} />}
+              <span>{is639HzActive ? '639 Hz Ativo' : 'Ativar 639 Hz'}</span>
+            </button>
           </div>
 
           {/* Days selector bar */}

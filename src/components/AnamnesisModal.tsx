@@ -8,11 +8,12 @@ import { motion, AnimatePresence } from 'motion/react';
 import {
   Heart, Sparkles, X, Activity, Shield, Check, Flame,
   Sun, Moon, Brain, Compass, Printer, Edit3, ArrowRight,
-  ArrowLeft, CheckCircle2, AlertCircle, FileText, Zap, Radio, MessageSquare, Award, Volume2, Crown,
+  ArrowLeft, CheckCircle2, AlertCircle, FileText, Zap, Radio, MessageSquare, Award, Volume2, VolumeX, Crown,
   Loader2, Lock, Leaf, Play, Square, Send, ThumbsUp, Star
 } from 'lucide-react';
 import { UserProfile, AnamnesisData } from '../types';
 import { evaluateBestTreatmentFromAnamnesis } from '../lib/anamnesisTreatmentEngine';
+import { audioEngine } from '../lib/audio';
 
 interface AnamnesisModalProps {
   isOpen: boolean;
@@ -100,7 +101,57 @@ export default function AnamnesisModal({
   const [feedbackReaction, setFeedbackReaction] = useState<string | null>(null);
   const [feedbackComment, setFeedbackComment] = useState<string>('');
   const [feedbackSubmitted, setFeedbackSubmitted] = useState<boolean>(false);
+  const [is639HzActive, setIs639HzActive] = useState<boolean>(true);
   const audioPlayerRef = React.useRef<HTMLAudioElement | null>(null);
+
+  // Manage 639Hz Solfeggio frequency: melhora a compreensão, tolerância e relações interpessoais enquanto o usuário escolhe as respostas
+  React.useEffect(() => {
+    if (!isOpen) {
+      return;
+    }
+
+    if (isEditing && is639HzActive) {
+      audioEngine.unlock();
+      audioEngine.setBGVolume(0.40);
+      audioEngine.startBG('639hz');
+    } else {
+      if (audioEngine.getCurrentSynthType() === '639hz') {
+        audioEngine.stopBG();
+      }
+    }
+
+    return () => {
+      if (audioEngine.getCurrentSynthType() === '639hz') {
+        audioEngine.stopBG();
+        if (userProfile.audioEnabled && userProfile.bgMusicType && userProfile.bgMusicType !== 'none' && userProfile.bgMusicType !== '639hz') {
+          audioEngine.startBG(userProfile.bgMusicType);
+        }
+      }
+    };
+  }, [isOpen, isEditing, is639HzActive, userProfile.audioEnabled, userProfile.bgMusicType]);
+
+  const handleToggle639Hz = () => {
+    if (is639HzActive) {
+      audioEngine.stopBG();
+      setIs639HzActive(false);
+    } else {
+      audioEngine.unlock();
+      audioEngine.setBGVolume(0.40);
+      audioEngine.startBG('639hz');
+      setIs639HzActive(true);
+    }
+  };
+
+  const handleCloseModal = () => {
+    stopTherapeuticVoice();
+    if (audioEngine.getCurrentSynthType() === '639hz') {
+      audioEngine.stopBG();
+      if (userProfile.audioEnabled && userProfile.bgMusicType && userProfile.bgMusicType !== 'none' && userProfile.bgMusicType !== '639hz') {
+        audioEngine.startBG(userProfile.bgMusicType);
+      }
+    }
+    onClose();
+  };
 
   const stopTherapeuticVoice = () => {
     if (audioPlayerRef.current) {
@@ -218,6 +269,11 @@ export default function AnamnesisModal({
   if (!isOpen) return null;
 
   const toggleItem = (list: string[], setList: React.Dispatch<React.SetStateAction<string[]>>, item: string) => {
+    audioEngine.unlock();
+    audioEngine.playHeartSelectionChime();
+    if (is639HzActive && audioEngine.getCurrentSynthType() !== '639hz') {
+      audioEngine.startBG('639hz');
+    }
     if (list.includes(item)) {
       setList(list.filter(i => i !== item));
     } else {
@@ -299,6 +355,12 @@ export default function AnamnesisModal({
       };
 
       onSaveAnamnesis(newAnamnesis);
+      if (audioEngine.getCurrentSynthType() === '639hz') {
+        audioEngine.stopBG();
+        if (userProfile.audioEnabled && userProfile.bgMusicType && userProfile.bgMusicType !== 'none' && userProfile.bgMusicType !== '639hz') {
+          audioEngine.startBG(userProfile.bgMusicType);
+        }
+      }
       setIsEditing(false);
     } catch (err) {
       console.warn("Anamnese via API fallback para engine local:", err);
@@ -319,6 +381,12 @@ export default function AnamnesisModal({
         customDecree: customDecreeText
       };
       onSaveAnamnesis(newAnamnesis);
+      if (audioEngine.getCurrentSynthType() === '639hz') {
+        audioEngine.stopBG();
+        if (userProfile.audioEnabled && userProfile.bgMusicType && userProfile.bgMusicType !== 'none' && userProfile.bgMusicType !== '639hz') {
+          audioEngine.startBG(userProfile.bgMusicType);
+        }
+      }
       setIsEditing(false);
     } finally {
       setIsProcessingAi(false);
@@ -339,7 +407,7 @@ export default function AnamnesisModal({
 
         {/* Close Button */}
         <button
-          onClick={onClose}
+          onClick={handleCloseModal}
           className="absolute top-5 right-5 w-8 h-8 rounded-full bg-slate-800/80 border border-slate-700 text-slate-400 hover:text-slate-200 flex items-center justify-center transition cursor-pointer z-10 print:hidden"
         >
           <X size={16} />
@@ -933,6 +1001,43 @@ export default function AnamnesisModal({
               />
             </div>
 
+            {/* 639 Hz Frequency Banner: Melhora a compreensão, tolerância e relações interpessoais */}
+            <div className="p-3 rounded-2xl bg-gradient-to-r from-emerald-950/60 via-teal-950/40 to-slate-950 border border-emerald-500/30 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2.5">
+              <div className="flex items-center gap-2.5">
+                <div className="relative w-8 h-8 rounded-xl bg-emerald-500/20 border border-emerald-500/40 flex items-center justify-center text-emerald-300 shrink-0">
+                  <Heart size={16} className={is639HzActive ? 'scale-110 text-emerald-400 animate-pulse' : 'opacity-60'} />
+                  {is639HzActive && (
+                    <span className="absolute -top-1 -right-1 flex h-2.5 w-2.5">
+                      <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                      <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500"></span>
+                    </span>
+                  )}
+                </div>
+                <div>
+                  <div className="flex items-center gap-2">
+                    <span className="text-xs font-semibold text-emerald-300">Frequência Solfeggio 639 Hz Ativa</span>
+                    <span className="text-[10px] px-1.5 py-0.5 rounded-full bg-emerald-500/20 border border-emerald-500/30 text-emerald-300 font-mono">Chakra Cardíaco</span>
+                  </div>
+                  <p className="text-[11px] text-slate-300 leading-snug">
+                    639 Hz: Melhora a compreensão, tolerância e relações interpessoais enquanto você responde a esta anamnese.
+                  </p>
+                </div>
+              </div>
+
+              <button
+                type="button"
+                onClick={handleToggle639Hz}
+                className={`px-3 py-1.5 rounded-xl text-xs font-medium flex items-center gap-1.5 transition cursor-pointer border shrink-0 self-end sm:self-center ${
+                  is639HzActive
+                    ? 'bg-emerald-600/30 border-emerald-500/50 text-emerald-200 hover:bg-emerald-600/50'
+                    : 'bg-slate-800 border-slate-700 text-slate-400 hover:text-slate-200'
+                }`}
+              >
+                {is639HzActive ? <Volume2 size={13} className="text-emerald-400 animate-pulse" /> : <VolumeX size={13} />}
+                <span>{is639HzActive ? '639 Hz Ativo' : 'Ativar 639 Hz'}</span>
+              </button>
+            </div>
+
             {/* STEP 1: Main Complaints */}
             {currentStep === 1 && (
               <div className="space-y-4">
@@ -994,7 +1099,14 @@ export default function AnamnesisModal({
                     min="1"
                     max="10"
                     value={stressLevel}
-                    onChange={(e) => setStressLevel(parseInt(e.target.value))}
+                    onChange={(e) => {
+                      audioEngine.unlock();
+                      audioEngine.playHeartSelectionChime();
+                      if (is639HzActive && audioEngine.getCurrentSynthType() !== '639hz') {
+                        audioEngine.startBG('639hz');
+                      }
+                      setStressLevel(parseInt(e.target.value));
+                    }}
                     className="w-full h-2 bg-slate-900 rounded-lg appearance-none cursor-pointer accent-indigo-500 focus:outline-none"
                   />
                   <div className="flex justify-between text-[10px] text-slate-500 font-mono">
@@ -1012,7 +1124,14 @@ export default function AnamnesisModal({
                       <button
                         key={q}
                         type="button"
-                        onClick={() => setSleepQuality(q)}
+                        onClick={() => {
+                          audioEngine.unlock();
+                          audioEngine.playHeartSelectionChime();
+                          if (is639HzActive && audioEngine.getCurrentSynthType() !== '639hz') {
+                            audioEngine.startBG('639hz');
+                          }
+                          setSleepQuality(q);
+                        }}
                         className={`py-2 px-1 rounded-xl text-xs font-medium capitalize border text-center transition cursor-pointer ${
                           sleepQuality === q
                             ? 'bg-indigo-600/30 border-indigo-500 text-indigo-200'
@@ -1108,7 +1227,14 @@ export default function AnamnesisModal({
                       <button
                         key={g}
                         type="button"
-                        onClick={() => setPrimaryGoal(g)}
+                        onClick={() => {
+                          audioEngine.unlock();
+                          audioEngine.playHeartSelectionChime();
+                          if (is639HzActive && audioEngine.getCurrentSynthType() !== '639hz') {
+                            audioEngine.startBG('639hz');
+                          }
+                          setPrimaryGoal(g);
+                        }}
                         className={`w-full p-3 rounded-2xl border text-left text-xs font-medium transition cursor-pointer flex items-center justify-between ${
                           primaryGoal === g
                             ? 'bg-indigo-950/60 border-indigo-500 text-indigo-200'
@@ -1135,7 +1261,14 @@ export default function AnamnesisModal({
                       <button
                         key={t.id}
                         type="button"
-                        onClick={() => setDailyTimeAvailable(t.id as any)}
+                        onClick={() => {
+                          audioEngine.unlock();
+                          audioEngine.playHeartSelectionChime();
+                          if (is639HzActive && audioEngine.getCurrentSynthType() !== '639hz') {
+                            audioEngine.startBG('639hz');
+                          }
+                          setDailyTimeAvailable(t.id as any);
+                        }}
                         className={`p-3 rounded-2xl border text-center transition cursor-pointer ${
                           dailyTimeAvailable === t.id
                             ? 'bg-indigo-600/30 border-indigo-500 text-indigo-200'

@@ -7,7 +7,7 @@ import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import {
   Shield, Flame, Volume2, VolumeX, Play, Pause, RotateCcw,
-  CheckCircle2, X, Sparkles, Copy, Check, Calendar, Sun, Moon
+  CheckCircle2, X, Sparkles, Copy, Check, Calendar, Sun, Moon, Flower2
 } from 'lucide-react';
 import { ARCHANGEL_MICHAEL_PRAYER_FULL, ARCHANGEL_MICHAEL_FULL_TEXT } from '../data/archangel_prayer';
 import { audioEngine } from '../lib/audio';
@@ -180,11 +180,11 @@ export default function ArchangelMichaelPrayerModal({
                   className={`h-6 rounded-md flex items-center justify-center text-[10px] font-mono transition ${
                     isDone
                       ? 'bg-blue-600 text-white font-bold shadow-sm shadow-blue-500/30'
-                      : 'bg-slate-900 border border-slate-800 text-slate-500'
+                      : 'bg-slate-900 border border-slate-800 text-slate-500 hover:text-slate-400'
                   }`}
                   title={`Dia ${day} ${isDone ? '(Concluído)' : '(Pendente)'}`}
                 >
-                  {day}
+                  {isDone ? <Flower2 size={12} className="text-white drop-shadow-sm animate-pulse" /> : <Flower2 size={12} className="opacity-30" />}
                 </div>
               );
             })}

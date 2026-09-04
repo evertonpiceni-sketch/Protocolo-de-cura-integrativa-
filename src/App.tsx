@@ -49,7 +49,7 @@ import { localNotificationManager } from './lib/notifications';
 const LOCAL_STORAGE_KEY_CURRENT_LOGIN = 'cura_integrada_logged_in_user_v1';
 const LOCAL_STORAGE_KEY_ACCOUNTS = 'cura_integrada_accounts_v1';
 
-const BG_TRACKS: Record<'396hz' | '528hz' | '432hz' | 'waves', string[]> = {
+const BG_TRACKS: Record<string, string[]> = {
   '396hz': [
     'https://upload.wikimedia.org/wikipedia/commons/f/fc/Ethereal_Ether_%28ambient_synthesizer_music_by_Z8Phyr%29.mp3',
     'https://upload.wikimedia.org/wikipedia/commons/1/1d/Stargazing_%28ambient_synthesizer_music_by_Z8Phyr%29.mp3'
@@ -61,6 +61,10 @@ const BG_TRACKS: Record<'396hz' | '528hz' | '432hz' | 'waves', string[]> = {
   '432hz': [
     'https://upload.wikimedia.org/wikipedia/commons/2/23/Warm_Aura_%28ambient_synthesizer_music_by_Z8Phyr%29.mp3',
     'https://upload.wikimedia.org/wikipedia/commons/e/e5/Gymnop%C3%A9die_No._1_-_Satie_-_performed_by_La_Tempesta.mp3'
+  ],
+  '417hz': [
+    'https://upload.wikimedia.org/wikipedia/commons/2/23/Warm_Aura_%28ambient_synthesizer_music_by_Z8Phyr%29.mp3',
+    'https://upload.wikimedia.org/wikipedia/commons/1/1d/Stargazing_%28ambient_synthesizer_music_by_Z8Phyr%29.mp3'
   ],
   'waves': [
     'https://upload.wikimedia.org/wikipedia/commons/1/1d/Stargazing_%28ambient_synthesizer_music_by_Z8Phyr%29.mp3',
@@ -492,7 +496,7 @@ export default function App() {
   };
 
   // Toggle user audio configuration options
-  const handleSettingsUpdate = (bgType: '528hz' | '432hz' | 'waves' | 'none') => {
+  const handleSettingsUpdate = (bgType: UserProfile['bgMusicType']) => {
     if (userProfile) {
       saveProfile({
         ...userProfile,

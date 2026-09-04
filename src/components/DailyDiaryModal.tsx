@@ -53,17 +53,61 @@ export default function DailyDiaryModal({
 
   const completedCount = progress.filter(p => p.completed).length;
 
+  const [isPurifying, setIsPurifying] = useState(false);
+  const [purifyMessage, setPurifyMessage] = useState<{ title: string; text: string } | null>(null);
+
   const handleStartEdit = () => {
     setEditingDayText(currentDayProgress?.journalText || currentDayProgress?.afterFeeling?.notes || '');
     setEditingMood(currentDayProgress?.afterFeeling?.mood || currentDayProgress?.mood || 5);
     setIsEditing(true);
   };
 
-  const handleSaveDayJournal = () => {
-    saveEntryHandler(activeDay, editingDayText.trim(), editingMood);
-    setIsEditing(false);
-    setSaveSuccessMsg(true);
-    setTimeout(() => setSaveSuccessMsg(false), 2500);
+  const handleSaveDayJournal = async () => {
+    const rawText = editingDayText.trim();
+    if (!rawText) {
+      saveEntryHandler(activeDay, "", editingMood);
+      setIsEditing(false);
+      setSaveSuccessMsg(true);
+      setTimeout(() => setSaveSuccessMsg(false), 2500);
+      return;
+    }
+
+    setIsPurifying(true);
+    let finalJournalText = rawText;
+    
+    try {
+      const token = localStorage.getItem("token");
+      if (token) {
+        const response = await fetch("/api/diary/purify", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${token}`
+          },
+          body: JSON.stringify({ text: rawText })
+        });
+        
+        if (response.ok) {
+          const data = await response.json();
+          if (data.status === "purificado_chama_violeta") {
+            finalJournalText = data.cleansedText;
+            setPurifyMessage({
+              title: "Transmutação Concluída 💜",
+              text: data.empoweringMessage
+            });
+            setTimeout(() => setPurifyMessage(null), 8000);
+          }
+        }
+      }
+    } catch (err) {
+      console.warn("Erro ao purificar o diário:", err);
+    } finally {
+      setIsPurifying(false);
+      saveEntryHandler(activeDay, finalJournalText, editingMood);
+      setIsEditing(false);
+      setSaveSuccessMsg(true);
+      setTimeout(() => setSaveSuccessMsg(false), 2500);
+    }
   };
 
   const handleSaveExpectations = () => {
@@ -413,6 +457,17 @@ export default function DailyDiaryModal({
               )}
             </div>
 
+            {purifyMessage && (
+              <motion.div
+                initial={{ opacity: 0, y: -10 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="p-3 bg-fuchsia-950/40 border border-fuchsia-500/50 rounded-xl space-y-1"
+              >
+                <div className="text-xs font-bold text-fuchsia-300">{purifyMessage.title}</div>
+                <div className="text-xs text-fuchsia-200">{purifyMessage.text}</div>
+              </motion.div>
+            )}
+
             {isEditing ? (
               <div className="space-y-3">
                 <textarea
@@ -420,16 +475,18 @@ export default function DailyDiaryModal({
                   value={editingDayText}
                   onChange={(e) => setEditingDayText(e.target.value)}
                   placeholder="Escreva suas percepções, sonhos, pensamentos e transformações deste dia..."
-                  className="w-full bg-slate-900 border border-indigo-500/50 text-slate-100 rounded-xl p-3 text-xs outline-none focus:ring-1 focus:ring-indigo-400 leading-relaxed"
+                  disabled={isPurifying}
+                  className="w-full bg-slate-900 border border-indigo-500/50 text-slate-100 rounded-xl p-3 text-xs outline-none focus:ring-1 focus:ring-indigo-400 leading-relaxed disabled:opacity-50"
                 />
 
-                <div className="flex items-center justify-between">
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
                   <div className="flex items-center gap-2 text-xs text-slate-400">
                     <span>Humor Geral:</span>
                     <select
                       value={editingMood}
                       onChange={(e) => setEditingMood(parseInt(e.target.value))}
-                      className="bg-slate-900 border border-slate-800 text-slate-200 text-xs rounded-lg px-2 py-1"
+                      disabled={isPurifying}
+                      className="bg-slate-900 border border-slate-800 text-slate-200 text-xs rounded-lg px-2 py-1 disabled:opacity-50"
                     >
                       <option value={1}>1 - Pesado</option>
                       <option value={2}>2 - Inquieto</option>
@@ -443,16 +500,25 @@ export default function DailyDiaryModal({
                     <button
                       type="button"
                       onClick={() => setIsEditing(false)}
-                      className="px-3 py-1.5 bg-slate-800 text-slate-300 rounded-xl text-xs"
+                      disabled={isPurifying}
+                      className="px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-xl text-xs disabled:opacity-50"
                     >
                       Cancelar
                     </button>
                     <button
                       type="button"
                       onClick={handleSaveDayJournal}
-                      className="px-4 py-1.5 bg-indigo-600 hover:bg-indigo-500 text-white rounded-xl text-xs font-semibold"
+                      disabled={isPurifying}
+                      className="px-4 py-1.5 bg-indigo-600 hover:bg-indigo-500 text-white rounded-xl text-xs font-semibold flex items-center gap-1.5 disabled:opacity-50"
                     >
-                      Salvar Diário
+                      {isPurifying ? (
+                        <>
+                          <div className="w-3 h-3 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                          <span>Transmutando...</span>
+                        </>
+                      ) : (
+                        <span>Salvar Diário</span>
+                      )}
                     </button>
                   </div>
                 </div>

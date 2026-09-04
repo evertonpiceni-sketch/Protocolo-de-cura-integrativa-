@@ -40,7 +40,8 @@ export default function ProReportCertificateModal({
     year: 'numeric'
   });
 
-  const authCode = `CIP-${Math.abs(userProfile.login.split('').reduce((a, b) => ((a << 5) - a) + b.charCodeAt(0), 0)).toString(16).toUpperCase()}-2026`;
+  const authString = userProfile.login || userProfile.email || userProfile.name || 'guest';
+  const authCode = `CIP-${Math.abs(authString.split('').reduce((a, b) => ((a << 5) - a) + b.charCodeAt(0), 0)).toString(16).toUpperCase()}-2026`;
 
   const handlePrint = () => {
     window.print();
@@ -178,7 +179,7 @@ export default function ProReportCertificateModal({
                 <div className="p-3 rounded-xl bg-slate-900 border border-slate-800 text-center">
                   <span className="text-[10px] font-mono text-slate-400 uppercase block">Sequência Atual</span>
                   <span className="text-xl font-bold text-amber-400 mt-1 block">
-                    {userProfile.currentStreak} dias
+                    {userProfile.currentStreak || 0} dias
                   </span>
                 </div>
                 <div className="p-3 rounded-xl bg-slate-900 border border-slate-800 text-center">

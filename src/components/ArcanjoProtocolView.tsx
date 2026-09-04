@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { UserProfile } from '../types';
-import { Shield, Sparkles, Volume2, Square, RefreshCw, ClipboardList } from 'lucide-react';
+import { Shield, Sparkles, Volume2, Square, RefreshCw, ClipboardList, Flower2 } from 'lucide-react';
 
 interface ArcanjoProtocolViewProps {
   userProfile: UserProfile;
@@ -271,8 +271,7 @@ export default function ArcanjoProtocolView({ userProfile, onLogout }: ArcanjoPr
                       'border-slate-800 bg-slate-950 text-slate-500 hover:border-slate-700'
                     }`}
                   >
-                    <span>Dia {d}</span>
-                    {isCompleted && <Sparkles size={12} className="text-emerald-400" />}
+                    {isCompleted ? <Flower2 size={16} className="text-emerald-400 drop-shadow-sm animate-pulse" /> : <Flower2 size={16} className="opacity-30" />}
                   </button>
                 );
               })}

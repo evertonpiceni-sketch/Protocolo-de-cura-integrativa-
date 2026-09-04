@@ -225,6 +225,9 @@ class CalmingAudioEngine {
         } else if (type === '432hz') {
           beatFreq = 5; // Theta waves for Deep Trance/Trauma release (5Hz)
           centerFreq = 432;
+        } else if (type === '639hz') {
+          beatFreq = 7.83; // Ressonância Cardíaca / Schumann Alpha (7.83Hz - Harmonia, compreensão e tolerância)
+          centerFreq = 639;
         }
 
         if (beatFreq > 0) {
@@ -543,6 +546,46 @@ class CalmingAudioEngine {
     this.synthType = 'none';
     if (this.bgAudio) {
       this.bgAudio.pause();
+    }
+  }
+
+  public getCurrentSynthType(): string {
+    return this.synthType;
+  }
+
+  public isBackgroundActive(): boolean {
+    return this.synthActive;
+  }
+
+  /**
+   * Subtle celestial micro-chime tuned to the 639Hz heart chakra note when selecting answers
+   */
+  public playHeartSelectionChime() {
+    try {
+      this.initCtx();
+      if (!this.ctx) return;
+      const now = this.ctx.currentTime;
+      const osc = this.ctx.createOscillator();
+      const gain = this.ctx.createGain();
+
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(639, now);
+      osc.frequency.exponentialRampToValueAtTime(1278, now + 0.16);
+
+      gain.gain.setValueAtTime(0.045, now);
+      gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.32);
+
+      osc.connect(gain);
+      if (this.mainGain) {
+        gain.connect(this.mainGain);
+      } else {
+        gain.connect(this.ctx.destination);
+      }
+
+      osc.start(now);
+      osc.stop(now + 0.33);
+    } catch {
+      // AudioContext might be uninitialized before interaction
     }
   }
 
