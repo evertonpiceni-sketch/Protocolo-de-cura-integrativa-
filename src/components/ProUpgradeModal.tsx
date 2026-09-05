@@ -3,14 +3,9 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import React, { useState } from 'react';
-import { motion, AnimatePresence } from 'motion/react';
-import {
-  Crown, Sparkles, Check, ShieldCheck, X, Zap, Heart,
-  Award, QrCode, CreditCard, Copy, CheckCircle2, Star, Download, Radio, MessageSquare, Clock, Landmark, Tag, Percent, Trash2
-} from 'lucide-react';
+import React, { useMemo, useState } from 'react';
+import { Check, ChevronDown, Crown, Sparkles, X, Tag, ShieldCheck } from 'lucide-react';
 import { UserProfile, SubscriptionPlanType } from '../types';
-import peacefulImage from '../assets/images/peaceful_serene_sanctuary_1786776416902.jpg';
 
 interface ProUpgradeModalProps {
   isOpen: boolean;
@@ -20,820 +15,254 @@ interface ProUpgradeModalProps {
   onOpenContact?: () => void;
 }
 
-const PAID_SUBSCRIPTION_PLANS: {
+type PlanItem = {
   id: SubscriptionPlanType;
   title: string;
+  price: number;
+  period: string;
   badge?: string;
-  badgeColor?: string;
-  priceFormatted: string;
-  priceNumber: number;
-  periodText: string;
-  description: string;
   highlight?: boolean;
-  compreende: string[];
-}[] = [
-{
-    id: 'arcanjo_7d',
-    title: 'Protocolo São Miguel, Rafael e Chama Violeta',
-    badge: '7 Chakras Divinos',
-    badgeColor: 'bg-violet-500 text-white font-bold',
-    priceFormatted: 'R$ 29,90',
-    priceNumber: 29.90,
-    periodText: 'acesso 7 dias',
-    description: 'Protocolo de Cura Arcanjo São Miguel, Raio de Ouro de São Rafael e Chama Violeta.',
-    compreende: [
-      'Alinhamento exato de 1 Chakra por dia (Cores, Nomes e Frequências)',
-      'Limpeza com Raio de Ouro de São Rafael',
-      'Transmutação profunda com a Chama Violeta',
-      'Proteção Divina de São Miguel Arcanjo'
-    ]
-  },
+  summary: string[];
+  details: string[];
+};
+
+const PRO_COMMON = [
+  'Anamnese energética a cada 7 dias',
+  'Reiki e frequência Solfeggio personalizados após a anamnese',
+  'Florais de Bach e Aromaterapia personalizados após a anamnese',
+  'Diário antes e depois do tratamento + evolução do humor',
+  'Acesso às Jornadas de 7 e 21 dias',
+  'Protocolo de Cura Integrada de 21 Dias com suas práticas energéticas',
+  'Conteúdos e recursos exclusivos PRO'
+];
+
+const PLANS: PlanItem[] = [
   {
     id: 'jornada_7d',
     title: 'Jornada 7 Dias',
-    badge: 'Iniciação Quântica',
-    badgeColor: 'bg-emerald-500 text-slate-950 font-bold',
-    priceFormatted: 'R$ 15,00',
-    priceNumber: 15.00,
-    periodText: 'acesso 7 dias',
-    description: 'Jornada intensiva de 7 dias focada no alinhamento profundo dos 7 centros energéticos.',
-    compreende: [
-      'Acesso completo à Nova Jornada de 7 Dias (dos 7 Chakras)',
-      'Todas as frequências Solfeggio específicas (396Hz a 963Hz)',
-      'Sons de fundo imersivos de floresta zen, chuva e ondas',
-      'Diário de bordo quântico para anotações diárias',
-      'Certificado Oficial de Conclusão da Jornada de 7 Dias'
+    price: 15,
+    period: 'acesso 7 dias',
+    badge: 'Jornada avulsa',
+    summary: ['7 chakras', 'Frequências Solfeggio', 'Diário da jornada'],
+    details: [
+      'Alinhamento dos 7 chakras, um por dia',
+      'Frequências Solfeggio específicas',
+      'Sons imersivos e diário de bordo',
+      'Certificado de conclusão'
+    ]
+  },
+  {
+    id: 'arcanjo_7d',
+    title: 'São Miguel, Rafael e Chama Violeta',
+    price: 29.9,
+    period: 'acesso 7 dias',
+    badge: 'Protocolo avulso',
+    summary: ['7 Chakras Divinos', 'Proteção', 'Transmutação'],
+    details: [
+      'Alinhamento de 1 chakra por dia',
+      'Raio de Ouro de São Rafael',
+      'Chama Violeta para transmutação',
+      'Proteção de São Miguel Arcanjo'
     ]
   },
   {
     id: 'mensal',
-    title: 'Plano Pro Mensal',
-    badge: 'Acesso Completo',
-    badgeColor: 'bg-indigo-500 text-white font-bold',
-    priceFormatted: 'R$ 39,90',
-    priceNumber: 39.90,
-    periodText: '/ mês',
-    description: 'Acesso contínuo às jornadas de 7 e 21 dias com relatórios quânticos e suporte.',
-    compreende: [
-      'Acesso ilimitado às Jornadas de 7 e 21 Dias',
-      'Todas as 9 frequências Solfeggio e sons imersivos de fundo',
-      'Relatório quântico de evolução emocional e gráfico de humor',
-      'Diário de bordo com histórico e sincronização de streaks',
-      'Suporte humanizado no WhatsApp com Éverton Rodrigo Piceni'
-    ]
+    title: 'PRO Mensal',
+    price: 39.9,
+    period: '/ mês',
+    summary: ['PRO completo', 'Anamnese a cada 7 dias', 'Diário de evolução'],
+    details: [...PRO_COMMON]
   },
   {
     id: 'trimestral',
-    title: 'Plano Pro Trimestral',
-    badge: 'Tratamento 7d Incluso!',
-    badgeColor: 'bg-amber-400 text-slate-950 font-bold',
-    priceFormatted: 'R$ 69,90',
-    priceNumber: 69.90,
-    periodText: 'por 3 meses',
-    description: '3 meses de purificação contínua + Direito a 1 Tratamento Específico de 7 Dias com Éverton Piceni.',
-    highlight: true,
-    compreende: [
-      '✨ DIREITO A 1 TRATAMENTO ESPECÍFICO DE 7 DIAS INCLUSO',
-      'Acesso Pro irrestrito por 90 dias a todas as jornadas (7 e 21 dias)',
-      'Alinhamento dos 7 Chakras e desbloqueio vibracional contínuo',
-      'Emissão de Certificados Oficiais nominais de conclusão',
-      'Atendimento e acolhimento prioritário no WhatsApp'
-    ]
+    title: 'PRO Trimestral',
+    price: 69.9,
+    period: '/ 3 meses',
+    badge: 'Tratamento 7d incluso',
+    summary: ['PRO completo', '1 tratamento específico de 7 dias', 'Jornadas exclusivas'],
+    details: [...PRO_COMMON, '1 tratamento específico de 7 dias incluso', 'Atendimento prioritário']
   },
   {
     id: 'semestral',
-    title: 'Plano Pro Semestral',
-    badge: '1 Áudio 7d Incluso!',
-    badgeColor: 'bg-purple-500 text-white font-bold',
-    priceFormatted: 'R$ 99,90',
-    priceNumber: 99.90,
-    periodText: 'por 6 meses',
-    description: '6 meses de alinhamento inabalável + Direito a 1 Áudio Canalizado exclusivo de 7 dias.',
-    compreende: [
-      '✨ DIREITO A 1 ÁUDIO PERSONALIZADO DE 7 DIAS INCLUSO',
-      'Acesso Pro irrestrito por 180 dias a todas as ferramentas e jornadas',
-      'Relatório quântico avançado e acompanhamento de longo prazo',
-      'Certificados Oficiais de Conclusão Quântica',
-      'Canal VIP direto com o terapeuta Éverton Piceni'
-    ]
+    title: 'PRO Semestral',
+    price: 99.9,
+    period: '/ 6 meses',
+    badge: 'Benefício especial',
+    summary: ['PRO completo', '1 áudio personalizado de 7 dias', 'Mapa OU Numerologia completa'],
+    details: [...PRO_COMMON, '1 áudio personalizado de 7 dias', 'Escolha 1: Mapa Astral Completo OU Numerologia Completa']
   },
   {
     id: 'anual',
-    title: 'Acesso Anual Pro (Master)',
-    badge: '2 Áudios Inclusos!',
-    badgeColor: 'bg-cyan-400 text-slate-950 font-bold',
-    priceFormatted: 'R$ 159,90',
-    priceNumber: 197.00,
-    periodText: 'por ano',
-    description: 'Acesso anual + 1 Áudio de 7 dias + 1 Áudio de livre escolha inclusos.',
-    compreende: [
-      '✨ DIREITO A 1 ÁUDIO DE 7 DIAS + 1 ÁUDIO DE LIVRE ESCOLHA INCLUSOS',
-      'Acesso anual',
-      'Todas as jornadas (7 Dias, 21 Dias e futuras expansões)',
-      'Todas as frequências Solfeggio, músicas 8D e canalizações futuras',
-      'Emissão de Certificado Oficial de Mestre Consciencial',
-      'Canal VIP permanente com o terapeuta Éverton Rodrigo Piceni'
-    ]
+    title: 'PRO Anual',
+    price: 149.9,
+    period: '/ ano',
+    badge: 'Melhor economia',
+    summary: ['PRO por 12 meses', 'Mapa OU Numerologia completa', 'Histórico preservado'],
+    details: [...PRO_COMMON, 'Escolha 1: Mapa Astral Completo OU Numerologia Completa', 'Acesso PRO por 12 meses']
+  },
+  {
+    id: 'anual_master' as SubscriptionPlanType,
+    title: 'PRO Anual Master',
+    price: 197,
+    period: '/ ano',
+    badge: 'Mais completo',
+    highlight: true,
+    summary: ['Mapa Astral Completo', 'Numerologia Completa', '1 curso elegível gratuito'],
+    details: [...PRO_COMMON, 'Mapa Astral Completo', 'Numerologia Completa', '1 curso elegível gratuito', 'Acesso PRO por 12 meses']
   }
 ];
 
-const DEGUSTACAO_PLAN_ITEM = {
-  id: 'teste_vip_7d' as SubscriptionPlanType,
-  title: 'Degustação VIP 7 Dias (Cupom)',
-  badge: '100% Grátis com Cupom',
-  badgeColor: 'bg-emerald-500 text-slate-950 font-bold',
-  priceFormatted: 'R$ 0,00',
-  priceNumber: 0.00,
-  periodText: '/ 7 dias grátis',
-  description: 'Degustação liberada através de cupom exclusivo fornecido pelo terapeuta Éverton Piceni.',
-  highlight: true,
-  compreende: [
-    'Acesso Pro de degustação por 7 dias ao Protocolo de Cura',
-    'Frequências Solfeggio e sons imersivos liberados',
-    'Diário de bordo quântico e Perguntas Sistêmicas',
-    'Ativação imediata gratuita concedida com sucesso'
-  ]
+const COUPONS: Record<string, { discount: number; vip?: boolean }> = {
+  PROMO15: { discount: 15 },
+  PROMO20: { discount: 20 },
+  VIP7: { discount: 100, vip: true }
 };
 
-export default function ProUpgradeModal({
-  isOpen,
-  onClose,
-  userProfile,
-  onUpgradeSuccess,
-  onOpenContact
-}: ProUpgradeModalProps) {
-  const containerRef = React.useRef<HTMLDivElement>(null);
-  const [selectedPlanId, setSelectedPlanId] = useState<SubscriptionPlanType>('trimestral');
-  const [isCustomPrice, setIsCustomPrice] = useState(false);
-  const [customPriceInput, setCustomPriceInput] = useState('69,90');
-  const [paymentMethod, setPaymentMethod] = useState<'pix' | 'credit' | 'debit'>('pix');
-  const [isProcessing, setIsProcessing] = useState(false);
-  const [isSuccess, setIsSuccess] = useState(false);
-  const [copiedPix, setCopiedPix] = useState(false);
+const money = (value: number) => `R$ ${value.toFixed(2).replace('.', ',')}`;
 
-  // Discount coupon state
-  const [couponInput, setCouponInput] = useState('');
+export default function ProUpgradeModal({ isOpen, onClose, onUpgradeSuccess }: ProUpgradeModalProps) {
+  const [selectedId, setSelectedId] = useState<SubscriptionPlanType>('trimestral');
+  const [expandedId, setExpandedId] = useState<SubscriptionPlanType | null>(null);
+  const [coupon, setCoupon] = useState('');
   const [appliedCoupon, setAppliedCoupon] = useState<string | null>(null);
-  const [discountPercent, setDiscountPercent] = useState<number>(0);
-  const [couponFeedback, setCouponFeedback] = useState<{ type: 'success' | 'error'; message: string } | null>(null);
+  const [couponMessage, setCouponMessage] = useState<string | null>(null);
+  const [paymentMethod, setPaymentMethod] = useState<'pix' | 'card'>('pix');
 
-  // Card fields
-  const [cardNumber, setCardNumber] = useState('');
-  const [cardName, setCardName] = useState(userProfile.fullName || userProfile.name || '');
-  const [cardExpiry, setCardExpiry] = useState('');
-  const [cardCvv, setCardCvv] = useState('');
-
-  // Scroll to top whenever modal opens
-  React.useEffect(() => {
-    if (isOpen) {
-      setTimeout(() => {
-        if (containerRef.current) {
-          containerRef.current.scrollTop = 0;
-        }
-      }, 50);
-    }
-  }, [isOpen]);
+  const selectedPlan = PLANS.find(plan => plan.id === selectedId) || PLANS[2];
+  const couponRule = appliedCoupon ? COUPONS[appliedCoupon] : undefined;
+  const finalPrice = useMemo(() => {
+    if (!couponRule || couponRule.vip) return couponRule?.vip ? 0 : selectedPlan.price;
+    return Math.max(0, selectedPlan.price * (1 - couponRule.discount / 100));
+  }, [selectedPlan, couponRule]);
 
   if (!isOpen) return null;
 
-  const isDegustacaoCouponActive = Boolean(
-    appliedCoupon && ['VIP7', 'GRATIS7', 'VIP', 'TESTEVIP', 'CURA7', '7DIAS', 'SETE7', 'PICENI7', 'DEGUSTACAO', 'DEGUSTA7'].includes(appliedCoupon)
-  );
-
-  const availablePlans = isDegustacaoCouponActive
-    ? [DEGUSTACAO_PLAN_ITEM, ...PAID_SUBSCRIPTION_PLANS]
-    : PAID_SUBSCRIPTION_PLANS;
-
-  const currentPlan = availablePlans.find(p => p.id === selectedPlanId) || availablePlans[0];
-  
-  // Price calculations with discount
-  const parsedCustomPrice = parseFloat(customPriceInput.replace(',', '.')) || 0;
-  const basePrice = isCustomPrice ? Math.max(0, parsedCustomPrice) : currentPlan.priceNumber;
-  const discountAmount = discountPercent > 0 ? (basePrice * discountPercent) / 100 : 0;
-  const finalPrice = Math.max(0, basePrice - discountAmount);
-  const formattedFinalPrice = `R$ ${finalPrice.toFixed(2).replace('.', ',')}`;
-
-  const pixCode = `00020126580014br.gov.bcb.pix0136evertonpiceni@gmail.com520400005303986540${finalPrice.toFixed(2)}5802BR5920EVERTON PICENI6009SAO PAULO62070503***6304E8A2`;
-
-  const copyPixToClipboard = (customText?: string) => {
-    const textToCopy = customText || pixCode;
-    if (navigator?.clipboard?.writeText) {
-      navigator.clipboard.writeText(textToCopy);
-      setCopiedPix(true);
-      setTimeout(() => setCopiedPix(false), 3500);
-    }
-  };
-
-  const handleSelectPaymentMethod = (method: 'pix' | 'credit' | 'debit') => {
-    setPaymentMethod(method);
-    if (method === 'pix') {
-      copyPixToClipboard();
-    }
-  };
-
-  const handleApplyCoupon = (codeToApply?: string) => {
-    const rawCode = (codeToApply || couponInput).trim().toUpperCase();
-    if (!rawCode) {
-      setCouponFeedback({ type: 'error', message: 'Digite um código de cupom válido.' });
+  const applyCoupon = () => {
+    const code = coupon.trim().toUpperCase();
+    const rule = COUPONS[code];
+    if (!rule) {
+      setAppliedCoupon(null);
+      setCouponMessage('Cupom inválido, expirado ou não disponível.');
       return;
     }
-
-    const free7dCoupons = ['VIP7', 'GRATIS7', 'VIP', 'TESTEVIP', 'CURA7', '7DIAS', 'SETE7', 'PICENI7', 'DEGUSTACAO', 'DEGUSTA7'];
-
-    if (free7dCoupons.includes(rawCode)) {
-      setSelectedPlanId('teste_vip_7d');
-      setDiscountPercent(100);
-      setAppliedCoupon(rawCode);
-      setCouponFeedback({ type: 'success', message: `✨ Cupom ${rawCode} Ativado! Degustação de 7 Dias 100% Gratuita liberada!` });
-    } else if (rawCode === 'DESCONTO10' || rawCode === 'CURA10' || rawCode === 'PAZ10' || rawCode === 'LUZ10') {
-      setDiscountPercent(10);
-      setAppliedCoupon(rawCode);
-      setCouponFeedback({ type: 'success', message: 'Cupom de 10% de desconto aplicado em harmonia! ✨' });
-    } else if (rawCode === 'DESCONTO20' || rawCode === 'PAZ20' || rawCode === 'CURA20' || rawCode === 'LUZ20' || rawCode === 'GRATIDAO') {
-      setDiscountPercent(20);
-      setAppliedCoupon(rawCode);
-      setCouponFeedback({ type: 'success', message: 'Cupom de 20% de desconto aplicado com sucesso! 🌸' });
-    } else if (rawCode === 'DESCONTO30' || rawCode === 'PROMO30' || rawCode === 'CURA30' || rawCode === 'TERAPEUTA30') {
-      setDiscountPercent(30);
-      setAppliedCoupon(rawCode);
-      setCouponFeedback({ type: 'success', message: 'Cupom de 30% de desconto ativado com sucesso! 🌟' });
-    } else if (rawCode === 'DESCONTO50' || rawCode === 'PICENI50' || rawCode === 'VIP50' || rawCode === 'MESTRE50' || rawCode === 'METADE50') {
-      setDiscountPercent(50);
-      setAppliedCoupon(rawCode);
-      setCouponFeedback({ type: 'success', message: 'Cupom Especial de 50% de desconto concedido! 👑' });
-    } else if (rawCode.includes('10')) {
-      setDiscountPercent(10);
-      setAppliedCoupon(rawCode);
-      setCouponFeedback({ type: 'success', message: `Cupom ${rawCode} de 10% de desconto aplicado!` });
-    } else if (rawCode.includes('20')) {
-      setDiscountPercent(20);
-      setAppliedCoupon(rawCode);
-      setCouponFeedback({ type: 'success', message: `Cupom ${rawCode} de 20% de desconto aplicado!` });
-    } else if (rawCode.includes('30')) {
-      setDiscountPercent(30);
-      setAppliedCoupon(rawCode);
-      setCouponFeedback({ type: 'success', message: `Cupom ${rawCode} de 30% de desconto aplicado!` });
-    } else if (rawCode.includes('50')) {
-      setDiscountPercent(50);
-      setAppliedCoupon(rawCode);
-      setCouponFeedback({ type: 'success', message: `Cupom ${rawCode} de 50% de desconto aplicado!` });
+    setAppliedCoupon(code);
+    if (rule.vip) {
+      setCouponMessage('VIP7: 7 dias PRO. Cupom de teste sujeito ao limite global de 20 resgates e uso único por conta.');
     } else {
-      // Default bonus coupon
-      setDiscountPercent(15);
-      setAppliedCoupon(rawCode);
-      setCouponFeedback({ type: 'success', message: `Cupom especial ${rawCode} de 15% de desconto ativado!` });
+      setCouponMessage(`${rule.discount}% de desconto aplicado.`);
     }
   };
 
-  const handleRemoveCoupon = () => {
-    setAppliedCoupon(null);
-    setDiscountPercent(0);
-    setCouponInput('');
-    setCouponFeedback(null);
-    if (selectedPlanId === 'teste_vip_7d') {
-      setSelectedPlanId('trimestral');
+  const choosePlan = (plan: PlanItem) => {
+    setSelectedId(plan.id);
+    document.getElementById('checkout-planos')?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  };
+
+  const finish = () => {
+    if (couponRule?.vip) {
+      onUpgradeSuccess('teste_vip_7d', paymentMethod, 0);
+      return;
     }
+    onUpgradeSuccess(selectedPlan.id, paymentMethod, finalPrice);
   };
 
-  const handleCopyPix = () => {
-    navigator.clipboard.writeText(pixCode);
-    setCopiedPix(true);
-    setTimeout(() => setCopiedPix(false), 3000);
-  };
-
-  const handleConfirmPayment = () => {
-    setIsProcessing(true);
-    setTimeout(() => {
-      setIsProcessing(false);
-      setIsSuccess(true);
-      setTimeout(() => {
-        onUpgradeSuccess(selectedPlanId, paymentMethod === 'pix' ? 'pix' : 'card', finalPrice);
-      }, 1800);
-    }, 1200);
-  };
-
-  const handleInstantTestUpgrade = () => {
-    setIsProcessing(true);
-    setTimeout(() => {
-      setIsProcessing(false);
-      setIsSuccess(true);
-      setTimeout(() => {
-        onUpgradeSuccess(selectedPlanId, paymentMethod === 'pix' ? 'pix' : 'card', finalPrice);
-      }, 1200);
-    }, 600);
-  };
-
-  // Direct WhatsApp confirmation message link
-  const getWhatsAppMessageUrl = () => {
-    const methodLabel = paymentMethod === 'pix' ? 'PIX' : paymentMethod === 'credit' ? 'Cartão de Crédito' : 'Cartão de Débito';
-    const discountInfo = appliedCoupon ? ` (Cupom ${appliedCoupon}: ${discountPercent}% OFF -> ${formattedFinalPrice})` : ` (${currentPlan.priceFormatted})`;
-    const text = encodeURIComponent(
-      `Olá Éverton Rodrigo Piceni! Acabei de realizar o pagamento do ${currentPlan.title}${discountInfo} no Protocolo de Cura Integrada de 21 Dias.\n\n` +
-      `*Meus Dados:*\n` +
-      `• Nome: ${userProfile.fullName || userProfile.name}\n` +
-      `• E-mail: ${userProfile.email}\n` +
-      `• Plano Escolhido: ${currentPlan.title}\n` +
-      `• Valor Pago: ${formattedFinalPrice}\n` +
-      `• Forma de Pagamento: ${methodLabel}\n\n` +
-      `Estou pronto(a) para seguir a jornada com o App Pro liberado!`
-    );
-    return `https://wa.me/5551982215296?text=${text}`;
-  };
+  const proPlans = PLANS.filter(plan => !['jornada_7d', 'arcanjo_7d'].includes(plan.id));
+  const standalone = PLANS.filter(plan => ['jornada_7d', 'arcanjo_7d'].includes(plan.id));
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-slate-950/85 backdrop-blur-md overflow-y-auto" id="pro-upgrade-modal">
-      <motion.div
-        ref={containerRef}
-        initial={{ opacity: 0, scale: 0.95, y: 10 }}
-        animate={{ opacity: 1, scale: 1, y: 0 }}
-        exit={{ opacity: 0, scale: 0.95 }}
-        className="w-full max-w-4xl bg-slate-900 border border-amber-500/30 rounded-3xl p-5 sm:p-7 shadow-2xl relative overflow-hidden my-4 max-h-[92vh] overflow-y-auto"
-      >
-        {/* Glow backdrop effects */}
-        <div className="absolute -top-24 -right-24 w-64 h-64 bg-amber-500/10 rounded-full blur-3xl pointer-events-none" />
-        <div className="absolute -bottom-24 -left-24 w-64 h-64 bg-indigo-500/10 rounded-full blur-3xl pointer-events-none" />
-
-        {/* Close button */}
-        <button
-          onClick={onClose}
-          className="absolute top-5 right-5 w-8 h-8 rounded-full bg-slate-800/80 border border-slate-700/60 text-slate-400 hover:text-slate-200 flex items-center justify-center transition cursor-pointer z-10"
-        >
-          <X size={16} />
-        </button>
-
-        {!isSuccess ? (
-          <div className="space-y-6">
-            {/* Header */}
-            <div className="text-center space-y-2">
-              <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-300 text-xs font-mono font-medium mb-1">
-                <Crown size={14} className="text-amber-400" />
-                <span>LIBERAÇÃO IMEDIATA DO APLICATIVO</span>
-              </div>
-              <h2 className="text-2xl md:text-3xl font-display font-medium text-slate-100">
-                Escolha o seu Plano de Acesso Pro
-              </h2>
-              <p className="text-xs md:text-sm text-slate-400 max-w-lg mx-auto">
-                Assim que o pagamento for concluído (PIX ou Cartão), o aplicativo é liberado instantaneamente na sua conta.
-              </p>
+    <div className="fixed inset-0 z-[100] bg-slate-950/95 backdrop-blur-xl overflow-y-auto">
+      <div className="min-h-screen bg-[radial-gradient(circle_at_top_right,rgba(88,28,135,0.20),transparent_32%),radial-gradient(circle_at_bottom_left,rgba(202,138,4,0.10),transparent_28%)] text-slate-100">
+        <header className="sticky top-0 z-20 border-b border-amber-400/10 bg-slate-950/85 backdrop-blur-xl">
+          <div className="max-w-6xl mx-auto px-4 py-4 flex items-center justify-between">
+            <div>
+              <p className="text-amber-300 tracking-[0.28em] text-[10px] font-bold uppercase">Everton Piceni</p>
+              <h2 className="font-serif text-xl text-amber-100">Planos & Jornadas</h2>
             </div>
+            <button onClick={onClose} className="p-2 rounded-full border border-white/10 hover:bg-white/5" aria-label="Fechar"><X size={20} /></button>
+          </div>
+        </header>
 
-            {/* Peaceful Serene Sanctuary Banner */}
-            <div className="relative rounded-2xl overflow-hidden border border-amber-500/20 shadow-md">
-              <img
-                src={peacefulImage}
-                alt="Santuário Sereno de Paz e Cura"
-                referrerPolicy="no-referrer"
-                className="w-full h-24 sm:h-28 object-cover object-center filter brightness-90"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-slate-950/90 via-slate-950/40 to-transparent flex items-end p-3.5">
-                <div className="flex items-center gap-2">
-                  <div className="w-2 h-2 rounded-full bg-emerald-400 animate-ping" />
-                  <p className="text-xs font-medium text-slate-100 drop-shadow-sm">
-                    Espaço de Cura Quântica & Conexão Sagrada • Frequências Restauradoras
-                  </p>
-                </div>
-              </div>
+        <main className="max-w-6xl mx-auto px-4 py-8 space-y-10">
+          <section className="text-center max-w-2xl mx-auto">
+            <Sparkles className="mx-auto text-amber-300 mb-3" size={26} />
+            <h1 className="font-serif text-3xl md:text-5xl text-amber-100">Escolha o seu plano</h1>
+            <p className="mt-3 text-sm md:text-base text-slate-400">Pouca informação na primeira leitura. Toque em “Ver tudo” somente quando quiser comparar os detalhes.</p>
+          </section>
+
+          <section>
+            <div className="mb-4">
+              <h3 className="font-serif text-2xl text-amber-100">Jornadas e protocolos avulsos</h3>
+              <p className="text-sm text-slate-400">Experiências focadas, sem poluir a comparação dos planos PRO.</p>
             </div>
-
-            {/* Exclusive VIP Features Grid */}
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
-              {[
-                {
-                  icon: <Radio size={15} className="text-amber-400" />,
-                  title: "Frequências 963Hz e 741Hz",
-                  desc: "Ativação da pineal e desintoxicação celular."
-                },
-                {
-                  icon: <Sparkles size={15} className="text-amber-400" />,
-                  title: "Vozes Neurais Humanizadas",
-                  desc: "Cadência terapêutica personalizada."
-                },
-                {
-                  icon: <Award size={15} className="text-amber-400" />,
-                  title: "Certificado Nominal Oficial",
-                  desc: "Emissão em alta definição ao fim dos 21 dias."
-                }
-              ].map((feat, idx) => (
-                <div
-                  key={idx}
-                  className="flex items-start gap-2.5 p-2.5 rounded-2xl bg-slate-950/60 border border-slate-800/80"
-                >
-                  <div className="p-1.5 rounded-lg bg-amber-500/10 shrink-0">
-                    {feat.icon}
-                  </div>
-                  <div>
-                    <h4 className="text-xs font-semibold text-slate-200">{feat.title}</h4>
-                    <p className="text-[10px] text-slate-400 leading-tight mt-0.5">{feat.desc}</p>
-                  </div>
-                </div>
+            <div className="grid md:grid-cols-2 gap-4">
+              {standalone.map(plan => (
+                <PlanCard key={plan.id} plan={plan} expanded={expandedId === plan.id} onToggle={() => setExpandedId(expandedId === plan.id ? null : plan.id)} onChoose={() => choosePlan(plan)} />
               ))}
             </div>
+          </section>
 
-            {/* Subscription Plans grid */}
-            <div className="space-y-2.5">
-              <div className="flex items-center justify-between">
-                <span className="text-[11px] font-mono text-slate-400 uppercase tracking-wider block font-bold">
-                  Selecione o seu Plano ({availablePlans.length} Opções Disponíveis):
-                </span>
-                <button
-                  type="button"
-                  onClick={() => {
-                    setIsCustomPrice(!isCustomPrice);
-                    if (!isCustomPrice) {
-                      setCustomPriceInput(currentPlan.priceNumber.toFixed(2).replace('.', ','));
-                    }
-                  }}
-                  className="text-[11px] font-mono text-amber-400 hover:text-amber-300 transition flex items-center gap-1 cursor-pointer"
-                >
-                  <Sparkles size={12} />
-                  <span>{isCustomPrice ? 'Usar Valor do Plano' : '✏️ Ajustar Valor'}</span>
-                </button>
+          <section className="rounded-3xl border border-violet-400/20 bg-violet-500/[0.06] p-5 md:p-7">
+            <div className="flex items-start gap-3">
+              <div className="rounded-2xl bg-violet-500/10 border border-violet-400/20 p-3"><Sparkles className="text-violet-300" /></div>
+              <div>
+                <p className="text-[10px] tracking-[0.2em] uppercase text-violet-300 font-bold">Preservado no PRO</p>
+                <h3 className="font-serif text-2xl text-white">Protocolo de Cura Integrada de 21 Dias</h3>
+                <p className="mt-2 text-sm text-slate-300 max-w-3xl">O protocolo de 21 dias continua na plataforma com sua estrutura energética já existente. Ele faz parte das jornadas PRO e não foi substituído pelos novos módulos.</p>
               </div>
+            </div>
+          </section>
 
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
-                {availablePlans.map((plan) => {
-                  const isSelected = selectedPlanId === plan.id;
-                  return (
-                    <div
-                      key={plan.id}
-                      onClick={() => {
-                        setSelectedPlanId(plan.id);
-                        if (!isCustomPrice) {
-                          setCustomPriceInput(plan.priceNumber.toFixed(2).replace('.', ','));
-                        }
-                      }}
-                      className={`p-3.5 rounded-2xl border cursor-pointer relative transition duration-150 flex flex-col justify-between h-full ${
-                        isSelected
-                          ? 'bg-gradient-to-b from-amber-950/40 via-slate-900 to-slate-900 border-amber-500 shadow-lg shadow-amber-500/10 ring-1 ring-amber-500/30'
-                          : 'bg-slate-950/50 border-slate-800 hover:border-slate-700'
-                      }`}
-                    >
-                      {plan.badge && (
-                        <div className={`absolute -top-2.5 right-2 px-2 py-0.5 rounded-full text-[9px] font-mono font-bold uppercase shadow-sm ${plan.badgeColor || 'bg-amber-500 text-slate-950'}`}>
-                          {plan.badge}
-                        </div>
-                      )}
-                      <div>
-                        <div className="flex items-center justify-between mb-1">
-                          <span className={`text-xs font-mono font-bold ${isSelected ? 'text-amber-300' : 'text-slate-200'}`}>
-                            {plan.title}
-                          </span>
-                          <div className={`w-4 h-4 rounded-full border flex items-center justify-center shrink-0 ${isSelected ? 'border-amber-400 bg-amber-500/20' : 'border-slate-700'}`}>
-                            {isSelected && <Check size={10} className="text-amber-300" />}
-                          </div>
-                        </div>
-                        <div className="flex items-baseline gap-1 mt-1">
-                          <span className="text-lg md:text-xl font-bold text-slate-100">{plan.priceFormatted}</span>
-                          <span className="text-[10px] text-slate-400">{plan.periodText}</span>
-                        </div>
-                        <p className="text-[10px] text-slate-400 mt-1.5 leading-relaxed">
-                          {plan.description}
-                        </p>
-
-                        {/* O que compreende */}
-                        <div className="mt-2.5 pt-2 border-t border-slate-800/80 space-y-1">
-                          <span className="text-[9px] font-mono text-slate-500 uppercase block font-bold">Compreende:</span>
-                          {plan.compreende.map((item, idx) => (
-                            <div key={idx} className="flex items-start gap-1 text-[10px] text-slate-300 leading-tight">
-                              <CheckCircle2 size={10} className="text-emerald-400 shrink-0 mt-0.5" />
-                              <span>{item}</span>
-                            </div>
-                          ))}
-                        </div>
-                      </div>
-                    </div>
-                  );
-                })}
+          <section>
+            <div className="mb-4 flex items-end justify-between gap-4">
+              <div>
+                <div className="flex items-center gap-2"><Crown className="text-amber-300" size={22} /><h3 className="font-serif text-2xl text-amber-100">Planos PRO</h3></div>
+                <p className="text-sm text-slate-400 mt-1">Florais e Aromaterapia são exclusivos PRO e personalizados após a anamnese.</p>
               </div>
+            </div>
+            <div className="grid sm:grid-cols-2 lg:grid-cols-5 gap-4">
+              {proPlans.map(plan => (
+                <PlanCard key={plan.id} plan={plan} expanded={expandedId === plan.id} onToggle={() => setExpandedId(expandedId === plan.id ? null : plan.id)} onChoose={() => choosePlan(plan)} />
+              ))}
+            </div>
+          </section>
 
-              {/* Custom Value input field */}
-              {isCustomPrice && (
-                <div className="p-4 rounded-2xl bg-slate-950 border border-amber-500/40 space-y-3 shadow-inner mt-2">
-                  <div className="flex items-center justify-between">
-                    <span className="text-xs font-semibold text-amber-300 flex items-center gap-1.5">
-                      <span>💰 Definir Valor Personalizado para o Upgrade</span>
-                    </span>
-                    <span className="text-[10px] font-mono text-slate-400">
-                      Plano selecionado: <strong>{currentPlan.title}</strong>
-                    </span>
-                  </div>
-
-                  <div className="flex items-center gap-2">
-                    <div className="relative flex-1">
-                      <span className="absolute left-3.5 top-1/2 -translate-y-1/2 text-xs font-mono text-slate-400 font-bold">R$</span>
-                      <input
-                        type="text"
-                        value={customPriceInput}
-                        onChange={(e) => setCustomPriceInput(e.target.value.replace(/[^0-9,.]/g, ''))}
-                        placeholder="59,90"
-                        className="w-full pl-9 pr-3 py-2 bg-slate-900 border border-slate-750 rounded-xl text-sm font-mono font-bold text-amber-300 outline-none focus:border-amber-400"
-                      />
-                    </div>
-                    <div className="flex items-center gap-1">
-                      {['15,00', '39,90', '69,90', '99,90', '197,00'].map((val) => (
-                        <button
-                          key={val}
-                          type="button"
-                          onClick={() => setCustomPriceInput(val)}
-                          className="px-2 py-1 bg-slate-900 hover:bg-slate-800 border border-slate-750 text-[10px] font-mono text-slate-300 rounded-lg transition cursor-pointer"
-                        >
-                          R$ {val}
-                        </button>
-                      ))}
-                    </div>
-                  </div>
-                  <p className="text-[10px] text-slate-400">
-                    Insira qualquer valor desejado para sua inscrição ou contribuição sagrada.
-                  </p>
-                </div>
-              )}
+          <section id="checkout-planos" className="max-w-2xl mx-auto rounded-3xl border border-amber-400/25 bg-slate-900/80 p-5 md:p-7 shadow-2xl shadow-amber-950/20">
+            <div className="flex items-center justify-between gap-4 mb-5">
+              <div><p className="text-xs text-slate-400">Selecionado</p><h3 className="font-serif text-2xl text-amber-100">{selectedPlan.title}</h3></div>
+              <div className="text-right"><strong className="text-2xl text-white">{money(finalPrice)}</strong><p className="text-xs text-slate-400">{couponRule?.vip ? '7 dias PRO' : selectedPlan.period}</p></div>
             </div>
 
-            {/* Coupon / Discount Option Section */}
-            <div className="p-3.5 rounded-2xl bg-slate-950/70 border border-slate-800 space-y-2.5" id="pro-discount-section">
-              <div className="flex items-center justify-between">
-                <span className="text-xs font-mono text-slate-300 uppercase tracking-wider flex items-center gap-1.5 font-semibold">
-                  <Tag size={13} className="text-amber-400 shrink-0" />
-                  <span>Possui Cupom do Terapeuta?</span>
-                </span>
-                {appliedCoupon && (
-                  <span className="px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 text-[10px] font-mono font-bold border border-emerald-500/30 flex items-center gap-1">
-                    <Percent size={10} />
-                    {discountPercent}% OFF ATIVO
-                  </span>
-                )}
-              </div>
-
-              {!appliedCoupon ? (
-                <div className="space-y-2">
-                  <div className="flex items-center gap-2">
-                    <div className="relative flex-1">
-                      <input
-                        type="text"
-                        value={couponInput}
-                        onChange={(e) => setCouponInput(e.target.value.toUpperCase())}
-                        onKeyDown={(e) => e.key === 'Enter' && handleApplyCoupon()}
-                        placeholder="Digite seu código de cupom..."
-                        className="w-full bg-slate-900 border border-slate-800 rounded-xl px-3 py-2 text-xs text-slate-100 placeholder:text-slate-500 outline-none focus:border-amber-500 font-mono uppercase"
-                      />
-                    </div>
-                    <button
-                      type="button"
-                      onClick={() => handleApplyCoupon()}
-                      className="px-4 py-2 bg-gradient-to-r from-amber-500 to-amber-400 hover:from-amber-400 hover:to-amber-300 text-slate-950 rounded-xl text-xs font-bold transition flex items-center gap-1 shrink-0 cursor-pointer shadow-md shadow-amber-500/10"
-                    >
-                      <Tag size={12} className="shrink-0" />
-                      <span>Aplicar Cupom</span>
-                    </button>
-                  </div>
-                  <p className="text-[10px] text-slate-400">
-                    Insira o código de desconto ou cortesia exclusivo concedido pelo terapeuta Éverton Rodrigo Piceni.
-                  </p>
-                </div>
-              ) : (
-                <div className="flex items-center justify-between p-2 rounded-xl bg-emerald-950/40 border border-emerald-500/30 text-xs">
-                  <div className="flex items-center gap-2">
-                    <div className="p-1.5 rounded-lg bg-emerald-500/20 text-emerald-300 shrink-0">
-                      <CheckCircle2 size={14} />
-                    </div>
-                    <div>
-                      <div className="font-semibold text-emerald-300 font-mono">
-                        Cupom "{appliedCoupon}" Aplicado
-                      </div>
-                      <div className="text-[10px] text-slate-300">
-                        Economia de {discountPercent}% ({`R$ ${discountAmount.toFixed(2).replace('.', ',')}`})
-                      </div>
-                    </div>
-                  </div>
-                  <button
-                    type="button"
-                    onClick={handleRemoveCoupon}
-                    className="p-1.5 text-slate-400 hover:text-rose-400 transition cursor-pointer rounded-lg hover:bg-slate-800"
-                    title="Remover Cupom"
-                  >
-                    <Trash2 size={14} />
-                  </button>
-                </div>
-              )}
-
-              {couponFeedback && !appliedCoupon && (
-                <p className={`text-[10px] font-medium ${couponFeedback.type === 'success' ? 'text-emerald-400' : 'text-rose-400'}`}>
-                  {couponFeedback.message}
-                </p>
-              )}
+            <div className="rounded-2xl border border-white/10 bg-black/20 p-4 mb-4">
+              <label className="text-xs font-bold text-slate-300 flex items-center gap-2 mb-2"><Tag size={14} /> Tem um cupom?</label>
+              <div className="flex gap-2"><input value={coupon} onChange={e => setCoupon(e.target.value)} placeholder="Digite o código" className="min-w-0 flex-1 rounded-xl bg-slate-950 border border-white/10 px-3 py-3 outline-none focus:border-amber-400/50" /><button onClick={applyCoupon} className="rounded-xl bg-amber-400 text-slate-950 font-bold px-4">Aplicar</button></div>
+              {couponMessage && <p className={`text-xs mt-2 ${appliedCoupon ? 'text-emerald-300' : 'text-rose-300'}`}>{couponMessage}</p>}
+              <p className="text-[11px] text-slate-500 mt-2">VIP7: campanha de teste com 20 resgates no total. PROMO15: 15%. PROMO20: 20%. Cupons não são cumulativos.</p>
             </div>
 
-            {/* Payment Method Selector or Free Trial Activator */}
-            {finalPrice === 0 || selectedPlanId === 'teste_vip_7d' ? (
-              <div className="p-5 rounded-2xl bg-gradient-to-r from-emerald-950/60 to-slate-900 border border-emerald-500/40 space-y-3.5 shadow-lg shadow-emerald-950/30">
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-2xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center shrink-0 border border-emerald-500/30">
-                    <Sparkles size={22} className="animate-pulse" />
-                  </div>
-                  <div>
-                    <div className="text-sm font-semibold text-emerald-300 flex items-center gap-2">
-                      <span>🎉 Teste VIP de 7 Dias 100% Grátis!</span>
-                      <span className="text-[10px] font-mono bg-emerald-500/20 text-emerald-300 px-2 py-0.5 rounded-full border border-emerald-500/30">SEM CARTÃO</span>
-                    </div>
-                    <p className="text-xs text-slate-300 mt-0.5">
-                      Você ativou a degustação VIP de 7 dias com acesso irrestrito a todas as frequências e recursos sagrados de cura.
-                    </p>
-                  </div>
-                </div>
-
-                <button
-                  type="button"
-                  onClick={handleInstantTestUpgrade}
-                  disabled={isProcessing}
-                  className="w-full py-3.5 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-400 hover:from-emerald-400 hover:to-teal-300 text-slate-950 font-bold text-xs tracking-wider uppercase transition flex items-center justify-center gap-2 cursor-pointer shadow-xl shadow-emerald-500/20"
-                >
-                  {isProcessing ? (
-                    <div className="w-4 h-4 border-2 border-slate-950 border-t-transparent rounded-full animate-spin" />
-                  ) : (
-                    <>
-                      <Crown size={16} className="shrink-0" />
-                      <span>Ativar Meu Teste VIP de 7 Dias Grátis Agora</span>
-                    </>
-                  )}
-                </button>
-              </div>
-            ) : (
-              <div className="space-y-3 pt-1">
-                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
-                  <span className="text-xs font-mono text-slate-400 uppercase tracking-wider flex items-center gap-1">
-                    <span>Forma de Pagamento:</span>
-                    {appliedCoupon && (
-                      <span className="text-emerald-400 font-bold font-mono">
-                        (Total com Desconto: {formattedFinalPrice})
-                      </span>
-                    )}
-                  </span>
-                  <div className="flex flex-wrap items-center gap-1.5 bg-slate-950 p-1 rounded-xl border border-slate-800">
-                    <button
-                      type="button"
-                      onClick={() => handleSelectPaymentMethod('pix')}
-                      className={`px-3 py-1.5 rounded-lg text-xs font-medium flex items-center gap-1.5 transition cursor-pointer ${
-                        paymentMethod === 'pix' ? 'bg-emerald-600/30 border border-emerald-500/50 text-emerald-300 shadow-sm' : 'text-slate-400 hover:text-slate-200'
-                      }`}
-                    >
-                      <QrCode size={13} className="shrink-0" />
-                      <span>PIX Instantâneo</span>
-                    </button>
-                    
-                    
-                  </div>
-                </div>
-
-              {paymentMethod === 'pix' && (
-                <div className="p-4 rounded-2xl bg-slate-950 border border-slate-800 space-y-3">
-                  {/* Auto copy alert toast banner */}
-                  <div className="p-2.5 rounded-xl bg-emerald-950/50 border border-emerald-500/40 flex items-center justify-between text-xs text-emerald-300">
-                    <div className="flex items-center gap-2">
-                      <Sparkles size={14} className="text-emerald-400 shrink-0" />
-                      <span className="font-sans text-[11px]">
-                        {copiedPix
-                          ? '✨ Código Copia e Cola copiado com sucesso para sua área de transferência!'
-                          : 'Clique no PIX para copiar o código Copia e Cola automaticamente.'}
-                      </span>
-                    </div>
-                    {copiedPix && (
-                      <span className="px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 font-mono text-[10px] font-bold">
-                        COPIADO
-                      </span>
-                    )}
-                  </div>
-
-                  <div className="flex flex-col sm:flex-row items-center gap-4">
-                    {/* Simulated visual QR Code */}
-                    <div className="w-28 h-28 bg-white p-2 rounded-xl flex items-center justify-center shadow shrink-0">
-                      <div className="w-full h-full border-2 border-slate-900 border-dashed rounded flex flex-col items-center justify-center text-slate-900 text-[10px] font-mono text-center p-1">
-                        <QrCode size={40} className="text-slate-900 mb-0.5" />
-                        <span className="font-bold text-[9px]">{formattedFinalPrice}</span>
-                      </div>
-                    </div>
-
-                    <div className="flex-1 space-y-2 text-center sm:text-left w-full">
-                      <div className="text-xs text-slate-300">
-                        Chave PIX Oficial (E-mail): <strong className="text-amber-300 font-mono">evertonpiceni@gmail.com</strong>
-                      </div>
-                      <div className="text-[11px] text-slate-400 flex flex-wrap items-center gap-1.5 justify-center sm:justify-start">
-                        <span>Valor a pagar:</span>
-                        {appliedCoupon ? (
-                          <>
-                            <span className="text-slate-500 line-through text-xs">{currentPlan.priceFormatted}</span>
-                            <strong className="text-emerald-400 font-mono text-sm font-bold">{formattedFinalPrice}</strong>
-                            <span className="text-[10px] bg-emerald-500/20 text-emerald-300 px-1.5 py-0.5 rounded font-mono font-bold">(-{discountPercent}%)</span>
-                          </>
-                        ) : (
-                          <strong className="text-emerald-400 font-mono text-sm">{currentPlan.priceFormatted}</strong>
-                        )}
-                        <span className="text-slate-400 font-mono">({currentPlan.title})</span>
-                      </div>
-                      <div className="flex items-center gap-2">
-                        <input
-                          type="text"
-                          readOnly
-                          value={pixCode}
-                          className="w-full bg-slate-900 border border-slate-800 rounded-lg px-2.5 py-1.5 text-[10px] text-slate-400 font-mono select-all outline-none"
-                        />
-                        <button
-                          type="button"
-                          onClick={() => copyPixToClipboard()}
-                          className="px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-200 rounded-lg text-xs font-medium flex items-center gap-1 shrink-0 transition cursor-pointer"
-                        >
-                          {copiedPix ? <Check size={13} className="text-emerald-400 shrink-0" /> : <Copy size={13} className="shrink-0" />}
-                          <span>{copiedPix ? 'Copiado!' : 'Copiar'}</span>
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="flex flex-col sm:flex-row items-center gap-2 pt-1">
-                    <button
-                      type="button"
-                      onClick={handleConfirmPayment}
-                      disabled={isProcessing}
-                      className="w-full flex-1 py-3 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-semibold text-xs tracking-wider uppercase transition flex items-center justify-center gap-2 cursor-pointer shadow-lg shadow-emerald-600/20"
-                    >
-                      {isProcessing ? (
-                        <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
-                      ) : (
-                        <>
-                          <CheckCircle2 size={16} className="shrink-0" />
-                          <span>Pagar {formattedFinalPrice} e Liberar {currentPlan.title}</span>
-                        </>
-                      )}
-                    </button>
-
-                    {onOpenContact ? (
-                      <button
-                        type="button"
-                        onClick={() => {
-                          onClose();
-                          onOpenContact();
-                        }}
-                        className="px-3.5 py-3 rounded-xl bg-emerald-950/60 hover:bg-emerald-900/60 border border-emerald-500/40 text-emerald-300 text-xs font-semibold flex items-center justify-center gap-1.5 transition whitespace-nowrap cursor-pointer"
-                        title="Enviar comprovante pelo canal Fale Conosco"
-                      >
-                        <MessageSquare size={14} className="shrink-0" />
-                        <span className="hidden sm:inline">Fale Conosco / Comprovante</span>
-                      </button>
-                    ) : (
-                      <button
-                        type="button"
-                        onClick={() => copyPixToClipboard()}
-                        className="px-3.5 py-3 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-semibold flex items-center justify-center gap-1.5 transition whitespace-nowrap cursor-pointer"
-                      >
-                        <Copy size={14} className="shrink-0" />
-                        <span className="hidden sm:inline">Copiar Chave PIX</span>
-                      </button>
-                    )}
-                  </div>
-                </div>
-              )}
-            </div>
-            )}
-
-            {/* Instant Test Activation for demo */}
-            <div className="pt-1 text-center">
-              <button
-                type="button"
-                onClick={handleInstantTestUpgrade}
-                className="text-[11px] text-amber-400/80 hover:text-amber-300 flex items-center justify-center gap-1 mx-auto transition cursor-pointer underline underline-offset-4"
-              >
-                <Sparkles size={13} />
-                <span>Simulação: Ativar {currentPlan.title} Imediatamente</span>
-              </button>
-            </div>
-          </div>
-        ) : (
-          /* Celebratory Success State */
-          <div className="py-8 text-center space-y-4">
-            <motion.div
-              initial={{ scale: 0 }}
-              animate={{ scale: 1 }}
-              transition={{ type: 'spring', stiffness: 260, damping: 20 }}
-              className="w-20 h-20 rounded-3xl bg-gradient-to-tr from-amber-500 to-amber-300 text-slate-950 flex items-center justify-center mx-auto shadow-2xl shadow-amber-500/30"
-            >
-              <Crown size={38} />
-            </motion.div>
-
-            <div className="space-y-1">
-              <h3 className="text-xl md:text-2xl font-display font-medium text-amber-300">
-                Acesso {currentPlan.title} Liberado em Harmonia
-              </h3>
-              <p className="text-xs text-slate-300 max-w-md mx-auto leading-relaxed">
-                Sua conexão foi ativada com sucesso. Aproveite todas as frequências quânticas sagradas, relatórios energéticos, seu Mapa Astral e o certificado de alinhamento.
-              </p>
+            <div className="grid grid-cols-2 gap-2 mb-4">
+              <button onClick={() => setPaymentMethod('pix')} className={`rounded-xl border p-3 text-sm font-bold ${paymentMethod === 'pix' ? 'border-amber-400 bg-amber-400/10 text-amber-200' : 'border-white/10 text-slate-400'}`}>PIX</button>
+              <button onClick={() => setPaymentMethod('card')} className={`rounded-xl border p-3 text-sm font-bold ${paymentMethod === 'card' ? 'border-amber-400 bg-amber-400/10 text-amber-200' : 'border-white/10 text-slate-400'}`}>Cartão</button>
             </div>
 
-            <div className="p-3 bg-amber-500/10 border border-amber-500/30 rounded-2xl text-xs text-amber-200 flex items-center justify-center gap-2 max-w-sm mx-auto">
-              <Star size={15} className="text-amber-400 fill-amber-400" />
-              <span>Selo VIP ({currentPlan.title}) ativo no seu perfil!</span>
-            </div>
-          </div>
-        )}
-      </motion.div>
+            <button onClick={finish} className="w-full rounded-2xl bg-gradient-to-r from-amber-500 to-yellow-300 text-slate-950 font-black py-4 shadow-lg shadow-amber-500/10">{couponRule?.vip ? 'ATIVAR 7 DIAS PRO' : 'CONTINUAR'}</button>
+            <div className="mt-3 flex items-center justify-center gap-2 text-[11px] text-slate-500"><ShieldCheck size={13} /> A confirmação definitiva do pagamento e dos cupons deve ser validada pelo servidor.</div>
+          </section>
+        </main>
+      </div>
     </div>
+  );
+}
+
+function PlanCard({ plan, expanded, onToggle, onChoose }: { plan: PlanItem; expanded: boolean; onToggle: () => void; onChoose: () => void }) {
+  return (
+    <article className={`relative rounded-3xl border p-5 flex flex-col ${plan.highlight ? 'border-amber-300/70 bg-gradient-to-b from-amber-400/[0.12] to-slate-950 shadow-xl shadow-amber-900/20' : 'border-white/10 bg-slate-900/65'}`}>
+      {plan.badge && <span className={`self-start rounded-full px-3 py-1 text-[10px] font-black uppercase tracking-wide mb-3 ${plan.highlight ? 'bg-amber-300 text-slate-950' : 'bg-white/5 text-slate-300 border border-white/10'}`}>{plan.badge}</span>}
+      <h4 className="font-serif text-xl text-white">{plan.title}</h4>
+      <div className="mt-2"><strong className="text-2xl text-amber-100">{money(plan.price)}</strong><span className="text-xs text-slate-500 ml-1">{plan.period}</span></div>
+      <ul className="mt-4 space-y-2 flex-1">{plan.summary.map(item => <li key={item} className="flex gap-2 text-xs text-slate-300"><Check size={14} className="text-emerald-400 shrink-0 mt-0.5" />{item}</li>)}</ul>
+      {expanded && <div className="mt-4 pt-4 border-t border-white/10 space-y-2">{plan.details.map(item => <div key={item} className="flex gap-2 text-[11px] text-slate-400"><Check size={12} className="text-amber-300 shrink-0 mt-0.5" />{item}</div>)}</div>}
+      <button onClick={onToggle} className="mt-4 text-xs text-slate-400 underline underline-offset-4 flex items-center gap-1">{expanded ? 'Ocultar detalhes' : 'Ver tudo que está incluso'} <ChevronDown size={13} className={expanded ? 'rotate-180' : ''} /></button>
+      <button onClick={onChoose} className={`mt-4 rounded-xl py-3 text-sm font-black ${plan.highlight ? 'bg-amber-300 text-slate-950' : 'border border-amber-300/50 text-amber-200 hover:bg-amber-300/10'}`}>Escolher plano</button>
+    </article>
   );
 }
