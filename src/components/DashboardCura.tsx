@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react';
 import { DayProgress } from '../types';
-import { ArrowLeft, Flame, Sparkles, Trophy, CalendarDays, HeartPulse, CheckCircle2 } from 'lucide-react';
+import { ArrowLeft, Flame, Sparkles, Trophy, CalendarDays, HeartPulse, CheckCircle2, Leaf, Wind, Flower2, Waves, Clock3 } from 'lucide-react';
 
 const CHAKRAS = [
   { name: 'Coronário', color: '#a855f7', glow: 'rgba(168,85,247,.72)' },
@@ -10,6 +10,14 @@ const CHAKRAS = [
   { name: 'Plexo Solar', color: '#facc15', glow: 'rgba(250,204,21,.72)' },
   { name: 'Sacral', color: '#fb923c', glow: 'rgba(251,146,60,.72)' },
   { name: 'Básico', color: '#ef4444', glow: 'rgba(239,68,68,.72)' },
+];
+
+const PERSONALIZED_ITEMS = [
+  { icon: Sparkles, label: 'Reiki indicado' },
+  { icon: Waves, label: 'Frequência / Solfeggio' },
+  { icon: Wind, label: 'Exercícios de respiração' },
+  { icon: Flower2, label: 'Floral personalizado', pro: true },
+  { icon: Leaf, label: 'Aromaterapia personalizada', pro: true },
 ];
 
 export default function DashboardCura({ onClose, progress }: { onClose: () => void; progress: DayProgress[] }) {
@@ -24,13 +32,22 @@ export default function DashboardCura({ onClose, progress }: { onClose: () => vo
   const streak = journey.reduce((count, day) => day.completed && count === day.dayNumber - 1 ? count + 1 : count, 0);
 
   return (
-    <div className="fixed inset-0 z-50 overflow-y-auto bg-[#020617] text-slate-100">
-      <div className="fixed inset-0 pointer-events-none bg-[radial-gradient(circle_at_50%_10%,rgba(30,64,175,.20),transparent_34%),radial-gradient(circle_at_50%_55%,rgba(124,58,237,.10),transparent_35%),linear-gradient(180deg,#020617_0%,#071225_50%,#020617_100%)]" />
+    <div className="fixed inset-0 z-50 overflow-y-auto bg-[#050816] text-slate-100">
+      <div className="fixed inset-0 pointer-events-none bg-[radial-gradient(circle_at_50%_10%,rgba(216,180,90,.10),transparent_30%),radial-gradient(circle_at_50%_50%,rgba(79,70,229,.10),transparent_38%),linear-gradient(180deg,#0a1024_0%,#050816_48%,#03050d_100%)]" />
       <main className="relative mx-auto max-w-5xl px-4 py-6 sm:px-6 sm:py-10">
         <header className="mb-6 flex items-center justify-between gap-4">
           <div><p className="mb-1 text-[11px] font-semibold uppercase tracking-[.28em] text-amber-300/80">Sua jornada de cura</p><h1 className="text-2xl font-semibold tracking-tight text-white sm:text-3xl">Progresso Energético</h1></div>
-          <button onClick={onClose} className="flex items-center gap-2 rounded-xl border border-white/10 bg-white/5 px-3 py-2 text-sm text-slate-300 transition hover:bg-white/10 hover:text-white"><ArrowLeft size={16} /> Voltar</button>
+          <button onClick={onClose} className="flex items-center gap-2 rounded-xl border border-amber-300/15 bg-white/5 px-3 py-2 text-sm text-slate-300 transition hover:border-amber-300/30 hover:bg-white/10 hover:text-white"><ArrowLeft size={16} /> Voltar</button>
         </header>
+
+        <section className="mb-5 overflow-hidden rounded-3xl border border-amber-300/20 bg-gradient-to-br from-amber-300/[.07] via-white/[.035] to-indigo-500/[.05] p-5 shadow-2xl shadow-black/30 backdrop-blur-xl sm:p-7">
+          <div className="max-w-3xl">
+            <p className="text-[11px] font-semibold uppercase tracking-[.25em] text-amber-300/80">Bem-vindo</p>
+            <h2 className="mt-2 text-xl font-semibold text-white sm:text-2xl">Bem-vindo ao seu espaço de Cura Integrada.</h2>
+            <p className="mt-3 text-sm leading-6 text-slate-300 sm:text-[15px]">Haverá dias em que você não terá vontade de fazer seu tratamento. Nesses momentos, lembre-se do propósito que trouxe você até aqui. Seja firme, respeite seu ritmo e não desista da sua jornada.</p>
+            <p className="mt-3 font-medium text-amber-200">Estamos juntos nessa. ✨</p>
+          </div>
+        </section>
 
         <section className="mb-5 overflow-hidden rounded-3xl border border-amber-300/15 bg-white/[.045] p-5 shadow-2xl shadow-blue-950/30 backdrop-blur-xl sm:p-7">
           <div className="flex flex-col justify-between gap-4 sm:flex-row sm:items-center">
@@ -41,6 +58,21 @@ export default function DashboardCura({ onClose, progress }: { onClose: () => vo
           <div className="mt-2 h-1.5 overflow-hidden rounded-full bg-white/10"><div className="h-full rounded-full bg-gradient-to-r from-amber-500 via-yellow-300 to-amber-200 shadow-[0_0_14px_rgba(251,191,36,.55)] transition-all duration-700" style={{ width: `${percentage}%` }} /></div>
         </section>
 
+        <section className="mb-5 rounded-3xl border border-amber-300/15 bg-white/[.035] p-5 sm:p-7">
+          <div className="mb-5 flex flex-col justify-between gap-2 sm:flex-row sm:items-end">
+            <div><p className="text-[11px] font-semibold uppercase tracking-[.24em] text-amber-300/80">Definido pela Anamnese Energética</p><h2 className="mt-1 text-xl font-semibold text-white">Seu Tratamento Personalizado</h2><p className="mt-2 max-w-2xl text-sm leading-6 text-slate-400">Escolha o ciclo recomendado para o seu momento. As práticas são organizadas a partir da sua anamnese e podem acompanhar sua evolução ao longo da jornada.</p></div>
+          </div>
+          <div className="grid gap-4 md:grid-cols-2">
+            {[{ days: 7, title: 'Tratamento Personalizado — 7 Dias', text: 'Um ciclo objetivo para iniciar, reorganizar sua rotina de práticas e observar as respostas ao longo da semana.' }, { days: 21, title: 'Tratamento Personalizado — 21 Dias', text: 'Um ciclo mais longo para aprofundar constância, integração e acompanhamento das mudanças percebidas.' }].map(cycle => (
+              <article key={cycle.days} className="rounded-2xl border border-amber-300/15 bg-gradient-to-br from-[#10182d]/95 to-[#050816]/95 p-5 transition hover:border-amber-300/30">
+                <div className="flex items-start justify-between gap-3"><div className="rounded-xl border border-amber-300/15 bg-amber-300/[.07] p-2.5"><Clock3 className="text-amber-300" size={20} /></div><span className="rounded-full border border-amber-300/20 bg-amber-300/[.06] px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wider text-amber-200">{cycle.days} dias</span></div>
+                <h3 className="mt-4 font-semibold text-white">{cycle.title}</h3><p className="mt-2 text-sm leading-6 text-slate-400">{cycle.text}</p>
+                <div className="mt-4 grid gap-2">{PERSONALIZED_ITEMS.map(({ icon: Icon, label, pro }) => <div key={label} className="flex items-center gap-2 text-xs text-slate-300"><Icon size={14} className="text-amber-300/80" /><span>{label}</span>{pro && <span className="ml-auto rounded-full bg-amber-300/10 px-2 py-0.5 text-[9px] font-semibold text-amber-200">PRO</span>}</div>)}</div>
+              </article>
+            ))}
+          </div>
+        </section>
+
         <section className="grid gap-5 lg:grid-cols-[1.15fr_.85fr]">
           <div className="relative min-h-[520px] overflow-hidden rounded-3xl border border-white/10 bg-white/[.035] p-6 sm:p-8">
             <div className="absolute left-1/2 top-20 h-[370px] w-[150px] -translate-x-1/2 rounded-[50%] bg-blue-400/[.035] blur-xl" />
@@ -49,11 +81,7 @@ export default function DashboardCura({ onClose, progress }: { onClose: () => vo
               <div className="absolute bottom-4 top-4 left-1/2 w-px -translate-x-1/2 bg-gradient-to-b from-violet-500/15 via-emerald-400/20 to-red-500/15" />
               {CHAKRAS.map((chakra, index) => {
                 const active = index < completed;
-                return <div key={chakra.name} className="relative z-10 grid w-full grid-cols-[1fr_58px_1fr] items-center gap-3">
-                  <span className="text-right text-xs text-slate-500">{chakra.name}</span>
-                  <div className="flex justify-center"><div className={`flex h-11 w-11 items-center justify-center rounded-full border transition-all duration-700 ${active ? 'scale-105' : 'border-white/10 bg-slate-900'}`} style={active ? { background: chakra.color, borderColor: chakra.color, boxShadow: `0 0 12px ${chakra.glow}, 0 0 30px ${chakra.glow}` } : undefined}><div className={`h-3 w-3 rounded-full ${active ? 'bg-white/80 animate-pulse' : 'bg-slate-700'}`} /></div></div>
-                  <span className={`text-xs ${active ? 'text-slate-300' : 'text-slate-600'}`}>{active ? 'Ativado' : 'Em jornada'}</span>
-                </div>;
+                return <div key={chakra.name} className="relative z-10 grid w-full grid-cols-[1fr_58px_1fr] items-center gap-3"><span className="text-right text-xs text-slate-500">{chakra.name}</span><div className="flex justify-center"><div className={`flex h-11 w-11 items-center justify-center rounded-full border transition-all duration-700 ${active ? 'scale-105' : 'border-white/10 bg-slate-900'}`} style={active ? { background: chakra.color, borderColor: chakra.color, boxShadow: `0 0 12px ${chakra.glow}, 0 0 30px ${chakra.glow}` } : undefined}><div className={`h-3 w-3 rounded-full ${active ? 'bg-white/80 animate-pulse' : 'bg-slate-700'}`} /></div></div><span className={`text-xs ${active ? 'text-slate-300' : 'text-slate-600'}`}>{active ? 'Ativado' : 'Em jornada'}</span></div>;
               })}
             </div>
           </div>
