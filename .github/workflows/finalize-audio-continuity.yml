@@ -1,0 +1,148 @@
+name: Finalize persistent meditation audio
+
+on:
+  push:
+    paths:
+      - '.github/workflows/finalize-audio-continuity.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  finalize:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+      - name: Patch audio continuity
+        shell: python
+        run: |
+          from pathlib import Path
+
+          p = Path('src/lib/audio.ts')
+          s = p.read_text()
+          old = """    this.stopBG();
+    this.synthType = type;
+
+    if (type === 'none') {
+      return;
+    }
+
+    this.startSynthesizedBG(type);"""
+          new = """    // Switching tracks must not pause the HTMLMediaElement used by Media Session.
+    // Keep it alive so lock-screen controls and the active media session remain available.
+    this.stopSynthesizedBG();
+    this.synthType = type;
+
+    if (type === 'none') {
+      if ('mediaSession' in navigator) navigator.mediaSession.playbackState = 'paused';
+      return;
+    }
+
+    this.initKeepAlive();
+    this.bgAudio?.play().catch(() => {});
+    if ('mediaSession' in navigator) navigator.mediaSession.playbackState = 'playing';
+    this.startSynthesizedBG(type);"""
+          if old not in s:
+              raise SystemExit('audio startBG target not found')
+          s = s.replace(old, new, 1)
+
+          old = """  public stopBG() {
+    this.stopSynthesizedBG();
+    this.synthType = 'none';
+    if (this.bgAudio) {
+      this.bgAudio.pause();
+    }
+  }"""
+          new = """  public stopBG() {
+    this.stopSynthesizedBG();
+    this.synthType = 'none';
+    if (this.bgAudio) this.bgAudio.pause();
+    if ('mediaSession' in navigator) navigator.mediaSession.playbackState = 'paused';
+  }"""
+          if old not in s:
+              raise SystemExit('audio stopBG target not found')
+          s = s.replace(old, new, 1)
+
+          old = """          navigator.mediaSession.setActionHandler('play', () => {
+            this.resumeSpeech();
+            this.bgAudio?.play().catch(()=>{});
+            if (this.ctx && this.ctx.state === 'suspended') this.ctx.resume();
+          });
+          navigator.mediaSession.setActionHandler('pause', () => {
+            this.pauseSpeech();
+            this.bgAudio?.pause();
+          });"""
+          new = """          navigator.mediaSession.setActionHandler('play', () => {
+            this.resumeSpeech();
+            this.bgAudio?.play().catch(()=>{});
+            if (this.ctx && this.ctx.state === 'suspended') this.ctx.resume().catch(() => {});
+            navigator.mediaSession.playbackState = 'playing';
+          });
+          navigator.mediaSession.setActionHandler('pause', () => {
+            this.pauseSpeech();
+            if (this.ctx && this.ctx.state === 'running') this.ctx.suspend().catch(() => {});
+            navigator.mediaSession.playbackState = 'paused';
+          });"""
+          if old not in s:
+              raise SystemExit('media session target not found')
+          s = s.replace(old, new, 1)
+
+          old = """          audio.onplay = () => {
+            this.isElevenLabsPlaying = true;
+            this.isSpeakingActive = true;
+            onStart();
+          };"""
+          new = """          audio.onplay = () => {
+            this.isElevenLabsPlaying = true;
+            this.isSpeakingActive = true;
+            if ('mediaSession' in navigator) navigator.mediaSession.playbackState = 'playing';
+            onStart();
+          };"""
+          if old not in s:
+              raise SystemExit('ElevenLabs onplay target not found')
+          s = s.replace(old, new, 1)
+
+          p.write_text(s)
+
+          p = Path('src/components/MeditationSession.tsx')
+          s = p.read_text()
+          old = """  // Stop all audio on unmount to prevent leaks
+  useEffect(() => {
+    return () => {
+      audioEngine.stopBG();
+      audioEngine.stopSpeech();
+      if (reflectionTimerRef.current) clearInterval(reflectionTimerRef.current);
+    };
+  }, []);"""
+          new = """  // Keep the ambient track alive while navigating inside the SPA.
+  // Voice narration is session-scoped and is stopped when this screen closes.
+  useEffect(() => {
+    return () => {
+      audioEngine.stopSpeech();
+      if (reflectionTimerRef.current) clearInterval(reflectionTimerRef.current);
+    };
+  }, []);"""
+          if old not in s:
+              raise SystemExit('MeditationSession unmount target not found')
+          s = s.replace(old, new, 1)
+          p.write_text(s)
+      - run: npm ci
+      - run: npm run lint
+      - run: npm run build
+      - name: Commit verified fix
+        run: |
+          if git diff --quiet; then
+            echo 'No changes to commit'
+            exit 0
+          fi
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add src/lib/audio.ts src/components/MeditationSession.tsx
+          git commit -m 'fix(audio): keep meditation ambience across navigation and lock controls'
+          git push origin main
