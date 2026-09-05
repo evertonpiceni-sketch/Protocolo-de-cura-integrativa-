@@ -20,6 +20,39 @@
   touch-action: manipulation;
 }
 
+@keyframes yantra-clockwise {
+  to { transform: rotate(360deg); }
+}
+
+@keyframes box-breathing {
+  0%, 100% { transform: scale(0.9); filter: brightness(0.88); }
+  25% { transform: scale(1.06); filter: brightness(1.14); }
+  50% { transform: scale(1.06); filter: brightness(1.14); }
+  75% { transform: scale(0.9); filter: brightness(0.88); }
+}
+
+.yantra-breath {
+  width: min(15rem, 72vw);
+  height: min(15rem, 72vw);
+  transform-origin: center;
+  filter: drop-shadow(0 0 24px currentColor);
+}
+
+.yantra-breath--active {
+  animation: box-breathing 16s ease-in-out infinite;
+}
+
+.yantra-rotate {
+  animation: yantra-clockwise 48s linear infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .yantra-breath--active,
+  .yantra-rotate {
+    animation: none;
+  }
+}
+
 @theme {
   --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
   --font-display: "Space Grotesk", sans-serif;
