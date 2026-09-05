@@ -1,6 +1,25 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
 @import "tailwindcss";
 
+/* Mobile onboarding: readable controls and reliable touch targets. */
+#register-form input:not([type='checkbox']),
+#login-form input:not([type='checkbox']) {
+  min-height: 3rem;
+  font-size: 1rem;
+}
+
+#register-form label,
+#login-form label {
+  font-size: 0.75rem;
+  line-height: 1.35;
+}
+
+#register-form button,
+#login-form button,
+#auth-tabs button {
+  touch-action: manipulation;
+}
+
 @theme {
   --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
   --font-display: "Space Grotesk", sans-serif;
@@ -31,4 +50,3 @@
 .animate-pulse-slow {
   animation: pulse-slow 8s infinite ease-in-out;
 }
-
