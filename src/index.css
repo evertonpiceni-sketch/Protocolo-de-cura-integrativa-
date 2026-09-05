@@ -5,6 +5,82 @@
   --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
   --font-display: "Space Grotesk", sans-serif;
   --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
+
+  /* Everton Piceni — premium therapeutic palette */
+  --color-brand-night: #050816;
+  --color-brand-navy: #0a1024;
+  --color-brand-surface: #10182d;
+  --color-brand-gold: #d8b45a;
+  --color-brand-gold-soft: #a98a45;
+  --color-brand-ivory: #f5f1e8;
+  --color-brand-muted: #94a3b8;
+}
+
+:root {
+  color-scheme: dark;
+  --ep-night: #050816;
+  --ep-navy: #0a1024;
+  --ep-surface: #10182d;
+  --ep-gold: #d8b45a;
+  --ep-gold-soft: #a98a45;
+  --ep-ivory: #f5f1e8;
+  --ep-muted: #94a3b8;
+
+  /* Chakra colors are semantic accents, reserved for energy/progress states. */
+  --chakra-root: #ef4444;
+  --chakra-sacral: #f97316;
+  --chakra-solar: #eab308;
+  --chakra-heart: #22c55e;
+  --chakra-throat: #38bdf8;
+  --chakra-third-eye: #6366f1;
+  --chakra-crown: #a855f7;
+}
+
+html,
+body,
+#root {
+  min-height: 100%;
+  background: var(--ep-night);
+}
+
+body {
+  color: var(--ep-ivory);
+  background:
+    radial-gradient(circle at 50% -15%, rgba(216, 180, 90, 0.07), transparent 32rem),
+    radial-gradient(circle at 15% 20%, rgba(67, 56, 202, 0.08), transparent 28rem),
+    linear-gradient(180deg, var(--ep-navy) 0%, var(--ep-night) 42%, #03050d 100%);
+  background-attachment: fixed;
+}
+
+::selection {
+  background: rgba(216, 180, 90, 0.28);
+  color: #fffaf0;
+}
+
+/* Reusable premium surfaces: gold stays subtle; bright chakra hues remain functional. */
+.ep-premium-surface {
+  background: linear-gradient(145deg, rgba(16, 24, 45, 0.94), rgba(5, 8, 22, 0.97));
+  border: 1px solid rgba(216, 180, 90, 0.18);
+  box-shadow: 0 18px 55px rgba(0, 0, 0, 0.28);
+}
+
+.ep-gold-action {
+  background: linear-gradient(135deg, #e4c66f, #b99038);
+  color: #090d18;
+  box-shadow: 0 10px 30px rgba(216, 180, 90, 0.16);
+}
+
+.ep-gold-action:hover {
+  filter: brightness(1.06);
+}
+
+.ep-gold-detail {
+  color: var(--ep-gold);
+  border-color: rgba(216, 180, 90, 0.32);
+}
+
+.ep-secondary-text {
+  color: var(--ep-muted);
 }
 
 /* Custom visual scrollbars for a clean meditative layout */
@@ -13,14 +89,14 @@
   height: 6px;
 }
 ::-webkit-scrollbar-track {
-  background: rgba(15, 23, 42, 0.3);
+  background: rgba(5, 8, 22, 0.55);
 }
 ::-webkit-scrollbar-thumb {
-  background: rgba(148, 163, 184, 0.2);
+  background: rgba(216, 180, 90, 0.22);
   border-radius: 4px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(148, 163, 184, 0.4);
+  background: rgba(216, 180, 90, 0.42);
 }
 
 @keyframes pulse-slow {
@@ -31,4 +107,3 @@
 .animate-pulse-slow {
   animation: pulse-slow 8s infinite ease-in-out;
 }
-
