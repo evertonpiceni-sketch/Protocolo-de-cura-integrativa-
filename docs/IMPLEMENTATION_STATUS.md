@@ -38,3 +38,11 @@ O redesign não altera ainda autenticação, progresso persistido ou APIs existe
 PR de trabalho: #13. Manter como draft até build e testes reais.
 
 A Home de produção ainda não foi substituída; isso é intencional para que o rollout possa ser validado sem quebrar a experiência existente.
+
+### Checklist antes do merge
+- executar build e lint;
+- integrar os componentes na navegação sob controle de rollout;
+- adicionar assets aprovados dos sete chakras;
+- conectar prévia de áudio ao audioEngine;
+- implementar checkout e entitlement server-side;
+- testar mobile, acessibilidade e persistência.
