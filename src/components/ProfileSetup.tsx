@@ -1,6 +1,17 @@
 import React, { useState, useRef } from 'react';
 import { User, Sparkles, Shield, Heart, Lock, Mail, Calendar as CalendarIcon, LogIn, UserPlus, KeyRound, CheckCircle2, ArrowLeft, Clock, MapPin, Tag, Phone, Volume2, Play, Square, Loader2 } from 'lucide-react';
 import { UserAccount } from '../types';
+import brandLogo from '../assets/images/app_icon_lotus_1787334709504.jpg';
+
+const today = new Date().toISOString().slice(0, 10);
+
+const formatBrazilianPhone = (value: string) => {
+  const digits = value.replace(/\D/g, '').replace(/^55/, '').slice(0, 11);
+  if (digits.length <= 2) return digits;
+  if (digits.length <= 6) return `(${digits.slice(0, 2)}) ${digits.slice(2)}`;
+  if (digits.length <= 10) return `(${digits.slice(0, 2)}) ${digits.slice(2, 6)}-${digits.slice(6)}`;
+  return `(${digits.slice(0, 2)}) ${digits.slice(2, 7)}-${digits.slice(7)}`;
+};
 
 interface ProfileSetupProps {
   onComplete: (account: UserAccount) => void;
@@ -150,14 +161,18 @@ export default function ProfileSetup({ onComplete }: ProfileSetupProps) {
   // General state
   const [error, setError] = useState('');
   const [successMsg, setSuccessMsg] = useState('');
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [serviceUnavailable, setServiceUnavailable] = useState(false);
 
   const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
     setSuccessMsg('');
+    setServiceUnavailable(false);
 
     if (!fullName.trim()) return setError('Por favor, insira seu nome completo.');
     if (!birthDate) return setError('Por favor, informe sua data de nascimento.');
+    if (birthDate > today) return setError('A data de nascimento não pode estar no futuro.');
     const cleanEmail = email.trim().toLowerCase();
     if (!cleanEmail || !cleanEmail.includes('@')) return setError('Por favor, insira um e-mail válido.');
     const cleanLogin = regLogin.trim().toLowerCase();
@@ -165,12 +180,13 @@ export default function ProfileSetup({ onComplete }: ProfileSetupProps) {
     if (!regPassword || regPassword.length < 6) return setError('A senha deve ter pelo menos 6 caracteres.');
 
     try {
+      setIsSubmitting(true);
       const res = await fetch('/api/auth/register', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ login: cleanLogin, password: regPassword, fullName, email: cleanEmail })
       });
-      const data = await res.json();
+      const data = await res.json().catch(() => ({}));
       if (!res.ok) {
         setError(data.error || 'Erro no cadastro.');
         return;
@@ -197,16 +213,21 @@ export default function ProfileSetup({ onComplete }: ProfileSetupProps) {
       } as any;
       
       // Persist extra fields immediately
-      await fetch('/api/user/sync', {
+      const syncResponse = await fetch('/api/user/sync', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ profile: profileData, progress: data.user.progress })
-      }).catch(console.error);
+      });
+      if (!syncResponse.ok) throw new Error('PROFILE_SYNC_FAILED');
       
       setSuccessMsg('Conta criada com sucesso! Iniciando seu portal...');
       setTimeout(() => onComplete(newAccount), 1500);
     } catch (err) {
-      setError('Erro de conexão ao servidor.');
+      console.error(err);
+      setServiceUnavailable(true);
+      setError('Não conseguimos conectar ao serviço agora. Verifique sua internet e tente novamente.');
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -214,6 +235,7 @@ export default function ProfileSetup({ onComplete }: ProfileSetupProps) {
     e.preventDefault();
     setError('');
     setSuccessMsg('');
+    setServiceUnavailable(false);
 
     const cleanLogin = logLogin.trim().toLowerCase();
     if (!cleanLogin) {
@@ -226,12 +248,13 @@ export default function ProfileSetup({ onComplete }: ProfileSetupProps) {
     }
 
     try {
+      setIsSubmitting(true);
       const res = await fetch('/api/auth/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ login: cleanLogin, password: logPassword })
       });
-      const data = await res.json();
+      const data = await res.json().catch(() => ({}));
       
       if (!res.ok) {
         setError(data.error || 'Erro ao realizar login.');
@@ -255,7 +278,10 @@ export default function ProfileSetup({ onComplete }: ProfileSetupProps) {
       }, 1000);
     } catch (err) {
       console.error(err);
-      setError('Erro de conexão ao processar o login.');
+      setServiceUnavailable(true);
+      setError('Não conseguimos conectar ao serviço agora. Verifique sua internet e tente novamente.');
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -270,25 +296,25 @@ export default function ProfileSetup({ onComplete }: ProfileSetupProps) {
   };
 
   return (
-    <div className="min-h-screen bg-slate-950 text-slate-100 flex items-center justify-center p-4 md:p-8" id="profile-setup-view">
+    <div className="min-h-screen bg-slate-950 text-slate-100 flex items-start md:items-center justify-center p-3 sm:p-4 md:p-8" id="profile-setup-view">
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_30%,rgba(99,102,241,0.08)_0,transparent_100%)] pointer-events-none" />
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_70%,rgba(16,185,129,0.04)_0,transparent_100%)] pointer-events-none" />
 
-      <div className="w-full max-w-xl bg-slate-900 border border-slate-800/80 rounded-3xl p-6 md:p-8 shadow-2xl space-y-6 relative overflow-hidden" id="onboarding-card">
+      <div className="w-full max-w-xl bg-slate-900 border border-slate-800/80 rounded-2xl sm:rounded-3xl p-5 sm:p-6 md:p-8 shadow-2xl space-y-6 relative overflow-hidden" id="onboarding-card">
         {/* Decorative corner glow */}
         <div className="absolute -top-12 -right-12 w-24 h-24 bg-indigo-500/10 rounded-full blur-xl pointer-events-none" />
 
         <div className="text-center space-y-2">
           <div className="w-24 h-24 sm:w-28 sm:h-28 rounded-full overflow-hidden border-[2px] border-indigo-500/40 shadow-[0_0_25px_rgba(99,102,241,0.25)] mx-auto mb-4 bg-slate-900 flex items-center justify-center relative group">
             <div className="absolute inset-0 bg-indigo-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10 pointer-events-none"></div>
-            <img src="image_fccef69.png" alt="Everton Piceni Logo" className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" referrerPolicy="no-referrer" />
+            <img src={brandLogo} alt="Símbolo de lótus do Protocolo Éverton Piceni" className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />
           </div>
-          <span className="text-[10px] font-mono tracking-widest text-indigo-400 uppercase font-semibold">Terapia Integrada</span>
+          <span className="text-xs font-mono tracking-widest text-indigo-400 uppercase font-semibold">Terapia Integrada</span>
           <h1 className="text-xl md:text-2xl font-display font-medium text-slate-100 leading-tight">
             Olá! Boas-vindas ao<br />Protocolo Éverton Piceni
           </h1>
-          <p className="text-xs text-slate-400">
-            Cura e Alinhamento Multidimensional de 21 Dias
+          <p className="text-sm text-slate-400">
+            Jornada integrativa de autocuidado e alinhamento em 21 dias
           </p>
         </div>
 
@@ -301,7 +327,7 @@ export default function ProfileSetup({ onComplete }: ProfileSetupProps) {
               setError('');
               setSuccessMsg('');
             }}
-            className={`py-2 text-xs font-medium rounded-lg flex items-center justify-center gap-1.5 transition cursor-pointer ${
+            className={`min-h-11 py-2 text-sm font-medium rounded-lg flex items-center justify-center gap-1.5 transition cursor-pointer ${
               activeTab === 'register'
                 ? 'bg-indigo-600 text-white shadow'
                 : 'text-slate-400 hover:text-slate-200'
@@ -317,7 +343,7 @@ export default function ProfileSetup({ onComplete }: ProfileSetupProps) {
               setError('');
               setSuccessMsg('');
             }}
-            className={`py-2 text-xs font-medium rounded-lg flex items-center justify-center gap-1.5 transition cursor-pointer ${
+            className={`min-h-11 py-2 text-sm font-medium rounded-lg flex items-center justify-center gap-1.5 transition cursor-pointer ${
               activeTab === 'login' || activeTab === 'forgot'
                 ? 'bg-indigo-600 text-white shadow'
                 : 'text-slate-400 hover:text-slate-200'
@@ -330,8 +356,13 @@ export default function ProfileSetup({ onComplete }: ProfileSetupProps) {
 
         {/* Display feedback messages */}
         {error && (
-          <div className="bg-rose-950/40 border border-rose-900/50 text-rose-300 text-xs p-3 rounded-xl text-center" id="auth-error">
-            {error}
+          <div className="bg-rose-950/40 border border-rose-900/50 text-rose-200 text-sm p-4 rounded-xl text-center" id="auth-error" role="alert">
+            <p>{error}</p>
+            {serviceUnavailable && (
+              <button type="button" onClick={() => window.location.reload()} className="mt-3 min-h-10 rounded-lg border border-rose-500/40 px-4 font-semibold text-white">
+                Tentar novamente
+              </button>
+            )}
           </div>
         )}
         {successMsg && (
@@ -378,6 +409,7 @@ export default function ProfileSetup({ onComplete }: ProfileSetupProps) {
                     id="reg-birthdate"
                     type="date"
                     required
+                    max={today}
                     value={birthDate}
                     onChange={(e) => setBirthDate(e.target.value)}
                     className="w-full bg-slate-950 border border-slate-800/80 focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 text-slate-100 rounded-xl py-2.5 pl-10 pr-4 text-xs transition duration-150 outline-none [color-scheme:dark]"
@@ -420,7 +452,7 @@ export default function ProfileSetup({ onComplete }: ProfileSetupProps) {
                     id="reg-phone"
                     type="tel"
                     value={phone}
-                    onChange={(e) => setPhone(e.target.value)}
+                    onChange={(e) => setPhone(formatBrazilianPhone(e.target.value))}
                     placeholder="(11) 99999-9999"
                     className="w-full bg-slate-950 border border-slate-800/80 focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 text-slate-100 rounded-xl py-2.5 pl-10 pr-4 text-xs transition duration-150 outline-none placeholder-slate-600"
                   />
@@ -431,6 +463,33 @@ export default function ProfileSetup({ onComplete }: ProfileSetupProps) {
               </div>
             </div>
 
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="space-y-1.5">
+                <label htmlFor="reg-login" className="block text-xs font-mono text-slate-300 uppercase tracking-wider">Nome de usuário</label>
+                <div className="relative">
+                  <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-indigo-400/80"><User size={16} /></div>
+                  <input id="reg-login" type="text" required autoComplete="username" value={regLogin} onChange={(e) => setRegLogin(e.target.value)} placeholder="ex: joaosilva" className="w-full min-h-12 bg-slate-950 border border-slate-700 focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 text-slate-100 rounded-xl pl-10 pr-4 text-base transition outline-none placeholder-slate-600" />
+                </div>
+              </div>
+              <div className="space-y-1.5">
+                <label htmlFor="reg-password" className="block text-xs font-mono text-slate-300 uppercase tracking-wider">Senha</label>
+                <div className="relative">
+                  <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-500"><Lock size={16} /></div>
+                  <input id="reg-password" type="password" required minLength={6} autoComplete="new-password" value={regPassword} onChange={(e) => setRegPassword(e.target.value)} placeholder="Mínimo 6 caracteres" className="w-full min-h-12 bg-slate-950 border border-slate-700 focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 text-slate-100 rounded-xl pl-10 pr-4 text-base transition outline-none placeholder-slate-600" />
+                </div>
+              </div>
+            </div>
+
+            <details className="group rounded-2xl border border-purple-500/25 bg-purple-950/20">
+              <summary className="flex min-h-12 cursor-pointer list-none items-center justify-between gap-3 p-4 text-sm font-semibold text-purple-200">
+                <span className="flex items-center gap-2">
+                  <Sparkles size={16} className="text-amber-400" />
+                  Personalizar mapa, voz e frequência
+                </span>
+                <span className="text-xs text-purple-300 group-open:hidden">Opcional</span>
+                <span className="hidden text-xs text-purple-300 group-open:inline">Fechar</span>
+              </summary>
+              <div className="space-y-4 border-t border-purple-500/20 p-4">
             {/* Astral Map Data Section */}
             <div className="p-3.5 rounded-2xl bg-purple-950/20 border border-purple-500/25 space-y-3">
               <div className="flex items-center justify-between">
@@ -479,48 +538,6 @@ export default function ProfileSetup({ onComplete }: ProfileSetupProps) {
                       className="w-full bg-slate-950 border border-slate-800/80 focus:border-purple-500 focus:ring-1 focus:ring-purple-500 text-slate-100 rounded-xl py-2 pl-9 pr-3 text-xs transition duration-150 outline-none placeholder-slate-600"
                     />
                   </div>
-                </div>
-              </div>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div className="space-y-1.5">
-                <label htmlFor="reg-login" className="block text-[10px] font-mono text-slate-400 uppercase tracking-wider">
-                  Nome de Usuário (Login)
-                </label>
-                <div className="relative">
-                  <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-500">
-                    <User size={16} className="text-indigo-400/80" />
-                  </div>
-                  <input
-                    id="reg-login"
-                    type="text"
-                    required
-                    value={regLogin}
-                    onChange={(e) => setRegLogin(e.target.value)}
-                    placeholder="ex: joaosilva"
-                    className="w-full bg-slate-950 border border-slate-800/80 focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 text-slate-100 rounded-xl py-2.5 pl-10 pr-4 text-xs transition duration-150 outline-none placeholder-slate-600"
-                  />
-                </div>
-              </div>
-
-              <div className="space-y-1.5">
-                <label htmlFor="reg-password" className="block text-[10px] font-mono text-slate-400 uppercase tracking-wider">
-                  Senha
-                </label>
-                <div className="relative">
-                  <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-500">
-                    <Lock size={16} />
-                  </div>
-                  <input
-                    id="reg-password"
-                    type="password"
-                    required
-                    value={regPassword}
-                    onChange={(e) => setRegPassword(e.target.value)}
-                    placeholder="Mínimo 6 caracteres"
-                    className="w-full bg-slate-950 border border-slate-800/80 focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 text-slate-100 rounded-xl py-2.5 pl-10 pr-4 text-xs transition duration-150 outline-none placeholder-slate-600"
-                  />
                 </div>
               </div>
             </div>
@@ -695,6 +712,8 @@ export default function ProfileSetup({ onComplete }: ProfileSetupProps) {
                 ))}
               </div>
             </div>
+              </div>
+            </details>
 
             <div className="flex items-start gap-2 mt-4 mb-2">
               <input 
@@ -703,8 +722,8 @@ export default function ProfileSetup({ onComplete }: ProfileSetupProps) {
                 required 
                 className="mt-0.5 shrink-0 bg-slate-900 border-slate-700 rounded text-indigo-600 focus:ring-indigo-500" 
               />
-              <label htmlFor="lgpd-consent" className="text-[10px] text-slate-400 leading-tight">
-                Declaro que li e concordo com os Termos de Uso e a Política de Privacidade. 
+              <label htmlFor="lgpd-consent" className="text-xs text-slate-300 leading-relaxed">
+                Declaro que li e concordo com os <a href="/termos.html" target="_blank" rel="noreferrer" className="text-indigo-300 underline underline-offset-2">Termos de Uso</a> e a <a href="/privacidade.html" target="_blank" rel="noreferrer" className="text-indigo-300 underline underline-offset-2">Política de Privacidade</a>.
                 Autorizo o tratamento dos meus dados (incluindo anamnese) estritamente para 
                 a formulação de práticas integrativas, conforme a LGPD.
               </label>
@@ -712,10 +731,11 @@ export default function ProfileSetup({ onComplete }: ProfileSetupProps) {
             
             <button
               type="submit"
-              className="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-medium py-3 rounded-xl transition duration-200 shadow-lg shadow-indigo-600/10 hover:shadow-indigo-600/20 text-xs tracking-wider uppercase cursor-pointer border-none mt-4"
+              disabled={isSubmitting}
+              className="w-full min-h-12 bg-indigo-600 hover:bg-indigo-500 disabled:cursor-wait disabled:opacity-70 text-white font-semibold py-3 rounded-xl transition duration-200 shadow-lg shadow-indigo-600/10 hover:shadow-indigo-600/20 text-sm tracking-wide cursor-pointer border-none mt-4"
               id="btn-complete-setup"
             >
-              Criar Conta e Iniciar Cura
+              {isSubmitting ? <span className="flex items-center justify-center gap-2"><Loader2 size={18} className="animate-spin" /> Criando sua conta...</span> : 'Criar conta e começar'}
             </button>
           </form>
         ) : activeTab === 'login' ? (
@@ -778,10 +798,11 @@ export default function ProfileSetup({ onComplete }: ProfileSetupProps) {
 
             <button
               type="submit"
-              className="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-medium py-3 rounded-xl transition duration-200 shadow-lg shadow-indigo-600/10 hover:shadow-indigo-600/20 text-xs tracking-wider uppercase cursor-pointer border-none mt-4"
+              disabled={isSubmitting}
+              className="w-full min-h-12 bg-indigo-600 hover:bg-indigo-500 disabled:cursor-wait disabled:opacity-70 text-white font-semibold py-3 rounded-xl transition duration-200 shadow-lg shadow-indigo-600/10 hover:shadow-indigo-600/20 text-sm tracking-wide cursor-pointer border-none mt-4"
               id="btn-login-submit"
             >
-              Entrar
+              {isSubmitting ? <span className="flex items-center justify-center gap-2"><Loader2 size={18} className="animate-spin" /> Entrando...</span> : 'Entrar'}
             </button>
           </form>
         ) : (

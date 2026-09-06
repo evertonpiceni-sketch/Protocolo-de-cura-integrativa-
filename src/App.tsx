@@ -603,6 +603,15 @@ export default function App() {
   };
 
   // If user profile is not configured yet, direct to onboarding profile setup
+  if (import.meta.env.DEV && new URLSearchParams(window.location.search).get('preview') === 'arcanjo') {
+    return (
+      <ArcanjoProtocolView
+        userProfile={{ name: 'Prévia', subscriptionPlan: 'arcanjo_7d' } as UserProfile}
+        onLogout={() => window.history.replaceState({}, '', '/')}
+      />
+    );
+  }
+
   if (!userProfile) {
     return <ProfileSetup onComplete={handleOnboardingComplete} />;
   }
