@@ -22,3 +22,5 @@ Código criado e revisado estruturalmente. Build/runtime ainda não executados n
 ## Decisões de produto incorporadas
 
 Acolhimento essencial gratuito; conteúdo premium aprofunda a experiência. Meditações premium do catálogo inicial usam preço simbólico de R$ 10, prévia e acesso permanente após confirmação de pagamento.
+
+> A pessoa pode pagar para aprofundar a experiência — nunca para merecer acolhimento.
