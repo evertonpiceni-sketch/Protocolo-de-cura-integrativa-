@@ -32,3 +32,5 @@ A paisagem sonora oferece silêncio, natureza, meditação, ambiente suave e fre
 A sequência diária dos chakras é Muladhara, Svadhisthana, Manipura, Anahata, Vishuddha, Ajna e Sahasrara; os assets finais devem preservar a iconografia aprovada.
 
 Não foram adicionados assets inventados ao repositório: a arte final deve ser a coleção visual aprovada pelo proprietário do projeto.
+
+O redesign não altera ainda autenticação, progresso persistido ou APIs existentes.
