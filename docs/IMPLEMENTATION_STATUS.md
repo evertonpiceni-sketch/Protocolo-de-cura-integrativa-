@@ -46,5 +46,3 @@ A Home de produção ainda não foi substituída; isso é intencional para que o
 - conectar prévia de áudio ao audioEngine;
 - implementar checkout e entitlement server-side;
 - testar mobile, acessibilidade e persistência.
-
-Proceed with ref update to this commit lineage.
