@@ -34,3 +34,5 @@ A sequência diária dos chakras é Muladhara, Svadhisthana, Manipura, Anahata, 
 Não foram adicionados assets inventados ao repositório: a arte final deve ser a coleção visual aprovada pelo proprietário do projeto.
 
 O redesign não altera ainda autenticação, progresso persistido ou APIs existentes.
+
+PR de trabalho: #13. Manter como draft até build e testes reais.
