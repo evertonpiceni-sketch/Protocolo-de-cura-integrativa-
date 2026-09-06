@@ -1,7 +1,7 @@
 {
-  "name": "Protocolo de Cura Integrada - Éverton Piceni",
-  "short_name": "Cura Integrada",
-  "description": "Aplicativo oficial de meditação guiada, frequências sonoras e anamnese do Protocolo de Cura Integrada por Éverton Rodrigo Piceni.",
+  "name": "Protocolo da Transformação - Éverton Piceni",
+  "short_name": "Transformação",
+  "description": "Um espaço de acolhimento, presença, autoconhecimento e reconexão do Protocolo da Transformação por Éverton Rodrigo Piceni.",
   "start_url": "/",
   "id": "/",
   "display": "standalone",
@@ -12,7 +12,7 @@
   "scope": "/",
   "lang": "pt-BR",
   "dir": "ltr",
-  "categories": ["lifestyle", "health", "wellness", "medical"],
+  "categories": ["lifestyle", "wellness"],
   "icons": [
     {
       "src": "/icon-192.svg",
@@ -35,16 +35,16 @@
   ],
   "shortcuts": [
     {
-      "name": "Iniciar Meditação",
-      "short_name": "Meditação",
-      "description": "Abrir o protocolo diário de cura",
+      "name": "Iniciar Meu Momento",
+      "short_name": "Meu Momento",
+      "description": "Abrir seu momento de presença e autocuidado",
       "url": "/?action=meditate",
       "icons": [{ "src": "/icon-192.svg", "sizes": "192x192" }]
     },
     {
       "name": "Frequências Sonoras",
       "short_name": "Frequências",
-      "description": "Ouvir frequências quânticas de cura",
+      "description": "Ouvir frequências sonoras para seu momento de cuidado",
       "url": "/?action=frequencies",
       "icons": [{ "src": "/icon-192.svg", "sizes": "192x192" }]
     }
