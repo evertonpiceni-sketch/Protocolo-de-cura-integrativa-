@@ -26,3 +26,5 @@ Acolhimento essencial gratuito; conteúdo premium aprofunda a experiência. Medi
 > A pessoa pode pagar para aprofundar a experiência — nunca para merecer acolhimento.
 
 Os Protocolos Energizados (7 Dias, 21 Dias e São Miguel) continuam conceitualmente separados das Jornadas de autocuidado.
+
+A paisagem sonora oferece silêncio, natureza, meditação, ambiente suave e frequências, sempre por escolha do usuário.
