@@ -24,3 +24,5 @@ Código criado e revisado estruturalmente. Build/runtime ainda não executados n
 Acolhimento essencial gratuito; conteúdo premium aprofunda a experiência. Meditações premium do catálogo inicial usam preço simbólico de R$ 10, prévia e acesso permanente após confirmação de pagamento.
 
 > A pessoa pode pagar para aprofundar a experiência — nunca para merecer acolhimento.
+
+Os Protocolos Energizados (7 Dias, 21 Dias e São Miguel) continuam conceitualmente separados das Jornadas de autocuidado.
