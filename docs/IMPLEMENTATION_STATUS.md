@@ -36,3 +36,5 @@ Não foram adicionados assets inventados ao repositório: a arte final deve ser 
 O redesign não altera ainda autenticação, progresso persistido ou APIs existentes.
 
 PR de trabalho: #13. Manter como draft até build e testes reais.
+
+A Home de produção ainda não foi substituída; isso é intencional para que o rollout possa ser validado sem quebrar a experiência existente.
