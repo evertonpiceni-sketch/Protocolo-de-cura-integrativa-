@@ -1,7 +1,6 @@
 # Status da implementação
 
 Componentes preparados na branch `feature/refined-welcome-experience`:
-
 - `src/components/RefinedWelcomeExperience.tsx`
 - `src/components/GuidedMeditationStore.tsx`
 - `src/components/ChakraDailyMandala.tsx`
