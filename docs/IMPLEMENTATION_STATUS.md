@@ -46,5 +46,3 @@ A Home de produção ainda não foi substituída; isso é intencional para que o
 - conectar prévia de áudio ao audioEngine;
 - implementar checkout e entitlement server-side;
 - testar mobile, acessibilidade e persistência.
-
-A branch deve ser apontada para o commit mais recente antes da revisão do PR.
