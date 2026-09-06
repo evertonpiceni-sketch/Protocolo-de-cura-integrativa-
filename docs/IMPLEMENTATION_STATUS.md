@@ -38,3 +38,5 @@ O redesign não altera ainda autenticação, progresso persistido ou APIs existe
 PR de trabalho: #13. Manter como draft até build e testes reais.
 
 A Home de produção ainda não foi substituída; isso é intencional para que o rollout possa ser validado sem quebrar a experiência existente.
+
+Último commit funcional desta etapa: componentes de acolhimento, loja de meditações e mandala animada adicionados à branch.
