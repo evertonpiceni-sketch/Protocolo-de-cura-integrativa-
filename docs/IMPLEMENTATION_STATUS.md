@@ -1,11 +1,16 @@
 # Status da implementação
 
-Commit preparado para a branch `feature/refined-welcome-experience`.
+Componentes preparados na branch `feature/refined-welcome-experience`:
 
-Componentes adicionados sem substituir o fluxo de produção:
 - `src/components/RefinedWelcomeExperience.tsx`
 - `src/components/GuidedMeditationStore.tsx`
 - `src/components/ChakraDailyMandala.tsx`
 - `src/lib/wellnessExperience.ts`
 
-A integração no `App.tsx`, checkout real e inclusão dos assets finais ficam condicionados a testes de build e integração. Não ativar cobrança sem confirmação server-side de pagamento.
+## Proteções
+
+Os componentes foram criados de forma desacoplada para não substituir ainda o fluxo de produção. A integração no `App.tsx` será feita somente após build/testes da branch.
+
+Checkout real e liberação de meditações exigem confirmação server-side de pagamento. O clique em comprar nunca deve, sozinho, preencher `ownedIds`.
+
+Os assets finais dos chakras devem usar as artes fidedignas aprovadas. A rotação ocorre no componente visual e respeita `prefers-reduced-motion`.
