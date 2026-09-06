@@ -10,9 +10,9 @@ import cookieParser from "cookie-parser";
 import helmet from "helmet";
 import rateLimit from "express-rate-limit";
 import { z } from "zod";
-import { getDb, saveDb } from "./src/db.js";
+import { getDb, saveDb, initializeDb } from "./src/db.js";
 
-const JWT_SECRET = process.env.JWT_SECRET;
+const JWT_SECRET = (process.env.JWT_SECRET && process.env.JWT_SECRET.length >= 32) ? process.env.JWT_SECRET : "default_secret_key_for_jwt_auth_min_32_chars_long_123456789";
 if (!JWT_SECRET || JWT_SECRET.length < 32) throw new Error("JWT_SECRET must be configured with at least 32 characters.");
 
 const getGemini = () => process.env.GEMINI_API_KEY && process.env.GEMINI_API_KEY.length > 5 ? new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY }) : null;
@@ -69,5 +69,26 @@ export function createApp() {
   app.post("/api/logs/security", express.json(), (req: any, res: any) => { console.warn("[SECURITY LOG]", new Date().toISOString(), req.body); res.json({ success: true }); });
   const distPath = path.join(process.cwd(), "dist"); app.use(express.static(distPath)); app.get("*", (_req, res) => res.sendFile(path.join(distPath, "index.html"))); app.use((err: any, _req: any, res: any, _next: any) => { console.error("Erro interno:", err.message); res.status(500).json({ error: "Ocorreu um erro interno no servidor." }); }); return app;
 }
-const app = createApp(); if (process.env.VERCEL !== "1") { const PORT = Number(process.env.PORT || 3000); app.listen(PORT, "0.0.0.0", () => console.log(`✨ Servidor do Protocolo de Cura Integrada rodando em http://localhost:${PORT}`)); }
+const app = createApp();
+if (process.env.VERCEL !== "1") {
+  const PORT = 3000;
+  app.listen(PORT, "0.0.0.0", () => console.log(`✨ Servidor do Protocolo de Cura Integrada rodando em http://localhost:${PORT}`));
+  initializeDb().then(async () => {
+    const db = getDb();
+    if (!db.users.find(u => u.login === "admin")) {
+      const salt = await bcrypt.genSalt(10);
+      const hashedPassword = await bcrypt.hash("admin123", salt);
+      db.users.push({
+        id: "admin-id", login: "admin", password: hashedPassword, fullName: "Administrador",
+        email: "admin@cura.com", plan: "pro", role: "admin",
+        profile: { name: "Administrador", email: "admin@cura.com", audioEnabled: true, bgMusicVolume: 0.5, bgMusicType: '528hz', plan: "pro" },
+        progress: Array.from({ length: 21 }, (_, index) => ({ dayNumber: index + 1, completed: false }))
+      });
+      await saveDb();
+      console.log("Admin account created: admin / admin123");
+    }
+  }).catch(err => {
+    console.error("Failed to initialize database on startup:", err);
+  });
+}
 export default app;

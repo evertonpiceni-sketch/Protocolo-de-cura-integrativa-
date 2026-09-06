@@ -1,0 +1,107 @@
+{
+  "users": [
+    {
+      "id": "admin-id",
+      "login": "admin",
+      "password": "$2b$10$HvyFgk9WRxPDSME8Du4.v.bwyOaWtelzR0DKKpJ9hk3nbEd1hoSHO",
+      "fullName": "Administrador",
+      "email": "admin@cura.com",
+      "plan": "pro",
+      "role": "admin",
+      "profile": {
+        "name": "Administrador",
+        "email": "admin@cura.com",
+        "audioEnabled": true,
+        "bgMusicVolume": 0.5,
+        "bgMusicType": "528hz",
+        "plan": "pro"
+      },
+      "progress": [
+        {
+          "dayNumber": 1,
+          "completed": false
+        },
+        {
+          "dayNumber": 2,
+          "completed": false
+        },
+        {
+          "dayNumber": 3,
+          "completed": false
+        },
+        {
+          "dayNumber": 4,
+          "completed": false
+        },
+        {
+          "dayNumber": 5,
+          "completed": false
+        },
+        {
+          "dayNumber": 6,
+          "completed": false
+        },
+        {
+          "dayNumber": 7,
+          "completed": false
+        },
+        {
+          "dayNumber": 8,
+          "completed": false
+        },
+        {
+          "dayNumber": 9,
+          "completed": false
+        },
+        {
+          "dayNumber": 10,
+          "completed": false
+        },
+        {
+          "dayNumber": 11,
+          "completed": false
+        },
+        {
+          "dayNumber": 12,
+          "completed": false
+        },
+        {
+          "dayNumber": 13,
+          "completed": false
+        },
+        {
+          "dayNumber": 14,
+          "completed": false
+        },
+        {
+          "dayNumber": 15,
+          "completed": false
+        },
+        {
+          "dayNumber": 16,
+          "completed": false
+        },
+        {
+          "dayNumber": 17,
+          "completed": false
+        },
+        {
+          "dayNumber": 18,
+          "completed": false
+        },
+        {
+          "dayNumber": 19,
+          "completed": false
+        },
+        {
+          "dayNumber": 20,
+          "completed": false
+        },
+        {
+          "dayNumber": 21,
+          "completed": false
+        }
+      ]
+    }
+  ]
+}

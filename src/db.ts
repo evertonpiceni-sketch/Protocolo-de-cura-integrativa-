@@ -3,7 +3,8 @@ import path from 'path';
 
 const DB_FILE = path.join(process.cwd(), 'database.json');
 const DB_KEY = process.env.UPSTASH_DB_KEY || 'cura_integrada:database:v1';
-const UPSTASH_URL = (process.env.UPSTASH_REDIS_REST_URL || process.env.KV_REST_API_URL || '').replace(/\/$/, '');
+const rawUpstash = (process.env.UPSTASH_REDIS_REST_URL || process.env.KV_REST_API_URL || '').replace(/\/$/, '');
+const UPSTASH_URL = rawUpstash.startsWith('http') ? rawUpstash : '';
 const UPSTASH_TOKEN = process.env.UPSTASH_REDIS_REST_TOKEN || process.env.KV_REST_API_TOKEN;
 const REDIS_TIMEOUT_MS = 8000;
 
