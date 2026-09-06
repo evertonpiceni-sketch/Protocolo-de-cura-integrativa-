@@ -14,3 +14,7 @@ Os componentes foram criados de forma desacoplada para não substituir ainda o f
 Checkout real e liberação de meditações exigem confirmação server-side de pagamento. O clique em comprar nunca deve, sozinho, preencher `ownedIds`.
 
 Os assets finais dos chakras devem usar as artes fidedignas aprovadas. A rotação ocorre no componente visual e respeita `prefers-reduced-motion`.
+
+## Estado de validação
+
+Código criado e revisado estruturalmente. Build/runtime ainda não executados neste ambiente; portanto o PR permanece em rascunho e não deve ser mesclado até a validação automatizada ou local.
