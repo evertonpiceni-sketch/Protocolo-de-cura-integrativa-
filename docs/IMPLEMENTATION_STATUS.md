@@ -46,3 +46,5 @@ A Home de produção ainda não foi substituída; isso é intencional para que o
 - conectar prévia de áudio ao audioEngine;
 - implementar checkout e entitlement server-side;
 - testar mobile, acessibilidade e persistência.
+
+Status final: scaffolding implementado; integração de produção pendente de testes.
