@@ -18,3 +18,7 @@ Os assets finais dos chakras devem usar as artes fidedignas aprovadas. A rotaç�
 ## Estado de validação
 
 Código criado e revisado estruturalmente. Build/runtime ainda não executados neste ambiente; portanto o PR permanece em rascunho e não deve ser mesclado até a validação automatizada ou local.
+
+## Decisões de produto incorporadas
+
+Acolhimento essencial gratuito; conteúdo premium aprofunda a experiência. Meditações premium do catálogo inicial usam preço simbólico de R$ 10, prévia e acesso permanente após confirmação de pagamento.
