@@ -28,5 +28,3 @@ Código criado e revisado estruturalmente. Build/runtime ainda não executados n
 - conectar prévia ao audioEngine;
 - implementar checkout/entitlement server-side;
 - testar mobile, acessibilidade e persistência.
-
-Implementation chain complete.
