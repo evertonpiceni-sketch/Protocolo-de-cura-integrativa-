@@ -30,3 +30,5 @@ Os Protocolos Energizados (7 Dias, 21 Dias e São Miguel) continuam conceitualme
 A paisagem sonora oferece silêncio, natureza, meditação, ambiente suave e frequências, sempre por escolha do usuário.
 
 A sequência diária dos chakras é Muladhara, Svadhisthana, Manipura, Anahata, Vishuddha, Ajna e Sahasrara; os assets finais devem preservar a iconografia aprovada.
+
+Não foram adicionados assets inventados ao repositório: a arte final deve ser a coleção visual aprovada pelo proprietário do projeto.
