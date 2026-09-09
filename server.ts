@@ -67,28 +67,56 @@ export function createApp() {
   app.post("/api/elevenlabs/tts", authenticate, apiLimiter, async (req, res) => { try { const { text, voiceId = process.env.ELEVENLABS_VOICE_ID || "Marcus", stability = 0.5, similarityBoost = 0.75, style = 0, speed = 0.92, useSpeakerBoost = true, enableBreathingPauses = true, cacheKey } = req.body; if (!text || typeof text !== "string" || text.trim().length === 0) return res.status(400).json({ error: "Texto para sintetizar é obrigatório." }); const safeStability = Math.max(0.35, Math.min(0.7, Number(stability))); const safeSimilarity = Math.max(0.5, Math.min(0.9, Number(similarityBoost))); const safeStyle = Math.max(0, Math.min(0.2, Number(style))); const safeSpeed = Math.max(0.82, Math.min(1.05, Number(speed))); const effectiveCacheKey = cacheKey || `${voiceId}_${safeStability}_${safeSimilarity}_${safeStyle}_${safeSpeed}_${text.slice(0, 100)}_${text.length}`; if (audioCache.has(effectiveCacheKey)) { const cached = audioCache.get(effectiveCacheKey)!; res.setHeader("Content-Type", cached.contentType); res.setHeader("X-Audio-Cache", "HIT"); return res.send(cached.buffer); } const client = getElevenLabs(); if (!client) return res.status(503).json({ error: "ELEVENLABS_API_KEY não configurada no servidor.", fallbackToNativeTTS: true, message: "Configure sua chave." }); const formattedText = enableBreathingPauses ? prepareTherapeuticSSML(text) : text; let resolvedVoiceId = voiceId; if (['masculina','male','everton','Marcus'].includes(voiceId)) resolvedVoiceId = process.env.ELEVENLABS_VOICE_ID || "Marcus"; else if (['feminina','female','sofia','Rachel'].includes(voiceId)) resolvedVoiceId = "21m00Tcm4TlvDq8ikWAM"; const audioStream = await client.generate({ voice: resolvedVoiceId, model_id: "eleven_multilingual_v2", text: formattedText, voice_settings: { stability: safeStability, similarity_boost: safeSimilarity, style: safeStyle, speed: safeSpeed, use_speaker_boost: useSpeakerBoost } } as any); const chunks: Buffer[] = []; for await (const chunk of audioStream as any) chunks.push(Buffer.isBuffer(chunk) ? chunk : Buffer.from(chunk)); const audioBuffer = Buffer.concat(chunks); if (audioCache.size > 50) { const firstKey = audioCache.keys().next().value; if (firstKey) audioCache.delete(firstKey); } audioCache.set(effectiveCacheKey, { buffer: audioBuffer, contentType: "audio/mpeg" }); res.setHeader("Content-Type", "audio/mpeg"); res.setHeader("Content-Length", audioBuffer.length); res.setHeader("X-Audio-Cache", "MISS"); return res.send(audioBuffer); } catch (error: any) { console.error("Erro na geração de áudio ElevenLabs:", error); return res.status(500).json({ error: error.message || "Falha ao sintetizar áudio", fallbackToNativeTTS: true }); } });
 
   app.post("/api/logs/security", express.json(), (req: any, res: any) => { console.warn("[SECURITY LOG]", new Date().toISOString(), req.body); res.json({ success: true }); });
-  const distPath = path.join(process.cwd(), "dist"); app.use(express.static(distPath)); app.get("*", (_req, res) => res.sendFile(path.join(distPath, "index.html"))); app.use((err: any, _req: any, res: any, _next: any) => { console.error("Erro interno:", err.message); res.status(500).json({ error: "Ocorreu um erro interno no servidor." }); }); return app;
+
+  return app;
 }
-const app = createApp();
-if (process.env.VERCEL !== "1") {
+
+async function startServer() {
+  const app = createApp();
   const PORT = 3000;
-  app.listen(PORT, "0.0.0.0", () => console.log(`✨ Servidor do Protocolo de Cura Integrada rodando em http://localhost:${PORT}`));
-  initializeDb().then(async () => {
-    const db = getDb();
-    if (!db.users.find(u => u.login === "admin")) {
-      const salt = await bcrypt.genSalt(10);
-      const hashedPassword = await bcrypt.hash("admin123", salt);
-      db.users.push({
-        id: "admin-id", login: "admin", password: hashedPassword, fullName: "Administrador",
-        email: "admin@cura.com", plan: "pro", role: "admin",
-        profile: { name: "Administrador", email: "admin@cura.com", audioEnabled: true, bgMusicVolume: 0.5, bgMusicType: '528hz', plan: "pro" },
-        progress: Array.from({ length: 21 }, (_, index) => ({ dayNumber: index + 1, completed: false }))
+
+  if (process.env.VERCEL !== "1") {
+    if (process.env.NODE_ENV !== "production") {
+      const { createServer: createViteServer } = await import("vite");
+      const vite = await createViteServer({
+        server: { middlewareMode: true },
+        appType: "spa",
       });
-      await saveDb();
-      console.log("Admin account created: admin / admin123");
+      app.use(vite.middlewares);
+    } else {
+      const distPath = path.join(process.cwd(), "dist");
+      app.use(express.static(distPath));
+      app.get("*", (_req, res) => res.sendFile(path.join(distPath, "index.html")));
     }
-  }).catch(err => {
-    console.error("Failed to initialize database on startup:", err);
-  });
+
+    app.use((err: any, _req: any, res: any, _next: any) => {
+      console.error("Erro interno:", err.message);
+      res.status(500).json({ error: "Ocorreu um erro interno no servidor." });
+    });
+
+    app.listen(PORT, "0.0.0.0", () => console.log(`✨ Servidor do Protocolo de Cura Integrada rodando em http://localhost:${PORT}`));
+    
+    initializeDb().then(async () => {
+      const db = getDb();
+      if (!db.users.find(u => u.login === "admin")) {
+        const salt = await bcrypt.genSalt(10);
+        const hashedPassword = await bcrypt.hash("admin123", salt);
+        db.users.push({
+          id: "admin-id", login: "admin", password: hashedPassword, fullName: "Administrador",
+          email: "admin@cura.com", plan: "pro", role: "admin",
+          profile: { name: "Administrador", email: "admin@cura.com", audioEnabled: true, bgMusicVolume: 0.5, bgMusicType: '528hz', plan: "pro" },
+          progress: Array.from({ length: 21 }, (_, index) => ({ dayNumber: index + 1, completed: false }))
+        });
+        await saveDb();
+        console.log("Admin account created: admin / admin123");
+      }
+    }).catch(err => {
+      console.error("Failed to initialize database on startup:", err);
+    });
+  }
 }
-export default app;
+
+startServer();
+
+const appInstance = createApp();
+export default appInstance;

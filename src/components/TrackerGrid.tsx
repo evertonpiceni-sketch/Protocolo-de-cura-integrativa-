@@ -4,7 +4,7 @@
  */
 
 import React, { useState, useEffect } from 'react';
-import { Calendar, Flame, Award, Lock, CheckCircle2, Play, BookOpen, Clock, Heart, Bell, X, Sparkles, Smile, TrendingUp, Quote, Leaf, Volume2, Square, Loader2 } from 'lucide-react';
+import { Calendar, Flame, Award, Lock, CheckCircle2, Play, BookOpen, Clock, Heart, Bell, X, Sparkles, Smile, TrendingUp, Quote, Leaf, Volume2, Square, Loader2, ArrowRight } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { DayProgress, DAILY_INSIGHTS, JOURNEY_7D_INSIGHTS, AnamnesisData, SpecificTreatment, JourneyType, AstralMapData } from '../types';
 import { DailyReminderBanner } from './DailyReminderBanner';
@@ -936,9 +936,9 @@ export default function TrackerGrid({
           <button
             type="button"
             onClick={onOpenArcanjoProtocol}
-            className={`w-full py-2.5 rounded-xl font-semibold text-xs flex items-center justify-center gap-2 transition cursor-pointer border shadow-md ${userProfile?.plan === 'pro' ? 'bg-gradient-to-r from-violet-600 to-fuchsia-600 hover:from-violet-500 hover:to-fuchsia-500 text-white border-none' : 'bg-slate-800 hover:bg-slate-750 text-slate-200 hover:text-white border-slate-700'}`}
+            className={`w-full py-2.5 rounded-xl font-semibold text-xs flex items-center justify-center gap-2 transition cursor-pointer border shadow-md ${userPlan === 'pro' ? 'bg-gradient-to-r from-violet-600 to-fuchsia-600 hover:from-violet-500 hover:to-fuchsia-500 text-white border-none' : 'bg-slate-800 hover:bg-slate-750 text-slate-200 hover:text-white border-slate-700'}`}
           >
-            <span>{userProfile?.plan === 'pro' ? 'Acessar Protocolo Sagrado' : 'Desbloquear Protocolo VIP'}</span>
+            <span>{userPlan === 'pro' ? 'Acessar Protocolo Sagrado' : 'Desbloquear Protocolo VIP'}</span>
             <ArrowRight size={13} />
           </button>
         </div>
@@ -965,9 +965,9 @@ export default function TrackerGrid({
           <button
             type="button"
             onClick={onOpenCourses}
-            className={`w-full py-2.5 rounded-xl font-semibold text-xs flex items-center justify-center gap-2 transition cursor-pointer border shadow-md ${userProfile?.plan === 'pro' ? 'bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white border-none' : 'bg-slate-800 hover:bg-slate-750 text-slate-200 hover:text-white border-slate-700'}`}
+            className={`w-full py-2.5 rounded-xl font-semibold text-xs flex items-center justify-center gap-2 transition cursor-pointer border shadow-md ${userPlan === 'pro' ? 'bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white border-none' : 'bg-slate-800 hover:bg-slate-750 text-slate-200 hover:text-white border-slate-700'}`}
           >
-            <span>{userProfile?.plan === 'pro' ? 'Resgatar Curso Gratuito (PRO)' : 'Ver Cursos (Lista de Espera)'}</span>
+            <span>{userPlan === 'pro' ? 'Resgatar Curso Gratuito (PRO)' : 'Ver Cursos (Lista de Espera)'}</span>
             <Award size={13} />
           </button>
         </div>

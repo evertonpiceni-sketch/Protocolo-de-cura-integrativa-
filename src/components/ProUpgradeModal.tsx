@@ -262,7 +262,7 @@ export default function ProUpgradeModal({ isOpen, onClose, onUpgradeSuccess }: P
   );
 }
 
-function PlanCard({ plan, expanded, onToggle, onChoose }: { plan: PlanItem; expanded: boolean; onToggle: () => void; onChoose: () => void }) {
+function PlanCard({ plan, expanded, onToggle, onChoose }: { key?: string | number; plan: PlanItem; expanded: boolean; onToggle: () => void; onChoose: () => void }) {
   return (
     <article className={`relative rounded-3xl border p-5 flex flex-col ${plan.highlight ? 'border-amber-300/70 bg-gradient-to-b from-amber-400/[0.12] to-slate-950 shadow-xl shadow-amber-900/20' : 'border-white/10 bg-slate-900/65'}`}>
       {plan.badge && <span className={`self-start rounded-full px-3 py-1 text-[10px] font-black uppercase tracking-wide mb-3 ${plan.highlight ? 'bg-amber-300 text-slate-950' : 'bg-white/5 text-slate-300 border border-white/10'}`}>{plan.badge}</span>}

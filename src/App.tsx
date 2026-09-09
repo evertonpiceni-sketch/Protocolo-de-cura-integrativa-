@@ -186,6 +186,22 @@ export default function App() {
     };
   }, []);
 
+  // Listen for OPEN_PROTOCOL_DAY to ensure ArcanjoProtocolView is shown
+  useEffect(() => {
+    const handleOpenProtocol = () => {
+      setShowArcanjoView(true);
+    };
+    const handleOpenCertificate = () => {
+      setShowCertificateModal(true);
+    };
+    window.addEventListener('OPEN_PROTOCOL_DAY', handleOpenProtocol);
+    window.addEventListener('OPEN_CERTIFICATE', handleOpenCertificate);
+    return () => {
+      window.removeEventListener('OPEN_PROTOCOL_DAY', handleOpenProtocol);
+      window.removeEventListener('OPEN_CERTIFICATE', handleOpenCertificate);
+    };
+  }, []);
+
   // Load available system voices for voice humanization
   useEffect(() => {
     const updateVoices = () => {
@@ -2240,7 +2256,7 @@ export default function App() {
 
       {/* Dashboard Analítico */}
       {showDashboardCura && (
-        <DashboardCura onClose={() => setShowDashboardCura(false)} progress={progress} />
+        <DashboardCura onClose={() => setShowDashboardCura(false)} progress={progress} userProfile={userProfile || undefined} />
       )}
 
       {/* Notificação / Toast Diário em Tempo Real */}
