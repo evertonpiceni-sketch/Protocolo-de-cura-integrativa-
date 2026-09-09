@@ -88,7 +88,7 @@ export default function SpecificTreatmentModal({
       setDurationDays(7);
       setDiscountPercent(100);
       setAppliedCoupon('VIP7');
-      setCouponFeedback({ type: 'success', message: '🎉 Cupom VIP7 Aplicado! Teste de 7 Dias 100% Grátis liberado!' });
+      setCouponFeedback({ type: 'success', message: '🎉 Cupom VIP7 Aplicado! Acesso VIP de 7 Dias liberado, incluindo cursos e Protocolo Arcanjo!' });
     } else if (rawCode === 'CURA10' || rawCode === 'PAZ10') {
       setDiscountPercent(10);
       setAppliedCoupon(rawCode);

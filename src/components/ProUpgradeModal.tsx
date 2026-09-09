@@ -11,7 +11,7 @@ interface ProUpgradeModalProps {
   isOpen: boolean;
   onClose: () => void;
   userProfile: UserProfile;
-  onUpgradeSuccess: (plan: SubscriptionPlanType, paymentMethod: 'pix' | 'card', price: number) => void;
+  onUpgradeSuccess: (plan: SubscriptionPlanType, paymentMethod: 'pix' | 'card', price: number) => void | Promise<void>;
   onOpenContact?: () => void;
 }
 
@@ -127,6 +127,7 @@ export default function ProUpgradeModal({ isOpen, onClose, onUpgradeSuccess }: P
   const [appliedCoupon, setAppliedCoupon] = useState<string | null>(null);
   const [couponMessage, setCouponMessage] = useState<string | null>(null);
   const [paymentMethod, setPaymentMethod] = useState<'pix' | 'card'>('pix');
+  const [isProcessing, setIsProcessing] = useState(false);
 
   const selectedPlan = PLANS.find(plan => plan.id === selectedId) || PLANS[2];
   const couponRule = appliedCoupon ? COUPONS[appliedCoupon] : undefined;
@@ -147,7 +148,7 @@ export default function ProUpgradeModal({ isOpen, onClose, onUpgradeSuccess }: P
     }
     setAppliedCoupon(code);
     if (rule.vip) {
-      setCouponMessage('VIP7: 7 dias PRO. Cupom de teste sujeito ao limite global de 20 resgates e uso único por conta.');
+      setCouponMessage('VIP7: Acesso Total PRO (7 Dias). Inclui o curso e todos os protocolos VIP (Arcanjos).');
     } else {
       setCouponMessage(`${rule.discount}% de desconto aplicado.`);
     }
@@ -158,12 +159,20 @@ export default function ProUpgradeModal({ isOpen, onClose, onUpgradeSuccess }: P
     document.getElementById('checkout-planos')?.scrollIntoView({ behavior: 'smooth', block: 'center' });
   };
 
-  const finish = () => {
-    if (couponRule?.vip) {
-      onUpgradeSuccess('teste_vip_7d', paymentMethod, 0);
-      return;
+  const finish = async () => {
+    if (isProcessing) return;
+    setIsProcessing(true);
+    try {
+      if (couponRule?.vip) {
+        await onUpgradeSuccess('teste_vip_7d', paymentMethod, 0);
+      } else {
+        await onUpgradeSuccess(selectedPlan.id, paymentMethod, finalPrice);
+      }
+    } catch (e) {
+      console.error(e);
+    } finally {
+      setIsProcessing(false);
     }
-    onUpgradeSuccess(selectedPlan.id, paymentMethod, finalPrice);
   };
 
   const proPlans = PLANS.filter(plan => !['jornada_7d', 'arcanjo_7d'].includes(plan.id));
@@ -244,7 +253,7 @@ export default function ProUpgradeModal({ isOpen, onClose, onUpgradeSuccess }: P
               <button onClick={() => setPaymentMethod('card')} className={`rounded-xl border p-3 text-sm font-bold ${paymentMethod === 'card' ? 'border-amber-400 bg-amber-400/10 text-amber-200' : 'border-white/10 text-slate-400'}`}>Cartão</button>
             </div>
 
-            <button onClick={finish} className="w-full rounded-2xl bg-gradient-to-r from-amber-500 to-yellow-300 text-slate-950 font-black py-4 shadow-lg shadow-amber-500/10">{couponRule?.vip ? 'ATIVAR 7 DIAS PRO' : 'CONTINUAR'}</button>
+            <button disabled={isProcessing} onClick={finish} className={`w-full rounded-2xl bg-gradient-to-r from-amber-500 to-yellow-300 text-slate-950 font-black py-4 shadow-lg shadow-amber-500/10 ${isProcessing ? 'opacity-70 cursor-not-allowed' : ''}`}>{isProcessing ? 'PROCESSANDO...' : (couponRule?.vip ? 'ATIVAR 7 DIAS PRO' : 'CONTINUAR')}</button>
             <div className="mt-3 flex items-center justify-center gap-2 text-[11px] text-slate-500"><ShieldCheck size={13} /> A confirmação definitiva do pagamento e dos cupons deve ser validada pelo servidor.</div>
           </section>
         </main>

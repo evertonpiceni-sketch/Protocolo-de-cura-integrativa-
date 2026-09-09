@@ -128,6 +128,7 @@ export default function App() {
   const [showNumerologyModal, setShowNumerologyModal] = useState<boolean>(false);
   const [showMobileInstallModal, setShowMobileInstallModal] = useState<boolean>(false);
   const [showWelcomeModal, setShowWelcomeModal] = useState<boolean>(false);
+  const [showArcanjoView, setShowArcanjoView] = useState<boolean>(false);
   const [showArchangelModal, setShowArchangelModal] = useState<boolean>(false);
   const [showHooponoponoModal, setShowHooponoponoModal] = useState<boolean>(false);
   const [showAudioSettingsModal, setShowAudioSettingsModal] = useState<boolean>(false);
@@ -629,10 +630,11 @@ export default function App() {
         )}
       </AnimatePresence>
       
-      {userProfile.subscriptionPlan === 'arcanjo_7d' ? (
+      {showArcanjoView || userProfile.subscriptionPlan === 'arcanjo_7d' ? (
         <ArcanjoProtocolView 
           userProfile={userProfile}
           onLogout={handleLogout}
+          onClose={() => setShowArcanjoView(false)}
         />
       ) : activeSessionDay !== null ? (
                 <MeditationSession
@@ -1532,6 +1534,13 @@ export default function App() {
             onOpenHerbalBaths={() => setShowHerbalBathsModal(true)}
             onOpenPlansValuesGuide={() => setShowPlansGuideModal(true)}
             onOpenArchangelPrayer={() => setShowArchangelModal(true)}
+            onOpenArcanjoProtocol={() => {
+              if (userProfile.plan === 'pro') {
+                setShowArcanjoView(true);
+              } else {
+                setShowProModal(true);
+              }
+            }}
             onOpenHooponopono={() => setShowHooponoponoModal(true)}
             onOpenCourses={() => setShowCoursesModal(true)}
             onOpenAudioSettings={() => setShowAudioSettingsModal(true)}
@@ -1933,7 +1942,7 @@ export default function App() {
                   setUserProfile(data.user.profile);
                 }
               } catch (e) { console.error(e) }
-            } else {
+            } else if (userProfile) {
               const upgradedProfile: UserProfile = {
                 ...userProfile,
                 plan: 'pro',
@@ -1943,7 +1952,7 @@ export default function App() {
               saveProfile(upgradedProfile);
             }
             setShowProModal(false);
-            if (plan === 'arcanjo_7d') { setShowCertificateModal(false); } else { setShowCertificateModal(true); }
+            if (plan === 'arcanjo_7d') { setShowCertificateModal(false); setShowArcanjoView(true); } else { setShowCertificateModal(true); }
           }}
           onOpenContact={() => {
             setShowProModal(false);

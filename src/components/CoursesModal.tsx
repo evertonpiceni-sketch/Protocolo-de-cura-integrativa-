@@ -189,7 +189,11 @@ export default function CoursesModal({ isOpen, onClose, userName, userProfile, o
               </span>
             </div>
             <p className="text-xs text-slate-300 leading-relaxed">
-              Desenvolva sua sensibilidade canalizadora, torne-se um canal puro de luz e aprenda os sistemas sagrados de <strong>Reiki Kundalini</strong>, <strong>Reiki Usui Tradicional</strong>, <strong>Chama Rosa Vibrante</strong>, <strong>Violet Flame</strong> e <strong>Reiki Karuna Ki</strong> com o Mestre e Terapeuta <strong>Éverton Rodrigo Piceni</strong>.
+              {userProfile?.plan === 'pro' ? (
+                <><strong>🎁 BÔNUS VIP / PRO:</strong> Você tem direito a resgatar <strong>UM curso de formação gratuito</strong> da lista abaixo! Clique em <strong>Fale Conosco</strong> para agendar sua iniciação e validar seu acesso com Éverton Rodrigo Piceni.</>
+              ) : (
+                <>Desenvolva sua sensibilidade canalizadora, torne-se um canal puro de luz e aprenda os sistemas sagrados de <strong>Reiki Kundalini</strong>, <strong>Reiki Usui Tradicional</strong>, <strong>Chama Rosa Vibrante</strong>, <strong>Violet Flame</strong> e <strong>Reiki Karuna Ki</strong> com o Mestre e Terapeuta <strong>Éverton Rodrigo Piceni</strong>.</>
+              )}
             </p>
           </div>
         </div>

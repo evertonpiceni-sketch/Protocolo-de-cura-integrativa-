@@ -49,6 +49,7 @@ interface TrackerGridProps {
   onOpenHerbalBaths?: () => void;
   onOpenPlansValuesGuide?: () => void;
   onOpenArchangelPrayer?: () => void;
+  onOpenArcanjoProtocol?: () => void;
   onOpenHooponopono?: () => void;
   onOpenCourses?: () => void;
   onOpenAudioSettings?: () => void;
@@ -86,6 +87,7 @@ export default function TrackerGrid({
   onOpenHerbalBaths,
   onOpenPlansValuesGuide,
   onOpenArchangelPrayer,
+  onOpenArcanjoProtocol,
   onOpenHooponopono,
   onOpenCourses,
   onOpenAudioSettings,
@@ -915,6 +917,32 @@ export default function TrackerGrid({
           </button>
         </div>
 
+        {/* Card Protocolo São Miguel, Rafael e Chama Violeta */}
+        <div className="p-5 rounded-3xl border bg-gradient-to-br from-violet-950/40 via-slate-900 to-fuchsia-950/30 border-violet-500/40 shadow-lg flex flex-col justify-between space-y-4">
+          <div className="space-y-2">
+            <div className="flex items-center justify-between">
+              <span className="text-[10px] font-mono uppercase tracking-widest text-violet-400 font-bold bg-violet-500/10 border border-violet-500/30 px-2.5 py-0.5 rounded-full">
+                Protocolo Arcanjos
+              </span>
+              <Sparkles size={14} className="text-violet-400" />
+            </div>
+            <h3 className="text-sm md:text-base font-display font-medium text-slate-100">
+              São Miguel, Rafael e Chama Violeta
+            </h3>
+            <p className="text-xs text-slate-300 leading-relaxed">
+              Jornada intensiva de 7 dias focada na blindagem espiritual, saúde perfeita e transmutação cármica profunda.
+            </p>
+          </div>
+          <button
+            type="button"
+            onClick={onOpenArcanjoProtocol}
+            className={`w-full py-2.5 rounded-xl font-semibold text-xs flex items-center justify-center gap-2 transition cursor-pointer border shadow-md ${userProfile?.plan === 'pro' ? 'bg-gradient-to-r from-violet-600 to-fuchsia-600 hover:from-violet-500 hover:to-fuchsia-500 text-white border-none' : 'bg-slate-800 hover:bg-slate-750 text-slate-200 hover:text-white border-slate-700'}`}
+          >
+            <span>{userProfile?.plan === 'pro' ? 'Acessar Protocolo Sagrado' : 'Desbloquear Protocolo VIP'}</span>
+            <ArrowRight size={13} />
+          </button>
+        </div>
+
         {/* Card Cursos & Formações Energéticas */}
         <div className="p-5 rounded-3xl border bg-gradient-to-br from-purple-950/40 via-slate-900 to-amber-950/30 border-purple-500/40 shadow-lg flex flex-col justify-between space-y-4">
           <div className="space-y-2">
@@ -937,9 +965,9 @@ export default function TrackerGrid({
           <button
             type="button"
             onClick={onOpenCourses}
-            className="w-full py-2.5 rounded-xl bg-slate-800 hover:bg-slate-750 text-slate-200 hover:text-white font-semibold text-xs flex items-center justify-center gap-2 transition cursor-pointer border border-slate-700 shadow-md"
+            className={`w-full py-2.5 rounded-xl font-semibold text-xs flex items-center justify-center gap-2 transition cursor-pointer border shadow-md ${userProfile?.plan === 'pro' ? 'bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white border-none' : 'bg-slate-800 hover:bg-slate-750 text-slate-200 hover:text-white border-slate-700'}`}
           >
-            <span>Ver Cursos (Lista de Espera)</span>
+            <span>{userProfile?.plan === 'pro' ? 'Resgatar Curso Gratuito (PRO)' : 'Ver Cursos (Lista de Espera)'}</span>
             <Award size={13} />
           </button>
         </div>
