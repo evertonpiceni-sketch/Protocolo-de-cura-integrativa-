@@ -1,19 +1,5 @@
-import React, { useEffect, useMemo, useRef, useState } from 'react';
-import {
-  X,
-  Play,
-  Pause,
-  RotateCcw,
-  RotateCw,
-  Volume2,
-  Maximize,
-  BookOpen,
-  Wind,
-  MonitorPlay,
-  CheckCircle2,
-  Lock,
-  ChevronLeft
-} from 'lucide-react';
+import React, { useEffect, useRef, useState } from 'react';
+import { X, Play, Pause, RotateCcw, RotateCw, Volume2, BookOpen, ChevronLeft } from 'lucide-react';
 import { UserProfile } from '../types';
 
 interface ArcanjoProtocolViewProps {
@@ -26,506 +12,96 @@ type ProtocolConfig = {
   dia: number;
   nome: string;
   subtitulo: string;
+  local: string;
+  foco: string;
   cor: string;
   corSecundaria: string;
   freq: number;
-  keywords: string;
-  roteiro: string;
   petals: number;
+  intencao: string;
 };
 
 const DADOS_PROTOCOLO: Record<number, ProtocolConfig> = {
-  1: {
-    dia: 1,
-    nome: 'Chakra Básico',
-    subtitulo: 'Limpeza Profunda',
-    cor: '#ef4444', // Red
-    corSecundaria: '#fca5a5',
-    freq: 396,
-    keywords: 'Aterramento • Segurança • Estabilidade',
-    petals: 4,
-    roteiro: 'São Miguel: Visualize a espada de luz azul cortando todos os cordões que sugam sua energia. Diga: "São Miguel à frente, corte o mal e o medo."\n\nChama Violeta: Visualize uma fogueira violeta queimando e transmutando essas energias cortadas em pura luz.\n\nRaio de Ouro: Imagine uma chuva dourada preenchendo os espaços vazios onde os cordões foram cortados, selando sua aura.',
-  },
-  2: {
-    dia: 2,
-    nome: 'Chakra Sacro',
-    subtitulo: 'Cura Física',
-    cor: '#f97316', // Orange
-    corSecundaria: '#fdba74',
-    freq: 417,
-    keywords: 'Criatividade • Fluxo • Liberação',
-    petals: 6,
-    roteiro: 'Raio de Ouro: Envie a luz dourada de São Rafael diretamente para as partes do seu corpo que sentem dor, cansaço ou doença. Sinta o calor regenerador.\n\nChama Violeta: Aplique o Reiki na região do estômago e plexo solar para transmutar toxinas físicas e emocionais.',
-  },
-  3: {
-    dia: 3,
-    nome: 'Chakra Plexo Solar',
-    subtitulo: 'Poder Pessoal',
-    cor: '#eab308', // Yellow
-    corSecundaria: '#fde047',
-    freq: 528,
-    keywords: 'Autoconfiança • Poder Pessoal • Transformação',
-    petals: 10,
-    roteiro: 'Chama Violeta: Coloque as mãos no chakra cardíaco. Mentalize a Chama Violeta envolvendo seu coração, transformando a tristeza em autocompaixão.\n\nRaio de Ouro: Deixe que a luz de São Rafael cure as feridas e cicatrizes emocionais.',
-  },
-  4: {
-    dia: 4,
-    nome: 'Chakra Cardíaco',
-    subtitulo: 'Cura Emocional',
-    cor: '#22c55e', // Green
-    corSecundaria: '#86efac',
-    freq: 639,
-    keywords: 'Amor • Cura • Relacionamentos',
-    petals: 12,
-    roteiro: 'Reiki: Faça um auto-passe rápido mentalizando a energia violeta passando do topo da sua cabeça até a sola dos pés, alinhando cada chakra.\n\nRaio de Ouro: Visualize um sol dourado brilhando no centro do seu peito.',
-  },
-  5: {
-    dia: 5,
-    nome: 'Chakra Laríngeo',
-    subtitulo: 'Abertura de Caminhos',
-    cor: '#0ea5e9', // Light Blue
-    corSecundaria: '#7dd3fc',
-    freq: 741,
-    keywords: 'Comunicação • Expressão • Verdade',
-    petals: 16,
-    roteiro: 'São Miguel: Peça para afastar qualquer obstáculo visível ou invisível que esteja travando seus projetos profissionais.\n\nChama Violeta: Transmute crenças limitantes de não-merecimento ou medo da falta.',
-  },
-  6: {
-    dia: 6,
-    nome: 'Chakra Frontal',
-    subtitulo: 'Harmonização',
-    cor: '#4f46e5', // Indigo
-    corSecundaria: '#a5b4fc',
-    freq: 852,
-    keywords: 'Intuição • Clareza • Percepção',
-    petals: 16, // Visual representation
-    roteiro: 'Chama Violeta: Envie a energia violeta do Reiki à distância para as pessoas com quem você tem conflitos ou dificuldades de comunicação.\n\nRaio de Ouro: Peça a São Rafael para trazer a energia da reconciliação.',
-  },
-  7: {
-    dia: 7,
-    nome: 'Chakra Coronário',
-    subtitulo: 'Selamento Espiritual',
-    cor: '#a855f7', // Violet
-    corSecundaria: '#d8b4fe',
-    freq: 963,
-    keywords: 'Conexão • Expansão • Consciência',
-    petals: 24,
-    roteiro: 'São Miguel: Sinta-se completamente envolvido por uma bolha de luz azul-turquesa indestrutível.\n\nRaio de Ouro: Sinta a energia dourada correndo pelas suas veias.\n\nChama Violeta: Agradeça à energia Reiki pela purificação profunda.',
-  },
+  1: { dia: 1, nome: 'Chakra Básico', subtitulo: 'Raiz • Sobrevivência e Segurança', local: 'Base da coluna', foco: 'Aterramento físico e liberação do medo da escassez', cor: '#ef4444', corSecundaria: '#fca5a5', freq: 396, petals: 4, intencao: 'trazendo estabilidade, presença e segurança interior' },
+  2: { dia: 2, nome: 'Chakra Esplênico', subtitulo: 'Sacral • Vitalidade e Emoções', local: 'Abaixo do umbigo', foco: 'Liberação de bloqueios emocionais e resgate da força criativa', cor: '#f97316', corSecundaria: '#fdba74', freq: 417, petals: 6, intencao: 'liberando emoções e permitindo que a vitalidade e a criatividade voltem a fluir' },
+  3: { dia: 3, nome: 'Chakra Plexo Solar', subtitulo: 'Poder Pessoal e Autoconfiança', local: 'Boca do estômago', foco: 'Liberação de laços de ansiedade, insegurança e controle', cor: '#eab308', corSecundaria: '#fde047', freq: 528, petals: 10, intencao: 'resgatando autoconfiança, coragem e poder pessoal' },
+  4: { dia: 4, nome: 'Chakra Cardíaco', subtitulo: 'Coração • Amor e Aceitação', local: 'Centro do peito', foco: 'Transmutação simbólica de mágoas, rejeição e culpas', cor: '#22c55e', corSecundaria: '#86efac', freq: 639, petals: 12, intencao: 'abrindo espaço para amor próprio, acolhimento e perdão' },
+  5: { dia: 5, nome: 'Chakra Laríngeo', subtitulo: 'Garganta • Expressão e Verdade', local: 'Garganta', foco: 'Liberação simbólica de travas de comunicação e expressão', cor: '#0ea5e9', corSecundaria: '#7dd3fc', freq: 741, petals: 16, intencao: 'liberando sua expressão e permitindo que sua verdade seja comunicada com clareza' },
+  6: { dia: 6, nome: 'Chakra Frontal', subtitulo: 'Terceiro Olho • Mente e Intuição', local: 'Centro da testa', foco: 'Acalmar o excesso de estímulos e favorecer foco e clareza mental', cor: '#4f46e5', corSecundaria: '#a5b4fc', freq: 852, petals: 2, intencao: 'favorecendo silêncio interior, foco, discernimento e intuição' },
+  7: { dia: 7, nome: 'Chakra Coronário', subtitulo: 'Coroa • Conexão Espiritual', local: 'Topo da cabeça', foco: 'Integração, presença e conexão espiritual', cor: '#a855f7', corSecundaria: '#d8b4fe', freq: 963, petals: 24, intencao: 'aprofundando presença, integração e conexão espiritual' },
 };
 
-function GlowingLotus({ config, rotating }: { config: ProtocolConfig; rotating: boolean }) {
-  const { petals, cor, corSecundaria } = config;
-  
-  // Create beautiful layered lotus petals
-  const renderPetals = (count: number, scale: number, opacity: number, offset: number, isInner: boolean) => {
-    const angle = 360 / count;
-    const elements = [];
-    for (let i = 0; i < count; i++) {
-      elements.push(
-        <g key={`petal-${scale}-${i}`} transform={`rotate(${i * angle + offset}) scale(${scale})`}>
-          <path
-            d="M 0 -5 C 15 -30, 25 -70, 0 -100 C -25 -70, -15 -30, 0 -5 Z"
-            fill={isInner ? corSecundaria : `url(#grad-${config.dia})`}
-            opacity={opacity}
-            style={{ mixBlendMode: 'screen' }}
-          />
-          {/* Petal center line for detail */}
-          <path
-            d="M 0 -5 L 0 -95"
-            stroke={isInner ? "#ffffff" : corSecundaria}
-            strokeWidth="1"
-            opacity={0.5}
-            style={{ mixBlendMode: 'screen' }}
-          />
-        </g>
-      );
-    }
-    return elements;
-  };
+const ETAPAS = [
+  { inicio: 0, fim: 90, titulo: 'Abertura e Portal do Dia', assinatura: 'Hon-Sha-Ze-Sho-Nen' },
+  { inicio: 90, fim: 270, titulo: 'Corte e Proteção', assinatura: 'Cúpula e Espada de São Miguel' },
+  { inicio: 270, fim: 450, titulo: 'Transmutação Profunda', assinatura: 'Chama Violeta' },
+  { inicio: 450, fim: 540, titulo: 'Integração e Regeneração Sutil', assinatura: 'Raio de Ouro e Verde de São Rafael' },
+  { inicio: 540, fim: 600, titulo: 'Selamento e Poder Pessoal', assinatura: 'Cho-Ku-Rei de Ouro' },
+];
 
-  return (
-    <div className={`relative flex items-center justify-center w-full h-full ${rotating ? 'animate-[spin_40s_linear_infinite]' : ''}`}>
-      {/* Background massive ambient glow */}
-      <div 
-        className="absolute inset-0 rounded-full blur-[60px] opacity-40 mix-blend-screen animate-pulse"
-        style={{ background: `radial-gradient(circle, ${cor} 0%, transparent 70%)` }}
-      />
-      
-      <svg viewBox="-110 -110 220 220" className="w-full h-full drop-shadow-[0_0_15px_rgba(255,255,255,0.3)]">
-        <defs>
-          <linearGradient id={`grad-${config.dia}`} x1="0%" y1="100%" x2="0%" y2="0%">
-            <stop offset="0%" stopColor={cor} stopOpacity="0.8" />
-            <stop offset="50%" stopColor={corSecundaria} stopOpacity="0.6" />
-            <stop offset="100%" stopColor="#ffffff" stopOpacity="0.1" />
-          </linearGradient>
-          <radialGradient id={`center-glow-${config.dia}`}>
-            <stop offset="0%" stopColor="#ffffff" stopOpacity="1" />
-            <stop offset="30%" stopColor={corSecundaria} stopOpacity="0.8" />
-            <stop offset="100%" stopColor={cor} stopOpacity="0" />
-          </radialGradient>
-        </defs>
-
-        {/* Outer Layer */}
-        {renderPetals(petals, 1.0, 0.4, 0, false)}
-        
-        {/* Middle Layer */}
-        {renderPetals(petals, 0.75, 0.6, (360/petals)/2, false)}
-        
-        {/* Inner Layer */}
-        {renderPetals(Math.max(6, petals/2), 0.45, 0.9, 0, true)}
-
-        {/* Glowing Center */}
-        <circle cx="0" cy="0" r="15" fill={`url(#center-glow-${config.dia})`} />
-        <circle cx="0" cy="0" r="4" fill="#ffffff" className="animate-pulse" />
-      </svg>
-    </div>
-  );
+function roteiroDoDia(config: ProtocolConfig) {
+  return `[00:00 – 01:30] ABERTURA E PORTAL DO DIA\n\nEu aceito receber neste momento, com todo o meu coração, esta prática do Protocolo da Transformação.\n\nFeche os olhos. Respire fundo pelo nariz... sustente o ar por alguns instantes... e solte lentamente pela boca. Mais uma vez. Inspire com suavidade... perceba o ar entrando... e expire, permitindo que o corpo fique um pouco mais solto.\n\nSinta o peso do corpo apoiado onde você está. Perceba os pés, as pernas, o quadril, o abdômen, o peito, os ombros e o rosto. Não existe nada para alcançar agora. Apenas permaneça presente.\n\nImagine raízes de luz partindo dos seus pés e descendo profundamente em direção à Terra. A cada expiração, permita-se sentir mais firme, presente e amparado.\n\nLeve agora sua atenção ao ${config.nome}, localizado em ${config.local}. Hoje direcionamos nossa intenção para este centro, ${config.intencao}. Respire e permita-se apenas observar.\n\n[01:30 – 04:30] CORTE E PROTEÇÃO DE SÃO MIGUEL\n\nVisualize ao seu redor uma luz azul-safira ampla e luminosa, formando simbolicamente um espaço de proteção. Dentro desse espaço, imagine a presença firme e amorosa de São Miguel.\n\nLeve novamente sua consciência ao ${config.nome}. Imagine uma espada de luz azul passando ao redor desse centro, não tocando seu corpo físico, mas representando a liberação de vínculos, preocupações e padrões que você escolhe não carregar mais.\n\nA cada respiração, repita mentalmente: eu libero o que já cumpriu seu papel. Eu permaneço com aquilo que fortalece minha paz, minha consciência e minha autonomia.\n\nPermaneça alguns instantes em silêncio. Inspire... expire... perceba o espaço que surge quando você deixa de apertar aquilo que pode ser solto.\n\nVisualize o centro do dia ficando mais livre e luminoso. Você continua protegido dentro da luz azul. Respire devagar e permita que essa sensação se estabilize.\n\n[04:30 – 07:30] TRANSMUTAÇÃO PROFUNDA DA CHAMA VIOLETA\n\nImagine agora uma chama violeta suave envolvendo simbolicamente o ${config.nome}. Ela não queima nem machuca. É uma imagem de transformação interior.\n\nPermita que nela sejam colocadas lembranças difíceis, culpas, mágoas, receios e padrões emocionais relacionados ao foco de hoje: ${config.foco.toLowerCase()}.\n\nVocê não precisa reviver nenhuma experiência. Apenas reconheça que pode olhar para o que sente com mais espaço e gentileza. A cada expiração, imagine a chama transformando peso em aprendizado, tensão em espaço e rigidez em possibilidade de mudança.\n\nRespire. Se alguma emoção aparecer, apenas observe. Não force, não lute e não julgue. Volte à respiração e ao contato com o seu corpo.\n\nMentalmente diga: eu reconheço minha história sem precisar permanecer preso a ela. Eu escolho caminhar com mais consciência e leveza.\n\nPermaneça por alguns instantes recebendo o silêncio.\n\n[07:30 – 09:00] RAIO VERDE E OURO DE SÃO RAFAEL\n\nAgora imagine uma luz verde-esmeralda misturada a reflexos dourados descendo suavemente e envolvendo o ${config.nome}. Receba essa imagem como um símbolo de equilíbrio, cuidado, integração e renovação interior.\n\nRespire com calma. Perceba o corpo. Permita que a região relacionada ao centro do dia relaxe sem esforço. Imagine a luz preenchendo os espaços que ficaram mais leves durante a prática.\n\nRepita mentalmente: eu acolho meu corpo. Eu respeito meu tempo. Eu escolho cultivar equilíbrio, presença e cuidado comigo.\n\n[09:00 – 10:00] SELAMENTO E ASSUNÇÃO DO PODER PESSOAL\n\nPara encerrar, visualize-se sentado em um trono de luz. Não como alguém acima dos outros, mas como alguém que reassume responsabilidade pela própria caminhada.\n\nO ${config.nome} permanece luminoso e integrado aos demais centros. Respire profundamente.\n\nRepita devagar:\nEu sou livre para construir minha felicidade.\nEu me acolho quando sinto medo ou dúvida.\nEu escolho cuidar de mim.\nEu sou amor.\nEu escolho a paz.\nSinto muito. Me perdoe. Eu te amo. Sou grato.\n\nRespire mais uma vez. Perceba novamente seu corpo e o ambiente ao redor. Quando se sentir pronto, movimente as mãos e os pés e abra os olhos lentamente. A prática de hoje está encerrada.`;
 }
 
-export default function ArcanjoProtocolView({ userProfile, onLogout, onClose }: ArcanjoProtocolViewProps) {
+function ChakraMandala({ config, rotating }: { config: ProtocolConfig; rotating: boolean }) {
+  const count = Math.max(config.petals, 2);
+  return <div className={`relative w-full h-full flex items-center justify-center ${rotating ? 'animate-[spin_40s_linear_infinite]' : ''}`}>
+    <div className="absolute inset-[12%] rounded-full blur-[45px] opacity-50" style={{ background: config.cor }} />
+    <svg viewBox="-120 -120 240 240" className="w-full h-full relative drop-shadow-[0_0_18px_rgba(255,255,255,.25)]">
+      <circle cx="0" cy="0" r="103" fill="none" stroke={config.corSecundaria} strokeWidth="2" opacity=".55" />
+      {Array.from({ length: count }).map((_, i) => <ellipse key={i} cx="0" cy="-58" rx="22" ry="52" fill={config.cor} fillOpacity=".38" stroke={config.corSecundaria} strokeWidth="1.4" transform={`rotate(${i * 360 / count})`} />)}
+      <circle cx="0" cy="0" r="34" fill={config.cor} fillOpacity=".72" stroke="white" strokeOpacity=".55" />
+      <circle cx="0" cy="0" r="8" fill="white" opacity=".9" />
+    </svg>
+  </div>;
+}
+
+export default function ArcanjoProtocolView({ userProfile, onClose }: ArcanjoProtocolViewProps) {
   const [diaAtual, setDiaAtual] = useState(1);
   const [isPlaying, setIsPlaying] = useState(false);
-  const [completedDays, setCompletedDays] = useState<number[]>([]);
   const [elapsed, setElapsed] = useState(0);
   const [showRoteiro, setShowRoteiro] = useState(false);
-
-  const audioCtxRef = useRef<AudioContext | null>(null);
-  const oscillatorRef = useRef<OscillatorNode | null>(null);
+  const [completedDays, setCompletedDays] = useState<number[]>([]);
   const timerRef = useRef<number | null>(null);
-
   const config = DADOS_PROTOCOLO[diaAtual];
-  const TOTAL_SECONDS = 15 * 60; // 15 minutos
-  const progressPercent = Math.min(100, (elapsed / TOTAL_SECONDS) * 100);
+  const TOTAL_SECONDS = 10 * 60;
+  const progressPercent = Math.min(100, elapsed / TOTAL_SECONDS * 100);
+  const etapaAtual = ETAPAS.find(e => elapsed >= e.inicio && elapsed < e.fim) || ETAPAS[ETAPAS.length - 1];
 
   useEffect(() => {
-    const handleOpenDay = (e: any) => {
-      if (e.detail?.day) selectDay(e.detail.day);
-    };
-    window.addEventListener('OPEN_PROTOCOL_DAY', handleOpenDay);
-    return () => window.removeEventListener('OPEN_PROTOCOL_DAY', handleOpenDay);
+    const done: number[] = [];
+    for (let i = 1; i <= 7; i++) if (localStorage.getItem(`reiki_arcanjo_dia_${i}`) === 'true') done.push(i);
+    setCompletedDays(done);
+    setDiaAtual([1,2,3,4,5,6,7].find(d => !done.includes(d)) || 1);
+    return () => { if (timerRef.current) window.clearInterval(timerRef.current); if ('speechSynthesis' in window) window.speechSynthesis.cancel(); };
   }, []);
 
-  useEffect(() => {
-    const completed: number[] = [];
-    for (let i = 1; i <= 7; i += 1) {
-      if (localStorage.getItem(`reiki_arcanjo_dia_${i}`) === 'true') completed.push(i);
-    }
-    setCompletedDays(completed);
-    const firstUncompleted = [1, 2, 3, 4, 5, 6, 7].find((d) => !completed.includes(d)) || 1;
-    setDiaAtual(firstUncompleted);
-
-    return () => {
-      if (timerRef.current) window.clearInterval(timerRef.current);
-      if ('speechSynthesis' in window) window.speechSynthesis.cancel();
-      try { oscillatorRef.current?.stop(); } catch { }
-      audioCtxRef.current?.close().catch(() => undefined);
-    };
-  }, []);
-
-  const formatTime = (seconds: number) => {
-    const min = Math.floor(seconds / 60).toString().padStart(2, '0');
-    const sec = Math.floor(seconds % 60).toString().padStart(2, '0');
-    return `${min}:${sec}`;
+  const formatTime = (s: number) => `${Math.floor(s/60).toString().padStart(2,'0')}:${Math.floor(s%60).toString().padStart(2,'0')}`;
+  const stop = () => { setIsPlaying(false); if (timerRef.current) window.clearInterval(timerRef.current); timerRef.current = null; if ('speechSynthesis' in window) window.speechSynthesis.cancel(); };
+  const complete = () => { localStorage.setItem(`reiki_arcanjo_dia_${diaAtual}`, 'true'); setCompletedDays(p => [...new Set([...p, diaAtual])]); stop(); };
+  const start = () => {
+    stop(); setElapsed(0); setIsPlaying(true);
+    if ('speechSynthesis' in window) { const u = new SpeechSynthesisUtterance(roteiroDoDia(config).replace(/\[[^\]]+\]/g, '')); u.lang='pt-BR'; u.rate=.72; u.pitch=.95; window.speechSynthesis.speak(u); }
+    timerRef.current = window.setInterval(() => setElapsed(p => { const n=p+1; if(n>=TOTAL_SECONDS){ setTimeout(complete,0); return TOTAL_SECONDS; } return n; }),1000);
   };
+  const selectDay = (d:number) => { stop(); setElapsed(0); setDiaAtual(d); };
 
-  const markCompleted = (day: number) => {
-    localStorage.setItem(`reiki_arcanjo_dia_${day}`, 'true');
-    setCompletedDays((prev) => Array.from(new Set([...prev, day])));
-  };
-
-  const stopTone = () => {
-    try { oscillatorRef.current?.stop(); } catch { }
-    oscillatorRef.current = null;
-    if (audioCtxRef.current) {
-      audioCtxRef.current.close().catch(() => undefined);
-      audioCtxRef.current = null;
-    }
-  };
-
-  const startTone = async (frequency: number) => {
-    stopTone();
-    const AudioContextClass = window.AudioContext || (window as any).webkitAudioContext;
-    if (!AudioContextClass) return;
-
-    const ctx = new AudioContextClass();
-    audioCtxRef.current = ctx;
-    const oscillator = ctx.createOscillator();
-    const gain = ctx.createGain();
-
-    oscillator.type = 'sine';
-    oscillator.frequency.value = frequency;
-    gain.gain.value = 0.035;
-
-    oscillator.connect(gain);
-    gain.connect(ctx.destination);
-    oscillator.start();
-    oscillatorRef.current = oscillator;
-
-    if (ctx.state === 'suspended') await ctx.resume();
-  };
-
-  const startSpeech = () => {
-    if (!('speechSynthesis' in window)) return;
-    window.speechSynthesis.cancel();
-    const textoParaFalar = config.roteiro.replace(/\n\n/g, '. ');
-    const utterance = new SpeechSynthesisUtterance(textoParaFalar);
-    utterance.lang = 'pt-BR';
-    utterance.rate = 0.85;
-    utterance.pitch = 0.95;
-    window.speechSynthesis.speak(utterance);
-  };
-
-  const stopSession = (complete = false) => {
-    setIsPlaying(false);
-    if (timerRef.current) {
-      window.clearInterval(timerRef.current);
-      timerRef.current = null;
-    }
-    stopTone();
-    if ('speechSynthesis' in window) window.speechSynthesis.cancel();
-    if (complete) markCompleted(diaAtual);
-  };
-
-  const startSession = async () => {
-    stopSession(false);
-    setElapsed(0);
-    setIsPlaying(true);
-    await startTone(config.freq);
-    startSpeech();
-
-    timerRef.current = window.setInterval(() => {
-      setElapsed((prev) => {
-        const next = prev + 1;
-        if (next >= TOTAL_SECONDS) {
-          window.setTimeout(() => stopSession(true), 0);
-          return TOTAL_SECONDS;
-        }
-        return next;
-      });
-    }, 1000);
-  };
-
-  const togglePlay = () => {
-    if (isPlaying) {
-      stopSession(false); // Pause effectively stops it in this simple version
-    } else {
-      startSession();
-    }
-  };
-
-  const skipBackward = () => {
-    setElapsed(prev => Math.max(0, prev - 10));
-  };
-
-  const skipForward = () => {
-    setElapsed(prev => Math.min(TOTAL_SECONDS, prev + 10));
-  };
-
-  const selectDay = (day: number) => {
-    stopSession(false);
-    setElapsed(0);
-    setDiaAtual(day);
-  };
-
-  return (
-    <div className="fixed inset-0 z-[100] flex flex-col bg-[#05060D] text-white font-sans selection:bg-[#E4C573]/30 overflow-y-auto">
-      {/* Background Ambient */}
-      <div 
-        className="fixed inset-0 pointer-events-none opacity-20 transition-colors duration-1000"
-        style={{ background: `radial-gradient(circle at center 40%, ${config.cor} 0%, #05060D 70%)` }}
-      />
-      
-      {/* Top Header */}
-      <header className="relative z-10 flex items-center justify-between px-5 py-5 w-full max-w-md mx-auto">
-        <button className="text-slate-400 hover:text-white transition" aria-label="Menu" onClick={onClose}>
-          <ChevronLeft size={24} />
-        </button>
-        <div className="flex flex-col items-center">
-          <div className="flex items-center gap-2 text-slate-300">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-            <span className="text-[11px] uppercase tracking-widest font-semibold">Protocolo da Transformação</span>
-          </div>
-          <h1 className="text-[14px] font-medium mt-1">Dia {config.dia} de 7 – {config.subtitulo}</h1>
-        </div>
-        <button onClick={onClose} className="text-slate-400 hover:text-white transition">
-          <X size={24} />
-        </button>
-      </header>
-
-      {/* Main Player Area */}
-      <main className="relative z-10 flex-1 flex flex-col items-center justify-start px-5 w-full max-w-md mx-auto mt-4 pb-12">
-        
-        {/* Lotus Visualizer */}
-        <div className="w-full aspect-square max-w-[320px] mx-auto mb-8 relative">
-          <GlowingLotus config={config} rotating={isPlaying} />
-        </div>
-
-        {/* Session Info */}
-        <div className="text-center w-full mb-10">
-          <h2 className="text-[42px] font-serif font-bold tracking-tight" style={{ textShadow: `0 0 20px ${config.cor}` }}>
-            {config.freq} Hz
-          </h2>
-          <h3 className="text-[18px] font-medium mt-1 mb-2" style={{ color: config.corSecundaria }}>
-            {config.nome}
-          </h3>
-          <p className="text-[12px] text-slate-400 uppercase tracking-widest">
-            {config.keywords}
-          </p>
-        </div>
-
-        {/* Progress & Controls */}
-        <div className="w-full mb-8">
-          {/* Progress Bar */}
-          <div className="relative w-full h-1 bg-white/10 rounded-full mb-4 cursor-pointer group">
-            <div 
-              className="absolute top-0 left-0 h-full rounded-full transition-all duration-1000 ease-linear"
-              style={{ width: `${progressPercent}%`, backgroundColor: config.corSecundaria, boxShadow: `0 0 10px ${config.cor}` }}
-            />
-            {/* Playhead dot */}
-            <div 
-              className="absolute top-1/2 -translate-y-1/2 w-3 h-3 bg-white rounded-full shadow-lg opacity-0 group-hover:opacity-100 transition-opacity"
-              style={{ left: `${progressPercent}%`, transform: 'translate(-50%, -50%)' }}
-            />
-          </div>
-          
-          {/* Timers */}
-          <div className="flex justify-between text-[12px] text-slate-400 font-medium font-mono mb-6">
-            <span>{formatTime(elapsed)}</span>
-            <span>15:00</span>
-          </div>
-
-          {/* Audio Controls */}
-          <div className="flex items-center justify-between px-2">
-            <button className="text-slate-400 hover:text-white transition p-2">
-              <Volume2 size={20} />
-            </button>
-            
-            <div className="flex items-center gap-6">
-              <button onClick={skipBackward} className="text-white hover:text-slate-300 transition">
-                <RotateCcw size={24} strokeWidth={1.5} />
-              </button>
-              
-              <button 
-                onClick={togglePlay}
-                className="w-16 h-16 flex items-center justify-center rounded-full bg-white text-[#05060D] hover:scale-105 transition-transform shadow-[0_0_20px_rgba(255,255,255,0.3)]"
-              >
-                {isPlaying ? <Pause size={28} className="fill-current" /> : <Play size={30} className="ml-1 fill-current" />}
-              </button>
-              
-              <button onClick={skipForward} className="text-white hover:text-slate-300 transition">
-                <RotateCw size={24} strokeWidth={1.5} />
-              </button>
-            </div>
-
-            <button className="text-slate-400 hover:text-white transition p-2">
-              <Maximize size={20} />
-            </button>
-          </div>
-        </div>
-
-        {/* Current Step / Etapa Atual */}
-        <div className="w-full bg-white/5 border border-white/10 rounded-2xl p-4 mb-10 text-center">
-          <p className="text-[11px] text-slate-400 uppercase tracking-widest mb-1">Etapa Atual:</p>
-          <p className="text-[14px] text-slate-200 line-clamp-2">
-            Visualização e expansão da consciência
-          </p>
-          <button 
-            onClick={() => setShowRoteiro(!showRoteiro)}
-            className="mt-3 text-[12px] text-slate-400 hover:text-white underline decoration-white/20 transition"
-          >
-            {showRoteiro ? 'Ocultar Roteiro' : 'Ler Roteiro Completo'}
-          </button>
-          
-          {showRoteiro && (
-            <div className="mt-4 text-[13px] text-slate-300 italic leading-relaxed text-left bg-black/20 p-4 rounded-xl whitespace-pre-line">
-              {config.roteiro}
-            </div>
-          )}
-        </div>
-
-        {/* Atividades Complementares (Match mockup panel 6) */}
-        <div className="w-full">
-          <h4 className="text-[13px] uppercase tracking-widest text-slate-400 font-semibold mb-4 text-center">
-            Atividades complementares do dia
-          </h4>
-          <div className="grid grid-cols-2 gap-3">
-            <div className="bg-gradient-to-b from-[#181C2C] to-[#121523] border border-white/5 rounded-2xl p-4 flex flex-col items-center text-center gap-2 hover:bg-[#1E2336] transition cursor-pointer">
-              <BookOpen size={24} className="text-slate-300" strokeWidth={1.5} />
-              <div>
-                <p className="text-[13px] font-semibold text-white">Registro no Diário</p>
-                <p className="text-[10px] text-slate-400 mt-1">Como você se sentiu hoje?</p>
-              </div>
-            </div>
-            
-            <div className="bg-gradient-to-b from-[#181C2C] to-[#121523] border border-white/5 rounded-2xl p-4 flex flex-col items-center text-center gap-2 hover:bg-[#1E2336] transition cursor-pointer">
-              <div className="w-6 h-6 flex items-center justify-center">
-                {/* Custom Lotus Icon for Afirmações */}
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="text-slate-300 w-full h-full">
-                  <path d="M12 22C12 22 4 16 4 10C4 6 7 3 12 3C17 3 20 6 20 10C20 16 12 22 12 22Z" />
-                  <path d="M12 22C12 22 8 17 8 12C8 9 10 7 12 7C14 7 16 9 16 12C16 17 12 22 12 22Z" />
-                </svg>
-              </div>
-              <div>
-                <p className="text-[13px] font-semibold text-white">Afirmação do Dia</p>
-                <p className="text-[10px] text-slate-400 mt-1">Leia em voz alta</p>
-              </div>
-            </div>
-            
-            <div className="bg-gradient-to-b from-[#181C2C] to-[#121523] border border-white/5 rounded-2xl p-4 flex flex-col items-center text-center gap-2 hover:bg-[#1E2336] transition cursor-pointer">
-              <Wind size={24} className="text-slate-300" strokeWidth={1.5} />
-              <div>
-                <p className="text-[13px] font-semibold text-white">Prática Extra</p>
-                <p className="text-[10px] text-slate-400 mt-1">Exercício de respiração</p>
-              </div>
-            </div>
-            
-            <div className="bg-gradient-to-b from-[#181C2C] to-[#121523] border border-white/5 rounded-2xl p-4 flex flex-col items-center text-center gap-2 hover:bg-[#1E2336] transition cursor-pointer">
-              <MonitorPlay size={24} className="text-slate-300" strokeWidth={1.5} />
-              <div>
-                <p className="text-[13px] font-semibold text-white">Conteúdo de Apoio</p>
-                <p className="text-[10px] text-slate-400 mt-1">Artigo ou vídeo</p>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Exemplos dos demais dias (Match mockup panel 5) */}
-        <div className="w-full mt-12 mb-8">
-           <h4 className="text-[13px] uppercase tracking-widest text-slate-400 font-semibold mb-4 text-center">
-             Exemplos dos demais dias
-           </h4>
-           <div className="flex overflow-x-auto gap-3 pb-4 snap-x snap-mandatory no-scrollbar w-[100vw] px-5 -ml-5">
-             {[1,2,3,4,5,6,7].map(day => {
-               const dayConfig = DADOS_PROTOCOLO[day];
-               const isCompleted = completedDays.includes(day);
-               return (
-                 <div 
-                   key={day}
-                   onClick={() => selectDay(day)}
-                   className={`snap-center shrink-0 w-[140px] flex flex-col items-center justify-between p-4 rounded-2xl border transition-all cursor-pointer ${diaAtual === day ? 'border-white/40 bg-white/10' : 'border-white/10 bg-[#0E111A] hover:bg-white/5'}`}
-                 >
-                   <p className="text-[12px] font-medium text-slate-300 mb-3">Dia {day}</p>
-                   
-                   {/* Mini Lotus representing the day */}
-                   <div className="w-16 h-16 relative mb-4">
-                     <GlowingLotus config={dayConfig} rotating={false} />
-                   </div>
-                   
-                   <p className="text-[16px] font-bold text-white mb-1">{dayConfig.freq} Hz</p>
-                   <p className="text-[11px] font-medium text-center mb-2" style={{ color: dayConfig.corSecundaria }}>{dayConfig.nome}</p>
-                   
-                   <div className="flex items-center gap-1 text-[10px] text-slate-400 bg-black/30 px-2 py-1 rounded-full">
-                     <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-                     15 min
-                   </div>
-                 </div>
-               )
-             })}
-           </div>
-        </div>
-
-      </main>
-    </div>
-  );
+  return <div className="fixed inset-0 z-[100] flex flex-col bg-[#05060D] text-white overflow-y-auto">
+    <div className="fixed inset-0 pointer-events-none opacity-20" style={{background:`radial-gradient(circle at center 35%,${config.cor},#05060D 65%)`}} />
+    <header className="relative z-10 flex items-center justify-between px-5 py-5 w-full max-w-md mx-auto">
+      <button onClick={onClose} className="text-slate-400"><ChevronLeft size={24}/></button>
+      <div className="text-center"><div className="text-[11px] uppercase tracking-widest text-slate-300">Protocolo da Transformação</div><h1 className="text-sm mt-1">Dia {config.dia} de 7 • {config.nome}</h1></div>
+      <button onClick={onClose} className="text-slate-400"><X size={24}/></button>
+    </header>
+    <main className="relative z-10 flex-1 flex flex-col items-center px-5 w-full max-w-md mx-auto pb-12">
+      <div className="w-full aspect-square max-w-[300px] my-4"><ChakraMandala config={config} rotating={isPlaying}/></div>
+      <div className="text-center mb-7"><h2 className="text-3xl font-serif font-bold" style={{color:config.corSecundaria}}>{config.nome}</h2><p className="text-sm text-slate-300 mt-2">{config.subtitulo}</p><p className="text-xs text-slate-400 mt-2">{config.local} • {config.freq} Hz</p><p className="text-sm text-slate-300 mt-4 leading-relaxed">{config.foco}</p></div>
+      <div className="w-full mb-7"><div className="h-1 bg-white/10 rounded-full"><div className="h-full rounded-full" style={{width:`${progressPercent}%`,background:config.corSecundaria}}/></div><div className="flex justify-between text-xs text-slate-400 font-mono mt-3"><span>{formatTime(elapsed)}</span><span>10:00</span></div>
+        <div className="flex items-center justify-between mt-5"><Volume2 size={20} className="text-slate-400"/><button onClick={()=>setElapsed(p=>Math.max(0,p-10))}><RotateCcw/></button><button onClick={()=>isPlaying?stop():start()} className="w-16 h-16 rounded-full bg-white text-black flex items-center justify-center">{isPlaying?<Pause size={28}/>:<Play size={30}/>}</button><button onClick={()=>setElapsed(p=>Math.min(TOTAL_SECONDS,p+10))}><RotateCw/></button><span className="w-5"/></div>
+      </div>
+      <div className="w-full bg-white/5 border border-white/10 rounded-2xl p-4 mb-6 text-center"><p className="text-[11px] text-slate-400 uppercase tracking-widest">Etapa atual</p><p className="text-sm text-slate-200 mt-1">{etapaAtual.titulo}</p><p className="text-xs text-slate-500 mt-1">Programação interna: {etapaAtual.assinatura}</p><button onClick={()=>setShowRoteiro(!showRoteiro)} className="mt-3 text-xs underline text-slate-400">{showRoteiro?'Ocultar meditação':'Ler meditação completa'}</button>{showRoteiro&&<div className="mt-4 text-sm text-slate-300 leading-relaxed text-left bg-black/20 p-4 rounded-xl whitespace-pre-line"><BookOpen size={18} className="mb-3"/>{roteiroDoDia(config)}</div>}</div>
+      <p className="text-[11px] text-slate-500 text-center mb-7">Prática espiritual e integrativa. Não substitui cuidados médicos, psicológicos ou outros tratamentos de saúde.</p>
+      <div className="w-full"><h4 className="text-xs uppercase tracking-widest text-slate-400 text-center mb-4">Ciclo dos 7 chakras • repetir por 3 semanas para 21 dias</h4><div className="grid grid-cols-2 gap-3">{[1,2,3,4,5,6,7].map(d=>{const c=DADOS_PROTOCOLO[d];return <button key={d} onClick={()=>selectDay(d)} className={`p-3 rounded-xl border text-left ${diaAtual===d?'border-white/40 bg-white/10':'border-white/10 bg-white/5'}`}><div className="text-xs text-slate-400">Dia {d} {completedDays.includes(d)?'✓':''}</div><div className="text-sm font-semibold mt-1" style={{color:c.corSecundaria}}>{c.nome}</div><div className="text-[10px] text-slate-500 mt-1">10 minutos</div></button>})}</div></div>
+    </main>
+  </div>;
 }
