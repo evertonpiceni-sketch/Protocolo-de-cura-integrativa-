@@ -57,7 +57,7 @@ const CHAKRA_POSITIONS: Record<number, { top: string; left: string }> = {
 function ChakraBody({ config, active }: { config: ProtocolConfig; active: boolean }) {
   const point = CHAKRA_POSITIONS[config.dia];
   return <div className="relative mx-auto h-full w-full overflow-hidden rounded-[2rem] border border-[#e5c66f]/30 bg-[#06271b] shadow-[0_24px_70px_rgba(0,0,0,.38)]">
-    <img src="/brand/chakra-body.png" alt="Corpo em meditação com os sete chakras alinhados" className="h-full w-full object-cover object-center" />
+    <img src="/brand/chakra-body.svg" alt="Corpo em meditação com os sete chakras alinhados" className="h-full w-full object-cover object-center" />
     <div className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-[#02170f]/70 to-transparent" />
     <div className={`absolute h-16 w-16 -translate-x-1/2 -translate-y-1/2 rounded-full border-2 ${active ? 'animate-pulse' : ''}`} style={{ top: point.top, left: point.left, borderColor: config.corSecundaria, boxShadow: `0 0 18px 7px ${config.cor}88, inset 0 0 15px ${config.cor}` }} aria-hidden="true" />
     <div className="absolute bottom-4 left-4 right-4 rounded-2xl border border-[#e5c66f]/25 bg-[#04261a]/80 p-3 text-center backdrop-blur-md">
@@ -101,33 +101,30 @@ export default function ArcanjoProtocolView({ userProfile, onClose }: ArcanjoPro
       .split(/(?=\[\d{2}:\d{2})/)
       .map(part => part.replace(/\[[^\]]+\]/g, '').trim())
       .filter(Boolean);
-    const playChunk = (index: number) => {
-      if (runId !== narrationRunRef.current || index >= chunks.length) {
-        if (index >= chunks.length) setIsPlaying(false);
+    void audioEngine.playGuidedMeditation(chunks, {
+      title: `Proteção e Presença — Dia ${config.dia}`,
+      subtitle: `${config.nome} • ${config.freq} Hz`,
+      voiceId: userProfile.voiceId || 'Marcus',
+      volume: userProfile.voiceVolume ?? 0.9,
+      stability: 0.45,
+      similarityBoost: 0.75,
+      userName: userProfile.name,
+      onStart: () => {
+        if (runId !== narrationRunRef.current) return;
         setIsPreparingAudio(false);
-        return;
+        setIsPlaying(true);
+      },
+      onTimeUpdate: (seconds, duration) => {
+        if (runId !== narrationRunRef.current) return;
+        setElapsed(duration > 0 ? Math.min(TOTAL_SECONDS, seconds / duration * TOTAL_SECONDS) : seconds);
+      },
+      onEnd: () => { if (runId === narrationRunRef.current) complete(); },
+      onError: () => {
+        if (runId !== narrationRunRef.current) return;
+        setIsPreparingAudio(false);
+        setIsPlaying(false);
       }
-      void audioEngine.speakWithElevenLabsOrFallback(
-        chunks[index],
-        userProfile.voiceVolume ?? 0.9,
-        () => { setIsPreparingAudio(false); setIsPlaying(true); },
-        () => playChunk(index + 1),
-        undefined,
-        undefined,
-        {
-          voiceId: userProfile.voiceId || 'Marcus',
-          rate: userProfile.voiceRate ?? 0.84,
-          pitch: userProfile.voicePitch ?? 1,
-          lang: 'pt-BR',
-          stability: 0.45,
-          similarityBoost: 0.75,
-          enableBreathingPauses: true,
-          userName: userProfile.name
-        }
-      );
-    };
-    playChunk(0);
-    timerRef.current = window.setInterval(() => setElapsed(p => { const n=p+1; if(n>=TOTAL_SECONDS){ setTimeout(complete,0); return TOTAL_SECONDS; } return n; }),1000);
+    });
   };
   const selectDay = (d:number) => { stop(); setElapsed(0); setDiaAtual(d); };
 
@@ -158,7 +155,7 @@ export default function ArcanjoProtocolView({ userProfile, onClose }: ArcanjoPro
         <div className="ep-forest-panel rounded-[1.75rem] p-5 sm:p-7">
           <div className="mb-3 flex items-center justify-between text-sm"><span className="text-[#e5c66f]">{etapaAtual.titulo}</span><span className="font-mono text-[#d9e6dc]">{formatTime(elapsed)} / 10:00</span></div>
           <div className="h-2 overflow-hidden rounded-full bg-black/30"><div className="h-full rounded-full transition-all duration-700" style={{width:`${progressPercent}%`,background:`linear-gradient(90deg,#c69b3d,${config.corSecundaria})`,boxShadow:`0 0 12px ${config.cor}`}}/></div>
-          <div className="mt-6 flex items-center justify-center gap-6"><button className="p-2 text-[#d7e2d8]" aria-label="Voltar dez segundos" onClick={()=>setElapsed(p=>Math.max(0,p-10))}><RotateCcw/></button><button onClick={()=>isPlaying||isPreparingAudio?stop():start()} className="ep-gold-button flex h-20 w-20 items-center justify-center rounded-full" aria-label={isPreparingAudio?'Preparando voz humana':isPlaying?'Pausar':'Iniciar'}>{isPreparingAudio?<Loader2 size={32} className="animate-spin"/>:isPlaying?<Pause size={34}/>:<Play size={35} className="ml-1"/>}</button><button className="p-2 text-[#d7e2d8]" aria-label="Avançar dez segundos" onClick={()=>setElapsed(p=>Math.min(TOTAL_SECONDS,p+10))}><RotateCw/></button></div>
+          <div className="mt-6 flex items-center justify-center gap-6"><button className="p-2 text-[#d7e2d8]" aria-label="Voltar dez segundos" onClick={()=>audioEngine.seekSpeech(-10)}><RotateCcw/></button><button onClick={()=>isPlaying||isPreparingAudio?stop():start()} className="ep-gold-button flex h-20 w-20 items-center justify-center rounded-full" aria-label={isPreparingAudio?'Preparando voz humana':isPlaying?'Pausar':'Iniciar'}>{isPreparingAudio?<Loader2 size={32} className="animate-spin"/>:isPlaying?<Pause size={34}/>:<Play size={35} className="ml-1"/>}</button><button className="p-2 text-[#d7e2d8]" aria-label="Avançar dez segundos" onClick={()=>audioEngine.seekSpeech(10)}><RotateCw/></button></div>
           <div className="mt-4 flex items-center justify-center gap-2 text-sm text-[#bad0c4]"><Volume2 size={17}/><span>{isPreparingAudio?'Preparando voz humana…':'Voz humana e frequência guiada'}</span></div>
         </div>
 

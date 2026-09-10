@@ -949,6 +949,113 @@ class CalmingAudioEngine {
     this.speak(text, voiceVolume, onStart, onEnd, onPause, onResume, options);
   }
 
+  /**
+   * Prepares a complete guided meditation as one media item. Keeping a single
+   * HTMLAudioElement alive lets Android/Chrome continue playback after the
+   * screen locks and exposes the meditation on the lock-screen controls.
+   */
+  public async playGuidedMeditation(
+    parts: string[],
+    options: {
+      title: string;
+      subtitle: string;
+      voiceId?: string;
+      volume?: number;
+      stability?: number;
+      similarityBoost?: number;
+      userName?: string;
+      onStart?: () => void;
+      onTimeUpdate?: (seconds: number, duration: number) => void;
+      onEnd?: () => void;
+      onError?: () => void;
+    }
+  ) {
+    this.stopSpeech();
+    this.initKeepAlive();
+
+    try {
+      const responses = await Promise.all(parts.map((part, index) => {
+        const text = options.userName
+          ? part.replace(/\[NOME\]/g, options.userName)
+          : part.replace(/\[NOME\]/g, '');
+        return fetch('/api/elevenlabs/tts', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            text,
+            voiceId: options.voiceId || 'Marcus',
+            stability: options.stability ?? 0.45,
+            similarityBoost: options.similarityBoost ?? 0.75,
+            enableBreathingPauses: true,
+            cacheKey: `arcanjo_${options.title}_${index}_${text.length}`
+          })
+        });
+      }));
+
+      if (responses.some(response => !response.ok || !response.headers.get('content-type')?.includes('audio'))) {
+        throw new Error('A meditação completa não pôde ser preparada');
+      }
+
+      const buffers = await Promise.all(responses.map(response => response.arrayBuffer()));
+      const audioUrl = URL.createObjectURL(new Blob(buffers, { type: 'audio/mpeg' }));
+      this.voiceAudioUrl = audioUrl;
+      const audio = new Audio(audioUrl);
+      this.voiceAudioElement = audio;
+      audio.preload = 'auto';
+      audio.volume = Math.max(0, Math.min(1, options.volume ?? 0.9));
+
+      if ('mediaSession' in navigator) {
+        navigator.mediaSession.metadata = new MediaMetadata({
+          title: options.title,
+          artist: 'Everton Piceni — Protocolo da Transformação',
+          album: options.subtitle,
+          artwork: [{ src: '/brand/chakra-body.svg', sizes: 'any', type: 'image/svg+xml' }]
+        });
+        navigator.mediaSession.setActionHandler('play', () => this.resumeSpeech());
+        navigator.mediaSession.setActionHandler('pause', () => this.pauseSpeech());
+        navigator.mediaSession.setActionHandler('seekbackward', detail => {
+          audio.currentTime = Math.max(0, audio.currentTime - (detail.seekOffset || 10));
+        });
+        navigator.mediaSession.setActionHandler('seekforward', detail => {
+          audio.currentTime = Math.min(audio.duration || Infinity, audio.currentTime + (detail.seekOffset || 10));
+        });
+      }
+
+      audio.onplay = () => {
+        this.isElevenLabsPlaying = true;
+        this.isSpeakingActive = true;
+        if ('mediaSession' in navigator) navigator.mediaSession.playbackState = 'playing';
+        options.onStart?.();
+      };
+      audio.ontimeupdate = () => {
+        options.onTimeUpdate?.(audio.currentTime, Number.isFinite(audio.duration) ? audio.duration : 0);
+        if ('mediaSession' in navigator && Number.isFinite(audio.duration) && audio.duration > 0) {
+          navigator.mediaSession.setPositionState({ duration: audio.duration, playbackRate: audio.playbackRate, position: Math.min(audio.currentTime, audio.duration) });
+        }
+      };
+      audio.onpause = () => {
+        if ('mediaSession' in navigator) navigator.mediaSession.playbackState = 'paused';
+      };
+      audio.onended = () => {
+        this.isElevenLabsPlaying = false;
+        this.isSpeakingActive = false;
+        if ('mediaSession' in navigator) navigator.mediaSession.playbackState = 'none';
+        options.onEnd?.();
+      };
+      audio.onerror = () => { options.onError?.(); };
+      await audio.play();
+    } catch (error) {
+      console.warn('Guided meditation background playback failed:', error);
+      options.onError?.();
+    }
+  }
+
+  public seekSpeech(offsetSeconds: number) {
+    if (!this.voiceAudioElement) return;
+    const duration = Number.isFinite(this.voiceAudioElement.duration) ? this.voiceAudioElement.duration : Infinity;
+    this.voiceAudioElement.currentTime = Math.max(0, Math.min(duration, this.voiceAudioElement.currentTime + offsetSeconds));
+  }
+
   public async fetchElevenLabsVoices(): Promise<{ voice_id: string; name: string; category: string; description: string; preview_url: string }[]> {
     try {
       const res = await fetch('/api/elevenlabs/voices');
@@ -1042,4 +1149,3 @@ class CalmingAudioEngine {
 }
 
 export const audioEngine = new CalmingAudioEngine();
-
