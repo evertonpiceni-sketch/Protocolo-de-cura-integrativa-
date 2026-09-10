@@ -251,7 +251,7 @@ input, select, textarea {
 }
 
 @media (max-width: 640px) {
-  #main-header { padding: .75rem 1rem !important; }
+  #main-header { display: none !important; }
   #main-header > div { justify-content: center; }
   #main-header > div > div:first-child { flex: 1; justify-content: center; text-align: center; }
   #main-header > div > div:first-child > div:first-child { width: 3.35rem; height: 3.35rem; border-color: rgba(229,198,111,.55); }
@@ -261,7 +261,7 @@ input, select, textarea {
   #header-audio-quick-control > button:first-child { display: none !important; }
   #header-btn-audio-settings { width: 2.75rem; height: 2.75rem; padding: 0; justify-content: center; border-radius: 999px; }
   #header-btn-audio-settings span { display: none !important; }
-  #cura-main-layout main { padding-top: 1.1rem; }
+  #cura-main-layout main { padding-top: 1rem; }
   #bottom-action-dock { bottom: .55rem; }
   #bottom-action-dock > div { border-radius: 1.25rem; padding: .4rem .25rem; }
   #bottom-action-dock button { min-width: 4rem; flex-direction: column; gap: .2rem; font-size: .68rem; padding: .45rem .35rem; }

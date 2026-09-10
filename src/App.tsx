@@ -7,7 +7,6 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Sparkles, Calendar, BookOpen, Volume2, VolumeX, User, RefreshCw, Compass, Heart, Award, Info, X, Play, Clock, Smile, LogOut, Crown, Star, Check, Mic, Sliders, Activity, FileText, Globe, MessageCircle, Phone, Smartphone, Download, Leaf, Bell, Headphones } from 'lucide-react';
 import { DayProgress, UserProfile, UserAccount, DAILY_INSIGHTS, JOURNEY_7D_INSIGHTS, PROTOCOL_STAGES, AnamnesisData, SpecificTreatment, SessionCheckIn, JourneyType } from './types';
 import ProfileSetup from './components/ProfileSetup';
-import TrackerGrid from './components/TrackerGrid';
 import MeditationSession from './components/MeditationSession';
 import JournalLog from './components/JournalLog';
 import ProUpgradeModal from './components/ProUpgradeModal';
@@ -37,6 +36,8 @@ import DailyTipModal from './components/DailyTipModal';
 
 import { SpeedInsights } from '@vercel/speed-insights/react';
 import DashboardCura from './components/DashboardCura';
+import TransformationHome from './components/TransformationHome';
+import brandLogo from './assets/images/app_icon_lotus_1787334709504.jpg';
 
 import { calculateAstralMap } from './utils/astrology';
 import { audioEngine } from './lib/audio';
@@ -688,7 +689,7 @@ export default function App() {
         <div className="max-w-5xl mx-auto flex items-center justify-between gap-2 sm:gap-4">
           <div className="flex items-center gap-2 sm:gap-2.5 min-w-0">
             <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-full overflow-hidden border-[1.5px] border-indigo-500/40 shadow-[0_0_12px_rgba(99,102,241,0.25)] shrink-0 bg-slate-900 flex items-center justify-center">
-              <img src="/app-icon.jpg" alt="Everton Piceni — Terapias Holísticas e Bem-Estar" className="w-full h-full object-cover hover:scale-105 transition-transform duration-500" />
+              <img src={brandLogo} alt="Everton Piceni — Terapias Holísticas e Bem-Estar" className="w-full h-full object-cover hover:scale-105 transition-transform duration-500" />
             </div>
             <div className="min-w-0">
               <span className="text-[9px] font-mono tracking-widest text-[#e5c66f] uppercase font-semibold block truncate">Terapias Holísticas e Bem-Estar</span>
@@ -1520,66 +1521,26 @@ export default function App() {
             onClose={() => setIsJournalOpen(false)}
           />
         ) : (
-          /* Default Dashboard Grid */
-          <TrackerGrid
-            progress={progress}
-            currentDay={currentDay}
-            streak={userProfile.currentStreak}
-            longestStreak={userProfile.longestStreak}
+          /* New approved transformation home */
+          <TransformationHome
             userName={userProfile.name}
-            userPlan={userProfile.plan}
-            subscriptionPlan={userProfile.subscriptionPlan}
-            anamnesis={userProfile.anamnesis}
-            specificTreatments={userProfile.specificTreatments}
-            selectedJourney={userProfile.selectedJourney || '21d'}
-            onSelectJourney={(journey) => {
-              saveProfile({
-                ...userProfile,
-                selectedJourney: journey
-              });
-            }}
-            onSelectDay={(dayNum) => setSelectedDayDetail(dayNum)}
-            onStartSession={(dayNum) => setActiveSessionDay(dayNum)}
+            currentDay={currentDay}
+            progress={progress}
+            onStartSession={setActiveSessionDay}
             onOpenJournal={() => setIsJournalOpen(true)}
             onOpenAnamnesis={() => setShowAnamnesisModal(true)}
-            onOpenAstralMap={() => setShowAstralMapModal(true)}
+            onOpenArcanjo={() => userProfile.plan === 'pro' ? setShowArcanjoView(true) : setShowProModal(true)}
+            onOpenChakras={() => setShowChakrasModal(true)}
+            onOpenBaths={() => setShowHerbalBathsModal(true)}
+            onOpenAstral={() => setShowAstralMapModal(true)}
             onOpenNumerology={() => setShowNumerologyModal(true)}
-            onOpenProModal={() => setShowProModal(true)}
-            onOpenSpecificTreatment={() => setShowSpecificTreatmentModal(true)}
-            onOpenChakrasGuide={() => setShowChakrasModal(true)}
-            onOpenHerbalBaths={() => setShowHerbalBathsModal(true)}
-            onOpenPlansValuesGuide={() => setShowPlansGuideModal(true)}
-            onOpenArchangelPrayer={() => setShowArchangelModal(true)}
-            onOpenArcanjoProtocol={() => {
-              if (userProfile.plan === 'pro') {
-                setShowArcanjoView(true);
-              } else {
-                setShowProModal(true);
-              }
-            }}
-            onOpenHooponopono={() => setShowHooponoponoModal(true)}
-            onOpenCourses={() => setShowCoursesModal(true)}
-            onOpenAudioSettings={() => setShowAudioSettingsModal(true)}
-            onOpenAdminPanel={() => setShowAdminModal(true)}
-            onOpenWelcome={() => setShowWelcomeModal(true)}
-            onOpenAchievements={() => setShowAchievementsModal(true)}
-            onOpenSystemicQuestions={(day) => {
-              setSystemicModalDay(day || currentDay);
-              setShowSystemicQuestionsModal(true);
-            }}
-            onOpenDailyDiary={(day) => {
-              setDailyDiaryModalDay(day || currentDay);
-              setShowDailyDiaryModal(true);
-            }}
-            onOpenContact={() => setShowContactModal(true)}
-            onOpenPromoVideo={() => setShowPromoVideoModal(true)}
-            astralMap={userProfile.astralMap || (userProfile.birthDate ? calculateAstralMap(userProfile.birthDate, userProfile.birthTime, userProfile.birthCity) : undefined)}
+            onOpenSettings={() => setShowSettings(true)}
           />
         )}
       </main>
 
       {/* Bottom Floating Action Dock (Always neatly accessible, prevents header overflow) */}
-      <aside className="fixed bottom-3 inset-x-0 z-40 px-3 pointer-events-none" id="bottom-action-dock">
+      <aside className="hidden" id="bottom-action-dock" aria-hidden="true">
         <div className="max-w-5xl mx-auto bg-slate-950/90 backdrop-blur-xl border border-slate-800/90 rounded-2xl p-2 shadow-2xl shadow-slate-950/80 pointer-events-auto flex items-center justify-between sm:justify-center gap-1.5 sm:gap-2 overflow-x-auto no-scrollbar">
           
           {/* Vídeo Apresentação do App */}
