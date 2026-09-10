@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { X, Play, Pause, RotateCcw, RotateCw, Volume2, BookOpen, ChevronLeft } from 'lucide-react';
+import { X, Play, Pause, RotateCcw, RotateCw, Volume2, BookOpen, ChevronLeft, Leaf, ShieldCheck, Heart } from 'lucide-react';
 import { UserProfile } from '../types';
 
 interface ArcanjoProtocolViewProps {
@@ -43,16 +43,26 @@ function roteiroDoDia(config: ProtocolConfig) {
   return `[00:00 – 01:30] ABERTURA E PORTAL DO DIA\n\nEu aceito receber neste momento, com todo o meu coração, esta prática do Protocolo da Transformação.\n\nFeche os olhos. Respire fundo pelo nariz... sustente o ar por alguns instantes... e solte lentamente pela boca. Mais uma vez. Inspire com suavidade... perceba o ar entrando... e expire, permitindo que o corpo fique um pouco mais solto.\n\nSinta o peso do corpo apoiado onde você está. Perceba os pés, as pernas, o quadril, o abdômen, o peito, os ombros e o rosto. Não existe nada para alcançar agora. Apenas permaneça presente.\n\nImagine raízes de luz partindo dos seus pés e descendo profundamente em direção à Terra. A cada expiração, permita-se sentir mais firme, presente e amparado.\n\nLeve agora sua atenção ao ${config.nome}, localizado em ${config.local}. Hoje direcionamos nossa intenção para este centro, ${config.intencao}. Respire e permita-se apenas observar.\n\n[01:30 – 04:30] CORTE E PROTEÇÃO DE SÃO MIGUEL\n\nVisualize ao seu redor uma luz azul-safira ampla e luminosa, formando simbolicamente um espaço de proteção. Dentro desse espaço, imagine a presença firme e amorosa de São Miguel.\n\nLeve novamente sua consciência ao ${config.nome}. Imagine uma espada de luz azul passando ao redor desse centro, não tocando seu corpo físico, mas representando a liberação de vínculos, preocupações e padrões que você escolhe não carregar mais.\n\nA cada respiração, repita mentalmente: eu libero o que já cumpriu seu papel. Eu permaneço com aquilo que fortalece minha paz, minha consciência e minha autonomia.\n\nPermaneça alguns instantes em silêncio. Inspire... expire... perceba o espaço que surge quando você deixa de apertar aquilo que pode ser solto.\n\nVisualize o centro do dia ficando mais livre e luminoso. Você continua protegido dentro da luz azul. Respire devagar e permita que essa sensação se estabilize.\n\n[04:30 – 07:30] TRANSMUTAÇÃO PROFUNDA DA CHAMA VIOLETA\n\nImagine agora uma chama violeta suave envolvendo simbolicamente o ${config.nome}. Ela não queima nem machuca. É uma imagem de transformação interior.\n\nPermita que nela sejam colocadas lembranças difíceis, culpas, mágoas, receios e padrões emocionais relacionados ao foco de hoje: ${config.foco.toLowerCase()}.\n\nVocê não precisa reviver nenhuma experiência. Apenas reconheça que pode olhar para o que sente com mais espaço e gentileza. A cada expiração, imagine a chama transformando peso em aprendizado, tensão em espaço e rigidez em possibilidade de mudança.\n\nRespire. Se alguma emoção aparecer, apenas observe. Não force, não lute e não julgue. Volte à respiração e ao contato com o seu corpo.\n\nMentalmente diga: eu reconheço minha história sem precisar permanecer preso a ela. Eu escolho caminhar com mais consciência e leveza.\n\nPermaneça por alguns instantes recebendo o silêncio.\n\n[07:30 – 09:00] RAIO VERDE E OURO DE SÃO RAFAEL\n\nAgora imagine uma luz verde-esmeralda misturada a reflexos dourados descendo suavemente e envolvendo o ${config.nome}. Receba essa imagem como um símbolo de equilíbrio, cuidado, integração e renovação interior.\n\nRespire com calma. Perceba o corpo. Permita que a região relacionada ao centro do dia relaxe sem esforço. Imagine a luz preenchendo os espaços que ficaram mais leves durante a prática.\n\nRepita mentalmente: eu acolho meu corpo. Eu respeito meu tempo. Eu escolho cultivar equilíbrio, presença e cuidado comigo.\n\n[09:00 – 10:00] SELAMENTO E ASSUNÇÃO DO PODER PESSOAL\n\nPara encerrar, visualize-se sentado em um trono de luz. Não como alguém acima dos outros, mas como alguém que reassume responsabilidade pela própria caminhada.\n\nO ${config.nome} permanece luminoso e integrado aos demais centros. Respire profundamente.\n\nRepita devagar:\nEu sou livre para construir minha felicidade.\nEu me acolho quando sinto medo ou dúvida.\nEu escolho cuidar de mim.\nEu sou amor.\nEu escolho a paz.\nSinto muito. Me perdoe. Eu te amo. Sou grato.\n\nRespire mais uma vez. Perceba novamente seu corpo e o ambiente ao redor. Quando se sentir pronto, movimente as mãos e os pés e abra os olhos lentamente. A prática de hoje está encerrada.`;
 }
 
-function ChakraMandala({ config, rotating }: { config: ProtocolConfig; rotating: boolean }) {
-  const count = Math.max(config.petals, 2);
-  return <div className={`relative w-full h-full flex items-center justify-center ${rotating ? 'animate-[spin_40s_linear_infinite]' : ''}`}>
-    <div className="absolute inset-[12%] rounded-full blur-[45px] opacity-50" style={{ background: config.cor }} />
-    <svg viewBox="-120 -120 240 240" className="w-full h-full relative drop-shadow-[0_0_18px_rgba(255,255,255,.25)]">
-      <circle cx="0" cy="0" r="103" fill="none" stroke={config.corSecundaria} strokeWidth="2" opacity=".55" />
-      {Array.from({ length: count }).map((_, i) => <ellipse key={i} cx="0" cy="-58" rx="22" ry="52" fill={config.cor} fillOpacity=".38" stroke={config.corSecundaria} strokeWidth="1.4" transform={`rotate(${i * 360 / count})`} />)}
-      <circle cx="0" cy="0" r="34" fill={config.cor} fillOpacity=".72" stroke="white" strokeOpacity=".55" />
-      <circle cx="0" cy="0" r="8" fill="white" opacity=".9" />
-    </svg>
+const CHAKRA_POSITIONS: Record<number, { top: string; left: string }> = {
+  1: { top: '74%', left: '50%' },
+  2: { top: '66%', left: '50%' },
+  3: { top: '56%', left: '50%' },
+  4: { top: '45%', left: '50%' },
+  5: { top: '35%', left: '50%' },
+  6: { top: '25%', left: '50%' },
+  7: { top: '16%', left: '50%' },
+};
+
+function ChakraBody({ config, active }: { config: ProtocolConfig; active: boolean }) {
+  const point = CHAKRA_POSITIONS[config.dia];
+  return <div className="relative mx-auto h-full w-full overflow-hidden rounded-[2rem] border border-[#e5c66f]/30 bg-[#06271b] shadow-[0_24px_70px_rgba(0,0,0,.38)]">
+    <img src="/brand/chakra-body.png" alt="Corpo em meditação com os sete chakras alinhados" className="h-full w-full object-cover object-center" />
+    <div className="absolute inset-0 bg-gradient-to-t from-[#02170f]/75 via-transparent to-[#072b1d]/12" />
+    <div className={`absolute h-16 w-16 -translate-x-1/2 -translate-y-1/2 rounded-full border-2 ${active ? 'animate-pulse' : ''}`} style={{ top: point.top, left: point.left, borderColor: config.corSecundaria, boxShadow: `0 0 18px 7px ${config.cor}88, inset 0 0 15px ${config.cor}` }} aria-hidden="true" />
+    <div className="absolute bottom-4 left-4 right-4 rounded-2xl border border-[#e5c66f]/25 bg-[#04261a]/80 p-3 text-center backdrop-blur-md">
+      <p className="text-xs uppercase tracking-[.18em] text-[#e5c66f]">Chakra em foco</p>
+      <p className="mt-1 font-display text-xl text-[#fff8e7]">{config.nome}</p>
+    </div>
   </div>;
 }
 
@@ -86,22 +96,48 @@ export default function ArcanjoProtocolView({ userProfile, onClose }: ArcanjoPro
   };
   const selectDay = (d:number) => { stop(); setElapsed(0); setDiaAtual(d); };
 
-  return <div className="fixed inset-0 z-[100] flex flex-col bg-[#05060D] text-white overflow-y-auto">
-    <div className="fixed inset-0 pointer-events-none opacity-20" style={{background:`radial-gradient(circle at center 35%,${config.cor},#05060D 65%)`}} />
-    <header className="relative z-10 flex items-center justify-between px-5 py-5 w-full max-w-md mx-auto">
-      <button onClick={onClose} className="text-slate-400"><ChevronLeft size={24}/></button>
-      <div className="text-center"><div className="text-[11px] uppercase tracking-widest text-slate-300">Protocolo da Transformação</div><h1 className="text-sm mt-1">Dia {config.dia} de 7 • {config.nome}</h1></div>
-      <button onClick={onClose} className="text-slate-400"><X size={24}/></button>
-    </header>
-    <main className="relative z-10 flex-1 flex flex-col items-center px-5 w-full max-w-md mx-auto pb-12">
-      <div className="w-full aspect-square max-w-[300px] my-4"><ChakraMandala config={config} rotating={isPlaying}/></div>
-      <div className="text-center mb-7"><h2 className="text-3xl font-serif font-bold" style={{color:config.corSecundaria}}>{config.nome}</h2><p className="text-sm text-slate-300 mt-2">{config.subtitulo}</p><p className="text-xs text-slate-400 mt-2">{config.local} • {config.freq} Hz</p><p className="text-sm text-slate-300 mt-4 leading-relaxed">{config.foco}</p></div>
-      <div className="w-full mb-7"><div className="h-1 bg-white/10 rounded-full"><div className="h-full rounded-full" style={{width:`${progressPercent}%`,background:config.corSecundaria}}/></div><div className="flex justify-between text-xs text-slate-400 font-mono mt-3"><span>{formatTime(elapsed)}</span><span>10:00</span></div>
-        <div className="flex items-center justify-between mt-5"><Volume2 size={20} className="text-slate-400"/><button onClick={()=>setElapsed(p=>Math.max(0,p-10))}><RotateCcw/></button><button onClick={()=>isPlaying?stop():start()} className="w-16 h-16 rounded-full bg-white text-black flex items-center justify-center">{isPlaying?<Pause size={28}/>:<Play size={30}/>}</button><button onClick={()=>setElapsed(p=>Math.min(TOTAL_SECONDS,p+10))}><RotateCw/></button><span className="w-5"/></div>
+  return <div className="fixed inset-0 z-[100] overflow-y-auto bg-[#031b12] text-[#fff8e7]">
+    <div className="fixed inset-0 bg-[linear-gradient(rgba(2,30,20,.80),rgba(1,22,15,.95)),url('/brand/forest-app-background.png')] bg-cover bg-center" />
+    <header className="sticky top-0 z-20 border-b border-[#e5c66f]/20 bg-[#032319]/88 px-4 py-4 backdrop-blur-xl">
+      <div className="mx-auto flex w-full max-w-5xl items-center justify-between">
+        <button onClick={onClose} className="p-2 text-[#e5c66f]" aria-label="Voltar"><ChevronLeft size={25}/></button>
+        <div className="text-center"><div className="text-xs uppercase tracking-[.22em] text-[#e5c66f]">Protocolo da Transformação</div><h1 className="mt-1 font-display text-lg">Proteção e Presença — São Miguel</h1></div>
+        <button onClick={onClose} className="p-2 text-[#e5c66f]" aria-label="Fechar"><X size={23}/></button>
       </div>
-      <div className="w-full bg-white/5 border border-white/10 rounded-2xl p-4 mb-6 text-center"><p className="text-[11px] text-slate-400 uppercase tracking-widest">Etapa atual</p><p className="text-sm text-slate-200 mt-1">{etapaAtual.titulo}</p><p className="text-xs text-slate-500 mt-1">Programação interna: {etapaAtual.assinatura}</p><button onClick={()=>setShowRoteiro(!showRoteiro)} className="mt-3 text-xs underline text-slate-400">{showRoteiro?'Ocultar meditação':'Ler meditação completa'}</button>{showRoteiro&&<div className="mt-4 text-sm text-slate-300 leading-relaxed text-left bg-black/20 p-4 rounded-xl whitespace-pre-line"><BookOpen size={18} className="mb-3"/>{roteiroDoDia(config)}</div>}</div>
-      <p className="text-[11px] text-slate-500 text-center mb-7">Prática espiritual e integrativa. Não substitui cuidados médicos, psicológicos ou outros tratamentos de saúde.</p>
-      <div className="w-full"><h4 className="text-xs uppercase tracking-widest text-slate-400 text-center mb-4">Ciclo dos 7 chakras • repetir por 3 semanas para 21 dias</h4><div className="grid grid-cols-2 gap-3">{[1,2,3,4,5,6,7].map(d=>{const c=DADOS_PROTOCOLO[d];return <button key={d} onClick={()=>selectDay(d)} className={`p-3 rounded-xl border text-left ${diaAtual===d?'border-white/40 bg-white/10':'border-white/10 bg-white/5'}`}><div className="text-xs text-slate-400">Dia {d} {completedDays.includes(d)?'✓':''}</div><div className="text-sm font-semibold mt-1" style={{color:c.corSecundaria}}>{c.nome}</div><div className="text-[10px] text-slate-500 mt-1">10 minutos</div></button>})}</div></div>
+    </header>
+    <main className="relative z-10 mx-auto grid w-full max-w-5xl gap-6 px-4 py-6 pb-16 lg:grid-cols-[.92fr_1.08fr] lg:items-start">
+      <section className="lg:sticky lg:top-24">
+        <div className="mb-4 flex items-center justify-center gap-2 text-sm text-[#dce9df]"><ShieldCheck size={18} className="text-[#e5c66f]"/><span>Dia {config.dia} de 7</span><span className="text-[#e5c66f]/60">•</span><span>{config.freq} Hz</span></div>
+        <div className="mx-auto aspect-[4/5] w-full max-w-[430px]"><ChakraBody config={config} active={isPlaying}/></div>
+      </section>
+
+      <section className="space-y-5">
+        <div className="ep-forest-panel rounded-[1.75rem] p-5 sm:p-7">
+          <div className="flex items-center gap-2 text-[#e5c66f]"><Leaf size={18}/><span className="text-xs uppercase tracking-[.2em]">Seu momento de hoje</span></div>
+          <h2 className="mt-3 font-display text-4xl font-semibold" style={{color:config.corSecundaria}}>{config.nome}</h2>
+          <p className="mt-1 text-base text-[#e9f1e9]">{config.subtitulo}</p>
+          <p className="mt-2 text-sm text-[#bad0c4]">{config.local}</p>
+          <p className="mt-5 text-base leading-7 text-[#edf3eb]">{config.foco}</p>
+        </div>
+
+        <div className="ep-forest-panel rounded-[1.75rem] p-5 sm:p-7">
+          <div className="mb-3 flex items-center justify-between text-sm"><span className="text-[#e5c66f]">{etapaAtual.titulo}</span><span className="font-mono text-[#d9e6dc]">{formatTime(elapsed)} / 10:00</span></div>
+          <div className="h-2 overflow-hidden rounded-full bg-black/30"><div className="h-full rounded-full transition-all duration-700" style={{width:`${progressPercent}%`,background:`linear-gradient(90deg,#c69b3d,${config.corSecundaria})`,boxShadow:`0 0 12px ${config.cor}`}}/></div>
+          <div className="mt-6 flex items-center justify-center gap-6"><button className="p-2 text-[#d7e2d8]" aria-label="Voltar dez segundos" onClick={()=>setElapsed(p=>Math.max(0,p-10))}><RotateCcw/></button><button onClick={()=>isPlaying?stop():start()} className="ep-gold-button flex h-20 w-20 items-center justify-center rounded-full" aria-label={isPlaying?'Pausar':'Iniciar'}>{isPlaying?<Pause size={34}/>:<Play size={35} className="ml-1"/>}</button><button className="p-2 text-[#d7e2d8]" aria-label="Avançar dez segundos" onClick={()=>setElapsed(p=>Math.min(TOTAL_SECONDS,p+10))}><RotateCw/></button></div>
+          <div className="mt-4 flex items-center justify-center gap-2 text-sm text-[#bad0c4]"><Volume2 size={17}/><span>Frequência e condução guiada</span></div>
+        </div>
+
+        <div className="ep-forest-panel rounded-[1.75rem] p-5 sm:p-7">
+          <div className="text-center"><p className="text-xs uppercase tracking-[.2em] text-[#e5c66f]">Programação energética</p><p className="mt-2 text-base text-[#e9f1e9]">{etapaAtual.assinatura}</p></div>
+          <button onClick={()=>setShowRoteiro(!showRoteiro)} className="mt-5 flex w-full items-center justify-center gap-2 rounded-xl border border-[#e5c66f]/35 px-4 py-3 text-sm text-[#f0d989]"><BookOpen size={17}/>{showRoteiro?'Ocultar meditação':'Ler meditação completa'}</button>
+          {showRoteiro&&<div className="mt-4 whitespace-pre-line rounded-2xl bg-black/20 p-5 text-base leading-7 text-[#e6eee8]">{roteiroDoDia(config)}</div>}
+        </div>
+
+        <div className="ep-forest-panel rounded-[1.75rem] p-5 sm:p-7"><div className="mb-5 text-center"><h3 className="font-display text-2xl text-[#fff8e7]">Seu progresso</h3><p className="mt-1 text-sm text-[#bad0c4]">Equilíbrio hoje, presença amanhã.</p></div><div className="grid grid-cols-7 gap-2">{[1,2,3,4,5,6,7].map(d=>{const c=DADOS_PROTOCOLO[d];const done=completedDays.includes(d);return <button key={d} onClick={()=>selectDay(d)} aria-label={`Abrir dia ${d}, ${c.nome}`} className={`flex min-w-0 flex-col items-center gap-2 rounded-xl border px-1 py-3 ${diaAtual===d?'border-[#e5c66f] bg-[#e5c66f]/12':'border-[#e5c66f]/15 bg-black/10'}`}><span className="flex h-7 w-7 items-center justify-center rounded-full text-xs font-bold" style={{background:done||diaAtual===d?c.cor:'#214536',color:'#fff'}}>{done?'✓':d}</span><span className="hidden text-[11px] text-[#c8d8cc] sm:block">{c.nome.replace('Chakra ','')}</span></button>})}</div></div>
+
+        <button className="ep-gold-button flex w-full items-center justify-center gap-2 rounded-2xl px-5 py-4 font-semibold" onClick={complete}><Heart size={18}/>Concluir o momento de hoje</button>
+        <p className="px-4 text-center text-xs leading-5 text-[#9fb8a9]">Prática espiritual e integrativa. Não substitui cuidados médicos, psicológicos ou outros tratamentos de saúde.</p>
+      </section>
     </main>
   </div>;
 }
