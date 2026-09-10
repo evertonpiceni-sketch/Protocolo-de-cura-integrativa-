@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { X, Play, Pause, RotateCcw, RotateCw, Volume2, BookOpen, ChevronLeft, Leaf, ShieldCheck, Heart } from 'lucide-react';
 import { UserProfile } from '../types';
+import { audioEngine } from '../lib/audio';
 
 interface ArcanjoProtocolViewProps {
   userProfile: UserProfile;
@@ -83,15 +84,33 @@ export default function ArcanjoProtocolView({ userProfile, onClose }: ArcanjoPro
     for (let i = 1; i <= 7; i++) if (localStorage.getItem(`reiki_arcanjo_dia_${i}`) === 'true') done.push(i);
     setCompletedDays(done);
     setDiaAtual([1,2,3,4,5,6,7].find(d => !done.includes(d)) || 1);
-    return () => { if (timerRef.current) window.clearInterval(timerRef.current); if ('speechSynthesis' in window) window.speechSynthesis.cancel(); };
+    return () => { if (timerRef.current) window.clearInterval(timerRef.current); audioEngine.stopSpeech(); };
   }, []);
 
   const formatTime = (s: number) => `${Math.floor(s/60).toString().padStart(2,'0')}:${Math.floor(s%60).toString().padStart(2,'0')}`;
-  const stop = () => { setIsPlaying(false); if (timerRef.current) window.clearInterval(timerRef.current); timerRef.current = null; if ('speechSynthesis' in window) window.speechSynthesis.cancel(); };
+  const stop = () => { setIsPlaying(false); if (timerRef.current) window.clearInterval(timerRef.current); timerRef.current = null; audioEngine.stopSpeech(); };
   const complete = () => { localStorage.setItem(`reiki_arcanjo_dia_${diaAtual}`, 'true'); setCompletedDays(p => [...new Set([...p, diaAtual])]); stop(); };
   const start = () => {
     stop(); setElapsed(0); setIsPlaying(true);
-    if ('speechSynthesis' in window) { const u = new SpeechSynthesisUtterance(roteiroDoDia(config).replace(/\[[^\]]+\]/g, '')); u.lang='pt-BR'; u.rate=.72; u.pitch=.95; window.speechSynthesis.speak(u); }
+    audioEngine.unlock();
+    void audioEngine.speakWithElevenLabsOrFallback(
+      roteiroDoDia(config).replace(/\[[^\]]+\]/g, ''),
+      userProfile.voiceVolume ?? 0.9,
+      () => setIsPlaying(true),
+      () => setIsPlaying(false),
+      undefined,
+      undefined,
+      {
+        voiceId: userProfile.voiceId || 'Marcus',
+        rate: userProfile.voiceRate ?? 0.84,
+        pitch: userProfile.voicePitch ?? 1,
+        lang: 'pt-BR',
+        stability: 0.45,
+        similarityBoost: 0.75,
+        enableBreathingPauses: true,
+        userName: userProfile.name
+      }
+    );
     timerRef.current = window.setInterval(() => setElapsed(p => { const n=p+1; if(n>=TOTAL_SECONDS){ setTimeout(complete,0); return TOTAL_SECONDS; } return n; }),1000);
   };
   const selectDay = (d:number) => { stop(); setElapsed(0); setDiaAtual(d); };

@@ -71,7 +71,7 @@ export default function ArchangelMichaelPrayerModal({
       setIsPlaying(true);
       const textToSpeak = currentSection.text.replace(/\[NOME\]/g, userName || 'Filho de Deus');
       
-      audioEngine.speak(
+      void audioEngine.speakWithElevenLabsOrFallback(
         textToSpeak,
         0.85,
         () => setIsPlaying(true),
@@ -88,7 +88,11 @@ export default function ArchangelMichaelPrayerModal({
           voiceId,
           rate: voiceRate,
           pitch: voicePitch,
-          lang: 'pt-BR'
+          lang: 'pt-BR',
+          stability: 0.45,
+          similarityBoost: 0.75,
+          enableBreathingPauses: true,
+          userName
         }
       );
     }

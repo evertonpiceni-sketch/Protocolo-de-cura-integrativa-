@@ -63,7 +63,8 @@ Sou grato.`;
 export default function HooponoponoModal({
   isOpen,
   onClose,
-  userName = 'Buscador de Luz'
+  userName = 'Buscador de Luz',
+  userProfile
 }: HooponoponoModalProps) {
   const [selectedTab, setSelectedTab] = useState<'oracao' | 'japamala' | 'chaves'>('oracao');
   const [selectedTheme, setSelectedTheme] = useState(HOOPONOPONO_THEMES[0]);
@@ -128,14 +129,23 @@ export default function HooponoponoModal({
         ? MORRNAH_PRAYER.replace(/\[NOME\]/g, userName)
         : `${selectedTheme.title}. ${selectedTheme.desc}. ${selectedTheme.focusPhrase}. Sinto muito. Me perdoe. Eu te amo. Sou grato.`;
 
-      audioEngine.speak(
+      void audioEngine.speakWithElevenLabsOrFallback(
         textToSpeak,
         0.9,
         () => setIsPlayingAudio(true),
         () => setIsPlayingAudio(false),
         undefined,
         undefined,
-        { rate: 0.82, pitch: 0.98 }
+        {
+          voiceId: userProfile?.voiceId || 'Marcus',
+          rate: userProfile?.voiceRate ?? 0.82,
+          pitch: userProfile?.voicePitch ?? 0.98,
+          lang: 'pt-BR',
+          stability: 0.45,
+          similarityBoost: 0.75,
+          enableBreathingPauses: true,
+          userName
+        }
       );
     }
   };
