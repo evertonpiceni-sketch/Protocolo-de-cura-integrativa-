@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { X, Play, Pause, RotateCcw, RotateCw, Volume2, BookOpen, ChevronLeft, Leaf, ShieldCheck, Heart } from 'lucide-react';
+import { X, Play, Pause, RotateCcw, RotateCw, Volume2, BookOpen, ChevronLeft, Leaf, ShieldCheck, Heart, Loader2 } from 'lucide-react';
 import { UserProfile } from '../types';
 import { audioEngine } from '../lib/audio';
 
@@ -58,7 +58,7 @@ function ChakraBody({ config, active }: { config: ProtocolConfig; active: boolea
   const point = CHAKRA_POSITIONS[config.dia];
   return <div className="relative mx-auto h-full w-full overflow-hidden rounded-[2rem] border border-[#e5c66f]/30 bg-[#06271b] shadow-[0_24px_70px_rgba(0,0,0,.38)]">
     <img src="/brand/chakra-body.png" alt="Corpo em meditação com os sete chakras alinhados" className="h-full w-full object-cover object-center" />
-    <div className="absolute inset-0 bg-gradient-to-t from-[#02170f]/75 via-transparent to-[#072b1d]/12" />
+    <div className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-[#02170f]/70 to-transparent" />
     <div className={`absolute h-16 w-16 -translate-x-1/2 -translate-y-1/2 rounded-full border-2 ${active ? 'animate-pulse' : ''}`} style={{ top: point.top, left: point.left, borderColor: config.corSecundaria, boxShadow: `0 0 18px 7px ${config.cor}88, inset 0 0 15px ${config.cor}` }} aria-hidden="true" />
     <div className="absolute bottom-4 left-4 right-4 rounded-2xl border border-[#e5c66f]/25 bg-[#04261a]/80 p-3 text-center backdrop-blur-md">
       <p className="text-xs uppercase tracking-[.18em] text-[#e5c66f]">Chakra em foco</p>
@@ -70,10 +70,12 @@ function ChakraBody({ config, active }: { config: ProtocolConfig; active: boolea
 export default function ArcanjoProtocolView({ userProfile, onClose }: ArcanjoProtocolViewProps) {
   const [diaAtual, setDiaAtual] = useState(1);
   const [isPlaying, setIsPlaying] = useState(false);
+  const [isPreparingAudio, setIsPreparingAudio] = useState(false);
   const [elapsed, setElapsed] = useState(0);
   const [showRoteiro, setShowRoteiro] = useState(false);
   const [completedDays, setCompletedDays] = useState<number[]>([]);
   const timerRef = useRef<number | null>(null);
+  const narrationRunRef = useRef(0);
   const config = DADOS_PROTOCOLO[diaAtual];
   const TOTAL_SECONDS = 10 * 60;
   const progressPercent = Math.min(100, elapsed / TOTAL_SECONDS * 100);
@@ -88,29 +90,43 @@ export default function ArcanjoProtocolView({ userProfile, onClose }: ArcanjoPro
   }, []);
 
   const formatTime = (s: number) => `${Math.floor(s/60).toString().padStart(2,'0')}:${Math.floor(s%60).toString().padStart(2,'0')}`;
-  const stop = () => { setIsPlaying(false); if (timerRef.current) window.clearInterval(timerRef.current); timerRef.current = null; audioEngine.stopSpeech(); };
+  const stop = () => { narrationRunRef.current += 1; setIsPlaying(false); setIsPreparingAudio(false); if (timerRef.current) window.clearInterval(timerRef.current); timerRef.current = null; audioEngine.stopSpeech(); };
   const complete = () => { localStorage.setItem(`reiki_arcanjo_dia_${diaAtual}`, 'true'); setCompletedDays(p => [...new Set([...p, diaAtual])]); stop(); };
   const start = () => {
     stop(); setElapsed(0); setIsPlaying(true);
+    setIsPreparingAudio(true);
     audioEngine.unlock();
-    void audioEngine.speakWithElevenLabsOrFallback(
-      roteiroDoDia(config).replace(/\[[^\]]+\]/g, ''),
-      userProfile.voiceVolume ?? 0.9,
-      () => setIsPlaying(true),
-      () => setIsPlaying(false),
-      undefined,
-      undefined,
-      {
-        voiceId: userProfile.voiceId || 'Marcus',
-        rate: userProfile.voiceRate ?? 0.84,
-        pitch: userProfile.voicePitch ?? 1,
-        lang: 'pt-BR',
-        stability: 0.45,
-        similarityBoost: 0.75,
-        enableBreathingPauses: true,
-        userName: userProfile.name
+    const runId = narrationRunRef.current;
+    const chunks = roteiroDoDia(config)
+      .split(/(?=\[\d{2}:\d{2})/)
+      .map(part => part.replace(/\[[^\]]+\]/g, '').trim())
+      .filter(Boolean);
+    const playChunk = (index: number) => {
+      if (runId !== narrationRunRef.current || index >= chunks.length) {
+        if (index >= chunks.length) setIsPlaying(false);
+        setIsPreparingAudio(false);
+        return;
       }
-    );
+      void audioEngine.speakWithElevenLabsOrFallback(
+        chunks[index],
+        userProfile.voiceVolume ?? 0.9,
+        () => { setIsPreparingAudio(false); setIsPlaying(true); },
+        () => playChunk(index + 1),
+        undefined,
+        undefined,
+        {
+          voiceId: userProfile.voiceId || 'Marcus',
+          rate: userProfile.voiceRate ?? 0.84,
+          pitch: userProfile.voicePitch ?? 1,
+          lang: 'pt-BR',
+          stability: 0.45,
+          similarityBoost: 0.75,
+          enableBreathingPauses: true,
+          userName: userProfile.name
+        }
+      );
+    };
+    playChunk(0);
     timerRef.current = window.setInterval(() => setElapsed(p => { const n=p+1; if(n>=TOTAL_SECONDS){ setTimeout(complete,0); return TOTAL_SECONDS; } return n; }),1000);
   };
   const selectDay = (d:number) => { stop(); setElapsed(0); setDiaAtual(d); };
@@ -142,8 +158,8 @@ export default function ArcanjoProtocolView({ userProfile, onClose }: ArcanjoPro
         <div className="ep-forest-panel rounded-[1.75rem] p-5 sm:p-7">
           <div className="mb-3 flex items-center justify-between text-sm"><span className="text-[#e5c66f]">{etapaAtual.titulo}</span><span className="font-mono text-[#d9e6dc]">{formatTime(elapsed)} / 10:00</span></div>
           <div className="h-2 overflow-hidden rounded-full bg-black/30"><div className="h-full rounded-full transition-all duration-700" style={{width:`${progressPercent}%`,background:`linear-gradient(90deg,#c69b3d,${config.corSecundaria})`,boxShadow:`0 0 12px ${config.cor}`}}/></div>
-          <div className="mt-6 flex items-center justify-center gap-6"><button className="p-2 text-[#d7e2d8]" aria-label="Voltar dez segundos" onClick={()=>setElapsed(p=>Math.max(0,p-10))}><RotateCcw/></button><button onClick={()=>isPlaying?stop():start()} className="ep-gold-button flex h-20 w-20 items-center justify-center rounded-full" aria-label={isPlaying?'Pausar':'Iniciar'}>{isPlaying?<Pause size={34}/>:<Play size={35} className="ml-1"/>}</button><button className="p-2 text-[#d7e2d8]" aria-label="Avançar dez segundos" onClick={()=>setElapsed(p=>Math.min(TOTAL_SECONDS,p+10))}><RotateCw/></button></div>
-          <div className="mt-4 flex items-center justify-center gap-2 text-sm text-[#bad0c4]"><Volume2 size={17}/><span>Frequência e condução guiada</span></div>
+          <div className="mt-6 flex items-center justify-center gap-6"><button className="p-2 text-[#d7e2d8]" aria-label="Voltar dez segundos" onClick={()=>setElapsed(p=>Math.max(0,p-10))}><RotateCcw/></button><button onClick={()=>isPlaying||isPreparingAudio?stop():start()} className="ep-gold-button flex h-20 w-20 items-center justify-center rounded-full" aria-label={isPreparingAudio?'Preparando voz humana':isPlaying?'Pausar':'Iniciar'}>{isPreparingAudio?<Loader2 size={32} className="animate-spin"/>:isPlaying?<Pause size={34}/>:<Play size={35} className="ml-1"/>}</button><button className="p-2 text-[#d7e2d8]" aria-label="Avançar dez segundos" onClick={()=>setElapsed(p=>Math.min(TOTAL_SECONDS,p+10))}><RotateCw/></button></div>
+          <div className="mt-4 flex items-center justify-center gap-2 text-sm text-[#bad0c4]"><Volume2 size={17}/><span>{isPreparingAudio?'Preparando voz humana…':'Voz humana e frequência guiada'}</span></div>
         </div>
 
         <div className="ep-forest-panel rounded-[1.75rem] p-5 sm:p-7">
