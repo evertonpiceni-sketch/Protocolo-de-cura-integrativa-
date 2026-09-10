@@ -104,30 +104,20 @@ export default function ArcanjoProtocolView({ userProfile, onClose }: ArcanjoPro
       .split(/(?=\[\d{2}:\d{2})/)
       .map(part => part.replace(/\[[^\]]+\]/g, '').trim())
       .filter(Boolean);
-    void audioEngine.playGuidedMeditation(chunks, {
-      title: `Proteção e Presença — Dia ${config.dia}`,
-      subtitle: `${config.nome} • ${config.freq} Hz`,
-      voiceId: userProfile.voiceId || 'Marcus',
-      volume: userProfile.voiceVolume ?? 0.9,
-      stability: 0.45,
-      similarityBoost: 0.75,
-      userName: userProfile.name,
-      onStart: () => {
-        if (runId !== narrationRunRef.current) return;
-        setIsPreparingAudio(false);
-        setIsPlaying(true);
-      },
-      onTimeUpdate: (seconds, duration) => {
-        if (runId !== narrationRunRef.current) return;
-        setElapsed(duration > 0 ? Math.min(TOTAL_SECONDS, seconds / duration * TOTAL_SECONDS) : seconds);
-      },
-      onEnd: () => { if (runId === narrationRunRef.current) complete(); },
-      onError: () => {
-        if (runId !== narrationRunRef.current) return;
-        setIsPreparingAudio(false);
-        setIsPlaying(false);
+    const playChunk = (index: number) => {
+      if (runId !== narrationRunRef.current || index >= chunks.length) {
+        if (index >= chunks.length) complete();
+        return;
       }
-    });
+      void audioEngine.speakWithElevenLabsOrFallback(
+        chunks[index], userProfile.voiceVolume ?? 0.9,
+        () => { if (runId === narrationRunRef.current) { setIsPreparingAudio(false); setIsPlaying(true); } },
+        () => playChunk(index + 1), undefined, undefined,
+        { voiceId: userProfile.voiceId || 'Marcus', rate: userProfile.voiceRate ?? 0.84, pitch: userProfile.voicePitch ?? 1, lang: 'pt-BR', stability: 0.45, similarityBoost: 0.75, enableBreathingPauses: true, userName: userProfile.name }
+      );
+    };
+    playChunk(0);
+    timerRef.current = window.setInterval(() => setElapsed(previous => Math.min(TOTAL_SECONDS, previous + 1)), 1000);
   };
   const selectDay = (d:number) => { stop(); setElapsed(0); setDiaAtual(d); };
 

@@ -36,6 +36,7 @@ const careCards = [
 export default function TransformationHome(props: Props) {
   const [isSpeaking, setIsSpeaking] = useState(false);
   const [accepted, setAccepted] = useState(false);
+  const [journeyEntered, setJourneyEntered] = useState(() => sessionStorage.getItem('transformation_journey_entered') === 'true');
   const firstName = props.userName?.trim().split(' ')[0] || 'bem-vindo';
   const completed = props.progress.filter(item => item.completed).length;
   const total = Math.max(props.progress.length, 21);
@@ -72,6 +73,35 @@ export default function TransformationHome(props: Props) {
       { voiceId: 'Marcus', stability: .5, similarityBoost: .78, userName: props.userName, enableBreathingPauses: true, preferElevenLabs: true, lang: 'pt-BR', rate: .82, pitch: .92 }
     );
   };
+
+  if (!journeyEntered) {
+    const enterJourney = () => {
+      sessionStorage.setItem('transformation_journey_entered', 'true');
+      setJourneyEntered(true);
+      toggleWelcome();
+    };
+    return <div className="mx-auto flex min-h-[calc(100dvh-2rem)] w-full max-w-[520px] items-center px-4 py-5">
+      <section className="ep-home-hero relative w-full overflow-hidden rounded-[2rem] border border-[#e7ca76]/35 px-6 py-8 text-center shadow-[0_24px_70px_rgba(0,0,0,.34)]">
+        <div className="absolute inset-x-0 top-0 h-48 bg-[linear-gradient(to_bottom,rgba(3,35,25,.08),rgba(3,35,25,.9)),url('/brand/forest-app-background.png')] bg-cover bg-center" />
+        <div className="relative mx-auto mb-6 flex h-40 w-40 items-center justify-center overflow-hidden rounded-full border-2 border-[#e7ca76]/60 bg-[#062d20] shadow-[0_0_34px_rgba(231,202,118,.28)]">
+          <img src={brandLogo} alt="Everton Piceni — Terapias Holísticas e Bem-Estar" className="h-full w-full object-cover" />
+        </div>
+        <div className="relative">
+          <p className="text-xs font-semibold uppercase tracking-[.24em] text-[#e7ca76]">Protocolo da Transformação</p>
+          <h1 className="mt-5 font-display text-4xl leading-tight text-[#fff8e7]">Bem-vindo ao seu momento de transformação</h1>
+          <p className="mx-auto mt-4 max-w-sm text-base leading-7 text-[#d7e4db]">Aqui você encontra um espaço seguro para se reconectar, equilibrar sua energia e voltar para si.</p>
+          <div className="mx-auto mt-6 flex max-w-sm items-center gap-4 rounded-2xl border border-[#e7ca76]/30 bg-[#04291d]/90 p-4 text-left">
+            <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full border border-[#e7ca76]/45 text-[#e7ca76]"><Headphones size={23}/></div>
+            <div><strong className="block font-display text-xl text-[#fff8e7]">528 Hz</strong><span className="text-sm text-[#c9d9ce]">Sons que acolhem você</span></div>
+          </div>
+          <button onClick={enterJourney} className="ep-gold-button mt-6 flex w-full items-center justify-center gap-3 rounded-2xl px-5 py-4 text-base font-bold"><span>Começar minha jornada</span><ChevronRight size={20}/></button>
+          <div className="mt-7 grid grid-cols-4 gap-2 text-[#e7ca76]">
+            {[[Waves,'Escuta'],[Leaf,'Presença'],[Heart,'Equilíbrio'],[Sparkles,'Transformação']].map(([Icon,label]) => { const PillarIcon=Icon as typeof Waves; return <div key={label as string} className="flex flex-col items-center gap-2"><PillarIcon size={21}/><span className="text-[10px] uppercase tracking-[.08em] text-[#d7e4db]">{label as string}</span></div>; })}
+          </div>
+        </div>
+      </section>
+    </div>;
+  }
 
   return (
     <div className="ep-home mx-auto w-full max-w-[520px] px-4 pb-28 sm:px-5">
