@@ -36,70 +36,70 @@ interface PromoScene {
 const PROMO_SCENES: PromoScene[] = [
   {
     id: 1,
-    badge: 'O Despertar da Consciência',
-    title: 'Transforme sua Vida em 21 Dias',
-    subtitle: 'Protocolo Quântico de Meditação & Reprogramação Subconsciente',
-    description: 'Um método guiado e terapêutico desenvolvido pelo terapeuta holístico Éverton Piceni para dissolver couraças de ansiedade, medo e bloqueios ancestrais.',
-    durationSeconds: 7,
+    badge: 'Um lugar para voltar para si',
+    title: 'Como você está, de verdade?',
+    subtitle: 'Protocolo da Transformação',
+    description: 'Um espaço de acolhimento, energia e práticas integrativas criado por Everton Piceni para acompanhar você no seu próprio tempo.',
+    durationSeconds: 9,
     frequency: '396hz',
     frequencyLabel: '396 Hz • Frequência de Libertação de Culpa e Medo',
     icon: <Sparkles className="text-amber-300 animate-pulse" size={32} />,
-    bgGradient: 'from-indigo-950 via-slate-900 to-purple-950',
+    bgGradient: 'from-[#0a412d] via-[#052a1e] to-[#021b13]',
     highlights: [
       'Alinhamento dos 7 Chakras principais',
-      'Liberação de traumas e estresse crônico',
-      'Reprogramação neural diária de 21 dias'
+      'Meditações guiadas com voz humana',
+      'Jornadas de 7 e 21 dias'
     ]
   },
   {
     id: 2,
-    badge: 'Cura Sonora Sagrada',
-    title: 'Frequências Solfeggio Puras & Ondas Cerebrais',
-    subtitle: 'Ressonância Celular e Reprogramação Vibracional',
-    description: 'Sons binaurais e frequências milenares geradas em tempo real para sincronizar os dois hemisférios cerebrais em estados Alpha e Theta profundos.',
-    durationSeconds: 7,
+    badge: 'Sua experiência',
+    title: 'Voz, frequência e presença',
+    subtitle: 'Uma meditação preparada para o seu momento',
+    description: 'A voz conduz a experiência enquanto a frequência e o visual do chakra acompanham cada etapa da meditação.',
+    durationSeconds: 9,
     frequency: '528hz',
     frequencyLabel: '528 Hz • Frequência do Milagre e Regeneração Celular',
     icon: <Radio className="text-emerald-400 animate-bounce" size={32} />,
-    bgGradient: 'from-emerald-950 via-slate-900 to-teal-950',
+    bgGradient: 'from-[#0c4a34] via-[#052a1e] to-[#021b13]',
     highlights: [
       'Solfeggio de 396Hz a 963Hz',
-      'Trilhas da Floresta Zen, Chuva Serena e Ondas do Mar',
-      'Vozes terapêuticas personalizadas em múltiplos idiomas'
+      'O chakra se ilumina durante a prática',
+      'Áudio contínuo mesmo com a tela bloqueada'
     ]
   },
   {
     id: 3,
-    badge: 'Sabedoria Ancestral Integrada',
-    title: 'Astrologia Quântica & Numerologia Cabalística',
-    subtitle: 'Seu Mapa Cósmico e Potencial de Prosperidade Revelados',
-    description: 'Cálculo astronômico do seu Mapa Astral (Sol, Lua, Ascendente, Casas) e Mapa Numerológico Pitagórico com diagnóstico de otimização de nome e assinatura para atrair riqueza.',
-    durationSeconds: 7,
+    badge: 'Caminhos de cuidado',
+    title: 'Uma experiência que considera você por inteiro',
+    subtitle: 'Energia, autoconhecimento e natureza',
+    description: 'Anamnese, chakras, florais, aromas, numerologia, mapa astral e outras possibilidades organizadas sem retirar sua liberdade de escolha.',
+    durationSeconds: 9,
     frequency: '432hz',
     frequencyLabel: '432 Hz • Harmonia Cósmica Universal',
     icon: <Compass className="text-purple-400 animate-spin" size={32} />,
-    bgGradient: 'from-purple-950 via-slate-900 to-indigo-950',
+    bgGradient: 'from-[#123f2f] via-[#052a1e] to-[#021b13]',
     highlights: [
       'Mapa Astral Compacto e Completo',
-      'Numerologia de Prosperidade & Assinatura Próspera',
-      'Biblioteca Sagrada de Banhos de Ervas Fitoenergéticos'
+      'Florais, aromas e banhos energéticos',
+      'Diário de Reconexão e perguntas sistêmicas'
     ]
   },
   {
     id: 4,
-    badge: 'Proteção Espiritual & Resultados Reais',
-    title: 'Oração dos 21 Dias do Arcanjo Miguel & Reiki',
-    subtitle: 'Blindagem Áurica, Anamnese Personalizada e Comunidade',
-    description: 'Acesse gratuitamente a Oração dos 21 Dias de São Miguel Arcanjo para limpeza espiritual profunda e receba anamnese com indicação do melhor sistema de Reiki para você.',
-    durationSeconds: 7,
+    badge: 'Sua jornada continua',
+    title: 'Um passo de cada vez',
+    subtitle: 'Progresso sem cobrança',
+    description: 'Registre percepções, acompanhe seus dias e retorne quando puder. Aqui, alguns minutos também são cuidado.',
+    durationSeconds: 9,
     frequency: '963hz',
     frequencyLabel: '963 Hz • Frequência de Deus & Conexão Divina',
     icon: <Shield className="text-amber-400 animate-pulse" size={32} />,
-    bgGradient: 'from-amber-950 via-slate-900 to-rose-950',
+    bgGradient: 'from-[#174c38] via-[#062f21] to-[#021b13]',
     highlights: [
-      'Oração dos 21 Dias do Arcanjo Miguel (100% Gratuita)',
-      'Anamnese Sistêmica com diagnóstico de Reiki e Chakras',
-      'Suporte direto e acolhedor via WhatsApp'
+      'Proteção e Presença — São Miguel',
+      'Acompanhamento dos sete chakras',
+      'Acolhimento e integração ao final de cada dia'
     ]
   }
 ];
@@ -176,10 +176,10 @@ export default function PromoVideoModal({
   };
 
   const handleShare = () => {
-    const shareText = `🌟 Conheça o Aplicativo Oficial Protocolo Éverton Piceni - 21 Dias de Meditação & Terapia Quântica: ${window.location.href}`;
+    const shareText = `Conheça o Protocolo da Transformação — um lugar para voltar para si: ${window.location.href}`;
     if (navigator.share) {
       navigator.share({
-        title: 'Protocolo Éverton Piceni - Vídeo Apresentação',
+        title: 'Protocolo da Transformação',
         text: shareText,
         url: window.location.href
       }).catch(() => {});
@@ -190,25 +190,25 @@ export default function PromoVideoModal({
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-slate-950/95 backdrop-blur-xl overflow-y-auto" id="promo-video-modal">
+    <div className="fixed inset-0 z-50 flex items-center justify-center overflow-y-auto bg-[#021b13]/96 p-3 backdrop-blur-xl sm:p-4" id="promo-video-modal">
       <motion.div
         initial={{ opacity: 0, scale: 0.95, y: 15 }}
         animate={{ opacity: 1, scale: 1, y: 0 }}
         exit={{ opacity: 0, scale: 0.95, y: 15 }}
-        className="w-full max-w-4xl bg-slate-900 border border-indigo-500/40 rounded-3xl overflow-hidden shadow-2xl relative my-4 flex flex-col"
+        className="relative my-4 flex w-full max-w-4xl flex-col overflow-hidden rounded-3xl border border-[#e7ca76]/35 bg-[#052a1e] shadow-2xl"
       >
         {/* Top Video Player Bar */}
-        <div className="bg-slate-950/80 border-b border-slate-800 px-4 py-3 flex items-center justify-between z-20">
+        <div className="z-20 flex items-center justify-between border-b border-[#e7ca76]/20 bg-[#032319]/92 px-4 py-3">
           <div className="flex items-center gap-2.5">
-            <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center text-white shadow-md">
+            <div className="flex h-8 w-8 items-center justify-center rounded-xl bg-[#e7ca76]/15 text-[#e7ca76] shadow-md">
               <Sparkles size={16} />
             </div>
             <div>
               <span className="text-[10px] font-mono uppercase tracking-widest text-indigo-400 font-bold block">
-                Vídeo Propaganda Oficial
+                Conheça o Protocolo
               </span>
               <h3 className="text-xs sm:text-sm font-display font-medium text-slate-200">
-                Apresentação do Protocolo Éverton Piceni
+                Protocolo da Transformação
               </h3>
             </div>
           </div>
@@ -284,7 +284,7 @@ export default function PromoVideoModal({
               initial={{ opacity: 0, y: 20, scale: 0.98 }}
               animate={{ opacity: 1, y: 0, scale: 1 }}
               exit={{ opacity: 0, y: -20, scale: 0.98 }}
-              transition={{ duration: 0.4 }}
+              transition={{ duration: 0.9, ease: 'easeInOut' }}
               className="my-auto py-6 space-y-4 z-10 max-w-2xl"
             >
               <div className="flex items-center gap-3">

@@ -99,7 +99,7 @@ export default function TransformationHome(props: Props) {
       ) : recommendation && (
         <section className="mt-5 overflow-hidden rounded-[1.75rem] border border-[#e7ca76]/30 bg-[#052a1e]/96 shadow-[0_18px_48px_rgba(0,0,0,.28)]">
           <div className="relative h-56 overflow-hidden border-b border-[#e7ca76]/20">
-            <img src="/brand/chakra-body.png" alt="Corpo em meditação com os sete chakras" className="h-full w-full object-cover object-top" />
+            <img src="/brand/human-chakra-model.jpg" alt="Corpo em meditação com os sete chakras" className="h-full w-full object-cover object-top" />
             <div className="absolute inset-0 bg-gradient-to-t from-[#052a1e] via-transparent to-transparent" />
             <p className="absolute bottom-4 left-5 text-xs uppercase tracking-[.2em] text-[#e7ca76]">Seu resultado personalizado</p>
           </div>

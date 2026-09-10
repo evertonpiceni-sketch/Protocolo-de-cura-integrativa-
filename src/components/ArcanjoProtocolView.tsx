@@ -44,20 +44,28 @@ function roteiroDoDia(config: ProtocolConfig) {
   return `[00:00 – 01:30] ABERTURA E PORTAL DO DIA\n\nEu aceito receber neste momento, com todo o meu coração, esta prática do Protocolo da Transformação.\n\nFeche os olhos. Respire fundo pelo nariz... sustente o ar por alguns instantes... e solte lentamente pela boca. Mais uma vez. Inspire com suavidade... perceba o ar entrando... e expire, permitindo que o corpo fique um pouco mais solto.\n\nSinta o peso do corpo apoiado onde você está. Perceba os pés, as pernas, o quadril, o abdômen, o peito, os ombros e o rosto. Não existe nada para alcançar agora. Apenas permaneça presente.\n\nImagine raízes de luz partindo dos seus pés e descendo profundamente em direção à Terra. A cada expiração, permita-se sentir mais firme, presente e amparado.\n\nLeve agora sua atenção ao ${config.nome}, localizado em ${config.local}. Hoje direcionamos nossa intenção para este centro, ${config.intencao}. Respire e permita-se apenas observar.\n\n[01:30 – 04:30] CORTE E PROTEÇÃO DE SÃO MIGUEL\n\nVisualize ao seu redor uma luz azul-safira ampla e luminosa, formando simbolicamente um espaço de proteção. Dentro desse espaço, imagine a presença firme e amorosa de São Miguel.\n\nLeve novamente sua consciência ao ${config.nome}. Imagine uma espada de luz azul passando ao redor desse centro, não tocando seu corpo físico, mas representando a liberação de vínculos, preocupações e padrões que você escolhe não carregar mais.\n\nA cada respiração, repita mentalmente: eu libero o que já cumpriu seu papel. Eu permaneço com aquilo que fortalece minha paz, minha consciência e minha autonomia.\n\nPermaneça alguns instantes em silêncio. Inspire... expire... perceba o espaço que surge quando você deixa de apertar aquilo que pode ser solto.\n\nVisualize o centro do dia ficando mais livre e luminoso. Você continua protegido dentro da luz azul. Respire devagar e permita que essa sensação se estabilize.\n\n[04:30 – 07:30] TRANSMUTAÇÃO PROFUNDA DA CHAMA VIOLETA\n\nImagine agora uma chama violeta suave envolvendo simbolicamente o ${config.nome}. Ela não queima nem machuca. É uma imagem de transformação interior.\n\nPermita que nela sejam colocadas lembranças difíceis, culpas, mágoas, receios e padrões emocionais relacionados ao foco de hoje: ${config.foco.toLowerCase()}.\n\nVocê não precisa reviver nenhuma experiência. Apenas reconheça que pode olhar para o que sente com mais espaço e gentileza. A cada expiração, imagine a chama transformando peso em aprendizado, tensão em espaço e rigidez em possibilidade de mudança.\n\nRespire. Se alguma emoção aparecer, apenas observe. Não force, não lute e não julgue. Volte à respiração e ao contato com o seu corpo.\n\nMentalmente diga: eu reconheço minha história sem precisar permanecer preso a ela. Eu escolho caminhar com mais consciência e leveza.\n\nPermaneça por alguns instantes recebendo o silêncio.\n\n[07:30 – 09:00] RAIO VERDE E OURO DE SÃO RAFAEL\n\nAgora imagine uma luz verde-esmeralda misturada a reflexos dourados descendo suavemente e envolvendo o ${config.nome}. Receba essa imagem como um símbolo de equilíbrio, cuidado, integração e renovação interior.\n\nRespire com calma. Perceba o corpo. Permita que a região relacionada ao centro do dia relaxe sem esforço. Imagine a luz preenchendo os espaços que ficaram mais leves durante a prática.\n\nRepita mentalmente: eu acolho meu corpo. Eu respeito meu tempo. Eu escolho cultivar equilíbrio, presença e cuidado comigo.\n\n[09:00 – 10:00] SELAMENTO E ASSUNÇÃO DO PODER PESSOAL\n\nPara encerrar, visualize-se sentado em um trono de luz. Não como alguém acima dos outros, mas como alguém que reassume responsabilidade pela própria caminhada.\n\nO ${config.nome} permanece luminoso e integrado aos demais centros. Respire profundamente.\n\nRepita devagar:\nEu sou livre para construir minha felicidade.\nEu me acolho quando sinto medo ou dúvida.\nEu escolho cuidar de mim.\nEu sou amor.\nEu escolho a paz.\nSinto muito. Me perdoe. Eu te amo. Sou grato.\n\nRespire mais uma vez. Perceba novamente seu corpo e o ambiente ao redor. Quando se sentir pronto, movimente as mãos e os pés e abra os olhos lentamente. A prática de hoje está encerrada.`;
 }
 
-function ChakraBody({ config, active }: { config: ProtocolConfig; active: boolean }) {
-  const petalCount = Math.min(config.petals, 16);
-  return <div className="relative mx-auto flex aspect-[4/5] w-full max-w-[430px] flex-col items-center justify-center overflow-hidden rounded-[2rem] border border-[#e5c66f]/30 bg-[radial-gradient(circle_at_50%_42%,rgba(24,91,62,.72),rgba(3,38,26,.97)_62%)] shadow-[0_24px_70px_rgba(0,0,0,.38)]">
-    <div className="absolute inset-0 opacity-25 bg-[linear-gradient(125deg,transparent_20%,rgba(229,198,111,.17)_50%,transparent_80%)]" />
-    <div className={`relative h-72 w-72 ${active ? 'animate-pulse' : ''}`} style={{filter:`drop-shadow(0 0 24px ${config.cor})`}} aria-label={`${config.nome} em destaque`}>
-      <div className="absolute inset-8 rounded-full border border-[#f5dda0]/45" />
-      {Array.from({length: petalCount}).map((_, index) => <span key={index} className="absolute left-1/2 top-1/2 h-[43%] w-[22%] origin-[50%_100%] -translate-x-1/2 -translate-y-full rounded-[70%_70%_48%_48%] border-2" style={{transform:`translate(-50%,-100%) rotate(${index * 360 / petalCount}deg)`,borderColor:config.corSecundaria,background:`linear-gradient(to top,${config.cor}38,${config.corSecundaria}b8)`,boxShadow:`inset 0 0 18px ${config.corSecundaria}88,0 0 10px ${config.cor}88`}} />)}
-      <div className="absolute left-1/2 top-1/2 flex h-24 w-24 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full border-2 text-3xl font-display" style={{borderColor:config.corSecundaria,background:`radial-gradient(circle,${config.corSecundaria},${config.cor})`,boxShadow:`0 0 30px 12px ${config.cor}aa`}}>
-        <span className="text-white drop-shadow-md">{config.dia}</span>
-      </div>
-    </div>
-    <div className="relative mt-4 text-center">
-      <p className="text-2xl font-display text-[#fff8e7]">{config.freq} Hz</p>
+const CHAKRA_POSITIONS: Record<number, string> = {
+  1: '50% 78%',
+  2: '50% 68%',
+  3: '50% 58%',
+  4: '50% 47%',
+  5: '50% 36%',
+  6: '50% 25%',
+  7: '50% 15%',
+};
+
+function ChakraBody({ config, progress, active }: { config: ProtocolConfig; progress: number; active: boolean }) {
+  const illumination = Math.max(0.08, Math.min(1, progress / 100));
+  const position = CHAKRA_POSITIONS[config.dia];
+  const glowSize = 34 + illumination * 38;
+  return <div className="relative mx-auto aspect-[4/5] w-full max-w-[430px] overflow-hidden rounded-[2rem] border border-[#e5c66f]/30 bg-[#021b13] shadow-[0_24px_70px_rgba(0,0,0,.38)]">
+    <img src="/brand/human-chakra-model.jpg" alt="Pessoa em meditação com os sete chakras" className="absolute inset-0 h-full w-full object-cover" style={{filter:'brightness(.34) saturate(.48)',transition:'filter 1.2s ease'}} />
+    <img src="/brand/human-chakra-model.jpg" alt="" aria-hidden="true" className="absolute inset-0 h-full w-full object-cover transition-opacity duration-1000" style={{opacity:.2 + illumination * .8,WebkitMaskImage:`radial-gradient(circle ${glowSize}px at ${position}, black 0%, rgba(0,0,0,.95) 42%, transparent 100%)`,maskImage:`radial-gradient(circle ${glowSize}px at ${position}, black 0%, rgba(0,0,0,.95) 42%, transparent 100%)`}} />
+    <div className={`absolute h-20 w-20 -translate-x-1/2 -translate-y-1/2 rounded-full transition-all duration-1000 ${active ? 'animate-pulse' : ''}`} style={{left:position.split(' ')[0],top:position.split(' ')[1],opacity:.12 + illumination * .88,transform:`translate(-50%,-50%) scale(${.72 + illumination * .42})`,background:`radial-gradient(circle,${config.corSecundaria}cc 0%,${config.cor}66 35%,transparent 72%)`,boxShadow:`0 0 ${12 + illumination * 34}px ${4 + illumination * 13}px ${config.cor}`}} aria-hidden="true" />
+    <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-[#021b13] via-[#021b13]/82 to-transparent px-5 pb-5 pt-20 text-center">
+      <p className="font-display text-3xl text-[#fff8e7]">{config.freq} Hz</p>
       <p className="mt-1 text-xs uppercase tracking-[.2em] text-[#e5c66f]">{config.nome}</p>
+      <p className="mt-2 text-xs text-[#c8d9cd]">{Math.round(progress)}% iluminado</p>
     </div>
   </div>;
 }
@@ -135,7 +143,7 @@ export default function ArcanjoProtocolView({ userProfile, onClose }: ArcanjoPro
     <main className="relative z-10 mx-auto w-full max-w-[500px] space-y-5 px-4 py-6 pb-16">
       <section>
         <div className="mb-4 flex items-center justify-center gap-2 text-sm text-[#dce9df]"><ShieldCheck size={18} className="text-[#e5c66f]"/><span>Dia {config.dia} de 7</span><span className="text-[#e5c66f]/60">•</span><span>{config.freq} Hz</span></div>
-        <ChakraBody config={config} active={isPlaying}/>
+        <ChakraBody config={config} progress={progressPercent} active={isPlaying}/>
       </section>
 
       <section className="space-y-5">
