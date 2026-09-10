@@ -80,6 +80,10 @@ async function redisCommand(command: string, args: string[] = []) {
 
 function requireProductionPersistence() {
   if (process.env.NODE_ENV === 'production' && (!UPSTASH_URL || !UPSTASH_TOKEN)) {
+    const availablePersistenceKeys = Object.keys(process.env)
+      .filter((key) => key.includes('UPSTASH') || key.startsWith('KV_'))
+      .sort();
+    console.error('Available persistence environment variable names:', availablePersistenceKeys);
     throw new Error('Persistent database is required in production. Configure the Upstash REST URL and token environment variables.');
   }
 }
