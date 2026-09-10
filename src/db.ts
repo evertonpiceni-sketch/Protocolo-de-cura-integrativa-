@@ -3,9 +3,17 @@ import path from 'path';
 
 const DB_FILE = path.join(process.cwd(), 'database.json');
 const DB_KEY = process.env.UPSTASH_DB_KEY || 'cura_integrada:database:v1';
-const rawUpstash = (process.env.UPSTASH_REDIS_REST_URL || process.env.KV_REST_API_URL || '').replace(/\/$/, '');
+const rawUpstash = (
+  process.env.UPSTASH_REDIS_REST_URL ||
+  process.env.KV_REST_API_URL ||
+  process.env.UPSTASH_REDIS_REST_REST_API_URL ||
+  ''
+).replace(/\/$/, '');
 const UPSTASH_URL = rawUpstash.startsWith('http') ? rawUpstash : '';
-const UPSTASH_TOKEN = process.env.UPSTASH_REDIS_REST_TOKEN || process.env.KV_REST_API_TOKEN;
+const UPSTASH_TOKEN =
+  process.env.UPSTASH_REDIS_REST_TOKEN ||
+  process.env.KV_REST_API_TOKEN ||
+  process.env.UPSTASH_REDIS_REST_REST_API_TOKEN;
 const REDIS_TIMEOUT_MS = 8000;
 
 export interface Database {
@@ -72,7 +80,7 @@ async function redisCommand(command: string, args: string[] = []) {
 
 function requireProductionPersistence() {
   if (process.env.NODE_ENV === 'production' && (!UPSTASH_URL || !UPSTASH_TOKEN)) {
-    throw new Error('Persistent database is required in production. Configure UPSTASH_REDIS_REST_URL and UPSTASH_REDIS_REST_TOKEN (or KV_REST_API_URL/KV_REST_API_TOKEN).');
+    throw new Error('Persistent database is required in production. Configure the Upstash REST URL and token environment variables.');
   }
 }
 
