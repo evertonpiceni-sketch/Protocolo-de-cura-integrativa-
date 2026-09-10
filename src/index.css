@@ -3,279 +3,48 @@
 
 /* Mobile onboarding: readable controls and reliable touch targets. */
 #register-form input:not([type='checkbox']),
-#login-form input:not([type='checkbox']) {
-  min-height: 3rem;
-  font-size: 1rem;
-}
+#login-form input:not([type='checkbox']) { min-height: 3rem; font-size: 1rem; }
+#register-form label,#login-form label { font-size:.75rem; line-height:1.35; }
+#register-form button,#login-form button,#auth-tabs button { touch-action:manipulation; }
 
-#register-form label,
-#login-form label {
-  font-size: 0.75rem;
-  line-height: 1.35;
-}
-
-#register-form button,
-#login-form button,
-#auth-tabs button {
-  touch-action: manipulation;
-}
-
-@keyframes yantra-clockwise {
-  to { transform: rotate(360deg); }
-}
-
-@keyframes box-breathing {
-  0%, 100% { transform: scale(0.9); filter: brightness(0.88); }
-  25% { transform: scale(1.06); filter: brightness(1.14); }
-  50% { transform: scale(1.06); filter: brightness(1.14); }
-  75% { transform: scale(0.9); filter: brightness(0.88); }
-}
-
-.yantra-breath {
-  width: min(15rem, 72vw);
-  height: min(15rem, 72vw);
-  transform-origin: center;
-  filter: drop-shadow(0 0 24px currentColor);
-}
-
-.yantra-breath--active {
-  animation: box-breathing 16s ease-in-out infinite;
-}
-
-.yantra-rotate {
-  animation: yantra-clockwise 48s linear infinite;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .yantra-breath--active,
-  .yantra-rotate {
-    animation: none;
-  }
-}
+@keyframes yantra-clockwise { to { transform:rotate(360deg); } }
+@keyframes box-breathing { 0%,100%{transform:scale(.9);filter:brightness(.88)}25%,50%{transform:scale(1.06);filter:brightness(1.14)}75%{transform:scale(.9);filter:brightness(.88)} }
+.yantra-breath{width:min(15rem,72vw);height:min(15rem,72vw);transform-origin:center;filter:drop-shadow(0 0 24px currentColor)}
+.yantra-breath--active{animation:box-breathing 16s ease-in-out infinite}.yantra-rotate{animation:yantra-clockwise 48s linear infinite}
+@media(prefers-reduced-motion:reduce){.yantra-breath--active,.yantra-rotate{animation:none}}
 
 @theme {
-  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
-  --font-display: "Cormorant Garamond", Georgia, serif;
-  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
+ --font-sans:"Inter",ui-sans-serif,system-ui,sans-serif; --font-display:"Cormorant Garamond",Georgia,serif; --font-mono:"JetBrains Mono",ui-monospace,SFMono-Regular,monospace;
+ --color-brand-night:#547963; --color-brand-navy:#6f927b; --color-brand-surface:#89a891; --color-brand-gold:#d2aa4d; --color-brand-gold-soft:#b88f38; --color-brand-ivory:#fffaf0; --color-brand-muted:#496657;
+}
+:root { color-scheme:light; --ep-night:#547963; --ep-navy:#6f927b; --ep-surface:#89a891; --ep-gold:#d2aa4d; --ep-gold-soft:#b88f38; --ep-ivory:#fffaf0; --ep-muted:#496657; --ep-cream:#f7f0df; --ep-sage:#a8bda9; --ep-eucalyptus:#76977f; --chakra-root:#ef4444;--chakra-sacral:#f97316;--chakra-solar:#eab308;--chakra-heart:#22c55e;--chakra-throat:#38bdf8;--chakra-third-eye:#6366f1;--chakra-crown:#a855f7; }
+html,body,#root{min-height:100%;background:#eef2e7}
+body{color:#173d31;background:linear-gradient(180deg,rgba(255,250,240,.82),rgba(226,236,226,.9)),url('/brand/forest-app-background.png') center top/cover fixed;background-attachment:fixed}
+body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:-1;background:radial-gradient(circle at 50% 8%,rgba(255,220,135,.34),transparent 30rem),linear-gradient(90deg,rgba(118,151,127,.12),transparent 22%,transparent 78%,rgba(118,151,127,.12))}
+h1,h2,h3,.font-display,.font-serif{font-family:"Cormorant Garamond",Georgia,serif;letter-spacing:.01em}::selection{background:rgba(210,170,77,.28);color:#173d31}
 
-  /* Everton Piceni — premium therapeutic palette */
-  --color-brand-night: #031a12;
-  --color-brand-navy: #062a1d;
-  --color-brand-surface: #0a3526;
-  --color-brand-gold: #e5c66f;
-  --color-brand-gold-soft: #b69542;
-  --color-brand-ivory: #fff8e7;
-  --color-brand-muted: #bad0c4;
-}
+.ep-premium-surface,.ep-forest-panel{background:linear-gradient(145deg,rgba(255,250,240,.94),rgba(229,238,226,.94));border:1px solid rgba(184,143,56,.28);box-shadow:0 18px 55px rgba(55,85,67,.15);backdrop-filter:blur(18px)}
+.ep-gold-action,.ep-gold-button{background:linear-gradient(135deg,#efd482,#cda448);color:#173d31;border:1px solid rgba(255,244,201,.72);box-shadow:0 10px 30px rgba(184,143,56,.16)}
+.ep-gold-action:hover,.ep-gold-button:hover{filter:brightness(1.04);transform:translateY(-1px)}.ep-gold-detail{color:#9b7425;border-color:rgba(184,143,56,.34)}.ep-secondary-text{color:#496657}
 
-:root {
-  color-scheme: dark;
-  --ep-night: #021710;
-  --ep-navy: #05291c;
-  --ep-surface: #0a3828;
-  --ep-gold: #e5c66f;
-  --ep-gold-soft: #b69542;
-  --ep-ivory: #fff8e7;
-  --ep-muted: #bad0c4;
+::-webkit-scrollbar{width:6px;height:6px}::-webkit-scrollbar-track{background:rgba(232,239,229,.8)}::-webkit-scrollbar-thumb{background:rgba(118,151,127,.42);border-radius:4px}::-webkit-scrollbar-thumb:hover{background:rgba(184,143,56,.48)}
 
-  /* Chakra colors are semantic accents, reserved for energy/progress states. */
-  --chakra-root: #ef4444;
-  --chakra-sacral: #f97316;
-  --chakra-solar: #eab308;
-  --chakra-heart: #22c55e;
-  --chakra-throat: #38bdf8;
-  --chakra-third-eye: #6366f1;
-  --chakra-crown: #a855f7;
-}
+/* Approved botanical identity: lighter eucalyptus/sage, warm cream and living foliage. */
+[class*="bg-slate-950"],[class*="bg-slate-900"],[class*="bg-[#05060D]"]{background-color:rgba(104,143,116,.92)!important}
+[class*="border-slate-800"],[class*="border-slate-700"]{border-color:rgba(184,143,56,.28)!important}
+[class*="text-slate-100"],[class*="text-slate-200"]{color:#fffaf0!important}[class*="text-slate-300"]{color:#f4f1e5!important}[class*="text-slate-400"],[class*="text-slate-500"]{color:#dce7dc!important}
+button,input,select,textarea,[role="button"]{border-radius:.9rem}input,select,textarea{backdrop-filter:blur(12px)}
 
-html,
-body,
-#root {
-  min-height: 100%;
-  background: var(--ep-night);
-}
+#cura-main-layout{background:linear-gradient(180deg,rgba(238,244,234,.74),rgba(195,213,195,.86)),url('/brand/forest-app-background.png') center top/cover fixed!important}
+#cura-main-layout>div:first-child{background:radial-gradient(circle at 50% 0,rgba(255,220,135,.28),transparent 30rem)!important}
+#main-header{background:linear-gradient(180deg,rgba(245,242,224,.96),rgba(218,230,214,.94))!important;border-color:rgba(184,143,56,.32)!important;box-shadow:0 12px 36px rgba(55,85,67,.16);color:#173d31!important}
+#main-header>div{max-width:72rem}#main-header img{filter:saturate(.98) contrast(1.02)}#cura-main-layout main>div:not([id="settings-view"]){position:relative}
+#bottom-action-dock>div{background:rgba(245,242,224,.96)!important;border-color:rgba(184,143,56,.34)!important;box-shadow:0 16px 42px rgba(55,85,67,.2)!important}#bottom-action-dock button{background:transparent!important;border-color:transparent!important;color:#365c48!important;box-shadow:none!important}
+#settings-view>div,#settings-view details,#settings-view [class*="bg-slate"]{background-color:rgba(231,239,226,.94)!important;border-color:rgba(184,143,56,.26)!important}
 
-body {
-  color: var(--ep-ivory);
-  background:
-    linear-gradient(180deg, rgba(2, 28, 18, .82), rgba(1, 19, 13, .95)),
-    url('/brand/forest-app-background.png') center top / cover fixed,
-    var(--ep-night);
-  background-attachment: fixed;
-}
+/* Transformation journey cards retain enough green for contrast, but no longer use near-black forest. */
+.ep-home{color:#173d31}.ep-home .ep-home-hero{background:linear-gradient(155deg,rgba(103,145,116,.94),rgba(130,165,139,.92))!important;border-color:rgba(210,170,77,.45)!important}
+.ep-home section:not(.ep-home-hero){box-shadow:0 18px 48px rgba(55,85,67,.14)!important}
 
-body::before {
-  content: '';
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  z-index: -1;
-  background:
-    radial-gradient(circle at 50% 12%, rgba(245, 211, 120, .16), transparent 28rem),
-    linear-gradient(90deg, rgba(1, 22, 14, .32), transparent 18%, transparent 82%, rgba(1, 22, 14, .32));
-}
-
-h1, h2, h3, .font-display, .font-serif {
-  font-family: "Cormorant Garamond", Georgia, serif;
-  letter-spacing: .01em;
-}
-
-::selection {
-  background: rgba(216, 180, 90, 0.28);
-  color: #fffaf0;
-}
-
-/* Reusable premium surfaces: gold stays subtle; bright chakra hues remain functional. */
-.ep-premium-surface {
-  background: linear-gradient(145deg, rgba(8, 55, 38, 0.94), rgba(2, 28, 19, 0.97));
-  border: 1px solid rgba(229, 198, 111, 0.25);
-  box-shadow: 0 18px 55px rgba(0, 0, 0, 0.28);
-  backdrop-filter: blur(18px);
-}
-
-.ep-gold-action {
-  background: linear-gradient(135deg, #f2d889, #c69b3d);
-  color: #173021;
-  box-shadow: 0 10px 30px rgba(216, 180, 90, 0.16);
-}
-
-.ep-gold-action:hover {
-  filter: brightness(1.06);
-}
-
-.ep-gold-detail {
-  color: var(--ep-gold);
-  border-color: rgba(216, 180, 90, 0.32);
-}
-
-.ep-secondary-text {
-  color: var(--ep-muted);
-}
-
-/* Custom visual scrollbars for a clean meditative layout */
-::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
-}
-::-webkit-scrollbar-track {
-  background: rgba(2, 28, 18, 0.55);
-}
-
-/* Global forest-and-gold identity. These rules intentionally unify legacy screens
-   while semantic chakra colours remain untouched. */
-[class*="bg-slate-950"], [class*="bg-slate-900"], [class*="bg-[#05060D]"] {
-  background-color: rgba(3, 35, 24, .94) !important;
-}
-[class*="border-slate-800"], [class*="border-slate-700"] {
-  border-color: rgba(229, 198, 111, .22) !important;
-}
-[class*="text-slate-100"], [class*="text-slate-200"] { color: #fff8e7 !important; }
-[class*="text-slate-300"] { color: #e5ecdf !important; }
-[class*="text-slate-400"], [class*="text-slate-500"] { color: #bad0c4 !important; }
-/* Semantic colours (chakras, astrology and numerology) must remain untouched.
-   Overriding utility classes here turned translucent glows into opaque yellow layers. */
-
-button, input, select, textarea, [role="button"] {
-  border-radius: .9rem;
-}
-
-input, select, textarea {
-  backdrop-filter: blur(12px);
-}
-
-.ep-forest-panel {
-  background: linear-gradient(150deg, rgba(8, 58, 40, .94), rgba(2, 31, 21, .96));
-  border: 1px solid rgba(229, 198, 111, .25);
-  box-shadow: 0 20px 60px rgba(0, 0, 0, .32), inset 0 1px rgba(255, 248, 231, .04);
-  backdrop-filter: blur(18px);
-}
-
-.ep-gold-button {
-  background: linear-gradient(135deg, #f4db8d, #c99d3e);
-  color: #153222;
-  border: 1px solid rgba(255, 244, 201, .55);
-  box-shadow: 0 12px 28px rgba(201, 157, 62, .2);
-}
-
-.ep-gold-button:hover { filter: brightness(1.05); transform: translateY(-1px); }
-
-/* Application shell: the supplied mobile references are the source of truth. */
-#cura-main-layout {
-  background:
-    linear-gradient(180deg, rgba(2, 34, 23, .74), rgba(1, 22, 15, .96)),
-    url('/brand/forest-app-background.png') center top / cover fixed !important;
-}
-
-#cura-main-layout > div:first-child {
-  background: radial-gradient(circle at 50% 0, rgba(243, 213, 132, .17), transparent 28rem) !important;
-}
-
-#main-header {
-  background: linear-gradient(180deg, rgba(3, 43, 29, .96), rgba(3, 35, 24, .88)) !important;
-  border-color: rgba(229, 198, 111, .28) !important;
-  box-shadow: 0 12px 36px rgba(0, 0, 0, .24);
-}
-
-#main-header > div { max-width: 72rem; }
-
-#main-header img {
-  filter: saturate(.95) contrast(1.04);
-}
-
-#cura-main-layout main > div:not([id="settings-view"]) {
-  position: relative;
-}
-
-#bottom-action-dock > div {
-  background: rgba(3, 39, 26, .94) !important;
-  border-color: rgba(229, 198, 111, .32) !important;
-  box-shadow: 0 16px 42px rgba(0, 0, 0, .38) !important;
-}
-
-#bottom-action-dock button {
-  background: transparent !important;
-  border-color: transparent !important;
-  color: #e8d58f !important;
-  box-shadow: none !important;
-}
-
-#settings-view > div,
-#settings-view details,
-#settings-view [class*="bg-slate"] {
-  background-color: rgba(4, 44, 30, .9) !important;
-  border-color: rgba(229, 198, 111, .22) !important;
-}
-
-@media (max-width: 640px) {
-  #main-header { display: none !important; }
-  #main-header > div { justify-content: center; }
-  #main-header > div > div:first-child { flex: 1; justify-content: center; text-align: center; }
-  #main-header > div > div:first-child > div:first-child { width: 3.35rem; height: 3.35rem; border-color: rgba(229,198,111,.55); }
-  #main-header > div > div:last-child { position: absolute; right: .7rem; }
-  #main-header > div > div:last-child > button:not(#header-btn-audio-settings),
-  #header-language-selector,
-  #header-audio-quick-control > button:first-child { display: none !important; }
-  #header-btn-audio-settings { width: 2.75rem; height: 2.75rem; padding: 0; justify-content: center; border-radius: 999px; }
-  #header-btn-audio-settings span { display: none !important; }
-  #cura-main-layout main { padding-top: 1rem; }
-  #bottom-action-dock { bottom: .55rem; }
-  #bottom-action-dock > div { border-radius: 1.25rem; padding: .4rem .25rem; }
-  #bottom-action-dock button { min-width: 4rem; flex-direction: column; gap: .2rem; font-size: .68rem; padding: .45rem .35rem; }
-  #bottom-action-dock button svg { width: 1.2rem; height: 1.2rem; }
-}
-::-webkit-scrollbar-thumb {
-  background: rgba(216, 180, 90, 0.22);
-  border-radius: 4px;
-}
-::-webkit-scrollbar-thumb:hover {
-  background: rgba(216, 180, 90, 0.42);
-}
-
-@keyframes pulse-slow {
-  0%, 100% { transform: scale(1); opacity: 0.8; }
-  50% { transform: scale(1.08); opacity: 1; }
-}
-
-.animate-pulse-slow {
-  animation: pulse-slow 8s infinite ease-in-out;
-}
+@media(max-width:640px){#main-header{display:none!important}#main-header>div{justify-content:center}#main-header>div>div:first-child{flex:1;justify-content:center;text-align:center}#main-header>div>div:first-child>div:first-child{width:3.35rem;height:3.35rem;border-color:rgba(184,143,56,.55)}#main-header>div>div:last-child{position:absolute;right:.7rem}#main-header>div>div:last-child>button:not(#header-btn-audio-settings),#header-language-selector,#header-audio-quick-control>button:first-child{display:none!important}#header-btn-audio-settings{width:2.75rem;height:2.75rem;padding:0;justify-content:center;border-radius:999px}#header-btn-audio-settings span{display:none!important}#cura-main-layout main{padding-top:1rem}#bottom-action-dock{bottom:.55rem}#bottom-action-dock>div{border-radius:1.25rem;padding:.4rem .25rem}#bottom-action-dock button{min-width:4rem;flex-direction:column;gap:.2rem;font-size:.68rem;padding:.45rem .35rem}#bottom-action-dock button svg{width:1.2rem;height:1.2rem}}
+@keyframes pulse-slow{0%,100%{transform:scale(1);opacity:.8}50%{transform:scale(1.08);opacity:1}}.animate-pulse-slow{animation:pulse-slow 8s infinite ease-in-out}
