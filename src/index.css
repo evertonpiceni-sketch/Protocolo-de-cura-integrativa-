@@ -172,12 +172,8 @@ h1, h2, h3, .font-display, .font-serif {
 [class*="text-slate-100"], [class*="text-slate-200"] { color: #fff8e7 !important; }
 [class*="text-slate-300"] { color: #e5ecdf !important; }
 [class*="text-slate-400"], [class*="text-slate-500"] { color: #bad0c4 !important; }
-[class*="bg-indigo-600"], [class*="bg-indigo-500"] {
-  background-color: #c59b42 !important;
-  color: #102b1d !important;
-}
-[class*="border-indigo-500"], [class*="ring-indigo-500"] { border-color: rgba(229, 198, 111, .62) !important; }
-[class*="text-indigo-200"], [class*="text-indigo-300"], [class*="text-indigo-400"] { color: #efd681 !important; }
+/* Semantic colours (chakras, astrology and numerology) must remain untouched.
+   Overriding utility classes here turned translucent glows into opaque yellow layers. */
 
 button, input, select, textarea, [role="button"] {
   border-radius: .9rem;

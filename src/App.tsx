@@ -278,7 +278,7 @@ export default function App() {
         
         if (lastNotified !== todayStr) {
           localStorage.setItem('cura_last_notified_date', todayStr);
-          new Notification('Hora da sua Cura Integrada', {
+          new Notification('Hora do seu Protocolo da Transformação', {
             body: `Olá, ${userProfile.name}! Reserve este momento sagrado para a sua meditação de hoje.`,
             icon: '/icon-192.png'
           });
@@ -1526,6 +1526,7 @@ export default function App() {
             userName={userProfile.name}
             currentDay={currentDay}
             progress={progress}
+            anamnesis={userProfile.anamnesis}
             onStartSession={setActiveSessionDay}
             onOpenJournal={() => setIsJournalOpen(true)}
             onOpenAnamnesis={() => setShowAnamnesisModal(true)}
@@ -1535,6 +1536,11 @@ export default function App() {
             onOpenAstral={() => setShowAstralMapModal(true)}
             onOpenNumerology={() => setShowNumerologyModal(true)}
             onOpenSettings={() => setShowSettings(true)}
+            onOpenSystemic={() => { setSystemicModalDay(currentDay); setShowSystemicQuestionsModal(true); }}
+            onOpenHooponopono={() => setShowHooponoponoModal(true)}
+            onOpenAchievements={() => setShowAchievementsModal(true)}
+            onOpenCourses={() => setShowCoursesModal(true)}
+            onOpenContact={() => setShowContactModal(true)}
           />
         )}
       </main>
@@ -1740,12 +1746,12 @@ export default function App() {
       </aside>
 
       {/* Footer Branding credits */}
-      <footer className="border-t border-slate-900 py-6 px-4 pb-20 bg-slate-950 relative z-20 text-center" id="main-footer">
+      <footer className="border-t border-[#e5c66f]/15 py-7 px-5 bg-[#032319] relative z-20 text-center" id="main-footer">
         <div className="max-w-5xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
-          <p className="text-xs text-slate-600 font-sans leading-relaxed max-w-sm sm:text-left">
-            O Protocolo de Cura Integrada de 21 dias é canalizado energeticamente por <strong>Éverton Rodrigo Piceni</strong> para purificação física, mental e áurica.
+          <p className="text-sm text-[#adc2b5] font-sans leading-relaxed max-w-sm sm:text-left">
+            O Protocolo da Transformação é canalizado energeticamente por <strong className="text-[#e7d6a4]">Éverton Rodrigo Piceni</strong>, respeitando o tempo e a jornada de cada pessoa.
           </p>
-          <div className="flex items-center gap-3 text-xs text-slate-600">
+          <div className="flex items-center gap-3 text-xs text-[#adc2b5]">
             {userProfile?.isAdmin && (
               <>
                 <button
@@ -1757,7 +1763,7 @@ export default function App() {
                 <span>•</span>
               </>
             )}
-            <span className="text-[10px] font-mono text-slate-700 uppercase tracking-widest">
+            <span className="text-[10px] font-mono text-[#8ca99a] uppercase tracking-widest">
               Eu Sou Livre • Eu Sou Cura • Eu Estou em Paz
             </span>
           </div>
