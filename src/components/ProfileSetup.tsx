@@ -296,11 +296,11 @@ export default function ProfileSetup({ onComplete }: ProfileSetupProps) {
   };
 
   return (
-    <div className="min-h-screen bg-slate-950 text-slate-100 flex items-start md:items-center justify-center p-3 sm:p-4 md:p-8" id="profile-setup-view">
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_30%,rgba(99,102,241,0.08)_0,transparent_100%)] pointer-events-none" />
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_70%,rgba(16,185,129,0.04)_0,transparent_100%)] pointer-events-none" />
+    <div className="min-h-screen bg-[#031b12] text-slate-100 flex items-start md:items-center justify-center p-3 sm:p-4 md:p-8" id="profile-setup-view">
+      <div className="fixed inset-0 bg-[linear-gradient(rgba(2,31,20,.62),rgba(2,24,16,.92)),url('/brand/forest-app-background.png')] bg-cover bg-center pointer-events-none" />
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_12%,rgba(239,211,132,0.20)_0,transparent_42%)] pointer-events-none" />
 
-      <div className="w-full max-w-xl bg-slate-900 border border-slate-800/80 rounded-2xl sm:rounded-3xl p-5 sm:p-6 md:p-8 shadow-2xl space-y-6 relative overflow-hidden" id="onboarding-card">
+      <div className="w-full max-w-xl bg-[#052d1f]/94 backdrop-blur-xl border border-[#e5c66f]/30 rounded-[1.75rem] p-5 sm:p-6 md:p-8 shadow-2xl space-y-6 relative overflow-hidden" id="onboarding-card">
         {/* Decorative corner glow */}
         <div className="absolute -top-12 -right-12 w-24 h-24 bg-indigo-500/10 rounded-full blur-xl pointer-events-none" />
 
@@ -309,12 +309,12 @@ export default function ProfileSetup({ onComplete }: ProfileSetupProps) {
             <div className="absolute inset-0 bg-indigo-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10 pointer-events-none"></div>
             <img src={brandLogo} alt="Símbolo de lótus do Protocolo Éverton Piceni" className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />
           </div>
-          <span className="text-xs font-mono tracking-widest text-indigo-400 uppercase font-semibold">Terapia Integrada</span>
+          <span className="text-xs font-mono tracking-widest text-[#e5c66f] uppercase font-semibold">Terapias Holísticas e Bem-Estar</span>
           <h1 className="text-xl md:text-2xl font-display font-medium text-slate-100 leading-tight">
-            Olá! Boas-vindas ao<br />Protocolo Éverton Piceni
+            Bem-vindo(a) ao seu momento<br />de transformação
           </h1>
           <p className="text-sm text-slate-400">
-            Jornada integrativa de autocuidado e alinhamento em 21 dias
+            Um espaço seguro para se reconectar, equilibrar sua energia e voltar para si.
           </p>
         </div>
 

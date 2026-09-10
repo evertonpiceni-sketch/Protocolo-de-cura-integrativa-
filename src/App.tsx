@@ -688,12 +688,12 @@ export default function App() {
         <div className="max-w-5xl mx-auto flex items-center justify-between gap-2 sm:gap-4">
           <div className="flex items-center gap-2 sm:gap-2.5 min-w-0">
             <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-full overflow-hidden border-[1.5px] border-indigo-500/40 shadow-[0_0_12px_rgba(99,102,241,0.25)] shrink-0 bg-slate-900 flex items-center justify-center">
-              <img src="image_fccef69.png" alt="Everton Piceni Logo" className="w-full h-full object-cover hover:scale-105 transition-transform duration-500" referrerPolicy="no-referrer" />
+              <img src="/app-icon.jpg" alt="Everton Piceni — Terapias Holísticas e Bem-Estar" className="w-full h-full object-cover hover:scale-105 transition-transform duration-500" />
             </div>
             <div className="min-w-0">
-              <span className="text-[9px] font-mono tracking-widest text-indigo-400 uppercase font-semibold block truncate">Terapia Integrada</span>
+              <span className="text-[9px] font-mono tracking-widest text-[#e5c66f] uppercase font-semibold block truncate">Terapias Holísticas e Bem-Estar</span>
               <h1 className="text-xs sm:text-sm font-display font-medium text-slate-200 tracking-tight leading-tight truncate">
-                Protocolo Éverton Piceni
+                Protocolo da Transformação
               </h1>
             </div>
           </div>

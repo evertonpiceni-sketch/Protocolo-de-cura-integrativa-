@@ -44,9 +44,9 @@ export default function DashboardCura({ onClose, progress, userProfile }: { onCl
   };
 
   return (
-    <div className="fixed inset-0 z-[100] flex flex-col bg-[#050508] text-slate-100 font-sans selection:bg-[#E4C573]/30 overflow-y-auto">
+    <div className="fixed inset-0 z-[100] flex flex-col bg-[#031b12] text-slate-100 font-sans selection:bg-[#E4C573]/30 overflow-y-auto">
       {/* Background Gradient */}
-      <div className="fixed inset-0 pointer-events-none bg-[radial-gradient(ellipse_at_top,#141829_0%,#09090E_40%,#050508_100%)]" />
+      <div className="fixed inset-0 pointer-events-none bg-[linear-gradient(rgba(2,31,20,.78),rgba(2,24,16,.94)),url('/brand/forest-app-background.png')] bg-cover bg-center" />
 
       {/* Header */}
       <header className="relative z-10 mx-auto w-full max-w-lg px-5 py-6">
@@ -62,12 +62,12 @@ export default function DashboardCura({ onClose, progress, userProfile }: { onCl
             <h1 className="text-xl sm:text-2xl font-serif font-bold text-white">
               Olá, {userProfile?.name?.split(' ')[0] || 'Viajante'}
             </h1>
-            <p className="mt-1 text-sm text-slate-400">
-              Seu campo magnético está se expandindo. Continue sua cura.
+            <p className="mt-1 text-sm text-slate-300">
+              Equilíbrio hoje, um amanhã mais leve.
             </p>
           </div>
-          <div className="flex shrink-0 flex-col items-center justify-center rounded-2xl border border-[#7233E6]/30 bg-[#7233E6]/10 px-4 py-2.5 shadow-[0_0_15px_rgba(114,51,230,0.15)]">
-            <Flame className="text-[#9F7AEA] mb-1" size={24} />
+          <div className="flex shrink-0 flex-col items-center justify-center rounded-2xl border border-[#E4C573]/35 bg-[#073b29]/80 px-4 py-2.5 shadow-[0_0_15px_rgba(228,197,115,0.12)]">
+            <Flame className="text-[#E4C573] mb-1" size={24} />
             <div className="text-lg font-bold text-white leading-none">{streak}</div>
             <div className="text-[9px] uppercase tracking-wider text-slate-400 mt-1">Dias Seguidos</div>
           </div>
@@ -90,22 +90,21 @@ export default function DashboardCura({ onClose, progress, userProfile }: { onCl
 
       <main className="relative z-10 mx-auto w-full max-w-lg flex-1 px-5 pb-12">
         {/* Central Energy Visualizer */}
-        <div className="relative mx-auto my-8 h-[380px] w-full max-w-[280px] rounded-3xl border border-white/5 bg-[#09090E]/50 shadow-inner overflow-hidden">
-          {/* Subtle human silhouette or light beam */}
-          <div className="absolute inset-x-0 bottom-0 top-10 mx-auto w-[60px] bg-gradient-to-b from-transparent via-white/5 to-transparent blur-md" />
-          <div className="absolute inset-x-0 bottom-10 top-14 mx-auto w-1.5 rounded-full bg-gradient-to-b from-white/10 to-white/5" />
+        <div className="relative mx-auto my-8 aspect-[4/5] w-full max-w-[360px] rounded-[2rem] border border-[#E4C573]/30 bg-[#06291d]/70 shadow-[0_22px_60px_rgba(0,0,0,.38)] overflow-hidden">
+          <img src="/brand/chakra-body.png" alt="Pessoa em meditação com os sete chakras" className="absolute inset-0 h-full w-full object-cover" />
+          <div className="absolute inset-0 bg-gradient-to-t from-[#031b12]/70 via-transparent to-transparent" />
           
           {CHAKRAS_DATA.map((chakra) => {
             const isCompleted = completedDays.includes(chakra.day);
             return (
               <div
                 key={chakra.name}
-                className="absolute left-1/2 -translate-x-1/2 flex flex-col items-center gap-1 w-full"
+                className="absolute left-1/2 -translate-x-1/2 flex flex-col items-center gap-1 w-full pointer-events-none"
                 style={{ top: chakra.yPos }}
               >
                 <div 
                   className={`relative flex h-8 w-8 items-center justify-center rounded-full transition-all duration-1000 ${
-                    isCompleted ? 'scale-110' : 'scale-90 opacity-40 grayscale'
+                    isCompleted ? 'scale-110' : chakra.day === nextAvailableDay ? 'scale-110 animate-pulse' : 'scale-90 opacity-25 grayscale'
                   }`}
                 >
                   <div
@@ -116,8 +115,8 @@ export default function DashboardCura({ onClose, progress, userProfile }: { onCl
                     className="relative h-4 w-4 rounded-full border-2"
                     style={{
                       borderColor: isCompleted ? '#fff' : '#64748b',
-                      background: isCompleted ? chakra.color : '#334155',
-                      boxShadow: isCompleted ? `0 0 15px ${chakra.color}` : 'none'
+                      background: isCompleted || chakra.day === nextAvailableDay ? chakra.color : '#365849',
+                      boxShadow: isCompleted || chakra.day === nextAvailableDay ? `0 0 18px 6px ${chakra.color}` : 'none'
                     }}
                   />
                 </div>
@@ -153,7 +152,7 @@ export default function DashboardCura({ onClose, progress, userProfile }: { onCl
 
             if (isCurrent) {
               return (
-                <div key={day} className="relative overflow-hidden rounded-2xl border border-white/20 bg-[#161824] shadow-lg">
+                <div key={day} className="relative overflow-hidden rounded-2xl border border-[#E4C573]/35 bg-[#083323]/92 shadow-lg">
                   {/* Pulsating glow in chakra color */}
                   <div className="absolute inset-0 opacity-20 mix-blend-screen animate-pulse" style={{ background: `radial-gradient(circle at center, ${chakra.color} 0%, transparent 70%)` }} />
                   <div className="absolute left-0 top-0 h-full w-2 rounded-l-2xl" style={{ backgroundColor: chakra.color }} />
@@ -177,7 +176,7 @@ export default function DashboardCura({ onClose, progress, userProfile }: { onCl
 
             // Locked
             return (
-              <div key={day} className="flex items-center justify-between rounded-2xl border border-white/5 bg-[#0E1017]/50 px-5 py-4 opacity-60">
+              <div key={day} className="flex items-center justify-between rounded-2xl border border-[#E4C573]/12 bg-[#05271b]/70 px-5 py-4 opacity-60">
                 <div className="ml-1">
                   <h3 className="font-serif text-[15px] font-medium text-slate-500">Dia {day}: {chakra.name}</h3>
                   <p className="text-xs text-slate-600 mt-0.5">
