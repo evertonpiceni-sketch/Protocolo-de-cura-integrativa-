@@ -1,150 +1,28 @@
 /* Approved Protocolo da Transformação visual direction — 10 Sep 2026.
-   Cream + light sage/eucalyptus + soft gold + living botanical foliage.
-   Chakra colours remain semantic and are intentionally not overridden. */
-:root {
-  --approved-cream: #f7f1df;
-  --approved-cream-soft: #fffaf0;
-  --approved-sage: #8fae94;
-  --approved-sage-soft: #c9d8c7;
-  --approved-eucalyptus: #587d67;
-  --approved-green: #315f49;
-  --approved-green-deep: #244c3a;
-  --approved-gold: #d6ae52;
-  --approved-gold-soft: #ead28d;
-  --approved-ink: #173f35;
-  --ep-night: #7f9f87;
-  --ep-navy: #6f927a;
-  --ep-surface: #88a990;
-  --ep-gold: #d6ae52;
-  --ep-gold-soft: #b88d38;
-  --ep-ivory: #fffaf0;
-  --ep-muted: #e7eee5;
-}
-
-html, body, #root { background-color: var(--approved-sage); }
-body {
-  color: var(--approved-cream-soft);
-  background:
-    linear-gradient(180deg, rgba(93,132,105,.54), rgba(70,108,85,.70)),
-    url('/brand/forest-app-background.png') center top / cover fixed,
-    var(--approved-sage) !important;
-}
-body::before {
-  background:
-    radial-gradient(circle at 50% 8%, rgba(255,244,205,.38), transparent 30rem),
-    linear-gradient(90deg, rgba(57,91,70,.14), transparent 18%, transparent 82%, rgba(57,91,70,.14)) !important;
-}
-
-/* The approved identity is light and botanical, not a dark forest UI. */
-#cura-main-layout {
-  background:
-    linear-gradient(180deg, rgba(121,158,130,.48), rgba(80,121,94,.68)),
-    url('/brand/forest-app-background.png') center top / cover fixed !important;
-}
-#cura-main-layout > div:first-child {
-  background: radial-gradient(circle at 50% 0, rgba(255,239,185,.34), transparent 30rem) !important;
-}
-#main-header {
-  background: linear-gradient(180deg, rgba(247,241,223,.96), rgba(229,238,226,.92)) !important;
-  color: var(--approved-ink) !important;
-  border-color: rgba(184,141,56,.30) !important;
-  box-shadow: 0 10px 34px rgba(42,77,58,.12) !important;
-}
-#main-header [class*="text-slate"], #main-header [class*="text-[#"] { color: var(--approved-ink) !important; }
-
-.ep-home { color: var(--approved-ink); }
-.ep-home-hero,
-.ep-forest-panel,
-.ep-premium-surface {
-  background:
-    linear-gradient(145deg, rgba(255,250,240,.94), rgba(225,236,223,.90)) !important;
-  border-color: rgba(184,141,56,.34) !important;
-  box-shadow: 0 22px 58px rgba(42,77,58,.16) !important;
-  backdrop-filter: blur(18px);
-}
-.ep-home-hero h1, .ep-home-hero h2, .ep-home-hero h3,
-.ep-home-hero p:not([class*="uppercase"]),
-.ep-home-hero span { color: var(--approved-ink) !important; }
-.ep-home-hero [class*="text-[#e7ca76]"],
-.ep-home-hero [class*="text-[#ead382]"] { color: #9a742b !important; }
-
-.ep-gold-button, .ep-gold-action {
-  background: linear-gradient(135deg, #efd78f, #d4aa4e) !important;
-  color: #173f35 !important;
-  border-color: rgba(255,250,231,.70) !important;
-  box-shadow: 0 12px 28px rgba(165,124,40,.18) !important;
-}
-
-/* Light cards across the home journey. Keep meditation/chakra canvases dark where colour contrast is functional. */
-.ep-home > section:not(.ep-home-hero) {
-  background: linear-gradient(150deg, rgba(255,250,240,.95), rgba(228,238,225,.93)) !important;
-  border-color: rgba(184,141,56,.30) !important;
-  box-shadow: 0 18px 46px rgba(42,77,58,.14) !important;
-}
-.ep-home > section:not(.ep-home-hero) h2,
-.ep-home > section:not(.ep-home-hero) h3,
-.ep-home > section:not(.ep-home-hero) p,
-.ep-home > section:not(.ep-home-hero) span,
-.ep-home > section:not(.ep-home-hero) strong,
-.ep-home > section:not(.ep-home-hero) blockquote { color: var(--approved-ink) !important; }
-.ep-home > section:not(.ep-home-hero) [class*="bg-[#07"],
-.ep-home > section:not(.ep-home-hero) [class*="bg-[#06"],
-.ep-home > section:not(.ep-home-hero) [class*="bg-[#05"],
-.ep-home > section:not(.ep-home-hero) [class*="bg-[#04"] {
-  background: rgba(220,234,219,.72) !important;
-  border-color: rgba(88,125,103,.25) !important;
-}
-
-#bottom-action-dock > div {
-  background: rgba(250,247,235,.95) !important;
-  border-color: rgba(184,141,56,.30) !important;
-  box-shadow: 0 16px 40px rgba(42,77,58,.18) !important;
-}
-#bottom-action-dock button { color: var(--approved-green) !important; }
-
-/* Registration/onboarding: cream glass over the living botanical background. */
-#profile-setup-view {
-  background: var(--approved-sage) !important;
-  color: var(--approved-ink) !important;
-}
-#profile-setup-view > div:first-child {
-  background:
-    linear-gradient(rgba(137,171,145,.34), rgba(88,125,103,.52)),
-    url('/brand/forest-app-background.png') center / cover !important;
-}
-#onboarding-card {
-  background: rgba(255,250,240,.93) !important;
-  border-color: rgba(184,141,56,.32) !important;
-  color: var(--approved-ink) !important;
-  box-shadow: 0 24px 64px rgba(42,77,58,.18) !important;
-}
-#onboarding-card [class*="text-slate"],
-#onboarding-card [class*="text-white"] { color: var(--approved-ink) !important; }
-#register-form input, #login-form input, #register-form select, #login-form select {
-  background: rgba(244,248,239,.86) !important;
-  border-color: rgba(88,125,103,.34) !important;
-  color: var(--approved-ink) !important;
-}
-
-/* Add the leafy frame feeling from the approved mock-up without obscuring content. */
-#cura-main-layout::before,
-#profile-setup-view::before {
-  content: '';
-  position: fixed;
-  inset: 0;
-  z-index: 0;
-  pointer-events: none;
-  background:
-    linear-gradient(90deg, rgba(255,250,240,.10), transparent 14%, transparent 86%, rgba(255,250,240,.10));
-}
-#cura-main-layout > *, #profile-setup-view > * { position: relative; z-index: 1; }
-
-@media (max-width: 640px) {
-  body, #cura-main-layout {
-    background-position: center top !important;
-    background-attachment: scroll !important;
-  }
-  .ep-home-hero, .ep-home > section:not(.ep-home-hero) {
-    border-radius: 1.55rem !important;
-  }
-}
+   Source of truth: warm cream + light sage/eucalyptus + soft gold + living green foliage.
+   Do not darken the application shell. Chakra colours remain semantic. */
+:root{--approved-cream:#f7f1df;--approved-cream-soft:#fffaf0;--approved-sage:#9fbaa2;--approved-sage-soft:#dce8d8;--approved-eucalyptus:#72927c;--approved-green:#315f49;--approved-green-deep:#244c3a;--approved-gold:#d6ae52;--approved-gold-soft:#ead28d;--approved-ink:#173f35;--ep-night:#9fbaa2;--ep-navy:#82a089;--ep-surface:#a9c0aa;--ep-gold:#d6ae52;--ep-gold-soft:#b88d38;--ep-ivory:#fffaf0;--ep-muted:#e7eee5}
+html,body,#root{background-color:var(--approved-sage)}
+body{color:var(--approved-ink);background:linear-gradient(180deg,rgba(230,239,226,.62),rgba(146,178,151,.72)),url('/brand/forest-app-background.png') center top/cover fixed,var(--approved-sage)!important}
+body::before{background:radial-gradient(circle at 50% 7%,rgba(255,244,205,.46),transparent 30rem),linear-gradient(90deg,rgba(49,95,73,.08),transparent 18%,transparent 82%,rgba(49,95,73,.08))!important}
+#cura-main-layout{background:linear-gradient(180deg,rgba(213,229,209,.60),rgba(137,171,145,.70)),url('/brand/forest-app-background.png') center top/cover fixed!important}
+#cura-main-layout>div:first-child{background:radial-gradient(circle at 50% 0,rgba(255,239,185,.42),transparent 30rem)!important}
+#main-header{background:linear-gradient(180deg,rgba(255,250,240,.97),rgba(232,240,226,.95))!important;color:var(--approved-ink)!important;border-color:rgba(184,141,56,.30)!important;box-shadow:0 10px 34px rgba(42,77,58,.12)!important}
+#main-header [class*="text-slate"],#main-header [class*="text-[#"]{color:var(--approved-ink)!important}
+.ep-home{color:var(--approved-ink)}
+.ep-home-hero,.ep-forest-panel,.ep-premium-surface{background:linear-gradient(145deg,rgba(255,250,240,.97),rgba(229,239,224,.95))!important;border-color:rgba(184,141,56,.34)!important;box-shadow:0 22px 58px rgba(42,77,58,.15)!important;backdrop-filter:blur(18px)}
+.ep-home-hero h1,.ep-home-hero h2,.ep-home-hero h3,.ep-home-hero p:not([class*="uppercase"]),.ep-home-hero span{color:var(--approved-ink)!important}.ep-home-hero [class*="text-[#e7ca76]"],.ep-home-hero [class*="text-[#ead382]"]{color:#9a742b!important}
+.ep-gold-button,.ep-gold-action{background:linear-gradient(135deg,#f1da92,#d5aa4b)!important;color:#173f35!important;border-color:rgba(255,250,231,.76)!important;box-shadow:0 12px 28px rgba(165,124,40,.18)!important}
+.ep-home>section:not(.ep-home-hero){background:linear-gradient(150deg,rgba(255,250,240,.97),rgba(230,239,225,.95))!important;border-color:rgba(184,141,56,.28)!important;box-shadow:0 18px 46px rgba(42,77,58,.13)!important}
+.ep-home>section:not(.ep-home-hero) h2,.ep-home>section:not(.ep-home-hero) h3,.ep-home>section:not(.ep-home-hero) p,.ep-home>section:not(.ep-home-hero) span,.ep-home>section:not(.ep-home-hero) strong,.ep-home>section:not(.ep-home-hero) blockquote{color:var(--approved-ink)!important}
+.ep-home>section:not(.ep-home-hero) [class*="bg-[#07"],.ep-home>section:not(.ep-home-hero) [class*="bg-[#06"],.ep-home>section:not(.ep-home-hero) [class*="bg-[#05"],.ep-home>section:not(.ep-home-hero) [class*="bg-[#04"]{background:rgba(220,234,219,.74)!important;border-color:rgba(88,125,103,.25)!important}
+/* Dark green is reserved for actionable tiles; this restores contrast seen in the approved preview. */
+.ep-home button:not(.ep-gold-button){color:var(--approved-green-deep)!important}.ep-home button[class*="bg-[#073426]"],.ep-home button[class*="bg-[#062f21]"]{background:var(--approved-green)!important;color:#fff7df!important;border-color:rgba(214,174,82,.45)!important}
+#bottom-action-dock>div{background:rgba(250,247,235,.96)!important;border-color:rgba(184,141,56,.30)!important;box-shadow:0 16px 40px rgba(42,77,58,.18)!important}#bottom-action-dock button{color:var(--approved-green)!important}
+/* Registration/onboarding */
+#profile-setup-view{background:var(--approved-sage)!important;color:var(--approved-ink)!important}#profile-setup-view>div:first-child{background:linear-gradient(rgba(211,228,207,.46),rgba(119,153,128,.58)),url('/brand/forest-app-background.png') center/cover!important}#onboarding-card{background:rgba(255,250,240,.96)!important;border-color:rgba(184,141,56,.32)!important;color:var(--approved-ink)!important;box-shadow:0 24px 64px rgba(42,77,58,.18)!important}#onboarding-card [class*="text-slate"],#onboarding-card [class*="text-white"]{color:var(--approved-ink)!important}#register-form input,#login-form input,#register-form select,#login-form select{background:rgba(250,250,241,.92)!important;border-color:rgba(88,125,103,.34)!important;color:var(--approved-ink)!important}
+/* Remove the old violet/blue product accent from auth. */
+#auth-tabs button,#register-form button,#login-form button{color:var(--approved-green-deep)!important;border-color:rgba(184,141,56,.30)!important}#auth-tabs button[class*="bg-"],#register-form button[class*="bg-"],#login-form button[class*="bg-"]{background:linear-gradient(135deg,#efd78f,#d4aa4e)!important;color:var(--approved-green-deep)!important;box-shadow:none!important}#register-form [class*="purple"],#login-form [class*="purple"],#onboarding-card [class*="purple"]{background:rgba(220,234,219,.82)!important;border-color:rgba(88,125,103,.30)!important;color:var(--approved-green-deep)!important}
+/* Botanical frame: visible green leaves belong to the composition, not as a dark wall. */
+#cura-main-layout::before,#profile-setup-view::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;background:radial-gradient(ellipse at -8% 16%,rgba(42,92,59,.20),transparent 22%),radial-gradient(ellipse at 108% 32%,rgba(42,92,59,.18),transparent 23%),linear-gradient(90deg,rgba(255,250,240,.08),transparent 15%,transparent 85%,rgba(255,250,240,.08))}#cura-main-layout>*,#profile-setup-view>*{position:relative;z-index:1}
+@media(max-width:640px){body,#cura-main-layout{background-position:center top!important;background-attachment:scroll!important}.ep-home-hero,.ep-home>section:not(.ep-home-hero){border-radius:1.55rem!important}#profile-setup-view>div:first-child{background:linear-gradient(rgba(233,241,228,.54),rgba(134,166,142,.60)),url('/brand/forest-app-background.png') center/cover!important}}
