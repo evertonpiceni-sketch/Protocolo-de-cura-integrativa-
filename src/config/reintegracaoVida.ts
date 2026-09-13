@@ -2,7 +2,7 @@ import type { TransformationalProtocol } from './protocols';
 
 // IMPORTANTE: o nome do arquivo é parte da programação aprovada e não deve ser alterado.
 export const REINTEGRACAO_AUDIO_FILENAME = 'REINTEGRAÇÃO À VIDA.mp3' as const;
-export const REINTEGRACAO_AUDIO_URL = `/audio/${REINTEGRACAO_AUDIO_FILENAME}`;
+export const REINTEGRACAO_AUDIO_URL = 'https://7bhxppl2irhgbptb.public.blob.vercel-storage.com/REINTEGRA%C3%87%C3%83O%20%C3%80%20VIDA.mp3';;
 
 export interface ReintegracaoStage {
   fromDay: number;
