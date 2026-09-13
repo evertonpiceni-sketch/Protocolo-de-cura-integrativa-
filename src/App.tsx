@@ -33,6 +33,7 @@ import ContactModal from './components/ContactModal';
 import PromoVideoModal from './components/PromoVideoModal';
 import MilestoneCelebrationModal from './components/MilestoneCelebrationModal';
 import DailyTipModal from './components/DailyTipModal';
+import PersonalJourney21 from './components/PersonalJourney21';
 
 import { SpeedInsights } from '@vercel/speed-insights/react';
 import DashboardCura from './components/DashboardCura';
@@ -145,6 +146,7 @@ export default function App() {
   const [showMilestoneModal, setShowMilestoneModal] = useState<boolean>(false);
   const [showDashboardCura, setShowDashboardCura] = useState<boolean>(false);
   const [showDailyTip, setShowDailyTip] = useState<boolean>(false);
+  const [showPersonalJourney, setShowPersonalJourney] = useState<boolean>(false);
 
 
   const [milestoneModalDay, setMilestoneModalDay] = useState<number>(8);
@@ -647,7 +649,9 @@ export default function App() {
         )}
       </AnimatePresence>
       
-      {showArcanjoView || userProfile.subscriptionPlan === 'arcanjo_7d' ? (
+      {showPersonalJourney ? (
+        <PersonalJourney21 userName={userProfile.name} onClose={() => setShowPersonalJourney(false)} />
+      ) : showArcanjoView || userProfile.subscriptionPlan === 'arcanjo_7d' ? (
         <ArcanjoProtocolView 
           userProfile={userProfile}
           onLogout={handleLogout}
@@ -1541,6 +1545,7 @@ export default function App() {
             onOpenAchievements={() => setShowAchievementsModal(true)}
             onOpenCourses={() => setShowCoursesModal(true)}
             onOpenContact={() => setShowContactModal(true)}
+            onOpenPersonalJourney={() => setShowPersonalJourney(true)}
           />
         )}
       </main>
