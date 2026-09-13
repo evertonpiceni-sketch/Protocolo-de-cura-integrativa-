@@ -650,7 +650,7 @@ export default function App() {
       </AnimatePresence>
       
       {showPersonalJourney ? (
-        <PersonalJourney21 userName={userProfile.name} onClose={() => setShowPersonalJourney(false)} />
+        <PersonalJourney21 onClose={() => setShowPersonalJourney(false)} />
       ) : showArcanjoView || userProfile.subscriptionPlan === 'arcanjo_7d' ? (
         <ArcanjoProtocolView 
           userProfile={userProfile}
