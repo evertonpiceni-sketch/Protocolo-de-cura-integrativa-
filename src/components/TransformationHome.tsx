@@ -1,95 +1,130 @@
-import React, { useMemo, useState } from 'react';
-import { Award, BookOpen, ChevronRight, Flower2, GraduationCap, Headphones, Heart, Leaf, MessageCircle, Pause, Play, Sliders, Sparkles, Sun, Users, Waves } from 'lucide-react';
-import { AnamnesisData, DAILY_INSIGHTS, DayProgress } from '../types';
-import brandLogo from '../assets/images/app_icon_lotus_1787334709504.jpg';
-import { evaluateBestTreatmentFromAnamnesis } from '../lib/anamnesisTreatmentEngine';
-import { audioEngine } from '../lib/audio';
+import React, { useMemo, useRef, useState } from 'react';
+import { ChevronLeft, ChevronRight, Heart, Leaf, Pause, Play, Sparkles, Sun } from 'lucide-react';
+import { AnamnesisData, DayProgress } from '../types';
+import { REINTEGRACAO_ACCEPTANCE, REINTEGRACAO_AUDIO_URL, REINTEGRACAO_STAGES, getReintegracaoStage } from '../config/reintegracaoVida';
 
 type Props = {
-  userName: string;
-  currentDay: number;
-  progress: DayProgress[];
-  anamnesis?: AnamnesisData;
-  onStartSession: (day: number) => void;
-  onOpenJournal: () => void;
-  onOpenAnamnesis: () => void;
-  onOpenArcanjo: () => void;
-  onOpenChakras: () => void;
-  onOpenBaths: () => void;
-  onOpenAstral: () => void;
-  onOpenNumerology: () => void;
-  onOpenSettings: () => void;
-  onOpenSystemic: () => void;
-  onOpenHooponopono: () => void;
-  onOpenAchievements: () => void;
-  onOpenCourses: () => void;
-  onOpenContact: () => void;
+  userName: string; currentDay: number; progress: DayProgress[]; anamnesis?: AnamnesisData;
+  onStartSession: (day: number) => void; onOpenJournal: () => void; onOpenAnamnesis: () => void;
+  onOpenArcanjo: () => void; onOpenChakras: () => void; onOpenBaths: () => void; onOpenAstral: () => void;
+  onOpenNumerology: () => void; onOpenSettings: () => void; onOpenSystemic: () => void; onOpenHooponopono: () => void;
+  onOpenAchievements: () => void; onOpenCourses: () => void; onOpenContact: () => void;
 };
 
-const careCards = [
-  { key: 'chakras', title: 'Guia dos 7 Chakras', copy: 'Conheça seus centros de energia', icon: Sparkles },
-  { key: 'bath', title: 'Banhos e Aromas', copy: 'Natureza como parte do cuidado', icon: Leaf },
-  { key: 'astral', title: 'Mapa Astral', copy: 'Um olhar simbólico para sua jornada', icon: Sun },
-  { key: 'numerology', title: 'Numerologia', copy: 'Ciclos, essência e caminhos', icon: Flower2 },
+type View = 'home' | 'reintegracao';
+type Moment = 'arrival' | 'practice' | 'action';
+
+const stageMessages = [
+  'Hoje não é preciso correr. Primeiro, permaneça com você.',
+  'A vida também retorna pelos pequenos lugares onde ainda existe sensação.',
+  'Perceber abre espaço. Uma escolha pequena já pode mudar a direção.',
+  'Seu valor não começa depois que você produzir. Ele já está aqui.',
+  'Você não precisa voltar ao mundo de uma vez. Um passo real já é movimento.',
+  'Você não precisa enxergar todo o caminho para começar a caminhar.',
+  'Não procure uma versão perfeita de você. Procure os sinais de vida que voltaram a aparecer.'
 ];
 
 export default function TransformationHome(props: Props) {
-  const [isSpeaking, setIsSpeaking] = useState(false);
+  const [view, setView] = useState<View>('home');
+  const [moment, setMoment] = useState<Moment>('arrival');
   const [accepted, setAccepted] = useState(false);
-  const [journeyEntered, setJourneyEntered] = useState(() => sessionStorage.getItem('transformation_journey_entered') === 'true');
+  const [energy, setEnergy] = useState(3);
+  const [action, setAction] = useState('');
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [audioProgress, setAudioProgress] = useState(0);
+  const audioRef = useRef<HTMLAudioElement | null>(null);
+  const day = Math.min(21, Math.max(1, props.currentDay || 1));
+  const stage = getReintegracaoStage(day);
+  const stageIndex = Math.max(0, REINTEGRACAO_STAGES.indexOf(stage));
   const firstName = props.userName?.trim().split(' ')[0] || 'bem-vindo';
-  const completed = props.progress.filter(item => item.completed).length;
-  const total = Math.max(props.progress.length, 21);
-  const percentage = Math.min(100, Math.round((completed / total) * 100));
-  const insight = DAILY_INSIGHTS[Math.max(0, Math.min(DAILY_INSIGHTS.length - 1, props.currentDay - 1))];
-  const recommendation = useMemo(() => props.anamnesis ? evaluateBestTreatmentFromAnamnesis(props.anamnesis) : null, [props.anamnesis]);
-  const actions: Record<string, () => void> = { chakras: props.onOpenChakras, bath: props.onOpenBaths, astral: props.onOpenAstral, numerology: props.onOpenNumerology };
-  const welcomeText = `Olá, ${firstName}. Que bom que você voltou para si. Respire com calma. Você não precisa fazer tudo hoje. Estamos juntos neste processo. ${insight?.quote || ''}`;
-  const toggleWelcome = () => {
-    if (isSpeaking) { audioEngine.stopSpeech(); setIsSpeaking(false); return; }
-    void audioEngine.speakWithElevenLabsOrFallback(welcomeText, 1, () => setIsSpeaking(true), () => setIsSpeaking(false), undefined, undefined, { voiceId: 'Marcus', stability: .5, similarityBoost: .78, userName: props.userName, enableBreathingPauses: true, preferElevenLabs: true, lang: 'pt-BR', rate: .82, pitch: .92 });
-  };
-  const speakResult = () => {
-    if (!recommendation) return;
-    const text = `Olá, ${firstName}. Seu resultado personalizado indica ${recommendation.categoryLabel}. ${recommendation.summaryDiagnosis}. A frequência recomendada é ${recommendation.frequencyLabel}. O chakra em foco é ${recommendation.primaryChakraFocus}. O floral recomendado é ${recommendation.recommendedFloral}. A aromaterapia recomendada é ${recommendation.recommendedAromatherapy}. Estamos juntos neste processo.`;
-    audioEngine.stopSpeech();
-    void audioEngine.speakWithElevenLabsOrFallback(text, 1, () => setIsSpeaking(true), () => setIsSpeaking(false), undefined, undefined, { voiceId: 'Marcus', stability: .5, similarityBoost: .78, userName: props.userName, enableBreathingPauses: true, preferElevenLabs: true, lang: 'pt-BR', rate: .82, pitch: .92 });
+  const journeyProgress = Math.round((day / 21) * 100);
+  const completed = useMemo(() => props.progress.filter(p => p.completed).length, [props.progress]);
+
+  const enterJourney = () => { setAccepted(false); setMoment('arrival'); setView('reintegracao'); };
+  const toggleAudio = async () => {
+    if (!audioRef.current || !accepted) return;
+    if (audioRef.current.paused) await audioRef.current.play(); else audioRef.current.pause();
   };
 
-  if (!journeyEntered) {
-    const enterJourney = () => { sessionStorage.setItem('transformation_journey_entered', 'true'); setJourneyEntered(true); toggleWelcome(); };
-    return <div className="mx-auto flex min-h-[calc(100dvh-2rem)] w-full max-w-[520px] items-center px-4 py-5">
-      <section className="ep-home-hero relative w-full overflow-hidden rounded-[2rem] border border-[#e7ca76]/35 px-6 py-8 text-center shadow-[0_24px_70px_rgba(0,0,0,.34)]">
-        <div className="absolute inset-x-0 top-0 h-48 bg-[linear-gradient(to_bottom,rgba(3,35,25,.08),rgba(3,35,25,.9)),url('/brand/forest-app-background.png')] bg-cover bg-center" />
-        <div className="relative mx-auto mb-6 flex h-40 w-40 items-center justify-center overflow-hidden rounded-full border-2 border-[#e7ca76]/60 bg-[#062d20] shadow-[0_0_34px_rgba(231,202,118,.28)]"><img src={brandLogo} alt="Everton Piceni — Terapias Holísticas e Bem-Estar" className="h-full w-full object-cover" /></div>
-        <div className="relative">
-          <p className="text-xs font-semibold uppercase tracking-[.24em] text-[#e7ca76]">Protocolo da Transformação</p>
-          <h1 className="mt-5 font-display text-4xl leading-tight text-[#fff8e7]">Bem-vindo ao seu momento de transformação</h1>
-          <p className="mx-auto mt-4 max-w-sm text-base leading-7 text-[#d7e4db]">Aqui você encontra um espaço seguro para se reconectar, equilibrar sua energia e voltar para si.</p>
-          <button onClick={enterJourney} className="ep-gold-button mt-7 flex w-full items-center justify-center gap-3 rounded-2xl px-5 py-4 text-base font-bold"><span>Começar minha jornada</span><ChevronRight size={20}/></button>
-          <div className="mt-7 grid grid-cols-4 gap-2 text-[#e7ca76]">{[[Waves,'Escuta'],[Leaf,'Presença'],[Heart,'Equilíbrio'],[Sparkles,'Transformação']].map(([Icon,label]) => { const PillarIcon=Icon as typeof Waves; return <div key={label as string} className="flex flex-col items-center gap-2"><PillarIcon size={21}/><span className="text-[10px] uppercase tracking-[.08em] text-[#d7e4db]">{label as string}</span></div>; })}</div>
+  if (view === 'reintegracao') {
+    return <main className="min-h-screen bg-[radial-gradient(circle_at_top,#fffdf5_0%,#f3eddf_48%,#e7eee4_100%)] text-[#28483b]">
+      <div className="mx-auto w-full max-w-[590px] px-4 pb-24 pt-5">
+        <div className="mb-4 flex items-center justify-between">
+          <button onClick={() => setView('home')} className="inline-flex items-center gap-2 rounded-full border border-[#cbd5c8] bg-white/75 px-4 py-2 text-sm font-semibold text-[#496557]"><ChevronLeft size={17}/> Voltar</button>
+          <span className="text-xs font-semibold uppercase tracking-[.16em] text-[#9a7a34]">Dia {day} de 21</span>
         </div>
-      </section>
-    </div>;
+
+        <section className="overflow-hidden rounded-[2.25rem] border border-[#dbc991] bg-[#fffaf1] shadow-[0_28px_80px_rgba(65,91,75,.16)]">
+          <div className="relative h-[360px] overflow-hidden bg-[#e9efe3]">
+            <img src="/brand/forest-app-background.png" alt="Natureza iluminada" className="absolute inset-0 h-full w-full object-cover opacity-70" />
+            <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_14%,rgba(255,224,132,.75),transparent_30%),linear-gradient(to_top,#fffaf1_0%,rgba(255,250,241,.06)_55%)]" />
+            <div className="absolute left-1/2 top-7 h-20 w-20 -translate-x-1/2 rounded-full bg-[#ffe39a]/45 blur-xl" />
+            <img src="/brand/chakra-body.png" alt="Corpo em meditação" className={`absolute bottom-0 left-1/2 h-[88%] -translate-x-1/2 object-contain drop-shadow-xl transition-all duration-1000 ${isPlaying ? 'brightness-110 saturate-125' : 'brightness-95 saturate-75'}`} />
+            <div className="absolute bottom-5 left-1/2 w-[88%] -translate-x-1/2 rounded-2xl border border-white/60 bg-white/65 px-4 py-3 text-center backdrop-blur-md">
+              <p className="text-[10px] font-bold uppercase tracking-[.2em] text-[#9b7a31]">{stage.title}</p>
+              <p className="mt-1 text-sm font-medium text-[#4c6759]">{stage.focus.join(' · ')}</p>
+            </div>
+          </div>
+
+          <div className="px-6 pb-8 pt-4">
+            <div className="flex items-center gap-2">{REINTEGRACAO_STAGES.map((s, i) => <div key={s.title} className={`h-1.5 flex-1 rounded-full ${i <= stageIndex ? 'bg-[#a9bda8]' : 'bg-[#e8e2d5]'}`} />)}</div>
+            <div className="mt-5 flex items-center justify-between text-[11px] font-semibold uppercase tracking-[.14em] text-[#8d8061]"><span>Início</span><span>{journeyProgress}% da jornada</span><span>Reintegração</span></div>
+
+            {moment === 'arrival' && <div className="mt-7">
+              <p className="text-center text-[11px] font-bold uppercase tracking-[.22em] text-[#a07d2d]">Chegada</p>
+              <h1 className="mt-3 text-center font-display text-4xl leading-tight text-[#315746]">{stage.title}</h1>
+              <p className="mx-auto mt-4 max-w-md text-center text-lg leading-8 text-[#62766b]">{stageMessages[stageIndex]}</p>
+              <div className="mt-7 rounded-[1.6rem] border border-[#d9dfd2] bg-white/75 p-5">
+                <p className="font-display text-xl text-[#315746]">Como sua energia está agora?</p>
+                <p className="mt-1 text-sm text-[#718078]">Sem certo ou errado. Apenas perceba.</p>
+                <div className="mt-5 grid grid-cols-5 gap-2">{[1,2,3,4,5].map(n => <button key={n} onClick={() => setEnergy(n)} className={`rounded-2xl py-3 text-sm font-bold transition ${energy === n ? 'bg-[#78947c] text-white shadow-md' : 'bg-[#edf2e9] text-[#62766b]'}`}>{n}</button>)}</div>
+              </div>
+              <button onClick={() => setMoment('practice')} className="mt-5 flex w-full items-center justify-center gap-2 rounded-2xl bg-[#78947c] px-5 py-4 font-bold text-white shadow-[0_12px_28px_rgba(74,105,82,.22)]">Preparar minha prática <ChevronRight size={19}/></button>
+            </div>}
+
+            {moment === 'practice' && <div className="mt-7">
+              <p className="text-center text-[11px] font-bold uppercase tracking-[.22em] text-[#a07d2d]">Sua prática de hoje</p>
+              <h2 className="mt-3 text-center font-display text-3xl text-[#315746]">Um momento só seu</h2>
+              {!accepted ? <>
+                <p className="mx-auto mt-3 max-w-md text-center text-sm leading-6 text-[#687b71]">Respire com calma. Quando estiver presente, leia a frase abaixo e escolha conscientemente iniciar.</p>
+                <label className="mt-5 flex cursor-pointer items-start gap-3 rounded-[1.5rem] border border-[#d9dfd2] bg-white/80 p-5"><input type="checkbox" checked={accepted} onChange={e => setAccepted(e.target.checked)} className="mt-1 h-5 w-5 accent-[#78947c]"/><span className="text-sm leading-6 text-[#4f685b]">{REINTEGRACAO_ACCEPTANCE}</span></label>
+              </> : <div className="mt-5 rounded-[1.7rem] border border-[#d9c98e] bg-[linear-gradient(145deg,#fffdf7,#edf3e9)] p-6 text-center">
+                <div className={`mx-auto flex h-24 w-24 items-center justify-center rounded-full border border-[#d7c58f] bg-white shadow-[0_0_36px_rgba(205,178,93,.22)] ${isPlaying ? 'animate-pulse' : ''}`}><button onClick={toggleAudio} className="flex h-16 w-16 items-center justify-center rounded-full bg-[#78947c] text-white">{isPlaying ? <Pause size={27} fill="currentColor"/> : <Play size={27} fill="currentColor" className="ml-1"/>}</button></div>
+                <p className="mt-4 font-display text-2xl text-[#315746]">{isPlaying ? 'Sua prática está acontecendo' : 'REINTEGRAÇÃO À VIDA'}</p>
+                <p className="mt-2 text-sm text-[#6d7e74]">{isPlaying ? 'Permaneça aqui. Respire. Não é preciso fazer mais nada agora.' : 'Áudio-matriz · aproximadamente 30 minutos'}</p>
+                <div className="mt-5 h-2 overflow-hidden rounded-full bg-[#dfe6dc]"><div className="h-full rounded-full bg-[#c7a951] transition-all" style={{width:`${audioProgress}%`}}/></div>
+                <audio ref={audioRef} src={REINTEGRACAO_AUDIO_URL} preload="metadata" onPlay={() => setIsPlaying(true)} onPause={() => setIsPlaying(false)} onTimeUpdate={e => { const a=e.currentTarget; if(a.duration) setAudioProgress((a.currentTime/a.duration)*100); }} onEnded={() => { setIsPlaying(false); setAudioProgress(100); setMoment('action'); }} />
+              </div>}
+              {!accepted && <button disabled={!accepted} className="mt-5 w-full rounded-2xl bg-[#78947c] px-5 py-4 font-bold text-white disabled:opacity-35">Eu aceito — iniciar minha prática</button>}
+              {accepted && !isPlaying && <button onClick={toggleAudio} className="mt-5 flex w-full items-center justify-center gap-2 rounded-2xl bg-[#78947c] px-5 py-4 font-bold text-white"><Play size={19}/> Iniciar minha prática</button>}
+              {accepted && <button onClick={() => setMoment('action')} className="mt-3 w-full px-4 py-2 text-sm font-semibold text-[#75837b]">Ir para o fechamento</button>}
+            </div>}
+
+            {moment === 'action' && <div className="mt-7 text-center">
+              <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-[#edf2e8] text-[#78947c]"><Leaf size={28}/></div>
+              <p className="mt-5 text-[11px] font-bold uppercase tracking-[.22em] text-[#a07d2d]">Depois da prática</p>
+              <h2 className="mt-3 font-display text-3xl text-[#315746]">O que você vai fazer com essa energia?</h2>
+              <p className="mx-auto mt-3 max-w-md text-base leading-7 text-[#687b71]">{stage.actionPrompt}</p>
+              <div className="mt-6 rounded-[1.5rem] border border-[#d9dfd2] bg-white/80 p-5 text-left"><label className="text-xs font-bold uppercase tracking-[.15em] text-[#9a7a34]">Minha ação de hoje</label><textarea value={action} onChange={e=>setAction(e.target.value)} rows={3} placeholder="Um movimento pequeno e possível..." className="mt-3 w-full resize-none rounded-2xl border border-[#dfe4da] bg-[#fafbf7] p-4 text-sm text-[#496557] outline-none focus:border-[#9db19d]"/></div>
+              <button onClick={props.onOpenJournal} className="mt-5 w-full rounded-2xl bg-[#78947c] px-5 py-4 font-bold text-white">Eu me comprometo com este pequeno movimento</button>
+              <p className="mt-5 font-display text-lg italic leading-7 text-[#6a7d72]">“Um pequeno movimento também é vida acontecendo.”</p>
+            </div>}
+          </div>
+        </section>
+      </div>
+    </main>;
   }
 
-  return <div className="ep-home mx-auto w-full max-w-[520px] px-4 pb-28 sm:px-5">
-    <section className="ep-home-hero overflow-hidden rounded-[2rem] border border-[#e7ca76]/35 px-6 py-8 text-center shadow-[0_24px_70px_rgba(0,0,0,.34)]">
-      <div className="mx-auto mb-5 flex h-24 w-24 items-center justify-center overflow-hidden rounded-full border-2 border-[#e7ca76]/55 bg-[#062d20] shadow-[0_0_28px_rgba(231,202,118,.2)]"><img src={brandLogo} alt="Everton Piceni — Terapias Holísticas e Bem-Estar" className="h-full w-full object-cover" /></div>
-      <p className="text-xs font-semibold uppercase tracking-[.24em] text-[#e7ca76]">Protocolo da Transformação</p><h2 className="mt-4 font-display text-[2.15rem] font-semibold leading-tight text-[#fff8e7]">Olá, {firstName}.</h2><p className="mx-auto mt-3 max-w-sm font-display text-xl italic leading-7 text-[#dce9df]">Que bom que você voltou para si.</p><div className="mx-auto mt-6 h-px w-24 bg-gradient-to-r from-transparent via-[#e7ca76] to-transparent" /><p className="mx-auto mt-5 max-w-sm text-base leading-7 text-[#d7e4db]">Respire. Você não precisa fazer tudo hoje. Escolha apenas o cuidado que combina com o seu momento.</p>
-      <button onClick={toggleWelcome} className="mx-auto mt-6 flex items-center justify-center gap-2 rounded-full border border-[#e7ca76]/40 bg-[#062f21]/80 px-5 py-3 text-sm font-semibold text-[#f1db94]">{isSpeaking ? <Pause size={18} /> : <Headphones size={18} />}{isSpeaking ? 'Pausar acolhimento' : 'Ouvir acolhimento'}</button>
-    </section>
-
-    {!props.anamnesis ? <section className="mt-5 rounded-[1.75rem] border border-[#e7ca76]/30 bg-[#062f21]/95 p-5 shadow-[0_18px_48px_rgba(0,0,0,.28)]"><p className="text-xs uppercase tracking-[.2em] text-[#e7ca76]">Primeiro, vamos ouvir você</p><h3 className="mt-2 font-display text-3xl text-[#fff8e7]">Como você está de verdade?</h3><p className="mt-3 text-base leading-7 text-[#c9d9ce]">Responda à anamnese para receber seu resultado, frequência, chakra em foco, floral, aroma e protocolo recomendado.</p><button onClick={props.onOpenAnamnesis} className="ep-gold-button mt-5 w-full rounded-2xl px-5 py-4 text-base font-bold">Começar minha anamnese</button></section> : recommendation && <section className="mt-5 overflow-hidden rounded-[1.75rem] border border-[#e7ca76]/30 bg-[#052a1e]/96 shadow-[0_18px_48px_rgba(0,0,0,.28)]"><div className="relative h-56 overflow-hidden border-b border-[#e7ca76]/20"><img src="/brand/human-chakra-model.jpg" alt="Corpo em meditação com os sete chakras" className="h-full w-full object-cover object-top" /><div className="absolute inset-0 bg-gradient-to-t from-[#052a1e] via-transparent to-transparent" /><p className="absolute bottom-4 left-5 text-xs uppercase tracking-[.2em] text-[#e7ca76]">Seu resultado personalizado</p></div><div className="p-5"><h3 className="font-display text-3xl leading-tight text-[#fff8e7]">{recommendation.categoryLabel}</h3><p className="mt-3 text-base leading-7 text-[#c9d9ce]">{recommendation.summaryDiagnosis}</p><button onClick={speakResult} className="mt-4 flex items-center gap-2 rounded-full border border-[#e7ca76]/35 bg-[#073426] px-4 py-2.5 text-sm font-semibold text-[#ead382]"><Headphones size={17} />Ouvir meu resultado</button><div className="mt-5 space-y-3">{[['Frequência Solfeggio', recommendation.frequencyLabel],['Chakra em foco', recommendation.primaryChakraFocus],['Floral recomendado', recommendation.recommendedFloral || props.anamnesis.recommendedFloral || 'Definido conforme sua anamnese'],['Aromaterapia recomendada', recommendation.recommendedAromatherapy || props.anamnesis.recommendedAromatherapy || 'Definida conforme sua anamnese'],['Protocolo indicado', recommendation.treatmentTitle],['Duração sugerida', `${recommendation.recommendedDurationDays} dias`]].map(([label,value]) => <div key={label} className="rounded-2xl border border-[#e7ca76]/18 bg-[#073426] p-4"><span className="block text-xs uppercase tracking-[.15em] text-[#d9bd69]">{label}</span><strong className="mt-1 block text-base leading-6 text-[#fff8e7]">{value}</strong></div>)}</div><button onClick={props.onOpenAnamnesis} className="mt-4 w-full rounded-2xl border border-[#e7ca76]/35 px-5 py-3 text-sm font-semibold text-[#ead382]">Ver ou refazer minha anamnese</button></div></section>}
-
-    <section className="mt-5 rounded-[1.75rem] border border-[#e7ca76]/30 bg-[#062f21]/95 p-5 shadow-[0_18px_48px_rgba(0,0,0,.28)]"><div className="flex items-center justify-between gap-4"><div><p className="text-xs uppercase tracking-[.2em] text-[#e7ca76]">Seu momento de hoje</p><h3 className="mt-2 font-display text-3xl text-[#fff8e7]">Dia {props.currentDay}</h3></div><div className="flex h-12 w-12 items-center justify-center rounded-2xl border border-[#e7ca76]/30 bg-[#e7ca76]/10 text-[#e7ca76]"><Headphones size={24}/></div></div><p className="mt-4 text-base leading-7 text-[#c9d9ce]">Uma prática guiada com voz humana, frequência e espaço para respirar no seu tempo.</p><div className="mt-5 rounded-2xl border border-[#e7ca76]/20 bg-[#04291d] p-4"><p className="text-xs uppercase tracking-[.18em] text-[#e7ca76]">Preparação da experiência</p><ul className="mt-3 space-y-3 text-sm leading-6 text-[#d7e4db]"><li className="flex gap-3"><span className="text-[#e7ca76]">01</span><span>Escolha um local tranquilo e reserve este tempo para você.</span></li><li className="flex gap-3"><span className="text-[#e7ca76]">02</span><span>Use fones de ouvido, se possível, e mantenha-se em uma posição confortável.</span></li><li className="flex gap-3"><span className="text-[#e7ca76]">03</span><span>Permita-se viver a experiência sem pressa e no seu próprio ritmo.</span></li></ul></div><div className="mt-5 rounded-2xl border border-[#e7ca76]/20 bg-[#04291d] p-4"><p className="text-xs uppercase tracking-[.18em] text-[#e7ca76]">Frase de acolhimento</p><blockquote className="mt-2 font-display text-xl italic leading-7 text-[#fff8e7]">“{insight?.quote}”</blockquote><p className="mt-2 text-sm text-[#b9cdbf]">{insight?.quoteAuthor}</p></div><label className="mt-5 flex cursor-pointer items-start gap-3 rounded-2xl border border-[#e7ca76]/20 bg-[#073426] p-4 text-left"><input type="checkbox" checked={accepted} onChange={event => setAccepted(event.target.checked)} className="mt-1 h-5 w-5 accent-[#d8b455]" /><span className="text-sm leading-6 text-[#d7e4db]">Eu aceito realizar este protocolo conscientemente e me comprometo com a minha jornada de transformação.</span></label><button disabled={!accepted} onClick={() => props.onStartSession(props.currentDay)} className="ep-gold-button mt-5 flex w-full items-center justify-center gap-3 rounded-2xl px-5 py-4 text-base font-bold disabled:cursor-not-allowed disabled:opacity-35"><Play size={20} fill="currentColor"/>Iniciar meditação</button></section>
-
-    <section className="mt-5 rounded-[1.75rem] border border-[#e7ca76]/25 bg-[#052a1e]/92 p-5 backdrop-blur-xl"><div className="flex items-center justify-between"><div><p className="text-xs uppercase tracking-[.2em] text-[#e7ca76]">Seu progresso</p><h3 className="mt-2 font-display text-2xl text-[#fff8e7]">Um passo de cada vez</h3></div><span className="font-display text-2xl text-[#e7ca76]">{percentage}%</span></div><div className="mt-5 h-2 overflow-hidden rounded-full bg-black/25"><div className="h-full rounded-full bg-gradient-to-r from-[#b78d32] to-[#f0d98d]" style={{width:`${percentage}%`}}/></div><div className="mt-5 grid grid-cols-2 gap-3"><button onClick={props.onOpenJournal} className="flex items-center gap-3 rounded-2xl border border-[#e7ca76]/20 bg-[#0a3a29]/75 p-4 text-left"><BookOpen size={21} className="text-[#e7ca76]"/><span><strong className="block text-sm text-[#fff8e7]">Meu Diário</strong><small className="mt-1 block text-xs text-[#b9cdbf]">Registrar percepções</small></span></button><button onClick={props.onOpenAnamnesis} className="flex items-center gap-3 rounded-2xl border border-[#e7ca76]/20 bg-[#0a3a29]/75 p-4 text-left"><Waves size={21} className="text-[#e7ca76]"/><span><strong className="block text-sm text-[#fff8e7]">Como estou?</strong><small className="mt-1 block text-xs text-[#b9cdbf]">Olhar meu momento</small></span></button></div></section>
-
-    <section className="mt-5 rounded-[1.75rem] border border-[#e7ca76]/25 bg-[#052a1e]/95 p-5"><p className="text-xs uppercase tracking-[.2em] text-[#e7ca76]">Afirmação do dia</p><h3 className="mt-2 font-display text-2xl text-[#fff8e7]">{insight?.title}</h3><p className="mt-3 text-base leading-7 text-[#c9d9ce]">{insight?.description}</p><div className="mt-4 rounded-2xl border border-[#e7ca76]/18 bg-[#073426] p-4 text-base italic leading-7 text-[#f2e7c6]">{insight?.focus}</div></section>
-    <section className="mt-5 rounded-[1.75rem] border border-[#e7ca76]/25 bg-[#052a1e]/95 p-6 text-center"><p className="font-display text-2xl leading-8 text-[#fff8e7]">Você já fez muito por você.</p><p className="mt-2 font-display text-2xl italic leading-8 text-[#e9d58f]">Agora, é a sua vez.</p><div className="mx-auto mt-5 h-px w-24 bg-gradient-to-r from-transparent via-[#e7ca76] to-transparent" /><p className="mt-5 text-sm uppercase tracking-[.18em] text-[#c9d9ce]">Um lugar para voltar para si. Sempre.</p></section>
-    <section className="mt-5"><div className="mb-4 px-1"><p className="text-xs uppercase tracking-[.2em] text-[#e7ca76]">Caminhos de cuidado</p><h3 className="mt-2 font-display text-3xl text-[#fff8e7]">Escolha o que faz sentido</h3></div><button onClick={props.onOpenArcanjo} className="group flex w-full items-center justify-between rounded-[1.6rem] border border-[#e7ca76]/35 bg-gradient-to-br from-[#0a412d]/95 to-[#052a1e]/95 p-5 text-left shadow-[0_16px_42px_rgba(0,0,0,.24)]"><span className="flex items-center gap-4"><span className="flex h-12 w-12 items-center justify-center rounded-2xl bg-[#e7ca76]/12 text-[#e7ca76]"><Sparkles size={24}/></span><span><strong className="block font-display text-xl text-[#fff8e7]">Proteção e Presença</strong><small className="mt-1 block text-sm text-[#c3d4c8]">Jornada de São Miguel</small></span></span><ChevronRight className="text-[#e7ca76]"/></button><div className="mt-3 grid grid-cols-2 gap-3">{careCards.map(card => { const Icon=card.icon; return <button key={card.key} onClick={actions[card.key]} className="min-h-40 rounded-[1.5rem] border border-[#e7ca76]/22 bg-[#062f21]/90 p-4 text-left backdrop-blur-xl"><Icon size={24} className="text-[#e7ca76]"/><strong className="mt-5 block font-display text-xl leading-5 text-[#fff8e7]">{card.title}</strong><small className="mt-2 block text-sm leading-5 text-[#b9cdbf]">{card.copy}</small></button>})}</div></section>
-    <section className="mt-5 rounded-[1.75rem] border border-[#e7ca76]/25 bg-[#052a1e]/95 p-5"><p className="text-xs uppercase tracking-[.2em] text-[#e7ca76]">Biblioteca de apoio</p><h3 className="mt-2 font-display text-2xl text-[#fff8e7]">Outros caminhos da sua jornada</h3><div className="mt-4 space-y-2">{[['Perguntas sistêmicas', Users, props.onOpenSystemic],['Ho’oponopono', Heart, props.onOpenHooponopono],['Conquistas e marcos', Award, props.onOpenAchievements],['Cursos e conteúdos', GraduationCap, props.onOpenCourses],['Fale conosco', MessageCircle, props.onOpenContact]].map(([label,Icon,action]) => { const ItemIcon=Icon as typeof Users; return <button key={label as string} onClick={action as () => void} className="flex w-full items-center justify-between rounded-2xl border border-[#e7ca76]/16 bg-[#073426] p-4 text-left text-sm font-semibold text-[#f6eed8]"><span className="flex items-center gap-3"><ItemIcon size={19} className="text-[#e7ca76]" />{label as string}</span><ChevronRight size={18} className="text-[#d9bd69]" /></button> })}</div></section>
-    <nav className="mt-5 flex w-full items-center justify-around rounded-[1.4rem] border border-[#e7ca76]/25 bg-[#042a1d]/95 px-2 py-2"><button onClick={() => props.onStartSession(props.currentDay)} className="flex min-w-16 flex-col items-center gap-1 p-2 text-xs text-[#efd786]"><Play size={21}/><span>Prática</span></button><button onClick={props.onOpenJournal} className="flex min-w-16 flex-col items-center gap-1 p-2 text-xs text-[#d6e3d9]"><BookOpen size={21}/><span>Diário</span></button><button onClick={props.onOpenAnamnesis} className="flex min-w-16 flex-col items-center gap-1 p-2 text-xs text-[#d6e3d9]"><Leaf size={21}/><span>Momento</span></button><button onClick={props.onOpenSettings} className="flex min-w-16 flex-col items-center gap-1 p-2 text-xs text-[#d6e3d9]"><Sliders size={21}/><span>Ajustes</span></button></nav>
-  </div>;
+  return <main className="min-h-screen bg-[radial-gradient(circle_at_top,#fffdf5_0%,#f3eddf_55%,#e9efe5_100%)] text-[#28483b]">
+    <div className="mx-auto w-full max-w-[590px] px-4 pb-24 pt-5">
+      <section className="relative overflow-hidden rounded-[2.2rem] border border-[#dbc991] bg-[#fffaf1] px-6 pb-8 pt-7 text-center shadow-[0_24px_70px_rgba(65,91,75,.14)]">
+        <div className="absolute inset-x-0 top-0 h-44 bg-[url('/brand/forest-app-background.png')] bg-cover bg-center opacity-20"/><div className="relative"><div className="mx-auto flex h-28 w-28 items-center justify-center rounded-full border border-[#d7c58f] bg-white/70 shadow-[0_0_32px_rgba(205,178,93,.16)]"><img src="/brand/chakra-body.png" alt="Protocolo da Transformação" className="h-24 object-contain"/></div><p className="mt-5 text-[11px] font-bold uppercase tracking-[.24em] text-[#a07d2d]">Protocolo da Transformação</p><h1 className="mt-3 font-display text-4xl text-[#315746]">Olá, {firstName}.</h1><p className="mx-auto mt-3 max-w-sm text-base leading-7 text-[#65786e]">Hoje você não precisa resolver tudo. Escolha apenas o próximo cuidado possível.</p></div>
+      </section>
+      <section className="mt-5 overflow-hidden rounded-[2.2rem] border border-[#dbc991] bg-[#fffaf1] shadow-[0_22px_60px_rgba(65,91,75,.13)]">
+        <div className="relative h-[330px] overflow-hidden bg-[#e9efe3]"><img src="/brand/forest-app-background.png" alt="Natureza" className="h-full w-full object-cover opacity-70"/><div className="absolute inset-0 bg-[radial-gradient(circle_at_72%_15%,rgba(255,224,132,.62),transparent_25%),linear-gradient(to_right,#fffaf1_0%,rgba(255,250,241,.7)_43%,transparent_75%)]"/><img src="/brand/chakra-body.png" alt="Corpo com chakras" className="absolute bottom-0 right-0 h-[94%] object-contain"/><div className="absolute left-6 top-7 max-w-[62%] text-left"><span className="rounded-full border border-[#cbb36c] bg-[#fffaf0]/90 px-3 py-1 text-[10px] font-bold uppercase tracking-[.15em] text-[#9a792f]">Jornada de 21 dias</span><h2 className="mt-5 font-display text-[2.15rem] leading-tight text-[#315746]">Reintegração à Vida</h2><p className="mt-3 text-sm leading-6 text-[#5d7468]">Um caminho para voltar, pouco a pouco, a sentir presença, vontade, amor por si e movimento.</p></div></div>
+        <div className="p-5"><div className="grid grid-cols-3 gap-2 text-center text-xs text-[#607369]"><div className="rounded-xl bg-[#edf2e8] p-3"><Sun className="mx-auto mb-1" size={18}/>21 dias</div><div className="rounded-xl bg-[#edf2e8] p-3"><Heart className="mx-auto mb-1" size={18}/>7 etapas</div><div className="rounded-xl bg-[#edf2e8] p-3"><Sparkles className="mx-auto mb-1" size={18}/>1 ritual/dia</div></div><div className="mt-4 rounded-2xl bg-[#f7f3e8] p-4 text-sm leading-6 text-[#687b71]">Chegada → percepção → aceite → prática → pequeno movimento → registro.</div><button onClick={enterJourney} className="mt-5 flex w-full items-center justify-center gap-2 rounded-2xl bg-[#78947c] px-5 py-4 text-base font-bold text-white shadow-[0_12px_28px_rgba(74,105,82,.22)]">Entrar na Reintegração <ChevronRight size={20}/></button></div>
+      </section>
+      <section className="mt-5 rounded-[1.75rem] border border-[#d8dfcf] bg-white/65 p-5"><div className="flex items-center justify-between"><div><p className="text-[11px] font-bold uppercase tracking-[.18em] text-[#8d7a45]">Seu caminho</p><p className="mt-1 text-sm text-[#6d7e74]">{completed} práticas concluídas</p></div><span className="font-display text-2xl text-[#78947c]">{Math.min(21,completed)}/21</span></div></section>
+    </div>
+  </main>;
 }
