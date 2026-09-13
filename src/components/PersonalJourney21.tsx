@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { ArrowLeft, Check, ChevronLeft, ChevronRight, Headphones, Pause, Play, ShieldCheck } from 'lucide-react';
+import { ArrowLeft, Check, ChevronLeft, ChevronRight, Headphones, Pause, Play, ShieldCheck, X } from 'lucide-react';
 import { audioEngine } from '../lib/audio';
 import { REINTEGRATION_DAYS, REINTEGRATION_ACCEPTANCE } from '../data/reintegrationJourneyPublic';
 
@@ -14,10 +14,14 @@ export default function PersonalJourney21({ onClose }: Props) {
   const [started, setStarted] = useState(false);
   const [audioProgress, setAudioProgress] = useState(0);
   const musicRef = useRef<HTMLAudioElement | null>(null);
+  const lastCueRef = useRef(-1);
   const [completed, setCompleted] = useState<number[]>(() => {
     try { return JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]'); } catch { return []; }
   });
   const item = REINTEGRATION_DAYS[day - 1];
+  const elapsedSeconds = musicRef.current?.currentTime || 0;
+  const totalSeconds = musicRef.current?.duration || 1797;
+  const formatTime = (seconds: number) => `${Math.floor(seconds / 60)}:${Math.floor(seconds % 60).toString().padStart(2, '0')}`;
 
   const stopSession = () => {
     audioEngine.stopSpeech();
@@ -31,18 +35,34 @@ export default function PersonalJourney21({ onClose }: Props) {
     setAccepted(false);
     setStarted(false);
     setAudioProgress(0);
+    lastCueRef.current = -1;
     if (musicRef.current) musicRef.current.currentTime = 0;
   }, [day]);
 
   useEffect(() => {
-    if (!playing || audioProgress >= 96) return;
-    const wordCount = item.meditation.trim().split(/\s+/).length;
-    const estimatedSeconds = Math.max(120, (wordCount / 105) * 60);
+    if (!playing || !musicRef.current) return;
+    const cues = item.meditation.split(/\n\n+/).map(value => value.trim()).filter(Boolean);
     const timer = window.setInterval(() => {
-      setAudioProgress(value => Math.min(96, value + 100 / estimatedSeconds));
-    }, 1000);
+      const music = musicRef.current;
+      if (!music || !Number.isFinite(music.duration) || music.duration <= 0) return;
+      const nextCue = lastCueRef.current + 1;
+      if (nextCue >= cues.length) return;
+      const cueAt = nextCue === 0 ? 0 : (music.duration * nextCue) / cues.length;
+      if (music.currentTime + 0.35 < cueAt) return;
+
+      lastCueRef.current = nextCue;
+      void audioEngine.speakWithElevenLabsOrFallback(
+        cues[nextCue],
+        1,
+        undefined,
+        undefined,
+        undefined,
+        undefined,
+        { voiceId: 'feminina', stability: 0.52, similarityBoost: 0.78, enableBreathingPauses: true, preferElevenLabs: true, rate: 0.76, pitch: 1.06, lang: 'pt-BR' }
+      );
+    }, 300);
     return () => window.clearInterval(timer);
-  }, [playing, audioProgress, item.meditation]);
+  }, [playing, item.meditation]);
 
   const startGuidedMeditation = async () => {
     if (!accepted) return;
@@ -52,7 +72,7 @@ export default function PersonalJourney21({ onClose }: Props) {
       setPlaying(false);
       return;
     }
-    if (started && audioProgress > 0) {
+    if (started && audioProgress > 0 && audioProgress < 99) {
       audioEngine.resumeSpeech();
       await musicRef.current?.play().catch(() => undefined);
       setPlaying(true);
@@ -60,24 +80,13 @@ export default function PersonalJourney21({ onClose }: Props) {
     }
 
     setStarted(true);
+    lastCueRef.current = -1;
     if (musicRef.current) {
       musicRef.current.volume = 0.22;
       musicRef.current.currentTime = 0;
       await musicRef.current.play().catch(() => undefined);
     }
-    await audioEngine.speakWithElevenLabsOrFallback(
-      item.meditation,
-      1,
-      () => setPlaying(true),
-      () => {
-        musicRef.current?.pause();
-        setPlaying(false);
-        setAudioProgress(100);
-      },
-      () => setPlaying(false),
-      () => setPlaying(true),
-      { voiceId: 'feminina', stability: 0.52, similarityBoost: 0.78, enableBreathingPauses: true, preferElevenLabs: true, rate: 0.78, pitch: 1.06, lang: 'pt-BR' }
-    );
+    setPlaying(true);
   };
 
   const complete = () => {
@@ -89,7 +98,20 @@ export default function PersonalJourney21({ onClose }: Props) {
   };
 
   return <div className="min-h-screen bg-[#9fbaa2] px-4 py-5 text-[#173f35]">
-    <audio ref={musicRef} src={REINTEGRATION_MUSIC_URL} preload="metadata" loop />
+    <audio
+      ref={musicRef}
+      src={REINTEGRATION_MUSIC_URL}
+      preload="metadata"
+      onTimeUpdate={event => {
+        const audio = event.currentTarget;
+        if (Number.isFinite(audio.duration) && audio.duration > 0) setAudioProgress((audio.currentTime / audio.duration) * 100);
+      }}
+      onEnded={() => {
+        audioEngine.stopSpeech();
+        setPlaying(false);
+        setAudioProgress(100);
+      }}
+    />
     <main className="mx-auto w-full max-w-[620px]">
       <button onClick={() => { stopSession(); onClose(); }} className="mb-4 flex items-center gap-2 rounded-full bg-[#fffaf0]/90 px-4 py-2 text-sm font-semibold"><ArrowLeft size={17}/>Voltar ao início</button>
       <section className="overflow-hidden rounded-[2rem] border border-[#d6ae52]/40 bg-[#fffaf0]/95 shadow-[0_24px_70px_rgba(42,77,58,.18)]">
@@ -125,12 +147,35 @@ export default function PersonalJourney21({ onClose }: Props) {
 
           <label className="flex cursor-pointer items-start gap-3 rounded-3xl border border-[#d6ae52]/35 bg-[#fff7df] p-5"><input type="checkbox" checked={accepted} onChange={event => setAccepted(event.target.checked)} className="mt-1 h-5 w-5 accent-[#315f49]"/><span className="text-sm leading-6">{REINTEGRATION_ACCEPTANCE}</span></label>
           <button disabled={!accepted} onClick={startGuidedMeditation} className="flex w-full items-center justify-center gap-3 rounded-2xl bg-gradient-to-r from-[#efd78f] to-[#d4aa4e] px-5 py-4 font-bold disabled:opacity-40">{playing ? <Pause size={20}/> : started ? <Play size={20}/> : <Headphones size={20}/>} {playing ? 'Pausar meditação' : started ? 'Continuar meditação' : 'Iniciar meditação guiada'}</button>
-          <details className="rounded-3xl border border-[#72927c]/25 p-5"><summary className="cursor-pointer text-sm font-semibold text-[#587d67]">Ler o texto da meditação</summary><p className="mt-4 whitespace-pre-line text-base leading-8">{item.meditation}</p></details>
           <article className="rounded-3xl border border-[#72927c]/25 bg-[#e7eee5]/55 p-5"><p className="text-xs uppercase tracking-[.16em] text-[#587d67]">Energias trabalhadas nesta etapa</p><p className="mt-2 text-sm leading-6 text-[#587d67]">Este resumo explica a proposta energética da etapa. As ativações e a programação são realizadas exclusivamente por Everton.</p><div className="mt-4 space-y-3">{item.energyNotes.map(note => <div key={note.name} className="rounded-2xl bg-[#fffaf0] p-4"><strong className="block text-sm">{note.name}</strong><span className="mt-1 block text-sm leading-6 text-[#587d67]">{note.focus}</span></div>)}</div></article>
           <p className="flex items-start gap-2 text-xs leading-5 text-[#587d67]"><ShieldCheck size={17} className="mt-0.5 shrink-0"/>Esta jornada é uma experiência espiritual e integrativa complementar. Ela não substitui atendimento médico, psicológico ou apoio humano necessário.</p>
           <div className="flex items-center justify-between gap-3 border-t border-[#72927c]/20 pt-5"><button disabled={day === 1} onClick={() => setDay(day - 1)} className="flex items-center gap-1 rounded-full px-3 py-2 text-sm font-semibold disabled:opacity-30"><ChevronLeft size={18}/>Anterior</button><button onClick={complete} className="rounded-full bg-[#315f49] px-5 py-3 text-sm font-bold text-white">{day === 21 ? 'Concluir jornada' : 'Concluir dia'}</button><button disabled={day === 21} onClick={() => setDay(day + 1)} className="flex items-center gap-1 rounded-full px-3 py-2 text-sm font-semibold disabled:opacity-30">Próximo<ChevronRight size={18}/></button></div>
         </div>
       </section>
     </main>
+    {started && <section className="fixed inset-0 z-[120] flex min-h-[100dvh] flex-col overflow-hidden bg-[#061b14] text-[#fffaf0]" aria-label="Meditação guiada em andamento">
+      <img src="/brand/human-chakra-model.jpg" alt="Corpo em meditação com os sete chakras" className={`absolute inset-0 h-full w-full object-cover object-center transition-all duration-[3000ms] ${playing ? 'scale-[1.04] brightness-100 saturate-125' : 'brightness-55 saturate-75'}`}/>
+      <div className="absolute inset-0 bg-gradient-to-b from-[#03130d]/75 via-transparent to-[#03130d]/95"/>
+      <button onClick={() => { stopSession(); setStarted(false); }} className="absolute right-4 top-[max(1rem,env(safe-area-inset-top))] z-20 rounded-full border border-white/30 bg-black/35 p-3 backdrop-blur-md" aria-label="Fechar meditação"><X size={22}/></button>
+      <div className="relative z-10 flex flex-1 items-center justify-center">
+        <div className={`absolute h-[72vw] max-h-[430px] w-[72vw] max-w-[430px] rounded-full border border-[#f2cf6c]/35 transition-all duration-[2500ms] ${playing ? 'animate-pulse shadow-[0_0_100px_rgba(242,207,108,.32)]' : 'opacity-30'}`}/>
+        {[
+          ['#a855f7','22%'],['#6366f1','31%'],['#38bdf8','40%'],['#22c55e','50%'],['#eab308','60%'],['#f97316','69%'],['#ef4444','78%']
+        ].map(([color, top], index) => {
+          const illuminated = audioProgress >= (index * 100) / 7;
+          return <span key={color} className={`absolute left-1/2 h-7 w-7 -translate-x-1/2 rounded-full border border-white/80 transition-all duration-[2200ms] ${playing && illuminated ? 'animate-pulse scale-110 opacity-100' : 'scale-75 opacity-25'}`} style={{top, backgroundColor: color, boxShadow: illuminated ? `0 0 34px 14px ${color}` : `0 0 8px 2px ${color}`}}/>;
+        })}
+      </div>
+      <div className="relative z-10 space-y-4 bg-gradient-to-t from-[#03130d] via-[#03130d]/95 to-transparent px-6 pb-[max(1.5rem,env(safe-area-inset-bottom))] pt-12 text-center">
+        <p className="text-xs font-semibold uppercase tracking-[.22em] text-[#ead28d]">Dia {day} · {item.title}</p>
+        <p className="font-display text-2xl">{playing ? 'Permaneça neste momento' : audioProgress >= 100 ? 'Meditação concluída' : 'Meditação pausada'}</p>
+        <p className="text-sm text-[#dce8d8]">A voz, a música e a luz acompanham os 30 minutos da prática.</p>
+        <div className="mx-auto max-w-md">
+          <div className="h-2 overflow-hidden rounded-full bg-white/20"><div className="h-full rounded-full bg-[#e5c568] transition-all duration-500" style={{width:`${audioProgress}%`}}/></div>
+          <div className="mt-2 flex justify-between text-xs text-white/70"><span>{formatTime(elapsedSeconds)}</span><span>{formatTime(totalSeconds)}</span></div>
+        </div>
+        <button onClick={startGuidedMeditation} className="mx-auto flex min-w-56 items-center justify-center gap-3 rounded-full bg-[#e5c568] px-7 py-4 font-bold text-[#173f35]">{playing ? <Pause size={21}/> : <Play size={21}/>} {playing ? 'Pausar' : audioProgress >= 100 ? 'Ouvir novamente' : 'Continuar'}</button>
+      </div>
+    </section>}
   </div>;
 }
