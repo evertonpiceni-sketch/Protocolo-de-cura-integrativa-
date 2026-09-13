@@ -43,4 +43,4 @@ export const REINTEGRATION_DAYS: ReintegrationDay[] = Array.from({ length: 21 },
   return { day, cycle: block.cycle, title: block.title, intention: block.intention, meditation: `${OPENING}\n\n${block.meditation}\n\n${CLOSING}`, energyNotes: block.energyNotes.map(note => ({ ...note })) };
 });
 
-export const REINTEGRATION_ACCEPTANCE = 'Eu aceito este momento de cuidado. Não preciso resolver minha vida nos próximos minutos. Não preciso provar nada. Por enquanto, eu apenas fico aqui comigo.';
+export const REINTEGRATION_ACCEPTANCE = 'Eu aceito conscientemente receber a prática e a programação energética correspondente ao meu dia na jornada 21 Dias para Voltar para Mim — Reintegração da Vida, conforme programado e energizado neste áudio por Everton Rodrigo Piceni, respeitando meus limites, minha autonomia e minha liberdade de interromper a prática quando desejar.';

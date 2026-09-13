@@ -13,7 +13,6 @@ export default function PersonalJourney21({ onClose }: Props) {
   const [playing, setPlaying] = useState(false);
   const [started, setStarted] = useState(false);
   const [audioProgress, setAudioProgress] = useState(0);
-  const [audioError, setAudioError] = useState(false);
   const musicRef = useRef<HTMLAudioElement | null>(null);
   const [completed, setCompleted] = useState<number[]>(() => {
     try { return JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]'); } catch { return []; }
@@ -32,13 +31,21 @@ export default function PersonalJourney21({ onClose }: Props) {
     setAccepted(false);
     setStarted(false);
     setAudioProgress(0);
-    setAudioError(false);
     if (musicRef.current) musicRef.current.currentTime = 0;
   }, [day]);
 
+  useEffect(() => {
+    if (!playing || audioProgress >= 96) return;
+    const wordCount = item.meditation.trim().split(/\s+/).length;
+    const estimatedSeconds = Math.max(120, (wordCount / 105) * 60);
+    const timer = window.setInterval(() => {
+      setAudioProgress(value => Math.min(96, value + 100 / estimatedSeconds));
+    }, 1000);
+    return () => window.clearInterval(timer);
+  }, [playing, audioProgress, item.meditation]);
+
   const startGuidedMeditation = async () => {
     if (!accepted) return;
-    setAudioError(false);
     if (playing) {
       audioEngine.pauseSpeech();
       musicRef.current?.pause();
@@ -56,28 +63,21 @@ export default function PersonalJourney21({ onClose }: Props) {
     if (musicRef.current) {
       musicRef.current.volume = 0.22;
       musicRef.current.currentTime = 0;
-      await musicRef.current.play().catch(() => setAudioError(true));
+      await musicRef.current.play().catch(() => undefined);
     }
-    await audioEngine.playGuidedMeditation([item.meditation], {
-      title: `Dia ${day} — ${item.title}`,
-      subtitle: '21 Dias para Voltar para Mim · Reintegração da Vida',
-      voiceId: 'Rachel',
-      volume: 1,
-      stability: 0.52,
-      similarityBoost: 0.78,
-      onStart: () => setPlaying(true),
-      onTimeUpdate: (seconds, duration) => duration > 0 && setAudioProgress(Math.min(100, (seconds / duration) * 100)),
-      onEnd: () => {
+    await audioEngine.speakWithElevenLabsOrFallback(
+      item.meditation,
+      1,
+      () => setPlaying(true),
+      () => {
         musicRef.current?.pause();
         setPlaying(false);
         setAudioProgress(100);
       },
-      onError: () => {
-        musicRef.current?.pause();
-        setPlaying(false);
-        setAudioError(true);
-      },
-    });
+      () => setPlaying(false),
+      () => setPlaying(true),
+      { voiceId: 'feminina', stability: 0.52, similarityBoost: 0.78, enableBreathingPauses: true, preferElevenLabs: true, rate: 0.78, pitch: 1.06, lang: 'pt-BR' }
+    );
   };
 
   const complete = () => {
@@ -106,14 +106,15 @@ export default function PersonalJourney21({ onClose }: Props) {
           <div className="grid grid-cols-7 gap-2">{REINTEGRATION_DAYS.map(entry => <button key={entry.day} onClick={() => setDay(entry.day)} aria-label={`Abrir dia ${entry.day}`} className={`flex aspect-square items-center justify-center rounded-full border text-xs font-bold ${day === entry.day ? 'border-[#315f49] bg-[#315f49] text-white' : completed.includes(entry.day) ? 'border-[#d6ae52] bg-[#ead28d] text-[#173f35]' : 'border-[#72927c]/35 bg-[#e7eee5]'}`}>{completed.includes(entry.day) ? <Check size={14}/> : entry.day}</button>)}</div>
           <article className="rounded-3xl border border-[#72927c]/25 bg-[#e7eee5]/70 p-5"><p className="text-xs uppercase tracking-[.16em] text-[#587d67]">Intenção do dia</p><p className="mt-2 text-base leading-7">{item.intention}</p></article>
 
-          <section className="relative overflow-hidden rounded-[2rem] border border-[#d6ae52]/40 bg-[#dfe9dc] shadow-inner">
-            <div className={`absolute left-1/2 top-[12%] h-28 w-28 -translate-x-1/2 rounded-full bg-[#ffe39a]/70 blur-2xl transition-all duration-1000 ${playing ? 'scale-150 opacity-100' : 'scale-75 opacity-35'}`} />
-            <div className={`absolute left-1/2 top-1/2 h-52 w-52 -translate-x-1/2 -translate-y-1/2 rounded-full border border-[#d6ae52]/40 transition-all duration-1000 ${playing ? 'animate-ping opacity-50' : 'opacity-15'}`} />
-            <div className="relative h-[390px] overflow-hidden">
-              <img src="/brand/forest-app-background.png" alt="Natureza iluminada" className="absolute inset-0 h-full w-full object-cover opacity-55"/>
-              <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_18%,rgba(255,225,139,.62),transparent_33%),linear-gradient(to_top,#e8efe3_0%,transparent_58%)]"/>
-              <img src="/brand/chakra-body.png" alt="Corpo em meditação com os chakras" className={`absolute bottom-0 left-1/2 h-[91%] -translate-x-1/2 object-contain drop-shadow-xl transition-all duration-1000 ${playing ? 'scale-[1.03] brightness-110 saturate-125' : 'brightness-90 saturate-75'}`}/>
-              <div className={`absolute inset-x-[18%] bottom-[17%] h-20 rounded-full bg-[#f4d46e]/30 blur-2xl transition-opacity duration-1000 ${playing ? 'animate-pulse opacity-100' : 'opacity-25'}`}/>
+          <section className="relative overflow-hidden rounded-[2rem] border border-[#d6ae52]/40 bg-[#173f35] shadow-inner">
+            <div className="relative h-[500px] overflow-hidden">
+              <img src="/brand/human-chakra-model.jpg" alt="Corpo inteiro em meditação com os sete chakras" className={`absolute inset-0 h-full w-full object-cover object-top transition-all duration-1000 ${playing ? 'brightness-110 saturate-125' : 'brightness-50 saturate-60'}`}/>
+              <div className="absolute inset-0 bg-gradient-to-t from-[#173f35] via-transparent to-[#173f35]/25"/>
+              <div className={`absolute left-1/2 top-[9%] h-28 w-28 -translate-x-1/2 rounded-full bg-[#ffe39a]/70 blur-2xl transition-all duration-1000 ${playing ? 'scale-150 animate-pulse opacity-100' : 'scale-75 opacity-25'}`} />
+              {[
+                ['#a855f7','15%'],['#6366f1','23%'],['#38bdf8','31%'],['#22c55e','42%'],['#eab308','52%'],['#f97316','61%'],['#ef4444','70%']
+              ].map(([color, top], index) => <span key={color} className={`absolute left-1/2 h-5 w-5 -translate-x-1/2 rounded-full border border-white/70 transition-all duration-700 ${playing ? 'animate-pulse opacity-100' : 'opacity-35'}`} style={{top, backgroundColor: color, boxShadow: playing ? `0 0 ${18 + index * 2}px 8px ${color}` : `0 0 8px 2px ${color}`}} />)}
+              <div className={`absolute left-1/2 top-[43%] h-64 w-64 -translate-x-1/2 -translate-y-1/2 rounded-full border border-[#f4d46e]/55 transition-all duration-1000 ${playing ? 'animate-ping opacity-55' : 'opacity-10'}`}/>
               <div className="absolute inset-x-4 bottom-4 rounded-2xl border border-white/60 bg-white/72 p-4 text-center backdrop-blur-md">
                 <p className="text-xs font-semibold uppercase tracking-[.18em] text-[#9a742b]">{playing ? 'Meditação guiada em andamento' : 'Sua meditação guiada'}</p>
                 <p className="mt-2 text-sm text-[#587d67]">{playing ? 'Respire. Permaneça aqui. A luz acompanha o seu momento.' : 'Voz feminina, música e uma experiência visual de presença.'}</p>
@@ -124,8 +125,6 @@ export default function PersonalJourney21({ onClose }: Props) {
 
           <label className="flex cursor-pointer items-start gap-3 rounded-3xl border border-[#d6ae52]/35 bg-[#fff7df] p-5"><input type="checkbox" checked={accepted} onChange={event => setAccepted(event.target.checked)} className="mt-1 h-5 w-5 accent-[#315f49]"/><span className="text-sm leading-6">{REINTEGRATION_ACCEPTANCE}</span></label>
           <button disabled={!accepted} onClick={startGuidedMeditation} className="flex w-full items-center justify-center gap-3 rounded-2xl bg-gradient-to-r from-[#efd78f] to-[#d4aa4e] px-5 py-4 font-bold disabled:opacity-40">{playing ? <Pause size={20}/> : started ? <Play size={20}/> : <Headphones size={20}/>} {playing ? 'Pausar meditação' : started ? 'Continuar meditação' : 'Iniciar meditação guiada'}</button>
-          {audioError && <p role="alert" className="rounded-2xl border border-[#b56f55]/30 bg-[#fff3ed] p-4 text-sm leading-6 text-[#8a4b37]">A voz guiada não pôde ser carregada agora. Tente novamente em alguns instantes.</p>}
-
           <details className="rounded-3xl border border-[#72927c]/25 p-5"><summary className="cursor-pointer text-sm font-semibold text-[#587d67]">Ler o texto da meditação</summary><p className="mt-4 whitespace-pre-line text-base leading-8">{item.meditation}</p></details>
           <article className="rounded-3xl border border-[#72927c]/25 bg-[#e7eee5]/55 p-5"><p className="text-xs uppercase tracking-[.16em] text-[#587d67]">Energias trabalhadas nesta etapa</p><p className="mt-2 text-sm leading-6 text-[#587d67]">Este resumo explica a proposta energética da etapa. As ativações e a programação são realizadas exclusivamente por Everton.</p><div className="mt-4 space-y-3">{item.energyNotes.map(note => <div key={note.name} className="rounded-2xl bg-[#fffaf0] p-4"><strong className="block text-sm">{note.name}</strong><span className="mt-1 block text-sm leading-6 text-[#587d67]">{note.focus}</span></div>)}</div></article>
           <p className="flex items-start gap-2 text-xs leading-5 text-[#587d67]"><ShieldCheck size={17} className="mt-0.5 shrink-0"/>Esta jornada é uma experiência espiritual e integrativa complementar. Ela não substitui atendimento médico, psicológico ou apoio humano necessário.</p>
