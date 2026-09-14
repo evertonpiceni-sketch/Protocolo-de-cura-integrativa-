@@ -41,18 +41,17 @@ export default function PersonalJourney21({ onClose }: Props) {
 
   useEffect(() => {
     if (!playing || !musicRef.current) return;
-    const cues = item.meditation.split(/\n\n+/).map(value => value.trim()).filter(Boolean);
+    const cues = item.audioCues;
     const timer = window.setInterval(() => {
       const music = musicRef.current;
       if (!music || !Number.isFinite(music.duration) || music.duration <= 0) return;
       const nextCue = lastCueRef.current + 1;
       if (nextCue >= cues.length) return;
-      const cueAt = nextCue === 0 ? 0 : (music.duration * nextCue) / cues.length;
-      if (music.currentTime + 0.35 < cueAt) return;
+      if (music.currentTime + 0.35 < cues[nextCue].at) return;
 
       lastCueRef.current = nextCue;
       void audioEngine.speakWithElevenLabsOrFallback(
-        cues[nextCue],
+        cues[nextCue].text,
         1,
         undefined,
         undefined,
@@ -62,7 +61,7 @@ export default function PersonalJourney21({ onClose }: Props) {
       );
     }, 300);
     return () => window.clearInterval(timer);
-  }, [playing, item.meditation]);
+  }, [playing, item.audioCues]);
 
   const startGuidedMeditation = async () => {
     if (!accepted) return;
@@ -168,8 +167,8 @@ export default function PersonalJourney21({ onClose }: Props) {
       </div>
       <div className="relative z-10 space-y-4 bg-gradient-to-t from-[#03130d] via-[#03130d]/95 to-transparent px-6 pb-[max(1.5rem,env(safe-area-inset-bottom))] pt-12 text-center">
         <p className="text-xs font-semibold uppercase tracking-[.22em] text-[#ead28d]">Dia {day} · {item.title}</p>
-        <p className="font-display text-2xl">{playing ? 'Permaneça neste momento' : audioProgress >= 100 ? 'Meditação concluída' : 'Meditação pausada'}</p>
-        <p className="text-sm text-[#dce8d8]">A voz, a música e a luz acompanham os 30 minutos da prática.</p>
+        <p className="font-display text-2xl">{playing ? (elapsedSeconds >= 1260 && elapsedSeconds < 1620 ? 'Absorção e silêncio' : 'Permaneça neste momento') : audioProgress >= 100 ? 'Meditação concluída' : 'Meditação pausada'}</p>
+        <p className="text-sm text-[#dce8d8]">{elapsedSeconds >= 1260 && elapsedSeconds < 1620 ? 'Apenas a música permanece enquanto você integra a experiência.' : 'A voz, a música e a luz acompanham os 29 minutos e 57 segundos da prática.'}</p>
         <div className="mx-auto max-w-md">
           <div className="h-2 overflow-hidden rounded-full bg-white/20"><div className="h-full rounded-full bg-[#e5c568] transition-all duration-500" style={{width:`${audioProgress}%`}}/></div>
           <div className="mt-2 flex justify-between text-xs text-white/70"><span>{formatTime(elapsedSeconds)}</span><span>{formatTime(totalSeconds)}</span></div>
