@@ -6,12 +6,13 @@ const cache = new Map<string, Buffer>();
 const allowedCues = new Set(REINTEGRATION_DAYS.flatMap(day => day.audioCues.map(cue => cue.text.trim())));
 
 const prepareTherapeuticText = (text: string) => text
+  .replace(/aceitação consciente/gi, 'aceitação')
   .replace(/\r\n/g, '\n')
-  .replace(/\n{2,}/g, ' <break time="1.25s" /> ')
-  .replace(/([.!?])\s+/g, '$1 <break time="0.72s" /> ')
-  .replace(/([;:])\s+/g, '$1 <break time="0.42s" /> ')
-  .replace(/,\s+/g, ', <break time="0.22s" /> ')
-  .replace(/\s{2,}/g, ' ')
+  .replace(/\n{2,}/g, ' ... ')
+  .replace(/([.!?])\s+/g, '$1  ')
+  .replace(/([;:])\s+/g, '$1 ')
+  .replace(/,\s+/g, ', ')
+  .replace(/\s{3,}/g, '  ')
   .trim();
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
@@ -21,7 +22,8 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     if (!text || !allowedCues.has(text)) return res.status(403).json({ error: 'Trecho não autorizado para esta jornada.' });
     const apiKey = process.env.ELEVENLABS_API_KEY;
     if (!apiKey) return res.status(503).json({ error: 'Voz neural indisponível.' });
-    const cacheKey = `reintegration_${text.length}_${text.slice(0, 80)}`;
+    const spokenText = prepareTherapeuticText(text);
+    const cacheKey = `reintegration_v2_${spokenText.length}_${spokenText.slice(0, 80)}`;
     const cached = cache.get(cacheKey);
     if (cached) {
       res.setHeader('Content-Type', 'audio/mpeg');
@@ -32,8 +34,8 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     const audioStream = await client.generate({
       voice: '21m00Tcm4TlvDq8ikWAM',
       model_id: 'eleven_multilingual_v2',
-      text: prepareTherapeuticText(text),
-      voice_settings: { stability: 0.46, similarity_boost: 0.8, style: 0.08, use_speaker_boost: true }
+      text: spokenText,
+      voice_settings: { stability: 0.5, similarity_boost: 0.8, style: 0.12, use_speaker_boost: true }
     });
     const chunks: Buffer[] = [];
     for await (const chunk of audioStream as any) chunks.push(Buffer.isBuffer(chunk) ? chunk : Buffer.from(chunk));
