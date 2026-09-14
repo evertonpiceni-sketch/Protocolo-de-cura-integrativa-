@@ -4,11 +4,15 @@
   "outputDirectory": "dist",
   "rewrites": [
     {
+      "source": "/reintegration-tts",
+      "destination": "/api/reintegration-tts"
+    },
+    {
       "source": "/api/:path*",
       "destination": "/api?path=:path*"
     },
     {
-      "source": "/((?!api(?:/|$)).*)",
+      "source": "/((?!api(?:/|$)|reintegration-tts$).*)",
       "destination": "/index.html"
     }
   ]
