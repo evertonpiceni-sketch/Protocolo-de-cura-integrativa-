@@ -8,10 +8,6 @@
       "destination": "/api/reintegration-tts"
     },
     {
-      "source": "/api/reintegration-tts",
-      "destination": "/api/reintegration-tts"
-    },
-    {
       "source": "/api/:path*",
       "destination": "/api?path=:path*"
     },
