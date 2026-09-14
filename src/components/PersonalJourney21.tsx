@@ -22,6 +22,7 @@ export default function PersonalJourney21({ onClose }: Props) {
   const musicRef = useRef<HTMLAudioElement | null>(null);
   const lastCueRef = useRef(-1);
   const cuePendingRef = useRef(false);
+  const cueRetryRef = useRef(0);
   const wakeLockRef = useRef<any>(null);
   const playingRef = useRef(false);
   const [completed, setCompleted] = useState<number[]>(() => {
@@ -53,43 +54,57 @@ export default function PersonalJourney21({ onClose }: Props) {
   const requestWakeLock = async () => {
     try {
       if ('wakeLock' in navigator && !wakeLockRef.current) wakeLockRef.current = await (navigator as any).wakeLock.request('screen');
-    } catch { /* music remains the background clock */ }
+    } catch { /* the audio element remains the session clock */ }
   };
 
   const playCueForTime = (currentTime: number) => {
     if (cuePendingRef.current || audioEngine.isSpeaking()) return;
-    const nextCue = lastCueRef.current + 1;
-    if (nextCue >= item.audioCues.length || currentTime + 0.6 < item.audioCues[nextCue].at) return;
-    lastCueRef.current = nextCue;
+
+    // The music is the only clock. Never drain an old queue after Android throttles the page:
+    // choose the newest cue that is actually due at the current music position.
+    const dueCue = item.audioCues.reduce((last, cue, index) => cue.at <= currentTime + 0.6 ? index : last, -1);
+    if (dueCue < 0 || dueCue <= lastCueRef.current) return;
+
+    lastCueRef.current = dueCue;
     cuePendingRef.current = true;
-    // Reintegração deliberately uses the neural-only media path. If ElevenLabs is unavailable,
-    // the music continues and the cue is released; we never replace the intended female voice
-    // with Android/Web Speech synthesis.
-    void audioEngine.playGuidedMeditation(
-      [item.audioCues[nextCue].text],
-      {
-        title: `Reintegração à Vida · Dia ${day}`,
-        subtitle: item.title,
-        voiceId: 'Rachel',
-        volume: 1,
-        stability: 0.46,
-        similarityBoost: 0.8,
-        onEnd: () => {
-          cuePendingRef.current = false;
-          window.setTimeout(() => playCueForTime(musicRef.current?.currentTime || 0), 0);
-        },
-        onError: () => {
-          cuePendingRef.current = false;
-          window.setTimeout(() => playCueForTime(musicRef.current?.currentTime || 0), 800);
-        }
+    const cue = item.audioCues[dueCue];
+
+    const release = () => {
+      cuePendingRef.current = false;
+      cueRetryRef.current = 0;
+      window.setTimeout(() => playCueForTime(musicRef.current?.currentTime || 0), 0);
+    };
+
+    const retryOrRelease = () => {
+      cuePendingRef.current = false;
+      const now = musicRef.current?.currentTime || currentTime;
+      const stillCurrent = item.audioCues.reduce((last, candidate, index) => candidate.at <= now + 0.6 ? index : last, -1) === dueCue;
+      if (stillCurrent && cueRetryRef.current < 2) {
+        cueRetryRef.current += 1;
+        lastCueRef.current = dueCue - 1;
+        window.setTimeout(() => playCueForTime(musicRef.current?.currentTime || now), 900);
+        return;
       }
-    );
+      cueRetryRef.current = 0;
+      window.setTimeout(() => playCueForTime(musicRef.current?.currentTime || now), 0);
+    };
+
+    void audioEngine.playGuidedMeditation([cue.text], {
+      title: `Reintegração à Vida · Dia ${day}`,
+      subtitle: item.title,
+      voiceId: 'Rachel',
+      volume: 1,
+      stability: 0.46,
+      similarityBoost: 0.8,
+      onEnd: release,
+      onError: retryOrRelease
+    });
   };
 
   useEffect(() => () => stopSession(), []);
   useEffect(() => {
     stopSession(); setAccepted(false); setStarted(false); setAudioProgress(0);
-    lastCueRef.current = -1; cuePendingRef.current = false;
+    lastCueRef.current = -1; cuePendingRef.current = false; cueRetryRef.current = 0;
     if (musicRef.current) musicRef.current.currentTime = 0;
   }, [day]);
   useEffect(() => { playingRef.current = playing; }, [playing]);
@@ -104,13 +119,17 @@ export default function PersonalJourney21({ onClose }: Props) {
       audioEngine.resumeSpeech();
       if (music.paused && now < (music.duration || 1797) - 1) void music.play().catch(() => undefined);
       window.setTimeout(() => {
-        if (!audioEngine.isSpeaking()) {
-          cuePendingRef.current = false;
-          const latestCompletedCue = item.audioCues.reduce((last, cue, index) => cue.at < now - 2 ? index : last, -1);
-          lastCueRef.current = Math.max(lastCueRef.current, latestCompletedCue);
-          playCueForTime(music.currentTime || now);
+        if (audioEngine.isSpeaking()) return;
+        cuePendingRef.current = false;
+        cueRetryRef.current = 0;
+        const latestDueCue = item.audioCues.reduce((last, cue, index) => cue.at <= now ? index : last, -1);
+        if (latestDueCue > lastCueRef.current) {
+          const age = now - item.audioCues[latestDueCue].at;
+          // A cue that became due only moments ago is still useful; older speech is discarded.
+          lastCueRef.current = age <= 8 ? latestDueCue - 1 : latestDueCue;
         }
-      }, 180);
+        playCueForTime(music.currentTime || now);
+      }, 220);
     };
     document.addEventListener('visibilitychange', handleVisibility);
     window.addEventListener('pageshow', handleVisibility);
@@ -126,9 +145,9 @@ export default function PersonalJourney21({ onClose }: Props) {
     if (!accepted) return;
     if (playing) { audioEngine.pauseSpeech(); musicRef.current?.pause(); playingRef.current = false; setPlaying(false); return; }
     if (started && audioProgress > 0 && audioProgress < 99) {
-      audioEngine.resumeSpeech(); await musicRef.current?.play().catch(() => undefined); await requestWakeLock(); playingRef.current = true; setPlaying(true); return;
+      audioEngine.resumeSpeech(); await musicRef.current?.play().catch(() => undefined); await requestWakeLock(); playingRef.current = true; setPlaying(true); playCueForTime(musicRef.current?.currentTime || 0); return;
     }
-    setStarted(true); lastCueRef.current = -1; cuePendingRef.current = false;
+    setStarted(true); lastCueRef.current = -1; cuePendingRef.current = false; cueRetryRef.current = 0;
     if (musicRef.current) { musicRef.current.volume = 0.22; musicRef.current.currentTime = 0; await musicRef.current.play().catch(() => undefined); }
     await requestWakeLock(); playingRef.current = true; setPlaying(true); playCueForTime(0);
   };
@@ -136,7 +155,7 @@ export default function PersonalJourney21({ onClose }: Props) {
   const rewindMeditation = () => {
     const music = musicRef.current; if (!music) return;
     const target = Math.max(0, music.currentTime - 15);
-    audioEngine.stopSpeech(); cuePendingRef.current = false; music.currentTime = target;
+    audioEngine.stopSpeech(); cuePendingRef.current = false; cueRetryRef.current = 0; music.currentTime = target;
     lastCueRef.current = item.audioCues.reduce((last, cue, index) => cue.at < target ? index : last, -1);
     playCueForTime(target);
   };
