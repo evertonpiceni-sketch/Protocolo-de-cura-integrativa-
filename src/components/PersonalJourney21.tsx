@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { ArrowLeft, Check, ChevronLeft, ChevronRight, Headphones, Pause, Play, ShieldCheck, X } from 'lucide-react';
+import { ArrowLeft, Check, ChevronLeft, ChevronRight, Headphones, Pause, Play, RotateCcw, ShieldCheck, X } from 'lucide-react';
 import { audioEngine } from '../lib/audio';
 import { REINTEGRATION_DAYS, REINTEGRATION_ACCEPTANCE } from '../data/reintegrationJourneyPublic';
 
@@ -16,6 +16,7 @@ export default function PersonalJourney21({ onClose }: Props) {
   const musicRef = useRef<HTMLAudioElement | null>(null);
   const lastCueRef = useRef(-1);
   const cuePendingRef = useRef(false);
+  const wakeLockRef = useRef<any>(null);
   const [completed, setCompleted] = useState<number[]>(() => {
     try { return JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]'); } catch { return []; }
   });
@@ -40,7 +41,39 @@ export default function PersonalJourney21({ onClose }: Props) {
   const stopSession = () => {
     audioEngine.stopSpeech();
     musicRef.current?.pause();
+    void wakeLockRef.current?.release?.();
+    wakeLockRef.current = null;
     setPlaying(false);
+  };
+
+  const requestWakeLock = async () => {
+    try {
+      if ('wakeLock' in navigator && !wakeLockRef.current) {
+        wakeLockRef.current = await (navigator as any).wakeLock.request('screen');
+      }
+    } catch {
+      // The music clock remains responsible for background continuity.
+    }
+  };
+
+  const playCueForTime = (currentTime: number) => {
+    if (cuePendingRef.current || audioEngine.isSpeaking()) return;
+    const nextCue = lastCueRef.current + 1;
+    if (nextCue >= item.audioCues.length || currentTime + 0.6 < item.audioCues[nextCue].at) return;
+    lastCueRef.current = nextCue;
+    cuePendingRef.current = true;
+    void audioEngine.speakWithElevenLabsOrFallback(
+      item.audioCues[nextCue].text,
+      1,
+      () => undefined,
+      () => {
+        cuePendingRef.current = false;
+        window.setTimeout(() => playCueForTime(musicRef.current?.currentTime || 0), 0);
+      },
+      undefined,
+      undefined,
+      { voiceId: 'feminina', stability: 0.52, similarityBoost: 0.78, enableBreathingPauses: true, preferElevenLabs: true, rate: 0.76, pitch: 1.06, lang: 'pt-BR' }
+    );
   };
 
   useEffect(() => () => stopSession(), []);
@@ -55,30 +88,12 @@ export default function PersonalJourney21({ onClose }: Props) {
   }, [day]);
 
   useEffect(() => {
-    if (!playing || !musicRef.current) return;
-    const cues = item.audioCues;
-    const timer = window.setInterval(() => {
-      const music = musicRef.current;
-      if (!music || !Number.isFinite(music.duration) || music.duration <= 0) return;
-      if (cuePendingRef.current || audioEngine.isSpeaking()) return;
-      const nextCue = lastCueRef.current + 1;
-      if (nextCue >= cues.length) return;
-      if (music.currentTime + 0.35 < cues[nextCue].at) return;
-
-      lastCueRef.current = nextCue;
-      cuePendingRef.current = true;
-      void audioEngine.speakWithElevenLabsOrFallback(
-        cues[nextCue].text,
-        1,
-        () => undefined,
-        () => { cuePendingRef.current = false; },
-        undefined,
-        undefined,
-        { voiceId: 'feminina', stability: 0.52, similarityBoost: 0.78, enableBreathingPauses: true, preferElevenLabs: true, rate: 0.76, pitch: 1.06, lang: 'pt-BR' }
-      );
-    }, 300);
-    return () => window.clearInterval(timer);
-  }, [playing, item.audioCues]);
+    const handleVisibility = () => {
+      if (document.visibilityState === 'visible' && playing) void requestWakeLock();
+    };
+    document.addEventListener('visibilitychange', handleVisibility);
+    return () => document.removeEventListener('visibilitychange', handleVisibility);
+  }, [playing]);
 
   const startGuidedMeditation = async () => {
     if (!accepted) return;
@@ -91,6 +106,7 @@ export default function PersonalJourney21({ onClose }: Props) {
     if (started && audioProgress > 0 && audioProgress < 99) {
       audioEngine.resumeSpeech();
       await musicRef.current?.play().catch(() => undefined);
+      await requestWakeLock();
       setPlaying(true);
       return;
     }
@@ -103,7 +119,20 @@ export default function PersonalJourney21({ onClose }: Props) {
       musicRef.current.currentTime = 0;
       await musicRef.current.play().catch(() => undefined);
     }
+    await requestWakeLock();
     setPlaying(true);
+    playCueForTime(0);
+  };
+
+  const rewindMeditation = () => {
+    const music = musicRef.current;
+    if (!music) return;
+    const target = Math.max(0, music.currentTime - 15);
+    audioEngine.stopSpeech();
+    cuePendingRef.current = false;
+    music.currentTime = target;
+    lastCueRef.current = item.audioCues.reduce((last, cue, index) => cue.at < target ? index : last, -1);
+    playCueForTime(target);
   };
 
   const complete = () => {
@@ -122,6 +151,7 @@ export default function PersonalJourney21({ onClose }: Props) {
       onTimeUpdate={event => {
         const audio = event.currentTarget;
         if (Number.isFinite(audio.duration) && audio.duration > 0) setAudioProgress((audio.currentTime / audio.duration) * 100);
+        playCueForTime(audio.currentTime);
       }}
       onEnded={() => {
         audioEngine.stopSpeech();
@@ -192,7 +222,10 @@ export default function PersonalJourney21({ onClose }: Props) {
           <div className="h-2 overflow-hidden rounded-full bg-white/20"><div className="h-full rounded-full bg-[#e5c568] transition-all duration-500" style={{width:`${audioProgress}%`}}/></div>
           <div className="mt-2 flex justify-between text-xs text-white/70"><span>{formatTime(elapsedSeconds)}</span><span>{formatTime(totalSeconds)}</span></div>
         </div>
-        <button onClick={startGuidedMeditation} className="mx-auto flex min-w-56 items-center justify-center gap-3 rounded-full bg-[#e5c568] px-7 py-4 font-bold text-[#173f35]">{playing ? <Pause size={21}/> : <Play size={21}/>} {playing ? 'Pausar' : audioProgress >= 100 ? 'Ouvir novamente' : 'Continuar'}</button>
+        <div className="flex items-center justify-center gap-3">
+          <button onClick={rewindMeditation} className="flex items-center justify-center gap-2 rounded-full border border-white/30 bg-white/10 px-4 py-4 text-sm font-semibold" aria-label="Voltar 15 segundos"><RotateCcw size={20}/>15s</button>
+          <button onClick={startGuidedMeditation} className="flex min-w-48 items-center justify-center gap-3 rounded-full bg-[#e5c568] px-6 py-4 font-bold text-[#173f35]">{playing ? <Pause size={21}/> : <Play size={21}/>} {playing ? 'Pausar' : audioProgress >= 100 ? 'Ouvir novamente' : 'Continuar'}</button>
+        </div>
       </div>
     </section>}
   </div>;
