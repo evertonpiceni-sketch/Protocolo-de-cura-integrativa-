@@ -6,9 +6,7 @@ import { REINTEGRATION_DAYS, REINTEGRATION_ACCEPTANCE } from '../data/reintegrat
 type Props = { onClose: () => void };
 const STORAGE_KEY = 'transformacao_jornada_pessoal_21_dias_v1';
 const REINTEGRATION_MUSIC_URL = 'https://7bhxppl2irhgbptb.public.blob.vercel-storage.com/REINTEGRA%C3%87%C3%83O%20%C3%80%20VIDA.mp3';
-const CHAKRAS = [
-  ['#a855f7','22%'],['#6366f1','31%'],['#38bdf8','40%'],['#22c55e','50%'],['#eab308','60%'],['#f97316','69%'],['#ef4444','78%']
-] as const;
+const CHAKRAS = [['#a855f7','22%'],['#6366f1','31%'],['#38bdf8','40%'],['#22c55e','50%'],['#eab308','60%'],['#f97316','69%'],['#ef4444','78%']] as const;
 const MOTES = [
   { left:'18%', top:'72%', size:5, drift:-46 }, { left:'28%', top:'60%', size:3, drift:-70 },
   { left:'72%', top:'68%', size:4, drift:-54 }, { left:'82%', top:'55%', size:3, drift:-82 },
@@ -25,6 +23,7 @@ export default function PersonalJourney21({ onClose }: Props) {
   const lastCueRef = useRef(-1);
   const cuePendingRef = useRef(false);
   const wakeLockRef = useRef<any>(null);
+  const playingRef = useRef(false);
   const [completed, setCompleted] = useState<number[]>(() => {
     try { return JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]'); } catch { return []; }
   });
@@ -43,6 +42,7 @@ export default function PersonalJourney21({ onClose }: Props) {
     : 'Que pequeno movimento desta prática você deseja levar para o seu dia?';
 
   const stopSession = () => {
+    playingRef.current = false;
     audioEngine.stopSpeech();
     musicRef.current?.pause();
     void wakeLockRef.current?.release?.();
@@ -79,21 +79,43 @@ export default function PersonalJourney21({ onClose }: Props) {
     lastCueRef.current = -1; cuePendingRef.current = false;
     if (musicRef.current) musicRef.current.currentTime = 0;
   }, [day]);
+  useEffect(() => { playingRef.current = playing; }, [playing]);
   useEffect(() => {
-    const handleVisibility = () => { if (document.visibilityState === 'visible' && playing) void requestWakeLock(); };
+    const handleVisibility = () => {
+      if (document.visibilityState !== 'visible' || !playingRef.current) return;
+      const music = musicRef.current;
+      if (!music) return;
+      void requestWakeLock();
+      // Mobile browsers can kill an in-flight speech/audio request while the music clock keeps advancing.
+      // Clear that stale state on return and align the cue pointer with the real music time so narration resumes normally.
+      audioEngine.stopSpeech();
+      cuePendingRef.current = false;
+      const now = music.currentTime || 0;
+      const latestDueCue = item.audioCues.reduce((last, cue, index) => cue.at <= now ? index : last, -1);
+      lastCueRef.current = latestDueCue;
+      if (Number.isFinite(music.duration) && music.duration > 0) setAudioProgress((now / music.duration) * 100);
+      if (music.paused && now < (music.duration || 1797) - 1) void music.play().catch(() => undefined);
+      window.setTimeout(() => playCueForTime(music.currentTime || now), 120);
+    };
     document.addEventListener('visibilitychange', handleVisibility);
-    return () => document.removeEventListener('visibilitychange', handleVisibility);
-  }, [playing]);
+    window.addEventListener('pageshow', handleVisibility);
+    window.addEventListener('focus', handleVisibility);
+    return () => {
+      document.removeEventListener('visibilitychange', handleVisibility);
+      window.removeEventListener('pageshow', handleVisibility);
+      window.removeEventListener('focus', handleVisibility);
+    };
+  }, [day]);
 
   const startGuidedMeditation = async () => {
     if (!accepted) return;
-    if (playing) { audioEngine.pauseSpeech(); musicRef.current?.pause(); setPlaying(false); return; }
+    if (playing) { audioEngine.pauseSpeech(); musicRef.current?.pause(); playingRef.current = false; setPlaying(false); return; }
     if (started && audioProgress > 0 && audioProgress < 99) {
-      audioEngine.resumeSpeech(); await musicRef.current?.play().catch(() => undefined); await requestWakeLock(); setPlaying(true); return;
+      audioEngine.resumeSpeech(); await musicRef.current?.play().catch(() => undefined); await requestWakeLock(); playingRef.current = true; setPlaying(true); return;
     }
     setStarted(true); lastCueRef.current = -1; cuePendingRef.current = false;
     if (musicRef.current) { musicRef.current.volume = 0.22; musicRef.current.currentTime = 0; await musicRef.current.play().catch(() => undefined); }
-    await requestWakeLock(); setPlaying(true); playCueForTime(0);
+    await requestWakeLock(); playingRef.current = true; setPlaying(true); playCueForTime(0);
   };
 
   const rewindMeditation = () => {
@@ -114,7 +136,7 @@ export default function PersonalJourney21({ onClose }: Props) {
   return <div className="min-h-screen bg-[#9fbaa2] px-4 py-5 text-[#173f35]">
     <audio ref={musicRef} src={REINTEGRATION_MUSIC_URL} preload="metadata"
       onTimeUpdate={event => { const audio=event.currentTarget; if(Number.isFinite(audio.duration)&&audio.duration>0)setAudioProgress((audio.currentTime/audio.duration)*100); playCueForTime(audio.currentTime); }}
-      onEnded={() => { audioEngine.stopSpeech(); setPlaying(false); setAudioProgress(100); }}/>
+      onEnded={() => { audioEngine.stopSpeech(); playingRef.current=false; setPlaying(false); setAudioProgress(100); }}/>
     <main className="mx-auto w-full max-w-[620px]">
       <button onClick={() => { stopSession(); onClose(); }} className="mb-4 flex items-center gap-2 rounded-full bg-[#fffaf0]/90 px-4 py-2 text-sm font-semibold"><ArrowLeft size={17}/>Voltar ao início</button>
       <section className="overflow-hidden rounded-[2rem] border border-[#d6ae52]/40 bg-[#fffaf0]/95 shadow-[0_24px_70px_rgba(42,77,58,.18)]">
