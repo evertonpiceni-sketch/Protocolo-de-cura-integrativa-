@@ -1,6 +1,13 @@
-import type { VercelRequest, VercelResponse } from '@vercel/node';
+import type { IncomingMessage, ServerResponse } from 'node:http';
 import { ElevenLabsClient } from 'elevenlabs';
 import { REINTEGRATION_DAYS } from '../src/data/reintegrationJourneyPublic.js';
+
+type ReintegrationRequest = IncomingMessage & { method?: string; body?: { text?: unknown; day?: unknown } };
+type ReintegrationResponse = ServerResponse & {
+  status: (code: number) => ReintegrationResponse;
+  json: (body: unknown) => ReintegrationResponse;
+  send: (body: Buffer) => ReintegrationResponse;
+};
 
 const cache = new Map<string, Buffer>();
 const allowedCues = new Set(REINTEGRATION_DAYS.flatMap(day => day.audioCues.map(cue => cue.text.trim())));
@@ -15,7 +22,7 @@ const prepareTherapeuticText = (text: string) => text
   .replace(/\s{3,}/g, '  ')
   .trim();
 
-export default async function handler(req: VercelRequest, res: VercelResponse) {
+export default async function handler(req: ReintegrationRequest, res: ReintegrationResponse) {
   if (req.method !== 'POST') return res.status(405).json({ error: 'Método não permitido.' });
   try {
     const text = typeof req.body?.text === 'string' ? req.body.text.trim() : '';
