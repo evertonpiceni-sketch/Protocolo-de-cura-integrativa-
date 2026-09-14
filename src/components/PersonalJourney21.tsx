@@ -53,11 +53,11 @@ export default function PersonalJourney21({ onClose }: Props) {
       void audioEngine.speakWithElevenLabsOrFallback(
         cues[nextCue].text,
         1,
+        () => undefined,
+        () => undefined,
         undefined,
         undefined,
-        undefined,
-        undefined,
-        { voiceId: 'feminina', stability: 0.52, similarityBoost: 0.78, enableBreathingPauses: true, preferElevenLabs: true, rate: 0.76, pitch: 1.06, lang: 'pt-BR' }
+        { voiceId: 'feminina', stability: 0.52, similarityBoost: 0.78, enableBreathingPauses: true, preferElevenLabs: false, rate: 0.76, pitch: 1.06, lang: 'pt-BR' }
       );
     }, 300);
     return () => window.clearInterval(timer);
