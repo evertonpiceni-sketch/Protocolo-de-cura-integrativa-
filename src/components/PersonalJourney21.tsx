@@ -69,7 +69,7 @@ export default function PersonalJourney21({ onClose }: Props) {
         window.setTimeout(() => playCueForTime(musicRef.current?.currentTime || 0), 0);
       },
       undefined, undefined,
-      { voiceId: 'feminina', stability: 0.52, similarityBoost: 0.78, enableBreathingPauses: true, preferElevenLabs: true, rate: 0.76, pitch: 1.06, lang: 'pt-BR' }
+      { voiceId: 'Rachel', stability: 0.46, similarityBoost: 0.8, enableBreathingPauses: true, preferElevenLabs: true, rate: 0.78, pitch: 1.0, lang: 'pt-BR' }
     );
   };
 
@@ -86,16 +86,20 @@ export default function PersonalJourney21({ onClose }: Props) {
       const music = musicRef.current;
       if (!music) return;
       void requestWakeLock();
-      // Mobile browsers can kill an in-flight speech/audio request while the music clock keeps advancing.
-      // Clear that stale state on return and align the cue pointer with the real music time so narration resumes normally.
-      audioEngine.stopSpeech();
-      cuePendingRef.current = false;
       const now = music.currentTime || 0;
-      const latestDueCue = item.audioCues.reduce((last, cue, index) => cue.at <= now ? index : last, -1);
-      lastCueRef.current = latestDueCue;
       if (Number.isFinite(music.duration) && music.duration > 0) setAudioProgress((now / music.duration) * 100);
+      // Never destroy the active neural narration when Android/Chrome returns to the foreground.
+      // Resume the existing media element first. If no narration is active, the music clock schedules the next due cue.
+      audioEngine.resumeSpeech();
       if (music.paused && now < (music.duration || 1797) - 1) void music.play().catch(() => undefined);
-      window.setTimeout(() => playCueForTime(music.currentTime || now), 120);
+      window.setTimeout(() => {
+        if (!audioEngine.isSpeaking()) {
+          cuePendingRef.current = false;
+          const latestCompletedCue = item.audioCues.reduce((last, cue, index) => cue.at < now - 2 ? index : last, -1);
+          lastCueRef.current = Math.max(lastCueRef.current, latestCompletedCue);
+          playCueForTime(music.currentTime || now);
+        }
+      }, 180);
     };
     document.addEventListener('visibilitychange', handleVisibility);
     window.addEventListener('pageshow', handleVisibility);
