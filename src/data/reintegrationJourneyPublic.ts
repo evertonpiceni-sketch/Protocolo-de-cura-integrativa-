@@ -55,6 +55,30 @@ const reflectionQuestions: [string, string][] = [
   ['O que você reconhece que mudou ou começou a se mover ao longo desta jornada?', 'Qual escolha deseja levar consigo para continuar presente na própria vida?'],
 ];
 
+const dailyWelcomes = [
+  'Que bom que você chegou e decidiu oferecer este primeiro momento a si mesmo.',
+  'Que bom que você voltou e decidiu escutar o seu corpo com mais atenção.',
+  'Que bom que você voltou e se escolheu novamente, mesmo que hoje consiga dar apenas um pequeno passo.',
+  'Que bom que você voltou e permitiu que o cuidado também pudesse chegar até você.',
+  'Que bom que você voltou e renovou a decisão de permanecer ao seu próprio lado.',
+  'Que bom que você voltou e abriu mais um espaço para sentir a vida nas coisas simples.',
+  'Que bom que você voltou e escolheu olhar para si com consciência, não com julgamento.',
+  'Que bom que você voltou e se permitiu soltar, aos poucos, aquilo que já pesa demais.',
+  'Que bom que você voltou e decidiu experimentar uma nova possibilidade de escolha.',
+  'Que bom que você voltou e escolheu reconhecer o valor que já existe em você.',
+  'Que bom que você voltou e decidiu tratar a si mesmo com mais gentileza.',
+  'Que bom que você voltou e se deu a oportunidade de reencontrar quem é além de tudo o que viveu.',
+  'Que bom que você voltou e escolheu abrir uma pequena passagem em direção à vida.',
+  'Que bom que você voltou e permitiu a possibilidade de um contato seguro e respeitoso.',
+  'Que bom que você voltou e decidiu transformar sua intenção em um movimento possível.',
+  'Que bom que você voltou e escolheu olhar apenas para o próximo passo, sem exigir todo o caminho.',
+  'Que bom que você voltou e permitiu que novos caminhos começassem a aparecer.',
+  'Que bom que você voltou e decidiu caminhar, mesmo sem precisar ter todas as certezas.',
+  'Que bom que você voltou e escolheu acolher todas as partes que trouxeram você até aqui.',
+  'Que bom que você voltou e abriu novamente um espaço para a esperança.',
+  'Que bom que você voltou. Hoje, ao se escolher mais uma vez, você honra toda a jornada que percorreu.',
+];
+
 const data: Source[] = [
   ['Eu permaneço','Presença e chão','A nossa intenção para hoje é reconhecer o corpo, encontrar sustentação e permanecer no momento presente. Você não precisa resolver o passado nem planejar o futuro agora. Apenas este momento importa.','Leve toda a atenção para os seus pés. Sinta o contato com a superfície abaixo de você. Perceba a firmeza da terra e o apoio que sustenta você sem pedir nada em troca. Suba lentamente pelas pernas, joelhos e coxas. Note onde há tensão e onde há cansaço. Não tente modificar o que sente; apenas reconheça seu estado atual, sem julgamentos ou cobranças. Respire no lugar da tensão. Ao expirar, entregue o peso do corpo para o chão.','Receba agora a sustentação de Rama, fortalecendo suas raízes e sua base. O Life Force Energy Cone acompanha a vitalidade, enquanto as frequências etéricas do Jaspe Vermelho, da Turmalina Negra e da Cornalina favorecem estabilidade e presença no chakra básico e no corpo físico. Deixe que essas frequências acompanhem a reorganização da sua energia.','Rama e Life Force Energy Cone','Aterramento, presença e energia vital.','Jaspe Vermelho, Turmalina Negra e Cornalina','Chakra básico, corpo físico e estabilidade.'],
   ['Eu permaneço','Voltar ao corpo','A nossa intenção hoje é diminuir o afastamento do próprio corpo e recuperar a percepção das suas necessidades básicas.','Leve a atenção para o topo da cabeça. Percorra lentamente a testa, a mandíbula, o pescoço e os ombros. Continue pelos braços, peito, abdômen, quadris e pernas. À medida que avança, apenas observe. Acolha tensão, cansaço e sensações físicas sem tentar modificá-las imediatamente. Respire em cada região e permita que o corpo exista exatamente como está. Pergunte em silêncio do que ele precisa hoje.','Receba Soul Shakti — Body Purification e Aura Healing, favorecendo purificação e reorganização do campo. Rama e Shanti trazem presença e tranquilidade. As frequências etéricas da Hematita, da Turmalina Negra e do Quartzo Fumê acompanham o chakra básico e a dissolução de sobrecargas.','Soul Shakti, Rama e Shanti','Corpo, campo energético, presença e tranquilidade.','Hematita, Turmalina Negra e Quartzo Fumê','Chakra básico e liberação de sobrecargas.'],
@@ -83,7 +107,7 @@ const cuesFor = (source: Source, day: number): GuidedCue[] => {
   const meditation = split(source.meditation, 3);
   const activation = split(source.activation, 2);
   return [...opening,
-    { at: 240, text: `Bem-vindo ao Dia ${day}: ${source.title}. ${source.intention}` },
+    { at: 240, text: `${dailyWelcomes[day - 1]} Bem-vindo ao Dia ${day}: ${source.title}. ${source.intention}` },
     { at: 285, text: 'Deixe essa intenção encontrar espaço dentro de você. Não é necessário compreendê-la somente com a mente. Perceba como o corpo reage ao ouvi-la e permita que a respiração a conduza para mais perto do seu centro.' },
     { at: 330, text: 'Respire profundamente mais uma vez. Ao soltar o ar, abandone por alguns instantes a expectativa de fazer esta prática da maneira certa. Apenas escute, sinta e siga a condução no seu próprio ritmo.' },
     { at: 360, text: meditation[0] },
