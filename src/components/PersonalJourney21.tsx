@@ -51,16 +51,13 @@ export default function PersonalJourney21({ onClose }: Props) {
   };
 
   const stopSession = () => {
-    playingRef.current = false;
-    clearVoice();
-    musicRef.current?.pause();
-    void wakeLockRef.current?.release?.(); wakeLockRef.current = null;
-    setPlaying(false);
+    playingRef.current = false; clearVoice(); musicRef.current?.pause();
+    void wakeLockRef.current?.release?.(); wakeLockRef.current = null; setPlaying(false);
   };
 
   const requestWakeLock = async () => {
     try { if ('wakeLock' in navigator && !wakeLockRef.current) wakeLockRef.current = await (navigator as any).wakeLock.request('screen'); }
-    catch { /* the music element remains the authoritative clock */ }
+    catch { /* music remains the authoritative clock */ }
   };
 
   const playCueForTime = async (currentTime: number) => {
@@ -74,9 +71,9 @@ export default function PersonalJourney21({ onClose }: Props) {
     cuePendingRef.current = true;
     const controller = new AbortController(); cueRequestRef.current = controller;
     try {
-      const response = await fetch('/reintegration-tts', {
+      const response = await fetch('/api/reintegration-tts', {
         method: 'POST', headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ text: cue.text }), signal: controller.signal
+        body: JSON.stringify({ text: cue.text, day }), signal: controller.signal
       });
       if (!response.ok || !response.headers.get('content-type')?.includes('audio')) throw new Error(`voice ${response.status}`);
       const blob = await response.blob();
@@ -87,12 +84,10 @@ export default function PersonalJourney21({ onClose }: Props) {
       voice.onended = () => {
         if (voiceRef.current === voice) voiceRef.current = null;
         if (voiceUrlRef.current === url) { URL.revokeObjectURL(url); voiceUrlRef.current = null; }
-        cuePendingRef.current = false;
-        void playCueForTime(musicRef.current?.currentTime || 0);
+        cuePendingRef.current = false; void playCueForTime(musicRef.current?.currentTime || 0);
       };
       voice.onerror = () => { cuePendingRef.current = false; };
-      await voice.play();
-      lastCueRef.current = dueCue;
+      await voice.play(); lastCueRef.current = dueCue;
     } catch (error: any) {
       if (error?.name !== 'AbortError') console.warn('Reintegração: condução neural indisponível', error);
     } finally {
@@ -136,19 +131,22 @@ export default function PersonalJourney21({ onClose }: Props) {
     if (!accepted) return;
     if (playing) { voiceRef.current?.pause(); musicRef.current?.pause(); playingRef.current = false; setPlaying(false); return; }
     if (started && audioProgress > 0 && audioProgress < 99) {
+      playingRef.current = true; setPlaying(true);
       await musicRef.current?.play().catch(() => undefined); if (voiceRef.current?.paused) await voiceRef.current.play().catch(() => undefined);
-      await requestWakeLock(); playingRef.current = true; setPlaying(true); void playCueForTime(musicRef.current?.currentTime || 0); return;
+      await requestWakeLock(); void playCueForTime(musicRef.current?.currentTime || 0); return;
     }
     setStarted(true); clearVoice(); lastCueRef.current = -1;
-    if (musicRef.current) { musicRef.current.volume = 0.22; musicRef.current.currentTime = 0; await musicRef.current.play().catch(() => undefined); }
-    await requestWakeLock(); playingRef.current = true; setPlaying(true); void playCueForTime(0);
+    playingRef.current = true; setPlaying(true);
+    if (musicRef.current) { musicRef.current.volume = 0.22; musicRef.current.currentTime = 0; }
+    // The first neural cue is requested immediately from the same user gesture as Play.
+    void playCueForTime(0);
+    await musicRef.current?.play().catch(() => undefined); await requestWakeLock();
   };
 
   const rewindMeditation = () => {
     const music = musicRef.current; if (!music) return;
     const target = Math.max(0, music.currentTime - 15); clearVoice(); music.currentTime = target;
-    lastCueRef.current = item.audioCues.reduce((last, cue, index) => cue.at < target ? index : last, -1);
-    void playCueForTime(target);
+    lastCueRef.current = item.audioCues.reduce((last, cue, index) => cue.at < target ? index : last, -1); void playCueForTime(target);
   };
 
   const complete = () => {
@@ -177,7 +175,11 @@ export default function PersonalJourney21({ onClose }: Props) {
           </div></section>
           <label className="flex cursor-pointer items-start gap-3 rounded-3xl border border-[#d6ae52]/35 bg-[#fff7df] p-5"><input type="checkbox" checked={accepted} onChange={e=>setAccepted(e.target.checked)} className="mt-1 h-5 w-5 accent-[#315f49]"/><span className="text-sm leading-6">{REINTEGRATION_ACCEPTANCE}</span></label>
           <button disabled={!accepted} onClick={startGuidedMeditation} className="flex w-full items-center justify-center gap-3 rounded-2xl bg-gradient-to-r from-[#efd78f] to-[#d4aa4e] px-5 py-4 font-bold disabled:opacity-40">{playing?<Pause size={20}/>:started?<Play size={20}/>:<Headphones size={20}/>} {playing?'Pausar meditação':started?'Continuar meditação':'Iniciar meditação guiada'}</button>
-          <article className="rounded-3xl border border-[#72927c]/25 bg-[#e7eee5]/55 p-5"><p className="text-xs uppercase tracking-[.16em] text-[#587d67]">Energias trabalhadas nesta etapa</p><p className="mt-2 text-sm leading-6 text-[#587d67]">Este resumo explica a proposta energética da etapa. As ativações e a programação são realizadas exclusivamente por Everton.</p><div className="mt-4 space-y-3">{item.energyNotes.map(note=><div key={note.name} className="rounded-2xl bg-[#fffaf0] p-4"><strong className="block text-sm">{note.name}</strong><span className="mt-1 block text-sm leading-6 text-[#587d67]">{note.focus}</span></div>)}</div></article>
+          <article className="rounded-3xl border border-[#72927c]/25 bg-[#e7eee5]/55 p-5">
+            <p className="text-xs uppercase tracking-[.16em] text-[#587d67]">Energias trabalhadas nesta etapa</p>
+            <p className="mt-2 text-sm leading-6 text-[#587d67]">Neste dia, as práticas energéticas foram organizadas para acompanhar a intenção “{item.title}”. A proposta é oferecer um campo de presença e integração enquanto você respira, observa o corpo e percorre a meditação. As ativações são programadas por Everton e você permanece livre para interromper a experiência a qualquer momento.</p>
+            <div className="mt-4 space-y-3">{item.energyNotes.map((note,index)=><div key={note.name} className="rounded-2xl bg-[#fffaf0] p-4"><strong className="block text-sm">{note.name}</strong><span className="mt-2 block text-sm leading-6 text-[#587d67]"><b>Foco nesta prática:</b> {note.focus}</span><span className="mt-2 block text-sm leading-6 text-[#587d67]">{index===0?`Durante a condução, esta combinação é utilizada como apoio energético ao propósito de ${item.title.toLowerCase()}, acompanhando a respiração, a presença corporal e o movimento interno proposto para o Dia ${day}.`:`As frequências associadas a estes elementos acompanham as regiões e qualidades indicadas acima, funcionando dentro da proposta espiritual desta jornada como suporte à integração do trabalho do dia.`}</span></div>)}</div>
+          </article>
           <p className="flex items-start gap-2 text-xs leading-5 text-[#587d67]"><ShieldCheck size={17} className="mt-0.5 shrink-0"/>Esta jornada é uma experiência espiritual e integrativa complementar. Ela não substitui atendimento médico, psicológico ou apoio humano necessário.</p>
           <div className="flex items-center justify-between gap-3 border-t border-[#72927c]/20 pt-5"><button disabled={day===1} onClick={()=>setDay(day-1)} className="flex items-center gap-1 rounded-full px-3 py-2 text-sm font-semibold disabled:opacity-30"><ChevronLeft size={18}/>Anterior</button><button onClick={complete} className="rounded-full bg-[#315f49] px-5 py-3 text-sm font-bold text-white">{day===21?'Concluir jornada':'Concluir dia'}</button><button disabled={day===21} onClick={()=>setDay(day+1)} className="flex items-center gap-1 rounded-full px-3 py-2 text-sm font-semibold disabled:opacity-30">Próximo<ChevronRight size={18}/></button></div>
         </div>
