@@ -7,14 +7,19 @@ export type ReintegrationDay = {
 type Source = Omit<ReintegrationDay, 'day' | 'audioCues'> & { activation: string };
 
 const opening: GuidedCue[] = [
-  { at: 0, text: 'Acomode o seu corpo de forma confortável. Feche os olhos, se isso for seguro para você, e permita-se chegar exatamente como está. Este momento não exige pressa, desempenho ou qualquer resposta.' },
-  { at: 90, text: 'Faça três respirações profundas. Inspire levando o ar até o abdômen. Solte devagar, permitindo que os ombros desçam, a mandíbula relaxe e o corpo encontre apoio. A cada respiração, retorne um pouco mais para você.' },
-  { at: 180, text: 'Este espaço permanece sustentado pela Golden Light Source, Original Reiki Platinum, Haku Superluminal, HSZSN e Soul Shakti, conforme a programação realizada por Everton Rodrigo Piceni. Apenas receba o que estiver de acordo com seus limites e com a sua aceitação consciente.' },
+  { at: 0, text: 'Encontre uma posição confortável. Você pode permanecer sentado ou deitado, escolhendo a forma em que o seu corpo se sente mais amparado agora. Ajuste as pernas, os braços e a cabeça com calma. Feche os olhos, se isso for seguro para você, e permita-se chegar exatamente como está.' },
+  { at: 40, text: 'Perceba os pontos em que o corpo encontra apoio. Sinta a superfície sustentando o seu peso. Você não precisa manter nenhuma postura perfeita. Faça os pequenos ajustes de que precisar e permita que o corpo compreenda que, durante os próximos minutos, ele pode diminuir o ritmo.' },
+  { at: 80, text: 'Inspire lentamente pelo nariz, levando o ar até o abdômen. Segure apenas por um instante e solte devagar. Respire novamente. Ao expirar, deixe os ombros descerem, relaxe a mandíbula e suavize a região ao redor dos olhos. Faça mais uma respiração profunda no seu próprio tempo.' },
+  { at: 120, text: 'Agora deixe a respiração seguir de maneira natural. Não é necessário controlá-la. Apenas acompanhe o ar entrando e saindo. Se algum pensamento surgir, não lute contra ele. Reconheça sua presença e volte gentilmente para a respiração, para o corpo e para este momento.' },
+  { at: 160, text: 'Leve a atenção ao centro do peito. Perceba como você chegou até aqui hoje. Talvez exista cansaço, ansiedade, esperança, silêncio ou muitas sensações ao mesmo tempo. Nada precisa ser corrigido agora. Este espaço acolhe você como está, respeitando seu ritmo, seus limites e sua autonomia.' },
+  { at: 200, text: 'Este momento permanece sustentado pela Golden Light Source, Original Reiki Platinum, Haku Superluminal, HSZSN e Soul Shakti, conforme a programação realizada por Everton Rodrigo Piceni. Receba somente aquilo que estiver de acordo com a sua aceitação consciente. Respire mais uma vez e prepare-se para encontrar a intenção deste dia.' },
 ];
 
 const closing: GuidedCue[] = [
-  { at: 1620, text: 'Vá voltando lentamente a atenção para o ambiente. Perceba novamente o peso do corpo, o apoio da superfície e os sons ao seu redor. Respire mais profundamente e mova, com suavidade, os dedos das mãos e dos pés.' },
-  { at: 1710, text: 'Leve com você a intenção deste dia, sem cobrança e sem pressa. Reconheça que um pequeno movimento também é um movimento de vida. Quando se sentir pronto, abra os olhos. A prática termina aqui, e o próximo passo continua sendo seu.' },
+  { at: 1620, text: 'Aos poucos, volte a perceber a sua respiração. Não tenha pressa de sair desse estado. Apenas note o ar entrando e saindo e reconheça que o seu corpo permaneceu aqui, recebendo e integrando este momento de cuidado.' },
+  { at: 1665, text: 'Vá ampliando a atenção para o corpo inteiro. Perceba novamente o peso do corpo, o apoio da superfície e a temperatura do ambiente. Escute os sons próximos e, depois, os sons um pouco mais distantes.' },
+  { at: 1710, text: 'Faça uma respiração mais profunda. Mova suavemente os dedos das mãos e dos pés. Se desejar, alongue os braços, as pernas ou o pescoço, respeitando o que for confortável. Permita que a presença retorne gradualmente ao corpo.' },
+  { at: 1750, text: 'Leve com você a intenção deste dia, sem cobrança e sem pressa. Reconheça que um pequeno movimento também é um movimento de vida. Quando se sentir pronto, abra os olhos. A prática termina aqui, e o próximo passo continua sendo seu.' },
 ];
 
 const split = (text: string, count: number) => {
@@ -55,8 +60,22 @@ const cuesFor = (source: Source, day: number): GuidedCue[] => {
   const activation = split(source.activation, 2);
   return [...opening,
     { at: 240, text: `Bem-vindo ao Dia ${day}: ${source.title}. ${source.intention}` },
-    { at: 360, text: meditation[0] }, { at: 540, text: meditation[1] }, { at: 720, text: meditation[2] },
-    { at: 900, text: activation[0] }, { at: 1080, text: activation[1] },
+    { at: 285, text: 'Deixe essa intenção encontrar espaço dentro de você. Não é necessário compreendê-la somente com a mente. Perceba como o corpo reage ao ouvi-la e permita que a respiração a conduza para mais perto do seu centro.' },
+    { at: 330, text: 'Respire profundamente mais uma vez. Ao soltar o ar, abandone por alguns instantes a expectativa de fazer esta prática da maneira certa. Apenas escute, sinta e siga a condução no seu próprio ritmo.' },
+    { at: 360, text: meditation[0] },
+    { at: 420, text: 'Continue respirando com suavidade. Observe as sensações que aparecem sem tentar apressá-las ou transformá-las. Se a mente se afastar, retorne gentilmente para a voz, para a música e para a região do corpo que está sendo percebida.' },
+    { at: 480, text: meditation[1] },
+    { at: 540, text: 'Permaneça mais alguns instantes nessa experiência. Dê espaço para imagens, emoções ou lembranças surgirem e passarem. Você não precisa segurar nenhuma delas. Seu trabalho agora é apenas permanecer presente e respirar.' },
+    { at: 600, text: meditation[2] },
+    { at: 660, text: 'Perceba se algo mudou, mesmo que de forma muito pequena. Talvez a respiração esteja diferente, talvez exista mais consciência do corpo ou apenas a sensação de ter parado por alguns minutos. Tudo o que surgir pode ser acolhido.' },
+    { at: 720, text: `Retorne à intenção do Dia ${day}: ${source.title}. Repita por dentro, com as suas próprias palavras, aquilo que deseja levar desta prática para a vida cotidiana. Não transforme essa escolha em cobrança. Deixe que ela seja uma direção suave.` },
+    { at: 780, text: 'Imagine essa intenção encontrando um lugar seguro dentro do seu corpo. Observe sua cor, sua temperatura ou apenas sua presença. Respire como se estivesse oferecendo espaço para uma nova possibilidade crescer no tempo certo.' },
+    { at: 840, text: 'Agora permita que a atenção se torne mais receptiva. Não é necessário visualizar perfeitamente nem produzir qualquer sensação. Apenas permaneça disponível para o próximo momento da prática, respeitando sua autonomia e seus limites.' },
+    { at: 900, text: activation[0] },
+    { at: 990, text: 'Você não precisa dirigir esse processo com a mente. Apenas respire e observe o corpo. Se alguma região chamar sua atenção, acolha-a sem medo e sem esforço, permitindo que a experiência aconteça de maneira suave.' },
+    { at: 1080, text: activation[1] },
+    { at: 1170, text: `Leve a consciência para as áreas trabalhadas neste dia. ${source.energyNotes.map(note => note.focus).join(' ')} Respire lentamente e permita que corpo, mente e campo encontrem sua própria forma de integração.` },
+    { at: 1230, text: 'Dentro de trinta segundos, iniciaremos seis minutos de absorção em silêncio. A música continuará acompanhando você, e a minha voz retornará aos vinte e sete minutos para conduzir o fechamento. O áudio não terminou. Não há nada a fazer. Apenas permaneça confortável, respire naturalmente e permita-se receber este tempo.' },
     ...closing,
   ];
 };
