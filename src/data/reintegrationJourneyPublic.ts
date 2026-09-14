@@ -1,10 +1,10 @@
 export type GuidedCue = { at: number; text: string };
 export type ReintegrationDay = {
   day: number; cycle: string; title: string; intention: string; meditation: string;
-  audioCues: GuidedCue[]; energyNotes: { name: string; focus: string }[];
+  audioCues: GuidedCue[]; reflectionPrompts: [string, string]; energyNotes: { name: string; focus: string }[];
 };
 
-type Source = Omit<ReintegrationDay, 'day' | 'audioCues'> & { activation: string };
+type Source = Omit<ReintegrationDay, 'day' | 'audioCues' | 'reflectionPrompts'> & { activation: string };
 
 const opening: GuidedCue[] = [
   { at: 0, text: 'Encontre uma posição confortável. Você pode permanecer sentado ou deitado, escolhendo a forma em que o seu corpo se sente mais amparado agora. Ajuste as pernas, os braços e a cabeça com calma. Feche os olhos, se isso for seguro para você, e permita-se chegar exatamente como está.' },
@@ -30,6 +30,30 @@ const split = (text: string, count: number) => {
     return sentences.slice(start, end).join(' ');
   });
 };
+
+const reflectionQuestions: [string, string][] = [
+  ['O que tem feito você perder a sensação de chão nos últimos dias? Em que parte do corpo essa falta de segurança aparece?', 'Do que você precisa agora para se sentir um pouco mais sustentado e presente?'],
+  ['Que necessidade do seu corpo você tem deixado para depois?', 'Se o seu corpo pudesse pedir uma única forma de cuidado hoje, o que ele pediria?'],
+  ['O que parece grande demais quando você pensa em começar?', 'Qual é a menor parte desse movimento que realmente cabe no seu dia de hoje?'],
+  ['O que dificulta receber cuidado sem sentir culpa, medo ou obrigação?', 'Como seria permitir que alguém, a vida ou você mesmo cuidasse de você por alguns instantes?'],
+  ['Em quais momentos você costuma abandonar as próprias necessidades para atender expectativas externas?', 'Que gesto concreto mostraria hoje que você decidiu permanecer ao seu lado?'],
+  ['O que tem impedido você de sentir prazer nas coisas simples?', 'Qual pequena experiência agradável seu corpo gostaria de receber hoje, sem precisar merecê-la?'],
+  ['Qual situação ou emoção costuma acontecer pouco antes de você repetir esse padrão?', 'O que essa repetição tenta proteger, evitar ou comunicar dentro de você?'],
+  ['Que peso você continua carregando mesmo sabendo que ele já não ajuda?', 'O que poderia ser liberado hoje sem apagar o aprendizado que essa experiência trouxe?'],
+  ['Diante do que incomoda, qual reação costuma acontecer automaticamente?', 'Que resposta diferente seria mais respeitosa com você e ainda possível neste momento?'],
+  ['Em que situações você acredita que precisa provar seu valor?', 'Quem seria você se não precisasse conquistar o direito de existir, descansar ou ser amado?'],
+  ['Que palavras duras você costuma dirigir a si mesmo quando algo não acontece como esperava?', 'Como você falaria com alguém que ama se essa pessoa estivesse vivendo exatamente isso?'],
+  ['Que dor, diagnóstico, rejeição ou expectativa acabou ocupando espaço demais na definição de quem você é?', 'O que permanece verdadeiro em você para além de tudo o que aconteceu?'],
+  ['O que no mundo externo parece difícil ou pesado demais neste momento?', 'Qual pequena abertura permitiria contato com a vida sem ultrapassar seus limites?'],
+  ['O que faz você se afastar das pessoas mesmo quando gostaria de receber companhia?', 'Que tipo de contato poderia oferecer proximidade e segurança ao mesmo tempo?'],
+  ['O que está consumindo sua energia antes mesmo de você começar?', 'Como essa ação poderia ser reduzida até se tornar simples, concreta e possível?'],
+  ['Que parte do futuro você está tentando enxergar ou controlar antes da hora?', 'Qual próximo passo já está suficientemente iluminado para ser realizado agora?'],
+  ['Onde você percebe paralisação, repetição ou falta de passagem na sua vida?', 'Que possibilidade pequena talvez já exista, mas ainda não recebeu sua atenção?'],
+  ['Que certeza você acredita precisar ter antes de seguir?', 'O que você faria se pudesse caminhar com o medo, sem entregar a ele toda a direção?'],
+  ['Que versão sua ainda espera acolhimento, perdão ou reconhecimento?', 'O que essa parte precisa ouvir para compreender que também pertence à sua história?'],
+  ['O que tornou difícil acreditar que momentos bons ainda podem acontecer?', 'Que possibilidade futura, mesmo pequena, consegue despertar alguma curiosidade em você?'],
+  ['O que você reconhece que mudou ou começou a se mover ao longo desta jornada?', 'Qual escolha deseja levar consigo para continuar presente na própria vida?'],
+];
 
 const data: Source[] = [
   ['Eu permaneço','Presença e chão','A nossa intenção para hoje é reconhecer o corpo, encontrar sustentação e permanecer no momento presente. Você não precisa resolver o passado nem planejar o futuro agora. Apenas este momento importa.','Leve toda a atenção para os seus pés. Sinta o contato com a superfície abaixo de você. Perceba a firmeza da terra e o apoio que sustenta você sem pedir nada em troca. Suba lentamente pelas pernas, joelhos e coxas. Note onde há tensão e onde há cansaço. Não tente modificar o que sente; apenas reconheça seu estado atual, sem julgamentos ou cobranças. Respire no lugar da tensão. Ao expirar, entregue o peso do corpo para o chão.','Receba agora a sustentação de Rama, fortalecendo suas raízes e sua base. O Life Force Energy Cone acompanha a vitalidade, enquanto as frequências etéricas do Jaspe Vermelho, da Turmalina Negra e da Cornalina favorecem estabilidade e presença no chakra básico e no corpo físico. Deixe que essas frequências acompanhem a reorganização da sua energia.','Rama e Life Force Energy Cone','Aterramento, presença e energia vital.','Jaspe Vermelho, Turmalina Negra e Cornalina','Chakra básico, corpo físico e estabilidade.'],
@@ -63,11 +87,11 @@ const cuesFor = (source: Source, day: number): GuidedCue[] => {
     { at: 285, text: 'Deixe essa intenção encontrar espaço dentro de você. Não é necessário compreendê-la somente com a mente. Perceba como o corpo reage ao ouvi-la e permita que a respiração a conduza para mais perto do seu centro.' },
     { at: 330, text: 'Respire profundamente mais uma vez. Ao soltar o ar, abandone por alguns instantes a expectativa de fazer esta prática da maneira certa. Apenas escute, sinta e siga a condução no seu próprio ritmo.' },
     { at: 360, text: meditation[0] },
-    { at: 420, text: 'Continue respirando com suavidade. Observe as sensações que aparecem sem tentar apressá-las ou transformá-las. Se a mente se afastar, retorne gentilmente para a voz, para a música e para a região do corpo que está sendo percebida.' },
+    { at: 420, text: `Continue respirando com suavidade. Inspire devagar e, ao soltar o ar, escute esta pergunta sem buscar uma resposta imediata: ${reflectionQuestions[day - 1][0]} Apenas perceba o que surge em seu corpo, na sua emoção ou nos seus pensamentos.` },
     { at: 480, text: meditation[1] },
-    { at: 540, text: 'Permaneça mais alguns instantes nessa experiência. Dê espaço para imagens, emoções ou lembranças surgirem e passarem. Você não precisa segurar nenhuma delas. Seu trabalho agora é apenas permanecer presente e respirar.' },
+    { at: 540, text: 'Inspire contando lentamente até quatro. Permaneça por dois instantes, sem forçar. Depois solte o ar contando até seis. Repita mais uma vez. Ao prolongar a expiração, permita que o corpo diminua a tensão e abra espaço para compreender o que está sentindo.' },
     { at: 600, text: meditation[2] },
-    { at: 660, text: 'Perceba se algo mudou, mesmo que de forma muito pequena. Talvez a respiração esteja diferente, talvez exista mais consciência do corpo ou apenas a sensação de ter parado por alguns minutos. Tudo o que surgir pode ser acolhido.' },
+    { at: 660, text: `Agora leve a atenção novamente ao propósito deste dia e pergunte a si mesmo: ${reflectionQuestions[day - 1][1]} Não transforme a pergunta em cobrança. Deixe que a resposta apareça como palavra, sensação, imagem ou silêncio.` },
     { at: 720, text: `Retorne à intenção do Dia ${day}: ${source.title}. Repita por dentro, com as suas próprias palavras, aquilo que deseja levar desta prática para a vida cotidiana. Não transforme essa escolha em cobrança. Deixe que ela seja uma direção suave.` },
     { at: 780, text: 'Imagine essa intenção encontrando um lugar seguro dentro do seu corpo. Observe sua cor, sua temperatura ou apenas sua presença. Respire como se estivesse oferecendo espaço para uma nova possibilidade crescer no tempo certo.' },
     { at: 840, text: 'Agora permita que a atenção se torne mais receptiva. Não é necessário visualizar perfeitamente nem produzir qualquer sensação. Apenas permaneça disponível para o próximo momento da prática, respeitando sua autonomia e seus limites.' },
@@ -80,6 +104,6 @@ const cuesFor = (source: Source, day: number): GuidedCue[] => {
   ];
 };
 
-export const REINTEGRATION_DAYS: ReintegrationDay[] = data.map((source, index) => ({ ...source, day: index + 1, audioCues: cuesFor(source, index + 1) }));
+export const REINTEGRATION_DAYS: ReintegrationDay[] = data.map((source, index) => ({ ...source, day: index + 1, reflectionPrompts: reflectionQuestions[index], audioCues: cuesFor(source, index + 1) }));
 
 export const REINTEGRATION_ACCEPTANCE = 'Eu aceito conscientemente receber a prática e a programação energética correspondente ao meu dia na jornada 21 Dias para Voltar para Mim — Reintegração da Vida, conforme programado e energizado neste áudio por Everton Rodrigo Piceni, respeitando meus limites, minha autonomia e minha liberdade de interromper a prática quando desejar.';

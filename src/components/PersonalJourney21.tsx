@@ -15,6 +15,7 @@ export default function PersonalJourney21({ onClose }: Props) {
   const [audioProgress, setAudioProgress] = useState(0);
   const musicRef = useRef<HTMLAudioElement | null>(null);
   const lastCueRef = useRef(-1);
+  const cuePendingRef = useRef(false);
   const [completed, setCompleted] = useState<number[]>(() => {
     try { return JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]'); } catch { return []; }
   });
@@ -22,6 +23,19 @@ export default function PersonalJourney21({ onClose }: Props) {
   const elapsedSeconds = musicRef.current?.currentTime || 0;
   const totalSeconds = musicRef.current?.duration || 1797;
   const formatTime = (seconds: number) => `${Math.floor(seconds / 60)}:${Math.floor(seconds % 60).toString().padStart(2, '0')}`;
+  const reflectionText = elapsedSeconds < 240
+    ? 'O que o seu corpo precisa para se sentir seguro neste momento?'
+    : elapsedSeconds < 360
+      ? item.intention
+      : elapsedSeconds < 660
+        ? item.reflectionPrompts[0]
+        : elapsedSeconds < 900
+          ? item.reflectionPrompts[1]
+          : elapsedSeconds < 1260
+            ? 'Onde você percebe essas energias e sensações atuando no seu corpo agora?'
+            : elapsedSeconds < 1620
+              ? 'Respire naturalmente. Não procure respostas. Apenas permita a integração.'
+              : 'Que pequeno movimento desta prática você deseja levar para o seu dia?';
 
   const stopSession = () => {
     audioEngine.stopSpeech();
@@ -36,6 +50,7 @@ export default function PersonalJourney21({ onClose }: Props) {
     setStarted(false);
     setAudioProgress(0);
     lastCueRef.current = -1;
+    cuePendingRef.current = false;
     if (musicRef.current) musicRef.current.currentTime = 0;
   }, [day]);
 
@@ -45,19 +60,21 @@ export default function PersonalJourney21({ onClose }: Props) {
     const timer = window.setInterval(() => {
       const music = musicRef.current;
       if (!music || !Number.isFinite(music.duration) || music.duration <= 0) return;
+      if (cuePendingRef.current || audioEngine.isSpeaking()) return;
       const nextCue = lastCueRef.current + 1;
       if (nextCue >= cues.length) return;
       if (music.currentTime + 0.35 < cues[nextCue].at) return;
 
       lastCueRef.current = nextCue;
+      cuePendingRef.current = true;
       void audioEngine.speakWithElevenLabsOrFallback(
         cues[nextCue].text,
         1,
         () => undefined,
-        () => undefined,
+        () => { cuePendingRef.current = false; },
         undefined,
         undefined,
-        { voiceId: 'feminina', stability: 0.52, similarityBoost: 0.78, enableBreathingPauses: true, preferElevenLabs: false, rate: 0.76, pitch: 1.06, lang: 'pt-BR' }
+        { voiceId: 'feminina', stability: 0.52, similarityBoost: 0.78, enableBreathingPauses: true, preferElevenLabs: true, rate: 0.76, pitch: 1.06, lang: 'pt-BR' }
       );
     }, 300);
     return () => window.clearInterval(timer);
@@ -80,6 +97,7 @@ export default function PersonalJourney21({ onClose }: Props) {
 
     setStarted(true);
     lastCueRef.current = -1;
+    cuePendingRef.current = false;
     if (musicRef.current) {
       musicRef.current.volume = 0.22;
       musicRef.current.currentTime = 0;
@@ -168,7 +186,8 @@ export default function PersonalJourney21({ onClose }: Props) {
       <div className="relative z-10 space-y-4 bg-gradient-to-t from-[#03130d] via-[#03130d]/95 to-transparent px-6 pb-[max(1.5rem,env(safe-area-inset-bottom))] pt-12 text-center">
         <p className="text-xs font-semibold uppercase tracking-[.22em] text-[#ead28d]">Dia {day} · {item.title}</p>
         <p className="font-display text-2xl">{playing ? (elapsedSeconds >= 1260 && elapsedSeconds < 1620 ? 'Absorção e silêncio' : 'Permaneça neste momento') : audioProgress >= 100 ? 'Meditação concluída' : 'Meditação pausada'}</p>
-        <p className="text-sm text-[#dce8d8]">{elapsedSeconds >= 1260 && elapsedSeconds < 1620 ? 'Apenas a música permanece enquanto você integra a experiência.' : 'A voz, a música e a luz acompanham os 29 minutos e 57 segundos da prática.'}</p>
+        <p className="mx-auto max-w-md text-base leading-7 text-[#eef4eb]">{reflectionText}</p>
+        <p className="text-xs text-[#b9cdbf]">{elapsedSeconds >= 1260 && elapsedSeconds < 1620 ? 'Apenas a música permanece enquanto você integra a experiência.' : 'Permaneça com esta reflexão até a próxima condução da voz.'}</p>
         <div className="mx-auto max-w-md">
           <div className="h-2 overflow-hidden rounded-full bg-white/20"><div className="h-full rounded-full bg-[#e5c568] transition-all duration-500" style={{width:`${audioProgress}%`}}/></div>
           <div className="mt-2 flex justify-between text-xs text-white/70"><span>{formatTime(elapsedSeconds)}</span><span>{formatTime(totalSeconds)}</span></div>
