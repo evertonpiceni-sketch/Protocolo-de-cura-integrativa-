@@ -62,14 +62,27 @@ export default function PersonalJourney21({ onClose }: Props) {
     if (nextCue >= item.audioCues.length || currentTime + 0.6 < item.audioCues[nextCue].at) return;
     lastCueRef.current = nextCue;
     cuePendingRef.current = true;
-    void audioEngine.speakWithElevenLabsOrFallback(
-      item.audioCues[nextCue].text, 1, () => undefined,
-      () => {
-        cuePendingRef.current = false;
-        window.setTimeout(() => playCueForTime(musicRef.current?.currentTime || 0), 0);
-      },
-      undefined, undefined,
-      { voiceId: 'Rachel', stability: 0.46, similarityBoost: 0.8, enableBreathingPauses: true, preferElevenLabs: true, rate: 0.78, pitch: 1.0, lang: 'pt-BR' }
+    // Reintegração deliberately uses the neural-only media path. If ElevenLabs is unavailable,
+    // the music continues and the cue is released; we never replace the intended female voice
+    // with Android/Web Speech synthesis.
+    void audioEngine.playGuidedMeditation(
+      [item.audioCues[nextCue].text],
+      {
+        title: `Reintegração à Vida · Dia ${day}`,
+        subtitle: item.title,
+        voiceId: 'Rachel',
+        volume: 1,
+        stability: 0.46,
+        similarityBoost: 0.8,
+        onEnd: () => {
+          cuePendingRef.current = false;
+          window.setTimeout(() => playCueForTime(musicRef.current?.currentTime || 0), 0);
+        },
+        onError: () => {
+          cuePendingRef.current = false;
+          window.setTimeout(() => playCueForTime(musicRef.current?.currentTime || 0), 800);
+        }
+      }
     );
   };
 
@@ -88,8 +101,6 @@ export default function PersonalJourney21({ onClose }: Props) {
       void requestWakeLock();
       const now = music.currentTime || 0;
       if (Number.isFinite(music.duration) && music.duration > 0) setAudioProgress((now / music.duration) * 100);
-      // Never destroy the active neural narration when Android/Chrome returns to the foreground.
-      // Resume the existing media element first. If no narration is active, the music clock schedules the next due cue.
       audioEngine.resumeSpeech();
       if (music.paused && now < (music.duration || 1797) - 1) void music.play().catch(() => undefined);
       window.setTimeout(() => {
