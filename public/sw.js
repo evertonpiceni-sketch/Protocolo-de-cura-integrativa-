@@ -3,7 +3,7 @@
  * Suporte a cache offline, background sync e PWA para Google Play Store
  */
 
-const CACHE_NAME = 'cura-integrada-v1';
+const CACHE_NAME = 'cura-integrada-v2-20260916';
 const ASSETS_TO_CACHE = [
   '/',
   '/index.html',
@@ -37,37 +37,37 @@ self.addEventListener('activate', (event) => {
 self.addEventListener('fetch', (event) => {
   if (event.request.method !== 'GET') return;
 
-  event.respondWith(
-    caches.match(event.request).then((cachedResponse) => {
-      if (cachedResponse) {
-        // Return cached version and update in background
-        fetch(event.request).then((networkResponse) => {
+  const isNavigation = event.request.mode === 'navigate' ||
+    event.request.headers.get('accept')?.includes('text/html');
+
+  if (isNavigation) {
+    // App updates must win over an old cached shell. Cache is only the offline fallback.
+    event.respondWith(
+      fetch(event.request)
+        .then((networkResponse) => {
           if (networkResponse && networkResponse.status === 200) {
             caches.open(CACHE_NAME).then((cache) => {
               cache.put(event.request, networkResponse.clone());
+              cache.put('/', networkResponse.clone());
             });
           }
-        }).catch(() => {/* ignore offline fetch error */});
-        return cachedResponse;
-      }
-
-      return fetch(event.request).then((networkResponse) => {
-        if (!networkResponse || networkResponse.status !== 200 || networkResponse.type !== 'basic') {
           return networkResponse;
+        })
+        .catch(() => caches.match(event.request).then((cached) => cached || caches.match('/')))
+    );
+    return;
+  }
+
+  event.respondWith(
+    caches.match(event.request).then((cachedResponse) => {
+      const networkPromise = fetch(event.request).then((networkResponse) => {
+        if (networkResponse && networkResponse.status === 200 && networkResponse.type === 'basic') {
+          caches.open(CACHE_NAME).then((cache) => cache.put(event.request, networkResponse.clone()));
         }
-
-        const responseToCache = networkResponse.clone();
-        caches.open(CACHE_NAME).then((cache) => {
-          cache.put(event.request, responseToCache);
-        });
-
         return networkResponse;
-      }).catch(() => {
-        // Fallback for HTML navigation requests
-        if (event.request.headers.get('accept')?.includes('text/html')) {
-          return caches.match('/');
-        }
-      });
+      }).catch(() => cachedResponse);
+
+      return cachedResponse || networkPromise;
     })
   );
 });
