@@ -746,6 +746,8 @@ class CalmingAudioEngine {
     }
     cleanText = cleanText
       .replace(/\[NOME\]/g, "")
+      .replace(/<break\s+time=["'][\d.]+s["']\s*\/>/gi, "\n")
+      .replace(/<[^>]+>/g, "")
       .replace(/\.{3,}/g, "...")
       .trim();
 
@@ -872,6 +874,7 @@ class CalmingAudioEngine {
       rate?: number;
       pitch?: number;
       lang?: string;
+      protocolStageId?: string;
     }
   ) {
     this.stopSpeech();
@@ -885,6 +888,107 @@ class CalmingAudioEngine {
           cleanText = cleanText.replace(/\[NOME\]/g, options.userName);
         }
         cleanText = cleanText.replace(/\[NOME\]/g, "").trim();
+
+        if (options?.protocolStageId) {
+          const BREAK_RE = /<break\s+time=["']([\d.]+)s["']\s*\/>/gi;
+          const segments: Array<{ text: string; pauseMs: number }> = [];
+          let lastIndex = 0;
+          let match: RegExpExecArray | null;
+          BREAK_RE.lastIndex = 0;
+          while ((match = BREAK_RE.exec(text)) !== null) {
+            const segmentText = text.slice(lastIndex, match.index).trim();
+            if (segmentText) segments.push({ text: segmentText, pauseMs: Math.round(Number(match[1]) * 1000) });
+            lastIndex = BREAK_RE.lastIndex;
+          }
+          const tail = text.slice(lastIndex).trim();
+          if (tail) segments.push({ text: tail, pauseMs: 0 });
+
+          if (segments.length > 0) {
+            this.isSpeakingActive = true;
+            let index = 0;
+            let started = false;
+
+            const playNextSegment = async (): Promise<void> => {
+              if (!this.isSpeakingActive) return;
+              if (index >= segments.length) {
+                this.isSpeakingActive = false;
+                this.isElevenLabsPlaying = false;
+                onEnd();
+                return;
+              }
+
+              try {
+                const response = await fetch('/api/protocol-tts', {
+                  method: 'POST',
+                  headers: { 'Content-Type': 'application/json' },
+                  body: JSON.stringify({
+                    stageId: options.protocolStageId,
+                    segmentIndex: index,
+                    userName: options.userName || ''
+                  })
+                });
+
+                if (!response.ok || !response.headers.get('content-type')?.includes('audio')) {
+                  throw new Error(`Protocol TTS unavailable: ${response.status}`);
+                }
+
+                const blob = await response.blob();
+                if (!this.isSpeakingActive) return;
+                const audioUrl = URL.createObjectURL(blob);
+                this.voiceAudioUrl = audioUrl;
+                const audio = new Audio(audioUrl);
+                this.voiceAudioElement = audio;
+                audio.volume = Math.max(0, Math.min(1, voiceVolume));
+
+                audio.onplay = () => {
+                  if (!this.isSpeakingActive) return;
+                  this.isElevenLabsPlaying = true;
+                  if (!started) {
+                    started = true;
+                    onStart();
+                  }
+                };
+
+                audio.onended = () => {
+                  if (this.voiceAudioUrl) {
+                    URL.revokeObjectURL(this.voiceAudioUrl);
+                    this.voiceAudioUrl = null;
+                  }
+                  this.voiceAudioElement = null;
+                  if (!this.isSpeakingActive) return;
+
+                  const pauseMs = segments[index]?.pauseMs || 0;
+                  index += 1;
+                  this.pauseTimeoutId = setTimeout(() => {
+                    void playNextSegment();
+                  }, pauseMs);
+                };
+
+                audio.onerror = () => {
+                  this.isElevenLabsPlaying = false;
+                  this.isSpeakingActive = false;
+                  const fallbackText = text
+                    .replace(/<break\s+time=["'][\d.]+s["']\s*\/>/gi, '\n')
+                    .replace(/<[^>]+>/g, '');
+                  this.speak(fallbackText, voiceVolume, onStart, onEnd, onPause, onResume, options);
+                };
+
+                await audio.play();
+              } catch (err) {
+                console.warn("Dedicated protocol TTS failed, using native fallback:", err);
+                this.isElevenLabsPlaying = false;
+                this.isSpeakingActive = false;
+                const fallbackText = text
+                  .replace(/<break\s+time=["'][\d.]+s["']\s*\/>/gi, '\n')
+                  .replace(/<[^>]+>/g, '');
+                this.speak(fallbackText, voiceVolume, onStart, onEnd, onPause, onResume, options);
+              }
+            };
+
+            void playNextSegment();
+            return;
+          }
+        }
 
         const response = await fetch('/api/elevenlabs/tts', {
           method: 'POST',
