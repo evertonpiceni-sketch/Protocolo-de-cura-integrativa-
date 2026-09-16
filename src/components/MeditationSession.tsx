@@ -18,6 +18,9 @@ import { requestWakeLock } from '../lib/wakeLockHelpers';
 import { AppLanguage, SUPPORTED_LANGUAGES, STAGE_AUDIO_TRANSLATIONS, UI_TRANSLATIONS } from '../lib/i18n';
 import { MessageCircle, Globe } from 'lucide-react';
 
+// Voz oficial deste protocolo nas jornadas de 7 e 21 dias (Marianne - Meditação).
+const PROTOCOL_PT_VOICE_ID = 'mJqP14JQFEK0PojR5lfV';
+
 const BEFORE_SENSATIONS = [
   'Ansiedade / Agitação',
   'Aperto no peito',
@@ -219,7 +222,7 @@ export default function MeditationSession({
         undefined,
         undefined,
         {
-          voiceId,
+          voiceId: language === 'pt' ? PROTOCOL_PT_VOICE_ID : voiceId,
           rate: voiceRate,
           pitch: voicePitch,
           lang: currentLangConfig.speechLang,
@@ -294,7 +297,7 @@ export default function MeditationSession({
         undefined,
         undefined,
         {
-          voiceId,
+          voiceId: language === 'pt' ? PROTOCOL_PT_VOICE_ID : voiceId,
           rate: voiceRate,
           pitch: voicePitch,
           lang: currentLangConfig.speechLang,
