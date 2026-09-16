@@ -163,8 +163,12 @@ export default function MeditationSession({
   const translatedStageData = STAGE_AUDIO_TRANSLATIONS[language]?.[activeStage.id];
   const originalScript = ORIGINAL_PROTOCOL_SCRIPTS[activeStage.id];
   
-  const displayTitle = translatedStageData?.title || originalScript?.title || activeStage.title;
-  const displaySubtitle = translatedStageData?.subtitle || originalScript?.subtitle || activeStage.subtitle;
+  const displayTitle = language === 'pt' && originalScript
+    ? originalScript.title
+    : (translatedStageData?.title || originalScript?.title || activeStage.title);
+  const displaySubtitle = language === 'pt' && originalScript
+    ? originalScript.subtitle
+    : (translatedStageData?.subtitle || originalScript?.subtitle || activeStage.subtitle);
   const displayText = language === 'pt' && originalScript
     ? originalScript.fullText
     : (translatedStageData?.text || originalScript?.fullText || activeStage.text);
@@ -229,7 +233,8 @@ export default function MeditationSession({
           stability: 0.45,
           similarityBoost: 0.75,
           enableBreathingPauses: true,
-          userName
+          userName,
+          protocolStageId: activeStage.id
         }
       );
     } else {
@@ -304,7 +309,8 @@ export default function MeditationSession({
           stability: 0.45,
           similarityBoost: 0.75,
           enableBreathingPauses: true,
-          userName
+          userName,
+          protocolStageId: ProtocolStage.ABERTURA
         }
       );
     }
