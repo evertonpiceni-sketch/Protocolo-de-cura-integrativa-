@@ -1,4 +1,3 @@
-import type { VercelRequest, VercelResponse } from '@vercel/node';
 import { createHash } from 'node:crypto';
 import { ElevenLabsClient } from 'elevenlabs';
 import { ORIGINAL_PROTOCOL_SCRIPTS } from '../src/data/protocol_scripts.js';
@@ -36,7 +35,7 @@ const cacheKeyFor = (stageId: string, segmentIndex: number, text: string) =>
     .update(`${PROTOCOL_VOICE.voiceId}:${PROTOCOL_VOICE.modelId}:${stageId}:${segmentIndex}:\n${text}`)
     .digest('hex');
 
-export default async function handler(req: VercelRequest, res: VercelResponse) {
+export default async function handler(req: any, res: any) {
   if (req.method !== 'POST') return res.status(405).json({ error: 'Método não permitido.' });
 
   try {
