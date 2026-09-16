@@ -919,9 +919,6 @@ export default function MeditationSession({
             {/* Navigation Header */}
             <div className="flex items-center justify-between border-b border-slate-900 pb-4">
               <div>
-                <span className="text-[10px] font-mono text-indigo-400 uppercase tracking-widest">
-                  {UI_TRANSLATIONS[language]?.day || 'Etapa'} {activeStageIndex} {UI_TRANSLATIONS[language]?.dayOf || 'de'} {totalGuidedStages - 1}
-                </span>
                 <h4 className="text-base font-display font-medium text-slate-200 mt-1">
                   {displayTitle}
                 </h4>
@@ -956,9 +953,11 @@ export default function MeditationSession({
 
             {/* Scrollable Subtitle and Main text segment */}
             <div className="flex-1 overflow-y-auto py-6 space-y-4 pr-1">
-              <span className={`text-[11px] font-mono px-2.5 py-1 rounded-full border tracking-wide inline-block ${activeStage.colorTheme.accent}`}>
-                {displaySubtitle}
-              </span>
+              {displaySubtitle ? (
+                <span className={`text-[11px] font-mono px-2.5 py-1 rounded-full border tracking-wide inline-block ${activeStage.colorTheme.accent}`}>
+                  {displaySubtitle}
+                </span>
+              ) : null}
               
               {/* Actual script text displayed in display serif/sans font for immersive reading */}
               <div className="text-slate-300 font-sans text-sm md:text-base leading-relaxed whitespace-pre-line select-none pr-1">
