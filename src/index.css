@@ -201,3 +201,231 @@ input::placeholder,textarea::placeholder{color:#7f9d8b!important}
 }
 @keyframes pulse-slow{0%,100%{transform:scale(1);opacity:.8}50%{transform:scale(1.08);opacity:1}}
 .animate-pulse-slow{animation:pulse-slow 8s infinite ease-in-out}
+
+
+/* FINAL PREMIUM REFINEMENT — REINTEGRAÇÃO DA VIDA */
+/* A marca assina a experiência; não disputa atenção com corpo, luz ou mensagem. */
+.ep-brand-signature-wrap{
+  opacity:.48;
+  box-shadow:0 8px 26px rgba(0,0,0,.16)!important;
+  backdrop-filter:blur(8px);
+  transition:opacity .3s ease,border-color .3s ease;
+}
+.ep-brand-signature-wrap:hover{opacity:.56;border-color:rgba(214,174,82,.34)!important}
+.ep-brand-signature{
+  opacity:.84;
+  filter:saturate(.9) contrast(.96) brightness(.94);
+}
+#main-header .ep-brand-signature{opacity:.58;filter:saturate(.88) contrast(.96) brightness(.92)}
+
+/* Profundidade e acabamento comuns ao topo e aos blocos inferiores. */
+.ep-luxury-card{
+  position:relative;
+  overflow:hidden;
+  background:
+    radial-gradient(circle at 12% 0,rgba(228,197,111,.08),transparent 15rem),
+    linear-gradient(145deg,rgba(7,52,38,.97),rgba(3,29,21,.98));
+  border:1px solid rgba(214,174,82,.24);
+  box-shadow:0 20px 54px rgba(0,0,0,.32),inset 0 1px 0 rgba(255,255,255,.035);
+  backdrop-filter:blur(18px);
+}
+.ep-luxury-card::before{
+  content:'';
+  position:absolute;inset:0;
+  pointer-events:none;
+  background:linear-gradient(135deg,rgba(255,255,255,.018),transparent 30%,transparent 70%,rgba(214,174,82,.025));
+}
+.ep-luxury-card>*{position:relative;z-index:1}
+.ep-subcard{
+  border:1px solid rgba(214,174,82,.19);
+  background:linear-gradient(145deg,rgba(10,58,41,.82),rgba(5,42,30,.86));
+  box-shadow:0 10px 26px rgba(0,0,0,.18),inset 0 1px 0 rgba(255,255,255,.025);
+  transition:border-color .22s ease,transform .22s ease,filter .22s ease;
+}
+.ep-subcard:hover{border-color:rgba(214,174,82,.38);filter:brightness(1.045);transform:translateY(-1px)}
+.ep-progress-card .bg-black\/25{background:rgba(0,0,0,.34)!important}
+.ep-progress-card .bg-gradient-to-r{
+  box-shadow:0 0 18px rgba(214,174,82,.24);
+}
+
+/* Hero com presença, sem adicionar novos elementos. */
+.ep-home .ep-home-hero{
+  background:
+    radial-gradient(circle at 50% -8%,rgba(230,199,115,.16),transparent 26rem),
+    radial-gradient(circle at 12% 18%,rgba(21,88,60,.18),transparent 18rem),
+    linear-gradient(155deg,rgba(5,42,30,.98),rgba(2,22,16,.99)),
+    url('/brand/forest-app-background.png') center/cover!important;
+  border-color:rgba(214,174,82,.30)!important;
+  box-shadow:0 30px 82px rgba(0,0,0,.42),inset 0 1px 0 rgba(255,255,255,.035)!important;
+}
+.ep-home .ep-home-hero::before{
+  content:'';
+  position:absolute;inset:0;
+  pointer-events:none;
+  background:linear-gradient(180deg,rgba(255,255,255,.02),transparent 38%,rgba(0,0,0,.12));
+}
+.ep-home .ep-home-hero>*{position:relative;z-index:1}
+
+/* Dourado mais maduro: brilho controlado, sem amarelo vivo. */
+.ep-gold-action,.ep-gold-button{
+  background:linear-gradient(135deg,#e6cd83 0%,#c9a44d 52%,#9f762b 100%);
+  border-color:rgba(240,217,153,.60);
+  box-shadow:0 13px 32px rgba(132,91,25,.26),inset 0 1px 0 rgba(255,255,255,.44),inset 0 -2px 8px rgba(83,53,9,.18);
+}
+.ep-gold-action:hover,.ep-gold-button:hover{
+  filter:brightness(1.045) saturate(.96);
+  box-shadow:0 17px 38px rgba(132,91,25,.30),inset 0 1px 0 rgba(255,255,255,.50);
+}
+
+/* Navegação inferior: discreta, porém pertencente ao mesmo sistema. */
+#bottom-action-dock>div{
+  background:
+    linear-gradient(180deg,rgba(6,45,32,.97),rgba(2,24,17,.98))!important;
+  border:1px solid rgba(214,174,82,.23)!important;
+  box-shadow:0 20px 52px rgba(0,0,0,.42),inset 0 1px 0 rgba(255,255,255,.025)!important;
+}
+#bottom-action-dock button{
+  min-height:3rem;
+  border-radius:1rem!important;
+  color:#cbd9d0!important;
+}
+#bottom-action-dock button:hover,#bottom-action-dock button:focus-visible{
+  color:#e6cd83!important;
+  background:rgba(214,174,82,.075)!important;
+  outline:none;
+  box-shadow:inset 0 0 0 1px rgba(214,174,82,.10)!important;
+}
+
+/* Reintegração: contraste alto, luz progressiva e corpo neutro seguem protagonistas. */
+.ep-reintegration-panel{
+  background:
+    radial-gradient(circle at 50% 0,rgba(231,202,118,.07),transparent 26rem),
+    linear-gradient(150deg,rgba(4,38,27,.99),rgba(2,23,17,.99));
+  border-color:rgba(214,174,82,.28);
+  box-shadow:0 30px 84px rgba(0,0,0,.42),inset 0 1px 0 rgba(255,255,255,.03);
+}
+.ep-reintegration-card{
+  background:linear-gradient(145deg,rgba(8,57,40,.95),rgba(4,37,27,.97));
+  border-color:rgba(214,174,82,.21);
+  box-shadow:0 14px 34px rgba(0,0,0,.24),inset 0 1px 0 rgba(255,255,255,.025);
+}
+.ep-neutral-body{opacity:.96;filter:drop-shadow(0 22px 46px rgba(0,0,0,.32))}
+
+
+/* AUTH PREMIUM REFINEMENT — APPROVED VISUAL */
+#profile-setup-view{
+  background:
+    radial-gradient(circle at 50% 5%,rgba(214,174,82,.10),transparent 22rem),
+    linear-gradient(180deg,#052a1e 0%,#031b13 58%,#02150f 100%)!important;
+}
+#profile-setup-view::before{
+  content:'';
+  position:fixed;inset:0;
+  pointer-events:none;
+  background:linear-gradient(rgba(2,27,19,.40),rgba(2,22,16,.76)),url('/brand/forest-app-background.png') center/cover;
+  opacity:.52;
+}
+#onboarding-card{
+  background:
+    radial-gradient(circle at 50% 0,rgba(232,203,121,.08),transparent 18rem),
+    linear-gradient(150deg,rgba(7,50,36,.98),rgba(3,28,20,.99))!important;
+  border:1px solid rgba(214,174,82,.28)!important;
+  box-shadow:0 34px 88px rgba(0,0,0,.46),inset 0 1px 0 rgba(255,255,255,.035)!important;
+  backdrop-filter:blur(20px)!important;
+}
+#profile-setup-view h1,
+#profile-setup-view h2,
+#profile-setup-view h3{color:#fff8e7!important}
+#profile-setup-view p{color:#c9d9ce}
+#profile-setup-view label{
+  color:#d7e4db!important;
+  letter-spacing:.12em;
+}
+#profile-setup-view input:not([type='checkbox']),
+#profile-setup-view select,
+#profile-setup-view textarea{
+  background:linear-gradient(180deg,rgba(3,30,21,.96),rgba(2,24,17,.98))!important;
+  border:1px solid rgba(214,174,82,.20)!important;
+  color:#fff8e7!important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.018),0 8px 22px rgba(0,0,0,.13);
+}
+#profile-setup-view input::placeholder,
+#profile-setup-view textarea::placeholder{color:#86a394!important;opacity:.85}
+#profile-setup-view input:focus,
+#profile-setup-view select:focus,
+#profile-setup-view textarea:focus{
+  border-color:rgba(231,202,118,.60)!important;
+  box-shadow:0 0 0 2px rgba(214,174,82,.09),0 10px 26px rgba(0,0,0,.18)!important;
+  outline:none!important;
+}
+#auth-tabs{
+  background:rgba(2,24,17,.86)!important;
+  border-color:rgba(214,174,82,.18)!important;
+  border-radius:1.2rem!important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.018);
+}
+#auth-tabs button{
+  color:#aec3b6!important;
+  border:1px solid transparent;
+}
+#auth-tabs button.bg-indigo-600{
+  background:linear-gradient(135deg,#e4c875,#c69d43 58%,#9b7026)!important;
+  color:#173323!important;
+  border-color:rgba(244,222,157,.55)!important;
+  box-shadow:0 8px 22px rgba(112,73,20,.24),inset 0 1px 0 rgba(255,255,255,.35)!important;
+}
+#profile-setup-view .text-indigo-300,
+#profile-setup-view .text-indigo-400,
+#profile-setup-view .text-indigo-500,
+#profile-setup-view .text-purple-300,
+#profile-setup-view .text-purple-200,
+#profile-setup-view .text-amber-400,
+#profile-setup-view .text-amber-500\/80{
+  color:#d9bd69!important;
+}
+#profile-setup-view .bg-indigo-600,
+#profile-setup-view .hover\:bg-indigo-500:hover{
+  background:linear-gradient(135deg,#e4c875,#c69d43 58%,#9b7026)!important;
+  color:#173323!important;
+}
+#profile-setup-view #btn-complete-setup,
+#profile-setup-view #btn-login-submit{
+  background:linear-gradient(135deg,#e8cf82,#c9a44d 55%,#9d742a)!important;
+  color:#173323!important;
+  border:1px solid rgba(242,218,149,.62)!important;
+  box-shadow:0 14px 34px rgba(112,73,20,.28),inset 0 1px 0 rgba(255,255,255,.42)!important;
+}
+#profile-setup-view #btn-complete-setup:hover,
+#profile-setup-view #btn-login-submit:hover{filter:brightness(1.04)}
+#profile-setup-view details,
+#profile-setup-view details>div{
+  background:linear-gradient(145deg,rgba(6,44,31,.88),rgba(3,31,22,.92))!important;
+  border-color:rgba(214,174,82,.18)!important;
+}
+#profile-setup-view .bg-slate-950,
+#profile-setup-view .bg-slate-950\/70{
+  background:rgba(2,25,18,.88)!important;
+}
+#profile-setup-view .border-slate-800,
+#profile-setup-view .border-slate-800\/80,
+#profile-setup-view .border-slate-800\/60{
+  border-color:rgba(214,174,82,.16)!important;
+}
+#profile-setup-view .text-slate-400{color:#9fb7a9!important}
+#profile-setup-view .text-slate-300{color:#c9d9ce!important}
+#profile-setup-view .text-slate-100,
+#profile-setup-view .text-slate-200{color:#fff8e7!important}
+#profile-setup-view .ep-brand-signature-wrap{
+  opacity:.38!important;
+  border-color:rgba(214,174,82,.18)!important;
+  box-shadow:none!important;
+}
+#profile-setup-view .ep-brand-signature{
+  opacity:.76!important;
+  filter:saturate(.86) brightness(.90) contrast(.94)!important;
+}
+@media(max-width:640px){
+  #profile-setup-view{padding:.75rem!important}
+  #onboarding-card{padding:1.2rem!important;border-radius:1.6rem!important}
+  #profile-setup-view input:not([type='checkbox']){font-size:1rem!important}
+}
