@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { ArrowRight, ShieldCheck } from 'lucide-react';
-import brandLogo from '../assets/images/app_icon_lotus_1787334709504.jpg';
+import brandLogo from '../assets/images/cura_integrada_sacred_emblem_1787104270641.jpg';
 
 interface OnboardingFlowProps { onComplete: () => void; }
 
@@ -20,7 +20,7 @@ export default function OnboardingFlow({ onComplete }: OnboardingFlowProps) {
         <motion.main key={step} initial={{opacity:0,y:18}} animate={{opacity:1,y:0}} exit={{opacity:0,y:-14}}
           className="relative w-full max-w-md overflow-hidden rounded-[2rem] border border-[#d6ae52]/28 bg-[linear-gradient(145deg,rgba(7,52,38,.97),rgba(3,27,19,.98))] p-7 shadow-[0_28px_80px_rgba(0,0,0,.42)] backdrop-blur-xl">
           <div className="pointer-events-none absolute inset-x-0 top-0 h-40 bg-[radial-gradient(circle_at_50%_0,rgba(239,215,143,.13),transparent_70%)]" />
-          <div className="relative mx-auto mb-6 flex h-24 w-24 items-center justify-center overflow-hidden rounded-full border-2 border-[#d6ae52]/55 bg-[#031b13] shadow-[0_0_28px_rgba(214,174,82,.2)]"><img src={brandLogo} alt="Everton Piceni — Terapias Holísticas e Bem-Estar" className="h-full w-full object-cover" /></div>
+          <div className="ep-brand-signature-wrap relative mx-auto mb-7 flex h-20 w-20 items-center justify-center overflow-hidden rounded-full border border-[#d6ae52]/24 bg-[#031b13]/55"><img src={brandLogo} alt="Everton Piceni — Terapias Holísticas e Bem-Estar" className="ep-brand-signature h-full w-full object-cover" /></div>
           <div className="relative mb-7 h-px w-16 bg-gradient-to-r from-transparent via-[#d6ae52] to-transparent" />
 
           {step === 1 && <section className="space-y-6">
