@@ -1,4 +1,3 @@
-import type { VercelRequest, VercelResponse } from '@vercel/node';
 import { createHash } from 'node:crypto';
 import { ElevenLabsClient } from 'elevenlabs';
 import { REINTEGRATION_DAYS } from '../src/data/reintegrationJourneyPublic.js';
@@ -31,7 +30,7 @@ const cacheKeyFor = (text: string) => {
   return createHash('sha256').update(`${voiceSignature}\n${text}`).digest('hex');
 };
 
-export default async function handler(req: VercelRequest, res: VercelResponse) {
+export default async function handler(req: any, res: any) {
   if (req.method !== 'POST') return res.status(405).json({ error: 'Método não permitido.' });
   try {
     const text = typeof req.body?.text === 'string' ? req.body.text.trim() : '';

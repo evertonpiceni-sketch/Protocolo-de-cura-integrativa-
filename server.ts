@@ -12,7 +12,7 @@ import rateLimit from "express-rate-limit";
 import { z } from "zod";
 import { getDb, saveDb, initializeDb } from "./src/db.js";
 
-const JWT_SECRET = (process.env.JWT_SECRET && process.env.JWT_SECRET.length >= 32) ? process.env.JWT_SECRET : "default_secret_key_for_jwt_auth_min_32_chars_long_123456789";
+const JWT_SECRET = process.env.JWT_SECRET;
 if (!JWT_SECRET || JWT_SECRET.length < 32) throw new Error("JWT_SECRET must be configured with at least 32 characters.");
 
 const getGemini = () => process.env.GEMINI_API_KEY && process.env.GEMINI_API_KEY.length > 5 ? new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY }) : null;
@@ -76,14 +76,7 @@ async function startServer() {
   const PORT = 3000;
 
   if (process.env.VERCEL !== "1") {
-    if (process.env.NODE_ENV !== "production") {
-      const { createServer: createViteServer } = await import("vite");
-      const vite = await createViteServer({
-        server: { middlewareMode: true },
-        appType: "spa",
-      });
-      app.use(vite.middlewares);
-    } else {
+    if (process.env.NODE_ENV === "production") {
       const distPath = path.join(process.cwd(), "dist");
       app.use(express.static(distPath));
       app.get("*", (_req, res) => res.sendFile(path.join(distPath, "index.html")));
@@ -94,23 +87,9 @@ async function startServer() {
       res.status(500).json({ error: "Ocorreu um erro interno no servidor." });
     });
 
-    app.listen(PORT, "0.0.0.0", () => console.log(`✨ Servidor do Protocolo de Cura Integrada rodando em http://localhost:${PORT}`));
-    
-    initializeDb().then(async () => {
-      const db = getDb();
-      if (!db.users.find(u => u.login === "admin")) {
-        const salt = await bcrypt.genSalt(10);
-        const hashedPassword = await bcrypt.hash("admin123", salt);
-        db.users.push({
-          id: "admin-id", login: "admin", password: hashedPassword, fullName: "Administrador",
-          email: "admin@cura.com", plan: "pro", role: "admin",
-          profile: { name: "Administrador", email: "admin@cura.com", audioEnabled: true, bgMusicVolume: 0.5, bgMusicType: '528hz', plan: "pro" },
-          progress: Array.from({ length: 21 }, (_, index) => ({ dayNumber: index + 1, completed: false }))
-        });
-        await saveDb();
-        console.log("Admin account created: admin / admin123");
-      }
-    }).catch(err => {
+    app.listen(PORT, "0.0.0.0", () => console.log(`Servidor do Protocolo da Transformação rodando em http://localhost:${PORT}`));
+
+    initializeDb().catch(err => {
       console.error("Failed to initialize database on startup:", err);
     });
   }
