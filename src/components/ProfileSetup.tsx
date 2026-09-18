@@ -56,8 +56,8 @@ export default function ProfileSetup({ onComplete }: ProfileSetupProps) {
 
     setLoadingVoiceType(gender);
     const sampleText = gender === 'masculina'
-      ? "Olá, eu sou Éverton Rodrigo Piceni. Seja muito bem-vindo ao seu Protocolo de Cura Integrada e alinhamento do seu poder pessoal."
-      : "Olá, seja bem-vinda ao seu espaço sagrado de paz profunda, amor incondicional e acolhimento da alma.";
+      ? "Olá, eu sou Éverton Rodrigo Piceni. Que bom ter você aqui. Este é o seu espaço de cuidado, presença e reconexão."
+      : "Olá. Que bom ter você aqui. Permita-se receber este momento de calma, presença e acolhimento.";
 
     try {
       const response = await fetch('/api/elevenlabs/tts', {
@@ -272,7 +272,7 @@ export default function ProfileSetup({ onComplete }: ProfileSetupProps) {
         isAdmin: data.user.role === 'admin'
       };
       
-      setSuccessMsg(`Bem-vindo de volta, ${account.fullName || account.login}!`);
+      setSuccessMsg(`Que bom ter você de volta, ${account.fullName || account.login}!`);
       setTimeout(() => {
         onComplete(account);
       }, 1000);
@@ -300,18 +300,18 @@ export default function ProfileSetup({ onComplete }: ProfileSetupProps) {
       <div className="fixed inset-0 bg-[linear-gradient(rgba(2,31,20,.62),rgba(2,24,16,.92)),url('/brand/forest-app-background.png')] bg-cover bg-center pointer-events-none" />
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_12%,rgba(239,211,132,0.20)_0,transparent_42%)] pointer-events-none" />
 
-      <div className="w-full max-w-xl bg-[#052d1f]/94 backdrop-blur-xl border border-[#e5c66f]/30 rounded-[1.75rem] p-5 sm:p-6 md:p-8 shadow-2xl space-y-6 relative overflow-hidden" id="onboarding-card">
+      <div className="w-full max-w-xl rounded-[1.9rem] p-5 sm:p-7 md:p-8 space-y-6 relative overflow-hidden" id="onboarding-card">
         {/* Decorative corner glow */}
         <div className="absolute -top-12 -right-12 w-24 h-24 bg-indigo-500/10 rounded-full blur-xl pointer-events-none" />
 
         <div className="text-center space-y-2">
-          <div className="w-24 h-24 sm:w-28 sm:h-28 rounded-full overflow-hidden border-[2px] border-indigo-500/40 shadow-[0_0_25px_rgba(99,102,241,0.25)] mx-auto mb-4 bg-slate-900 flex items-center justify-center relative group">
-            <div className="absolute inset-0 bg-indigo-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10 pointer-events-none"></div>
+          <div className="ep-brand-signature-wrap w-20 h-20 sm:w-24 sm:h-24 rounded-full overflow-hidden border border-[#d6ae52]/22 mx-auto mb-5 bg-[#031b13]/45 flex items-center justify-center relative group">
+            <div className="absolute inset-0 bg-[#d6ae52]/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10 pointer-events-none"></div>
             <img src={brandLogo} alt="Everton Piceni — Terapias Holísticas e Bem-Estar" className="ep-brand-signature w-full h-full object-cover transition-opacity duration-700" />
           </div>
           <span className="text-xs font-mono tracking-widest text-[#e5c66f] uppercase font-semibold">Terapias Holísticas e Bem-Estar</span>
           <h1 className="text-xl md:text-2xl font-display font-medium text-slate-100 leading-tight">
-            Bem-vindo(a) ao seu momento<br />de transformação
+            Que bom ter você aqui.<br />Este é o seu momento de transformação
           </h1>
           <p className="text-sm text-slate-400">
             Um espaço seguro para se reconectar, equilibrar sua energia e voltar para si.
@@ -582,7 +582,7 @@ export default function ProfileSetup({ onComplete }: ProfileSetupProps) {
                   <div className="space-y-1">
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-2">
-                        <span className="text-base">👨</span>
+                        <Volume2 size={16} className="text-[#d9bd69]" />
                         <span className="text-xs font-bold text-slate-100">Voz de Éverton Piceni</span>
                       </div>
                       {voiceChoice === 'masculina' && (
@@ -637,7 +637,7 @@ export default function ProfileSetup({ onComplete }: ProfileSetupProps) {
                   <div className="space-y-1">
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-2">
-                        <span className="text-base">👩</span>
+                        <Volume2 size={16} className="text-[#d9bd69]" />
                         <span className="text-xs font-bold text-slate-100">Voz Feminina Suave</span>
                       </div>
                       {voiceChoice === 'feminina' && (
