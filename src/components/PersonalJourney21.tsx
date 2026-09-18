@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { ArrowLeft, Check, ChevronLeft, ChevronRight, Headphones, Pause, Play, RotateCcw, ShieldCheck, X } from 'lucide-react';
 import { REINTEGRATION_DAYS, REINTEGRATION_ACCEPTANCE } from '../data/reintegrationJourneyPublic';
+import brandLogo from '../assets/images/cura_integrada_sacred_emblem_1787104270641.jpg';
 
 type Props = { onClose: () => void };
 const STORAGE_KEY = 'transformacao_jornada_pessoal_21_dias_v1';
@@ -158,7 +159,8 @@ export default function PersonalJourney21({ onClose }: Props) {
     setCompleted(next); localStorage.setItem(STORAGE_KEY, JSON.stringify(next)); if (day < 21) setDay(day + 1);
   };
 
-  return <div className="ep-reintegration-shell min-h-screen px-4 py-5 text-[#fff8e7]" style={{background:`radial-gradient(circle at 50% 0,rgba(245,213,127,${0.08 + journeyLight * 0.22}),transparent 34rem),linear-gradient(180deg,${shellTop},${shellBottom})`}}>
+  return <div className="ep-reintegration-shell relative min-h-screen px-4 py-5 text-[#fff8e7]" style={{background:`radial-gradient(circle at 50% 0,rgba(245,213,127,${0.08 + journeyLight * 0.22}),transparent 34rem),linear-gradient(180deg,${shellTop},${shellBottom})`}}>
+    <div className="pointer-events-none fixed right-4 top-4 z-20 h-14 w-14 overflow-hidden rounded-full border border-[#d6ae52]/14 bg-[#031b13]/35 opacity-30 shadow-[0_8px_24px_rgba(0,0,0,.12)] backdrop-blur-md sm:right-6 sm:top-6 sm:h-16 sm:w-16"><img src={brandLogo} alt="" aria-hidden="true" className="h-full w-full object-cover opacity-80" /></div>
     <audio ref={musicRef} src={REINTEGRATION_MUSIC_URL} preload="metadata"
       onTimeUpdate={event => { const audio=event.currentTarget; if(Number.isFinite(audio.duration)&&audio.duration>0)setAudioProgress((audio.currentTime/audio.duration)*100); void playCueForTime(audio.currentTime); }}
       onEnded={() => { clearVoice(); playingRef.current=false; setPlaying(false); setAudioProgress(100); }}/>
