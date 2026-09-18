@@ -1,7 +1,7 @@
 import React, { useState, useRef } from 'react';
 import { User, Sparkles, Shield, Heart, Lock, Mail, Calendar as CalendarIcon, LogIn, UserPlus, KeyRound, CheckCircle2, ArrowLeft, Clock, MapPin, Tag, Phone, Volume2, Play, Square, Loader2 } from 'lucide-react';
 import { UserAccount } from '../types';
-import brandLogo from '../assets/images/app_icon_lotus_1787334709504.jpg';
+import brandLogo from '../assets/images/cura_integrada_sacred_emblem_1787104270641.jpg';
 
 const today = new Date().toISOString().slice(0, 10);
 
@@ -307,7 +307,7 @@ export default function ProfileSetup({ onComplete }: ProfileSetupProps) {
         <div className="text-center space-y-2">
           <div className="w-24 h-24 sm:w-28 sm:h-28 rounded-full overflow-hidden border-[2px] border-indigo-500/40 shadow-[0_0_25px_rgba(99,102,241,0.25)] mx-auto mb-4 bg-slate-900 flex items-center justify-center relative group">
             <div className="absolute inset-0 bg-indigo-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10 pointer-events-none"></div>
-            <img src={brandLogo} alt="Símbolo de lótus do Protocolo Éverton Piceni" className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />
+            <img src={brandLogo} alt="Everton Piceni — Terapias Holísticas e Bem-Estar" className="ep-brand-signature w-full h-full object-cover transition-opacity duration-700" />
           </div>
           <span className="text-xs font-mono tracking-widest text-[#e5c66f] uppercase font-semibold">Terapias Holísticas e Bem-Estar</span>
           <h1 className="text-xl md:text-2xl font-display font-medium text-slate-100 leading-tight">
