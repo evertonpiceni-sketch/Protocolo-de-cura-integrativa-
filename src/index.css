@@ -99,6 +99,9 @@ input::placeholder,textarea::placeholder{color:#7f9d8b!important}
 [class*="bg-indigo-600"],[class*="bg-indigo-500"]{background:linear-gradient(135deg,#d9b85f,#ae8030)!important;color:#173d31!important}
 [class*="text-indigo-400"],[class*="text-indigo-300"]{color:#e4c56f!important}
 [class*="border-indigo-500"],[class*="border-indigo-400"]{border-color:rgba(214,174,82,.36)!important}
+[class*="bg-purple-"],[class*="bg-fuchsia-"],[class*="bg-violet-"]{background-color:rgba(5,42,30,.9)!important}
+[class*="border-purple-"],[class*="border-fuchsia-"],[class*="border-violet-"]{border-color:rgba(214,174,82,.24)!important}
+[class*="text-purple-"],[class*="text-fuchsia-"],[class*="text-violet-"]{color:#e4c56f!important}
 
 #cura-main-layout{
  background:
