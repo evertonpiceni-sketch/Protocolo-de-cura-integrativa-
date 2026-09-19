@@ -9,10 +9,11 @@ import {
   ShieldAlert, KeyRound, Plus, Trash2, CheckCircle2,
   UploadCloud, Music, Tag, Users, Play, Pause, Save,
   X, Lock, Unlock, Eye, Sparkles, FileAudio, RefreshCw,
-  MessageSquare, Copy, Check, Award, Activity, Heart, Brain, Download
+  MessageSquare, Copy, Check, Award, Activity, Heart, Brain, Download, Video
 } from 'lucide-react';
 import { audioEngine } from '../lib/audio';
 import { evaluateBestTreatmentFromAnamnesis } from '../lib/anamnesisTreatmentEngine';
+import VideoStudioModal from './VideoStudioModal';
 
 interface CustomAudioItem {
   id: string;
@@ -48,6 +49,7 @@ export default function AdminPanelModal({ isOpen, onClose }: AdminPanelModalProp
 
   // Tabs inside admin panel
   const [activeTab, setActiveTab] = useState<'audios' | 'coupons' | 'users'>('audios');
+  const [showVideoStudio, setShowVideoStudio] = useState(false);
 
   // Custom Audio State
   const [customAudios, setCustomAudios] = useState<CustomAudioItem[]>([]);
@@ -307,6 +309,15 @@ export default function AdminPanelModal({ isOpen, onClose }: AdminPanelModalProp
               >
                 <Users size={14} />
                 <span>Consulentes & Anamneses ({allAccounts.length})</span>
+              </button>
+
+              <button
+                type="button"
+                onClick={() => setShowVideoStudio(true)}
+                className="px-4 py-2 rounded-xl text-xs font-mono font-semibold flex items-center gap-2 transition cursor-pointer border bg-[#d6ae52]/15 border-[#d6ae52]/40 text-[#e8d38f] hover:bg-[#d6ae52]/25 shadow-sm"
+              >
+                <Video size={14} />
+                <span>Estúdio de Vídeos & Vinhetas</span>
               </button>
             </div>
 
@@ -729,6 +740,14 @@ export default function AdminPanelModal({ isOpen, onClose }: AdminPanelModalProp
           </div>
         )}
       </motion.div>
+
+      {/* Estúdio de Criação de Vídeos & Vinhetas */}
+      {showVideoStudio && (
+        <VideoStudioModal
+          isOpen={showVideoStudio}
+          onClose={() => setShowVideoStudio(false)}
+        />
+      )}
     </div>
   );
 }

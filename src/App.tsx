@@ -4,7 +4,7 @@
  */
 
 import React, { useState, useEffect, useRef } from 'react';
-import { Sparkles, Calendar, BookOpen, Volume2, VolumeX, User, RefreshCw, Compass, Heart, Award, Info, X, Play, Clock, Smile, LogOut, Crown, Star, Check, Mic, Sliders, Activity, FileText, Globe, MessageCircle, Phone, Smartphone, Download, Leaf, Bell, Headphones } from 'lucide-react';
+import { Sparkles, Calendar, BookOpen, Volume2, VolumeX, User, RefreshCw, Compass, Heart, Award, Info, X, Play, Clock, Smile, LogOut, Crown, Star, Check, Mic, Sliders, Activity, FileText, Globe, MessageCircle, Phone, Smartphone, Download, Leaf, Bell, Headphones, Video } from 'lucide-react';
 import { DayProgress, UserProfile, UserAccount, DAILY_INSIGHTS, JOURNEY_7D_INSIGHTS, PROTOCOL_STAGES, AnamnesisData, SpecificTreatment, SessionCheckIn, JourneyType } from './types';
 import ProfileSetup from './components/ProfileSetup';
 import MeditationSession from './components/MeditationSession';
@@ -34,6 +34,7 @@ import PromoVideoModal from './components/PromoVideoModal';
 import MilestoneCelebrationModal from './components/MilestoneCelebrationModal';
 import DailyTipModal from './components/DailyTipModal';
 import PersonalJourney21 from './components/PersonalJourney21';
+import VideoStudioModal from './components/VideoStudioModal';
 
 import { SpeedInsights } from '@vercel/speed-insights/react';
 import DashboardCura from './components/DashboardCura';
@@ -136,6 +137,7 @@ export default function App() {
   const [showAudioSettingsModal, setShowAudioSettingsModal] = useState<boolean>(false);
   const [showCoursesModal, setShowCoursesModal] = useState<boolean>(false);
   const [showAdminModal, setShowAdminModal] = useState<boolean>(false);
+  const [showVideoStudioModal, setShowVideoStudioModal] = useState<boolean>(false);
   const [showAchievementsModal, setShowAchievementsModal] = useState<boolean>(false);
   const [showSystemicQuestionsModal, setShowSystemicQuestionsModal] = useState<boolean>(false);
   const [systemicModalDay, setSystemicModalDay] = useState<number>(1);
@@ -1478,6 +1480,21 @@ export default function App() {
                     </span>
                     <span className="text-[10px] text-amber-400 font-mono">Login Admin</span>
                   </button>
+
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setShowSettings(false);
+                      setShowVideoStudioModal(true);
+                    }}
+                    className="p-3 bg-[#052a1e]/70 hover:bg-[#052a1e] border border-[#d6ae52]/30 rounded-xl text-left flex items-center justify-between text-xs text-[#e8d38f] font-semibold cursor-pointer transition"
+                  >
+                    <span className="flex items-center gap-2">
+                      <Video size={14} className="text-[#d6ae52]" />
+                      <span>Estúdio de Vídeos & Vinhetas</span>
+                    </span>
+                    <span className="text-[10px] text-[#d6ae52] font-mono">Exportar HD</span>
+                  </button>
                 </div>
               </div>
 
@@ -1615,6 +1632,18 @@ export default function App() {
             <Heart size={14} className="text-teal-400 shrink-0" />
             <span className="hidden sm:inline">Ho'oponopono</span>
             <span className="sm:hidden">Ho'oponopono</span>
+          </button>
+
+          {/* Estúdio de Vídeos & Vinhetas */}
+          <button
+            onClick={() => setShowVideoStudioModal(true)}
+            className="px-2.5 sm:px-3 py-2 rounded-xl text-xs font-semibold flex items-center gap-1.5 transition cursor-pointer shrink-0 bg-[#052a1e]/90 hover:bg-[#052a1e] border border-[#d6ae52]/50 text-[#e8d38f] shadow-md shadow-[#d6ae52]/10"
+            title="Estúdio de Vídeos & Vinhetas de Meditação (Áudio e Imagem)"
+            id="bottom-btn-video-studio"
+          >
+            <Video size={14} className="text-[#d6ae52] shrink-0" />
+            <span className="font-sans font-bold">Estúdio de Vinhetas</span>
+            <span className="hidden sm:inline font-mono text-[10px] bg-[#d6ae52]/20 px-1.5 py-0.5 rounded text-[#e8d38f]">HD</span>
           </button>
 
           {/* Mapa Astral */}
@@ -2128,6 +2157,14 @@ export default function App() {
         <AdminPanelModal
           isOpen={showAdminModal}
           onClose={() => setShowAdminModal(false)}
+        />
+      )}
+
+      {/* Estúdio de Criação de Vídeos e Vinhetas */}
+      {showVideoStudioModal && (
+        <VideoStudioModal
+          isOpen={showVideoStudioModal}
+          onClose={() => setShowVideoStudioModal(false)}
         />
       )}
 

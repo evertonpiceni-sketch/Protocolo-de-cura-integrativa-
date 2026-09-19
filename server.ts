@@ -2,6 +2,7 @@ import dotenv from "dotenv";
 dotenv.config({ override: true });
 import express from "express";
 import path from "path";
+import fs from "fs";
 import { GoogleGenAI } from "@google/genai";
 import { ElevenLabsClient } from "elevenlabs";
 import jwt from "jsonwebtoken";
@@ -76,10 +77,18 @@ async function startServer() {
   const PORT = 3000;
 
   if (process.env.VERCEL !== "1") {
-    if (process.env.NODE_ENV === "production") {
-      const distPath = path.join(process.cwd(), "dist");
+    const distPath = path.join(process.cwd(), "dist");
+    const indexHtmlPath = path.join(distPath, "index.html");
+    if (fs.existsSync(indexHtmlPath)) {
       app.use(express.static(distPath));
-      app.get("*", (_req, res) => res.sendFile(path.join(distPath, "index.html")));
+      app.get("*", (_req, res) => res.sendFile(indexHtmlPath));
+    } else {
+      const viteModule = await import("vite");
+      const devServer = await viteModule.createServer({
+        server: { middlewareMode: true },
+        appType: "spa",
+      });
+      app.use(devServer.middlewares);
     }
 
     app.use((err: any, _req: any, res: any, _next: any) => {
