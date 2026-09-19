@@ -1,0 +1,65 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 420 920" role="img" aria-labelledby="title desc">
+  <title id="title">Corpo humano neutro</title>
+  <desc id="desc">Silhueta humana vertical, neutra e não sexualizada para a jornada Reintegração da Vida.</desc>
+  <defs>
+    <linearGradient id="body" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#f3f0e6" stop-opacity=".88"/>
+      <stop offset=".45" stop-color="#dfe7df" stop-opacity=".74"/>
+      <stop offset="1" stop-color="#b8c7bd" stop-opacity=".62"/>
+    </linearGradient>
+    <filter id="softGlow" x="-40%" y="-20%" width="180%" height="160%">
+      <feGaussianBlur stdDeviation="8" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+  <g fill="url(#body)" filter="url(#softGlow)" stroke="#fff7df" stroke-opacity=".24" stroke-width="2">
+    <ellipse cx="210" cy="105" rx="49" ry="58"/>
+    <path d="M168 167
+      C151 202 145 248 151 304
+      L160 425
+      C163 471 156 523 148 579
+      L129 813
+      C127 837 142 852 158 849
+      C174 846 182 831 184 809
+      L199 589
+      L221 589
+      L236 809
+      C238 831 246 846 262 849
+      C278 852 293 837 291 813
+      L272 579
+      C264 523 257 471 260 425
+      L269 304
+      C275 248 269 202 252 167
+      C239 179 225 184 210 184
+      C195 184 181 179 168 167Z"/>
+    <path d="M157 222
+      C130 245 111 290 96 344
+      L61 552
+      C57 574 69 588 84 586
+      C98 584 105 570 109 551
+      L153 352
+      L173 263Z"/>
+    <path d="M263 222
+      C290 245 309 290 324 344
+      L359 552
+      C363 574 351 588 336 586
+      C322 584 315 570 311 551
+      L267 352
+      L247 263Z"/>
+    <path d="M148 579
+      C143 621 139 661 136 701
+      L115 850
+      C112 873 126 886 141 883
+      C155 880 161 866 164 847
+      L194 648
+      L199 589Z"/>
+    <path d="M272 579
+      C277 621 281 661 284 701
+      L305 850
+      C308 873 294 886 279 883
+      C265 880 259 866 256 847
+      L226 648
+      L221 589Z"/>
+  </g>
+  <line x1="210" y1="166" x2="210" y2="845" stroke="#f5dc91" stroke-opacity=".16" stroke-width="1.5" stroke-dasharray="6 12"/>
+</svg>

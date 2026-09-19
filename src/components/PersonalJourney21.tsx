@@ -7,7 +7,23 @@ import { audioEngine } from '../lib/audio';
 type Props = { onClose: () => void };
 const STORAGE_KEY = 'transformacao_jornada_pessoal_21_dias_v1';
 const REINTEGRATION_MUSIC_URL = 'https://7bhxppl2irhgbptb.public.blob.vercel-storage.com/REINTEGRA%C3%87%C3%83O%20%C3%80%20VIDA.mp3';
-const CHAKRAS = [['#a855f7','22%'],['#6366f1','31%'],['#38bdf8','40%'],['#22c55e','50%'],['#eab308','60%'],['#f97316','69%'],['#ef4444','78%']] as const;
+const CHAKRAS = [
+  { key:'crown', color:'#a855f7', top:'17%', terms:['coronário','coroa','celestial'] },
+  { key:'third-eye', color:'#6366f1', top:'25%', terms:['frontal','terceiro olho'] },
+  { key:'throat', color:'#38bdf8', top:'33%', terms:['laríngeo','garganta'] },
+  { key:'heart', color:'#22c55e', top:'44%', terms:['cardíaco','coração'] },
+  { key:'solar', color:'#eab308', top:'54%', terms:['plexo solar'] },
+  { key:'sacral', color:'#f97316', top:'64%', terms:['sacral'] },
+  { key:'root', color:'#ef4444', top:'74%', terms:['básico','base do corpo','raiz'] },
+] as const;
+const VISUAL_STAGES = [
+  { title:'1. Estado inicial', text:'Você chega como está.', intensity:.08 },
+  { title:'2. A luz chega', text:'Você permite.', intensity:.28 },
+  { title:'3. A energia desce', text:'Você recebe.', intensity:.48 },
+  { title:'4. Enraizamento', text:'Você se sustenta.', intensity:.66 },
+  { title:'5. Integração', text:'Você se integra.', intensity:.84 },
+  { title:'6. Você volta para você', text:'Você recomeça.', intensity:1 },
+] as const;
 const MOTES = [
   { left:'18%', top:'72%', size:5, drift:-46 }, { left:'28%', top:'60%', size:3, drift:-70 },
   { left:'72%', top:'68%', size:4, drift:-54 }, { left:'82%', top:'55%', size:3, drift:-82 },
@@ -32,6 +48,8 @@ export default function PersonalJourney21({ onClose }: Props) {
     try { return JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]'); } catch { return []; }
   });
   const item = REINTEGRATION_DAYS[day - 1];
+  const focusText = item.energyNotes.map(note => note.focus).join(' ').toLowerCase();
+  const focusedChakras = CHAKRAS.filter(chakra => chakra.terms.some(term => focusText.includes(term)));
   const elapsedSeconds = musicRef.current?.currentTime || 0;
   const totalSeconds = musicRef.current?.duration || 1797;
   const visualLife = Math.max(0, Math.min(1, audioProgress / 100));
@@ -183,12 +201,31 @@ export default function PersonalJourney21({ onClose }: Props) {
         <div className="space-y-5 p-5 text-[#fff8e7] sm:p-6">
           <div className="grid grid-cols-7 gap-2">{REINTEGRATION_DAYS.map(entry => <button key={entry.day} onClick={() => setDay(entry.day)} aria-label={`Abrir dia ${entry.day}`} className={`flex aspect-square items-center justify-center rounded-full border text-xs font-bold shadow-[0_8px_18px_rgba(0,0,0,.12)] ${day===entry.day?'border-[#efd78f] bg-gradient-to-br from-[#d9b85f] to-[#a8782a] text-[#173f35]':completed.includes(entry.day)?'border-[#d6ae52]/55 bg-[#d6ae52]/14 text-[#efd78f]':'border-[#d6ae52]/18 bg-[#073426]/72 text-[#b9cdbf]'}`}>{completed.includes(entry.day)?<Check size={14}/>:entry.day}</button>)}</div>
           <article className="ep-reintegration-card rounded-3xl p-5"><p className="text-xs uppercase tracking-[.16em] text-[#d9bd69]">Intenção do dia</p><p className="mt-2 text-base leading-7 text-[#e7eee5]">{item.intention}</p></article>
-          <section className="relative overflow-hidden rounded-[2rem] border border-[#d6ae52]/40 bg-[#173f35] shadow-inner"><div className="relative h-[500px] overflow-hidden">
-            <img src="/brand/chakra-body.svg" alt="Corpo inteiro em meditação com os sete chakras" className="ep-neutral-body absolute inset-0 h-full w-full object-contain object-center transition-all duration-[2500ms]" style={{filter:`brightness(${.48+sessionLight*.72}) saturate(${.55+sessionLight*.55})`,transform:`scale(${.98+sessionLight*.035})`}}/><div className="absolute inset-0 bg-gradient-to-t from-[#173f35] via-transparent to-[#173f35]/25"/><div className={`absolute left-1/2 top-[9%] h-28 w-28 -translate-x-1/2 rounded-full bg-[#ffe39a]/70 blur-2xl transition-all duration-[2500ms] ${playing?'animate-pulse':''}`} style={{opacity:.25+visualLife*.7,transform:`translateX(-50%) scale(${.75+visualLife*.75})`}}/>
-            {CHAKRAS.map(([color, top],index) => { const threshold=index/7; const glow=Math.max(0,Math.min(1,(visualLife-threshold)*7)); return <span key={color} className={`absolute left-1/2 h-5 w-5 -translate-x-1/2 rounded-full border border-white/70 transition-all duration-[1800ms] ${playing&&glow>.15?'animate-pulse':''}`} style={{top,backgroundColor:color,opacity:.25+glow*.75,transform:`translateX(-50%) scale(${.75+glow*.45})`,boxShadow:`0 0 ${8+glow*28}px ${2+glow*10}px ${color}`}}/>; })}
-            <div className="absolute inset-x-4 bottom-4 rounded-2xl border border-[#d6ae52]/28 bg-[#031b13]/76 p-4 text-center shadow-[0_12px_34px_rgba(0,0,0,.26)] backdrop-blur-xl"><p className="text-xs font-semibold uppercase tracking-[.18em] text-[#d9bd69]">{playing?'Meditação guiada em andamento':'Sua meditação guiada'}</p><p className="mt-2 text-sm text-[#d7e4db]">{playing?'Respire. Permaneça aqui. A luz acompanha o seu momento.':'Voz feminina, música e uma experiência visual de presença.'}</p><div className="mt-3 h-2 overflow-hidden rounded-full bg-black/30"><div className="h-full rounded-full bg-gradient-to-r from-[#b78d32] to-[#f0d98d] transition-all" style={{width:`${audioProgress}%`}}/></div></div>
-          </div></section>
-          <label className="ep-reintegration-card flex cursor-pointer items-start gap-3 rounded-3xl p-5"><input type="checkbox" checked={accepted} onChange={e=>setAccepted(e.target.checked)} className="mt-1 h-5 w-5 accent-[#d6ae52]"/><span className="text-sm leading-6 text-[#d7e4db]">{REINTEGRATION_ACCEPTANCE}</span></label>
+          <section className="ep-reintegration-visual-sequence overflow-hidden rounded-[2rem] border border-[#d6ae52]/30 bg-[#031b13]/72 p-4 shadow-[0_18px_48px_rgba(0,0,0,.28)]">
+            <div className="mb-4 text-center">
+              <p className="text-xs font-semibold uppercase tracking-[.18em] text-[#d9bd69]">Evolução visual da prática</p>
+              <p className="mt-2 text-sm text-[#d7e4db]">A luz acompanha o seu momento sem pressa.</p>
+            </div>
+            <div className="flex snap-x snap-mandatory gap-3 overflow-x-auto pb-3">
+              {VISUAL_STAGES.map((stage,index) => {
+                const stageActive = audioProgress <= 0 ? index === 0 : index <= Math.min(5,Math.floor((audioProgress/100)*6));
+                const glow = Math.min(1, stage.intensity * (.55 + sessionLight * .75));
+                return <article key={stage.title} className="relative min-w-[72%] snap-center overflow-hidden rounded-[1.45rem] border border-[#d6ae52]/18 bg-[linear-gradient(180deg,rgba(7,52,38,.78),rgba(2,23,17,.94))] p-4 sm:min-w-[42%]">
+                  <p className="text-xs font-semibold uppercase tracking-[.12em] text-[#efd78f]">{stage.title}</p>
+                  <div className="relative mt-3 h-72 overflow-hidden rounded-2xl bg-[radial-gradient(circle_at_50%_28%,rgba(239,215,143,.08),transparent_42%),linear-gradient(180deg,rgba(14,67,47,.28),rgba(2,20,14,.72))]">
+                    <img src="/brand/neutral-body.svg" alt="Corpo humano neutro em progressão de luz" className="absolute inset-0 h-full w-full object-contain transition-all duration-[1800ms]" style={{opacity:.52+glow*.45,filter:`brightness(${.62+glow*.72}) sepia(${glow*.15}) drop-shadow(0 0 ${8+glow*24}px rgba(242,207,108,${.08+glow*.22}))`,transform:`scale(${.94+glow*.04})`}}/>
+                    <div className="absolute inset-x-[18%] top-[7%] h-[72%] rounded-full bg-[#f2cf6c] blur-3xl transition-opacity duration-[1800ms]" style={{opacity:index===0?.02:.03+glow*.11}}/>
+                    {focusedChakras.map(chakra => <span key={chakra.key} className="absolute left-1/2 h-4 w-4 -translate-x-1/2 rounded-full border border-white/60 transition-all duration-[1800ms]" style={{top:chakra.top,backgroundColor:chakra.color,opacity:index===0?.06:.10+glow*.78,transform:`translateX(-50%) scale(${.72+glow*.48})`,boxShadow:`0 0 ${6+glow*22}px ${1+glow*7}px ${chakra.color}`}}/>)}
+                    {index>=3 && <div className="absolute bottom-[6%] left-1/2 h-16 w-40 -translate-x-1/2 bg-[radial-gradient(ellipse_at_center,rgba(239,68,68,.24),rgba(214,174,82,.08)_42%,transparent_72%)] blur-xl" style={{opacity:.25+glow*.55}}/>}
+                  </div>
+                  <p className="mt-3 text-sm font-medium text-[#fff8e7]">{stage.text}</p>
+                  <div className="mt-3 h-1 overflow-hidden rounded-full bg-black/25"><div className="h-full rounded-full bg-gradient-to-r from-[#a8782a] to-[#efd78f] transition-all" style={{width:stageActive?'100%':'0%'}}/></div>
+                </article>;
+              })}
+            </div>
+            <div className="mt-2 h-2 overflow-hidden rounded-full bg-black/30"><div className="h-full rounded-full bg-gradient-to-r from-[#b78d32] to-[#f0d98d] transition-all" style={{width:`${audioProgress}%`}}/></div>
+          </section>
+                    <label className="ep-reintegration-card flex cursor-pointer items-start gap-3 rounded-3xl p-5"><input type="checkbox" checked={accepted} onChange={e=>setAccepted(e.target.checked)} className="mt-1 h-5 w-5 accent-[#d6ae52]"/><span className="text-sm leading-6 text-[#d7e4db]">{REINTEGRATION_ACCEPTANCE}</span></label>
           <button disabled={!accepted} onClick={startGuidedMeditation} className="ep-gold-button flex w-full items-center justify-center gap-3 rounded-2xl px-5 py-4 font-bold disabled:opacity-40">{playing?<Pause size={20}/>:started?<Play size={20}/>:<Headphones size={20}/>} {playing?'Pausar meditação':started?'Continuar meditação':'Iniciar meditação guiada'}</button>
           <article className="ep-reintegration-card rounded-3xl p-5">
             <p className="text-xs uppercase tracking-[.16em] text-[#d9bd69]">Energias trabalhadas nesta etapa</p>
@@ -201,10 +238,10 @@ export default function PersonalJourney21({ onClose }: Props) {
       </section>
     </main>
     {started && <section className="fixed inset-0 z-[120] flex min-h-[100dvh] flex-col overflow-hidden bg-[#061b14] text-[#fffaf0]" aria-label="Meditação guiada em andamento">
-      <img src="/brand/chakra-body.svg" alt="Corpo em meditação com os sete chakras" className="ep-neutral-body absolute inset-0 h-full w-full object-contain object-center transition-all duration-[3000ms]" style={{filter:`brightness(${.46+sessionLight*.78}) saturate(${.52+sessionLight*.62})`,transform:`scale(${.99+sessionLight*.045})`}}/><div className="absolute inset-0 bg-gradient-to-b from-[#03130d]/75 via-transparent to-[#03130d]/95"/><div className={`pointer-events-none absolute left-1/2 top-[8%] h-40 w-40 -translate-x-1/2 rounded-full bg-[#ffe39a]/70 blur-3xl transition-all duration-[3000ms] ${playing?'animate-pulse':''}`} style={{opacity:.18+visualLife*.78,transform:`translateX(-50%) scale(${.7+visualLife*1.05})`}}/>
+      <img src="/brand/neutral-body.svg" alt="Corpo humano neutro em meditação" className="ep-neutral-body absolute inset-0 h-full w-full object-contain object-center transition-all duration-[3000ms]" style={{filter:`brightness(${.46+sessionLight*.78}) saturate(${.52+sessionLight*.62})`,transform:`scale(${.99+sessionLight*.045})`}}/><div className="absolute inset-0 bg-gradient-to-b from-[#03130d]/75 via-transparent to-[#03130d]/95"/><div className={`pointer-events-none absolute left-1/2 top-[8%] h-40 w-40 -translate-x-1/2 rounded-full bg-[#ffe39a]/70 blur-3xl transition-all duration-[3000ms] ${playing?'animate-pulse':''}`} style={{opacity:.18+visualLife*.78,transform:`translateX(-50%) scale(${.7+visualLife*1.05})`}}/>
       {MOTES.map((m,index)=><span key={index} className={`pointer-events-none absolute rounded-full bg-[#ffe9a8] blur-[1px] transition-all duration-[3000ms] ${playing?'animate-pulse':''}`} style={{left:m.left,top:m.top,width:m.size,height:m.size,opacity:.08+visualLife*.48,transform:`translateY(${m.drift*visualLife}px) scale(${.7+visualLife*.7})`,boxShadow:'0 0 12px 4px rgba(255,225,145,.35)'}}/>)}
       <button onClick={()=>{stopSession();setStarted(false);}} className="absolute right-4 top-[max(1rem,env(safe-area-inset-top))] z-20 rounded-full border border-white/30 bg-black/35 p-3 backdrop-blur-md" aria-label="Fechar meditação"><X size={22}/></button>
-      <div className="relative z-10 flex flex-1 items-center justify-center"><div className={`absolute h-[72vw] max-h-[430px] w-[72vw] max-w-[430px] rounded-full border border-[#f2cf6c]/35 transition-all duration-[2500ms] ${playing?'animate-pulse':''}`} style={{opacity:.18+visualLife*.5,transform:`scale(${.82+visualLife*.22})`,boxShadow:`0 0 ${30+visualLife*110}px rgba(242,207,108,${.1+visualLife*.3})`}}/>{CHAKRAS.map(([color,top],index)=>{const threshold=index/7;const glow=Math.max(0,Math.min(1,(visualLife-threshold)*7));return <span key={color} className={`absolute left-1/2 h-7 w-7 -translate-x-1/2 rounded-full border border-white/80 transition-all duration-[2200ms] ${playing&&glow>.15?'animate-pulse':''}`} style={{top,backgroundColor:color,opacity:.2+glow*.8,transform:`translateX(-50%) scale(${.72+glow*.5})`,boxShadow:`0 0 ${8+glow*36}px ${2+glow*14}px ${color}`}}/>;})}</div>
+      <div className="relative z-10 flex flex-1 items-center justify-center"><div className={`absolute h-[72vw] max-h-[430px] w-[72vw] max-w-[430px] rounded-full border border-[#f2cf6c]/35 transition-all duration-[2500ms] ${playing?'animate-pulse':''}`} style={{opacity:.18+visualLife*.5,transform:`scale(${.82+visualLife*.22})`,boxShadow:`0 0 ${30+visualLife*110}px rgba(242,207,108,${.1+visualLife*.3})`}}/>{focusedChakras.map((chakra,index)=>{const threshold=index/Math.max(1,focusedChakras.length);const glow=Math.max(0,Math.min(1,(visualLife-threshold)*Math.max(1,focusedChakras.length)));return <span key={chakra.key} className={`absolute left-1/2 h-7 w-7 -translate-x-1/2 rounded-full border border-white/80 transition-all duration-[2200ms] ${playing&&glow>.15?'animate-pulse':''}`} style={{top:chakra.top,backgroundColor:chakra.color,opacity:.08+glow*.9,transform:`translateX(-50%) scale(${.72+glow*.5})`,boxShadow:`0 0 ${8+glow*36}px ${2+glow*14}px ${chakra.color}`}}/>;})}</div>
       <div className="relative z-10 space-y-4 bg-gradient-to-t from-[#03130d] via-[#03130d]/95 to-transparent px-6 pb-[max(1.5rem,env(safe-area-inset-bottom))] pt-12 text-center"><p className="text-xs font-semibold uppercase tracking-[.22em] text-[#ead28d]">Dia {day} · {item.title}</p><p className="font-display text-2xl">{playing?(elapsedSeconds>=1260&&elapsedSeconds<1620?'Absorção e silêncio':'Permaneça neste momento'):audioProgress>=100?'Meditação concluída':'Meditação pausada'}</p><p className="mx-auto max-w-md text-base leading-7 text-[#eef4eb]">{reflectionText}</p><p className="text-xs text-[#b9cdbf]">{elapsedSeconds>=1260&&elapsedSeconds<1620?'Apenas a música permanece enquanto você integra a experiência.':'Permaneça com esta reflexão até a próxima condução da voz.'}</p>
         <div className="mx-auto max-w-md"><div className="h-2 overflow-hidden rounded-full bg-white/20"><div className="h-full rounded-full bg-[#e5c568] transition-all duration-500" style={{width:`${audioProgress}%`}}/></div><div className="mt-2 flex justify-between text-xs text-white/70"><span>{formatTime(elapsedSeconds)}</span><span>{formatTime(totalSeconds)}</span></div></div>
         <div className="flex items-center justify-center gap-3"><button onClick={rewindMeditation} className="flex items-center justify-center gap-2 rounded-full border border-white/30 bg-white/10 px-4 py-4 text-sm font-semibold" aria-label="Voltar 15 segundos"><RotateCcw size={20}/>15s</button><button onClick={startGuidedMeditation} className="flex min-w-48 items-center justify-center gap-3 rounded-full bg-[#e5c568] px-6 py-4 font-bold text-[#173f35]">{playing?<Pause size={21}/>:<Play size={21}/>} {playing?'Pausar':audioProgress>=100?'Ouvir novamente':'Continuar'}</button></div>
