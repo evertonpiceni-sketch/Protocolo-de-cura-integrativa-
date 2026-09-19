@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { ArrowLeft, Check, ChevronLeft, ChevronRight, Headphones, Pause, Play, RotateCcw, ShieldCheck, X } from 'lucide-react';
 import { REINTEGRATION_DAYS, REINTEGRATION_ACCEPTANCE } from '../data/reintegrationJourneyPublic';
 import brandLogo from '../assets/images/cura_integrada_sacred_emblem_1787104270641.jpg';
+import { audioEngine } from '../lib/audio';
 
 type Props = { onClose: () => void };
 const STORAGE_KEY = 'transformacao_jornada_pessoal_21_dias_v1';
@@ -101,7 +102,12 @@ export default function PersonalJourney21({ onClose }: Props) {
     }
   };
 
-  useEffect(() => () => stopSession(), []);
+  useEffect(() => {
+    // This journey has its own soundtrack and voice. Silence any global audio while it is open.
+    audioEngine.stopSpeech();
+    audioEngine.stopBG();
+    return () => stopSession();
+  }, []);
   useEffect(() => {
     stopSession(); setAccepted(false); setStarted(false); setAudioProgress(0);
     lastCueRef.current = -1; cuePendingRef.current = false;
@@ -134,6 +140,9 @@ export default function PersonalJourney21({ onClose }: Props) {
 
   const startGuidedMeditation = async () => {
     if (!accepted) return;
+    // Defensive guard against global audio being reactivated by the same click/touch gesture.
+    audioEngine.stopSpeech();
+    audioEngine.stopBG();
     if (playing) { voiceRef.current?.pause(); musicRef.current?.pause(); playingRef.current = false; setPlaying(false); return; }
     if (started && audioProgress > 0 && audioProgress < 99) {
       playingRef.current = true; setPlaying(true);
