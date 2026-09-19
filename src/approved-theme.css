@@ -54,10 +54,6 @@ body::before{
     url('/brand/forest-app-background.png') center top/cover fixed!important;
 }
 
-#cura-main-layout>div:first-child{
-  background:radial-gradient(circle at 50% 0,rgba(232,211,143,.08),transparent 28rem)!important;
-}
-
 #main-header{
   background:linear-gradient(180deg,rgba(5,42,30,.96),rgba(3,27,19,.98))!important;
   color:var(--approved-ivory)!important;
@@ -229,7 +225,9 @@ body::before{
     radial-gradient(ellipse at 110% 32%,rgba(22,91,60,.10),transparent 23%),
     linear-gradient(90deg,rgba(214,174,82,.018),transparent 15%,transparent 85%,rgba(214,174,82,.018))!important;
 }
-#cura-main-layout>*,
+#cura-main-layout>main,
+#cura-main-layout>footer,
+#cura-main-layout>aside,
 #profile-setup-view>*{position:relative;z-index:1}
 
 /* Reintegração da Vida keeps progressive light over a deep base. */

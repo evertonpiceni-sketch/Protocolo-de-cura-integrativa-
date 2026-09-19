@@ -695,12 +695,9 @@ export default function App() {
           }}
         />
       ) : (
-        <div className="min-h-screen bg-slate-950 text-slate-100 flex flex-col justify-between font-sans selection:bg-indigo-500/30 selection:text-indigo-200" id="cura-main-layout">
-      {/* Dynamic atmospheric radial flares */}
-      <div className="absolute top-0 left-0 right-0 h-96 bg-[radial-gradient(circle_at_50%_-20%,rgba(99,102,241,0.08)_0,transparent_60%)] pointer-events-none" />
-
-      {/* Main Navbar */}
-      <header className="bg-slate-900/80 backdrop-blur-md border-b border-slate-800/80 sticky top-0 z-30 px-3 sm:px-4 py-3" id="main-header">
+        <div className="min-h-screen bg-slate-950 text-slate-100 flex flex-col font-sans selection:bg-indigo-500/30 selection:text-indigo-200 relative" id="cura-main-layout">
+          {/* Main Navbar */}
+          <header className="bg-slate-900/80 backdrop-blur-md border-b border-slate-800/80 sticky top-0 z-30 px-3 sm:px-4 py-3" id="main-header">
         <div className="max-w-5xl mx-auto flex items-center justify-between gap-2 sm:gap-4">
           <div className="flex items-center gap-2 sm:gap-2.5 min-w-0">
             <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-full overflow-hidden border-[1.5px] border-indigo-500/40 shadow-[0_0_12px_rgba(99,102,241,0.25)] shrink-0 bg-slate-900 flex items-center justify-center">

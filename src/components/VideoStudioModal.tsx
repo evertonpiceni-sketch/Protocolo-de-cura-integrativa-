@@ -1,753 +1,796 @@
 /**
  * @license
  * SPDX-License-Identifier: Apache-2.0
+ * 
+ * Estúdio de Vídeos do Admin — Reintegração da Vida: 21 Dias para Voltar para Mim
+ * Idealizado por Éverton Piceni — Terapias Holísticas e Bem-Estar (@terapiamorevida)
+ * 
+ * Diretrizes estritas do Briefing Fechado:
+ * - A arte do dia é a referência visual definitiva; animar o que já existe sem redesenhar.
+ * - Corpo neutro universal vivo (respiração realista, tórax/abdômen, ombros relaxando, microajustes).
+ * - Sem círculos ou símbolos de chakras — obedece às regiões corporais do dia.
+ * - Logo oficial Everton Piceni discreto, transparente, baixa opacidade (assinatura visual).
+ * - Câmera quase parada (push-in ultralento cinematográfico).
+ * - Duração-base de 8 a 12 segundos para looping suave.
+ * - Regra de código: reprovação automática se violar corpo, textos, logo ou composição.
  */
 
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import {
   Video, Play, Pause, Download, Volume2, VolumeX, Sparkles, X,
-  Layers, Radio, RefreshCw, Eye, CheckCircle2, Sliders, Shield, Heart,
-  Flame, Leaf, Crown, Share2, Upload, Music
+  RefreshCw, CheckCircle2, AlertTriangle, ShieldCheck, Upload,
+  Eye, Check, Film, FileCheck, Layers, Info, RotateCcw,
+  Sliders, Lock, Compass, ChevronLeft, ChevronRight
 } from 'lucide-react';
+import {
+  StudioDayRecord,
+  ValidationReport,
+  INITIAL_STUDIO_21_DAYS,
+  OFFICIAL_NEGATIVE_PROMPT,
+  STUDIO_STORAGE_KEY_DAYS,
+  validateStudioGeneration
+} from '../data/reintegrationStudioData';
 
 interface VideoStudioModalProps {
   isOpen: boolean;
   onClose: () => void;
+  initialDay?: number;
 }
 
 type AspectRatio = '9:16' | '16:9' | '1:1';
-type VisualSourceType = 'presenca-reintegracao' | 'human-chakra' | 'custom';
 
-interface PresetVideoTheme {
-  id: string;
-  name: string;
-  category: string;
-  visualSource: VisualSourceType;
-  chakraIndex: number; // 0 for all, 1 to 7
-  title: string;
-  subtitle: string;
-  affirmation: string;
-  frequencyHz: number;
-  freqLabel: string;
-  durationSeconds: number;
-  lightMode: 'heart-pulse' | 'all-chakras-ascend' | 'violet-flame' | 'golden-shield';
-  bgTrack: 'forest' | 'silence' | 'rain';
-}
+export default function VideoStudioModal({ isOpen, onClose, initialDay = 1 }: VideoStudioModalProps) {
+  // 21 Days Collection State
+  const [days, setDays] = useState<StudioDayRecord[]>(() => {
+    try {
+      const saved = localStorage.getItem(STUDIO_STORAGE_KEY_DAYS);
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        if (Array.isArray(parsed) && parsed.length === 21) {
+          // Upgrade saved entries to ensure they point to the 21 official day artworks and possess all stages
+          return INITIAL_STUDIO_21_DAYS.map(initDay => {
+            const item = parsed.find((p: any) => p.day === initDay.day);
+            if (!item) return initDay;
+            const artUrl = (!item.artUrl || item.artUrl === '/brand/reintegracao-presenca-arte.png' || !item.artUrl.startsWith('/brand/days/'))
+              ? initDay.artUrl
+              : item.artUrl;
+            return {
+              ...initDay,
+              ...item,
+              artUrl,
+              stages: initDay.stages,
+              mainAffirmation: initDay.mainAffirmation,
+              subPhrase: initDay.subPhrase,
+            };
+          });
+        }
+      }
+    } catch (e) {
+      console.error('Failed to load saved studio days', e);
+    }
+    return INITIAL_STUDIO_21_DAYS;
+  });
 
-const PRESET_THEMES: PresetVideoTheme[] = [
-  {
-    id: 'reintegracao-presenca',
-    name: 'Vinheta 1 • Reintegração da Vida (Jornada de Presença)',
-    category: 'Arte Sagrada Oficial',
-    visualSource: 'presenca-reintegracao',
-    chakraIndex: 4, // Cardíaco / Presença
-    title: 'Reintegração da Vida',
-    subtitle: 'Jornada de Presença • Éverton Piceni',
-    affirmation: 'Eu respiro a vida. Eu acolho minha presença. Eu volto para mim.',
-    frequencyHz: 528,
-    freqLabel: '528 Hz • Frequência de Transformação & Presença',
-    durationSeconds: 20,
-    lightMode: 'heart-pulse',
-    bgTrack: 'forest',
-  },
-  {
-    id: 'voltar-para-mim',
-    name: 'Vinheta 2 • Voltar para Mim (Acolhimento)',
-    category: 'Vinheta Curta',
-    visualSource: 'presenca-reintegracao',
-    chakraIndex: 4, // Cardíaco
-    title: 'Voltar para Mim',
-    subtitle: 'Um lugar para voltar para si',
-    affirmation: 'Como você está, de verdade? Respire e volte para você.',
-    frequencyHz: 432,
-    freqLabel: '432 Hz • Paz Profunda & Presença',
-    durationSeconds: 15,
-    lightMode: 'heart-pulse',
-    bgTrack: 'forest',
-  },
-  {
-    id: 'reintegracao-21',
-    name: 'Vinheta 3 • 21 Dias para Voltar para Mim',
-    category: 'Jornada',
-    visualSource: 'human-chakra',
-    chakraIndex: 0, // Todos os chakras em ascensão
-    title: '21 Dias para Voltar para Mim',
-    subtitle: 'Reintegração da Vida • Éverton Piceni',
-    affirmation: 'Eu acolho meu momento. Eu confio no meu caminho. Eu escolho evoluir.',
-    frequencyHz: 528,
-    freqLabel: '528 Hz • Frequência de Transformação & Cura',
-    durationSeconds: 30,
-    lightMode: 'all-chakras-ascend',
-    bgTrack: 'forest',
-  },
-  {
-    id: 'protecao-sao-miguel',
-    name: 'Vinheta 4 • Proteção e Presença (São Miguel)',
-    category: 'Ancoragem',
-    visualSource: 'human-chakra',
-    chakraIndex: 5, // Laríngeo e Espada
-    title: 'Proteção & Presença',
-    subtitle: 'Raio Azul Safira • Arcanjo Miguel',
-    affirmation: 'Eu libero o que não me pertence. Eu permaneço na minha luz.',
-    frequencyHz: 741,
-    freqLabel: '741 Hz • Clareza, Limpeza & Desobstrução',
-    durationSeconds: 20,
-    lightMode: 'golden-shield',
-    bgTrack: 'forest',
-  },
-  {
-    id: 'transmutar-chama-violeta',
-    name: 'Vinheta 5 • Transmutar e Recomeçar (Chama Violeta)',
-    category: 'Transmutação',
-    visualSource: 'human-chakra',
-    chakraIndex: 6, // Frontal
-    title: 'Transmutar e Recomeçar',
-    subtitle: 'O Fogo Sagrado da Transformação',
-    affirmation: 'O passado é aprendizado. O agora é espaço. Eu me permito renascer.',
-    frequencyHz: 396,
-    freqLabel: '396 Hz • Liberação de Culpa e Medo',
-    durationSeconds: 20,
-    lightMode: 'violet-flame',
-    bgTrack: 'forest',
-  },
-  {
-    id: 'raio-de-ouro',
-    name: 'Vinheta 6 • Raio de Ouro (Arcanjo Rafael)',
-    category: 'Regeneração',
-    visualSource: 'presenca-reintegracao',
-    chakraIndex: 3, // Plexo Solar / Cardíaco
-    title: 'Raio de Ouro da Cura',
-    subtitle: 'Regeneração e Equilíbrio Sutil',
-    affirmation: 'Eu acolho meu corpo. Eu respeito meu tempo. A luz me restaura.',
-    frequencyHz: 639,
-    freqLabel: '639 Hz • Harmonia Celular e Conexão',
-    durationSeconds: 30,
-    lightMode: 'all-chakras-ascend',
-    bgTrack: 'forest',
-  },
-];
+  const [selectedDayNum, setSelectedDayNum] = useState<number>(initialDay);
+  const currentRecord = days.find(d => d.day === selectedDayNum) || days[0];
 
-const CHAKRA_COORDINATES: Record<number, { yRatio: number; color: string; secondary: string; name: string }> = {
-  1: { yRatio: 0.78, color: '#e53e3e', secondary: '#feb2b2', name: 'Básico' },
-  2: { yRatio: 0.68, color: '#dd6b20', secondary: '#fbd38d', name: 'Sacral' },
-  3: { yRatio: 0.58, color: '#d69e2e', secondary: '#faf089', name: 'Plexo Solar' },
-  4: { yRatio: 0.47, color: '#38a169', secondary: '#9ae6b4', name: 'Cardíaco' },
-  5: { yRatio: 0.36, color: '#3182ce', secondary: '#90cdf4', name: 'Laríngeo' },
-  6: { yRatio: 0.25, color: '#4c51bf', secondary: '#b794f4', name: 'Frontal' },
-  7: { yRatio: 0.15, color: '#805ad5', secondary: '#e9d8fd', name: 'Coronário' },
-};
+  // Selected stage focus (null = full continuous progression)
+  const [selectedStageStep, setSelectedStageStep] = useState<number | null>(null);
 
-export default function VideoStudioModal({ isOpen, onClose }: VideoStudioModalProps) {
-  const [selectedPreset, setSelectedPreset] = useState<string>('reintegracao-presenca');
+  // Aspect ratio
   const [aspectRatio, setAspectRatio] = useState<AspectRatio>('9:16');
-  const [selectedVisual, setSelectedVisual] = useState<VisualSourceType>('presenca-reintegracao');
-  const [customTitle, setCustomTitle] = useState('Reintegração da Vida');
-  const [customSubtitle, setCustomSubtitle] = useState('Jornada de Presença • Éverton Piceni');
-  const [customAffirmation, setCustomAffirmation] = useState('Eu respiro a vida. Eu acolho minha presença. Eu volto para mim.');
-  const [frequencyHz, setFrequencyHz] = useState<number>(528);
-  const [targetChakra, setTargetChakra] = useState<number>(4); // 0 = all, 4 = cardíaco
-  const [durationSeconds, setDurationSeconds] = useState<number>(20);
-  const [lightMode, setLightMode] = useState<'heart-pulse' | 'all-chakras-ascend' | 'violet-flame' | 'golden-shield'>('heart-pulse');
-  const [enableAudio, setEnableAudio] = useState(true);
-  const [userVoiceFile, setUserVoiceFile] = useState<File | null>(null);
-  const [customImageFile, setCustomImageFile] = useState<File | null>(null);
 
-  // Studio Player & Recording state
+  // Preview & Engine state
   const [isPlaying, setIsPlaying] = useState(false);
-  const [isRecording, setIsRecording] = useState(false);
-  const [recordProgress, setRecordProgress] = useState(0);
-  const [recordedVideoUrl, setRecordedVideoUrl] = useState<string | null>(null);
+  const [isRenderingVideo, setIsRenderingVideo] = useState(false);
+  const [renderProgress, setRenderProgress] = useState(0);
+  const [currentTimeSec, setCurrentTimeSec] = useState(0);
+  const [enableAmbientTone, setEnableAmbientTone] = useState(false);
+  const [recordedVideoUrl, setRecordedVideoUrl] = useState<string | null>(currentRecord.videoBlobUrl || null);
+  const [validationModalReport, setValidationModalReport] = useState<ValidationReport | null>(null);
 
-  // Canvas and Animation References
+  // Canvas & Media Refs
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const animFrameRef = useRef<number | null>(null);
-  const startTimeRef = useRef<number>(0);
+  const startTimeRef = useRef<number | null>(null);
   const mediaRecorderRef = useRef<MediaRecorder | null>(null);
   const recordedChunksRef = useRef<Blob[]>([]);
 
-  // Web Audio Context & Nodes
+  // Loaded Assets Refs
+  const currentArtImgRef = useRef<HTMLImageElement | null>(null);
+  const officialLogoImgRef = useRef<HTMLImageElement | null>(null);
+  const [imagesReady, setImagesReady] = useState(false);
+
+  // Audio Synth Ref (ambient 528Hz / 432Hz sine tone)
   const audioCtxRef = useRef<AudioContext | null>(null);
   const oscRef = useRef<OscillatorNode | null>(null);
   const gainRef = useRef<GainNode | null>(null);
-  const audioDestRef = useRef<MediaStreamAudioDestinationNode | null>(null);
-  const userAudioSourceRef = useRef<AudioBufferSourceNode | null>(null);
-  const userAudioBufferRef = useRef<AudioBuffer | null>(null);
 
-  // Preloaded Images
-  const humanImgRef = useRef<HTMLImageElement | null>(null);
-  const reintegracaoImgRef = useRef<HTMLImageElement | null>(null);
-  const customImgRef = useRef<HTMLImageElement | null>(null);
-  const bgForestImgRef = useRef<HTMLImageElement | null>(null);
-  const emblemLogoImgRef = useRef<HTMLImageElement | null>(null);
-  const [imagesLoaded, setImagesLoaded] = useState(false);
-
-  // Load Preset
-  const applyPreset = (presetId: string) => {
-    const p = PRESET_THEMES.find(t => t.id === presetId);
-    if (!p) return;
-    setSelectedPreset(presetId);
-    setSelectedVisual(p.visualSource);
-    setCustomTitle(p.title);
-    setCustomSubtitle(p.subtitle);
-    setCustomAffirmation(p.affirmation);
-    setFrequencyHz(p.frequencyHz);
-    setTargetChakra(p.chakraIndex);
-    setDurationSeconds(p.durationSeconds);
-    setLightMode(p.lightMode);
-    setRecordedVideoUrl(null);
+  // Save changes to localStorage whenever days state updates
+  const saveDaysState = (newDays: StudioDayRecord[]) => {
+    setDays(newDays);
+    try {
+      localStorage.setItem(STUDIO_STORAGE_KEY_DAYS, JSON.stringify(newDays));
+    } catch (e) {
+      console.error('Failed to persist studio state', e);
+    }
   };
 
-  // Preload Images
+  // Preload Image Assets
   useEffect(() => {
-    let loadedCount = 0;
-    const checkAll = () => {
-      loadedCount++;
-      if (loadedCount >= 4) {
-        setImagesLoaded(true);
+    let artLoaded = false;
+    let logoLoaded = false;
+
+    const checkReady = () => {
+      if (artLoaded && logoLoaded) {
+        setImagesReady(true);
       }
     };
 
-    // ChatGPT Artwork (Reintegração da Vida: Jornada de Presença)
-    const reintegra = new Image();
-    reintegra.crossOrigin = 'anonymous';
-    reintegra.src = '/brand/reintegracao-presenca-arte.png';
-    reintegra.onload = checkAll;
-    reintegra.onerror = checkAll;
-    reintegracaoImgRef.current = reintegra;
-
-    // Classic Human Chakra Model
-    const human = new Image();
-    human.crossOrigin = 'anonymous';
-    human.src = '/brand/human-chakra-model.jpg';
-    human.onload = checkAll;
-    human.onerror = checkAll;
-    humanImgRef.current = human;
-
-    // Forest Background
-    const forest = new Image();
-    forest.crossOrigin = 'anonymous';
-    forest.src = '/brand/forest-app-background.png';
-    forest.onload = checkAll;
-    forest.onerror = checkAll;
-    bgForestImgRef.current = forest;
-
-    // Emblem Logo
-    const emblem = new Image();
-    emblem.crossOrigin = 'anonymous';
-    emblem.src = '/app-icon.jpg';
-    emblem.onload = checkAll;
-    emblem.onerror = checkAll;
-    emblemLogoImgRef.current = emblem;
-  }, []);
-
-  // Handle custom image upload
-  const handleCustomImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
-    setCustomImageFile(file);
-    const reader = new FileReader();
-    reader.onload = (event) => {
-      const img = new Image();
-      img.onload = () => {
-        customImgRef.current = img;
-        setSelectedVisual('custom');
-        setRecordedVideoUrl(null);
-      };
-      img.src = event.target?.result as string;
+    // Day Artwork
+    const artImg = new Image();
+    artImg.crossOrigin = 'anonymous';
+    artImg.src = currentRecord.artUrl;
+    artImg.onload = () => {
+      artLoaded = true;
+      checkReady();
     };
-    reader.readAsDataURL(file);
-  };
+    artImg.onerror = () => {
+      artLoaded = true;
+      checkReady();
+    };
+    currentArtImgRef.current = artImg;
 
-  // Handle custom voice upload
-  const handleVoiceUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
-    setUserVoiceFile(file);
+    // Official Everton Piceni Logo / Emblem
+    const logoImg = new Image();
+    logoImg.crossOrigin = 'anonymous';
+    logoImg.src = '/app-icon.jpg';
+    logoImg.onload = () => {
+      logoLoaded = true;
+      checkReady();
+    };
+    logoImg.onerror = () => {
+      logoLoaded = true;
+      checkReady();
+    };
+    officialLogoImgRef.current = logoImg;
 
-    try {
-      const arrayBuffer = await file.arrayBuffer();
-      const tempCtx = new (window.AudioContext || (window as any).webkitAudioContext)();
-      const decoded = await tempCtx.decodeAudioData(arrayBuffer);
-      userAudioBufferRef.current = decoded;
-    } catch (err) {
-      console.error('Erro ao carregar áudio de voz:', err);
-    }
-  };
+    setRecordedVideoUrl(currentRecord.videoBlobUrl || null);
+  }, [selectedDayNum, currentRecord.artUrl]);
 
-  // Dimensions based on aspect ratio
-  const getCanvasDimensions = () => {
-    switch (aspectRatio) {
-      case '9:16':
-        return { width: 720, height: 1280 };
-      case '16:9':
-        return { width: 1280, height: 720 };
-      case '1:1':
-      default:
-        return { width: 1080, height: 1080 };
-    }
-  };
-
-  // Setup Audio Context & Tone
-  const startAudio = () => {
-    if (!enableAudio) return;
+  // Audio tone management
+  const startAudioTone = () => {
     try {
       if (!audioCtxRef.current) {
-        audioCtxRef.current = new (window.AudioContext || (window as any).webkitAudioContext)();
+        const AudioContextClass = window.AudioContext || (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext;
+        audioCtxRef.current = new AudioContextClass();
       }
       const ctx = audioCtxRef.current;
       if (ctx.state === 'suspended') {
         ctx.resume();
       }
 
-      // Media stream destination for recording
-      if (!audioDestRef.current) {
-        audioDestRef.current = ctx.createMediaStreamDestination();
-      }
+      if (!oscRef.current) {
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
 
-      // Solfeggio Sine Oscillator
-      const osc = ctx.createOscillator();
-      const gain = ctx.createGain();
+        // 528Hz Solfeggio / Transformação & Presença
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(528, ctx.currentTime);
 
-      osc.type = 'sine';
-      osc.frequency.setValueAtTime(frequencyHz, ctx.currentTime);
+        gain.gain.setValueAtTime(0.001, ctx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.04, ctx.currentTime + 1.5);
 
-      gain.gain.setValueAtTime(0.001, ctx.currentTime);
-      gain.gain.exponentialRampToValueAtTime(0.08, ctx.currentTime + 1.5);
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+        osc.start();
 
-      osc.connect(gain);
-      gain.connect(ctx.destination);
-      gain.connect(audioDestRef.current);
-
-      osc.start();
-      oscRef.current = osc;
-      gainRef.current = gain;
-
-      // User Voice Buffer (if attached)
-      if (userAudioBufferRef.current) {
-        const source = ctx.createBufferSource();
-        const voiceGain = ctx.createGain();
-        source.buffer = userAudioBufferRef.current;
-        voiceGain.gain.setValueAtTime(0.85, ctx.currentTime);
-        source.connect(voiceGain);
-        voiceGain.connect(ctx.destination);
-        voiceGain.connect(audioDestRef.current);
-        source.start();
-        userAudioSourceRef.current = source;
+        oscRef.current = osc;
+        gainRef.current = gain;
       }
     } catch (e) {
-      console.warn('Áudio não iniciado no estúdio:', e);
+      console.warn('Audio tone init error', e);
     }
   };
 
-  const stopAudio = () => {
-    try {
-      if (gainRef.current && audioCtxRef.current) {
-        gainRef.current.gain.exponentialRampToValueAtTime(0.0001, audioCtxRef.current.currentTime + 0.3);
-      }
+  const stopAudioTone = () => {
+    if (gainRef.current && audioCtxRef.current) {
+      const ctx = audioCtxRef.current;
+      gainRef.current.gain.setValueAtTime(gainRef.current.gain.value, ctx.currentTime);
+      gainRef.current.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + 0.4);
       setTimeout(() => {
         if (oscRef.current) {
-          try { oscRef.current.stop(); } catch (_) {}
-          oscRef.current.disconnect();
+          try {
+            oscRef.current.stop();
+            oscRef.current.disconnect();
+          } catch {
+            // ignore
+          }
           oscRef.current = null;
         }
-        if (userAudioSourceRef.current) {
-          try { userAudioSourceRef.current.stop(); } catch (_) {}
-          userAudioSourceRef.current.disconnect();
-          userAudioSourceRef.current = null;
-        }
-      }, 350);
-    } catch (e) {
-      console.warn(e);
+        gainRef.current = null;
+      }, 450);
     }
   };
 
-  // Main Draw Frame Loop
-  const drawFrame = (ctx: CanvasRenderingContext2D, elapsedSec: number) => {
-    const { width, height } = getCanvasDimensions();
-
-    // 1. Clear & Background
-    ctx.clearRect(0, 0, width, height);
-
-    // Deep Forest background gradient
-    const bgGrad = ctx.createLinearGradient(0, 0, 0, height);
-    bgGrad.addColorStop(0, '#02150f');
-    bgGrad.addColorStop(0.5, '#031b13');
-    bgGrad.addColorStop(1, '#010d09');
-    ctx.fillStyle = bgGrad;
-    ctx.fillRect(0, 0, width, height);
-
-    // Draw Forest texture if loaded
-    if (bgForestImgRef.current && bgForestImgRef.current.complete) {
-      ctx.save();
-      ctx.globalAlpha = 0.45;
-      ctx.drawImage(bgForestImgRef.current, 0, 0, width, height);
-      ctx.restore();
-    }
-
-    // 2. Center Visual (Reintegração da Vida / Human Chakra Model / Custom)
-    const breathPhase = Math.sin((elapsedSec * Math.PI) / 3); // 6-second breathing loop
-    const breathScale = 1 + breathPhase * 0.12;
-
-    if (selectedVisual === 'presenca-reintegracao' || (selectedVisual === 'custom' && customImgRef.current)) {
-      const activeImg = selectedVisual === 'custom' && customImgRef.current ? customImgRef.current : reintegracaoImgRef.current;
-      if (activeImg && activeImg.complete) {
-        ctx.save();
-
-        // Calculate sizing with subtle breathing scale
-        const breathZoom = 1 + Math.sin((elapsedSec * Math.PI) / 3) * 0.025;
-        let imgW = width * 0.88;
-        let imgH = imgW * (activeImg.height / activeImg.width);
-
-        if (aspectRatio === '16:9') {
-          imgH = height * 0.86;
-          imgW = imgH * (activeImg.width / activeImg.height);
-        } else if (aspectRatio === '1:1') {
-          imgW = width * 0.82;
-          imgH = imgW * (activeImg.height / activeImg.width);
-        }
-
-        const imgX = (width - imgW * breathZoom) / 2;
-        const imgY = (height - imgH * breathZoom) / 2 + (aspectRatio === '9:16' ? -10 : 0);
-
-        // Draw image with rounded clip & soft vignette
-        ctx.save();
-        ctx.beginPath();
-        const cornerR = 24;
-        ctx.roundRect(imgX, imgY, imgW * breathZoom, imgH * breathZoom, cornerR);
-        ctx.clip();
-        ctx.globalAlpha = 0.95;
-        ctx.drawImage(activeImg, imgX, imgY, imgW * breathZoom, imgH * breathZoom);
-        ctx.restore();
-
-        // Subtle soft vignette border around artwork
-        const borderGrad = ctx.createRadialGradient(
-          width / 2,
-          imgY + (imgH * breathZoom) / 2,
-          (imgW * breathZoom) * 0.35,
-          width / 2,
-          imgY + (imgH * breathZoom) / 2,
-          (imgW * breathZoom) * 0.58
-        );
-        borderGrad.addColorStop(0, 'rgba(2, 21, 15, 0)');
-        borderGrad.addColorStop(0.8, 'rgba(2, 21, 15, 0.45)');
-        borderGrad.addColorStop(1, '#02150f');
-        ctx.fillStyle = borderGrad;
-        ctx.fillRect(imgX - 10, imgY - 10, imgW * breathZoom + 20, imgH * breathZoom + 20);
-
-        // Dynamic Sacred Light Glow around heart center
-        ctx.save();
-        ctx.globalCompositeOperation = 'screen';
-        const heartCX = width / 2;
-        const heartCY = imgY + imgH * 0.48;
-
-        // Radiant Golden Pulse
-        const auraRad = (width * 0.22) * (1 + breathPhase * 0.15);
-        const auraGrad = ctx.createRadialGradient(heartCX, heartCY, 5, heartCX, heartCY, auraRad);
-        auraGrad.addColorStop(0, 'rgba(255, 250, 230, 0.85)');
-        auraGrad.addColorStop(0.25, 'rgba(232, 211, 143, 0.55)');
-        auraGrad.addColorStop(0.65, 'rgba(214, 174, 82, 0.22)');
-        auraGrad.addColorStop(1, 'transparent');
-        ctx.fillStyle = auraGrad;
-        ctx.beginPath();
-        ctx.arc(heartCX, heartCY, auraRad, 0, Math.PI * 2);
-        ctx.fill();
-
-        // Concentric sacred geometry golden rings
-        ctx.strokeStyle = 'rgba(232, 211, 143, 0.35)';
-        ctx.lineWidth = 1.5;
-        ctx.setLineDash([4, 6]);
-        ctx.beginPath();
-        ctx.arc(heartCX, heartCY, auraRad * 0.65, 0, Math.PI * 2);
-        ctx.stroke();
-
-        ctx.strokeStyle = 'rgba(214, 174, 82, 0.25)';
-        ctx.setLineDash([2, 8]);
-        ctx.beginPath();
-        ctx.arc(heartCX, heartCY, auraRad * 1.15, 0, Math.PI * 2);
-        ctx.stroke();
-        ctx.setLineDash([]);
-
-        // Special Light Modes
-        if (lightMode === 'violet-flame') {
-          const violetGlow = ctx.createRadialGradient(heartCX, heartCY, 10, heartCX, heartCY, width * 0.38);
-          violetGlow.addColorStop(0, 'rgba(195, 130, 255, 0.55)');
-          violetGlow.addColorStop(0.5, 'rgba(120, 60, 220, 0.25)');
-          violetGlow.addColorStop(1, 'transparent');
-          ctx.fillStyle = violetGlow;
-          ctx.beginPath();
-          ctx.arc(heartCX, heartCY, width * 0.38, 0, Math.PI * 2);
-          ctx.fill();
-        } else if (lightMode === 'golden-shield') {
-          const shieldGlow = ctx.createRadialGradient(heartCX, heartCY, 20, heartCX, heartCY, width * 0.44);
-          shieldGlow.addColorStop(0, 'rgba(240, 220, 150, 0.45)');
-          shieldGlow.addColorStop(0.6, 'rgba(40, 120, 220, 0.25)');
-          shieldGlow.addColorStop(1, 'transparent');
-          ctx.fillStyle = shieldGlow;
-          ctx.beginPath();
-          ctx.arc(heartCX, heartCY, width * 0.44, 0, Math.PI * 2);
-          ctx.fill();
-        }
-
-        ctx.restore();
-        ctx.restore();
-      }
-    } else if (humanImgRef.current && humanImgRef.current.complete) {
-      // Classic Human Chakra Model
-      ctx.save();
-      let imgW = width * 0.75;
-      let imgH = imgW * 1.35;
-      if (aspectRatio === '16:9') {
-        imgH = height * 0.95;
-        imgW = imgH / 1.35;
-      }
-      const imgX = (width - imgW) / 2;
-      const imgY = (height - imgH) / 2 + (aspectRatio === '9:16' ? 20 : 0);
-
-      // Base body layer in subtle deep contrast
-      ctx.globalAlpha = 0.88;
-      ctx.drawImage(humanImgRef.current, imgX, imgY, imgW, imgH);
-      ctx.restore();
-
-      // Dynamic Light Evolution (Golden Sacred Glow & Chakras)
-      ctx.save();
-      ctx.globalCompositeOperation = 'screen';
-
-      // Spinal column light alignment
-      const colGrad = ctx.createLinearGradient(width / 2, imgY + imgH * 0.15, width / 2, imgY + imgH * 0.82);
-      colGrad.addColorStop(0, 'rgba(232, 211, 143, 0.45)');
-      colGrad.addColorStop(0.5, 'rgba(214, 174, 82, 0.35)');
-      colGrad.addColorStop(1, 'rgba(180, 130, 40, 0.25)');
-      ctx.strokeStyle = colGrad;
-      ctx.lineWidth = 4 + breathPhase * 2;
-      ctx.beginPath();
-      ctx.moveTo(width / 2, imgY + imgH * 0.15);
-      ctx.lineTo(width / 2, imgY + imgH * 0.82);
-      ctx.stroke();
-
-      // Render Chakras / Centers
-      const chakrasToRender = targetChakra === 0 ? [1, 2, 3, 4, 5, 6, 7] : [targetChakra];
-
-      chakrasToRender.forEach((cNum) => {
-        const cData = CHAKRA_COORDINATES[cNum];
-        if (!cData) return;
-
-        const cy = imgY + imgH * cData.yRatio;
-        const cx = width / 2;
-
-        const isActiveChakra = targetChakra === 0 || targetChakra === cNum;
-        const radius = (18 + breathPhase * 6) * (isActiveChakra ? 1.4 : 0.9);
-
-        // Radial gold/chakra aura
-        const aura = ctx.createRadialGradient(cx, cy, 2, cx, cy, radius * 3.5 * breathScale);
-        aura.addColorStop(0, '#fff9e6');
-        aura.addColorStop(0.25, cData.secondary + 'cc');
-        aura.addColorStop(0.6, 'rgba(214, 174, 82, 0.4)');
-        aura.addColorStop(1, 'transparent');
-
-        ctx.fillStyle = aura;
-        ctx.beginPath();
-        ctx.arc(cx, cy, radius * 3.5 * breathScale, 0, Math.PI * 2);
-        ctx.fill();
-
-        // Core jewel
-        ctx.fillStyle = '#ffffff';
-        ctx.beginPath();
-        ctx.arc(cx, cy, 5 + breathPhase * 1.5, 0, Math.PI * 2);
-        ctx.fill();
-      });
-
-      // Special Light Mode Effects
-      if (lightMode === 'violet-flame') {
-        const violetGlow = ctx.createRadialGradient(width / 2, imgY + imgH * 0.35, 10, width / 2, imgY + imgH * 0.35, imgW * 0.55);
-        violetGlow.addColorStop(0, 'rgba(175, 110, 255, 0.45)');
-        violetGlow.addColorStop(0.5, 'rgba(120, 60, 220, 0.2)');
-        violetGlow.addColorStop(1, 'transparent');
-        ctx.fillStyle = violetGlow;
-        ctx.beginPath();
-        ctx.arc(width / 2, imgY + imgH * 0.35, imgW * 0.55, 0, Math.PI * 2);
-        ctx.fill();
-      } else if (lightMode === 'golden-shield') {
-        const shieldGlow = ctx.createRadialGradient(width / 2, height / 2, 40, width / 2, height / 2, width * 0.45);
-        shieldGlow.addColorStop(0, 'rgba(232, 211, 143, 0.35)');
-        shieldGlow.addColorStop(0.6, 'rgba(40, 110, 200, 0.22)');
-        shieldGlow.addColorStop(1, 'transparent');
-        ctx.fillStyle = shieldGlow;
-        ctx.beginPath();
-        ctx.arc(width / 2, height / 2, width * 0.45, 0, Math.PI * 2);
-        ctx.fill();
-      }
-
-      ctx.restore();
-    }
-
-    // 4. Subtle Ambient Photons / Starlight Floating
-    ctx.save();
-    ctx.globalCompositeOperation = 'screen';
-    for (let i = 0; i < 28; i++) {
-      const seed = (i * 9301 + 49297) % 233280;
-      const px = ((seed / 233280) * width + Math.sin(elapsedSec * 0.5 + i) * 30) % width;
-      const py = (height - ((seed % 1000) / 1000) * height - elapsedSec * 35) % height;
-      const yNormalized = py < 0 ? py + height : py;
-      const particleAlpha = 0.2 + 0.4 * Math.sin(elapsedSec * 2 + i);
-
-      ctx.fillStyle = `rgba(232, 211, 143, ${particleAlpha})`;
-      ctx.beginPath();
-      ctx.arc(px, yNormalized, 1.8 + (i % 3) * 0.8, 0, Math.PI * 2);
-      ctx.fill();
-    }
-    ctx.restore();
-
-    // 5. Typography & Therapeutic Presentation
-    ctx.save();
-    ctx.textAlign = 'center';
-
-    // Top Header Badge
-    ctx.fillStyle = 'rgba(214, 174, 82, 0.85)';
-    ctx.font = '600 13px Inter, sans-serif';
-    ctx.letterSpacing = '3px';
-    const topBadgeY = aspectRatio === '9:16' ? 95 : 60;
-    ctx.fillText('PROTOCOLO DA TRANSFORMAÇÃO', width / 2, topBadgeY);
-
-    // Main Title (Cormorant Garamond Display Style)
-    ctx.fillStyle = '#fffdfa';
-    ctx.font = `600 ${aspectRatio === '9:16' ? '32px' : '36px'} "Cormorant Garamond", serif`;
-    ctx.shadowColor = 'rgba(0, 0, 0, 0.75)';
-    ctx.shadowBlur = 12;
-    ctx.fillText(customTitle, width / 2, topBadgeY + 44);
-
-    // Subtitle
-    ctx.fillStyle = 'rgba(232, 211, 143, 0.9)';
-    ctx.font = '400 15px Inter, sans-serif';
-    ctx.shadowBlur = 4;
-    ctx.fillText(customSubtitle, width / 2, topBadgeY + 74);
-
-    // Frequency Pill Indicator
-    const freqY = topBadgeY + 104;
-    ctx.fillStyle = 'rgba(2, 24, 16, 0.7)';
-    ctx.strokeStyle = 'rgba(214, 174, 82, 0.35)';
-    ctx.lineWidth = 1;
-    ctx.beginPath();
-    ctx.roundRect(width / 2 - 110, freqY - 14, 220, 26, 13);
-    ctx.fill();
-    ctx.stroke();
-
-    ctx.fillStyle = '#e8d38f';
-    ctx.font = '500 12px "JetBrains Mono", monospace';
-    ctx.fillText(`${frequencyHz} Hz • Frequência Vibracional`, width / 2, freqY + 3);
-
-    // Bottom Affirmation / Decree (Centered, elegant)
-    const bottomTextY = height - (aspectRatio === '9:16' ? 140 : 85);
-    ctx.fillStyle = 'rgba(255, 248, 230, 0.95)';
-    ctx.font = 'italic 500 19px "Cormorant Garamond", serif';
-    ctx.shadowBlur = 8;
-    ctx.fillText(`"${customAffirmation}"`, width / 2, bottomTextY);
-
-    // Bottom Branding Sign-off (Logo discreto, congelado, sem agressividade)
-    const footerY = height - (aspectRatio === '9:16' ? 65 : 35);
-    ctx.fillStyle = 'rgba(214, 174, 82, 0.65)';
-    ctx.font = '400 12px Inter, sans-serif';
-    ctx.fillText('Éverton Rodrigo Piceni • Terapias Holísticas & Bem-Estar', width / 2, footerY);
-
-    ctx.fillStyle = 'rgba(180, 205, 190, 0.55)';
-    ctx.font = '400 11px Inter, sans-serif';
-    ctx.fillText('@terapiamorevida • Reintegração da Vida', width / 2, footerY + 18);
-
-    // Logo sutil na quina ou centralizado discreto
-    if (emblemLogoImgRef.current && emblemLogoImgRef.current.complete) {
-      ctx.globalAlpha = 0.22;
-      const logoSize = 28;
-      ctx.drawImage(emblemLogoImgRef.current, width / 2 - logoSize / 2, footerY - 42, logoSize, logoSize);
-    }
-
-    ctx.restore();
-  };
-
-  // Preview Render Loop
   useEffect(() => {
-    if (!isOpen) return;
+    return () => {
+      stopAudioTone();
+      if (animFrameRef.current) cancelAnimationFrame(animFrameRef.current);
+    };
+  }, []);
 
+  // Update current record field
+  const updateCurrentRecord = (field: keyof StudioDayRecord, value: unknown) => {
+    const updated = days.map(d => {
+      if (d.day === selectedDayNum) {
+        return { ...d, [field]: value };
+      }
+      return d;
+    });
+    saveDaysState(updated);
+    setRecordedVideoUrl(null);
+  };
+
+  // Custom Image Upload for the current day
+  const handleArtUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = (event) => {
+      const dataUrl = event.target?.result as string;
+      const img = new Image();
+      img.onload = () => {
+        currentArtImgRef.current = img;
+        updateCurrentRecord('artUrl', dataUrl);
+      };
+      img.src = dataUrl;
+    };
+    reader.readAsDataURL(file);
+  };
+
+  /**
+   * CANVA RENDER LOOP — REALISMO CINEMATOGRÁFICO MEDITATIVO:
+   * 1. Arte aprovada preservada sem redesenho
+   * 2. Respiração viva orgânica (tórax/abdômen expandindo + ombros relaxando na expiração)
+   * 3. Luz volumétrica profunda e progressão lenta (conforme a região do dia, SEM círculos de chakras!)
+   * 4. Câmera quase parada: push-in ultralento (1.000 a 1.025)
+   * 5. Logo oficial Everton Piceni discreto como marca d'água elegante em baixa opacidade
+   */
+  const renderFrame = useCallback((timestamp: number) => {
     const canvas = canvasRef.current;
     if (!canvas) return;
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
 
-    let localElapsed = 0;
-    let lastTime = performance.now();
-
-    const loop = (now: number) => {
-      const delta = (now - lastTime) / 1000;
-      lastTime = now;
-
-      if (isPlaying || isRecording) {
-        localElapsed += delta;
-      }
-
-      drawFrame(ctx, localElapsed);
-      animFrameRef.current = requestAnimationFrame(loop);
-    };
-
-    animFrameRef.current = requestAnimationFrame(loop);
-
-    return () => {
-      if (animFrameRef.current) cancelAnimationFrame(animFrameRef.current);
-    };
-  }, [isOpen, isPlaying, isRecording, aspectRatio, selectedVisual, customTitle, customSubtitle, customAffirmation, frequencyHz, targetChakra, lightMode, imagesLoaded]);
-
-  // Toggle Live Preview
-  const handleTogglePreview = () => {
-    if (isPlaying) {
-      setIsPlaying(false);
-      stopAudio();
-    } else {
-      setIsPlaying(true);
-      startAudio();
+    if (!startTimeRef.current) startTimeRef.current = timestamp;
+    const elapsedSec = (timestamp - startTimeRef.current) / 1000;
+    const duration = currentRecord.durationSeconds || 10;
+    
+    // Normalized time (0.0 to 1.0)
+    let normalizedTime = (elapsedSec % duration) / duration;
+    
+    // Se o admin clicou numa etapa específica, fixa a evolução no momento exato dessa etapa
+    if (selectedStageStep !== null) {
+      if (selectedStageStep === 1) normalizedTime = 0.10;
+      else if (selectedStageStep === 2) normalizedTime = 0.30;
+      else if (selectedStageStep === 3) normalizedTime = 0.52;
+      else if (selectedStageStep === 4) normalizedTime = 0.74;
+      else if (selectedStageStep === 5) normalizedTime = 0.95;
     }
-  };
 
-  // Record & Export Video (.webm / .mp4 compatible)
-  const handleStartExport = async () => {
+    setCurrentTimeSec(normalizedTime * duration);
+
+    const width = canvas.width;
+    const height = canvas.height;
+
+    // Fundo profundo sagrado aprovado (verde noturno esmeralda florestal)
+    ctx.fillStyle = '#02150f';
+    ctx.fillRect(0, 0, width, height);
+
+    // 1. CÂMERA CINEMATOGRÁFICA (Push-in ultralento suave)
+    ctx.save();
+    const cameraZoom = currentRecord.cameraMovement === 'push_in_ultralento'
+      ? 1.00 + normalizedTime * 0.022
+      : 1.00;
+
+    ctx.translate(width / 2, height / 2);
+    ctx.scale(cameraZoom, cameraZoom);
+    ctx.translate(-width / 2, -height / 2);
+
+    // Fundo com atmosfera de santuário & luz ambiente
+    const bgAura = ctx.createRadialGradient(
+      width / 2, height * 0.52, 40,
+      width / 2, height * 0.52, width * 0.65
+    );
+    bgAura.addColorStop(0, 'rgba(14, 62, 45, 0.45)');
+    bgAura.addColorStop(0.55, 'rgba(5, 36, 26, 0.28)');
+    bgAura.addColorStop(1, 'rgba(2, 21, 15, 0)');
+    ctx.fillStyle = bgAura;
+    ctx.fillRect(0, 0, width, height);
+
+    // Partículas sutis de prana dourado subindo suavemente
+    ctx.save();
+    ctx.fillStyle = 'rgba(232, 211, 143, 0.35)';
+    for (let i = 0; i < 28; i++) {
+      const px = ((i * 137.5 + elapsedSec * 12) % width);
+      const py = ((height - ((i * 93.7 + elapsedSec * (18 + (i % 8) * 4)) % height)));
+      const pSize = 1.0 + (i % 3) * 0.8;
+      const pAlpha = 0.15 + Math.sin(elapsedSec * 1.5 + i) * 0.12;
+      ctx.globalAlpha = Math.max(0.05, pAlpha);
+      ctx.beginPath();
+      ctx.arc(px, py, pSize, 0, Math.PI * 2);
+      ctx.fill();
+    }
+    ctx.restore();
+
+    // 2. RESPIRAÇÃO FISIOLÓGICA REALISTA DO CORPO
+    // Inalação (4s) -> Retenção (1s) -> Exalação (5s)
+    const breathCycle = Math.sin((elapsedSec * Math.PI * 2) / 6.0); // -1 a +1
+    const isExhaling = Math.cos((elapsedSec * Math.PI * 2) / 6.0) < 0;
+    const chestExpansionX = 1 + breathCycle * 0.014;
+    const chestExpansionY = 1 + breathCycle * 0.018;
+    const shoulderDropY = isExhaling ? Math.abs(breathCycle) * 2.4 : 0;
+    const microSwayX = Math.sin(elapsedSec * 0.4) * 0.8;
+    const microSwayY = Math.cos(elapsedSec * 0.3) * 0.6 + shoulderDropY;
+
+    // Coordenadas base do corpo em meditação (viewBox 800 x 1000)
+    let bodyScale = (width * 0.88) / 800;
+    if (aspectRatio === '16:9') {
+      bodyScale = (height * 0.84) / 1000;
+    } else if (aspectRatio === '1:1') {
+      bodyScale = (width * 0.80) / 800;
+    }
+
+    const bodyW = 800 * bodyScale;
+    const bodyH = 1000 * bodyScale;
+    const bodyOriginX = (width - bodyW) / 2;
+    const bodyOriginY = (height - bodyH) / 2 + (aspectRatio === '9:16' ? 25 : 15);
+
+    ctx.save();
+    // Ponto de ancoragem na pelve/base para a respiração fisiológica
+    const breathAnchorX = width / 2;
+    const breathAnchorY = bodyOriginY + bodyH * 0.68;
+
+    ctx.translate(breathAnchorX + microSwayX, breathAnchorY + microSwayY);
+    ctx.scale(chestExpansionX, chestExpansionY);
+    ctx.translate(-breathAnchorX, -breathAnchorY);
+
+    ctx.translate(bodyOriginX, bodyOriginY);
+    ctx.scale(bodyScale, bodyScale);
+
+    // Vetores da anatomia sagrada do corpo em meditação (Cabeça, Tronco, Braços, Pernas em Lótus)
+    const headPath = new Path2D();
+    headPath.arc(400, 235, 82, 0, Math.PI * 2);
+
+    const torsoPath = new Path2D();
+    torsoPath.moveTo(320, 305);
+    torsoPath.bezierCurveTo(290, 380, 278, 515, 300, 655);
+    torsoPath.bezierCurveTo(325, 705, 475, 705, 500, 655);
+    torsoPath.bezierCurveTo(522, 515, 510, 380, 480, 305);
+    torsoPath.bezierCurveTo(438, 337, 362, 337, 320, 305);
+    torsoPath.closePath();
+
+    const armsPath = new Path2D();
+    // Braço esquerdo
+    armsPath.moveTo(315, 350);
+    armsPath.bezierCurveTo(245, 375, 194, 500, 145, 645);
+    armsPath.bezierCurveTo(134, 678, 177, 697, 194, 664);
+    armsPath.lineTo(322, 457);
+    armsPath.closePath();
+    // Braço direito
+    armsPath.moveTo(485, 350);
+    armsPath.bezierCurveTo(555, 375, 606, 500, 655, 645);
+    armsPath.bezierCurveTo(666, 678, 623, 697, 606, 664);
+    armsPath.lineTo(478, 457);
+    armsPath.closePath();
+
+    const legsPath = new Path2D();
+    // Coxa/joelho esquerdo
+    legsPath.moveTo(300, 640);
+    legsPath.bezierCurveTo(230, 690, 145, 741, 77, 822);
+    legsPath.bezierCurveTo(53, 851, 78, 885, 116, 873);
+    legsPath.lineTo(403, 779);
+    legsPath.closePath();
+    // Coxa/joelho direito
+    legsPath.moveTo(500, 640);
+    legsPath.bezierCurveTo(570, 690, 655, 741, 723, 822);
+    legsPath.bezierCurveTo(747, 851, 722, 885, 684, 873);
+    legsPath.lineTo(397, 779);
+    legsPath.closePath();
+    // Base cruzada de lótus
+    legsPath.moveTo(103, 870);
+    legsPath.bezierCurveTo(207, 882, 304, 864, 400, 779);
+    legsPath.bezierCurveTo(496, 864, 593, 882, 697, 870);
+    legsPath.bezierCurveTo(634, 949, 505, 970, 400, 907);
+    legsPath.bezierCurveTo(295, 970, 166, 949, 103, 870);
+    legsPath.closePath();
+
+    // Sombra sutil de apoio sob o corpo
+    const floorShadow = ctx.createRadialGradient(400, 920, 20, 400, 920, 320);
+    floorShadow.addColorStop(0, 'rgba(1, 14, 10, 0.85)');
+    floorShadow.addColorStop(1, 'transparent');
+    ctx.fillStyle = floorShadow;
+    ctx.beginPath();
+    ctx.ellipse(400, 920, 310, 50, 0, 0, Math.PI * 2);
+    ctx.fill();
+
+    // BASE DO CORPO: Silhueta Serena Natural (sempre presente e digna)
+    ctx.fillStyle = '#041f17';
+    ctx.fill(headPath);
+    ctx.fill(torsoPath);
+    ctx.fill(armsPath);
+    ctx.fill(legsPath);
+
+    // Contorno dourado sutil refinado
+    ctx.strokeStyle = 'rgba(214, 174, 82, 0.32)';
+    ctx.lineWidth = 1.8;
+    ctx.stroke(headPath);
+    ctx.stroke(torsoPath);
+    ctx.stroke(armsPath);
+    ctx.stroke(legsPath);
+
+    // =========================================================================
+    // AS 5 ETAPAS DA ILUMINAÇÃO DINÂMICA (A LUZ VIVA DO CORPO)
+    // Conforme o áudio toca, a luz entra, desce, enraíza e integra o corpo todo!
+    // =========================================================================
+    ctx.save();
+    ctx.globalCompositeOperation = 'screen';
+
+    // Intensidades calculadas suavemente (sem saltos bruscos)
+    // Etapa 1: Estado Inicial (0.00 a 0.20)
+    // Etapa 2: A Luz Chega (0.20 a 0.40)
+    // Etapa 3: A Energia Desce (0.40 a 0.65)
+    // Etapa 4: Enraizamento (0.65 a 0.85)
+    // Etapa 5: Integração (0.85 a 1.00)
+    const stage2Power = Math.max(0, Math.min(1, (normalizedTime - 0.18) / 0.16));
+    const stage3Power = Math.max(0, Math.min(1, (normalizedTime - 0.38) / 0.18));
+    const stage4Power = Math.max(0, Math.min(1, (normalizedTime - 0.62) / 0.16));
+    const stage5Power = Math.max(0, Math.min(1, (normalizedTime - 0.82) / 0.15));
+
+    // -------------------------------------------------------------------------
+    // ETAPA 2+: A LUZ CHEGA (Feixe celestial descendo do cosmos até a coroa/cabeça)
+    // -------------------------------------------------------------------------
+    if (stage2Power > 0.01) {
+      const beamAlpha = stage2Power;
+      const beamPulse = 1 + Math.sin(elapsedSec * 2.5) * 0.08;
+
+      // Coluna de luz dourada translúcida descendo do infinito
+      const beamGrad = ctx.createLinearGradient(400, -200, 400, 240);
+      beamGrad.addColorStop(0, `rgba(255, 252, 242, ${0.85 * beamAlpha})`);
+      beamGrad.addColorStop(0.4, `rgba(232, 211, 143, ${0.65 * beamAlpha})`);
+      beamGrad.addColorStop(0.85, `rgba(214, 174, 82, ${0.35 * beamAlpha})`);
+      beamGrad.addColorStop(1, `rgba(214, 174, 82, ${0.05 * beamAlpha})`);
+
+      ctx.fillStyle = beamGrad;
+      ctx.beginPath();
+      ctx.moveTo(400 - 32 * beamPulse, -200);
+      ctx.lineTo(400 + 32 * beamPulse, -200);
+      ctx.lineTo(400 + 65 * beamPulse, 240);
+      ctx.lineTo(400 - 65 * beamPulse, 240);
+      ctx.closePath();
+      ctx.fill();
+
+      // Iluminação radiante da Cabeça e Coronário
+      const headLight = ctx.createRadialGradient(400, 235, 10, 400, 235, 125 * beamPulse);
+      headLight.addColorStop(0, `rgba(255, 252, 240, ${0.95 * beamAlpha})`);
+      headLight.addColorStop(0.35, `rgba(232, 211, 143, ${0.75 * beamAlpha})`);
+      headLight.addColorStop(0.75, `rgba(214, 174, 82, ${0.30 * beamAlpha})`);
+      headLight.addColorStop(1, 'transparent');
+      ctx.fillStyle = headLight;
+      ctx.beginPath();
+      ctx.arc(400, 235, 125 * beamPulse, 0, Math.PI * 2);
+      ctx.fill();
+
+      // Halo sagrado ao redor da coroa
+      ctx.strokeStyle = `rgba(232, 211, 143, ${0.45 * beamAlpha})`;
+      ctx.lineWidth = 1.8;
+      ctx.beginPath();
+      ctx.ellipse(400, 150, 75 * beamPulse, 24 * beamPulse, 0, 0, Math.PI * 2);
+      ctx.stroke();
+    }
+
+    // -------------------------------------------------------------------------
+    // ETAPA 3+: A ENERGIA DESCE (Peito, coração, plexo e braços se iluminando)
+    // -------------------------------------------------------------------------
+    if (stage3Power > 0.01) {
+      const chestAlpha = stage3Power;
+      const chestPulse = 1 + breathCycle * 0.12;
+
+      // Luz fluindo pelo canal central (garganta e tórax)
+      const centralFlow = ctx.createLinearGradient(400, 250, 400, 660);
+      centralFlow.addColorStop(0, `rgba(255, 250, 230, ${0.90 * chestAlpha})`);
+      centralFlow.addColorStop(0.35, `rgba(232, 211, 143, ${0.80 * chestAlpha})`);
+      centralFlow.addColorStop(0.75, `rgba(214, 174, 82, ${0.45 * chestAlpha})`);
+      centralFlow.addColorStop(1, 'transparent');
+
+      ctx.fillStyle = centralFlow;
+      ctx.beginPath();
+      ctx.ellipse(400, 460, 95 * chestPulse, 180 * chestPulse, 0, 0, Math.PI * 2);
+      ctx.fill();
+
+      // Brilho dourado caloroso no centro do peito (Coração / Cardíaco)
+      const heartGlow = ctx.createRadialGradient(400, 430, 15, 400, 430, 190 * chestPulse);
+      heartGlow.addColorStop(0, `rgba(255, 250, 235, ${0.95 * chestAlpha})`);
+      heartGlow.addColorStop(0.35, `rgba(232, 211, 143, ${0.72 * chestAlpha})`);
+      heartGlow.addColorStop(0.70, `rgba(214, 174, 82, ${0.32 * chestAlpha})`);
+      heartGlow.addColorStop(1, 'transparent');
+      ctx.fillStyle = heartGlow;
+      ctx.beginPath();
+      ctx.arc(400, 430, 190 * chestPulse, 0, Math.PI * 2);
+      ctx.fill();
+
+      // Luz percorrendo os braços até as mãos e dedos
+      const leftArmGlow = ctx.createRadialGradient(230, 520, 15, 230, 520, 130 * chestPulse);
+      leftArmGlow.addColorStop(0, `rgba(232, 211, 143, ${0.75 * chestAlpha})`);
+      leftArmGlow.addColorStop(1, 'transparent');
+      ctx.fillStyle = leftArmGlow;
+      ctx.beginPath();
+      ctx.arc(230, 520, 130 * chestPulse, 0, Math.PI * 2);
+      ctx.fill();
+
+      const rightArmGlow = ctx.createRadialGradient(570, 520, 15, 570, 520, 130 * chestPulse);
+      rightArmGlow.addColorStop(0, `rgba(232, 211, 143, ${0.75 * chestAlpha})`);
+      rightArmGlow.addColorStop(1, 'transparent');
+      ctx.fillStyle = rightArmGlow;
+      ctx.beginPath();
+      ctx.arc(570, 520, 130 * chestPulse, 0, Math.PI * 2);
+      ctx.fill();
+
+      // Ondulações sutis de geometria sagrada no peito
+      ctx.strokeStyle = `rgba(232, 211, 143, ${0.35 * chestAlpha})`;
+      ctx.lineWidth = 1.2;
+      ctx.beginPath();
+      ctx.arc(400, 430, 70 * chestPulse, 0, Math.PI * 2);
+      ctx.stroke();
+      ctx.beginPath();
+      ctx.arc(400, 430, 120 * chestPulse, 0, Math.PI * 2);
+      ctx.stroke();
+    }
+
+    // -------------------------------------------------------------------------
+    // ETAPA 4+: ENRAIZAMENTO (Pernas, pés e raízes luminosas crescendo na terra)
+    // -------------------------------------------------------------------------
+    if (stage4Power > 0.01) {
+      const rootAlpha = stage4Power;
+      const basePulse = 1 + Math.sin(elapsedSec * 2.0) * 0.06;
+
+      // Luz dourada densa nas pernas e na base de lótus
+      const baseLight = ctx.createRadialGradient(400, 820, 30, 400, 820, 270 * basePulse);
+      baseLight.addColorStop(0, `rgba(255, 245, 215, ${0.90 * rootAlpha})`);
+      baseLight.addColorStop(0.4, `rgba(232, 211, 143, ${0.70 * rootAlpha})`);
+      baseLight.addColorStop(0.8, `rgba(214, 174, 82, ${0.35 * rootAlpha})`);
+      baseLight.addColorStop(1, 'transparent');
+      ctx.fillStyle = baseLight;
+      ctx.beginPath();
+      ctx.arc(400, 820, 270 * basePulse, 0, Math.PI * 2);
+      ctx.fill();
+
+      // Raízes de luz dourada se estendendo e ancorando na terra
+      ctx.strokeStyle = `rgba(232, 211, 143, ${0.85 * rootAlpha})`;
+      ctx.lineWidth = 2.4;
+      const rootFilaments = [
+        [[400, 910], [385, 960], [350, 1020], [320, 1090]],
+        [[400, 910], [415, 960], [450, 1020], [480, 1090]],
+        [[270, 880], [230, 940], [180, 1000], [140, 1070]],
+        [[530, 880], [570, 940], [620, 1000], [660, 1070]],
+        [[400, 920], [400, 990], [390, 1040], [400, 1110]],
+        [[180, 860], [140, 910], [100, 970]],
+        [[620, 860], [660, 910], [700, 970]]
+      ];
+      rootFilaments.forEach((r) => {
+        ctx.beginPath();
+        ctx.moveTo(r[0][0], r[0][1]);
+        for (let i = 1; i < r.length; i++) {
+          ctx.lineTo(r[i][0], r[i][1]);
+        }
+        ctx.stroke();
+      });
+
+      // Brilho do chão ancorando a presença
+      const groundAnchor = ctx.createRadialGradient(400, 930, 10, 400, 930, 360);
+      groundAnchor.addColorStop(0, `rgba(214, 174, 82, ${0.45 * rootAlpha})`);
+      groundAnchor.addColorStop(1, 'transparent');
+      ctx.fillStyle = groundAnchor;
+      ctx.beginPath();
+      ctx.ellipse(400, 930, 340, 65, 0, 0, Math.PI * 2);
+      ctx.fill();
+    }
+
+    // -------------------------------------------------------------------------
+    // ETAPA 5: INTEGRAÇÃO TOTAL (Corpo inteiro plenamente iluminado e radiante)
+    // -------------------------------------------------------------------------
+    if (stage5Power > 0.01) {
+      const fullAlpha = stage5Power;
+      const fullPulse = 1 + breathCycle * 0.16;
+
+      // Aura cósmica dourada completa envolvendo todo o corpo
+      const fullBodyAura = ctx.createRadialGradient(400, 520, 60, 400, 520, 520 * fullPulse);
+      fullBodyAura.addColorStop(0, `rgba(255, 252, 240, ${0.60 * fullAlpha})`);
+      fullBodyAura.addColorStop(0.35, `rgba(232, 211, 143, ${0.42 * fullAlpha})`);
+      fullBodyAura.addColorStop(0.70, `rgba(214, 174, 82, ${0.18 * fullAlpha})`);
+      fullBodyAura.addColorStop(1, 'transparent');
+
+      ctx.fillStyle = fullBodyAura;
+      ctx.beginPath();
+      ctx.arc(400, 520, 520 * fullPulse, 0, Math.PI * 2);
+      ctx.fill();
+
+      // Círculo sagrado de expansão de presença
+      ctx.strokeStyle = `rgba(232, 211, 143, ${0.30 * fullAlpha})`;
+      ctx.lineWidth = 1.5;
+      ctx.setLineDash([4, 8]);
+      ctx.beginPath();
+      ctx.arc(400, 520, 360 * fullPulse, 0, Math.PI * 2);
+      ctx.stroke();
+      ctx.setLineDash([]);
+    }
+
+    ctx.restore(); // Fim do bloco de iluminação
+    ctx.restore(); // Fim do bloco do corpo com escala
+    ctx.restore(); // Fim do bloco da câmera
+
+    // =========================================================================
+    // 3. IDENTIDADE TIPOGRÁFICA SAGRADA (Elegante, cinematográfica e sem poluição)
+    // =========================================================================
+    const activeStageIndex = Math.min(4, Math.floor(normalizedTime * 5));
+    const currentStage = currentRecord.stages[activeStageIndex] || currentRecord.stages[0];
+    const stageTitle = currentStage?.name || currentStage?.title || `ETAPA ${activeStageIndex + 1}`;
+    const stageDesc = currentStage?.description || '';
+
+    // HEADER SUPERIOR (Número do Dia e Título Oficial)
+    ctx.save();
+    ctx.textAlign = 'center';
+    const topHeaderY = aspectRatio === '9:16' ? 140 : 80;
+
+    // Número do Dia
+    ctx.font = 'bold 18px Cinzel, serif';
+    ctx.fillStyle = '#e5c158';
+    ctx.letterSpacing = '6px';
+    ctx.fillText(`DIA ${currentRecord.day.toString().padStart(2, '0')}`, width / 2, topHeaderY);
+
+    // Título Principal
+    ctx.font = 'bold 28px Cinzel, serif';
+    ctx.fillStyle = '#ffffff';
+    ctx.letterSpacing = '3px';
+    ctx.fillText(currentRecord.title.toUpperCase(), width / 2, topHeaderY + 36);
+
+    // SUBTÍTULO DINÂMICO DA ETAPA ATIVA (Atualiza em tempo real conforme o corpo ilumina!)
+    const stageBadgeY = topHeaderY + 84;
+    
+    // Pill da etapa
+    ctx.font = 'bold 14px sans-serif';
+    ctx.fillStyle = 'rgba(214, 174, 82, 0.95)';
+    ctx.letterSpacing = '2.5px';
+    ctx.fillText(`ETAPA ${activeStageIndex + 1}/5 • ${stageTitle.toUpperCase()}`, width / 2, stageBadgeY);
+
+    // Descrição da etapa
+    ctx.font = '400 16px sans-serif';
+    ctx.fillStyle = '#cbd5e1';
+    ctx.letterSpacing = '1px';
+    ctx.fillText(stageDesc, width / 2, stageBadgeY + 26);
+    ctx.restore();
+
+    // CARD INFERIOR DE AFIRMAÇÃO (Card de vidro flutuante e sereno)
+    ctx.save();
+    const cardW = Math.min(width * 0.86, 780);
+    const cardH = aspectRatio === '9:16' ? 140 : 110;
+    const cardX = (width - cardW) / 2;
+    const cardY = height - (aspectRatio === '9:16' ? 240 : 150);
+
+    ctx.fillStyle = 'rgba(3, 27, 19, 0.88)';
+    ctx.strokeStyle = 'rgba(214, 174, 82, 0.38)';
+    ctx.lineWidth = 1.2;
+    ctx.beginPath();
+    ctx.roundRect(cardX, cardY, cardW, cardH, 18);
+    ctx.fill();
+    ctx.stroke();
+
+    ctx.textAlign = 'center';
+    ctx.font = 'bold 20px Cinzel, serif';
+    ctx.fillStyle = '#ffffff';
+    ctx.letterSpacing = '2.5px';
+    ctx.fillText(currentRecord.mainAffirmation || 'AQUI COMEÇA A SUA REINTEGRAÇÃO.', width / 2, cardY + (aspectRatio === '9:16' ? 52 : 44));
+
+    if (currentRecord.subPhrase) {
+      ctx.font = 'italic 14px sans-serif';
+      ctx.fillStyle = '#e8d38f';
+      ctx.letterSpacing = '0.8px';
+      ctx.fillText(currentRecord.subPhrase, width / 2, cardY + (aspectRatio === '9:16' ? 90 : 76));
+    }
+    ctx.restore();
+
+    // 4. LOGO OFICIAL EVERTON PICENI COMO MARCA D'ÁGUA SAGRADA
+    if (officialLogoImgRef.current && officialLogoImgRef.current.complete) {
+      ctx.save();
+      const logoSize = Math.round(width * 0.048);
+      const logoX = width / 2 - logoSize / 2;
+      const logoY = height - (aspectRatio === '9:16' ? 74 : 50);
+
+      ctx.globalAlpha = 0.32;
+      ctx.drawImage(officialLogoImgRef.current, logoX, logoY, logoSize, logoSize);
+
+      ctx.font = '500 10px sans-serif';
+      ctx.fillStyle = 'rgba(232, 211, 143, 0.55)';
+      ctx.textAlign = 'center';
+      ctx.letterSpacing = '2px';
+      ctx.fillText('ÉVERTON PICENI', width / 2, logoY + logoSize + 13);
+      ctx.restore();
+    }
+
+    ctx.restore(); // Fim do bloco da câmera
+
+    // Loop de animação se estiver tocando ou gravando
+    if (isPlaying || isRenderingVideo) {
+      animFrameRef.current = requestAnimationFrame(renderFrame);
+    }
+  }, [aspectRatio, currentRecord, isPlaying, isRenderingVideo]);
+
+  // Inicializa o Canvas com a resolução correta
+  useEffect(() => {
+    if (!isOpen) return;
     const canvas = canvasRef.current;
     if (!canvas) return;
 
-    setIsRecording(true);
-    setIsPlaying(false);
-    setRecordProgress(0);
-    setRecordedVideoUrl(null);
-    recordedChunksRef.current = [];
-
-    // Initialize audio pipeline for stream
-    startAudio();
-
-    const { width, height } = getCanvasDimensions();
-    canvas.width = width;
-    canvas.height = height;
-
-    const canvasStream = canvas.captureStream(30);
-
-    // Merge Audio Destination Track if available
-    let combinedStream: MediaStream = canvasStream;
-    if (audioDestRef.current && audioDestRef.current.stream.getAudioTracks().length > 0) {
-      combinedStream = new MediaStream([
-        ...canvasStream.getVideoTracks(),
-        ...audioDestRef.current.stream.getAudioTracks(),
-      ]);
+    if (aspectRatio === '9:16') {
+      canvas.width = 1080;
+      canvas.height = 1920;
+    } else if (aspectRatio === '16:9') {
+      canvas.width = 1920;
+      canvas.height = 1080;
+    } else {
+      canvas.width = 1080;
+      canvas.height = 1080;
     }
 
-    // Supported mime types
-    const mimeTypes = [
-      'video/mp4;codecs=avc1,mp4a.40.2',
-      'video/webm;codecs=vp9,opus',
-      'video/webm;codecs=vp8,opus',
-      'video/webm'
-    ];
-    let selectedMime = mimeTypes.find(m => MediaRecorder.isTypeSupported(m)) || 'video/webm';
+    startTimeRef.current = null;
+    requestAnimationFrame(renderFrame);
+  }, [isOpen, aspectRatio, renderFrame]);
 
+  // Play / Pause Preview
+  const handleTogglePlay = () => {
+    if (isPlaying) {
+      setIsPlaying(false);
+      stopAudioTone();
+      if (animFrameRef.current) cancelAnimationFrame(animFrameRef.current);
+    } else {
+      setIsPlaying(true);
+      startTimeRef.current = null;
+      if (enableAmbientTone) startAudioTone();
+      animFrameRef.current = requestAnimationFrame(renderFrame);
+    }
+  };
+
+  /**
+   * GERAR VÍDEO DO DIA:
+   * Grava em tempo real quadro a quadro com o MediaRecorder (8s, 10s ou 12s)
+   * Produz um arquivo de vídeo .webm / .mp4 executável
+   */
+  const handleGenerateVideo = () => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+
+    setIsRenderingVideo(true);
+    setIsPlaying(true);
+    setRenderProgress(0);
+    recordedChunksRef.current = [];
+    startTimeRef.current = null;
+
+    if (enableAmbientTone) startAudioTone();
+
+    // Inicia MediaRecorder
     try {
-      const recorder = new MediaRecorder(combinedStream, {
-        mimeType: selectedMime,
-        videoBitsPerSecond: 3_500_000,
-      });
+      const stream = canvas.captureStream(30); // 30 FPS estáveis
+      const options: MediaRecorderOptions = {
+        mimeType: MediaRecorder.isTypeSupported('video/webm;codecs=vp9')
+          ? 'video/webm;codecs=vp9'
+          : 'video/webm'
+      };
+
+      const recorder = new MediaRecorder(stream, options);
+      mediaRecorderRef.current = recorder;
 
       recorder.ondataavailable = (e) => {
         if (e.data && e.data.size > 0) {
@@ -756,379 +799,788 @@ export default function VideoStudioModal({ isOpen, onClose }: VideoStudioModalPr
       };
 
       recorder.onstop = () => {
-        const blob = new Blob(recordedChunksRef.current, { type: selectedMime });
+        const blob = new Blob(recordedChunksRef.current, { type: 'video/webm' });
         const url = URL.createObjectURL(blob);
         setRecordedVideoUrl(url);
-        setIsRecording(false);
-        stopAudio();
+        updateCurrentRecord('videoBlobUrl', url);
+        setIsRenderingVideo(false);
+        setIsPlaying(false);
+        stopAudioTone();
       };
 
-      recorder.start(250);
-      mediaRecorderRef.current = recorder;
+      recorder.start();
 
-      // Progress interval
-      const totalMs = durationSeconds * 1000;
-      const intervalMs = 100;
-      let recordedMs = 0;
+      // Duração configurada
+      const targetDurationSec = currentRecord.durationSeconds || 10;
+      const startTime = performance.now();
 
       const progressInterval = setInterval(() => {
-        recordedMs += intervalMs;
-        const p = Math.min(100, Math.round((recordedMs / totalMs) * 100));
-        setRecordProgress(p);
+        const elapsed = (performance.now() - startTime) / 1000;
+        const pct = Math.min(100, Math.round((elapsed / targetDurationSec) * 100));
+        setRenderProgress(pct);
 
-        if (recordedMs >= totalMs) {
+        if (elapsed >= targetDurationSec) {
           clearInterval(progressInterval);
           if (recorder.state === 'recording') {
             recorder.stop();
           }
         }
-      }, intervalMs);
+      }, 100);
+
     } catch (err) {
-      console.error('Falha ao iniciar gravação de vídeo:', err);
-      setIsRecording(false);
-      stopAudio();
+      console.error('MediaRecorder error', err);
+      setIsRenderingVideo(false);
+      setIsPlaying(false);
+      stopAudioTone();
     }
   };
 
+  /**
+   * REPROVAÇÃO / APROVAÇÃO AUTOMÁTICA PELO CÓDIGO DO ESTÚDIO:
+   * "se o gerador tentar alterar corpo, textos, logo ou composição,
+   * o resultado deve voltar como REPROVADO automaticamente, e não entrar na jornada."
+   */
+  const handleValidateAndApprove = () => {
+    const report = validateStudioGeneration(currentRecord);
+    setValidationModalReport(report);
+
+    if (report.verdict === 'APROVADO') {
+      const updated = days.map(d => {
+        if (d.day === selectedDayNum) {
+          return {
+            ...d,
+            status: 'aprovado' as const,
+            approvedAt: new Date().toISOString(),
+            validationReport: report,
+            rejectionReason: undefined
+          };
+        }
+        return d;
+      });
+      saveDaysState(updated);
+    } else {
+      // REPROVADO AUTOMATICAMENTE
+      const updated = days.map(d => {
+        if (d.day === selectedDayNum) {
+          return {
+            ...d,
+            status: 'reprovado_automaticamente' as const,
+            rejectionReason: report.reason,
+            validationReport: report
+          };
+        }
+        return d;
+      });
+      saveDaysState(updated);
+    }
+  };
+
+  // Reset / Refazer parâmetros do dia
+  const handleResetCurrentDay = () => {
+    const defaultData = INITIAL_STUDIO_21_DAYS.find(d => d.day === selectedDayNum);
+    if (!defaultData) return;
+
+    const updated = days.map(d => {
+      if (d.day === selectedDayNum) {
+        return { ...defaultData };
+      }
+      return d;
+    });
+    saveDaysState(updated);
+    setRecordedVideoUrl(null);
+  };
+
+  // Download video file
+  const handleDownloadVideo = () => {
+    if (!recordedVideoUrl) return;
+    const a = document.createElement('a');
+    a.href = recordedVideoUrl;
+    a.download = `reintegracao-vida-dia-${currentRecord.day}-${currentRecord.title.toLowerCase().replace(/\s+/g, '-')}.webm`;
+    a.click();
+  };
+
+  // Exportar imagem estática em alta resolução da etapa atual (PNG HD)
+  const handleExportCurrentFrame = () => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const url = canvas.toDataURL('image/png');
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `reintegracao-dia-${currentRecord.day}-etapa-${selectedStageStep || 'preview'}.png`;
+    a.click();
+  };
+
+  // Contagem de aprovados
+  const approvedCount = days.filter(d => d.status === 'aprovado').length;
+
   if (!isOpen) return null;
 
-  const canvasDims = getCanvasDimensions();
-
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-5 bg-black/85 backdrop-blur-md overflow-y-auto">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4 bg-[#02150f]/95 backdrop-blur-xl overflow-y-auto" id="video-studio-modal">
       <motion.div
-        initial={{ opacity: 0, scale: 0.96 }}
+        initial={{ opacity: 0, scale: 0.98 }}
         animate={{ opacity: 1, scale: 1 }}
-        exit={{ opacity: 0, scale: 0.96 }}
-        className="relative w-full max-w-5xl rounded-[1.75rem] border border-[#d6ae52]/30 bg-[#031b13] p-5 sm:p-7 shadow-[0_30px_90px_rgba(0,0,0,0.85)] text-slate-100 max-h-[92vh] flex flex-col overflow-hidden"
+        exit={{ opacity: 0, scale: 0.98 }}
+        className="w-full max-w-7xl bg-[#031b13] border border-[#d6ae52]/30 rounded-3xl p-4 sm:p-6 shadow-2xl shadow-black/80 space-y-5 relative my-2 max-h-[96vh] flex flex-col"
       >
-        {/* Header */}
-        <div className="flex items-center justify-between border-b border-[#d6ae52]/20 pb-4 mb-5">
+        {/* Top Atmosphere Accent */}
+        <div className="absolute top-0 right-1/4 w-96 h-32 bg-[#d6ae52]/10 rounded-full blur-3xl pointer-events-none" />
+
+        {/* Modal Header */}
+        <div className="flex flex-wrap items-center justify-between gap-3 border-b border-[#d6ae52]/20 pb-4 shrink-0">
           <div className="flex items-center gap-3">
-            <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-[#d6ae52]/15 border border-[#d6ae52]/30 text-[#e8d38f]">
-              <Video size={22} />
+            <div className="w-11 h-11 rounded-2xl bg-[#052a1e] border border-[#d6ae52]/40 text-[#e8d38f] flex items-center justify-center shrink-0 shadow-lg shadow-[#d6ae52]/10">
+              <Film size={22} className="text-[#d6ae52]" />
             </div>
             <div>
               <div className="flex items-center gap-2">
-                <span className="text-[10px] font-mono uppercase tracking-widest text-[#d6ae52] bg-[#d6ae52]/10 border border-[#d6ae52]/25 px-2.5 py-0.5 rounded-full font-bold">
-                  Estúdio de Vinhetas & Meditações
+                <span className="text-[10px] font-mono uppercase tracking-widest text-[#d6ae52] bg-[#d6ae52]/15 border border-[#d6ae52]/30 px-2.5 py-0.5 rounded-full font-bold">
+                  Estúdio de Vídeos do Admin
                 </span>
-                <span className="text-[10px] font-mono text-[#c8d8cc]">Base Oficial Aprovada</span>
+                <span className="text-[10px] font-mono text-[#b9cdbf]">
+                  Reintegração da Vida • 21 Dias para Voltar para Mim
+                </span>
               </div>
-              <h2 className="text-lg sm:text-2xl font-display font-semibold text-[#fffdfa] mt-0.5">
-                Gerador de Vídeos em Alta Definição
+              <h2 className="text-base sm:text-lg font-serif text-[#fff8e7] mt-0.5 flex items-center gap-2">
+                <span>Animação Cinematográfica das Artes Aprovadas</span>
+                <span className="text-xs font-mono font-normal text-[#d6ae52] bg-[#052a1e] px-2 py-0.5 rounded-md border border-[#d6ae52]/25">
+                  {approvedCount} de 21 Aprovados
+                </span>
               </h2>
             </div>
           </div>
 
-          <button
-            onClick={() => {
-              setIsPlaying(false);
-              stopAudio();
-              onClose();
-            }}
-            className="p-2 text-slate-400 hover:text-white bg-slate-900/60 hover:bg-slate-800 rounded-xl transition cursor-pointer border-none"
-            aria-label="Fechar estúdio"
-          >
-            <X size={20} />
-          </button>
+          <div className="flex items-center gap-2">
+            {/* Aspect Ratio Selector */}
+            <div className="flex items-center gap-1 bg-[#02150f] p-1 rounded-xl border border-[#d6ae52]/20">
+              {(['9:16', '16:9', '1:1'] as AspectRatio[]).map(ratio => (
+                <button
+                  key={ratio}
+                  type="button"
+                  onClick={() => setAspectRatio(ratio)}
+                  className={`px-2.5 py-1 rounded-lg text-xs font-mono transition cursor-pointer ${
+                    aspectRatio === ratio
+                      ? 'bg-[#d6ae52] text-[#031b13] font-bold shadow'
+                      : 'text-[#b9cdbf] hover:text-[#fff8e7]'
+                  }`}
+                >
+                  {ratio === '9:16' ? 'Vertical 9:16 (Reels/Shorts)' : ratio === '16:9' ? 'Horizontal 16:9 (YouTube)' : 'Quadrado 1:1'}
+                </button>
+              ))}
+            </div>
+
+            <button
+              onClick={onClose}
+              className="p-2 text-[#b9cdbf] hover:text-[#fff8e7] bg-[#052a1e] hover:bg-[#073426] border border-[#d6ae52]/20 rounded-xl transition cursor-pointer"
+              title="Fechar estúdio"
+            >
+              <X size={18} />
+            </button>
+          </div>
         </div>
 
-        {/* Studio Content Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 flex-1 overflow-y-auto pr-1">
-          {/* Left / Center: Live Canvas Preview */}
-          <div className="lg:col-span-7 flex flex-col items-center justify-center bg-[#010e09] border border-[#d6ae52]/20 rounded-2xl p-4 relative min-h-[420px]">
-            <div
-              className="relative shadow-[0_15px_50px_rgba(0,0,0,0.8)] rounded-xl overflow-hidden border border-[#d6ae52]/30 max-h-[440px] flex items-center justify-center"
-              style={{
-                aspectRatio: aspectRatio === '9:16' ? '9/16' : aspectRatio === '16:9' ? '16/9' : '1/1',
-              }}
-            >
+        {/* 21 DAYS CAROUSEL / SELECTOR BAR */}
+        <div className="border border-[#d6ae52]/20 rounded-2xl bg-[#02150f]/80 p-2.5 shrink-0 space-y-2">
+          <div className="flex items-center justify-between text-[11px] font-mono text-[#d6ae52]">
+            <span className="flex items-center gap-1.5 uppercase tracking-wider font-semibold">
+              <Compass size={13} />
+              Selecione o Dia da Jornada (1 a 21)
+            </span>
+            <span className="text-[#b9cdbf]">
+              Dia {selectedDayNum}: <strong className="text-[#fff8e7]">{currentRecord.title}</strong> ({currentRecord.cycle})
+            </span>
+          </div>
+
+          <div className="flex items-center gap-1.5 overflow-x-auto pb-1 scrollbar-thin">
+            {days.map(d => {
+              const isSelected = d.day === selectedDayNum;
+              const isApproved = d.status === 'aprovado';
+              const isRejected = d.status === 'reprovado_automaticamente';
+
+              return (
+                <button
+                  key={d.day}
+                  type="button"
+                  onClick={() => {
+                    setSelectedDayNum(d.day);
+                    setSelectedStageStep(null);
+                    setIsPlaying(false);
+                    stopAudioTone();
+                  }}
+                  className={`p-2 rounded-xl text-left border transition shrink-0 cursor-pointer flex items-center gap-2.5 min-w-[170px] ${
+                    isSelected
+                      ? 'bg-[#d6ae52]/25 border-[#d6ae52] text-[#fff8e7] shadow-md shadow-[#d6ae52]/10 ring-1 ring-[#d6ae52]'
+                      : isApproved
+                      ? 'bg-[#052a1e] border-emerald-500/40 text-[#c8d8cc] hover:border-emerald-400'
+                      : isRejected
+                      ? 'bg-rose-950/40 border-rose-500/40 text-rose-200'
+                      : 'bg-[#031b13] border-[#d6ae52]/15 text-[#b9cdbf] hover:border-[#d6ae52]/30'
+                  }`}
+                >
+                  <img
+                    src={d.artUrl}
+                    alt={`Dia ${d.day}`}
+                    className="w-10 h-10 rounded-lg object-cover border border-[#d6ae52]/30 shrink-0 bg-black/40"
+                  />
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-center justify-between w-full">
+                      <span className="text-[10px] font-mono font-bold text-[#d6ae52]">
+                        DIA {d.day.toString().padStart(2, '0')}
+                      </span>
+                      {isApproved && (
+                        <span className="text-[9px] font-mono text-emerald-400 flex items-center gap-0.5">
+                          <Check size={10} /> OK
+                        </span>
+                      )}
+                      {isRejected && (
+                        <span className="text-[9px] font-mono text-rose-400 flex items-center gap-0.5">
+                          <AlertTriangle size={10} /> REPR.
+                        </span>
+                      )}
+                    </div>
+                    <div className="text-xs font-serif truncate text-[#fff8e7]">
+                      {d.title}
+                    </div>
+                  </div>
+                </button>
+              );
+            })}
+          </div>
+        </div>
+
+        {/* WORKSPACE: LEFT PREVIEW + RIGHT CONTROLS */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 overflow-y-auto flex-1 pr-1">
+          
+          {/* LEFT COLUMN: LIVE CANVAS PREVIEW & EXPORT (5 Cols) */}
+          <div className="lg:col-span-5 flex flex-col items-center justify-center p-4 rounded-2xl bg-[#02150f] border border-[#d6ae52]/25 space-y-4">
+            
+            {/* Viewport Frame */}
+            <div className="relative w-full flex items-center justify-center overflow-hidden rounded-2xl border border-[#d6ae52]/30 bg-black/60 p-2 shadow-inner">
               <canvas
                 ref={canvasRef}
-                width={canvasDims.width}
-                height={canvasDims.height}
-                className="w-full h-full object-contain"
+                className="max-h-[460px] max-w-full rounded-xl object-contain shadow-2xl border border-[#d6ae52]/20"
+                style={{
+                  aspectRatio: aspectRatio === '9:16' ? '9/16' : aspectRatio === '16:9' ? '16/9' : '1/1'
+                }}
               />
 
-              {isRecording && (
-                <div className="absolute inset-0 bg-black/60 backdrop-blur-xs flex flex-col items-center justify-center p-6 text-center">
-                  <div className="w-16 h-16 rounded-full border-4 border-[#d6ae52] border-t-transparent animate-spin mb-4" />
-                  <p className="font-display text-xl text-[#fffdfa] font-semibold">Renderizando Vídeo HD...</p>
-                  <p className="text-xs text-[#d6ae52] font-mono mt-1">{recordProgress}% concluído</p>
-                  <div className="w-48 h-2 bg-black/40 rounded-full mt-3 overflow-hidden border border-[#d6ae52]/30">
+              {/* Status Overlay Badge */}
+              <div className="absolute top-4 left-4 flex flex-col gap-1.5 pointer-events-none">
+                <span className="text-[10px] font-mono bg-[#031b13]/90 backdrop-blur-md border border-[#d6ae52]/40 text-[#e8d38f] px-2.5 py-1 rounded-full shadow flex items-center gap-1.5">
+                  <Film size={11} className="text-[#d6ae52]" />
+                  Dia {currentRecord.day}: {currentRecord.title}
+                </span>
+
+                {currentRecord.status === 'aprovado' && (
+                  <span className="text-[10px] font-mono bg-emerald-950/90 border border-emerald-500/50 text-emerald-200 px-2.5 py-1 rounded-full shadow flex items-center gap-1">
+                    <ShieldCheck size={12} className="text-emerald-400" />
+                    VÍDEO APROVADO PARA A JORNADA
+                  </span>
+                )}
+
+                {currentRecord.status === 'reprovado_automaticamente' && (
+                  <span className="text-[10px] font-mono bg-rose-950/90 border border-rose-500/60 text-rose-200 px-2.5 py-1 rounded-full shadow flex items-center gap-1">
+                    <AlertTriangle size={12} className="text-rose-400" />
+                    REPROVADO AUTOMATICAMENTE
+                  </span>
+                )}
+              </div>
+
+              {/* Progress bar during generation */}
+              {isRenderingVideo && (
+                <div className="absolute inset-0 bg-[#02150f]/85 backdrop-blur-sm flex flex-col items-center justify-center p-6 space-y-3 z-20">
+                  <div className="w-12 h-12 rounded-full border-2 border-[#d6ae52]/30 border-t-[#d6ae52] animate-spin" />
+                  <p className="text-sm font-serif text-[#fff8e7]">
+                    Renderizando Animação Cinematográfica...
+                  </p>
+                  <p className="text-xs font-mono text-[#d6ae52]">
+                    {renderProgress}% concluído • Gravando a 30 FPS
+                  </p>
+                  <div className="w-48 h-2 bg-[#052a1e] rounded-full overflow-hidden border border-[#d6ae52]/30">
                     <div
-                      className="h-full bg-gradient-to-r from-[#c8a24a] to-[#e8d38f] transition-all duration-200"
-                      style={{ width: `${recordProgress}%` }}
+                      className="h-full bg-gradient-to-r from-[#d6ae52] to-[#e8d38f] transition-all duration-150"
+                      style={{ width: `${renderProgress}%` }}
                     />
                   </div>
-                  <span className="text-[11px] text-slate-400 mt-3">Gravando vídeo + frequências de cura em tempo real</span>
                 </div>
               )}
             </div>
 
-            {/* Live Controls */}
-            <div className="flex items-center justify-between w-full mt-4 px-2">
+            {/* Timeline Scrubber & Progressive Illumination Control */}
+            <div className="w-full space-y-2 px-1 pt-1">
+              <div className="flex items-center justify-between text-[11px] font-mono text-[#d6ae52]">
+                <span className="flex items-center gap-1.5 font-bold">
+                  <Sparkles size={12} className="text-[#e5c158]" />
+                  <span>Evolução do Corpo:</span>
+                  <strong className="text-[#fff8e7]">
+                    {selectedStageStep !== null
+                      ? `Etapa ${selectedStageStep} Fixada`
+                      : `Ciclo Vivo (${Math.round((currentTimeSec / (currentRecord.durationSeconds || 10)) * 100)}%)`}
+                  </strong>
+                </span>
+                <span className="text-[#b9cdbf]">
+                  {currentTimeSec.toFixed(1)}s / {currentRecord.durationSeconds || 10}s
+                </span>
+              </div>
+
+              {/* Slider de scrub em tempo real */}
+              <input
+                type="range"
+                min={0}
+                max={currentRecord.durationSeconds || 10}
+                step={0.1}
+                value={currentTimeSec}
+                onChange={(e) => {
+                  const val = parseFloat(e.target.value);
+                  setIsPlaying(false);
+                  stopAudioTone();
+                  setSelectedStageStep(null);
+                  setCurrentTimeSec(val);
+                  const duration = currentRecord.durationSeconds || 10;
+                  startTimeRef.current = performance.now() - val * 1000;
+                  requestAnimationFrame(renderFrame);
+                }}
+                className="w-full accent-[#d6ae52] bg-[#052a1e] h-2 rounded-lg cursor-pointer border border-[#d6ae52]/30"
+                title="Arraste para ver a evolução da iluminação do corpo em qualquer segundo"
+              />
+
+              {/* 5 Botões de Salto Imediato das Etapas de Iluminação */}
+              <div className="grid grid-cols-5 gap-1 pt-0.5">
+                {[
+                  { step: 1, label: '1. Inicial' },
+                  { step: 2, label: '2. Luz Chega' },
+                  { step: 3, label: '3. Desce' },
+                  { step: 4, label: '4. Enraíza' },
+                  { step: 5, label: '5. Integra' }
+                ].map((s) => {
+                  const isCurrent = selectedStageStep === s.step;
+                  return (
+                    <button
+                      key={s.step}
+                      type="button"
+                      onClick={() => {
+                        setIsPlaying(false);
+                        stopAudioTone();
+                        setSelectedStageStep(s.step);
+                        const duration = currentRecord.durationSeconds || 10;
+                        let tNorm = 0.10;
+                        if (s.step === 2) tNorm = 0.30;
+                        else if (s.step === 3) tNorm = 0.52;
+                        else if (s.step === 4) tNorm = 0.74;
+                        else if (s.step === 5) tNorm = 0.95;
+                        setCurrentTimeSec(tNorm * duration);
+                        startTimeRef.current = performance.now() - tNorm * duration * 1000;
+                        requestAnimationFrame(renderFrame);
+                      }}
+                      className={`py-1 px-1 rounded-lg text-[10px] font-mono transition text-center cursor-pointer border truncate ${
+                        isCurrent
+                          ? 'bg-[#d6ae52] text-[#02150f] font-bold border-[#d6ae52] shadow-sm shadow-[#d6ae52]/30'
+                          : 'bg-[#052a1e] text-[#b9cdbf] hover:text-[#fff8e7] border-[#d6ae52]/20'
+                      }`}
+                      title={`Ver a etapa ${s.step}: ${s.label}`}
+                    >
+                      {s.label}
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+
+            {/* Playback Controls & Indicators */}
+            <div className="w-full flex items-center justify-between gap-2 px-1 pt-1 border-t border-[#d6ae52]/15">
               <div className="flex items-center gap-2">
                 <button
-                  onClick={handleTogglePreview}
-                  disabled={isRecording}
-                  className="px-4 py-2 rounded-xl bg-[#d6ae52]/15 hover:bg-[#d6ae52]/25 border border-[#d6ae52]/40 text-[#fffdfa] text-xs font-semibold flex items-center gap-2 transition cursor-pointer"
+                  type="button"
+                  onClick={() => {
+                    setSelectedStageStep(null);
+                    handleTogglePlay();
+                  }}
+                  disabled={isRenderingVideo}
+                  className="px-3.5 py-2 rounded-xl bg-[#052a1e] hover:bg-[#073426] border border-[#d6ae52]/40 text-[#e8d38f] text-xs font-mono font-semibold flex items-center gap-1.5 transition cursor-pointer disabled:opacity-50"
+                  title="Reproduzir o ciclo completo da iluminação corporal ao longo do tempo"
                 >
-                  {isPlaying ? <Pause size={16} /> : <Play size={16} />}
-                  <span>{isPlaying ? 'Pausar Visualização' : 'Testar Animação Ao Vivo'}</span>
+                  {isPlaying ? <Pause size={14} /> : <Play size={14} />}
+                  <span>{isPlaying ? 'Pausar' : 'Ciclo Contínuo'}</span>
                 </button>
 
                 <button
-                  onClick={() => setEnableAudio(!enableAudio)}
+                  type="button"
+                  onClick={() => {
+                    setEnableAmbientTone(!enableAmbientTone);
+                    if (!enableAmbientTone && isPlaying) startAudioTone();
+                    else stopAudioTone();
+                  }}
                   className={`p-2 rounded-xl border text-xs transition cursor-pointer ${
-                    enableAudio
-                      ? 'bg-[#052a1e] border-[#d6ae52]/40 text-[#e8d38f]'
-                      : 'bg-slate-900 border-slate-700 text-slate-400'
+                    enableAmbientTone
+                      ? 'bg-[#d6ae52]/20 border-[#d6ae52] text-[#e8d38f]'
+                      : 'bg-[#052a1e] border-[#d6ae52]/20 text-[#b9cdbf] hover:text-[#fff8e7]'
                   }`}
-                  title="Ativar/Desativar Frequência de Áudio"
+                  title="Tom harmônico de 528Hz durante prévia"
                 >
-                  {enableAudio ? <Volume2 size={16} /> : <VolumeX size={16} />}
+                  {enableAmbientTone ? <Volume2 size={15} /> : <VolumeX size={15} />}
                 </button>
               </div>
 
-              {/* Record / Download Button */}
-              {recordedVideoUrl ? (
-                <a
-                  href={recordedVideoUrl}
-                  download={`vinheta-${selectedPreset}-${aspectRatio.replace(':', '-')}.webm`}
-                  className="px-4 py-2 rounded-xl bg-gradient-to-r from-[#c8a24a] to-[#e8d38f] text-slate-950 font-bold text-xs flex items-center gap-2 shadow-lg shadow-[#d6ae52]/20 hover:scale-102 transition"
+              <button
+                type="button"
+                onClick={handleExportCurrentFrame}
+                className="px-2.5 py-1.5 rounded-xl bg-[#052a1e] hover:bg-[#073426] border border-[#d6ae52]/25 text-[#cbd5e1] hover:text-[#fff8e7] text-[11px] font-mono flex items-center gap-1.5 transition cursor-pointer"
+                title="Salvar a foto da etapa atual em alta definição (PNG)"
+              >
+                <Download size={12} className="text-[#d6ae52]" />
+                <span>Foto (PNG)</span>
+              </button>
+            </div>
+
+            {/* Actions: Gerar Vídeo / Download */}
+            <div className="w-full grid grid-cols-2 gap-2 pt-2 border-t border-[#d6ae52]/15">
+              <button
+                type="button"
+                onClick={handleGenerateVideo}
+                disabled={isRenderingVideo}
+                className="w-full bg-gradient-to-r from-[#d6ae52] to-[#c8a24a] hover:from-[#e8d38f] hover:to-[#d6ae52] text-[#02150f] font-bold py-2.5 px-3 rounded-xl text-xs font-mono flex items-center justify-center gap-2 transition cursor-pointer shadow-lg shadow-[#d6ae52]/15 disabled:opacity-50"
+              >
+                <Video size={15} />
+                <span>{isRenderingVideo ? 'Gerando...' : 'Gravar Vídeo do Dia'}</span>
+              </button>
+
+              <button
+                type="button"
+                onClick={handleDownloadVideo}
+                disabled={!recordedVideoUrl}
+                className="w-full bg-[#052a1e] hover:bg-[#073426] border border-[#d6ae52]/40 text-[#e8d38f] font-semibold py-2.5 px-3 rounded-xl text-xs font-mono flex items-center justify-center gap-2 transition cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed"
+              >
+                <Download size={14} />
+                <span>Baixar Vídeo (.webm)</span>
+              </button>
+            </div>
+          </div>
+
+          {/* RIGHT COLUMN: BRIEFING FIELDS & AUTOMATIC REJECTION AUDITOR (7 Cols) */}
+          <div className="lg:col-span-7 space-y-4">
+            
+            {/* Header of the Day */}
+            <div className="p-4 rounded-2xl bg-[#02150f] border border-[#d6ae52]/25 space-y-2">
+              <div className="flex items-center justify-between">
+                <span className="text-xs font-mono uppercase tracking-wider text-[#d6ae52] font-semibold">
+                  Dia {currentRecord.day} • {currentRecord.cycle}
+                </span>
+                <span className="text-[11px] font-mono text-[#b9cdbf]">
+                  Regra Principal: Animar sem redesenhar
+                </span>
+              </div>
+              <h3 className="text-lg font-serif text-[#fff8e7]">
+                {currentRecord.title}
+              </h3>
+              <p className="text-xs text-[#c8d8cc] leading-relaxed">
+                <strong>Intenção:</strong> {currentRecord.intention}
+              </p>
+              <div className="pt-1.5 border-t border-[#d6ae52]/15 flex items-center gap-2 text-xs font-mono text-[#e8d38f]">
+                <Layers size={13} className="text-[#d6ae52] shrink-0" />
+                <span><strong>Região Corporal:</strong> {currentRecord.bodyRegionFocus}</span>
+              </div>
+            </div>
+
+            {/* Imagem Aprovada do Dia + Upload opcional */}
+            <div className="p-3.5 rounded-2xl bg-[#02150f] border border-[#d6ae52]/20 space-y-2">
+              <div className="flex items-center justify-between">
+                <label className="text-[11px] font-mono text-[#d6ae52] uppercase tracking-wider block font-semibold">
+                  Imagem Aprovada do Dia (Referência Visual Definitiva)
+                </label>
+                <label className="text-[10px] font-mono text-[#e8d38f] hover:underline flex items-center gap-1 cursor-pointer">
+                  <Upload size={11} />
+                  <span>Carregar Nova Arte</span>
+                  <input
+                    type="file"
+                    accept="image/*"
+                    onChange={handleArtUpload}
+                    className="hidden"
+                  />
+                </label>
+              </div>
+
+              <div className="flex items-center gap-3">
+                <img
+                  src={currentRecord.artUrl}
+                  alt={currentRecord.title}
+                  className="w-16 h-16 rounded-xl object-cover border border-[#d6ae52]/40 shrink-0 shadow"
+                />
+                <div className="text-xs text-[#c8d8cc] leading-relaxed flex-1">
+                  <p className="font-semibold text-[#fff8e7]">Arte Sagrada Oficial do Dia {currentRecord.day.toString().padStart(2, '0')}</p>
+                  <p className="text-[11px] text-[#b9cdbf]">
+                    Corpo neutro universal, composição e logo Everton Piceni mantidos intactos.
+                  </p>
+                  {currentRecord.mainAffirmation && (
+                    <div className="mt-1.5 p-2 rounded-lg bg-[#052a1e] border border-[#d6ae52]/20 text-[11px]">
+                      <span className="text-[#d6ae52] font-semibold block">{currentRecord.mainAffirmation}</span>
+                      {currentRecord.subPhrase && (
+                        <span className="text-[#c8d8cc] italic text-[10px] block mt-0.5">"{currentRecord.subPhrase}"</span>
+                      )}
+                    </div>
+                  )}
+                </div>
+              </div>
+            </div>
+
+            {/* As 5 Etapas da Animação do Dia */}
+            {currentRecord.stages && currentRecord.stages.length > 0 && (
+              <div className="p-3.5 rounded-2xl bg-[#02150f] border border-[#d6ae52]/20 space-y-2.5">
+                <div className="flex items-center justify-between">
+                  <label className="text-[11px] font-mono text-[#d6ae52] uppercase tracking-wider font-semibold flex items-center gap-1.5">
+                    <Sparkles size={12} />
+                    As 5 Etapas Energéticas da Arte (Progressão Contínua)
+                  </label>
+                  <span className="text-[10px] font-mono text-[#b9cdbf]">
+                    {selectedStageStep !== null ? `Etapa ${selectedStageStep} Selecionada` : 'Ciclo Completo (1 a 5)'}
+                  </span>
+                </div>
+
+                <div className="grid grid-cols-1 sm:grid-cols-5 gap-1.5">
+                  {currentRecord.stages.map((stage) => {
+                    const isStepActive = selectedStageStep === stage.step;
+                    return (
+                      <button
+                        key={stage.step}
+                        type="button"
+                        onClick={() => setSelectedStageStep(isStepActive ? null : stage.step)}
+                        className={`p-2 rounded-xl text-left border transition cursor-pointer flex flex-col justify-between ${
+                          isStepActive
+                            ? 'bg-[#d6ae52]/20 border-[#d6ae52] text-[#fff8e7] ring-1 ring-[#d6ae52]'
+                            : 'bg-[#031b13] border-[#d6ae52]/15 text-[#b9cdbf] hover:border-[#d6ae52]/30'
+                        }`}
+                      >
+                        <div className="flex items-center justify-between w-full">
+                          <span className="text-[9px] font-mono font-bold text-[#d6ae52]">
+                            ETAPA {stage.step}
+                          </span>
+                        </div>
+                        <div className="text-[11px] font-semibold text-[#fff8e7] truncate mt-1">
+                          {stage.title}
+                        </div>
+                        <div className="text-[10px] text-[#a4b8ab] line-clamp-2 mt-0.5 leading-tight">
+                          {stage.description}
+                        </div>
+                      </button>
+                    );
+                  })}
+                </div>
+
+                {selectedStageStep !== null && (
+                  <div className="p-2.5 rounded-xl bg-[#052a1e] border border-[#d6ae52]/30 flex items-center justify-between text-xs">
+                    <span className="text-[#e8d38f]">
+                      Focando <strong>Etapa {selectedStageStep}: {currentRecord.stages[selectedStageStep - 1]?.title}</strong> — {currentRecord.stages[selectedStageStep - 1]?.description}
+                    </span>
+                    <button
+                      type="button"
+                      onClick={() => setSelectedStageStep(null)}
+                      className="text-[10px] font-mono text-[#b9cdbf] hover:text-[#fff8e7] underline ml-2 shrink-0 cursor-pointer"
+                    >
+                      Voltar ao Ciclo Completo
+                    </button>
+                  </div>
+                )}
+              </div>
+            )}
+
+            {/* Prompt de Animação do Briefing */}
+            <div className="p-3.5 rounded-2xl bg-[#02150f] border border-[#d6ae52]/20 space-y-1.5">
+              <div className="flex items-center justify-between">
+                <label className="text-[11px] font-mono text-[#d6ae52] uppercase tracking-wider font-semibold">
+                  Prompt de Animação (Respiração, Luz Volumétrica & Câmera)
+                </label>
+                <span className="text-[10px] font-mono text-[#b9cdbf]">
+                  Foco corporal do Dia {currentRecord.day}
+                </span>
+              </div>
+              <textarea
+                value={currentRecord.animationPrompt}
+                onChange={(e) => updateCurrentRecord('animationPrompt', e.target.value)}
+                rows={3}
+                className="w-full bg-[#031b13] border border-[#d6ae52]/20 rounded-xl p-2.5 text-xs text-[#fff8e7] focus:border-[#d6ae52] outline-none font-sans leading-relaxed"
+              />
+            </div>
+
+            {/* Negative Prompt Padrão Obrigatório */}
+            <div className="p-3.5 rounded-2xl bg-[#02150f] border border-[#d6ae52]/20 space-y-1.5">
+              <div className="flex items-center justify-between">
+                <label className="text-[11px] font-mono text-amber-400 uppercase tracking-wider font-semibold flex items-center gap-1.5">
+                  <Lock size={12} />
+                  Negative Prompt Padrão do Briefing (Escudo de Fidelidade)
+                </label>
+                <span className="text-[10px] font-mono text-slate-400">Imutável</span>
+              </div>
+              <textarea
+                value={currentRecord.negativePrompt}
+                onChange={(e) => updateCurrentRecord('negativePrompt', e.target.value)}
+                rows={3}
+                className="w-full bg-[#031b13]/60 border border-slate-800 rounded-xl p-2.5 text-[11px] text-slate-300 focus:border-amber-500 outline-none font-mono leading-relaxed"
+              />
+            </div>
+
+            {/* Parâmetros do Briefing (Duração, Intensidade, Preservação, Câmera) */}
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
+              {/* Duração 8 a 12s */}
+              <div className="p-2.5 rounded-xl bg-[#02150f] border border-[#d6ae52]/20 space-y-1">
+                <label className="text-[10px] font-mono text-[#d6ae52] uppercase block">Duração Base</label>
+                <select
+                  value={currentRecord.durationSeconds}
+                  onChange={(e) => updateCurrentRecord('durationSeconds', Number(e.target.value))}
+                  className="w-full bg-[#031b13] border border-[#d6ae52]/25 rounded-lg px-2 py-1 text-xs text-[#fff8e7] outline-none"
                 >
-                  <Download size={16} />
-                  <span>Baixar Vídeo Concluído</span>
-                </a>
-              ) : (
+                  <option value={8}>8 Segundos</option>
+                  <option value={10}>10 Segundos (Padrão)</option>
+                  <option value={12}>12 Segundos</option>
+                </select>
+              </div>
+
+              {/* Intensidade de Movimento */}
+              <div className="p-2.5 rounded-xl bg-[#02150f] border border-[#d6ae52]/20 space-y-1">
+                <label className="text-[10px] font-mono text-[#d6ae52] uppercase block">Intensidade Mov.</label>
+                <select
+                  value={currentRecord.motionStrength}
+                  onChange={(e) => updateCurrentRecord('motionStrength', e.target.value as 'baixa' | 'media')}
+                  className="w-full bg-[#031b13] border border-[#d6ae52]/25 rounded-lg px-2 py-1 text-xs text-[#fff8e7] outline-none"
+                >
+                  <option value="baixa">Baixa (Recomendada)</option>
+                  <option value="media">Média</option>
+                </select>
+              </div>
+
+              {/* Preservação da Imagem */}
+              <div className="p-2.5 rounded-xl bg-[#02150f] border border-[#d6ae52]/20 space-y-1">
+                <label className="text-[10px] font-mono text-[#d6ae52] uppercase block">Aderência Imagem</label>
+                <select
+                  value={currentRecord.imageAdherence}
+                  onChange={(e) => updateCurrentRecord('imageAdherence', e.target.value as 'alta' | 'maxima')}
+                  className="w-full bg-[#031b13] border border-[#d6ae52]/25 rounded-lg px-2 py-1 text-xs text-[#fff8e7] outline-none"
+                >
+                  <option value="maxima">Máxima</option>
+                  <option value="alta">Alta</option>
+                </select>
+              </div>
+
+              {/* Câmera */}
+              <div className="p-2.5 rounded-xl bg-[#02150f] border border-[#d6ae52]/20 space-y-1">
+                <label className="text-[10px] font-mono text-[#d6ae52] uppercase block">Movimento Câmera</label>
+                <select
+                  value={currentRecord.cameraMovement}
+                  onChange={(e) => updateCurrentRecord('cameraMovement', e.target.value as 'push_in_ultralento' | 'estatica_cinematografica')}
+                  className="w-full bg-[#031b13] border border-[#d6ae52]/25 rounded-lg px-2 py-1 text-xs text-[#fff8e7] outline-none"
+                >
+                  <option value="push_in_ultralento">Push-in Ultralento</option>
+                  <option value="estatica_cinematografica">Estática Quase Parada</option>
+                </select>
+              </div>
+            </div>
+
+            {/* BOTÕES DE APROVAÇÃO, REFAZER E AUDITORIA DO BRIEFING */}
+            <div className="p-4 rounded-2xl bg-[#02150f] border border-[#d6ae52]/30 space-y-3">
+              <div className="flex items-center justify-between">
+                <div>
+                  <h4 className="text-xs font-mono font-bold text-[#fff8e7] uppercase flex items-center gap-1.5">
+                    <ShieldCheck size={14} className="text-[#d6ae52]" />
+                    Auditoria de Conformidade com o Briefing
+                  </h4>
+                  <p className="text-[11px] text-[#b9cdbf] mt-0.5">
+                    Se houver tentativa de alterar corpo, textos, logo ou adicionar chakras, o vídeo é <strong>REPROVADO AUTOMATICAMENTE</strong>.
+                  </p>
+                </div>
+
                 <button
-                  onClick={handleStartExport}
-                  disabled={isRecording}
-                  className="px-4 py-2.5 rounded-xl bg-gradient-to-r from-[#c8a24a] to-[#d6ae52] hover:from-[#e8d38f] hover:to-[#c8a24a] text-slate-950 font-bold text-xs tracking-wide uppercase flex items-center gap-2 transition cursor-pointer shadow-md shadow-[#d6ae52]/15"
+                  type="button"
+                  onClick={handleResetCurrentDay}
+                  className="px-2.5 py-1.5 rounded-lg border border-[#d6ae52]/20 text-[11px] font-mono text-[#b9cdbf] hover:text-[#fff8e7] bg-[#052a1e] flex items-center gap-1 cursor-pointer"
+                  title="Restaurar parâmetros padrão do briefing para este dia"
                 >
-                  <Sparkles size={16} />
-                  <span>Gerar e Exportar Vídeo</span>
+                  <RotateCcw size={11} />
+                  <span>Refazer</span>
                 </button>
+              </div>
+
+              <div className="flex flex-wrap items-center gap-2 pt-1">
+                <button
+                  type="button"
+                  onClick={handleValidateAndApprove}
+                  className={`flex-1 py-3 px-4 rounded-xl text-xs font-mono font-bold flex items-center justify-center gap-2 transition cursor-pointer shadow-lg ${
+                    currentRecord.status === 'aprovado'
+                      ? 'bg-emerald-600 hover:bg-emerald-500 text-white shadow-emerald-500/20'
+                      : 'bg-gradient-to-r from-[#d6ae52] to-[#c8a24a] hover:from-[#e8d38f] hover:to-[#d6ae52] text-[#02150f] shadow-[#d6ae52]/20'
+                  }`}
+                >
+                  <CheckCircle2 size={16} />
+                  <span>
+                    {currentRecord.status === 'aprovado'
+                      ? 'Vídeo Aprovado no Briefing (Reavaliar)'
+                      : 'Validar e Aprovar Vídeo para a Jornada'}
+                  </span>
+                </button>
+              </div>
+
+              {/* Status Banner */}
+              {currentRecord.status === 'reprovado_automaticamente' && (
+                <div className="p-3 rounded-xl bg-rose-950/80 border border-rose-500/60 text-rose-200 text-xs space-y-1.5">
+                  <div className="font-bold flex items-center gap-1.5 text-rose-300">
+                    <AlertTriangle size={14} />
+                    REPROVADO AUTOMATICAMENTE PELO CÓDIGO DO ESTÚDIO:
+                  </div>
+                  <p className="text-[11px] leading-relaxed text-rose-200">
+                    {currentRecord.rejectionReason}
+                  </p>
+                  <p className="text-[10px] font-mono text-rose-300/80">
+                    O vídeo violou os princípios do briefing e NÃO entrará na Jornada de 21 Dias.
+                  </p>
+                </div>
+              )}
+
+              {currentRecord.status === 'aprovado' && (
+                <div className="p-3 rounded-xl bg-emerald-950/60 border border-emerald-500/50 text-emerald-200 text-xs space-y-1">
+                  <div className="font-bold flex items-center gap-1.5 text-emerald-300">
+                    <ShieldCheck size={14} />
+                    VÍDEO APROVADO COM SUCESSO:
+                  </div>
+                  <p className="text-[11px] text-emerald-200/90 leading-relaxed">
+                    Corpo neutro preservado, sem chakras, logo oficial como assinatura discreta e movimento cinematográfico suave. Pronto para a Jornada.
+                  </p>
+                </div>
               )}
             </div>
-          </div>
 
-          {/* Right: Customization & Presets Sidebar */}
-          <div className="lg:col-span-5 space-y-4">
-            {/* Format Picker */}
-            <div className="p-4 rounded-2xl bg-[#02150f] border border-[#d6ae52]/20 space-y-2">
-              <label className="text-[11px] font-mono text-[#d6ae52] uppercase tracking-wider block">
-                Formato / Proporção do Vídeo
-              </label>
-              <div className="grid grid-cols-3 gap-2">
-                {[
-                  { id: '9:16', label: 'Vertical (9:16)', desc: 'Reels / Stories' },
-                  { id: '16:9', label: 'Horizontal (16:9)', desc: 'YouTube' },
-                  { id: '1:1', label: 'Quadrado (1:1)', desc: 'Feed' },
-                ].map((fmt) => (
-                  <button
-                    key={fmt.id}
-                    onClick={() => {
-                      setAspectRatio(fmt.id as AspectRatio);
-                      setRecordedVideoUrl(null);
-                    }}
-                    className={`p-2.5 rounded-xl border text-left transition cursor-pointer ${
-                      aspectRatio === fmt.id
-                        ? 'border-[#d6ae52] bg-[#d6ae52]/15 text-[#fffdfa]'
-                        : 'border-[#d6ae52]/15 bg-[#031b13] text-[#c8d8cc] hover:border-[#d6ae52]/30'
-                    }`}
-                  >
-                    <div className="text-xs font-semibold">{fmt.label}</div>
-                    <div className="text-[10px] text-[#d6ae52]/80 mt-0.5">{fmt.desc}</div>
-                  </button>
-                ))}
-              </div>
-            </div>
-
-            {/* Visual Artwork Selector */}
-            <div className="p-4 rounded-2xl bg-[#02150f] border border-[#d6ae52]/20 space-y-2.5">
-              <label className="text-[11px] font-mono text-[#d6ae52] uppercase tracking-wider block">
-                Arte & Imagem Central da Vinheta
-              </label>
-              <div className="grid grid-cols-2 gap-2">
-                <button
-                  type="button"
-                  onClick={() => {
-                    setSelectedVisual('presenca-reintegracao');
-                    setRecordedVideoUrl(null);
-                  }}
-                  className={`p-2.5 rounded-xl border text-left flex items-center gap-2.5 transition cursor-pointer ${
-                    selectedVisual === 'presenca-reintegracao'
-                      ? 'border-[#d6ae52] bg-[#d6ae52]/15 text-[#fffdfa]'
-                      : 'border-[#d6ae52]/15 bg-[#031b13] text-[#c8d8cc] hover:border-[#d6ae52]/30'
-                  }`}
-                >
-                  <img
-                    src="/brand/reintegracao-presenca-arte.png"
-                    alt="Reintegração da Vida"
-                    className="w-10 h-10 rounded-lg object-cover border border-[#d6ae52]/30 shrink-0"
-                  />
-                  <div className="overflow-hidden">
-                    <div className="text-xs font-semibold truncate">Reintegração da Vida</div>
-                    <div className="text-[10px] text-[#d6ae52]/80 truncate">Jornada de Presença</div>
-                  </div>
-                </button>
-
-                <button
-                  type="button"
-                  onClick={() => {
-                    setSelectedVisual('human-chakra');
-                    setRecordedVideoUrl(null);
-                  }}
-                  className={`p-2.5 rounded-xl border text-left flex items-center gap-2.5 transition cursor-pointer ${
-                    selectedVisual === 'human-chakra'
-                      ? 'border-[#d6ae52] bg-[#d6ae52]/15 text-[#fffdfa]'
-                      : 'border-[#d6ae52]/15 bg-[#031b13] text-[#c8d8cc] hover:border-[#d6ae52]/30'
-                  }`}
-                >
-                  <img
-                    src="/brand/human-chakra-model.jpg"
-                    alt="Modelo Chakras"
-                    className="w-10 h-10 rounded-lg object-cover border border-[#d6ae52]/30 shrink-0"
-                  />
-                  <div className="overflow-hidden">
-                    <div className="text-xs font-semibold truncate">Modelo Anatômico</div>
-                    <div className="text-[10px] text-[#d6ae52]/80 truncate">Chakras & Linha de Luz</div>
-                  </div>
-                </button>
-              </div>
-
-              {/* Upload Custom Image option */}
-              <div className="pt-2 border-t border-[#d6ae52]/15 flex items-center justify-between gap-2">
-                <label className="text-[10px] font-mono text-[#c8d8cc] flex items-center gap-1.5 cursor-pointer">
-                  <Upload size={12} className="text-[#d6ae52]" />
-                  <span>Carregar Outra Imagem:</span>
-                </label>
-                <input
-                  type="file"
-                  accept="image/*"
-                  onChange={handleCustomImageUpload}
-                  className="text-[10px] text-slate-400 file:mr-2 file:py-0.5 file:px-2 file:rounded-md file:border-0 file:text-[10px] file:font-semibold file:bg-[#d6ae52]/20 file:text-[#e8d38f] cursor-pointer"
-                />
-              </div>
-            </div>
-
-            {/* Presets Selector */}
-            <div className="p-4 rounded-2xl bg-[#02150f] border border-[#d6ae52]/20 space-y-2">
-              <label className="text-[11px] font-mono text-[#d6ae52] uppercase tracking-wider block">
-                Temas & Meditações Predefinidas
-              </label>
-              <div className="space-y-1.5 max-h-40 overflow-y-auto pr-1">
-                {PRESET_THEMES.map((theme) => (
-                  <button
-                    key={theme.id}
-                    onClick={() => applyPreset(theme.id)}
-                    className={`w-full p-2.5 rounded-xl border text-left flex items-center justify-between transition cursor-pointer ${
-                      selectedPreset === theme.id
-                        ? 'border-[#d6ae52] bg-[#d6ae52]/15 text-[#fffdfa]'
-                        : 'border-[#d6ae52]/10 bg-[#031b13] text-[#c8d8cc] hover:border-[#d6ae52]/25'
-                    }`}
-                  >
-                    <div>
-                      <div className="text-xs font-medium">{theme.name}</div>
-                      <div className="text-[10px] text-[#d6ae52]">{theme.freqLabel} • {theme.durationSeconds}s</div>
-                    </div>
-                    {selectedPreset === theme.id && <CheckCircle2 size={16} className="text-[#d6ae52]" />}
-                  </button>
-                ))}
-              </div>
-            </div>
-
-            {/* Custom Texts & Parameters */}
-            <div className="p-4 rounded-2xl bg-[#02150f] border border-[#d6ae52]/20 space-y-3">
-              <label className="text-[11px] font-mono text-[#d6ae52] uppercase tracking-wider block">
-                Personalização da Arte & Frequência
-              </label>
-
-              <div className="space-y-1">
-                <span className="text-[10px] font-mono text-[#c8d8cc] block">Título em Destaque</span>
-                <input
-                  type="text"
-                  value={customTitle}
-                  onChange={(e) => { setCustomTitle(e.target.value); setRecordedVideoUrl(null); }}
-                  className="w-full bg-[#031b13] border border-[#d6ae52]/25 rounded-xl px-3 py-1.5 text-xs text-slate-100 focus:border-[#d6ae52] outline-none"
-                />
-              </div>
-
-              <div className="space-y-1">
-                <span className="text-[10px] font-mono text-[#c8d8cc] block">Subtítulo / Intenção</span>
-                <input
-                  type="text"
-                  value={customSubtitle}
-                  onChange={(e) => { setCustomSubtitle(e.target.value); setRecordedVideoUrl(null); }}
-                  className="w-full bg-[#031b13] border border-[#d6ae52]/25 rounded-xl px-3 py-1.5 text-xs text-slate-100 focus:border-[#d6ae52] outline-none"
-                />
-              </div>
-
-              <div className="space-y-1">
-                <span className="text-[10px] font-mono text-[#c8d8cc] block">Afirmação / Decreto</span>
-                <textarea
-                  rows={2}
-                  value={customAffirmation}
-                  onChange={(e) => { setCustomAffirmation(e.target.value); setRecordedVideoUrl(null); }}
-                  className="w-full bg-[#031b13] border border-[#d6ae52]/25 rounded-xl px-3 py-1.5 text-xs text-slate-100 focus:border-[#d6ae52] outline-none resize-none"
-                />
-              </div>
-
-              <div className="grid grid-cols-2 gap-2 pt-1">
-                <div className="space-y-1">
-                  <span className="text-[10px] font-mono text-[#c8d8cc] block">Frequência (Hz)</span>
-                  <select
-                    value={frequencyHz}
-                    onChange={(e) => { setFrequencyHz(Number(e.target.value)); setRecordedVideoUrl(null); }}
-                    className="w-full bg-[#031b13] border border-[#d6ae52]/25 rounded-xl px-2.5 py-1.5 text-xs text-slate-100 focus:border-[#d6ae52] outline-none font-mono"
-                  >
-                    <option value={432}>432 Hz (Paz e Mente)</option>
-                    <option value={528}>528 Hz (Transformação)</option>
-                    <option value={639}>639 Hz (Harmonia)</option>
-                    <option value={741}>741 Hz (Clareza e Limpeza)</option>
-                    <option value={396}>396 Hz (Liberação de Medo)</option>
-                    <option value={852}>852 Hz (Intuição Pura)</option>
-                    <option value={963}>963 Hz (Conexão Superior)</option>
-                  </select>
-                </div>
-
-                <div className="space-y-1">
-                  <span className="text-[10px] font-mono text-[#c8d8cc] block">Duração do Clipe</span>
-                  <select
-                    value={durationSeconds}
-                    onChange={(e) => { setDurationSeconds(Number(e.target.value)); setRecordedVideoUrl(null); }}
-                    className="w-full bg-[#031b13] border border-[#d6ae52]/25 rounded-xl px-2.5 py-1.5 text-xs text-slate-100 focus:border-[#d6ae52] outline-none font-mono"
-                  >
-                    <option value={10}>10 segundos (Vinheta Ultra Curta)</option>
-                    <option value={15}>15 segundos (Stories / Reels)</option>
-                    <option value={30}>30 segundos (Meditação Express)</option>
-                    <option value={60}>60 segundos (1 Minuto de Presença)</option>
-                  </select>
-                </div>
-              </div>
-
-              {/* Upload Voice File Option */}
-              <div className="pt-2 border-t border-[#d6ae52]/15">
-                <label className="flex items-center justify-between text-[11px] font-mono text-[#c8d8cc] mb-1.5">
-                  <span className="flex items-center gap-1.5">
-                    <Upload size={13} className="text-[#d6ae52]" />
-                    Áudio de Voz / Narração (Opcional)
-                  </span>
-                  {userVoiceFile && <span className="text-emerald-400 text-[10px]">Carregado</span>}
-                </label>
-                <input
-                  type="file"
-                  accept="audio/*"
-                  onChange={handleVoiceUpload}
-                  className="w-full text-xs text-slate-400 file:mr-2 file:py-1 file:px-3 file:rounded-lg file:border-0 file:text-[11px] file:font-semibold file:bg-[#d6ae52]/20 file:text-[#e8d38f] hover:file:bg-[#d6ae52]/30 cursor-pointer"
-                />
-              </div>
-            </div>
           </div>
         </div>
+
+        {/* Modal Footer */}
+        <div className="flex flex-wrap items-center justify-between gap-2 pt-3 border-t border-[#d6ae52]/20 text-[11px] font-mono text-[#b9cdbf] shrink-0">
+          <div className="flex items-center gap-2">
+            <span>Éverton Piceni — Terapias Holísticas e Bem-Estar</span>
+            <span>•</span>
+            <span className="text-[#d6ae52]">@terapiamorevida</span>
+          </div>
+
+          <div className="flex items-center gap-3">
+            <button
+              type="button"
+              disabled={selectedDayNum <= 1}
+              onClick={() => setSelectedDayNum(prev => Math.max(1, prev - 1))}
+              className="px-2.5 py-1 rounded-lg bg-[#052a1e] border border-[#d6ae52]/20 text-[#fff8e7] disabled:opacity-40 flex items-center gap-1 cursor-pointer"
+            >
+              <ChevronLeft size={13} /> Dia Anterior
+            </button>
+
+            <span className="text-[#e8d38f] font-bold">
+              {selectedDayNum} / 21
+            </span>
+
+            <button
+              type="button"
+              disabled={selectedDayNum >= 21}
+              onClick={() => setSelectedDayNum(prev => Math.min(21, prev + 1))}
+              className="px-2.5 py-1 rounded-lg bg-[#052a1e] border border-[#d6ae52]/20 text-[#fff8e7] disabled:opacity-40 flex items-center gap-1 cursor-pointer"
+            >
+              Próximo Dia <ChevronRight size={13} />
+            </button>
+          </div>
+        </div>
+
       </motion.div>
     </div>
   );

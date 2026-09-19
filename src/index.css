@@ -109,7 +109,6 @@ input::placeholder,textarea::placeholder{color:#7f9d8b!important}
   linear-gradient(180deg,rgba(3,27,19,.76),rgba(2,17,13,.94)),
   url('/brand/forest-app-background.png') center top/cover fixed!important;
 }
-#cura-main-layout>div:first-child{background:radial-gradient(circle at 50% 0,rgba(229,197,111,.13),transparent 30rem)!important}
 #main-header{
  background:linear-gradient(180deg,rgba(3,27,19,.96),rgba(4,38,27,.94))!important;
  border-color:rgba(214,174,82,.24)!important;

@@ -59,7 +59,7 @@ export default function TransformationHome(props: Props) {
 
   if (!journeyEntered) {
     const enterJourney = () => { sessionStorage.setItem('transformation_journey_entered', 'true'); setJourneyEntered(true); toggleWelcome(); };
-    return <div className="mx-auto flex min-h-[calc(100dvh-2rem)] w-full max-w-[520px] items-center px-4 py-5">
+    return <div className="mx-auto w-full max-w-[520px] px-4 py-4 sm:py-6">
       <section className="ep-home-hero relative w-full overflow-hidden rounded-[2rem] border border-[#e7ca76]/35 px-6 py-8 text-center shadow-[0_24px_70px_rgba(0,0,0,.34)]">
         <div className="absolute inset-x-0 top-0 h-48 bg-[linear-gradient(to_bottom,rgba(3,35,25,.08),rgba(3,35,25,.9)),url('/brand/forest-app-background.png')] bg-cover bg-center" />
         <div className="ep-brand-signature-wrap relative mx-auto mb-7 flex h-28 w-28 items-center justify-center overflow-hidden rounded-full border border-[#e7ca76]/28 bg-[#041f17]/65"><img src={brandLogo} alt="Everton Piceni — Terapias Holísticas e Bem-Estar" className="ep-brand-signature h-full w-full object-cover" /></div>
