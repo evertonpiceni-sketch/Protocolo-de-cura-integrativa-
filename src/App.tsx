@@ -229,7 +229,8 @@ export default function App() {
       // Handle play/pause state
       const shouldPlay = (userProfile.audioEnabled !== false) && 
                          userProfile.bgMusicType !== 'none' && 
-                         activeSessionDay === null; // Pause global background music during active session to prevent overlapping
+                         activeSessionDay === null &&
+                         !showPersonalJourney; // Pause global background music during any active meditation/journey
 
       if (shouldPlay) {
         audioEngine.startBG(userProfile.bgMusicType);
@@ -239,7 +240,14 @@ export default function App() {
     } else {
       audioEngine.stopBG();
     }
-  }, [userProfile?.bgMusicType, userProfile?.audioEnabled, userProfile?.bgMusicVolume, activeSessionDay]);
+  }, [userProfile?.bgMusicType, userProfile?.audioEnabled, userProfile?.bgMusicVolume, activeSessionDay, showPersonalJourney]);
+
+  // Reintegração da Vida owns its audio while open: stop global music and speech to prevent overlap.
+  useEffect(() => {
+    if (!showPersonalJourney) return;
+    audioEngine.stopSpeech();
+    audioEngine.stopBG();
+  }, [showPersonalJourney]);
 
   // Handle autoplay block browser policy unlock on first interaction
   useEffect(() => {
@@ -249,7 +257,8 @@ export default function App() {
       if (userProfile) {
         const shouldPlay = (userProfile.audioEnabled !== false) && 
                            userProfile.bgMusicType !== 'none' && 
-                           activeSessionDay === null;
+                           activeSessionDay === null &&
+                           !showPersonalJourney;
                            
         if (shouldPlay) {
           audioEngine.startBG(userProfile.bgMusicType);
@@ -267,7 +276,7 @@ export default function App() {
       window.removeEventListener('click', handleGesture);
       window.removeEventListener('touchstart', handleGesture);
     };
-  }, [userProfile, activeSessionDay]);
+  }, [userProfile, activeSessionDay, showPersonalJourney]);
 
   useEffect(() => {
     if (!userProfile?.reminderTime || typeof Notification === 'undefined' || Notification.permission !== 'granted') return;
