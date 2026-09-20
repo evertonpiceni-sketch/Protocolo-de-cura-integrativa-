@@ -257,3 +257,20 @@ body::before{
   #profile-setup-view{padding:.75rem!important}
   #onboarding-card{border-radius:1.6rem!important}
 }
+
+
+/* MUDANÇA 2 — PALETA OFICIAL DA GRADE DOS 21 DIAS */
+:root{
+  --journey-bg-canvas:#F8F4EC;
+  --journey-bg-card:rgba(255,255,255,.88);
+  --journey-sage:#5E7153;
+  --journey-gold:#B88736;
+  --journey-gold-dark:#8F631E;
+  --journey-text:#2A2420;
+  --journey-text-secondary:#5C5248;
+  --journey-border:#E5DAC6;
+}
+
+/* A nova grade clara usa esta paleta de forma autocontida.
+   As regras escuras legadas acima permanecem apenas para telas ainda não migradas,
+   evitando regressões enquanto a atualização passo a passo é integrada. */
