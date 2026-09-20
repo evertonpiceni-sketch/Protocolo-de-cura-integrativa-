@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { ArrowLeft, Check, ChevronLeft, ChevronRight, Headphones, Pause, Play, RotateCcw, ShieldCheck, X } from 'lucide-react';
-import { REINTEGRATION_DAYS, REINTEGRATION_ACCEPTANCE } from '../data/reintegrationJourneyPublic';
+import { REINTEGRATION_DAYS, getReintegrationAcceptance } from '../data/reintegrationJourneyPublic';
 import brandLogo from '../assets/images/cura_integrada_sacred_emblem_1787104270641.jpg';
 import { audioEngine } from '../lib/audio';
 
@@ -188,7 +188,7 @@ export default function PersonalJourney21({ onClose }: Props) {
             {CHAKRAS.map(([color, top],index) => { const threshold=index/7; const glow=Math.max(0,Math.min(1,(visualLife-threshold)*7)); return <span key={color} className={`absolute left-1/2 h-5 w-5 -translate-x-1/2 rounded-full border border-white/70 transition-all duration-[1800ms] ${playing&&glow>.15?'animate-pulse':''}`} style={{top,backgroundColor:color,opacity:.25+glow*.75,transform:`translateX(-50%) scale(${.75+glow*.45})`,boxShadow:`0 0 ${8+glow*28}px ${2+glow*10}px ${color}`}}/>; })}
             <div className="absolute inset-x-4 bottom-4 rounded-2xl border border-[#d6ae52]/28 bg-[#031b13]/76 p-4 text-center shadow-[0_12px_34px_rgba(0,0,0,.26)] backdrop-blur-xl"><p className="text-xs font-semibold uppercase tracking-[.18em] text-[#d9bd69]">{playing?'Meditação guiada em andamento':'Sua meditação guiada'}</p><p className="mt-2 text-sm text-[#d7e4db]">{playing?'Respire. Permaneça aqui. A luz acompanha o seu momento.':'Voz feminina, música e uma experiência visual de presença.'}</p><div className="mt-3 h-2 overflow-hidden rounded-full bg-black/30"><div className="h-full rounded-full bg-gradient-to-r from-[#b78d32] to-[#f0d98d] transition-all" style={{width:`${audioProgress}%`}}/></div></div>
           </div></section>
-          <label className="ep-reintegration-card flex cursor-pointer items-start gap-3 rounded-3xl p-5"><input type="checkbox" checked={accepted} onChange={e=>setAccepted(e.target.checked)} className="mt-1 h-5 w-5 accent-[#d6ae52]"/><span className="text-sm leading-6 text-[#d7e4db]">{REINTEGRATION_ACCEPTANCE}</span></label>
+          <label className="ep-reintegration-card flex cursor-pointer items-start gap-3 rounded-3xl p-5"><input type="checkbox" checked={accepted} onChange={e=>setAccepted(e.target.checked)} className="mt-1 h-5 w-5 accent-[#d6ae52]"/><span className="text-sm leading-6 text-[#d7e4db]">{getReintegrationAcceptance(day)}</span></label>
           <button disabled={!accepted} onClick={startGuidedMeditation} className="ep-gold-button flex w-full items-center justify-center gap-3 rounded-2xl px-5 py-4 font-bold disabled:opacity-40">{playing?<Pause size={20}/>:started?<Play size={20}/>:<Headphones size={20}/>} {playing?'Pausar meditação':started?'Continuar meditação':'Iniciar meditação guiada'}</button>
           <article className="ep-reintegration-card rounded-3xl p-5">
             <p className="text-xs uppercase tracking-[.16em] text-[#d9bd69]">Energias trabalhadas nesta etapa</p>
