@@ -130,4 +130,32 @@ const cuesFor = (source: Source, day: number): GuidedCue[] => {
 
 export const REINTEGRATION_DAYS: ReintegrationDay[] = data.map((source, index) => ({ ...source, day: index + 1, reflectionPrompts: reflectionQuestions[index], audioCues: cuesFor(source, index + 1) }));
 
-export const REINTEGRATION_ACCEPTANCE = 'Eu aceito conscientemente receber a prática e a programação energética correspondente ao meu dia na jornada 21 Dias para Voltar para Mim — Reintegração da Vida, conforme programado e energizado neste áudio por Everton Rodrigo Piceni, respeitando meus limites, minha autonomia e minha liberdade de interromper a prática quando desejar.';
+const REINTEGRATION_ACCEPTANCE_INTENTIONS: Record<number, string> = {
+  1: 'reconhecer meu corpo, encontrar sustentação',
+  2: 'voltar a habitar meu corpo e escutar minhas necessidades',
+  3: 'dar o menor passo possível em direção ao movimento',
+  4: 'permitir o cuidado e abrir espaço para receber',
+  5: 'permanecer ao meu próprio lado com gentileza',
+  6: 'reabrir espaço para o prazer e para o conforto possível',
+  7: 'perceber meus padrões com acolhimento e sem julgamento',
+  8: 'liberar o que já não me sustenta e guardar o aprendizado',
+  9: 'escolher uma nova resposta que seja respeitosa comigo',
+  10: 'reconhecer meu valor antes de qualquer desempenho',
+  11: 'suavizar a autocobrança e me orientar com calma',
+  12: 'reencontrar quem eu sou além das dores e rótulos',
+  13: 'abrir uma pequena porta de aproximação segura com a vida',
+  14: 'permitir o contato preservando meus limites e autonomia',
+  15: 'sustentar uma pequena ação com constância e sem sobrecarga',
+  16: 'iluminar o próximo passo sem precisar controlar tudo',
+  17: 'desbloquear meus caminhos e permitir que a vida circule',
+  18: 'caminhar com coragem, mesmo sem todas as certezas',
+  19: 'escolher a vida novamente e oferecer um sim íntimo à continuidade',
+  20: 'reunir e reintegrar todas as partes da minha história',
+  21: 'integrar a travessia e retornar à vida cotidiana',
+};
+
+export const getReintegrationAcceptance = (day: number) => {
+  const item = REINTEGRATION_DAYS.find(entry => entry.day === day) || REINTEGRATION_DAYS[0];
+  const intention = REINTEGRATION_ACCEPTANCE_INTENTIONS[item.day] || 'reconhecer meu momento';
+  return `Eu aceito receber esta prática do Dia ${item.day} — ${item.title}, conforme programada e sintonizada por Everton Rodrigo Piceni para a Reintegração da Vida. No meu tempo e respeitando meus limites, permito-me estar aqui, ${intention} e dar mais um passo de volta para mim.`;
+};
