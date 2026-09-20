@@ -8,13 +8,6 @@ import { audioEngine } from '../lib/audio';
 type Props = { onClose: () => void };
 const STORAGE_KEY = 'transformacao_jornada_pessoal_21_dias_v1';
 const REINTEGRATION_MUSIC_URL = 'https://7bhxppl2irhgbptb.public.blob.vercel-storage.com/REINTEGRA%C3%87%C3%83O%20%C3%80%20VIDA.mp3';
-const CHAKRAS = [['#a855f7','22%'],['#6366f1','31%'],['#38bdf8','40%'],['#22c55e','50%'],['#eab308','60%'],['#f97316','69%'],['#ef4444','78%']] as const;
-const MOTES = [
-  { left:'18%', top:'72%', size:5, drift:-46 }, { left:'28%', top:'60%', size:3, drift:-70 },
-  { left:'72%', top:'68%', size:4, drift:-54 }, { left:'82%', top:'55%', size:3, drift:-82 },
-  { left:'38%', top:'78%', size:4, drift:-62 }, { left:'62%', top:'76%', size:5, drift:-76 }
-];
-
 export default function PersonalJourney21({ onClose }: Props) {
   const [day, setDay] = useState(1);
   const [accepted, setAccepted] = useState(false);
@@ -35,11 +28,6 @@ export default function PersonalJourney21({ onClose }: Props) {
   const item = REINTEGRATION_DAYS[day - 1];
   const elapsedSeconds = musicRef.current?.currentTime || 0;
   const totalSeconds = musicRef.current?.duration || 1797;
-  const visualLife = Math.max(0, Math.min(1, audioProgress / 100));
-  const journeyLight = Math.max(0, Math.min(1, (day - 1) / 20));
-  const sessionLight = Math.min(1, journeyLight * 0.58 + visualLife * 0.42);
-  const shellTop = `rgb(${Math.round(3 + journeyLight * 38)}, ${Math.round(27 + journeyLight * 78)}, ${Math.round(19 + journeyLight * 50)})`;
-  const shellBottom = `rgb(${Math.round(2 + journeyLight * 25)}, ${Math.round(17 + journeyLight * 57)}, ${Math.round(13 + journeyLight * 36)})`;
   const formatTime = (seconds: number) => `${Math.floor(seconds / 60)}:${Math.floor(seconds % 60).toString().padStart(2, '0')}`;
   const reflectionText = elapsedSeconds < 240
     ? 'O que o seu corpo precisa para se sentir seguro neste momento?'
@@ -170,7 +158,7 @@ export default function PersonalJourney21({ onClose }: Props) {
   };
 
   return <div className="ep-reintegration-shell relative min-h-screen bg-[#FAF7F2] px-4 py-5 text-[#2A2421]">
-    <div className="pointer-events-none fixed right-4 top-4 z-20 h-14 w-14 overflow-hidden rounded-full border border-[#C89D52]/20 bg-white/50 opacity-30 shadow-[0_8px_24px_rgba(0,0,0,.08)] backdrop-blur-md sm:right-6 sm:top-6 sm:h-16 sm:w-16"><img src={brandLogo} alt="" aria-hidden="true" className="h-full w-full object-cover opacity-80" /></div>
+    <div className="pointer-events-none fixed right-4 top-4 z-20 h-14 w-14 overflow-hidden rounded-full border border-[#d6ae52]/14 bg-[#031b13]/35 opacity-30 shadow-[0_8px_24px_rgba(0,0,0,.12)] backdrop-blur-md sm:right-6 sm:top-6 sm:h-16 sm:w-16"><img src={brandLogo} alt="" aria-hidden="true" className="h-full w-full object-cover opacity-80" /></div>
     <audio ref={musicRef} src={REINTEGRATION_MUSIC_URL} preload="metadata"
       onTimeUpdate={event => { const audio=event.currentTarget; if(Number.isFinite(audio.duration)&&audio.duration>0)setAudioProgress((audio.currentTime/audio.duration)*100); void playCueForTime(audio.currentTime); }}
       onEnded={() => { clearVoice(); playingRef.current=false; setPlaying(false); setAudioProgress(100); }}/>
