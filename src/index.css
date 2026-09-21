@@ -19,30 +19,30 @@
  --color-brand-night:#031b13; --color-brand-navy:#052a1e; --color-brand-surface:#0a3a29; --color-brand-gold:#d6ae52; --color-brand-gold-soft:#b88f38; --color-brand-ivory:#fff8e7; --color-brand-muted:#a9c0b1;
 }
 :root {
- color-scheme:dark;
- --ep-night:#031b13; --ep-deep:#04261b; --ep-navy:#052a1e; --ep-surface:#073426; --ep-surface-2:#0a3a29;
- --ep-gold:#d6ae52; --ep-gold-soft:#b88f38; --ep-gold-light:#efd78f; --ep-ivory:#fff8e7; --ep-muted:#b9cdbf;
- --ep-cream:#f7f0df; --ep-sage:#829e88; --ep-eucalyptus:#5f806b;
+ color-scheme:light;
+ --ep-night:#F8F4EC; --ep-deep:#F3EBDD; --ep-navy:#FBF8F2; --ep-surface:#FFFFFF; --ep-surface-2:#F5EFE4;
+ --ep-gold:#B88736; --ep-gold-soft:#D6A756; --ep-gold-light:#D6A756; --ep-ivory:#2A2420; --ep-muted:#5C5248;
+ --ep-cream:#F8F4EC; --ep-sage:#5E7153; --ep-eucalyptus:#7E9473;
  --chakra-root:#ef4444;--chakra-sacral:#f97316;--chakra-solar:#eab308;--chakra-heart:#22c55e;--chakra-throat:#38bdf8;--chakra-third-eye:#6366f1;--chakra-crown:#a855f7;
 }
-html,body,#root{min-height:100%;background:#031b13}
+html,body,#root{min-height:100%;background:#F8F4EC}
 body{
- color:#fff8e7;
+ color:#2A2420;
  background:
-  radial-gradient(circle at 50% 2%,rgba(224,190,102,.18),transparent 28rem),
-  linear-gradient(180deg,rgba(3,27,19,.86),rgba(2,17,13,.96)),
-  url('/brand/forest-app-background.png') center top/cover fixed;
+  radial-gradient(circle at 12% 4%,rgba(214,167,86,.14),transparent 25rem),
+  radial-gradient(circle at 92% 20%,rgba(94,113,83,.09),transparent 28rem),
+  linear-gradient(180deg,#FBF8F2 0%,#F8F4EC 58%,#F3EBDD 100%);
  background-attachment:fixed;
 }
 body::before{
  content:'';
  position:fixed; inset:0; pointer-events:none; z-index:-1;
  background:
-  radial-gradient(circle at 50% 8%,rgba(255,218,132,.11),transparent 30rem),
-  linear-gradient(90deg,rgba(7,52,38,.22),transparent 24%,transparent 76%,rgba(7,52,38,.22));
+  radial-gradient(ellipse at -8% 24%,rgba(94,113,83,.07),transparent 24%),
+  radial-gradient(ellipse at 108% 34%,rgba(184,135,54,.07),transparent 24%);
 }
 h1,h2,h3,.font-display,.font-serif{font-family:"Cormorant Garamond",Georgia,serif;letter-spacing:.01em}
-::selection{background:rgba(214,174,82,.3);color:#fff8e7}
+::selection{background:#EAD5A8;color:#2A2420}
 
 .ep-premium-surface,.ep-forest-panel,.ep-premium-card{
  background:linear-gradient(145deg,rgba(7,52,38,.96),rgba(4,38,27,.96));
@@ -74,34 +74,31 @@ button{transition:transform .18s ease,filter .18s ease,background-color .18s eas
 button:not(:disabled):active{transform:translateY(1px)}
 input,select,textarea{
  backdrop-filter:blur(12px);
- background-color:rgba(3,27,19,.78)!important;
- color:#fff8e7!important;
- border-color:rgba(214,174,82,.22)!important;
- box-shadow:inset 0 1px 0 rgba(255,255,255,.025);
+ background-color:#F5EFE4!important;
+ color:#2A2420!important;
+ border-color:#E2D5BE!important;
+ box-shadow:inset 0 1px 0 rgba(255,255,255,.65);
 }
-input:focus,select:focus,textarea:focus{border-color:rgba(214,174,82,.52)!important;box-shadow:0 0 0 3px rgba(214,174,82,.09)!important;outline:none}
-input::placeholder,textarea::placeholder{color:#7f9d8b!important}
+input:focus,select:focus,textarea:focus{border-color:#B88736!important;box-shadow:0 0 0 3px rgba(184,135,54,.12)!important;outline:none}
+input::placeholder,textarea::placeholder{color:#9E9080!important}
 
 ::-webkit-scrollbar{width:6px;height:6px}
 ::-webkit-scrollbar-track{background:rgba(2,17,13,.85)}
 ::-webkit-scrollbar-thumb{background:rgba(214,174,82,.32);border-radius:4px}
 ::-webkit-scrollbar-thumb:hover{background:rgba(214,174,82,.5)}
 
-/* Official approved visual system: deep botanical green + discreet gold. Existing dark UI
-   is normalized into the same product language instead of being converted to white/sage. */
-[class*="bg-slate-950"],[class*="bg-[#05060D]"]{background-color:rgba(3,27,19,.97)!important}
-[class*="bg-slate-900"]{background-color:rgba(5,42,30,.94)!important}
-[class*="bg-slate-800"]{background-color:rgba(7,52,38,.9)!important}
-[class*="border-slate-800"],[class*="border-slate-700"]{border-color:rgba(214,174,82,.18)!important}
-[class*="text-slate-100"],[class*="text-slate-200"]{color:#fff8e7!important}
-[class*="text-slate-300"]{color:#e7eee5!important}
-[class*="text-slate-400"],[class*="text-slate-500"]{color:#a9c0b1!important}
-[class*="bg-indigo-600"],[class*="bg-indigo-500"]{background:linear-gradient(135deg,#d9b85f,#ae8030)!important;color:#173d31!important}
-[class*="text-indigo-400"],[class*="text-indigo-300"]{color:#e4c56f!important}
-[class*="border-indigo-500"],[class*="border-indigo-400"]{border-color:rgba(214,174,82,.36)!important}
-[class*="bg-purple-"],[class*="bg-fuchsia-"],[class*="bg-violet-"]{background-color:rgba(5,42,30,.9)!important}
-[class*="border-purple-"],[class*="border-fuchsia-"],[class*="border-violet-"]{border-color:rgba(214,174,82,.24)!important}
-[class*="text-purple-"],[class*="text-fuchsia-"],[class*="text-violet-"]{color:#e4c56f!important}
+/* Compatibilidade temporária: componentes antigos são normalizados para a paleta clara oficial. */
+[class*="bg-slate-950"]:not([class*="fixed"][class*="inset-0"]),[class*="bg-[#05060D]"]{background-color:rgba(255,255,255,.92)!important}
+[class*="bg-slate-900"],[class*="bg-slate-800"]{background-color:rgba(255,255,255,.88)!important}
+[class*="border-slate-800"],[class*="border-slate-700"]{border-color:#E5DAC6!important}
+[class*="text-slate-100"],[class*="text-slate-200"]{color:#2A2420!important}
+[class*="text-slate-300"],[class*="text-slate-400"],[class*="text-slate-500"]{color:#5C5248!important}
+[class*="bg-indigo-600"],[class*="bg-indigo-500"]{background:linear-gradient(135deg,#D6A756,#B88736)!important;color:#fff!important}
+[class*="text-indigo-400"],[class*="text-indigo-300"]{color:#B88736!important}
+[class*="border-indigo-500"],[class*="border-indigo-400"]{border-color:rgba(184,135,54,.35)!important}
+[class*="bg-purple-"],[class*="bg-fuchsia-"],[class*="bg-violet-"]{background-color:#FBF8F2!important}
+[class*="border-purple-"],[class*="border-fuchsia-"],[class*="border-violet-"]{border-color:#E5DAC6!important}
+[class*="text-purple-"],[class*="text-fuchsia-"],[class*="text-violet-"]{color:#B88736!important}
 
 #cura-main-layout{
  background:
