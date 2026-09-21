@@ -1,7 +1,7 @@
 import React, { useState, useRef } from 'react';
 import { User, Sparkles, Shield, Heart, Lock, Mail, Calendar as CalendarIcon, LogIn, UserPlus, KeyRound, CheckCircle2, ArrowLeft, Clock, MapPin, Tag, Phone, Volume2, Play, Square, Loader2 } from 'lucide-react';
 import { UserAccount } from '../types';
-import brandLogo from '../assets/images/cura_integrada_sacred_emblem_1787104270641.jpg';
+import { APPROVED_LOGO_DATA_URI } from './components/ApprovedBrand';
 
 const today = new Date().toISOString().slice(0, 10);
 
@@ -307,7 +307,7 @@ export default function ProfileSetup({ onComplete }: ProfileSetupProps) {
         <div className="text-center space-y-2">
           <div className="ep-brand-signature-wrap w-20 h-20 sm:w-24 sm:h-24 rounded-full overflow-hidden border border-[#d6ae52]/22 mx-auto mb-5 bg-[#031b13]/45 flex items-center justify-center relative group">
             <div className="absolute inset-0 bg-[#d6ae52]/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10 pointer-events-none"></div>
-            <img src={brandLogo} alt="Everton Piceni — Terapias Holísticas e Bem-Estar" className="ep-brand-signature w-full h-full object-cover transition-opacity duration-700" />
+            <img src={APPROVED_LOGO_DATA_URI} alt="Everton Piceni — Terapias Holísticas e Bem-Estar" className="ep-brand-signature w-full h-full object-contain transition-opacity duration-700" />
           </div>
           <span className="text-xs font-mono tracking-widest text-[#e5c66f] uppercase font-semibold">Terapias Holísticas e Bem-Estar</span>
           <h1 className="text-xl md:text-2xl font-display font-medium text-slate-100 leading-tight">
