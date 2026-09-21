@@ -156,18 +156,18 @@ export default function MoodEvolutionChart({
 
   return (
     <div
-      className={`bg-slate-900/80 border border-slate-800 rounded-3xl p-5 sm:p-6 shadow-xl relative overflow-hidden space-y-6 ${className}`}
+      className={`bg-[#FBF8F2]/90 border border-[#E5DAC6] rounded-3xl p-5 sm:p-6 shadow-xl relative overflow-hidden space-y-6 ${className}`}
       id="mood-evolution-container"
     >
       {/* Background glow */}
-      <div className="absolute top-0 right-0 w-80 h-80 bg-indigo-500/5 rounded-full blur-3xl pointer-events-none" />
+      <div className="absolute top-0 right-0 w-80 h-80 bg-[#B88736]/5 rounded-full blur-3xl pointer-events-none" />
       <div className="absolute bottom-0 left-0 w-80 h-80 bg-purple-500/5 rounded-full blur-3xl pointer-events-none" />
 
       {/* Header & Sub-actions */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-800/80 pb-4 relative z-10">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-[#E5DAC6] pb-4 relative z-10">
         <div className="space-y-1">
           <div className="flex items-center gap-2">
-            <span className="text-[10px] font-mono uppercase tracking-widest text-indigo-400 font-bold bg-indigo-500/10 border border-indigo-500/30 px-2.5 py-0.5 rounded-full flex items-center gap-1">
+            <span className="text-[10px] font-mono uppercase tracking-widest text-[#B88736] font-bold bg-[#B88736]/10 border border-[#B88736]/30 px-2.5 py-0.5 rounded-full flex items-center gap-1">
               <BarChart3 size={11} />
               <span>Bioestatística & Psicoemocional</span>
             </span>
@@ -175,24 +175,24 @@ export default function MoodEvolutionChart({
               {completedCount}/{totalDays} Sessões
             </span>
           </div>
-          <h2 className="text-lg sm:text-xl font-display font-medium text-slate-100 flex items-center gap-2">
-            <TrendingUp size={20} className="text-indigo-400 shrink-0" />
+          <h2 className="text-lg sm:text-xl font-display font-medium text-[#2A2420] flex items-center gap-2">
+            <TrendingUp size={20} className="text-[#B88736] shrink-0" />
             <span>Evolução do Humor ao Longo do Protocolo</span>
           </h2>
-          <p className="text-xs text-slate-400">
+          <p className="text-xs text-[#5C5248]">
             Acompanhe o salto vibracional e a transmutação emocional registrada antes e após suas meditações.
           </p>
         </div>
 
         {/* View mode toggle */}
-        <div className="flex items-center gap-1.5 p-1 bg-slate-950/80 border border-slate-850 rounded-2xl shrink-0 self-start sm:self-auto">
+        <div className="flex items-center gap-1.5 p-1 bg-white/80 border border-[#E5DAC6] rounded-2xl shrink-0 self-start sm:self-auto">
           <button
             type="button"
             onClick={() => setViewMode('line')}
             className={`px-3 py-1.5 rounded-xl text-xs font-semibold transition cursor-pointer flex items-center gap-1.5 ${
               viewMode === 'line'
-                ? 'bg-indigo-600 text-white shadow-md shadow-indigo-600/20'
-                : 'text-slate-400 hover:text-slate-200'
+                ? 'bg-[#B88736] text-white shadow-md shadow-indigo-600/20'
+                : 'text-[#5C5248] hover:text-[#2A2420]'
             }`}
             id="btn-mood-view-continuous"
           >
@@ -204,8 +204,8 @@ export default function MoodEvolutionChart({
             onClick={() => setViewMode('comparison')}
             className={`px-3 py-1.5 rounded-xl text-xs font-semibold transition cursor-pointer flex items-center gap-1.5 ${
               viewMode === 'comparison'
-                ? 'bg-indigo-600 text-white shadow-md shadow-indigo-600/20'
-                : 'text-slate-400 hover:text-slate-200'
+                ? 'bg-[#B88736] text-white shadow-md shadow-indigo-600/20'
+                : 'text-[#5C5248] hover:text-[#2A2420]'
             }`}
             id="btn-mood-view-comparison"
           >
@@ -217,15 +217,15 @@ export default function MoodEvolutionChart({
 
       {/* Metric Cards Grid */}
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 relative z-10" id="mood-metrics-grid">
-        <div className="p-3.5 rounded-2xl bg-slate-950/70 border border-slate-850 space-y-1">
-          <span className="text-[10px] font-mono uppercase text-slate-500 tracking-wider block">
+        <div className="p-3.5 rounded-2xl bg-white/75 border border-[#E5DAC6] space-y-1">
+          <span className="text-[10px] font-mono uppercase text-[#85786C] tracking-wider block">
             Humor Médio Pós-Sessão
           </span>
           <div className="flex items-baseline gap-1.5">
-            <span className="text-lg sm:text-xl font-display font-bold text-slate-100 font-mono">
+            <span className="text-lg sm:text-xl font-display font-bold text-[#2A2420] font-mono">
               {avgMood > 0 ? avgMood.toFixed(1) : '--'}
             </span>
-            <span className="text-xs text-slate-500 font-mono">/ 5.0</span>
+            <span className="text-xs text-[#85786C] font-mono">/ 5.0</span>
           </div>
           <span className="text-[10px] text-emerald-400 flex items-center gap-1 font-mono">
             <CheckCircle2 size={10} />
@@ -233,39 +233,39 @@ export default function MoodEvolutionChart({
           </span>
         </div>
 
-        <div className="p-3.5 rounded-2xl bg-slate-950/70 border border-slate-850 space-y-1">
-          <span className="text-[10px] font-mono uppercase text-slate-500 tracking-wider block">
+        <div className="p-3.5 rounded-2xl bg-white/75 border border-[#E5DAC6] space-y-1">
+          <span className="text-[10px] font-mono uppercase text-[#85786C] tracking-wider block">
             Salto Vibracional Médio
           </span>
           <div className="flex items-baseline gap-1.5">
             <span className="text-lg sm:text-xl font-display font-bold text-amber-400 font-mono">
               {averageUplift ? `+${averageUplift}` : '--'}
             </span>
-            <span className="text-xs text-slate-500 font-mono">pts</span>
+            <span className="text-xs text-[#85786C] font-mono">pts</span>
           </div>
           <span className="text-[10px] text-amber-300/80 font-mono truncate block">
             Elevação após meditar
           </span>
         </div>
 
-        <div className="p-3.5 rounded-2xl bg-slate-950/70 border border-slate-850 space-y-1">
-          <span className="text-[10px] font-mono uppercase text-slate-500 tracking-wider block">
+        <div className="p-3.5 rounded-2xl bg-white/75 border border-[#E5DAC6] space-y-1">
+          <span className="text-[10px] font-mono uppercase text-[#85786C] tracking-wider block">
             Estado Predominante
           </span>
-          <div className="text-sm sm:text-base font-semibold text-indigo-300 truncate">
+          <div className="text-sm sm:text-base font-semibold text-[#B88736] truncate">
             {dominantEmoji} {dominantMoodText}
           </div>
-          <span className="text-[10px] text-indigo-400/80 font-mono block">
+          <span className="text-[10px] text-[#B88736]/80 font-mono block">
             Frequência mais frequente
           </span>
         </div>
 
-        <div className="p-3.5 rounded-2xl bg-slate-950/70 border border-slate-850 space-y-1">
-          <span className="text-[10px] font-mono uppercase text-slate-500 tracking-wider block">
+        <div className="p-3.5 rounded-2xl bg-white/75 border border-[#E5DAC6] space-y-1">
+          <span className="text-[10px] font-mono uppercase text-[#85786C] tracking-wider block">
             Índice de Paz (Notas 4-5)
           </span>
           <div className="flex items-baseline gap-1.5">
-            <span className="text-lg sm:text-xl font-display font-bold text-purple-300 font-mono">
+            <span className="text-lg sm:text-xl font-display font-bold text-[#B88736] font-mono">
               {highVibeRate}%
             </span>
           </div>
@@ -278,15 +278,15 @@ export default function MoodEvolutionChart({
       {/* Chart Area */}
       <div className="h-72 sm:h-80 w-full relative pt-2" id="mood-recharts-canvas">
         {completedCount === 0 && (
-          <div className="absolute inset-0 z-20 flex flex-col items-center justify-center bg-slate-950/85 backdrop-blur-xs rounded-2xl border border-dashed border-slate-800 text-center p-6 space-y-3">
-            <div className="p-3.5 bg-indigo-500/10 text-indigo-400 rounded-2xl border border-indigo-500/20 shadow-md">
+          <div className="absolute inset-0 z-20 flex flex-col items-center justify-center bg-[#2A2420]/30 backdrop-blur-xs rounded-2xl border border-dashed border-[#E5DAC6] text-center p-6 space-y-3">
+            <div className="p-3.5 bg-[#B88736]/10 text-[#B88736] rounded-2xl border border-[#B88736]/20 shadow-md">
               <Smile size={26} />
             </div>
             <div className="max-w-md space-y-1">
-              <h4 className="text-sm font-semibold text-slate-200">
+              <h4 className="text-sm font-semibold text-[#2A2420]">
                 Seu Gráfico de Evolução Começa Hoje
               </h4>
-              <p className="text-xs text-slate-400 leading-relaxed">
+              <p className="text-xs text-[#5C5248] leading-relaxed">
                 Assim que você concluir a sua primeira meditação guiada e registrar como se sente no diário, este gráfico traçará sua evolução diária até o 21º dia.
               </p>
             </div>
@@ -384,10 +384,10 @@ export default function MoodEvolutionChart({
       </div>
 
       {/* Legend & Frequency Anchor */}
-      <div className="flex flex-wrap items-center justify-between gap-3 pt-3 border-t border-slate-800/80 text-[11px] text-slate-400 relative z-10">
+      <div className="flex flex-wrap items-center justify-between gap-3 pt-3 border-t border-[#E5DAC6] text-[11px] text-[#5C5248] relative z-10">
         <div className="flex flex-wrap items-center gap-x-4 gap-y-1.5 font-mono text-[10px] uppercase">
-          <span className="flex items-center gap-1.5 text-slate-300">
-            <span className="w-2.5 h-2.5 rounded-full bg-indigo-500 inline-block" />
+          <span className="flex items-center gap-1.5 text-[#5C5248]">
+            <span className="w-2.5 h-2.5 rounded-full bg-[#B88736] inline-block" />
             <span>Pós-Sessão (Estado Renovado)</span>
           </span>
           {viewMode === 'comparison' && (
@@ -398,7 +398,7 @@ export default function MoodEvolutionChart({
           )}
         </div>
 
-        <div className="flex items-center gap-3 text-[10px] font-mono text-slate-500">
+        <div className="flex items-center gap-3 text-[10px] font-mono text-[#85786C]">
           <span>🌸 5 = Em Paz</span>
           <span>☀️ 4 = Calmo</span>
           <span>😐 3 = Neutro</span>
@@ -434,16 +434,16 @@ const MoodChartCustomTooltip = ({ active, payload }: any) => {
     };
 
     return (
-      <div className="bg-slate-950 border border-slate-800 p-4 rounded-2xl shadow-2xl max-w-xs space-y-2.5 z-50 text-slate-200">
-        <div className="flex items-center justify-between border-b border-slate-850 pb-2">
-          <span className="text-xs font-mono font-bold text-indigo-400 uppercase">
+      <div className="bg-white border border-[#E5DAC6] p-4 rounded-2xl shadow-2xl max-w-xs space-y-2.5 z-50 text-[#2A2420]">
+        <div className="flex items-center justify-between border-b border-[#E5DAC6] pb-2">
+          <span className="text-xs font-mono font-bold text-[#B88736] uppercase">
             {data.fullLabel}
           </span>
           <span
             className={`text-[10px] font-mono px-2 py-0.5 rounded-full ${
               data.completed
                 ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/30'
-                : 'bg-slate-900 text-slate-500'
+                : 'bg-[#FBF8F2] text-[#85786C]'
             }`}
           >
             {data.completed ? 'Sessão Concluída' : 'Pendente'}
@@ -451,22 +451,22 @@ const MoodChartCustomTooltip = ({ active, payload }: any) => {
         </div>
 
         <div>
-          <h4 className="text-xs font-semibold text-slate-100">{data.title}</h4>
-          {data.focus && <p className="text-[10px] text-slate-400 mt-0.5">{data.focus}</p>}
+          <h4 className="text-xs font-semibold text-[#2A2420]">{data.title}</h4>
+          {data.focus && <p className="text-[10px] text-[#5C5248] mt-0.5">{data.focus}</p>}
         </div>
 
         {/* Before vs After block */}
-        <div className="space-y-1 bg-slate-900/80 p-2.5 rounded-xl border border-slate-850 text-xs">
+        <div className="space-y-1 bg-[#FBF8F2]/90 p-2.5 rounded-xl border border-[#E5DAC6] text-xs">
           {data.beforeMood !== null && (
             <div className="flex items-center justify-between text-[11px]">
-              <span className="text-slate-400 font-sans">Chegada (Antes):</span>
+              <span className="text-[#5C5248] font-sans">Chegada (Antes):</span>
               <span className="text-amber-300 font-medium font-mono">
                 {getMoodBadge(data.beforeMood)}
               </span>
             </div>
           )}
           {data.mood !== null && (
-            <div className="flex items-center justify-between text-[11px] pt-1 border-t border-slate-800">
+            <div className="flex items-center justify-between text-[11px] pt-1 border-t border-[#E5DAC6]">
               <span className="text-emerald-400 font-sans font-medium">Após Meditação:</span>
               <span className="text-emerald-300 font-bold font-mono">
                 {getMoodBadge(data.mood)}
@@ -483,12 +483,12 @@ const MoodChartCustomTooltip = ({ active, payload }: any) => {
         {/* Sensations */}
         {data.sensations && data.sensations.length > 0 && (
           <div className="space-y-1">
-            <span className="text-[9px] font-mono uppercase text-slate-500 block">Sensações:</span>
+            <span className="text-[9px] font-mono uppercase text-[#85786C] block">Sensações:</span>
             <div className="flex flex-wrap gap-1">
               {data.sensations.map((s: string) => (
                 <span
                   key={s}
-                  className="text-[9px] px-1.5 py-0.5 rounded bg-slate-900 border border-slate-800 text-slate-300"
+                  className="text-[9px] px-1.5 py-0.5 rounded bg-[#FBF8F2] border border-[#E5DAC6] text-[#5C5248]"
                 >
                   {s}
                 </span>
@@ -499,9 +499,9 @@ const MoodChartCustomTooltip = ({ active, payload }: any) => {
 
         {/* Journal snippet */}
         {data.journalText && (
-          <div className="pt-1.5 border-t border-slate-900">
-            <span className="text-[9px] font-mono text-slate-500 uppercase block">Reflexão:</span>
-            <p className="text-[10px] text-slate-400 italic line-clamp-2 leading-relaxed">
+          <div className="pt-1.5 border-t border-[#E5DAC6]">
+            <span className="text-[9px] font-mono text-[#85786C] uppercase block">Reflexão:</span>
+            <p className="text-[10px] text-[#5C5248] italic line-clamp-2 leading-relaxed">
               "{data.journalText}"
             </p>
           </div>
