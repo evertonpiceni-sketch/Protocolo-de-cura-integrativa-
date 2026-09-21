@@ -14,14 +14,14 @@ export default function OnboardingFlow({ onComplete }: OnboardingFlowProps) {
   const [intention, setIntention] = useState('');
   const next = () => step < 6 ? setStep(s => s + 1) : onComplete();
 
-  return <div className="fixed inset-0 z-[100] overflow-y-auto bg-[radial-gradient(circle_at_50%_0,rgba(214,174,82,.14),transparent_28rem),linear-gradient(180deg,#052a1e,#031b13)] text-[#2A2420]">
+  return <div className="fixed inset-0 z-[100] overflow-y-auto bg-[radial-gradient(circle_at_50%_0,rgba(214,174,82,.14),transparent_28rem),linear-gradient(180deg,#FBF8F2,#F8F4EC)] text-[#2A2420]">
     <div className="min-h-full flex items-center justify-center p-5">
       <AnimatePresence mode="wait">
         <motion.main key={step} initial={{opacity:0,y:18}} animate={{opacity:1,y:0}} exit={{opacity:0,y:-14}}
           className="relative w-full max-w-md overflow-hidden rounded-[2rem] border border-[#B88736]/28 bg-[linear-gradient(145deg,rgba(7,52,38,.97),rgba(3,27,19,.98))] p-7 shadow-[0_28px_80px_rgba(0,0,0,.42)] backdrop-blur-xl">
           <div className="pointer-events-none absolute inset-x-0 top-0 h-40 bg-[radial-gradient(circle_at_50%_0,rgba(239,215,143,.13),transparent_70%)]" />
           <div className="ep-brand-signature-wrap relative mx-auto mb-7 flex h-20 w-20 items-center justify-center overflow-hidden rounded-full border border-[#B88736]/24 bg-white/65"><img src={APPROVED_LOGO_DATA_URI} alt="Everton Piceni — Terapias Holísticas e Bem-Estar" className="ep-brand-signature h-full w-full object-contain" /></div>
-          <div className="relative mb-7 h-px w-16 bg-gradient-to-r from-transparent via-[#d6ae52] to-transparent" />
+          <div className="relative mb-7 h-px w-16 bg-gradient-to-r from-transparent via-[#B88736] to-transparent" />
 
           {step === 1 && <section className="space-y-6">
             <p className="text-xs uppercase tracking-[.28em] text-[#d5ba78]">Everton Piceni · Terapias Holísticas e Bem-Estar</p>
