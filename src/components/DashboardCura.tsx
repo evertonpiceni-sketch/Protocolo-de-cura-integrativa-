@@ -92,7 +92,7 @@ export default function DashboardCura({ onClose, progress, userProfile }: { onCl
         {/* Central Energy Visualizer */}
         <div className="relative mx-auto my-8 aspect-[4/5] w-full max-w-[360px] rounded-[2rem] border border-[#E4C573]/30 bg-[#06291d]/70 shadow-[0_22px_60px_rgba(0,0,0,.38)] overflow-hidden">
           <img src="/brand/chakra-body.png" alt="Pessoa em meditação com os sete chakras" className="absolute inset-0 h-full w-full object-cover" />
-          <div className="absolute inset-0 bg-gradient-to-t from-[#031b12]/70 via-transparent to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-t from-[#F8F4EC]/70 via-transparent to-transparent" />
           
           {CHAKRAS_DATA.map((chakra) => {
             const isCompleted = completedDays.includes(chakra.day);
@@ -121,7 +121,7 @@ export default function DashboardCura({ onClose, progress, userProfile }: { onCl
                   />
                 </div>
                 {/* Optional floating labels for the chakras */}
-                {/* <span className={`text-[9px] uppercase tracking-wider ${isCompleted ? 'text-[#5C5248]' : 'text-slate-600'}`}>{chakra.sanskrit}</span> */}
+                {/* <span className={`text-[9px] uppercase tracking-wider ${isCompleted ? 'text-[#5C5248]' : 'text-[#85786C]'}`}>{chakra.sanskrit}</span> */}
               </div>
             );
           })}
@@ -178,12 +178,12 @@ export default function DashboardCura({ onClose, progress, userProfile }: { onCl
             return (
               <div key={day} className="flex items-center justify-between rounded-2xl border border-[#E4C573]/12 bg-[#05271b]/70 px-5 py-4 opacity-60">
                 <div className="ml-1">
-                  <h3 className="font-serif text-[15px] font-medium text-slate-500">Dia {day}: {chakra.name}</h3>
-                  <p className="text-xs text-slate-600 mt-0.5">
+                  <h3 className="font-serif text-[15px] font-medium text-[#85786C]">Dia {day}: {chakra.name}</h3>
+                  <p className="text-xs text-[#85786C] mt-0.5">
                     {day === nextAvailableDay + 1 ? 'Disponível amanhã' : 'Bloqueado'}
                   </p>
                 </div>
-                <div className="flex h-8 w-8 items-center justify-center rounded-full bg-slate-800 text-slate-500">
+                <div className="flex h-8 w-8 items-center justify-center rounded-full bg-[#F5EFE4] text-[#85786C]">
                   <Lock size={16} />
                 </div>
               </div>
@@ -210,7 +210,7 @@ export default function DashboardCura({ onClose, progress, userProfile }: { onCl
             </div>
           ) : (
             <div className="flex flex-col items-center justify-center rounded-3xl border border-white/10 bg-[#0E1017] px-6 py-6 text-center">
-              <div className="flex h-12 w-12 items-center justify-center rounded-full bg-[#161824] text-slate-500 mb-3">
+              <div className="flex h-12 w-12 items-center justify-center rounded-full bg-[#161824] text-[#85786C] mb-3">
                 <Award size={24} />
               </div>
               <p className="text-[13px] leading-relaxed text-[#5C5248]">
