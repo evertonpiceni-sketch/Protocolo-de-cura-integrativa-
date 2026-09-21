@@ -58,13 +58,13 @@ function ChakraBody({ config, progress, active }: { config: ProtocolConfig; prog
   const illumination = Math.max(0.08, Math.min(1, progress / 100));
   const position = CHAKRA_POSITIONS[config.dia];
   const glowSize = 34 + illumination * 38;
-  return <div className="relative mx-auto aspect-[4/5] w-full max-w-[430px] overflow-hidden rounded-[2rem] border border-[#e5c66f]/30 bg-[#021b13] shadow-[0_24px_70px_rgba(0,0,0,.38)]">
+  return <div className="relative mx-auto aspect-[4/5] w-full max-w-[430px] overflow-hidden rounded-[2rem] border border-[#B88736]/30 bg-[#021b13] shadow-[0_24px_70px_rgba(0,0,0,.38)]">
     <img src="/brand/human-chakra-model.jpg" alt="Pessoa em meditação com os sete chakras" className="absolute inset-0 h-full w-full object-cover" style={{filter:'brightness(.34) saturate(.48)',transition:'filter 1.2s ease'}} />
     <img src="/brand/human-chakra-model.jpg" alt="" aria-hidden="true" className="absolute inset-0 h-full w-full object-cover transition-opacity duration-1000" style={{opacity:.2 + illumination * .8,WebkitMaskImage:`radial-gradient(circle ${glowSize}px at ${position}, black 0%, rgba(0,0,0,.95) 42%, transparent 100%)`,maskImage:`radial-gradient(circle ${glowSize}px at ${position}, black 0%, rgba(0,0,0,.95) 42%, transparent 100%)`}} />
     <div className={`absolute h-20 w-20 -translate-x-1/2 -translate-y-1/2 rounded-full transition-all duration-1000 ${active ? 'animate-pulse' : ''}`} style={{left:position.split(' ')[0],top:position.split(' ')[1],opacity:.12 + illumination * .88,transform:`translate(-50%,-50%) scale(${.72 + illumination * .42})`,background:`radial-gradient(circle,${config.corSecundaria}cc 0%,${config.cor}66 35%,transparent 72%)`,boxShadow:`0 0 ${12 + illumination * 34}px ${4 + illumination * 13}px ${config.cor}`}} aria-hidden="true" />
     <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-[#021b13] via-[#021b13]/82 to-transparent px-5 pb-5 pt-20 text-center">
-      <p className="font-display text-3xl text-[#fff8e7]">{config.freq} Hz</p>
-      <p className="mt-1 text-xs uppercase tracking-[.2em] text-[#e5c66f]">{config.nome}</p>
+      <p className="font-display text-3xl text-[#2A2420]">{config.freq} Hz</p>
+      <p className="mt-1 text-xs uppercase tracking-[.2em] text-[#B88736]">{config.nome}</p>
       <p className="mt-2 text-xs text-[#c8d9cd]">{Math.round(progress)}% iluminado</p>
     </div>
   </div>;
@@ -121,43 +121,43 @@ export default function ArcanjoProtocolView({ userProfile, onClose }: ArcanjoPro
   };
   const selectDay = (d:number) => { stop(); setElapsed(0); setDiaAtual(d); };
 
-  return <div className="fixed inset-0 z-[100] overflow-y-auto bg-[#031b12] text-[#fff8e7]">
-    <div className="fixed inset-0 bg-[linear-gradient(rgba(2,30,20,.80),rgba(1,22,15,.95)),url('/brand/forest-app-background.png')] bg-cover bg-center" />
-    <header className="sticky top-0 z-20 border-b border-[#e5c66f]/20 bg-[#032319]/88 px-4 py-4 backdrop-blur-xl">
+  return <div className="fixed inset-0 z-[100] overflow-y-auto bg-[#F8F4EC] text-[#2A2420]">
+    <div className="fixed inset-0 bg-[radial-gradient(circle_at_50%_0,rgba(214,167,86,.12),transparent_30rem),linear-gradient(180deg,#FBF8F2,#F8F4EC)]" />
+    <header className="sticky top-0 z-20 border-b border-[#B88736]/20 bg-[#F8F4EC]/92 px-4 py-4 backdrop-blur-xl">
       <div className="mx-auto flex w-full max-w-5xl items-center justify-between">
-        <button onClick={onClose} className="p-2 text-[#e5c66f]" aria-label="Voltar"><ChevronLeft size={25}/></button>
-        <div className="text-center"><div className="text-xs uppercase tracking-[.22em] text-[#e5c66f]">Protocolo da Transformação</div><h1 className="mt-1 font-display text-lg">Proteção e Presença — São Miguel</h1></div>
-        <button onClick={onClose} className="p-2 text-[#e5c66f]" aria-label="Fechar"><X size={23}/></button>
+        <button onClick={onClose} className="p-2 text-[#B88736]" aria-label="Voltar"><ChevronLeft size={25}/></button>
+        <div className="text-center"><div className="text-xs uppercase tracking-[.22em] text-[#B88736]">Protocolo da Transformação</div><h1 className="mt-1 font-display text-lg">Proteção e Presença — São Miguel</h1></div>
+        <button onClick={onClose} className="p-2 text-[#B88736]" aria-label="Fechar"><X size={23}/></button>
       </div>
     </header>
     <main className="relative z-10 mx-auto w-full max-w-[500px] space-y-5 px-4 py-6 pb-16">
       <section>
-        <div className="mb-4 flex items-center justify-center gap-2 text-sm text-[#dce9df]"><ShieldCheck size={18} className="text-[#e5c66f]"/><span>Dia {config.dia} de 7</span><span className="text-[#e5c66f]/60">•</span><span>{config.freq} Hz</span></div>
+        <div className="mb-4 flex items-center justify-center gap-2 text-sm text-[#dce9df]"><ShieldCheck size={18} className="text-[#B88736]"/><span>Dia {config.dia} de 7</span><span className="text-[#B88736]/60">•</span><span>{config.freq} Hz</span></div>
         <ChakraBody config={config} progress={progressPercent} active={isPlaying}/>
       </section>
 
       <section className="space-y-5">
         <div className="ep-forest-panel rounded-[1.75rem] p-5 sm:p-7">
-          <div className="mb-3 flex items-center justify-between text-sm"><span className="text-[#e5c66f]">{etapaAtual.titulo}</span><span className="font-mono text-[#d9e6dc]">{formatTime(elapsed)} / 10:00</span></div>
+          <div className="mb-3 flex items-center justify-between text-sm"><span className="text-[#B88736]">{etapaAtual.titulo}</span><span className="font-mono text-[#d9e6dc]">{formatTime(elapsed)} / 10:00</span></div>
           <div className="h-2 overflow-hidden rounded-full bg-black/30"><div className="h-full rounded-full transition-all duration-700" style={{width:`${progressPercent}%`,background:`linear-gradient(90deg,#c69b3d,${config.corSecundaria})`,boxShadow:`0 0 12px ${config.cor}`}}/></div>
           <div className="mt-6 flex items-center justify-center gap-6"><button className="p-2 text-[#d7e2d8]" aria-label="Voltar dez segundos" onClick={()=>audioEngine.seekSpeech(-10)}><RotateCcw/></button><button onClick={()=>isPlaying||isPreparingAudio?stop():start()} className="ep-gold-button flex h-20 w-20 items-center justify-center rounded-full" aria-label={isPreparingAudio?'Preparando voz humana':isPlaying?'Pausar':'Iniciar'}>{isPreparingAudio?<Loader2 size={32} className="animate-spin"/>:isPlaying?<Pause size={34}/>:<Play size={35} className="ml-1"/>}</button><button className="p-2 text-[#d7e2d8]" aria-label="Avançar dez segundos" onClick={()=>audioEngine.seekSpeech(10)}><RotateCw/></button></div>
           <div className="mt-4 flex items-center justify-center gap-2 text-sm text-[#bad0c4]"><Volume2 size={17}/><span>{isPreparingAudio?'Preparando voz humana…':'Voz humana e frequência guiada'}</span></div>
         </div>
 
         <div className="ep-forest-panel rounded-[1.75rem] p-5 sm:p-7">
-          <div className="flex items-center gap-2 text-[#e5c66f]"><Leaf size={18}/><span className="text-xs uppercase tracking-[.2em]">Mantra e afirmação</span></div>
+          <div className="flex items-center gap-2 text-[#B88736]"><Leaf size={18}/><span className="text-xs uppercase tracking-[.2em]">Mantra e afirmação</span></div>
           <h2 className="mt-3 font-display text-3xl font-semibold" style={{color:config.corSecundaria}}>{config.nome}</h2>
           <p className="mt-2 text-base text-[#e9f1e9]">{config.subtitulo}</p>
-          <p className="mt-4 border-t border-[#e5c66f]/20 pt-4 text-center font-display text-xl italic leading-8 text-[#fff8e7]">Eu acolho meu momento. Eu confio no meu caminho. Eu escolho evoluir.</p>
+          <p className="mt-4 border-t border-[#B88736]/20 pt-4 text-center font-display text-xl italic leading-8 text-[#2A2420]">Eu acolho meu momento. Eu confio no meu caminho. Eu escolho evoluir.</p>
         </div>
 
         <div className="ep-forest-panel rounded-[1.75rem] p-5 sm:p-7">
-          <div className="text-center"><p className="text-xs uppercase tracking-[.2em] text-[#e5c66f]">Programação energética</p><p className="mt-2 text-base text-[#e9f1e9]">{etapaAtual.assinatura}</p></div>
-          <button onClick={()=>setShowRoteiro(!showRoteiro)} className="mt-5 flex w-full items-center justify-center gap-2 rounded-xl border border-[#e5c66f]/35 px-4 py-3 text-sm text-[#f0d989]"><BookOpen size={17}/>{showRoteiro?'Ocultar meditação':'Ler meditação completa'}</button>
+          <div className="text-center"><p className="text-xs uppercase tracking-[.2em] text-[#B88736]">Programação energética</p><p className="mt-2 text-base text-[#e9f1e9]">{etapaAtual.assinatura}</p></div>
+          <button onClick={()=>setShowRoteiro(!showRoteiro)} className="mt-5 flex w-full items-center justify-center gap-2 rounded-xl border border-[#B88736]/35 px-4 py-3 text-sm text-[#f0d989]"><BookOpen size={17}/>{showRoteiro?'Ocultar meditação':'Ler meditação completa'}</button>
           {showRoteiro&&<div className="mt-4 whitespace-pre-line rounded-2xl bg-black/20 p-5 text-base leading-7 text-[#e6eee8]">{roteiroDoDia(config)}</div>}
         </div>
 
-        <div className="ep-forest-panel rounded-[1.75rem] p-5 sm:p-7"><div className="mb-5 text-center"><h3 className="font-display text-2xl text-[#fff8e7]">Seu progresso</h3><p className="mt-1 text-sm text-[#bad0c4]">Equilíbrio hoje, presença amanhã.</p></div><div className="grid grid-cols-7 gap-2">{[1,2,3,4,5,6,7].map(d=>{const c=DADOS_PROTOCOLO[d];const done=completedDays.includes(d);return <button key={d} onClick={()=>selectDay(d)} aria-label={`Abrir dia ${d}, ${c.nome}`} className={`flex min-w-0 flex-col items-center gap-2 rounded-xl border px-1 py-3 ${diaAtual===d?'border-[#e5c66f] bg-[#e5c66f]/12':'border-[#e5c66f]/15 bg-black/10'}`}><span className="flex h-7 w-7 items-center justify-center rounded-full text-xs font-bold" style={{background:done||diaAtual===d?c.cor:'#214536',color:'#fff'}}>{done?'✓':d}</span><span className="hidden text-[11px] text-[#c8d8cc] sm:block">{c.nome.replace('Chakra ','')}</span></button>})}</div></div>
+        <div className="ep-forest-panel rounded-[1.75rem] p-5 sm:p-7"><div className="mb-5 text-center"><h3 className="font-display text-2xl text-[#2A2420]">Seu progresso</h3><p className="mt-1 text-sm text-[#bad0c4]">Equilíbrio hoje, presença amanhã.</p></div><div className="grid grid-cols-7 gap-2">{[1,2,3,4,5,6,7].map(d=>{const c=DADOS_PROTOCOLO[d];const done=completedDays.includes(d);return <button key={d} onClick={()=>selectDay(d)} aria-label={`Abrir dia ${d}, ${c.nome}`} className={`flex min-w-0 flex-col items-center gap-2 rounded-xl border px-1 py-3 ${diaAtual===d?'border-[#B88736] bg-[#e5c66f]/12':'border-[#B88736]/15 bg-black/10'}`}><span className="flex h-7 w-7 items-center justify-center rounded-full text-xs font-bold" style={{background:done||diaAtual===d?c.cor:'#214536',color:'#fff'}}>{done?'✓':d}</span><span className="hidden text-[11px] text-[#c8d8cc] sm:block">{c.nome.replace('Chakra ','')}</span></button>})}</div></div>
 
         <button className="ep-gold-button flex w-full items-center justify-center gap-2 rounded-2xl px-5 py-4 font-semibold" onClick={complete}><Heart size={18}/>Concluir o momento de hoje</button>
         <p className="px-4 text-center text-xs leading-5 text-[#9fb8a9]">Prática espiritual e integrativa. Não substitui cuidados médicos, psicológicos ou outros tratamentos de saúde.</p>
