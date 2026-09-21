@@ -5,6 +5,8 @@ import { REINTEGRATION_DAYS, getReintegrationAcceptance } from '../data/reintegr
 import brandLogo from '../assets/images/cura_integrada_sacred_emblem_1787104270641.jpg';
 import { audioEngine } from '../lib/audio';
 import { JourneyDayVisualPreview } from './VideoStudioLightModal';
+import { PausaConscienteLight } from './PausaConscienteLight';
+import { AindaHaAlgoEmMimLight } from './AindaHaAlgoEmMimLight';
 
 type Props = { onClose: () => void };
 const STORAGE_KEY = 'transformacao_jornada_pessoal_21_dias_v1';
@@ -14,6 +16,8 @@ export default function PersonalJourney21({ onClose }: Props) {
   const [accepted, setAccepted] = useState(false);
   const [playing, setPlaying] = useState(false);
   const [started, setStarted] = useState(false);
+  const [showPausaConsciente, setShowPausaConsciente] = useState(false);
+  const [showReflexao, setShowReflexao] = useState(false);
   const [audioProgress, setAudioProgress] = useState(0);
   const musicRef = useRef<HTMLAudioElement | null>(null);
   const voiceRef = useRef<HTMLAudioElement | null>(null);
@@ -164,7 +168,13 @@ export default function PersonalJourney21({ onClose }: Props) {
       onTimeUpdate={event => { const audio=event.currentTarget; if(Number.isFinite(audio.duration)&&audio.duration>0)setAudioProgress((audio.currentTime/audio.duration)*100); void playCueForTime(audio.currentTime); }}
       onEnded={() => { clearVoice(); playingRef.current=false; setPlaying(false); setAudioProgress(100); }}/>
     <main className="mx-auto w-full max-w-[620px]">
-      <button onClick={() => { stopSession(); onClose(); }} className="mb-4 flex items-center gap-2 rounded-full border border-[#E0D4C3] bg-white/80 px-4 py-2 text-sm font-semibold text-[#524842] shadow-[0_10px_24px_rgba(0,0,0,.06)] backdrop-blur-md"><ArrowLeft size={17}/>Voltar ao início</button>
+      <div className="mb-4 flex flex-wrap items-center justify-between gap-2">
+        <button onClick={() => { stopSession(); onClose(); }} className="flex items-center gap-2 rounded-full border border-[#E0D4C3] bg-white/80 px-4 py-2 text-sm font-semibold text-[#524842] shadow-[0_10px_24px_rgba(0,0,0,.06)] backdrop-blur-md"><ArrowLeft size={17}/>Voltar ao início</button>
+        <div className="flex flex-wrap gap-2">
+          <button onClick={() => setShowPausaConsciente(true)} className="rounded-full border border-[#E5DAC6] bg-white/85 px-4 py-2 text-xs font-semibold text-[#5C5248]">Pausa Consciente</button>
+          <button onClick={() => setShowReflexao(true)} className="rounded-full border border-[#D5DDD1] bg-[#5E7153]/8 px-4 py-2 text-xs font-semibold text-[#5E7153]">Ainda Há Algo em Mim</button>
+        </div>
+      </div>
       <section className="ep-reintegration-panel overflow-hidden rounded-[2rem]">
         <div className="ep-reintegration-luminous px-6 py-7 text-[#2A2421] bg-gradient-to-br from-[#FBF7F1] to-[#F3E8D8]">
           <p className="text-xs font-semibold uppercase tracking-[.2em] text-[#C89D52]">21 Dias para Voltar para Mim</p><p className="mt-2 font-display text-xl italic">Reintegração da Vida</p><h1 className="mt-3 font-display text-3xl leading-tight">Dia {day}: {item.title}</h1><p className="mt-3 text-base leading-7 text-[#5F554E]">{item.cycle}</p>
@@ -199,6 +209,14 @@ export default function PersonalJourney21({ onClose }: Props) {
         </div>
       </section>
     </main>
+    {showPausaConsciente && <section className="fixed inset-0 z-[130] overflow-y-auto bg-[#F8F4EC]">
+      <button onClick={() => setShowPausaConsciente(false)} className="fixed right-4 top-4 z-[140] rounded-full border border-[#E5DAC6] bg-white/90 px-4 py-2 text-sm font-semibold text-[#5C5248] shadow-sm">Fechar</button>
+      <PausaConscienteLight />
+    </section>}
+    {showReflexao && <section className="fixed inset-0 z-[130] overflow-y-auto bg-[#F8F4EC]">
+      <button onClick={() => setShowReflexao(false)} className="fixed right-4 top-4 z-[140] rounded-full border border-[#E5DAC6] bg-white/90 px-4 py-2 text-sm font-semibold text-[#5C5248] shadow-sm">Fechar</button>
+      <AindaHaAlgoEmMimLight onFinishReflection={() => setShowReflexao(false)} />
+    </section>}
     {started && <section className="fixed inset-0 z-[120] flex min-h-[100dvh] flex-col overflow-hidden bg-[#FAF7F2] text-[#2A2421]" aria-label="Meditação guiada em andamento">
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(226,185,107,.16),transparent_46%)]"/>
       <button onClick={()=>{stopSession();setStarted(false);}} className="absolute right-4 top-[max(1rem,env(safe-area-inset-top))] z-20 rounded-full border border-[#E0D4C3] bg-white/80 p-3 text-[#524842] shadow-sm backdrop-blur-md" aria-label="Fechar meditação"><X size={22}/></button>
