@@ -167,12 +167,12 @@ export default function HooponoponoModal({
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-slate-950/85 backdrop-blur-md overflow-y-auto" id="hooponopono-modal">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-[#2A2420]/30 backdrop-blur-md overflow-y-auto" id="hooponopono-modal">
       <motion.div
         initial={{ opacity: 0, scale: 0.95, y: 15 }}
         animate={{ opacity: 1, scale: 1, y: 0 }}
         exit={{ opacity: 0, scale: 0.95 }}
-        className="w-full max-w-2xl bg-slate-900 border border-rose-500/30 rounded-3xl p-5 sm:p-7 shadow-2xl space-y-5 relative overflow-hidden my-4 max-h-[92vh] overflow-y-auto"
+        className="w-full max-w-2xl bg-[#FBF8F2] border border-rose-500/30 rounded-3xl p-5 sm:p-7 shadow-2xl space-y-5 relative overflow-hidden my-4 max-h-[92vh] overflow-y-auto"
       >
         {/* Glow backdrop */}
         <div className="absolute top-0 right-0 w-72 h-72 bg-rose-500/10 rounded-full blur-3xl pointer-events-none" />
@@ -184,7 +184,7 @@ export default function HooponoponoModal({
             if (isPlayingAudio) audioEngine.stopSpeech();
             onClose();
           }}
-          className="absolute top-5 right-5 w-8 h-8 rounded-full bg-slate-800/80 border border-slate-700 text-slate-400 hover:text-slate-200 flex items-center justify-center transition cursor-pointer z-10"
+          className="absolute top-5 right-5 w-8 h-8 rounded-full bg-[#F5EFE4]/80 border border-[#E5DAC6] text-[#5C5248] hover:text-[#2A2420] flex items-center justify-center transition cursor-pointer z-10"
         >
           <X size={16} />
         </button>
@@ -195,22 +195,22 @@ export default function HooponoponoModal({
             <Heart size={14} className="fill-rose-400 text-rose-400" />
             <span>ORAÇÃO SAGRADA • 100% GRATUITA</span>
           </div>
-          <h2 className="text-2xl md:text-3xl font-display font-medium text-slate-100">
+          <h2 className="text-2xl md:text-3xl font-display font-medium text-[#2A2420]">
             Ho'oponopono de Cura e Purificação
           </h2>
-          <p className="text-xs md:text-sm text-slate-400 max-w-lg mx-auto">
+          <p className="text-xs md:text-sm text-[#5C5248] max-w-lg mx-auto">
             A antiga arte havaiana de reconciliação, limpeza de memórias dolorosas e restauração da paz interior.
           </p>
         </div>
 
         {/* Top Navigation Tabs */}
-        <div className="grid grid-cols-3 gap-1.5 p-1 bg-slate-950/80 border border-slate-800 rounded-2xl">
+        <div className="grid grid-cols-3 gap-1.5 p-1 bg-white/80 border border-[#E5DAC6] rounded-2xl">
           <button
             onClick={() => setSelectedTab('oracao')}
             className={`py-2 px-2 text-xs font-bold rounded-xl transition cursor-pointer text-center ${
               selectedTab === 'oracao'
                 ? 'bg-rose-600 text-white shadow-md'
-                : 'text-slate-400 hover:text-slate-200'
+                : 'text-[#5C5248] hover:text-[#2A2420]'
             }`}
           >
             Oração Original
@@ -220,7 +220,7 @@ export default function HooponoponoModal({
             className={`py-2 px-2 text-xs font-bold rounded-xl transition cursor-pointer text-center ${
               selectedTab === 'japamala'
                 ? 'bg-rose-600 text-white shadow-md'
-                : 'text-slate-400 hover:text-slate-200'
+                : 'text-[#5C5248] hover:text-[#2A2420]'
             }`}
           >
             Japamala ({targetCount}x)
@@ -230,7 +230,7 @@ export default function HooponoponoModal({
             className={`py-2 px-2 text-xs font-bold rounded-xl transition cursor-pointer text-center ${
               selectedTab === 'chaves'
                 ? 'bg-rose-600 text-white shadow-md'
-                : 'text-slate-400 hover:text-slate-200'
+                : 'text-[#5C5248] hover:text-[#2A2420]'
             }`}
           >
             As 4 Chaves
@@ -240,7 +240,7 @@ export default function HooponoponoModal({
         {/* Tab 1: Oração Original de Morrnah Simeona */}
         {selectedTab === 'oracao' && (
           <div className="space-y-4">
-            <div className="p-5 sm:p-6 rounded-3xl bg-slate-950/70 border border-rose-500/20 relative shadow-inner text-slate-200 text-xs sm:text-sm leading-relaxed whitespace-pre-line font-serif italic text-center">
+            <div className="p-5 sm:p-6 rounded-3xl bg-white/75 border border-rose-500/20 relative shadow-inner text-[#2A2420] text-xs sm:text-sm leading-relaxed whitespace-pre-line font-serif italic text-center">
               <div className="absolute top-3 left-3 text-rose-500/30">
                 <Sparkles size={20} />
               </div>
@@ -253,9 +253,9 @@ export default function HooponoponoModal({
             {/* 4 Pillars Highlight */}
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 text-center">
               {PHRASES.map((p, idx) => (
-                <div key={idx} className="p-2.5 rounded-2xl bg-slate-950/50 border border-slate-800">
+                <div key={idx} className="p-2.5 rounded-2xl bg-white/65 border border-[#E5DAC6]">
                   <span className={`text-xs font-bold block ${p.color}`}>{p.text}</span>
-                  <span className="text-[10px] text-slate-400 mt-0.5 block leading-tight">{p.desc.substring(0, 32)}...</span>
+                  <span className="text-[10px] text-[#5C5248] mt-0.5 block leading-tight">{p.desc.substring(0, 32)}...</span>
                 </div>
               ))}
             </div>
@@ -279,7 +279,7 @@ export default function HooponoponoModal({
                 <button
                   type="button"
                   onClick={handleCopyPrayer}
-                  className="px-3 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-semibold transition flex items-center gap-1.5 cursor-pointer"
+                  className="px-3 py-2.5 rounded-xl bg-[#F5EFE4] hover:bg-slate-700 text-[#2A2420] text-xs font-semibold transition flex items-center gap-1.5 cursor-pointer"
                 >
                   <Copy size={14} />
                   <span>{copiedText ? 'Copiada!' : 'Copiar Texto'}</span>
@@ -291,10 +291,10 @@ export default function HooponoponoModal({
                   className={`px-3 py-2.5 rounded-xl text-xs font-bold transition flex items-center gap-1.5 cursor-pointer ${
                     prayedToday
                       ? 'bg-emerald-500/20 border border-emerald-500/40 text-emerald-300'
-                      : 'bg-slate-800 hover:bg-slate-700 text-slate-300'
+                      : 'bg-[#F5EFE4] hover:bg-slate-700 text-[#5C5248]'
                   }`}
                 >
-                  <CheckCircle2 size={14} className={prayedToday ? 'text-emerald-400' : 'text-slate-400'} />
+                  <CheckCircle2 size={14} className={prayedToday ? 'text-emerald-400' : 'text-[#5C5248]'} />
                   <span>{prayedToday ? 'Praticado Hoje!' : 'Marcar como Feito'}</span>
                 </button>
               </div>
@@ -307,7 +307,7 @@ export default function HooponoponoModal({
           <div className="space-y-4">
             {/* Theme Selector */}
             <div className="space-y-1.5">
-              <span className="text-[11px] font-mono text-slate-400 uppercase tracking-wider block">
+              <span className="text-[11px] font-mono text-[#5C5248] uppercase tracking-wider block">
                 Escolha o Foco da Limpeza Quântica:
               </span>
               <div className="grid grid-cols-2 gap-2">
@@ -321,25 +321,25 @@ export default function HooponoponoModal({
                     className={`p-2.5 rounded-xl text-left border transition cursor-pointer ${
                       selectedTheme.id === theme.id
                         ? 'bg-rose-950/40 border-rose-500/60 ring-1 ring-rose-500/30'
-                        : 'bg-slate-950/50 border-slate-800 hover:border-slate-700 text-slate-300'
+                        : 'bg-white/65 border-[#E5DAC6] hover:border-[#E5DAC6] text-[#5C5248]'
                     }`}
                   >
-                    <span className="text-xs font-bold text-slate-100 block">{theme.title}</span>
-                    <span className="text-[10px] text-slate-400 leading-tight block mt-0.5 line-clamp-1">{theme.desc}</span>
+                    <span className="text-xs font-bold text-[#2A2420] block">{theme.title}</span>
+                    <span className="text-[10px] text-[#5C5248] leading-tight block mt-0.5 line-clamp-1">{theme.desc}</span>
                   </button>
                 ))}
               </div>
             </div>
 
             {/* Target repetition toggle: 21x vs 108x */}
-            <div className="flex items-center justify-between px-3 py-2 rounded-xl bg-slate-950/60 border border-slate-800 text-xs">
-              <span className="text-slate-400 font-mono text-[11px]">Meta de Repetições:</span>
+            <div className="flex items-center justify-between px-3 py-2 rounded-xl bg-white/70 border border-[#E5DAC6] text-xs">
+              <span className="text-[#5C5248] font-mono text-[11px]">Meta de Repetições:</span>
               <div className="flex items-center gap-1.5">
                 <button
                   type="button"
                   onClick={() => { setTargetCount(21); setCount(0); }}
                   className={`px-3 py-1 rounded-lg font-mono font-bold transition cursor-pointer text-xs ${
-                    targetCount === 21 ? 'bg-rose-600 text-white' : 'bg-slate-800 text-slate-400'
+                    targetCount === 21 ? 'bg-rose-600 text-white' : 'bg-[#F5EFE4] text-[#5C5248]'
                   }`}
                 >
                   21x (Rápido)
@@ -348,7 +348,7 @@ export default function HooponoponoModal({
                   type="button"
                   onClick={() => { setTargetCount(108); setCount(0); }}
                   className={`px-3 py-1 rounded-lg font-mono font-bold transition cursor-pointer text-xs ${
-                    targetCount === 108 ? 'bg-rose-600 text-white' : 'bg-slate-800 text-slate-400'
+                    targetCount === 108 ? 'bg-rose-600 text-white' : 'bg-[#F5EFE4] text-[#5C5248]'
                   }`}
                 >
                   108x (Japamala Sagrado)
@@ -357,12 +357,12 @@ export default function HooponoponoModal({
             </div>
 
             {/* Interactive Pulse Center */}
-            <div className="p-6 rounded-3xl bg-slate-950/80 border border-rose-500/30 text-center space-y-4 relative overflow-hidden shadow-2xl">
+            <div className="p-6 rounded-3xl bg-white/80 border border-rose-500/30 text-center space-y-4 relative overflow-hidden shadow-2xl">
               <div className="space-y-1">
                 <div className="text-4xl md:text-5xl font-mono font-bold text-rose-400 tracking-tight">
-                  {count} <span className="text-base text-slate-500">/ {targetCount}</span>
+                  {count} <span className="text-base text-[#85786C]">/ {targetCount}</span>
                 </div>
-                <div className="w-full bg-slate-800 h-1.5 rounded-full overflow-hidden max-w-xs mx-auto">
+                <div className="w-full bg-[#F5EFE4] h-1.5 rounded-full overflow-hidden max-w-xs mx-auto">
                   <div
                     className="bg-gradient-to-r from-rose-500 to-amber-400 h-full transition-all duration-300"
                     style={{ width: `${Math.min(100, (count / targetCount) * 100)}%` }}
@@ -386,7 +386,7 @@ export default function HooponoponoModal({
               </div>
 
               {/* Dynamic Affirmation Text */}
-              <div className="p-3 rounded-2xl bg-slate-900/80 border border-slate-800 max-w-lg mx-auto">
+              <div className="p-3 rounded-2xl bg-[#FBF8F2]/90 border border-[#E5DAC6] max-w-lg mx-auto">
                 <p className="text-xs sm:text-sm font-serif italic text-rose-200 leading-relaxed">
                   "{selectedTheme.focusPhrase}"
                 </p>
@@ -396,7 +396,7 @@ export default function HooponoponoModal({
                 <button
                   type="button"
                   onClick={handleReset}
-                  className="text-xs text-slate-400 hover:text-slate-200 transition flex items-center gap-1 cursor-pointer"
+                  className="text-xs text-[#5C5248] hover:text-[#2A2420] transition flex items-center gap-1 cursor-pointer"
                 >
                   <RotateCcw size={12} />
                   <span>Reiniciar Contador</span>
@@ -418,14 +418,14 @@ export default function HooponoponoModal({
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               {PHRASES.map((phrase, idx) => (
-                <div key={idx} className="p-4 rounded-2xl bg-slate-950/70 border border-slate-800 space-y-1.5">
+                <div key={idx} className="p-4 rounded-2xl bg-white/75 border border-[#E5DAC6] space-y-1.5">
                   <div className="flex items-center justify-between">
                     <h4 className={`text-sm font-bold ${phrase.color}`}>
                       {phrase.text}
                     </h4>
-                    <span className="text-[10px] font-mono text-slate-500">Chave #{idx + 1}</span>
+                    <span className="text-[10px] font-mono text-[#85786C]">Chave #{idx + 1}</span>
                   </div>
-                  <p className="text-xs text-slate-300 leading-relaxed">
+                  <p className="text-xs text-[#5C5248] leading-relaxed">
                     {phrase.desc}
                   </p>
                 </div>
