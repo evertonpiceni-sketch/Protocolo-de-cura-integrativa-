@@ -1493,13 +1493,13 @@ export default function App() {
                       setShowSettings(false);
                       setShowVideoStudioModal(true);
                     }}
-                    className="p-3 bg-[#F5EFE4]/70 hover:bg-[#F5EFE4] border border-[#d6ae52]/30 rounded-xl text-left flex items-center justify-between text-xs text-[#e8d38f] font-semibold cursor-pointer transition"
+                    className="p-3 bg-[#F5EFE4]/70 hover:bg-[#F5EFE4] border border-[#B88736]/30 rounded-xl text-left flex items-center justify-between text-xs text-[#B88736] font-semibold cursor-pointer transition"
                   >
                     <span className="flex items-center gap-2">
-                      <Video size={14} className="text-[#d6ae52]" />
+                      <Video size={14} className="text-[#B88736]" />
                       <span>Estúdio de Vídeos & Vinhetas</span>
                     </span>
-                    <span className="text-[10px] text-[#d6ae52] font-mono">Exportar HD</span>
+                    <span className="text-[10px] text-[#B88736] font-mono">Exportar HD</span>
                   </button>
                 </div>
               </div>
@@ -1643,13 +1643,13 @@ export default function App() {
           {/* Estúdio de Vídeos & Vinhetas */}
           <button
             onClick={() => setShowVideoStudioModal(true)}
-            className="px-2.5 sm:px-3 py-2 rounded-xl text-xs font-semibold flex items-center gap-1.5 transition cursor-pointer shrink-0 bg-[#F5EFE4]/90 hover:bg-[#F5EFE4] border border-[#d6ae52]/50 text-[#e8d38f] shadow-md shadow-[#d6ae52]/10"
+            className="px-2.5 sm:px-3 py-2 rounded-xl text-xs font-semibold flex items-center gap-1.5 transition cursor-pointer shrink-0 bg-[#F5EFE4]/90 hover:bg-[#F5EFE4] border border-[#B88736]/50 text-[#B88736] shadow-md shadow-[#B88736]/10"
             title="Estúdio de Vídeos & Vinhetas de Meditação (Áudio e Imagem)"
             id="bottom-btn-video-studio"
           >
-            <Video size={14} className="text-[#d6ae52] shrink-0" />
+            <Video size={14} className="text-[#B88736] shrink-0" />
             <span className="font-sans font-bold">Estúdio de Vinhetas</span>
-            <span className="hidden sm:inline font-mono text-[10px] bg-[#d6ae52]/20 px-1.5 py-0.5 rounded text-[#e8d38f]">HD</span>
+            <span className="hidden sm:inline font-mono text-[10px] bg-[#B88736]/20 px-1.5 py-0.5 rounded text-[#B88736]">HD</span>
           </button>
 
           {/* Mapa Astral */}
