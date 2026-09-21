@@ -194,34 +194,34 @@ export default function DailyDiaryModal({
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/85 backdrop-blur-md overflow-y-auto" id="daily-diary-modal">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-[#2A2420]/30 backdrop-blur-md overflow-y-auto" id="daily-diary-modal">
       <motion.div
         initial={{ opacity: 0, scale: 0.95, y: 15 }}
         animate={{ opacity: 1, scale: 1, y: 0 }}
         exit={{ opacity: 0, scale: 0.95 }}
-        className="w-full max-w-4xl bg-slate-900 border border-indigo-500/30 rounded-3xl p-5 sm:p-7 shadow-2xl relative overflow-hidden my-4 max-h-[92vh] flex flex-col"
+        className="w-full max-w-4xl bg-[#FBF8F2] border border-[#B88736]/30 rounded-3xl p-5 sm:p-7 shadow-2xl relative overflow-hidden my-4 max-h-[92vh] flex flex-col"
       >
         {/* Glow Effects */}
-        <div className="absolute -top-24 -right-24 w-72 h-72 bg-indigo-500/10 rounded-full blur-3xl pointer-events-none" />
+        <div className="absolute -top-24 -right-24 w-72 h-72 bg-[#B88736]/10 rounded-full blur-3xl pointer-events-none" />
         <div className="absolute -bottom-24 -left-24 w-72 h-72 bg-amber-500/10 rounded-full blur-3xl pointer-events-none" />
 
         {/* Close button */}
         <button
           onClick={onClose}
-          className="absolute top-5 right-5 w-8 h-8 rounded-full bg-slate-800/80 border border-slate-700 text-slate-400 hover:text-slate-200 flex items-center justify-center transition cursor-pointer z-10"
+          className="absolute top-5 right-5 w-8 h-8 rounded-full bg-[#F5EFE4]/80 border border-[#E5DAC6] text-[#5C5248] hover:text-[#2A2420] flex items-center justify-center transition cursor-pointer z-10"
         >
           <X size={16} />
         </button>
 
         {/* Header */}
-        <div className="shrink-0 space-y-4 pb-4 border-b border-slate-800">
+        <div className="shrink-0 space-y-4 pb-4 border-b border-[#E5DAC6]">
           <div className="flex flex-col sm:flex-row items-center justify-between gap-3 pr-8 pl-1">
             <div>
-              <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-indigo-500/10 border border-indigo-500/30 text-indigo-300 text-xs font-mono font-medium mb-1">
-                <BookOpen size={14} className="text-indigo-400" />
+              <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#B88736]/10 border border-[#B88736]/30 text-[#B88736] text-xs font-mono font-medium mb-1">
+                <BookOpen size={14} className="text-[#B88736]" />
                 <span>REGISTRO DIÁRIO DO CLIENTE</span>
               </div>
-              <h2 className="text-2xl sm:text-3xl font-display font-medium text-slate-100">
+              <h2 className="text-2xl sm:text-3xl font-display font-medium text-[#2A2420]">
                 Diário Quântico Dia a Dia
               </h2>
             </div>
@@ -229,7 +229,7 @@ export default function DailyDiaryModal({
             <button
               type="button"
               onClick={exportFullDiary}
-              className="px-3.5 py-2 bg-indigo-600 hover:bg-indigo-500 text-white rounded-xl text-xs font-semibold flex items-center gap-1.5 transition cursor-pointer shadow-md shadow-indigo-600/20 active:scale-95"
+              className="px-3.5 py-2 bg-[#B88736] hover:bg-[#B88736] text-white rounded-xl text-xs font-semibold flex items-center gap-1.5 transition cursor-pointer shadow-md shadow-indigo-600/20 active:scale-95"
               id="btn-export-full-diary"
             >
               <Download size={14} />
@@ -240,7 +240,7 @@ export default function DailyDiaryModal({
           {/* O que se espera com este tratamento banner */}
           <div className="p-4 rounded-2xl bg-gradient-to-r from-purple-950/40 via-slate-950 to-indigo-950/40 border border-purple-500/30 space-y-2">
             <div className="flex items-center justify-between">
-              <span className="text-xs font-mono uppercase tracking-wider text-purple-300 font-bold flex items-center gap-1.5">
+              <span className="text-xs font-mono uppercase tracking-wider text-[#B88736] font-bold flex items-center gap-1.5">
                 <Target size={14} className="text-amber-400" />
                 <span>O que se espera com este tratamento (Sua Intenção & Metas):</span>
               </span>
@@ -254,7 +254,7 @@ export default function DailyDiaryModal({
                     setIsExpectationEditing(true);
                   }
                 }}
-                className="text-xs font-mono text-purple-300 hover:text-purple-200 flex items-center gap-1 cursor-pointer transition underline"
+                className="text-xs font-mono text-[#B88736] hover:text-[#5C5248] flex items-center gap-1 cursor-pointer transition underline"
               >
                 {isExpectationEditing ? '💾 Salvar Intenção' : '✏️ Editar Metas'}
               </button>
@@ -267,7 +267,7 @@ export default function DailyDiaryModal({
                   value={expectationsText}
                   onChange={(e) => setExpectationsText(e.target.value)}
                   placeholder="Ex: Alívio da ansiedade crônica, cura de dores na coluna, paz mental no sono, honrar meus pais e reconexão com meu propósito de vida..."
-                  className="w-full bg-slate-900 border border-purple-500/50 text-slate-100 rounded-xl p-2.5 text-xs outline-none focus:ring-1 focus:ring-purple-400"
+                  className="w-full bg-[#FBF8F2] border border-purple-500/50 text-[#2A2420] rounded-xl p-2.5 text-xs outline-none focus:ring-1 focus:ring-purple-400"
                 />
                 <button
                   type="button"
@@ -278,7 +278,7 @@ export default function DailyDiaryModal({
                 </button>
               </div>
             ) : (
-              <p className="text-xs text-slate-300 italic leading-relaxed">
+              <p className="text-xs text-[#5C5248] italic leading-relaxed">
                 "{userProfile?.treatmentExpectations || expectationsText || 'Busco alívio de sintomas físicos e emocionais, pacificação da mente e conexão profunda com minha verdadeira essência divina.'}"
               </p>
             )}
@@ -289,7 +289,7 @@ export default function DailyDiaryModal({
             <button
               onClick={() => setActiveDay(prev => Math.max(prev - 1, 1))}
               disabled={activeDay === 1}
-              className="p-2 rounded-xl bg-slate-950 border border-slate-800 text-slate-400 hover:text-slate-200 disabled:opacity-30 disabled:cursor-not-allowed transition cursor-pointer shrink-0"
+              className="p-2 rounded-xl bg-white border border-[#E5DAC6] text-[#5C5248] hover:text-[#2A2420] disabled:opacity-30 disabled:cursor-not-allowed transition cursor-pointer shrink-0"
             >
               <ChevronLeft size={16} />
             </button>
@@ -310,12 +310,12 @@ export default function DailyDiaryModal({
                     }}
                     className={`w-8 h-8 rounded-xl text-xs font-mono font-bold transition flex items-center justify-center relative shrink-0 cursor-pointer ${
                       isSelected
-                        ? 'bg-indigo-600 text-white ring-2 ring-indigo-400 shadow-md shadow-indigo-600/30'
+                        ? 'bg-[#B88736] text-white ring-2 ring-indigo-400 shadow-md shadow-indigo-600/30'
                         : isDone
                         ? 'bg-emerald-950/60 border border-emerald-500/40 text-emerald-300'
                         : hasNotes
                         ? 'bg-amber-950/50 border border-amber-500/40 text-amber-300'
-                        : 'bg-slate-950 border border-slate-800 text-slate-400 hover:border-slate-700 hover:text-slate-200'
+                        : 'bg-white border border-[#E5DAC6] text-[#5C5248] hover:border-[#E5DAC6] hover:text-[#2A2420]'
                     }`}
                   >
                     {dNum}
@@ -330,7 +330,7 @@ export default function DailyDiaryModal({
             <button
               onClick={() => setActiveDay(prev => Math.min(prev + 1, 21))}
               disabled={activeDay === 21}
-              className="p-2 rounded-xl bg-slate-950 border border-slate-800 text-slate-400 hover:text-slate-200 disabled:opacity-30 disabled:cursor-not-allowed transition cursor-pointer shrink-0"
+              className="p-2 rounded-xl bg-white border border-[#E5DAC6] text-[#5C5248] hover:text-[#2A2420] disabled:opacity-30 disabled:cursor-not-allowed transition cursor-pointer shrink-0"
             >
               <ChevronRight size={16} />
             </button>
@@ -340,13 +340,13 @@ export default function DailyDiaryModal({
         {/* Day details content (Scrollable) */}
         <div className="flex-1 overflow-y-auto pr-1 py-4 space-y-4">
           {/* Day Status Banner */}
-          <div className="p-4 rounded-2xl bg-gradient-to-br from-slate-900 to-slate-950 border border-slate-800 space-y-3">
+          <div className="p-4 rounded-2xl bg-gradient-to-br from-slate-900 to-[#F3EBDD] border border-[#E5DAC6] space-y-3">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
-                <span className="px-2.5 py-0.5 rounded-full bg-indigo-500/20 text-indigo-300 text-xs font-mono font-bold border border-indigo-500/30">
+                <span className="px-2.5 py-0.5 rounded-full bg-[#B88736]/20 text-[#B88736] text-xs font-mono font-bold border border-[#B88736]/30">
                   DIA {activeDay.toString().padStart(2, '0')}
                 </span>
-                <h3 className="text-base sm:text-lg font-bold text-slate-100">
+                <h3 className="text-base sm:text-lg font-bold text-[#2A2420]">
                   {currentInsight.title}
                 </h3>
               </div>
@@ -356,18 +356,18 @@ export default function DailyDiaryModal({
                   <CheckCircle2 size={12} /> Concluído
                 </span>
               ) : (
-                <span className="px-2.5 py-0.5 rounded-full bg-slate-800 text-slate-400 text-xs font-mono">
+                <span className="px-2.5 py-0.5 rounded-full bg-[#F5EFE4] text-[#5C5248] text-xs font-mono">
                   Pendente
                 </span>
               )}
             </div>
 
-            <p className="text-xs text-slate-400 leading-relaxed">
+            <p className="text-xs text-[#5C5248] leading-relaxed">
               {currentInsight.description}
             </p>
 
             {/* Foco de Cura */}
-            <div className="p-3 rounded-xl bg-slate-950/80 border border-slate-800 flex items-start gap-2 text-xs text-slate-300">
+            <div className="p-3 rounded-xl bg-white/80 border border-[#E5DAC6] flex items-start gap-2 text-xs text-[#5C5248]">
               <Sparkles size={14} className="text-amber-400 shrink-0 mt-0.5" />
               <span><strong>Foco Sagrado:</strong> {currentInsight.focus}</span>
             </div>
@@ -376,43 +376,43 @@ export default function DailyDiaryModal({
           {/* Check-ins Antes e Depois */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             {/* Antes da Meditação */}
-            <div className="p-3.5 rounded-2xl bg-slate-950/80 border border-slate-800 space-y-2">
-              <span className="text-[10px] font-mono uppercase tracking-wider text-slate-400 font-bold block">
+            <div className="p-3.5 rounded-2xl bg-white/80 border border-[#E5DAC6] space-y-2">
+              <span className="text-[10px] font-mono uppercase tracking-wider text-[#5C5248] font-bold block">
                 [1] ESTADO ANTES DO TRATAMENTO:
               </span>
               {currentDayProgress?.beforeFeeling ? (
-                <div className="space-y-1.5 text-xs text-slate-300">
+                <div className="space-y-1.5 text-xs text-[#5C5248]">
                   <div className="flex items-center justify-between">
                     <span className="font-semibold text-amber-300">
                       {currentDayProgress.beforeFeeling.stateTitle || getMoodLabel(currentDayProgress.beforeFeeling.mood)}
                     </span>
-                    <span className="font-mono text-slate-500">{currentDayProgress.beforeFeeling.mood}/5</span>
+                    <span className="font-mono text-[#85786C]">{currentDayProgress.beforeFeeling.mood}/5</span>
                   </div>
                   {currentDayProgress.beforeFeeling.sensations && currentDayProgress.beforeFeeling.sensations.length > 0 && (
-                    <p className="text-[11px] text-slate-400">
+                    <p className="text-[11px] text-[#5C5248]">
                       Sensações: {currentDayProgress.beforeFeeling.sensations.join(', ')}
                     </p>
                   )}
                   {currentDayProgress.beforeFeeling.notes && (
-                    <p className="text-[11px] text-slate-300 italic">
+                    <p className="text-[11px] text-[#5C5248] italic">
                       "{currentDayProgress.beforeFeeling.notes}"
                     </p>
                   )}
                 </div>
               ) : (
-                <p className="text-xs text-slate-500 italic">
+                <p className="text-xs text-[#85786C] italic">
                   Nenhum check-in inicial registrado neste dia.
                 </p>
               )}
             </div>
 
             {/* Depois da Meditação */}
-            <div className="p-3.5 rounded-2xl bg-slate-950/80 border border-slate-800 space-y-2">
+            <div className="p-3.5 rounded-2xl bg-white/80 border border-[#E5DAC6] space-y-2">
               <span className="text-[10px] font-mono uppercase tracking-wider text-emerald-400 font-bold block">
                 [2] ESTADO APÓS O TRATAMENTO:
               </span>
               {currentDayProgress?.afterFeeling || currentDayProgress?.mood ? (
-                <div className="space-y-1.5 text-xs text-slate-300">
+                <div className="space-y-1.5 text-xs text-[#5C5248]">
                   <div className="flex items-center justify-between">
                     <span className="font-semibold text-emerald-300">
                       {currentDayProgress.afterFeeling?.stateTitle || getMoodLabel(currentDayProgress.afterFeeling?.mood || currentDayProgress.mood)}
@@ -422,16 +422,16 @@ export default function DailyDiaryModal({
                     </span>
                   </div>
                   {currentDayProgress.afterFeeling?.sensations && currentDayProgress.afterFeeling.sensations.length > 0 && (
-                    <p className="text-[11px] text-slate-400">
+                    <p className="text-[11px] text-[#5C5248]">
                       Sensações: {currentDayProgress.afterFeeling.sensations.join(', ')}
                     </p>
                   )}
-                  <p className="text-[11px] text-slate-300 italic">
+                  <p className="text-[11px] text-[#5C5248] italic">
                     "{currentDayProgress.afterFeeling?.notes || currentDayProgress.journalText || 'Sessão concluída em paz.'}"
                   </p>
                 </div>
               ) : (
-                <p className="text-xs text-slate-500 italic">
+                <p className="text-xs text-[#85786C] italic">
                   Sessão ainda não concluída.
                 </p>
               )}
@@ -439,10 +439,10 @@ export default function DailyDiaryModal({
           </div>
 
           {/* Anotação Livre / Edição do Diário de Bordo */}
-          <div className="p-4 rounded-2xl bg-slate-950/80 border border-slate-800 space-y-3">
+          <div className="p-4 rounded-2xl bg-white/80 border border-[#E5DAC6] space-y-3">
             <div className="flex items-center justify-between">
-              <span className="text-xs font-mono uppercase tracking-wider text-slate-300 font-bold flex items-center gap-1.5">
-                <Edit3 size={14} className="text-indigo-400" />
+              <span className="text-xs font-mono uppercase tracking-wider text-[#5C5248] font-bold flex items-center gap-1.5">
+                <Edit3 size={14} className="text-[#B88736]" />
                 <span>Reflexão & Diário do Dia {activeDay}:</span>
               </span>
 
@@ -450,7 +450,7 @@ export default function DailyDiaryModal({
                 <button
                   type="button"
                   onClick={handleStartEdit}
-                  className="text-xs font-mono text-indigo-400 hover:text-indigo-300 cursor-pointer underline flex items-center gap-1"
+                  className="text-xs font-mono text-[#B88736] hover:text-[#B88736] cursor-pointer underline flex items-center gap-1"
                 >
                   ✏️ Editar Anotação
                 </button>
@@ -476,17 +476,17 @@ export default function DailyDiaryModal({
                   onChange={(e) => setEditingDayText(e.target.value)}
                   placeholder="Escreva suas percepções, sonhos, pensamentos e transformações deste dia..."
                   disabled={isPurifying}
-                  className="w-full bg-slate-900 border border-indigo-500/50 text-slate-100 rounded-xl p-3 text-xs outline-none focus:ring-1 focus:ring-indigo-400 leading-relaxed disabled:opacity-50"
+                  className="w-full bg-[#FBF8F2] border border-[#B88736]/50 text-[#2A2420] rounded-xl p-3 text-xs outline-none focus:ring-1 focus:ring-indigo-400 leading-relaxed disabled:opacity-50"
                 />
 
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-                  <div className="flex items-center gap-2 text-xs text-slate-400">
+                  <div className="flex items-center gap-2 text-xs text-[#5C5248]">
                     <span>Humor Geral:</span>
                     <select
                       value={editingMood}
                       onChange={(e) => setEditingMood(parseInt(e.target.value))}
                       disabled={isPurifying}
-                      className="bg-slate-900 border border-slate-800 text-slate-200 text-xs rounded-lg px-2 py-1 disabled:opacity-50"
+                      className="bg-[#FBF8F2] border border-[#E5DAC6] text-[#2A2420] text-xs rounded-lg px-2 py-1 disabled:opacity-50"
                     >
                       <option value={1}>1 - Pesado</option>
                       <option value={2}>2 - Inquieto</option>
@@ -501,7 +501,7 @@ export default function DailyDiaryModal({
                       type="button"
                       onClick={() => setIsEditing(false)}
                       disabled={isPurifying}
-                      className="px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-xl text-xs disabled:opacity-50"
+                      className="px-3 py-1.5 bg-[#F5EFE4] hover:bg-slate-700 text-[#5C5248] rounded-xl text-xs disabled:opacity-50"
                     >
                       Cancelar
                     </button>
@@ -509,7 +509,7 @@ export default function DailyDiaryModal({
                       type="button"
                       onClick={handleSaveDayJournal}
                       disabled={isPurifying}
-                      className="px-4 py-1.5 bg-indigo-600 hover:bg-indigo-500 text-white rounded-xl text-xs font-semibold flex items-center gap-1.5 disabled:opacity-50"
+                      className="px-4 py-1.5 bg-[#B88736] hover:bg-[#B88736] text-white rounded-xl text-xs font-semibold flex items-center gap-1.5 disabled:opacity-50"
                     >
                       {isPurifying ? (
                         <>
@@ -524,8 +524,8 @@ export default function DailyDiaryModal({
                 </div>
               </div>
             ) : (
-              <div className="p-3.5 rounded-xl bg-slate-900/60 border border-slate-850">
-                <p className="text-xs text-slate-200 leading-relaxed whitespace-pre-wrap">
+              <div className="p-3.5 rounded-xl bg-[#FBF8F2]/60 border border-[#E5DAC6]">
+                <p className="text-xs text-[#2A2420] leading-relaxed whitespace-pre-wrap">
                   {currentDayProgress?.journalText || currentDayProgress?.afterFeeling?.notes || 'Nenhuma reflexão digitada ainda para este dia. Clique em "Editar Anotação" acima para escrever.'}
                 </p>
               </div>
@@ -534,52 +534,52 @@ export default function DailyDiaryModal({
 
           {/* Resposta Sistêmica Registrada */}
           {currentDayProgress?.systemicAnswer && (
-            <div className="p-4 rounded-2xl bg-purple-950/20 border border-purple-500/20 space-y-2">
+            <div className="p-4 rounded-2xl bg-[#F5EFE4] border border-purple-500/20 space-y-2">
               <span className="text-[10px] font-mono uppercase tracking-wider text-purple-400 font-bold flex items-center gap-1.5">
                 <GitBranch size={13} />
                 <span>Resposta à Pergunta Sistêmica do Dia:</span>
               </span>
-              <p className="text-xs text-slate-300 italic leading-relaxed">
+              <p className="text-xs text-[#5C5248] italic leading-relaxed">
                 "{currentDayProgress.systemicAnswer}"
               </p>
             </div>
           )}
 
           {/* Guia das 3 Fases do Tratamento */}
-          <div className="p-4 rounded-2xl bg-slate-950/60 border border-slate-800/80 space-y-2.5">
+          <div className="p-4 rounded-2xl bg-white/70 border border-[#E5DAC6] space-y-2.5">
             <span className="text-[11px] font-mono uppercase tracking-wider text-amber-300 font-bold block">
               🌿 O QUE ESPERAR DURANTE OS 21 DIAS:
             </span>
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5 text-xs">
-              <div className="p-2.5 rounded-xl bg-slate-900/80 border border-slate-800 space-y-1">
+              <div className="p-2.5 rounded-xl bg-[#FBF8F2]/90 border border-[#E5DAC6] space-y-1">
                 <span className="font-bold text-amber-400 text-[11px] block">Fase 1 (Dias 1 a 7)</span>
-                <span className="text-[10px] text-slate-400 font-semibold block">Desintoxicação & Aterramento</span>
-                <p className="text-[10px] text-slate-500 leading-snug">Sonolência, liberação de toxinas emocionais e estabilização do campo.</p>
+                <span className="text-[10px] text-[#5C5248] font-semibold block">Desintoxicação & Aterramento</span>
+                <p className="text-[10px] text-[#85786C] leading-snug">Sonolência, liberação de toxinas emocionais e estabilização do campo.</p>
               </div>
-              <div className="p-2.5 rounded-xl bg-slate-900/80 border border-slate-800 space-y-1">
-                <span className="font-bold text-indigo-400 text-[11px] block">Fase 2 (Dias 8 a 14)</span>
-                <span className="text-[10px] text-slate-400 font-semibold block">Transmutação & Alinhamento</span>
-                <p className="text-[10px] text-slate-500 leading-snug">Aumento da energia vital, clareza mental e desfazimento de nós antigos.</p>
+              <div className="p-2.5 rounded-xl bg-[#FBF8F2]/90 border border-[#E5DAC6] space-y-1">
+                <span className="font-bold text-[#B88736] text-[11px] block">Fase 2 (Dias 8 a 14)</span>
+                <span className="text-[10px] text-[#5C5248] font-semibold block">Transmutação & Alinhamento</span>
+                <p className="text-[10px] text-[#85786C] leading-snug">Aumento da energia vital, clareza mental e desfazimento de nós antigos.</p>
               </div>
-              <div className="p-2.5 rounded-xl bg-slate-900/80 border border-slate-800 space-y-1">
+              <div className="p-2.5 rounded-xl bg-[#FBF8F2]/90 border border-[#E5DAC6] space-y-1">
                 <span className="font-bold text-emerald-400 text-[11px] block">Fase 3 (Dias 15 a 21)</span>
-                <span className="text-[10px] text-slate-400 font-semibold block">Soberania & Paz Profunda</span>
-                <p className="text-[10px] text-slate-500 leading-snug">Regeneração celular, gratidão cósmica e selamento vibracional.</p>
+                <span className="text-[10px] text-[#5C5248] font-semibold block">Soberania & Paz Profunda</span>
+                <p className="text-[10px] text-[#85786C] leading-snug">Regeneração celular, gratidão cósmica e selamento vibracional.</p>
               </div>
             </div>
           </div>
         </div>
 
         {/* Footer */}
-        <div className="shrink-0 pt-3 border-t border-slate-800 flex items-center justify-between text-xs text-slate-500">
+        <div className="shrink-0 pt-3 border-t border-[#E5DAC6] flex items-center justify-between text-xs text-[#85786C]">
           <div className="flex items-center gap-2">
-            <span className="text-indigo-400 font-mono font-bold">{completedCount} de 21 Dias</span>
+            <span className="text-[#B88736] font-mono font-bold">{completedCount} de 21 Dias</span>
             <span>Completados</span>
           </div>
 
           <button
             onClick={onClose}
-            className="px-4 py-2 bg-indigo-600 hover:bg-indigo-500 text-white rounded-xl text-xs font-semibold cursor-pointer transition"
+            className="px-4 py-2 bg-[#B88736] hover:bg-[#B88736] text-white rounded-xl text-xs font-semibold cursor-pointer transition"
           >
             Fechar Diário
           </button>
