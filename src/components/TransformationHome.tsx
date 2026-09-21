@@ -61,8 +61,8 @@ export default function TransformationHome(props: Props) {
     const enterJourney = () => { sessionStorage.setItem('transformation_journey_entered', 'true'); setJourneyEntered(true); toggleWelcome(); };
     return <div className="mx-auto w-full max-w-[520px] px-4 py-4 sm:py-6">
       <section className="ep-home-hero relative w-full overflow-hidden rounded-[2rem] border border-[#B88736]/35 px-6 py-8 text-center shadow-[0_24px_70px_rgba(0,0,0,.34)]">
-        <div className="absolute inset-x-0 top-0 h-48 bg-[linear-gradient(to_bottom,rgba(3,35,25,.08),rgba(3,35,25,.9)),url('/brand/forest-app-background.png')] bg-cover bg-center" />
-        <div className="ep-brand-signature-wrap relative mx-auto mb-7 flex h-28 w-28 items-center justify-center overflow-hidden rounded-full border border-[#B88736]/28 bg-[#041f17]/65"><img src={APPROVED_LOGO_DATA_URI} alt="Everton Piceni — Terapias Holísticas e Bem-Estar" className="ep-brand-signature h-full w-full object-contain" /></div>
+        <div className="absolute inset-x-0 top-0 h-48 bg-[radial-gradient(circle_at_50%_0,rgba(214,167,86,.16),transparent_75%)]" />
+        <div className="ep-brand-signature-wrap relative mx-auto mb-7 flex h-28 w-28 items-center justify-center overflow-hidden rounded-full border border-[#B88736]/28 bg-white/70"><img src={APPROVED_LOGO_DATA_URI} alt="Everton Piceni — Terapias Holísticas e Bem-Estar" className="ep-brand-signature h-full w-full object-contain" /></div>
         <div className="relative">
           <p className="text-xs font-semibold uppercase tracking-[.24em] text-[#B88736]">Protocolo da Transformação</p>
           <h1 className="mt-5 font-display text-4xl leading-tight text-[#2A2420]">Bem-vindo ao seu momento de transformação</h1>
@@ -76,7 +76,7 @@ export default function TransformationHome(props: Props) {
 
   return <div className="ep-home mx-auto w-full max-w-[520px] px-4 pb-28 sm:px-5">
     <section className="ep-home-hero overflow-hidden rounded-[2rem] border border-[#B88736]/35 px-6 py-8 text-center shadow-[0_24px_70px_rgba(0,0,0,.34)]">
-      <div className="ep-brand-signature-wrap mx-auto mb-6 flex h-20 w-20 items-center justify-center overflow-hidden rounded-full border border-[#B88736]/24 bg-[#041f17]/60"><img src={APPROVED_LOGO_DATA_URI} alt="Everton Piceni — Terapias Holísticas e Bem-Estar" className="ep-brand-signature h-full w-full object-contain" /></div>
+      <div className="ep-brand-signature-wrap mx-auto mb-6 flex h-20 w-20 items-center justify-center overflow-hidden rounded-full border border-[#B88736]/24 bg-white/70"><img src={APPROVED_LOGO_DATA_URI} alt="Everton Piceni — Terapias Holísticas e Bem-Estar" className="ep-brand-signature h-full w-full object-contain" /></div>
       <p className="text-xs font-semibold uppercase tracking-[.24em] text-[#B88736]">Protocolo da Transformação</p><h2 className="mt-4 font-display text-[2.15rem] font-semibold leading-tight text-[#2A2420]">Olá, {firstName}.</h2><p className="mx-auto mt-3 max-w-sm font-display text-xl italic leading-7 text-[#5C5248]">Que bom que você voltou para si.</p><div className="mx-auto mt-6 h-px w-24 bg-gradient-to-r from-transparent via-[#B88736] to-transparent" /><p className="mx-auto mt-5 max-w-sm text-base leading-7 text-[#5C5248]">Respire. Você não precisa fazer tudo hoje. Escolha apenas o cuidado que combina com o seu momento.</p>
       <button onClick={toggleWelcome} className="mx-auto mt-6 flex items-center justify-center gap-2 rounded-full border border-[#B88736]/40 bg-[#FBF8F2]/80 px-5 py-3 text-sm font-semibold text-[#B88736]">{isSpeaking ? <Pause size={18} /> : <Headphones size={18} />}{isSpeaking ? 'Pausar acolhimento' : 'Ouvir acolhimento'}</button>
     </section>
