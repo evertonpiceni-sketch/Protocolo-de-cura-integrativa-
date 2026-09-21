@@ -700,12 +700,12 @@ export default function App() {
           <header className="bg-[#F8F4EC]/90 backdrop-blur-md border-b border-[#E5DAC6] sticky top-0 z-30 px-3 sm:px-4 py-3" id="main-header">
         <div className="max-w-5xl mx-auto flex items-center justify-between gap-2 sm:gap-4">
           <div className="flex items-center gap-2 sm:gap-2.5 min-w-0">
-            <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-full overflow-hidden border-[1.5px] border-indigo-500/40 shadow-[0_0_12px_rgba(99,102,241,0.25)] shrink-0 bg-slate-900 flex items-center justify-center">
+            <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-full overflow-hidden border-[1.5px] border-indigo-500/40 shadow-[0_0_12px_rgba(99,102,241,0.25)] shrink-0 bg-[#FBF8F2] flex items-center justify-center">
               <img src={brandLogo} alt="Everton Piceni — Terapias Holísticas e Bem-Estar" className="ep-brand-signature w-full h-full object-cover transition-opacity duration-500" />
             </div>
             <div className="min-w-0">
               <span className="text-[9px] font-mono tracking-widest text-[#e5c66f] uppercase font-semibold block truncate">Terapias Holísticas e Bem-Estar</span>
-              <h1 className="text-xs sm:text-sm font-display font-medium text-slate-200 tracking-tight leading-tight truncate">
+              <h1 className="text-xs sm:text-sm font-display font-medium text-[#2A2420] tracking-tight leading-tight truncate">
                 Protocolo da Transformação
               </h1>
             </div>
@@ -727,7 +727,7 @@ export default function App() {
             ) : (
               <button
                 onClick={() => setShowProModal(true)}
-                className="px-2.5 sm:px-3 py-1.5 rounded-xl bg-gradient-to-r from-amber-500 to-amber-400 hover:from-amber-400 hover:to-amber-300 text-slate-950 text-xs font-bold font-sans flex items-center gap-1.5 transition cursor-pointer shadow-md shadow-amber-500/10 shrink-0"
+                className="px-2.5 sm:px-3 py-1.5 rounded-xl bg-gradient-to-r from-amber-500 to-amber-400 hover:from-amber-400 hover:to-amber-300 text-[#2A2420] text-xs font-bold font-sans flex items-center gap-1.5 transition cursor-pointer shadow-md shadow-amber-500/10 shrink-0"
               >
                 <Crown size={14} />
                 <span>Seja VIP</span>
@@ -764,7 +764,7 @@ export default function App() {
                   className={`p-1.5 sm:p-2 rounded-xl transition flex items-center justify-center border cursor-pointer ${
                     userProfile.audioEnabled && userProfile.bgMusicType !== 'none'
                       ? 'bg-indigo-950/30 border-indigo-500/30 text-indigo-400 hover:bg-indigo-950/50'
-                      : 'bg-slate-900 border-slate-800 text-slate-500 hover:text-slate-400'
+                      : 'bg-[#FBF8F2] border-[#E5DAC6] text-[#85786C] hover:text-[#5C5248]'
                   }`}
                   title={userProfile.audioEnabled && userProfile.bgMusicType !== 'none' ? "Silenciar trilha de cura" : "Ativar trilha de cura"}
                 >
@@ -774,7 +774,7 @@ export default function App() {
                 {/* Botão de Ajuste Completo de Som */}
                 <button
                   onClick={() => setShowAudioSettingsModal(true)}
-                  className="px-2 py-1.5 bg-slate-900 hover:bg-slate-800 border border-slate-800 rounded-xl text-slate-300 hover:text-white text-xs font-mono flex items-center gap-1 transition cursor-pointer"
+                  className="px-2 py-1.5 bg-[#FBF8F2] hover:bg-[#F5EFE4] border border-[#E5DAC6] rounded-xl text-[#5C5248] hover:text-[#2A2420] text-xs font-mono flex items-center gap-1 transition cursor-pointer"
                   title="Ajustar sons, frequências e vozes personalizadas"
                   id="header-btn-audio-settings"
                 >
@@ -785,7 +785,7 @@ export default function App() {
             )}
 
             {/* Language Selector (Centered & Balanced Layout) */}
-            <div className="hidden xs:flex items-center justify-center bg-slate-900/90 border border-slate-800 rounded-xl px-2 py-1.5 gap-1.5 shrink-0 shadow-sm" id="header-language-selector">
+            <div className="hidden xs:flex items-center justify-center bg-[#FBF8F2]/90 border border-[#E5DAC6] rounded-xl px-2 py-1.5 gap-1.5 shrink-0 shadow-sm" id="header-language-selector">
               <Globe size={13} className="text-indigo-400 shrink-0" />
               <select
                 value={currentLanguage}
@@ -794,7 +794,7 @@ export default function App() {
                 title="Mudar idioma do aplicativo e do áudio"
               >
                 {SUPPORTED_LANGUAGES.map((lang) => (
-                  <option key={lang.code} value={lang.code} className="bg-slate-950 text-slate-200">
+                  <option key={lang.code} value={lang.code} className="bg-white text-[#2A2420]">
                     {lang.flag} {lang.name}
                   </option>
                 ))}
@@ -832,14 +832,14 @@ export default function App() {
         {/* Settings view */}
         {showSettings ? (
           <div className="max-w-2xl mx-auto px-4 py-6 space-y-6" id="settings-view">
-            <div className="flex items-center justify-between border-b border-slate-800 pb-3">
-              <h2 className="text-lg font-display font-medium text-slate-200">Ajustes da Prática</h2>
-              <button onClick={() => setShowSettings(false)} className="p-2 text-slate-500 hover:text-slate-300">
+            <div className="flex items-center justify-between border-b border-[#E5DAC6] pb-3">
+              <h2 className="text-lg font-display font-medium text-[#2A2420]">Ajustes da Prática</h2>
+              <button onClick={() => setShowSettings(false)} className="p-2 text-[#85786C] hover:text-[#5C5248]">
                 <X size={16} />
               </button>
             </div>
 
-            <div className="bg-slate-900 border border-slate-850 rounded-2xl p-6 space-y-6">
+            <div className="bg-[#FBF8F2] border border-[#E5DAC6] rounded-2xl p-6 space-y-6">
               {/* PRO VIP Status Card */}
               <div className="p-5 rounded-2xl bg-gradient-to-br from-amber-950/30 via-slate-900 to-slate-950 border border-amber-500/30 space-y-3">
                 <div className="flex items-center justify-between">
@@ -857,7 +857,7 @@ export default function App() {
                     <button
                       type="button"
                       onClick={() => setShowProModal(true)}
-                      className="px-3 py-1 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-xs flex items-center gap-1 transition cursor-pointer"
+                      className="px-3 py-1 rounded-xl bg-amber-500 hover:bg-amber-400 text-[#2A2420] font-bold text-xs flex items-center gap-1 transition cursor-pointer"
                     >
                       <Sparkles size={13} />
                       <span>Fazer Upgrade</span>
@@ -865,7 +865,7 @@ export default function App() {
                   )}
                 </div>
 
-                <p className="text-xs text-slate-300 leading-relaxed">
+                <p className="text-xs text-[#5C5248] leading-relaxed">
                   {userProfile.plan === 'pro'
                     ? 'Você possui acesso anual a todas as Frequências Sagradas (963Hz/741Hz), vozes neurais humanizadas, download dos áudios e emissão do certificado nominal.'
                     : 'Acesse as frequências quânticas 963Hz e 741Hz, emissão do Certificado Oficial Nominal de Conclusão e Relatório Quântico dos 21 Dias.'}
@@ -887,34 +887,34 @@ export default function App() {
 
               {/* Profile details */}
               <div className="space-y-3">
-                <span className="text-xs font-mono text-slate-500 uppercase block">Dados do Usuário</span>
-                <div className="p-4 bg-slate-950 border border-slate-850 rounded-2xl space-y-3.5">
+                <span className="text-xs font-mono text-[#85786C] uppercase block">Dados do Usuário</span>
+                <div className="p-4 bg-white border border-[#E5DAC6] rounded-2xl space-y-3.5">
                   <div className="flex items-center gap-3">
                     <User size={18} className="text-indigo-400" />
                     <div>
-                      <span className="text-[10px] font-mono text-slate-500 uppercase block">Nome Completo</span>
-                      <span className="text-sm font-medium text-slate-200">{userProfile.fullName || userProfile.name}</span>
+                      <span className="text-[10px] font-mono text-[#85786C] uppercase block">Nome Completo</span>
+                      <span className="text-sm font-medium text-[#2A2420]">{userProfile.fullName || userProfile.name}</span>
                     </div>
                   </div>
-                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-3.5 pt-3.5 border-t border-slate-900">
+                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-3.5 pt-3.5 border-t border-[#E5DAC6]">
                     <div>
-                      <span className="text-[9px] font-mono text-slate-500 uppercase block">Login</span>
+                      <span className="text-[9px] font-mono text-[#85786C] uppercase block">Login</span>
                       <span className="text-xs font-semibold text-indigo-300">@{userProfile.login || "local"}</span>
                     </div>
                     <div>
-                      <span className="text-[9px] font-mono text-slate-500 uppercase block">E-mail</span>
-                      <span className="text-xs text-slate-300 break-all">{userProfile.email || "Não cadastrado"}</span>
+                      <span className="text-[9px] font-mono text-[#85786C] uppercase block">E-mail</span>
+                      <span className="text-xs text-[#5C5248] break-all">{userProfile.email || "Não cadastrado"}</span>
                     </div>
                     <div>
-                      <span className="text-[9px] font-mono text-slate-500 uppercase block">Nascimento</span>
-                      <span className="text-xs text-slate-300">
+                      <span className="text-[9px] font-mono text-[#85786C] uppercase block">Nascimento</span>
+                      <span className="text-xs text-[#5C5248]">
                         {userProfile.birthDate ? new Date(userProfile.birthDate + 'T00:00:00').toLocaleDateString('pt-BR') : "Não informado"}
                       </span>
                     </div>
                   </div>
 
                   {/* Mapa Astral Quick Trigger inside Profile Card */}
-                  <div className="pt-3 border-t border-slate-900 flex items-center justify-between">
+                  <div className="pt-3 border-t border-[#E5DAC6] flex items-center justify-between">
                     <span className="text-xs text-purple-300 flex items-center gap-1.5 font-medium">
                       <Compass size={14} className="text-amber-400" />
                       <span>Mapa Astral & Energético Quântico</span>
@@ -934,15 +934,15 @@ export default function App() {
               {/* Daily Reminder Settings */}
               <div className="space-y-3">
                 <div className="flex items-center justify-between">
-                  <span className="text-xs font-mono text-slate-500 uppercase flex items-center gap-1.5 font-bold">
+                  <span className="text-xs font-mono text-[#85786C] uppercase flex items-center gap-1.5 font-bold">
                     <Bell size={14} className="text-amber-400" />
                     <span>Lembrete Diário da Prática</span>
                   </span>
                 </div>
-                <div className="p-4 bg-slate-950 border border-slate-850 rounded-2xl flex flex-col sm:flex-row gap-4 justify-between items-center">
+                <div className="p-4 bg-white border border-[#E5DAC6] rounded-2xl flex flex-col sm:flex-row gap-4 justify-between items-center">
                   <div className="space-y-1 text-center sm:text-left">
-                    <p className="text-xs text-slate-300 font-medium">Receber notificação inspiradora</p>
-                    <p className="text-[10px] text-slate-500">Avisaremos você no horário da sua meditação diária.</p>
+                    <p className="text-xs text-[#5C5248] font-medium">Receber notificação inspiradora</p>
+                    <p className="text-[10px] text-[#85786C]">Avisaremos você no horário da sua meditação diária.</p>
                   </div>
                   <div className="flex items-center gap-3">
                     <input
@@ -954,7 +954,7 @@ export default function App() {
                           Notification.requestPermission();
                         }
                       }}
-                      className="bg-slate-900 border border-slate-800 text-slate-200 text-sm rounded-lg px-3 py-1.5 focus:outline-none focus:border-indigo-500"
+                      className="bg-[#FBF8F2] border border-[#E5DAC6] text-[#2A2420] text-sm rounded-lg px-3 py-1.5 focus:outline-none focus:border-indigo-500"
                     />
                     <button 
                       onClick={() => {
@@ -981,7 +981,7 @@ export default function App() {
               {/* Anamnesis Terapêutica in Settings */}
               <div className="space-y-3">
                 <div className="flex items-center justify-between">
-                  <span className="text-xs font-mono text-slate-500 uppercase block flex items-center gap-1.5 font-bold">
+                  <span className="text-xs font-mono text-[#85786C] uppercase block flex items-center gap-1.5 font-bold">
                     <Activity size={14} className="text-indigo-400" />
                     <span>Ficha de Anamnese & Prescrição Energética</span>
                   </span>
@@ -996,8 +996,8 @@ export default function App() {
                   )}
                 </div>
 
-                <div className="p-4 bg-slate-950 border border-slate-850 rounded-2xl space-y-3">
-                  <p className="text-xs text-slate-400 leading-relaxed">
+                <div className="p-4 bg-white border border-[#E5DAC6] rounded-2xl space-y-3">
+                  <p className="text-xs text-[#5C5248] leading-relaxed">
                     {userProfile.anamnesis
                       ? `Frequência Prescrita: ${userProfile.anamnesis.recommendedFrequency.toUpperCase()} • Foco: ${userProfile.anamnesis.primaryGoal}`
                       : 'Realize o diagnóstico holístico para mapear dores, chakras desbalanceados e gerar sua frequência e decreto personalizados.'}
@@ -1016,7 +1016,7 @@ export default function App() {
               {/* Humanized Voice & Synthesis Settings */}
               <div className="space-y-3">
                 <div className="flex items-center justify-between">
-                  <span className="text-xs font-mono text-slate-500 uppercase block flex items-center gap-1.5">
+                  <span className="text-xs font-mono text-[#85786C] uppercase block flex items-center gap-1.5">
                     <Mic size={14} className="text-indigo-400" />
                     <span>Voz Neural & Humanização de Leitura</span>
                   </span>
@@ -1025,10 +1025,10 @@ export default function App() {
                   </span>
                 </div>
 
-                <div className="p-4 bg-slate-950 border border-slate-850 rounded-2xl space-y-4">
+                <div className="p-4 bg-white border border-[#E5DAC6] rounded-2xl space-y-4">
                   {/* Voice Select */}
                   <div className="space-y-1.5">
-                    <label className="text-[10px] font-mono text-slate-400 uppercase">
+                    <label className="text-[10px] font-mono text-[#5C5248] uppercase">
                       Voz de Condução ({availableVoices.length > 0 ? `${availableVoices.length} vozes detectadas` : 'Voz Padrão do Sistema'})
                     </label>
                     <select
@@ -1039,7 +1039,7 @@ export default function App() {
                           voiceId: e.target.value
                         });
                       }}
-                      className="w-full bg-slate-900 border border-slate-800 text-slate-200 rounded-xl px-3 py-2 text-xs outline-none focus:border-indigo-500"
+                      className="w-full bg-[#FBF8F2] border border-[#E5DAC6] text-[#2A2420] rounded-xl px-3 py-2 text-xs outline-none focus:border-indigo-500"
                     >
                       <option key="voice-auto" value="">Automático: Melhor Voz Português (Neural/Acolhedora)</option>
                       {availableVoices.map((v, index) => (
@@ -1053,7 +1053,7 @@ export default function App() {
                   {/* Speed / Cadence Slider */}
                   <div className="space-y-1.5">
                     <div className="flex justify-between text-xs">
-                      <span className="font-mono text-slate-400 text-[10px] uppercase">
+                      <span className="font-mono text-[#5C5248] text-[10px] uppercase">
                         Cadência da Fala (Compassada para Meditação)
                       </span>
                       <span className="text-indigo-400 font-mono font-semibold">
@@ -1061,7 +1061,7 @@ export default function App() {
                       </span>
                     </div>
                     <div className="flex items-center gap-3">
-                      <span className="text-[10px] text-slate-500">Mais Calma</span>
+                      <span className="text-[10px] text-[#85786C]">Mais Calma</span>
                       <input
                         type="range"
                         min="0.70"
@@ -1074,15 +1074,15 @@ export default function App() {
                             voiceRate: parseFloat(e.target.value)
                           });
                         }}
-                        className="flex-1 h-1.5 bg-slate-900 rounded-lg appearance-none cursor-pointer accent-indigo-500 focus:outline-none"
+                        className="flex-1 h-1.5 bg-[#FBF8F2] rounded-lg appearance-none cursor-pointer accent-indigo-500 focus:outline-none"
                       />
-                      <span className="text-[10px] text-slate-500">Mais Rápida</span>
+                      <span className="text-[10px] text-[#85786C]">Mais Rápida</span>
                     </div>
                   </div>
 
                   {/* Preview Voice Button */}
                   <div className="pt-1 flex items-center justify-between">
-                    <p className="text-[10px] text-slate-400 italic">
+                    <p className="text-[10px] text-[#5C5248] italic">
                       * O algoritmo adiciona micropausas em vírgulas e pontos para respirar naturalmente.
                     </p>
                     <button
@@ -1109,7 +1109,7 @@ export default function App() {
 
               {/* Solfeggio soundscape toggle in settings */}
               <div className="space-y-3">
-                <span className="text-xs font-mono text-slate-500 uppercase block">Frequência Padrão de Fundo</span>
+                <span className="text-xs font-mono text-[#85786C] uppercase block">Frequência Padrão de Fundo</span>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                   {[
                     { id: '528hz', title: '528Hz • Paz & Transformação', subtitle: 'Piano e Harmônicos Celestes', isPro: false },
@@ -1136,7 +1136,7 @@ export default function App() {
                       className={`p-3.5 rounded-xl border text-left flex flex-col gap-0.5 cursor-pointer transition relative ${
                         userProfile.bgMusicType === option.id
                           ? 'bg-indigo-950/40 border-indigo-500 text-indigo-300'
-                          : 'bg-slate-950 border-slate-850 text-slate-400 hover:border-slate-800'
+                          : 'bg-white border-[#E5DAC6] text-[#5C5248] hover:border-[#E5DAC6]'
                       }`}
                     >
                       {option.isPro && (
@@ -1144,7 +1144,7 @@ export default function App() {
                           {userProfile.plan === 'pro' ? '👑 PRO' : '🔒 VIP'}
                         </span>
                       )}
-                      <span className="text-xs font-bold font-mono text-slate-200">{option.title}</span>
+                      <span className="text-xs font-bold font-mono text-[#2A2420]">{option.title}</span>
                       <span className="text-[10px] opacity-75">{option.subtitle}</span>
                     </button>
                   ))}
@@ -1152,16 +1152,16 @@ export default function App() {
               </div>
 
               {/* Customização do Protocolo */}
-              <div className="space-y-4 pt-6 border-t border-slate-800">
+              <div className="space-y-4 pt-6 border-t border-[#E5DAC6]">
                 <div className="flex items-center gap-1.5">
                   <Sparkles size={16} className="text-emerald-400" />
-                  <h3 className="text-sm font-display font-medium text-slate-200">Customização do Protocolo</h3>
+                  <h3 className="text-sm font-display font-medium text-[#2A2420]">Customização do Protocolo</h3>
                 </div>
                 
                 {/* Foco de Cura */}
                 <div className="space-y-2">
-                  <span className="text-xs font-mono text-slate-500 uppercase block">Foco de Cura (Intenção Direcionada)</span>
-                  <p className="text-[10px] text-slate-400">Selecione as intenções que deseja reforçar durante as sessões do protocolo.</p>
+                  <span className="text-xs font-mono text-[#85786C] uppercase block">Foco de Cura (Intenção Direcionada)</span>
+                  <p className="text-[10px] text-[#5C5248]">Selecione as intenções que deseja reforçar durante as sessões do protocolo.</p>
                   <div className="flex flex-wrap gap-2 pt-1">
                     {['Ansiedade', 'Autoconfiança', 'Perdão', 'Prosperidade', 'Sono Profundo', 'Disposição'].map(focus => {
                       const isSelected = (userProfile.healingFocuses || []).includes(focus);
@@ -1178,7 +1178,7 @@ export default function App() {
                           className={`px-3 py-1.5 rounded-lg text-xs font-medium border transition cursor-pointer ${
                             isSelected
                               ? 'bg-emerald-600/20 border-emerald-500 text-emerald-300'
-                              : 'bg-slate-950 border-slate-850 text-slate-400 hover:border-slate-800'
+                              : 'bg-white border-[#E5DAC6] text-[#5C5248] hover:border-[#E5DAC6]'
                           }`}
                         >
                           {focus}
@@ -1190,8 +1190,8 @@ export default function App() {
 
                 {/* Duração das Pausas */}
                 <div className="space-y-2 pt-2">
-                  <span className="text-xs font-mono text-slate-500 uppercase block">Duração das Pausas Silenciosas</span>
-                  <p className="text-[10px] text-slate-400">Ajuste o tempo de silêncio (em segundos) entre as etapas guiadas de cada sessão para reflexão e absorção.</p>
+                  <span className="text-xs font-mono text-[#85786C] uppercase block">Duração das Pausas Silenciosas</span>
+                  <p className="text-[10px] text-[#5C5248]">Ajuste o tempo de silêncio (em segundos) entre as etapas guiadas de cada sessão para reflexão e absorção.</p>
                   <div className="flex items-center gap-2 pt-1">
                     {[0, 5, 10, 15, 20, 30].map(duration => {
                       const currentPause = userProfile.pauseDuration ?? 5; // default 5 seconds
@@ -1202,7 +1202,7 @@ export default function App() {
                           className={`flex-1 py-1.5 rounded-lg text-xs font-mono transition cursor-pointer border ${
                             currentPause === duration
                               ? 'bg-indigo-600/30 border-indigo-500 text-indigo-300'
-                              : 'bg-slate-950 border-slate-850 text-slate-400 hover:bg-slate-900'
+                              : 'bg-white border-[#E5DAC6] text-[#5C5248] hover:bg-[#FBF8F2]'
                           }`}
                         >
                           {duration}s
@@ -1215,11 +1215,11 @@ export default function App() {
 
               {/* Play/Pause and Volume control inside Settings */}
               {userProfile.bgMusicType !== 'none' && (
-                <div className="space-y-4 pt-4 border-t border-slate-800">
+                <div className="space-y-4 pt-4 border-t border-[#E5DAC6]">
                   <div className="flex items-center justify-between">
                     <div>
-                      <span className="text-xs font-mono text-slate-500 uppercase block">Música de Fundo Global</span>
-                      <p className="text-xs text-slate-400">Ative ou pause a reprodução contínua da trilha de cura.</p>
+                      <span className="text-xs font-mono text-[#85786C] uppercase block">Música de Fundo Global</span>
+                      <p className="text-xs text-[#5C5248]">Ative ou pause a reprodução contínua da trilha de cura.</p>
                     </div>
                     <button
                       type="button"
@@ -1232,7 +1232,7 @@ export default function App() {
                       className={`px-4 py-2 rounded-xl border text-xs font-medium cursor-pointer transition ${
                         userProfile.audioEnabled
                           ? 'bg-indigo-600 border-indigo-500 text-white hover:bg-indigo-500'
-                          : 'bg-slate-950 border-slate-850 text-slate-400 hover:text-slate-300'
+                          : 'bg-white border-[#E5DAC6] text-[#5C5248] hover:text-[#5C5248]'
                       }`}
                     >
                       {userProfile.audioEnabled ? 'Ativada (Tocando)' : 'Pausada'}
@@ -1241,11 +1241,11 @@ export default function App() {
 
                   <div className="space-y-2">
                     <div className="flex justify-between text-xs">
-                      <span className="font-mono text-slate-500 uppercase">Volume da Música de Fundo</span>
+                      <span className="font-mono text-[#85786C] uppercase">Volume da Música de Fundo</span>
                       <span className="text-indigo-400 font-mono font-semibold">{Math.round((userProfile.bgMusicVolume ?? 0.5) * 100)}%</span>
                     </div>
                     <div className="flex items-center gap-3">
-                      <VolumeX size={15} className="text-slate-500" />
+                      <VolumeX size={15} className="text-[#85786C]" />
                       <input
                         type="range"
                         min="0"
@@ -1258,7 +1258,7 @@ export default function App() {
                             bgMusicVolume: parseFloat(e.target.value)
                           });
                         }}
-                        className="flex-1 h-1.5 bg-slate-950 rounded-lg appearance-none cursor-pointer accent-indigo-500 focus:outline-none border border-slate-850"
+                        className="flex-1 h-1.5 bg-white rounded-lg appearance-none cursor-pointer accent-indigo-500 focus:outline-none border border-[#E5DAC6]"
                       />
                       <Volume2 size={15} className="text-indigo-400" />
                     </div>
@@ -1267,24 +1267,24 @@ export default function App() {
               )}
 
               {/* Idioma do Aplicativo e Áudios */}
-              <div className="pt-6 border-t border-slate-800 space-y-3">
+              <div className="pt-6 border-t border-[#E5DAC6] space-y-3">
                 <div className="flex items-center justify-between">
                   <div>
-                    <h3 className="text-sm font-display font-medium text-slate-200 flex items-center gap-1.5">
+                    <h3 className="text-sm font-display font-medium text-[#2A2420] flex items-center gap-1.5">
                       <Globe size={15} className="text-indigo-400" />
                       Idioma das Meditações e Tradução
                     </h3>
-                    <p className="text-xs text-slate-400 mt-0.5">
+                    <p className="text-xs text-[#5C5248] mt-0.5">
                       Selecione o idioma para as meditações guiadas, textos e síntese de voz.
                     </p>
                   </div>
                   <select
                     value={currentLanguage}
                     onChange={(e) => setCurrentLanguage(e.target.value as AppLanguage)}
-                    className="bg-slate-950 border border-slate-800 text-indigo-300 rounded-xl px-3 py-2 text-xs font-mono font-semibold cursor-pointer outline-none focus:border-indigo-500"
+                    className="bg-white border border-[#E5DAC6] text-indigo-300 rounded-xl px-3 py-2 text-xs font-mono font-semibold cursor-pointer outline-none focus:border-indigo-500"
                   >
                     {SUPPORTED_LANGUAGES.map((lang) => (
-                      <option key={lang.code} value={lang.code} className="bg-slate-950 text-slate-200">
+                      <option key={lang.code} value={lang.code} className="bg-white text-[#2A2420]">
                         {lang.flag} {lang.name}
                       </option>
                     ))}
@@ -1293,14 +1293,14 @@ export default function App() {
               </div>
 
               {/* Fale Conosco */}
-              <div className="pt-6 border-t border-slate-800 space-y-3">
+              <div className="pt-6 border-t border-[#E5DAC6] space-y-3">
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
                   <div>
                     <h3 className="text-sm font-display font-medium text-emerald-400 flex items-center gap-1.5">
                       <MessageCircle size={15} className="text-emerald-400" />
                       Fale Conosco
                     </h3>
-                    <p className="text-xs text-slate-400 mt-0.5">
+                    <p className="text-xs text-[#5C5248] mt-0.5">
                       Tire dúvidas sobre o protocolo ou peça amparo energético com o terapeuta.
                     </p>
                   </div>
@@ -1316,11 +1316,11 @@ export default function App() {
               </div>
 
               {/* Tratamentos Específicos Adquiridos */}
-              <div className="pt-6 border-t border-slate-800 space-y-3">
+              <div className="pt-6 border-t border-[#E5DAC6] space-y-3">
                 <div className="flex items-center justify-between">
                   <div>
                     <h3 className="text-sm font-display font-medium text-emerald-400">Tratamento Específico Individual (7 Dias / 21 Dias por R$ 59,90)</h3>
-                    <p className="text-xs text-slate-400 mt-0.5">
+                    <p className="text-xs text-[#5C5248] mt-0.5">
                       Canalização energética personalizada de 7 ou 21 dias para sua queixa ou dor física específica.
                     </p>
                   </div>
@@ -1333,24 +1333,24 @@ export default function App() {
                 </div>
 
                 {userProfile.specificTreatments && userProfile.specificTreatments.length > 0 && (
-                  <div className="space-y-3 mt-4 pt-2 border-t border-slate-800">
-                    <span className="text-[11px] font-mono text-slate-400 uppercase block font-bold mb-2">Seus Tratamentos Específicos ({userProfile.specificTreatments.length}):</span>
+                  <div className="space-y-3 mt-4 pt-2 border-t border-[#E5DAC6]">
+                    <span className="text-[11px] font-mono text-[#5C5248] uppercase block font-bold mb-2">Seus Tratamentos Específicos ({userProfile.specificTreatments.length}):</span>
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                       {userProfile.specificTreatments.map((t, idx) => (
-                        <div key={t.id || idx} className="p-4 bg-slate-950 border border-slate-800 hover:border-emerald-500/30 rounded-2xl flex flex-col justify-between space-y-2 text-xs transition shadow-sm">
+                        <div key={t.id || idx} className="p-4 bg-white border border-[#E5DAC6] hover:border-emerald-500/30 rounded-2xl flex flex-col justify-between space-y-2 text-xs transition shadow-sm">
                           <div>
                             <div className="flex items-center justify-between mb-1.5">
                               <span className="font-bold text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded-full border border-emerald-500/20 text-[10px] uppercase">
                                 {t.category.replace(/_/g, ' ')}
                               </span>
-                              <span className="text-[9px] font-mono text-slate-500">
+                              <span className="text-[9px] font-mono text-[#85786C]">
                                 {new Date(t.requestedAt).toLocaleDateString('pt-BR')}
                               </span>
                             </div>
-                            <h4 className="font-semibold text-slate-200 text-[13px] leading-tight mb-1">{t.title || 'Tratamento Pontual'}</h4>
-                            <p className="text-slate-400 text-[11px] italic line-clamp-3 leading-relaxed">"{t.patientDescription || t.userCaseDescription}"</p>
+                            <h4 className="font-semibold text-[#2A2420] text-[13px] leading-tight mb-1">{t.title || 'Tratamento Pontual'}</h4>
+                            <p className="text-[#5C5248] text-[11px] italic line-clamp-3 leading-relaxed">"{t.patientDescription || t.userCaseDescription}"</p>
                           </div>
-                          <div className="pt-2 border-t border-slate-900/80 flex justify-between items-center text-[10px] text-indigo-300 font-mono mt-2">
+                          <div className="pt-2 border-t border-[#E5DAC6]/80 flex justify-between items-center text-[10px] text-indigo-300 font-mono mt-2">
                             <span>Decreto: Ativo</span>
                             <span className="font-bold">{t.assignedFrequency?.toUpperCase() || t.prescribedFrequency?.toUpperCase()}</span>
                           </div>
@@ -1362,8 +1362,8 @@ export default function App() {
               </div>
 
               {/* Atalhos Rápidos & Extras em Ajustes */}
-              <div className="pt-6 border-t border-slate-800 space-y-3">
-                <span className="text-xs font-mono text-slate-500 uppercase block font-bold">Ferramentas & Acesso Especial</span>
+              <div className="pt-6 border-t border-[#E5DAC6] space-y-3">
+                <span className="text-xs font-mono text-[#85786C] uppercase block font-bold">Ferramentas & Acesso Especial</span>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
 
                   <button
@@ -1372,9 +1372,9 @@ export default function App() {
                       setShowSettings(false);
                       setShowDashboardCura(true);
                     }}
-                    className="w-full text-left p-3 rounded-xl bg-slate-900 border border-slate-800 hover:border-indigo-500 hover:bg-slate-800 transition flex items-center justify-between group cursor-pointer"
+                    className="w-full text-left p-3 rounded-xl bg-[#FBF8F2] border border-[#E5DAC6] hover:border-indigo-500 hover:bg-[#F5EFE4] transition flex items-center justify-between group cursor-pointer"
                   >
-                    <div className="flex items-center gap-2 text-sm text-slate-300 group-hover:text-white">
+                    <div className="flex items-center gap-2 text-sm text-[#5C5248] group-hover:text-[#2A2420]">
                       <Activity size={16} className="text-indigo-400 group-hover:text-indigo-300" />
                       <span>Dashboard de Progresso Analítico</span>
                     </div>
@@ -1433,7 +1433,7 @@ export default function App() {
                       setShowSettings(false);
                       setShowAudioSettingsModal(true);
                     }}
-                    className="p-3 bg-slate-950 hover:bg-slate-900 border border-slate-800 rounded-xl text-left flex items-center justify-between text-xs text-indigo-300 font-semibold cursor-pointer transition"
+                    className="p-3 bg-white hover:bg-[#FBF8F2] border border-[#E5DAC6] rounded-xl text-left flex items-center justify-between text-xs text-indigo-300 font-semibold cursor-pointer transition"
                   >
                     <span className="flex items-center gap-2">
                       <Sliders size={14} className="text-indigo-400" />
@@ -1493,7 +1493,7 @@ export default function App() {
                       setShowSettings(false);
                       setShowVideoStudioModal(true);
                     }}
-                    className="p-3 bg-[#052a1e]/70 hover:bg-[#052a1e] border border-[#d6ae52]/30 rounded-xl text-left flex items-center justify-between text-xs text-[#e8d38f] font-semibold cursor-pointer transition"
+                    className="p-3 bg-[#F5EFE4]/70 hover:bg-[#F5EFE4] border border-[#d6ae52]/30 rounded-xl text-left flex items-center justify-between text-xs text-[#e8d38f] font-semibold cursor-pointer transition"
                   >
                     <span className="flex items-center gap-2">
                       <Video size={14} className="text-[#d6ae52]" />
@@ -1505,14 +1505,14 @@ export default function App() {
               </div>
 
               {/* Botão Sair da Conta */}
-              <div className="pt-6 border-t border-slate-800 space-y-3">
+              <div className="pt-6 border-t border-[#E5DAC6] space-y-3">
                 <div className="flex items-center justify-between">
                   <div>
-                    <h3 className="text-sm font-display font-medium text-slate-200 flex items-center gap-1.5">
+                    <h3 className="text-sm font-display font-medium text-[#2A2420] flex items-center gap-1.5">
                       <LogOut size={15} className="text-rose-400" />
                       Encerrar Sessão
                     </h3>
-                    <p className="text-xs text-slate-400 mt-0.5">
+                    <p className="text-xs text-[#5C5248] mt-0.5">
                       Desconecte sua conta com segurança para trocar de usuário ou entrar mais tarde.
                     </p>
                   </div>
@@ -1529,7 +1529,7 @@ export default function App() {
               {/* Reset Database Trigger */}
               <div className="pt-6 border-t border-slate-950 space-y-3">
                 <h3 className="text-sm font-display font-medium text-rose-400">Zona de Perigo</h3>
-                <p className="text-xs text-slate-500 leading-normal">
+                <p className="text-xs text-[#85786C] leading-normal">
                   Se você deseja reiniciar o ciclo completo de cura de 21 dias do zero, eliminando o diário de bordo e a contagem de dias ativos, clique no botão abaixo.
                 </p>
                 <button
@@ -1575,7 +1575,7 @@ export default function App() {
 
       {/* Bottom Floating Action Dock (Always neatly accessible, prevents header overflow) */}
       <aside className="hidden" id="bottom-action-dock" aria-hidden="true">
-        <div className="max-w-5xl mx-auto bg-slate-950/90 backdrop-blur-xl border border-slate-800/90 rounded-2xl p-2 shadow-2xl shadow-slate-950/80 pointer-events-auto flex items-center justify-between sm:justify-center gap-1.5 sm:gap-2 overflow-x-auto no-scrollbar">
+        <div className="max-w-5xl mx-auto bg-white/90 backdrop-blur-xl border border-[#E5DAC6] rounded-2xl p-2 shadow-2xl shadow-[#B88736]/10 pointer-events-auto flex items-center justify-between sm:justify-center gap-1.5 sm:gap-2 overflow-x-auto no-scrollbar">
           
           {/* Vídeo Apresentação do App */}
           <button
@@ -1643,7 +1643,7 @@ export default function App() {
           {/* Estúdio de Vídeos & Vinhetas */}
           <button
             onClick={() => setShowVideoStudioModal(true)}
-            className="px-2.5 sm:px-3 py-2 rounded-xl text-xs font-semibold flex items-center gap-1.5 transition cursor-pointer shrink-0 bg-[#052a1e]/90 hover:bg-[#052a1e] border border-[#d6ae52]/50 text-[#e8d38f] shadow-md shadow-[#d6ae52]/10"
+            className="px-2.5 sm:px-3 py-2 rounded-xl text-xs font-semibold flex items-center gap-1.5 transition cursor-pointer shrink-0 bg-[#F5EFE4]/90 hover:bg-[#F5EFE4] border border-[#d6ae52]/50 text-[#e8d38f] shadow-md shadow-[#d6ae52]/10"
             title="Estúdio de Vídeos & Vinhetas de Meditação (Áudio e Imagem)"
             id="bottom-btn-video-studio"
           >
@@ -1740,7 +1740,7 @@ export default function App() {
             className={`px-2.5 sm:px-3 py-2 rounded-xl text-xs font-semibold flex items-center gap-1.5 transition cursor-pointer border shrink-0 ${
               isJournalOpen
                 ? 'bg-indigo-600 border-indigo-500 text-white'
-                : 'bg-slate-900/90 border-slate-800 text-slate-300 hover:text-white hover:border-slate-700'
+                : 'bg-[#FBF8F2]/90 border-[#E5DAC6] text-[#5C5248] hover:text-[#2A2420] hover:border-[#E5DAC6]'
             }`}
             id="bottom-btn-journal"
             title="Diário de Bordo e Anotações Quânticas"
@@ -1751,7 +1751,7 @@ export default function App() {
 
           <button
             onClick={() => setShowDashboardCura(true)}
-            className="px-2.5 sm:px-3 py-2 rounded-xl text-xs font-semibold flex items-center gap-1.5 transition cursor-pointer border bg-slate-900/90 border-slate-800 text-sky-400 hover:text-white hover:border-sky-500/50 shrink-0 shadow-sm"
+            className="px-2.5 sm:px-3 py-2 rounded-xl text-xs font-semibold flex items-center gap-1.5 transition cursor-pointer border bg-[#FBF8F2]/90 border-[#E5DAC6] text-sky-400 hover:text-[#2A2420] hover:border-sky-500/50 shrink-0 shadow-sm"
             id="bottom-btn-dashboard"
             title="Dashboard Analítico de Evolução"
           >
@@ -1764,7 +1764,7 @@ export default function App() {
           {/* Ajustar Som */}
           <button
             onClick={() => setShowAudioSettingsModal(true)}
-            className="px-2.5 sm:px-3 py-2 rounded-xl text-xs font-semibold flex items-center gap-1.5 transition cursor-pointer border bg-slate-900/90 border-slate-800 text-indigo-300 hover:text-white hover:border-indigo-500/50 shrink-0"
+            className="px-2.5 sm:px-3 py-2 rounded-xl text-xs font-semibold flex items-center gap-1.5 transition cursor-pointer border bg-[#FBF8F2]/90 border-[#E5DAC6] text-indigo-300 hover:text-[#2A2420] hover:border-indigo-500/50 shrink-0"
             id="bottom-btn-audio"
             title="Ajuste do Som e Voz"
           >
@@ -1775,7 +1775,7 @@ export default function App() {
           {/* Sair */}
           <button
             onClick={handleLogout}
-            className="px-2 sm:px-2.5 py-2 rounded-xl text-xs font-semibold flex items-center gap-1 transition cursor-pointer border bg-slate-900/90 border-slate-800 text-rose-400 hover:bg-rose-950/30 hover:border-rose-900/50 shrink-0"
+            className="px-2 sm:px-2.5 py-2 rounded-xl text-xs font-semibold flex items-center gap-1 transition cursor-pointer border bg-[#FBF8F2]/90 border-[#E5DAC6] text-rose-400 hover:bg-rose-950/30 hover:border-rose-900/50 shrink-0"
             id="bottom-btn-logout"
             title="Sair da conta"
           >
@@ -1796,7 +1796,7 @@ export default function App() {
               <>
                 <button
                   onClick={() => setShowAdminModal(true)}
-                  className="text-slate-500 hover:text-amber-400 transition cursor-pointer underline text-[11px]"
+                  className="text-[#85786C] hover:text-amber-400 transition cursor-pointer underline text-[11px]"
                 >
                   Área do Terapeuta / Admin
                 </button>
@@ -1812,22 +1812,22 @@ export default function App() {
 
       {/* 21-Day Detail Modal Overlays */}
       {selectedDayDetail !== null && selectedInsight && (
-        <div className="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-sm flex items-center justify-center p-4 overflow-y-auto" id="day-detail-modal">
-          <div className="w-full max-w-xl bg-slate-900 border border-slate-800 rounded-3xl p-6 md:p-8 shadow-2xl relative overflow-hidden space-y-6 max-h-[90vh] overflow-y-auto">
+        <div className="fixed inset-0 z-50 bg-white/80 backdrop-blur-sm flex items-center justify-center p-4 overflow-y-auto" id="day-detail-modal">
+          <div className="w-full max-w-xl bg-[#FBF8F2] border border-[#E5DAC6] rounded-3xl p-6 md:p-8 shadow-2xl relative overflow-hidden space-y-6 max-h-[90vh] overflow-y-auto">
             
             {/* Modal Header */}
-            <div className="flex items-center justify-between border-b border-slate-800 pb-3.5">
+            <div className="flex items-center justify-between border-b border-[#E5DAC6] pb-3.5">
               <div className="flex items-center gap-2">
                 <span className="text-xs font-mono bg-indigo-500/10 border border-indigo-500/20 text-indigo-400 px-2.5 py-0.5 rounded uppercase">
                   Dia {selectedDayDetail.toString().padStart(2, '0')}
                 </span>
-                <h3 className="text-sm font-display font-medium text-slate-200 uppercase">
+                <h3 className="text-sm font-display font-medium text-[#2A2420] uppercase">
                   Foco Espiritual
                 </h3>
               </div>
               <button
                 onClick={() => setSelectedDayDetail(null)}
-                className="p-1.5 bg-slate-950 border border-slate-850 text-slate-500 hover:text-slate-300 rounded-lg transition"
+                className="p-1.5 bg-white border border-[#E5DAC6] text-[#85786C] hover:text-[#5C5248] rounded-lg transition"
               >
                 <X size={16} />
               </button>
@@ -1835,10 +1835,10 @@ export default function App() {
 
             {/* Daily insight content */}
             <div className="space-y-4">
-              <h2 className="text-xl font-display font-medium text-slate-100">
+              <h2 className="text-xl font-display font-medium text-[#2A2420]">
                 {selectedInsight.title}
               </h2>
-              <p className="text-slate-400 text-sm leading-relaxed">
+              <p className="text-[#5C5248] text-sm leading-relaxed">
                 {selectedInsight.description}
               </p>
 
@@ -1849,7 +1849,7 @@ export default function App() {
                     <Sparkles size={11} className="shrink-0" />
                     Frase Motivacional do Dia:
                   </span>
-                  <p className="text-xs md:text-sm text-slate-200 italic font-serif leading-relaxed">
+                  <p className="text-xs md:text-sm text-[#2A2420] italic font-serif leading-relaxed">
                     "{selectedInsight.quote}"
                   </p>
                   <p className="text-[11px] text-indigo-300/80 font-mono font-medium">
@@ -1859,20 +1859,20 @@ export default function App() {
               )}
 
               {/* Anchor daily focus */}
-              <div className="bg-slate-950/40 border border-slate-850 p-4 rounded-xl space-y-1.5">
+              <div className="bg-white/40 border border-[#E5DAC6] p-4 rounded-xl space-y-1.5">
                 <span className="text-[10px] font-mono text-indigo-400 tracking-wider uppercase block">
                   Recomendação de Prática:
                 </span>
-                <p className="text-xs text-slate-300 leading-normal">
+                <p className="text-xs text-[#5C5248] leading-normal">
                   {selectedInsight.focus}
                 </p>
               </div>
 
               {/* Completed state metrics */}
               {selectedProgress?.completed ? (
-                <div className="border-t border-slate-850/60 pt-4 space-y-3.5" id="detail-completed-log">
+                <div className="border-t border-[#E5DAC6]/60 pt-4 space-y-3.5" id="detail-completed-log">
                   <div className="flex items-center justify-between text-xs font-mono">
-                    <span className="text-slate-500">SESSÃO REALIZADA</span>
+                    <span className="text-[#85786C]">SESSÃO REALIZADA</span>
                     <span className="text-emerald-400 flex items-center gap-1">
                       <Smile size={12} />
                       Estado: {getMoodLabel(selectedProgress.mood)}
@@ -1881,39 +1881,39 @@ export default function App() {
 
                   {/* Before vs After comparison in Day details */}
                   {selectedProgress.beforeFeeling ? (
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 p-3 rounded-xl bg-slate-950/70 border border-slate-850">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 p-3 rounded-xl bg-white/70 border border-[#E5DAC6]">
                       <div className="space-y-1 text-xs">
-                        <span className="text-[10px] font-mono text-slate-500 uppercase block">1. Antes do Tratamento:</span>
-                        <p className="text-slate-300 font-medium text-xs">
+                        <span className="text-[10px] font-mono text-[#85786C] uppercase block">1. Antes do Tratamento:</span>
+                        <p className="text-[#5C5248] font-medium text-xs">
                           {selectedProgress.beforeFeeling.stateTitle || getMoodLabel(selectedProgress.beforeFeeling.mood)} (Nota {selectedProgress.beforeFeeling.mood}/5)
                         </p>
                         {selectedProgress.beforeFeeling.notes && (
-                          <p className="text-[11px] text-slate-400 italic bg-slate-900/60 p-2 rounded border border-slate-850">
+                          <p className="text-[11px] text-[#5C5248] italic bg-[#FBF8F2]/60 p-2 rounded border border-[#E5DAC6]">
                             "{selectedProgress.beforeFeeling.notes}"
                           </p>
                         )}
                       </div>
-                      <div className="space-y-1 text-xs border-t sm:border-t-0 sm:border-l border-slate-850 pt-2 sm:pt-0 sm:pl-2.5">
+                      <div className="space-y-1 text-xs border-t sm:border-t-0 sm:border-l border-[#E5DAC6] pt-2 sm:pt-0 sm:pl-2.5">
                         <span className="text-[10px] font-mono text-emerald-400 uppercase block">2. Após o Tratamento:</span>
                         <p className="text-emerald-300 font-medium text-xs">
                           {selectedProgress.afterFeeling?.stateTitle || getMoodLabel(selectedProgress.mood)} (Nota {selectedProgress.afterFeeling?.mood || selectedProgress.mood || 5}/5)
                         </p>
-                        <p className="text-[11px] text-slate-200 leading-relaxed bg-emerald-950/20 p-2 rounded border border-emerald-500/20">
+                        <p className="text-[11px] text-[#2A2420] leading-relaxed bg-emerald-950/20 p-2 rounded border border-emerald-500/20">
                           {selectedProgress.afterFeeling?.notes || selectedProgress.journalText || "Sessão concluída e selada no DNA."}
                         </p>
                       </div>
                     </div>
                   ) : (
                     <div className="space-y-1.5">
-                      <span className="text-[10px] font-mono text-slate-500 uppercase block">Sua anotação diária:</span>
-                      <p className="text-xs text-slate-300 leading-relaxed italic bg-slate-950/80 p-3 rounded-lg border border-slate-850 whitespace-pre-wrap">
+                      <span className="text-[10px] font-mono text-[#85786C] uppercase block">Sua anotação diária:</span>
+                      <p className="text-xs text-[#5C5248] leading-relaxed italic bg-white/80 p-3 rounded-lg border border-[#E5DAC6] whitespace-pre-wrap">
                         {selectedProgress.journalText || "Sessão concluída e selada sem anotações adicionais."}
                       </p>
                     </div>
                   )}
                 </div>
               ) : (
-                <div className="border-t border-slate-850/60 pt-4" id="detail-uncompleted-log">
+                <div className="border-t border-[#E5DAC6]/60 pt-4" id="detail-uncompleted-log">
                   <div className="flex items-center gap-1.5 text-xs text-amber-500/85">
                     <Clock size={14} />
                     <span>Esta sessão está aguardando você hoje.</span>
@@ -1926,7 +1926,7 @@ export default function App() {
             <div className="pt-2 flex gap-3">
               <button
                 onClick={() => setSelectedDayDetail(null)}
-                className="flex-1 bg-slate-800 hover:bg-slate-700 text-slate-300 font-medium py-3 rounded-xl transition text-xs cursor-pointer border-none"
+                className="flex-1 bg-[#F5EFE4] hover:bg-slate-700 text-[#5C5248] font-medium py-3 rounded-xl transition text-xs cursor-pointer border-none"
               >
                 Fechar Detalhes
               </button>
@@ -2213,12 +2213,12 @@ export default function App() {
       <button
         type="button"
         onClick={() => setShowContactModal(true)}
-        className="fixed bottom-6 right-6 z-40 bg-emerald-500 hover:bg-emerald-400 text-slate-950 p-3.5 rounded-full shadow-2xl shadow-emerald-500/40 flex items-center gap-2 group transition-all duration-300 hover:scale-105 cursor-pointer border border-emerald-300/40"
+        className="fixed bottom-6 right-6 z-40 bg-emerald-500 hover:bg-emerald-400 text-[#2A2420] p-3.5 rounded-full shadow-2xl shadow-emerald-500/40 flex items-center gap-2 group transition-all duration-300 hover:scale-105 cursor-pointer border border-emerald-300/40"
         title="Fale Conosco"
         id="floating-whatsapp-btn"
       >
-        <MessageCircle size={22} className="fill-slate-950 text-slate-950" />
-        <span className="max-w-0 overflow-hidden whitespace-nowrap group-hover:max-w-xs transition-all duration-300 text-xs font-bold text-slate-950">
+        <MessageCircle size={22} className="fill-slate-950 text-[#2A2420]" />
+        <span className="max-w-0 overflow-hidden whitespace-nowrap group-hover:max-w-xs transition-all duration-300 text-xs font-bold text-[#2A2420]">
           Fale Conosco
         </span>
       </button>
@@ -2279,12 +2279,12 @@ export default function App() {
         <div className="fixed top-5 right-5 z-50 max-w-sm p-4 rounded-2xl bg-gradient-to-br from-indigo-950 via-slate-900 to-purple-950 border-2 border-amber-500/50 shadow-2xl animate-fade-in flex items-start gap-3">
           <Sparkles className="w-5 h-5 text-amber-400 shrink-0 mt-0.5 animate-pulse" />
           <div className="flex-1 space-y-1">
-            <h4 className="text-xs font-bold text-slate-100">{inAppToast.title}</h4>
-            <p className="text-[11px] text-slate-300 leading-snug">{inAppToast.body}</p>
+            <h4 className="text-xs font-bold text-[#2A2420]">{inAppToast.title}</h4>
+            <p className="text-[11px] text-[#5C5248] leading-snug">{inAppToast.body}</p>
           </div>
           <button
             onClick={() => setInAppToast(null)}
-            className="text-slate-400 hover:text-slate-200 text-xs p-1"
+            className="text-[#5C5248] hover:text-[#2A2420] text-xs p-1"
           >
             <X size={14} />
           </button>
