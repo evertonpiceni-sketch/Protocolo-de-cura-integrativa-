@@ -1,5 +1,6 @@
 import React from "react";
 import { Check, ChevronRight, Clock, Feather } from "lucide-react";
+import { APPROVED_LOGO_DATA_URI } from './ApprovedBrand';
 import { JORNADA_21_DIAS } from "../data/jornada21Dias";
 
 interface Props {
@@ -35,6 +36,9 @@ export const JornadaGridLight: React.FC<Props> = ({
 
       <div className="max-w-4xl mx-auto space-y-8">
         <header className="text-center space-y-3 pt-2">
+          <div className="flex justify-center">
+            <img src={APPROVED_LOGO_DATA_URI} alt="Everton Piceni — Terapias Holísticas e Bem-Estar" className="h-20 w-auto object-contain opacity-55" />
+          </div>
           <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-white/80 border border-[#E5DAC6] text-xs text-[#5C5248] shadow-2xs">
             <span className="w-1.5 h-1.5 rounded-full bg-[#5E7153]" />
             <span className="font-medium tracking-wide">Protocolo da Transformação</span>
@@ -154,7 +158,10 @@ export const JornadaGridLight: React.FC<Props> = ({
           })}
         </div>
 
-        <footer className="text-center pt-6 pb-2 border-t border-[#E8DFC8]/70 space-y-1 text-xs text-[#7A6D5E]">
+        <footer className="text-center pt-6 pb-2 border-t border-[#E8DFC8]/70 space-y-2 text-xs text-[#7A6D5E]">
+          <div className="flex justify-center">
+            <img src={APPROVED_LOGO_DATA_URI} alt="" aria-hidden="true" className="h-14 w-auto object-contain opacity-35" />
+          </div>
           <p className="font-serif italic text-sm text-[#4A403A]">
             “Cuidar de si também é um ato de amor.”
           </p>
