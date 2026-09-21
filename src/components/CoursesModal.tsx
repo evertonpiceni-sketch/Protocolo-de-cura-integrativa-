@@ -130,19 +130,19 @@ export default function CoursesModal({ isOpen, onClose, userName, userProfile, o
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-slate-950/85 backdrop-blur-md overflow-y-auto" id="courses-modal">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-[#2A2420]/30 backdrop-blur-md overflow-y-auto" id="courses-modal">
       <motion.div
         initial={{ opacity: 0, scale: 0.96, y: 15 }}
         animate={{ opacity: 1, scale: 1, y: 0 }}
         exit={{ opacity: 0, scale: 0.96, y: 15 }}
-        className="w-full max-w-4xl bg-slate-900 border border-slate-800 rounded-3xl p-5 sm:p-7 shadow-2xl space-y-6 relative overflow-hidden my-4 max-h-[92vh] overflow-y-auto"
+        className="w-full max-w-4xl bg-[#FBF8F2] border border-[#E5DAC6] rounded-3xl p-5 sm:p-7 shadow-2xl space-y-6 relative overflow-hidden my-4 max-h-[92vh] overflow-y-auto"
       >
         {/* Ambient violet-amber background flare */}
         <div className="absolute top-0 right-0 w-80 h-80 bg-purple-600/10 rounded-full blur-3xl pointer-events-none" />
         <div className="absolute bottom-0 left-0 w-80 h-80 bg-amber-500/10 rounded-full blur-3xl pointer-events-none" />
 
         {/* Header */}
-        <div className="flex items-center justify-between border-b border-slate-800 pb-4">
+        <div className="flex items-center justify-between border-b border-[#E5DAC6] pb-4">
           <div className="flex items-center gap-3">
             <div className="w-12 h-12 rounded-2xl overflow-hidden border border-purple-500/30 shrink-0 shadow-md">
               <img
@@ -157,11 +157,11 @@ export default function CoursesModal({ isOpen, onClose, userName, userProfile, o
                 <span className="text-[10px] font-mono uppercase tracking-widest text-amber-400 bg-amber-500/10 border border-amber-500/20 px-2.5 py-0.5 rounded-full font-bold">
                   Escola de Sabedoria Quântica & Reiki
                 </span>
-                <span className="text-[10px] font-mono text-purple-300">
+                <span className="text-[10px] font-mono text-[#B88736]">
                   Por Éverton Rodrigo Piceni
                 </span>
               </div>
-              <h2 className="text-base sm:text-xl font-display font-medium text-slate-100 mt-0.5">
+              <h2 className="text-base sm:text-xl font-display font-medium text-[#2A2420] mt-0.5">
                 Cursos & Iniciações de Reiki
               </h2>
             </div>
@@ -169,7 +169,7 @@ export default function CoursesModal({ isOpen, onClose, userName, userProfile, o
 
           <button
             onClick={onClose}
-            className="p-2 text-slate-400 hover:text-white bg-slate-800/60 hover:bg-slate-800 rounded-xl transition cursor-pointer border-none"
+            className="p-2 text-[#5C5248] hover:text-white bg-[#F5EFE4]/60 hover:bg-[#F5EFE4] rounded-xl transition cursor-pointer border-none"
             title="Fechar"
           >
             <X size={18} />
@@ -177,7 +177,7 @@ export default function CoursesModal({ isOpen, onClose, userName, userProfile, o
         </div>
 
         {/* Introduction Banner */}
-        <div className="p-4 rounded-2xl bg-gradient-to-r from-purple-950/30 via-indigo-950/20 to-slate-950/50 border border-purple-500/30 flex items-start gap-3.5">
+        <div className="p-4 rounded-2xl bg-gradient-to-r from-purple-950/30 via-indigo-950/20 to-[#F3EBDD]/50 border border-purple-500/30 flex items-start gap-3.5">
           <Sparkles size={20} className="text-amber-400 shrink-0 mt-0.5" />
           <div className="space-y-1">
             <div className="flex items-center gap-2">
@@ -188,7 +188,7 @@ export default function CoursesModal({ isOpen, onClose, userName, userProfile, o
                 Turmas & Iniciações Individuais
               </span>
             </div>
-            <p className="text-xs text-slate-300 leading-relaxed">
+            <p className="text-xs text-[#5C5248] leading-relaxed">
               {userProfile?.plan === 'pro' ? (
                 <><strong>🎁 BÔNUS VIP / PRO:</strong> Você tem direito a resgatar <strong>UM curso de formação gratuito</strong> da lista abaixo! Clique em <strong>Fale Conosco</strong> para agendar sua iniciação e validar seu acesso com Éverton Rodrigo Piceni.</>
               ) : (
@@ -210,8 +210,8 @@ export default function CoursesModal({ isOpen, onClose, userName, userProfile, o
                 onClick={() => setSelectedCourse(course)}
                 className={`p-4 sm:p-5 rounded-2xl border transition cursor-pointer space-y-3 relative overflow-hidden flex flex-col justify-between ${
                   isSelected
-                    ? 'bg-gradient-to-br from-indigo-950/50 to-slate-900 border-indigo-500 shadow-lg shadow-indigo-500/10 ring-1 ring-indigo-500/50'
-                    : 'bg-slate-950/60 border-slate-800 hover:border-slate-700 hover:bg-slate-900/60'
+                    ? 'bg-gradient-to-br from-indigo-950/50 to-slate-900 border-[#B88736] shadow-lg shadow-indigo-500/10 ring-1 ring-indigo-500/50'
+                    : 'bg-white/70 border-[#E5DAC6] hover:border-[#E5DAC6] hover:bg-[#FBF8F2]/60'
                 }`}
               >
                 <div className="space-y-2">
@@ -221,17 +221,17 @@ export default function CoursesModal({ isOpen, onClose, userName, userProfile, o
                     </span>
                   </div>
 
-                  <h3 className="text-sm sm:text-base font-display font-medium text-slate-100 leading-snug">
+                  <h3 className="text-sm sm:text-base font-display font-medium text-[#2A2420] leading-snug">
                     {course.title}
                   </h3>
 
-                  <p className="text-xs text-slate-400 leading-relaxed line-clamp-3">
+                  <p className="text-xs text-[#5C5248] leading-relaxed line-clamp-3">
                     {course.description}
                   </p>
                 </div>
 
-                <div className="pt-3 border-t border-slate-800/80 flex items-center justify-between gap-2">
-                  <span className="text-[10px] font-mono text-slate-400 truncate">
+                <div className="pt-3 border-t border-[#E5DAC6] flex items-center justify-between gap-2">
+                  <span className="text-[10px] font-mono text-[#5C5248] truncate">
                     {course.badge}
                   </span>
 
@@ -244,7 +244,7 @@ export default function CoursesModal({ isOpen, onClose, userName, userProfile, o
                     className={`px-3 py-1.5 rounded-xl text-xs font-mono font-semibold flex items-center gap-1.5 transition cursor-pointer border shrink-0 ${
                       isRegistered
                         ? 'bg-emerald-500/20 border-emerald-400 text-emerald-300'
-                        : 'bg-indigo-600 hover:bg-indigo-500 border-indigo-500 text-white shadow-sm'
+                        : 'bg-[#B88736] hover:bg-[#B88736] border-[#B88736] text-white shadow-sm'
                     }`}
                   >
                     {isRegistered ? <CheckCircle2 size={13} /> : <MessageCircle size={13} />}
@@ -258,13 +258,13 @@ export default function CoursesModal({ isOpen, onClose, userName, userProfile, o
 
         {/* Selected Course Deep Dive Details */}
         {selectedCourse && (
-          <div className="p-5 rounded-2xl bg-slate-950 border border-indigo-500/30 space-y-4">
+          <div className="p-5 rounded-2xl bg-white border border-[#B88736]/30 space-y-4">
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
               <div>
-                <span className="text-[10px] font-mono text-indigo-400 uppercase tracking-widest block font-bold">
+                <span className="text-[10px] font-mono text-[#B88736] uppercase tracking-widest block font-bold">
                   CONTEÚDO PROGRAMÁTICO & INICIAÇÃO
                 </span>
-                <h4 className="text-base sm:text-lg font-display font-medium text-slate-100 mt-0.5">
+                <h4 className="text-base sm:text-lg font-display font-medium text-[#2A2420] mt-0.5">
                   {selectedCourse.title}
                 </h4>
               </div>
@@ -273,16 +273,16 @@ export default function CoursesModal({ isOpen, onClose, userName, userProfile, o
               </span>
             </div>
 
-            <p className="text-xs text-slate-300 leading-relaxed">
+            <p className="text-xs text-[#5C5248] leading-relaxed">
               {selectedCourse.description}
             </p>
 
             {/* Modules list */}
             <div className="space-y-1.5">
-              <span className="text-[11px] font-mono text-slate-400 uppercase block font-bold">Módulos & Transmissões Sagradas:</span>
+              <span className="text-[11px] font-mono text-[#5C5248] uppercase block font-bold">Módulos & Transmissões Sagradas:</span>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                 {selectedCourse.modules.map((mod, idx) => (
-                  <div key={idx} className="flex items-start gap-2 p-2.5 rounded-xl bg-slate-900 border border-slate-850 text-xs text-slate-300">
+                  <div key={idx} className="flex items-start gap-2 p-2.5 rounded-xl bg-[#FBF8F2] border border-[#E5DAC6] text-xs text-[#5C5248]">
                     <CheckCircle2 size={13} className="text-emerald-400 shrink-0 mt-0.5" />
                     <span className="leading-snug">{mod}</span>
                   </div>
@@ -290,8 +290,8 @@ export default function CoursesModal({ isOpen, onClose, userName, userProfile, o
               </div>
             </div>
 
-            <div className="pt-3 flex flex-col sm:flex-row items-center justify-between gap-3 border-t border-slate-850">
-              <div className="flex items-center gap-2 text-xs text-slate-400">
+            <div className="pt-3 flex flex-col sm:flex-row items-center justify-between gap-3 border-t border-[#E5DAC6]">
+              <div className="flex items-center gap-2 text-xs text-[#5C5248]">
                 <Shield size={14} className="text-amber-400 shrink-0" />
                 <span>{selectedCourse.duration}</span>
               </div>
