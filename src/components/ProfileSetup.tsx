@@ -296,30 +296,30 @@ export default function ProfileSetup({ onComplete }: ProfileSetupProps) {
   };
 
   return (
-    <div className="min-h-screen bg-[#031b12] text-slate-100 flex items-start md:items-center justify-center p-3 sm:p-4 md:p-8" id="profile-setup-view">
-      <div className="fixed inset-0 bg-[linear-gradient(rgba(2,31,20,.62),rgba(2,24,16,.92)),url('/brand/forest-app-background.png')] bg-cover bg-center pointer-events-none" />
+    <div className="min-h-screen bg-[#F8F4EC] text-[#2A2420] flex items-start md:items-center justify-center p-3 sm:p-4 md:p-8" id="profile-setup-view">
+      <div className="fixed inset-0 bg-[radial-gradient(circle_at_50%_8%,rgba(214,167,86,.16),transparent_30rem),linear-gradient(180deg,#FBF8F2,#F8F4EC)] pointer-events-none" />
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_12%,rgba(239,211,132,0.20)_0,transparent_42%)] pointer-events-none" />
 
       <div className="w-full max-w-xl rounded-[1.9rem] p-5 sm:p-7 md:p-8 space-y-6 relative overflow-hidden" id="onboarding-card">
         {/* Decorative corner glow */}
-        <div className="absolute -top-12 -right-12 w-24 h-24 bg-indigo-500/10 rounded-full blur-xl pointer-events-none" />
+        <div className="absolute -top-12 -right-12 w-24 h-24 bg-[#B88736]/10 rounded-full blur-xl pointer-events-none" />
 
         <div className="text-center space-y-2">
-          <div className="ep-brand-signature-wrap w-20 h-20 sm:w-24 sm:h-24 rounded-full overflow-hidden border border-[#d6ae52]/22 mx-auto mb-5 bg-[#031b13]/45 flex items-center justify-center relative group">
+          <div className="ep-brand-signature-wrap w-20 h-20 sm:w-24 sm:h-24 rounded-full overflow-hidden border border-[#d6ae52]/22 mx-auto mb-5 bg-white/70 flex items-center justify-center relative group">
             <div className="absolute inset-0 bg-[#d6ae52]/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10 pointer-events-none"></div>
             <img src={APPROVED_LOGO_DATA_URI} alt="Everton Piceni — Terapias Holísticas e Bem-Estar" className="ep-brand-signature w-full h-full object-contain transition-opacity duration-700" />
           </div>
           <span className="text-xs font-mono tracking-widest text-[#e5c66f] uppercase font-semibold">Terapias Holísticas e Bem-Estar</span>
-          <h1 className="text-xl md:text-2xl font-display font-medium text-slate-100 leading-tight">
+          <h1 className="text-xl md:text-2xl font-display font-medium text-[#2A2420] leading-tight">
             Que bom ter você aqui.<br />Este é o seu momento de transformação
           </h1>
-          <p className="text-sm text-slate-400">
+          <p className="text-sm text-[#5C5248]">
             Um espaço seguro para se reconectar, equilibrar sua energia e voltar para si.
           </p>
         </div>
 
         {/* Tab Selector */}
-        <div className="grid grid-cols-2 p-1 bg-slate-950 rounded-xl border border-slate-800/60" id="auth-tabs">
+        <div className="grid grid-cols-2 p-1 bg-white rounded-xl border border-[#E5DAC6]/60" id="auth-tabs">
           <button
             type="button"
             onClick={() => {
@@ -329,8 +329,8 @@ export default function ProfileSetup({ onComplete }: ProfileSetupProps) {
             }}
             className={`min-h-11 py-2 text-sm font-medium rounded-lg flex items-center justify-center gap-1.5 transition cursor-pointer ${
               activeTab === 'register'
-                ? 'bg-indigo-600 text-white shadow'
-                : 'text-slate-400 hover:text-slate-200'
+                ? 'bg-[#B88736] text-white shadow'
+                : 'text-[#5C5248] hover:text-[#2A2420]'
             }`}
           >
             <UserPlus size={14} />
@@ -345,8 +345,8 @@ export default function ProfileSetup({ onComplete }: ProfileSetupProps) {
             }}
             className={`min-h-11 py-2 text-sm font-medium rounded-lg flex items-center justify-center gap-1.5 transition cursor-pointer ${
               activeTab === 'login' || activeTab === 'forgot'
-                ? 'bg-indigo-600 text-white shadow'
-                : 'text-slate-400 hover:text-slate-200'
+                ? 'bg-[#B88736] text-white shadow'
+                : 'text-[#5C5248] hover:text-[#2A2420]'
             }`}
           >
             <LogIn size={14} />
@@ -376,11 +376,11 @@ export default function ProfileSetup({ onComplete }: ProfileSetupProps) {
           <form onSubmit={handleRegister} className="space-y-4" id="register-form">
             {/* Full Name */}
             <div className="space-y-1.5">
-              <label htmlFor="reg-fullname" className="block text-[10px] font-mono text-slate-400 uppercase tracking-wider">
+              <label htmlFor="reg-fullname" className="block text-[10px] font-mono text-[#5C5248] uppercase tracking-wider">
                 Nome Completo
               </label>
               <div className="relative">
-                <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-500">
+                <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-[#85786C]">
                   <User size={16} />
                 </div>
                 <input
@@ -390,7 +390,7 @@ export default function ProfileSetup({ onComplete }: ProfileSetupProps) {
                   value={fullName}
                   onChange={(e) => setFullName(e.target.value)}
                   placeholder="Seu nome completo para o decreto"
-                  className="w-full bg-slate-950 border border-slate-800/80 focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 text-slate-100 rounded-xl py-2.5 pl-10 pr-4 text-xs transition duration-150 outline-none placeholder-slate-600"
+                  className="w-full bg-white border border-[#E5DAC6]/80 focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 text-[#2A2420] rounded-xl py-2.5 pl-10 pr-4 text-xs transition duration-150 outline-none placeholder-slate-600"
                 />
               </div>
             </div>
@@ -398,11 +398,11 @@ export default function ProfileSetup({ onComplete }: ProfileSetupProps) {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {/* Date of Birth */}
               <div className="space-y-1.5">
-                <label htmlFor="reg-birthdate" className="block text-[10px] font-mono text-slate-400 uppercase tracking-wider">
+                <label htmlFor="reg-birthdate" className="block text-[10px] font-mono text-[#5C5248] uppercase tracking-wider">
                   Data de Nascimento
                 </label>
                 <div className="relative">
-                  <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-500">
+                  <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-[#85786C]">
                     <CalendarIcon size={16} />
                   </div>
                   <input
@@ -412,18 +412,18 @@ export default function ProfileSetup({ onComplete }: ProfileSetupProps) {
                     max={today}
                     value={birthDate}
                     onChange={(e) => setBirthDate(e.target.value)}
-                    className="w-full bg-slate-950 border border-slate-800/80 focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 text-slate-100 rounded-xl py-2.5 pl-10 pr-4 text-xs transition duration-150 outline-none [color-scheme:dark]"
+                    className="w-full bg-white border border-[#E5DAC6]/80 focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 text-[#2A2420] rounded-xl py-2.5 pl-10 pr-4 text-xs transition duration-150 outline-none [color-scheme:dark]"
                   />
                 </div>
               </div>
 
               {/* Email */}
               <div className="space-y-1.5">
-                <label htmlFor="reg-email" className="block text-[10px] font-mono text-slate-400 uppercase tracking-wider">
+                <label htmlFor="reg-email" className="block text-[10px] font-mono text-[#5C5248] uppercase tracking-wider">
                   E-mail
                 </label>
                 <div className="relative">
-                  <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-500">
+                  <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-[#85786C]">
                     <Mail size={16} />
                   </div>
                   <input
@@ -433,19 +433,19 @@ export default function ProfileSetup({ onComplete }: ProfileSetupProps) {
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     placeholder="exemplo@email.com"
-                    className="w-full bg-slate-950 border border-slate-800/80 focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 text-slate-100 rounded-xl py-2.5 pl-10 pr-4 text-xs transition duration-150 outline-none placeholder-slate-600"
+                    className="w-full bg-white border border-[#E5DAC6]/80 focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 text-[#2A2420] rounded-xl py-2.5 pl-10 pr-4 text-xs transition duration-150 outline-none placeholder-slate-600"
                   />
                 </div>
               </div>
 
               {/* WhatsApp / Phone */}
               <div className="space-y-1.5 md:col-span-2">
-                <label htmlFor="reg-phone" className="block text-[10px] font-mono text-slate-400 uppercase tracking-wider flex items-center justify-between">
+                <label htmlFor="reg-phone" className="block text-[10px] font-mono text-[#5C5248] uppercase tracking-wider flex items-center justify-between">
                   <span>Telefone / WhatsApp (Opcional)</span>
                   <span className="text-[9px] text-emerald-400 font-sans">Acolhimento & Mensagens</span>
                 </label>
                 <div className="relative">
-                  <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-500">
+                  <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-[#85786C]">
                     <Phone size={16} className="text-emerald-400/80" />
                   </div>
                   <input
@@ -454,10 +454,10 @@ export default function ProfileSetup({ onComplete }: ProfileSetupProps) {
                     value={phone}
                     onChange={(e) => setPhone(formatBrazilianPhone(e.target.value))}
                     placeholder="(11) 99999-9999"
-                    className="w-full bg-slate-950 border border-slate-800/80 focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 text-slate-100 rounded-xl py-2.5 pl-10 pr-4 text-xs transition duration-150 outline-none placeholder-slate-600"
+                    className="w-full bg-white border border-[#E5DAC6]/80 focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 text-[#2A2420] rounded-xl py-2.5 pl-10 pr-4 text-xs transition duration-150 outline-none placeholder-slate-600"
                   />
                 </div>
-                <span className="text-[9px] text-slate-500 font-sans block">
+                <span className="text-[9px] text-[#85786C] font-sans block">
                   Para envio de mensagens de acolhimento e confirmação.
                 </span>
               </div>
@@ -465,17 +465,17 @@ export default function ProfileSetup({ onComplete }: ProfileSetupProps) {
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div className="space-y-1.5">
-                <label htmlFor="reg-login" className="block text-xs font-mono text-slate-300 uppercase tracking-wider">Nome de usuário</label>
+                <label htmlFor="reg-login" className="block text-xs font-mono text-[#5C5248] uppercase tracking-wider">Nome de usuário</label>
                 <div className="relative">
-                  <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-indigo-400/80"><User size={16} /></div>
-                  <input id="reg-login" type="text" required autoComplete="username" value={regLogin} onChange={(e) => setRegLogin(e.target.value)} placeholder="ex: joaosilva" className="w-full min-h-12 bg-slate-950 border border-slate-700 focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 text-slate-100 rounded-xl pl-10 pr-4 text-base transition outline-none placeholder-slate-600" />
+                  <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-[#B88736]/80"><User size={16} /></div>
+                  <input id="reg-login" type="text" required autoComplete="username" value={regLogin} onChange={(e) => setRegLogin(e.target.value)} placeholder="ex: joaosilva" className="w-full min-h-12 bg-white border border-[#E5DAC6] focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 text-[#2A2420] rounded-xl pl-10 pr-4 text-base transition outline-none placeholder-slate-600" />
                 </div>
               </div>
               <div className="space-y-1.5">
-                <label htmlFor="reg-password" className="block text-xs font-mono text-slate-300 uppercase tracking-wider">Senha</label>
+                <label htmlFor="reg-password" className="block text-xs font-mono text-[#5C5248] uppercase tracking-wider">Senha</label>
                 <div className="relative">
-                  <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-500"><Lock size={16} /></div>
-                  <input id="reg-password" type="password" required minLength={6} autoComplete="new-password" value={regPassword} onChange={(e) => setRegPassword(e.target.value)} placeholder="Mínimo 6 caracteres" className="w-full min-h-12 bg-slate-950 border border-slate-700 focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 text-slate-100 rounded-xl pl-10 pr-4 text-base transition outline-none placeholder-slate-600" />
+                  <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-[#85786C]"><Lock size={16} /></div>
+                  <input id="reg-password" type="password" required minLength={6} autoComplete="new-password" value={regPassword} onChange={(e) => setRegPassword(e.target.value)} placeholder="Mínimo 6 caracteres" className="w-full min-h-12 bg-white border border-[#E5DAC6] focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 text-[#2A2420] rounded-xl pl-10 pr-4 text-base transition outline-none placeholder-slate-600" />
                 </div>
               </div>
             </div>
@@ -504,11 +504,11 @@ export default function ProfileSetup({ onComplete }: ProfileSetupProps) {
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                 <div className="space-y-1">
-                  <label htmlFor="reg-birthtime" className="block text-[10px] font-mono text-slate-400 uppercase tracking-wider">
+                  <label htmlFor="reg-birthtime" className="block text-[10px] font-mono text-[#5C5248] uppercase tracking-wider">
                     Horário (Opcional)
                   </label>
                   <div className="relative">
-                    <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-500">
+                    <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-[#85786C]">
                       <Clock size={15} />
                     </div>
                     <input
@@ -516,17 +516,17 @@ export default function ProfileSetup({ onComplete }: ProfileSetupProps) {
                       type="time"
                       value={birthTime}
                       onChange={(e) => setBirthTime(e.target.value)}
-                      className="w-full bg-slate-950 border border-slate-800/80 focus:border-purple-500 focus:ring-1 focus:ring-purple-500 text-slate-100 rounded-xl py-2 pl-9 pr-3 text-xs transition duration-150 outline-none [color-scheme:dark]"
+                      className="w-full bg-white border border-[#E5DAC6]/80 focus:border-purple-500 focus:ring-1 focus:ring-purple-500 text-[#2A2420] rounded-xl py-2 pl-9 pr-3 text-xs transition duration-150 outline-none [color-scheme:dark]"
                     />
                   </div>
                 </div>
 
                 <div className="space-y-1">
-                  <label htmlFor="reg-birthcity" className="block text-[10px] font-mono text-slate-400 uppercase tracking-wider">
+                  <label htmlFor="reg-birthcity" className="block text-[10px] font-mono text-[#5C5248] uppercase tracking-wider">
                     Cidade de Nascimento (Opcional)
                   </label>
                   <div className="relative">
-                    <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-500">
+                    <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-[#85786C]">
                       <MapPin size={15} />
                     </div>
                     <input
@@ -535,7 +535,7 @@ export default function ProfileSetup({ onComplete }: ProfileSetupProps) {
                       value={birthCity}
                       onChange={(e) => setBirthCity(e.target.value)}
                       placeholder="ex: Porto Alegre - RS"
-                      className="w-full bg-slate-950 border border-slate-800/80 focus:border-purple-500 focus:ring-1 focus:ring-purple-500 text-slate-100 rounded-xl py-2 pl-9 pr-3 text-xs transition duration-150 outline-none placeholder-slate-600"
+                      className="w-full bg-white border border-[#E5DAC6]/80 focus:border-purple-500 focus:ring-1 focus:ring-purple-500 text-[#2A2420] rounded-xl py-2 pl-9 pr-3 text-xs transition duration-150 outline-none placeholder-slate-600"
                     />
                   </div>
                 </div>
@@ -543,7 +543,7 @@ export default function ProfileSetup({ onComplete }: ProfileSetupProps) {
             </div>
 
             <div className="space-y-1.5">
-              <label htmlFor="reg-coupon" className="block text-[10px] font-mono text-slate-400 uppercase tracking-wider">
+              <label htmlFor="reg-coupon" className="block text-[10px] font-mono text-[#5C5248] uppercase tracking-wider">
                 Possui Cupom do Terapeuta? (Opcional)
               </label>
               <div className="relative">
@@ -556,18 +556,18 @@ export default function ProfileSetup({ onComplete }: ProfileSetupProps) {
                   value={regCoupon}
                   onChange={(e) => setRegCoupon(e.target.value.toUpperCase())}
                   placeholder="Digite seu código de cupom aqui..."
-                  className="w-full bg-slate-950 border border-slate-800/80 focus:border-amber-500 focus:ring-1 focus:ring-amber-500 text-amber-200 rounded-xl py-2.5 pl-10 pr-4 text-xs transition duration-150 outline-none uppercase font-mono placeholder-slate-600"
+                  className="w-full bg-white border border-[#E5DAC6]/80 focus:border-amber-500 focus:ring-1 focus:ring-amber-500 text-amber-200 rounded-xl py-2.5 pl-10 pr-4 text-xs transition duration-150 outline-none uppercase font-mono placeholder-slate-600"
                 />
               </div>
             </div>
 
             <div className="space-y-2 pt-1" id="voice-gender-selector">
               <div className="flex items-center justify-between">
-                <label className="block text-[10px] font-mono text-indigo-300 uppercase tracking-wider font-semibold flex items-center gap-1.5">
-                  <Volume2 size={13} className="text-indigo-400" />
+                <label className="block text-[10px] font-mono text-[#B88736] uppercase tracking-wider font-semibold flex items-center gap-1.5">
+                  <Volume2 size={13} className="text-[#B88736]" />
                   <span>Voz do Terapeuta & Condução Guiada</span>
                 </label>
-                <span className="text-[10px] text-slate-400">Escolha a voz que mais acolhe seu coração</span>
+                <span className="text-[10px] text-[#5C5248]">Escolha a voz que mais acolhe seu coração</span>
               </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
@@ -576,26 +576,26 @@ export default function ProfileSetup({ onComplete }: ProfileSetupProps) {
                   className={`p-3.5 rounded-2xl border transition duration-150 cursor-pointer flex flex-col justify-between ${
                     voiceChoice === 'masculina'
                       ? 'bg-gradient-to-br from-indigo-950/70 via-slate-900 to-indigo-950/40 border-indigo-500 shadow-md ring-1 ring-indigo-500/50'
-                      : 'bg-slate-950/70 border-slate-800 hover:border-slate-700 text-slate-400'
+                      : 'bg-white/70 border-[#E5DAC6] hover:border-[#E5DAC6] text-[#5C5248]'
                   }`}
                 >
                   <div className="space-y-1">
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-2">
                         <Volume2 size={16} className="text-[#d9bd69]" />
-                        <span className="text-xs font-bold text-slate-100">Voz de Éverton Piceni</span>
+                        <span className="text-xs font-bold text-[#2A2420]">Voz de Éverton Piceni</span>
                       </div>
                       {voiceChoice === 'masculina' && (
                         <span className="w-2 h-2 rounded-full bg-indigo-400 animate-ping" />
                       )}
                     </div>
-                    <p className="text-[10px] text-slate-300 leading-snug">
+                    <p className="text-[10px] text-[#5C5248] leading-snug">
                       Voz masculina profunda, firme e serena para ancoramento, decretos quânticos e transmutação.
                     </p>
                   </div>
 
-                  <div className="mt-2.5 pt-2 border-t border-slate-800/60 flex items-center justify-between">
-                    <span className="text-[9px] font-mono text-indigo-300 bg-indigo-950/50 px-2 py-0.5 rounded">
+                  <div className="mt-2.5 pt-2 border-t border-[#E5DAC6]/60 flex items-center justify-between">
+                    <span className="text-[9px] font-mono text-[#B88736] bg-indigo-950/50 px-2 py-0.5 rounded">
                       Tom Terapêutico Natural
                     </span>
                     <button
@@ -604,7 +604,7 @@ export default function ProfileSetup({ onComplete }: ProfileSetupProps) {
                         e.stopPropagation();
                         playVoicePreview('masculina');
                       }}
-                      className="px-2 py-1 rounded-lg bg-indigo-600/30 hover:bg-indigo-600/50 text-indigo-200 border border-indigo-500/40 text-[10px] flex items-center gap-1 transition cursor-pointer"
+                      className="px-2 py-1 rounded-lg bg-[#B88736]/30 hover:bg-[#B88736]/50 text-indigo-200 border border-indigo-500/40 text-[10px] flex items-center gap-1 transition cursor-pointer"
                     >
                       {loadingVoiceType === 'masculina' ? (
                         <>
@@ -631,25 +631,25 @@ export default function ProfileSetup({ onComplete }: ProfileSetupProps) {
                   className={`p-3.5 rounded-2xl border transition duration-150 cursor-pointer flex flex-col justify-between ${
                     voiceChoice === 'feminina'
                       ? 'bg-gradient-to-br from-rose-950/60 via-slate-900 to-purple-950/40 border-rose-400 shadow-md ring-1 ring-rose-400/50'
-                      : 'bg-slate-950/70 border-slate-800 hover:border-slate-700 text-slate-400'
+                      : 'bg-white/70 border-[#E5DAC6] hover:border-[#E5DAC6] text-[#5C5248]'
                   }`}
                 >
                   <div className="space-y-1">
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-2">
                         <Volume2 size={16} className="text-[#d9bd69]" />
-                        <span className="text-xs font-bold text-slate-100">Voz Feminina Suave</span>
+                        <span className="text-xs font-bold text-[#2A2420]">Voz Feminina Suave</span>
                       </div>
                       {voiceChoice === 'feminina' && (
                         <span className="w-2 h-2 rounded-full bg-rose-400 animate-ping" />
                       )}
                     </div>
-                    <p className="text-[10px] text-slate-300 leading-snug">
+                    <p className="text-[10px] text-[#5C5248] leading-snug">
                       Voz feminina maternal, doce e pausada, ideal para relaxamento profundo, sono e Raio Rosa.
                     </p>
                   </div>
 
-                  <div className="mt-2.5 pt-2 border-t border-slate-800/60 flex items-center justify-between">
+                  <div className="mt-2.5 pt-2 border-t border-[#E5DAC6]/60 flex items-center justify-between">
                     <span className="text-[9px] font-mono text-rose-300 bg-rose-950/50 px-2 py-0.5 rounded">
                       Acolhimento da Alma
                     </span>
@@ -684,7 +684,7 @@ export default function ProfileSetup({ onComplete }: ProfileSetupProps) {
             </div>
 
             <div className="space-y-2 pt-2">
-              <label className="block text-[10px] font-mono text-slate-400 uppercase tracking-wider">
+              <label className="block text-[10px] font-mono text-[#5C5248] uppercase tracking-wider">
                 Frequência Sonora Inicial
               </label>
               <div className="grid grid-cols-2 sm:grid-cols-3 gap-2" id="soundscape-selector">
@@ -702,12 +702,12 @@ export default function ProfileSetup({ onComplete }: ProfileSetupProps) {
                     onClick={() => setMusicType(opt.id as any)}
                     className={`p-2 rounded-xl border text-left transition duration-150 cursor-pointer ${
                       musicType === opt.id
-                        ? 'bg-indigo-950/50 border-indigo-500 text-slate-100 shadow-sm'
-                        : 'bg-slate-950 border-slate-800 text-slate-400 hover:border-slate-700'
+                        ? 'bg-indigo-950/50 border-indigo-500 text-[#2A2420] shadow-sm'
+                        : 'bg-white border-[#E5DAC6] text-[#5C5248] hover:border-[#E5DAC6]'
                     }`}
                   >
-                    <div className="text-[11px] font-bold font-mono text-slate-200">{opt.name}</div>
-                    <div className="text-[9px] text-slate-400">{opt.desc}</div>
+                    <div className="text-[11px] font-bold font-mono text-[#2A2420]">{opt.name}</div>
+                    <div className="text-[9px] text-[#5C5248]">{opt.desc}</div>
                   </button>
                 ))}
               </div>
@@ -720,10 +720,10 @@ export default function ProfileSetup({ onComplete }: ProfileSetupProps) {
                 type="checkbox" 
                 id="lgpd-consent" 
                 required 
-                className="mt-0.5 shrink-0 bg-slate-900 border-slate-700 rounded text-indigo-600 focus:ring-indigo-500" 
+                className="mt-0.5 shrink-0 bg-[#FBF8F2] border-[#E5DAC6] rounded text-indigo-600 focus:ring-indigo-500" 
               />
-              <label htmlFor="lgpd-consent" className="text-xs text-slate-300 leading-relaxed">
-                Declaro que li e concordo com os <a href="/termos.html" target="_blank" rel="noreferrer" className="text-indigo-300 underline underline-offset-2">Termos de Uso</a> e a <a href="/privacidade.html" target="_blank" rel="noreferrer" className="text-indigo-300 underline underline-offset-2">Política de Privacidade</a>.
+              <label htmlFor="lgpd-consent" className="text-xs text-[#5C5248] leading-relaxed">
+                Declaro que li e concordo com os <a href="/termos.html" target="_blank" rel="noreferrer" className="text-[#B88736] underline underline-offset-2">Termos de Uso</a> e a <a href="/privacidade.html" target="_blank" rel="noreferrer" className="text-[#B88736] underline underline-offset-2">Política de Privacidade</a>.
                 Autorizo o tratamento dos meus dados (incluindo anamnese) estritamente para 
                 a formulação de práticas integrativas, conforme a LGPD.
               </label>
@@ -732,7 +732,7 @@ export default function ProfileSetup({ onComplete }: ProfileSetupProps) {
             <button
               type="submit"
               disabled={isSubmitting}
-              className="w-full min-h-12 bg-indigo-600 hover:bg-indigo-500 disabled:cursor-wait disabled:opacity-70 text-white font-semibold py-3 rounded-xl transition duration-200 shadow-lg shadow-indigo-600/10 hover:shadow-indigo-600/20 text-sm tracking-wide cursor-pointer border-none mt-4"
+              className="w-full min-h-12 bg-[#B88736] hover:bg-[#B88736] disabled:cursor-wait disabled:opacity-70 text-white font-semibold py-3 rounded-xl transition duration-200 shadow-lg shadow-indigo-600/10 hover:shadow-indigo-600/20 text-sm tracking-wide cursor-pointer border-none mt-4"
               id="btn-complete-setup"
             >
               {isSubmitting ? <span className="flex items-center justify-center gap-2"><Loader2 size={18} className="animate-spin" /> Criando sua conta...</span> : 'Criar conta e começar'}
@@ -742,11 +742,11 @@ export default function ProfileSetup({ onComplete }: ProfileSetupProps) {
           /* LOGIN FORM */
           <form onSubmit={handleLogin} className="space-y-4" id="login-form">
             <div className="space-y-1.5">
-              <label htmlFor="log-login" className="block text-[10px] font-mono text-slate-400 uppercase tracking-wider">
+              <label htmlFor="log-login" className="block text-[10px] font-mono text-[#5C5248] uppercase tracking-wider">
                 Nome de Usuário (Login) ou E-mail
               </label>
               <div className="relative">
-                <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-500">
+                <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-[#85786C]">
                   <User size={16} />
                 </div>
                 <input
@@ -756,14 +756,14 @@ export default function ProfileSetup({ onComplete }: ProfileSetupProps) {
                   value={logLogin}
                   onChange={(e) => setLogLogin(e.target.value)}
                   placeholder="Insira seu login ou e-mail cadastrado"
-                  className="w-full bg-slate-950 border border-slate-800/80 focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 text-slate-100 rounded-xl py-3 pl-10 pr-4 text-xs transition duration-150 outline-none placeholder-slate-600"
+                  className="w-full bg-white border border-[#E5DAC6]/80 focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 text-[#2A2420] rounded-xl py-3 pl-10 pr-4 text-xs transition duration-150 outline-none placeholder-slate-600"
                 />
               </div>
             </div>
 
             <div className="space-y-1.5">
               <div className="flex items-center justify-between">
-                <label htmlFor="log-password" className="block text-[10px] font-mono text-slate-400 uppercase tracking-wider">
+                <label htmlFor="log-password" className="block text-[10px] font-mono text-[#5C5248] uppercase tracking-wider">
                   Senha
                 </label>
                 <button
@@ -775,13 +775,13 @@ export default function ProfileSetup({ onComplete }: ProfileSetupProps) {
                     setSuccessMsg('');
                     setRecoveryStep('verify');
                   }}
-                  className="text-[11px] text-indigo-400 hover:text-indigo-300 transition cursor-pointer underline underline-offset-2"
+                  className="text-[11px] text-[#B88736] hover:text-[#B88736] transition cursor-pointer underline underline-offset-2"
                 >
                   Esqueci minha senha
                 </button>
               </div>
               <div className="relative">
-                <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-500">
+                <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-[#85786C]">
                   <Lock size={16} />
                 </div>
                 <input
@@ -791,7 +791,7 @@ export default function ProfileSetup({ onComplete }: ProfileSetupProps) {
                   value={logPassword}
                   onChange={(e) => setLogPassword(e.target.value)}
                   placeholder="Insira sua senha"
-                  className="w-full bg-slate-950 border border-slate-800/80 focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 text-slate-100 rounded-xl py-3 pl-10 pr-4 text-xs transition duration-150 outline-none placeholder-slate-600"
+                  className="w-full bg-white border border-[#E5DAC6]/80 focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 text-[#2A2420] rounded-xl py-3 pl-10 pr-4 text-xs transition duration-150 outline-none placeholder-slate-600"
                 />
               </div>
             </div>
@@ -799,7 +799,7 @@ export default function ProfileSetup({ onComplete }: ProfileSetupProps) {
             <button
               type="submit"
               disabled={isSubmitting}
-              className="w-full min-h-12 bg-indigo-600 hover:bg-indigo-500 disabled:cursor-wait disabled:opacity-70 text-white font-semibold py-3 rounded-xl transition duration-200 shadow-lg shadow-indigo-600/10 hover:shadow-indigo-600/20 text-sm tracking-wide cursor-pointer border-none mt-4"
+              className="w-full min-h-12 bg-[#B88736] hover:bg-[#B88736] disabled:cursor-wait disabled:opacity-70 text-white font-semibold py-3 rounded-xl transition duration-200 shadow-lg shadow-indigo-600/10 hover:shadow-indigo-600/20 text-sm tracking-wide cursor-pointer border-none mt-4"
               id="btn-login-submit"
             >
               {isSubmitting ? <span className="flex items-center justify-center gap-2"><Loader2 size={18} className="animate-spin" /> Entrando...</span> : 'Entrar'}
@@ -815,14 +815,14 @@ export default function ProfileSetup({ onComplete }: ProfileSetupProps) {
                 setError('');
                 setSuccessMsg('');
               }}
-              className="text-xs text-slate-400 hover:text-slate-200 flex items-center gap-1.5 transition mb-2 cursor-pointer"
+              className="text-xs text-[#5C5248] hover:text-[#2A2420] flex items-center gap-1.5 transition mb-2 cursor-pointer"
             >
               <ArrowLeft size={14} /> Voltar ao Login
             </button>
-            <div className="text-center p-6 bg-slate-950 rounded-xl border border-slate-800/80 space-y-3">
+            <div className="text-center p-6 bg-white rounded-xl border border-[#E5DAC6]/80 space-y-3">
               <Shield size={32} className="text-indigo-500/50 mx-auto" />
-              <h3 className="text-sm font-semibold text-slate-200">Recuperação de Senha</h3>
-              <p className="text-xs text-slate-400 leading-relaxed">
+              <h3 className="text-sm font-semibold text-[#2A2420]">Recuperação de Senha</h3>
+              <p className="text-xs text-[#5C5248] leading-relaxed">
                 A recuperação de senha via SMS/Email será configurada pelo terapeuta na próxima atualização.
                 Por favor, contate o administrador se não consegue acessar sua conta.
               </p>
