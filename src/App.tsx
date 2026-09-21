@@ -39,7 +39,7 @@ import VideoStudioModal from './components/VideoStudioLightModal';
 import { SpeedInsights } from '@vercel/speed-insights/react';
 import DashboardCura from './components/DashboardCura';
 import TransformationHome from './components/TransformationHome';
-import brandLogo from './assets/images/cura_integrada_sacred_emblem_1787104270641.jpg';
+import { APPROVED_LOGO_DATA_URI } from './components/ApprovedBrand';
 
 import { calculateAstralMap } from './utils/astrology';
 import { audioEngine } from './lib/audio';
@@ -701,7 +701,7 @@ export default function App() {
         <div className="max-w-5xl mx-auto flex items-center justify-between gap-2 sm:gap-4">
           <div className="flex items-center gap-2 sm:gap-2.5 min-w-0">
             <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-full overflow-hidden border-[1.5px] border-indigo-500/40 shadow-[0_0_12px_rgba(99,102,241,0.25)] shrink-0 bg-[#FBF8F2] flex items-center justify-center">
-              <img src={brandLogo} alt="Everton Piceni — Terapias Holísticas e Bem-Estar" className="ep-brand-signature w-full h-full object-cover transition-opacity duration-500" />
+              <img src={APPROVED_LOGO_DATA_URI} alt="Everton Piceni — Terapias Holísticas e Bem-Estar" className="ep-brand-signature w-full h-full object-contain transition-opacity duration-500" />
             </div>
             <div className="min-w-0">
               <span className="text-[9px] font-mono tracking-widest text-[#e5c66f] uppercase font-semibold block truncate">Terapias Holísticas e Bem-Estar</span>
