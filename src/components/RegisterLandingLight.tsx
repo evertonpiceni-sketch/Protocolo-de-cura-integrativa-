@@ -1,8 +1,7 @@
 import React, { useState } from "react";
 import { 
   Heart, 
-  Compass, 
-  Sparkles, 
+  Compass,
   Calendar, 
   Lock, 
   ShieldCheck, 
@@ -12,6 +11,7 @@ import {
   EyeOff,
   Sun
 } from "lucide-react";
+import { APPROVED_LOGO_DATA_URI } from './ApprovedBrand';
 
 interface Props {
   onStartJourney?: () => void;
@@ -48,8 +48,8 @@ export const RegisterLandingLight: React.FC<Props> = ({ onStartJourney }) => {
 
       <header className="w-full max-w-7xl mx-auto px-6 py-6 flex flex-col sm:flex-row items-center justify-between border-b border-[#E8DFC8]/70 gap-4">
         <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-full border border-[#B88736]/50 flex items-center justify-center bg-white/85 shadow-xs text-[#B88736]">
-            <Sparkles className="w-5 h-5" />
+          <div className="w-14 h-16 rounded-2xl border border-[#B88736]/20 flex items-center justify-center bg-white/70 p-1 shadow-xs">
+            <img src={APPROVED_LOGO_DATA_URI} alt="Everton Piceni — Terapias Holísticas e Bem-Estar" className="h-full w-full object-contain opacity-80" />
           </div>
           <div>
             <h1 className="text-xs font-semibold tracking-widest text-[#2A2420] uppercase">Everton Piceni</h1>
