@@ -74,7 +74,7 @@ export const ALL_PLANS_DATA: DetailedPlanInfo[] = [
     description: 'Perfeito para manter uma rotina constante de autocura e reprogramação quântica.',
     ctaText: 'Escolher Mensal (R$ 39,90)',
     accentColor: 'indigo',
-    buttonClass: 'bg-indigo-600 hover:bg-indigo-500 text-white shadow-indigo-600/20'
+    buttonClass: 'bg-[#B88736] hover:bg-[#B88736] text-white shadow-indigo-600/20'
   },
   {
     id: 'trimestral',
@@ -280,22 +280,22 @@ export function PlansValuesGuideModal({
     : ALL_PLANS_DATA.filter((p) => p.category === filterCategory);
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-slate-950/85 backdrop-blur-md overflow-y-auto" id="plans-values-guide-modal">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-[#2A2420]/30 backdrop-blur-md overflow-y-auto" id="plans-values-guide-modal">
       <motion.div
         ref={containerRef}
         initial={{ opacity: 0, scale: 0.95, y: 15 }}
         animate={{ opacity: 1, scale: 1, y: 0 }}
         exit={{ opacity: 0, scale: 0.95 }}
-        className="w-full max-w-5xl bg-slate-900 border border-amber-500/30 rounded-3xl p-5 sm:p-7 md:p-8 shadow-2xl relative overflow-hidden my-4 max-h-[92vh] overflow-y-auto"
+        className="w-full max-w-5xl bg-[#FBF8F2] border border-amber-500/30 rounded-3xl p-5 sm:p-7 md:p-8 shadow-2xl relative overflow-hidden my-4 max-h-[92vh] overflow-y-auto"
       >
         {/* Glow Effects */}
         <div className="absolute -top-24 -right-24 w-80 h-80 bg-amber-500/10 rounded-full blur-3xl pointer-events-none" />
-        <div className="absolute -bottom-24 -left-24 w-80 h-80 bg-indigo-500/10 rounded-full blur-3xl pointer-events-none" />
+        <div className="absolute -bottom-24 -left-24 w-80 h-80 bg-[#B88736]/10 rounded-full blur-3xl pointer-events-none" />
 
         {/* Close Button */}
         <button
           onClick={onClose}
-          className="absolute top-5 right-5 w-8 h-8 rounded-full bg-slate-800/80 border border-slate-700 text-slate-400 hover:text-slate-200 flex items-center justify-center transition cursor-pointer z-10"
+          className="absolute top-5 right-5 w-8 h-8 rounded-full bg-[#F5EFE4]/80 border border-[#E5DAC6] text-[#5C5248] hover:text-[#2A2420] flex items-center justify-center transition cursor-pointer z-10"
         >
           <X size={16} />
         </button>
@@ -307,10 +307,10 @@ export function PlansValuesGuideModal({
               <Crown size={14} className="text-amber-400" />
               <span>TRANSPARÊNCIA TOTAL & VALORES</span>
             </div>
-            <h2 className="text-2xl md:text-3xl font-display font-medium text-slate-100">
+            <h2 className="text-2xl md:text-3xl font-display font-medium text-[#2A2420]">
               Todas as Opções de Valores e Planos
             </h2>
-            <p className="text-xs md:text-sm text-slate-400 max-w-2xl mx-auto">
+            <p className="text-xs md:text-sm text-[#5C5248] max-w-2xl mx-auto">
               Conheça exatamente o que cada plano e atendimento compreende. Escolha a opção que melhor abraça o seu momento de cura.
             </p>
           </div>
@@ -325,10 +325,10 @@ export function PlansValuesGuideModal({
                 <span className="text-[10px] font-mono uppercase tracking-wider text-emerald-400 font-bold block">
                   CHAVE PIX OFICIAL (E-MAIL)
                 </span>
-                <strong className="text-sm md:text-base font-mono text-slate-100 font-bold">
+                <strong className="text-sm md:text-base font-mono text-[#2A2420] font-bold">
                   evertonpiceni@gmail.com
                 </strong>
-                <span className="text-[11px] text-slate-400 block">Titular: Éverton Rodrigo Piceni</span>
+                <span className="text-[11px] text-[#5C5248] block">Titular: Éverton Rodrigo Piceni</span>
               </div>
             </div>
 
@@ -345,7 +345,7 @@ export function PlansValuesGuideModal({
                 href="https://wa.me/5551982215296?text=Ol%C3%A1%20%C3%89verton%2C%20gostaria%20de%20tirar%20d%C3%BAvidas%20sobre%20os%20planos%20do%20Protocolo%20de%20Cura%20Integrada!"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="px-3 py-2 bg-slate-800 hover:bg-slate-700 text-slate-200 rounded-xl text-xs font-semibold transition flex items-center gap-1.5 border border-slate-700"
+                className="px-3 py-2 bg-[#F5EFE4] hover:bg-slate-700 text-[#2A2420] rounded-xl text-xs font-semibold transition flex items-center gap-1.5 border border-[#E5DAC6]"
               >
                 <MessageCircle size={14} className="text-emerald-400" />
                 <span>WhatsApp</span>
@@ -358,7 +358,7 @@ export function PlansValuesGuideModal({
             <button
               onClick={() => setFilterCategory('todos')}
               className={`px-3.5 py-1.5 rounded-xl text-xs font-semibold transition cursor-pointer ${
-                filterCategory === 'todos' ? 'bg-amber-500 text-slate-950 font-bold' : 'bg-slate-800 text-slate-400 hover:text-slate-200'
+                filterCategory === 'todos' ? 'bg-amber-500 text-slate-950 font-bold' : 'bg-[#F5EFE4] text-[#5C5248] hover:text-[#2A2420]'
               }`}
             >
               Todos os Planos ({ALL_PLANS_DATA.length})
@@ -366,7 +366,7 @@ export function PlansValuesGuideModal({
             <button
               onClick={() => setFilterCategory('assinatura')}
               className={`px-3.5 py-1.5 rounded-xl text-xs font-semibold transition cursor-pointer ${
-                filterCategory === 'assinatura' ? 'bg-amber-500 text-slate-950 font-bold' : 'bg-slate-800 text-slate-400 hover:text-slate-200'
+                filterCategory === 'assinatura' ? 'bg-amber-500 text-slate-950 font-bold' : 'bg-[#F5EFE4] text-[#5C5248] hover:text-[#2A2420]'
               }`}
             >
               Planos do App
@@ -374,7 +374,7 @@ export function PlansValuesGuideModal({
             <button
               onClick={() => setFilterCategory('tratamento_individual')}
               className={`px-3.5 py-1.5 rounded-xl text-xs font-semibold transition cursor-pointer ${
-                filterCategory === 'tratamento_individual' ? 'bg-amber-500 text-slate-950 font-bold' : 'bg-slate-800 text-slate-400 hover:text-slate-200'
+                filterCategory === 'tratamento_individual' ? 'bg-amber-500 text-slate-950 font-bold' : 'bg-[#F5EFE4] text-[#5C5248] hover:text-[#2A2420]'
               }`}
             >
               Tratamentos Específicos (7d / 21d)
@@ -389,8 +389,8 @@ export function PlansValuesGuideModal({
                   key={plan.id}
                   className={`p-5 rounded-3xl border flex flex-col justify-between transition-all duration-200 relative overflow-hidden ${
                     plan.isPopular
-                      ? 'bg-slate-950/80 border-amber-500/50 shadow-xl shadow-amber-950/20 ring-1 ring-amber-500/30'
-                      : 'bg-slate-950/60 border-slate-800 hover:border-slate-700'
+                      ? 'bg-white/80 border-amber-500/50 shadow-xl shadow-amber-950/20 ring-1 ring-amber-500/30'
+                      : 'bg-white/70 border-[#E5DAC6] hover:border-[#E5DAC6]'
                   }`}
                 >
                   {/* Top Badge */}
@@ -401,7 +401,7 @@ export function PlansValuesGuideModal({
                           ? 'bg-amber-500/20 text-amber-300 border-amber-500/40'
                           : plan.category === 'tratamento_individual'
                           ? 'bg-emerald-500/20 text-emerald-300 border-emerald-500/30'
-                          : 'bg-indigo-500/20 text-indigo-300 border-indigo-500/30'
+                          : 'bg-[#B88736]/20 text-[#B88736] border-[#B88736]/30'
                       }`}>
                         {plan.isPopular && <Star size={10} className="fill-amber-400 text-amber-400" />}
                         {plan.badge}
@@ -411,28 +411,28 @@ export function PlansValuesGuideModal({
 
                   <div className="space-y-3">
                     <div>
-                      <h3 className="text-base font-bold text-slate-100">{plan.title}</h3>
+                      <h3 className="text-base font-bold text-[#2A2420]">{plan.title}</h3>
                       <div className="flex items-baseline gap-1 mt-1">
-                        <strong className="text-2xl font-bold text-slate-100">{plan.priceFormatted}</strong>
-                        <span className="text-xs text-slate-400 font-sans">{plan.periodText}</span>
+                        <strong className="text-2xl font-bold text-[#2A2420]">{plan.priceFormatted}</strong>
+                        <span className="text-xs text-[#5C5248] font-sans">{plan.periodText}</span>
                       </div>
                     </div>
 
-                    <p className="text-xs text-indigo-300/90 font-medium leading-snug">
+                    <p className="text-xs text-[#B88736]/90 font-medium leading-snug">
                       ✨ {plan.highlightBenefit}
                     </p>
 
-                    <p className="text-[11px] text-slate-400 leading-relaxed">
+                    <p className="text-[11px] text-[#5C5248] leading-relaxed">
                       {plan.description}
                     </p>
 
                     {/* Features list */}
-                    <div className="pt-2 border-t border-slate-800/80 space-y-1.5">
-                      <span className="text-[10px] font-mono text-slate-400 uppercase tracking-wider block font-bold">
+                    <div className="pt-2 border-t border-[#E5DAC6] space-y-1.5">
+                      <span className="text-[10px] font-mono text-[#5C5248] uppercase tracking-wider block font-bold">
                         O que este valor compreende:
                       </span>
                       {plan.features.map((feat, idx) => (
-                        <div key={idx} className="flex items-start gap-1.5 text-xs text-slate-300">
+                        <div key={idx} className="flex items-start gap-1.5 text-xs text-[#5C5248]">
                           <CheckCircle2 size={13} className="text-emerald-400 shrink-0 mt-0.5" />
                           <span className="leading-tight text-[11px]">{feat}</span>
                         </div>
@@ -441,7 +441,7 @@ export function PlansValuesGuideModal({
                   </div>
 
                   {/* Action Button */}
-                  <div className="pt-4 mt-4 border-t border-slate-850">
+                  <div className="pt-4 mt-4 border-t border-[#E5DAC6]">
                     <button
                       type="button"
                       onClick={() => {
@@ -469,15 +469,15 @@ export function PlansValuesGuideModal({
                 <Sparkles size={14} className="text-amber-400" />
                 <span>Cupons de Desconto & Cortesias Exclusivas</span>
               </span>
-              <span className="text-[10px] font-mono text-slate-400">Liberados sob consulta</span>
+              <span className="text-[10px] font-mono text-[#5C5248]">Liberados sob consulta</span>
             </div>
 
-            <div className="p-4 rounded-xl bg-slate-950/80 border border-slate-800/80 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 text-xs">
+            <div className="p-4 rounded-xl bg-white/80 border border-[#E5DAC6] flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 text-xs">
               <div className="space-y-1">
-                <p className="text-slate-200 font-medium leading-relaxed">
+                <p className="text-[#2A2420] font-medium leading-relaxed">
                   Os cupons de desconto, bolsas terapêuticas e cortesias de degustação de 7 dias são liberados individualmente pelo terapeuta <strong>Éverton Rodrigo Piceni</strong>.
                 </p>
-                <p className="text-[11px] text-slate-400">
+                <p className="text-[11px] text-[#5C5248]">
                   Se você recebeu um código de cupom pessoal, basta inseri-lo no campo de cupom na tela de inscrição ou no checkout para ativar seu benefício.
                 </p>
               </div>
@@ -497,8 +497,8 @@ export function PlansValuesGuideModal({
 
             <div className="p-3 rounded-xl bg-purple-950/40 border border-purple-500/30 flex items-center justify-between gap-3 text-xs">
               <div className="flex items-center gap-2">
-                <Sparkles size={16} className="text-purple-300 shrink-0" />
-                <span className="text-purple-200 font-medium">
+                <Sparkles size={16} className="text-[#B88736] shrink-0" />
+                <span className="text-[#5C5248] font-medium">
                   <strong>Brinde para Todos os Clientes:</strong> Cálculo automático do seu <strong>Mapa Astral & Energético Quântico</strong> (Sol, Lua, Ascendente, 4 Elementos e Chakra regente).
                 </span>
               </div>
@@ -506,11 +506,11 @@ export function PlansValuesGuideModal({
           </div>
 
           {/* Footer note */}
-          <div className="p-4 rounded-2xl bg-slate-950/70 border border-slate-800 text-center space-y-1">
-            <p className="text-xs text-slate-300 font-sans">
+          <div className="p-4 rounded-2xl bg-white/75 border border-[#E5DAC6] text-center space-y-1">
+            <p className="text-xs text-[#5C5248] font-sans">
               💖 <strong>Valores Acessíveis & Personalizados:</strong> Caso queira ajustar o valor da sua contribuição ou tirar dúvidas, fale conosco diretamente pelo WhatsApp.
             </p>
-            <p className="text-[10px] text-slate-500 font-mono">
+            <p className="text-[10px] text-[#85786C] font-mono">
               O Protocolo de Cura Integrada de 21 dias é canalizado e conduzido por Éverton Rodrigo Piceni.
             </p>
           </div>
