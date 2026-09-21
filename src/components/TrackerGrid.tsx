@@ -6,7 +6,8 @@
 import React, { useState, useEffect } from 'react';
 import { Calendar, Flame, Award, Lock, CheckCircle2, Play, BookOpen, Clock, Heart, Bell, X, Sparkles, Smile, TrendingUp, Quote, Leaf, Volume2, Square, Loader2, ArrowRight } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
-import { DayProgress, DAILY_INSIGHTS, JOURNEY_7D_INSIGHTS, AnamnesisData, SpecificTreatment, JourneyType, AstralMapData } from '../types';
+import { DayProgress, AnamnesisData, SpecificTreatment, JourneyType, AstralMapData } from '../types';
+import { getIntegratedJourneyDuration, getIntegratedJourneyDays } from '../data/integratedJourney';
 import { DailyReminderBanner } from './DailyReminderBanner';
 import DailyTipCard from './DailyTipCard';
 import MindfulnessAffirmationWidget from './MindfulnessAffirmationWidget';
@@ -100,8 +101,12 @@ export default function TrackerGrid({
   onOpenPromoVideo
 }: TrackerGridProps) {
   const activeJourney = selectedJourney || '21d';
-  const totalDays = activeJourney === '7d' ? 7 : 21;
-  const currentInsights = activeJourney === '7d' ? JOURNEY_7D_INSIGHTS : DAILY_INSIGHTS;
+  const totalDays = getIntegratedJourneyDuration(activeJourney);
+  const currentInsights = getIntegratedJourneyDays(totalDays).map((item) => ({
+    ...item,
+    quote: item.intention,
+    quoteAuthor: 'Everton Rodrigo Piceni',
+  }));
 
   const completedDaysCount = progress.filter(d => d.completed && d.dayNumber <= totalDays).length;
   const completionPercent = Math.round((completedDaysCount / totalDays) * 100);
@@ -268,7 +273,7 @@ export default function TrackerGrid({
           <div className="lg:col-span-7 space-y-4 text-center sm:text-left">
             <div className="flex flex-wrap items-center justify-center sm:justify-start gap-2">
               <span className="text-xs font-mono tracking-widest text-[#B88736] bg-[#B88736]/10 border border-[#B88736]/30 px-3 py-1 rounded-full uppercase font-semibold">
-                {activeJourney === '7d' ? 'Jornada dos 7 Chakras • 7 Dias' : 'Protocolo de Cura Integrada • 21 Dias'}
+                {`Jornada Única Integrada • ${totalDays} Dias`}
               </span>
               <span className="text-xs font-mono tracking-wider text-emerald-300 bg-emerald-500/10 border border-emerald-500/30 px-3 py-1 rounded-full flex items-center justify-center gap-1">
                 <Sparkles size={11} className="text-emerald-400 shrink-0" />
@@ -822,38 +827,32 @@ export default function TrackerGrid({
               Selecione sua Jornada:
             </span>
             <span className="text-[11px] text-[#5C5248] hidden sm:inline">
-              Escolha entre o alinhamento dos centros de energia ou o ciclo de transmutação
+              Uma única jornada integrada, com três opções de profundidade.
             </span>
           </div>
         </div>
 
-        <div className="grid grid-cols-2 sm:flex items-center justify-center gap-2 w-full sm:w-auto">
-          <button
-            type="button"
-            onClick={() => onSelectJourney?.('7d')}
-            className={`px-3.5 sm:px-4 py-2.5 rounded-2xl text-xs font-semibold flex items-center justify-center gap-2 transition cursor-pointer min-h-[44px] ${
-              activeJourney === '7d'
-                ? 'bg-gradient-to-r from-emerald-600 to-teal-600 text-white shadow-lg shadow-emerald-600/25 border border-emerald-400/40'
-                : 'bg-white text-[#5C5248] hover:text-[#2A2420] border border-[#E5DAC6] hover:border-[#E5DAC6]'
-            }`}
-            id="btn-switch-journey-7d"
-          >
-            <span className="truncate">✨ 7 Dias (Chakras)</span>
-            <span className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-black/30 text-emerald-200 shrink-0">R$ 15</span>
-          </button>
-          <button
-            type="button"
-            onClick={() => onSelectJourney?.('21d')}
-            className={`px-3.5 sm:px-4 py-2.5 rounded-2xl text-xs font-semibold flex items-center justify-center gap-2 transition cursor-pointer min-h-[44px] ${
-              activeJourney === '21d'
-                ? 'bg-gradient-to-r from-indigo-600 to-purple-600 text-white shadow-lg shadow-indigo-600/25 border border-indigo-400/40'
-                : 'bg-white text-[#5C5248] hover:text-[#2A2420] border border-[#E5DAC6] hover:border-[#E5DAC6]'
-            }`}
-            id="btn-switch-journey-21d"
-          >
-            <span className="truncate">⚡ 21 Dias</span>
-            <span className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-black/30 text-indigo-200 shrink-0">Completa</span>
-          </button>
+        <div className="grid grid-cols-1 sm:grid-cols-3 items-stretch justify-center gap-2 w-full sm:w-auto">
+          {([
+            ['7d', '7 Dias', 'Essencial'],
+            ['14d', '14 Dias', 'Aprofundamento'],
+            ['21d', '21 Dias', 'Integração Completa'],
+          ] as const).map(([journey, label, subtitle]) => (
+            <button
+              key={journey}
+              type="button"
+              onClick={() => onSelectJourney?.(journey)}
+              className={`px-3.5 sm:px-4 py-2.5 rounded-2xl text-xs font-semibold flex flex-col items-center justify-center transition cursor-pointer min-h-[52px] border ${
+                activeJourney === journey
+                  ? 'bg-gradient-to-r from-[#A87E37] via-[#B88736] to-[#8F631E] text-white shadow-lg border-[#D7BE84]/50'
+                  : 'bg-white text-[#5C5248] hover:text-[#2A2420] border-[#E5DAC6]'
+              }`}
+              id={`btn-switch-journey-${journey}`}
+            >
+              <span>{label}</span>
+              <span className="text-[10px] font-normal opacity-80">{subtitle}</span>
+            </button>
+          ))}
         </div>
       </div>
 
