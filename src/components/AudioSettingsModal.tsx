@@ -109,27 +109,27 @@ export default function AudioSettingsModal({
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-slate-950/85 backdrop-blur-md overflow-y-auto" id="audio-settings-modal">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-[#2A2420]/30 backdrop-blur-md overflow-y-auto" id="audio-settings-modal">
       <motion.div
         initial={{ opacity: 0, scale: 0.96, y: 15 }}
         animate={{ opacity: 1, scale: 1, y: 0 }}
         exit={{ opacity: 0, scale: 0.96, y: 15 }}
-        className="w-full max-w-xl bg-slate-900 border border-slate-800 rounded-3xl p-5 sm:p-7 shadow-2xl space-y-6 relative overflow-hidden my-4 max-h-[92vh] overflow-y-auto"
+        className="w-full max-w-xl bg-[#FBF8F2] border border-[#E5DAC6] rounded-3xl p-5 sm:p-7 shadow-2xl space-y-6 relative overflow-hidden my-4 max-h-[92vh] overflow-y-auto"
       >
         {/* Background glow */}
-        <div className="absolute top-0 right-0 w-72 h-72 bg-indigo-600/10 rounded-full blur-3xl pointer-events-none" />
+        <div className="absolute top-0 right-0 w-72 h-72 bg-[#B88736]/10 rounded-full blur-3xl pointer-events-none" />
 
         {/* Modal Header */}
-        <div className="flex items-center justify-between border-b border-slate-800 pb-4">
+        <div className="flex items-center justify-between border-b border-[#E5DAC6] pb-4">
           <div className="flex items-center gap-3">
-            <div className="w-12 h-12 rounded-2xl bg-indigo-500/10 border border-indigo-500/20 text-indigo-400 flex items-center justify-center shrink-0">
+            <div className="w-12 h-12 rounded-2xl bg-[#B88736]/10 border border-[#B88736]/20 text-[#B88736] flex items-center justify-center shrink-0">
               <Sliders size={22} className="animate-pulse" />
             </div>
             <div>
-              <span className="text-[10px] font-mono uppercase tracking-widest text-indigo-400 font-bold block">
+              <span className="text-[10px] font-mono uppercase tracking-widest text-[#B88736] font-bold block">
                 Acústica & Frequências
               </span>
-              <h3 className="text-base sm:text-lg font-display font-medium text-slate-100">
+              <h3 className="text-base sm:text-lg font-display font-medium text-[#2A2420]">
                 Ajuste Completo do Som & Voz
               </h3>
             </div>
@@ -140,19 +140,19 @@ export default function AudioSettingsModal({
               audioEngine.stopSpeech();
               onClose();
             }}
-            className="p-2 text-slate-400 hover:text-white bg-slate-800/60 hover:bg-slate-800 rounded-xl transition cursor-pointer border-none"
+            className="p-2 text-[#5C5248] hover:text-white bg-[#F5EFE4]/60 hover:bg-[#F5EFE4] rounded-xl transition cursor-pointer border-none"
           >
             <X size={18} />
           </button>
         </div>
 
         {/* Section 1: Background Frequencies & Sounds */}
-        <div className="space-y-3 bg-slate-950/70 border border-slate-800/80 p-4 rounded-2xl">
+        <div className="space-y-3 bg-white/75 border border-[#E5DAC6] p-4 rounded-2xl">
           <div className="flex items-center justify-between">
-            <label className="text-xs font-mono text-indigo-300 font-semibold uppercase flex items-center gap-1.5">
+            <label className="text-xs font-mono text-[#B88736] font-semibold uppercase flex items-center gap-1.5">
               <Music size={14} /> Frequência de Fundo
             </label>
-            <span className="text-[10px] font-mono text-slate-400">
+            <span className="text-[10px] font-mono text-[#5C5248]">
               {Math.round(bgMusicVolume * 100)}% Volume
             </span>
           </div>
@@ -193,8 +193,8 @@ export default function AudioSettingsModal({
                   }}
                   className={`p-2.5 rounded-xl text-left border transition cursor-pointer relative overflow-hidden ${
                     isSelected
-                      ? 'bg-indigo-600/20 border-indigo-500 text-indigo-200'
-                      : 'bg-slate-900 border-slate-800 text-slate-400 hover:text-slate-200 hover:border-slate-700'
+                      ? 'bg-[#B88736]/20 border-[#B88736] text-indigo-200'
+                      : 'bg-[#FBF8F2] border-[#E5DAC6] text-[#5C5248] hover:text-[#2A2420] hover:border-[#E5DAC6]'
                   }`}
                 >
                   <div className="flex items-center justify-between">
@@ -205,7 +205,7 @@ export default function AudioSettingsModal({
                       </span>
                     )}
                   </div>
-                  <span className="text-[10px] text-slate-500 block truncate">{track.desc}</span>
+                  <span className="text-[10px] text-[#85786C] block truncate">{track.desc}</span>
                 </button>
               );
             })}
@@ -225,26 +225,26 @@ export default function AudioSettingsModal({
                   setBgMusicVolume(val);
                   audioEngine.setBGVolume(val);
                 }}
-                className="w-full h-1.5 bg-slate-800 rounded-lg appearance-none cursor-pointer accent-indigo-500"
+                className="w-full h-1.5 bg-[#F5EFE4] rounded-lg appearance-none cursor-pointer accent-indigo-500"
               />
             </div>
           )}
         </div>
 
         {/* Section 2: Guided Speech & Narration Parameters */}
-        <div className="space-y-4 bg-slate-950/70 border border-slate-800/80 p-4 rounded-2xl">
-          <label className="text-xs font-mono text-indigo-300 font-semibold uppercase flex items-center gap-1.5">
+        <div className="space-y-4 bg-white/75 border border-[#E5DAC6] p-4 rounded-2xl">
+          <label className="text-xs font-mono text-[#B88736] font-semibold uppercase flex items-center gap-1.5">
             <Mic size={14} /> Voz da Meditação Guiada
           </label>
 
           {/* Voice Selector */}
           {voices.length > 0 && (
             <div className="space-y-1">
-              <span className="text-[11px] text-slate-400 block">Timbre da Voz (Instaladas no Dispositivo)</span>
+              <span className="text-[11px] text-[#5C5248] block">Timbre da Voz (Instaladas no Dispositivo)</span>
               <select
                 value={voiceId}
                 onChange={(e) => setVoiceId(e.target.value)}
-                className="w-full bg-slate-900 border border-slate-800 rounded-xl px-3 py-2 text-xs text-slate-200 focus:border-indigo-500 outline-none"
+                className="w-full bg-[#FBF8F2] border border-[#E5DAC6] rounded-xl px-3 py-2 text-xs text-[#2A2420] focus:border-[#B88736] outline-none"
               >
                 <option value="">Voz Padrão do Sistema (Automática)</option>
                 {voices.map(v => {
@@ -264,8 +264,8 @@ export default function AudioSettingsModal({
           {/* Rate / Speed Slider */}
           <div className="space-y-1">
             <div className="flex items-center justify-between text-xs">
-              <span className="text-slate-400 text-[11px]">Velocidade da Narração</span>
-              <span className="font-mono text-indigo-400 text-[11px]">{voiceRate.toFixed(2)}x {voiceRate <= 0.8 ? '(Calma/Profunda)' : voiceRate <= 0.95 ? '(Equilibrada)' : '(Dinâmica)'}</span>
+              <span className="text-[#5C5248] text-[11px]">Velocidade da Narração</span>
+              <span className="font-mono text-[#B88736] text-[11px]">{voiceRate.toFixed(2)}x {voiceRate <= 0.8 ? '(Calma/Profunda)' : voiceRate <= 0.95 ? '(Equilibrada)' : '(Dinâmica)'}</span>
             </div>
             <input
               type="range"
@@ -274,15 +274,15 @@ export default function AudioSettingsModal({
               step="0.02"
               value={voiceRate}
               onChange={(e) => setVoiceRate(parseFloat(e.target.value))}
-              className="w-full h-1.5 bg-slate-800 rounded-lg appearance-none cursor-pointer accent-indigo-500"
+              className="w-full h-1.5 bg-[#F5EFE4] rounded-lg appearance-none cursor-pointer accent-indigo-500"
             />
           </div>
 
           {/* Voice Volume */}
           <div className="space-y-1">
             <div className="flex items-center justify-between text-xs">
-              <span className="text-slate-400 text-[11px]">Volume da Voz</span>
-              <span className="font-mono text-indigo-400 text-[11px]">{Math.round(voiceVolume * 100)}%</span>
+              <span className="text-[#5C5248] text-[11px]">Volume da Voz</span>
+              <span className="font-mono text-[#B88736] text-[11px]">{Math.round(voiceVolume * 100)}%</span>
             </div>
             <input
               type="range"
@@ -291,7 +291,7 @@ export default function AudioSettingsModal({
               step="0.05"
               value={voiceVolume}
               onChange={(e) => setVoiceVolume(parseFloat(e.target.value))}
-              className="w-full h-1.5 bg-slate-800 rounded-lg appearance-none cursor-pointer accent-indigo-500"
+              className="w-full h-1.5 bg-[#F5EFE4] rounded-lg appearance-none cursor-pointer accent-indigo-500"
             />
           </div>
         </div>
@@ -303,7 +303,7 @@ export default function AudioSettingsModal({
           className={`w-full py-3 rounded-xl border font-mono text-xs flex items-center justify-center gap-2 transition cursor-pointer ${
             isTestingVoice
               ? 'bg-amber-500/20 border-amber-400 text-amber-300 animate-pulse'
-              : 'bg-slate-900 border-slate-800 text-slate-300 hover:border-indigo-500/50'
+              : 'bg-[#FBF8F2] border-[#E5DAC6] text-[#5C5248] hover:border-[#B88736]/50'
           }`}
         >
           {isTestingVoice ? <VolumeX size={15} /> : <Play size={15} fill="currentColor" />}
@@ -315,7 +315,7 @@ export default function AudioSettingsModal({
           <button
             type="button"
             onClick={handleSave}
-            className="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-medium py-3.5 rounded-xl transition duration-200 shadow-lg shadow-indigo-600/20 text-xs tracking-wider uppercase flex items-center justify-center gap-2 cursor-pointer border-none font-sans font-bold"
+            className="w-full bg-[#B88736] hover:bg-[#B88736] text-white font-medium py-3.5 rounded-xl transition duration-200 shadow-lg shadow-indigo-600/20 text-xs tracking-wider uppercase flex items-center justify-center gap-2 cursor-pointer border-none font-sans font-bold"
           >
             <Check size={16} />
             Salvar e Aplicar Ajustes de Som
