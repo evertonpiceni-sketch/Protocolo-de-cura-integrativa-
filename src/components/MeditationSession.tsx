@@ -480,7 +480,7 @@ export default function MeditationSession({
                   {breathePhase === 'hold' && "Segure"}
                   {breathePhase === 'exhale' && "Exale"}
                 </span>
-                <span className="text-3xl font-display font-light text-slate-100 mt-1">
+                <span className="text-3xl font-display font-light text-[#2A2420] mt-1">
                   {breatheSeconds}s
                 </span>
               </motion.div>
@@ -530,7 +530,7 @@ export default function MeditationSession({
               <span className="text-[10px] font-mono text-amber-400 bg-amber-500/10 px-3 py-1 rounded-full uppercase tracking-wider">
                 Alinhamento Cerebral Ativo
               </span>
-              <p className="text-xs text-slate-400 italic max-w-xs mx-auto">
+              <p className="text-xs text-[#5C5248] italic max-w-xs mx-auto">
                 Cristais sutis de luz organizando as conexões de foco e tranquilidade mental.
               </p>
             </div>
@@ -574,7 +574,7 @@ export default function MeditationSession({
                   onChange={(e) => setTransmuteText(e.target.value)}
                   disabled={isTransmuting}
                   placeholder="Mágoa, culpa, ansiedade, medo..."
-                  className="flex-1 bg-slate-950 border border-violet-800/40 text-violet-200 placeholder-violet-700/60 focus:border-violet-500 rounded-xl px-4 py-2.5 text-xs outline-none focus:ring-1 focus:ring-violet-500"
+                  className="flex-1 bg-white border border-violet-800/40 text-violet-200 placeholder-violet-700/60 focus:border-violet-500 rounded-xl px-4 py-2.5 text-xs outline-none focus:ring-1 focus:ring-violet-500"
                 />
                 <button
                   type="submit"
@@ -669,7 +669,7 @@ export default function MeditationSession({
                     className={`p-3 rounded-xl border font-display text-xs text-center transition-all duration-300 cursor-pointer relative overflow-hidden ${
                       isTapped
                         ? 'bg-amber-500/20 border-amber-400 text-amber-200 scale-95 shadow-inner'
-                        : 'bg-slate-950/80 border-slate-800/80 text-slate-300 hover:border-slate-700'
+                        : 'bg-white/80 border-[#E5DAC6] text-[#5C5248] hover:border-[#E5DAC6]'
                     }`}
                   >
                     {isTapped && (
@@ -695,28 +695,28 @@ export default function MeditationSession({
   };
 
   return (
-    <div className="min-h-screen bg-slate-950 text-slate-100 flex flex-col justify-between" id="meditation-session-view">
+    <div className="min-h-screen bg-white text-[#2A2420] flex flex-col justify-between" id="meditation-session-view">
       {/* 1. INTRO PHASE */}
       {sessionPhase === 'intro' && (
         <div className="flex-1 flex items-center justify-center p-4 md:p-8 overflow-y-auto" id="intro-screen">
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(99,102,241,0.05)_0,transparent_70%)]" />
           
-          <div className="w-full max-w-xl bg-slate-900 border border-slate-800/80 rounded-3xl p-6 md:p-8 shadow-2xl space-y-5 text-center relative overflow-hidden my-4">
+          <div className="w-full max-w-xl bg-[#FBF8F2] border border-[#E5DAC6] rounded-3xl p-6 md:p-8 shadow-2xl space-y-5 text-center relative overflow-hidden my-4">
             <div className="flex items-center justify-center gap-2">
-              <span className="text-[10px] font-mono tracking-widest text-indigo-400 bg-indigo-500/10 border border-indigo-500/20 px-3 py-1 rounded-full uppercase">
+              <span className="text-[10px] font-mono tracking-widest text-[#B88736] bg-[#B88736]/10 border border-[#B88736]/20 px-3 py-1 rounded-full uppercase">
                 {journeyType === '7d' ? `Jornada dos 7 Chakras • Dia ${dayNumber} de 7` : `Protocolo de Cura Integrada • Dia ${dayNumber} de 21`}
               </span>
             </div>
             
-            <h2 className="text-xl md:text-2xl font-display font-medium text-slate-100">
+            <h2 className="text-xl md:text-2xl font-display font-medium text-[#2A2420]">
               {currentDayInsight.title || "Sessão de Cura Integrada"}
             </h2>
             
-            <p className="text-slate-400 text-xs md:text-sm leading-relaxed">
+            <p className="text-[#5C5248] text-xs md:text-sm leading-relaxed">
               {currentDayInsight.description || "Abra seu coração para receber o alinhamento de hoje."}
             </p>
 
-            <div className="text-left text-xs text-slate-400 font-sans leading-relaxed space-y-2 bg-slate-900/50 p-4 rounded-xl border border-slate-800">
+            <div className="text-left text-xs text-[#5C5248] font-sans leading-relaxed space-y-2 bg-[#FBF8F2]/75 p-4 rounded-xl border border-[#E5DAC6]">
               <p>
                 <strong className="text-amber-200/90 font-medium">E não se esqueça:</strong> esse é um complemento do seu tratamento, vai ajudar a elucidar o que de alguma forma, você ainda não se permitiu deixar ir.
               </p>
@@ -726,13 +726,13 @@ export default function MeditationSession({
             </div>
 
             {/* CHECK-IN ANTES DO TRATAMENTO */}
-            <div className="bg-slate-950/80 border border-slate-800 rounded-2xl p-4 text-left space-y-3.5 shadow-inner">
+            <div className="bg-white/80 border border-[#E5DAC6] rounded-2xl p-4 text-left space-y-3.5 shadow-inner">
               <div className="flex items-center justify-between">
-                <span className="text-[11px] font-mono uppercase tracking-wider text-indigo-400 font-bold flex items-center gap-1.5">
+                <span className="text-[11px] font-mono uppercase tracking-wider text-[#B88736] font-bold flex items-center gap-1.5">
                   <Activity size={13} />
                   <span>Check-in: Como você está se sentindo ANTES de iniciar?</span>
                 </span>
-                <span className="text-[10px] font-mono text-slate-500">Etapa Pré-Sessão</span>
+                <span className="text-[10px] font-mono text-[#85786C]">Etapa Pré-Sessão</span>
               </div>
 
               {/* 1-5 Mood selector Before */}
@@ -750,8 +750,8 @@ export default function MeditationSession({
                     onClick={() => setBeforeMood(item.r)}
                     className={`flex-1 flex flex-col items-center gap-1 py-2 px-1 rounded-xl border text-[10px] font-mono transition cursor-pointer ${
                       beforeMood === item.r
-                        ? 'bg-indigo-950/60 border-indigo-500 text-indigo-200 ring-1 ring-indigo-500/30'
-                        : 'bg-slate-900 border-slate-850 text-slate-500 hover:border-slate-800'
+                        ? 'bg-indigo-950/60 border-[#B88736] text-indigo-200 ring-1 ring-indigo-500/30'
+                        : 'bg-[#FBF8F2] border-[#E5DAC6] text-[#85786C] hover:border-[#E5DAC6]'
                     }`}
                   >
                     <span className="text-sm">{item.emoji}</span>
@@ -762,7 +762,7 @@ export default function MeditationSession({
 
               {/* Sensations tags Before */}
               <div className="space-y-1">
-                <label className="text-[10px] font-mono text-slate-500 uppercase block">
+                <label className="text-[10px] font-mono text-[#85786C] uppercase block">
                   Sensações presentes no seu corpo / mente agora:
                 </label>
                 <div className="flex flex-wrap gap-1">
@@ -775,8 +775,8 @@ export default function MeditationSession({
                         onClick={() => toggleBeforeSensation(tag)}
                         className={`px-2 py-0.5 rounded-lg text-[10px] border transition cursor-pointer ${
                           isSel
-                            ? 'bg-indigo-500/20 border-indigo-500 text-indigo-300 font-semibold'
-                            : 'bg-slate-900/60 border-slate-850 text-slate-400 hover:border-slate-800'
+                            ? 'bg-[#B88736]/20 border-[#B88736] text-[#B88736] font-semibold'
+                            : 'bg-[#FBF8F2]/60 border-[#E5DAC6] text-[#5C5248] hover:border-[#E5DAC6]'
                         }`}
                       >
                         {tag}
@@ -793,7 +793,7 @@ export default function MeditationSession({
                   value={beforeNotes}
                   onChange={(e) => setBeforeNotes(e.target.value)}
                   placeholder="Escreva brevemente o que você está sentindo ou pensando neste momento antes de iniciar..."
-                  className="w-full bg-slate-900 border border-slate-850 focus:border-indigo-500/60 rounded-xl p-2.5 text-xs text-slate-200 placeholder-slate-600 outline-none resize-none leading-relaxed"
+                  className="w-full bg-[#FBF8F2] border border-[#E5DAC6] focus:border-[#B88736]/60 rounded-xl p-2.5 text-xs text-[#2A2420] placeholder-slate-600 outline-none resize-none leading-relaxed"
                 />
               </div>
             </div>
@@ -801,13 +801,13 @@ export default function MeditationSession({
             <div className="pt-2 flex gap-3">
               <button
                 onClick={onClose}
-                className="flex-1 bg-slate-800 hover:bg-slate-700 text-slate-300 font-medium py-3 rounded-xl transition duration-200 text-xs cursor-pointer border-none"
+                className="flex-1 bg-[#F5EFE4] hover:bg-slate-700 text-[#5C5248] font-medium py-3 rounded-xl transition duration-200 text-xs cursor-pointer border-none"
               >
                 Voltar
               </button>
               <button
                 onClick={handleStartPractice}
-                className="flex-1 bg-indigo-600 hover:bg-indigo-500 text-white font-medium py-3 rounded-xl transition duration-200 shadow-lg shadow-indigo-600/10 text-xs flex items-center justify-center gap-1 cursor-pointer border-none"
+                className="flex-1 bg-[#B88736] hover:bg-[#B88736] text-white font-medium py-3 rounded-xl transition duration-200 shadow-lg shadow-indigo-600/10 text-xs flex items-center justify-center gap-1 cursor-pointer border-none"
               >
                 Iniciar Tratamento
                 <ArrowRight size={14} />
@@ -822,33 +822,33 @@ export default function MeditationSession({
         <div className="flex-1 flex items-center justify-center p-4 md:p-8" id="decree-screen">
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(99,102,241,0.06)_0,transparent_100%)] pointer-events-none" />
           
-          <div className="w-full max-w-xl bg-slate-900 border border-slate-800/80 rounded-3xl p-6 md:p-8 shadow-2xl space-y-6 relative overflow-hidden">
+          <div className="w-full max-w-xl bg-[#FBF8F2] border border-[#E5DAC6] rounded-3xl p-6 md:p-8 shadow-2xl space-y-6 relative overflow-hidden">
             <div className="text-center space-y-2">
-              <div className="w-12 h-12 bg-indigo-500/10 border border-indigo-500/20 text-indigo-400 rounded-xl flex items-center justify-center mx-auto">
+              <div className="w-12 h-12 bg-[#B88736]/10 border border-[#B88736]/20 text-[#B88736] rounded-xl flex items-center justify-center mx-auto">
                 <Shield size={20} className="animate-pulse" />
               </div>
-              <span className="text-[10px] font-mono text-indigo-400 uppercase tracking-widest block">ETAPA 01</span>
-              <h3 className="text-lg font-display font-medium text-slate-100">
+              <span className="text-[10px] font-mono text-[#B88736] uppercase tracking-widest block">ETAPA 01</span>
+              <h3 className="text-lg font-display font-medium text-[#2A2420]">
                 Abertura e Decreto de Aceitação
               </h3>
             </div>
 
             {/* Scrolling decree text */}
-            <div className="bg-slate-950/80 border border-slate-800 rounded-2xl p-6 text-sm leading-relaxed text-slate-300 font-sans shadow-inner max-h-72 overflow-y-auto italic text-center space-y-4">
-              <p className="text-base text-slate-200 leading-relaxed font-serif">
+            <div className="bg-white/80 border border-[#E5DAC6] rounded-2xl p-6 text-sm leading-relaxed text-[#5C5248] font-sans shadow-inner max-h-72 overflow-y-auto italic text-center space-y-4">
+              <p className="text-base text-[#2A2420] leading-relaxed font-serif">
                 {journeyType === '7d' ? (
                   <>
                     "Eu, <span className="text-emerald-400 font-semibold underline underline-offset-4 decoration-emerald-500/40">{userName}</span>, aceito receber nesse momento com todo o meu coração, o Protocolo de Alinhamento e Cura Integrada de 7 Dias (Jornada dos 7 Chakras), conforme canalizado e aplicado por Éverton Rodrigo Piceni."
                   </>
                 ) : (
                   <>
-                    "Eu, <span className="text-indigo-400 font-semibold underline underline-offset-4 decoration-indigo-500/40">{userName}</span>, aceito receber nesse momento com todo o meu coração, o Protocolo de Cura Integrada de 21 dias, conforme canalizado e aplicado por Éverton Rodrigo Piceni."
+                    "Eu, <span className="text-[#B88736] font-semibold underline underline-offset-4 decoration-indigo-500/40">{userName}</span>, aceito receber nesse momento com todo o meu coração, o Protocolo de Cura Integrada de 21 dias, conforme canalizado e aplicado por Éverton Rodrigo Piceni."
                   </>
                 )}
               </p>
 
               {customDecree && (
-                <div className="pt-2 border-t border-slate-850 space-y-1">
+                <div className="pt-2 border-t border-[#E5DAC6] space-y-1">
                   <span className="text-[10px] font-mono text-amber-400 uppercase tracking-widest block not-italic">
                     ✨ Decreto Personalizado da sua Anamnese
                   </span>
@@ -858,7 +858,7 @@ export default function MeditationSession({
                 </div>
               )}
 
-              <p className="text-xs text-slate-500 font-mono not-italic uppercase tracking-widest mt-3">
+              <p className="text-xs text-[#85786C] font-mono not-italic uppercase tracking-widest mt-3">
                 (Silêncio absoluto para integração no éter)
               </p>
             </div>
@@ -871,7 +871,7 @@ export default function MeditationSession({
                   className={`flex-1 flex items-center justify-center gap-2 py-3 rounded-xl border text-xs font-mono transition cursor-pointer ${
                     isDecreeVoicePlaying
                       ? 'bg-amber-500/20 border-amber-400 text-amber-300 animate-pulse'
-                      : 'bg-slate-950 border-slate-800 text-slate-300 hover:border-indigo-500/50'
+                      : 'bg-white border-[#E5DAC6] text-[#5C5248] hover:border-[#B88736]/50'
                   }`}
                   title="Ouvir a voz sagrada narrando o decreto de abertura"
                 >
@@ -882,7 +882,7 @@ export default function MeditationSession({
 
               <button
                 onClick={handleAcceptDecree}
-                className="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-medium py-3.5 rounded-xl transition duration-200 shadow-lg shadow-indigo-600/15 text-xs tracking-wider uppercase flex items-center justify-center gap-2 cursor-pointer border-none"
+                className="w-full bg-[#B88736] hover:bg-[#B88736] text-white font-medium py-3.5 rounded-xl transition duration-200 shadow-lg shadow-indigo-600/15 text-xs tracking-wider uppercase flex items-center justify-center gap-2 cursor-pointer border-none"
                 id="btn-decree-accept"
               >
                 <CheckCircle2 size={16} />
@@ -894,7 +894,7 @@ export default function MeditationSession({
                   setIsDecreeVoicePlaying(false);
                   setSessionPhase('intro');
                 }}
-                className="w-full bg-slate-800/50 hover:bg-slate-800 text-slate-400 hover:text-slate-300 font-medium py-2.5 rounded-xl transition text-xs cursor-pointer border-none"
+                className="w-full bg-[#F5EFE4]/50 hover:bg-[#F5EFE4] text-[#5C5248] hover:text-[#5C5248] font-medium py-2.5 rounded-xl transition text-xs cursor-pointer border-none"
               >
                 Voltar
               </button>
@@ -920,28 +920,28 @@ export default function MeditationSession({
           </div>
 
           {/* Text & Narrative Arena (Right Column / Bottom row on Mobile) */}
-          <div className="w-full md:w-[480px] bg-slate-950/85 backdrop-blur-md border-t md:border-t-0 md:border-l border-slate-800/80 p-6 md:p-8 flex flex-col justify-between" id="guided-narrative-panel">
+          <div className="w-full md:w-[480px] bg-[#2A2420]/30 backdrop-blur-md border-t md:border-t-0 md:border-l border-[#E5DAC6] p-6 md:p-8 flex flex-col justify-between" id="guided-narrative-panel">
             
             {/* Navigation Header */}
-            <div className="flex items-center justify-between border-b border-slate-900 pb-4">
+            <div className="flex items-center justify-between border-b border-[#E5DAC6] pb-4">
               <div>
-                <h4 className="text-base font-display font-medium text-slate-200 mt-1">
+                <h4 className="text-base font-display font-medium text-[#2A2420] mt-1">
                   {displayTitle}
                 </h4>
               </div>
               
               <div className="flex items-center gap-2">
                 {/* Language switch button in meditation header */}
-                <div className="flex items-center bg-slate-900 border border-slate-800 rounded-lg px-2 py-1 gap-1">
-                  <Globe size={13} className="text-indigo-400" />
+                <div className="flex items-center bg-[#FBF8F2] border border-[#E5DAC6] rounded-lg px-2 py-1 gap-1">
+                  <Globe size={13} className="text-[#B88736]" />
                   <select
                     value={language}
                     onChange={(e) => setLanguage(e.target.value as AppLanguage)}
-                    className="bg-transparent text-[11px] font-mono text-indigo-300 font-semibold cursor-pointer outline-none border-none pr-1 py-0.5"
+                    className="bg-transparent text-[11px] font-mono text-[#B88736] font-semibold cursor-pointer outline-none border-none pr-1 py-0.5"
                     title="Mudar idioma da meditação e da voz"
                   >
                     {SUPPORTED_LANGUAGES.map((lang) => (
-                      <option key={lang.code} value={lang.code} className="bg-slate-950 text-slate-200">
+                      <option key={lang.code} value={lang.code} className="bg-white text-[#2A2420]">
                         {lang.flag} {lang.name}
                       </option>
                     ))}
@@ -950,7 +950,7 @@ export default function MeditationSession({
 
                 <button
                   onClick={onClose}
-                  className="text-xs text-slate-500 hover:text-slate-300 border border-slate-800 bg-slate-900/40 px-3 py-1.5 rounded-lg transition cursor-pointer"
+                  className="text-xs text-[#85786C] hover:text-[#5C5248] border border-[#E5DAC6] bg-[#FBF8F2]/40 px-3 py-1.5 rounded-lg transition cursor-pointer"
                 >
                   Fechar
                 </button>
@@ -966,22 +966,22 @@ export default function MeditationSession({
               ) : null}
               
               {/* Actual script text displayed in display serif/sans font for immersive reading */}
-              <div className="text-slate-300 font-sans text-sm md:text-base leading-relaxed whitespace-pre-line select-none pr-1">
+              <div className="text-[#5C5248] font-sans text-sm md:text-base leading-relaxed whitespace-pre-line select-none pr-1">
                 {displayText.replace(/\[NOME\]/g, userName)}
               </div>
             </div>
 
             {/* Audio & Stage Control Dock */}
-            <div className="pt-4 border-t border-slate-900 space-y-4" id="guided-controls-dock">
+            <div className="pt-4 border-t border-[#E5DAC6] space-y-4" id="guided-controls-dock">
               {/* Progress visual bar */}
               <div className="space-y-1">
-                <div className="flex justify-between text-[10px] font-mono text-slate-500">
+                <div className="flex justify-between text-[10px] font-mono text-[#85786C]">
                   <span>MEDITAÇÃO DO DIA</span>
                   <span>{Math.round((activeStageIndex / (totalGuidedStages - 1)) * 100)}% CONCLUÍDO</span>
                 </div>
-                <div className="h-1 bg-slate-900 rounded-full overflow-hidden">
+                <div className="h-1 bg-[#FBF8F2] rounded-full overflow-hidden">
                   <div
-                    className="h-full bg-indigo-500 transition-all duration-500"
+                    className="h-full bg-[#B88736] transition-all duration-500"
                     style={{ width: `${(activeStageIndex / (totalGuidedStages - 1)) * 100}%` }}
                   />
                 </div>
@@ -995,7 +995,7 @@ export default function MeditationSession({
                   className={`p-3 rounded-xl border transition duration-150 cursor-pointer ${
                     isMuted
                       ? 'bg-rose-500/10 border-rose-500/30 text-rose-400'
-                      : 'bg-slate-900 border-slate-800 text-slate-400 hover:text-slate-200'
+                      : 'bg-[#FBF8F2] border-[#E5DAC6] text-[#5C5248] hover:text-[#2A2420]'
                   }`}
                   title={isMuted ? "Ativar Áudio" : "Mutar Áudio"}
                 >
@@ -1008,7 +1008,7 @@ export default function MeditationSession({
                   className={`p-4 rounded-full flex items-center justify-center transition duration-200 shadow-xl cursor-pointer border-none ${
                     isPlaying
                       ? 'bg-amber-500 hover:bg-amber-400 text-slate-950 shadow-amber-500/10'
-                      : 'bg-indigo-600 hover:bg-indigo-500 text-white shadow-indigo-600/10'
+                      : 'bg-[#B88736] hover:bg-[#B88736] text-white shadow-indigo-600/10'
                   }`}
                 >
                   {isPlaying ? <Pause size={20} fill="currentColor" /> : <Play size={20} fill="currentColor" />}
@@ -1017,7 +1017,7 @@ export default function MeditationSession({
                 {/* Skip / Next Slide */}
                 <button
                   onClick={skipStage}
-                  className="p-3 bg-slate-900 border border-slate-800 hover:border-slate-700 text-slate-400 hover:text-slate-200 rounded-xl transition cursor-pointer"
+                  className="p-3 bg-[#FBF8F2] border border-[#E5DAC6] hover:border-[#E5DAC6] text-[#5C5248] hover:text-[#2A2420] rounded-xl transition cursor-pointer"
                   title="Avançar Próxima Etapa"
                 >
                   <SkipForward size={16} />
@@ -1025,7 +1025,7 @@ export default function MeditationSession({
               </div>
 
               {/* Ambient frequency & WhatsApp Support bar */}
-              <div className="flex items-center justify-between text-[10px] font-mono text-slate-500 px-1 pt-1.5 border-t border-slate-900/40">
+              <div className="flex items-center justify-between text-[10px] font-mono text-[#85786C] px-1 pt-1.5 border-t border-[#E5DAC6]/40">
                 <span className="flex items-center gap-1">
                   <span>Frequência</span>
                   {userPlan === 'pro' && <span className="text-amber-400 font-bold">👑 PRO</span>}
@@ -1044,17 +1044,17 @@ export default function MeditationSession({
                         onChangeBgMusic(selectedType);
                       }
                     }}
-                    className="bg-slate-950 text-indigo-400 font-semibold uppercase cursor-pointer border border-slate-800 rounded-lg px-2 py-1 outline-none focus:border-indigo-500 text-[10px] font-mono"
+                    className="bg-white text-[#B88736] font-semibold uppercase cursor-pointer border border-[#E5DAC6] rounded-lg px-2 py-1 outline-none focus:border-[#B88736] text-[10px] font-mono"
                     title="Alterar frequência de fundo durante meditação"
                   >
-                    <option value="396hz" className="bg-slate-950 text-slate-300">396Hz - Medo & Culpa</option>
-                    <option value="528hz" className="bg-slate-950 text-slate-300">528Hz - Amor & Paz</option>
-                    <option value="432hz" className="bg-slate-950 text-slate-300">432Hz - Cura Cósmica</option>
-                    <option value="639hz" className="bg-slate-950 text-slate-300">639Hz - Relacionamentos</option>
-                    <option value="963hz" className="bg-slate-950 text-amber-300">963Hz - Pineal Divina {userPlan !== 'pro' ? '🔒 (PRO)' : '👑'}</option>
-                    <option value="741hz" className="bg-slate-950 text-amber-300">741Hz - Limpeza Celular {userPlan !== 'pro' ? '🔒 (PRO)' : '👑'}</option>
-                    <option value="waves" className="bg-slate-950 text-slate-300">Brisa Oceânica Zen</option>
-                    <option value="none" className="bg-slate-950 text-slate-300">Apenas Voz</option>
+                    <option value="396hz" className="bg-white text-[#5C5248]">396Hz - Medo & Culpa</option>
+                    <option value="528hz" className="bg-white text-[#5C5248]">528Hz - Amor & Paz</option>
+                    <option value="432hz" className="bg-white text-[#5C5248]">432Hz - Cura Cósmica</option>
+                    <option value="639hz" className="bg-white text-[#5C5248]">639Hz - Relacionamentos</option>
+                    <option value="963hz" className="bg-white text-amber-300">963Hz - Pineal Divina {userPlan !== 'pro' ? '🔒 (PRO)' : '👑'}</option>
+                    <option value="741hz" className="bg-white text-amber-300">741Hz - Limpeza Celular {userPlan !== 'pro' ? '🔒 (PRO)' : '👑'}</option>
+                    <option value="waves" className="bg-white text-[#5C5248]">Brisa Oceânica Zen</option>
+                    <option value="none" className="bg-white text-[#5C5248]">Apenas Voz</option>
                   </select>
 
                   <a
@@ -1080,20 +1080,20 @@ export default function MeditationSession({
         <div className="flex-1 flex items-center justify-center p-4 md:p-8 overflow-y-auto" id="complete-screen">
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(16,185,129,0.06)_0,transparent_75%)] pointer-events-none" />
 
-          <div className="w-full max-w-xl bg-slate-900 border border-slate-800/80 rounded-3xl p-6 md:p-8 shadow-2xl space-y-5 relative overflow-hidden my-4">
+          <div className="w-full max-w-xl bg-[#FBF8F2] border border-[#E5DAC6] rounded-3xl p-6 md:p-8 shadow-2xl space-y-5 relative overflow-hidden my-4">
             {/* Success Header */}
             <div className="text-center space-y-2">
               <div className="w-14 h-14 bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 rounded-2xl flex items-center justify-center mx-auto shadow-inner">
                 <CheckCircle2 size={28} className="animate-bounce" />
               </div>
               <span className="text-[10px] font-mono text-emerald-400 uppercase tracking-widest block">Tratamento Concluído</span>
-              <h3 className="text-xl md:text-2xl font-display font-medium text-slate-100">
+              <h3 className="text-xl md:text-2xl font-display font-medium text-[#2A2420]">
                 Dia {dayNumber} Selado no seu DNA
               </h3>
             </div>
 
             {/* COMPARATIVE BEFORE VS AFTER SUMMARY CARD */}
-            <div className="p-4 rounded-2xl bg-slate-950 border border-slate-850 space-y-3">
+            <div className="p-4 rounded-2xl bg-white border border-[#E5DAC6] space-y-3">
               <div className="flex items-center justify-between">
                 <span className="text-[10px] font-mono uppercase tracking-wider text-emerald-400 font-bold flex items-center gap-1.5">
                   <TrendingUp size={13} />
@@ -1107,14 +1107,14 @@ export default function MeditationSession({
               </div>
 
               <div className="grid grid-cols-2 gap-2 text-xs">
-                <div className="p-2.5 rounded-xl bg-slate-900/80 border border-slate-800 space-y-1">
-                  <span className="text-[9px] font-mono uppercase text-slate-500 block">Antes do Tratamento:</span>
-                  <div className="font-semibold text-slate-300 flex items-center gap-1">
+                <div className="p-2.5 rounded-xl bg-[#FBF8F2]/90 border border-[#E5DAC6] space-y-1">
+                  <span className="text-[9px] font-mono uppercase text-[#85786C] block">Antes do Tratamento:</span>
+                  <div className="font-semibold text-[#5C5248] flex items-center gap-1">
                     <span>{beforeMood === 1 ? '😣 Pesado' : beforeMood === 2 ? '😟 Tenso' : beforeMood === 3 ? '😐 Neutro' : beforeMood === 4 ? '🙂 Calmo' : '✨ Conectado'}</span>
-                    <span className="text-[10px] text-slate-500 font-mono">({beforeMood}/5)</span>
+                    <span className="text-[10px] text-[#85786C] font-mono">({beforeMood}/5)</span>
                   </div>
                   {beforeNotes && (
-                    <p className="text-[10px] text-slate-400 italic line-clamp-1">"{beforeNotes}"</p>
+                    <p className="text-[10px] text-[#5C5248] italic line-clamp-1">"{beforeNotes}"</p>
                   )}
                 </div>
 
@@ -1131,7 +1131,7 @@ export default function MeditationSession({
 
             {/* Post-Treatment Mood Rating (1-5 scale) */}
             <div className="space-y-2 pt-1" id="mood-evaluation">
-              <label className="block text-[11px] font-mono text-slate-400 uppercase tracking-wider">
+              <label className="block text-[11px] font-mono text-[#5C5248] uppercase tracking-wider">
                 Como você se sente AGORA após o tratamento?
               </label>
               
@@ -1150,7 +1150,7 @@ export default function MeditationSession({
                     className={`flex-1 flex flex-col items-center gap-1 py-2 px-1 rounded-xl border text-[10px] font-mono transition cursor-pointer ${
                       afterMood === item.r
                         ? 'bg-emerald-950/60 border-emerald-500 text-emerald-200 ring-1 ring-emerald-500/30'
-                        : 'bg-slate-950 border-slate-850 text-slate-500 hover:border-slate-800'
+                        : 'bg-white border-[#E5DAC6] text-[#85786C] hover:border-[#E5DAC6]'
                     }`}
                   >
                     <span className="text-sm">{item.emoji}</span>
@@ -1177,7 +1177,7 @@ export default function MeditationSession({
                         className={`px-3 py-2 rounded-lg text-xs text-left border transition cursor-pointer flex items-center justify-between ${
                           isSel
                             ? 'bg-emerald-500/20 border-emerald-500 text-emerald-300 font-semibold'
-                            : 'bg-slate-950 border-slate-850 text-slate-400 hover:border-slate-800'
+                            : 'bg-white border-[#E5DAC6] text-[#5C5248] hover:border-[#E5DAC6]'
                         }`}
                       >
                         <span>{tag}</span>
@@ -1202,8 +1202,8 @@ export default function MeditationSession({
                         onClick={() => toggleAfterSensation(tag)}
                         className={`px-3 py-2 rounded-lg text-xs text-left border transition cursor-pointer flex items-center justify-between ${
                           isSel
-                            ? 'bg-purple-500/20 border-purple-500 text-purple-300 font-semibold'
-                            : 'bg-slate-950 border-slate-850 text-slate-400 hover:border-slate-800'
+                            ? 'bg-purple-500/20 border-purple-500 text-[#B88736] font-semibold'
+                            : 'bg-white border-[#E5DAC6] text-[#5C5248] hover:border-[#E5DAC6]'
                         }`}
                       >
                         <span>{tag}</span>
@@ -1217,8 +1217,8 @@ export default function MeditationSession({
 
             {/* Daily Journal Form (After reflection) */}
             <div className="space-y-1.5 pt-2" id="daily-journal-form">
-              <label htmlFor="journal-textarea" className="block text-[11px] font-mono text-slate-400 uppercase tracking-wider flex items-center gap-1.5">
-                <PenTool size={12} className="text-indigo-400" />
+              <label htmlFor="journal-textarea" className="block text-[11px] font-mono text-[#5C5248] uppercase tracking-wider flex items-center gap-1.5">
+                <PenTool size={12} className="text-[#B88736]" />
                 <span>Notas do Inconsciente: Que memórias, insights ou imagens vieram à sua mente durante a aplicação?</span>
               </label>
               <textarea
@@ -1227,7 +1227,7 @@ export default function MeditationSession({
                 value={afterNotes}
                 onChange={(e) => setAfterNotes(e.target.value)}
                 placeholder="Ex: Vi uma luz violeta, me senti flutuando, lembrei de algo..."
-                className="w-full bg-slate-950 border border-slate-800 focus:border-emerald-500 rounded-xl p-3 text-xs outline-none focus:ring-1 focus:ring-emerald-500 text-slate-200 placeholder-slate-700 leading-relaxed resize-none"
+                className="w-full bg-white border border-[#E5DAC6] focus:border-emerald-500 rounded-xl p-3 text-xs outline-none focus:ring-1 focus:ring-emerald-500 text-[#2A2420] placeholder-slate-700 leading-relaxed resize-none"
               />
             </div>
 
