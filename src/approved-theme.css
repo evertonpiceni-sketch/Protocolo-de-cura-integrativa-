@@ -1,266 +1,30 @@
-/* Approved Protocolo da Transformação visual direction — latest approved state.
-   Source of truth: deep natural greens + restrained soft gold + warm controlled light.
-   The logo is a discreet signature. The experience, body/light progression and message remain protagonists.
-   This file loads after index.css and must NEVER reintroduce the old cream/light-sage direction. */
+/* Fonte visual oficial — Protocolo da Transformação / Reintegração da Vida
+   Paleta consolidada: marfim aquecido, sálvia, dourado nobre e grafite quente.
+   Carregado depois de index.css para neutralizar o legado escuro sem alterar lógica. */
 
 :root{
-  --approved-night:#02150f;
-  --approved-deep:#031b13;
-  --approved-forest:#052a1e;
-  --approved-surface:#073426;
-  --approved-surface-2:#0a3a29;
-  --approved-gold:#d6ae52;
-  --approved-gold-soft:#c8a24a;
-  --approved-gold-light:#e8d38f;
-  --approved-ivory:#fff8e7;
-  --approved-muted:#b9cdbf;
-  --approved-muted-2:#8fa99a;
-  --approved-border:rgba(214,174,82,.24);
-  --approved-shadow:rgba(0,0,0,.38);
-  --ep-night:#02150f;
-  --ep-navy:#052a1e;
-  --ep-surface:#073426;
-  --ep-surface-2:#0a3a29;
-  --ep-gold:#d6ae52;
-  --ep-gold-soft:#b88f38;
-  --ep-gold-light:#efd78f;
-  --ep-ivory:#fff8e7;
-  --ep-muted:#b9cdbf;
-}
+  --bg-canvas:#F8F4EC;
+  --bg-canvas-alt:#F3EBDD;
+  --bg-card:rgba(255,255,255,.88);
+  --bg-card-hover:rgba(255,255,255,.96);
+  --bg-card-subtle:#FBF8F2;
+  --bg-input:#F5EFE4;
+  --sage-subtle:rgba(94,113,83,.08);
+  --sage-border:#D5DDD1;
+  --sage-accent:#5E7153;
+  --sage-light:#7E9473;
+  --gold-primary:#B88736;
+  --gold-light:#D6A756;
+  --gold-dark:#8F631E;
+  --gold-border:rgba(184,135,54,.35);
+  --gold-gradient:linear-gradient(135deg,#D6A756 0%,#B88736 52%,#9E6E24 100%);
+  --gold-shadow:rgba(184,135,54,.18);
+  --text-primary:#2A2420;
+  --text-secondary:#5C5248;
+  --text-muted:#85786C;
+  --border-subtle:#E5DAC6;
+  --border-card:#EADFCF;
 
-html,body,#root{
-  min-height:100%;
-  background:#02150f!important;
-}
-
-body{
-  color:var(--approved-ivory)!important;
-  background:
-    radial-gradient(circle at 50% 0,rgba(214,174,82,.07),transparent 26rem),
-    linear-gradient(180deg,rgba(3,31,22,.96),rgba(2,21,15,.99)),
-    url('/brand/forest-app-background.png') center top/cover fixed!important;
-}
-
-body::before{
-  background:
-    radial-gradient(circle at 50% 10%,rgba(232,211,143,.07),transparent 24rem),
-    linear-gradient(90deg,rgba(13,63,44,.08),transparent 18%,transparent 82%,rgba(13,63,44,.08))!important;
-}
-
-#cura-main-layout{
-  background:
-    radial-gradient(circle at 50% 0,rgba(214,174,82,.06),transparent 28rem),
-    linear-gradient(180deg,rgba(4,38,27,.97),rgba(2,22,16,.99)),
-    url('/brand/forest-app-background.png') center top/cover fixed!important;
-}
-
-#main-header{
-  background:linear-gradient(180deg,rgba(5,42,30,.96),rgba(3,27,19,.98))!important;
-  color:var(--approved-ivory)!important;
-  border-color:var(--approved-border)!important;
-  box-shadow:0 12px 36px rgba(0,0,0,.34)!important;
-  backdrop-filter:blur(18px);
-}
-#main-header [class*="text-slate"],
-#main-header [class*="text-[#"]{color:var(--approved-ivory)!important}
-
-.ep-home{color:var(--approved-ivory)!important}
-
-.ep-home-hero,
-.ep-forest-panel,
-.ep-premium-surface{
-  background:
-    radial-gradient(circle at 50% -6%,rgba(230,199,115,.11),transparent 22rem),
-    linear-gradient(145deg,rgba(7,52,38,.97),rgba(3,27,19,.99))!important;
-  border-color:rgba(214,174,82,.28)!important;
-  box-shadow:0 26px 72px rgba(0,0,0,.38),inset 0 1px 0 rgba(255,255,255,.03)!important;
-  backdrop-filter:blur(18px);
-}
-
-.ep-home-hero h1,
-.ep-home-hero h2,
-.ep-home-hero h3,
-.ep-home-hero p,
-.ep-home-hero span{color:var(--approved-ivory)!important}
-
-.ep-home-hero [class*="text-[#e7ca76]"],
-.ep-home-hero [class*="text-[#ead382]"]{color:var(--approved-gold-light)!important}
-
-.ep-gold-button,
-.ep-gold-action{
-  background:linear-gradient(135deg,#e7cf85,#c9a44d 56%,#9e7429)!important;
-  color:#173323!important;
-  border-color:rgba(240,218,153,.58)!important;
-  box-shadow:0 13px 30px rgba(110,75,22,.26),inset 0 1px 0 rgba(255,255,255,.42)!important;
-}
-
-.ep-home>section:not(.ep-home-hero){
-  background:
-    radial-gradient(circle at 10% 0,rgba(228,197,111,.05),transparent 14rem),
-    linear-gradient(150deg,rgba(6,47,34,.97),rgba(3,29,21,.99))!important;
-  border-color:rgba(214,174,82,.22)!important;
-  box-shadow:0 20px 54px rgba(0,0,0,.30),inset 0 1px 0 rgba(255,255,255,.025)!important;
-}
-.ep-home>section:not(.ep-home-hero) h2,
-.ep-home>section:not(.ep-home-hero) h3,
-.ep-home>section:not(.ep-home-hero) p,
-.ep-home>section:not(.ep-home-hero) span,
-.ep-home>section:not(.ep-home-hero) strong,
-.ep-home>section:not(.ep-home-hero) blockquote{color:var(--approved-ivory)!important}
-
-.ep-home>section:not(.ep-home-hero) [class*="bg-[#07"],
-.ep-home>section:not(.ep-home-hero) [class*="bg-[#06"],
-.ep-home>section:not(.ep-home-hero) [class*="bg-[#05"],
-.ep-home>section:not(.ep-home-hero) [class*="bg-[#04"]{
-  background:linear-gradient(145deg,rgba(8,57,40,.88),rgba(4,37,27,.94))!important;
-  border-color:rgba(214,174,82,.18)!important;
-}
-
-.ep-home button:not(.ep-gold-button){color:var(--approved-gold-light)!important}
-.ep-home button[class*="bg-[#073426]"],
-.ep-home button[class*="bg-[#062f21]"]{
-  background:linear-gradient(145deg,rgba(8,57,40,.96),rgba(4,37,27,.98))!important;
-  color:var(--approved-ivory)!important;
-  border-color:rgba(214,174,82,.25)!important;
-}
-
-#bottom-action-dock>div{
-  background:linear-gradient(180deg,rgba(6,45,32,.97),rgba(2,24,17,.99))!important;
-  border-color:rgba(214,174,82,.22)!important;
-  box-shadow:0 18px 48px rgba(0,0,0,.40),inset 0 1px 0 rgba(255,255,255,.025)!important;
-}
-#bottom-action-dock button{color:#c8d8ce!important}
-#bottom-action-dock button:hover,
-#bottom-action-dock button:focus-visible{
-  color:var(--approved-gold-light)!important;
-  background:rgba(214,174,82,.06)!important;
-}
-
-/* Registration / access — same premium language as the rest of the product. */
-#profile-setup-view{
-  background:
-    radial-gradient(circle at 50% 4%,rgba(214,174,82,.08),transparent 22rem),
-    linear-gradient(180deg,#052a1e 0%,#031b13 58%,#02150f 100%)!important;
-  color:var(--approved-ivory)!important;
-}
-#profile-setup-view>div:first-child{
-  background:
-    linear-gradient(rgba(2,31,20,.46),rgba(2,24,16,.86)),
-    url('/brand/forest-app-background.png') center/cover!important;
-}
-#onboarding-card{
-  background:
-    radial-gradient(circle at 50% 0,rgba(232,203,121,.06),transparent 18rem),
-    linear-gradient(150deg,rgba(7,50,36,.98),rgba(3,28,20,.99))!important;
-  border-color:rgba(214,174,82,.28)!important;
-  color:var(--approved-ivory)!important;
-  box-shadow:0 30px 82px rgba(0,0,0,.44),inset 0 1px 0 rgba(255,255,255,.03)!important;
-  backdrop-filter:blur(20px)!important;
-}
-#onboarding-card [class*="text-slate"],
-#onboarding-card [class*="text-white"]{color:var(--approved-ivory)!important}
-
-#register-form input,
-#login-form input,
-#register-form select,
-#login-form select{
-  background:linear-gradient(180deg,rgba(3,30,21,.97),rgba(2,24,17,.99))!important;
-  border-color:rgba(214,174,82,.20)!important;
-  color:var(--approved-ivory)!important;
-  box-shadow:inset 0 1px 0 rgba(255,255,255,.018),0 8px 22px rgba(0,0,0,.14)!important;
-}
-#register-form input::placeholder,
-#login-form input::placeholder{color:#819c8d!important;opacity:.88}
-
-#auth-tabs{
-  background:rgba(2,24,17,.88)!important;
-  border-color:rgba(214,174,82,.18)!important;
-  box-shadow:inset 0 1px 0 rgba(255,255,255,.018)!important;
-}
-#auth-tabs button{
-  color:#9fb7aa!important;
-  border-color:transparent!important;
-}
-#auth-tabs button[class*="bg-"]{
-  background:linear-gradient(135deg,#e4c875,#c69d43 58%,#9b7026)!important;
-  color:#173323!important;
-  border-color:rgba(244,222,157,.50)!important;
-  box-shadow:0 8px 22px rgba(112,73,20,.22),inset 0 1px 0 rgba(255,255,255,.34)!important;
-}
-#register-form button[class*="bg-"],
-#login-form button[class*="bg-"]{
-  background:linear-gradient(135deg,#e5cb79,#c59d43 58%,#9a7129)!important;
-  color:#173323!important;
-  border-color:rgba(242,218,149,.48)!important;
-}
-#register-form [class*="purple"],
-#login-form [class*="purple"],
-#onboarding-card [class*="purple"]{
-  background:linear-gradient(145deg,rgba(7,52,38,.90),rgba(3,31,22,.96))!important;
-  border-color:rgba(214,174,82,.18)!important;
-  color:var(--approved-ivory)!important;
-}
-
-/* Brand rule: official mark only, visually subordinate to the experience. */
-.ep-brand-signature-wrap{
-  opacity:.30!important;
-  border-color:rgba(214,174,82,.14)!important;
-  box-shadow:none!important;
-}
-.ep-brand-signature{
-  opacity:.72!important;
-  filter:saturate(.84) brightness(.88) contrast(.94)!important;
-}
-
-/* Botanical atmosphere is subtle depth, never a pale frame. */
-#cura-main-layout::before,
-#profile-setup-view::before{
-  content:'';
-  position:fixed;
-  inset:0;
-  z-index:0;
-  pointer-events:none;
-  background:
-    radial-gradient(ellipse at -10% 18%,rgba(22,91,60,.12),transparent 23%),
-    radial-gradient(ellipse at 110% 32%,rgba(22,91,60,.10),transparent 23%),
-    linear-gradient(90deg,rgba(214,174,82,.018),transparent 15%,transparent 85%,rgba(214,174,82,.018))!important;
-}
-#cura-main-layout>main,
-#cura-main-layout>footer,
-#cura-main-layout>aside,
-#profile-setup-view>*{position:relative;z-index:1}
-
-/* Reintegração da Vida keeps progressive light over a deep base. */
-.ep-reintegration-shell{
-  color:var(--approved-ivory)!important;
-}
-.ep-reintegration-panel{
-  background:
-    radial-gradient(circle at 50% 0,rgba(231,202,118,.07),transparent 26rem),
-    linear-gradient(150deg,rgba(4,38,27,.99),rgba(2,23,17,.99))!important;
-  border-color:rgba(214,174,82,.28)!important;
-  box-shadow:0 30px 84px rgba(0,0,0,.42),inset 0 1px 0 rgba(255,255,255,.03)!important;
-}
-.ep-reintegration-card{
-  background:linear-gradient(145deg,rgba(8,57,40,.95),rgba(4,37,27,.97))!important;
-  border-color:rgba(214,174,82,.21)!important;
-  box-shadow:0 14px 34px rgba(0,0,0,.24),inset 0 1px 0 rgba(255,255,255,.025)!important;
-}
-
-@media(max-width:640px){
-  body,#cura-main-layout{
-    background-position:center top!important;
-    background-attachment:scroll!important;
-  }
-  .ep-home-hero,
-  .ep-home>section:not(.ep-home-hero){border-radius:1.55rem!important}
-  #profile-setup-view{padding:.75rem!important}
-  #onboarding-card{border-radius:1.6rem!important}
-}
-
-
-/* MUDANÇA 2 — PALETA OFICIAL DA GRADE DOS 21 DIAS */
-:root{
   --journey-bg-canvas:#F8F4EC;
   --journey-bg-card:rgba(255,255,255,.88);
   --journey-sage:#5E7153;
@@ -271,6 +35,214 @@ body::before{
   --journey-border:#E5DAC6;
 }
 
-/* A nova grade clara usa esta paleta de forma autocontida.
-   As regras escuras legadas acima permanecem apenas para telas ainda não migradas,
-   evitando regressões enquanto a atualização passo a passo é integrada. */
+html,body,#root{
+  min-height:100%;
+  background:var(--bg-canvas)!important;
+  color:var(--text-primary)!important;
+}
+
+body{
+  margin:0;
+  color:var(--text-primary)!important;
+  background:
+    radial-gradient(circle at 12% 4%,rgba(214,167,86,.16),transparent 25rem),
+    radial-gradient(circle at 92% 20%,rgba(94,113,83,.11),transparent 28rem),
+    linear-gradient(180deg,#FBF8F2 0%,#F8F4EC 58%,#F3EBDD 100%)!important;
+  background-attachment:fixed!important;
+  -webkit-font-smoothing:antialiased;
+}
+
+body::before{
+  content:'';
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  z-index:-1;
+  background:
+    radial-gradient(ellipse at -8% 24%,rgba(94,113,83,.08),transparent 24%),
+    radial-gradient(ellipse at 108% 34%,rgba(184,135,54,.08),transparent 24%);
+}
+
+/* ---------- Shell principal ---------- */
+#cura-main-layout{
+  color:var(--text-primary)!important;
+  background:
+    radial-gradient(circle at 50% -10%,rgba(214,167,86,.13),transparent 34rem),
+    linear-gradient(180deg,#FBF8F2 0%,#F8F4EC 100%)!important;
+}
+#main-header{
+  background:rgba(248,244,236,.92)!important;
+  border-color:var(--border-subtle)!important;
+  color:var(--text-primary)!important;
+  box-shadow:0 10px 30px rgba(80,62,38,.08)!important;
+  backdrop-filter:blur(18px);
+}
+#main-header [class*="text-slate"],
+#main-header [class*="text-indigo"],
+#main-header [class*="text-white"]{color:var(--text-primary)!important}
+#main-header [class*="bg-slate"],
+#main-header [class*="bg-indigo"]{background:rgba(255,255,255,.72)!important;border-color:var(--border-subtle)!important}
+#main-header [class*="text-amber"]{color:var(--gold-primary)!important}
+#main-header [class*="text-emerald"]{color:var(--sage-accent)!important}
+
+/* Neutraliza a estrutura escura do App sem alterar componentes nem eventos. */
+#cura-main-layout main [class*="bg-slate-950"],
+#cura-main-layout main [class*="bg-slate-900"],
+#cura-main-layout main [class*="bg-slate-850"],
+#cura-main-layout main [class*="bg-indigo-950"],
+#cura-main-layout main [class*="bg-purple-950"]{
+  background:var(--bg-card)!important;
+  border-color:var(--border-subtle)!important;
+}
+#cura-main-layout main [class*="text-slate-100"],
+#cura-main-layout main [class*="text-slate-200"],
+#cura-main-layout main [class*="text-white"]{color:var(--text-primary)!important}
+#cura-main-layout main [class*="text-slate-300"],
+#cura-main-layout main [class*="text-slate-400"],
+#cura-main-layout main [class*="text-slate-500"]{color:var(--text-secondary)!important}
+#cura-main-layout main [class*="border-slate"]{border-color:var(--border-subtle)!important}
+
+/* ---------- Home aprovada ---------- */
+.ep-home{color:var(--text-primary)!important}
+.ep-home-hero,
+.ep-home>section,
+.ep-forest-panel,
+.ep-premium-surface,
+.ep-luxury-card{
+  background:
+    radial-gradient(circle at 50% 0,rgba(214,167,86,.09),transparent 22rem),
+    rgba(255,255,255,.84)!important;
+  border-color:var(--border-card)!important;
+  box-shadow:0 18px 48px rgba(89,70,43,.08),inset 0 1px 0 rgba(255,255,255,.65)!important;
+  color:var(--text-primary)!important;
+  backdrop-filter:blur(18px);
+}
+.ep-home h1,.ep-home h2,.ep-home h3,.ep-home strong,.ep-home p,.ep-home span,.ep-home small,.ep-home blockquote{
+  color:var(--text-primary)!important;
+}
+.ep-home [class*="text-[#e7ca76]"],
+.ep-home [class*="text-[#ead382]"],
+.ep-home [class*="text-[#e9d58f]"]{color:var(--gold-primary)!important}
+.ep-home [class*="text-[#c9d9ce]"],
+.ep-home [class*="text-[#c3d4c8]"],
+.ep-home [class*="text-[#b9cdbf]"],
+.ep-home [class*="text-[#d7e4db]"],
+.ep-home [class*="text-[#dce9df]"]{color:var(--text-secondary)!important}
+.ep-home [class*="bg-[#052a1e]"],
+.ep-home [class*="bg-[#062f21]"],
+.ep-home [class*="bg-[#073426]"],
+.ep-home [class*="bg-[#0a412d]"],
+.ep-home [class*="from-[#315f49]"]{
+  background:rgba(255,255,255,.82)!important;
+  border-color:var(--border-subtle)!important;
+}
+.ep-gold-button,.ep-gold-action{
+  background:var(--gold-gradient)!important;
+  color:white!important;
+  border-color:rgba(184,135,54,.32)!important;
+  box-shadow:0 12px 26px var(--gold-shadow)!important;
+}
+.ep-gold-button *,.ep-gold-action *{color:white!important}
+
+/* ---------- Cadastro / login ---------- */
+#profile-setup-view{
+  background:
+    radial-gradient(circle at 50% 0,rgba(214,167,86,.12),transparent 24rem),
+    linear-gradient(180deg,#FBF8F2 0%,#F8F4EC 100%)!important;
+  color:var(--text-primary)!important;
+}
+#profile-setup-view>div:first-child{
+  background:
+    radial-gradient(circle at 50% 12%,rgba(94,113,83,.09),transparent 22rem),
+    linear-gradient(180deg,#FBF8F2,#F8F4EC)!important;
+}
+#onboarding-card{
+  background:rgba(255,255,255,.88)!important;
+  border-color:var(--border-card)!important;
+  color:var(--text-primary)!important;
+  box-shadow:0 26px 70px rgba(87,68,43,.10)!important;
+  backdrop-filter:blur(18px)!important;
+}
+#onboarding-card [class*="text-slate"],
+#onboarding-card [class*="text-white"]{color:var(--text-primary)!important}
+#onboarding-card [class*="bg-slate"],
+#onboarding-card [class*="bg-indigo"],
+#onboarding-card [class*="bg-purple"]{
+  background:var(--bg-card-subtle)!important;
+  border-color:var(--border-subtle)!important;
+}
+#register-form input,#login-form input,#register-form select,#login-form select{
+  background:var(--bg-input)!important;
+  border-color:#E2D5BE!important;
+  color:var(--text-primary)!important;
+  box-shadow:none!important;
+}
+#register-form input::placeholder,#login-form input::placeholder{color:#9E9080!important}
+#auth-tabs{
+  background:var(--bg-input)!important;
+  border-color:var(--border-subtle)!important;
+}
+#auth-tabs button{color:var(--text-secondary)!important}
+#auth-tabs button[class*="bg-"]{
+  background:var(--gold-gradient)!important;
+  color:white!important;
+}
+#register-form button[class*="bg-"],
+#login-form button[class*="bg-"]{
+  background:var(--gold-gradient)!important;
+  color:white!important;
+}
+
+/* ---------- Reintegração ---------- */
+.ep-reintegration-shell{
+  color:var(--text-primary)!important;
+  background:var(--bg-canvas)!important;
+}
+.ep-reintegration-panel,
+.ep-reintegration-card{
+  background:var(--bg-card)!important;
+  border-color:var(--border-card)!important;
+  color:var(--text-primary)!important;
+  box-shadow:0 18px 48px rgba(89,70,43,.08)!important;
+}
+.ep-reintegration-panel [class*="text-[#fff"],
+.ep-reintegration-card [class*="text-[#fff"]{color:var(--text-primary)!important}
+
+/* ---------- Marca ---------- */
+.ep-brand-signature-wrap{
+  opacity:.62!important;
+  border-color:rgba(184,135,54,.20)!important;
+  box-shadow:none!important;
+}
+.ep-brand-signature{
+  opacity:.88!important;
+  filter:saturate(.82) brightness(1.03) contrast(.96)!important;
+}
+
+/* ---------- Dock ---------- */
+#bottom-action-dock>div{
+  background:rgba(255,255,255,.92)!important;
+  border-color:var(--border-subtle)!important;
+  box-shadow:0 14px 40px rgba(80,62,38,.10)!important;
+}
+#bottom-action-dock button{color:var(--text-secondary)!important}
+#bottom-action-dock button:hover,#bottom-action-dock button:focus-visible{
+  color:var(--gold-primary)!important;
+  background:rgba(184,135,54,.06)!important;
+}
+
+/* ---------- utilitários de legado visível ---------- */
+.ep-light-surface{
+  background:var(--bg-card)!important;
+  color:var(--text-primary)!important;
+  border-color:var(--border-subtle)!important;
+}
+.ep-light-muted{color:var(--text-secondary)!important}
+.ep-light-gold{color:var(--gold-primary)!important}
+
+@media(max-width:640px){
+  body,#cura-main-layout{background-attachment:scroll!important}
+  .ep-home-hero,.ep-home>section{border-radius:1.55rem!important}
+  #profile-setup-view{padding:.75rem!important}
+  #onboarding-card{border-radius:1.6rem!important}
+}
