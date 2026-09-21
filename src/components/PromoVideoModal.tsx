@@ -44,7 +44,7 @@ const PROMO_SCENES: PromoScene[] = [
     frequency: '396hz',
     frequencyLabel: '396 Hz • Frequência de Libertação de Culpa e Medo',
     icon: <Sparkles className="text-amber-300 animate-pulse" size={32} />,
-    bgGradient: 'from-[#0a412d] via-[#052a1e] to-[#021b13]',
+    bgGradient: 'from-[#0a412d] via-[#FBF8F2] to-[#021b13]',
     highlights: [
       'Alinhamento dos 7 Chakras principais',
       'Meditações guiadas com voz humana',
@@ -61,7 +61,7 @@ const PROMO_SCENES: PromoScene[] = [
     frequency: '528hz',
     frequencyLabel: '528 Hz • Frequência do Milagre e Regeneração Celular',
     icon: <Radio className="text-emerald-400 animate-bounce" size={32} />,
-    bgGradient: 'from-[#0c4a34] via-[#052a1e] to-[#021b13]',
+    bgGradient: 'from-[#0c4a34] via-[#FBF8F2] to-[#021b13]',
     highlights: [
       'Solfeggio de 396Hz a 963Hz',
       'O chakra se ilumina durante a prática',
@@ -78,7 +78,7 @@ const PROMO_SCENES: PromoScene[] = [
     frequency: '432hz',
     frequencyLabel: '432 Hz • Harmonia Cósmica Universal',
     icon: <Compass className="text-purple-400 animate-spin" size={32} />,
-    bgGradient: 'from-[#123f2f] via-[#052a1e] to-[#021b13]',
+    bgGradient: 'from-[#123f2f] via-[#FBF8F2] to-[#021b13]',
     highlights: [
       'Mapa Astral Compacto e Completo',
       'Florais, aromas e banhos energéticos',
@@ -195,19 +195,19 @@ export default function PromoVideoModal({
         initial={{ opacity: 0, scale: 0.95, y: 15 }}
         animate={{ opacity: 1, scale: 1, y: 0 }}
         exit={{ opacity: 0, scale: 0.95, y: 15 }}
-        className="relative my-4 flex w-full max-w-4xl flex-col overflow-hidden rounded-3xl border border-[#e7ca76]/35 bg-[#052a1e] shadow-2xl"
+        className="relative my-4 flex w-full max-w-4xl flex-col overflow-hidden rounded-3xl border border-[#e7ca76]/35 bg-[#FBF8F2] shadow-2xl"
       >
         {/* Top Video Player Bar */}
-        <div className="z-20 flex items-center justify-between border-b border-[#e7ca76]/20 bg-[#032319]/92 px-4 py-3">
+        <div className="z-20 flex items-center justify-between border-b border-[#e7ca76]/20 bg-[#F5EFE4]/92 px-4 py-3">
           <div className="flex items-center gap-2.5">
             <div className="flex h-8 w-8 items-center justify-center rounded-xl bg-[#e7ca76]/15 text-[#e7ca76] shadow-md">
               <Sparkles size={16} />
             </div>
             <div>
-              <span className="text-[10px] font-mono uppercase tracking-widest text-indigo-400 font-bold block">
+              <span className="text-[10px] font-mono uppercase tracking-widest text-[#B88736] font-bold block">
                 Conheça o Protocolo
               </span>
-              <h3 className="text-xs sm:text-sm font-display font-medium text-slate-200">
+              <h3 className="text-xs sm:text-sm font-display font-medium text-[#2A2420]">
                 Protocolo da Transformação
               </h3>
             </div>
@@ -216,7 +216,7 @@ export default function PromoVideoModal({
           <div className="flex items-center gap-2">
             <button
               onClick={handleShare}
-              className="p-2 rounded-xl bg-slate-800/80 hover:bg-slate-800 text-slate-300 hover:text-white transition cursor-pointer border border-slate-700/60"
+              className="p-2 rounded-xl bg-[#F5EFE4]/80 hover:bg-[#F5EFE4] text-[#5C5248] hover:text-white transition cursor-pointer border border-[#E5DAC6]/60"
               title="Compartilhar Vídeo"
             >
               <Share2 size={16} />
@@ -226,7 +226,7 @@ export default function PromoVideoModal({
                 audioEngine.stopBG();
                 onClose();
               }}
-              className="p-2 rounded-xl bg-slate-800/80 hover:bg-slate-800 text-slate-400 hover:text-white transition cursor-pointer border border-slate-700/60"
+              className="p-2 rounded-xl bg-[#F5EFE4]/80 hover:bg-[#F5EFE4] text-[#5C5248] hover:text-white transition cursor-pointer border border-[#E5DAC6]/60"
             >
               <X size={18} />
             </button>
@@ -234,7 +234,7 @@ export default function PromoVideoModal({
         </div>
 
         {/* Scene Progress Bars */}
-        <div className="grid grid-cols-4 gap-1.5 px-4 pt-3 bg-slate-950/60 z-20">
+        <div className="grid grid-cols-4 gap-1.5 px-4 pt-3 bg-white/70 z-20">
           {PROMO_SCENES.map((sc, i) => (
             <button
               key={sc.id}
@@ -242,12 +242,12 @@ export default function PromoVideoModal({
                 setCurrentSceneIndex(i);
                 setSceneProgress(0);
               }}
-              className="h-1.5 rounded-full overflow-hidden bg-slate-800 transition cursor-pointer"
+              className="h-1.5 rounded-full overflow-hidden bg-[#F5EFE4] transition cursor-pointer"
             >
               <div
                 className={`h-full transition-all duration-100 ${
                   i < currentSceneIndex
-                    ? 'bg-indigo-500 w-full'
+                    ? 'bg-[#B88736] w-full'
                     : i === currentSceneIndex
                     ? 'bg-gradient-to-r from-indigo-500 to-amber-400'
                     : 'w-0'
@@ -261,17 +261,17 @@ export default function PromoVideoModal({
         {/* Cinematic Stage / Video Canvas */}
         <div className={`relative min-h-[380px] sm:min-h-[440px] p-6 sm:p-10 flex flex-col justify-between overflow-hidden bg-gradient-to-br ${scene.bgGradient} transition-colors duration-700`}>
           {/* Ambient Lighting Orbs */}
-          <div className="absolute -top-20 -right-20 w-96 h-96 bg-indigo-500/20 rounded-full blur-3xl pointer-events-none" />
+          <div className="absolute -top-20 -right-20 w-96 h-96 bg-[#B88736]/20 rounded-full blur-3xl pointer-events-none" />
           <div className="absolute -bottom-20 -left-20 w-96 h-96 bg-purple-500/20 rounded-full blur-3xl pointer-events-none" />
 
           {/* Scene Top Badge */}
           <div className="flex items-center justify-between z-10">
-            <span className="px-3 py-1 rounded-full bg-slate-950/70 border border-indigo-500/30 text-indigo-300 text-[11px] font-mono font-bold flex items-center gap-2 backdrop-blur-md shadow-lg">
+            <span className="px-3 py-1 rounded-full bg-white/75 border border-[#B88736]/30 text-[#B88736] text-[11px] font-mono font-bold flex items-center gap-2 backdrop-blur-md shadow-lg">
               <Sparkles size={12} className="text-amber-400" />
               <span>{scene.badge}</span>
             </span>
 
-            <div className="flex items-center gap-2 bg-slate-950/70 border border-slate-800 px-3 py-1 rounded-full text-xs font-mono text-slate-300 backdrop-blur-md">
+            <div className="flex items-center gap-2 bg-white/75 border border-[#E5DAC6] px-3 py-1 rounded-full text-xs font-mono text-[#5C5248] backdrop-blur-md">
               <Radio size={13} className="text-emerald-400 animate-pulse" />
               <span>{scene.frequencyLabel.split('•')[0]}</span>
             </div>
@@ -288,27 +288,27 @@ export default function PromoVideoModal({
               className="my-auto py-6 space-y-4 z-10 max-w-2xl"
             >
               <div className="flex items-center gap-3">
-                <div className="p-3 rounded-2xl bg-slate-950/80 border border-slate-800 shadow-xl">
+                <div className="p-3 rounded-2xl bg-white/80 border border-[#E5DAC6] shadow-xl">
                   {scene.icon}
                 </div>
                 <div>
                   <span className="text-xs font-mono text-amber-400 uppercase tracking-widest font-bold">
                     {scene.subtitle}
                   </span>
-                  <h2 className="text-xl sm:text-3xl font-display font-medium text-slate-100 leading-tight">
+                  <h2 className="text-xl sm:text-3xl font-display font-medium text-[#2A2420] leading-tight">
                     {scene.title}
                   </h2>
                 </div>
               </div>
 
-              <p className="text-xs sm:text-sm text-slate-200 leading-relaxed font-sans bg-slate-950/40 p-4 rounded-2xl border border-slate-800/60 backdrop-blur-md">
+              <p className="text-xs sm:text-sm text-[#2A2420] leading-relaxed font-sans bg-white/40 p-4 rounded-2xl border border-[#E5DAC6]/60 backdrop-blur-md">
                 {scene.description}
               </p>
 
               {/* Highlights pills */}
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 pt-1">
                 {scene.highlights.map((h, idx) => (
-                  <div key={idx} className="p-2.5 rounded-xl bg-slate-950/80 border border-indigo-500/25 text-[11px] text-slate-200 font-medium flex items-center gap-2 shadow-sm">
+                  <div key={idx} className="p-2.5 rounded-xl bg-white/80 border border-[#B88736]/25 text-[11px] text-[#2A2420] font-medium flex items-center gap-2 shadow-sm">
                     <CheckCircle2 size={13} className="text-emerald-400 shrink-0" />
                     <span>{h}</span>
                   </div>
@@ -318,8 +318,8 @@ export default function PromoVideoModal({
           </AnimatePresence>
 
           {/* Equalizer animation bar */}
-          <div className="flex items-center justify-between z-10 pt-4 border-t border-slate-800/60">
-            <div className="flex items-center gap-2 text-xs font-mono text-slate-400">
+          <div className="flex items-center justify-between z-10 pt-4 border-t border-[#E5DAC6]/60">
+            <div className="flex items-center gap-2 text-xs font-mono text-[#5C5248]">
               <span className="flex items-end gap-0.5 h-4">
                 <span className={`w-1 bg-indigo-400 rounded-full transition-all ${isPlaying ? 'h-3 animate-pulse' : 'h-1'}`} />
                 <span className={`w-1 bg-purple-400 rounded-full transition-all ${isPlaying ? 'h-4 animate-bounce' : 'h-1'}`} />
@@ -329,19 +329,19 @@ export default function PromoVideoModal({
               <span>{scene.frequencyLabel}</span>
             </div>
 
-            <span className="text-xs font-mono text-slate-400">
+            <span className="text-xs font-mono text-[#5C5248]">
               Cena {currentSceneIndex + 1} de {PROMO_SCENES.length}
             </span>
           </div>
         </div>
 
         {/* Video Player Controls & Conversion Actions */}
-        <div className="bg-slate-950 border-t border-slate-800 p-4 flex flex-wrap items-center justify-between gap-3 z-20">
+        <div className="bg-white border-t border-[#E5DAC6] p-4 flex flex-wrap items-center justify-between gap-3 z-20">
           {/* Playback Buttons */}
           <div className="flex items-center gap-2">
             <button
               onClick={handlePrev}
-              className="p-2.5 rounded-xl bg-slate-900 hover:bg-slate-850 text-slate-300 transition cursor-pointer border border-slate-800"
+              className="p-2.5 rounded-xl bg-[#FBF8F2] hover:bg-[#F5EFE4] text-[#5C5248] transition cursor-pointer border border-[#E5DAC6]"
               title="Cena Anterior"
             >
               <ChevronLeft size={16} />
@@ -349,7 +349,7 @@ export default function PromoVideoModal({
 
             <button
               onClick={() => setIsPlaying(!isPlaying)}
-              className="px-4 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs flex items-center gap-2 transition cursor-pointer shadow-lg shadow-indigo-600/20"
+              className="px-4 py-2.5 rounded-xl bg-[#B88736] hover:bg-[#B88736] text-white font-bold text-xs flex items-center gap-2 transition cursor-pointer shadow-lg shadow-indigo-600/20"
             >
               {isPlaying ? <Pause size={15} /> : <Play size={15} />}
               <span>{isPlaying ? 'Pausar Vídeo' : 'Reproduzir Vídeo'}</span>
@@ -357,7 +357,7 @@ export default function PromoVideoModal({
 
             <button
               onClick={handleNext}
-              className="p-2.5 rounded-xl bg-slate-900 hover:bg-slate-850 text-slate-300 transition cursor-pointer border border-slate-800"
+              className="p-2.5 rounded-xl bg-[#FBF8F2] hover:bg-[#F5EFE4] text-[#5C5248] transition cursor-pointer border border-[#E5DAC6]"
               title="Próxima Cena"
             >
               <ChevronRight size={16} />
@@ -368,7 +368,7 @@ export default function PromoVideoModal({
               className={`p-2.5 rounded-xl border transition cursor-pointer ${
                 isMuted
                   ? 'bg-rose-500/10 border-rose-500/30 text-rose-400'
-                  : 'bg-slate-900 border-slate-800 text-slate-300'
+                  : 'bg-[#FBF8F2] border-[#E5DAC6] text-[#5C5248]'
               }`}
               title={isMuted ? 'Ativar Áudio de Cura' : 'Silenciar'}
             >
