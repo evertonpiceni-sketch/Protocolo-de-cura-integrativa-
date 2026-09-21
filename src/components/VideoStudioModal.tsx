@@ -31,6 +31,7 @@ import {
   STUDIO_STORAGE_KEY_DAYS,
   validateStudioGeneration
 } from '../data/reintegrationStudioData';
+import { getVisualDiaInstrucao, REGRA_UNIVERSAL_VIDEO } from '../data/visualMap21Dias';
 
 interface VideoStudioModalProps {
   isOpen: boolean;
@@ -74,6 +75,7 @@ export default function VideoStudioModal({ isOpen, onClose, initialDay = 1 }: Vi
 
   const [selectedDayNum, setSelectedDayNum] = useState<number>(initialDay);
   const currentRecord = days.find(d => d.day === selectedDayNum) || days[0];
+  const visualInstruction = getVisualDiaInstrucao(selectedDayNum);
 
   // Selected stage focus (null = full continuous progression)
   const [selectedStageStep, setSelectedStageStep] = useState<number | null>(null);
@@ -1259,6 +1261,65 @@ export default function VideoStudioModal({ isOpen, onClose, initialDay = 1 }: Vi
           {/* RIGHT COLUMN: BRIEFING FIELDS & AUTOMATIC REJECTION AUDITOR (7 Cols) */}
           <div className="lg:col-span-7 space-y-4">
             
+            {/* Ficha Didática Oficial da Mudança 5 */}
+            <div className="p-4 rounded-2xl bg-[#F8F4EC] border border-[#E8DFC8] text-[#2A2420] shadow-sm space-y-3">
+              <div className="flex flex-wrap items-center justify-between gap-2">
+                <div>
+                  <span className="text-[10px] font-mono uppercase tracking-[.16em] text-[#B88736] font-bold">
+                    Mapa Didático Oficial · Dia {visualInstruction.dia}
+                  </span>
+                  <h3 className="mt-1 text-base font-serif text-[#2A2420]">
+                    {visualInstruction.titulo}
+                  </h3>
+                </div>
+                <span className="rounded-full border border-[#5E7153]/30 bg-[#5E7153]/10 px-3 py-1 text-[10px] font-semibold text-[#5E7153]">
+                  {visualInstruction.ciclo}
+                </span>
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 text-[11px] leading-relaxed">
+                <div className="rounded-xl border border-[#E8DFC8] bg-white/70 p-3">
+                  <span className="block font-bold uppercase tracking-wide text-[#B88736]">Região corporal</span>
+                  <span className="mt-1 block text-[#5C5248]">{visualInstruction.regiaoCorporal}</span>
+                </div>
+                <div className="rounded-xl border border-[#E8DFC8] bg-white/70 p-3">
+                  <span className="block font-bold uppercase tracking-wide text-[#B88736]">Movimento da luz</span>
+                  <span className="mt-1 block text-[#5C5248]">{visualInstruction.movimentoLuz}</span>
+                </div>
+                <div className="rounded-xl border border-[#E8DFC8] bg-white/70 p-3">
+                  <span className="block font-bold uppercase tracking-wide text-[#B88736]">Estado inicial</span>
+                  <span className="mt-1 block text-[#5C5248]">{visualInstruction.estadoInicial}</span>
+                </div>
+                <div className="rounded-xl border border-[#E8DFC8] bg-white/70 p-3">
+                  <span className="block font-bold uppercase tracking-wide text-[#B88736]">Estado final</span>
+                  <span className="mt-1 block text-[#5C5248]">{visualInstruction.estadoFinal}</span>
+                </div>
+              </div>
+
+              <div className="rounded-xl border border-[#B88736]/30 bg-[#F5EFE4] p-3 text-[11px] leading-relaxed">
+                <span className="block font-bold uppercase tracking-wide text-[#B88736]">Micro-narrativa / transformação</span>
+                <span className="mt-1 block text-[#4A403A]">{visualInstruction.transformacao}</span>
+              </div>
+
+              <div className="rounded-xl border border-[#5E7153]/30 bg-[#5E7153]/8 p-3">
+                <div className="flex items-start gap-2">
+                  <ShieldCheck size={15} className="mt-0.5 shrink-0 text-[#5E7153]" />
+                  <div>
+                    <span className="block text-[10px] font-bold uppercase tracking-wide text-[#5E7153]">
+                      Régua oficial de aprovação
+                    </span>
+                    <p className="mt-1 text-xs font-semibold text-[#2A2420]">{visualInstruction.criterioAprovacao}</p>
+                    <p className="mt-1 text-[10px] text-[#6B6158]">{REGRA_UNIVERSAL_VIDEO}</p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="flex flex-wrap gap-x-4 gap-y-1 border-t border-[#E8DFC8] pt-2 text-[10px] font-mono text-[#7A6D5E]">
+                <span>MP4: {visualInstruction.videoPath}</span>
+                <span>Poster: {visualInstruction.posterPath}</span>
+              </div>
+            </div>
+
             {/* Header of the Day */}
             <div className="p-4 rounded-2xl bg-[#02150f] border border-[#d6ae52]/25 space-y-2">
               <div className="flex items-center justify-between">
