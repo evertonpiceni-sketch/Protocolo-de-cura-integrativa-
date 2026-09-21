@@ -32,7 +32,7 @@ export default function AchievementsModal({
   const evaluation = evaluateUserAchievements(userProfile, progress);
 
   const getIconComponent = (iconName: string, size = 20, isUnlocked = true) => {
-    const className = isUnlocked ? "text-amber-400" : "text-slate-600";
+    const className = isUnlocked ? "text-amber-400" : "text-[#85786C]";
     switch (iconName) {
       case 'Sparkles': return <Sparkles size={size} className={className} />;
       case 'Flame': return <Flame size={size} className={className} />;
@@ -55,36 +55,36 @@ export default function AchievementsModal({
     : ALL_ACHIEVEMENTS.filter(a => a.category === selectedCategory);
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/85 backdrop-blur-md overflow-y-auto" id="achievements-modal">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-[#2A2420]/30 backdrop-blur-md overflow-y-auto" id="achievements-modal">
       <motion.div
         initial={{ opacity: 0, scale: 0.95, y: 15 }}
         animate={{ opacity: 1, scale: 1, y: 0 }}
         exit={{ opacity: 0, scale: 0.95 }}
-        className="w-full max-w-4xl bg-slate-900 border border-amber-500/30 rounded-3xl p-5 sm:p-7 shadow-2xl relative overflow-hidden my-4 max-h-[92vh] flex flex-col"
+        className="w-full max-w-4xl bg-[#FBF8F2] border border-amber-500/30 rounded-3xl p-5 sm:p-7 shadow-2xl relative overflow-hidden my-4 max-h-[92vh] flex flex-col"
       >
         {/* Glow Effects */}
         <div className="absolute -top-24 -right-24 w-72 h-72 bg-amber-500/10 rounded-full blur-3xl pointer-events-none" />
-        <div className="absolute -bottom-24 -left-24 w-72 h-72 bg-indigo-500/10 rounded-full blur-3xl pointer-events-none" />
+        <div className="absolute -bottom-24 -left-24 w-72 h-72 bg-[#B88736]/10 rounded-full blur-3xl pointer-events-none" />
 
         {/* Close Button */}
         <button
           onClick={onClose}
-          className="absolute top-5 right-5 w-8 h-8 rounded-full bg-slate-800/80 border border-slate-700/60 text-slate-400 hover:text-slate-200 flex items-center justify-center transition cursor-pointer z-10"
+          className="absolute top-5 right-5 w-8 h-8 rounded-full bg-[#F5EFE4]/80 border border-[#E5DAC6]/60 text-[#5C5248] hover:text-[#2A2420] flex items-center justify-center transition cursor-pointer z-10"
         >
           <X size={16} />
         </button>
 
         {/* Header (Always Visible at Top) */}
-        <div className="shrink-0 space-y-4 pb-4 border-b border-slate-800/80">
+        <div className="shrink-0 space-y-4 pb-4 border-b border-[#E5DAC6]">
           <div className="text-center space-y-1.5 pr-8 pl-8">
             <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-300 text-xs font-mono font-medium">
               <Trophy size={14} className="text-amber-400" />
               <span>SISTEMA DE CONQUISTAS & MERECIMENTO</span>
             </div>
-            <h2 className="text-2xl sm:text-3xl font-display font-medium text-slate-100">
+            <h2 className="text-2xl sm:text-3xl font-display font-medium text-[#2A2420]">
               Seus Emblemas de Transformação
             </h2>
-            <p className="text-xs sm:text-sm text-slate-400 max-w-xl mx-auto">
+            <p className="text-xs sm:text-sm text-[#5C5248] max-w-xl mx-auto">
               Cada dia concluído, oração sagrada e reflexão profunda desbloqueia marcos energéticos na sua jornada.
             </p>
           </div>
@@ -104,7 +104,7 @@ export default function AchievementsModal({
                     {evaluation.totalPoints} Pontos Quânticos
                   </span>
                 </div>
-                <h3 className="text-base sm:text-lg font-bold text-slate-100">
+                <h3 className="text-base sm:text-lg font-bold text-[#2A2420]">
                   {evaluation.unlocked.length} de {ALL_ACHIEVEMENTS.length} Emblemas Conquistados
                 </h3>
               </div>
@@ -112,11 +112,11 @@ export default function AchievementsModal({
 
             {/* Visual Progress Bar */}
             <div className="w-full sm:w-48 space-y-1.5">
-              <div className="flex justify-between text-[11px] font-mono text-slate-400">
+              <div className="flex justify-between text-[11px] font-mono text-[#5C5248]">
                 <span>Progresso Total</span>
                 <span className="text-amber-300 font-bold">{evaluation.percentage}%</span>
               </div>
-              <div className="w-full h-2.5 bg-slate-950 rounded-full overflow-hidden border border-slate-800">
+              <div className="w-full h-2.5 bg-white rounded-full overflow-hidden border border-[#E5DAC6]">
                 <div
                   className="h-full bg-gradient-to-r from-amber-500 to-amber-300 rounded-full transition-all duration-700 shadow-sm"
                   style={{ width: `${Math.max(evaluation.percentage, 5)}%` }}
@@ -140,7 +140,7 @@ export default function AchievementsModal({
                 className={`px-3 py-1.5 rounded-xl text-xs font-semibold transition cursor-pointer shrink-0 ${
                   selectedCategory === cat.id
                     ? 'bg-amber-500 text-slate-950 font-bold shadow-md shadow-amber-500/20'
-                    : 'bg-slate-950 border border-slate-800 text-slate-400 hover:text-slate-200'
+                    : 'bg-white border border-[#E5DAC6] text-[#5C5248] hover:text-[#2A2420]'
                 }`}
               >
                 {cat.label}
@@ -160,8 +160,8 @@ export default function AchievementsModal({
                   key={ach.id}
                   className={`p-4 rounded-2xl border transition-all duration-200 relative flex flex-col justify-between ${
                     isUnlocked
-                      ? 'bg-gradient-to-b from-amber-950/30 via-slate-900 to-slate-950 border-amber-500/40 shadow-lg shadow-amber-500/5'
-                      : 'bg-slate-950/60 border-slate-850 opacity-75'
+                      ? 'bg-gradient-to-b from-amber-950/30 via-[#FBF8F2] to-[#F3EBDD] border-amber-500/40 shadow-lg shadow-amber-500/5'
+                      : 'bg-white/70 border-[#E5DAC6] opacity-75'
                   }`}
                 >
                   {/* Badge Status Top Marker */}
@@ -170,7 +170,7 @@ export default function AchievementsModal({
                       className={`w-11 h-11 rounded-2xl flex items-center justify-center border shrink-0 ${
                         isUnlocked
                           ? 'bg-gradient-to-br from-amber-500/20 to-amber-600/10 border-amber-500/50 shadow-inner'
-                          : 'bg-slate-900 border-slate-800'
+                          : 'bg-[#FBF8F2] border-[#E5DAC6]'
                       }`}
                     >
                       {getIconComponent(ach.icon, 22, isUnlocked)}
@@ -181,18 +181,18 @@ export default function AchievementsModal({
                         className={`text-[10px] font-mono font-bold px-2 py-0.5 rounded-full border ${
                           isUnlocked
                             ? 'bg-amber-500/20 text-amber-300 border-amber-500/30'
-                            : 'bg-slate-900 text-slate-500 border-slate-800'
+                            : 'bg-[#FBF8F2] text-[#85786C] border-[#E5DAC6]'
                         }`}
                       >
                         +{ach.points} pts
                       </span>
-                      <span className="text-[9px] font-mono text-slate-500 mt-1 flex items-center gap-1">
+                      <span className="text-[9px] font-mono text-[#85786C] mt-1 flex items-center gap-1">
                         {isUnlocked ? (
                           <span className="text-emerald-400 flex items-center gap-1">
                             <CheckCircle2 size={10} /> Conquistado
                           </span>
                         ) : (
-                          <span className="text-slate-500 flex items-center gap-1">
+                          <span className="text-[#85786C] flex items-center gap-1">
                             <Lock size={10} /> Bloqueado
                           </span>
                         )}
@@ -204,20 +204,20 @@ export default function AchievementsModal({
                   <div className="space-y-1">
                     <h4
                       className={`text-sm font-bold leading-tight ${
-                        isUnlocked ? 'text-slate-100' : 'text-slate-400'
+                        isUnlocked ? 'text-[#2A2420]' : 'text-[#5C5248]'
                       }`}
                     >
                       {ach.title}
                     </h4>
-                    <p className="text-xs text-slate-400 leading-relaxed">
+                    <p className="text-xs text-[#5C5248] leading-relaxed">
                       {ach.description}
                     </p>
                   </div>
 
                   {/* Requirement Footer */}
-                  <div className="mt-3 pt-2.5 border-t border-slate-800/80">
-                    <span className="text-[10px] font-mono text-slate-500 block leading-tight">
-                      Requisito: <strong className={isUnlocked ? 'text-amber-300 font-normal' : 'text-slate-400 font-normal'}>{ach.requirementText}</strong>
+                  <div className="mt-3 pt-2.5 border-t border-[#E5DAC6]">
+                    <span className="text-[10px] font-mono text-[#85786C] block leading-tight">
+                      Requisito: <strong className={isUnlocked ? 'text-amber-300 font-normal' : 'text-[#5C5248] font-normal'}>{ach.requirementText}</strong>
                     </span>
                   </div>
                 </div>
@@ -227,11 +227,11 @@ export default function AchievementsModal({
         </div>
 
         {/* Footer Note */}
-        <div className="shrink-0 pt-3 border-t border-slate-800 flex items-center justify-between text-xs text-slate-500">
+        <div className="shrink-0 pt-3 border-t border-[#E5DAC6] flex items-center justify-between text-xs text-[#85786C]">
           <span>Continue sua prática diária para desbloquear todos os emblemas.</span>
           <button
             onClick={onClose}
-            className="px-4 py-2 bg-indigo-600 hover:bg-indigo-500 text-white rounded-xl text-xs font-semibold cursor-pointer transition"
+            className="px-4 py-2 bg-[#B88736] hover:bg-[#B88736] text-white rounded-xl text-xs font-semibold cursor-pointer transition"
           >
             Fechar
           </button>
