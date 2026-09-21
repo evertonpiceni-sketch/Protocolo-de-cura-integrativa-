@@ -44,15 +44,15 @@ export default function DashboardCura({ onClose, progress, userProfile }: { onCl
   };
 
   return (
-    <div className="fixed inset-0 z-[100] flex flex-col bg-[#031b12] text-slate-100 font-sans selection:bg-[#E4C573]/30 overflow-y-auto">
+    <div className="fixed inset-0 z-[100] flex flex-col bg-[#F8F4EC] text-[#2A2420] font-sans selection:bg-[#E4C573]/30 overflow-y-auto">
       {/* Background Gradient */}
-      <div className="fixed inset-0 pointer-events-none bg-[linear-gradient(rgba(2,31,20,.78),rgba(2,24,16,.94)),url('/brand/forest-app-background.png')] bg-cover bg-center" />
+      <div className="fixed inset-0 pointer-events-none bg-[radial-gradient(circle_at_50%_0,rgba(214,167,86,.12),transparent_30rem),linear-gradient(180deg,#FBF8F2,#F8F4EC)]" />
 
       {/* Header */}
       <header className="relative z-10 mx-auto w-full max-w-lg px-5 py-6">
         <button
           onClick={onClose}
-          className="mb-4 flex items-center gap-2 text-sm text-slate-400 hover:text-white transition"
+          className="mb-4 flex items-center gap-2 text-sm text-[#5C5248] hover:text-white transition"
         >
           <ArrowLeft size={18} /> Voltar
         </button>
@@ -62,14 +62,14 @@ export default function DashboardCura({ onClose, progress, userProfile }: { onCl
             <h1 className="text-xl sm:text-2xl font-serif font-bold text-white">
               Olá, {userProfile?.name?.split(' ')[0] || 'Viajante'}
             </h1>
-            <p className="mt-1 text-sm text-slate-300">
+            <p className="mt-1 text-sm text-[#5C5248]">
               Equilíbrio hoje, um amanhã mais leve.
             </p>
           </div>
           <div className="flex shrink-0 flex-col items-center justify-center rounded-2xl border border-[#E4C573]/35 bg-[#073b29]/80 px-4 py-2.5 shadow-[0_0_15px_rgba(228,197,115,0.12)]">
             <Flame className="text-[#E4C573] mb-1" size={24} />
             <div className="text-lg font-bold text-white leading-none">{streak}</div>
-            <div className="text-[9px] uppercase tracking-wider text-slate-400 mt-1">Dias Seguidos</div>
+            <div className="text-[9px] uppercase tracking-wider text-[#5C5248] mt-1">Dias Seguidos</div>
           </div>
         </div>
 
@@ -77,7 +77,7 @@ export default function DashboardCura({ onClose, progress, userProfile }: { onCl
         <div className="mt-7">
           <div className="flex items-end justify-between mb-2">
             <span className="text-sm font-semibold text-[#E4C573]">{percentage}% Concluído</span>
-            <span className="text-xs text-slate-400">{totalCompleted} de 7 Dias</span>
+            <span className="text-xs text-[#5C5248]">{totalCompleted} de 7 Dias</span>
           </div>
           <div className="h-1.5 w-full overflow-hidden rounded-full bg-white/10">
             <div
@@ -121,7 +121,7 @@ export default function DashboardCura({ onClose, progress, userProfile }: { onCl
                   />
                 </div>
                 {/* Optional floating labels for the chakras */}
-                {/* <span className={`text-[9px] uppercase tracking-wider ${isCompleted ? 'text-slate-300' : 'text-slate-600'}`}>{chakra.sanskrit}</span> */}
+                {/* <span className={`text-[9px] uppercase tracking-wider ${isCompleted ? 'text-[#5C5248]' : 'text-slate-600'}`}>{chakra.sanskrit}</span> */}
               </div>
             );
           })}
@@ -141,7 +141,7 @@ export default function DashboardCura({ onClose, progress, userProfile }: { onCl
                   <div className="absolute left-0 top-0 h-full w-2 rounded-l-2xl" style={{ backgroundColor: chakra.color, opacity: 0.8 }} />
                   <div className="ml-3">
                     <h3 className="font-serif text-[15px] font-semibold text-[#E4C573]">Dia {day}: {chakra.name}</h3>
-                    <p className="text-xs text-slate-400 mt-0.5">Concluído</p>
+                    <p className="text-xs text-[#5C5248] mt-0.5">Concluído</p>
                   </div>
                   <div className="flex h-8 w-8 items-center justify-center rounded-full bg-[#E4C573]/20 text-[#E4C573]">
                     <CheckCircle2 size={18} />
@@ -160,7 +160,7 @@ export default function DashboardCura({ onClose, progress, userProfile }: { onCl
                   <div className="relative flex items-center justify-between px-5 py-5 ml-2">
                     <div>
                       <h3 className="font-serif text-[16px] font-bold text-white">Dia {day}: {chakra.name}</h3>
-                      <p className="text-[13px] text-slate-300 mt-1">Pronto para iniciar (15 min)</p>
+                      <p className="text-[13px] text-[#5C5248] mt-1">Pronto para iniciar (15 min)</p>
                     </div>
                     <button 
                       onClick={() => handlePlayDay(day)}
@@ -213,7 +213,7 @@ export default function DashboardCura({ onClose, progress, userProfile }: { onCl
               <div className="flex h-12 w-12 items-center justify-center rounded-full bg-[#161824] text-slate-500 mb-3">
                 <Award size={24} />
               </div>
-              <p className="text-[13px] leading-relaxed text-slate-400">
+              <p className="text-[13px] leading-relaxed text-[#5C5248]">
                 <span className="mr-1">🔒</span> Conclua todos os 7 dias para desbloquear seu Certificado de Alinhamento Espiritual.
               </p>
             </div>
