@@ -10,7 +10,7 @@ import {
   Heart, X, Shield, Clock, HelpCircle, User
 } from 'lucide-react';
 import { UserProfile } from '../types';
-import brandEmblemImg from '../assets/images/cura_integrada_sacred_emblem_1787104270641.jpg';
+import { APPROVED_LOGO_DATA_URI } from './ApprovedBrand';
 
 interface ContactModalProps {
   isOpen: boolean;
@@ -97,10 +97,10 @@ export default function ContactModal({
           <div className="flex items-center gap-3">
             <div className="w-12 h-12 rounded-2xl overflow-hidden border border-emerald-500/30 shrink-0 shadow-md">
               <img
-                src={brandEmblemImg}
+                src={APPROVED_LOGO_DATA_URI}
                 alt="Emblema Sagrado Cura Integrada"
                 referrerPolicy="no-referrer"
-                className="w-full h-full object-cover"
+                className="w-full h-full object-contain"
               />
             </div>
             <div>
