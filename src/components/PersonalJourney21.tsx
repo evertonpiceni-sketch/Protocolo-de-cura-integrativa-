@@ -1,9 +1,10 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { motion } from 'motion/react';
-import { ArrowLeft, Check, ChevronLeft, ChevronRight, Headphones, Pause, Play, RotateCcw, ShieldCheck, Sparkles, X } from 'lucide-react';
+import { ArrowLeft, Check, ChevronLeft, ChevronRight, Headphones, Pause, Play, RotateCcw, ShieldCheck, X } from 'lucide-react';
 import { REINTEGRATION_DAYS, getReintegrationAcceptance } from '../data/reintegrationJourneyPublic';
 import brandLogo from '../assets/images/cura_integrada_sacred_emblem_1787104270641.jpg';
 import { audioEngine } from '../lib/audio';
+import { JourneyDayVisualPreview } from './VideoStudioLightModal';
 
 type Props = { onClose: () => void };
 const STORAGE_KEY = 'transformacao_jornada_pessoal_21_dias_v1';
@@ -176,15 +177,8 @@ export default function PersonalJourney21({ onClose }: Props) {
             <div className="relative flex h-[500px] flex-col items-center justify-center overflow-hidden bg-gradient-to-b from-[#FFFDFC] to-[#F8F2E9] px-6">
               <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(226,185,107,.18),transparent_42%)]" />
               <div className="relative z-10 flex w-full flex-col items-center">
-                <div className="relative mb-8 flex h-52 w-52 items-center justify-center">
-                  <motion.div
-                    animate={{ scale: playing ? [1, 1.035, 1] : 1, opacity: playing ? [0.9, 1, 0.9] : 1 }}
-                    transition={{ repeat: playing ? Infinity : 0, duration: 6, ease: 'easeInOut' }}
-                    className="absolute inset-0 rounded-full border border-[#C89D52]/40 bg-gradient-to-tr from-[#F7EFE4] to-white shadow-xl shadow-[#C89D52]/10"
-                  />
-                  <div className="relative z-10 flex h-36 w-36 items-center justify-center rounded-full border border-[#E8DFCF] bg-[#FAF7F2]/80">
-                    <Sparkles className="h-9 w-9 text-[#C89D52]" />
-                  </div>
+                <div className="relative mb-8 w-full max-w-sm">
+                  <JourneyDayVisualPreview day={day} />
                 </div>
                 <div className="w-full max-w-sm rounded-2xl border border-[#E8E0D5] bg-white/85 p-4 text-center shadow-sm backdrop-blur-md">
                   <p className="text-xs font-semibold uppercase tracking-[.18em] text-[#C89D52]">{playing?'Meditação guiada em andamento':'Sua meditação guiada'}</p>
@@ -209,15 +203,8 @@ export default function PersonalJourney21({ onClose }: Props) {
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(226,185,107,.16),transparent_46%)]"/>
       <button onClick={()=>{stopSession();setStarted(false);}} className="absolute right-4 top-[max(1rem,env(safe-area-inset-top))] z-20 rounded-full border border-[#E0D4C3] bg-white/80 p-3 text-[#524842] shadow-sm backdrop-blur-md" aria-label="Fechar meditação"><X size={22}/></button>
       <div className="relative z-10 flex flex-1 items-center justify-center">
-        <div className="relative flex h-[72vw] max-h-[430px] w-[72vw] max-w-[430px] items-center justify-center">
-          <motion.div
-            animate={{ scale: playing ? [1, 1.035, 1] : 1, opacity: playing ? [0.9, 1, 0.9] : 1 }}
-            transition={{ repeat: playing ? Infinity : 0, duration: 6, ease: 'easeInOut' }}
-            className="absolute inset-0 rounded-full border border-[#C89D52]/40 bg-gradient-to-tr from-[#F7EFE4] to-white shadow-[0_20px_70px_rgba(200,157,82,.14)]"
-          />
-          <div className="relative z-10 flex h-[58%] w-[58%] items-center justify-center rounded-full border border-[#E8DFCF] bg-[#FAF7F2]/85">
-            <Sparkles className="h-10 w-10 text-[#C89D52]" />
-          </div>
+        <div className="relative w-[82vw] max-w-[430px]">
+          <JourneyDayVisualPreview day={day} />
         </div>
       </div>
       <div className="relative z-10 space-y-4 bg-gradient-to-t from-[#FAF7F2] via-[#FAF7F2]/96 to-transparent px-6 pb-[max(1.5rem,env(safe-area-inset-bottom))] pt-12 text-center">
