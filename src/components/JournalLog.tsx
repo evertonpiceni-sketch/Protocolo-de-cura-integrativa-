@@ -43,7 +43,7 @@ export default function JournalLog({ progress, onClose }: JournalLogProps) {
       case 1: return "text-red-400 bg-red-500/10 border-red-500/20";
       case 2: return "text-amber-400 bg-amber-500/10 border-amber-500/20";
       case 3: return "text-blue-400 bg-blue-500/10 border-blue-500/20";
-      case 4: return "text-indigo-400 bg-indigo-500/10 border-indigo-500/20";
+      case 4: return "text-[#B88736] bg-[#B88736]/10 border-[#B88736]/20";
       case 5: return "text-emerald-400 bg-emerald-500/10 border-emerald-500/20";
       default: return "text-emerald-400 bg-emerald-500/10 border-emerald-500/20";
     }
@@ -111,34 +111,34 @@ export default function JournalLog({ progress, onClose }: JournalLogProps) {
   return (
     <div className="max-w-4xl mx-auto px-4 py-6 space-y-6" id="journal-dashboard-view">
       {/* Header */}
-      <div className="flex items-center justify-between border-b border-slate-800 pb-4">
+      <div className="flex items-center justify-between border-b border-[#E5DAC6] pb-4">
         <div className="flex items-center gap-3">
           <button
             onClick={onClose}
-            className="p-2.5 bg-slate-900 border border-slate-800 text-slate-400 hover:text-slate-200 rounded-xl transition cursor-pointer"
+            className="p-2.5 bg-[#FBF8F2] border border-[#E5DAC6] text-[#5C5248] hover:text-[#2A2420] rounded-xl transition cursor-pointer"
             id="btn-back-from-journal"
           >
             <ArrowLeft size={16} />
           </button>
           <div>
-            <h1 className="text-xl font-display font-medium text-slate-100 flex items-center gap-2">
-              <BookOpen size={20} className="text-indigo-400" />
+            <h1 className="text-xl font-display font-medium text-[#2A2420] flex items-center gap-2">
+              <BookOpen size={20} className="text-[#B88736]" />
               Diário de Cura Integrada
             </h1>
-            <p className="text-xs text-slate-500 font-sans mt-0.5">
+            <p className="text-xs text-[#85786C] font-sans mt-0.5">
               Reflexões e insights salvos durante as sessões do protocolo.
             </p>
           </div>
         </div>
 
         <div className="flex items-center gap-2">
-          <span className="text-xs font-mono text-indigo-400 bg-indigo-500/10 px-3 py-1.5 rounded-full border border-indigo-500/20">
+          <span className="text-xs font-mono text-[#B88736] bg-[#B88736]/10 px-3 py-1.5 rounded-full border border-[#B88736]/20">
             {completedEntries.length} {completedEntries.length === 1 ? 'Sessão' : 'Sessões'}
           </span>
           {completedEntries.length > 0 && (
             <button
               onClick={exportToTxt}
-              className="text-xs font-medium px-3.5 py-1.5 rounded-full bg-indigo-600 hover:bg-indigo-500 text-white flex items-center gap-1.5 cursor-pointer transition shadow-lg shadow-indigo-500/10 hover:shadow-indigo-500/20 active:scale-95 border border-indigo-500/30 font-sans"
+              className="text-xs font-medium px-3.5 py-1.5 rounded-full bg-[#B88736] hover:bg-[#B88736] text-white flex items-center gap-1.5 cursor-pointer transition shadow-lg shadow-indigo-500/10 hover:shadow-indigo-500/20 active:scale-95 border border-[#B88736]/30 font-sans"
               id="btn-export-journal"
               title="Exportar reflexões como arquivo de texto (.txt)"
             >
@@ -153,7 +153,7 @@ export default function JournalLog({ progress, onClose }: JournalLogProps) {
       {/* Filter and search */}
       {completedEntries.length > 0 && (
         <div className="relative" id="journal-search-container">
-          <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-500">
+          <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-[#85786C]">
             <Search size={16} />
           </div>
           <input
@@ -161,7 +161,7 @@ export default function JournalLog({ progress, onClose }: JournalLogProps) {
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             placeholder="Pesquisar nos diários de cura (Ex: clareza, insônia, paz...)"
-            className="w-full bg-slate-900 border border-slate-850 focus:border-indigo-500 text-slate-200 rounded-xl py-3 pl-11 pr-4 text-xs outline-none transition"
+            className="w-full bg-[#FBF8F2] border border-[#E5DAC6] focus:border-[#B88736] text-[#2A2420] rounded-xl py-3 pl-11 pr-4 text-xs outline-none transition"
           />
         </div>
       )}
@@ -170,26 +170,26 @@ export default function JournalLog({ progress, onClose }: JournalLogProps) {
       <div className="space-y-4" id="journal-timeline-list">
         {completedEntries.length === 0 ? (
           /* Empty state */
-          <div className="text-center py-16 space-y-4 bg-slate-900/40 border border-slate-800/80 rounded-3xl p-6" id="journal-empty-state">
-            <div className="w-14 h-14 bg-slate-900 border border-slate-800 text-slate-600 rounded-2xl flex items-center justify-center mx-auto">
+          <div className="text-center py-16 space-y-4 bg-[#FBF8F2]/40 border border-[#E5DAC6] rounded-3xl p-6" id="journal-empty-state">
+            <div className="w-14 h-14 bg-[#FBF8F2] border border-[#E5DAC6] text-[#85786C] rounded-2xl flex items-center justify-center mx-auto">
               <BookOpen size={22} />
             </div>
             <div className="space-y-1.5">
-              <h3 className="text-sm font-display font-medium text-slate-300">
+              <h3 className="text-sm font-display font-medium text-[#5C5248]">
                 O Diário está em silêncio...
               </h3>
-              <p className="text-xs text-slate-500 max-w-sm mx-auto leading-relaxed">
+              <p className="text-xs text-[#85786C] max-w-sm mx-auto leading-relaxed">
                 Ao completar a meditação guiada de hoje, você poderá escrever e registrar como se sente aqui.
               </p>
             </div>
             
-            <div className="max-w-xs mx-auto border-t border-slate-800/60 pt-4 text-slate-500 text-[11px] italic font-sans">
+            <div className="max-w-xs mx-auto border-t border-[#E5DAC6]/60 pt-4 text-[#85786C] text-[11px] italic font-sans">
               "Você é perfeito... Você é luz... Você é um reflexo da Fonte Criadora."
             </div>
           </div>
         ) : filteredEntries.length === 0 ? (
           /* Search mismatch state */
-          <div className="text-center py-12 text-slate-500 text-xs font-sans">
+          <div className="text-center py-12 text-[#85786C] text-xs font-sans">
             Nenhuma reflexão encontrada para a pesquisa: "{searchQuery}"
           </div>
         ) : (
@@ -207,21 +207,21 @@ export default function JournalLog({ progress, onClose }: JournalLogProps) {
             return (
               <div
                 key={entry.dayNumber}
-                className="bg-slate-900 border border-slate-850/60 rounded-2xl p-5 space-y-4 hover:border-slate-800 transition"
+                className="bg-[#FBF8F2] border border-[#E5DAC6]/60 rounded-2xl p-5 space-y-4 hover:border-[#E5DAC6] transition"
                 id={`journal-log-entry-${entry.dayNumber}`}
               >
                 {/* Header card metrics */}
                 <div className="flex flex-wrap items-center justify-between gap-3 border-b border-slate-950 pb-3">
                   <div className="space-y-1">
                     <div className="flex items-center gap-2">
-                      <span className="text-[10px] font-mono bg-indigo-500/10 text-indigo-300 border border-indigo-500/20 px-2 py-0.5 rounded uppercase">
+                      <span className="text-[10px] font-mono bg-[#B88736]/10 text-[#B88736] border border-[#B88736]/20 px-2 py-0.5 rounded uppercase">
                         Dia {entry.dayNumber.toString().padStart(2, '0')}
                       </span>
-                      <h3 className="text-xs font-display font-medium text-slate-200">
+                      <h3 className="text-xs font-display font-medium text-[#2A2420]">
                         {insight?.title || "Sessão de Cura"}
                       </h3>
                     </div>
-                    <div className="flex items-center gap-1 text-[10px] text-slate-500 font-mono">
+                    <div className="flex items-center gap-1 text-[10px] text-[#85786C] font-mono">
                       <Calendar size={10} />
                       <span>{dateStr}</span>
                     </div>
@@ -235,34 +235,34 @@ export default function JournalLog({ progress, onClose }: JournalLogProps) {
 
                 {/* Before vs After Comparative Block */}
                 {entry.beforeFeeling ? (
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-2.5 p-3 rounded-xl bg-slate-950/70 border border-slate-850">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-2.5 p-3 rounded-xl bg-white/75 border border-[#E5DAC6]">
                     {/* Before Card */}
                     <div className="space-y-1.5 text-xs">
                       <div className="flex items-center justify-between">
-                        <span className="text-[10px] font-mono text-slate-500 uppercase">1. Antes do Tratamento</span>
-                        <span className="text-[10px] font-mono text-slate-400">Nota {entry.beforeFeeling.mood}/5</span>
+                        <span className="text-[10px] font-mono text-[#85786C] uppercase">1. Antes do Tratamento</span>
+                        <span className="text-[10px] font-mono text-[#5C5248]">Nota {entry.beforeFeeling.mood}/5</span>
                       </div>
-                      <div className="text-slate-300 font-medium text-xs">
+                      <div className="text-[#5C5248] font-medium text-xs">
                         {entry.beforeFeeling.stateTitle || getMoodLabel(entry.beforeFeeling.mood)}
                       </div>
                       {entry.beforeFeeling.sensations && entry.beforeFeeling.sensations.length > 0 && (
                         <div className="flex flex-wrap gap-1">
                           {entry.beforeFeeling.sensations.map(s => (
-                            <span key={s} className="px-1.5 py-0.2 rounded bg-slate-900 border border-slate-800 text-slate-400 text-[9px]">
+                            <span key={s} className="px-1.5 py-0.2 rounded bg-[#FBF8F2] border border-[#E5DAC6] text-[#5C5248] text-[9px]">
                               {s}
                             </span>
                           ))}
                         </div>
                       )}
                       {entry.beforeFeeling.notes && (
-                        <p className="text-[11px] text-slate-400 italic bg-slate-900/50 p-2 rounded-lg border border-slate-850/80">
+                        <p className="text-[11px] text-[#5C5248] italic bg-[#FBF8F2]/75 p-2 rounded-lg border border-[#E5DAC6]/80">
                           "{entry.beforeFeeling.notes}"
                         </p>
                       )}
                     </div>
 
                     {/* After Card */}
-                    <div className="space-y-1.5 text-xs border-t md:border-t-0 md:border-l border-slate-850 pt-2 md:pt-0 md:pl-2.5">
+                    <div className="space-y-1.5 text-xs border-t md:border-t-0 md:border-l border-[#E5DAC6] pt-2 md:pt-0 md:pl-2.5">
                       <div className="flex items-center justify-between">
                         <span className="text-[10px] font-mono text-emerald-400 uppercase">2. Após o Tratamento</span>
                         <span className="text-[10px] font-mono text-emerald-400">Nota {entry.afterFeeling?.mood || entry.mood || 5}/5</span>
@@ -279,24 +279,24 @@ export default function JournalLog({ progress, onClose }: JournalLogProps) {
                           ))}
                         </div>
                       )}
-                      <p className="text-[11px] text-slate-200 leading-relaxed bg-emerald-950/20 p-2 rounded-lg border border-emerald-500/20">
+                      <p className="text-[11px] text-[#2A2420] leading-relaxed bg-emerald-950/20 p-2 rounded-lg border border-emerald-500/20">
                         {entry.afterFeeling?.notes || entry.journalText || "Sessão concluída com sucesso e selada no DNA."}
                       </p>
                     </div>
                   </div>
                 ) : (
                   /* Standard Journal Content */
-                  <div className="text-xs text-slate-300 leading-relaxed font-sans whitespace-pre-wrap">
+                  <div className="text-xs text-[#5C5248] leading-relaxed font-sans whitespace-pre-wrap">
                     {entry.journalText ? (
                       entry.journalText
                     ) : (
-                      <span className="text-slate-600 italic">Sessão concluída com sucesso sem anotações extras.</span>
+                      <span className="text-[#85786C] italic">Sessão concluída com sucesso sem anotações extras.</span>
                     )}
                   </div>
                 )}
 
                 {/* Healing Focus Anchor footer */}
-                <div className="flex items-center gap-1.5 text-[10px] text-slate-500 bg-slate-950/40 p-2.5 rounded-lg border border-slate-900">
+                <div className="flex items-center gap-1.5 text-[10px] text-[#85786C] bg-white/40 p-2.5 rounded-lg border border-[#E5DAC6]">
                   <Heart size={10} className="text-indigo-500/70" />
                   <span><strong>Foco:</strong> {insight?.focus}</span>
                 </div>
