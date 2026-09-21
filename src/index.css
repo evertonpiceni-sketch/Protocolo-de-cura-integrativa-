@@ -383,19 +383,6 @@ input::placeholder,textarea::placeholder{color:#9E9080!important}
   background:linear-gradient(145deg,rgba(6,44,31,.88),rgba(3,31,22,.92))!important;
   border-color:rgba(214,174,82,.18)!important;
 }
-#profile-setup-view .bg-slate-950,
-#profile-setup-view .bg-slate-950\/70{
-  background:rgba(2,25,18,.88)!important;
-}
-#profile-setup-view .border-slate-800,
-#profile-setup-view .border-slate-800\/80,
-#profile-setup-view .border-slate-800\/60{
-  border-color:rgba(214,174,82,.16)!important;
-}
-#profile-setup-view .text-slate-400{color:#9fb7a9!important}
-#profile-setup-view .text-slate-300{color:#c9d9ce!important}
-#profile-setup-view .text-slate-100,
-#profile-setup-view .text-slate-200{color:#2A2420!important}
 #profile-setup-view .ep-brand-signature-wrap{
   opacity:.38!important;
   border-color:rgba(214,174,82,.18)!important;
