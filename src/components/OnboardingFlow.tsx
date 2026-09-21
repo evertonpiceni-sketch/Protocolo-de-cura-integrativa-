@@ -14,19 +14,19 @@ export default function OnboardingFlow({ onComplete }: OnboardingFlowProps) {
   const [intention, setIntention] = useState('');
   const next = () => step < 6 ? setStep(s => s + 1) : onComplete();
 
-  return <div className="fixed inset-0 z-[100] overflow-y-auto bg-[radial-gradient(circle_at_50%_0,rgba(214,174,82,.14),transparent_28rem),linear-gradient(180deg,#052a1e,#031b13)] text-[#fff8e7]">
+  return <div className="fixed inset-0 z-[100] overflow-y-auto bg-[radial-gradient(circle_at_50%_0,rgba(214,174,82,.14),transparent_28rem),linear-gradient(180deg,#052a1e,#031b13)] text-[#2A2420]">
     <div className="min-h-full flex items-center justify-center p-5">
       <AnimatePresence mode="wait">
         <motion.main key={step} initial={{opacity:0,y:18}} animate={{opacity:1,y:0}} exit={{opacity:0,y:-14}}
-          className="relative w-full max-w-md overflow-hidden rounded-[2rem] border border-[#d6ae52]/28 bg-[linear-gradient(145deg,rgba(7,52,38,.97),rgba(3,27,19,.98))] p-7 shadow-[0_28px_80px_rgba(0,0,0,.42)] backdrop-blur-xl">
+          className="relative w-full max-w-md overflow-hidden rounded-[2rem] border border-[#B88736]/28 bg-[linear-gradient(145deg,rgba(7,52,38,.97),rgba(3,27,19,.98))] p-7 shadow-[0_28px_80px_rgba(0,0,0,.42)] backdrop-blur-xl">
           <div className="pointer-events-none absolute inset-x-0 top-0 h-40 bg-[radial-gradient(circle_at_50%_0,rgba(239,215,143,.13),transparent_70%)]" />
-          <div className="ep-brand-signature-wrap relative mx-auto mb-7 flex h-20 w-20 items-center justify-center overflow-hidden rounded-full border border-[#d6ae52]/24 bg-[#031b13]/55"><img src={APPROVED_LOGO_DATA_URI} alt="Everton Piceni — Terapias Holísticas e Bem-Estar" className="ep-brand-signature h-full w-full object-contain" /></div>
+          <div className="ep-brand-signature-wrap relative mx-auto mb-7 flex h-20 w-20 items-center justify-center overflow-hidden rounded-full border border-[#B88736]/24 bg-white/65"><img src={APPROVED_LOGO_DATA_URI} alt="Everton Piceni — Terapias Holísticas e Bem-Estar" className="ep-brand-signature h-full w-full object-contain" /></div>
           <div className="relative mb-7 h-px w-16 bg-gradient-to-r from-transparent via-[#d6ae52] to-transparent" />
 
           {step === 1 && <section className="space-y-6">
             <p className="text-xs uppercase tracking-[.28em] text-[#d5ba78]">Everton Piceni · Terapias Holísticas e Bem-Estar</p>
             <h1 className="font-display text-4xl leading-tight">Seu momento começa aqui.</h1>
-            <p className="text-[#e8dfc9] leading-relaxed">Um espaço para respirar, acolher e voltar para si. Aqui, ninguém precisa estar bem para ser bem-vindo.</p>
+            <p className="text-[#5C5248] leading-relaxed">Um espaço para respirar, acolher e voltar para si. Aqui, ninguém precisa estar bem para ser bem-vindo.</p>
             <button onClick={next} className="ep-gold-button w-full rounded-2xl py-4 font-semibold">Começar <ArrowRight className="inline ml-2" size={18}/></button>
           </section>}
 
@@ -39,34 +39,34 @@ export default function OnboardingFlow({ onComplete }: OnboardingFlowProps) {
               <p>Não estou aqui porque tenho todas as respostas. Estou aqui porque sei como é precisar de acolhimento e não encontrá-lo.</p>
               <p className="text-[#d5ba78]">Minha experiência não substitui profissionais de saúde. Ela me ensinou a não olhar para a dor de alguém de cima para baixo.</p>
             </div>
-            <button onClick={next} className="w-full rounded-2xl border border-[#d6ae52]/38 bg-[#073426]/78 py-4 font-semibold text-[#f3dfaa] shadow-[0_10px_26px_rgba(0,0,0,.16)]">Continuar</button>
+            <button onClick={next} className="w-full rounded-2xl border border-[#B88736]/38 bg-[#073426]/78 py-4 font-semibold text-[#f3dfaa] shadow-[0_10px_26px_rgba(0,0,0,.16)]">Continuar</button>
           </section>}
 
           {step === 3 && <section className="space-y-6">
             <h1 className="font-display text-4xl">Agora é sobre você.</h1>
-            <p className="leading-relaxed text-[#e8dfc9]">Talvez a minha história seja diferente da sua. Este espaço não existe para que você siga os meus passos. Existe para convidar você a olhar para os seus.</p>
+            <p className="leading-relaxed text-[#5C5248]">Talvez a minha história seja diferente da sua. Este espaço não existe para que você siga os meus passos. Existe para convidar você a olhar para os seus.</p>
             <p className="font-display text-2xl text-[#d5ba78]">Quando foi a última vez que você realmente se perguntou como está?</p>
             <button onClick={next} className="ep-gold-button w-full rounded-2xl py-4 font-semibold">Quero olhar para mim</button>
           </section>}
 
           {step === 4 && <section className="space-y-5">
             <h1 className="font-display text-3xl text-[#e1c171]">Como você está, de verdade?</h1>
-            <p className="text-sm text-[#e8dfc9]">Não existe resposta certa. Aqui você pode ser sincero.</p>
-            <div className="grid gap-2">{feelings.map(x => <button key={x} onClick={()=>setFeeling(x)} className={`rounded-2xl border px-4 py-3.5 text-left shadow-[inset_0_1px_0_rgba(255,255,255,.02)] ${feeling===x?'border-[#d6ae52]/60 bg-[#d6ae52]/12 text-[#fff8e7]':'border-[#d6ae52]/14 bg-[#031b13]/38 text-[#d7e4db]'}`}>{x}</button>)}</div>
+            <p className="text-sm text-[#5C5248]">Não existe resposta certa. Aqui você pode ser sincero.</p>
+            <div className="grid gap-2">{feelings.map(x => <button key={x} onClick={()=>setFeeling(x)} className={`rounded-2xl border px-4 py-3.5 text-left shadow-[inset_0_1px_0_rgba(255,255,255,.02)] ${feeling===x?'border-[#B88736]/60 bg-[#B88736]/12 text-[#2A2420]':'border-[#B88736]/14 bg-white/70 text-[#5C5248]'}`}>{x}</button>)}</div>
             <button disabled={!feeling} onClick={next} className="ep-gold-button w-full rounded-2xl py-4 font-semibold disabled:opacity-40">Continuar</button>
           </section>}
 
           {step === 5 && <section className="space-y-5">
             <h1 className="font-display text-3xl">O que ainda importa para você?</h1>
-            <p className="text-sm text-[#e8dfc9]">Você não precisa ter todas as respostas. Escolha o que mais ressoa com você hoje.</p>
-            <div className="grid gap-2">{intentions.map(x => <button key={x} onClick={()=>setIntention(x)} className={`rounded-2xl border px-4 py-3.5 text-left shadow-[inset_0_1px_0_rgba(255,255,255,.02)] ${intention===x?'border-[#d6ae52]/60 bg-[#d6ae52]/12 text-[#fff8e7]':'border-[#d6ae52]/14 bg-[#031b13]/38 text-[#d7e4db]'}`}>{x}</button>)}</div>
+            <p className="text-sm text-[#5C5248]">Você não precisa ter todas as respostas. Escolha o que mais ressoa com você hoje.</p>
+            <div className="grid gap-2">{intentions.map(x => <button key={x} onClick={()=>setIntention(x)} className={`rounded-2xl border px-4 py-3.5 text-left shadow-[inset_0_1px_0_rgba(255,255,255,.02)] ${intention===x?'border-[#B88736]/60 bg-[#B88736]/12 text-[#2A2420]':'border-[#B88736]/14 bg-white/70 text-[#5C5248]'}`}>{x}</button>)}</div>
             <button disabled={!intention} onClick={next} className="ep-gold-button w-full rounded-2xl py-4 font-semibold disabled:opacity-40">Continuar</button>
           </section>}
 
           {step === 6 && <section className="space-y-6 text-center">
             <ShieldCheck className="mx-auto text-[#d5ba78]" size={38}/>
             <h1 className="font-display text-3xl">Você não precisa ter todas as respostas.</h1>
-            <p className="leading-relaxed text-[#e8dfc9]">Talvez só precise começar voltando para você. Este é um espaço de cuidado integrativo, presença e autoconhecimento — não substitui atendimento médico, psicológico ou psiquiátrico quando necessário.</p>
+            <p className="leading-relaxed text-[#5C5248]">Talvez só precise começar voltando para você. Este é um espaço de cuidado integrativo, presença e autoconhecimento — não substitui atendimento médico, psicológico ou psiquiátrico quando necessário.</p>
             <p className="font-display text-2xl text-[#d5ba78]">Eu estou caminhando também.</p>
             <button onClick={next} className="ep-gold-button w-full rounded-2xl py-4 font-semibold">Explorar o meu caminho</button>
             <p className="text-xs text-[#cbbf9f]">@terapiamorevida · Evoluir também é cuidar de si.</p>
