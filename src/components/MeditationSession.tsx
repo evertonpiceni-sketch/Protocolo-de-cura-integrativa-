@@ -19,7 +19,7 @@ import { requestWakeLock } from '../lib/wakeLockHelpers';
 import { AppLanguage, SUPPORTED_LANGUAGES, STAGE_AUDIO_TRANSLATIONS, UI_TRANSLATIONS } from '../lib/i18n';
 import { MessageCircle, Globe } from 'lucide-react';
 
-// Voz oficial deste protocolo nas jornadas de 7 e 21 dias (Marianne - Meditação).
+// Voz oficial desta jornada nas opções de 7, 14 e 21 dias (Marianne - Meditação).
 const PROTOCOL_PT_VOICE_ID = 'mJqP14JQFEK0PojR5lfV';
 
 const BEFORE_SENSATIONS = [
@@ -713,12 +713,12 @@ export default function MeditationSession({
             </h2>
             
             <p className="text-[#5C5248] text-xs md:text-sm leading-relaxed">
-              {currentDayInsight.description || "Abra seu coração para receber o alinhamento de hoje."}
+              {currentDayInsight.intention || "Permita-se chegar, respirar e viver a prática deste dia."}
             </p>
 
             <div className="text-left text-xs text-[#5C5248] font-sans leading-relaxed space-y-2 bg-[#FBF8F2]/75 p-4 rounded-xl border border-[#E5DAC6]">
               <p>
-                <strong className="text-amber-200/90 font-medium">E não se esqueça:</strong> esse é um complemento do seu tratamento, vai ajudar a elucidar o que de alguma forma, você ainda não se permitiu deixar ir.
+                <strong className="text-amber-200/90 font-medium">E não se esqueça:</strong> esta é uma prática integrativa de bem-estar espiritual e reflexão pessoal. Ela não substitui cuidados médicos, psicológicos ou psiquiátricos quando necessários.
               </p>
               <p>
                 A cada dia que fizer, anote as sensações e os sentimentos que vieram durante o tratamento; isso é muito importante para que eu saiba como você passou durante o processo.
@@ -836,9 +836,9 @@ export default function MeditationSession({
             {/* Scrolling decree text */}
             <div className="bg-white/80 border border-[#E5DAC6] rounded-2xl p-6 text-sm leading-relaxed text-[#5C5248] font-sans shadow-inner max-h-72 overflow-y-auto italic text-center space-y-4">
               <p className="text-base text-[#2A2420] leading-relaxed font-serif">
-                {<>
-                    "Eu, <span className="text-[#B88736] font-semibold underline underline-offset-4 decoration-[#B88736]/40">{userName}</span>, aceito receber neste momento, com todo o meu coração, a Jornada Única Integrada de {totalJourneyDays} dias, conforme canalizada e aplicada por Everton Rodrigo Piceni."
-                  </>}
+                <>
+                    Eu, <span className="text-[#B88736] font-semibold underline underline-offset-4 decoration-[#B88736]/40">{userName}</span>, aceito receber neste momento, com todo o meu coração, a Jornada Única Integrada de {totalJourneyDays} dias, conforme canalizada e aplicada por Everton Rodrigo Piceni.
+                  </>
               </p>
 
               {customDecree && (
