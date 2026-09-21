@@ -182,18 +182,18 @@ export default function AdminPanelModal({ isOpen, onClose }: AdminPanelModalProp
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-slate-950/90 backdrop-blur-md overflow-y-auto" id="admin-panel-modal">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-[#2A2420]/30 backdrop-blur-md overflow-y-auto" id="admin-panel-modal">
       <motion.div
         initial={{ opacity: 0, scale: 0.96, y: 15 }}
         animate={{ opacity: 1, scale: 1, y: 0 }}
         exit={{ opacity: 0, scale: 0.96, y: 15 }}
-        className="w-full max-w-3xl bg-slate-900 border border-slate-800 rounded-3xl p-5 sm:p-8 shadow-2xl space-y-6 relative overflow-hidden my-4 max-h-[92vh] overflow-y-auto"
+        className="w-full max-w-3xl bg-[#FBF8F2] border border-[#E5DAC6] rounded-3xl p-5 sm:p-8 shadow-2xl space-y-6 relative overflow-hidden my-4 max-h-[92vh] overflow-y-auto"
       >
         {/* Amber admin atmospheric aura */}
         <div className="absolute top-0 right-0 w-80 h-80 bg-amber-500/10 rounded-full blur-3xl pointer-events-none" />
 
         {/* Header */}
-        <div className="flex items-center justify-between border-b border-slate-800 pb-4">
+        <div className="flex items-center justify-between border-b border-[#E5DAC6] pb-4">
           <div className="flex items-center gap-3">
             <div className="w-12 h-12 rounded-2xl bg-amber-500/10 border border-amber-500/30 text-amber-400 flex items-center justify-center shrink-0">
               <ShieldAlert size={24} className="animate-pulse" />
@@ -203,11 +203,11 @@ export default function AdminPanelModal({ isOpen, onClose }: AdminPanelModalProp
                 <span className="text-[10px] font-mono uppercase tracking-widest text-amber-400 bg-amber-500/10 border border-amber-500/20 px-2.5 py-0.5 rounded-full font-bold">
                   Área do Terapeuta
                 </span>
-                <span className="text-[10px] font-mono text-slate-400">
+                <span className="text-[10px] font-mono text-[#5C5248]">
                   Éverton Rodrigo Piceni
                 </span>
               </div>
-              <h2 className="text-base sm:text-xl font-display font-medium text-slate-100 mt-0.5">
+              <h2 className="text-base sm:text-xl font-display font-medium text-[#2A2420] mt-0.5">
                 Painel Administrativo & Gestão
               </h2>
             </div>
@@ -215,7 +215,7 @@ export default function AdminPanelModal({ isOpen, onClose }: AdminPanelModalProp
 
           <button
             onClick={onClose}
-            className="p-2 text-slate-400 hover:text-white bg-slate-800/60 hover:bg-slate-800 rounded-xl transition cursor-pointer border-none"
+            className="p-2 text-[#5C5248] hover:text-white bg-[#F5EFE4]/60 hover:bg-[#F5EFE4] rounded-xl transition cursor-pointer border-none"
           >
             <X size={18} />
           </button>
@@ -226,8 +226,8 @@ export default function AdminPanelModal({ isOpen, onClose }: AdminPanelModalProp
           <form onSubmit={handleLogin} className="max-w-md mx-auto space-y-4 py-6">
             <div className="text-center space-y-1.5">
               <Lock size={32} className="mx-auto text-amber-400 mb-2" />
-              <h3 className="text-base font-semibold text-slate-100">Acesso Restrito ao Administrador</h3>
-              <p className="text-xs text-slate-400 leading-relaxed">
+              <h3 className="text-base font-semibold text-[#2A2420]">Acesso Restrito ao Administrador</h3>
+              <p className="text-xs text-[#5C5248] leading-relaxed">
                 Área exclusiva para Éverton Rodrigo Piceni inserir áudios canalizados, gerenciar cupons e consulentes.
               </p>
             </div>
@@ -240,24 +240,24 @@ export default function AdminPanelModal({ isOpen, onClose }: AdminPanelModalProp
 
             <div className="space-y-3">
               <div className="space-y-1">
-                <label className="text-[11px] font-mono text-slate-400 block uppercase">E-mail do Administrador</label>
+                <label className="text-[11px] font-mono text-[#5C5248] block uppercase">E-mail do Administrador</label>
                 <input
                   type="email"
                   value={adminEmail}
                   onChange={(e) => setAdminEmail(e.target.value)}
-                  className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3.5 py-2.5 text-xs text-slate-200 focus:border-amber-500 outline-none font-mono"
+                  className="w-full bg-white border border-[#E5DAC6] rounded-xl px-3.5 py-2.5 text-xs text-[#2A2420] focus:border-amber-500 outline-none font-mono"
                   required
                 />
               </div>
 
               <div className="space-y-1">
-                <label className="text-[11px] font-mono text-slate-400 block uppercase">Senha Mestre</label>
+                <label className="text-[11px] font-mono text-[#5C5248] block uppercase">Senha Mestre</label>
                 <input
                   type="password"
                   placeholder="Digite sua senha de acesso..."
                   value={adminPass}
                   onChange={(e) => setAdminPass(e.target.value)}
-                  className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3.5 py-2.5 text-xs text-slate-200 focus:border-amber-500 outline-none"
+                  className="w-full bg-white border border-[#E5DAC6] rounded-xl px-3.5 py-2.5 text-xs text-[#2A2420] focus:border-amber-500 outline-none"
                   required
                 />
               </div>
@@ -274,13 +274,13 @@ export default function AdminPanelModal({ isOpen, onClose }: AdminPanelModalProp
         ) : (
           <div className="space-y-6">
             {/* Navigation Tabs */}
-            <div className="flex items-center gap-2 border-b border-slate-800 pb-2 overflow-x-auto">
+            <div className="flex items-center gap-2 border-b border-[#E5DAC6] pb-2 overflow-x-auto">
               <button
                 onClick={() => setActiveTab('audios')}
                 className={`px-4 py-2 rounded-xl text-xs font-mono font-semibold flex items-center gap-2 transition cursor-pointer border ${
                   activeTab === 'audios'
                     ? 'bg-amber-500/10 border-amber-500 text-amber-300'
-                    : 'bg-slate-950 border-slate-800 text-slate-400 hover:text-slate-200'
+                    : 'bg-white border-[#E5DAC6] text-[#5C5248] hover:text-[#2A2420]'
                 }`}
               >
                 <FileAudio size={14} />
@@ -292,7 +292,7 @@ export default function AdminPanelModal({ isOpen, onClose }: AdminPanelModalProp
                 className={`px-4 py-2 rounded-xl text-xs font-mono font-semibold flex items-center gap-2 transition cursor-pointer border ${
                   activeTab === 'coupons'
                     ? 'bg-amber-500/10 border-amber-500 text-amber-300'
-                    : 'bg-slate-950 border-slate-800 text-slate-400 hover:text-slate-200'
+                    : 'bg-white border-[#E5DAC6] text-[#5C5248] hover:text-[#2A2420]'
                 }`}
               >
                 <Tag size={14} />
@@ -304,7 +304,7 @@ export default function AdminPanelModal({ isOpen, onClose }: AdminPanelModalProp
                 className={`px-4 py-2 rounded-xl text-xs font-mono font-semibold flex items-center gap-2 transition cursor-pointer border ${
                   activeTab === 'users'
                     ? 'bg-amber-500/10 border-amber-500 text-amber-300'
-                    : 'bg-slate-950 border-slate-800 text-slate-400 hover:text-slate-200'
+                    : 'bg-white border-[#E5DAC6] text-[#5C5248] hover:text-[#2A2420]'
                 }`}
               >
                 <Users size={14} />
@@ -314,7 +314,7 @@ export default function AdminPanelModal({ isOpen, onClose }: AdminPanelModalProp
               <button
                 type="button"
                 onClick={() => setShowVideoStudio(true)}
-                className="px-4 py-2 rounded-xl text-xs font-mono font-semibold flex items-center gap-2 transition cursor-pointer border bg-[#d6ae52]/15 border-[#d6ae52]/40 text-[#e8d38f] hover:bg-[#d6ae52]/25 shadow-sm"
+                className="px-4 py-2 rounded-xl text-xs font-mono font-semibold flex items-center gap-2 transition cursor-pointer border bg-[#B88736]/15 border-[#B88736]/40 text-[#B88736] hover:bg-[#B88736]/25 shadow-sm"
               >
                 <Video size={14} />
                 <span>Estúdio de Vídeos & Vinhetas</span>
@@ -325,45 +325,45 @@ export default function AdminPanelModal({ isOpen, onClose }: AdminPanelModalProp
             {activeTab === 'audios' && (
               <div className="space-y-6">
                 {/* Form to insert custom audio */}
-                <form onSubmit={handleAddAudio} className="p-4 sm:p-5 rounded-2xl bg-slate-950 border border-slate-800 space-y-4">
+                <form onSubmit={handleAddAudio} className="p-4 sm:p-5 rounded-2xl bg-white border border-[#E5DAC6] space-y-4">
                   <div className="flex items-center gap-2">
                     <UploadCloud size={16} className="text-amber-400" />
-                    <h4 className="text-xs font-mono font-bold text-slate-200 uppercase">
+                    <h4 className="text-xs font-mono font-bold text-[#2A2420] uppercase">
                       Inserir Novo Áudio Personalizado Canalizado
                     </h4>
                   </div>
 
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                     <div className="space-y-1">
-                      <label className="text-[10px] font-mono text-slate-400 uppercase block">Título do Áudio / Foco</label>
+                      <label className="text-[10px] font-mono text-[#5C5248] uppercase block">Título do Áudio / Foco</label>
                       <input
                         type="text"
                         placeholder="Ex: Meditação Especial de Quebra de Amarras"
                         value={newAudioTitle}
                         onChange={(e) => setNewAudioTitle(e.target.value)}
-                        className="w-full bg-slate-900 border border-slate-800 rounded-xl px-3 py-2 text-xs text-slate-200 focus:border-amber-500 outline-none"
+                        className="w-full bg-[#FBF8F2] border border-[#E5DAC6] rounded-xl px-3 py-2 text-xs text-[#2A2420] focus:border-amber-500 outline-none"
                         required
                       />
                     </div>
 
                     <div className="space-y-1">
-                      <label className="text-[10px] font-mono text-slate-400 uppercase block">Link / URL do Áudio MP3</label>
+                      <label className="text-[10px] font-mono text-[#5C5248] uppercase block">Link / URL do Áudio MP3</label>
                       <input
                         type="url"
                         placeholder="https://exemplo.com/audio.mp3"
                         value={newAudioUrl}
                         onChange={(e) => setNewAudioUrl(e.target.value)}
-                        className="w-full bg-slate-900 border border-slate-800 rounded-xl px-3 py-2 text-xs text-slate-200 focus:border-amber-500 outline-none font-mono"
+                        className="w-full bg-[#FBF8F2] border border-[#E5DAC6] rounded-xl px-3 py-2 text-xs text-[#2A2420] focus:border-amber-500 outline-none font-mono"
                         required
                       />
                     </div>
 
                     <div className="space-y-1">
-                      <label className="text-[10px] font-mono text-slate-400 uppercase block">Vincular ao Dia (1 a 21)</label>
+                      <label className="text-[10px] font-mono text-[#5C5248] uppercase block">Vincular ao Dia (1 a 21)</label>
                       <select
                         value={newAudioDay}
                         onChange={(e) => setNewAudioDay(parseInt(e.target.value))}
-                        className="w-full bg-slate-900 border border-slate-800 rounded-xl px-3 py-2 text-xs text-slate-200 focus:border-amber-500 outline-none font-mono"
+                        className="w-full bg-[#FBF8F2] border border-[#E5DAC6] rounded-xl px-3 py-2 text-xs text-[#2A2420] focus:border-amber-500 outline-none font-mono"
                       >
                         {Array.from({ length: 21 }, (_, i) => i + 1).map(day => (
                           <option key={day} value={day}>Dia {day.toString().padStart(2, '0')}</option>
@@ -372,25 +372,25 @@ export default function AdminPanelModal({ isOpen, onClose }: AdminPanelModalProp
                     </div>
 
                     <div className="space-y-1">
-                      <label className="text-[10px] font-mono text-slate-400 uppercase block">Login do Consulente (Opcional - Vazio = Todos)</label>
+                      <label className="text-[10px] font-mono text-[#5C5248] uppercase block">Login do Consulente (Opcional - Vazio = Todos)</label>
                       <input
                         type="text"
                         placeholder="Deixe em branco para todos ou digite o login..."
                         value={newAudioUser}
                         onChange={(e) => setNewAudioUser(e.target.value)}
-                        className="w-full bg-slate-900 border border-slate-800 rounded-xl px-3 py-2 text-xs text-slate-200 focus:border-amber-500 outline-none font-mono"
+                        className="w-full bg-[#FBF8F2] border border-[#E5DAC6] rounded-xl px-3 py-2 text-xs text-[#2A2420] focus:border-amber-500 outline-none font-mono"
                       />
                     </div>
                   </div>
 
                   <div className="space-y-1">
-                    <label className="text-[10px] font-mono text-slate-400 uppercase block">Orientações Terapêuticas do Áudio</label>
+                    <label className="text-[10px] font-mono text-[#5C5248] uppercase block">Orientações Terapêuticas do Áudio</label>
                     <input
                       type="text"
                       placeholder="Instruções para o consulente ao ouvir este áudio..."
                       value={newAudioNotes}
                       onChange={(e) => setNewAudioNotes(e.target.value)}
-                      className="w-full bg-slate-900 border border-slate-800 rounded-xl px-3 py-2 text-xs text-slate-200 focus:border-amber-500 outline-none"
+                      className="w-full bg-[#FBF8F2] border border-[#E5DAC6] rounded-xl px-3 py-2 text-xs text-[#2A2420] focus:border-amber-500 outline-none"
                     />
                   </div>
 
@@ -405,21 +405,21 @@ export default function AdminPanelModal({ isOpen, onClose }: AdminPanelModalProp
 
                 {/* List of uploaded audios */}
                 <div className="space-y-3">
-                  <h4 className="text-xs font-mono font-bold text-slate-400 uppercase">
+                  <h4 className="text-xs font-mono font-bold text-[#5C5248] uppercase">
                     Áudios Ativos no Sistema ({customAudios.length})
                   </h4>
 
                   {customAudios.length === 0 ? (
-                    <div className="p-6 rounded-2xl bg-slate-950/50 border border-slate-850 text-center text-xs text-slate-500">
+                    <div className="p-6 rounded-2xl bg-white/65 border border-[#E5DAC6] text-center text-xs text-[#85786C]">
                       Nenhum áudio personalizado adicionado ainda. Preencha o formulário acima para inserir.
                     </div>
                   ) : (
                     <div className="space-y-2">
                       {customAudios.map(audio => (
-                        <div key={audio.id} className="p-3.5 rounded-xl bg-slate-950 border border-slate-800 flex items-center justify-between gap-3">
+                        <div key={audio.id} className="p-3.5 rounded-xl bg-white border border-[#E5DAC6] flex items-center justify-between gap-3">
                           <div className="min-w-0 flex-1">
                             <div className="flex items-center gap-2">
-                              <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-indigo-500/10 text-indigo-400 border border-indigo-500/20 font-bold">
+                              <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-[#B88736]/10 text-[#B88736] border border-[#B88736]/20 font-bold">
                                 Dia {audio.targetDayNumber || 1}
                               </span>
                               {audio.targetUserLogin && (
@@ -428,14 +428,14 @@ export default function AdminPanelModal({ isOpen, onClose }: AdminPanelModalProp
                                 </span>
                               )}
                             </div>
-                            <h5 className="text-xs font-semibold text-slate-200 mt-1 truncate">{audio.title}</h5>
-                            <p className="text-[11px] text-slate-400 font-mono truncate">{audio.audioUrl}</p>
+                            <h5 className="text-xs font-semibold text-[#2A2420] mt-1 truncate">{audio.title}</h5>
+                            <p className="text-[11px] text-[#5C5248] font-mono truncate">{audio.audioUrl}</p>
                           </div>
 
                           <div className="flex items-center gap-2 shrink-0">
                             <button
                               onClick={() => window.open(audio.audioUrl, '_blank')}
-                              className="p-2 rounded-lg bg-slate-900 hover:bg-slate-800 text-indigo-400 border border-slate-800 transition"
+                              className="p-2 rounded-lg bg-[#FBF8F2] hover:bg-[#F5EFE4] text-[#B88736] border border-[#E5DAC6] transition"
                               title="Testar áudio"
                             >
                               <Play size={14} fill="currentColor" />
@@ -459,33 +459,33 @@ export default function AdminPanelModal({ isOpen, onClose }: AdminPanelModalProp
             {/* TAB 2: COUPONS MANAGER */}
             {activeTab === 'coupons' && (
               <div className="space-y-6">
-                <form onSubmit={handleAddCoupon} className="p-4 sm:p-5 rounded-2xl bg-slate-950 border border-slate-800 space-y-4">
+                <form onSubmit={handleAddCoupon} className="p-4 sm:p-5 rounded-2xl bg-white border border-[#E5DAC6] space-y-4">
                   <div className="flex items-center gap-2">
                     <Tag size={16} className="text-amber-400" />
-                    <h4 className="text-xs font-mono font-bold text-slate-200 uppercase">
+                    <h4 className="text-xs font-mono font-bold text-[#2A2420] uppercase">
                       Criar Novo Cupom de Desconto / Liberação VIP
                     </h4>
                   </div>
 
                   <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
                     <div className="space-y-1">
-                      <label className="text-[10px] font-mono text-slate-400 uppercase block">Código do Cupom</label>
+                      <label className="text-[10px] font-mono text-[#5C5248] uppercase block">Código do Cupom</label>
                       <input
                         type="text"
                         placeholder="Ex: PRO2026, GRATIS21"
                         value={newCouponCode}
                         onChange={(e) => setNewCouponCode(e.target.value.toUpperCase())}
-                        className="w-full bg-slate-900 border border-slate-800 rounded-xl px-3 py-2 text-xs text-amber-300 font-mono font-bold focus:border-amber-500 outline-none uppercase"
+                        className="w-full bg-[#FBF8F2] border border-[#E5DAC6] rounded-xl px-3 py-2 text-xs text-amber-300 font-mono font-bold focus:border-amber-500 outline-none uppercase"
                         required
                       />
                     </div>
 
                     <div className="space-y-1">
-                      <label className="text-[10px] font-mono text-slate-400 uppercase block">Desconto (%)</label>
+                      <label className="text-[10px] font-mono text-[#5C5248] uppercase block">Desconto (%)</label>
                       <select
                         value={newCouponDiscount}
                         onChange={(e) => setNewCouponDiscount(parseInt(e.target.value))}
-                        className="w-full bg-slate-900 border border-slate-800 rounded-xl px-3 py-2 text-xs text-slate-200 focus:border-amber-500 outline-none font-mono"
+                        className="w-full bg-[#FBF8F2] border border-[#E5DAC6] rounded-xl px-3 py-2 text-xs text-[#2A2420] focus:border-amber-500 outline-none font-mono"
                       >
                         <option value={100}>100% (Acesso Total Gratuito VIP)</option>
                         <option value={70}>70% de Desconto</option>
@@ -495,13 +495,13 @@ export default function AdminPanelModal({ isOpen, onClose }: AdminPanelModalProp
                     </div>
 
                     <div className="space-y-1">
-                      <label className="text-[10px] font-mono text-slate-400 uppercase block">Descrição Interna</label>
+                      <label className="text-[10px] font-mono text-[#5C5248] uppercase block">Descrição Interna</label>
                       <input
                         type="text"
                         placeholder="Ex: Cupom para alunos do curso"
                         value={newCouponDesc}
                         onChange={(e) => setNewCouponDesc(e.target.value)}
-                        className="w-full bg-slate-900 border border-slate-800 rounded-xl px-3 py-2 text-xs text-slate-200 focus:border-amber-500 outline-none"
+                        className="w-full bg-[#FBF8F2] border border-[#E5DAC6] rounded-xl px-3 py-2 text-xs text-[#2A2420] focus:border-amber-500 outline-none"
                       />
                     </div>
                   </div>
@@ -517,12 +517,12 @@ export default function AdminPanelModal({ isOpen, onClose }: AdminPanelModalProp
 
                 {/* List of active coupons */}
                 <div className="space-y-2">
-                  <h4 className="text-xs font-mono font-bold text-slate-400 uppercase">
+                  <h4 className="text-xs font-mono font-bold text-[#5C5248] uppercase">
                     Cupons Cadastrados ({coupons.length})
                   </h4>
 
                   {coupons.map(coupon => (
-                    <div key={coupon.code} className="p-3.5 rounded-xl bg-slate-950 border border-slate-800 flex items-center justify-between gap-3">
+                    <div key={coupon.code} className="p-3.5 rounded-xl bg-white border border-[#E5DAC6] flex items-center justify-between gap-3">
                       <div>
                         <div className="flex items-center gap-2">
                           <span className="font-mono text-sm font-bold text-amber-300 tracking-wider">
@@ -532,18 +532,18 @@ export default function AdminPanelModal({ isOpen, onClose }: AdminPanelModalProp
                             {coupon.discountPercentage}% OFF
                           </span>
                           <span className={`text-[10px] font-mono px-2 py-0.5 rounded-full ${
-                            coupon.active ? 'bg-indigo-500/10 text-indigo-300' : 'bg-slate-800 text-slate-500'
+                            coupon.active ? 'bg-[#B88736]/10 text-[#B88736]' : 'bg-[#F5EFE4] text-[#85786C]'
                           }`}>
                             {coupon.active ? 'ATIVO' : 'DESATIVADO'}
                           </span>
                         </div>
-                        <p className="text-xs text-slate-400 mt-0.5">{coupon.description}</p>
+                        <p className="text-xs text-[#5C5248] mt-0.5">{coupon.description}</p>
                       </div>
 
                       <div className="flex items-center gap-2">
                         <button
                           onClick={() => handleToggleCoupon(coupon.code)}
-                          className="px-2.5 py-1.5 rounded-lg bg-slate-900 border border-slate-800 text-xs font-mono text-slate-300 hover:text-white transition"
+                          className="px-2.5 py-1.5 rounded-lg bg-[#FBF8F2] border border-[#E5DAC6] text-xs font-mono text-[#5C5248] hover:text-white transition"
                         >
                           {coupon.active ? 'Desativar' : 'Ativar'}
                         </button>
@@ -565,7 +565,7 @@ export default function AdminPanelModal({ isOpen, onClose }: AdminPanelModalProp
             {activeTab === 'users' && (
               <div className="space-y-4">
                 <div className="flex items-center justify-between">
-                  <h4 className="text-xs font-mono font-bold text-slate-400 uppercase">
+                  <h4 className="text-xs font-mono font-bold text-[#5C5248] uppercase">
                     Consulentes & Fichas de Anamnese ({allAccounts.length})
                   </h4>
                   {allAccounts.length > 0 && (
@@ -580,19 +580,19 @@ export default function AdminPanelModal({ isOpen, onClose }: AdminPanelModalProp
                         downloadAnchor.click();
                         downloadAnchor.remove();
                       }}
-                      className="px-3 py-1.5 rounded-xl bg-slate-900 hover:bg-slate-800 border border-slate-800 text-slate-300 text-xs font-medium flex items-center gap-1.5 transition cursor-pointer"
+                      className="px-3 py-1.5 rounded-xl bg-[#FBF8F2] hover:bg-[#F5EFE4] border border-[#E5DAC6] text-[#5C5248] text-xs font-medium flex items-center gap-1.5 transition cursor-pointer"
                     >
-                      <Download size={13} className="text-indigo-400" />
+                      <Download size={13} className="text-[#B88736]" />
                       <span>Exportar Backup (JSON)</span>
                     </button>
                   )}
                 </div>
 
                 {allAccounts.length === 0 ? (
-                  <div className="p-8 rounded-2xl bg-slate-950/50 border border-slate-850 text-center text-xs text-slate-500 space-y-2">
-                    <Users size={28} className="mx-auto text-slate-600 mb-1" />
+                  <div className="p-8 rounded-2xl bg-white/65 border border-[#E5DAC6] text-center text-xs text-[#85786C] space-y-2">
+                    <Users size={28} className="mx-auto text-[#85786C] mb-1" />
                     <p>Nenhuma conta de consulente cadastrada neste navegador até o momento.</p>
-                    <p className="text-[11px] text-slate-600">
+                    <p className="text-[11px] text-[#85786C]">
                       As novas contas criadas pelos usuários e suas anamneses ficam salvas e sincronizadas diretamente aqui.
                     </p>
                   </div>
@@ -605,27 +605,27 @@ export default function AdminPanelModal({ isOpen, onClose }: AdminPanelModalProp
                       const isCopied = copiedLogin === acc.login;
 
                       return (
-                        <div key={idx} className="p-4 rounded-2xl bg-slate-950 border border-slate-800 space-y-3 shadow-md">
+                        <div key={idx} className="p-4 rounded-2xl bg-white border border-[#E5DAC6] space-y-3 shadow-md">
                           {/* User Header */}
-                          <div className="flex flex-wrap items-center justify-between gap-2 border-b border-slate-900 pb-2.5">
+                          <div className="flex flex-wrap items-center justify-between gap-2 border-b border-[#E5DAC6] pb-2.5">
                             <div className="flex items-center gap-2">
                               <div className="w-8 h-8 rounded-full bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center font-bold text-xs text-white uppercase shadow-sm">
                                 {(acc.profile?.name || acc.login)[0]}
                               </div>
                               <div>
                                 <div className="flex items-center gap-2">
-                                  <span className="font-bold text-xs text-slate-100">
+                                  <span className="font-bold text-xs text-[#2A2420]">
                                     {acc.profile?.fullName || acc.profile?.name || acc.login}
                                   </span>
                                   <span className={`text-[9px] font-mono px-2 py-0.5 rounded-full font-bold uppercase ${
                                     (acc.profile?.plan === 'pro' || acc.plan === 'pro')
                                       ? 'bg-amber-500/20 text-amber-300 border border-amber-500/30'
-                                      : 'bg-slate-800 text-slate-400'
+                                      : 'bg-[#F5EFE4] text-[#5C5248]'
                                   }`}>
                                     {(acc.profile?.plan === 'pro' || acc.plan === 'pro') ? `★ PRO VIP${acc.profile?.subscriptionPlan ? ` (${acc.profile.subscriptionPlan.replace(/_/g, ' ').toUpperCase()})` : ''}` : 'FREE'}
                                   </span>
                                 </div>
-                                <span className="text-[10px] font-mono text-slate-500">
+                                <span className="text-[10px] font-mono text-[#85786C]">
                                   Login: @{acc.login} • {acc.email || acc.profile?.email || 'Sem e-mail'} {userPhone && `• WhatsApp: ${userPhone}`}
                                 </span>
                               </div>
@@ -639,7 +639,7 @@ export default function AdminPanelModal({ isOpen, onClose }: AdminPanelModalProp
                                   setNewAudioUser(acc.login);
                                   setNewAudioTitle(`Áudio Direcionado para ${acc.profile?.name || acc.login}`);
                                 }}
-                                className="px-2.5 py-1.5 rounded-lg bg-indigo-950/50 hover:bg-indigo-900/60 border border-indigo-500/30 text-[11px] text-indigo-300 font-medium flex items-center gap-1 transition cursor-pointer"
+                                className="px-2.5 py-1.5 rounded-lg bg-indigo-950/50 hover:bg-indigo-900/60 border border-[#B88736]/30 text-[11px] text-[#B88736] font-medium flex items-center gap-1 transition cursor-pointer"
                                 title="Gravar / Enviar áudio exclusivo para este consulente"
                               >
                                 <FileAudio size={12} />
@@ -650,7 +650,7 @@ export default function AdminPanelModal({ isOpen, onClose }: AdminPanelModalProp
 
                           {/* Anamnesis Evaluation & Treatment Suggestion */}
                           {userAnamnesis && userRec ? (
-                            <div className="p-3.5 rounded-xl bg-gradient-to-br from-indigo-950/30 via-slate-900 to-amber-950/20 border border-indigo-500/30 space-y-2.5">
+                            <div className="p-3.5 rounded-xl bg-gradient-to-br from-indigo-950/30 via-[#FBF8F2] to-amber-950/20 border border-[#B88736]/30 space-y-2.5">
                               <div className="flex flex-wrap items-center justify-between gap-2">
                                 <div className="flex items-center gap-2">
                                   <span className="text-[10px] font-mono uppercase text-amber-400 font-bold bg-amber-500/10 border border-amber-500/30 px-2 py-0.5 rounded-full flex items-center gap-1">
@@ -667,37 +667,37 @@ export default function AdminPanelModal({ isOpen, onClose }: AdminPanelModalProp
                                     Nível {userRec.severityLevel}
                                   </span>
                                 </div>
-                                <span className="text-[11px] font-mono text-indigo-300 font-semibold bg-indigo-500/10 px-2 py-0.5 rounded-lg border border-indigo-500/20">
+                                <span className="text-[11px] font-mono text-[#B88736] font-semibold bg-[#B88736]/10 px-2 py-0.5 rounded-lg border border-[#B88736]/20">
                                   {userRec.frequencyLabel}
                                 </span>
                               </div>
 
                               <div>
-                                <h5 className="text-xs font-bold text-slate-100">
+                                <h5 className="text-xs font-bold text-[#2A2420]">
                                   {userRec.treatmentTitle}
                                 </h5>
-                                <p className="text-[11px] text-slate-300 mt-0.5 leading-relaxed">
+                                <p className="text-[11px] text-[#5C5248] mt-0.5 leading-relaxed">
                                   {userRec.summaryDiagnosis}
                                 </p>
                               </div>
 
                               <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 text-[10px] font-mono">
-                                <div className="p-2 rounded-lg bg-slate-950/80 border border-slate-800">
-                                  <span className="text-slate-500 block uppercase">Estresse / Sono</span>
+                                <div className="p-2 rounded-lg bg-white/80 border border-[#E5DAC6]">
+                                  <span className="text-[#85786C] block uppercase">Estresse / Sono</span>
                                   <strong className="text-amber-400">{userAnamnesis.stressLevel}/10 • {userAnamnesis.sleepQuality}</strong>
                                 </div>
-                                <div className="p-2 rounded-lg bg-slate-950/80 border border-slate-800">
-                                  <span className="text-slate-500 block uppercase">Chakra Alvo</span>
-                                  <strong className="text-indigo-300">{userRec.primaryChakraFocus}</strong>
+                                <div className="p-2 rounded-lg bg-white/80 border border-[#E5DAC6]">
+                                  <span className="text-[#85786C] block uppercase">Chakra Alvo</span>
+                                  <strong className="text-[#B88736]">{userRec.primaryChakraFocus}</strong>
                                 </div>
-                                <div className="p-2 rounded-lg bg-slate-950/80 border border-slate-800">
-                                  <span className="text-slate-500 block uppercase">Plano Sugerido</span>
+                                <div className="p-2 rounded-lg bg-white/80 border border-[#E5DAC6]">
+                                  <span className="text-[#85786C] block uppercase">Plano Sugerido</span>
                                   <strong className="text-emerald-400">{userRec.planName}</strong>
                                 </div>
                               </div>
 
                               {/* Action buttons: WhatsApp & Copy */}
-                              <div className="flex flex-wrap items-center gap-2 pt-1 border-t border-slate-850">
+                              <div className="flex flex-wrap items-center gap-2 pt-1 border-t border-[#E5DAC6]">
                                 <a
                                   href={`https://wa.me/${userPhone ? userPhone.replace(/\D/g, '') : '5519997096799'}?text=${encodeURIComponent(
                                     `Olá ${acc.profile?.name || ''}, aqui é o Terapeuta Éverton Piceni! Recebi sua Ficha de Anamnese no Protocolo de Cura Integrada. Avaliei seu quadro (${userRec.treatmentTitle}) e gostaria de te orientar nos seus 21 dias!`
@@ -718,7 +718,7 @@ export default function AdminPanelModal({ isOpen, onClose }: AdminPanelModalProp
                                     setCopiedLogin(acc.login);
                                     setTimeout(() => setCopiedLogin(null), 2000);
                                   }}
-                                  className="px-3 py-1.5 rounded-lg bg-slate-850 hover:bg-slate-800 border border-slate-750 text-slate-300 text-[11px] font-medium flex items-center gap-1.5 transition cursor-pointer"
+                                  className="px-3 py-1.5 rounded-lg bg-[#F5EFE4] hover:bg-[#F5EFE4] border border-slate-750 text-[#5C5248] text-[11px] font-medium flex items-center gap-1.5 transition cursor-pointer"
                                 >
                                   {isCopied ? <Check size={13} className="text-emerald-400" /> : <Copy size={13} />}
                                   <span>{isCopied ? 'Copiado!' : 'Copiar Prontuário'}</span>
@@ -726,7 +726,7 @@ export default function AdminPanelModal({ isOpen, onClose }: AdminPanelModalProp
                               </div>
                             </div>
                           ) : (
-                            <div className="p-3 rounded-xl bg-slate-900/60 border border-slate-850 text-xs text-slate-500">
+                            <div className="p-3 rounded-xl bg-[#FBF8F2]/60 border border-[#E5DAC6] text-xs text-[#85786C]">
                               Ficha de Anamnese ainda não preenchida por este consulente.
                             </div>
                           )}
