@@ -103,8 +103,7 @@ input::placeholder,textarea::placeholder{color:#9E9080!important}
 #cura-main-layout{
  background:
   radial-gradient(circle at 50% 0,rgba(214,174,82,.12),transparent 30rem),
-  linear-gradient(180deg,rgba(3,27,19,.76),rgba(2,17,13,.94)),
-  url('/brand/forest-app-background.png') center top/cover fixed!important;
+  linear-gradient(180deg,rgba(3,27,19,.76),rgba(2,17,13,.94))!important;
 }
 #main-header{
  background:linear-gradient(180deg,rgba(3,27,19,.96),rgba(4,38,27,.94))!important;
@@ -132,8 +131,7 @@ input::placeholder,textarea::placeholder{color:#9E9080!important}
 .ep-home .ep-home-hero{
  position:relative;
  background:
-  linear-gradient(155deg,rgba(5,42,30,.93),rgba(3,27,19,.97)),
-  url('/brand/forest-app-background.png') center/cover!important;
+  linear-gradient(155deg,rgba(5,42,30,.93),rgba(3,27,19,.97))!important;
  border-color:rgba(214,174,82,.34)!important;
  box-shadow:0 24px 70px rgba(0,0,0,.36),inset 0 1px 0 rgba(255,255,255,.03)!important;
 }
@@ -249,8 +247,7 @@ input::placeholder,textarea::placeholder{color:#9E9080!important}
   background:
     radial-gradient(circle at 50% -8%,rgba(230,199,115,.16),transparent 26rem),
     radial-gradient(circle at 12% 18%,rgba(21,88,60,.18),transparent 18rem),
-    linear-gradient(155deg,rgba(5,42,30,.98),rgba(2,22,16,.99)),
-    url('/brand/forest-app-background.png') center/cover!important;
+    linear-gradient(155deg,rgba(5,42,30,.98),rgba(2,22,16,.99))!important;
   border-color:rgba(214,174,82,.30)!important;
   box-shadow:0 30px 82px rgba(0,0,0,.42),inset 0 1px 0 rgba(255,255,255,.035)!important;
 }
@@ -318,7 +315,7 @@ input::placeholder,textarea::placeholder{color:#9E9080!important}
   content:'';
   position:fixed;inset:0;
   pointer-events:none;
-  background:linear-gradient(rgba(2,27,19,.40),rgba(2,22,16,.76)),url('/brand/forest-app-background.png') center/cover;
+  background:linear-gradient(rgba(2,27,19,.40),rgba(2,22,16,.76)),
   opacity:.52;
 }
 #onboarding-card{
