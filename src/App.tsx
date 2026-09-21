@@ -34,7 +34,7 @@ import PromoVideoModal from './components/PromoVideoModal';
 import MilestoneCelebrationModal from './components/MilestoneCelebrationModal';
 import DailyTipModal from './components/DailyTipModal';
 import PersonalJourney21 from './components/PersonalJourney21';
-import VideoStudioModal from './components/VideoStudioModal';
+import VideoStudioModal from './components/VideoStudioLightModal';
 
 import { SpeedInsights } from '@vercel/speed-insights/react';
 import DashboardCura from './components/DashboardCura';
