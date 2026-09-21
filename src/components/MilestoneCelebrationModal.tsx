@@ -36,15 +36,15 @@ export default function MilestoneCelebrationModal({
   let subtitle = 'Sua dedicação está gerando frutos no seu campo energético.';
   let mainMessage = '';
   let badgeText = `Etapa ${dayNumber}/21`;
-  let themeBg = 'from-indigo-950 via-slate-900 to-purple-950';
-  let themeBorder = 'border-indigo-500/40';
+  let themeBg = 'from-indigo-950 via-[#FBF8F2] to-purple-950';
+  let themeBorder = 'border-[#B88736]/40';
   let icon = <Sparkles className="w-8 h-8 text-amber-400" />;
 
   if (isDay8) {
     title = '💜 Dia 8: Entrada no Karuna Ki';
     subtitle = 'Início da Transmutação Celular Profunda';
     badgeText = 'Portal Karuna Ki';
-    themeBg = 'from-violet-950 via-slate-900 to-purple-950';
+    themeBg = 'from-violet-950 via-[#FBF8F2] to-purple-950';
     themeBorder = 'border-violet-500/40';
     icon = <Flame className="w-8 h-8 text-violet-400 animate-pulse" />;
     mainMessage = `Querido(a) ${userName},\n\nHoje você inicia o 8º Dia da sua Jornada! Esta etapa ativa os símbolos sagrados do Karuna Ki (Zonar e Halu), permitindo que feridas celulares e dores antigas sejam dissolvidas na Chama Violeta.\n\nVocê não está sozinho. Respire fundo, celebre sua constância e continue firme no seu trono de poder pessoal.\n\nCom amor e bênçãos,\nÉverton Rodrigo Piceni`;
@@ -52,7 +52,7 @@ export default function MilestoneCelebrationModal({
     title = '🌸 Dia 15: O Bálsamo do Raio Rosa';
     subtitle = 'Ancoramento no Amor Incondicional';
     badgeText = 'Portal do Raio Rosa';
-    themeBg = 'from-rose-950 via-slate-900 to-indigo-950';
+    themeBg = 'from-rose-950 via-[#FBF8F2] to-indigo-950';
     themeBorder = 'border-rose-500/40';
     icon = <Heart className="w-8 h-8 text-rose-400 animate-pulse" />;
     mainMessage = `Querido(a) ${userName},\n\nParabéns por chegar ao 15º Dia! Você acaba de ancorar na fase do Raio Rosa e no amor incondicional da egrégora crística e dos mestres ascensos.\n\nDeixe o passado ir embora com ternura. Seu coração está sendo restaurado e preenchido de paz verdadeira.\n\nCom luz e acolhimento,\nÉverton Rodrigo Piceni`;
@@ -60,7 +60,7 @@ export default function MilestoneCelebrationModal({
     title = '👑 Você assumiu o seu Trono!';
     subtitle = 'Parabéns pela conclusão do seu Protocolo de Cura Integrada!';
     badgeText = 'Jornada dos 21 Dias Concluída';
-    themeBg = 'from-amber-950 via-slate-900 to-indigo-950';
+    themeBg = 'from-amber-950 via-[#FBF8F2] to-indigo-950';
     themeBorder = 'border-amber-500/60';
     icon = <Crown className="w-9 h-9 text-amber-400 animate-bounce" />;
     mainMessage = `👑 Você assumiu o seu Trono: Parabéns pela conclusão do seu Protocolo de Cura Integrada!\n\nQuerido(a) ${userName},\n\nHoje é o ápice da sua jornada de 21 Dias. Com a benção e o empoderamento de Ganesha, esse tratamento está totalmente selado e blindado no seu DNA cósmico.\n\nTodas as frequências, desprogramações celulares e ativações espirituais foram integradas com perfeição. Você é livre para ser feliz. Você é cura. Você é amor. Você está em paz.\n\nCom profunda gratidão,\nÉverton Rodrigo Piceni`;
@@ -94,7 +94,7 @@ export default function MilestoneCelebrationModal({
 
   return (
     <AnimatePresence>
-      <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/85 backdrop-blur-md overflow-y-auto">
+      <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-[#2A2420]/30 backdrop-blur-md overflow-y-auto">
         <motion.div
           initial={{ opacity: 0, scale: 0.94, y: 15 }}
           animate={{ opacity: 1, scale: 1, y: 0 }}
@@ -108,37 +108,37 @@ export default function MilestoneCelebrationModal({
           {/* Close button */}
           <button
             onClick={onClose}
-            className="absolute top-4 right-4 w-8 h-8 rounded-full bg-slate-800/80 border border-slate-700 text-slate-400 hover:text-slate-200 flex items-center justify-center transition cursor-pointer z-10"
+            className="absolute top-4 right-4 w-8 h-8 rounded-full bg-[#F5EFE4]/80 border border-[#E5DAC6] text-[#5C5248] hover:text-[#2A2420] flex items-center justify-center transition cursor-pointer z-10"
           >
             <X size={16} />
           </button>
 
           {/* Header */}
           <div className="text-center space-y-2">
-            <div className="inline-flex p-3 rounded-2xl bg-slate-900/80 border border-slate-800 shadow-inner mb-1">
+            <div className="inline-flex p-3 rounded-2xl bg-[#FBF8F2]/90 border border-[#E5DAC6] shadow-inner mb-1">
               {icon}
             </div>
             <div className="inline-block px-3 py-0.5 rounded-full bg-amber-500/15 border border-amber-500/30 text-amber-300 font-mono text-[10px] uppercase font-bold tracking-widest block mx-auto">
               {badgeText}
             </div>
-            <h2 className="text-2xl md:text-3xl font-display font-medium text-slate-100">
+            <h2 className="text-2xl md:text-3xl font-display font-medium text-[#2A2420]">
               {title}
             </h2>
-            <p className="text-xs text-slate-300">
+            <p className="text-xs text-[#5C5248]">
               {subtitle}
             </p>
           </div>
 
           {/* Message Box */}
-          <div className="mt-5 p-4 md:p-5 rounded-2xl bg-slate-950/75 border border-slate-800/90 space-y-3">
-            <div className="flex items-center justify-between text-[11px] font-mono text-slate-400 border-b border-slate-850 pb-2">
+          <div className="mt-5 p-4 md:p-5 rounded-2xl bg-white/75 border border-[#E5DAC6] space-y-3">
+            <div className="flex items-center justify-between text-[11px] font-mono text-[#5C5248] border-b border-[#E5DAC6] pb-2">
               <span className="flex items-center gap-1.5 text-amber-400 font-semibold">
                 <Sparkles size={12} />
                 <span>Mensagem do Canalizador Éverton Piceni</span>
               </span>
               <span className="text-[10px] text-emerald-400">✨ Transmitida com Amor</span>
             </div>
-            <p className="text-xs text-slate-200 leading-relaxed whitespace-pre-line font-sans">
+            <p className="text-xs text-[#2A2420] leading-relaxed whitespace-pre-line font-sans">
               {mainMessage}
             </p>
           </div>
@@ -162,7 +162,7 @@ export default function MilestoneCelebrationModal({
             <button
               type="button"
               onClick={handleShare}
-              className="flex-1 py-3 px-4 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs flex items-center justify-center gap-2 transition cursor-pointer shadow-lg shadow-indigo-600/20 text-center"
+              className="flex-1 py-3 px-4 rounded-xl bg-[#B88736] hover:bg-[#B88736] text-white font-bold text-xs flex items-center justify-center gap-2 transition cursor-pointer shadow-lg shadow-indigo-600/20 text-center"
             >
               <Share2 size={16} />
               <span className="hidden sm:inline">Compartilhar</span>
@@ -180,7 +180,7 @@ export default function MilestoneCelebrationModal({
             <button
               type="button"
               onClick={copyToClipboard}
-              className="py-3 px-4 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 font-semibold text-xs flex items-center justify-center gap-1.5 transition cursor-pointer border border-slate-700"
+              className="py-3 px-4 rounded-xl bg-[#F5EFE4] hover:bg-slate-700 text-[#2A2420] font-semibold text-xs flex items-center justify-center gap-1.5 transition cursor-pointer border border-[#E5DAC6]"
             >
               <Send size={14} />
               <span className="hidden sm:inline">Copiar</span>
