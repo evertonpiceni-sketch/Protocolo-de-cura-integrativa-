@@ -179,9 +179,9 @@ export default function ProUpgradeModal({ isOpen, onClose, onUpgradeSuccess }: P
   const standalone = PLANS.filter(plan => ['jornada_7d', 'arcanjo_7d'].includes(plan.id));
 
   return (
-    <div className="fixed inset-0 z-[100] bg-slate-950/95 backdrop-blur-xl overflow-y-auto">
-      <div className="min-h-screen bg-[radial-gradient(circle_at_top_right,rgba(88,28,135,0.20),transparent_32%),radial-gradient(circle_at_bottom_left,rgba(202,138,4,0.10),transparent_28%)] text-slate-100">
-        <header className="sticky top-0 z-20 border-b border-amber-400/10 bg-slate-950/85 backdrop-blur-xl">
+    <div className="fixed inset-0 z-[100] bg-[#2A2420]/30 backdrop-blur-xl overflow-y-auto">
+      <div className="min-h-screen bg-[radial-gradient(circle_at_top_right,rgba(88,28,135,0.20),transparent_32%),radial-gradient(circle_at_bottom_left,rgba(202,138,4,0.10),transparent_28%)] text-[#2A2420]">
+        <header className="sticky top-0 z-20 border-b border-amber-400/10 bg-[#2A2420]/30 backdrop-blur-xl">
           <div className="max-w-6xl mx-auto px-4 py-4 flex items-center justify-between">
             <div>
               <p className="text-amber-300 tracking-[0.28em] text-[10px] font-bold uppercase">Everton Piceni</p>
@@ -195,13 +195,13 @@ export default function ProUpgradeModal({ isOpen, onClose, onUpgradeSuccess }: P
           <section className="text-center max-w-2xl mx-auto">
             <Sparkles className="mx-auto text-amber-300 mb-3" size={26} />
             <h1 className="font-serif text-3xl md:text-5xl text-amber-100">Escolha o seu plano</h1>
-            <p className="mt-3 text-sm md:text-base text-slate-400">Pouca informação na primeira leitura. Toque em “Ver tudo” somente quando quiser comparar os detalhes.</p>
+            <p className="mt-3 text-sm md:text-base text-[#5C5248]">Pouca informação na primeira leitura. Toque em “Ver tudo” somente quando quiser comparar os detalhes.</p>
           </section>
 
           <section>
             <div className="mb-4">
               <h3 className="font-serif text-2xl text-amber-100">Jornadas e protocolos avulsos</h3>
-              <p className="text-sm text-slate-400">Experiências focadas, sem poluir a comparação dos planos PRO.</p>
+              <p className="text-sm text-[#5C5248]">Experiências focadas, sem poluir a comparação dos planos PRO.</p>
             </div>
             <div className="grid md:grid-cols-2 gap-4">
               {standalone.map(plan => (
@@ -216,7 +216,7 @@ export default function ProUpgradeModal({ isOpen, onClose, onUpgradeSuccess }: P
               <div>
                 <p className="text-[10px] tracking-[0.2em] uppercase text-violet-300 font-bold">Preservado no PRO</p>
                 <h3 className="font-serif text-2xl text-white">Protocolo de Cura Integrada de 21 Dias</h3>
-                <p className="mt-2 text-sm text-slate-300 max-w-3xl">O protocolo de 21 dias continua na plataforma com sua estrutura energética já existente. Ele faz parte das jornadas PRO e não foi substituído pelos novos módulos.</p>
+                <p className="mt-2 text-sm text-[#5C5248] max-w-3xl">O protocolo de 21 dias continua na plataforma com sua estrutura energética já existente. Ele faz parte das jornadas PRO e não foi substituído pelos novos módulos.</p>
               </div>
             </div>
           </section>
@@ -225,7 +225,7 @@ export default function ProUpgradeModal({ isOpen, onClose, onUpgradeSuccess }: P
             <div className="mb-4 flex items-end justify-between gap-4">
               <div>
                 <div className="flex items-center gap-2"><Crown className="text-amber-300" size={22} /><h3 className="font-serif text-2xl text-amber-100">Planos PRO</h3></div>
-                <p className="text-sm text-slate-400 mt-1">Florais e Aromaterapia são exclusivos PRO e personalizados após a anamnese.</p>
+                <p className="text-sm text-[#5C5248] mt-1">Florais e Aromaterapia são exclusivos PRO e personalizados após a anamnese.</p>
               </div>
             </div>
             <div className="grid sm:grid-cols-2 lg:grid-cols-5 gap-4">
@@ -235,26 +235,26 @@ export default function ProUpgradeModal({ isOpen, onClose, onUpgradeSuccess }: P
             </div>
           </section>
 
-          <section id="checkout-planos" className="max-w-2xl mx-auto rounded-3xl border border-amber-400/25 bg-slate-900/80 p-5 md:p-7 shadow-2xl shadow-amber-950/20">
+          <section id="checkout-planos" className="max-w-2xl mx-auto rounded-3xl border border-amber-400/25 bg-[#FBF8F2]/90 p-5 md:p-7 shadow-2xl shadow-amber-950/20">
             <div className="flex items-center justify-between gap-4 mb-5">
-              <div><p className="text-xs text-slate-400">Selecionado</p><h3 className="font-serif text-2xl text-amber-100">{selectedPlan.title}</h3></div>
-              <div className="text-right"><strong className="text-2xl text-white">{money(finalPrice)}</strong><p className="text-xs text-slate-400">{couponRule?.vip ? '7 dias PRO' : selectedPlan.period}</p></div>
+              <div><p className="text-xs text-[#5C5248]">Selecionado</p><h3 className="font-serif text-2xl text-amber-100">{selectedPlan.title}</h3></div>
+              <div className="text-right"><strong className="text-2xl text-white">{money(finalPrice)}</strong><p className="text-xs text-[#5C5248]">{couponRule?.vip ? '7 dias PRO' : selectedPlan.period}</p></div>
             </div>
 
             <div className="rounded-2xl border border-white/10 bg-black/20 p-4 mb-4">
-              <label className="text-xs font-bold text-slate-300 flex items-center gap-2 mb-2"><Tag size={14} /> Tem um cupom?</label>
-              <div className="flex gap-2"><input value={coupon} onChange={e => setCoupon(e.target.value)} placeholder="Digite o código" className="min-w-0 flex-1 rounded-xl bg-slate-950 border border-white/10 px-3 py-3 outline-none focus:border-amber-400/50" /><button onClick={applyCoupon} className="rounded-xl bg-amber-400 text-slate-950 font-bold px-4">Aplicar</button></div>
+              <label className="text-xs font-bold text-[#5C5248] flex items-center gap-2 mb-2"><Tag size={14} /> Tem um cupom?</label>
+              <div className="flex gap-2"><input value={coupon} onChange={e => setCoupon(e.target.value)} placeholder="Digite o código" className="min-w-0 flex-1 rounded-xl bg-white border border-white/10 px-3 py-3 outline-none focus:border-amber-400/50" /><button onClick={applyCoupon} className="rounded-xl bg-amber-400 text-slate-950 font-bold px-4">Aplicar</button></div>
               {couponMessage && <p className={`text-xs mt-2 ${appliedCoupon ? 'text-emerald-300' : 'text-rose-300'}`}>{couponMessage}</p>}
-              <p className="text-[11px] text-slate-500 mt-2">VIP7: campanha de teste com 20 resgates no total. PROMO15: 15%. PROMO20: 20%. Cupons não são cumulativos.</p>
+              <p className="text-[11px] text-[#85786C] mt-2">VIP7: campanha de teste com 20 resgates no total. PROMO15: 15%. PROMO20: 20%. Cupons não são cumulativos.</p>
             </div>
 
             <div className="grid grid-cols-2 gap-2 mb-4">
-              <button onClick={() => setPaymentMethod('pix')} className={`rounded-xl border p-3 text-sm font-bold ${paymentMethod === 'pix' ? 'border-amber-400 bg-amber-400/10 text-amber-200' : 'border-white/10 text-slate-400'}`}>PIX</button>
-              <button onClick={() => setPaymentMethod('card')} className={`rounded-xl border p-3 text-sm font-bold ${paymentMethod === 'card' ? 'border-amber-400 bg-amber-400/10 text-amber-200' : 'border-white/10 text-slate-400'}`}>Cartão</button>
+              <button onClick={() => setPaymentMethod('pix')} className={`rounded-xl border p-3 text-sm font-bold ${paymentMethod === 'pix' ? 'border-amber-400 bg-amber-400/10 text-amber-200' : 'border-white/10 text-[#5C5248]'}`}>PIX</button>
+              <button onClick={() => setPaymentMethod('card')} className={`rounded-xl border p-3 text-sm font-bold ${paymentMethod === 'card' ? 'border-amber-400 bg-amber-400/10 text-amber-200' : 'border-white/10 text-[#5C5248]'}`}>Cartão</button>
             </div>
 
             <button disabled={isProcessing} onClick={finish} className={`w-full rounded-2xl bg-gradient-to-r from-amber-500 to-yellow-300 text-slate-950 font-black py-4 shadow-lg shadow-amber-500/10 ${isProcessing ? 'opacity-70 cursor-not-allowed' : ''}`}>{isProcessing ? 'PROCESSANDO...' : (couponRule?.vip ? 'ATIVAR 7 DIAS PRO' : 'CONTINUAR')}</button>
-            <div className="mt-3 flex items-center justify-center gap-2 text-[11px] text-slate-500"><ShieldCheck size={13} /> A confirmação definitiva do pagamento e dos cupons deve ser validada pelo servidor.</div>
+            <div className="mt-3 flex items-center justify-center gap-2 text-[11px] text-[#85786C]"><ShieldCheck size={13} /> A confirmação definitiva do pagamento e dos cupons deve ser validada pelo servidor.</div>
           </section>
         </main>
       </div>
@@ -264,13 +264,13 @@ export default function ProUpgradeModal({ isOpen, onClose, onUpgradeSuccess }: P
 
 function PlanCard({ plan, expanded, onToggle, onChoose }: { key?: string | number; plan: PlanItem; expanded: boolean; onToggle: () => void; onChoose: () => void }) {
   return (
-    <article className={`relative rounded-3xl border p-5 flex flex-col ${plan.highlight ? 'border-amber-300/70 bg-gradient-to-b from-amber-400/[0.12] to-slate-950 shadow-xl shadow-amber-900/20' : 'border-white/10 bg-slate-900/65'}`}>
-      {plan.badge && <span className={`self-start rounded-full px-3 py-1 text-[10px] font-black uppercase tracking-wide mb-3 ${plan.highlight ? 'bg-amber-300 text-slate-950' : 'bg-white/5 text-slate-300 border border-white/10'}`}>{plan.badge}</span>}
+    <article className={`relative rounded-3xl border p-5 flex flex-col ${plan.highlight ? 'border-amber-300/70 bg-gradient-to-b from-amber-400/[0.12] to-[#F3EBDD] shadow-xl shadow-amber-900/20' : 'border-white/10 bg-[#FBF8F2]/80'}`}>
+      {plan.badge && <span className={`self-start rounded-full px-3 py-1 text-[10px] font-black uppercase tracking-wide mb-3 ${plan.highlight ? 'bg-amber-300 text-slate-950' : 'bg-white/5 text-[#5C5248] border border-white/10'}`}>{plan.badge}</span>}
       <h4 className="font-serif text-xl text-white">{plan.title}</h4>
-      <div className="mt-2"><strong className="text-2xl text-amber-100">{money(plan.price)}</strong><span className="text-xs text-slate-500 ml-1">{plan.period}</span></div>
-      <ul className="mt-4 space-y-2 flex-1">{plan.summary.map(item => <li key={item} className="flex gap-2 text-xs text-slate-300"><Check size={14} className="text-emerald-400 shrink-0 mt-0.5" />{item}</li>)}</ul>
-      {expanded && <div className="mt-4 pt-4 border-t border-white/10 space-y-2">{plan.details.map(item => <div key={item} className="flex gap-2 text-[11px] text-slate-400"><Check size={12} className="text-amber-300 shrink-0 mt-0.5" />{item}</div>)}</div>}
-      <button onClick={onToggle} className="mt-4 text-xs text-slate-400 underline underline-offset-4 flex items-center gap-1">{expanded ? 'Ocultar detalhes' : 'Ver tudo que está incluso'} <ChevronDown size={13} className={expanded ? 'rotate-180' : ''} /></button>
+      <div className="mt-2"><strong className="text-2xl text-amber-100">{money(plan.price)}</strong><span className="text-xs text-[#85786C] ml-1">{plan.period}</span></div>
+      <ul className="mt-4 space-y-2 flex-1">{plan.summary.map(item => <li key={item} className="flex gap-2 text-xs text-[#5C5248]"><Check size={14} className="text-emerald-400 shrink-0 mt-0.5" />{item}</li>)}</ul>
+      {expanded && <div className="mt-4 pt-4 border-t border-white/10 space-y-2">{plan.details.map(item => <div key={item} className="flex gap-2 text-[11px] text-[#5C5248]"><Check size={12} className="text-amber-300 shrink-0 mt-0.5" />{item}</div>)}</div>}
+      <button onClick={onToggle} className="mt-4 text-xs text-[#5C5248] underline underline-offset-4 flex items-center gap-1">{expanded ? 'Ocultar detalhes' : 'Ver tudo que está incluso'} <ChevronDown size={13} className={expanded ? 'rotate-180' : ''} /></button>
       <button onClick={onChoose} className={`mt-4 rounded-xl py-3 text-sm font-black ${plan.highlight ? 'bg-amber-300 text-slate-950' : 'border border-amber-300/50 text-amber-200 hover:bg-amber-300/10'}`}>Escolher plano</button>
     </article>
   );
