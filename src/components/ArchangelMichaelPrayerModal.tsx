@@ -115,19 +115,19 @@ export default function ArchangelMichaelPrayerModal({
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-slate-950/85 backdrop-blur-md overflow-y-auto" id="archangel-prayer-modal">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-[#2A2420]/30 backdrop-blur-md overflow-y-auto" id="archangel-prayer-modal">
       <motion.div
         initial={{ opacity: 0, scale: 0.96, y: 15 }}
         animate={{ opacity: 1, scale: 1, y: 0 }}
         exit={{ opacity: 0, scale: 0.96, y: 15 }}
-        className="w-full max-w-2xl bg-slate-900 border border-blue-500/30 rounded-3xl p-5 sm:p-7 shadow-2xl space-y-6 relative overflow-hidden my-4 max-h-[92vh] flex flex-col"
+        className="w-full max-w-2xl bg-[#FBF8F2] border border-blue-500/30 rounded-3xl p-5 sm:p-7 shadow-2xl space-y-6 relative overflow-hidden my-4 max-h-[92vh] flex flex-col"
       >
         {/* Divine sapphire blue ambient aura */}
         <div className="absolute top-0 right-0 w-80 h-80 bg-blue-600/15 rounded-full blur-3xl pointer-events-none" />
         <div className="absolute bottom-0 left-0 w-80 h-80 bg-amber-500/10 rounded-full blur-3xl pointer-events-none" />
 
         {/* Modal Top Header */}
-        <div className="flex items-center justify-between border-b border-slate-800 pb-4 shrink-0">
+        <div className="flex items-center justify-between border-b border-[#E5DAC6] pb-4 shrink-0">
           <div className="flex items-center gap-3">
             <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-blue-600 to-indigo-700 flex items-center justify-center text-white shadow-lg shadow-blue-500/20 shrink-0 border border-blue-400/40">
               <Shield size={24} className="animate-pulse" />
@@ -141,7 +141,7 @@ export default function ArchangelMichaelPrayerModal({
                   {completedDays.length}/21 Dias Concluídos
                 </span>
               </div>
-              <h2 className="text-base sm:text-lg font-display font-medium text-slate-100 mt-0.5">
+              <h2 className="text-base sm:text-lg font-display font-medium text-[#2A2420] mt-0.5">
                 Oração de 21 Dias de Limpeza do Arcanjo Miguel
               </h2>
             </div>
@@ -150,14 +150,14 @@ export default function ArchangelMichaelPrayerModal({
           <div className="flex items-center gap-2">
             <button
               onClick={handleCopyPrayer}
-              className="p-2 text-slate-400 hover:text-slate-200 bg-slate-800/60 hover:bg-slate-800 rounded-xl transition cursor-pointer border border-slate-700/50"
+              className="p-2 text-[#5C5248] hover:text-[#2A2420] bg-[#F5EFE4]/60 hover:bg-[#F5EFE4] rounded-xl transition cursor-pointer border border-[#E5DAC6]/50"
               title="Copiar oração completa"
             >
               {copied ? <Check size={16} className="text-emerald-400" /> : <Copy size={16} />}
             </button>
             <button
               onClick={onClose}
-              className="p-2 text-slate-400 hover:text-white bg-slate-800/60 hover:bg-slate-800 rounded-xl transition cursor-pointer border border-slate-700/50"
+              className="p-2 text-[#5C5248] hover:text-white bg-[#F5EFE4]/60 hover:bg-[#F5EFE4] rounded-xl transition cursor-pointer border border-[#E5DAC6]/50"
             >
               <X size={18} />
             </button>
@@ -165,9 +165,9 @@ export default function ArchangelMichaelPrayerModal({
         </div>
 
         {/* 21 Days Progress Strip */}
-        <div className="p-3 bg-slate-950/80 border border-slate-800 rounded-2xl space-y-2 shrink-0">
+        <div className="p-3 bg-white/80 border border-[#E5DAC6] rounded-2xl space-y-2 shrink-0">
           <div className="flex items-center justify-between text-xs">
-            <span className="font-mono text-slate-400 text-[11px] flex items-center gap-1.5">
+            <span className="font-mono text-[#5C5248] text-[11px] flex items-center gap-1.5">
               <Sparkles size={13} className="text-amber-400" /> Jornada de Libertação & Corte de Laços
             </span>
             <span className="font-mono text-emerald-400 font-bold text-xs">
@@ -184,7 +184,7 @@ export default function ArchangelMichaelPrayerModal({
                   className={`h-6 rounded-md flex items-center justify-center text-[10px] font-mono transition ${
                     isDone
                       ? 'bg-blue-600 text-white font-bold shadow-sm shadow-blue-500/30'
-                      : 'bg-slate-900 border border-slate-800 text-slate-500 hover:text-slate-400'
+                      : 'bg-[#FBF8F2] border border-[#E5DAC6] text-[#85786C] hover:text-[#5C5248]'
                   }`}
                   title={`Dia ${day} ${isDone ? '(Concluído)' : '(Pendente)'}`}
                 >
@@ -208,7 +208,7 @@ export default function ArchangelMichaelPrayerModal({
               className={`px-3 py-1.5 rounded-xl text-xs font-mono whitespace-nowrap transition cursor-pointer border ${
                 currentSectionIndex === idx
                   ? 'bg-blue-600/20 border-blue-500 text-blue-300 font-semibold'
-                  : 'bg-slate-950 border-slate-800 text-slate-400 hover:text-slate-300'
+                  : 'bg-white border-[#E5DAC6] text-[#5C5248] hover:text-[#5C5248]'
               }`}
             >
               Parte {idx + 1}
@@ -217,20 +217,20 @@ export default function ArchangelMichaelPrayerModal({
         </div>
 
         {/* Prayer Content Display */}
-        <div className="flex-1 overflow-y-auto bg-slate-950/70 border border-blue-500/20 rounded-2xl p-4 sm:p-6 space-y-4 shadow-inner">
+        <div className="flex-1 overflow-y-auto bg-white/75 border border-blue-500/20 rounded-2xl p-4 sm:p-6 space-y-4 shadow-inner">
           <div className="space-y-1">
             <span className="text-[11px] font-mono text-amber-400 uppercase tracking-wider block font-semibold">
               {currentSection.title}
             </span>
           </div>
 
-          <p className="text-sm sm:text-base leading-relaxed text-slate-200 font-serif italic whitespace-pre-line border-l-2 border-blue-500/40 pl-4">
+          <p className="text-sm sm:text-base leading-relaxed text-[#2A2420] font-serif italic whitespace-pre-line border-l-2 border-blue-500/40 pl-4">
             {currentSection.text.replace(/\[NOME\]/g, userName || 'Filho da Luz')}
           </p>
         </div>
 
         {/* Audio Player & Complete Today Actions */}
-        <div className="pt-2 flex flex-col sm:flex-row items-center justify-between gap-3 shrink-0 border-t border-slate-800">
+        <div className="pt-2 flex flex-col sm:flex-row items-center justify-between gap-3 shrink-0 border-t border-[#E5DAC6]">
           <button
             onClick={handleTogglePlay}
             className={`w-full sm:w-auto px-5 py-3 rounded-xl font-medium text-xs font-mono flex items-center justify-center gap-2 transition cursor-pointer border ${
