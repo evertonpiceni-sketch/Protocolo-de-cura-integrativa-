@@ -81,19 +81,19 @@ export default function ContactModal({
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-slate-950/85 backdrop-blur-md overflow-y-auto" id="contact-us-modal">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-[#2A2420]/30 backdrop-blur-md overflow-y-auto" id="contact-us-modal">
       <motion.div
         initial={{ opacity: 0, scale: 0.95, y: 15 }}
         animate={{ opacity: 1, scale: 1, y: 0 }}
         exit={{ opacity: 0, scale: 0.95, y: 15 }}
-        className="w-full max-w-2xl bg-slate-900 border border-slate-800 rounded-3xl p-5 sm:p-7 shadow-2xl space-y-6 relative overflow-hidden my-4 max-h-[92vh] overflow-y-auto"
+        className="w-full max-w-2xl bg-[#FBF8F2] border border-[#E5DAC6] rounded-3xl p-5 sm:p-7 shadow-2xl space-y-6 relative overflow-hidden my-4 max-h-[92vh] overflow-y-auto"
       >
         {/* Glow backdrop */}
         <div className="absolute top-0 right-0 w-72 h-72 bg-emerald-500/10 rounded-full blur-3xl pointer-events-none" />
-        <div className="absolute bottom-0 left-0 w-72 h-72 bg-indigo-500/15 rounded-full blur-3xl pointer-events-none" />
+        <div className="absolute bottom-0 left-0 w-72 h-72 bg-[#B88736]/15 rounded-full blur-3xl pointer-events-none" />
 
         {/* Header */}
-        <div className="flex items-center justify-between border-b border-slate-800 pb-4">
+        <div className="flex items-center justify-between border-b border-[#E5DAC6] pb-4">
           <div className="flex items-center gap-3">
             <div className="w-12 h-12 rounded-2xl overflow-hidden border border-emerald-500/30 shrink-0 shadow-md">
               <img
@@ -108,11 +108,11 @@ export default function ContactModal({
                 <span className="text-[10px] font-mono uppercase tracking-widest text-emerald-400 bg-emerald-500/10 border border-emerald-500/20 px-2.5 py-0.5 rounded-full font-bold">
                   Canal de Atendimento
                 </span>
-                <span className="text-[10px] font-mono text-indigo-300">
+                <span className="text-[10px] font-mono text-[#B88736]">
                   Éverton Rodrigo Piceni
                 </span>
               </div>
-              <h2 className="text-lg sm:text-xl font-display font-medium text-slate-100 mt-0.5">
+              <h2 className="text-lg sm:text-xl font-display font-medium text-[#2A2420] mt-0.5">
                 Fale Conosco
               </h2>
             </div>
@@ -120,7 +120,7 @@ export default function ContactModal({
 
           <button
             onClick={onClose}
-            className="p-2 text-slate-400 hover:text-white bg-slate-800/60 hover:bg-slate-800 rounded-xl transition cursor-pointer border-none"
+            className="p-2 text-[#5C5248] hover:text-white bg-[#F5EFE4]/60 hover:bg-[#F5EFE4] rounded-xl transition cursor-pointer border-none"
             title="Fechar"
           >
             <X size={18} />
@@ -134,10 +134,10 @@ export default function ContactModal({
               <Check size={32} />
             </div>
             <div className="space-y-1">
-              <h3 className="text-xl font-bold text-slate-100">
+              <h3 className="text-xl font-bold text-[#2A2420]">
                 Mensagem Preparada com Sucesso!
               </h3>
-              <p className="text-xs text-slate-300 max-w-md mx-auto leading-relaxed">
+              <p className="text-xs text-[#5C5248] max-w-md mx-auto leading-relaxed">
                 Sua mensagem foi direcionada para o e-mail oficial do terapeuta. Responderemos o mais breve possível com todo o carinho e atenção.
               </p>
             </div>
@@ -149,7 +149,7 @@ export default function ContactModal({
                   setIsSent(false);
                   setMessage('');
                 }}
-                className="px-4 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-semibold transition cursor-pointer"
+                className="px-4 py-2.5 rounded-xl bg-[#F5EFE4] hover:bg-slate-700 text-[#5C5248] text-xs font-semibold transition cursor-pointer"
               >
                 Enviar Outra Mensagem
               </button>
@@ -166,14 +166,14 @@ export default function ContactModal({
           /* Form & Quick Contacts */
           <div className="space-y-5">
             {/* Quick direct contact card */}
-            <div className="p-4 rounded-2xl bg-slate-950/80 border border-slate-800 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 text-xs">
+            <div className="p-4 rounded-2xl bg-white/80 border border-[#E5DAC6] flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 text-xs">
               <div className="flex items-center gap-3">
-                <div className="w-9 h-9 rounded-xl bg-indigo-500/15 border border-indigo-500/30 text-indigo-400 flex items-center justify-center shrink-0">
+                <div className="w-9 h-9 rounded-xl bg-[#B88736]/15 border border-[#B88736]/30 text-[#B88736] flex items-center justify-center shrink-0">
                   <Mail size={18} />
                 </div>
                 <div>
-                  <span className="text-[10px] font-mono text-slate-400 uppercase block">E-mail Oficial de Atendimento:</span>
-                  <strong className="text-slate-200 font-mono text-xs select-all">evertonpiceni@gmail.com</strong>
+                  <span className="text-[10px] font-mono text-[#5C5248] uppercase block">E-mail Oficial de Atendimento:</span>
+                  <strong className="text-[#2A2420] font-mono text-xs select-all">evertonpiceni@gmail.com</strong>
                 </div>
               </div>
 
@@ -181,7 +181,7 @@ export default function ContactModal({
                 <button
                   type="button"
                   onClick={handleCopyEmail}
-                  className="flex-1 sm:flex-initial px-3 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-semibold flex items-center justify-center gap-1.5 transition cursor-pointer border border-slate-700"
+                  className="flex-1 sm:flex-initial px-3 py-1.5 rounded-xl bg-[#F5EFE4] hover:bg-slate-700 text-[#5C5248] text-xs font-semibold flex items-center justify-center gap-1.5 transition cursor-pointer border border-[#E5DAC6]"
                 >
                   {copiedEmail ? <Check size={13} className="text-emerald-400" /> : <Copy size={13} />}
                   <span>{copiedEmail ? 'E-mail Copiado!' : 'Copiar E-mail'}</span>
@@ -203,7 +203,7 @@ export default function ContactModal({
             <form onSubmit={handleSendMessage} className="space-y-4">
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <div className="space-y-1">
-                  <label className="text-[10px] font-mono text-slate-400 uppercase font-bold">
+                  <label className="text-[10px] font-mono text-[#5C5248] uppercase font-bold">
                     Seu Nome
                   </label>
                   <input
@@ -211,12 +211,12 @@ export default function ContactModal({
                     value={senderName}
                     onChange={(e) => setSenderName(e.target.value)}
                     placeholder="Como prefere ser chamado(a)"
-                    className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3.5 py-2 text-xs text-slate-100 placeholder:text-slate-600 outline-none focus:border-emerald-500"
+                    className="w-full bg-white border border-[#E5DAC6] rounded-xl px-3.5 py-2 text-xs text-[#2A2420] placeholder:text-[#85786C] outline-none focus:border-emerald-500"
                   />
                 </div>
 
                 <div className="space-y-1">
-                  <label className="text-[10px] font-mono text-slate-400 uppercase font-bold">
+                  <label className="text-[10px] font-mono text-[#5C5248] uppercase font-bold">
                     Seu E-mail para Resposta
                   </label>
                   <input
@@ -224,19 +224,19 @@ export default function ContactModal({
                     value={senderEmail}
                     onChange={(e) => setSenderEmail(e.target.value)}
                     placeholder="seuemail@exemplo.com"
-                    className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3.5 py-2 text-xs text-slate-100 placeholder:text-slate-600 outline-none focus:border-emerald-500"
+                    className="w-full bg-white border border-[#E5DAC6] rounded-xl px-3.5 py-2 text-xs text-[#2A2420] placeholder:text-[#85786C] outline-none focus:border-emerald-500"
                   />
                 </div>
               </div>
 
               <div className="space-y-1">
-                <label className="text-[10px] font-mono text-slate-400 uppercase font-bold">
+                <label className="text-[10px] font-mono text-[#5C5248] uppercase font-bold">
                   Assunto / Tema do Contato
                 </label>
                 <select
                   value={topic}
                   onChange={(e) => setTopic(e.target.value as any)}
-                  className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3.5 py-2 text-xs text-slate-200 outline-none focus:border-emerald-500 cursor-pointer font-sans"
+                  className="w-full bg-white border border-[#E5DAC6] rounded-xl px-3.5 py-2 text-xs text-[#2A2420] outline-none focus:border-emerald-500 cursor-pointer font-sans"
                 >
                   <option value="duvida_protocolo">Dúvidas sobre o Protocolo de 21 Dias</option>
                   <option value="tratamento_especifico">Tratamento Específico Personalizado</option>
@@ -247,7 +247,7 @@ export default function ContactModal({
               </div>
 
               <div className="space-y-1">
-                <label className="text-[10px] font-mono text-slate-400 uppercase font-bold">
+                <label className="text-[10px] font-mono text-[#5C5248] uppercase font-bold">
                   Sua Mensagem ou Dúvida
                 </label>
                 <textarea
@@ -256,12 +256,12 @@ export default function ContactModal({
                   value={message}
                   onChange={(e) => setMessage(e.target.value)}
                   placeholder="Escreva aqui como podemos te ajudar, suas percepções durante as sessões ou perguntas..."
-                  className="w-full bg-slate-950 border border-slate-800 rounded-xl p-3.5 text-xs text-slate-100 placeholder:text-slate-600 outline-none focus:border-emerald-500 resize-none leading-relaxed"
+                  className="w-full bg-white border border-[#E5DAC6] rounded-xl p-3.5 text-xs text-[#2A2420] placeholder:text-[#85786C] outline-none focus:border-emerald-500 resize-none leading-relaxed"
                 />
               </div>
 
               <div className="pt-2 flex flex-col sm:flex-row items-center justify-between gap-3">
-                <span className="text-[11px] text-slate-400 flex items-center gap-1.5">
+                <span className="text-[11px] text-[#5C5248] flex items-center gap-1.5">
                   <Shield size={13} className="text-emerald-400 shrink-0" />
                   <span>Sigilo e acolhimento terapêutico garantidos.</span>
                 </span>
@@ -270,7 +270,7 @@ export default function ContactModal({
                   <button
                     type="button"
                     onClick={onClose}
-                    className="flex-1 sm:flex-initial px-4 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-semibold transition cursor-pointer"
+                    className="flex-1 sm:flex-initial px-4 py-2.5 rounded-xl bg-[#F5EFE4] hover:bg-slate-700 text-[#5C5248] text-xs font-semibold transition cursor-pointer"
                   >
                     Cancelar
                   </button>
@@ -280,7 +280,7 @@ export default function ContactModal({
                     className={`flex-1 sm:flex-initial px-5 py-2.5 rounded-xl text-xs font-bold flex items-center justify-center gap-2 transition cursor-pointer shadow-lg ${
                       message.trim()
                         ? 'bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white shadow-emerald-600/20'
-                        : 'bg-slate-800 text-slate-500 cursor-not-allowed border border-slate-700'
+                        : 'bg-[#F5EFE4] text-[#85786C] cursor-not-allowed border border-[#E5DAC6]'
                     }`}
                   >
                     <Send size={13} />
