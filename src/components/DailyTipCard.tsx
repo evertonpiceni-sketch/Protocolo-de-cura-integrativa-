@@ -158,7 +158,7 @@ export default function DailyTipCard({
       case 'wind':
         return <Wind className="text-teal-400" size={20} />;
       case 'dumbbell':
-        return <Dumbbell className="text-indigo-400" size={20} />;
+        return <Dumbbell className="text-[#B88736]" size={20} />;
       case 'coffee':
         return <Coffee className="text-amber-300" size={20} />;
       case 'leaf':
@@ -177,8 +177,8 @@ export default function DailyTipCard({
       transition={{ duration: 0.4 }}
       className={`rounded-3xl border transition-all duration-300 p-5 md:p-6 relative overflow-hidden shadow-xl ${
         isCompleted
-          ? 'bg-gradient-to-r from-emerald-950/40 via-slate-900 to-teal-950/30 border-emerald-500/40 ring-1 ring-emerald-500/20'
-          : 'bg-gradient-to-r from-slate-900 via-indigo-950/30 to-slate-900 border-indigo-500/30 shadow-indigo-950/20'
+          ? 'bg-gradient-to-r from-emerald-950/40 via-[#FBF8F2] to-teal-950/30 border-emerald-500/40 ring-1 ring-emerald-500/20'
+          : 'bg-gradient-to-r from-slate-900 via-indigo-950/30 to-slate-900 border-[#B88736]/30 shadow-indigo-950/20'
       }`}
       id="daily-health-tip-card"
     >
@@ -192,31 +192,31 @@ export default function DailyTipCard({
           <div className={`p-3 rounded-2xl border shrink-0 transition-colors ${
             isCompleted 
               ? 'bg-emerald-500/20 border-emerald-500/40' 
-              : 'bg-indigo-500/15 border-indigo-500/30'
+              : 'bg-[#B88736]/15 border-[#B88736]/30'
           }`}>
             {getIcon(todayTip.icon)}
           </div>
 
           <div className="space-y-1">
             <div className="flex flex-wrap items-center gap-2">
-              <span className="px-2.5 py-0.5 rounded-full text-[10px] font-mono font-bold uppercase tracking-wider bg-indigo-500/20 text-indigo-300 border border-indigo-500/30">
+              <span className="px-2.5 py-0.5 rounded-full text-[10px] font-mono font-bold uppercase tracking-wider bg-[#B88736]/20 text-[#B88736] border border-[#B88736]/30">
                 🌿 Hábito de Sustentação • Dia {currentDay}
               </span>
-              <span className="text-[11px] text-slate-400 font-medium">
+              <span className="text-[11px] text-[#5C5248] font-medium">
                 {todayTip.category}
               </span>
               {todayTip.bathRule && (
                 <span className={`px-2 py-0.5 rounded-full text-[10px] font-mono font-bold border ${
                   todayTip.id === 'banho-boldo-coronario'
                     ? 'bg-amber-500/20 text-amber-300 border-amber-500/40'
-                    : 'bg-indigo-500/20 text-indigo-300 border-indigo-500/30'
+                    : 'bg-[#B88736]/20 text-[#B88736] border-[#B88736]/30'
                 }`}>
                   {todayTip.bathRule}
                 </span>
               )}
             </div>
 
-            <h3 className="text-base md:text-lg font-bold text-slate-100 flex items-center gap-2">
+            <h3 className="text-base md:text-lg font-bold text-[#2A2420] flex items-center gap-2">
               {todayTip.title}
               {isCompleted && (
                 <span className="inline-flex items-center gap-1 text-xs font-mono font-bold text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded-full border border-emerald-500/30">
@@ -225,7 +225,7 @@ export default function DailyTipCard({
               )}
             </h3>
 
-            <p className="text-xs md:text-sm text-slate-300 leading-relaxed max-w-2xl">
+            <p className="text-xs md:text-sm text-[#5C5248] leading-relaxed max-w-2xl">
               {todayTip.description}
             </p>
           </div>
@@ -248,7 +248,7 @@ export default function DailyTipCard({
           <button
             type="button"
             onClick={() => setIsExpanded(!isExpanded)}
-            className="px-3 py-2 rounded-xl bg-slate-800/80 hover:bg-slate-800 border border-slate-700/80 text-slate-300 hover:text-slate-100 text-xs font-semibold transition cursor-pointer"
+            className="px-3 py-2 rounded-xl bg-[#F5EFE4]/80 hover:bg-[#F5EFE4] border border-[#E5DAC6] text-[#5C5248] hover:text-[#2A2420] text-xs font-semibold transition cursor-pointer"
           >
             {isExpanded ? 'Ver Menos' : 'Ver Detalhes'}
           </button>
@@ -275,30 +275,30 @@ export default function DailyTipCard({
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
-            className="mt-4 pt-4 border-t border-slate-800/80 grid grid-cols-1 md:grid-cols-3 gap-3 text-xs"
+            className="mt-4 pt-4 border-t border-[#E5DAC6] grid grid-cols-1 md:grid-cols-3 gap-3 text-xs"
           >
             {/* Practical Action */}
-            <div className="p-3 rounded-2xl bg-slate-950/60 border border-slate-800/80 space-y-1">
-              <span className="text-[10px] font-mono uppercase text-indigo-400 font-bold block">
+            <div className="p-3 rounded-2xl bg-white/70 border border-[#E5DAC6] space-y-1">
+              <span className="text-[10px] font-mono uppercase text-[#B88736] font-bold block">
                 🎯 Ação Prática Rápida
               </span>
-              <p className="text-slate-200 leading-snug">
+              <p className="text-[#2A2420] leading-snug">
                 {todayTip.practicalAction}
               </p>
             </div>
 
             {/* Holistic Benefit */}
-            <div className="p-3 rounded-2xl bg-slate-950/60 border border-slate-800/80 space-y-1">
+            <div className="p-3 rounded-2xl bg-white/70 border border-[#E5DAC6] space-y-1">
               <span className="text-[10px] font-mono uppercase text-emerald-400 font-bold block">
                 ✨ Benefício Vibracional
               </span>
-              <p className="text-slate-300 leading-snug">
+              <p className="text-[#5C5248] leading-snug">
                 {todayTip.benefit}
               </p>
             </div>
 
             {/* Affirmation */}
-            <div className="p-3 rounded-2xl bg-slate-950/60 border border-slate-800/80 space-y-1">
+            <div className="p-3 rounded-2xl bg-white/70 border border-[#E5DAC6] space-y-1">
               <span className="text-[10px] font-mono uppercase text-amber-400 font-bold block">
                 💎 Afirmação do Dia
               </span>
