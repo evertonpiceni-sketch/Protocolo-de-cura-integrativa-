@@ -89,7 +89,7 @@ function DayOverlay({ day }: { day: number }) {
   }
 }
 
-function Preview({ day }: { day: number }) {
+export function JourneyDayVisualPreview({ day }: { day: number }) {
   return (
     <div className="relative aspect-square w-full overflow-hidden rounded-[28px] border border-[#E5DAC6] bg-gradient-to-b from-[#FBF8F2] to-[#F5EFE4] shadow-sm">
       <div className="absolute inset-x-0 top-0 h-28 bg-gradient-to-b from-[#B88736]/10 to-transparent" />
@@ -163,7 +163,7 @@ export default function VideoStudioLightModal({ isOpen, onClose, initialDay = 1 
               <div className="flex items-center gap-1.5 text-[10px] text-[#85786C]"><ImageIcon size={13}/> fallback vetorial</div>
             </div>
             <div className={aspect==='9:16'?'mx-auto max-w-[360px]':aspect==='16:9'?'mx-auto max-w-2xl':''}>
-              <Preview day={day}/>
+              <JourneyDayVisualPreview day={day}/>
             </div>
             <div className="mt-3 rounded-2xl border border-[#B88736]/20 bg-[#F5EFE4] p-3 text-xs leading-relaxed text-[#5C5248]">
               <strong className="text-[#2A2420]">Movimento da luz:</strong> {item.movimentoLuz}
