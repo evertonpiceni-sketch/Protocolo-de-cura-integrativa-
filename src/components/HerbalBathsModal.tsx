@@ -40,7 +40,7 @@ export const SACRED_HERBAL_BATHS: HerbalBath[] = [
     bestDayOrTime: 'Sexta-feira ou Domingo, preferencialmente antes de dormir',
     associatedChakra: 'Chakra Coronário (Topo da Cabeça)',
     affirmation: 'Minha mente está em profunda paz. Minha coroa se conecta à luz pura e divina.',
-    color: 'from-amber-500/20 via-slate-900 to-indigo-950/40 border-amber-400/40 text-amber-300',
+    color: 'from-amber-500/20 via-[#FBF8F2] to-indigo-950/40 border-amber-400/40 text-amber-300',
     badge: '⭐ ÚNICO PERMITIDO DA CABEÇA AOS PÉS'
   },
   {
@@ -55,7 +55,7 @@ export const SACRED_HERBAL_BATHS: HerbalBath[] = [
     bestDayOrTime: 'Domingo de manhã ou Terça-feira durante o dia',
     associatedChakra: 'Chakra do Plexo Solar (Estômago/Digestivo)',
     affirmation: 'Sou luz, força e vitalidade. Meus caminhos se abrem para a alegria e prosperidade.',
-    color: 'from-yellow-500/20 via-slate-900 to-amber-950/40 border-yellow-400/40 text-yellow-300',
+    color: 'from-yellow-500/20 via-[#FBF8F2] to-amber-950/40 border-yellow-400/40 text-yellow-300',
     badge: '🌿 DO PESCOÇO PARA BAIXO'
   },
   {
@@ -70,7 +70,7 @@ export const SACRED_HERBAL_BATHS: HerbalBath[] = [
     bestDayOrTime: 'Quarta-feira ou Sexta-feira ao entardecer',
     associatedChakra: 'Chakra Cardíaco (Centro do Peito)',
     affirmation: 'O amor divino flui em mim e através de mim. Eu vivo em paz e perfeita harmonia.',
-    color: 'from-emerald-500/20 via-slate-900 to-teal-950/40 border-emerald-400/40 text-emerald-300',
+    color: 'from-emerald-500/20 via-[#FBF8F2] to-teal-950/40 border-emerald-400/40 text-emerald-300',
     badge: '🌿 DO PESCOÇO PARA BAIXO'
   },
   {
@@ -85,7 +85,7 @@ export const SACRED_HERBAL_BATHS: HerbalBath[] = [
     bestDayOrTime: 'À noite, 30 minutos antes de dormir',
     associatedChakra: 'Chakra Cardíaco e Chakra Sacral',
     affirmation: 'Eu descanso seguro(a) no colo do Universo. Todo medo se dissolve em paz.',
-    color: 'from-amber-400/20 via-slate-900 to-orange-950/40 border-amber-300/40 text-amber-200',
+    color: 'from-amber-400/20 via-[#FBF8F2] to-orange-950/40 border-amber-300/40 text-amber-200',
     badge: '🌿 DO PESCOÇO PARA BAIXO'
   },
   {
@@ -100,7 +100,7 @@ export const SACRED_HERBAL_BATHS: HerbalBath[] = [
     bestDayOrTime: 'Segunda-feira à noite ou Quinta-feira',
     associatedChakra: 'Chakra Básico (Raiz) e Chakra Esplênico',
     affirmation: 'Nenhuma energia densa permanece no meu campo. Sou blindado(a) na luz.',
-    color: 'from-indigo-500/20 via-slate-900 to-purple-950/40 border-indigo-400/40 text-indigo-300',
+    color: 'from-indigo-500/20 via-[#FBF8F2] to-purple-950/40 border-indigo-400/40 text-[#B88736]',
     badge: '🚫 JAMAIS NA CABEÇA • DO PESCOÇO P/ BAIXO'
   },
   {
@@ -115,7 +115,7 @@ export const SACRED_HERBAL_BATHS: HerbalBath[] = [
     bestDayOrTime: 'Sexta-feira à noite ou Sábado',
     associatedChakra: 'Chakra Frontal (Terceiro Olho) e Cardíaco',
     affirmation: 'Meu campo energético irradia pureza, serenidade e acolhimento angelical.',
-    color: 'from-purple-500/20 via-slate-900 to-indigo-950/40 border-purple-400/40 text-purple-300',
+    color: 'from-purple-500/20 via-[#FBF8F2] to-indigo-950/40 border-purple-400/40 text-[#B88736]',
     badge: '🌿 DO PESCOÇO PARA BAIXO'
   },
   {
@@ -130,7 +130,7 @@ export const SACRED_HERBAL_BATHS: HerbalBath[] = [
     bestDayOrTime: 'Quinta-feira ou Domingo pela manhã',
     associatedChakra: 'Chakra do Plexo Solar e Chakra Básico',
     affirmation: 'Sou merecedor(a) da abundância infinita. O sucesso e as bênçãos chegam até mim.',
-    color: 'from-amber-600/20 via-slate-900 to-yellow-950/40 border-amber-500/40 text-amber-300',
+    color: 'from-amber-600/20 via-[#FBF8F2] to-yellow-950/40 border-amber-500/40 text-amber-300',
     badge: '🌿 DO PESCOÇO PARA BAIXO'
   },
   {
@@ -145,7 +145,7 @@ export const SACRED_HERBAL_BATHS: HerbalBath[] = [
     bestDayOrTime: 'Sábado ou Domingo ao nascer do sol ou à noite',
     associatedChakra: 'Chakra Cardíaco e Coroa',
     affirmation: 'Minha alma é suave, pura e acolhida no amor infinito do Criador.',
-    color: 'from-slate-200/20 via-slate-900 to-indigo-950/40 border-slate-300/40 text-slate-100',
+    color: 'from-slate-200/20 via-[#FBF8F2] to-indigo-950/40 border-slate-300/40 text-[#2A2420]',
     badge: '🌿 DO PESCOÇO PARA BAIXO'
   },
   {
@@ -160,7 +160,7 @@ export const SACRED_HERBAL_BATHS: HerbalBath[] = [
     bestDayOrTime: 'Segunda-feira pela manhã para abrir a semana',
     associatedChakra: 'Chakra Laríngeo (Garganta)',
     affirmation: 'Comunico minha verdade com clareza, firmeza e amor. Minha mente é cristalina.',
-    color: 'from-teal-500/20 via-slate-900 to-emerald-950/40 border-teal-400/40 text-teal-300',
+    color: 'from-teal-500/20 via-[#FBF8F2] to-emerald-950/40 border-teal-400/40 text-teal-300',
     badge: '🌿 DO PESCOÇO PARA BAIXO'
   },
   {
@@ -175,7 +175,7 @@ export const SACRED_HERBAL_BATHS: HerbalBath[] = [
     bestDayOrTime: 'Segunda-feira ou Sexta-feira ao entardecer',
     associatedChakra: 'Alinhamento dos 7 Chakras',
     affirmation: 'Sete forças de luz limpam, purificam e blindam todo o meu ser. Estou renovado(a).',
-    color: 'from-emerald-600/20 via-slate-900 to-indigo-950/40 border-emerald-500/40 text-emerald-300',
+    color: 'from-emerald-600/20 via-[#FBF8F2] to-indigo-950/40 border-emerald-500/40 text-emerald-300',
     badge: '🚫 JAMAIS NA CABEÇA • DO PESCOÇO P/ BAIXO'
   },
   {
@@ -190,7 +190,7 @@ export const SACRED_HERBAL_BATHS: HerbalBath[] = [
     bestDayOrTime: 'Quinta-feira ou Domingo em fase de Lua Nova ou Crescente',
     associatedChakra: 'Chakra Frontal e Chakra do Plexo Solar',
     affirmation: 'Minha intuição é um farol divino. Eu atraio abundância, brilho e vitórias.',
-    color: 'from-amber-500/20 via-slate-900 to-yellow-950/40 border-amber-400/40 text-amber-300',
+    color: 'from-amber-500/20 via-[#FBF8F2] to-yellow-950/40 border-amber-400/40 text-amber-300',
     badge: '🌿 DO PESCOÇO PARA BAIXO'
   },
   {
@@ -205,7 +205,7 @@ export const SACRED_HERBAL_BATHS: HerbalBath[] = [
     bestDayOrTime: 'Terça-feira ou Quarta-feira',
     associatedChakra: 'Chakra Laríngeo e Cardíaco',
     affirmation: 'Respiro a pureza divina. Toda sobrecarga se dissolve em ar puro e renovação.',
-    color: 'from-teal-600/20 via-slate-900 to-slate-950 border-teal-500/40 text-teal-300',
+    color: 'from-teal-600/20 via-[#FBF8F2] to-[#F3EBDD] border-teal-500/40 text-teal-300',
     badge: '🌿 DO PESCOÇO PARA BAIXO'
   },
   {
@@ -220,7 +220,7 @@ export const SACRED_HERBAL_BATHS: HerbalBath[] = [
     bestDayOrTime: 'Sexta-feira (Dia de Vênus / Afrodite)',
     associatedChakra: 'Chakra Sacral (Umbilical) e Cardíaco',
     affirmation: 'Eu me amo, me honro e me respeito. Minha presença é magnética, bela e cheia de vida.',
-    color: 'from-rose-600/20 via-slate-900 to-pink-950/40 border-rose-500/40 text-rose-300',
+    color: 'from-rose-600/20 via-[#FBF8F2] to-pink-950/40 border-rose-500/40 text-rose-300',
     badge: '🌿 DO PESCOÇO PARA BAIXO'
   },
   {
@@ -235,7 +235,7 @@ export const SACRED_HERBAL_BATHS: HerbalBath[] = [
     bestDayOrTime: 'Domingo à noite ou Quinta-feira',
     associatedChakra: 'Chakra Plexo Solar e Cardíaco',
     affirmation: 'Minha mente repousa em serenidade. Confio no triunfo da minha caminhada.',
-    color: 'from-lime-500/20 via-slate-900 to-emerald-950/40 border-lime-400/40 text-lime-300',
+    color: 'from-lime-500/20 via-[#FBF8F2] to-emerald-950/40 border-lime-400/40 text-lime-300',
     badge: '🌿 DO PESCOÇO PARA BAIXO'
   }
 ];
@@ -293,15 +293,15 @@ _Protocolo de Cura Integrada_`);
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-5 bg-slate-950/85 backdrop-blur-md overflow-y-auto animate-fade-in" id="herbal-baths-modal">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-5 bg-[#2A2420]/30 backdrop-blur-md overflow-y-auto animate-fade-in" id="herbal-baths-modal">
       <motion.div
         initial={{ opacity: 0, scale: 0.95, y: 15 }}
         animate={{ opacity: 1, scale: 1, y: 0 }}
         exit={{ opacity: 0, scale: 0.95, y: 15 }}
-        className="bg-slate-900 border border-slate-750 rounded-3xl w-full max-w-4xl max-h-[92vh] flex flex-col overflow-hidden shadow-2xl relative my-auto"
+        className="bg-[#FBF8F2] border border-slate-750 rounded-3xl w-full max-w-4xl max-h-[92vh] flex flex-col overflow-hidden shadow-2xl relative my-auto"
       >
         {/* Header */}
-        <div className="p-5 sm:p-6 border-b border-slate-800 bg-gradient-to-r from-emerald-950/50 via-slate-900 to-indigo-950/40 flex items-center justify-between shrink-0">
+        <div className="p-5 sm:p-6 border-b border-[#E5DAC6] bg-gradient-to-r from-emerald-950/50 via-[#FBF8F2] to-indigo-950/40 flex items-center justify-between shrink-0">
           <div className="flex items-center gap-3.5">
             <div className="w-11 h-11 rounded-2xl bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 flex items-center justify-center shrink-0 shadow-md shadow-emerald-950/30">
               <Leaf size={22} />
@@ -312,7 +312,7 @@ _Protocolo de Cura Integrada_`);
                   Sabedoria Ancestral & Fitoterapia Sagrada
                 </span>
               </div>
-              <h2 className="text-lg sm:text-xl font-display font-bold text-slate-100 mt-0.5">
+              <h2 className="text-lg sm:text-xl font-display font-bold text-[#2A2420] mt-0.5">
                 Guia Sagrado de Banhos de Ervas & Limpeza Energética
               </h2>
             </div>
@@ -321,7 +321,7 @@ _Protocolo de Cura Integrada_`);
           <button
             type="button"
             onClick={onClose}
-            className="p-2 rounded-xl bg-slate-800/80 hover:bg-slate-800 text-slate-400 hover:text-white border border-slate-700 transition cursor-pointer"
+            className="p-2 rounded-xl bg-[#F5EFE4]/80 hover:bg-[#F5EFE4] text-[#5C5248] hover:text-white border border-[#E5DAC6] transition cursor-pointer"
             id="btn-close-herbal-baths"
           >
             <X size={18} />
@@ -332,7 +332,7 @@ _Protocolo de Cura Integrada_`);
         <div className="p-5 sm:p-6 overflow-y-auto space-y-6 flex-1 custom-scrollbar">
 
           {/* CRITICAL SACRED WARNING BANNER */}
-          <div className="p-4 sm:p-5 rounded-2xl bg-gradient-to-r from-amber-950/80 via-slate-900 to-amber-950/60 border-2 border-amber-500/50 shadow-xl space-y-2.5 relative overflow-hidden" id="sacred-bath-golden-rule">
+          <div className="p-4 sm:p-5 rounded-2xl bg-gradient-to-r from-amber-950/80 via-[#FBF8F2] to-amber-950/60 border-2 border-amber-500/50 shadow-xl space-y-2.5 relative overflow-hidden" id="sacred-bath-golden-rule">
             <div className="flex items-start gap-3">
               <div className="p-2.5 rounded-xl bg-amber-500/20 text-amber-300 border border-amber-500/30 shrink-0">
                 <AlertTriangle size={22} />
@@ -341,26 +341,26 @@ _Protocolo de Cura Integrada_`);
                 <h3 className="text-sm sm:text-base font-bold text-amber-200 flex items-center gap-2">
                   <span>REGRA DE OURO DOS BANHOS ENERGÉTICOS</span>
                 </h3>
-                <p className="text-xs sm:text-sm text-slate-200 leading-relaxed font-medium">
+                <p className="text-xs sm:text-sm text-[#2A2420] leading-relaxed font-medium">
                   <strong className="text-amber-300">NENHUM BANHO DE ERVAS DEVE SER TOMADO DA CABEÇA AOS PÉS, A NÃO SER O BANHO DE BOLDO.</strong>
                 </p>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2 text-xs">
-                  <div className="p-3 rounded-xl bg-slate-950/70 border border-amber-500/30 space-y-1">
+                  <div className="p-3 rounded-xl bg-white/75 border border-amber-500/30 space-y-1">
                     <span className="text-amber-300 font-bold flex items-center gap-1.5 font-mono text-[11px]">
                       <Sparkles size={13} className="text-amber-400" />
                       BANHO DE BOLDO (Exceção Única)
                     </span>
-                    <p className="text-slate-300 leading-snug text-[11px]">
+                    <p className="text-[#5C5248] leading-snug text-[11px]">
                       É a <strong>única erva permitida da cabeça aos pés</strong> (no Chakra Coronário). Ele acalma os pensamentos, limpa miasmas mentais e reconecta com a paz de Oxalá / Jesus sem agredir seu portal superior.
                     </p>
                   </div>
 
-                  <div className="p-3 rounded-xl bg-slate-950/70 border border-indigo-500/30 space-y-1">
-                    <span className="text-indigo-300 font-bold flex items-center gap-1.5 font-mono text-[11px]">
-                      <ShieldCheck size={13} className="text-indigo-400" />
+                  <div className="p-3 rounded-xl bg-white/75 border border-[#B88736]/30 space-y-1">
+                    <span className="text-[#B88736] font-bold flex items-center gap-1.5 font-mono text-[11px]">
+                      <ShieldCheck size={13} className="text-[#B88736]" />
                       TODOS OS DEMAIS BANHOS
                     </span>
-                    <p className="text-slate-300 leading-snug text-[11px]">
+                    <p className="text-[#5C5248] leading-snug text-[11px]">
                       Alecrim, Arruda, Manjericão, Camomila, Alfazema, Louro, etc. devem ser tomados <strong>SEMPRE DO PESCOÇO / OMBROS PARA BAIXO</strong> para não desalinhar a frequência do Chakra Coronário.
                     </p>
                   </div>
@@ -380,13 +380,13 @@ _Protocolo de Cura Integrada_`);
           <div className="space-y-3">
             <div className="flex flex-col sm:flex-row gap-2.5">
               <div className="relative flex-1">
-                <Search size={16} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-500" />
+                <Search size={16} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-[#85786C]" />
                 <input
                   type="text"
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
                   placeholder="Buscar erva, finalidade (ex: boldo, sono, prosperidade, descarrego)..."
-                  className="w-full bg-slate-950 border border-slate-800 rounded-xl pl-9 pr-4 py-2.5 text-xs text-slate-200 placeholder-slate-500 focus:outline-none focus:border-emerald-500 transition"
+                  className="w-full bg-white border border-[#E5DAC6] rounded-xl pl-9 pr-4 py-2.5 text-xs text-[#2A2420] placeholder-slate-500 focus:outline-none focus:border-emerald-500 transition"
                 />
               </div>
             </div>
@@ -401,7 +401,7 @@ _Protocolo de Cura Integrada_`);
                   className={`px-3 py-1.5 rounded-xl text-xs font-semibold whitespace-nowrap transition cursor-pointer border ${
                     selectedCategory === cat
                       ? 'bg-emerald-600 border-emerald-500 text-white shadow-sm shadow-emerald-600/20'
-                      : 'bg-slate-950/60 border-slate-800 text-slate-400 hover:text-slate-200 hover:border-slate-700'
+                      : 'bg-white/70 border-[#E5DAC6] text-[#5C5248] hover:text-[#2A2420] hover:border-[#E5DAC6]'
                   }`}
                 >
                   {cat}
@@ -421,8 +421,8 @@ _Protocolo de Cura Integrada_`);
                   key={bath.id}
                   className={`p-4 sm:p-5 rounded-2xl border bg-gradient-to-br transition-all duration-300 flex flex-col justify-between space-y-4 shadow-lg ${
                     isBoldo
-                      ? 'from-amber-950/30 via-slate-900 to-indigo-950/40 border-amber-500/50 ring-1 ring-amber-500/20'
-                      : 'from-slate-950/80 via-slate-900 to-slate-950/60 border-slate-800 hover:border-slate-700'
+                      ? 'from-amber-950/30 via-[#FBF8F2] to-indigo-950/40 border-amber-500/50 ring-1 ring-amber-500/20'
+                      : 'from-[#F8F4EC]/80 via-[#FBF8F2] to-[#F3EBDD]/60 border-[#E5DAC6] hover:border-[#E5DAC6]'
                   }`}
                 >
                   <div className="space-y-3">
@@ -431,18 +431,18 @@ _Protocolo de Cura Integrada_`);
                       <span className={`text-[10px] font-mono font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full border ${
                         isBoldo 
                           ? 'bg-amber-500/20 text-amber-300 border-amber-500/40 animate-pulse'
-                          : 'bg-indigo-500/15 text-indigo-300 border-indigo-500/30'
+                          : 'bg-[#B88736]/15 text-[#B88736] border-[#B88736]/30'
                       }`}>
                         {bath.badge}
                       </span>
-                      <span className="text-[11px] text-slate-400 font-mono">
+                      <span className="text-[11px] text-[#5C5248] font-mono">
                         {bath.category}
                       </span>
                     </div>
 
                     {/* Title */}
                     <div>
-                      <h3 className="text-base sm:text-lg font-bold text-slate-100 flex items-center gap-2">
+                      <h3 className="text-base sm:text-lg font-bold text-[#2A2420] flex items-center gap-2">
                         {bath.name}
                         {isBoldo && <Sparkles size={16} className="text-amber-400" />}
                       </h3>
@@ -452,48 +452,48 @@ _Protocolo de Cura Integrada_`);
                     </div>
 
                     {/* Purpose */}
-                    <div className="p-3 rounded-xl bg-slate-950/80 border border-slate-850 space-y-1">
+                    <div className="p-3 rounded-xl bg-white/80 border border-[#E5DAC6] space-y-1">
                       <span className="text-[10px] font-mono uppercase text-emerald-400 font-bold block flex items-center gap-1">
                         <Heart size={11} />
                         Para que serve:
                       </span>
-                      <p className="text-xs text-slate-200 leading-relaxed">
+                      <p className="text-xs text-[#2A2420] leading-relaxed">
                         {bath.purpose}
                       </p>
                     </div>
 
                     {/* Herbs & Application Rule */}
                     <div className="space-y-1.5 text-xs">
-                      <div className="flex items-start gap-1.5 text-slate-300">
-                        <strong className="text-slate-400 font-mono text-[11px] shrink-0">🍃 Ervas:</strong>
+                      <div className="flex items-start gap-1.5 text-[#5C5248]">
+                        <strong className="text-[#5C5248] font-mono text-[11px] shrink-0">🍃 Ervas:</strong>
                         <span>{bath.herbs.join(', ')}</span>
                       </div>
 
-                      <div className="flex items-start gap-1.5 text-slate-300">
-                        <strong className="text-slate-400 font-mono text-[11px] shrink-0">📍 Aplicação:</strong>
-                        <span className={isBoldo ? 'text-amber-300 font-bold' : 'text-indigo-300 font-semibold'}>
+                      <div className="flex items-start gap-1.5 text-[#5C5248]">
+                        <strong className="text-[#5C5248] font-mono text-[11px] shrink-0">📍 Aplicação:</strong>
+                        <span className={isBoldo ? 'text-amber-300 font-bold' : 'text-[#B88736] font-semibold'}>
                           {isBoldo ? '✨ Da cabeça aos pés' : '🌿 Estritamente do pescoço para baixo'}
                         </span>
                       </div>
 
-                      <div className="flex items-start gap-1.5 text-slate-300">
-                        <strong className="text-slate-400 font-mono text-[11px] shrink-0">⏰ Momento:</strong>
-                        <span className="text-slate-400">{bath.bestDayOrTime}</span>
+                      <div className="flex items-start gap-1.5 text-[#5C5248]">
+                        <strong className="text-[#5C5248] font-mono text-[11px] shrink-0">⏰ Momento:</strong>
+                        <span className="text-[#5C5248]">{bath.bestDayOrTime}</span>
                       </div>
                     </div>
 
                     {/* Preparation */}
-                    <div className="p-3 rounded-xl bg-slate-950/60 border border-slate-850/80 space-y-1 text-xs">
-                      <span className="text-[10px] font-mono uppercase text-indigo-400 font-bold block">
+                    <div className="p-3 rounded-xl bg-white/70 border border-[#E5DAC6]/80 space-y-1 text-xs">
+                      <span className="text-[10px] font-mono uppercase text-[#B88736] font-bold block">
                         🥣 Modo de Preparo & Intenção:
                       </span>
-                      <p className="text-slate-300 text-[11px] leading-relaxed">
+                      <p className="text-[#5C5248] text-[11px] leading-relaxed">
                         {bath.preparation}
                       </p>
                     </div>
 
                     {/* Affirmation */}
-                    <div className="p-2.5 rounded-xl bg-slate-950/40 border border-dashed border-slate-800 text-xs">
+                    <div className="p-2.5 rounded-xl bg-white/40 border border-dashed border-[#E5DAC6] text-xs">
                       <span className="text-[9px] font-mono uppercase text-amber-400 font-bold block">
                         💎 Afirmação Durante o Banho:
                       </span>
@@ -504,11 +504,11 @@ _Protocolo de Cura Integrada_`);
                   </div>
 
                   {/* Card Action Buttons */}
-                  <div className="flex items-center gap-2 pt-2 border-t border-slate-850">
+                  <div className="flex items-center gap-2 pt-2 border-t border-[#E5DAC6]">
                     <button
                       type="button"
                       onClick={() => handleCopyRecipe(bath)}
-                      className="flex-1 py-2 rounded-xl bg-slate-800 hover:bg-slate-750 text-slate-200 text-xs font-semibold flex items-center justify-center gap-1.5 transition cursor-pointer border border-slate-700"
+                      className="flex-1 py-2 rounded-xl bg-[#F5EFE4] hover:bg-slate-750 text-[#2A2420] text-xs font-semibold flex items-center justify-center gap-1.5 transition cursor-pointer border border-[#E5DAC6]"
                     >
                       {isCopied ? (
                         <>
@@ -539,12 +539,12 @@ _Protocolo de Cura Integrada_`);
           </div>
 
           {/* Quick FAQ / Harmonização */}
-          <div className="p-4 rounded-2xl bg-slate-950 border border-slate-800 space-y-2 text-xs text-slate-400">
-            <h4 className="text-slate-200 font-bold flex items-center gap-1.5 font-mono text-xs">
-              <Info size={14} className="text-indigo-400" />
+          <div className="p-4 rounded-2xl bg-white border border-[#E5DAC6] space-y-2 text-xs text-[#5C5248]">
+            <h4 className="text-[#2A2420] font-bold flex items-center gap-1.5 font-mono text-xs">
+              <Info size={14} className="text-[#B88736]" />
               Dúvidas Frequentes sobre os Banhos de Ervas:
             </h4>
-            <ul className="list-disc list-inside space-y-1 text-slate-300 leading-relaxed text-[11px]">
+            <ul className="list-disc list-inside space-y-1 text-[#5C5248] leading-relaxed text-[11px]">
               <li><strong>Posso tomar mais de um banho por semana?</strong> Sim, recomendamos intercalar banhos de limpeza suave (boldo, manjericão) com banhos de elevação (alecrim, camomila) com intervalo de 2 a 3 dias.</li>
               <li><strong>O que fazer com as folhas coadas?</strong> Devolva à natureza (em um jardim, vaso ou pé de árvore) agradecendo pelo elemento vegetal. Evite jogar no lixo comum quando possível.</li>
               <li><strong>Sempre tomar o banho higiênico antes?</strong> Sim! Primeiro limpe o corpo físico com sabonete e água corrente. Depois, desligue o chuveiro e despeje o banho de ervas com tranquilidade e presença.</li>
@@ -553,8 +553,8 @@ _Protocolo de Cura Integrada_`);
         </div>
 
         {/* Footer */}
-        <div className="p-4 border-t border-slate-800 bg-slate-950 flex flex-col sm:flex-row items-center justify-between gap-3 shrink-0">
-          <p className="text-[11px] text-slate-400 font-mono text-center sm:text-left">
+        <div className="p-4 border-t border-[#E5DAC6] bg-white flex flex-col sm:flex-row items-center justify-between gap-3 shrink-0">
+          <p className="text-[11px] text-[#5C5248] font-mono text-center sm:text-left">
             ✨ Protocolo de Cura Integrada • Fitoterapia Energética por Éverton Piceni
           </p>
           <button
