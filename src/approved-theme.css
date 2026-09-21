@@ -246,3 +246,54 @@ body::before{
   #profile-setup-view{padding:.75rem!important}
   #onboarding-card{border-radius:1.6rem!important}
 }
+
+
+/* ---------- Compatibilidade final com componentes legados ainda ativos ---------- */
+html{color-scheme:light!important}
+
+/* Overlays permanecem overlays; apenas o conteúdo interno deixa de ser verde-noturno. */
+div[class*="fixed"][class*="inset-0"][class*="bg-slate-950"],
+div[class*="fixed"][class*="inset-0"][class*="bg-black"]{
+  background:rgba(42,36,32,.28)!important;
+  backdrop-filter:blur(10px);
+}
+
+body [class*="bg-slate-950"]:not([class*="fixed"][class*="inset-0"]),
+body [class*="bg-slate-900"],
+body [class*="bg-slate-850"],
+body [class*="bg-slate-800"]{
+  background-color:rgba(255,255,255,.90)!important;
+  border-color:var(--border-subtle)!important;
+}
+
+body [class*="from-slate-950"],
+body [class*="via-slate-900"],
+body [class*="to-slate-950"]{
+  --tw-gradient-from:#FBF8F2 var(--tw-gradient-from-position)!important;
+  --tw-gradient-via:#F8F4EC var(--tw-gradient-via-position)!important;
+  --tw-gradient-to:#F3EBDD var(--tw-gradient-to-position)!important;
+}
+
+body [class*="text-slate-100"],
+body [class*="text-slate-200"],
+body [class*="text-white"]{color:var(--text-primary)!important}
+body [class*="text-slate-300"],
+body [class*="text-slate-400"],
+body [class*="text-slate-500"],
+body [class*="text-slate-600"]{color:var(--text-secondary)!important}
+body [class*="border-slate-800"],
+body [class*="border-slate-700"],
+body [class*="border-slate-850"]{border-color:var(--border-subtle)!important}
+
+/* Mantém botões de ação dourados/sálvia legíveis após a neutralização do legado. */
+body button[class*="bg-amber-"],
+body button[class*="from-amber-"],
+body button[class*="from-[#D6A756]"],
+body button[class*="from-[#E2B96B]"],
+body .ep-gold-button{
+  color:white!important;
+}
+body button[class*="bg-emerald-600"],
+body button[class*="bg-indigo-600"],
+body button[class*="bg-blue-600"],
+body button[class*="bg-rose-600"]{color:white!important}
