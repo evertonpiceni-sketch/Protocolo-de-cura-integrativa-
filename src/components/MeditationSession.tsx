@@ -11,7 +11,8 @@ import {
   Smile, Check, CheckCircle2, ChevronRight, PenTool, FlameKindling,
   Activity, TrendingUp, Zap, HelpCircle
 } from 'lucide-react';
-import { DayProgress, ProtocolStage, PROTOCOL_STAGES, StageContent, DAILY_INSIGHTS, JOURNEY_7D_INSIGHTS, SessionCheckIn } from '../types';
+import { DayProgress, ProtocolStage, PROTOCOL_STAGES, StageContent, SessionCheckIn, JourneyType } from '../types';
+import { getIntegratedJourneyDay, getIntegratedJourneyDuration } from '../data/integratedJourney';
 import { ORIGINAL_PROTOCOL_SCRIPTS } from '../data/protocol_scripts';
 import { audioEngine } from '../lib/audio';
 import { requestWakeLock } from '../lib/wakeLockHelpers';
@@ -68,7 +69,7 @@ interface MeditationSessionProps {
   customDecree?: string;
   prescribedFocus?: string;
   initialLanguage?: AppLanguage;
-  journeyType?: '7d' | '21d';
+  journeyType?: JourneyType;
   onCompleteSession: (
     dayNumber: number,
     journalText: string,
@@ -109,9 +110,8 @@ export default function MeditationSession({
   const [voiceVolume, setVoiceVolume] = useState(0.85);
   const [isMuted, setIsMuted] = useState(false);
   
-  const totalJourneyDays = journeyType === '7d' ? 7 : 21;
-  const currentInsightsList = journeyType === '7d' ? JOURNEY_7D_INSIGHTS : DAILY_INSIGHTS;
-  const currentDayInsight = currentInsightsList[dayNumber - 1] || currentInsightsList[0];
+  const totalJourneyDays = getIntegratedJourneyDuration(journeyType);
+  const currentDayInsight = getIntegratedJourneyDay(dayNumber, totalJourneyDays);
   
   // Custom stage interactive states
   const [breathePhase, setBreathePhase] = useState<'inhale' | 'hold' | 'exhale'>('inhale');
@@ -704,7 +704,7 @@ export default function MeditationSession({
           <div className="w-full max-w-xl bg-[#FBF8F2] border border-[#E5DAC6] rounded-3xl p-6 md:p-8 shadow-2xl space-y-5 text-center relative overflow-hidden my-4">
             <div className="flex items-center justify-center gap-2">
               <span className="text-[10px] font-mono tracking-widest text-[#B88736] bg-[#B88736]/10 border border-[#B88736]/20 px-3 py-1 rounded-full uppercase">
-                {journeyType === '7d' ? `Jornada dos 7 Chakras • Dia ${dayNumber} de 7` : `Protocolo de Cura Integrada • Dia ${dayNumber} de 21`}
+                {`Jornada Única Integrada • Dia ${dayNumber} de ${totalJourneyDays}`}
               </span>
             </div>
             
@@ -836,15 +836,9 @@ export default function MeditationSession({
             {/* Scrolling decree text */}
             <div className="bg-white/80 border border-[#E5DAC6] rounded-2xl p-6 text-sm leading-relaxed text-[#5C5248] font-sans shadow-inner max-h-72 overflow-y-auto italic text-center space-y-4">
               <p className="text-base text-[#2A2420] leading-relaxed font-serif">
-                {journeyType === '7d' ? (
-                  <>
-                    "Eu, <span className="text-emerald-400 font-semibold underline underline-offset-4 decoration-emerald-500/40">{userName}</span>, aceito receber nesse momento com todo o meu coração, o Protocolo de Alinhamento e Cura Integrada de 7 Dias (Jornada dos 7 Chakras), conforme canalizado e aplicado por Éverton Rodrigo Piceni."
-                  </>
-                ) : (
-                  <>
-                    "Eu, <span className="text-[#B88736] font-semibold underline underline-offset-4 decoration-indigo-500/40">{userName}</span>, aceito receber nesse momento com todo o meu coração, o Protocolo de Cura Integrada de 21 dias, conforme canalizado e aplicado por Éverton Rodrigo Piceni."
-                  </>
-                )}
+                {<>
+                    "Eu, <span className="text-[#B88736] font-semibold underline underline-offset-4 decoration-[#B88736]/40">{userName}</span>, aceito receber neste momento, com todo o meu coração, a Jornada Única Integrada de {totalJourneyDays} dias, conforme canalizada e aplicada por Everton Rodrigo Piceni."
+                  </>}
               </p>
 
               {customDecree && (
