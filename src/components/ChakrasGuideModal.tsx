@@ -44,7 +44,7 @@ export const CHAKRAS_DATA: ChakraInfo[] = [
     colorName: 'Vermelho Rubi',
     colorClass: 'text-rose-400',
     borderClass: 'border-rose-500/40',
-    bgGradient: 'from-rose-950/40 via-slate-900 to-slate-950',
+    bgGradient: 'from-rose-950/40 via-[#FBF8F2] to-[#F3EBDD]',
     badgeBg: 'bg-rose-500/20 text-rose-300 border-rose-500/30',
     location: 'Base da coluna vertebral e períneo',
     element: 'Terra 🌍',
@@ -65,7 +65,7 @@ export const CHAKRAS_DATA: ChakraInfo[] = [
     colorName: 'Laranja Solar',
     colorClass: 'text-amber-400',
     borderClass: 'border-amber-500/40',
-    bgGradient: 'from-amber-950/40 via-slate-900 to-slate-950',
+    bgGradient: 'from-amber-950/40 via-[#FBF8F2] to-[#F3EBDD]',
     badgeBg: 'bg-amber-500/20 text-amber-300 border-amber-500/30',
     location: 'Baixo ventre (quatro dedos abaixo do umbigo)',
     element: 'Água 💧',
@@ -86,7 +86,7 @@ export const CHAKRAS_DATA: ChakraInfo[] = [
     colorName: 'Amarelo Dourado',
     colorClass: 'text-yellow-400',
     borderClass: 'border-yellow-500/40',
-    bgGradient: 'from-yellow-950/30 via-slate-900 to-slate-950',
+    bgGradient: 'from-yellow-950/30 via-[#FBF8F2] to-[#F3EBDD]',
     badgeBg: 'bg-yellow-500/20 text-yellow-300 border-yellow-500/30',
     location: 'Região do estômago / boca do estômago',
     element: 'Fogo 🔥',
@@ -107,7 +107,7 @@ export const CHAKRAS_DATA: ChakraInfo[] = [
     colorName: 'Verde Esmeralda & Rosa Quartzo',
     colorClass: 'text-emerald-400',
     borderClass: 'border-emerald-500/40',
-    bgGradient: 'from-emerald-950/40 via-slate-900 to-slate-950',
+    bgGradient: 'from-emerald-950/40 via-[#FBF8F2] to-[#F3EBDD]',
     badgeBg: 'bg-emerald-500/20 text-emerald-300 border-emerald-500/30',
     location: 'Centro do peito / coração espiritual',
     element: 'Ar 🍃',
@@ -128,7 +128,7 @@ export const CHAKRAS_DATA: ChakraInfo[] = [
     colorName: 'Azul Turquesa & Celeste',
     colorClass: 'text-cyan-400',
     borderClass: 'border-cyan-500/40',
-    bgGradient: 'from-cyan-950/40 via-slate-900 to-slate-950',
+    bgGradient: 'from-cyan-950/40 via-[#FBF8F2] to-[#F3EBDD]',
     badgeBg: 'bg-cyan-500/20 text-cyan-300 border-cyan-500/30',
     location: 'Garganta e cordas vocais',
     element: 'Éter / Espaço 🌌',
@@ -147,10 +147,10 @@ export const CHAKRAS_DATA: ChakraInfo[] = [
     sanskritName: 'Ajna',
     name: 'Chakra Frontal (Terceiro Olho)',
     colorName: 'Azul Índigo & Safira',
-    colorClass: 'text-indigo-400',
-    borderClass: 'border-indigo-500/40',
-    bgGradient: 'from-indigo-950/40 via-slate-900 to-slate-950',
-    badgeBg: 'bg-indigo-500/20 text-indigo-300 border-indigo-500/30',
+    colorClass: 'text-[#B88736]',
+    borderClass: 'border-[#B88736]/40',
+    bgGradient: 'from-indigo-950/40 via-[#FBF8F2] to-[#F3EBDD]',
+    badgeBg: 'bg-[#B88736]/20 text-[#B88736] border-[#B88736]/30',
     location: 'Entre as sobrancelhas (glândula pineal e hipófise)',
     element: 'Luz Pura 👁️',
     bijaMantra: 'OM',
@@ -170,8 +170,8 @@ export const CHAKRAS_DATA: ChakraInfo[] = [
     colorName: 'Violeta & Dourado Cósmico',
     colorClass: 'text-purple-400',
     borderClass: 'border-purple-500/40',
-    bgGradient: 'from-purple-950/40 via-slate-900 to-slate-950',
-    badgeBg: 'bg-purple-500/20 text-purple-300 border-purple-500/30',
+    bgGradient: 'from-purple-950/40 via-[#FBF8F2] to-[#F3EBDD]',
+    badgeBg: 'bg-purple-500/20 text-[#B88736] border-purple-500/30',
     location: 'Topo da cabeça (coroa)',
     element: 'Consciência Pura ✨',
     bijaMantra: 'AUM / Silêncio',
@@ -194,21 +194,21 @@ export function ChakrasGuideModal({ isOpen, onClose }: ChakrasGuideModalProps) {
   const Icon = currentChakra.icon;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/85 backdrop-blur-md overflow-y-auto" id="chakras-guide-modal">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-[#2A2420]/30 backdrop-blur-md overflow-y-auto" id="chakras-guide-modal">
       <motion.div
         initial={{ opacity: 0, scale: 0.95, y: 15 }}
         animate={{ opacity: 1, scale: 1, y: 0 }}
         exit={{ opacity: 0, scale: 0.95 }}
-        className="w-full max-w-4xl bg-slate-900 border border-indigo-500/30 rounded-3xl p-6 md:p-8 shadow-2xl relative overflow-hidden my-6"
+        className="w-full max-w-4xl bg-[#FBF8F2] border border-[#B88736]/30 rounded-3xl p-6 md:p-8 shadow-2xl relative overflow-hidden my-6"
       >
         {/* Ambient background glows */}
-        <div className="absolute -top-24 -right-24 w-72 h-72 bg-indigo-500/10 rounded-full blur-3xl pointer-events-none" />
+        <div className="absolute -top-24 -right-24 w-72 h-72 bg-[#B88736]/10 rounded-full blur-3xl pointer-events-none" />
         <div className="absolute -bottom-24 -left-24 w-72 h-72 bg-purple-500/10 rounded-full blur-3xl pointer-events-none" />
 
         {/* Close button */}
         <button
           onClick={onClose}
-          className="absolute top-5 right-5 w-8 h-8 rounded-full bg-slate-800/80 border border-slate-700 text-slate-400 hover:text-slate-200 flex items-center justify-center transition cursor-pointer z-10"
+          className="absolute top-5 right-5 w-8 h-8 rounded-full bg-[#F5EFE4]/80 border border-[#E5DAC6] text-[#5C5248] hover:text-[#2A2420] flex items-center justify-center transition cursor-pointer z-10"
         >
           <X size={16} />
         </button>
@@ -216,14 +216,14 @@ export function ChakrasGuideModal({ isOpen, onClose }: ChakrasGuideModalProps) {
         <div className="space-y-6">
           {/* Header */}
           <div className="text-center space-y-2">
-            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-indigo-500/10 border border-indigo-500/30 text-indigo-300 text-xs font-mono font-medium">
-              <Sparkles size={13} className="text-indigo-400" />
+            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#B88736]/10 border border-[#B88736]/30 text-[#B88736] text-xs font-mono font-medium">
+              <Sparkles size={13} className="text-[#B88736]" />
               <span>GUIA ANATÔMICO & ENERGÉTICO</span>
             </div>
-            <h2 className="text-2xl md:text-3xl font-display font-medium text-slate-100">
+            <h2 className="text-2xl md:text-3xl font-display font-medium text-[#2A2420]">
               O Significado Sagrado dos 7 Chakras
             </h2>
-            <p className="text-xs md:text-sm text-slate-400 max-w-2xl mx-auto">
+            <p className="text-xs md:text-sm text-[#5C5248] max-w-2xl mx-auto">
               Descubra o que cada centro de força simboliza no seu corpo, os sintomas de desequilíbrio e como o Protocolo de 21 Dias age restaurando cada frequência.
             </p>
           </div>
@@ -240,16 +240,16 @@ export function ChakrasGuideModal({ isOpen, onClose }: ChakrasGuideModalProps) {
                   className={`p-2.5 rounded-2xl border text-left flex flex-col items-center justify-center gap-1 transition cursor-pointer ${
                     isSelected
                       ? `${chakra.bgGradient} ${chakra.borderClass} ring-1 ring-white/20 shadow-lg scale-105`
-                      : 'bg-slate-950/60 border-slate-800 text-slate-400 hover:border-slate-700 hover:text-slate-200'
+                      : 'bg-white/70 border-[#E5DAC6] text-[#5C5248] hover:border-[#E5DAC6] hover:text-[#2A2420]'
                   }`}
                 >
-                  <div className={`p-1.5 rounded-xl ${isSelected ? chakra.badgeBg : 'bg-slate-900 text-slate-500'}`}>
+                  <div className={`p-1.5 rounded-xl ${isSelected ? chakra.badgeBg : 'bg-[#FBF8F2] text-[#85786C]'}`}>
                     <CIcon size={16} />
                   </div>
                   <span className="text-[10px] font-mono font-bold text-center">
                     {chakra.number}º {chakra.sanskritName}
                   </span>
-                  <span className="text-[9px] text-slate-500 text-center line-clamp-1 font-sans">
+                  <span className="text-[9px] text-[#85786C] text-center line-clamp-1 font-sans">
                     {chakra.colorName.split(' ')[0]}
                   </span>
                 </button>
@@ -267,14 +267,14 @@ export function ChakrasGuideModal({ isOpen, onClose }: ChakrasGuideModalProps) {
                 </div>
                 <div>
                   <div className="flex items-center gap-2">
-                    <span className="text-xs font-mono uppercase font-bold tracking-widest text-slate-300">
+                    <span className="text-xs font-mono uppercase font-bold tracking-widest text-[#5C5248]">
                       {currentChakra.number}º CENTRO ENERGÉTICO
                     </span>
                     <span className={`px-2 py-0.5 rounded-full text-[10px] font-mono border ${currentChakra.badgeBg}`}>
                       {currentChakra.colorName}
                     </span>
                   </div>
-                  <h3 className="text-xl md:text-2xl font-bold text-slate-100 mt-0.5">
+                  <h3 className="text-xl md:text-2xl font-bold text-[#2A2420] mt-0.5">
                     {currentChakra.name} ({currentChakra.sanskritName})
                   </h3>
                 </div>
@@ -282,12 +282,12 @@ export function ChakrasGuideModal({ isOpen, onClose }: ChakrasGuideModalProps) {
 
               {/* Solfeggio frequency & Mantra */}
               <div className="flex items-center gap-2 sm:self-center">
-                <div className="bg-slate-950/80 px-3 py-1.5 rounded-xl border border-white/10 text-center">
-                  <span className="text-[9px] font-mono text-slate-500 uppercase block">Som Sagrado</span>
+                <div className="bg-white/80 px-3 py-1.5 rounded-xl border border-white/10 text-center">
+                  <span className="text-[9px] font-mono text-[#85786C] uppercase block">Som Sagrado</span>
                   <strong className="text-xs font-mono text-amber-300">{currentChakra.bijaMantra}</strong>
                 </div>
-                <div className="bg-slate-950/80 px-3 py-1.5 rounded-xl border border-white/10 text-center">
-                  <span className="text-[9px] font-mono text-slate-500 uppercase block">Ressonância</span>
+                <div className="bg-white/80 px-3 py-1.5 rounded-xl border border-white/10 text-center">
+                  <span className="text-[9px] font-mono text-[#85786C] uppercase block">Ressonância</span>
                   <strong className="text-xs font-mono text-emerald-300">{currentChakra.solfeggioFreq}</strong>
                 </div>
               </div>
@@ -296,55 +296,55 @@ export function ChakrasGuideModal({ isOpen, onClose }: ChakrasGuideModalProps) {
             {/* Content Matrix */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {/* O que simboliza */}
-              <div className="p-4 rounded-2xl bg-slate-950/80 border border-slate-800/80 space-y-1.5">
-                <span className="text-[11px] font-mono text-slate-400 uppercase tracking-wider flex items-center gap-1.5 font-semibold">
+              <div className="p-4 rounded-2xl bg-white/80 border border-[#E5DAC6] space-y-1.5">
+                <span className="text-[11px] font-mono text-[#5C5248] uppercase tracking-wider flex items-center gap-1.5 font-semibold">
                   <Sparkles size={12} className={currentChakra.colorClass} />
                   <span>O que este Chakra Simboliza:</span>
                 </span>
-                <p className="text-xs text-slate-200 leading-relaxed font-sans">
+                <p className="text-xs text-[#2A2420] leading-relaxed font-sans">
                   {currentChakra.symbolizes}
                 </p>
-                <div className="pt-2 text-[10px] text-slate-400 font-mono">
+                <div className="pt-2 text-[10px] text-[#5C5248] font-mono">
                   📍 <strong>Localização:</strong> {currentChakra.location} • 🍃 <strong>Elemento:</strong> {currentChakra.element}
                 </div>
               </div>
 
               {/* Em Equilíbrio */}
-              <div className="p-4 rounded-2xl bg-slate-950/80 border border-emerald-500/20 space-y-1.5">
+              <div className="p-4 rounded-2xl bg-white/80 border border-emerald-500/20 space-y-1.5">
                 <span className="text-[11px] font-mono text-emerald-400 uppercase tracking-wider flex items-center gap-1.5 font-semibold">
                   <CheckCircle2 size={12} />
                   <span>Sinais de Equilíbrio & Alinhamento:</span>
                 </span>
-                <p className="text-xs text-slate-200 leading-relaxed font-sans">
+                <p className="text-xs text-[#2A2420] leading-relaxed font-sans">
                   {currentChakra.inBalance}
                 </p>
               </div>
 
               {/* Quando Bloqueado */}
-              <div className="p-4 rounded-2xl bg-slate-950/80 border border-rose-500/20 space-y-1.5">
+              <div className="p-4 rounded-2xl bg-white/80 border border-rose-500/20 space-y-1.5">
                 <span className="text-[11px] font-mono text-rose-400 uppercase tracking-wider flex items-center gap-1.5 font-semibold">
                   <Activity size={12} />
                   <span>Sintomas de Bloqueio ou Desalinhamento:</span>
                 </span>
-                <p className="text-xs text-slate-300 leading-relaxed font-sans">
+                <p className="text-xs text-[#5C5248] leading-relaxed font-sans">
                   {currentChakra.whenBlocked}
                 </p>
               </div>
 
               {/* Atuação no Protocolo de 21 Dias */}
-              <div className="p-4 rounded-2xl bg-slate-950/80 border border-indigo-500/30 space-y-1.5">
-                <span className="text-[11px] font-mono text-indigo-300 uppercase tracking-wider flex items-center gap-1.5 font-semibold">
+              <div className="p-4 rounded-2xl bg-white/80 border border-[#B88736]/30 space-y-1.5">
+                <span className="text-[11px] font-mono text-[#B88736] uppercase tracking-wider flex items-center gap-1.5 font-semibold">
                   <Crown size={12} />
                   <span>Atuação no Protocolo de 21 Dias:</span>
                 </span>
-                <p className="text-xs text-slate-200 leading-relaxed font-sans">
+                <p className="text-xs text-[#2A2420] leading-relaxed font-sans">
                   {currentChakra.protocolAction}
                 </p>
               </div>
             </div>
 
             {/* Decree / Affirmation Box */}
-            <div className="p-4 rounded-2xl bg-slate-950/90 border border-amber-400/30 space-y-1 text-center">
+            <div className="p-4 rounded-2xl bg-[#2A2420]/30 border border-amber-400/30 space-y-1 text-center">
               <span className="text-[10px] font-mono text-amber-400 uppercase tracking-wider block font-bold">
                 Decreto Sagrado de Alinhamento Instantâneo:
               </span>
@@ -356,13 +356,13 @@ export function ChakrasGuideModal({ isOpen, onClose }: ChakrasGuideModalProps) {
 
           {/* Footer CTA */}
           <div className="flex flex-col sm:flex-row items-center justify-between gap-3 pt-2">
-            <p className="text-xs text-slate-400 text-center sm:text-left">
+            <p className="text-xs text-[#5C5248] text-center sm:text-left">
               Cada dia dos 21 dias trabalha harmonizando a totalidade dos seus 7 centros de força.
             </p>
             <button
               type="button"
               onClick={onClose}
-              className="px-6 py-2.5 bg-indigo-600 hover:bg-indigo-500 text-white rounded-xl text-xs font-semibold transition cursor-pointer shadow-lg shadow-indigo-600/20"
+              className="px-6 py-2.5 bg-[#B88736] hover:bg-[#B88736] text-white rounded-xl text-xs font-semibold transition cursor-pointer shadow-lg shadow-indigo-600/20"
             >
               Fechar Guia dos Chakras
             </button>
