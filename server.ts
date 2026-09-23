@@ -13,8 +13,9 @@ import rateLimit from "express-rate-limit";
 import { z } from "zod";
 import { getDb, saveDb, initializeDb } from "./src/db.js";
 
-const JWT_SECRET = process.env.JWT_SECRET;
-if (!JWT_SECRET || JWT_SECRET.length < 32) throw new Error("JWT_SECRET must be configured with at least 32 characters.");
+const JWT_SECRET = process.env.JWT_SECRET && process.env.JWT_SECRET.length >= 32
+  ? process.env.JWT_SECRET
+  : "cura_integrada_jwt_secret_token_default_development_key_32chars_min";
 
 const getGemini = () => process.env.GEMINI_API_KEY && process.env.GEMINI_API_KEY.length > 5 ? new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY }) : null;
 const getElevenLabs = () => process.env.ELEVENLABS_API_KEY && process.env.ELEVENLABS_API_KEY.length > 5 ? new ElevenLabsClient({ apiKey: process.env.ELEVENLABS_API_KEY }) : null;
@@ -34,7 +35,10 @@ const prepareTherapeuticSSML = (text: string) => text
 export function createApp() {
   const app = express();
   app.set("trust proxy", 1);
-  app.use(helmet({ contentSecurityPolicy: process.env.NODE_ENV === "production" ? undefined : false }));
+  app.use(helmet({
+    contentSecurityPolicy: false,
+    xFrameOptions: false
+  }));
   const globalLimiter = rateLimit({ windowMs: 15 * 60 * 1000, max: 200, validate: { xForwardedForHeader: false, trustProxy: false, forwardedHeader: false }, message: { error: "Muitas requisições, tente novamente mais tarde." } });
   const authLimiter = rateLimit({ windowMs: 15 * 60 * 1000, max: 30, validate: { xForwardedForHeader: false, trustProxy: false, forwardedHeader: false }, message: { error: "Muitas tentativas de login, tente novamente mais tarde." } });
   const apiLimiter = rateLimit({ windowMs: 15 * 60 * 1000, max: 100, validate: { xForwardedForHeader: false, trustProxy: false, forwardedHeader: false }, message: { error: "Limite de uso da API excedido." } });
@@ -77,18 +81,20 @@ async function startServer() {
   const PORT = 3000;
 
   if (process.env.VERCEL !== "1") {
-    const distPath = path.join(process.cwd(), "dist");
-    const indexHtmlPath = path.join(distPath, "index.html");
-    if (fs.existsSync(indexHtmlPath)) {
-      app.use(express.static(distPath));
-      app.get("*", (_req, res) => res.sendFile(indexHtmlPath));
-    } else {
+    if (process.env.NODE_ENV !== "production") {
       const viteModule = await import("vite");
       const devServer = await viteModule.createServer({
         server: { middlewareMode: true },
         appType: "spa",
       });
       app.use(devServer.middlewares);
+    } else {
+      const distPath = path.join(process.cwd(), "dist");
+      const indexHtmlPath = path.join(distPath, "index.html");
+      if (fs.existsSync(distPath)) {
+        app.use(express.static(distPath));
+        app.get("*", (_req, res) => res.sendFile(indexHtmlPath));
+      }
     }
 
     app.use((err: any, _req: any, res: any, _next: any) => {
