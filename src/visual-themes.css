@@ -1,0 +1,63 @@
+.ep-theme-choice { padding: clamp(1rem,4vw,3rem); color:#2a2420; }
+.ep-theme-choice--first { min-height:100dvh; display:grid; place-items:center; background:#f8f4ec; }
+.ep-theme-choice-inner { width:min(100%,76rem); margin:auto; }
+.ep-theme-choice h1 { font:600 clamp(2rem,5vw,3.3rem)/1.1 'Cormorant Garamond',serif; text-align:center; margin:0 0 1rem; }
+.ep-theme-choice p { text-align:center; margin:0 0 1.25rem; }
+.ep-theme-choice-grid { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:clamp(.55rem,2vw,1.25rem); }
+.ep-theme-choice-card { min-width:0; padding:.55rem; display:flex; flex-direction:column; gap:.55rem; border:2px solid #d5c9ae; border-radius:1.15rem; background:#fffaf0; text-align:left; box-shadow:0 12px 28px #31271a18; cursor:pointer; }
+.ep-theme-choice-card[aria-checked="true"] { border-color:#9e6e24; box-shadow:0 0 0 3px #d6a75699,0 15px 30px #31271a26; }
+.ep-theme-choice-art { position:relative; display:block; width:100%; aspect-ratio:1 / 1.85; overflow:hidden; border-radius:.65rem; background:#eae3d3; }
+.ep-theme-choice-art img { position:absolute; max-width:none; width:620%; height:auto; left:-210%; top:-42%; }
+.ep-theme-choice-card--elegancia-profunda .ep-theme-choice-art img { left:-210%; top:-41%; }
+.ep-theme-choice-name { font:600 clamp(1.05rem,2vw,1.6rem)/1.1 'Cormorant Garamond',serif; overflow-wrap:anywhere; }
+.ep-theme-choice-indicator { color:#6b5a3d; font-size:.8rem; }
+.ep-theme-choice-confirm { display:block; margin:1.4rem auto 0; min-height:3rem; min-width:min(100%,18rem); padding:.65rem 1.6rem; border:1px solid #dfbd71; border-radius:999px; background:linear-gradient(120deg,#ead8a2,#b88736); color:#172c20; font-weight:700; cursor:pointer; }
+.ep-theme-choice-confirm:disabled { opacity:.6; cursor:wait; }
+.ep-theme-choice-error { color:#9e2f20; }
+@media(max-width:700px) { .ep-theme-choice-grid { grid-template-columns:repeat(2,minmax(0,1fr)); } }
+@media(max-width:360px) { .ep-theme-choice-card { padding:.35rem; } .ep-theme-choice-name { font-size:1rem; } }
+
+/* Theme values apply to the existing screens. Registration keeps Style 1. */
+html.theme-natural-sereno { --visual-canvas:#f8f4ec; --visual-card:#fffaf0; --visual-ink:#24372a; --visual-muted:#596c55; --visual-border:#d8c69c; --visual-highlight:#b88736; --visual-halo:#d8d09c40; }
+html.theme-elegancia-profunda { --visual-canvas:#09291f; --visual-card:#10382a; --visual-ink:#fff4db; --visual-muted:#d1c5a5; --visual-border:#a3864c; --visual-highlight:#deb666; --visual-halo:#d6a75625; color-scheme:dark; }
+html.theme-essencia-luminosa { --visual-canvas:#fffef8; --visual-card:#fffaf0; --visual-ink:#30332a; --visual-muted:#707761; --visual-border:#e5d5ac; --visual-highlight:#c99e53; --visual-halo:#dfd5a560; }
+html.theme-mistico-moderno { --visual-canvas:#091b24; --visual-card:#0e2d2b; --visual-ink:#f8ebd3; --visual-muted:#c4bfd0; --visual-border:#aa874f; --visual-highlight:#dfb961; --visual-halo:#4c3e9970; color-scheme:dark; }
+html[class*="theme-"] body,
+html[class*="theme-"] #cura-main-layout {
+  background:radial-gradient(circle at 78% 0,var(--visual-halo),transparent 32rem),
+             radial-gradient(circle at 12% 74%,var(--visual-halo),transparent 25rem),
+             var(--visual-canvas)!important;
+  color:var(--visual-ink)!important;
+}
+html[class*="theme-"] #main-header,
+html[class*="theme-"] #bottom-action-dock>div,
+html[class*="theme-"] #settings-view>div,
+html[class*="theme-"] #settings-view details,
+html[class*="theme-"] .ep-home-hero,
+html[class*="theme-"] .ep-home>section,
+html[class*="theme-"] .ep-forest-panel,
+html[class*="theme-"] .ep-premium-surface,
+html[class*="theme-"] .ep-luxury-card {
+  background:var(--visual-card)!important;
+  border-color:var(--visual-border)!important;
+  color:var(--visual-ink)!important;
+}
+html[class*="theme-"] #main-header [class*="text-"],
+html[class*="theme-"] .ep-home h1,
+html[class*="theme-"] .ep-home h2,
+html[class*="theme-"] .ep-home h3,
+html[class*="theme-"] .ep-home p,
+html[class*="theme-"] .ep-home strong,
+html[class*="theme-"] #settings-view h2,
+html[class*="theme-"] #settings-view p { color:var(--visual-ink)!important; }
+html[class*="theme-"] .ep-home-dock { background:var(--visual-card)!important; border-color:var(--visual-border)!important; }
+html[class*="theme-"] #cura-main-layout input,
+html[class*="theme-"] #cura-main-layout select,
+html[class*="theme-"] #cura-main-layout textarea {
+  background:var(--visual-card)!important; color:var(--visual-ink)!important; border-color:var(--visual-border)!important;
+}
+html[class*="theme-"] .ep-theme-choice { color:var(--visual-ink); }
+html[class*="theme-"] .ep-theme-choice-card { background:var(--visual-card); border-color:var(--visual-border); color:var(--visual-ink); }
+html[class*="theme-"] .ep-theme-choice-card[aria-checked="true"] { border-color:var(--visual-highlight); }
+html[class*="theme-"] .ep-theme-choice-indicator { color:var(--visual-muted); }
+html[class*="theme-"] .ep-theme-choice--first { background:var(--visual-canvas); }

@@ -40,6 +40,7 @@ import { SpeedInsights } from '@vercel/speed-insights/react';
 import DashboardCura from './components/DashboardCura';
 import TransformationHome from './components/TransformationHome';
 import { APPROVED_LOGO_DATA_URI } from './components/ApprovedBrand';
+import VisualThemePicker, { type VisualTheme } from './components/VisualThemePicker';
 
 import { calculateAstralMap } from './utils/astrology';
 import { audioEngine } from './lib/audio';
@@ -51,6 +52,7 @@ import { localNotificationManager } from './lib/notifications';
 
 const LOCAL_STORAGE_KEY_CURRENT_LOGIN = 'cura_integrada_logged_in_user_v1';
 const LOCAL_STORAGE_KEY_ACCOUNTS = 'cura_integrada_accounts_v1';
+const VISUAL_THEME_CLASSES = ['theme-natural-sereno', 'theme-elegancia-profunda', 'theme-essencia-luminosa', 'theme-mistico-moderno'] as const;
 
 const BG_TRACKS: Record<string, string[]> = {
   '396hz': [
@@ -109,6 +111,16 @@ try {
 
 export default function App() {
   const [userProfile, setUserProfile] = useState<UserProfile | null>(null);
+  useEffect(() => {
+    const themeClass = `theme-${userProfile?.visualTheme || 'natural-sereno'}`;
+    document.documentElement.classList.remove(...VISUAL_THEME_CLASSES);
+    if (VISUAL_THEME_CLASSES.includes(themeClass as typeof VISUAL_THEME_CLASSES[number])) {
+      document.documentElement.classList.add(themeClass);
+    } else {
+      document.documentElement.classList.add('theme-natural-sereno');
+    }
+    return () => document.documentElement.classList.remove(...VISUAL_THEME_CLASSES);
+  }, [userProfile?.visualTheme]);
   const [progress, setProgress] = useState<DayProgress[]>([]);
   const [currentDay, setCurrentDay] = useState<number>(1);
   const [currentLanguage, setCurrentLanguage] = useState<AppLanguage>('pt');
@@ -346,6 +358,16 @@ export default function App() {
         body: JSON.stringify({ profile: newProfile, progress })
       }).catch(console.error);
     }
+  };
+
+  const chooseVisualTheme = async (visualTheme: VisualTheme) => {
+    const response = await fetch('/api/user/visual-theme', {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ visualTheme })
+    });
+    if (!response.ok) throw new Error('VISUAL_THEME_SAVE_FAILED');
+    setUserProfile(previous => previous ? { ...previous, visualTheme, visualThemeSelected: true } : previous);
   };
 
   const saveProgress = (newProgress: DayProgress[]) => {
@@ -647,6 +669,10 @@ export default function App() {
     return <ProfileSetup onComplete={handleOnboardingComplete} />;
   }
 
+  if (!userProfile.visualThemeSelected) {
+    return <VisualThemePicker firstAccess current={userProfile.visualTheme || 'natural-sereno'} onConfirm={chooseVisualTheme} />;
+  }
+
   const selectedProgress = selectedDayDetail ? progress.find(p => p.dayNumber === selectedDayDetail) : null;
   const currentInsightsList = userProfile.selectedJourney === '7d' ? JOURNEY_7D_INSIGHTS : DAILY_INSIGHTS;
   const selectedInsight = selectedDayDetail ? currentInsightsList[selectedDayDetail - 1] : null;
@@ -832,6 +858,7 @@ export default function App() {
         {/* Settings view */}
         {showSettings ? (
           <div className="max-w-2xl mx-auto px-4 py-6 space-y-6" id="settings-view">
+            <VisualThemePicker current={userProfile.visualTheme || 'natural-sereno'} onConfirm={chooseVisualTheme} />
             <div className="flex items-center justify-between border-b border-[#E5DAC6] pb-3">
               <h2 className="text-lg font-display font-medium text-[#2A2420]">Ajustes da Prática</h2>
               <button onClick={() => setShowSettings(false)} className="p-2 text-[#85786C] hover:text-[#5C5248]">

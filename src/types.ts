@@ -193,6 +193,8 @@ export interface NumerologyData {
 }
 
 export interface UserProfile {
+  visualTheme?: 'natural-sereno' | 'elegancia-profunda' | 'essencia-luminosa' | 'mistico-moderno';
+  visualThemeSelected?: boolean;
   name: string;
   fullName: string;
   birthDate: string;
@@ -615,4 +617,3 @@ export const JOURNEY_7D_INSIGHTS: DailyInsight[] = [
     quoteAuthor: "Éverton Rodrigo Piceni"
   }
 ];
-

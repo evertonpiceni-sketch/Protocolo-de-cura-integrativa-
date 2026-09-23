@@ -70,7 +70,28 @@ export function createApp() {
 
   const registerSchema = z.object({ login: z.string().min(3).max(50), password: z.string().min(6).max(100), fullName: z.string().max(100).optional(), email: z.string().email().max(100).optional().or(z.literal('')) });
   const loginSchema = z.object({ login: z.string().min(3).max(50), password: z.string().min(6).max(100) });
-  app.post("/api/auth/register", authLimiter, async (req, res) => { try { const { login, password, fullName, email } = registerSchema.parse(req.body); const normalizedLogin = login.trim().toLowerCase(); const db = getDb(); if (db.users.find(u => u.login === normalizedLogin)) return res.status(400).json({ error: "Usuário já existe." }); const salt = await bcrypt.genSalt(10); const hashedPassword = await bcrypt.hash(password, salt); const newUser = { id: Date.now().toString(), login: normalizedLogin, password: hashedPassword, fullName: fullName || normalizedLogin, email: email || "", plan: "free", role: "user", profile: { name: fullName || normalizedLogin, email: email || "", audioEnabled: true, bgMusicVolume: 0.5, bgMusicType: '528hz', plan: "free" }, progress: Array.from({ length: 21 }, (_, index) => ({ dayNumber: index + 1, completed: false })) }; db.users.push(newUser); await saveDb(); const token = jwt.sign({ userId: newUser.id }, JWT_SECRET, { expiresIn: '7d' }); res.cookie("token", token, { httpOnly: true, secure: process.env.NODE_ENV === "production", sameSite: "lax" }); const { password: _, ...userWithoutPassword } = newUser; return res.json({ user: userWithoutPassword }); } catch (e) { console.error("Registration failed:", e); if (res.headersSent) return; if (e instanceof z.ZodError) return res.status(400).json({ error: "Dados de registro inválidos." }); return res.status(503).json({ error: "Não foi possível concluir o cadastro agora.", code: "PERSISTENCE_UNAVAILABLE" }); } });
+  const visualThemeSchema = z.enum(['natural-sereno', 'elegancia-profunda', 'essencia-luminosa', 'mistico-moderno']);
+  app.patch('/api/user/visual-theme', authenticate, async (req: any, res: any) => {
+    const parsed = visualThemeSchema.safeParse(req.body?.visualTheme);
+    if (!parsed.success) return res.status(400).json({ error: 'Estilo visual inválido.' });
+    const db = getDb();
+    const user = db.users.find(u => u.id === req.userId);
+    if (!user) return res.status(404).json({ error: 'Usuário não encontrado.' });
+    const previousTheme = user.profile.visualTheme;
+    const previousSelection = user.profile.visualThemeSelected;
+    user.profile.visualTheme = parsed.data;
+    user.profile.visualThemeSelected = true;
+    try {
+      await saveDb();
+      return res.json({ visualTheme: parsed.data });
+    } catch (error) {
+      user.profile.visualTheme = previousTheme;
+      user.profile.visualThemeSelected = previousSelection;
+      console.error('Error saving visual theme:', error);
+      return res.status(503).json({ error: 'Não foi possível salvar a aparência agora.' });
+    }
+  });
+  app.post("/api/auth/register", authLimiter, async (req, res) => { try { const { login, password, fullName, email } = registerSchema.parse(req.body); const normalizedLogin = login.trim().toLowerCase(); const db = getDb(); if (db.users.find(u => u.login === normalizedLogin)) return res.status(400).json({ error: "Usuário já existe." }); const salt = await bcrypt.genSalt(10); const hashedPassword = await bcrypt.hash(password, salt); const newUser = { id: Date.now().toString(), login: normalizedLogin, password: hashedPassword, fullName: fullName || normalizedLogin, email: email || "", plan: "free", role: "user", profile: { name: fullName || normalizedLogin, email: email || "", audioEnabled: true, bgMusicVolume: 0.5, bgMusicType: '528hz', plan: "free", visualTheme: 'natural-sereno' }, progress: Array.from({ length: 21 }, (_, index) => ({ dayNumber: index + 1, completed: false })) }; db.users.push(newUser); await saveDb(); const token = jwt.sign({ userId: newUser.id }, JWT_SECRET, { expiresIn: '7d' }); res.cookie("token", token, { httpOnly: true, secure: process.env.NODE_ENV === "production", sameSite: "lax" }); const { password: _, ...userWithoutPassword } = newUser; return res.json({ user: userWithoutPassword }); } catch (e) { console.error("Registration failed:", e); if (res.headersSent) return; if (e instanceof z.ZodError) return res.status(400).json({ error: "Dados de registro inválidos." }); return res.status(503).json({ error: "Não foi possível concluir o cadastro agora.", code: "PERSISTENCE_UNAVAILABLE" }); } });
   app.post("/api/auth/login", authLimiter, async (req, res) => { try { const { login, password } = loginSchema.parse(req.body); const normalizedLogin = login.trim().toLowerCase(); const db = getDb(); const user = db.users.find(u => u.login === normalizedLogin); if (!user || !(await bcrypt.compare(password, user.password))) return res.status(400).json({ error: "Credenciais inválidas." }); const token = jwt.sign({ userId: user.id }, JWT_SECRET, { expiresIn: '7d' }); res.cookie("token", token, { httpOnly: true, secure: process.env.NODE_ENV === "production", sameSite: "lax" }); const { password: _, ...userWithoutPassword } = user; return res.json({ user: userWithoutPassword }); } catch { return res.status(400).json({ error: "Dados de login inválidos." }); } });
   app.post("/api/auth/logout", (req, res) => { res.clearCookie("token"); res.json({ success: true }); });
   app.get("/api/auth/me", authenticate, (req: any, res: any) => { const db = getDb(); const user = db.users.find(u => u.id === req.userId); if (!user) return res.status(404).json({ error: "Usuário não encontrado." }); const { password: _, ...userWithoutPassword } = user; res.json({ user: userWithoutPassword }); });
