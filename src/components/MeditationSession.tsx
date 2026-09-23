@@ -22,14 +22,14 @@ import { MessageCircle, Globe } from 'lucide-react';
 const PROTOCOL_PT_VOICE_ID = 'mJqP14JQFEK0PojR5lfV';
 
 const BEFORE_SENSATIONS = [
-  'Ansiedade / Agitação',
+  'Agitação / Inquietação',
   'Aperto no peito',
-  'Cansaço extremo / Burnout',
+  'Cansaço / Sobrecarga',
   'Falta de ar',
   'Nó na garganta',
-  'Mente acelerada / TDAH',
+  'Mente acelerada / Dificuldade de foco',
   'Apatia',
-  'Angústia / Depressão',
+  'Angústia / Desânimo',
   'Instabilidade / Oscilação'
 ];
 
