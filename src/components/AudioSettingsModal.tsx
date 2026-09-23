@@ -7,7 +7,8 @@ import React, { useState } from 'react';
 import { motion } from 'motion/react';
 import {
   Volume2, VolumeX, Sliders, Mic, Play, Pause,
-  Sparkles, Check, X, Shield, RefreshCw, Music
+  Sparkles, Check, X, Shield, RefreshCw, Music,
+  Headphones, Activity, Waves, Info
 } from 'lucide-react';
 import { UserProfile } from '../types';
 import { audioEngine } from '../lib/audio';
@@ -38,12 +39,88 @@ export default function AudioSettingsModal({
   const [audioEnabled, setAudioEnabled] = useState(userProfile.audioEnabled !== false);
   const [isTestingVoice, setIsTestingVoice] = useState(false);
 
+  // Sintonização Bioativa (Binaural Beats) State
+  const [bioactiveBinauralEnabled, setBioactiveBinauralEnabled] = useState<boolean>(
+    userProfile.bioactiveBinauralEnabled ?? false
+  );
+  const [binauralWaveType, setBinauralWaveType] = useState<'delta' | 'theta' | 'alpha' | 'beta' | 'gamma'>(
+    userProfile.binauralWaveType ?? 'alpha'
+  );
+  const [binauralIntensity, setBinauralIntensity] = useState<number>(
+    userProfile.binauralIntensity ?? 0.35
+  );
+  const [binauralCarrierMode, setBinauralCarrierMode] = useState<'sync' | 'subharmonic' | 'custom'>(
+    userProfile.binauralCarrierMode ?? 'sync'
+  );
+  const [isPlayingBioactivePreview, setIsPlayingBioactivePreview] = useState<boolean>(false);
+
   if (!isOpen) return null;
 
   const rawVoices = availableVoices && availableVoices.length > 0 
     ? availableVoices 
     : audioEngine.getAvailableVoices();
   const voices = rawVoices.filter(v => v.lang.startsWith('pt') || v.lang.startsWith('en') || v.lang.startsWith('es'));
+
+  // Live calculation of binaural frequencies for the panel monitor
+  const getCarrierHz = () => {
+    let base = 432;
+    if (bgMusicType && bgMusicType.endsWith('hz')) {
+      const parsed = parseInt(bgMusicType.replace('hz', ''), 10);
+      if (!isNaN(parsed) && parsed > 0) base = parsed;
+    }
+    return binauralCarrierMode === 'subharmonic' ? base / 2 : base;
+  };
+
+  const getBeatHz = (wave: 'delta' | 'theta' | 'alpha' | 'beta' | 'gamma') => {
+    switch (wave) {
+      case 'delta': return 2.5;
+      case 'theta': return 5.5;
+      case 'alpha': return 10.0;
+      case 'beta': return 15.0;
+      case 'gamma': return 40.0;
+    }
+  };
+
+  const currentCarrierHz = getCarrierHz();
+  const currentBeatHz = getBeatHz(binauralWaveType);
+  const leftEarHz = (currentCarrierHz - currentBeatHz / 2).toFixed(1);
+  const rightEarHz = (currentCarrierHz + currentBeatHz / 2).toFixed(1);
+
+  const updateBioactiveState = (
+    enabled: boolean,
+    wave: 'delta' | 'theta' | 'alpha' | 'beta' | 'gamma',
+    intensity: number,
+    carrierMode: 'sync' | 'subharmonic' | 'custom'
+  ) => {
+    audioEngine.setBioactiveConfig({
+      enabled,
+      waveType: wave,
+      intensity,
+      carrierMode
+    });
+  };
+
+  const toggleBioactivePreview = () => {
+    audioEngine.unlock();
+    if (isPlayingBioactivePreview) {
+      audioEngine.stopBG();
+      setIsPlayingBioactivePreview(false);
+    } else {
+      setIsPlayingBioactivePreview(true);
+      const effectiveType = bgMusicType !== 'none' ? bgMusicType : '528hz';
+      if (bgMusicType === 'none') {
+        setBgMusicType('528hz');
+      }
+      audioEngine.setBioactiveConfig({
+        enabled: true,
+        waveType: binauralWaveType,
+        intensity: binauralIntensity,
+        carrierMode: binauralCarrierMode
+      });
+      setBioactiveBinauralEnabled(true);
+      audioEngine.startBG(effectiveType);
+    }
+  };
 
   const handleTestVoice = () => {
     audioEngine.unlock();
@@ -83,6 +160,9 @@ export default function AudioSettingsModal({
   const handleSave = () => {
     audioEngine.stopSpeech();
     setIsTestingVoice(false);
+    if (isPlayingBioactivePreview) {
+      setIsPlayingBioactivePreview(false);
+    }
 
     const updated: UserProfile = {
       ...userProfile,
@@ -92,13 +172,24 @@ export default function AudioSettingsModal({
       voiceRate,
       voicePitch,
       voiceId,
-      audioEnabled
+      audioEnabled,
+      bioactiveBinauralEnabled,
+      binauralWaveType,
+      binauralIntensity,
+      binauralCarrierMode
     };
 
     onSaveProfile(updated);
     
-    // Apply immediate volume and bg track
+    // Apply immediate volume, bioactive config and bg track
     audioEngine.setBGVolume(bgMusicVolume);
+    audioEngine.setBioactiveConfig({
+      enabled: bioactiveBinauralEnabled,
+      waveType: binauralWaveType,
+      intensity: binauralIntensity,
+      carrierMode: binauralCarrierMode
+    });
+
     if (audioEnabled && bgMusicType !== 'none') {
       audioEngine.startBG(bgMusicType);
     } else {
@@ -227,6 +318,233 @@ export default function AudioSettingsModal({
                 }}
                 className="w-full h-1.5 bg-[#F5EFE4] rounded-lg appearance-none cursor-pointer accent-indigo-500"
               />
+            </div>
+          )}
+        </div>
+
+        {/* Painel de Sintonização Bioativa (Binaural Beats) */}
+        <div className="space-y-4 bg-gradient-to-br from-[#FDFBF7] to-[#F7F2E7] border-2 border-[#B88736]/35 p-4 sm:p-5 rounded-2xl shadow-sm relative overflow-hidden" id="bioactive-tuning-panel">
+          {/* Subtle warm glow background */}
+          <div className="absolute top-0 right-0 w-36 h-36 bg-[#B88736]/10 rounded-full blur-2xl pointer-events-none" />
+
+          {/* Panel Header & Switch */}
+          <div className="flex items-start justify-between gap-3">
+            <div className="flex items-start gap-3">
+              <div className={`w-11 h-11 rounded-2xl flex items-center justify-center shrink-0 transition-all ${
+                bioactiveBinauralEnabled
+                  ? 'bg-[#B88736] text-white shadow-md shadow-[#B88736]/20'
+                  : 'bg-[#E5DAC6]/40 text-[#85786C]'
+              }`}>
+                <Headphones size={20} />
+              </div>
+              <div>
+                <div className="flex items-center gap-2">
+                  <span className="text-[10px] font-mono uppercase tracking-widest text-[#B88736] font-bold">
+                    Bioacústica Integrativa
+                  </span>
+                  <span className="text-[9px] font-mono font-bold text-[#8F631E] bg-[#EAD5A8]/50 px-2 py-0.5 rounded-full border border-[#B88736]/30">
+                    Estéreo Binaural
+                  </span>
+                </div>
+                <h4 className="text-sm sm:text-base font-display font-medium text-[#2A2420]">
+                  Sintonização Bioativa (Binaural Beats)
+                </h4>
+                <p className="text-[11px] text-[#5C5248] leading-tight mt-0.5">
+                  Sobreponha ondas cerebrais sincronizadas acusticamente com a frequência de fundo escolhida.
+                </p>
+              </div>
+            </div>
+
+            {/* Toggle Button */}
+            <button
+              type="button"
+              onClick={() => {
+                const nextVal = !bioactiveBinauralEnabled;
+                setBioactiveBinauralEnabled(nextVal);
+                updateBioactiveState(nextVal, binauralWaveType, binauralIntensity, binauralCarrierMode);
+              }}
+              className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors cursor-pointer shrink-0 ${
+                bioactiveBinauralEnabled ? 'bg-[#B88736]' : 'bg-[#DCD0BE]'
+              }`}
+              aria-label="Ativar Sintonização Bioativa"
+            >
+              <span
+                className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${
+                  bioactiveBinauralEnabled ? 'translate-x-6' : 'translate-x-1'
+                }`}
+              />
+            </button>
+          </div>
+
+          {bioactiveBinauralEnabled ? (
+            <div className="space-y-4 pt-1 border-t border-[#E5DAC6]/70">
+              {/* Seletor de Tipo de Onda Cerebral Alvo */}
+              <div className="space-y-2">
+                <div className="flex items-center justify-between">
+                  <label className="text-[11px] font-mono text-[#8F631E] font-semibold uppercase flex items-center gap-1.5">
+                    <Activity size={13} /> Onda Cerebral Alvo ({currentBeatHz.toFixed(1)} Hz)
+                  </label>
+                  <span className="text-[10px] text-[#8F631E] font-mono font-bold bg-[#EAD5A8]/40 px-2 py-0.5 rounded border border-[#B88736]/20">
+                    {binauralWaveType.toUpperCase()}
+                  </span>
+                </div>
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                  {[
+                    { id: 'delta', name: 'Ondas Delta', hz: '2.5 Hz', title: 'Regeneração & Sono', desc: 'Restauração celular profunda, alívio de sobrecarga física e ancoramento.' },
+                    { id: 'theta', name: 'Ondas Theta', hz: '5.5 Hz', title: 'Meditação & Intuição', desc: 'Acesso sutil ao subconsciente, transmutação energética e acolhimento.' },
+                    { id: 'alpha', name: 'Ondas Alpha', hz: '10.0 Hz', title: 'Presença Lúcida (Recomendado)', desc: 'Calma alerta, relaxamento lúcido, harmonia emocional e foco sereno.' },
+                    { id: 'beta', name: 'Ondas Beta', hz: '15.0 Hz', title: 'Vitalidade & Clareza', desc: 'Despertar de disposição consciente, clareza mental e ânimo para o agir.' },
+                    { id: 'gamma', name: 'Ondas Gamma', hz: '40.0 Hz', title: 'Conexão Superior', desc: 'Transcendência sutil, expansão de consciência e integração espiritual.' },
+                  ].map(wave => {
+                    const isSelected = binauralWaveType === wave.id;
+                    return (
+                      <button
+                        key={wave.id}
+                        type="button"
+                        onClick={() => {
+                          const w = wave.id as any;
+                          setBinauralWaveType(w);
+                          updateBioactiveState(true, w, binauralIntensity, binauralCarrierMode);
+                        }}
+                        className={`p-2.5 rounded-xl text-left border transition cursor-pointer relative overflow-hidden ${
+                          isSelected
+                            ? 'bg-[#B88736]/15 border-[#B88736] shadow-sm text-[#2A2420]'
+                            : 'bg-white/80 border-[#E5DAC6] text-[#5C5248] hover:border-[#B88736]/40'
+                        }`}
+                      >
+                        <div className="flex items-center justify-between">
+                          <span className="text-xs font-bold text-[#2A2420]">{wave.name}</span>
+                          <span className="text-[10px] font-mono font-semibold text-[#8F631E] bg-[#EAD5A8]/50 px-1.5 py-0.5 rounded">
+                            {wave.hz}
+                          </span>
+                        </div>
+                        <span className="text-[11px] font-medium text-[#8F631E] block mt-0.5">{wave.title}</span>
+                        <span className="text-[10px] text-[#5C5248] block leading-tight mt-0.5">{wave.desc}</span>
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
+
+              {/* Sintonização da Portadora Harmônica */}
+              <div className="space-y-1.5">
+                <label className="text-[11px] font-mono text-[#8F631E] font-semibold uppercase flex items-center gap-1.5">
+                  <Waves size={13} /> Sintonização da Portadora Harmônica
+                </label>
+                <div className="grid grid-cols-2 gap-2">
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setBinauralCarrierMode('sync');
+                      updateBioactiveState(true, binauralWaveType, binauralIntensity, 'sync');
+                    }}
+                    className={`p-2.5 rounded-xl text-left border text-xs transition cursor-pointer ${
+                      binauralCarrierMode === 'sync'
+                        ? 'bg-[#B88736]/15 border-[#B88736] font-semibold text-[#2A2420]'
+                        : 'bg-white/70 border-[#E5DAC6] text-[#5C5248] hover:border-[#B88736]/40'
+                    }`}
+                  >
+                    <span className="block font-semibold text-[#2A2420]">Sincronizar com Frequência</span>
+                    <span className="text-[10px] text-[#5C5248] block mt-0.5">
+                      Portadora em {bgMusicType && bgMusicType.endsWith('hz') ? bgMusicType.replace('hz', ' Hz') : '432 Hz'}
+                    </span>
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setBinauralCarrierMode('subharmonic');
+                      updateBioactiveState(true, binauralWaveType, binauralIntensity, 'subharmonic');
+                    }}
+                    className={`p-2.5 rounded-xl text-left border text-xs transition cursor-pointer ${
+                      binauralCarrierMode === 'subharmonic'
+                        ? 'bg-[#B88736]/15 border-[#B88736] font-semibold text-[#2A2420]'
+                        : 'bg-white/70 border-[#E5DAC6] text-[#5C5248] hover:border-[#B88736]/40'
+                    }`}
+                  >
+                    <span className="block font-semibold text-[#2A2420]">Sub-Harmônica Aveludada</span>
+                    <span className="text-[10px] text-[#5C5248] block mt-0.5">
+                      Oitava inferior ({Math.round(currentCarrierHz)} Hz) para máximo conforto auricular
+                    </span>
+                  </button>
+                </div>
+              </div>
+
+              {/* Controle de Intensidade de Mixagem */}
+              <div className="space-y-1.5 bg-white/80 border border-[#E5DAC6] p-3.5 rounded-xl">
+                <div className="flex items-center justify-between text-xs">
+                  <span className="text-[11px] font-mono text-[#8F631E] font-semibold uppercase flex items-center gap-1.5">
+                    <Sliders size={13} /> Intensidade de Mixagem da Batida
+                  </span>
+                  <span className="font-mono text-[#8F631E] text-xs font-bold">
+                    {Math.round(binauralIntensity * 100)}%
+                  </span>
+                </div>
+                <input
+                  type="range"
+                  min="0"
+                  max="1"
+                  step="0.05"
+                  value={binauralIntensity}
+                  onChange={(e) => {
+                    const val = parseFloat(e.target.value);
+                    setBinauralIntensity(val);
+                    updateBioactiveState(true, binauralWaveType, val, binauralCarrierMode);
+                  }}
+                  className="w-full h-1.5 bg-[#E5DAC6] rounded-lg appearance-none cursor-pointer accent-[#B88736]"
+                />
+                <div className="flex items-center justify-between text-[10px] text-[#85786C] pt-0.5">
+                  <span>Suave / Subliminar</span>
+                  <span>Harmonia Equilibrada</span>
+                  <span>Presença Marcada</span>
+                </div>
+              </div>
+
+              {/* Monitor de Frequências em Tempo Real */}
+              <div className="bg-[#FAF4E8] border border-[#E5DAC6] rounded-xl p-3 text-[11px] space-y-1.5 font-mono">
+                <div className="flex items-center justify-between text-[#8F631E] font-bold">
+                  <span className="flex items-center gap-1">
+                    <Activity size={12} /> Sintonia Estéreo em Tempo Real
+                  </span>
+                  <span>Batimento: {currentBeatHz.toFixed(1)} Hz ({binauralWaveType.toUpperCase()})</span>
+                </div>
+                <div className="grid grid-cols-2 gap-2 text-[#5C5248] pt-1 border-t border-[#E5DAC6]/60">
+                  <div className="bg-white/80 px-2.5 py-1.5 rounded-lg border border-[#E5DAC6]/50">
+                    <span className="text-[9px] uppercase block text-[#85786C]">Ouvido Esquerdo (L)</span>
+                    <span className="text-xs font-bold text-[#2A2420]">{leftEarHz} Hz</span>
+                  </div>
+                  <div className="bg-white/80 px-2.5 py-1.5 rounded-lg border border-[#E5DAC6]/50">
+                    <span className="text-[9px] uppercase block text-[#85786C]">Ouvido Direito (R)</span>
+                    <span className="text-xs font-bold text-[#2A2420]">{rightEarHz} Hz</span>
+                  </div>
+                </div>
+                <p className="text-[10px] font-sans text-[#85786C] pt-1 leading-normal">
+                  Diferença percebida no cérebro: <strong>{currentBeatHz.toFixed(1)} Hz</strong>. Fones de ouvido recomendados para o efeito bioativo completo.
+                </p>
+              </div>
+
+              {/* Botão de Prévia da Sintonização Bioativa */}
+              <button
+                type="button"
+                onClick={toggleBioactivePreview}
+                className={`w-full py-2.5 rounded-xl border font-mono text-xs flex items-center justify-center gap-2 transition cursor-pointer ${
+                  isPlayingBioactivePreview
+                    ? 'bg-[#B88736] text-white border-[#B88736] shadow-sm'
+                    : 'bg-white hover:bg-[#FAF4E8] border-[#E5DAC6] text-[#8F631E]'
+                }`}
+              >
+                {isPlayingBioactivePreview ? <Pause size={14} /> : <Play size={14} fill="currentColor" />}
+                <span>
+                  {isPlayingBioactivePreview ? 'Pausar Demonstração Bioativa' : 'Ouvir Prévia da Sintonização Bioativa'}
+                </span>
+              </button>
+            </div>
+          ) : (
+            <div className="text-[11px] text-[#85786C] bg-white/60 p-3 rounded-xl border border-[#E5DAC6]/60 flex items-center gap-2">
+              <Info size={14} className="text-[#B88736] shrink-0" />
+              <span>
+                Ative para sobrepor batidas binaurais estéreo (Delta, Theta, Alpha, Beta ou Gamma) sincronizadas com sua frequência de fundo.
+              </span>
             </div>
           )}
         </div>

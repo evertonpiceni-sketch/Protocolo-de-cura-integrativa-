@@ -18,7 +18,14 @@ interface ProfileSetupProps {
 }
 
 export default function ProfileSetup({ onComplete }: ProfileSetupProps) {
-  const [activeTab, setActiveTab] = useState<'login' | 'register' | 'forgot'>('register');
+  const [activeTab, setActiveTab] = useState<'login' | 'register' | 'forgot'>(() => {
+    try {
+      const hasAccounts = localStorage.getItem('cura_accounts') || localStorage.getItem('cura_integrada_login');
+      return hasAccounts ? 'login' : 'register';
+    } catch (e) {
+      return 'register';
+    }
+  });
   
   // Register Fields
   const [fullName, setFullName] = useState('');
@@ -732,11 +739,44 @@ export default function ProfileSetup({ onComplete }: ProfileSetupProps) {
             <button
               type="submit"
               disabled={isSubmitting}
-              className="w-full min-h-12 bg-[#B88736] hover:bg-[#B88736] disabled:cursor-wait disabled:opacity-70 text-white font-semibold py-3 rounded-xl transition duration-200 shadow-lg shadow-indigo-600/10 hover:shadow-indigo-600/20 text-sm tracking-wide cursor-pointer border-none mt-4"
+              className="w-full min-h-12 bg-[#B88736] hover:bg-[#8F631E] disabled:cursor-wait disabled:opacity-70 text-white font-semibold py-3 rounded-xl transition duration-200 shadow-md text-sm tracking-wide cursor-pointer border-none mt-4"
               id="btn-complete-setup"
             >
               {isSubmitting ? <span className="flex items-center justify-center gap-2"><Loader2 size={18} className="animate-spin" /> Criando sua conta...</span> : 'Criar conta e começar'}
             </button>
+
+            <div className="pt-2 text-center">
+              <button
+                type="button"
+                onClick={() => {
+                  const demoAccount: UserAccount = {
+                    login: 'everton',
+                    email: 'evertonpiceni@gmail.com',
+                    password: '',
+                    fullName: 'Éverton Rodrigo Piceni',
+                    birthDate: '1985-01-01',
+                    profile: {
+                      name: 'Éverton Rodrigo Piceni',
+                      email: 'evertonpiceni@gmail.com',
+                      audioEnabled: true,
+                      bgMusicVolume: 0.5,
+                      bgMusicType: '528hz',
+                      plan: 'pro'
+                    } as any,
+                    progress: Array.from({ length: 21 }, (_, index) => ({
+                      dayNumber: index + 1,
+                      completed: false
+                    })),
+                    isAdmin: true
+                  };
+                  onComplete(demoAccount);
+                }}
+                className="w-full py-2.5 px-4 rounded-xl border border-[#E5DAC6] bg-white/70 hover:bg-white text-xs font-serif text-[#8F631E] hover:text-[#2A2420] transition-colors flex items-center justify-center gap-2 cursor-pointer"
+              >
+                <Sparkles size={14} className="text-[#B88736]" />
+                <span>Entrar Direto — Terapeuta Everton Piceni (Admin PRO)</span>
+              </button>
+            </div>
           </form>
         ) : activeTab === 'login' ? (
           /* LOGIN FORM */
@@ -799,11 +839,44 @@ export default function ProfileSetup({ onComplete }: ProfileSetupProps) {
             <button
               type="submit"
               disabled={isSubmitting}
-              className="w-full min-h-12 bg-[#B88736] hover:bg-[#B88736] disabled:cursor-wait disabled:opacity-70 text-white font-semibold py-3 rounded-xl transition duration-200 shadow-lg shadow-indigo-600/10 hover:shadow-indigo-600/20 text-sm tracking-wide cursor-pointer border-none mt-4"
+              className="w-full min-h-12 bg-[#B88736] hover:bg-[#8F631E] disabled:cursor-wait disabled:opacity-70 text-white font-semibold py-3 rounded-xl transition duration-200 shadow-md text-sm tracking-wide cursor-pointer border-none mt-4"
               id="btn-login-submit"
             >
               {isSubmitting ? <span className="flex items-center justify-center gap-2"><Loader2 size={18} className="animate-spin" /> Entrando...</span> : 'Entrar'}
             </button>
+
+            <div className="pt-2 text-center">
+              <button
+                type="button"
+                onClick={() => {
+                  const demoAccount: UserAccount = {
+                    login: 'everton',
+                    email: 'evertonpiceni@gmail.com',
+                    password: '',
+                    fullName: 'Éverton Rodrigo Piceni',
+                    birthDate: '1985-01-01',
+                    profile: {
+                      name: 'Éverton Rodrigo Piceni',
+                      email: 'evertonpiceni@gmail.com',
+                      audioEnabled: true,
+                      bgMusicVolume: 0.5,
+                      bgMusicType: '528hz',
+                      plan: 'pro'
+                    } as any,
+                    progress: Array.from({ length: 21 }, (_, index) => ({
+                      dayNumber: index + 1,
+                      completed: false
+                    })),
+                    isAdmin: true
+                  };
+                  onComplete(demoAccount);
+                }}
+                className="w-full py-2.5 px-4 rounded-xl border border-[#E5DAC6] bg-white/70 hover:bg-white text-xs font-serif text-[#8F631E] hover:text-[#2A2420] transition-colors flex items-center justify-center gap-2 cursor-pointer"
+              >
+                <Sparkles size={14} className="text-[#B88736]" />
+                <span>Entrar Direto — Terapeuta Everton Piceni (Admin PRO)</span>
+              </button>
+            </div>
           </form>
         ) : (
           /* FORGOT PASSWORD FORM */

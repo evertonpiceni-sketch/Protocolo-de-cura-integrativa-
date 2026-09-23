@@ -1,9 +1,10 @@
 /**
- * Service Worker Cache Purge
- * Unregisters any stale caches and bypasses cache completely
+ * Service Worker Uninstaller
+ * Ensures any previously registered service worker immediately unregisters itself
+ * and purges all old caches without intercepting any network fetch calls.
  */
 
-self.addEventListener('install', (event) => {
+self.addEventListener('install', () => {
   self.skipWaiting();
 });
 
@@ -13,9 +14,4 @@ self.addEventListener('activate', (event) => {
       return Promise.all(keys.map((key) => caches.delete(key)));
     }).then(() => self.registration.unregister()).then(() => self.clients.claim())
   );
-});
-
-self.addEventListener('fetch', (event) => {
-  // Always fetch directly from network to avoid stale cache in preview
-  event.respondWith(fetch(event.request));
 });

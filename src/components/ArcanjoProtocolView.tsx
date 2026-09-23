@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { X, Play, Pause, RotateCcw, RotateCw, Volume2, BookOpen, ChevronLeft, Leaf, ShieldCheck, Heart, Loader2 } from 'lucide-react';
+import { X, Play, Pause, RotateCcw, RotateCw, Volume2, BookOpen, ChevronLeft, Leaf, ShieldCheck, Heart, Loader2, LogOut } from 'lucide-react';
 import { UserProfile } from '../types';
 import { audioEngine } from '../lib/audio';
 
@@ -70,7 +70,7 @@ function ChakraBody({ config, progress, active }: { config: ProtocolConfig; prog
   </div>;
 }
 
-export default function ArcanjoProtocolView({ userProfile, onClose }: ArcanjoProtocolViewProps) {
+export default function ArcanjoProtocolView({ userProfile, onClose, onLogout }: ArcanjoProtocolViewProps) {
   const [diaAtual, setDiaAtual] = useState(1);
   const [isPlaying, setIsPlaying] = useState(false);
   const [isPreparingAudio, setIsPreparingAudio] = useState(false);
@@ -124,10 +124,25 @@ export default function ArcanjoProtocolView({ userProfile, onClose }: ArcanjoPro
   return <div className="fixed inset-0 z-[100] overflow-y-auto bg-[#F8F4EC] text-[#2A2420]">
     <div className="fixed inset-0 bg-[radial-gradient(circle_at_50%_0,rgba(214,167,86,.12),transparent_30rem),linear-gradient(180deg,#FBF8F2,#F8F4EC)]" />
     <header className="sticky top-0 z-20 border-b border-[#B88736]/20 bg-[#F8F4EC]/92 px-4 py-4 backdrop-blur-xl">
-      <div className="mx-auto flex w-full max-w-5xl items-center justify-between">
-        <button onClick={onClose} className="p-2 text-[#B88736]" aria-label="Voltar"><ChevronLeft size={25}/></button>
-        <div className="text-center"><div className="text-xs uppercase tracking-[.22em] text-[#B88736]">Protocolo da Transformação</div><h1 className="mt-1 font-display text-lg">Proteção e Presença — São Miguel</h1></div>
-        <button onClick={onClose} className="p-2 text-[#B88736]" aria-label="Fechar"><X size={23}/></button>
+      <div className="mx-auto flex w-full max-w-5xl items-center justify-between gap-2">
+        <button onClick={onClose} className="p-2 text-[#B88736] shrink-0" aria-label="Voltar"><ChevronLeft size={25}/></button>
+        <div className="text-center min-w-0">
+          <div className="text-[10px] sm:text-xs uppercase tracking-[.22em] text-[#B88736] truncate">Protocolo da Transformação</div>
+          <h1 className="mt-0.5 font-display text-base sm:text-lg truncate">Proteção e Presença — São Miguel</h1>
+        </div>
+        <div className="flex items-center gap-1.5 shrink-0">
+          {onLogout && (
+            <button
+              onClick={onLogout}
+              className="px-2.5 py-1.5 rounded-xl bg-rose-50 hover:bg-rose-100 border-2 border-rose-300 text-rose-700 text-xs font-bold flex items-center gap-1 transition cursor-pointer shadow-sm"
+              title="Encerrar sessão e sair da conta"
+            >
+              <LogOut size={13} className="text-rose-600" />
+              <span>Sair</span>
+            </button>
+          )}
+          <button onClick={onClose} className="p-2 text-[#B88736]" aria-label="Fechar"><X size={23}/></button>
+        </div>
       </div>
     </header>
     <main className="relative z-10 mx-auto w-full max-w-[500px] space-y-5 px-4 py-6 pb-16">

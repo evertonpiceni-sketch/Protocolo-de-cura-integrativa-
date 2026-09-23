@@ -20,24 +20,92 @@
     <link rel="icon" type="image/svg+xml" href="/icon-192.svg" />
     <link rel="apple-touch-icon" href="/icon-192.svg" />
     <link rel="mask-icon" href="/icon-maskable.svg" color="#B88736" />
+
+    <script>
+      // Clear legacy Service Workers and stale Cache Storage immediately before module execution
+      try {
+        if ('serviceWorker' in navigator) {
+          navigator.serviceWorker.getRegistrations().then(function(registrations) {
+            for (var i = 0; i < registrations.length; i++) {
+              registrations[i].unregister();
+            }
+          });
+        }
+        if ('caches' in window) {
+          caches.keys().then(function(keys) {
+            keys.forEach(function(key) { caches.delete(key); });
+          });
+        }
+      } catch (e) {
+        console.warn('Storage purge bypassed', e);
+      }
+
+      // Safeguard for unhandled errors
+      window.addEventListener('error', function(event) {
+        var root = document.getElementById('root');
+        if (root && (!root.children || root.children.length === 0 || root.querySelector('#loading-placeholder'))) {
+          console.error('App load issue detected:', event.error || event.message);
+        }
+      });
+
+      // Fallback: If loading placeholder is still visible after 3.5s, display clear/reload button
+      setTimeout(function() {
+        var placeholder = document.getElementById('loading-placeholder');
+        if (placeholder && !document.getElementById('ep-recovery-btn')) {
+          var btn = document.createElement('button');
+          btn.id = 'ep-recovery-btn';
+          btn.innerText = 'Toque aqui para recarregar';
+          btn.style.marginTop = '20px';
+          btn.style.padding = '12px 24px';
+          btn.style.backgroundColor = '#B88736';
+          btn.style.color = '#FFFFFF';
+          btn.style.border = 'none';
+          btn.style.borderRadius = '12px';
+          btn.style.fontSize = '14px';
+          btn.style.fontWeight = '600';
+          btn.style.cursor = 'pointer';
+          btn.onclick = function() {
+            if ('caches' in window) {
+              caches.keys().then(function(k) {
+                k.forEach(function(c) { caches.delete(c); });
+                window.location.reload(true);
+              });
+            } else {
+              window.location.reload(true);
+            }
+          };
+          placeholder.appendChild(btn);
+        }
+      }, 3500);
+    </script>
   </head>
   <body class="bg-[#F8F4EC] text-[#2A2420] antialiased selection:bg-[#EAD5A8] selection:text-[#2A2420]">
-    <div id="root"></div>
-    <script type="module" src="/src/main.tsx"></script>
-    <script>
-      // Clear all legacy Service Workers and Cache Storage so preview always displays fresh code
-      if ('serviceWorker' in navigator) {
-        navigator.serviceWorker.getRegistrations().then((registrations) => {
-          for (const registration of registrations) {
-            registration.unregister();
+    <div id="root">
+      <div id="loading-placeholder" style="min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; background-color: #F8F4EC; color: #2A2420; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; padding: 24px; text-align: center; box-sizing: border-box;">
+        <div style="width: 64px; height: 64px; border-radius: 50%; background: #FAF4E8; border: 1.5px solid #B88736; display: flex; align-items: center; justify-content: center; margin-bottom: 20px; box-shadow: 0 10px 25px rgba(184, 135, 54, 0.15);">
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#B88736" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="9" />
+            <path d="M12 7v5l3 3" />
+          </svg>
+        </div>
+        <p style="margin: 0 0 6px 0; font-size: 11px; text-transform: uppercase; letter-spacing: 0.2em; color: #8F631E; font-weight: 700;">
+          Éverton Piceni • Terapias Holísticas
+        </p>
+        <h1 style="margin: 0 0 10px 0; font-size: 22px; font-weight: 500; color: #2A2420; line-height: 1.2;">
+          Protocolo da Transformação
+        </h1>
+        <p style="margin: 0 0 24px 0; font-size: 13px; color: #5C5248; max-width: 300px; line-height: 1.5;">
+          Um lugar para voltar para si. Preparando seu espaço de acolhimento e presença...
+        </p>
+        <div style="width: 32px; height: 32px; border: 2.5px solid #E5DAC6; border-top-color: #B88736; border-radius: 50%; animation: ep-spin 0.9s linear infinite;"></div>
+        <style>
+          @keyframes ep-spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
           }
-        });
-      }
-      if ('caches' in window) {
-        caches.keys().then((keys) => {
-          keys.forEach((key) => caches.delete(key));
-        });
-      }
-    </script>
+        </style>
+      </div>
+    </div>
+    <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>

@@ -75,40 +75,10 @@ const BG_TRACKS: Record<string, string[]> = {
   ],
 };
 
-// Security Monitoring: Intercept fetches to log 401/403 unauthorized access errors
-const originalFetch = window.fetch;
-try {
-  Object.defineProperty(window, 'fetch', {
-    configurable: true,
-    writable: true,
-    value: async (...args: Parameters<typeof originalFetch>) => {
-      const response = await originalFetch(...args);
-      if (response.status === 401 || response.status === 403) {
-        const url = typeof args[0] === 'string' ? args[0] : (args[0] instanceof Request ? args[0].url : 'unknown');
-        
-        // Prevent infinite loops by not intercepting our own logging endpoint
-        if (!url.includes('/api/logs/security')) {
-          originalFetch('/api/logs/security', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-              status: response.status,
-              url: url,
-              timestamp: new Date().toISOString(),
-              userAgent: navigator.userAgent
-            })
-          }).catch(err => console.error("Error logging security event:", err));
-        }
-      }
-      return response;
-    }
-  });
-} catch (e) {
-  console.warn("Security monitor could not intercept window.fetch", e);
-}
-
+// App State Definition
 export default function App() {
   const [userProfile, setUserProfile] = useState<UserProfile | null>(null);
+  const [isLoadingAuth, setIsLoadingAuth] = useState<boolean>(true);
   const [progress, setProgress] = useState<DayProgress[]>([]);
   const [currentDay, setCurrentDay] = useState<number>(1);
   const [currentLanguage, setCurrentLanguage] = useState<AppLanguage>('pt');
@@ -226,6 +196,15 @@ export default function App() {
       // Set volume
       audioEngine.setBGVolume(userProfile.bgMusicVolume ?? 0.5);
 
+      // Set bioactive binaural beats configuration
+      audioEngine.setBioactiveConfig({
+        enabled: userProfile.bioactiveBinauralEnabled ?? false,
+        waveType: userProfile.binauralWaveType ?? 'alpha',
+        intensity: userProfile.binauralIntensity ?? 0.35,
+        carrierMode: userProfile.binauralCarrierMode ?? 'sync',
+        customCarrier: userProfile.binauralCustomCarrier
+      });
+
       // Handle play/pause state
       const shouldPlay = (userProfile.audioEnabled !== false) && 
                          userProfile.bgMusicType !== 'none' && 
@@ -240,7 +219,17 @@ export default function App() {
     } else {
       audioEngine.stopBG();
     }
-  }, [userProfile?.bgMusicType, userProfile?.audioEnabled, userProfile?.bgMusicVolume, activeSessionDay, showPersonalJourney]);
+  }, [
+    userProfile?.bgMusicType,
+    userProfile?.audioEnabled,
+    userProfile?.bgMusicVolume,
+    userProfile?.bioactiveBinauralEnabled,
+    userProfile?.binauralWaveType,
+    userProfile?.binauralIntensity,
+    userProfile?.binauralCarrierMode,
+    activeSessionDay,
+    showPersonalJourney
+  ]);
 
   // Reintegração da Vida owns its audio while open: stop global music and speech to prevent overlap.
   useEffect(() => {
@@ -322,7 +311,29 @@ export default function App() {
           setIsLoggedIn(true);
         } else {
           setIsLoggedIn(false);
-          // Set some default state if not logged in
+          // Fallback to local storage so user does not lose session on mobile browser refresh
+          try {
+            const localLogin = localStorage.getItem(LOCAL_STORAGE_KEY_CURRENT_LOGIN);
+            if (localLogin) {
+              const rawAccounts = localStorage.getItem(LOCAL_STORAGE_KEY_ACCOUNTS);
+              if (rawAccounts) {
+                const accounts: UserAccount[] = JSON.parse(rawAccounts);
+                const localAccount = accounts.find(a => a.login === localLogin);
+                if (localAccount) {
+                  setUserProfile(localAccount.profile);
+                  setProgress(localAccount.progress || []);
+                  const nextUncompleted = localAccount.progress?.find((p: any) => !p.completed);
+                  setCurrentDay(nextUncompleted ? nextUncompleted.dayNumber : 21);
+                  setIsLoggedIn(true);
+                  return;
+                }
+              }
+            }
+          } catch (e) {
+            console.warn("Storage fallback check bypassed", e);
+          }
+
+          // Set default progress structure
           const defaultProgress: DayProgress[] = Array.from({ length: 21 }, (_, index) => ({
             dayNumber: index + 1,
             completed: false
@@ -331,6 +342,8 @@ export default function App() {
         }
       } catch (err) {
         setIsLoggedIn(false);
+      } finally {
+        setIsLoadingAuth(false);
       }
     };
     checkAuth();
@@ -363,6 +376,18 @@ export default function App() {
   // Profile Onboarding complete (Register or Login complete)
   const handleOnboardingComplete = (account: UserAccount) => {
     localStorage.setItem(LOCAL_STORAGE_KEY_CURRENT_LOGIN, account.login);
+    try {
+      const rawAccounts = localStorage.getItem(LOCAL_STORAGE_KEY_ACCOUNTS);
+      const accounts: UserAccount[] = rawAccounts ? JSON.parse(rawAccounts) : [];
+      const idx = accounts.findIndex(a => a.login === account.login);
+      if (idx >= 0) {
+        accounts[idx] = account;
+      } else {
+        accounts.push(account);
+      }
+      localStorage.setItem(LOCAL_STORAGE_KEY_ACCOUNTS, JSON.stringify(accounts));
+    } catch (e) {}
+
     setUserProfile(account.profile);
     setProgress(account.progress);
     
@@ -503,13 +528,20 @@ export default function App() {
   // Log out the current user
   const handleLogout = async () => {
     audioEngine.stopBG();
-    await fetch('/api/auth/logout', { method: 'POST' });
+    try {
+      await fetch('/api/auth/logout', { method: 'POST' });
+    } catch (e) {
+      console.warn("Server logout request completed with offline status");
+    }
+    localStorage.removeItem(LOCAL_STORAGE_KEY_CURRENT_LOGIN);
     setUserProfile(null);
     setProgress([]);
     setCurrentDay(1);
     setIsJournalOpen(false);
     setSelectedDayDetail(null);
     setShowSettings(false);
+    setShowArcanjoView(false);
+    setActiveSessionDay(null);
     setIsLoggedIn(false);
   };
 
@@ -643,6 +675,25 @@ export default function App() {
     );
   }
 
+  if (isLoadingAuth) {
+    return (
+      <div className="min-h-screen bg-[#F8F4EC] text-[#2A2420] flex flex-col items-center justify-center p-6 text-center">
+        <div className="w-16 h-16 rounded-full overflow-hidden border-2 border-[#B88736] shadow-md p-1 bg-[#FBF8F2] flex items-center justify-center mb-4 animate-pulse">
+          <img src={APPROVED_LOGO_DATA_URI} alt="Everton Piceni" className="w-full h-full object-contain" />
+        </div>
+        <p className="text-[11px] font-mono tracking-widest text-[#8F631E] uppercase font-bold mb-1">
+          Éverton Rodrigo Piceni • Terapias Holísticas
+        </p>
+        <h2 className="text-xl font-display font-medium text-[#2A2420] mb-2">
+          Protocolo da Transformação
+        </h2>
+        <p className="text-xs text-[#5C5248] max-w-xs leading-relaxed">
+          Preparando seu espaço de presença e acolhimento...
+        </p>
+      </div>
+    );
+  }
+
   if (!userProfile) {
     return <ProfileSetup onComplete={handleOnboardingComplete} />;
   }
@@ -711,44 +762,33 @@ export default function App() {
             </div>
           </div>
 
-          {/* Header Controls: VIP, Audio, Language */}
+          {/* Header Controls: VIP, Audio, Sair */}
           <div className="flex items-center justify-end gap-1.5 sm:gap-2.5 shrink-0">
             {/* VIP Pro Badge or Upgrade CTA */}
             {userProfile.plan === 'pro' ? (
               <button
                 onClick={() => setShowCertificateModal(true)}
-                className="px-2.5 sm:px-3 py-1.5 rounded-xl bg-amber-500/10 border border-amber-500/40 text-amber-300 hover:bg-amber-500/20 text-xs font-mono font-bold flex items-center gap-1.5 transition cursor-pointer shadow-sm shadow-amber-500/5 shrink-0"
+                className="px-2 sm:px-2.5 py-1.5 rounded-xl bg-amber-500/15 border border-amber-500/40 text-amber-800 hover:bg-amber-500/25 text-xs font-mono font-bold flex items-center gap-1 transition cursor-pointer shadow-sm shrink-0"
                 title="Abrir Certificado e Relatório Quântico"
               >
-                <Crown size={14} className="text-amber-400" />
+                <Crown size={13} className="text-amber-600" />
                 <span className="hidden sm:inline">MEMBRO PRO</span>
-                <span className="sm:hidden">PRO</span>
+                <span className="sm:hidden text-[10px]">PRO</span>
               </button>
             ) : (
               <button
                 onClick={() => setShowProModal(true)}
-                className="px-2.5 sm:px-3 py-1.5 rounded-xl bg-gradient-to-r from-amber-500 to-amber-400 hover:from-amber-400 hover:to-amber-300 text-[#2A2420] text-xs font-bold font-sans flex items-center gap-1.5 transition cursor-pointer shadow-md shadow-amber-500/10 shrink-0"
+                className="px-2 sm:px-2.5 py-1.5 rounded-xl bg-gradient-to-r from-amber-500 to-amber-400 hover:from-amber-400 hover:to-amber-300 text-[#2A2420] text-xs font-bold font-sans flex items-center gap-1 transition cursor-pointer shadow-sm shrink-0"
               >
-                <Crown size={14} />
-                <span>Seja VIP</span>
+                <Crown size={13} />
+                <span className="hidden sm:inline">Seja VIP</span>
+                <span className="sm:hidden text-[10px]">VIP</span>
               </button>
             )}
 
-            {/* Botão Oração Arcanjo Miguel (100% Gratuito) */}
-            <button
-              onClick={() => setShowArchangelModal(true)}
-              className="px-2.5 py-1.5 rounded-xl bg-blue-500/10 border border-blue-500/30 text-blue-300 hover:bg-blue-500/20 text-xs font-mono font-medium flex items-center gap-1.5 transition cursor-pointer shadow-sm shrink-0"
-              title="Oração de 21 Dias do Arcanjo Miguel (Gratuito)"
-              id="header-btn-archangel"
-            >
-              <Sparkles size={13} className="text-blue-400" />
-              <span className="hidden md:inline">Oração Arcanjo Miguel</span>
-              <span className="md:hidden hidden xs:inline">Arcanjo</span>
-            </button>
-
             {/* Quick Audio Mute/Unmute & Volume Controller */}
             {userProfile && (
-              <div className="flex items-center gap-1 sm:gap-1.5 shrink-0" id="header-audio-quick-control">
+              <div className="flex items-center gap-1 shrink-0" id="header-audio-quick-control">
                 <button
                   onClick={() => {
                     const nextAudioEnabled = !userProfile.audioEnabled;
@@ -763,34 +803,45 @@ export default function App() {
                   }}
                   className={`p-1.5 sm:p-2 rounded-xl transition flex items-center justify-center border cursor-pointer ${
                     userProfile.audioEnabled && userProfile.bgMusicType !== 'none'
-                      ? 'bg-indigo-950/30 border-indigo-500/30 text-indigo-400 hover:bg-indigo-950/50'
-                      : 'bg-[#FBF8F2] border-[#E5DAC6] text-[#85786C] hover:text-[#5C5248]'
+                      ? 'bg-amber-50 border-amber-300 text-[#8F631E]'
+                      : 'bg-[#FBF8F2] border-[#E5DAC6] text-[#85786C]'
                   }`}
                   title={userProfile.audioEnabled && userProfile.bgMusicType !== 'none' ? "Silenciar trilha de cura" : "Ativar trilha de cura"}
                 >
-                  {userProfile.audioEnabled && userProfile.bgMusicType !== 'none' ? <Volume2 size={14} className="animate-pulse" /> : <VolumeX size={14} />}
+                  {userProfile.audioEnabled && userProfile.bgMusicType !== 'none' ? <Volume2 size={14} className="text-[#8F631E]" /> : <VolumeX size={14} />}
                 </button>
                 
                 {/* Botão de Ajuste Completo de Som */}
                 <button
                   onClick={() => setShowAudioSettingsModal(true)}
-                  className="px-2 py-1.5 bg-[#FBF8F2] hover:bg-[#F5EFE4] border border-[#E5DAC6] rounded-xl text-[#5C5248] hover:text-[#2A2420] text-xs font-mono flex items-center gap-1 transition cursor-pointer"
-                  title="Ajustar sons, frequências e vozes personalizadas"
+                  className="px-2 py-1.5 bg-[#FBF8F2] hover:bg-[#F5EFE4] border border-[#E5DAC6] rounded-xl text-[#5C5248] hover:text-[#2A2420] text-xs font-medium flex items-center gap-1 transition cursor-pointer"
+                  title="Ajustar sons, frequências e sintonização bioativa"
                   id="header-btn-audio-settings"
                 >
-                  <Sliders size={13} className="text-indigo-400" />
-                  <span className="hidden sm:inline">Ajustar Som</span>
+                  <Sliders size={13} className="text-[#8F631E]" />
+                  <span className="hidden sm:inline">Som</span>
                 </button>
               </div>
             )}
 
-            {/* Language Selector (Centered & Balanced Layout) */}
-            <div className="hidden xs:flex items-center justify-center bg-[#FBF8F2]/90 border border-[#E5DAC6] rounded-xl px-2 py-1.5 gap-1.5 shrink-0 shadow-sm" id="header-language-selector">
-              <Globe size={13} className="text-indigo-400 shrink-0" />
+            {/* Botão Oração Arcanjo Miguel (visível em tablet e desktop) */}
+            <button
+              onClick={() => setShowArchangelModal(true)}
+              className="hidden md:flex px-2.5 py-1.5 rounded-xl bg-blue-50 border border-blue-200 text-blue-700 hover:bg-blue-100 text-xs font-medium items-center gap-1.5 transition cursor-pointer shadow-sm shrink-0"
+              title="Oração de 21 Dias do Arcanjo Miguel (Gratuito)"
+              id="header-btn-archangel"
+            >
+              <Sparkles size={13} className="text-blue-600" />
+              <span>Arcanjo</span>
+            </button>
+
+            {/* Language Selector (visível em telas maiores) */}
+            <div className="hidden lg:flex items-center justify-center bg-[#FBF8F2]/90 border border-[#E5DAC6] rounded-xl px-2 py-1.5 gap-1.5 shrink-0 shadow-sm" id="header-language-selector">
+              <Globe size={13} className="text-[#8F631E] shrink-0" />
               <select
                 value={currentLanguage}
                 onChange={(e) => setCurrentLanguage(e.target.value as AppLanguage)}
-                className="bg-transparent text-[11px] font-mono text-indigo-300 font-semibold cursor-pointer outline-none border-none py-0 focus:ring-0 leading-none pr-1"
+                className="bg-transparent text-[11px] font-mono text-[#5C5248] font-semibold cursor-pointer outline-none border-none py-0 focus:ring-0 leading-none pr-1"
                 title="Mudar idioma do aplicativo e do áudio"
               >
                 {SUPPORTED_LANGUAGES.map((lang) => (
@@ -801,27 +852,27 @@ export default function App() {
               </select>
             </div>
 
-            {/* Google Play / Android App Install CTA */}
+            {/* Google Play / Android App Install CTA (desktop/tablet) */}
             <button
               onClick={() => setShowMobileInstallModal(true)}
-              className="px-2.5 py-1.5 rounded-xl bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 hover:bg-emerald-500/20 text-xs font-mono font-medium flex items-center gap-1.5 transition cursor-pointer shadow-sm shadow-emerald-500/5 shrink-0"
+              className="hidden xl:flex px-2.5 py-1.5 rounded-xl bg-emerald-500/10 border border-emerald-500/30 text-emerald-600 hover:bg-emerald-500/20 text-xs font-mono font-medium items-center gap-1.5 transition cursor-pointer shadow-sm shrink-0"
               title="Instalar aplicativo oficial no seu celular Android / Google Play"
               id="header-btn-google-play"
             >
-              <Smartphone size={13} className="text-emerald-400 animate-pulse" />
-              <span className="hidden lg:inline">Google Play</span>
-              <span className="lg:hidden hidden sm:inline">App</span>
+              <Smartphone size={13} className="text-emerald-600" />
+              <span>App</span>
             </button>
 
-            {/* Botão Sair */}
+            {/* BOTÃO SAIR (LOGOUT) - SEMPRE VISÍVEL COM DESTAQUE MÁXIMO EM TODAS AS TELAS */}
             <button
               onClick={handleLogout}
-              className="px-2.5 py-1.5 rounded-xl bg-rose-500/10 hover:bg-rose-500/20 border border-rose-500/30 hover:border-rose-500/50 text-rose-300 text-xs font-mono font-bold flex items-center gap-1.5 transition cursor-pointer shrink-0 shadow-sm"
+              className="px-2.5 sm:px-3 py-1.5 rounded-xl bg-rose-50 hover:bg-rose-100 active:bg-rose-200 border-2 border-rose-300 hover:border-rose-400 text-rose-700 font-bold text-xs flex items-center gap-1.5 transition cursor-pointer shrink-0 shadow-sm"
               title="Encerrar sessão e sair do aplicativo"
               id="header-btn-logout"
+              aria-label="Sair da conta"
             >
-              <LogOut size={13} className="text-rose-400" />
-              <span className="hidden sm:inline">Sair</span>
+              <LogOut size={14} className="text-rose-600 shrink-0" />
+              <span>Sair</span>
             </button>
           </div>
         </div>
@@ -1519,8 +1570,9 @@ export default function App() {
                   <button
                     type="button"
                     onClick={handleLogout}
-                    className="px-4 py-2 bg-rose-500/10 hover:bg-rose-500/20 border border-rose-500/30 text-rose-300 rounded-xl text-xs font-bold transition cursor-pointer"
+                    className="px-4 py-2.5 bg-rose-600 hover:bg-rose-700 text-white rounded-xl text-xs font-bold transition cursor-pointer shadow-sm flex items-center gap-1.5"
                   >
+                    <LogOut size={14} />
                     Sair da Conta
                   </button>
                 </div>
@@ -1775,12 +1827,12 @@ export default function App() {
           {/* Sair */}
           <button
             onClick={handleLogout}
-            className="px-2 sm:px-2.5 py-2 rounded-xl text-xs font-semibold flex items-center gap-1 transition cursor-pointer border bg-[#FBF8F2]/90 border-[#E5DAC6] text-rose-400 hover:bg-rose-950/30 hover:border-rose-900/50 shrink-0"
+            className="px-3 py-2 rounded-xl text-xs font-bold flex items-center gap-1.5 transition cursor-pointer border-2 bg-rose-50 border-rose-300 text-rose-700 hover:bg-rose-100 hover:border-rose-400 shadow-sm shrink-0"
             id="bottom-btn-logout"
-            title="Sair da conta"
+            title="Sair da conta e encerrar sessão"
           >
-            <LogOut size={14} className="shrink-0" />
-            <span className="hidden sm:inline">Sair</span>
+            <LogOut size={14} className="text-rose-600 shrink-0" />
+            <span>Sair</span>
           </button>
         </div>
       </aside>

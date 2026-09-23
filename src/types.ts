@@ -212,6 +212,12 @@ export interface UserProfile {
   bgMusicType: '396hz' | '528hz' | '432hz' | '639hz' | '741hz' | '852hz' | '963hz' | '417hz' | 'waves' | 'florestazen' | 'chuvaserena' | 'none';
   healingFocuses?: string[]; // Array of custom healing focuses
   pauseDuration?: number; // Duration of silent pauses in seconds (e.g. 5, 10, 15)
+  // Sintonização Bioativa (Binaural Beats)
+  bioactiveBinauralEnabled?: boolean;
+  binauralWaveType?: 'delta' | 'theta' | 'alpha' | 'beta' | 'gamma';
+  binauralIntensity?: number; // 0 to 1 (mix level)
+  binauralCarrierMode?: 'sync' | 'subharmonic' | 'custom';
+  binauralCustomCarrier?: number; // Hz
   plan?: 'free' | 'pro';
   subscriptionPlan?: SubscriptionPlanType;
   subscriptionExpiresAt?: string;

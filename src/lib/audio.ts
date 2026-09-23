@@ -3,6 +3,14 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+export interface BioactiveBinauralConfig {
+  enabled: boolean;
+  waveType: 'delta' | 'theta' | 'alpha' | 'beta' | 'gamma';
+  intensity: number; // 0.0 to 1.0 (mix intensity)
+  carrierMode: 'sync' | 'subharmonic' | 'custom';
+  customCarrier?: number;
+}
+
 class CalmingAudioEngine {
   private ctx: AudioContext | null = null;
   private primaryOsc: OscillatorNode | null = null;
@@ -14,6 +22,19 @@ class CalmingAudioEngine {
   private musicGain: GainNode | null = null;
   private synthType: '396hz' | '528hz' | '432hz' | '639hz' | '741hz' | '852hz' | '963hz' | '417hz' | 'waves' | 'florestazen' | 'chuvaserena' | 'none' = 'none';
   private extraOscs: OscillatorNode[] = []; // List to track additional harmony voices
+
+  // Sintonização Bioativa (Binaural Beats)
+  private bioactiveConfig: BioactiveBinauralConfig = {
+    enabled: false,
+    waveType: 'alpha',
+    intensity: 0.35,
+    carrierMode: 'sync'
+  };
+  private binauralOscLeft: OscillatorNode | null = null;
+  private binauralOscRight: OscillatorNode | null = null;
+  private binauralGain: GainNode | null = null;
+  private binauralPannerLeft: StereoPannerNode | GainNode | null = null;
+  private binauralPannerRight: StereoPannerNode | GainNode | null = null;
 
   private bgAudio: HTMLAudioElement | null = null;
   private currentBGVolume: number = 0.5;
@@ -213,54 +234,6 @@ class CalmingAudioEngine {
 
         this.primaryOsc = osc1;
         this.subOsc = osc2;
-
-        // Custom Binaural Beats Engine
-        let beatFreq = 0;
-        let centerFreq = 0;
-        let binauralVol = padLevel * 1.8; // Emphasize the binaural beat
-
-        if (type === '528hz') {
-          beatFreq = 12; // Alpha-Beta waves for Burnout/Vitality (12Hz)
-          centerFreq = 528;
-        } else if (type === '432hz') {
-          beatFreq = 5; // Theta waves for Deep Trance/Trauma release (5Hz)
-          centerFreq = 432;
-        } else if (type === '639hz') {
-          beatFreq = 7.83; // Ressonância Cardíaca / Schumann Alpha (7.83Hz - Harmonia, compreensão e tolerância)
-          centerFreq = 639;
-        }
-
-        if (beatFreq > 0) {
-          const leftPanner = this.ctx.createStereoPanner();
-          leftPanner.pan.setValueAtTime(-1, now);
-          
-          const rightPanner = this.ctx.createStereoPanner();
-          rightPanner.pan.setValueAtTime(1, now);
-
-          const binauralGain = this.ctx.createGain();
-          binauralGain.gain.setValueAtTime(binauralVol, now);
-
-          const leftOsc = this.ctx.createOscillator();
-          leftOsc.type = 'sine';
-          leftOsc.frequency.setValueAtTime(centerFreq - (beatFreq / 2), now);
-          leftOsc.connect(leftPanner);
-
-          const rightOsc = this.ctx.createOscillator();
-          rightOsc.type = 'sine';
-          rightOsc.frequency.setValueAtTime(centerFreq + (beatFreq / 2), now);
-          rightOsc.connect(rightPanner);
-
-          leftPanner.connect(binauralGain);
-          rightPanner.connect(binauralGain);
-
-          if (this.musicGain) {
-            binauralGain.connect(this.musicGain);
-          }
-
-          leftOsc.start(now);
-          rightOsc.start(now);
-          this.extraOscs.push(leftOsc, rightOsc);
-        }
       } else if (type === 'waves' || type === 'florestazen' || type === 'chuvaserena') {
         // Organic Nature Sound Generator (Warm waves, forest breeze, or gentle rainfall)
         const bufferSize = 4 * this.ctx.sampleRate;
@@ -310,6 +283,11 @@ class CalmingAudioEngine {
         this.lfo.start(now);
 
         this.noiseNode = bufferSource as any;
+      }
+
+      // Apply Sintonização Bioativa (Binaural Beats) if enabled
+      if (this.bioactiveConfig.enabled) {
+        this.applyBioactiveBinaural();
       }
 
       // Start the beautiful melody sequence!
@@ -519,8 +497,184 @@ class CalmingAudioEngine {
         osc.disconnect();
       });
       this.extraOscs = [];
+      this.stopBioactiveBinaural();
     } catch (e) {
       console.warn("Error stopping synthesized background audio:", e);
+    }
+  }
+
+  // --- Sintonização Bioativa (Binaural Beats) API ---
+
+  public getBioactiveConfig(): BioactiveBinauralConfig {
+    return { ...this.bioactiveConfig };
+  }
+
+  public setBioactiveConfig(config: Partial<BioactiveBinauralConfig>) {
+    this.bioactiveConfig = {
+      ...this.bioactiveConfig,
+      ...config
+    };
+    if (this.synthActive) {
+      this.applyBioactiveBinaural();
+    }
+  }
+
+  public getWaveBeatFrequency(waveType: 'delta' | 'theta' | 'alpha' | 'beta' | 'gamma' = this.bioactiveConfig.waveType): number {
+    switch (waveType) {
+      case 'delta': return 2.5; // 0.5 - 4 Hz: Sono restaurador, regeneração e ancoramento
+      case 'theta': return 5.5; // 4 - 8 Hz: Meditação profunda, transmutação e intuição
+      case 'alpha': return 10.0; // 8 - 12 Hz: Presença plena, foco sereno e alívio do estresse
+      case 'beta': return 15.0; // 12 - 30 Hz: Vitalidade, foco mental ativo e despertar
+      case 'gamma': return 40.0; // 30 - 50 Hz: Conexão superior e transcendência
+      default: return 10.0;
+    }
+  }
+
+  public getCarrierFrequency(): number {
+    if (this.bioactiveConfig.carrierMode === 'custom' && this.bioactiveConfig.customCarrier) {
+      return this.bioactiveConfig.customCarrier;
+    }
+    let base = 432;
+    if (this.synthType && this.synthType.endsWith('hz')) {
+      const parsed = parseInt(this.synthType.replace('hz', ''), 10);
+      if (!isNaN(parsed) && parsed > 0) {
+        base = parsed;
+      }
+    }
+    if (this.bioactiveConfig.carrierMode === 'subharmonic') {
+      return base / 2;
+    }
+    return base;
+  }
+
+  public getBioactiveActiveFrequencies(): { left: number; right: number; beat: number; carrier: number; waveType: string } {
+    const carrier = this.getCarrierFrequency();
+    const beat = this.getWaveBeatFrequency();
+    return {
+      left: Number((carrier - beat / 2).toFixed(2)),
+      right: Number((carrier + beat / 2).toFixed(2)),
+      beat,
+      carrier,
+      waveType: this.bioactiveConfig.waveType
+    };
+  }
+
+  public applyBioactiveBinaural() {
+    try {
+      this.initCtx();
+      if (!this.ctx) return;
+      const now = this.ctx.currentTime;
+
+      if (!this.bioactiveConfig.enabled || this.synthType === 'none') {
+        if (this.binauralGain) {
+          try {
+            this.binauralGain.gain.linearRampToValueAtTime(0.0001, now + 0.25);
+          } catch (e) {}
+        }
+        return;
+      }
+
+      const carrier = this.getCarrierFrequency();
+      const beat = this.getWaveBeatFrequency();
+      const leftFreq = carrier - (beat / 2);
+      const rightFreq = carrier + (beat / 2);
+      const targetGain = Math.max(0, Math.min(1, this.bioactiveConfig.intensity)) * 0.22;
+
+      // Realtime glide if nodes are already initialized
+      if (this.binauralOscLeft && this.binauralOscRight && this.binauralGain) {
+        try {
+          this.binauralOscLeft.frequency.cancelScheduledValues(now);
+          this.binauralOscRight.frequency.cancelScheduledValues(now);
+          this.binauralGain.gain.cancelScheduledValues(now);
+
+          this.binauralOscLeft.frequency.linearRampToValueAtTime(leftFreq, now + 0.3);
+          this.binauralOscRight.frequency.linearRampToValueAtTime(rightFreq, now + 0.3);
+          this.binauralGain.gain.linearRampToValueAtTime(targetGain, now + 0.25);
+        } catch (e) {
+          console.warn("Could not smoothly ramp binaural nodes:", e);
+        }
+        return;
+      }
+
+      // Initialize fresh stereo binaural oscillator pair
+      const leftOsc = this.ctx.createOscillator();
+      const rightOsc = this.ctx.createOscillator();
+      leftOsc.type = 'sine';
+      rightOsc.type = 'sine';
+      leftOsc.frequency.setValueAtTime(leftFreq, now);
+      rightOsc.frequency.setValueAtTime(rightFreq, now);
+
+      const gainNode = this.ctx.createGain();
+      gainNode.gain.setValueAtTime(0.0001, now);
+      gainNode.gain.linearRampToValueAtTime(targetGain, now + 0.4);
+
+      if (typeof (this.ctx as any).createStereoPanner === 'function') {
+        const pannerL = (this.ctx as any).createStereoPanner();
+        pannerL.pan.setValueAtTime(-1, now);
+        const pannerR = (this.ctx as any).createStereoPanner();
+        pannerR.pan.setValueAtTime(1, now);
+
+        leftOsc.connect(pannerL);
+        rightOsc.connect(pannerR);
+        pannerL.connect(gainNode);
+        pannerR.connect(gainNode);
+        this.binauralPannerLeft = pannerL;
+        this.binauralPannerRight = pannerR;
+      } else {
+        const merger = this.ctx.createChannelMerger(2);
+        leftOsc.connect(merger, 0, 0);
+        rightOsc.connect(merger, 0, 1);
+        merger.connect(gainNode);
+      }
+
+      if (this.musicGain) {
+        gainNode.connect(this.musicGain);
+      } else if (this.mainGain) {
+        gainNode.connect(this.mainGain);
+      } else {
+        gainNode.connect(this.ctx.destination);
+      }
+
+      leftOsc.start(now);
+      rightOsc.start(now);
+
+      this.binauralOscLeft = leftOsc;
+      this.binauralOscRight = rightOsc;
+      this.binauralGain = gainNode;
+    } catch (err) {
+      console.warn("Failed to apply bioactive binaural beat:", err);
+    }
+  }
+
+  public stopBioactiveBinaural() {
+    try {
+      if (this.binauralGain && this.ctx) {
+        this.binauralGain.gain.setValueAtTime(0, this.ctx.currentTime);
+      }
+      if (this.binauralOscLeft) {
+        try { this.binauralOscLeft.stop(); } catch (e) {}
+        this.binauralOscLeft.disconnect();
+        this.binauralOscLeft = null;
+      }
+      if (this.binauralOscRight) {
+        try { this.binauralOscRight.stop(); } catch (e) {}
+        this.binauralOscRight.disconnect();
+        this.binauralOscRight = null;
+      }
+      if (this.binauralPannerLeft) {
+        this.binauralPannerLeft.disconnect();
+        this.binauralPannerLeft = null;
+      }
+      if (this.binauralPannerRight) {
+        this.binauralPannerRight.disconnect();
+        this.binauralPannerRight = null;
+      }
+      if (this.binauralGain) {
+        this.binauralGain.disconnect();
+        this.binauralGain = null;
+      }
+    } catch (e) {
+      console.warn("Error stopping bioactive binaural audio:", e);
     }
   }
 
