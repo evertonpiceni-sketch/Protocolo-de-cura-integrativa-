@@ -296,11 +296,11 @@ export default function ProfileSetup({ onComplete }: ProfileSetupProps) {
   };
 
   return (
-    <div className="min-h-screen bg-[#F8F4EC] text-[#2A2420] flex items-start md:items-center justify-center p-3 sm:p-4 md:p-8" id="profile-setup-view">
-      <div className="fixed inset-0 bg-[radial-gradient(circle_at_50%_8%,rgba(214,167,86,.16),transparent_30rem),linear-gradient(180deg,#FBF8F2,#F8F4EC)] pointer-events-none" />
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_12%,rgba(239,211,132,0.20)_0,transparent_42%)] pointer-events-none" />
+    <div className="ep-auth-style-one min-h-screen text-[#F8F4EC] flex items-start md:items-center justify-center p-3 sm:p-4 md:p-8" id="profile-setup-view">
+      <div className="ep-auth-nature-bg fixed inset-0 pointer-events-none" />
+      <div className="ep-auth-light-vignette absolute inset-0 pointer-events-none" />
 
-      <div className="w-full max-w-xl rounded-[1.9rem] p-5 sm:p-7 md:p-8 space-y-6 relative overflow-hidden" id="onboarding-card">
+      <div className="ep-auth-card w-full max-w-xl rounded-[1.9rem] p-5 sm:p-7 md:p-8 space-y-6 relative overflow-hidden" id="onboarding-card">
         {/* Decorative corner glow */}
         <div className="absolute -top-12 -right-12 w-24 h-24 bg-[#B88736]/10 rounded-full blur-xl pointer-events-none" />
 
