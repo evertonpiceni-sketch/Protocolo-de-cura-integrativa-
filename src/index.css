@@ -303,7 +303,7 @@ input::placeholder,textarea::placeholder{color:#9E9080!important}
   content:'';
   position:fixed;inset:0;
   pointer-events:none;
-  background:linear-gradient(rgba(2,27,19,.40),rgba(2,22,16,.76)),
+  background:linear-gradient(rgba(2,27,19,.40),rgba(2,22,16,.76));
   opacity:.52;
 }
 #onboarding-card{
