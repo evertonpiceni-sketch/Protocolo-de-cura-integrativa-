@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { motion } from 'motion/react';
 import { ArrowLeft, Check, ChevronLeft, ChevronRight, Headphones, Pause, Play, RotateCcw, ShieldCheck, X } from 'lucide-react';
 import { REINTEGRATION_DAYS, getReintegrationAcceptance } from '../data/reintegrationJourneyPublic';
-import { APPROVED_LOGO_DATA_URI } from './components/ApprovedBrand';
+import { APPROVED_LOGO_DATA_URI } from './ApprovedBrand';
 import { audioEngine } from '../lib/audio';
 import { JourneyDayVisualPreview } from './VideoStudioLightModal';
 import { PausaConscienteLight } from './PausaConscienteLight';
