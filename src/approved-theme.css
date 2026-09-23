@@ -127,53 +127,164 @@ body::before{
 }
 .ep-gold-button *,.ep-gold-action *{color:white!important}
 
-/* ---------- Cadastro / login ---------- */
-#profile-setup-view{
-  background:
-    radial-gradient(circle at 50% 0,rgba(214,167,86,.12),transparent 24rem),
-    linear-gradient(180deg,#FBF8F2 0%,#F8F4EC 100%)!important;
-  color:var(--text-primary)!important;
+/* ---------- Cadastro / login — ESTILO 1: NATURAL SERENO ---------- */
+#profile-setup-view.ep-auth-style-one{
+  position:relative;
+  isolation:isolate;
+  overflow-x:hidden;
+  background:#062A1F!important;
+  color:#F8F1E2!important;
 }
-#profile-setup-view>div:first-child{
+#profile-setup-view .ep-auth-nature-bg{
+  z-index:-3;
   background:
-    radial-gradient(circle at 50% 12%,rgba(94,113,83,.09),transparent 22rem),
-    linear-gradient(180deg,#FBF8F2,#F8F4EC)!important;
+    linear-gradient(180deg,rgba(3,28,20,.48),rgba(2,24,17,.82)),
+    url('/brand/reintegracao-presenca-arte.png') center/cover no-repeat,
+    linear-gradient(145deg,#0A402E 0%,#0A3326 48%,#061F18 100%)!important;
+  filter:saturate(.86) brightness(.82);
+  transform:scale(1.03);
 }
-#onboarding-card{
-  background:rgba(255,255,255,.88)!important;
-  border-color:var(--border-card)!important;
-  color:var(--text-primary)!important;
-  box-shadow:0 26px 70px rgba(87,68,43,.10)!important;
+#profile-setup-view .ep-auth-light-vignette{
+  z-index:-2;
+  background:
+    radial-gradient(circle at 50% 8%,rgba(247,224,163,.26),transparent 28rem),
+    radial-gradient(ellipse at 12% 18%,rgba(118,151,83,.22),transparent 20rem),
+    radial-gradient(ellipse at 88% 26%,rgba(74,119,63,.18),transparent 22rem),
+    linear-gradient(180deg,rgba(2,29,20,.04),rgba(2,22,16,.42))!important;
+}
+#profile-setup-view::before,
+#profile-setup-view::after{
+  content:'';
+  position:fixed;
+  z-index:-1;
+  width:18rem;
+  height:18rem;
+  pointer-events:none;
+  opacity:.34;
+  filter:blur(2px);
+  border-radius:52% 48% 64% 36%/42% 56% 44% 58%;
+  background:
+    radial-gradient(ellipse at 30% 35%,rgba(131,160,91,.55),transparent 32%),
+    radial-gradient(ellipse at 65% 55%,rgba(51,103,61,.58),transparent 36%),
+    radial-gradient(ellipse at 55% 25%,rgba(223,190,107,.15),transparent 22%);
+}
+#profile-setup-view::before{left:-8rem;top:-5rem;transform:rotate(-18deg)}
+#profile-setup-view::after{right:-8rem;bottom:-5rem;transform:rotate(28deg)}
+
+#onboarding-card.ep-auth-card{
+  background:
+    linear-gradient(160deg,rgba(9,58,42,.88),rgba(4,38,28,.94))!important;
+  border:1px solid rgba(219,183,91,.38)!important;
+  color:#F8F1E2!important;
+  box-shadow:0 30px 85px rgba(0,0,0,.36),inset 0 1px 0 rgba(255,255,255,.05)!important;
   backdrop-filter:blur(18px)!important;
 }
-#onboarding-card [class*="text-slate"],
-#onboarding-card [class*="text-white"]{color:var(--text-primary)!important}
+#onboarding-card.ep-auth-card::before{
+  content:'';
+  position:absolute;
+  inset:0;
+  pointer-events:none;
+  background:
+    radial-gradient(circle at 50% 0,rgba(241,214,145,.13),transparent 18rem),
+    linear-gradient(180deg,transparent 70%,rgba(2,28,20,.18));
+}
+#onboarding-card .ep-brand-signature-wrap{
+  opacity:.82!important;
+  border-color:rgba(224,190,104,.36)!important;
+  background:rgba(251,247,233,.88)!important;
+  box-shadow:0 0 0 5px rgba(219,183,91,.08),0 12px 30px rgba(0,0,0,.18)!important;
+}
+#onboarding-card .ep-brand-signature{
+  opacity:.94!important;
+  filter:saturate(.9) brightness(1.03) contrast(.98)!important;
+}
+
+#onboarding-card h1,
+#onboarding-card h2,
+#onboarding-card h3,
+#onboarding-card strong{
+  color:#FFF8E9!important;
+}
+#onboarding-card p,
+#onboarding-card label,
+#onboarding-card span{
+  color:#E9E0CD!important;
+}
+#onboarding-card [class*="text-[#e5c66f]"],
+#onboarding-card [class*="text-[#B88736]"],
+#onboarding-card [class*="text-amber"]{
+  color:#E1BC68!important;
+}
+#onboarding-card [class*="text-emerald"]{
+  color:#BFD39F!important;
+}
+
+#auth-tabs{
+  background:rgba(247,239,220,.08)!important;
+  border-color:rgba(225,188,104,.24)!important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.03)!important;
+}
+#auth-tabs button{
+  color:#E9E0CD!important;
+}
+#auth-tabs button[class*="bg-"]{
+  background:linear-gradient(135deg,#E0B95D 0%,#BA8733 55%,#91611D 100%)!important;
+  color:#fff!important;
+  box-shadow:0 8px 22px rgba(0,0,0,.18)!important;
+}
+
+#register-form input,#login-form input,#register-form select,#login-form select{
+  min-height:3rem;
+  background:rgba(255,250,238,.94)!important;
+  border-color:rgba(226,207,168,.88)!important;
+  color:#2A2420!important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.92)!important;
+}
+#register-form input:focus,#login-form input:focus,#register-form select:focus,#login-form select:focus{
+  border-color:#D8AF55!important;
+  box-shadow:0 0 0 3px rgba(216,175,85,.16)!important;
+}
+#register-form input::placeholder,#login-form input::placeholder{color:#9A8D7B!important}
+#register-form input[type="date"]{color-scheme:light!important}
+
+#register-form button[class*="bg-"],
+#login-form button[class*="bg-"]{
+  background:linear-gradient(135deg,#E0B95D 0%,#BA8733 55%,#91611D 100%)!important;
+  color:white!important;
+  border-color:rgba(226,188,92,.35)!important;
+  box-shadow:0 12px 28px rgba(0,0,0,.20)!important;
+}
+#register-form [class*="bg-white"],
+#login-form [class*="bg-white"],
 #onboarding-card [class*="bg-slate"],
 #onboarding-card [class*="bg-indigo"],
 #onboarding-card [class*="bg-purple"]{
-  background:var(--bg-card-subtle)!important;
-  border-color:var(--border-subtle)!important;
+  background:rgba(255,250,238,.08)!important;
+  border-color:rgba(225,188,104,.20)!important;
 }
-#register-form input,#login-form input,#register-form select,#login-form select{
-  background:var(--bg-input)!important;
-  border-color:#E2D5BE!important;
-  color:var(--text-primary)!important;
-  box-shadow:none!important;
+#onboarding-card a{color:#E1BC68!important}
+#onboarding-card button:hover{filter:brightness(1.05)}
+#auth-error{
+  background:rgba(105,26,26,.42)!important;
+  border-color:rgba(226,120,120,.34)!important;
+  color:#FFE0D7!important;
 }
-#register-form input::placeholder,#login-form input::placeholder{color:#9E9080!important}
-#auth-tabs{
-  background:var(--bg-input)!important;
-  border-color:var(--border-subtle)!important;
+#auth-success{
+  background:rgba(35,94,62,.42)!important;
+  border-color:rgba(146,196,139,.34)!important;
+  color:#DFF1D6!important;
 }
-#auth-tabs button{color:var(--text-secondary)!important}
-#auth-tabs button[class*="bg-"]{
-  background:var(--gold-gradient)!important;
-  color:white!important;
+
+@media(min-width:768px){
+  #profile-setup-view.ep-auth-style-one{padding-top:2rem!important;padding-bottom:2rem!important}
+  #onboarding-card.ep-auth-card{max-width:42rem!important}
 }
-#register-form button[class*="bg-"],
-#login-form button[class*="bg-"]{
-  background:var(--gold-gradient)!important;
-  color:white!important;
+@media(max-width:640px){
+  #profile-setup-view.ep-auth-style-one{padding:.75rem!important}
+  #onboarding-card.ep-auth-card{
+    border-radius:1.65rem!important;
+    box-shadow:0 22px 58px rgba(0,0,0,.30)!important;
+  }
 }
 
 /* ---------- Reintegração ---------- */
