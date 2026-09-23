@@ -1,7 +1,7 @@
 import React, { useState, useRef } from 'react';
 import { User, Sparkles, Shield, Heart, Lock, Mail, Calendar as CalendarIcon, LogIn, UserPlus, KeyRound, CheckCircle2, ArrowLeft, Clock, MapPin, Tag, Phone, Volume2, Play, Square, Loader2 } from 'lucide-react';
 import { UserAccount } from '../types';
-import { APPROVED_LOGO_DATA_URI } from './components/ApprovedBrand';
+import { APPROVED_LOGO_DATA_URI } from './ApprovedBrand';
 
 const today = new Date().toISOString().slice(0, 10);
 
