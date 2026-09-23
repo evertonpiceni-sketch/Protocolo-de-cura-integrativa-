@@ -828,7 +828,7 @@ export default function App() {
       </header>
 
       {/* Primary Workspace View Area */}
-      <main className="flex-1 relative z-10 py-6 pb-28 md:pb-24">
+      <main className="flex-1 relative z-10 py-5 pb-8 md:pb-10">
         {/* Settings view */}
         {showSettings ? (
           <div className="max-w-2xl mx-auto px-4 py-6 space-y-6" id="settings-view">
@@ -1786,24 +1786,21 @@ export default function App() {
       </aside>
 
       {/* Footer Branding credits */}
-      <footer className="border-t border-[#e5c66f]/15 py-7 px-5 bg-[#032319] relative z-20 text-center" id="main-footer">
-        <div className="max-w-5xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
-          <p className="text-sm text-[#adc2b5] font-sans leading-relaxed max-w-sm sm:text-left">
-            O Protocolo da Transformação é canalizado energeticamente por <strong className="text-[#e7d6a4]">Éverton Rodrigo Piceni</strong>, respeitando o tempo e a jornada de cada pessoa.
+      <footer className="relative z-20 border-t border-[#E5DAC6] bg-[#F8F4EC]/96 px-5 py-6 text-center" id="main-footer">
+        <div className="mx-auto flex max-w-5xl flex-col items-center gap-4">
+          <p className="mx-auto max-w-xl text-sm leading-6 text-[#5C5248]">
+            O Protocolo da Transformação é canalizado energeticamente por <strong className="font-semibold text-[#8F631E]">Éverton Rodrigo Piceni</strong>, respeitando o tempo e a jornada de cada pessoa.
           </p>
-          <div className="flex items-center gap-3 text-xs text-[#adc2b5]">
+          <div className="flex w-full max-w-xl flex-col items-center justify-center gap-3 border-t border-[#E5DAC6]/80 pt-4 text-xs text-[#85786C] sm:flex-row sm:flex-wrap">
             {userProfile?.isAdmin && (
-              <>
-                <button
-                  onClick={() => setShowAdminModal(true)}
-                  className="text-[#85786C] hover:text-amber-400 transition cursor-pointer underline text-[11px]"
-                >
-                  Área do Terapeuta / Admin
-                </button>
-                <span>•</span>
-              </>
+              <button
+                onClick={() => setShowAdminModal(true)}
+                className="cursor-pointer text-[11px] underline decoration-[#B88736]/40 underline-offset-4 transition hover:text-[#8F631E]"
+              >
+                Área do Terapeuta / Admin
+              </button>
             )}
-            <span className="text-[10px] font-mono text-[#8ca99a] uppercase tracking-widest">
+            <span className="max-w-full break-words text-center font-mono text-[10px] uppercase leading-5 tracking-[.12em] text-[#85786C]">
               Eu Sou Livre • Eu Sou Cura • Eu Estou em Paz
             </span>
           </div>
