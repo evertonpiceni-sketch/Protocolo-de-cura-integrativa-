@@ -1,7 +1,7 @@
 import React, { useMemo, useState } from 'react';
 import { Award, BookOpen, ChevronRight, Flower2, GraduationCap, Headphones, Heart, Leaf, MessageCircle, Pause, Play, Sliders, Sparkles, Sun, Users, Waves } from 'lucide-react';
 import { AnamnesisData, DAILY_INSIGHTS, DayProgress } from '../types';
-import { APPROVED_LOGO_DATA_URI } from './components/ApprovedBrand';
+import { APPROVED_LOGO_DATA_URI } from './ApprovedBrand';
 import { evaluateBestTreatmentFromAnamnesis } from '../lib/anamnesisTreatmentEngine';
 import { audioEngine } from '../lib/audio';
 
