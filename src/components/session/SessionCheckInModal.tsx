@@ -1,7 +1,6 @@
 import React from 'react';
 import { motion } from 'motion/react';
 import { Sparkles, Heart, CheckCircle2, ArrowRight } from 'lucide-react';
-import { SessionCheckIn } from '../../types';
 
 interface SessionCheckInModalProps {
   type: 'before' | 'after';
@@ -77,66 +76,67 @@ export const SessionCheckInModal: React.FC<SessionCheckInModalProps> = ({
       transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
       className="relative z-10 max-w-xl mx-auto w-full px-4 py-6 my-auto"
     >
-      <div className="relative rounded-3xl p-6 sm:p-8 border border-[#d4af37]/30 bg-gradient-to-b from-[#0a261c]/95 via-[#061410]/98 to-[#04100c] shadow-[0_20px_50px_rgba(0,0,0,0.8),0_0_40px_rgba(212,175,55,0.08)] backdrop-blur-xl text-left">
+      <div className="relative rounded-3xl p-6 sm:p-8 border border-[#E5DAC6] bg-[#FAF7F2]/98 shadow-[0_20px_50px_rgba(143,99,30,0.08)] backdrop-blur-xl text-left">
         
         {/* Header */}
         <div className="flex items-center gap-3 mb-4">
-          <div className="w-10 h-10 rounded-xl bg-[#d4af37]/15 border border-[#d4af37]/30 flex items-center justify-center text-[#e6ca65]">
+          <div className="w-10 h-10 rounded-xl bg-[#FAF4E8] border border-[#B88736]/25 flex items-center justify-center text-[#8F631E]">
             {isBefore ? <Sparkles size={20} /> : <Heart size={20} />}
           </div>
           <div>
-            <p className="text-[11px] uppercase tracking-[0.2em] text-[#d4af37] font-medium font-serif">
+            <p className="text-[11px] uppercase tracking-[0.2em] text-[#8F631E] font-semibold font-serif">
               {isBefore ? 'Acolhimento Inicial' : 'Integração & Selamento'} • Dia {dayNumber.toString().padStart(2, '0')}
             </p>
-            <h3 className="text-xl sm:text-2xl font-serif text-[#f4f1ea] font-normal">
-              {isBefore ? 'Como você chega a este momento?' : 'Como você se sente após o tratamento?'}
+            <h3 className="text-xl sm:text-2xl font-serif text-[#2A2420] font-normal">
+              {isBefore ? 'Como você chega para este momento?' : 'O que você percebe agora em seu ser?'}
             </h3>
           </div>
         </div>
 
-        <p className="text-xs text-[#8ca89a] leading-relaxed mb-6 font-sans">
+        <p className="text-xs text-[#5C5248] mb-5 leading-relaxed">
           {isBefore
-            ? 'Reconheça com honestidade e afeto o seu estado atual. Nenhuma emoção é julgada; tudo é acolhido para transmutação.'
-            : 'Observe as sensações de alívio e reconexão. O seu relato é blindado energeticamente na Chama Violeta.'}
+            ? 'Observe o seu campo sem julgamento. Não é necessário estar bem para ser acolhido aqui.'
+            : 'Reconheça a sutileza da transformação. Cada respiração ancorou cura nas suas células.'}
         </p>
 
-        {/* Mood Slider */}
-        <div className="mb-6 p-4 rounded-2xl bg-[#061410]/70 border border-[#8ca89a]/15">
-          <div className="flex items-center justify-between text-xs mb-2">
-            <span className="text-[#8ca89a]">Nível de bem-estar interior</span>
-            <span className="font-serif font-semibold text-[#e6ca65]">{moodDesc?.label}</span>
+        {/* 1 to 5 Mood Scale */}
+        <div className="mb-6 p-4 rounded-2xl bg-[#F4EFE6] border border-[#E5DAC6]">
+          <div className="flex items-center justify-between mb-2">
+            <span className="text-xs font-serif text-[#8F631E] uppercase tracking-wider font-semibold">
+              Escala de Disposição Energética
+            </span>
+            <span className="text-xs font-medium text-[#2A2420]">
+              {moodDesc?.label || `Nível ${mood}`}
+            </span>
           </div>
 
-          <div className="flex items-center gap-2 mb-2">
-            {[1, 2, 3, 4, 5].map((level) => {
-              const isSelected = level === mood;
-              return (
-                <button
-                  key={level}
-                  type="button"
-                  onClick={() => onMoodChange(level)}
-                  className={`flex-1 py-2.5 rounded-xl border text-sm font-serif font-medium transition-all ${
-                    isSelected
-                      ? 'bg-[#d4af37] text-[#061410] border-[#e6ca65] shadow-[0_0_15px_rgba(212,175,55,0.4)] scale-105'
-                      : 'bg-[#04100c] text-[#8ca89a] border-[#8ca89a]/20 hover:border-[#8ca89a]/40'
-                  }`}
-                >
-                  {level}
-                </button>
-              );
-            })}
+          <div className="grid grid-cols-5 gap-2 my-2">
+            {[1, 2, 3, 4, 5].map((val) => (
+              <button
+                key={val}
+                type="button"
+                onClick={() => onMoodChange(val)}
+                className={`py-3 rounded-xl border text-sm font-serif font-medium transition-all duration-200 ${
+                  mood === val
+                    ? 'bg-[#8F631E] text-white border-[#8F631E] shadow-[0_2px_10px_rgba(143,99,30,0.3)] scale-105'
+                    : 'bg-white/80 text-[#5C5248] border-[#E5DAC6] hover:border-[#8F631E]/40'
+                }`}
+              >
+                {val}
+              </button>
+            ))}
           </div>
 
-          <p className="text-[11px] text-[#8ca89a] italic text-center font-sans">
+          <p className="text-[11px] text-[#5C5248] italic text-center mt-2">
             {moodDesc?.sub}
           </p>
         </div>
 
         {/* Sensations Selection */}
         <div className="mb-6">
-          <label className="block text-xs font-serif text-[#e8e3d5] mb-2.5">
-            {isBefore ? 'Selecione o que melhor descreve o seu padrão agora:' : 'Quais sensações foram despertadas em você:'}
-          </label>
+          <p className="text-xs font-serif text-[#8F631E] uppercase tracking-wider mb-2.5 font-semibold">
+            {isBefore ? 'Sensações Presentes (Escolha as que ressoam)' : 'Efeitos Percebidos da Prática'}
+          </p>
           <div className="flex flex-wrap gap-2">
             {availableSensations.map((sens) => {
               const isSelected = selectedSensations.includes(sens);
@@ -145,43 +145,44 @@ export const SessionCheckInModal: React.FC<SessionCheckInModalProps> = ({
                   key={sens}
                   type="button"
                   onClick={() => onToggleSensation(sens)}
-                  className={`px-3 py-1.5 rounded-xl text-xs transition-all border ${
+                  className={`px-3 py-1.5 rounded-lg border text-xs font-sans transition-all duration-150 flex items-center gap-1.5 ${
                     isSelected
-                      ? 'bg-[#d4af37]/20 border-[#d4af37]/60 text-[#f4f1ea] shadow-[0_0_10px_rgba(212,175,55,0.2)]'
-                      : 'bg-[#061410]/60 border-[#8ca89a]/20 text-[#8ca89a] hover:text-[#e8e3d5] hover:border-[#8ca89a]/40'
+                      ? 'bg-[#8F631E] text-white border-[#8F631E] shadow-sm'
+                      : 'bg-white/80 border-[#E5DAC6] text-[#5C5248] hover:text-[#2A2420] hover:border-[#8F631E]/40'
                   }`}
                 >
-                  {sens}
+                  {isSelected && <CheckCircle2 size={13} className="text-white" />}
+                  <span>{sens}</span>
                 </button>
               );
             })}
           </div>
         </div>
 
-        {/* Notes Input */}
+        {/* Optional Reflection Notes */}
         <div className="mb-6">
-          <label className="block text-xs font-serif text-[#e8e3d5] mb-2">
-            {isBefore ? 'Algum pensamento ou intenção para esta sessão? (Opcional)' : 'Diário de Sensações — deixe seu registro de cura:'}
-          </label>
+          <p className="text-xs font-serif text-[#8F631E] uppercase tracking-wider mb-2 font-semibold">
+            {isBefore ? 'Intenção do Momento (Opcional)' : 'Anotação no Diário de Reconexão (Privado)'}
+          </p>
           <textarea
             value={notes}
             onChange={(e) => onNotesChange(e.target.value)}
-            rows={3}
             placeholder={
               isBefore
-                ? 'Ex: Peço clareza e relaxamento para os meus ombros e pensamentos...'
-                : 'Ex: Senti um calor gostoso no peito e uma paz profunda ao final do selamento...'
+                ? 'Se desejar, expresse com poucas palavras o que busca liberar hoje...'
+                : 'Como eu estava? O que percebi? Como estou agora? (Fica salvo no seu Diário)'
             }
-            className="w-full px-4 py-3 rounded-xl bg-[#04100c]/80 border border-[#8ca89a]/20 text-sm text-[#f4f1ea] placeholder-[#8ca89a]/40 focus:outline-none focus:border-[#d4af37]/60 transition-colors resize-none font-sans"
+            rows={2}
+            className="w-full px-4 py-3 rounded-xl bg-white/90 border border-[#E5DAC6] text-sm text-[#2A2420] placeholder-[#85786C]/60 focus:outline-none focus:border-[#8F631E] transition-colors resize-none font-sans"
           />
         </div>
 
-        {/* Confirm Action */}
+        {/* Confirm Button */}
         <button
           onClick={onConfirm}
-          className="w-full py-3.5 rounded-xl bg-gradient-to-r from-[#c5a059] via-[#d4af37] to-[#e6ca65] text-[#061410] text-sm font-semibold tracking-wide shadow-[0_4px_20px_rgba(212,175,55,0.3)] hover:shadow-[0_6px_25px_rgba(212,175,55,0.45)] hover:scale-[1.01] active:scale-[0.99] transition-all duration-200 flex items-center justify-center gap-2"
+          className="w-full py-3.5 rounded-xl bg-gradient-to-r from-[#B88736] via-[#D4AF37] to-[#C5A059] text-white text-sm font-semibold tracking-wide shadow-[0_4px_20px_rgba(184,135,54,0.25)] hover:shadow-[0_6px_25px_rgba(184,135,54,0.35)] hover:scale-[1.01] active:scale-[0.99] transition-all duration-200 flex items-center justify-center gap-2"
         >
-          <span>{isBefore ? 'Continuar para o Portal de Abertura' : 'Concluir Tratamento e Salvar'}</span>
+          <span>{isBefore ? 'Iniciar a Harmonização' : 'Concluir Dia e Selar o Cuidado'}</span>
           <ArrowRight size={16} />
         </button>
 

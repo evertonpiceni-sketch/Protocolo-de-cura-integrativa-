@@ -25,12 +25,17 @@
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
     <script>
-      // Register Service Worker for PWA / Google Play TWA support
+      // Clear all legacy Service Workers and Cache Storage so preview always displays fresh code
       if ('serviceWorker' in navigator) {
-        window.addEventListener('load', () => {
-          navigator.serviceWorker.register('/sw.js')
-            .then((reg) => console.log('Service Worker registrado com sucesso:', reg.scope))
-            .catch((err) => console.warn('Erro ao registrar Service Worker:', err));
+        navigator.serviceWorker.getRegistrations().then((registrations) => {
+          for (const registration of registrations) {
+            registration.unregister();
+          }
+        });
+      }
+      if ('caches' in window) {
+        caches.keys().then((keys) => {
+          keys.forEach((key) => caches.delete(key));
         });
       }
     </script>

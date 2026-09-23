@@ -21,14 +21,16 @@ const getGemini = () => process.env.GEMINI_API_KEY && process.env.GEMINI_API_KEY
 const getElevenLabs = () => process.env.ELEVENLABS_API_KEY && process.env.ELEVENLABS_API_KEY.length > 5 ? new ElevenLabsClient({ apiKey: process.env.ELEVENLABS_API_KEY }) : null;
 const audioCache = new Map<string, { buffer: Buffer, contentType: string }>();
 
+const OFFICIAL_PROTOCOL_VOICE_ID = "mJqP14JQFEK0PojR5lfV"; // Marianne - Meditação
+
 // Natural meditative pacing for Eleven Multilingual v2. Avoid ellipses because they can
 // introduce hesitation; use sparse SSML breaks instead, with longer pauses only at paragraph ends.
 const prepareTherapeuticSSML = (text: string) => text
   .replace(/\r\n/g, "\n")
-  .replace(/\n{2,}/g, ' <break time="1.25s" /> ')
-  .replace(/([.!?])\s+/g, '$1 <break time="0.72s" /> ')
-  .replace(/([;:])\s+/g, '$1 <break time="0.42s" /> ')
-  .replace(/,\s+/g, ', <break time="0.22s" /> ')
+  .replace(/\n{2,}/g, ' <break time="1.5s" /> ')
+  .replace(/([.!?])\s+/g, '$1 <break time="0.9s" /> ')
+  .replace(/([;:])\s+/g, '$1 <break time="0.5s" /> ')
+  .replace(/,\s+/g, ', <break time="0.3s" /> ')
   .replace(/\s{2,}/g, ' ')
   .trim();
 
@@ -37,8 +39,23 @@ export function createApp() {
   app.set("trust proxy", 1);
   app.use(helmet({
     contentSecurityPolicy: false,
+    crossOriginOpenerPolicy: false,
+    crossOriginResourcePolicy: false,
+    crossOriginEmbedderPolicy: false,
+    originAgentCluster: false,
     xFrameOptions: false
   }));
+
+  // Force no-cache and allow iframe embedding for AI Studio preview
+  app.use((_req, res, next) => {
+    res.removeHeader("X-Frame-Options");
+    res.setHeader("Access-Control-Allow-Origin", "*");
+    res.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
+    res.setHeader("Pragma", "no-cache");
+    res.setHeader("Expires", "0");
+    next();
+  });
+
   const globalLimiter = rateLimit({ windowMs: 15 * 60 * 1000, max: 200, validate: { xForwardedForHeader: false, trustProxy: false, forwardedHeader: false }, message: { error: "Muitas requisições, tente novamente mais tarde." } });
   const authLimiter = rateLimit({ windowMs: 15 * 60 * 1000, max: 30, validate: { xForwardedForHeader: false, trustProxy: false, forwardedHeader: false }, message: { error: "Muitas tentativas de login, tente novamente mais tarde." } });
   const apiLimiter = rateLimit({ windowMs: 15 * 60 * 1000, max: 100, validate: { xForwardedForHeader: false, trustProxy: false, forwardedHeader: false }, message: { error: "Limite de uso da API excedido." } });
@@ -70,6 +87,61 @@ export function createApp() {
   app.get("/api/elevenlabs/voices", authenticate, apiLimiter, async (_req, res) => { const client = getElevenLabs(); const defaultCuratedVoices = [{ voice_id: "Marcus", name: "Marcus (Éverton Piceni Style)", category: "cloned/curated", description: "Voz masculina profunda, acolhedora, serena e terapêutica.", preview_url: "" }, { voice_id: "Rachel", name: "Rachel (Acolhimento & Paz)", category: "premade", description: "Voz feminina suave, doce e maternal.", preview_url: "" }]; if (!client) return res.json({ voices: defaultCuratedVoices, isCustomApiKey: false }); try { const response = await client.voices.getAll(); const apiVoices = (response.voices || []).map((v: any) => ({ voice_id: v.voice_id, name: v.name, category: v.category || "custom", description: v.description || (v.labels ? Object.values(v.labels).join(", ") : "Voz ElevenLabs"), preview_url: v.preview_url || "" })); const allVoices = [...defaultCuratedVoices]; apiVoices.forEach((av: any) => { if (!allVoices.some(v => v.voice_id === av.voice_id)) allVoices.push(av); }); return res.json({ voices: allVoices, isCustomApiKey: true }); } catch (err: any) { console.warn("ElevenLabs voices fetch warning:", err?.message || err); return res.json({ voices: defaultCuratedVoices, isCustomApiKey: true }); } });
 
   app.post("/api/elevenlabs/tts", authenticate, apiLimiter, async (req, res) => { try { const { text, voiceId = process.env.ELEVENLABS_VOICE_ID || "Marcus", stability = 0.5, similarityBoost = 0.75, style = 0, speed = 0.92, useSpeakerBoost = true, enableBreathingPauses = true, cacheKey } = req.body; if (!text || typeof text !== "string" || text.trim().length === 0) return res.status(400).json({ error: "Texto para sintetizar é obrigatório." }); const safeStability = Math.max(0.35, Math.min(0.7, Number(stability))); const safeSimilarity = Math.max(0.5, Math.min(0.9, Number(similarityBoost))); const safeStyle = Math.max(0, Math.min(0.2, Number(style))); const safeSpeed = Math.max(0.82, Math.min(1.05, Number(speed))); const effectiveCacheKey = cacheKey || `${voiceId}_${safeStability}_${safeSimilarity}_${safeStyle}_${safeSpeed}_${text.slice(0, 100)}_${text.length}`; if (audioCache.has(effectiveCacheKey)) { const cached = audioCache.get(effectiveCacheKey)!; res.setHeader("Content-Type", cached.contentType); res.setHeader("X-Audio-Cache", "HIT"); return res.send(cached.buffer); } const client = getElevenLabs(); if (!client) return res.status(503).json({ error: "ELEVENLABS_API_KEY não configurada no servidor.", fallbackToNativeTTS: true, message: "Configure sua chave." }); const formattedText = enableBreathingPauses ? prepareTherapeuticSSML(text) : text; let resolvedVoiceId = voiceId; if (['masculina','male','everton','Marcus'].includes(voiceId)) resolvedVoiceId = process.env.ELEVENLABS_VOICE_ID || "Marcus"; else if (['feminina','female','sofia','Rachel'].includes(voiceId)) resolvedVoiceId = "21m00Tcm4TlvDq8ikWAM"; const audioStream = await client.generate({ voice: resolvedVoiceId, model_id: "eleven_multilingual_v2", text: formattedText, voice_settings: { stability: safeStability, similarity_boost: safeSimilarity, style: safeStyle, speed: safeSpeed, use_speaker_boost: useSpeakerBoost } } as any); const chunks: Buffer[] = []; for await (const chunk of audioStream as any) chunks.push(Buffer.isBuffer(chunk) ? chunk : Buffer.from(chunk)); const audioBuffer = Buffer.concat(chunks); if (audioCache.size > 50) { const firstKey = audioCache.keys().next().value; if (firstKey) audioCache.delete(firstKey); } audioCache.set(effectiveCacheKey, { buffer: audioBuffer, contentType: "audio/mpeg" }); res.setHeader("Content-Type", "audio/mpeg"); res.setHeader("Content-Length", audioBuffer.length); res.setHeader("X-Audio-Cache", "MISS"); return res.send(audioBuffer); } catch (error: any) { console.error("Erro na geração de áudio ElevenLabs:", error); return res.status(500).json({ error: error.message || "Falha ao sintetizar áudio", fallbackToNativeTTS: true }); } });
+
+  // Dedicated Continuous Stream for Protocol Stages (Marianne voice official)
+  app.post("/api/tts/stream", async (req, res) => {
+    try {
+      const { text, voiceId = OFFICIAL_PROTOCOL_VOICE_ID, speed = 0.85 } = req.body;
+      if (!text || typeof text !== "string") {
+        return res.status(400).json({ error: "Texto ausente." });
+      }
+
+      const client = getElevenLabs();
+      const resolvedVoice = (voiceId === "mJqP14JQFEK0PojR5lfV" || voiceId === "marianne" || !voiceId)
+        ? OFFICIAL_PROTOCOL_VOICE_ID
+        : voiceId;
+
+      const cacheKey = `stream_${resolvedVoice}_${speed}_${text.slice(0, 80)}_${text.length}`;
+      if (audioCache.has(cacheKey)) {
+        const cached = audioCache.get(cacheKey)!;
+        res.setHeader("Content-Type", "audio/mpeg");
+        res.setHeader("X-Audio-Cache", "HIT");
+        return res.send(cached.buffer);
+      }
+
+      if (!client) {
+        return res.status(503).json({ fallbackToSpeechSynthesis: true });
+      }
+
+      const formattedText = prepareTherapeuticSSML(text);
+      const audioStream = await client.generate({
+        voice: resolvedVoice,
+        model_id: "eleven_multilingual_v2",
+        text: formattedText,
+        voice_settings: {
+          stability: 0.58,
+          similarity_boost: 0.82,
+          style: 0.05,
+          speed: Math.max(0.78, Math.min(1.0, Number(speed) || 0.85)),
+          use_speaker_boost: true
+        }
+      } as any);
+
+      const chunks: Buffer[] = [];
+      for await (const chunk of audioStream as any) {
+        chunks.push(Buffer.isBuffer(chunk) ? chunk : Buffer.from(chunk));
+      }
+      const audioBuffer = Buffer.concat(chunks);
+      audioCache.set(cacheKey, { buffer: audioBuffer, contentType: "audio/mpeg" });
+
+      res.setHeader("Content-Type", "audio/mpeg");
+      res.setHeader("Content-Length", audioBuffer.length);
+      return res.send(audioBuffer);
+    } catch (err: any) {
+      console.warn("TTS stream warning, falling back:", err?.message);
+      return res.status(500).json({ fallbackToSpeechSynthesis: true, error: err?.message });
+    }
+  });
 
   app.post("/api/logs/security", express.json(), (req: any, res: any) => { console.warn("[SECURITY LOG]", new Date().toISOString(), req.body); res.json({ success: true }); });
 

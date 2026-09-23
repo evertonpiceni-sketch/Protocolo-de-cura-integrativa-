@@ -1250,6 +1250,150 @@ class CalmingAudioEngine {
     }
     return false;
   }
+
+  public async playProtocolStageStream({
+    text,
+    voiceId = OFFICIAL_PROTOCOL_VOICE_ID,
+    speed = 0.85,
+    stageTitle = 'Protocolo de Cura Integrada',
+    dayNumber = 1,
+    onProgress,
+    onEnd,
+    onError
+  }: {
+    text: string;
+    voiceId?: string;
+    speed?: number;
+    stageTitle?: string;
+    dayNumber?: number;
+    onProgress?: (curr: number, dur: number) => void;
+    onEnd?: () => void;
+    onError?: (err: any) => void;
+  }): Promise<HTMLAudioElement | null> {
+    this.stopSpeech();
+    try {
+      if (!this.voiceAudioElement) {
+        this.voiceAudioElement = new Audio();
+        this.voiceAudioElement.preload = 'auto';
+      }
+      const audioEl = this.voiceAudioElement;
+      audioEl.pause();
+
+      const response = await fetch('/api/tts/stream', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ text, voiceId, speed })
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json().catch(() => ({}));
+        if (errorData.fallbackToSpeechSynthesis) {
+          this.speak(text, 1.0, () => {}, () => onEnd?.(), undefined, undefined, { voiceId, rate: speed });
+          return null;
+        }
+        throw new Error('Falha ao obter stream contínuo.');
+      }
+
+      const blob = await response.blob();
+      if (this.voiceAudioUrl) {
+        URL.revokeObjectURL(this.voiceAudioUrl);
+      }
+      this.voiceAudioUrl = URL.createObjectURL(blob);
+      audioEl.src = this.voiceAudioUrl;
+
+      if ('mediaSession' in navigator) {
+        navigator.mediaSession.metadata = new MediaMetadata({
+          title: stageTitle,
+          artist: 'Éverton Rodrigo Piceni - Cura Integrada',
+          album: `Protocolo 21 Dias - Dia ${dayNumber}`,
+          artwork: [
+            { src: '/icon-192.svg', sizes: '192x192', type: 'image/svg+xml' },
+            { src: '/icon-512.svg', sizes: '512x512', type: 'image/svg+xml' }
+          ]
+        });
+
+        navigator.mediaSession.setActionHandler('play', () => {
+          audioEl.play().catch(() => {});
+        });
+        navigator.mediaSession.setActionHandler('pause', () => {
+          audioEl.pause();
+        });
+        navigator.mediaSession.setActionHandler('seekbackward', (details) => {
+          const skipTime = details.seekOffset || 15;
+          audioEl.currentTime = Math.max(audioEl.currentTime - skipTime, 0);
+        });
+        navigator.mediaSession.setActionHandler('seekforward', (details) => {
+          const skipTime = details.seekOffset || 15;
+          audioEl.currentTime = Math.min(audioEl.currentTime + skipTime, audioEl.duration || 0);
+        });
+        navigator.mediaSession.setActionHandler('seekto', (details) => {
+          if (details.seekTime !== undefined) {
+            audioEl.currentTime = details.seekTime;
+          }
+        });
+      }
+
+      audioEl.ontimeupdate = () => {
+        if (onProgress && audioEl.duration) {
+          onProgress(audioEl.currentTime, audioEl.duration);
+        }
+        if ('mediaSession' in navigator && audioEl.duration && !isNaN(audioEl.duration)) {
+          try {
+            navigator.mediaSession.setPositionState({
+              duration: audioEl.duration,
+              playbackRate: audioEl.playbackRate,
+              position: audioEl.currentTime
+            });
+          } catch (_) {}
+        }
+      };
+
+      audioEl.onended = () => {
+        this.isElevenLabsPlaying = false;
+        onEnd?.();
+      };
+
+      audioEl.onerror = (e) => {
+        console.warn('Erro no elemento de áudio, usando fallback nativo:', e);
+        this.speak(text, 1.0, () => {}, () => onEnd?.(), undefined, undefined, { voiceId, rate: speed });
+      };
+
+      this.isElevenLabsPlaying = true;
+      await audioEl.play();
+      return audioEl;
+    } catch (err) {
+      console.warn('Erro ao processar stream de áudio contínuo:', err);
+      this.speak(text, 1.0, () => {}, () => onEnd?.(), undefined, undefined, { voiceId, rate: speed });
+      return null;
+    }
+  }
+
+  public seekToSeconds(timeInSeconds: number) {
+    if (this.voiceAudioElement && Number.isFinite(this.voiceAudioElement.duration)) {
+      this.voiceAudioElement.currentTime = Math.max(0, Math.min(timeInSeconds, this.voiceAudioElement.duration));
+    }
+  }
+
+  public getSpeechCurrentTime(): number {
+    return this.voiceAudioElement ? this.voiceAudioElement.currentTime : 0;
+  }
+
+  public getSpeechDuration(): number {
+    return this.voiceAudioElement && !isNaN(this.voiceAudioElement.duration) ? this.voiceAudioElement.duration : 0;
+  }
+
+  public startSynth(type: any) {
+    this.startBG(type);
+  }
+
+  public stopSynth() {
+    this.stopBG();
+  }
+
+  public setMasterVolume(vol: number) {
+    this.setMainVolume(vol);
+  }
 }
 
+export const OFFICIAL_PROTOCOL_VOICE_ID = 'mJqP14JQFEK0PojR5lfV';
 export const audioEngine = new CalmingAudioEngine();

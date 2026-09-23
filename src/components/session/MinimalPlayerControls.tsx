@@ -60,22 +60,22 @@ export const MinimalPlayerControls: React.FC<MinimalPlayerControlsProps> = ({
       <div className="space-y-1.5 mb-4">
         <div
           onClick={handleProgressBarClick}
-          className="relative w-full h-2 rounded-full bg-[#0d281e] cursor-pointer group py-1 -my-1"
+          className="relative w-full h-2 rounded-full bg-[#EADFCF] cursor-pointer group py-1 -my-1"
         >
-          <div className="w-full h-1.5 rounded-full bg-[#0a261c] overflow-hidden">
+          <div className="w-full h-1.5 rounded-full bg-[#E5DAC6] overflow-hidden">
             <div
-              className="h-full bg-gradient-to-r from-[#c5a059] to-[#e6ca65] rounded-full transition-all duration-150"
+              className="h-full bg-gradient-to-r from-[#B88736] via-[#D4AF37] to-[#C5A059] rounded-full transition-all duration-150"
               style={{ width: `${progressPercent}%` }}
             />
           </div>
           {/* Thumb marker on hover */}
           <div
-            className="absolute top-1/2 -translate-y-1/2 w-3.5 h-3.5 rounded-full bg-[#f4f1ea] border-2 border-[#d4af37] shadow-md opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none"
+            className="absolute top-1/2 -translate-y-1/2 w-3.5 h-3.5 rounded-full bg-white border-2 border-[#B88736] shadow-md opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none"
             style={{ left: `calc(${progressPercent}% - 7px)` }}
           />
         </div>
 
-        <div className="flex items-center justify-between text-[11px] font-mono text-[#8ca89a] px-0.5">
+        <div className="flex items-center justify-between text-[11px] font-mono text-[#5C5248] px-0.5">
           <span>{formatTime(currentTime)}</span>
           <span>{duration > 0 ? formatTime(duration) : '--:--'}</span>
         </div>
@@ -86,10 +86,10 @@ export const MinimalPlayerControls: React.FC<MinimalPlayerControlsProps> = ({
         {/* Left Secondary: Script Drawer */}
         <button
           onClick={onOpenScriptDrawer}
-          className="flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-serif text-[#8ca89a] hover:text-[#f4f1ea] hover:bg-[#8ca89a]/10 border border-transparent hover:border-[#8ca89a]/20 transition-all"
+          className="flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-serif text-[#5C5248] hover:text-[#2A2420] hover:bg-[#E5DAC6]/40 border border-transparent hover:border-[#E5DAC6] transition-all"
           title="Ler roteiro completo"
         >
-          <BookOpen size={16} className="text-[#d4af37]" />
+          <BookOpen size={16} className="text-[#8F631E]" />
           <span className="hidden sm:inline">Roteiro</span>
         </button>
 
@@ -99,7 +99,7 @@ export const MinimalPlayerControls: React.FC<MinimalPlayerControlsProps> = ({
           <button
             onClick={onPrevStage}
             disabled={!hasPrevStage}
-            className="p-2.5 rounded-xl text-[#8ca89a] hover:text-[#f4f1ea] disabled:opacity-30 disabled:hover:text-[#8ca89a] hover:bg-[#8ca89a]/10 transition-colors"
+            className="p-2.5 rounded-xl text-[#5C5248] hover:text-[#2A2420] disabled:opacity-30 disabled:hover:text-[#5C5248] hover:bg-[#E5DAC6]/40 transition-colors"
             title="Etapa anterior"
           >
             <SkipBack size={18} />
@@ -108,41 +108,41 @@ export const MinimalPlayerControls: React.FC<MinimalPlayerControlsProps> = ({
           {/* Seek -15s */}
           <button
             onClick={onSeekBackward}
-            className="p-2 rounded-xl text-[#8ca89a] hover:text-[#f4f1ea] hover:bg-[#8ca89a]/10 transition-colors flex items-center justify-center relative"
+            className="p-2 rounded-xl text-[#5C5248] hover:text-[#2A2420] hover:bg-[#E5DAC6]/40 transition-colors flex items-center justify-center relative"
             title="Voltar 15 segundos"
           >
             <RotateCcw size={17} />
-            <span className="absolute -bottom-1.5 text-[8px] font-mono font-bold text-[#d4af37]">15</span>
+            <span className="absolute -bottom-1.5 text-[8px] font-mono font-bold text-[#8F631E]">15</span>
           </button>
 
           {/* Big Play / Pause */}
           <button
             onClick={onTogglePlay}
-            className="w-13 h-13 rounded-2xl bg-gradient-to-tr from-[#c5a059] via-[#d4af37] to-[#e6ca65] text-[#061410] flex items-center justify-center shadow-[0_4px_20px_rgba(212,175,55,0.35)] hover:shadow-[0_6px_25px_rgba(212,175,55,0.5)] hover:scale-105 active:scale-95 transition-all duration-200"
+            className="w-13 h-13 rounded-2xl bg-gradient-to-tr from-[#B88736] via-[#D4AF37] to-[#C5A059] text-white flex items-center justify-center shadow-[0_4px_20px_rgba(184,135,54,0.3)] hover:shadow-[0_6px_25px_rgba(184,135,54,0.45)] hover:scale-105 active:scale-95 transition-all duration-200"
             title={isPlaying ? "Pausar sessão" : "Iniciar sessão"}
           >
             {isPlaying ? (
-              <Pause size={22} className="fill-[#061410]" />
+              <Pause size={22} className="fill-white" />
             ) : (
-              <Play size={22} className="fill-[#061410] ml-0.5" />
+              <Play size={22} className="fill-white ml-0.5" />
             )}
           </button>
 
           {/* Seek +15s */}
           <button
             onClick={onSeekForward}
-            className="p-2 rounded-xl text-[#8ca89a] hover:text-[#f4f1ea] hover:bg-[#8ca89a]/10 transition-colors flex items-center justify-center relative"
+            className="p-2 rounded-xl text-[#5C5248] hover:text-[#2A2420] hover:bg-[#E5DAC6]/40 transition-colors flex items-center justify-center relative"
             title="Avançar 15 segundos"
           >
             <RotateCw size={17} />
-            <span className="absolute -bottom-1.5 text-[8px] font-mono font-bold text-[#d4af37]">15</span>
+            <span className="absolute -bottom-1.5 text-[8px] font-mono font-bold text-[#8F631E]">15</span>
           </button>
 
           {/* Next Stage */}
           <button
             onClick={onNextStage}
             disabled={!hasNextStage}
-            className="p-2.5 rounded-xl text-[#8ca89a] hover:text-[#f4f1ea] disabled:opacity-30 disabled:hover:text-[#8ca89a] hover:bg-[#8ca89a]/10 transition-colors"
+            className="p-2.5 rounded-xl text-[#5C5248] hover:text-[#2A2420] disabled:opacity-30 disabled:hover:text-[#5C5248] hover:bg-[#E5DAC6]/40 transition-colors"
             title="Próxima etapa"
           >
             <SkipForward size={18} />
@@ -154,8 +154,8 @@ export const MinimalPlayerControls: React.FC<MinimalPlayerControlsProps> = ({
           onClick={onToggleMute}
           className={`p-2.5 rounded-xl transition-colors ${
             isMuted
-              ? 'text-rose-400 bg-rose-500/10'
-              : 'text-[#8ca89a] hover:text-[#f4f1ea] hover:bg-[#8ca89a]/10'
+              ? 'text-rose-500 bg-rose-50'
+              : 'text-[#5C5248] hover:text-[#2A2420] hover:bg-[#E5DAC6]/40'
           }`}
           title={isMuted ? "Ativar som" : "Silenciar voz"}
         >
