@@ -119,17 +119,18 @@ input::placeholder,textarea::placeholder{color:#9E9080!important}
 .ep-home .ep-home-hero{
  position:relative;
  background:
-  linear-gradient(155deg,rgba(5,42,30,.93),rgba(3,27,19,.97))!important;
- border-color:rgba(214,174,82,.34)!important;
- box-shadow:0 24px 70px rgba(0,0,0,.36),inset 0 1px 0 rgba(255,255,255,.03)!important;
+  radial-gradient(circle at 50% 0,rgba(214,167,86,.10),transparent 22rem),
+  rgba(255,255,255,.88)!important;
+ border-color:#EADFCF!important;
+ box-shadow:0 18px 48px rgba(89,70,43,.08),inset 0 1px 0 rgba(255,255,255,.72)!important;
 }
 .ep-home .ep-home-hero::after{
  content:'';
  position:absolute; inset:0; pointer-events:none;
- background:radial-gradient(circle at 50% 4%,rgba(238,207,124,.12),transparent 45%);
+ background:radial-gradient(circle at 50% 4%,rgba(184,135,54,.06),transparent 45%);
 }
 .ep-home section:not(.ep-home-hero){
- box-shadow:0 18px 52px rgba(0,0,0,.26),inset 0 1px 0 rgba(255,255,255,.02)!important;
+ box-shadow:0 14px 38px rgba(89,70,43,.07),inset 0 1px 0 rgba(255,255,255,.58)!important;
 }
 .ep-home section,.ep-home nav{backdrop-filter:blur(16px)}
 .ep-home button[class*="bg-[#F5EFE4]"],.ep-home button[class*="bg-[#073426]"]{
