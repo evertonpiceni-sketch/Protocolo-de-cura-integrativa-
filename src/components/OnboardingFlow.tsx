@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { ArrowRight, ShieldCheck } from 'lucide-react';
-import { APPROVED_LOGO_DATA_URI } from './components/ApprovedBrand';
+import { APPROVED_LOGO_DATA_URI } from './ApprovedBrand';
 
 interface OnboardingFlowProps { onComplete: () => void; }
 
