@@ -319,11 +319,24 @@ export default function App() {
                 const accounts: UserAccount[] = JSON.parse(rawAccounts);
                 const localAccount = accounts.find(a => a.login === localLogin);
                 if (localAccount) {
-                  setUserProfile({ ...localAccount.profile, isAdmin: false });
+                  const offlineProfile: UserProfile = {
+                    ...localAccount.profile,
+                    isAdmin: false,
+                    plan: 'free',
+                    subscriptionPlan: undefined,
+                    subscriptionExpiresAt: undefined,
+                    subscriptionPrice: undefined,
+                    subscriptionPaymentMethod: undefined,
+                    proActiveSince: undefined,
+                    numerologyPurchased: false,
+                    astralMapPurchased: false,
+                    specificTreatments: []
+                  };
+                  setUserProfile(offlineProfile);
                   setProgress(localAccount.progress || []);
                   const nextUncompleted = localAccount.progress?.find((p: any) => !p.completed);
                   setCurrentDay(nextUncompleted ? nextUncompleted.dayNumber : 21);
-                  setIsLoggedIn(true);
+                  setIsLoggedIn(false);
                   return;
                 }
               }
