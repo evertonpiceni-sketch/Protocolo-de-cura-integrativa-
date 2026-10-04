@@ -69,8 +69,19 @@ async function serveReintegrationVoice(req: any, res: any) {
     res.setHeader("Cache-Control", "public, max-age=86400, s-maxage=604800");
     return res.send(buffer);
   } catch (error: any) {
+    const statusCode = Number(error?.statusCode || error?.status || error?.response?.status || 0);
+    if (statusCode === 402 || statusCode === 429) {
+      console.warn("Reintegração TTS temporariamente indisponível; o cliente usará a voz do dispositivo.", statusCode);
+      return res.status(503).json({
+        error: "Voz neural temporariamente indisponível.",
+        fallbackToSpeechSynthesis: true
+      });
+    }
     console.error("Reintegração TTS:", error?.message || error);
-    return res.status(500).json({ error: "Não foi possível preparar a condução de voz." });
+    return res.status(500).json({
+      error: "Não foi possível preparar a condução de voz.",
+      fallbackToSpeechSynthesis: true
+    });
   }
 }
 
