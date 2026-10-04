@@ -7,6 +7,7 @@ import React from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { Crown, Sparkles, Heart, Flame, Shield, CheckCircle2, MessageCircle, X, Send, Award, Share2 } from 'lucide-react';
 import { UserProfile } from '../types';
+import { toBrazilianWhatsAppNumber } from '../utils/phone';
 
 interface MilestoneCelebrationModalProps {
   isOpen: boolean;
@@ -30,7 +31,7 @@ export default function MilestoneCelebrationModal({
   const isDay8 = dayNumber === 8;
 
   const userName = userProfile.fullName || userProfile.name || 'Consulente';
-  const userPhone = userProfile.phone ? String(userProfile.phone).replace(/\D/g, '') : '';
+  const userPhone = toBrazilianWhatsAppNumber(userProfile.phone);
 
   let title = `✨ Celebração do Dia ${dayNumber}`;
   let subtitle = 'Sua dedicação está gerando frutos no seu campo energético.';
@@ -68,7 +69,7 @@ export default function MilestoneCelebrationModal({
 
   const encodedMsg = encodeURIComponent(mainMessage);
   const whatsappUrl = userPhone
-    ? `https://wa.me/55${userPhone.startsWith('55') ? userPhone.slice(2) : userPhone}?text=${encodedMsg}`
+    ? `https://wa.me/${userPhone}?text=${encodedMsg}`
     : `https://wa.me/?text=${encodedMsg}`;
 
   const copyToClipboard = () => {
