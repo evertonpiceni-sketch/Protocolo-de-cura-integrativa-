@@ -846,7 +846,7 @@ export default function App() {
               >
                 {SUPPORTED_LANGUAGES.map((lang) => (
                   <option key={lang.code} value={lang.code} className="bg-white text-[#2A2420]">
-                    {lang.flag} {lang.name}
+                    {lang.name}
                   </option>
                 ))}
               </select>
@@ -1125,7 +1125,7 @@ export default function App() {
                             voiceRate: parseFloat(e.target.value)
                           });
                         }}
-                        className="flex-1 h-1.5 bg-[#FBF8F2] rounded-lg appearance-none cursor-pointer accent-indigo-500 focus:outline-none"
+                        className="flex-1 h-1.5 bg-[#FBF8F2] rounded-lg appearance-none cursor-pointer accent-[#B88736] focus:outline-none"
                       />
                       <span className="text-[10px] text-[#85786C]">Mais Rápida</span>
                     </div>
@@ -1282,7 +1282,7 @@ export default function App() {
                       }}
                       className={`px-4 py-2 rounded-xl border text-xs font-medium cursor-pointer transition ${
                         userProfile.audioEnabled
-                          ? 'bg-indigo-600 border-indigo-500 text-white hover:bg-indigo-500'
+                          ? 'bg-[#B88736] border-[#B88736] text-white hover:bg-[#8F631E]'
                           : 'bg-white border-[#E5DAC6] text-[#5C5248] hover:text-[#5C5248]'
                       }`}
                     >
@@ -1293,7 +1293,7 @@ export default function App() {
                   <div className="space-y-2">
                     <div className="flex justify-between text-xs">
                       <span className="font-mono text-[#85786C] uppercase">Volume da Música de Fundo</span>
-                      <span className="text-indigo-400 font-mono font-semibold">{Math.round((userProfile.bgMusicVolume ?? 0.5) * 100)}%</span>
+                      <span className="text-[#8F631E] font-mono font-semibold">{Math.round((userProfile.bgMusicVolume ?? 0.5) * 100)}%</span>
                     </div>
                     <div className="flex items-center gap-3">
                       <VolumeX size={15} className="text-[#85786C]" />
@@ -1309,9 +1309,9 @@ export default function App() {
                             bgMusicVolume: parseFloat(e.target.value)
                           });
                         }}
-                        className="flex-1 h-1.5 bg-white rounded-lg appearance-none cursor-pointer accent-indigo-500 focus:outline-none border border-[#E5DAC6]"
+                        className="flex-1 h-1.5 bg-white rounded-lg appearance-none cursor-pointer accent-[#B88736] focus:outline-none border border-[#E5DAC6]"
                       />
-                      <Volume2 size={15} className="text-indigo-400" />
+                      <Volume2 size={15} className="text-[#B88736]" />
                     </div>
                   </div>
                 </div>
@@ -1322,7 +1322,7 @@ export default function App() {
                 <div className="flex items-center justify-between">
                   <div>
                     <h3 className="text-sm font-display font-medium text-[#2A2420] flex items-center gap-1.5">
-                      <Globe size={15} className="text-indigo-400" />
+                      <Globe size={15} className="text-[#B88736]" />
                       Idioma das Meditações e Tradução
                     </h3>
                     <p className="text-xs text-[#5C5248] mt-0.5">
@@ -1332,11 +1332,11 @@ export default function App() {
                   <select
                     value={currentLanguage}
                     onChange={(e) => setCurrentLanguage(e.target.value as AppLanguage)}
-                    className="bg-white border border-[#E5DAC6] text-indigo-300 rounded-xl px-3 py-2 text-xs font-mono font-semibold cursor-pointer outline-none focus:border-indigo-500"
+                    className="bg-white border border-[#E5DAC6] text-[#5C5248] rounded-xl px-3 py-2 text-xs font-mono font-semibold cursor-pointer outline-none focus:border-[#B88736]"
                   >
                     {SUPPORTED_LANGUAGES.map((lang) => (
                       <option key={lang.code} value={lang.code} className="bg-white text-[#2A2420]">
-                        {lang.flag} {lang.name}
+                        {lang.name}
                       </option>
                     ))}
                   </select>
@@ -1423,10 +1423,10 @@ export default function App() {
                       setShowSettings(false);
                       setShowDashboardCura(true);
                     }}
-                    className="w-full text-left p-3 rounded-xl bg-[#FBF8F2] border border-[#E5DAC6] hover:border-indigo-500 hover:bg-[#F5EFE4] transition flex items-center justify-between group cursor-pointer"
+                    className="w-full text-left p-3 rounded-xl bg-white/80 border border-[#E5DAC6] hover:border-[#B88736]/55 hover:bg-[#FBF8F2] transition flex items-center justify-between group cursor-pointer"
                   >
                     <div className="flex items-center gap-2 text-sm text-[#5C5248] group-hover:text-[#2A2420]">
-                      <Activity size={16} className="text-indigo-400 group-hover:text-indigo-300" />
+                      <Activity size={16} className="text-[#B88736]" />
                       <span>Dashboard de Progresso Analítico</span>
                     </div>
                   </button>
@@ -1437,13 +1437,13 @@ export default function App() {
                       setShowSettings(false);
                       setShowAchievementsModal(true);
                     }}
-                    className="p-3 bg-amber-950/40 hover:bg-amber-900/50 border border-amber-500/30 rounded-xl text-left flex items-center justify-between text-xs text-amber-200 font-semibold cursor-pointer transition"
+                    className="p-3 bg-white/80 hover:bg-[#FBF8F2] border border-[#E5DAC6] hover:border-[#B88736]/55 rounded-xl text-left flex items-center justify-between text-xs text-[#5C5248] font-semibold cursor-pointer transition"
                   >
                     <span className="flex items-center gap-2">
                       <Award size={14} className="text-amber-400" />
                       <span>Meus Emblemas & Conquistas</span>
                     </span>
-                    <span className="text-[10px] text-amber-400 font-mono">Ver Badges</span>
+                    <span className="text-[10px] text-[#8F631E] font-mono">Ver conquistas</span>
                   </button>
 
                   <button
@@ -1453,13 +1453,13 @@ export default function App() {
                       setSystemicModalDay(currentDay);
                       setShowSystemicQuestionsModal(true);
                     }}
-                    className="p-3 bg-emerald-950/40 hover:bg-emerald-900/50 border border-emerald-500/30 rounded-xl text-left flex items-center justify-between text-xs text-emerald-200 font-semibold cursor-pointer transition"
+                    className="p-3 bg-white/80 hover:bg-[#FBF8F2] border border-[#E5DAC6] hover:border-[#B88736]/55 rounded-xl text-left flex items-center justify-between text-xs text-[#5C5248] font-semibold cursor-pointer transition"
                   >
                     <span className="flex items-center gap-2">
                       <Heart size={14} className="text-emerald-400" />
                       <span>Perguntas Sistêmicas (21 Dias)</span>
                     </span>
-                    <span className="text-[10px] text-emerald-400 font-mono">Ordens do Amor</span>
+                    <span className="text-[10px] text-[#8F631E] font-mono">Reflexões</span>
                   </button>
 
                   <button
@@ -1469,13 +1469,13 @@ export default function App() {
                       setDailyDiaryModalDay(currentDay);
                       setShowDailyDiaryModal(true);
                     }}
-                    className="p-3 bg-indigo-950/40 hover:bg-indigo-900/50 border border-indigo-500/30 rounded-xl text-left flex items-center justify-between text-xs text-indigo-200 font-semibold cursor-pointer transition"
+                    className="p-3 bg-white/80 hover:bg-[#FBF8F2] border border-[#E5DAC6] hover:border-[#B88736]/55 rounded-xl text-left flex items-center justify-between text-xs text-[#5C5248] font-semibold cursor-pointer transition"
                   >
                     <span className="flex items-center gap-2">
-                      <BookOpen size={14} className="text-indigo-400" />
+                      <BookOpen size={14} className="text-[#B88736]" />
                       <span>Diário de Reconexão</span>
                     </span>
-                    <Sparkles size={12} className="text-indigo-400" />
+                    <Sparkles size={12} className="text-[#B88736]" />
                   </button>
 
                   <button
@@ -1484,13 +1484,13 @@ export default function App() {
                       setShowSettings(false);
                       setShowAudioSettingsModal(true);
                     }}
-                    className="p-3 bg-white hover:bg-[#FBF8F2] border border-[#E5DAC6] rounded-xl text-left flex items-center justify-between text-xs text-indigo-300 font-semibold cursor-pointer transition"
+                    className="p-3 bg-white/80 hover:bg-[#FBF8F2] border border-[#E5DAC6] hover:border-[#B88736]/55 rounded-xl text-left flex items-center justify-between text-xs text-[#5C5248] font-semibold cursor-pointer transition"
                   >
                     <span className="flex items-center gap-2">
-                      <Sliders size={14} className="text-indigo-400" />
+                      <Sliders size={14} className="text-[#B88736]" />
                       <span>Ajustes de Áudio & Frequências</span>
                     </span>
-                    <Sparkles size={12} className="text-indigo-400" />
+                    <Sparkles size={12} className="text-[#B88736]" />
                   </button>
 
                   <button
@@ -1499,13 +1499,13 @@ export default function App() {
                       setShowSettings(false);
                       setShowArchangelModal(true);
                     }}
-                    className="p-3 bg-blue-950/40 hover:bg-blue-900/50 border border-blue-500/30 rounded-xl text-left flex items-center justify-between text-xs text-blue-200 font-semibold cursor-pointer transition"
+                    className="p-3 bg-white/80 hover:bg-[#FBF8F2] border border-[#E5DAC6] hover:border-[#B88736]/55 rounded-xl text-left flex items-center justify-between text-xs text-[#5C5248] font-semibold cursor-pointer transition"
                   >
                     <span className="flex items-center gap-2">
-                      <Sparkles size={14} className="text-blue-400" />
+                      <Sparkles size={14} className="text-[#B88736]" />
                       <span>Oração do Arcanjo Miguel (21d)</span>
                     </span>
-                    <span className="text-[10px] text-blue-400 font-mono">100% Grátis</span>
+                    <span className="text-[10px] text-[#8F631E] font-mono">Acesso livre</span>
                   </button>
 
                   <button
@@ -1514,10 +1514,10 @@ export default function App() {
                       setShowSettings(false);
                       setShowCoursesModal(true);
                     }}
-                    className="p-3 bg-purple-950/40 hover:bg-purple-900/50 border border-purple-500/30 rounded-xl text-left flex items-center justify-between text-xs text-purple-200 font-semibold cursor-pointer transition"
+                    className="p-3 bg-white/80 hover:bg-[#FBF8F2] border border-[#E5DAC6] hover:border-[#B88736]/55 rounded-xl text-left flex items-center justify-between text-xs text-[#5C5248] font-semibold cursor-pointer transition"
                   >
                     <span className="flex items-center gap-2">
-                      <Award size={14} className="text-purple-400" />
+                      <Award size={14} className="text-[#B88736]" />
                       <span>Cursos & Formações Energéticas</span>
                     </span>
                     <Sparkles size={12} className="text-amber-400" />
@@ -1530,13 +1530,13 @@ export default function App() {
                         setShowSettings(false);
                         setShowAdminModal(true);
                       }}
-                      className="p-3 bg-amber-950/30 hover:bg-amber-900/40 border border-amber-500/30 rounded-xl text-left flex items-center justify-between text-xs text-amber-200 font-semibold cursor-pointer transition"
+                      className="p-3 bg-[#F5EFE4] hover:bg-[#EFE4D3] border border-[#B88736]/30 rounded-xl text-left flex items-center justify-between text-xs text-[#5C5248] font-semibold cursor-pointer transition"
                     >
                       <span className="flex items-center gap-2">
                         <Crown size={14} className="text-amber-400" />
                         <span>Painel do Terapeuta / Admin</span>
                       </span>
-                      <span className="text-[10px] text-amber-400 font-mono">Acesso restrito</span>
+                      <span className="text-[10px] text-[#8F631E] font-mono">Acesso restrito</span>
                     </button>
                   )}
 
@@ -1581,16 +1581,16 @@ export default function App() {
               </div>
 
               {/* Reset Database Trigger */}
-              <div className="pt-6 border-t border-slate-950 space-y-3">
-                <h3 className="text-sm font-display font-medium text-rose-400">Zona de Perigo</h3>
+              <div className="pt-6 border-t border-[#E5DAC6] space-y-3">
+                <h3 className="text-sm font-display font-medium text-rose-700">Reiniciar jornada</h3>
                 <p className="text-xs text-[#85786C] leading-normal">
-                  Se você deseja reiniciar o ciclo completo de cura de 21 dias do zero, eliminando o diário de bordo e a contagem de dias ativos, clique no botão abaixo.
+                  Se você deseja recomeçar a jornada de 21 dias do início, esta ação apaga o progresso e as anotações vinculadas a esse ciclo.
                 </p>
                 <button
                   onClick={handleResetProgram}
-                  className="bg-rose-950/40 hover:bg-rose-950 border border-rose-900/50 hover:border-rose-500 text-rose-300 text-xs px-4 py-2.5 rounded-xl transition cursor-pointer"
+                  className="bg-rose-50 hover:bg-rose-100 border border-rose-200 hover:border-rose-300 text-rose-700 text-xs px-4 py-2.5 rounded-xl transition cursor-pointer"
                 >
-                  Reiniciar Todo o Protocolo (21 Dias)
+                  Reiniciar jornada de 21 dias
                 </button>
               </div>
             </div>
