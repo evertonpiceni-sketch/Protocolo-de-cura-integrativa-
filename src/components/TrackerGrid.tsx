@@ -196,11 +196,11 @@ export default function TrackerGrid({
     });
 
     switch (dominantMoodVal) {
-      case 5: dominantMoodLabel = "Em Paz 🌸"; break;
-      case 4: dominantMoodLabel = "Calmo ☀️"; break;
-      case 3: dominantMoodLabel = "Neutro 😐"; break;
-      case 2: dominantMoodLabel = "Inquieto ⛈️"; break;
-      case 1: dominantMoodLabel = "Pesado 🌧️"; break;
+      case 5: dominantMoodLabel = "Em Paz"; break;
+      case 4: dominantMoodLabel = "Calmo"; break;
+      case 3: dominantMoodLabel = "Neutro"; break;
+      case 2: dominantMoodLabel = "Inquieto"; break;
+      case 1: dominantMoodLabel = "Pesado"; break;
     }
   }
 
@@ -213,7 +213,7 @@ export default function TrackerGrid({
       mood: day.completed && day.mood ? day.mood : null,
       journalText: day.journalText || "",
       completed: day.completed,
-      focusTitle: currentInsights[dayNum - 1]?.title || "Sessão de Alinhamento"
+      focusTitle: currentInsights[dayNum - 1]?.title || "Momento de Alinhamento"
     };
   });
 
