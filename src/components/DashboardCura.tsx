@@ -16,16 +16,16 @@ export default function DashboardCura({ onClose, progress, userProfile }: { onCl
   const [completedDays, setCompletedDays] = useState<number[]>([]);
 
   useEffect(() => {
+    const profileCompleted = userProfile?.journeyProgress?.arcanjo7CompletedDays;
+    if (Array.isArray(profileCompleted)) {
+      setCompletedDays([...new Set(profileCompleted)].filter(day => day >= 1 && day <= 7).sort((a,b) => a-b));
+      return;
+    }
     const localCompleted: number[] = [];
     for (let i = 1; i <= 7; i += 1) {
       if (localStorage.getItem(`reiki_arcanjo_dia_${i}`) === 'true') localCompleted.push(i);
     }
-    const profileCompleted = userProfile?.journeyProgress?.arcanjo7CompletedDays || [];
-    setCompletedDays(
-      [...new Set([...profileCompleted, ...localCompleted])]
-        .filter(day => day >= 1 && day <= 7)
-        .sort((a,b) => a-b)
-    );
+    setCompletedDays(localCompleted);
   }, [userProfile?.journeyProgress?.arcanjo7CompletedDays]);
 
   const totalCompleted = completedDays.length;
