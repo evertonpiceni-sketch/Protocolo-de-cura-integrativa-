@@ -1356,7 +1356,7 @@ class CalmingAudioEngine {
     return [
       {
         voice_id: "Marcus",
-        name: "Marcus (Éverton Piceni Style)",
+        name: "Voz masculina",
         category: "curated",
         description: "Voz masculina profunda, acolhedora, serena e terapêutica.",
         preview_url: ""

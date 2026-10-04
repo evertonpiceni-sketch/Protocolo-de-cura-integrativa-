@@ -15,6 +15,7 @@
     "No horizontal overflow at 320, 390, 768 and 1440 CSS px.",
     "The three other themes keep the legacy component branch and never render Natural Sereno.",
     "Welcome voice toggle and session-persisted entry still work.",
+    "Expanded registration uses ivory under all themes, has no overflow at 320/390/713 px, and plays the static male sample before login without personal voice attribution.",
     "Registration and login keep ivory Natural Sereno surfaces under all four theme IDs; existing tabs work.",
     "Loading scene captured and frozen registration/login remains accessible without authentication."
   ],
