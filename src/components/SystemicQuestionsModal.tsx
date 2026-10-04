@@ -321,7 +321,7 @@ export default function SystemicQuestionsModal({
                 className="px-3 py-2 min-h-11 bg-white hover:bg-[#EFE4D3] border border-[#E5DAC6] text-[#5C5248] rounded-xl text-xs font-semibold transition cursor-pointer flex items-center gap-1.5 shrink-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B88736]/30"
               >
                 {copiedSentence ? <Check size={13} /> : <Copy size={13} />}
-                <span>{copiedSentence ? 'Copiada!' : 'Copiar Frase'}</span>
+                <span aria-live="polite">{copiedSentence ? 'Frase copiada' : 'Copiar frase'}</span>
               </button>
             </div>
 
@@ -341,7 +341,7 @@ export default function SystemicQuestionsModal({
               </label>
 
               {dayProgress?.systemicAnsweredAt && (
-                <span className="text-[10px] font-mono text-emerald-400">
+                <span className="text-[10px] font-mono text-emerald-700" role="status" aria-live="polite">
                   Salvo em {new Date(dayProgress.systemicAnsweredAt).toLocaleDateString('pt-BR')}
                 </span>
               )}
