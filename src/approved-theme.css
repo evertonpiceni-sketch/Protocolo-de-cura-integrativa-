@@ -36,36 +36,121 @@
 }
 
 /* ---------- Arquitetura dos 4 layouts oficiais ----------
-   Natural Sereno permanece a referência visual atual.
-   Os demais layouts têm escopo próprio e não devem herdar overrides entre si.
-   Tokens específicos serão preenchidos apenas a partir dos visuais aprovados. */
+   Paletas transpostas do CSS oficial congelado.
+   A troca altera somente a camada visual; lógica, conteúdo e estrutura permanecem iguais. */
 :root,
 :root[data-layout="natural-sereno"]{
-  --layout-canvas:var(--bg-canvas);
-  --layout-card:var(--bg-card);
-  --layout-card-subtle:var(--bg-card-subtle);
-  --layout-accent:var(--sage-accent);
-  --layout-gold:var(--gold-primary);
-  --layout-gold-dark:var(--gold-dark);
-  --layout-text:var(--text-primary);
-  --layout-text-secondary:var(--text-secondary);
-  --layout-border:var(--border-subtle);
+  color-scheme:light;
+  --layout-canvas:#F5EFE6;
+  --layout-canvas-alt:#EBE3D7;
+  --layout-card:rgba(255,255,255,.92);
+  --layout-card-hover:#FFFFFF;
+  --layout-card-subtle:#FAF6F0;
+  --layout-input:#EFE8DD;
+  --layout-accent:#2D4A3E;
+  --layout-accent-light:#4A6E5F;
+  --layout-gold:#B38634;
+  --layout-gold-light:#C5A059;
+  --layout-gold-dark:#8F631E;
+  --layout-gold-border:rgba(179,134,52,.35);
+  --layout-gold-gradient:linear-gradient(135deg,#C5A059 0%,#B38634 50%,#8F631E 100%);
+  --layout-gold-shadow:rgba(179,134,52,.22);
+  --layout-text:#202D24;
+  --layout-text-secondary:#5C6A60;
+  --layout-text-muted:#7A887E;
+  --layout-border:#D8CEBE;
+  --layout-border-card:#E2D7C7;
 }
 
-:root[data-layout="elegancia-profunda"],
-:root[data-layout="essencia-luminosa"],
+:root[data-layout="elegancia-profunda"]{
+  color-scheme:dark;
+  --layout-canvas:#0B1712;
+  --layout-canvas-alt:#132A1F;
+  --layout-card:rgba(19,42,31,.82);
+  --layout-card-hover:rgba(28,58,44,.92);
+  --layout-card-subtle:rgba(24,52,39,.60);
+  --layout-input:#11261C;
+  --layout-accent:#2E6B4F;
+  --layout-accent-light:#468E6B;
+  --layout-gold:#D4AF37;
+  --layout-gold-light:#E5C365;
+  --layout-gold-dark:#A47D1C;
+  --layout-gold-border:rgba(212,175,55,.40);
+  --layout-gold-gradient:linear-gradient(135deg,#E5C365 0%,#D4AF37 50%,#A47D1C 100%);
+  --layout-gold-shadow:rgba(212,175,55,.30);
+  --layout-text:#F4F1EB;
+  --layout-text-secondary:#C8D6CD;
+  --layout-text-muted:#8E9F94;
+  --layout-border:rgba(212,175,55,.22);
+  --layout-border-card:rgba(212,175,55,.28);
+}
+
+:root[data-layout="essencia-luminosa"]{
+  color-scheme:light;
+  --layout-canvas:#FFFFF8;
+  --layout-canvas-alt:#F7F3E8;
+  --layout-card:rgba(255,255,255,.96);
+  --layout-card-hover:#FFFFFF;
+  --layout-card-subtle:#FAF8F2;
+  --layout-input:#F5EFE4;
+  --layout-accent:#7E9680;
+  --layout-accent-light:#9AAFA4;
+  --layout-gold:#C29648;
+  --layout-gold-light:#D4B574;
+  --layout-gold-dark:#9E7428;
+  --layout-gold-border:rgba(194,150,72,.35);
+  --layout-gold-gradient:linear-gradient(135deg,#D4B574 0%,#C29648 50%,#9E7428 100%);
+  --layout-gold-shadow:rgba(194,150,72,.18);
+  --layout-text:#2A2420;
+  --layout-text-secondary:#5C5248;
+  --layout-text-muted:#7E8A7F;
+  --layout-border:#E8E0D2;
+  --layout-border-card:#EFE8DC;
+}
+
 :root[data-layout="mistico-moderno"]{
-  /* Deliberadamente mantidos na base neutra até a transposição fiel
-     dos três layouts aprovados. Não inventar paletas por aproximação. */
-  --layout-canvas:var(--bg-canvas);
-  --layout-card:var(--bg-card);
-  --layout-card-subtle:var(--bg-card-subtle);
-  --layout-accent:var(--sage-accent);
-  --layout-gold:var(--gold-primary);
-  --layout-gold-dark:var(--gold-dark);
-  --layout-text:var(--text-primary);
-  --layout-text-secondary:var(--text-secondary);
-  --layout-border:var(--border-subtle);
+  color-scheme:dark;
+  --layout-canvas:#0A0F18;
+  --layout-canvas-alt:#141F30;
+  --layout-card:rgba(20,31,48,.85);
+  --layout-card-hover:rgba(28,44,68,.92);
+  --layout-card-subtle:rgba(25,38,58,.60);
+  --layout-input:#121B2B;
+  --layout-accent:#6C3FA0;
+  --layout-accent-light:#8E5CC8;
+  --layout-gold:#D4AF37;
+  --layout-gold-light:#F2D06B;
+  --layout-gold-dark:#A47D1C;
+  --layout-gold-border:rgba(212,175,55,.40);
+  --layout-gold-gradient:linear-gradient(135deg,#6C3FA0 0%,#4D2678 40%,#D4AF37 100%);
+  --layout-gold-shadow:rgba(108,63,160,.30);
+  --layout-text:#F4F1EB;
+  --layout-text-secondary:#CBD5E1;
+  --layout-text-muted:#8E9DB2;
+  --layout-border:rgba(108,63,160,.30);
+  --layout-border-card:rgba(108,63,160,.35);
+}
+
+:root[data-layout]{
+  --bg-canvas:var(--layout-canvas);
+  --bg-canvas-alt:var(--layout-canvas-alt);
+  --bg-card:var(--layout-card);
+  --bg-card-hover:var(--layout-card-hover);
+  --bg-card-subtle:var(--layout-card-subtle);
+  --bg-input:var(--layout-input);
+  --sage-accent:var(--layout-accent);
+  --sage-light:var(--layout-accent-light);
+  --gold-primary:var(--layout-gold);
+  --gold-light:var(--layout-gold-light);
+  --gold-dark:var(--layout-gold-dark);
+  --gold-border:var(--layout-gold-border);
+  --gold-gradient:var(--layout-gold-gradient);
+  --gold-shadow:var(--layout-gold-shadow);
+  --text-primary:var(--layout-text);
+  --text-secondary:var(--layout-text-secondary);
+  --text-muted:var(--layout-text-muted);
+  --border-subtle:var(--layout-border);
+  --border-card:var(--layout-border-card);
 }
 
 html,body,#root{
@@ -78,9 +163,9 @@ body{
   margin:0;
   color:var(--text-primary)!important;
   background:
-    radial-gradient(circle at 12% 4%,rgba(214,167,86,.16),transparent 25rem),
-    radial-gradient(circle at 92% 20%,rgba(94,113,83,.11),transparent 28rem),
-    linear-gradient(180deg,#FBF8F2 0%,#F8F4EC 58%,#F3EBDD 100%)!important;
+    radial-gradient(circle at 12% 4%,color-mix(in srgb,var(--gold-primary) 16%,transparent),transparent 25rem),
+    radial-gradient(circle at 92% 20%,color-mix(in srgb,var(--sage-accent) 12%,transparent),transparent 28rem),
+    linear-gradient(180deg,var(--bg-card-subtle) 0%,var(--bg-canvas) 58%,var(--bg-canvas-alt) 100%)!important;
   background-attachment:fixed!important;
   -webkit-font-smoothing:antialiased;
 }
@@ -100,11 +185,11 @@ body::before{
 #cura-main-layout{
   color:var(--text-primary)!important;
   background:
-    radial-gradient(circle at 50% -10%,rgba(214,167,86,.13),transparent 34rem),
-    linear-gradient(180deg,#FBF8F2 0%,#F8F4EC 100%)!important;
+    radial-gradient(circle at 50% -10%,color-mix(in srgb,var(--gold-primary) 14%,transparent),transparent 34rem),
+    linear-gradient(180deg,var(--bg-card-subtle) 0%,var(--bg-canvas) 100%)!important;
 }
 #main-header{
-  background:rgba(248,244,236,.92)!important;
+  background:var(--bg-card)!important;
   border-color:var(--border-subtle)!important;
   color:var(--text-primary)!important;
   box-shadow:0 10px 30px rgba(80,62,38,.08)!important;
@@ -127,7 +212,7 @@ body::before{
 .ep-luxury-card{
   background:
     radial-gradient(circle at 50% 0,rgba(214,167,86,.09),transparent 22rem),
-    rgba(255,255,255,.84)!important;
+    var(--bg-card)!important;
   border-color:var(--border-card)!important;
   box-shadow:0 18px 48px rgba(89,70,43,.08),inset 0 1px 0 rgba(255,255,255,.65)!important;
   color:var(--text-primary)!important;
@@ -320,6 +405,30 @@ body::before{
   }
 }
 
+
+/* Reintegração da Vida é uma experiência congelada: não recebe troca de layout. */
+.ep-reintegration-shell{
+  --bg-canvas:#F8F4EC;
+  --bg-canvas-alt:#F3EBDD;
+  --bg-card:rgba(255,255,255,.88);
+  --bg-card-hover:rgba(255,255,255,.96);
+  --bg-card-subtle:#FBF8F2;
+  --bg-input:#F5EFE4;
+  --sage-accent:#5E7153;
+  --sage-light:#7E9473;
+  --gold-primary:#B88736;
+  --gold-light:#D6A756;
+  --gold-dark:#8F631E;
+  --gold-border:rgba(184,135,54,.35);
+  --gold-gradient:linear-gradient(135deg,#D6A756 0%,#B88736 52%,#9E6E24 100%);
+  --gold-shadow:rgba(184,135,54,.18);
+  --text-primary:#2A2420;
+  --text-secondary:#5C5248;
+  --text-muted:#85786C;
+  --border-subtle:#E5DAC6;
+  --border-card:#EADFCF;
+}
+
 /* ---------- Reintegração ---------- */
 .ep-reintegration-shell{
   color:var(--text-primary)!important;
@@ -348,7 +457,7 @@ body::before{
 
 /* ---------- Dock ---------- */
 #bottom-action-dock>div{
-  background:rgba(255,255,255,.92)!important;
+  background:var(--bg-card)!important;
   border-color:var(--border-subtle)!important;
   box-shadow:0 14px 40px rgba(80,62,38,.10)!important;
 }
@@ -375,3 +484,11 @@ body::before{
 }
 
 
+
+:root[data-layout] input,
+:root[data-layout] select,
+:root[data-layout] textarea{
+  background:var(--bg-input)!important;
+  color:var(--text-primary)!important;
+  border-color:var(--border-subtle)!important;
+}
