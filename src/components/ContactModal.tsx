@@ -239,11 +239,11 @@ export default function ContactModal({
                   onChange={(e) => setTopic(e.target.value as any)}
                   className="w-full bg-white border border-[#E5DAC6] rounded-xl px-3.5 py-2 text-xs text-[#2A2420] outline-none focus:border-[#B88736] focus:ring-2 focus:ring-[#B88736]/15 cursor-pointer font-sans"
                 >
-                  <option value="duvida_protocolo">Dúvidas sobre o Protocolo de 21 Dias</option>
-                  <option value="tratamento_especifico">Tratamento Específico Personalizado</option>
+                  <option value="duvida_protocolo">Dúvidas sobre a jornada de 21 dias</option>
+                  <option value="tratamento_especifico">Atendimento direcionado</option>
                   <option value="cursos_reiki">Cursos & Iniciações de Reiki (Kundalini, Usui, Chama Rosa, etc.)</option>
-                  <option value="planos_cupons">Planos Pro, Valores & Cupons de Desconto</option>
-                  <option value="outro">Outro Assunto / Acolhimento</option>
+                  <option value="planos_cupons">Planos, valores e cupons</option>
+                  <option value="outro">Outro assunto</option>
                 </select>
               </div>
 
