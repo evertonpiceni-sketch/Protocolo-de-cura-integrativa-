@@ -2,6 +2,7 @@ import React, { useState, useRef } from 'react';
 import { User, Sparkles, Shield, Heart, Lock, Mail, Calendar as CalendarIcon, LogIn, UserPlus, KeyRound, CheckCircle2, ArrowLeft, Clock, MapPin, Tag, Phone, Volume2, Play, Square, Loader2 } from 'lucide-react';
 import { UserAccount } from '../types';
 import { APPROVED_LOGO_DATA_URI } from './ApprovedBrand';
+import { normalizeBrazilianNationalPhone } from '../utils/phone';
 
 const getLocalToday = () => {
   const now = new Date();
@@ -12,11 +13,7 @@ const getLocalToday = () => {
 };
 
 const formatBrazilianPhone = (value: string) => {
-  const rawDigits = value.replace(/\D/g, '');
-  const digits = (rawDigits.length > 11 && rawDigits.startsWith('55')
-    ? rawDigits.slice(2)
-    : rawDigits
-  ).slice(0, 11);
+  const digits = normalizeBrazilianNationalPhone(value);
   if (digits.length <= 2) return digits;
   if (digits.length <= 6) return `(${digits.slice(0, 2)}) ${digits.slice(2)}`;
   if (digits.length <= 10) return `(${digits.slice(0, 2)}) ${digits.slice(2, 6)}-${digits.slice(6)}`;
