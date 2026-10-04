@@ -398,7 +398,7 @@ export default function NumerologyModal({
                     <div className="p-3.5 rounded-2xl bg-[#2A2420]/30 border border-amber-500/25 space-y-2">
                       <h5 className="font-mono font-bold text-amber-300 uppercase text-[11px] flex items-center gap-1.5">
                         <Zap size={13} className="text-amber-400" />
-                        Diagnóstico da Vibração do seu Nome ({numerology.nameProsperityAnalysis.currentNameVibration})
+                        Leitura da Vibração do seu Nome ({numerology.nameProsperityAnalysis.currentNameVibration})
                       </h5>
                       <p className="text-[#2A2420]">
                         {numerology.nameProsperityAnalysis.currentVibrationMeaning}
