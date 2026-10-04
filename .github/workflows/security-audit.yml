@@ -28,6 +28,13 @@ jobs:
       - name: Install dependencies
         run: npm install --no-audit --no-fund
 
+      - name: Report lockfile update required
+        shell: bash
+        run: |
+          echo "LOCKFILE_DIFF_BEGIN"
+          git diff -- package-lock.json || true
+          echo "LOCKFILE_DIFF_END"
+
       - name: Security Audit (npm audit)
         run: npm audit || echo "Audit completed (ignoring non-critical vulnerabilities for CI continuation)"
 
