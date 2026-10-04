@@ -60,7 +60,7 @@ export default function AchievementsModal({
         initial={{ opacity: 0, scale: 0.95, y: 15 }}
         animate={{ opacity: 1, scale: 1, y: 0 }}
         exit={{ opacity: 0, scale: 0.95 }}
-        className="w-full max-w-4xl bg-[#FBF8F2] border border-amber-500/30 rounded-3xl p-5 sm:p-7 shadow-2xl relative overflow-hidden my-4 max-h-[92vh] flex flex-col"
+        className="w-full max-w-4xl bg-[#FBF8F2] border border-[#E5DAC6] rounded-3xl p-5 sm:p-7 shadow-2xl relative overflow-hidden my-4 max-h-[92vh] flex flex-col"
       >
         {/* Glow Effects */}
         <div className="absolute -top-24 -right-24 w-72 h-72 bg-amber-500/10 rounded-full blur-3xl pointer-events-none" />
@@ -69,7 +69,8 @@ export default function AchievementsModal({
         {/* Close Button */}
         <button
           onClick={onClose}
-          className="absolute top-5 right-5 w-8 h-8 rounded-full bg-[#F5EFE4]/80 border border-[#E5DAC6]/60 text-[#5C5248] hover:text-[#2A2420] flex items-center justify-center transition cursor-pointer z-10"
+          aria-label="Fechar conquistas"
+          className="absolute top-4 right-4 w-11 h-11 rounded-full bg-[#F5EFE4]/90 border border-[#E5DAC6] text-[#5C5248] hover:text-[#2A2420] flex items-center justify-center transition cursor-pointer z-10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B88736]/30"
         >
           <X size={16} />
         </button>
@@ -77,31 +78,31 @@ export default function AchievementsModal({
         {/* Header (Always Visible at Top) */}
         <div className="shrink-0 space-y-4 pb-4 border-b border-[#E5DAC6]">
           <div className="text-center space-y-1.5 pr-8 pl-8">
-            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-300 text-xs font-mono font-medium">
+            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#B88736]/10 border border-[#B88736]/25 text-[#8F631E] text-xs font-mono font-medium">
               <Trophy size={14} className="text-amber-400" />
-              <span>SISTEMA DE CONQUISTAS & MERECIMENTO</span>
+              <span>CONQUISTAS DA JORNADA</span>
             </div>
             <h2 className="text-2xl sm:text-3xl font-display font-medium text-[#2A2420]">
               Seus Emblemas de Transformação
             </h2>
             <p className="text-xs sm:text-sm text-[#5C5248] max-w-xl mx-auto">
-              Cada dia concluído, oração sagrada e reflexão profunda desbloqueia marcos energéticos na sua jornada.
+              Cada prática concluída e reflexão registrada pode desbloquear novos marcos da sua jornada.
             </p>
           </div>
 
           {/* Progress Banner */}
-          <div className="p-4 rounded-2xl bg-gradient-to-r from-amber-950/40 via-slate-950 to-indigo-950/40 border border-amber-500/30 flex flex-col sm:flex-row items-center justify-between gap-4">
+          <div className="p-4 rounded-2xl bg-white/85 border border-[#E5DAC6] flex flex-col sm:flex-row items-center justify-between gap-4">
             <div className="flex items-center gap-3.5">
               <div className="w-12 h-12 rounded-2xl bg-amber-500/20 border border-amber-500/40 flex items-center justify-center text-amber-400 shrink-0 shadow-inner">
                 <Crown size={24} />
               </div>
               <div>
                 <div className="flex items-center gap-2">
-                  <span className="text-xs font-mono uppercase tracking-wider text-amber-300 font-bold">
-                    NÍVEL VIBRACIONAL
+                  <span className="text-xs font-mono uppercase tracking-wider text-[#8F631E] font-bold">
+                    PROGRESSO DA JORNADA
                   </span>
-                  <span className="px-2 py-0.5 rounded-full bg-amber-500/20 text-amber-300 text-[10px] font-mono font-bold border border-amber-500/30">
-                    {evaluation.totalPoints} Pontos Quânticos
+                  <span className="px-2 py-0.5 rounded-full bg-[#F5EFE4] text-[#8F631E] text-[10px] font-mono font-bold border border-[#E5DAC6]">
+                    {evaluation.totalPoints} Pontos da jornada
                   </span>
                 </div>
                 <h3 className="text-base sm:text-lg font-bold text-[#2A2420]">
@@ -114,7 +115,7 @@ export default function AchievementsModal({
             <div className="w-full sm:w-48 space-y-1.5">
               <div className="flex justify-between text-[11px] font-mono text-[#5C5248]">
                 <span>Progresso Total</span>
-                <span className="text-amber-300 font-bold">{evaluation.percentage}%</span>
+                <span className="text-[#8F631E] font-bold">{evaluation.percentage}%</span>
               </div>
               <div className="w-full h-2.5 bg-white rounded-full overflow-hidden border border-[#E5DAC6]">
                 <div
@@ -137,9 +138,9 @@ export default function AchievementsModal({
               <button
                 key={cat.id}
                 onClick={() => setSelectedCategory(cat.id as any)}
-                className={`px-3 py-1.5 rounded-xl text-xs font-semibold transition cursor-pointer shrink-0 ${
+                className={`px-3 py-2.5 min-h-[44px] rounded-xl text-xs font-semibold transition cursor-pointer shrink-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B88736]/30 ${
                   selectedCategory === cat.id
-                    ? 'bg-amber-500 text-slate-950 font-bold shadow-md shadow-amber-500/20'
+                    ? 'bg-[#B88736] text-white font-bold shadow-sm'
                     : 'bg-white border border-[#E5DAC6] text-[#5C5248] hover:text-[#2A2420]'
                 }`}
               >
@@ -160,7 +161,7 @@ export default function AchievementsModal({
                   key={ach.id}
                   className={`p-4 rounded-2xl border transition-all duration-200 relative flex flex-col justify-between ${
                     isUnlocked
-                      ? 'bg-gradient-to-b from-amber-950/30 via-[#FBF8F2] to-[#F3EBDD] border-amber-500/40 shadow-lg shadow-amber-500/5'
+                      ? 'bg-white/90 border-[#E5DAC6] shadow-sm'
                       : 'bg-white/70 border-[#E5DAC6] opacity-75'
                   }`}
                 >
@@ -180,15 +181,15 @@ export default function AchievementsModal({
                       <span
                         className={`text-[10px] font-mono font-bold px-2 py-0.5 rounded-full border ${
                           isUnlocked
-                            ? 'bg-amber-500/20 text-amber-300 border-amber-500/30'
+                            ? 'bg-[#F5EFE4] text-[#8F631E] border-[#E5DAC6]'
                             : 'bg-[#FBF8F2] text-[#85786C] border-[#E5DAC6]'
                         }`}
                       >
                         +{ach.points} pts
                       </span>
-                      <span className="text-[9px] font-mono text-[#85786C] mt-1 flex items-center gap-1">
+                      <span className="text-[10px] font-mono text-[#85786C] mt-1 flex items-center gap-1">
                         {isUnlocked ? (
-                          <span className="text-emerald-400 flex items-center gap-1">
+                          <span className="text-emerald-700 flex items-center gap-1">
                             <CheckCircle2 size={10} /> Conquistado
                           </span>
                         ) : (
@@ -217,7 +218,7 @@ export default function AchievementsModal({
                   {/* Requirement Footer */}
                   <div className="mt-3 pt-2.5 border-t border-[#E5DAC6]">
                     <span className="text-[10px] font-mono text-[#85786C] block leading-tight">
-                      Requisito: <strong className={isUnlocked ? 'text-amber-300 font-normal' : 'text-[#5C5248] font-normal'}>{ach.requirementText}</strong>
+                      Requisito: <strong className={isUnlocked ? 'text-[#8F631E] font-normal' : 'text-[#5C5248] font-normal'}>{ach.requirementText}</strong>
                     </span>
                   </div>
                 </div>
@@ -231,7 +232,7 @@ export default function AchievementsModal({
           <span>Continue sua prática diária para desbloquear todos os emblemas.</span>
           <button
             onClick={onClose}
-            className="px-4 py-2 bg-[#B88736] hover:bg-[#B88736] text-white rounded-xl text-xs font-semibold cursor-pointer transition"
+            className="px-4 py-2.5 min-h-[44px] bg-[#B88736] hover:bg-[#8F631E] text-white rounded-xl text-xs font-semibold cursor-pointer transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B88736]/30"
           >
             Fechar
           </button>
