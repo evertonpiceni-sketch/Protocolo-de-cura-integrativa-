@@ -1,3 +1,4 @@
+import { getLocalDateString } from '../utils/date';
 /**
  * @license
  * SPDX-License-Identifier: Apache-2.0
@@ -55,7 +56,7 @@ class LocalNotificationManager {
       if (isCurrentMomentCompleted) return;
       const now = new Date();
       const hhmm = `${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
-      const today = now.toISOString().split('T')[0];
+      const today = getLocalDateString(now);
       const lastTriggered = localStorage.getItem('cura_integrada_last_reminder_date');
       if (hhmm !== reminderTime || lastTriggered === today) return;
 
