@@ -252,8 +252,8 @@ export default function MeditationSession({
   // Paywall check for free tier beyond day 7
   if (userPlan === 'free' && dayNumber > 7) {
     return (
-      <div className="fixed inset-0 z-50 bg-[#FAF7F2]/95 backdrop-blur-md text-[#2A2420] flex items-center justify-center p-6">
-        <div className="max-w-md w-full bg-white border border-[#E5DAC6] rounded-3xl p-8 text-center shadow-xl">
+      <div className="fixed inset-0 z-50 bg-[#FAF7F2]/95 backdrop-blur-md text-[#2A2420] flex items-center justify-center p-3 sm:p-6 overflow-y-auto overscroll-contain" role="dialog" aria-modal="true" aria-label="Acesso à jornada completa">
+        <div className="max-w-md w-full bg-white border border-[#E5DAC6] rounded-2xl sm:rounded-3xl p-5 sm:p-8 text-center shadow-xl">
           <div className="w-16 h-16 mx-auto mb-6 rounded-full bg-[#FAF4E8] border border-[#B88736]/30 flex items-center justify-center">
             <Sparkles className="w-8 h-8 text-[#8F631E]" />
           </div>
@@ -275,7 +275,7 @@ export default function MeditationSession({
   }
 
   return (
-    <div className="fixed inset-0 z-50 bg-[#FAF7F2] text-[#2A2420] flex flex-col justify-between overflow-hidden select-none">
+    <div className="fixed inset-0 z-50 bg-[#FAF7F2] text-[#2A2420] flex flex-col justify-between overflow-hidden select-none min-h-dvh">
       {/* Background Sacred Canvas */}
       <div className="absolute inset-0 pointer-events-none">
         <SacredEnergyCanvas
@@ -322,7 +322,8 @@ export default function MeditationSession({
                 setIsMuted(true);
               }
             }}
-            className="p-2 rounded-full border border-[#E5DAC6] text-[#5C5248] hover:text-[#2A2420] hover:bg-white/80 transition"
+            className="w-11 h-11 rounded-full border border-[#E5DAC6] text-[#5C5248] hover:text-[#2A2420] hover:bg-white/80 transition flex items-center justify-center focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B88736]/30"
+            aria-label={isMuted ? 'Ativar som' : 'Silenciar som'}
             title={isMuted ? 'Ativar Som' : 'Silenciar'}
           >
             {isMuted ? <VolumeX className="w-4 h-4 text-rose-500" /> : <Volume2 className="w-4 h-4" />}
@@ -330,7 +331,8 @@ export default function MeditationSession({
 
           <button
             onClick={onClose}
-            className="p-2 rounded-full border border-[#E5DAC6] text-[#5C5248] hover:text-[#2A2420] hover:bg-white/80 transition"
+            className="w-11 h-11 rounded-full border border-[#E5DAC6] text-[#5C5248] hover:text-[#2A2420] hover:bg-white/80 transition flex items-center justify-center focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B88736]/30"
+            aria-label="Sair da sessão"
             title="Sair do Protocolo"
           >
             <X className="w-4 h-4" />
@@ -500,18 +502,18 @@ export default function MeditationSession({
       {/* Completed Celebration Screen */}
       <AnimatePresence>
         {sessionPhase === 'completed' && (
-          <div className="fixed inset-0 z-50 bg-[#FAF7F2]/95 backdrop-blur-md text-[#2A2420] flex items-center justify-center p-6">
+          <div className="fixed inset-0 z-50 bg-[#FAF7F2]/95 backdrop-blur-md text-[#2A2420] flex items-center justify-center p-3 sm:p-6 overflow-y-auto overscroll-contain" role="dialog" aria-modal="true" aria-label="Sessão concluída">
             <motion.div
               initial={{ scale: 0.9, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
-              className="max-w-md w-full bg-white border border-[#E5DAC6] rounded-3xl p-8 text-center shadow-2xl"
+              className="max-w-md w-full bg-white border border-[#E5DAC6] rounded-2xl sm:rounded-3xl p-5 sm:p-8 text-center shadow-2xl"
             >
               <div className="w-16 h-16 mx-auto mb-6 rounded-full bg-[#FAF4E8] border border-[#B88736]/35 flex items-center justify-center">
                 <Sparkles className="w-8 h-8 text-[#8F631E]" />
               </div>
               <h2 className="text-2xl font-serif text-[#2A2420] mb-2">Dia {dayNumber} Concluído com Paz</h2>
               <p className="text-sm text-[#5C5248] leading-relaxed mb-6">
-                Sua energia foi realinhada e selada. O Decreto Final está ancorado no seu campo sutil. Que a paz acompanhe seus passos.
+                Seu momento foi concluído com presença. Leve com você a intenção cultivada nesta prática e permita que ela acompanhe seus próximos passos.
               </p>
               <button
                 onClick={onClose}
