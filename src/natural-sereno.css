@@ -1,5 +1,6 @@
 /* Estilo 1 only. No selector in this sheet applies to the other official layouts,
-   registration/login, or the frozen Reintegração experience. */
+   or the frozen Reintegração experience. Authentication rules at the end
+   keep the existing entry shell fixed to Natural Sereno. */
 @import url('https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;0,600;1,400&display=swap');
 
 :root[data-layout="natural-sereno"] {
@@ -583,3 +584,36 @@
   :root[data-layout="natural-sereno"] .ns-welcome-brand { margin-bottom: 25px; }
   :root[data-layout="natural-sereno"] .ns-welcome-play { width: 120px; height: 120px; }
 }
+
+/* Authentication always belongs to Natural Sereno, before a profile exists.
+   Scope by the existing auth shell, independently of the saved theme. */
+#profile-setup-view.ep-auth-style-one { background: #fff9e8 !important; color: #26372a !important; font-family: 'Lora', Georgia, serif; }
+#profile-setup-view.ep-auth-style-one .ep-auth-nature-bg {
+  background: linear-gradient(180deg, rgba(255, 249, 232, .35), rgba(6, 47, 34, .32)), url('/brand/natural-sereno/vale-amanhecer.webp') center / cover no-repeat !important;
+  filter: none; transform: none;
+}
+#profile-setup-view.ep-auth-style-one .ep-auth-light-vignette { background: radial-gradient(ellipse at 50% 12%, rgba(255, 245, 205, .4), transparent 65%) !important; }
+#profile-setup-view.ep-auth-style-one #onboarding-card.ep-auth-card {
+  max-width: 480px !important;
+  background: #fff9e8 !important;
+  color: #26372a !important;
+  border: 1px solid #d9c58f !important;
+  border-radius: 22px !important;
+  box-shadow: 0 12px 40px rgba(6, 47, 34, .18), inset 0 1px 2px #fffdf3 !important;
+  backdrop-filter: none !important;
+}
+#profile-setup-view.ep-auth-style-one #onboarding-card::before { background: url('/brand/natural-sereno/folhagem.webp') center top / 100% 100% no-repeat; opacity: .42; }
+#profile-setup-view.ep-auth-style-one #onboarding-card > :not(.absolute) { position: relative; }
+#profile-setup-view.ep-auth-style-one #onboarding-card .ep-brand-signature-wrap { width: 56px; height: 56px; opacity: .65 !important; background: transparent !important; border: 0 !important; box-shadow: none !important; }
+#profile-setup-view.ep-auth-style-one #onboarding-card .ep-brand-signature { mix-blend-mode: multiply; }
+#profile-setup-view.ep-auth-style-one #onboarding-card :is(h1, h2, h3, strong) { color: #073b2b !important; font-family: 'Cormorant Garamond', Georgia, serif; font-weight: 700; }
+#profile-setup-view.ep-auth-style-one #onboarding-card :is(p, label, span) { color: #58604b !important; }
+#profile-setup-view.ep-auth-style-one #onboarding-card h1 { font-size: 28px; }
+#profile-setup-view.ep-auth-style-one #auth-tabs { background: #efe8d0 !important; border-color: #d9c58f !important; }
+#profile-setup-view.ep-auth-style-one #auth-tabs button { color: #073b2b !important; }
+#profile-setup-view.ep-auth-style-one #onboarding-card :is(input:not([type="checkbox"]), select) { background: #fffdf3 !important; border-color: #d9c58f !important; color: #26372a !important; color-scheme: light !important; box-shadow: inset 0 1px 2px #eee6cc !important; }
+#profile-setup-view.ep-auth-style-one #onboarding-card input::placeholder { color: #777c67 !important; }
+#profile-setup-view.ep-auth-style-one #onboarding-card input:focus { border-color: #a98235 !important; box-shadow: 0 0 0 3px rgba(182, 139, 54, .16) !important; }
+#profile-setup-view.ep-auth-style-one #onboarding-card :is(#register-form, #login-form) button[type="submit"] { border: 1px solid #efd896; border-radius: 999px; background: linear-gradient(180deg, #ead394, #c49b42 25%, #98701f 78%, #d7b55e) !important; color: #fffbed !important; box-shadow: inset 0 2px 4px #fff0b3, 0 3px 10px rgba(86, 64, 16, .2) !important; }
+#profile-setup-view.ep-auth-style-one #auth-error { background: #fff0ec !important; border-color: #d59782 !important; color: #802f27 !important; }
+#profile-setup-view.ep-auth-style-one #auth-success { background: #edf1df !important; border-color: #aebc8c !important; color: #214c30 !important; }

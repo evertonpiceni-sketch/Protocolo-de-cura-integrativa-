@@ -105,7 +105,17 @@ try {
  await loadingPage.goto(qaUrl,{waitUntil:'domcontentloaded'});await loadingPage.waitForSelector('#auth-loading-view');await new Promise(r=>setTimeout(r,400));await loadingPage.screenshot({path:`${out}/loading.png`});await loadingPage.waitForSelector('.ns-app');await loadingPage.close();
  const loginPage=await browser.newPage();await loginPage.setViewport({width:390,height:844,deviceScaleFactor:1});await loginPage.setRequestInterception(true);
  loginPage.on('request',req=>{const path=new URL(req.url()).pathname;if(path.startsWith('/api/'))return req.respond({status:path==='/api/auth/me'?401:200,contentType:'application/json',body:'{}'});req.continue()});
- await loginPage.goto(qaUrl,{waitUntil:'networkidle0'});await loginPage.waitForSelector('#profile-setup-view');await loginPage.screenshot({path:`${out}/frozen-login.png`});await loginPage.close();
+ await loginPage.goto(qaUrl,{waitUntil:'networkidle0'});await loginPage.waitForSelector('#profile-setup-view');await loginPage.screenshot({path:`${out}/frozen-login.png`});
+ for(const theme of ['natural-sereno','elegancia-profunda','essencia-luminosa','mistico-moderno']){
+  await loginPage.evaluate(theme=>document.documentElement.dataset.layout=theme,theme);
+  assert.equal(await loginPage.$eval('#onboarding-card',el=>getComputedStyle(el).backgroundColor),'rgb(255, 249, 232)','Authentication stays Natural Sereno independently of profile theme');
+  assert.equal(await loginPage.$eval('#reg-fullname',el=>getComputedStyle(el).backgroundColor),'rgb(255, 253, 243)','Registration input stays ivory');
+ }
+ await loginPage.click('#auth-tabs button:nth-child(2)');await loginPage.waitForSelector('#login-form');
+ assert.equal(await loginPage.$eval('#login-form input:not([type="checkbox"])',el=>getComputedStyle(el).backgroundColor),'rgb(255, 253, 243)');
+ await loginPage.screenshot({path:`${out}/login.png`});
+ checks.push('Registration and login keep ivory Natural Sereno surfaces under all four theme IDs; existing tabs work.');
+ await loginPage.close();
  checks.push('Loading scene captured and frozen registration/login remains accessible without authentication.');
  assert.deepEqual(errors,[]);assert.deepEqual(consoleErrors,[]);
  await fs.writeFile(`${out}/verification.json`,JSON.stringify({checks,errors,consoleErrors,frozen},null,2));
