@@ -619,10 +619,10 @@ export default function AnamnesisModal({
                 {/* Quick Reaction Chips */}
                 <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
                   {[
-                    { id: 'coracao', label: 'Tocou meu coração', emoji: '❤️' },
-                    { id: 'paz', label: 'Senti profunda paz', emoji: '💜' },
-                    { id: 'assertivo', label: 'Muito assertivo', emoji: '✨' },
-                    { id: 'revigorado', label: 'Revigorado(a)', emoji: '🌿' }
+                    { id: 'coracao', label: 'Tocou meu coração' },
+                    { id: 'paz', label: 'Senti profunda paz' },
+                    { id: 'assertivo', label: 'Fez sentido para mim' },
+                    { id: 'revigorado', label: 'Senti mais disposição' }
                   ].map(r => (
                     <button
                       key={r.id}
@@ -634,7 +634,6 @@ export default function AnamnesisModal({
                           : 'bg-[#FBF8F2] border-[#E5DAC6] text-[#5C5248] hover:bg-[#F5EFE4]'
                       }`}
                     >
-                      <span>{r.emoji}</span>
                       <span className="truncate">{r.label}</span>
                     </button>
                   ))}
@@ -652,7 +651,7 @@ export default function AnamnesisModal({
 
                   <div className="flex items-center justify-between">
                     <span className="text-[10px] text-emerald-400 font-mono">
-                      {feedbackSubmitted ? "✓ Gratidão! Seu relato foi acolhido e salvo com sucesso." : ""}
+                      {feedbackSubmitted ? "Seu relato foi acolhido e salvo com sucesso." : ""}
                     </span>
                     <button
                       type="button"
