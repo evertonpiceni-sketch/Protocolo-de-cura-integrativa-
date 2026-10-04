@@ -48,12 +48,12 @@ export default function ProReportCertificateModal({
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-[#2A2420]/30 backdrop-blur-md overflow-y-auto" id="pro-certificate-modal">
+    <div className="fixed inset-0 z-50 flex items-start sm:items-center justify-center p-2 sm:p-4 bg-[#2A2420]/30 backdrop-blur-md overflow-y-auto overscroll-contain" id="pro-certificate-modal" role="dialog" aria-modal="true" aria-label="Relatório e certificado">
       <motion.div
         initial={{ opacity: 0, scale: 0.96 }}
         animate={{ opacity: 1, scale: 1 }}
         exit={{ opacity: 0, scale: 0.96 }}
-        className="w-full max-w-3xl bg-[#FBF8F2] border border-amber-500/30 rounded-3xl p-6 md:p-8 shadow-2xl relative overflow-hidden my-6"
+        className="w-full max-w-3xl bg-[#FBF8F2] border border-[#B88736]/30 rounded-2xl sm:rounded-3xl p-4 sm:p-6 md:p-8 shadow-2xl relative overflow-hidden my-1 sm:my-6 max-h-[calc(100dvh-1rem)] overflow-y-auto overscroll-contain"
       >
         {/* Close Button */}
         <button
@@ -70,7 +70,7 @@ export default function ProReportCertificateModal({
             onClick={() => setActiveTab('certificate')}
             className={`px-4 py-2 rounded-xl text-xs font-medium flex items-center gap-2 transition cursor-pointer ${
               activeTab === 'certificate'
-                ? 'bg-amber-500/20 border border-amber-500/50 text-amber-300 shadow'
+                ? 'bg-amber-500/20 border border-amber-500/50 text-[#8F631E] shadow'
                 : 'text-[#5C5248] hover:text-[#2A2420]'
             }`}
           >
@@ -202,7 +202,7 @@ export default function ProReportCertificateModal({
                       .filter(p => p.journalText && p.journalText.trim().length > 0)
                       .map(p => (
                         <div key={p.dayNumber} className="p-2.5 rounded-xl bg-[#FBF8F2]/90 border border-[#E5DAC6] text-xs">
-                          <div className="flex items-center justify-between text-[10px] text-amber-300/80 font-mono mb-1">
+                          <div className="flex items-center justify-between text-[10px] text-[#8F631E]/80 font-mono mb-1">
                             <span>Dia {p.dayNumber}</span>
                             <span>{p.completedAt ? new Date(p.completedAt).toLocaleDateString('pt-BR') : 'Concluído'}</span>
                           </div>
