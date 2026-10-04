@@ -43,7 +43,7 @@ export const ADMIN_STORAGE_KEY_COUPONS = 'cura_integrada_admin_coupons_v1';
 
 export default function AdminPanelModal({ isOpen, onClose }: AdminPanelModalProps) {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [adminEmail, setAdminEmail] = useState('evertonpiceni@gmail.com');
+  const [adminEmail, setAdminEmail] = useState('everton.admin');
   const [adminPass, setAdminPass] = useState('');
   const [authError, setAuthError] = useState('');
 
@@ -70,48 +70,96 @@ export default function AdminPanelModal({ isOpen, onClose }: AdminPanelModalProp
   const [allAccounts, setAllAccounts] = useState<any[]>([]);
   const [copiedLogin, setCopiedLogin] = useState<string | null>(null);
 
-  // Load existing data
+  const loadAdminUsers = async () => {
+    const response = await fetch('/api/admin/users', { credentials: 'same-origin' });
+    if (!response.ok) throw new Error('ADMIN_USERS_UNAVAILABLE');
+    const data = await response.json();
+    setAllAccounts(Array.isArray(data.users) ? data.users : []);
+  };
+
+  // Load local admin content only after the server confirms an authenticated
+  // administrator session. User/account data always comes from the protected API.
   useEffect(() => {
-    try {
-      const savedAudios = localStorage.getItem(ADMIN_STORAGE_KEY_AUDIOS);
-      if (savedAudios) setCustomAudios(JSON.parse(savedAudios));
+    if (!isOpen) return;
 
-      const savedCoupons = localStorage.getItem(ADMIN_STORAGE_KEY_COUPONS);
-      if (savedCoupons) {
-        setCoupons(JSON.parse(savedCoupons));
-      } else {
-        // Default initial coupons created by Éverton
-        const initialCoupons: CouponItem[] = [
-          { code: 'CURAPRO21', discountPercentage: 100, description: 'Bolsa 100% Gratuita VIP de Acesso Total', active: true, createdAt: new Date().toISOString() },
-          { code: 'LUZEVERTON', discountPercentage: 50, description: 'Desconto de 50% Especial', active: true, createdAt: new Date().toISOString() }
-        ];
-        setCoupons(initialCoupons);
-        localStorage.setItem(ADMIN_STORAGE_KEY_COUPONS, JSON.stringify(initialCoupons));
+    let cancelled = false;
+    const verifyAdminSession = async () => {
+      try {
+        const statusResponse = await fetch('/api/admin/status', { credentials: 'same-origin' });
+        if (!statusResponse.ok) {
+          if (!cancelled) setIsAuthenticated(false);
+          return;
+        }
+
+        if (cancelled) return;
+        setIsAuthenticated(true);
+        setAuthError('');
+
+        const savedAudios = localStorage.getItem(ADMIN_STORAGE_KEY_AUDIOS);
+        if (savedAudios) setCustomAudios(JSON.parse(savedAudios));
+
+        const savedCoupons = localStorage.getItem(ADMIN_STORAGE_KEY_COUPONS);
+        if (savedCoupons) {
+          setCoupons(JSON.parse(savedCoupons));
+        } else {
+          const initialCoupons: CouponItem[] = [
+            { code: 'CURAPRO21', discountPercentage: 100, description: 'Bolsa 100% Gratuita VIP de Acesso Total', active: true, createdAt: new Date().toISOString() },
+            { code: 'LUZEVERTON', discountPercentage: 50, description: 'Desconto de 50% Especial', active: true, createdAt: new Date().toISOString() }
+          ];
+          setCoupons(initialCoupons);
+          localStorage.setItem(ADMIN_STORAGE_KEY_COUPONS, JSON.stringify(initialCoupons));
+        }
+
+        await loadAdminUsers();
+      } catch (e) {
+        console.error(e);
+        if (!cancelled) {
+          setIsAuthenticated(false);
+          setAuthError('Não foi possível validar a sessão administrativa.');
+        }
       }
+    };
 
-      const savedAccs = localStorage.getItem('cura_integrada_accounts_v1');
-      if (savedAccs) setAllAccounts(JSON.parse(savedAccs));
-    } catch (e) {
-      console.error(e);
-    }
+    void verifyAdminSession();
+    return () => { cancelled = true; };
   }, [isOpen]);
 
   if (!isOpen) return null;
 
-  const handleLogin = (e: React.FormEvent) => {
+  const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Éverton master login: email or master passwords
-    const cleanEmail = adminEmail.trim().toLowerCase();
-    const cleanPass = adminPass.trim();
+    setAuthError('');
 
-    if (
-      (cleanEmail === 'evertonpiceni@gmail.com' && (cleanPass === 'luz21' || cleanPass === 'everton2026' || cleanPass === 'admin' || cleanPass === 'cura21' || cleanPass.length >= 4)) ||
-      cleanPass === 'luz21' || cleanPass === 'everton2026'
-    ) {
+    try {
+      const loginResponse = await fetch('/api/auth/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'same-origin',
+        body: JSON.stringify({
+          login: adminEmail.trim().toLowerCase(),
+          password: adminPass
+        })
+      });
+      const loginData = await loginResponse.json().catch(() => ({}));
+      if (!loginResponse.ok) {
+        setAuthError(loginData.error || 'Credenciais administrativas inválidas.');
+        return;
+      }
+
+      const statusResponse = await fetch('/api/admin/status', { credentials: 'same-origin' });
+      if (!statusResponse.ok) {
+        setIsAuthenticated(false);
+        setAuthError('Esta conta não possui permissão administrativa.');
+        return;
+      }
+
       setIsAuthenticated(true);
-      setAuthError('');
-    } else {
-      setAuthError('Senha de administrador incorreta. Tente novamente.');
+      setAdminPass('');
+      await loadAdminUsers();
+    } catch (error) {
+      console.error(error);
+      setIsAuthenticated(false);
+      setAuthError('Não foi possível validar o acesso administrativo agora.');
     }
   };
 
@@ -240,9 +288,9 @@ export default function AdminPanelModal({ isOpen, onClose }: AdminPanelModalProp
 
             <div className="space-y-3">
               <div className="space-y-1">
-                <label className="text-[11px] font-mono text-[#5C5248] block uppercase">E-mail do Administrador</label>
+                <label className="text-[11px] font-mono text-[#5C5248] block uppercase">Login ou e-mail do Administrador</label>
                 <input
-                  type="email"
+                  type="text"
                   value={adminEmail}
                   onChange={(e) => setAdminEmail(e.target.value)}
                   className="w-full bg-white border border-[#E5DAC6] rounded-xl px-3.5 py-2.5 text-xs text-[#2A2420] focus:border-amber-500 outline-none font-mono"
@@ -251,7 +299,7 @@ export default function AdminPanelModal({ isOpen, onClose }: AdminPanelModalProp
               </div>
 
               <div className="space-y-1">
-                <label className="text-[11px] font-mono text-[#5C5248] block uppercase">Senha Mestre</label>
+                <label className="text-[11px] font-mono text-[#5C5248] block uppercase">Senha da conta administrativa</label>
                 <input
                   type="password"
                   placeholder="Digite sua senha de acesso..."
