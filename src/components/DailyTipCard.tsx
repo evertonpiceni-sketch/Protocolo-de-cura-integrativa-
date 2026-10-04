@@ -29,29 +29,29 @@ const HEALTH_TIPS: DailyHealthTip[] = [
     title: 'Hidratação com Intenção Solar',
     category: 'Hidratação & Vitalidade',
     icon: 'droplets',
-    description: 'Após a meditação quântica, suas células estão altamente receptivas. Beba 500ml de água colocando a intenção de purificação e cura em cada gole.',
-    benefit: 'Facilita a eliminação de toxinas físicas e miasmas energéticos liberados no protocolo.',
+    description: 'Após a prática, faça uma pausa e beba água com calma, usando esse momento como um gesto simples de presença e cuidado consigo.',
+    benefit: 'Ajuda a lembrar de hidratar o corpo e a encerrar a prática com atenção ao presente.',
     practicalAction: 'Beba 2 copos de água fresca agora, respirando devagar.',
-    affirmation: 'Esta água purifica meu corpo e eleva minha vibração celular.'
+    affirmation: 'Eu recebo este momento de cuidado com presença e gratidão.'
   },
   {
     id: 'banho-boldo-coronario',
     title: 'Banho de Boldo (Paz Mental & Coronário)',
     category: 'Energia Sutil & Banhos',
     icon: 'leaf',
-    description: 'O Boldo (Tapete de Oxalá) é a ÚNICA erva que pode e deve ser tomada DA CABEÇA AOS PÉS. Acalma pensamentos acelerados, alivia insônia e limpa o Chakra Coronário.',
-    benefit: 'Desanuvia a mente, restaura o sono profundo e traz serenidade espiritual absoluta.',
+    description: 'Em algumas tradições espirituais brasileiras, o boldo é usado simbolicamente em banhos de limpeza e serenidade. Respeite a tradição que você segue e evite usar qualquer erva se houver irritação ou sensibilidade.',
+    benefit: 'Pode compor um ritual pessoal de pausa, silêncio e reconexão espiritual.',
     practicalAction: 'Macere 7 a 9 folhas de boldo em 1,5L de água morna. Despeje da cabeça aos pés após o banho higiênico.',
     affirmation: 'Minha mente está em profunda paz. Minha coroa se conecta à luz pura e divina.',
-    bathRule: '✨ ÚNICO banho permitido da CABEÇA AOS PÉS.'
+    bathRule: 'Uso tradicional: confirme a forma de aplicação dentro da sua prática.'
   },
   {
     id: 'aterramento-descalco',
     title: 'Aterramento (Earthing) de 5 Minutos',
     category: 'Aterramento & Corpo',
     icon: 'footprints',
-    description: 'Pise descalço na grama, na terra ou no chão natural para neutralizar cargas eletromagnéticas acumuladas e ancorar a energia do chakra raiz.',
-    benefit: 'Reduz a ansiedade, dissipa a névoa mental e ancora a paz interior.',
+    description: 'Se for confortável e seguro para você, caminhe alguns minutos descalço em uma superfície natural e observe as sensações dos pés e da respiração.',
+    benefit: 'Pode funcionar como uma pausa de atenção ao corpo e ao ambiente ao redor.',
     practicalAction: 'Retire os sapatos e sinta a firmeza do solo por alguns minutos.',
     affirmation: 'Estou seguro(a), enraizado(a) e protegido(a) na Mãe Terra.'
   },
@@ -60,11 +60,11 @@ const HEALTH_TIPS: DailyHealthTip[] = [
     title: 'Banho de Alecrim (Alegria & Prosperidade)',
     category: 'Energia Sutil & Banhos',
     icon: 'flame',
-    description: 'O Alecrim expande a vitalidade e abre caminhos para a abundância. Lembre-se: tome ESTRITAMENTE DO PESCOÇO PARA BAIXO (nunca na cabeça).',
-    benefit: 'Elimina o desânimo, clareia o foco no Plexo Solar e atrai prosperidade.',
+    description: 'O alecrim aparece em diferentes tradições como erva associada a vitalidade e renovação. Use o banho como um ritual simbólico de cuidado e respeite a forma de aplicação da tradição que você segue.',
+    benefit: 'Pode acompanhar uma intenção pessoal de disposição, clareza e abertura para novos movimentos.',
     practicalAction: 'Faça infusão de 2 ramos de alecrim em água quente. Despeje do pescoço para baixo após o banho de higiene.',
     affirmation: 'Sou luz, força e vitalidade. Meus caminhos se abrem para a alegria.',
-    bathRule: '⚠️ ESTRITAMENTE DO PESCOÇO PARA BAIXO (nunca na cabeça).'
+    bathRule: 'Uso tradicional: do pescoço para baixo.'
   },
   {
     id: 'respiracao-478',
@@ -72,7 +72,7 @@ const HEALTH_TIPS: DailyHealthTip[] = [
     category: 'Calma Mental & Sono',
     icon: 'wind',
     description: 'Inspire pelo nariz em 4 segundos, retenha o ar por 7 segundos e solte lentamente pela boca em 8 segundos. Repita 4 ciclos durante o dia.',
-    benefit: 'Ativa o sistema nervoso parassimpático e mantém o estado alfa de tranquilidade.',
+    benefit: 'Pode ajudar a desacelerar o ritmo por alguns instantes e trazer atenção para a respiração.',
     practicalAction: 'Faça 3 ciclos da respiração 4-7-8 agora mesmo.',
     affirmation: 'Minha mente está em perfeita calma e serenidade.'
   },
@@ -81,8 +81,8 @@ const HEALTH_TIPS: DailyHealthTip[] = [
     title: 'Banho de Manjericão (Harmonia & Paz)',
     category: 'Energia Sutil & Banhos',
     icon: 'leaf',
-    description: 'O Manjericão acalma conflitos, harmoniza relações e traz doçura ao coração. Deve ser tomado DO PESCOÇO PARA BAIXO.',
-    benefit: 'Dissipa irritações, purifica o campo áurico e equilibra o Chakra Cardíaco.',
+    description: 'O manjericão é associado, em algumas tradições, a harmonia e renovação. Você pode usá-lo simbolicamente em um ritual de cuidado e intenção.',
+    benefit: 'Pode acompanhar uma intenção de gentileza, reconciliação e presença.',
     practicalAction: 'Macere folhas de manjericão fresco em água morna e despeje dos ombros para baixo.',
     affirmation: 'O amor divino flui em mim. Eu vivo em paz e perfeita harmonia.',
     bathRule: '⚠️ ESTRITAMENTE DO PESCOÇO PARA BAIXO.'
@@ -92,8 +92,8 @@ const HEALTH_TIPS: DailyHealthTip[] = [
     title: 'Banho de Camomila & Melissa (Acalento)',
     category: 'Calma Mental & Sono',
     icon: 'coffee',
-    description: 'Excelente para aliviar angústias e preparar para o sono dos anjos. Tome DO PESCOÇO PARA BAIXO antes de deitar.',
-    benefit: 'Cura feridas emocionais, alivia tensão muscular e acalma o espírito.',
+    description: 'Camomila e melissa podem compor um ritual noturno de desaceleração pelo aroma e pela associação com descanso.',
+    benefit: 'Pode marcar uma transição mais tranquila entre o ritmo do dia e o momento de descanso.',
     practicalAction: 'Infusão morna de camomila jogada lentamente do pescoço para baixo à noite.',
     affirmation: 'Eu descanso seguro(a) no colo do Universo. Todo medo se dissolve em paz.',
     bathRule: '⚠️ ESTRITAMENTE DO PESCOÇO PARA BAIXO.'
@@ -175,10 +175,10 @@ export default function DailyTipCard({
       initial={{ opacity: 0, y: 15 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.4 }}
-      className={`rounded-3xl border transition-all duration-300 p-5 md:p-6 relative overflow-hidden shadow-xl ${
+      className={`rounded-3xl border transition-all duration-300 p-5 md:p-6 relative overflow-hidden shadow-sm ${
         isCompleted
-          ? 'bg-gradient-to-r from-emerald-950/40 via-[#FBF8F2] to-teal-950/30 border-emerald-500/40 ring-1 ring-emerald-500/20'
-          : 'bg-gradient-to-r from-slate-900 via-indigo-950/30 to-slate-900 border-[#B88736]/30 shadow-indigo-950/20'
+          ? 'bg-emerald-50/70 border-emerald-200 ring-1 ring-emerald-100'
+          : 'bg-[#FBF8F2] border-[#E5DAC6]'
       }`}
       id="daily-health-tip-card"
     >
@@ -200,7 +200,7 @@ export default function DailyTipCard({
           <div className="space-y-1">
             <div className="flex flex-wrap items-center gap-2">
               <span className="px-2.5 py-0.5 rounded-full text-[10px] font-mono font-bold uppercase tracking-wider bg-[#B88736]/20 text-[#B88736] border border-[#B88736]/30">
-                🌿 Hábito de Sustentação • Dia {currentDay}
+                Hábito de Sustentação • Dia {currentDay}
               </span>
               <span className="text-[11px] text-[#5C5248] font-medium">
                 {todayTip.category}
@@ -208,7 +208,7 @@ export default function DailyTipCard({
               {todayTip.bathRule && (
                 <span className={`px-2 py-0.5 rounded-full text-[10px] font-mono font-bold border ${
                   todayTip.id === 'banho-boldo-coronario'
-                    ? 'bg-amber-500/20 text-amber-300 border-amber-500/40'
+                    ? 'bg-amber-50 text-amber-800 border-amber-200'
                     : 'bg-[#B88736]/20 text-[#B88736] border-[#B88736]/30'
                 }`}>
                   {todayTip.bathRule}
@@ -237,18 +237,18 @@ export default function DailyTipCard({
             <button
               type="button"
               onClick={onOpenHerbalBaths}
-              className="px-3 py-2 rounded-xl bg-emerald-950/60 hover:bg-emerald-900/80 border border-emerald-500/40 text-emerald-300 text-xs font-semibold flex items-center gap-1.5 transition cursor-pointer"
+              className="px-3 py-2.5 min-h-[44px] rounded-xl bg-white hover:bg-[#F5EFE4] border border-[#E5DAC6] text-[#5C5248] text-xs font-semibold flex items-center gap-1.5 transition cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B88736]/30"
               title="Abrir Guia Sagrado de Banhos de Ervas"
             >
               <Leaf size={13} className="text-emerald-400" />
-              <span>Guia de Banhos 🌿</span>
+              <span>Guia de Banhos</span>
             </button>
           )}
 
           <button
             type="button"
             onClick={() => setIsExpanded(!isExpanded)}
-            className="px-3 py-2 rounded-xl bg-[#F5EFE4]/80 hover:bg-[#F5EFE4] border border-[#E5DAC6] text-[#5C5248] hover:text-[#2A2420] text-xs font-semibold transition cursor-pointer"
+            className="px-3 py-2.5 min-h-[44px] rounded-xl bg-[#F5EFE4]/80 hover:bg-[#EFE4D3] border border-[#E5DAC6] text-[#5C5248] hover:text-[#2A2420] text-xs font-semibold transition cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B88736]/30"
           >
             {isExpanded ? 'Ver Menos' : 'Ver Detalhes'}
           </button>
@@ -258,8 +258,8 @@ export default function DailyTipCard({
             onClick={handleToggleCompleted}
             className={`px-4 py-2 rounded-xl text-xs font-bold transition flex items-center gap-2 cursor-pointer shadow-md ${
               isCompleted
-                ? 'bg-emerald-600 hover:bg-emerald-500 text-white shadow-emerald-600/20'
-                : 'bg-gradient-to-r from-indigo-600 to-cyan-600 hover:from-indigo-500 hover:to-cyan-500 text-white shadow-indigo-600/20'
+                ? 'bg-emerald-700 hover:bg-emerald-800 text-white shadow-sm'
+                : 'bg-[#B88736] hover:bg-[#8F631E] text-white shadow-sm'
             }`}
           >
             <CheckCircle2 size={14} className={isCompleted ? 'text-white' : 'text-cyan-200'} />
@@ -280,7 +280,7 @@ export default function DailyTipCard({
             {/* Practical Action */}
             <div className="p-3 rounded-2xl bg-white/70 border border-[#E5DAC6] space-y-1">
               <span className="text-[10px] font-mono uppercase text-[#B88736] font-bold block">
-                🎯 Ação Prática Rápida
+                Ação prática
               </span>
               <p className="text-[#2A2420] leading-snug">
                 {todayTip.practicalAction}
@@ -289,8 +289,8 @@ export default function DailyTipCard({
 
             {/* Holistic Benefit */}
             <div className="p-3 rounded-2xl bg-white/70 border border-[#E5DAC6] space-y-1">
-              <span className="text-[10px] font-mono uppercase text-emerald-400 font-bold block">
-                ✨ Benefício Vibracional
+              <span className="text-[10px] font-mono uppercase text-[#8F631E] font-bold block">
+                Possível apoio
               </span>
               <p className="text-[#5C5248] leading-snug">
                 {todayTip.benefit}
@@ -300,9 +300,9 @@ export default function DailyTipCard({
             {/* Affirmation */}
             <div className="p-3 rounded-2xl bg-white/70 border border-[#E5DAC6] space-y-1">
               <span className="text-[10px] font-mono uppercase text-amber-400 font-bold block">
-                💎 Afirmação do Dia
+                Frase do dia
               </span>
-              <p className="text-amber-200/90 italic leading-snug font-serif">
+              <p className="text-[#5C5248] italic leading-snug font-serif">
                 "{todayTip.affirmation}"
               </p>
             </div>
