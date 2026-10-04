@@ -321,7 +321,8 @@ _Protocolo de Cura Integrada_`);
           <button
             type="button"
             onClick={onClose}
-            className="p-2 rounded-xl bg-[#F5EFE4]/80 hover:bg-[#F5EFE4] text-[#5C5248] hover:text-white border border-[#E5DAC6] transition cursor-pointer"
+            aria-label="Fechar guia de banhos"
+            className="w-11 h-11 rounded-xl bg-[#F5EFE4]/80 hover:bg-[#EFE4D3] text-[#5C5248] hover:text-[#2A2420] border border-[#E5DAC6] transition cursor-pointer flex items-center justify-center focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B88736]/30"
             id="btn-close-herbal-baths"
           >
             <X size={18} />
