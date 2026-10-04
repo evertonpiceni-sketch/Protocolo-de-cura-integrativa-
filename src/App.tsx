@@ -731,12 +731,30 @@ export default function App() {
     <>
 
       {showPersonalJourney ? (
-        <PersonalJourney21 onClose={() => setShowPersonalJourney(false)} />
+        <PersonalJourney21
+          onClose={() => setShowPersonalJourney(false)}
+          initialCompletedDays={userProfile.journeyProgress?.reintegration21CompletedDays}
+          onCompletedDaysChange={(days) => saveProfile({
+            ...userProfile,
+            journeyProgress: {
+              ...userProfile.journeyProgress,
+              reintegration21CompletedDays: days
+            }
+          })}
+        />
       ) : showArcanjoView || userProfile.subscriptionPlan === 'arcanjo_7d' ? (
         <ArcanjoProtocolView 
           userProfile={userProfile}
           onLogout={handleLogout}
           onClose={() => setShowArcanjoView(false)}
+          initialCompletedDays={userProfile.journeyProgress?.arcanjo7CompletedDays}
+          onCompletedDaysChange={(days) => saveProfile({
+            ...userProfile,
+            journeyProgress: {
+              ...userProfile.journeyProgress,
+              arcanjo7CompletedDays: days
+            }
+          })}
         />
       ) : activeSessionDay !== null ? (
                 <MeditationSession
