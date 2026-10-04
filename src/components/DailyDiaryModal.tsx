@@ -53,61 +53,18 @@ export default function DailyDiaryModal({
 
   const completedCount = progress.filter(p => p.completed).length;
 
-  const [isPurifying, setIsPurifying] = useState(false);
-  const [purifyMessage, setPurifyMessage] = useState<{ title: string; text: string } | null>(null);
-
   const handleStartEdit = () => {
     setEditingDayText(currentDayProgress?.journalText || currentDayProgress?.afterFeeling?.notes || '');
     setEditingMood(currentDayProgress?.afterFeeling?.mood || currentDayProgress?.mood || 5);
     setIsEditing(true);
   };
 
-  const handleSaveDayJournal = async () => {
-    const rawText = editingDayText.trim();
-    if (!rawText) {
-      saveEntryHandler(activeDay, "", editingMood);
-      setIsEditing(false);
-      setSaveSuccessMsg(true);
-      setTimeout(() => setSaveSuccessMsg(false), 2500);
-      return;
-    }
-
-    setIsPurifying(true);
-    let finalJournalText = rawText;
-    
-    try {
-      const token = localStorage.getItem("token");
-      if (token) {
-        const response = await fetch("/api/diary/purify", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            "Authorization": `Bearer ${token}`
-          },
-          body: JSON.stringify({ text: rawText })
-        });
-        
-        if (response.ok) {
-          const data = await response.json();
-          if (data.status === "purificado_chama_violeta") {
-            finalJournalText = data.cleansedText;
-            setPurifyMessage({
-              title: "Transmutação Concluída 💜",
-              text: data.empoweringMessage
-            });
-            setTimeout(() => setPurifyMessage(null), 8000);
-          }
-        }
-      }
-    } catch (err) {
-      console.warn("Erro ao purificar o diário:", err);
-    } finally {
-      setIsPurifying(false);
-      saveEntryHandler(activeDay, finalJournalText, editingMood);
-      setIsEditing(false);
-      setSaveSuccessMsg(true);
-      setTimeout(() => setSaveSuccessMsg(false), 2500);
-    }
+  const handleSaveDayJournal = () => {
+    const finalJournalText = editingDayText.trim();
+    saveEntryHandler(activeDay, finalJournalText, editingMood);
+    setIsEditing(false);
+    setSaveSuccessMsg(true);
+    setTimeout(() => setSaveSuccessMsg(false), 2500);
   };
 
   const handleSaveExpectations = () => {
@@ -457,17 +414,6 @@ export default function DailyDiaryModal({
               )}
             </div>
 
-            {purifyMessage && (
-              <motion.div
-                initial={{ opacity: 0, y: -10 }}
-                animate={{ opacity: 1, y: 0 }}
-                className="p-3 bg-fuchsia-950/40 border border-fuchsia-500/50 rounded-xl space-y-1"
-              >
-                <div className="text-xs font-bold text-fuchsia-300">{purifyMessage.title}</div>
-                <div className="text-xs text-fuchsia-200">{purifyMessage.text}</div>
-              </motion.div>
-            )}
-
             {isEditing ? (
               <div className="space-y-3">
                 <textarea
@@ -475,7 +421,6 @@ export default function DailyDiaryModal({
                   value={editingDayText}
                   onChange={(e) => setEditingDayText(e.target.value)}
                   placeholder="Escreva suas percepções, sonhos, pensamentos e transformações deste dia..."
-                  disabled={isPurifying}
                   className="w-full bg-[#FBF8F2] border border-[#B88736]/50 text-[#2A2420] rounded-xl p-3 text-xs outline-none focus:ring-1 focus:ring-indigo-400 leading-relaxed disabled:opacity-50"
                 />
 
@@ -485,8 +430,7 @@ export default function DailyDiaryModal({
                     <select
                       value={editingMood}
                       onChange={(e) => setEditingMood(parseInt(e.target.value))}
-                      disabled={isPurifying}
-                      className="bg-[#FBF8F2] border border-[#E5DAC6] text-[#2A2420] text-xs rounded-lg px-2 py-1 disabled:opacity-50"
+                          className="bg-[#FBF8F2] border border-[#E5DAC6] text-[#2A2420] text-xs rounded-lg px-2 py-1 disabled:opacity-50"
                     >
                       <option value={1}>1 - Pesado</option>
                       <option value={2}>2 - Inquieto</option>
@@ -500,25 +444,16 @@ export default function DailyDiaryModal({
                     <button
                       type="button"
                       onClick={() => setIsEditing(false)}
-                      disabled={isPurifying}
-                      className="px-3 py-1.5 bg-[#F5EFE4] hover:bg-slate-700 text-[#5C5248] rounded-xl text-xs disabled:opacity-50"
+                          className="px-3 py-1.5 bg-[#F5EFE4] hover:bg-slate-700 text-[#5C5248] rounded-xl text-xs"
                     >
                       Cancelar
                     </button>
                     <button
                       type="button"
                       onClick={handleSaveDayJournal}
-                      disabled={isPurifying}
-                      className="px-4 py-1.5 bg-[#B88736] hover:bg-[#B88736] text-white rounded-xl text-xs font-semibold flex items-center gap-1.5 disabled:opacity-50"
+                          className="px-4 py-1.5 bg-[#B88736] hover:bg-[#B88736] text-white rounded-xl text-xs font-semibold flex items-center gap-1.5"
                     >
-                      {isPurifying ? (
-                        <>
-                          <div className="w-3 h-3 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-                          <span>Transmutando...</span>
-                        </>
-                      ) : (
-                        <span>Salvar Diário</span>
-                      )}
+                      <span>Salvar Diário</span>
                     </button>
                   </div>
                 </div>
