@@ -97,6 +97,23 @@ jobs:
             exit 1
           fi
 
+      - name: Verify client cannot bypass admin authentication
+        shell: bash
+        run: |
+          set -euo pipefail
+          if grep -q 'Entrar Direto' src/components/ProfileSetup.tsx; then
+            echo 'Direct client-side admin login bypass detected.'
+            exit 1
+          fi
+          if grep -q 'demoAccount' src/components/ProfileSetup.tsx; then
+            echo 'Demo admin account detected in login flow.'
+            exit 1
+          fi
+          if grep -q 'isAdmin: true' src/components/ProfileSetup.tsx; then
+            echo 'Client-side admin escalation detected in login flow.'
+            exit 1
+          fi
+
       - name: Smoke test health and registration
         shell: bash
         env:
