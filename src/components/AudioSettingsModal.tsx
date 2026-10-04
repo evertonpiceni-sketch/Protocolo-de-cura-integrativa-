@@ -392,7 +392,7 @@ export default function AudioSettingsModal({
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                   {[
-                    { id: 'delta', name: 'Ondas Delta', hz: '2.5 Hz', title: 'Regeneração & Sono', desc: 'Restauração celular profunda, alívio de sobrecarga física e ancoramento.' },
+                    { id: 'delta', name: 'Ondas Delta', hz: '2.5 Hz', title: 'Descanso & Sono', desc: 'Atmosfera voltada a desaceleração, repouso e ancoramento.' },
                     { id: 'theta', name: 'Ondas Theta', hz: '5.5 Hz', title: 'Meditação & Intuição', desc: 'Acesso sutil ao subconsciente, transmutação energética e acolhimento.' },
                     { id: 'alpha', name: 'Ondas Alpha', hz: '10.0 Hz', title: 'Presença Lúcida (Recomendado)', desc: 'Calma alerta, relaxamento lúcido, harmonia emocional e foco sereno.' },
                     { id: 'beta', name: 'Ondas Beta', hz: '15.0 Hz', title: 'Vitalidade & Clareza', desc: 'Despertar de disposição consciente, clareza mental e ânimo para o agir.' },
