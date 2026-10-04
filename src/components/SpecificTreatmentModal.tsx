@@ -50,13 +50,10 @@ export default function SpecificTreatmentModal({
   const [patientDescription, setPatientDescription] = useState<string>('');
   const [selectedPains, setSelectedPains] = useState<string[]>([]);
   const [paymentMethod, setPaymentMethod] = useState<'pix' | 'credit' | 'debit'>('pix');
-  const [cardNumber, setCardNumber] = useState<string>('');
-  const [cardHolder, setCardHolder] = useState<string>(userProfile.fullName || userProfile.name || '');
-  const [cardExpiry, setCardExpiry] = useState<string>('');
-  const [cardCvv, setCardCvv] = useState<string>('');
   const [copiedPix, setCopiedPix] = useState<boolean>(false);
   const [isProcessing, setIsProcessing] = useState<boolean>(false);
   const [showSuccessScreen, setShowSuccessScreen] = useState<boolean>(false);
+  const [checkoutError, setCheckoutError] = useState<string | null>(null);
   const [lastCreatedTreatment, setLastCreatedTreatment] = useState<SpecificTreatment | null>(null);
 
   // Discount coupon state
@@ -127,82 +124,51 @@ export default function SpecificTreatmentModal({
     }
   };
 
-  const handleProcessOrder = () => {
-    if (!patientDescription.trim()) return;
+  const handleProcessOrder = async () => {
+    if (!patientDescription.trim() || isProcessing) return;
 
+    setCheckoutError(null);
     setIsProcessing(true);
-
-    // Generate custom channeled prescription for this specific case
-    setTimeout(() => {
-      let freq: '528hz' | '432hz' | '963hz' | '741hz' | 'waves' = '528hz';
-      let themeTitle = treatmentTitle.trim() || `Tratamento Pontual Direcionado (${durationDays} Dias)`;
-      let therapistAdvice = '';
-      let targetDecree = '';
-
-      if (selectedCategory === 'saude_fisica') {
-        freq = '432hz';
-        therapistAdvice = `Prescrita atuação na frequência 432Hz durante o ciclo de ${durationDays} dias com foco em regeneração mitocondrial e alívio das dores somatizadas.`;
-        targetDecree = `Eu, ${userProfile.fullName || userProfile.name}, comando a reconstituição e regeneração perfeita de todas as células e tecidos do meu corpo físico agora.`;
-      } else if (selectedCategory === 'prosperidade') {
-        freq = '528hz';
-        therapistAdvice = `Tratamento de ${durationDays} dias focado na reprogramação de crenças de escassez e alinhamento com a Matriz de Abundância Cósmica.`;
-        targetDecree = `Eu, ${userProfile.fullName || userProfile.name}, dissolvo todo pacto de limitação e recebo os fluxos infinitos de prosperidade e realizações divinas.`;
-      } else if (selectedCategory === 'limpeza_espiritual') {
-        freq = '741hz';
-        therapistAdvice = `Prescrita blindagem de ${durationDays} dias com o Tubo de Luz e a Chama Violeta Transmutadora para dissolver interferências e cargas densas.`;
-        targetDecree = `Eu, ${userProfile.fullName || userProfile.name}, estou selado(a) e protegido(a) pela Luz Onipotente. Toda energia que não provém do Amor é transmutada e libertada.`;
-      } else if (selectedCategory === 'liberacao_emocional') {
-        freq = '741hz';
-        therapistAdvice = `Atuação de ${durationDays} dias no chakra cardíaco para dissolução de memórias de dor, abandono e liberação de mágoas acumuladas.`;
-        targetDecree = `Eu, ${userProfile.fullName || userProfile.name}, acolho minhas emoções e me liberto de todo peso do passado. Eu me perdoo, perdoo os outros e vivo em paz.`;
-      } else {
-        freq = '963hz';
-        therapistAdvice = `Direcionamento de alta vibração de ${durationDays} dias com ativação da presença Eu Sou e harmonização do campo sutil.`;
-        targetDecree = `Eu, ${userProfile.fullName || userProfile.name}, ancoro a Suprema Harmonia em todas as áreas da minha vida com fé e convicção inabaláveis.`;
+    try {
+      const response = await fetch('/api/payment/create-checkout', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'same-origin',
+        body: JSON.stringify({
+          productType: 'specific_treatment',
+          paymentMethod,
+          price: finalPrice,
+          durationDays,
+          category: selectedCategory,
+          title: treatmentTitle.trim() || undefined,
+          patientDescription: patientDescription.trim(),
+          urgentPains: selectedPains,
+          couponCode: appliedCoupon || undefined
+        })
+      });
+      const data = await response.json().catch(() => ({}));
+      if (!response.ok) {
+        throw new Error(data.error || 'Pagamento ainda não está disponível.');
       }
 
-      const discountNotice = appliedCoupon ? ` (Cupom: ${appliedCoupon} - Pago: ${formattedFinalPrice})` : ` (Valor: ${formattedFinalPrice})`;
-      let cycleText = '';
-      if (durationDays === 21) cycleText = 'Tratamento Completo R$ 99,90';
-      else if (durationDays === 7) cycleText = 'Ciclo Inicial R$ 59,90';
-      else cycleText = 'Tratamento à Distância R$ 20,00';
-      
-      const whatsappText = encodeURIComponent(
-        `Olá Éverton Rodrigo Piceni! Acabei de solicitar meu Tratamento Específico de ${durationDays} Dias${discountNotice}.\n\n` +
-        `*Paciente:* ${userProfile.fullName || userProfile.name}\n` +
-        `*Ciclo Escolhido:* ${durationDays === 1 ? 'Sessão Única' : `${durationDays} Dias`} (${cycleText})\n` +
-        `*Nascimento:* ${userProfile.birthDate || 'Não informado'}\n` +
-        `*E-mail:* ${userProfile.email}\n` +
-        `*Foco do Tratamento:* ${selectedCategory.toUpperCase()}\n` +
-        `*Relato do Caso:* ${patientDescription}\n` +
-        `*Sintomas Urgentes:* ${selectedPains.join(', ') || 'Nenhum adicional'}\n` +
-        `*Frequência Prescrita:* ${freq.toUpperCase()}\n\n` +
-        `Agradeço pela canalização e orientação!`
-      );
+      if (data.checkoutUrl) {
+        window.location.assign(data.checkoutUrl);
+        return;
+      }
 
-      const newTreatment: SpecificTreatment = {
-        id: `spec-${Date.now()}`,
-        requestedAt: new Date().toISOString(),
-        category: selectedCategory as any,
-        title: themeTitle,
-        patientDescription,
-        urgentPains: selectedPains,
-        status: 'ativo',
-        price: finalPrice,
-        paymentMethod,
-        durationDays,
-        therapistNotes: therapistAdvice,
-        customChannelingTheme: themeTitle,
-        assignedFrequency: freq,
-        targetDecree,
-        whatsappMessageUrl: `https://wa.me/5551982215296?text=${whatsappText}`
-      };
+      if (data.status === 'paid' && data.treatment) {
+        onConfirmTreatment(data.treatment as SpecificTreatment);
+        setLastCreatedTreatment(data.treatment as SpecificTreatment);
+        setShowSuccessScreen(true);
+        return;
+      }
 
-      onConfirmTreatment(newTreatment);
-      setLastCreatedTreatment(newTreatment);
+      throw new Error('Aguardando confirmação segura do pagamento.');
+    } catch (error) {
+      setCheckoutError(error instanceof Error ? error.message : 'Não foi possível iniciar o pagamento.');
+    } finally {
       setIsProcessing(false);
-      setShowSuccessScreen(true);
-    }, 1200);
+    }
   };
 
   const handleCopyPix = () => {
@@ -841,12 +807,18 @@ export default function SpecificTreatmentModal({
                         <span className="text-emerald-400 font-bold font-mono text-[11px]">{formattedFinalPrice}</span>
                       </div>
                       <p className="text-[10px] text-[#85786C]">
-                        Após o envio do PIX de {formattedFinalPrice}, clique abaixo para ativar e liberar a prescrição do seu tratamento imediatamente.
+                        Após o envio do PIX de {formattedFinalPrice}, a liberação só acontece depois da confirmação segura do pagamento.
                       </p>
                     </div>
                   )} 
 
                 </div>
+
+                {checkoutError && (
+                  <p role="alert" className="rounded-xl border border-rose-200 bg-rose-50 px-3 py-2 text-xs text-rose-700">
+                    {checkoutError}
+                  </p>
+                )}
 
                 {/* Submit button */}
                 <button
@@ -862,12 +834,12 @@ export default function SpecificTreatmentModal({
                   {isProcessing ? (
                     <>
                       <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-                      <span>Canalizando e Ativando Tratamento Específico...</span>
+                      <span>Iniciando pagamento seguro...</span>
                     </>
                   ) : (
                     <>
                       <Sparkles size={16} />
-                                            <span>Confirmar Tratamento ({formattedFinalPrice})</span>
+                                            <span>Iniciar pagamento ({formattedFinalPrice})</span>
                     </>
                   )}
                 </button>
