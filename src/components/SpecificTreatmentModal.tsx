@@ -21,11 +21,11 @@ interface SpecificTreatmentModalProps {
 }
 
 const CATEGORIES = [
-  { id: 'saude_fisica', label: 'Saúde Física & Dores Crônicas', icon: Zap, desc: 'Foco em dores, cansaço, inflamações ou reabilitação celular' },
+  { id: 'bem_estar_corporal', label: 'Bem-estar Corporal & Vitalidade', icon: Zap, desc: 'Acolhimento de cansaço, tensão e percepção corporal, sem substituir cuidados de saúde' },
   { id: 'prosperidade', label: 'Prosperidade & Destrave Financeiro', icon: Flame, desc: 'Desbloqueio de escassez, abertura de caminhos e fluxo de abundância' },
-  { id: 'liberacao_emocional', label: 'Liberação de Traumas & Mágoas', icon: Heart, desc: 'Cura de mágoas profundas, ansiedade severa e luto' },
-  { id: 'relacionamentos', label: 'Harmonia em Relacionamentos', icon: User, desc: 'Cura de laços cármicos, separações e reconciliação familiar' },
-  { id: 'limpeza_espiritual', label: 'Limpeza & Blindagem Espiritual', icon: Shield, desc: 'Desobsessão, corte de energias densas e corte de cordões negativos' },
+  { id: 'liberacao_emocional', label: 'Acolhimento Emocional & Desapego', icon: Heart, desc: 'Prática de presença para mágoas, preocupações, luto e sentimentos difíceis' },
+  { id: 'relacionamentos', label: 'Harmonia em Relacionamentos', icon: User, desc: 'Reflexão sobre vínculos, separações, limites e reconciliação possível' },
+  { id: 'limpeza_espiritual', label: 'Limpeza & Proteção Espiritual', icon: Shield, desc: 'Prática espiritual simbólica de proteção, limites e desapego de vínculos percebidos como pesados' },
   { id: 'outro', label: 'Outro Assunto Específico', icon: Target, desc: 'Situação particular para direcionamento personalizado' }
 ];
 
@@ -45,7 +45,7 @@ export default function SpecificTreatmentModal({
   const [durationDays, setDurationDays] = useState<1 | 7 | 21>(21); // Changed default to 1
   const [isCustomPrice, setIsCustomPrice] = useState<boolean>(false);
   const [customPriceInput, setCustomPriceInput] = useState<string>('99,90');
-  const [selectedCategory, setSelectedCategory] = useState<string>('saude_fisica');
+  const [selectedCategory, setSelectedCategory] = useState<string>('bem_estar_corporal');
   const [treatmentTitle, setTreatmentTitle] = useState<string>('');
   const [patientDescription, setPatientDescription] = useState<string>('');
   const [selectedPains, setSelectedPains] = useState<string[]>([]);
@@ -81,32 +81,36 @@ export default function SpecificTreatmentModal({
       return;
     }
 
-    if (rawCode === 'VIP' || rawCode === 'TESTEVIP' || rawCode === 'VIP7' || rawCode === '7DIAS' || rawCode === 'GRATIS7') {
-      setDurationDays(7);
-      setDiscountPercent(100);
-      setAppliedCoupon('VIP7');
-      setCouponFeedback({ type: 'success', message: '🎉 Cupom VIP7 Aplicado! Acesso VIP de 7 Dias liberado, incluindo cursos e Protocolo Arcanjo!' });
-    } else if (rawCode === 'CURA10' || rawCode === 'PAZ10') {
-      setDiscountPercent(10);
-      setAppliedCoupon(rawCode);
-      setCouponFeedback({ type: 'success', message: 'Cupom de 10% aplicado!' });
-    } else if (rawCode === 'PAZ20' || rawCode === 'CURA20' || rawCode === 'GRATIDAO') {
-      setDiscountPercent(20);
-      setAppliedCoupon(rawCode);
-      setCouponFeedback({ type: 'success', message: 'Cupom de 20% aplicado!' });
-    } else if (rawCode === 'PROMO30' || rawCode === 'CURA30') {
-      setDiscountPercent(30);
-      setAppliedCoupon(rawCode);
-      setCouponFeedback({ type: 'success', message: 'Super cupom de 30% ativado!' });
-    } else if (rawCode === 'PICENI50' || rawCode === 'VIP50') {
-      setDiscountPercent(50);
-      setAppliedCoupon(rawCode);
-      setCouponFeedback({ type: 'success', message: 'Cupom Especial de 50% ativado!' });
-    } else {
-      setDiscountPercent(15);
-      setAppliedCoupon(rawCode);
-      setCouponFeedback({ type: 'success', message: `Cupom ${rawCode} de 15% aplicado!` });
+    if (rawCode === 'VIP7' || rawCode === 'VIP' || rawCode === 'TESTEVIP' || rawCode === '7DIAS' || rawCode === 'GRATIS7') {
+      setAppliedCoupon(null);
+      setDiscountPercent(0);
+      setCouponFeedback({ type: 'error', message: 'VIP7 é exclusivo da degustação PRO de 7 dias e não se aplica à prática individual.' });
+      return;
     }
+
+    const knownCoupons: Record<string, number> = {
+      CURA10: 10,
+      PAZ10: 10,
+      PAZ20: 20,
+      CURA20: 20,
+      GRATIDAO: 20,
+      PROMO30: 30,
+      CURA30: 30,
+      PICENI50: 50,
+      VIP50: 50
+    };
+
+    const discount = knownCoupons[rawCode];
+    if (!discount) {
+      setAppliedCoupon(null);
+      setDiscountPercent(0);
+      setCouponFeedback({ type: 'error', message: 'Cupom não reconhecido.' });
+      return;
+    }
+
+    setDiscountPercent(discount);
+    setAppliedCoupon(rawCode);
+    setCouponFeedback({ type: 'success', message: `Cupom de ${discount}% aplicado. A confirmação final será feita pelo servidor.` });
   };
 
   const handleRemoveCoupon = () => {
@@ -215,7 +219,7 @@ export default function SpecificTreatmentModal({
 
             <div className="space-y-1.5">
               <span className="px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-300 text-xs font-mono font-bold uppercase">
-                Tratamento Específico Ativado com Sucesso
+                Prática Individual Ativado com Sucesso
               </span>
               <h2 className="text-2xl font-display font-medium text-[#2A2420]">
                 {lastCreatedTreatment.title}
@@ -274,7 +278,7 @@ export default function SpecificTreatmentModal({
                 }}
                 className="px-4 py-2.5 rounded-xl bg-[#F5EFE4] hover:bg-slate-700 text-[#5C5248] text-xs font-medium transition cursor-pointer"
               >
-                Ver Meus Tratamentos
+                Ver Minhas práticas
               </button>
               <button
                 type="button"
@@ -299,7 +303,7 @@ export default function SpecificTreatmentModal({
                   <span>ATENDIMENTO & CANALIZAÇÃO DIRECIONADA</span>
                 </div>
                 <h2 className="text-xl md:text-2xl font-display font-medium text-[#2A2420]">
-                  Tratamento Específico
+                  Prática Individual
                 </h2>
                 <p className="text-xs text-[#5C5248]">
                   Canalização individualizada aplicada por Éverton Rodrigo Piceni
@@ -429,7 +433,7 @@ export default function SpecificTreatmentModal({
                       <span className="text-xs font-mono font-bold text-amber-300">R$ 99,90</span>
                     </div>
                     <p className="text-[10px] text-[#5C5248] mt-0.5">
-                      Ciclo completo de cura integrada, reprogramação celular e suporte quântico.
+                      Ciclo ampliado de práticas integrativas, reflexão e acompanhamento da jornada.
                     </p>
                   </div>
                 </button>
@@ -519,7 +523,7 @@ export default function SpecificTreatmentModal({
                       : 'text-[#5C5248] hover:text-[#2A2420]'
                   }`}
                 >
-                  <span>Meus Tratamentos</span>
+                  <span>Minhas práticas</span>
                   <span className="px-1.5 py-0.2 rounded-full bg-emerald-500/20 text-emerald-300 text-[10px] font-mono">
                     {existingTreatments.length}
                   </span>
@@ -578,7 +582,7 @@ export default function SpecificTreatmentModal({
                 {/* Category Selector */}
                 <div className="space-y-2">
                   <label className="text-[11px] font-mono text-[#5C5248] uppercase block">
-                    1. Qual o foco principal do seu tratamento específico?
+                    1. Qual o foco principal do seu prática individual?
                   </label>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                     {CATEGORIES.map((cat) => {
@@ -671,7 +675,7 @@ export default function SpecificTreatmentModal({
                           value={couponInput}
                           onChange={(e) => setCouponInput(e.target.value.toUpperCase())}
                           onKeyDown={(e) => e.key === 'Enter' && handleApplyCoupon()}
-                          placeholder="Ex: CURA10, PAZ20, PICENI50"
+                          placeholder="Ex.: CURA10, PAZ20"
                           className="flex-1 bg-[#FBF8F2] border border-[#E5DAC6] rounded-xl px-3 py-1.5 text-xs text-[#2A2420] placeholder:text-[#85786C] outline-none focus:border-emerald-500 font-mono uppercase"
                         />
                         <button
@@ -746,7 +750,7 @@ export default function SpecificTreatmentModal({
                 <div className="p-4 rounded-2xl bg-white border border-[#E5DAC6] space-y-4">
                   <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
                     <span className="text-xs font-mono uppercase text-[#5C5248] font-bold flex items-center gap-1.5">
-                      <span>Valor do Tratamento:</span>
+                      <span>Valor da prática:</span>
                       {appliedCoupon ? (
                         <div className="flex items-center gap-1">
                           <span className="line-through text-[#85786C] text-xs font-normal">R$ 70,00</span>
@@ -780,7 +784,7 @@ export default function SpecificTreatmentModal({
                           <Sparkles size={13} className="text-emerald-400 shrink-0" />
                           <span className="text-[11px]">
                             {copiedPix
-                              ? '✨ Chave PIX copiada automaticamente para sua área de transferência!'
+                              ? 'Chave PIX copiada para sua área de transferência.'
                               : 'Chave copiada automaticamente ao clicar no PIX.'}
                           </span>
                         </div>
