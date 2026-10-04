@@ -293,8 +293,8 @@ export default function AnamnesisModal({
       customDecreeText = `Eu, ${userProfile.fullName || userProfile.name}, declaro que a minha mente repousa em paz soberana. Entrego toda a ansiedade e recebo a harmonia divina em cada respiração.`;
     } else if (mainComplaints.includes('dores_fisicas') || mainComplaints.includes('esgotamento')) {
       recommendedFreq = '432hz';
-      focusText = 'Regeneração celular profunda, desbloqueio de canais meridianos e sintonia harmônica com a ressonância natural da Terra.';
-      customDecreeText = `Eu, ${userProfile.fullName || userProfile.name}, ativo a cura celular em meu corpo físico. Minhas energias são restauradas e meu templo se fortalece a cada dia.`;
+      focusText = 'Aterramento, relaxamento profundo, percepção corporal e reconexão com uma sensação de estabilidade.';
+      customDecreeText = `Eu, ${userProfile.fullName || userProfile.name}, escolho cuidar do meu corpo com presença e respeito. A cada dia, cultivo mais equilíbrio, descanso e força interior.`;
     } else if (mainComplaints.includes('magoas_passado') || mainComplaints.includes('sobrecarga_estresse')) {
       recommendedFreq = '741hz';
       focusText = 'Desintoxicação emocional, transmutação pela Chama Violeta e dissolução de mágoas e energias densas estagnadas.';
@@ -476,7 +476,7 @@ export default function AnamnesisModal({
                   </div>
                   <div>
                     <h3 className="text-base font-semibold text-[#2A2420] flex items-center gap-2">
-                      <span>Acolhimento Terapêutico em Áudio</span>
+                      <span>Acolhimento em Áudio</span>
                       <span className="text-[10px] font-mono font-bold uppercase bg-[#B88736]/20 text-[#B88736] border border-[#B88736]/40 px-2 py-0.5 rounded-full">
                         Áudio guiado
                       </span>
@@ -593,7 +593,7 @@ export default function AnamnesisModal({
               <div className="p-4 rounded-2xl bg-white/75 border border-[#E5DAC6] space-y-1.5">
                 <div className="flex items-center justify-between">
                   <span className="text-[10px] font-mono uppercase tracking-wider text-[#B88736] font-bold">
-                    Justificativa Terapêutica & Acolhimento
+                    Como este caminho foi relacionado ao seu momento
                   </span>
                   {existingAnamnesis.aiAnalysis?.padrao_emocional_detectado && (
                     <span className="text-[10px] font-mono text-[#B88736] bg-[#B88736]/10 px-2 py-0.5 rounded border border-[#B88736]/25">
@@ -685,7 +685,7 @@ export default function AnamnesisModal({
                     <div>
                       <div className="flex items-center gap-2">
                         <span className="text-[10px] font-mono uppercase tracking-widest text-amber-400 font-bold bg-amber-500/10 border border-amber-500/30 px-2.5 py-0.5 rounded-full">
-                          Indicação Terapêutica Personalizada
+                          Caminhos de Cuidado Personalizados
                         </span>
                         <span className={`text-[10px] font-mono font-bold uppercase px-2 py-0.5 rounded-full border ${
                           recommendation.severityLevel === 'urgente'
@@ -710,7 +710,7 @@ export default function AnamnesisModal({
 
                 <div className="space-y-2">
                   <span className="text-[10px] font-mono text-[#5C5248] uppercase tracking-wider block">
-                    Por que este é o tratamento ideal para você:
+                    Por que este caminho se relaciona com o que você compartilhou:
                   </span>
                   <p className="text-xs text-[#2A2420] leading-relaxed bg-white/75 p-3.5 rounded-xl border border-[#E5DAC6]">
                     {recommendation.therapeuticRationale}
@@ -750,7 +750,7 @@ export default function AnamnesisModal({
                             Mapa do Momento Bioenergético
                           </span>
                           <h5 className="text-xs sm:text-sm font-display font-medium text-[#2A2420]">
-                            Melhor Sistema de Reiki Indicado para seu Tratamento
+                            Sistema de Reiki sugerido para este momento
                           </h5>
                         </div>
                       </div>
@@ -845,8 +845,8 @@ export default function AnamnesisModal({
                       <div className="col-span-1 sm:col-span-2 p-3 rounded-xl bg-[#B88736]/10 border border-[#B88736]/30 text-[11px] flex gap-2">
                         <Award size={18} className="text-[#B88736] mt-0.5 shrink-0" />
                         <p className="text-[#5C5248] leading-relaxed">
-                          <strong className="text-[#2A2420] block mb-1">Receita Holística Premium Bloqueada</strong>
-                          Para liberar a sua receita personalizada de Florais e Aromaterapia que vai atuar diretamente na raiz desse sintoma, além de destravar os 21 dias do protocolo com todas as frequências do Karuna Ki e Imara Reiki, faça o upgrade para a jornada completa na tela inicial.
+                          <strong className="text-[#2A2420] block mb-1">Sugestões Integrativas da Jornada Completa</strong>
+                          Na jornada completa, você pode acessar sugestões personalizadas de Florais, Aromaterapia e práticas energéticas relacionadas ao que compartilhou, além dos 21 dias da experiência.
                         </p>
                       </div>
                     )}
@@ -922,7 +922,7 @@ export default function AnamnesisModal({
 
                 <div className="pt-3 border-t border-[#E5DAC6]">
                   <p className="text-[9px] text-[#85786C] leading-relaxed text-justify italic">
-                    <strong>Nota Terapêutica:</strong> O Protocolo de Cura Integrada e as sugestões de Florais de Bach e Óleos Essenciais atuam como práticas integrativas e tratamentos complementares. Eles não substituem, sob nenhuma hipótese, o mapa do momento, tratamento ou acompanhamento médico, psiquiátrico ou psicológico tradicional. Mantenha seus tratamentos de saúde ativos.
+                    <strong>Nota de cuidado:</strong> As sugestões de práticas integrativas, Florais de Bach e Aromaterapia são complementares e voltadas ao bem-estar. Elas não substituem diagnóstico, tratamento ou acompanhamento médico, psicológico ou psiquiátrico. Mantenha os cuidados profissionais de saúde que já utiliza.
                   </p>
                 </div>
               </div>
@@ -972,14 +972,14 @@ export default function AnamnesisModal({
               <div className="flex items-center justify-between">
                 <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#B88736]/10 border border-[#B88736]/30 text-[#B88736] text-xs font-mono font-medium">
                   <Activity size={14} className="text-[#B88736]" />
-                  <span>ANAMNESE TERAPÊUTICA INTEGRADA</span>
+                  <span>MAPA DO MOMENTO</span>
                 </div>
                 <span className="text-xs font-mono text-[#5C5248]">
                   Etapa {currentStep} de 4
                 </span>
               </div>
               <h2 className="text-xl md:text-2xl font-display font-medium text-[#2A2420]">
-                {currentStep === 1 && '1. Suas Queixas e Sintomas Principais'}
+                {currentStep === 1 && '1. O que mais está pedindo sua atenção'}
                 {currentStep === 2 && '2. Mapeamento Emocional e Corporal'}
                 {currentStep === 3 && '3. Centros de Força & Chakras a Equilibrar'}
                 {currentStep === 4 && '4. Sua Meta Sagrada para os 21 Dias'}
@@ -1217,7 +1217,7 @@ export default function AnamnesisModal({
                   <div className="space-y-2">
                     {[
                       'Paz interior e alívio profundo da ansiedade',
-                      'Cura de feridas emocionais e liberação de mágoas',
+                      'Acolhimento de feridas emocionais e liberação de mágoas',
                       'Blindagem energética e proteção contra negatividade',
                       'Destravamento de prosperidade e clareza mental',
                       'Recuperação de vitalidade física e bom sono',
