@@ -24,8 +24,8 @@ export const SUPPORTED_LANGUAGES: LanguageOption[] = [
 
 export const UI_TRANSLATIONS: Record<AppLanguage, Record<string, string>> = {
   pt: {
-    appTitle: 'Protocolo de Cura Integrada',
-    appSubtitle: '21 Dias de Transmutação e Elevação Quântica',
+    appTitle: 'Protocolo da Transformação',
+    appSubtitle: '21 Dias de Presença e Reconexão',
     hello: 'Olá',
     day: 'Dia',
     dayOf: 'de 21',
@@ -41,7 +41,7 @@ export const UI_TRANSLATIONS: Record<AppLanguage, Record<string, string>> = {
     audioLanguage: 'Áudio & Tradução',
     proPlan: 'Plano Pro',
     anamnesis: 'Anamnese Quântica',
-    specificTreatment: 'Tratamento Específico (R$ 70)',
+    specificTreatment: 'Prática Individual (R$ 70)',
     settings: 'Configurações',
     logout: 'Sair',
     breatheInhale: 'Inspire Luz e Paz...',
@@ -52,15 +52,15 @@ export const UI_TRANSLATIONS: Record<AppLanguage, Record<string, string>> = {
     nextStage: 'Próxima Etapa',
     previousStage: 'Etapa Anterior',
     concludeDay: 'Concluir Dia e Salvar Diário',
-    healingBalm: 'Bálsamo de Amor',
+    healingBalm: 'Bálsamo de Acolhimento',
     transmutation: 'Chama Violeta',
-    sealing: 'Blindagem e Selamento',
+    sealing: 'Integração e Encerramento',
     grounding: 'Aterramento Sagrado',
-    vitality: 'Vitalidade Celular'
+    vitality: 'Vitalidade e Presença'
   },
   en: {
-    appTitle: 'Integrated Healing Protocol',
-    appSubtitle: '21 Days of Quantum Transmutation & Elevation',
+    appTitle: 'Transformation Protocol',
+    appSubtitle: '21 Days of Presence & Reconnection',
     hello: 'Hello',
     day: 'Day',
     dayOf: 'of 21',
@@ -76,7 +76,7 @@ export const UI_TRANSLATIONS: Record<AppLanguage, Record<string, string>> = {
     audioLanguage: 'Audio & Translation',
     proPlan: 'Pro Plan',
     anamnesis: 'Quantum Anamnesis',
-    specificTreatment: 'Specific Treatment ($15 / R$ 70)',
+    specificTreatment: 'Individual Practice ($15 / R$ 70)',
     settings: 'Settings',
     logout: 'Sign Out',
     breatheInhale: 'Inhale Light and Peace...',
@@ -87,15 +87,15 @@ export const UI_TRANSLATIONS: Record<AppLanguage, Record<string, string>> = {
     nextStage: 'Next Stage',
     previousStage: 'Previous Stage',
     concludeDay: 'Complete Day & Save Journal',
-    healingBalm: 'Love Healing Balm',
+    healingBalm: 'Balm of Care',
     transmutation: 'Violet Flame Transmutation',
-    sealing: 'Shielding & Cosmic Sealing',
+    sealing: 'Integration & Closing',
     grounding: 'Sacred Grounding',
-    vitality: 'Cellular Vitality'
+    vitality: 'Vitality & Presence'
   },
   es: {
-    appTitle: 'Protocolo de Sanación Integrada',
-    appSubtitle: '21 Días de Transmutación y Elevación Cuántica',
+    appTitle: 'Protocolo de Transformación',
+    appSubtitle: '21 Días de Presencia y Reconexión',
     hello: 'Hola',
     day: 'Día',
     dayOf: 'de 21',
@@ -111,7 +111,7 @@ export const UI_TRANSLATIONS: Record<AppLanguage, Record<string, string>> = {
     audioLanguage: 'Audio y Traducción',
     proPlan: 'Plan Pro',
     anamnesis: 'Anamnesis Cuántica',
-    specificTreatment: 'Tratamiento Específico (R$ 70)',
+    specificTreatment: 'Práctica Individual (R$ 70)',
     settings: 'Ajustes',
     logout: 'Cerrar Sesión',
     breatheInhale: 'Inhala Luz y Paz...',
@@ -122,15 +122,15 @@ export const UI_TRANSLATIONS: Record<AppLanguage, Record<string, string>> = {
     nextStage: 'Siguiente Etapa',
     previousStage: 'Etapa Anterior',
     concludeDay: 'Concluir Día y Guardar Diario',
-    healingBalm: 'Bálsamo de Amor',
+    healingBalm: 'Bálsamo de Acolhimento',
     transmutation: 'Llama Violeta',
     sealing: 'Blindaje y Sellado',
     grounding: 'Anclaje Sagrado',
-    vitality: 'Vitalidad Celular'
+    vitality: 'Vitalidad y Presencia'
   },
   fr: {
-    appTitle: 'Protocole de Guérison Intégrée',
-    appSubtitle: '21 Jours de Transmutation et Élévation Quantique',
+    appTitle: 'Protocole de Transformation',
+    appSubtitle: '21 Jours de Présence et Reconnexion',
     hello: 'Bonjour',
     day: 'Jour',
     dayOf: 'sur 21',
@@ -146,7 +146,7 @@ export const UI_TRANSLATIONS: Record<AppLanguage, Record<string, string>> = {
     audioLanguage: 'Audio & Traduction',
     proPlan: 'Plan Pro',
     anamnesis: 'Anamnèse Quantique',
-    specificTreatment: 'Traitement Spécifique (R$ 70)',
+    specificTreatment: 'Pratique Individuelle (R$ 70)',
     settings: 'Paramètres',
     logout: 'Déconnexion',
     breatheInhale: 'Inspirez Lumière et Paix...',
@@ -161,11 +161,11 @@ export const UI_TRANSLATIONS: Record<AppLanguage, Record<string, string>> = {
     transmutation: 'Flamme Violette',
     sealing: 'Protection et Scellement',
     grounding: 'Ancrage Sacré',
-    vitality: 'Vitalité Cellulaire'
+    vitality: 'Vitalité et Présence'
   },
   it: {
-    appTitle: 'Protocollo di Guarigione Integrata',
-    appSubtitle: '21 Giorni di Trasmutazione ed Elevazione Quantica',
+    appTitle: 'Protocollo di Trasformazione',
+    appSubtitle: '21 Giorni di Presenza e Riconnessione',
     hello: 'Ciao',
     day: 'Giorno',
     dayOf: 'di 21',
@@ -181,7 +181,7 @@ export const UI_TRANSLATIONS: Record<AppLanguage, Record<string, string>> = {
     audioLanguage: 'Audio e Traduzione',
     proPlan: 'Piano Pro',
     anamnesis: 'Anamnesi Quantica',
-    specificTreatment: 'Trattamento Specifico (R$ 70)',
+    specificTreatment: 'Pratica Individuale (R$ 70)',
     settings: 'Impostazioni',
     logout: 'Esci',
     breatheInhale: 'Inspira Luce e Pace...',
@@ -196,11 +196,11 @@ export const UI_TRANSLATIONS: Record<AppLanguage, Record<string, string>> = {
     transmutation: 'Fiamma Viola',
     sealing: 'Sigillo e Protezione',
     grounding: 'Radicamento Sacro',
-    vitality: 'Vitalità Cellulare'
+    vitality: 'Vitalità e Presenza'
   },
   de: {
-    appTitle: 'Integriertes Heilungsprotokoll',
-    appSubtitle: '21 Tage Quantentransmutation und Erhöhung',
+    appTitle: 'Transformationsprotokoll',
+    appSubtitle: '21 Tage Präsenz und Rückverbindung',
     hello: 'Hallo',
     day: 'Tag',
     dayOf: 'von 21',
@@ -216,7 +216,7 @@ export const UI_TRANSLATIONS: Record<AppLanguage, Record<string, string>> = {
     audioLanguage: 'Audio & Übersetzung',
     proPlan: 'Pro-Plan',
     anamnesis: 'Quantenanamnese',
-    specificTreatment: 'Spezifische Behandlung (R$ 70)',
+    specificTreatment: 'Individuelle Praxis (R$ 70)',
     settings: 'Einstellungen',
     logout: 'Abmelden',
     breatheInhale: 'Licht und Frieden einatmen...',
@@ -231,7 +231,7 @@ export const UI_TRANSLATIONS: Record<AppLanguage, Record<string, string>> = {
     transmutation: 'Violette Flamme',
     sealing: 'Kosmische Versiegelung & Schutz',
     grounding: 'Heilige Erdung',
-    vitality: 'Zelluläre Vitalität'
+    vitality: 'Vitalität und Präsenz'
   }
 };
 
@@ -259,19 +259,19 @@ export const STAGE_AUDIO_TRANSLATIONS: Record<AppLanguage, Record<string, { titl
       ]
     },
     VITALIDADE: {
-      title: 'Vitalidade e Alinhamento Cerebral',
-      subtitle: 'Recalibração e Foco do Sistema Nervoso',
-      text: 'Imagine agora um calor suave, reconfortante e vitalizador nascendo na base da sua coluna. Esse calor começa a subir, vértebra por vértebra, preenchendo o seu corpo com uma nova força de vida. Toda a apatia, a tristeza profunda e o esgotamento extremo começam a se dissolver. A vitalidade retorna para cada uma das suas células.\n\nNo topo da sua cabeça e ao redor do seu corpo, pequenos cristais de luz pura se formam. Eles vibram em uma frequência curativa, desfazendo suavemente as memórias de dor gravadas no seu corpo físico e emocional.\n\nPontos sutis de luz dourada e azul se posicionam suavemente na sua cabeça, organizando todo o fluxo de energia do seu cérebro. Sinta a sua mente encontrar um ponto perfeito de foco, clareza e paz. O excesso de estímulos é silenciado. As correntes elétricas dos seus pensamentos encontram um ritmo equilibrado e manso. O seu sistema nervoso está sendo totalmente recalibrado agora.',
+      title: 'Vitalidade e Presença',
+      subtitle: 'Foco, Clareza e Presença',
+      text: 'Imagine agora um calor suave e reconfortante nascendo na base da sua coluna. Esse calor sobe devagar, convidando você a perceber vitalidade, presença e disposição interior.\n\nNo topo da sua cabeça e ao redor do seu corpo, pequenos cristais de luz se formam como símbolos de clareza e cuidado.\n\nPontos sutis de luz dourada e azul convidam a atenção a se reunir no momento presente. Perceba a mente desacelerar, o excesso de estímulos perder força e surgir um pouco mais de espaço para foco, clareza e paz.',
       mantras: [
-        'A vitalidade retorna para cada célula.',
-        'Minha mente está em foco, clareza e paz.',
-        'Meu sistema nervoso está recalibrado.'
+        'Eu acolho a vitalidade e a presença.',
+        'Minha mente encontra foco, clareza e paz.',
+        'Eu respeito o meu ritmo.'
       ]
     },
     TRANSMUTACAO: {
-      title: 'Transmutação de Traumas e Proteção Psíquica',
+      title: 'Transmutação, Acolhimento e Proteção Simbólica',
       subtitle: 'A Chama Violeta e o Escudo Safira',
-      text: 'Sinta a vibração se elevar a um nível profundo e reconfortante. Uma onda de energia veloz penetra nas camadas mais escondidas do seu inconsciente. Deixe que essa força trabalhe. Ela está alcançando as feridas antigas, os traumas da infância e os medos reprimidos que você nem lembra que existem. Sinta as barreiras invisíveis ruírem, dissipando as paranoias e acalmar qualquer instabilidade oculta na sua alma.\n\nUma poderosa cúpula de luz azul-safira se fecha ao seu redor. Você está completamente protegido contra pensamentos de autossabotagem ou influências externas.\n\nDentro dessa armadura azul, uma fogueira sagrada de Chama Violeta se acende, envolvendo o seu corpo sem queimar. Veja as suas mágoas, as suas culpas inconscientes e as dores da rejeição serem jogadas voluntariamente nesse fogo violeta, transformando-se em pura força de recomeço.\n\nA tempestade interna perde a força. O turbilhão passou. Acima da sua cabeça, as asas de uma grande ave sagrada trazem o silêncio protetor do cosmos. Sinta o desapego das dores do ego. Há paz no seu silêncio.',
+      text: 'Sinta a vibração se tornar profunda e reconfortante. Imagine uma onda de energia alcançando simbolicamente lembranças, medos e emoções antigas que ainda pedem acolhimento, sem precisar reviver nada.\n\nUma cúpula de luz azul-safira se fecha ao seu redor como símbolo de proteção e limite.\n\nDentro dessa imagem, a Chama Violeta se acende. Entregue a ela mágoas, culpas e dores de rejeição que você deseja deixar ir, transformando-as em intenção de recomeço.\n\nA tempestade interna pode perder força. Acima da sua cabeça, imagine as asas de uma grande ave sagrada trazendo silêncio e presença. Há espaço para paz no seu silêncio.',
       mantras: [
         'A Chama Violeta transmuta todo medo e dor.',
         'Estou protegido pela luz azul-safira.',
@@ -279,19 +279,19 @@ export const STAGE_AUDIO_TRANSLATIONS: Record<AppLanguage, Record<string, { titl
       ]
     },
     BALSAMO: {
-      title: 'O Bálsamo do Amor e a Regeneração Celular',
+      title: 'O Bálsamo do Amor e da Renovação Interior',
       subtitle: 'Amor Incondicional e Névoa Regeneradora',
-      text: 'Após a grande limpeza, a energia se torna pura doçura... Sinta uma luz rosa-quartzo emanar do centro do seu peito. Ela se expande por todo o seu ser, curando a dor do abandono e preenchendo cada espaço vazio com autoaceitação, compaixão e um profundo amor por sua própria jornada.\n\nUma cascata de ouro líquido desce do infinito, lavando o topo da sua cabeça e iluminando cada átomo do seu corpo. Essa luz dourada se funde a uma névoa verde-oliva brilhante, que entra suavemente pelas suas vias respiratórias.\n\nSinta o ar preencher seus pulmões, sua garganta e seus brônquios com pura saúde. Há uma regeneração física e espiritual completa acontecendo em você agora. O céu e a terra se alinham no seu peito em perfeita harmonia. Você é perfeito... Você é luz... Você é um reflexo da Fonte Criadora.',
+      text: 'Após esta etapa, permita que a energia se torne mais suave. Imagine uma luz rosa-quartzo emanando do centro do peito e representando acolhimento, autoaceitação, compaixão e amor pela sua própria jornada.\n\nUma cascata de ouro líquido desce simbolicamente do alto e se encontra com uma névoa verde-oliva de São Rafael.\n\nRespire no seu ritmo e receba essa imagem como um convite ao cuidado, ao equilíbrio e à renovação interior. O céu e a terra se encontram simbolicamente no seu peito. Você é presença, você é luz e faz parte desta Fonte Criadora.',
       mantras: [
         'Eu sou amor incondicional e autoaceitação.',
-        'Minha saúde e células se regeneram em luz.',
+        'Eu acolho cuidado, equilíbrio e renovação interior.',
         'Eu sou um reflexo da Fonte Criadora.'
       ]
     },
     SELAMENTO: {
       title: 'Selamento, Caminhos Abertos e Libertação',
-      subtitle: 'Estabilidade Cósmica e Mantras de Cura',
-      text: 'Para selar e blindar este tratamento, sinta uma presença imponente, firme e próspera se ancorar ao seu lado. Todos os obstáculos invisíveis que travavam a sua vida material, emocional e espiritual são quebrados agora. Os seus caminhos estão totalmente abertos.\n\nVisualize-se agora sentado firmemente em um trono feito de nuvens mansas e seguras. O mundo lá fora continua girando, mas aqui dentro, você encontrou a sua estabilidade e o seu poder pessoal. A "nova chance" foi dada e o tratamento está selado no seu DNA cósmico.\n\nEu sou livre para ser feliz.\nEu me perdoo por todas as vezes que duvidei de mim mesmo.\nEu sou cura.\nEu sou amor.\nEu estou em paz.\n\nSinto muito.\nMe perdoe.\nEu te amo.\nSou grato.\n\nGratidão.',
+      subtitle: 'Estabilidade Interior e Mantras de Integração',
+      text: 'Para encerrar e integrar esta prática, imagine uma presença firme e próspera ao seu lado. Receba Ganesha como símbolo de coragem diante dos obstáculos e abertura para novos caminhos.\n\nVisualize-se sentado firmemente em um trono feito de nuvens mansas e seguras. O mundo lá fora continua girando, mas aqui dentro você encontra estabilidade e poder pessoal. Uma nova possibilidade se apresenta e a intenção desta prática permanece com você.\n\nEu sou livre para ser feliz.\nEu me perdoo por todas as vezes que duvidei de mim mesmo.\nEu sou amor.\nEu estou em paz.\n\nSinto muito.\nMe perdoe.\nEu te amo.\nSou grato.\n\nGratidão.',
       mantras: [
         'Eu sou livre para ser feliz.',
         'Eu sou cura, amor e paz.',
@@ -321,8 +321,8 @@ export const STAGE_AUDIO_TRANSLATIONS: Record<AppLanguage, Record<string, { titl
       ]
     },
     VITALIDADE: {
-      title: 'Vitality & Brain Alignment',
-      subtitle: 'Nervous System Recalibration & Focus',
+      title: 'Vitality & Presence',
+      subtitle: 'Focus, Clarity & Presence',
       text: 'Now imagine a gentle, comforting, and vitalizing warmth rising from the base of your spine. This warmth ascends vertebra by vertebra, filling your body with new life force. All apathy, deep sadness, and exhaustion begin to dissolve. Vitality returns to every single one of your cells.\n\nAt the crown of your head and around your body, small crystals of pure light form. They vibrate at a healing frequency, gently dissolving memories of pain stored in your physical and emotional body.\n\nSubtle points of golden and blue light gently position themselves on your head, organizing your brain’s energy flow. Feel your mind find perfect focus, clarity, and peace. Stimulus overload is silenced. The electrical currents of your thoughts find a calm and balanced rhythm. Your nervous system is now fully recalibrated.',
       mantras: [
         'Vitality returns to every cell.',
@@ -331,7 +331,7 @@ export const STAGE_AUDIO_TRANSLATIONS: Record<AppLanguage, Record<string, { titl
       ]
     },
     TRANSMUTACAO: {
-      title: 'Trauma Transmutation & Psychic Protection',
+      title: 'Transmutation, Care & Symbolic Protection',
       subtitle: 'The Violet Flame & Sapphire Shield',
       text: 'Feel the vibration rise to a deep and comforting level. A swift wave of energy penetrates the deepest hidden layers of your subconscious. Let this force do its work. It reaches old wounds, childhood traumas, and repressed fears you may not even remember. Feel invisible barriers crumble, dispelling paranoias and calming any hidden soul instability.\n\nA powerful dome of sapphire-blue light closes around you. You are completely protected against self-sabotaging thoughts or external influences.\n\nInside this blue armor, a sacred bonfire of Violet Flame ignites, enveloping your body without burning. Watch your sorrows, unconscious guilt, and pains of rejection willingly cast into this violet fire, transforming into pure strength for new beginnings.\n\nThe internal storm subsides. The whirlwind has passed. Above your head, the wings of a sacred cosmic bird bring protective silence. Feel the detachment from ego pain. There is peace in your silence.',
       mantras: [
@@ -341,19 +341,19 @@ export const STAGE_AUDIO_TRANSLATIONS: Record<AppLanguage, Record<string, { titl
       ]
     },
     BALSAMO: {
-      title: 'Balm of Love & Cellular Regeneration',
+      title: 'Balm of Love & Inner Renewal',
       subtitle: 'Unconditional Love & Regenerating Mist',
       text: 'After the great cleansing, the energy becomes pure sweetness... Feel a rose-quartz light emanate from the center of your chest. It expands through your whole being, healing the pain of abandonment and filling every empty space with self-acceptance, compassion, and profound love for your own journey.\n\nA cascade of liquid gold descends from the infinite, washing the crown of your head and illuminating every atom of your body. This golden light merges with a shimmering olive-green mist that enters gently through your airways.\n\nFeel the air fill your lungs, throat, and bronchi with pure health. Complete physical and spiritual regeneration is occurring in you right now. Heaven and Earth align in your chest in perfect harmony. You are perfect... You are light... You are a reflection of the Creator Source.',
       mantras: [
         'I am unconditional love and self-acceptance.',
-        'My health and cells regenerate in light.',
+        'I welcome care, balance, and inner renewal.',
         'I am a reflection of the Creator Source.'
       ]
     },
     SELAMENTO: {
       title: 'Sealing, Open Paths & Liberation',
-      subtitle: 'Cosmic Stability & Healing Mantras',
-      text: 'To seal and shield this treatment, feel an imposing, firm, and prosperous presence anchor at your side. All invisible obstacles blocking your material, emotional, and spiritual life are broken now. Your paths are completely open.\n\nVisualize yourself firmly seated upon a throne made of gentle, safe clouds. The outer world keeps turning, but within, you have found your stability and personal power. The "fresh start" is granted and the treatment is sealed in your cosmic DNA.\n\nI am free to be happy.\nI forgive myself for all the times I doubted myself.\nI am healing.\nI am love.\nI am in peace.\n\nI am sorry.\nPlease forgive me.\nI love you.\nThank you.\n\nGratitude.',
+      subtitle: 'Inner Stability & Integration Mantras',
+      text: 'To close and integrate this practice, imagine a firm and prosperous presence beside you. Receive Ganesha as a symbol of courage before obstacles and openness to new paths.\n\nVisualize yourself seated upon a throne made of gentle, safe clouds. The outer world keeps turning, while within you reconnect with stability and personal power. A fresh possibility is present, and the intention cultivated in this practice remains with you.\n\nI am free to be happy.\nI forgive myself for the times I doubted myself.\nI am love.\nI am at peace.\n\nI am sorry.\nPlease forgive me.\nI love you.\nThank you.\n\nGratitude.',
       mantras: [
         'I am free to be happy.',
         'I am healing, love, and peace.',
