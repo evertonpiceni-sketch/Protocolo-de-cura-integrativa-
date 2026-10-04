@@ -6,6 +6,7 @@
 import React, { useState } from 'react';
 import { BookOpen, Smile, Calendar, ArrowLeft, Search, Heart, Download } from 'lucide-react';
 import { DayProgress, DAILY_INSIGHTS } from '../types';
+import { getLocalDateString } from '../utils/date';
 
 interface JournalLogProps {
   progress: DayProgress[];
@@ -101,7 +102,7 @@ export default function JournalLog({ progress, onClose }: JournalLogProps) {
     const url = URL.createObjectURL(blob);
     const link = document.createElement('a');
     link.href = url;
-    link.download = `diario-de-cura-integrada-${new Date().toISOString().split('T')[0]}.txt`;
+    link.download = `diario-de-reconexao-${getLocalDateString()}.txt`;
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
