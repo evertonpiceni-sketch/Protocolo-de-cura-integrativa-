@@ -190,12 +190,12 @@ export default function PromoVideoModal({
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center overflow-y-auto bg-[#021b13]/96 p-3 backdrop-blur-xl sm:p-4" id="promo-video-modal">
+    <div className="fixed inset-0 z-50 flex items-center justify-center overflow-y-auto overscroll-contain bg-[#021b13]/96 p-2 sm:p-4 backdrop-blur-xl" id="promo-video-modal" role="dialog" aria-modal="true" aria-label="Vídeo de apresentação">
       <motion.div
         initial={{ opacity: 0, scale: 0.95, y: 15 }}
         animate={{ opacity: 1, scale: 1, y: 0 }}
         exit={{ opacity: 0, scale: 0.95, y: 15 }}
-        className="relative my-4 flex w-full max-w-4xl flex-col overflow-hidden rounded-3xl border border-[#e7ca76]/35 bg-[#FBF8F2] shadow-2xl"
+        className="relative my-1 sm:my-4 flex w-full max-w-4xl max-h-[calc(100dvh-1rem)] flex-col overflow-hidden rounded-2xl sm:rounded-3xl border border-[#e7ca76]/35 bg-[#FBF8F2] shadow-2xl"
       >
         {/* Top Video Player Bar */}
         <div className="z-20 flex items-center justify-between border-b border-[#e7ca76]/20 bg-[#F5EFE4]/92 px-4 py-3">
