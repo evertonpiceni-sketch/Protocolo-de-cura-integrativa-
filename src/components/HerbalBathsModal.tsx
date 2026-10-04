@@ -130,7 +130,7 @@ export const SACRED_HERBAL_BATHS: HerbalBath[] = [
     bestDayOrTime: 'Quinta-feira ou Domingo pela manhã',
     associatedChakra: 'Chakra do Plexo Solar e Chakra Básico',
     affirmation: 'Sou merecedor(a) da abundância infinita. O sucesso e as bênçãos chegam até mim.',
-    color: 'from-amber-600/20 via-[#FBF8F2] to-yellow-950/40 border-amber-500/40 text-amber-300',
+    color: 'from-amber-600/20 via-[#FBF8F2] to-yellow-950/40 border-amber-500/40 text-amber-800',
     badge: 'DO PESCOÇO PARA BAIXO'
   },
   {
@@ -190,7 +190,7 @@ export const SACRED_HERBAL_BATHS: HerbalBath[] = [
     bestDayOrTime: 'Quinta-feira ou Domingo em fase de Lua Nova ou Crescente',
     associatedChakra: 'Chakra Frontal e Chakra do Plexo Solar',
     affirmation: 'Minha intuição é um farol divino. Eu atraio abundância, brilho e vitórias.',
-    color: 'from-amber-500/20 via-[#FBF8F2] to-yellow-950/40 border-amber-400/40 text-amber-300',
+    color: 'from-amber-500/20 via-[#FBF8F2] to-yellow-950/40 border-amber-400/40 text-amber-800',
     badge: 'DO PESCOÇO PARA BAIXO'
   },
   {
@@ -307,12 +307,12 @@ _Protocolo da Transformação_`);
         {/* Header */}
         <div className="p-5 sm:p-6 border-b border-[#E5DAC6] bg-gradient-to-r from-emerald-50 via-[#FBF8F2] to-[#F5EFE4] flex items-center justify-between shrink-0">
           <div className="flex items-center gap-3.5">
-            <div className="w-11 h-11 rounded-2xl bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 flex items-center justify-center shrink-0 shadow-sm">
+            <div className="w-11 h-11 rounded-2xl bg-emerald-500/20 text-emerald-700 border border-emerald-500/30 flex items-center justify-center shrink-0 shadow-sm">
               <Leaf size={22} />
             </div>
             <div>
               <div className="flex items-center gap-2">
-                <span className="text-[10px] font-mono uppercase tracking-widest text-emerald-400 font-bold bg-emerald-500/10 px-2 py-0.5 rounded-full border border-emerald-500/20">
+                <span className="text-[10px] font-mono uppercase tracking-widest text-emerald-700 font-bold bg-emerald-500/10 px-2 py-0.5 rounded-full border border-emerald-500/20">
                   Sabedoria Ancestral & Fitoterapia Sagrada
                 </span>
               </div>
@@ -339,7 +339,7 @@ _Protocolo da Transformação_`);
           {/* CRITICAL SACRED WARNING BANNER */}
           <div className="p-4 sm:p-5 rounded-2xl bg-gradient-to-r from-amber-50 via-[#FBF8F2] to-[#F5EFE4] border-2 border-amber-300 shadow-xl space-y-2.5 relative overflow-hidden" id="sacred-bath-golden-rule">
             <div className="flex items-start gap-3">
-              <div className="p-2.5 rounded-xl bg-amber-500/20 text-amber-300 border border-amber-500/30 shrink-0">
+              <div className="p-2.5 rounded-xl bg-amber-500/20 text-amber-800 border border-amber-500/30 shrink-0">
                 <AlertTriangle size={22} />
               </div>
               <div className="space-y-1">
@@ -347,11 +347,11 @@ _Protocolo da Transformação_`);
                   <span>REGRA DE OURO DOS BANHOS ENERGÉTICOS</span>
                 </h3>
                 <p className="text-xs sm:text-sm text-[#2A2420] leading-relaxed font-medium">
-                  <strong className="text-amber-300">NENHUM BANHO DE ERVAS DEVE SER TOMADO DA CABEÇA AOS PÉS, A NÃO SER O BANHO DE BOLDO.</strong>
+                  <strong className="text-amber-800">NENHUM BANHO DE ERVAS DEVE SER TOMADO DA CABEÇA AOS PÉS, A NÃO SER O BANHO DE BOLDO.</strong>
                 </p>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2 text-xs">
                   <div className="p-3 rounded-xl bg-white/75 border border-amber-500/30 space-y-1">
-                    <span className="text-amber-300 font-bold flex items-center gap-1.5 font-mono text-[11px]">
+                    <span className="text-amber-800 font-bold flex items-center gap-1.5 font-mono text-[11px]">
                       <Sparkles size={13} className="text-amber-400" />
                       BANHO DE BOLDO (Exceção Única)
                     </span>
@@ -371,7 +371,7 @@ _Protocolo da Transformação_`);
                   </div>
                 </div>
 
-                <div className="pt-2 text-[11px] text-amber-300/80 flex items-center gap-1.5">
+                <div className="pt-2 text-[11px] text-amber-800/80 flex items-center gap-1.5">
                   <Info size={13} className="shrink-0 text-amber-400" />
                   <span>
                     <strong>Sobre o Sal Grosso:</strong> Não recomendamos o uso de sal grosso no protocolo diário, pois ele remove todas as energias (inclusive as boas) e resseca a aura. Prefira sempre as ervas sagradas que limpam e restauram a luz divina.
@@ -426,7 +426,7 @@ _Protocolo da Transformação_`);
                   key={bath.id}
                   className={`p-4 sm:p-5 rounded-2xl border bg-gradient-to-br transition-all duration-300 flex flex-col justify-between space-y-4 shadow-lg ${
                     isBoldo
-                      ? 'from-amber-950/30 via-[#FBF8F2] to-indigo-950/40 border-amber-500/50 ring-1 ring-amber-500/20'
+                      ? 'from-amber-50 via-[#FBF8F2] to-[#F5EFE4] border-amber-300 ring-1 ring-amber-200'
                       : 'from-[#F8F4EC]/80 via-[#FBF8F2] to-[#F3EBDD]/60 border-[#E5DAC6] hover:border-[#E5DAC6]'
                   }`}
                 >
@@ -435,7 +435,7 @@ _Protocolo da Transformação_`);
                     <div className="flex flex-wrap items-center justify-between gap-2">
                       <span className={`text-[10px] font-mono font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full border ${
                         isBoldo 
-                          ? 'bg-amber-500/20 text-amber-300 border-amber-500/40 animate-pulse'
+                          ? 'bg-amber-500/20 text-amber-800 border-amber-500/40 animate-pulse'
                           : 'bg-[#B88736]/15 text-[#B88736] border-[#B88736]/30'
                       }`}>
                         {bath.badge}
@@ -451,14 +451,14 @@ _Protocolo da Transformação_`);
                         {bath.name}
                         {isBoldo && <Sparkles size={16} className="text-amber-400" />}
                       </h3>
-                      <p className="text-xs text-amber-300/90 font-mono font-medium">
+                      <p className="text-xs text-amber-800/90 font-mono font-medium">
                         {bath.popularName}
                       </p>
                     </div>
 
                     {/* Purpose */}
                     <div className="p-3 rounded-xl bg-white/80 border border-[#E5DAC6] space-y-1">
-                      <span className="text-[10px] font-mono uppercase text-emerald-400 font-bold block flex items-center gap-1">
+                      <span className="text-[10px] font-mono uppercase text-emerald-700 font-bold block flex items-center gap-1">
                         <Heart size={11} />
                         Para que serve:
                       </span>
@@ -476,7 +476,7 @@ _Protocolo da Transformação_`);
 
                       <div className="flex items-start gap-1.5 text-[#5C5248]">
                         <strong className="text-[#5C5248] font-mono text-[11px] shrink-0">Aplicação:</strong>
-                        <span className={isBoldo ? 'text-amber-300 font-bold' : 'text-[#B88736] font-semibold'}>
+                        <span className={isBoldo ? 'text-amber-800 font-bold' : 'text-[#B88736] font-semibold'}>
                           {isBoldo ? 'Da cabeça aos pés' : 'Estritamente do pescoço para baixo'}
                         </span>
                       </div>
@@ -502,7 +502,7 @@ _Protocolo da Transformação_`);
                       <span className="text-[9px] font-mono uppercase text-amber-400 font-bold block">
                         Afirmação Durante o Banho:
                       </span>
-                      <p className="text-amber-200/90 italic text-[11px] font-serif mt-0.5">
+                      <p className="text-amber-800 italic text-[11px] font-serif mt-0.5">
                         "{bath.affirmation}"
                       </p>
                     </div>
@@ -517,8 +517,8 @@ _Protocolo da Transformação_`);
                     >
                       {isCopied ? (
                         <>
-                          <CheckCircle2 size={13} className="text-emerald-400" />
-                          <span className="text-emerald-700">Copiado</span>
+                          <CheckCircle2 size={13} className="text-emerald-700" />
+                          <span className="text-emerald-700" role="status" aria-live="polite">Copiado</span>
                         </>
                       ) : (
                         <>
