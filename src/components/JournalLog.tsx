@@ -53,7 +53,7 @@ export default function JournalLog({ progress, onClose }: JournalLogProps) {
     if (completedEntries.length === 0) return;
 
     let content = `==================================================\n`;
-    content += `DIÁRIO DE CURA INTEGRADA - HISTÓRICO DE REFLEXÕES\n`;
+    content += `DIÁRIO DE RECONEXÃO - HISTÓRICO DE PERCEPÇÕES\n`;
     content += `==================================================\n`;
     content += `Exportado em: ${new Date().toLocaleString('pt-BR')}\n\n`;
 
@@ -70,10 +70,10 @@ export default function JournalLog({ progress, onClose }: JournalLogProps) {
       content += `--------------------------------------------------\n`;
       content += `DIA ${entry.dayNumber.toString().padStart(2, '0')} - ${insight?.title || "Sessão de Cura"}\n`;
       content += `Data: ${dateStr}\n`;
-      content += `Foco de Cura: ${insight?.focus || "N/A"}\n`;
+      content += `Intenção do dia: ${insight?.focus || "N/A"}\n`;
       
       if (entry.beforeFeeling) {
-        content += `\n[ANTES DO TRATAMENTO]\n`;
+        content += `\n[COMO EU ESTAVA]\n`;
         content += `Estado: ${entry.beforeFeeling.stateTitle || getMoodLabel(entry.beforeFeeling.mood)} (Nota: ${entry.beforeFeeling.mood}/5)\n`;
         if (entry.beforeFeeling.sensations && entry.beforeFeeling.sensations.length > 0) {
           content += `Sensações: ${entry.beforeFeeling.sensations.join(', ')}\n`;
@@ -83,7 +83,7 @@ export default function JournalLog({ progress, onClose }: JournalLogProps) {
         }
       }
 
-      content += `\n[APÓS O TRATAMENTO]\n`;
+      content += `\n[COMO ESTOU AGORA]\n`;
       content += `Estado Final: ${entry.afterFeeling?.stateTitle || getMoodLabel(entry.mood)} (Nota: ${entry.afterFeeling?.mood || entry.mood || 5}/5)\n`;
       if (entry.afterFeeling?.sensations && entry.afterFeeling.sensations.length > 0) {
         content += `Sensações: ${entry.afterFeeling.sensations.join(', ')}\n`;
@@ -93,8 +93,8 @@ export default function JournalLog({ progress, onClose }: JournalLogProps) {
     });
 
     content += `==================================================\n`;
-    content += `Gerado pelo aplicativo de Cura Integrada.\n`;
-    content += `Sua cura começa de dentro para fora.\n`;
+    content += `Gerado pelo Protocolo da Transformação.\n`;
+    content += `Seu cuidado começa pelo retorno a si.\n`;
     content += `==================================================\n`;
 
     const blob = new Blob([content], { type: 'text/plain;charset=utf-8' });
@@ -123,10 +123,10 @@ export default function JournalLog({ progress, onClose }: JournalLogProps) {
           <div>
             <h1 className="text-xl font-display font-medium text-[#2A2420] flex items-center gap-2">
               <BookOpen size={20} className="text-[#B88736]" />
-              Diário de Cura Integrada
+              Diário de Reconexão
             </h1>
             <p className="text-xs text-[#85786C] font-sans mt-0.5">
-              Reflexões e insights salvos durante as sessões do protocolo.
+              Reflexões e percepções registradas ao longo da sua jornada.
             </p>
           </div>
         </div>
@@ -239,7 +239,7 @@ export default function JournalLog({ progress, onClose }: JournalLogProps) {
                     {/* Before Card */}
                     <div className="space-y-1.5 text-xs">
                       <div className="flex items-center justify-between">
-                        <span className="text-[10px] font-mono text-[#85786C] uppercase">1. Antes do Tratamento</span>
+                        <span className="text-[10px] font-mono text-[#85786C] uppercase">1. Como eu estava</span>
                         <span className="text-[10px] font-mono text-[#5C5248]">Nota {entry.beforeFeeling.mood}/5</span>
                       </div>
                       <div className="text-[#5C5248] font-medium text-xs">
@@ -264,7 +264,7 @@ export default function JournalLog({ progress, onClose }: JournalLogProps) {
                     {/* After Card */}
                     <div className="space-y-1.5 text-xs border-t md:border-t-0 md:border-l border-[#E5DAC6] pt-2 md:pt-0 md:pl-2.5">
                       <div className="flex items-center justify-between">
-                        <span className="text-[10px] font-mono text-emerald-400 uppercase">2. Após o Tratamento</span>
+                        <span className="text-[10px] font-mono text-emerald-400 uppercase">2. Como estou agora</span>
                         <span className="text-[10px] font-mono text-emerald-400">Nota {entry.afterFeeling?.mood || entry.mood || 5}/5</span>
                       </div>
                       <div className="text-emerald-300 font-medium text-xs">
@@ -280,7 +280,7 @@ export default function JournalLog({ progress, onClose }: JournalLogProps) {
                         </div>
                       )}
                       <p className="text-[11px] text-[#2A2420] leading-relaxed bg-emerald-950/20 p-2 rounded-lg border border-emerald-500/20">
-                        {entry.afterFeeling?.notes || entry.journalText || "Sessão concluída com sucesso e selada no DNA."}
+                        {entry.afterFeeling?.notes || entry.journalText || "Momento concluído sem anotações adicionais."}
                       </p>
                     </div>
                   </div>
@@ -290,7 +290,7 @@ export default function JournalLog({ progress, onClose }: JournalLogProps) {
                     {entry.journalText ? (
                       entry.journalText
                     ) : (
-                      <span className="text-[#85786C] italic">Sessão concluída com sucesso sem anotações extras.</span>
+                      <span className="text-[#85786C] italic">Momento concluído sem anotações adicionais.</span>
                     )}
                   </div>
                 )}
