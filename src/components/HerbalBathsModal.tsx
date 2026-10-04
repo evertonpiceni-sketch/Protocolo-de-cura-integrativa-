@@ -56,7 +56,7 @@ export const SACRED_HERBAL_BATHS: HerbalBath[] = [
     associatedChakra: 'Chakra do Plexo Solar (Estômago/Digestivo)',
     affirmation: 'Sou luz, força e vitalidade. Meus caminhos se abrem para a alegria e prosperidade.',
     color: 'from-yellow-500/20 via-[#FBF8F2] to-amber-950/40 border-yellow-400/40 text-yellow-300',
-    badge: '🌿 DO PESCOÇO PARA BAIXO'
+    badge: 'DO PESCOÇO PARA BAIXO'
   },
   {
     id: 'banho-manjericao',
@@ -71,7 +71,7 @@ export const SACRED_HERBAL_BATHS: HerbalBath[] = [
     associatedChakra: 'Chakra Cardíaco (Centro do Peito)',
     affirmation: 'O amor divino flui em mim e através de mim. Eu vivo em paz e perfeita harmonia.',
     color: 'from-emerald-500/20 via-[#FBF8F2] to-teal-950/40 border-emerald-400/40 text-emerald-300',
-    badge: '🌿 DO PESCOÇO PARA BAIXO'
+    badge: 'DO PESCOÇO PARA BAIXO'
   },
   {
     id: 'banho-camomila',
@@ -86,7 +86,7 @@ export const SACRED_HERBAL_BATHS: HerbalBath[] = [
     associatedChakra: 'Chakra Cardíaco e Chakra Sacral',
     affirmation: 'Eu descanso seguro(a) no colo do Universo. Todo medo se dissolve em paz.',
     color: 'from-amber-400/20 via-[#FBF8F2] to-orange-950/40 border-amber-300/40 text-amber-200',
-    badge: '🌿 DO PESCOÇO PARA BAIXO'
+    badge: 'DO PESCOÇO PARA BAIXO'
   },
   {
     id: 'banho-arruda-guine',
@@ -101,7 +101,7 @@ export const SACRED_HERBAL_BATHS: HerbalBath[] = [
     associatedChakra: 'Chakra Básico (Raiz) e Chakra Esplênico',
     affirmation: 'Nenhuma energia densa permanece no meu campo. Sou blindado(a) na luz.',
     color: 'from-indigo-500/20 via-[#FBF8F2] to-purple-950/40 border-indigo-400/40 text-[#B88736]',
-    badge: '🚫 JAMAIS NA CABEÇA • DO PESCOÇO P/ BAIXO'
+    badge: 'JAMAIS NA CABEÇA • DO PESCOÇO PARA BAIXO'
   },
   {
     id: 'banho-alfazema',
@@ -116,7 +116,7 @@ export const SACRED_HERBAL_BATHS: HerbalBath[] = [
     associatedChakra: 'Chakra Frontal (Terceiro Olho) e Cardíaco',
     affirmation: 'Meu campo energético irradia pureza, serenidade e acolhimento angelical.',
     color: 'from-purple-500/20 via-[#FBF8F2] to-indigo-950/40 border-purple-400/40 text-[#B88736]',
-    badge: '🌿 DO PESCOÇO PARA BAIXO'
+    badge: 'DO PESCOÇO PARA BAIXO'
   },
   {
     id: 'banho-louro-canela',
@@ -131,7 +131,7 @@ export const SACRED_HERBAL_BATHS: HerbalBath[] = [
     associatedChakra: 'Chakra do Plexo Solar e Chakra Básico',
     affirmation: 'Sou merecedor(a) da abundância infinita. O sucesso e as bênçãos chegam até mim.',
     color: 'from-amber-600/20 via-[#FBF8F2] to-yellow-950/40 border-amber-500/40 text-amber-300',
-    badge: '🌿 DO PESCOÇO PARA BAIXO'
+    badge: 'DO PESCOÇO PARA BAIXO'
   },
   {
     id: 'banho-rosa-branca',
@@ -146,7 +146,7 @@ export const SACRED_HERBAL_BATHS: HerbalBath[] = [
     associatedChakra: 'Chakra Cardíaco e Coroa',
     affirmation: 'Minha alma é suave, pura e acolhida no amor infinito do Criador.',
     color: 'from-slate-200/20 via-[#FBF8F2] to-indigo-950/40 border-slate-300/40 text-[#2A2420]',
-    badge: '🌿 DO PESCOÇO PARA BAIXO'
+    badge: 'DO PESCOÇO PARA BAIXO'
   },
   {
     id: 'banho-hortela',
@@ -161,7 +161,7 @@ export const SACRED_HERBAL_BATHS: HerbalBath[] = [
     associatedChakra: 'Chakra Laríngeo (Garganta)',
     affirmation: 'Comunico minha verdade com clareza, firmeza e amor. Minha mente é cristalina.',
     color: 'from-teal-500/20 via-[#FBF8F2] to-emerald-950/40 border-teal-400/40 text-teal-300',
-    badge: '🌿 DO PESCOÇO PARA BAIXO'
+    badge: 'DO PESCOÇO PARA BAIXO'
   },
   {
     id: 'banho-7-ervas-sagrado',
@@ -176,7 +176,7 @@ export const SACRED_HERBAL_BATHS: HerbalBath[] = [
     associatedChakra: 'Alinhamento dos 7 Chakras',
     affirmation: 'Sete forças de luz limpam, purificam e blindam todo o meu ser. Estou renovado(a).',
     color: 'from-emerald-600/20 via-[#FBF8F2] to-indigo-950/40 border-emerald-500/40 text-emerald-300',
-    badge: '🚫 JAMAIS NA CABEÇA • DO PESCOÇO P/ BAIXO'
+    badge: 'JAMAIS NA CABEÇA • DO PESCOÇO PARA BAIXO'
   },
   {
     id: 'banho-anis-canela',
@@ -191,7 +191,7 @@ export const SACRED_HERBAL_BATHS: HerbalBath[] = [
     associatedChakra: 'Chakra Frontal e Chakra do Plexo Solar',
     affirmation: 'Minha intuição é um farol divino. Eu atraio abundância, brilho e vitórias.',
     color: 'from-amber-500/20 via-[#FBF8F2] to-yellow-950/40 border-amber-400/40 text-amber-300',
-    badge: '🌿 DO PESCOÇO PARA BAIXO'
+    badge: 'DO PESCOÇO PARA BAIXO'
   },
   {
     id: 'banho-eucalipto-salvia',
@@ -206,7 +206,7 @@ export const SACRED_HERBAL_BATHS: HerbalBath[] = [
     associatedChakra: 'Chakra Laríngeo e Cardíaco',
     affirmation: 'Respiro a pureza divina. Toda sobrecarga se dissolve em ar puro e renovação.',
     color: 'from-teal-600/20 via-[#FBF8F2] to-[#F3EBDD] border-teal-500/40 text-teal-300',
-    badge: '🌿 DO PESCOÇO PARA BAIXO'
+    badge: 'DO PESCOÇO PARA BAIXO'
   },
   {
     id: 'banho-rosas-hibisco',
@@ -221,7 +221,7 @@ export const SACRED_HERBAL_BATHS: HerbalBath[] = [
     associatedChakra: 'Chakra Sacral (Umbilical) e Cardíaco',
     affirmation: 'Eu me amo, me honro e me respeito. Minha presença é magnética, bela e cheia de vida.',
     color: 'from-rose-600/20 via-[#FBF8F2] to-pink-950/40 border-rose-500/40 text-rose-300',
-    badge: '🌿 DO PESCOÇO PARA BAIXO'
+    badge: 'DO PESCOÇO PARA BAIXO'
   },
   {
     id: 'banho-capim-santo-louro',
@@ -236,7 +236,7 @@ export const SACRED_HERBAL_BATHS: HerbalBath[] = [
     associatedChakra: 'Chakra Plexo Solar e Cardíaco',
     affirmation: 'Minha mente repousa em serenidade. Confio no triunfo da minha caminhada.',
     color: 'from-lime-500/20 via-[#FBF8F2] to-emerald-950/40 border-lime-400/40 text-lime-300',
-    badge: '🌿 DO PESCOÇO PARA BAIXO'
+    badge: 'DO PESCOÇO PARA BAIXO'
   }
 ];
 
@@ -267,29 +267,33 @@ export default function HerbalBathsModal({ isOpen, onClose, userName }: HerbalBa
 
   const activeBath = SACRED_HERBAL_BATHS.find(b => b.id === activeBathId) || SACRED_HERBAL_BATHS[0];
 
-  const handleCopyRecipe = (bath: HerbalBath) => {
-    const text = `🌿 GUIA DE BANHO SAGRADO: ${bath.name.toUpperCase()} (${bath.popularName})
-📍 Regra de Aplicação: ${bath.applicationRule === 'CABECALHO_E_CORPO' ? '✨ DA CABEÇA AOS PÉS (Exceção Sagrada)' : '⚠️ ESTRITAMENTE DO PESCOÇO PARA BAIXO (Nunca na cabeça)'}
-🎯 Para que serve: ${bath.purpose}
-🍃 Ingredientes: ${bath.herbs.join(', ')}
-🥣 Modo de Preparo: ${bath.preparation}
-⏰ Melhor Momento: ${bath.bestDayOrTime}
-💎 Afirmação de Poder: "${bath.affirmation}"
-✨ Protocolo de Cura Integrada — Éverton Piceni`;
+  const handleCopyRecipe = async (bath: HerbalBath) => {
+    const text = `GUIA DE BANHO: ${bath.name.toUpperCase()} (${bath.popularName})
+Regra de aplicação: ${bath.applicationRule === 'CABECALHO_E_CORPO' ? 'DA CABEÇA AOS PÉS (exceção indicada neste guia)' : 'ESTRITAMENTE DO PESCOÇO PARA BAIXO — NUNCA NA CABEÇA'}
+Para que serve na tradição desta prática: ${bath.purpose}
+Ingredientes: ${bath.herbs.join(', ')}
+Modo de preparo: ${bath.preparation}
+Melhor momento: ${bath.bestDayOrTime}
+Afirmação: "${bath.affirmation}"
+Protocolo da Transformação — Éverton Piceni`;
 
-    navigator.clipboard.writeText(text);
-    setCopiedId(bath.id);
-    setTimeout(() => setCopiedId(null), 3000);
+    try {
+      await navigator.clipboard.writeText(text);
+      setCopiedId(bath.id);
+      setTimeout(() => setCopiedId(null), 3000);
+    } catch (error) {
+      console.warn('Não foi possível copiar a orientação do banho automaticamente.', error);
+    }
   };
 
   const handleShareWhatsApp = (bath: HerbalBath) => {
-    const text = encodeURIComponent(`🌿 *Banho Sagrado: ${bath.name}* (${bath.popularName})
-*Regra:* ${bath.applicationRule === 'CABECALHO_E_CORPO' ? '✨ *DA CABEÇA AOS PÉS*' : '⚠️ *DO PESCOÇO PARA BAIXO*'}
-*Para que serve:* ${bath.purpose}
+    const text = encodeURIComponent(`*Banho: ${bath.name}* (${bath.popularName})
+*Regra:* ${bath.applicationRule === 'CABECALHO_E_CORPO' ? '*DA CABEÇA AOS PÉS*' : '*DO PESCOÇO PARA BAIXO — NUNCA NA CABEÇA*'}
+*Para que serve na tradição desta prática:* ${bath.purpose}
 *Preparo:* ${bath.preparation}
 *Afirmação:* "${bath.affirmation}"
-_Protocolo de Cura Integrada_`);
-    window.open(`https://api.whatsapp.com/send?text=${text}`, '_blank');
+_Protocolo da Transformação_`);
+    window.open(`https://api.whatsapp.com/send?text=${text}`, '_blank', 'noopener,noreferrer');
   };
 
   return (
@@ -466,19 +470,19 @@ _Protocolo de Cura Integrada_`);
                     {/* Herbs & Application Rule */}
                     <div className="space-y-1.5 text-xs">
                       <div className="flex items-start gap-1.5 text-[#5C5248]">
-                        <strong className="text-[#5C5248] font-mono text-[11px] shrink-0">🍃 Ervas:</strong>
+                        <strong className="text-[#5C5248] font-mono text-[11px] shrink-0">Ervas:</strong>
                         <span>{bath.herbs.join(', ')}</span>
                       </div>
 
                       <div className="flex items-start gap-1.5 text-[#5C5248]">
-                        <strong className="text-[#5C5248] font-mono text-[11px] shrink-0">📍 Aplicação:</strong>
+                        <strong className="text-[#5C5248] font-mono text-[11px] shrink-0">Aplicação:</strong>
                         <span className={isBoldo ? 'text-amber-300 font-bold' : 'text-[#B88736] font-semibold'}>
-                          {isBoldo ? '✨ Da cabeça aos pés' : '🌿 Estritamente do pescoço para baixo'}
+                          {isBoldo ? 'Da cabeça aos pés' : 'Estritamente do pescoço para baixo'}
                         </span>
                       </div>
 
                       <div className="flex items-start gap-1.5 text-[#5C5248]">
-                        <strong className="text-[#5C5248] font-mono text-[11px] shrink-0">⏰ Momento:</strong>
+                        <strong className="text-[#5C5248] font-mono text-[11px] shrink-0">Momento:</strong>
                         <span className="text-[#5C5248]">{bath.bestDayOrTime}</span>
                       </div>
                     </div>
@@ -486,7 +490,7 @@ _Protocolo de Cura Integrada_`);
                     {/* Preparation */}
                     <div className="p-3 rounded-xl bg-white/70 border border-[#E5DAC6]/80 space-y-1 text-xs">
                       <span className="text-[10px] font-mono uppercase text-[#B88736] font-bold block">
-                        🥣 Modo de Preparo & Intenção:
+                        Modo de Preparo & Intenção:
                       </span>
                       <p className="text-[#5C5248] text-[11px] leading-relaxed">
                         {bath.preparation}
@@ -496,7 +500,7 @@ _Protocolo de Cura Integrada_`);
                     {/* Affirmation */}
                     <div className="p-2.5 rounded-xl bg-white/40 border border-dashed border-[#E5DAC6] text-xs">
                       <span className="text-[9px] font-mono uppercase text-amber-400 font-bold block">
-                        💎 Afirmação Durante o Banho:
+                        Afirmação Durante o Banho:
                       </span>
                       <p className="text-amber-200/90 italic text-[11px] font-serif mt-0.5">
                         "{bath.affirmation}"
@@ -509,12 +513,12 @@ _Protocolo de Cura Integrada_`);
                     <button
                       type="button"
                       onClick={() => handleCopyRecipe(bath)}
-                      className="flex-1 py-2 rounded-xl bg-[#F5EFE4] hover:bg-slate-750 text-[#2A2420] text-xs font-semibold flex items-center justify-center gap-1.5 transition cursor-pointer border border-[#E5DAC6]"
+                      className="flex-1 py-2 rounded-xl bg-[#F5EFE4] hover:bg-[#EFE4D3] text-[#2A2420] text-xs font-semibold flex items-center justify-center gap-1.5 transition cursor-pointer border border-[#E5DAC6]"
                     >
                       {isCopied ? (
                         <>
                           <CheckCircle2 size={13} className="text-emerald-400" />
-                          <span className="text-emerald-300">Copiado!</span>
+                          <span className="text-emerald-700">Copiado</span>
                         </>
                       ) : (
                         <>
@@ -527,7 +531,7 @@ _Protocolo de Cura Integrada_`);
                     <button
                       type="button"
                       onClick={() => handleShareWhatsApp(bath)}
-                      className="py-2 px-3 rounded-xl bg-emerald-600/30 hover:bg-emerald-600/50 text-emerald-300 border border-emerald-500/40 text-xs font-semibold flex items-center justify-center gap-1.5 transition cursor-pointer"
+                      className="py-2 px-3 rounded-xl bg-white hover:bg-[#F5EFE4] text-[#5C5248] border border-[#E5DAC6] text-xs font-semibold flex items-center justify-center gap-1.5 transition cursor-pointer"
                       title="Compartilhar no WhatsApp"
                     >
                       <Share2 size={13} />
@@ -556,12 +560,12 @@ _Protocolo de Cura Integrada_`);
         {/* Footer */}
         <div className="p-4 border-t border-[#E5DAC6] bg-white flex flex-col sm:flex-row items-center justify-between gap-3 shrink-0">
           <p className="text-[11px] text-[#5C5248] font-mono text-center sm:text-left">
-            ✨ Protocolo de Cura Integrada • Fitoterapia Energética por Éverton Piceni
+            Protocolo da Transformação • Banhos e práticas com ervas por Éverton Piceni
           </p>
           <button
             type="button"
             onClick={onClose}
-            className="w-full sm:w-auto px-6 py-2.5 rounded-xl bg-gradient-to-r from-emerald-600 to-indigo-600 hover:from-emerald-500 hover:to-indigo-500 text-white font-bold text-xs shadow-md cursor-pointer transition"
+            className="w-full sm:w-auto px-6 py-2.5 rounded-xl bg-[#B88736] hover:bg-[#8F631E] text-white font-bold text-xs shadow-md cursor-pointer transition"
           >
             Entendido, Fechar Guia
           </button>
