@@ -12,6 +12,7 @@ import {
 import { audioEngine } from '../lib/audio';
 
 import { UserProfile } from '../types';
+import { getLocalDateString } from '../utils/date';
 
 interface HooponoponoModalProps {
   isOpen: boolean;
@@ -77,7 +78,7 @@ export default function HooponoponoModal({
   // Load completed days from local storage
   const [prayedToday, setPrayedToday] = useState<boolean>(() => {
     try {
-      const todayStr = new Date().toISOString().split('T')[0];
+      const todayStr = getLocalDateString();
       return localStorage.getItem(`cura_integrada_hooponopono_${todayStr}`) === 'true';
     } catch {
       return false;
@@ -111,7 +112,7 @@ export default function HooponoponoModal({
   const handleMarkDone = () => {
     setPrayedToday(true);
     try {
-      const todayStr = new Date().toISOString().split('T')[0];
+      const todayStr = getLocalDateString();
       localStorage.setItem(`cura_integrada_hooponopono_${todayStr}`, 'true');
     } catch (e) {
       console.warn("Storage write error", e);
