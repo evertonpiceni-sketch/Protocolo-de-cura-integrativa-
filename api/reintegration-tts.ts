@@ -14,7 +14,21 @@ const REINTEGRATION_VOICE = Object.freeze({
 });
 
 const cache = new Map<string, Buffer>();
+const requestAttempts = new Map<string, { count: number; resetAt: number }>();
 const allowedCues = new Set(REINTEGRATION_DAYS.flatMap(day => day.audioCues.map(cue => cue.text.trim())));
+
+function allowVoiceAttempt(req: any) {
+  const key = String(req.headers?.['x-forwarded-for'] || req.socket?.remoteAddress || 'unknown').split(',')[0].trim();
+  const now = Date.now();
+  const current = requestAttempts.get(key);
+  if (!current || current.resetAt <= now) {
+    requestAttempts.set(key, { count: 1, resetAt: now + 15 * 60 * 1000 });
+    return true;
+  }
+  if (current.count >= 90) return false;
+  current.count += 1;
+  return true;
+}
 
 const prepareTherapeuticText = (text: string) => text
   .replace(/\r\n/g, '\n')
@@ -32,6 +46,7 @@ const cacheKeyFor = (text: string) => {
 
 export default async function handler(req: any, res: any) {
   if (req.method !== 'POST') return res.status(405).json({ error: 'Método não permitido.' });
+  if (!allowVoiceAttempt(req)) return res.status(429).json({ error: 'Limite temporário de voz atingido.', fallbackToSpeechSynthesis: true });
   try {
     const text = typeof req.body?.text === 'string' ? req.body.text.trim() : '';
     if (!text || !allowedCues.has(text)) return res.status(403).json({ error: 'Trecho não autorizado para esta jornada.' });
