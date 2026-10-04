@@ -85,8 +85,8 @@ export default function DailyDiaryModal({
 
   const exportFullDiary = () => {
     let content = `======================================================================\n`;
-    content += `DIÁRIO DE BORDO QUÂNTICO & EVOLUÇÃO DIA A DIA\n`;
-    content += `Protocolo de Cura Integrada de 21 Dias • Éverton Rodrigo Piceni\n`;
+    content += `DIÁRIO DE RECONEXÃO & EVOLUÇÃO DIA A DIA\n`;
+    content += `Protocolo da Transformação • Éverton Rodrigo Piceni\n`;
     content += `======================================================================\n`;
     content += `Consulente: ${userProfile?.fullName || userProfile?.name || 'Consulente'}\n`;
     content += `E-mail: ${userProfile?.email || 'N/A'}\n`;
@@ -94,8 +94,8 @@ export default function DailyDiaryModal({
     content += `Exportado em: ${new Date().toLocaleString('pt-BR')}\n\n`;
 
     content += `----------------------------------------------------------------------\n`;
-    content += `O QUE SE ESPERA COM ESTE TRATAMENTO (METAS E INTENÇÃO):\n`;
-    content += `${userProfile?.treatmentExpectations || expectationsText || 'Intenção de cura, equilíbrio emocional, paz interior e alinhamento vibracional.'}\n`;
+    content += `O QUE DESEJO CULTIVAR NESTA JORNADA (INTENÇÃO):\n`;
+    content += `${userProfile?.treatmentExpectations || expectationsText || 'Intenção de presença, equilíbrio, paz interior e reconexão comigo.'}\n`;
     content += `----------------------------------------------------------------------\n\n`;
 
     progress.forEach((p) => {
@@ -409,7 +409,7 @@ export default function DailyDiaryModal({
                   onClick={handleStartEdit}
                   className="text-xs font-mono text-[#B88736] hover:text-[#B88736] cursor-pointer underline flex items-center gap-1"
                 >
-                  ✏️ Editar Anotação
+                  Editar anotação
                 </button>
               )}
             </div>
@@ -480,7 +480,7 @@ export default function DailyDiaryModal({
             </div>
           )}
 
-          {/* Guia das 3 Fases do Tratamento */}
+          {/* Guia das 3 Fases do Jornada */}
           <div className="p-4 rounded-2xl bg-white/70 border border-[#E5DAC6] space-y-2.5">
             <span className="text-[11px] font-mono uppercase tracking-wider text-amber-300 font-bold block">
               🌿 O QUE ESPERAR DURANTE OS 21 DIAS:
