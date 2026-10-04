@@ -1,6 +1,7 @@
 {
   "checks": [
     "Home, jornada, biblioteca and community navigate by real pointer clicks; dock unobstructed.",
+    "Every Natural Sereno library thumbnail loads from an isolated theme asset.",
     "Library search and empty state.",
     "Profile progress uses the supplied real completion data.",
     "Acceptance → check-in → player; play/pause, seek and script-drawer callbacks do not throw. Browser speech held in QA to inspect the stage.",
@@ -9,7 +10,8 @@
     "No horizontal overflow at 320, 390, 768 and 1440 CSS px.",
     "The three other themes keep the legacy component branch and never render Natural Sereno.",
     "Welcome voice toggle and session-persisted entry still work.",
-    "Loading scene captured and frozen registration/login remains accessible without authentication."
+    "Loading scene captured and frozen registration/login remains accessible without authentication.",
+    "Larger playback controls remain visible with no player overflow at 320, 390, 768 and 1440 CSS px."
   ],
   "errors": [],
   "consoleErrors": [],

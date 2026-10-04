@@ -351,6 +351,10 @@ export default function MeditationSession({
             transition={{ duration: 0.6 }}
             className="w-full flex flex-col items-center"
           >
+            <div className="ns-session-title hidden">
+              <p>Dia {dayNumber}</p>
+              <h2>{currentInsight.title || 'Alinhamento Energético'}</h2>
+            </div>
             {/* Stage Badge & Step Indicator */}
             <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full border border-[#B88736]/30 bg-[#FAF4E8] text-xs font-serif text-[#8F631E] mb-6 shadow-xs font-medium">
               <span className="w-1.5 h-1.5 rounded-full bg-[#8F631E] animate-pulse" />

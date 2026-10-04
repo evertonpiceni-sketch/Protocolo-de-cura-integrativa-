@@ -2,12 +2,13 @@ import React, { useState } from 'react';
 import {
   ArrowLeft, Award, AudioLines, BookOpen, ChevronRight, Flower2,
   GraduationCap, Headphones, Heart, Home, Leaf, LogOut, Menu, MessageCircle,
-  Pause, Play, Sliders, Sparkles, Sun, UserRound, Users, Waves,
+  Pause, Play, Sliders, Sparkles, Sun, UserRound, Users, Waves, CalendarDays, Citrus,
 } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
 import type { TransformationHomeProps } from './TransformationHome';
 import type { TreatmentRecommendation } from '../lib/anamnesisTreatmentEngine';
 import { DAILY_INSIGHTS } from '../types';
+import { APPROVED_LOGO_DATA_URI } from './ApprovedBrand';
 
 type View = 'home' | 'menu' | 'journey' | 'library' | 'tools' | 'profile' | 'result' | 'community';
 type Props = TransformationHomeProps & {
@@ -54,7 +55,7 @@ export default function NaturalSerenoHome(props: Props) {
   ];
   const library: (Row & { category: string; image: string })[] = [
     { title: 'Cursos e conteúdos', copy: 'Biblioteca de apoio', icon: GraduationCap, action: props.onOpenCourses, category: 'Cursos', image: '/brand/natural-sereno/reiki.webp' },
-    { title: 'Guia dos 7 Chakras', copy: 'Conheça seus centros de energia', icon: Sparkles, action: props.onOpenChakras, category: 'Práticas', image: '/brand/chakra-body.png' },
+    { title: 'Guia dos 7 Chakras', copy: 'Conheça seus centros de energia', icon: Sparkles, action: props.onOpenChakras, category: 'Práticas', image: '/brand/natural-sereno/presenca.webp' },
     { title: 'Banhos e Aromas', copy: 'Natureza como parte do cuidado', icon: Leaf, action: props.onOpenBaths, category: 'Práticas', image: '/brand/natural-sereno/aromas.webp' },
     { title: 'Ho’oponopono', copy: 'Outros caminhos da sua jornada', icon: Heart, action: props.onOpenHooponopono, category: 'Práticas', image: '/brand/natural-sereno/reiki.webp' },
     { title: 'Numerologia', copy: 'Ciclos, essência e caminhos', icon: Flower2, action: props.onOpenNumerology, category: 'Autoconhecimento', image: '/brand/natural-sereno/cachoeira.webp' },
@@ -72,12 +73,15 @@ export default function NaturalSerenoHome(props: Props) {
   if (!props.journeyEntered) {
     return <div className="ns-app ns-welcome" data-ns-screen="welcome">
       <div className="ns-welcome-content">
+        <img className="ns-welcome-brand" src={APPROVED_LOGO_DATA_URI} alt="Everton Piceni" />
         <h1>Um acolhimento para você</h1>
         <p>Ouça este momento de chegada antes de entrar no seu espaço de cuidado.</p>
-        <AudioLines className="ns-audio-lines" size={62} strokeWidth={1} aria-hidden="true" />
+        <div className="ns-welcome-audio">
+        <img className="ns-audio-wave" src="/brand/natural-sereno/onda-acolhimento.webp" alt="" />
         <button className="ns-welcome-play" onClick={props.onToggleWelcome} aria-label={props.isSpeaking ? 'Pausar acolhimento' : 'Ouvir acolhimento'}>
           {props.isSpeaking ? <Pause size={34} /> : <Play size={34} fill="currentColor" />}
         </button>
+        </div>
         <p className="ns-welcome-status" aria-live="polite">{props.isSpeaking ? 'Pausar acolhimento' : 'Ouvir acolhimento'}</p>
         <button className="ns-gold" onClick={props.onEnterJourney}>Entrar na minha jornada <ChevronRight size={19} /></button>
         <p className="ns-signature">Cuidar de si também é um ato de amor.</p>
@@ -132,7 +136,7 @@ export default function NaturalSerenoHome(props: Props) {
         const done = props.progress.some(item => item.dayNumber === entry.day && item.completed);
         return <button key={entry.day} className="ns-row ns-day" aria-label={`Abrir dia ${entry.day}: ${entry.title}`} onClick={() => props.onStartSession(entry.day)}>
           <span className="ns-day-number">{entry.day}</span>
-          <img src={`/brand/natural-sereno/${entry.day % 2 === 0 ? 'vale-amanhecer' : 'cachoeira'}.webp`} alt="" loading="lazy" />
+          <img src={`/brand/natural-sereno/${['presenca', 'vale-amanhecer', 'cachoeira', 'reiki', 'acolhimento'][(entry.day - 1) % 5]}.webp`} alt="" loading="lazy" />
           <span className="ns-row-copy"><strong>{entry.title}</strong><small>{done ? 'Concluído' : entry.day === props.currentDay ? 'Seu momento' : entry.focus}</small></span><ChevronRight size={17} />
         </button>;
       })}
@@ -172,7 +176,14 @@ export default function NaturalSerenoHome(props: Props) {
     {view === 'result' && recommendation && <section className="ns-list ns-result">
       <Flower2 size={43} strokeWidth={1} aria-hidden="true" />
       <p>{recommendation.summaryDiagnosis}</p>
-      {[['Frequência Solfeggio', recommendation.frequencyLabel], ['Chakra em foco', recommendation.primaryChakraFocus], ['Floral recomendado', recommendation.recommendedFloral || props.anamnesis?.recommendedFloral || 'Definido conforme sua anamnese'], ['Aromaterapia recomendada', recommendation.recommendedAromatherapy || props.anamnesis?.recommendedAromatherapy || 'Definida conforme sua anamnese'], ['Protocolo indicado', recommendation.treatmentTitle], ['Duração sugerida', `${recommendation.recommendedDurationDays} dias`]].map(([label, value]) => <div key={label} className="ns-result-item"><Leaf size={19} /><div><small>{label}</small><strong>{value}</strong></div></div>)}
+      {([
+        ['Frequência Solfeggio', recommendation.frequencyLabel, AudioLines],
+        ['Chakra em foco', recommendation.primaryChakraFocus, Sun],
+        ['Floral recomendado', recommendation.recommendedFloral || props.anamnesis?.recommendedFloral || 'Definido conforme sua anamnese', Flower2],
+        ['Aromaterapia recomendada', recommendation.recommendedAromatherapy || props.anamnesis?.recommendedAromatherapy || 'Definida conforme sua anamnese', Citrus],
+        ['Protocolo indicado', recommendation.treatmentTitle, BookOpen],
+        ['Duração sugerida', `${recommendation.recommendedDurationDays} dias`, CalendarDays],
+      ] as [string, string, LucideIcon][]).map(([label, value, Icon]) => <div key={label} className="ns-result-item"><span className="ns-result-symbol"><Icon size={25} strokeWidth={1.4} /></span><div><small>{label}</small><strong>{value}</strong></div></div>)}
       <button className="ns-gold" onClick={props.onSpeakResult}><Headphones size={19} />Ouvir meu resultado</button>
       <button className="ns-secondary" onClick={props.onOpenAnamnesis}>Ver ou refazer minha anamnese <ChevronRight size={18} /></button>
     </section>}
