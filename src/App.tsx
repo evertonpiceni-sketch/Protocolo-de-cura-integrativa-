@@ -1158,15 +1158,15 @@ export default function App() {
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                   {[
                     { id: '528hz', title: '528Hz • Paz & Transformação', subtitle: 'Piano e Harmônicos Celestes', isPro: false },
-                    { id: '432hz', title: '432Hz • Cura Cósmica', subtitle: 'Ressonância com a Terra', isPro: false },
+                    { id: '432hz', title: '432Hz • Paz Natural', subtitle: 'Ressonância com a Terra', isPro: false },
                     { id: '639hz', title: '639Hz • Amor & Relacionamentos', subtitle: 'Harmonia e Abertura do Coração', isPro: false },
-                    { id: '417hz', title: '417Hz • Transmutação & Limpeza', subtitle: 'Dissolução de Traumas e Apego', isPro: false },
+                    { id: '417hz', title: '417Hz • Renovação & Desapego', subtitle: 'Dissolução de Traumas e Apego', isPro: false },
                     { id: '852hz', title: '852Hz • Despertar da Intuição', subtitle: 'Retorno à Ordem Espiritual', isPro: true },
-                    { id: '963hz', title: '963Hz • Glândula Pineal', subtitle: 'Conexão Superior & Luz Divina', isPro: true },
-                    { id: '741hz', title: '741Hz • Limpeza Celular', subtitle: 'Desintoxicação & Desbloqueio', isPro: true },
-                    { id: 'florestazen', title: '🌿 Floresta Zen', subtitle: 'Canto Suave de Pássaros & Águas Claras', isPro: false },
-                    { id: 'chuvaserena', title: '🌧️ Chuva Serena', subtitle: 'Gotas Relaxantes para Sono Profundo', isPro: false },
-                    { id: 'waves', title: '🔔 Sinos & Brisa Tibetana', subtitle: 'Atmosfera de Templo Sagrado', isPro: false },
+                    { id: '963hz', title: '963Hz • Silêncio & Conexão', subtitle: 'Conexão Superior & Luz Divina', isPro: true },
+                    { id: '741hz', title: '741Hz • Clareza & Renovação', subtitle: 'Clareza & Desbloqueio Simbólico', isPro: true },
+                    { id: 'florestazen', title: 'Floresta Zen', subtitle: 'Canto Suave de Pássaros & Águas Claras', isPro: false },
+                    { id: 'chuvaserena', title: 'Chuva Serena', subtitle: 'Gotas Relaxantes para Sono Profundo', isPro: false },
+                    { id: 'waves', title: 'Sinos & Brisa Tibetana', subtitle: 'Atmosfera de Templo Sagrado', isPro: false },
                     { id: 'none', title: 'Sem Música de Fundo', subtitle: 'Apenas a Voz Canalizada do Protocolo', isPro: false }
                   ].map(option => (
                     <button
@@ -1180,13 +1180,13 @@ export default function App() {
                       }}
                       className={`p-3.5 rounded-xl border text-left flex flex-col gap-0.5 cursor-pointer transition relative ${
                         userProfile.bgMusicType === option.id
-                          ? 'bg-indigo-950/40 border-indigo-500 text-indigo-300'
+                          ? 'bg-[#F5EFE4] border-[#B88736] text-[#5C5248]'
                           : 'bg-white border-[#E5DAC6] text-[#5C5248] hover:border-[#E5DAC6]'
                       }`}
                     >
                       {option.isPro && (
                         <span className="absolute top-2.5 right-2.5 px-1.5 py-0.5 rounded bg-amber-500/10 border border-amber-500/30 text-amber-400 text-[9px] font-mono font-bold">
-                          {userProfile.plan === 'pro' ? '👑 PRO' : '🔒 VIP'}
+                          {userProfile.plan === 'pro' ? 'PRO' : 'VIP'}
                         </span>
                       )}
                       <span className="text-xs font-bold font-mono text-[#2A2420]">{option.title}</span>
@@ -1767,7 +1767,7 @@ export default function App() {
             id="bottom-btn-herbal-baths"
           >
             <Leaf size={14} className="text-emerald-400 shrink-0" />
-            <span>Banhos 🌿</span>
+            <span>Banhos</span>
           </button>
 
           {/* Guia de Valores e Planos */}
