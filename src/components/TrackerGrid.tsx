@@ -380,7 +380,7 @@ export default function TrackerGrid({
                             ? "Sintetizando áudio..."
                             : isPlayingTherapeuticVoice
                             ? "Reproduzindo Acolhimento..."
-                            : "Ouvir Diagnóstico Personalizado"}
+                            : "Ouvir Mapa do Momento"}
                         </span>
                       </div>
                       <p className="text-[11px] text-[#5C5248] line-clamp-1 sm:line-clamp-2 mt-0.5">
@@ -591,7 +591,7 @@ export default function TrackerGrid({
             <div>
               <div className="flex items-center gap-2">
                 <span className="text-[10px] font-mono uppercase tracking-widest text-[#B88736] font-bold">
-                  {anamnesis ? 'Diagnóstico & Prescrição Ativa' : 'Avaliação Inicial Recomendada'}
+                  {anamnesis ? 'Mapa do Momento disponível' : 'Anamnese disponível'}
                 </span>
                 {anamnesis && (
                   <span className="px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 text-[10px] font-mono border border-emerald-500/30">
@@ -600,7 +600,7 @@ export default function TrackerGrid({
                 )}
                 {anamnesisRecommendation && (
                   <span className="px-2 py-0.5 rounded-full bg-amber-500/20 text-amber-300 text-[10px] font-mono border border-amber-500/30 font-bold hidden sm:inline">
-                    ★ Tratamento Sugerido
+                    Caminho sugerido
                   </span>
                 )}
               </div>
@@ -631,14 +631,14 @@ export default function TrackerGrid({
                   : 'bg-[#B88736] hover:bg-[#B88736] text-white shadow-md shadow-indigo-600/20'
               }`}
             >
-              <span>{anamnesis ? 'Ver Ficha & Tratamento Sugerido' : 'Preencher Anamnese'}</span>
+              <span>{anamnesis ? 'Ver Mapa & Caminhos' : 'Preencher Anamnese'}</span>
               <Sparkles size={13} />
             </button>
           </div>
         </div>
       </div>
 
-      {/* Card Especial de Mapa Astral & Energético Quântico (Presente de Boas-Vindas) */}
+      {/* Card Especial de Mapa Astral & Energético (Presente de Boas-Vindas) */}
       <div className="p-5 rounded-3xl border bg-gradient-to-r from-purple-950/40 via-[#FBF8F2] to-indigo-950/40 border-purple-500/35 shadow-lg relative overflow-hidden" id="tracker-astral-map-card">
         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
           <div className="flex items-start sm:items-center gap-3.5">
