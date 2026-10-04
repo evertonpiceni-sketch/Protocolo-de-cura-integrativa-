@@ -492,3 +492,34 @@ body::before{
   color:var(--text-primary)!important;
   border-color:var(--border-subtle)!important;
 }
+
+/* ---------- Ajustes / Aparência com os 4 layouts ---------- */
+:root[data-layout] #settings-view{
+  color:var(--text-primary)!important;
+}
+:root[data-layout] #settings-view>div,
+:root[data-layout] #settings-view details,
+:root[data-layout] #settings-view .ep-layout-choice{
+  background:var(--bg-card)!important;
+  border-color:var(--border-subtle)!important;
+  color:var(--text-primary)!important;
+}
+:root[data-layout] #settings-view h2,
+:root[data-layout] #settings-view h3,
+:root[data-layout] #settings-view h4,
+:root[data-layout] #settings-view strong{
+  color:var(--text-primary)!important;
+}
+:root[data-layout] #settings-view p,
+:root[data-layout] #settings-view span:not([class*="text-amber"]):not([class*="text-rose"]):not([class*="text-emerald"]){
+  color:var(--text-secondary)!important;
+}
+:root[data-layout] #settings-view .ep-layout-choice[aria-pressed="true"]{
+  border-color:var(--gold-primary)!important;
+  background:color-mix(in srgb,var(--gold-primary) 9%,var(--bg-card))!important;
+  box-shadow:0 10px 26px var(--gold-shadow)!important;
+}
+:root[data-layout] #settings-view button:focus-visible{
+  outline:none!important;
+  box-shadow:0 0 0 3px color-mix(in srgb,var(--gold-primary) 28%,transparent)!important;
+}
