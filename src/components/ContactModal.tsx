@@ -67,7 +67,7 @@ export default function ContactModal({
       `Obrigado pelo acolhimento.`
     );
 
-    window.open(`mailto:evertonpiceni@gmail.com?subject=${subject}&body=${body}`, '_blank');
+    window.location.href = `mailto:evertonpiceni@gmail.com?subject=${subject}&body=${body}`;
     setIsSent(true);
   };
 
@@ -81,12 +81,12 @@ export default function ContactModal({
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-[#2A2420]/30 backdrop-blur-md overflow-y-auto" id="contact-us-modal">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4 bg-[#2A2420]/30 backdrop-blur-md overflow-y-auto overscroll-contain" id="contact-us-modal" role="dialog" aria-modal="true" aria-label="Fale Conosco">
       <motion.div
         initial={{ opacity: 0, scale: 0.95, y: 15 }}
         animate={{ opacity: 1, scale: 1, y: 0 }}
         exit={{ opacity: 0, scale: 0.95, y: 15 }}
-        className="w-full max-w-2xl bg-[#FBF8F2] border border-[#E5DAC6] rounded-3xl p-5 sm:p-7 shadow-2xl space-y-6 relative overflow-hidden my-4 max-h-[92vh] overflow-y-auto"
+        className="w-full max-w-2xl bg-[#FBF8F2] border border-[#E5DAC6] rounded-2xl sm:rounded-3xl p-4 sm:p-7 shadow-2xl space-y-6 relative overflow-hidden my-1 sm:my-4 max-h-[calc(100dvh-1rem)] sm:max-h-[92dvh] overflow-y-auto overscroll-contain"
       >
         {/* Glow backdrop */}
         <div className="absolute top-0 right-0 w-72 h-72 bg-[#B88736]/7 rounded-full blur-3xl pointer-events-none" />
@@ -136,10 +136,10 @@ export default function ContactModal({
             </div>
             <div className="space-y-1">
               <h3 className="text-xl font-bold text-[#2A2420]">
-                Mensagem Preparada com Sucesso!
+                Mensagem pronta para envio
               </h3>
               <p className="text-xs text-[#5C5248] max-w-md mx-auto leading-relaxed">
-                Sua mensagem foi direcionada para o e-mail oficial do terapeuta. Responderemos o mais breve possível com todo o carinho e atenção.
+                Seu aplicativo de e-mail foi acionado com a mensagem preenchida. Revise e confirme o envio por lá; o aplicativo não registra a mensagem como enviada automaticamente.
               </p>
             </div>
 
@@ -152,7 +152,7 @@ export default function ContactModal({
                 }}
                 className="px-4 py-2.5 rounded-xl bg-[#F5EFE4] hover:bg-[#EFE4D3] text-[#5C5248] text-xs font-semibold transition cursor-pointer"
               >
-                Enviar Outra Mensagem
+                Preparar outra mensagem
               </button>
               <button
                 type="button"
@@ -280,12 +280,12 @@ export default function ContactModal({
                     disabled={!message.trim()}
                     className={`flex-1 sm:flex-initial px-5 py-2.5 rounded-xl text-xs font-bold flex items-center justify-center gap-2 transition cursor-pointer shadow-lg ${
                       message.trim()
-                        ? 'bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white shadow-emerald-600/20'
+                        ? 'bg-[#B88736] hover:bg-[#8F631E] text-white shadow-[#B88736]/15'
                         : 'bg-[#F5EFE4] text-[#85786C] cursor-not-allowed border border-[#E5DAC6]'
                     }`}
                   >
                     <Send size={13} />
-                    <span>Enviar Mensagem</span>
+                    <span>Preparar E-mail</span>
                   </button>
                 </div>
               </div>
