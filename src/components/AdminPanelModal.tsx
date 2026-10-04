@@ -14,6 +14,7 @@ import {
 import { audioEngine } from '../lib/audio';
 import { evaluateBestTreatmentFromAnamnesis } from '../lib/anamnesisTreatmentEngine';
 import VideoStudioModal from './VideoStudioModal';
+import { toBrazilianWhatsAppNumber } from '../utils/phone';
 
 interface CustomAudioItem {
   id: string;
@@ -747,7 +748,7 @@ export default function AdminPanelModal({ isOpen, onClose }: AdminPanelModalProp
                               {/* Action buttons: WhatsApp & Copy */}
                               <div className="flex flex-wrap items-center gap-2 pt-1 border-t border-[#E5DAC6]">
                                 <a
-                                  href={`https://wa.me/${userPhone ? userPhone.replace(/\D/g, '') : '5519997096799'}?text=${encodeURIComponent(
+                                  href={`https://wa.me/${userPhone ? toBrazilianWhatsAppNumber(userPhone) : '5551982215296'}?text=${encodeURIComponent(
                                     `Olá ${acc.profile?.name || ''}, aqui é o Terapeuta Éverton Piceni! Recebi sua Ficha de Anamnese no Protocolo de Cura Integrada. Avaliei seu quadro (${userRec.treatmentTitle}) e gostaria de te orientar nos seus 21 dias!`
                                   )}`}
                                   target="_blank"
