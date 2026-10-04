@@ -320,7 +320,7 @@ export default function App() {
                 const accounts: UserAccount[] = JSON.parse(rawAccounts);
                 const localAccount = accounts.find(a => a.login === localLogin);
                 if (localAccount) {
-                  setUserProfile(localAccount.profile);
+                  setUserProfile({ ...localAccount.profile, isAdmin: false });
                   setProgress(localAccount.progress || []);
                   const nextUncompleted = localAccount.progress?.find((p: any) => !p.completed);
                   setCurrentDay(nextUncompleted ? nextUncompleted.dayNumber : 21);
@@ -388,7 +388,7 @@ export default function App() {
       localStorage.setItem(LOCAL_STORAGE_KEY_ACCOUNTS, JSON.stringify(accounts));
     } catch (e) {}
 
-    setUserProfile(account.profile);
+    setUserProfile({ ...account.profile, isAdmin: account.isAdmin === true });
     setProgress(account.progress);
     
     const nextUncompleted = account.progress.find(p => !p.completed);
@@ -1523,20 +1523,22 @@ export default function App() {
                     <Sparkles size={12} className="text-amber-400" />
                   </button>
 
-                  <button
-                    type="button"
-                    onClick={() => {
-                      setShowSettings(false);
-                      setShowAdminModal(true);
-                    }}
-                    className="p-3 bg-amber-950/30 hover:bg-amber-900/40 border border-amber-500/30 rounded-xl text-left flex items-center justify-between text-xs text-amber-200 font-semibold cursor-pointer transition"
-                  >
-                    <span className="flex items-center gap-2">
-                      <Crown size={14} className="text-amber-400" />
-                      <span>Painel do Terapeuta / Admin</span>
-                    </span>
-                    <span className="text-[10px] text-amber-400 font-mono">Login Admin</span>
-                  </button>
+                  {userProfile.isAdmin && (
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setShowSettings(false);
+                        setShowAdminModal(true);
+                      }}
+                      className="p-3 bg-amber-950/30 hover:bg-amber-900/40 border border-amber-500/30 rounded-xl text-left flex items-center justify-between text-xs text-amber-200 font-semibold cursor-pointer transition"
+                    >
+                      <span className="flex items-center gap-2">
+                        <Crown size={14} className="text-amber-400" />
+                        <span>Painel do Terapeuta / Admin</span>
+                      </span>
+                      <span className="text-[10px] text-amber-400 font-mono">Acesso restrito</span>
+                    </button>
+                  )}
 
                   <button
                     type="button"
