@@ -403,12 +403,13 @@ export default function AnamnesisModal({
       >
         {/* Glow effects */}
         <div className="absolute -top-20 -right-20 w-56 h-56 bg-[#B88736]/10 rounded-full blur-3xl pointer-events-none" />
-        <div className="absolute -bottom-20 -left-20 w-56 h-56 bg-emerald-500/10 rounded-full blur-3xl pointer-events-none" />
+        <div className="absolute -bottom-20 -left-20 w-56 h-56 bg-[#B88736]/6 rounded-full blur-3xl pointer-events-none" />
 
         {/* Close Button */}
         <button
           onClick={handleCloseModal}
-          className="absolute top-5 right-5 w-8 h-8 rounded-full bg-[#F5EFE4]/80 border border-[#E5DAC6] text-[#5C5248] hover:text-[#2A2420] flex items-center justify-center transition cursor-pointer z-10 print:hidden"
+          aria-label="Fechar Mapa do Momento"
+          className="absolute top-4 right-4 w-11 h-11 rounded-full bg-[#F5EFE4]/90 border border-[#E5DAC6] text-[#5C5248] hover:text-[#2A2420] flex items-center justify-center transition cursor-pointer z-10 print:hidden focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B88736]/35"
         >
           <X size={16} />
         </button>
@@ -419,18 +420,18 @@ export default function AnamnesisModal({
           /* ========================================================================= */
           <div className="space-y-6">
             {daysSinceLastAnamnesis >= 7 && (
-              <div className="bg-amber-500/10 border border-amber-500/30 rounded-2xl p-4 flex items-start gap-3">
-                <AlertCircle size={20} className="text-amber-400 shrink-0 mt-0.5" />
+              <div className="bg-amber-50 border border-amber-200 rounded-2xl p-4 flex items-start gap-3">
+                <AlertCircle size={20} className="text-amber-700 shrink-0 mt-0.5" />
                 <div className="flex-1 space-y-2">
-                  <h4 className="text-sm font-semibold text-amber-200">
+                  <h4 className="text-sm font-semibold text-amber-900">
                     Ciclo de 7 Dias Concluído
                   </h4>
-                  <p className="text-xs text-amber-100/70 leading-relaxed">
+                  <p className="text-xs text-amber-800 leading-relaxed">
                     Já se passaram {daysSinceLastAnamnesis} dias desde sua última análise. Suas necessidades energéticas podem ter mudado! Recomendamos preencher uma nova anamnese para atualizar seu protocolo de Aromaterapia e Floral.
                   </p>
                   <button
                     onClick={() => setIsEditing(true)}
-                    className="mt-2 text-xs font-semibold text-slate-900 bg-amber-400 hover:bg-amber-300 px-4 py-2 rounded-lg transition-colors cursor-pointer border-none"
+                    className="mt-2 text-xs font-semibold text-white bg-[#B88736] hover:bg-[#8F631E] px-4 py-2.5 rounded-lg transition-colors cursor-pointer border-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B88736]/35"
                   >
                     Refazer Anamnese
                   </button>
@@ -439,26 +440,26 @@ export default function AnamnesisModal({
             )}
 
             {/* 1. TOP GREETING BANNER - FIRST THING THE PATIENT SEES */}
-            <div className="p-6 rounded-3xl bg-gradient-to-r from-indigo-950/90 via-purple-950/70 to-slate-900 border-2 border-[#B88736]/50 shadow-2xl relative overflow-hidden text-left" id="anamnesis-top-greeting">
+            <div className="p-6 rounded-3xl bg-white/85 border border-[#E5DAC6] shadow-sm relative overflow-hidden text-left" id="anamnesis-top-greeting">
               <div className="absolute top-0 right-0 w-48 h-48 bg-[#B88736]/10 rounded-full blur-3xl pointer-events-none" />
               <div className="flex items-center gap-2 mb-2">
                 <div className="w-8 h-8 rounded-xl bg-[#B88736]/20 text-[#B88736] border border-[#B88736]/30 flex items-center justify-center">
-                  <Sparkles size={16} className="animate-pulse" />
+                  <Sparkles size={16}  />
                 </div>
                 <span className="text-[11px] font-mono tracking-widest text-[#B88736] uppercase font-bold">
                   Mapa do Momento & Caminhos de Cuidado
                 </span>
               </div>
-              <h1 className="text-2xl md:text-3xl font-display font-semibold text-[#2A2420] leading-tight">
-                Olá, <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-300 via-purple-200 to-amber-200">{userProfile.fullName || userProfile.name}</span>!
+              <h1 className="text-2xl md:text-3xl font-display font-semibold text-[#2A2420] leading-tight pr-8">
+                Olá, <span className="text-[#8F631E]">{userProfile.fullName || userProfile.name}</span>!
               </h1>
               <p className="text-xs md:text-sm text-[#5C5248] mt-1 max-w-xl leading-relaxed">
                 Seu Mapa do Momento foi organizado a partir do que você compartilhou. Ouça abaixo as possibilidades de cuidado e a explicação de como elas se relacionam com este momento.
               </p>
               <div className="mt-3 flex flex-wrap items-center gap-3 text-[11px] text-[#5C5248]">
-                <span className="flex items-center gap-1 text-emerald-400 font-mono">
+                <span className="flex items-center gap-1 text-[#8F631E] font-mono">
                   <CheckCircle2 size={13} />
-                  <span>Status: Purificado na Chama Violeta</span>
+                  <span>Registro atualizado</span>
                 </span>
                 <span>•</span>
                 <span>Preenchido em {new Date(existingAnamnesis.filledAt).toLocaleDateString('pt-BR', { day: '2-digit', month: 'long', year: 'numeric' })}</span>
@@ -466,7 +467,7 @@ export default function AnamnesisModal({
             </div>
 
             {/* 2. REALISTIC AUDIO PLAYER & FEEDBACK CARD */}
-            <div className="p-5 md:p-6 rounded-3xl bg-gradient-to-br from-slate-900 via-indigo-950/40 to-purple-950/40 border-2 border-[#B88736]/60 shadow-2xl space-y-5" id="anamnesis-audio-player-card">
+            <div className="p-5 md:p-6 rounded-3xl bg-white/85 border border-[#E5DAC6] shadow-sm space-y-5" id="anamnesis-audio-player-card">
               {/* Header + Voice Switcher */}
               <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-[#B88736]/20 pb-4">
                 <div className="flex items-center gap-3">
@@ -477,11 +478,11 @@ export default function AnamnesisModal({
                     <h3 className="text-base font-semibold text-[#2A2420] flex items-center gap-2">
                       <span>Acolhimento Terapêutico em Áudio</span>
                       <span className="text-[10px] font-mono font-bold uppercase bg-[#B88736]/20 text-[#B88736] border border-[#B88736]/40 px-2 py-0.5 rounded-full">
-                        Voz Realista IA
+                        Áudio guiado
                       </span>
                     </h3>
                     <p className="text-xs text-[#5C5248]">
-                      Ouça as revelações e orientações do seu campo vibracional
+                      Ouça as possibilidades de cuidado relacionadas ao que você compartilhou
                     </p>
                   </div>
                 </div>
@@ -500,7 +501,6 @@ export default function AnamnesisModal({
                         : 'text-[#5C5248] hover:text-[#2A2420]'
                     }`}
                   >
-                    <span>👨</span>
                     <span>Voz de Éverton</span>
                   </button>
                   <button
@@ -511,11 +511,10 @@ export default function AnamnesisModal({
                     }}
                     className={`px-3 py-1.5 rounded-lg text-xs font-medium transition cursor-pointer flex items-center gap-1.5 ${
                       selectedVoiceGender === 'feminina'
-                        ? 'bg-rose-600 text-white shadow-sm'
+                        ? 'bg-[#B88736] text-white shadow-sm'
                         : 'text-[#5C5248] hover:text-[#2A2420]'
                     }`}
                   >
-                    <span>👩</span>
                     <span>Voz Suave</span>
                   </button>
                 </div>
@@ -681,7 +680,7 @@ export default function AnamnesisModal({
                 <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 border-b border-amber-500/20 pb-3">
                   <div className="flex items-center gap-2.5">
                     <div className="p-2.5 rounded-xl bg-amber-500/20 text-amber-400 border border-amber-500/30">
-                      <Award size={20} className="animate-pulse" />
+                      <Award size={20}  />
                     </div>
                     <div>
                       <div className="flex items-center gap-2">
