@@ -762,38 +762,6 @@ export default function ProfileSetup({ onComplete }: ProfileSetupProps) {
               {isSubmitting ? <span className="flex items-center justify-center gap-2"><Loader2 size={18} className="animate-spin" /> Criando sua conta...</span> : 'Criar conta e começar'}
             </button>
 
-            <div className="pt-2 text-center">
-              <button
-                type="button"
-                onClick={() => {
-                  const demoAccount: UserAccount = {
-                    login: 'everton',
-                    email: 'evertonpiceni@gmail.com',
-                    password: '',
-                    fullName: 'Éverton Rodrigo Piceni',
-                    birthDate: '1985-01-01',
-                    profile: {
-                      name: 'Éverton Rodrigo Piceni',
-                      email: 'evertonpiceni@gmail.com',
-                      audioEnabled: true,
-                      bgMusicVolume: 0.5,
-                      bgMusicType: '528hz',
-                      plan: 'pro'
-                    } as any,
-                    progress: Array.from({ length: 21 }, (_, index) => ({
-                      dayNumber: index + 1,
-                      completed: false
-                    })),
-                    isAdmin: true
-                  };
-                  onComplete(demoAccount);
-                }}
-                className="w-full py-2.5 px-4 rounded-xl border border-[#E5DAC6] bg-white/70 hover:bg-white text-xs font-serif text-[#8F631E] hover:text-[#2A2420] transition-colors flex items-center justify-center gap-2 cursor-pointer"
-              >
-                <Sparkles size={14} className="text-[#B88736]" />
-                <span>Entrar Direto — Terapeuta Everton Piceni (Admin PRO)</span>
-              </button>
-            </div>
           </form>
         ) : activeTab === 'login' ? (
           /* LOGIN FORM */
