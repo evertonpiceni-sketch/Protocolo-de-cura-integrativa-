@@ -21,7 +21,7 @@ interface SpecificTreatmentModalProps {
 }
 
 const CATEGORIES = [
-  { id: 'bem_estar_corporal', label: 'Bem-estar Corporal & Vitalidade', icon: Zap, desc: 'Acolhimento de cansaço, tensão e percepção corporal, sem substituir cuidados de saúde' },
+  { id: 'saude_fisica', label: 'Bem-estar Corporal & Vitalidade', icon: Zap, desc: 'Acolhimento de cansaço, tensão e percepção corporal, sem substituir cuidados de saúde' },
   { id: 'prosperidade', label: 'Prosperidade & Destrave Financeiro', icon: Flame, desc: 'Desbloqueio de escassez, abertura de caminhos e fluxo de abundância' },
   { id: 'liberacao_emocional', label: 'Acolhimento Emocional & Desapego', icon: Heart, desc: 'Prática de presença para mágoas, preocupações, luto e sentimentos difíceis' },
   { id: 'relacionamentos', label: 'Harmonia em Relacionamentos', icon: User, desc: 'Reflexão sobre vínculos, separações, limites e reconciliação possível' },
@@ -45,7 +45,7 @@ export default function SpecificTreatmentModal({
   const [durationDays, setDurationDays] = useState<1 | 7 | 21>(21); // Changed default to 1
   const [isCustomPrice, setIsCustomPrice] = useState<boolean>(false);
   const [customPriceInput, setCustomPriceInput] = useState<string>('99,90');
-  const [selectedCategory, setSelectedCategory] = useState<string>('bem_estar_corporal');
+  const [selectedCategory, setSelectedCategory] = useState<string>('saude_fisica');
   const [treatmentTitle, setTreatmentTitle] = useState<string>('');
   const [patientDescription, setPatientDescription] = useState<string>('');
   const [selectedPains, setSelectedPains] = useState<string[]>([]);
