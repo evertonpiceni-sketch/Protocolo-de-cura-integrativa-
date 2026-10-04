@@ -703,12 +703,6 @@ export default function App() {
   return (
     <>
 
-      <AnimatePresence>
-        {showSimpleProtocol && (
-          <SimpleProtocol onClose={() => setShowSimpleProtocol(false)} />
-        )}
-      </AnimatePresence>
-      
       {showPersonalJourney ? (
         <PersonalJourney21 onClose={() => setShowPersonalJourney(false)} />
       ) : showArcanjoView || userProfile.subscriptionPlan === 'arcanjo_7d' ? (
