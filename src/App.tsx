@@ -374,9 +374,36 @@ export default function App() {
     checkAuth();
   }, []);
 
+  const updateLocalAccountCache = (profileToCache: UserProfile, progressToCache: DayProgress[]) => {
+    try {
+      const localLogin = profileToCache.login || localStorage.getItem(LOCAL_STORAGE_KEY_CURRENT_LOGIN);
+      if (!localLogin) return;
+      const rawAccounts = localStorage.getItem(LOCAL_STORAGE_KEY_ACCOUNTS);
+      const accounts: UserAccount[] = rawAccounts ? JSON.parse(rawAccounts) : [];
+      const index = accounts.findIndex(account => account.login === localLogin);
+      const cachedAccount: UserAccount = {
+        ...(index >= 0 ? accounts[index] : {} as UserAccount),
+        login: localLogin,
+        email: profileToCache.email || '',
+        fullName: profileToCache.fullName || profileToCache.name || '',
+        birthDate: profileToCache.birthDate || '',
+        profile: { ...profileToCache, isAdmin: false },
+        progress: progressToCache,
+        isAdmin: false
+      };
+      if (index >= 0) accounts[index] = cachedAccount;
+      else accounts.push(cachedAccount);
+      localStorage.setItem(LOCAL_STORAGE_KEY_ACCOUNTS, JSON.stringify(accounts));
+      localStorage.setItem(LOCAL_STORAGE_KEY_CURRENT_LOGIN, localLogin);
+    } catch (error) {
+      console.warn('Local profile cache update failed', error);
+    }
+  };
+
   // Save profile state whenever it changes
   const saveProfile = (newProfile: UserProfile) => {
     setUserProfile(newProfile);
+    updateLocalAccountCache(newProfile, progress);
     if (isLoggedIn) {
       fetch('/api/user/sync', {
         method: 'POST',
@@ -388,6 +415,7 @@ export default function App() {
 
   const saveProgress = (newProgress: DayProgress[]) => {
     setProgress(newProgress);
+    if (userProfile) updateLocalAccountCache(userProfile, newProgress);
     if (isLoggedIn) {
       fetch('/api/user/sync', {
         method: 'POST',
