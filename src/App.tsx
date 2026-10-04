@@ -1978,7 +1978,7 @@ export default function App() {
             <div className="pt-2 flex gap-3">
               <button
                 onClick={() => setSelectedDayDetail(null)}
-                className="flex-1 bg-[#F5EFE4] hover:bg-slate-700 text-[#5C5248] font-medium py-3 rounded-xl transition text-xs cursor-pointer border-none"
+                className="flex-1 min-h-11 bg-[#F5EFE4] hover:bg-[#EFE4D3] text-[#5C5248] font-medium py-3 rounded-xl transition text-xs cursor-pointer border border-[#E5DAC6] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B88736]/30"
               >
                 Fechar Detalhes
               </button>
@@ -1987,7 +1987,7 @@ export default function App() {
                   setSelectedDayDetail(null);
                   setActiveSessionDay(selectedDayDetail);
                 }}
-                className="flex-1 bg-indigo-600 hover:bg-indigo-500 text-white font-medium py-3 rounded-xl transition text-xs flex items-center justify-center gap-1.5 cursor-pointer border-none"
+                className="flex-1 min-h-11 bg-[#B88736] hover:bg-[#8F631E] text-white font-medium py-3 rounded-xl transition text-xs flex items-center justify-center gap-1.5 cursor-pointer border-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B88736]/35"
               >
                 <Play size={12} fill="currentColor" />
                 {selectedProgress?.completed ? "Refazer Sessão" : "Iniciar Sessão"}
