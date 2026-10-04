@@ -380,7 +380,7 @@ export default function ProfileSetup({ onComplete }: ProfileSetupProps) {
 
         {/* Display feedback messages */}
         {error && (
-          <div className="bg-rose-950/40 border border-rose-900/50 text-rose-200 text-sm p-4 rounded-xl text-center" id="auth-error" role="alert">
+          <div className="bg-rose-50 border border-rose-200 text-rose-700 text-sm p-4 rounded-xl text-center" id="auth-error" role="alert">
             <p>{error}</p>
             {serviceUnavailable && (
               <button type="button" onClick={() => window.location.reload()} className="mt-3 min-h-10 rounded-lg border border-rose-500/40 px-4 font-semibold text-white">
@@ -390,7 +390,7 @@ export default function ProfileSetup({ onComplete }: ProfileSetupProps) {
           </div>
         )}
         {successMsg && (
-          <div className="bg-emerald-950/40 border border-emerald-900/50 text-emerald-300 text-xs p-3 rounded-xl text-center" id="auth-success">
+          <div className="bg-emerald-50 border border-emerald-200 text-emerald-700 text-xs p-3 rounded-xl text-center" id="auth-success">
             {successMsg}
           </div>
         )}
@@ -504,24 +504,24 @@ export default function ProfileSetup({ onComplete }: ProfileSetupProps) {
               </div>
             </div>
 
-            <details className="group rounded-2xl border border-purple-500/25 bg-purple-950/20">
-              <summary className="flex min-h-12 cursor-pointer list-none items-center justify-between gap-3 p-4 text-sm font-semibold text-purple-200">
+            <details className="group rounded-2xl border border-[#E5DAC6] bg-white/70">
+              <summary className="flex min-h-12 cursor-pointer list-none items-center justify-between gap-3 p-4 text-sm font-semibold text-[#5C5248]">
                 <span className="flex items-center gap-2">
                   <Sparkles size={16} className="text-amber-400" />
                   Personalizar mapa, voz e frequência
                 </span>
-                <span className="text-xs text-purple-300 group-open:hidden">Opcional</span>
-                <span className="hidden text-xs text-purple-300 group-open:inline">Fechar</span>
+                <span className="text-xs text-[#8F631E] group-open:hidden">Opcional</span>
+                <span className="hidden text-xs text-[#8F631E] group-open:inline">Fechar</span>
               </summary>
               <div className="space-y-4 border-t border-purple-500/20 p-4">
             {/* Astral Map Data Section */}
             <div className="p-3.5 rounded-2xl bg-purple-950/20 border border-purple-500/25 space-y-3">
               <div className="flex items-center justify-between">
-                <span className="text-[11px] font-mono uppercase tracking-wider text-purple-300 font-bold flex items-center gap-1.5">
+                <span className="text-[11px] font-mono uppercase tracking-wider text-[#8F631E] font-bold flex items-center gap-1.5">
                   <Sparkles size={13} className="text-amber-400" />
                   <span>Cálculo do seu Mapa Astral (Presente)</span>
                 </span>
-                <span className="text-[9px] font-mono px-2 py-0.5 rounded-full bg-purple-500/20 text-purple-300 border border-purple-500/30">
+                <span className="text-[9px] font-mono px-2 py-0.5 rounded-full bg-[#B88736]/10 text-[#8F631E] border border-[#B88736]/25">
                   Gratuito
                 </span>
               </div>
@@ -599,7 +599,7 @@ export default function ProfileSetup({ onComplete }: ProfileSetupProps) {
                   onClick={() => setVoiceChoice('masculina')}
                   className={`p-3.5 rounded-2xl border transition duration-150 cursor-pointer flex flex-col justify-between ${
                     voiceChoice === 'masculina'
-                      ? 'bg-gradient-to-br from-indigo-950/70 via-slate-900 to-indigo-950/40 border-indigo-500 shadow-md ring-1 ring-indigo-500/50'
+                      ? 'bg-[#F5EFE4] border-[#B88736] shadow-sm ring-1 ring-[#B88736]/25'
                       : 'bg-white/70 border-[#E5DAC6] hover:border-[#E5DAC6] text-[#5C5248]'
                   }`}
                 >
@@ -619,7 +619,7 @@ export default function ProfileSetup({ onComplete }: ProfileSetupProps) {
                   </div>
 
                   <div className="mt-2.5 pt-2 border-t border-[#E5DAC6]/60 flex items-center justify-between">
-                    <span className="text-[9px] font-mono text-[#B88736] bg-indigo-950/50 px-2 py-0.5 rounded">
+                    <span className="text-[9px] font-mono text-[#B88736] bg-[#B88736]/10 px-2 py-0.5 rounded">
                       Tom Terapêutico Natural
                     </span>
                     <button
@@ -628,7 +628,7 @@ export default function ProfileSetup({ onComplete }: ProfileSetupProps) {
                         e.stopPropagation();
                         playVoicePreview('masculina');
                       }}
-                      className="px-2 py-1 rounded-lg bg-[#B88736]/30 hover:bg-[#B88736]/50 text-indigo-200 border border-indigo-500/40 text-[10px] flex items-center gap-1 transition cursor-pointer"
+                      className="px-2 py-1 rounded-lg bg-[#B88736]/30 hover:bg-[#B88736]/50 text-[#8F631E] border border-[#B88736]/30 text-[10px] flex items-center gap-1 transition cursor-pointer"
                     >
                       {loadingVoiceType === 'masculina' ? (
                         <>
@@ -654,7 +654,7 @@ export default function ProfileSetup({ onComplete }: ProfileSetupProps) {
                   onClick={() => setVoiceChoice('feminina')}
                   className={`p-3.5 rounded-2xl border transition duration-150 cursor-pointer flex flex-col justify-between ${
                     voiceChoice === 'feminina'
-                      ? 'bg-gradient-to-br from-rose-950/60 via-slate-900 to-purple-950/40 border-rose-400 shadow-md ring-1 ring-rose-400/50'
+                      ? 'bg-rose-50 border-rose-300 shadow-sm ring-1 ring-rose-200'
                       : 'bg-white/70 border-[#E5DAC6] hover:border-[#E5DAC6] text-[#5C5248]'
                   }`}
                 >
@@ -674,7 +674,7 @@ export default function ProfileSetup({ onComplete }: ProfileSetupProps) {
                   </div>
 
                   <div className="mt-2.5 pt-2 border-t border-[#E5DAC6]/60 flex items-center justify-between">
-                    <span className="text-[9px] font-mono text-rose-300 bg-rose-950/50 px-2 py-0.5 rounded">
+                    <span className="text-[9px] font-mono text-rose-700 bg-rose-50 px-2 py-0.5 rounded">
                       Acolhimento da Alma
                     </span>
                     <button
@@ -726,7 +726,7 @@ export default function ProfileSetup({ onComplete }: ProfileSetupProps) {
                     onClick={() => setMusicType(opt.id as any)}
                     className={`p-2 rounded-xl border text-left transition duration-150 cursor-pointer ${
                       musicType === opt.id
-                        ? 'bg-indigo-950/50 border-indigo-500 text-[#2A2420] shadow-sm'
+                        ? 'bg-[#B88736]/10 border-indigo-500 text-[#2A2420] shadow-sm'
                         : 'bg-white border-[#E5DAC6] text-[#5C5248] hover:border-[#E5DAC6]'
                     }`}
                   >
@@ -744,7 +744,7 @@ export default function ProfileSetup({ onComplete }: ProfileSetupProps) {
                 type="checkbox" 
                 id="lgpd-consent" 
                 required 
-                className="mt-0.5 shrink-0 bg-[#FBF8F2] border-[#E5DAC6] rounded text-indigo-600 focus:ring-indigo-500" 
+                className="mt-0.5 shrink-0 bg-[#FBF8F2] border-[#E5DAC6] rounded text-[#8F631E] focus:ring-[#B88736]" 
               />
               <label htmlFor="lgpd-consent" className="text-xs text-[#5C5248] leading-relaxed">
                 Declaro que li e concordo com os <a href="/termos.html" target="_blank" rel="noreferrer" className="text-[#B88736] underline underline-offset-2">Termos de Uso</a> e a <a href="/privacidade.html" target="_blank" rel="noreferrer" className="text-[#B88736] underline underline-offset-2">Política de Privacidade</a>.
