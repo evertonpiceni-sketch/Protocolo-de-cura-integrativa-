@@ -14,14 +14,8 @@ import ProReportCertificateModal from './components/ProReportCertificateModal';
 import SpecificTreatmentModal from './components/SpecificTreatmentModal';
 import PlansValuesGuideModal from './components/PlansValuesGuideModal';
 import NumerologyModal from './components/NumerologyModal';
-import MobileInstallModal from './components/MobileInstallModal';
-import OnboardingFlow from './components/OnboardingFlow';
-import ArchangelMichaelPrayerModal from './components/ArchangelMichaelPrayerModal';
 import ArcanjoProtocolView from './components/ArcanjoProtocolView';
-import MilestoneCelebrationModal from './components/MilestoneCelebrationModal';
-import DailyTipModal from './components/DailyTipModal';
 import PersonalJourney21 from './components/PersonalJourney21';
-import VideoStudioModal from './components/VideoStudioLightModal';
 
 import { SpeedInsights } from '@vercel/speed-insights/react';
 import TransformationHome from './components/TransformationHome';
@@ -48,6 +42,12 @@ const DailyDiaryModal = React.lazy(() => import('./components/DailyDiaryModal'))
 const ContactModal = React.lazy(() => import('./components/ContactModal'));
 const PromoVideoModal = React.lazy(() => import('./components/PromoVideoModal'));
 const DashboardCura = React.lazy(() => import('./components/DashboardCura'));
+const MobileInstallModal = React.lazy(() => import('./components/MobileInstallModal'));
+const DailyTipModal = React.lazy(() => import('./components/DailyTipModal'));
+const MilestoneCelebrationModal = React.lazy(() => import('./components/MilestoneCelebrationModal'));
+const ArchangelMichaelPrayerModal = React.lazy(() => import('./components/ArchangelMichaelPrayerModal'));
+const VideoStudioModal = React.lazy(() => import('./components/VideoStudioLightModal'));
+const OnboardingFlow = React.lazy(() => import('./components/OnboardingFlow'));
 
 const LOCAL_STORAGE_KEY_CURRENT_LOGIN = 'cura_integrada_logged_in_user_v1';
 const LOCAL_STORAGE_KEY_ACCOUNTS = 'cura_integrada_accounts_v1';
