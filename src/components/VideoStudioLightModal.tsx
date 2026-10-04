@@ -33,7 +33,7 @@ function DayOverlay({ day }: { day: number }) {
   switch (day) {
     case 1:
       return <g>
-        <motion.circle cx="100" r="7" fill="#D6A756" style={glow} animate={{ cy:[28,80,142,194], opacity:[.25,.9,.95,1] }} transition={common}/>
+        <motion.circle cx="100" cy="28" r="7" fill="#D6A756" style={glow} initial={{ cy:28, opacity:.25 }} animate={{ cy:[28,80,142,194], opacity:[.25,.9,.95,1] }} transition={common}/>
         {['M94 194 C84 208 67 215 50 225','M106 194 C116 208 133 215 150 225','M100 194 C98 211 98 220 96 232','M100 194 C102 211 102 220 104 232'].map((d,i)=><motion.path key={i} d={d} fill="none" stroke="#B88736" strokeWidth={i<2?2:1.4} animate={{pathLength:[0,1,.8],opacity:[.25,1,.7]}} transition={{...common,delay:i*.18}}/>)}
       </g>;
     case 2:

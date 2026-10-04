@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useLayoutEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import {
   X, Sparkles, BookOpen, Volume2, VolumeX
@@ -63,6 +63,15 @@ export default function MeditationSession({
   // 'portal' -> 'checkin_before' -> 'playing' -> 'checkin_after' -> 'completed'
   const [sessionPhase, setSessionPhase] = useState<'portal' | 'checkin_before' | 'playing' | 'checkin_after' | 'completed'>('portal');
 
+  // Natural Sereno can scroll on small screens. Do not carry the check-in's
+  // scroll offset into the player when its shorter presentation is mounted.
+  useLayoutEffect(() => {
+    if (document.documentElement.dataset.layout === 'natural-sereno') {
+      const session = document.getElementById('meditation-session');
+      if (session) session.scrollTop = 0;
+    }
+  }, [sessionPhase]);
+
   // Stages & Audio State
   const [currentStageIndex, setCurrentStageIndex] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
@@ -89,8 +98,8 @@ export default function MeditationSession({
 
   // Dynamic insights
   const currentInsight = journeyType === '7d'
-    ? JOURNEY_7D_INSIGHTS[dayNumber] || JOURNEY_7D_INSIGHTS[1]
-    : DAILY_INSIGHTS[dayNumber] || DAILY_INSIGHTS[1];
+    ? JOURNEY_7D_INSIGHTS[dayNumber - 1] || JOURNEY_7D_INSIGHTS[0]
+    : DAILY_INSIGHTS[dayNumber - 1] || DAILY_INSIGHTS[0];
 
   // Breathing cadence cycle
   useEffect(() => {
@@ -133,12 +142,12 @@ export default function MeditationSession({
 
   // Execute stage stream when stage changes or playback begins
   const playCurrentStageAudio = async () => {
-    const rawStageText = (STAGE_AUDIO_TRANSLATIONS[initialLanguage] &&
-      STAGE_AUDIO_TRANSLATIONS[initialLanguage][currentStage.id]) ||
-      activeScript.audioScript ||
-      activeScript.text;
+    const rawStageText = STAGE_AUDIO_TRANSLATIONS[initialLanguage]?.[currentStage.id]?.text ||
+      activeScript.ttsScript ||
+      activeScript.fullText ||
+      currentStage.text;
 
-    let personalizedText = rawStageText.replace(/\{userName\}/g, userName || 'Filho da Luz');
+    let personalizedText = rawStageText.replace(/\{userName\}|\[NOME\]/g, userName || 'Filho da Luz');
     if (currentStage.id === ProtocolStage.ABERTURA && customDecree) {
       personalizedText = `${personalizedText}\n\nDecreto Pessoal Especial: ${customDecree}`;
     }
@@ -275,9 +284,9 @@ export default function MeditationSession({
   }
 
   return (
-    <div className="fixed inset-0 z-50 bg-[#FAF7F2] text-[#2A2420] flex flex-col justify-between overflow-hidden select-none min-h-dvh">
+    <div id="meditation-session" data-session-phase={sessionPhase} className="ep-session fixed inset-0 z-50 bg-[#FAF7F2] text-[#2A2420] flex flex-col justify-between overflow-hidden select-none min-h-dvh">
       {/* Background Sacred Canvas */}
-      <div className="absolute inset-0 pointer-events-none">
+      <div className="ep-session-backdrop absolute inset-0 pointer-events-none">
         <SacredEnergyCanvas
           stageId={currentStage.id}
           isPlaying={isPlaying}
@@ -349,26 +358,30 @@ export default function MeditationSession({
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -12 }}
             transition={{ duration: 0.6 }}
-            className="w-full flex flex-col items-center"
+            className="ep-session-stage w-full flex flex-col items-center"
           >
+            <div className="ns-session-title hidden">
+              <p>Dia {dayNumber}</p>
+              <h2>{currentInsight.title || 'Alinhamento Energético'}</h2>
+            </div>
             {/* Stage Badge & Step Indicator */}
-            <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full border border-[#B88736]/30 bg-[#FAF4E8] text-xs font-serif text-[#8F631E] mb-6 shadow-xs font-medium">
+            <div className="ep-stage-badge inline-flex items-center gap-2 px-3.5 py-1 rounded-full border border-[#B88736]/30 bg-[#FAF4E8] text-xs font-serif text-[#8F631E] mb-6 shadow-xs font-medium">
               <span className="w-1.5 h-1.5 rounded-full bg-[#8F631E] animate-pulse" />
               <span>Etapa {currentStageIndex + 1} de {stages.length}: {currentStage.title}</span>
             </div>
 
             {/* Sacred Title */}
-            <h2 className="text-2xl sm:text-3xl font-serif text-[#2A2420] font-normal tracking-wide mb-3">
+            <h2 className="ep-stage-title text-2xl sm:text-3xl font-serif text-[#2A2420] font-normal tracking-wide mb-3">
               {currentStage.title}
             </h2>
 
             {/* Focus Description */}
-            <p className="text-sm text-[#5C5248] leading-relaxed max-w-md mx-auto mb-6">
+            <p className="ep-stage-subtitle text-sm text-[#5C5248] leading-relaxed max-w-md mx-auto mb-6">
               {currentStage.subtitle}
             </p>
 
             {/* Subtle Respiration Guidance Ring */}
-            <div className="relative w-44 h-44 my-4 flex items-center justify-center">
+            <div className="ep-breathing-guide relative w-44 h-44 my-4 flex items-center justify-center">
               <motion.div
                 animate={{
                   scale: isPlaying
@@ -393,7 +406,7 @@ export default function MeditationSession({
             </div>
 
             {/* Quick Mantra or Canonical decree line */}
-            <div className="mt-4 px-4 py-2 rounded-xl bg-white/90 border border-[#E5DAC6] max-w-sm text-xs italic text-[#5C5248] shadow-xs">
+            <div className="ep-session-mantra mt-4 px-4 py-2 rounded-xl bg-white/90 border border-[#E5DAC6] max-w-sm text-xs italic text-[#5C5248] shadow-xs">
               "{activeScript.symbols?.[0] ? `${activeScript.symbols[0]} — ` : ''}{activeScript.mantra || 'Eu aceito, recebo e ancoro a cura em todo o meu ser.'}"
             </div>
           </motion.div>
@@ -433,13 +446,19 @@ export default function MeditationSession({
             currentTime={currentTime}
             duration={duration}
             onTogglePlay={handleTogglePlay}
-            onSeek={handleSeek}
-            onSkipForward={handleSkipForward}
-            onSkipBackward={handleSkipBackward}
+            onSeekTo={handleSeek}
+            onSeekForward={handleSkipForward}
+            onSeekBackward={handleSkipBackward}
             onNextStage={handleNextStage}
             onPrevStage={handlePrevStage}
-            canPrev={currentStageIndex > 0}
-            canNext={true}
+            hasPrevStage={currentStageIndex > 0}
+            hasNextStage={true}
+            isMuted={isMuted}
+            onToggleMute={() => {
+              audioEngine.setMasterVolume(isMuted ? 1.0 : 0);
+              setIsMuted(!isMuted);
+            }}
+            onOpenScriptDrawer={() => setIsDrawerOpen(true)}
           />
         </footer>
       )}

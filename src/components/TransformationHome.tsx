@@ -4,8 +4,11 @@ import { AnamnesisData, DAILY_INSIGHTS, DayProgress } from '../types';
 import { APPROVED_LOGO_DATA_URI } from './ApprovedBrand';
 import { evaluateBestTreatmentFromAnamnesis } from '../lib/anamnesisTreatmentEngine';
 import { audioEngine } from '../lib/audio';
+import { LayoutId } from '../config/layouts';
+import NaturalSerenoHome from './NaturalSerenoHome';
 
-type Props = {
+export type TransformationHomeProps = {
+  visualLayout?: LayoutId;
   userName: string;
   currentDay: number;
   progress: DayProgress[];
@@ -25,6 +28,7 @@ type Props = {
   onOpenCourses: () => void;
   onOpenContact: () => void;
   onOpenPersonalJourney: () => void;
+  onLogout?: () => void;
 };
 
 const careCards = [
@@ -34,7 +38,7 @@ const careCards = [
   { key: 'numerology', title: 'Numerologia', copy: 'Ciclos, essência e caminhos', icon: Flower2 },
 ];
 
-export default function TransformationHome(props: Props) {
+export default function TransformationHome(props: TransformationHomeProps) {
   const [isSpeaking, setIsSpeaking] = useState(false);
   const [journeyEntered, setJourneyEntered] = useState(() => sessionStorage.getItem('transformation_journey_entered_v2') === 'true');
   const firstName = props.userName?.trim().split(' ')[0] || 'bem-vindo';
@@ -55,6 +59,24 @@ export default function TransformationHome(props: Props) {
     audioEngine.stopSpeech();
     void audioEngine.speakWithElevenLabsOrFallback(text, 1, () => setIsSpeaking(true), () => setIsSpeaking(false), undefined, undefined, { voiceId: 'Marcus', stability: .5, similarityBoost: .78, userName: props.userName, enableBreathingPauses: true, preferElevenLabs: true, lang: 'pt-BR', rate: .82, pitch: .92 });
   };
+
+  if (props.visualLayout === 'natural-sereno') {
+    return <NaturalSerenoHome
+      {...props}
+      firstName={firstName}
+      journeyEntered={journeyEntered}
+      isSpeaking={isSpeaking}
+      onToggleWelcome={toggleWelcome}
+      onSpeakResult={speakResult}
+      recommendation={recommendation}
+      onEnterJourney={() => {
+        audioEngine.stopSpeech();
+        setIsSpeaking(false);
+        sessionStorage.setItem('transformation_journey_entered_v2', 'true');
+        setJourneyEntered(true);
+      }}
+    />;
+  }
 
   if (!journeyEntered) {
     const enterJourney = () => { audioEngine.stopSpeech(); setIsSpeaking(false); sessionStorage.setItem('transformation_journey_entered_v2', 'true'); setJourneyEntered(true); };

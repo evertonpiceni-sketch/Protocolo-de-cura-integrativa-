@@ -501,7 +501,7 @@ export default function AnamnesisModal({
                         : 'text-[#5C5248] hover:text-[#2A2420]'
                     }`}
                   >
-                    <span>Voz de Éverton</span>
+                    <span>Voz masculina</span>
                   </button>
                   <button
                     type="button"
@@ -1000,7 +1000,7 @@ export default function AnamnesisModal({
             </div>
 
             {/* 639 Hz Frequency Banner: Melhora a compreensão, tolerância e relações interpessoais */}
-            <div className="p-3 rounded-2xl bg-gradient-to-r from-emerald-50 via-[#FBF8F2] to-[#F3EBDD] border border-emerald-200 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2.5">
+            <div className="ep-anamnesis-frequency p-3 rounded-2xl bg-gradient-to-r from-emerald-50 via-[#FBF8F2] to-[#F3EBDD] border border-emerald-200 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2.5">
               <div className="flex items-center gap-2.5">
                 <div className="relative w-8 h-8 rounded-xl bg-emerald-500/20 border border-emerald-500/40 flex items-center justify-center text-emerald-700 shrink-0">
                   <Heart size={16} className={is639HzActive ? 'scale-110 text-emerald-400 animate-pulse' : 'opacity-60'} />
