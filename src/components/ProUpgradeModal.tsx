@@ -11,7 +11,7 @@ interface ProUpgradeModalProps {
   isOpen: boolean;
   onClose: () => void;
   userProfile: UserProfile;
-  onUpgradeSuccess: (plan: SubscriptionPlanType, paymentMethod: 'pix' | 'card', price: number) => void | Promise<void>;
+  onUpgradeSuccess: (plan: SubscriptionPlanType, paymentMethod: 'pix' | 'card', price: number) => boolean | void | Promise<boolean | void>;
   onOpenContact?: () => void;
 }
 
