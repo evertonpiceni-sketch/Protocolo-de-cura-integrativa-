@@ -3,14 +3,7 @@ import { User, Sparkles, Shield, Heart, Lock, Mail, Calendar as CalendarIcon, Lo
 import { UserAccount } from '../types';
 import { APPROVED_LOGO_DATA_URI } from './ApprovedBrand';
 import { normalizeBrazilianNationalPhone } from '../utils/phone';
-
-const getLocalToday = () => {
-  const now = new Date();
-  const year = now.getFullYear();
-  const month = String(now.getMonth() + 1).padStart(2, '0');
-  const day = String(now.getDate()).padStart(2, '0');
-  return `${year}-${month}-${day}`;
-};
+import { getLocalDateString } from '../utils/date';
 
 const formatBrazilianPhone = (value: string) => {
   const digits = normalizeBrazilianNationalPhone(value);
@@ -186,7 +179,7 @@ export default function ProfileSetup({ onComplete }: ProfileSetupProps) {
 
     if (!fullName.trim()) return setError('Por favor, insira seu nome completo.');
     if (!birthDate) return setError('Por favor, informe sua data de nascimento.');
-    if (birthDate > getLocalToday()) return setError('A data de nascimento não pode estar no futuro.');
+    if (birthDate > getLocalDateString()) return setError('A data de nascimento não pode estar no futuro.');
     const cleanEmail = email.trim().toLowerCase();
     if (!cleanEmail || !cleanEmail.includes('@')) return setError('Por favor, insira um e-mail válido.');
     const cleanLogin = regLogin.trim().toLowerCase();
@@ -440,7 +433,7 @@ export default function ProfileSetup({ onComplete }: ProfileSetupProps) {
                     id="reg-birthdate"
                     type="date"
                     required
-                    max={getLocalToday()}
+                    max={getLocalDateString()}
                     value={birthDate}
                     onChange={(e) => setBirthDate(e.target.value)}
                     className="w-full bg-white border border-[#E5DAC6]/80 focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 text-[#2A2420] rounded-xl py-2.5 pl-10 pr-4 text-xs transition duration-150 outline-none [color-scheme:dark]"
