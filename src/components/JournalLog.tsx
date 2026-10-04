@@ -115,7 +115,7 @@ export default function JournalLog({ progress, onClose }: JournalLogProps) {
         <div className="flex items-center gap-3">
           <button
             onClick={onClose}
-            className="p-2.5 bg-[#FBF8F2] border border-[#E5DAC6] text-[#5C5248] hover:text-[#2A2420] rounded-xl transition cursor-pointer"
+            aria-label="Voltar" className="w-11 h-11 bg-[#FBF8F2] border border-[#E5DAC6] text-[#5C5248] hover:text-[#2A2420] rounded-xl transition cursor-pointer flex items-center justify-center focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B88736]/30"
             id="btn-back-from-journal"
           >
             <ArrowLeft size={16} />
@@ -138,7 +138,7 @@ export default function JournalLog({ progress, onClose }: JournalLogProps) {
           {completedEntries.length > 0 && (
             <button
               onClick={exportToTxt}
-              className="text-xs font-medium px-3.5 py-1.5 rounded-full bg-[#B88736] hover:bg-[#B88736] text-white flex items-center gap-1.5 cursor-pointer transition shadow-lg shadow-indigo-500/10 hover:shadow-indigo-500/20 active:scale-95 border border-[#B88736]/30 font-sans"
+              className="text-xs font-medium px-3.5 py-1.5 rounded-full bg-[#B88736] hover:bg-[#B88736] text-white flex items-center gap-1.5 cursor-pointer transition shadow-lg shadow-[#B88736]/10 hover:shadow-[#B88736]/20 active:scale-95 border border-[#B88736]/30 font-sans"
               id="btn-export-journal"
               title="Exportar reflexões como arquivo de texto (.txt)"
             >
@@ -211,7 +211,7 @@ export default function JournalLog({ progress, onClose }: JournalLogProps) {
                 id={`journal-log-entry-${entry.dayNumber}`}
               >
                 {/* Header card metrics */}
-                <div className="flex flex-wrap items-center justify-between gap-3 border-b border-slate-950 pb-3">
+                <div className="flex flex-wrap items-center justify-between gap-3 border-b border-[#E5DAC6] pb-3">
                   <div className="space-y-1">
                     <div className="flex items-center gap-2">
                       <span className="text-[10px] font-mono bg-[#B88736]/10 text-[#B88736] border border-[#B88736]/20 px-2 py-0.5 rounded uppercase">
@@ -267,19 +267,19 @@ export default function JournalLog({ progress, onClose }: JournalLogProps) {
                         <span className="text-[10px] font-mono text-emerald-400 uppercase">2. Como estou agora</span>
                         <span className="text-[10px] font-mono text-emerald-400">Nota {entry.afterFeeling?.mood || entry.mood || 5}/5</span>
                       </div>
-                      <div className="text-emerald-300 font-medium text-xs">
+                      <div className="text-emerald-700 font-medium text-xs">
                         {entry.afterFeeling?.stateTitle || getMoodLabel(entry.mood)}
                       </div>
                       {entry.afterFeeling?.sensations && entry.afterFeeling.sensations.length > 0 && (
                         <div className="flex flex-wrap gap-1">
                           {entry.afterFeeling.sensations.map(s => (
-                            <span key={s} className="px-1.5 py-0.2 rounded bg-emerald-950/40 border border-emerald-500/30 text-emerald-300 text-[9px]">
+                            <span key={s} className="px-1.5 py-0.2 rounded bg-emerald-50 border border-emerald-200 text-emerald-700 text-[9px]">
                               {s}
                             </span>
                           ))}
                         </div>
                       )}
-                      <p className="text-[11px] text-[#2A2420] leading-relaxed bg-emerald-950/20 p-2 rounded-lg border border-emerald-500/20">
+                      <p className="text-[11px] text-[#2A2420] leading-relaxed bg-emerald-50 p-2 rounded-lg border border-emerald-200">
                         {entry.afterFeeling?.notes || entry.journalText || "Momento concluído sem anotações adicionais."}
                       </p>
                     </div>
@@ -297,7 +297,7 @@ export default function JournalLog({ progress, onClose }: JournalLogProps) {
 
                 {/* Healing Focus Anchor footer */}
                 <div className="flex items-center gap-1.5 text-[10px] text-[#85786C] bg-white/40 p-2.5 rounded-lg border border-[#E5DAC6]">
-                  <Heart size={10} className="text-indigo-500/70" />
+                  <Heart size={10} className="text-[#B88736]" />
                   <span><strong>Foco:</strong> {insight?.focus}</span>
                 </div>
               </div>
