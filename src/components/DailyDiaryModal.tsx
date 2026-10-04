@@ -485,7 +485,7 @@ export default function DailyDiaryModal({
           {/* Guia das 3 Fases do Jornada */}
           <div className="p-4 rounded-2xl bg-white/70 border border-[#E5DAC6] space-y-2.5">
             <span className="text-[11px] font-mono uppercase tracking-wider text-amber-300 font-bold block">
-              🌿 O QUE ESPERAR DURANTE OS 21 DIAS:
+              O QUE OBSERVAR DURANTE OS 21 DIAS:
             </span>
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5 text-xs">
               <div className="p-2.5 rounded-xl bg-[#FBF8F2]/90 border border-[#E5DAC6] space-y-1">
