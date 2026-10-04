@@ -35,6 +35,39 @@
   --journey-border:#E5DAC6;
 }
 
+/* ---------- Arquitetura dos 4 layouts oficiais ----------
+   Natural Sereno permanece a referência visual atual.
+   Os demais layouts têm escopo próprio e não devem herdar overrides entre si.
+   Tokens específicos serão preenchidos apenas a partir dos visuais aprovados. */
+:root,
+:root[data-layout="natural-sereno"]{
+  --layout-canvas:var(--bg-canvas);
+  --layout-card:var(--bg-card);
+  --layout-card-subtle:var(--bg-card-subtle);
+  --layout-accent:var(--sage-accent);
+  --layout-gold:var(--gold-primary);
+  --layout-gold-dark:var(--gold-dark);
+  --layout-text:var(--text-primary);
+  --layout-text-secondary:var(--text-secondary);
+  --layout-border:var(--border-subtle);
+}
+
+:root[data-layout="elegancia-profunda"],
+:root[data-layout="essencia-luminosa"],
+:root[data-layout="mistico-moderno"]{
+  /* Deliberadamente mantidos na base neutra até a transposição fiel
+     dos três layouts aprovados. Não inventar paletas por aproximação. */
+  --layout-canvas:var(--bg-canvas);
+  --layout-card:var(--bg-card);
+  --layout-card-subtle:var(--bg-card-subtle);
+  --layout-accent:var(--sage-accent);
+  --layout-gold:var(--gold-primary);
+  --layout-gold-dark:var(--gold-dark);
+  --layout-text:var(--text-primary);
+  --layout-text-secondary:var(--text-secondary);
+  --layout-border:var(--border-subtle);
+}
+
 html,body,#root{
   min-height:100%;
   background:var(--bg-canvas)!important;
