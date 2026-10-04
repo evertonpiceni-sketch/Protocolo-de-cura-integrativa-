@@ -1072,18 +1072,21 @@ class CalmingAudioEngine {
               }
 
               try {
-                const response = await fetch('/api/protocol-tts', {
+                const response = await fetch('/api/elevenlabs/tts', {
                   method: 'POST',
                   headers: { 'Content-Type': 'application/json' },
                   body: JSON.stringify({
-                    stageId: options.protocolStageId,
-                    segmentIndex: index,
-                    userName: options.userName || ''
+                    text: segments[index].text,
+                    voiceId: options?.voiceId || 'Marcus',
+                    stability: options?.stability ?? 0.45,
+                    similarityBoost: options?.similarityBoost ?? 0.75,
+                    enableBreathingPauses: false,
+                    cacheKey: `protocol:${options.protocolStageId}:${index}:${segments[index].text.slice(0, 80)}`
                   })
                 });
 
                 if (!response.ok || !response.headers.get('content-type')?.includes('audio')) {
-                  throw new Error(`Protocol TTS unavailable: ${response.status}`);
+                  throw new Error(`Protocol segment TTS unavailable: ${response.status}`);
                 }
 
                 const blob = await response.blob();
@@ -1124,18 +1127,34 @@ class CalmingAudioEngine {
                   const fallbackText = text
                     .replace(/<break\s+time=["'][\d.]+s["']\s*\/>/gi, '\n')
                     .replace(/<[^>]+>/g, '');
-                  this.speak(fallbackText, voiceVolume, onStart, onEnd, onPause, onResume, options);
+                  this.speak(
+                    fallbackText,
+                    voiceVolume,
+                    onStart,
+                    onEnd,
+                    onPause,
+                    onResume,
+                    { ...options, protocolStageId: undefined }
+                  );
                 };
 
                 await audio.play();
               } catch (err) {
-                console.warn("Dedicated protocol TTS failed, using native fallback:", err);
+                console.warn("Protocol segment TTS failed, using native fallback:", err);
                 this.isElevenLabsPlaying = false;
                 this.isSpeakingActive = false;
                 const fallbackText = text
                   .replace(/<break\s+time=["'][\d.]+s["']\s*\/>/gi, '\n')
                   .replace(/<[^>]+>/g, '');
-                this.speak(fallbackText, voiceVolume, onStart, onEnd, onPause, onResume, options);
+                this.speak(
+                  fallbackText,
+                  voiceVolume,
+                  onStart,
+                  onEnd,
+                  onPause,
+                  onResume,
+                  { ...options, protocolStageId: undefined }
+                );
               }
             };
 
