@@ -1050,8 +1050,8 @@ export default function App() {
                 <div className="p-4 bg-white border border-[#E5DAC6] rounded-2xl space-y-3">
                   <p className="text-xs text-[#5C5248] leading-relaxed">
                     {userProfile.anamnesis
-                      ? `Frequência Prescrita: ${userProfile.anamnesis.recommendedFrequency.toUpperCase()} • Foco: ${userProfile.anamnesis.primaryGoal}`
-                      : 'Realize o diagnóstico holístico para mapear dores, chakras desbalanceados e gerar sua frequência e decreto personalizados.'}
+                      ? `Frequência sugerida: ${userProfile.anamnesis.recommendedFrequency.toUpperCase()} • Foco: ${userProfile.anamnesis.primaryGoal}`
+                      : 'Responda à anamnese para organizar seu Mapa do Momento e receber caminhos de cuidado coerentes com o que você compartilhou.'}
                   </p>
                   <button
                     type="button"
@@ -1473,7 +1473,7 @@ export default function App() {
                   >
                     <span className="flex items-center gap-2">
                       <BookOpen size={14} className="text-indigo-400" />
-                      <span>Diário & O que se espera do Tratamento</span>
+                      <span>Diário de Reconexão</span>
                     </span>
                     <Sparkles size={12} className="text-indigo-400" />
                   </button>
