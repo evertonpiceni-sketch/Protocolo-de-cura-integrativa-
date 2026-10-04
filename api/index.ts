@@ -6,6 +6,7 @@ import bcrypt from "bcryptjs";
 
 const bootstrapAttempts = new Map<string, { count: number; resetAt: number }>();
 const reintegrationAudioCache = new Map<string, Buffer>();
+const reintegrationVoiceAttempts = new Map<string, { count: number; resetAt: number }>();
 const reintegrationCues = new Set(REINTEGRATION_DAYS.flatMap(day => day.audioCues.map(cue => cue.text.trim())));
 
 function allowBootstrapAttempt(req: any) {
@@ -21,6 +22,19 @@ function allowBootstrapAttempt(req: any) {
   return true;
 }
 
+function allowReintegrationVoiceAttempt(req: any) {
+  const key = String(req.headers?.["x-forwarded-for"] || req.socket?.remoteAddress || "unknown").split(",")[0].trim();
+  const now = Date.now();
+  const current = reintegrationVoiceAttempts.get(key);
+  if (!current || current.resetAt <= now) {
+    reintegrationVoiceAttempts.set(key, { count: 1, resetAt: now + 15 * 60 * 1000 });
+    return true;
+  }
+  if (current.count >= 90) return false;
+  current.count += 1;
+  return true;
+}
+
 const prepareReintegrationText = (text: string) => text
   .replace(/\r\n/g, "\n")
   .replace(/\n{2,}/g, ' <break time="1.25s" /> ')
@@ -32,6 +46,9 @@ const prepareReintegrationText = (text: string) => text
 
 async function serveReintegrationVoice(req: any, res: any) {
   if (req.method !== "POST") return res.status(405).json({ error: "Método não permitido." });
+  if (!allowReintegrationVoiceAttempt(req)) {
+    return res.status(429).json({ error: "Limite temporário de voz atingido.", fallbackToSpeechSynthesis: true });
+  }
   const text = typeof req.body?.text === "string" ? req.body.text.trim() : "";
   const day = Math.max(1, Math.min(21, Number(req.body?.day) || 1));
   if (!text || !reintegrationCues.has(text)) return res.status(403).json({ error: "Trecho não autorizado para esta jornada." });
