@@ -167,12 +167,12 @@ export default function HooponoponoModal({
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-[#2A2420]/30 backdrop-blur-md overflow-y-auto" id="hooponopono-modal">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4 bg-[#2A2420]/30 backdrop-blur-md overflow-y-auto overscroll-contain" id="hooponopono-modal" role="dialog" aria-modal="true" aria-label="Ho’oponopono">
       <motion.div
         initial={{ opacity: 0, scale: 0.95, y: 15 }}
         animate={{ opacity: 1, scale: 1, y: 0 }}
         exit={{ opacity: 0, scale: 0.95 }}
-        className="w-full max-w-2xl bg-[#FBF8F2] border border-rose-500/30 rounded-3xl p-5 sm:p-7 shadow-2xl space-y-5 relative overflow-hidden my-4 max-h-[92vh] overflow-y-auto"
+        className="w-full max-w-2xl bg-[#FBF8F2] border border-rose-300 rounded-2xl sm:rounded-3xl p-4 sm:p-7 shadow-2xl space-y-5 relative overflow-hidden my-1 sm:my-4 max-h-[calc(100dvh-1rem)] sm:max-h-[92dvh] overflow-y-auto overscroll-contain"
       >
         {/* Glow backdrop */}
         <div className="absolute top-0 right-0 w-72 h-72 bg-rose-500/10 rounded-full blur-3xl pointer-events-none" />
