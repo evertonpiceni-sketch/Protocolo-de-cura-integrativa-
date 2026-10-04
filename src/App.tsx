@@ -27,7 +27,7 @@ import { evaluateAchievements } from './lib/achievementsData';
 import { AppLanguage, SUPPORTED_LANGUAGES, UI_TRANSLATIONS } from './lib/i18n';
 import { AnimatePresence } from "motion/react";
 import { localNotificationManager } from './lib/notifications';
-import { normalizeLayoutId } from './config/layouts';
+import { OFFICIAL_LAYOUTS, normalizeLayoutId } from './config/layouts';
 import { getLocalDateString } from './utils/date';
 
 const AnamnesisModal = React.lazy(() => import('./components/AnamnesisModal'));
@@ -928,6 +928,45 @@ export default function App() {
             </div>
 
             <div className="bg-[#FBF8F2] border border-[#E5DAC6] rounded-2xl p-6 space-y-6">
+              <section className="space-y-3" aria-labelledby="appearance-heading">
+                <div>
+                  <h3 id="appearance-heading" className="text-sm font-display font-medium text-[#2A2420]">Aparência</h3>
+                  <p className="mt-1 text-xs leading-relaxed text-[#5C5248]">
+                    Escolha uma das quatro atmosferas oficiais. Conteúdo, jornada, progresso e recursos permanecem os mesmos.
+                  </p>
+                </div>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  {OFFICIAL_LAYOUTS.map(layout => {
+                    const selected = normalizeLayoutId(userProfile.visualLayout) === layout.id;
+                    return (
+                      <button
+                        key={layout.id}
+                        type="button"
+                        aria-pressed={selected}
+                        onClick={() => saveProfile({ ...userProfile, visualLayout: layout.id })}
+                        className={`min-h-24 rounded-2xl border p-4 text-left transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B88736]/35 ${
+                          selected
+                            ? 'border-[#B88736] bg-[#B88736]/8 shadow-sm'
+                            : 'border-[#E5DAC6] bg-white/80 hover:border-[#B88736]/45'
+                        }`}
+                      >
+                        <div className="flex items-center justify-between gap-3">
+                          <span className="text-sm font-semibold text-[#2A2420]">{layout.name}</span>
+                          <span className="flex gap-1" aria-hidden="true">
+                            {layout.swatches.map(color => (
+                              <span key={color} className="h-4 w-4 rounded-full border border-black/10" style={{ backgroundColor: color }} />
+                            ))}
+                          </span>
+                        </div>
+                        <p className="mt-2 text-[11px] leading-relaxed text-[#5C5248]">{layout.description}</p>
+                      </button>
+                    );
+                  })}
+                </div>
+              </section>
+
+              <div className="border-t border-[#E5DAC6]" />
+
               {/* PRO VIP Status Card */}
               <div className="p-5 rounded-2xl bg-gradient-to-br from-amber-950/30 via-slate-900 to-slate-950 border border-amber-500/30 space-y-3">
                 <div className="flex items-center justify-between">
