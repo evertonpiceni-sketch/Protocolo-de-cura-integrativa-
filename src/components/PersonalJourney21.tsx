@@ -29,10 +29,15 @@ export default function PersonalJourney21({ onClose, initialCompletedDays, onCom
   const wakeLockRef = useRef<any>(null);
   const playingRef = useRef(false);
   const [completed, setCompleted] = useState<number[]>(() => {
-    const serverDays = Array.isArray(initialCompletedDays) ? initialCompletedDays : [];
-    let localDays: number[] = [];
-    try { localDays = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]'); } catch {}
-    return [...new Set([...serverDays, ...localDays])].filter(day => day >= 1 && day <= 21).sort((a,b) => a-b);
+    if (Array.isArray(initialCompletedDays)) {
+      return [...new Set(initialCompletedDays)].filter(day => day >= 1 && day <= 21).sort((a,b) => a-b);
+    }
+    try {
+      const localDays: number[] = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
+      return [...new Set(localDays)].filter(day => day >= 1 && day <= 21).sort((a,b) => a-b);
+    } catch {
+      return [];
+    }
   });
   const item = REINTEGRATION_DAYS[day - 1];
   const elapsedSeconds = musicRef.current?.currentTime || 0;
