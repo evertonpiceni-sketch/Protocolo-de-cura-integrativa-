@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useLayoutEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import {
   X, Sparkles, BookOpen, Volume2, VolumeX
@@ -62,6 +62,15 @@ export default function MeditationSession({
   // Session flow phases:
   // 'portal' -> 'checkin_before' -> 'playing' -> 'checkin_after' -> 'completed'
   const [sessionPhase, setSessionPhase] = useState<'portal' | 'checkin_before' | 'playing' | 'checkin_after' | 'completed'>('portal');
+
+  // Natural Sereno can scroll on small screens. Do not carry the check-in's
+  // scroll offset into the player when its shorter presentation is mounted.
+  useLayoutEffect(() => {
+    if (document.documentElement.dataset.layout === 'natural-sereno') {
+      const session = document.getElementById('meditation-session');
+      if (session) session.scrollTop = 0;
+    }
+  }, [sessionPhase]);
 
   // Stages & Audio State
   const [currentStageIndex, setCurrentStageIndex] = useState(0);

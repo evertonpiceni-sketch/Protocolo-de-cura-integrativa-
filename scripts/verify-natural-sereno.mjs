@@ -26,7 +26,7 @@ await page.evaluateOnNewDocument(()=>{
  Object.defineProperty(window.speechSynthesis,'speak',{value:utterance=>{utterance.onstart?.(new Event('start'));},configurable:true});
 });
 const ready=async(selector)=>{await page.waitForSelector(selector);await new Promise(r=>setTimeout(r,750))};
-const shot=async(name)=>{await page.screenshot({path:`${out}/${name}.png`})};
+const shot=async(name)=>{console.log(`QA capture: ${name}`);await page.screenshot({path:`${out}/${name}.png`})};
 const dock=async(label)=>{
  const handles=await page.$$('.ns-dock button');
  for(const h of handles){if(await h.evaluate((el,label)=>el.textContent.trim()===label,label)){
@@ -58,14 +58,20 @@ try {
  assert.equal(await page.$$eval('.ns-library-row',els=>els.length),1);
  await page.$eval('input[aria-label="Buscar na biblioteca"]',el=>el.select());await page.keyboard.type('sem resultado');
  await ready('.ns-empty'); checks.push('Library search and empty state.');
- await menu();await shot('menu');await row('Ferramentas de Apoio');await ready('[data-ns-screen="tools"]');await shot('tools');
+ await menu();await shot('menu');
+ assert(await page.$eval('.ns-row:last-of-type',el=>el.getBoundingClientRect().bottom<=document.querySelector('.ns-dock').getBoundingClientRect().top),'Menu last row stays above the dock');
+ checks.push('All six menu rows fit above the dock at 390×844.');
+ await row('Ferramentas de Apoio');await ready('[data-ns-screen="tools"]');await shot('tools');
  await menu();await row('Meu Perfil');await ready('[data-ns-screen="profile"]');await shot('profile');
  assert.equal(await page.$eval('progress',el=>el.value),2);checks.push('Profile progress uses the supplied real completion data.');
+ assert(await page.$eval('.ns-profile .ns-row:last-of-type',el=>el.getBoundingClientRect().bottom<=document.querySelector('.ns-dock').getBoundingClientRect().top),'Profile logout stays above the dock');
+ await row('Fale conosco');await ready('#contact-us-modal');await page.click('button[aria-label="Fechar Fale Conosco"]');await ready('[data-ns-screen="profile"]');
+ checks.push('Profile logout is visible above the dock and contact opens/closes with existing callbacks.');
  await row('Como estou?');await ready('#anamnesis-modal');await shot('anamnesis');
  await page.click('button[aria-label="Fechar Mapa do Momento"]');
  await dock('Jornada');await page.click('button[aria-label="Abrir dia 3: Purificação das Águas"]');await ready('.ep-acceptance-portal');await shot('portal');assert.equal(await page.$eval('#meditation-session header h1',el=>el.textContent.trim()),'Purificação das Águas');
  await textButton('Aceitar e Adentrar o Espaço Sagrado');await ready('[data-session-phase="checkin_before"]');
- await textButton('Iniciar a Harmonização');await ready('[data-session-phase="playing"]');await shot('player');
+ await textButton('Iniciar a Harmonização');await ready('[data-session-phase="playing"]');assert.equal(await page.$eval('#meditation-session',el=>el.scrollTop),0,'Player starts at the top after check-in');await shot('player');assert.equal(await page.$eval('#meditation-session > main',el=>getComputedStyle(el).paddingTop),'90px','Approved player scene spacing overrides legacy mobile padding');
  for(const width of [320,390,768,1440]){
   await page.setViewport({width,height:844,deviceScaleFactor:1});
   assert(await page.$eval('.ns-play-toggle',el=>{const r=el.getBoundingClientRect();return r.top>=0&&r.bottom<=innerHeight&&r.left>=0&&r.right<=innerWidth}),`Playback control visible at ${width}`);
