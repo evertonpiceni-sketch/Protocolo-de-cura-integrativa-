@@ -43,10 +43,17 @@ try {
  await ready('[data-ns-screen="home"]');await shot('home');
  for(const [label,screen]of[['Jornada','journey'],['Biblioteca','library'],['Comunidade','community']]){await dock(label);await ready(`[data-ns-screen="${screen}"]`);await shot(screen)}
  checks.push('Home, jornada, biblioteca and community navigate by real pointer clicks; dock unobstructed.');
+ await dock('Jornada');
+ assert.equal(await page.$$eval('.ns-day img',els=>new Set(els.map(img=>img.getAttribute('src'))).size),21);
+ await page.$$eval('.ns-day img',async els=>{for(const img of els)img.loading='eager';await Promise.all(els.map(img=>img.decode()))});
+ checks.push('All 21 journey thumbnails are distinct and load successfully.');
  await dock('Biblioteca');
  await page.waitForFunction(()=>Array.from(document.querySelectorAll('.ns-library-row img')).every(img=>img.complete && img.naturalWidth>0));
  assert(await page.$$eval('.ns-library-row img',els=>els.every(img=>img.getAttribute('src').startsWith('/brand/natural-sereno/'))));
  checks.push('Every Natural Sereno library thumbnail loads from an isolated theme asset.');
+ assert.equal(await page.$$eval('.ns-library-row img',els=>new Set(els.map(img=>img.getAttribute('src'))).size),6);
+ assert(await page.$eval('.ns-library-row:last-of-type',el=>el.getBoundingClientRect().bottom<=document.querySelector('.ns-dock').getBoundingClientRect().top),'All six library rows fit above the dock');
+ checks.push('Six distinct library cards fit above the dock at the approved 390×844 viewport.');
  await page.type('input[aria-label="Buscar na biblioteca"]','numerologia');
  assert.equal(await page.$$eval('.ns-library-row',els=>els.length),1);
  await page.$eval('input[aria-label="Buscar na biblioteca"]',el=>el.select());await page.keyboard.type('sem resultado');

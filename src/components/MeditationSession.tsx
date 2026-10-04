@@ -349,30 +349,30 @@ export default function MeditationSession({
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -12 }}
             transition={{ duration: 0.6 }}
-            className="w-full flex flex-col items-center"
+            className="ep-session-stage w-full flex flex-col items-center"
           >
             <div className="ns-session-title hidden">
               <p>Dia {dayNumber}</p>
               <h2>{currentInsight.title || 'Alinhamento Energético'}</h2>
             </div>
             {/* Stage Badge & Step Indicator */}
-            <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full border border-[#B88736]/30 bg-[#FAF4E8] text-xs font-serif text-[#8F631E] mb-6 shadow-xs font-medium">
+            <div className="ep-stage-badge inline-flex items-center gap-2 px-3.5 py-1 rounded-full border border-[#B88736]/30 bg-[#FAF4E8] text-xs font-serif text-[#8F631E] mb-6 shadow-xs font-medium">
               <span className="w-1.5 h-1.5 rounded-full bg-[#8F631E] animate-pulse" />
               <span>Etapa {currentStageIndex + 1} de {stages.length}: {currentStage.title}</span>
             </div>
 
             {/* Sacred Title */}
-            <h2 className="text-2xl sm:text-3xl font-serif text-[#2A2420] font-normal tracking-wide mb-3">
+            <h2 className="ep-stage-title text-2xl sm:text-3xl font-serif text-[#2A2420] font-normal tracking-wide mb-3">
               {currentStage.title}
             </h2>
 
             {/* Focus Description */}
-            <p className="text-sm text-[#5C5248] leading-relaxed max-w-md mx-auto mb-6">
+            <p className="ep-stage-subtitle text-sm text-[#5C5248] leading-relaxed max-w-md mx-auto mb-6">
               {currentStage.subtitle}
             </p>
 
             {/* Subtle Respiration Guidance Ring */}
-            <div className="relative w-44 h-44 my-4 flex items-center justify-center">
+            <div className="ep-breathing-guide relative w-44 h-44 my-4 flex items-center justify-center">
               <motion.div
                 animate={{
                   scale: isPlaying
@@ -397,7 +397,7 @@ export default function MeditationSession({
             </div>
 
             {/* Quick Mantra or Canonical decree line */}
-            <div className="mt-4 px-4 py-2 rounded-xl bg-white/90 border border-[#E5DAC6] max-w-sm text-xs italic text-[#5C5248] shadow-xs">
+            <div className="ep-session-mantra mt-4 px-4 py-2 rounded-xl bg-white/90 border border-[#E5DAC6] max-w-sm text-xs italic text-[#5C5248] shadow-xs">
               "{activeScript.symbols?.[0] ? `${activeScript.symbols[0]} — ` : ''}{activeScript.mantra || 'Eu aceito, recebo e ancoro a cura em todo o meu ser.'}"
             </div>
           </motion.div>
