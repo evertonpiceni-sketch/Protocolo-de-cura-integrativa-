@@ -50,13 +50,13 @@ const PHYSICAL_SYMPTOMS = [
 ];
 
 const CHAKRAS_LIST = [
-  { id: 'basico', name: '1. Básico (Raiz)', theme: 'Segurança, sobrevivência, firmeza terrena e finanças', color: 'text-red-400 border-red-500/30 bg-red-950/20' },
-  { id: 'sacral', name: '2. Sacral (Umbilical)', theme: 'Criatividade, prazer, emoções e relacionamentos', color: 'text-orange-400 border-orange-500/30 bg-orange-950/20' },
-  { id: 'plexo', name: '3. Plexo Solar', theme: 'Autoestima, poder pessoal, coragem e digestão emocional', color: 'text-yellow-400 border-yellow-500/30 bg-yellow-950/20' },
-  { id: 'cardiaco', name: '4. Cardíaco', theme: 'Amor incondicional, perdão, paz e compaixão', color: 'text-emerald-400 border-emerald-500/30 bg-emerald-950/20' },
-  { id: 'laringeo', name: '5. Laríngeo', theme: 'Expressão da verdade, comunicação e desbloqueio vocal', color: 'text-cyan-400 border-cyan-500/30 bg-cyan-950/20' },
-  { id: 'frontal', name: '6. Frontal (3º Olho)', theme: 'Intuição, clareza mental, discernimento e foco', color: 'text-[#B88736] border-[#B88736]/30 bg-indigo-950/20' },
-  { id: 'coronario', name: '7. Coronário', theme: 'Conexão com a Fonte Divina, espiritualidade e plenitude', color: 'text-violet-400 border-violet-500/30 bg-violet-950/20' }
+  { id: 'basico', name: '1. Básico (Raiz)', theme: 'Segurança, sobrevivência, firmeza terrena e finanças', color: 'text-red-700 border-red-200 bg-red-50' },
+  { id: 'sacral', name: '2. Sacral (Umbilical)', theme: 'Criatividade, prazer, emoções e relacionamentos', color: 'text-orange-700 border-orange-200 bg-orange-50' },
+  { id: 'plexo', name: '3. Plexo Solar', theme: 'Autoestima, poder pessoal, coragem e digestão emocional', color: 'text-amber-700 border-amber-200 bg-amber-50' },
+  { id: 'cardiaco', name: '4. Cardíaco', theme: 'Amor incondicional, perdão, paz e compaixão', color: 'text-emerald-700 border-emerald-200 bg-emerald-50' },
+  { id: 'laringeo', name: '5. Laríngeo', theme: 'Expressão da verdade, comunicação e desbloqueio vocal', color: 'text-cyan-700 border-cyan-200 bg-cyan-50' },
+  { id: 'frontal', name: '6. Frontal (3º Olho)', theme: 'Intuição, clareza mental, discernimento e foco', color: 'text-[#8F631E] border-[#E5DAC6] bg-[#F8F4EC]' },
+  { id: 'coronario', name: '7. Coronário', theme: 'Conexão com a Fonte Divina, espiritualidade e plenitude', color: 'text-violet-700 border-violet-200 bg-violet-50' }
 ];
 
 export default function AnamnesisModal({
