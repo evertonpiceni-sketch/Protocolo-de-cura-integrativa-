@@ -401,9 +401,9 @@ export const DAILY_INSIGHTS: DailyInsight[] = [
   { 
     day: 1, 
     title: "O Despertar da Decisão", 
-    description: "O primeiro passo é o mais sagrado. Hoje você declara ao universo que está pronto para receber sua cura.", 
+    description: "O primeiro passo é o mais sagrado. Hoje você declara ao universo que está disponível para esta jornada de presença e transformação.", 
     focus: "Declarar aceitação e respirar profundamente.",
-    quote: "A cura começa no exato instante em que você decide que merece viver em paz e harmonia.",
+    quote: "A transformação começa no instante em que você decide abrir espaço para viver com mais paz e harmonia.",
     quoteAuthor: "Éverton Rodrigo Piceni"
   },
   { 
@@ -417,25 +417,25 @@ export const DAILY_INSIGHTS: DailyInsight[] = [
   { 
     day: 3, 
     title: "Purificação das Águas", 
-    description: "Limpando as memórias ancestrais de dor e abrindo espaço para o novo fluxo celular.", 
+    description: "Acolhendo simbolicamente memórias ancestrais e abrindo espaço interior para um novo fluxo de presença.", 
     focus: "Sentir o sopro sutil de ervas sagradas.",
     quote: "Permita que o passado escorra como água pura. Cada gota que se vai abre espaço para a sua renovação.",
-    quoteAuthor: "Tradição de Cura"
+    quoteAuthor: "Tradição Ancestral"
   },
   { 
     day: 4, 
     title: "O Despertar da Força Vital", 
-    description: "Ativando o calor na base da coluna para despertar a energia adormecida e dissolver a apatia.", 
+    description: "Visualizando o calor na base da coluna como símbolo de vitalidade, presença e movimento interior.", 
     focus: "Acompanhar o calor subindo vértebra por vértebra.",
-    quote: "A força vital divina que criou o cosmos habita em cada uma de suas células. Desperte-a com amor.",
+    quote: "A força vital pode ser lembrada como uma presença interna. Acolha-a com atenção e amor.",
     quoteAuthor: "Éverton Rodrigo Piceni"
   },
   { 
     day: 5, 
     title: "Clareza do Pensamento", 
-    description: "Alinhando os pontos dourados e azuis em seu cérebro para silenciar os ruídos diários.", 
+    description: "Visualizando pontos dourados e azuis como símbolos de foco, clareza e silêncio interior.", 
     focus: "Focar no espaço de silêncio entre os pensamentos.",
-    quote: "No silêncio sereno da mente, a voz da intuição e da cura se torna clara como a luz da manhã.",
+    quote: "No silêncio sereno da mente, a voz da intuição pode se tornar mais clara como a luz da manhã.",
     quoteAuthor: "Mestres da Quietude"
   },
   { 
@@ -449,7 +449,7 @@ export const DAILY_INSIGHTS: DailyInsight[] = [
   { 
     day: 7, 
     title: "A Armadura Safira", 
-    description: "Selando seu campo áurico em um escudo de luz azul-safira impenetrável contra a autossabotagem.", 
+    description: "Visualizando um escudo de luz azul-safira como símbolo de proteção, limites e presença diante da autossabotagem.", 
     focus: "Visualizar uma cúpula de luz azul brilhante ao seu redor.",
     quote: "Você é um templo sagrado. Proteja sua energia, honre seus limites e caminhe em segurança e graça.",
     quoteAuthor: "Raio Azul Cósmico"
@@ -473,24 +473,24 @@ export const DAILY_INSIGHTS: DailyInsight[] = [
   { 
     day: 10, 
     title: "O Toque do Quartzo Rosa", 
-    description: "Emanando amor incondicional a partir de seu peito para curar a dor oculta do abandono.", 
+    description: "Emanando amor incondicional a partir do peito como gesto simbólico de acolhimento para dores de abandono e rejeição.", 
     focus: "Sentir um calor rosa-quartzo se expandindo no peito.",
-    quote: "O amor incondicional por si mesmo é o remédio mais sagrado que existe. Abrace-se com toda a ternura.",
+    quote: "O amor incondicional por si mesmo pode ser um lugar profundo de acolhimento. Abrace-se com ternura.",
     quoteAuthor: "Éverton Rodrigo Piceni"
   },
   { 
     day: 11, 
     title: "Cascata de Luz Ouro", 
-    description: "Recebendo do infinito um banho de ouro líquido que ilumina e regenera cada átomo.", 
+    description: "Recebendo do infinito um banho simbólico de ouro líquido que representa luminosidade, presença e renovação interior.", 
     focus: "Visualizar e sentir a luz dourada fluindo no topo da cabeça.",
     quote: "Você é herdeiro da abundância divina. Deixe que a luz dourada preencha cada fresta do seu corpo e espírito.",
     quoteAuthor: "Canalização Solar"
   },
   { 
     day: 12, 
-    title: "Sopro de Cura Verde-Oliva", 
-    description: "Inalando a névoa verde-oliva brilhante para restaurar a saúde de seus pulmões e vias aéreas.", 
-    focus: "Focar na regeneração respiratória e no frescor da névoa.",
+    title: "Sopro Verde-Oliva de Renovação", 
+    description: "Visualizando uma névoa verde-oliva brilhante como símbolo de cuidado, frescor e renovação interior.", 
+    focus: "Respirar no próprio ritmo e contemplar o frescor simbólico da névoa.",
     quote: "A cada inspiração você recebe a vitalidade da criação; a cada expiração você se liberta de todo o peso.",
     quoteAuthor: "Mestres de Cura"
   },
@@ -521,10 +521,10 @@ export const DAILY_INSIGHTS: DailyInsight[] = [
   { 
     day: 16, 
     title: "A Nova Chance", 
-    description: "Seu DNA cósmico é atualizado com o padrão de saúde e merecimento original.", 
-    focus: "Integrar o sentimento de renovação biológica.",
+    description: "Uma nova possibilidade é simbolicamente integrada à sua história, com presença, merecimento e autonomia.", 
+    focus: "Integrar o sentimento de renovação interior e recomeço.",
     quote: "Hoje você renasce para uma nova história. As velhas dores não definem quem você é hoje.",
-    quoteAuthor: "Regeneração Celular"
+    quoteAuthor: "Renovação Interior"
   },
   { 
     day: 17, 
@@ -536,10 +536,10 @@ export const DAILY_INSIGHTS: DailyInsight[] = [
   },
   { 
     day: 18, 
-    title: "A Verdade do Ser: Cura", 
-    description: "Reconhecendo que a cura não é algo externo, mas sua verdadeira natureza original.", 
-    focus: "Repetir mentalmente: 'Eu sou cura, eu sou luz'.",
-    quote: "Você não está quebrado. A cura não é consertar, mas lembrar a perfeita luz e integridade que você sempre foi.",
+    title: "A Verdade do Ser: Inteireza", 
+    description: "Reconhecendo sua inteireza para além dos rótulos, das dúvidas e dos momentos difíceis.", 
+    focus: "Repetir mentalmente: 'Eu sou presença, eu sou luz'.",
+    quote: "Lembre-se da luz e da dignidade que existem em você, mesmo nos dias em que isso parece distante.",
     quoteAuthor: "Consciência Primordial"
   },
   { 
@@ -555,15 +555,15 @@ export const DAILY_INSIGHTS: DailyInsight[] = [
     title: "O Círculo Ho'oponopono", 
     description: "Recitando as palavras de reconciliação para pacificar todas as relações e linhas de tempo.", 
     focus: "Entoar: Sinto Muito, Me Perdoe, Te Amo, Sou Grato.",
-    quote: "Sinto muito. Me perdoe. Eu te amo. Sou grato. Quatro frases sagradas que pacificam a alma e curam o mundo.",
+    quote: "Sinto muito. Me perdoe. Eu te amo. Sou grato. Quatro frases tradicionais de reconciliação e presença.",
     quoteAuthor: "Tradição Ho'oponopono"
   },
   { 
     day: 21, 
     title: "Soberania Espiritual", 
-    description: "O ciclo se completa. Você está blindado, livre, desperto e pronto para caminhar com autonomia.", 
-    focus: "Gozar da libertação total e celebrar a conclusão do ciclo.",
-    quote: "Você completou a jornada. A chama da cura agora brilha eternamente em seu coração, iluminando todos os seus passos.",
+    description: "O ciclo se completa. Você encerra esta etapa levando consigo presença, consciência e autonomia para continuar caminhando.", 
+    focus: "Celebrar a conclusão do ciclo e reconhecer o caminho percorrido.",
+    quote: "Você completou a jornada. Leve consigo a chama simbólica da presença, iluminando os próximos passos.",
     quoteAuthor: "Éverton Rodrigo Piceni"
   }
 ];
@@ -597,10 +597,10 @@ export const JOURNEY_7D_INSIGHTS: DailyInsight[] = [
   },
   {
     day: 4,
-    title: "Chakra Cardíaco (Anahata) • Bálsamo do Amor & Cura Celular",
-    description: "Abertura do coração para o amor incondicional, cicatrização de dores afetivas e irradiação de compaixão e autoaceitação.",
-    focus: "Expandir uma luz rosa-quartzo e esmeralda a partir do peito, envolvendo cada célula do seu corpo.",
-    quote: "O amor incondicional por si mesmo é o remédio mais sagrado do cosmos. Acolha a sua história com carinho e honra.",
+    title: "Chakra Cardíaco (Anahata) • Bálsamo do Amor & Acolhimento",
+    description: "Abertura do coração para o amor incondicional, acolhimento de dores afetivas e irradiação de compaixão e autoaceitação.",
+    focus: "Expandir uma luz rosa-quartzo e esmeralda a partir do peito, envolvendo simbolicamente todo o seu ser.",
+    quote: "O amor incondicional por si mesmo pode ser um lugar sagrado de acolhimento. Honre sua história com carinho.",
     quoteAuthor: "Éverton Rodrigo Piceni"
   },
   {
@@ -614,17 +614,17 @@ export const JOURNEY_7D_INSIGHTS: DailyInsight[] = [
   {
     day: 6,
     title: "Chakra Frontal (Ajna) • Terceiro Olho & Despertar Intuitivo",
-    description: "Silenciamento do excesso de pensamentos, recalibração das ondas cerebrais e ativação da visão sutil e clareza mental.",
+    description: "Convite ao silêncio entre os pensamentos, à visão sutil e à clareza mental por meio da atenção contemplativa.",
     focus: "Fixar a atenção no ponto luminoso índigo entre as sobrancelhas e repousar na quietude do silêncio interior.",
-    quote: "No silêncio puro da mente serena, a intuição e a cura se revelam tão cristalinas quanto a luz da alvorada.",
+    quote: "No silêncio da mente serena, a intuição pode se revelar tão cristalina quanto a luz da alvorada.",
     quoteAuthor: "Éverton Rodrigo Piceni"
   },
   {
     day: 7,
-    title: "Chakra Coronário (Sahasrara) • Selamento Cósmico & Soberania",
-    description: "Integração total dos 7 centros de força, cascata de ouro líquido do cosmos, blindagem áurica e celebração da soberania espiritual.",
-    focus: "Sentir a comunhão perfeita com a Fonte Criadora e receber a bênção do selamento definitivo da cura.",
-    quote: "Você completou a jornada sagrada dos 7 chakras. A sua luz está selada, alinhada e pronta para brilhar no mundo com autonomia e paz.",
+    title: "Chakra Coronário (Sahasrara) • Integração Cósmica & Soberania",
+    description: "Integração simbólica dos 7 centros de força, cascata de ouro líquido do cosmos e celebração da soberania espiritual.",
+    focus: "Contemplar a comunhão com a Fonte Criadora e receber simbolicamente a bênção de encerramento da jornada.",
+    quote: "Você completou a jornada dos 7 chakras. Leve sua luz, sua autonomia e a intenção de paz para os próximos passos.",
     quoteAuthor: "Éverton Rodrigo Piceni"
   }
 ];
