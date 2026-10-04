@@ -157,14 +157,6 @@ export default function ProfileSetup({ onComplete }: ProfileSetupProps) {
   const [logLogin, setLogLogin] = useState('');
   const [logPassword, setLogPassword] = useState('');
 
-  // Forgot Password Fields
-  const [forgotIdentifier, setForgotIdentifier] = useState('');
-  const [forgotBirthDate, setForgotBirthDate] = useState('');
-  const [matchedAccount, setMatchedAccount] = useState<UserAccount | null>(null);
-  const [newPassword, setNewPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
-  const [recoveryStep, setRecoveryStep] = useState<'verify' | 'reset' | 'done'>('verify');
-
   // General state
   const [error, setError] = useState('');
   const [successMsg, setSuccessMsg] = useState('');
@@ -307,16 +299,6 @@ export default function ProfileSetup({ onComplete }: ProfileSetupProps) {
     } finally {
       setIsSubmitting(false);
     }
-  };
-
-  const handleVerifyForReset = (e: React.FormEvent) => {
-    e.preventDefault();
-    // Simplified for secure backend-only state
-    setError('A recuperação de senha via SMS/Email será configurada pelo terapeuta em breve.');
-  };
-
-  const handleSaveNewPassword = (e: React.FormEvent) => {
-    e.preventDefault();
   };
 
   return (
@@ -795,10 +777,8 @@ export default function ProfileSetup({ onComplete }: ProfileSetupProps) {
                   type="button"
                   onClick={() => {
                     setActiveTab('forgot');
-                    setForgotIdentifier(logLogin);
                     setError('');
                     setSuccessMsg('');
-                    setRecoveryStep('verify');
                   }}
                   className="text-[11px] text-[#B88736] hover:text-[#B88736] transition cursor-pointer underline underline-offset-2"
                 >
