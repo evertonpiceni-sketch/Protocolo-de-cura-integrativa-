@@ -128,6 +128,7 @@ export default function ProUpgradeModal({ isOpen, onClose, onUpgradeSuccess }: P
   const [couponMessage, setCouponMessage] = useState<string | null>(null);
   const [paymentMethod, setPaymentMethod] = useState<'pix' | 'card'>('pix');
   const [isProcessing, setIsProcessing] = useState(false);
+  const [checkoutError, setCheckoutError] = useState<string | null>(null);
 
   const selectedPlan = PLANS.find(plan => plan.id === selectedId) || PLANS[2];
   const couponRule = appliedCoupon ? COUPONS[appliedCoupon] : undefined;
@@ -161,6 +162,7 @@ export default function ProUpgradeModal({ isOpen, onClose, onUpgradeSuccess }: P
 
   const finish = async () => {
     if (isProcessing) return;
+    setCheckoutError(null);
     setIsProcessing(true);
     try {
       if (couponRule?.vip) {
@@ -170,6 +172,7 @@ export default function ProUpgradeModal({ isOpen, onClose, onUpgradeSuccess }: P
       }
     } catch (e) {
       console.error(e);
+      setCheckoutError(e instanceof Error ? e.message : 'Não foi possível iniciar o pagamento.');
     } finally {
       setIsProcessing(false);
     }
@@ -253,7 +256,8 @@ export default function ProUpgradeModal({ isOpen, onClose, onUpgradeSuccess }: P
               <button onClick={() => setPaymentMethod('card')} className={`rounded-xl border p-3 text-sm font-bold ${paymentMethod === 'card' ? 'border-amber-400 bg-amber-400/10 text-amber-200' : 'border-white/10 text-[#5C5248]'}`}>Cartão</button>
             </div>
 
-            <button disabled={isProcessing} onClick={finish} className={`w-full rounded-2xl bg-gradient-to-r from-amber-500 to-yellow-300 text-slate-950 font-black py-4 shadow-lg shadow-amber-500/10 ${isProcessing ? 'opacity-70 cursor-not-allowed' : ''}`}>{isProcessing ? 'PROCESSANDO...' : (couponRule?.vip ? 'ATIVAR 7 DIAS PRO' : 'CONTINUAR')}</button>
+            {checkoutError && <p role="alert" className="mb-3 rounded-xl border border-rose-200 bg-rose-50 px-3 py-2 text-xs text-rose-700">{checkoutError}</p>}
+            <button disabled={isProcessing} onClick={finish} className={`w-full rounded-2xl bg-gradient-to-r from-amber-500 to-yellow-300 text-slate-950 font-black py-4 shadow-lg shadow-amber-500/10 ${isProcessing ? 'opacity-70 cursor-not-allowed' : ''}`}>{isProcessing ? 'PROCESSANDO...' : (couponRule?.vip ? 'ATIVAR 7 DIAS PRO' : 'INICIAR PAGAMENTO SEGURO')}</button>
             <div className="mt-3 flex items-center justify-center gap-2 text-[11px] text-[#85786C]"><ShieldCheck size={13} /> A confirmação definitiva do pagamento e dos cupons deve ser validada pelo servidor.</div>
           </section>
         </main>
