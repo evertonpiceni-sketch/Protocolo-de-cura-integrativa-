@@ -58,7 +58,8 @@ export default function ProReportCertificateModal({
         {/* Close Button */}
         <button
           onClick={onClose}
-          className="absolute top-5 right-5 w-8 h-8 rounded-full bg-[#F5EFE4] border border-[#E5DAC6] text-[#5C5248] hover:text-[#2A2420] flex items-center justify-center transition cursor-pointer z-10 print:hidden"
+          aria-label="Fechar relatório e certificado"
+          className="absolute top-4 right-4 w-11 h-11 rounded-full bg-[#F5EFE4] border border-[#E5DAC6] text-[#5C5248] hover:text-[#2A2420] flex items-center justify-center transition cursor-pointer z-10 print:hidden focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B88736]/30"
         >
           <X size={16} />
         </button>
