@@ -94,96 +94,96 @@ export function evaluateBestTreatmentFromAnamnesis(
 
   // Determine winning category & frequency
   let category: TreatmentRecommendation['category'] = 'liberacao_emocional';
-  let categoryLabel = 'Liberação Emocional & Ansiedade';
-  let treatmentTitle = 'Tratamento de 21 Dias de Liberação Emocional & Paz Profunda';
+  let categoryLabel = 'Acolhimento Emocional & Serenidade';
+  let treatmentTitle = 'Jornada de 21 Dias de Acolhimento Emocional & Paz';
   let recommendedFrequency: TreatmentRecommendation['recommendedFrequency'] = '528hz';
-  let frequencyLabel = '528 Hz • Frequência do Milagre e Regeneração Cardíaca';
+  let frequencyLabel = '528 Hz • Prática sonora para presença e equilíbrio simbólico';
   let primaryChakraFocus = 'Cardíaco & Plexo Solar';
   let chakraColor = 'emerald';
   let recommendedDurationDays: 7 | 21 = 21;
-  let summaryDiagnosis = 'Sobrecarga no campo emocional com retenção de estresse e necessidade de alinhamento neuroquântico.';
-  let therapeuticRationale = 'O sistema nervoso e o campo cardíaco encontram-se em hipervigilância. A atuação diária com 528Hz aliada à reprogramação subconsciente de 21 dias dissolverá as couraças musculares e restabelecerá o eixo de serenidade inabalável.';
+  let summaryDiagnosis = 'O que você compartilhou aponta para um momento de sobrecarga emocional e necessidade de mais espaço, descanso e acolhimento.';
+  let therapeuticRationale = 'A proposta é criar uma rotina breve de respiração, presença e escuta interna, usando a frequência sonora como apoio simbólico para desacelerar e observar o momento com mais gentileza.';
 
   const maxScore = Math.max(emotionalScore, physicalScore, prosperityScore, relationshipScore, spiritualScore, fearGuiltScore);
 
   if (maxScore === fearGuiltScore && fearGuiltScore > 0) {
     category = 'liberacao_emocional';
-    categoryLabel = 'Libertação de Medos, Culpas & Ancoramento';
-    treatmentTitle = 'Tratamento de 21 Dias de Libertação de Medo, Culpa & Segurança Interior';
+    categoryLabel = 'Medos, Culpa & Aterramento';
+    treatmentTitle = 'Jornada de 21 Dias para Segurança Interior & Aterramento';
     recommendedFrequency = '396hz';
-    frequencyLabel = '396 Hz • Libertação de Medos, Culpas e Fortalecimento do Chakra Raiz';
+    frequencyLabel = '396 Hz • Prática sonora associada a aterramento e segurança interior';
     primaryChakraFocus = 'Chakra Básico (Muladhara) & Sacral';
     chakraColor = 'rose';
-    summaryDiagnosis = 'Padrão subconsciente de hipervigilância, culpas arraigadas e sensação de vulnerabilidade ou insegurança.';
-    therapeuticRationale = 'A frequência Solfeggio de 396Hz dissipa bloqueios ocultos de medo e culpa enraizados no chakra básico, ancorando você com estabilidade, confiança na vida e proteção profunda.';
+    summaryDiagnosis = 'Seu relato reúne medo, culpa ou insegurança que podem estar ocupando bastante espaço neste momento.';
+    therapeuticRationale = 'Dentro da tradição usada no projeto, 396 Hz e práticas de aterramento são associados simbolicamente a segurança, presença e liberação de pesos emocionais. A proposta é usá-los como apoio contemplativo.';
   } else if (maxScore === physicalScore && physicalScore > 0) {
     category = 'saude_fisica';
-    categoryLabel = 'Saúde Física, Vitalidade & Alívio de Dores';
-    treatmentTitle = 'Tratamento de 21 Dias de Regeneração Celular & Vitalidade Orgânica';
+    categoryLabel = 'Corpo, Descanso & Vitalidade';
+    treatmentTitle = 'Jornada de 21 Dias de Presença Corporal & Vitalidade';
     recommendedFrequency = '432hz';
-    frequencyLabel = '432 Hz • Frequência Natural da Terra & Cura Biológica';
+    frequencyLabel = '432 Hz • Prática sonora associada a aterramento e relaxamento';
     primaryChakraFocus = 'Básico (Raiz) & Sacral';
     chakraColor = 'amber';
-    summaryDiagnosis = 'Esgotamento somatizado no corpo físico com dores musculares e padrão de sono comprometido.';
-    therapeuticRationale = 'As tensões acumuladas bloquearam o fluxo do prana nos meridianos físicos. A ressonância harmônica em 432Hz ancora as energias vitais na Terra, desinflamando tecidos e permitindo um sono restaurador.';
+    summaryDiagnosis = 'Seu relato sugere cansaço, desconfortos corporais ou sono pouco restaurador, pedindo mais atenção ao descanso e aos limites do corpo.';
+    therapeuticRationale = 'A proposta combina percepção corporal, respiração e uma referência sonora de 432 Hz como apoio simbólico ao relaxamento, sem substituir avaliação ou cuidado profissional quando houver dor ou sintomas persistentes.';
   } else if (maxScore === prosperityScore && prosperityScore > 0) {
     category = 'prosperidade';
-    categoryLabel = 'Prosperidade, Destrave Financeiro & Abundância';
-    treatmentTitle = 'Tratamento de 21 Dias de Destrave Financeiro & Consciência de Prosperidade';
+    categoryLabel = 'Prosperidade, Autoconfiança & Possibilidades';
+    treatmentTitle = 'Jornada de 21 Dias de Autoconfiança & Relação com a Prosperidade';
     recommendedFrequency = '852hz';
-    frequencyLabel = '852 Hz • Despertar da Intuição Superior & Magnetismo de Abundância';
+    frequencyLabel = '852 Hz • Prática sonora associada a reflexão, intuição e propósito';
     primaryChakraFocus = 'Plexo Solar & Básico';
     chakraColor = 'yellow';
-    summaryDiagnosis = 'Bloqueio de merecimento e lealdade sistêmica a padrões de escassez ou esforço excessivo.';
-    therapeuticRationale = 'A prosperidade é um fluxo que depende do assentimento à vida e da liberação de culpas inconscientes. Através deste tratamento específico de 21 dias, alinhamos seu campo magnético para atração de oportunidades e dissolução de travas financeiras.';
+    summaryDiagnosis = 'Seu relato aponta para temas de merecimento, esforço, segurança material ou relação com possibilidades de crescimento.';
+    therapeuticRationale = 'A proposta é observar crenças, escolhas e padrões relacionados a merecimento e segurança material, usando práticas simbólicas como apoio à clareza e à ação consciente — sem prometer resultados financeiros.';
   } else if (maxScore === relationshipScore && relationshipScore > 0) {
     category = 'relacionamentos';
-    categoryLabel = 'Cura dos Relacionamentos & Liberação de Mágoas';
-    treatmentTitle = 'Tratamento de 21 Dias de Reconciliação Sistêmica & Cura do Cardíaco';
+    categoryLabel = 'Relacionamentos, Limites & Liberação de Mágoas';
+    treatmentTitle = 'Jornada de 21 Dias de Reconciliação Interior & Relações';
     recommendedFrequency = '639hz';
-    frequencyLabel = '639 Hz • Harmonização de Conexões, Vínculos e Perdão Profundo';
+    frequencyLabel = '639 Hz • Prática sonora associada a vínculos, diálogo e reconciliação';
     primaryChakraFocus = 'Cardíaco & Laríngeo';
     chakraColor = 'teal';
-    summaryDiagnosis = 'Vínculos com mágoas pendentes, dificuldade em soltar o passado e fechar ciclos sistêmicos.';
-    therapeuticRationale = 'Aplicando as Ordens do Amor de Bert Hellinger e a frequência 639Hz, curamos as rupturas do afeto, honramos os antepassados e libertamos você para se relacionar a partir da leveza e do amor maduro.';
+    summaryDiagnosis = 'Seu relato traz vínculos, mágoas ou ciclos passados que ainda parecem pedir elaboração e espaço interno.';
+    therapeuticRationale = 'A proposta usa reflexões sistêmicas e 639 Hz como referências simbólicas para observar vínculos, limites, pertencimento e possibilidades de se relacionar com mais consciência.';
   } else if (maxScore === spiritualScore && spiritualScore > 0) {
     category = 'limpeza_espiritual';
-    categoryLabel = 'Limpeza Espiritual, Blindagem Áurica & Pineal';
-    treatmentTitle = 'Tratamento de 21 Dias de Desobsessão, Blindagem & Conexão Divina';
+    categoryLabel = 'Proteção Simbólica, Espiritualidade & Centramento';
+    treatmentTitle = 'Jornada de 21 Dias de Proteção Simbólica & Conexão Espiritual';
     recommendedFrequency = '963hz';
-    frequencyLabel = '963 Hz • Frequência de Deus & Ativação da Glândula Pineal';
+    frequencyLabel = '963 Hz • Prática sonora associada a silêncio, contemplação e espiritualidade';
     primaryChakraFocus = 'Coronário & Frontal';
     chakraColor = 'purple';
-    summaryDiagnosis = 'Sensibilidade áurica aguçada com perda de energia vital por cordões energéticos e porosidade sutil.';
-    therapeuticRationale = 'Este protocolo atua na selagem do duplo etérico, corte de amarras do passado e consagração do seu templo sob a proteção do Arcanjo Miguel e da Chama Violeta de Saint Germain.';
+    summaryDiagnosis = 'Seu relato sugere sensibilidade, cansaço ou necessidade de recolhimento e proteção simbólica no campo espiritual.';
+    therapeuticRationale = 'A proposta utiliza imagens de proteção, São Miguel e Chama Violeta dentro de sua linguagem espiritual tradicional, como recursos simbólicos de centramento, intenção e encerramento de ciclos.';
   }
 
-  let recommendedFloral = 'Rescue Remedy (Para alívio imediato, ansiedade e equilíbrio emocional)';
-  let recommendedAromatherapy = 'Óleo Essencial de Lavanda (Calmante, reduz estresse e melhora o sono)';
+  let recommendedFloral = 'Rescue Remedy (referência tradicional para momentos de tensão emocional)';
+  let recommendedAromatherapy = 'Óleo Essencial de Lavanda (aroma tradicionalmente associado a relaxamento e conforto)';
 
   // Diretrizes de Receituário Integrativo
   if (category === 'saude_fisica' || complaints.includes('cansaco_extremo') || complaints.includes('baixa_imunidade') || complaints.includes('dores_corpo')) {
     // Esgotamento/Burnout/Exaustão
-    recommendedFloral = 'Olive (Recuperação de energia vital)';
-    recommendedAromatherapy = 'Óleo Essencial de Alecrim (Foco e revigorante)';
+    recommendedFloral = 'Olive (referência floral tradicional associada a cansaço e recomposição subjetiva)';
+    recommendedAromatherapy = 'Óleo Essencial de Alecrim (aroma tradicionalmente associado a disposição e foco)';
   } else if (category === 'liberacao_emocional' && (emotional.includes('Angústia no peito') || emotional.includes('Apatia e falta de vontade'))) {
     // Tristeza Profunda/Depressão/Abandono
-    recommendedFloral = 'Mustard ou Willow (Acolhimento da alma)';
-    recommendedAromatherapy = 'Óleo Essencial de Bergamota (Elevação do humor)';
+    recommendedFloral = 'Mustard ou Willow (referências florais tradicionalmente associadas a acolhimento emocional)';
+    recommendedAromatherapy = 'Óleo Essencial de Bergamota (aroma tradicionalmente associado a leveza e bem-estar)';
   } else if (category === 'relacionamentos' || complaints.includes('oscilacoes_humor') || emotional.includes('Irritação constante')) {
     // Instabilidade/Bipolaridade/Borderline
-    recommendedFloral = 'Scleranthus (Equilíbrio e oscilações)';
-    recommendedAromatherapy = 'Óleo Essencial de Gerânio (Estabilidade emocional)';
+    recommendedFloral = 'Scleranthus (referência floral tradicional associada a indecisão e busca de equilíbrio)';
+    recommendedAromatherapy = 'Óleo Essencial de Gerânio (aroma tradicionalmente associado a conforto e equilíbrio subjetivo)';
   } else if (category === 'liberacao_emocional' || complaints.includes('ansiedade_crise') || emotional.includes('Mente acelerada (não desliga)')) {
     // Ansiedade/Agitação/TDAH
-    recommendedFloral = 'Impatiens (Paciência)';
-    recommendedAromatherapy = 'Óleo Essencial de Lavanda (Calmante do sistema nervoso)';
+    recommendedFloral = 'Impatiens (referência floral tradicional associada a paciência e desaceleração)';
+    recommendedAromatherapy = 'Óleo Essencial de Lavanda (aroma tradicionalmente associado a relaxamento)';
   } else if (category === 'prosperidade') {
-    recommendedFloral = 'Larch (Para autoconfiança e capacidade de realização)';
-    recommendedAromatherapy = 'Óleo Essencial de Canela ou Bergamota (Atração de prosperidade e abundância)';
+    recommendedFloral = 'Larch (referência floral tradicional associada a autoconfiança)';
+    recommendedAromatherapy = 'Óleo Essencial de Canela ou Bergamota (aromas usados simbolicamente em práticas ligadas a prosperidade)';
   } else if (category === 'limpeza_espiritual') {
-    recommendedFloral = 'Walnut (Proteção contra influências externas e quebra de laços do passado)';
-    recommendedAromatherapy = 'Óleo Essencial de Olíbano (Conexão espiritual profunda e proteção áurica)';
+    recommendedFloral = 'Walnut (referência floral tradicional associada a transições e proteção simbólica)';
+    recommendedAromatherapy = 'Óleo Essencial de Olíbano (aroma tradicionalmente associado a contemplação e espiritualidade)';
   }
 
   // Prescribed Reikis based on clinical analysis
@@ -193,8 +193,8 @@ export function evaluateBestTreatmentFromAnamnesis(
   prescribedReikis.push({
     name: 'Reiki Usui Tradicional',
     focus: 'Harmonização Bioenergética Integral',
-    description: 'Canalização dos símbolos sagrados (Cho Ku Rei, Sei He Ki, Hon Sha Ze Sho Nen) para equilíbrio dos 7 chakras e relaxamento do sistema nervoso.',
-    badge: 'Base de Cura'
+    description: 'Uso dos símbolos tradicionais Cho Ku Rei, Sei He Ki e Hon Sha Ze Sho Nen como apoio simbólico a presença, harmonização e prática contemplativa.',
+    badge: 'Base do Sistema'
   });
 
   // Category-specific Reikis
@@ -202,7 +202,7 @@ export function evaluateBestTreatmentFromAnamnesis(
     prescribedReikis.push({
       name: 'Reiki Kundalini',
       focus: 'Despertar da Força Vital & Aterramento',
-      description: 'Ativação do canal principal Sushumna, desbloqueio da energia telúrica da Terra e vitalidade física duradoura.',
+      description: 'Prática voltada simbolicamente a aterramento, percepção do eixo corporal e contato com a ideia de força vital.',
       badge: 'Força & Vitalidade'
     });
   }
@@ -210,8 +210,8 @@ export function evaluateBestTreatmentFromAnamnesis(
   if (category === 'relacionamentos' || emotionalScore > 0 || emotional.includes('Angústia no peito')) {
     prescribedReikis.push({
       name: 'Reiki Chama Rosa Vibrante',
-      focus: 'Cura do Cardíaco & Autoamor',
-      description: 'Emissão da frequência do Raio Rosa do Amor Incondicional para acolhimento da criança interior, dissolução de mágoas e autoaceitação.',
+      focus: 'Acolhimento do Cardíaco & Autoamor',
+      description: 'Prática com a linguagem simbólica do Raio Rosa para acolhimento, autocompaixão, elaboração de mágoas e autoaceitação.',
       badge: 'Coração & Afeto'
     });
   }
@@ -220,7 +220,7 @@ export function evaluateBestTreatmentFromAnamnesis(
     prescribedReikis.push({
       name: 'Violet Flame (Chama Violeta)',
       focus: 'Transmutação Cármica & Blindagem',
-      description: 'Frequência do Mestre Saint Germain para transmutar energias densas, cortar cordões energéticos nocivos e purificar o duplo etérico.',
+      description: 'Uso simbólico da Chama Violeta para representar transformação, encerramento de vínculos percebidos como pesados e proteção espiritual.',
       badge: 'Transmutação Sagrada'
     });
   }
@@ -228,8 +228,8 @@ export function evaluateBestTreatmentFromAnamnesis(
   if (complaints.includes('magoas_passado') || emotional.includes('Sentimento de culpa') || category === 'prosperidade') {
     prescribedReikis.push({
       name: 'Reiki Karuna Ki',
-      focus: 'Compaixão Profunda & Cura Celular de Traumas',
-      description: 'Trabalho de cura espiritual de memórias ancestrais, cura do Eu Sombra e liberação de votos de escassez e sofrimento.',
+      focus: 'Compaixão Profunda & Memórias Emocionais',
+      description: 'Prática contemplativa voltada a compaixão, memórias ancestrais, integração da sombra e revisão simbólica de padrões de escassez ou sofrimento.',
       badge: 'Compaixão & Karma'
     });
   }
@@ -257,7 +257,7 @@ export function evaluateBestTreatmentFromAnamnesis(
   const complementaryPractices = [
     {
       title: 'Oração de 21 Dias de São Miguel Arcanjo',
-      description: 'Blindagem do campo áurico e corte de cordões energéticos todas as manhãs ou antes de dormir.',
+      description: 'Prática espiritual de proteção simbólica e intenção, pela manhã ou antes de dormir.',
       badge: 'Proteção & Limpeza'
     },
     {
@@ -267,7 +267,7 @@ export function evaluateBestTreatmentFromAnamnesis(
     },
     {
       title: 'Prática de Ho\'oponopono Quântico',
-      description: 'Repetição consciente das 4 frases de cura focando no perdão do passado e autocompaixão.',
+      description: 'Repetição consciente das quatro frases tradicionais com foco em perdão, responsabilidade e autocompaixão.',
       badge: 'Transmutação'
     },
     {
@@ -277,25 +277,25 @@ export function evaluateBestTreatmentFromAnamnesis(
     },
     {
       title: 'Hidratação Solarizada & Aterramento',
-      description: 'Caminhar descalço por 5 minutos e beber água com intenção de cura celular.',
+      description: 'Caminhar descalço por alguns minutos, quando for seguro, e beber água como gesto simples de presença e cuidado.',
       badge: 'Corpo Físico'
     }
   ];
 
   // Custom Decree
-  const customDecree = `Eu, ${userName}, assumo o comando do meu campo vibracional. Aceito a cura de ${categoryLabel.toLowerCase()} e autorizo que todas as memórias de dor sejam transmutadas em pura Luz, Saúde e Prosperidade.`;
+  const customDecree = `Eu, ${userName}, escolho estar presente no meu caminho. Acolho o tema de ${categoryLabel.toLowerCase()} com gentileza e permito que antigas dores ocupem menos espaço enquanto cultivo clareza, cuidado e novas possibilidades.`;
 
   // WhatsApp Message
-  const waMsgText = `Olá Éverton, acabei de preencher minha Anamnese no app Protocolo de Cura Integrada!\n\n` +
-    `👤 *Consulente:* ${userName}\n` +
-    `🎯 *Queixas Principais:* ${complaints.map(c => c.replace('_', ' ')).join(', ')}\n` +
-    `⚡ *Nível de Estresse:* ${stress}/10 | *Sono:* ${sleep}\n` +
-    `🔮 *Diagnóstico do App:* ${summaryDiagnosis}\n` +
-    `💎 *Tratamento Sugerido:* ${treatmentTitle} (${recommendedFrequency.toUpperCase()})\n` +
-    `✨ *Reikis Prescritos:* ${prescribedReikis.map(r => r.name).join(', ')}\n\n` +
-    `Gostaria de tirar dúvidas e dar início ao meu tratamento personalizado!\n\n` +
+  const waMsgText = `Olá Éverton, acabei de preencher meu Mapa do Momento no app Protocolo da Transformação!\n\n` +
+    `Consulente: ${userName}\n` +
+    `Temas principais: ${complaints.map(c => c.replace('_', ' ')).join(', ')}\n` +
+    `Estresse percebido: ${stress}/10 | Sono: ${sleep}\n` +
+    `Leitura do momento: ${summaryDiagnosis}\n` +
+    `Caminho sugerido: ${treatmentTitle} (${recommendedFrequency.toUpperCase()})\n` +
+    `Sistemas energéticos sugeridos: ${prescribedReikis.map(r => r.name).join(', ')}\n\n` +
+    `Gostaria de conversar sobre estas sugestões e entender quais práticas fazem sentido para mim.\n\n` +
     `---\n` +
-    `_Nota Terapêutica: O Protocolo de Cura Integrada e as sugestões de Florais de Bach e Óleos Essenciais atuam como práticas integrativas e tratamentos complementares. Eles não substituem, sob nenhuma hipótese, o diagnóstico, tratamento ou acompanhamento médico, psiquiátrico ou psicológico tradicional._`;
+    `Nota de cuidado: estas sugestões são práticas integrativas e de bem-estar. Não substituem diagnóstico, tratamento ou acompanhamento médico, psicológico ou psiquiátrico.`;
 
   const waEncoded = encodeURIComponent(waMsgText);
   const whatsappUrl = `https://wa.me/5551982215296?text=${waEncoded}`;
