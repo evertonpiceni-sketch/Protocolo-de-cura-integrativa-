@@ -63,16 +63,27 @@ export default function ProfileSetup({ onComplete }: ProfileSetupProps) {
 
     setLoadingVoiceType(gender);
     const sampleText = gender === 'masculina'
-      ? "Olá, eu sou Éverton Rodrigo Piceni. Que bom ter você aqui. Este é o seu espaço de cuidado, presença e reconexão."
+      ? "Olá. Que bom ter você aqui. Este é o seu espaço de cuidado, presença e reconexão."
       : "Olá. Que bom ter você aqui. Permita-se receber este momento de calma, presença e acolhimento.";
 
     try {
+      // The sample must work before login without opening the authenticated TTS API.
+      if (gender === 'masculina') {
+        const audio = new Audio('/brand/natural-sereno/voz-masculina-amostra.mp3');
+        previewAudioRef.current = audio;
+        audio.onended = stopVoicePreview;
+        audio.onerror = stopVoicePreview;
+        await audio.play();
+        setIsPlayingPreview(true);
+        setLoadingVoiceType(null);
+        return;
+      }
       const response = await fetch('/api/elevenlabs/tts', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           text: sampleText,
-          voiceId: gender === 'masculina' ? 'Marcus' : 'Rachel',
+          voiceId: 'Rachel',
           stability: 0.45,
           similarityBoost: 0.75
         })
@@ -187,7 +198,8 @@ export default function ProfileSetup({ onComplete }: ProfileSetupProps) {
       });
       const data = await res.json().catch(() => ({}));
       if (!res.ok) {
-        setError(data.error || 'Erro no cadastro.');
+        setServiceUnavailable(res.status >= 500);
+        setError(data.error || (res.status >= 500 ? 'O cadastro está temporariamente indisponível. Tente novamente em alguns instantes.' : 'Não foi possível criar sua conta. Confira os dados informados.'));
         return;
       }
       
@@ -571,7 +583,7 @@ export default function ProfileSetup({ onComplete }: ProfileSetupProps) {
               <div className="flex items-center justify-between">
                 <label className="block text-[10px] font-mono text-[#B88736] uppercase tracking-wider font-semibold flex items-center gap-1.5">
                   <Volume2 size={13} className="text-[#B88736]" />
-                  <span>Voz do Terapeuta & Condução Guiada</span>
+                  <span>Voz da condução guiada</span>
                 </label>
                 <span className="text-[10px] text-[#5C5248]">Escolha a voz que mais acolhe seu coração</span>
               </div>
@@ -589,7 +601,7 @@ export default function ProfileSetup({ onComplete }: ProfileSetupProps) {
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-2">
                         <Volume2 size={16} className="text-[#d9bd69]" />
-                        <span className="text-xs font-bold text-[#2A2420]">Voz de Éverton Piceni</span>
+                        <span className="text-xs font-bold text-[#2A2420]">Voz masculina</span>
                       </div>
                       {voiceChoice === 'masculina' && (
                         <span className="w-2 h-2 rounded-full bg-[#B88736] animate-ping" />

@@ -501,7 +501,7 @@ export default function AnamnesisModal({
                         : 'text-[#5C5248] hover:text-[#2A2420]'
                     }`}
                   >
-                    <span>Voz de Éverton</span>
+                    <span>Voz masculina</span>
                   </button>
                   <button
                     type="button"

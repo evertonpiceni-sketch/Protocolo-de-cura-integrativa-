@@ -110,7 +110,22 @@ try {
   await loginPage.evaluate(theme=>document.documentElement.dataset.layout=theme,theme);
   assert.equal(await loginPage.$eval('#onboarding-card',el=>getComputedStyle(el).backgroundColor),'rgb(255, 249, 232)','Authentication stays Natural Sereno independently of profile theme');
   assert.equal(await loginPage.$eval('#reg-fullname',el=>getComputedStyle(el).backgroundColor),'rgb(255, 253, 243)','Registration input stays ivory');
+  await loginPage.$eval('#register-form details',el=>el.open=true);
+  assert.equal(await loginPage.$eval('#register-form details > div',el=>getComputedStyle(el).backgroundColor),'rgb(250, 243, 223)','Expanded registration stays ivory under every theme');
  }
+ for(const width of [320,390,713]){
+  await loginPage.setViewport({width,height:844,deviceScaleFactor:1});
+  assert(await loginPage.$eval('#onboarding-card',el=>el.scrollWidth<=el.clientWidth),'Expanded registration has no horizontal overflow');
+  assert(await loginPage.$$eval('#voice-gender-selector .grid > div',els=>els.every(el=>el.scrollWidth<=el.clientWidth)),'Voice cards contain their buttons and labels');
+ }
+ assert(await loginPage.$eval('#voice-gender-selector',el=>el.textContent.includes('Voz masculina')&&!el.textContent.includes('Éverton')));
+ await loginPage.evaluate(()=>{window.__samplePlayed='';HTMLMediaElement.prototype.play=function(){window.__samplePlayed=this.src;return Promise.resolve()};});
+ await loginPage.$$eval('#voice-gender-selector button',els=>els.find(el=>el.textContent.includes('Ouvir Amostra')).click());
+ await loginPage.waitForFunction(()=>window.__samplePlayed.endsWith('/brand/natural-sereno/voz-masculina-amostra.mp3'));
+ await loginPage.setViewport({width:390,height:844,deviceScaleFactor:1});
+ await loginPage.$eval('#voice-gender-selector',el=>el.scrollIntoView({block:'center'}));
+ await loginPage.screenshot({path:`${out}/registration-options.png`});
+ checks.push('Expanded registration uses ivory under all themes, has no overflow at 320/390/713 px, and plays the static male sample before login without personal voice attribution.');
  await loginPage.click('#auth-tabs button:nth-child(2)');await loginPage.waitForSelector('#login-form');
  assert.equal(await loginPage.$eval('#login-form input:not([type="checkbox"])',el=>getComputedStyle(el).backgroundColor),'rgb(255, 253, 243)');
  await loginPage.screenshot({path:`${out}/login.png`});

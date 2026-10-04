@@ -95,3 +95,15 @@ A captura enviada na prévia mostrou o cadastro com cartão escuro e a arte de c
 Correção restrita ao shell de autenticação existente: paisagem do Natural Sereno, papel marfim, folhagem, tipografia verde, campos claros, dourado nos controles e logo oficial discreto. Não altera campos, validação, handlers, APIs, pagamento ou fluxo de entrada. A Reintegração mantém seus próprios assets e componentes. O cadastro/login fica independente do ID do tema do perfil, inclusive quando outro layout foi usado anteriormente.
 
 Evidências adicionais: `docs/visual-qa/natural-sereno/registration.png` e `login.png`. Lint, cinco testes, build e dezessete verificações Chromium aprovados. A verificação de entrada exercita as abas reais sem submeter dados e confere os fundos do cartão e campos sob os quatro IDs de tema. A alteração corrige a entrada; não declara a equivalência integral das doze telas concluída.
+
+## Cadastro — correções solicitadas e publicação autorizada
+
+O painel opcional preserva o marfim do Natural Sereno sob os quatro IDs de tema. Horário/cidade e cartões de voz passam a uma coluna em telas estreitas; rodapés permitem quebra sem sobreposição. Autofill mantém marfim, o logo oficial original fica legível em 76 px sem opacidade reduzida, e a folhagem deixa de esticar ao longo do formulário expandido.
+
+A identificação como voz de Éverton foi removida do cadastro, anamnese e metadados de voz. Uma amostra masculina Brian/ElevenLabs, com texto de acolhimento sem identificação pessoal, fica em arquivo público de 5,75 s e funciona antes do login sem liberar a API de narração autenticada. O alias masculino usa ELEVENLABS_MALE_VOICE_ID ou Brian; a voz oficial congelada da Reintegração não foi alterada.
+
+O erro FUNCTION_INVOCATION_FAILED na prévia foi associado à ausência de JWT_SECRET no ambiente preview. Foi configurado um segredo exclusivo para preview; o segredo de produção não foi lido nem alterado. A publicação de produção deve ser um build de main com as variáveis de produção, não promoção de um build preview com segredo diferente. Falhas de cadastro não JSON agora apresentam mensagem de indisponibilidade e tentativa novamente.
+
+Validação: lint, cinco testes e build; 18 verificações Chromium sem erros; cadastro válido, sessão, sincronização do perfil, login e duplicidade em banco local isolado, sem criar contas reais; erro HTTP 500 não JSON validado no navegador. Evidências: registration.png, login.png, registration-options.png e verification.json em docs/visual-qa/natural-sereno.
+
+O usuário autorizou publicar a versão atual e continuar ajustes. A auditoria de fidelidade integral das 12 telas segue com as diferenças documentadas; não inicia Estilo 2.
