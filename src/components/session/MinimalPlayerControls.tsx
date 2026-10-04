@@ -118,7 +118,7 @@ export const MinimalPlayerControls: React.FC<MinimalPlayerControlsProps> = ({
           {/* Big Play / Pause */}
           <button
             onClick={onTogglePlay}
-            className="w-13 h-13 rounded-2xl bg-gradient-to-tr from-[#B88736] via-[#D4AF37] to-[#C5A059] text-white flex items-center justify-center shadow-[0_4px_20px_rgba(184,135,54,0.3)] hover:shadow-[0_6px_25px_rgba(184,135,54,0.45)] hover:scale-105 active:scale-95 transition-all duration-200"
+            className="ns-play-toggle w-13 h-13 rounded-2xl bg-gradient-to-tr from-[#B88736] via-[#D4AF37] to-[#C5A059] text-white flex items-center justify-center shadow-[0_4px_20px_rgba(184,135,54,0.3)] hover:shadow-[0_6px_25px_rgba(184,135,54,0.45)] hover:scale-105 active:scale-95 transition-all duration-200"
             title={isPlaying ? "Pausar sessão" : "Iniciar sessão"}
           >
             {isPlaying ? (

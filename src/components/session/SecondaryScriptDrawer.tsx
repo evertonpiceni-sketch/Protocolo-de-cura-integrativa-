@@ -76,7 +76,7 @@ export const SecondaryScriptDrawer: React.FC<SecondaryScriptDrawerProps> = ({
               {stages.map((stg, index) => {
                 const isCurrent = stg.id === currentStageId;
                 const scriptData = ORIGINAL_PROTOCOL_SCRIPTS[stg.id];
-                const cleanScriptText = (scriptData.text || '')
+                const cleanScriptText = (scriptData.fullText || scriptData.text || '')
                   .replace(/\{userName\}/g, displayName)
                   .replace(/\[NOME\]/g, displayName);
 

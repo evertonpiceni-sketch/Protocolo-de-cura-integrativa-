@@ -21,7 +21,7 @@ export const ProtocolAcceptancePortal: React.FC<ProtocolAcceptancePortalProps> =
       animate={{ opacity: 1, scale: 1 }}
       exit={{ opacity: 0, scale: 0.96 }}
       transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
-      className="relative z-10 max-w-xl mx-auto w-full px-5 py-8 my-auto"
+      className="ep-acceptance-portal relative z-10 max-w-xl mx-auto w-full px-5 py-8 my-auto"
     >
       {/* Sacred Portal Card - Official Warm Ivory & Soft Gold Palette */}
       <div className="relative rounded-3xl p-8 sm:p-10 border border-[#E5DAC6] bg-[#FAF7F2]/98 shadow-[0_20px_50px_rgba(143,99,30,0.08)] backdrop-blur-xl overflow-hidden text-center">

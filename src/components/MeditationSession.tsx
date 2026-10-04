@@ -89,8 +89,8 @@ export default function MeditationSession({
 
   // Dynamic insights
   const currentInsight = journeyType === '7d'
-    ? JOURNEY_7D_INSIGHTS[dayNumber] || JOURNEY_7D_INSIGHTS[1]
-    : DAILY_INSIGHTS[dayNumber] || DAILY_INSIGHTS[1];
+    ? JOURNEY_7D_INSIGHTS[dayNumber - 1] || JOURNEY_7D_INSIGHTS[0]
+    : DAILY_INSIGHTS[dayNumber - 1] || DAILY_INSIGHTS[0];
 
   // Breathing cadence cycle
   useEffect(() => {
@@ -133,12 +133,12 @@ export default function MeditationSession({
 
   // Execute stage stream when stage changes or playback begins
   const playCurrentStageAudio = async () => {
-    const rawStageText = (STAGE_AUDIO_TRANSLATIONS[initialLanguage] &&
-      STAGE_AUDIO_TRANSLATIONS[initialLanguage][currentStage.id]) ||
-      activeScript.audioScript ||
-      activeScript.text;
+    const rawStageText = STAGE_AUDIO_TRANSLATIONS[initialLanguage]?.[currentStage.id]?.text ||
+      activeScript.ttsScript ||
+      activeScript.fullText ||
+      currentStage.text;
 
-    let personalizedText = rawStageText.replace(/\{userName\}/g, userName || 'Filho da Luz');
+    let personalizedText = rawStageText.replace(/\{userName\}|\[NOME\]/g, userName || 'Filho da Luz');
     if (currentStage.id === ProtocolStage.ABERTURA && customDecree) {
       personalizedText = `${personalizedText}\n\nDecreto Pessoal Especial: ${customDecree}`;
     }
@@ -275,9 +275,9 @@ export default function MeditationSession({
   }
 
   return (
-    <div className="fixed inset-0 z-50 bg-[#FAF7F2] text-[#2A2420] flex flex-col justify-between overflow-hidden select-none min-h-dvh">
+    <div id="meditation-session" data-session-phase={sessionPhase} className="ep-session fixed inset-0 z-50 bg-[#FAF7F2] text-[#2A2420] flex flex-col justify-between overflow-hidden select-none min-h-dvh">
       {/* Background Sacred Canvas */}
-      <div className="absolute inset-0 pointer-events-none">
+      <div className="ep-session-backdrop absolute inset-0 pointer-events-none">
         <SacredEnergyCanvas
           stageId={currentStage.id}
           isPlaying={isPlaying}
@@ -433,13 +433,19 @@ export default function MeditationSession({
             currentTime={currentTime}
             duration={duration}
             onTogglePlay={handleTogglePlay}
-            onSeek={handleSeek}
-            onSkipForward={handleSkipForward}
-            onSkipBackward={handleSkipBackward}
+            onSeekTo={handleSeek}
+            onSeekForward={handleSkipForward}
+            onSeekBackward={handleSkipBackward}
             onNextStage={handleNextStage}
             onPrevStage={handlePrevStage}
-            canPrev={currentStageIndex > 0}
-            canNext={true}
+            hasPrevStage={currentStageIndex > 0}
+            hasNextStage={true}
+            isMuted={isMuted}
+            onToggleMute={() => {
+              audioEngine.setMasterVolume(isMuted ? 1.0 : 0);
+              setIsMuted(!isMuted);
+            }}
+            onOpenScriptDrawer={() => setIsDrawerOpen(true)}
           />
         </footer>
       )}
