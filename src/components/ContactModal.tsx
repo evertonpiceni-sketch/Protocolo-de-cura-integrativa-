@@ -130,7 +130,7 @@ export default function ContactModal({
 
         {isSent ? (
           /* Sent Confirmation */
-          <div className="py-8 text-center space-y-4">
+          <div className="py-8 text-center space-y-4" role="status" aria-live="polite">
             <div className="w-16 h-16 rounded-2xl bg-emerald-500/20 border border-emerald-500/40 text-emerald-400 flex items-center justify-center mx-auto shadow-lg shadow-emerald-500/20">
               <Check size={32} />
             </div>
@@ -185,7 +185,7 @@ export default function ContactModal({
                   className="flex-1 sm:flex-initial px-3 py-2.5 min-h-[44px] rounded-xl bg-[#F5EFE4] hover:bg-[#EFE4D3] text-[#5C5248] text-xs font-semibold flex items-center justify-center gap-1.5 transition cursor-pointer border border-[#E5DAC6]"
                 >
                   {copiedEmail ? <Check size={13} className="text-emerald-400" /> : <Copy size={13} />}
-                  <span>{copiedEmail ? 'E-mail Copiado!' : 'Copiar E-mail'}</span>
+                  <span aria-live="polite">{copiedEmail ? 'E-mail copiado' : 'Copiar e-mail'}</span>
                 </button>
 
                 <button
