@@ -782,3 +782,137 @@ body::before{
     border-radius:1.2rem!important;
   }
 }
+
+
+/* ========================================================================
+   FIDELITY PASS 2 — journey/player/acceptance match the approved boards
+   ======================================================================== */
+
+/* Reintegração keeps its approved ivory identity, but gains image-led composition. */
+.ep-reintegration-shell{
+  background:
+    linear-gradient(180deg,rgba(248,244,236,.94),rgba(248,244,236,.84)),
+    url('/brand/reintegracao-presenca-arte.png') center top/cover fixed no-repeat!important;
+}
+.ep-reintegration-shell>.pointer-events-none.fixed{
+  opacity:.18!important;
+  width:3.4rem!important;
+  height:3.4rem!important;
+  border-color:rgba(184,135,54,.16)!important;
+  background:rgba(255,255,255,.20)!important;
+}
+.ep-reintegration-shell .ep-reintegration-panel,
+.ep-reintegration-shell .ep-reintegration-card{
+  background:rgba(255,252,245,.86)!important;
+  border:1px solid rgba(184,135,54,.24)!important;
+  box-shadow:0 16px 42px rgba(70,55,35,.10)!important;
+  backdrop-filter:blur(12px);
+}
+
+/* Meditation player: image is the hero, controls live inside the same visual world. */
+.fixed.inset-0.z-50.bg-\[\#FAF7F2\]{
+  background:
+    linear-gradient(180deg,rgba(2,26,18,.12),rgba(2,25,18,.82)),
+    url('/brand/reintegracao-presenca-arte.png') center/cover no-repeat!important;
+  color:#FFF9EC!important;
+}
+.fixed.inset-0.z-50.bg-\[\#FAF7F2\] header{
+  background:linear-gradient(180deg,rgba(3,27,19,.86),rgba(3,27,19,.54))!important;
+  border-color:rgba(214,174,82,.30)!important;
+  color:#FFF9EC!important;
+  box-shadow:none!important;
+}
+.fixed.inset-0.z-50.bg-\[\#FAF7F2\] header h1,
+.fixed.inset-0.z-50.bg-\[\#FAF7F2\] header div,
+.fixed.inset-0.z-50.bg-\[\#FAF7F2\] header span{
+  color:#FFF9EC!important;
+}
+.fixed.inset-0.z-50.bg-\[\#FAF7F2\] main{
+  max-width:30rem!important;
+  justify-content:flex-end!important;
+  padding-bottom:1.2rem!important;
+}
+.fixed.inset-0.z-50.bg-\[\#FAF7F2\] main h2{
+  color:#FFF9EC!important;
+  font-size:2.15rem!important;
+  line-height:1.05!important;
+  text-shadow:0 2px 18px rgba(0,0,0,.42);
+}
+.fixed.inset-0.z-50.bg-\[\#FAF7F2\] main p{
+  color:rgba(255,249,236,.84)!important;
+  text-shadow:0 2px 14px rgba(0,0,0,.30);
+}
+.fixed.inset-0.z-50.bg-\[\#FAF7F2\] main .rounded-full.border{
+  background:rgba(7,46,33,.70)!important;
+  border-color:rgba(214,174,82,.46)!important;
+  color:#F1D687!important;
+  box-shadow:0 10px 24px rgba(0,0,0,.18)!important;
+}
+.fixed.inset-0.z-50.bg-\[\#FAF7F2\] main .relative.w-44.h-44{
+  width:11rem!important;
+  height:11rem!important;
+  margin:.8rem 0!important;
+}
+.fixed.inset-0.z-50.bg-\[\#FAF7F2\] main .relative.w-44.h-44>div:first-child{
+  border-color:rgba(214,174,82,.58)!important;
+  background:radial-gradient(circle,rgba(214,174,82,.18),rgba(9,55,39,.12),transparent 68%)!important;
+  box-shadow:0 0 40px rgba(214,174,82,.12)!important;
+}
+.fixed.inset-0.z-50.bg-\[\#FAF7F2\] footer{
+  background:linear-gradient(180deg,rgba(2,23,16,.58),rgba(2,22,16,.94))!important;
+  border-color:rgba(214,174,82,.26)!important;
+  color:#FFF9EC!important;
+}
+.fixed.inset-0.z-50.bg-\[\#FAF7F2\] footer button{
+  color:#F0D47A!important;
+}
+.fixed.inset-0.z-50.bg-\[\#FAF7F2\] footer input[type="range"]{
+  accent-color:#D4AF37;
+}
+
+/* Acceptance portal: same visual language as approved journey intro, not a pale modal. */
+.fixed.inset-0.z-50.bg-\[\#FAF7F2\] .relative.z-10.max-w-xl{
+  max-width:30rem!important;
+  padding:1rem!important;
+}
+.fixed.inset-0.z-50.bg-\[\#FAF7F2\] .relative.z-10.max-w-xl>div{
+  background:
+    linear-gradient(180deg,rgba(6,43,31,.86),rgba(3,29,21,.94))!important;
+  border:1px solid rgba(214,174,82,.44)!important;
+  box-shadow:0 28px 72px rgba(0,0,0,.34)!important;
+  color:#FFF9EC!important;
+}
+.fixed.inset-0.z-50.bg-\[\#FAF7F2\] .relative.z-10.max-w-xl h2{
+  color:#FFF9EC!important;
+  text-shadow:0 2px 14px rgba(0,0,0,.28);
+}
+.fixed.inset-0.z-50.bg-\[\#FAF7F2\] .relative.z-10.max-w-xl p{
+  color:rgba(255,249,236,.82)!important;
+}
+.fixed.inset-0.z-50.bg-\[\#FAF7F2\] .relative.z-10.max-w-xl .bg-\[\#F4EFE6\]{
+  background:rgba(255,248,231,.10)!important;
+  border-color:rgba(214,174,82,.28)!important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.04)!important;
+}
+.fixed.inset-0.z-50.bg-\[\#FAF7F2\] .relative.z-10.max-w-xl .bg-\[\#F4EFE6\] p{
+  color:#FFF9EC!important;
+}
+
+/* Mobile player proportions like the approved full-screen phones. */
+@media(max-width:640px){
+  .fixed.inset-0.z-50.bg-\[\#FAF7F2\] header{
+    padding:.8rem 1rem!important;
+  }
+  .fixed.inset-0.z-50.bg-\[\#FAF7F2\] main{
+    padding-left:1rem!important;
+    padding-right:1rem!important;
+    padding-bottom:.8rem!important;
+  }
+  .fixed.inset-0.z-50.bg-\[\#FAF7F2\] footer{
+    padding:.8rem 1rem!important;
+  }
+  .fixed.inset-0.z-50.bg-\[\#FAF7F2\] .relative.z-10.max-w-xl>div{
+    border-radius:1.6rem!important;
+    padding:1.4rem!important;
+  }
+}
