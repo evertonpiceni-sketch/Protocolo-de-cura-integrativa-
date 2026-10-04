@@ -24,7 +24,7 @@ export const SecondaryScriptDrawer: React.FC<SecondaryScriptDrawerProps> = ({
   return (
     <AnimatePresence>
       {isOpen && (
-        <div className="fixed inset-0 z-50 flex justify-end">
+        <div className="fixed inset-0 z-50 flex justify-end" role="dialog" aria-modal="true" aria-label="Roteiro da sessão">
           {/* Backdrop */}
           <motion.div
             initial={{ opacity: 0 }}
@@ -40,7 +40,7 @@ export const SecondaryScriptDrawer: React.FC<SecondaryScriptDrawerProps> = ({
             animate={{ x: 0 }}
             exit={{ x: '100%' }}
             transition={{ type: 'spring', damping: 30, stiffness: 300 }}
-            className="relative z-10 w-full max-w-xl bg-[#FAF7F2] border-l border-[#E5DAC6] shadow-2xl flex flex-col h-full text-[#2A2420]"
+            className="relative z-10 w-full max-w-xl bg-[#FAF7F2] border-l border-[#E5DAC6] shadow-2xl flex flex-col h-dvh text-[#2A2420]"
           >
             {/* Drawer Header */}
             <div className="px-6 py-5 border-b border-[#E5DAC6] flex items-center justify-between bg-[#F4EFE6]">
@@ -50,17 +50,17 @@ export const SecondaryScriptDrawer: React.FC<SecondaryScriptDrawerProps> = ({
                 </div>
                 <div>
                   <h3 className="font-serif text-lg text-[#2A2420] font-medium">
-                    Roteiro Canônico de Cura
+                    Roteiro Canônico da Jornada
                   </h3>
                   <p className="text-xs text-[#5C5248]">
-                    Textos, decretos e canalizações sagradas
+                    Textos e orientações da prática
                   </p>
                 </div>
               </div>
 
               <button
                 onClick={onClose}
-                className="w-8 h-8 rounded-full border border-[#E5DAC6] hover:border-[#8F631E] flex items-center justify-center text-[#5C5248] hover:text-[#2A2420] transition-colors"
+                className="w-11 h-11 rounded-xl border border-[#E5DAC6] hover:border-[#8F631E] flex items-center justify-center text-[#5C5248] hover:text-[#2A2420] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B88736]/30"
                 aria-label="Fechar roteiro"
               >
                 <X size={16} />
