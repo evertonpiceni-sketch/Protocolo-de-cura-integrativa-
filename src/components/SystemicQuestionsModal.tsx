@@ -107,8 +107,8 @@ export default function SystemicQuestionsModal({
     setIsReadingVoice(true);
     const speechText = `Pergunta Sistêmica do Dia ${activeDay}: ${currentQuestionItem.theme}. ` +
       `${currentQuestionItem.question} ` +
-      `Reflexão terapêutica: ${currentQuestionItem.guidedReflection} ` +
-      `Frase de cura: ${currentQuestionItem.healingSentence}`;
+      `Reflexão guiada: ${currentQuestionItem.guidedReflection} ` +
+      `Frase de integração: ${currentQuestionItem.healingSentence}`;
 
     audioEngine.previewVoice({
       text: speechText,
@@ -121,19 +121,24 @@ export default function SystemicQuestionsModal({
     setTimeout(() => setIsReadingVoice(false), 12000);
   };
 
-  const handleCopySentence = () => {
-    navigator.clipboard.writeText(currentQuestionItem.healingSentence);
-    setCopiedSentence(true);
-    setTimeout(() => setCopiedSentence(false), 3000);
+  const handleCopySentence = async () => {
+    try {
+      await navigator.clipboard.writeText(currentQuestionItem.healingSentence);
+      setCopiedSentence(true);
+      setTimeout(() => setCopiedSentence(false), 3000);
+    } catch (error) {
+      console.warn('Não foi possível copiar a frase automaticamente.', error);
+      setCopiedSentence(false);
+    }
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-[#2A2420]/30 backdrop-blur-md overflow-y-auto" id="systemic-questions-modal">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4 bg-[#2A2420]/30 backdrop-blur-md overflow-y-auto overscroll-contain" id="systemic-questions-modal" role="dialog" aria-modal="true" aria-label="Reflexões sistêmicas">
       <motion.div
         initial={{ opacity: 0, scale: 0.95, y: 15 }}
         animate={{ opacity: 1, scale: 1, y: 0 }}
         exit={{ opacity: 0, scale: 0.95 }}
-        className="w-full max-w-4xl bg-[#FBF8F2] border border-[#B88736]/30 rounded-3xl p-5 sm:p-7 shadow-2xl relative overflow-hidden my-4 max-h-[92vh] flex flex-col"
+        className="w-full max-w-4xl bg-[#FBF8F2] border border-[#B88736]/30 rounded-2xl sm:rounded-3xl p-4 sm:p-7 shadow-2xl relative overflow-hidden my-1 sm:my-4 max-h-[calc(100dvh-1rem)] sm:max-h-[92dvh] flex flex-col"
       >
         {/* Glow backdrop effects */}
         <div className="absolute -top-24 -right-24 w-72 h-72 bg-[#B88736]/10 rounded-full blur-3xl pointer-events-none" />
@@ -252,7 +257,7 @@ export default function SystemicQuestionsModal({
         </div>
 
         {/* Question & Guided Reflection Content (Scrollable) */}
-        <div className="flex-1 overflow-y-auto pr-1 py-4 space-y-4">
+        <div className="flex-1 min-h-0 overflow-y-auto overscroll-contain pr-1 py-4 space-y-4">
           {/* Active Day Banner */}
           <div className="p-4 rounded-2xl bg-white/80 border border-[#E5DAC6] space-y-3 shadow-sm">
             <div className="flex flex-wrap items-center justify-between gap-2">
@@ -268,7 +273,7 @@ export default function SystemicQuestionsModal({
               <button
                 type="button"
                 onClick={handleReadVoice}
-                className="px-3 py-1.5 rounded-xl bg-[#B88736]/20 hover:bg-[#B88736]/40 border border-[#B88736]/30 text-indigo-200 text-xs font-semibold flex items-center gap-1.5 transition cursor-pointer"
+                className="px-3 py-2 min-h-11 rounded-xl bg-[#B88736]/12 hover:bg-[#B88736]/20 border border-[#B88736]/30 text-[#8F631E] text-xs font-semibold flex items-center gap-1.5 transition cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B88736]/30"
               >
                 <Volume2 size={13} className={isReadingVoice ? 'animate-pulse text-amber-400' : ''} />
                 <span>{isReadingVoice ? 'Ouvindo Reflexão...' : 'Ouvir com Voz'}</span>
@@ -292,7 +297,7 @@ export default function SystemicQuestionsModal({
             {/* Guided Therapeutic Reflection */}
             <div className="space-y-1.5">
               <span className="text-[10px] font-mono uppercase tracking-wider text-[#B88736] font-bold block">
-                DIRECIONAMENTO TERAPÊUTICO (ÉVERTON PICENI):
+                REFLEXÃO GUIADA:
               </span>
               <p className="text-xs sm:text-sm text-[#5C5248] leading-relaxed">
                 {currentQuestionItem.guidedReflection}
@@ -300,10 +305,10 @@ export default function SystemicQuestionsModal({
             </div>
 
             {/* Healing Systemic Sentence */}
-            <div className="p-3.5 rounded-xl bg-[#F5EFE4] border border-purple-500/30 space-y-1.5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+            <div className="p-3.5 rounded-xl bg-[#F5EFE4] border border-[#E5DAC6] space-y-1.5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
               <div className="space-y-1">
-                <span className="text-[10px] font-mono uppercase tracking-wider text-purple-400 font-bold block">
-                  FRASE DE CURA & SOLUÇÃO SISTÊMICA:
+                <span className="text-[10px] font-mono uppercase tracking-wider text-[#8F631E] font-bold block">
+                  FRASE DE INTEGRAÇÃO:
                 </span>
                 <p className="text-xs sm:text-sm text-[#5C5248] font-semibold italic">
                   "{currentQuestionItem.healingSentence}"
@@ -313,7 +318,7 @@ export default function SystemicQuestionsModal({
               <button
                 type="button"
                 onClick={handleCopySentence}
-                className="px-3 py-1.5 bg-purple-600/30 hover:bg-purple-600/50 border border-purple-500/40 text-[#5C5248] rounded-xl text-xs font-semibold transition cursor-pointer flex items-center gap-1.5 shrink-0"
+                className="px-3 py-2 min-h-11 bg-white hover:bg-[#EFE4D3] border border-[#E5DAC6] text-[#5C5248] rounded-xl text-xs font-semibold transition cursor-pointer flex items-center gap-1.5 shrink-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B88736]/30"
               >
                 {copiedSentence ? <Check size={13} /> : <Copy size={13} />}
                 <span>{copiedSentence ? 'Copiada!' : 'Copiar Frase'}</span>
@@ -347,8 +352,8 @@ export default function SystemicQuestionsModal({
               rows={4}
               value={currentAnswer}
               onChange={(e) => setCurrentAnswer(e.target.value)}
-              placeholder="Escreva aqui o que sentiu ao ler a pergunta, quais memórias de família ou pessoas vieram à sua mente, e como você se sente após pronunciar a frase de cura..."
-              className="w-full bg-[#FBF8F2] border border-[#E5DAC6] focus:border-[#B88736] focus:ring-1 focus:ring-indigo-500 text-[#2A2420] rounded-xl p-3.5 text-xs sm:text-sm transition duration-150 outline-none placeholder-slate-600 resize-y leading-relaxed"
+              placeholder="Escreva aqui o que sentiu ao ler a pergunta, quais memórias de família ou pessoas vieram à sua mente, e como você se sente após pronunciar a frase de integração..."
+              className="w-full bg-[#FBF8F2] border border-[#E5DAC6] focus:border-[#B88736] focus:ring-1 focus:ring-[#B88736]/30 text-[#2A2420] rounded-xl p-3.5 text-xs sm:text-sm transition duration-150 outline-none placeholder-slate-600 resize-y leading-relaxed"
             />
 
             <div className="flex flex-wrap items-center justify-between gap-2 pt-1">
@@ -359,12 +364,12 @@ export default function SystemicQuestionsModal({
               <button
                 type="button"
                 onClick={handleSave}
-                className="px-4 py-2 bg-[#B88736] hover:bg-[#B88736] text-white rounded-xl text-xs font-semibold flex items-center gap-1.5 transition cursor-pointer shadow-md shadow-indigo-600/20 active:scale-95"
+                className="px-4 py-2.5 min-h-11 bg-[#B88736] hover:bg-[#8F631E] text-white rounded-xl text-xs font-semibold flex items-center gap-1.5 transition cursor-pointer shadow-sm active:scale-[0.99] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B88736]/35"
               >
                 {isSavedRecently ? (
                   <>
                     <CheckCircle2 size={14} className="text-emerald-300" />
-                    <span>Resposta Salva! ✨</span>
+                    <span>Resposta salva</span>
                   </>
                 ) : (
                   <>
@@ -387,8 +392,8 @@ export default function SystemicQuestionsModal({
           </div>
 
           <button
-            onClick={onClose}
-            className="px-4 py-2 bg-[#F5EFE4] hover:bg-slate-700 text-[#2A2420] rounded-xl text-xs font-semibold cursor-pointer transition"
+            onClick={handleCloseModal}
+            className="px-4 py-2.5 min-h-11 bg-[#F5EFE4] hover:bg-[#EFE4D3] text-[#2A2420] border border-[#E5DAC6] rounded-xl text-xs font-semibold cursor-pointer transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B88736]/30"
           >
             Fechar
           </button>
