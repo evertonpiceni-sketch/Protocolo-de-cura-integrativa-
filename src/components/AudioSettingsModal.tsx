@@ -39,7 +39,7 @@ export default function AudioSettingsModal({
   const [audioEnabled, setAudioEnabled] = useState(userProfile.audioEnabled !== false);
   const [isTestingVoice, setIsTestingVoice] = useState(false);
 
-  // Sintonização Bioativa (Binaural Beats) State
+  // Camada Binaural State
   const [bioactiveBinauralEnabled, setBioactiveBinauralEnabled] = useState<boolean>(
     userProfile.bioactiveBinauralEnabled ?? false
   );
@@ -129,7 +129,7 @@ export default function AudioSettingsModal({
       setIsTestingVoice(false);
     } else {
       setIsTestingVoice(true);
-      const testPhrase = `Paz e luz, ${userProfile.name}. O seu campo energético está sendo harmonizado na frequência sagrada de cura.`;
+      const testPhrase = `Olá, ${userProfile.name}. Esta é uma prévia da voz escolhida para acompanhar suas práticas com calma e presença.`;
       
       // Also play the bg frequency briefly for test
       if (bgMusicType !== 'none' && audioEnabled) {
@@ -231,7 +231,8 @@ export default function AudioSettingsModal({
               audioEngine.stopSpeech();
               onClose();
             }}
-            className="p-2 text-[#5C5248] hover:text-white bg-[#F5EFE4]/60 hover:bg-[#F5EFE4] rounded-xl transition cursor-pointer border-none"
+            aria-label="Fechar ajustes de áudio"
+            className="w-11 h-11 text-[#5C5248] hover:text-[#2A2420] bg-[#F5EFE4]/70 hover:bg-[#EFE4D3] rounded-xl transition cursor-pointer border-none flex items-center justify-center focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B88736]/30"
           >
             <X size={18} />
           </button>
@@ -250,14 +251,14 @@ export default function AudioSettingsModal({
 
           <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
             {[
-              { id: '396hz', name: '396Hz', desc: 'Libertação de Medo & Culpa', pro: false },
-              { id: '528hz', name: '528Hz', desc: 'Reparação e Vitalidade (c/ Binaural Alpha-Beta 12Hz)', pro: false },
-              { id: '432hz', name: '432Hz', desc: 'Ressonância Harmônica (c/ Binaural Theta 5Hz)', pro: false },
-              { id: '639hz', name: '639Hz', desc: 'Amor & Conexão', pro: false },
-              { id: '417hz', name: '417Hz', desc: 'Limpeza de Traumas', pro: false },
-              { id: '852hz', name: '852Hz', desc: 'Intuição Espiritual', pro: true },
-              { id: '963hz', name: '963Hz', desc: 'Conexão Superior', pro: true },
-              { id: '741hz', name: '741Hz', desc: 'Despertar Intuitivo', pro: true },
+              { id: '396hz', name: '396Hz', desc: 'Aterramento & reflexão', pro: false },
+              { id: '528hz', name: '528Hz', desc: 'Calma & presença com camada binaural', pro: false },
+              { id: '432hz', name: '432Hz', desc: 'Atmosfera suave com camada binaural', pro: false },
+              { id: '639hz', name: '639Hz', desc: 'Conexão & acolhimento', pro: false },
+              { id: '417hz', name: '417Hz', desc: 'Renovação simbólica', pro: false },
+              { id: '852hz', name: '852Hz', desc: 'Introspecção', pro: true },
+              { id: '963hz', name: '963Hz', desc: 'Contemplação', pro: true },
+              { id: '741hz', name: '741Hz', desc: 'Clareza & foco', pro: true },
               { id: 'florestazen', name: 'Floresta Zen', desc: 'Pássaros & Vento', pro: false },
               { id: 'chuvaserena', name: 'Chuva Serena', desc: 'Água Calmante', pro: false },
               { id: 'waves', name: 'Sinos Zen', desc: 'Tigelas Tibetanas', pro: false },
@@ -284,7 +285,7 @@ export default function AudioSettingsModal({
                   }}
                   className={`p-2.5 rounded-xl text-left border transition cursor-pointer relative overflow-hidden ${
                     isSelected
-                      ? 'bg-[#B88736]/20 border-[#B88736] text-indigo-200'
+                      ? 'bg-[#B88736]/12 border-[#B88736] text-[#8F631E]'
                       : 'bg-[#FBF8F2] border-[#E5DAC6] text-[#5C5248] hover:text-[#2A2420] hover:border-[#E5DAC6]'
                   }`}
                 >
@@ -316,13 +317,13 @@ export default function AudioSettingsModal({
                   setBgMusicVolume(val);
                   audioEngine.setBGVolume(val);
                 }}
-                className="w-full h-1.5 bg-[#F5EFE4] rounded-lg appearance-none cursor-pointer accent-indigo-500"
+                className="w-full h-1.5 bg-[#F5EFE4] rounded-lg appearance-none cursor-pointer accent-[#B88736]"
               />
             </div>
           )}
         </div>
 
-        {/* Painel de Sintonização Bioativa (Binaural Beats) */}
+        {/* Painel de Camada Binaural */}
         <div className="space-y-4 bg-gradient-to-br from-[#FDFBF7] to-[#F7F2E7] border-2 border-[#B88736]/35 p-4 sm:p-5 rounded-2xl shadow-sm relative overflow-hidden" id="bioactive-tuning-panel">
           {/* Subtle warm glow background */}
           <div className="absolute top-0 right-0 w-36 h-36 bg-[#B88736]/10 rounded-full blur-2xl pointer-events-none" />
@@ -347,10 +348,10 @@ export default function AudioSettingsModal({
                   </span>
                 </div>
                 <h4 className="text-sm sm:text-base font-display font-medium text-[#2A2420]">
-                  Sintonização Bioativa (Binaural Beats)
+                  Camada Binaural
                 </h4>
                 <p className="text-[11px] text-[#5C5248] leading-tight mt-0.5">
-                  Sobreponha ondas cerebrais sincronizadas acusticamente com a frequência de fundo escolhida.
+                  Adicione uma diferença estéreo sutil entre os canais esquerdo e direito sobre a trilha escolhida. Para perceber o efeito estéreo, use fones de ouvido em volume confortável.
                 </p>
               </div>
             </div>
@@ -592,7 +593,7 @@ export default function AudioSettingsModal({
               step="0.02"
               value={voiceRate}
               onChange={(e) => setVoiceRate(parseFloat(e.target.value))}
-              className="w-full h-1.5 bg-[#F5EFE4] rounded-lg appearance-none cursor-pointer accent-indigo-500"
+              className="w-full h-1.5 bg-[#F5EFE4] rounded-lg appearance-none cursor-pointer accent-[#B88736]"
             />
           </div>
 
@@ -609,7 +610,7 @@ export default function AudioSettingsModal({
               step="0.05"
               value={voiceVolume}
               onChange={(e) => setVoiceVolume(parseFloat(e.target.value))}
-              className="w-full h-1.5 bg-[#F5EFE4] rounded-lg appearance-none cursor-pointer accent-indigo-500"
+              className="w-full h-1.5 bg-[#F5EFE4] rounded-lg appearance-none cursor-pointer accent-[#B88736]"
             />
           </div>
         </div>
