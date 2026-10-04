@@ -446,14 +446,14 @@ export default function AnamnesisModal({
                   <Sparkles size={16} className="animate-pulse" />
                 </div>
                 <span className="text-[11px] font-mono tracking-widest text-[#B88736] uppercase font-bold">
-                  Diagnóstico Vibracional & Ficha Terapêutica
+                  Mapa do Momento & Caminhos de Cuidado
                 </span>
               </div>
               <h1 className="text-2xl md:text-3xl font-display font-semibold text-[#2A2420] leading-tight">
                 Olá, <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-300 via-purple-200 to-amber-200">{userProfile.fullName || userProfile.name}</span>!
               </h1>
               <p className="text-xs md:text-sm text-[#5C5248] mt-1 max-w-xl leading-relaxed">
-                Seu diagnóstico energético foi acolhido na egrégora. Ouça abaixo o áudio com as orientações do seu campo vibracional e a justificativa terapêutica personalizada.
+                Seu Mapa do Momento foi organizado a partir do que você compartilhou. Ouça abaixo as possibilidades de cuidado e a explicação de como elas se relacionam com este momento.
               </p>
               <div className="mt-3 flex flex-wrap items-center gap-3 text-[11px] text-[#5C5248]">
                 <span className="flex items-center gap-1 text-emerald-400 font-mono">
@@ -529,7 +529,7 @@ export default function AnamnesisModal({
                       type="button"
                       onClick={() => {
                         const textToSpeak = existingAnamnesis.aiAnalysis?.justificativa_terapeutica || existingAnamnesis.prescribedFocus || "Identificamos uma sobrecarga com necessidade de acolhimento e paz profunda.";
-                        const fullGreetingSpeech = `Olá ${userProfile.fullName || userProfile.name}. Seja muito bem-vindo ao seu diagnóstico personalizado. ${textToSpeak} ${existingAnamnesis.customDecree ? `Seu decreto sagrado é: ${existingAnamnesis.customDecree}` : ''}`;
+                        const fullGreetingSpeech = `Olá ${userProfile.fullName || userProfile.name}. Seja muito bem-vindo ao seu Mapa do Momento. ${textToSpeak} ${existingAnamnesis.customDecree ? `Seu decreto sagrado é: ${existingAnamnesis.customDecree}` : ''}`;
                         playTherapeuticVoice(fullGreetingSpeech);
                       }}
                       disabled={isLoadingVoice}
@@ -556,7 +556,7 @@ export default function AnamnesisModal({
                             ? "Sintetizando áudio em alta definição..."
                             : isPlayingTherapeuticVoice
                             ? "Reproduzindo Acolhimento..."
-                            : "Ouvir Diagnóstico Personalizado"}
+                            : "Ouvir Mapa do Momento Personalizado"}
                         </span>
                         <span className="text-[11px] font-mono text-[#B88736]">
                           {selectedVoiceGender === 'masculina' ? 'Voz Masculina (Éverton Piceni)' : 'Voz Feminina (Acolhimento da Alma)'}
@@ -646,7 +646,7 @@ export default function AnamnesisModal({
                   <textarea
                     value={feedbackComment}
                     onChange={(e) => setFeedbackComment(e.target.value)}
-                    placeholder="Compartilhe suas sensações sobre o diagnóstico (opcional)..."
+                    placeholder="Compartilhe suas sensações sobre o mapa do momento (opcional)..."
                     rows={2}
                     className="w-full bg-[#FBF8F2] border border-[#E5DAC6] rounded-xl p-2.5 text-xs text-[#2A2420] focus:border-[#B88736] focus:ring-1 focus:ring-indigo-500 outline-none resize-none placeholder-slate-500"
                   />
@@ -748,7 +748,7 @@ export default function AnamnesisModal({
                         </div>
                         <div>
                           <span className="text-[10px] font-mono uppercase tracking-widest text-[#B88736] font-bold">
-                            Diagnóstico Bioenergético
+                            Mapa do Momento Bioenergético
                           </span>
                           <h5 className="text-xs sm:text-sm font-display font-medium text-[#2A2420]">
                             Melhor Sistema de Reiki Indicado para seu Tratamento
@@ -877,7 +877,7 @@ export default function AnamnesisModal({
                       className="flex-1 py-2.5 px-4 rounded-xl bg-gradient-to-r from-amber-500 to-amber-400 hover:from-amber-400 hover:to-amber-300 text-slate-950 font-bold text-xs flex items-center justify-center gap-1.5 transition cursor-pointer shadow-md shadow-amber-500/20"
                     >
                       <Sparkles size={14} />
-                      <span>Iniciar Tratamento Sugerido (21 Dias)</span>
+                      <span>Iniciar Caminho sugerido (21 Dias)</span>
                     </button>
                   )}
 
@@ -923,7 +923,7 @@ export default function AnamnesisModal({
 
                 <div className="pt-3 border-t border-[#E5DAC6]">
                   <p className="text-[9px] text-[#85786C] leading-relaxed text-justify italic">
-                    <strong>Nota Terapêutica:</strong> O Protocolo de Cura Integrada e as sugestões de Florais de Bach e Óleos Essenciais atuam como práticas integrativas e tratamentos complementares. Eles não substituem, sob nenhuma hipótese, o diagnóstico, tratamento ou acompanhamento médico, psiquiátrico ou psicológico tradicional. Mantenha seus tratamentos de saúde ativos.
+                    <strong>Nota Terapêutica:</strong> O Protocolo de Cura Integrada e as sugestões de Florais de Bach e Óleos Essenciais atuam como práticas integrativas e tratamentos complementares. Eles não substituem, sob nenhuma hipótese, o mapa do momento, tratamento ou acompanhamento médico, psiquiátrico ou psicológico tradicional. Mantenha seus tratamentos de saúde ativos.
                   </p>
                 </div>
               </div>
@@ -1321,7 +1321,7 @@ export default function AnamnesisModal({
                   ) : (
                     <>
                       <Sparkles size={15} />
-                      <span>Gerar Diagnóstico & Concluir Ficha</span>
+                      <span>Gerar Mapa do Momento & Concluir Ficha</span>
                     </>
                   )}
                 </button>
