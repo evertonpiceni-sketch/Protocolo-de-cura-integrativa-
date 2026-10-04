@@ -1998,30 +1998,55 @@ export default function App() {
           isOpen={showProModal}
           onClose={() => setShowProModal(false)}
           userProfile={userProfile}
-          onUpgradeSuccess={async (plan) => {
-            if (isLoggedIn) {
-              try {
-                const res = await fetch('/api/user/upgrade', {
-                  method: 'POST',
-                  headers: { 'Content-Type': 'application/json' },
-                  body: JSON.stringify({ planId: plan, paymentMethod: 'test', price: 0 })
-                });
-                if (res.ok) {
-                  const data = await res.json();
-                  setUserProfile(data.user.profile);
-                }
-              } catch (e) { console.error(e) }
-            } else if (userProfile) {
-              const upgradedProfile: UserProfile = {
-                ...userProfile,
-                plan: 'pro',
-                subscriptionPlan: plan,
-                proActiveSince: new Date().toISOString()
-              };
-              saveProfile(upgradedProfile);
+          onUpgradeSuccess={async (plan, paymentMethod, price) => {
+            if (!isLoggedIn) {
+              throw new Error('Entre na sua conta para iniciar uma compra ou ativar a degustação.');
             }
-            setShowProModal(false);
-            if (plan === 'arcanjo_7d') { setShowCertificateModal(false); setShowArcanjoView(true); } else { setShowCertificateModal(true); }
+
+            if (plan === 'teste_vip_7d') {
+              const res = await fetch('/api/user/upgrade', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                credentials: 'same-origin',
+                body: JSON.stringify({ planId: plan, paymentMethod: 'trial', price: 0, couponCode: 'VIP7' })
+              });
+              const data = await res.json().catch(() => ({}));
+              if (!res.ok || !data?.user?.profile) {
+                throw new Error(data.error || 'Não foi possível ativar a degustação agora.');
+              }
+              setUserProfile(data.user.profile);
+              setShowProModal(false);
+              setShowCertificateModal(true);
+              return true;
+            }
+
+            const res = await fetch('/api/payment/create-checkout', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              credentials: 'same-origin',
+              body: JSON.stringify({
+                productType: 'subscription',
+                planId: plan,
+                paymentMethod,
+                price
+              })
+            });
+            const data = await res.json().catch(() => ({}));
+            if (!res.ok) {
+              throw new Error(data.error || 'Pagamento ainda não está disponível.');
+            }
+            if (data.checkoutUrl) {
+              window.location.assign(data.checkoutUrl);
+              return false;
+            }
+            if (data.status === 'paid' && data.user?.profile) {
+              setUserProfile(data.user.profile);
+              setShowProModal(false);
+              if (plan === 'arcanjo_7d') setShowArcanjoView(true);
+              else setShowCertificateModal(true);
+              return true;
+            }
+            throw new Error('Aguardando confirmação segura do pagamento.');
           }}
           onOpenContact={() => {
             setShowProModal(false);
