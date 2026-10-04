@@ -53,7 +53,7 @@ export const CHAKRAS_DATA: ChakraInfo[] = [
     icon: Shield,
     symbolizes: 'Sobrevivência física, estabilidade financeira, segurança existencial, senso de pertencimento e enraizamento na matéria.',
     inBalance: 'Sensação de profunda segurança, coragem inabalável, vitalidade física, pés no chão e confiança no suprimento da vida.',
-    whenBlocked: 'Medos irracionais, crises de ansiedade, insegurança financeira constante, cansaço extremo crônico e dores nas pernas/lombar.',
+    whenBlocked: 'Na tradição energética, pode ser associado a sensação de insegurança, medo, instabilidade, dificuldade de se sentir presente ou pouco enraizado.',
     protocolAction: 'Fase de Aterramento e Raízes Sagradas: desce raízes de luz da coluna ao núcleo da Terra, limpando memórias de escassez.',
     affirmation: 'Eu estou seguro, protegido e perfeitamente ancorado na abundância da Terra.'
   },
@@ -74,7 +74,7 @@ export const CHAKRAS_DATA: ChakraInfo[] = [
     icon: Flame,
     symbolizes: 'Criatividade, prazer sagrado, sexualidade equilibrada, emoções fluidas, entusiasmo e capacidade de desapego.',
     inBalance: 'Fluidez emocional, alegria de viver, relacionamentos harmoniosos, imaginação fértil e expressão artística sem culpas.',
-    whenBlocked: 'Sentimentos de culpa, repressão ou excessos sexuais, bloqueios criativos, dependência emocional e problemas nos rins/bexiga.',
+    whenBlocked: 'Na tradição energética, pode ser associado a culpa, dificuldade de expressão criativa, rigidez emocional, apego ou pouca fluidez nas relações.',
     protocolAction: 'Purificação das Águas & Vitalidade: liberação de apegos e traumas do passado através do sopro sutil de ervas sagradas.',
     affirmation: 'Eu permito que a vida flua através de mim com prazer, criatividade e doçura.'
   },
@@ -91,11 +91,11 @@ export const CHAKRAS_DATA: ChakraInfo[] = [
     location: 'Região do estômago / boca do estômago',
     element: 'Fogo',
     bijaMantra: 'RAM',
-    solfeggioFreq: '528Hz (Transformação & DNA)',
+    solfeggioFreq: '528Hz (Transformação & Harmonia)',
     icon: Sun,
     symbolizes: 'Poder pessoal, autoconfiança, determinação, foco mental, capacidade de realização e digestão das experiências.',
     inBalance: 'Forte determinação, liderança compassiva, boa digestão física e emocional, limites saudáveis e autoestima elevada.',
-    whenBlocked: 'Sensação de fraqueza, complexo de inferioridade, raiva reprimida, perfeccionismo doentio, azia e gastrite nervosa.',
+    whenBlocked: 'Na tradição energética, pode ser associado a baixa confiança, dificuldade de decisão, raiva contida, autocobrança ou sensação de pouco poder pessoal.',
     protocolAction: 'Fogo da Transmutação & Calor Vital: acende a chama interior que queima a apatia e restabelece o comando da própria vida.',
     affirmation: 'Eu sou forte, capaz e honro o meu poder pessoal com sabedoria e dignidade.'
   },
@@ -116,7 +116,7 @@ export const CHAKRAS_DATA: ChakraInfo[] = [
     icon: Heart,
     symbolizes: 'Amor incondicional, compaixão, capacidade de perdoar, cura de dores afetivas e ponte entre os chakras físicos e espirituais.',
     inBalance: 'Amor próprio profundo, empatia, facilidade para perdoar e reconciliar, generosidade e paz interior radiante.',
-    whenBlocked: 'Mágoas crônicas, rancor, fechamento para o amor, medo de abandono ou rejeição, dores no peito e problemas respiratórios.',
+    whenBlocked: 'Na tradição energética, pode ser associado a mágoa, rancor, dificuldade de receber afeto, medo de abandono ou fechamento emocional.',
     protocolAction: 'O Bálsamo do Amor & Névoa Verde-Oliva: expansão da luz rosa-quartzo que preenche os vazios e regenera o campo afetivo.',
     affirmation: 'Eu sou puro amor. Eu me perdoo, eu me acolho e abro meu coração para a vida.'
   },
@@ -133,11 +133,11 @@ export const CHAKRAS_DATA: ChakraInfo[] = [
     location: 'Garganta e cordas vocais',
     element: 'Éter / Espaço',
     bijaMantra: 'HAM',
-    solfeggioFreq: '741Hz (Expressão & Limpeza Celular)',
+    solfeggioFreq: '741Hz (Expressão & Clareza)',
     icon: Activity,
     symbolizes: 'Comunicação autêntica, poder da palavra falada, expressão da verdade interior e verbalização de limites saudáveis.',
     inBalance: 'Voz firme e serena, clareza ao expressar sentimentos, capacidade de escutar o outro e canalizar decretos poderosos.',
-    whenBlocked: 'Engolir sapos, nó na garganta, timidez excessiva, mentiras, fofocas ou problemas na tireoide e cordas vocais.',
+    whenBlocked: 'Na tradição energética, pode ser associado a dificuldade de dizer o que sente, medo de se expressar, autocensura ou pouca escuta de si.',
     protocolAction: 'Decreto de Aceitação & Mantras Ho\'oponopono: liberação do canal vocal para declarar sua cura e verdade divina.',
     affirmation: 'Minha voz é um instrumento sagrado de cura, verdade e amor.'
   },
@@ -158,8 +158,8 @@ export const CHAKRAS_DATA: ChakraInfo[] = [
     icon: Eye,
     symbolizes: 'Intuição aguçada, discernimento espiritual, clareza mental, sabedoria interior e visão além das ilusões materiais.',
     inBalance: 'Forte intuição, sonhos lúcidos e inspiradores, mente focada e pacífica, facilidade para encontrar soluções sábias.',
-    whenBlocked: 'Confusão mental, excesso de pensamentos, dores de cabeça constantes, ceticismo extremo ou ilusões espirituais.',
-    protocolAction: 'Armadura Safira & Alinhamento Cerebral: pontos de luz dourada e azul organizam os impulsos neurais e silenciam o caos.',
+    whenBlocked: 'Na tradição energética, pode ser associado a excesso de pensamentos, dificuldade de discernimento, desconexão da intuição ou rigidez de percepção.',
+    protocolAction: 'Armadura Safira & Clareza Interior: pontos de luz dourada e azul simbolizam organização, foco e silêncio mental.',
     affirmation: 'Eu enxergo a verdade com clareza e confio plenamente na minha intuição.'
   },
   {
@@ -175,12 +175,12 @@ export const CHAKRAS_DATA: ChakraInfo[] = [
     location: 'Topo da cabeça (coroa)',
     element: 'Consciência Pura',
     bijaMantra: 'AUM / Silêncio',
-    solfeggioFreq: '963Hz (Glândula Pineal & Conexão Divina)',
+    solfeggioFreq: '963Hz (Contemplação & Conexão Divina)',
     icon: Crown,
     symbolizes: 'Conexão direta com a Fonte Criadora, unidade cósmica, iluminação, transcendência e soberania espiritual.',
     inBalance: 'Sensação de comunhão com o Todo, paz incondicional, propósito de vida claro e alinhamento com a Providência Divina.',
     whenBlocked: 'Sensação de vazio existencial, abandono divino, ceticismo fechado ou desconexão da realidade física.',
-    protocolAction: 'Cascata de Luz Ouro & Trono Cósmico: banho de luz líquida dourada que sela o DNA original e conclui o protocolo.',
+    protocolAction: 'Cascata de Luz Ouro & Trono Cósmico: banho simbólico de luz dourada que representa integração e conclusão da jornada.',
     affirmation: 'Eu sou um com a Fonte Criadora. Eu sou luz, eu sou paz, eu sou cura.'
   }
 ];
