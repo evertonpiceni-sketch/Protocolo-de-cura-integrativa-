@@ -590,13 +590,13 @@ export default function AnamnesisModal({
               </div>
 
               {/* Diagnostic Text Excerpt */}
-              <div className="p-4 rounded-2xl bg-indigo-950/20 border border-[#B88736]/30 space-y-1.5">
+              <div className="p-4 rounded-2xl bg-white/75 border border-[#E5DAC6] space-y-1.5">
                 <div className="flex items-center justify-between">
                   <span className="text-[10px] font-mono uppercase tracking-wider text-[#B88736] font-bold">
                     Justificativa Terapêutica & Acolhimento
                   </span>
                   {existingAnamnesis.aiAnalysis?.padrao_emocional_detectado && (
-                    <span className="text-[10px] font-mono text-[#B88736] bg-purple-950/60 px-2 py-0.5 rounded border border-purple-500/30">
+                    <span className="text-[10px] font-mono text-[#B88736] bg-[#B88736]/10 px-2 py-0.5 rounded border border-[#B88736]/25">
                       Padrão: {existingAnamnesis.aiAnalysis.padrao_emocional_detectado}
                     </span>
                   )}
@@ -676,7 +676,7 @@ export default function AnamnesisModal({
             </div>
 
             {recommendation && (
-              <div className="p-5 rounded-2xl bg-gradient-to-br from-amber-950/30 via-[#FBF8F2] to-indigo-950/40 border-2 border-amber-500/40 space-y-4 shadow-2xl relative overflow-hidden" id="anamnesis-recommended-treatment">
+              <div className="p-5 rounded-2xl bg-gradient-to-br from-white via-[#FBF8F2] to-[#F5EFE4] border-2 border-[#B88736]/30 space-y-4 shadow-2xl relative overflow-hidden" id="anamnesis-recommended-treatment">
                 <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 border-b border-amber-500/20 pb-3">
                   <div className="flex items-center gap-2.5">
                     <div className="p-2.5 rounded-xl bg-amber-500/20 text-amber-400 border border-amber-500/30">
@@ -692,7 +692,7 @@ export default function AnamnesisModal({
                             ? 'bg-rose-500/20 text-rose-300 border-rose-500/30'
                             : recommendation.severityLevel === 'alto'
                             ? 'bg-amber-500/20 text-amber-300 border-amber-500/30'
-                            : 'bg-emerald-500/20 text-emerald-300 border-emerald-500/30'
+                            : 'bg-emerald-500/20 text-emerald-700 border-emerald-500/30'
                         }`}>
                           Nível {recommendation.severityLevel}
                         </span>
@@ -739,7 +739,7 @@ export default function AnamnesisModal({
 
                 {/* Prescribed Reiki Modalities */}
                 {recommendation.prescribedReikis && recommendation.prescribedReikis.length > 0 && (
-                  <div className="space-y-3 bg-gradient-to-br from-indigo-950/50 via-purple-950/30 to-[#F3EBDD] p-4 rounded-2xl border border-[#B88736]/30 shadow-lg">
+                  <div className="space-y-3 bg-gradient-to-br from-white via-[#FBF8F2] to-[#F3EBDD] p-4 rounded-2xl border border-[#B88736]/30 shadow-lg">
                     <div className="flex items-center justify-between border-b border-[#B88736]/20 pb-2">
                       <div className="flex items-center gap-2">
                         <div className="p-1.5 rounded-lg bg-[#B88736]/20 text-[#B88736] border border-[#B88736]/30">
@@ -767,7 +767,7 @@ export default function AnamnesisModal({
                             <Crown size={13} className="text-amber-400" />
                             <span>{recommendation.prescribedReikis[0].name}</span>
                           </span>
-                          <span className="text-[10px] font-mono text-emerald-300 bg-emerald-500/15 border border-emerald-500/30 px-2 py-0.5 rounded-full font-bold">
+                          <span className="text-[10px] font-mono text-emerald-700 bg-emerald-500/15 border border-emerald-500/30 px-2 py-0.5 rounded-full font-bold">
                             {recommendation.prescribedReikis[0].badge}
                           </span>
                         </div>
@@ -777,7 +777,7 @@ export default function AnamnesisModal({
                         <p className="text-[11px] text-[#5C5248] leading-relaxed">
                           {recommendation.prescribedReikis[0].description}
                         </p>
-                        <div className="p-2 rounded-lg bg-indigo-950/40 border border-[#B88736]/20 text-[10px] text-[#B88736]/90 flex items-center gap-1.5">
+                        <div className="p-2 rounded-lg bg-[#F5EFE4] border border-[#E5DAC6] text-[10px] text-[#B88736]/90 flex items-center gap-1.5">
                           <Heart size={12} className="text-rose-400 shrink-0" />
                           <span><strong>Como receber:</strong> Mãos abertas sobre o chakra {recommendation.primaryChakraFocus}, respirando profundamente durante a meditação.</span>
                         </div>
@@ -822,7 +822,7 @@ export default function AnamnesisModal({
                           <div className="p-2.5 rounded-xl bg-white/65 border border-[#E5DAC6] text-[11px] space-y-0.5">
                             <div className="flex items-center justify-between">
                               <strong className="text-[#2A2420] text-emerald-400">Floral Recomendado</strong>
-                              <span className="text-[9px] font-mono text-emerald-300 bg-emerald-500/10 px-1.5 py-0.5 rounded">
+                              <span className="text-[9px] font-mono text-emerald-700 bg-emerald-500/10 px-1.5 py-0.5 rounded">
                                 Terapia Floral
                               </span>
                             </div>
@@ -832,7 +832,7 @@ export default function AnamnesisModal({
                         {recommendation.recommendedAromatherapy && (
                           <div className="p-2.5 rounded-xl bg-white/65 border border-[#E5DAC6] text-[11px] space-y-0.5">
                             <div className="flex items-center justify-between">
-                              <strong className="text-[#2A2420] text-purple-400">Aromaterapia (Óleo Essencial)</strong>
+                              <strong className="text-[#2A2420] text-[#8F631E]">Aromaterapia (Óleo Essencial)</strong>
                               <span className="text-[9px] font-mono text-[#B88736] bg-purple-500/10 px-1.5 py-0.5 rounded">
                                 Óleos Essenciais
                               </span>
@@ -1001,9 +1001,9 @@ export default function AnamnesisModal({
             </div>
 
             {/* 639 Hz Frequency Banner: Melhora a compreensão, tolerância e relações interpessoais */}
-            <div className="p-3 rounded-2xl bg-gradient-to-r from-emerald-950/60 via-teal-950/40 to-[#F3EBDD] border border-emerald-500/30 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2.5">
+            <div className="p-3 rounded-2xl bg-gradient-to-r from-emerald-50 via-[#FBF8F2] to-[#F3EBDD] border border-emerald-200 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2.5">
               <div className="flex items-center gap-2.5">
-                <div className="relative w-8 h-8 rounded-xl bg-emerald-500/20 border border-emerald-500/40 flex items-center justify-center text-emerald-300 shrink-0">
+                <div className="relative w-8 h-8 rounded-xl bg-emerald-500/20 border border-emerald-500/40 flex items-center justify-center text-emerald-700 shrink-0">
                   <Heart size={16} className={is639HzActive ? 'scale-110 text-emerald-400 animate-pulse' : 'opacity-60'} />
                   {is639HzActive && (
                     <span className="absolute -top-1 -right-1 flex h-2.5 w-2.5">
@@ -1014,8 +1014,8 @@ export default function AnamnesisModal({
                 </div>
                 <div>
                   <div className="flex items-center gap-2">
-                    <span className="text-xs font-semibold text-emerald-300">Frequência Solfeggio 639 Hz Ativa</span>
-                    <span className="text-[10px] px-1.5 py-0.5 rounded-full bg-emerald-500/20 border border-emerald-500/30 text-emerald-300 font-mono">Chakra Cardíaco</span>
+                    <span className="text-xs font-semibold text-emerald-700">Frequência Solfeggio 639 Hz Ativa</span>
+                    <span className="text-[10px] px-1.5 py-0.5 rounded-full bg-emerald-500/20 border border-emerald-500/30 text-emerald-700 font-mono">Chakra Cardíaco</span>
                   </div>
                   <p className="text-[11px] text-[#5C5248] leading-snug">
                     639 Hz: Melhora a compreensão, tolerância e relações interpessoais enquanto você responde a esta anamnese.
@@ -1051,7 +1051,7 @@ export default function AnamnesisModal({
                         onClick={() => toggleItem(mainComplaints, setMainComplaints, item.id)}
                         className={`p-3 rounded-2xl border text-left flex items-center gap-3 transition cursor-pointer ${
                           isSelected
-                            ? 'bg-indigo-950/60 border-[#B88736] text-indigo-200 shadow-md shadow-indigo-500/10'
+                            ? 'bg-[#F5EFE4] border-[#B88736] text-[#5C5248] shadow-md shadow-indigo-500/10'
                             : 'bg-white/65 border-[#E5DAC6] text-[#5C5248] hover:border-[#E5DAC6]'
                         }`}
                       >
@@ -1133,7 +1133,7 @@ export default function AnamnesisModal({
                         }}
                         className={`py-2 px-1 rounded-xl text-xs font-medium capitalize border text-center transition cursor-pointer ${
                           sleepQuality === q
-                            ? 'bg-[#B88736]/30 border-[#B88736] text-indigo-200'
+                            ? 'bg-[#B88736]/12 border-[#B88736] text-[#5C5248]'
                             : 'bg-white border-[#E5DAC6] text-[#5C5248] hover:border-[#E5DAC6]'
                         }`}
                       >
@@ -1158,7 +1158,7 @@ export default function AnamnesisModal({
                           onClick={() => toggleItem(physicalSymptoms, setPhysicalSymptoms, sym)}
                           className={`p-2.5 rounded-xl border text-left text-xs transition cursor-pointer flex items-center justify-between ${
                             isSel
-                              ? 'bg-emerald-950/40 border-emerald-500 text-emerald-200'
+                              ? 'bg-emerald-50 border-emerald-300 text-emerald-700'
                               : 'bg-white/40 border-[#E5DAC6] text-[#5C5248] hover:border-[#E5DAC6]'
                           }`}
                         >
@@ -1236,7 +1236,7 @@ export default function AnamnesisModal({
                         }}
                         className={`w-full p-3 rounded-2xl border text-left text-xs font-medium transition cursor-pointer flex items-center justify-between ${
                           primaryGoal === g
-                            ? 'bg-indigo-950/60 border-[#B88736] text-indigo-200'
+                            ? 'bg-[#F5EFE4] border-[#B88736] text-[#5C5248]'
                             : 'bg-white/40 border-[#E5DAC6] text-[#5C5248] hover:border-[#E5DAC6]'
                         }`}
                       >
@@ -1270,7 +1270,7 @@ export default function AnamnesisModal({
                         }}
                         className={`p-3 rounded-2xl border text-center transition cursor-pointer ${
                           dailyTimeAvailable === t.id
-                            ? 'bg-[#B88736]/30 border-[#B88736] text-indigo-200'
+                            ? 'bg-[#B88736]/12 border-[#B88736] text-[#5C5248]'
                             : 'bg-white border-[#E5DAC6] text-[#5C5248] hover:border-[#E5DAC6]'
                         }`}
                       >
@@ -1314,7 +1314,7 @@ export default function AnamnesisModal({
                 >
                   {isProcessingAi ? (
                     <>
-                      <Loader2 size={15} className="animate-spin text-emerald-300" />
+                      <Loader2 size={15} className="animate-spin text-emerald-700" />
                       <span>Sintonizando IA Quântica...</span>
                     </>
                   ) : (
