@@ -130,21 +130,21 @@ export default function CoursesModal({ isOpen, onClose, userName, userProfile, o
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-[#2A2420]/30 backdrop-blur-md overflow-y-auto" id="courses-modal">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4 bg-[#2A2420]/30 backdrop-blur-md overflow-y-auto overscroll-contain" id="courses-modal" role="dialog" aria-modal="true" aria-label="Cursos e formações">
       <motion.div
         initial={{ opacity: 0, scale: 0.96, y: 15 }}
         animate={{ opacity: 1, scale: 1, y: 0 }}
         exit={{ opacity: 0, scale: 0.96, y: 15 }}
-        className="w-full max-w-4xl bg-[#FBF8F2] border border-[#E5DAC6] rounded-3xl p-5 sm:p-7 shadow-2xl space-y-6 relative overflow-hidden my-4 max-h-[92vh] overflow-y-auto"
+        className="w-full max-w-4xl bg-[#FBF8F2] border border-[#E5DAC6] rounded-2xl sm:rounded-3xl p-4 sm:p-7 shadow-2xl space-y-6 relative overflow-hidden my-1 sm:my-4 max-h-[calc(100dvh-1rem)] sm:max-h-[92dvh] overflow-y-auto overscroll-contain"
       >
         {/* Ambient violet-amber background flare */}
-        <div className="absolute top-0 right-0 w-80 h-80 bg-purple-600/10 rounded-full blur-3xl pointer-events-none" />
+        <div className="absolute top-0 right-0 w-80 h-80 bg-[#B88736]/6 rounded-full blur-3xl pointer-events-none" />
         <div className="absolute bottom-0 left-0 w-80 h-80 bg-amber-500/10 rounded-full blur-3xl pointer-events-none" />
 
         {/* Header */}
         <div className="flex items-center justify-between border-b border-[#E5DAC6] pb-4">
           <div className="flex items-center gap-3">
-            <div className="w-12 h-12 rounded-2xl overflow-hidden border border-purple-500/30 shrink-0 shadow-md">
+            <div className="w-12 h-12 rounded-2xl overflow-hidden border border-[#B88736]/25 shrink-0 shadow-md">
               <img
                 src={APPROVED_LOGO_DATA_URI}
                 alt="Emblema Sagrado Cura Integrada"
