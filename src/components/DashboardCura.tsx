@@ -16,15 +16,17 @@ export default function DashboardCura({ onClose, progress, userProfile }: { onCl
   const [completedDays, setCompletedDays] = useState<number[]>([]);
 
   useEffect(() => {
-    // Read completions from ArcanjoProtocolView logic to sync exactly with it
-    const completed: number[] = [];
+    const localCompleted: number[] = [];
     for (let i = 1; i <= 7; i += 1) {
-      if (localStorage.getItem(`reiki_arcanjo_dia_${i}`) === 'true') {
-        completed.push(i);
-      }
+      if (localStorage.getItem(`reiki_arcanjo_dia_${i}`) === 'true') localCompleted.push(i);
     }
-    setCompletedDays(completed);
-  }, []);
+    const profileCompleted = userProfile?.journeyProgress?.arcanjo7CompletedDays || [];
+    setCompletedDays(
+      [...new Set([...profileCompleted, ...localCompleted])]
+        .filter(day => day >= 1 && day <= 7)
+        .sort((a,b) => a-b)
+    );
+  }, [userProfile?.journeyProgress?.arcanjo7CompletedDays]);
 
   const totalCompleted = completedDays.length;
   const percentage = Math.round((totalCompleted / 7) * 100);
