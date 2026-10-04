@@ -27,6 +27,7 @@ import { evaluateAchievements } from './lib/achievementsData';
 import { AppLanguage, SUPPORTED_LANGUAGES, UI_TRANSLATIONS } from './lib/i18n';
 import { AnimatePresence } from "motion/react";
 import { localNotificationManager } from './lib/notifications';
+import { normalizeLayoutId } from './config/layouts';
 
 const AnamnesisModal = React.lazy(() => import('./components/AnamnesisModal'));
 const ChakrasGuideModal = React.lazy(() => import('./components/ChakrasGuideModal'));
@@ -292,6 +293,16 @@ export default function App() {
 
     return () => clearInterval(interval);
   }, [userProfile?.reminderTime, userProfile?.name]);
+
+  useEffect(() => {
+    const layout = normalizeLayoutId(userProfile?.visualLayout);
+    document.documentElement.dataset.layout = layout;
+    return () => {
+      if (document.documentElement.dataset.layout === layout) {
+        delete document.documentElement.dataset.layout;
+      }
+    };
+  }, [userProfile?.visualLayout]);
 
   // Initialize and load saved state from backend on mount
   useEffect(() => {
