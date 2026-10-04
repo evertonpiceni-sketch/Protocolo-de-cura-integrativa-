@@ -33,7 +33,7 @@ export default function MilestoneCelebrationModal({
   const userName = userProfile.fullName || userProfile.name || 'Consulente';
   const userPhone = toBrazilianWhatsAppNumber(userProfile.phone);
 
-  let title = `✨ Celebração do Dia ${dayNumber}`;
+  let title = `Celebração do Dia ${dayNumber}`;
   let subtitle = 'Sua dedicação está gerando frutos no seu campo energético.';
   let mainMessage = '';
   let badgeText = `Etapa ${dayNumber}/21`;
@@ -42,29 +42,29 @@ export default function MilestoneCelebrationModal({
   let icon = <Sparkles className="w-8 h-8 text-amber-400" />;
 
   if (isDay8) {
-    title = '💜 Dia 8: Entrada no Karuna Ki';
-    subtitle = 'Início da Transmutação Celular Profunda';
+    title = 'Dia 8: Entrada no Karuna Ki';
+    subtitle = 'Início de uma etapa de transmutação e presença';
     badgeText = 'Portal Karuna Ki';
     themeBg = 'from-violet-950 via-[#FBF8F2] to-purple-950';
     themeBorder = 'border-violet-500/40';
     icon = <Flame className="w-8 h-8 text-violet-400 animate-pulse" />;
-    mainMessage = `Querido(a) ${userName},\n\nHoje você inicia o 8º Dia da sua Jornada! Esta etapa ativa os símbolos sagrados do Karuna Ki (Zonar e Halu), permitindo que feridas celulares e dores antigas sejam dissolvidas na Chama Violeta.\n\nVocê não está sozinho. Respire fundo, celebre sua constância e continue firme no seu trono de poder pessoal.\n\nCom amor e bênçãos,\nÉverton Rodrigo Piceni`;
+    mainMessage = `Querido(a) ${userName},\n\nHoje você inicia o 8º Dia da sua Jornada! Esta etapa convida ao trabalho simbólico com os símbolos sagrados do Karuna Ki (Zonar e Halu) e com a Chama Violeta, acolhendo lembranças e sentimentos antigos com presença.\n\nVocê não está sozinho. Respire fundo, celebre sua constância e continue firme no seu trono de poder pessoal.\n\nCom amor e bênçãos,\nÉverton Rodrigo Piceni`;
   } else if (isDay15) {
-    title = '🌸 Dia 15: O Bálsamo do Raio Rosa';
+    title = 'Dia 15: O Bálsamo do Raio Rosa';
     subtitle = 'Ancoramento no Amor Incondicional';
     badgeText = 'Portal do Raio Rosa';
     themeBg = 'from-rose-950 via-[#FBF8F2] to-indigo-950';
     themeBorder = 'border-rose-500/40';
     icon = <Heart className="w-8 h-8 text-rose-400 animate-pulse" />;
-    mainMessage = `Querido(a) ${userName},\n\nParabéns por chegar ao 15º Dia! Você acaba de ancorar na fase do Raio Rosa e no amor incondicional da egrégora crística e dos mestres ascensos.\n\nDeixe o passado ir embora com ternura. Seu coração está sendo restaurado e preenchido de paz verdadeira.\n\nCom luz e acolhimento,\nÉverton Rodrigo Piceni`;
+    mainMessage = `Querido(a) ${userName},\n\nParabéns por chegar ao 15º Dia! Você acaba de ancorar na fase do Raio Rosa e no amor incondicional da egrégora crística e dos mestres ascensos.\n\nDeixe o passado ir embora com ternura. Permita que esta etapa represente acolhimento, ternura e abertura para uma sensação maior de paz.\n\nCom luz e acolhimento,\nÉverton Rodrigo Piceni`;
   } else if (isDay21) {
-    title = '👑 Você assumiu o seu Trono!';
+    title = 'Você assumiu o seu Trono!';
     subtitle = 'Parabéns pela conclusão do seu Protocolo da Transformação!';
     badgeText = 'Jornada dos 21 Dias Concluída';
     themeBg = 'from-amber-950 via-[#FBF8F2] to-indigo-950';
     themeBorder = 'border-amber-500/60';
     icon = <Crown className="w-9 h-9 text-amber-400 animate-bounce" />;
-    mainMessage = `👑 Você assumiu o seu Trono: Parabéns pela conclusão do seu Protocolo da Transformação!\n\nQuerido(a) ${userName},\n\nHoje é o ápice da sua jornada de 21 Dias. Com a benção e o empoderamento de Ganesha, esse tratamento está totalmente selado e blindado no seu DNA cósmico.\n\nTodas as frequências, desprogramações celulares e ativações espirituais foram integradas com perfeição. Você é livre para ser feliz. Você é cura. Você é amor. Você está em paz.\n\nCom profunda gratidão,\nÉverton Rodrigo Piceni`;
+    mainMessage = `Você assumiu o seu Trono: parabéns pela conclusão do seu Protocolo da Transformação!\n\nQuerido(a) ${userName},\n\nHoje é o ápice da sua jornada de 21 dias. Com a bênção e o simbolismo do empoderamento de Ganesha, você encerra este ciclo levando consigo as intenções, reflexões e práticas cultivadas ao longo do caminho.\n\nQue este momento marque presença, autonomia, amor e paz na sua caminhada.\n\nCom profunda gratidão,\nÉverton Rodrigo Piceni`;
   }
 
   const encodedMsg = encodeURIComponent(mainMessage);
