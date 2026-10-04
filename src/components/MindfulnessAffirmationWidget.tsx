@@ -39,7 +39,7 @@ export default function MindfulnessAffirmationWidget({
   };
 
   const handleCopy = () => {
-    const shareText = `✨ *${currentItem.title}*\n"${currentItem.text}"\n\n🕊️ _Prática:_ ${currentItem.practicalAction || ''}\n🌿 _Protocolo de Cura Integrada_`;
+    const shareText = `*${currentItem.title}*\n"${currentItem.text}"\n\n_Prática:_ ${currentItem.practicalAction || ''}\n_Protocolo da Transformação_`;
     navigator.clipboard.writeText(shareText);
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
@@ -60,23 +60,23 @@ export default function MindfulnessAffirmationWidget({
 
   return (
     <div
-      className="p-5 md:p-6 rounded-3xl bg-gradient-to-br from-slate-900 via-indigo-950/40 to-[#F3EBDD] border border-[#B88736]/30 shadow-2xl relative overflow-hidden space-y-4"
+      className="p-5 md:p-6 rounded-3xl bg-[#FBF8F2] border border-[#E5DAC6] shadow-sm relative overflow-hidden space-y-4"
       id="mindfulness-affirmation-widget"
     >
       {/* Subtle Background Glow */}
       <div className="absolute top-0 right-10 w-48 h-48 bg-[#B88736]/10 rounded-full blur-3xl pointer-events-none" />
-      <div className="absolute bottom-0 left-10 w-40 h-40 bg-emerald-500/10 rounded-full blur-3xl pointer-events-none" />
+      <div className="absolute bottom-0 left-10 w-40 h-40 bg-[#B88736]/6 rounded-full blur-3xl pointer-events-none" />
 
       {/* Header bar */}
       <div className="flex flex-wrap items-center justify-between gap-3 relative z-10">
         <div className="flex items-center gap-2.5">
-          <div className="p-2 rounded-xl bg-gradient-to-br from-amber-500/20 to-indigo-500/20 text-amber-400 border border-amber-500/30 shadow-inner">
+          <div className="p-2 rounded-xl bg-[#B88736]/10 text-[#B88736] border border-[#B88736]/25">
             <Sparkles size={18} className="animate-pulse" />
           </div>
           <div>
             <div className="flex items-center gap-2">
               <span className="text-[10px] font-mono uppercase tracking-widest text-amber-400 font-bold bg-amber-500/10 border border-amber-500/30 px-2 py-0.5 rounded-full">
-                {currentItem.type === 'affirmation' ? '✨ Afirmação Quântica Diária' : '🌿 Dica de Atenção Plena'}
+                {currentItem.type === 'affirmation' ? 'Afirmação do dia' : 'Dica de atenção plena'}
               </span>
               {currentItem.frequencyHz && (
                 <span className="text-[10px] font-mono text-[#B88736] bg-[#B88736]/10 border border-[#B88736]/30 px-2 py-0.5 rounded-full">
@@ -85,7 +85,7 @@ export default function MindfulnessAffirmationWidget({
               )}
             </div>
             <h3 className="text-xs text-[#5C5248] font-medium mt-0.5">
-              Inspiração & Frequência para o seu Dia
+              Inspiração para o seu dia
             </h3>
           </div>
         </div>
@@ -97,7 +97,7 @@ export default function MindfulnessAffirmationWidget({
             onClick={() => setIsBreathingMode(!isBreathingMode)}
             className={`px-3 py-1.5 rounded-xl text-xs font-semibold flex items-center gap-1.5 transition cursor-pointer border ${
               isBreathingMode
-                ? 'bg-emerald-500/20 border-emerald-500/40 text-emerald-300'
+                ? 'bg-emerald-50 border-emerald-200 text-emerald-700'
                 : 'bg-[#FBF8F2] hover:bg-[#F5EFE4] border-[#E5DAC6] text-[#5C5248]'
             }`}
             title="Ativar Respiração Guiada com esta Afirmação"
@@ -109,7 +109,8 @@ export default function MindfulnessAffirmationWidget({
           <button
             type="button"
             onClick={handleCopy}
-            className="p-2 rounded-xl bg-[#FBF8F2] hover:bg-[#F5EFE4] border border-[#E5DAC6] text-[#5C5248] hover:text-white transition cursor-pointer"
+            aria-label="Copiar mensagem"
+            className="w-11 h-11 rounded-xl bg-white hover:bg-[#F5EFE4] border border-[#E5DAC6] text-[#5C5248] transition cursor-pointer flex items-center justify-center focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B88736]/30"
             title="Copiar Afirmação / Dica"
           >
             {copied ? <Check size={14} className="text-emerald-400" /> : <Copy size={14} />}
@@ -118,7 +119,7 @@ export default function MindfulnessAffirmationWidget({
           <button
             type="button"
             onClick={handleNextRandom}
-            className="px-3 py-1.5 rounded-xl bg-[#B88736]/30 hover:bg-[#B88736]/50 border border-[#B88736]/40 text-indigo-200 text-xs font-semibold flex items-center gap-1.5 transition cursor-pointer shadow-sm"
+            className="px-3 py-2.5 min-h-[44px] rounded-xl bg-[#B88736] hover:bg-[#8F631E] border border-[#B88736] text-white text-xs font-semibold flex items-center gap-1.5 transition cursor-pointer shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B88736]/35"
             title="Sortear Outra Afirmação ou Dica"
           >
             <RefreshCw size={13} className="text-[#B88736]" />
@@ -184,10 +185,10 @@ export default function MindfulnessAffirmationWidget({
                 <span className="text-xs font-mono font-bold uppercase tracking-widest text-emerald-300">
                   {breathPhase === 'inspire' && '✨ Inspire Profundamente...'}
                   {breathPhase === 'retenha' && '🌿 Segure e Sinta a Luz no Peito...'}
-                  {breathPhase === 'expire' && '💨 Solte Todo o Ar Devagar...'}
+                  {breathPhase === 'expire' && 'Solte o ar devagar...'}
                 </span>
                 <p className="text-[11px] text-[#5C5248] mt-0.5">
-                  Ancore esta afirmação na sua respiração consciente
+                  Acompanhe a frase com uma respiração confortável e sem esforço
                 </p>
               </div>
             </motion.div>
