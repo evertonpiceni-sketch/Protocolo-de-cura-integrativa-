@@ -137,7 +137,7 @@ export default function SystemicQuestionsModal({
       >
         {/* Glow backdrop effects */}
         <div className="absolute -top-24 -right-24 w-72 h-72 bg-[#B88736]/10 rounded-full blur-3xl pointer-events-none" />
-        <div className="absolute -bottom-24 -left-24 w-72 h-72 bg-purple-500/10 rounded-full blur-3xl pointer-events-none" />
+        <div className="absolute -bottom-24 -left-24 w-72 h-72 bg-[#B88736]/6 rounded-full blur-3xl pointer-events-none" />
 
         {/* Close button */}
         <button
@@ -152,21 +152,21 @@ export default function SystemicQuestionsModal({
           <div className="text-center space-y-1 pr-8 pl-8">
             <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#B88736]/10 border border-[#B88736]/30 text-[#B88736] text-xs font-mono font-medium">
               <GitBranch size={14} className="text-[#B88736]" />
-              <span>CONSTELAÇÃO SISTÊMICA FAMILIAR & ANCESTRALIDADE</span>
+              <span>REFLEXÕES SISTÊMICAS & ANCESTRALIDADE</span>
             </div>
             <h2 className="text-2xl sm:text-3xl font-display font-medium text-[#2A2420]">
               Perguntas Sistêmicas do Dia
             </h2>
             <p className="text-xs sm:text-sm text-[#5C5248] max-w-xl mx-auto">
-              Perguntas terapêuticas diárias canalizadas para destravar nós inconscientes, honrar sua linhagem e liberar seu destino.
+              Perguntas de reflexão para observar vínculos, histórias familiares e padrões percebidos com mais consciência e gentileza.
             </p>
           </div>
 
           {/* 639 Hz Frequency Banner: Melhora a compreensão, tolerância e relações interpessoais */}
-          <div className="p-3 rounded-2xl bg-gradient-to-r from-emerald-950/60 via-teal-950/40 to-[#F3EBDD] border border-emerald-500/30 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2.5">
+          <div className="p-3 rounded-2xl bg-[#F5EFE4] border border-[#E5DAC6] flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2.5">
             <div className="flex items-center gap-2.5">
-              <div className="relative w-8 h-8 rounded-xl bg-emerald-500/20 border border-emerald-500/40 flex items-center justify-center text-emerald-300 shrink-0">
-                <Heart size={16} className={is639HzActive ? 'scale-110 text-emerald-400 animate-pulse' : 'opacity-60'} />
+              <div className="relative w-8 h-8 rounded-xl bg-[#B88736]/10 border border-[#B88736]/25 flex items-center justify-center text-[#B88736] shrink-0">
+                <Heart size={16} className={is639HzActive ? 'scale-105 text-[#B88736]' : 'opacity-60'} />
                 {is639HzActive && (
                   <span className="absolute -top-1 -right-1 flex h-2.5 w-2.5">
                     <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
@@ -176,11 +176,11 @@ export default function SystemicQuestionsModal({
               </div>
               <div>
                 <div className="flex items-center gap-2">
-                  <span className="text-xs font-semibold text-emerald-300">Frequência Solfeggio 639 Hz Ativa</span>
-                  <span className="text-[10px] px-1.5 py-0.5 rounded-full bg-emerald-500/20 border border-emerald-500/30 text-emerald-300 font-mono">Chakra Cardíaco</span>
+                  <span className="text-xs font-semibold text-[#5C5248]">Frequência Solfeggio 639 Hz</span>
+                  <span className="text-[10px] px-1.5 py-0.5 rounded-full bg-white border border-[#E5DAC6] text-[#8F631E] font-mono">Chakra Cardíaco</span>
                 </div>
                 <p className="text-[11px] text-[#5C5248] leading-snug">
-                  639 Hz: Melhora a compreensão, tolerância e relações interpessoais enquanto você reflete e responde.
+                  A frequência pode acompanhar este momento como trilha de apoio enquanto você reflete e responde.
                 </p>
               </div>
             </div>
@@ -190,12 +190,12 @@ export default function SystemicQuestionsModal({
               onClick={handleToggle639}
               className={`px-3 py-1.5 rounded-xl text-xs font-medium flex items-center gap-1.5 transition cursor-pointer border shrink-0 self-end sm:self-center ${
                 is639HzActive
-                  ? 'bg-emerald-600/30 border-emerald-500/50 text-emerald-200 hover:bg-emerald-600/50'
+                  ? 'bg-[#B88736] border-[#B88736] text-white hover:bg-[#8F631E]'
                   : 'bg-[#F5EFE4] border-[#E5DAC6] text-[#5C5248] hover:text-[#2A2420]'
               }`}
             >
-              {is639HzActive ? <Volume2 size={13} className="text-emerald-400 animate-pulse" /> : <VolumeX size={13} />}
-              <span>{is639HzActive ? '639 Hz Ativo' : 'Ativar 639 Hz'}</span>
+              {is639HzActive ? <Volume2 size={13} /> : <VolumeX size={13} />}
+              <span>{is639HzActive ? '639 Hz ligado' : 'Ativar 639 Hz'}</span>
             </button>
           </div>
 
