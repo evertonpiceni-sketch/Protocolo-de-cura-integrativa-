@@ -27,7 +27,7 @@ export class ErrorBoundary extends React.Component<Props, State> {
     if (this.state.hasError) {
       return (
         <div style={{
-          minHeight: '100vh',
+          minHeight: '100dvh',
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
@@ -77,9 +77,8 @@ export class ErrorBoundary extends React.Component<Props, State> {
             <button
               onClick={() => {
                 try {
-                  localStorage.clear();
                   sessionStorage.clear();
-                } catch (e) {}
+                } catch {}
                 window.location.reload();
               }}
               style={{
@@ -93,7 +92,7 @@ export class ErrorBoundary extends React.Component<Props, State> {
                 cursor: 'pointer'
               }}
             >
-              Limpar Dados Locais & Recarregar
+              Reiniciar Sessão & Recarregar
             </button>
           </div>
           {this.state.error && (
