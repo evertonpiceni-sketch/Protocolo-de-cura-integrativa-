@@ -578,13 +578,13 @@ export default function TrackerGrid({
       {/* Anamnese Terapêutica / Diagnóstico Energético Card */}
       <div className={`p-5 rounded-3xl border transition shadow-lg ${
         anamnesis
-          ? 'bg-gradient-to-r from-slate-900 via-indigo-950/40 to-slate-900 border-[#B88736]/30'
-          : 'bg-gradient-to-r from-indigo-950/60 via-[#FBF8F2] to-indigo-950/40 border-[#B88736]/40'
+          ? 'bg-white/85 border-[#E5DAC6]'
+          : 'bg-[#FBF8F2] border-[#E5DAC6]'
       }`} id="tracker-anamnesis-card">
         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
           <div className="flex items-start sm:items-center gap-3">
             <div className={`p-3 rounded-2xl shrink-0 ${
-              anamnesis ? 'bg-[#B88736]/20 text-[#B88736] border border-[#B88736]/30' : 'bg-[#B88736] text-white shadow-md shadow-indigo-600/30'
+              anamnesis ? 'bg-[#B88736]/20 text-[#B88736] border border-[#B88736]/30' : 'bg-[#B88736] text-white shadow-sm'
             }`}>
               <Sparkles size={20} />
             </div>
@@ -734,7 +734,7 @@ export default function TrackerGrid({
       {/* Cards de Numerologia & Banhos de Ervas Sagrados */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4" id="tracker-numerology-baths-grid">
         {/* Card Numerologia */}
-        <div className="p-5 rounded-3xl border bg-gradient-to-br from-indigo-950/40 via-[#FBF8F2] to-purple-950/30 border-[#B88736]/40 shadow-lg flex flex-col justify-between space-y-4" id="card-numerology-promo">
+        <div className="p-5 rounded-3xl border bg-white/85 border-[#E5DAC6] shadow-sm flex flex-col justify-between space-y-4" id="card-numerology-promo">
           <div className="space-y-2">
             <div className="flex items-center justify-between">
               <span className="text-[10px] font-mono uppercase tracking-widest text-amber-400 font-bold bg-amber-500/10 border border-amber-500/30 px-2.5 py-0.5 rounded-full flex items-center gap-1">
@@ -772,7 +772,7 @@ export default function TrackerGrid({
                 <Leaf size={11} className="text-emerald-400" />
                 <span>Biblioteca Sagrada Expandida</span>
               </span>
-              <span className="text-[10px] font-mono text-amber-300 font-bold">🌿 Boldo • 7 Ervas • Rosas</span>
+              <span className="text-[10px] font-mono text-[#8F631E] font-bold">Boldo • 7 Ervas • Rosas</span>
             </div>
 
             <h3 className="text-sm md:text-base font-display font-medium text-[#2A2420]">
@@ -838,8 +838,8 @@ export default function TrackerGrid({
             }`}
             id="btn-switch-journey-7d"
           >
-            <span className="truncate">✨ 7 Dias (Chakras)</span>
-            <span className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-black/30 text-emerald-200 shrink-0">R$ 15</span>
+            <span className="truncate">7 Dias (Chakras)</span>
+            <span className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-[#F5EFE4] text-[#8F631E] border border-[#E5DAC6] shrink-0">R$ 15</span>
           </button>
           <button
             type="button"
@@ -1035,13 +1035,13 @@ export default function TrackerGrid({
           </button>
         </div>
 
-        {/* 3. Diário Dia a Dia & O que se Espera do Tratamento */}
-        <div className="p-5 rounded-3xl border bg-gradient-to-br from-indigo-950/30 via-[#FBF8F2] to-purple-950/20 border-[#B88736]/35 shadow-lg flex flex-col justify-between space-y-4">
+        {/* 3. Diário de Reconexão */}
+        <div className="p-5 rounded-3xl border bg-white/85 border-[#E5DAC6] shadow-sm flex flex-col justify-between space-y-4">
           <div className="space-y-2">
             <div className="flex items-center justify-between">
               <span className="text-[10px] font-mono uppercase tracking-widest text-[#B88736] font-bold bg-[#B88736]/10 border border-[#B88736]/30 px-2.5 py-0.5 rounded-full flex items-center gap-1">
                 <Clock size={11} className="text-[#B88736]" />
-                <span>Diário Quântico</span>
+                <span>Diário de Reconexão</span>
               </span>
               <Sparkles size={14} className="text-[#B88736]" />
             </div>
@@ -1077,9 +1077,9 @@ export default function TrackerGrid({
       {(() => {
         const todayInsight = currentInsights[Math.max(0, Math.min(currentInsights.length - 1, currentDay - 1))];
         return (
-          <div className="p-5 rounded-3xl border bg-gradient-to-r from-indigo-950/40 via-purple-950/20 to-slate-900 border-[#B88736]/30 shadow-lg relative overflow-hidden" id="tracker-daily-quote-card">
+          <div className="p-5 rounded-3xl border bg-white/85 border-[#E5DAC6] shadow-sm relative overflow-hidden" id="tracker-daily-quote-card">
             <div className="flex flex-col sm:flex-row items-start gap-4">
-              <div className="p-3 rounded-2xl shrink-0 bg-[#B88736]/20 text-[#B88736] border border-[#B88736]/30 shadow-md shadow-indigo-500/10">
+              <div className="p-3 rounded-2xl shrink-0 bg-[#B88736]/20 text-[#B88736] border border-[#B88736]/30 shadow-sm">
                 <Quote size={20} className="text-[#B88736] shrink-0" />
               </div>
               <div className="space-y-1 flex-1">
@@ -1150,10 +1150,10 @@ export default function TrackerGrid({
                   let iconElement = null;
 
                   if (status === 'completed') {
-                    cardClass = "bg-emerald-950/15 border-emerald-500/30 hover:border-emerald-500/50 text-[#5C5248]";
+                    cardClass = "bg-emerald-50 border-emerald-200 hover:border-emerald-300 text-[#5C5248]";
                     iconElement = <CheckCircle2 size={16} className="text-emerald-400" />;
                   } else if (status === 'ready') {
-                    cardClass = "bg-indigo-950/40 border-[#B88736]/50 hover:border-[#B88736] text-[#2A2420] ring-1 ring-indigo-500/30 animate-pulse-slow";
+                    cardClass = "bg-[#F8F4EC] border-[#B88736]/45 hover:border-[#B88736] text-[#2A2420] ring-1 ring-[#B88736]/15";
                     iconElement = <Play size={12} fill="currentColor" className="text-[#B88736]" />;
                   } else if (status === 'missed') {
                     cardClass = "bg-[#FBF8F2]/40 border-[#E5DAC6] hover:border-[#B88736]/40 text-[#5C5248]";
