@@ -941,7 +941,7 @@ export default function App() {
                 <span className="text-xs font-mono text-[#85786C] uppercase block">Dados do Usuário</span>
                 <div className="p-4 bg-white border border-[#E5DAC6] rounded-2xl space-y-3.5">
                   <div className="flex items-center gap-3">
-                    <User size={18} className="text-indigo-400" />
+                    <User size={18} className="text-[#B88736]" />
                     <div>
                       <span className="text-[10px] font-mono text-[#85786C] uppercase block">Nome Completo</span>
                       <span className="text-sm font-medium text-[#2A2420]">{userProfile.fullName || userProfile.name}</span>
@@ -1033,7 +1033,7 @@ export default function App() {
               <div className="space-y-3">
                 <div className="flex items-center justify-between">
                   <span className="text-xs font-mono text-[#85786C] uppercase block flex items-center gap-1.5 font-bold">
-                    <Activity size={14} className="text-indigo-400" />
+                    <Activity size={14} className="text-[#B88736]" />
                     <span>Ficha de Anamnese & Prescrição Energética</span>
                   </span>
                   {userProfile.anamnesis ? (
@@ -1068,10 +1068,10 @@ export default function App() {
               <div className="space-y-3">
                 <div className="flex items-center justify-between">
                   <span className="text-xs font-mono text-[#85786C] uppercase block flex items-center gap-1.5">
-                    <Mic size={14} className="text-indigo-400" />
+                    <Mic size={14} className="text-[#B88736]" />
                     <span>Voz Neural & Humanização de Leitura</span>
                   </span>
-                  <span className="text-[10px] font-mono text-indigo-400 bg-indigo-500/10 px-2 py-0.5 rounded border border-indigo-500/20">
+                  <span className="text-[10px] font-mono text-[#B88736] bg-indigo-500/10 px-2 py-0.5 rounded border border-indigo-500/20">
                     Pausas Naturais
                   </span>
                 </div>
@@ -1107,7 +1107,7 @@ export default function App() {
                       <span className="font-mono text-[#5C5248] text-[10px] uppercase">
                         Cadência da Fala (Compassada para Meditação)
                       </span>
-                      <span className="text-indigo-400 font-mono font-semibold">
+                      <span className="text-[#B88736] font-mono font-semibold">
                         {(userProfile.voiceRate ?? 0.82).toFixed(2)}x
                       </span>
                     </div>
@@ -1822,7 +1822,7 @@ export default function App() {
             id="bottom-btn-audio"
             title="Ajuste do Som e Voz"
           >
-            <Sliders size={14} className="text-indigo-400 shrink-0" />
+            <Sliders size={14} className="text-[#B88736] shrink-0" />
             <span className="hidden sm:inline">Som</span>
           </button>
 
@@ -1869,7 +1869,7 @@ export default function App() {
             {/* Modal Header */}
             <div className="flex items-center justify-between border-b border-[#E5DAC6] pb-3.5">
               <div className="flex items-center gap-2">
-                <span className="text-xs font-mono bg-indigo-500/10 border border-indigo-500/20 text-indigo-400 px-2.5 py-0.5 rounded uppercase">
+                <span className="text-xs font-mono bg-indigo-500/10 border border-indigo-500/20 text-[#B88736] px-2.5 py-0.5 rounded uppercase">
                   Dia {selectedDayDetail.toString().padStart(2, '0')}
                 </span>
                 <h3 className="text-sm font-display font-medium text-[#2A2420] uppercase">
@@ -1895,15 +1895,15 @@ export default function App() {
 
               {/* Motivational Quote for the selected day */}
               {selectedInsight.quote && (
-                <div className="bg-gradient-to-r from-indigo-950/50 to-purple-950/30 border border-indigo-500/30 p-4 rounded-xl space-y-1.5 shadow-sm">
-                  <span className="text-[10px] font-mono text-indigo-400 tracking-wider uppercase flex items-center gap-1.5 font-bold">
+                <div className="bg-gradient-to-r from-white to-[#F5EFE4] border border-[#E5DAC6] p-4 rounded-xl space-y-1.5 shadow-sm">
+                  <span className="text-[10px] font-mono text-[#B88736] tracking-wider uppercase flex items-center gap-1.5 font-bold">
                     <Sparkles size={11} className="shrink-0" />
                     Frase Motivacional do Dia:
                   </span>
                   <p className="text-xs md:text-sm text-[#2A2420] italic font-serif leading-relaxed">
                     "{selectedInsight.quote}"
                   </p>
-                  <p className="text-[11px] text-indigo-300/80 font-mono font-medium">
+                  <p className="text-[11px] text-[#5C5248] font-mono font-medium">
                     — {selectedInsight.quoteAuthor || 'Éverton Rodrigo Piceni'}
                   </p>
                 </div>
@@ -1911,7 +1911,7 @@ export default function App() {
 
               {/* Anchor daily focus */}
               <div className="bg-white/40 border border-[#E5DAC6] p-4 rounded-xl space-y-1.5">
-                <span className="text-[10px] font-mono text-indigo-400 tracking-wider uppercase block">
+                <span className="text-[10px] font-mono text-[#B88736] tracking-wider uppercase block">
                   Recomendação de Prática:
                 </span>
                 <p className="text-xs text-[#5C5248] leading-normal">
@@ -1934,7 +1934,7 @@ export default function App() {
                   {selectedProgress.beforeFeeling ? (
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 p-3 rounded-xl bg-white/70 border border-[#E5DAC6]">
                       <div className="space-y-1 text-xs">
-                        <span className="text-[10px] font-mono text-[#85786C] uppercase block">1. Antes do Tratamento:</span>
+                        <span className="text-[10px] font-mono text-[#85786C] uppercase block">1. Como eu estava:</span>
                         <p className="text-[#5C5248] font-medium text-xs">
                           {selectedProgress.beforeFeeling.stateTitle || getMoodLabel(selectedProgress.beforeFeeling.mood)} (Nota {selectedProgress.beforeFeeling.mood}/5)
                         </p>
@@ -1945,11 +1945,11 @@ export default function App() {
                         )}
                       </div>
                       <div className="space-y-1 text-xs border-t sm:border-t-0 sm:border-l border-[#E5DAC6] pt-2 sm:pt-0 sm:pl-2.5">
-                        <span className="text-[10px] font-mono text-emerald-400 uppercase block">2. Após o Tratamento:</span>
+                        <span className="text-[10px] font-mono text-emerald-400 uppercase block">2. Como estou agora:</span>
                         <p className="text-emerald-300 font-medium text-xs">
                           {selectedProgress.afterFeeling?.stateTitle || getMoodLabel(selectedProgress.mood)} (Nota {selectedProgress.afterFeeling?.mood || selectedProgress.mood || 5}/5)
                         </p>
-                        <p className="text-[11px] text-[#2A2420] leading-relaxed bg-emerald-950/20 p-2 rounded border border-emerald-500/20">
+                        <p className="text-[11px] text-[#2A2420] leading-relaxed bg-emerald-50 p-2 rounded border border-emerald-200">
                           {selectedProgress.afterFeeling?.notes || selectedProgress.journalText || "Sessão concluída e selada no DNA."}
                         </p>
                       </div>
