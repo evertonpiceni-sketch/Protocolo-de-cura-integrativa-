@@ -91,7 +91,54 @@ export function createApp() {
   app.post("/api/anamnese", authenticate, apiLimiter, handleProcessAnamnese); app.post("/api/anamnesis", authenticate, apiLimiter, handleProcessAnamnese);
   async function handleProcessAnamnese(req: any, res: any) { try { const db = getDb(); const user = db.users.find(u => u.id === req.userId); if (!user) return res.status(401).json({ error: "Não autorizado" }); const { anamnesis } = req.body; const isPremium = user.plan === "pro"; if (!anamnesis) return res.status(400).json({ error: "Dados de anamnese ausentes." }); const ai = getGemini(); if (!ai) return res.json({ status: "success", treatmentTitle: "Reequilíbrio Inicial", summaryDiagnosis: "Análise baseada nos dados fornecidos.", therapeuticRationale: "Aguardando conexão com IA.", primaryChakraFocus: "Básico", planName: isPremium ? "Plano PRO 21 Dias" : "Plano Gratuito 7 Dias", frequencyLabel: "528Hz", severityLevel: "moderado", flowerRemedy: isPremium ? "Rescue Remedy" : "", essentialOil: isPremium ? "Lavanda" : "", flowerRemedyDescription: "Harmonização inicial.", essentialOilDescription: "Calmante.", premiumBlocked: !isPremium, disclaimer: "Nota Terapêutica: As sugestões atuam como práticas integrativas. Não substituem tratamento médico." }); const prompt = `Analise os dados de anamnese e forneça recomendações integrativas e de bem-estar. Não faça diagnósticos médicos, e não prescreva tratamentos médicos. Apresente como práticas de relaxamento e autocuidado. Queixas: ${anamnesis.mainComplaints?.join(', ')} Estresse: ${anamnesis.stressLevel} Relato: ${anamnesis.personalReport} Premium: ${isPremium} Retorne APENAS um JSON válido com os seguintes campos: treatmentTitle, summaryDiagnosis, therapeuticRationale, primaryChakraFocus, planName, frequencyLabel, severityLevel (baixo, moderado, alto), flowerRemedy (apenas se Premium, senão string vazia), essentialOil (apenas se Premium), flowerRemedyDescription, essentialOilDescription.`; const response = await ai.models.generateContent({ model: "gemini-2.5-flash", contents: prompt, config: { responseMimeType: "application/json" } }); let parsed: any = {}; try { parsed = JSON.parse(response.text || "{}"); } catch { return res.status(500).json({ error: "Erro ao processar dados da IA." }); } parsed = isPremium ? { ...parsed, premiumBlocked: false } : { ...parsed, flowerRemedy: "", essentialOil: "", premiumBlocked: true }; const disclaimer = "Nota Terapêutica: O Protocolo de Cura Integrada e as sugestões de Florais de Bach e Óleos Essenciais atuam como práticas integrativas e de bem-estar. Eles não substituem, sob nenhuma hipótese, o diagnóstico, tratamento ou acompanhamento médico, psiquiátrico ou psicológico tradicional. Mantenha seus tratamentos de saúde ativos."; return res.json({ status: "success", ...parsed, disclaimer }); } catch (err) { console.error(err); return res.status(500).json({ error: "Erro interno ao processar anamnese." }); } }
 
-  app.post("/api/communications/trigger", authenticate, (req: any, res: any) => { const { eventType, dayNumber, userName, phone } = req.body; let pushTitle = "Protocolo de Cura Integrada", pushBody = "Notificação de sistema", subject = "Mensagem do Protocolo", message = "Olá!"; if (eventType === "day8_transition") { pushTitle = "✨ O Karuna Ki te chama"; pushBody = "Iniciamos hoje o processo de transmutação celular mais profundo. Venha ancorar seu símbolo Halu."; subject = "✨ Dia 8: Mergulho Profundo Iniciado"; message = `Olá ${userName},\n\nHoje é um marco sagrado no seu tratamento. Iniciamos o uso das frequências avançadas. Seja gentil com você.\n\nCom carinho,\nÉverton Rodrigo Piceni`; } else if (eventType === "day15_pink_ray") { pushTitle = "🌸 O Raio Rosa te Acolhe"; pushBody = "Você não está só. Sinta a frequência do Amor Incondicional hoje."; subject = "🌸 Dia 15: O Abraço da Cura"; message = `Olá ${userName},\n\nRespire fundo. A partir de hoje o foco é acolhimento e amor incondicional para as dores que já foram curadas.\n\nCom amor,\nÉverton Rodrigo Piceni`; } else if (eventType === "day21_completion") { pushTitle = "👑 Parabéns, Mestre!"; pushBody = "Seu Protocolo foi concluído. Acesse para selar sua energia."; subject = "👑 Celebração de Conclusão: Você conseguiu!"; message = `Olá ${userName},\n\n👑 Você assumiu o seu Trono: Parabéns pela conclusão do seu Protocolo de Cura!\n\nCom a benção e o empoderamento de Ganesha, esse tratamento está totalmente selado e blindado no seu DNA cósmico.\n\nVocê é livre para ser feliz. Você é cura. Você é amor. Você está em paz.\n\nCom profunda gratidão,\nÉverton Rodrigo Piceni`; } else { pushTitle = `✨ Lembrete Diário: Dia ${dayNumber}`; pushBody = `${userName}, seu momento sagrado de alinhamento vibracional está pronto hoje.`; subject = `✨ Dia ${dayNumber} do Protocolo de Cura Integrada`; message = `Olá ${userName},\n\nSeu momento de autocuidado, paz e meditação do Dia ${dayNumber} espera por você. Reserve alguns minutos para alinhar sua energia e silenciar a mente.\n\nCom carinho,\nÉverton Rodrigo Piceni`; } const cleanPhone = normalizeBrazilianNationalPhone(phone); const whatsappNumber = toBrazilianWhatsAppNumber(phone); const encodedMsg = encodeURIComponent(message); const whatsappUrl = whatsappNumber ? `https://wa.me/${whatsappNumber}?text=${encodedMsg}` : `https://wa.me/?text=${encodedMsg}`; return res.json({ status: "success", dayNumber, userName, pushNotification: { title: pushTitle, body: pushBody }, email: { subject, body: message }, whatsapp: { phone: cleanPhone, message, url: whatsappUrl } }); });
+  app.post("/api/communications/trigger", authenticate, (req: any, res: any) => {
+    const { eventType, dayNumber, userName, phone } = req.body;
+    const safeName = String(userName || "você").trim() || "você";
+
+    let pushTitle = "Protocolo da Transformação";
+    let pushBody = "Seu momento de cuidado está disponível.";
+    let subject = "Mensagem da sua jornada";
+    let message = `Olá ${safeName},\n\nSeu momento de presença e autocuidado está disponível quando fizer sentido para você.\n\nCom carinho,\nÉverton Rodrigo Piceni`;
+
+    if (eventType === "day8_transition") {
+      pushTitle = "Dia 8: aprofundando a jornada";
+      pushBody = "Hoje a prática convida a observar com mais profundidade o que você deseja transformar, sem pressa e sem cobrança.";
+      subject = "Dia 8: um novo passo na sua jornada";
+      message = `Olá ${safeName},\n\nHoje a jornada entra em uma etapa mais profunda. Reserve alguns minutos para respirar, observar o que está presente e permitir que a prática acompanhe você com gentileza.\n\nCom carinho,\nÉverton Rodrigo Piceni`;
+    } else if (eventType === "day15_pink_ray") {
+      pushTitle = "Dia 15: acolhimento e gentileza";
+      pushBody = "O foco de hoje é abrir espaço para cuidado, amor-próprio e presença.";
+      subject = "Dia 15: um convite ao acolhimento";
+      message = `Olá ${safeName},\n\nA partir de hoje, o foco da jornada se volta ainda mais para acolhimento, gentileza e amor-próprio. Não é preciso forçar nenhuma sensação: apenas permaneça presente e respeite o seu ritmo.\n\nCom carinho,\nÉverton Rodrigo Piceni`;
+    } else if (eventType === "day21_completion") {
+      pushTitle = "Dia 21: jornada concluída";
+      pushBody = "Você chegou ao final deste ciclo. Retorne para reconhecer o caminho percorrido e encerrar a prática com presença.";
+      subject = "Dia 21: conclusão da sua jornada";
+      message = `Olá ${safeName},\n\nVocê chegou ao final deste ciclo de 21 dias. Reserve um momento para reconhecer o caminho percorrido, aquilo que percebeu em si e o que deseja levar adiante.\n\nQue este encerramento seja um gesto de presença, gratidão e continuidade no cuidado com você.\n\nCom carinho,\nÉverton Rodrigo Piceni`;
+    } else {
+      const safeDay = Number(dayNumber) || 1;
+      pushTitle = `Lembrete da jornada: Dia ${safeDay}`;
+      pushBody = `${safeName}, seu momento de presença e autocuidado do dia ${safeDay} está disponível.`;
+      subject = `Dia ${safeDay} do Protocolo da Transformação`;
+      message = `Olá ${safeName},\n\nSeu momento de autocuidado do Dia ${safeDay} está disponível. Reserve alguns minutos para respirar, silenciar um pouco e perceber como você está hoje.\n\nCom carinho,\nÉverton Rodrigo Piceni`;
+    }
+
+    const cleanPhone = normalizeBrazilianNationalPhone(phone);
+    const whatsappNumber = toBrazilianWhatsAppNumber(phone);
+    const encodedMsg = encodeURIComponent(message);
+    const whatsappUrl = whatsappNumber
+      ? `https://wa.me/${whatsappNumber}?text=${encodedMsg}`
+      : `https://wa.me/?text=${encodedMsg}`;
+
+    return res.json({
+      status: "success",
+      dayNumber,
+      userName: safeName,
+      pushNotification: { title: pushTitle, body: pushBody },
+      email: { subject, body: message },
+      whatsapp: { phone: cleanPhone, message, url: whatsappUrl }
+    });
+  });
 
   app.get("/api/elevenlabs/status", (_req, res) => { const hasKey = !!process.env.ELEVENLABS_API_KEY && process.env.ELEVENLABS_API_KEY.length > 5; res.json({ configured: hasKey, defaultVoice: process.env.ELEVENLABS_VOICE_ID || "Marcus", model: "eleven_multilingual_v2", stability: 0.5, similarityBoost: 0.75, style: 0, speed: 0.92 }); });
   app.get("/api/elevenlabs/voices", authenticate, apiLimiter, async (_req, res) => { const client = getElevenLabs(); const defaultCuratedVoices = [{ voice_id: "Marcus", name: "Marcus (Éverton Piceni Style)", category: "cloned/curated", description: "Voz masculina profunda, acolhedora, serena e terapêutica.", preview_url: "" }, { voice_id: "Rachel", name: "Rachel (Acolhimento & Paz)", category: "premade", description: "Voz feminina suave, doce e maternal.", preview_url: "" }]; if (!client) return res.json({ voices: defaultCuratedVoices, isCustomApiKey: false }); try { const response = await client.voices.getAll(); const apiVoices = (response.voices || []).map((v: any) => ({ voice_id: v.voice_id, name: v.name, category: v.category || "custom", description: v.description || (v.labels ? Object.values(v.labels).join(", ") : "Voz ElevenLabs"), preview_url: v.preview_url || "" })); const allVoices = [...defaultCuratedVoices]; apiVoices.forEach((av: any) => { if (!allVoices.some(v => v.voice_id === av.voice_id)) allVoices.push(av); }); return res.json({ voices: allVoices, isCustomApiKey: true }); } catch (err: any) { console.warn("ElevenLabs voices fetch warning:", err?.message || err); return res.json({ voices: defaultCuratedVoices, isCustomApiKey: true }); } });
