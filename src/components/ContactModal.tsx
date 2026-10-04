@@ -38,11 +38,11 @@ export default function ContactModal({
   if (!isOpen) return null;
 
   const topicLabels: Record<string, string> = {
-    duvida_protocolo: 'Dúvidas sobre o Protocolo de 21 Dias',
-    tratamento_especifico: 'Tratamento Específico Personalizado',
+    duvida_protocolo: 'Dúvidas sobre a jornada de 21 dias',
+    tratamento_especifico: 'Atendimento direcionado',
     cursos_reiki: 'Cursos & Iniciações de Reiki',
-    planos_cupons: 'Planos Pro, Valores & Cupons',
-    outro: 'Outro Assunto / Acolhimento'
+    planos_cupons: 'Planos, valores e cupons',
+    outro: 'Outro assunto'
   };
 
   const handleCopyEmail = () => {
@@ -56,15 +56,15 @@ export default function ContactModal({
     if (!message.trim()) return;
 
     // Open mailto link cleanly with pre-filled content
-    const subject = encodeURIComponent(`[Fale Conosco - Cura Integrada] ${topicLabels[topic]} - ${senderName || 'Consulente'}`);
+    const subject = encodeURIComponent(`[Fale Conosco - Protocolo da Transformação] ${topicLabels[topic]} - ${senderName || 'Consulente'}`);
     const body = encodeURIComponent(
       `Olá Éverton Rodrigo Piceni,\n\n` +
-      `Estou entrando em contato através do aplicativo Protocolo de Cura Integrada.\n\n` +
-      `👤 Nome: ${senderName || 'Consulente'}\n` +
-      `📧 E-mail: ${senderEmail || 'Não informado'}\n` +
-      `🎯 Assunto: ${topicLabels[topic]}\n\n` +
-      `📝 Mensagem:\n${message}\n\n` +
-      `Paz e Luz!`
+      `Estou entrando em contato através do Protocolo da Transformação.\n\n` +
+      `Nome: ${senderName || 'Consulente'}\n` +
+      `E-mail: ${senderEmail || 'Não informado'}\n` +
+      `Assunto: ${topicLabels[topic]}\n\n` +
+      `Mensagem:\n${message}\n\n` +
+      `Obrigado pelo acolhimento.`
     );
 
     window.open(`mailto:evertonpiceni@gmail.com?subject=${subject}&body=${body}`, '_blank');
@@ -73,7 +73,7 @@ export default function ContactModal({
 
   const handleOpenWhatsAppChat = () => {
     const text = encodeURIComponent(
-      `Olá! Estou no aplicativo do Protocolo de Cura Integrada e gostaria de conversar com o suporte / Éverton Piceni sobre: ${topicLabels[topic]}.\n\n` +
+      `Olá! Estou no Protocolo da Transformação e gostaria de conversar sobre: ${topicLabels[topic]}.\n\n` +
       `Nome: ${senderName || 'Consulente'}\n` +
       (message ? `Mensagem: ${message}` : '')
     );
@@ -89,23 +89,23 @@ export default function ContactModal({
         className="w-full max-w-2xl bg-[#FBF8F2] border border-[#E5DAC6] rounded-3xl p-5 sm:p-7 shadow-2xl space-y-6 relative overflow-hidden my-4 max-h-[92vh] overflow-y-auto"
       >
         {/* Glow backdrop */}
-        <div className="absolute top-0 right-0 w-72 h-72 bg-emerald-500/10 rounded-full blur-3xl pointer-events-none" />
+        <div className="absolute top-0 right-0 w-72 h-72 bg-[#B88736]/7 rounded-full blur-3xl pointer-events-none" />
         <div className="absolute bottom-0 left-0 w-72 h-72 bg-[#B88736]/15 rounded-full blur-3xl pointer-events-none" />
 
         {/* Header */}
         <div className="flex items-center justify-between border-b border-[#E5DAC6] pb-4">
           <div className="flex items-center gap-3">
-            <div className="w-12 h-12 rounded-2xl overflow-hidden border border-emerald-500/30 shrink-0 shadow-md">
+            <div className="w-12 h-12 rounded-2xl overflow-hidden border border-[#E5DAC6] shrink-0 shadow-sm opacity-75">
               <img
                 src={APPROVED_LOGO_DATA_URI}
-                alt="Emblema Sagrado Cura Integrada"
+                alt="Marca do Protocolo da Transformação"
                 referrerPolicy="no-referrer"
                 className="w-full h-full object-contain"
               />
             </div>
             <div>
               <div className="flex items-center gap-2">
-                <span className="text-[10px] font-mono uppercase tracking-widest text-emerald-400 bg-emerald-500/10 border border-emerald-500/20 px-2.5 py-0.5 rounded-full font-bold">
+                <span className="text-[10px] font-mono uppercase tracking-widest text-[#8F631E] bg-[#B88736]/10 border border-[#B88736]/20 px-2.5 py-0.5 rounded-full font-bold">
                   Canal de Atendimento
                 </span>
                 <span className="text-[10px] font-mono text-[#B88736]">
@@ -120,7 +120,8 @@ export default function ContactModal({
 
           <button
             onClick={onClose}
-            className="p-2 text-[#5C5248] hover:text-white bg-[#F5EFE4]/60 hover:bg-[#F5EFE4] rounded-xl transition cursor-pointer border-none"
+            aria-label="Fechar Fale Conosco"
+            className="w-11 h-11 text-[#5C5248] hover:text-[#2A2420] bg-[#F5EFE4]/70 hover:bg-[#EFE4D3] rounded-xl transition cursor-pointer border-none flex items-center justify-center focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B88736]/30"
             title="Fechar"
           >
             <X size={18} />
@@ -149,14 +150,14 @@ export default function ContactModal({
                   setIsSent(false);
                   setMessage('');
                 }}
-                className="px-4 py-2.5 rounded-xl bg-[#F5EFE4] hover:bg-slate-700 text-[#5C5248] text-xs font-semibold transition cursor-pointer"
+                className="px-4 py-2.5 rounded-xl bg-[#F5EFE4] hover:bg-[#EFE4D3] text-[#5C5248] text-xs font-semibold transition cursor-pointer"
               >
                 Enviar Outra Mensagem
               </button>
               <button
                 type="button"
                 onClick={onClose}
-                className="px-6 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold transition cursor-pointer shadow-lg shadow-emerald-600/20"
+                className="px-6 py-2.5 rounded-xl bg-[#B88736] hover:bg-[#8F631E] text-white text-xs font-bold transition cursor-pointer shadow-sm"
               >
                 Concluir & Voltar
               </button>
@@ -181,7 +182,7 @@ export default function ContactModal({
                 <button
                   type="button"
                   onClick={handleCopyEmail}
-                  className="flex-1 sm:flex-initial px-3 py-1.5 rounded-xl bg-[#F5EFE4] hover:bg-slate-700 text-[#5C5248] text-xs font-semibold flex items-center justify-center gap-1.5 transition cursor-pointer border border-[#E5DAC6]"
+                  className="flex-1 sm:flex-initial px-3 py-2.5 min-h-[44px] rounded-xl bg-[#F5EFE4] hover:bg-[#EFE4D3] text-[#5C5248] text-xs font-semibold flex items-center justify-center gap-1.5 transition cursor-pointer border border-[#E5DAC6]"
                 >
                   {copiedEmail ? <Check size={13} className="text-emerald-400" /> : <Copy size={13} />}
                   <span>{copiedEmail ? 'E-mail Copiado!' : 'Copiar E-mail'}</span>
@@ -190,7 +191,7 @@ export default function ContactModal({
                 <button
                   type="button"
                   onClick={handleOpenWhatsAppChat}
-                  className="flex-1 sm:flex-initial px-3.5 py-1.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-semibold flex items-center justify-center gap-1.5 transition cursor-pointer shadow-md shadow-emerald-600/20"
+                  className="flex-1 sm:flex-initial px-3.5 py-2.5 min-h-[44px] rounded-xl bg-[#B88736] hover:bg-[#8F631E] text-white text-xs font-semibold flex items-center justify-center gap-1.5 transition cursor-pointer shadow-sm"
                   title="Falar no Fale Conosco"
                 >
                   <MessageCircle size={14} />
@@ -211,7 +212,7 @@ export default function ContactModal({
                     value={senderName}
                     onChange={(e) => setSenderName(e.target.value)}
                     placeholder="Como prefere ser chamado(a)"
-                    className="w-full bg-white border border-[#E5DAC6] rounded-xl px-3.5 py-2 text-xs text-[#2A2420] placeholder:text-[#85786C] outline-none focus:border-emerald-500"
+                    className="w-full bg-white border border-[#E5DAC6] rounded-xl px-3.5 py-2 text-xs text-[#2A2420] placeholder:text-[#85786C] outline-none focus:border-[#B88736] focus:ring-2 focus:ring-[#B88736]/15"
                   />
                 </div>
 
@@ -224,7 +225,7 @@ export default function ContactModal({
                     value={senderEmail}
                     onChange={(e) => setSenderEmail(e.target.value)}
                     placeholder="seuemail@exemplo.com"
-                    className="w-full bg-white border border-[#E5DAC6] rounded-xl px-3.5 py-2 text-xs text-[#2A2420] placeholder:text-[#85786C] outline-none focus:border-emerald-500"
+                    className="w-full bg-white border border-[#E5DAC6] rounded-xl px-3.5 py-2 text-xs text-[#2A2420] placeholder:text-[#85786C] outline-none focus:border-[#B88736] focus:ring-2 focus:ring-[#B88736]/15"
                   />
                 </div>
               </div>
@@ -236,7 +237,7 @@ export default function ContactModal({
                 <select
                   value={topic}
                   onChange={(e) => setTopic(e.target.value as any)}
-                  className="w-full bg-white border border-[#E5DAC6] rounded-xl px-3.5 py-2 text-xs text-[#2A2420] outline-none focus:border-emerald-500 cursor-pointer font-sans"
+                  className="w-full bg-white border border-[#E5DAC6] rounded-xl px-3.5 py-2 text-xs text-[#2A2420] outline-none focus:border-[#B88736] focus:ring-2 focus:ring-[#B88736]/15 cursor-pointer font-sans"
                 >
                   <option value="duvida_protocolo">Dúvidas sobre o Protocolo de 21 Dias</option>
                   <option value="tratamento_especifico">Tratamento Específico Personalizado</option>
@@ -256,21 +257,21 @@ export default function ContactModal({
                   value={message}
                   onChange={(e) => setMessage(e.target.value)}
                   placeholder="Escreva aqui como podemos te ajudar, suas percepções durante as sessões ou perguntas..."
-                  className="w-full bg-white border border-[#E5DAC6] rounded-xl p-3.5 text-xs text-[#2A2420] placeholder:text-[#85786C] outline-none focus:border-emerald-500 resize-none leading-relaxed"
+                  className="w-full bg-white border border-[#E5DAC6] rounded-xl p-3.5 text-xs text-[#2A2420] placeholder:text-[#85786C] outline-none focus:border-[#B88736] focus:ring-2 focus:ring-[#B88736]/15 resize-none leading-relaxed"
                 />
               </div>
 
               <div className="pt-2 flex flex-col sm:flex-row items-center justify-between gap-3">
                 <span className="text-[11px] text-[#5C5248] flex items-center gap-1.5">
-                  <Shield size={13} className="text-emerald-400 shrink-0" />
-                  <span>Sigilo e acolhimento terapêutico garantidos.</span>
+                  <Shield size={13} className="text-[#B88736] shrink-0" />
+                  <span>Seu relato é tratado com cuidado e respeito.</span>
                 </span>
 
                 <div className="flex items-center gap-2 w-full sm:w-auto">
                   <button
                     type="button"
                     onClick={onClose}
-                    className="flex-1 sm:flex-initial px-4 py-2.5 rounded-xl bg-[#F5EFE4] hover:bg-slate-700 text-[#5C5248] text-xs font-semibold transition cursor-pointer"
+                    className="flex-1 sm:flex-initial px-4 py-2.5 rounded-xl bg-[#F5EFE4] hover:bg-[#EFE4D3] text-[#5C5248] text-xs font-semibold transition cursor-pointer"
                   >
                     Cancelar
                   </button>
