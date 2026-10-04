@@ -55,12 +55,12 @@ export default function AchievementsModal({
     : ALL_ACHIEVEMENTS.filter(a => a.category === selectedCategory);
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-[#2A2420]/30 backdrop-blur-md overflow-y-auto" id="achievements-modal">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4 bg-[#2A2420]/30 backdrop-blur-md overflow-y-auto overscroll-contain" id="achievements-modal" role="dialog" aria-modal="true" aria-label="Conquistas">
       <motion.div
         initial={{ opacity: 0, scale: 0.95, y: 15 }}
         animate={{ opacity: 1, scale: 1, y: 0 }}
         exit={{ opacity: 0, scale: 0.95 }}
-        className="w-full max-w-4xl bg-[#FBF8F2] border border-[#E5DAC6] rounded-3xl p-5 sm:p-7 shadow-2xl relative overflow-hidden my-4 max-h-[92vh] flex flex-col"
+        className="w-full max-w-4xl bg-[#FBF8F2] border border-[#E5DAC6] rounded-2xl sm:rounded-3xl p-4 sm:p-7 shadow-2xl relative overflow-hidden my-1 sm:my-4 max-h-[calc(100dvh-1rem)] sm:max-h-[92dvh] flex flex-col"
       >
         {/* Glow Effects */}
         <div className="absolute -top-24 -right-24 w-72 h-72 bg-amber-500/10 rounded-full blur-3xl pointer-events-none" />
