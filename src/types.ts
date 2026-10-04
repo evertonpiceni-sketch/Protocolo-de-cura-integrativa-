@@ -1,3 +1,5 @@
+import type { LayoutId } from './config/layouts';
+
 /**
  * @license
  * SPDX-License-Identifier: Apache-2.0
@@ -202,6 +204,7 @@ export interface UserProfile {
   phone?: string;
   login: string;
   isAdmin?: boolean;
+  visualLayout?: LayoutId;
   startedAt?: string;
   reminderTime?: string; // Format: "HH:MM"
   currentStreak: number;
