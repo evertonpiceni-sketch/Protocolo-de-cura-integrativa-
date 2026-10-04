@@ -8,10 +8,10 @@ import { JourneyDayVisualPreview } from './VideoStudioLightModal';
 import { PausaConscienteLight } from './PausaConscienteLight';
 import { AindaHaAlgoEmMimLight } from './AindaHaAlgoEmMimLight';
 
-type Props = { onClose: () => void };
+type Props = { onClose: () => void; initialCompletedDays?: number[]; onCompletedDaysChange?: (days: number[]) => void };
 const STORAGE_KEY = 'transformacao_jornada_pessoal_21_dias_v1';
 const REINTEGRATION_MUSIC_URL = 'https://7bhxppl2irhgbptb.public.blob.vercel-storage.com/REINTEGRA%C3%87%C3%83O%20%C3%80%20VIDA.mp3';
-export default function PersonalJourney21({ onClose }: Props) {
+export default function PersonalJourney21({ onClose, initialCompletedDays, onCompletedDaysChange }: Props) {
   const [day, setDay] = useState(1);
   const [accepted, setAccepted] = useState(false);
   const [playing, setPlaying] = useState(false);
@@ -29,7 +29,10 @@ export default function PersonalJourney21({ onClose }: Props) {
   const wakeLockRef = useRef<any>(null);
   const playingRef = useRef(false);
   const [completed, setCompleted] = useState<number[]>(() => {
-    try { return JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]'); } catch { return []; }
+    const serverDays = Array.isArray(initialCompletedDays) ? initialCompletedDays : [];
+    let localDays: number[] = [];
+    try { localDays = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]'); } catch {}
+    return [...new Set([...serverDays, ...localDays])].filter(day => day >= 1 && day <= 21).sort((a,b) => a-b);
   });
   const item = REINTEGRATION_DAYS[day - 1];
   const elapsedSeconds = musicRef.current?.currentTime || 0;
@@ -201,8 +204,12 @@ export default function PersonalJourney21({ onClose }: Props) {
   };
 
   const complete = () => {
-    stopSession(); const next = completed.includes(day) ? completed : [...completed, day].sort((a,b) => a-b);
-    setCompleted(next); localStorage.setItem(STORAGE_KEY, JSON.stringify(next)); if (day < 21) setDay(day + 1);
+    stopSession();
+    const next = completed.includes(day) ? completed : [...completed, day].sort((a,b) => a-b);
+    setCompleted(next);
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(next));
+    onCompletedDaysChange?.(next);
+    if (day < 21) setDay(day + 1);
   };
 
   return <div className="ep-reintegration-shell relative min-h-screen bg-[#F8F4EC] px-4 py-5 text-[#2A2420]">
