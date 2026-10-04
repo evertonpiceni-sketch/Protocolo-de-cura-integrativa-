@@ -29,6 +29,7 @@ import { AnimatePresence } from "motion/react";
 import { localNotificationManager } from './lib/notifications';
 import { OFFICIAL_LAYOUTS, normalizeLayoutId } from './config/layouts';
 import { getLocalDateString } from './utils/date';
+import LayoutChoiceModal from './components/LayoutChoiceModal';
 
 const AnamnesisModal = React.lazy(() => import('./components/AnamnesisModal'));
 const ChakrasGuideModal = React.lazy(() => import('./components/ChakrasGuideModal'));
@@ -729,6 +730,11 @@ export default function App() {
   return (
     <React.Suspense fallback={null}>
     <>
+      {!userProfile.visualLayout && (
+        <LayoutChoiceModal
+          onSelect={(layout) => saveProfile({ ...userProfile, visualLayout: layout })}
+        />
+      )}
 
       {showPersonalJourney ? (
         <PersonalJourney21
@@ -944,7 +950,7 @@ export default function App() {
                         type="button"
                         aria-pressed={selected}
                         onClick={() => saveProfile({ ...userProfile, visualLayout: layout.id })}
-                        className={`min-h-24 rounded-2xl border p-4 text-left transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B88736]/35 ${
+                        className={`ep-layout-choice min-h-24 rounded-2xl border p-4 text-left transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B88736]/35 ${
                           selected
                             ? 'border-[#B88736] bg-[#B88736]/8 shadow-sm'
                             : 'border-[#E5DAC6] bg-white/80 hover:border-[#B88736]/45'
