@@ -151,12 +151,12 @@ export default function DailyDiaryModal({
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-[#2A2420]/30 backdrop-blur-md overflow-y-auto" id="daily-diary-modal">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4 bg-[#2A2420]/30 backdrop-blur-md overflow-y-auto overscroll-contain" id="daily-diary-modal" role="dialog" aria-modal="true" aria-label="Diário de Reconexão">
       <motion.div
         initial={{ opacity: 0, scale: 0.95, y: 15 }}
         animate={{ opacity: 1, scale: 1, y: 0 }}
         exit={{ opacity: 0, scale: 0.95 }}
-        className="w-full max-w-4xl bg-[#FBF8F2] border border-[#B88736]/30 rounded-3xl p-5 sm:p-7 shadow-2xl relative overflow-hidden my-4 max-h-[92vh] flex flex-col"
+        className="w-full max-w-4xl bg-[#FBF8F2] border border-[#B88736]/30 rounded-2xl sm:rounded-3xl p-4 sm:p-7 shadow-2xl relative overflow-hidden my-1 sm:my-4 max-h-[calc(100dvh-1rem)] sm:max-h-[92dvh] flex flex-col"
       >
         {/* Glow Effects */}
         <div className="absolute -top-24 -right-24 w-72 h-72 bg-[#B88736]/10 rounded-full blur-3xl pointer-events-none" />
@@ -297,7 +297,7 @@ export default function DailyDiaryModal({
         </div>
 
         {/* Day details content (Scrollable) */}
-        <div className="flex-1 overflow-y-auto pr-1 py-4 space-y-4">
+        <div className="flex-1 min-h-0 overflow-y-auto overscroll-contain pr-1 py-4 space-y-4">
           {/* Day Status Banner */}
           <div className="p-4 rounded-2xl bg-white/85 border border-[#E5DAC6] space-y-3">
             <div className="flex items-center justify-between">
