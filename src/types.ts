@@ -243,6 +243,10 @@ export interface UserProfile {
   astralMapPurchased?: boolean;
   numerology?: NumerologyData;
   numerologyPurchased?: boolean;
+  journeyProgress?: {
+    reintegration21CompletedDays?: number[];
+    arcanjo7CompletedDays?: number[];
+  };
 }
 
 export interface AchievementItem {
