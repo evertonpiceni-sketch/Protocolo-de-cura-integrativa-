@@ -259,18 +259,18 @@ export default function TrackerGrid({
     <div className="w-full max-w-5xl mx-auto px-3 sm:px-4 py-4 sm:py-6 flex flex-col items-center justify-center space-y-6 sm:space-y-8" id="tracker-dashboard">
 
       {/* Welcome Hero Panel with Warmth, Persistence & Support */}
-      <div className="bg-gradient-to-r from-slate-900 via-slate-850 to-indigo-950 rounded-3xl p-5 sm:p-6 md:p-8 border border-[#B88736]/30 shadow-2xl relative overflow-hidden space-y-6" id="tracker-hero">
-        <div className="absolute right-0 bottom-0 top-0 w-1/3 opacity-15 bg-[radial-gradient(circle_at_center,rgba(99,102,241,0.6)_0,transparent_100%)] pointer-events-none" />
-        <div className="absolute -top-16 -left-16 w-48 h-48 bg-emerald-500/10 rounded-full blur-3xl pointer-events-none" />
+      <div className="bg-[#FBF8F2] rounded-3xl p-5 sm:p-6 md:p-8 border border-[#E5DAC6] shadow-sm relative overflow-hidden space-y-6" id="tracker-hero">
+        <div className="absolute right-0 bottom-0 top-0 w-1/3 opacity-20 bg-[radial-gradient(circle_at_center,rgba(184,135,54,0.22)_0,transparent_100%)] pointer-events-none" />
+        <div className="absolute -top-16 -left-16 w-48 h-48 bg-[#B88736]/8 rounded-full blur-3xl pointer-events-none" />
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start relative z-10">
           {/* Left Column: Greeting, Sacred Message & Persistence Callout */}
           <div className="lg:col-span-7 space-y-4 text-center sm:text-left">
             <div className="flex flex-wrap items-center justify-center sm:justify-start gap-2">
               <span className="text-xs font-mono tracking-widest text-[#B88736] bg-[#B88736]/10 border border-[#B88736]/30 px-3 py-1 rounded-full uppercase font-semibold">
-                {activeJourney === '7d' ? 'Jornada dos 7 Chakras • 7 Dias' : 'Protocolo de Cura Integrada • 21 Dias'}
+                {activeJourney === '7d' ? 'Jornada dos 7 Chakras • 7 Dias' : 'Protocolo da Transformação • 21 Dias'}
               </span>
-              <span className="text-xs font-mono tracking-wider text-emerald-300 bg-emerald-500/10 border border-emerald-500/30 px-3 py-1 rounded-full flex items-center justify-center gap-1">
+              <span className="text-xs font-mono tracking-wider text-[#5C5248] bg-white border border-[#E5DAC6] px-3 py-1 rounded-full flex items-center justify-center gap-1">
                 <Sparkles size={11} className="text-emerald-400 shrink-0" />
                 <span>Espaço Sagrado de Autocura</span>
               </span>
@@ -285,14 +285,14 @@ export default function TrackerGrid({
               </p>
               {anamnesis && (
                 <p className="text-xs md:text-sm text-[#5C5248] mt-2 max-w-xl leading-relaxed">
-                  Seu diagnóstico energético foi acolhido na egrégora. Ouça abaixo o áudio com as orientações do seu campo vibracional e a justificativa terapêutica personalizada.
+                  Seu Mapa do Momento foi organizado a partir do que você compartilhou. Ouça abaixo as possibilidades de cuidado relacionadas a este momento.
                 </p>
               )}
             </div>
 
             {/* Persistence & Support Welcoming Callout OR Anamnesis Result Audio Player */}
             {anamnesis ? (
-              <div className="p-4 sm:p-5 rounded-3xl bg-gradient-to-br from-slate-900 via-indigo-950/40 to-purple-950/40 border-2 border-[#B88736]/60 shadow-2xl space-y-4 text-left">
+              <div className="p-4 sm:p-5 rounded-3xl bg-white/85 border border-[#E5DAC6] shadow-sm space-y-4 text-left">
                 {/* Header + Voice Switcher */}
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-[#B88736]/20 pb-3">
                   <div className="flex items-center gap-3">
@@ -303,11 +303,11 @@ export default function TrackerGrid({
                       <h3 className="text-sm sm:text-base font-semibold text-[#2A2420] flex items-center gap-2">
                         <span>Acolhimento Terapêutico</span>
                         <span className="text-[10px] font-mono font-bold uppercase bg-[#B88736]/20 text-[#B88736] border border-[#B88736]/40 px-2 py-0.5 rounded-full hidden sm:inline-block">
-                          Voz IA
+                          Áudio guiado
                         </span>
                       </h3>
                       <p className="text-xs text-[#5C5248]">
-                        Revelações do seu campo vibracional
+                        Possibilidades de cuidado para este momento
                       </p>
                     </div>
                   </div>
@@ -353,15 +353,15 @@ export default function TrackerGrid({
                     <button
                       type="button"
                       onClick={() => {
-                        const textToSpeak = anamnesis.aiAnalysis?.justificativa_terapeutica || anamnesis.prescribedFocus || "Identificamos uma sobrecarga com necessidade de acolhimento e paz profunda.";
-                        const fullGreetingSpeech = `Olá ${userName}. Seja muito bem-vindo ao seu diagnóstico personalizado. ${textToSpeak} ${anamnesis.customDecree ? `Seu decreto sagrado é: ${anamnesis.customDecree}` : ''}`;
+                        const textToSpeak = anamnesis.aiAnalysis?.justificativa_terapeutica || anamnesis.prescribedFocus || "O que você compartilhou sugere um momento que pode se beneficiar de acolhimento e mais espaço interno.";
+                        const fullGreetingSpeech = `Olá ${userName}. Seja muito bem-vindo ao seu Mapa do Momento. ${textToSpeak} ${anamnesis.customDecree ? `Sua frase de intenção é: ${anamnesis.customDecree}` : ''}`;
                         playTherapeuticVoice(fullGreetingSpeech);
                       }}
                       disabled={isLoadingVoice}
                       className={`w-12 h-12 rounded-2xl flex items-center justify-center transition shadow-lg cursor-pointer shrink-0 ${
                         isPlayingTherapeuticVoice
-                          ? 'bg-amber-500 hover:bg-amber-400 text-slate-950 shadow-amber-500/20'
-                          : 'bg-[#B88736] hover:bg-[#B88736] text-white shadow-indigo-600/30'
+                          ? 'bg-[#8F631E] hover:bg-[#72501A] text-white shadow-sm'
+                          : 'bg-[#B88736] hover:bg-[#8F631E] text-white shadow-sm'
                       }`}
                       id="btn-play-diagnosis-audio-dashboard"
                     >
@@ -427,7 +427,7 @@ export default function TrackerGrid({
             <button
               type="button"
               onClick={() => onStartSession(currentDay)}
-              className="w-full flex items-center justify-between gap-3 bg-gradient-to-r from-indigo-600 to-indigo-500 hover:from-indigo-500 hover:to-indigo-400 text-white font-bold px-4 py-3 rounded-2xl transition duration-200 shadow-xl shadow-indigo-600/25 text-xs sm:text-sm cursor-pointer border border-indigo-400/30 sm:col-span-2 lg:col-span-1 min-h-[46px]"
+              className="w-full flex items-center justify-between gap-3 bg-[#B88736] hover:bg-[#8F631E] text-white font-bold px-4 py-3 rounded-2xl transition duration-200 shadow-sm text-xs sm:text-sm cursor-pointer border border-[#B88736] sm:col-span-2 lg:col-span-1 min-h-[48px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B88736]/35"
               id="btn-start-today"
             >
               <div className="flex items-center gap-2.5 truncate">
@@ -442,7 +442,7 @@ export default function TrackerGrid({
             <button
               type="button"
               onClick={onOpenJournal}
-              className="w-full flex items-center justify-start gap-2.5 bg-white/90 hover:bg-[#F5EFE4] text-[#2A2420] hover:text-white border border-[#E5DAC6] px-3.5 py-2.5 rounded-xl transition duration-200 text-xs cursor-pointer min-h-[42px]"
+              className="w-full flex items-center justify-start gap-2.5 bg-white/90 hover:bg-[#F5EFE4] text-[#2A2420] border border-[#E5DAC6] px-3.5 py-2.5 rounded-xl transition duration-200 text-xs cursor-pointer min-h-[44px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B88736]/30"
               id="btn-view-journals"
             >
               <div className="w-7 h-7 rounded-lg bg-[#F5EFE4] flex items-center justify-center shrink-0 text-[#B88736]">
@@ -455,13 +455,13 @@ export default function TrackerGrid({
               <button
                 type="button"
                 onClick={onOpenAstralMap}
-                className="w-full flex items-center justify-start gap-2.5 bg-gradient-to-r from-purple-950/60 to-indigo-950/60 hover:from-purple-900/70 hover:to-indigo-900/70 text-[#5C5248] border border-purple-500/40 px-3.5 py-2.5 rounded-xl transition duration-200 text-xs font-semibold cursor-pointer shadow-md shadow-purple-950/30 min-h-[42px]"
+                className="w-full flex items-center justify-start gap-2.5 bg-white/90 hover:bg-[#F5EFE4] text-[#5C5248] border border-[#E5DAC6] px-3.5 py-2.5 rounded-xl transition duration-200 text-xs font-semibold cursor-pointer shadow-sm min-h-[44px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B88736]/30"
                 id="btn-open-astral-map"
               >
-                <div className="w-7 h-7 rounded-lg bg-purple-900/50 flex items-center justify-center shrink-0 text-amber-400">
+                <div className="w-8 h-8 rounded-lg bg-[#B88736]/10 flex items-center justify-center shrink-0 text-[#B88736]">
                   <Compass size={14} />
                 </div>
-                <span className="truncate">Meu Mapa Astral & Energético ☀️</span>
+                <span className="truncate">Meu Mapa Astral & Energético</span>
               </button>
             )}
 
@@ -469,13 +469,13 @@ export default function TrackerGrid({
               <button
                 type="button"
                 onClick={onOpenChakrasGuide}
-                className="w-full flex items-center justify-start gap-2.5 bg-purple-950/40 hover:bg-purple-900/50 text-[#B88736] border border-purple-500/30 px-3.5 py-2.5 rounded-xl transition duration-200 text-xs font-semibold cursor-pointer min-h-[42px]"
+                className="w-full flex items-center justify-start gap-2.5 bg-white/90 hover:bg-[#F5EFE4] text-[#5C5248] border border-[#E5DAC6] px-3.5 py-2.5 rounded-xl transition duration-200 text-xs font-semibold cursor-pointer min-h-[44px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B88736]/30"
                 id="btn-open-chakras-guide"
               >
-                <div className="w-7 h-7 rounded-lg bg-purple-900/50 flex items-center justify-center shrink-0 text-purple-400">
+                <div className="w-8 h-8 rounded-lg bg-[#B88736]/10 flex items-center justify-center shrink-0 text-[#B88736]">
                   <Sparkles size={14} />
                 </div>
-                <span className="truncate">Guia dos 7 Chakras ✨</span>
+                <span className="truncate">Guia dos 7 Chakras</span>
               </button>
             )}
 
@@ -483,13 +483,13 @@ export default function TrackerGrid({
               <button
                 type="button"
                 onClick={onOpenHerbalBaths}
-                className="w-full flex items-center justify-start gap-2.5 bg-emerald-950/40 hover:bg-emerald-900/50 text-emerald-300 border border-emerald-500/30 px-3.5 py-2.5 rounded-xl transition duration-200 text-xs font-semibold cursor-pointer min-h-[42px]"
+                className="w-full flex items-center justify-start gap-2.5 bg-white/90 hover:bg-[#F5EFE4] text-[#5C5248] border border-[#E5DAC6] px-3.5 py-2.5 rounded-xl transition duration-200 text-xs font-semibold cursor-pointer min-h-[44px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B88736]/30"
                 id="btn-open-herbal-baths"
               >
-                <div className="w-7 h-7 rounded-lg bg-emerald-900/50 flex items-center justify-center shrink-0 text-emerald-400">
+                <div className="w-8 h-8 rounded-lg bg-[#B88736]/10 flex items-center justify-center shrink-0 text-[#B88736]">
                   <Leaf size={14} />
                 </div>
-                <span className="truncate">Guia Sagrado de Banhos 🌿</span>
+                <span className="truncate">Guia de Banhos</span>
               </button>
             )}
 
@@ -497,13 +497,13 @@ export default function TrackerGrid({
               <button
                 type="button"
                 onClick={onOpenPlansValuesGuide}
-                className="w-full flex items-center justify-start gap-2.5 bg-amber-950/40 hover:bg-amber-900/50 text-amber-300 border border-amber-500/30 px-3.5 py-2.5 rounded-xl transition duration-200 text-xs font-semibold cursor-pointer min-h-[42px]"
+                className="w-full flex items-center justify-start gap-2.5 bg-white/90 hover:bg-[#F5EFE4] text-[#5C5248] border border-[#E5DAC6] px-3.5 py-2.5 rounded-xl transition duration-200 text-xs font-semibold cursor-pointer min-h-[44px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B88736]/30"
                 id="btn-open-plans-values"
               >
-                <div className="w-7 h-7 rounded-lg bg-amber-900/50 flex items-center justify-center shrink-0 text-amber-400">
+                <div className="w-8 h-8 rounded-lg bg-[#B88736]/10 flex items-center justify-center shrink-0 text-[#B88736]">
                   <Award size={14} />
                 </div>
-                <span className="truncate">Ver Todos os Valores & Planos 👑</span>
+                <span className="truncate">Ver Valores & Planos</span>
               </button>
             )}
 
@@ -511,13 +511,13 @@ export default function TrackerGrid({
               <button
                 type="button"
                 onClick={onOpenPromoVideo}
-                className="w-full flex items-center justify-start gap-2.5 bg-gradient-to-r from-amber-500/20 via-indigo-950/40 to-purple-950/40 hover:from-amber-500/30 text-amber-200 border border-amber-500/40 px-3.5 py-2.5 rounded-xl transition duration-200 text-xs font-semibold cursor-pointer sm:col-span-2 lg:col-span-1 min-h-[42px] shadow-sm"
+                className="w-full flex items-center justify-start gap-2.5 bg-white/90 hover:bg-[#F5EFE4] text-[#5C5248] border border-[#E5DAC6] px-3.5 py-2.5 rounded-xl transition duration-200 text-xs font-semibold cursor-pointer sm:col-span-2 lg:col-span-1 min-h-[44px] shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B88736]/30"
                 id="btn-open-promo-video"
               >
                 <div className="w-7 h-7 rounded-lg bg-amber-500/20 flex items-center justify-center shrink-0 text-amber-400">
                   <Play size={14} fill="currentColor" />
                 </div>
-                <span className="truncate">Vídeo Apresentação do App 🎬</span>
+                <span className="truncate">Vídeo de Apresentação</span>
               </button>
             )}
           </div>
