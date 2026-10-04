@@ -22,6 +22,7 @@ export default function PersonalJourney21({ onClose }: Props) {
   const musicRef = useRef<HTMLAudioElement | null>(null);
   const voiceRef = useRef<HTMLAudioElement | null>(null);
   const voiceUrlRef = useRef<string | null>(null);
+  const nativeUtteranceRef = useRef<SpeechSynthesisUtterance | null>(null);
   const cueRequestRef = useRef<AbortController | null>(null);
   const lastCueRef = useRef(-1);
   const cuePendingRef = useRef(false);
@@ -47,7 +48,40 @@ export default function PersonalJourney21({ onClose }: Props) {
     cueRequestRef.current?.abort(); cueRequestRef.current = null;
     if (voiceRef.current) { voiceRef.current.pause(); voiceRef.current.src = ''; voiceRef.current = null; }
     if (voiceUrlRef.current) { URL.revokeObjectURL(voiceUrlRef.current); voiceUrlRef.current = null; }
+    if (typeof window !== 'undefined' && 'speechSynthesis' in window) {
+      window.speechSynthesis.cancel();
+    }
+    nativeUtteranceRef.current = null;
     cuePendingRef.current = false;
+  };
+
+  const speakCueNatively = (text: string, dueCue: number) => {
+    if (typeof window === 'undefined' || !('speechSynthesis' in window) || !playingRef.current) return false;
+
+    const utterance = new SpeechSynthesisUtterance(text);
+    utterance.lang = 'pt-BR';
+    utterance.rate = 0.88;
+    utterance.pitch = 1.03;
+    const voices = window.speechSynthesis.getVoices();
+    const portugueseVoices = voices.filter(voice => voice.lang?.toLowerCase().startsWith('pt'));
+    utterance.voice = portugueseVoices.find(voice => /female|maria|francisca|luciana|leticia|victoria|zira/i.test(voice.name))
+      || portugueseVoices[0]
+      || null;
+    utterance.onend = () => {
+      nativeUtteranceRef.current = null;
+      cuePendingRef.current = false;
+      void playCueForTime(musicRef.current?.currentTime || 0);
+    };
+    utterance.onerror = () => {
+      nativeUtteranceRef.current = null;
+      cuePendingRef.current = false;
+    };
+
+    nativeUtteranceRef.current = utterance;
+    lastCueRef.current = dueCue;
+    window.speechSynthesis.cancel();
+    window.speechSynthesis.speak(utterance);
+    return true;
   };
 
   const stopSession = () => {
@@ -89,7 +123,10 @@ export default function PersonalJourney21({ onClose }: Props) {
       voice.onerror = () => { cuePendingRef.current = false; };
       await voice.play(); lastCueRef.current = dueCue;
     } catch (error: any) {
-      if (error?.name !== 'AbortError') console.warn('Reintegração: condução neural indisponível', error);
+      if (error?.name !== 'AbortError') {
+        console.warn('Reintegração: condução neural indisponível; usando voz do dispositivo.', error);
+        speakCueNatively(cue.text, dueCue);
+      }
     } finally {
       if (cueRequestRef.current === controller) cueRequestRef.current = null;
       if (!voiceRef.current || voiceRef.current.paused) cuePendingRef.current = false;
@@ -137,10 +174,16 @@ export default function PersonalJourney21({ onClose }: Props) {
     // Defensive guard against global audio being reactivated by the same click/touch gesture.
     audioEngine.stopSpeech();
     audioEngine.stopBG();
-    if (playing) { voiceRef.current?.pause(); musicRef.current?.pause(); playingRef.current = false; setPlaying(false); return; }
+    if (playing) {
+      voiceRef.current?.pause();
+      if (typeof window !== 'undefined' && 'speechSynthesis' in window) window.speechSynthesis.pause();
+      musicRef.current?.pause(); playingRef.current = false; setPlaying(false); return;
+    }
     if (started && audioProgress > 0 && audioProgress < 99) {
       playingRef.current = true; setPlaying(true);
-      await musicRef.current?.play().catch(() => undefined); if (voiceRef.current?.paused) await voiceRef.current.play().catch(() => undefined);
+      await musicRef.current?.play().catch(() => undefined);
+      if (voiceRef.current?.paused) await voiceRef.current.play().catch(() => undefined);
+      if (typeof window !== 'undefined' && 'speechSynthesis' in window && window.speechSynthesis.paused) window.speechSynthesis.resume();
       await requestWakeLock(); void playCueForTime(musicRef.current?.currentTime || 0); return;
     }
     setStarted(true); clearVoice(); lastCueRef.current = -1;
