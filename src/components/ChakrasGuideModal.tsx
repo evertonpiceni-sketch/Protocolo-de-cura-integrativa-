@@ -47,7 +47,7 @@ export const CHAKRAS_DATA: ChakraInfo[] = [
     bgGradient: 'from-rose-950/40 via-[#FBF8F2] to-[#F3EBDD]',
     badgeBg: 'bg-rose-500/20 text-rose-300 border-rose-500/30',
     location: 'Base da coluna vertebral e períneo',
-    element: 'Terra 🌍',
+    element: 'Terra',
     bijaMantra: 'LAM',
     solfeggioFreq: '432Hz / 396Hz',
     icon: Shield,
@@ -68,7 +68,7 @@ export const CHAKRAS_DATA: ChakraInfo[] = [
     bgGradient: 'from-amber-950/40 via-[#FBF8F2] to-[#F3EBDD]',
     badgeBg: 'bg-amber-500/20 text-amber-300 border-amber-500/30',
     location: 'Baixo ventre (quatro dedos abaixo do umbigo)',
-    element: 'Água 💧',
+    element: 'Água',
     bijaMantra: 'VAM',
     solfeggioFreq: '417Hz (Transmutação)',
     icon: Flame,
@@ -89,7 +89,7 @@ export const CHAKRAS_DATA: ChakraInfo[] = [
     bgGradient: 'from-yellow-950/30 via-[#FBF8F2] to-[#F3EBDD]',
     badgeBg: 'bg-yellow-500/20 text-yellow-300 border-yellow-500/30',
     location: 'Região do estômago / boca do estômago',
-    element: 'Fogo 🔥',
+    element: 'Fogo',
     bijaMantra: 'RAM',
     solfeggioFreq: '528Hz (Transformação & DNA)',
     icon: Sun,
@@ -110,7 +110,7 @@ export const CHAKRAS_DATA: ChakraInfo[] = [
     bgGradient: 'from-emerald-950/40 via-[#FBF8F2] to-[#F3EBDD]',
     badgeBg: 'bg-emerald-500/20 text-emerald-300 border-emerald-500/30',
     location: 'Centro do peito / coração espiritual',
-    element: 'Ar 🍃',
+    element: 'Ar',
     bijaMantra: 'YAM',
     solfeggioFreq: '639Hz (Amor & Conexão)',
     icon: Heart,
@@ -131,7 +131,7 @@ export const CHAKRAS_DATA: ChakraInfo[] = [
     bgGradient: 'from-cyan-950/40 via-[#FBF8F2] to-[#F3EBDD]',
     badgeBg: 'bg-cyan-500/20 text-cyan-300 border-cyan-500/30',
     location: 'Garganta e cordas vocais',
-    element: 'Éter / Espaço 🌌',
+    element: 'Éter / Espaço',
     bijaMantra: 'HAM',
     solfeggioFreq: '741Hz (Expressão & Limpeza Celular)',
     icon: Activity,
@@ -152,7 +152,7 @@ export const CHAKRAS_DATA: ChakraInfo[] = [
     bgGradient: 'from-indigo-950/40 via-[#FBF8F2] to-[#F3EBDD]',
     badgeBg: 'bg-[#B88736]/20 text-[#B88736] border-[#B88736]/30',
     location: 'Entre as sobrancelhas (glândula pineal e hipófise)',
-    element: 'Luz Pura 👁️',
+    element: 'Luz Pura',
     bijaMantra: 'OM',
     solfeggioFreq: '852Hz (Despertar da Intuição)',
     icon: Eye,
@@ -173,7 +173,7 @@ export const CHAKRAS_DATA: ChakraInfo[] = [
     bgGradient: 'from-purple-950/40 via-[#FBF8F2] to-[#F3EBDD]',
     badgeBg: 'bg-purple-500/20 text-[#B88736] border-purple-500/30',
     location: 'Topo da cabeça (coroa)',
-    element: 'Consciência Pura ✨',
+    element: 'Consciência Pura',
     bijaMantra: 'AUM / Silêncio',
     solfeggioFreq: '963Hz (Glândula Pineal & Conexão Divina)',
     icon: Crown,
@@ -306,7 +306,7 @@ export function ChakrasGuideModal({ isOpen, onClose }: ChakrasGuideModalProps) {
                   {currentChakra.symbolizes}
                 </p>
                 <div className="pt-2 text-[10px] text-[#5C5248] font-mono">
-                  📍 <strong>Localização:</strong> {currentChakra.location} • 🍃 <strong>Elemento:</strong> {currentChakra.element}
+                  <strong>Localização:</strong> {currentChakra.location} • <strong>Elemento:</strong> {currentChakra.element}
                 </div>
               </div>
 
