@@ -32,7 +32,7 @@ Referência congelada: painel aprovado `1001196520.jpg`, copiado para [reference
 
 `npm run lint`, `npm test` (5 testes) e `npm run build` aprovados. O build mantém avisos de tamanho de bundle e importação estática/dinâmica do mesmo modal.
 
-[verification.json](docs/visual-qa/natural-sereno/verification.json) registra quatorze verificações aprovadas, sem erros de console: cliques reais, busca e vazio, progresso, aceite/check-in/player/roteiro, isolamento dos temas, login, entrada persistida e ausência de overflow em 320, 390, 768 e 1440 px. Reprodução: `node scripts/verify-natural-sereno.mjs`, com Vite disponível em `http://127.0.0.1:4173` e Chromium instalado.
+[verification.json](docs/visual-qa/natural-sereno/verification.json) registra dezesseis verificações aprovadas, sem erros de console: cliques reais, busca e vazio, progresso, aceite/check-in/player/roteiro, isolamento dos temas, login, entrada persistida e ausência de overflow em 320, 390, 768 e 1440 px. Reprodução: `node scripts/verify-natural-sereno.mjs`, com Vite disponível em `http://127.0.0.1:4173` e Chromium instalado.
 
 Durante a validação foram corrigidos: índice de dia deslocado; tradução de etapa tratada como objeto em vez de texto; nomes de callbacks incompatíveis com o player; roteiro existente não exibido; círculo sem coordenada inicial; rodapé sobrepondo cliques da barra inferior. Nenhuma API, pagamento, regra de recomendação ou definição de jornada foi alterada.
 
@@ -71,3 +71,18 @@ As evidências acima foram recapturadas após os últimos assets, no app real. F
 Validação final desta produção: lint, cinco testes e build aprovados; quatorze verificações de navegador aprovadas, sem erros de console. O build conserva os avisos existentes de tamanho de bundle e importação mista. As verificações adicionais confirmam 21 imagens distintas carregadas e seis imagens da Biblioteca distintas, carregadas e visíveis acima da barra.
 
 `final result: blocked` continua sendo o estado de fidelidade integral, pelos ajustes de acabamento descritos acima. Esta produção é revisável na PR #24. Nenhuma modificação nova foi feita em pagamentos, APIs, Reintegração ou nos outros três estilos.
+
+
+## Continuação — quarta produção do Estilo 1
+
+A comparação seguinte ajusta o acabamento diretamente contra o painel: hierarquia serifada mais forte, botão dourado com borda dupla iluminada e relevo, cartão da Home de 195 px e CTA de 70 px, ícones de 66 px no Menu, textos secundários mais legíveis e navegação com símbolos maiores. Menu e Perfil foram compactados onde necessário para manter a última ação visível acima da barra. O título da Biblioteca foi ajustado para evitar que a nova tipografia deslocasse o sexto item sob a navegação.
+
+O player conserva todas as etapas e controles: o título foi elevado, o cabeçalho ficou translúcido e o espaço antes do rodapé foi reduzido. Boas-vindas recebe arte limpa reconstruída do recorte aprovado, com centro verde livre, folhagens no alto, luz dourada e pedras na base, preservando callbacks e conteúdo.
+
+A auditoria funcional inclui agora as últimas linhas do Menu e do Perfil e abertura/fechamento do contato. O estado de fidelidade integral permanece bloqueado: a fonte exata e os assets originais não estão disponíveis; há diferenças na escala da onda de boas-vindas, bordas/ornamentos e distribuição dos controles adicionais do player. A comparação registra essas diferenças sem alterar conteúdo nem excluir recursos existentes.
+
+
+A quarta produção passou em lint, nos cinco testes e no build. Dezesseis verificações Chromium passaram, sem erros de console. Além das verificações anteriores, as seis linhas do Menu e a ação Sair do Perfil cabem acima da barra em 390 × 844; o contato abre e fecha com o callback existente. A entrada no player agora também verifica `scrollTop === 0`: a apresentação rolável do check-in deixava sua posição na tela seguinte, corrigida com reposicionamento somente no Natural Sereno, sem alterar etapas, áudio ou APIs.
+
+
+A medição de estilo calculado detectou ainda o espaçamento legado de 16 px na área principal do player mobile, apesar do espaçamento de 90 px especificado pelo tema. A regra final passa a prevalecer explicitamente, restrita ao Natural Sereno, e a QA verifica os 90 px calculados. Os controles extras existentes permanecem disponíveis.

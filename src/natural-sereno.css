@@ -530,3 +530,56 @@
   padding: 10px 16px;
 }
 :root[data-layout="natural-sereno"]:has(.ns-app:not([data-ns-screen="home"]):not([data-ns-screen="welcome"])) #floating-whatsapp-btn span { max-width: none; }
+
+/* Approved-board finish: stronger serif hierarchy, rounded luminous gold,
+   and phone-scale spacing. Every rule remains inside Natural Sereno. */
+:root[data-layout="natural-sereno"] .ns-app :is(h1, h2, h3) { font-weight: 700; }
+:root[data-layout="natural-sereno"] .ns-greeting h1 { font-size: 36px; }
+:root[data-layout="natural-sereno"] .ns-home-message { min-height: 195px; margin-bottom: 28px; background: rgba(255, 249, 225, .96); box-shadow: inset 0 1px 3px #fffdf3, 0 4px 14px rgba(29, 52, 30, .15); }
+:root[data-layout="natural-sereno"] .ns-home-message p { font-size: 35px; font-weight: 700; }
+:root[data-layout="natural-sereno"] .ns-gold {
+  border: 2px solid #efd896;
+  border-radius: 999px;
+  background: linear-gradient(180deg, #ead394 0%, #c49b42 25%, #aa7d25 58%, #98701f 78%, #d7b55e 100%);
+  box-shadow: inset 0 2px 5px rgba(255, 247, 203, .85), inset 0 -2px 4px rgba(92, 61, 12, .4), 0 0 0 2px rgba(236, 207, 135, .17), 0 3px 12px rgba(86, 64, 16, .28);
+  text-shadow: 0 1px 1px rgba(84, 59, 11, .3);
+}
+:root[data-layout="natural-sereno"] .ns-home-scene > .ns-gold { min-height: 70px; font-size: 20px; }
+:root[data-layout="natural-sereno"] .ns-page-heading p { font-size: 15px; }
+:root[data-layout="natural-sereno"] .ns-row-copy small { font-size: 13px; color: #58604b; }
+:root[data-layout="natural-sereno"] .ns-row { background: linear-gradient(180deg, rgba(255, 252, 238, .98), rgba(250, 242, 217, .94)); box-shadow: inset 0 1px 2px #fffdf3, 0 2px 6px rgba(70, 62, 32, .07); }
+:root[data-layout="natural-sereno"] .ns-row-icon { box-shadow: inset 0 1px 4px rgba(255, 247, 198, .28), 0 1px 3px rgba(4, 40, 25, .16); }
+:root[data-layout="natural-sereno"] .ns-app[data-ns-screen="menu"] .ns-page-heading { min-height: 135px; }
+:root[data-layout="natural-sereno"] .ns-app[data-ns-screen="menu"] .ns-row { min-height: 94px; padding: 10px 12px; }
+:root[data-layout="natural-sereno"] .ns-app[data-ns-screen="menu"] .ns-row-icon { width: 66px; height: 66px; }
+:root[data-layout="natural-sereno"] .ns-app[data-ns-screen="menu"] .ns-row-icon svg { width: 30px; height: 30px; stroke-width: 1.6; }
+:root[data-layout="natural-sereno"] .ns-app[data-ns-screen="menu"] .ns-row-copy strong { font-size: 19px; }
+:root[data-layout="natural-sereno"] .ns-dock { background: #fffbed; }
+:root[data-layout="natural-sereno"] .ns-dock button { font-size: 12px; font-weight: 500; }
+:root[data-layout="natural-sereno"] .ns-dock svg { width: 29px; height: 29px; stroke-width: 1.9; }
+:root[data-layout="natural-sereno"] .ns-dock button[aria-current="page"] { font-weight: 700; }
+:root[data-layout="natural-sereno"] .ns-dock button[aria-current="page"] svg.lucide-house { fill: var(--ns-forest); color: var(--ns-forest); }
+:root[data-layout="natural-sereno"] .ns-app[data-ns-screen="profile"] .ns-page-heading { min-height: 76px; padding-top: 12px; }
+:root[data-layout="natural-sereno"] .ns-profile-identity { gap: 8px; padding-bottom: 14px; }
+:root[data-layout="natural-sereno"] .ns-profile .ns-row { min-height: 58px; margin-bottom: 5px; }
+:root[data-layout="natural-sereno"] .ns-profile .ns-row-icon { box-shadow: none; }
+:root[data-layout="natural-sereno"] .ns-profile .ns-row-copy small { font-size: 12px; }
+:root[data-layout="natural-sereno"] .ns-tools .ns-row-icon { box-shadow: none; background: #fff9e8; border-color: #d9c58f; color: #a4833e; }
+:root[data-layout="natural-sereno"] .ns-welcome-play { box-shadow: inset 0 0 0 5px rgba(232, 207, 137, .12), 0 0 0 6px rgba(230, 205, 130, .13), 0 0 22px rgba(226, 197, 105, .32); }
+:root[data-layout="natural-sereno"] .ns-app:is([data-ns-screen="library"], [data-ns-screen="tools"]) .ns-page-heading { padding-left: 18px; padding-right: 18px; }
+:root[data-layout="natural-sereno"] .ns-app:is([data-ns-screen="library"], [data-ns-screen="tools"]) .ns-page-heading h1 { font-size: 34px; }
+/* Let the waterfall stay visible behind the retained player controls. */
+:root[data-layout="natural-sereno"] #meditation-session > header { background: rgba(4, 38, 26, .12) !important; backdrop-filter: none; }
+:root[data-layout="natural-sereno"] #meditation-session > main { flex: none; min-height: 0; padding-top: 90px !important; }
+:root[data-layout="natural-sereno"] #meditation-session > footer { background: rgba(3, 35, 24, .65) !important; }
+:root[data-layout="natural-sereno"] #meditation-session[data-session-phase="playing"] { justify-content: flex-start; }
+/* The welcome board uses a larger audio ring with the waveform behind it. */
+:root[data-layout="natural-sereno"] .ns-welcome-brand { margin-bottom: 50px; }
+:root[data-layout="natural-sereno"] .ns-welcome-content > p:first-of-type { margin: 12px 0 15px; }
+:root[data-layout="natural-sereno"] .ns-welcome-audio { padding: 12px 0; }
+:root[data-layout="natural-sereno"] .ns-welcome-play { width: 160px; height: 160px; }
+:root[data-layout="natural-sereno"] .ns-welcome-play svg { width: 45px; height: 45px; }
+@media (max-height: 720px) {
+  :root[data-layout="natural-sereno"] .ns-welcome-brand { margin-bottom: 25px; }
+  :root[data-layout="natural-sereno"] .ns-welcome-play { width: 120px; height: 120px; }
+}
