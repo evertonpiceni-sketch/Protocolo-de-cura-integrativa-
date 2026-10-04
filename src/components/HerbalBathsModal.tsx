@@ -40,7 +40,7 @@ export const SACRED_HERBAL_BATHS: HerbalBath[] = [
     bestDayOrTime: 'Sexta-feira ou Domingo, preferencialmente antes de dormir',
     associatedChakra: 'Chakra Coronário (Topo da Cabeça)',
     affirmation: 'Minha mente está em profunda paz. Minha coroa se conecta à luz pura e divina.',
-    color: 'from-amber-500/20 via-[#FBF8F2] to-indigo-950/40 border-amber-400/40 text-amber-300',
+    color: 'from-amber-500/20 via-[#FBF8F2] to-indigo-950/40 border-amber-400/40 text-amber-800',
     badge: '⭐ ÚNICO PERMITIDO DA CABEÇA AOS PÉS'
   },
   {
@@ -297,17 +297,17 @@ _Protocolo da Transformação_`);
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-5 bg-[#2A2420]/30 backdrop-blur-md overflow-y-auto animate-fade-in" id="herbal-baths-modal">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-5 bg-[#2A2420]/30 backdrop-blur-md overflow-y-auto overscroll-contain animate-fade-in" id="herbal-baths-modal" role="dialog" aria-modal="true" aria-label="Guia de banhos de ervas">
       <motion.div
         initial={{ opacity: 0, scale: 0.95, y: 15 }}
         animate={{ opacity: 1, scale: 1, y: 0 }}
         exit={{ opacity: 0, scale: 0.95, y: 15 }}
-        className="bg-[#FBF8F2] border border-slate-750 rounded-3xl w-full max-w-4xl max-h-[92vh] flex flex-col overflow-hidden shadow-2xl relative my-auto"
+        className="bg-[#FBF8F2] border border-[#E5DAC6] rounded-2xl sm:rounded-3xl w-full max-w-4xl max-h-[calc(100dvh-1rem)] sm:max-h-[92dvh] flex flex-col overflow-hidden shadow-2xl relative my-auto"
       >
         {/* Header */}
-        <div className="p-5 sm:p-6 border-b border-[#E5DAC6] bg-gradient-to-r from-emerald-950/50 via-[#FBF8F2] to-indigo-950/40 flex items-center justify-between shrink-0">
+        <div className="p-5 sm:p-6 border-b border-[#E5DAC6] bg-gradient-to-r from-emerald-50 via-[#FBF8F2] to-[#F5EFE4] flex items-center justify-between shrink-0">
           <div className="flex items-center gap-3.5">
-            <div className="w-11 h-11 rounded-2xl bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 flex items-center justify-center shrink-0 shadow-md shadow-emerald-950/30">
+            <div className="w-11 h-11 rounded-2xl bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 flex items-center justify-center shrink-0 shadow-sm">
               <Leaf size={22} />
             </div>
             <div>
@@ -334,10 +334,10 @@ _Protocolo da Transformação_`);
         </div>
 
         {/* Scrollable Content */}
-        <div className="p-5 sm:p-6 overflow-y-auto space-y-6 flex-1 custom-scrollbar">
+        <div className="p-5 sm:p-6 overflow-y-auto overscroll-contain space-y-6 flex-1 custom-scrollbar">
 
           {/* CRITICAL SACRED WARNING BANNER */}
-          <div className="p-4 sm:p-5 rounded-2xl bg-gradient-to-r from-amber-950/80 via-[#FBF8F2] to-amber-950/60 border-2 border-amber-500/50 shadow-xl space-y-2.5 relative overflow-hidden" id="sacred-bath-golden-rule">
+          <div className="p-4 sm:p-5 rounded-2xl bg-gradient-to-r from-amber-50 via-[#FBF8F2] to-[#F5EFE4] border-2 border-amber-300 shadow-xl space-y-2.5 relative overflow-hidden" id="sacred-bath-golden-rule">
             <div className="flex items-start gap-3">
               <div className="p-2.5 rounded-xl bg-amber-500/20 text-amber-300 border border-amber-500/30 shrink-0">
                 <AlertTriangle size={22} />
