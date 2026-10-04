@@ -89,7 +89,8 @@ export function DailyReminderBanner({
           </button>
           <button
             onClick={handleDismissReminder}
-            className="p-2.5 text-[#85786C] hover:text-[#2A2420] hover:bg-[#F5EFE4] rounded-xl transition cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B88736]/30"
+            aria-label="Ocultar lembrete de hoje"
+            className="w-11 h-11 text-[#85786C] hover:text-[#2A2420] hover:bg-[#F5EFE4] rounded-xl transition cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B88736]/30 flex items-center justify-center"
             title="Lembrar mais tarde"
             id="reminder-dismiss-btn"
           >
