@@ -169,7 +169,8 @@ export default function CoursesModal({ isOpen, onClose, userName, userProfile, o
 
           <button
             onClick={onClose}
-            className="p-2 text-[#5C5248] hover:text-white bg-[#F5EFE4]/60 hover:bg-[#F5EFE4] rounded-xl transition cursor-pointer border-none"
+            aria-label="Fechar cursos e formações"
+            className="w-11 h-11 text-[#5C5248] hover:text-[#2A2420] bg-[#F5EFE4]/70 hover:bg-[#EFE4D3] rounded-xl transition cursor-pointer border border-[#E5DAC6] flex items-center justify-center focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B88736]/30"
             title="Fechar"
           >
             <X size={18} />
