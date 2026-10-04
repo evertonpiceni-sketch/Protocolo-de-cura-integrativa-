@@ -46,7 +46,6 @@ import { audioEngine } from './lib/audio';
 import { evaluateAchievements } from './lib/achievementsData';
 import { AppLanguage, SUPPORTED_LANGUAGES, UI_TRANSLATIONS } from './lib/i18n';
 import { AnimatePresence } from "motion/react";
-import SimpleProtocol from './components/SimpleProtocol';
 import { localNotificationManager } from './lib/notifications';
 
 const LOCAL_STORAGE_KEY_CURRENT_LOGIN = 'cura_integrada_logged_in_user_v1';
@@ -85,7 +84,6 @@ export default function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   
   // Navigation & Interactive states
-  const [showSimpleProtocol, setShowSimpleProtocol] = useState(false);
   const [activeSessionDay, setActiveSessionDay] = useState<number | null>(null);
   const [isJournalOpen, setIsJournalOpen] = useState<boolean>(false);
   const [selectedDayDetail, setSelectedDayDetail] = useState<number | null>(null);
