@@ -3,10 +3,20 @@ import { User, Sparkles, Shield, Heart, Lock, Mail, Calendar as CalendarIcon, Lo
 import { UserAccount } from '../types';
 import brandLogo from '../assets/images/app_icon_lotus_1787334709504.jpg';
 
-const today = new Date().toISOString().slice(0, 10);
+const getLocalToday = () => {
+  const now = new Date();
+  const year = now.getFullYear();
+  const month = String(now.getMonth() + 1).padStart(2, '0');
+  const day = String(now.getDate()).padStart(2, '0');
+  return `${year}-${month}-${day}`;
+};
 
 const formatBrazilianPhone = (value: string) => {
-  const digits = value.replace(/\D/g, '').replace(/^55/, '').slice(0, 11);
+  const rawDigits = value.replace(/\D/g, '');
+  const digits = (rawDigits.length > 11 && rawDigits.startsWith('55')
+    ? rawDigits.slice(2)
+    : rawDigits
+  ).slice(0, 11);
   if (digits.length <= 2) return digits;
   if (digits.length <= 6) return `(${digits.slice(0, 2)}) ${digits.slice(2)}`;
   if (digits.length <= 10) return `(${digits.slice(0, 2)}) ${digits.slice(2, 6)}-${digits.slice(6)}`;
@@ -172,7 +182,7 @@ export default function ProfileSetup({ onComplete }: ProfileSetupProps) {
 
     if (!fullName.trim()) return setError('Por favor, insira seu nome completo.');
     if (!birthDate) return setError('Por favor, informe sua data de nascimento.');
-    if (birthDate > today) return setError('A data de nascimento não pode estar no futuro.');
+    if (birthDate > getLocalToday()) return setError('A data de nascimento não pode estar no futuro.');
     const cleanEmail = email.trim().toLowerCase();
     if (!cleanEmail || !cleanEmail.includes('@')) return setError('Por favor, insira um e-mail válido.');
     const cleanLogin = regLogin.trim().toLowerCase();
@@ -212,15 +222,32 @@ export default function ProfileSetup({ onComplete }: ProfileSetupProps) {
         specificTreatments: []
       } as any;
       
-      // Persist extra fields immediately
-      const syncResponse = await fetch('/api/user/sync', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ profile: profileData, progress: data.user.progress })
-      });
-      if (!syncResponse.ok) throw new Error('PROFILE_SYNC_FAILED');
-      
-      setSuccessMsg('Conta criada com sucesso! Iniciando seu portal...');
+      // The account already exists at this point. A transient profile-sync
+      // failure must not force the user to register again with the same login.
+      let profileSynced = false;
+      for (let attempt = 1; attempt <= 3 && !profileSynced; attempt += 1) {
+        try {
+          const syncResponse = await fetch('/api/user/sync', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ profile: profileData, progress: data.user.progress })
+          });
+          profileSynced = syncResponse.ok;
+        } catch (syncError) {
+          console.warn(`Profile sync attempt ${attempt} failed after registration`, syncError);
+        }
+
+        if (!profileSynced && attempt < 3) {
+          await new Promise(resolve => window.setTimeout(resolve, 300 * attempt));
+        }
+      }
+
+      if (profileSynced) {
+        setSuccessMsg('Conta criada com sucesso! Iniciando seu portal...');
+      } else {
+        console.warn('Account created, but profile sync is temporarily unavailable.');
+        setSuccessMsg('Conta criada com sucesso. Alguns dados do perfil ainda serão sincronizados.');
+      }
       setTimeout(() => onComplete(newAccount), 1500);
     } catch (err) {
       console.error(err);
@@ -409,7 +436,7 @@ export default function ProfileSetup({ onComplete }: ProfileSetupProps) {
                     id="reg-birthdate"
                     type="date"
                     required
-                    max={today}
+                    max={getLocalToday()}
                     value={birthDate}
                     onChange={(e) => setBirthDate(e.target.value)}
                     className="w-full bg-slate-950 border border-slate-800/80 focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 text-slate-100 rounded-xl py-2.5 pl-10 pr-4 text-xs transition duration-150 outline-none [color-scheme:dark]"
