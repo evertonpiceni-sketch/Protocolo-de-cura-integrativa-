@@ -1878,7 +1878,8 @@ export default function App() {
               </div>
               <button
                 onClick={() => setSelectedDayDetail(null)}
-                className="p-1.5 bg-white border border-[#E5DAC6] text-[#85786C] hover:text-[#5C5248] rounded-lg transition"
+                aria-label="Fechar detalhes do dia"
+                className="w-11 h-11 bg-white border border-[#E5DAC6] text-[#85786C] hover:text-[#5C5248] rounded-xl transition flex items-center justify-center focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B88736]/35"
               >
                 <X size={16} />
               </button>
@@ -1946,11 +1947,11 @@ export default function App() {
                       </div>
                       <div className="space-y-1 text-xs border-t sm:border-t-0 sm:border-l border-[#E5DAC6] pt-2 sm:pt-0 sm:pl-2.5">
                         <span className="text-[10px] font-mono text-emerald-400 uppercase block">2. Como estou agora:</span>
-                        <p className="text-emerald-300 font-medium text-xs">
+                        <p className="text-emerald-700 font-medium text-xs">
                           {selectedProgress.afterFeeling?.stateTitle || getMoodLabel(selectedProgress.mood)} (Nota {selectedProgress.afterFeeling?.mood || selectedProgress.mood || 5}/5)
                         </p>
                         <p className="text-[11px] text-[#2A2420] leading-relaxed bg-emerald-50 p-2 rounded border border-emerald-200">
-                          {selectedProgress.afterFeeling?.notes || selectedProgress.journalText || "Sessão concluída e selada no DNA."}
+                          {selectedProgress.afterFeeling?.notes || selectedProgress.journalText || "Momento concluído sem anotações adicionais."}
                         </p>
                       </div>
                     </div>
@@ -1958,7 +1959,7 @@ export default function App() {
                     <div className="space-y-1.5">
                       <span className="text-[10px] font-mono text-[#85786C] uppercase block">Sua anotação diária:</span>
                       <p className="text-xs text-[#5C5248] leading-relaxed italic bg-white/80 p-3 rounded-lg border border-[#E5DAC6] whitespace-pre-wrap">
-                        {selectedProgress.journalText || "Sessão concluída e selada sem anotações adicionais."}
+                        {selectedProgress.journalText || "Momento concluído sem anotações adicionais."}
                       </p>
                     </div>
                   )}
