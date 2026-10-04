@@ -87,11 +87,12 @@ export default function ArcanjoProtocolView({ userProfile, onClose, onLogout, in
   const etapaAtual = ETAPAS.find(e => elapsed >= e.inicio && elapsed < e.fim) || ETAPAS[ETAPAS.length - 1];
 
   useEffect(() => {
-    const localDays: number[] = [];
-    for (let i = 1; i <= 7; i++) if (localStorage.getItem(`reiki_arcanjo_dia_${i}`) === 'true') localDays.push(i);
-    const done = [...new Set([...(initialCompletedDays || []), ...localDays])]
-      .filter(day => day >= 1 && day <= 7)
-      .sort((a,b) => a-b);
+    let done: number[] = [];
+    if (Array.isArray(initialCompletedDays)) {
+      done = [...new Set(initialCompletedDays)].filter(day => day >= 1 && day <= 7).sort((a,b) => a-b);
+    } else {
+      for (let i = 1; i <= 7; i++) if (localStorage.getItem(`reiki_arcanjo_dia_${i}`) === 'true') done.push(i);
+    }
     setCompletedDays(done);
     setDiaAtual([1,2,3,4,5,6,7].find(d => !done.includes(d)) || 1);
     return () => { if (timerRef.current) window.clearInterval(timerRef.current); audioEngine.stopSpeech(); };
@@ -101,11 +102,9 @@ export default function ArcanjoProtocolView({ userProfile, onClose, onLogout, in
   const stop = () => { narrationRunRef.current += 1; setIsPlaying(false); setIsPreparingAudio(false); if (timerRef.current) window.clearInterval(timerRef.current); timerRef.current = null; audioEngine.stopSpeech(); };
   const complete = () => {
     localStorage.setItem(`reiki_arcanjo_dia_${diaAtual}`, 'true');
-    setCompletedDays(previous => {
-      const next = [...new Set([...previous, diaAtual])].sort((a,b) => a-b);
-      onCompletedDaysChange?.(next);
-      return next;
-    });
+    const next = [...new Set([...completedDays, diaAtual])].sort((a,b) => a-b);
+    setCompletedDays(next);
+    onCompletedDaysChange?.(next);
     stop();
   };
   const start = () => {
