@@ -383,7 +383,7 @@ export default function ProfileSetup({ onComplete }: ProfileSetupProps) {
           <div className="bg-rose-50 border border-rose-200 text-rose-700 text-sm p-4 rounded-xl text-center" id="auth-error" role="alert">
             <p>{error}</p>
             {serviceUnavailable && (
-              <button type="button" onClick={() => window.location.reload()} className="mt-3 min-h-10 rounded-lg border border-rose-500/40 px-4 font-semibold text-white">
+              <button type="button" onClick={() => window.location.reload()} className="mt-3 min-h-11 rounded-lg border border-rose-300 bg-white px-4 font-semibold text-rose-700 hover:bg-rose-100 transition">
                 Tentar novamente
               </button>
             )}
@@ -414,7 +414,7 @@ export default function ProfileSetup({ onComplete }: ProfileSetupProps) {
                   value={fullName}
                   onChange={(e) => setFullName(e.target.value)}
                   placeholder="Seu nome completo para o decreto"
-                  className="w-full bg-white border border-[#E5DAC6]/80 focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 text-[#2A2420] rounded-xl py-2.5 pl-10 pr-4 text-xs transition duration-150 outline-none placeholder-slate-600"
+                  className="w-full bg-white border border-[#E5DAC6]/80 focus:border-[#B88736] focus:ring-1 focus:ring-[#B88736]/30 text-[#2A2420] rounded-xl py-2.5 pl-10 pr-4 text-xs transition duration-150 outline-none placeholder-slate-600"
                 />
               </div>
             </div>
@@ -436,7 +436,7 @@ export default function ProfileSetup({ onComplete }: ProfileSetupProps) {
                     max={getLocalDateString()}
                     value={birthDate}
                     onChange={(e) => setBirthDate(e.target.value)}
-                    className="w-full bg-white border border-[#E5DAC6]/80 focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 text-[#2A2420] rounded-xl py-2.5 pl-10 pr-4 text-xs transition duration-150 outline-none [color-scheme:dark]"
+                    className="w-full bg-white border border-[#E5DAC6]/80 focus:border-[#B88736] focus:ring-1 focus:ring-[#B88736]/30 text-[#2A2420] rounded-xl py-2.5 pl-10 pr-4 text-xs transition duration-150 outline-none [color-scheme:light]"
                   />
                 </div>
               </div>
@@ -457,7 +457,7 @@ export default function ProfileSetup({ onComplete }: ProfileSetupProps) {
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     placeholder="exemplo@email.com"
-                    className="w-full bg-white border border-[#E5DAC6]/80 focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 text-[#2A2420] rounded-xl py-2.5 pl-10 pr-4 text-xs transition duration-150 outline-none placeholder-slate-600"
+                    className="w-full bg-white border border-[#E5DAC6]/80 focus:border-[#B88736] focus:ring-1 focus:ring-[#B88736]/30 text-[#2A2420] rounded-xl py-2.5 pl-10 pr-4 text-xs transition duration-150 outline-none placeholder-slate-600"
                   />
                 </div>
               </div>
@@ -466,7 +466,7 @@ export default function ProfileSetup({ onComplete }: ProfileSetupProps) {
               <div className="space-y-1.5 md:col-span-2">
                 <label htmlFor="reg-phone" className="block text-[10px] font-mono text-[#5C5248] uppercase tracking-wider flex items-center justify-between">
                   <span>Telefone / WhatsApp (Opcional)</span>
-                  <span className="text-[9px] text-emerald-400 font-sans">Acolhimento & Mensagens</span>
+                  <span className="text-[10px] text-emerald-700 font-sans">Acolhimento & Mensagens</span>
                 </label>
                 <div className="relative">
                   <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-[#85786C]">
@@ -481,7 +481,7 @@ export default function ProfileSetup({ onComplete }: ProfileSetupProps) {
                     className="w-full bg-white border border-[#E5DAC6]/80 focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 text-[#2A2420] rounded-xl py-2.5 pl-10 pr-4 text-xs transition duration-150 outline-none placeholder-slate-600"
                   />
                 </div>
-                <span className="text-[9px] text-[#85786C] font-sans block">
+                <span className="text-[10px] text-[#85786C] font-sans block">
                   Para envio de mensagens de acolhimento e confirmação.
                 </span>
               </div>
@@ -492,14 +492,14 @@ export default function ProfileSetup({ onComplete }: ProfileSetupProps) {
                 <label htmlFor="reg-login" className="block text-xs font-mono text-[#5C5248] uppercase tracking-wider">Nome de usuário</label>
                 <div className="relative">
                   <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-[#B88736]/80"><User size={16} /></div>
-                  <input id="reg-login" type="text" required autoComplete="username" value={regLogin} onChange={(e) => setRegLogin(e.target.value)} placeholder="ex: joaosilva" className="w-full min-h-12 bg-white border border-[#E5DAC6] focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 text-[#2A2420] rounded-xl pl-10 pr-4 text-base transition outline-none placeholder-slate-600" />
+                  <input id="reg-login" type="text" required autoComplete="username" value={regLogin} onChange={(e) => setRegLogin(e.target.value)} placeholder="ex: joaosilva" className="w-full min-h-12 bg-white border border-[#E5DAC6] focus:border-[#B88736] focus:ring-1 focus:ring-[#B88736]/30 text-[#2A2420] rounded-xl pl-10 pr-4 text-base transition outline-none placeholder-slate-600" />
                 </div>
               </div>
               <div className="space-y-1.5">
                 <label htmlFor="reg-password" className="block text-xs font-mono text-[#5C5248] uppercase tracking-wider">Senha</label>
                 <div className="relative">
                   <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-[#85786C]"><Lock size={16} /></div>
-                  <input id="reg-password" type="password" required minLength={6} autoComplete="new-password" value={regPassword} onChange={(e) => setRegPassword(e.target.value)} placeholder="Mínimo 6 caracteres" className="w-full min-h-12 bg-white border border-[#E5DAC6] focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 text-[#2A2420] rounded-xl pl-10 pr-4 text-base transition outline-none placeholder-slate-600" />
+                  <input id="reg-password" type="password" required minLength={6} autoComplete="new-password" value={regPassword} onChange={(e) => setRegPassword(e.target.value)} placeholder="Mínimo 6 caracteres" className="w-full min-h-12 bg-white border border-[#E5DAC6] focus:border-[#B88736] focus:ring-1 focus:ring-[#B88736]/30 text-[#2A2420] rounded-xl pl-10 pr-4 text-base transition outline-none placeholder-slate-600" />
                 </div>
               </div>
             </div>
@@ -513,9 +513,9 @@ export default function ProfileSetup({ onComplete }: ProfileSetupProps) {
                 <span className="text-xs text-[#8F631E] group-open:hidden">Opcional</span>
                 <span className="hidden text-xs text-[#8F631E] group-open:inline">Fechar</span>
               </summary>
-              <div className="space-y-4 border-t border-purple-500/20 p-4">
+              <div className="space-y-4 border-t border-[#E5DAC6] p-4">
             {/* Astral Map Data Section */}
-            <div className="p-3.5 rounded-2xl bg-purple-950/20 border border-purple-500/25 space-y-3">
+            <div className="p-3.5 rounded-2xl bg-white/75 border border-[#E5DAC6] space-y-3">
               <div className="flex items-center justify-between">
                 <span className="text-[11px] font-mono uppercase tracking-wider text-[#8F631E] font-bold flex items-center gap-1.5">
                   <Sparkles size={13} className="text-amber-400" />
@@ -540,7 +540,7 @@ export default function ProfileSetup({ onComplete }: ProfileSetupProps) {
                       type="time"
                       value={birthTime}
                       onChange={(e) => setBirthTime(e.target.value)}
-                      className="w-full bg-white border border-[#E5DAC6]/80 focus:border-purple-500 focus:ring-1 focus:ring-purple-500 text-[#2A2420] rounded-xl py-2 pl-9 pr-3 text-xs transition duration-150 outline-none [color-scheme:dark]"
+                      className="w-full bg-white border border-[#E5DAC6]/80 focus:border-[#B88736] focus:ring-1 focus:ring-[#B88736]/30 text-[#2A2420] rounded-xl py-2 pl-9 pr-3 text-xs transition duration-150 outline-none [color-scheme:light]"
                     />
                   </div>
                 </div>
@@ -559,7 +559,7 @@ export default function ProfileSetup({ onComplete }: ProfileSetupProps) {
                       value={birthCity}
                       onChange={(e) => setBirthCity(e.target.value)}
                       placeholder="ex: Porto Alegre - RS"
-                      className="w-full bg-white border border-[#E5DAC6]/80 focus:border-purple-500 focus:ring-1 focus:ring-purple-500 text-[#2A2420] rounded-xl py-2 pl-9 pr-3 text-xs transition duration-150 outline-none placeholder-slate-600"
+                      className="w-full bg-white border border-[#E5DAC6]/80 focus:border-[#B88736] focus:ring-1 focus:ring-[#B88736]/30 text-[#2A2420] rounded-xl py-2 pl-9 pr-3 text-xs transition duration-150 outline-none placeholder-slate-600"
                     />
                   </div>
                 </div>
@@ -610,7 +610,7 @@ export default function ProfileSetup({ onComplete }: ProfileSetupProps) {
                         <span className="text-xs font-bold text-[#2A2420]">Voz de Éverton Piceni</span>
                       </div>
                       {voiceChoice === 'masculina' && (
-                        <span className="w-2 h-2 rounded-full bg-indigo-400 animate-ping" />
+                        <span className="w-2 h-2 rounded-full bg-[#B88736] animate-ping" />
                       )}
                     </div>
                     <p className="text-[10px] text-[#5C5248] leading-snug">
@@ -683,7 +683,7 @@ export default function ProfileSetup({ onComplete }: ProfileSetupProps) {
                         e.stopPropagation();
                         playVoicePreview('feminina');
                       }}
-                      className="px-2 py-1 rounded-lg bg-rose-600/30 hover:bg-rose-600/50 text-rose-200 border border-rose-500/40 text-[10px] flex items-center gap-1 transition cursor-pointer"
+                      className="px-2 py-1 rounded-lg bg-rose-50 hover:bg-rose-100 text-rose-700 border border-rose-300 text-[10px] flex items-center gap-1 transition cursor-pointer"
                     >
                       {loadingVoiceType === 'feminina' ? (
                         <>
@@ -726,7 +726,7 @@ export default function ProfileSetup({ onComplete }: ProfileSetupProps) {
                     onClick={() => setMusicType(opt.id as any)}
                     className={`p-2 rounded-xl border text-left transition duration-150 cursor-pointer ${
                       musicType === opt.id
-                        ? 'bg-[#B88736]/10 border-indigo-500 text-[#2A2420] shadow-sm'
+                        ? 'bg-[#B88736]/10 border-[#B88736] text-[#2A2420] shadow-sm'
                         : 'bg-white border-[#E5DAC6] text-[#5C5248] hover:border-[#E5DAC6]'
                     }`}
                   >
@@ -813,7 +813,7 @@ export default function ProfileSetup({ onComplete }: ProfileSetupProps) {
                   value={logLogin}
                   onChange={(e) => setLogLogin(e.target.value)}
                   placeholder="Insira seu login ou e-mail cadastrado"
-                  className="w-full bg-white border border-[#E5DAC6]/80 focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 text-[#2A2420] rounded-xl py-3 pl-10 pr-4 text-xs transition duration-150 outline-none placeholder-slate-600"
+                  className="w-full bg-white border border-[#E5DAC6]/80 focus:border-[#B88736] focus:ring-1 focus:ring-[#B88736]/30 text-[#2A2420] rounded-xl py-3 pl-10 pr-4 text-xs transition duration-150 outline-none placeholder-slate-600"
                 />
               </div>
             </div>
@@ -848,7 +848,7 @@ export default function ProfileSetup({ onComplete }: ProfileSetupProps) {
                   value={logPassword}
                   onChange={(e) => setLogPassword(e.target.value)}
                   placeholder="Insira sua senha"
-                  className="w-full bg-white border border-[#E5DAC6]/80 focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 text-[#2A2420] rounded-xl py-3 pl-10 pr-4 text-xs transition duration-150 outline-none placeholder-slate-600"
+                  className="w-full bg-white border border-[#E5DAC6]/80 focus:border-[#B88736] focus:ring-1 focus:ring-[#B88736]/30 text-[#2A2420] rounded-xl py-3 pl-10 pr-4 text-xs transition duration-150 outline-none placeholder-slate-600"
                 />
               </div>
             </div>
