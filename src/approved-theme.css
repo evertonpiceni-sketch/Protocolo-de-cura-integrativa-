@@ -523,3 +523,45 @@ body::before{
   outline:none!important;
   box-shadow:0 0 0 3px color-mix(in srgb,var(--gold-primary) 28%,transparent)!important;
 }
+
+/* ---------- Ponte semântica para hardcodes legados ----------
+   Mantém a estrutura dos componentes e faz as cores comuns obedecerem ao layout ativo. */
+:root[data-layout] [class*="bg-[#F8F4EC]"]{background-color:var(--bg-canvas)!important}
+:root[data-layout] [class*="bg-[#FBF8F2]"]{background-color:var(--bg-card-subtle)!important}
+:root[data-layout] [class*="bg-[#F5EFE4]"]{background-color:var(--bg-input)!important}
+:root[data-layout] [class~="bg-white"],
+:root[data-layout] [class~="bg-white/70"],
+:root[data-layout] [class~="bg-white/75"],
+:root[data-layout] [class~="bg-white/80"],
+:root[data-layout] [class~="bg-white/85"],
+:root[data-layout] [class~="bg-white/90"],
+:root[data-layout] [class~="bg-white/95"]{background-color:var(--bg-card)!important}
+
+:root[data-layout] [class*="text-[#2A2420]"]{color:var(--text-primary)!important}
+:root[data-layout] [class*="text-[#5C5248]"]{color:var(--text-secondary)!important}
+:root[data-layout] [class*="text-[#85786C]"]{color:var(--text-muted)!important}
+:root[data-layout] [class*="border-[#E5DAC6]"]{border-color:var(--border-subtle)!important}
+:root[data-layout] [class*="border-[#EADFCF]"]{border-color:var(--border-card)!important}
+:root[data-layout] [class*="text-[#B88736]"]{color:var(--gold-primary)!important}
+:root[data-layout] [class*="text-[#8F631E]"]{color:var(--gold-dark)!important}
+:root[data-layout] [class*="bg-[#B88736]"]{background-color:var(--gold-primary)!important}
+:root[data-layout] [class*="border-[#B88736]"]{border-color:var(--gold-primary)!important}
+
+/* Cadastro/login permanece sempre Natural Sereno, independentemente da preferência salva. */
+#profile-setup-view{
+  --bg-canvas:#F5EFE6;
+  --bg-canvas-alt:#EBE3D7;
+  --bg-card:rgba(255,255,255,.92);
+  --bg-card-subtle:#FAF6F0;
+  --bg-input:#EFE8DD;
+  --sage-accent:#2D4A3E;
+  --sage-light:#4A6E5F;
+  --gold-primary:#B38634;
+  --gold-light:#C5A059;
+  --gold-dark:#8F631E;
+  --text-primary:#202D24;
+  --text-secondary:#5C6A60;
+  --text-muted:#7A887E;
+  --border-subtle:#D8CEBE;
+  --border-card:#E2D7C7;
+}
