@@ -76,7 +76,33 @@ export function createApp() {
   app.get("/api/health", (_req, res) => res.json({ status: "ok" }));
   app.get("/api/admin/status", authenticate, authenticateAdmin, (_req, res) => res.json({ geminiConfigured: !!process.env.GEMINI_API_KEY && process.env.GEMINI_API_KEY.length > 5, elevenlabsConfigured: !!process.env.ELEVENLABS_API_KEY && process.env.ELEVENLABS_API_KEY.length > 5 }));
   app.get("/api/admin/users", authenticate, authenticateAdmin, (_req, res) => { const db = getDb(); res.json({ users: db.users.map(u => ({ login: u.login, email: u.email, fullName: u.fullName, role: u.role, plan: u.plan, profile: u.profile, progress: u.progress })) }); });
-  app.post("/api/admin/users/:login/plan", authenticate, authenticateAdmin, async (req: any, res: any) => { const db = getDb(); const { login } = req.params; const { plan, subscriptionPlan } = req.body; const user = db.users.find(u => u.login === login); if (!user) return res.status(404).json({ error: "Usuário não encontrado" }); user.plan = plan; user.profile.plan = plan; if (subscriptionPlan) user.profile.subscriptionPlan = subscriptionPlan; try { await saveDb(); return res.json({ success: true }); } catch (err) { console.error("Error saving admin plan change:", err); return res.status(503).json({ error: "Não foi possível salvar a alteração.", code: "PERSISTENCE_UNAVAILABLE" }); } });
+  app.post("/api/admin/users/:login/plan", authenticate, authenticateAdmin, async (req: any, res: any) => {
+    const db = getDb();
+    const { login } = req.params;
+    const { plan, subscriptionPlan } = req.body || {};
+    const allowedPlans = new Set(["free", "pro"]);
+    const allowedSubscriptions = new Set(["teste_vip_7d", "jornada_7d", "arcanjo_7d", "semanal", "mensal", "trimestral", "semestral", "anual"]);
+    if (!allowedPlans.has(plan)) return res.status(400).json({ error: "Plano inválido." });
+    if (subscriptionPlan != null && !allowedSubscriptions.has(subscriptionPlan)) return res.status(400).json({ error: "Assinatura inválida." });
+    const user = db.users.find(u => u.login === login);
+    if (!user) return res.status(404).json({ error: "Usuário não encontrado" });
+    user.plan = plan;
+    user.profile = { ...(user.profile || {}), plan };
+    if (plan === "free") {
+      user.profile.subscriptionPlan = undefined;
+      user.profile.subscriptionExpiresAt = undefined;
+      user.profile.proActiveSince = undefined;
+    } else if (subscriptionPlan) {
+      user.profile.subscriptionPlan = subscriptionPlan;
+    }
+    try {
+      await saveDb();
+      return res.json({ success: true });
+    } catch (err) {
+      console.error("Error saving admin plan change:", err);
+      return res.status(503).json({ error: "Não foi possível salvar a alteração.", code: "PERSISTENCE_UNAVAILABLE" });
+    }
+  });
 
   const registerSchema = z.object({ login: z.string().min(3).max(50), password: z.string().min(6).max(100), fullName: z.string().max(100).optional(), email: z.string().email().max(100).optional().or(z.literal('')) });
   const loginSchema = z.object({ login: z.string().min(3).max(50), password: z.string().min(6).max(100) });
