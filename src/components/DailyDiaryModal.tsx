@@ -105,7 +105,7 @@ export default function DailyDiaryModal({
 
       content += `======================================================================\n`;
       content += `DIA ${p.dayNumber.toString().padStart(2, '0')} - ${insight?.title || 'Sessão de Cura'}\n`;
-      content += `Data: ${dateStr} • Status: ${p.completed ? 'CONCLUÍDO ✨' : 'PENDENTE'}\n`;
+      content += `Data: ${dateStr} • Status: ${p.completed ? 'CONCLUÍDO' : 'PENDENTE'}\n`;
       content += `Foco do Dia: ${insight?.focus || 'Alinhamento interior'}\n`;
 
       if (p.beforeFeeling) {
@@ -135,7 +135,7 @@ export default function DailyDiaryModal({
     });
 
     content += `======================================================================\n`;
-    content += `Gerado pelo aplicativo Protocolo de Cura Integrada de 21 Dias.\n`;
+    content += `Gerado pelo Protocolo da Transformação.\n`;
     content += `Canalizado e acompanhado por Éverton Rodrigo Piceni.\n`;
     content += `======================================================================\n`;
 
@@ -143,7 +143,7 @@ export default function DailyDiaryModal({
     const url = URL.createObjectURL(blob);
     const link = document.createElement('a');
     link.href = url;
-    link.download = `diario-cliente-21dias-${userProfile?.name?.replace(/\s+/g, '-').toLowerCase() || 'cura'}.txt`;
+    link.download = `diario-reconexao-21dias-${userProfile?.name?.replace(/\s+/g, '-').toLowerCase() || 'cura'}.txt`;
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
@@ -165,7 +165,8 @@ export default function DailyDiaryModal({
         {/* Close button */}
         <button
           onClick={onClose}
-          className="absolute top-5 right-5 w-8 h-8 rounded-full bg-[#F5EFE4]/80 border border-[#E5DAC6] text-[#5C5248] hover:text-[#2A2420] flex items-center justify-center transition cursor-pointer z-10"
+          aria-label="Fechar Diário de Reconexão"
+          className="absolute top-4 right-4 w-11 h-11 rounded-full bg-[#F5EFE4]/90 border border-[#E5DAC6] text-[#5C5248] hover:text-[#2A2420] flex items-center justify-center transition cursor-pointer z-10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B88736]/35"
         >
           <X size={16} />
         </button>
@@ -179,14 +180,14 @@ export default function DailyDiaryModal({
                 <span>REGISTRO DIÁRIO DO CLIENTE</span>
               </div>
               <h2 className="text-2xl sm:text-3xl font-display font-medium text-[#2A2420]">
-                Diário Quântico Dia a Dia
+                Diário de Reconexão
               </h2>
             </div>
 
             <button
               type="button"
               onClick={exportFullDiary}
-              className="px-3.5 py-2 bg-[#B88736] hover:bg-[#B88736] text-white rounded-xl text-xs font-semibold flex items-center gap-1.5 transition cursor-pointer shadow-md shadow-indigo-600/20 active:scale-95"
+              className="px-3.5 py-2.5 min-h-[44px] bg-[#B88736] hover:bg-[#8F631E] text-white rounded-xl text-xs font-semibold flex items-center gap-1.5 transition cursor-pointer shadow-sm active:scale-[0.99] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B88736]/35"
               id="btn-export-full-diary"
             >
               <Download size={14} />
@@ -195,11 +196,11 @@ export default function DailyDiaryModal({
           </div>
 
           {/* O que se espera com este tratamento banner */}
-          <div className="p-4 rounded-2xl bg-gradient-to-r from-purple-950/40 via-slate-950 to-indigo-950/40 border border-purple-500/30 space-y-2">
+          <div className="p-4 rounded-2xl bg-white/85 border border-[#E5DAC6] space-y-2">
             <div className="flex items-center justify-between">
               <span className="text-xs font-mono uppercase tracking-wider text-[#B88736] font-bold flex items-center gap-1.5">
                 <Target size={14} className="text-amber-400" />
-                <span>O que se espera com este tratamento (Sua Intenção & Metas):</span>
+                <span>O que desejo cultivar nesta jornada:</span>
               </span>
 
               <button
@@ -213,7 +214,7 @@ export default function DailyDiaryModal({
                 }}
                 className="text-xs font-mono text-[#B88736] hover:text-[#5C5248] flex items-center gap-1 cursor-pointer transition underline"
               >
-                {isExpectationEditing ? '💾 Salvar Intenção' : '✏️ Editar Metas'}
+                {isExpectationEditing ? 'Salvar intenção' : 'Editar intenção'}
               </button>
             </div>
 
@@ -223,20 +224,20 @@ export default function DailyDiaryModal({
                   rows={2}
                   value={expectationsText}
                   onChange={(e) => setExpectationsText(e.target.value)}
-                  placeholder="Ex: Alívio da ansiedade crônica, cura de dores na coluna, paz mental no sono, honrar meus pais e reconexão com meu propósito de vida..."
-                  className="w-full bg-[#FBF8F2] border border-purple-500/50 text-[#2A2420] rounded-xl p-2.5 text-xs outline-none focus:ring-1 focus:ring-purple-400"
+                  placeholder="Ex: Quero cultivar mais presença, descanso, clareza, gentileza comigo e espaço para perceber o que preciso neste momento..."
+                  className="w-full bg-white border border-[#E5DAC6] text-[#2A2420] rounded-xl p-3 text-xs outline-none focus:border-[#B88736] focus:ring-2 focus:ring-[#B88736]/15"
                 />
                 <button
                   type="button"
                   onClick={handleSaveExpectations}
-                  className="px-3 py-1 bg-purple-600 hover:bg-purple-500 text-white rounded-lg text-xs font-semibold cursor-pointer"
+                  className="px-3 py-2.5 min-h-[44px] bg-[#B88736] hover:bg-[#8F631E] text-white rounded-xl text-xs font-semibold cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B88736]/35"
                 >
                   Salvar
                 </button>
               </div>
             ) : (
               <p className="text-xs text-[#5C5248] italic leading-relaxed">
-                "{userProfile?.treatmentExpectations || expectationsText || 'Busco alívio de sintomas físicos e emocionais, pacificação da mente e conexão profunda com minha verdadeira essência divina.'}"
+                "{userProfile?.treatmentExpectations || expectationsText || 'Quero cultivar presença, equilíbrio, paz interior e uma relação mais atenta comigo.'}"
               </p>
             )}
           </div>
@@ -246,7 +247,7 @@ export default function DailyDiaryModal({
             <button
               onClick={() => setActiveDay(prev => Math.max(prev - 1, 1))}
               disabled={activeDay === 1}
-              className="p-2 rounded-xl bg-white border border-[#E5DAC6] text-[#5C5248] hover:text-[#2A2420] disabled:opacity-30 disabled:cursor-not-allowed transition cursor-pointer shrink-0"
+              className="w-11 h-11 rounded-xl bg-white border border-[#E5DAC6] text-[#5C5248] hover:text-[#2A2420] disabled:opacity-30 disabled:cursor-not-allowed transition cursor-pointer shrink-0 flex items-center justify-center focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B88736]/30"
             >
               <ChevronLeft size={16} />
             </button>
@@ -265,13 +266,14 @@ export default function DailyDiaryModal({
                       setActiveDay(dNum);
                       setIsEditing(false);
                     }}
-                    className={`w-8 h-8 rounded-xl text-xs font-mono font-bold transition flex items-center justify-center relative shrink-0 cursor-pointer ${
+                    aria-label={`Abrir dia ${dNum}${isDone ? ', concluído' : hasNotes ? ', com anotação' : ''}`}
+                    className={`w-10 h-10 rounded-xl text-xs font-mono font-bold transition flex items-center justify-center relative shrink-0 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B88736]/35 ${
                       isSelected
-                        ? 'bg-[#B88736] text-white ring-2 ring-indigo-400 shadow-md shadow-indigo-600/30'
+                        ? 'bg-[#B88736] text-white ring-2 ring-[#B88736]/20 shadow-sm'
                         : isDone
-                        ? 'bg-emerald-950/60 border border-emerald-500/40 text-emerald-300'
+                        ? 'bg-emerald-50 border border-emerald-200 text-emerald-700'
                         : hasNotes
-                        ? 'bg-amber-950/50 border border-amber-500/40 text-amber-300'
+                        ? 'bg-amber-50 border border-amber-200 text-amber-700'
                         : 'bg-white border border-[#E5DAC6] text-[#5C5248] hover:border-[#E5DAC6] hover:text-[#2A2420]'
                     }`}
                   >
@@ -287,7 +289,7 @@ export default function DailyDiaryModal({
             <button
               onClick={() => setActiveDay(prev => Math.min(prev + 1, 21))}
               disabled={activeDay === 21}
-              className="p-2 rounded-xl bg-white border border-[#E5DAC6] text-[#5C5248] hover:text-[#2A2420] disabled:opacity-30 disabled:cursor-not-allowed transition cursor-pointer shrink-0"
+              className="w-11 h-11 rounded-xl bg-white border border-[#E5DAC6] text-[#5C5248] hover:text-[#2A2420] disabled:opacity-30 disabled:cursor-not-allowed transition cursor-pointer shrink-0 flex items-center justify-center focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B88736]/30"
             >
               <ChevronRight size={16} />
             </button>
@@ -297,7 +299,7 @@ export default function DailyDiaryModal({
         {/* Day details content (Scrollable) */}
         <div className="flex-1 overflow-y-auto pr-1 py-4 space-y-4">
           {/* Day Status Banner */}
-          <div className="p-4 rounded-2xl bg-gradient-to-br from-slate-900 to-[#F3EBDD] border border-[#E5DAC6] space-y-3">
+          <div className="p-4 rounded-2xl bg-white/85 border border-[#E5DAC6] space-y-3">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
                 <span className="px-2.5 py-0.5 rounded-full bg-[#B88736]/20 text-[#B88736] text-xs font-mono font-bold border border-[#B88736]/30">
@@ -309,7 +311,7 @@ export default function DailyDiaryModal({
               </div>
 
               {currentDayProgress?.completed ? (
-                <span className="px-2.5 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 text-xs font-mono font-semibold border border-emerald-500/30 flex items-center gap-1">
+                <span className="px-2.5 py-0.5 rounded-full bg-emerald-50 text-emerald-700 text-xs font-mono font-semibold border border-emerald-200 flex items-center gap-1">
                   <CheckCircle2 size={12} /> Concluído
                 </span>
               ) : (
@@ -326,7 +328,7 @@ export default function DailyDiaryModal({
             {/* Foco de Cura */}
             <div className="p-3 rounded-xl bg-white/80 border border-[#E5DAC6] flex items-start gap-2 text-xs text-[#5C5248]">
               <Sparkles size={14} className="text-amber-400 shrink-0 mt-0.5" />
-              <span><strong>Foco Sagrado:</strong> {currentInsight.focus}</span>
+              <span><strong>Intenção do dia:</strong> {currentInsight.focus}</span>
             </div>
           </div>
 
@@ -335,12 +337,12 @@ export default function DailyDiaryModal({
             {/* Antes da Meditação */}
             <div className="p-3.5 rounded-2xl bg-white/80 border border-[#E5DAC6] space-y-2">
               <span className="text-[10px] font-mono uppercase tracking-wider text-[#5C5248] font-bold block">
-                [1] ESTADO ANTES DO TRATAMENTO:
+                [1] COMO EU ESTAVA ANTES:
               </span>
               {currentDayProgress?.beforeFeeling ? (
                 <div className="space-y-1.5 text-xs text-[#5C5248]">
                   <div className="flex items-center justify-between">
-                    <span className="font-semibold text-amber-300">
+                    <span className="font-semibold text-amber-700">
                       {currentDayProgress.beforeFeeling.stateTitle || getMoodLabel(currentDayProgress.beforeFeeling.mood)}
                     </span>
                     <span className="font-mono text-[#85786C]">{currentDayProgress.beforeFeeling.mood}/5</span>
@@ -365,16 +367,16 @@ export default function DailyDiaryModal({
 
             {/* Depois da Meditação */}
             <div className="p-3.5 rounded-2xl bg-white/80 border border-[#E5DAC6] space-y-2">
-              <span className="text-[10px] font-mono uppercase tracking-wider text-emerald-400 font-bold block">
-                [2] ESTADO APÓS O TRATAMENTO:
+              <span className="text-[10px] font-mono uppercase tracking-wider text-emerald-700 font-bold block">
+                [2] COMO ESTOU DEPOIS:
               </span>
               {currentDayProgress?.afterFeeling || currentDayProgress?.mood ? (
                 <div className="space-y-1.5 text-xs text-[#5C5248]">
                   <div className="flex items-center justify-between">
-                    <span className="font-semibold text-emerald-300">
+                    <span className="font-semibold text-emerald-700">
                       {currentDayProgress.afterFeeling?.stateTitle || getMoodLabel(currentDayProgress.afterFeeling?.mood || currentDayProgress.mood)}
                     </span>
-                    <span className="font-mono text-emerald-400">
+                    <span className="font-mono text-emerald-700">
                       {currentDayProgress.afterFeeling?.mood || currentDayProgress.mood || 5}/5
                     </span>
                   </div>
@@ -384,7 +386,7 @@ export default function DailyDiaryModal({
                     </p>
                   )}
                   <p className="text-[11px] text-[#5C5248] italic">
-                    "{currentDayProgress.afterFeeling?.notes || currentDayProgress.journalText || 'Sessão concluída em paz.'}"
+                    "{currentDayProgress.afterFeeling?.notes || currentDayProgress.journalText || 'Prática concluída sem anotação adicional.'}"
                   </p>
                 </div>
               ) : (
