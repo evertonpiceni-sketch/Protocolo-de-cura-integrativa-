@@ -51,6 +51,8 @@
   "overrides": {
     "browserslist": "^4.29.3",
     "baseline-browser-mapping": "^2.11.26",
-    "ip-address": "^10.7.3"
+    "ip-address": "^10.7.3",
+    "body-parser": "1.20.8",
+    "qs": "6.16.0"
   }
 }
