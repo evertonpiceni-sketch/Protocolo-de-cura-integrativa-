@@ -325,7 +325,7 @@ export default function DailyDiaryModal({
               {currentInsight.description}
             </p>
 
-            {/* Foco de Cura */}
+            {/* Foco do dia */}
             <div className="p-3 rounded-xl bg-white/80 border border-[#E5DAC6] flex items-start gap-2 text-xs text-[#5C5248]">
               <Sparkles size={14} className="text-amber-400 shrink-0 mt-0.5" />
               <span><strong>Intenção do dia:</strong> {currentInsight.focus}</span>
@@ -501,7 +501,7 @@ export default function DailyDiaryModal({
               <div className="p-2.5 rounded-xl bg-[#FBF8F2]/90 border border-[#E5DAC6] space-y-1">
                 <span className="font-bold text-emerald-400 text-[11px] block">Fase 3 (Dias 15 a 21)</span>
                 <span className="text-[10px] text-[#5C5248] font-semibold block">Soberania & Paz Profunda</span>
-                <p className="text-[10px] text-[#85786C] leading-snug">Regeneração celular, gratidão cósmica e selamento vibracional.</p>
+                <p className="text-[10px] text-[#85786C] leading-snug">Renovação interior, gratidão e integração da jornada.</p>
               </div>
             </div>
           </div>
