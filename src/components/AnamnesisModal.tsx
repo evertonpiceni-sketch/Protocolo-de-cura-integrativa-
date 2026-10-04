@@ -394,12 +394,12 @@ export default function AnamnesisModal({
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-[#2A2420]/30 backdrop-blur-md overflow-y-auto" id="anamnesis-modal">
+    <div className="fixed inset-0 z-50 flex items-start sm:items-center justify-center p-2 sm:p-4 bg-[#2A2420]/30 backdrop-blur-md overflow-y-auto overscroll-contain" id="anamnesis-modal" role="dialog" aria-modal="true" aria-label="Mapa do Momento">
       <motion.div
         initial={{ opacity: 0, scale: 0.96 }}
         animate={{ opacity: 1, scale: 1 }}
         exit={{ opacity: 0, scale: 0.96 }}
-        className="w-full max-w-3xl bg-[#FBF8F2] border border-[#E5DAC6] rounded-3xl p-6 md:p-8 shadow-2xl relative overflow-hidden my-6"
+        className="w-full max-w-3xl bg-[#FBF8F2] border border-[#E5DAC6] rounded-2xl sm:rounded-3xl p-4 sm:p-6 md:p-8 shadow-2xl relative overflow-hidden my-1 sm:my-6 max-h-[calc(100dvh-1rem)] overflow-y-auto overscroll-contain"
       >
         {/* Glow effects */}
         <div className="absolute -top-20 -right-20 w-56 h-56 bg-[#B88736]/10 rounded-full blur-3xl pointer-events-none" />
