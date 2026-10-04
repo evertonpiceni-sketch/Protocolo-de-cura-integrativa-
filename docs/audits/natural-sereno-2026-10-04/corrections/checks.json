@@ -1,0 +1,13 @@
+{
+  "checks": [
+    "desktop web width",
+    "community consent and real request shape",
+    "pending state",
+    "desktop playback control visible",
+    "energy details collapsed, expandable",
+    "approved Day 1 artwork",
+    "same Reintegração voice cues in script panel",
+    "mobile/desktop captures"
+  ],
+  "errors": []
+}

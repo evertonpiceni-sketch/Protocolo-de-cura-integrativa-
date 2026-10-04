@@ -1,0 +1,7 @@
+{
+  "error": "O cadastro está temporariamente indisponível. Tente novamente em alguns instantes.Tentar novamente",
+  "requests": [
+    "/api/auth/register"
+  ],
+  "freeDay8Gate": true
+}

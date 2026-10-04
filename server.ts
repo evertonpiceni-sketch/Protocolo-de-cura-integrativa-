@@ -14,6 +14,8 @@ import rateLimit from "express-rate-limit";
 import { z } from "zod";
 import { getDb, saveDb, initializeDb } from "./src/db.js";
 import { normalizeBrazilianNationalPhone, toBrazilianWhatsAppNumber } from "./src/utils/phone.js";
+import { communityRoutes } from "./src/lib/communityRoutes.js";
+import { prepareTherapeuticSSML, protocolAudioCacheKey } from './src/lib/ttsText.js';
 
 const JWT_SECRET = process.env.JWT_SECRET;
 if (process.env.NODE_ENV === "production" && (!JWT_SECRET || JWT_SECRET.length < 32)) {
@@ -35,14 +37,6 @@ const OFFICIAL_PROTOCOL_VOICE_ID = "mJqP14JQFEK0PojR5lfV"; // Marianne - Medita�
 
 // Natural meditative pacing for Eleven Multilingual v2. Avoid ellipses because they can
 // introduce hesitation; use sparse SSML breaks instead, with longer pauses only at paragraph ends.
-const prepareTherapeuticSSML = (text: string) => text
-  .replace(/\r\n/g, "\n")
-  .replace(/\n{2,}/g, ' <break time="1.5s" /> ')
-  .replace(/([.!?])\s+/g, '$1 <break time="0.9s" /> ')
-  .replace(/([;:])\s+/g, '$1 <break time="0.5s" /> ')
-  .replace(/,\s+/g, ', <break time="0.3s" /> ')
-  .replace(/\s{2,}/g, ' ')
-  .trim();
 
 export function createApp() {
   const app = express();
@@ -73,6 +67,7 @@ export function createApp() {
 
   const authenticate = (req: any, res: any, next: any) => { const token = req.cookies.token; if (!token) return res.status(401).json({ error: "Não autorizado." }); try { const decoded = jwt.verify(token, EFFECTIVE_JWT_SECRET) as any; req.userId = decoded.userId; const db = getDb(); const user = db.users.find(u => u.id === req.userId); if (!user) { res.clearCookie("token"); return res.status(401).json({ error: "Usuário não encontrado." }); } req.user = user; next(); } catch { res.status(401).json({ error: "Sessão inválida ou expirada." }); } };
   const authenticateAdmin = (req: any, res: any, next: any) => { if (!req.user || req.user.role !== 'admin') return res.status(403).json({ error: "Acesso administrativo negado." }); next(); };
+  app.use('/api/community', communityRoutes(authenticate, apiLimiter));
   app.get("/api/health", (_req, res) => res.json({ status: "ok" }));
   app.get("/api/admin/status", authenticate, authenticateAdmin, (_req, res) => res.json({ geminiConfigured: !!process.env.GEMINI_API_KEY && process.env.GEMINI_API_KEY.length > 5, elevenlabsConfigured: !!process.env.ELEVENLABS_API_KEY && process.env.ELEVENLABS_API_KEY.length > 5 }));
   app.get("/api/admin/users", authenticate, authenticateAdmin, (_req, res) => { const db = getDb(); res.json({ users: db.users.map(u => ({ login: u.login, email: u.email, fullName: u.fullName, role: u.role, plan: u.plan, profile: u.profile, progress: u.progress })) }); });
@@ -182,9 +177,11 @@ export function createApp() {
       const client = getElevenLabs();
       const resolvedVoice = (voiceId === "mJqP14JQFEK0PojR5lfV" || voiceId === "marianne" || !voiceId)
         ? OFFICIAL_PROTOCOL_VOICE_ID
-        : voiceId;
+        : ['masculina', 'male', 'everton', 'Marcus'].includes(voiceId)
+          ? process.env.ELEVENLABS_MALE_VOICE_ID || 'nPczCjzI2devNBz1zQrb'
+          : ['Rachel', 'feminina', 'female'].includes(voiceId) ? '21m00Tcm4TlvDq8ikWAM' : voiceId;
 
-      const cacheKey = `stream_${resolvedVoice}_${speed}_${text.slice(0, 80)}_${text.length}`;
+      const cacheKey = protocolAudioCacheKey(resolvedVoice, speed, text);
       if (audioCache.has(cacheKey)) {
         const cached = audioCache.get(cacheKey)!;
         res.setHeader("Content-Type", "audio/mpeg");

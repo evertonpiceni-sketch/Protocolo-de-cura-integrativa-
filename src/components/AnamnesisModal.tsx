@@ -12,6 +12,7 @@ import {
   Loader2, Lock, Leaf, Play, Square, Send, ThumbsUp, Star
 } from 'lucide-react';
 import { UserProfile, AnamnesisData } from '../types';
+import { useDialogFocus } from '../hooks/useDialogFocus';
 import { evaluateBestTreatmentFromAnamnesis } from '../lib/anamnesisTreatmentEngine';
 import { audioEngine } from '../lib/audio';
 
@@ -71,6 +72,16 @@ export default function AnamnesisModal({
   const existingAnamnesis = userProfile.anamnesis;
   const [isEditing, setIsEditing] = useState<boolean>(!existingAnamnesis);
   const [currentStep, setCurrentStep] = useState<number>(1);
+  const dialogRef = React.useRef<HTMLDivElement | null>(null);
+  const cardRef = React.useRef<HTMLDivElement | null>(null);
+  const naturalSereno = document.documentElement.dataset.layout === 'natural-sereno';
+  useDialogFocus(isOpen && naturalSereno, dialogRef, () => handleCloseModal());
+  React.useLayoutEffect(() => {
+    if (isOpen && naturalSereno) {
+      if (cardRef.current) cardRef.current.scrollTop = 0;
+      if (dialogRef.current) dialogRef.current.scrollTop = 0;
+    }
+  }, [isOpen, currentStep, isEditing, naturalSereno]);
 
   // Computed recommendation if anamnesis exists
   const recommendation = existingAnamnesis
@@ -394,8 +405,9 @@ export default function AnamnesisModal({
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-start sm:items-center justify-center p-2 sm:p-4 bg-[#2A2420]/30 backdrop-blur-md overflow-y-auto overscroll-contain" id="anamnesis-modal" role="dialog" aria-modal="true" aria-label="Mapa do Momento">
+    <div ref={dialogRef} className="fixed inset-0 z-50 flex items-start sm:items-center justify-center p-2 sm:p-4 bg-[#2A2420]/30 backdrop-blur-md overflow-y-auto overscroll-contain" id="anamnesis-modal" role="dialog" aria-modal="true" aria-label="Mapa do Momento">
       <motion.div
+        ref={cardRef} tabIndex={0} aria-label="Conteúdo do Mapa do Momento"
         initial={{ opacity: 0, scale: 0.96 }}
         animate={{ opacity: 1, scale: 1 }}
         exit={{ opacity: 0, scale: 0.96 }}
@@ -1094,6 +1106,7 @@ export default function AnamnesisModal({
                   </div>
                   <input
                     type="range"
+                    aria-label="Nível de estresse ou tensão atual"
                     min="1"
                     max="10"
                     value={stressLevel}
