@@ -95,12 +95,12 @@ export default function MilestoneCelebrationModal({
 
   return (
     <AnimatePresence>
-      <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-[#2A2420]/30 backdrop-blur-md overflow-y-auto">
+      <div className="fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4 bg-[#2A2420]/30 backdrop-blur-md overflow-y-auto overscroll-contain" role="dialog" aria-modal="true" aria-label="Celebração de progresso">
         <motion.div
           initial={{ opacity: 0, scale: 0.94, y: 15 }}
           animate={{ opacity: 1, scale: 1, y: 0 }}
           exit={{ opacity: 0, scale: 0.94, y: 15 }}
-          className={`w-full max-w-xl bg-gradient-to-b ${themeBg} border-2 ${themeBorder} rounded-3xl p-6 md:p-8 shadow-2xl relative overflow-hidden my-6`}
+          className={`w-full max-w-xl bg-gradient-to-b ${themeBg} border-2 ${themeBorder} rounded-2xl sm:rounded-3xl p-4 sm:p-6 md:p-8 shadow-2xl relative overflow-hidden my-1 sm:my-6 max-h-[calc(100dvh-1rem)] overflow-y-auto overscroll-contain`}
         >
           {/* Ambient light glow */}
           <div className="absolute -top-16 -right-16 w-48 h-48 bg-amber-500/10 rounded-full blur-3xl pointer-events-none" />
