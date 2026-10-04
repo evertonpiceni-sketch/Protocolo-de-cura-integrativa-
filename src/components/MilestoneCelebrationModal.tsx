@@ -59,12 +59,12 @@ export default function MilestoneCelebrationModal({
     mainMessage = `Querido(a) ${userName},\n\nParabéns por chegar ao 15º Dia! Você acaba de ancorar na fase do Raio Rosa e no amor incondicional da egrégora crística e dos mestres ascensos.\n\nDeixe o passado ir embora com ternura. Seu coração está sendo restaurado e preenchido de paz verdadeira.\n\nCom luz e acolhimento,\nÉverton Rodrigo Piceni`;
   } else if (isDay21) {
     title = '👑 Você assumiu o seu Trono!';
-    subtitle = 'Parabéns pela conclusão do seu Protocolo de Cura Integrada!';
+    subtitle = 'Parabéns pela conclusão do seu Protocolo da Transformação!';
     badgeText = 'Jornada dos 21 Dias Concluída';
     themeBg = 'from-amber-950 via-[#FBF8F2] to-indigo-950';
     themeBorder = 'border-amber-500/60';
     icon = <Crown className="w-9 h-9 text-amber-400 animate-bounce" />;
-    mainMessage = `👑 Você assumiu o seu Trono: Parabéns pela conclusão do seu Protocolo de Cura Integrada!\n\nQuerido(a) ${userName},\n\nHoje é o ápice da sua jornada de 21 Dias. Com a benção e o empoderamento de Ganesha, esse tratamento está totalmente selado e blindado no seu DNA cósmico.\n\nTodas as frequências, desprogramações celulares e ativações espirituais foram integradas com perfeição. Você é livre para ser feliz. Você é cura. Você é amor. Você está em paz.\n\nCom profunda gratidão,\nÉverton Rodrigo Piceni`;
+    mainMessage = `👑 Você assumiu o seu Trono: Parabéns pela conclusão do seu Protocolo da Transformação!\n\nQuerido(a) ${userName},\n\nHoje é o ápice da sua jornada de 21 Dias. Com a benção e o empoderamento de Ganesha, esse tratamento está totalmente selado e blindado no seu DNA cósmico.\n\nTodas as frequências, desprogramações celulares e ativações espirituais foram integradas com perfeição. Você é livre para ser feliz. Você é cura. Você é amor. Você está em paz.\n\nCom profunda gratidão,\nÉverton Rodrigo Piceni`;
   }
 
   const encodedMsg = encodeURIComponent(mainMessage);
@@ -81,8 +81,8 @@ export default function MilestoneCelebrationModal({
     if (navigator.share) {
       try {
         await navigator.share({
-          title: 'Protocolo de Cura Integrada',
-          text: `Acabo de completar a ${badgeText} do meu Protocolo de Cura!\n\n${subtitle}`,
+          title: 'Protocolo da Transformação',
+          text: `Acabo de completar a ${badgeText} do meu Protocolo da Transformação!\n\n${subtitle}`,
           url: window.location.origin
         });
       } catch (error) {
