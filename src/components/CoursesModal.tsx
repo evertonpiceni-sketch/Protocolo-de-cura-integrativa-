@@ -37,11 +37,11 @@ const COURSES_DATA: EnergyCourse[] = [
     id: 'reiki-kundalini',
     title: 'Reiki Kundalini & Despertar Prânico',
     category: 'Energia Vital & Coluna de Luz',
-    description: 'Despertar seguro e harmonioso do canal energético principal (Sushumna) e da chama Kundalini. Acelera a purificação dos chakras, a autocura e a capacidade de canalizar altas frequências vibracionais.',
+    description: 'Despertar seguro e harmonioso do canal energético principal (Sushumna) e da chama Kundalini. Na tradição do sistema, é estudado como prática de harmonização dos chakras, autocuidado energético e desenvolvimento da canalização.',
     modules: [
       'Despertar da Serpente Kundalini e Abertura dos Canais Sushumna, Ida e Pingala',
       'Limpeza Kármica Profunda dos 7 Chakras e Corpos Sutis',
-      'Técnicas de Autoaplicação Expressa e Tratamento à Distância',
+      'Técnicas de Autoaplicação e Prática Energética à Distância',
       'Iniciações, Sintonizações e Boosters de Potência Kundalini (Níveis 1, 2 e Mestrado)'
     ],
     duration: 'Níveis 1, 2 e 3 (Mestrado) • Certificado Registrado',
@@ -58,7 +58,7 @@ const COURSES_DATA: EnergyCourse[] = [
       'Os 5 Princípios Sagrados do Reiki (Gokai) e Filosofia de Vida',
       'Anatomia dos Corpos Sutis, Byosen Reikan-ho e Técnicas de Escaneamento',
       'Os 4 Símbolos Sagrados: Cho Ku Rei, Sei He Ki, Hon Sha Ze Sho Nen e Dai Koo Myo',
-      'Cirurgia Psíquica Kahuna, Cura à Distância além do Tempo/Espaço e Mestrado Docente'
+      'Cirurgia Psíquica Kahuna como prática tradicional, aplicação à distância e Mestrado Docente'
     ],
     duration: 'Níveis 1 (Shoden), 2 (Okuden), 3A (Shinpiden) e Mestrado (Gokui Kaiden)',
     badge: 'Linhagem Tradicional',
@@ -69,11 +69,11 @@ const COURSES_DATA: EnergyCourse[] = [
     id: 'reiki-chama-rosa',
     title: 'Reiki Chama Rosa Vibrante & Amor Divino',
     category: '3º Raio Cósmico • Mestres da Fraternidade Branca',
-    description: 'Sintonização no Raio Rosa do Amor Incondicional sob a emanação da Mestra Ascensionada Rowena e do Arcanjo Chamuel. Promove a cura profunda da criança interior, dissolução de traumas afetivos, mágoas e ativação da Chama Trina no coração.',
+    description: 'Sintonização no Raio Rosa do Amor Incondicional sob a emanação da Mestra Ascensionada Rowena e do Arcanjo Chamuel. É apresentado na tradição como caminho de acolhimento da criança interior, ressignificação de mágoas e contemplação da Chama Trina no coração.',
     modules: [
       'O 3º Raio Cósmico e a Conexão com a Mestra Rowena & Arcanjo Chamuel',
       'Ativação e Expansão da Chama Trina no Chakra Cardíaco',
-      'Cura de Mágoas, Votos de Solidão, Rejeição e Bloqueios Afetivos',
+      'Acolhimento de Mágoas, Votos de Solidão, Rejeição e Bloqueios Afetivos',
       'Emissão da Frequência Rosa para Ambientes, Relacionamentos e Autocuidado'
     ],
     duration: 'Praticante e Mestre da Chama Rosa • Vivencial',
@@ -85,11 +85,11 @@ const COURSES_DATA: EnergyCourse[] = [
     id: 'violet-flame-reiki',
     title: 'Violet Flame Reiki (Chama Violeta de Saint Germain)',
     category: '7º Raio Cósmico • Alquimia & Transmutação',
-    description: 'A poderosa frequência de transmutação cármica do Fogo Sagrado Violeta de Saint Germain e Arcanjo Zadkiel combinada com os 40 símbolos sagrados de Kwan Yin. Transmuta carmas pesados, miasmas astrais e eleva a frequência celular para a 5ª Dimensão.',
+    description: 'A poderosa frequência de transmutação cármica do Fogo Sagrado Violeta de Saint Germain e Arcanjo Zadkiel combinada com os 40 símbolos sagrados de Kwan Yin. Na linguagem tradicional do sistema, trabalha simbolicamente transmutação cármica, miasmas astrais e elevação vibracional.',
     modules: [
       'Alquimia Espiritual e o Poder Libertador da Chama Violeta',
       'Os 40 Símbolos Sagrados de Kwan Yin e Mestres da Chama Violeta',
-      'Transmutação de Dívidas Cármicas e Limpeza de Memórias Celulares Hereditárias',
+      'Transmutação de Dívidas Cármicas e Memórias Ancestrais na linguagem do sistema',
       'Criação do Escudo Protetor e Cálice de Fogo Violeta para Selamento Áurico'
     ],
     duration: 'Níveis 1 ao 4 • Iniciação Completa & Apostila',
@@ -100,16 +100,16 @@ const COURSES_DATA: EnergyCourse[] = [
   {
     id: 'reiki-karuna-ki',
     title: 'Reiki Karuna Ki & Compaixão Iluminada',
-    category: 'Cura Compassiva Avançada • Deusa Guan Yin',
-    description: 'O caminho sagrado da Ação Compassiva (Karuna) ancorado na amorosa presença de Guan Yin. Atua na cura do inconsciente profundo, desprogramação de somatizações graves, liberação de memórias de vidas passadas e reconexão com os Guias Espirituais.',
+    category: 'Compaixão Avançada • Deusa Guan Yin',
+    description: 'O caminho sagrado da Ação Compassiva (Karuna) ancorado na amorosa presença de Guan Yin. Na tradição Karuna, é estudado como prática compassiva para conteúdos profundos, memórias simbólicas, padrões recorrentes e conexão espiritual com Guan Yin e Guias.',
     modules: [
       'Fundamentos do Karuna Ki e o Coração de Guan Yin',
-      'Os 8 Símbolos Sagrados de Cura: Zonar, Halu, Harth, Rama, Gnosa, Kriya, Iava e Shanti',
-      'Cura de Traumas Ancestrais, Somatizações e Desbloqueio da Sombra',
+      'Os 8 Símbolos Sagrados: Zonar, Halu, Harth, Rama, Gnosa, Kriya, Iava e Shanti',
+      'Trabalho simbólico com Memórias Ancestrais, Padrões e Sombra',
       'Meditação da Fraternidade Branca, Alinhamento de Frequência e Mestrado Karuna Ki'
     ],
     duration: 'Praticante 1, 2 e Mestrado Karuna Ki • Certificado',
-    badge: 'Compaixão & Cura da Alma',
+    badge: 'Compaixão & Presença',
     status: 'Inscrições Abertas',
     accentColor: 'teal'
   }
@@ -147,7 +147,7 @@ export default function CoursesModal({ isOpen, onClose, userName, userProfile, o
             <div className="w-12 h-12 rounded-2xl overflow-hidden border border-[#B88736]/25 shrink-0 shadow-md">
               <img
                 src={APPROVED_LOGO_DATA_URI}
-                alt="Emblema Sagrado Cura Integrada"
+                alt="Emblema oficial Everton Piceni"
                 referrerPolicy="no-referrer"
                 className="w-full h-full object-contain"
               />
