@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import {
   ArrowLeft, Award, AudioLines, BookOpen, ChevronRight, Flower2,
   GraduationCap, Headphones, Heart, Home, Leaf, LogOut, Menu, MessageCircle,
-  Pause, Play, Sliders, Sparkles, Sun, UserRound, Users, Waves, CalendarDays, Citrus,
+  Pause, Play, Sliders, Sparkles, Sun, UserRound, Users, Waves, CalendarDays, Citrus, Search,
 } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
 import type { TransformationHomeProps } from './TransformationHome';
@@ -54,12 +54,12 @@ export default function NaturalSerenoHome(props: Props) {
     { title: 'Ho’oponopono', copy: 'Outros caminhos da sua jornada', icon: Heart, action: props.onOpenHooponopono },
   ];
   const library: (Row & { category: string; image: string })[] = [
-    { title: 'Cursos e conteúdos', copy: 'Biblioteca de apoio', icon: GraduationCap, action: props.onOpenCourses, category: 'Cursos', image: '/brand/natural-sereno/reiki.webp' },
-    { title: 'Guia dos 7 Chakras', copy: 'Conheça seus centros de energia', icon: Sparkles, action: props.onOpenChakras, category: 'Práticas', image: '/brand/natural-sereno/presenca.webp' },
-    { title: 'Banhos e Aromas', copy: 'Natureza como parte do cuidado', icon: Leaf, action: props.onOpenBaths, category: 'Práticas', image: '/brand/natural-sereno/aromas.webp' },
-    { title: 'Ho’oponopono', copy: 'Outros caminhos da sua jornada', icon: Heart, action: props.onOpenHooponopono, category: 'Práticas', image: '/brand/natural-sereno/reiki.webp' },
-    { title: 'Numerologia', copy: 'Ciclos, essência e caminhos', icon: Flower2, action: props.onOpenNumerology, category: 'Autoconhecimento', image: '/brand/natural-sereno/cachoeira.webp' },
-    { title: 'Mapa Astral', copy: 'Um olhar simbólico para sua jornada', icon: Sun, action: props.onOpenAstral, category: 'Autoconhecimento', image: '/brand/natural-sereno/vale-amanhecer.webp' },
+    { title: 'Cursos e conteúdos', copy: 'Biblioteca de apoio', icon: GraduationCap, action: props.onOpenCourses, category: 'Cursos', image: '/brand/natural-sereno/library/cursos.webp' },
+    { title: 'Guia dos 7 Chakras', copy: 'Conheça seus centros de energia', icon: Sparkles, action: props.onOpenChakras, category: 'Práticas', image: '/brand/natural-sereno/library/chakras.webp' },
+    { title: 'Banhos e Aromas', copy: 'Natureza como parte do cuidado', icon: Leaf, action: props.onOpenBaths, category: 'Práticas', image: '/brand/natural-sereno/library/banhos.webp' },
+    { title: 'Ho’oponopono', copy: 'Outros caminhos da sua jornada', icon: Heart, action: props.onOpenHooponopono, category: 'Práticas', image: '/brand/natural-sereno/library/hooponopono.webp' },
+    { title: 'Numerologia', copy: 'Ciclos, essência e caminhos', icon: Flower2, action: props.onOpenNumerology, category: 'Autoconhecimento', image: '/brand/natural-sereno/library/numerologia.webp' },
+    { title: 'Mapa Astral', copy: 'Um olhar simbólico para sua jornada', icon: Sun, action: props.onOpenAstral, category: 'Autoconhecimento', image: '/brand/natural-sereno/library/mapa-astral.webp' },
   ];
   const menu: Row[] = [
     { title: '21 Dias para Voltar para Mim', copy: 'Reintegração da Vida', icon: Leaf, action: props.onOpenPersonalJourney },
@@ -114,7 +114,7 @@ export default function NaturalSerenoHome(props: Props) {
       </section>
       <div className="ns-home-content">
         <button className="ns-current-day ns-row" onClick={() => props.onStartSession(props.currentDay)}>
-          <img src="/brand/natural-sereno/cachoeira.webp" alt="" />
+          <img src={`/brand/natural-sereno/days/dia-${String(props.currentDay).padStart(2, '0')}.webp`} alt="" />
           <span className="ns-row-copy"><small>Dia {props.currentDay}</small><strong>{insight?.title}</strong></span><Play size={19} />
         </button>
         {!props.anamnesis ? <section className="ns-editorial-card">
@@ -136,7 +136,7 @@ export default function NaturalSerenoHome(props: Props) {
         const done = props.progress.some(item => item.dayNumber === entry.day && item.completed);
         return <button key={entry.day} className="ns-row ns-day" aria-label={`Abrir dia ${entry.day}: ${entry.title}`} onClick={() => props.onStartSession(entry.day)}>
           <span className="ns-day-number">{entry.day}</span>
-          <img src={`/brand/natural-sereno/${['presenca', 'vale-amanhecer', 'cachoeira', 'reiki', 'acolhimento'][(entry.day - 1) % 5]}.webp`} alt="" loading="lazy" />
+          <img src={`/brand/natural-sereno/days/dia-${String(entry.day).padStart(2, '0')}.webp`} alt="" loading="lazy" />
           <span className="ns-row-copy"><strong>{entry.title}</strong><small>{done ? 'Concluído' : entry.day === props.currentDay ? 'Seu momento' : entry.focus}</small></span><ChevronRight size={17} />
         </button>;
       })}
@@ -145,7 +145,7 @@ export default function NaturalSerenoHome(props: Props) {
     </section>}
 
     {view === 'library' && <section className="ns-list">
-      <label className="ns-search"><BookOpen size={18} /><input value={search} onChange={e => setSearch(e.target.value)} placeholder="Buscar um curso, prática ou tema…" aria-label="Buscar na biblioteca" /></label>
+      <label className="ns-search"><Search size={20} /><input value={search} onChange={e => setSearch(e.target.value)} placeholder="Buscar um curso, prática ou tema…" aria-label="Buscar na biblioteca" /></label>
       <div className="ns-filter" aria-label="Categorias da biblioteca">{['Todos', 'Cursos', 'Práticas', 'Autoconhecimento'].map(label => <button key={label} aria-pressed={category === label} onClick={() => setCategory(label)}>{label}</button>)}</div>
       {library.filter(row => (category === 'Todos' || row.category === category) && `${row.title} ${row.copy}`.toLocaleLowerCase('pt-BR').includes(search.toLocaleLowerCase('pt-BR'))).map(row => <button key={row.title} className="ns-row ns-library-row" onClick={row.action}><img src={row.image} alt="" /><span className="ns-row-copy"><strong>{row.title}</strong><small>{row.copy}</small></span><ChevronRight size={17} /></button>)}
       {!library.some(row => (category === 'Todos' || row.category === category) && `${row.title} ${row.copy}`.toLocaleLowerCase('pt-BR').includes(search.toLocaleLowerCase('pt-BR'))) && <p role="status" className="ns-empty">Nenhum conteúdo encontrado.</p>}

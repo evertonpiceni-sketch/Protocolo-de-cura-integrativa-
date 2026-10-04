@@ -496,3 +496,37 @@
 :root[data-layout="natural-sereno"] #meditation-session > footer button:is([title="Voltar 15 segundos"], [title="Avançar 15 segundos"]) { width: 48px; height: 48px; }
 :root[data-layout="natural-sereno"] #meditation-session > footer button:is([title="Voltar 15 segundos"], [title="Avançar 15 segundos"]) svg { width: 29px; height: 29px; }
 :root[data-layout="natural-sereno"] #meditation-session > main { padding-top: 140px; }
+
+/* Third source comparison: keep stage guidance, with the day and mantra first. */
+:root[data-layout="natural-sereno"] #meditation-session > main { justify-content: flex-start; padding-top: 150px; }
+:root[data-layout="natural-sereno"] #meditation-session .ep-session-stage { display: grid; grid-template-columns: minmax(0, 1fr) 78px; column-gap: 12px; align-items: center; }
+:root[data-layout="natural-sereno"] #meditation-session .ns-session-title { grid-column: 1 / -1; grid-row: 1; margin-bottom: 20px; }
+:root[data-layout="natural-sereno"] #meditation-session .ep-stage-badge { grid-column: 1 / -1; grid-row: 2; justify-self: center; }
+:root[data-layout="natural-sereno"] #meditation-session .ep-stage-title { grid-column: 1; grid-row: 3; text-align: left; font-size: 19px !important; }
+:root[data-layout="natural-sereno"] #meditation-session .ep-stage-subtitle { grid-column: 1; grid-row: 4; text-align: left; justify-self: start; font-size: 12px; margin: 0; }
+:root[data-layout="natural-sereno"] #meditation-session .ep-breathing-guide { grid-column: 2; grid-row: 3 / 5; width: 72px !important; height: 72px !important; margin: 0 !important; }
+:root[data-layout="natural-sereno"] #meditation-session .ep-session-mantra { grid-column: 1 / -1; grid-row: 5; font: italic 17px/1.5 'Lora', Georgia, serif; margin-top: 22px; padding: 12px !important; }
+:root[data-layout="natural-sereno"] #anamnesis-modal .ep-anamnesis-frequency { background: var(--ns-paper) !important; border-color: var(--ns-line); border-radius: 12px; }
+:root[data-layout="natural-sereno"] #anamnesis-modal .ep-anamnesis-frequency [class*="text-emerald"] { color: var(--ns-forest) !important; }
+:root[data-layout="natural-sereno"] #anamnesis-modal .ep-anamnesis-frequency [class*="bg-emerald"] { background: #e7ead9 !important; border-color: var(--ns-line) !important; }
+:root[data-layout="natural-sereno"] #anamnesis-modal .ep-anamnesis-frequency > div > div:first-child { background: var(--ns-forest) !important; color: #e9d296 !important; }
+:root[data-layout="natural-sereno"] #anamnesis-modal .ep-anamnesis-frequency > div > div:first-child > svg { color: #e9d296 !important; }
+/* Six library rows fit below search and filters at the approved phone scale. */
+:root[data-layout="natural-sereno"] .ns-library-row { min-height: 74px; padding: 8px 12px; margin-bottom: 6px; }
+:root[data-layout="natural-sereno"] .ns-search { font-size: 14px; }
+:root[data-layout="natural-sereno"] .ns-search input { padding: 0; border: 0 !important; background: transparent !important; box-shadow: none !important; font-size: 14px; color: var(--ns-ink); }
+:root[data-layout="natural-sereno"] .ns-filter { font-size: 13px; padding: 10px 0; }
+:root[data-layout="natural-sereno"] .ns-app[data-ns-screen="profile"] .ns-page-heading { min-height: 90px; padding-top: 18px; padding-bottom: 10px; }
+:root[data-layout="natural-sereno"] .ns-app[data-ns-screen="profile"] .ns-page-heading h1 { font-size: 30px; }
+:root[data-layout="natural-sereno"] .ns-app[data-ns-screen="profile"] .ns-page-heading p { font-size: 12px; }
+:root[data-layout="natural-sereno"] .ns-profile .ns-row { min-height: 60px; padding: 8px 12px; }
+:root[data-layout="natural-sereno"] .ns-profile .ns-row-copy strong { font-size: 16px; }
+/* Keep the existing contact action in the page flow on internal screens so it
+   cannot cover rows, profile controls or the signature above the dock. */
+:root[data-layout="natural-sereno"]:has(.ns-app:not([data-ns-screen="home"]):not([data-ns-screen="welcome"])) #floating-whatsapp-btn {
+  position: static;
+  width: fit-content;
+  margin: 18px auto 100px;
+  padding: 10px 16px;
+}
+:root[data-layout="natural-sereno"]:has(.ns-app:not([data-ns-screen="home"]):not([data-ns-screen="welcome"])) #floating-whatsapp-btn span { max-width: none; }

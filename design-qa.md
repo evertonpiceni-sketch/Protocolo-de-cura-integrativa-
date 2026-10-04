@@ -20,7 +20,7 @@ Referência congelada: painel aprovado `1001196520.jpg`, copiado para [reference
 
 ## Diferenças pendentes e limites de escopo
 
-**P2 — transposição visual restante:** a prancha usa retratos/cenas distintos por dia e categoria; o app usa cinco cenas alternadas na lista e reaproveita algumas imagens na biblioteca. Para maior fidelidade, produzir miniaturas individuais adequadas aos títulos reais, seguindo exclusivamente o Estilo 1. A figura do carregamento já foi reposicionada, mas a iluminação e o recorte ainda não coincidem com a prancha. O player mantém etapas/respiração e navegação extras exigidos pelo funcionamento existente: continuar ajustando a composição ao redor desses controles, preservando-os. Essas diferenças impedem afirmar que as 12 telas estão iguais.
+**P2 — fidelidade restante:** as miniaturas repetidas foram eliminadas: a Jornada tem 21 cenas próprias e a Biblioteca seis imagens distintas. Carregamento, Home e player agora usam reconstruções orientadas por recortes do painel, com a mesma composição de figura frontal, vale ao amanhecer e cachoeira estreita. A comparação ainda mostra diferenças de acabamento: peso/tamanho da tipografia secundária, brilho das bordas e botões, proporção das folhagens e distribuição vertical de alguns cabeçalhos. Essas diferenças impedem declarar reprodução integral ou iniciar o Estilo 2. Os assets foram reconstruídos a partir do painel; não são arquivos originais isolados.
 
 **Conteúdo e comportamento preservados:** a anamnese existente tem quatro etapas, enquanto a prancha representa vinte perguntas. Jornada, ferramentas, biblioteca e resultado usam os destinos, textos e recomendações existentes. O player conserva os controles e etapas reais. Não foram inventados cursos, downloads, favoritos, fotos de perfil nem dados pessoais para preencher o modelo. A referência do player mostra dia 1; a captura funcional verifica a seleção real do dia 3.
 
@@ -32,7 +32,7 @@ Referência congelada: painel aprovado `1001196520.jpg`, copiado para [reference
 
 `npm run lint`, `npm test` (5 testes) e `npm run build` aprovados. O build mantém avisos de tamanho de bundle e importação estática/dinâmica do mesmo modal.
 
-[verification.json](docs/visual-qa/natural-sereno/verification.json) registra doze verificações aprovadas, sem erros de console: cliques reais, busca e vazio, progresso, aceite/check-in/player/roteiro, isolamento dos temas, login, entrada persistida e ausência de overflow em 320, 390, 768 e 1440 px. Reprodução: `node scripts/verify-natural-sereno.mjs`, com Vite disponível em `http://127.0.0.1:4173` e Chromium instalado.
+[verification.json](docs/visual-qa/natural-sereno/verification.json) registra quatorze verificações aprovadas, sem erros de console: cliques reais, busca e vazio, progresso, aceite/check-in/player/roteiro, isolamento dos temas, login, entrada persistida e ausência de overflow em 320, 390, 768 e 1440 px. Reprodução: `node scripts/verify-natural-sereno.mjs`, com Vite disponível em `http://127.0.0.1:4173` e Chromium instalado.
 
 Durante a validação foram corrigidos: índice de dia deslocado; tradução de etapa tratada como objeto em vez de texto; nomes de callbacks incompatíveis com o player; roteiro existente não exibido; círculo sem coordenada inicial; rodapé sobrepondo cliques da barra inferior. Nenhuma API, pagamento, regra de recomendação ou definição de jornada foi alterada.
 
@@ -55,3 +55,19 @@ Validação desta continuação: lint, os cinco testes, build e doze verificaç�
 O resultado visual continua `blocked`: esta é uma continuação revisável na PR #24, sem declarar a transposição integral concluída e sem iniciar o Estilo 2.
 
 A última comparação focada conferiu carregamento, onda de boas-vindas e player ampliado lado a lado com a referência. A Home foi recapturada depois do ajuste de peso da citação. Anamnese recebeu corpo de 15 px e título de 32 px, com as mesmas quatro etapas existentes.
+
+
+## Continuação — terceira produção do Estilo 1
+
+As evidências acima foram recapturadas após os últimos assets, no app real. Foram conferidos juntos os doze pares de referência e renderização.
+
+- Jornada: 21 arquivos WebP individuais, com temas dos dias reais; nenhuma alteração dos títulos, etapas ou seleção. A Home usa a miniatura do dia atual.
+- Biblioteca: seis imagens individuais correspondentes aos destinos existentes. Busca com lupa, campo sem fundo cinza interno e densidade ajustada para as seis linhas caberem acima da navegação em 390 × 844.
+- Fundos: reconstrução a partir dos recortes aprovados de carregamento, Home e player; removidos textos e interface da arte de fundo. Logo oficial permanece no componente existente.
+- Player: título do dia em primeiro plano; orientação de etapa e respiração organizada lado a lado; mantra e controles preservados. Novas classes são apenas ganchos de CSS restrito ao Natural Sereno.
+- Anamnese: cartão da frequência em marfim/verde/dourado, sem alterar áudio, perguntas ou respostas.
+- Perfil e contato: linhas mais compactas e ação de contato colocada no fluxo das telas internas, evitando cobertura dos últimos itens pela ação flutuante.
+
+Validação final desta produção: lint, cinco testes e build aprovados; quatorze verificações de navegador aprovadas, sem erros de console. O build conserva os avisos existentes de tamanho de bundle e importação mista. As verificações adicionais confirmam 21 imagens distintas carregadas e seis imagens da Biblioteca distintas, carregadas e visíveis acima da barra.
+
+`final result: blocked` continua sendo o estado de fidelidade integral, pelos ajustes de acabamento descritos acima. Esta produção é revisável na PR #24. Nenhuma modificação nova foi feita em pagamentos, APIs, Reintegração ou nos outros três estilos.
