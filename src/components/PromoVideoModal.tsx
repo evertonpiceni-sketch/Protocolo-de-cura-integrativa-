@@ -59,7 +59,7 @@ const PROMO_SCENES: PromoScene[] = [
     description: 'A voz conduz a experiência enquanto a frequência e o visual do chakra acompanham cada etapa da meditação.',
     durationSeconds: 9,
     frequency: '528hz',
-    frequencyLabel: '528 Hz • Frequência do Milagre e Regeneração Celular',
+    frequencyLabel: '528 Hz • Harmonia e Renovação',
     icon: <Radio className="text-emerald-400 animate-bounce" size={32} />,
     bgGradient: 'from-[#0c4a34] via-[#FBF8F2] to-[#021b13]',
     highlights: [
@@ -93,7 +93,7 @@ const PROMO_SCENES: PromoScene[] = [
     description: 'Registre percepções, acompanhe seus dias e retorne quando puder. Aqui, alguns minutos também são cuidado.',
     durationSeconds: 9,
     frequency: '963hz',
-    frequencyLabel: '963 Hz • Frequência de Deus & Conexão Divina',
+    frequencyLabel: '963 Hz • Contemplação & Conexão Divina',
     icon: <Shield className="text-amber-400 animate-pulse" size={32} />,
     bgGradient: 'from-[#174c38] via-[#062f21] to-[#021b13]',
     highlights: [
@@ -370,7 +370,7 @@ export default function PromoVideoModal({
                   ? 'bg-rose-500/10 border-rose-500/30 text-rose-400'
                   : 'bg-[#FBF8F2] border-[#E5DAC6] text-[#5C5248]'
               }`}
-              title={isMuted ? 'Ativar Áudio de Cura' : 'Silenciar'}
+              title={isMuted ? 'Ativar áudio da experiência' : 'Silenciar'}
             >
               {isMuted ? <VolumeX size={16} /> : <Volume2 size={16} className="text-emerald-400 animate-pulse" />}
             </button>
