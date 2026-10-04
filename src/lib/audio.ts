@@ -1134,7 +1134,12 @@ class CalmingAudioEngine {
                     onEnd,
                     onPause,
                     onResume,
-                    { ...options, protocolStageId: undefined }
+                    {
+                      voiceId: options?.voiceId,
+                      rate: options?.rate,
+                      pitch: options?.pitch,
+                      lang: options?.lang
+                    }
                   );
                 };
 
@@ -1153,7 +1158,12 @@ class CalmingAudioEngine {
                   onEnd,
                   onPause,
                   onResume,
-                  { ...options, protocolStageId: undefined }
+                  {
+                      voiceId: options?.voiceId,
+                      rate: options?.rate,
+                      pitch: options?.pitch,
+                      lang: options?.lang
+                    }
                 );
               }
             };
