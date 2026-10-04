@@ -29,11 +29,11 @@ export default function DailyTipModal({ onClose, userName }: DailyTipModalProps)
   if (!isVisible) return null;
 
   return (
-    <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-white/70 backdrop-blur-sm animate-fade-in">
+    <div className="fixed inset-0 z-[100] flex items-center justify-center p-2 sm:p-4 bg-white/70 backdrop-blur-sm animate-fade-in overflow-y-auto overscroll-contain" role="dialog" aria-modal="true" aria-label="Dica do dia">
       <div className="bg-gradient-to-br from-slate-900 via-indigo-950 to-slate-900 border border-[#B88736]/30 rounded-3xl p-6 shadow-2xl max-w-sm w-full relative transform transition-all">
         <button
           onClick={onClose}
-          className="absolute top-4 right-4 text-[#5C5248] hover:text-white transition-colors"
+          aria-label="Fechar dica do dia" className="absolute top-4 right-4 w-11 h-11 rounded-xl border border-[#E5DAC6] bg-white/85 text-[#5C5248] hover:text-[#2A2420] transition-colors flex items-center justify-center focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B88736]/30"
         >
           <X size={20} />
         </button>
@@ -54,7 +54,7 @@ export default function DailyTipModal({ onClose, userName }: DailyTipModalProps)
 
         <button
           onClick={onClose}
-          className="w-full py-3 px-4 bg-[#B88736] hover:bg-[#B88736] text-white rounded-xl text-sm font-bold shadow-md shadow-indigo-600/20 transition-all flex items-center justify-center gap-2"
+          className="w-full py-3 px-4 bg-[#B88736] hover:bg-[#B88736] text-white rounded-xl text-sm font-bold shadow-md shadow-[#B88736]/20 transition-all flex items-center justify-center gap-2"
         >
           <Sparkles size={16} />
           <span>Iniciar Protocolo de Hoje</span>
