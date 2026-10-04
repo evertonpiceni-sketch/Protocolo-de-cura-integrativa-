@@ -695,10 +695,10 @@ export default function ProfileSetup({ onComplete }: ProfileSetupProps) {
               </label>
               <div className="grid grid-cols-2 sm:grid-cols-3 gap-2" id="soundscape-selector">
                 {[
-                  { id: '528hz', name: '528Hz Regeneração', desc: 'Alpha-Beta (12Hz)' },
+                  { id: '528hz', name: '528Hz Harmonia', desc: 'Alpha-Beta (12Hz)' },
                   { id: '432hz', name: '432Hz Paz Natural', desc: 'Ondas Theta (5Hz)' },
-                  { id: '963hz', name: '963Hz Pineal Divina', desc: 'Conexão Superior' },
-                  { id: '741hz', name: '741Hz Limpeza Celular', desc: 'Despertar Intuição' },
+                  { id: '963hz', name: '963Hz Conexão Contemplativa', desc: 'Conexão Superior' },
+                  { id: '741hz', name: '741Hz Clareza', desc: 'Despertar Intuição' },
                   { id: 'waves', name: 'Brisa Oceânica', desc: 'Atmosfera Suave' },
                   { id: 'none', name: 'Apenas Voz', desc: 'Sem Fundo' }
                 ].map(opt => (
