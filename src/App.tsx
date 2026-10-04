@@ -28,6 +28,7 @@ import { AppLanguage, SUPPORTED_LANGUAGES, UI_TRANSLATIONS } from './lib/i18n';
 import { AnimatePresence } from "motion/react";
 import { localNotificationManager } from './lib/notifications';
 import { normalizeLayoutId } from './config/layouts';
+import { getLocalDateString } from './utils/date';
 
 const AnamnesisModal = React.lazy(() => import('./components/AnamnesisModal'));
 const ChakrasGuideModal = React.lazy(() => import('./components/ChakrasGuideModal'));
@@ -429,7 +430,7 @@ export default function App() {
     if (!seenWelcome) {
       setShowWelcomeModal(true);
     } else {
-      const todayStr = new Date().toISOString().split('T')[0];
+      const todayStr = getLocalDateString();
       const lastTipDate = localStorage.getItem('cura_integrada_last_tip_date');
       if (lastTipDate !== todayStr) {
         setShowDailyTip(true);
