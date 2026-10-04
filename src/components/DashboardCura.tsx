@@ -52,7 +52,7 @@ export default function DashboardCura({ onClose, progress, userProfile }: { onCl
       <header className="relative z-10 mx-auto w-full max-w-lg px-5 py-6">
         <button
           onClick={onClose}
-          className="mb-4 flex items-center gap-2 text-sm text-[#5C5248] hover:text-white transition"
+          className="mb-4 flex items-center gap-2 text-sm text-[#5C5248] hover:text-[#2A2420] transition"
         >
           <ArrowLeft size={18} /> Voltar
         </button>
@@ -66,9 +66,9 @@ export default function DashboardCura({ onClose, progress, userProfile }: { onCl
               Equilíbrio hoje, um amanhã mais leve.
             </p>
           </div>
-          <div className="flex shrink-0 flex-col items-center justify-center rounded-2xl border border-[#E4C573]/35 bg-[#073b29]/80 px-4 py-2.5 shadow-[0_0_15px_rgba(228,197,115,0.12)]">
+          <div className="flex shrink-0 flex-col items-center justify-center rounded-2xl border border-[#E4C573]/35 bg-white/80 px-4 py-2.5 shadow-[0_0_15px_rgba(228,197,115,0.12)]">
             <Flame className="text-[#E4C573] mb-1" size={24} />
-            <div className="text-lg font-bold text-white leading-none">{streak}</div>
+            <div className="text-lg font-bold text-[#2A2420] leading-none">{streak}</div>
             <div className="text-[9px] uppercase tracking-wider text-[#5C5248] mt-1">Dias Seguidos</div>
           </div>
         </div>
@@ -79,7 +79,7 @@ export default function DashboardCura({ onClose, progress, userProfile }: { onCl
             <span className="text-sm font-semibold text-[#E4C573]">{percentage}% Concluído</span>
             <span className="text-xs text-[#5C5248]">{totalCompleted} de 7 Dias</span>
           </div>
-          <div className="h-1.5 w-full overflow-hidden rounded-full bg-white/10">
+          <div className="h-1.5 w-full overflow-hidden rounded-full bg-[#E5DAC6]">
             <div
               className="h-full rounded-full bg-gradient-to-r from-[#B89845] to-[#E4C573] shadow-[0_0_10px_rgba(228,197,115,0.6)] transition-all duration-1000 ease-out"
               style={{ width: `${percentage}%` }}
@@ -90,7 +90,7 @@ export default function DashboardCura({ onClose, progress, userProfile }: { onCl
 
       <main className="relative z-10 mx-auto w-full max-w-lg flex-1 px-5 pb-12">
         {/* Central Energy Visualizer */}
-        <div className="relative mx-auto my-8 aspect-[4/5] w-full max-w-[360px] rounded-[2rem] border border-[#E4C573]/30 bg-[#06291d]/70 shadow-[0_22px_60px_rgba(0,0,0,.38)] overflow-hidden">
+        <div className="relative mx-auto my-8 aspect-[4/5] w-full max-w-[360px] rounded-[2rem] border border-[#E4C573]/30 bg-white/75 shadow-[0_22px_60px_rgba(0,0,0,.38)] overflow-hidden">
           <img src="/brand/chakra-body.png" alt="Pessoa em meditação com os sete chakras" className="absolute inset-0 h-full w-full object-cover" />
           <div className="absolute inset-0 bg-gradient-to-t from-[#F8F4EC]/70 via-transparent to-transparent" />
           
@@ -152,19 +152,19 @@ export default function DashboardCura({ onClose, progress, userProfile }: { onCl
 
             if (isCurrent) {
               return (
-                <div key={day} className="relative overflow-hidden rounded-2xl border border-[#E4C573]/35 bg-[#083323]/92 shadow-lg">
+                <div key={day} className="relative overflow-hidden rounded-2xl border border-[#E4C573]/35 bg-white/90 shadow-lg">
                   {/* Pulsating glow in chakra color */}
                   <div className="absolute inset-0 opacity-20 mix-blend-screen animate-pulse" style={{ background: `radial-gradient(circle at center, ${chakra.color} 0%, transparent 70%)` }} />
                   <div className="absolute left-0 top-0 h-full w-2 rounded-l-2xl" style={{ backgroundColor: chakra.color }} />
                   
                   <div className="relative flex items-center justify-between px-5 py-5 ml-2">
                     <div>
-                      <h3 className="font-serif text-[16px] font-bold text-white">Dia {day}: {chakra.name}</h3>
+                      <h3 className="font-serif text-[16px] font-bold text-[#2A2420]">Dia {day}: {chakra.name}</h3>
                       <p className="text-[13px] text-[#5C5248] mt-1">Pronto para iniciar (15 min)</p>
                     </div>
                     <button 
                       onClick={() => handlePlayDay(day)}
-                      className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full shadow-lg transition-transform hover:scale-105"
+                      aria-label={`Iniciar dia ${day}: ${chakra.name}`} className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full shadow-lg transition-transform hover:scale-105 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B88736]/30"
                       style={{ background: `linear-gradient(135deg, ${chakra.color}, #09090E)` }}
                     >
                       <Play size={22} className="ml-1 text-white" fill="white" />
@@ -176,7 +176,7 @@ export default function DashboardCura({ onClose, progress, userProfile }: { onCl
 
             // Locked
             return (
-              <div key={day} className="flex items-center justify-between rounded-2xl border border-[#E4C573]/12 bg-[#05271b]/70 px-5 py-4 opacity-60">
+              <div key={day} className="flex items-center justify-between rounded-2xl border border-[#E4C573]/12 bg-[#F5EFE4] px-5 py-4 opacity-60">
                 <div className="ml-1">
                   <h3 className="font-serif text-[15px] font-medium text-[#85786C]">Dia {day}: {chakra.name}</h3>
                   <p className="text-xs text-[#85786C] mt-0.5">
@@ -197,7 +197,7 @@ export default function DashboardCura({ onClose, progress, userProfile }: { onCl
             <div className="flex flex-col items-center justify-center rounded-3xl border border-[#E4C573]/40 bg-gradient-to-br from-[#E4C573]/20 to-[#B89845]/5 px-6 py-8 text-center shadow-[0_0_30px_rgba(228,197,115,0.15)] relative overflow-hidden">
                <div className="absolute inset-0 opacity-50 bg-[radial-gradient(circle_at_center,#E4C573_0%,transparent_70%)] blur-2xl pointer-events-none" />
                <Sparkles className="text-[#E4C573] mb-3 relative z-10" size={32} />
-               <h3 className="font-serif text-xl font-bold text-white relative z-10 mb-5">Jornada Concluída</h3>
+               <h3 className="font-serif text-xl font-bold text-[#2A2420] relative z-10 mb-5">Jornada Concluída</h3>
                <button 
                  onClick={() => {
                    onClose();
@@ -209,7 +209,7 @@ export default function DashboardCura({ onClose, progress, userProfile }: { onCl
                </button>
             </div>
           ) : (
-            <div className="flex flex-col items-center justify-center rounded-3xl border border-white/10 bg-[#0E1017] px-6 py-6 text-center">
+            <div className="flex flex-col items-center justify-center rounded-3xl border border-[#E5DAC6] bg-white/80 px-6 py-6 text-center">
               <div className="flex h-12 w-12 items-center justify-center rounded-full bg-[#161824] text-[#85786C] mb-3">
                 <Award size={24} />
               </div>
