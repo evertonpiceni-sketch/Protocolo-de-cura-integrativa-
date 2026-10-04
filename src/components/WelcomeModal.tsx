@@ -34,11 +34,11 @@ export default function WelcomeModal({ isOpen, onClose, userName, onStartFirstSe
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-[#2A2420]/30 backdrop-blur-md overflow-y-auto" id="welcome-modal">
-      <motion.div initial={{ opacity: 0, scale: 0.95, y: 20 }} animate={{ opacity: 1, scale: 1, y: 0 }} exit={{ opacity: 0, scale: 0.95, y: 20 }} className="w-full max-w-xl bg-[#FBF8F2] border border-[#E5DAC6] rounded-3xl p-6 sm:p-8 shadow-2xl space-y-6 relative overflow-hidden my-4 max-h-[92vh] overflow-y-auto">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4 bg-[#2A2420]/30 backdrop-blur-md overflow-y-auto overscroll-contain" id="welcome-modal" role="dialog" aria-modal="true" aria-label="Boas-vindas">
+      <motion.div initial={{ opacity: 0, scale: 0.95, y: 20 }} animate={{ opacity: 1, scale: 1, y: 0 }} exit={{ opacity: 0, scale: 0.95, y: 20 }} className="w-full max-w-xl bg-[#FBF8F2] border border-[#E5DAC6] rounded-2xl sm:rounded-3xl p-4 sm:p-8 shadow-2xl space-y-6 relative overflow-hidden my-1 sm:my-4 max-h-[calc(100dvh-1rem)] sm:max-h-[92dvh] overflow-y-auto overscroll-contain">
         <div className="absolute top-0 right-0 w-72 h-72 bg-amber-500/10 rounded-full blur-3xl pointer-events-none" />
         <div className="absolute bottom-0 left-0 w-72 h-72 bg-emerald-500/10 rounded-full blur-3xl pointer-events-none" />
-        <button onClick={handleClose} aria-label="Fechar" className="absolute top-5 right-5 p-2 text-[#5C5248] hover:text-white rounded-full bg-[#F5EFE4]/60 hover:bg-[#F5EFE4] transition cursor-pointer border-none"><X size={18} /></button>
+        <button onClick={handleClose} aria-label="Fechar" className="absolute top-4 right-4 w-11 h-11 text-[#5C5248] hover:text-[#2A2420] rounded-xl bg-[#F5EFE4]/80 hover:bg-[#EFE4D3] transition cursor-pointer border border-[#E5DAC6] flex items-center justify-center focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B88736]/30"><X size={18} /></button>
 
         <div className="text-center space-y-3 pt-1">
           <div className="relative w-full h-36 sm:h-44 rounded-2xl overflow-hidden border border-amber-500/30 shadow-xl group">
