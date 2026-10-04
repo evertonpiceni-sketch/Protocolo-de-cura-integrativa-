@@ -32,7 +32,7 @@ Referência congelada: painel aprovado `1001196520.jpg`, copiado para [reference
 
 `npm run lint`, `npm test` (5 testes) e `npm run build` aprovados. O build mantém avisos de tamanho de bundle e importação estática/dinâmica do mesmo modal.
 
-[verification.json](docs/visual-qa/natural-sereno/verification.json) registra dezesseis verificações aprovadas, sem erros de console: cliques reais, busca e vazio, progresso, aceite/check-in/player/roteiro, isolamento dos temas, login, entrada persistida e ausência de overflow em 320, 390, 768 e 1440 px. Reprodução: `node scripts/verify-natural-sereno.mjs`, com Vite disponível em `http://127.0.0.1:4173` e Chromium instalado.
+[verification.json](docs/visual-qa/natural-sereno/verification.json) registra dezessete verificações aprovadas, sem erros de console: cliques reais, busca e vazio, progresso, aceite/check-in/player/roteiro, isolamento dos temas, login, entrada persistida e ausência de overflow em 320, 390, 768 e 1440 px. Reprodução: `node scripts/verify-natural-sereno.mjs`, com Vite disponível em `http://127.0.0.1:4173` e Chromium instalado.
 
 Durante a validação foram corrigidos: índice de dia deslocado; tradução de etapa tratada como objeto em vez de texto; nomes de callbacks incompatíveis com o player; roteiro existente não exibido; círculo sem coordenada inicial; rodapé sobrepondo cliques da barra inferior. Nenhuma API, pagamento, regra de recomendação ou definição de jornada foi alterada.
 
@@ -86,3 +86,12 @@ A quarta produção passou em lint, nos cinco testes e no build. Dezesseis verif
 
 
 A medição de estilo calculado detectou ainda o espaçamento legado de 16 px na área principal do player mobile, apesar do espaçamento de 90 px especificado pelo tema. A regra final passa a prevalecer explicitamente, restrita ao Natural Sereno, e a QA verifica os 90 px calculados. Os controles extras existentes permanecem disponíveis.
+
+
+## Correção da entrada apontada pelo usuário
+
+A captura enviada na prévia mostrou o cadastro com cartão escuro e a arte de cinco figuras da Reintegração ao fundo. A inspeção confirmou que o CSS legado de `ep-auth-style-one` referenciava explicitamente essa imagem. Isso não correspondia ao Natural Sereno exigido para cadastro/login.
+
+Correção restrita ao shell de autenticação existente: paisagem do Natural Sereno, papel marfim, folhagem, tipografia verde, campos claros, dourado nos controles e logo oficial discreto. Não altera campos, validação, handlers, APIs, pagamento ou fluxo de entrada. A Reintegração mantém seus próprios assets e componentes. O cadastro/login fica independente do ID do tema do perfil, inclusive quando outro layout foi usado anteriormente.
+
+Evidências adicionais: `docs/visual-qa/natural-sereno/registration.png` e `login.png`. Lint, cinco testes, build e dezessete verificações Chromium aprovados. A verificação de entrada exercita as abas reais sem submeter dados e confere os fundos do cartão e campos sob os quatro IDs de tema. A alteração corrige a entrada; não declara a equivalência integral das doze telas concluída.
