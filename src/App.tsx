@@ -11,33 +11,19 @@ import MeditationSession from './components/MeditationSession';
 import JournalLog from './components/JournalLog';
 import ProUpgradeModal from './components/ProUpgradeModal';
 import ProReportCertificateModal from './components/ProReportCertificateModal';
-import AnamnesisModal from './components/AnamnesisModal';
 import SpecificTreatmentModal from './components/SpecificTreatmentModal';
-import ChakrasGuideModal from './components/ChakrasGuideModal';
-import HerbalBathsModal from './components/HerbalBathsModal';
 import PlansValuesGuideModal from './components/PlansValuesGuideModal';
-import AstralMapModal from './components/AstralMapModal';
 import NumerologyModal from './components/NumerologyModal';
 import MobileInstallModal from './components/MobileInstallModal';
 import OnboardingFlow from './components/OnboardingFlow';
 import ArchangelMichaelPrayerModal from './components/ArchangelMichaelPrayerModal';
-import AudioSettingsModal from './components/AudioSettingsModal';
-import CoursesModal from './components/CoursesModal';
-import AdminPanelModal from './components/AdminPanelModal';
-import HooponoponoModal from './components/HooponoponoModal';
-import AchievementsModal from './components/AchievementsModal';
-import SystemicQuestionsModal from './components/SystemicQuestionsModal';
 import ArcanjoProtocolView from './components/ArcanjoProtocolView';
-import DailyDiaryModal from './components/DailyDiaryModal';
-import ContactModal from './components/ContactModal';
-import PromoVideoModal from './components/PromoVideoModal';
 import MilestoneCelebrationModal from './components/MilestoneCelebrationModal';
 import DailyTipModal from './components/DailyTipModal';
 import PersonalJourney21 from './components/PersonalJourney21';
 import VideoStudioModal from './components/VideoStudioLightModal';
 
 import { SpeedInsights } from '@vercel/speed-insights/react';
-import DashboardCura from './components/DashboardCura';
 import TransformationHome from './components/TransformationHome';
 import { APPROVED_LOGO_DATA_URI } from './components/ApprovedBrand';
 
@@ -47,6 +33,21 @@ import { evaluateAchievements } from './lib/achievementsData';
 import { AppLanguage, SUPPORTED_LANGUAGES, UI_TRANSLATIONS } from './lib/i18n';
 import { AnimatePresence } from "motion/react";
 import { localNotificationManager } from './lib/notifications';
+
+const AnamnesisModal = React.lazy(() => import('./components/AnamnesisModal'));
+const ChakrasGuideModal = React.lazy(() => import('./components/ChakrasGuideModal'));
+const HerbalBathsModal = React.lazy(() => import('./components/HerbalBathsModal'));
+const AstralMapModal = React.lazy(() => import('./components/AstralMapModal'));
+const AudioSettingsModal = React.lazy(() => import('./components/AudioSettingsModal'));
+const CoursesModal = React.lazy(() => import('./components/CoursesModal'));
+const AdminPanelModal = React.lazy(() => import('./components/AdminPanelModal'));
+const HooponoponoModal = React.lazy(() => import('./components/HooponoponoModal'));
+const AchievementsModal = React.lazy(() => import('./components/AchievementsModal'));
+const SystemicQuestionsModal = React.lazy(() => import('./components/SystemicQuestionsModal'));
+const DailyDiaryModal = React.lazy(() => import('./components/DailyDiaryModal'));
+const ContactModal = React.lazy(() => import('./components/ContactModal'));
+const PromoVideoModal = React.lazy(() => import('./components/PromoVideoModal'));
+const DashboardCura = React.lazy(() => import('./components/DashboardCura'));
 
 const LOCAL_STORAGE_KEY_CURRENT_LOGIN = 'cura_integrada_logged_in_user_v1';
 const LOCAL_STORAGE_KEY_ACCOUNTS = 'cura_integrada_accounts_v1';
@@ -701,6 +702,7 @@ export default function App() {
   const selectedInsight = selectedDayDetail ? currentInsightsList[selectedDayDetail - 1] : null;
 
   return (
+    <React.Suspense fallback={null}>
     <>
 
       {showPersonalJourney ? (
@@ -2340,5 +2342,6 @@ export default function App() {
         </div>
       )}
     </>
+    </React.Suspense>
   );
 }
