@@ -178,20 +178,20 @@ export default function CoursesModal({ isOpen, onClose, userName, userProfile, o
         </div>
 
         {/* Introduction Banner */}
-        <div className="p-4 rounded-2xl bg-gradient-to-r from-purple-950/30 via-indigo-950/20 to-[#F3EBDD]/50 border border-purple-500/30 flex items-start gap-3.5">
+        <div className="p-4 rounded-2xl bg-gradient-to-r from-white via-[#FBF8F2] to-[#F3EBDD] border border-[#E5DAC6] flex items-start gap-3.5">
           <Sparkles size={20} className="text-amber-400 shrink-0 mt-0.5" />
           <div className="space-y-1">
             <div className="flex items-center gap-2">
-              <span className="text-xs font-bold text-amber-300">
-                ✨ Formações & Sintonizações Energéticas
+              <span className="text-xs font-bold text-[#8F631E]">
+                Formações & Sintonizações Energéticas
               </span>
-              <span className="px-2 py-0.5 rounded-full text-[9px] font-mono font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 uppercase">
+              <span className="px-2 py-0.5 rounded-full text-[9px] font-mono font-bold bg-[#B88736]/10 text-[#8F631E] border border-[#B88736]/25 uppercase">
                 Turmas & Iniciações Individuais
               </span>
             </div>
             <p className="text-xs text-[#5C5248] leading-relaxed">
               {userProfile?.plan === 'pro' ? (
-                <><strong>🎁 BÔNUS VIP / PRO:</strong> Você tem direito a resgatar <strong>UM curso de formação gratuito</strong> da lista abaixo! Clique em <strong>Fale Conosco</strong> para agendar sua iniciação e validar seu acesso com Éverton Rodrigo Piceni.</>
+                <><strong>BÔNUS VIP / PRO:</strong> Você tem direito a resgatar <strong>UM curso de formação gratuito</strong> da lista abaixo! Clique em <strong>Fale Conosco</strong> para agendar sua iniciação e validar seu acesso com Éverton Rodrigo Piceni.</>
               ) : (
                 <>Desenvolva sua sensibilidade canalizadora, torne-se um canal puro de luz e aprenda os sistemas sagrados de <strong>Reiki Kundalini</strong>, <strong>Reiki Usui Tradicional</strong>, <strong>Chama Rosa Vibrante</strong>, <strong>Violet Flame</strong> e <strong>Reiki Karuna Ki</strong> com o Mestre e Terapeuta <strong>Éverton Rodrigo Piceni</strong>.</>
               )}
