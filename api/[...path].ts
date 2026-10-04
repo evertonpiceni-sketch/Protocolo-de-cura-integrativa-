@@ -48,13 +48,22 @@ async function redeemFreeTrial(req: any, res: any) {
   const user = getAuthenticatedUser(req);
   if (!user) return res.status(401).json({ error: "Não autorizado." });
 
-  const { planId, price } = req.body || {};
-  if (planId !== FREE_TRIAL_PLAN || Number(price) !== 0) {
-    return res.status(403).json({ error: "Upgrade manual não permitido. Pagamentos devem ser confirmados pelo provedor." });
+  const { planId, price, couponCode } = req.body || {};
+  if (
+    planId !== FREE_TRIAL_PLAN ||
+    Number(price) !== 0 ||
+    String(couponCode || "").trim().toUpperCase() !== "VIP7"
+  ) {
+    return res.status(403).json({ error: "Degustação VIP7 inválida." });
   }
 
   if (user.profile?.trial7dRedeemedAt) {
     return res.status(409).json({ error: "A degustação VIP de 7 dias já foi utilizada nesta conta." });
+  }
+
+  const redeemedCount = getDb().users.filter((candidate: any) => Boolean(candidate.profile?.trial7dRedeemedAt)).length;
+  if (redeemedCount >= 20) {
+    return res.status(410).json({ error: "A campanha VIP7 atingiu o limite de 20 resgates." });
   }
 
   const activatedAt = new Date();
