@@ -375,3 +375,124 @@
 /* The legacy footer owns z-20. Keep it below the fixed app navigation on short
    internal screens, where it starts before the bottom of the viewport. */
 :root[data-layout="natural-sereno"] #main-footer { z-index: 0; }
+
+/* Approved forest scenes: the splash, arrival and player have distinct art. */
+:root[data-layout="natural-sereno"] #auth-loading-view {
+  position: relative;
+  justify-content: flex-start;
+  padding: 54px 24px 28px;
+  background: url('/brand/natural-sereno/presenca.webp') center / cover no-repeat #063020 !important;
+  font-family: 'Lora', Georgia, serif;
+}
+:root[data-layout="natural-sereno"] #auth-loading-view > div:first-child { width: 74px; height: 74px; margin-bottom: 8px; }
+:root[data-layout="natural-sereno"] #auth-loading-view > p:first-of-type { max-width: 290px; font-size: 10px; letter-spacing: .1em; }
+:root[data-layout="natural-sereno"] #auth-loading-view > h2 { font-size: 22px; }
+:root[data-layout="natural-sereno"] #auth-loading-view > p:last-of-type { display: none; }
+:root[data-layout="natural-sereno"] #auth-loading-view .ns-loading-details {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: auto;
+  width: min(100%, 350px);
+  opacity: 1;
+}
+:root[data-layout="natural-sereno"] .ns-loading-details > p {
+  margin-bottom: 30px;
+  font-size: 25px;
+  line-height: 1.35;
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  text-transform: uppercase;
+}
+:root[data-layout="natural-sereno"] .ns-loading-track {
+  display: block;
+  width: 100%;
+  height: 10px;
+  border-radius: 8px;
+  background: rgba(249, 241, 209, .25);
+  overflow: hidden;
+}
+:root[data-layout="natural-sereno"] .ns-loading-track > span {
+  display: block;
+  width: 65%;
+  height: 100%;
+  background: #e6c66e;
+  border-radius: inherit;
+  animation: ns-loading 1.8s ease-in-out infinite alternate;
+}
+:root[data-layout="natural-sereno"] .ns-loading-details small { font-size: 12px; color: #fff8e6; margin-top: 14px; line-height: 1.5; }
+@keyframes ns-loading { from { transform: translateX(-65%); } to { transform: translateX(90%); } }
+:root[data-layout="natural-sereno"] .ns-welcome {
+  background: url('/brand/natural-sereno/acolhimento.webp') center / cover no-repeat #063020;
+  padding: 44px 24px 30px;
+}
+:root[data-layout="natural-sereno"] .ns-welcome::before { background: rgba(2, 31, 19, .15); }
+:root[data-layout="natural-sereno"] .ns-welcome-content { display: flex; flex-direction: column; align-items: center; min-height: calc(100dvh - 74px); }
+:root[data-layout="natural-sereno"] .ns-welcome-brand { width: 64px; height: 64px; object-fit: contain; opacity: .6; margin-bottom: 70px; }
+:root[data-layout="natural-sereno"] .ns-welcome h1 { font-size: 39px; }
+:root[data-layout="natural-sereno"] .ns-welcome-content > p:first-of-type { max-width: 320px; margin: 18px 0 35px; }
+:root[data-layout="natural-sereno"] .ns-welcome-audio { position: relative; width: 100%; padding: 25px 0; }
+:root[data-layout="natural-sereno"] .ns-welcome-audio .ns-audio-lines { position: absolute; inset: 0; width: 100%; height: 100%; margin: 0; opacity: .45; }
+:root[data-layout="natural-sereno"] .ns-welcome-play { position: relative; width: 120px; height: 120px; }
+:root[data-layout="natural-sereno"] .ns-welcome .ns-welcome-status { margin: 12px 0 36px; }
+:root[data-layout="natural-sereno"] .ns-welcome .ns-gold { margin-top: auto; width: 100%; }
+:root[data-layout="natural-sereno"] .ns-welcome .ns-signature { font-size: 23px; margin: 20px 0 0; }
+:root[data-layout="natural-sereno"] .ns-app:not([data-ns-screen="home"]):not([data-ns-screen="welcome"]):not([data-ns-screen="community"])::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background: url('/brand/natural-sereno/folhagem.webp') center top / 100% auto no-repeat;
+}
+:root[data-layout="natural-sereno"] .ns-app > :is(header, section) { position: relative; z-index: 1; }
+:root[data-layout="natural-sereno"] .ns-page-heading { background: transparent; }
+:root[data-layout="natural-sereno"] .ns-app:not([data-ns-screen="home"]):not([data-ns-screen="welcome"]):not([data-ns-screen="community"]) { background: var(--ns-cream); }
+:root[data-layout="natural-sereno"] .ns-result { padding-top: 0; }
+:root[data-layout="natural-sereno"] .ns-result-item { align-items: center; padding: 10px; }
+:root[data-layout="natural-sereno"] .ns-result-item > div { flex: 1; min-width: 0; }
+:root[data-layout="natural-sereno"] .ns-result-symbol { display: grid; place-items: center; flex-shrink: 0; width: 46px; height: 46px; border: 1px solid #d3bd82; border-radius: 50%; background: #fbf2d7; }
+:root[data-layout="natural-sereno"] .ns-result-symbol svg { margin: 0; color: #98752c; }
+:root[data-layout="natural-sereno"] .ns-result-item:nth-of-type(3) .ns-result-symbol { color: #297241; background: #edf1d8; }
+:root[data-layout="natural-sereno"] .ns-result-item small { font-size: 12px; }
+:root[data-layout="natural-sereno"] .ns-result-item strong { font-size: 15px; line-height: 1.4; }
+:root[data-layout="natural-sereno"] .ns-dock svg { width: 25px; height: 25px; stroke-width: 1.8; }
+@media (max-height: 720px) {
+  :root[data-layout="natural-sereno"] .ns-welcome-brand { margin-bottom: 25px; }
+  :root[data-layout="natural-sereno"] .ns-welcome-content > p:first-of-type { margin-bottom: 15px; }
+  :root[data-layout="natural-sereno"] .ns-welcome-audio { padding: 12px 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  :root[data-layout="natural-sereno"] .ns-loading-track > span { animation: none; }
+}
+:root[data-layout="natural-sereno"] #meditation-session .ns-session-title { display: block; margin-bottom: 20px; }
+:root[data-layout="natural-sereno"] #meditation-session .ns-session-title > p { font: 27px/1.2 'Cormorant Garamond', Georgia, serif; margin-bottom: 3px; }
+:root[data-layout="natural-sereno"] #meditation-session .ns-session-title > h2 { font-size: 34px !important; font-family: 'Cormorant Garamond', Georgia, serif; }
+:root[data-layout="natural-sereno"] #meditation-session > main > div > h2 { font-size: 20px !important; margin-bottom: 4px; }
+:root[data-layout="natural-sereno"] #meditation-session > main > div > p { margin-bottom: 8px; }
+:root[data-layout="natural-sereno"] #meditation-session > main > div > .inline-flex { font-size: 10px; margin-bottom: 10px; }
+:root[data-layout="natural-sereno"] #meditation-session > main .relative.w-44.h-44 { width: 80px !important; height: 80px !important; }
+:root[data-layout="natural-sereno"] #meditation-session > main { padding-top: 170px; min-height: 390px; }
+:root[data-layout="natural-sereno"] #meditation-session > header > div:first-child > div:first-child { background: #073b2b !important; border-color: #d6be76 !important; flex-shrink: 0; }
+:root[data-layout="natural-sereno"] #meditation-session > main .relative.w-44.h-44 span { font-size: 9px; }
+:root[data-layout="natural-sereno"] .ns-app[data-ns-screen="menu"] .ns-signature { padding-right: 20px; font-size: 23px; }
+:root[data-layout="natural-sereno"] .ns-welcome-brand,
+:root[data-layout="natural-sereno"] #auth-loading-view > div:first-child img { mix-blend-mode: multiply; }
+:root[data-layout="natural-sereno"] .ns-app:not([data-ns-screen="home"]):not([data-ns-screen="welcome"]):not([data-ns-screen="community"]) { background: var(--ns-valley) center / cover no-repeat var(--ns-cream); }
+:root[data-layout="natural-sereno"] .ns-app:not([data-ns-screen="home"]):not([data-ns-screen="welcome"]):not([data-ns-screen="community"])::before { background: rgba(255, 250, 231, .94); }
+:root[data-layout="natural-sereno"] .ns-profile .ns-row { min-height: 68px; margin-bottom: 6px; }
+:root[data-layout="natural-sereno"] .ns-profile .ns-row-icon { width: 38px; height: 38px; border-radius: 0; background: transparent; box-shadow: none; color: #6c735b; }
+:root[data-layout="natural-sereno"] .ns-profile-identity > svg { width: 62px; height: 62px; border: 1px solid var(--ns-line); border-radius: 50%; padding: 12px; background: var(--ns-paper); }
+:root[data-layout="natural-sereno"] #auth-loading-view > div:first-child { opacity: 1; animation: none; }
+:root[data-layout="natural-sereno"] #auth-loading-view > div:first-child img { opacity: .6; }
+:root[data-layout="natural-sereno"] .ns-app:not([data-ns-screen="home"]):not([data-ns-screen="welcome"]):not([data-ns-screen="community"])::after { background-size: 100% 100dvh; }
+:root[data-layout="natural-sereno"] .ns-welcome-audio .ns-audio-wave { position: absolute; top: 50%; left: 0; width: 100%; height: auto; transform: translateY(-50%); pointer-events: none; }
+:root[data-layout="natural-sereno"] #auth-loading-view { background-size: auto calc(100dvh + 90px) !important; background-position: center bottom !important; padding-bottom: 55px; }
+:root[data-layout="natural-sereno"] #anamnesis-modal :is(p, label) { font-size: 15px; line-height: 1.6; }
+:root[data-layout="natural-sereno"] #anamnesis-modal h2 { font-size: 32px; }
+:root[data-layout="natural-sereno"] .ns-home-message p { font-weight: 600; }
+:root[data-layout="natural-sereno"] #meditation-session .ns-play-toggle { width: 88px; height: 88px; flex-shrink: 0; }
+:root[data-layout="natural-sereno"] #meditation-session .ns-play-toggle svg { width: 30px; height: 30px; }
+:root[data-layout="natural-sereno"] #meditation-session > footer > div > div:last-child > div { gap: 8px; }
+:root[data-layout="natural-sereno"] #meditation-session > footer button:is([title="Voltar 15 segundos"], [title="Avançar 15 segundos"]) { width: 48px; height: 48px; }
+:root[data-layout="natural-sereno"] #meditation-session > footer button:is([title="Voltar 15 segundos"], [title="Avançar 15 segundos"]) svg { width: 29px; height: 29px; }
+:root[data-layout="natural-sereno"] #meditation-session > main { padding-top: 140px; }

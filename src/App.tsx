@@ -743,6 +743,11 @@ export default function App() {
         <p className="text-xs text-[#5C5248] max-w-xs leading-relaxed">
           Preparando seu espaço de presença e acolhimento...
         </p>
+        <div className="ns-loading-details hidden" role="status">
+          <p>Cuidar de si também<br />é um ato de amor.</p>
+          <span className="ns-loading-track" aria-hidden="true"><span /></span>
+          <small>Preparando seu espaço de presença e acolhimento...</small>
+        </div>
       </div>
     );
   }

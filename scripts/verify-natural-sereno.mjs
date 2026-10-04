@@ -43,7 +43,11 @@ try {
  await ready('[data-ns-screen="home"]');await shot('home');
  for(const [label,screen]of[['Jornada','journey'],['Biblioteca','library'],['Comunidade','community']]){await dock(label);await ready(`[data-ns-screen="${screen}"]`);await shot(screen)}
  checks.push('Home, jornada, biblioteca and community navigate by real pointer clicks; dock unobstructed.');
- await dock('Biblioteca');await page.type('input[aria-label="Buscar na biblioteca"]','numerologia');
+ await dock('Biblioteca');
+ await page.waitForFunction(()=>Array.from(document.querySelectorAll('.ns-library-row img')).every(img=>img.complete && img.naturalWidth>0));
+ assert(await page.$$eval('.ns-library-row img',els=>els.every(img=>img.getAttribute('src').startsWith('/brand/natural-sereno/'))));
+ checks.push('Every Natural Sereno library thumbnail loads from an isolated theme asset.');
+ await page.type('input[aria-label="Buscar na biblioteca"]','numerologia');
  assert.equal(await page.$$eval('.ns-library-row',els=>els.length),1);
  await page.$eval('input[aria-label="Buscar na biblioteca"]',el=>el.select());await page.keyboard.type('sem resultado');
  await ready('.ns-empty'); checks.push('Library search and empty state.');
@@ -55,6 +59,13 @@ try {
  await dock('Jornada');await page.click('button[aria-label="Abrir dia 3: Purificação das Águas"]');await ready('.ep-acceptance-portal');await shot('portal');assert.equal(await page.$eval('#meditation-session header h1',el=>el.textContent.trim()),'Purificação das Águas');
  await textButton('Aceitar e Adentrar o Espaço Sagrado');await ready('[data-session-phase="checkin_before"]');
  await textButton('Iniciar a Harmonização');await ready('[data-session-phase="playing"]');await shot('player');
+ for(const width of [320,390,768,1440]){
+  await page.setViewport({width,height:844,deviceScaleFactor:1});
+  assert(await page.$eval('.ns-play-toggle',el=>{const r=el.getBoundingClientRect();return r.top>=0&&r.bottom<=innerHeight&&r.left>=0&&r.right<=innerWidth}),`Playback control visible at ${width}`);
+  assert(await page.$eval('#meditation-session',el=>el.scrollWidth<=innerWidth),`No player overflow at ${width}`);
+ }
+ await page.setViewport({width:390,height:844,deviceScaleFactor:1});
+ checks.push('Larger playback controls remain visible with no player overflow at 320, 390, 768 and 1440 CSS px.');
  for(const title of ['Pausar sessão','Iniciar sessão','Voltar 15 segundos','Avançar 15 segundos','Ler roteiro completo']){const b=await page.$(`button[title="${title}"]`);if(b)await b.click();await new Promise(r=>setTimeout(r,100))}
  assert(await page.$eval('[aria-label="Roteiro da sessão"]',el=>el.textContent.includes('Que bom ter você aqui.')));
  checks.push('Acceptance → check-in → player; play/pause, seek and script-drawer callbacks do not throw. Browser speech held in QA to inspect the stage.');
