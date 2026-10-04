@@ -93,12 +93,12 @@ export default function AstralMapModal({
   const isPro = userProfile.plan === 'pro';
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-[#2A2420]/30 backdrop-blur-md overflow-y-auto" id="astral-map-modal">
+    <div className="fixed inset-0 z-50 flex items-start sm:items-center justify-center p-2 sm:p-4 bg-[#2A2420]/30 backdrop-blur-md overflow-y-auto overscroll-contain" id="astral-map-modal" role="dialog" aria-modal="true" aria-label="Mapa astral">
       <motion.div
         initial={{ opacity: 0, scale: 0.97, y: 10 }}
         animate={{ opacity: 1, scale: 1, y: 0 }}
         exit={{ opacity: 0, scale: 0.97, y: 10 }}
-        className="w-full max-w-3xl bg-[#FBF8F2] border border-purple-500/30 rounded-3xl p-5 sm:p-7 shadow-2xl relative overflow-hidden my-4 max-h-[92vh] flex flex-col"
+        className="w-full max-w-3xl bg-[#FBF8F2] border border-[#B88736]/25 rounded-2xl sm:rounded-3xl p-4 sm:p-7 shadow-2xl relative overflow-hidden my-1 sm:my-4 max-h-[calc(100dvh-1rem)] sm:max-h-[92dvh] flex flex-col"
       >
         {/* Divine Cosmic Background Glows */}
         <div className="absolute top-0 right-0 w-80 h-80 bg-purple-600/15 rounded-full blur-3xl pointer-events-none" />
@@ -112,7 +112,7 @@ export default function AstralMapModal({
             </div>
             <div>
               <div className="flex items-center gap-2">
-                <span className="text-[10px] font-mono uppercase tracking-widest text-[#B88736] bg-purple-500/10 border border-purple-500/30 px-2.5 py-0.5 rounded-full font-bold">
+                <span className="text-[10px] font-mono uppercase tracking-widest text-[#B88736] bg-purple-500/10 border border-[#B88736]/25 px-2.5 py-0.5 rounded-full font-bold">
                   Astrologia Quântica Integrada
                 </span>
                 {isPro && (
@@ -276,7 +276,7 @@ export default function AstralMapModal({
                 </div>
 
                 {/* Lua */}
-                <div className="p-4 rounded-2xl bg-gradient-to-b from-purple-950/30 to-[#F3EBDD] border border-purple-500/30 space-y-2 relative overflow-hidden">
+                <div className="p-4 rounded-2xl bg-gradient-to-b from-purple-950/30 to-[#F3EBDD] border border-[#B88736]/25 space-y-2 relative overflow-hidden">
                   <div className="flex items-center justify-between">
                     <span className="text-[10px] font-mono uppercase text-purple-400 font-bold flex items-center gap-1.5">
                       <Moon size={14} /> Lua • Emoções
@@ -402,7 +402,7 @@ export default function AstralMapModal({
               )}
 
               {astral.midheavenMission && (
-                <div className="p-4 rounded-2xl bg-gradient-to-r from-purple-950/40 to-[#F3EBDD] border border-purple-500/30 space-y-1.5">
+                <div className="p-4 rounded-2xl bg-gradient-to-r from-purple-950/40 to-[#F3EBDD] border border-[#B88736]/25 space-y-1.5">
                   <div className="flex items-center justify-between">
                     <span className="text-xs font-mono font-bold text-amber-400 uppercase flex items-center gap-1.5">
                       <Crown size={14} /> Meio do Céu (Casa 10) • Propósito Maior
