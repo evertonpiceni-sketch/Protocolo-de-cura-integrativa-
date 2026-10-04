@@ -14,7 +14,7 @@ export default function OnboardingFlow({ onComplete }: OnboardingFlowProps) {
   const [intention, setIntention] = useState('');
   const next = () => step < 6 ? setStep(s => s + 1) : onComplete();
 
-  return <div className="fixed inset-0 z-[100] overflow-y-auto bg-[radial-gradient(circle_at_50%_0,rgba(214,174,82,.14),transparent_28rem),linear-gradient(180deg,#FBF8F2,#F8F4EC)] text-[#2A2420]">
+  return <div className="fixed inset-0 z-[100] min-h-dvh overflow-y-auto overscroll-contain bg-[radial-gradient(circle_at_50%_0,rgba(214,174,82,.14),transparent_28rem),linear-gradient(180deg,#FBF8F2,#F8F4EC)] text-[#2A2420]">
     <div className="min-h-full flex items-center justify-center p-5">
       <AnimatePresence mode="wait">
         <motion.main key={step} initial={{opacity:0,y:18}} animate={{opacity:1,y:0}} exit={{opacity:0,y:-14}}
@@ -39,7 +39,7 @@ export default function OnboardingFlow({ onComplete }: OnboardingFlowProps) {
               <p>Não estou aqui porque tenho todas as respostas. Estou aqui porque sei como é precisar de acolhimento e não encontrá-lo.</p>
               <p className="text-[#d5ba78]">Minha experiência não substitui profissionais de saúde. Ela me ensinou a não olhar para a dor de alguém de cima para baixo.</p>
             </div>
-            <button onClick={next} className="w-full rounded-2xl border border-[#B88736]/38 bg-[#073426]/78 py-4 font-semibold text-[#f3dfaa] shadow-[0_10px_26px_rgba(0,0,0,.16)]">Continuar</button>
+            <button onClick={next} className="w-full rounded-2xl border border-[#B88736]/35 bg-[#F5EFE4] py-4 font-semibold text-[#8F631E] shadow-[0_10px_26px_rgba(89,70,43,.08)]">Continuar</button>
           </section>}
 
           {step === 3 && <section className="space-y-6">
