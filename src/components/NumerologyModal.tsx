@@ -34,7 +34,8 @@ export default function NumerologyModal({
   const [activeTab, setActiveTab] = useState<'compact' | 'complete' | 'payment'>('compact');
   const [pixCopied, setPixCopied] = useState(false);
   const [selectedPaymentMethod, setSelectedPaymentMethod] = useState<'pix' | 'card'>('pix');
-  const [simulatedPurchaseSuccess, setSimulatedPurchaseSuccess] = useState(false);
+  const [isCheckoutProcessing, setIsCheckoutProcessing] = useState(false);
+  const [checkoutError, setCheckoutError] = useState<string | null>(null);
 
   if (!isOpen) return null;
 
@@ -44,7 +45,7 @@ export default function NumerologyModal({
   );
 
   const isPro = userProfile.plan === 'pro';
-  const isFullUnlocked = isPro || userProfile.numerologyPurchased || simulatedPurchaseSuccess;
+  const isFullUnlocked = isPro || Boolean(userProfile.numerologyPurchased);
 
   const handlePrint = () => {
     window.print();
@@ -56,20 +57,40 @@ export default function NumerologyModal({
     setTimeout(() => setPixCopied(false), 3000);
   };
 
-  const handleConfirmPurchase = () => {
-    setSimulatedPurchaseSuccess(true);
-    if (onSaveProfile) {
-      const updated: UserProfile = {
-        ...userProfile,
-        numerologyPurchased: true,
-        numerology: {
-          ...numerology,
-          isFullUnlocked: true
-        }
-      };
-      onSaveProfile(updated);
+  const handleConfirmPurchase = async () => {
+    if (isCheckoutProcessing) return;
+    setCheckoutError(null);
+    setIsCheckoutProcessing(true);
+    try {
+      const response = await fetch('/api/payment/create-checkout', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'same-origin',
+        body: JSON.stringify({
+          productType: 'numerology_full',
+          paymentMethod: selectedPaymentMethod,
+          price: 90
+        })
+      });
+      const data = await response.json().catch(() => ({}));
+      if (!response.ok) {
+        throw new Error(data.error || 'Pagamento ainda não está disponível.');
+      }
+      if (data.checkoutUrl) {
+        window.location.assign(data.checkoutUrl);
+        return;
+      }
+      if (data.status === 'paid' && data.user?.profile?.numerologyPurchased) {
+        onSaveProfile?.(data.user.profile);
+        setActiveTab('complete');
+        return;
+      }
+      throw new Error('Aguardando confirmação segura do pagamento.');
+    } catch (error) {
+      setCheckoutError(error instanceof Error ? error.message : 'Não foi possível iniciar o pagamento.');
+    } finally {
+      setIsCheckoutProcessing(false);
     }
-    setActiveTab('complete');
   };
 
   return (
@@ -619,16 +640,24 @@ export default function NumerologyModal({
                   </div>
                 )}
 
-                {/* Simulation Button for Instant Activation */}
-                <div className="pt-2">
+                <div className="pt-2 space-y-2">
+                  {checkoutError && (
+                    <p role="alert" className="rounded-xl border border-rose-200 bg-rose-50 px-3 py-2 text-xs text-rose-700">
+                      {checkoutError}
+                    </p>
+                  )}
                   <button
                     type="button"
                     onClick={handleConfirmPurchase}
-                    className="w-full py-3.5 rounded-2xl bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-400 hover:to-teal-400 text-slate-950 font-bold text-xs sm:text-sm flex items-center justify-center gap-2 transition cursor-pointer shadow-lg shadow-emerald-500/20"
+                    disabled={isCheckoutProcessing}
+                    className="w-full py-3.5 rounded-2xl bg-[#B88736] hover:bg-[#8F631E] disabled:opacity-60 disabled:cursor-not-allowed text-white font-bold text-xs sm:text-sm flex items-center justify-center gap-2 transition cursor-pointer shadow-sm"
                   >
                     <CheckCircle2 size={16} />
-                    <span>Confirmar Pagamento & Liberar Mapa Completo</span>
+                    <span>{isCheckoutProcessing ? 'Iniciando pagamento...' : 'Iniciar pagamento seguro'}</span>
                   </button>
+                  <p className="text-[11px] text-[#85786C] text-center">
+                    O mapa completo só é liberado depois da confirmação do pagamento pelo servidor.
+                  </p>
                 </div>
               </div>
 
