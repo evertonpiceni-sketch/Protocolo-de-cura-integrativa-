@@ -142,7 +142,8 @@ export default function SystemicQuestionsModal({
         {/* Close button */}
         <button
           onClick={handleCloseModal}
-          className="absolute top-5 right-5 w-8 h-8 rounded-full bg-[#F5EFE4]/80 border border-[#E5DAC6] text-[#5C5248] hover:text-[#2A2420] flex items-center justify-center transition cursor-pointer z-10"
+          aria-label="Fechar reflexões sistêmicas"
+          className="absolute top-4 right-4 w-11 h-11 rounded-full bg-[#F5EFE4]/90 border border-[#E5DAC6] text-[#5C5248] hover:text-[#2A2420] flex items-center justify-center transition cursor-pointer z-10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B88736]/35"
         >
           <X size={16} />
         </button>
@@ -204,7 +205,7 @@ export default function SystemicQuestionsModal({
             <button
               onClick={() => setActiveDay(prev => Math.max(prev - 1, 1))}
               disabled={activeDay === 1}
-              className="p-2 rounded-xl bg-white border border-[#E5DAC6] text-[#5C5248] hover:text-[#2A2420] disabled:opacity-30 disabled:cursor-not-allowed transition cursor-pointer shrink-0"
+              className="w-11 h-11 rounded-xl bg-white border border-[#E5DAC6] text-[#5C5248] hover:text-[#2A2420] disabled:opacity-30 disabled:cursor-not-allowed transition cursor-pointer shrink-0 flex items-center justify-center focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B88736]/30"
             >
               <ChevronLeft size={16} />
             </button>
@@ -219,16 +220,17 @@ export default function SystemicQuestionsModal({
                   <button
                     key={dNum}
                     onClick={() => setActiveDay(dNum)}
-                    className={`w-8 h-8 rounded-xl text-xs font-mono font-bold transition flex items-center justify-center relative shrink-0 cursor-pointer ${
+                    aria-label={`Abrir dia ${dNum}${hasAnswer ? ', respondido' : ''}`}
+                    className={`w-10 h-10 rounded-xl text-xs font-mono font-bold transition flex items-center justify-center relative shrink-0 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B88736]/35 ${
                       isSelected
-                        ? 'bg-[#B88736] text-white ring-2 ring-indigo-400 shadow-md shadow-indigo-600/30'
+                        ? 'bg-[#B88736] text-white ring-2 ring-[#B88736]/20 shadow-sm'
                         : hasAnswer
-                        ? 'bg-emerald-950/60 border border-emerald-500/40 text-emerald-300'
+                        ? 'bg-emerald-50 border border-emerald-200 text-emerald-700'
                         : isCurrent
-                        ? 'bg-amber-950/50 border border-amber-500/40 text-amber-300'
+                        ? 'bg-amber-50 border border-amber-200 text-amber-700'
                         : 'bg-white border border-[#E5DAC6] text-[#5C5248] hover:border-[#E5DAC6] hover:text-[#2A2420]'
                     }`}
-                    title={`Dia ${dNum} ${hasAnswer ? '(Respondido ✨)' : ''}`}
+                    title={`Dia ${dNum} ${hasAnswer ? '(Respondido)' : ''}`}
                   >
                     {dNum}
                     {hasAnswer && (
@@ -242,7 +244,7 @@ export default function SystemicQuestionsModal({
             <button
               onClick={() => setActiveDay(prev => Math.min(prev + 1, 21))}
               disabled={activeDay === 21}
-              className="p-2 rounded-xl bg-white border border-[#E5DAC6] text-[#5C5248] hover:text-[#2A2420] disabled:opacity-30 disabled:cursor-not-allowed transition cursor-pointer shrink-0"
+              className="w-11 h-11 rounded-xl bg-white border border-[#E5DAC6] text-[#5C5248] hover:text-[#2A2420] disabled:opacity-30 disabled:cursor-not-allowed transition cursor-pointer shrink-0 flex items-center justify-center focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B88736]/30"
             >
               <ChevronRight size={16} />
             </button>
@@ -252,7 +254,7 @@ export default function SystemicQuestionsModal({
         {/* Question & Guided Reflection Content (Scrollable) */}
         <div className="flex-1 overflow-y-auto pr-1 py-4 space-y-4">
           {/* Active Day Banner */}
-          <div className="p-4 rounded-2xl bg-gradient-to-br from-indigo-950/40 via-[#FBF8F2] to-purple-950/40 border border-[#B88736]/30 space-y-3 shadow-lg">
+          <div className="p-4 rounded-2xl bg-white/80 border border-[#E5DAC6] space-y-3 shadow-sm">
             <div className="flex flex-wrap items-center justify-between gap-2">
               <div className="flex items-center gap-2">
                 <span className="px-2.5 py-0.5 rounded-full bg-[#B88736]/20 text-[#B88736] text-xs font-mono font-bold border border-[#B88736]/30">
