@@ -1,4 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
+import ReintegrationPresenceVisual from './ReintegrationPresenceVisual';
+import { useDialogFocus } from '../hooks/useDialogFocus';
 import { motion } from 'motion/react';
 import { ArrowLeft, Check, ChevronLeft, ChevronRight, Headphones, Pause, Play, RotateCcw, ShieldCheck, X } from 'lucide-react';
 import { REINTEGRATION_DAYS, getReintegrationAcceptance } from '../data/reintegrationJourneyPublic';
@@ -26,6 +28,10 @@ export default function PersonalJourney21({ onClose, initialCompletedDays, onCom
   const cueRequestRef = useRef<AbortController | null>(null);
   const lastCueRef = useRef(-1);
   const cuePendingRef = useRef(false);
+  const [activeCueIndex, setActiveCueIndex] = useState(-1);
+  const [showScript, setShowScript] = useState(false);
+  const scriptRef = useRef<HTMLElement | null>(null);
+  useDialogFocus(showScript, scriptRef, () => setShowScript(false));
   const wakeLockRef = useRef<any>(null);
   const playingRef = useRef(false);
   const [completed, setCompleted] = useState<number[]>(() => {
@@ -104,13 +110,12 @@ export default function PersonalJourney21({ onClose, initialCompletedDays, onCom
 
   const playCueForTime = async (currentTime: number) => {
     if (!playingRef.current || cuePendingRef.current || (voiceRef.current && !voiceRef.current.paused)) return;
-    const dueCue = item.audioCues.reduce((last, cue, index) => cue.at <= currentTime + 0.5 ? index : last, -1);
+    const dueCue = item.audioCues.findIndex((cue, index) => index > lastCueRef.current && cue.at <= currentTime + 0.5);
     if (dueCue < 0 || dueCue <= lastCueRef.current) return;
     const cue = item.audioCues[dueCue];
-    const age = Math.max(0, currentTime - cue.at);
-    if (age > 8) { lastCueRef.current = dueCue; return; }
 
     cuePendingRef.current = true;
+    setActiveCueIndex(dueCue);
     const controller = new AbortController(); cueRequestRef.current = controller;
     try {
       const response = await fetch('/api/reintegration-tts', {
@@ -150,6 +155,7 @@ export default function PersonalJourney21({ onClose, initialCompletedDays, onCom
   useEffect(() => {
     stopSession(); setAccepted(false); setStarted(false); setAudioProgress(0);
     lastCueRef.current = -1; cuePendingRef.current = false;
+    setActiveCueIndex(-1); setShowScript(false);
     if (musicRef.current) musicRef.current.currentTime = 0;
   }, [day]);
   useEffect(() => { playingRef.current = playing; }, [playing]);
@@ -165,11 +171,6 @@ export default function PersonalJourney21({ onClose, initialCompletedDays, onCom
       window.setTimeout(() => {
         if (voiceRef.current && !voiceRef.current.paused) return;
         cuePendingRef.current = false;
-        const latestDue = item.audioCues.reduce((last, cue, index) => cue.at <= (music.currentTime || now) ? index : last, -1);
-        if (latestDue > lastCueRef.current) {
-          const age = (music.currentTime || now) - item.audioCues[latestDue].at;
-          lastCueRef.current = age <= 8 ? latestDue - 1 : latestDue;
-        }
         void playCueForTime(music.currentTime || now);
       }, 180);
     };
@@ -243,7 +244,7 @@ export default function PersonalJourney21({ onClose, initialCompletedDays, onCom
               <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(226,185,107,.18),transparent_42%)]" />
               <div className="relative z-10 flex w-full flex-col items-center">
                 <div className="relative mb-8 w-full max-w-sm">
-                  <JourneyDayVisualPreview day={day} />
+                  {day === 1 ? <ReintegrationPresenceVisual elapsedSeconds={elapsedSeconds} /> : <JourneyDayVisualPreview day={day} />}
                 </div>
                 <div className="w-full max-w-sm rounded-2xl border border-[#E5DAC6] bg-white/85 p-4 text-center shadow-sm backdrop-blur-md">
                   <p className="text-xs font-semibold uppercase tracking-[.18em] text-[#B88736]">{playing?'Meditação guiada em andamento':'Sua meditação guiada'}</p>
@@ -254,11 +255,11 @@ export default function PersonalJourney21({ onClose, initialCompletedDays, onCom
             </div></section>
           <label className="ep-reintegration-card flex cursor-pointer items-start gap-3 rounded-3xl border border-[#E5DAC6] bg-white/85 p-5 shadow-sm"><input type="checkbox" checked={accepted} onChange={e=>setAccepted(e.target.checked)} className="mt-1 h-5 w-5 accent-[#B88736]"/><span className="text-sm leading-6 text-[#2A2420]">{getReintegrationAcceptance(day)}</span></label>
           <button disabled={!accepted} onClick={startGuidedMeditation} className="flex w-full items-center justify-center gap-3 rounded-2xl bg-gradient-to-r from-[#D6A756] to-[#9E6E24] px-5 py-4 font-bold text-[#1F1B18] shadow-md shadow-[#B88736]/20 disabled:opacity-40">{playing?<Pause size={20}/>:started?<Play size={20}/>:<Headphones size={20}/>} {playing?'Pausar meditação':started?'Continuar meditação':'Iniciar meditação guiada'}</button>
-          <article className="ep-reintegration-card rounded-3xl border border-[#E5DAC6] bg-white/85 p-5 shadow-sm">
-            <p className="text-xs uppercase tracking-[.16em] text-[#B88736]">Energias trabalhadas nesta etapa</p>
+          <details key={day} className="ep-reintegration-card rounded-3xl border border-[#E5DAC6] bg-white/85 p-5 shadow-sm">
+            <summary className="cursor-pointer text-sm font-semibold text-[#5C5248] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#B88736]">Conhecer as energias desta prática</summary>
             <p className="mt-2 text-sm leading-6 text-[#85786C]">Neste dia, as práticas energéticas foram organizadas para acompanhar a intenção “{item.title}”. A proposta é oferecer um campo de presença e integração enquanto você respira, observa o corpo e percorre a meditação. As ativações são programadas por Everton e você permanece livre para interromper a experiência a qualquer momento.</p>
             <div className="mt-4 space-y-3">{item.energyNotes.map((note,index)=><div key={note.name} className="rounded-2xl border border-[#B88736]/14 bg-white/70 p-4 shadow-[inset_0_1px_0_rgba(255,255,255,.02)]"><strong className="block text-sm text-[#2A2420]">{note.name}</strong><span className="mt-2 block text-sm leading-6 text-[#85786C]"><b>Foco nesta prática:</b> {note.focus}</span><span className="mt-2 block text-sm leading-6 text-[#85786C]">{index===0?`Durante a condução, esta combinação é utilizada como apoio energético ao propósito de ${item.title.toLowerCase()}, acompanhando a respiração, a presença corporal e o movimento interno proposto para o Dia ${day}.`:`As frequências associadas a estes elementos acompanham as regiões e qualidades indicadas acima, funcionando dentro da proposta espiritual desta jornada como suporte à integração do trabalho do dia.`}</span></div>)}</div>
-          </article>
+          </details>
           <p className="flex items-start gap-2 text-xs leading-5 text-[#85786C]"><ShieldCheck size={17} className="mt-0.5 shrink-0 text-[#B88736]"/>Esta jornada é uma experiência espiritual e integrativa complementar. Ela não substitui atendimento médico, psicológico ou apoio humano necessário.</p>
           <div className="flex items-center justify-between gap-3 border-t border-[#B88736]/16 pt-5"><button disabled={day===1} onClick={()=>setDay(day-1)} className="flex items-center gap-1 rounded-full border border-[#B88736]/18 bg-white/75 px-3 py-2 text-sm font-semibold text-[#2A2420] disabled:opacity-30"><ChevronLeft size={18}/>Anterior</button><button onClick={complete} className="ep-gold-button rounded-full px-5 py-3 text-sm font-bold">{day===21?'Concluir jornada':'Concluir dia'}</button><button disabled={day===21} onClick={()=>setDay(day+1)} className="flex items-center gap-1 rounded-full border border-[#B88736]/18 bg-white/75 px-3 py-2 text-sm font-semibold text-[#2A2420] disabled:opacity-30">Próximo<ChevronRight size={18}/></button></div>
         </div>
@@ -277,16 +278,21 @@ export default function PersonalJourney21({ onClose, initialCompletedDays, onCom
       <button onClick={()=>{stopSession();setStarted(false);}} className="absolute right-4 top-[max(1rem,env(safe-area-inset-top))] z-20 rounded-full border border-[#E5DAC6] bg-white/80 p-3 text-[#524842] shadow-sm backdrop-blur-md" aria-label="Fechar meditação"><X size={22}/></button>
       <div className="relative z-10 flex flex-1 items-center justify-center">
         <div className="relative w-[82vw] max-w-[430px]">
-          <JourneyDayVisualPreview day={day} />
+          {day === 1 ? <ReintegrationPresenceVisual elapsedSeconds={elapsedSeconds} /> : <JourneyDayVisualPreview day={day} />}
         </div>
       </div>
       <div className="relative z-10 space-y-4 bg-gradient-to-t from-[#F8F4EC] via-[#F8F4EC]/96 to-transparent px-6 pb-[max(1.5rem,env(safe-area-inset-bottom))] pt-12 text-center">
         <p className="text-xs font-semibold uppercase tracking-[.22em] text-[#B88736]">Dia {day} · {item.title}</p>
         <p className="font-display text-2xl text-[#2A2420]">{playing?(elapsedSeconds>=1260&&elapsedSeconds<1620?'Absorção e silêncio':'Permaneça neste momento'):audioProgress>=100?'Meditação concluída':'Meditação pausada'}</p>
         <p className="mx-auto max-w-md text-base leading-7 text-[#5C5248]">{reflectionText}</p>
-        <p className="text-xs text-[#85786C]">{elapsedSeconds>=1260&&elapsedSeconds<1620?'Apenas a música permanece enquanto você integra a experiência.':'Permaneça com esta reflexão até a próxima condução da voz.'}</p>
+        <button onClick={() => setShowScript(true)} className="rounded-full border border-[#E5DAC6] bg-white/80 px-4 py-2 text-sm text-[#524842]">Ler roteiro deste dia</button>
         <div className="mx-auto max-w-md"><div className="h-2 overflow-hidden rounded-full bg-[#E5DAC6]"><div className="h-full rounded-full bg-gradient-to-r from-[#D6A756] to-[#9E6E24] transition-all duration-500" style={{width:`${audioProgress}%`}}/></div><div className="mt-2 flex justify-between text-xs text-[#85786C]"><span>{formatTime(elapsedSeconds)}</span><span>{formatTime(totalSeconds)}</span></div></div>
         <div className="flex items-center justify-center gap-3"><button onClick={rewindMeditation} className="flex items-center justify-center gap-2 rounded-full border border-[#E5DAC6] bg-white/80 px-4 py-4 text-sm font-semibold text-[#524842]" aria-label="Voltar 15 segundos"><RotateCcw size={20}/>15s</button><button onClick={startGuidedMeditation} className="flex min-w-48 items-center justify-center gap-3 rounded-full bg-gradient-to-r from-[#D6A756] to-[#9E6E24] px-6 py-4 font-bold text-[#1F1B18] shadow-md shadow-[#B88736]/20">{playing?<Pause size={21}/>:<Play size={21}/>} {playing?'Pausar':audioProgress>=100?'Ouvir novamente':'Continuar'}</button></div>
+      </div>
+    </section>}
+    {showScript && <section ref={scriptRef} role="dialog" aria-modal="true" aria-label={`Roteiro do Dia ${day}: ${item.title}`} className="fixed inset-0 z-[150] overflow-y-auto bg-[#F8F4EC] p-6 text-[#2A2420]">
+      <div className="mx-auto max-w-2xl"><button autoFocus onClick={() => setShowScript(false)} className="sticky top-0 float-right rounded-full border border-[#E5DAC6] bg-white px-4 py-3">Fechar roteiro</button><h2 className="mb-6 font-display text-2xl">Dia {day}: {item.title}</h2>
+        {item.audioCues.map((cue, index) => <article key={cue.at} aria-current={index === activeCueIndex ? 'step' : undefined} className={`mb-4 rounded-2xl border p-5 ${index === activeCueIndex ? 'border-[#B88736] bg-white' : 'border-[#E5DAC6]'}`}><time className="text-xs text-[#85786C]">{formatTime(cue.at)}</time><p className="mt-2 leading-7">{cue.text}</p></article>)}
       </div>
     </section>}
   </div>;

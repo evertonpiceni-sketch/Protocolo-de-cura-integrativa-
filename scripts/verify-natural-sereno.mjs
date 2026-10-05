@@ -16,6 +16,7 @@ await page.setRequestInterception(true);
 page.on('request',req=>{
  const path=new URL(req.url()).pathname;
  if(path==='/api/auth/me')return req.respond({status:200,contentType:'application/json',body:JSON.stringify({user:{profile,progress,role:'user'}})});
+ if(path==='/api/community')return req.respond({status:200,contentType:'application/json',body:JSON.stringify({posts:[],canModerate:false})});
  if(path==='/api/elevenlabs/tts')return req.respond({status:503,contentType:'application/json',body:'{"error":"QA: use browser voice fallback"}'});
  if(path.startsWith('/api/'))return req.respond({status:200,contentType:'application/json',body:'{}'});
  req.continue();

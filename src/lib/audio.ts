@@ -882,6 +882,7 @@ class CalmingAudioEngine {
       rate?: number;
       pitch?: number;
       lang?: string;
+      onSpeechProgress?: (seconds: number) => void;
     }
   ) {
     this.stopSpeech();
@@ -935,6 +936,7 @@ class CalmingAudioEngine {
     }
 
     let partIndex = 0;
+    let spokenSeconds = 0;
     const targetLang = options?.lang || 'pt-BR';
 
     const speakNextPart = () => {
@@ -978,8 +980,14 @@ class CalmingAudioEngine {
         if (partIndex === 0) onStart();
       };
 
-      utterance.onend = () => {
+      utterance.onboundary = event => {
+        if (this.isSpeakingActive && Number.isFinite(event.elapsedTime)) options?.onSpeechProgress?.(spokenSeconds + event.elapsedTime);
+      };
+
+      utterance.onend = event => {
         if (!this.isSpeakingActive) return;
+        if (Number.isFinite(event.elapsedTime)) spokenSeconds += event.elapsedTime;
+        options?.onSpeechProgress?.(spokenSeconds);
         partIndex++;
 
         // Determine pause length: shorter after a comma (400ms), deeper after a full stop (1400ms)
@@ -1471,7 +1479,7 @@ class CalmingAudioEngine {
       if (!response.ok) {
         const errorData = await response.json().catch(() => ({}));
         if (errorData.fallbackToSpeechSynthesis) {
-          this.speak(text, 1.0, () => {}, () => onEnd?.(), undefined, undefined, { voiceId, rate: speed });
+          this.speak(text, 1.0, () => {}, () => onEnd?.(), undefined, undefined, { voiceId, rate: speed, onSpeechProgress: seconds => onProgress?.(seconds, 0) });
           return null;
         }
         throw new Error('Falha ao obter stream contínuo.');
@@ -1538,7 +1546,7 @@ class CalmingAudioEngine {
 
       audioEl.onerror = (e) => {
         console.warn('Erro no elemento de áudio, usando fallback nativo:', e);
-        this.speak(text, 1.0, () => {}, () => onEnd?.(), undefined, undefined, { voiceId, rate: speed });
+        this.speak(text, 1.0, () => {}, () => onEnd?.(), undefined, undefined, { voiceId, rate: speed, onSpeechProgress: seconds => onProgress?.(seconds, 0) });
       };
 
       this.isElevenLabsPlaying = true;
@@ -1546,7 +1554,7 @@ class CalmingAudioEngine {
       return audioEl;
     } catch (err) {
       console.warn('Erro ao processar stream de áudio contínuo:', err);
-      this.speak(text, 1.0, () => {}, () => onEnd?.(), undefined, undefined, { voiceId, rate: speed });
+      this.speak(text, 1.0, () => {}, () => onEnd?.(), undefined, undefined, { voiceId, rate: speed, onSpeechProgress: seconds => onProgress?.(seconds, 0) });
       return null;
     }
   }

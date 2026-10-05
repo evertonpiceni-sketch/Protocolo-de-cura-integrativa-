@@ -3,6 +3,9 @@ import { motion, AnimatePresence } from 'motion/react';
 import { X, BookOpen, Feather } from 'lucide-react';
 import { ProtocolStage, StageContent } from '../../types';
 import { ORIGINAL_PROTOCOL_SCRIPTS } from '../../data/protocol_scripts';
+import { resolveProtocolScript } from '../../lib/protocolScript';
+import type { AppLanguage } from '../../lib/i18n';
+import { useDialogFocus } from '../../hooks/useDialogFocus';
 
 interface SecondaryScriptDrawerProps {
   isOpen: boolean;
@@ -10,6 +13,8 @@ interface SecondaryScriptDrawerProps {
   stages: StageContent[];
   currentStageId: ProtocolStage;
   userName: string;
+  language?: AppLanguage;
+  customDecree?: string;
 }
 
 export const SecondaryScriptDrawer: React.FC<SecondaryScriptDrawerProps> = ({
@@ -17,14 +22,18 @@ export const SecondaryScriptDrawer: React.FC<SecondaryScriptDrawerProps> = ({
   onClose,
   stages,
   currentStageId,
-  userName
-}) => {
+  userName,
+  language = 'pt',
+  customDecree = ''
+}: SecondaryScriptDrawerProps) => {
+  const dialogRef = React.useRef<HTMLDivElement | null>(null);
+  useDialogFocus(isOpen, dialogRef, onClose);
   const displayName = userName?.trim() ? userName.trim() : 'Filho da Luz';
 
   return (
     <AnimatePresence>
       {isOpen && (
-        <div className="fixed inset-0 z-50 flex justify-end" role="dialog" aria-modal="true" aria-label="Roteiro da sessão">
+        <div ref={dialogRef} className="fixed inset-0 z-50 flex justify-end" role="dialog" aria-modal="true" aria-label="Roteiro da sessão">
           {/* Backdrop */}
           <motion.div
             initial={{ opacity: 0 }}
@@ -76,9 +85,12 @@ export const SecondaryScriptDrawer: React.FC<SecondaryScriptDrawerProps> = ({
               {stages.map((stg, index) => {
                 const isCurrent = stg.id === currentStageId;
                 const scriptData = ORIGINAL_PROTOCOL_SCRIPTS[stg.id];
-                const cleanScriptText = (scriptData.fullText || scriptData.text || '')
+                const legacyText = (scriptData.fullText || scriptData.text || '')
                   .replace(/\{userName\}/g, displayName)
                   .replace(/\[NOME\]/g, displayName);
+                const cleanScriptText = document.documentElement.dataset.layout === 'natural-sereno'
+                  ? resolveProtocolScript(stg.id, language, userName, stg.text, customDecree).readingText
+                  : legacyText;
 
                 return (
                   <div

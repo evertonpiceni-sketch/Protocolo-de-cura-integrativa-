@@ -3,6 +3,7 @@ import { initializeDb, getDb, saveDb } from "../src/db.js";
 import { REINTEGRATION_DAYS } from "../src/data/reintegrationJourneyPublic.js";
 import { ElevenLabsClient } from "elevenlabs";
 import bcrypt from "bcryptjs";
+import { protocolAudioCacheKey } from '../src/lib/ttsText.js';
 
 const bootstrapAttempts = new Map<string, { count: number; resetAt: number }>();
 const reintegrationAudioCache = new Map<string, Buffer>();
@@ -55,11 +56,10 @@ async function serveReintegrationVoice(req: any, res: any) {
   const apiKey = process.env.ELEVENLABS_API_KEY;
   if (!apiKey) return res.status(503).json({ error: "Voz neural indisponível." });
 
-  const firstOpening = REINTEGRATION_DAYS[day - 1]?.audioCues?.[0]?.text?.trim();
-  const spokenText = text === firstOpening
-    ? `${day === 1 ? "Seja bem-vindo ao primeiro dia dessa jornada maravilhosa de retorno a si." : `Que bom que você voltou. Seja bem-vindo ao dia ${day} desta jornada de retorno a si.`} ${text}`
-    : text;
-  const cacheKey = `reintegration_v3_${day}_${spokenText.length}_${spokenText.slice(0, 80)}`;
+  // The panel, native fallback and neural voice all read the approved cue,
+  // without an extra opening injected only by this route.
+  const spokenText = text;
+  const cacheKey = protocolAudioCacheKey(`reintegration_v4_${day}_Rachel`, 1, spokenText);
   const cached = reintegrationAudioCache.get(cacheKey);
   if (cached) {
     res.setHeader("Content-Type", "audio/mpeg");

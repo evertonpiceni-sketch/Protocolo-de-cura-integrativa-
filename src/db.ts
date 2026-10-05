@@ -48,7 +48,7 @@ function writeLocalDatabase(snapshot: Database) {
   }
 }
 
-async function redisCommand(command: string, args: string[] = []) {
+export async function redisCommand(command: string, args: string[] = []) {
   if (!UPSTASH_URL || !UPSTASH_TOKEN) return null;
 
   const suffix = args.map(encodeURIComponent).join('/');
