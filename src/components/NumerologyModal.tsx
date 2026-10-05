@@ -4,11 +4,11 @@
  */
 
 import React, { useRef, useState } from 'react';
-import { motion, AnimatePresence } from 'motion/react';
+import { motion } from 'motion/react';
 import {
   Sparkles, X, Hash, Heart, Shield, Crown, CheckCircle2,
-  Copy, QrCode, CreditCard, Award, Printer, Lock, ChevronRight,
-  Sun, Moon, Compass, Star, Eye, Zap, MessageSquare
+  Copy, QrCode, CreditCard, Award, Printer, Lock,
+  Sun, Compass, Star, Eye, Zap, MessageSquare
 } from 'lucide-react';
 import { UserProfile, NumerologyData } from '../types';
 import { calculateNumerology } from '../utils/numerology';
@@ -22,6 +22,8 @@ interface NumerologyModalProps {
   onOpenContact?: () => void;
 }
 
+type NumerologyTab = 'compact' | 'complete' | 'payment';
+
 export default function NumerologyModal({
   isOpen,
   onClose,
@@ -31,7 +33,7 @@ export default function NumerologyModal({
   onOpenContact
 }: NumerologyModalProps) {
   const printRef = useRef<HTMLDivElement>(null);
-  const [activeTab, setActiveTab] = useState<'compact' | 'complete' | 'payment'>('compact');
+  const [activeTab, setActiveTab] = useState<NumerologyTab>('compact');
   const [pixCopied, setPixCopied] = useState(false);
   const [selectedPaymentMethod, setSelectedPaymentMethod] = useState<'pix' | 'card'>('pix');
   const [isCheckoutProcessing, setIsCheckoutProcessing] = useState(false);
@@ -48,13 +50,18 @@ export default function NumerologyModal({
   const isFullUnlocked = isPro || Boolean(userProfile.numerologyPurchased);
 
   const handlePrint = () => {
+    if (!isFullUnlocked) return;
     window.print();
   };
 
-  const handleCopyPix = () => {
-    navigator.clipboard.writeText('evertonpiceni@gmail.com');
-    setPixCopied(true);
-    setTimeout(() => setPixCopied(false), 3000);
+  const handleCopyPix = async () => {
+    try {
+      await navigator.clipboard.writeText('evertonpiceni@gmail.com');
+      setPixCopied(true);
+      setTimeout(() => setPixCopied(false), 3000);
+    } catch {
+      setCheckoutError('Não foi possível copiar a chave automaticamente. Selecione e copie a chave manualmente.');
+    }
   };
 
   const handleConfirmPurchase = async () => {
@@ -73,9 +80,7 @@ export default function NumerologyModal({
         })
       });
       const data = await response.json().catch(() => ({}));
-      if (!response.ok) {
-        throw new Error(data.error || 'Pagamento ainda não está disponível.');
-      }
+      if (!response.ok) throw new Error(data.error || 'Pagamento ainda não está disponível.');
       if (data.checkoutUrl) {
         window.location.assign(data.checkoutUrl);
         return;
@@ -93,605 +98,155 @@ export default function NumerologyModal({
     }
   };
 
+  const selectComplete = () => setActiveTab(isFullUnlocked ? 'complete' : 'payment');
+  const tabClass = (selected: boolean) => `min-h-11 px-4 py-2 rounded-xl text-xs font-mono font-semibold transition cursor-pointer border flex items-center gap-1.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B88736]/35 ${selected ? 'bg-[#F5EFE4] border-[#B88736] text-[#2A2420] shadow-sm' : 'bg-white border-[#E5DAC6] text-[#5C5248] hover:border-[#B88736]/45'}`;
+
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-[#2A2420]/30 backdrop-blur-md overflow-y-auto" id="numerology-modal">
+    <div className="fixed inset-0 z-50 flex items-start sm:items-center justify-center p-2 sm:p-4 bg-[#2A2420]/30 backdrop-blur-md overflow-y-auto overscroll-contain" id="numerology-modal" role="dialog" aria-modal="true" aria-label="Mapa numerológico">
       <motion.div
         initial={{ opacity: 0, scale: 0.97, y: 10 }}
         animate={{ opacity: 1, scale: 1, y: 0 }}
         exit={{ opacity: 0, scale: 0.97, y: 10 }}
-        className="w-full max-w-3xl bg-[#FBF8F2] border border-[#B88736]/30 rounded-3xl p-5 sm:p-7 shadow-2xl relative overflow-hidden my-4 max-h-[92vh] flex flex-col"
+        className="w-full max-w-3xl bg-[#FBF8F2] border border-[#B88736]/30 rounded-2xl sm:rounded-3xl p-4 sm:p-7 shadow-2xl relative overflow-hidden my-1 sm:my-4 max-h-[calc(100dvh-1rem)] sm:max-h-[92dvh] flex flex-col"
       >
-        {/* Ambient Cosmic Background */}
-        <div className="absolute top-0 right-0 w-80 h-80 bg-[#B88736]/15 rounded-full blur-3xl pointer-events-none" />
-        <div className="absolute bottom-0 left-0 w-80 h-80 bg-purple-600/15 rounded-full blur-3xl pointer-events-none" />
+        <div className="absolute top-0 right-0 w-80 h-80 bg-[#B88736]/10 rounded-full blur-3xl pointer-events-none" />
+        <div className="absolute bottom-0 left-0 w-80 h-80 bg-emerald-700/5 rounded-full blur-3xl pointer-events-none" />
 
-        {/* Modal Top Header */}
         <div className="flex items-center justify-between border-b border-[#E5DAC6] pb-4 shrink-0">
-          <div className="flex items-center gap-3">
-            <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-indigo-600 via-purple-600 to-amber-500 flex items-center justify-center text-white shadow-lg shadow-indigo-500/20 shrink-0 border border-indigo-400/40">
-              <Hash size={24} className="animate-pulse" />
-            </div>
-            <div>
-              <div className="flex items-center gap-2">
-                <span className="text-[10px] font-mono uppercase tracking-widest text-[#B88736] bg-[#B88736]/10 border border-[#B88736]/30 px-2.5 py-0.5 rounded-full font-bold">
-                  Numerologia Pitagórica & Cabalística
-                </span>
-                {isFullUnlocked && (
-                  <span className="text-[10px] font-mono text-amber-300 bg-amber-500/15 border border-amber-500/40 px-2 py-0.5 rounded-full font-bold flex items-center gap-1">
-                    <Crown size={11} /> VERSÃO COMPLETA
-                  </span>
-                )}
+          <div className="flex items-center gap-3 min-w-0">
+            <div className="w-12 h-12 rounded-2xl bg-[#073b2b] flex items-center justify-center text-[#f2dda4] shadow-sm shrink-0 border border-[#B88736]/35"><Hash size={24} /></div>
+            <div className="min-w-0">
+              <div className="flex flex-wrap items-center gap-2">
+                <span className="text-[10px] font-mono uppercase tracking-widest text-[#8F631E] bg-[#B88736]/10 border border-[#B88736]/30 px-2.5 py-0.5 rounded-full font-bold">Numerologia Pitagórica & Cabalística</span>
+                {isFullUnlocked && <span className="text-[10px] font-mono text-[#8F631E] bg-amber-50 border border-amber-300 px-2 py-0.5 rounded-full font-bold flex items-center gap-1"><Crown size={11} /> Versão completa</span>}
               </div>
-              <h2 className="text-base sm:text-lg font-display font-medium text-[#2A2420] mt-0.5">
-                Mapa Numerológico de {userProfile.fullName || userProfile.name}
-              </h2>
+              <h2 className="text-base sm:text-lg font-display font-medium text-[#2A2420] mt-0.5 truncate">Mapa Numerológico de {userProfile.fullName || userProfile.name}</h2>
             </div>
           </div>
 
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 shrink-0">
             {isFullUnlocked && (
-              <button
-                onClick={handlePrint}
-                className="p-2 rounded-xl text-xs font-mono bg-[#F5EFE4]/60 hover:bg-[#F5EFE4] text-[#5C5248] border border-[#E5DAC6] transition cursor-pointer"
-                title="Imprimir / Salvar em PDF"
-              >
-                <Printer size={16} />
-              </button>
+              <button onClick={handlePrint} aria-label="Imprimir ou salvar mapa numerológico em PDF" className="w-11 h-11 rounded-xl bg-[#F5EFE4] hover:bg-[#EFE4D3] text-[#5C5248] border border-[#E5DAC6] transition cursor-pointer flex items-center justify-center focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B88736]/30" title="Imprimir / Salvar em PDF"><Printer size={16} /></button>
             )}
-            <button
-              onClick={onClose}
-              className="p-2 text-[#5C5248] hover:text-white bg-[#F5EFE4]/60 hover:bg-[#F5EFE4] rounded-xl transition cursor-pointer border border-[#E5DAC6]/50"
-            >
-              <X size={18} />
-            </button>
+            <button onClick={onClose} aria-label="Fechar mapa numerológico" className="w-11 h-11 text-[#5C5248] hover:text-[#2A2420] bg-[#F5EFE4] hover:bg-[#EFE4D3] rounded-xl transition cursor-pointer border border-[#E5DAC6] flex items-center justify-center focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B88736]/30"><X size={18} /></button>
           </div>
         </div>
 
-        {/* Navigation Tabs */}
-        <div className="flex gap-2 shrink-0 border-b border-[#E5DAC6] my-3 pb-2">
-          <button
-            onClick={() => setActiveTab('compact')}
-            className={`px-4 py-2 rounded-xl text-xs font-mono font-semibold transition cursor-pointer border flex items-center gap-1.5 ${
-              activeTab === 'compact'
-                ? 'bg-[#B88736]/25 border-[#B88736] text-indigo-200 shadow-sm'
-                : 'bg-white border-[#E5DAC6] text-[#5C5248] hover:text-[#5C5248]'
-            }`}
-          >
-            <Sparkles size={13} className="text-[#B88736]" />
-            <span>Versão Compacta (Básica)</span>
-          </button>
-
-          <button
-            onClick={() => {
-              if (isFullUnlocked) {
-                setActiveTab('complete');
-              } else {
-                setActiveTab('payment');
-              }
-            }}
-            className={`px-4 py-2 rounded-xl text-xs font-mono font-semibold transition cursor-pointer border flex items-center gap-1.5 ${
-              activeTab === 'complete' || activeTab === 'payment'
-                ? 'bg-amber-500/20 border-amber-500 text-amber-200 shadow-sm'
-                : 'bg-white border-[#E5DAC6] text-[#5C5248] hover:text-[#5C5248]'
-            }`}
-          >
-            {isFullUnlocked ? (
-              <Crown size={13} className="text-amber-400" />
-            ) : (
-              <Lock size={13} className="text-amber-400" />
-            )}
+        <div className="flex gap-2 shrink-0 border-b border-[#E5DAC6] my-3 pb-2 overflow-x-auto" role="tablist" aria-label="Versões do mapa numerológico">
+          <button role="tab" aria-selected={activeTab === 'compact'} onClick={() => setActiveTab('compact')} className={tabClass(activeTab === 'compact')}><Sparkles size={13} className="text-[#B88736]" /><span>Versão Compacta</span></button>
+          <button role="tab" aria-selected={activeTab === 'complete' || activeTab === 'payment'} onClick={selectComplete} className={tabClass(activeTab === 'complete' || activeTab === 'payment')}>
+            {isFullUnlocked ? <Crown size={13} className="text-[#B88736]" /> : <Lock size={13} className="text-[#B88736]" />}
             <span>Versão Completa (R$ 90,00)</span>
           </button>
         </div>
 
-        {/* Scrollable Content */}
-        <div ref={printRef} className="flex-1 overflow-y-auto space-y-4 pr-1">
-          {/* TAB 1: COMPACT VERSION */}
+        <div ref={printRef} className="flex-1 min-h-0 overflow-y-auto overscroll-contain space-y-4 pr-1">
           {activeTab === 'compact' && (
-            <div className="space-y-4">
-              {/* Highlight Cards Grid */}
+            <div className="space-y-4" role="tabpanel">
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-                {/* 1. Life Path Number */}
-                <div className="p-4 rounded-2xl bg-gradient-to-b from-indigo-950/40 to-[#F3EBDD] border border-[#B88736]/30 space-y-2 relative overflow-hidden">
-                  <div className="flex items-center justify-between">
-                    <span className="text-[10px] font-mono uppercase text-[#B88736] font-bold">
-                      Caminho de Vida
-                    </span>
-                    <span className="text-2xl font-mono font-black text-[#B88736] bg-[#B88736]/20 px-2.5 py-0.5 rounded-lg border border-[#B88736]/30">
-                      {numerology.lifePathNumber}
-                    </span>
-                  </div>
-                  <h3 className="text-sm font-display font-bold text-[#2A2420]">
-                    {numerology.lifePathTitle}
-                  </h3>
-                  <p className="text-xs text-[#5C5248] line-clamp-3 leading-relaxed">
-                    {numerology.lifePathMeaning}
-                  </p>
-                </div>
-
-                {/* 2. Soul Number */}
-                <div className="p-4 rounded-2xl bg-gradient-to-b from-purple-950/40 to-[#F3EBDD] border border-purple-500/30 space-y-2 relative overflow-hidden">
-                  <div className="flex items-center justify-between">
-                    <span className="text-[10px] font-mono uppercase text-purple-400 font-bold">
-                      Número da Alma
-                    </span>
-                    <span className="text-2xl font-mono font-black text-[#B88736] bg-purple-500/20 px-2.5 py-0.5 rounded-lg border border-purple-500/30">
-                      {numerology.soulNumber}
-                    </span>
-                  </div>
-                  <h3 className="text-sm font-display font-bold text-[#2A2420]">
-                    Motivação Interior
-                  </h3>
-                  <p className="text-xs text-[#5C5248] line-clamp-3 leading-relaxed">
-                    {numerology.soulMeaning}
-                  </p>
-                </div>
-
-                {/* 3. Personal Year */}
-                <div className="p-4 rounded-2xl bg-gradient-to-b from-amber-950/40 to-[#F3EBDD] border border-amber-500/30 space-y-2 relative overflow-hidden">
-                  <div className="flex items-center justify-between">
-                    <span className="text-[10px] font-mono uppercase text-amber-400 font-bold">
-                      Ano Pessoal {new Date().getFullYear()}
-                    </span>
-                    <span className="text-2xl font-mono font-black text-amber-300 bg-amber-500/20 px-2.5 py-0.5 rounded-lg border border-amber-500/30">
-                      {numerology.personalYear}
-                    </span>
-                  </div>
-                  <h3 className="text-sm font-display font-bold text-[#2A2420]">
-                    Ciclo Vigente
-                  </h3>
-                  <p className="text-xs text-[#5C5248] line-clamp-3 leading-relaxed">
-                    {numerology.personalYearMeaning}
-                  </p>
-                </div>
+                <div className="p-4 rounded-2xl bg-[#F5EFE4] border border-[#B88736]/30 space-y-2"><div className="flex items-center justify-between"><span className="text-[10px] font-mono uppercase text-[#8F631E] font-bold">Caminho de Vida</span><span className="text-2xl font-mono font-black text-[#8F631E] bg-[#B88736]/10 px-2.5 py-0.5 rounded-lg border border-[#B88736]/30">{numerology.lifePathNumber}</span></div><h3 className="text-sm font-display font-bold text-[#2A2420]">{numerology.lifePathTitle}</h3><p className="text-xs text-[#5C5248] line-clamp-3 leading-relaxed">{numerology.lifePathMeaning}</p></div>
+                <div className="p-4 rounded-2xl bg-[#F5EFE4] border border-[#E5DAC6] space-y-2"><div className="flex items-center justify-between"><span className="text-[10px] font-mono uppercase text-[#8F631E] font-bold">Número da Alma</span><span className="text-2xl font-mono font-black text-[#8F631E] bg-white px-2.5 py-0.5 rounded-lg border border-[#E5DAC6]">{numerology.soulNumber}</span></div><h3 className="text-sm font-display font-bold text-[#2A2420]">Motivação Interior</h3><p className="text-xs text-[#5C5248] line-clamp-3 leading-relaxed">{numerology.soulMeaning}</p></div>
+                <div className="p-4 rounded-2xl bg-amber-50 border border-amber-200 space-y-2"><div className="flex items-center justify-between"><span className="text-[10px] font-mono uppercase text-amber-800 font-bold">Ano Pessoal {new Date().getFullYear()}</span><span className="text-2xl font-mono font-black text-amber-800 bg-white px-2.5 py-0.5 rounded-lg border border-amber-200">{numerology.personalYear}</span></div><h3 className="text-sm font-display font-bold text-[#2A2420]">Ciclo Vigente</h3><p className="text-xs text-[#5C5248] line-clamp-3 leading-relaxed">{numerology.personalYearMeaning}</p></div>
               </div>
 
-              {/* Keywords & Affirmation */}
               <div className="p-4 rounded-2xl bg-white/80 border border-[#E5DAC6] space-y-3">
-                <div className="flex items-center justify-between">
-                  <span className="text-xs font-mono uppercase tracking-wider text-[#B88736] font-bold">
-                    Palavras-Chave de Poder da sua Essência
-                  </span>
-                  <span className="text-xs text-[#5C5248] font-mono">
-                    Frequência {numerology.suggestedFrequency}
-                  </span>
-                </div>
-
-                <div className="flex flex-wrap gap-2">
-                  {numerology.lifePathKeywords.map((kw, i) => (
-                    <span
-                      key={i}
-                      className="px-2.5 py-1 rounded-lg bg-[#B88736]/10 border border-[#B88736]/20 text-[#B88736] text-xs font-medium"
-                    >
-                      ✦ {kw}
-                    </span>
-                  ))}
-                </div>
-
-                <div className="pt-2 border-t border-[#E5DAC6]">
-                  <span className="text-[10px] font-mono text-[#5C5248] uppercase block mb-1">
-                    Decreto Numerológico Diário:
-                  </span>
-                  <p className="text-xs text-[#2A2420] italic font-serif bg-indigo-950/30 p-3 rounded-xl border border-[#B88736]/20">
-                    "{numerology.affirmation}"
-                  </p>
-                </div>
+                <div className="flex flex-wrap items-center justify-between gap-2"><span className="text-xs font-mono uppercase tracking-wider text-[#8F631E] font-bold">Palavras-chave da sua essência</span><span className="text-xs text-[#5C5248] font-mono">Frequência sugerida: {numerology.suggestedFrequency}</span></div>
+                <div className="flex flex-wrap gap-2">{numerology.lifePathKeywords.map((keyword, index) => <span key={index} className="px-2.5 py-1 rounded-lg bg-[#B88736]/10 border border-[#B88736]/20 text-[#8F631E] text-xs font-medium">{keyword}</span>)}</div>
+                <div className="pt-2 border-t border-[#E5DAC6]"><span className="text-[10px] font-mono text-[#5C5248] uppercase block mb-1">Decreto Numerológico Diário:</span><p className="text-xs text-[#2A2420] italic font-serif bg-[#F5EFE4] p-3 rounded-xl border border-[#B88736]/20">“{numerology.affirmation}”</p></div>
               </div>
 
-              {/* Unlock Banner CTA if not full */}
               {!isFullUnlocked && (
-                <div className="p-5 rounded-3xl bg-gradient-to-r from-amber-950/40 via-purple-950/30 to-indigo-950/40 border border-amber-500/40 shadow-xl flex flex-col sm:flex-row items-center justify-between gap-4">
-                  <div className="space-y-1 text-center sm:text-left">
-                    <div className="flex items-center justify-center sm:justify-start gap-2">
-                      <Crown size={16} className="text-amber-400" />
-                      <span className="text-xs font-mono uppercase tracking-widest text-amber-300 font-bold">
-                        Aprofunde seu Autoconhecimento Sagrado
-                      </span>
-                    </div>
-                    <h4 className="text-base font-display font-medium text-[#2A2420]">
-                      Mapa Numerológico Cabalístico Completo
-                    </h4>
-                    <p className="text-xs text-[#5C5248] max-w-lg">
-                      Desbloqueie a análise do Número de Expressão, Personalidade, Lições Cármicas, Previsão Mês a Mês do Ano Pessoal, Cristais de Cura e Cores de Poder por apenas <strong>R$ 90,00</strong> ou incluso no Plano PRO!
-                    </p>
-                  </div>
-
-                  <button
-                    type="button"
-                    onClick={() => setActiveTab('payment')}
-                    className="px-5 py-3 rounded-xl bg-gradient-to-r from-amber-500 to-amber-400 hover:from-amber-400 hover:to-amber-300 text-slate-950 font-bold text-xs flex items-center gap-2 transition cursor-pointer shadow-lg shadow-amber-500/20 shrink-0"
-                  >
-                    <Crown size={14} />
-                    <span>Liberar Completo (R$ 90,00)</span>
-                  </button>
+                <div className="p-5 rounded-3xl bg-[#F5EFE4] border border-[#B88736]/40 shadow-sm flex flex-col sm:flex-row items-center justify-between gap-4">
+                  <div className="space-y-1 text-center sm:text-left"><div className="flex items-center justify-center sm:justify-start gap-2"><Crown size={16} className="text-[#B88736]" /><span className="text-xs font-mono uppercase tracking-widest text-[#8F631E] font-bold">Versão completa</span></div><h4 className="text-base font-display font-medium text-[#2A2420]">Mapa Numerológico Cabalístico Completo</h4><p className="text-xs text-[#5C5248] max-w-lg">Inclui Expressão, Personalidade, Lições Cármicas, Ano Pessoal, cristais, cores e demais leituras previstas no mapa completo. O acesso individual é de <strong>R$ 90,00</strong> ou conforme seu entitlement PRO confirmado pelo servidor.</p></div>
+                  <button type="button" onClick={() => setActiveTab('payment')} className="min-h-11 px-5 py-3 rounded-xl bg-[#B88736] hover:bg-[#8F631E] text-white font-bold text-xs flex items-center gap-2 transition cursor-pointer shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B88736]/35"><Crown size={14} /><span>Ver opções de acesso</span></button>
                 </div>
               )}
             </div>
           )}
 
-          {/* TAB 2: COMPLETE FULL VERSION (Unlocked) */}
           {activeTab === 'complete' && isFullUnlocked && (
-            <div className="space-y-4 animate-fade-in">
-              {/* Pillars Grid */}
+            <div className="space-y-4" role="tabpanel">
               <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3">
-                {/* 1. Destino */}
-                <div className="p-3.5 rounded-2xl bg-indigo-950/40 border border-[#B88736]/30 space-y-1">
-                  <span className="text-[10px] font-mono uppercase text-[#B88736] font-bold block">1. Caminho de Vida</span>
-                  <div className="flex items-center justify-between">
-                    <span className="text-xl font-mono font-black text-indigo-200">Nº {numerology.lifePathNumber}</span>
-                    <Star size={14} className="text-[#B88736]" />
-                  </div>
-                  <p className="text-[11px] text-[#5C5248] font-medium">{numerology.lifePathTitle}</p>
-                </div>
-
-                {/* 2. Alma */}
-                <div className="p-3.5 rounded-2xl bg-purple-950/40 border border-purple-500/30 space-y-1">
-                  <span className="text-[10px] font-mono uppercase text-purple-400 font-bold block">2. Número da Alma</span>
-                  <div className="flex items-center justify-between">
-                    <span className="text-xl font-mono font-black text-[#5C5248]">Nº {numerology.soulNumber}</span>
-                    <Heart size={14} className="text-purple-400" />
-                  </div>
-                  <p className="text-[11px] text-[#5C5248] font-medium">Desejo Íntimo Inconsciente</p>
-                </div>
-
-                {/* 3. Personalidade */}
-                <div className="p-3.5 rounded-2xl bg-amber-950/40 border border-amber-500/30 space-y-1">
-                  <span className="text-[10px] font-mono uppercase text-amber-400 font-bold block">3. Personalidade</span>
-                  <div className="flex items-center justify-between">
-                    <span className="text-xl font-mono font-black text-amber-200">Nº {numerology.personalityNumber}</span>
-                    <Eye size={14} className="text-amber-400" />
-                  </div>
-                  <p className="text-[11px] text-[#5C5248] font-medium">Impressão & Aura Externa</p>
-                </div>
-
-                {/* 4. Expressão */}
-                <div className="p-3.5 rounded-2xl bg-emerald-950/40 border border-emerald-500/30 space-y-1">
-                  <span className="text-[10px] font-mono uppercase text-emerald-400 font-bold block">4. Expressão Geral</span>
-                  <div className="flex items-center justify-between">
-                    <span className="text-xl font-mono font-black text-emerald-200">Nº {numerology.expressionNumber}</span>
-                    <Zap size={14} className="text-emerald-400" />
-                  </div>
-                  <p className="text-[11px] text-[#5C5248] font-medium">Talentos & Vocação</p>
-                </div>
+                {[
+                  ['1. Caminho de Vida', numerology.lifePathNumber, numerology.lifePathTitle, <Star size={14} key="star" />],
+                  ['2. Número da Alma', numerology.soulNumber, 'Desejo Íntimo', <Heart size={14} key="heart" />],
+                  ['3. Personalidade', numerology.personalityNumber, 'Impressão & Aura Externa', <Eye size={14} key="eye" />],
+                  ['4. Expressão Geral', numerology.expressionNumber, 'Talentos & Vocação', <Zap size={14} key="zap" />]
+                ].map(([label, number, caption, icon]) => (
+                  <div key={String(label)} className="p-3.5 rounded-2xl bg-[#F5EFE4] border border-[#E5DAC6] space-y-1"><span className="text-[10px] font-mono uppercase text-[#8F631E] font-bold block">{label}</span><div className="flex items-center justify-between"><span className="text-xl font-mono font-black text-[#2A2420]">Nº {String(number)}</span><span className="text-[#B88736]">{icon}</span></div><p className="text-[11px] text-[#5C5248] font-medium">{caption}</p></div>
+                ))}
               </div>
 
-              {/* In-depth Sections */}
               <div className="p-5 rounded-2xl bg-white/80 border border-[#E5DAC6] space-y-4">
-                <h4 className="text-sm font-display font-medium text-[#B88736] uppercase tracking-wide flex items-center gap-2 border-b border-[#E5DAC6] pb-2">
-                  <Sparkles size={16} /> Análise Aprofundada dos Ciclos, Alma & Maturidade
-                </h4>
-
+                <h4 className="text-sm font-display font-medium text-[#8F631E] uppercase tracking-wide flex items-center gap-2 border-b border-[#E5DAC6] pb-2"><Sparkles size={16} /> Análise Aprofundada dos Ciclos, Alma & Maturidade</h4>
                 <div className="space-y-3 text-xs leading-relaxed text-[#5C5248]">
-                  <div className="p-3 rounded-xl bg-[#FBF8F2]/90 border border-[#E5DAC6]">
-                    <strong className="text-[#B88736] block mb-1">✦ Vocação e Caminho de Realização (Destino):</strong>
-                    <p>{numerology.lifePathMeaning}</p>
-                  </div>
-
-                  <div className="p-3 rounded-xl bg-[#FBF8F2]/90 border border-[#E5DAC6]">
-                    <strong className="text-[#B88736] block mb-1">✦ Motivação Secreta da Alma (Vogais Sagradas):</strong>
-                    <p>{numerology.soulMeaning}</p>
-                  </div>
-
-                  <div className="p-3 rounded-xl bg-[#FBF8F2]/90 border border-[#E5DAC6]">
-                    <strong className="text-amber-300 block mb-1">✦ Como o Mundo Percebe Sua Energia (Consoantes):</strong>
-                    <p>{numerology.personalityMeaning}</p>
-                  </div>
-
-                  <div className="p-3 rounded-xl bg-[#FBF8F2]/90 border border-[#E5DAC6]">
-                    <strong className="text-emerald-300 block mb-1">✦ Potencial de Expressão & Ferramentas Inatas (Nome Completo):</strong>
-                    <p>{numerology.expressionMeaning}</p>
-                  </div>
-
-                  {numerology.maturityMeaning && (
-                    <div className="p-3 rounded-xl bg-gradient-to-r from-amber-950/30 via-[#FBF8F2] to-indigo-950/30 border border-amber-500/30">
-                      <strong className="text-amber-300 block mb-1">✦ Número de Maturidade (A Colheita após os 35-40 anos):</strong>
-                      <p>{numerology.maturityMeaning}</p>
-                    </div>
-                  )}
+                  <div className="p-3 rounded-xl bg-[#FBF8F2] border border-[#E5DAC6]"><strong className="text-[#8F631E] block mb-1">Vocação e Caminho de Realização:</strong><p>{numerology.lifePathMeaning}</p></div>
+                  <div className="p-3 rounded-xl bg-[#FBF8F2] border border-[#E5DAC6]"><strong className="text-[#8F631E] block mb-1">Motivação da Alma:</strong><p>{numerology.soulMeaning}</p></div>
+                  <div className="p-3 rounded-xl bg-[#FBF8F2] border border-[#E5DAC6]"><strong className="text-[#8F631E] block mb-1">Como o Mundo Percebe Sua Energia:</strong><p>{numerology.personalityMeaning}</p></div>
+                  <div className="p-3 rounded-xl bg-[#FBF8F2] border border-[#E5DAC6]"><strong className="text-[#8F631E] block mb-1">Potencial de Expressão & Ferramentas Inatas:</strong><p>{numerology.expressionMeaning}</p></div>
+                  {numerology.maturityMeaning && <div className="p-3 rounded-xl bg-amber-50 border border-amber-200"><strong className="text-amber-800 block mb-1">Número de Maturidade:</strong><p>{numerology.maturityMeaning}</p></div>}
                 </div>
               </div>
 
-              {/* SEÇÃO EXCLUSIVA: OTIMIZAÇÃO DO NOME & ASSINATURA PARA MAIOR PROSPERIDADE */}
               {numerology.nameProsperityAnalysis && (
-                <div className="p-5 rounded-3xl bg-gradient-to-br from-amber-950/40 via-[#FBF8F2] to-emerald-950/30 border border-amber-500/40 shadow-xl space-y-4">
-                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-amber-500/20 pb-3">
-                    <div className="flex items-center gap-2.5">
-                      <div className="p-2 rounded-xl bg-amber-500/20 text-amber-300 border border-amber-500/30">
-                        <Crown size={18} />
-                      </div>
-                      <div>
-                        <span className="text-[10px] font-mono uppercase tracking-widest text-amber-400 font-bold">
-                          Numerologia Cabalística Financeira
-                        </span>
-                        <h4 className="text-base font-display font-medium text-[#2A2420]">
-                          Harmonização do Nome & Assinatura para Prosperidade
-                        </h4>
-                      </div>
-                    </div>
-                    <div className="flex items-center gap-2 bg-amber-500/10 border border-amber-500/30 px-3 py-1.5 rounded-xl self-start sm:self-auto">
-                      <span className="text-[10px] font-mono text-amber-300 uppercase">Índice Vibracional:</span>
-                      <span className="text-xs font-bold font-mono text-emerald-400">{numerology.nameProsperityAnalysis.prosperityScore}%</span>
-                    </div>
+                <div className="p-5 rounded-3xl bg-[#F5EFE4] border border-[#B88736]/40 shadow-sm space-y-4">
+                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-[#B88736]/20 pb-3">
+                    <div className="flex items-center gap-2.5"><div className="p-2 rounded-xl bg-[#B88736]/10 text-[#8F631E] border border-[#B88736]/30"><Crown size={18} /></div><div><span className="text-[10px] font-mono uppercase tracking-widest text-[#8F631E] font-bold">Numerologia Cabalística Financeira</span><h4 className="text-base font-display font-medium text-[#2A2420]">Harmonização do Nome & Assinatura para Prosperidade</h4></div></div>
+                    <div className="flex items-center gap-2 bg-white border border-[#B88736]/30 px-3 py-1.5 rounded-xl self-start sm:self-auto"><span className="text-[10px] font-mono text-[#5C5248] uppercase">Índice apresentado:</span><span className="text-xs font-bold font-mono text-emerald-700">{numerology.nameProsperityAnalysis.prosperityScore}%</span></div>
                   </div>
-
-                  {/* Vibração Atual e Dicas de Nome */}
                   <div className="space-y-3 text-xs leading-relaxed text-[#5C5248]">
-                    <div className="p-3.5 rounded-2xl bg-[#2A2420]/30 border border-amber-500/25 space-y-2">
-                      <h5 className="font-mono font-bold text-amber-300 uppercase text-[11px] flex items-center gap-1.5">
-                        <Zap size={13} className="text-amber-400" />
-                        Leitura da Vibração do seu Nome ({numerology.nameProsperityAnalysis.currentNameVibration})
-                      </h5>
-                      <p className="text-[#2A2420]">
-                        {numerology.nameProsperityAnalysis.currentVibrationMeaning}
-                      </p>
-                    </div>
-
-                    {/* Dicas de Alteração / Harmonização de Nome */}
-                    <div className="p-4 rounded-2xl bg-[#2A2420]/30 border border-[#E5DAC6] space-y-2.5">
-                      <h5 className="font-mono font-bold text-emerald-300 uppercase text-[11px] flex items-center gap-1.5">
-                        <Sparkles size={13} className="text-emerald-400" />
-                        Orientações Práticas de Alteração & Ajuste no Nome
-                      </h5>
-                      <div className="space-y-2">
-                        {numerology.nameProsperityAnalysis.recommendedNameHarmonizations.map((rec, i) => (
-                          <div key={i} className="p-2.5 rounded-xl bg-[#FBF8F2]/90 border border-[#E5DAC6] text-xs text-[#5C5248] flex items-start gap-2">
-                            <span className="text-emerald-400 font-bold shrink-0 mt-0.5">•</span>
-                            <span>{rec}</span>
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-
-                    {/* Regras da Assinatura Cabalística */}
-                    <div className="p-4 rounded-2xl bg-[#2A2420]/30 border border-[#E5DAC6] space-y-2.5">
-                      <h5 className="font-mono font-bold text-[#B88736] uppercase text-[11px] flex items-center gap-1.5">
-                        <Award size={13} className="text-[#B88736]" />
-                        Manual da Assinatura Próspera (Blindagem e Atração)
-                      </h5>
-                      <div className="space-y-2">
-                        {numerology.nameProsperityAnalysis.signatureAdvice.map((sig, i) => (
-                          <div key={i} className="p-2.5 rounded-xl bg-[#FBF8F2]/90 border border-[#E5DAC6] text-xs text-[#5C5248] flex items-start gap-2">
-                            <CheckCircle2 size={14} className="text-[#B88736] shrink-0 mt-0.5" />
-                            <span>{sig}</span>
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-
-                    {/* 5 Atitudes Práticas Diárias de Prosperidade */}
-                    <div className="p-4 rounded-2xl bg-gradient-to-br from-emerald-950/40 via-slate-950 to-[#F3EBDD] border border-emerald-500/30 space-y-2.5">
-                      <h5 className="font-mono font-bold text-emerald-300 uppercase text-[11px] flex items-center gap-1.5">
-                        <Crown size={13} className="text-emerald-400" />
-                        5 Atitudes Práticas Diárias para Desbloquear a Prosperidade
-                      </h5>
-                      <div className="space-y-2">
-                        {numerology.nameProsperityAnalysis.dailyProsperityAttitudes.map((att, i) => (
-                          <div key={i} className="p-2.5 rounded-xl bg-white/90 border border-emerald-500/20 text-xs text-[#2A2420]">
-                            {att}
-                          </div>
-                        ))}
-                      </div>
-                    </div>
+                    <div className="p-3.5 rounded-2xl bg-white border border-[#E5DAC6] space-y-2"><h5 className="font-mono font-bold text-[#8F631E] uppercase text-[11px] flex items-center gap-1.5"><Zap size={13} /> Leitura da Vibração do Nome ({numerology.nameProsperityAnalysis.currentNameVibration})</h5><p className="text-[#2A2420]">{numerology.nameProsperityAnalysis.currentVibrationMeaning}</p></div>
+                    <div className="p-4 rounded-2xl bg-white border border-[#E5DAC6] space-y-2.5"><h5 className="font-mono font-bold text-emerald-800 uppercase text-[11px] flex items-center gap-1.5"><Sparkles size={13} /> Orientações de Nome</h5><div className="space-y-2">{numerology.nameProsperityAnalysis.recommendedNameHarmonizations.map((recommendation, index) => <div key={index} className="p-2.5 rounded-xl bg-[#FBF8F2] border border-[#E5DAC6] text-xs text-[#5C5248]">{recommendation}</div>)}</div></div>
+                    <div className="p-4 rounded-2xl bg-white border border-[#E5DAC6] space-y-2.5"><h5 className="font-mono font-bold text-[#8F631E] uppercase text-[11px] flex items-center gap-1.5"><Award size={13} /> Orientações para Assinatura</h5><div className="space-y-2">{numerology.nameProsperityAnalysis.signatureAdvice.map((advice, index) => <div key={index} className="p-2.5 rounded-xl bg-[#FBF8F2] border border-[#E5DAC6] text-xs text-[#5C5248] flex items-start gap-2"><CheckCircle2 size={14} className="text-[#B88736] shrink-0 mt-0.5" /><span>{advice}</span></div>)}</div></div>
+                    <div className="p-4 rounded-2xl bg-white border border-emerald-200 space-y-2.5"><h5 className="font-mono font-bold text-emerald-800 uppercase text-[11px] flex items-center gap-1.5"><Crown size={13} /> Atitudes Diárias de Prosperidade</h5><div className="space-y-2">{numerology.nameProsperityAnalysis.dailyProsperityAttitudes.map((attitude, index) => <div key={index} className="p-2.5 rounded-xl bg-[#FBF8F2] border border-emerald-200 text-xs text-[#2A2420]">{attitude}</div>)}</div></div>
                   </div>
                 </div>
               )}
 
-              {/* ATITUDES PRÁTICAS RECOMENDADAS PELO CAMINHO DE VIDA */}
               {numerology.practicalAttitudes && numerology.practicalAttitudes.length > 0 && (
-                <div className="p-5 rounded-3xl bg-white border border-[#B88736]/30 space-y-3">
-                  <h4 className="text-sm font-display font-medium text-indigo-200 uppercase tracking-wide flex items-center gap-2 border-b border-[#E5DAC6] pb-2">
-                    <Compass size={16} className="text-[#B88736]" /> Atitudes Diárias do Seu Caminho de Vida
-                  </h4>
-                  <div className="space-y-2">
-                    {numerology.practicalAttitudes.map((action, i) => (
-                      <div key={i} className="p-2.5 rounded-xl bg-[#FBF8F2] border border-[#E5DAC6] text-xs text-[#5C5248]">
-                        {action}
-                      </div>
-                    ))}
-                  </div>
-                </div>
+                <div className="p-5 rounded-3xl bg-white border border-[#B88736]/30 space-y-3"><h4 className="text-sm font-display font-medium text-[#2A2420] uppercase tracking-wide flex items-center gap-2 border-b border-[#E5DAC6] pb-2"><Compass size={16} className="text-[#B88736]" /> Atitudes Diárias do Seu Caminho de Vida</h4><div className="space-y-2">{numerology.practicalAttitudes.map((action, index) => <div key={index} className="p-2.5 rounded-xl bg-[#FBF8F2] border border-[#E5DAC6] text-xs text-[#5C5248]">{action}</div>)}</div></div>
               )}
 
-              {/* Personal Year & Guidance */}
-              <div className="p-5 rounded-2xl bg-gradient-to-br from-amber-950/30 to-[#F3EBDD] border border-amber-500/30 space-y-3">
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-2">
-                    <Sun size={16} className="text-amber-400" />
-                    <h4 className="text-sm font-display font-medium text-amber-200">
-                      Previsão & Alinhamento para o Ano Pessoal {numerology.personalYear} ({new Date().getFullYear()})
-                    </h4>
-                  </div>
-                </div>
-                <p className="text-xs text-[#2A2420] leading-relaxed font-medium">
-                  {numerology.personalYearMeaning}
-                </p>
-                <div className="p-3 rounded-xl bg-white/90 border border-amber-500/20 text-xs text-amber-200/90">
-                  <strong>Orientação Terapêutica de Éverton Piceni:</strong> {numerology.personalYearGuidance}
-                </div>
-              </div>
+              <div className="p-5 rounded-2xl bg-amber-50 border border-amber-200 space-y-3"><div className="flex items-center gap-2"><Sun size={16} className="text-amber-700" /><h4 className="text-sm font-display font-medium text-amber-900">Leitura para o Ano Pessoal {numerology.personalYear} ({new Date().getFullYear()})</h4></div><p className="text-xs text-[#2A2420] leading-relaxed font-medium">{numerology.personalYearMeaning}</p><div className="p-3 rounded-xl bg-white border border-amber-200 text-xs text-[#5C5248]"><strong>Orientação de Éverton Piceni:</strong> {numerology.personalYearGuidance}</div></div>
 
-              {/* Karmic Lessons & Therapeutic Prescription */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                <div className="p-4 rounded-2xl bg-white/80 border border-[#E5DAC6] space-y-2">
-                  <span className="text-xs font-mono uppercase text-rose-400 font-bold block flex items-center gap-1.5">
-                    <Shield size={13} /> Lições & Desafios Cármicos
-                  </span>
-                  <div className="space-y-1.5">
-                    {numerology.karmicLessons.map((lesson, idx) => (
-                      <p key={idx} className="text-xs text-[#5C5248] bg-[#FBF8F2]/60 p-2 rounded-lg border border-[#E5DAC6]">
-                        {lesson}
-                      </p>
-                    ))}
-                  </div>
-                </div>
-
-                <div className="p-4 rounded-2xl bg-white/80 border border-[#E5DAC6] space-y-2">
-                  <span className="text-xs font-mono uppercase text-teal-400 font-bold block flex items-center gap-1.5">
-                    <Sparkles size={13} /> Prescrição Vibracional de Cura
-                  </span>
-                  <div className="space-y-1.5 text-xs text-[#5C5248]">
-                    <div className="flex justify-between p-2 rounded bg-[#FBF8F2]/60 border border-[#E5DAC6]">
-                      <span className="text-[#5C5248]">Frequência Sonora:</span>
-                      <strong className="text-teal-300">{numerology.suggestedFrequency}</strong>
-                    </div>
-                    <div className="flex justify-between p-2 rounded bg-[#FBF8F2]/60 border border-[#E5DAC6]">
-                      <span className="text-[#5C5248]">Cristal de Harmonização:</span>
-                      <strong className="text-teal-300">{numerology.harmonicCrystal}</strong>
-                    </div>
-                    <div className="flex justify-between p-2 rounded bg-[#FBF8F2]/60 border border-[#E5DAC6]">
-                      <span className="text-[#5C5248]">Cor de Poder:</span>
-                      <strong className="text-teal-300">{numerology.harmonicColor}</strong>
-                    </div>
-                  </div>
-                </div>
+                <div className="p-4 rounded-2xl bg-white border border-[#E5DAC6] space-y-2"><span className="text-xs font-mono uppercase text-rose-700 font-bold block flex items-center gap-1.5"><Shield size={13} /> Lições & Desafios Cármicos</span><div className="space-y-1.5">{numerology.karmicLessons.map((lesson, index) => <p key={index} className="text-xs text-[#5C5248] bg-[#FBF8F2] p-2 rounded-lg border border-[#E5DAC6]">{lesson}</p>)}</div></div>
+                <div className="p-4 rounded-2xl bg-white border border-[#E5DAC6] space-y-2"><span className="text-xs font-mono uppercase text-emerald-800 font-bold block flex items-center gap-1.5"><Sparkles size={13} /> Sugestões Vibracionais</span><div className="space-y-1.5 text-xs text-[#5C5248]"><div className="flex justify-between gap-3 p-2 rounded bg-[#FBF8F2] border border-[#E5DAC6]"><span>Frequência:</span><strong className="text-emerald-800">{numerology.suggestedFrequency}</strong></div><div className="flex justify-between gap-3 p-2 rounded bg-[#FBF8F2] border border-[#E5DAC6]"><span>Cristal:</span><strong className="text-emerald-800">{numerology.harmonicCrystal}</strong></div><div className="flex justify-between gap-3 p-2 rounded bg-[#FBF8F2] border border-[#E5DAC6]"><span>Cor:</span><strong className="text-emerald-800">{numerology.harmonicColor}</strong></div></div></div>
               </div>
             </div>
           )}
 
-          {/* TAB 3: PAYMENT / UPGRADE FORM FOR FULL VERSION (R$ 90,00) */}
           {activeTab === 'payment' && !isFullUnlocked && (
-            <div className="space-y-5 animate-fade-in">
-              <div className="p-5 rounded-3xl bg-white border border-amber-500/30 space-y-4">
-                <div className="flex items-center justify-between border-b border-[#E5DAC6] pb-3">
-                  <div>
-                    <span className="text-[10px] font-mono uppercase tracking-widest text-amber-400 font-bold">
-                      Desbloqueio Individual
-                    </span>
-                    <h3 className="text-base font-display font-medium text-[#2A2420]">
-                      Mapa Numerológico Completo de {userProfile.fullName || userProfile.name}
-                    </h3>
-                  </div>
-                  <div className="text-right">
-                    <span className="text-xs text-[#5C5248] block line-through">R$ 180,00</span>
-                    <span className="text-xl font-bold font-mono text-emerald-400">R$ 90,00</span>
-                  </div>
+            <div className="space-y-5" role="tabpanel">
+              <div className="p-5 rounded-3xl bg-white border border-amber-300 space-y-4">
+                <div className="flex items-center justify-between gap-3 border-b border-[#E5DAC6] pb-3"><div><span className="text-[10px] font-mono uppercase tracking-widest text-amber-800 font-bold">Acesso individual</span><h3 className="text-base font-display font-medium text-[#2A2420]">Mapa Numerológico Completo de {userProfile.fullName || userProfile.name}</h3></div><div className="text-right"><span className="text-xl font-bold font-mono text-emerald-700">R$ 90,00</span></div></div>
+
+                <div className="grid grid-cols-2 gap-3" role="radiogroup" aria-label="Forma de pagamento">
+                  <button type="button" role="radio" aria-checked={selectedPaymentMethod === 'pix'} onClick={() => setSelectedPaymentMethod('pix')} className={`min-h-11 p-3 rounded-2xl border flex items-center justify-center gap-2 text-xs font-mono font-bold transition cursor-pointer ${selectedPaymentMethod === 'pix' ? 'bg-emerald-50 border-emerald-500 text-emerald-800' : 'bg-[#FBF8F2] border-[#E5DAC6] text-[#5C5248]'}`}><QrCode size={16} /><span>PIX</span></button>
+                  <button type="button" role="radio" aria-checked={selectedPaymentMethod === 'card'} onClick={() => setSelectedPaymentMethod('card')} className={`min-h-11 p-3 rounded-2xl border flex items-center justify-center gap-2 text-xs font-mono font-bold transition cursor-pointer ${selectedPaymentMethod === 'card' ? 'bg-[#F5EFE4] border-[#B88736] text-[#8F631E]' : 'bg-[#FBF8F2] border-[#E5DAC6] text-[#5C5248]'}`}><CreditCard size={16} /><span>Cartão</span></button>
                 </div>
 
-                {/* Payment Selector */}
-                <div className="grid grid-cols-2 gap-3">
-                  <button
-                    type="button"
-                    onClick={() => setSelectedPaymentMethod('pix')}
-                    className={`p-3 rounded-2xl border flex items-center justify-center gap-2 text-xs font-mono font-bold transition cursor-pointer ${
-                      selectedPaymentMethod === 'pix'
-                        ? 'bg-emerald-500/20 border-emerald-500 text-emerald-300'
-                        : 'bg-[#FBF8F2] border-[#E5DAC6] text-[#5C5248]'
-                    }`}
-                  >
-                    <QrCode size={16} />
-                    <span>PIX Imediato (R$ 90,00)</span>
-                  </button>
-
-                  <button
-                    type="button"
-                    onClick={() => setSelectedPaymentMethod('card')}
-                    className={`p-3 rounded-2xl border flex items-center justify-center gap-2 text-xs font-mono font-bold transition cursor-pointer ${
-                      selectedPaymentMethod === 'card'
-                        ? 'bg-[#B88736]/20 border-[#B88736] text-[#B88736]'
-                        : 'bg-[#FBF8F2] border-[#E5DAC6] text-[#5C5248]'
-                    }`}
-                  >
-                    <CreditCard size={16} />
-                    <span>Cartão de Crédito</span>
-                  </button>
-                </div>
-
-                {/* PIX Box */}
                 {selectedPaymentMethod === 'pix' && (
-                  <div className="p-4 rounded-2xl bg-[#FBF8F2] border border-[#E5DAC6] space-y-3 text-center">
-                    <p className="text-xs text-[#5C5248]">
-                      Transfira <strong>R$ 90,00</strong> via chave PIX para liberação instantânea:
-                    </p>
-
-                    <div className="p-3 bg-white border border-[#E5DAC6] rounded-xl flex items-center justify-between gap-2 max-w-md mx-auto">
-                      <span className="font-mono text-xs text-emerald-300 font-bold truncate">
-                        evertonpiceni@gmail.com
-                      </span>
-                      <button
-                        type="button"
-                        onClick={handleCopyPix}
-                        className="px-3 py-1.5 bg-emerald-600 hover:bg-emerald-500 text-white rounded-lg text-xs font-mono font-bold flex items-center gap-1.5 cursor-pointer shrink-0 transition"
-                      >
-                        {pixCopied ? <CheckCircle2 size={13} /> : <Copy size={13} />}
-                        <span>{pixCopied ? 'Copiado!' : 'Copiar Chave'}</span>
-                      </button>
-                    </div>
-
-                    <p className="text-[11px] text-[#5C5248]">
-                      Favorecido: <strong>Éverton Rodrigo Piceni</strong> • Banco: Nubank / Inter
-                    </p>
-                  </div>
+                  <div className="p-4 rounded-2xl bg-[#FBF8F2] border border-[#E5DAC6] space-y-3 text-center"><p className="text-xs text-[#5C5248]">A chave PIX pode ser usada quando o provedor/fluxo de pagamento estiver disponível. <strong>O acesso não é liberado pelo simples envio do PIX:</strong> a confirmação precisa chegar ao servidor.</p><div className="p-3 bg-white border border-[#E5DAC6] rounded-xl flex items-center justify-between gap-2 max-w-md mx-auto"><span className="font-mono text-xs text-emerald-800 font-bold truncate">evertonpiceni@gmail.com</span><button type="button" onClick={handleCopyPix} className="min-h-11 px-3 py-1.5 bg-emerald-700 hover:bg-emerald-800 text-white rounded-lg text-xs font-mono font-bold flex items-center gap-1.5 cursor-pointer shrink-0 transition"><Copy size={13} /><span>{pixCopied ? 'Copiado' : 'Copiar chave'}</span></button></div>{pixCopied && <p role="status" aria-live="polite" className="text-[11px] text-emerald-700">Chave copiada.</p>}</div>
                 )}
 
-                {/* Card Box */}
                 {selectedPaymentMethod === 'card' && (
-                  <div className="p-4 rounded-2xl bg-[#FBF8F2] border border-[#E5DAC6] space-y-3 text-xs text-[#5C5248]">
-                    <p>
-                      Pagamento seguro processado em até 12x no cartão. Para receber o link de pagamento exclusivo da sua fatura com parcelamento sem juros:
-                    </p>
-                    <button
-                      type="button"
-                      onClick={() => onOpenContact ? onOpenContact() : undefined}
-                      className="w-full py-2.5 rounded-xl bg-[#B88736] hover:bg-[#B88736] text-white font-bold text-xs flex items-center justify-center gap-2 cursor-pointer transition"
-                    >
-                      <MessageSquare size={14} />
-                      <span>Solicitar Link de Cartão com Suporte</span>
-                    </button>
-                  </div>
+                  <div className="p-4 rounded-2xl bg-[#FBF8F2] border border-[#E5DAC6] space-y-3 text-xs text-[#5C5248]"><p>Os dados de cartão não são coletados pelo aplicativo. Quando o checkout seguro estiver disponível, ele será iniciado pelo provedor de pagamento.</p>{onOpenContact && <button type="button" onClick={onOpenContact} className="w-full min-h-11 py-2.5 rounded-xl bg-[#B88736] hover:bg-[#8F631E] text-white font-bold text-xs flex items-center justify-center gap-2 cursor-pointer transition"><MessageSquare size={14} /><span>Falar com o suporte</span></button>}</div>
                 )}
 
                 <div className="pt-2 space-y-2">
-                  {checkoutError && (
-                    <p role="alert" className="rounded-xl border border-rose-200 bg-rose-50 px-3 py-2 text-xs text-rose-700">
-                      {checkoutError}
-                    </p>
-                  )}
-                  <button
-                    type="button"
-                    onClick={handleConfirmPurchase}
-                    disabled={isCheckoutProcessing}
-                    className="w-full py-3.5 rounded-2xl bg-[#B88736] hover:bg-[#8F631E] disabled:opacity-60 disabled:cursor-not-allowed text-white font-bold text-xs sm:text-sm flex items-center justify-center gap-2 transition cursor-pointer shadow-sm"
-                  >
-                    <CheckCircle2 size={16} />
-                    <span>{isCheckoutProcessing ? 'Iniciando pagamento...' : 'Iniciar pagamento seguro'}</span>
-                  </button>
-                  <p className="text-[11px] text-[#85786C] text-center">
-                    O mapa completo só é liberado depois da confirmação do pagamento pelo servidor.
-                  </p>
+                  {checkoutError && <p role="alert" className="rounded-xl border border-rose-200 bg-rose-50 px-3 py-2 text-xs text-rose-700">{checkoutError}</p>}
+                  <button type="button" onClick={handleConfirmPurchase} disabled={isCheckoutProcessing} className="w-full min-h-11 py-3.5 rounded-2xl bg-[#B88736] hover:bg-[#8F631E] disabled:opacity-60 disabled:cursor-not-allowed text-white font-bold text-xs sm:text-sm flex items-center justify-center gap-2 transition cursor-pointer shadow-sm"><CheckCircle2 size={16} /><span>{isCheckoutProcessing ? 'Iniciando pagamento...' : 'Iniciar pagamento seguro'}</span></button>
+                  <p className="text-[11px] text-[#85786C] text-center">O mapa completo só é liberado depois da confirmação do pagamento pelo servidor.</p>
                 </div>
               </div>
 
-              {/* Or Upgrade to PRO CTA */}
-              <div className="p-4 rounded-2xl bg-indigo-950/30 border border-[#B88736]/20 flex items-center justify-between gap-3 text-xs text-[#5C5248]">
-                <span>
-                  💡 <em>Assinantes PRO têm acesso irrestrito ao Mapa Numerológico Completo sem custo extra.</em>
-                </span>
-                <button
-                  type="button"
-                  onClick={() => {
-                    onClose();
-                    if (onOpenProModal) onOpenProModal();
-                  }}
-                  className="text-amber-400 hover:text-amber-300 underline font-mono text-xs whitespace-nowrap cursor-pointer"
-                >
-                  Ver Planos PRO
-                </button>
-              </div>
+              <div className="p-4 rounded-2xl bg-[#F5EFE4] border border-[#B88736]/20 flex items-center justify-between gap-3 text-xs text-[#5C5248]"><span>O Plano PRO também pode incluir acesso ao mapa completo quando esse entitlement estiver confirmado na sua conta.</span><button type="button" onClick={() => { onClose(); onOpenProModal?.(); }} className="min-h-11 px-2 text-[#8F631E] hover:text-[#5C5248] underline font-mono text-xs whitespace-nowrap cursor-pointer">Ver Planos PRO</button></div>
             </div>
           )}
         </div>
 
-        {/* Modal Footer */}
-        <div className="pt-4 border-t border-[#E5DAC6] flex items-center justify-between shrink-0 text-xs text-[#5C5248]">
-          <span>Terapia Quântica Integrada • Éverton Rodrigo Piceni</span>
-          <button
-            type="button"
-            onClick={onClose}
-            className="px-4 py-2 bg-[#F5EFE4] hover:bg-slate-700 text-[#2A2420] rounded-xl transition cursor-pointer font-mono"
-          >
-            Fechar
-          </button>
-        </div>
+        <div className="pt-4 border-t border-[#E5DAC6] flex items-center justify-between shrink-0 text-xs text-[#5C5248]"><span>Numerologia Integrativa • Éverton Rodrigo Piceni</span><button type="button" onClick={onClose} className="min-h-11 px-4 py-2 bg-[#F5EFE4] hover:bg-[#EFE4D3] text-[#2A2420] rounded-xl transition cursor-pointer font-mono">Fechar</button></div>
       </motion.div>
     </div>
   );
