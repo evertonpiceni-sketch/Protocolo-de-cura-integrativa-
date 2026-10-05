@@ -820,12 +820,32 @@
 }
 :root[data-layout="natural-sereno"] .ns-app[data-ns-screen="result"] .ns-page-heading {
   min-height: 0;
-  padding: 20px 42px 16px;
+  padding: 16px 42px 8px;
 }
 :root[data-layout="natural-sereno"] .ns-result-emblem {
   display: block;
-  margin: 0 auto 10px;
+  margin: 0 auto 6px;
   color: var(--ns-gold);
+  width: 64px;
+  height: 64px;
+  padding: 9px;
+  border: 1px solid var(--ns-gold);
+  border-radius: 50%;
+}
+:root[data-layout="natural-sereno"] .ns-heading-emblem {
+  display: block;
+  margin: 0 auto 6px;
+  color: var(--ns-gold);
+}
+:root[data-layout="natural-sereno"] .ns-dock svg {
+  width: 25px;
+  height: 25px;
+  stroke-width: 1.8;
+}
+:root[data-layout="natural-sereno"] .ns-dock .lucide-house {
+  fill: var(--ns-forest);
+  stroke: var(--ns-cream);
+  stroke-width: 1.2;
 }
 :root[data-layout="natural-sereno"] .ns-app[data-ns-screen="result"] .ns-page-heading h1 {
   font-size: 32px;
@@ -836,7 +856,7 @@
 }
 :root[data-layout="natural-sereno"] .ns-result > p {
   line-height: 1.55;
-  margin-bottom: 16px;
+  margin-bottom: 12px;
 }
 :root[data-layout="natural-sereno"] .ns-result-details {
   padding: 4px 12px;

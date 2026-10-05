@@ -27,7 +27,18 @@ await page.evaluateOnNewDocument(()=>{
  Object.defineProperty(window.speechSynthesis,'speak',{value:utterance=>{utterance.onstart?.(new Event('start'));},configurable:true});
 });
 const ready=async(selector)=>{await page.waitForSelector(selector);await new Promise(r=>setTimeout(r,750))};
-const shot=async(name)=>{console.log(`QA capture: ${name}`);await page.screenshot({path:`${out}/${name}.png`})};
+const shot=async(name)=>{
+ console.log(`QA capture: ${name}`);
+ await page.evaluate(async()=>{
+  await document.fonts.ready;
+  const visibleImages=[...document.images].filter(img=>{
+   const rect=img.getBoundingClientRect();
+   return rect.width>0 && rect.height>0 && rect.bottom>0 && rect.top<innerHeight;
+  });
+  await Promise.all(visibleImages.map(img=>img.decode()));
+ });
+ await page.screenshot({path:`${out}/${name}.png`});
+};
 const dock=async(label)=>{
  const handles=await page.$$('.ns-dock button');
  for(const h of handles){if(await h.evaluate((el,label)=>el.textContent.trim()===label,label)){

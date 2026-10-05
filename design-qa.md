@@ -148,3 +148,16 @@ O navegador integrado não iniciou por erro do sandbox; as evidências foram cap
 Validação final após a correção de encerramento: lint, 18 testes e build aprovados. Uma sessão nova do navegador concluiu 20 verificações, incluindo o clique real em Sair da sessão no Dia 1 e o retorno ao app, sem erros de execução ou console. Os avisos existentes de bundle grande e importação estática/dinâmica permanecem. A rodada interrompida não foi contabilizada como sucesso; `verification.json` e as comparações salvas pertencem à sessão concluída.
 
 **final result: blocked** — os avanços desta rodada não encerram a reprodução integral das 12 telas. Permanecem P2 de fidelidade dos emblemas/ornamentos, fonte exata e distribuição dos controles adicionais do Player. Não iniciar o Estilo 2.
+# Natural Sereno — continuação 3 em 2026-10-05
+
+Fonte: `docs/visual-qa/natural-sereno/reference.jpg`, painel aprovado de 1280×1170. Capturas reais em 390×844 em `docs/visual-qa/natural-sereno/refinement-2026-10-05-round3/`. Comparações combinam a referência à esquerda e a implementação à direita; recortes Biblioteca (444,653)-(629,1072), Ferramentas (657,653)-(842,1072), normalizados para 390×844. Resultado reutiliza o recorte aprovado de `compare-result.png`. Ampliações dos cabeçalhos acompanham cada comparação.
+
+Mudanças: emblemas dourados acima dos títulos Biblioteca/Ferramentas; contorno circular dourado no emblema do Resultado; símbolo floral para Jornada no dock, casa preenchida e ícones de 25px. São ajustes de apresentação no componente exclusivo de Natural Sereno, com os ícones já disponíveis. O espaço do cabeçalho do Resultado foi compactado depois da inspeção para preservar o CTA inteiro acima do dock.
+
+A auditoria agora espera `document.fonts.ready` e `decode()` das imagens visíveis antes de capturar: a primeira captura da Biblioteca havia registrado miniaturas ainda vazias. A execução final mostra as seis imagens carregadas e passou nas 20 verificações, sem erros de página/console. Uma tentativa anterior expirou na navegação inicial e não foi contabilizada como aprovação. Lint e 18 testes passaram; build validado após o ajuste final. Avisos existentes de tamanho do bundle e importação de VideoStudioLightModal permanecem.
+
+Revisão das cinco superfícies: tipografia mantém Lora/Cormorant já usadas e ainda difere da referência; layout aproxima emblemas e navegação, com CTA do Resultado visível; paleta mantém verde/marfim/dourado; imagens usam os assets existentes e carregados, sem recriar o logo; textos, seis recomendações, ações e dados permanecem os aprovados do aplicativo. Login/cadastro, Reintegração e os três outros temas passaram nos controles de isolamento.
+
+Pendências P2: os símbolos florais existentes não reproduzem exatamente os traços de lótus da prancha; ornamentos, tipografia e composição das 12 telas ainda precisam de aproximação adicional. Comparações não constituem aprovação de fidelidade integral. Estilo 2 não iniciado.
+
+final result: blocked

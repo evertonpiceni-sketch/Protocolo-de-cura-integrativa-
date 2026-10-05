@@ -103,6 +103,8 @@ export default function NaturalSerenoHome(props: Props) {
     {view !== 'home' && <header className="ns-page-heading">
       <button onClick={() => changeView('home')} aria-label="Voltar ao início"><ArrowLeft size={20} /></button>
       {view === 'result' && <Flower2 className="ns-result-emblem" size={43} strokeWidth={1} aria-hidden="true" />}
+      {view === 'library' && <BookOpen className="ns-heading-emblem" size={28} strokeWidth={1.4} aria-hidden="true" />}
+      {view === 'tools' && <Flower2 className="ns-heading-emblem" size={28} strokeWidth={1.4} aria-hidden="true" />}
       <h1>{headings[view][0]}</h1><p>{headings[view][1]}</p>
     </header>}
 
@@ -192,7 +194,7 @@ export default function NaturalSerenoHome(props: Props) {
 
     <nav className="ns-dock" aria-label="Navegação principal">
       {([
-        ['home', Home, 'Início'], ['journey', Leaf, 'Jornada'], ['library', BookOpen, 'Biblioteca'], ['community', Users, 'Comunidade'],
+        ['home', Home, 'Início'], ['journey', Flower2, 'Jornada'], ['library', BookOpen, 'Biblioteca'], ['community', Users, 'Comunidade'],
       ] as [View, LucideIcon, string][]).map(([destination, Icon, label]) => <button key={destination} onClick={() => changeView(destination)} aria-current={view === destination ? 'page' : undefined}><Icon size={22} strokeWidth={1.5} /><span>{label}</span></button>)}
     </nav>
   </div>;
