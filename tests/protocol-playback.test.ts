@@ -22,6 +22,13 @@ test('keeps the canonical visual breathing cadence at 4 inhale, 3 hold and 5 exh
   assert.equal(protocolBreathTransitionSeconds('exhale'), 5);
 });
 
+test('production protocol player keeps the fixed elapsed-time conversion and 4-3-5 cadence', () => {
+  const session = fs.readFileSync('src/components/MeditationSession.tsx', 'utf8');
+  assert.ok(session.includes('curr / 1000'), 'native speech elapsedTime must be converted from milliseconds');
+  assert.ok(session.includes("position < 4 ? 'inhale' : position < 7 ? 'hold' : 'exhale'"), 'breathing phase boundaries must remain 4-3-5');
+  assert.ok(session.includes("breathePhase === 'hold' ? 3 : 5"), 'visual transition must use a 3-second hold');
+});
+
 test('the 21-day journey exposes a distinct daily title instead of one repeated day label', () => {
   assert.equal(DAILY_INSIGHTS.length, 21);
   const titles = DAILY_INSIGHTS.map(day => day.title.trim());
@@ -55,8 +62,8 @@ test('sacred animation remains semantically mapped to the six narrated protocol 
 
 test('Arcanjo flow starts the selected Solfeggio and reads the approved script set', () => {
   const arcanjo = fs.readFileSync('src/components/ArcanjoProtocolView.tsx', 'utf8');
-  assert.ok(arcanjo.includes("DISTANCE_TREATMENT_SCRIPT"));
+  assert.ok(arcanjo.includes('DISTANCE_TREATMENT_SCRIPT'));
   assert.ok(arcanjo.includes('audioEngine.startSynth(`${config.freq}hz`)'));
   assert.ok(arcanjo.includes('APPROVED_SECTIONS.map(section => section.ttsScript)'));
-  assert.ok(arcanjo.includes("audioEngine.stopSynth()"));
+  assert.ok(arcanjo.includes('audioEngine.stopSynth()'));
 });
