@@ -121,3 +121,30 @@ Todos os novos seletores exigem `data-layout="natural-sereno"`. Nenhum component
 Lint TypeScript, 18 testes e build aprovados; 19 verificações de navegador aprovadas, sem erros de execução ou console. O build conserva os avisos existentes de bundle grande e importação estática/dinâmica. A verificação de navegador acrescenta a medição de seis dias completos acima da navegação, após decodificar todas as imagens. Evidências desta rodada em `docs/visual-qa/natural-sereno/refinement-2026-10-05/`.
 
 Não há aprovação de fidelidade integral das 12 telas. Os limites já documentados de fontes/assets reconstruídos e da apresentação de conteúdos/controles adicionais permanecem. Não iniciar o Estilo 2. As verificações de navegador usam dados sintéticos e fala simulada; não certificam áudio contínuo ou serviços remotos.
+
+## Continuação — Home, Resultado e Player em 05/10/2026
+
+Fonte visual: `docs/visual-qa/natural-sereno/reference.jpg`. As comparações desta rodada reutilizam os recortes normalizados da referência à esquerda de `compare-home.png`, `compare-result.png` e `compare-player.png`, sem redesenhar a arte. Cada recorte tem 390 × 844 px. As novas capturas do app têm viewport CSS 390 × 844, DPR 1. A comparação completa tem 788 × 880 px, incluindo rótulos e separação; os detalhes ampliados são apenas evidência de inspeção, não outra densidade do produto.
+
+Evidências em `docs/visual-qa/natural-sereno/refinement-2026-10-05-round2/`: Home autenticada, Resultado de uma anamnese sintética e Player no Dia 1. O Dia 1 da prancha contém título e mensagem ilustrativos diferentes dos textos canônicos do aplicativo; esses textos reais foram preservados. O Resultado também conserva as seis recomendações do motor, em vez de substituí-las pelos quatro exemplos ilustrativos da prancha.
+
+### Comparação e correções
+
+- **Cores e imagens — P2 corrigido na Home:** o gradiente aplicado por cima do vale apagava o céu azul e reduzia a definição da paisagem. A Home usa agora o asset existente sem essa camada. Recorte, asset e conteúdo não foram substituídos.
+- **Hierarquia e ritmo — P2 corrigido no Resultado:** emblema passa a aparecer acima do título, e as seis recomendações ficam em uma ficha contínua de marfim com divisórias, sem remover rótulos ou valores. A captura mostra a duração e a ação principal acima da navegação; a ação secundária continua acessível por rolagem.
+- **Hierarquia e ritmo — P2 corrigido no Player:** dia e mensagem central aparecem antes da identificação e orientação de etapa. Em mobile com altura suficiente, a paisagem fica mais livre acima do dia. Telas curtas mantêm rolagem. Etapas, respiração, áudio, roteiro, avanço/retorno e busca de posição continuam disponíveis.
+- **Interação — P1 corrigido:** o clique real em Sair da sessão revelou `TypeError: releaseWakeLock is not a function`. A API retorna um `WakeLockSentinel`, não uma função. O Player agora chama `release()` e libera também aquisições que terminarem depois de sair. A assinatura do helper foi tipada, eliminando o `any` que escondia o erro. O teste de saída confirmado retorna à Home sem tela de recuperação ou erros de console. Trata-se de correção do encerramento no Player compartilhado; a Reintegração tem implementação própria e não foi alterada.
+
+### Superfícies obrigatórias e pendências
+
+- **Tipografia:** famílias existentes Lora/Cormorant mantidas. Título e categoria do Resultado recebem hierarquia mais próxima da referência. A fonte exata e o peso óptico do texto secundário da prancha ainda não foram identificados; não declarar equivalência exata.
+- **Espaçamento:** mesma área de 390 × 844 nas comparações; o Resultado mostra mais informações sem truncamento e o Player preserva os controles adicionais. A distribuição desses controles continua diferente do modelo ilustrativo.
+- **Paleta:** verde, marfim e dourado existentes preservados; removida apenas a camada que apagava a paisagem da Home.
+- **Assets:** não houve geração nem troca de imagens, logos ou folhagens. Permanecem diferenças entre os assets anteriormente reconstruídos e os originais isolados, além dos emblemas/ícones específicos da prancha.
+- **Conteúdo:** valores, títulos, perguntas, recomendações, handlers e destinos aprovados não foram reescritos. Nenhuma API, pagamento, narração ou dado da Reintegração foi modificado.
+
+O navegador integrado não iniciou por erro do sandbox; as evidências foram capturadas no Edge local. A auditoria usa fixtures e fala simulada, sem alterar dados de produção. A fonte e a implementação foram inspecionadas em pares lado a lado, incluindo detalhes do cabeçalho do Resultado e controles do Player.
+
+Validação final após a correção de encerramento: lint, 18 testes e build aprovados. Uma sessão nova do navegador concluiu 20 verificações, incluindo o clique real em Sair da sessão no Dia 1 e o retorno ao app, sem erros de execução ou console. Os avisos existentes de bundle grande e importação estática/dinâmica permanecem. A rodada interrompida não foi contabilizada como sucesso; `verification.json` e as comparações salvas pertencem à sessão concluída.
+
+**final result: blocked** — os avanços desta rodada não encerram a reprodução integral das 12 telas. Permanecem P2 de fidelidade dos emblemas/ornamentos, fonte exata e distribuição dos controles adicionais do Player. Não iniciar o Estilo 2.

@@ -75,7 +75,13 @@ try {
  await page.click('button[aria-label="Fechar Mapa do Momento"]');
  await dock('Jornada');await page.click('button[aria-label="Abrir dia 3: Purificação das Águas"]');await ready('.ep-acceptance-portal');await shot('portal');assert.equal(await page.$eval('#meditation-session header h1',el=>el.textContent.trim()),'Purificação das Águas');
  await textButton('Aceitar e Adentrar o Espaço Sagrado');await ready('[data-session-phase="checkin_before"]');
- await textButton('Iniciar a Harmonização');await ready('[data-session-phase="playing"]');assert.equal(await page.$eval('#meditation-session',el=>el.scrollTop),0,'Player starts at the top after check-in');await shot('player');assert.equal(await page.$eval('#meditation-session > main',el=>getComputedStyle(el).paddingTop),'90px','Approved player scene spacing overrides legacy mobile padding');
+ await textButton('Iniciar a Harmonização');await ready('[data-session-phase="playing"]');assert.equal(await page.$eval('#meditation-session',el=>el.scrollTop),0,'Player starts at the top after check-in');await shot('player');
+ assert(await page.$eval('#meditation-session',el=>{
+  const title=el.querySelector('.ns-session-title').getBoundingClientRect();
+  const mantra=el.querySelector('.ep-session-mantra').getBoundingClientRect();
+  const stage=el.querySelector('.ep-stage-badge').getBoundingClientRect();
+  return title.top>=200 && title.top<=300 && title.bottom<=mantra.top && mantra.bottom<=stage.top;
+ }),'Waterfall, day and mantra retain the board hierarchy before the additional stage guidance');
  for(const width of [320,390,768,1440]){
   await page.setViewport({width,height:844,deviceScaleFactor:1});
   assert(await page.$eval('.ns-play-toggle',el=>{const r=el.getBoundingClientRect();return r.top>=0&&r.bottom<=innerHeight&&r.left>=0&&r.right<=innerWidth}),`Playback control visible at ${width}`);
@@ -97,6 +103,12 @@ try {
  await ready('[data-ns-screen="result"]');await shot('result');checks.push('Result uses existing recommendation engine, without altering its content or rules.');
  for(const width of [320,390,768,1440]){await page.setViewport({width,height:900,deviceScaleFactor:1});await dock('Início');await ready('[data-ns-screen="home"]');assert(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),`No horizontal overflow at ${width}`);await shot(`responsive-${width}`)}
  checks.push('No horizontal overflow at 320, 390, 768 and 1440 CSS px.');
+ await page.setViewport({width:390,height:844,deviceScaleFactor:1});
+ await dock('Jornada');await page.click('button[aria-label="Abrir dia 1: O Despertar da Decisão"]');await ready('.ep-acceptance-portal');
+ await textButton('Aceitar e Adentrar o Espaço Sagrado');await ready('[data-session-phase="checkin_before"]');
+ await textButton('Iniciar a Harmonização');await ready('[data-session-phase="playing"]');await shot('player-day1');
+ await page.click('button[aria-label="Sair da sessão"]');await ready('.ns-app');
+ checks.push('Day 1 player captured at 390×844 for the same selected day as the frozen board; approved runtime content retained.');
  for(const theme of ['elegancia-profunda','essencia-luminosa','mistico-moderno']){profile.visualLayout=theme;await page.reload({waitUntil:'networkidle0'});await ready('.ep-home');assert.equal(await page.$('.ns-app'),null);await shot(`isolated-${theme}`)}
  checks.push('The three other themes keep the legacy component branch and never render Natural Sereno.');
  profile.visualLayout='natural-sereno';await page.reload({waitUntil:'networkidle0'});await ready('.ns-app');await page.evaluate(()=>localStorage.setItem('natural-sereno-qa-welcome','true'));await page.reload({waitUntil:'networkidle0'});await ready('[data-ns-screen="welcome"]');await page.setViewport({width:390,height:844,deviceScaleFactor:1});await shot('welcome');

@@ -102,6 +102,7 @@ export default function NaturalSerenoHome(props: Props) {
   return <div className="ns-app" data-ns-screen={view}>
     {view !== 'home' && <header className="ns-page-heading">
       <button onClick={() => changeView('home')} aria-label="Voltar ao início"><ArrowLeft size={20} /></button>
+      {view === 'result' && <Flower2 className="ns-result-emblem" size={43} strokeWidth={1} aria-hidden="true" />}
       <h1>{headings[view][0]}</h1><p>{headings[view][1]}</p>
     </header>}
 
@@ -174,8 +175,8 @@ export default function NaturalSerenoHome(props: Props) {
     </section>}
 
     {view === 'result' && recommendation && <section className="ns-list ns-result">
-      <Flower2 size={43} strokeWidth={1} aria-hidden="true" />
       <p>{recommendation.summaryDiagnosis}</p>
+      <div className="ns-result-details">
       {([
         ['Frequência Solfeggio', recommendation.frequencyLabel, AudioLines],
         ['Chakra em foco', recommendation.primaryChakraFocus, Sun],
@@ -184,6 +185,7 @@ export default function NaturalSerenoHome(props: Props) {
         ['Protocolo indicado', recommendation.treatmentTitle, BookOpen],
         ['Duração sugerida', `${recommendation.recommendedDurationDays} dias`, CalendarDays],
       ] as [string, string, LucideIcon][]).map(([label, value, Icon]) => <div key={label} className="ns-result-item"><span className="ns-result-symbol"><Icon size={25} strokeWidth={1.4} /></span><div><small>{label}</small><strong>{value}</strong></div></div>)}
+      </div>
       <button className="ns-gold" onClick={props.onSpeakResult}><Headphones size={19} />Ouvir meu resultado</button>
       <button className="ns-secondary" onClick={props.onOpenAnamnesis}>Ver ou refazer minha anamnese <ChevronRight size={18} /></button>
     </section>}

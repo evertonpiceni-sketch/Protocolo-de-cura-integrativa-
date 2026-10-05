@@ -105,13 +105,17 @@ export default function MeditationSession({
   }, [isPlaying, currentTime]);
 
   useEffect(() => {
-    let releaseWakeLock: (() => void) | null = null;
-    requestWakeLock().then(release => {
-      releaseWakeLock = release;
+    let disposed = false;
+    let wakeLock: Awaited<ReturnType<typeof requestWakeLock>> = null;
+    requestWakeLock().then(lock => {
+      // The browser can resolve acquisition after the player has closed.
+      if (disposed) void lock?.release().catch(() => undefined);
+      else wakeLock = lock;
     });
 
     return () => {
-      if (releaseWakeLock) releaseWakeLock();
+      disposed = true;
+      void wakeLock?.release().catch(() => undefined);
       audioEngine.stopSpeech();
       audioEngine.stopSynth();
     };
