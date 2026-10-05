@@ -48,6 +48,9 @@ try {
  assert.equal(await page.$$eval('.ns-day img',els=>new Set(els.map(img=>img.getAttribute('src'))).size),21);
  await page.$$eval('.ns-day img',async els=>{for(const img of els)img.loading='eager';await Promise.all(els.map(img=>img.decode()))});
  checks.push('All 21 journey thumbnails are distinct and load successfully.');
+ assert(await page.$eval('.ns-day:nth-of-type(6)',el=>el.getBoundingClientRect().bottom<=document.querySelector('.ns-dock').getBoundingClientRect().top),'Six complete days fit above the dock without truncating their approved descriptions');
+ await shot('journey');
+ checks.push('Six complete day rows fit above the dock at 390×844, with loaded artwork and untruncated approved text.');
  await dock('Biblioteca');
  await page.waitForFunction(()=>Array.from(document.querySelectorAll('.ns-library-row img')).every(img=>img.complete && img.naturalWidth>0));
  assert(await page.$$eval('.ns-library-row img',els=>els.every(img=>img.getAttribute('src').startsWith('/brand/natural-sereno/'))));

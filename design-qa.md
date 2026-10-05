@@ -107,3 +107,17 @@ O erro FUNCTION_INVOCATION_FAILED na prévia foi associado à ausência de JWT_S
 Validação: lint, cinco testes e build; 18 verificações Chromium sem erros; cadastro válido, sessão, sincronização do perfil, login e duplicidade em banco local isolado, sem criar contas reais; erro HTTP 500 não JSON validado no navegador. Evidências: registration.png, login.png, registration-options.png e verification.json em docs/visual-qa/natural-sereno.
 
 O usuário autorizou publicar a versão atual e continuar ajustes. A auditoria de fidelidade integral das 12 telas segue com as diferenças documentadas; não inicia Estilo 2.
+
+## Continuação — ajustes de composição em 05/10/2026
+
+Esta rodada parte do estado atual de `main` e do painel congelado em `docs/visual-qa/natural-sereno/reference.jpg`.
+
+- Jornada: densidade ajustada para seis dias completos acima da navegação em 390 × 844. Títulos, descrições, estados de conclusão, 21 imagens e destinos preservados. As linhas crescem com textos maiores, sem truncamento.
+- Boas-vindas: anel de áudio de 136 px e onda com altura de 100 px, preservando os arquivos e callbacks existentes. Contato flutuante deslocado para o canto superior, sem cobrir a assinatura.
+- Perfil: cabeçalho e avatar mais compactos, lista contínua em marfim com divisórias e cantos somente nas extremidades. Todas as sete ações e descrições permanecem disponíveis; a assinatura fica visível acima da navegação em 390 × 844.
+
+Todos os novos seletores exigem `data-layout="natural-sereno"`. Nenhum componente funcional, conteúdo aprovado, API, pagamento, arquivo da Reintegração, login/cadastro ou outro tema foi alterado nesta rodada.
+
+Lint TypeScript, 18 testes e build aprovados; 19 verificações de navegador aprovadas, sem erros de execução ou console. O build conserva os avisos existentes de bundle grande e importação estática/dinâmica. A verificação de navegador acrescenta a medição de seis dias completos acima da navegação, após decodificar todas as imagens. Evidências desta rodada em `docs/visual-qa/natural-sereno/refinement-2026-10-05/`.
+
+Não há aprovação de fidelidade integral das 12 telas. Os limites já documentados de fontes/assets reconstruídos e da apresentação de conteúdos/controles adicionais permanecem. Não iniciar o Estilo 2. As verificações de navegador usam dados sintéticos e fala simulada; não certificam áudio contínuo ou serviços remotos.

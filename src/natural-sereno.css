@@ -724,3 +724,91 @@
   :root[data-layout="natural-sereno"] #meditation-session .ep-session-backdrop > div:first-child { position: absolute; top: 15%; left: 75%; width: 240px; max-width: 240px; transform: translateX(-50%); }
   :root[data-layout="natural-sereno"] #meditation-session .ep-session-backdrop canvas { left: 0; width: 100% !important; height: 100% !important; opacity: .25; }
 }
+
+/* Frozen board: six day rows above the dock at 390 × 844, while retaining
+   every approved title, focus, completion state and destination. Let longer
+   text and text zoom expand rows instead of clipping them. */
+:root[data-layout="natural-sereno"] .ns-journey-intro p {
+  margin-bottom: 12px;
+  font-size: 12px;
+  line-height: 1.45;
+}
+:root[data-layout="natural-sereno"] .ns-day {
+  min-height: 72px;
+  padding: 8px 10px;
+  margin-bottom: 7px;
+  gap: 9px;
+}
+:root[data-layout="natural-sereno"] .ns-day .ns-row-copy strong {
+  font-size: 16px;
+  line-height: 1.2;
+}
+:root[data-layout="natural-sereno"] .ns-day .ns-row-copy small {
+  font-size: 12px;
+  line-height: 1.35;
+  margin-top: 3px;
+}
+:root[data-layout="natural-sereno"] .ns-day > img {
+  width: 52px;
+  height: 54px;
+}
+:root[data-layout="natural-sereno"] .ns-day-number {
+  width: 36px;
+  height: 36px;
+}
+/* The approved ring occupies roughly a third of the phone content width.
+   Keep the original waveform asset and voice callbacks. */
+:root[data-layout="natural-sereno"] .ns-welcome-play {
+  width: 136px;
+  height: 136px;
+}
+:root[data-layout="natural-sereno"] .ns-welcome-audio .ns-audio-wave {
+  height: 100px;
+  object-fit: fill;
+}
+:root[data-layout="natural-sereno"]:has(.ns-welcome) #floating-whatsapp-btn {
+  top: 16px !important;
+  bottom: auto !important;
+  right: 16px !important;
+}
+/* The profile board uses one continuous ivory list beneath the progress
+   card. Keep all seven existing actions and their descriptions available. */
+:root[data-layout="natural-sereno"] .ns-app[data-ns-screen="profile"] .ns-page-heading {
+  min-height: 68px;
+  padding: 8px 42px;
+}
+:root[data-layout="natural-sereno"] .ns-app[data-ns-screen="profile"] .ns-page-heading h1 {
+  font-size: 30px;
+}
+:root[data-layout="natural-sereno"] .ns-app[data-ns-screen="profile"] .ns-page-heading p {
+  font-size: 12px;
+}
+:root[data-layout="natural-sereno"] .ns-profile-identity {
+  gap: 6px;
+  padding-bottom: 8px;
+}
+:root[data-layout="natural-sereno"] .ns-profile-identity > svg {
+  width: 52px;
+  height: 52px;
+  padding: 10px;
+}
+:root[data-layout="natural-sereno"] .ns-profile .ns-row {
+  margin-bottom: 0;
+  padding: 6px 12px;
+  border-radius: 0;
+}
+:root[data-layout="natural-sereno"] .ns-profile .ns-row + .ns-row {
+  border-top: 0;
+}
+:root[data-layout="natural-sereno"] .ns-profile-progress + .ns-row {
+  border-radius: 10px 10px 0 0;
+}
+:root[data-layout="natural-sereno"] .ns-profile .ns-row:last-of-type {
+  border-radius: 0 0 10px 10px;
+}
+@media (max-height: 720px) {
+  :root[data-layout="natural-sereno"] .ns-welcome-play {
+    width: 120px;
+    height: 120px;
+  }
+}
