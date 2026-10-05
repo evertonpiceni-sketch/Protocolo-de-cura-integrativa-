@@ -1,0 +1,470 @@
+[
+  {
+    "screen": "home",
+    "width": 390,
+    "height": 844,
+    "rootOverflow": false,
+    "fonts": {
+      "status": "loaded",
+      "lora": true,
+      "cormorant": true
+    },
+    "smallText": [
+      {
+        "text": "Primeiro, vamos ouvir você",
+        "font": "10px",
+        "color": "rgb(103, 112, 91)"
+      },
+      {
+        "text": "Afirmação do dia",
+        "font": "10px",
+        "color": "rgb(103, 112, 91)"
+      }
+    ],
+    "smallTargets": [],
+    "dialogSemantics": [],
+    "images": []
+  },
+  {
+    "screen": "journey",
+    "width": 390,
+    "height": 844,
+    "rootOverflow": false,
+    "fonts": {
+      "status": "loaded",
+      "lora": true,
+      "cormorant": true
+    },
+    "smallText": [],
+    "smallTargets": [],
+    "dialogSemantics": [],
+    "images": [
+      "/brand/natural-sereno/days/dia-18.webp",
+      "/brand/natural-sereno/days/dia-19.webp",
+      "/brand/natural-sereno/days/dia-20.webp",
+      "/brand/natural-sereno/days/dia-21.webp"
+    ]
+  },
+  {
+    "screen": "library",
+    "width": 390,
+    "height": 844,
+    "rootOverflow": false,
+    "fonts": {
+      "status": "loaded",
+      "lora": true,
+      "cormorant": true
+    },
+    "smallText": [],
+    "smallTargets": [],
+    "dialogSemantics": [],
+    "images": []
+  },
+  {
+    "screen": "community",
+    "width": 390,
+    "height": 844,
+    "rootOverflow": false,
+    "fonts": {
+      "status": "loaded",
+      "lora": true,
+      "cormorant": true
+    },
+    "smallText": [],
+    "smallTargets": [],
+    "dialogSemantics": [],
+    "images": []
+  },
+  {
+    "screen": "menu",
+    "width": 390,
+    "height": 844,
+    "rootOverflow": false,
+    "fonts": {
+      "status": "loaded",
+      "lora": true,
+      "cormorant": true
+    },
+    "smallText": [],
+    "smallTargets": [],
+    "dialogSemantics": [],
+    "images": []
+  },
+  {
+    "screen": "tools",
+    "width": 390,
+    "height": 844,
+    "rootOverflow": false,
+    "fonts": {
+      "status": "loaded",
+      "lora": true,
+      "cormorant": true
+    },
+    "smallText": [],
+    "smallTargets": [],
+    "dialogSemantics": [],
+    "images": []
+  },
+  {
+    "screen": "profile",
+    "width": 390,
+    "height": 844,
+    "rootOverflow": false,
+    "fonts": {
+      "status": "loaded",
+      "lora": true,
+      "cormorant": true
+    },
+    "smallText": [
+      {
+        "text": "2 de 21 dias",
+        "font": "11px",
+        "color": "rgb(38, 55, 42)"
+      },
+      {
+        "text": "10%",
+        "font": "10px",
+        "color": "rgb(38, 55, 42)"
+      }
+    ],
+    "smallTargets": [],
+    "dialogSemantics": [],
+    "images": []
+  },
+  {
+    "screen": "anamnesis",
+    "width": 390,
+    "height": 844,
+    "rootOverflow": false,
+    "fonts": {
+      "status": "loaded",
+      "lora": true,
+      "cormorant": true
+    },
+    "smallText": [
+      {
+        "text": "2 de 21 dias",
+        "font": "11px",
+        "color": "rgb(38, 55, 42)"
+      },
+      {
+        "text": "10%",
+        "font": "10px",
+        "color": "rgb(38, 55, 42)"
+      }
+    ],
+    "smallTargets": [],
+    "dialogSemantics": [
+      {
+        "id": "anamnesis-modal",
+        "role": "dialog",
+        "modal": "true",
+        "label": "Mapa do Momento",
+        "labelledby": null
+      }
+    ],
+    "images": []
+  },
+  {
+    "screen": "portal",
+    "width": 390,
+    "height": 844,
+    "rootOverflow": false,
+    "fonts": {
+      "status": "loaded",
+      "lora": true,
+      "cormorant": true
+    },
+    "smallText": [],
+    "smallTargets": [],
+    "dialogSemantics": [
+      {
+        "id": "meditation-session",
+        "role": null,
+        "modal": null,
+        "label": null,
+        "labelledby": null
+      }
+    ],
+    "images": []
+  },
+  {
+    "screen": "player",
+    "width": 390,
+    "height": 844,
+    "rootOverflow": false,
+    "fonts": {
+      "status": "loaded",
+      "lora": true,
+      "cormorant": true
+    },
+    "smallText": [],
+    "smallTargets": [
+      {
+        "text": "",
+        "label": null,
+        "width": 32,
+        "height": 6
+      },
+      {
+        "text": "",
+        "label": null,
+        "width": 8,
+        "height": 6
+      },
+      {
+        "text": "",
+        "label": null,
+        "width": 8,
+        "height": 6
+      },
+      {
+        "text": "",
+        "label": null,
+        "width": 8,
+        "height": 6
+      },
+      {
+        "text": "",
+        "label": null,
+        "width": 8,
+        "height": 6
+      },
+      {
+        "text": "",
+        "label": null,
+        "width": 8,
+        "height": 6
+      }
+    ],
+    "dialogSemantics": [
+      {
+        "id": "meditation-session",
+        "role": null,
+        "modal": null,
+        "label": null,
+        "labelledby": null
+      }
+    ],
+    "images": []
+  },
+  {
+    "screen": "frozen-reintegration",
+    "width": 390,
+    "height": 844,
+    "rootOverflow": false,
+    "fonts": {
+      "status": "loaded",
+      "lora": true,
+      "cormorant": true
+    },
+    "smallText": [],
+    "smallTargets": [],
+    "dialogSemantics": [],
+    "images": []
+  },
+  {
+    "screen": "result",
+    "width": 390,
+    "height": 844,
+    "rootOverflow": false,
+    "fonts": {
+      "status": "loaded",
+      "lora": true,
+      "cormorant": true
+    },
+    "smallText": [],
+    "smallTargets": [],
+    "dialogSemantics": [],
+    "images": []
+  },
+  {
+    "screen": "responsive-320",
+    "width": 320,
+    "height": 900,
+    "rootOverflow": false,
+    "fonts": {
+      "status": "loaded",
+      "lora": true,
+      "cormorant": true
+    },
+    "smallText": [
+      {
+        "text": "Afirmação do dia",
+        "font": "10px",
+        "color": "rgb(103, 112, 91)"
+      }
+    ],
+    "smallTargets": [],
+    "dialogSemantics": [],
+    "images": []
+  },
+  {
+    "screen": "responsive-390",
+    "width": 390,
+    "height": 900,
+    "rootOverflow": false,
+    "fonts": {
+      "status": "loaded",
+      "lora": true,
+      "cormorant": true
+    },
+    "smallText": [
+      {
+        "text": "Afirmação do dia",
+        "font": "10px",
+        "color": "rgb(103, 112, 91)"
+      }
+    ],
+    "smallTargets": [],
+    "dialogSemantics": [],
+    "images": []
+  },
+  {
+    "screen": "responsive-768",
+    "width": 768,
+    "height": 900,
+    "rootOverflow": false,
+    "fonts": {
+      "status": "loaded",
+      "lora": true,
+      "cormorant": true
+    },
+    "smallText": [
+      {
+        "text": "Afirmação do dia",
+        "font": "10px",
+        "color": "rgb(103, 112, 91)"
+      }
+    ],
+    "smallTargets": [],
+    "dialogSemantics": [],
+    "images": []
+  },
+  {
+    "screen": "responsive-1440",
+    "width": 1440,
+    "height": 900,
+    "rootOverflow": false,
+    "fonts": {
+      "status": "loaded",
+      "lora": true,
+      "cormorant": true
+    },
+    "smallText": [
+      {
+        "text": "Afirmação do dia",
+        "font": "10px",
+        "color": "rgb(103, 112, 91)"
+      }
+    ],
+    "smallTargets": [],
+    "dialogSemantics": [],
+    "images": []
+  },
+  {
+    "screen": "isolated-elegancia-profunda",
+    "width": 1440,
+    "height": 900,
+    "rootOverflow": false,
+    "fonts": {
+      "status": "loaded",
+      "lora": true,
+      "cormorant": true
+    },
+    "smallText": [],
+    "smallTargets": [],
+    "dialogSemantics": [],
+    "images": []
+  },
+  {
+    "screen": "isolated-essencia-luminosa",
+    "width": 1440,
+    "height": 900,
+    "rootOverflow": false,
+    "fonts": {
+      "status": "loaded",
+      "lora": true,
+      "cormorant": true
+    },
+    "smallText": [],
+    "smallTargets": [],
+    "dialogSemantics": [],
+    "images": []
+  },
+  {
+    "screen": "isolated-mistico-moderno",
+    "width": 1440,
+    "height": 900,
+    "rootOverflow": false,
+    "fonts": {
+      "status": "loaded",
+      "lora": true,
+      "cormorant": true
+    },
+    "smallText": [],
+    "smallTargets": [],
+    "dialogSemantics": [],
+    "images": []
+  },
+  {
+    "screen": "welcome",
+    "width": 390,
+    "height": 844,
+    "rootOverflow": false,
+    "fonts": {
+      "status": "loaded",
+      "lora": true,
+      "cormorant": true
+    },
+    "smallText": [],
+    "smallTargets": [],
+    "dialogSemantics": [],
+    "images": []
+  },
+  {
+    "screen": "registration",
+    "width": 390,
+    "height": 844,
+    "rootOverflow": false,
+    "fonts": {
+      "status": "loaded",
+      "lora": true,
+      "cormorant": true
+    },
+    "smallText": [],
+    "smallTargets": [],
+    "dialogSemantics": [],
+    "images": []
+  },
+  {
+    "screen": "registration-options",
+    "width": 390,
+    "height": 844,
+    "rootOverflow": false,
+    "fonts": {
+      "status": "loaded",
+      "lora": true,
+      "cormorant": true
+    },
+    "smallText": [],
+    "smallTargets": [],
+    "dialogSemantics": [],
+    "images": []
+  },
+  {
+    "screen": "login",
+    "width": 390,
+    "height": 844,
+    "rootOverflow": false,
+    "fonts": {
+      "status": "loaded",
+      "lora": true,
+      "cormorant": true
+    },
+    "smallText": [],
+    "smallTargets": [],
+    "dialogSemantics": [],
+    "images": []
+  }
+]

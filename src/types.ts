@@ -228,6 +228,7 @@ export interface UserProfile {
   subscriptionPaymentMethod?: 'pix' | 'card' | 'cupom_vip';
   selectedJourney?: JourneyType;
   voiceId?: string;
+  voiceType?: 'masculina' | 'feminina' | 'everton';
   preferredVoice?: string;
   preferredVoiceGender?: 'masculina' | 'feminina';
   voiceRate?: number;
@@ -628,4 +629,3 @@ export const JOURNEY_7D_INSIGHTS: DailyInsight[] = [
     quoteAuthor: "Éverton Rodrigo Piceni"
   }
 ];
-

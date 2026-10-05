@@ -801,6 +801,7 @@ export default function App() {
           userName={userProfile.name}
           bgMusicType={userProfile.bgMusicType}
           voiceId={userProfile.voiceId}
+          voiceGender={userProfile.preferredVoiceGender || (userProfile.voiceType === 'everton' ? 'masculina' : userProfile.voiceType)}
           voiceRate={userProfile.voiceRate}
           voicePitch={userProfile.voicePitch}
           userPlan={userProfile.plan}

@@ -1,0 +1,224 @@
+{
+  "findings": [
+    {
+      "publicEndpoints": {
+        "health": 200,
+        "me": 401,
+        "invalidRegistration": 400,
+        "registrationMessage": "Dados de registro inválidos.",
+        "sampleDuration": 5.712109
+      }
+    },
+    {
+      "action": "click",
+      "selector": "#register-form summary",
+      "snapshot": {
+        "tag": "SUMMARY",
+        "text": "Personalizar mapa, voz e frequênciaOpcionalFechar",
+        "label": null
+      }
+    },
+    {
+      "voiceControls": [
+        {
+          "tag": "DIV",
+          "role": null,
+          "tabIndex": -1,
+          "label": "Voz masculinaVoz masculina profunda, firme e serena para ancoramento, decretos quânticos e transmuta"
+        },
+        {
+          "tag": "DIV",
+          "role": null,
+          "tabIndex": -1,
+          "label": "Voz Feminina SuaveVoz feminina maternal, doce e pausada, ideal para relaxamento profundo, sono e Rai"
+        }
+      ]
+    },
+    {
+      "action": "click",
+      "selector": "#auth-tabs button:nth-child(2)",
+      "snapshot": {
+        "tag": "BUTTON",
+        "text": "Entrar / Acesso",
+        "label": null
+      }
+    },
+    {
+      "authTabScroll": {
+        "scrollY": 0,
+        "cardTop": 12,
+        "headingTop": 152.1875
+      }
+    },
+    {
+      "contactOverlap": {
+        "cta": {
+          "x": 18,
+          "y": 676,
+          "width": 354,
+          "height": 70,
+          "top": 676,
+          "right": 372,
+          "bottom": 746,
+          "left": 18
+        },
+        "contact": {
+          "x": 326,
+          "y": 718,
+          "width": 52,
+          "height": 44,
+          "top": 718,
+          "right": 378,
+          "bottom": 762,
+          "left": 326
+        },
+        "overlap": true
+      }
+    },
+    {
+      "action": "click",
+      "selector": "[aria-label=\"Abrir menu principal\"]",
+      "snapshot": {
+        "tag": "BUTTON",
+        "text": "",
+        "label": "Abrir menu principal"
+      }
+    },
+    {
+      "modalFocusOnOpen": {
+        "active": "<body class=\"bg-[#F8F4EC] text-[#2A2420] antialiased selection:bg-[#EAD5A8] selection:text-[#2A2420]\">\n    <div id=\"root\"><div class=\"min-h-screen bg-[#F8F4EC] text-[#2A2420] flex flex-col font-sans selection:bg-[#EAD5A8] selection:text-[#2A2420] rel",
+        "inside": false
+      }
+    },
+    {
+      "modalBackwardFocus": {
+        "active": "<button><svg xmlns=\"http://www.w3.org/2000/svg\" width=\"22\" height=\"22\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-users\" aria-hidden=\"true\"><path d=\"M16",
+        "inside": false
+      }
+    },
+    {
+      "escapeClosesAnamnesis": false
+    },
+    {
+      "anamneseStep2Scroll": {
+        "heading": {
+          "x": 16,
+          "y": -281,
+          "width": 358,
+          "height": 71.65625,
+          "top": -281,
+          "right": 374,
+          "bottom": -209.34375,
+          "left": 16
+        },
+        "containers": [
+          {
+            "tag": "DIV",
+            "scrollTop": 327,
+            "clientHeight": 844,
+            "scrollHeight": 1171
+          }
+        ]
+      }
+    },
+    {
+      "action": "click",
+      "selector": "[aria-label=\"Fechar Mapa do Momento\"]",
+      "snapshot": {
+        "tag": "BUTTON",
+        "text": "",
+        "label": "Fechar Mapa do Momento"
+      }
+    },
+    {
+      "selectedTheme": "elegancia-profunda",
+      "applied": "elegancia-profunda",
+      "saved": "elegancia-profunda"
+    },
+    {
+      "selectedTheme": "essencia-luminosa",
+      "applied": "essencia-luminosa",
+      "saved": "essencia-luminosa"
+    },
+    {
+      "selectedTheme": "mistico-moderno",
+      "applied": "mistico-moderno",
+      "saved": "mistico-moderno"
+    },
+    {
+      "selectedTheme": "natural-sereno",
+      "applied": "natural-sereno",
+      "saved": "natural-sereno"
+    },
+    {
+      "themeAfterReload": "natural-sereno"
+    },
+    {
+      "action": "click",
+      "selector": "[aria-label=\"Abrir menu principal\"]",
+      "snapshot": {
+        "tag": "BUTTON",
+        "text": "",
+        "label": "Abrir menu principal"
+      }
+    },
+    {
+      "action": "click",
+      "selector": "[aria-label=\"Abrir menu principal\"]",
+      "snapshot": {
+        "tag": "BUTTON",
+        "text": "",
+        "label": "Abrir menu principal"
+      }
+    },
+    {
+      "shortViewport": {
+        "width": 390,
+        "height": 422,
+        "overflow": false,
+        "cta": {
+          "x": 18,
+          "y": 676,
+          "width": 354,
+          "height": 70,
+          "top": 676,
+          "right": 372,
+          "bottom": 746,
+          "left": 18
+        },
+        "dock": {
+          "x": 0,
+          "y": 346,
+          "width": 390,
+          "height": 76,
+          "top": 346,
+          "right": 390,
+          "bottom": 422,
+          "left": 0
+        }
+      }
+    }
+  ],
+  "requests": [
+    {
+      "path": "/api/user/sync",
+      "method": "POST",
+      "body": "{\"profile\":{\"name\":\"Maria\",\"fullName\":\"Maria\",\"login\":\"audit-only\",\"email\":\"audit@example.test\",\"birthDate\":\"1990-01-01\",\"visualLayout\":\"elegancia-profunda\",\"audioEnabled\":false,\"bgMusicVolume\":0,\"voiceVolume\":1,\"bgMusicType\":\"none\",\"plan\":\"free\",\"selectedJourney\":\"21d\",\"voiceType\":\"masculina\",\"isAdmin\":false},\"progress\":[{\"dayNumber\":1,\"completed\":false},{\"dayNumber\":2,\"completed\":false},{\"dayNumber\":3,\"completed\":false},{\"dayNumber\":4,\"completed\":false},{\"dayNumber\":5,\"completed\":false},{\"dayNumber\":6,\"completed\":false},{\"dayNumber\":7,\"completed\":false},{\"dayNumber\":8,\"completed\":false},{\"dayNumber\":9,\"completed\":false},{\"dayNumber\":10,\"completed\":false},{\"dayNumber\":11,\"completed\":false},{\"dayNumber\":12,\"completed\":false},{\"dayNumber\":13,\"completed\":false},{\"dayNumber\":14,\"completed\":false},{\"dayNumber\":15,\"completed\":false},{\"dayNumber\":16,\"completed\":false},{\"dayNumber\":17,\"completed\":false},{\"dayNumber\":18,\"completed\":false},{\"dayNumber\":19,\"completed\":false},{\"dayNumber\":20,\"completed\":false},{\"dayNumber\":21,\"completed\":false}]}"
+    },
+    {
+      "path": "/api/user/sync",
+      "method": "POST",
+      "body": "{\"profile\":{\"name\":\"Maria\",\"fullName\":\"Maria\",\"login\":\"audit-only\",\"email\":\"audit@example.test\",\"birthDate\":\"1990-01-01\",\"visualLayout\":\"essencia-luminosa\",\"audioEnabled\":false,\"bgMusicVolume\":0,\"voiceVolume\":1,\"bgMusicType\":\"none\",\"plan\":\"free\",\"selectedJourney\":\"21d\",\"voiceType\":\"masculina\",\"isAdmin\":false},\"progress\":[{\"dayNumber\":1,\"completed\":false},{\"dayNumber\":2,\"completed\":false},{\"dayNumber\":3,\"completed\":false},{\"dayNumber\":4,\"completed\":false},{\"dayNumber\":5,\"completed\":false},{\"dayNumber\":6,\"completed\":false},{\"dayNumber\":7,\"completed\":false},{\"dayNumber\":8,\"completed\":false},{\"dayNumber\":9,\"completed\":false},{\"dayNumber\":10,\"completed\":false},{\"dayNumber\":11,\"completed\":false},{\"dayNumber\":12,\"completed\":false},{\"dayNumber\":13,\"completed\":false},{\"dayNumber\":14,\"completed\":false},{\"dayNumber\":15,\"completed\":false},{\"dayNumber\":16,\"completed\":false},{\"dayNumber\":17,\"completed\":false},{\"dayNumber\":18,\"completed\":false},{\"dayNumber\":19,\"completed\":false},{\"dayNumber\":20,\"completed\":false},{\"dayNumber\":21,\"completed\":false}]}"
+    },
+    {
+      "path": "/api/user/sync",
+      "method": "POST",
+      "body": "{\"profile\":{\"name\":\"Maria\",\"fullName\":\"Maria\",\"login\":\"audit-only\",\"email\":\"audit@example.test\",\"birthDate\":\"1990-01-01\",\"visualLayout\":\"mistico-moderno\",\"audioEnabled\":false,\"bgMusicVolume\":0,\"voiceVolume\":1,\"bgMusicType\":\"none\",\"plan\":\"free\",\"selectedJourney\":\"21d\",\"voiceType\":\"masculina\",\"isAdmin\":false},\"progress\":[{\"dayNumber\":1,\"completed\":false},{\"dayNumber\":2,\"completed\":false},{\"dayNumber\":3,\"completed\":false},{\"dayNumber\":4,\"completed\":false},{\"dayNumber\":5,\"completed\":false},{\"dayNumber\":6,\"completed\":false},{\"dayNumber\":7,\"completed\":false},{\"dayNumber\":8,\"completed\":false},{\"dayNumber\":9,\"completed\":false},{\"dayNumber\":10,\"completed\":false},{\"dayNumber\":11,\"completed\":false},{\"dayNumber\":12,\"completed\":false},{\"dayNumber\":13,\"completed\":false},{\"dayNumber\":14,\"completed\":false},{\"dayNumber\":15,\"completed\":false},{\"dayNumber\":16,\"completed\":false},{\"dayNumber\":17,\"completed\":false},{\"dayNumber\":18,\"completed\":false},{\"dayNumber\":19,\"completed\":false},{\"dayNumber\":20,\"completed\":false},{\"dayNumber\":21,\"completed\":false}]}"
+    },
+    {
+      "path": "/api/user/sync",
+      "method": "POST",
+      "body": "{\"profile\":{\"name\":\"Maria\",\"fullName\":\"Maria\",\"login\":\"audit-only\",\"email\":\"audit@example.test\",\"birthDate\":\"1990-01-01\",\"visualLayout\":\"natural-sereno\",\"audioEnabled\":false,\"bgMusicVolume\":0,\"voiceVolume\":1,\"bgMusicType\":\"none\",\"plan\":\"free\",\"selectedJourney\":\"21d\",\"voiceType\":\"masculina\",\"isAdmin\":false},\"progress\":[{\"dayNumber\":1,\"completed\":false},{\"dayNumber\":2,\"completed\":false},{\"dayNumber\":3,\"completed\":false},{\"dayNumber\":4,\"completed\":false},{\"dayNumber\":5,\"completed\":false},{\"dayNumber\":6,\"completed\":false},{\"dayNumber\":7,\"completed\":false},{\"dayNumber\":8,\"completed\":false},{\"dayNumber\":9,\"completed\":false},{\"dayNumber\":10,\"completed\":false},{\"dayNumber\":11,\"completed\":false},{\"dayNumber\":12,\"completed\":false},{\"dayNumber\":13,\"completed\":false},{\"dayNumber\":14,\"completed\":false},{\"dayNumber\":15,\"completed\":false},{\"dayNumber\":16,\"completed\":false},{\"dayNumber\":17,\"completed\":false},{\"dayNumber\":18,\"completed\":false},{\"dayNumber\":19,\"completed\":false},{\"dayNumber\":20,\"completed\":false},{\"dayNumber\":21,\"completed\":false}]}"
+    }
+  ]
+}

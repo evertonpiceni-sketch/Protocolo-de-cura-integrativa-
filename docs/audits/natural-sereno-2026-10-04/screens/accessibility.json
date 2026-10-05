@@ -1,0 +1,981 @@
+[
+  {
+    "screen": "home",
+    "violations": [
+      {
+        "id": "color-contrast",
+        "impact": "serious",
+        "description": "Ensure the contrast between foreground and background colors meets WCAG 2 AA minimum contrast ratio thresholds",
+        "help": "Elements must meet minimum color contrast ratio thresholds",
+        "nodes": [
+          {
+            "target": [
+              ".text-\\[9px\\]"
+            ],
+            "summary": "Fix any of the following:\n  Element has insufficient color contrast of 1.58 (foreground color: #e5c66f, background color: #fffae7, font size: 6.8pt (9px), font weight: normal). Expected contrast ratio of 4.5:1",
+            "html": "<span class=\"text-[9px] font-mono tracking-widest text-[#e5c66f] uppercase font-semibold block truncate\">Terapias Holísticas e Bem-Estar</span>"
+          },
+          {
+            "target": [
+              ".max-w-full"
+            ],
+            "summary": "Fix any of the following:\n  Element has insufficient color contrast of 3.25 (foreground color: #7a887e, background color: #f5efe6, font size: 7.5pt (10px), font weight: normal). Expected contrast ratio of 4.5:1",
+            "html": "<span class=\"max-w-full break-words text-center font-mono text-[10px] uppercase leading-5 tracking-[.12em] text-[#85786C]\">Eu Sou Livre • Eu Sou Cura • Eu Estou em Paz</span>"
+          }
+        ]
+      },
+      {
+        "id": "meta-viewport",
+        "impact": "moderate",
+        "description": "Ensure <meta name=\"viewport\"> does not disable text scaling and zooming",
+        "help": "Zooming and scaling must not be disabled",
+        "nodes": [
+          {
+            "target": [
+              "meta[name=\"viewport\"]"
+            ],
+            "summary": "Fix any of the following:\n  user-scalable=no on <meta> tag disables zooming on mobile devices",
+            "html": "<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover\">"
+          }
+        ]
+      }
+    ],
+    "incomplete": [
+      {
+        "id": "color-contrast",
+        "count": 24
+      }
+    ]
+  },
+  {
+    "screen": "journey",
+    "violations": [
+      {
+        "id": "color-contrast",
+        "impact": "serious",
+        "description": "Ensure the contrast between foreground and background colors meets WCAG 2 AA minimum contrast ratio thresholds",
+        "help": "Elements must meet minimum color contrast ratio thresholds",
+        "nodes": [
+          {
+            "target": [
+              ".max-w-full"
+            ],
+            "summary": "Fix any of the following:\n  Element has insufficient color contrast of 3.25 (foreground color: #7a887e, background color: #f5efe6, font size: 7.5pt (10px), font weight: normal). Expected contrast ratio of 4.5:1",
+            "html": "<span class=\"max-w-full break-words text-center font-mono text-[10px] uppercase leading-5 tracking-[.12em] text-[#85786C]\">Eu Sou Livre • Eu Sou Cura • Eu Estou em Paz</span>"
+          }
+        ]
+      },
+      {
+        "id": "meta-viewport",
+        "impact": "moderate",
+        "description": "Ensure <meta name=\"viewport\"> does not disable text scaling and zooming",
+        "help": "Zooming and scaling must not be disabled",
+        "nodes": [
+          {
+            "target": [
+              "meta[name=\"viewport\"]"
+            ],
+            "summary": "Fix any of the following:\n  user-scalable=no on <meta> tag disables zooming on mobile devices",
+            "html": "<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover\">"
+          }
+        ]
+      }
+    ],
+    "incomplete": [
+      {
+        "id": "color-contrast",
+        "count": 74
+      }
+    ]
+  },
+  {
+    "screen": "library",
+    "violations": [
+      {
+        "id": "color-contrast",
+        "impact": "serious",
+        "description": "Ensure the contrast between foreground and background colors meets WCAG 2 AA minimum contrast ratio thresholds",
+        "help": "Elements must meet minimum color contrast ratio thresholds",
+        "nodes": [
+          {
+            "target": [
+              ".max-w-full"
+            ],
+            "summary": "Fix any of the following:\n  Element has insufficient color contrast of 3.25 (foreground color: #7a887e, background color: #f5efe6, font size: 7.5pt (10px), font weight: normal). Expected contrast ratio of 4.5:1",
+            "html": "<span class=\"max-w-full break-words text-center font-mono text-[10px] uppercase leading-5 tracking-[.12em] text-[#85786C]\">Eu Sou Livre • Eu Sou Cura • Eu Estou em Paz</span>"
+          }
+        ]
+      },
+      {
+        "id": "meta-viewport",
+        "impact": "moderate",
+        "description": "Ensure <meta name=\"viewport\"> does not disable text scaling and zooming",
+        "help": "Zooming and scaling must not be disabled",
+        "nodes": [
+          {
+            "target": [
+              "meta[name=\"viewport\"]"
+            ],
+            "summary": "Fix any of the following:\n  user-scalable=no on <meta> tag disables zooming on mobile devices",
+            "html": "<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover\">"
+          }
+        ]
+      }
+    ],
+    "incomplete": [
+      {
+        "id": "aria-prohibited-attr",
+        "count": 1
+      },
+      {
+        "id": "color-contrast",
+        "count": 24
+      }
+    ]
+  },
+  {
+    "screen": "community",
+    "violations": [
+      {
+        "id": "color-contrast",
+        "impact": "serious",
+        "description": "Ensure the contrast between foreground and background colors meets WCAG 2 AA minimum contrast ratio thresholds",
+        "help": "Elements must meet minimum color contrast ratio thresholds",
+        "nodes": [
+          {
+            "target": [
+              ".max-w-full"
+            ],
+            "summary": "Fix any of the following:\n  Element has insufficient color contrast of 3.25 (foreground color: #7a887e, background color: #f5efe6, font size: 7.5pt (10px), font weight: normal). Expected contrast ratio of 4.5:1",
+            "html": "<span class=\"max-w-full break-words text-center font-mono text-[10px] uppercase leading-5 tracking-[.12em] text-[#85786C]\">Eu Sou Livre • Eu Sou Cura • Eu Estou em Paz</span>"
+          }
+        ]
+      },
+      {
+        "id": "meta-viewport",
+        "impact": "moderate",
+        "description": "Ensure <meta name=\"viewport\"> does not disable text scaling and zooming",
+        "help": "Zooming and scaling must not be disabled",
+        "nodes": [
+          {
+            "target": [
+              "meta[name=\"viewport\"]"
+            ],
+            "summary": "Fix any of the following:\n  user-scalable=no on <meta> tag disables zooming on mobile devices",
+            "html": "<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover\">"
+          }
+        ]
+      }
+    ],
+    "incomplete": [
+      {
+        "id": "aria-prohibited-attr",
+        "count": 1
+      },
+      {
+        "id": "color-contrast",
+        "count": 13
+      }
+    ]
+  },
+  {
+    "screen": "menu",
+    "violations": [
+      {
+        "id": "color-contrast",
+        "impact": "serious",
+        "description": "Ensure the contrast between foreground and background colors meets WCAG 2 AA minimum contrast ratio thresholds",
+        "help": "Elements must meet minimum color contrast ratio thresholds",
+        "nodes": [
+          {
+            "target": [
+              ".max-w-full"
+            ],
+            "summary": "Fix any of the following:\n  Element has insufficient color contrast of 3.25 (foreground color: #7a887e, background color: #f5efe6, font size: 7.5pt (10px), font weight: normal). Expected contrast ratio of 4.5:1",
+            "html": "<span class=\"max-w-full break-words text-center font-mono text-[10px] uppercase leading-5 tracking-[.12em] text-[#85786C]\">Eu Sou Livre • Eu Sou Cura • Eu Estou em Paz</span>"
+          }
+        ]
+      },
+      {
+        "id": "meta-viewport",
+        "impact": "moderate",
+        "description": "Ensure <meta name=\"viewport\"> does not disable text scaling and zooming",
+        "help": "Zooming and scaling must not be disabled",
+        "nodes": [
+          {
+            "target": [
+              "meta[name=\"viewport\"]"
+            ],
+            "summary": "Fix any of the following:\n  user-scalable=no on <meta> tag disables zooming on mobile devices",
+            "html": "<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover\">"
+          }
+        ]
+      }
+    ],
+    "incomplete": [
+      {
+        "id": "color-contrast",
+        "count": 19
+      }
+    ]
+  },
+  {
+    "screen": "tools",
+    "violations": [
+      {
+        "id": "color-contrast",
+        "impact": "serious",
+        "description": "Ensure the contrast between foreground and background colors meets WCAG 2 AA minimum contrast ratio thresholds",
+        "help": "Elements must meet minimum color contrast ratio thresholds",
+        "nodes": [
+          {
+            "target": [
+              ".max-w-full"
+            ],
+            "summary": "Fix any of the following:\n  Element has insufficient color contrast of 3.25 (foreground color: #7a887e, background color: #f5efe6, font size: 7.5pt (10px), font weight: normal). Expected contrast ratio of 4.5:1",
+            "html": "<span class=\"max-w-full break-words text-center font-mono text-[10px] uppercase leading-5 tracking-[.12em] text-[#85786C]\">Eu Sou Livre • Eu Sou Cura • Eu Estou em Paz</span>"
+          }
+        ]
+      },
+      {
+        "id": "meta-viewport",
+        "impact": "moderate",
+        "description": "Ensure <meta name=\"viewport\"> does not disable text scaling and zooming",
+        "help": "Zooming and scaling must not be disabled",
+        "nodes": [
+          {
+            "target": [
+              "meta[name=\"viewport\"]"
+            ],
+            "summary": "Fix any of the following:\n  user-scalable=no on <meta> tag disables zooming on mobile devices",
+            "html": "<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover\">"
+          }
+        ]
+      }
+    ],
+    "incomplete": [
+      {
+        "id": "color-contrast",
+        "count": 19
+      }
+    ]
+  },
+  {
+    "screen": "profile",
+    "violations": [
+      {
+        "id": "color-contrast",
+        "impact": "serious",
+        "description": "Ensure the contrast between foreground and background colors meets WCAG 2 AA minimum contrast ratio thresholds",
+        "help": "Elements must meet minimum color contrast ratio thresholds",
+        "nodes": [
+          {
+            "target": [
+              ".max-w-full"
+            ],
+            "summary": "Fix any of the following:\n  Element has insufficient color contrast of 3.25 (foreground color: #7a887e, background color: #f5efe6, font size: 7.5pt (10px), font weight: normal). Expected contrast ratio of 4.5:1",
+            "html": "<span class=\"max-w-full break-words text-center font-mono text-[10px] uppercase leading-5 tracking-[.12em] text-[#85786C]\">Eu Sou Livre • Eu Sou Cura • Eu Estou em Paz</span>"
+          }
+        ]
+      },
+      {
+        "id": "meta-viewport",
+        "impact": "moderate",
+        "description": "Ensure <meta name=\"viewport\"> does not disable text scaling and zooming",
+        "help": "Zooming and scaling must not be disabled",
+        "nodes": [
+          {
+            "target": [
+              "meta[name=\"viewport\"]"
+            ],
+            "summary": "Fix any of the following:\n  user-scalable=no on <meta> tag disables zooming on mobile devices",
+            "html": "<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover\">"
+          }
+        ]
+      }
+    ],
+    "incomplete": [
+      {
+        "id": "color-contrast",
+        "count": 25
+      }
+    ]
+  },
+  {
+    "screen": "anamnesis",
+    "violations": [
+      {
+        "id": "color-contrast",
+        "impact": "serious",
+        "description": "Ensure the contrast between foreground and background colors meets WCAG 2 AA minimum contrast ratio thresholds",
+        "help": "Elements must meet minimum color contrast ratio thresholds",
+        "nodes": [
+          {
+            "target": [
+              ".max-w-full"
+            ],
+            "summary": "Fix any of the following:\n  Element has insufficient color contrast of 3.25 (foreground color: #7a887e, background color: #f5efe6, font size: 7.5pt (10px), font weight: normal). Expected contrast ratio of 4.5:1",
+            "html": "<span class=\"max-w-full break-words text-center font-mono text-[10px] uppercase leading-5 tracking-[.12em] text-[#85786C]\">Eu Sou Livre • Eu Sou Cura • Eu Estou em Paz</span>"
+          }
+        ]
+      },
+      {
+        "id": "meta-viewport",
+        "impact": "moderate",
+        "description": "Ensure <meta name=\"viewport\"> does not disable text scaling and zooming",
+        "help": "Zooming and scaling must not be disabled",
+        "nodes": [
+          {
+            "target": [
+              "meta[name=\"viewport\"]"
+            ],
+            "summary": "Fix any of the following:\n  user-scalable=no on <meta> tag disables zooming on mobile devices",
+            "html": "<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover\">"
+          }
+        ]
+      }
+    ],
+    "incomplete": [
+      {
+        "id": "color-contrast",
+        "count": 37
+      }
+    ]
+  },
+  {
+    "screen": "portal",
+    "violations": [
+      {
+        "id": "meta-viewport",
+        "impact": "moderate",
+        "description": "Ensure <meta name=\"viewport\"> does not disable text scaling and zooming",
+        "help": "Zooming and scaling must not be disabled",
+        "nodes": [
+          {
+            "target": [
+              "meta[name=\"viewport\"]"
+            ],
+            "summary": "Fix any of the following:\n  user-scalable=no on <meta> tag disables zooming on mobile devices",
+            "html": "<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover\">"
+          }
+        ]
+      }
+    ],
+    "incomplete": [
+      {
+        "id": "color-contrast",
+        "count": 7
+      }
+    ]
+  },
+  {
+    "screen": "player",
+    "violations": [
+      {
+        "id": "meta-viewport",
+        "impact": "moderate",
+        "description": "Ensure <meta name=\"viewport\"> does not disable text scaling and zooming",
+        "help": "Zooming and scaling must not be disabled",
+        "nodes": [
+          {
+            "target": [
+              "meta[name=\"viewport\"]"
+            ],
+            "summary": "Fix any of the following:\n  user-scalable=no on <meta> tag disables zooming on mobile devices",
+            "html": "<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover\">"
+          }
+        ]
+      },
+      {
+        "id": "target-size",
+        "impact": "serious",
+        "description": "Ensure touch targets have sufficient size and space",
+        "help": "All touch targets must be 24px large, or leave sufficient space",
+        "nodes": [
+          {
+            "target": [
+              "button[title=\"Aterramento e Purificação\"]"
+            ],
+            "summary": "Fix any of the following:\n  Target has insufficient size (8px by 6px, should be at least 24px by 24px)\n  Target has insufficient space to its closest neighbors. Safe clickable space has a diameter of 8px instead of at least 24px.",
+            "html": "<button class=\"h-1.5 transition-all duration-300 rounded-full w-2 bg-[#E5DAC6]\" title=\"Aterramento e Purificação\"></button>"
+          },
+          {
+            "target": [
+              ".w-2.duration-300.bg-\\[\\#E5DAC6\\]:nth-child(3)"
+            ],
+            "summary": "Fix any of the following:\n  Target has insufficient size (8px by 6px, should be at least 24px by 24px)\n  Target has insufficient space to its closest neighbors. Safe clickable space has a diameter of 8px instead of at least 24px.",
+            "html": "<button class=\"h-1.5 transition-all duration-300 rounded-full w-2 bg-[#E5DAC6]\" title=\"Desbloqueio, Vitalidade e Presença\"></button>"
+          },
+          {
+            "target": [
+              ".w-2.duration-300.bg-\\[\\#E5DAC6\\]:nth-child(4)"
+            ],
+            "summary": "Fix any of the following:\n  Target has insufficient size (8px by 6px, should be at least 24px by 24px)\n  Target has insufficient space to its closest neighbors. Safe clickable space has a diameter of 8px instead of at least 24px.",
+            "html": "<button class=\"h-1.5 transition-all duration-300 rounded-full w-2 bg-[#E5DAC6]\" title=\"A Força do Imara, Transmutação e Proteção Psíquica\"></button>"
+          },
+          {
+            "target": [
+              ".w-2.duration-300.bg-\\[\\#E5DAC6\\]:nth-child(5)"
+            ],
+            "summary": "Fix any of the following:\n  Target has insufficient size (8px by 6px, should be at least 24px by 24px)\n  Target has insufficient space to its closest neighbors. Safe clickable space has a diameter of 8px instead of at least 24px.",
+            "html": "<button class=\"h-1.5 transition-all duration-300 rounded-full w-2 bg-[#E5DAC6]\" title=\"Amor Incondicional e Luz da Fonte\"></button>"
+          },
+          {
+            "target": [
+              ".w-2.duration-300.bg-\\[\\#E5DAC6\\]:nth-child(6)"
+            ],
+            "summary": "Fix any of the following:\n  Target has insufficient size (8px by 6px, should be at least 24px by 24px)\n  Target has insufficient space to its closest neighbors. Safe clickable space has a diameter of 8px instead of at least 24px.",
+            "html": "<button class=\"h-1.5 transition-all duration-300 rounded-full w-2 bg-[#E5DAC6]\" title=\"Selamento com Ganesha e Decreto de Libertação\"></button>"
+          }
+        ]
+      }
+    ],
+    "incomplete": [
+      {
+        "id": "color-contrast",
+        "count": 14
+      }
+    ]
+  },
+  {
+    "screen": "frozen-reintegration",
+    "violations": [
+      {
+        "id": "meta-viewport",
+        "impact": "moderate",
+        "description": "Ensure <meta name=\"viewport\"> does not disable text scaling and zooming",
+        "help": "Zooming and scaling must not be disabled",
+        "nodes": [
+          {
+            "target": [
+              "meta[name=\"viewport\"]"
+            ],
+            "summary": "Fix any of the following:\n  user-scalable=no on <meta> tag disables zooming on mobile devices",
+            "html": "<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover\">"
+          }
+        ]
+      }
+    ],
+    "incomplete": [
+      {
+        "id": "color-contrast",
+        "count": 47
+      }
+    ]
+  },
+  {
+    "screen": "result",
+    "violations": [
+      {
+        "id": "color-contrast",
+        "impact": "serious",
+        "description": "Ensure the contrast between foreground and background colors meets WCAG 2 AA minimum contrast ratio thresholds",
+        "help": "Elements must meet minimum color contrast ratio thresholds",
+        "nodes": [
+          {
+            "target": [
+              ".max-w-full"
+            ],
+            "summary": "Fix any of the following:\n  Element has insufficient color contrast of 3.25 (foreground color: #7a887e, background color: #f5efe6, font size: 7.5pt (10px), font weight: normal). Expected contrast ratio of 4.5:1",
+            "html": "<span class=\"max-w-full break-words text-center font-mono text-[10px] uppercase leading-5 tracking-[.12em] text-[#85786C]\">Eu Sou Livre • Eu Sou Cura • Eu Estou em Paz</span>"
+          }
+        ]
+      },
+      {
+        "id": "meta-viewport",
+        "impact": "moderate",
+        "description": "Ensure <meta name=\"viewport\"> does not disable text scaling and zooming",
+        "help": "Zooming and scaling must not be disabled",
+        "nodes": [
+          {
+            "target": [
+              "meta[name=\"viewport\"]"
+            ],
+            "summary": "Fix any of the following:\n  user-scalable=no on <meta> tag disables zooming on mobile devices",
+            "html": "<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover\">"
+          }
+        ]
+      }
+    ],
+    "incomplete": [
+      {
+        "id": "color-contrast",
+        "count": 21
+      }
+    ]
+  },
+  {
+    "screen": "responsive-320",
+    "violations": [
+      {
+        "id": "color-contrast",
+        "impact": "serious",
+        "description": "Ensure the contrast between foreground and background colors meets WCAG 2 AA minimum contrast ratio thresholds",
+        "help": "Elements must meet minimum color contrast ratio thresholds",
+        "nodes": [
+          {
+            "target": [
+              ".text-\\[9px\\]"
+            ],
+            "summary": "Fix any of the following:\n  Element has insufficient color contrast of 1.58 (foreground color: #e5c66f, background color: #fffae7, font size: 6.8pt (9px), font weight: normal). Expected contrast ratio of 4.5:1",
+            "html": "<span class=\"text-[9px] font-mono tracking-widest text-[#e5c66f] uppercase font-semibold block truncate\">Terapias Holísticas e Bem-Estar</span>"
+          },
+          {
+            "target": [
+              ".max-w-full"
+            ],
+            "summary": "Fix any of the following:\n  Element has insufficient color contrast of 3.25 (foreground color: #7a887e, background color: #f5efe6, font size: 7.5pt (10px), font weight: normal). Expected contrast ratio of 4.5:1",
+            "html": "<span class=\"max-w-full break-words text-center font-mono text-[10px] uppercase leading-5 tracking-[.12em] text-[#85786C]\">Eu Sou Livre • Eu Sou Cura • Eu Estou em Paz</span>"
+          }
+        ]
+      },
+      {
+        "id": "meta-viewport",
+        "impact": "moderate",
+        "description": "Ensure <meta name=\"viewport\"> does not disable text scaling and zooming",
+        "help": "Zooming and scaling must not be disabled",
+        "nodes": [
+          {
+            "target": [
+              "meta[name=\"viewport\"]"
+            ],
+            "summary": "Fix any of the following:\n  user-scalable=no on <meta> tag disables zooming on mobile devices",
+            "html": "<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover\">"
+          }
+        ]
+      }
+    ],
+    "incomplete": [
+      {
+        "id": "color-contrast",
+        "count": 22
+      }
+    ]
+  },
+  {
+    "screen": "responsive-390",
+    "violations": [
+      {
+        "id": "color-contrast",
+        "impact": "serious",
+        "description": "Ensure the contrast between foreground and background colors meets WCAG 2 AA minimum contrast ratio thresholds",
+        "help": "Elements must meet minimum color contrast ratio thresholds",
+        "nodes": [
+          {
+            "target": [
+              ".text-\\[9px\\]"
+            ],
+            "summary": "Fix any of the following:\n  Element has insufficient color contrast of 1.58 (foreground color: #e5c66f, background color: #fffae7, font size: 6.8pt (9px), font weight: normal). Expected contrast ratio of 4.5:1",
+            "html": "<span class=\"text-[9px] font-mono tracking-widest text-[#e5c66f] uppercase font-semibold block truncate\">Terapias Holísticas e Bem-Estar</span>"
+          },
+          {
+            "target": [
+              ".max-w-full"
+            ],
+            "summary": "Fix any of the following:\n  Element has insufficient color contrast of 3.25 (foreground color: #7a887e, background color: #f5efe6, font size: 7.5pt (10px), font weight: normal). Expected contrast ratio of 4.5:1",
+            "html": "<span class=\"max-w-full break-words text-center font-mono text-[10px] uppercase leading-5 tracking-[.12em] text-[#85786C]\">Eu Sou Livre • Eu Sou Cura • Eu Estou em Paz</span>"
+          }
+        ]
+      },
+      {
+        "id": "meta-viewport",
+        "impact": "moderate",
+        "description": "Ensure <meta name=\"viewport\"> does not disable text scaling and zooming",
+        "help": "Zooming and scaling must not be disabled",
+        "nodes": [
+          {
+            "target": [
+              "meta[name=\"viewport\"]"
+            ],
+            "summary": "Fix any of the following:\n  user-scalable=no on <meta> tag disables zooming on mobile devices",
+            "html": "<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover\">"
+          }
+        ]
+      }
+    ],
+    "incomplete": [
+      {
+        "id": "color-contrast",
+        "count": 22
+      }
+    ]
+  },
+  {
+    "screen": "responsive-768",
+    "violations": [
+      {
+        "id": "color-contrast",
+        "impact": "serious",
+        "description": "Ensure the contrast between foreground and background colors meets WCAG 2 AA minimum contrast ratio thresholds",
+        "help": "Elements must meet minimum color contrast ratio thresholds",
+        "nodes": [
+          {
+            "target": [
+              ".text-\\[9px\\]"
+            ],
+            "summary": "Fix any of the following:\n  Element has insufficient color contrast of 1.58 (foreground color: #e5c66f, background color: #fffae7, font size: 6.8pt (9px), font weight: normal). Expected contrast ratio of 4.5:1",
+            "html": "<span class=\"text-[9px] font-mono tracking-widest text-[#e5c66f] uppercase font-semibold block truncate\">Terapias Holísticas e Bem-Estar</span>"
+          },
+          {
+            "target": [
+              ".sm\\:px-2\\.5 > .sm\\:inline.hidden"
+            ],
+            "summary": "Fix any of the following:\n  Element has insufficient color contrast of 2.83 (foreground color: #b38634, background color: #ffecc5, font size: 9.0pt (12px), font weight: bold). Expected contrast ratio of 4.5:1",
+            "html": "<span class=\"hidden sm:inline\">MEMBRO PRO</span>"
+          },
+          {
+            "target": [
+              ".max-w-full"
+            ],
+            "summary": "Fix any of the following:\n  Element has insufficient color contrast of 3.25 (foreground color: #7a887e, background color: #f5efe6, font size: 7.5pt (10px), font weight: normal). Expected contrast ratio of 4.5:1",
+            "html": "<span class=\"max-w-full break-words text-center font-mono text-[10px] uppercase leading-5 tracking-[.12em] text-[#85786C]\">Eu Sou Livre • Eu Sou Cura • Eu Estou em Paz</span>"
+          }
+        ]
+      },
+      {
+        "id": "meta-viewport",
+        "impact": "moderate",
+        "description": "Ensure <meta name=\"viewport\"> does not disable text scaling and zooming",
+        "help": "Zooming and scaling must not be disabled",
+        "nodes": [
+          {
+            "target": [
+              "meta[name=\"viewport\"]"
+            ],
+            "summary": "Fix any of the following:\n  user-scalable=no on <meta> tag disables zooming on mobile devices",
+            "html": "<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover\">"
+          }
+        ]
+      }
+    ],
+    "incomplete": [
+      {
+        "id": "color-contrast",
+        "count": 22
+      }
+    ]
+  },
+  {
+    "screen": "responsive-1440",
+    "violations": [
+      {
+        "id": "color-contrast",
+        "impact": "serious",
+        "description": "Ensure the contrast between foreground and background colors meets WCAG 2 AA minimum contrast ratio thresholds",
+        "help": "Elements must meet minimum color contrast ratio thresholds",
+        "nodes": [
+          {
+            "target": [
+              ".text-\\[9px\\]"
+            ],
+            "summary": "Fix any of the following:\n  Element has insufficient color contrast of 1.58 (foreground color: #e5c66f, background color: #fffae7, font size: 6.8pt (9px), font weight: normal). Expected contrast ratio of 4.5:1",
+            "html": "<span class=\"text-[9px] font-mono tracking-widest text-[#e5c66f] uppercase font-semibold block truncate\">Terapias Holísticas e Bem-Estar</span>"
+          },
+          {
+            "target": [
+              ".sm\\:px-2\\.5 > .sm\\:inline.hidden"
+            ],
+            "summary": "Fix any of the following:\n  Element has insufficient color contrast of 2.83 (foreground color: #b38634, background color: #ffecc5, font size: 9.0pt (12px), font weight: bold). Expected contrast ratio of 4.5:1",
+            "html": "<span class=\"hidden sm:inline\">MEMBRO PRO</span>"
+          },
+          {
+            "target": [
+              ".max-w-full"
+            ],
+            "summary": "Fix any of the following:\n  Element has insufficient color contrast of 3.25 (foreground color: #7a887e, background color: #f5efe6, font size: 7.5pt (10px), font weight: normal). Expected contrast ratio of 4.5:1",
+            "html": "<span class=\"max-w-full break-words text-center font-mono text-[10px] uppercase leading-5 tracking-[.12em] text-[#85786C]\">Eu Sou Livre • Eu Sou Cura • Eu Estou em Paz</span>"
+          }
+        ]
+      },
+      {
+        "id": "meta-viewport",
+        "impact": "moderate",
+        "description": "Ensure <meta name=\"viewport\"> does not disable text scaling and zooming",
+        "help": "Zooming and scaling must not be disabled",
+        "nodes": [
+          {
+            "target": [
+              "meta[name=\"viewport\"]"
+            ],
+            "summary": "Fix any of the following:\n  user-scalable=no on <meta> tag disables zooming on mobile devices",
+            "html": "<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover\">"
+          }
+        ]
+      }
+    ],
+    "incomplete": [
+      {
+        "id": "color-contrast",
+        "count": 22
+      }
+    ]
+  },
+  {
+    "screen": "isolated-elegancia-profunda",
+    "violations": [
+      {
+        "id": "meta-viewport",
+        "impact": "moderate",
+        "description": "Ensure <meta name=\"viewport\"> does not disable text scaling and zooming",
+        "help": "Zooming and scaling must not be disabled",
+        "nodes": [
+          {
+            "target": [
+              "meta[name=\"viewport\"]"
+            ],
+            "summary": "Fix any of the following:\n  user-scalable=no on <meta> tag disables zooming on mobile devices",
+            "html": "<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover\">"
+          }
+        ]
+      }
+    ],
+    "incomplete": [
+      {
+        "id": "color-contrast",
+        "count": 49
+      }
+    ]
+  },
+  {
+    "screen": "isolated-essencia-luminosa",
+    "violations": [
+      {
+        "id": "color-contrast",
+        "impact": "serious",
+        "description": "Ensure the contrast between foreground and background colors meets WCAG 2 AA minimum contrast ratio thresholds",
+        "help": "Elements must meet minimum color contrast ratio thresholds",
+        "nodes": [
+          {
+            "target": [
+              ".py-2\\.5"
+            ],
+            "summary": "Fix any of the following:\n  Element has insufficient color contrast of 2.36 (foreground color: #c29648, background color: #f5efe4, font size: 10.5pt (14px), font weight: normal). Expected contrast ratio of 4.5:1",
+            "html": "<button class=\"mt-4 flex items-center gap-2 rounded-full border border-[#B88736]/35 bg-[#F5EFE4] px-4 py-2.5 text-sm font-semibold text-[#B88736]\">"
+          },
+          {
+            "target": [
+              ".border-\\[\\#B88736\\]\\/18.bg-\\[\\#F5EFE4\\].p-4:nth-child(1) > .tracking-\\[\\.15em\\].uppercase.block"
+            ],
+            "summary": "Fix any of the following:\n  Element has insufficient color contrast of 2.36 (foreground color: #c29648, background color: #f5efe4, font size: 9.0pt (12px), font weight: normal). Expected contrast ratio of 4.5:1",
+            "html": "<span class=\"block text-xs uppercase tracking-[.15em] text-[#B88736]\">Frequência Solfeggio</span>"
+          },
+          {
+            "target": [
+              ".border-\\[\\#B88736\\]\\/18.bg-\\[\\#F5EFE4\\].p-4:nth-child(2) > .tracking-\\[\\.15em\\].uppercase.block"
+            ],
+            "summary": "Fix any of the following:\n  Element has insufficient color contrast of 2.36 (foreground color: #c29648, background color: #f5efe4, font size: 9.0pt (12px), font weight: normal). Expected contrast ratio of 4.5:1",
+            "html": "<span class=\"block text-xs uppercase tracking-[.15em] text-[#B88736]\">Chakra em foco</span>"
+          },
+          {
+            "target": [
+              ".border-\\[\\#B88736\\]\\/18.bg-\\[\\#F5EFE4\\].p-4:nth-child(3) > .tracking-\\[\\.15em\\].uppercase.block"
+            ],
+            "summary": "Fix any of the following:\n  Element has insufficient color contrast of 2.36 (foreground color: #c29648, background color: #f5efe4, font size: 9.0pt (12px), font weight: normal). Expected contrast ratio of 4.5:1",
+            "html": "<span class=\"block text-xs uppercase tracking-[.15em] text-[#B88736]\">Floral recomendado</span>"
+          },
+          {
+            "target": [
+              ".border-\\[\\#B88736\\]\\/18.bg-\\[\\#F5EFE4\\].p-4:nth-child(4) > .tracking-\\[\\.15em\\].uppercase.block"
+            ],
+            "summary": "Fix any of the following:\n  Element has insufficient color contrast of 2.36 (foreground color: #c29648, background color: #f5efe4, font size: 9.0pt (12px), font weight: normal). Expected contrast ratio of 4.5:1",
+            "html": "<span class=\"block text-xs uppercase tracking-[.15em] text-[#B88736]\">Aromaterapia recomendada</span>"
+          },
+          {
+            "target": [
+              ".border-\\[\\#B88736\\]\\/18.bg-\\[\\#F5EFE4\\].p-4:nth-child(5) > .tracking-\\[\\.15em\\].uppercase.block"
+            ],
+            "summary": "Fix any of the following:\n  Element has insufficient color contrast of 2.36 (foreground color: #c29648, background color: #f5efe4, font size: 9.0pt (12px), font weight: normal). Expected contrast ratio of 4.5:1",
+            "html": "<span class=\"block text-xs uppercase tracking-[.15em] text-[#B88736]\">Protocolo indicado</span>"
+          },
+          {
+            "target": [
+              ".border-\\[\\#B88736\\]\\/18.bg-\\[\\#F5EFE4\\].p-4:nth-child(6) > .tracking-\\[\\.15em\\].uppercase.block"
+            ],
+            "summary": "Fix any of the following:\n  Element has insufficient color contrast of 2.36 (foreground color: #c29648, background color: #f5efe4, font size: 9.0pt (12px), font weight: normal). Expected contrast ratio of 4.5:1",
+            "html": "<span class=\"block text-xs uppercase tracking-[.15em] text-[#B88736]\">Duração sugerida</span>"
+          },
+          {
+            "target": [
+              ".max-w-xl.mx-auto > .text-\\[\\#8F631E\\]"
+            ],
+            "summary": "Fix any of the following:\n  Element has insufficient color contrast of 4.19 (foreground color: #9e7428, background color: #fffff8, font size: 10.5pt (14px), font weight: normal). Expected contrast ratio of 4.5:1",
+            "html": "<strong class=\"font-semibold text-[#8F631E]\">Éverton Rodrigo Piceni</strong>"
+          },
+          {
+            "target": [
+              ".max-w-full"
+            ],
+            "summary": "Fix any of the following:\n  Element has insufficient color contrast of 3.58 (foreground color: #7e8a7f, background color: #fffff8, font size: 7.5pt (10px), font weight: normal). Expected contrast ratio of 4.5:1",
+            "html": "<span class=\"max-w-full break-words text-center font-mono text-[10px] uppercase leading-5 tracking-[.12em] text-[#85786C]\">Eu Sou Livre • Eu Sou Cura • Eu Estou em Paz</span>"
+          }
+        ]
+      },
+      {
+        "id": "meta-viewport",
+        "impact": "moderate",
+        "description": "Ensure <meta name=\"viewport\"> does not disable text scaling and zooming",
+        "help": "Zooming and scaling must not be disabled",
+        "nodes": [
+          {
+            "target": [
+              "meta[name=\"viewport\"]"
+            ],
+            "summary": "Fix any of the following:\n  user-scalable=no on <meta> tag disables zooming on mobile devices",
+            "html": "<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover\">"
+          }
+        ]
+      }
+    ],
+    "incomplete": [
+      {
+        "id": "color-contrast",
+        "count": 49
+      }
+    ]
+  },
+  {
+    "screen": "isolated-mistico-moderno",
+    "violations": [
+      {
+        "id": "meta-viewport",
+        "impact": "moderate",
+        "description": "Ensure <meta name=\"viewport\"> does not disable text scaling and zooming",
+        "help": "Zooming and scaling must not be disabled",
+        "nodes": [
+          {
+            "target": [
+              "meta[name=\"viewport\"]"
+            ],
+            "summary": "Fix any of the following:\n  user-scalable=no on <meta> tag disables zooming on mobile devices",
+            "html": "<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover\">"
+          }
+        ]
+      }
+    ],
+    "incomplete": [
+      {
+        "id": "color-contrast",
+        "count": 49
+      }
+    ]
+  },
+  {
+    "screen": "welcome",
+    "violations": [
+      {
+        "id": "color-contrast",
+        "impact": "serious",
+        "description": "Ensure the contrast between foreground and background colors meets WCAG 2 AA minimum contrast ratio thresholds",
+        "help": "Elements must meet minimum color contrast ratio thresholds",
+        "nodes": [
+          {
+            "target": [
+              ".max-w-full"
+            ],
+            "summary": "Fix any of the following:\n  Element has insufficient color contrast of 3.25 (foreground color: #7a887e, background color: #f5efe6, font size: 7.5pt (10px), font weight: normal). Expected contrast ratio of 4.5:1",
+            "html": "<span class=\"max-w-full break-words text-center font-mono text-[10px] uppercase leading-5 tracking-[.12em] text-[#85786C]\">Eu Sou Livre • Eu Sou Cura • Eu Estou em Paz</span>"
+          }
+        ]
+      },
+      {
+        "id": "meta-viewport",
+        "impact": "moderate",
+        "description": "Ensure <meta name=\"viewport\"> does not disable text scaling and zooming",
+        "help": "Zooming and scaling must not be disabled",
+        "nodes": [
+          {
+            "target": [
+              "meta[name=\"viewport\"]"
+            ],
+            "summary": "Fix any of the following:\n  user-scalable=no on <meta> tag disables zooming on mobile devices",
+            "html": "<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover\">"
+          }
+        ]
+      }
+    ],
+    "incomplete": [
+      {
+        "id": "color-contrast",
+        "count": 5
+      }
+    ]
+  },
+  {
+    "screen": "registration",
+    "violations": [
+      {
+        "id": "meta-viewport",
+        "impact": "moderate",
+        "description": "Ensure <meta name=\"viewport\"> does not disable text scaling and zooming",
+        "help": "Zooming and scaling must not be disabled",
+        "nodes": [
+          {
+            "target": [
+              "meta[name=\"viewport\"]"
+            ],
+            "summary": "Fix any of the following:\n  user-scalable=no on <meta> tag disables zooming on mobile devices",
+            "html": "<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover\">"
+          }
+        ]
+      }
+    ],
+    "incomplete": [
+      {
+        "id": "color-contrast",
+        "count": 25
+      }
+    ]
+  },
+  {
+    "screen": "registration-options",
+    "violations": [
+      {
+        "id": "meta-viewport",
+        "impact": "moderate",
+        "description": "Ensure <meta name=\"viewport\"> does not disable text scaling and zooming",
+        "help": "Zooming and scaling must not be disabled",
+        "nodes": [
+          {
+            "target": [
+              "meta[name=\"viewport\"]"
+            ],
+            "summary": "Fix any of the following:\n  user-scalable=no on <meta> tag disables zooming on mobile devices",
+            "html": "<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover\">"
+          }
+        ]
+      }
+    ],
+    "incomplete": [
+      {
+        "id": "color-contrast",
+        "count": 56
+      }
+    ]
+  },
+  {
+    "screen": "login",
+    "violations": [
+      {
+        "id": "meta-viewport",
+        "impact": "moderate",
+        "description": "Ensure <meta name=\"viewport\"> does not disable text scaling and zooming",
+        "help": "Zooming and scaling must not be disabled",
+        "nodes": [
+          {
+            "target": [
+              "meta[name=\"viewport\"]"
+            ],
+            "summary": "Fix any of the following:\n  user-scalable=no on <meta> tag disables zooming on mobile devices",
+            "html": "<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover\">"
+          }
+        ]
+      }
+    ],
+    "incomplete": [
+      {
+        "id": "color-contrast",
+        "count": 11
+      }
+    ]
+  }
+]

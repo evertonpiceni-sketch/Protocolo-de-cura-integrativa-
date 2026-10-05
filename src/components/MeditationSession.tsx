@@ -13,6 +13,7 @@ import { ORIGINAL_PROTOCOL_SCRIPTS } from '../data/protocol_scripts';
 import { audioEngine, OFFICIAL_PROTOCOL_VOICE_ID } from '../lib/audio';
 import { requestWakeLock } from '../lib/wakeLockHelpers';
 import { AppLanguage, STAGE_AUDIO_TRANSLATIONS } from '../lib/i18n';
+import { resolveProtocolScript } from '../lib/protocolScript';
 
 // Modular Session Components - Harmonized with official warm ivory and soft gold palette
 import { SacredEnergyCanvas } from './session/SacredEnergyCanvas';
@@ -26,6 +27,7 @@ interface MeditationSessionProps {
   userName: string;
   bgMusicType: '528hz' | '432hz' | '963hz' | '741hz' | 'waves' | 'none';
   voiceId?: string;
+  voiceGender?: 'masculina' | 'feminina';
   voiceRate?: number;
   voicePitch?: number;
   userPlan?: 'free' | 'pro';
@@ -51,6 +53,8 @@ export default function MeditationSession({
   dayNumber,
   userName,
   bgMusicType,
+  voiceId,
+  voiceGender,
   voiceRate = 0.82,
   userPlan = 'free',
   customDecree,
@@ -104,15 +108,9 @@ export default function MeditationSession({
   // Breathing cadence cycle
   useEffect(() => {
     if (!isPlaying) return;
-    const interval = setInterval(() => {
-      setBreathePhase(prev => {
-        if (prev === 'inhale') return 'hold';
-        if (prev === 'hold') return 'exhale';
-        return 'inhale';
-      });
-    }, 4000);
-    return () => clearInterval(interval);
-  }, [isPlaying]);
+    const position = currentTime % 12;
+    setBreathePhase(position < 4 ? 'inhale' : position < 8 ? 'hold' : 'exhale');
+  }, [isPlaying, currentTime]);
 
   // Screen Wake Lock & Background Audio Keep-Alive
   useEffect(() => {
@@ -151,11 +149,16 @@ export default function MeditationSession({
     if (currentStage.id === ProtocolStage.ABERTURA && customDecree) {
       personalizedText = `${personalizedText}\n\nDecreto Pessoal Especial: ${customDecree}`;
     }
+    if (document.documentElement.dataset.layout === 'natural-sereno') {
+      personalizedText = resolveProtocolScript(currentStage.id, initialLanguage, userName, currentStage.text, customDecree).audioText;
+    }
 
     setIsPlaying(true);
     await audioEngine.playProtocolStageStream({
       text: personalizedText,
-      voiceId: OFFICIAL_PROTOCOL_VOICE_ID,
+      voiceId: document.documentElement.dataset.layout === 'natural-sereno'
+        ? (voiceId || (voiceGender === 'masculina' ? 'masculina' : voiceGender === 'feminina' ? 'Rachel' : OFFICIAL_PROTOCOL_VOICE_ID))
+        : OFFICIAL_PROTOCOL_VOICE_ID,
       speed: voiceRate,
       stageTitle: `${currentStage.title} - ${currentStage.subtitle || ''}`,
       dayNumber,
@@ -291,6 +294,7 @@ export default function MeditationSession({
           stageId={currentStage.id}
           isPlaying={isPlaying}
           breathePhase={breathePhase}
+          elapsedSeconds={currentTime}
         />
         <div className="absolute inset-0 bg-radial from-transparent via-[#FAF7F2]/40 to-[#F4EFE6] pointer-events-none" />
       </div>
@@ -433,6 +437,8 @@ export default function MeditationSession({
                   : 'w-2 bg-[#E5DAC6]'
               }`}
               title={stage.title}
+              aria-label={`Etapa ${idx + 1}: ${stage.title}`}
+              aria-current={idx === currentStageIndex ? 'step' : undefined}
             />
           ))}
         </div>
@@ -552,6 +558,8 @@ export default function MeditationSession({
         stages={stages}
         currentStageId={currentStage.id}
         userName={userName}
+        language={initialLanguage}
+        customDecree={customDecree}
       />
     </div>
   );

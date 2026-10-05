@@ -211,6 +211,7 @@ export default function ProfileSetup({ onComplete }: ProfileSetupProps) {
          phone,
          bgMusicType: musicType,
          voiceType: voiceChoice,
+         preferredVoiceGender: voiceChoice,
          coupon: regCoupon
       };
       
@@ -588,7 +589,7 @@ export default function ProfileSetup({ onComplete }: ProfileSetupProps) {
                 <span className="text-[10px] text-[#5C5248]">Escolha a voz que mais acolhe seu coração</span>
               </div>
 
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3" role="radiogroup" aria-label="Voz da condução guiada">
                 <div
                   onClick={() => setVoiceChoice('masculina')}
                   className={`p-3.5 rounded-2xl border transition duration-150 cursor-pointer flex flex-col justify-between ${
@@ -597,6 +598,7 @@ export default function ProfileSetup({ onComplete }: ProfileSetupProps) {
                       : 'bg-white/70 border-[#E5DAC6] hover:border-[#E5DAC6] text-[#5C5248]'
                   }`}
                 >
+                  <input className="sr-only" type="radio" name="guided-voice" aria-label="Voz masculina" checked={voiceChoice === 'masculina'} onChange={() => setVoiceChoice('masculina')} onClick={event => event.stopPropagation()} />
                   <div className="space-y-1">
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-2">
@@ -652,6 +654,7 @@ export default function ProfileSetup({ onComplete }: ProfileSetupProps) {
                       : 'bg-white/70 border-[#E5DAC6] hover:border-[#E5DAC6] text-[#5C5248]'
                   }`}
                 >
+                  <input className="sr-only" type="radio" name="guided-voice" aria-label="Voz feminina" checked={voiceChoice === 'feminina'} onChange={() => setVoiceChoice('feminina')} onClick={event => event.stopPropagation()} />
                   <div className="space-y-1">
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-2">

@@ -9,6 +9,7 @@ import type { TransformationHomeProps } from './TransformationHome';
 import type { TreatmentRecommendation } from '../lib/anamnesisTreatmentEngine';
 import { DAILY_INSIGHTS } from '../types';
 import { APPROVED_LOGO_DATA_URI } from './ApprovedBrand';
+import NaturalSerenoCommunity from './NaturalSerenoCommunity';
 
 type View = 'home' | 'menu' | 'journey' | 'library' | 'tools' | 'profile' | 'result' | 'community';
 type Props = TransformationHomeProps & {
@@ -35,7 +36,6 @@ export default function NaturalSerenoHome(props: Props) {
   const [view, setView] = useState<View>('home');
   const [search, setSearch] = useState('');
   const [category, setCategory] = useState('Todos');
-  const [communityTab, setCommunityTab] = useState('Recentes');
   const completed = props.progress.filter(item => item.completed).length;
   const total = Math.max(props.progress.length, 21);
   const percentage = Math.min(100, Math.round(completed / total * 100));
@@ -125,6 +125,7 @@ export default function NaturalSerenoHome(props: Props) {
         <section className="ns-editorial-card ns-insight"><small>Afirmação do dia</small><h2>{insight?.title}</h2><p>{insight?.description}</p><blockquote>{insight?.focus}</blockquote></section>
         <section className="ns-editorial-card"><h2>Você já fez muito por você.</h2><p>Agora, é a sua vez.</p></section>
         <CareRow title="Menu" copy="Outros caminhos da sua jornada" icon={Menu} action={() => changeView('menu')} />
+        <CareRow title="Fale conosco" copy="Um lugar para voltar para si" icon={MessageCircle} action={props.onOpenContact} />
       </div>
     </>}
 
@@ -155,8 +156,7 @@ export default function NaturalSerenoHome(props: Props) {
     {view === 'tools' && <section className="ns-list ns-tools">{tools.map(row => <CareRow key={row.title} {...row} />)}<p className="ns-signature">Cuidar de si também é um ato de amor.</p></section>}
 
     {view === 'community' && <section className="ns-list ns-community">
-      <div className="ns-filter" aria-label="Publicações da comunidade">{['Recentes', 'Mais Ativos'].map(label => <button key={label} aria-pressed={communityTab === label} onClick={() => setCommunityTab(label)}>{label}</button>)}</div>
-      <div className="ns-community-empty" role="status"><Users size={38} strokeWidth={1.2} aria-hidden="true" /><h2>Entre Nós</h2><p>Ainda não há publicações para exibir.</p><p>Aqui, a experiência pode ser compartilhada. A identidade não precisa ser.</p></div>
+      <NaturalSerenoCommunity />
       <CareRow title="Fale conosco" copy="Um lugar para voltar para si" icon={MessageCircle} action={props.onOpenContact} />
     </section>}
 

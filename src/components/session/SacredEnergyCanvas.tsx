@@ -4,6 +4,7 @@ import { ProtocolStage } from '../../types';
 interface SacredEnergyCanvasProps {
   stageId: ProtocolStage | string;
   isPlaying: boolean;
+  elapsedSeconds?: number;
   breathePhase?: 'inhale' | 'hold' | 'exhale';
   colorTheme?: {
     glow?: string;
@@ -14,9 +15,12 @@ interface SacredEnergyCanvasProps {
 export const SacredEnergyCanvas: React.FC<SacredEnergyCanvasProps> = ({
   stageId,
   isPlaying,
+  elapsedSeconds,
   breathePhase = 'inhale'
 }) => {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
+  const clockRef = useRef(elapsedSeconds);
+  clockRef.current = elapsedSeconds;
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -63,7 +67,9 @@ export const SacredEnergyCanvas: React.FC<SacredEnergyCanvasProps> = ({
 
       ctx.clearRect(0, 0, width, height);
 
-      time += prefersReducedMotion ? 0 : (isPlaying ? 0.015 : 0.005);
+      // Audio progress is authoritative: pause and seek also stop/move the light.
+      if (!prefersReducedMotion && clockRef.current !== undefined) time = clockRef.current * 0.9;
+      else if (!prefersReducedMotion && isPlaying) time += 0.015;
 
       // Render stage-specific sacred geometry & atmosphere
       switch (stageId) {
