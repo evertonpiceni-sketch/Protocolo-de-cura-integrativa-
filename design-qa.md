@@ -161,3 +161,14 @@ Revisão das cinco superfícies: tipografia mantém Lora/Cormorant já usadas e 
 Pendências P2: os símbolos florais existentes não reproduzem exatamente os traços de lótus da prancha; ornamentos, tipografia e composição das 12 telas ainda precisam de aproximação adicional. Comparações não constituem aprovação de fidelidade integral. Estilo 2 não iniciado.
 
 final result: blocked
+# Natural Sereno — símbolos em 2026-10-06
+
+Substituídos os ícones florais genéricos pelos contornos de lótus da prancha no Resultado, Ferramentas, Menu e Jornada. Mapa Astral, Numerologia e Chakras receberam símbolos SVG próprios, aproximados do painel aprovado. O logo institucional não foi alterado. A apresentação continua exclusiva de NaturalSerenoHome; callbacks, textos e dados permanecem os existentes.
+
+Evidências: `docs/visual-qa/natural-sereno/refinement-2026-10-06/`, com comparação lado a lado e cabeçalhos ampliados. Mesma fonte e recortes da rodada anterior. Inspeção visual confirmou o CTA do Resultado inteiro acima do dock. As cinco superfícies: símbolos/layout aproximados; cores preservadas; tipografia e imagens/folhagens ainda com diferenças; conteúdo aprovado preservado. Os novos SVGs são aproximações vetoriais, não extrações exatas do arquivo original.
+
+Lint, 18 testes, build e 20 verificações de navegador passaram, sem erros de página/console. Login/cadastro, Reintegração e isolamento dos três outros temas verificados. Permanecem avisos existentes de bundle e importação do VideoStudioLightModal. A sondagem de tipografia interrompida da sessão anterior não foi usada como evidência; esta validação é uma execução nova concluída com exit 0.
+
+Fidelidade integral das 12 telas ainda pendente (P2: tipografia, folhagens, acabamento e proporções dos símbolos). Estilo 2 não iniciado.
+
+final result: blocked
