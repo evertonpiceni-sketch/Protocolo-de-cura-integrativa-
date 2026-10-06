@@ -172,3 +172,14 @@ Lint, 18 testes, build e 20 verificações de navegador passaram, sem erros de p
 Fidelidade integral das 12 telas ainda pendente (P2: tipografia, folhagens, acabamento e proporções dos símbolos). Estilo 2 não iniciado.
 
 final result: blocked
+# Natural Sereno — tipografia e escala em 2026-10-06
+
+Comparadas Cormorant, Lora e Georgia na tela real de Ferramentas antes da alteração. Selecionada Lora 700 em 28px/1.15 para os títulos de Biblioteca e Ferramentas, por aproximar o peso e a altura das letras da prancha. O peso 700 foi incluído na fonte já usada pelo tema. Os símbolos dentro das molduras de Ferramentas passaram de 22px para 34px, com traço 1.1. Os cards, textos e callbacks não mudaram.
+
+Evidências em `docs/visual-qa/natural-sereno/typography-2026-10-06/`: comparações e cabeçalhos ampliados com os mesmos recortes da prancha usados anteriormente. Inspeção mostra os seis cards da Biblioteca inteiros acima do dock, imagens carregadas e símbolos das Ferramentas mais próximos da proporção da referência. Cinco superfícies: tipografia e escala dos ornamentos ajustadas; paleta, imagens e textos preservados. Folhagens foram inspecionadas, mas ainda diferem em forma/composição; não foram alteradas nesta rodada.
+
+Lint, 18 testes, build e 20 verificações de navegador passaram, com `errors` e `consoleErrors` vazios. Login/cadastro, Reintegração e isolamento dos outros temas preservados. A tentativa inicial de navegador foi interrompida sem aprovação. O harness agora espera DOM pronto na primeira navegação e dá 90s aos seletores/navegação; capturas continuam esperando fontes e imagens. Avisos existentes de build permanecem.
+
+P2 pendente: fidelidade integral das 12 telas, sobretudo folhagens e acabamento/traços dos ornamentos. A fonte escolhida é aproximação visual, não identificação confirmada da fonte original da prancha. Estilo 2 não iniciado.
+
+final result: blocked

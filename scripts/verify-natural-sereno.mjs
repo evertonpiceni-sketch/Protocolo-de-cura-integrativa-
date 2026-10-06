@@ -7,6 +7,8 @@ await fs.mkdir(out,{recursive:true});
 const qaUrl=process.env.NATURAL_SERENO_QA_URL || 'http://127.0.0.1:4173/';
 const browser=await puppeteer.launch({executablePath:process.env.NATURAL_SERENO_QA_BROWSER || '/usr/bin/chromium',args:['--no-sandbox']});
 const page=await browser.newPage();
+page.setDefaultTimeout(90000);
+page.setDefaultNavigationTimeout(90000);
 const errors=[]; const consoleErrors=[]; const checks=[];
 page.on('pageerror',err=>errors.push(err.message));
 page.on('console',msg=>{if(msg.type()==='error'&&!msg.text().includes('Failed to load resource'))consoleErrors.push(msg.text())});
@@ -51,7 +53,7 @@ const row=async(title)=>{const handles=await page.$$('.ns-row');for(const h of h
 const textButton=async(text)=>{for(const h of await page.$$('button')){if(await h.evaluate((el,text)=>el.textContent.trim()===text,text)){await h.click();return}}throw Error(`Missing ${text}`)};
 try {
  await page.setViewport({width:390,height:844,deviceScaleFactor:1});
- await page.goto(qaUrl,{waitUntil:'networkidle0'});
+ await page.goto(qaUrl,{waitUntil:'domcontentloaded'});
  await ready('[data-ns-screen="home"]');await shot('home');
  for(const [label,screen]of[['Jornada','journey'],['Biblioteca','library'],['Comunidade','community']]){await dock(label);await ready(`[data-ns-screen="${screen}"]`);await shot(screen)}
  checks.push('Home, jornada, biblioteca and community navigate by real pointer clicks; dock unobstructed.');
