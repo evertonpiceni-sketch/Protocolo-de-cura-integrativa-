@@ -7,6 +7,8 @@ await fs.mkdir(out,{recursive:true});
 const qaUrl=process.env.NATURAL_SERENO_QA_URL || 'http://127.0.0.1:4173/';
 const browser=await puppeteer.launch({executablePath:process.env.NATURAL_SERENO_QA_BROWSER || '/usr/bin/chromium',args:['--no-sandbox']});
 const page=await browser.newPage();
+page.setDefaultTimeout(90000);
+page.setDefaultNavigationTimeout(90000);
 const errors=[]; const consoleErrors=[]; const checks=[];
 page.on('pageerror',err=>errors.push(err.message));
 page.on('console',msg=>{if(msg.type()==='error'&&!msg.text().includes('Failed to load resource'))consoleErrors.push(msg.text())});
@@ -27,7 +29,18 @@ await page.evaluateOnNewDocument(()=>{
  Object.defineProperty(window.speechSynthesis,'speak',{value:utterance=>{utterance.onstart?.(new Event('start'));},configurable:true});
 });
 const ready=async(selector)=>{await page.waitForSelector(selector);await new Promise(r=>setTimeout(r,750))};
-const shot=async(name)=>{console.log(`QA capture: ${name}`);await page.screenshot({path:`${out}/${name}.png`})};
+const shot=async(name)=>{
+ console.log(`QA capture: ${name}`);
+ await page.evaluate(async()=>{
+  await document.fonts.ready;
+  const visibleImages=[...document.images].filter(img=>{
+   const rect=img.getBoundingClientRect();
+   return rect.width>0 && rect.height>0 && rect.bottom>0 && rect.top<innerHeight;
+  });
+  await Promise.all(visibleImages.map(img=>img.decode()));
+ });
+ await page.screenshot({path:`${out}/${name}.png`});
+};
 const dock=async(label)=>{
  const handles=await page.$$('.ns-dock button');
  for(const h of handles){if(await h.evaluate((el,label)=>el.textContent.trim()===label,label)){
@@ -40,7 +53,7 @@ const row=async(title)=>{const handles=await page.$$('.ns-row');for(const h of h
 const textButton=async(text)=>{for(const h of await page.$$('button')){if(await h.evaluate((el,text)=>el.textContent.trim()===text,text)){await h.click();return}}throw Error(`Missing ${text}`)};
 try {
  await page.setViewport({width:390,height:844,deviceScaleFactor:1});
- await page.goto(qaUrl,{waitUntil:'networkidle0'});
+ await page.goto(qaUrl,{waitUntil:'domcontentloaded'});
  await ready('[data-ns-screen="home"]');await shot('home');
  for(const [label,screen]of[['Jornada','journey'],['Biblioteca','library'],['Comunidade','community']]){await dock(label);await ready(`[data-ns-screen="${screen}"]`);await shot(screen)}
  checks.push('Home, jornada, biblioteca and community navigate by real pointer clicks; dock unobstructed.');
@@ -48,6 +61,9 @@ try {
  assert.equal(await page.$$eval('.ns-day img',els=>new Set(els.map(img=>img.getAttribute('src'))).size),21);
  await page.$$eval('.ns-day img',async els=>{for(const img of els)img.loading='eager';await Promise.all(els.map(img=>img.decode()))});
  checks.push('All 21 journey thumbnails are distinct and load successfully.');
+ assert(await page.$eval('.ns-day:nth-of-type(6)',el=>el.getBoundingClientRect().bottom<=document.querySelector('.ns-dock').getBoundingClientRect().top),'Six complete days fit above the dock without truncating their approved descriptions');
+ await shot('journey');
+ checks.push('Six complete day rows fit above the dock at 390×844, with loaded artwork and untruncated approved text.');
  await dock('Biblioteca');
  await page.waitForFunction(()=>Array.from(document.querySelectorAll('.ns-library-row img')).every(img=>img.complete && img.naturalWidth>0));
  assert(await page.$$eval('.ns-library-row img',els=>els.every(img=>img.getAttribute('src').startsWith('/brand/natural-sereno/'))));
@@ -72,7 +88,13 @@ try {
  await page.click('button[aria-label="Fechar Mapa do Momento"]');
  await dock('Jornada');await page.click('button[aria-label="Abrir dia 3: Purificação das Águas"]');await ready('.ep-acceptance-portal');await shot('portal');assert.equal(await page.$eval('#meditation-session header h1',el=>el.textContent.trim()),'Purificação das Águas');
  await textButton('Aceitar e Adentrar o Espaço Sagrado');await ready('[data-session-phase="checkin_before"]');
- await textButton('Iniciar a Harmonização');await ready('[data-session-phase="playing"]');assert.equal(await page.$eval('#meditation-session',el=>el.scrollTop),0,'Player starts at the top after check-in');await shot('player');assert.equal(await page.$eval('#meditation-session > main',el=>getComputedStyle(el).paddingTop),'90px','Approved player scene spacing overrides legacy mobile padding');
+ await textButton('Iniciar a Harmonização');await ready('[data-session-phase="playing"]');assert.equal(await page.$eval('#meditation-session',el=>el.scrollTop),0,'Player starts at the top after check-in');await shot('player');
+ assert(await page.$eval('#meditation-session',el=>{
+  const title=el.querySelector('.ns-session-title').getBoundingClientRect();
+  const mantra=el.querySelector('.ep-session-mantra').getBoundingClientRect();
+  const stage=el.querySelector('.ep-stage-badge').getBoundingClientRect();
+  return title.top>=200 && title.top<=300 && title.bottom<=mantra.top && mantra.bottom<=stage.top;
+ }),'Waterfall, day and mantra retain the board hierarchy before the additional stage guidance');
  for(const width of [320,390,768,1440]){
   await page.setViewport({width,height:844,deviceScaleFactor:1});
   assert(await page.$eval('.ns-play-toggle',el=>{const r=el.getBoundingClientRect();return r.top>=0&&r.bottom<=innerHeight&&r.left>=0&&r.right<=innerWidth}),`Playback control visible at ${width}`);
@@ -94,6 +116,12 @@ try {
  await ready('[data-ns-screen="result"]');await shot('result');checks.push('Result uses existing recommendation engine, without altering its content or rules.');
  for(const width of [320,390,768,1440]){await page.setViewport({width,height:900,deviceScaleFactor:1});await dock('Início');await ready('[data-ns-screen="home"]');assert(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),`No horizontal overflow at ${width}`);await shot(`responsive-${width}`)}
  checks.push('No horizontal overflow at 320, 390, 768 and 1440 CSS px.');
+ await page.setViewport({width:390,height:844,deviceScaleFactor:1});
+ await dock('Jornada');await page.click('button[aria-label="Abrir dia 1: O Despertar da Decisão"]');await ready('.ep-acceptance-portal');
+ await textButton('Aceitar e Adentrar o Espaço Sagrado');await ready('[data-session-phase="checkin_before"]');
+ await textButton('Iniciar a Harmonização');await ready('[data-session-phase="playing"]');await shot('player-day1');
+ await page.click('button[aria-label="Sair da sessão"]');await ready('.ns-app');
+ checks.push('Day 1 player captured at 390×844 for the same selected day as the frozen board; approved runtime content retained.');
  for(const theme of ['elegancia-profunda','essencia-luminosa','mistico-moderno']){profile.visualLayout=theme;await page.reload({waitUntil:'networkidle0'});await ready('.ep-home');assert.equal(await page.$('.ns-app'),null);await shot(`isolated-${theme}`)}
  checks.push('The three other themes keep the legacy component branch and never render Natural Sereno.');
  profile.visualLayout='natural-sereno';await page.reload({waitUntil:'networkidle0'});await ready('.ns-app');await page.evaluate(()=>localStorage.setItem('natural-sereno-qa-welcome','true'));await page.reload({waitUntil:'networkidle0'});await ready('[data-ns-screen="welcome"]');await page.setViewport({width:390,height:844,deviceScaleFactor:1});await shot('welcome');

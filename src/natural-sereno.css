@@ -1,7 +1,7 @@
 /* Estilo 1 only. No selector in this sheet applies to the other official layouts,
    or the frozen Reintegração experience. Authentication rules at the end
    keep the existing entry shell fixed to Natural Sereno. */
-@import url('https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;0,600;1,400&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap');
 
 :root[data-layout="natural-sereno"] {
   --ns-forest: #073b2b;
@@ -568,7 +568,16 @@
 :root[data-layout="natural-sereno"] .ns-tools .ns-row-icon { box-shadow: none; background: #fff9e8; border-color: #d9c58f; color: #a4833e; }
 :root[data-layout="natural-sereno"] .ns-welcome-play { box-shadow: inset 0 0 0 5px rgba(232, 207, 137, .12), 0 0 0 6px rgba(230, 205, 130, .13), 0 0 22px rgba(226, 197, 105, .32); }
 :root[data-layout="natural-sereno"] .ns-app:is([data-ns-screen="library"], [data-ns-screen="tools"]) .ns-page-heading { padding-left: 18px; padding-right: 18px; }
-:root[data-layout="natural-sereno"] .ns-app:is([data-ns-screen="library"], [data-ns-screen="tools"]) .ns-page-heading h1 { font-size: 34px; }
+:root[data-layout="natural-sereno"] .ns-app:is([data-ns-screen="library"], [data-ns-screen="tools"]) .ns-page-heading h1 {
+  font-family: 'Lora', Georgia, serif;
+  font-size: 28px;
+  line-height: 1.15;
+}
+:root[data-layout="natural-sereno"] .ns-tools .ns-row-icon svg {
+  width: 34px;
+  height: 34px;
+  stroke-width: 1.1;
+}
 /* Let the waterfall stay visible behind the retained player controls. */
 :root[data-layout="natural-sereno"] #meditation-session > header { background: rgba(4, 38, 26, .12) !important; backdrop-filter: none; }
 :root[data-layout="natural-sereno"] #meditation-session > main { flex: none; min-height: 0; padding-top: 90px !important; }
@@ -723,4 +732,190 @@
 @media (min-width: 900px) {
   :root[data-layout="natural-sereno"] #meditation-session .ep-session-backdrop > div:first-child { position: absolute; top: 15%; left: 75%; width: 240px; max-width: 240px; transform: translateX(-50%); }
   :root[data-layout="natural-sereno"] #meditation-session .ep-session-backdrop canvas { left: 0; width: 100% !important; height: 100% !important; opacity: .25; }
+}
+
+/* Frozen board: six day rows above the dock at 390 × 844, while retaining
+   every approved title, focus, completion state and destination. Let longer
+   text and text zoom expand rows instead of clipping them. */
+:root[data-layout="natural-sereno"] .ns-journey-intro p {
+  margin-bottom: 12px;
+  font-size: 12px;
+  line-height: 1.45;
+}
+:root[data-layout="natural-sereno"] .ns-day {
+  min-height: 72px;
+  padding: 8px 10px;
+  margin-bottom: 7px;
+  gap: 9px;
+}
+:root[data-layout="natural-sereno"] .ns-day .ns-row-copy strong {
+  font-size: 16px;
+  line-height: 1.2;
+}
+:root[data-layout="natural-sereno"] .ns-day .ns-row-copy small {
+  font-size: 12px;
+  line-height: 1.35;
+  margin-top: 3px;
+}
+:root[data-layout="natural-sereno"] .ns-day > img {
+  width: 52px;
+  height: 54px;
+}
+:root[data-layout="natural-sereno"] .ns-day-number {
+  width: 36px;
+  height: 36px;
+}
+/* The approved ring occupies roughly a third of the phone content width.
+   Keep the original waveform asset and voice callbacks. */
+:root[data-layout="natural-sereno"] .ns-welcome-play {
+  width: 136px;
+  height: 136px;
+}
+:root[data-layout="natural-sereno"] .ns-welcome-audio .ns-audio-wave {
+  height: 100px;
+  object-fit: fill;
+}
+:root[data-layout="natural-sereno"]:has(.ns-welcome) #floating-whatsapp-btn {
+  top: 16px !important;
+  bottom: auto !important;
+  right: 16px !important;
+}
+/* The profile board uses one continuous ivory list beneath the progress
+   card. Keep all seven existing actions and their descriptions available. */
+:root[data-layout="natural-sereno"] .ns-app[data-ns-screen="profile"] .ns-page-heading {
+  min-height: 68px;
+  padding: 8px 42px;
+}
+:root[data-layout="natural-sereno"] .ns-app[data-ns-screen="profile"] .ns-page-heading h1 {
+  font-size: 30px;
+}
+:root[data-layout="natural-sereno"] .ns-app[data-ns-screen="profile"] .ns-page-heading p {
+  font-size: 12px;
+}
+:root[data-layout="natural-sereno"] .ns-profile-identity {
+  gap: 6px;
+  padding-bottom: 8px;
+}
+:root[data-layout="natural-sereno"] .ns-profile-identity > svg {
+  width: 52px;
+  height: 52px;
+  padding: 10px;
+}
+:root[data-layout="natural-sereno"] .ns-profile .ns-row {
+  margin-bottom: 0;
+  padding: 6px 12px;
+  border-radius: 0;
+}
+:root[data-layout="natural-sereno"] .ns-profile .ns-row + .ns-row {
+  border-top: 0;
+}
+:root[data-layout="natural-sereno"] .ns-profile-progress + .ns-row {
+  border-radius: 10px 10px 0 0;
+}
+:root[data-layout="natural-sereno"] .ns-profile .ns-row:last-of-type {
+  border-radius: 0 0 10px 10px;
+}
+@media (max-height: 720px) {
+  :root[data-layout="natural-sereno"] .ns-welcome-play {
+    width: 120px;
+    height: 120px;
+  }
+}
+
+/* Match the board's clear sky and continuous recommendation sheet using the
+   existing source artwork. These rules do not alter care data or actions. */
+:root[data-layout="natural-sereno"] .ns-home-scene {
+  background-image: var(--ns-valley);
+}
+:root[data-layout="natural-sereno"] .ns-app[data-ns-screen="result"] .ns-page-heading {
+  min-height: 0;
+  padding: 16px 42px 8px;
+}
+:root[data-layout="natural-sereno"] .ns-result-emblem {
+  display: block;
+  margin: 0 auto 6px;
+  color: var(--ns-gold);
+  width: 64px;
+  height: 64px;
+  padding: 9px;
+  border: 1px solid var(--ns-gold);
+  border-radius: 50%;
+}
+:root[data-layout="natural-sereno"] .ns-heading-emblem {
+  display: block;
+  margin: 0 auto 6px;
+  color: var(--ns-gold);
+}
+:root[data-layout="natural-sereno"] .ns-dock svg {
+  width: 25px;
+  height: 25px;
+  stroke-width: 1.8;
+}
+:root[data-layout="natural-sereno"] .ns-dock .lucide-house {
+  fill: var(--ns-forest);
+  stroke: var(--ns-cream);
+  stroke-width: 1.2;
+}
+:root[data-layout="natural-sereno"] .ns-app[data-ns-screen="result"] .ns-page-heading h1 {
+  font-size: 32px;
+}
+:root[data-layout="natural-sereno"] .ns-app[data-ns-screen="result"] .ns-page-heading p {
+  font: 600 22px/1.15 'Cormorant Garamond', Georgia, serif;
+  color: var(--ns-forest);
+}
+:root[data-layout="natural-sereno"] .ns-result > p {
+  line-height: 1.55;
+  margin-bottom: 12px;
+}
+:root[data-layout="natural-sereno"] .ns-result-details {
+  padding: 4px 12px;
+  border: 1px solid var(--ns-line);
+  border-radius: 12px;
+  background: var(--ns-paper);
+}
+:root[data-layout="natural-sereno"] .ns-result-details .ns-result-item {
+  padding: 9px 0;
+  margin: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+}
+:root[data-layout="natural-sereno"] .ns-result-details .ns-result-item + .ns-result-item {
+  border-top: 1px solid var(--ns-line);
+}
+:root[data-layout="natural-sereno"] .ns-result-details .ns-result-symbol {
+  width: 36px;
+  height: 36px;
+}
+:root[data-layout="natural-sereno"] .ns-result-details .ns-result-symbol svg {
+  width: 22px;
+  height: 22px;
+}
+:root[data-layout="natural-sereno"] .ns-result-details strong {
+  font-size: 14px;
+  line-height: 1.35;
+}
+/* Day and mantra take priority, with the existing stage/breath guidance
+   still visible together below them. Keep short viewports scrollable. */
+:root[data-layout="natural-sereno"] #meditation-session .ep-session-mantra {
+  grid-row: 2;
+  margin: 0 0 12px;
+}
+:root[data-layout="natural-sereno"] #meditation-session .ep-stage-badge {
+  grid-row: 3;
+  margin-bottom: 10px;
+}
+:root[data-layout="natural-sereno"] #meditation-session .ep-stage-title {
+  grid-row: 4;
+}
+:root[data-layout="natural-sereno"] #meditation-session .ep-stage-subtitle {
+  grid-row: 5;
+}
+:root[data-layout="natural-sereno"] #meditation-session .ep-breathing-guide {
+  grid-row: 4 / 6;
+}
+@media (max-width: 899px) and (min-height: 780px) {
+  :root[data-layout="natural-sereno"] #meditation-session[data-session-phase="playing"] > main {
+    padding-top: 168px !important;
+  }
 }

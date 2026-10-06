@@ -107,3 +107,79 @@ O erro FUNCTION_INVOCATION_FAILED na prévia foi associado à ausência de JWT_S
 Validação: lint, cinco testes e build; 18 verificações Chromium sem erros; cadastro válido, sessão, sincronização do perfil, login e duplicidade em banco local isolado, sem criar contas reais; erro HTTP 500 não JSON validado no navegador. Evidências: registration.png, login.png, registration-options.png e verification.json em docs/visual-qa/natural-sereno.
 
 O usuário autorizou publicar a versão atual e continuar ajustes. A auditoria de fidelidade integral das 12 telas segue com as diferenças documentadas; não inicia Estilo 2.
+
+## Continuação — ajustes de composição em 05/10/2026
+
+Esta rodada parte do estado atual de `main` e do painel congelado em `docs/visual-qa/natural-sereno/reference.jpg`.
+
+- Jornada: densidade ajustada para seis dias completos acima da navegação em 390 × 844. Títulos, descrições, estados de conclusão, 21 imagens e destinos preservados. As linhas crescem com textos maiores, sem truncamento.
+- Boas-vindas: anel de áudio de 136 px e onda com altura de 100 px, preservando os arquivos e callbacks existentes. Contato flutuante deslocado para o canto superior, sem cobrir a assinatura.
+- Perfil: cabeçalho e avatar mais compactos, lista contínua em marfim com divisórias e cantos somente nas extremidades. Todas as sete ações e descrições permanecem disponíveis; a assinatura fica visível acima da navegação em 390 × 844.
+
+Todos os novos seletores exigem `data-layout="natural-sereno"`. Nenhum componente funcional, conteúdo aprovado, API, pagamento, arquivo da Reintegração, login/cadastro ou outro tema foi alterado nesta rodada.
+
+Lint TypeScript, 18 testes e build aprovados; 19 verificações de navegador aprovadas, sem erros de execução ou console. O build conserva os avisos existentes de bundle grande e importação estática/dinâmica. A verificação de navegador acrescenta a medição de seis dias completos acima da navegação, após decodificar todas as imagens. Evidências desta rodada em `docs/visual-qa/natural-sereno/refinement-2026-10-05/`.
+
+Não há aprovação de fidelidade integral das 12 telas. Os limites já documentados de fontes/assets reconstruídos e da apresentação de conteúdos/controles adicionais permanecem. Não iniciar o Estilo 2. As verificações de navegador usam dados sintéticos e fala simulada; não certificam áudio contínuo ou serviços remotos.
+
+## Continuação — Home, Resultado e Player em 05/10/2026
+
+Fonte visual: `docs/visual-qa/natural-sereno/reference.jpg`. As comparações desta rodada reutilizam os recortes normalizados da referência à esquerda de `compare-home.png`, `compare-result.png` e `compare-player.png`, sem redesenhar a arte. Cada recorte tem 390 × 844 px. As novas capturas do app têm viewport CSS 390 × 844, DPR 1. A comparação completa tem 788 × 880 px, incluindo rótulos e separação; os detalhes ampliados são apenas evidência de inspeção, não outra densidade do produto.
+
+Evidências em `docs/visual-qa/natural-sereno/refinement-2026-10-05-round2/`: Home autenticada, Resultado de uma anamnese sintética e Player no Dia 1. O Dia 1 da prancha contém título e mensagem ilustrativos diferentes dos textos canônicos do aplicativo; esses textos reais foram preservados. O Resultado também conserva as seis recomendações do motor, em vez de substituí-las pelos quatro exemplos ilustrativos da prancha.
+
+### Comparação e correções
+
+- **Cores e imagens — P2 corrigido na Home:** o gradiente aplicado por cima do vale apagava o céu azul e reduzia a definição da paisagem. A Home usa agora o asset existente sem essa camada. Recorte, asset e conteúdo não foram substituídos.
+- **Hierarquia e ritmo — P2 corrigido no Resultado:** emblema passa a aparecer acima do título, e as seis recomendações ficam em uma ficha contínua de marfim com divisórias, sem remover rótulos ou valores. A captura mostra a duração e a ação principal acima da navegação; a ação secundária continua acessível por rolagem.
+- **Hierarquia e ritmo — P2 corrigido no Player:** dia e mensagem central aparecem antes da identificação e orientação de etapa. Em mobile com altura suficiente, a paisagem fica mais livre acima do dia. Telas curtas mantêm rolagem. Etapas, respiração, áudio, roteiro, avanço/retorno e busca de posição continuam disponíveis.
+- **Interação — P1 corrigido:** o clique real em Sair da sessão revelou `TypeError: releaseWakeLock is not a function`. A API retorna um `WakeLockSentinel`, não uma função. O Player agora chama `release()` e libera também aquisições que terminarem depois de sair. A assinatura do helper foi tipada, eliminando o `any` que escondia o erro. O teste de saída confirmado retorna à Home sem tela de recuperação ou erros de console. Trata-se de correção do encerramento no Player compartilhado; a Reintegração tem implementação própria e não foi alterada.
+
+### Superfícies obrigatórias e pendências
+
+- **Tipografia:** famílias existentes Lora/Cormorant mantidas. Título e categoria do Resultado recebem hierarquia mais próxima da referência. A fonte exata e o peso óptico do texto secundário da prancha ainda não foram identificados; não declarar equivalência exata.
+- **Espaçamento:** mesma área de 390 × 844 nas comparações; o Resultado mostra mais informações sem truncamento e o Player preserva os controles adicionais. A distribuição desses controles continua diferente do modelo ilustrativo.
+- **Paleta:** verde, marfim e dourado existentes preservados; removida apenas a camada que apagava a paisagem da Home.
+- **Assets:** não houve geração nem troca de imagens, logos ou folhagens. Permanecem diferenças entre os assets anteriormente reconstruídos e os originais isolados, além dos emblemas/ícones específicos da prancha.
+- **Conteúdo:** valores, títulos, perguntas, recomendações, handlers e destinos aprovados não foram reescritos. Nenhuma API, pagamento, narração ou dado da Reintegração foi modificado.
+
+O navegador integrado não iniciou por erro do sandbox; as evidências foram capturadas no Edge local. A auditoria usa fixtures e fala simulada, sem alterar dados de produção. A fonte e a implementação foram inspecionadas em pares lado a lado, incluindo detalhes do cabeçalho do Resultado e controles do Player.
+
+Validação final após a correção de encerramento: lint, 18 testes e build aprovados. Uma sessão nova do navegador concluiu 20 verificações, incluindo o clique real em Sair da sessão no Dia 1 e o retorno ao app, sem erros de execução ou console. Os avisos existentes de bundle grande e importação estática/dinâmica permanecem. A rodada interrompida não foi contabilizada como sucesso; `verification.json` e as comparações salvas pertencem à sessão concluída.
+
+**final result: blocked** — os avanços desta rodada não encerram a reprodução integral das 12 telas. Permanecem P2 de fidelidade dos emblemas/ornamentos, fonte exata e distribuição dos controles adicionais do Player. Não iniciar o Estilo 2.
+# Natural Sereno — continuação 3 em 2026-10-05
+
+Fonte: `docs/visual-qa/natural-sereno/reference.jpg`, painel aprovado de 1280×1170. Capturas reais em 390×844 em `docs/visual-qa/natural-sereno/refinement-2026-10-05-round3/`. Comparações combinam a referência à esquerda e a implementação à direita; recortes Biblioteca (444,653)-(629,1072), Ferramentas (657,653)-(842,1072), normalizados para 390×844. Resultado reutiliza o recorte aprovado de `compare-result.png`. Ampliações dos cabeçalhos acompanham cada comparação.
+
+Mudanças: emblemas dourados acima dos títulos Biblioteca/Ferramentas; contorno circular dourado no emblema do Resultado; símbolo floral para Jornada no dock, casa preenchida e ícones de 25px. São ajustes de apresentação no componente exclusivo de Natural Sereno, com os ícones já disponíveis. O espaço do cabeçalho do Resultado foi compactado depois da inspeção para preservar o CTA inteiro acima do dock.
+
+A auditoria agora espera `document.fonts.ready` e `decode()` das imagens visíveis antes de capturar: a primeira captura da Biblioteca havia registrado miniaturas ainda vazias. A execução final mostra as seis imagens carregadas e passou nas 20 verificações, sem erros de página/console. Uma tentativa anterior expirou na navegação inicial e não foi contabilizada como aprovação. Lint e 18 testes passaram; build validado após o ajuste final. Avisos existentes de tamanho do bundle e importação de VideoStudioLightModal permanecem.
+
+Revisão das cinco superfícies: tipografia mantém Lora/Cormorant já usadas e ainda difere da referência; layout aproxima emblemas e navegação, com CTA do Resultado visível; paleta mantém verde/marfim/dourado; imagens usam os assets existentes e carregados, sem recriar o logo; textos, seis recomendações, ações e dados permanecem os aprovados do aplicativo. Login/cadastro, Reintegração e os três outros temas passaram nos controles de isolamento.
+
+Pendências P2: os símbolos florais existentes não reproduzem exatamente os traços de lótus da prancha; ornamentos, tipografia e composição das 12 telas ainda precisam de aproximação adicional. Comparações não constituem aprovação de fidelidade integral. Estilo 2 não iniciado.
+
+final result: blocked
+# Natural Sereno — símbolos em 2026-10-06
+
+Substituídos os ícones florais genéricos pelos contornos de lótus da prancha no Resultado, Ferramentas, Menu e Jornada. Mapa Astral, Numerologia e Chakras receberam símbolos SVG próprios, aproximados do painel aprovado. O logo institucional não foi alterado. A apresentação continua exclusiva de NaturalSerenoHome; callbacks, textos e dados permanecem os existentes.
+
+Evidências: `docs/visual-qa/natural-sereno/refinement-2026-10-06/`, com comparação lado a lado e cabeçalhos ampliados. Mesma fonte e recortes da rodada anterior. Inspeção visual confirmou o CTA do Resultado inteiro acima do dock. As cinco superfícies: símbolos/layout aproximados; cores preservadas; tipografia e imagens/folhagens ainda com diferenças; conteúdo aprovado preservado. Os novos SVGs são aproximações vetoriais, não extrações exatas do arquivo original.
+
+Lint, 18 testes, build e 20 verificações de navegador passaram, sem erros de página/console. Login/cadastro, Reintegração e isolamento dos três outros temas verificados. Permanecem avisos existentes de bundle e importação do VideoStudioLightModal. A sondagem de tipografia interrompida da sessão anterior não foi usada como evidência; esta validação é uma execução nova concluída com exit 0.
+
+Fidelidade integral das 12 telas ainda pendente (P2: tipografia, folhagens, acabamento e proporções dos símbolos). Estilo 2 não iniciado.
+
+final result: blocked
+# Natural Sereno — tipografia e escala em 2026-10-06
+
+Comparadas Cormorant, Lora e Georgia na tela real de Ferramentas antes da alteração. Selecionada Lora 700 em 28px/1.15 para os títulos de Biblioteca e Ferramentas, por aproximar o peso e a altura das letras da prancha. O peso 700 foi incluído na fonte já usada pelo tema. Os símbolos dentro das molduras de Ferramentas passaram de 22px para 34px, com traço 1.1. Os cards, textos e callbacks não mudaram.
+
+Evidências em `docs/visual-qa/natural-sereno/typography-2026-10-06/`: comparações e cabeçalhos ampliados com os mesmos recortes da prancha usados anteriormente. Inspeção mostra os seis cards da Biblioteca inteiros acima do dock, imagens carregadas e símbolos das Ferramentas mais próximos da proporção da referência. Cinco superfícies: tipografia e escala dos ornamentos ajustadas; paleta, imagens e textos preservados. Folhagens foram inspecionadas, mas ainda diferem em forma/composição; não foram alteradas nesta rodada.
+
+Lint, 18 testes, build e 20 verificações de navegador passaram, com `errors` e `consoleErrors` vazios. Login/cadastro, Reintegração e isolamento dos outros temas preservados. A tentativa inicial de navegador foi interrompida sem aprovação. O harness agora espera DOM pronto na primeira navegação e dá 90s aos seletores/navegação; capturas continuam esperando fontes e imagens. Avisos existentes de build permanecem.
+
+P2 pendente: fidelidade integral das 12 telas, sobretudo folhagens e acabamento/traços dos ornamentos. A fonte escolhida é aproximação visual, não identificação confirmada da fonte original da prancha. Estilo 2 não iniciado.
+
+final result: blocked

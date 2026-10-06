@@ -10,6 +10,7 @@ import type { TreatmentRecommendation } from '../lib/anamnesisTreatmentEngine';
 import { DAILY_INSIGHTS } from '../types';
 import { APPROVED_LOGO_DATA_URI } from './ApprovedBrand';
 import NaturalSerenoCommunity from './NaturalSerenoCommunity';
+import { NaturalSerenoLotus, NaturalSerenoAstral, NaturalSerenoNumerology, NaturalSerenoChakras } from './NaturalSerenoIcons';
 
 type View = 'home' | 'menu' | 'journey' | 'library' | 'tools' | 'profile' | 'result' | 'community';
 type Props = TransformationHomeProps & {
@@ -46,10 +47,10 @@ export default function NaturalSerenoHome(props: Props) {
     window.scrollTo({ top: 0, behavior: 'instant' });
   };
   const tools: Row[] = [
-    { title: 'Mapa Astral', copy: 'Um olhar simbólico para sua jornada', icon: Sun, action: props.onOpenAstral },
-    { title: 'Numerologia', copy: 'Ciclos, essência e caminhos', icon: Flower2, action: props.onOpenNumerology },
-    { title: 'Banhos e Aromas', copy: 'Natureza como parte do cuidado', icon: Leaf, action: props.onOpenBaths },
-    { title: 'Guia dos 7 Chakras', copy: 'Conheça seus centros de energia', icon: Sparkles, action: props.onOpenChakras },
+    { title: 'Mapa Astral', copy: 'Um olhar simbólico para sua jornada', icon: NaturalSerenoAstral, action: props.onOpenAstral },
+    { title: 'Numerologia', copy: 'Ciclos, essência e caminhos', icon: NaturalSerenoNumerology, action: props.onOpenNumerology },
+    { title: 'Banhos e Aromas', copy: 'Natureza como parte do cuidado', icon: NaturalSerenoLotus, action: props.onOpenBaths },
+    { title: 'Guia dos 7 Chakras', copy: 'Conheça seus centros de energia', icon: NaturalSerenoChakras, action: props.onOpenChakras },
     { title: 'Perguntas sistêmicas', copy: 'Outros caminhos da sua jornada', icon: Users, action: props.onOpenSystemic },
     { title: 'Ho’oponopono', copy: 'Outros caminhos da sua jornada', icon: Heart, action: props.onOpenHooponopono },
   ];
@@ -65,7 +66,7 @@ export default function NaturalSerenoHome(props: Props) {
     { title: '21 Dias para Voltar para Mim', copy: 'Reintegração da Vida', icon: Leaf, action: props.onOpenPersonalJourney },
     { title: 'Anamnese / Teste', copy: 'Olhar meu momento', icon: Waves, action: props.onOpenAnamnesis },
     { title: 'Biblioteca Integrativa', copy: 'Cursos, práticas e materiais', icon: BookOpen, action: () => changeView('library') },
-    { title: 'Ferramentas de Apoio', copy: 'Natureza como parte do cuidado', icon: Flower2, action: () => changeView('tools') },
+    { title: 'Ferramentas de Apoio', copy: 'Natureza como parte do cuidado', icon: NaturalSerenoLotus, action: () => changeView('tools') },
     { title: 'Minha Comunidade', copy: 'Compartilhe e evolua', icon: Users, action: () => changeView('community') },
     { title: 'Meu Perfil', copy: 'Acompanhe seu progresso', icon: UserRound, action: () => changeView('profile') },
   ];
@@ -102,6 +103,9 @@ export default function NaturalSerenoHome(props: Props) {
   return <div className="ns-app" data-ns-screen={view}>
     {view !== 'home' && <header className="ns-page-heading">
       <button onClick={() => changeView('home')} aria-label="Voltar ao início"><ArrowLeft size={20} /></button>
+      {view === 'result' && <NaturalSerenoLotus className="ns-result-emblem" size={43} strokeWidth={1} aria-hidden="true" />}
+      {view === 'library' && <BookOpen className="ns-heading-emblem" size={28} strokeWidth={1.4} aria-hidden="true" />}
+      {view === 'tools' && <NaturalSerenoLotus className="ns-heading-emblem" size={28} strokeWidth={1.4} aria-hidden="true" />}
       <h1>{headings[view][0]}</h1><p>{headings[view][1]}</p>
     </header>}
 
@@ -174,8 +178,8 @@ export default function NaturalSerenoHome(props: Props) {
     </section>}
 
     {view === 'result' && recommendation && <section className="ns-list ns-result">
-      <Flower2 size={43} strokeWidth={1} aria-hidden="true" />
       <p>{recommendation.summaryDiagnosis}</p>
+      <div className="ns-result-details">
       {([
         ['Frequência Solfeggio', recommendation.frequencyLabel, AudioLines],
         ['Chakra em foco', recommendation.primaryChakraFocus, Sun],
@@ -184,13 +188,14 @@ export default function NaturalSerenoHome(props: Props) {
         ['Protocolo indicado', recommendation.treatmentTitle, BookOpen],
         ['Duração sugerida', `${recommendation.recommendedDurationDays} dias`, CalendarDays],
       ] as [string, string, LucideIcon][]).map(([label, value, Icon]) => <div key={label} className="ns-result-item"><span className="ns-result-symbol"><Icon size={25} strokeWidth={1.4} /></span><div><small>{label}</small><strong>{value}</strong></div></div>)}
+      </div>
       <button className="ns-gold" onClick={props.onSpeakResult}><Headphones size={19} />Ouvir meu resultado</button>
       <button className="ns-secondary" onClick={props.onOpenAnamnesis}>Ver ou refazer minha anamnese <ChevronRight size={18} /></button>
     </section>}
 
     <nav className="ns-dock" aria-label="Navegação principal">
       {([
-        ['home', Home, 'Início'], ['journey', Leaf, 'Jornada'], ['library', BookOpen, 'Biblioteca'], ['community', Users, 'Comunidade'],
+        ['home', Home, 'Início'], ['journey', NaturalSerenoLotus, 'Jornada'], ['library', BookOpen, 'Biblioteca'], ['community', Users, 'Comunidade'],
       ] as [View, LucideIcon, string][]).map(([destination, Icon, label]) => <button key={destination} onClick={() => changeView(destination)} aria-current={view === destination ? 'page' : undefined}><Icon size={22} strokeWidth={1.5} /><span>{label}</span></button>)}
     </nav>
   </div>;
