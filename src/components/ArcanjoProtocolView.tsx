@@ -79,8 +79,17 @@ export default function ArcanjoProtocolView({ userProfile, onClose, onLogout, in
   const [elapsed, setElapsed] = useState(0);
   const [showRoteiro, setShowRoteiro] = useState(false);
   const [completedDays, setCompletedDays] = useState<number[]>([]);
+  const [paused, setPaused] = useState(false);
+  const [canSeek, setCanSeek] = useState(false);
   const timerRef = useRef<number | null>(null);
   const narrationRunRef = useRef(0);
+  const previousBackgroundRef = useRef<Parameters<typeof audioEngine.startBG>[0] | null>(null);
+  const restoreBackground = () => {
+    if (previousBackgroundRef.current !== null) {
+      audioEngine.startBG(previousBackgroundRef.current);
+      previousBackgroundRef.current = null;
+    }
+  };
   const config = DADOS_PROTOCOLO[diaAtual];
   const TOTAL_SECONDS = 10 * 60;
   const progressPercent = Math.min(100, elapsed / TOTAL_SECONDS * 100);
@@ -95,11 +104,28 @@ export default function ArcanjoProtocolView({ userProfile, onClose, onLogout, in
     }
     setCompletedDays(done);
     setDiaAtual([1,2,3,4,5,6,7].find(d => !done.includes(d)) || 1);
-    return () => { if (timerRef.current) window.clearInterval(timerRef.current); audioEngine.stopSpeech(); };
+    return () => { if (timerRef.current) window.clearInterval(timerRef.current); audioEngine.stopSpeech(); restoreBackground(); };
   }, [initialCompletedDays]);
 
   const formatTime = (s: number) => `${Math.floor(s/60).toString().padStart(2,'0')}:${Math.floor(s%60).toString().padStart(2,'0')}`;
-  const stop = () => { narrationRunRef.current += 1; setIsPlaying(false); setIsPreparingAudio(false); if (timerRef.current) window.clearInterval(timerRef.current); timerRef.current = null; audioEngine.stopSpeech(); };
+  const stop = () => { narrationRunRef.current += 1; setPaused(false); setCanSeek(false); setIsPlaying(false); setIsPreparingAudio(false); if (timerRef.current) window.clearInterval(timerRef.current); timerRef.current = null; audioEngine.stopSpeech(); restoreBackground(); };
+  const beginClock = () => {
+    if (timerRef.current) window.clearInterval(timerRef.current);
+    timerRef.current = window.setInterval(() => setElapsed(previous => Math.min(TOTAL_SECONDS, previous + 1)), 1000);
+  };
+  const pause = () => {
+    audioEngine.pauseSpeech();
+    if (timerRef.current) window.clearInterval(timerRef.current);
+    timerRef.current = null;
+    restoreBackground();
+    setIsPlaying(false); setPaused(true);
+  };
+  const resume = () => {
+    previousBackgroundRef.current = audioEngine.getCurrentSynthType() as Parameters<typeof audioEngine.startBG>[0];
+    audioEngine.startBG(`${config.freq}hz` as Parameters<typeof audioEngine.startBG>[0]);
+    audioEngine.resumeSpeech(); beginClock();
+    setPaused(false); setIsPlaying(true);
+  };
   const complete = () => {
     localStorage.setItem(`reiki_arcanjo_dia_${diaAtual}`, 'true');
     const next = [...new Set([...completedDays, diaAtual])].sort((a,b) => a-b);
@@ -111,6 +137,8 @@ export default function ArcanjoProtocolView({ userProfile, onClose, onLogout, in
     stop(); setElapsed(0); setIsPlaying(true);
     setIsPreparingAudio(true);
     audioEngine.unlock();
+    previousBackgroundRef.current = audioEngine.getCurrentSynthType() as Parameters<typeof audioEngine.startBG>[0];
+    audioEngine.startBG(`${config.freq}hz` as Parameters<typeof audioEngine.startBG>[0]);
     const runId = narrationRunRef.current;
     const chunks = roteiroDoDia(config)
       .split(/(?=\[\d{2}:\d{2})/)
@@ -123,13 +151,12 @@ export default function ArcanjoProtocolView({ userProfile, onClose, onLogout, in
       }
       void audioEngine.speakWithElevenLabsOrFallback(
         chunks[index], userProfile.voiceVolume ?? 0.9,
-        () => { if (runId === narrationRunRef.current) { setIsPreparingAudio(false); setIsPlaying(true); } },
+        () => { if (runId === narrationRunRef.current) { setIsPreparingAudio(false); setIsPlaying(true); setCanSeek(audioEngine.canSeekSpeech()); beginClock(); } },
         () => playChunk(index + 1), undefined, undefined,
         { voiceId: userProfile.voiceId || 'Marcus', rate: userProfile.voiceRate ?? 0.84, pitch: userProfile.voicePitch ?? 1, lang: 'pt-BR', stability: 0.45, similarityBoost: 0.75, enableBreathingPauses: true, userName: userProfile.name }
       );
     };
     playChunk(0);
-    timerRef.current = window.setInterval(() => setElapsed(previous => Math.min(TOTAL_SECONDS, previous + 1)), 1000);
   };
   const selectDay = (d:number) => { stop(); setElapsed(0); setDiaAtual(d); };
 
@@ -167,7 +194,7 @@ export default function ArcanjoProtocolView({ userProfile, onClose, onLogout, in
         <div className="ep-forest-panel rounded-[1.75rem] p-5 sm:p-7">
           <div className="mb-3 flex items-center justify-between text-sm"><span className="text-[#B88736]">{etapaAtual.titulo}</span><span className="font-mono text-[#d9e6dc]">{formatTime(elapsed)} / 10:00</span></div>
           <div className="h-2 overflow-hidden rounded-full bg-black/30"><div className="h-full rounded-full transition-all duration-700" style={{width:`${progressPercent}%`,background:`linear-gradient(90deg,#c69b3d,${config.corSecundaria})`,boxShadow:`0 0 12px ${config.cor}`}}/></div>
-          <div className="mt-6 flex items-center justify-center gap-6"><button className="p-2 text-[#d7e2d8]" aria-label="Voltar dez segundos" onClick={()=>audioEngine.seekSpeech(-10)}><RotateCcw/></button><button onClick={()=>isPlaying||isPreparingAudio?stop():start()} className="ep-gold-button flex h-20 w-20 items-center justify-center rounded-full" aria-label={isPreparingAudio?'Preparando voz humana':isPlaying?'Pausar':'Iniciar'}>{isPreparingAudio?<Loader2 size={32} className="animate-spin"/>:isPlaying?<Pause size={34}/>:<Play size={35} className="ml-1"/>}</button><button className="p-2 text-[#d7e2d8]" aria-label="Avançar dez segundos" onClick={()=>audioEngine.seekSpeech(10)}><RotateCw/></button></div>
+          <div className="mt-6 flex items-center justify-center gap-6"><button className="p-2 text-[#d7e2d8]" disabled={!canSeek || !isPlaying} aria-label="Voltar dez segundos" onClick={()=>audioEngine.seekSpeech(-10)}><RotateCcw/></button><button onClick={()=>isPreparingAudio?stop():isPlaying?pause():paused?resume():start()} className="ep-gold-button flex h-20 w-20 items-center justify-center rounded-full" aria-label={isPreparingAudio?'Preparando voz humana':isPlaying?'Pausar':paused?'Retomar':'Iniciar'}>{isPreparingAudio?<Loader2 size={32} className="animate-spin"/>:isPlaying?<Pause size={34}/>:<Play size={35} className="ml-1"/>}</button><button className="p-2 text-[#d7e2d8]" disabled={!canSeek || !isPlaying} aria-label="Avançar dez segundos" onClick={()=>audioEngine.seekSpeech(10)}><RotateCw/></button></div>
           <div className="mt-4 flex items-center justify-center gap-2 text-sm text-[#bad0c4]"><Volume2 size={17}/><span>{isPreparingAudio?'Preparando voz humana…':'Voz humana e frequência guiada'}</span></div>
         </div>
 

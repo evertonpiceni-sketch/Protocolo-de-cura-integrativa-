@@ -210,12 +210,13 @@ export default function MeditationSession({
   };
 
   const handleSeek = (newTime: number) => {
+    if (!Number.isFinite(duration) || duration <= 0) return;
     audioEngine.seekToSeconds(newTime);
     setCurrentTime(newTime);
   };
 
   const handleSkipForward = () => {
-    const newTime = Math.min(currentTime + 15, duration || 0);
+    const newTime = Math.min(currentTime + 15, duration);
     handleSeek(newTime);
   };
 

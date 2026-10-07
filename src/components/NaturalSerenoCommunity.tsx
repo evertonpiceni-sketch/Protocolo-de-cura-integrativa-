@@ -38,7 +38,7 @@ export default function NaturalSerenoCommunity() {
     catch (err) { setError(err instanceof Error ? err.message : 'Não foi possível concluir esta ação.'); }
     finally { setBusy(false); }
   }
-  const shown = [...posts].sort((a, b) => tab === 'Mais Ativos' ? b.likes - a.likes || b.createdAt.localeCompare(a.createdAt) : b.createdAt.localeCompare(a.createdAt));
+  const shown = posts.filter(post => tab !== 'Minhas experiências' || post.mine).sort((a, b) => b.createdAt.localeCompare(a.createdAt));
   return <>
     <form className="ns-community-composer" onSubmit={event => {
       event.preventDefault();
@@ -52,8 +52,8 @@ export default function NaturalSerenoCommunity() {
     </form>
     {error && <p role="alert" className="ns-community-notice">{error} <button disabled={busy} onClick={() => void act(load, 'Comunidade atualizada.')}>Tentar novamente</button></p>}
     {notice && <p role="status" className="ns-community-notice">{notice}</p>}
-    <div className="ns-filter" aria-label="Publicações da comunidade">{['Recentes', 'Mais Ativos'].map(label => <button key={label} aria-pressed={tab === label} onClick={() => setTab(label)}>{label}</button>)}</div>
-    {loading ? <p role="status">Carregando experiências…</p> : !posts.length && !error ? <div className="ns-community-empty" role="status"><Users size={38} strokeWidth={1.2} aria-hidden="true" /><h2>Entre Nós</h2><p>Ainda não há publicações para exibir.</p><p>Aqui, a experiência pode ser compartilhada. A identidade não precisa ser.</p></div> : null}
+    <div className="ns-filter" aria-label="Publicações da comunidade">{['Recentes', 'Minhas experiências'].map(label => <button key={label} aria-pressed={tab === label} onClick={() => setTab(label)}>{label}</button>)}</div>
+    {loading ? <p role="status">Carregando experiências…</p> : !shown.length && !error ? <div className="ns-community-empty" role="status"><Users size={38} strokeWidth={1.2} aria-hidden="true" /><h2>Entre Nós</h2><p>{tab === 'Minhas experiências' ? 'Suas experiências compartilhadas aparecerão aqui.' : 'Ainda não há publicações para exibir.'}</p><p>Aqui, a experiência pode ser compartilhada. A identidade não precisa ser.</p></div> : null}
     {shown.map(post => <article key={post.id} className="ns-community-post">
       <header><strong>{post.initials}</strong><time dateTime={post.createdAt}>{new Date(post.createdAt).toLocaleDateString('pt-BR')}</time></header>
       {post.status !== 'approved' && <p className="ns-community-status">{post.status === 'rejected' ? 'Não publicada após revisão.' : 'Em revisão — visível somente para você e a moderação.'}</p>}

@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
+import { useDialogFocus } from '../hooks/useDialogFocus';
 import { motion, AnimatePresence } from 'motion/react';
 import { ArrowRight, ShieldCheck } from 'lucide-react';
 import { APPROVED_LOGO_DATA_URI } from './ApprovedBrand';
@@ -9,30 +10,32 @@ const feelings = ['Bem', 'Cansado(a)', 'Ansioso(a)', 'Triste', 'Sobrecarregado(a
 const intentions = ['Ter mais paz', 'Voltar a me sentir bem', 'Reconectar comigo', 'Encontrar um propósito', 'Melhorar meus relacionamentos', 'Cuidar da minha saúde', 'Redescobrir o que me faz feliz', 'Outra coisa'];
 
 export default function OnboardingFlow({ onComplete }: OnboardingFlowProps) {
+  const dialogRef = useRef<HTMLDivElement>(null);
+  useDialogFocus(true, dialogRef, null);
   const [step, setStep] = useState(1);
   const [feeling, setFeeling] = useState('');
   const [intention, setIntention] = useState('');
   const next = () => step < 6 ? setStep(s => s + 1) : onComplete();
 
-  return <div className="fixed inset-0 z-[100] min-h-dvh overflow-y-auto overscroll-contain bg-[radial-gradient(circle_at_50%_0,rgba(214,174,82,.14),transparent_28rem),linear-gradient(180deg,#FBF8F2,#F8F4EC)] text-[#2A2420]">
+  return <div ref={dialogRef} role="dialog" aria-modal="true" aria-labelledby="care-onboarding-title" className="ep-care-onboarding fixed inset-0 z-[100] min-h-dvh overflow-y-auto overscroll-contain bg-[radial-gradient(circle_at_50%_0,rgba(214,174,82,.14),transparent_28rem),linear-gradient(180deg,#FBF8F2,#F8F4EC)] text-[#2A2420]">
     <div className="min-h-full flex items-center justify-center p-5">
       <AnimatePresence mode="wait">
-        <motion.main key={step} initial={{opacity:0,y:18}} animate={{opacity:1,y:0}} exit={{opacity:0,y:-14}}
-          className="relative w-full max-w-md overflow-hidden rounded-[2rem] border border-[#B88736]/28 bg-[linear-gradient(145deg,rgba(7,52,38,.97),rgba(3,27,19,.98))] p-7 shadow-[0_28px_80px_rgba(0,0,0,.42)] backdrop-blur-xl">
+        <motion.main onAnimationComplete={() => { dialogRef.current?.scrollTo({ top: 0 }); dialogRef.current?.querySelector<HTMLElement>('#care-onboarding-title')?.focus({ preventScroll: true }); }} key={step} initial={{opacity:0,y:18}} animate={{opacity:1,y:0}} exit={{opacity:0,y:-14}}
+          className="ep-care-onboarding-card relative w-full max-w-md overflow-hidden rounded-[2rem] border border-[#B88736]/28 bg-[linear-gradient(145deg,rgba(7,52,38,.97),rgba(3,27,19,.98))] p-7 shadow-[0_28px_80px_rgba(0,0,0,.42)] backdrop-blur-xl">
           <div className="pointer-events-none absolute inset-x-0 top-0 h-40 bg-[radial-gradient(circle_at_50%_0,rgba(239,215,143,.13),transparent_70%)]" />
           <div className="ep-brand-signature-wrap relative mx-auto mb-7 flex h-20 w-20 items-center justify-center overflow-hidden rounded-full border border-[#B88736]/24 bg-white/65"><img src={APPROVED_LOGO_DATA_URI} alt="Everton Piceni — Terapias Holísticas e Bem-Estar" className="ep-brand-signature h-full w-full object-contain" /></div>
           <div className="relative mb-7 h-px w-16 bg-gradient-to-r from-transparent via-[#B88736] to-transparent" />
 
           {step === 1 && <section className="space-y-6">
             <p className="text-xs uppercase tracking-[.28em] text-[#d5ba78]">Everton Piceni · Terapias Holísticas e Bem-Estar</p>
-            <h1 className="font-display text-4xl leading-tight">Seu momento começa aqui.</h1>
+            <h1 id="care-onboarding-title" tabIndex={-1} className="font-display text-4xl leading-tight">Seu momento começa aqui.</h1>
             <p className="text-[#5C5248] leading-relaxed">Um espaço para respirar, acolher e voltar para si. Aqui, ninguém precisa estar bem para ser bem-vindo.</p>
             <button onClick={next} className="ep-gold-button w-full rounded-2xl py-4 font-semibold">Começar <ArrowRight className="inline ml-2" size={18}/></button>
           </section>}
 
           {step === 2 && <section className="space-y-5">
             <p className="text-[#d5ba78]">Quem é Everton?</p>
-            <h1 className="font-display text-3xl">Eu também estou voltando para mim.</h1>
+            <h1 id="care-onboarding-title" tabIndex={-1} className="font-display text-3xl">Eu também estou voltando para mim.</h1>
             <div className="space-y-4 text-sm leading-relaxed text-[#eee6d4]">
               <p>Durante muito tempo, fui pilar para outras pessoas. Enquanto cuidava de tantos, muitas vezes deixei uma pessoa para depois: eu mesmo.</p>
               <p>Eu me perdi. Eu me quebrei. Conheci a vulnerabilidade, o julgamento e a solidão. E ainda estou caminhando — encontrando o meu caminho de volta para mim.</p>
@@ -43,29 +46,29 @@ export default function OnboardingFlow({ onComplete }: OnboardingFlowProps) {
           </section>}
 
           {step === 3 && <section className="space-y-6">
-            <h1 className="font-display text-4xl">Agora é sobre você.</h1>
+            <h1 id="care-onboarding-title" tabIndex={-1} className="font-display text-4xl">Agora é sobre você.</h1>
             <p className="leading-relaxed text-[#5C5248]">Talvez a minha história seja diferente da sua. Este espaço não existe para que você siga os meus passos. Existe para convidar você a olhar para os seus.</p>
             <p className="font-display text-2xl text-[#d5ba78]">Quando foi a última vez que você realmente se perguntou como está?</p>
             <button onClick={next} className="ep-gold-button w-full rounded-2xl py-4 font-semibold">Quero olhar para mim</button>
           </section>}
 
           {step === 4 && <section className="space-y-5">
-            <h1 className="font-display text-3xl text-[#e1c171]">Como você está, de verdade?</h1>
+            <h1 id="care-onboarding-title" tabIndex={-1} className="font-display text-3xl text-[#e1c171]">Como você está, de verdade?</h1>
             <p className="text-sm text-[#5C5248]">Não existe resposta certa. Aqui você pode ser sincero.</p>
-            <div className="grid gap-2">{feelings.map(x => <button key={x} onClick={()=>setFeeling(x)} className={`rounded-2xl border px-4 py-3.5 text-left shadow-[inset_0_1px_0_rgba(255,255,255,.02)] ${feeling===x?'border-[#B88736]/60 bg-[#B88736]/12 text-[#2A2420]':'border-[#B88736]/14 bg-white/70 text-[#5C5248]'}`}>{x}</button>)}</div>
+            <div className="grid gap-2">{feelings.map(x => <button key={x} aria-pressed={feeling === x} onClick={()=>setFeeling(x)} className={`rounded-2xl border px-4 py-3.5 text-left shadow-[inset_0_1px_0_rgba(255,255,255,.02)] ${feeling===x?'border-[#B88736]/60 bg-[#B88736]/12 text-[#2A2420]':'border-[#B88736]/14 bg-white/70 text-[#5C5248]'}`}>{x}</button>)}</div>
             <button disabled={!feeling} onClick={next} className="ep-gold-button w-full rounded-2xl py-4 font-semibold disabled:opacity-40">Continuar</button>
           </section>}
 
           {step === 5 && <section className="space-y-5">
-            <h1 className="font-display text-3xl">O que ainda importa para você?</h1>
+            <h1 id="care-onboarding-title" tabIndex={-1} className="font-display text-3xl">O que ainda importa para você?</h1>
             <p className="text-sm text-[#5C5248]">Você não precisa ter todas as respostas. Escolha o que mais ressoa com você hoje.</p>
-            <div className="grid gap-2">{intentions.map(x => <button key={x} onClick={()=>setIntention(x)} className={`rounded-2xl border px-4 py-3.5 text-left shadow-[inset_0_1px_0_rgba(255,255,255,.02)] ${intention===x?'border-[#B88736]/60 bg-[#B88736]/12 text-[#2A2420]':'border-[#B88736]/14 bg-white/70 text-[#5C5248]'}`}>{x}</button>)}</div>
+            <div className="grid gap-2">{intentions.map(x => <button key={x} aria-pressed={intention === x} onClick={()=>setIntention(x)} className={`rounded-2xl border px-4 py-3.5 text-left shadow-[inset_0_1px_0_rgba(255,255,255,.02)] ${intention===x?'border-[#B88736]/60 bg-[#B88736]/12 text-[#2A2420]':'border-[#B88736]/14 bg-white/70 text-[#5C5248]'}`}>{x}</button>)}</div>
             <button disabled={!intention} onClick={next} className="ep-gold-button w-full rounded-2xl py-4 font-semibold disabled:opacity-40">Continuar</button>
           </section>}
 
           {step === 6 && <section className="space-y-6 text-center">
             <ShieldCheck className="mx-auto text-[#d5ba78]" size={38}/>
-            <h1 className="font-display text-3xl">Você não precisa ter todas as respostas.</h1>
+            <h1 id="care-onboarding-title" tabIndex={-1} className="font-display text-3xl">Você não precisa ter todas as respostas.</h1>
             <p className="leading-relaxed text-[#5C5248]">Talvez só precise começar voltando para você. Este é um espaço de cuidado integrativo, presença e autoconhecimento — não substitui atendimento médico, psicológico ou psiquiátrico quando necessário.</p>
             <p className="font-display text-2xl text-[#d5ba78]">Eu estou caminhando também.</p>
             <button onClick={next} className="ep-gold-button w-full rounded-2xl py-4 font-semibold">Explorar o meu caminho</button>

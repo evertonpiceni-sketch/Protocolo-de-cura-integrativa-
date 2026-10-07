@@ -3,6 +3,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { speechElapsedSeconds } from './speechElapsed';
+
 export interface BioactiveBinauralConfig {
   enabled: boolean;
   waveType: 'delta' | 'theta' | 'alpha' | 'beta' | 'gamma';
@@ -22,6 +24,7 @@ class CalmingAudioEngine {
   private musicGain: GainNode | null = null;
   private synthType: '396hz' | '528hz' | '432hz' | '639hz' | '741hz' | '852hz' | '963hz' | '417hz' | 'waves' | 'florestazen' | 'chuvaserena' | 'none' = 'none';
   private extraOscs: OscillatorNode[] = []; // List to track additional harmony voices
+  private extraSynthGains: GainNode[] = [];
 
   // Sintonização Bioativa (Binaural Beats)
   private bioactiveConfig: BioactiveBinauralConfig = {
@@ -231,6 +234,20 @@ class CalmingAudioEngine {
 
         osc1.start(now);
         osc2.start(now);
+
+        // Keep the named frequency present in the sound, alongside the
+        // softer subharmonic pad. Previously only half-frequency and fifth
+        // oscillators played, despite the displayed Solfeggio label.
+        const fundamental = this.ctx.createOscillator();
+        fundamental.type = 'sine';
+        fundamental.frequency.setValueAtTime(Number.parseFloat(type), now);
+        const fundamentalGain = this.ctx.createGain();
+        fundamentalGain.gain.setValueAtTime(padLevel * .25, now);
+        fundamental.connect(fundamentalGain);
+        if (this.musicGain) fundamentalGain.connect(this.musicGain);
+        fundamental.start(now);
+        this.extraOscs.push(fundamental);
+        this.extraSynthGains.push(fundamentalGain);
 
         this.primaryOsc = osc1;
         this.subOsc = osc2;
@@ -497,6 +514,8 @@ class CalmingAudioEngine {
         osc.disconnect();
       });
       this.extraOscs = [];
+      this.extraSynthGains.forEach(gain => gain.disconnect());
+      this.extraSynthGains = [];
       this.stopBioactiveBinaural();
     } catch (e) {
       console.warn("Error stopping synthesized background audio:", e);
@@ -950,6 +969,7 @@ class CalmingAudioEngine {
 
       const segment = parts[partIndex];
       const utterance = new SpeechSynthesisUtterance(segment);
+      let segmentStartedAt = performance.now();
       this.currentUtterance = utterance;
 
       const voices = window.speechSynthesis.getVoices();
@@ -976,17 +996,18 @@ class CalmingAudioEngine {
       utterance.pitch = options?.pitch || 1.0;
 
       utterance.onstart = () => {
+        segmentStartedAt = performance.now();
         if (!this.isSpeakingActive) return;
         if (partIndex === 0) onStart();
       };
 
       utterance.onboundary = event => {
-        if (this.isSpeakingActive && Number.isFinite(event.elapsedTime)) options?.onSpeechProgress?.(spokenSeconds + event.elapsedTime);
+        if (this.isSpeakingActive && Number.isFinite(event.elapsedTime)) options?.onSpeechProgress?.(spokenSeconds + speechElapsedSeconds(event.elapsedTime, (performance.now() - segmentStartedAt) / 1000));
       };
 
       utterance.onend = event => {
         if (!this.isSpeakingActive) return;
-        if (Number.isFinite(event.elapsedTime)) spokenSeconds += event.elapsedTime;
+        if (Number.isFinite(event.elapsedTime)) spokenSeconds += speechElapsedSeconds(event.elapsedTime, (performance.now() - segmentStartedAt) / 1000);
         options?.onSpeechProgress?.(spokenSeconds);
         partIndex++;
 
@@ -1349,6 +1370,10 @@ class CalmingAudioEngine {
     if (!this.voiceAudioElement) return;
     const duration = Number.isFinite(this.voiceAudioElement.duration) ? this.voiceAudioElement.duration : Infinity;
     this.voiceAudioElement.currentTime = Math.max(0, Math.min(duration, this.voiceAudioElement.currentTime + offsetSeconds));
+  }
+
+  public canSeekSpeech(): boolean {
+    return Boolean(this.voiceAudioElement && Number.isFinite(this.voiceAudioElement.duration) && this.voiceAudioElement.duration > 0);
   }
 
   public async fetchElevenLabsVoices(): Promise<{ voice_id: string; name: string; category: string; description: string; preview_url: string }[]> {

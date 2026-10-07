@@ -550,6 +550,7 @@ export default function AnamnesisModal({
                           : 'bg-[#B88736] hover:bg-[#B88736] text-white shadow-indigo-600/30'
                       }`}
                       id="btn-play-diagnosis-audio"
+                      aria-label={isLoadingVoice ? "Preparando áudio do resultado" : isPlayingTherapeuticVoice ? "Parar áudio do resultado" : "Ouvir áudio do resultado"}
                     >
                       {isLoadingVoice ? (
                         <Loader2 size={20} className="animate-spin" />
@@ -876,7 +877,7 @@ export default function AnamnesisModal({
                 </div>
 
                 {/* Direct Action Buttons */}
-                <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 pt-2 border-t border-[#E5DAC6]">
+                <div className="ep-assessment-actions flex flex-col sm:flex-row items-stretch sm:items-center gap-2 pt-2 border-t border-[#E5DAC6]">
                   {onOpenSpecificTreatment && (
                     <button
                       type="button"
@@ -979,7 +980,7 @@ export default function AnamnesisModal({
           /* ========================================================================= */
           <div className="space-y-6">
             {/* Header */}
-            <div className="space-y-1">
+            <div className="ep-assessment-heading space-y-1">
               <div className="flex items-center justify-between">
                 <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#B88736]/10 border border-[#B88736]/30 text-[#B88736] text-xs font-mono font-medium">
                   <Activity size={14} className="text-[#B88736]" />

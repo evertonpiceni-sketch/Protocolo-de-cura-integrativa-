@@ -44,7 +44,7 @@
   margin: 0 auto;
   padding-bottom: 80px;
   color: var(--ns-ink);
-  font-family: 'Lora', Georgia, serif;
+  font-family: 'Inter', sans-serif;
   background: var(--ns-valley) center top / 100% auto no-repeat var(--ns-cream);
 }
 :root[data-layout="natural-sereno"] .ns-app::before {
@@ -669,7 +669,7 @@
 @media (min-width: 900px) {
   :root[data-layout="natural-sereno"] .ns-app { max-width: 960px; }
   :root[data-layout="natural-sereno"] .ns-dock { width: min(100%, 960px); }
-  :root[data-layout="natural-sereno"] .ns-app[data-ns-screen="home"] { display: grid; grid-template-columns: 1.15fr 1fr; align-items: start; }
+  :root[data-layout="natural-sereno"] .ns-app[data-ns-screen="home"] { display: grid; grid-template-columns: 1.15fr 1fr; align-items: stretch; }
   :root[data-layout="natural-sereno"] .ns-home-scene { min-height: 540px; height: calc(100dvh - 155px); max-height: 720px; padding: 24px; }
   :root[data-layout="natural-sereno"] .ns-home-message { min-height: 125px; padding: 16px; margin-bottom: 16px; }
   :root[data-layout="natural-sereno"] .ns-home-message p { font-size: 30px; }
@@ -724,3 +724,102 @@
   :root[data-layout="natural-sereno"] #meditation-session .ep-session-backdrop > div:first-child { position: absolute; top: 15%; left: 75%; width: 240px; max-width: 240px; transform: translateX(-50%); }
   :root[data-layout="natural-sereno"] #meditation-session .ep-session-backdrop canvas { left: 0; width: 100% !important; height: 100% !important; opacity: .25; }
 }
+
+/* Pente fino, tela 1: preserve the approved narrative and theme isolation. */
+:root[data-layout="natural-sereno"] .ep-care-onboarding { background: #fff9e8; color: #26372a; }
+:root[data-layout="natural-sereno"] .ep-care-onboarding > div { min-height: 100dvh; align-items: center; }
+:root[data-layout="natural-sereno"] .ep-care-onboarding-card {
+  max-width: 640px; margin-block: 16px; padding: clamp(24px, 5vw, 40px);
+  background: #fff9e8;
+  border: 1px solid #d8caa9; border-radius: 24px;
+  box-shadow: 0 12px 36px rgba(38,55,42,.12); backdrop-filter: none;
+  font-family: 'Inter', sans-serif;
+}
+:root[data-layout="natural-sereno"] .ep-care-onboarding-card > .pointer-events-none { display: none; }
+:root[data-layout="natural-sereno"] .ep-care-onboarding-card :is(h1, h2) {
+  color: #073b2b; font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: clamp(30px, 4vw, 38px); line-height: 1.2;
+}
+:root[data-layout="natural-sereno"] .ep-care-onboarding-card p { color: #465440; line-height: 1.7; }
+:root[data-layout="natural-sereno"] .ep-care-onboarding-card p.font-display { font-family: 'Cormorant Garamond', Georgia, serif; color: #073b2b; }
+:root[data-layout="natural-sereno"] .ep-care-onboarding-card p.uppercase { color: #735820; letter-spacing: .12em; }
+:root[data-layout="natural-sereno"] .ep-care-onboarding-card .ep-brand-signature-wrap {
+  width: 108px; height: 108px; background: transparent; border: 0; border-radius: 0; box-shadow: none; margin-bottom: 20px;
+}
+:root[data-layout="natural-sereno"] .ep-care-onboarding-card .ep-brand-signature { opacity: 1; mix-blend-mode: multiply; filter: none; }
+:root[data-layout="natural-sereno"] .ep-care-onboarding-card button { min-height: 48px; font-family: 'Inter', sans-serif; color: #073b2b !important; }
+:root[data-layout="natural-sereno"] .ep-care-onboarding-card button[aria-pressed] { background: #fffdf3; border-color: #d8caa9; }
+:root[data-layout="natural-sereno"] .ep-care-onboarding-card button[aria-pressed="true"] { background: #e7ead9; border-color: #073b2b; }
+:root[data-layout="natural-sereno"] .ep-care-onboarding-card button:focus-visible { outline: 2px solid #073b2b; outline-offset: 3px; }
+@media (max-width: 540px) {
+  :root[data-layout="natural-sereno"] .ep-care-onboarding > div { padding: 12px; align-items: flex-start; }
+  :root[data-layout="natural-sereno"] .ep-care-onboarding-card { margin-block: 0; padding: 24px; }
+}
+
+:root[data-layout="natural-sereno"] .ep-care-onboarding-card::before,
+:root[data-layout="natural-sereno"] .ep-care-onboarding-card::after {
+  content: ''; position: absolute; left: 0; right: 0; height: 120px;
+  background-image: url('/brand/natural-sereno/folhagem.webp');
+  background-size: 100% auto; background-repeat: no-repeat; pointer-events: none;
+}
+:root[data-layout="natural-sereno"] .ep-care-onboarding-card::before { top: 0; background-position: center top; }
+:root[data-layout="natural-sereno"] .ep-care-onboarding-card::after { bottom: 0; background-position: center bottom; opacity: .25; }
+:root[data-layout="natural-sereno"] .ep-care-onboarding-card > section { position: relative; z-index: 1; }
+
+/* Keep modal grids proportional to their own available width, rather than
+   squeezing desktop columns into the mobile board's 480px frame. */
+:root[data-layout="natural-sereno"] :is(#courses-modal, #anamnesis-modal) > div { container-type: inline-size; }
+:root[data-layout="natural-sereno"] #courses-modal .ep-courses-grid { grid-template-columns: 1fr; }
+:root[data-layout="natural-sereno"] #courses-modal .ep-course-actions { flex-direction: column; align-items: stretch; }
+:root[data-layout="natural-sereno"] #courses-modal .ep-course-actions button { justify-content: center; min-height: 44px; white-space: normal; }
+:root[data-layout="natural-sereno"] #courses-modal .ep-course-actions > span { white-space: normal; overflow: visible; }
+:root[data-layout="natural-sereno"] #courses-modal > div > .absolute { display: none; }
+:root[data-layout="natural-sereno"] #courses-modal .font-mono { font-family: 'Inter', sans-serif; letter-spacing: .04em; }
+:root[data-layout="natural-sereno"] #courses-modal :is(p, button) { font-size: 14px; line-height: 1.6; }
+:root[data-layout="natural-sereno"] #courses-modal h3 { font-size: 22px; }
+:root[data-layout="natural-sereno"] #courses-modal .line-clamp-3 { display: block; overflow: visible; -webkit-line-clamp: unset; }
+:root[data-layout="natural-sereno"] #courses-modal button:focus-visible { outline: 2px solid var(--ns-forest); outline-offset: 3px; }
+:root[data-layout="natural-sereno"] #anamnesis-modal .ep-assessment-actions { display: grid; grid-template-columns: 1fr; align-items: stretch; }
+:root[data-layout="natural-sereno"] #anamnesis-modal .ep-assessment-actions button { min-height: 52px; white-space: normal; }
+:root[data-layout="natural-sereno"] #anamnesis-modal .ep-assessment-actions svg { flex-shrink: 0; }
+:root[data-layout="natural-sereno"] .ns-welcome-brand { width: 104px; height: 104px; margin-bottom: 24px; opacity: 1 !important; }
+@container (min-width: 600px) {
+  :root[data-layout="natural-sereno"] #courses-modal .ep-courses-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  :root[data-layout="natural-sereno"] #anamnesis-modal .ep-assessment-actions { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+@container (min-width: 820px) {
+  :root[data-layout="natural-sereno"] #courses-modal .ep-courses-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+@media (min-width: 900px) {
+  :root[data-layout="natural-sereno"] :is(#courses-modal, #anamnesis-modal) > div { max-width: 960px; width: 100%; padding: 28px; }
+  :root[data-layout="natural-sereno"] .ns-home-scene { position: sticky; top: 0; align-self: start; }
+}
+:root[data-layout="natural-sereno"] :is(#courses-modal, #anamnesis-modal, #astral-map-modal) > div { font-family: 'Inter', sans-serif; }
+:root[data-layout="natural-sereno"] #courses-modal .ep-courses-grid > div { box-shadow: 0 3px 12px rgba(7,59,43,.07); --tw-ring-color: #a8b697; }
+:root[data-layout="natural-sereno"] #courses-modal :is(p, button) { font-family: 'Inter', sans-serif; }
+:root[data-layout="natural-sereno"] #courses-modal [class*="text-[9px]"] { font-size: 11px; color: #59431c; background: #efe3c2; }
+:root[data-layout="natural-sereno"] #anamnesis-modal .ep-assessment-heading > div:first-child { padding-right: 56px; flex-wrap: wrap; gap: 8px; }
+:root[data-layout="natural-sereno"] #anamnesis-modal .ep-assessment-heading > div:first-child > span { white-space: nowrap; }
+:root[data-layout="natural-sereno"] #anamnesis-modal .ep-assessment-heading .font-mono { font-family: 'Inter', sans-serif; }
+:root[data-layout="natural-sereno"] #astral-map-modal > div > .absolute { display: none; }
+:root[data-layout="natural-sereno"] #astral-map-modal .font-mono { font-family: 'Inter', sans-serif; }
+:root[data-layout="natural-sereno"] #astral-map-modal :is(p, label) { font-size: 14px; line-height: 1.6; }
+:root[data-layout="natural-sereno"] #astral-map-modal button:disabled { opacity: .5; cursor: default; box-shadow: none; }
+:root[data-layout="natural-sereno"] #anamnesis-modal .ep-assessment-actions button:first-child { background: linear-gradient(180deg,#e5c773,#a8812e) !important; color: #073b2b !important; box-shadow: 0 2px 6px rgba(85,60,11,.12); }
+:root[data-layout="natural-sereno"] #anamnesis-modal .ep-assessment-actions button:nth-child(2) { background: #073b2b !important; color: #fff9e8 !important; }
+:root[data-layout="natural-sereno"] #anamnesis-modal :is([class*="text-amber-300"], [class*="text-amber-200"]) { color: #735820 !important; }
+/* Plan presentation only: amounts, eligibility and checkout handlers are intact. */
+:root[data-layout="natural-sereno"] #plans-modal { background: #fff9e8; color: #26372a; }
+:root[data-layout="natural-sereno"] #plans-modal > div { background: #fff9e8; }
+:root[data-layout="natural-sereno"] #plans-modal header { background: #fff9e8; border-color: #d8caa9; }
+:root[data-layout="natural-sereno"] #plans-modal :is(.text-white, [class*="text-amber-100"], [class*="text-amber-200"], [class*="text-amber-300"], [class*="text-violet-300"]) { color: #073b2b; }
+:root[data-layout="natural-sereno"] #plans-modal [class*="bg-violet"] { background: #efefdf; border-color: #d8caa9; }
+:root[data-layout="natural-sereno"] #plans-modal button { min-height: 44px; }
+:root[data-layout="natural-sereno"] #plans-modal button[class*="text-amber-200"] { border-color: #b78d36; }
+:root[data-layout="natural-sereno"] #plans-modal button[class*="bg-amber-300"] { background: linear-gradient(180deg,#e5c773,#a8812e); }
+:root[data-layout="natural-sereno"] #plans-modal button:focus-visible { outline: 2px solid #073b2b; outline-offset: 3px; }
+@media (min-width: 900px) {
+  :root[data-layout="natural-sereno"] #plans-modal [class*="lg:grid-cols-5"] { grid-template-columns: repeat(3,minmax(0,1fr)); }
+}
+:root[data-layout="natural-sereno"] #plans-modal button[class*="to-yellow-300"] { background: linear-gradient(180deg,#e5c773,#a8812e); color: #073b2b; }
+:root[data-layout="natural-sereno"] #plans-modal article { border-color: #d8caa9; }

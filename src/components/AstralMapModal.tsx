@@ -30,7 +30,7 @@ export default function AstralMapModal({
   onOpenProModal
 }: AstralMapModalProps) {
   const printRef = useRef<HTMLDivElement>(null);
-  const [activeTab, setActiveTab] = useState<'trinity' | 'planets' | 'attitudes' | 'therapy' | 'edit'>('trinity');
+  const [chosenTab, setActiveTab] = useState<'trinity' | 'planets' | 'attitudes' | 'therapy' | 'edit'>('trinity');
 
   // Edit fields state
   const [editBirthDate, setEditBirthDate] = useState(userProfile.birthDate || '');
@@ -40,11 +40,12 @@ export default function AstralMapModal({
 
   if (!isOpen) return null;
 
-  const astral: AstralMapData = calculateAstralMap(
-    userProfile.birthDate || editBirthDate,
-    userProfile.birthTime || editBirthTime,
-    userProfile.birthCity || editBirthCity
-  );
+  const activeTab = userProfile.birthDate ? chosenTab : 'edit';
+  const astral: AstralMapData | null = userProfile.birthDate ? calculateAstralMap(
+    userProfile.birthDate,
+    userProfile.birthTime,
+    userProfile.birthCity
+  ) : null;
 
   const handlePrint = () => {
     window.print();
@@ -156,7 +157,7 @@ export default function AstralMapModal({
               <Calendar size={13} className="text-[#B88736]" /> {formattedBirthDate}
             </span>
             <span className="flex items-center gap-1.5 text-[#2A2420]">
-              <Clock size={13} className="text-[#B88736]" /> {userProfile.birthTime ? `${userProfile.birthTime} (Ascendente Calculado)` : '12:00 (Aprox.)'}
+              <Clock size={13} className="text-[#B88736]" /> {userProfile.birthTime ? `${userProfile.birthTime} (Ascendente Calculado)` : userProfile.birthDate ? '12:00 (Aprox.)' : 'Horário não informado'}
             </span>
             {userProfile.birthCity && (
               <span className="flex items-center gap-1.5 text-[#2A2420]">
@@ -178,6 +179,7 @@ export default function AstralMapModal({
         <div className="flex gap-1.5 overflow-x-auto pb-1 scrollbar-none shrink-0 border-b border-[#E5DAC6] mb-3">
           <button
             onClick={() => setActiveTab('trinity')}
+            disabled={!astral}
             className={`px-3.5 py-2 rounded-xl text-xs font-mono font-semibold whitespace-nowrap transition cursor-pointer border flex items-center gap-1.5 ${
               activeTab === 'trinity'
                 ? 'bg-purple-600/25 border-purple-500 text-[#5C5248] shadow-sm'
@@ -190,6 +192,7 @@ export default function AstralMapModal({
 
           <button
             onClick={() => setActiveTab('planets')}
+            disabled={!astral}
             className={`px-3.5 py-2 rounded-xl text-xs font-mono font-semibold whitespace-nowrap transition cursor-pointer border flex items-center gap-1.5 ${
               activeTab === 'planets'
                 ? 'bg-purple-600/25 border-purple-500 text-[#5C5248] shadow-sm'
@@ -207,6 +210,7 @@ export default function AstralMapModal({
 
           <button
             onClick={() => setActiveTab('attitudes')}
+            disabled={!astral}
             className={`px-3.5 py-2 rounded-xl text-xs font-mono font-semibold whitespace-nowrap transition cursor-pointer border flex items-center gap-1.5 ${
               activeTab === 'attitudes'
                 ? 'bg-purple-600/25 border-purple-500 text-[#5C5248] shadow-sm'
@@ -219,6 +223,7 @@ export default function AstralMapModal({
 
           <button
             onClick={() => setActiveTab('therapy')}
+            disabled={!astral}
             className={`px-3.5 py-2 rounded-xl text-xs font-mono font-semibold whitespace-nowrap transition cursor-pointer border flex items-center gap-1.5 ${
               activeTab === 'therapy'
                 ? 'bg-purple-600/25 border-purple-500 text-[#5C5248] shadow-sm'
@@ -233,7 +238,7 @@ export default function AstralMapModal({
         {/* Scrollable Main Content */}
         <div ref={printRef} className="flex-1 overflow-y-auto space-y-4 pr-1">
           {/* TAB 1: TRINITY & ELEMENTS */}
-          {activeTab === 'trinity' && (
+          {astral && activeTab === 'trinity' && (
             <div className="space-y-4">
               {/* Top 3 Core Pillars */}
               <div className="grid grid-cols-1 md:grid-cols-3 gap-3.5">
@@ -243,7 +248,7 @@ export default function AstralMapModal({
                     <span className="text-[10px] font-mono uppercase text-amber-400 font-bold flex items-center gap-1.5">
                       <Sun size={14} /> Sol • Essência
                     </span>
-                    <span className="text-xl">{astral.sunSignSymbol}</span>
+                    <span className="text-xl">{astral.sunSignSymbol + '\uFE0E'}</span>
                   </div>
                   <div>
                     <h3 className="text-lg font-display font-bold text-amber-200">{astral.sunSign}</h3>
@@ -262,7 +267,7 @@ export default function AstralMapModal({
                     <span className="text-[10px] font-mono uppercase text-[#B88736] font-bold flex items-center gap-1.5">
                       <Sparkles size={14} /> Ascendente • Aura
                     </span>
-                    <span className="text-xl">{astral.ascendantSignSymbol}</span>
+                    <span className="text-xl">{astral.ascendantSignSymbol + '\uFE0E'}</span>
                   </div>
                   <div>
                     <h3 className="text-lg font-display font-bold text-indigo-200">{astral.ascendantSign}</h3>
@@ -281,7 +286,7 @@ export default function AstralMapModal({
                     <span className="text-[10px] font-mono uppercase text-purple-400 font-bold flex items-center gap-1.5">
                       <Moon size={14} /> Lua • Emoções
                     </span>
-                    <span className="text-xl">{astral.moonSignSymbol}</span>
+                    <span className="text-xl">{astral.moonSignSymbol + '\uFE0E'}</span>
                   </div>
                   <div>
                     <h3 className="text-lg font-display font-bold text-[#5C5248]">{astral.moonSign}</h3>
@@ -376,7 +381,7 @@ export default function AstralMapModal({
           )}
 
           {/* TAB 2: PLANETS & HOUSES */}
-          {activeTab === 'planets' && (
+          {astral && activeTab === 'planets' && (
             <div className="space-y-3.5">
               {!isPro && (
                 <div className="p-4 rounded-2xl bg-gradient-to-r from-amber-950/40 via-purple-950/40 to-[#F3EBDD] border border-amber-500/40 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 shadow-lg">
@@ -407,7 +412,7 @@ export default function AstralMapModal({
                     <span className="text-xs font-mono font-bold text-amber-400 uppercase flex items-center gap-1.5">
                       <Crown size={14} /> Meio do Céu (Casa 10) • Propósito Maior
                     </span>
-                    <span className="text-xs font-bold text-[#B88736]">{astral.midheavenSign} {astral.midheavenSignSymbol}</span>
+                    <span className="text-xs font-bold text-[#B88736]">{astral.midheavenSign} {astral.midheavenSignSymbol + '\uFE0E'}</span>
                   </div>
                   <p className="text-xs text-[#2A2420] leading-relaxed">
                     {astral.midheavenMission}
@@ -420,11 +425,11 @@ export default function AstralMapModal({
                   <div key={idx} className="p-3 rounded-xl bg-white border border-[#E5DAC6] space-y-1">
                     <div className="flex items-center justify-between">
                       <span className="text-xs font-semibold text-[#2A2420] flex items-center gap-1.5">
-                        <span className="text-amber-400 font-bold">{pl.planetSymbol}</span>
+                        <span className="text-amber-400 font-bold">{pl.planetSymbol + '\uFE0E'}</span>
                         <span>{pl.planet}</span>
                       </span>
                       <span className="text-[10px] font-mono text-[#B88736] bg-purple-500/10 px-2 py-0.5 rounded border border-purple-500/20">
-                        {pl.sign} ({pl.signSymbol}) • Casa {pl.house}
+                        {pl.sign} ({pl.signSymbol + '\uFE0E'}) • Casa {pl.house}
                       </span>
                     </div>
                     <p className="text-[11px] text-[#5C5248] leading-relaxed">
@@ -437,7 +442,7 @@ export default function AstralMapModal({
           )}
 
           {/* TAB 3: ATTITUDES & SACRED PRACTICES */}
-          {activeTab === 'attitudes' && (
+          {astral && activeTab === 'attitudes' && (
             <div className="space-y-4">
               {/* Soul Mission Header Card */}
               {astral.soulMissionSummary && (
@@ -524,7 +529,7 @@ export default function AstralMapModal({
           )}
 
           {/* TAB 4: THERAPY & CRYSTALS */}
-          {activeTab === 'therapy' && (
+          {astral && activeTab === 'therapy' && (
             <div className="space-y-4">
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
                 {/* Cristais */}
@@ -598,8 +603,9 @@ export default function AstralMapModal({
 
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
                 <div className="space-y-1">
-                  <label className="text-[10px] font-mono text-[#5C5248] uppercase">Data de Nascimento *</label>
+                  <label htmlFor="astral-birth-date" className="text-[10px] font-mono text-[#5C5248] uppercase">Data de Nascimento *</label>
                   <input
+                    id="astral-birth-date"
                     type="date"
                     value={editBirthDate}
                     onChange={(e) => setEditBirthDate(e.target.value)}
@@ -609,8 +615,9 @@ export default function AstralMapModal({
                 </div>
 
                 <div className="space-y-1">
-                  <label className="text-[10px] font-mono text-[#5C5248] uppercase">Horário (HH:MM)</label>
+                  <label htmlFor="astral-birth-time" className="text-[10px] font-mono text-[#5C5248] uppercase">Horário (HH:MM)</label>
                   <input
+                    id="astral-birth-time"
                     type="time"
                     value={editBirthTime}
                     onChange={(e) => setEditBirthTime(e.target.value)}
@@ -619,8 +626,9 @@ export default function AstralMapModal({
                 </div>
 
                 <div className="space-y-1">
-                  <label className="text-[10px] font-mono text-[#5C5248] uppercase">Cidade / Estado</label>
+                  <label htmlFor="astral-birth-city" className="text-[10px] font-mono text-[#5C5248] uppercase">Cidade / Estado</label>
                   <input
+                    id="astral-birth-city"
                     type="text"
                     value={editBirthCity}
                     onChange={(e) => setEditBirthCity(e.target.value)}
@@ -634,6 +642,7 @@ export default function AstralMapModal({
                 <button
                   type="button"
                   onClick={() => setActiveTab('trinity')}
+            disabled={!astral}
                   className="px-4 py-2 rounded-xl bg-[#FBF8F2] hover:bg-[#F5EFE4] text-[#5C5248] text-xs font-medium transition cursor-pointer"
                 >
                   Cancelar
@@ -653,7 +662,7 @@ export default function AstralMapModal({
         {/* Footer Actions */}
         <div className="pt-3 border-t border-[#E5DAC6] flex flex-wrap items-center justify-between gap-3 shrink-0 print:hidden">
           <a
-            href={`https://wa.me/5551982215296?text=Ol%C3%A1%20%C3%89verton%2C%20visualizei%20meu%20Mapa%20Astral%20no%20app%20(Sol%20em%20${encodeURIComponent(astral.sunSign)}%20e%20Ascendente%20em%20${encodeURIComponent(astral.ascendantSign)})%20e%20gostaria%20de%20tirar%20uma%20d%C3%BAvida!`}
+            href={`https://wa.me/5551982215296?text=Ol%C3%A1%20%C3%89verton%2C%20visualizei%20meu%20Mapa%20Astral%20no%20app%20(Sol%20em%20${encodeURIComponent(astral?.sunSign || '')}%20e%20Ascendente%20em%20${encodeURIComponent(astral?.ascendantSign || '')})%20e%20gostaria%20de%20tirar%20uma%20d%C3%BAvida!`}
             target="_blank"
             rel="noopener noreferrer"
             className="px-4 py-2.5 bg-emerald-600 hover:bg-emerald-500 text-white rounded-xl text-xs font-medium flex items-center gap-2 transition cursor-pointer shadow-lg shadow-emerald-600/20"
@@ -665,6 +674,7 @@ export default function AstralMapModal({
           <button
             type="button"
             onClick={handlePrint}
+            disabled={!astral}
             className="px-4 py-2.5 bg-[#B88736] hover:bg-[#B88736] text-white font-medium rounded-xl text-xs flex items-center gap-2 transition cursor-pointer shadow-lg shadow-indigo-600/20"
           >
             <Printer size={15} />

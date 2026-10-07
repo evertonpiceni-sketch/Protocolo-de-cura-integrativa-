@@ -1,134 +1,280 @@
+import { ABERTURA_OFICIAL, JORNADA_21_DIAS, RETORNO_DIARIO, SILENCIO_ABSORCAO, type DiaJornada } from './jornada21Dias';
+
 export type GuidedCue = { at: number; text: string };
 export type ReintegrationDay = {
   day: number; cycle: string; title: string; intention: string; meditation: string;
   audioCues: GuidedCue[]; reflectionPrompts: [string, string]; energyNotes: { name: string; focus: string }[];
 };
 
-type Source = Omit<ReintegrationDay, 'day' | 'audioCues' | 'reflectionPrompts'> & { activation: string };
 
 const opening: GuidedCue[] = [
-  { at: 0, text: 'Encontre uma posição confortável. Você pode permanecer sentado ou deitado, escolhendo a forma em que o seu corpo se sente mais amparado agora. Ajuste as pernas, os braços e a cabeça com calma. Feche os olhos, se isso for seguro para você, e permita-se chegar exatamente como está.' },
+  { at: 0, text: ABERTURA_OFICIAL.boasVindas + ' Encontre uma posição confortável. Você pode permanecer sentado ou deitado, escolhendo a forma em que o seu corpo se sente mais amparado agora. Ajuste as pernas, os braços e a cabeça com calma. Feche os olhos e permita-se chegar exatamente como está.' },
   { at: 40, text: 'Perceba os pontos em que o corpo encontra apoio. Sinta a superfície sustentando o seu peso. Você não precisa manter nenhuma postura perfeita. Faça os pequenos ajustes de que precisar e permita que o corpo compreenda que, durante os próximos minutos, ele pode diminuir o ritmo.' },
   { at: 80, text: 'Inspire lentamente pelo nariz, levando o ar até o abdômen. Segure apenas por um instante e solte devagar. Respire novamente. Ao expirar, deixe os ombros descerem, relaxe a mandíbula e suavize a região ao redor dos olhos. Faça mais uma respiração profunda no seu próprio tempo.' },
   { at: 120, text: 'Agora deixe a respiração seguir de maneira natural. Não é necessário controlá-la. Apenas acompanhe o ar entrando e saindo. Se algum pensamento surgir, não lute contra ele. Reconheça sua presença e volte gentilmente para a respiração, para o corpo e para este momento.' },
   { at: 160, text: 'Leve a atenção ao centro do peito. Perceba como você chegou até aqui hoje. Talvez exista cansaço, ansiedade, esperança, silêncio ou muitas sensações ao mesmo tempo. Nada precisa ser corrigido agora. Este espaço acolhe você como está, respeitando seu ritmo, seus limites e sua autonomia.' },
-  { at: 200, text: 'Este momento permanece sustentado pela Golden Light Source, Original Reiki Platinum, Haku Superluminal, HSZSN e Soul Shakti, conforme a programação realizada por Everton Rodrigo Piceni. Receba somente aquilo que estiver de acordo com a sua aceitação consciente. Respire mais uma vez e prepare-se para encontrar a intenção deste dia.' },
+  { at: 200, text: ABERTURA_OFICIAL.aceiteConexao },
 ];
 
 const closing: GuidedCue[] = [
-  { at: 1620, text: 'Aos poucos, volte a perceber a sua respiração. Não tenha pressa de sair desse estado. Apenas note o ar entrando e saindo e reconheça que o seu corpo permaneceu aqui, recebendo e integrando este momento de cuidado.' },
-  { at: 1665, text: 'Vá ampliando a atenção para o corpo inteiro. Perceba novamente o peso do corpo, o apoio da superfície e a temperatura do ambiente. Escute os sons próximos e, depois, os sons um pouco mais distantes.' },
-  { at: 1710, text: 'Faça uma respiração mais profunda. Mova suavemente os dedos das mãos e dos pés. Se desejar, alongue os braços, as pernas ou o pescoço, respeitando o que for confortável. Permita que a presença retorne gradualmente ao corpo.' },
-  { at: 1750, text: 'Leve com você a intenção deste dia, sem cobrança e sem pressa. Reconheça que um pequeno movimento também é um movimento de vida. Quando se sentir pronto, abra os olhos. A prática termina aqui, e o próximo passo continua sendo seu.' },
+  { at: 1620, text: RETORNO_DIARIO.conducao },
+  { at: 1665, text: 'Faça uma respiração mais profunda. Mova suavemente os dedos das mãos e dos pés. Permita que a presença retorne gradualmente ao corpo.' },
+  { at: 1710, text: RETORNO_DIARIO.perguntaAcao },
+  { at: 1750, text: RETORNO_DIARIO.fechamento },
 ];
 
-const split = (text: string, count: number) => {
-  const sentences = text.match(/[^.!?]+[.!?]+|[^.!?]+$/g)?.map(value => value.trim()).filter(Boolean) || [text];
-  return Array.from({ length: count }, (_, index) => {
-    const start = Math.floor(sentences.length * index / count);
-    const end = Math.max(start + 1, Math.floor(sentences.length * (index + 1) / count));
-    return sentences.slice(start, end).join(' ');
-  });
-};
-
-const reflectionQuestions: [string, string][] = [
-  ['O que tem feito você perder a sensação de chão nos últimos dias? Em que parte do corpo essa falta de segurança aparece?', 'Do que você precisa agora para se sentir um pouco mais sustentado e presente?'],
-  ['Que necessidade do seu corpo você tem deixado para depois?', 'Se o seu corpo pudesse pedir uma única forma de cuidado hoje, o que ele pediria?'],
-  ['O que parece grande demais quando você pensa em começar?', 'Qual é a menor parte desse movimento que realmente cabe no seu dia de hoje?'],
-  ['O que dificulta receber cuidado sem sentir culpa, medo ou obrigação?', 'Como seria permitir que alguém, a vida ou você mesmo cuidasse de você por alguns instantes?'],
-  ['Em quais momentos você costuma abandonar as próprias necessidades para atender expectativas externas?', 'Que gesto concreto mostraria hoje que você decidiu permanecer ao seu lado?'],
-  ['O que tem impedido você de sentir prazer nas coisas simples?', 'Qual pequena experiência agradável seu corpo gostaria de receber hoje, sem precisar merecê-la?'],
-  ['Qual situação ou emoção costuma acontecer pouco antes de você repetir esse padrão?', 'O que essa repetição tenta proteger, evitar ou comunicar dentro de você?'],
-  ['Que peso você continua carregando mesmo sabendo que ele já não ajuda?', 'O que poderia ser liberado hoje sem apagar o aprendizado que essa experiência trouxe?'],
-  ['Diante do que incomoda, qual reação costuma acontecer automaticamente?', 'Que resposta diferente seria mais respeitosa com você e ainda possível neste momento?'],
-  ['Em que situações você acredita que precisa provar seu valor?', 'Quem seria você se não precisasse conquistar o direito de existir, descansar ou ser amado?'],
-  ['Que palavras duras você costuma dirigir a si mesmo quando algo não acontece como esperava?', 'Como você falaria com alguém que ama se essa pessoa estivesse vivendo exatamente isso?'],
-  ['Que dor, diagnóstico, rejeição ou expectativa acabou ocupando espaço demais na definição de quem você é?', 'O que permanece verdadeiro em você para além de tudo o que aconteceu?'],
-  ['O que no mundo externo parece difícil ou pesado demais neste momento?', 'Qual pequena abertura permitiria contato com a vida sem ultrapassar seus limites?'],
-  ['O que faz você se afastar das pessoas mesmo quando gostaria de receber companhia?', 'Que tipo de contato poderia oferecer proximidade e segurança ao mesmo tempo?'],
-  ['O que está consumindo sua energia antes mesmo de você começar?', 'Como essa ação poderia ser reduzida até se tornar simples, concreta e possível?'],
-  ['Que parte do futuro você está tentando enxergar ou controlar antes da hora?', 'Qual próximo passo já está suficientemente iluminado para ser realizado agora?'],
-  ['Onde você percebe paralisação, repetição ou falta de passagem na sua vida?', 'Que possibilidade pequena talvez já exista, mas ainda não recebeu sua atenção?'],
-  ['Que certeza você acredita precisar ter antes de seguir?', 'O que você faria se pudesse caminhar com o medo, sem entregar a ele toda a direção?'],
-  ['Que versão sua ainda espera acolhimento, perdão ou reconhecimento?', 'O que essa parte precisa ouvir para compreender que também pertence à sua história?'],
-  ['O que tornou difícil acreditar que momentos bons ainda podem acontecer?', 'Que possibilidade futura, mesmo pequena, consegue despertar alguma curiosidade em você?'],
-  ['O que você reconhece que mudou ou começou a se mover ao longo desta jornada?', 'Qual escolha deseja levar consigo para continuar presente na própria vida?'],
+const energyNotesByDay: ReintegrationDay['energyNotes'][] = [
+  [
+    {
+      "name": "Rama e Life Force Energy Cone",
+      "focus": "Aterramento, presença e energia vital."
+    },
+    {
+      "name": "Jaspe Vermelho, Turmalina Negra e Cornalina",
+      "focus": "Chakra básico, corpo físico e estabilidade."
+    }
+  ],
+  [
+    {
+      "name": "Soul Shakti, Rama e Shanti",
+      "focus": "Corpo, campo energético, presença e tranquilidade."
+    },
+    {
+      "name": "Hematita, Turmalina Negra e Quartzo Fumê",
+      "focus": "Chakra básico e liberação de sobrecargas."
+    }
+  ],
+  [
+    {
+      "name": "Kriya, Mind Empowerment e Life Force Energy Cone",
+      "focus": "Movimento, decisão e vitalidade."
+    },
+    {
+      "name": "Cornalina, Olho de Tigre e Jaspe Vermelho",
+      "focus": "Chakras básico e sacral, iniciativa e constância."
+    }
+  ],
+  [
+    {
+      "name": "Harth, Soul Healing, Universal Love e Shanti",
+      "focus": "Acolhimento, amor e segurança emocional."
+    },
+    {
+      "name": "Quartzo Rosa, Rodonita e Aventurina Verde",
+      "focus": "Chakra cardíaco e receptividade."
+    }
+  ],
+  [
+    {
+      "name": "Harth, Soul Healing, Soul Shakti e Universal Love",
+      "focus": "Amor-próprio, dignidade e cuidado emocional."
+    },
+    {
+      "name": "Quartzo Rosa, Rodocrosita e Aventurina Verde",
+      "focus": "Coração e restauração emocional."
+    }
+  ],
+  [
+    {
+      "name": "Soul Awakening, Life Force Energy Cone, Soul Healing e Shanti",
+      "focus": "Vitalidade, sensibilidade e segurança para sentir."
+    },
+    {
+      "name": "Cornalina, Calcita Laranja e Pedra da Lua",
+      "focus": "Chakra sacral, prazer e criatividade."
+    }
+  ],
+  [
+    {
+      "name": "Zonar, Halu, Gnosa e Mind Empowerment",
+      "focus": "Percepção, liberação de padrões e organização mental."
+    },
+    {
+      "name": "Ametista, Labradorita e Lápis-Lazúli",
+      "focus": "Chakra frontal, consciência e verdade interior."
+    }
+  ],
+  [
+    {
+      "name": "Halu, Soul Healing, Soul Shakti e Shanti",
+      "focus": "Liberação suave, purificação e pacificação."
+    },
+    {
+      "name": "Quartzo Fumê, Turmalina Negra e Ametista",
+      "focus": "Plexo solar, proteção e transformação."
+    }
+  ],
+  [
+    {
+      "name": "Kriya, Iava, Soul Fire e Mind Empowerment",
+      "focus": "Autonomia, movimento e decisão consciente."
+    },
+    {
+      "name": "Olho de Tigre, Citrino e Cornalina",
+      "focus": "Plexo solar, chakra sacral e confiança."
+    }
+  ],
+  [
+    {
+      "name": "Soul Regeneration, Harth e Universal Love",
+      "focus": "Reconstrução, amor-próprio e dignidade."
+    },
+    {
+      "name": "Quartzo Rosa, Rodonita e Citrino",
+      "focus": "Coração, plexo solar e identidade emocional."
+    }
+  ],
+  [
+    {
+      "name": "Shanti, Harth e Mind Empowerment",
+      "focus": "Paz, gentileza e reorganização mental."
+    },
+    {
+      "name": "Ametista, Ágata Blue Lace e Quartzo Rosa",
+      "focus": "Garganta, mente, coração e autocobrança."
+    }
+  ],
+  [
+    {
+      "name": "Divine Blueprint, Spiritual Alignment, Soul Awakening e Soul Regeneration",
+      "focus": "Essência, alinhamento e renovação interior."
+    },
+    {
+      "name": "Cristal de Quartzo, Labradorita e Lápis-Lazúli",
+      "focus": "Coração, garganta, frontal e identidade."
+    }
+  ],
+  [
+    {
+      "name": "Rama, Kriya e Life Force Energy Cone",
+      "focus": "Aterramento, movimento e vitalidade."
+    },
+    {
+      "name": "Cornalina, Jaspe Vermelho e Pedra do Sol",
+      "focus": "Pernas, chakra básico e abertura ao mundo."
+    }
+  ],
+  [
+    {
+      "name": "Harth, Iava, Universal Love e Soul Shakti",
+      "focus": "Confiança, pertencimento, vínculos e proteção."
+    },
+    {
+      "name": "Aventurina Verde, Água-Marinha e Quartzo Rosa",
+      "focus": "Coração, garganta e contato seguro."
+    }
+  ],
+  [
+    {
+      "name": "Kriya, Soul Fire, Mind Empowerment e Life Force Energy Cone",
+      "focus": "Ação, foco, vontade e sustentação."
+    },
+    {
+      "name": "Citrino, Olho de Tigre e Cornalina",
+      "focus": "Plexo solar, confiança e conclusão."
+    }
+  ],
+  [
+    {
+      "name": "Gnosa, Spiritual Alignment e Divine Blueprint",
+      "focus": "Clareza, alinhamento e próximo passo."
+    },
+    {
+      "name": "Lápis-Lazúli, Sodalita e Cristal de Quartzo",
+      "focus": "Chakra frontal, discernimento e direção."
+    }
+  ],
+  [
+    {
+      "name": "Haku Superluminal, Kriya, Iava e Soul Fire",
+      "focus": "Condução, movimento e abertura de possibilidades."
+    },
+    {
+      "name": "Labradorita, Citrino e Olho de Tigre",
+      "focus": "Campo pessoal, direção e confiança."
+    }
+  ],
+  [
+    {
+      "name": "Kriya, Gnosa, Spiritual Alignment e Rama",
+      "focus": "Movimento, discernimento e estabilidade."
+    },
+    {
+      "name": "Sodalita, Olho de Tigre e Jaspe Vermelho",
+      "focus": "Chakra básico, plexo solar e confiança."
+    }
+  ],
+  [
+    {
+      "name": "Harth, Shanti, Rama e Soul Regeneration",
+      "focus": "Acolhimento, paz, presença e integração."
+    },
+    {
+      "name": "Ametista, Quartzo Rosa e Cristal de Quartzo",
+      "focus": "Sistema energético, compaixão e unificação."
+    }
+  ],
+  [
+    {
+      "name": "Soul Regeneration, Universal Love, Soul Awakening e Life Force Energy Cone",
+      "focus": "Renovação, pertencimento, esperança e vitalidade."
+    },
+    {
+      "name": "Pedra do Sol, Citrino e Aventurina Verde",
+      "focus": "Coração, plexo solar e futuro."
+    }
+  ],
+  [
+    {
+      "name": "Integração de toda a estrutura energética",
+      "focus": "Sete chakras, chakras celestiais e harmonização final."
+    },
+    {
+      "name": "Cristal de Quartzo, Ametista, Pedra do Sol e Quartzo Rosa",
+      "focus": "Continuidade, vitalidade e amor-próprio."
+    }
+  ]
 ];
 
-const dailyWelcomes = [
-  'Que bom que você chegou e decidiu oferecer este primeiro momento a si mesmo.',
-  'Que bom que você voltou e decidiu escutar o seu corpo com mais atenção.',
-  'Que bom que você voltou e se escolheu novamente, mesmo que hoje consiga dar apenas um pequeno passo.',
-  'Que bom que você voltou e permitiu que o cuidado também pudesse chegar até você.',
-  'Que bom que você voltou e renovou a decisão de permanecer ao seu próprio lado.',
-  'Que bom que você voltou e abriu mais um espaço para sentir a vida nas coisas simples.',
-  'Que bom que você voltou e escolheu olhar para si com consciência, não com julgamento.',
-  'Que bom que você voltou e se permitiu soltar, aos poucos, aquilo que já pesa demais.',
-  'Que bom que você voltou e decidiu experimentar uma nova possibilidade de escolha.',
-  'Que bom que você voltou e escolheu reconhecer o valor que já existe em você.',
-  'Que bom que você voltou e decidiu tratar a si mesmo com mais gentileza.',
-  'Que bom que você voltou e se deu a oportunidade de reencontrar quem é além de tudo o que viveu.',
-  'Que bom que você voltou e escolheu abrir uma pequena passagem em direção à vida.',
-  'Que bom que você voltou e permitiu a possibilidade de um contato seguro e respeitoso.',
-  'Que bom que você voltou e decidiu transformar sua intenção em um movimento possível.',
-  'Que bom que você voltou e escolheu olhar apenas para o próximo passo, sem exigir todo o caminho.',
-  'Que bom que você voltou e permitiu que novos caminhos começassem a aparecer.',
-  'Que bom que você voltou e decidiu caminhar, mesmo sem precisar ter todas as certezas.',
-  'Que bom que você voltou e escolheu acolher todas as partes que trouxeram você até aqui.',
-  'Que bom que você voltou e abriu novamente um espaço para a esperança.',
-  'Que bom que você voltou. Hoje, ao se escolher mais uma vez, você honra toda a jornada que percorreu.',
-];
-
-const data: Source[] = [
-  ['Eu permaneço','Presença e chão','A nossa intenção para hoje é reconhecer o corpo, encontrar sustentação e permanecer no momento presente. Você não precisa resolver o passado nem planejar o futuro agora. Apenas este momento importa.','Leve toda a atenção para os seus pés. Sinta o contato com a superfície abaixo de você. Perceba a firmeza da terra e o apoio que sustenta você sem pedir nada em troca. Suba lentamente pelas pernas, joelhos e coxas. Note onde há tensão e onde há cansaço. Não tente modificar o que sente; apenas reconheça seu estado atual, sem julgamentos ou cobranças. Respire no lugar da tensão. Ao expirar, entregue o peso do corpo para o chão.','Receba agora a sustentação de Rama, fortalecendo suas raízes e sua base. O Life Force Energy Cone acompanha a vitalidade, enquanto as frequências etéricas do Jaspe Vermelho, da Turmalina Negra e da Cornalina favorecem estabilidade e presença no chakra básico e no corpo físico. Deixe que essas frequências acompanhem a reorganização da sua energia.','Rama e Life Force Energy Cone','Aterramento, presença e energia vital.','Jaspe Vermelho, Turmalina Negra e Cornalina','Chakra básico, corpo físico e estabilidade.'],
-  ['Eu permaneço','Voltar ao corpo','A nossa intenção hoje é diminuir o afastamento do próprio corpo e recuperar a percepção das suas necessidades básicas.','Leve a atenção para o topo da cabeça. Percorra lentamente a testa, a mandíbula, o pescoço e os ombros. Continue pelos braços, peito, abdômen, quadris e pernas. À medida que avança, apenas observe. Acolha tensão, cansaço e sensações físicas sem tentar modificá-las imediatamente. Respire em cada região e permita que o corpo exista exatamente como está. Pergunte em silêncio do que ele precisa hoje.','Receba Soul Shakti — Body Purification e Aura Healing, favorecendo purificação e reorganização do campo. Rama e Shanti trazem presença e tranquilidade. As frequências etéricas da Hematita, da Turmalina Negra e do Quartzo Fumê acompanham o chakra básico e a dissolução de sobrecargas.','Soul Shakti, Rama e Shanti','Corpo, campo energético, presença e tranquilidade.','Hematita, Turmalina Negra e Quartzo Fumê','Chakra básico e liberação de sobrecargas.'],
-  ['Eu permaneço','Um pequeno começo','Nossa intenção é despertar força suficiente para realizar um movimento possível hoje, sem exigência de grandes mudanças.','Leve a consciência até a sola dos pés. Visualize uma pequena luz surgindo nessa região. Deixe essa luz subir pelas pernas até o plexo solar. Ela não precisa ser intensa para existir. Pense em uma atitude simples, concreta e realista que você pode realizar hoje. Veja seu corpo iniciando e concluindo esse gesto com calma. Transforme essa pequena luz em coragem e disposição para apenas esse movimento.','Receba Kriya como impulso para o movimento e Mind Empowerment como sustentação da decisão. O Life Force Energy Cone acompanha a vitalidade. As frequências etéricas da Cornalina, do Olho de Tigre e do Jaspe Vermelho favorecem iniciativa e constância nos chakras básico e sacral.','Kriya, Mind Empowerment e Life Force Energy Cone','Movimento, decisão e vitalidade.','Cornalina, Olho de Tigre e Jaspe Vermelho','Chakras básico e sacral, iniciativa e constância.'],
-  ['Eu volto a sentir','Permitir-se receber','A intenção de hoje é abrir espaço interior para receber cuidado, acolhimento e conforto.','Traga as mãos sobre o centro do peito. Respire sentindo o calor das mãos na região do coração. Imagine uma pequena porta interna. Não é necessário abri-la por completo. Permita uma fresta por onde carinho, consolo e acolhimento possam entrar. Perceba como o corpo responde. Por alguns instantes, descanse da necessidade de fazer tudo sozinho e permita-se receber cuidado.','Receba Harth, Soul Healing e Universal Love, envolvendo o campo em amor e acolhimento emocional. Sob a sustentação de Shanti, as frequências etéricas do Quartzo Rosa, da Rodonita e da Aventurina Verde acompanham o chakra cardíaco.','Harth, Soul Healing, Universal Love e Shanti','Acolhimento, amor e segurança emocional.','Quartzo Rosa, Rodonita e Aventurina Verde','Chakra cardíaco e receptividade.'],
-  ['Eu volto a sentir','Cuidar de si','A intenção de hoje é fortalecer o compromisso de permanecer ao seu próprio lado.','Pergunte em silêncio: do que eu preciso emocionalmente hoje? Não procure a resposta perfeita. Acolha a primeira sensação, palavra ou imagem que surgir. Visualize-se fazendo uma aliança consigo: a escolha de não se abandonar diante das dificuldades. Respire essa decisão. Escolha uma forma prática e concreta de autocuidado para realizar ao longo do dia, respeitando seus limites.','Receba Harth, Soul Healing e Soul Shakti — Aura Healing. Universal Love acompanha a lembrança da sua dignidade. As frequências etéricas do Quartzo Rosa, da Rodocrosita e da Aventurina Verde sustentam o coração e o corpo emocional.','Harth, Soul Healing, Soul Shakti e Universal Love','Amor-próprio, dignidade e cuidado emocional.','Quartzo Rosa, Rodocrosita e Aventurina Verde','Coração e restauração emocional.'],
-  ['Eu volto a sentir','Reabrir espaço para o prazer','A intenção de hoje é recuperar a capacidade de sentir pequenas experiências agradáveis sem culpa.','Conecte-se com os sentidos. Sinta a temperatura do ar na pele, perceba a música e os sons mais distantes. Note os aromas e o contato do corpo com a superfície. Lembre ao seu corpo que o agradável também existe nas coisas simples. Deixe uma sensação de leveza percorrer o baixo ventre e o peito. Não force alegria. Apenas permita um pequeno espaço para conforto, curiosidade e prazer sem cobrança.','Receba Soul Awakening como convite ao desejo de viver, com Life Force Energy Cone e Soul Healing. Shanti oferece segurança para voltar a sentir. As frequências etéricas da Cornalina, da Calcita Laranja e da Pedra da Lua acompanham o chakra sacral.','Soul Awakening, Life Force Energy Cone, Soul Healing e Shanti','Vitalidade, sensibilidade e segurança para sentir.','Cornalina, Calcita Laranja e Pedra da Lua','Chakra sacral, prazer e criatividade.'],
-  ['Eu volto a escolher','Reconhecer o que se repete','Nossa intenção é perceber padrões recorrentes sem culpa ou julgamento.','Traga a mente para um estado de observação. Recorde uma reação automática diante do estresse ou das dificuldades. Não se critique. Observe o que acontece dentro de você pouco antes de esse padrão se repetir. Talvez surja uma sensação, um pensamento ou uma tensão. Respire e reconheça. Olhar com clareza não é condenar-se. É começar a criar espaço entre o impulso e a resposta.','Receba Zonar, Halu e Gnosa como apoio à percepção e à liberação de padrões profundos. Mind Empowerment acompanha a organização dos pensamentos. As frequências etéricas da Ametista, da Labradorita e do Lápis-Lazúli sustentam o chakra frontal.','Zonar, Halu, Gnosa e Mind Empowerment','Percepção, liberação de padrões e organização mental.','Ametista, Labradorita e Lápis-Lazúli','Chakra frontal, consciência e verdade interior.'],
-  ['Eu volto a escolher','Liberar o que já não sustenta','A intenção de hoje é permitir que pesos, culpas e respostas antigas comecem a perder força.','Inspire profundamente. Ao expirar, imagine o corpo soltando fardos que não precisam continuar sendo carregados. Libere, no seu tempo, culpas antigas, expectativas alheias e ressentimentos. Não é necessário compreender tudo agora. A cada expiração, permita mais espaço interno. Sinta abdômen, peito e ombros menos contraídos. Você pode conservar o aprendizado sem continuar carregando todo o peso.','Receba Halu, Soul Healing e Soul Shakti — Body Purification como apoio à liberação e reorganização do plexo solar e da respiração. Shanti sustenta a suavidade. As frequências etéricas do Quartzo Fumê, da Turmalina Negra e da Ametista acompanham a transformação.','Halu, Soul Healing, Soul Shakti e Shanti','Liberação suave, purificação e pacificação.','Quartzo Fumê, Turmalina Negra e Ametista','Plexo solar, proteção e transformação.'],
-  ['Eu volto a escolher','Escolher uma resposta diferente','Nossa intenção é recuperar a possibilidade de escolha diante dos hábitos automáticos.','Visualize uma estrada dividida em duas. Um caminho representa a reação antiga e automática. O outro representa uma resposta nova, mais consciente e gentil. Observe ambos sem julgar o que viveu. Imagine-se dando um pequeno passo na nova direção. Qual seria a menor escolha diferente possível hoje? Sinta seu corpo experimentando essa possibilidade. Mudar também pode começar de forma discreta.','Receba Kriya e Iava como apoio à autonomia e ao movimento, acompanhados por Soul Fire e Mind Empowerment. As frequências etéricas do Olho de Tigre, do Citrino e da Cornalina sustentam o plexo solar e o chakra sacral.','Kriya, Iava, Soul Fire e Mind Empowerment','Autonomia, movimento e decisão consciente.','Olho de Tigre, Citrino e Cornalina','Plexo solar, chakra sacral e confiança.'],
-  ['Eu volto para mim','Reconhecer o próprio valor','A intenção de hoje é perceber que seu valor pessoal existe antes de qualquer resultado ou produtividade.','Acolha a parte cansada de tentar provar que é boa o suficiente ou que merece ser amada. Imagine essa parte diante de você. Aproxime-se sem corrigir. Diga internamente: eu vejo o quanto você tentou. Você não precisa provar nada para existir. Respire e perceba como seria descansar na própria dignidade. Seu valor não começa depois de uma conquista. Ele já está aqui.','Receba Soul Regeneration, Harth e Universal Love como apoio à reconstrução, ao amor-próprio e à dignidade. As frequências etéricas do Quartzo Rosa, da Rodonita e do Citrino acompanham o chakra cardíaco e o plexo solar.','Soul Regeneration, Harth e Universal Love','Reconstrução, amor-próprio e dignidade.','Quartzo Rosa, Rodonita e Citrino','Coração, plexo solar e identidade emocional.'],
-  ['Eu volto para mim','Suavizar a cobrança','A nossa intenção é diminuir a voz interna que exige, compara e desvaloriza.','Perceba a forma como você fala consigo quando erra. Apenas escute, sem alimentar essa voz. Respire e imagine a cobrança se dissolvendo como névoa sob a luz do sol. Em seu lugar, escolha uma presença interna justa, calma e paciente. Diga a si o que diria a alguém que ama. Você pode aprender sem se ferir e crescer sem transformar cada passo em prova do seu valor.','Receba Shanti, Harth e Mind Empowerment como apoio à pacificação, gentileza e reorganização mental. As frequências etéricas da Ametista, da Ágata Blue Lace e do Quartzo Rosa acompanham garganta, mente e coração.','Shanti, Harth e Mind Empowerment','Paz, gentileza e reorganização mental.','Ametista, Ágata Blue Lace e Quartzo Rosa','Garganta, mente, coração e autocobrança.'],
-  ['Eu volto para mim','Reencontrar quem eu sou','Nossa intenção é separar sua identidade de dores, perdas, diagnósticos e rejeições passadas.','Reconheça que o que você viveu pertence à sua história, mas não define toda a sua essência. Você é maior do que os momentos difíceis, os rótulos e aquilo que outros não compreenderam. Imagine um centro silencioso dentro de você que permaneceu preservado. Pergunte: o que em mim continuou vivo apesar de tudo? Respire e permita que essa presença volte a ocupar espaço.','Receba Divine Blueprint e Spiritual Alignment como apoio ao alinhamento entre corpo, mente e essência. Soul Awakening e Soul Regeneration acompanham a renovação. As frequências etéricas do Cristal de Quartzo, da Labradorita e do Lápis-Lazúli sustentam esse reencontro.','Divine Blueprint, Spiritual Alignment, Soul Awakening e Soul Regeneration','Essência, alinhamento e renovação interior.','Cristal de Quartzo, Labradorita e Lápis-Lazúli','Coração, garganta, frontal e identidade.'],
-  ['Eu volto ao mundo','Abrir uma pequena porta','A intenção de hoje é recuperar o contato com o mundo por meio de um gesto pequeno e seguro.','Visualize-se diante de uma porta fechada. Não precisa atravessá-la agora. Abra apenas uma pequena fresta. Veja a luz entrar, sinta o ar e escute os sons da vida. Observe como o corpo reage e respeite seu ritmo. Talvez hoje voltar ao mundo seja abrir uma janela, sentar ao sol ou caminhar alguns minutos. Escolha uma aproximação possível. Você pode retornar aos poucos e no seu tempo.','Receba Rama como sustentação, Kriya como movimento e Life Force Energy Cone como apoio à vitalidade. As frequências etéricas da Cornalina, do Jaspe Vermelho e da Pedra do Sol acompanham pernas e chakra básico.','Rama, Kriya e Life Force Energy Cone','Aterramento, movimento e vitalidade.','Cornalina, Jaspe Vermelho e Pedra do Sol','Pernas, chakra básico e abertura ao mundo.'],
-  ['Eu volto ao mundo','Permitir o contato','A intenção é favorecer vínculos seguros e diminuir o isolamento sem ultrapassar seus limites.','Imagine a presença de alguém respeitoso perto de você. Essa presença não invade, não exige e não apressa. Perceba que pode se aproximar e preservar seu espaço pessoal. Visualize ao redor do corpo um limite suave, permeável ao cuidado e firme diante do desrespeito. Aproximação e proteção podem caminhar juntas. Pergunte qual contato seguro seria possível hoje: uma mensagem, uma conversa breve ou permitir-se ser visto.','Receba Harth, Iava e Universal Love como apoio à confiança relacional. Soul Shakti — Aura Healing acompanha a preservação do campo. As frequências etéricas da Aventurina Verde, da Água-Marinha e do Quartzo Rosa sustentam coração e comunicação.','Harth, Iava, Universal Love e Soul Shakti','Confiança, pertencimento, vínculos e proteção.','Aventurina Verde, Água-Marinha e Quartzo Rosa','Coração, garganta e contato seguro.'],
-  ['Eu volto ao mundo','Sustentar uma pequena ação','Nossa intenção é transformar intenção em uma atitude concreta e realista.','Escolha uma única tarefa possível para hoje. Não a maior pendência, mas aquilo que seu corpo e sua realidade conseguem sustentar. Visualize-se iniciando essa ação com tranquilidade. Observe cada etapa até a conclusão. Se surgir ansiedade, volte à respiração e reduza o tamanho do passo. Você não precisa fazer tudo. Permaneça com a ação escolhida durante o tempo possível e reconheça cada avanço.','Receba Kriya, Soul Fire e Mind Empowerment como apoio ao foco e à vontade. Life Force Energy Cone acompanha a vitalidade. As frequências etéricas do Citrino, do Olho de Tigre e da Cornalina sustentam o plexo solar.','Kriya, Soul Fire, Mind Empowerment e Life Force Energy Cone','Ação, foco, vontade e sustentação.','Citrino, Olho de Tigre e Cornalina','Plexo solar, confiança e conclusão.'],
-  ['Eu movimento meus caminhos','Enxergar o próximo passo','A intenção é encontrar clareza para o trecho possível, sem exigir a visão do caminho inteiro.','Imagine uma estrada à noite. Apenas alguns metros estão iluminados à frente. Você não vê todo o percurso, mas enxerga onde colocar o próximo passo. Respire e aceite a clareza disponível agora. Pergunte: qual é o próximo movimento possível? Não tente resolver o caminho inteiro. Visualize-se avançando até o próximo ponto iluminado, com atenção, presença e liberdade para ajustar a direção.','Receba Gnosa, Spiritual Alignment e Divine Blueprint como apoio à clareza e à visão interior. As frequências etéricas do Lápis-Lazúli, da Sodalita e do Cristal de Quartzo acompanham o chakra frontal.','Gnosa, Spiritual Alignment e Divine Blueprint','Clareza, alinhamento e próximo passo.','Lápis-Lazúli, Sodalita e Cristal de Quartzo','Chakra frontal, discernimento e direção.'],
-  ['Eu movimento meus caminhos','Desbloquear caminhos','A intenção é movimentar o que estava paralisado e ampliar a percepção de possibilidades.','Sinta a energia vital percorrendo a base da coluna e subindo pelo centro do corpo. Imagine essa corrente encontrando regiões rígidas, nós e pontos de estagnação. Não force a passagem. Permita que o fluxo contorne, aqueça e suavize cada bloqueio. Visualize caminhos surgindo onde antes havia paredes. Algumas passagens podem ser pequenas, mas já representam movimento. Respire e reconheça as possibilidades que começam a aparecer.','Receba Haku Superluminal, Kriya, Iava e Soul Fire como apoio à condução, ao movimento e à travessia de resistências. As frequências etéricas da Labradorita, do Citrino e do Olho de Tigre acompanham o campo pessoal.','Haku Superluminal, Kriya, Iava e Soul Fire','Condução, movimento e abertura de possibilidades.','Labradorita, Citrino e Olho de Tigre','Campo pessoal, direção e confiança.'],
-  ['Eu movimento meus caminhos','Caminhar sem certeza absoluta','A intenção é fortalecer a confiança necessária para avançar mesmo sem controlar todo o resultado.','Acolha a insegurança presente no corpo. Não tente expulsá-la. Perceba onde ela aparece e respire nessa região. Você não precisa esperar que todo medo desapareça para dar um passo. Imagine-se caminhando com cuidado, levando a insegurança pela mão sem permitir que ela escolha toda a direção. O aprendizado acontece ao longo do caminho. Visualize um gesto de coragem e reconheça que a confiança também pode nascer depois que o movimento começa.','Receba Kriya, Gnosa, Spiritual Alignment e Rama como apoio ao movimento, discernimento e estabilidade. As frequências etéricas da Sodalita, do Olho de Tigre e do Jaspe Vermelho acompanham o chakra básico e o plexo solar.','Kriya, Gnosa, Spiritual Alignment e Rama','Movimento, discernimento e estabilidade.','Sodalita, Olho de Tigre e Jaspe Vermelho','Chakra básico, plexo solar e confiança.'],
-  ['Eu reintegro a vida','Reunir as partes de mim','Nossa intenção é acolher as diferentes versões da sua história e reconhecer que todas pertencem à sua caminhada.','Imagine diferentes versões de você: a que sentiu medo, a que se cansou, a que errou, a que foi ferida e a que continuou tentando. Olhe para cada uma sem rejeição. Todas fizeram o que conseguiram com os recursos daquele momento. Abra simbolicamente os braços e convide essas partes a se aproximarem. Reúna-as no centro do peito. Você não precisa apagar nenhuma parte da história para continuar. Pode integrar, aprender e seguir inteiro.','Receba Harth, Shanti, Rama e Soul Regeneration como apoio ao acolhimento, pacificação e integração. As frequências etéricas da Ametista, do Quartzo Rosa e do Cristal de Quartzo acompanham todo o sistema energético.','Harth, Shanti, Rama e Soul Regeneration','Acolhimento, paz, presença e integração.','Ametista, Quartzo Rosa e Cristal de Quartzo','Sistema energético, compaixão e unificação.'],
-  ['Eu reintegro a vida','Reacender a esperança','A intenção é reconhecer que ainda existem experiências, encontros e partes bonitas da história que não aconteceram.','Visualize uma versão futura de você. Ela não precisa ser perfeita nem estar livre de todas as dificuldades. Veja essa versão vivendo momentos novos, encontrando pessoas ou experimentando dias mais leves. A história continua aberta. Existem conversas, aprendizados e alegrias que ainda não aconteceram. Respire e deixe surgir no peito uma pequena chama de possibilidade. Uma luz pequena já é suficiente para indicar continuidade.','Receba Soul Regeneration, Universal Love, Soul Awakening e Life Force Energy Cone como apoio à renovação, pertencimento e vitalidade. As frequências etéricas da Pedra do Sol, do Citrino e da Aventurina Verde acompanham o chakra cardíaco e o plexo solar.','Soul Regeneration, Universal Love, Soul Awakening e Life Force Energy Cone','Renovação, pertencimento, esperança e vitalidade.','Pedra do Sol, Citrino e Aventurina Verde','Coração, plexo solar e futuro.'],
-  ['Eu reintegro a vida','Eu continuo','A intenção de hoje é integrar toda a jornada e fortalecer a escolha consciente de continuar presente na sua própria vida.','Leve a atenção ao chakra básico e reconheça o chão. Suba ao sacral e acolha a capacidade de sentir. Passe pelo plexo solar, lembrando escolhas e movimentos. No coração, reconheça seu valor e as partes acolhidas. Na garganta, perceba sua verdade. No frontal, reconheça a direção possível. No coronário, permita a integração. Respire profundamente. Honre seu progresso e sua coragem. Faça a escolha consciente de continuar caminhando presente e inteiro.','Receba a integração de Golden Light Source, Original Reiki Platinum, Divine Blueprint, Spiritual Alignment, Harth, Shanti, Rama, Universal Love e Soul Shakti. As frequências etéricas do Cristal de Quartzo, da Ametista, da Pedra do Sol e do Quartzo Rosa acompanham os sete chakras e os chakras celestiais.','Integração de toda a estrutura energética','Sete chakras, chakras celestiais e harmonização final.','Cristal de Quartzo, Ametista, Pedra do Sol e Quartzo Rosa','Continuidade, vitalidade e amor-próprio.'],
-].map(([cycle,title,intention,meditation,activation,e1,f1,e2,f2]) => ({ cycle,title,intention,meditation,activation,energyNotes:[{name:e1,focus:f1},{name:e2,focus:f2}] })) as Source[];
-
-const cuesFor = (source: Source, day: number): GuidedCue[] => {
-  const meditation = split(source.meditation, 3);
-  const activation = split(source.activation, 2);
+const cuesFor = (source: DiaJornada, day: number): GuidedCue[] => {
+  const approvedLines = source.meditacao;
+  const meditation = [0, 1, 2].map(index => approvedLines.slice(
+    Math.floor(index * approvedLines.length / 3),
+    Math.floor((index + 1) * approvedLines.length / 3)
+  ).join(' '));
+  const original = source;
   return [...opening,
-    { at: 240, text: `${dailyWelcomes[day - 1]} Bem-vindo ao Dia ${day}: ${source.title}. ${source.intention}` },
+    { at: 240, text: `Bem-vindo ao Dia ${day}: ${original.titulo}. A intenção de hoje é ${original.intencao}` },
     { at: 285, text: 'Deixe essa intenção encontrar espaço dentro de você. Não é necessário compreendê-la somente com a mente. Perceba como o corpo reage ao ouvi-la e permita que a respiração a conduza para mais perto do seu centro.' },
     { at: 330, text: 'Respire profundamente mais uma vez. Ao soltar o ar, abandone por alguns instantes a expectativa de fazer esta prática da maneira certa. Apenas escute, sinta e siga a condução no seu próprio ritmo.' },
     { at: 360, text: meditation[0] },
-    { at: 420, text: `Continue respirando com suavidade. Inspire devagar e, ao soltar o ar, escute esta pergunta sem buscar uma resposta imediata: ${reflectionQuestions[day - 1][0]} Apenas perceba o que surge em seu corpo, na sua emoção ou nos seus pensamentos.` },
+    { at: 420, text: 'Continue respirando com suavidade. Apenas perceba o que surge em seu corpo, na sua emoção ou nos seus pensamentos.' },
     { at: 480, text: meditation[1] },
     { at: 540, text: 'Inspire contando lentamente até quatro. Permaneça por dois instantes, sem forçar. Depois solte o ar contando até seis. Repita mais uma vez. Ao prolongar a expiração, permita que o corpo diminua a tensão e abra espaço para compreender o que está sentindo.' },
     { at: 600, text: meditation[2] },
-    { at: 660, text: `Agora leve a atenção novamente ao propósito deste dia e pergunte a si mesmo: ${reflectionQuestions[day - 1][1]} Não transforme a pergunta em cobrança. Deixe que a resposta apareça como palavra, sensação, imagem ou silêncio.` },
-    { at: 720, text: `Retorne à intenção do Dia ${day}: ${source.title}. Repita por dentro, com as suas próprias palavras, aquilo que deseja levar desta prática para a vida cotidiana. Não transforme essa escolha em cobrança. Deixe que ela seja uma direção suave.` },
+    { at: 660, text: `Pergunte a si mesmo: ${original.pergunta} Não transforme a pergunta em cobrança. Deixe que a resposta apareça como palavra, sensação, imagem ou silêncio.` },
+    { at: 720, text: `Retorne à intenção do Dia ${day}: ${source.titulo}. Repita por dentro, com as suas próprias palavras, aquilo que deseja levar desta prática para a vida cotidiana. Não transforme essa escolha em cobrança. Deixe que ela seja uma direção suave.` },
     { at: 780, text: 'Imagine essa intenção encontrando um lugar seguro dentro do seu corpo. Observe sua cor, sua temperatura ou apenas sua presença. Respire como se estivesse oferecendo espaço para uma nova possibilidade crescer no tempo certo.' },
     { at: 840, text: 'Agora permita que a atenção se torne mais receptiva. Não é necessário visualizar perfeitamente nem produzir qualquer sensação. Apenas permaneça disponível para o próximo momento da prática, respeitando sua autonomia e seus limites.' },
-    { at: 900, text: activation[0] },
+    { at: 900, text: original.meditacao[original.meditacao.length - 2] },
     { at: 990, text: 'Você não precisa dirigir esse processo com a mente. Apenas respire e observe o corpo. Se alguma região chamar sua atenção, acolha-a sem medo e sem esforço, permitindo que a experiência aconteça de maneira suave.' },
-    { at: 1080, text: activation[1] },
-    { at: 1170, text: `Leve a consciência para as áreas trabalhadas neste dia. ${source.energyNotes.map(note => note.focus).join(' ')} Respire lentamente e permita que corpo, mente e campo encontrem sua própria forma de integração.` },
-    { at: 1230, text: 'Dentro de trinta segundos, iniciaremos seis minutos de absorção em silêncio. A música continuará acompanhando você, e a minha voz retornará aos vinte e sete minutos para conduzir o fechamento. O áudio não terminou. Não há nada a fazer. Apenas permaneça confortável, respire naturalmente e permita-se receber este tempo.' },
+    { at: 1080, text: original.meditacao[original.meditacao.length - 1] },
+    { at: 1170, text: 'Respire lentamente e permita que o corpo encontre sua própria forma de integração.' },
+    { at: 1230, text: SILENCIO_ABSORCAO.aviso },
     ...closing,
   ];
 };
 
-export const REINTEGRATION_DAYS: ReintegrationDay[] = data.map((source, index) => ({ ...source, day: index + 1, reflectionPrompts: reflectionQuestions[index], audioCues: cuesFor(source, index + 1) }));
+export const REINTEGRATION_DAYS: ReintegrationDay[] = JORNADA_21_DIAS.map((original, index) => ({
+  day: original.dia,
+  cycle: original.ciclo,
+  title: original.titulo,
+  intention: original.intencao,
+  meditation: original.meditacao.join(' '),
+  energyNotes: energyNotesByDay[index],
+  reflectionPrompts: [original.pergunta, RETORNO_DIARIO.perguntaAcao],
+  audioCues: cuesFor(original, original.dia),
+}));
 
 const REINTEGRATION_ACCEPTANCE_INTENTIONS: Record<number, string> = {
   1: 'reconhecer meu corpo, encontrar sustentação',

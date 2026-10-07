@@ -44,36 +44,26 @@ export const MinimalPlayerControls: React.FC<MinimalPlayerControlsProps> = ({
   hasPrevStage,
   hasNextStage
 }) => {
-  const safeDuration = duration > 0 ? duration : 60;
-  const progressPercent = Math.min(100, Math.max(0, (currentTime / safeDuration) * 100));
+  const canSeek = Number.isFinite(duration) && duration > 0;
+  const safeDuration = canSeek ? duration : 0;
 
-  const handleProgressBarClick = (e: React.MouseEvent<HTMLDivElement>) => {
-    const rect = e.currentTarget.getBoundingClientRect();
-    const clickX = e.clientX - rect.left;
-    const ratio = Math.max(0, Math.min(1, clickX / rect.width));
-    onSeekTo(ratio * safeDuration);
-  };
+
 
   return (
     <div className="w-full max-w-xl mx-auto px-4 pb-6 pt-2 select-none">
       {/* Progress Bar & Timestamps */}
       <div className="space-y-1.5 mb-4">
-        <div
-          onClick={handleProgressBarClick}
-          className="relative w-full h-2 rounded-full bg-[#EADFCF] cursor-pointer group py-1 -my-1"
-        >
-          <div className="w-full h-1.5 rounded-full bg-[#E5DAC6] overflow-hidden">
-            <div
-              className="h-full bg-gradient-to-r from-[#B88736] via-[#D4AF37] to-[#C5A059] rounded-full transition-all duration-150"
-              style={{ width: `${progressPercent}%` }}
-            />
-          </div>
-          {/* Thumb marker on hover */}
-          <div
-            className="absolute top-1/2 -translate-y-1/2 w-3.5 h-3.5 rounded-full bg-white border-2 border-[#B88736] shadow-md opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none"
-            style={{ left: `calc(${progressPercent}% - 7px)` }}
-          />
-        </div>
+        <input
+          type="range"
+          aria-label="Posição do áudio"
+          min={0}
+          max={safeDuration || 1}
+          step={0.1}
+          value={canSeek ? Math.min(safeDuration, Math.max(0, currentTime)) : 0}
+          disabled={!canSeek}
+          onChange={event => onSeekTo(Number(event.target.value))}
+          className="w-full h-6 accent-[#B88736] disabled:cursor-default"
+        />
 
         <div className="flex items-center justify-between text-[11px] font-mono text-[#5C5248] px-0.5">
           <span>{formatTime(currentTime)}</span>
@@ -108,6 +98,7 @@ export const MinimalPlayerControls: React.FC<MinimalPlayerControlsProps> = ({
           {/* Seek -15s */}
           <button
             onClick={onSeekBackward}
+            disabled={!canSeek}
             className="p-2 rounded-xl text-[#5C5248] hover:text-[#2A2420] hover:bg-[#E5DAC6]/40 transition-colors flex items-center justify-center relative"
             title="Voltar 15 segundos"
           >
@@ -131,6 +122,7 @@ export const MinimalPlayerControls: React.FC<MinimalPlayerControlsProps> = ({
           {/* Seek +15s */}
           <button
             onClick={onSeekForward}
+            disabled={!canSeek}
             className="p-2 rounded-xl text-[#5C5248] hover:text-[#2A2420] hover:bg-[#E5DAC6]/40 transition-colors flex items-center justify-center relative"
             title="Avançar 15 segundos"
           >
