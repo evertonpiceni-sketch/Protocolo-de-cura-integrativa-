@@ -476,13 +476,15 @@ export default function App() {
     beforeFeeling?: SessionCheckIn,
     afterFeeling?: SessionCheckIn
   ) => {
-    // 1. Update the daily progress logs
+    const wasAlreadyCompleted = progress.some(day => day.dayNumber === dayNum && day.completed);
+
+    // 1. Update the daily progress logs without rewriting the original completion date.
     const updatedProgress = progress.map(day => {
       if (day.dayNumber === dayNum) {
         return {
           ...day,
           completed: true,
-          completedAt: new Date().toISOString(),
+          completedAt: day.completedAt || new Date().toISOString(),
           journalText,
           mood: moodRating,
           beforeFeeling,
@@ -495,9 +497,9 @@ export default function App() {
     // 2. Compute streaks and update profile
     let updatedProfile = userProfile;
     if (userProfile) {
-      let streak = userProfile.currentStreak;
-      streak = streak + 1;
-      const newLongest = Math.max(streak, userProfile.longestStreak);
+      const previousStreak = Number(userProfile.currentStreak || 0);
+      const streak = wasAlreadyCompleted ? previousStreak : previousStreak + 1;
+      const newLongest = Math.max(streak, Number(userProfile.longestStreak || 0));
 
       const evaluatedAchievements = evaluateAchievements({
         ...userProfile,
@@ -544,12 +546,11 @@ export default function App() {
 
   // Factory reset utility for users wishing to restart their 21-day program
   const handleResetProgram = () => {
-    if (window.confirm("Atenção: Isso irá apagar todo o seu progresso dos 21 dias e as anotações do diário de cura. Deseja reiniciar o ciclo de cura?")) {
+    if (window.confirm("Atenção: esta ação apagará o progresso dos 21 dias e as anotações vinculadas a essa jornada. Deseja reiniciar a jornada de 21 dias?")) {
       const defaultProgress: DayProgress[] = Array.from({ length: 21 }, (_, index) => ({
         dayNumber: index + 1,
         completed: false,
-        journalText: '',
-        mood: 5
+        journalText: ''
       }));
 
       setProgress(defaultProgress);
@@ -600,14 +601,14 @@ export default function App() {
 
   // Retrieve mood description text
   const getMoodLabel = (mood?: number) => {
-    if (!mood) return "Pacífico";
+    if (typeof mood !== 'number') return "Não registrado";
     switch (mood) {
       case 1: return "Pesado";
       case 2: return "Inquieto";
       case 3: return "Neutro";
       case 4: return "Calmo";
       case 5: return "Em Paz";
-      default: return "Pacífico";
+      default: return "Não registrado";
     }
   };
 
