@@ -68,6 +68,8 @@ Esta revisão usa o painel Natural Sereno enviado pelo usuário e os documentos 
 - `npm run lint`: aprovado (`tsc --noEmit`).
 - `npm test`: 23 testes aprovados, incluindo registro em ambiente isolado, comunidade, roteiros oficiais, silêncio, unidades do tempo e isolamento dos temas.
 - `npm run build`: aprovado. Permanece aviso de tamanho do bundle principal, sem erro de compilação.
+- O primeiro check do GitHub falhou por duas dependências transitivas vulneráveis. Atualizados somente `proxy-addr` 2.0.7 → 2.0.8 e `source-map-js` 1.2.1 → 1.2.2; `npm audit --audit-level=moderate` passou com zero vulnerabilidades.
+- Conferência adicional: 18 estados de tela e 481 controles inventariados, incluindo repetições entre estados. Foram corrigidos os alertas de contraste, nomes acessíveis e regiões roláveis encontrados; Configurações recebeu uma execução final separada para conferir o último ajuste. Esses números não representam 481 cliques nem certificação de toda a experiência.
 - Navegador Chromium: suíte geral de 18 verificações; suíte focada de correções; conferência adicional de ferramentas com inventário de controles e axe; verificação dos 21 dias sem corpo desenhado; execução do grafo Web Audio nas sete frequências.
 - Separação obrigatória: inventariar um botão não significa tê-lo clicado. Foram acionadas as rotas e ações descritas acima. Não foi feita compra real, mensagem enviada ao terapeuta, publicação de teste na produção ou escuta humana completa de 21 × 29:57.
 - Imagens em `evidence/` são capturas locais do app real com perfis e respostas de API controlados, não capturas da produção autenticada.

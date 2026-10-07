@@ -24,6 +24,7 @@
 :root[data-layout="natural-sereno"] #settings-view .opacity-75 { opacity: 1; }
 :root[data-layout="natural-sereno"] #settings-view :is(button,a)[class*="bg-emerald"]:not([class*="/20"]) :is(span,svg) { color: #fffbed !important; }
 :root[data-layout="natural-sereno"] #settings-view [class*="text-emerald-300"] { color: #21563c !important; }
+:root[data-layout="natural-sereno"] #settings-view [class*="text-amber-300"] { color: #71511c !important; }
 :root[data-layout="natural-sereno"] #hooponopono-modal [class*="text-rose-300"] { color: #823c47 !important; }
 :root[data-layout="natural-sereno"] #numerology-modal [class*="text-[#8F631E]"] { color: #71511c !important; }
 :root[data-layout="natural-sereno"] #anamnesis-modal [class*="text-amber-400"] { color: #71511c !important; }
@@ -201,3 +202,4 @@
 
 :root[data-layout="natural-sereno"] #settings-view button[class*="bg-rose-600"]:not(.ep-layout-choice),
 :root[data-layout="natural-sereno"] #settings-view button[class*="bg-emerald"]:not(.ep-layout-choice) > :is(span,svg) { color: #fffbed !important; }
+:root[data-layout="natural-sereno"] #settings-view button[class~="bg-emerald-600"] > span:not([class*="text-amber"]):not([class*="text-rose"]):not([class*="text-emerald"]) { color: #fffbed !important; }
