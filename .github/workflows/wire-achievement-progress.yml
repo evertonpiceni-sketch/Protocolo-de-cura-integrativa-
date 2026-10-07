@@ -1,0 +1,95 @@
+name: Wire Achievement Progress
+
+on:
+  push:
+    paths:
+      - '.github/workflows/wire-achievement-progress.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  patch:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+
+      - name: Patch progress callbacks
+        run: |
+          python <<'PY'
+          from pathlib import Path
+
+          def once(path, old, new):
+              p = Path(path)
+              text = p.read_text()
+              if text.count(old) != 1:
+                  raise SystemExit(f'{path}: expected 1 match for {old[:60]!r}, found {text.count(old)}')
+              p.write_text(text.replace(old, new, 1))
+
+          once('src/components/ArchangelMichaelPrayerModal.tsx',
+               '  voicePitch?: number;\n}',
+               '  voicePitch?: number;\n  onProgressChange?: (days: number[]) => void;\n}')
+          once('src/components/ArchangelMichaelPrayerModal.tsx',
+               '  voiceRate = 0.84,\n  voicePitch = 1.0\n}: ArchangelMichaelPrayerModalProps)',
+               '  voiceRate = 0.84,\n  voicePitch = 1.0,\n  onProgressChange\n}: ArchangelMichaelPrayerModalProps)')
+          once('src/components/ArchangelMichaelPrayerModal.tsx',
+               '    setCompletedDays(updated);\n    setCompletedToday(true);',
+               '    setCompletedDays(updated);\n    setCompletedToday(true);\n    onProgressChange?.(updated);')
+
+          once('src/components/HooponoponoModal.tsx',
+               '  userProfile?: UserProfile;\n}',
+               '  userProfile?: UserProfile;\n  onPracticeCountChange?: (count: number) => void;\n}')
+          once('src/components/HooponoponoModal.tsx',
+               "export default function HooponoponoModal({ isOpen, onClose, userName = 'Buscador de Luz', userProfile }: HooponoponoModalProps)",
+               "export default function HooponoponoModal({ isOpen, onClose, userName = 'Buscador de Luz', userProfile, onPracticeCountChange }: HooponoponoModalProps)")
+          once('src/components/HooponoponoModal.tsx',
+               '''  const markDone = () => {\n    setPrayedToday(true);\n    try { localStorage.setItem(`cura_integrada_hooponopono_${getLocalDateString()}`, 'true'); }\n    catch (error) { console.warn('Não foi possível registrar a prática localmente.', error); }\n  };''',
+               '''  const markDone = () => {\n    if (prayedToday) return;\n    setPrayedToday(true);\n    onPracticeCountChange?.(Number(userProfile?.hooponoponoPracticedCount || 0) + 1);\n    try { localStorage.setItem(`cura_integrada_hooponopono_${getLocalDateString()}`, 'true'); }\n    catch (error) { console.warn('Não foi possível registrar a prática localmente.', error); }\n  };''')
+          once('src/components/HooponoponoModal.tsx',
+               '''  const increment = () => {\n    audioEngine.unlock();\n    setCount(previous => {\n      const next = Math.min(targetCount, previous + 1);\n      if (next >= targetCount) markDone();\n      return next;\n    });\n  };''',
+               '''  const increment = () => {\n    audioEngine.unlock();\n    const next = Math.min(targetCount, count + 1);\n    setCount(next);\n    if (next >= targetCount) markDone();\n  };''')
+
+          once('src/App.tsx',
+               '''        <ArchangelMichaelPrayerModal\n          isOpen={showArchangelModal}\n          onClose={() => setShowArchangelModal(false)}\n          userName={userProfile?.name}\n        />''',
+               '''        <ArchangelMichaelPrayerModal\n          isOpen={showArchangelModal}\n          onClose={() => setShowArchangelModal(false)}\n          userName={userProfile?.name}\n          onProgressChange={(days) => {\n            if (userProfile) saveProfile({ ...userProfile, archangelPrayerCompletedDays: days });\n          }}\n        />''')
+          once('src/App.tsx',
+               '''        <HooponoponoModal\n          isOpen={showHooponoponoModal}\n          onClose={() => setShowHooponoponoModal(false)}\n          userName={userProfile?.name}\n          userProfile={userProfile || undefined}\n        />''',
+               '''        <HooponoponoModal\n          isOpen={showHooponoponoModal}\n          onClose={() => setShowHooponoponoModal(false)}\n          userName={userProfile?.name}\n          userProfile={userProfile || undefined}\n          onPracticeCountChange={(count) => {\n            if (userProfile) saveProfile({ ...userProfile, hooponoponoPracticedCount: count });\n          }}\n        />''')
+          PY
+
+      - name: Verify changed files
+        run: |
+          set -euo pipefail
+          git status --short
+          test "$(git status --short | wc -l)" -eq 3
+          git status --short | grep -q 'src/App.tsx'
+          git status --short | grep -q 'src/components/ArchangelMichaelPrayerModal.tsx'
+          git status --short | grep -q 'src/components/HooponoponoModal.tsx'
+
+      - name: Install
+        run: npm ci --no-audit --no-fund
+
+      - name: TypeScript
+        run: npm run lint
+
+      - name: Tests
+        run: npm test
+
+      - name: Build
+        run: npm run build
+
+      - name: Commit
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add src/App.tsx src/components/ArchangelMichaelPrayerModal.tsx src/components/HooponoponoModal.tsx
+          git commit -m 'fix: persist spiritual practice progress for achievements'
+          git push origin HEAD:main
