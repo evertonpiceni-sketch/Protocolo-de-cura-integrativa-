@@ -1,0 +1,82 @@
+name: Fix Natural Sereno Audio
+
+on:
+  push:
+    paths:
+      - '.github/workflows/fix-natural-sereno-audio.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  patch-and-verify:
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Checkout current main
+        uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+
+      - name: Patch audited Audio findings
+        shell: python
+        run: |
+          from pathlib import Path
+          path = Path('src/components/AudioSettingsModal.tsx')
+          text = path.read_text()
+          replacements = [
+            ('Bioacústica Integrativa', 'Áudio Binaural Opcional'),
+            ('Onda Cerebral Alvo', 'Batimento Binaural Selecionado'),
+            ('Diferença percebida no cérebro:', 'Diferença estéreo entre os canais:'),
+            ('Fones de ouvido recomendados para o efeito bioativo completo.', 'Fones de ouvido são recomendados para perceber a separação estéreo.'),
+            ('Botão de Prévia da Sintonização Bioativa', 'Botão de Prévia Binaural'),
+            ('Pausar Demonstração Bioativa', 'Pausar prévia binaural'),
+            ('Ouvir Prévia da Sintonização Bioativa', 'Ouvir prévia binaural'),
+            ('Ative para sobrepor batidas binaurais estéreo (Delta, Theta, Alpha, Beta ou Gamma) sincronizadas com sua frequência de fundo.', 'Ative para adicionar uma diferença estéreo opcional entre os canais sobre a trilha escolhida. Os nomes Delta, Theta, Alpha, Beta e Gamma identificam apenas a diferença de frequência selecionada.'),
+            ("? 'bg-amber-500/20 border-amber-400 text-amber-300 animate-pulse'", "? 'bg-[#B88736]/15 border-[#B88736] text-[#8F631E]'"),
+            ('className="w-full bg-[#B88736] hover:bg-[#B88736] text-white font-medium py-3.5 rounded-xl transition duration-200 shadow-lg shadow-indigo-600/20 text-xs tracking-wider uppercase flex items-center justify-center gap-2 cursor-pointer border-none font-sans font-bold"', 'className="w-full min-h-11 bg-[#B88736] hover:bg-[#8F631E] text-white font-medium py-3.5 rounded-xl transition duration-200 shadow-sm text-xs tracking-wider uppercase flex items-center justify-center gap-2 cursor-pointer border-none font-sans font-bold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B88736]/35"'),
+            ('text-amber-400 bg-amber-500/10', 'text-[#8F631E] bg-[#B88736]/10')
+          ]
+          for old, new in replacements:
+            count = text.count(old)
+            if count < 1:
+              raise SystemExit(f'missing audited target: {old[:100]!r}')
+            text = text.replace(old, new)
+          path.write_text(text)
+
+      - name: Verify only Audio settings changed
+        shell: bash
+        run: |
+          set -euo pipefail
+          changed="$(git status --short)"
+          echo "$changed"
+          test "$(git status --short | wc -l)" -eq 1
+          echo "$changed" | grep -Eq '^ M src/components/AudioSettingsModal\.tsx$'
+
+      - name: Install exact dependencies
+        run: npm ci --no-audit --no-fund
+
+      - name: TypeScript check
+        run: npm run lint
+
+      - name: Regression tests
+        run: npm test
+
+      - name: Build
+        run: npm run build
+
+      - name: Commit verified Audio fix
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add src/components/AudioSettingsModal.tsx
+          git commit -m 'fix: present binaural audio truthfully in Natural Sereno'
+          git push origin HEAD:main
