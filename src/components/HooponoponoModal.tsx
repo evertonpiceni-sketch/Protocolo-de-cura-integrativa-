@@ -3,14 +3,10 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import React, { useState, useEffect, useRef } from 'react';
-import { motion, AnimatePresence } from 'motion/react';
-import {
-  Heart, Sparkles, Volume2, VolumeX, Play, Pause, RotateCcw,
-  CheckCircle2, Copy, Share2, X, Star, ShieldCheck, Flame, Sun, Droplets, Info
-} from 'lucide-react';
+import React, { useEffect, useState } from 'react';
+import { motion } from 'motion/react';
+import { Heart, Play, Pause, RotateCcw, CheckCircle2, Copy, X, Info } from 'lucide-react';
 import { audioEngine } from '../lib/audio';
-
 import { UserProfile } from '../types';
 import { getLocalDateString } from '../utils/date';
 
@@ -21,30 +17,30 @@ interface HooponoponoModalProps {
   userProfile?: UserProfile;
 }
 
-const HOOPONOPONO_THEMES = [
+const THEMES = [
   {
     id: 'geral',
-    title: 'Limpeza Quântica Geral',
-    desc: 'Purificação de todas as memórias de dor, escassez e conflito acumuladas.',
+    title: 'Reconciliação Geral',
+    desc: 'Um momento de presença para observar memórias, conflitos e sentimentos que você deseja acolher.',
     focusPhrase: 'Eu sinto muito. Por favor, me perdoe. Eu te amo. Sou grato(a).'
   },
   {
     id: 'autoperdao',
     title: 'Autoperdão & Paz Interior',
-    desc: 'Libertação de culpas passadas, auto-julgamento e autocobrança excessiva.',
-    focusPhrase: 'Querida Criança Interior, eu sinto muito por ter me cobrado tanto. Me perdoe. Eu te amo incondicionalmente. Sou grato(a) pela minha vida.'
+    desc: 'Um convite a suavizar autocobrança, culpa e julgamentos sobre a própria história.',
+    focusPhrase: 'Eu sinto muito por ter me cobrado tanto. Me perdoe. Eu me acolho com amor. Sou grato(a) pela minha caminhada.'
   },
   {
     id: 'prosperidade',
-    title: 'Desbloqueio Financeiro & Prosperidade',
-    desc: 'Limpeza de crenças de escassez, dívidas cármicas e medo do futuro.',
-    focusPhrase: 'Memórias de escassez e medo financeiro: eu sinto muito, me perdoem, eu amo a abundância divina, sou profundamente grato(a).'
+    title: 'Prosperidade & Relação com Recursos',
+    desc: 'Uma reflexão sobre medos, crenças de escassez e a relação emocional com recursos e possibilidades.',
+    focusPhrase: 'Memórias de escassez e medo: eu sinto muito. Me perdoe. Eu acolho novas possibilidades. Sou grato(a).'
   },
   {
     id: 'relacionamentos',
-    title: 'Cura de Laços & Relacionamentos',
-    desc: 'Harmonização de mágoas, ressentimentos familiares e laços afetivos.',
-    focusPhrase: 'Divino Criador, limpe em mim qualquer memória compartilhada de dor neste relacionamento. Sinto muito. Me perdoe. Eu te amo. Sou grato(a).'
+    title: 'Relacionamentos & Reconciliação',
+    desc: 'Uma prática de presença diante de mágoas, ressentimentos e vínculos que ainda pedem compreensão.',
+    focusPhrase: 'Diante deste vínculo, eu sinto muito. Me perdoe. Eu te amo. Sou grato(a) pelo que posso compreender e transformar em mim.'
   }
 ];
 
@@ -61,379 +57,159 @@ Me perdoe.
 Eu te amo.
 Sou grato.`;
 
-export default function HooponoponoModal({
-  isOpen,
-  onClose,
-  userName = 'Buscador de Luz',
-  userProfile
-}: HooponoponoModalProps) {
-  const [selectedTab, setSelectedTab] = useState<'oracao' | 'japamala' | 'chaves'>('oracao');
-  const [selectedTheme, setSelectedTheme] = useState(HOOPONOPONO_THEMES[0]);
-  const [targetCount, setTargetCount] = useState<number>(108); // 108 or 21
-  const [count, setCount] = useState<number>(0);
-  const [isPlayingAudio, setIsPlayingAudio] = useState<boolean>(false);
-  const [copiedText, setCopiedText] = useState<boolean>(false);
-  const [activePhraseIndex, setActivePhraseIndex] = useState<number>(0);
+const PHRASES = [
+  { text: 'Sinto Muito', desc: 'Reconheço o que pede minha atenção e assumo presença diante desta experiência.', tone: '#B88736' },
+  { text: 'Me Perdoe', desc: 'Abro espaço para perdão, responsabilidade e uma relação mais gentil comigo.', tone: '#5E7153' },
+  { text: 'Eu Te Amo', desc: 'Levo compaixão para mim, para a situação e para os vínculos envolvidos.', tone: '#A66B70' },
+  { text: 'Sou Grato(a)', desc: 'Reconheço o aprendizado possível e agradeço pelo momento de consciência.', tone: '#2D6A4F' }
+];
 
-  // Load completed days from local storage
-  const [prayedToday, setPrayedToday] = useState<boolean>(() => {
-    try {
-      const todayStr = getLocalDateString();
-      return localStorage.getItem(`cura_integrada_hooponopono_${todayStr}`) === 'true';
-    } catch {
-      return false;
-    }
+export default function HooponoponoModal({ isOpen, onClose, userName = 'Buscador de Luz', userProfile }: HooponoponoModalProps) {
+  const [selectedTab, setSelectedTab] = useState<'oracao' | 'japamala' | 'chaves'>('oracao');
+  const [selectedTheme, setSelectedTheme] = useState(THEMES[0]);
+  const [targetCount, setTargetCount] = useState(108);
+  const [count, setCount] = useState(0);
+  const [isPlayingAudio, setIsPlayingAudio] = useState(false);
+  const [copiedText, setCopiedText] = useState(false);
+  const [prayedToday, setPrayedToday] = useState(() => {
+    try { return localStorage.getItem(`cura_integrada_hooponopono_${getLocalDateString()}`) === 'true'; }
+    catch { return false; }
   });
 
-  const PHRASES = [
-    { text: 'Sinto Muito', desc: 'Reconheço que algo em mim atraiu essa memória ou situação.', color: 'text-amber-300' },
-    { text: 'Me Perdoe', desc: 'Peço à Divindade que me liberte e limpe essa impressão celular.', color: 'text-cyan-300' },
-    { text: 'Eu Te Amo', desc: 'Envolvo o problema, a mim e aos outros na luz da pura compaixão.', color: 'text-rose-300' },
-    { text: 'Sou Grato(a)', desc: 'Agradeço pela transmutação imediata e pela paz restaurada.', color: 'text-emerald-300' }
-  ];
+  useEffect(() => () => audioEngine.stopSpeech(), []);
+  if (!isOpen) return null;
 
-  // Increment counter with visual pulse
-  const handleIncrement = () => {
-    audioEngine.unlock();
-    setCount(prev => {
-      const next = prev + 1;
-      if (next >= targetCount) {
-        handleMarkDone();
-      }
-      return next > targetCount ? targetCount : next;
-    });
-    setActivePhraseIndex(prev => (prev + 1) % PHRASES.length);
-  };
-
-  const handleReset = () => {
-    setCount(0);
-  };
-
-  const handleMarkDone = () => {
+  const markDone = () => {
     setPrayedToday(true);
-    try {
-      const todayStr = getLocalDateString();
-      localStorage.setItem(`cura_integrada_hooponopono_${todayStr}`, 'true');
-    } catch (e) {
-      console.warn("Storage write error", e);
-    }
+    try { localStorage.setItem(`cura_integrada_hooponopono_${getLocalDateString()}`, 'true'); }
+    catch (error) { console.warn('Não foi possível registrar a prática localmente.', error); }
   };
 
-  const handleToggleAudio = () => {
+  const increment = () => {
+    audioEngine.unlock();
+    setCount(previous => {
+      const next = Math.min(targetCount, previous + 1);
+      if (next >= targetCount) markDone();
+      return next;
+    });
+  };
+
+  const toggleAudio = () => {
     audioEngine.unlock();
     if (isPlayingAudio) {
       audioEngine.stopSpeech();
       setIsPlayingAudio(false);
-    } else {
-      setIsPlayingAudio(true);
-      const textToSpeak = selectedTab === 'oracao'
-        ? MORRNAH_PRAYER.replace(/\[NOME\]/g, userName)
-        : `${selectedTheme.title}. ${selectedTheme.desc}. ${selectedTheme.focusPhrase}. Sinto muito. Me perdoe. Eu te amo. Sou grato.`;
+      return;
+    }
 
-      void audioEngine.speakWithElevenLabsOrFallback(
-        textToSpeak,
-        0.9,
-        () => setIsPlayingAudio(true),
-        () => setIsPlayingAudio(false),
-        undefined,
-        undefined,
-        {
-          voiceId: userProfile?.voiceId || 'Marcus',
-          rate: userProfile?.voiceRate ?? 0.82,
-          pitch: userProfile?.voicePitch ?? 0.98,
-          lang: 'pt-BR',
-          stability: 0.45,
-          similarityBoost: 0.75,
-          enableBreathingPauses: true,
-          userName
-        }
-      );
+    const text = selectedTab === 'oracao'
+      ? MORRNAH_PRAYER
+      : `${selectedTheme.title}. ${selectedTheme.desc}. ${selectedTheme.focusPhrase}`;
+    setIsPlayingAudio(true);
+    void audioEngine.speakWithElevenLabsOrFallback(
+      text,
+      userProfile?.voiceVolume ?? 0.9,
+      () => setIsPlayingAudio(true),
+      () => setIsPlayingAudio(false),
+      undefined,
+      undefined,
+      {
+        voiceId: userProfile?.voiceId || (userProfile?.preferredVoiceGender === 'feminina' ? 'Rachel' : 'Marcus'),
+        rate: userProfile?.voiceRate ?? 0.82,
+        pitch: userProfile?.voicePitch ?? 0.98,
+        lang: 'pt-BR',
+        userName
+      }
+    );
+  };
+
+  const copyPrayer = async () => {
+    try {
+      await navigator.clipboard.writeText(MORRNAH_PRAYER);
+      setCopiedText(true);
+      window.setTimeout(() => setCopiedText(false), 2500);
+    } catch (error) {
+      console.warn('Não foi possível copiar a oração.', error);
+      setCopiedText(false);
     }
   };
 
-  const handleCopyPrayer = () => {
-    navigator.clipboard.writeText(MORRNAH_PRAYER);
-    setCopiedText(true);
-    setTimeout(() => setCopiedText(false), 3000);
+  const close = () => {
+    audioEngine.stopSpeech();
+    setIsPlayingAudio(false);
+    onClose();
   };
 
-  useEffect(() => {
-    return () => {
-      if (isPlayingAudio) {
-        audioEngine.stopSpeech();
-      }
-    };
-  }, [isPlayingAudio]);
-
-  if (!isOpen) return null;
+  const tabClass = (active: boolean) => `min-h-11 rounded-xl px-3 py-2 text-xs font-semibold transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B88736]/35 ${active ? 'bg-[#B88736] text-white shadow-sm' : 'text-[#5C5248] hover:bg-[#F5EFE4] hover:text-[#2A2420]'}`;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4 bg-[#2A2420]/30 backdrop-blur-md overflow-y-auto overscroll-contain" id="hooponopono-modal" role="dialog" aria-modal="true" aria-label="Ho’oponopono">
-      <motion.div
-        initial={{ opacity: 0, scale: 0.95, y: 15 }}
-        animate={{ opacity: 1, scale: 1, y: 0 }}
-        exit={{ opacity: 0, scale: 0.95 }}
-        className="w-full max-w-2xl bg-[#FBF8F2] border border-rose-300 rounded-2xl sm:rounded-3xl p-4 sm:p-7 shadow-2xl space-y-5 relative overflow-hidden my-1 sm:my-4 max-h-[calc(100dvh-1rem)] sm:max-h-[92dvh] overflow-y-auto overscroll-contain"
-      >
-        {/* Glow backdrop */}
-        <div className="absolute top-0 right-0 w-72 h-72 bg-rose-500/10 rounded-full blur-3xl pointer-events-none" />
-        <div className="absolute bottom-0 left-0 w-72 h-72 bg-amber-500/10 rounded-full blur-3xl pointer-events-none" />
-
-        {/* Close Button */}
-        <button
-          onClick={() => {
-            if (isPlayingAudio) audioEngine.stopSpeech();
-            onClose();
-          }}
-          className="absolute top-5 right-5 w-8 h-8 rounded-full bg-[#F5EFE4]/80 border border-[#E5DAC6] text-[#5C5248] hover:text-[#2A2420] flex items-center justify-center transition cursor-pointer z-10"
-        >
-          <X size={16} />
+    <div className="fixed inset-0 z-50 flex items-start sm:items-center justify-center overflow-y-auto overscroll-contain bg-[#2A2420]/30 p-2 sm:p-4 backdrop-blur-md" role="dialog" aria-modal="true" aria-labelledby="hooponopono-title">
+      <motion.div initial={{ opacity: 0, scale: .96, y: 12 }} animate={{ opacity: 1, scale: 1, y: 0 }} exit={{ opacity: 0, scale: .96 }} className="relative my-1 sm:my-4 w-full max-w-2xl max-h-[calc(100dvh-1rem)] overflow-y-auto overscroll-contain rounded-2xl sm:rounded-3xl border border-[#E5DAC6] bg-[#FBF8F2] p-4 sm:p-7 shadow-2xl">
+        <button type="button" onClick={close} aria-label="Fechar Ho’oponopono" className="absolute right-4 top-4 z-10 flex h-11 w-11 items-center justify-center rounded-xl border border-[#E5DAC6] bg-[#F5EFE4] text-[#5C5248] hover:bg-[#EFE4D3] hover:text-[#2A2420] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B88736]/35">
+          <X size={18} />
         </button>
 
-        {/* Header */}
-        <div className="text-center space-y-1.5 pt-1">
-          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-rose-500/15 border border-rose-500/30 text-rose-300 text-xs font-mono font-bold">
-            <Heart size={14} className="fill-rose-400 text-rose-400" />
-            <span>ORAÇÃO SAGRADA • 100% GRATUITA</span>
+        <header className="mx-auto max-w-lg space-y-2 pr-12 text-center">
+          <div className="inline-flex items-center gap-2 rounded-full border border-[#B88736]/25 bg-[#B88736]/8 px-3 py-1 text-[11px] font-semibold uppercase tracking-[.17em] text-[#8F631E]">
+            <Heart size={13} /> Ho’oponopono
           </div>
-          <h2 className="text-2xl md:text-3xl font-display font-medium text-[#2A2420]">
-            Ho'oponopono de Cura e Purificação
-          </h2>
-          <p className="text-xs md:text-sm text-[#5C5248] max-w-lg mx-auto">
-            A antiga arte havaiana de reconciliação, limpeza de memórias dolorosas e restauração da paz interior.
-          </p>
+          <h2 id="hooponopono-title" className="font-display text-2xl font-semibold text-[#2A2420] md:text-3xl">Reconciliação, presença e gratidão</h2>
+          <p className="text-xs leading-relaxed text-[#5C5248] md:text-sm">Prática inspirada na tradição havaiana contemporânea de reconciliação. Use como reflexão espiritual e de autocuidado.</p>
+        </header>
+
+        <div className="mt-5 grid grid-cols-3 gap-1.5 rounded-2xl border border-[#E5DAC6] bg-white/75 p-1" role="tablist" aria-label="Modos de prática">
+          <button type="button" role="tab" aria-selected={selectedTab === 'oracao'} onClick={() => setSelectedTab('oracao')} className={tabClass(selectedTab === 'oracao')}>Oração</button>
+          <button type="button" role="tab" aria-selected={selectedTab === 'japamala'} onClick={() => setSelectedTab('japamala')} className={tabClass(selectedTab === 'japamala')}>Repetições</button>
+          <button type="button" role="tab" aria-selected={selectedTab === 'chaves'} onClick={() => setSelectedTab('chaves')} className={tabClass(selectedTab === 'chaves')}>4 Chaves</button>
         </div>
 
-        {/* Top Navigation Tabs */}
-        <div className="grid grid-cols-3 gap-1.5 p-1 bg-white/80 border border-[#E5DAC6] rounded-2xl">
-          <button
-            onClick={() => setSelectedTab('oracao')}
-            className={`py-2 px-2 text-xs font-bold rounded-xl transition cursor-pointer text-center ${
-              selectedTab === 'oracao'
-                ? 'bg-rose-600 text-white shadow-md'
-                : 'text-[#5C5248] hover:text-[#2A2420]'
-            }`}
-          >
-            Oração Original
-          </button>
-          <button
-            onClick={() => setSelectedTab('japamala')}
-            className={`py-2 px-2 text-xs font-bold rounded-xl transition cursor-pointer text-center ${
-              selectedTab === 'japamala'
-                ? 'bg-rose-600 text-white shadow-md'
-                : 'text-[#5C5248] hover:text-[#2A2420]'
-            }`}
-          >
-            Japamala ({targetCount}x)
-          </button>
-          <button
-            onClick={() => setSelectedTab('chaves')}
-            className={`py-2 px-2 text-xs font-bold rounded-xl transition cursor-pointer text-center ${
-              selectedTab === 'chaves'
-                ? 'bg-rose-600 text-white shadow-md'
-                : 'text-[#5C5248] hover:text-[#2A2420]'
-            }`}
-          >
-            As 4 Chaves
-          </button>
-        </div>
-
-        {/* Tab 1: Oração Original de Morrnah Simeona */}
         {selectedTab === 'oracao' && (
-          <div className="space-y-4">
-            <div className="p-5 sm:p-6 rounded-3xl bg-white/75 border border-rose-500/20 relative shadow-inner text-[#2A2420] text-xs sm:text-sm leading-relaxed whitespace-pre-line font-serif italic text-center">
-              <div className="absolute top-3 left-3 text-rose-500/30">
-                <Sparkles size={20} />
-              </div>
-              <div className="absolute bottom-3 right-3 text-rose-500/30">
-                <Heart size={20} />
-              </div>
-              {MORRNAH_PRAYER}
+          <section className="mt-5 space-y-4">
+            <div className="whitespace-pre-line rounded-3xl border border-[#B88736]/20 bg-white/80 p-5 text-center font-serif text-xs italic leading-relaxed text-[#2A2420] shadow-sm sm:p-6 sm:text-sm">{MORRNAH_PRAYER}</div>
+            <div className="grid grid-cols-2 gap-2 sm:grid-cols-4">
+              {PHRASES.map(item => <div key={item.text} className="rounded-2xl border border-[#E5DAC6] bg-white/75 p-3 text-center"><strong className="block text-xs" style={{ color: item.tone }}>{item.text}</strong><span className="mt-1 block text-[10px] leading-tight text-[#5C5248]">{item.desc}</span></div>)}
             </div>
-
-            {/* 4 Pillars Highlight */}
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 text-center">
-              {PHRASES.map((p, idx) => (
-                <div key={idx} className="p-2.5 rounded-2xl bg-white/65 border border-[#E5DAC6]">
-                  <span className={`text-xs font-bold block ${p.color}`}>{p.text}</span>
-                  <span className="text-[10px] text-[#5C5248] mt-0.5 block leading-tight">{p.desc.substring(0, 32)}...</span>
-                </div>
-              ))}
-            </div>
-
-            {/* Audio & Copy Controls */}
-            <div className="flex flex-wrap items-center justify-between gap-3 pt-2">
-              <button
-                type="button"
-                onClick={handleToggleAudio}
-                className={`px-4 py-2.5 rounded-xl text-xs font-bold transition flex items-center gap-2 cursor-pointer shadow-md ${
-                  isPlayingAudio
-                    ? 'bg-amber-500 hover:bg-amber-400 text-slate-950'
-                    : 'bg-rose-600 hover:bg-rose-500 text-white shadow-rose-600/20'
-                }`}
-              >
-                {isPlayingAudio ? <Pause size={15} /> : <Play size={15} />}
-                <span>{isPlayingAudio ? 'Pausar Áudio Guiado' : 'Ouvir Oração Guiada'}</span>
-              </button>
-
-              <div className="flex items-center gap-2">
-                <button
-                  type="button"
-                  onClick={handleCopyPrayer}
-                  className="px-3 py-2.5 rounded-xl bg-[#F5EFE4] hover:bg-slate-700 text-[#2A2420] text-xs font-semibold transition flex items-center gap-1.5 cursor-pointer"
-                >
-                  <Copy size={14} />
-                  <span>{copiedText ? 'Copiada!' : 'Copiar Texto'}</span>
-                </button>
-
-                <button
-                  type="button"
-                  onClick={handleMarkDone}
-                  className={`px-3 py-2.5 rounded-xl text-xs font-bold transition flex items-center gap-1.5 cursor-pointer ${
-                    prayedToday
-                      ? 'bg-emerald-500/20 border border-emerald-500/40 text-emerald-300'
-                      : 'bg-[#F5EFE4] hover:bg-slate-700 text-[#5C5248]'
-                  }`}
-                >
-                  <CheckCircle2 size={14} className={prayedToday ? 'text-emerald-400' : 'text-[#5C5248]'} />
-                  <span>{prayedToday ? 'Praticado Hoje!' : 'Marcar como Feito'}</span>
-                </button>
+            <div className="flex flex-wrap gap-2 sm:justify-between">
+              <button type="button" onClick={toggleAudio} className="min-h-11 rounded-xl bg-[#B88736] px-4 py-2.5 text-xs font-semibold text-white hover:bg-[#8F631E] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B88736]/35">{isPlayingAudio ? <Pause size={15} className="mr-2 inline" /> : <Play size={15} className="mr-2 inline" />}{isPlayingAudio ? 'Pausar áudio' : 'Ouvir oração'}</button>
+              <div className="flex flex-wrap gap-2">
+                <button type="button" onClick={copyPrayer} className="min-h-11 rounded-xl border border-[#E5DAC6] bg-[#F5EFE4] px-3 py-2.5 text-xs font-semibold text-[#5C5248] hover:bg-[#EFE4D3]"><Copy size={14} className="mr-1.5 inline" />{copiedText ? 'Copiada' : 'Copiar texto'}</button>
+                <button type="button" onClick={markDone} className={`min-h-11 rounded-xl border px-3 py-2.5 text-xs font-semibold ${prayedToday ? 'border-emerald-200 bg-emerald-50 text-emerald-700' : 'border-[#E5DAC6] bg-white text-[#5C5248]'}`}><CheckCircle2 size={14} className="mr-1.5 inline" />{prayedToday ? 'Praticado hoje' : 'Marcar como feito'}</button>
               </div>
             </div>
-          </div>
+          </section>
         )}
 
-        {/* Tab 2: Japamala Interativo (108 ou 21 Repetições) */}
         {selectedTab === 'japamala' && (
-          <div className="space-y-4">
-            {/* Theme Selector */}
-            <div className="space-y-1.5">
-              <span className="text-[11px] font-mono text-[#5C5248] uppercase tracking-wider block">
-                Escolha o Foco da Limpeza Quântica:
-              </span>
-              <div className="grid grid-cols-2 gap-2">
-                {HOOPONOPONO_THEMES.map((theme) => (
-                  <button
-                    key={theme.id}
-                    onClick={() => {
-                      setSelectedTheme(theme);
-                      setCount(0);
-                    }}
-                    className={`p-2.5 rounded-xl text-left border transition cursor-pointer ${
-                      selectedTheme.id === theme.id
-                        ? 'bg-rose-950/40 border-rose-500/60 ring-1 ring-rose-500/30'
-                        : 'bg-white/65 border-[#E5DAC6] hover:border-[#E5DAC6] text-[#5C5248]'
-                    }`}
-                  >
-                    <span className="text-xs font-bold text-[#2A2420] block">{theme.title}</span>
-                    <span className="text-[10px] text-[#5C5248] leading-tight block mt-0.5 line-clamp-1">{theme.desc}</span>
-                  </button>
-                ))}
+          <section className="mt-5 space-y-4">
+            <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
+              {THEMES.map(theme => <button key={theme.id} type="button" onClick={() => { setSelectedTheme(theme); setCount(0); }} aria-pressed={selectedTheme.id === theme.id} className={`min-h-20 rounded-2xl border p-3 text-left transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B88736]/30 ${selectedTheme.id === theme.id ? 'border-[#B88736] bg-[#B88736]/8' : 'border-[#E5DAC6] bg-white/75 hover:bg-white'}`}><strong className="block text-xs text-[#2A2420]">{theme.title}</strong><span className="mt-1 block text-[11px] leading-relaxed text-[#5C5248]">{theme.desc}</span></button>)}
+            </div>
+            <div className="flex flex-wrap items-center justify-between gap-2 rounded-xl border border-[#E5DAC6] bg-white/75 p-3">
+              <span className="text-xs text-[#5C5248]">Meta de repetições</span>
+              <div className="flex gap-2">
+                {[21, 108].map(value => <button key={value} type="button" onClick={() => { setTargetCount(value); setCount(0); }} aria-pressed={targetCount === value} className={`min-h-11 rounded-xl px-3 text-xs font-semibold ${targetCount === value ? 'bg-[#B88736] text-white' : 'border border-[#E5DAC6] bg-[#F5EFE4] text-[#5C5248]'}`}>{value}x</button>)}
               </div>
             </div>
-
-            {/* Target repetition toggle: 21x vs 108x */}
-            <div className="flex items-center justify-between px-3 py-2 rounded-xl bg-white/70 border border-[#E5DAC6] text-xs">
-              <span className="text-[#5C5248] font-mono text-[11px]">Meta de Repetições:</span>
-              <div className="flex items-center gap-1.5">
-                <button
-                  type="button"
-                  onClick={() => { setTargetCount(21); setCount(0); }}
-                  className={`px-3 py-1 rounded-lg font-mono font-bold transition cursor-pointer text-xs ${
-                    targetCount === 21 ? 'bg-rose-600 text-white' : 'bg-[#F5EFE4] text-[#5C5248]'
-                  }`}
-                >
-                  21x (Rápido)
-                </button>
-                <button
-                  type="button"
-                  onClick={() => { setTargetCount(108); setCount(0); }}
-                  className={`px-3 py-1 rounded-lg font-mono font-bold transition cursor-pointer text-xs ${
-                    targetCount === 108 ? 'bg-rose-600 text-white' : 'bg-[#F5EFE4] text-[#5C5248]'
-                  }`}
-                >
-                  108x (Japamala Sagrado)
-                </button>
-              </div>
+            <div className="rounded-3xl border border-[#B88736]/25 bg-white/85 p-5 text-center shadow-sm">
+              <div className="text-4xl font-bold text-[#8F631E]">{count}<span className="text-base font-normal text-[#85786C]"> / {targetCount}</span></div>
+              <div className="mx-auto mt-3 h-2 max-w-sm overflow-hidden rounded-full bg-[#E5DAC6]"><div className="h-full rounded-full bg-[#B88736] transition-all" style={{ width: `${Math.min(100, (count / targetCount) * 100)}%` }} /></div>
+              <motion.button whileTap={{ scale: .94 }} type="button" onClick={increment} disabled={count >= targetCount} className="mx-auto mt-5 flex h-28 w-28 items-center justify-center rounded-full border-4 border-[#D6A756]/35 bg-gradient-to-br from-[#B88736] to-[#8F631E] text-white shadow-lg disabled:opacity-65 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-[#B88736]/25"><Heart size={30} /><span className="sr-only">Registrar repetição</span></motion.button>
+              <p className="mx-auto mt-4 max-w-lg rounded-2xl bg-[#FBF8F2] p-3 font-serif text-sm italic leading-relaxed text-[#5C5248]">“{selectedTheme.focusPhrase}”</p>
+              <button type="button" onClick={() => setCount(0)} className="mt-4 min-h-11 px-3 text-xs text-[#5C5248] hover:text-[#2A2420]"><RotateCcw size={13} className="mr-1.5 inline" />Reiniciar contador</button>
             </div>
-
-            {/* Interactive Pulse Center */}
-            <div className="p-6 rounded-3xl bg-white/80 border border-rose-500/30 text-center space-y-4 relative overflow-hidden shadow-2xl">
-              <div className="space-y-1">
-                <div className="text-4xl md:text-5xl font-mono font-bold text-rose-400 tracking-tight">
-                  {count} <span className="text-base text-[#85786C]">/ {targetCount}</span>
-                </div>
-                <div className="w-full bg-[#F5EFE4] h-1.5 rounded-full overflow-hidden max-w-xs mx-auto">
-                  <div
-                    className="bg-gradient-to-r from-rose-500 to-amber-400 h-full transition-all duration-300"
-                    style={{ width: `${Math.min(100, (count / targetCount) * 100)}%` }}
-                  />
-                </div>
-              </div>
-
-              {/* Central Trigger Button */}
-              <div className="flex justify-center">
-                <motion.button
-                  whileTap={{ scale: 0.92 }}
-                  whileHover={{ scale: 1.05 }}
-                  onClick={handleIncrement}
-                  className="w-28 h-28 md:w-32 md:h-32 rounded-full bg-gradient-to-tr from-rose-600 via-rose-500 to-amber-400 text-white shadow-2xl shadow-rose-600/40 flex flex-col items-center justify-center p-2 cursor-pointer border-4 border-rose-300/30 select-none"
-                >
-                  <Heart size={28} className="fill-white drop-shadow animate-pulse" />
-                  <span className="text-[11px] font-bold mt-1 tracking-wider uppercase font-mono">
-                    {count >= targetCount ? 'Concluído!' : 'Pulsar'}
-                  </span>
-                </motion.button>
-              </div>
-
-              {/* Dynamic Affirmation Text */}
-              <div className="p-3 rounded-2xl bg-[#FBF8F2]/90 border border-[#E5DAC6] max-w-lg mx-auto">
-                <p className="text-xs sm:text-sm font-serif italic text-rose-200 leading-relaxed">
-                  "{selectedTheme.focusPhrase}"
-                </p>
-              </div>
-
-              <div className="flex items-center justify-center gap-3">
-                <button
-                  type="button"
-                  onClick={handleReset}
-                  className="text-xs text-[#5C5248] hover:text-[#2A2420] transition flex items-center gap-1 cursor-pointer"
-                >
-                  <RotateCcw size={12} />
-                  <span>Reiniciar Contador</span>
-                </button>
-              </div>
-            </div>
-          </div>
+          </section>
         )}
 
-        {/* Tab 3: As 4 Chaves Sagradas Explicadas */}
         {selectedTab === 'chaves' && (
-          <div className="space-y-3">
-            <div className="p-3.5 rounded-2xl bg-rose-950/30 border border-rose-500/30 text-xs text-rose-200 leading-relaxed flex items-start gap-2">
-              <Info size={16} className="text-rose-400 shrink-0 mt-0.5" />
-              <span>
-                No Ho'oponopono quântico, assumimos 100% de autorresponsabilidade por tudo o que experienciamos. Não se trata de culpa, mas de <strong>poder consciente de transmutação</strong>.
-              </span>
+          <section className="mt-5 space-y-3">
+            <div className="flex items-start gap-2 rounded-2xl border border-[#B88736]/20 bg-[#B88736]/7 p-4 text-xs leading-relaxed text-[#5C5248]"><Info size={16} className="mt-0.5 shrink-0 text-[#8F631E]" /><p>Nesta prática, autorresponsabilidade significa observar o que está ao seu alcance transformar em si. Não significa assumir culpa por acontecimentos, doenças, violências ou ações de outras pessoas.</p></div>
+            <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+              {PHRASES.map((phrase, index) => <article key={phrase.text} className="rounded-2xl border border-[#E5DAC6] bg-white/80 p-4"><div className="flex items-center justify-between"><h3 className="font-display text-lg font-semibold" style={{ color: phrase.tone }}>{phrase.text}</h3><span className="font-mono text-[10px] text-[#85786C]">{String(index + 1).padStart(2, '0')}</span></div><p className="mt-2 text-xs leading-relaxed text-[#5C5248]">{phrase.desc}</p></article>)}
             </div>
-
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-              {PHRASES.map((phrase, idx) => (
-                <div key={idx} className="p-4 rounded-2xl bg-white/75 border border-[#E5DAC6] space-y-1.5">
-                  <div className="flex items-center justify-between">
-                    <h4 className={`text-sm font-bold ${phrase.color}`}>
-                      {phrase.text}
-                    </h4>
-                    <span className="text-[10px] font-mono text-[#85786C]">Chave #{idx + 1}</span>
-                  </div>
-                  <p className="text-xs text-[#5C5248] leading-relaxed">
-                    {phrase.desc}
-                  </p>
-                </div>
-              ))}
-            </div>
-          </div>
+          </section>
         )}
+
+        <footer className="mt-5 border-t border-[#E5DAC6] pt-4 text-center text-[11px] leading-relaxed text-[#85786C]">Prática espiritual e reflexiva. Não substitui cuidados médicos, psicológicos, jurídicos ou sociais quando necessários.</footer>
       </motion.div>
     </div>
   );
