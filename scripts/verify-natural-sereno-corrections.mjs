@@ -26,6 +26,9 @@ page.on('request',r=>{
 await page.evaluateOnNewDocument(()=>{
  sessionStorage.setItem('transformation_journey_entered_v2','true');localStorage.setItem('cura_integrada_welcome_seen_v1','true');
  Object.defineProperty(speechSynthesis,'speak',{value:utterance=>{window.__nativeUtterance=utterance;utterance.onstart?.(new Event('start'));},configurable:true});
+ window.__speechCancels=0;
+ const nativeCancel=speechSynthesis.cancel.bind(speechSynthesis);
+ Object.defineProperty(speechSynthesis,'cancel',{value:()=>{window.__speechCancels++;nativeCancel()},configurable:true});
  HTMLMediaElement.prototype.play=function(){return Promise.resolve()};
  Object.defineProperty(HTMLMediaElement.prototype,'duration',{get(){return 1797},configurable:true});
 });
@@ -61,7 +64,7 @@ try{
  const rect=await page.$eval('.ns-play-toggle',e=>{const r=e.getBoundingClientRect();return {top:r.top,bottom:r.bottom,left:r.left,right:r.right}});
  assert(rect.bottom<=600 && rect.top>=0,`Desktop player must fit: ${JSON.stringify(rect)}`);
  await page.waitForFunction(()=>!!window.__nativeUtterance?.onboundary);await new Promise(resolve=>setTimeout(resolve,5100));await page.evaluate(()=>window.__nativeUtterance.onboundary({elapsedTime:5}));await wait();
- assert(await page.$eval('.ep-breathing-guide',e=>e.textContent.includes('Sustente em Paz')),'Breathing must follow native speech progress');
+ assert(await page.$eval('.ep-breathing-guide',e=>e.textContent.includes('Sustente por 3 segundos')),'Breathing must follow native speech progress');
  await page.reload({waitUntil:'domcontentloaded'});await page.waitForSelector('[data-ns-screen="home"]');await page.click('button[aria-label="Abrir menu principal"]');await text('21 Dias para Voltar para Mim\nReintegração da Vida').catch(async()=>{for(const h of await page.$$('.ns-row'))if(await h.evaluate(e=>e.textContent.includes('Reintegração da Vida'))){await h.click();return}});
  await page.waitForSelector('.ep-reintegration-shell');
  assert.equal(await page.$eval('.ep-reintegration-card summary',e=>e.parentElement.open),false);
@@ -71,6 +74,10 @@ try{
  await page.$eval('.ep-reintegration-card summary',e=>e.click());await capture('energy-details-expanded');await page.$eval('.ep-reintegration-card summary',e=>e.click());
  await capture('desktop-reintegration');await page.click('.ep-reintegration-card input[type="checkbox"]');await text('Iniciar meditação guiada');await page.waitForSelector('[aria-label="Meditação guiada em andamento"]');await capture('desktop-reintegration-playing');
  assert.equal(await page.$$eval('[aria-label="Meditação guiada em andamento"] .reintegration-presence-frame',els=>els.filter(e=>+getComputedStyle(e).opacity===1).length),1);
+ await page.waitForFunction(()=>!!window.__nativeUtterance);
+ const cancelsBeforePause=await page.evaluate(()=>window.__speechCancels);
+ await text('Pausar');await text('Continuar');
+ assert.equal(await page.evaluate(()=>window.__speechCancels),cancelsBeforePause,'Pause/resume must retain the native Reintegração passage, including at time zero');
  await page.evaluate(()=>{const audio=document.querySelector('.ep-reintegration-shell > audio');Object.defineProperty(audio,'currentTime',{value:950,writable:true,configurable:true});audio.dispatchEvent(new Event('timeupdate',{bubbles:true}));});await new Promise(r=>setTimeout(r,1700));
  assert.equal(await page.$eval('[aria-label="Meditação guiada em andamento"] .reintegration-presence-visual',e=>e.getAttribute('aria-label')), 'Dia 1: Presença e chão. A luz DESCE pelo corpo → percorre as pernas → alcança os pés → raízes energéticas douradas surgem a partir dos pés → ramificam-se visivelmente no solo.');await capture('desktop-reintegration-grounding');
  await text('Ler roteiro deste dia');await page.waitForSelector('[aria-label="Roteiro do Dia 1: Presença e chão"]');assert(await page.$eval('[aria-label="Roteiro do Dia 1: Presença e chão"]',e=>e.textContent.includes('Encontre uma posição confortável.')));await text('Fechar roteiro');

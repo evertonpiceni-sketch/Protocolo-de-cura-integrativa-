@@ -1191,7 +1191,7 @@ export default function AnamnesisModal({
                 <p className="text-xs text-[#5C5248]">
                   Marque os centros de força que você intui que precisam de desbloqueio ou equilíbrio:
                 </p>
-                <div className="space-y-2 max-h-72 overflow-y-auto pr-1">
+                <div tabIndex={0} aria-label="Detalhes do Mapa do Momento" className="space-y-2 max-h-72 overflow-y-auto pr-1">
                   {CHAKRAS_LIST.map((chakra) => {
                     const isSel = chakraImbalance.includes(chakra.id);
                     return (

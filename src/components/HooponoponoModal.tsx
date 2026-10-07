@@ -181,6 +181,7 @@ export default function HooponoponoModal({
 
         {/* Close Button */}
         <button
+          aria-label="Fechar Ho’oponopono"
           onClick={() => {
             if (isPlayingAudio) audioEngine.stopSpeech();
             onClose();

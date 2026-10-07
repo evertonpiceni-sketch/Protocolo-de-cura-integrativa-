@@ -151,7 +151,7 @@ export default function AstralMapModal({
           </button>
         </div>
 
-        <div className="flex gap-1.5 overflow-x-auto pb-1 scrollbar-none shrink-0 border-b border-[#E5DAC6] mb-3" role="tablist" aria-label="Seções do mapa astral">
+        <div tabIndex={0} className="flex gap-1.5 overflow-x-auto pb-1 scrollbar-none shrink-0 border-b border-[#E5DAC6] mb-3" role="tablist" aria-label="Seções do mapa astral">
           <button disabled={!astral} role="tab" aria-selected={activeTab === 'trinity'} onClick={() => selectTab('trinity')} className={tabClass('trinity')}>
             <Sun size={13} className="text-[#B88736]" /><span>Versão Compacta (Trindade & Elementos)</span>
           </button>
@@ -167,7 +167,7 @@ export default function AstralMapModal({
           </button>
         </div>
 
-        <div ref={printRef} className="flex-1 overflow-y-auto overscroll-contain space-y-4 pr-1">
+        <div ref={printRef} tabIndex={0} className="flex-1 overflow-y-auto overscroll-contain space-y-4 pr-1">
           {astral && activeTab === 'trinity' && (
             <div className="space-y-4" role="tabpanel">
               <div className="grid grid-cols-1 md:grid-cols-3 gap-3.5">

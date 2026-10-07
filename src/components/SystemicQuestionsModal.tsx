@@ -208,6 +208,7 @@ export default function SystemicQuestionsModal({
           {/* Days selector bar */}
           <div className="flex items-center justify-between gap-2 pt-2">
             <button
+              aria-label="Reflexão do dia anterior"
               onClick={() => setActiveDay(prev => Math.max(prev - 1, 1))}
               disabled={activeDay === 1}
               className="w-11 h-11 rounded-xl bg-white border border-[#E5DAC6] text-[#5C5248] hover:text-[#2A2420] disabled:opacity-30 disabled:cursor-not-allowed transition cursor-pointer shrink-0 flex items-center justify-center focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B88736]/30"
@@ -247,6 +248,7 @@ export default function SystemicQuestionsModal({
             </div>
 
             <button
+              aria-label="Reflexão do próximo dia"
               onClick={() => setActiveDay(prev => Math.min(prev + 1, 21))}
               disabled={activeDay === 21}
               className="w-11 h-11 rounded-xl bg-white border border-[#E5DAC6] text-[#5C5248] hover:text-[#2A2420] disabled:opacity-30 disabled:cursor-not-allowed transition cursor-pointer shrink-0 flex items-center justify-center focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B88736]/30"

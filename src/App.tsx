@@ -962,7 +962,7 @@ export default function App() {
           <div className="max-w-2xl mx-auto px-4 py-6 space-y-6" id="settings-view">
             <div className="flex items-center justify-between border-b border-[#E5DAC6] pb-3">
               <h2 className="text-lg font-display font-medium text-[#2A2420]">Ajustes da Prática</h2>
-              <button onClick={() => setShowSettings(false)} className="p-2 text-[#85786C] hover:text-[#5C5248]">
+              <button aria-label="Voltar das configurações" onClick={() => setShowSettings(false)} className="p-2 text-[#85786C] hover:text-[#5C5248]">
                 <X size={16} />
               </button>
             </div>
@@ -1114,6 +1114,7 @@ export default function App() {
                   <div className="flex items-center gap-3">
                     <input
                       type="time"
+                      aria-label="Horário do lembrete"
                       value={userProfile.reminderTime || "20:00"}
                       onChange={(e) => {
                         saveProfile({ ...userProfile, reminderTime: e.target.value });
@@ -1200,6 +1201,7 @@ export default function App() {
                     </label>
                     <select
                       value={userProfile.voiceId || ''}
+                      aria-label="Voz de condução"
                       onChange={(e) => {
                         saveProfile({
                           ...userProfile,
@@ -1232,6 +1234,7 @@ export default function App() {
                       <input
                         type="range"
                         min="0.70"
+                        aria-label="Velocidade da voz"
                         max="1.05"
                         step="0.02"
                         value={userProfile.voiceRate ?? 0.82}
@@ -1416,6 +1419,7 @@ export default function App() {
                       <input
                         type="range"
                         min="0"
+                        aria-label="Volume da música de fundo"
                         max="1"
                         step="0.05"
                         value={userProfile.bgMusicVolume ?? 0.5}
@@ -1447,6 +1451,7 @@ export default function App() {
                   </div>
                   <select
                     value={currentLanguage}
+                    aria-label="Idioma das meditações"
                     onChange={(e) => setCurrentLanguage(e.target.value as AppLanguage)}
                     className="bg-white border border-[#E5DAC6] text-[#5C5248] rounded-xl px-3 py-2 text-xs font-mono font-semibold cursor-pointer outline-none focus:border-[#B88736]"
                   >

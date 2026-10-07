@@ -710,6 +710,8 @@
 :root[data-layout="natural-sereno"] #auth-loading-view img { opacity: .9 !important; mix-blend-mode: normal !important; }
 :root[data-layout="natural-sereno"] #main-header .tracking-widest { color: #806522 !important; }
 :root[data-layout="natural-sereno"] #main-header div:has(> .ep-brand-signature) { background: transparent !important; border: 0 !important; box-shadow: none !important; opacity: .9 !important; }
+:root[data-layout="natural-sereno"] #main-header div:has(> .ep-brand-signature) { width: 52px; height: 52px; opacity: 1 !important; }
+:root[data-layout="natural-sereno"] #main-header { padding-block: 8px; }
 :root[data-layout="natural-sereno"] #main-header :is(button, select) { background: var(--ns-paper) !important; border-color: var(--ns-line) !important; color: var(--ns-forest) !important; box-shadow: none !important; }
 :root[data-layout="natural-sereno"] #main-header button :is(span, svg) { color: inherit !important; }
 :root[data-layout="natural-sereno"] #main-header button:has(.lucide-crown) { background: linear-gradient(180deg, #e5c773, #b78d36) !important; }

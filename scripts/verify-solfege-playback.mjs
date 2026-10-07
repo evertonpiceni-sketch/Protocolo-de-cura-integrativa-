@@ -46,7 +46,7 @@ try {
   const day=index+1;
   await page.click(`button[aria-label^="Abrir dia ${day},"]`);
   await page.evaluate(()=>{window.__startedFrequencies=[];window.__stoppedFrequencies=[]});
-  await page.waitForSelector('button[aria-label="Iniciar"]');await page.click('button[aria-label="Iniciar"]');
+  await page.waitForSelector('button[aria-label="Iniciar ou continuar"]');await page.click('button[aria-label="Iniciar ou continuar"]');
   await page.waitForFunction(expected=>window.__startedFrequencies.includes(expected),{timeout:8000},frequency);
   await page.waitForSelector('button[aria-label="Pausar"]');await page.click('button[aria-label="Pausar"]');
   assert(await page.evaluate(expected=>window.__stoppedFrequencies.includes(expected),frequency),'Named frequency must stop with the practice');

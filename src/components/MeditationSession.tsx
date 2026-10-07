@@ -158,14 +158,14 @@ export default function MeditationSession({
     };
   }, [sessionPhase, bgMusicType]);
 
-  const dailyStageContext = () => {
+  const dailyStageContext = (stageId = currentStage.id) => {
     if (journeyType !== '21d') return '';
     const title = currentInsight?.title || `Dia ${dayNumber}`;
     const description = currentInsight?.description || '';
     const focus = currentInsight?.focus || '';
     const quote = currentInsight?.quote || '';
 
-    switch (currentStage.id) {
+    switch (stageId) {
       case ProtocolStage.ABERTURA:
         return `Dia ${dayNumber}. ${title}. ${description} Hoje, leve esta intenção para a prática: ${focus}`;
       case ProtocolStage.ATERRAMENTO:
@@ -210,9 +210,8 @@ export default function MeditationSession({
       stageTitle: `Dia ${dayNumber} — ${currentInsight.title} — ${currentStage.title}`,
       dayNumber,
       onProgress: (curr, dur) => {
-        // HTMLAudio reports seconds. Web Speech's SpeechSynthesisEvent.elapsedTime
-        // is milliseconds; the fallback deliberately reports duration=0.
-        const normalizedCurrent = dur > 0 ? curr : curr;
+        // The audio engine reports seconds for media and native speech.
+        const normalizedCurrent = curr;
         setCurrentTime(Number.isFinite(normalizedCurrent) ? normalizedCurrent : 0);
         setDuration(Number.isFinite(dur) && dur > 0 ? dur : 0);
       },
@@ -595,6 +594,7 @@ export default function MeditationSession({
       </AnimatePresence>
 
       <SecondaryScriptDrawer
+        getStageContext={dailyStageContext}
         isOpen={isDrawerOpen}
         onClose={() => setIsDrawerOpen(false)}
         stages={stages}

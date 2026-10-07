@@ -2,6 +2,33 @@
    This file is intentionally imported after natural-sereno.css so legacy utility
    colors inside approved existing components cannot reintroduce another theme. */
 
+:root[data-layout="natural-sereno"] { --layout-text-muted: #586454; --text-muted: #586454; }
+:root[data-layout="natural-sereno"] :is(#anamnesis-modal,#astral-map-modal,#numerology-modal,#herbal-baths-modal,#chakras-guide-modal,#systemic-questions-modal,#hooponopono-modal,#settings-view) [class*="bg-[#B88736]/"] {
+  background-color: #f1e7c8 !important;
+  color: #61491e !important;
+}
+:root[data-layout="natural-sereno"] :is(#anamnesis-modal,#astral-map-modal,#numerology-modal,#herbal-baths-modal,#chakras-guide-modal,#systemic-questions-modal,#settings-view) [class*="text-[#B88736]"] {
+  color: #71511c !important;
+}
+:root[data-layout="natural-sereno"] :is(#astral-map-modal,#numerology-modal,#herbal-baths-modal,#settings-view) :is(button,a)[class~="bg-[#B88736]"] {
+  background-color: #dfc57f !important;
+  color: #073b2b !important;
+}
+:root[data-layout="natural-sereno"] :is(#astral-map-modal,#settings-view) :is(button,a)[class*="bg-emerald"] {
+  background: #073b2b !important;
+  color: #fffbed !important;
+}
+:root[data-layout="natural-sereno"] #settings-view button[class*="bg-rose-600"] { background: #9b2445 !important; color: #fffbed !important; }
+:root[data-layout="natural-sereno"] :is(#astral-map-modal,#numerology-modal,#herbal-baths-modal,#settings-view) :is(button,a)[class*="bg-emerald"] :is(span,svg),
+:root[data-layout="natural-sereno"] #settings-view button[class*="bg-rose-600"] :is(span,svg) { color: inherit !important; }
+:root[data-layout="natural-sereno"] #settings-view .opacity-75 { opacity: 1; }
+:root[data-layout="natural-sereno"] #settings-view :is(button,a)[class*="bg-emerald"]:not([class*="/20"]) :is(span,svg) { color: #fffbed !important; }
+:root[data-layout="natural-sereno"] #settings-view [class*="text-emerald-300"] { color: #21563c !important; }
+:root[data-layout="natural-sereno"] #hooponopono-modal [class*="text-rose-300"] { color: #823c47 !important; }
+:root[data-layout="natural-sereno"] #numerology-modal [class*="text-[#8F631E]"] { color: #71511c !important; }
+:root[data-layout="natural-sereno"] #anamnesis-modal [class*="text-amber-400"] { color: #71511c !important; }
+:root[data-layout="natural-sereno"] :is(#chakras-guide-modal,#herbal-baths-modal) [class*="text-[#85786C]"] { color: #586454 !important; }
+
 :root[data-layout="natural-sereno"] #anamnesis-modal {
   --ns-modal-ink: #26372a;
   --ns-modal-muted: #5f6854;
@@ -171,3 +198,6 @@
 ):not(.ep-layout-choice,.ep-layout-choice *) {
   color: var(--ns-destination-forest) !important;
 }
+
+:root[data-layout="natural-sereno"] #settings-view button[class*="bg-rose-600"]:not(.ep-layout-choice),
+:root[data-layout="natural-sereno"] #settings-view button[class*="bg-emerald"]:not(.ep-layout-choice) > :is(span,svg) { color: #fffbed !important; }

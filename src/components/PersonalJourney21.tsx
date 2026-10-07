@@ -185,20 +185,20 @@ export default function PersonalJourney21({ onClose, initialCompletedDays, onCom
   const startGuidedMeditation = async () => {
     if (!accepted) return;
     // Defensive guard against global audio being reactivated by the same click/touch gesture.
-    audioEngine.stopSpeech();
     audioEngine.stopBG();
     if (playing) {
       voiceRef.current?.pause();
       if (typeof window !== 'undefined' && 'speechSynthesis' in window) window.speechSynthesis.pause();
       musicRef.current?.pause(); playingRef.current = false; setPlaying(false); return;
     }
-    if (started && audioProgress > 0 && audioProgress < 99) {
+    if (started && audioProgress < 100) {
       playingRef.current = true; setPlaying(true);
       await musicRef.current?.play().catch(() => undefined);
       if (voiceRef.current?.paused) await voiceRef.current.play().catch(() => undefined);
       if (typeof window !== 'undefined' && 'speechSynthesis' in window && window.speechSynthesis.paused) window.speechSynthesis.resume();
       await requestWakeLock(); void playCueForTime(musicRef.current?.currentTime || 0); return;
     }
+    audioEngine.stopSpeech();
     setStarted(true); clearVoice(); lastCueRef.current = -1;
     playingRef.current = true; setPlaying(true);
     if (musicRef.current) { musicRef.current.volume = 0.22; musicRef.current.currentTime = 0; }
@@ -210,7 +210,8 @@ export default function PersonalJourney21({ onClose, initialCompletedDays, onCom
   const rewindMeditation = () => {
     const music = musicRef.current; if (!music) return;
     const target = Math.max(0, music.currentTime - 15); clearVoice(); music.currentTime = target;
-    lastCueRef.current = item.audioCues.reduce((last, cue, index) => cue.at < target ? index : last, -1); void playCueForTime(target);
+    const currentCue = item.audioCues.reduce((last, cue, index) => cue.at <= target + .5 ? index : last, -1);
+    lastCueRef.current = currentCue - 1; void playCueForTime(target);
   };
 
   const complete = () => {
