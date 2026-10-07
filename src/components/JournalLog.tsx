@@ -3,9 +3,9 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import React, { useState } from 'react';
-import { BookOpen, Smile, Calendar, ArrowLeft, Search, Heart, Download } from 'lucide-react';
-import { DayProgress, DAILY_INSIGHTS } from '../types';
+import React, { useMemo, useState } from 'react';
+import { ArrowLeft, BookOpen, Calendar, Download, Search } from 'lucide-react';
+import { DAILY_INSIGHTS, DayProgress } from '../types';
 import { getLocalDateString } from '../utils/date';
 
 interface JournalLogProps {
@@ -13,299 +13,178 @@ interface JournalLogProps {
   onClose: () => void;
 }
 
+const MOOD_LABELS: Record<number, string> = {
+  1: 'Pesado',
+  2: 'Inquieto',
+  3: 'Neutro',
+  4: 'Calmo',
+  5: 'Em paz'
+};
+
+function moodLabel(value?: number) {
+  return typeof value === 'number' ? MOOD_LABELS[value] || `Nota ${value}` : null;
+}
+
+function moodClasses(value?: number) {
+  if (typeof value !== 'number') return 'border-[#E5DAC6] bg-[#F5EFE4] text-[#85786C]';
+  if (value <= 1) return 'border-rose-200 bg-rose-50 text-rose-700';
+  if (value === 2) return 'border-amber-200 bg-amber-50 text-amber-700';
+  if (value === 3) return 'border-[#E5DAC6] bg-white text-[#5C5248]';
+  return 'border-emerald-200 bg-emerald-50 text-emerald-700';
+}
+
 export default function JournalLog({ progress, onClose }: JournalLogProps) {
   const [searchQuery, setSearchQuery] = useState('');
+  const completedEntries = useMemo(() => progress.filter(item => item.completed), [progress]);
+  const normalizedSearch = searchQuery.trim().toLocaleLowerCase('pt-BR');
 
-  const completedEntries = progress.filter(d => d.completed);
-  
-  // Filter by search query
   const filteredEntries = completedEntries.filter(entry => {
+    if (!normalizedSearch) return true;
     const insight = DAILY_INSIGHTS[entry.dayNumber - 1];
-    const matchTitle = insight?.title.toLowerCase().includes(searchQuery.toLowerCase());
-    const matchJournal = entry.journalText?.toLowerCase().includes(searchQuery.toLowerCase());
-    return matchTitle || matchJournal;
+    const searchable = [
+      insight?.title,
+      insight?.focus,
+      entry.journalText,
+      entry.beforeFeeling?.notes,
+      entry.afterFeeling?.notes,
+      entry.beforeFeeling?.stateTitle,
+      entry.afterFeeling?.stateTitle
+    ].filter(Boolean).join(' ').toLocaleLowerCase('pt-BR');
+    return searchable.includes(normalizedSearch);
   });
 
-  const getMoodLabel = (mood?: number) => {
-    if (!mood) return "Pacífico";
-    switch (mood) {
-      case 1: return "Pesado";
-      case 2: return "Inquieto";
-      case 3: return "Neutro";
-      case 4: return "Calmo";
-      case 5: return "Em Paz";
-      default: return "Pacífico";
-    }
-  };
-
-  const getMoodColor = (mood?: number) => {
-    if (!mood) return "text-emerald-400 bg-emerald-500/10 border-emerald-500/20";
-    switch (mood) {
-      case 1: return "text-red-400 bg-red-500/10 border-red-500/20";
-      case 2: return "text-amber-400 bg-amber-500/10 border-amber-500/20";
-      case 3: return "text-blue-400 bg-blue-500/10 border-blue-500/20";
-      case 4: return "text-[#B88736] bg-[#B88736]/10 border-[#B88736]/20";
-      case 5: return "text-emerald-400 bg-emerald-500/10 border-emerald-500/20";
-      default: return "text-emerald-400 bg-emerald-500/10 border-emerald-500/20";
-    }
-  };
-
   const exportToTxt = () => {
-    if (completedEntries.length === 0) return;
+    if (!completedEntries.length) return;
 
-    let content = `==================================================\n`;
-    content += `DIÁRIO DE RECONEXÃO - HISTÓRICO DE PERCEPÇÕES\n`;
-    content += `==================================================\n`;
-    content += `Exportado em: ${new Date().toLocaleString('pt-BR')}\n\n`;
+    const lines: string[] = [
+      '==================================================',
+      'DIÁRIO DE RECONEXÃO - HISTÓRICO DE PERCEPÇÕES',
+      '==================================================',
+      `Exportado em: ${new Date().toLocaleString('pt-BR')}`,
+      ''
+    ];
 
-    completedEntries.forEach((entry) => {
+    completedEntries.forEach(entry => {
       const insight = DAILY_INSIGHTS[entry.dayNumber - 1];
-      const dateStr = entry.completedAt
-        ? new Date(entry.completedAt).toLocaleDateString('pt-BR', {
-            day: '2-digit',
-            month: 'long',
-            year: 'numeric'
-          })
-        : "Sem data";
+      const date = entry.completedAt
+        ? new Date(entry.completedAt).toLocaleDateString('pt-BR', { day: '2-digit', month: 'long', year: 'numeric' })
+        : 'Sem data registrada';
 
-      content += `--------------------------------------------------\n`;
-      content += `DIA ${entry.dayNumber.toString().padStart(2, '0')} - ${insight?.title || "Sessão de Cura"}\n`;
-      content += `Data: ${dateStr}\n`;
-      content += `Intenção do dia: ${insight?.focus || "N/A"}\n`;
-      
+      lines.push('--------------------------------------------------');
+      lines.push(`DIA ${String(entry.dayNumber).padStart(2, '0')} - ${insight?.title || 'Jornada diária'}`);
+      lines.push(`Data: ${date}`);
+      if (insight?.focus) lines.push(`Intenção do dia: ${insight.focus}`);
+
       if (entry.beforeFeeling) {
-        content += `\n[COMO EU ESTAVA]\n`;
-        content += `Estado: ${entry.beforeFeeling.stateTitle || getMoodLabel(entry.beforeFeeling.mood)} (Nota: ${entry.beforeFeeling.mood}/5)\n`;
-        if (entry.beforeFeeling.sensations && entry.beforeFeeling.sensations.length > 0) {
-          content += `Sensações: ${entry.beforeFeeling.sensations.join(', ')}\n`;
-        }
-        if (entry.beforeFeeling.notes) {
-          content += `Relato Inicial: ${entry.beforeFeeling.notes}\n`;
-        }
+        lines.push('', '[COMO EU ESTAVA]');
+        if (entry.beforeFeeling.stateTitle) lines.push(`Estado: ${entry.beforeFeeling.stateTitle}`);
+        if (typeof entry.beforeFeeling.mood === 'number') lines.push(`Nota registrada: ${entry.beforeFeeling.mood}/5`);
+        if (entry.beforeFeeling.sensations?.length) lines.push(`Sensações: ${entry.beforeFeeling.sensations.join(', ')}`);
+        if (entry.beforeFeeling.notes) lines.push(`Relato inicial: ${entry.beforeFeeling.notes}`);
       }
 
-      content += `\n[COMO ESTOU AGORA]\n`;
-      content += `Estado Final: ${entry.afterFeeling?.stateTitle || getMoodLabel(entry.mood)} (Nota: ${entry.afterFeeling?.mood || entry.mood || 5}/5)\n`;
-      if (entry.afterFeeling?.sensations && entry.afterFeeling.sensations.length > 0) {
-        content += `Sensações: ${entry.afterFeeling.sensations.join(', ')}\n`;
+      const finalMood = entry.afterFeeling?.mood ?? entry.mood;
+      const hasAfterData = Boolean(entry.afterFeeling || entry.journalText || typeof finalMood === 'number');
+      if (hasAfterData) {
+        lines.push('', '[COMO ESTOU AGORA]');
+        if (entry.afterFeeling?.stateTitle) lines.push(`Estado: ${entry.afterFeeling.stateTitle}`);
+        if (typeof finalMood === 'number') lines.push(`Nota registrada: ${finalMood}/5`);
+        if (entry.afterFeeling?.sensations?.length) lines.push(`Sensações: ${entry.afterFeeling.sensations.join(', ')}`);
+        const note = entry.afterFeeling?.notes || entry.journalText;
+        if (note) lines.push(`Relato / reflexão: ${note}`);
       }
-      content += `Relato / Reflexão:\n${entry.afterFeeling?.notes || entry.journalText || "Sessão concluída sem anotações adicionais."}\n`;
-      content += `--------------------------------------------------\n\n`;
+
+      lines.push('--------------------------------------------------', '');
     });
 
-    content += `==================================================\n`;
-    content += `Gerado pelo Protocolo da Transformação.\n`;
-    content += `Seu cuidado começa pelo retorno a si.\n`;
-    content += `==================================================\n`;
+    lines.push('==================================================', 'Gerado pelo Protocolo da Transformação.', 'O arquivo contém somente informações registradas na jornada.', '==================================================');
 
-    const blob = new Blob([content], { type: 'text/plain;charset=utf-8' });
+    const blob = new Blob([lines.join('\n')], { type: 'text/plain;charset=utf-8' });
     const url = URL.createObjectURL(blob);
     const link = document.createElement('a');
     link.href = url;
     link.download = `diario-de-reconexao-${getLocalDateString()}.txt`;
     document.body.appendChild(link);
     link.click();
-    document.body.removeChild(link);
+    link.remove();
     URL.revokeObjectURL(url);
   };
 
   return (
-    <div className="max-w-4xl mx-auto px-4 py-6 space-y-6" id="journal-dashboard-view">
-      {/* Header */}
-      <div className="flex items-center justify-between border-b border-[#E5DAC6] pb-4">
+    <div className="mx-auto max-w-4xl space-y-6 px-4 py-6" id="journal-dashboard-view">
+      <header className="flex flex-col gap-4 border-b border-[#E5DAC6] pb-4 sm:flex-row sm:items-center sm:justify-between">
         <div className="flex items-center gap-3">
-          <button
-            onClick={onClose}
-            aria-label="Voltar" className="w-11 h-11 bg-[#FBF8F2] border border-[#E5DAC6] text-[#5C5248] hover:text-[#2A2420] rounded-xl transition cursor-pointer flex items-center justify-center focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B88736]/30"
-            id="btn-back-from-journal"
-          >
-            <ArrowLeft size={16} />
+          <button type="button" onClick={onClose} aria-label="Voltar" id="btn-back-from-journal" className="flex h-11 w-11 items-center justify-center rounded-xl border border-[#E5DAC6] bg-[#FBF8F2] text-[#5C5248] transition hover:bg-[#F5EFE4] hover:text-[#2A2420] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B88736]/30">
+            <ArrowLeft size={17} />
           </button>
           <div>
-            <h1 className="text-xl font-display font-medium text-[#2A2420] flex items-center gap-2">
-              <BookOpen size={20} className="text-[#B88736]" />
-              Diário de Reconexão
-            </h1>
-            <p className="text-xs text-[#85786C] font-sans mt-0.5">
-              Reflexões e percepções registradas ao longo da sua jornada.
-            </p>
+            <h1 className="flex items-center gap-2 font-display text-xl font-semibold text-[#2A2420]"><BookOpen size={20} className="text-[#B88736]" />Diário de Reconexão</h1>
+            <p className="mt-1 text-xs text-[#85786C]">Reflexões e percepções registradas ao longo da sua jornada.</p>
           </div>
         </div>
-
         <div className="flex items-center gap-2">
-          <span className="text-xs font-mono text-[#B88736] bg-[#B88736]/10 px-3 py-1.5 rounded-full border border-[#B88736]/20">
-            {completedEntries.length} {completedEntries.length === 1 ? 'Sessão' : 'Sessões'}
-          </span>
+          <span className="rounded-full border border-[#B88736]/20 bg-[#B88736]/10 px-3 py-1.5 text-xs font-mono text-[#8F631E]">{completedEntries.length} {completedEntries.length === 1 ? 'dia concluído' : 'dias concluídos'}</span>
           {completedEntries.length > 0 && (
-            <button
-              onClick={exportToTxt}
-              className="text-xs font-medium px-3.5 py-1.5 rounded-full bg-[#B88736] hover:bg-[#B88736] text-white flex items-center gap-1.5 cursor-pointer transition shadow-lg shadow-[#B88736]/10 hover:shadow-[#B88736]/20 active:scale-95 border border-[#B88736]/30 font-sans"
-              id="btn-export-journal"
-              title="Exportar reflexões como arquivo de texto (.txt)"
-            >
-              <Download size={13} />
-              <span className="hidden sm:inline">Exportar Diário</span>
-              <span className="sm:hidden">TXT</span>
+            <button type="button" onClick={exportToTxt} id="btn-export-journal" className="flex min-h-11 items-center gap-1.5 rounded-xl bg-[#B88736] px-3.5 py-2.5 text-xs font-semibold text-white transition hover:bg-[#8F631E] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B88736]/35">
+              <Download size={14} /><span>Exportar</span>
             </button>
           )}
         </div>
-      </div>
+      </header>
 
-      {/* Filter and search */}
       {completedEntries.length > 0 && (
-        <div className="relative" id="journal-search-container">
-          <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-[#85786C]">
-            <Search size={16} />
-          </div>
-          <input
-            type="text"
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            placeholder="Pesquisar nos diários de cura (Ex: clareza, insônia, paz...)"
-            className="w-full bg-[#FBF8F2] border border-[#E5DAC6] focus:border-[#B88736] text-[#2A2420] rounded-xl py-3 pl-11 pr-4 text-xs outline-none transition"
-          />
-        </div>
+        <label className="relative block" id="journal-search-container">
+          <span className="sr-only">Pesquisar no Diário de Reconexão</span>
+          <Search size={16} className="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 text-[#85786C]" />
+          <input type="search" value={searchQuery} onChange={event => setSearchQuery(event.target.value)} placeholder="Pesquisar por palavra, tema ou percepção..." className="w-full rounded-xl border border-[#E5DAC6] bg-[#FBF8F2] py-3 pl-11 pr-4 text-xs text-[#2A2420] outline-none transition placeholder:text-[#85786C] focus:border-[#B88736] focus:ring-2 focus:ring-[#B88736]/15" />
+        </label>
       )}
 
-      {/* Main timeline listing */}
-      <div className="space-y-4" id="journal-timeline-list">
-        {completedEntries.length === 0 ? (
-          /* Empty state */
-          <div className="text-center py-16 space-y-4 bg-[#FBF8F2]/40 border border-[#E5DAC6] rounded-3xl p-6" id="journal-empty-state">
-            <div className="w-14 h-14 bg-[#FBF8F2] border border-[#E5DAC6] text-[#85786C] rounded-2xl flex items-center justify-center mx-auto">
-              <BookOpen size={22} />
-            </div>
-            <div className="space-y-1.5">
-              <h3 className="text-sm font-display font-medium text-[#5C5248]">
-                O Diário está em silêncio...
-              </h3>
-              <p className="text-xs text-[#85786C] max-w-sm mx-auto leading-relaxed">
-                Ao completar a meditação guiada de hoje, você poderá escrever e registrar como se sente aqui.
-              </p>
-            </div>
-            
-            <div className="max-w-xs mx-auto border-t border-[#E5DAC6]/60 pt-4 text-[#85786C] text-[11px] italic font-sans">
-              "Você é perfeito... Você é luz... Você é um reflexo da Fonte Criadora."
-            </div>
-          </div>
-        ) : filteredEntries.length === 0 ? (
-          /* Search mismatch state */
-          <div className="text-center py-12 text-[#85786C] text-xs font-sans">
-            Nenhuma reflexão encontrada para a pesquisa: "{searchQuery}"
-          </div>
-        ) : (
-          /* Journals log timeline */
-          filteredEntries.map((entry) => {
-            const insight = DAILY_INSIGHTS[entry.dayNumber - 1];
-            const dateStr = entry.completedAt
-              ? new Date(entry.completedAt).toLocaleDateString('pt-BR', {
-                  day: '2-digit',
-                  month: 'short',
-                  year: 'numeric'
-                })
-              : "Sem data";
-
-            return (
-              <div
-                key={entry.dayNumber}
-                className="bg-[#FBF8F2] border border-[#E5DAC6]/60 rounded-2xl p-5 space-y-4 hover:border-[#E5DAC6] transition"
-                id={`journal-log-entry-${entry.dayNumber}`}
-              >
-                {/* Header card metrics */}
-                <div className="flex flex-wrap items-center justify-between gap-3 border-b border-[#E5DAC6] pb-3">
-                  <div className="space-y-1">
-                    <div className="flex items-center gap-2">
-                      <span className="text-[10px] font-mono bg-[#B88736]/10 text-[#B88736] border border-[#B88736]/20 px-2 py-0.5 rounded uppercase">
-                        Dia {entry.dayNumber.toString().padStart(2, '0')}
-                      </span>
-                      <h3 className="text-xs font-display font-medium text-[#2A2420]">
-                        {insight?.title || "Sessão de Cura"}
-                      </h3>
-                    </div>
-                    <div className="flex items-center gap-1 text-[10px] text-[#85786C] font-mono">
-                      <Calendar size={10} />
-                      <span>{dateStr}</span>
-                    </div>
-                  </div>
-
-                  {/* Mood Rating status label */}
-                  <div className={`text-[9px] font-mono px-2.5 py-1 rounded-full border uppercase tracking-wider ${getMoodColor(entry.mood)}`}>
-                    Estado: {getMoodLabel(entry.mood)}
-                  </div>
+      <main className="space-y-4" id="journal-timeline-list">
+        {!completedEntries.length ? (
+          <section className="rounded-3xl border border-[#E5DAC6] bg-[#FBF8F2] px-6 py-14 text-center">
+            <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl border border-[#E5DAC6] bg-white text-[#85786C]"><BookOpen size={23} /></div>
+            <h2 className="mt-4 font-display text-base font-semibold text-[#5C5248]">Seu diário começa com a jornada</h2>
+            <p className="mx-auto mt-2 max-w-sm text-xs leading-relaxed text-[#85786C]">Quando você concluir um dia e registrar uma percepção, ela aparecerá aqui.</p>
+          </section>
+        ) : !filteredEntries.length ? (
+          <div className="rounded-2xl border border-[#E5DAC6] bg-[#FBF8F2] py-10 text-center text-xs text-[#85786C]">Nenhuma reflexão encontrada para “{searchQuery}”.</div>
+        ) : filteredEntries.map(entry => {
+          const insight = DAILY_INSIGHTS[entry.dayNumber - 1];
+          const date = entry.completedAt ? new Date(entry.completedAt).toLocaleDateString('pt-BR', { day: '2-digit', month: 'short', year: 'numeric' }) : 'Sem data registrada';
+          const finalMood = entry.afterFeeling?.mood ?? entry.mood;
+          const finalLabel = entry.afterFeeling?.stateTitle || moodLabel(finalMood);
+          return (
+            <article key={entry.dayNumber} id={`journal-log-entry-${entry.dayNumber}`} className="space-y-4 rounded-2xl border border-[#E5DAC6] bg-[#FBF8F2] p-4 shadow-sm sm:p-5">
+              <div className="flex flex-wrap items-start justify-between gap-3 border-b border-[#E5DAC6] pb-3">
+                <div>
+                  <div className="flex flex-wrap items-center gap-2"><span className="rounded-md border border-[#B88736]/20 bg-[#B88736]/10 px-2 py-0.5 text-[10px] font-mono uppercase text-[#8F631E]">Dia {String(entry.dayNumber).padStart(2, '0')}</span><h2 className="text-sm font-semibold text-[#2A2420]">{insight?.title || 'Jornada diária'}</h2></div>
+                  <div className="mt-1 flex items-center gap-1 text-[10px] text-[#85786C]"><Calendar size={11} />{date}</div>
                 </div>
-
-                {/* Before vs After Comparative Block */}
-                {entry.beforeFeeling ? (
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-2.5 p-3 rounded-xl bg-white/75 border border-[#E5DAC6]">
-                    {/* Before Card */}
-                    <div className="space-y-1.5 text-xs">
-                      <div className="flex items-center justify-between">
-                        <span className="text-[10px] font-mono text-[#85786C] uppercase">1. Como eu estava</span>
-                        <span className="text-[10px] font-mono text-[#5C5248]">Nota {entry.beforeFeeling.mood}/5</span>
-                      </div>
-                      <div className="text-[#5C5248] font-medium text-xs">
-                        {entry.beforeFeeling.stateTitle || getMoodLabel(entry.beforeFeeling.mood)}
-                      </div>
-                      {entry.beforeFeeling.sensations && entry.beforeFeeling.sensations.length > 0 && (
-                        <div className="flex flex-wrap gap-1">
-                          {entry.beforeFeeling.sensations.map(s => (
-                            <span key={s} className="px-1.5 py-0.2 rounded bg-[#FBF8F2] border border-[#E5DAC6] text-[#5C5248] text-[9px]">
-                              {s}
-                            </span>
-                          ))}
-                        </div>
-                      )}
-                      {entry.beforeFeeling.notes && (
-                        <p className="text-[11px] text-[#5C5248] italic bg-[#FBF8F2]/75 p-2 rounded-lg border border-[#E5DAC6]/80">
-                          "{entry.beforeFeeling.notes}"
-                        </p>
-                      )}
-                    </div>
-
-                    {/* After Card */}
-                    <div className="space-y-1.5 text-xs border-t md:border-t-0 md:border-l border-[#E5DAC6] pt-2 md:pt-0 md:pl-2.5">
-                      <div className="flex items-center justify-between">
-                        <span className="text-[10px] font-mono text-emerald-400 uppercase">2. Como estou agora</span>
-                        <span className="text-[10px] font-mono text-emerald-400">Nota {entry.afterFeeling?.mood || entry.mood || 5}/5</span>
-                      </div>
-                      <div className="text-emerald-700 font-medium text-xs">
-                        {entry.afterFeeling?.stateTitle || getMoodLabel(entry.mood)}
-                      </div>
-                      {entry.afterFeeling?.sensations && entry.afterFeeling.sensations.length > 0 && (
-                        <div className="flex flex-wrap gap-1">
-                          {entry.afterFeeling.sensations.map(s => (
-                            <span key={s} className="px-1.5 py-0.2 rounded bg-emerald-50 border border-emerald-200 text-emerald-700 text-[9px]">
-                              {s}
-                            </span>
-                          ))}
-                        </div>
-                      )}
-                      <p className="text-[11px] text-[#2A2420] leading-relaxed bg-emerald-50 p-2 rounded-lg border border-emerald-200">
-                        {entry.afterFeeling?.notes || entry.journalText || "Momento concluído sem anotações adicionais."}
-                      </p>
-                    </div>
-                  </div>
-                ) : (
-                  /* Standard Journal Content */
-                  <div className="text-xs text-[#5C5248] leading-relaxed font-sans whitespace-pre-wrap">
-                    {entry.journalText ? (
-                      entry.journalText
-                    ) : (
-                      <span className="text-[#85786C] italic">Momento concluído sem anotações adicionais.</span>
-                    )}
-                  </div>
-                )}
-
-                {/* Healing Focus Anchor footer */}
-                <div className="flex items-center gap-1.5 text-[10px] text-[#85786C] bg-white/40 p-2.5 rounded-lg border border-[#E5DAC6]">
-                  <Heart size={10} className="text-[#B88736]" />
-                  <span><strong>Foco:</strong> {insight?.focus}</span>
-                </div>
+                <span className={`rounded-full border px-2.5 py-1 text-[10px] font-mono ${moodClasses(finalMood)}`}>{finalLabel ? `Estado: ${finalLabel}` : 'Humor não registrado'}</span>
               </div>
-            );
-          })
-        )}
-      </div>
+
+              {entry.beforeFeeling && (
+                <section className="rounded-xl border border-[#E5DAC6] bg-white/75 p-3">
+                  <div className="flex flex-wrap items-center justify-between gap-2"><span className="text-[10px] font-mono uppercase text-[#85786C]">Como eu estava</span>{typeof entry.beforeFeeling.mood === 'number' && <span className="text-[10px] font-mono text-[#5C5248]">Nota {entry.beforeFeeling.mood}/5</span>}</div>
+                  {entry.beforeFeeling.stateTitle && <p className="mt-2 text-xs font-semibold text-[#5C5248]">{entry.beforeFeeling.stateTitle}</p>}
+                  {entry.beforeFeeling.sensations?.length ? <div className="mt-2 flex flex-wrap gap-1">{entry.beforeFeeling.sensations.map(item => <span key={item} className="rounded-md border border-[#E5DAC6] bg-[#FBF8F2] px-1.5 py-0.5 text-[9px] text-[#5C5248]">{item}</span>)}</div> : null}
+                  {entry.beforeFeeling.notes && <p className="mt-2 whitespace-pre-wrap rounded-lg bg-[#FBF8F2] p-2 text-[11px] leading-relaxed text-[#5C5248]">{entry.beforeFeeling.notes}</p>}
+                </section>
+              )}
+
+              {(entry.afterFeeling || entry.journalText || typeof finalMood === 'number') && (
+                <section className="rounded-xl border border-emerald-200 bg-emerald-50/65 p-3">
+                  <div className="flex flex-wrap items-center justify-between gap-2"><span className="text-[10px] font-mono uppercase text-emerald-700">Como estou agora</span>{typeof finalMood === 'number' && <span className="text-[10px] font-mono text-emerald-700">Nota {finalMood}/5</span>}</div>
+                  {entry.afterFeeling?.stateTitle && <p className="mt-2 text-xs font-semibold text-emerald-800">{entry.afterFeeling.stateTitle}</p>}
+                  {entry.afterFeeling?.sensations?.length ? <div className="mt-2 flex flex-wrap gap-1">{entry.afterFeeling.sensations.map(item => <span key={item} className="rounded-md border border-emerald-200 bg-white/70 px-1.5 py-0.5 text-[9px] text-emerald-700">{item}</span>)}</div> : null}
+                  {(entry.afterFeeling?.notes || entry.journalText) && <p className="mt-2 whitespace-pre-wrap rounded-lg bg-white/70 p-2 text-[11px] leading-relaxed text-[#2A2420]">{entry.afterFeeling?.notes || entry.journalText}</p>}
+                </section>
+              )}
+            </article>
+          );
+        })}
+      </main>
     </div>
   );
 }
