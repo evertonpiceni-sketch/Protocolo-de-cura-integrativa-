@@ -53,6 +53,8 @@
     "baseline-browser-mapping": "^2.11.26",
     "ip-address": "^10.7.3",
     "body-parser": "1.20.8",
-    "qs": "6.16.0"
+    "qs": "6.16.0",
+    "proxy-addr": "2.0.8",
+    "source-map-js": "1.2.2"
   }
 }
