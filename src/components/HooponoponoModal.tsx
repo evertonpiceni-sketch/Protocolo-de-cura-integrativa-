@@ -15,6 +15,7 @@ interface HooponoponoModalProps {
   onClose: () => void;
   userName?: string;
   userProfile?: UserProfile;
+  onPracticeCountChange?: (count: number) => void;
 }
 
 const THEMES = [
@@ -64,7 +65,7 @@ const PHRASES = [
   { text: 'Sou Grato(a)', desc: 'Reconheço o aprendizado possível e agradeço pelo momento de consciência.', tone: '#2D6A4F' }
 ];
 
-export default function HooponoponoModal({ isOpen, onClose, userName = 'Buscador de Luz', userProfile }: HooponoponoModalProps) {
+export default function HooponoponoModal({ isOpen, onClose, userName = 'Buscador de Luz', userProfile, onPracticeCountChange }: HooponoponoModalProps) {
   const [selectedTab, setSelectedTab] = useState<'oracao' | 'japamala' | 'chaves'>('oracao');
   const [selectedTheme, setSelectedTheme] = useState(THEMES[0]);
   const [targetCount, setTargetCount] = useState(108);
@@ -80,18 +81,18 @@ export default function HooponoponoModal({ isOpen, onClose, userName = 'Buscador
   if (!isOpen) return null;
 
   const markDone = () => {
+    if (prayedToday) return;
     setPrayedToday(true);
+    onPracticeCountChange?.(Number(userProfile?.hooponoponoPracticedCount || 0) + 1);
     try { localStorage.setItem(`cura_integrada_hooponopono_${getLocalDateString()}`, 'true'); }
     catch (error) { console.warn('Não foi possível registrar a prática localmente.', error); }
   };
 
   const increment = () => {
     audioEngine.unlock();
-    setCount(previous => {
-      const next = Math.min(targetCount, previous + 1);
-      if (next >= targetCount) markDone();
-      return next;
-    });
+    const next = Math.min(targetCount, count + 1);
+    setCount(next);
+    if (next >= targetCount) markDone();
   };
 
   const toggleAudio = () => {

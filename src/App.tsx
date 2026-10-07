@@ -2308,6 +2308,9 @@ export default function App() {
           isOpen={showArchangelModal}
           onClose={() => setShowArchangelModal(false)}
           userName={userProfile?.name}
+          onProgressChange={(days) => {
+            if (userProfile) saveProfile({ ...userProfile, archangelPrayerCompletedDays: days });
+          }}
         />
       )}
 
@@ -2327,6 +2330,9 @@ export default function App() {
           onClose={() => setShowHooponoponoModal(false)}
           userName={userProfile?.name}
           userProfile={userProfile || undefined}
+          onPracticeCountChange={(count) => {
+            if (userProfile) saveProfile({ ...userProfile, hooponoponoPracticedCount: count });
+          }}
         />
       )}
 

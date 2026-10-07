@@ -17,6 +17,7 @@ interface ArchangelMichaelPrayerModalProps {
   voiceId?: string;
   voiceRate?: number;
   voicePitch?: number;
+  onProgressChange?: (days: number[]) => void;
 }
 
 const STORAGE_KEY_MICHAEL_DAYS = 'archangel_michael_prayer_completed_days_v1';
@@ -28,7 +29,8 @@ export default function ArchangelMichaelPrayerModal({
   userName,
   voiceId,
   voiceRate = 0.84,
-  voicePitch = 1.0
+  voicePitch = 1.0,
+  onProgressChange
 }: ArchangelMichaelPrayerModalProps) {
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentSectionIndex, setCurrentSectionIndex] = useState(0);
@@ -120,6 +122,7 @@ export default function ArchangelMichaelPrayerModal({
 
     setCompletedDays(updated);
     setCompletedToday(true);
+    onProgressChange?.(updated);
     try {
       localStorage.setItem(STORAGE_KEY_MICHAEL_DAYS, JSON.stringify(updated));
       localStorage.setItem(STORAGE_KEY_MICHAEL_LAST_DATE, today);
