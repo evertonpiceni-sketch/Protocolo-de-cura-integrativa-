@@ -4,12 +4,12 @@
  */
 
 import React, { useState } from 'react';
-import { motion, AnimatePresence } from 'motion/react';
+import { motion } from 'motion/react';
 import {
   Award, Trophy, Sparkles, Flame, Calendar, Sun, Shield, Heart,
-  BookOpen, GitBranch, Activity, Compass, ShieldCheck, Crown, Lock, CheckCircle2, X, Star
+  BookOpen, GitBranch, Activity, Compass, ShieldCheck, Crown, Lock, CheckCircle2, X
 } from 'lucide-react';
-import { AchievementItem, DayProgress, UserProfile } from '../types';
+import { DayProgress, UserProfile } from '../types';
 import { ALL_ACHIEVEMENTS, evaluateUserAchievements } from '../lib/achievementsData';
 
 interface AchievementsModalProps {
@@ -19,12 +19,7 @@ interface AchievementsModalProps {
   progress: DayProgress[];
 }
 
-export default function AchievementsModal({
-  isOpen,
-  onClose,
-  userProfile,
-  progress
-}: AchievementsModalProps) {
+export default function AchievementsModal({ isOpen, onClose, userProfile, progress }: AchievementsModalProps) {
   const [selectedCategory, setSelectedCategory] = useState<'todos' | 'constancia' | 'jornada' | 'espiritual' | 'autoconhecimento'>('todos');
 
   if (!isOpen) return null;
@@ -32,7 +27,7 @@ export default function AchievementsModal({
   const evaluation = evaluateUserAchievements(userProfile, progress);
 
   const getIconComponent = (iconName: string, size = 20, isUnlocked = true) => {
-    const className = isUnlocked ? "text-amber-400" : "text-[#85786C]";
+    const className = isUnlocked ? 'text-[#B88736]' : 'text-[#85786C]';
     switch (iconName) {
       case 'Sparkles': return <Sparkles size={size} className={className} />;
       case 'Flame': return <Flame size={size} className={className} />;
@@ -52,191 +47,136 @@ export default function AchievementsModal({
 
   const filteredAchievements = selectedCategory === 'todos'
     ? ALL_ACHIEVEMENTS
-    : ALL_ACHIEVEMENTS.filter(a => a.category === selectedCategory);
+    : ALL_ACHIEVEMENTS.filter(achievement => achievement.category === selectedCategory);
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4 bg-[#2A2420]/30 backdrop-blur-md overflow-y-auto overscroll-contain" id="achievements-modal" role="dialog" aria-modal="true" aria-label="Conquistas">
+    <div
+      className="fixed inset-0 z-50 flex items-center justify-center overflow-y-auto overscroll-contain bg-[#2A2420]/30 p-2 sm:p-4 backdrop-blur-md"
+      id="achievements-modal"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="achievements-title"
+    >
       <motion.div
         initial={{ opacity: 0, scale: 0.95, y: 15 }}
         animate={{ opacity: 1, scale: 1, y: 0 }}
         exit={{ opacity: 0, scale: 0.95 }}
-        className="w-full max-w-4xl bg-[#FBF8F2] border border-[#E5DAC6] rounded-2xl sm:rounded-3xl p-4 sm:p-7 shadow-2xl relative overflow-hidden my-1 sm:my-4 max-h-[calc(100dvh-1rem)] sm:max-h-[92dvh] flex flex-col"
+        className="relative my-1 flex max-h-[calc(100dvh-1rem)] w-full max-w-4xl flex-col overflow-hidden rounded-2xl border border-[#E5DAC6] bg-[#FBF8F2] p-4 shadow-2xl sm:my-4 sm:max-h-[92dvh] sm:rounded-3xl sm:p-7"
       >
-        {/* Glow Effects */}
-        <div className="absolute -top-24 -right-24 w-72 h-72 bg-amber-500/10 rounded-full blur-3xl pointer-events-none" />
-        <div className="absolute -bottom-24 -left-24 w-72 h-72 bg-[#B88736]/10 rounded-full blur-3xl pointer-events-none" />
+        <div className="pointer-events-none absolute -right-24 -top-24 h-72 w-72 rounded-full bg-[#B88736]/10 blur-3xl" aria-hidden="true" />
+        <div className="pointer-events-none absolute -bottom-24 -left-24 h-72 w-72 rounded-full bg-[#5E7153]/8 blur-3xl" aria-hidden="true" />
 
-        {/* Close Button */}
         <button
+          type="button"
           onClick={onClose}
           aria-label="Fechar conquistas"
-          className="absolute top-4 right-4 w-11 h-11 rounded-full bg-[#F5EFE4]/90 border border-[#E5DAC6] text-[#5C5248] hover:text-[#2A2420] flex items-center justify-center transition cursor-pointer z-10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B88736]/30"
+          className="absolute right-4 top-4 z-10 flex h-11 w-11 items-center justify-center rounded-xl border border-[#E5DAC6] bg-[#F5EFE4] text-[#5C5248] transition hover:bg-[#EFE4D3] hover:text-[#2A2420] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B88736]/30"
         >
-          <X size={16} />
+          <X size={17} />
         </button>
 
-        {/* Header (Always Visible at Top) */}
-        <div className="shrink-0 space-y-4 pb-4 border-b border-[#E5DAC6]">
-          <div className="text-center space-y-1.5 pr-8 pl-8">
-            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#B88736]/10 border border-[#B88736]/25 text-[#8F631E] text-xs font-mono font-medium">
-              <Trophy size={14} className="text-amber-400" />
+        <header className="shrink-0 space-y-4 border-b border-[#E5DAC6] pb-4">
+          <div className="space-y-1.5 px-8 text-center">
+            <div className="inline-flex items-center gap-1.5 rounded-full border border-[#B88736]/25 bg-[#B88736]/10 px-3 py-1 text-xs font-mono font-medium text-[#8F631E]">
+              <Trophy size={14} className="text-[#B88736]" />
               <span>CONQUISTAS DA JORNADA</span>
             </div>
-            <h2 className="text-2xl sm:text-3xl font-display font-medium text-[#2A2420]">
-              Seus Emblemas de Transformação
-            </h2>
-            <p className="text-xs sm:text-sm text-[#5C5248] max-w-xl mx-auto">
-              Cada prática concluída e reflexão registrada pode desbloquear novos marcos da sua jornada.
-            </p>
+            <h2 id="achievements-title" className="font-display text-2xl font-medium text-[#2A2420] sm:text-3xl">Seus Emblemas de Transformação</h2>
+            <p className="mx-auto max-w-xl text-xs text-[#5C5248] sm:text-sm">Cada prática concluída e reflexão registrada pode desbloquear novos marcos da sua jornada.</p>
           </div>
 
-          {/* Progress Banner */}
-          <div className="p-4 rounded-2xl bg-white/85 border border-[#E5DAC6] flex flex-col sm:flex-row items-center justify-between gap-4">
+          <section className="flex flex-col items-center justify-between gap-4 rounded-2xl border border-[#E5DAC6] bg-white/85 p-4 sm:flex-row" aria-label="Resumo das conquistas">
             <div className="flex items-center gap-3.5">
-              <div className="w-12 h-12 rounded-2xl bg-amber-500/20 border border-amber-500/40 flex items-center justify-center text-amber-400 shrink-0 shadow-inner">
+              <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl border border-[#B88736]/30 bg-[#B88736]/12 text-[#B88736] shadow-inner">
                 <Crown size={24} />
               </div>
               <div>
-                <div className="flex items-center gap-2">
-                  <span className="text-xs font-mono uppercase tracking-wider text-[#8F631E] font-bold">
-                    PROGRESSO DA JORNADA
-                  </span>
-                  <span className="px-2 py-0.5 rounded-full bg-[#F5EFE4] text-[#8F631E] text-[10px] font-mono font-bold border border-[#E5DAC6]">
-                    {evaluation.totalPoints} Pontos da jornada
-                  </span>
+                <div className="flex flex-wrap items-center gap-2">
+                  <span className="text-xs font-mono font-bold uppercase tracking-wider text-[#8F631E]">Progresso da jornada</span>
+                  <span className="rounded-full border border-[#E5DAC6] bg-[#F5EFE4] px-2 py-0.5 text-[10px] font-mono font-bold text-[#8F631E]">{evaluation.totalPoints} pontos</span>
                 </div>
-                <h3 className="text-base sm:text-lg font-bold text-[#2A2420]">
-                  {evaluation.unlocked.length} de {ALL_ACHIEVEMENTS.length} Emblemas Conquistados
-                </h3>
+                <h3 className="text-base font-bold text-[#2A2420] sm:text-lg">{evaluation.unlocked.length} de {ALL_ACHIEVEMENTS.length} emblemas conquistados</h3>
               </div>
             </div>
 
-            {/* Visual Progress Bar */}
-            <div className="w-full sm:w-48 space-y-1.5">
+            <div className="w-full space-y-1.5 sm:w-48">
               <div className="flex justify-between text-[11px] font-mono text-[#5C5248]">
-                <span>Progresso Total</span>
-                <span className="text-[#8F631E] font-bold">{evaluation.percentage}%</span>
+                <span>Progresso total</span>
+                <span className="font-bold text-[#8F631E]">{evaluation.percentage}%</span>
               </div>
-              <div className="w-full h-2.5 bg-white rounded-full overflow-hidden border border-[#E5DAC6]">
-                <div
-                  className="h-full bg-gradient-to-r from-amber-500 to-amber-300 rounded-full transition-all duration-700 shadow-sm"
-                  style={{ width: `${Math.max(evaluation.percentage, 5)}%` }}
-                />
+              <div
+                className="h-2.5 w-full overflow-hidden rounded-full border border-[#E5DAC6] bg-white"
+                role="progressbar"
+                aria-valuemin={0}
+                aria-valuemax={100}
+                aria-valuenow={evaluation.percentage}
+                aria-label="Progresso das conquistas"
+              >
+                <div className="h-full rounded-full bg-gradient-to-r from-[#8F631E] to-[#D6A756] transition-all duration-700" style={{ width: `${evaluation.percentage}%` }} />
               </div>
             </div>
-          </div>
+          </section>
 
-          {/* Category Filter Pills */}
-          <div className="flex items-center justify-center gap-1.5 sm:gap-2 overflow-x-auto no-scrollbar pt-1">
+          <div className="flex items-center justify-center gap-1.5 overflow-x-auto no-scrollbar pt-1 sm:gap-2" role="tablist" aria-label="Filtrar conquistas">
             {[
               { id: 'todos', label: 'Todos' },
               { id: 'constancia', label: 'Constância' },
               { id: 'jornada', label: 'Jornada' },
               { id: 'espiritual', label: 'Espiritual' },
               { id: 'autoconhecimento', label: 'Autoconhecimento' }
-            ].map(cat => (
+            ].map(category => (
               <button
-                key={cat.id}
-                onClick={() => setSelectedCategory(cat.id as any)}
-                className={`px-3 py-2.5 min-h-[44px] rounded-xl text-xs font-semibold transition cursor-pointer shrink-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B88736]/30 ${
-                  selectedCategory === cat.id
-                    ? 'bg-[#B88736] text-white font-bold shadow-sm'
-                    : 'bg-white border border-[#E5DAC6] text-[#5C5248] hover:text-[#2A2420]'
+                key={category.id}
+                type="button"
+                role="tab"
+                aria-selected={selectedCategory === category.id}
+                onClick={() => setSelectedCategory(category.id as typeof selectedCategory)}
+                className={`min-h-11 shrink-0 rounded-xl px-3 py-2.5 text-xs font-semibold transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B88736]/30 ${
+                  selectedCategory === category.id
+                    ? 'bg-[#B88736] text-white shadow-sm'
+                    : 'border border-[#E5DAC6] bg-white text-[#5C5248] hover:text-[#2A2420]'
                 }`}
               >
-                {cat.label}
+                {category.label}
               </button>
             ))}
           </div>
-        </div>
+        </header>
 
-        {/* Badges Grid (Scrollable) */}
-        <div className="flex-1 overflow-y-auto pr-1 py-4 space-y-3">
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
-            {filteredAchievements.map((ach) => {
-              const isUnlocked = evaluation.unlockedIds.includes(ach.id);
-
+        <div className="flex-1 space-y-3 overflow-y-auto overscroll-contain py-4 pr-1">
+          <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 md:grid-cols-3">
+            {filteredAchievements.map(achievement => {
+              const isUnlocked = evaluation.unlockedIds.includes(achievement.id);
               return (
-                <div
-                  key={ach.id}
-                  className={`p-4 rounded-2xl border transition-all duration-200 relative flex flex-col justify-between ${
-                    isUnlocked
-                      ? 'bg-white/90 border-[#E5DAC6] shadow-sm'
-                      : 'bg-white/70 border-[#E5DAC6] opacity-75'
-                  }`}
-                >
-                  {/* Badge Status Top Marker */}
-                  <div className="flex items-start justify-between mb-3">
-                    <div
-                      className={`w-11 h-11 rounded-2xl flex items-center justify-center border shrink-0 ${
-                        isUnlocked
-                          ? 'bg-gradient-to-br from-amber-500/20 to-amber-600/10 border-amber-500/50 shadow-inner'
-                          : 'bg-[#FBF8F2] border-[#E5DAC6]'
-                      }`}
-                    >
-                      {getIconComponent(ach.icon, 22, isUnlocked)}
+                <article key={achievement.id} className={`relative flex flex-col justify-between rounded-2xl border p-4 transition ${isUnlocked ? 'border-[#E5DAC6] bg-white/90 shadow-sm' : 'border-[#E5DAC6] bg-white/70 opacity-75'}`}>
+                  <div className="mb-3 flex items-start justify-between">
+                    <div className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl border ${isUnlocked ? 'border-[#B88736]/30 bg-gradient-to-br from-[#B88736]/15 to-[#D6A756]/8 shadow-inner' : 'border-[#E5DAC6] bg-[#FBF8F2]'}`}>
+                      {getIconComponent(achievement.icon, 22, isUnlocked)}
                     </div>
-
                     <div className="flex flex-col items-end">
-                      <span
-                        className={`text-[10px] font-mono font-bold px-2 py-0.5 rounded-full border ${
-                          isUnlocked
-                            ? 'bg-[#F5EFE4] text-[#8F631E] border-[#E5DAC6]'
-                            : 'bg-[#FBF8F2] text-[#85786C] border-[#E5DAC6]'
-                        }`}
-                      >
-                        +{ach.points} pts
-                      </span>
-                      <span className="text-[10px] font-mono text-[#85786C] mt-1 flex items-center gap-1">
-                        {isUnlocked ? (
-                          <span className="text-emerald-700 flex items-center gap-1">
-                            <CheckCircle2 size={10} /> Conquistado
-                          </span>
-                        ) : (
-                          <span className="text-[#85786C] flex items-center gap-1">
-                            <Lock size={10} /> Bloqueado
-                          </span>
-                        )}
+                      <span className={`rounded-full border px-2 py-0.5 text-[10px] font-mono font-bold ${isUnlocked ? 'border-[#E5DAC6] bg-[#F5EFE4] text-[#8F631E]' : 'border-[#E5DAC6] bg-[#FBF8F2] text-[#85786C]'}`}>+{achievement.points} pts</span>
+                      <span className="mt-1 flex items-center gap-1 text-[10px] font-mono text-[#85786C]">
+                        {isUnlocked ? <><CheckCircle2 size={10} className="text-emerald-700" /><span className="text-emerald-700">Conquistado</span></> : <><Lock size={10} /><span>Bloqueado</span></>}
                       </span>
                     </div>
                   </div>
-
-                  {/* Title & Description */}
                   <div className="space-y-1">
-                    <h4
-                      className={`text-sm font-bold leading-tight ${
-                        isUnlocked ? 'text-[#2A2420]' : 'text-[#5C5248]'
-                      }`}
-                    >
-                      {ach.title}
-                    </h4>
-                    <p className="text-xs text-[#5C5248] leading-relaxed">
-                      {ach.description}
-                    </p>
+                    <h3 className={`text-sm font-bold leading-tight ${isUnlocked ? 'text-[#2A2420]' : 'text-[#5C5248]'}`}>{achievement.title}</h3>
+                    <p className="text-xs leading-relaxed text-[#5C5248]">{achievement.description}</p>
                   </div>
-
-                  {/* Requirement Footer */}
-                  <div className="mt-3 pt-2.5 border-t border-[#E5DAC6]">
-                    <span className="text-[10px] font-mono text-[#85786C] block leading-tight">
-                      Requisito: <strong className={isUnlocked ? 'text-[#8F631E] font-normal' : 'text-[#5C5248] font-normal'}>{ach.requirementText}</strong>
-                    </span>
+                  <div className="mt-3 border-t border-[#E5DAC6] pt-2.5">
+                    <span className="block text-[10px] font-mono leading-tight text-[#85786C]">Requisito: <strong className={isUnlocked ? 'font-normal text-[#8F631E]' : 'font-normal text-[#5C5248]'}>{achievement.requirementText}</strong></span>
                   </div>
-                </div>
+                </article>
               );
             })}
           </div>
         </div>
 
-        {/* Footer Note */}
-        <div className="shrink-0 pt-3 border-t border-[#E5DAC6] flex items-center justify-between text-xs text-[#85786C]">
-          <span>Continue sua prática diária para desbloquear todos os emblemas.</span>
-          <button
-            onClick={onClose}
-            className="px-4 py-2.5 min-h-[44px] bg-[#B88736] hover:bg-[#8F631E] text-white rounded-xl text-xs font-semibold cursor-pointer transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B88736]/30"
-          >
-            Fechar
-          </button>
-        </div>
+        <footer className="flex shrink-0 items-center justify-between gap-3 border-t border-[#E5DAC6] pt-3 text-xs text-[#85786C]">
+          <span>Os emblemas só são liberados quando o requisito correspondente foi realmente registrado.</span>
+          <button type="button" onClick={onClose} className="min-h-11 rounded-xl bg-[#B88736] px-4 py-2.5 text-xs font-semibold text-white transition hover:bg-[#8F631E] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B88736]/30">Fechar</button>
+        </footer>
       </motion.div>
     </div>
   );
