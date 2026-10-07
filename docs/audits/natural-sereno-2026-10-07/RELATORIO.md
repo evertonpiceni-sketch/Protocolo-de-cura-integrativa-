@@ -84,6 +84,6 @@ Esta revisão usa o painel Natural Sereno enviado pelo usuário e os documentos 
 
 ## Verificação adicional da prévia real
 
-A conferência sem fixtures detectou HTTP 500 em `/api/health` e `/api/auth/me`. Os logs da Vercel identificaram `ERR_MODULE_NOT_FOUND` no import de `jornada21Dias` por `reintegrationJourneyPublic`. Corrigida a extensão `.js` necessária para a execução ESM na função Node. A validação da nova implantação ainda deve confirmar a recuperação; cadastro real continua sem certificação até essa confirmação.
+A conferência sem fixtures detectou HTTP 500 em `/api/health` e `/api/auth/me`. Os logs da Vercel identificaram `ERR_MODULE_NOT_FOUND` no import de `jornada21Dias` por `reintegrationJourneyPublic`. Corrigida a extensão `.js` necessária para a execução ESM na função Node. A nova implantação `9cfe64f` confirmou, sem fixtures, HTTP 200 em `/api/health` e HTTP 401 esperado em `/api/auth/me` sem sessão. A falha de inicialização da API foi resolvida na prévia. Cadastro com criação de conta e login real ainda não foi certificado; essa checagem não comprova o fluxo completo nem a atualização da produção.
 
 O workflow adicional de análise por IA falhou por quota mensal do serviço (HTTP 402), sem apresentar uma descoberta de código. A auditoria de dependências passou com zero vulnerabilidades.
