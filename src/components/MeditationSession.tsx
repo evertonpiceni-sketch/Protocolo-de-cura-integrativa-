@@ -15,7 +15,6 @@ import { requestWakeLock } from '../lib/wakeLockHelpers';
 import { AppLanguage, STAGE_AUDIO_TRANSLATIONS } from '../lib/i18n';
 import { resolveProtocolScript } from '../lib/protocolScript';
 
-// Modular Session Components - Harmonized with official warm ivory and soft gold palette
 import { SacredEnergyCanvas } from './session/SacredEnergyCanvas';
 import { ProtocolAcceptancePortal } from './session/ProtocolAcceptancePortal';
 import { SessionCheckInModal } from './session/SessionCheckInModal';
@@ -49,6 +48,9 @@ interface MeditationSessionProps {
   onChangeBgMusic?: (bgMusicType: '528hz' | '432hz' | '963hz' | '741hz' | 'waves' | 'none') => void;
 }
 
+const MALE_NATIVE_VOICE_HINTS = ['antonio', 'antônio', 'daniel', 'jorge', 'felipe', 'ricardo', 'carlos', 'paulo', 'marcos', 'male', 'masculino'];
+const FEMALE_NATIVE_VOICE_HINTS = ['francisca', 'luciana', 'maria', 'leticia', 'camila', 'vitoria', 'vitória', 'helena', 'female', 'feminina'];
+
 export default function MeditationSession({
   dayNumber,
   userName,
@@ -63,12 +65,8 @@ export default function MeditationSession({
   onCompleteSession,
   onClose,
 }: MeditationSessionProps) {
-  // Session flow phases:
-  // 'portal' -> 'checkin_before' -> 'playing' -> 'checkin_after' -> 'completed'
   const [sessionPhase, setSessionPhase] = useState<'portal' | 'checkin_before' | 'playing' | 'checkin_after' | 'completed'>('portal');
 
-  // Natural Sereno can scroll on small screens. Do not carry the check-in's
-  // scroll offset into the player when its shorter presentation is mounted.
   useLayoutEffect(() => {
     if (document.documentElement.dataset.layout === 'natural-sereno') {
       const session = document.getElementById('meditation-session');
@@ -76,22 +74,17 @@ export default function MeditationSession({
     }
   }, [sessionPhase]);
 
-  // Stages & Audio State
   const [currentStageIndex, setCurrentStageIndex] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
   const [isMuted, setIsMuted] = useState(false);
   const [breathePhase, setBreathePhase] = useState<'inhale' | 'hold' | 'exhale'>('inhale');
-
-  // Secondary Text Drawer state
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
-  // Check-In Sensations & Mood
   const [beforeMood, setBeforeMood] = useState(4);
   const [beforeSensations, setBeforeSensations] = useState<string[]>([]);
   const [beforeNotes, setBeforeNotes] = useState('');
-
   const [afterMood, setAfterMood] = useState(5);
   const [afterSensations, setAfterSensations] = useState<string[]>([]);
   const [afterNotes, setAfterNotes] = useState('');
@@ -99,20 +92,18 @@ export default function MeditationSession({
   const stages = PROTOCOL_STAGES;
   const currentStage = stages[currentStageIndex];
   const activeScript = ORIGINAL_PROTOCOL_SCRIPTS[currentStage.id];
-
-  // Dynamic insights
   const currentInsight = journeyType === '7d'
     ? JOURNEY_7D_INSIGHTS[dayNumber - 1] || JOURNEY_7D_INSIGHTS[0]
     : DAILY_INSIGHTS[dayNumber - 1] || DAILY_INSIGHTS[0];
 
-  // Breathing cadence cycle
   useEffect(() => {
     if (!isPlaying) return;
     const position = currentTime % 12;
-    setBreathePhase(position < 4 ? 'inhale' : position < 8 ? 'hold' : 'exhale');
+    // The canonical opening says to hold for three seconds. Keep a 12-second
+    // visual cycle without contradicting the spoken instruction: 4 / 3 / 5.
+    setBreathePhase(position < 4 ? 'inhale' : position < 7 ? 'hold' : 'exhale');
   }, [isPlaying, currentTime]);
 
-  // Screen Wake Lock & Background Audio Keep-Alive
   useEffect(() => {
     let releaseWakeLock: (() => void) | null = null;
     requestWakeLock().then(release => {
@@ -126,7 +117,36 @@ export default function MeditationSession({
     };
   }, []);
 
-  // Background Synth Ambient Music
+  // Web Speech does not expose a gender field. When a gender preference was
+  // explicitly chosen, resolve the best matching native voice by name before
+  // the engine's fallback runs. This prevents a silent switch to the opposite
+  // preference on devices that expose a recognizable voice name.
+  useEffect(() => {
+    if (document.documentElement.dataset.layout !== 'natural-sereno' || !voiceGender || !('speechSynthesis' in window)) return;
+    const engine = audioEngine as any;
+    const originalSpeak = engine.speak.bind(engine);
+    const resolveNativeVoice = (requested: string | undefined) => {
+      const aliasMatchesGender = requested === voiceGender ||
+        (voiceGender === 'masculina' && ['masculina', 'male', 'Marcus', 'everton'].includes(requested || '')) ||
+        (voiceGender === 'feminina' && ['feminina', 'female', 'Rachel', 'sofia'].includes(requested || ''));
+      if (!aliasMatchesGender) return requested;
+      const voices: SpeechSynthesisVoice[] = window.speechSynthesis.getVoices();
+      const portuguese = voices.filter(v => v.lang.toLowerCase().startsWith('pt'));
+      const hints = voiceGender === 'masculina' ? MALE_NATIVE_VOICE_HINTS : FEMALE_NATIVE_VOICE_HINTS;
+      const match = portuguese.find(v => hints.some(hint => v.name.toLowerCase().includes(hint))) ||
+        voices.find(v => hints.some(hint => v.name.toLowerCase().includes(hint)));
+      return match?.name || requested;
+    };
+    engine.speak = (...args: any[]) => {
+      const options = args[6] ? { ...args[6] } : {};
+      options.voiceId = resolveNativeVoice(options.voiceId);
+      return originalSpeak(...args.slice(0, 6), options);
+    };
+    return () => {
+      engine.speak = originalSpeak;
+    };
+  }, [voiceGender]);
+
   useEffect(() => {
     if (sessionPhase === 'playing' && bgMusicType !== 'none') {
       audioEngine.startSynth(bgMusicType);
@@ -138,7 +158,31 @@ export default function MeditationSession({
     };
   }, [sessionPhase, bgMusicType]);
 
-  // Execute stage stream when stage changes or playback begins
+  const dailyStageContext = () => {
+    if (journeyType !== '21d') return '';
+    const title = currentInsight?.title || `Dia ${dayNumber}`;
+    const description = currentInsight?.description || '';
+    const focus = currentInsight?.focus || '';
+    const quote = currentInsight?.quote || '';
+
+    switch (currentStage.id) {
+      case ProtocolStage.ABERTURA:
+        return `Dia ${dayNumber}. ${title}. ${description} Hoje, leve esta intenção para a prática: ${focus}`;
+      case ProtocolStage.ATERRAMENTO:
+        return `Ao se aterrar, mantenha presente o foco deste dia: ${focus}`;
+      case ProtocolStage.VITALIDADE:
+        return `Permita que a vitalidade deste momento dialogue com a proposta de hoje: ${title}.`;
+      case ProtocolStage.TRANSMUTACAO:
+        return `Nesta etapa, acolha o que o tema de hoje desperta em você, sem forçar nenhuma lembrança: ${description}`;
+      case ProtocolStage.BALSAMO:
+        return `Receba o bálsamo desta etapa lembrando a intenção do dia: ${focus}`;
+      case ProtocolStage.SELAMENTO:
+        return quote ? `Para integrar o dia de hoje, leve consigo esta reflexão: ${quote}` : `Integre o tema de hoje: ${title}.`;
+      default:
+        return '';
+    }
+  };
+
   const playCurrentStageAudio = async () => {
     const rawStageText = STAGE_AUDIO_TRANSLATIONS[initialLanguage]?.[currentStage.id]?.text ||
       activeScript.ttsScript ||
@@ -153,6 +197,9 @@ export default function MeditationSession({
       personalizedText = resolveProtocolScript(currentStage.id, initialLanguage, userName, currentStage.text, customDecree).audioText;
     }
 
+    const dayContext = dailyStageContext();
+    if (dayContext) personalizedText = `${dayContext}\n\n${personalizedText}`;
+
     setIsPlaying(true);
     await audioEngine.playProtocolStageStream({
       text: personalizedText,
@@ -160,11 +207,14 @@ export default function MeditationSession({
         ? (voiceId || (voiceGender === 'masculina' ? 'masculina' : voiceGender === 'feminina' ? 'Rachel' : OFFICIAL_PROTOCOL_VOICE_ID))
         : OFFICIAL_PROTOCOL_VOICE_ID,
       speed: voiceRate,
-      stageTitle: `${currentStage.title} - ${currentStage.subtitle || ''}`,
+      stageTitle: `Dia ${dayNumber} — ${currentInsight.title} — ${currentStage.title}`,
       dayNumber,
       onProgress: (curr, dur) => {
-        setCurrentTime(curr);
-        setDuration(dur);
+        // HTMLAudio reports seconds. Web Speech's SpeechSynthesisEvent.elapsedTime
+        // is milliseconds; the fallback deliberately reports duration=0.
+        const normalizedCurrent = dur > 0 ? curr : curr;
+        setCurrentTime(Number.isFinite(normalizedCurrent) ? normalizedCurrent : 0);
+        setDuration(Number.isFinite(dur) && dur > 0 ? dur : 0);
       },
       onEnd: () => {
         handleStageComplete();
@@ -181,7 +231,6 @@ export default function MeditationSession({
       setCurrentTime(0);
       setDuration(0);
     } else {
-      // All 6 stages completed, transition to After Check-In
       setIsPlaying(false);
       audioEngine.stopSpeech();
       audioEngine.stopSynth();
@@ -189,10 +238,9 @@ export default function MeditationSession({
     }
   };
 
-  // Trigger audio playback upon entering 'playing' or advancing stage
   useEffect(() => {
     if (sessionPhase === 'playing') {
-      playCurrentStageAudio();
+      void playCurrentStageAudio();
     }
     return () => {
       audioEngine.stopSpeech();
@@ -210,22 +258,25 @@ export default function MeditationSession({
   };
 
   const handleSeek = (newTime: number) => {
-    if (!Number.isFinite(duration) || duration <= 0) return;
+    if (!(duration > 0)) return;
     audioEngine.seekToSeconds(newTime);
     setCurrentTime(newTime);
   };
 
   const handleSkipForward = () => {
+    if (!(duration > 0)) return;
     const newTime = Math.min(currentTime + 15, duration);
     handleSeek(newTime);
   };
 
   const handleSkipBackward = () => {
+    if (!(duration > 0)) return;
     const newTime = Math.max(currentTime - 15, 0);
     handleSeek(newTime);
   };
 
   const handleNextStage = () => {
+    if (currentStageIndex >= stages.length - 1) return;
     audioEngine.stopSpeech();
     handleStageComplete();
   };
@@ -262,7 +313,6 @@ export default function MeditationSession({
     setSessionPhase('completed');
   };
 
-  // Paywall check for free tier beyond day 7
   if (userPlan === 'free' && dayNumber > 7) {
     return (
       <div className="fixed inset-0 z-50 bg-[#FAF7F2]/95 backdrop-blur-md text-[#2A2420] flex items-center justify-center p-3 sm:p-6 overflow-y-auto overscroll-contain" role="dialog" aria-modal="true" aria-label="Acesso à jornada completa">
@@ -272,7 +322,7 @@ export default function MeditationSession({
           </div>
           <h2 className="text-2xl font-serif text-[#2A2420] mb-3">Jornada 21 Dias — Plano PRO</h2>
           <p className="text-sm text-[#5C5248] leading-relaxed mb-6">
-            Você concluiu o ciclo inicial gratuito de 7 dias com harmonia. Os dias 8 a 21 abrem os portais do Karuna Ki, Acupuntura Quântica Etérica e a Consolidação de Ganesha.
+            Os dias 8 a 21 fazem parte da jornada PRO. Seu progresso dos dias já realizados permanece preservado.
           </p>
           <div className="space-y-3">
             <button
@@ -287,9 +337,10 @@ export default function MeditationSession({
     );
   }
 
+  const breathTransitionSeconds = breathePhase === 'inhale' ? 4 : breathePhase === 'hold' ? 3 : 5;
+
   return (
     <div id="meditation-session" data-session-phase={sessionPhase} className="ep-session fixed inset-0 z-50 bg-[#FAF7F2] text-[#2A2420] flex flex-col justify-between overflow-hidden select-none min-h-dvh">
-      {/* Background Sacred Canvas */}
       <div className="ep-session-backdrop absolute inset-0 pointer-events-none">
         <SacredEnergyCanvas
           stageId={currentStage.id}
@@ -300,7 +351,6 @@ export default function MeditationSession({
         <div className="absolute inset-0 bg-radial from-transparent via-[#FAF7F2]/40 to-[#F4EFE6] pointer-events-none" />
       </div>
 
-      {/* Top Header Bar - Warm Ivory & Soft Gold */}
       <header className="relative z-20 flex items-center justify-between px-6 py-4 border-b border-[#E5DAC6] bg-[#FAF7F2]/90 backdrop-blur-md">
         <div className="flex items-center gap-3">
           <div className="w-8 h-8 rounded-full border border-[#B88736]/30 flex items-center justify-center bg-[#FAF4E8]">
@@ -319,8 +369,9 @@ export default function MeditationSession({
         <div className="flex items-center gap-3">
           <button
             onClick={() => setIsDrawerOpen(true)}
-            className="flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-[#E5DAC6] bg-white/80 text-xs font-serif text-[#8F631E] hover:border-[#8F631E] transition shadow-xs"
+            className="flex min-h-11 items-center gap-1.5 px-3 py-1.5 rounded-full border border-[#E5DAC6] bg-white/80 text-xs font-serif text-[#8F631E] hover:border-[#8F631E] transition shadow-xs focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B88736]/35"
             title="Ver Roteiro Sagrado da Etapa"
+            aria-label="Ver roteiro sagrado da etapa"
           >
             <BookOpen className="w-3.5 h-3.5" />
             <span className="hidden sm:inline">Roteiro</span>
@@ -354,7 +405,6 @@ export default function MeditationSession({
         </div>
       </header>
 
-      {/* Main Sanctuary Area */}
       <main className="relative z-10 flex-1 flex flex-col items-center justify-center px-6 max-w-xl mx-auto w-full text-center">
         {sessionPhase === 'playing' && (
           <motion.div
@@ -369,23 +419,20 @@ export default function MeditationSession({
               <p>Dia {dayNumber}</p>
               <h2>{currentInsight.title || 'Alinhamento Energético'}</h2>
             </div>
-            {/* Stage Badge & Step Indicator */}
+
             <div className="ep-stage-badge inline-flex items-center gap-2 px-3.5 py-1 rounded-full border border-[#B88736]/30 bg-[#FAF4E8] text-xs font-serif text-[#8F631E] mb-6 shadow-xs font-medium">
               <span className="w-1.5 h-1.5 rounded-full bg-[#8F631E] animate-pulse" />
               <span>Etapa {currentStageIndex + 1} de {stages.length}: {currentStage.title}</span>
             </div>
 
-            {/* Sacred Title */}
             <h2 className="ep-stage-title text-2xl sm:text-3xl font-serif text-[#2A2420] font-normal tracking-wide mb-3">
               {currentStage.title}
             </h2>
 
-            {/* Focus Description */}
             <p className="ep-stage-subtitle text-sm text-[#5C5248] leading-relaxed max-w-md mx-auto mb-6">
               {currentStage.subtitle}
             </p>
 
-            {/* Subtle Respiration Guidance Ring */}
             <div className="ep-breathing-guide relative w-44 h-44 my-4 flex items-center justify-center">
               <motion.div
                 animate={{
@@ -394,14 +441,14 @@ export default function MeditationSession({
                     : 1,
                   opacity: isPlaying ? 0.7 : 0.4
                 }}
-                transition={{ duration: 4, ease: 'easeInOut' }}
+                transition={{ duration: breathTransitionSeconds, ease: 'easeInOut' }}
                 className="absolute inset-0 rounded-full border border-[#B88736]/30 bg-radial from-[#D4AF37]/15 to-transparent shadow-lg"
               />
               <div className="relative z-10 flex flex-col items-center">
                 <span className="text-[10px] tracking-widest uppercase font-mono text-[#5C5248] mb-1 font-semibold">
                   {isPlaying ? (
                     breathePhase === 'inhale' ? 'Inspire a Luz' :
-                    breathePhase === 'hold' ? 'Sustente em Paz' : 'Expire e Solte'
+                    breathePhase === 'hold' ? 'Sustente por 3 segundos' : 'Expire e Solte'
                   ) : 'Pausado'}
                 </span>
                 <span className="text-xs font-serif text-[#8F631E] font-bold">
@@ -410,17 +457,15 @@ export default function MeditationSession({
               </div>
             </div>
 
-            {/* Quick Mantra or Canonical decree line */}
             <div className="ep-session-mantra mt-4 px-4 py-2 rounded-xl bg-white/90 border border-[#E5DAC6] max-w-sm text-xs italic text-[#5C5248] shadow-xs">
-              "{activeScript.symbols?.[0] ? `${activeScript.symbols[0]} — ` : ''}{activeScript.mantra || 'Eu aceito, recebo e ancoro a cura em todo o meu ser.'}"
+              “{currentInsight.focus || (activeScript.symbols?.[0] ? `${activeScript.symbols[0]} — ${activeScript.mantra || ''}` : activeScript.mantra || 'Eu acolho o meu momento com presença.')}”
             </div>
           </motion.div>
         )}
       </main>
 
-      {/* Stage Progression Dots */}
       {sessionPhase === 'playing' && (
-        <div className="relative z-20 flex justify-center items-center gap-2 py-2">
+        <div className="relative z-20 flex justify-center items-center gap-1 py-1" aria-label="Etapas do protocolo">
           {stages.map((stage, idx) => (
             <button
               key={stage.id}
@@ -430,22 +475,23 @@ export default function MeditationSession({
                 setCurrentTime(0);
                 setDuration(0);
               }}
-              className={`h-1.5 transition-all duration-300 rounded-full ${
+              className="flex h-11 w-11 items-center justify-center rounded-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B88736]/35"
+              title={stage.title}
+              aria-label={`Etapa ${idx + 1}: ${stage.title}`}
+              aria-current={idx === currentStageIndex ? 'step' : undefined}
+            >
+              <span className={`block h-1.5 transition-all duration-300 rounded-full ${
                 idx === currentStageIndex
                   ? 'w-8 bg-[#8F631E]'
                   : idx < currentStageIndex
                   ? 'w-3 bg-[#8F631E]/50'
                   : 'w-2 bg-[#E5DAC6]'
-              }`}
-              title={stage.title}
-              aria-label={`Etapa ${idx + 1}: ${stage.title}`}
-              aria-current={idx === currentStageIndex ? 'step' : undefined}
-            />
+              }`} />
+            </button>
           ))}
         </div>
       )}
 
-      {/* Audio Player Controls */}
       {sessionPhase === 'playing' && (
         <footer className="relative z-20 px-6 py-4 border-t border-[#E5DAC6] bg-[#FAF7F2]/95 backdrop-blur-md max-w-2xl mx-auto w-full">
           <MinimalPlayerControls
@@ -459,7 +505,7 @@ export default function MeditationSession({
             onNextStage={handleNextStage}
             onPrevStage={handlePrevStage}
             hasPrevStage={currentStageIndex > 0}
-            hasNextStage={true}
+            hasNextStage={currentStageIndex < stages.length - 1}
             isMuted={isMuted}
             onToggleMute={() => {
               audioEngine.setMasterVolume(isMuted ? 1.0 : 0);
@@ -470,7 +516,6 @@ export default function MeditationSession({
         </footer>
       )}
 
-      {/* Portal of Acceptance Ceremony (First Phase) */}
       <AnimatePresence>
         {sessionPhase === 'portal' && (
           <ProtocolAcceptancePortal
@@ -481,7 +526,6 @@ export default function MeditationSession({
         )}
       </AnimatePresence>
 
-      {/* Check-In Before Session */}
       <AnimatePresence>
         {sessionPhase === 'checkin_before' && (
           <SessionCheckInModal
@@ -503,7 +547,6 @@ export default function MeditationSession({
         )}
       </AnimatePresence>
 
-      {/* Check-In After Session (Transmutation & Diary) */}
       <AnimatePresence>
         {sessionPhase === 'checkin_after' && (
           <SessionCheckInModal
@@ -525,7 +568,6 @@ export default function MeditationSession({
         )}
       </AnimatePresence>
 
-      {/* Completed Celebration Screen */}
       <AnimatePresence>
         {sessionPhase === 'completed' && (
           <div className="fixed inset-0 z-50 bg-[#FAF7F2]/95 backdrop-blur-md text-[#2A2420] flex items-center justify-center p-3 sm:p-6 overflow-y-auto overscroll-contain" role="dialog" aria-modal="true" aria-label="Sessão concluída">
@@ -552,7 +594,6 @@ export default function MeditationSession({
         )}
       </AnimatePresence>
 
-      {/* Canonical Script Drawer (Always Accessible on Demand) */}
       <SecondaryScriptDrawer
         isOpen={isDrawerOpen}
         onClose={() => setIsDrawerOpen(false)}

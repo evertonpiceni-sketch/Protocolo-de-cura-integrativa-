@@ -4,11 +4,11 @@
  */
 
 import React, { useState } from 'react';
-import { motion, AnimatePresence } from 'motion/react';
+import { motion } from 'motion/react';
 import {
-  X, Sparkles, AlertTriangle, ShieldCheck, Droplets, Flame,
-  Heart, Sun, Moon, CheckCircle2, Copy, Share2, Search,
-  Info, Leaf, Feather, Award, Compass
+  X, Sparkles, AlertTriangle, ShieldCheck,
+  Heart, CheckCircle2, Copy, Share2, Search,
+  Info, Leaf
 } from 'lucide-react';
 
 export interface HerbalBath {
@@ -34,14 +34,14 @@ export const SACRED_HERBAL_BATHS: HerbalBath[] = [
     popularName: 'Tapete de Oxalá / Erva de Jesus',
     category: 'Coronário & Paz Mental',
     applicationRule: 'CABECALHO_E_CORPO',
-    purpose: 'Limpeza profunda dos pensamentos acelerados, alívio de peso na mente, insônia espiritual, desanuviamento da aura e restauração da paz divina interior.',
+    purpose: 'Na tradição deste acervo, é associado a limpeza simbólica dos pensamentos, serenidade, recolhimento e conexão com a paz de Oxalá / Jesus.',
     herbs: ['7 a 9 folhas de Boldo fresco'],
-    preparation: 'Em uma bacia ou jarro com 1,5L de água mineral ou morna, macere as folhas de boldo com as próprias mãos até a água ficar verdeada. Deixe descansar por 15 minutos. Após o seu banho de higiene normal, despeje este banho calmamente DA CABEÇA AOS PÉS, mentalizando muita paz, pureza e calma mental.',
+    preparation: 'Em uma bacia ou jarro com 1,5L de água morna, macere as folhas com as mãos e deixe descansar por 15 minutos. Após o banho de higiene, a tradição deste acervo permite aplicação da cabeça aos pés. Evite olhos, rosto, mucosas e pele lesionada; interrompa se houver irritação.',
     bestDayOrTime: 'Sexta-feira ou Domingo, preferencialmente antes de dormir',
     associatedChakra: 'Chakra Coronário (Topo da Cabeça)',
-    affirmation: 'Minha mente está em profunda paz. Minha coroa se conecta à luz pura e divina.',
-    color: 'from-amber-500/20 via-[#FBF8F2] to-indigo-950/40 border-amber-400/40 text-amber-800',
-    badge: '⭐ ÚNICO PERMITIDO DA CABEÇA AOS PÉS'
+    affirmation: 'Minha mente encontra espaço para paz. Minha coroa se conecta simbolicamente à luz divina.',
+    color: 'from-amber-500/20 via-[#FBF8F2] to-[#F5EFE4] border-amber-400/40 text-amber-800',
+    badge: 'EXCEÇÃO DA TRADIÇÃO DESTE ACERVO'
   },
   {
     id: 'banho-alecrim',
@@ -49,13 +49,13 @@ export const SACRED_HERBAL_BATHS: HerbalBath[] = [
     popularName: 'Erva da Alegria, Coragem e Vitalidade',
     category: 'Abertura & Prosperidade',
     applicationRule: 'DO_PESCOCO_PARA_BAIXO',
-    purpose: 'Afasta o desânimo, a apatia e o cansaço crônico; atrai alegria de viver, clareza mental, coragem para novos projetos e prosperidade financeira.',
+    purpose: 'Na tradição energética, é associado a disposição, clareza, coragem, intenção de novos projetos e prosperidade.',
     herbs: ['2 ramos de Alecrim fresco ou 2 colheres de sopa de alecrim seco'],
-    preparation: 'Ferva 1,5L de água, desligue o fogo e adicione o alecrim. Tampe e deixe abafado por 15 minutos. Coe e espere amornar. Após o banho higiênico, despeje ESTRITAMENTE DO PESCOÇO PARA BAIXO, visualizando uma luz dourada-amarelada recarregando sua vitalidade.',
+    preparation: 'Ferva 1,5L de água, desligue o fogo e adicione o alecrim. Tampe por 15 minutos, coe e espere amornar. Após o banho higiênico, aplique do pescoço para baixo, visualizando uma luz dourada ligada à vitalidade.',
     bestDayOrTime: 'Domingo de manhã ou Terça-feira durante o dia',
-    associatedChakra: 'Chakra do Plexo Solar (Estômago/Digestivo)',
-    affirmation: 'Sou luz, força e vitalidade. Meus caminhos se abrem para a alegria e prosperidade.',
-    color: 'from-yellow-500/20 via-[#FBF8F2] to-amber-950/40 border-yellow-400/40 text-yellow-300',
+    associatedChakra: 'Chakra do Plexo Solar',
+    affirmation: 'Sou luz, força e vitalidade. Caminho com coragem e abertura para novas possibilidades.',
+    color: 'from-yellow-500/20 via-[#FBF8F2] to-amber-50 border-yellow-400/40 text-yellow-800',
     badge: 'DO PESCOÇO PARA BAIXO'
   },
   {
@@ -64,44 +64,44 @@ export const SACRED_HERBAL_BATHS: HerbalBath[] = [
     popularName: 'Erva da Harmonia, Paz e Amor Puro',
     category: 'Amor & Harmonização',
     applicationRule: 'DO_PESCOCO_PARA_BAIXO',
-    purpose: 'Harmoniza relações familiares e amorosas, dissipa irritabilidade, alivia mágoas e equilibra as frequências do campo cardíaco.',
+    purpose: 'Na tradição energética, é associado a reconciliação, ternura, leveza emocional e intenção de harmonia nos vínculos.',
     herbs: ['1 punhado generoso de Manjericão fresco (folhas e galhos)'],
-    preparation: 'Macere as folhas verdes de manjericão em 1,5L de água morna com as mãos, emanando pensamentos de reconciliação e ternura. Coe e jogue DO PESCOÇO PARA BAIXO após o banho comum, sentindo uma doce sensação de leveza no peito.',
+    preparation: 'Macere as folhas em 1,5L de água morna, cultivando pensamentos de reconciliação e ternura. Coe e aplique do pescoço para baixo após o banho comum.',
     bestDayOrTime: 'Quarta-feira ou Sexta-feira ao entardecer',
     associatedChakra: 'Chakra Cardíaco (Centro do Peito)',
-    affirmation: 'O amor divino flui em mim e através de mim. Eu vivo em paz e perfeita harmonia.',
-    color: 'from-emerald-500/20 via-[#FBF8F2] to-teal-950/40 border-emerald-400/40 text-emerald-300',
+    affirmation: 'O amor divino flui em mim e através de mim. Eu cultivo paz e harmonia.',
+    color: 'from-emerald-500/20 via-[#FBF8F2] to-emerald-50 border-emerald-400/40 text-emerald-800',
     badge: 'DO PESCOÇO PARA BAIXO'
   },
   {
     id: 'banho-camomila',
     name: 'Banho Doce de Camomila & Melissa',
-    popularName: 'Acalento Materno & Sono dos Anjos',
+    popularName: 'Acalento Materno & Preparação para o Descanso',
     category: 'Acalento & Sono',
     applicationRule: 'DO_PESCOCO_PARA_BAIXO',
-    purpose: 'Acalma crises agudas de ansiedade, alivia o estresse diário, ampara corações angustiados e promove sono profundo e restaurador.',
+    purpose: 'Na tradição do acervo, é usado como ritual de desaceleração, acolhimento e preparação para um momento de repouso.',
     herbs: ['3 colheres de flores de Camomila', '1 punhado de folhas de Melissa (Erva-Cidreira)'],
-    preparation: 'Faça uma infusão das ervas em 1,5L de água fervente. Deixe abafar por 20 minutos e coe. Deixe amornar até uma temperatura agradável. Despeje DO PESCOÇO PARA BAIXO antes de deitar.',
-    bestDayOrTime: 'À noite, 30 minutos antes de dormir',
+    preparation: 'Faça uma infusão das ervas em 1,5L de água quente. Deixe abafar por 20 minutos, coe e aguarde até ficar em temperatura confortável. Aplique do pescoço para baixo antes de deitar.',
+    bestDayOrTime: 'À noite, como ritual de preparação para o descanso',
     associatedChakra: 'Chakra Cardíaco e Chakra Sacral',
-    affirmation: 'Eu descanso seguro(a) no colo do Universo. Todo medo se dissolve em paz.',
-    color: 'from-amber-400/20 via-[#FBF8F2] to-orange-950/40 border-amber-300/40 text-amber-200',
+    affirmation: 'Eu me permito repousar em segurança e acolhimento. Respiro e abro espaço para a paz.',
+    color: 'from-amber-400/20 via-[#FBF8F2] to-orange-50 border-amber-300/40 text-amber-800',
     badge: 'DO PESCOÇO PARA BAIXO'
   },
   {
     id: 'banho-arruda-guine',
     name: 'Banho de Arruda & Guiné',
-    popularName: 'Corte de Demandas & Blindagem Energética',
+    popularName: 'Corte de Demandas & Proteção Energética',
     category: 'Limpeza & Descarrego',
     applicationRule: 'DO_PESCOCO_PARA_BAIXO',
-    purpose: 'Descarrego de energias pesadas, corte de inveja, quebra de miasmas espirituais e afastamento de influências negativas acumuladas.',
+    purpose: 'Na linguagem tradicional do ritual, é associado a descarrego, proteção, corte simbólico de influências percebidas como pesadas e fortalecimento de limites.',
     herbs: ['1 pequeno ramo de Arruda', '1 pequeno ramo de Guiné'],
-    preparation: 'Macere suavemente as folhas em água morna ou faça infusão rápida. JAMAIS UTILIZE NA CABEÇA! Despeje ESTRITAMENTE DO PESCOÇO PARA BAIXO após o banho de higiene, com a intenção firme de deixar toda carga densa escorrer pelo ralo.',
+    preparation: 'Macere suavemente as folhas em água morna ou faça infusão breve. Uso externo e somente do pescoço para baixo. Evite rosto, mucosas, pele lesionada e interrompa se houver ardor ou irritação.',
     bestDayOrTime: 'Segunda-feira à noite ou Quinta-feira',
     associatedChakra: 'Chakra Básico (Raiz) e Chakra Esplênico',
-    affirmation: 'Nenhuma energia densa permanece no meu campo. Sou blindado(a) na luz.',
-    color: 'from-indigo-500/20 via-[#FBF8F2] to-purple-950/40 border-indigo-400/40 text-[#B88736]',
-    badge: 'JAMAIS NA CABEÇA • DO PESCOÇO PARA BAIXO'
+    affirmation: 'Cultivo limites firmes e imagino meu campo protegido pela luz.',
+    color: 'from-[#B88736]/10 via-[#FBF8F2] to-[#F5EFE4] border-[#B88736]/30 text-[#8F631E]',
+    badge: 'USO EXTERNO • DO PESCOÇO PARA BAIXO'
   },
   {
     id: 'banho-alfazema',
@@ -109,28 +109,28 @@ export const SACRED_HERBAL_BATHS: HerbalBath[] = [
     popularName: 'Equilíbrio Astral & Proteção Angélica',
     category: 'Amor & Harmonização',
     applicationRule: 'DO_PESCOCO_PARA_BAIXO',
-    purpose: 'Elevação da vibração, purificação suave da aura, reconexão com anjos de guarda e harmonização de ambientes e pensamentos.',
+    purpose: 'Na tradição energética, é associado a serenidade, purificação simbólica da aura, oração e harmonização do ambiente interno.',
     herbs: ['2 colheres de flores de Alfazema / Lavanda ou folhas frescas'],
-    preparation: 'Coloque as flores em infusão em 1,5L de água quente por 15 minutos. Coe e use morno. Despeje suavemente DO PESCOÇO PARA BAIXO, sentindo o perfume acalmar cada célula.',
+    preparation: 'Coloque as flores em infusão em 1,5L de água quente por 15 minutos. Coe, deixe amornar e aplique do pescoço para baixo, usando o aroma como elemento contemplativo.',
     bestDayOrTime: 'Sexta-feira à noite ou Sábado',
-    associatedChakra: 'Chakra Frontal (Terceiro Olho) e Cardíaco',
-    affirmation: 'Meu campo energético irradia pureza, serenidade e acolhimento angelical.',
-    color: 'from-purple-500/20 via-[#FBF8F2] to-indigo-950/40 border-purple-400/40 text-[#B88736]',
+    associatedChakra: 'Chakra Frontal e Cardíaco',
+    affirmation: 'Meu campo simbólico irradia serenidade, acolhimento e presença.',
+    color: 'from-[#B88736]/10 via-[#FBF8F2] to-[#F5EFE4] border-[#B88736]/30 text-[#8F631E]',
     badge: 'DO PESCOÇO PARA BAIXO'
   },
   {
     id: 'banho-louro-canela',
     name: 'Banho de Louro com Canela & Cravos',
-    popularName: 'Magnetismo, Brilho Pessoal & Atração de Sucesso',
+    popularName: 'Magnetismo, Brilho Pessoal & Intenção de Prosperidade',
     category: 'Abertura & Prosperidade',
     applicationRule: 'DO_PESCOCO_PARA_BAIXO',
-    purpose: 'Atrai novas oportunidades de trabalho, sucesso em negócios, autoconfiança, magnetismo pessoal e prosperidade material.',
+    purpose: 'Na tradição, é associado a intenção de prosperidade, confiança, presença e abertura para oportunidades.',
     herbs: ['7 folhas de Louro seco', '1 pau de Canela', '7 cravos-da-índia'],
-    preparation: 'Ferva os ingredientes em 1,5L de água por 5 minutos para extrair os óleos essenciais. Desligue, deixe amornar e coe. Despeje DO PESCOÇO PARA BAIXO antes de compromissos importantes ou nas manhãs de lua crescente/cheia.',
+    preparation: 'Ferva os ingredientes em 1,5L de água por 5 minutos. Desligue, deixe amornar e coe. Aplique do pescoço para baixo. Canela e cravo podem sensibilizar algumas peles; interrompa se houver desconforto.',
     bestDayOrTime: 'Quinta-feira ou Domingo pela manhã',
     associatedChakra: 'Chakra do Plexo Solar e Chakra Básico',
-    affirmation: 'Sou merecedor(a) da abundância infinita. O sucesso e as bênçãos chegam até mim.',
-    color: 'from-amber-600/20 via-[#FBF8F2] to-yellow-950/40 border-amber-500/40 text-amber-800',
+    affirmation: 'Eu reconheço meu merecimento e caminho com presença diante das oportunidades.',
+    color: 'from-amber-600/20 via-[#FBF8F2] to-yellow-50 border-amber-500/40 text-amber-800',
     badge: 'DO PESCOÇO PARA BAIXO'
   },
   {
@@ -139,103 +139,103 @@ export const SACRED_HERBAL_BATHS: HerbalBath[] = [
     popularName: 'Conforto na Alma & Conexão Cósmica',
     category: 'Coronário & Paz Mental',
     applicationRule: 'DO_PESCOCO_PARA_BAIXO',
-    purpose: 'Cura de traumas profundos, suavização de angústias antigas, acolhimento espiritual e reconexão com mestres da luz.',
+    purpose: 'Na tradição espiritual, é associado a acolhimento, suavidade, oração e contemplação de experiências emocionais antigas.',
     herbs: ['Pétalas de 1 ou 2 Rosas Brancas frescas'],
-    preparation: 'Despetale a rosa em água morna com muita delicadeza. Macere as pétalas suavemente para liberar a essência. Coe e despeje DO PESCOÇO PARA BAIXO em estado de recolhimento e oração.',
+    preparation: 'Despetale a rosa em água morna com delicadeza. Macere suavemente, coe e aplique do pescoço para baixo em estado de recolhimento e oração.',
     bestDayOrTime: 'Sábado ou Domingo ao nascer do sol ou à noite',
     associatedChakra: 'Chakra Cardíaco e Coroa',
-    affirmation: 'Minha alma é suave, pura e acolhida no amor infinito do Criador.',
-    color: 'from-slate-200/20 via-[#FBF8F2] to-indigo-950/40 border-slate-300/40 text-[#2A2420]',
+    affirmation: 'Minha alma encontra suavidade e acolhimento no amor do Criador.',
+    color: 'from-slate-100 via-[#FBF8F2] to-[#F5EFE4] border-slate-300/40 text-[#2A2420]',
     badge: 'DO PESCOÇO PARA BAIXO'
   },
   {
     id: 'banho-hortela',
     name: 'Banho Refrescante de Hortelã',
-    popularName: 'Desbloqueio da Fala, Foco & Renascimento',
+    popularName: 'Expressão, Foco & Renovação',
     category: 'Abertura & Prosperidade',
     applicationRule: 'DO_PESCOCO_PARA_BAIXO',
-    purpose: 'Desbloqueia a expressão verbal, alivia a sensação de cansaço mental e traz clareza para tomadas de decisão importantes.',
+    purpose: 'Na tradição do acervo, é associado a clareza, intenção de expressão, frescor e disposição para escolhas conscientes.',
     herbs: ['1 punhado de folhas de Hortelã fresca'],
-    preparation: 'Macere as folhas em água fresca ou morna. Despeje DO PESCOÇO PARA BAIXO pela manhã para começar o dia com vigor e mente desperta.',
+    preparation: 'Macere as folhas em água fresca ou morna. Aplique do pescoço para baixo pela manhã, com intenção de presença e clareza.',
     bestDayOrTime: 'Segunda-feira pela manhã para abrir a semana',
     associatedChakra: 'Chakra Laríngeo (Garganta)',
-    affirmation: 'Comunico minha verdade com clareza, firmeza e amor. Minha mente é cristalina.',
-    color: 'from-teal-500/20 via-[#FBF8F2] to-emerald-950/40 border-teal-400/40 text-teal-300',
+    affirmation: 'Comunico minha verdade com clareza, firmeza e amor.',
+    color: 'from-teal-500/15 via-[#FBF8F2] to-emerald-50 border-teal-400/30 text-teal-800',
     badge: 'DO PESCOÇO PARA BAIXO'
   },
   {
     id: 'banho-7-ervas-sagrado',
-    name: 'Banho Sagrado das 7 Ervas de Purificação Total',
-    popularName: 'Descarrego Mestre dos 7 Centros Energéticos',
+    name: 'Banho Sagrado das 7 Ervas',
+    popularName: 'Ritual Tradicional dos 7 Centros Energéticos',
     category: 'Limpeza & Descarrego',
     applicationRule: 'DO_PESCOCO_PARA_BAIXO',
-    purpose: 'Limpeza profunda e desobstrução de miasmas kármicos acumulados, corte de olho gordo e restauração do equilíbrio vibracional.',
+    purpose: 'Na tradição energética do acervo, representa uma prática intensa de descarrego simbólico, proteção e intenção de reequilíbrio.',
     herbs: ['Arruda', 'Guiné', 'Alecrim', 'Espada de São Jorge (cortada em 7 pedaços)', 'Manjericão', 'Alfazema', 'Eucalipto'],
-    preparation: 'Coloque as 7 ervas em infusão em 2 litros de água fervente por 20 minutos com a panela tampada. Coe e deixe amornar. JAMAIS JOGUE NA CABEÇA! Após seu banho higiênico, despeje ESTRITAMENTE DO PESCOÇO PARA BAIXO, mentalizando que toda densidade e nó energético é desatado e escorre pelo ralo.',
+    preparation: 'Faça a infusão das ervas em 2 litros de água quente, deixe abafado, coe e aguarde amornar. Uso externo, do pescoço para baixo. Esta combinação inclui plantas potencialmente irritantes; evite pele lesionada, olhos e mucosas e interrompa diante de qualquer reação.',
     bestDayOrTime: 'Segunda-feira ou Sexta-feira ao entardecer',
-    associatedChakra: 'Alinhamento dos 7 Chakras',
-    affirmation: 'Sete forças de luz limpam, purificam e blindam todo o meu ser. Estou renovado(a).',
-    color: 'from-emerald-600/20 via-[#FBF8F2] to-indigo-950/40 border-emerald-500/40 text-emerald-300',
-    badge: 'JAMAIS NA CABEÇA • DO PESCOÇO PARA BAIXO'
+    associatedChakra: 'Referência simbólica aos 7 Chakras',
+    affirmation: 'Imagino sete forças de luz envolvendo meu ser em proteção e renovação.',
+    color: 'from-emerald-600/15 via-[#FBF8F2] to-[#F5EFE4] border-emerald-500/30 text-emerald-800',
+    badge: 'USO EXTERNO • DO PESCOÇO PARA BAIXO'
   },
   {
     id: 'banho-anis-canela',
     name: 'Banho de Anis-Estrelado com Canela & Mel',
-    popularName: 'Despertar da Intuição Cósmica & Magnetismo Dourado',
+    popularName: 'Intuição & Magnetismo Dourado',
     category: 'Abertura & Prosperidade',
     applicationRule: 'DO_PESCOCO_PARA_BAIXO',
-    purpose: 'Ativação do poder intuitivo, clareza em sonhos, magnetismo pessoal para atração de novas parcerias e expansão da prosperidade financeira.',
+    purpose: 'Na tradição, é associado a contemplação da intuição, magnetismo pessoal e intenção de prosperidade.',
     herbs: ['7 estrelas de Anis-Estrelado', '1 canela em pau', '1 colher de chá de mel puro ou pétalas amarelas'],
-    preparation: 'Ferva o anis-estrelado e a canela por 5 minutos em 1,5L de água. Desligue, acrescente o mel, mexa em sentido horário emanando gratidão. Coe após amornar. Despeje DO PESCOÇO PARA BAIXO.',
+    preparation: 'Ferva o anis-estrelado e a canela por 5 minutos em 1,5L de água. Desligue, acrescente o mel, misture e aguarde amornar. Coe e aplique do pescoço para baixo. Interrompa se houver irritação.',
     bestDayOrTime: 'Quinta-feira ou Domingo em fase de Lua Nova ou Crescente',
     associatedChakra: 'Chakra Frontal e Chakra do Plexo Solar',
-    affirmation: 'Minha intuição é um farol divino. Eu atraio abundância, brilho e vitórias.',
-    color: 'from-amber-500/20 via-[#FBF8F2] to-yellow-950/40 border-amber-400/40 text-amber-800',
+    affirmation: 'Minha intuição é um farol simbólico. Caminho com abertura e gratidão.',
+    color: 'from-amber-500/20 via-[#FBF8F2] to-yellow-50 border-amber-400/40 text-amber-800',
     badge: 'DO PESCOÇO PARA BAIXO'
   },
   {
     id: 'banho-eucalipto-salvia',
-    name: 'Banho de Eucalipto & Sálvia Branca',
-    popularName: 'Desanuviamento Áurico & Renascimento Respiratório',
+    name: 'Banho de Eucalipto & Sálvia',
+    popularName: 'Renovação Áurica & Frescor',
     category: 'Limpeza & Descarrego',
     applicationRule: 'DO_PESCOCO_PARA_BAIXO',
-    purpose: 'Desintoxicação energética de ambientes carregados, eliminação da sensação de cansaço nos ombros e renovação do ar e da aura.',
+    purpose: 'Na tradição energética, é associado a sensação simbólica de renovação, descarrego e abertura para uma atmosfera mais leve.',
     herbs: ['5 a 7 folhas de Eucalipto fresco', '1 punhado de folhas de Sálvia'],
-    preparation: 'Faça uma infusão das folhas em água bem quente e deixe abafar até ficar morno. Coe e despeje DO PESCOÇO PARA BAIXO, respirando profundamente o aroma medicinal.',
+    preparation: 'Faça uma infusão das folhas em água quente e deixe abafar até ficar morna. Coe e aplique do pescoço para baixo. Use apenas externamente e evite contato com olhos e mucosas.',
     bestDayOrTime: 'Terça-feira ou Quarta-feira',
     associatedChakra: 'Chakra Laríngeo e Cardíaco',
-    affirmation: 'Respiro a pureza divina. Toda sobrecarga se dissolve em ar puro e renovação.',
-    color: 'from-teal-600/20 via-[#FBF8F2] to-[#F3EBDD] border-teal-500/40 text-teal-300',
+    affirmation: 'Respiro com presença e imagino meu campo se tornando mais leve e renovado.',
+    color: 'from-teal-600/15 via-[#FBF8F2] to-[#F5EFE4] border-teal-500/30 text-teal-800',
     badge: 'DO PESCOÇO PARA BAIXO'
   },
   {
     id: 'banho-rosas-hibisco',
     name: 'Banho de Rosas Vermelhas com Flor de Hibisco',
-    popularName: 'Autoestima Radiante, Poder Pessoal & Amor-Próprio',
+    popularName: 'Autoestima, Presença & Amor-Próprio',
     category: 'Amor & Harmonização',
     applicationRule: 'DO_PESCOCO_PARA_BAIXO',
-    purpose: 'Cura de sentimentos de rejeição ou baixa autoestima, resgate do poder de sedução saudável, entusiasmo e paixão pela vida.',
+    purpose: 'Na tradição simbólica, é associado a amor-próprio, presença, confiança e acolhimento de sentimentos de rejeição.',
     herbs: ['Pétalas de 2 Rosas Vermelhas frescas', '2 colheres de flores secas de Hibisco'],
-    preparation: 'Ferva 1,5L de água, desligue o fogo e adicione as pétalas de rosa e o hibisco. Tampe por 15 minutos até a água ganhar tom avermelhado. Coe, espere amornar e despeje DO PESCOÇO PARA BAIXO.',
-    bestDayOrTime: 'Sexta-feira (Dia de Vênus / Afrodite)',
-    associatedChakra: 'Chakra Sacral (Umbilical) e Cardíaco',
-    affirmation: 'Eu me amo, me honro e me respeito. Minha presença é magnética, bela e cheia de vida.',
-    color: 'from-rose-600/20 via-[#FBF8F2] to-pink-950/40 border-rose-500/40 text-rose-300',
+    preparation: 'Ferva 1,5L de água, desligue e adicione as pétalas e o hibisco. Tampe por 15 minutos, coe, deixe amornar e aplique do pescoço para baixo.',
+    bestDayOrTime: 'Sexta-feira (associação tradicional a Vênus / Afrodite)',
+    associatedChakra: 'Chakra Sacral e Cardíaco',
+    affirmation: 'Eu me amo, me honro e me respeito. Minha presença tem valor.',
+    color: 'from-rose-500/15 via-[#FBF8F2] to-pink-50 border-rose-400/30 text-rose-800',
     badge: 'DO PESCOÇO PARA BAIXO'
   },
   {
     id: 'banho-capim-santo-louro',
     name: 'Banho de Capim-Santo (Cidreira) com Louro',
-    popularName: 'Tranquilidade Mental & Vitória Conquistada',
+    popularName: 'Tranquilidade & Intenção de Vitória',
     category: 'Acalento & Sono',
     applicationRule: 'DO_PESCOCO_PARA_BAIXO',
-    purpose: 'Cessa o turbilhão de pensamentos repetitivos, traz calma imediata e atrai sensação de alívio e triunfo sobre dificuldades.',
+    purpose: 'Na tradição, é associado a desaceleração, serenidade e intenção de confiança diante das dificuldades.',
     herbs: ['1 punhado de folhas de Capim-Santo frescas ou secas', '5 folhas de Louro'],
-    preparation: 'Ferva a água com o louro por 3 minutos, desligue o fogo e adicione o capim-santo. Deixe abafado por 15 minutos. Coe e despeje DO PESCOÇO PARA BAIXO à noite.',
+    preparation: 'Ferva a água com o louro por 3 minutos, desligue e adicione o capim-santo. Deixe abafado por 15 minutos, coe, espere amornar e aplique do pescoço para baixo.',
     bestDayOrTime: 'Domingo à noite ou Quinta-feira',
     associatedChakra: 'Chakra Plexo Solar e Cardíaco',
-    affirmation: 'Minha mente repousa em serenidade. Confio no triunfo da minha caminhada.',
-    color: 'from-lime-500/20 via-[#FBF8F2] to-emerald-950/40 border-lime-400/40 text-lime-300',
+    affirmation: 'Minha mente encontra serenidade. Confio no meu caminho.',
+    color: 'from-lime-500/15 via-[#FBF8F2] to-emerald-50 border-lime-400/30 text-lime-800',
     badge: 'DO PESCOÇO PARA BAIXO'
   }
 ];
@@ -246,330 +246,94 @@ interface HerbalBathsModalProps {
   userName?: string;
 }
 
-export default function HerbalBathsModal({ isOpen, onClose, userName }: HerbalBathsModalProps) {
+export default function HerbalBathsModal({ isOpen, onClose }: HerbalBathsModalProps) {
   const [selectedCategory, setSelectedCategory] = useState<string>('Todos');
   const [searchTerm, setSearchTerm] = useState<string>('');
   const [copiedId, setCopiedId] = useState<string | null>(null);
-  const [activeBathId, setActiveBathId] = useState<string>('banho-boldo');
+  const [copyError, setCopyError] = useState('');
 
   if (!isOpen) return null;
 
   const categories = ['Todos', 'Coronário & Paz Mental', 'Limpeza & Descarrego', 'Abertura & Prosperidade', 'Amor & Harmonização', 'Acalento & Sono'];
-
+  const query = searchTerm.trim().toLowerCase();
   const filteredBaths = SACRED_HERBAL_BATHS.filter(bath => {
     const matchesCategory = selectedCategory === 'Todos' || bath.category === selectedCategory;
-    const matchesSearch = bath.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                          bath.popularName.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                          bath.purpose.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                          bath.herbs.some(h => h.toLowerCase().includes(searchTerm.toLowerCase()));
+    const matchesSearch = !query || bath.name.toLowerCase().includes(query) || bath.popularName.toLowerCase().includes(query) || bath.purpose.toLowerCase().includes(query) || bath.herbs.some(herb => herb.toLowerCase().includes(query));
     return matchesCategory && matchesSearch;
   });
 
-  const activeBath = SACRED_HERBAL_BATHS.find(b => b.id === activeBathId) || SACRED_HERBAL_BATHS[0];
+  const safetyNote = 'Uso externo e ritual. Algumas plantas podem irritar ou sensibilizar a pele. Evite olhos, mucosas e pele lesionada. Não ingerir. Em caso de alergia conhecida, gestação, amamentação, uso em crianças ou condição de pele, procure orientação profissional antes de usar. Interrompa diante de qualquer reação.';
 
   const handleCopyRecipe = async (bath: HerbalBath) => {
-    const text = `GUIA DE BANHO: ${bath.name.toUpperCase()} (${bath.popularName})
-Regra de aplicação: ${bath.applicationRule === 'CABECALHO_E_CORPO' ? 'DA CABEÇA AOS PÉS (exceção indicada neste guia)' : 'ESTRITAMENTE DO PESCOÇO PARA BAIXO — NUNCA NA CABEÇA'}
-Para que serve na tradição desta prática: ${bath.purpose}
-Ingredientes: ${bath.herbs.join(', ')}
-Modo de preparo: ${bath.preparation}
-Melhor momento: ${bath.bestDayOrTime}
-Afirmação: "${bath.affirmation}"
-Protocolo da Transformação — Éverton Piceni`;
-
+    const text = `GUIA DE BANHO: ${bath.name.toUpperCase()} (${bath.popularName})\nRegra de aplicação: ${bath.applicationRule === 'CABECALHO_E_CORPO' ? 'CABEÇA AOS PÉS — exceção da tradição deste acervo; evite rosto, olhos e mucosas' : 'DO PESCOÇO PARA BAIXO'}\nUso tradicional/simbólico: ${bath.purpose}\nIngredientes: ${bath.herbs.join(', ')}\nModo de preparo: ${bath.preparation}\nMomento sugerido na tradição: ${bath.bestDayOrTime}\nAfirmação: "${bath.affirmation}"\nSegurança: ${safetyNote}\nProtocolo da Transformação — Éverton Piceni`;
     try {
       await navigator.clipboard.writeText(text);
+      setCopyError('');
       setCopiedId(bath.id);
       setTimeout(() => setCopiedId(null), 3000);
-    } catch (error) {
-      console.warn('Não foi possível copiar a orientação do banho automaticamente.', error);
+    } catch {
+      setCopyError('Não foi possível copiar automaticamente. Selecione o texto manualmente ou use o compartilhamento.');
     }
   };
 
   const handleShareWhatsApp = (bath: HerbalBath) => {
-    const text = encodeURIComponent(`*Banho: ${bath.name}* (${bath.popularName})
-*Regra:* ${bath.applicationRule === 'CABECALHO_E_CORPO' ? '*DA CABEÇA AOS PÉS*' : '*DO PESCOÇO PARA BAIXO — NUNCA NA CABEÇA*'}
-*Para que serve na tradição desta prática:* ${bath.purpose}
-*Preparo:* ${bath.preparation}
-*Afirmação:* "${bath.affirmation}"
-_Protocolo da Transformação_`);
+    const text = encodeURIComponent(`*Banho: ${bath.name}* (${bath.popularName})\n*Aplicação:* ${bath.applicationRule === 'CABECALHO_E_CORPO' ? 'cabeça aos pés conforme a tradição deste acervo; evitar olhos e mucosas' : 'do pescoço para baixo'}\n*Uso tradicional/simbólico:* ${bath.purpose}\n*Preparo:* ${bath.preparation}\n*Afirmação:* "${bath.affirmation}"\n*Segurança:* ${safetyNote}\n_Protocolo da Transformação_`);
     window.open(`https://api.whatsapp.com/send?text=${text}`, '_blank', 'noopener,noreferrer');
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-5 bg-[#2A2420]/30 backdrop-blur-md overflow-y-auto overscroll-contain animate-fade-in" id="herbal-baths-modal" role="dialog" aria-modal="true" aria-label="Guia de banhos de ervas">
-      <motion.div
-        initial={{ opacity: 0, scale: 0.95, y: 15 }}
-        animate={{ opacity: 1, scale: 1, y: 0 }}
-        exit={{ opacity: 0, scale: 0.95, y: 15 }}
-        className="bg-[#FBF8F2] border border-[#E5DAC6] rounded-2xl sm:rounded-3xl w-full max-w-4xl max-h-[calc(100dvh-1rem)] sm:max-h-[92dvh] flex flex-col overflow-hidden shadow-2xl relative my-auto"
-      >
-        {/* Header */}
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-5 bg-[#2A2420]/30 backdrop-blur-md overflow-y-auto overscroll-contain" id="herbal-baths-modal" role="dialog" aria-modal="true" aria-label="Guia de banhos de ervas">
+      <motion.div initial={{ opacity: 0, scale: 0.95, y: 15 }} animate={{ opacity: 1, scale: 1, y: 0 }} exit={{ opacity: 0, scale: 0.95, y: 15 }} className="bg-[#FBF8F2] border border-[#E5DAC6] rounded-2xl sm:rounded-3xl w-full max-w-4xl max-h-[calc(100dvh-1rem)] sm:max-h-[92dvh] flex flex-col overflow-hidden shadow-2xl relative my-auto">
         <div className="p-5 sm:p-6 border-b border-[#E5DAC6] bg-gradient-to-r from-emerald-50 via-[#FBF8F2] to-[#F5EFE4] flex items-center justify-between shrink-0">
-          <div className="flex items-center gap-3.5">
-            <div className="w-11 h-11 rounded-2xl bg-emerald-500/20 text-emerald-700 border border-emerald-500/30 flex items-center justify-center shrink-0 shadow-sm">
-              <Leaf size={22} />
-            </div>
-            <div>
-              <div className="flex items-center gap-2">
-                <span className="text-[10px] font-mono uppercase tracking-widest text-emerald-700 font-bold bg-emerald-500/10 px-2 py-0.5 rounded-full border border-emerald-500/20">
-                  Sabedoria Ancestral & Fitoterapia Sagrada
-                </span>
-              </div>
-              <h2 className="text-lg sm:text-xl font-display font-bold text-[#2A2420] mt-0.5">
-                Guia Sagrado de Banhos de Ervas & Limpeza Energética
-              </h2>
-            </div>
-          </div>
-
-          <button
-            type="button"
-            onClick={onClose}
-            aria-label="Fechar guia de banhos"
-            className="w-11 h-11 rounded-xl bg-[#F5EFE4]/80 hover:bg-[#EFE4D3] text-[#5C5248] hover:text-[#2A2420] border border-[#E5DAC6] transition cursor-pointer flex items-center justify-center focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B88736]/30"
-            id="btn-close-herbal-baths"
-          >
-            <X size={18} />
-          </button>
+          <div className="flex items-center gap-3.5 min-w-0"><div className="w-11 h-11 rounded-2xl bg-emerald-50 text-emerald-700 border border-emerald-200 flex items-center justify-center shrink-0"><Leaf size={22} /></div><div className="min-w-0"><span className="text-[10px] font-mono uppercase tracking-widest text-emerald-800 font-bold bg-emerald-50 px-2 py-0.5 rounded-full border border-emerald-200">Sabedoria Tradicional & Ervas</span><h2 className="text-lg sm:text-xl font-display font-bold text-[#2A2420] mt-0.5">Guia de Banhos de Ervas & Práticas Energéticas</h2></div></div>
+          <button type="button" onClick={onClose} aria-label="Fechar guia de banhos" className="w-11 h-11 rounded-xl bg-[#F5EFE4] hover:bg-[#EFE4D3] text-[#5C5248] hover:text-[#2A2420] border border-[#E5DAC6] transition cursor-pointer flex items-center justify-center focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B88736]/30"><X size={18} /></button>
         </div>
 
-        {/* Scrollable Content */}
-        <div className="p-5 sm:p-6 overflow-y-auto overscroll-contain space-y-6 flex-1 custom-scrollbar">
-
-          {/* CRITICAL SACRED WARNING BANNER */}
-          <div className="p-4 sm:p-5 rounded-2xl bg-gradient-to-r from-amber-50 via-[#FBF8F2] to-[#F5EFE4] border-2 border-amber-300 shadow-xl space-y-2.5 relative overflow-hidden" id="sacred-bath-golden-rule">
-            <div className="flex items-start gap-3">
-              <div className="p-2.5 rounded-xl bg-amber-500/20 text-amber-800 border border-amber-500/30 shrink-0">
-                <AlertTriangle size={22} />
-              </div>
-              <div className="space-y-1">
-                <h3 className="text-sm sm:text-base font-bold text-amber-200 flex items-center gap-2">
-                  <span>REGRA DE OURO DOS BANHOS ENERGÉTICOS</span>
-                </h3>
-                <p className="text-xs sm:text-sm text-[#2A2420] leading-relaxed font-medium">
-                  <strong className="text-amber-800">NENHUM BANHO DE ERVAS DEVE SER TOMADO DA CABEÇA AOS PÉS, A NÃO SER O BANHO DE BOLDO.</strong>
-                </p>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2 text-xs">
-                  <div className="p-3 rounded-xl bg-white/75 border border-amber-500/30 space-y-1">
-                    <span className="text-amber-800 font-bold flex items-center gap-1.5 font-mono text-[11px]">
-                      <Sparkles size={13} className="text-amber-400" />
-                      BANHO DE BOLDO (Exceção Única)
-                    </span>
-                    <p className="text-[#5C5248] leading-snug text-[11px]">
-                      É a <strong>única erva permitida da cabeça aos pés</strong> (no Chakra Coronário). Ele acalma os pensamentos, limpa miasmas mentais e reconecta com a paz de Oxalá / Jesus sem agredir seu portal superior.
-                    </p>
-                  </div>
-
-                  <div className="p-3 rounded-xl bg-white/75 border border-[#B88736]/30 space-y-1">
-                    <span className="text-[#B88736] font-bold flex items-center gap-1.5 font-mono text-[11px]">
-                      <ShieldCheck size={13} className="text-[#B88736]" />
-                      TODOS OS DEMAIS BANHOS
-                    </span>
-                    <p className="text-[#5C5248] leading-snug text-[11px]">
-                      Alecrim, Arruda, Manjericão, Camomila, Alfazema, Louro, etc. devem ser tomados <strong>SEMPRE DO PESCOÇO / OMBROS PARA BAIXO</strong> para não desalinhar a frequência do Chakra Coronário.
-                    </p>
-                  </div>
-                </div>
-
-                <div className="pt-2 text-[11px] text-amber-800/80 flex items-center gap-1.5">
-                  <Info size={13} className="shrink-0 text-amber-400" />
-                  <span>
-                    <strong>Sobre o Sal Grosso:</strong> Não recomendamos o uso de sal grosso no protocolo diário, pois ele remove todas as energias (inclusive as boas) e resseca a aura. Prefira sempre as ervas sagradas que limpam e restauram a luz divina.
-                  </span>
-                </div>
-              </div>
+        <div className="p-4 sm:p-6 overflow-y-auto overscroll-contain space-y-5 flex-1 custom-scrollbar">
+          <div className="p-4 rounded-2xl bg-amber-50 border border-amber-300 space-y-3" role="note" aria-label="Cuidados de segurança">
+            <div className="flex items-start gap-3"><AlertTriangle size={20} className="text-amber-800 shrink-0 mt-0.5" /><div><h3 className="text-sm font-bold text-amber-900">Tradição e segurança precisam caminhar juntas</h3><p className="mt-1 text-xs leading-relaxed text-[#5C5248]">{safetyNote}</p></div></div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
+              <div className="p-3 rounded-xl bg-white border border-amber-200"><span className="font-bold text-amber-900 flex items-center gap-1.5"><Sparkles size={13} /> Boldo no acervo</span><p className="mt-1 text-[#5C5248]">A tradição registrada neste acervo trata o boldo como exceção para aplicação também no topo da cabeça. Isso é uma referência ritual, não uma declaração universal de segurança.</p></div>
+              <div className="p-3 rounded-xl bg-white border border-[#E5DAC6]"><span className="font-bold text-[#8F631E] flex items-center gap-1.5"><ShieldCheck size={13} /> Demais preparos</span><p className="mt-1 text-[#5C5248]">Neste guia, os demais banhos são apresentados para uso externo do pescoço para baixo, sempre respeitando sensibilidade individual.</p></div>
             </div>
           </div>
 
-          {/* Search & Category Filter */}
           <div className="space-y-3">
-            <div className="flex flex-col sm:flex-row gap-2.5">
-              <div className="relative flex-1">
-                <Search size={16} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-[#85786C]" />
-                <input
-                  type="text"
-                  value={searchTerm}
-                  onChange={(e) => setSearchTerm(e.target.value)}
-                  placeholder="Buscar erva, finalidade (ex: boldo, sono, prosperidade, descarrego)..."
-                  className="w-full bg-white border border-[#E5DAC6] rounded-xl pl-9 pr-4 py-2.5 text-xs text-[#2A2420] placeholder-slate-500 focus:outline-none focus:border-emerald-500 transition"
-                />
-              </div>
-            </div>
-
-            {/* Category Pills */}
-            <div className="flex items-center gap-1.5 overflow-x-auto pb-1 no-scrollbar">
-              {categories.map(cat => (
-                <button
-                  key={cat}
-                  type="button"
-                  onClick={() => setSelectedCategory(cat)}
-                  className={`px-3 py-1.5 rounded-xl text-xs font-semibold whitespace-nowrap transition cursor-pointer border ${
-                    selectedCategory === cat
-                      ? 'bg-emerald-600 border-emerald-500 text-white shadow-sm shadow-emerald-600/20'
-                      : 'bg-white/70 border-[#E5DAC6] text-[#5C5248] hover:text-[#2A2420] hover:border-[#E5DAC6]'
-                  }`}
-                >
-                  {cat}
-                </button>
-              ))}
-            </div>
+            <div className="relative"><Search size={16} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-[#85786C]" /><input type="search" value={searchTerm} onChange={(event) => setSearchTerm(event.target.value)} aria-label="Buscar banho por erva ou finalidade tradicional" placeholder="Buscar erva, intenção ou tema..." className="w-full bg-white border border-[#E5DAC6] rounded-xl pl-9 pr-4 py-3 text-xs text-[#2A2420] placeholder:text-[#85786C] focus:outline-none focus:border-[#B88736]" /></div>
+            <div className="flex items-center gap-1.5 overflow-x-auto pb-1 no-scrollbar" role="group" aria-label="Filtrar banhos por categoria">{categories.map(category => <button key={category} type="button" aria-pressed={selectedCategory === category} onClick={() => setSelectedCategory(category)} className={`min-h-11 px-3 py-1.5 rounded-xl text-xs font-semibold whitespace-nowrap transition cursor-pointer border focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B88736]/30 ${selectedCategory === category ? 'bg-[#073b2b] border-[#073b2b] text-white' : 'bg-white border-[#E5DAC6] text-[#5C5248] hover:border-[#B88736]/40'}`}>{category}</button>)}</div>
           </div>
 
-          {/* Baths List Grid */}
+          {copyError && <p role="alert" className="rounded-xl border border-rose-200 bg-rose-50 px-3 py-2 text-xs text-rose-700">{copyError}</p>}
+
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {filteredBaths.map(bath => {
               const isBoldo = bath.id === 'banho-boldo';
               const isCopied = copiedId === bath.id;
-
               return (
-                <div
-                  key={bath.id}
-                  className={`p-4 sm:p-5 rounded-2xl border bg-gradient-to-br transition-all duration-300 flex flex-col justify-between space-y-4 shadow-lg ${
-                    isBoldo
-                      ? 'from-amber-50 via-[#FBF8F2] to-[#F5EFE4] border-amber-300 ring-1 ring-amber-200'
-                      : 'from-[#F8F4EC]/80 via-[#FBF8F2] to-[#F3EBDD]/60 border-[#E5DAC6] hover:border-[#E5DAC6]'
-                  }`}
-                >
+                <article key={bath.id} className={`p-4 sm:p-5 rounded-2xl border flex flex-col justify-between space-y-4 shadow-sm ${isBoldo ? 'bg-amber-50 border-amber-300' : 'bg-white border-[#E5DAC6]'}`}>
                   <div className="space-y-3">
-                    {/* Top Badges */}
-                    <div className="flex flex-wrap items-center justify-between gap-2">
-                      <span className={`text-[10px] font-mono font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full border ${
-                        isBoldo 
-                          ? 'bg-amber-500/20 text-amber-800 border-amber-500/40 animate-pulse'
-                          : 'bg-[#B88736]/15 text-[#B88736] border-[#B88736]/30'
-                      }`}>
-                        {bath.badge}
-                      </span>
-                      <span className="text-[11px] text-[#5C5248] font-mono">
-                        {bath.category}
-                      </span>
-                    </div>
-
-                    {/* Title */}
-                    <div>
-                      <h3 className="text-base sm:text-lg font-bold text-[#2A2420] flex items-center gap-2">
-                        {bath.name}
-                        {isBoldo && <Sparkles size={16} className="text-amber-400" />}
-                      </h3>
-                      <p className="text-xs text-amber-800/90 font-mono font-medium">
-                        {bath.popularName}
-                      </p>
-                    </div>
-
-                    {/* Purpose */}
-                    <div className="p-3 rounded-xl bg-white/80 border border-[#E5DAC6] space-y-1">
-                      <span className="text-[10px] font-mono uppercase text-emerald-700 font-bold block flex items-center gap-1">
-                        <Heart size={11} />
-                        Para que serve:
-                      </span>
-                      <p className="text-xs text-[#2A2420] leading-relaxed">
-                        {bath.purpose}
-                      </p>
-                    </div>
-
-                    {/* Herbs & Application Rule */}
-                    <div className="space-y-1.5 text-xs">
-                      <div className="flex items-start gap-1.5 text-[#5C5248]">
-                        <strong className="text-[#5C5248] font-mono text-[11px] shrink-0">Ervas:</strong>
-                        <span>{bath.herbs.join(', ')}</span>
-                      </div>
-
-                      <div className="flex items-start gap-1.5 text-[#5C5248]">
-                        <strong className="text-[#5C5248] font-mono text-[11px] shrink-0">Aplicação:</strong>
-                        <span className={isBoldo ? 'text-amber-800 font-bold' : 'text-[#B88736] font-semibold'}>
-                          {isBoldo ? 'Da cabeça aos pés' : 'Estritamente do pescoço para baixo'}
-                        </span>
-                      </div>
-
-                      <div className="flex items-start gap-1.5 text-[#5C5248]">
-                        <strong className="text-[#5C5248] font-mono text-[11px] shrink-0">Momento:</strong>
-                        <span className="text-[#5C5248]">{bath.bestDayOrTime}</span>
-                      </div>
-                    </div>
-
-                    {/* Preparation */}
-                    <div className="p-3 rounded-xl bg-white/70 border border-[#E5DAC6]/80 space-y-1 text-xs">
-                      <span className="text-[10px] font-mono uppercase text-[#B88736] font-bold block">
-                        Modo de Preparo & Intenção:
-                      </span>
-                      <p className="text-[#5C5248] text-[11px] leading-relaxed">
-                        {bath.preparation}
-                      </p>
-                    </div>
-
-                    {/* Affirmation */}
-                    <div className="p-2.5 rounded-xl bg-white/40 border border-dashed border-[#E5DAC6] text-xs">
-                      <span className="text-[9px] font-mono uppercase text-amber-400 font-bold block">
-                        Afirmação Durante o Banho:
-                      </span>
-                      <p className="text-amber-800 italic text-[11px] font-serif mt-0.5">
-                        "{bath.affirmation}"
-                      </p>
-                    </div>
+                    <div className="flex flex-wrap items-center justify-between gap-2"><span className={`text-[10px] font-mono font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full border ${isBoldo ? 'bg-amber-100 text-amber-900 border-amber-300' : 'bg-[#B88736]/10 text-[#8F631E] border-[#B88736]/25'}`}>{bath.badge}</span><span className="text-[11px] text-[#5C5248] font-mono">{bath.category}</span></div>
+                    <div><h3 className="text-base sm:text-lg font-bold text-[#2A2420] flex items-center gap-2">{bath.name}{isBoldo && <Sparkles size={16} className="text-[#B88736]" />}</h3><p className="text-xs text-[#8F631E] font-mono font-medium">{bath.popularName}</p></div>
+                    <div className="p-3 rounded-xl bg-[#FBF8F2] border border-[#E5DAC6] space-y-1"><span className="text-[10px] font-mono uppercase text-emerald-800 font-bold block flex items-center gap-1"><Heart size={11} /> Uso na tradição desta prática</span><p className="text-xs text-[#2A2420] leading-relaxed">{bath.purpose}</p></div>
+                    <div className="space-y-1.5 text-xs text-[#5C5248]"><p><strong className="font-mono text-[11px]">Ervas:</strong> {bath.herbs.join(', ')}</p><p><strong className="font-mono text-[11px]">Aplicação:</strong> <span className={isBoldo ? 'text-amber-900 font-bold' : 'text-[#8F631E] font-semibold'}>{isBoldo ? 'Conforme exceção ritual descrita neste acervo' : 'Do pescoço para baixo'}</span></p><p><strong className="font-mono text-[11px]">Momento tradicional:</strong> {bath.bestDayOrTime}</p></div>
+                    <div className="p-3 rounded-xl bg-[#FBF8F2] border border-[#E5DAC6] space-y-1"><span className="text-[10px] font-mono uppercase text-[#8F631E] font-bold block">Modo de preparo & intenção</span><p className="text-[#5C5248] text-[11px] leading-relaxed">{bath.preparation}</p></div>
+                    <div className="p-2.5 rounded-xl bg-white border border-dashed border-[#E5DAC6]"><span className="text-[9px] font-mono uppercase text-[#8F631E] font-bold block">Afirmação</span><p className="text-[#5C5248] italic text-[11px] font-serif mt-0.5">“{bath.affirmation}”</p></div>
                   </div>
-
-                  {/* Card Action Buttons */}
                   <div className="flex items-center gap-2 pt-2 border-t border-[#E5DAC6]">
-                    <button
-                      type="button"
-                      onClick={() => handleCopyRecipe(bath)}
-                      className="flex-1 py-2 rounded-xl bg-[#F5EFE4] hover:bg-[#EFE4D3] text-[#2A2420] text-xs font-semibold flex items-center justify-center gap-1.5 transition cursor-pointer border border-[#E5DAC6]"
-                    >
-                      {isCopied ? (
-                        <>
-                          <CheckCircle2 size={13} className="text-emerald-700" />
-                          <span className="text-emerald-700" role="status" aria-live="polite">Copiado</span>
-                        </>
-                      ) : (
-                        <>
-                          <Copy size={13} />
-                          <span>Copiar Receita</span>
-                        </>
-                      )}
-                    </button>
-
-                    <button
-                      type="button"
-                      onClick={() => handleShareWhatsApp(bath)}
-                      className="py-2 px-3 rounded-xl bg-white hover:bg-[#F5EFE4] text-[#5C5248] border border-[#E5DAC6] text-xs font-semibold flex items-center justify-center gap-1.5 transition cursor-pointer"
-                      title="Compartilhar no WhatsApp"
-                    >
-                      <Share2 size={13} />
-                      <span className="hidden sm:inline">WhatsApp</span>
-                    </button>
+                    <button type="button" onClick={() => handleCopyRecipe(bath)} className="flex-1 min-h-11 py-2 rounded-xl bg-[#F5EFE4] hover:bg-[#EFE4D3] text-[#2A2420] text-xs font-semibold flex items-center justify-center gap-1.5 transition cursor-pointer border border-[#E5DAC6] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B88736]/30">{isCopied ? <><CheckCircle2 size={13} className="text-emerald-700" /><span className="text-emerald-700" role="status" aria-live="polite">Copiado</span></> : <><Copy size={13} /><span>Copiar orientação</span></>}</button>
+                    <button type="button" onClick={() => handleShareWhatsApp(bath)} className="min-h-11 py-2 px-3 rounded-xl bg-white hover:bg-[#F5EFE4] text-[#5C5248] border border-[#E5DAC6] text-xs font-semibold flex items-center justify-center gap-1.5 transition cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B88736]/30" aria-label={`Compartilhar ${bath.name} no WhatsApp`}><Share2 size={13} /><span className="hidden sm:inline">WhatsApp</span></button>
                   </div>
-                </div>
+                </article>
               );
             })}
           </div>
 
-          {/* Quick FAQ / Harmonização */}
-          <div className="p-4 rounded-2xl bg-white border border-[#E5DAC6] space-y-2 text-xs text-[#5C5248]">
-            <h4 className="text-[#2A2420] font-bold flex items-center gap-1.5 font-mono text-xs">
-              <Info size={14} className="text-[#B88736]" />
-              Dúvidas Frequentes sobre os Banhos de Ervas:
-            </h4>
-            <ul className="list-disc list-inside space-y-1 text-[#5C5248] leading-relaxed text-[11px]">
-              <li><strong>Posso tomar mais de um banho por semana?</strong> Sim, recomendamos intercalar banhos de limpeza suave (boldo, manjericão) com banhos de elevação (alecrim, camomila) com intervalo de 2 a 3 dias.</li>
-              <li><strong>O que fazer com as folhas coadas?</strong> Devolva à natureza (em um jardim, vaso ou pé de árvore) agradecendo pelo elemento vegetal. Evite jogar no lixo comum quando possível.</li>
-              <li><strong>Sempre tomar o banho higiênico antes?</strong> Sim! Primeiro limpe o corpo físico com sabonete e água corrente. Depois, desligue o chuveiro e despeje o banho de ervas com tranquilidade e presença.</li>
-            </ul>
-          </div>
+          {filteredBaths.length === 0 && <div className="rounded-2xl border border-[#E5DAC6] bg-white p-6 text-center text-sm text-[#5C5248]" role="status">Nenhum banho encontrado para essa busca.</div>}
+
+          <div className="p-4 rounded-2xl bg-white border border-[#E5DAC6] space-y-2 text-xs text-[#5C5248]"><h4 className="text-[#2A2420] font-bold flex items-center gap-1.5 font-mono text-xs"><Info size={14} className="text-[#B88736]" /> Orientações gerais</h4><ul className="list-disc pl-5 space-y-1 text-[11px] leading-relaxed"><li>Evite combinar várias misturas intensas no mesmo dia; dê espaço para observar como sua pele e seu corpo respondem.</li><li>Descarte ou devolva os resíduos vegetais de maneira adequada, respeitando o ambiente.</li><li>Esses banhos são práticas culturais/espirituais de uso externo e não substituem tratamento de saúde.</li></ul></div>
         </div>
 
-        {/* Footer */}
-        <div className="p-4 border-t border-[#E5DAC6] bg-white flex flex-col sm:flex-row items-center justify-between gap-3 shrink-0">
-          <p className="text-[11px] text-[#5C5248] font-mono text-center sm:text-left">
-            Protocolo da Transformação • Banhos e práticas com ervas por Éverton Piceni
-          </p>
-          <button
-            type="button"
-            onClick={onClose}
-            className="w-full sm:w-auto px-6 py-2.5 rounded-xl bg-[#B88736] hover:bg-[#8F631E] text-white font-bold text-xs shadow-md cursor-pointer transition"
-          >
-            Entendido, Fechar Guia
-          </button>
-        </div>
+        <div className="p-4 border-t border-[#E5DAC6] bg-white flex flex-col sm:flex-row items-center justify-between gap-3 shrink-0"><p className="text-[11px] text-[#5C5248] font-mono text-center sm:text-left">Protocolo da Transformação • Banhos e práticas tradicionais com ervas</p><button type="button" onClick={onClose} className="w-full sm:w-auto min-h-11 px-6 py-2.5 rounded-xl bg-[#B88736] hover:bg-[#8F631E] text-white font-bold text-xs shadow-md cursor-pointer transition">Fechar guia</button></div>
       </motion.div>
     </div>
   );

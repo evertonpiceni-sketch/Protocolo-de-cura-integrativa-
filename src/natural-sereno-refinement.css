@@ -1,0 +1,173 @@
+/* Final audit refinements for Estilo 1 — Natural Sereno only.
+   This file is intentionally imported after natural-sereno.css so legacy utility
+   colors inside approved existing components cannot reintroduce another theme. */
+
+:root[data-layout="natural-sereno"] #anamnesis-modal {
+  --ns-modal-ink: #26372a;
+  --ns-modal-muted: #5f6854;
+  --ns-modal-paper: #fffaf0;
+  --ns-modal-paper-strong: #fffdf6;
+  --ns-modal-line: #d9c58f;
+  --ns-modal-forest: #073b2b;
+  --ns-modal-gold: #b68b36;
+}
+
+:root[data-layout="natural-sereno"] #anamnesis-modal > div {
+  background:
+    linear-gradient(180deg, rgba(255,250,235,.96), rgba(255,248,227,.98)),
+    url('/brand/natural-sereno/folhagem.webp') center top / 100% auto no-repeat !important;
+}
+
+:root[data-layout="natural-sereno"] #anamnesis-modal :is(h1,h2,h3,h4,strong) {
+  color: var(--ns-modal-ink) !important;
+}
+
+:root[data-layout="natural-sereno"] #anamnesis-modal :is(p,label,small) {
+  color: var(--ns-modal-muted) !important;
+}
+
+:root[data-layout="natural-sereno"] #anamnesis-modal :is(
+  [class*="bg-indigo"],
+  [class*="bg-purple"],
+  [class*="from-indigo"],
+  [class*="to-purple"],
+  [class*="via-purple"],
+  [class*="bg-slate-9"]
+) {
+  background: var(--ns-modal-paper) !important;
+  border-color: var(--ns-modal-line) !important;
+}
+
+:root[data-layout="natural-sereno"] #anamnesis-modal :is(
+  [class*="text-indigo"],
+  [class*="text-purple"],
+  [class*="text-slate-2"],
+  [class*="text-slate-3"]
+) {
+  color: var(--ns-modal-forest) !important;
+}
+
+:root[data-layout="natural-sereno"] #anamnesis-modal [class*="shadow-indigo"],
+:root[data-layout="natural-sereno"] #anamnesis-modal [class*="shadow-purple"] {
+  box-shadow: 0 5px 18px rgba(61,69,45,.08) !important;
+}
+
+:root[data-layout="natural-sereno"] #anamnesis-modal #anamnesis-audio-player-card,
+:root[data-layout="natural-sereno"] #anamnesis-modal #anamnesis-feedback-area,
+:root[data-layout="natural-sereno"] #anamnesis-modal #anamnesis-top-greeting,
+:root[data-layout="natural-sereno"] #anamnesis-modal #anamnesis-recommended-treatment {
+  background: linear-gradient(180deg, rgba(255,253,246,.98), rgba(250,243,222,.95)) !important;
+  border-color: var(--ns-modal-line) !important;
+  box-shadow: inset 0 1px 2px rgba(255,255,255,.9), 0 4px 16px rgba(61,69,45,.07) !important;
+}
+
+:root[data-layout="natural-sereno"] #anamnesis-modal #anamnesis-audio-player-card [class*="from-indigo-500"] {
+  background: linear-gradient(180deg, #d8bd6b, #896923) !important;
+}
+
+:root[data-layout="natural-sereno"] #anamnesis-modal #anamnesis-audio-player-card button[id="btn-play-diagnosis-audio"] {
+  background: linear-gradient(180deg, #e5c773, #a8812e) !important;
+  color: #fffbed !important;
+  border: 1px solid #efd896 !important;
+  box-shadow: inset 0 1px 2px #fff0b3, 0 3px 10px rgba(86,64,16,.2) !important;
+}
+
+:root[data-layout="natural-sereno"] #anamnesis-modal #anamnesis-audio-player-card .bg-gradient-to-t.from-indigo-500.to-purple-400 {
+  background: linear-gradient(to top, #6d7c55, #c3a557) !important;
+}
+
+:root[data-layout="natural-sereno"] #anamnesis-modal textarea,
+:root[data-layout="natural-sereno"] #anamnesis-modal input:not([type="range"]),
+:root[data-layout="natural-sereno"] #anamnesis-modal select {
+  background: var(--ns-modal-paper-strong) !important;
+  border-color: var(--ns-modal-line) !important;
+  color: var(--ns-modal-ink) !important;
+}
+
+:root[data-layout="natural-sereno"] #anamnesis-modal :is(textarea,input,select):focus-visible {
+  outline: 2px solid var(--ns-modal-gold) !important;
+  outline-offset: 2px;
+  box-shadow: none !important;
+}
+
+:root[data-layout="natural-sereno"] #anamnesis-modal input[type="range"] {
+  accent-color: var(--ns-modal-forest);
+}
+
+:root[data-layout="natural-sereno"] #anamnesis-modal #anamnesis-feedback-area button {
+  min-height: 44px;
+}
+
+:root[data-layout="natural-sereno"] #anamnesis-modal #anamnesis-feedback-area button:not(:disabled) {
+  border-color: var(--ns-modal-line) !important;
+}
+
+:root[data-layout="natural-sereno"] #anamnesis-modal #anamnesis-feedback-area button[class*="bg-emerald"] {
+  background: var(--ns-modal-forest) !important;
+  color: #fffbed !important;
+}
+
+:root[data-layout="natural-sereno"] #anamnesis-modal #anamnesis-feedback-area [class*="text-emerald"] {
+  color: #315d3d !important;
+}
+
+:root[data-layout="natural-sereno"] #anamnesis-modal button {
+  min-height: 44px;
+}
+
+:root[data-layout="natural-sereno"] #anamnesis-modal button[aria-label="Fechar Mapa do Momento"] {
+  border-radius: 14px;
+  background: rgba(255,253,246,.94) !important;
+  border-color: var(--ns-modal-line) !important;
+  color: var(--ns-modal-forest) !important;
+}
+
+:root[data-layout="natural-sereno"] #anamnesis-modal [class*="bg-amber-50"] {
+  background: #fbf3dc !important;
+  border-color: #dcc58b !important;
+}
+
+:root[data-layout="natural-sereno"] #anamnesis-modal [class*="text-amber-9"],
+:root[data-layout="natural-sereno"] #anamnesis-modal [class*="text-amber-8"] {
+  color: #6e5620 !important;
+}
+
+@media (max-width: 639px) {
+  :root[data-layout="natural-sereno"] #anamnesis-modal > div {
+    padding: 18px 14px 24px !important;
+  }
+
+  :root[data-layout="natural-sereno"] #anamnesis-modal h1 {
+    font-size: 26px !important;
+    line-height: 1.12 !important;
+  }
+
+  :root[data-layout="natural-sereno"] #anamnesis-modal h2 {
+    font-size: 27px !important;
+  }
+
+  :root[data-layout="natural-sereno"] #anamnesis-modal .space-y-6 {
+    gap: 14px;
+  }
+}
+
+/* Natural Sereno destinations that previously leaked legacy violet/indigo. */
+:root[data-layout="natural-sereno"] :is(#courses-modal,#astral-map-modal,#audio-settings-modal,#settings-view) {
+  --ns-destination-paper: #fffaf0;
+  --ns-destination-line: #d9c58f;
+  --ns-destination-ink: #26372a;
+  --ns-destination-forest: #073b2b;
+}
+
+:root[data-layout="natural-sereno"] :is(#courses-modal,#astral-map-modal,#audio-settings-modal,#settings-view) :is(
+  [class*="bg-indigo"],[class*="bg-purple"],[class*="from-indigo"],[class*="to-purple"]
+):not(.ep-layout-choice,.ep-layout-choice *) {
+  background: var(--ns-destination-paper) !important;
+  border-color: var(--ns-destination-line) !important;
+}
+
+:root[data-layout="natural-sereno"] :is(#courses-modal,#astral-map-modal,#audio-settings-modal,#settings-view) :is(
+  [class*="text-indigo"],[class*="text-purple"]
+):not(.ep-layout-choice,.ep-layout-choice *) {
+  color: var(--ns-destination-forest) !important;
+}
