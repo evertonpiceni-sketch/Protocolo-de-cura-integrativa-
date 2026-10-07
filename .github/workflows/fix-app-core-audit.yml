@@ -1,0 +1,186 @@
+name: Fix App Core Audit Findings
+
+on:
+  push:
+    paths:
+      - '.github/workflows/fix-app-core-audit.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  patch-and-verify:
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Checkout current main
+        uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+
+      - name: Patch verified App core findings
+        shell: python
+        run: |
+          from pathlib import Path
+          path = Path('src/App.tsx')
+          text = path.read_text()
+
+          old = '''  // Complete a meditation session
+          const handleCompleteSession = (
+            dayNum: number,
+            journalText: string,
+            moodRating: number,
+            beforeFeeling?: SessionCheckIn,
+            afterFeeling?: SessionCheckIn
+          ) => {
+            // 1. Update the daily progress logs
+            const updatedProgress = progress.map(day => {
+              if (day.dayNumber === dayNum) {
+                return {
+                  ...day,
+                  completed: true,
+                  completedAt: new Date().toISOString(),
+                  journalText,
+                  mood: moodRating,
+                  beforeFeeling,
+                  afterFeeling
+                };
+              }
+              return day;
+            });
+
+            // 2. Compute streaks and update profile
+            let updatedProfile = userProfile;
+            if (userProfile) {
+              let streak = userProfile.currentStreak;
+              streak = streak + 1;
+              const newLongest = Math.max(streak, userProfile.longestStreak);
+          '''
+          new = '''  // Complete a meditation session
+          const handleCompleteSession = (
+            dayNum: number,
+            journalText: string,
+            moodRating: number,
+            beforeFeeling?: SessionCheckIn,
+            afterFeeling?: SessionCheckIn
+          ) => {
+            const wasAlreadyCompleted = progress.some(day => day.dayNumber === dayNum && day.completed);
+
+            // 1. Update the daily progress logs without rewriting the original completion date.
+            const updatedProgress = progress.map(day => {
+              if (day.dayNumber === dayNum) {
+                return {
+                  ...day,
+                  completed: true,
+                  completedAt: day.completedAt || new Date().toISOString(),
+                  journalText,
+                  mood: moodRating,
+                  beforeFeeling,
+                  afterFeeling
+                };
+              }
+              return day;
+            });
+
+            // 2. A repeated session may update its reflection, but must not inflate the streak.
+            let updatedProfile = userProfile;
+            if (userProfile) {
+              const previousStreak = Number(userProfile.currentStreak || 0);
+              const streak = wasAlreadyCompleted ? previousStreak : previousStreak + 1;
+              const newLongest = Math.max(streak, Number(userProfile.longestStreak || 0));
+          '''
+          if text.count(old) != 1:
+              raise SystemExit(f'handleCompleteSession target count={text.count(old)}')
+          text = text.replace(old, new)
+
+          old = '''  // Factory reset utility for users wishing to restart their 21-day program
+          const handleResetProgram = () => {
+            if (window.confirm("Atenção: Isso irá apagar todo o seu progresso dos 21 dias e as anotações do diário de cura. Deseja reiniciar o ciclo de cura?")) {
+              const defaultProgress: DayProgress[] = Array.from({ length: 21 }, (_, index) => ({
+                dayNumber: index + 1,
+                completed: false,
+                journalText: '',
+                mood: 5
+              }));
+          '''
+          new = '''  // Reset only the 21-day journey data after an explicit confirmation.
+          const handleResetProgram = () => {
+            if (window.confirm("Atenção: esta ação apagará o progresso dos 21 dias e as anotações vinculadas a essa jornada. Deseja reiniciar a jornada de 21 dias?")) {
+              const defaultProgress: DayProgress[] = Array.from({ length: 21 }, (_, index) => ({
+                dayNumber: index + 1,
+                completed: false,
+                journalText: ''
+              }));
+          '''
+          if text.count(old) != 1:
+              raise SystemExit(f'handleResetProgram target count={text.count(old)}')
+          text = text.replace(old, new)
+
+          old = '''  // Retrieve mood description text
+          const getMoodLabel = (mood?: number) => {
+            if (!mood) return "Pacífico";
+            switch (mood) {
+              case 1: return "Pesado";
+              case 2: return "Inquieto";
+              case 3: return "Neutro";
+              case 4: return "Calmo";
+              case 5: return "Em Paz";
+              default: return "Pacífico";
+            }
+          };
+          '''
+          new = '''  // Retrieve only labels backed by a recorded mood value.
+          const getMoodLabel = (mood?: number) => {
+            if (typeof mood !== 'number') return "Não registrado";
+            switch (mood) {
+              case 1: return "Pesado";
+              case 2: return "Inquieto";
+              case 3: return "Neutro";
+              case 4: return "Calmo";
+              case 5: return "Em Paz";
+              default: return "Não registrado";
+            }
+          };
+          '''
+          if text.count(old) != 1:
+              raise SystemExit(f'getMoodLabel target count={text.count(old)}')
+          text = text.replace(old, new)
+
+          path.write_text(text)
+
+      - name: Verify only App changed
+        shell: bash
+        run: |
+          set -euo pipefail
+          changed="$(git status --short)"
+          echo "$changed"
+          test "$(git status --short | wc -l)" -eq 1
+          echo "$changed" | grep -Eq '^ M src/App\.tsx$'
+
+      - name: Install exact dependencies
+        run: npm ci --no-audit --no-fund
+
+      - name: TypeScript check
+        run: npm run lint
+
+      - name: Regression tests
+        run: npm test
+
+      - name: Build
+        run: npm run build
+
+      - name: Commit verified App fix
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add src/App.tsx
+          git commit -m 'fix: keep journey reset and streak data truthful'
+          git push origin HEAD:main
