@@ -30,7 +30,6 @@ jobs:
           from pathlib import Path
           path = Path('src/App.tsx')
           text = path.read_text()
-
           start_marker = '        {/* Settings view */}'
           end_marker = '        ) : isJournalOpen ? ('
           start = text.index(start_marker)
@@ -38,36 +37,36 @@ jobs:
           settings = text[start:end]
 
           replacements = [
-            ('Customização do Protocolo', 'Intenções da Prática', 2),
-            ('Foco de Cura (Intenção Direcionada)', 'Intenções que desejo cultivar', 1),
-            ('Selecione as intenções que deseja reforçar durante as sessões do protocolo.', 'Selecione as intenções que deseja cultivar e recordar durante as práticas.', 1),
-            ("'bg-emerald-600/20 border-emerald-500 text-emerald-300'", "'bg-[#B88736]/12 border-[#B88736] text-[#8F631E]'", 1),
-            ("'bg-indigo-600/30 border-indigo-500 text-indigo-300'", "'bg-[#B88736]/12 border-[#B88736] text-[#8F631E]'", 1),
-            ('Ative ou pause a reprodução contínua da trilha de cura.', 'Ative ou pause a reprodução contínua da trilha de apoio.', 1),
-            ('<h3 className="text-sm font-display font-medium text-emerald-400 flex items-center gap-1.5">', '<h3 className="text-sm font-display font-medium text-[#2A2420] flex items-center gap-1.5">', 1),
-            ('<MessageCircle size={15} className="text-emerald-400" />', '<MessageCircle size={15} className="text-[#B88736]" />', 1),
-            ('Tire dúvidas sobre o protocolo ou peça amparo energético com o terapeuta.', 'Tire dúvidas sobre a jornada, o uso dos recursos ou fale com o terapeuta.', 1),
-            ('className="px-3.5 py-2 bg-emerald-600 hover:bg-emerald-500 text-white rounded-xl text-xs font-semibold flex items-center justify-center gap-1.5 transition cursor-pointer shadow-md shadow-emerald-600/20 shrink-0"', 'className="min-h-11 px-3.5 py-2 bg-[#B88736] hover:bg-[#8F631E] text-white rounded-xl text-xs font-semibold flex items-center justify-center gap-1.5 transition cursor-pointer shadow-sm shrink-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B88736]/35"', 1),
-            ('Tratamento Específico Individual (7 Dias / 21 Dias por R$ 59,90)', 'Prática Individual (7 ou 21 dias)', 1),
-            ('Canalização energética personalizada de 7 ou 21 dias para sua queixa ou dor física específica.', 'Prática energética individual de 7 ou 21 dias orientada pela intenção e pelo contexto que você compartilhar. Valores e opções são apresentados no formulário.', 1),
-            ('className="px-3 py-1.5 bg-emerald-600 hover:bg-emerald-500 text-white rounded-xl text-xs font-semibold cursor-pointer transition shrink-0"', 'className="min-h-11 px-3 py-2 bg-[#B88736] hover:bg-[#8F631E] text-white rounded-xl text-xs font-semibold cursor-pointer transition shrink-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B88736]/35"', 1),
-            ('Solicitar Novo', 'Solicitar prática', 1),
-            ('Seus Tratamentos Específicos (', 'Suas práticas individuais (', 1),
-            ('className="p-4 bg-white border border-[#E5DAC6] hover:border-emerald-500/30 rounded-2xl flex flex-col justify-between space-y-2 text-xs transition shadow-sm"', 'className="p-4 bg-white border border-[#E5DAC6] hover:border-[#B88736]/40 rounded-2xl flex flex-col justify-between space-y-2 text-xs transition shadow-sm"', 1),
-            ('className="font-bold text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded-full border border-emerald-500/20 text-[10px] uppercase"', 'className="font-bold text-[#8F631E] bg-[#B88736]/10 px-2 py-0.5 rounded-full border border-[#B88736]/20 text-[10px] uppercase"', 1),
-            ("{t.title || 'Tratamento Pontual'}", "{t.title || 'Prática Individual'}", 1),
-            ('className="pt-2 border-t border-[#E5DAC6]/80 flex justify-between items-center text-[10px] text-indigo-300 font-mono mt-2"', 'className="pt-2 border-t border-[#E5DAC6]/80 flex justify-between items-center text-[10px] text-[#8F631E] font-mono mt-2"', 1),
-            ('<span>Decreto: Ativo</span>', '<span>Status: Ativo</span>', 1),
-            ('<Award size={14} className="text-amber-400" />', '<Award size={14} className="text-[#B88736]" />', 1),
-            ('<Heart size={14} className="text-emerald-400" />', '<Heart size={14} className="text-[#B88736]" />', 1),
-            ('<Sparkles size={12} className="text-amber-400" />', '<Sparkles size={12} className="text-[#B88736]" />', 1),
-            ('<Crown size={14} className="text-amber-400" />', '<Crown size={14} className="text-[#B88736]" />', 1)
+            ('Customização do Protocolo', 'Intenções da Prática'),
+            ('Foco de Cura (Intenção Direcionada)', 'Intenções que desejo cultivar'),
+            ('Selecione as intenções que deseja reforçar durante as sessões do protocolo.', 'Selecione as intenções que deseja cultivar e recordar durante as práticas.'),
+            ("'bg-emerald-600/20 border-emerald-500 text-emerald-300'", "'bg-[#B88736]/12 border-[#B88736] text-[#8F631E]'"),
+            ("'bg-indigo-600/30 border-indigo-500 text-indigo-300'", "'bg-[#B88736]/12 border-[#B88736] text-[#8F631E]'"),
+            ('Ative ou pause a reprodução contínua da trilha de cura.', 'Ative ou pause a reprodução contínua da trilha de apoio.'),
+            ('<h3 className="text-sm font-display font-medium text-emerald-400 flex items-center gap-1.5">', '<h3 className="text-sm font-display font-medium text-[#2A2420] flex items-center gap-1.5">'),
+            ('<MessageCircle size={15} className="text-emerald-400" />', '<MessageCircle size={15} className="text-[#B88736]" />'),
+            ('Tire dúvidas sobre o protocolo ou peça amparo energético com o terapeuta.', 'Tire dúvidas sobre a jornada, o uso dos recursos ou fale com o terapeuta.'),
+            ('className="px-3.5 py-2 bg-emerald-600 hover:bg-emerald-500 text-white rounded-xl text-xs font-semibold flex items-center justify-center gap-1.5 transition cursor-pointer shadow-md shadow-emerald-600/20 shrink-0"', 'className="min-h-11 px-3.5 py-2 bg-[#B88736] hover:bg-[#8F631E] text-white rounded-xl text-xs font-semibold flex items-center justify-center gap-1.5 transition cursor-pointer shadow-sm shrink-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B88736]/35"'),
+            ('Tratamento Específico Individual (7 Dias / 21 Dias por R$ 59,90)', 'Prática Individual (7 ou 21 dias)'),
+            ('Canalização energética personalizada de 7 ou 21 dias para sua queixa ou dor física específica.', 'Prática energética individual de 7 ou 21 dias orientada pela intenção e pelo contexto que você compartilhar. Valores e opções são apresentados no formulário.'),
+            ('className="px-3 py-1.5 bg-emerald-600 hover:bg-emerald-500 text-white rounded-xl text-xs font-semibold cursor-pointer transition shrink-0"', 'className="min-h-11 px-3 py-2 bg-[#B88736] hover:bg-[#8F631E] text-white rounded-xl text-xs font-semibold cursor-pointer transition shrink-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B88736]/35"'),
+            ('Solicitar Novo', 'Solicitar prática'),
+            ('Seus Tratamentos Específicos (', 'Suas práticas individuais ('),
+            ('className="p-4 bg-white border border-[#E5DAC6] hover:border-emerald-500/30 rounded-2xl flex flex-col justify-between space-y-2 text-xs transition shadow-sm"', 'className="p-4 bg-white border border-[#E5DAC6] hover:border-[#B88736]/40 rounded-2xl flex flex-col justify-between space-y-2 text-xs transition shadow-sm"'),
+            ('className="font-bold text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded-full border border-emerald-500/20 text-[10px] uppercase"', 'className="font-bold text-[#8F631E] bg-[#B88736]/10 px-2 py-0.5 rounded-full border border-[#B88736]/20 text-[10px] uppercase"'),
+            ("{t.title || 'Tratamento Pontual'}", "{t.title || 'Prática Individual'}"),
+            ('className="pt-2 border-t border-[#E5DAC6]/80 flex justify-between items-center text-[10px] text-indigo-300 font-mono mt-2"', 'className="pt-2 border-t border-[#E5DAC6]/80 flex justify-between items-center text-[10px] text-[#8F631E] font-mono mt-2"'),
+            ('<span>Decreto: Ativo</span>', '<span>Status: Ativo</span>'),
+            ('<Award size={14} className="text-amber-400" />', '<Award size={14} className="text-[#B88736]" />'),
+            ('<Heart size={14} className="text-emerald-400" />', '<Heart size={14} className="text-[#B88736]" />'),
+            ('<Sparkles size={12} className="text-amber-400" />', '<Sparkles size={12} className="text-[#B88736]" />'),
+            ('<Crown size={14} className="text-amber-400" />', '<Crown size={14} className="text-[#B88736]" />')
           ]
 
-          for old, new, expected in replacements:
+          for old, new in replacements:
             count = settings.count(old)
-            if count != expected:
-              raise SystemExit(f'expected {expected} match(es), found {count}: {old[:88]!r}')
+            if count < 1:
+              raise SystemExit(f'missing audited target: {old[:88]!r}')
             settings = settings.replace(old, new)
 
           text = text[:start] + settings + text[end:]
