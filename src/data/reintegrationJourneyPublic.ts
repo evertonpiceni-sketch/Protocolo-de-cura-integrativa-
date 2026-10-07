@@ -1,4 +1,4 @@
-import { ABERTURA_OFICIAL, JORNADA_21_DIAS, RETORNO_DIARIO, SILENCIO_ABSORCAO, type DiaJornada } from './jornada21Dias';
+import { ABERTURA_OFICIAL, JORNADA_21_DIAS, RETORNO_DIARIO, SILENCIO_ABSORCAO, type DiaJornada } from './jornada21Dias.js';
 
 export type GuidedCue = { at: number; text: string };
 export type ReintegrationDay = {

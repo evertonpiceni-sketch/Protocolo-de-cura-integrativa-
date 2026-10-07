@@ -81,3 +81,9 @@ Esta revisão usa o painel Natural Sereno enviado pelo usuário e os documentos 
 3. [Documento da Jornada Única Integrada](https://docs.google.com/document/d/1MXgQqnKxX8Nqt9oWaT5LnzqSjLfTYqFVuppYKReXMlg/edit): fonte encontrada com estrutura diferente da jornada atual; diferença registrada, sem migração automática.
 
 **O que impede encerrar o Estilo 1:** vídeos finais e sincronização fina de cada dia; correspondência editorial integral dos 21 roteiros do Protocolo; fonte do logo com transparência real; reprodução/verificação do cadastro na produção; comparação visual final dos 12 estados aprovados e suas telas auxiliares. Testes aprovados e ausência de alertas automáticos não removem essas pendências.
+
+## Verificação adicional da prévia real
+
+A conferência sem fixtures detectou HTTP 500 em `/api/health` e `/api/auth/me`. Os logs da Vercel identificaram `ERR_MODULE_NOT_FOUND` no import de `jornada21Dias` por `reintegrationJourneyPublic`. Corrigida a extensão `.js` necessária para a execução ESM na função Node. A validação da nova implantação ainda deve confirmar a recuperação; cadastro real continua sem certificação até essa confirmação.
+
+O workflow adicional de análise por IA falhou por quota mensal do serviço (HTTP 402), sem apresentar uma descoberta de código. A auditoria de dependências passou com zero vulnerabilidades.
