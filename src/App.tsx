@@ -1092,7 +1092,7 @@ export default function App() {
                       onClick={() => setShowAstralMapModal(true)}
                       className="px-3 py-1.5 rounded-xl bg-purple-600/30 hover:bg-purple-600/50 border border-purple-500/40 text-purple-200 text-xs font-semibold flex items-center gap-1.5 transition cursor-pointer"
                     >
-                      <Sparkles size={12} className="text-amber-400" />
+                      <Sparkles size={12} className="text-[#B88736]" />
                       <span>Ver Mapa Astral Completo</span>
                     </button>
                   </div>
@@ -1319,17 +1319,17 @@ export default function App() {
                 </div>
               </div>
 
-              {/* Customização do Protocolo */}
+              {/* Intenções da Prática */}
               <div className="space-y-4 pt-6 border-t border-[#E5DAC6]">
                 <div className="flex items-center gap-1.5">
                   <Sparkles size={16} className="text-emerald-400" />
-                  <h3 className="text-sm font-display font-medium text-[#2A2420]">Customização do Protocolo</h3>
+                  <h3 className="text-sm font-display font-medium text-[#2A2420]">Intenções da Prática</h3>
                 </div>
                 
                 {/* Foco de Cura */}
                 <div className="space-y-2">
-                  <span className="text-xs font-mono text-[#85786C] uppercase block">Foco de Cura (Intenção Direcionada)</span>
-                  <p className="text-[10px] text-[#5C5248]">Selecione as intenções que deseja reforçar durante as sessões do protocolo.</p>
+                  <span className="text-xs font-mono text-[#85786C] uppercase block">Intenções que desejo cultivar</span>
+                  <p className="text-[10px] text-[#5C5248]">Selecione as intenções que deseja cultivar e recordar durante as práticas.</p>
                   <div className="flex flex-wrap gap-2 pt-1">
                     {['Ansiedade', 'Autoconfiança', 'Perdão', 'Prosperidade', 'Sono Profundo', 'Disposição'].map(focus => {
                       const isSelected = (userProfile.healingFocuses || []).includes(focus);
@@ -1345,7 +1345,7 @@ export default function App() {
                           }}
                           className={`px-3 py-1.5 rounded-lg text-xs font-medium border transition cursor-pointer ${
                             isSelected
-                              ? 'bg-emerald-600/20 border-emerald-500 text-emerald-300'
+                              ? 'bg-[#B88736]/12 border-[#B88736] text-[#8F631E]'
                               : 'bg-white border-[#E5DAC6] text-[#5C5248] hover:border-[#E5DAC6]'
                           }`}
                         >
@@ -1369,7 +1369,7 @@ export default function App() {
                           onClick={() => saveProfile({ ...userProfile, pauseDuration: duration })}
                           className={`flex-1 py-1.5 rounded-lg text-xs font-mono transition cursor-pointer border ${
                             currentPause === duration
-                              ? 'bg-indigo-600/30 border-indigo-500 text-indigo-300'
+                              ? 'bg-[#B88736]/12 border-[#B88736] text-[#8F631E]'
                               : 'bg-white border-[#E5DAC6] text-[#5C5248] hover:bg-[#FBF8F2]'
                           }`}
                         >
@@ -1387,7 +1387,7 @@ export default function App() {
                   <div className="flex items-center justify-between">
                     <div>
                       <span className="text-xs font-mono text-[#85786C] uppercase block">Música de Fundo Global</span>
-                      <p className="text-xs text-[#5C5248]">Ative ou pause a reprodução contínua da trilha de cura.</p>
+                      <p className="text-xs text-[#5C5248]">Ative ou pause a reprodução contínua da trilha de apoio.</p>
                     </div>
                     <button
                       type="button"
@@ -1464,18 +1464,18 @@ export default function App() {
               <div className="pt-6 border-t border-[#E5DAC6] space-y-3">
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
                   <div>
-                    <h3 className="text-sm font-display font-medium text-emerald-400 flex items-center gap-1.5">
-                      <MessageCircle size={15} className="text-emerald-400" />
+                    <h3 className="text-sm font-display font-medium text-[#2A2420] flex items-center gap-1.5">
+                      <MessageCircle size={15} className="text-[#B88736]" />
                       Fale Conosco
                     </h3>
                     <p className="text-xs text-[#5C5248] mt-0.5">
-                      Tire dúvidas sobre o protocolo ou peça amparo energético com o terapeuta.
+                      Tire dúvidas sobre a jornada, o uso dos recursos ou fale com o terapeuta.
                     </p>
                   </div>
                   <button
                     type="button"
                     onClick={() => setShowContactModal(true)}
-                    className="px-3.5 py-2 bg-emerald-600 hover:bg-emerald-500 text-white rounded-xl text-xs font-semibold flex items-center justify-center gap-1.5 transition cursor-pointer shadow-md shadow-emerald-600/20 shrink-0"
+                    className="min-h-11 px-3.5 py-2 bg-[#B88736] hover:bg-[#8F631E] text-white rounded-xl text-xs font-semibold flex items-center justify-center gap-1.5 transition cursor-pointer shadow-sm shrink-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B88736]/35"
                   >
                     <MessageCircle size={14} />
                     <span>Fale Conosco</span>
@@ -1487,39 +1487,39 @@ export default function App() {
               <div className="pt-6 border-t border-[#E5DAC6] space-y-3">
                 <div className="flex items-center justify-between">
                   <div>
-                    <h3 className="text-sm font-display font-medium text-emerald-400">Tratamento Específico Individual (7 Dias / 21 Dias por R$ 59,90)</h3>
+                    <h3 className="text-sm font-display font-medium text-emerald-400">Prática Individual (7 ou 21 dias)</h3>
                     <p className="text-xs text-[#5C5248] mt-0.5">
-                      Canalização energética personalizada de 7 ou 21 dias para sua queixa ou dor física específica.
+                      Prática energética individual de 7 ou 21 dias orientada pela intenção e pelo contexto que você compartilhar. Valores e opções são apresentados no formulário.
                     </p>
                   </div>
                   <button
                     onClick={() => setShowSpecificTreatmentModal(true)}
-                    className="px-3 py-1.5 bg-emerald-600 hover:bg-emerald-500 text-white rounded-xl text-xs font-semibold cursor-pointer transition shrink-0"
+                    className="min-h-11 px-3 py-2 bg-[#B88736] hover:bg-[#8F631E] text-white rounded-xl text-xs font-semibold cursor-pointer transition shrink-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B88736]/35"
                   >
-                    Solicitar Novo
+                    Solicitar prática
                   </button>
                 </div>
 
                 {userProfile.specificTreatments && userProfile.specificTreatments.length > 0 && (
                   <div className="space-y-3 mt-4 pt-2 border-t border-[#E5DAC6]">
-                    <span className="text-[11px] font-mono text-[#5C5248] uppercase block font-bold mb-2">Seus Tratamentos Específicos ({userProfile.specificTreatments.length}):</span>
+                    <span className="text-[11px] font-mono text-[#5C5248] uppercase block font-bold mb-2">Suas práticas individuais ({userProfile.specificTreatments.length}):</span>
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                       {userProfile.specificTreatments.map((t, idx) => (
-                        <div key={t.id || idx} className="p-4 bg-white border border-[#E5DAC6] hover:border-emerald-500/30 rounded-2xl flex flex-col justify-between space-y-2 text-xs transition shadow-sm">
+                        <div key={t.id || idx} className="p-4 bg-white border border-[#E5DAC6] hover:border-[#B88736]/40 rounded-2xl flex flex-col justify-between space-y-2 text-xs transition shadow-sm">
                           <div>
                             <div className="flex items-center justify-between mb-1.5">
-                              <span className="font-bold text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded-full border border-emerald-500/20 text-[10px] uppercase">
+                              <span className="font-bold text-[#8F631E] bg-[#B88736]/10 px-2 py-0.5 rounded-full border border-[#B88736]/20 text-[10px] uppercase">
                                 {t.category.replace(/_/g, ' ')}
                               </span>
                               <span className="text-[9px] font-mono text-[#85786C]">
                                 {new Date(t.requestedAt).toLocaleDateString('pt-BR')}
                               </span>
                             </div>
-                            <h4 className="font-semibold text-[#2A2420] text-[13px] leading-tight mb-1">{t.title || 'Tratamento Pontual'}</h4>
+                            <h4 className="font-semibold text-[#2A2420] text-[13px] leading-tight mb-1">{t.title || 'Prática Individual'}</h4>
                             <p className="text-[#5C5248] text-[11px] italic line-clamp-3 leading-relaxed">"{t.patientDescription || t.userCaseDescription}"</p>
                           </div>
-                          <div className="pt-2 border-t border-[#E5DAC6]/80 flex justify-between items-center text-[10px] text-indigo-300 font-mono mt-2">
-                            <span>Decreto: Ativo</span>
+                          <div className="pt-2 border-t border-[#E5DAC6]/80 flex justify-between items-center text-[10px] text-[#8F631E] font-mono mt-2">
+                            <span>Status: Ativo</span>
                             <span className="font-bold">{t.assignedFrequency?.toUpperCase() || t.prescribedFrequency?.toUpperCase()}</span>
                           </div>
                         </div>
@@ -1557,7 +1557,7 @@ export default function App() {
                     className="p-3 bg-white/80 hover:bg-[#FBF8F2] border border-[#E5DAC6] hover:border-[#B88736]/55 rounded-xl text-left flex items-center justify-between text-xs text-[#5C5248] font-semibold cursor-pointer transition"
                   >
                     <span className="flex items-center gap-2">
-                      <Award size={14} className="text-amber-400" />
+                      <Award size={14} className="text-[#B88736]" />
                       <span>Meus Emblemas & Conquistas</span>
                     </span>
                     <span className="text-[10px] text-[#8F631E] font-mono">Ver conquistas</span>
@@ -1573,7 +1573,7 @@ export default function App() {
                     className="p-3 bg-white/80 hover:bg-[#FBF8F2] border border-[#E5DAC6] hover:border-[#B88736]/55 rounded-xl text-left flex items-center justify-between text-xs text-[#5C5248] font-semibold cursor-pointer transition"
                   >
                     <span className="flex items-center gap-2">
-                      <Heart size={14} className="text-emerald-400" />
+                      <Heart size={14} className="text-[#B88736]" />
                       <span>Perguntas Sistêmicas (21 Dias)</span>
                     </span>
                     <span className="text-[10px] text-[#8F631E] font-mono">Reflexões</span>
@@ -1637,7 +1637,7 @@ export default function App() {
                       <Award size={14} className="text-[#B88736]" />
                       <span>Cursos & Formações Energéticas</span>
                     </span>
-                    <Sparkles size={12} className="text-amber-400" />
+                    <Sparkles size={12} className="text-[#B88736]" />
                   </button>
 
                   {userProfile.isAdmin && (
@@ -1650,7 +1650,7 @@ export default function App() {
                       className="p-3 bg-[#F5EFE4] hover:bg-[#EFE4D3] border border-[#B88736]/30 rounded-xl text-left flex items-center justify-between text-xs text-[#5C5248] font-semibold cursor-pointer transition"
                     >
                       <span className="flex items-center gap-2">
-                        <Crown size={14} className="text-amber-400" />
+                        <Crown size={14} className="text-[#B88736]" />
                         <span>Painel do Terapeuta / Admin</span>
                       </span>
                       <span className="text-[10px] text-[#8F631E] font-mono">Acesso restrito</span>
