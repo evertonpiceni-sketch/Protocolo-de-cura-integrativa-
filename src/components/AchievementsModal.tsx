@@ -3,7 +3,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
+import { useDialogFocus } from '../hooks/useDialogFocus';
 import { motion } from 'motion/react';
 import {
   Award, Trophy, Sparkles, Flame, Calendar, Sun, Shield, Heart,
@@ -20,6 +21,8 @@ interface AchievementsModalProps {
 }
 
 export default function AchievementsModal({ isOpen, onClose, userProfile, progress }: AchievementsModalProps) {
+  const dialogRef = useRef<HTMLDivElement>(null);
+  useDialogFocus(isOpen, dialogRef, onClose);
   const [selectedCategory, setSelectedCategory] = useState<'todos' | 'constancia' | 'jornada' | 'espiritual' | 'autoconhecimento'>('todos');
 
   if (!isOpen) return null;
@@ -51,6 +54,7 @@ export default function AchievementsModal({ isOpen, onClose, userProfile, progre
 
   return (
     <div
+      ref={dialogRef}
       className="fixed inset-0 z-50 flex items-center justify-center overflow-y-auto overscroll-contain bg-[#2A2420]/30 p-2 sm:p-4 backdrop-blur-md"
       id="achievements-modal"
       role="dialog"
@@ -143,7 +147,7 @@ export default function AchievementsModal({ isOpen, onClose, userProfile, progre
           </div>
         </header>
 
-        <div className="flex-1 space-y-3 overflow-y-auto overscroll-contain py-4 pr-1">
+        <div tabIndex={0} role="region" aria-label="Emblemas e requisitos da jornada" className="flex-1 space-y-3 overflow-y-auto overscroll-contain py-4 pr-1">
           <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 md:grid-cols-3">
             {filteredAchievements.map(achievement => {
               const isUnlocked = evaluation.unlockedIds.includes(achievement.id);

@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
+import { useDialogFocus } from '../hooks/useDialogFocus';
 import { motion } from 'motion/react';
 import { Smartphone, Download, CheckCircle2, ShieldCheck, Zap, X, Play, Share2, Apple, Info } from 'lucide-react';
 
@@ -8,6 +9,8 @@ interface MobileInstallModalProps {
 }
 
 export default function MobileInstallModal({ onClose, deferredPrompt }: MobileInstallModalProps) {
+  const dialogRef = useRef<HTMLDivElement>(null);
+  useDialogFocus(true, dialogRef, onClose);
   const [isInstalling, setIsInstalling] = useState(false);
   const [installSuccess, setInstallSuccess] = useState(false);
   const [installFeedback, setInstallFeedback] = useState<string | null>(null);
@@ -51,6 +54,7 @@ export default function MobileInstallModal({ onClose, deferredPrompt }: MobileIn
 
   return (
     <div
+      ref={dialogRef}
       className="fixed inset-0 z-50 flex items-center justify-center overflow-y-auto overscroll-contain bg-[#2A2420]/30 p-2 sm:p-4 backdrop-blur-md"
       id="mobile-install-modal"
       role="dialog"

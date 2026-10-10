@@ -226,3 +226,29 @@
 :root[data-layout="natural-sereno"] #settings-view button[class*="bg-[#B88736]"] :is(span,svg) { color: #073b2b !important; }
 
 :root[data-layout="natural-sereno"] #settings-view #settings-support-contact :is(span,svg) { color: #073b2b !important; }
+
+/* Auxiliary screens must not inherit opaque gold from translucent utilities. */
+:root[data-layout="natural-sereno"] :is(#audio-settings-modal,#mobile-install-modal,#achievements-modal,#journal-dashboard-view) [class*="bg-[#B88736]/"] { background-color: #f1e7c8 !important; }
+:root[data-layout="natural-sereno"] :is(#audio-settings-modal,#mobile-install-modal,#achievements-modal) .pointer-events-none[class*="blur"] { background: rgba(182,139,54,.07) !important; }
+:root[data-layout="natural-sereno"] :is(#audio-settings-modal,#mobile-install-modal,#achievements-modal,#journal-dashboard-view) :is([class*="text-[#B88736]"],[class*="text-[#8F631E]"]) { color: #71511c !important; }
+:root[data-layout="natural-sereno"] :is(#audio-settings-modal,#mobile-install-modal,#achievements-modal,#journal-dashboard-view) [class*="text-[#85786C]"] { color: #586454 !important; }
+:root[data-layout="natural-sereno"] :is(#audio-settings-modal,#mobile-install-modal,#achievements-modal,#journal-dashboard-view) .font-mono { font-family: 'Inter', sans-serif; letter-spacing: .02em; }
+:root[data-layout="natural-sereno"] :is(#audio-settings-modal,#mobile-install-modal,#achievements-modal,#journal-dashboard-view) button[class~="bg-[#B88736]"] { background: #dfc57f !important; color: #073b2b !important; }
+:root[data-layout="natural-sereno"] :is(#audio-settings-modal,#mobile-install-modal,#achievements-modal,#journal-dashboard-view) button[class~="bg-[#B88736]"] :is(span,svg) { color: inherit !important; }
+:root[data-layout="natural-sereno"] :is(#mobile-install-modal,#achievements-modal) [role="tab"][aria-selected="true"] { background: #174b37 !important; color: #fffbed !important; }
+:root[data-layout="natural-sereno"] #achievements-modal .opacity-75 { opacity: 1; }
+:root[data-layout="natural-sereno"] #audio-settings-modal button[aria-pressed] { min-height: 64px; }
+:root[data-layout="natural-sereno"] #audio-settings-modal button[aria-pressed] .truncate { white-space: normal; overflow: visible; text-overflow: clip; line-height: 1.4; }
+:root[data-layout="natural-sereno"] #audio-settings-modal input[type="range"] { height: 44px; background: transparent !important; }
+:root[data-layout="natural-sereno"] #audio-settings-modal input[type="range"]::-webkit-slider-runnable-track { height: 6px; border-radius: 999px; background: #e8dfcf; }
+:root[data-layout="natural-sereno"] #audio-settings-modal input[type="range"]::-webkit-slider-thumb { appearance: none; width: 16px; height: 16px; margin-top: -5px; border: 1px solid #71511c; border-radius: 50%; background: #b68b36; }
+:root[data-layout="natural-sereno"] #audio-settings-modal input[type="range"]::-moz-range-track { height: 6px; border-radius: 999px; background: #e8dfcf; }
+:root[data-layout="natural-sereno"] #audio-settings-modal input[type="range"]::-moz-range-thumb { width: 16px; height: 16px; border: 1px solid #71511c; border-radius: 50%; background: #b68b36; }
+:root[data-layout="natural-sereno"] #audio-settings-modal button[role="switch"] { height: 44px; background: transparent !important; }
+:root[data-layout="natural-sereno"] #audio-settings-modal button[role="switch"]::before { content: ''; position: absolute; inset: 10px 0; border-radius: 999px; background: #dcd0be; }
+:root[data-layout="natural-sereno"] #audio-settings-modal button[role="switch"][aria-checked="true"]::before { background: #b68b36; }
+:root[data-layout="natural-sereno"] #audio-settings-modal button[role="switch"] > span { position: relative; }
+@media (max-width: 639px) {
+  :root[data-layout="natural-sereno"] #achievements-modal [role="tablist"] { justify-content: flex-start; }
+  :root[data-layout="natural-sereno"]:has(#journal-dashboard-view) #floating-whatsapp-btn { position: static !important; width: fit-content; margin: 16px auto 24px; transform: none; }
+}
