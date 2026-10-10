@@ -5,6 +5,7 @@ class ExactSolfeggioTone {
   private oscillator: OscillatorNode | null = null;
   private gain: GainNode | null = null;
   private activeFrequency: number | null = null;
+  private targetVolume = 0.035;
 
   private ensureContext() {
     if (typeof window === 'undefined') return null;
@@ -17,14 +18,23 @@ class ExactSolfeggioTone {
     return this.context;
   }
 
-  public start(frequency: number, volume = 0.035) {
+  public setVolume(volume: number) {
+    this.targetVolume = Math.max(0, Math.min(0.08, Number.isFinite(volume) ? volume : 0.035));
+    const ctx = this.ensureContext();
+    if (ctx && this.gain) {
+      this.gain.gain.cancelScheduledValues(ctx.currentTime);
+      this.gain.gain.setTargetAtTime(this.targetVolume, ctx.currentTime, 0.08);
+    }
+  }
+
+  public start(frequency: number, volume = this.targetVolume) {
     if (!ALLOWED_SOLFEGGIO.has(frequency)) {
       console.warn(`Solfeggio não suportado: ${frequency} Hz`);
       return;
     }
+    this.targetVolume = Math.max(0, Math.min(0.08, volume));
     if (this.oscillator && this.activeFrequency === frequency) {
-      const ctx = this.ensureContext();
-      if (ctx && this.gain) this.gain.gain.setTargetAtTime(Math.max(0, Math.min(0.08, volume)), ctx.currentTime, 0.08);
+      this.setVolume(this.targetVolume);
       return;
     }
 
@@ -37,7 +47,7 @@ class ExactSolfeggioTone {
     oscillator.type = 'sine';
     oscillator.frequency.setValueAtTime(frequency, ctx.currentTime);
     gain.gain.setValueAtTime(0, ctx.currentTime);
-    gain.gain.linearRampToValueAtTime(Math.max(0, Math.min(0.08, volume)), ctx.currentTime + 0.8);
+    gain.gain.linearRampToValueAtTime(this.targetVolume, ctx.currentTime + 0.8);
     oscillator.connect(gain);
     gain.connect(ctx.destination);
     oscillator.start();
