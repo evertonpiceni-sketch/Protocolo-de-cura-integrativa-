@@ -1,0 +1,18 @@
+{
+  "url": "https://protocolo-de-cura-integrativa.vercel.app/",
+  "endpoints": {
+    "/api/health": {
+      "status": 200,
+      "body": "{\"status\":\"ok\"}"
+    },
+    "/api/auth/me": {
+      "status": 401,
+      "body": "{\"error\":\"Não autorizado.\"}"
+    }
+  },
+  "errors": [],
+  "helpLinkVerified": true,
+  "registrationNotSubmitted": true,
+  "paymentNotExecuted": true,
+  "mobileOverflow": false
+}
