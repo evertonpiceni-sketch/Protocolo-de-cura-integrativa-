@@ -1,0 +1,28 @@
+{
+  "checks": [
+    "Home, jornada, biblioteca and community navigate by real pointer clicks; dock unobstructed.",
+    "All 21 journey thumbnails are distinct and load successfully.",
+    "Every Natural Sereno library thumbnail loads from an isolated theme asset.",
+    "Six distinct library cards fit above the dock at the approved 390×844 viewport.",
+    "Library search and empty state.",
+    "All six menu rows fit above the dock at 390×844.",
+    "Profile progress uses the supplied real completion data.",
+    "Profile logout is visible above the dock and contact opens/closes with existing callbacks.",
+    "Larger playback controls remain visible with no player overflow at 320, 390, 768 and 1440 CSS px.",
+    "Acceptance → check-in → player; play/pause, seek and script-drawer callbacks do not throw. Browser speech held in QA to inspect the stage.",
+    "Reintegração keeps its own frozen ivory tokens.",
+    "Result uses existing recommendation engine, without altering its content or rules.",
+    "No horizontal overflow at 320, 390, 768 and 1440 CSS px.",
+    "The three other themes keep the legacy component branch and never render Natural Sereno.",
+    "Welcome voice toggle and session-persisted entry still work.",
+    "Expanded registration uses ivory under all themes, has no overflow at 320/390/713 px, and plays the static male sample before login without personal voice attribution.",
+    "Registration and login keep ivory Natural Sereno surfaces under all four theme IDs; existing tabs work.",
+    "Loading scene captured and frozen registration/login remains accessible without authentication."
+  ],
+  "errors": [],
+  "consoleErrors": [],
+  "frozen": {
+    "color": "rgb(42, 36, 32)",
+    "canvas": "#F8F4EC"
+  }
+}

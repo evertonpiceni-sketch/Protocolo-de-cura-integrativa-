@@ -1,0 +1,5500 @@
+[
+  {
+    "screen": "01-audio-desktop",
+    "title": "home",
+    "text": "TERAPIAS HOLÍSTICAS E BEM-ESTAR\nProtocolo da Transformação\nMEMBRO PRO\nSom\nArcanjo\nPortuguês\nEnglish\nEspañol\nFrançais\nItaliano\nDeutsch\nApp\nSair\nOlá, Maria.\n\nQue bom que você voltou para si.\n\nRespire. Você não precisa fazer tudo hoje. Escolha apenas o cuidado que combina com o seu momento.\n\nUm novo capítulo\npode começar hoje.\n\nRespire. Acolha. Transforme.\nVocê consegue.\nComeçar minha jornada\nDia 3\nPurificação das Águas\nPrimeiro, vamos ouvir você\nComo você está de verdade?\n\nResponda à anamnese para receber seu resultado, frequência, chakra em foco, floral, aroma e protocolo recomendado.\n\nComeçar minha anamnese\nAfirmação do dia\nPurificação das Águas\n\nAcolhendo simbolicamente memórias ancestrais e abrindo espaço interior para um novo fluxo de presença.\n\nSentir o sopro sutil de ervas sagradas.\nVocê já fez muito por você.\n\nAgora, é a sua vez.\n\nMenu\nOutros caminhos da sua jornada\nFale conosco\nUm lugar para voltar para si\nInício\nJornada\nBiblioteca\nComunidade\n\nO Protocolo da Transformação é canalizado energeticamente por Éverton Rodrigo Piceni, respeitando o tempo e a jornada de cada pessoa.\n\nEU SOU LIVRE • EU SOU CURA • EU ESTOU EM PAZ\nACÚSTICA & FREQUÊNCIAS\nAjuste Completo do Som & Voz\nFREQUÊNCIA DE FUNDO\n50% Volume\n396Hz\nAterramento & reflexão\n528Hz\nCalma & presença com camada binaural\n432Hz\nAtmosfera suave com camada binaural\n639Hz\nConexão & acolhimento\n417Hz\nRenovação simbólica\n852Hz\nVIP\nIntrospecção\n963Hz\nVIP\nContemplação\n741Hz\nVIP\nClareza & foco\nFloresta Zen\nPássaros & Vento\nChuva Serena\nÁgua Calmante\nSinos Zen\nTigelas Tibetanas\nSem Trilha\nSilêncio Absoluto\nÁUDIO BINAURAL OPCIONAL\nEstéreo Binaural\nCamada Binaural\n\nAdicione uma diferença estéreo sutil entre os canais esquerdo e direito sobre a trilha escolhida. Para perceber o efeito estéreo, use fones de ouvido em volume confortável.\n\nAtive para adicionar uma diferença estéreo opcional entre os canais sobre a trilha escolhida. Os nomes Delta, Theta, Alpha, Beta e Gamma identificam apenas a diferença de frequência selecionada.\nVOZ DA MEDITAÇÃO GUIADA\nVelocidade da Narração\n0.82x (Equilibrada)\nVolume da Voz\n85%\nOuvir Teste de Áudio e Frequência\nSALVAR E APLICAR AJUSTES DE SOM\nFale Conosco",
+    "buttons": [
+      {
+        "tag": "BUTTON",
+        "text": "MEMBRO PROPRO",
+        "label": "Abrir Certificado e Relatório Quântico",
+        "disabled": false,
+        "rect": {
+          "x": 660.96875,
+          "y": 19,
+          "width": 111.015625,
+          "height": 30,
+          "top": 19,
+          "right": 771.984375,
+          "bottom": 49,
+          "left": 660.96875
+        },
+        "color": "rgb(7, 59, 43)",
+        "bg": "rgba(0, 0, 0, 0)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "",
+        "label": "Ativar trilha de cura",
+        "disabled": false,
+        "rect": {
+          "x": 781.984375,
+          "y": 18,
+          "width": 32,
+          "height": 32,
+          "top": 18,
+          "right": 813.984375,
+          "bottom": 50,
+          "left": 781.984375
+        },
+        "color": "rgb(7, 59, 43)",
+        "bg": "rgba(255, 250, 231, 0.93)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Som",
+        "label": "Ajustar sons, frequências e sintonização bioativa",
+        "disabled": false,
+        "rect": {
+          "x": 817.984375,
+          "y": 19,
+          "width": 60.671875,
+          "height": 30,
+          "top": 19,
+          "right": 878.65625,
+          "bottom": 49,
+          "left": 817.984375
+        },
+        "color": "rgb(7, 59, 43)",
+        "bg": "rgba(255, 250, 231, 0.93)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Arcanjo",
+        "label": "Oração de 21 Dias do Arcanjo Miguel (Gratuito)",
+        "disabled": false,
+        "rect": {
+          "x": 888.65625,
+          "y": 19,
+          "width": 85.265625,
+          "height": 30,
+          "top": 19,
+          "right": 973.921875,
+          "bottom": 49,
+          "left": 888.65625
+        },
+        "color": "rgb(7, 59, 43)",
+        "bg": "rgba(255, 250, 231, 0.93)"
+      },
+      {
+        "tag": "SELECT",
+        "text": "PortuguêsEnglishEspañolFrançaisItalianoDeutsch",
+        "label": "Mudar idioma do aplicativo e do áudio",
+        "disabled": false,
+        "rect": {
+          "x": 1011.921875,
+          "y": 26,
+          "width": 84,
+          "height": 16,
+          "top": 26,
+          "right": 1095.921875,
+          "bottom": 42,
+          "left": 1011.921875
+        },
+        "color": "rgb(7, 59, 43)",
+        "bg": "rgba(255, 250, 231, 0.93)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "App",
+        "label": "Instalar aplicativo oficial no seu celular Android / Google Play",
+        "disabled": false,
+        "rect": {
+          "x": 1114.921875,
+          "y": 19,
+          "width": 62.609375,
+          "height": 30,
+          "top": 19,
+          "right": 1177.53125,
+          "bottom": 49,
+          "left": 1114.921875
+        },
+        "color": "rgb(7, 59, 43)",
+        "bg": "rgba(255, 250, 231, 0.93)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Sair",
+        "label": "Sair da conta",
+        "disabled": false,
+        "rect": {
+          "x": 1187.53125,
+          "y": 18,
+          "width": 70.96875,
+          "height": 32,
+          "top": 18,
+          "right": 1258.5,
+          "bottom": 50,
+          "left": 1187.53125
+        },
+        "color": "rgb(7, 59, 43)",
+        "bg": "rgba(255, 250, 231, 0.93)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "",
+        "label": "Abrir menu principal",
+        "disabled": false,
+        "rect": {
+          "x": 659.90625,
+          "y": 80,
+          "width": 44,
+          "height": 44,
+          "top": 80,
+          "right": 703.90625,
+          "bottom": 124,
+          "left": 659.90625
+        },
+        "color": "rgb(7, 59, 43)",
+        "bg": "rgba(255, 250, 231, 0.7)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Começar minha jornada",
+        "label": null,
+        "disabled": false,
+        "rect": {
+          "x": 227.5,
+          "y": 549,
+          "width": 464.40625,
+          "height": 52,
+          "top": 549,
+          "right": 691.90625,
+          "bottom": 601,
+          "left": 227.5
+        },
+        "color": "rgb(7, 59, 43)",
+        "bg": "rgba(0, 0, 0, 0)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Dia 3Purificação das Águas",
+        "label": null,
+        "disabled": false,
+        "rect": {
+          "x": 739.90625,
+          "y": 93,
+          "width": 397.578125,
+          "height": 86,
+          "top": 93,
+          "right": 1137.484375,
+          "bottom": 179,
+          "left": 739.90625
+        },
+        "color": "rgb(38, 55, 42)",
+        "bg": "rgba(0, 0, 0, 0)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Começar minha anamnese",
+        "label": null,
+        "disabled": false,
+        "rect": {
+          "x": 754.90625,
+          "y": 329.78125,
+          "width": 367.578125,
+          "height": 55,
+          "top": 329.78125,
+          "right": 1122.484375,
+          "bottom": 384.78125,
+          "left": 754.90625
+        },
+        "color": "rgb(7, 59, 43)",
+        "bg": "rgba(0, 0, 0, 0)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "MenuOutros caminhos da sua jornada",
+        "label": null,
+        "disabled": false,
+        "rect": {
+          "x": 739.90625,
+          "y": 729.390625,
+          "width": 397.578125,
+          "height": 84,
+          "top": 729.390625,
+          "right": 1137.484375,
+          "bottom": 813.390625,
+          "left": 739.90625
+        },
+        "color": "rgb(38, 55, 42)",
+        "bg": "rgba(0, 0, 0, 0)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Fale conoscoUm lugar para voltar para si",
+        "label": null,
+        "disabled": false,
+        "rect": {
+          "x": 739.90625,
+          "y": 821.390625,
+          "width": 397.578125,
+          "height": 84,
+          "top": 821.390625,
+          "right": 1137.484375,
+          "bottom": 905.390625,
+          "left": 739.90625
+        },
+        "color": "rgb(38, 55, 42)",
+        "bg": "rgba(0, 0, 0, 0)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Início",
+        "label": null,
+        "disabled": false,
+        "rect": {
+          "x": 207.5,
+          "y": 632,
+          "width": 237.5,
+          "height": 61,
+          "top": 632,
+          "right": 445,
+          "bottom": 693,
+          "left": 207.5
+        },
+        "color": "rgb(7, 59, 43)",
+        "bg": "rgba(0, 0, 0, 0)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Jornada",
+        "label": null,
+        "disabled": false,
+        "rect": {
+          "x": 445,
+          "y": 632,
+          "width": 237.5,
+          "height": 61,
+          "top": 632,
+          "right": 682.5,
+          "bottom": 693,
+          "left": 445
+        },
+        "color": "rgb(103, 112, 91)",
+        "bg": "rgba(0, 0, 0, 0)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Biblioteca",
+        "label": null,
+        "disabled": false,
+        "rect": {
+          "x": 682.5,
+          "y": 632,
+          "width": 237.5,
+          "height": 61,
+          "top": 632,
+          "right": 920,
+          "bottom": 693,
+          "left": 682.5
+        },
+        "color": "rgb(103, 112, 91)",
+        "bg": "rgba(0, 0, 0, 0)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Comunidade",
+        "label": null,
+        "disabled": false,
+        "rect": {
+          "x": 920,
+          "y": 632,
+          "width": 237.5,
+          "height": 61,
+          "top": 632,
+          "right": 1157.5,
+          "bottom": 693,
+          "left": 920
+        },
+        "color": "rgb(103, 112, 91)",
+        "bg": "rgba(0, 0, 0, 0)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "",
+        "label": "Fechar ajustes de áudio",
+        "disabled": false,
+        "rect": {
+          "x": 897.5,
+          "y": 59,
+          "width": 44,
+          "height": 44,
+          "top": 59,
+          "right": 941.5,
+          "bottom": 103,
+          "left": 897.5
+        },
+        "color": "rgb(92, 106, 96)",
+        "bg": "rgb(239, 232, 221)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "396HzAterramento & reflexão",
+        "label": null,
+        "disabled": false,
+        "rect": {
+          "x": 440.5,
+          "y": 191,
+          "width": 156,
+          "height": 66,
+          "top": 191,
+          "right": 596.5,
+          "bottom": 257,
+          "left": 440.5
+        },
+        "color": "rgb(92, 106, 96)",
+        "bg": "rgb(250, 246, 240)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "528HzCalma & presença com camada binaural",
+        "label": null,
+        "disabled": false,
+        "rect": {
+          "x": 604.5,
+          "y": 191,
+          "width": 156,
+          "height": 66,
+          "top": 191,
+          "right": 760.5,
+          "bottom": 257,
+          "left": 604.5
+        },
+        "color": "rgb(92, 106, 96)",
+        "bg": "rgb(250, 246, 240)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "432HzAtmosfera suave com camada binaural",
+        "label": null,
+        "disabled": false,
+        "rect": {
+          "x": 768.5,
+          "y": 191,
+          "width": 156,
+          "height": 66,
+          "top": 191,
+          "right": 924.5,
+          "bottom": 257,
+          "left": 768.5
+        },
+        "color": "rgb(92, 106, 96)",
+        "bg": "rgb(250, 246, 240)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "639HzConexão & acolhimento",
+        "label": null,
+        "disabled": false,
+        "rect": {
+          "x": 440.5,
+          "y": 265,
+          "width": 156,
+          "height": 64,
+          "top": 265,
+          "right": 596.5,
+          "bottom": 329,
+          "left": 440.5
+        },
+        "color": "rgb(92, 106, 96)",
+        "bg": "rgb(250, 246, 240)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "417HzRenovação simbólica",
+        "label": null,
+        "disabled": false,
+        "rect": {
+          "x": 604.5,
+          "y": 265,
+          "width": 156,
+          "height": 64,
+          "top": 265,
+          "right": 760.5,
+          "bottom": 329,
+          "left": 604.5
+        },
+        "color": "rgb(92, 106, 96)",
+        "bg": "rgb(250, 246, 240)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "852HzVIPIntrospecção",
+        "label": null,
+        "disabled": false,
+        "rect": {
+          "x": 768.5,
+          "y": 265,
+          "width": 156,
+          "height": 64,
+          "top": 265,
+          "right": 924.5,
+          "bottom": 329,
+          "left": 768.5
+        },
+        "color": "rgb(92, 106, 96)",
+        "bg": "rgb(250, 246, 240)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "963HzVIPContemplação",
+        "label": null,
+        "disabled": false,
+        "rect": {
+          "x": 440.5,
+          "y": 337,
+          "width": 156,
+          "height": 64,
+          "top": 337,
+          "right": 596.5,
+          "bottom": 401,
+          "left": 440.5
+        },
+        "color": "rgb(92, 106, 96)",
+        "bg": "rgb(250, 246, 240)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "741HzVIPClareza & foco",
+        "label": null,
+        "disabled": false,
+        "rect": {
+          "x": 604.5,
+          "y": 337,
+          "width": 156,
+          "height": 64,
+          "top": 337,
+          "right": 760.5,
+          "bottom": 401,
+          "left": 604.5
+        },
+        "color": "rgb(92, 106, 96)",
+        "bg": "rgb(250, 246, 240)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Floresta ZenPássaros & Vento",
+        "label": null,
+        "disabled": false,
+        "rect": {
+          "x": 768.5,
+          "y": 337,
+          "width": 156,
+          "height": 64,
+          "top": 337,
+          "right": 924.5,
+          "bottom": 401,
+          "left": 768.5
+        },
+        "color": "rgb(92, 106, 96)",
+        "bg": "rgb(250, 246, 240)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Chuva SerenaÁgua Calmante",
+        "label": null,
+        "disabled": false,
+        "rect": {
+          "x": 440.5,
+          "y": 409,
+          "width": 156,
+          "height": 64,
+          "top": 409,
+          "right": 596.5,
+          "bottom": 473,
+          "left": 440.5
+        },
+        "color": "rgb(92, 106, 96)",
+        "bg": "rgb(250, 246, 240)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Sinos ZenTigelas Tibetanas",
+        "label": null,
+        "disabled": false,
+        "rect": {
+          "x": 604.5,
+          "y": 409,
+          "width": 156,
+          "height": 64,
+          "top": 409,
+          "right": 760.5,
+          "bottom": 473,
+          "left": 604.5
+        },
+        "color": "rgb(92, 106, 96)",
+        "bg": "rgb(250, 246, 240)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Sem TrilhaSilêncio Absoluto",
+        "label": null,
+        "disabled": false,
+        "rect": {
+          "x": 768.5,
+          "y": 409,
+          "width": 156,
+          "height": 64,
+          "top": 409,
+          "right": 924.5,
+          "bottom": 473,
+          "left": 768.5
+        },
+        "color": "rgb(92, 106, 96)",
+        "bg": "rgb(250, 246, 240)"
+      },
+      {
+        "tag": "INPUT",
+        "text": "",
+        "label": "Volume da frequência de fundo",
+        "disabled": false,
+        "rect": {
+          "x": 440.5,
+          "y": 493,
+          "width": 484,
+          "height": 44,
+          "top": 493,
+          "right": 924.5,
+          "bottom": 537,
+          "left": 440.5
+        },
+        "color": "rgb(32, 45, 36)",
+        "bg": "rgba(0, 0, 0, 0)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "",
+        "label": "Camada binaural opcional",
+        "disabled": false,
+        "rect": {
+          "x": 875.5,
+          "y": 606,
+          "width": 44,
+          "height": 44,
+          "top": 606,
+          "right": 919.5,
+          "bottom": 650,
+          "left": 875.5
+        },
+        "color": "rgb(38, 55, 42)",
+        "bg": "rgba(0, 0, 0, 0)"
+      },
+      {
+        "tag": "INPUT",
+        "text": "",
+        "label": "Velocidade da narração",
+        "disabled": false,
+        "rect": {
+          "x": 440.5,
+          "y": 897.90625,
+          "width": 484,
+          "height": 44,
+          "top": 897.90625,
+          "right": 924.5,
+          "bottom": 941.90625,
+          "left": 440.5
+        },
+        "color": "rgb(32, 45, 36)",
+        "bg": "rgba(0, 0, 0, 0)"
+      },
+      {
+        "tag": "INPUT",
+        "text": "",
+        "label": "Volume da voz",
+        "disabled": false,
+        "rect": {
+          "x": 440.5,
+          "y": 982.5625,
+          "width": 484,
+          "height": 44,
+          "top": 982.5625,
+          "right": 924.5,
+          "bottom": 1026.5625,
+          "left": 440.5
+        },
+        "color": "rgb(32, 45, 36)",
+        "bg": "rgba(0, 0, 0, 0)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Ouvir Teste de Áudio e Frequência",
+        "label": null,
+        "disabled": false,
+        "rect": {
+          "x": 423.5,
+          "y": 1073.5625,
+          "width": 518,
+          "height": 42,
+          "top": 1073.5625,
+          "right": 941.5,
+          "bottom": 1115.5625,
+          "left": 423.5
+        },
+        "color": "rgb(92, 106, 96)",
+        "bg": "rgb(250, 246, 240)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Salvar e Aplicar Ajustes de Som",
+        "label": null,
+        "disabled": false,
+        "rect": {
+          "x": 423.5,
+          "y": 1147.5625,
+          "width": 518,
+          "height": 44,
+          "top": 1147.5625,
+          "right": 941.5,
+          "bottom": 1191.5625,
+          "left": 423.5
+        },
+        "color": "rgb(7, 59, 43)",
+        "bg": "rgb(223, 197, 127)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Fale Conosco",
+        "label": "Fale Conosco",
+        "disabled": false,
+        "rect": {
+          "x": 1178.5,
+          "y": 566,
+          "width": 52,
+          "height": 44,
+          "top": 566,
+          "right": 1230.5,
+          "bottom": 610,
+          "left": 1178.5
+        },
+        "color": "rgb(32, 45, 36)",
+        "bg": "rgb(7, 59, 43)"
+      }
+    ],
+    "accessibilityChecked": true,
+    "axe": []
+  },
+  {
+    "screen": "01-audio-mobile",
+    "title": "home",
+    "text": "TERAPIAS HOLÍSTICAS E BEM-ESTAR\nProtocolo da Transformação\nOlá, Maria.\n\nQue bom que você voltou para si.\n\nRespire. Você não precisa fazer tudo hoje. Escolha apenas o cuidado que combina com o seu momento.\n\nUm novo capítulo\npode começar hoje.\n\nRespire. Acolha. Transforme.\nVocê consegue.\nComeçar minha jornada\nDia 3\nPurificação das Águas\nPrimeiro, vamos ouvir você\nComo você está de verdade?\n\nResponda à anamnese para receber seu resultado, frequência, chakra em foco, floral, aroma e protocolo recomendado.\n\nComeçar minha anamnese\nAfirmação do dia\nPurificação das Águas\n\nAcolhendo simbolicamente memórias ancestrais e abrindo espaço interior para um novo fluxo de presença.\n\nSentir o sopro sutil de ervas sagradas.\nVocê já fez muito por você.\n\nAgora, é a sua vez.\n\nMenu\nOutros caminhos da sua jornada\nFale conosco\nUm lugar para voltar para si\nInício\nJornada\nBiblioteca\nComunidade\n\nO Protocolo da Transformação é canalizado energeticamente por Éverton Rodrigo Piceni, respeitando o tempo e a jornada de cada pessoa.\n\nEU SOU LIVRE • EU SOU CURA • EU ESTOU EM PAZ\nACÚSTICA & FREQUÊNCIAS\nAjuste Completo do Som & Voz\nFREQUÊNCIA DE FUNDO\n50% Volume\n396Hz\nAterramento & reflexão\n528Hz\nCalma & presença com camada binaural\n432Hz\nAtmosfera suave com camada binaural\n639Hz\nConexão & acolhimento\n417Hz\nRenovação simbólica\n852Hz\nVIP\nIntrospecção\n963Hz\nVIP\nContemplação\n741Hz\nVIP\nClareza & foco\nFloresta Zen\nPássaros & Vento\nChuva Serena\nÁgua Calmante\nSinos Zen\nTigelas Tibetanas\nSem Trilha\nSilêncio Absoluto\nÁUDIO BINAURAL OPCIONAL\nEstéreo Binaural\nCamada Binaural\n\nAdicione uma diferença estéreo sutil entre os canais esquerdo e direito sobre a trilha escolhida. Para perceber o efeito estéreo, use fones de ouvido em volume confortável.\n\nAtive para adicionar uma diferença estéreo opcional entre os canais sobre a trilha escolhida. Os nomes Delta, Theta, Alpha, Beta e Gamma identificam apenas a diferença de frequência selecionada.\nVOZ DA MEDITAÇÃO GUIADA\nVelocidade da Narração\n0.82x (Equilibrada)\nVolume da Voz\n85%\nOuvir Teste de Áudio e Frequência\nSALVAR E APLICAR AJUSTES DE SOM",
+    "buttons": [
+      {
+        "tag": "BUTTON",
+        "text": "Som",
+        "label": "Ajustar sons, frequências e sintonização bioativa",
+        "disabled": false,
+        "rect": {
+          "x": 334,
+          "y": 5,
+          "width": 44,
+          "height": 44,
+          "top": 5,
+          "right": 378,
+          "bottom": 49,
+          "left": 334
+        },
+        "color": "rgb(7, 59, 43)",
+        "bg": "rgba(255, 250, 231, 0.93)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "",
+        "label": "Abrir menu principal",
+        "disabled": false,
+        "rect": {
+          "x": 334,
+          "y": 66,
+          "width": 44,
+          "height": 44,
+          "top": 66,
+          "right": 378,
+          "bottom": 110,
+          "left": 334
+        },
+        "color": "rgb(7, 59, 43)",
+        "bg": "rgba(255, 250, 231, 0.7)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Começar minha jornada",
+        "label": null,
+        "disabled": false,
+        "rect": {
+          "x": 18,
+          "y": 668,
+          "width": 354,
+          "height": 70,
+          "top": 668,
+          "right": 372,
+          "bottom": 738,
+          "left": 18
+        },
+        "color": "rgb(7, 59, 43)",
+        "bg": "rgba(0, 0, 0, 0)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Dia 3Purificação das Águas",
+        "label": null,
+        "disabled": false,
+        "rect": {
+          "x": 15,
+          "y": 768,
+          "width": 360,
+          "height": 86,
+          "top": 768,
+          "right": 375,
+          "bottom": 854,
+          "left": 15
+        },
+        "color": "rgb(38, 55, 42)",
+        "bg": "rgba(0, 0, 0, 0)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Começar minha anamnese",
+        "label": null,
+        "disabled": false,
+        "rect": {
+          "x": 30,
+          "y": 1025.171875,
+          "width": 330,
+          "height": 55,
+          "top": 1025.171875,
+          "right": 360,
+          "bottom": 1080.171875,
+          "left": 30
+        },
+        "color": "rgb(7, 59, 43)",
+        "bg": "rgba(0, 0, 0, 0)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "MenuOutros caminhos da sua jornada",
+        "label": null,
+        "disabled": false,
+        "rect": {
+          "x": 15,
+          "y": 1424.78125,
+          "width": 360,
+          "height": 84,
+          "top": 1424.78125,
+          "right": 375,
+          "bottom": 1508.78125,
+          "left": 15
+        },
+        "color": "rgb(38, 55, 42)",
+        "bg": "rgba(0, 0, 0, 0)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Fale conoscoUm lugar para voltar para si",
+        "label": null,
+        "disabled": false,
+        "rect": {
+          "x": 15,
+          "y": 1516.78125,
+          "width": 360,
+          "height": 84,
+          "top": 1516.78125,
+          "right": 375,
+          "bottom": 1600.78125,
+          "left": 15
+        },
+        "color": "rgb(38, 55, 42)",
+        "bg": "rgba(0, 0, 0, 0)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Início",
+        "label": null,
+        "disabled": false,
+        "rect": {
+          "x": 5,
+          "y": 776,
+          "width": 95,
+          "height": 61,
+          "top": 776,
+          "right": 100,
+          "bottom": 837,
+          "left": 5
+        },
+        "color": "rgb(7, 59, 43)",
+        "bg": "rgba(0, 0, 0, 0)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Jornada",
+        "label": null,
+        "disabled": false,
+        "rect": {
+          "x": 100,
+          "y": 776,
+          "width": 95,
+          "height": 61,
+          "top": 776,
+          "right": 195,
+          "bottom": 837,
+          "left": 100
+        },
+        "color": "rgb(103, 112, 91)",
+        "bg": "rgba(0, 0, 0, 0)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Biblioteca",
+        "label": null,
+        "disabled": false,
+        "rect": {
+          "x": 195,
+          "y": 776,
+          "width": 95,
+          "height": 61,
+          "top": 776,
+          "right": 290,
+          "bottom": 837,
+          "left": 195
+        },
+        "color": "rgb(103, 112, 91)",
+        "bg": "rgba(0, 0, 0, 0)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Comunidade",
+        "label": null,
+        "disabled": false,
+        "rect": {
+          "x": 290,
+          "y": 776,
+          "width": 95,
+          "height": 61,
+          "top": 776,
+          "right": 385,
+          "bottom": 837,
+          "left": 290
+        },
+        "color": "rgb(103, 112, 91)",
+        "bg": "rgba(0, 0, 0, 0)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "",
+        "label": "Fechar ajustes de áudio",
+        "disabled": false,
+        "rect": {
+          "x": 321,
+          "y": 27,
+          "width": 44,
+          "height": 44,
+          "top": 27,
+          "right": 365,
+          "bottom": 71,
+          "left": 321
+        },
+        "color": "rgb(92, 106, 96)",
+        "bg": "rgb(239, 232, 221)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "396HzAterramento & reflexão",
+        "label": null,
+        "disabled": false,
+        "rect": {
+          "x": 42,
+          "y": 159,
+          "width": 149,
+          "height": 66,
+          "top": 159,
+          "right": 191,
+          "bottom": 225,
+          "left": 42
+        },
+        "color": "rgb(92, 106, 96)",
+        "bg": "rgb(250, 246, 240)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "528HzCalma & presença com camada binaural",
+        "label": null,
+        "disabled": false,
+        "rect": {
+          "x": 199,
+          "y": 159,
+          "width": 149,
+          "height": 66,
+          "top": 159,
+          "right": 348,
+          "bottom": 225,
+          "left": 199
+        },
+        "color": "rgb(92, 106, 96)",
+        "bg": "rgb(250, 246, 240)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "432HzAtmosfera suave com camada binaural",
+        "label": null,
+        "disabled": false,
+        "rect": {
+          "x": 42,
+          "y": 233,
+          "width": 149,
+          "height": 66,
+          "top": 233,
+          "right": 191,
+          "bottom": 299,
+          "left": 42
+        },
+        "color": "rgb(92, 106, 96)",
+        "bg": "rgb(250, 246, 240)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "639HzConexão & acolhimento",
+        "label": null,
+        "disabled": false,
+        "rect": {
+          "x": 199,
+          "y": 233,
+          "width": 149,
+          "height": 66,
+          "top": 233,
+          "right": 348,
+          "bottom": 299,
+          "left": 199
+        },
+        "color": "rgb(92, 106, 96)",
+        "bg": "rgb(250, 246, 240)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "417HzRenovação simbólica",
+        "label": null,
+        "disabled": false,
+        "rect": {
+          "x": 42,
+          "y": 307,
+          "width": 149,
+          "height": 64,
+          "top": 307,
+          "right": 191,
+          "bottom": 371,
+          "left": 42
+        },
+        "color": "rgb(92, 106, 96)",
+        "bg": "rgb(250, 246, 240)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "852HzVIPIntrospecção",
+        "label": null,
+        "disabled": false,
+        "rect": {
+          "x": 199,
+          "y": 307,
+          "width": 149,
+          "height": 64,
+          "top": 307,
+          "right": 348,
+          "bottom": 371,
+          "left": 199
+        },
+        "color": "rgb(92, 106, 96)",
+        "bg": "rgb(250, 246, 240)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "963HzVIPContemplação",
+        "label": null,
+        "disabled": false,
+        "rect": {
+          "x": 42,
+          "y": 379,
+          "width": 149,
+          "height": 64,
+          "top": 379,
+          "right": 191,
+          "bottom": 443,
+          "left": 42
+        },
+        "color": "rgb(92, 106, 96)",
+        "bg": "rgb(250, 246, 240)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "741HzVIPClareza & foco",
+        "label": null,
+        "disabled": false,
+        "rect": {
+          "x": 199,
+          "y": 379,
+          "width": 149,
+          "height": 64,
+          "top": 379,
+          "right": 348,
+          "bottom": 443,
+          "left": 199
+        },
+        "color": "rgb(92, 106, 96)",
+        "bg": "rgb(250, 246, 240)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Floresta ZenPássaros & Vento",
+        "label": null,
+        "disabled": false,
+        "rect": {
+          "x": 42,
+          "y": 451,
+          "width": 149,
+          "height": 64,
+          "top": 451,
+          "right": 191,
+          "bottom": 515,
+          "left": 42
+        },
+        "color": "rgb(92, 106, 96)",
+        "bg": "rgb(250, 246, 240)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Chuva SerenaÁgua Calmante",
+        "label": null,
+        "disabled": false,
+        "rect": {
+          "x": 199,
+          "y": 451,
+          "width": 149,
+          "height": 64,
+          "top": 451,
+          "right": 348,
+          "bottom": 515,
+          "left": 199
+        },
+        "color": "rgb(92, 106, 96)",
+        "bg": "rgb(250, 246, 240)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Sinos ZenTigelas Tibetanas",
+        "label": null,
+        "disabled": false,
+        "rect": {
+          "x": 42,
+          "y": 523,
+          "width": 149,
+          "height": 64,
+          "top": 523,
+          "right": 191,
+          "bottom": 587,
+          "left": 42
+        },
+        "color": "rgb(92, 106, 96)",
+        "bg": "rgb(250, 246, 240)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Sem TrilhaSilêncio Absoluto",
+        "label": null,
+        "disabled": false,
+        "rect": {
+          "x": 199,
+          "y": 523,
+          "width": 149,
+          "height": 64,
+          "top": 523,
+          "right": 348,
+          "bottom": 587,
+          "left": 199
+        },
+        "color": "rgb(92, 106, 96)",
+        "bg": "rgb(250, 246, 240)"
+      },
+      {
+        "tag": "INPUT",
+        "text": "",
+        "label": "Volume da frequência de fundo",
+        "disabled": false,
+        "rect": {
+          "x": 42,
+          "y": 607,
+          "width": 306,
+          "height": 44,
+          "top": 607,
+          "right": 348,
+          "bottom": 651,
+          "left": 42
+        },
+        "color": "rgb(32, 45, 36)",
+        "bg": "rgba(0, 0, 0, 0)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "",
+        "label": "Camada binaural opcional",
+        "disabled": false,
+        "rect": {
+          "x": 303,
+          "y": 716,
+          "width": 44,
+          "height": 44,
+          "top": 716,
+          "right": 347,
+          "bottom": 760,
+          "left": 303
+        },
+        "color": "rgb(38, 55, 42)",
+        "bg": "rgba(0, 0, 0, 0)"
+      },
+      {
+        "tag": "INPUT",
+        "text": "",
+        "label": "Velocidade da narração",
+        "disabled": false,
+        "rect": {
+          "x": 42,
+          "y": 1073.90625,
+          "width": 306,
+          "height": 44,
+          "top": 1073.90625,
+          "right": 348,
+          "bottom": 1117.90625,
+          "left": 42
+        },
+        "color": "rgb(32, 45, 36)",
+        "bg": "rgba(0, 0, 0, 0)"
+      },
+      {
+        "tag": "INPUT",
+        "text": "",
+        "label": "Volume da voz",
+        "disabled": false,
+        "rect": {
+          "x": 42,
+          "y": 1158.5625,
+          "width": 306,
+          "height": 44,
+          "top": 1158.5625,
+          "right": 348,
+          "bottom": 1202.5625,
+          "left": 42
+        },
+        "color": "rgb(32, 45, 36)",
+        "bg": "rgba(0, 0, 0, 0)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Ouvir Teste de Áudio e Frequência",
+        "label": null,
+        "disabled": false,
+        "rect": {
+          "x": 25,
+          "y": 1249.5625,
+          "width": 340,
+          "height": 42,
+          "top": 1249.5625,
+          "right": 365,
+          "bottom": 1291.5625,
+          "left": 25
+        },
+        "color": "rgb(92, 106, 96)",
+        "bg": "rgb(250, 246, 240)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Salvar e Aplicar Ajustes de Som",
+        "label": null,
+        "disabled": false,
+        "rect": {
+          "x": 25,
+          "y": 1323.5625,
+          "width": 340,
+          "height": 44,
+          "top": 1323.5625,
+          "right": 365,
+          "bottom": 1367.5625,
+          "left": 25
+        },
+        "color": "rgb(7, 59, 43)",
+        "bg": "rgb(223, 197, 127)"
+      }
+    ],
+    "accessibilityChecked": true,
+    "axe": []
+  },
+  {
+    "screen": "01-audio-binaural-controls",
+    "title": "home",
+    "text": "TERAPIAS HOLÍSTICAS E BEM-ESTAR\nProtocolo da Transformação\nOlá, Maria.\n\nQue bom que você voltou para si.\n\nRespire. Você não precisa fazer tudo hoje. Escolha apenas o cuidado que combina com o seu momento.\n\nUm novo capítulo\npode começar hoje.\n\nRespire. Acolha. Transforme.\nVocê consegue.\nComeçar minha jornada\nDia 3\nPurificação das Águas\nPrimeiro, vamos ouvir você\nComo você está de verdade?\n\nResponda à anamnese para receber seu resultado, frequência, chakra em foco, floral, aroma e protocolo recomendado.\n\nComeçar minha anamnese\nAfirmação do dia\nPurificação das Águas\n\nAcolhendo simbolicamente memórias ancestrais e abrindo espaço interior para um novo fluxo de presença.\n\nSentir o sopro sutil de ervas sagradas.\nVocê já fez muito por você.\n\nAgora, é a sua vez.\n\nMenu\nOutros caminhos da sua jornada\nFale conosco\nUm lugar para voltar para si\nInício\nJornada\nBiblioteca\nComunidade\n\nO Protocolo da Transformação é canalizado energeticamente por Éverton Rodrigo Piceni, respeitando o tempo e a jornada de cada pessoa.\n\nEU SOU LIVRE • EU SOU CURA • EU ESTOU EM PAZ\nACÚSTICA & FREQUÊNCIAS\nAjuste Completo do Som & Voz\nFREQUÊNCIA DE FUNDO\n50% Volume\n396Hz\nAterramento & reflexão\n528Hz\nCalma & presença com camada binaural\n432Hz\nAtmosfera suave com camada binaural\n639Hz\nConexão & acolhimento\n417Hz\nRenovação simbólica\n852Hz\nVIP\nIntrospecção\n963Hz\nVIP\nContemplação\n741Hz\nVIP\nClareza & foco\nFloresta Zen\nPássaros & Vento\nChuva Serena\nÁgua Calmante\nSinos Zen\nTigelas Tibetanas\nSem Trilha\nSilêncio Absoluto\nÁUDIO BINAURAL OPCIONAL\nEstéreo Binaural\nCamada Binaural\n\nAdicione uma diferença estéreo sutil entre os canais esquerdo e direito sobre a trilha escolhida. Para perceber o efeito estéreo, use fones de ouvido em volume confortável.\n\nBATIMENTO BINAURAL SELECIONADO (10.0 HZ)\nALPHA\nOndas Delta\n2.5 Hz\nDescanso & Sono\nAtmosfera voltada a desaceleração, repouso e ancoramento.\nOndas Theta\n5.5 Hz\nMeditação & Intuição\nAcesso sutil ao subconsciente, transmutação energética e acolhimento.\nOndas Alpha\n10.0 Hz\nPresença Lúcida (Recomendado)\nCalma alerta, relaxamento lúcido, harmonia emocional e foco sereno.\nOndas Beta\n15.0 Hz\nVitalidade & Clareza\nDespertar de disposição consciente, clareza mental e ânimo para o agir.\nOndas Gamma\n40.0 Hz\nConexão Superior\nTranscendência sutil, expansão de consciência e integração espiritual.\nSINTONIZAÇÃO DA PORTADORA HARMÔNICA\nSincronizar com Frequência\nPortadora em 432 Hz\nSub-Harmônica Aveludada\nOitava inferior (432 Hz) para máximo conforto auricular\nINTENSIDADE DE MIXAGEM DA BATIDA\n35%\nSuave / Subliminar\nHarmonia Equilibrada\nPresença Marcada\nSintonia Estéreo em Tempo Real\nBatimento: 10.0 Hz (ALPHA)\nOUVIDO ESQUERDO (L)\n427.0 Hz\nOUVIDO DIREITO (R)\n437.0 Hz\n\nDiferença estéreo entre os canais: 10.0 Hz. Fones de ouvido são recomendados para perceber a separação estéreo.\n\nOuvir prévia binaural\nVOZ DA MEDITAÇÃO GUIADA\nVelocidade da Narração\n0.82x (Equilibrada)\nVolume da Voz\n85%\nOuvir Teste de Áudio e Frequência\nSALVAR E APLICAR AJUSTES DE SOM",
+    "buttons": [
+      {
+        "tag": "BUTTON",
+        "text": "Som",
+        "label": "Ajustar sons, frequências e sintonização bioativa",
+        "disabled": false,
+        "rect": {
+          "x": 334,
+          "y": 5,
+          "width": 44,
+          "height": 44,
+          "top": 5,
+          "right": 378,
+          "bottom": 49,
+          "left": 334
+        },
+        "color": "rgb(7, 59, 43)",
+        "bg": "rgba(255, 250, 231, 0.93)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "",
+        "label": "Abrir menu principal",
+        "disabled": false,
+        "rect": {
+          "x": 334,
+          "y": 66,
+          "width": 44,
+          "height": 44,
+          "top": 66,
+          "right": 378,
+          "bottom": 110,
+          "left": 334
+        },
+        "color": "rgb(7, 59, 43)",
+        "bg": "rgba(255, 250, 231, 0.7)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Começar minha jornada",
+        "label": null,
+        "disabled": false,
+        "rect": {
+          "x": 18,
+          "y": 668,
+          "width": 354,
+          "height": 70,
+          "top": 668,
+          "right": 372,
+          "bottom": 738,
+          "left": 18
+        },
+        "color": "rgb(7, 59, 43)",
+        "bg": "rgba(0, 0, 0, 0)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Dia 3Purificação das Águas",
+        "label": null,
+        "disabled": false,
+        "rect": {
+          "x": 15,
+          "y": 768,
+          "width": 360,
+          "height": 86,
+          "top": 768,
+          "right": 375,
+          "bottom": 854,
+          "left": 15
+        },
+        "color": "rgb(38, 55, 42)",
+        "bg": "rgba(0, 0, 0, 0)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Começar minha anamnese",
+        "label": null,
+        "disabled": false,
+        "rect": {
+          "x": 30,
+          "y": 1025.171875,
+          "width": 330,
+          "height": 55,
+          "top": 1025.171875,
+          "right": 360,
+          "bottom": 1080.171875,
+          "left": 30
+        },
+        "color": "rgb(7, 59, 43)",
+        "bg": "rgba(0, 0, 0, 0)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "MenuOutros caminhos da sua jornada",
+        "label": null,
+        "disabled": false,
+        "rect": {
+          "x": 15,
+          "y": 1424.78125,
+          "width": 360,
+          "height": 84,
+          "top": 1424.78125,
+          "right": 375,
+          "bottom": 1508.78125,
+          "left": 15
+        },
+        "color": "rgb(38, 55, 42)",
+        "bg": "rgba(0, 0, 0, 0)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Fale conoscoUm lugar para voltar para si",
+        "label": null,
+        "disabled": false,
+        "rect": {
+          "x": 15,
+          "y": 1516.78125,
+          "width": 360,
+          "height": 84,
+          "top": 1516.78125,
+          "right": 375,
+          "bottom": 1600.78125,
+          "left": 15
+        },
+        "color": "rgb(38, 55, 42)",
+        "bg": "rgba(0, 0, 0, 0)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Início",
+        "label": null,
+        "disabled": false,
+        "rect": {
+          "x": 5,
+          "y": 776,
+          "width": 95,
+          "height": 61,
+          "top": 776,
+          "right": 100,
+          "bottom": 837,
+          "left": 5
+        },
+        "color": "rgb(7, 59, 43)",
+        "bg": "rgba(0, 0, 0, 0)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Jornada",
+        "label": null,
+        "disabled": false,
+        "rect": {
+          "x": 100,
+          "y": 776,
+          "width": 95,
+          "height": 61,
+          "top": 776,
+          "right": 195,
+          "bottom": 837,
+          "left": 100
+        },
+        "color": "rgb(103, 112, 91)",
+        "bg": "rgba(0, 0, 0, 0)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Biblioteca",
+        "label": null,
+        "disabled": false,
+        "rect": {
+          "x": 195,
+          "y": 776,
+          "width": 95,
+          "height": 61,
+          "top": 776,
+          "right": 290,
+          "bottom": 837,
+          "left": 195
+        },
+        "color": "rgb(103, 112, 91)",
+        "bg": "rgba(0, 0, 0, 0)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Comunidade",
+        "label": null,
+        "disabled": false,
+        "rect": {
+          "x": 290,
+          "y": 776,
+          "width": 95,
+          "height": 61,
+          "top": 776,
+          "right": 385,
+          "bottom": 837,
+          "left": 290
+        },
+        "color": "rgb(103, 112, 91)",
+        "bg": "rgba(0, 0, 0, 0)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "",
+        "label": "Fechar ajustes de áudio",
+        "disabled": false,
+        "rect": {
+          "x": 321,
+          "y": -289,
+          "width": 44,
+          "height": 44,
+          "top": -289,
+          "right": 365,
+          "bottom": -245,
+          "left": 321
+        },
+        "color": "rgb(92, 106, 96)",
+        "bg": "rgb(239, 232, 221)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "396HzAterramento & reflexão",
+        "label": null,
+        "disabled": false,
+        "rect": {
+          "x": 42,
+          "y": -157,
+          "width": 149,
+          "height": 66,
+          "top": -157,
+          "right": 191,
+          "bottom": -91,
+          "left": 42
+        },
+        "color": "rgb(92, 106, 96)",
+        "bg": "rgb(250, 246, 240)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "528HzCalma & presença com camada binaural",
+        "label": null,
+        "disabled": false,
+        "rect": {
+          "x": 199,
+          "y": -157,
+          "width": 149,
+          "height": 66,
+          "top": -157,
+          "right": 348,
+          "bottom": -91,
+          "left": 199
+        },
+        "color": "rgb(92, 106, 96)",
+        "bg": "rgb(250, 246, 240)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "432HzAtmosfera suave com camada binaural",
+        "label": null,
+        "disabled": false,
+        "rect": {
+          "x": 42,
+          "y": -83,
+          "width": 149,
+          "height": 66,
+          "top": -83,
+          "right": 191,
+          "bottom": -17,
+          "left": 42
+        },
+        "color": "rgb(92, 106, 96)",
+        "bg": "rgb(250, 246, 240)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "639HzConexão & acolhimento",
+        "label": null,
+        "disabled": false,
+        "rect": {
+          "x": 199,
+          "y": -83,
+          "width": 149,
+          "height": 66,
+          "top": -83,
+          "right": 348,
+          "bottom": -17,
+          "left": 199
+        },
+        "color": "rgb(92, 106, 96)",
+        "bg": "rgb(250, 246, 240)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "417HzRenovação simbólica",
+        "label": null,
+        "disabled": false,
+        "rect": {
+          "x": 42,
+          "y": -9,
+          "width": 149,
+          "height": 64,
+          "top": -9,
+          "right": 191,
+          "bottom": 55,
+          "left": 42
+        },
+        "color": "rgb(92, 106, 96)",
+        "bg": "rgb(250, 246, 240)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "852HzVIPIntrospecção",
+        "label": null,
+        "disabled": false,
+        "rect": {
+          "x": 199,
+          "y": -9,
+          "width": 149,
+          "height": 64,
+          "top": -9,
+          "right": 348,
+          "bottom": 55,
+          "left": 199
+        },
+        "color": "rgb(92, 106, 96)",
+        "bg": "rgb(250, 246, 240)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "963HzVIPContemplação",
+        "label": null,
+        "disabled": false,
+        "rect": {
+          "x": 42,
+          "y": 63,
+          "width": 149,
+          "height": 64,
+          "top": 63,
+          "right": 191,
+          "bottom": 127,
+          "left": 42
+        },
+        "color": "rgb(92, 106, 96)",
+        "bg": "rgb(250, 246, 240)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "741HzVIPClareza & foco",
+        "label": null,
+        "disabled": false,
+        "rect": {
+          "x": 199,
+          "y": 63,
+          "width": 149,
+          "height": 64,
+          "top": 63,
+          "right": 348,
+          "bottom": 127,
+          "left": 199
+        },
+        "color": "rgb(92, 106, 96)",
+        "bg": "rgb(250, 246, 240)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Floresta ZenPássaros & Vento",
+        "label": null,
+        "disabled": false,
+        "rect": {
+          "x": 42,
+          "y": 135,
+          "width": 149,
+          "height": 64,
+          "top": 135,
+          "right": 191,
+          "bottom": 199,
+          "left": 42
+        },
+        "color": "rgb(92, 106, 96)",
+        "bg": "rgb(250, 246, 240)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Chuva SerenaÁgua Calmante",
+        "label": null,
+        "disabled": false,
+        "rect": {
+          "x": 199,
+          "y": 135,
+          "width": 149,
+          "height": 64,
+          "top": 135,
+          "right": 348,
+          "bottom": 199,
+          "left": 199
+        },
+        "color": "rgb(92, 106, 96)",
+        "bg": "rgb(250, 246, 240)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Sinos ZenTigelas Tibetanas",
+        "label": null,
+        "disabled": false,
+        "rect": {
+          "x": 42,
+          "y": 207,
+          "width": 149,
+          "height": 64,
+          "top": 207,
+          "right": 191,
+          "bottom": 271,
+          "left": 42
+        },
+        "color": "rgb(92, 106, 96)",
+        "bg": "rgb(250, 246, 240)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Sem TrilhaSilêncio Absoluto",
+        "label": null,
+        "disabled": false,
+        "rect": {
+          "x": 199,
+          "y": 207,
+          "width": 149,
+          "height": 64,
+          "top": 207,
+          "right": 348,
+          "bottom": 271,
+          "left": 199
+        },
+        "color": "rgb(92, 106, 96)",
+        "bg": "rgb(250, 246, 240)"
+      },
+      {
+        "tag": "INPUT",
+        "text": "",
+        "label": "Volume da frequência de fundo",
+        "disabled": false,
+        "rect": {
+          "x": 42,
+          "y": 291,
+          "width": 306,
+          "height": 44,
+          "top": 291,
+          "right": 348,
+          "bottom": 335,
+          "left": 42
+        },
+        "color": "rgb(32, 45, 36)",
+        "bg": "rgba(0, 0, 0, 0)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "",
+        "label": "Camada binaural opcional",
+        "disabled": false,
+        "rect": {
+          "x": 303,
+          "y": 400,
+          "width": 44,
+          "height": 44,
+          "top": 400,
+          "right": 347,
+          "bottom": 444,
+          "left": 303
+        },
+        "color": "rgb(7, 59, 43)",
+        "bg": "rgba(0, 0, 0, 0)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Ondas Delta2.5 HzDescanso & SonoAtmosfera voltada a desaceleração, repouso e ancoramento.",
+        "label": null,
+        "disabled": false,
+        "rect": {
+          "x": 43,
+          "y": 585.75,
+          "width": 304,
+          "height": 86.5,
+          "top": 585.75,
+          "right": 347,
+          "bottom": 672.25,
+          "left": 43
+        },
+        "color": "rgb(92, 106, 96)",
+        "bg": "rgba(255, 255, 255, 0.92)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Ondas Theta5.5 HzMeditação & IntuiçãoAcesso sutil ao subconsciente, transmutação energética e acolhimento.",
+        "label": null,
+        "disabled": false,
+        "rect": {
+          "x": 43,
+          "y": 680.25,
+          "width": 304,
+          "height": 86.5,
+          "top": 680.25,
+          "right": 347,
+          "bottom": 766.75,
+          "left": 43
+        },
+        "color": "rgb(92, 106, 96)",
+        "bg": "rgba(255, 255, 255, 0.92)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Ondas Alpha10.0 HzPresença Lúcida (Recomendado)Calma alerta, relaxamento lúcido, harmonia emocional e foco sereno.",
+        "label": null,
+        "disabled": false,
+        "rect": {
+          "x": 43,
+          "y": 774.75,
+          "width": 304,
+          "height": 86.5,
+          "top": 774.75,
+          "right": 347,
+          "bottom": 861.25,
+          "left": 43
+        },
+        "color": "rgb(32, 45, 36)",
+        "bg": "rgb(241, 231, 200)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Ondas Beta15.0 HzVitalidade & ClarezaDespertar de disposição consciente, clareza mental e ânimo para o agir.",
+        "label": null,
+        "disabled": false,
+        "rect": {
+          "x": 43,
+          "y": 869.25,
+          "width": 304,
+          "height": 86.5,
+          "top": 869.25,
+          "right": 347,
+          "bottom": 955.75,
+          "left": 43
+        },
+        "color": "rgb(92, 106, 96)",
+        "bg": "rgba(255, 255, 255, 0.92)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Ondas Gamma40.0 HzConexão SuperiorTranscendência sutil, expansão de consciência e integração espiritual.",
+        "label": null,
+        "disabled": false,
+        "rect": {
+          "x": 43,
+          "y": 963.75,
+          "width": 304,
+          "height": 86.5,
+          "top": 963.75,
+          "right": 347,
+          "bottom": 1050.25,
+          "left": 43
+        },
+        "color": "rgb(92, 106, 96)",
+        "bg": "rgba(255, 255, 255, 0.92)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Sincronizar com FrequênciaPortadora em 432 Hz",
+        "label": null,
+        "disabled": false,
+        "rect": {
+          "x": 43,
+          "y": 1088.75,
+          "width": 148,
+          "height": 95.984375,
+          "top": 1088.75,
+          "right": 191,
+          "bottom": 1184.734375,
+          "left": 43
+        },
+        "color": "rgb(32, 45, 36)",
+        "bg": "rgb(241, 231, 200)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Sub-Harmônica AveludadaOitava inferior (432 Hz) para máximo conforto auricular",
+        "label": null,
+        "disabled": false,
+        "rect": {
+          "x": 199,
+          "y": 1088.75,
+          "width": 148,
+          "height": 95.984375,
+          "top": 1088.75,
+          "right": 347,
+          "bottom": 1184.734375,
+          "left": 199
+        },
+        "color": "rgb(92, 106, 96)",
+        "bg": "rgba(255, 255, 255, 0.92)"
+      },
+      {
+        "tag": "INPUT",
+        "text": "",
+        "label": "Intensidade da camada binaural",
+        "disabled": false,
+        "rect": {
+          "x": 58,
+          "y": 1237.734375,
+          "width": 274,
+          "height": 44,
+          "top": 1237.734375,
+          "right": 332,
+          "bottom": 1281.734375,
+          "left": 58
+        },
+        "color": "rgb(32, 45, 36)",
+        "bg": "rgba(0, 0, 0, 0)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Ouvir prévia binaural",
+        "label": null,
+        "disabled": false,
+        "rect": {
+          "x": 43,
+          "y": 1535.734375,
+          "width": 304,
+          "height": 38,
+          "top": 1535.734375,
+          "right": 347,
+          "bottom": 1573.734375,
+          "left": 43
+        },
+        "color": "rgb(113, 81, 28)",
+        "bg": "rgba(255, 255, 255, 0.92)"
+      },
+      {
+        "tag": "INPUT",
+        "text": "",
+        "label": "Velocidade da narração",
+        "disabled": false,
+        "rect": {
+          "x": 42,
+          "y": 1683.390625,
+          "width": 306,
+          "height": 44,
+          "top": 1683.390625,
+          "right": 348,
+          "bottom": 1727.390625,
+          "left": 42
+        },
+        "color": "rgb(32, 45, 36)",
+        "bg": "rgba(0, 0, 0, 0)"
+      },
+      {
+        "tag": "INPUT",
+        "text": "",
+        "label": "Volume da voz",
+        "disabled": false,
+        "rect": {
+          "x": 42,
+          "y": 1768.046875,
+          "width": 306,
+          "height": 44,
+          "top": 1768.046875,
+          "right": 348,
+          "bottom": 1812.046875,
+          "left": 42
+        },
+        "color": "rgb(32, 45, 36)",
+        "bg": "rgba(0, 0, 0, 0)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Ouvir Teste de Áudio e Frequência",
+        "label": null,
+        "disabled": false,
+        "rect": {
+          "x": 25,
+          "y": 1859.046875,
+          "width": 340,
+          "height": 42,
+          "top": 1859.046875,
+          "right": 365,
+          "bottom": 1901.046875,
+          "left": 25
+        },
+        "color": "rgb(92, 106, 96)",
+        "bg": "rgb(250, 246, 240)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Salvar e Aplicar Ajustes de Som",
+        "label": null,
+        "disabled": false,
+        "rect": {
+          "x": 25,
+          "y": 1933.046875,
+          "width": 340,
+          "height": 44,
+          "top": 1933.046875,
+          "right": 365,
+          "bottom": 1977.046875,
+          "left": 25
+        },
+        "color": "rgb(7, 59, 43)",
+        "bg": "rgb(223, 197, 127)"
+      }
+    ],
+    "accessibilityChecked": true,
+    "axe": []
+  },
+  {
+    "screen": "01-audio-voice-controls",
+    "title": "home",
+    "text": "TERAPIAS HOLÍSTICAS E BEM-ESTAR\nProtocolo da Transformação\nOlá, Maria.\n\nQue bom que você voltou para si.\n\nRespire. Você não precisa fazer tudo hoje. Escolha apenas o cuidado que combina com o seu momento.\n\nUm novo capítulo\npode começar hoje.\n\nRespire. Acolha. Transforme.\nVocê consegue.\nComeçar minha jornada\nDia 3\nPurificação das Águas\nPrimeiro, vamos ouvir você\nComo você está de verdade?\n\nResponda à anamnese para receber seu resultado, frequência, chakra em foco, floral, aroma e protocolo recomendado.\n\nComeçar minha anamnese\nAfirmação do dia\nPurificação das Águas\n\nAcolhendo simbolicamente memórias ancestrais e abrindo espaço interior para um novo fluxo de presença.\n\nSentir o sopro sutil de ervas sagradas.\nVocê já fez muito por você.\n\nAgora, é a sua vez.\n\nMenu\nOutros caminhos da sua jornada\nFale conosco\nUm lugar para voltar para si\nInício\nJornada\nBiblioteca\nComunidade\n\nO Protocolo da Transformação é canalizado energeticamente por Éverton Rodrigo Piceni, respeitando o tempo e a jornada de cada pessoa.\n\nEU SOU LIVRE • EU SOU CURA • EU ESTOU EM PAZ\nACÚSTICA & FREQUÊNCIAS\nAjuste Completo do Som & Voz\nFREQUÊNCIA DE FUNDO\n50% Volume\n396Hz\nAterramento & reflexão\n528Hz\nCalma & presença com camada binaural\n432Hz\nAtmosfera suave com camada binaural\n639Hz\nConexão & acolhimento\n417Hz\nRenovação simbólica\n852Hz\nVIP\nIntrospecção\n963Hz\nVIP\nContemplação\n741Hz\nVIP\nClareza & foco\nFloresta Zen\nPássaros & Vento\nChuva Serena\nÁgua Calmante\nSinos Zen\nTigelas Tibetanas\nSem Trilha\nSilêncio Absoluto\nÁUDIO BINAURAL OPCIONAL\nEstéreo Binaural\nCamada Binaural\n\nAdicione uma diferença estéreo sutil entre os canais esquerdo e direito sobre a trilha escolhida. Para perceber o efeito estéreo, use fones de ouvido em volume confortável.\n\nBATIMENTO BINAURAL SELECIONADO (10.0 HZ)\nALPHA\nOndas Delta\n2.5 Hz\nDescanso & Sono\nAtmosfera voltada a desaceleração, repouso e ancoramento.\nOndas Theta\n5.5 Hz\nMeditação & Intuição\nAcesso sutil ao subconsciente, transmutação energética e acolhimento.\nOndas Alpha\n10.0 Hz\nPresença Lúcida (Recomendado)\nCalma alerta, relaxamento lúcido, harmonia emocional e foco sereno.\nOndas Beta\n15.0 Hz\nVitalidade & Clareza\nDespertar de disposição consciente, clareza mental e ânimo para o agir.\nOndas Gamma\n40.0 Hz\nConexão Superior\nTranscendência sutil, expansão de consciência e integração espiritual.\nSINTONIZAÇÃO DA PORTADORA HARMÔNICA\nSincronizar com Frequência\nPortadora em 432 Hz\nSub-Harmônica Aveludada\nOitava inferior (432 Hz) para máximo conforto auricular\nINTENSIDADE DE MIXAGEM DA BATIDA\n35%\nSuave / Subliminar\nHarmonia Equilibrada\nPresença Marcada\nSintonia Estéreo em Tempo Real\nBatimento: 10.0 Hz (ALPHA)\nOUVIDO ESQUERDO (L)\n427.0 Hz\nOUVIDO DIREITO (R)\n437.0 Hz\n\nDiferença estéreo entre os canais: 10.0 Hz. Fones de ouvido são recomendados para perceber a separação estéreo.\n\nOuvir prévia binaural\nVOZ DA MEDITAÇÃO GUIADA\nVelocidade da Narração\n1.20x (Dinâmica)\nVolume da Voz\n85%\nOuvir Teste de Áudio e Frequência\nSALVAR E APLICAR AJUSTES DE SOM",
+    "buttons": [
+      {
+        "tag": "BUTTON",
+        "text": "Som",
+        "label": "Ajustar sons, frequências e sintonização bioativa",
+        "disabled": false,
+        "rect": {
+          "x": 334,
+          "y": 5,
+          "width": 44,
+          "height": 44,
+          "top": 5,
+          "right": 378,
+          "bottom": 49,
+          "left": 334
+        },
+        "color": "rgb(7, 59, 43)",
+        "bg": "rgba(255, 250, 231, 0.93)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "",
+        "label": "Abrir menu principal",
+        "disabled": false,
+        "rect": {
+          "x": 334,
+          "y": 66,
+          "width": 44,
+          "height": 44,
+          "top": 66,
+          "right": 378,
+          "bottom": 110,
+          "left": 334
+        },
+        "color": "rgb(7, 59, 43)",
+        "bg": "rgba(255, 250, 231, 0.7)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Começar minha jornada",
+        "label": null,
+        "disabled": false,
+        "rect": {
+          "x": 18,
+          "y": 668,
+          "width": 354,
+          "height": 70,
+          "top": 668,
+          "right": 372,
+          "bottom": 738,
+          "left": 18
+        },
+        "color": "rgb(7, 59, 43)",
+        "bg": "rgba(0, 0, 0, 0)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Dia 3Purificação das Águas",
+        "label": null,
+        "disabled": false,
+        "rect": {
+          "x": 15,
+          "y": 768,
+          "width": 360,
+          "height": 86,
+          "top": 768,
+          "right": 375,
+          "bottom": 854,
+          "left": 15
+        },
+        "color": "rgb(38, 55, 42)",
+        "bg": "rgba(0, 0, 0, 0)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Começar minha anamnese",
+        "label": null,
+        "disabled": false,
+        "rect": {
+          "x": 30,
+          "y": 1025.171875,
+          "width": 330,
+          "height": 55,
+          "top": 1025.171875,
+          "right": 360,
+          "bottom": 1080.171875,
+          "left": 30
+        },
+        "color": "rgb(7, 59, 43)",
+        "bg": "rgba(0, 0, 0, 0)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "MenuOutros caminhos da sua jornada",
+        "label": null,
+        "disabled": false,
+        "rect": {
+          "x": 15,
+          "y": 1424.78125,
+          "width": 360,
+          "height": 84,
+          "top": 1424.78125,
+          "right": 375,
+          "bottom": 1508.78125,
+          "left": 15
+        },
+        "color": "rgb(38, 55, 42)",
+        "bg": "rgba(0, 0, 0, 0)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Fale conoscoUm lugar para voltar para si",
+        "label": null,
+        "disabled": false,
+        "rect": {
+          "x": 15,
+          "y": 1516.78125,
+          "width": 360,
+          "height": 84,
+          "top": 1516.78125,
+          "right": 375,
+          "bottom": 1600.78125,
+          "left": 15
+        },
+        "color": "rgb(38, 55, 42)",
+        "bg": "rgba(0, 0, 0, 0)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Início",
+        "label": null,
+        "disabled": false,
+        "rect": {
+          "x": 5,
+          "y": 776,
+          "width": 95,
+          "height": 61,
+          "top": 776,
+          "right": 100,
+          "bottom": 837,
+          "left": 5
+        },
+        "color": "rgb(7, 59, 43)",
+        "bg": "rgba(0, 0, 0, 0)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Jornada",
+        "label": null,
+        "disabled": false,
+        "rect": {
+          "x": 100,
+          "y": 776,
+          "width": 95,
+          "height": 61,
+          "top": 776,
+          "right": 195,
+          "bottom": 837,
+          "left": 100
+        },
+        "color": "rgb(103, 112, 91)",
+        "bg": "rgba(0, 0, 0, 0)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Biblioteca",
+        "label": null,
+        "disabled": false,
+        "rect": {
+          "x": 195,
+          "y": 776,
+          "width": 95,
+          "height": 61,
+          "top": 776,
+          "right": 290,
+          "bottom": 837,
+          "left": 195
+        },
+        "color": "rgb(103, 112, 91)",
+        "bg": "rgba(0, 0, 0, 0)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Comunidade",
+        "label": null,
+        "disabled": false,
+        "rect": {
+          "x": 290,
+          "y": 776,
+          "width": 95,
+          "height": 61,
+          "top": 776,
+          "right": 385,
+          "bottom": 837,
+          "left": 290
+        },
+        "color": "rgb(103, 112, 91)",
+        "bg": "rgba(0, 0, 0, 0)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "",
+        "label": "Fechar ajustes de áudio",
+        "disabled": false,
+        "rect": {
+          "x": 321,
+          "y": -1451,
+          "width": 44,
+          "height": 44,
+          "top": -1451,
+          "right": 365,
+          "bottom": -1407,
+          "left": 321
+        },
+        "color": "rgb(92, 106, 96)",
+        "bg": "rgb(239, 232, 221)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "396HzAterramento & reflexão",
+        "label": null,
+        "disabled": false,
+        "rect": {
+          "x": 42,
+          "y": -1319,
+          "width": 149,
+          "height": 66,
+          "top": -1319,
+          "right": 191,
+          "bottom": -1253,
+          "left": 42
+        },
+        "color": "rgb(92, 106, 96)",
+        "bg": "rgb(250, 246, 240)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "528HzCalma & presença com camada binaural",
+        "label": null,
+        "disabled": false,
+        "rect": {
+          "x": 199,
+          "y": -1319,
+          "width": 149,
+          "height": 66,
+          "top": -1319,
+          "right": 348,
+          "bottom": -1253,
+          "left": 199
+        },
+        "color": "rgb(92, 106, 96)",
+        "bg": "rgb(250, 246, 240)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "432HzAtmosfera suave com camada binaural",
+        "label": null,
+        "disabled": false,
+        "rect": {
+          "x": 42,
+          "y": -1245,
+          "width": 149,
+          "height": 66,
+          "top": -1245,
+          "right": 191,
+          "bottom": -1179,
+          "left": 42
+        },
+        "color": "rgb(92, 106, 96)",
+        "bg": "rgb(250, 246, 240)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "639HzConexão & acolhimento",
+        "label": null,
+        "disabled": false,
+        "rect": {
+          "x": 199,
+          "y": -1245,
+          "width": 149,
+          "height": 66,
+          "top": -1245,
+          "right": 348,
+          "bottom": -1179,
+          "left": 199
+        },
+        "color": "rgb(92, 106, 96)",
+        "bg": "rgb(250, 246, 240)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "417HzRenovação simbólica",
+        "label": null,
+        "disabled": false,
+        "rect": {
+          "x": 42,
+          "y": -1171,
+          "width": 149,
+          "height": 64,
+          "top": -1171,
+          "right": 191,
+          "bottom": -1107,
+          "left": 42
+        },
+        "color": "rgb(92, 106, 96)",
+        "bg": "rgb(250, 246, 240)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "852HzVIPIntrospecção",
+        "label": null,
+        "disabled": false,
+        "rect": {
+          "x": 199,
+          "y": -1171,
+          "width": 149,
+          "height": 64,
+          "top": -1171,
+          "right": 348,
+          "bottom": -1107,
+          "left": 199
+        },
+        "color": "rgb(92, 106, 96)",
+        "bg": "rgb(250, 246, 240)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "963HzVIPContemplação",
+        "label": null,
+        "disabled": false,
+        "rect": {
+          "x": 42,
+          "y": -1099,
+          "width": 149,
+          "height": 64,
+          "top": -1099,
+          "right": 191,
+          "bottom": -1035,
+          "left": 42
+        },
+        "color": "rgb(92, 106, 96)",
+        "bg": "rgb(250, 246, 240)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "741HzVIPClareza & foco",
+        "label": null,
+        "disabled": false,
+        "rect": {
+          "x": 199,
+          "y": -1099,
+          "width": 149,
+          "height": 64,
+          "top": -1099,
+          "right": 348,
+          "bottom": -1035,
+          "left": 199
+        },
+        "color": "rgb(92, 106, 96)",
+        "bg": "rgb(250, 246, 240)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Floresta ZenPássaros & Vento",
+        "label": null,
+        "disabled": false,
+        "rect": {
+          "x": 42,
+          "y": -1027,
+          "width": 149,
+          "height": 64,
+          "top": -1027,
+          "right": 191,
+          "bottom": -963,
+          "left": 42
+        },
+        "color": "rgb(92, 106, 96)",
+        "bg": "rgb(250, 246, 240)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Chuva SerenaÁgua Calmante",
+        "label": null,
+        "disabled": false,
+        "rect": {
+          "x": 199,
+          "y": -1027,
+          "width": 149,
+          "height": 64,
+          "top": -1027,
+          "right": 348,
+          "bottom": -963,
+          "left": 199
+        },
+        "color": "rgb(92, 106, 96)",
+        "bg": "rgb(250, 246, 240)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Sinos ZenTigelas Tibetanas",
+        "label": null,
+        "disabled": false,
+        "rect": {
+          "x": 42,
+          "y": -955,
+          "width": 149,
+          "height": 64,
+          "top": -955,
+          "right": 191,
+          "bottom": -891,
+          "left": 42
+        },
+        "color": "rgb(92, 106, 96)",
+        "bg": "rgb(250, 246, 240)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Sem TrilhaSilêncio Absoluto",
+        "label": null,
+        "disabled": false,
+        "rect": {
+          "x": 199,
+          "y": -955,
+          "width": 149,
+          "height": 64,
+          "top": -955,
+          "right": 348,
+          "bottom": -891,
+          "left": 199
+        },
+        "color": "rgb(92, 106, 96)",
+        "bg": "rgb(250, 246, 240)"
+      },
+      {
+        "tag": "INPUT",
+        "text": "",
+        "label": "Volume da frequência de fundo",
+        "disabled": false,
+        "rect": {
+          "x": 42,
+          "y": -871,
+          "width": 306,
+          "height": 44,
+          "top": -871,
+          "right": 348,
+          "bottom": -827,
+          "left": 42
+        },
+        "color": "rgb(32, 45, 36)",
+        "bg": "rgba(0, 0, 0, 0)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "",
+        "label": "Camada binaural opcional",
+        "disabled": false,
+        "rect": {
+          "x": 303,
+          "y": -762,
+          "width": 44,
+          "height": 44,
+          "top": -762,
+          "right": 347,
+          "bottom": -718,
+          "left": 303
+        },
+        "color": "rgb(7, 59, 43)",
+        "bg": "rgba(0, 0, 0, 0)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Ondas Delta2.5 HzDescanso & SonoAtmosfera voltada a desaceleração, repouso e ancoramento.",
+        "label": null,
+        "disabled": false,
+        "rect": {
+          "x": 43,
+          "y": -576.25,
+          "width": 304,
+          "height": 86.5,
+          "top": -576.25,
+          "right": 347,
+          "bottom": -489.75,
+          "left": 43
+        },
+        "color": "rgb(92, 106, 96)",
+        "bg": "rgba(255, 255, 255, 0.92)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Ondas Theta5.5 HzMeditação & IntuiçãoAcesso sutil ao subconsciente, transmutação energética e acolhimento.",
+        "label": null,
+        "disabled": false,
+        "rect": {
+          "x": 43,
+          "y": -481.75,
+          "width": 304,
+          "height": 86.5,
+          "top": -481.75,
+          "right": 347,
+          "bottom": -395.25,
+          "left": 43
+        },
+        "color": "rgb(92, 106, 96)",
+        "bg": "rgba(255, 255, 255, 0.92)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Ondas Alpha10.0 HzPresença Lúcida (Recomendado)Calma alerta, relaxamento lúcido, harmonia emocional e foco sereno.",
+        "label": null,
+        "disabled": false,
+        "rect": {
+          "x": 43,
+          "y": -387.25,
+          "width": 304,
+          "height": 86.5,
+          "top": -387.25,
+          "right": 347,
+          "bottom": -300.75,
+          "left": 43
+        },
+        "color": "rgb(32, 45, 36)",
+        "bg": "rgb(241, 231, 200)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Ondas Beta15.0 HzVitalidade & ClarezaDespertar de disposição consciente, clareza mental e ânimo para o agir.",
+        "label": null,
+        "disabled": false,
+        "rect": {
+          "x": 43,
+          "y": -292.75,
+          "width": 304,
+          "height": 86.5,
+          "top": -292.75,
+          "right": 347,
+          "bottom": -206.25,
+          "left": 43
+        },
+        "color": "rgb(92, 106, 96)",
+        "bg": "rgba(255, 255, 255, 0.92)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Ondas Gamma40.0 HzConexão SuperiorTranscendência sutil, expansão de consciência e integração espiritual.",
+        "label": null,
+        "disabled": false,
+        "rect": {
+          "x": 43,
+          "y": -198.25,
+          "width": 304,
+          "height": 86.5,
+          "top": -198.25,
+          "right": 347,
+          "bottom": -111.75,
+          "left": 43
+        },
+        "color": "rgb(92, 106, 96)",
+        "bg": "rgba(255, 255, 255, 0.92)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Sincronizar com FrequênciaPortadora em 432 Hz",
+        "label": null,
+        "disabled": false,
+        "rect": {
+          "x": 43,
+          "y": -73.25,
+          "width": 148,
+          "height": 95.984375,
+          "top": -73.25,
+          "right": 191,
+          "bottom": 22.734375,
+          "left": 43
+        },
+        "color": "rgb(32, 45, 36)",
+        "bg": "rgb(241, 231, 200)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Sub-Harmônica AveludadaOitava inferior (432 Hz) para máximo conforto auricular",
+        "label": null,
+        "disabled": false,
+        "rect": {
+          "x": 199,
+          "y": -73.25,
+          "width": 148,
+          "height": 95.984375,
+          "top": -73.25,
+          "right": 347,
+          "bottom": 22.734375,
+          "left": 199
+        },
+        "color": "rgb(92, 106, 96)",
+        "bg": "rgba(255, 255, 255, 0.92)"
+      },
+      {
+        "tag": "INPUT",
+        "text": "",
+        "label": "Intensidade da camada binaural",
+        "disabled": false,
+        "rect": {
+          "x": 58,
+          "y": 75.734375,
+          "width": 274,
+          "height": 44,
+          "top": 75.734375,
+          "right": 332,
+          "bottom": 119.734375,
+          "left": 58
+        },
+        "color": "rgb(32, 45, 36)",
+        "bg": "rgba(0, 0, 0, 0)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Ouvir prévia binaural",
+        "label": null,
+        "disabled": false,
+        "rect": {
+          "x": 43,
+          "y": 373.734375,
+          "width": 304,
+          "height": 38,
+          "top": 373.734375,
+          "right": 347,
+          "bottom": 411.734375,
+          "left": 43
+        },
+        "color": "rgb(113, 81, 28)",
+        "bg": "rgba(255, 255, 255, 0.92)"
+      },
+      {
+        "tag": "INPUT",
+        "text": "",
+        "label": "Velocidade da narração",
+        "disabled": false,
+        "rect": {
+          "x": 42,
+          "y": 521.390625,
+          "width": 306,
+          "height": 44,
+          "top": 521.390625,
+          "right": 348,
+          "bottom": 565.390625,
+          "left": 42
+        },
+        "color": "rgb(32, 45, 36)",
+        "bg": "rgba(0, 0, 0, 0)"
+      },
+      {
+        "tag": "INPUT",
+        "text": "",
+        "label": "Volume da voz",
+        "disabled": false,
+        "rect": {
+          "x": 42,
+          "y": 606.046875,
+          "width": 306,
+          "height": 44,
+          "top": 606.046875,
+          "right": 348,
+          "bottom": 650.046875,
+          "left": 42
+        },
+        "color": "rgb(32, 45, 36)",
+        "bg": "rgba(0, 0, 0, 0)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Ouvir Teste de Áudio e Frequência",
+        "label": null,
+        "disabled": false,
+        "rect": {
+          "x": 25,
+          "y": 697.046875,
+          "width": 340,
+          "height": 42,
+          "top": 697.046875,
+          "right": 365,
+          "bottom": 739.046875,
+          "left": 25
+        },
+        "color": "rgb(92, 106, 96)",
+        "bg": "rgb(250, 246, 240)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Salvar e Aplicar Ajustes de Som",
+        "label": null,
+        "disabled": false,
+        "rect": {
+          "x": 25,
+          "y": 771.046875,
+          "width": 340,
+          "height": 44,
+          "top": 771.046875,
+          "right": 365,
+          "bottom": 815.046875,
+          "left": 25
+        },
+        "color": "rgb(7, 59, 43)",
+        "bg": "rgb(223, 197, 127)"
+      }
+    ],
+    "accessibilityChecked": true,
+    "axe": []
+  },
+  {
+    "screen": "01-audio-keyboard",
+    "escapeClosed": true
+  },
+  {
+    "screen": "02-install-desktop",
+    "title": "home",
+    "text": "TERAPIAS HOLÍSTICAS E BEM-ESTAR\nProtocolo da Transformação\nMEMBRO PRO\nSom\nArcanjo\nPortuguês\nEnglish\nEspañol\nFrançais\nItaliano\nDeutsch\nApp\nSair\nOlá, Maria.\n\nQue bom que você voltou para si.\n\nRespire. Você não precisa fazer tudo hoje. Escolha apenas o cuidado que combina com o seu momento.\n\nUm novo capítulo\npode começar hoje.\n\nRespire. Acolha. Transforme.\nVocê consegue.\nComeçar minha jornada\nDia 3\nPurificação das Águas\nPrimeiro, vamos ouvir você\nComo você está de verdade?\n\nResponda à anamnese para receber seu resultado, frequência, chakra em foco, floral, aroma e protocolo recomendado.\n\nComeçar minha anamnese\nAfirmação do dia\nPurificação das Águas\n\nAcolhendo simbolicamente memórias ancestrais e abrindo espaço interior para um novo fluxo de presença.\n\nSentir o sopro sutil de ervas sagradas.\nVocê já fez muito por você.\n\nAgora, é a sua vez.\n\nMenu\nOutros caminhos da sua jornada\nFale conosco\nUm lugar para voltar para si\nInício\nJornada\nBiblioteca\nComunidade\n\nO Protocolo da Transformação é canalizado energeticamente por Éverton Rodrigo Piceni, respeitando o tempo e a jornada de cada pessoa.\n\nEU SOU LIVRE • EU SOU CURA • EU ESTOU EM PAZ\nATALHO DO APLICATIVO\nInstalar no celular\n\nAdicione o Protocolo da Transformação à tela inicial para abrir com mais facilidade.\n\n Android\n iOS\nProtocolo da Transformação\n\nPor Éverton Rodrigo Piceni\n\nUm lugar para voltar para si.\n\nAcesso pela tela inicial\nAbra o projeto como aplicativo, sem precisar procurar o endereço novamente.\nSua jornada por perto\nAcesse jornadas, diário e recursos com poucos toques.\nINSTALAR NO ANDROID\nFale Conosco",
+    "buttons": [
+      {
+        "tag": "BUTTON",
+        "text": "MEMBRO PROPRO",
+        "label": "Abrir Certificado e Relatório Quântico",
+        "disabled": false,
+        "rect": {
+          "x": 660.96875,
+          "y": 19,
+          "width": 111.015625,
+          "height": 30,
+          "top": 19,
+          "right": 771.984375,
+          "bottom": 49,
+          "left": 660.96875
+        },
+        "color": "rgb(7, 59, 43)",
+        "bg": "rgba(0, 0, 0, 0)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "",
+        "label": "Ativar trilha de cura",
+        "disabled": false,
+        "rect": {
+          "x": 781.984375,
+          "y": 18,
+          "width": 32,
+          "height": 32,
+          "top": 18,
+          "right": 813.984375,
+          "bottom": 50,
+          "left": 781.984375
+        },
+        "color": "rgb(7, 59, 43)",
+        "bg": "rgba(255, 250, 231, 0.93)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Som",
+        "label": "Ajustar sons, frequências e sintonização bioativa",
+        "disabled": false,
+        "rect": {
+          "x": 817.984375,
+          "y": 19,
+          "width": 60.671875,
+          "height": 30,
+          "top": 19,
+          "right": 878.65625,
+          "bottom": 49,
+          "left": 817.984375
+        },
+        "color": "rgb(7, 59, 43)",
+        "bg": "rgba(255, 250, 231, 0.93)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Arcanjo",
+        "label": "Oração de 21 Dias do Arcanjo Miguel (Gratuito)",
+        "disabled": false,
+        "rect": {
+          "x": 888.65625,
+          "y": 19,
+          "width": 85.265625,
+          "height": 30,
+          "top": 19,
+          "right": 973.921875,
+          "bottom": 49,
+          "left": 888.65625
+        },
+        "color": "rgb(7, 59, 43)",
+        "bg": "rgba(255, 250, 231, 0.93)"
+      },
+      {
+        "tag": "SELECT",
+        "text": "PortuguêsEnglishEspañolFrançaisItalianoDeutsch",
+        "label": "Mudar idioma do aplicativo e do áudio",
+        "disabled": false,
+        "rect": {
+          "x": 1011.921875,
+          "y": 26,
+          "width": 84,
+          "height": 16,
+          "top": 26,
+          "right": 1095.921875,
+          "bottom": 42,
+          "left": 1011.921875
+        },
+        "color": "rgb(7, 59, 43)",
+        "bg": "rgba(255, 250, 231, 0.93)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "App",
+        "label": "Instalar aplicativo oficial no seu celular Android / Google Play",
+        "disabled": false,
+        "rect": {
+          "x": 1114.921875,
+          "y": 19,
+          "width": 62.609375,
+          "height": 30,
+          "top": 19,
+          "right": 1177.53125,
+          "bottom": 49,
+          "left": 1114.921875
+        },
+        "color": "rgb(7, 59, 43)",
+        "bg": "rgba(255, 250, 231, 0.93)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Sair",
+        "label": "Sair da conta",
+        "disabled": false,
+        "rect": {
+          "x": 1187.53125,
+          "y": 18,
+          "width": 70.96875,
+          "height": 32,
+          "top": 18,
+          "right": 1258.5,
+          "bottom": 50,
+          "left": 1187.53125
+        },
+        "color": "rgb(7, 59, 43)",
+        "bg": "rgba(255, 250, 231, 0.93)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "",
+        "label": "Abrir menu principal",
+        "disabled": false,
+        "rect": {
+          "x": 659.90625,
+          "y": 80,
+          "width": 44,
+          "height": 44,
+          "top": 80,
+          "right": 703.90625,
+          "bottom": 124,
+          "left": 659.90625
+        },
+        "color": "rgb(7, 59, 43)",
+        "bg": "rgba(255, 250, 231, 0.7)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Começar minha jornada",
+        "label": null,
+        "disabled": false,
+        "rect": {
+          "x": 227.5,
+          "y": 549,
+          "width": 464.40625,
+          "height": 52,
+          "top": 549,
+          "right": 691.90625,
+          "bottom": 601,
+          "left": 227.5
+        },
+        "color": "rgb(7, 59, 43)",
+        "bg": "rgba(0, 0, 0, 0)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Dia 3Purificação das Águas",
+        "label": null,
+        "disabled": false,
+        "rect": {
+          "x": 739.90625,
+          "y": 93,
+          "width": 397.578125,
+          "height": 86,
+          "top": 93,
+          "right": 1137.484375,
+          "bottom": 179,
+          "left": 739.90625
+        },
+        "color": "rgb(38, 55, 42)",
+        "bg": "rgba(0, 0, 0, 0)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Começar minha anamnese",
+        "label": null,
+        "disabled": false,
+        "rect": {
+          "x": 754.90625,
+          "y": 329.78125,
+          "width": 367.578125,
+          "height": 55,
+          "top": 329.78125,
+          "right": 1122.484375,
+          "bottom": 384.78125,
+          "left": 754.90625
+        },
+        "color": "rgb(7, 59, 43)",
+        "bg": "rgba(0, 0, 0, 0)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "MenuOutros caminhos da sua jornada",
+        "label": null,
+        "disabled": false,
+        "rect": {
+          "x": 739.90625,
+          "y": 729.390625,
+          "width": 397.578125,
+          "height": 84,
+          "top": 729.390625,
+          "right": 1137.484375,
+          "bottom": 813.390625,
+          "left": 739.90625
+        },
+        "color": "rgb(38, 55, 42)",
+        "bg": "rgba(0, 0, 0, 0)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Fale conoscoUm lugar para voltar para si",
+        "label": null,
+        "disabled": false,
+        "rect": {
+          "x": 739.90625,
+          "y": 821.390625,
+          "width": 397.578125,
+          "height": 84,
+          "top": 821.390625,
+          "right": 1137.484375,
+          "bottom": 905.390625,
+          "left": 739.90625
+        },
+        "color": "rgb(38, 55, 42)",
+        "bg": "rgba(0, 0, 0, 0)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Início",
+        "label": null,
+        "disabled": false,
+        "rect": {
+          "x": 207.5,
+          "y": 632,
+          "width": 237.5,
+          "height": 61,
+          "top": 632,
+          "right": 445,
+          "bottom": 693,
+          "left": 207.5
+        },
+        "color": "rgb(7, 59, 43)",
+        "bg": "rgba(0, 0, 0, 0)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Jornada",
+        "label": null,
+        "disabled": false,
+        "rect": {
+          "x": 445,
+          "y": 632,
+          "width": 237.5,
+          "height": 61,
+          "top": 632,
+          "right": 682.5,
+          "bottom": 693,
+          "left": 445
+        },
+        "color": "rgb(103, 112, 91)",
+        "bg": "rgba(0, 0, 0, 0)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Biblioteca",
+        "label": null,
+        "disabled": false,
+        "rect": {
+          "x": 682.5,
+          "y": 632,
+          "width": 237.5,
+          "height": 61,
+          "top": 632,
+          "right": 920,
+          "bottom": 693,
+          "left": 682.5
+        },
+        "color": "rgb(103, 112, 91)",
+        "bg": "rgba(0, 0, 0, 0)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Comunidade",
+        "label": null,
+        "disabled": false,
+        "rect": {
+          "x": 920,
+          "y": 632,
+          "width": 237.5,
+          "height": 61,
+          "top": 632,
+          "right": 1157.5,
+          "bottom": 693,
+          "left": 920
+        },
+        "color": "rgb(103, 112, 91)",
+        "bg": "rgba(0, 0, 0, 0)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "",
+        "label": "Fechar instalação do aplicativo",
+        "disabled": false,
+        "rect": {
+          "x": 877.5,
+          "y": 82.875,
+          "width": 44,
+          "height": 44,
+          "top": 82.875,
+          "right": 921.5,
+          "bottom": 126.875,
+          "left": 877.5
+        },
+        "color": "rgb(92, 106, 96)",
+        "bg": "rgb(239, 232, 221)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Android",
+        "label": null,
+        "disabled": false,
+        "rect": {
+          "x": 464.5,
+          "y": 219.625,
+          "width": 218,
+          "height": 44,
+          "top": 219.625,
+          "right": 682.5,
+          "bottom": 263.625,
+          "left": 464.5
+        },
+        "color": "rgb(255, 251, 237)",
+        "bg": "rgb(23, 75, 55)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "iOS",
+        "label": null,
+        "disabled": false,
+        "rect": {
+          "x": 682.5,
+          "y": 219.625,
+          "width": 218,
+          "height": 44,
+          "top": 219.625,
+          "right": 900.5,
+          "bottom": 263.625,
+          "left": 682.5
+        },
+        "color": "rgb(92, 106, 96)",
+        "bg": "rgb(239, 232, 221)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Instalar no Android",
+        "label": null,
+        "disabled": false,
+        "rect": {
+          "x": 459.5,
+          "y": 557.125,
+          "width": 446,
+          "height": 44,
+          "top": 557.125,
+          "right": 905.5,
+          "bottom": 601.125,
+          "left": 459.5
+        },
+        "color": "rgb(7, 59, 43)",
+        "bg": "rgb(223, 197, 127)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Fale Conosco",
+        "label": "Fale Conosco",
+        "disabled": false,
+        "rect": {
+          "x": 1178.5,
+          "y": 566,
+          "width": 52,
+          "height": 44,
+          "top": 566,
+          "right": 1230.5,
+          "bottom": 610,
+          "left": 1178.5
+        },
+        "color": "rgb(32, 45, 36)",
+        "bg": "rgb(7, 59, 43)"
+      }
+    ],
+    "accessibilityChecked": true,
+    "axe": []
+  },
+  {
+    "screen": "02-install-mobile",
+    "title": "home",
+    "text": "TERAPIAS HOLÍSTICAS E BEM-ESTAR\nProtocolo da Transformação\nOlá, Maria.\n\nQue bom que você voltou para si.\n\nRespire. Você não precisa fazer tudo hoje. Escolha apenas o cuidado que combina com o seu momento.\n\nUm novo capítulo\npode começar hoje.\n\nRespire. Acolha. Transforme.\nVocê consegue.\nComeçar minha jornada\nDia 3\nPurificação das Águas\nPrimeiro, vamos ouvir você\nComo você está de verdade?\n\nResponda à anamnese para receber seu resultado, frequência, chakra em foco, floral, aroma e protocolo recomendado.\n\nComeçar minha anamnese\nAfirmação do dia\nPurificação das Águas\n\nAcolhendo simbolicamente memórias ancestrais e abrindo espaço interior para um novo fluxo de presença.\n\nSentir o sopro sutil de ervas sagradas.\nVocê já fez muito por você.\n\nAgora, é a sua vez.\n\nMenu\nOutros caminhos da sua jornada\nFale conosco\nUm lugar para voltar para si\nInício\nJornada\nBiblioteca\nComunidade\n\nO Protocolo da Transformação é canalizado energeticamente por Éverton Rodrigo Piceni, respeitando o tempo e a jornada de cada pessoa.\n\nEU SOU LIVRE • EU SOU CURA • EU ESTOU EM PAZ\nATALHO DO APLICATIVO\nInstalar no celular\n\nAdicione o Protocolo da Transformação à tela inicial para abrir com mais facilidade.\n\n Android\n iOS\nProtocolo da Transformação\n\nPor Éverton Rodrigo Piceni\n\nUm lugar para voltar para si.\n\nAcesso pela tela inicial\nAbra o projeto como aplicativo, sem precisar procurar o endereço novamente.\nSua jornada por perto\nAcesse jornadas, diário e recursos com poucos toques.\nINSTALAR NO ANDROID",
+    "buttons": [
+      {
+        "tag": "BUTTON",
+        "text": "Som",
+        "label": "Ajustar sons, frequências e sintonização bioativa",
+        "disabled": false,
+        "rect": {
+          "x": 334,
+          "y": 5,
+          "width": 44,
+          "height": 44,
+          "top": 5,
+          "right": 378,
+          "bottom": 49,
+          "left": 334
+        },
+        "color": "rgb(7, 59, 43)",
+        "bg": "rgba(255, 250, 231, 0.93)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "",
+        "label": "Abrir menu principal",
+        "disabled": false,
+        "rect": {
+          "x": 334,
+          "y": 66,
+          "width": 44,
+          "height": 44,
+          "top": 66,
+          "right": 378,
+          "bottom": 110,
+          "left": 334
+        },
+        "color": "rgb(7, 59, 43)",
+        "bg": "rgba(255, 250, 231, 0.7)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Começar minha jornada",
+        "label": null,
+        "disabled": false,
+        "rect": {
+          "x": 18,
+          "y": 668,
+          "width": 354,
+          "height": 70,
+          "top": 668,
+          "right": 372,
+          "bottom": 738,
+          "left": 18
+        },
+        "color": "rgb(7, 59, 43)",
+        "bg": "rgba(0, 0, 0, 0)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Dia 3Purificação das Águas",
+        "label": null,
+        "disabled": false,
+        "rect": {
+          "x": 15,
+          "y": 768,
+          "width": 360,
+          "height": 86,
+          "top": 768,
+          "right": 375,
+          "bottom": 854,
+          "left": 15
+        },
+        "color": "rgb(38, 55, 42)",
+        "bg": "rgba(0, 0, 0, 0)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Começar minha anamnese",
+        "label": null,
+        "disabled": false,
+        "rect": {
+          "x": 30,
+          "y": 1025.171875,
+          "width": 330,
+          "height": 55,
+          "top": 1025.171875,
+          "right": 360,
+          "bottom": 1080.171875,
+          "left": 30
+        },
+        "color": "rgb(7, 59, 43)",
+        "bg": "rgba(0, 0, 0, 0)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "MenuOutros caminhos da sua jornada",
+        "label": null,
+        "disabled": false,
+        "rect": {
+          "x": 15,
+          "y": 1424.78125,
+          "width": 360,
+          "height": 84,
+          "top": 1424.78125,
+          "right": 375,
+          "bottom": 1508.78125,
+          "left": 15
+        },
+        "color": "rgb(38, 55, 42)",
+        "bg": "rgba(0, 0, 0, 0)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Fale conoscoUm lugar para voltar para si",
+        "label": null,
+        "disabled": false,
+        "rect": {
+          "x": 15,
+          "y": 1516.78125,
+          "width": 360,
+          "height": 84,
+          "top": 1516.78125,
+          "right": 375,
+          "bottom": 1600.78125,
+          "left": 15
+        },
+        "color": "rgb(38, 55, 42)",
+        "bg": "rgba(0, 0, 0, 0)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Início",
+        "label": null,
+        "disabled": false,
+        "rect": {
+          "x": 5,
+          "y": 776,
+          "width": 95,
+          "height": 61,
+          "top": 776,
+          "right": 100,
+          "bottom": 837,
+          "left": 5
+        },
+        "color": "rgb(7, 59, 43)",
+        "bg": "rgba(0, 0, 0, 0)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Jornada",
+        "label": null,
+        "disabled": false,
+        "rect": {
+          "x": 100,
+          "y": 776,
+          "width": 95,
+          "height": 61,
+          "top": 776,
+          "right": 195,
+          "bottom": 837,
+          "left": 100
+        },
+        "color": "rgb(103, 112, 91)",
+        "bg": "rgba(0, 0, 0, 0)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Biblioteca",
+        "label": null,
+        "disabled": false,
+        "rect": {
+          "x": 195,
+          "y": 776,
+          "width": 95,
+          "height": 61,
+          "top": 776,
+          "right": 290,
+          "bottom": 837,
+          "left": 195
+        },
+        "color": "rgb(103, 112, 91)",
+        "bg": "rgba(0, 0, 0, 0)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Comunidade",
+        "label": null,
+        "disabled": false,
+        "rect": {
+          "x": 290,
+          "y": 776,
+          "width": 95,
+          "height": 61,
+          "top": 776,
+          "right": 385,
+          "bottom": 837,
+          "left": 290
+        },
+        "color": "rgb(103, 112, 91)",
+        "bg": "rgba(0, 0, 0, 0)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "",
+        "label": "Fechar instalação do aplicativo",
+        "disabled": false,
+        "rect": {
+          "x": 321,
+          "y": 162.875,
+          "width": 44,
+          "height": 44,
+          "top": 162.875,
+          "right": 365,
+          "bottom": 206.875,
+          "left": 321
+        },
+        "color": "rgb(92, 106, 96)",
+        "bg": "rgb(239, 232, 221)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Android",
+        "label": null,
+        "disabled": false,
+        "rect": {
+          "x": 30,
+          "y": 283.625,
+          "width": 165,
+          "height": 44,
+          "top": 283.625,
+          "right": 195,
+          "bottom": 327.625,
+          "left": 30
+        },
+        "color": "rgb(255, 251, 237)",
+        "bg": "rgb(23, 75, 55)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "iOS",
+        "label": null,
+        "disabled": false,
+        "rect": {
+          "x": 195,
+          "y": 283.625,
+          "width": 165,
+          "height": 44,
+          "top": 283.625,
+          "right": 360,
+          "bottom": 327.625,
+          "left": 195
+        },
+        "color": "rgb(92, 106, 96)",
+        "bg": "rgb(239, 232, 221)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Instalar no Android",
+        "label": null,
+        "disabled": false,
+        "rect": {
+          "x": 25,
+          "y": 637.125,
+          "width": 340,
+          "height": 44,
+          "top": 637.125,
+          "right": 365,
+          "bottom": 681.125,
+          "left": 25
+        },
+        "color": "rgb(7, 59, 43)",
+        "bg": "rgb(223, 197, 127)"
+      }
+    ],
+    "accessibilityChecked": true,
+    "axe": []
+  },
+  {
+    "screen": "02-install-ios",
+    "title": "home",
+    "text": "TERAPIAS HOLÍSTICAS E BEM-ESTAR\nProtocolo da Transformação\nOlá, Maria.\n\nQue bom que você voltou para si.\n\nRespire. Você não precisa fazer tudo hoje. Escolha apenas o cuidado que combina com o seu momento.\n\nUm novo capítulo\npode começar hoje.\n\nRespire. Acolha. Transforme.\nVocê consegue.\nComeçar minha jornada\nDia 3\nPurificação das Águas\nPrimeiro, vamos ouvir você\nComo você está de verdade?\n\nResponda à anamnese para receber seu resultado, frequência, chakra em foco, floral, aroma e protocolo recomendado.\n\nComeçar minha anamnese\nAfirmação do dia\nPurificação das Águas\n\nAcolhendo simbolicamente memórias ancestrais e abrindo espaço interior para um novo fluxo de presença.\n\nSentir o sopro sutil de ervas sagradas.\nVocê já fez muito por você.\n\nAgora, é a sua vez.\n\nMenu\nOutros caminhos da sua jornada\nFale conosco\nUm lugar para voltar para si\nInício\nJornada\nBiblioteca\nComunidade\n\nO Protocolo da Transformação é canalizado energeticamente por Éverton Rodrigo Piceni, respeitando o tempo e a jornada de cada pessoa.\n\nEU SOU LIVRE • EU SOU CURA • EU ESTOU EM PAZ\nATALHO DO APLICATIVO\nInstalar no celular\n\nAdicione o Protocolo da Transformação à tela inicial para abrir com mais facilidade.\n\n Android\n iOS\nProtocolo da Transformação\n\nPor Éverton Rodrigo Piceni\n\nUm lugar para voltar para si.\n\nNo Safari:\n\nToque em Compartilhar.\nSelecione Adicionar à Tela de Início.\nConfirme em Adicionar.\n\nDepois disso, o Protocolo da Transformação ficará disponível na sua tela inicial.",
+    "buttons": [
+      {
+        "tag": "BUTTON",
+        "text": "Som",
+        "label": "Ajustar sons, frequências e sintonização bioativa",
+        "disabled": false,
+        "rect": {
+          "x": 334,
+          "y": 5,
+          "width": 44,
+          "height": 44,
+          "top": 5,
+          "right": 378,
+          "bottom": 49,
+          "left": 334
+        },
+        "color": "rgb(7, 59, 43)",
+        "bg": "rgba(255, 250, 231, 0.93)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "",
+        "label": "Abrir menu principal",
+        "disabled": false,
+        "rect": {
+          "x": 334,
+          "y": 66,
+          "width": 44,
+          "height": 44,
+          "top": 66,
+          "right": 378,
+          "bottom": 110,
+          "left": 334
+        },
+        "color": "rgb(7, 59, 43)",
+        "bg": "rgba(255, 250, 231, 0.7)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Começar minha jornada",
+        "label": null,
+        "disabled": false,
+        "rect": {
+          "x": 18,
+          "y": 668,
+          "width": 354,
+          "height": 70,
+          "top": 668,
+          "right": 372,
+          "bottom": 738,
+          "left": 18
+        },
+        "color": "rgb(7, 59, 43)",
+        "bg": "rgba(0, 0, 0, 0)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Dia 3Purificação das Águas",
+        "label": null,
+        "disabled": false,
+        "rect": {
+          "x": 15,
+          "y": 768,
+          "width": 360,
+          "height": 86,
+          "top": 768,
+          "right": 375,
+          "bottom": 854,
+          "left": 15
+        },
+        "color": "rgb(38, 55, 42)",
+        "bg": "rgba(0, 0, 0, 0)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Começar minha anamnese",
+        "label": null,
+        "disabled": false,
+        "rect": {
+          "x": 30,
+          "y": 1025.171875,
+          "width": 330,
+          "height": 55,
+          "top": 1025.171875,
+          "right": 360,
+          "bottom": 1080.171875,
+          "left": 30
+        },
+        "color": "rgb(7, 59, 43)",
+        "bg": "rgba(0, 0, 0, 0)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "MenuOutros caminhos da sua jornada",
+        "label": null,
+        "disabled": false,
+        "rect": {
+          "x": 15,
+          "y": 1424.78125,
+          "width": 360,
+          "height": 84,
+          "top": 1424.78125,
+          "right": 375,
+          "bottom": 1508.78125,
+          "left": 15
+        },
+        "color": "rgb(38, 55, 42)",
+        "bg": "rgba(0, 0, 0, 0)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Fale conoscoUm lugar para voltar para si",
+        "label": null,
+        "disabled": false,
+        "rect": {
+          "x": 15,
+          "y": 1516.78125,
+          "width": 360,
+          "height": 84,
+          "top": 1516.78125,
+          "right": 375,
+          "bottom": 1600.78125,
+          "left": 15
+        },
+        "color": "rgb(38, 55, 42)",
+        "bg": "rgba(0, 0, 0, 0)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Início",
+        "label": null,
+        "disabled": false,
+        "rect": {
+          "x": 5,
+          "y": 776,
+          "width": 95,
+          "height": 61,
+          "top": 776,
+          "right": 100,
+          "bottom": 837,
+          "left": 5
+        },
+        "color": "rgb(7, 59, 43)",
+        "bg": "rgba(0, 0, 0, 0)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Jornada",
+        "label": null,
+        "disabled": false,
+        "rect": {
+          "x": 100,
+          "y": 776,
+          "width": 95,
+          "height": 61,
+          "top": 776,
+          "right": 195,
+          "bottom": 837,
+          "left": 100
+        },
+        "color": "rgb(103, 112, 91)",
+        "bg": "rgba(0, 0, 0, 0)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Biblioteca",
+        "label": null,
+        "disabled": false,
+        "rect": {
+          "x": 195,
+          "y": 776,
+          "width": 95,
+          "height": 61,
+          "top": 776,
+          "right": 290,
+          "bottom": 837,
+          "left": 195
+        },
+        "color": "rgb(103, 112, 91)",
+        "bg": "rgba(0, 0, 0, 0)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Comunidade",
+        "label": null,
+        "disabled": false,
+        "rect": {
+          "x": 290,
+          "y": 776,
+          "width": 95,
+          "height": 61,
+          "top": 776,
+          "right": 385,
+          "bottom": 837,
+          "left": 290
+        },
+        "color": "rgb(103, 112, 91)",
+        "bg": "rgba(0, 0, 0, 0)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "",
+        "label": "Fechar instalação do aplicativo",
+        "disabled": false,
+        "rect": {
+          "x": 321,
+          "y": 147.875,
+          "width": 44,
+          "height": 44,
+          "top": 147.875,
+          "right": 365,
+          "bottom": 191.875,
+          "left": 321
+        },
+        "color": "rgb(92, 106, 96)",
+        "bg": "rgb(239, 232, 221)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Android",
+        "label": null,
+        "disabled": false,
+        "rect": {
+          "x": 30,
+          "y": 268.625,
+          "width": 165,
+          "height": 44,
+          "top": 268.625,
+          "right": 195,
+          "bottom": 312.625,
+          "left": 30
+        },
+        "color": "rgb(92, 106, 96)",
+        "bg": "rgb(239, 232, 221)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "iOS",
+        "label": null,
+        "disabled": false,
+        "rect": {
+          "x": 195,
+          "y": 268.625,
+          "width": 165,
+          "height": 44,
+          "top": 268.625,
+          "right": 360,
+          "bottom": 312.625,
+          "left": 195
+        },
+        "color": "rgb(255, 251, 237)",
+        "bg": "rgb(23, 75, 55)"
+      }
+    ],
+    "accessibilityChecked": true,
+    "axe": []
+  },
+  {
+    "screen": "02-install-manual-feedback",
+    "title": "home",
+    "text": "TERAPIAS HOLÍSTICAS E BEM-ESTAR\nProtocolo da Transformação\nOlá, Maria.\n\nQue bom que você voltou para si.\n\nRespire. Você não precisa fazer tudo hoje. Escolha apenas o cuidado que combina com o seu momento.\n\nUm novo capítulo\npode começar hoje.\n\nRespire. Acolha. Transforme.\nVocê consegue.\nComeçar minha jornada\nDia 3\nPurificação das Águas\nPrimeiro, vamos ouvir você\nComo você está de verdade?\n\nResponda à anamnese para receber seu resultado, frequência, chakra em foco, floral, aroma e protocolo recomendado.\n\nComeçar minha anamnese\nAfirmação do dia\nPurificação das Águas\n\nAcolhendo simbolicamente memórias ancestrais e abrindo espaço interior para um novo fluxo de presença.\n\nSentir o sopro sutil de ervas sagradas.\nVocê já fez muito por você.\n\nAgora, é a sua vez.\n\nMenu\nOutros caminhos da sua jornada\nFale conosco\nUm lugar para voltar para si\nInício\nJornada\nBiblioteca\nComunidade\n\nO Protocolo da Transformação é canalizado energeticamente por Éverton Rodrigo Piceni, respeitando o tempo e a jornada de cada pessoa.\n\nEU SOU LIVRE • EU SOU CURA • EU ESTOU EM PAZ\nATALHO DO APLICATIVO\nInstalar no celular\n\nAdicione o Protocolo da Transformação à tela inicial para abrir com mais facilidade.\n\n Android\n iOS\nProtocolo da Transformação\n\nPor Éverton Rodrigo Piceni\n\nUm lugar para voltar para si.\n\nAcesso pela tela inicial\nAbra o projeto como aplicativo, sem precisar procurar o endereço novamente.\nSua jornada por perto\nAcesse jornadas, diário e recursos com poucos toques.\nINSTALAR NO ANDROID\nSeu navegador não disponibilizou o botão automático. Abra o menu do navegador e escolha 'Instalar aplicativo' ou 'Adicionar à tela inicial'.",
+    "buttons": [
+      {
+        "tag": "BUTTON",
+        "text": "Som",
+        "label": "Ajustar sons, frequências e sintonização bioativa",
+        "disabled": false,
+        "rect": {
+          "x": 334,
+          "y": 5,
+          "width": 44,
+          "height": 44,
+          "top": 5,
+          "right": 378,
+          "bottom": 49,
+          "left": 334
+        },
+        "color": "rgb(7, 59, 43)",
+        "bg": "rgba(255, 250, 231, 0.93)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "",
+        "label": "Abrir menu principal",
+        "disabled": false,
+        "rect": {
+          "x": 334,
+          "y": 66,
+          "width": 44,
+          "height": 44,
+          "top": 66,
+          "right": 378,
+          "bottom": 110,
+          "left": 334
+        },
+        "color": "rgb(7, 59, 43)",
+        "bg": "rgba(255, 250, 231, 0.7)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Começar minha jornada",
+        "label": null,
+        "disabled": false,
+        "rect": {
+          "x": 18,
+          "y": 668,
+          "width": 354,
+          "height": 70,
+          "top": 668,
+          "right": 372,
+          "bottom": 738,
+          "left": 18
+        },
+        "color": "rgb(7, 59, 43)",
+        "bg": "rgba(0, 0, 0, 0)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Dia 3Purificação das Águas",
+        "label": null,
+        "disabled": false,
+        "rect": {
+          "x": 15,
+          "y": 768,
+          "width": 360,
+          "height": 86,
+          "top": 768,
+          "right": 375,
+          "bottom": 854,
+          "left": 15
+        },
+        "color": "rgb(38, 55, 42)",
+        "bg": "rgba(0, 0, 0, 0)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Começar minha anamnese",
+        "label": null,
+        "disabled": false,
+        "rect": {
+          "x": 30,
+          "y": 1025.171875,
+          "width": 330,
+          "height": 55,
+          "top": 1025.171875,
+          "right": 360,
+          "bottom": 1080.171875,
+          "left": 30
+        },
+        "color": "rgb(7, 59, 43)",
+        "bg": "rgba(0, 0, 0, 0)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "MenuOutros caminhos da sua jornada",
+        "label": null,
+        "disabled": false,
+        "rect": {
+          "x": 15,
+          "y": 1424.78125,
+          "width": 360,
+          "height": 84,
+          "top": 1424.78125,
+          "right": 375,
+          "bottom": 1508.78125,
+          "left": 15
+        },
+        "color": "rgb(38, 55, 42)",
+        "bg": "rgba(0, 0, 0, 0)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Fale conoscoUm lugar para voltar para si",
+        "label": null,
+        "disabled": false,
+        "rect": {
+          "x": 15,
+          "y": 1516.78125,
+          "width": 360,
+          "height": 84,
+          "top": 1516.78125,
+          "right": 375,
+          "bottom": 1600.78125,
+          "left": 15
+        },
+        "color": "rgb(38, 55, 42)",
+        "bg": "rgba(0, 0, 0, 0)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Início",
+        "label": null,
+        "disabled": false,
+        "rect": {
+          "x": 5,
+          "y": 776,
+          "width": 95,
+          "height": 61,
+          "top": 776,
+          "right": 100,
+          "bottom": 837,
+          "left": 5
+        },
+        "color": "rgb(7, 59, 43)",
+        "bg": "rgba(0, 0, 0, 0)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Jornada",
+        "label": null,
+        "disabled": false,
+        "rect": {
+          "x": 100,
+          "y": 776,
+          "width": 95,
+          "height": 61,
+          "top": 776,
+          "right": 195,
+          "bottom": 837,
+          "left": 100
+        },
+        "color": "rgb(103, 112, 91)",
+        "bg": "rgba(0, 0, 0, 0)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Biblioteca",
+        "label": null,
+        "disabled": false,
+        "rect": {
+          "x": 195,
+          "y": 776,
+          "width": 95,
+          "height": 61,
+          "top": 776,
+          "right": 290,
+          "bottom": 837,
+          "left": 195
+        },
+        "color": "rgb(103, 112, 91)",
+        "bg": "rgba(0, 0, 0, 0)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Comunidade",
+        "label": null,
+        "disabled": false,
+        "rect": {
+          "x": 290,
+          "y": 776,
+          "width": 95,
+          "height": 61,
+          "top": 776,
+          "right": 385,
+          "bottom": 837,
+          "left": 290
+        },
+        "color": "rgb(103, 112, 91)",
+        "bg": "rgba(0, 0, 0, 0)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "",
+        "label": "Fechar instalação do aplicativo",
+        "disabled": false,
+        "rect": {
+          "x": 321,
+          "y": 110.625,
+          "width": 44,
+          "height": 44,
+          "top": 110.625,
+          "right": 365,
+          "bottom": 154.625,
+          "left": 321
+        },
+        "color": "rgb(92, 106, 96)",
+        "bg": "rgb(239, 232, 221)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Android",
+        "label": null,
+        "disabled": false,
+        "rect": {
+          "x": 30,
+          "y": 231.375,
+          "width": 165,
+          "height": 44,
+          "top": 231.375,
+          "right": 195,
+          "bottom": 275.375,
+          "left": 30
+        },
+        "color": "rgb(255, 251, 237)",
+        "bg": "rgb(23, 75, 55)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "iOS",
+        "label": null,
+        "disabled": false,
+        "rect": {
+          "x": 195,
+          "y": 231.375,
+          "width": 165,
+          "height": 44,
+          "top": 231.375,
+          "right": 360,
+          "bottom": 275.375,
+          "left": 195
+        },
+        "color": "rgb(92, 106, 96)",
+        "bg": "rgb(239, 232, 221)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Instalar no Android",
+        "label": null,
+        "disabled": false,
+        "rect": {
+          "x": 25,
+          "y": 584.875,
+          "width": 340,
+          "height": 44,
+          "top": 584.875,
+          "right": 365,
+          "bottom": 628.875,
+          "left": 25
+        },
+        "color": "rgb(7, 59, 43)",
+        "bg": "rgb(223, 197, 127)"
+      }
+    ],
+    "accessibilityChecked": true,
+    "axe": []
+  },
+  {
+    "screen": "02-install-keyboard",
+    "escapeClosed": true
+  },
+  {
+    "screen": "03-journal-desktop",
+    "text": "TERAPIAS HOLÍSTICAS E BEM-ESTAR\nProtocolo da Transformação\nMEMBRO PRO\nSom\nArcanjo\nPortuguês\nEnglish\nEspañol\nFrançais\nItaliano\nDeutsch\nApp\nSair\nDiário de Reconexão\n\nReflexões e percepções registradas ao longo da sua jornada.\n\n2 dias concluídos\nExportar\nPesquisar no Diário de Reconexão\nDIA 01\nO Despertar da Decisão\n09 de out. de 2026\nEstado: Calmo\nCOMO EU ESTAVA\nNota 2/5\n\nCheguei inquieta.\n\nCOMO ESTOU AGORA\nNota 4/5\n\nReservei tempo para respirar.\n\nDIA 02\nRaízes de Sustentação\n09 de out. de 2026\nEstado: Calmo\nCOMO EU ESTAVA\nNota 2/5\n\nCheguei inquieta.\n\nCOMO ESTOU AGORA\nNota 4/5\n\nPercebi mais presença no corpo.\n\nO Protocolo da Transformação é canalizado energeticamente por Éverton Rodrigo Piceni, respeitando o tempo e a jornada de cada pessoa.\n\nEU SOU LIVRE • EU SOU CURA • EU ESTOU EM PAZ\nFale Conosco",
+    "buttons": [
+      {
+        "tag": "BUTTON",
+        "text": "MEMBRO PROPRO",
+        "label": "Abrir Certificado e Relatório Quântico",
+        "disabled": false,
+        "rect": {
+          "x": 660.96875,
+          "y": 19,
+          "width": 111.015625,
+          "height": 30,
+          "top": 19,
+          "right": 771.984375,
+          "bottom": 49,
+          "left": 660.96875
+        },
+        "color": "rgb(7, 59, 43)",
+        "bg": "rgba(0, 0, 0, 0)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "",
+        "label": "Ativar trilha de cura",
+        "disabled": false,
+        "rect": {
+          "x": 781.984375,
+          "y": 18,
+          "width": 32,
+          "height": 32,
+          "top": 18,
+          "right": 813.984375,
+          "bottom": 50,
+          "left": 781.984375
+        },
+        "color": "rgb(7, 59, 43)",
+        "bg": "rgba(255, 250, 231, 0.93)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Som",
+        "label": "Ajustar sons, frequências e sintonização bioativa",
+        "disabled": false,
+        "rect": {
+          "x": 817.984375,
+          "y": 19,
+          "width": 60.671875,
+          "height": 30,
+          "top": 19,
+          "right": 878.65625,
+          "bottom": 49,
+          "left": 817.984375
+        },
+        "color": "rgb(7, 59, 43)",
+        "bg": "rgba(255, 250, 231, 0.93)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Arcanjo",
+        "label": "Oração de 21 Dias do Arcanjo Miguel (Gratuito)",
+        "disabled": false,
+        "rect": {
+          "x": 888.65625,
+          "y": 19,
+          "width": 85.265625,
+          "height": 30,
+          "top": 19,
+          "right": 973.921875,
+          "bottom": 49,
+          "left": 888.65625
+        },
+        "color": "rgb(7, 59, 43)",
+        "bg": "rgba(255, 250, 231, 0.93)"
+      },
+      {
+        "tag": "SELECT",
+        "text": "PortuguêsEnglishEspañolFrançaisItalianoDeutsch",
+        "label": "Mudar idioma do aplicativo e do áudio",
+        "disabled": false,
+        "rect": {
+          "x": 1011.921875,
+          "y": 26,
+          "width": 84,
+          "height": 16,
+          "top": 26,
+          "right": 1095.921875,
+          "bottom": 42,
+          "left": 1011.921875
+        },
+        "color": "rgb(7, 59, 43)",
+        "bg": "rgba(255, 250, 231, 0.93)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "App",
+        "label": "Instalar aplicativo oficial no seu celular Android / Google Play",
+        "disabled": false,
+        "rect": {
+          "x": 1114.921875,
+          "y": 19,
+          "width": 62.609375,
+          "height": 30,
+          "top": 19,
+          "right": 1177.53125,
+          "bottom": 49,
+          "left": 1114.921875
+        },
+        "color": "rgb(7, 59, 43)",
+        "bg": "rgba(255, 250, 231, 0.93)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Sair",
+        "label": "Sair da conta",
+        "disabled": false,
+        "rect": {
+          "x": 1187.53125,
+          "y": 18,
+          "width": 70.96875,
+          "height": 32,
+          "top": 18,
+          "right": 1258.5,
+          "bottom": 50,
+          "left": 1187.53125
+        },
+        "color": "rgb(7, 59, 43)",
+        "bg": "rgba(255, 250, 231, 0.93)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "",
+        "label": "Voltar",
+        "disabled": false,
+        "rect": {
+          "x": 250.5,
+          "y": 95,
+          "width": 44,
+          "height": 44,
+          "top": 95,
+          "right": 294.5,
+          "bottom": 139,
+          "left": 250.5
+        },
+        "color": "rgb(92, 106, 96)",
+        "bg": "rgb(239, 232, 221)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Exportar",
+        "label": null,
+        "disabled": false,
+        "rect": {
+          "x": 1016.671875,
+          "y": 95,
+          "width": 97.828125,
+          "height": 44,
+          "top": 95,
+          "right": 1114.5,
+          "bottom": 139,
+          "left": 1016.671875
+        },
+        "color": "rgb(7, 59, 43)",
+        "bg": "rgb(223, 197, 127)"
+      },
+      {
+        "tag": "INPUT",
+        "text": "",
+        "label": null,
+        "disabled": false,
+        "rect": {
+          "x": 250.5,
+          "y": 182,
+          "width": 864,
+          "height": 42,
+          "top": 182,
+          "right": 1114.5,
+          "bottom": 224,
+          "left": 250.5
+        },
+        "color": "rgb(88, 100, 84)",
+        "bg": "rgb(250, 246, 240)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Fale Conosco",
+        "label": "Fale Conosco",
+        "disabled": false,
+        "rect": {
+          "x": 1301,
+          "y": 574,
+          "width": 52,
+          "height": 44,
+          "top": 574,
+          "right": 1353,
+          "bottom": 618,
+          "left": 1301
+        },
+        "color": "rgb(32, 45, 36)",
+        "bg": "rgb(7, 59, 43)"
+      }
+    ],
+    "accessibilityChecked": true,
+    "axe": []
+  },
+  {
+    "screen": "03-journal-export",
+    "downloadVerified": true,
+    "containsBothEntries": true
+  },
+  {
+    "screen": "03-journal-mobile",
+    "text": "TERAPIAS HOLÍSTICAS E BEM-ESTAR\nProtocolo da Transformação\nDiário de Reconexão\n\nReflexões e percepções registradas ao longo da sua jornada.\n\n2 dias concluídos\nExportar\nPesquisar no Diário de Reconexão\nDIA 01\nO Despertar da Decisão\n09 de out. de 2026\nEstado: Calmo\nCOMO EU ESTAVA\nNota 2/5\n\nCheguei inquieta.\n\nCOMO ESTOU AGORA\nNota 4/5\n\nReservei tempo para respirar.\n\nDIA 02\nRaízes de Sustentação\n09 de out. de 2026\nEstado: Calmo\nCOMO EU ESTAVA\nNota 2/5\n\nCheguei inquieta.\n\nCOMO ESTOU AGORA\nNota 4/5\n\nPercebi mais presença no corpo.\n\nO Protocolo da Transformação é canalizado energeticamente por Éverton Rodrigo Piceni, respeitando o tempo e a jornada de cada pessoa.\n\nEU SOU LIVRE • EU SOU CURA • EU ESTOU EM PAZ\nFale Conosco",
+    "buttons": [
+      {
+        "tag": "BUTTON",
+        "text": "Som",
+        "label": "Ajustar sons, frequências e sintonização bioativa",
+        "disabled": false,
+        "rect": {
+          "x": 334,
+          "y": 5,
+          "width": 44,
+          "height": 44,
+          "top": 5,
+          "right": 378,
+          "bottom": 49,
+          "left": 334
+        },
+        "color": "rgb(7, 59, 43)",
+        "bg": "rgba(255, 250, 231, 0.93)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "",
+        "label": "Voltar",
+        "disabled": false,
+        "rect": {
+          "x": 16,
+          "y": 89,
+          "width": 39.203125,
+          "height": 44,
+          "top": 89,
+          "right": 55.203125,
+          "bottom": 133,
+          "left": 16
+        },
+        "color": "rgb(92, 106, 96)",
+        "bg": "rgb(239, 232, 221)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Exportar",
+        "label": null,
+        "disabled": false,
+        "rect": {
+          "x": 153.28125,
+          "y": 159,
+          "width": 97.828125,
+          "height": 44,
+          "top": 159,
+          "right": 251.109375,
+          "bottom": 203,
+          "left": 153.28125
+        },
+        "color": "rgb(7, 59, 43)",
+        "bg": "rgb(223, 197, 127)"
+      },
+      {
+        "tag": "INPUT",
+        "text": "",
+        "label": null,
+        "disabled": false,
+        "rect": {
+          "x": 16,
+          "y": 244,
+          "width": 358,
+          "height": 42,
+          "top": 244,
+          "right": 374,
+          "bottom": 286,
+          "left": 16
+        },
+        "color": "rgb(88, 100, 84)",
+        "bg": "rgb(250, 246, 240)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Fale Conosco",
+        "label": "Fale Conosco",
+        "disabled": false,
+        "rect": {
+          "x": 169,
+          "y": 1195.5,
+          "width": 52,
+          "height": 44,
+          "top": 1195.5,
+          "right": 221,
+          "bottom": 1239.5,
+          "left": 169
+        },
+        "color": "rgb(32, 45, 36)",
+        "bg": "rgb(7, 59, 43)"
+      }
+    ],
+    "accessibilityChecked": true,
+    "axe": []
+  },
+  {
+    "screen": "03-journal-contact",
+    "contactOpenedAndClosed": true
+  },
+  {
+    "screen": "03-journal-search",
+    "text": "TERAPIAS HOLÍSTICAS E BEM-ESTAR\nProtocolo da Transformação\nDiário de Reconexão\n\nReflexões e percepções registradas ao longo da sua jornada.\n\n2 dias concluídos\nExportar\nPesquisar no Diário de Reconexão\nDIA 02\nRaízes de Sustentação\n09 de out. de 2026\nEstado: Calmo\nCOMO EU ESTAVA\nNota 2/5\n\nCheguei inquieta.\n\nCOMO ESTOU AGORA\nNota 4/5\n\nPercebi mais presença no corpo.\n\nO Protocolo da Transformação é canalizado energeticamente por Éverton Rodrigo Piceni, respeitando o tempo e a jornada de cada pessoa.\n\nEU SOU LIVRE • EU SOU CURA • EU ESTOU EM PAZ\nFale Conosco",
+    "buttons": [
+      {
+        "tag": "BUTTON",
+        "text": "Som",
+        "label": "Ajustar sons, frequências e sintonização bioativa",
+        "disabled": false,
+        "rect": {
+          "x": 334,
+          "y": 5,
+          "width": 44,
+          "height": 44,
+          "top": 5,
+          "right": 378,
+          "bottom": 49,
+          "left": 334
+        },
+        "color": "rgb(7, 59, 43)",
+        "bg": "rgba(255, 250, 231, 0.93)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "",
+        "label": "Voltar",
+        "disabled": false,
+        "rect": {
+          "x": 16,
+          "y": 89,
+          "width": 39.203125,
+          "height": 44,
+          "top": 89,
+          "right": 55.203125,
+          "bottom": 133,
+          "left": 16
+        },
+        "color": "rgb(92, 106, 96)",
+        "bg": "rgb(239, 232, 221)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Exportar",
+        "label": null,
+        "disabled": false,
+        "rect": {
+          "x": 153.28125,
+          "y": 159,
+          "width": 97.828125,
+          "height": 44,
+          "top": 159,
+          "right": 251.109375,
+          "bottom": 203,
+          "left": 153.28125
+        },
+        "color": "rgb(7, 59, 43)",
+        "bg": "rgb(223, 197, 127)"
+      },
+      {
+        "tag": "INPUT",
+        "text": "",
+        "label": null,
+        "disabled": false,
+        "rect": {
+          "x": 16,
+          "y": 244,
+          "width": 358,
+          "height": 42,
+          "top": 244,
+          "right": 374,
+          "bottom": 286,
+          "left": 16
+        },
+        "color": "rgb(88, 100, 84)",
+        "bg": "rgb(250, 246, 240)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Fale Conosco",
+        "label": "Fale Conosco",
+        "disabled": false,
+        "rect": {
+          "x": 169,
+          "y": 894.75,
+          "width": 52,
+          "height": 44,
+          "top": 894.75,
+          "right": 221,
+          "bottom": 938.75,
+          "left": 169
+        },
+        "color": "rgb(32, 45, 36)",
+        "bg": "rgb(7, 59, 43)"
+      }
+    ],
+    "accessibilityChecked": true,
+    "axe": []
+  },
+  {
+    "screen": "03-journal-empty-search",
+    "text": "TERAPIAS HOLÍSTICAS E BEM-ESTAR\nProtocolo da Transformação\nDiário de Reconexão\n\nReflexões e percepções registradas ao longo da sua jornada.\n\n2 dias concluídos\nExportar\nPesquisar no Diário de Reconexão\nNenhuma reflexão encontrada para “inexistente”.\n\nO Protocolo da Transformação é canalizado energeticamente por Éverton Rodrigo Piceni, respeitando o tempo e a jornada de cada pessoa.\n\nEU SOU LIVRE • EU SOU CURA • EU ESTOU EM PAZ\nFale Conosco",
+    "buttons": [
+      {
+        "tag": "BUTTON",
+        "text": "Som",
+        "label": "Ajustar sons, frequências e sintonização bioativa",
+        "disabled": false,
+        "rect": {
+          "x": 334,
+          "y": 5,
+          "width": 44,
+          "height": 44,
+          "top": 5,
+          "right": 378,
+          "bottom": 49,
+          "left": 334
+        },
+        "color": "rgb(7, 59, 43)",
+        "bg": "rgba(255, 250, 231, 0.93)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "",
+        "label": "Voltar",
+        "disabled": false,
+        "rect": {
+          "x": 16,
+          "y": 89,
+          "width": 39.203125,
+          "height": 44,
+          "top": 89,
+          "right": 55.203125,
+          "bottom": 133,
+          "left": 16
+        },
+        "color": "rgb(92, 106, 96)",
+        "bg": "rgb(239, 232, 221)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Exportar",
+        "label": null,
+        "disabled": false,
+        "rect": {
+          "x": 153.28125,
+          "y": 159,
+          "width": 97.828125,
+          "height": 44,
+          "top": 159,
+          "right": 251.109375,
+          "bottom": 203,
+          "left": 153.28125
+        },
+        "color": "rgb(7, 59, 43)",
+        "bg": "rgb(223, 197, 127)"
+      },
+      {
+        "tag": "INPUT",
+        "text": "",
+        "label": null,
+        "disabled": false,
+        "rect": {
+          "x": 16,
+          "y": 244,
+          "width": 358,
+          "height": 42,
+          "top": 244,
+          "right": 374,
+          "bottom": 286,
+          "left": 16
+        },
+        "color": "rgb(88, 100, 84)",
+        "bg": "rgb(250, 246, 240)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Fale Conosco",
+        "label": "Fale Conosco",
+        "disabled": false,
+        "rect": {
+          "x": 169,
+          "y": 776,
+          "width": 52,
+          "height": 44,
+          "top": 776,
+          "right": 221,
+          "bottom": 820,
+          "left": 169
+        },
+        "color": "rgb(32, 45, 36)",
+        "bg": "rgb(7, 59, 43)"
+      }
+    ],
+    "accessibilityChecked": true,
+    "axe": []
+  },
+  {
+    "screen": "04-achievements-desktop",
+    "title": "profile",
+    "text": "Meu Perfil\n\nAcompanhe seu progresso\n\nMaria\nMeu Progresso\n2 de 21 dias\n10%\nMeu Diário\nRegistrar percepções\nMeus Protocolos\nPrática guiada do seu ciclo atual\nComo estou?\nOlhar meu momento\nConquistas e marcos\nOutros caminhos da sua jornada\nConfigurações\nAjustes da Prática\nFale conosco\nBiblioteca de apoio\nSair\nEncerrar sessão\n\nCuidar de si também é um ato de amor.\n\nInício\nJornada\nBiblioteca\nComunidade\n\nO Protocolo da Transformação é canalizado energeticamente por Éverton Rodrigo Piceni, respeitando o tempo e a jornada de cada pessoa.\n\nEU SOU LIVRE • EU SOU CURA • EU ESTOU EM PAZ\nCONQUISTAS DA JORNADA\nSeus Emblemas de Transformação\n\nCada prática concluída e reflexão registrada pode desbloquear novos marcos da sua jornada.\n\nPROGRESSO DA JORNADA\n150 pontos\n2 de 12 emblemas conquistados\nProgresso total\n17%\nTodos\nConstância\nJornada\nEspiritual\nAutoconhecimento\n+50 pts\nConquistado\nPrimeiro Passo\n\nConcluiu o primeiro momento do Protocolo da Transformação.\n\nRequisito: Completar o Dia 01 da Jornada\n+100 pts\nBloqueado\nPresença\n\nReservou 3 dias para práticas de presença e conexão interior.\n\nRequisito: Registrar 3 dias de prática\n+200 pts\nBloqueado\nSete Momentos\n\nReservou sete momentos para meditação e autocuidado.\n\nRequisito: Completar 7 dias na jornada\n+250 pts\nBloqueado\nJornada dos 7 Chakras\n\nConcluiu a experiência de atenção aos 7 centros energéticos da jornada.\n\nRequisito: Completar a Jornada dos 7 Chakras\n+150 pts\nBloqueado\nMomento com Miguel\n\nReservou um momento para a prática espiritual dedicada ao Arcanjo Miguel.\n\nRequisito: Realizar a prática do Arcanjo Miguel\n+150 pts\nBloqueado\nHo’oponopono\n\nReservou um momento para a prática contemplativa do Ho’oponopono.\n\nRequisito: Realizar a sessão de Ho’oponopono de 108 repetições\n+100 pts\nConquistado\nOlhar para Mim\n\nRegistrou sentimentos, sensações ou reflexões no Diário de Reconexão.\n\nRequisito: Preencher pelo menos uma anotação no diário\n+150 pts\nBloqueado\nMinhas Raízes\n\nReservou um momento para refletir sobre sua história, vínculos e raízes.\n\nRequisito: Responder a uma pergunta de reflexão\n+120 pts\nBloqueado\nUm Olhar para o Meu Momento\n\nConcluiu a escuta inicial e registrou aspectos importantes do seu momento atual.\n\nRequisito: Completar a escuta inicial\n+120 pts\nBloqueado\nMapa Astral\n\nAcessou seu Mapa Astral como recurso de reflexão e autoconhecimento.\n\nRequisito: Visualizar o Mapa Astral\n+350 pts\nBloqueado\nMeu Caminho Continua\n\nReservou 14 momentos para olhar para si e dar continuidade à sua jornada.\n\nRequisito: Completar 14 momentos da jornada\n+500 pts\nBloqueado\n21 Momentos para Mim\n\nConcluiu os 21 momentos do Protocolo da Transformação.\n\nRequisito: Concluir os 21 momentos do Protocolo da Transformação\nOs emblemas só são liberados quando o requisito correspondente foi realmente registrado.\nFechar\nFale Conosco",
+    "buttons": [
+      {
+        "tag": "BUTTON",
+        "text": "",
+        "label": "Voltar ao início",
+        "disabled": false,
+        "rect": {
+          "x": 213.5,
+          "y": 16,
+          "width": 44,
+          "height": 44,
+          "top": 16,
+          "right": 257.5,
+          "bottom": 60,
+          "left": 213.5
+        },
+        "color": "rgb(7, 59, 43)",
+        "bg": "rgba(0, 0, 0, 0)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Meu DiárioRegistrar percepções",
+        "label": null,
+        "disabled": false,
+        "rect": {
+          "x": 290.5,
+          "y": 302.046875,
+          "width": 784,
+          "height": 60.59375,
+          "top": 302.046875,
+          "right": 1074.5,
+          "bottom": 362.640625,
+          "left": 290.5
+        },
+        "color": "rgb(38, 55, 42)",
+        "bg": "rgba(0, 0, 0, 0)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Meus ProtocolosPrática guiada do seu ciclo atual",
+        "label": null,
+        "disabled": false,
+        "rect": {
+          "x": 290.5,
+          "y": 367.640625,
+          "width": 784,
+          "height": 60.59375,
+          "top": 367.640625,
+          "right": 1074.5,
+          "bottom": 428.234375,
+          "left": 290.5
+        },
+        "color": "rgb(38, 55, 42)",
+        "bg": "rgba(0, 0, 0, 0)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Como estou?Olhar meu momento",
+        "label": null,
+        "disabled": false,
+        "rect": {
+          "x": 290.5,
+          "y": 433.234375,
+          "width": 784,
+          "height": 60.59375,
+          "top": 433.234375,
+          "right": 1074.5,
+          "bottom": 493.828125,
+          "left": 290.5
+        },
+        "color": "rgb(38, 55, 42)",
+        "bg": "rgba(0, 0, 0, 0)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Conquistas e marcosOutros caminhos da sua jornada",
+        "label": null,
+        "disabled": false,
+        "rect": {
+          "x": 290.5,
+          "y": 498.828125,
+          "width": 784,
+          "height": 60.59375,
+          "top": 498.828125,
+          "right": 1074.5,
+          "bottom": 559.421875,
+          "left": 290.5
+        },
+        "color": "rgb(38, 55, 42)",
+        "bg": "rgba(0, 0, 0, 0)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "ConfiguraçõesAjustes da Prática",
+        "label": null,
+        "disabled": false,
+        "rect": {
+          "x": 290.5,
+          "y": 564.421875,
+          "width": 784,
+          "height": 60.59375,
+          "top": 564.421875,
+          "right": 1074.5,
+          "bottom": 625.015625,
+          "left": 290.5
+        },
+        "color": "rgb(38, 55, 42)",
+        "bg": "rgba(0, 0, 0, 0)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Fale conoscoBiblioteca de apoio",
+        "label": null,
+        "disabled": false,
+        "rect": {
+          "x": 290.5,
+          "y": 630.015625,
+          "width": 784,
+          "height": 60.59375,
+          "top": 630.015625,
+          "right": 1074.5,
+          "bottom": 690.609375,
+          "left": 290.5
+        },
+        "color": "rgb(38, 55, 42)",
+        "bg": "rgba(0, 0, 0, 0)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "SairEncerrar sessão",
+        "label": null,
+        "disabled": false,
+        "rect": {
+          "x": 290.5,
+          "y": 695.609375,
+          "width": 784,
+          "height": 60.59375,
+          "top": 695.609375,
+          "right": 1074.5,
+          "bottom": 756.203125,
+          "left": 290.5
+        },
+        "color": "rgb(38, 55, 42)",
+        "bg": "rgba(0, 0, 0, 0)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Início",
+        "label": null,
+        "disabled": false,
+        "rect": {
+          "x": 207.5,
+          "y": 632,
+          "width": 237.5,
+          "height": 61,
+          "top": 632,
+          "right": 445,
+          "bottom": 693,
+          "left": 207.5
+        },
+        "color": "rgb(103, 112, 91)",
+        "bg": "rgba(0, 0, 0, 0)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Jornada",
+        "label": null,
+        "disabled": false,
+        "rect": {
+          "x": 445,
+          "y": 632,
+          "width": 237.5,
+          "height": 61,
+          "top": 632,
+          "right": 682.5,
+          "bottom": 693,
+          "left": 445
+        },
+        "color": "rgb(103, 112, 91)",
+        "bg": "rgba(0, 0, 0, 0)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Biblioteca",
+        "label": null,
+        "disabled": false,
+        "rect": {
+          "x": 682.5,
+          "y": 632,
+          "width": 237.5,
+          "height": 61,
+          "top": 632,
+          "right": 920,
+          "bottom": 693,
+          "left": 682.5
+        },
+        "color": "rgb(103, 112, 91)",
+        "bg": "rgba(0, 0, 0, 0)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Comunidade",
+        "label": null,
+        "disabled": false,
+        "rect": {
+          "x": 920,
+          "y": 632,
+          "width": 237.5,
+          "height": 61,
+          "top": 632,
+          "right": 1157.5,
+          "bottom": 693,
+          "left": 920
+        },
+        "color": "rgb(103, 112, 91)",
+        "bg": "rgba(0, 0, 0, 0)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "",
+        "label": "Fechar conquistas",
+        "disabled": false,
+        "rect": {
+          "x": 1069.5,
+          "y": 45,
+          "width": 44,
+          "height": 44,
+          "top": 45,
+          "right": 1113.5,
+          "bottom": 89,
+          "left": 1069.5
+        },
+        "color": "rgb(92, 106, 96)",
+        "bg": "rgb(239, 232, 221)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Todos",
+        "label": null,
+        "disabled": false,
+        "rect": {
+          "x": 445.703125,
+          "y": 290,
+          "width": 59.6875,
+          "height": 44,
+          "top": 290,
+          "right": 505.390625,
+          "bottom": 334,
+          "left": 445.703125
+        },
+        "color": "rgb(255, 251, 237)",
+        "bg": "rgb(23, 75, 55)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Constância",
+        "label": null,
+        "disabled": false,
+        "rect": {
+          "x": 513.390625,
+          "y": 290,
+          "width": 91.640625,
+          "height": 44,
+          "top": 290,
+          "right": 605.03125,
+          "bottom": 334,
+          "left": 513.390625
+        },
+        "color": "rgb(92, 106, 96)",
+        "bg": "rgba(255, 255, 255, 0.92)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Jornada",
+        "label": null,
+        "disabled": false,
+        "rect": {
+          "x": 613.03125,
+          "y": 290,
+          "width": 73.765625,
+          "height": 44,
+          "top": 290,
+          "right": 686.796875,
+          "bottom": 334,
+          "left": 613.03125
+        },
+        "color": "rgb(92, 106, 96)",
+        "bg": "rgba(255, 255, 255, 0.92)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Espiritual",
+        "label": null,
+        "disabled": false,
+        "rect": {
+          "x": 694.796875,
+          "y": 290,
+          "width": 80.09375,
+          "height": 44,
+          "top": 290,
+          "right": 774.890625,
+          "bottom": 334,
+          "left": 694.796875
+        },
+        "color": "rgb(92, 106, 96)",
+        "bg": "rgba(255, 255, 255, 0.92)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Autoconhecimento",
+        "label": null,
+        "disabled": false,
+        "rect": {
+          "x": 782.890625,
+          "y": 290,
+          "width": 136.390625,
+          "height": 44,
+          "top": 290,
+          "right": 919.28125,
+          "bottom": 334,
+          "left": 782.890625
+        },
+        "color": "rgb(92, 106, 96)",
+        "bg": "rgba(255, 255, 255, 0.92)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Fechar",
+        "label": null,
+        "disabled": false,
+        "rect": {
+          "x": 1029.734375,
+          "y": 599,
+          "width": 71.765625,
+          "height": 44,
+          "top": 599,
+          "right": 1101.5,
+          "bottom": 643,
+          "left": 1029.734375
+        },
+        "color": "rgb(7, 59, 43)",
+        "bg": "rgb(223, 197, 127)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Fale Conosco",
+        "label": "Fale Conosco",
+        "disabled": false,
+        "rect": {
+          "x": 610.859375,
+          "y": 1157.203125,
+          "width": 143.265625,
+          "height": 44,
+          "top": 1157.203125,
+          "right": 754.125,
+          "bottom": 1201.203125,
+          "left": 610.859375
+        },
+        "color": "rgb(32, 45, 36)",
+        "bg": "rgb(7, 59, 43)"
+      }
+    ],
+    "accessibilityChecked": true,
+    "axe": []
+  },
+  {
+    "screen": "04-achievements-mobile",
+    "title": "profile",
+    "text": "Meu Perfil\n\nAcompanhe seu progresso\n\nMaria\nMeu Progresso\n2 de 21 dias\n10%\nMeu Diário\nRegistrar percepções\nMeus Protocolos\nPrática guiada do seu ciclo atual\nComo estou?\nOlhar meu momento\nConquistas e marcos\nOutros caminhos da sua jornada\nConfigurações\nAjustes da Prática\nFale conosco\nBiblioteca de apoio\nSair\nEncerrar sessão\n\nCuidar de si também é um ato de amor.\n\nInício\nJornada\nBiblioteca\nComunidade\n\nO Protocolo da Transformação é canalizado energeticamente por Éverton Rodrigo Piceni, respeitando o tempo e a jornada de cada pessoa.\n\nEU SOU LIVRE • EU SOU CURA • EU ESTOU EM PAZ\nCONQUISTAS DA JORNADA\nSeus Emblemas de Transformação\n\nCada prática concluída e reflexão registrada pode desbloquear novos marcos da sua jornada.\n\nPROGRESSO DA JORNADA\n150 pontos\n2 de 12 emblemas conquistados\nProgresso total\n17%\nTodos\nConstância\nJornada\nEspiritual\nAutoconhecimento\n+50 pts\nConquistado\nPrimeiro Passo\n\nConcluiu o primeiro momento do Protocolo da Transformação.\n\nRequisito: Completar o Dia 01 da Jornada\n+100 pts\nBloqueado\nPresença\n\nReservou 3 dias para práticas de presença e conexão interior.\n\nRequisito: Registrar 3 dias de prática\n+200 pts\nBloqueado\nSete Momentos\n\nReservou sete momentos para meditação e autocuidado.\n\nRequisito: Completar 7 dias na jornada\n+250 pts\nBloqueado\nJornada dos 7 Chakras\n\nConcluiu a experiência de atenção aos 7 centros energéticos da jornada.\n\nRequisito: Completar a Jornada dos 7 Chakras\n+150 pts\nBloqueado\nMomento com Miguel\n\nReservou um momento para a prática espiritual dedicada ao Arcanjo Miguel.\n\nRequisito: Realizar a prática do Arcanjo Miguel\n+150 pts\nBloqueado\nHo’oponopono\n\nReservou um momento para a prática contemplativa do Ho’oponopono.\n\nRequisito: Realizar a sessão de Ho’oponopono de 108 repetições\n+100 pts\nConquistado\nOlhar para Mim\n\nRegistrou sentimentos, sensações ou reflexões no Diário de Reconexão.\n\nRequisito: Preencher pelo menos uma anotação no diário\n+150 pts\nBloqueado\nMinhas Raízes\n\nReservou um momento para refletir sobre sua história, vínculos e raízes.\n\nRequisito: Responder a uma pergunta de reflexão\n+120 pts\nBloqueado\nUm Olhar para o Meu Momento\n\nConcluiu a escuta inicial e registrou aspectos importantes do seu momento atual.\n\nRequisito: Completar a escuta inicial\n+120 pts\nBloqueado\nMapa Astral\n\nAcessou seu Mapa Astral como recurso de reflexão e autoconhecimento.\n\nRequisito: Visualizar o Mapa Astral\n+350 pts\nBloqueado\nMeu Caminho Continua\n\nReservou 14 momentos para olhar para si e dar continuidade à sua jornada.\n\nRequisito: Completar 14 momentos da jornada\n+500 pts\nBloqueado\n21 Momentos para Mim\n\nConcluiu os 21 momentos do Protocolo da Transformação.\n\nRequisito: Concluir os 21 momentos do Protocolo da Transformação\nOs emblemas só são liberados quando o requisito correspondente foi realmente registrado.\nFechar\nFale Conosco",
+    "buttons": [
+      {
+        "tag": "BUTTON",
+        "text": "",
+        "label": "Voltar ao início",
+        "disabled": false,
+        "rect": {
+          "x": 10,
+          "y": 16,
+          "width": 44,
+          "height": 44,
+          "top": 16,
+          "right": 54,
+          "bottom": 60,
+          "left": 10
+        },
+        "color": "rgb(7, 59, 43)",
+        "bg": "rgba(0, 0, 0, 0)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Meu DiárioRegistrar percepções",
+        "label": null,
+        "disabled": false,
+        "rect": {
+          "x": 18,
+          "y": 302.046875,
+          "width": 354,
+          "height": 60.59375,
+          "top": 302.046875,
+          "right": 372,
+          "bottom": 362.640625,
+          "left": 18
+        },
+        "color": "rgb(38, 55, 42)",
+        "bg": "rgba(0, 0, 0, 0)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Meus ProtocolosPrática guiada do seu ciclo atual",
+        "label": null,
+        "disabled": false,
+        "rect": {
+          "x": 18,
+          "y": 367.640625,
+          "width": 354,
+          "height": 60.59375,
+          "top": 367.640625,
+          "right": 372,
+          "bottom": 428.234375,
+          "left": 18
+        },
+        "color": "rgb(38, 55, 42)",
+        "bg": "rgba(0, 0, 0, 0)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Como estou?Olhar meu momento",
+        "label": null,
+        "disabled": false,
+        "rect": {
+          "x": 18,
+          "y": 433.234375,
+          "width": 354,
+          "height": 60.59375,
+          "top": 433.234375,
+          "right": 372,
+          "bottom": 493.828125,
+          "left": 18
+        },
+        "color": "rgb(38, 55, 42)",
+        "bg": "rgba(0, 0, 0, 0)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Conquistas e marcosOutros caminhos da sua jornada",
+        "label": null,
+        "disabled": false,
+        "rect": {
+          "x": 18,
+          "y": 498.828125,
+          "width": 354,
+          "height": 60.59375,
+          "top": 498.828125,
+          "right": 372,
+          "bottom": 559.421875,
+          "left": 18
+        },
+        "color": "rgb(38, 55, 42)",
+        "bg": "rgba(0, 0, 0, 0)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "ConfiguraçõesAjustes da Prática",
+        "label": null,
+        "disabled": false,
+        "rect": {
+          "x": 18,
+          "y": 564.421875,
+          "width": 354,
+          "height": 60.59375,
+          "top": 564.421875,
+          "right": 372,
+          "bottom": 625.015625,
+          "left": 18
+        },
+        "color": "rgb(38, 55, 42)",
+        "bg": "rgba(0, 0, 0, 0)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Fale conoscoBiblioteca de apoio",
+        "label": null,
+        "disabled": false,
+        "rect": {
+          "x": 18,
+          "y": 630.015625,
+          "width": 354,
+          "height": 60.59375,
+          "top": 630.015625,
+          "right": 372,
+          "bottom": 690.609375,
+          "left": 18
+        },
+        "color": "rgb(38, 55, 42)",
+        "bg": "rgba(0, 0, 0, 0)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "SairEncerrar sessão",
+        "label": null,
+        "disabled": false,
+        "rect": {
+          "x": 18,
+          "y": 695.609375,
+          "width": 354,
+          "height": 60.59375,
+          "top": 695.609375,
+          "right": 372,
+          "bottom": 756.203125,
+          "left": 18
+        },
+        "color": "rgb(38, 55, 42)",
+        "bg": "rgba(0, 0, 0, 0)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Início",
+        "label": null,
+        "disabled": false,
+        "rect": {
+          "x": 5,
+          "y": 776,
+          "width": 95,
+          "height": 61,
+          "top": 776,
+          "right": 100,
+          "bottom": 837,
+          "left": 5
+        },
+        "color": "rgb(103, 112, 91)",
+        "bg": "rgba(0, 0, 0, 0)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Jornada",
+        "label": null,
+        "disabled": false,
+        "rect": {
+          "x": 100,
+          "y": 776,
+          "width": 95,
+          "height": 61,
+          "top": 776,
+          "right": 195,
+          "bottom": 837,
+          "left": 100
+        },
+        "color": "rgb(103, 112, 91)",
+        "bg": "rgba(0, 0, 0, 0)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Biblioteca",
+        "label": null,
+        "disabled": false,
+        "rect": {
+          "x": 195,
+          "y": 776,
+          "width": 95,
+          "height": 61,
+          "top": 776,
+          "right": 290,
+          "bottom": 837,
+          "left": 195
+        },
+        "color": "rgb(103, 112, 91)",
+        "bg": "rgba(0, 0, 0, 0)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Comunidade",
+        "label": null,
+        "disabled": false,
+        "rect": {
+          "x": 290,
+          "y": 776,
+          "width": 95,
+          "height": 61,
+          "top": 776,
+          "right": 385,
+          "bottom": 837,
+          "left": 290
+        },
+        "color": "rgb(103, 112, 91)",
+        "bg": "rgba(0, 0, 0, 0)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "",
+        "label": "Fechar conquistas",
+        "disabled": false,
+        "rect": {
+          "x": 321,
+          "y": 25,
+          "width": 44,
+          "height": 44,
+          "top": 25,
+          "right": 365,
+          "bottom": 69,
+          "left": 321
+        },
+        "color": "rgb(92, 106, 96)",
+        "bg": "rgb(239, 232, 221)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Todos",
+        "label": null,
+        "disabled": false,
+        "rect": {
+          "x": 25,
+          "y": 341.5,
+          "width": 59.6875,
+          "height": 44,
+          "top": 341.5,
+          "right": 84.6875,
+          "bottom": 385.5,
+          "left": 25
+        },
+        "color": "rgb(255, 251, 237)",
+        "bg": "rgb(23, 75, 55)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Constância",
+        "label": null,
+        "disabled": false,
+        "rect": {
+          "x": 90.6875,
+          "y": 341.5,
+          "width": 91.640625,
+          "height": 44,
+          "top": 341.5,
+          "right": 182.328125,
+          "bottom": 385.5,
+          "left": 90.6875
+        },
+        "color": "rgb(92, 106, 96)",
+        "bg": "rgba(255, 255, 255, 0.92)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Jornada",
+        "label": null,
+        "disabled": false,
+        "rect": {
+          "x": 188.328125,
+          "y": 341.5,
+          "width": 73.765625,
+          "height": 44,
+          "top": 341.5,
+          "right": 262.09375,
+          "bottom": 385.5,
+          "left": 188.328125
+        },
+        "color": "rgb(92, 106, 96)",
+        "bg": "rgba(255, 255, 255, 0.92)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Espiritual",
+        "label": null,
+        "disabled": false,
+        "rect": {
+          "x": 268.09375,
+          "y": 341.5,
+          "width": 80.09375,
+          "height": 44,
+          "top": 341.5,
+          "right": 348.1875,
+          "bottom": 385.5,
+          "left": 268.09375
+        },
+        "color": "rgb(92, 106, 96)",
+        "bg": "rgba(255, 255, 255, 0.92)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Autoconhecimento",
+        "label": null,
+        "disabled": false,
+        "rect": {
+          "x": 354.1875,
+          "y": 341.5,
+          "width": 136.390625,
+          "height": 44,
+          "top": 341.5,
+          "right": 490.578125,
+          "bottom": 385.5,
+          "left": 354.1875
+        },
+        "color": "rgb(92, 106, 96)",
+        "bg": "rgba(255, 255, 255, 0.92)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Fechar",
+        "label": null,
+        "disabled": false,
+        "rect": {
+          "x": 293.234375,
+          "y": 773,
+          "width": 71.765625,
+          "height": 44,
+          "top": 773,
+          "right": 365,
+          "bottom": 817,
+          "left": 293.234375
+        },
+        "color": "rgb(7, 59, 43)",
+        "bg": "rgb(223, 197, 127)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Fale Conosco",
+        "label": "Fale Conosco",
+        "disabled": false,
+        "rect": {
+          "x": 123.359375,
+          "y": 1181.203125,
+          "width": 143.265625,
+          "height": 44,
+          "top": 1181.203125,
+          "right": 266.625,
+          "bottom": 1225.203125,
+          "left": 123.359375
+        },
+        "color": "rgb(32, 45, 36)",
+        "bg": "rgb(7, 59, 43)"
+      }
+    ],
+    "accessibilityChecked": true,
+    "axe": []
+  },
+  {
+    "screen": "04-achievements-filter",
+    "title": "profile",
+    "text": "Meu Perfil\n\nAcompanhe seu progresso\n\nMaria\nMeu Progresso\n2 de 21 dias\n10%\nMeu Diário\nRegistrar percepções\nMeus Protocolos\nPrática guiada do seu ciclo atual\nComo estou?\nOlhar meu momento\nConquistas e marcos\nOutros caminhos da sua jornada\nConfigurações\nAjustes da Prática\nFale conosco\nBiblioteca de apoio\nSair\nEncerrar sessão\n\nCuidar de si também é um ato de amor.\n\nInício\nJornada\nBiblioteca\nComunidade\n\nO Protocolo da Transformação é canalizado energeticamente por Éverton Rodrigo Piceni, respeitando o tempo e a jornada de cada pessoa.\n\nEU SOU LIVRE • EU SOU CURA • EU ESTOU EM PAZ\nCONQUISTAS DA JORNADA\nSeus Emblemas de Transformação\n\nCada prática concluída e reflexão registrada pode desbloquear novos marcos da sua jornada.\n\nPROGRESSO DA JORNADA\n150 pontos\n2 de 12 emblemas conquistados\nProgresso total\n17%\nTodos\nConstância\nJornada\nEspiritual\nAutoconhecimento\n+100 pts\nConquistado\nOlhar para Mim\n\nRegistrou sentimentos, sensações ou reflexões no Diário de Reconexão.\n\nRequisito: Preencher pelo menos uma anotação no diário\n+150 pts\nBloqueado\nMinhas Raízes\n\nReservou um momento para refletir sobre sua história, vínculos e raízes.\n\nRequisito: Responder a uma pergunta de reflexão\n+120 pts\nBloqueado\nUm Olhar para o Meu Momento\n\nConcluiu a escuta inicial e registrou aspectos importantes do seu momento atual.\n\nRequisito: Completar a escuta inicial\nOs emblemas só são liberados quando o requisito correspondente foi realmente registrado.\nFechar\nFale Conosco",
+    "buttons": [
+      {
+        "tag": "BUTTON",
+        "text": "",
+        "label": "Voltar ao início",
+        "disabled": false,
+        "rect": {
+          "x": 10,
+          "y": 16,
+          "width": 44,
+          "height": 44,
+          "top": 16,
+          "right": 54,
+          "bottom": 60,
+          "left": 10
+        },
+        "color": "rgb(7, 59, 43)",
+        "bg": "rgba(0, 0, 0, 0)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Meu DiárioRegistrar percepções",
+        "label": null,
+        "disabled": false,
+        "rect": {
+          "x": 18,
+          "y": 302.046875,
+          "width": 354,
+          "height": 60.59375,
+          "top": 302.046875,
+          "right": 372,
+          "bottom": 362.640625,
+          "left": 18
+        },
+        "color": "rgb(38, 55, 42)",
+        "bg": "rgba(0, 0, 0, 0)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Meus ProtocolosPrática guiada do seu ciclo atual",
+        "label": null,
+        "disabled": false,
+        "rect": {
+          "x": 18,
+          "y": 367.640625,
+          "width": 354,
+          "height": 60.59375,
+          "top": 367.640625,
+          "right": 372,
+          "bottom": 428.234375,
+          "left": 18
+        },
+        "color": "rgb(38, 55, 42)",
+        "bg": "rgba(0, 0, 0, 0)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Como estou?Olhar meu momento",
+        "label": null,
+        "disabled": false,
+        "rect": {
+          "x": 18,
+          "y": 433.234375,
+          "width": 354,
+          "height": 60.59375,
+          "top": 433.234375,
+          "right": 372,
+          "bottom": 493.828125,
+          "left": 18
+        },
+        "color": "rgb(38, 55, 42)",
+        "bg": "rgba(0, 0, 0, 0)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Conquistas e marcosOutros caminhos da sua jornada",
+        "label": null,
+        "disabled": false,
+        "rect": {
+          "x": 18,
+          "y": 498.828125,
+          "width": 354,
+          "height": 60.59375,
+          "top": 498.828125,
+          "right": 372,
+          "bottom": 559.421875,
+          "left": 18
+        },
+        "color": "rgb(38, 55, 42)",
+        "bg": "rgba(0, 0, 0, 0)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "ConfiguraçõesAjustes da Prática",
+        "label": null,
+        "disabled": false,
+        "rect": {
+          "x": 18,
+          "y": 564.421875,
+          "width": 354,
+          "height": 60.59375,
+          "top": 564.421875,
+          "right": 372,
+          "bottom": 625.015625,
+          "left": 18
+        },
+        "color": "rgb(38, 55, 42)",
+        "bg": "rgba(0, 0, 0, 0)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Fale conoscoBiblioteca de apoio",
+        "label": null,
+        "disabled": false,
+        "rect": {
+          "x": 18,
+          "y": 630.015625,
+          "width": 354,
+          "height": 60.59375,
+          "top": 630.015625,
+          "right": 372,
+          "bottom": 690.609375,
+          "left": 18
+        },
+        "color": "rgb(38, 55, 42)",
+        "bg": "rgba(0, 0, 0, 0)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "SairEncerrar sessão",
+        "label": null,
+        "disabled": false,
+        "rect": {
+          "x": 18,
+          "y": 695.609375,
+          "width": 354,
+          "height": 60.59375,
+          "top": 695.609375,
+          "right": 372,
+          "bottom": 756.203125,
+          "left": 18
+        },
+        "color": "rgb(38, 55, 42)",
+        "bg": "rgba(0, 0, 0, 0)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Início",
+        "label": null,
+        "disabled": false,
+        "rect": {
+          "x": 5,
+          "y": 776,
+          "width": 95,
+          "height": 61,
+          "top": 776,
+          "right": 100,
+          "bottom": 837,
+          "left": 5
+        },
+        "color": "rgb(103, 112, 91)",
+        "bg": "rgba(0, 0, 0, 0)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Jornada",
+        "label": null,
+        "disabled": false,
+        "rect": {
+          "x": 100,
+          "y": 776,
+          "width": 95,
+          "height": 61,
+          "top": 776,
+          "right": 195,
+          "bottom": 837,
+          "left": 100
+        },
+        "color": "rgb(103, 112, 91)",
+        "bg": "rgba(0, 0, 0, 0)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Biblioteca",
+        "label": null,
+        "disabled": false,
+        "rect": {
+          "x": 195,
+          "y": 776,
+          "width": 95,
+          "height": 61,
+          "top": 776,
+          "right": 290,
+          "bottom": 837,
+          "left": 195
+        },
+        "color": "rgb(103, 112, 91)",
+        "bg": "rgba(0, 0, 0, 0)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Comunidade",
+        "label": null,
+        "disabled": false,
+        "rect": {
+          "x": 290,
+          "y": 776,
+          "width": 95,
+          "height": 61,
+          "top": 776,
+          "right": 385,
+          "bottom": 837,
+          "left": 290
+        },
+        "color": "rgb(103, 112, 91)",
+        "bg": "rgba(0, 0, 0, 0)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "",
+        "label": "Fechar conquistas",
+        "disabled": false,
+        "rect": {
+          "x": 321,
+          "y": 25,
+          "width": 44,
+          "height": 44,
+          "top": 25,
+          "right": 365,
+          "bottom": 69,
+          "left": 321
+        },
+        "color": "rgb(92, 106, 96)",
+        "bg": "rgb(239, 232, 221)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Todos",
+        "label": null,
+        "disabled": false,
+        "rect": {
+          "x": -101,
+          "y": 341.5,
+          "width": 61.6875,
+          "height": 44,
+          "top": 341.5,
+          "right": -39.3125,
+          "bottom": 385.5,
+          "left": -101
+        },
+        "color": "rgb(92, 106, 96)",
+        "bg": "rgba(255, 255, 255, 0.92)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Constância",
+        "label": null,
+        "disabled": false,
+        "rect": {
+          "x": -33.3125,
+          "y": 341.5,
+          "width": 91.640625,
+          "height": 44,
+          "top": 341.5,
+          "right": 58.328125,
+          "bottom": 385.5,
+          "left": -33.3125
+        },
+        "color": "rgb(92, 106, 96)",
+        "bg": "rgba(255, 255, 255, 0.92)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Jornada",
+        "label": null,
+        "disabled": false,
+        "rect": {
+          "x": 64.328125,
+          "y": 341.5,
+          "width": 73.765625,
+          "height": 44,
+          "top": 341.5,
+          "right": 138.09375,
+          "bottom": 385.5,
+          "left": 64.328125
+        },
+        "color": "rgb(92, 106, 96)",
+        "bg": "rgba(255, 255, 255, 0.92)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Espiritual",
+        "label": null,
+        "disabled": false,
+        "rect": {
+          "x": 144.09375,
+          "y": 341.5,
+          "width": 80.09375,
+          "height": 44,
+          "top": 341.5,
+          "right": 224.1875,
+          "bottom": 385.5,
+          "left": 144.09375
+        },
+        "color": "rgb(92, 106, 96)",
+        "bg": "rgba(255, 255, 255, 0.92)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Autoconhecimento",
+        "label": null,
+        "disabled": false,
+        "rect": {
+          "x": 230.1875,
+          "y": 341.5,
+          "width": 134.390625,
+          "height": 44,
+          "top": 341.5,
+          "right": 364.578125,
+          "bottom": 385.5,
+          "left": 230.1875
+        },
+        "color": "rgb(255, 251, 237)",
+        "bg": "rgb(23, 75, 55)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Fechar",
+        "label": null,
+        "disabled": false,
+        "rect": {
+          "x": 293.234375,
+          "y": 773,
+          "width": 71.765625,
+          "height": 44,
+          "top": 773,
+          "right": 365,
+          "bottom": 817,
+          "left": 293.234375
+        },
+        "color": "rgb(7, 59, 43)",
+        "bg": "rgb(223, 197, 127)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Fale Conosco",
+        "label": "Fale Conosco",
+        "disabled": false,
+        "rect": {
+          "x": 123.359375,
+          "y": 1181.203125,
+          "width": 143.265625,
+          "height": 44,
+          "top": 1181.203125,
+          "right": 266.625,
+          "bottom": 1225.203125,
+          "left": 123.359375
+        },
+        "color": "rgb(32, 45, 36)",
+        "bg": "rgb(7, 59, 43)"
+      }
+    ],
+    "accessibilityChecked": true,
+    "axe": []
+  },
+  {
+    "screen": "04-achievements-keyboard",
+    "escapeClosed": true
+  }
+]

@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { motion } from 'motion/react';
 import {
   Volume2, VolumeX, Sliders, Mic, Play, Pause,
@@ -12,6 +12,7 @@ import {
 } from 'lucide-react';
 import { UserProfile } from '../types';
 import { audioEngine } from '../lib/audio';
+import { useDialogFocus } from '../hooks/useDialogFocus';
 
 interface AudioSettingsModalProps {
   isOpen: boolean;
@@ -30,6 +31,8 @@ export default function AudioSettingsModal({
   availableVoices,
   onOpenProModal
 }: AudioSettingsModalProps) {
+  const dialogRef = useRef<HTMLDivElement>(null);
+  useDialogFocus(isOpen, dialogRef, () => { audioEngine.stopSpeech(); onClose(); });
   const [bgMusicType, setBgMusicType] = useState(userProfile.bgMusicType);
   const [bgMusicVolume, setBgMusicVolume] = useState(userProfile.bgMusicVolume ?? 0.5);
   const [voiceVolume, setVoiceVolume] = useState(userProfile.voiceVolume ?? 0.85);
@@ -200,7 +203,7 @@ export default function AudioSettingsModal({
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4 bg-[#2A2420]/30 backdrop-blur-md overflow-y-auto overscroll-contain" id="audio-settings-modal" role="dialog" aria-modal="true" aria-label="Ajustes de áudio e voz">
+    <div ref={dialogRef} className="fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4 bg-[#2A2420]/30 backdrop-blur-md overflow-y-auto overscroll-contain" id="audio-settings-modal" role="dialog" aria-modal="true" aria-label="Ajustes de áudio e voz">
       <motion.div
         initial={{ opacity: 0, scale: 0.96, y: 15 }}
         animate={{ opacity: 1, scale: 1, y: 0 }}
@@ -271,6 +274,7 @@ export default function AudioSettingsModal({
                 <button
                   key={track.id}
                   type="button"
+                  aria-pressed={isSelected}
                   onClick={() => {
                     if (isLocked && onOpenProModal) {
                       onOpenProModal();
@@ -307,7 +311,7 @@ export default function AudioSettingsModal({
           {bgMusicType !== 'none' && (
             <div className="pt-2 space-y-1">
               <input
-                type="range"
+                type="range" aria-label="Volume da frequência de fundo"
                 min="0"
                 max="1"
                 step="0.05"
@@ -367,7 +371,9 @@ export default function AudioSettingsModal({
               className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors cursor-pointer shrink-0 ${
                 bioactiveBinauralEnabled ? 'bg-[#B88736]' : 'bg-[#DCD0BE]'
               }`}
-              aria-label="Ativar Sintonização Bioativa"
+              role="switch"
+              aria-checked={bioactiveBinauralEnabled}
+              aria-label="Camada binaural opcional"
             >
               <span
                 className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${
@@ -482,7 +488,7 @@ export default function AudioSettingsModal({
                   </span>
                 </div>
                 <input
-                  type="range"
+                  type="range" aria-label="Intensidade da camada binaural"
                   min="0"
                   max="1"
                   step="0.05"
@@ -561,6 +567,7 @@ export default function AudioSettingsModal({
             <div className="space-y-1">
               <span className="text-[11px] text-[#5C5248] block">Timbre da Voz (Instaladas no Dispositivo)</span>
               <select
+                aria-label="Timbre da voz instalada no dispositivo"
                 value={voiceId}
                 onChange={(e) => setVoiceId(e.target.value)}
                 className="w-full bg-[#FBF8F2] border border-[#E5DAC6] rounded-xl px-3 py-2 text-xs text-[#2A2420] focus:border-[#B88736] outline-none"
@@ -587,7 +594,7 @@ export default function AudioSettingsModal({
               <span className="font-mono text-[#B88736] text-[11px]">{voiceRate.toFixed(2)}x {voiceRate <= 0.8 ? '(Calma/Profunda)' : voiceRate <= 0.95 ? '(Equilibrada)' : '(Dinâmica)'}</span>
             </div>
             <input
-              type="range"
+              type="range" aria-label="Velocidade da narração"
               min="0.6"
               max="1.2"
               step="0.02"
@@ -604,7 +611,7 @@ export default function AudioSettingsModal({
               <span className="font-mono text-[#B88736] text-[11px]">{Math.round(voiceVolume * 100)}%</span>
             </div>
             <input
-              type="range"
+              type="range" aria-label="Volume da voz"
               min="0"
               max="1"
               step="0.05"
