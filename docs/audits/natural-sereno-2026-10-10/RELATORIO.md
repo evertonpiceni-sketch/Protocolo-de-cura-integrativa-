@@ -43,3 +43,9 @@ A implantação da prévia no commit `3edad73` foi conferida sem fixtures: `/api
 Na anamnese, removidas confirmações bloqueantes do navegador para sintonização e ausência de suporte de voz. A confirmação passa a usar mensagem acessível dentro do próprio diálogo. Corrigidos estados de hover escuros herdados em botões claros, sem alterar os callbacks. Lint, 23 testes e build passaram. A confirmação de frequência foi acionada pelo navegador e apareceu na tela sem abrir diálogo nativo.
 
 A repetição da auditoria nas 19 capturas desta rodada concluiu sem alertas de acessibilidade nos critérios automatizados utilizados e sem bloqueios de navegação: Home, quatro passos de anamnese, resultado e ações em desktop/mobile, frequência, mapa astral e edição, numerologia, banhos, chakras, perguntas sistêmicas, Ho’oponopono, configurações e comunidade em desktop/mobile. Esses resultados não substituem validação editorial, vídeos finais nem autenticação completa na produção. Evidências em `reauditoria-telas.json` e `frequencia-confirmacao.png`.
+
+## Continuação — iluminação do Dia 1
+
+A varredura encontrou troca abrupta entre as cinco imagens humanas aprovadas. Substituída por mesclagem gradual nos marcos do áudio, mantendo o estado inicial escuro. Removida a transição CSS independente, para que a pausa mantenha exatamente os valores da iluminação. A função anterior de fases foi removida, evitando duas definições concorrentes da mesma linha do tempo.
+
+Lint, 25 testes e build passaram. O teste no navegador confirmou duas imagens com opacidade 0,5 aos 262,5 segundos, preservação dessas opacidades durante a pausa e retorno à experiência após continuar. Nenhum timer visual independente foi criado. Os vídeos específicos e a revisão integral de roteiros permanecem pendentes; esta correção não certifica a didática visual completa dos 21 dias.

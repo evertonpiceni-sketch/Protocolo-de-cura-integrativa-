@@ -1,9 +1,7 @@
 import React from 'react';
+import { reintegrationPresenceWeights } from '../lib/reintegrationVisualTiming';
 import { getVisualDiaInstrucao } from '../data/visualMap21Dias';
 
-export function reintegrationPresencePhase(seconds: number) {
-  return seconds < 240 ? 0 : seconds < 360 ? 1 : seconds < 900 ? 2 : seconds < 1260 ? 3 : 4;
-}
 /** Use the five human figures from the approved artwork, with the audio clock
  * selecting their state. No repeated loop or reconstructed logo/body. */
 // Coordinates refer to the unchanged human model in the approved artwork.
@@ -28,7 +26,7 @@ const regions: Record<number, [number, number][]> = {
   21: [[50,14],[50,33],[50,49],[50,67],[50,84]],
 };
 export default function ReintegrationPresenceVisual({ day = 1, elapsedSeconds }: { day?: number; elapsedSeconds: number }) {
-  const phase = reintegrationPresencePhase(elapsedSeconds);
+  const weights = reintegrationPresenceWeights(elapsedSeconds);
   const instruction = getVisualDiaInstrucao(day);
   const progress = Math.max(0, Math.min(1, (elapsedSeconds - 360) / 540));
   const points = regions[day] || regions[2];
@@ -38,7 +36,7 @@ export default function ReintegrationPresenceVisual({ day = 1, elapsedSeconds }:
     return `radial-gradient(ellipse ${10 + amount * 8}% ${5 + amount * 5}% at ${x}% ${y}%, rgba(0,0,0,${amount}) 0%, transparent 100%)`;
   }).join(',');
   return <div className="reintegration-presence-visual" data-day={day} data-visual-fallback="approved-human" role="img" aria-label={`Dia ${day}: ${instruction.titulo}. ${instruction.movimentoLuz}`}>
-    {day === 1 ? [0, 1, 2, 3, 4].map(index => <div key={index} className="reintegration-presence-frame" style={{ backgroundPosition: `${index * 25}% 48%`, opacity: phase === index ? 1 : 0, filter: index === 0 ? 'brightness(.3)' : undefined }} />) : <>
+    {day === 1 ? [0, 1, 2, 3, 4].map(index => <div key={index} className="reintegration-presence-frame" style={{ backgroundPosition: `${index * 25}% 48%`, opacity: weights[index], filter: index === 0 ? 'brightness(.3)' : undefined }} />) : <>
       <div className="reintegration-presence-frame" style={{backgroundPosition:'0% 48%', filter:'brightness(.3)'}} />
       <div className="reintegration-presence-frame" style={{backgroundPosition:'100% 48%', maskImage:masks, WebkitMaskImage:masks, opacity:progress > 0 ? 1 : 0}} />
     </>}
