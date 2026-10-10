@@ -1,6 +1,6 @@
 # Natural Sereno — varredura adicional de heranças — 10/10/2026
 
-Esta rodada complementa a auditoria de 07/10. Não certifica a reprodução integral das 12 telas nem encerra o Estilo 1.
+Esta rodada complementa a auditoria de 07/10. Não certifica a reprodução integral das 12 telas nem encerra o Estilo 1. As seções abaixo registram a evolução; o resultado mais recente de publicação consta ao final, substituindo os estados históricos de produção não atualizada.
 
 ## Correções
 
@@ -63,3 +63,13 @@ Busca adicional de fontes: a galeria aprovada foi recuperada e inspecionada; con
 Após a integração, a auditoria encontrou novos alertas de contraste em chakras, aba selecionada do Ho’oponopono e contato nas configurações. Corrigidos apenas no Natural Sereno e reauditados os três estados sem alertas. O teste de cadastro/login também confirmou abertura da ajuda e presença do link correto de suporte, sem enviar mensagem. A produção antes desta publicação servia o commit `5edfafb`; a atualização publicada e seu resultado serão registrados após a conferência do ambiente real.
 
 A prévia imutável do commit `2aad8dd` foi conferida sem fixtures: saúde 200, autenticação anônima 401 e nenhum erro JavaScript observado na entrada. Checks GitHub/Vercel desse commit aprovados; Supabase Preview ignorado pelo próprio serviço. Publicação incremental autorizada, sem certificar encerramento do Estilo 1.
+
+## Publicação e conferência real — PR #27
+
+PR #27 incorporada em 10/10/2026 às 17:33 (America/Sao_Paulo), commit de produção `df6a48b5d5678422f9c995a9f3ff5f2b1e644c4d`, implantação `dpl_FN4pJg7viACKcancZcTutFD1E8jD` READY. Domínio conferido: https://protocolo-de-cura-integrativa.vercel.app/ . O domínio principal confirmou esse commit, não apenas a URL de prévia. Auditoria de segurança da main aprovada.
+
+Conferência por Chromium sem fixtures no domínio real: formulário de cadastro carregado; saúde 200; autenticação anônima 401; ajuda de acesso e destino de suporte corretos; celular 390 px sem rolagem horizontal; nenhum erro JavaScript observado. Nenhuma conta, publicação ou pagamento criado. Consulta de logs de execução nos últimos cinco minutos não retornou registros; isso não certifica ausência de erros fora dessa janela.
+
+A inspeção visual da captura real revelou exemplos de e-mail/senha cortados pela grade de duas colunas no cartão estreito de cadastro e links de consentimento claros demais. Correção complementar: campos principais passam a uma coluna dentro desse cartão, preservando o desenho e espaçamento; entradas usam Inter; links legais usam o mesmo dourado escuro da ajuda. Cadastro permanece Natural Sereno em qualquer tema.
+
+Correção complementar validada: lint, 28 testes, build e teste de recuperação de cadastro/login aprovados. Navegador em 1365 e 390 px confirmou campos alinhados em uma coluna, largura útil de 414/326 px, fonte Inter, links legais #71511c e ausência de rolagem horizontal.
