@@ -35,3 +35,11 @@ A varredura identificou opacidade acumulada no contêiner e na imagem do logo, a
 O login também permanece bloqueado durante a transição após sucesso. O teste de recuperação foi ampliado e passou com login bem-sucedido após erro 503. Lint, 23 testes e build passaram novamente.
 
 Na conferência das novas capturas, corrigidos também os rótulos monoespaçados do cadastro/login e o contraste e área de toque do link de recuperação. A recuperação por SMS/e-mail ainda não está implementada no produto existente; o botão abre a orientação atual e não foi certificado como envio de recuperação funcional.
+
+## Continuação — prévia publicada e anamnese
+
+A implantação da prévia no commit `3edad73` foi conferida sem fixtures: `/api/health` respondeu 200 e `/api/auth/me` sem sessão respondeu 401, conforme esperado. Não foi criada conta nem executado pagamento nessa verificação. A produção continua sem atualização desta rodada.
+
+Na anamnese, removidas confirmações bloqueantes do navegador para sintonização e ausência de suporte de voz. A confirmação passa a usar mensagem acessível dentro do próprio diálogo. Corrigidos estados de hover escuros herdados em botões claros, sem alterar os callbacks. Lint, 23 testes e build passaram. A confirmação de frequência foi acionada pelo navegador e apareceu na tela sem abrir diálogo nativo.
+
+A repetição da auditoria nas 19 capturas desta rodada concluiu sem alertas de acessibilidade nos critérios automatizados utilizados e sem bloqueios de navegação: Home, quatro passos de anamnese, resultado e ações em desktop/mobile, frequência, mapa astral e edição, numerologia, banhos, chakras, perguntas sistêmicas, Ho’oponopono, configurações e comunidade em desktop/mobile. Esses resultados não substituem validação editorial, vídeos finais nem autenticação completa na produção. Evidências em `reauditoria-telas.json` e `frequencia-confirmacao.png`.

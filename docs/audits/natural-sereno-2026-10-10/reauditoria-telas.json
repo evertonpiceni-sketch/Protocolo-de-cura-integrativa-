@@ -1,0 +1,97 @@
+[
+  {
+    "screen": "07-home-desktop",
+    "violations": [],
+    "controlsInventoried": 18
+  },
+  {
+    "screen": "08-anamnesis-step1-desktop",
+    "violations": [],
+    "controlsInventoried": 25
+  },
+  {
+    "screen": "09-anamnesis-step2-desktop",
+    "violations": [],
+    "controlsInventoried": 30
+  },
+  {
+    "screen": "09-anamnesis-step3-desktop",
+    "violations": [],
+    "controlsInventoried": 16
+  },
+  {
+    "screen": "09-anamnesis-step4-desktop",
+    "violations": [],
+    "controlsInventoried": 25
+  },
+  {
+    "screen": "10-anamnesis-report-top",
+    "violations": [],
+    "controlsInventoried": 28
+  },
+  {
+    "screen": "frequency-inline-confirmation",
+    "violations": [],
+    "controlsInventoried": 28
+  },
+  {
+    "screen": "11-anamnesis-report-actions",
+    "violations": [],
+    "controlsInventoried": 28
+  },
+  {
+    "screen": "12-anamnesis-report-mobile",
+    "violations": [],
+    "controlsInventoried": 28
+  },
+  {
+    "screen": "13-astral-without-date",
+    "violations": [],
+    "controlsInventoried": 26
+  },
+  {
+    "screen": "14-astral-edit",
+    "violations": [],
+    "controlsInventoried": 26
+  },
+  {
+    "screen": "15-numerology",
+    "violations": [],
+    "controlsInventoried": 17
+  },
+  {
+    "screen": "16-baths",
+    "violations": [],
+    "controlsInventoried": 49
+  },
+  {
+    "screen": "17-chakras",
+    "violations": [],
+    "controlsInventoried": 21
+  },
+  {
+    "screen": "18-systemic",
+    "violations": [],
+    "controlsInventoried": 42
+  },
+  {
+    "screen": "19-hooponopono",
+    "violations": [],
+    "controlsInventoried": 19
+  },
+  {
+    "screen": "20-settings",
+    "violations": [],
+    "controlsInventoried": 59
+  },
+  {
+    "screen": "21-community-desktop",
+    "violations": [],
+    "controlsInventoried": 12
+  },
+  {
+    "screen": "22-community-mobile",
+    "violations": [],
+    "controlsInventoried": 12
+  }
+]
