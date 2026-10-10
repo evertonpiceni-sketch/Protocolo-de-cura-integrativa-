@@ -207,7 +207,7 @@ export default function DashboardCura({ onClose, progress, userProfile }: { onCl
                  }}
                  className="relative z-10 w-full rounded-full bg-gradient-to-r from-[#E4C573] to-[#B89845] py-[16px] text-[15px] font-bold text-[#09090E] shadow-[0_5px_15px_rgba(228,197,115,0.3)] transition hover:brightness-110"
                >
-                 ✨ Resgatar Meu Certificado de Luz
+                 Resgatar Meu Certificado de Luz
                </button>
             </div>
           ) : (
@@ -216,7 +216,7 @@ export default function DashboardCura({ onClose, progress, userProfile }: { onCl
                 <Award size={24} />
               </div>
               <p className="text-[13px] leading-relaxed text-[#5C5248]">
-                <span className="mr-1">🔒</span> Conclua todos os 7 dias para desbloquear seu Certificado de Alinhamento Espiritual.
+                Conclua todos os 7 dias para desbloquear seu Certificado de Alinhamento Espiritual.
               </p>
             </div>
           )}

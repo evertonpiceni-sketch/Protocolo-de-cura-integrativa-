@@ -343,7 +343,7 @@ export default function SpecificTreatmentModal({
                   className="text-[11px] font-mono text-emerald-400 hover:text-emerald-300 transition flex items-center gap-1 cursor-pointer"
                 >
                   <Sparkles size={12} />
-                  <span>{isCustomPrice ? 'Usar Valores Padrão' : '✏️ Mudar / Ajustar Valor'}</span>
+                  <span>{isCustomPrice ? 'Usar Valores Padrão' : 'Mudar / Ajustar Valor'}</span>
                 </button>
               </div>
 
@@ -444,7 +444,7 @@ export default function SpecificTreatmentModal({
                 <div className="p-4 rounded-2xl bg-white border border-emerald-500/40 space-y-3 shadow-inner">
                   <div className="flex items-center justify-between">
                     <span className="text-xs font-semibold text-emerald-300 flex items-center gap-1.5">
-                      <span>💰 Definir Valor Personalizado / Ajuste</span>
+                      <span>Definir Valor Personalizado / Ajuste</span>
                     </span>
                     <span className="text-[10px] font-mono text-[#5C5248]">
                       Ciclo: <strong>{durationDays} Dias</strong>
@@ -691,7 +691,7 @@ export default function SpecificTreatmentModal({
                       {/* Quick discount buttons */}
                       <div className="flex flex-wrap items-center gap-1.5 pt-0.5">
                         {[
-                          { code: 'VIP7', label: 'VIP7 (7 Dias Grátis ✨)', isFree: true },
+                          { code: 'VIP7', label: 'VIP7 (7 Dias Grátis )', isFree: true },
                           { code: 'CURA10', label: 'CURA10 (-10%)', isFree: false },
                           { code: 'PAZ20', label: 'PAZ20 (-20%)', isFree: false },
                           { code: 'PICENI50', label: 'PICENI50 (-50%)', isFree: false }

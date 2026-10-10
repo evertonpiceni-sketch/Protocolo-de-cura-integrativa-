@@ -557,13 +557,13 @@ export function calculateAstralMap(
     
     practicalAttitudes: {
       dailyPractices: [
-        dominant === 'Fogo' ? '🔥 Ação Matinal Solar: Realize 10 minutos de caminhada sob a luz natural pela manhã para ancorar seu magnetismo criador e ativar a serotonina.' :
-        dominant === 'Terra' ? '🌱 Aterramento Telúrico (Earthing): Coloque os pés descalços na grama ou terra por 5 minutos ao acordar para descarregar o estresse mental.' :
-        dominant === 'Ar' ? '🌬️ Esvaziamento Mental: Pratique 5 minutos de respiração consciente (4 tempos: inspira 4s, retém 4s, expira 4s, retém 4s) antes de abrir notificações.' :
-        '💧 Hidratação & Bênção da Água: Ao beber o primeiro copo de água do dia, projete uma intenção de paz, purificação e amor no seu campo.',
-        `💎 Ancoragem Mineral: Mantenha um(a) ${sunSign.crystals[0] || 'Quartzo'} no seu ambiente de trabalho ou cabeceira para alinhar o chakra ${sunSign.chakra}.`,
-        `🌿 Aromaterapia & Ervas: Faça uso de aroma ou chá de ${sunSign.herbsAromas[0] || 'Lavanda'} para harmonizar seu corpo sutil ao entardecer.`,
-        `🎧 Frequência Sonora de Reprogramação: Medite por 10 a 15 minutos com a frequência ${sunSign.frequency.split(' ')[0]} no aplicativo para expandir seu campo biomagnético.`
+        dominant === 'Fogo' ? 'Ação Matinal Solar: Realize 10 minutos de caminhada sob a luz natural pela manhã para ancorar seu magnetismo criador e ativar a serotonina.' :
+        dominant === 'Terra' ? 'Aterramento Telúrico (Earthing): Coloque os pés descalços na grama ou terra por 5 minutos ao acordar para descarregar o estresse mental.' :
+        dominant === 'Ar' ? 'Esvaziamento Mental: Pratique 5 minutos de respiração consciente (4 tempos: inspira 4s, retém 4s, expira 4s, retém 4s) antes de abrir notificações.' :
+        'Hidratação & Bênção da Água: Ao beber o primeiro copo de água do dia, projete uma intenção de paz, purificação e amor no seu campo.',
+        `Ancoragem Mineral: Mantenha um(a) ${sunSign.crystals[0] || 'Quartzo'} no seu ambiente de trabalho ou cabeceira para alinhar o chakra ${sunSign.chakra}.`,
+        `Aromaterapia & Ervas: Faça uso de aroma ou chá de ${sunSign.herbsAromas[0] || 'Lavanda'} para harmonizar seu corpo sutil ao entardecer.`,
+        `Frequência Sonora de Reprogramação: Medite por 10 a 15 minutos com a frequência ${sunSign.frequency.split(' ')[0]} no aplicativo para expandir seu campo biomagnético.`
       ],
       shadowWork: [
         `Transmutação da Sombra de ${sunSign.name}: Evite reações impulsivas ou autocobrança excessiva. Quando sentir pressão interna, pause 3 respirações e lembre-se: "${sunSign.mantra}"`,
