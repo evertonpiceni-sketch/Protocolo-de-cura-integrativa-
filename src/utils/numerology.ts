@@ -327,10 +327,10 @@ export function calculateNumerology(fullName: string, birthDate: string): Numero
 
   // Specific Practical Attitudes based on Life Path Number
   const practicalAttitudes: string[] = [
-    `🎯 Ação Chave do Caminho ${lifePathNumber}: ${archetype.affirmation}`,
-    `💎 Cristal e Conexão: Mantenha um(a) ${archetype.crystal} na sua mesa de trabalho ou cabeceira para alinhar seu campo eletromagnético.`,
-    `🎨 Cor de Ativação Quântica: Utilize a cor ${archetype.color} em roupas ou acessórios em dias de decisões importantes ou negociações.`,
-    `🌊 Frequência Vibracional: Realize as meditações diárias sintonizando em ${archetype.frequency} para dissolver bloqueios no chakra correspondente.`,
+    `Ação Chave do Caminho ${lifePathNumber}: ${archetype.affirmation}`,
+    `Cristal e Conexão: Mantenha um(a) ${archetype.crystal} na sua mesa de trabalho ou cabeceira para alinhar seu campo eletromagnético.`,
+    `Cor de Ativação Quântica: Utilize a cor ${archetype.color} em roupas ou acessórios em dias de decisões importantes ou negociações.`,
+    `Frequência Vibracional: Realize as meditações diárias sintonizando em ${archetype.frequency} para dissolver bloqueios no chakra correspondente.`,
     `⚖️ Postura Sistêmica Recomendada: Honre profundamente pai e mãe no seu coração para liberar o fluxo de força realizadora e sucesso na matéria.`
   ];
 

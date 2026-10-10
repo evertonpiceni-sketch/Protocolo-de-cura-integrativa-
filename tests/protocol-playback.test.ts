@@ -1,15 +1,12 @@
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import test from 'node:test';
-import { normalizeProtocolProgress, normalizeSpeechElapsedTime, protocolBreathPhaseAt, protocolBreathTransitionSeconds } from '../src/utils/protocolPlayback';
+import { normalizeProtocolProgress, protocolBreathPhaseAt, protocolBreathTransitionSeconds } from '../src/utils/protocolPlayback';
 import { DAILY_INSIGHTS } from '../src/types';
 import { DISTANCE_TREATMENT_SCRIPT } from '../src/data/protocol_scripts';
 
-test('keeps modern Web Speech elapsedTime in seconds and protects legacy millisecond values', () => {
-  assert.equal(normalizeSpeechElapsedTime(26.184), 26.184);
-  assert.equal(normalizeSpeechElapsedTime(26_184), 26.184);
+test('preserves normalized seconds without converting native progress twice', () => {
   assert.deepEqual(normalizeProtocolProgress(26.184, 0), { current: 26.184, duration: 0 });
-  assert.deepEqual(normalizeProtocolProgress(26_184, 0), { current: 26.184, duration: 0 });
   assert.deepEqual(normalizeProtocolProgress(42.5, 180), { current: 42.5, duration: 180 });
 });
 
@@ -27,12 +24,15 @@ test('keeps the canonical visual breathing cadence at 4 inhale, 3 hold and 5 exh
 
 test('production protocol player keeps 4-3-5 cadence and the startup audio integrity layer is loaded', () => {
   const session = fs.readFileSync('src/components/MeditationSession.tsx', 'utf8');
-  const main = fs.readFileSync('src/main.tsx', 'utf8');
-  const integrity = fs.readFileSync('src/lib/audioIntegrityPatch.ts', 'utf8');
+  assert.ok(!session.includes('curr / 1000'), 'audio engine has already normalized native speech progress');
   assert.ok(session.includes("position < 4 ? 'inhale' : position < 7 ? 'hold' : 'exhale'"), 'breathing phase boundaries must remain 4-3-5');
   assert.ok(session.includes("breathePhase === 'hold' ? 3 : 5"), 'visual transition must use a 3-second hold');
+  const main = fs.readFileSync('src/main.tsx', 'utf8');
+  const integrity = fs.readFileSync('src/lib/audioIntegrityPatch.ts', 'utf8');
   assert.ok(main.includes("./lib/audioIntegrityPatch"), 'audio integrity patch must load before the app');
-  assert.ok(integrity.includes('normalizeSpeechElapsedTime(current)'), 'native speech elapsed time must be normalized at the audio boundary');
+  const audio = fs.readFileSync('src/lib/audio.ts', 'utf8');
+  assert.ok(audio.includes('speechElapsedSeconds('), 'native events must be normalized once at their source');
+  assert.ok(!integrity.includes('seconds * 1000'), 'compatibility layer must not reintroduce milliseconds');
 });
 
 test('the 21-day journey exposes a distinct daily title instead of one repeated day label', () => {

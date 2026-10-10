@@ -137,7 +137,7 @@ export default function MilestoneCelebrationModal({
                 <Sparkles size={12} />
                 <span>Mensagem do Canalizador Éverton Piceni</span>
               </span>
-              <span className="text-[10px] text-emerald-400">✨ Transmitida com Amor</span>
+              <span className="text-[10px] text-emerald-400">Transmitida com Amor</span>
             </div>
             <p className="text-xs text-[#2A2420] leading-relaxed whitespace-pre-line font-sans">
               {mainMessage}

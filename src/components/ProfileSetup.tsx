@@ -1,3 +1,4 @@
+import { ACCESS_SUPPORT_URL } from '../lib/accessRecoveryPatch';
 import React, { useState, useRef } from 'react';
 import { User, Sparkles, Shield, Heart, Lock, Mail, Calendar as CalendarIcon, LogIn, UserPlus, KeyRound, CheckCircle2, ArrowLeft, Clock, MapPin, Tag, Phone, Volume2, Play, Square, Loader2 } from 'lucide-react';
 import { UserAccount } from '../types';
@@ -176,6 +177,7 @@ export default function ProfileSetup({ onComplete }: ProfileSetupProps) {
 
   const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (isSubmitting) return;
     setError('');
     setSuccessMsg('');
     setServiceUnavailable(false);
@@ -189,6 +191,7 @@ export default function ProfileSetup({ onComplete }: ProfileSetupProps) {
     if (!cleanLogin || cleanLogin.length < 3) return setError('O login deve ter pelo menos 3 caracteres.');
     if (!regPassword || regPassword.length < 6) return setError('A senha deve ter pelo menos 6 caracteres.');
 
+    let registrationSucceeded = false;
     try {
       setIsSubmitting(true);
       const res = await fetch('/api/auth/register', {
@@ -250,18 +253,23 @@ export default function ProfileSetup({ onComplete }: ProfileSetupProps) {
         console.warn('Account created, but profile sync is temporarily unavailable.');
         setSuccessMsg('Conta criada com sucesso. Alguns dados do perfil ainda serão sincronizados.');
       }
-      setTimeout(() => onComplete(newAccount), 1500);
+      registrationSucceeded = true;
+      setTimeout(() => { onComplete(newAccount); setIsSubmitting(false); }, 1500);
+      return;
     } catch (err) {
       console.error(err);
       setServiceUnavailable(true);
       setError('Não conseguimos conectar ao serviço agora. Verifique sua internet e tente novamente.');
     } finally {
-      setIsSubmitting(false);
+      // Keep the form locked during the successful transition into the app.
+      // Failures release it so the person can retry without losing their fields.
+      if (!registrationSucceeded) setIsSubmitting(false);
     }
   };
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (isSubmitting) return;
     setError('');
     setSuccessMsg('');
     setServiceUnavailable(false);
@@ -276,6 +284,7 @@ export default function ProfileSetup({ onComplete }: ProfileSetupProps) {
       return;
     }
 
+    let loginSucceeded = false;
     try {
       setIsSubmitting(true);
       const res = await fetch('/api/auth/login', {
@@ -286,7 +295,8 @@ export default function ProfileSetup({ onComplete }: ProfileSetupProps) {
       const data = await res.json().catch(() => ({}));
       
       if (!res.ok) {
-        setError(data.error || 'Erro ao realizar login.');
+        setServiceUnavailable(res.status >= 500);
+        setError(data.error || (res.status >= 500 ? 'O acesso está temporariamente indisponível. Tente novamente em alguns instantes.' : 'Não foi possível entrar. Confira seu login e senha.'));
         return;
       }
       
@@ -302,15 +312,17 @@ export default function ProfileSetup({ onComplete }: ProfileSetupProps) {
       };
       
       setSuccessMsg(`Que bom ter você de volta, ${account.fullName || account.login}!`);
+      loginSucceeded = true;
       setTimeout(() => {
         onComplete(account);
+        setIsSubmitting(false);
       }, 1000);
     } catch (err) {
       console.error(err);
       setServiceUnavailable(true);
       setError('Não conseguimos conectar ao serviço agora. Verifique sua internet e tente novamente.');
     } finally {
-      setIsSubmitting(false);
+      if (!loginSucceeded) setIsSubmitting(false);
     }
   };
 
@@ -328,7 +340,7 @@ export default function ProfileSetup({ onComplete }: ProfileSetupProps) {
             <div className="absolute inset-0 bg-[#d6ae52]/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10 pointer-events-none"></div>
             <img src={APPROVED_LOGO_DATA_URI} alt="Everton Piceni — Terapias Holísticas e Bem-Estar" className="ep-brand-signature w-full h-full object-contain transition-opacity duration-700" />
           </div>
-          <span className="text-xs font-mono tracking-widest text-[#e5c66f] uppercase font-semibold">Terapias Holísticas e Bem-Estar</span>
+          <span className="text-xs font-sans tracking-widest text-[#e5c66f] uppercase font-semibold">Terapias Holísticas e Bem-Estar</span>
           <h1 className="text-xl md:text-2xl font-display font-medium text-[#2A2420] leading-tight">
             Que bom ter você aqui.<br />Este é o seu momento de transformação
           </h1>
@@ -395,7 +407,7 @@ export default function ProfileSetup({ onComplete }: ProfileSetupProps) {
           <form onSubmit={handleRegister} className="space-y-4" id="register-form">
             {/* Full Name */}
             <div className="space-y-1.5">
-              <label htmlFor="reg-fullname" className="block text-[11px] font-mono text-[#5C5248] uppercase tracking-wider">
+              <label htmlFor="reg-fullname" className="block text-[11px] font-sans text-[#5C5248] uppercase tracking-wider">
                 Nome Completo
               </label>
               <div className="relative">
@@ -417,7 +429,7 @@ export default function ProfileSetup({ onComplete }: ProfileSetupProps) {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {/* Date of Birth */}
               <div className="space-y-1.5">
-                <label htmlFor="reg-birthdate" className="block text-[11px] font-mono text-[#5C5248] uppercase tracking-wider">
+                <label htmlFor="reg-birthdate" className="block text-[11px] font-sans text-[#5C5248] uppercase tracking-wider">
                   Data de Nascimento
                 </label>
                 <div className="relative">
@@ -438,7 +450,7 @@ export default function ProfileSetup({ onComplete }: ProfileSetupProps) {
 
               {/* Email */}
               <div className="space-y-1.5">
-                <label htmlFor="reg-email" className="block text-[11px] font-mono text-[#5C5248] uppercase tracking-wider">
+                <label htmlFor="reg-email" className="block text-[11px] font-sans text-[#5C5248] uppercase tracking-wider">
                   E-mail
                 </label>
                 <div className="relative">
@@ -459,7 +471,7 @@ export default function ProfileSetup({ onComplete }: ProfileSetupProps) {
 
               {/* WhatsApp / Phone */}
               <div className="space-y-1.5 md:col-span-2">
-                <label htmlFor="reg-phone" className="block text-[10px] font-mono text-[#5C5248] uppercase tracking-wider flex items-center justify-between">
+                <label htmlFor="reg-phone" className="block text-[10px] font-sans text-[#5C5248] uppercase tracking-wider flex items-center justify-between">
                   <span>Telefone / WhatsApp (Opcional)</span>
                   <span className="text-[10px] text-emerald-700 font-sans">Acolhimento & Mensagens</span>
                 </label>
@@ -484,14 +496,14 @@ export default function ProfileSetup({ onComplete }: ProfileSetupProps) {
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div className="space-y-1.5">
-                <label htmlFor="reg-login" className="block text-xs font-mono text-[#5C5248] uppercase tracking-wider">Nome de usuário</label>
+                <label htmlFor="reg-login" className="block text-xs font-sans text-[#5C5248] uppercase tracking-wider">Nome de usuário</label>
                 <div className="relative">
                   <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-[#B88736]/80"><User size={16} /></div>
                   <input id="reg-login" type="text" required autoComplete="username" value={regLogin} onChange={(e) => setRegLogin(e.target.value)} placeholder="ex: joaosilva" className="w-full min-h-12 bg-white border border-[#E5DAC6] focus:border-[#B88736] focus:ring-1 focus:ring-[#B88736]/30 text-[#2A2420] rounded-xl pl-10 pr-4 text-base transition outline-none placeholder-slate-600" />
                 </div>
               </div>
               <div className="space-y-1.5">
-                <label htmlFor="reg-password" className="block text-xs font-mono text-[#5C5248] uppercase tracking-wider">Senha</label>
+                <label htmlFor="reg-password" className="block text-xs font-sans text-[#5C5248] uppercase tracking-wider">Senha</label>
                 <div className="relative">
                   <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-[#85786C]"><Lock size={16} /></div>
                   <input id="reg-password" type="password" required minLength={6} autoComplete="new-password" value={regPassword} onChange={(e) => setRegPassword(e.target.value)} placeholder="Mínimo 6 caracteres" className="w-full min-h-12 bg-white border border-[#E5DAC6] focus:border-[#B88736] focus:ring-1 focus:ring-[#B88736]/30 text-[#2A2420] rounded-xl pl-10 pr-4 text-base transition outline-none placeholder-slate-600" />
@@ -512,18 +524,18 @@ export default function ProfileSetup({ onComplete }: ProfileSetupProps) {
             {/* Astral Map Data Section */}
             <div className="p-3.5 rounded-2xl bg-white/75 border border-[#E5DAC6] space-y-3">
               <div className="flex items-center justify-between">
-                <span className="text-[11px] font-mono uppercase tracking-wider text-[#8F631E] font-bold flex items-center gap-1.5">
+                <span className="text-[11px] font-sans uppercase tracking-wider text-[#8F631E] font-bold flex items-center gap-1.5">
                   <Sparkles size={13} className="text-amber-400" />
                   <span>Cálculo do seu Mapa Astral (Presente)</span>
                 </span>
-                <span className="text-[9px] font-mono px-2 py-0.5 rounded-full bg-[#B88736]/10 text-[#8F631E] border border-[#B88736]/25">
+                <span className="text-[9px] font-sans px-2 py-0.5 rounded-full bg-[#B88736]/10 text-[#8F631E] border border-[#B88736]/25">
                   Gratuito
                 </span>
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                 <div className="space-y-1">
-                  <label htmlFor="reg-birthtime" className="block text-[11px] font-mono text-[#5C5248] uppercase tracking-wider">
+                  <label htmlFor="reg-birthtime" className="block text-[11px] font-sans text-[#5C5248] uppercase tracking-wider">
                     Horário (Opcional)
                   </label>
                   <div className="relative">
@@ -541,7 +553,7 @@ export default function ProfileSetup({ onComplete }: ProfileSetupProps) {
                 </div>
 
                 <div className="space-y-1">
-                  <label htmlFor="reg-birthcity" className="block text-[11px] font-mono text-[#5C5248] uppercase tracking-wider">
+                  <label htmlFor="reg-birthcity" className="block text-[11px] font-sans text-[#5C5248] uppercase tracking-wider">
                     Cidade de Nascimento (Opcional)
                   </label>
                   <div className="relative">
@@ -562,7 +574,7 @@ export default function ProfileSetup({ onComplete }: ProfileSetupProps) {
             </div>
 
             <div className="space-y-1.5">
-              <label htmlFor="reg-coupon" className="block text-[11px] font-mono text-[#5C5248] uppercase tracking-wider">
+              <label htmlFor="reg-coupon" className="block text-[11px] font-sans text-[#5C5248] uppercase tracking-wider">
                 Possui Cupom do Terapeuta? (Opcional)
               </label>
               <div className="relative">
@@ -575,14 +587,14 @@ export default function ProfileSetup({ onComplete }: ProfileSetupProps) {
                   value={regCoupon}
                   onChange={(e) => setRegCoupon(e.target.value.toUpperCase())}
                   placeholder="Digite seu código de cupom aqui..."
-                  className="w-full bg-white border border-[#E5DAC6]/80 focus:border-amber-500 focus:ring-1 focus:ring-amber-500 text-amber-200 rounded-xl py-2.5 pl-10 pr-4 text-xs transition duration-150 outline-none uppercase font-mono placeholder-slate-600"
+                  className="w-full bg-white border border-[#E5DAC6]/80 focus:border-amber-500 focus:ring-1 focus:ring-amber-500 text-amber-200 rounded-xl py-2.5 pl-10 pr-4 text-xs transition duration-150 outline-none uppercase font-sans placeholder-slate-600"
                 />
               </div>
             </div>
 
             <div className="space-y-2 pt-1" id="voice-gender-selector">
               <div className="flex items-center justify-between">
-                <label className="block text-[10px] font-mono text-[#B88736] uppercase tracking-wider font-semibold flex items-center gap-1.5">
+                <label className="block text-[10px] font-sans text-[#B88736] uppercase tracking-wider font-semibold flex items-center gap-1.5">
                   <Volume2 size={13} className="text-[#B88736]" />
                   <span>Voz da condução guiada</span>
                 </label>
@@ -615,7 +627,7 @@ export default function ProfileSetup({ onComplete }: ProfileSetupProps) {
                   </div>
 
                   <div className="mt-2.5 pt-2 border-t border-[#E5DAC6]/60 flex items-center justify-between">
-                    <span className="text-[9px] font-mono text-[#B88736] bg-[#B88736]/10 px-2 py-0.5 rounded">
+                    <span className="text-[9px] font-sans text-[#B88736] bg-[#B88736]/10 px-2 py-0.5 rounded">
                       Tom Terapêutico Natural
                     </span>
                     <button
@@ -671,7 +683,7 @@ export default function ProfileSetup({ onComplete }: ProfileSetupProps) {
                   </div>
 
                   <div className="mt-2.5 pt-2 border-t border-[#E5DAC6]/60 flex items-center justify-between">
-                    <span className="text-[9px] font-mono text-rose-700 bg-rose-50 px-2 py-0.5 rounded">
+                    <span className="text-[9px] font-sans text-rose-700 bg-rose-50 px-2 py-0.5 rounded">
                       Acolhimento da Alma
                     </span>
                     <button
@@ -705,7 +717,7 @@ export default function ProfileSetup({ onComplete }: ProfileSetupProps) {
             </div>
 
             <div className="space-y-2 pt-2">
-              <label className="block text-[11px] font-mono text-[#5C5248] uppercase tracking-wider">
+              <label className="block text-[11px] font-sans text-[#5C5248] uppercase tracking-wider">
                 Frequência Sonora Inicial
               </label>
               <div className="grid grid-cols-2 sm:grid-cols-3 gap-2" id="soundscape-selector">
@@ -727,7 +739,7 @@ export default function ProfileSetup({ onComplete }: ProfileSetupProps) {
                         : 'bg-white border-[#E5DAC6] text-[#5C5248] hover:border-[#E5DAC6]'
                     }`}
                   >
-                    <div className="text-[11px] font-bold font-mono text-[#2A2420]">{opt.name}</div>
+                    <div className="text-[11px] font-bold font-sans text-[#2A2420]">{opt.name}</div>
                     <div className="text-[9px] text-[#5C5248]">{opt.desc}</div>
                   </button>
                 ))}
@@ -764,7 +776,7 @@ export default function ProfileSetup({ onComplete }: ProfileSetupProps) {
           /* LOGIN FORM */
           <form onSubmit={handleLogin} className="space-y-4" id="login-form">
             <div className="space-y-1.5">
-              <label htmlFor="log-login" className="block text-[11px] font-mono text-[#5C5248] uppercase tracking-wider">
+              <label htmlFor="log-login" className="block text-[11px] font-sans text-[#5C5248] uppercase tracking-wider">
                 Nome de Usuário (Login) ou E-mail
               </label>
               <div className="relative">
@@ -785,7 +797,7 @@ export default function ProfileSetup({ onComplete }: ProfileSetupProps) {
 
             <div className="space-y-1.5">
               <div className="flex items-center justify-between">
-                <label htmlFor="log-password" className="block text-[11px] font-mono text-[#5C5248] uppercase tracking-wider">
+                <label htmlFor="log-password" className="block text-[11px] font-sans text-[#5C5248] uppercase tracking-wider">
                   Senha
                 </label>
                 <button
@@ -795,9 +807,9 @@ export default function ProfileSetup({ onComplete }: ProfileSetupProps) {
                     setError('');
                     setSuccessMsg('');
                   }}
-                  className="text-[11px] text-[#B88736] hover:text-[#B88736] transition cursor-pointer underline underline-offset-2"
+                  id="auth-forgot-password" className="text-[11px] text-[#71511C] hover:text-[#174B37] transition cursor-pointer underline underline-offset-2"
                 >
-                  Esqueci minha senha
+                  Ajuda para acessar
                 </button>
               </div>
               <div className="relative">
@@ -841,12 +853,12 @@ export default function ProfileSetup({ onComplete }: ProfileSetupProps) {
               <ArrowLeft size={14} /> Voltar ao Login
             </button>
             <div className="text-center p-6 bg-white rounded-xl border border-[#E5DAC6]/80 space-y-3">
-              <Shield size={32} className="text-indigo-500/50 mx-auto" />
-              <h3 className="text-sm font-semibold text-[#2A2420]">Recuperação de Senha</h3>
+              <Shield size={32} className="text-[#174B37] mx-auto" />
+              <h3 className="text-sm font-semibold text-[#2A2420]">Ajuda para acessar</h3>
               <p className="text-xs text-[#5C5248] leading-relaxed">
-                A recuperação de senha via SMS/Email será configurada pelo terapeuta na próxima atualização.
-                Por favor, contate o administrador se não consegue acessar sua conta.
+                A recuperação automática de senha ainda não está disponível. Para recuperar o acesso, fale diretamente com o suporte.
               </p>
+              <a href={ACCESS_SUPPORT_URL} target="_blank" rel="noopener noreferrer" data-access-support-link="true" className="inline-flex min-h-11 w-full items-center justify-center rounded-xl bg-[#174B37] px-4 py-3 text-sm font-semibold text-[#FFFAE7] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B88736]">Falar com o suporte no WhatsApp</a>
             </div>
           </div>
         )}

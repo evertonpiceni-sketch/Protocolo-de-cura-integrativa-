@@ -3,7 +3,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import React, { useMemo, useState } from 'react';
+import React, { useMemo, useRef, useState } from 'react';
+import { useDialogFocus } from '../hooks/useDialogFocus';
 import { Check, ChevronDown, Crown, Sparkles, X, Tag, ShieldCheck } from 'lucide-react';
 import { UserProfile, SubscriptionPlanType } from '../types';
 
@@ -137,6 +138,8 @@ export default function ProUpgradeModal({ isOpen, onClose, onUpgradeSuccess }: P
     return Math.max(0, selectedPlan.price * (1 - couponRule.discount / 100));
   }, [selectedPlan, couponRule]);
 
+  const dialogRef = useRef<HTMLDivElement>(null);
+  useDialogFocus(isOpen, dialogRef, onClose);
   if (!isOpen) return null;
 
   const applyCoupon = () => {
@@ -182,13 +185,13 @@ export default function ProUpgradeModal({ isOpen, onClose, onUpgradeSuccess }: P
   const standalone = PLANS.filter(plan => ['jornada_7d', 'arcanjo_7d'].includes(plan.id));
 
   return (
-    <div className="fixed inset-0 z-[100] bg-[#2A2420]/30 backdrop-blur-xl overflow-y-auto">
+    <div ref={dialogRef} id="plans-modal" role="dialog" aria-modal="true" aria-labelledby="plans-title" className="fixed inset-0 z-[100] bg-[#2A2420]/30 backdrop-blur-xl overflow-y-auto">
       <div className="min-h-screen bg-[radial-gradient(circle_at_top_right,rgba(88,28,135,0.20),transparent_32%),radial-gradient(circle_at_bottom_left,rgba(202,138,4,0.10),transparent_28%)] text-[#2A2420]">
         <header className="sticky top-0 z-20 border-b border-amber-400/10 bg-[#2A2420]/30 backdrop-blur-xl">
           <div className="max-w-6xl mx-auto px-4 py-4 flex items-center justify-between">
             <div>
               <p className="text-amber-300 tracking-[0.28em] text-[10px] font-bold uppercase">Everton Piceni</p>
-              <h2 className="font-serif text-xl text-amber-100">Planos & Jornadas</h2>
+              <h2 id="plans-title" className="font-serif text-xl text-amber-100">Planos & Jornadas</h2>
             </div>
             <button onClick={onClose} className="p-2 rounded-full border border-white/10 hover:bg-white/5" aria-label="Fechar"><X size={20} /></button>
           </div>
@@ -198,13 +201,13 @@ export default function ProUpgradeModal({ isOpen, onClose, onUpgradeSuccess }: P
           <section className="text-center max-w-2xl mx-auto">
             <Sparkles className="mx-auto text-amber-300 mb-3" size={26} />
             <h1 className="font-serif text-3xl md:text-5xl text-amber-100">Escolha o seu plano</h1>
-            <p className="mt-3 text-sm md:text-base text-[#5C5248]">Pouca informação na primeira leitura. Toque em “Ver tudo” somente quando quiser comparar os detalhes.</p>
+            <p className="mt-3 text-sm md:text-base text-[#5C5248]">Compare as possibilidades no seu tempo. Toque em “Ver tudo” para conhecer os detalhes.</p>
           </section>
 
           <section>
             <div className="mb-4">
               <h3 className="font-serif text-2xl text-amber-100">Jornadas e protocolos avulsos</h3>
-              <p className="text-sm text-[#5C5248]">Experiências focadas, sem poluir a comparação dos planos PRO.</p>
+              <p className="text-sm text-[#5C5248]">Experiências para percorrer no seu tempo.</p>
             </div>
             <div className="grid md:grid-cols-2 gap-4">
               {standalone.map(plan => (
@@ -258,7 +261,7 @@ export default function ProUpgradeModal({ isOpen, onClose, onUpgradeSuccess }: P
 
             {checkoutError && <p role="alert" className="mb-3 rounded-xl border border-rose-200 bg-rose-50 px-3 py-2 text-xs text-rose-700">{checkoutError}</p>}
             <button disabled={isProcessing} onClick={finish} className={`w-full rounded-2xl bg-gradient-to-r from-amber-500 to-yellow-300 text-slate-950 font-black py-4 shadow-lg shadow-amber-500/10 ${isProcessing ? 'opacity-70 cursor-not-allowed' : ''}`}>{isProcessing ? 'PROCESSANDO...' : (couponRule?.vip ? 'ATIVAR 7 DIAS PRO' : 'INICIAR PAGAMENTO SEGURO')}</button>
-            <div className="mt-3 flex items-center justify-center gap-2 text-[11px] text-[#85786C]"><ShieldCheck size={13} /> A confirmação definitiva do pagamento e dos cupons deve ser validada pelo servidor.</div>
+            <div className="mt-3 flex items-center justify-center gap-2 text-[11px] text-[#85786C]"><ShieldCheck size={13} /> Seu acesso é liberado após a confirmação do pagamento.</div>
           </section>
         </main>
       </div>

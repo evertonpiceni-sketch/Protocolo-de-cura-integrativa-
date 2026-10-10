@@ -144,7 +144,7 @@ export default function HooponoponoModal({ isOpen, onClose, userName = 'Buscador
   const tabClass = (active: boolean) => `min-h-11 rounded-xl px-3 py-2 text-xs font-semibold transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B88736]/35 ${active ? 'bg-[#B88736] text-white shadow-sm' : 'text-[#5C5248] hover:bg-[#F5EFE4] hover:text-[#2A2420]'}`;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-start sm:items-center justify-center overflow-y-auto overscroll-contain bg-[#2A2420]/30 p-2 sm:p-4 backdrop-blur-md" role="dialog" aria-modal="true" aria-labelledby="hooponopono-title">
+    <div className="fixed inset-0 z-50 flex items-start sm:items-center justify-center overflow-y-auto overscroll-contain bg-[#2A2420]/30 p-2 sm:p-4 backdrop-blur-md" id="hooponopono-modal" role="dialog" aria-modal="true" aria-labelledby="hooponopono-title">
       <motion.div initial={{ opacity: 0, scale: .96, y: 12 }} animate={{ opacity: 1, scale: 1, y: 0 }} exit={{ opacity: 0, scale: .96 }} className="relative my-1 sm:my-4 w-full max-w-2xl max-h-[calc(100dvh-1rem)] overflow-y-auto overscroll-contain rounded-2xl sm:rounded-3xl border border-[#E5DAC6] bg-[#FBF8F2] p-4 sm:p-7 shadow-2xl">
         <button type="button" onClick={close} aria-label="Fechar Ho’oponopono" className="absolute right-4 top-4 z-10 flex h-11 w-11 items-center justify-center rounded-xl border border-[#E5DAC6] bg-[#F5EFE4] text-[#5C5248] hover:bg-[#EFE4D3] hover:text-[#2A2420] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B88736]/35">
           <X size={18} />

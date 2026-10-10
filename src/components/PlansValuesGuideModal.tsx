@@ -143,15 +143,15 @@ export const ALL_PLANS_DATA: DetailedPlanInfo[] = [
     id: 'vip_curso',
     category: 'assinatura',
     title: 'Acesso Vip (Anual + Curso)',
-    badge: '🎓 Curso Incluso!',
+    badge: 'Curso Incluso!',
     isPopular: true,
     priceFormatted: 'R$ 199,90',
     periodText: 'acesso por 12 meses + 1 curso',
     priceNumeric: 199.90,
     highlightBenefit: 'Tudo do Plano Anual + Acesso a 1 Curso de Formação Completo.',
     features: [
-      '✨ TUDO DO PLANO ANUAL INCLUSO',
-      '🎓 DIREITO A 1 CURSO DE FORMAÇÃO COMPLETO COM CERTIFICADO',
+      'TUDO DO PLANO ANUAL INCLUSO',
+      'DIREITO A 1 CURSO DE FORMAÇÃO COMPLETO COM CERTIFICADO',
       'Sessão de mentoria em grupo exclusiva',
       'Acesso prioritário a novos recursos',
     ],
@@ -339,7 +339,7 @@ export function PlansValuesGuideModal({
                 className="px-4 py-2 bg-emerald-600 hover:bg-emerald-500 text-white rounded-xl text-xs font-semibold transition cursor-pointer flex items-center gap-1.5 shadow-md shadow-emerald-600/20"
               >
                 {copiedPixKey ? <Check size={14} className="shrink-0" /> : <Copy size={14} className="shrink-0" />}
-                <span>{copiedPixKey ? 'Chave Copiada! ✨' : 'Copiar Chave PIX'}</span>
+                <span>{copiedPixKey ? 'Chave Copiada! ' : 'Copiar Chave PIX'}</span>
               </button>
               <a
                 href="https://wa.me/5551982215296?text=Ol%C3%A1%20%C3%89verton%2C%20gostaria%20de%20tirar%20d%C3%BAvidas%20sobre%20os%20planos%20do%20Protocolo%20de%20Cura%20Integrada!"
@@ -419,7 +419,7 @@ export function PlansValuesGuideModal({
                     </div>
 
                     <p className="text-xs text-[#B88736]/90 font-medium leading-snug">
-                      ✨ {plan.highlightBenefit}
+                      {plan.highlightBenefit}
                     </p>
 
                     <p className="text-[11px] text-[#5C5248] leading-relaxed">
@@ -508,7 +508,7 @@ export function PlansValuesGuideModal({
           {/* Footer note */}
           <div className="p-4 rounded-2xl bg-white/75 border border-[#E5DAC6] text-center space-y-1">
             <p className="text-xs text-[#5C5248] font-sans">
-              💖 <strong>Valores Acessíveis & Personalizados:</strong> Caso queira ajustar o valor da sua contribuição ou tirar dúvidas, fale conosco diretamente pelo WhatsApp.
+              <strong>Valores Acessíveis & Personalizados:</strong> Caso queira ajustar o valor da sua contribuição ou tirar dúvidas, fale conosco diretamente pelo WhatsApp.
             </p>
             <p className="text-[10px] text-[#85786C] font-mono">
               O Protocolo de Cura Integrada de 21 dias é canalizado e conduzido por Éverton Rodrigo Piceni.

@@ -105,6 +105,7 @@ export default function AnamnesisModal({
   const [dailyTimeAvailable, setDailyTimeAvailable] = useState<'10min' | '20min' | '30min+'>(existingAnamnesis?.dailyTimeAvailable || '20min');
   const [isProcessingAi, setIsProcessingAi] = useState<boolean>(false);
   const [isPlayingTherapeuticVoice, setIsPlayingTherapeuticVoice] = useState<boolean>(false);
+  const [actionNotice, setActionNotice] = useState('');
   const [isLoadingVoice, setIsLoadingVoice] = useState<boolean>(false);
   const [selectedVoiceGender, setSelectedVoiceGender] = useState<'masculina' | 'feminina'>(
     userProfile.preferredVoiceGender || (userProfile.preferredVoice === 'Rachel' ? 'feminina' : 'masculina')
@@ -273,7 +274,7 @@ export default function AnamnesisModal({
       setIsLoadingVoice(false);
     } else {
       setIsLoadingVoice(false);
-      alert("Reprodução de áudio não suportada neste navegador.");
+      setActionNotice('Este navegador não oferece reprodução de voz. Você pode acompanhar o texto deste momento.');
     }
   };
 
@@ -550,6 +551,7 @@ export default function AnamnesisModal({
                           : 'bg-[#B88736] hover:bg-[#B88736] text-white shadow-indigo-600/30'
                       }`}
                       id="btn-play-diagnosis-audio"
+                      aria-label={isLoadingVoice ? "Preparando áudio do resultado" : isPlayingTherapeuticVoice ? "Parar áudio do resultado" : "Ouvir áudio do resultado"}
                     >
                       {isLoadingVoice ? (
                         <Loader2 size={20} className="animate-spin" />
@@ -876,7 +878,7 @@ export default function AnamnesisModal({
                 </div>
 
                 {/* Direct Action Buttons */}
-                <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 pt-2 border-t border-[#E5DAC6]">
+                <div className="ep-assessment-actions flex flex-col sm:flex-row items-stretch sm:items-center gap-2 pt-2 border-t border-[#E5DAC6]">
                   {onOpenSpecificTreatment && (
                     <button
                       type="button"
@@ -920,9 +922,9 @@ export default function AnamnesisModal({
                       type="button"
                       onClick={() => {
                         onApplyFrequency(recommendation.recommendedFrequency);
-                        alert(`Frequência do app definida para ${recommendation.recommendedFrequency.toUpperCase()}!`);
+                        setActionNotice(`Frequência sintonizada em ${recommendation.recommendedFrequency.toUpperCase()}.`);
                       }}
-                      className="py-2.5 px-3 rounded-xl bg-[#F5EFE4] hover:bg-slate-700 text-[#2A2420] font-semibold text-xs flex items-center justify-center gap-1.5 transition cursor-pointer border border-[#E5DAC6]"
+                      className="py-2.5 px-3 rounded-xl bg-[#F5EFE4] hover:bg-[#EFE5CF] text-[#2A2420] font-semibold text-xs flex items-center justify-center gap-1.5 transition cursor-pointer border border-[#E5DAC6]"
                       title="Sintonizar o áudio de fundo do app nesta frequência recomendada"
                     >
                       <Volume2 size={14} className="text-[#B88736]" />
@@ -939,6 +941,8 @@ export default function AnamnesisModal({
               </div>
             )}
 
+            {actionNotice && <p role="status" aria-live="polite" className="rounded-xl border border-[#E5DAC6] bg-[#FAF4E8] px-4 py-3 text-sm text-[#174B37]">{actionNotice}</p>}
+
             {/* Action Bar */}
             <div className="flex flex-wrap items-center justify-between gap-3 pt-3 border-t border-[#E5DAC6] print:hidden">
               <button
@@ -947,7 +951,7 @@ export default function AnamnesisModal({
                   setIsEditing(true);
                   setCurrentStep(1);
                 }}
-                className="px-4 py-2 rounded-xl bg-[#F5EFE4] hover:bg-slate-700 text-[#5C5248] text-xs font-medium flex items-center gap-1.5 transition cursor-pointer"
+                className="px-4 py-2 rounded-xl bg-[#F5EFE4] hover:bg-[#EFE5CF] text-[#5C5248] text-xs font-medium flex items-center gap-1.5 transition cursor-pointer"
               >
                 <Edit3 size={14} />
                 <span>Atualizar / Refazer Ficha</span>
@@ -957,7 +961,7 @@ export default function AnamnesisModal({
                 <button
                   type="button"
                   onClick={() => window.print()}
-                  className="px-4 py-2 rounded-xl bg-[#F5EFE4] hover:bg-slate-700 text-[#5C5248] text-xs font-medium flex items-center gap-1.5 transition cursor-pointer"
+                  className="px-4 py-2 rounded-xl bg-[#F5EFE4] hover:bg-[#EFE5CF] text-[#5C5248] text-xs font-medium flex items-center gap-1.5 transition cursor-pointer"
                 >
                   <Printer size={14} />
                   <span>Imprimir Ficha</span>
@@ -979,7 +983,7 @@ export default function AnamnesisModal({
           /* ========================================================================= */
           <div className="space-y-6">
             {/* Header */}
-            <div className="space-y-1">
+            <div className="ep-assessment-heading space-y-1">
               <div className="flex items-center justify-between">
                 <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#B88736]/10 border border-[#B88736]/30 text-[#B88736] text-xs font-mono font-medium">
                   <Activity size={14} className="text-[#B88736]" />
@@ -1190,7 +1194,7 @@ export default function AnamnesisModal({
                 <p className="text-xs text-[#5C5248]">
                   Marque os centros de força que você intui que precisam de desbloqueio ou equilíbrio:
                 </p>
-                <div className="space-y-2 max-h-72 overflow-y-auto pr-1">
+                <div tabIndex={0} aria-label="Detalhes do Mapa do Momento" className="space-y-2 max-h-72 overflow-y-auto pr-1">
                   {CHAKRAS_LIST.map((chakra) => {
                     const isSel = chakraImbalance.includes(chakra.id);
                     return (
@@ -1301,7 +1305,7 @@ export default function AnamnesisModal({
                 <button
                   type="button"
                   onClick={() => setCurrentStep(currentStep - 1)}
-                  className="px-4 py-2.5 rounded-xl bg-[#F5EFE4] hover:bg-slate-700 text-[#5C5248] text-xs font-medium flex items-center gap-1.5 transition cursor-pointer"
+                  className="px-4 py-2.5 rounded-xl bg-[#F5EFE4] hover:bg-[#EFE5CF] text-[#5C5248] text-xs font-medium flex items-center gap-1.5 transition cursor-pointer"
                 >
                   <ArrowLeft size={14} />
                   <span>Voltar</span>

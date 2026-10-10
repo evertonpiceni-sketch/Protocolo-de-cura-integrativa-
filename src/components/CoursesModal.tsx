@@ -178,7 +178,7 @@ export default function CoursesModal({ isOpen, onClose, userName, userProfile }:
           </div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3.5" role="list" aria-label="Cursos disponíveis">
+        <div className="ep-courses-grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3.5" role="list" aria-label="Cursos disponíveis">
           {COURSES_DATA.map(course => {
             const isSelected = selectedCourse.id === course.id;
             const isRegistered = interestRegistered[course.id];
@@ -211,7 +211,7 @@ export default function CoursesModal({ isOpen, onClose, userName, userProfile }:
                   <p className="text-xs text-[#5C5248] leading-relaxed line-clamp-3">{course.description}</p>
                 </div>
 
-                <div className="pt-3 border-t border-[#E5DAC6] flex items-center justify-between gap-2">
+                <div className="ep-course-actions pt-3 border-t border-[#E5DAC6] flex items-center justify-between gap-2">
                   <span className="text-[10px] font-mono text-[#5C5248] truncate">{course.badge}</span>
                   <button
                     type="button"

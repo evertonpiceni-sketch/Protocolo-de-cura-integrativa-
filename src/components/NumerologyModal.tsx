@@ -140,7 +140,7 @@ export default function NumerologyModal({
           </button>
         </div>
 
-        <div ref={printRef} className="flex-1 min-h-0 overflow-y-auto overscroll-contain space-y-4 pr-1">
+        <div ref={printRef} tabIndex={0} className="flex-1 min-h-0 overflow-y-auto overscroll-contain space-y-4 pr-1">
           {activeTab === 'compact' && (
             <div className="space-y-4" role="tabpanel">
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">

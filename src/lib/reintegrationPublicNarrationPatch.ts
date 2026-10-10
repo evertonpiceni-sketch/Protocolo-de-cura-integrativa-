@@ -10,8 +10,9 @@ import { REINTEGRATION_DAYS } from '../data/reintegrationJourneyPublic';
  * Silence/music is the approved experience in their place; no substitute text
  * is invented here.
  */
-const PRIVATE_PROGRAMMING_CUE_TIMES = new Set([200, 900, 1080, 1170]);
-
+// Filter by private content, never by timestamps: approved public acceptance
+// and daily integration passages now use the same historical cue positions.
+const PRIVATE_PROGRAMMING_TERMS = /\b(?:Golden Light Source|Original Reiki Platinum|Haku Superluminal|HSZSN|Soul Shakti|Rama|Harth|Shanti|Kriya|Zonar|Halu|Gnosa|Iava)\b/i;
 for (const day of REINTEGRATION_DAYS) {
-  day.audioCues = day.audioCues.filter(cue => !PRIVATE_PROGRAMMING_CUE_TIMES.has(cue.at));
+  day.audioCues = day.audioCues.filter(cue => !PRIVATE_PROGRAMMING_TERMS.test(cue.text));
 }

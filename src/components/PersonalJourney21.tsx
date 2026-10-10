@@ -6,7 +6,7 @@ import { ArrowLeft, Check, ChevronLeft, ChevronRight, Headphones, Pause, Play, R
 import { REINTEGRATION_DAYS, getReintegrationAcceptance } from '../data/reintegrationJourneyPublic';
 import { APPROVED_LOGO_DATA_URI } from './ApprovedBrand';
 import { audioEngine } from '../lib/audio';
-import { JourneyDayVisualPreview } from './VideoStudioLightModal';
+import { currentReintegrationCue, isReintegrationAbsorption } from '../lib/reintegrationTiming';
 import { PausaConscienteLight } from './PausaConscienteLight';
 import { AindaHaAlgoEmMimLight } from './AindaHaAlgoEmMimLight';
 
@@ -109,8 +109,12 @@ export default function PersonalJourney21({ onClose, initialCompletedDays, onCom
   };
 
   const playCueForTime = async (currentTime: number) => {
-    if (!playingRef.current || cuePendingRef.current || (voiceRef.current && !voiceRef.current.paused)) return;
-    const dueCue = item.audioCues.findIndex((cue, index) => index > lastCueRef.current && cue.at <= currentTime + 0.5);
+    if (playingRef.current && isReintegrationAbsorption(currentTime)) {
+      if (cuePendingRef.current || voiceRef.current || nativeUtteranceRef.current) clearVoice();
+      return;
+    }
+    if (!playingRef.current || cuePendingRef.current || nativeUtteranceRef.current || (voiceRef.current && !voiceRef.current.paused)) return;
+    const dueCue = currentReintegrationCue(item.audioCues, currentTime, lastCueRef.current);
     if (dueCue < 0 || dueCue <= lastCueRef.current) return;
     const cue = item.audioCues[dueCue];
 
@@ -124,7 +128,7 @@ export default function PersonalJourney21({ onClose, initialCompletedDays, onCom
       });
       if (!response.ok || !response.headers.get('content-type')?.includes('audio')) throw new Error(`voice ${response.status}`);
       const blob = await response.blob();
-      if (!playingRef.current) return;
+      if (!playingRef.current || controller.signal.aborted || currentReintegrationCue(item.audioCues, musicRef.current?.currentTime || 0, lastCueRef.current) !== dueCue) return;
       if (voiceUrlRef.current) URL.revokeObjectURL(voiceUrlRef.current);
       const url = URL.createObjectURL(blob); voiceUrlRef.current = url;
       const voice = new Audio(url); voice.preload = 'auto'; voice.volume = 1; voiceRef.current = voice;
@@ -136,7 +140,7 @@ export default function PersonalJourney21({ onClose, initialCompletedDays, onCom
       voice.onerror = () => { cuePendingRef.current = false; };
       await voice.play(); lastCueRef.current = dueCue;
     } catch (error: any) {
-      if (error?.name !== 'AbortError') {
+      if (error?.name !== 'AbortError' && !controller.signal.aborted && currentReintegrationCue(item.audioCues, musicRef.current?.currentTime || 0, lastCueRef.current) === dueCue) {
         console.warn('Reintegração: condução neural indisponível; usando voz do dispositivo.', error);
         speakCueNatively(cue.text, dueCue);
       }
@@ -181,20 +185,20 @@ export default function PersonalJourney21({ onClose, initialCompletedDays, onCom
   const startGuidedMeditation = async () => {
     if (!accepted) return;
     // Defensive guard against global audio being reactivated by the same click/touch gesture.
-    audioEngine.stopSpeech();
     audioEngine.stopBG();
     if (playing) {
       voiceRef.current?.pause();
       if (typeof window !== 'undefined' && 'speechSynthesis' in window) window.speechSynthesis.pause();
       musicRef.current?.pause(); playingRef.current = false; setPlaying(false); return;
     }
-    if (started && audioProgress > 0 && audioProgress < 99) {
+    if (started && audioProgress < 100) {
       playingRef.current = true; setPlaying(true);
       await musicRef.current?.play().catch(() => undefined);
       if (voiceRef.current?.paused) await voiceRef.current.play().catch(() => undefined);
       if (typeof window !== 'undefined' && 'speechSynthesis' in window && window.speechSynthesis.paused) window.speechSynthesis.resume();
       await requestWakeLock(); void playCueForTime(musicRef.current?.currentTime || 0); return;
     }
+    audioEngine.stopSpeech();
     setStarted(true); clearVoice(); lastCueRef.current = -1;
     playingRef.current = true; setPlaying(true);
     if (musicRef.current) { musicRef.current.volume = 0.22; musicRef.current.currentTime = 0; }
@@ -206,7 +210,8 @@ export default function PersonalJourney21({ onClose, initialCompletedDays, onCom
   const rewindMeditation = () => {
     const music = musicRef.current; if (!music) return;
     const target = Math.max(0, music.currentTime - 15); clearVoice(); music.currentTime = target;
-    lastCueRef.current = item.audioCues.reduce((last, cue, index) => cue.at < target ? index : last, -1); void playCueForTime(target);
+    const currentCue = item.audioCues.reduce((last, cue, index) => cue.at <= target + .5 ? index : last, -1);
+    lastCueRef.current = currentCue - 1; void playCueForTime(target);
   };
 
   const complete = () => {
@@ -244,7 +249,7 @@ export default function PersonalJourney21({ onClose, initialCompletedDays, onCom
               <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(226,185,107,.18),transparent_42%)]" />
               <div className="relative z-10 flex w-full flex-col items-center">
                 <div className="relative mb-8 w-full max-w-sm">
-                  {day === 1 ? <ReintegrationPresenceVisual elapsedSeconds={elapsedSeconds} /> : <JourneyDayVisualPreview day={day} />}
+                  <ReintegrationPresenceVisual day={day} elapsedSeconds={elapsedSeconds} />
                 </div>
                 <div className="w-full max-w-sm rounded-2xl border border-[#E5DAC6] bg-white/85 p-4 text-center shadow-sm backdrop-blur-md">
                   <p className="text-xs font-semibold uppercase tracking-[.18em] text-[#B88736]">{playing?'Meditação guiada em andamento':'Sua meditação guiada'}</p>
@@ -278,7 +283,7 @@ export default function PersonalJourney21({ onClose, initialCompletedDays, onCom
       <button onClick={()=>{stopSession();setStarted(false);}} className="absolute right-4 top-[max(1rem,env(safe-area-inset-top))] z-20 rounded-full border border-[#E5DAC6] bg-white/80 p-3 text-[#524842] shadow-sm backdrop-blur-md" aria-label="Fechar meditação"><X size={22}/></button>
       <div className="relative z-10 flex flex-1 items-center justify-center">
         <div className="relative w-[82vw] max-w-[430px]">
-          {day === 1 ? <ReintegrationPresenceVisual elapsedSeconds={elapsedSeconds} /> : <JourneyDayVisualPreview day={day} />}
+          <ReintegrationPresenceVisual day={day} elapsedSeconds={elapsedSeconds} />
         </div>
       </div>
       <div className="relative z-10 space-y-4 bg-gradient-to-t from-[#F8F4EC] via-[#F8F4EC]/96 to-transparent px-6 pb-[max(1.5rem,env(safe-area-inset-bottom))] pt-12 text-center">

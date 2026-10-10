@@ -1,3 +1,4 @@
+import { Leaf } from 'lucide-react';
 import React, { Component, ErrorInfo, ReactNode } from 'react';
 
 interface Props {
@@ -50,7 +51,7 @@ export class ErrorBoundary extends React.Component<Props, State> {
             justifyContent: 'center',
             marginBottom: '16px'
           }}>
-            <span style={{ fontSize: '24px' }}>✨</span>
+            <Leaf size={24} color="#174B37" aria-hidden="true" />
           </div>
           <h2 style={{ margin: '0 0 8px 0', fontSize: '20px', fontWeight: 600, color: '#2A2420' }}>
             Estamos reconectando seu espaço

@@ -1,6 +1,5 @@
 import { audioEngine } from './audio';
 import { solfeggioTone } from './solfeggioTone';
-import { normalizeSpeechElapsedTime } from '../utils/protocolPlayback';
 
 /**
  * Compatibility layer for the current protocol player.
@@ -17,24 +16,8 @@ const SOLFEGGIO_PATTERN = /^(396|417|432|528|639|741|852|963)hz$/i;
 if (!engine.__naturalSerenoAudioIntegrityPatch) {
   engine.__naturalSerenoAudioIntegrityPatch = true;
 
-  const originalPlayProtocolStageStream = engine.playProtocolStageStream.bind(engine);
-  engine.playProtocolStageStream = (options: any) => {
-    const originalProgress = options?.onProgress;
-    return originalPlayProtocolStageStream({
-      ...options,
-      onProgress: (current: number, duration: number) => {
-        if (!originalProgress) return;
-        if (Number.isFinite(duration) && duration > 0) {
-          originalProgress(current, duration);
-          return;
-        }
-        const seconds = normalizeSpeechElapsedTime(current);
-        // MeditationSession still expects legacy ms only in its unknown-duration
-        // branch. Preserve that internal contract after normalizing the browser.
-        originalProgress(seconds * 1000, 0);
-      }
-    });
-  };
+  // Native speech progress is already normalized to seconds in audio.ts.
+  // Preserve that contract instead of wrapping it back into milliseconds.
 
   const originalStartBG = engine.startBG.bind(engine);
   const originalStopBG = engine.stopBG.bind(engine);

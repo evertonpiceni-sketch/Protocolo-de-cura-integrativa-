@@ -15,6 +15,7 @@ interface SecondaryScriptDrawerProps {
   userName: string;
   language?: AppLanguage;
   customDecree?: string;
+  getStageContext?: (stageId: ProtocolStage) => string;
 }
 
 export const SecondaryScriptDrawer: React.FC<SecondaryScriptDrawerProps> = ({
@@ -24,7 +25,8 @@ export const SecondaryScriptDrawer: React.FC<SecondaryScriptDrawerProps> = ({
   currentStageId,
   userName,
   language = 'pt',
-  customDecree = ''
+  customDecree = '',
+  getStageContext
 }: SecondaryScriptDrawerProps) => {
   const dialogRef = React.useRef<HTMLDivElement | null>(null);
   useDialogFocus(isOpen, dialogRef, onClose);
@@ -88,9 +90,11 @@ export const SecondaryScriptDrawer: React.FC<SecondaryScriptDrawerProps> = ({
                 const legacyText = (scriptData.fullText || scriptData.text || '')
                   .replace(/\{userName\}/g, displayName)
                   .replace(/\[NOME\]/g, displayName);
-                const cleanScriptText = document.documentElement.dataset.layout === 'natural-sereno'
+                const baseScriptText = document.documentElement.dataset.layout === 'natural-sereno'
                   ? resolveProtocolScript(stg.id, language, userName, stg.text, customDecree).readingText
                   : legacyText;
+                const dayContext = getStageContext?.(stg.id);
+                const cleanScriptText = dayContext ? `${dayContext}\n\n${baseScriptText}` : baseScriptText;
 
                 return (
                   <div

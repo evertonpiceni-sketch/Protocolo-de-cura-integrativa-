@@ -1,0 +1,1071 @@
+[
+  {
+    "screen": "settings-final",
+    "text": "TERAPIAS HOLÍSTICAS E BEM-ESTAR\nProtocolo da Transformação\nMEMBRO PRO\nSom\nArcanjo\nPortuguês\nEnglish\nEspañol\nFrançais\nItaliano\nDeutsch\nApp\nSair\nAjustes da Prática\nAparência\n\nEscolha uma das quatro atmosferas oficiais. Conteúdo, jornada, progresso e recursos permanecem os mesmos.\n\nNatural Sereno\n\nNatureza, profundidade orgânica, dourado suave e presença acolhedora.\n\nElegância Profunda\n\nSofisticação, contraste refinado e presença contemplativa.\n\nEssência Luminosa\n\nLeveza, luz, respiro e delicadeza visual.\n\nMístico Moderno\n\nEspiritualidade contemporânea com acabamento limpo e simbologia sutil.\n\nSTATUS DA CONTA: MEMBRO PRO VIP\nATIVO ANUAL\n\nVocê possui acesso anual a todas as Frequências Sagradas (963Hz/741Hz), vozes neurais humanizadas, download dos áudios e emissão do certificado nominal.\n\nVer Certificado & Relatório\nDADOS DO USUÁRIO\nNOME COMPLETO\nMaria\nLOGIN\n@local\nE-MAIL\naudit@example.test\nNASCIMENTO\nNão informado\nMapa Astral & Energético Quântico\nVer Mapa Astral Completo\nLEMBRETE DIÁRIO DA PRÁTICA\n\nReceber notificação inspiradora\n\nAvisaremos você no horário da sua meditação diária.\n\nAtivar Lembrete\nFICHA DE ANAMNESE & PRESCRIÇÃO ENERGÉTICA\nPendente\n\nResponda à anamnese para organizar seu Mapa do Momento e receber caminhos de cuidado coerentes com o que você compartilhou.\n\nPreencher Ficha de Anamnese\nVOZ NEURAL & HUMANIZAÇÃO DE LEITURA\nPausas Naturais\nVOZ DE CONDUÇÃO (VOZ PADRÃO DO SISTEMA)\nAutomático: Melhor Voz Português (Neural/Acolhedora)\nCADÊNCIA DA FALA (COMPASSADA PARA MEDITAÇÃO)\n0.82x\nMais Calma\nMais Rápida\n\n* O algoritmo adiciona micropausas em vírgulas e pontos para respirar naturalmente.\n\nTestar Voz\nFREQUÊNCIA PADRÃO DE FUNDO\n528Hz • Paz & Transformação\nPiano e Harmônicos Celestes\n432Hz • Paz Natural\nRessonância com a Terra\n639Hz • Amor & Relacionamentos\nHarmonia e Abertura do Coração\n417Hz • Renovação & Desapego\nDissolução de Traumas e Apego\nPRO\n852Hz • Despertar da Intuição\nRetorno à Ordem Espiritual\nPRO\n963Hz • Silêncio & Conexão\nConexão Superior & Luz Divina\nPRO\n741Hz • Clareza & Renovação\nClareza & Desbloqueio Simbólico\nFloresta Zen\nCanto Suave de Pássaros & Águas Claras\nChuva Serena\nGotas Relaxantes para Sono Profundo\nSinos & Brisa Tibetana\nAtmosfera de Templo Sagrado\nSem Música de Fundo\nApenas a Voz Canalizada do Protocolo\nCustomização do Protocolo\nFOCO DE CURA (INTENÇÃO DIRECIONADA)\n\nSelecione as intenções que deseja reforçar durante as sessões do protocolo.\n\nAnsiedade\nAutoconfiança\nPerdão\nProsperidade\nSono Profundo\nDisposição\nDURAÇÃO DAS PAUSAS SILENCIOSAS\n\nAjuste o tempo de silêncio (em segundos) entre as etapas guiadas de cada sessão para reflexão e absorção.\n\n0s\n5s\n10s\n15s\n20s\n30s\nMÚSICA DE FUNDO GLOBAL\n\nAtive ou pause a reprodução contínua da trilha de cura.\n\nPausada\nVOLUME DA MÚSICA DE FUNDO\n50%\nIdioma das Meditações e Tradução\n\nSelecione o idioma para as meditações guiadas, textos e síntese de voz.\n\nPortuguês\nEnglish\nEspañol\nFrançais\nItaliano\nDeutsch\nFale Conosco\n\nTire dúvidas sobre o protocolo ou peça amparo energético com o terapeuta.\n\nFale Conosco\nTratamento Específico Individual (7 Dias / 21 Dias por R$ 59,90)\n\nCanalização energética personalizada de 7 ou 21 dias para sua queixa ou dor física específica.\n\nSolicitar Novo\nFERRAMENTAS & ACESSO ESPECIAL\nDashboard de Progresso Analítico\nMeus Emblemas & Conquistas\nVer conquistas\nPerguntas Sistêmicas (21 Dias)\nReflexões\nDiário de Reconexão\nAjustes de Áudio & Frequências\nOração do Arcanjo Miguel (21d)\nAcesso livre\nCursos & Formações Energéticas\nEstúdio de Vídeos & Vinhetas\nExportar HD\nEncerrar Sessão\n\nDesconecte sua conta com segurança para trocar de usuário ou entrar mais tarde.\n\nSair da Conta\nReiniciar jornada\n\nSe você deseja recomeçar a jornada de 21 dias do início, esta ação apaga o progresso e as anotações vinculadas a esse ciclo.\n\nReiniciar jornada de 21 dias\n\nO Protocolo da Transformação é canalizado energeticamente por Éverton Rodrigo Piceni, respeitando o tempo e a jornada de cada pessoa.\n\nEU SOU LIVRE • EU SOU CURA • EU ESTOU EM PAZ\nFale Conosco",
+    "buttons": [
+      {
+        "tag": "BUTTON",
+        "text": "MEMBRO PROPRO",
+        "label": "Abrir Certificado e Relatório Quântico",
+        "disabled": false,
+        "rect": {
+          "x": 660.96875,
+          "y": 19,
+          "width": 111.015625,
+          "height": 30,
+          "top": 19,
+          "right": 771.984375,
+          "bottom": 49,
+          "left": 660.96875
+        },
+        "color": "rgb(7, 59, 43)",
+        "bg": "rgba(0, 0, 0, 0)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "",
+        "label": "Ativar trilha de cura",
+        "disabled": false,
+        "rect": {
+          "x": 781.984375,
+          "y": 18,
+          "width": 32,
+          "height": 32,
+          "top": 18,
+          "right": 813.984375,
+          "bottom": 50,
+          "left": 781.984375
+        },
+        "color": "rgb(7, 59, 43)",
+        "bg": "rgba(255, 250, 231, 0.93)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Som",
+        "label": "Ajustar sons, frequências e sintonização bioativa",
+        "disabled": false,
+        "rect": {
+          "x": 817.984375,
+          "y": 19,
+          "width": 60.671875,
+          "height": 30,
+          "top": 19,
+          "right": 878.65625,
+          "bottom": 49,
+          "left": 817.984375
+        },
+        "color": "rgb(7, 59, 43)",
+        "bg": "rgba(255, 250, 231, 0.93)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Arcanjo",
+        "label": "Oração de 21 Dias do Arcanjo Miguel (Gratuito)",
+        "disabled": false,
+        "rect": {
+          "x": 888.65625,
+          "y": 19,
+          "width": 85.265625,
+          "height": 30,
+          "top": 19,
+          "right": 973.921875,
+          "bottom": 49,
+          "left": 888.65625
+        },
+        "color": "rgb(7, 59, 43)",
+        "bg": "rgba(255, 250, 231, 0.93)"
+      },
+      {
+        "tag": "SELECT",
+        "text": "PortuguêsEnglishEspañolFrançaisItalianoDeutsch",
+        "label": "Mudar idioma do aplicativo e do áudio",
+        "disabled": false,
+        "rect": {
+          "x": 1011.921875,
+          "y": 26,
+          "width": 84,
+          "height": 16,
+          "top": 26,
+          "right": 1095.921875,
+          "bottom": 42,
+          "left": 1011.921875
+        },
+        "color": "rgb(7, 59, 43)",
+        "bg": "rgba(255, 250, 231, 0.93)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "App",
+        "label": "Instalar aplicativo oficial no seu celular Android / Google Play",
+        "disabled": false,
+        "rect": {
+          "x": 1114.921875,
+          "y": 19,
+          "width": 62.609375,
+          "height": 30,
+          "top": 19,
+          "right": 1177.53125,
+          "bottom": 49,
+          "left": 1114.921875
+        },
+        "color": "rgb(7, 59, 43)",
+        "bg": "rgba(255, 250, 231, 0.93)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Sair",
+        "label": "Sair da conta",
+        "disabled": false,
+        "rect": {
+          "x": 1187.53125,
+          "y": 18,
+          "width": 70.96875,
+          "height": 32,
+          "top": 18,
+          "right": 1258.5,
+          "bottom": 50,
+          "left": 1187.53125
+        },
+        "color": "rgb(7, 59, 43)",
+        "bg": "rgba(255, 250, 231, 0.93)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "",
+        "label": "Voltar das configurações",
+        "disabled": false,
+        "rect": {
+          "x": 970.5,
+          "y": -216,
+          "width": 32,
+          "height": 32,
+          "top": -216,
+          "right": 1002.5,
+          "bottom": -184,
+          "left": 970.5
+        },
+        "color": "rgb(88, 100, 84)",
+        "bg": "rgba(0, 0, 0, 0)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Natural SerenoNatureza, profundidade orgânica, dourado suave e presença acolhedora.",
+        "label": null,
+        "disabled": false,
+        "rect": {
+          "x": 387.5,
+          "y": -47,
+          "width": 289,
+          "height": 97.75,
+          "top": -47,
+          "right": 676.5,
+          "bottom": 50.75,
+          "left": 387.5
+        },
+        "color": "rgb(97, 73, 30)",
+        "bg": "color(srgb 0.971115 0.954012 0.922846 / 0.928627)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Elegância ProfundaSofisticação, contraste refinado e presença contemplativa.",
+        "label": null,
+        "disabled": false,
+        "rect": {
+          "x": 688.5,
+          "y": -47,
+          "width": 289,
+          "height": 97.75,
+          "top": -47,
+          "right": 977.5,
+          "bottom": 50.75,
+          "left": 688.5
+        },
+        "color": "rgb(32, 45, 36)",
+        "bg": "rgba(255, 255, 255, 0.92)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Essência LuminosaLeveza, luz, respiro e delicadeza visual.",
+        "label": null,
+        "disabled": false,
+        "rect": {
+          "x": 387.5,
+          "y": 62.75,
+          "width": 289,
+          "height": 97.75,
+          "top": 62.75,
+          "right": 676.5,
+          "bottom": 160.5,
+          "left": 387.5
+        },
+        "color": "rgb(32, 45, 36)",
+        "bg": "rgba(255, 255, 255, 0.92)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Místico ModernoEspiritualidade contemporânea com acabamento limpo e simbologia sutil.",
+        "label": null,
+        "disabled": false,
+        "rect": {
+          "x": 688.5,
+          "y": 62.75,
+          "width": 289,
+          "height": 97.75,
+          "top": 62.75,
+          "right": 977.5,
+          "bottom": 160.5,
+          "left": 688.5
+        },
+        "color": "rgb(32, 45, 36)",
+        "bg": "rgba(255, 255, 255, 0.92)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Ver Certificado & Relatório",
+        "label": null,
+        "disabled": false,
+        "rect": {
+          "x": 408.5,
+          "y": 322.5,
+          "width": 201.640625,
+          "height": 34,
+          "top": 322.5,
+          "right": 610.140625,
+          "bottom": 356.5,
+          "left": 408.5
+        },
+        "color": "rgb(113, 81, 28)",
+        "bg": "oklab(0.769 0.0640531 0.176752 / 0.1)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Ver Mapa Astral Completo",
+        "label": null,
+        "disabled": false,
+        "rect": {
+          "x": 764.8125,
+          "y": 579,
+          "width": 195.6875,
+          "height": 30,
+          "top": 579,
+          "right": 960.5,
+          "bottom": 609,
+          "left": 764.8125
+        },
+        "color": "rgb(7, 59, 43)",
+        "bg": "rgb(255, 250, 240)"
+      },
+      {
+        "tag": "INPUT",
+        "text": "",
+        "label": "Horário do lembrete",
+        "disabled": false,
+        "rect": {
+          "x": 721.796875,
+          "y": 695.15625,
+          "width": 124.6875,
+          "height": 34.6875,
+          "top": 695.15625,
+          "right": 846.484375,
+          "bottom": 729.84375,
+          "left": 721.796875
+        },
+        "color": "rgb(32, 45, 36)",
+        "bg": "rgb(250, 246, 240)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Ativar Lembrete",
+        "label": null,
+        "disabled": false,
+        "rect": {
+          "x": 858.484375,
+          "y": 698,
+          "width": 102.015625,
+          "height": 29,
+          "top": 698,
+          "right": 960.5,
+          "bottom": 727,
+          "left": 858.484375
+        },
+        "color": "rgb(7, 59, 43)",
+        "bg": "rgb(255, 250, 240)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Preencher Ficha de Anamnese",
+        "label": null,
+        "disabled": false,
+        "rect": {
+          "x": 404.5,
+          "y": 872,
+          "width": 231.359375,
+          "height": 38,
+          "top": 872,
+          "right": 635.859375,
+          "bottom": 910,
+          "left": 404.5
+        },
+        "color": "rgb(7, 59, 43)",
+        "bg": "rgb(255, 250, 240)"
+      },
+      {
+        "tag": "SELECT",
+        "text": "Automático: Melhor Voz Português (Neural/Acolhedora)",
+        "label": "Voz de condução",
+        "disabled": false,
+        "rect": {
+          "x": 404.5,
+          "y": 1025,
+          "width": 556,
+          "height": 35,
+          "top": 1025,
+          "right": 960.5,
+          "bottom": 1060,
+          "left": 404.5
+        },
+        "color": "rgb(32, 45, 36)",
+        "bg": "rgb(250, 246, 240)"
+      },
+      {
+        "tag": "INPUT",
+        "text": "",
+        "label": "Velocidade da voz",
+        "disabled": false,
+        "rect": {
+          "x": 471.390625,
+          "y": 1102.5,
+          "width": 419.65625,
+          "height": 6,
+          "top": 1102.5,
+          "right": 891.046875,
+          "bottom": 1108.5,
+          "left": 471.390625
+        },
+        "color": "rgb(32, 45, 36)",
+        "bg": "rgb(250, 246, 240)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Testar Voz",
+        "label": null,
+        "disabled": false,
+        "rect": {
+          "x": 854.671875,
+          "y": 1133,
+          "width": 105.828125,
+          "height": 30,
+          "top": 1133,
+          "right": 960.5,
+          "bottom": 1163,
+          "left": 854.671875
+        },
+        "color": "rgb(7, 59, 43)",
+        "bg": "rgb(255, 250, 240)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "528Hz • Paz & TransformaçãoPiano e Harmônicos Celestes",
+        "label": null,
+        "disabled": false,
+        "rect": {
+          "x": 387.5,
+          "y": 1232,
+          "width": 289,
+          "height": 63,
+          "top": 1232,
+          "right": 676.5,
+          "bottom": 1295,
+          "left": 387.5
+        },
+        "color": "rgb(92, 106, 96)",
+        "bg": "rgba(255, 255, 255, 0.92)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "432Hz • Paz NaturalRessonância com a Terra",
+        "label": null,
+        "disabled": false,
+        "rect": {
+          "x": 688.5,
+          "y": 1232,
+          "width": 289,
+          "height": 63,
+          "top": 1232,
+          "right": 977.5,
+          "bottom": 1295,
+          "left": 688.5
+        },
+        "color": "rgb(92, 106, 96)",
+        "bg": "rgba(255, 255, 255, 0.92)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "639Hz • Amor & RelacionamentosHarmonia e Abertura do Coração",
+        "label": null,
+        "disabled": false,
+        "rect": {
+          "x": 387.5,
+          "y": 1307,
+          "width": 289,
+          "height": 63,
+          "top": 1307,
+          "right": 676.5,
+          "bottom": 1370,
+          "left": 387.5
+        },
+        "color": "rgb(92, 106, 96)",
+        "bg": "rgba(255, 255, 255, 0.92)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "417Hz • Renovação & DesapegoDissolução de Traumas e Apego",
+        "label": null,
+        "disabled": false,
+        "rect": {
+          "x": 688.5,
+          "y": 1307,
+          "width": 289,
+          "height": 63,
+          "top": 1307,
+          "right": 977.5,
+          "bottom": 1370,
+          "left": 688.5
+        },
+        "color": "rgb(92, 106, 96)",
+        "bg": "rgba(255, 255, 255, 0.92)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "PRO852Hz • Despertar da IntuiçãoRetorno à Ordem Espiritual",
+        "label": null,
+        "disabled": false,
+        "rect": {
+          "x": 387.5,
+          "y": 1382,
+          "width": 289,
+          "height": 63,
+          "top": 1382,
+          "right": 676.5,
+          "bottom": 1445,
+          "left": 387.5
+        },
+        "color": "rgb(92, 106, 96)",
+        "bg": "rgba(255, 255, 255, 0.92)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "PRO963Hz • Silêncio & ConexãoConexão Superior & Luz Divina",
+        "label": null,
+        "disabled": false,
+        "rect": {
+          "x": 688.5,
+          "y": 1382,
+          "width": 289,
+          "height": 63,
+          "top": 1382,
+          "right": 977.5,
+          "bottom": 1445,
+          "left": 688.5
+        },
+        "color": "rgb(92, 106, 96)",
+        "bg": "rgba(255, 255, 255, 0.92)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "PRO741Hz • Clareza & RenovaçãoClareza & Desbloqueio Simbólico",
+        "label": null,
+        "disabled": false,
+        "rect": {
+          "x": 387.5,
+          "y": 1457,
+          "width": 289,
+          "height": 63,
+          "top": 1457,
+          "right": 676.5,
+          "bottom": 1520,
+          "left": 387.5
+        },
+        "color": "rgb(92, 106, 96)",
+        "bg": "rgba(255, 255, 255, 0.92)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Floresta ZenCanto Suave de Pássaros & Águas Claras",
+        "label": null,
+        "disabled": false,
+        "rect": {
+          "x": 688.5,
+          "y": 1457,
+          "width": 289,
+          "height": 63,
+          "top": 1457,
+          "right": 977.5,
+          "bottom": 1520,
+          "left": 688.5
+        },
+        "color": "rgb(92, 106, 96)",
+        "bg": "rgba(255, 255, 255, 0.92)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Chuva SerenaGotas Relaxantes para Sono Profundo",
+        "label": null,
+        "disabled": false,
+        "rect": {
+          "x": 387.5,
+          "y": 1532,
+          "width": 289,
+          "height": 63,
+          "top": 1532,
+          "right": 676.5,
+          "bottom": 1595,
+          "left": 387.5
+        },
+        "color": "rgb(92, 106, 96)",
+        "bg": "rgba(255, 255, 255, 0.92)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Sinos & Brisa TibetanaAtmosfera de Templo Sagrado",
+        "label": null,
+        "disabled": false,
+        "rect": {
+          "x": 688.5,
+          "y": 1532,
+          "width": 289,
+          "height": 63,
+          "top": 1532,
+          "right": 977.5,
+          "bottom": 1595,
+          "left": 688.5
+        },
+        "color": "rgb(92, 106, 96)",
+        "bg": "rgba(255, 255, 255, 0.92)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Sem Música de FundoApenas a Voz Canalizada do Protocolo",
+        "label": null,
+        "disabled": false,
+        "rect": {
+          "x": 387.5,
+          "y": 1607,
+          "width": 289,
+          "height": 63,
+          "top": 1607,
+          "right": 676.5,
+          "bottom": 1670,
+          "left": 387.5
+        },
+        "color": "rgb(92, 106, 96)",
+        "bg": "rgba(255, 255, 255, 0.92)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Ansiedade",
+        "label": null,
+        "disabled": false,
+        "rect": {
+          "x": 387.5,
+          "y": 1806,
+          "width": 86.96875,
+          "height": 30,
+          "top": 1806,
+          "right": 474.46875,
+          "bottom": 1836,
+          "left": 387.5
+        },
+        "color": "rgb(92, 106, 96)",
+        "bg": "rgba(255, 255, 255, 0.92)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Autoconfiança",
+        "label": null,
+        "disabled": false,
+        "rect": {
+          "x": 482.46875,
+          "y": 1806,
+          "width": 109.84375,
+          "height": 30,
+          "top": 1806,
+          "right": 592.3125,
+          "bottom": 1836,
+          "left": 482.46875
+        },
+        "color": "rgb(92, 106, 96)",
+        "bg": "rgba(255, 255, 255, 0.92)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Perdão",
+        "label": null,
+        "disabled": false,
+        "rect": {
+          "x": 600.3125,
+          "y": 1806,
+          "width": 66.5625,
+          "height": 30,
+          "top": 1806,
+          "right": 666.875,
+          "bottom": 1836,
+          "left": 600.3125
+        },
+        "color": "rgb(92, 106, 96)",
+        "bg": "rgba(255, 255, 255, 0.92)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Prosperidade",
+        "label": null,
+        "disabled": false,
+        "rect": {
+          "x": 674.875,
+          "y": 1806,
+          "width": 102.75,
+          "height": 30,
+          "top": 1806,
+          "right": 777.625,
+          "bottom": 1836,
+          "left": 674.875
+        },
+        "color": "rgb(92, 106, 96)",
+        "bg": "rgba(255, 255, 255, 0.92)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Sono Profundo",
+        "label": null,
+        "disabled": false,
+        "rect": {
+          "x": 785.625,
+          "y": 1806,
+          "width": 111.6875,
+          "height": 30,
+          "top": 1806,
+          "right": 897.3125,
+          "bottom": 1836,
+          "left": 785.625
+        },
+        "color": "rgb(92, 106, 96)",
+        "bg": "rgba(255, 255, 255, 0.92)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Disposição",
+        "label": null,
+        "disabled": false,
+        "rect": {
+          "x": 387.5,
+          "y": 1844,
+          "width": 89.40625,
+          "height": 30,
+          "top": 1844,
+          "right": 476.90625,
+          "bottom": 1874,
+          "left": 387.5
+        },
+        "color": "rgb(92, 106, 96)",
+        "bg": "rgba(255, 255, 255, 0.92)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "0s",
+        "label": null,
+        "disabled": false,
+        "rect": {
+          "x": 387.5,
+          "y": 1949,
+          "width": 91.65625,
+          "height": 30,
+          "top": 1949,
+          "right": 479.15625,
+          "bottom": 1979,
+          "left": 387.5
+        },
+        "color": "rgb(92, 106, 96)",
+        "bg": "rgba(255, 255, 255, 0.92)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "5s",
+        "label": null,
+        "disabled": false,
+        "rect": {
+          "x": 487.15625,
+          "y": 1949,
+          "width": 91.671875,
+          "height": 30,
+          "top": 1949,
+          "right": 578.828125,
+          "bottom": 1979,
+          "left": 487.15625
+        },
+        "color": "rgb(7, 59, 43)",
+        "bg": "rgb(255, 250, 240)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "10s",
+        "label": null,
+        "disabled": false,
+        "rect": {
+          "x": 586.828125,
+          "y": 1949,
+          "width": 91.65625,
+          "height": 30,
+          "top": 1949,
+          "right": 678.484375,
+          "bottom": 1979,
+          "left": 586.828125
+        },
+        "color": "rgb(92, 106, 96)",
+        "bg": "rgba(255, 255, 255, 0.92)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "15s",
+        "label": null,
+        "disabled": false,
+        "rect": {
+          "x": 686.484375,
+          "y": 1949,
+          "width": 91.671875,
+          "height": 30,
+          "top": 1949,
+          "right": 778.15625,
+          "bottom": 1979,
+          "left": 686.484375
+        },
+        "color": "rgb(92, 106, 96)",
+        "bg": "rgba(255, 255, 255, 0.92)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "20s",
+        "label": null,
+        "disabled": false,
+        "rect": {
+          "x": 786.15625,
+          "y": 1949,
+          "width": 91.671875,
+          "height": 30,
+          "top": 1949,
+          "right": 877.828125,
+          "bottom": 1979,
+          "left": 786.15625
+        },
+        "color": "rgb(92, 106, 96)",
+        "bg": "rgba(255, 255, 255, 0.92)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "30s",
+        "label": null,
+        "disabled": false,
+        "rect": {
+          "x": 885.828125,
+          "y": 1949,
+          "width": 91.671875,
+          "height": 30,
+          "top": 1949,
+          "right": 977.5,
+          "bottom": 1979,
+          "left": 885.828125
+        },
+        "color": "rgb(92, 106, 96)",
+        "bg": "rgba(255, 255, 255, 0.92)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Pausada",
+        "label": null,
+        "disabled": false,
+        "rect": {
+          "x": 894.296875,
+          "y": 2020,
+          "width": 83.203125,
+          "height": 34,
+          "top": 2020,
+          "right": 977.5,
+          "bottom": 2054,
+          "left": 894.296875
+        },
+        "color": "rgb(92, 106, 96)",
+        "bg": "rgba(255, 255, 255, 0.92)"
+      },
+      {
+        "tag": "INPUT",
+        "text": "",
+        "label": "Volume da música de fundo",
+        "disabled": false,
+        "rect": {
+          "x": 414.5,
+          "y": 2098.5,
+          "width": 536,
+          "height": 6,
+          "top": 2098.5,
+          "right": 950.5,
+          "bottom": 2104.5,
+          "left": 414.5
+        },
+        "color": "rgb(32, 45, 36)",
+        "bg": "rgba(255, 255, 255, 0.92)"
+      },
+      {
+        "tag": "SELECT",
+        "text": "PortuguêsEnglishEspañolFrançaisItalianoDeutsch",
+        "label": "Idioma das meditações",
+        "disabled": false,
+        "rect": {
+          "x": 866.5,
+          "y": 2159,
+          "width": 111,
+          "height": 36,
+          "top": 2159,
+          "right": 977.5,
+          "bottom": 2195,
+          "left": 866.5
+        },
+        "color": "rgb(92, 106, 96)",
+        "bg": "rgba(255, 255, 255, 0.92)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Fale Conosco",
+        "label": null,
+        "disabled": false,
+        "rect": {
+          "x": 850.828125,
+          "y": 2248,
+          "width": 126.671875,
+          "height": 32,
+          "top": 2248,
+          "right": 977.5,
+          "bottom": 2280,
+          "left": 850.828125
+        },
+        "color": "rgb(7, 59, 43)",
+        "bg": "rgb(7, 59, 43)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Solicitar Novo",
+        "label": null,
+        "disabled": false,
+        "rect": {
+          "x": 872.671875,
+          "y": 2345,
+          "width": 104.828125,
+          "height": 28,
+          "top": 2345,
+          "right": 977.5,
+          "bottom": 2373,
+          "left": 872.671875
+        },
+        "color": "rgb(7, 59, 43)",
+        "bg": "rgb(7, 59, 43)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Dashboard de Progresso Analítico",
+        "label": null,
+        "disabled": false,
+        "rect": {
+          "x": 387.5,
+          "y": 2463,
+          "width": 290,
+          "height": 58,
+          "top": 2463,
+          "right": 677.5,
+          "bottom": 2521,
+          "left": 387.5
+        },
+        "color": "rgb(32, 45, 36)",
+        "bg": "rgba(255, 255, 255, 0.92)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Meus Emblemas & ConquistasVer conquistas",
+        "label": null,
+        "disabled": false,
+        "rect": {
+          "x": 687.5,
+          "y": 2463,
+          "width": 290,
+          "height": 58,
+          "top": 2463,
+          "right": 977.5,
+          "bottom": 2521,
+          "left": 687.5
+        },
+        "color": "rgb(92, 106, 96)",
+        "bg": "rgba(255, 255, 255, 0.92)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Perguntas Sistêmicas (21 Dias)Reflexões",
+        "label": null,
+        "disabled": false,
+        "rect": {
+          "x": 387.5,
+          "y": 2531,
+          "width": 290,
+          "height": 42,
+          "top": 2531,
+          "right": 677.5,
+          "bottom": 2573,
+          "left": 387.5
+        },
+        "color": "rgb(92, 106, 96)",
+        "bg": "rgba(255, 255, 255, 0.92)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Diário de Reconexão",
+        "label": null,
+        "disabled": false,
+        "rect": {
+          "x": 687.5,
+          "y": 2531,
+          "width": 290,
+          "height": 42,
+          "top": 2531,
+          "right": 977.5,
+          "bottom": 2573,
+          "left": 687.5
+        },
+        "color": "rgb(92, 106, 96)",
+        "bg": "rgba(255, 255, 255, 0.92)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Ajustes de Áudio & Frequências",
+        "label": null,
+        "disabled": false,
+        "rect": {
+          "x": 387.5,
+          "y": 2583,
+          "width": 290,
+          "height": 58,
+          "top": 2583,
+          "right": 677.5,
+          "bottom": 2641,
+          "left": 387.5
+        },
+        "color": "rgb(92, 106, 96)",
+        "bg": "rgba(255, 255, 255, 0.92)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Oração do Arcanjo Miguel (21d)Acesso livre",
+        "label": null,
+        "disabled": false,
+        "rect": {
+          "x": 687.5,
+          "y": 2583,
+          "width": 290,
+          "height": 58,
+          "top": 2583,
+          "right": 977.5,
+          "bottom": 2641,
+          "left": 687.5
+        },
+        "color": "rgb(92, 106, 96)",
+        "bg": "rgba(255, 255, 255, 0.92)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Cursos & Formações Energéticas",
+        "label": null,
+        "disabled": false,
+        "rect": {
+          "x": 387.5,
+          "y": 2651,
+          "width": 290,
+          "height": 42,
+          "top": 2651,
+          "right": 677.5,
+          "bottom": 2693,
+          "left": 387.5
+        },
+        "color": "rgb(92, 106, 96)",
+        "bg": "rgba(255, 255, 255, 0.92)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Estúdio de Vídeos & VinhetasExportar HD",
+        "label": null,
+        "disabled": false,
+        "rect": {
+          "x": 687.5,
+          "y": 2651,
+          "width": 290,
+          "height": 42,
+          "top": 2651,
+          "right": 977.5,
+          "bottom": 2693,
+          "left": 687.5
+        },
+        "color": "rgb(113, 81, 28)",
+        "bg": "rgb(239, 232, 221)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Sair da Conta",
+        "label": null,
+        "disabled": false,
+        "rect": {
+          "x": 848.5625,
+          "y": 2743,
+          "width": 128.9375,
+          "height": 52,
+          "top": 2743,
+          "right": 977.5,
+          "bottom": 2795,
+          "left": 848.5625
+        },
+        "color": "rgb(255, 251, 237)",
+        "bg": "rgb(155, 36, 69)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Reiniciar jornada de 21 dias",
+        "label": null,
+        "disabled": false,
+        "rect": {
+          "x": 387.5,
+          "y": 2925,
+          "width": 188.5625,
+          "height": 38,
+          "top": 2925,
+          "right": 576.0625,
+          "bottom": 2963,
+          "left": 387.5
+        },
+        "color": "oklch(0.514 0.222 16.935)",
+        "bg": "oklch(0.969 0.015 12.422)"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Fale Conosco",
+        "label": "Fale Conosco",
+        "disabled": false,
+        "rect": {
+          "x": 1301,
+          "y": 474,
+          "width": 52,
+          "height": 44,
+          "top": 474,
+          "right": 1353,
+          "bottom": 518,
+          "left": 1301
+        },
+        "color": "rgb(32, 45, 36)",
+        "bg": "rgb(7, 59, 43)"
+      }
+    ],
+    "axe": []
+  }
+]

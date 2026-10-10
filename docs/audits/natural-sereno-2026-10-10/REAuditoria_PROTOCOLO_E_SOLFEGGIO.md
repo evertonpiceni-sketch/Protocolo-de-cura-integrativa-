@@ -1,3 +1,5 @@
+> Registro histórico anterior à integração final. A revisão em `RELATORIO.md` substitui as conclusões sobre conversão de tempo e remoção por horários: o relógio permanece em segundos, sem multiplicação adicional; trechos públicos aprovados não são removidos pelos timestamps. A filtragem atual considera nomes técnicos privados como palavras completas.
+
 # Natural Sereno — reaudit do Protocolo 21 Dias e prática Miguel/Rafael/Violeta
 
 Data: 2026-10-10
