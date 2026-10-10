@@ -2,7 +2,7 @@
 import puppeteer from 'puppeteer';
 import assert from 'node:assert/strict';
 const browser=await puppeteer.launch({executablePath:'/usr/bin/chromium',args:['--no-sandbox']});
-const page=await browser.newPage();let registrationCalls=0;let mode='unavailable';
+const page=await browser.newPage();let registrationCalls=0;let mode='unavailable';let loginCalls=0;let loginAvailable=false;
 await page.setRequestInterception(true);
 page.on('request',r=>{
  const path=new URL(r.url()).pathname;
@@ -12,7 +12,7 @@ page.on('request',r=>{
  return r.respond({status:mode==='unavailable'?503:200,contentType:'application/json',body:mode==='unavailable'?'{}':JSON.stringify({user:{login:'audit-only',email:'audit@example.test',profile:{name:'Maria',plan:'free'},progress:[],role:'user'}})});
  }
  if(path==='/api/user/sync')return r.respond({status:503,contentType:'application/json',body:'{}'});
- if(path==='/api/auth/login')return r.respond({status:503,contentType:'text/plain',body:'Temporary unavailable'});
+ if(path==='/api/auth/login'){loginCalls++;return r.respond(loginAvailable?{status:200,contentType:'application/json',body:JSON.stringify({user:{login:'audit-only',fullName:'Maria',profile:{name:'Maria',plan:'free'},progress:[],role:'user'}})}:{status:503,contentType:'text/plain',body:'Temporary unavailable'});}
  if(path.startsWith('/api/'))return r.respond({status:200,contentType:'application/json',body:'{}'});
  return r.continue();
 });
@@ -32,5 +32,6 @@ try{
  await page.evaluate(()=>{localStorage.clear();sessionStorage.clear();});await page.reload({waitUntil:'networkidle0'});await page.waitForSelector('#auth-tabs');await page.click('#auth-tabs button:nth-child(2)');
  await page.type('#log-login','audit-only');await page.type('#log-password','test-password');await page.click('#btn-login-submit');await page.waitForSelector('#auth-error');
  assert.match(await page.$eval('#auth-error',el=>el.textContent),/temporariamente indisponível/);
- console.log('Registration failure retry, successful transition lock, profile-sync recovery, and unavailable login passed with local fixtures.');
+ loginAvailable=true;await page.click('#btn-login-submit');await page.waitForSelector('#auth-success');assert.equal(await page.$eval('#btn-login-submit',el=>el.disabled),true);assert.equal(loginCalls,2);await page.waitForSelector('.ns-app');
+ console.log('Registration failure retry, successful transition lock, profile-sync recovery, unavailable login, and successful login transition passed with local fixtures.');
 }finally{await browser.close();}

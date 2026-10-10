@@ -203,3 +203,9 @@
 :root[data-layout="natural-sereno"] #settings-view button[class*="bg-rose-600"]:not(.ep-layout-choice),
 :root[data-layout="natural-sereno"] #settings-view button[class*="bg-emerald"]:not(.ep-layout-choice) > :is(span,svg) { color: #fffbed !important; }
 :root[data-layout="natural-sereno"] #settings-view button[class~="bg-emerald-600"] > span:not([class*="text-amber"]):not([class*="text-rose"]):not([class*="text-emerald"]) { color: #fffbed !important; }
+
+/* Preserve the approved mark without the compounded dimming of older shells. */
+:root[data-layout="natural-sereno"] #main-header .ep-brand-signature-wrap { opacity: .9 !important; }
+:root[data-layout="natural-sereno"] #main-header .ep-brand-signature { opacity: 1 !important; filter: none !important; }
+#profile-setup-view.ep-auth-style-one #onboarding-card .ep-brand-signature-wrap { width: 84px; height: 84px; opacity: .9 !important; }
+#profile-setup-view.ep-auth-style-one #onboarding-card .ep-brand-signature { opacity: 1; filter: none; }

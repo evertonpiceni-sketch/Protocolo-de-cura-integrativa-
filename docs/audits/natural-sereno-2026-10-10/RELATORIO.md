@@ -27,3 +27,9 @@ Nenhuma alteração de preços, pagamento, APIs ou jornada nesta rodada. Produç
 Corrigido o bloqueio do formulário após sucesso: o botão permanece indisponível até a entrada no app, evitando um segundo cadastro durante a mensagem de confirmação. Falhas liberam a tentativa e preservam os campos. O login agora distingue indisponibilidade do servidor de problemas de credenciais, inclusive quando a resposta de erro não é JSON.
 
 O teste de navegador `scripts/verify-registration-recovery.mjs` passou com fixtures locais: erro 503 e nova tentativa, criação bem-sucedida com três falhas de sincronização do perfil sem repetir o cadastro, bloqueio durante a transição, entrada no app e erro 503 no login. Lint, 23 testes e build novamente aprovados. Isso não certifica uma conta criada na produção.
+
+## Continuação — logo e entrada
+
+A varredura identificou opacidade acumulada no contêiner e na imagem do logo, além de uma regra antiga de 56 px no cadastro. Corrigido o logo do cadastro para 84 px e eliminada a redução acumulada no cabeçalho do Natural Sereno. O arquivo oficial foi preservado; isso não cria transparência real na fonte. Os outros três cabeçalhos não receberam essa alteração.
+
+O login também permanece bloqueado durante a transição após sucesso. O teste de recuperação foi ampliado e passou com login bem-sucedido após erro 503. Lint, 23 testes e build passaram novamente.

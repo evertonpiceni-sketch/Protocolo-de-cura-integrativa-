@@ -268,6 +268,7 @@ export default function ProfileSetup({ onComplete }: ProfileSetupProps) {
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (isSubmitting) return;
     setError('');
     setSuccessMsg('');
     setServiceUnavailable(false);
@@ -282,6 +283,7 @@ export default function ProfileSetup({ onComplete }: ProfileSetupProps) {
       return;
     }
 
+    let loginSucceeded = false;
     try {
       setIsSubmitting(true);
       const res = await fetch('/api/auth/login', {
@@ -309,15 +311,17 @@ export default function ProfileSetup({ onComplete }: ProfileSetupProps) {
       };
       
       setSuccessMsg(`Que bom ter você de volta, ${account.fullName || account.login}!`);
+      loginSucceeded = true;
       setTimeout(() => {
         onComplete(account);
+        setIsSubmitting(false);
       }, 1000);
     } catch (err) {
       console.error(err);
       setServiceUnavailable(true);
       setError('Não conseguimos conectar ao serviço agora. Verifique sua internet e tente novamente.');
     } finally {
-      setIsSubmitting(false);
+      if (!loginSucceeded) setIsSubmitting(false);
     }
   };
 
