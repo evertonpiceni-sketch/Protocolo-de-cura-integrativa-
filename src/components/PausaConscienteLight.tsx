@@ -32,22 +32,22 @@ const PRACTICES: Practice[] = [
     posture: "Sentado(a)",
     steps: [
       "Eleve os ombros suavemente até as orelhas ao inspirar.",
-      "Ao expirar pela boca, solte os ombros de uma vez, deixando cair o peso.",
+      "Ao expirar pela boca, solte os ombros e perceba a mudança de peso.",
       "Afaste os dentes de trás, relaxando a mandíbula e a testa.",
-      "Faça movimentos circulares lentos com o pescoço, sem forçar."
+      "Faça movimentos pequenos e lentos com o pescoço, sem forçar e sem buscar amplitude."
     ]
   },
   {
     id: "descanso-10",
     title: "Preparação para Descansar",
     duration: 10,
-    description: "Desacelere o ritmo mental e o corpo para a noite.",
+    description: "Desacelere o ritmo antes do período de repouso.",
     posture: "Adaptável",
     steps: [
       "Encontre uma postura confortável e relaxada.",
-      "Prolongue a expiração, soltando o ar mais lentamente do que puxou.",
-      "Permita que o corpo pese sobre o apoio, entregando o cansaço do dia.",
-      "Acolha tudo o que foi feito hoje. Agora é o seu momento de repouso."
+      "Se for confortável, prolongue a expiração sem prender ou forçar o ar.",
+      "Perceba o peso do corpo sobre o apoio e deixe o ritmo diminuir aos poucos.",
+      "Acolha o que foi possível fazer hoje. Agora é um momento de pausa."
     ]
   }
 ];
@@ -57,38 +57,36 @@ export const PausaConscienteLight: React.FC = () => {
   const [activePractice, setActivePractice] = useState<Practice | null>(null);
 
   const filteredPractices = selectedDuration
-    ? PRACTICES.filter(p => p.duration === selectedDuration)
+    ? PRACTICES.filter(practice => practice.duration === selectedDuration)
     : PRACTICES;
 
   return (
-    <div className="min-h-screen bg-[#F8F4EC] text-[#2A2420] font-sans relative overflow-hidden px-6 py-8 select-none">
-      <div className="absolute top-[-10%] left-[-10%] w-[550px] h-[550px] bg-gradient-to-br from-[#EBD9BF]/50 to-transparent rounded-full blur-3xl pointer-events-none -z-10" />
-      <div className="absolute bottom-[-10%] right-[-10%] w-[550px] h-[550px] bg-gradient-to-tl from-[#D8C7AA]/40 to-transparent rounded-full blur-3xl pointer-events-none -z-10" />
-      <div className="absolute top-1/3 left-0 w-80 h-80 bg-gradient-to-r from-[#5E7153]/5 to-transparent rounded-full blur-3xl pointer-events-none -z-10" />
+    <div className="relative min-h-dvh overflow-hidden bg-[#F8F4EC] px-4 py-6 font-sans text-[#2A2420] sm:px-6 sm:py-8">
+      <div className="pointer-events-none absolute left-[-10%] top-[-10%] -z-10 h-[550px] w-[550px] rounded-full bg-gradient-to-br from-[#EBD9BF]/50 to-transparent blur-3xl" />
+      <div className="pointer-events-none absolute bottom-[-10%] right-[-10%] -z-10 h-[550px] w-[550px] rounded-full bg-gradient-to-tl from-[#D8C7AA]/40 to-transparent blur-3xl" />
+      <div className="pointer-events-none absolute left-0 top-1/3 -z-10 h-80 w-80 rounded-full bg-gradient-to-r from-[#5E7153]/5 to-transparent blur-3xl" />
 
-      <main className="max-w-md mx-auto w-full my-auto py-6">
+      <main className="mx-auto my-auto w-full max-w-md py-6">
         {!activePractice ? (
-          <div className="bg-white/85 backdrop-blur-xl border border-[#E8DFC8] rounded-3xl p-7 sm:p-9 shadow-xl shadow-[#B88736]/5">
-            <div className="text-center mb-6">
-              <span className="text-[11px] font-semibold tracking-widest uppercase text-[#B88736] block mb-1">
-                Autocuidado Corporal
-              </span>
-              <h2 className="text-2xl sm:text-3xl font-serif text-[#2A2420]">Pausa Consciente</h2>
-              <p className="text-xs text-[#5C5248] mt-1.5 font-light leading-relaxed">
-                Pequenas experiências para interromper o automático, perceber o corpo e voltar ao presente.
-              </p>
-            </div>
+          <section className="rounded-3xl border border-[#E8DFC8] bg-white/85 p-6 shadow-xl shadow-[#B88736]/5 backdrop-blur-xl sm:p-9" aria-labelledby="pause-title">
+            <header className="mb-6 text-center">
+              <span className="mb-1 block text-[11px] font-semibold uppercase tracking-widest text-[#B88736]">Autocuidado Corporal</span>
+              <h1 id="pause-title" className="font-serif text-2xl text-[#2A2420] sm:text-3xl">Pausa Consciente</h1>
+              <p className="mt-1.5 text-xs font-light leading-relaxed text-[#5C5248]">Pequenas experiências para interromper o automático, perceber o corpo e voltar ao presente.</p>
+            </header>
 
-            <div className="flex items-center justify-center gap-2 mb-6">
-              <span className="text-[11px] text-[#7A6D5E] mr-1">Tenho:</span>
+            <div className="mb-6 flex flex-wrap items-center justify-center gap-2" aria-label="Filtrar pela duração">
+              <span className="mr-1 text-[11px] text-[#7A6D5E]">Tenho:</span>
               {[2, 5, 10].map(duration => (
                 <button
                   key={duration}
+                  type="button"
+                  aria-pressed={selectedDuration === duration}
                   onClick={() => setSelectedDuration(selectedDuration === duration ? null : duration)}
-                  className={`px-3.5 py-1.5 rounded-full text-xs font-medium transition-all cursor-pointer ${
+                  className={`min-h-11 min-w-14 rounded-full px-3.5 py-2 text-xs font-medium transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B88736]/35 ${
                     selectedDuration === duration
-                      ? "bg-[#B88736] text-white shadow-xs"
-                      : "bg-[#F5EFE4] text-[#5C5248] hover:bg-[#E8DFC8]"
+                      ? 'bg-[#B88736] text-white shadow-sm'
+                      : 'bg-[#F5EFE4] text-[#5C5248] hover:bg-[#E8DFC8]'
                   }`}
                 >
                   {duration} min
@@ -96,83 +94,69 @@ export const PausaConscienteLight: React.FC = () => {
               ))}
             </div>
 
-            <div className="space-y-3.5 mb-7">
+            <div className="mb-7 space-y-3.5">
               {filteredPractices.map(practice => (
-                <div
+                <button
                   key={practice.id}
+                  type="button"
                   onClick={() => setActivePractice(practice)}
-                  className="p-4 rounded-2xl bg-[#FBF8F2] border border-[#E5DAC6] hover:border-[#B88736] transition-all cursor-pointer group"
+                  className="group w-full rounded-2xl border border-[#E5DAC6] bg-[#FBF8F2] p-4 text-left transition-all hover:border-[#B88736] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B88736]/30"
                 >
-                  <div className="flex items-center justify-between mb-1.5">
-                    <span className="text-xs font-semibold text-[#2A2420] group-hover:text-[#B88736] transition-colors">
-                      {practice.title}
-                    </span>
-                    <div className="flex items-center gap-1.5 text-[11px] text-[#7A6D5E]">
-                      <Clock className="w-3 h-3 text-[#5E7153]" />
-                      <span>{practice.duration} min</span>
-                    </div>
+                  <div className="mb-1.5 flex items-center justify-between gap-3">
+                    <span className="text-xs font-semibold text-[#2A2420] transition-colors group-hover:text-[#8F631E]">{practice.title}</span>
+                    <span className="flex shrink-0 items-center gap-1.5 text-[11px] text-[#7A6D5E]"><Clock className="h-3 w-3 text-[#5E7153]" />{practice.duration} min</span>
                   </div>
-                  <p className="text-[11px] text-[#5C5248] font-light leading-relaxed mb-2">{practice.description}</p>
-                  <div className="flex items-center gap-2 text-[10px] text-[#8A7C6D]">
-                    <Armchair className="w-3 h-3 text-[#B88736]" />
-                    <span>Postura: {practice.posture}</span>
-                  </div>
-                </div>
+                  <p className="mb-2 text-[11px] font-light leading-relaxed text-[#5C5248]">{practice.description}</p>
+                  <span className="flex items-center gap-2 text-[10px] text-[#8A7C6D]"><Armchair className="h-3 w-3 text-[#B88736]" />Postura: {practice.posture}</span>
+                </button>
               ))}
             </div>
 
-            <div className="text-center pt-2 border-t border-[#E8DFC8]/70">
-              <p className="font-serif italic text-xs text-[#5C5248]">
-                “O autocuidado deve se adaptar à pessoa — e não a pessoa ao aplicativo.”
-              </p>
-            </div>
-          </div>
+            <p className="border-t border-[#E8DFC8]/70 pt-4 text-center font-serif text-xs italic text-[#5C5248]">“O autocuidado deve se adaptar à pessoa — e não a pessoa ao aplicativo.”</p>
+          </section>
         ) : (
-          <div className="bg-white/90 backdrop-blur-xl border border-[#E8DFC8] rounded-3xl p-7 sm:p-9 shadow-xl shadow-[#B88736]/10">
-            <div className="flex items-center justify-between mb-4">
+          <section className="rounded-3xl border border-[#E8DFC8] bg-white/90 p-6 shadow-xl shadow-[#B88736]/10 backdrop-blur-xl sm:p-9" aria-labelledby="active-pause-title">
+            <header className="mb-4 flex items-center justify-between gap-3">
               <div className="flex items-center gap-2">
-                <span className="w-2 h-2 rounded-full bg-[#5E7153]" />
-                <span className="text-[11px] font-semibold tracking-widest uppercase text-[#B88736]">
-                  {activePractice.duration} Minutos • {activePractice.posture}
-                </span>
+                <span className="h-2 w-2 rounded-full bg-[#5E7153]" />
+                <span className="text-[11px] font-semibold uppercase tracking-widest text-[#B88736]">{activePractice.duration} minutos • {activePractice.posture}</span>
               </div>
               <button
+                type="button"
                 onClick={() => setActivePractice(null)}
-                className="w-7 h-7 rounded-full hover:bg-black/5 flex items-center justify-center text-[#7A6D5E] transition-colors cursor-pointer"
+                aria-label="Voltar à lista de pausas"
+                className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-[#E5DAC6] bg-[#F5EFE4] text-[#7A6D5E] transition hover:bg-[#EFE4D3] hover:text-[#2A2420] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B88736]/30"
               >
-                <X className="w-4 h-4" />
+                <X className="h-4 w-4" />
               </button>
-            </div>
+            </header>
 
-            <h2 className="text-2xl font-serif text-[#2A2420] mb-2">{activePractice.title}</h2>
-            <p className="text-xs text-[#5C5248] font-light leading-relaxed mb-6">{activePractice.description}</p>
+            <h2 id="active-pause-title" className="mb-2 font-serif text-2xl text-[#2A2420]">{activePractice.title}</h2>
+            <p className="mb-6 text-xs font-light leading-relaxed text-[#5C5248]">{activePractice.description}</p>
 
-            <div className="space-y-4 mb-8">
-              {activePractice.steps.map((step, idx) => (
-                <div key={idx} className="flex items-start gap-3">
-                  <div className="w-5 h-5 rounded-full bg-[#FAF4EB] border border-[#D5C29D] text-[11px] font-medium text-[#B88736] flex items-center justify-center shrink-0 mt-0.5">
-                    {idx + 1}
-                  </div>
-                  <p className="text-xs text-[#2A2420] leading-relaxed font-light">{step}</p>
-                </div>
+            <ol className="mb-8 space-y-4">
+              {activePractice.steps.map((step, index) => (
+                <li key={step} className="flex items-start gap-3">
+                  <span className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full border border-[#D5C29D] bg-[#FAF4EB] text-[11px] font-medium text-[#B88736]">{index + 1}</span>
+                  <p className="text-xs font-light leading-relaxed text-[#2A2420]">{step}</p>
+                </li>
               ))}
-            </div>
+            </ol>
 
             <button
+              type="button"
               onClick={() => setActivePractice(null)}
-              className="w-full py-3 px-6 rounded-xl font-medium text-xs text-white flex items-center justify-center gap-2 bg-gradient-to-r from-[#D6A756] via-[#B88736] to-[#9E6E24] hover:brightness-105 active:scale-[0.99] transition-all shadow-md shadow-[#B88736]/25 cursor-pointer"
+              className="flex min-h-11 w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-[#D6A756] via-[#B88736] to-[#9E6E24] px-6 py-3 text-xs font-medium text-white shadow-md shadow-[#B88736]/25 transition hover:brightness-105 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B88736]/35"
             >
-              <CheckCircle2 className="w-4 h-4" />
-              <span>Concluir Prática</span>
+              <CheckCircle2 className="h-4 w-4" />
+              <span>Concluir prática</span>
             </button>
-          </div>
+          </section>
         )}
       </main>
 
-      <footer className="max-w-md mx-auto w-full text-center border-t border-[#E8DFC8]/70 pt-4">
-        <div className="text-[11px] text-[#7A6D5E] tracking-wider uppercase">
-          Everton Piceni • Terapias Holísticas e Bem-Estar
-        </div>
+      <footer className="mx-auto w-full max-w-md border-t border-[#E8DFC8]/70 pt-4 text-center">
+        <div className="text-[11px] uppercase tracking-wider text-[#7A6D5E]">Everton Piceni • Terapias Holísticas e Bem-Estar</div>
       </footer>
     </div>
   );

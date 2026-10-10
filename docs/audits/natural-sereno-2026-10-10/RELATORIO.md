@@ -49,3 +49,13 @@ A repetição da auditoria nas 19 capturas desta rodada concluiu sem alertas de 
 A varredura encontrou troca abrupta entre as cinco imagens humanas aprovadas. Substituída por mesclagem gradual nos marcos do áudio, mantendo o estado inicial escuro. Removida a transição CSS independente, para que a pausa mantenha exatamente os valores da iluminação. A função anterior de fases foi removida, evitando duas definições concorrentes da mesma linha do tempo.
 
 Lint, 25 testes e build passaram. O teste no navegador confirmou duas imagens com opacidade 0,5 aos 262,5 segundos, preservação dessas opacidades durante a pausa e retorno à experiência após continuar. Nenhum timer visual independente foi criado. Os vídeos específicos e a revisão integral de roteiros permanecem pendentes; esta correção não certifica a didática visual completa dos 21 dias.
+
+## Integração das correções mais recentes da main
+
+A main avançou até `5edfafb` durante a auditoria. Integradas as correções já existentes de ferramentas, diário, conquistas, instalação, Solfeggio e ajuda de acesso, preservando a nova linha do tempo visual e as correções desta PR.
+
+A revisão da integração detectou e corrigiu três incompatibilidades: uma camada de compatibilidade multiplicava novamente os segundos por 1000; a proteção da locução removia trechos públicos aprovados apenas por seus horários; o teste de nomes privados encontrava `Rama` dentro da palavra `programada`. Mantida a normalização única na origem, a separação por conteúdo privado e os trechos públicos aprovados de aceite/integração. A ajuda para acessar a conta passou a integrar o componente React com link de suporte já existente, substituindo o observador que alterava o DOM repetidamente.
+
+Validação da integração: lint, 28 testes, build e auditoria de dependências aprovados. Suíte geral de navegador, suíte focada, recuperação de cadastro/login e acionamento/parada reais dos sete Solfeggios aprovados, com fixtures locais e sem escrever dados na produção. Nenhum pagamento foi executado.
+
+Busca adicional de fontes: a galeria aprovada foi recuperada e inspecionada; contém logo opaco e acervo de sistemas, não vídeos dos 21 dias. A consulta de MP4 no Drive acessível não retornou arquivos. A especificação técnica original do Protocolo confirma a matriz comum de seis etapas, mas não fornece a locução completa individual dos 21 dias. Esses achados não autorizam substituir o percurso atual pela Jornada Integrada encontrada com outra estrutura.

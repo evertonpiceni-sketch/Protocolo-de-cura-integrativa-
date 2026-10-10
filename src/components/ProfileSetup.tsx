@@ -1,3 +1,4 @@
+import { ACCESS_SUPPORT_URL } from '../lib/accessRecoveryPatch';
 import React, { useState, useRef } from 'react';
 import { User, Sparkles, Shield, Heart, Lock, Mail, Calendar as CalendarIcon, LogIn, UserPlus, KeyRound, CheckCircle2, ArrowLeft, Clock, MapPin, Tag, Phone, Volume2, Play, Square, Loader2 } from 'lucide-react';
 import { UserAccount } from '../types';
@@ -808,7 +809,7 @@ export default function ProfileSetup({ onComplete }: ProfileSetupProps) {
                   }}
                   id="auth-forgot-password" className="text-[11px] text-[#71511C] hover:text-[#174B37] transition cursor-pointer underline underline-offset-2"
                 >
-                  Esqueci minha senha
+                  Ajuda para acessar
                 </button>
               </div>
               <div className="relative">
@@ -852,12 +853,12 @@ export default function ProfileSetup({ onComplete }: ProfileSetupProps) {
               <ArrowLeft size={14} /> Voltar ao Login
             </button>
             <div className="text-center p-6 bg-white rounded-xl border border-[#E5DAC6]/80 space-y-3">
-              <Shield size={32} className="text-indigo-500/50 mx-auto" />
-              <h3 className="text-sm font-semibold text-[#2A2420]">Recuperação de Senha</h3>
+              <Shield size={32} className="text-[#174B37] mx-auto" />
+              <h3 className="text-sm font-semibold text-[#2A2420]">Ajuda para acessar</h3>
               <p className="text-xs text-[#5C5248] leading-relaxed">
-                A recuperação de senha via SMS/Email será configurada pelo terapeuta na próxima atualização.
-                Por favor, contate o administrador se não consegue acessar sua conta.
+                A recuperação automática de senha ainda não está disponível. Para recuperar o acesso, fale diretamente com o suporte.
               </p>
+              <a href={ACCESS_SUPPORT_URL} target="_blank" rel="noopener noreferrer" data-access-support-link="true" className="inline-flex min-h-11 w-full items-center justify-center rounded-xl bg-[#174B37] px-4 py-3 text-sm font-semibold text-[#FFFAE7] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B88736]">Falar com o suporte no WhatsApp</a>
             </div>
           </div>
         )}

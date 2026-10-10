@@ -4,8 +4,8 @@
  */
 
 import React, { useState } from 'react';
-import { motion, AnimatePresence } from 'motion/react';
-import { X, Sparkles, Heart, Activity, Flame, Shield, Sun, Eye, Crown, ChevronRight, CheckCircle2, MessageCircle } from 'lucide-react';
+import { motion } from 'motion/react';
+import { X, Sparkles, Activity, CheckCircle2, Crown } from 'lucide-react';
 
 interface ChakrasGuideModalProps {
   isOpen: boolean;
@@ -18,16 +18,12 @@ interface ChakraInfo {
   number: number;
   sanskritName: string;
   name: string;
-  colorName: string;
-  colorClass: string;
-  borderClass: string;
-  bgGradient: string;
-  badgeBg: string;
+  color: string;
+  colorSoft: string;
   location: string;
   element: string;
   bijaMantra: string;
   solfeggioFreq: string;
-  icon: any;
   symbolizes: string;
   inBalance: string;
   whenBlocked: string;
@@ -37,338 +33,193 @@ interface ChakraInfo {
 
 export const CHAKRAS_DATA: ChakraInfo[] = [
   {
-    id: 'muladhara',
-    number: 1,
-    sanskritName: 'Muladhara',
-    name: 'Chakra Básico (Raiz)',
-    colorName: 'Vermelho Rubi',
-    colorClass: 'text-rose-400',
-    borderClass: 'border-rose-500/40',
-    bgGradient: 'from-rose-950/40 via-[#FBF8F2] to-[#F3EBDD]',
-    badgeBg: 'bg-rose-500/20 text-rose-300 border-rose-500/30',
-    location: 'Base da coluna vertebral e períneo',
-    element: 'Terra',
-    bijaMantra: 'LAM',
-    solfeggioFreq: '432Hz / 396Hz',
-    icon: Shield,
-    symbolizes: 'Sobrevivência física, estabilidade financeira, segurança existencial, senso de pertencimento e enraizamento na matéria.',
-    inBalance: 'Sensação de profunda segurança, coragem inabalável, vitalidade física, pés no chão e confiança no suprimento da vida.',
-    whenBlocked: 'Na tradição energética, pode ser associado a sensação de insegurança, medo, instabilidade, dificuldade de se sentir presente ou pouco enraizado.',
-    protocolAction: 'Fase de Aterramento e Raízes Sagradas: desce raízes de luz da coluna ao núcleo da Terra, limpando memórias de escassez.',
-    affirmation: 'Eu estou seguro, protegido e perfeitamente ancorado na abundância da Terra.'
+    id: 'muladhara', number: 1, sanskritName: 'Muladhara', name: 'Chakra Básico (Raiz)',
+    color: '#b94343', colorSoft: '#f8e6e3', location: 'Base da coluna e períneo', element: 'Terra', bijaMantra: 'LAM', solfeggioFreq: '396 Hz',
+    symbolizes: 'Na tradição dos chakras, representa segurança, pertencimento, estabilidade e relação com a vida material.',
+    inBalance: 'É tradicionalmente associado a presença, firmeza, confiança e sensação de enraizamento.',
+    whenBlocked: 'Na tradição energética, pode ser associado a insegurança, medo, instabilidade ou dificuldade de se sentir presente e enraizado.',
+    protocolAction: 'Aterramento e Raízes Sagradas: visualização de raízes de luz em direção à Terra, com intenção de presença e estabilidade.',
+    affirmation: 'Eu estou presente, seguro e ancorado no agora.'
   },
   {
-    id: 'svadhisthana',
-    number: 2,
-    sanskritName: 'Svadhisthana',
-    name: 'Chakra Sacral (Sexual & Criativo)',
-    colorName: 'Laranja Solar',
-    colorClass: 'text-amber-400',
-    borderClass: 'border-amber-500/40',
-    bgGradient: 'from-amber-950/40 via-[#FBF8F2] to-[#F3EBDD]',
-    badgeBg: 'bg-amber-500/20 text-amber-300 border-amber-500/30',
-    location: 'Baixo ventre (quatro dedos abaixo do umbigo)',
-    element: 'Água',
-    bijaMantra: 'VAM',
-    solfeggioFreq: '417Hz (Transmutação)',
-    icon: Flame,
-    symbolizes: 'Criatividade, prazer sagrado, sexualidade equilibrada, emoções fluidas, entusiasmo e capacidade de desapego.',
-    inBalance: 'Fluidez emocional, alegria de viver, relacionamentos harmoniosos, imaginação fértil e expressão artística sem culpas.',
-    whenBlocked: 'Na tradição energética, pode ser associado a culpa, dificuldade de expressão criativa, rigidez emocional, apego ou pouca fluidez nas relações.',
-    protocolAction: 'Purificação das Águas & Vitalidade: liberação de apegos e traumas do passado através do sopro sutil de ervas sagradas.',
-    affirmation: 'Eu permito que a vida flua através de mim com prazer, criatividade e doçura.'
+    id: 'svadhisthana', number: 2, sanskritName: 'Svadhisthana', name: 'Chakra Sacral',
+    color: '#d97706', colorSoft: '#fff1dd', location: 'Baixo ventre', element: 'Água', bijaMantra: 'VAM', solfeggioFreq: '417 Hz',
+    symbolizes: 'Na tradição dos chakras, representa criatividade, prazer, emoções, vínculos e capacidade de fluir com mudanças.',
+    inBalance: 'É tradicionalmente associado a fluidez emocional, criatividade, prazer consciente e flexibilidade.',
+    whenBlocked: 'Na tradição energética, pode ser associado a culpa, rigidez emocional, apego ou dificuldade de expressão criativa.',
+    protocolAction: 'Purificação das Águas: prática simbólica de desapego e abertura para criatividade e movimento interior.',
+    affirmation: 'Eu permito que a vida flua através de mim com criatividade e suavidade.'
   },
   {
-    id: 'manipura',
-    number: 3,
-    sanskritName: 'Manipura',
-    name: 'Chakra do Plexo Solar',
-    colorName: 'Amarelo Dourado',
-    colorClass: 'text-yellow-400',
-    borderClass: 'border-yellow-500/40',
-    bgGradient: 'from-yellow-950/30 via-[#FBF8F2] to-[#F3EBDD]',
-    badgeBg: 'bg-yellow-500/20 text-yellow-300 border-yellow-500/30',
-    location: 'Região do estômago / boca do estômago',
-    element: 'Fogo',
-    bijaMantra: 'RAM',
-    solfeggioFreq: '528Hz (Transformação & Harmonia)',
-    icon: Sun,
-    symbolizes: 'Poder pessoal, autoconfiança, determinação, foco mental, capacidade de realização e digestão das experiências.',
-    inBalance: 'Forte determinação, liderança compassiva, boa digestão física e emocional, limites saudáveis e autoestima elevada.',
-    whenBlocked: 'Na tradição energética, pode ser associado a baixa confiança, dificuldade de decisão, raiva contida, autocobrança ou sensação de pouco poder pessoal.',
-    protocolAction: 'Fogo da Transmutação & Calor Vital: acende a chama interior que queima a apatia e restabelece o comando da própria vida.',
-    affirmation: 'Eu sou forte, capaz e honro o meu poder pessoal com sabedoria e dignidade.'
+    id: 'manipura', number: 3, sanskritName: 'Manipura', name: 'Chakra do Plexo Solar',
+    color: '#b98a16', colorSoft: '#fff8d9', location: 'Região do plexo solar', element: 'Fogo', bijaMantra: 'RAM', solfeggioFreq: '528 Hz',
+    symbolizes: 'Na tradição dos chakras, representa poder pessoal, decisão, autoconfiança e capacidade de agir.',
+    inBalance: 'É tradicionalmente associado a determinação, autoestima, autonomia e limites conscientes.',
+    whenBlocked: 'Na tradição energética, pode ser associado a baixa confiança, indecisão, raiva contida ou autocobrança.',
+    protocolAction: 'Fogo da Transmutação: visualização de calor interior como símbolo de coragem, vitalidade e ação consciente.',
+    affirmation: 'Eu honro meu poder pessoal com sabedoria e dignidade.'
   },
   {
-    id: 'anahata',
-    number: 4,
-    sanskritName: 'Anahata',
-    name: 'Chakra Cardíaco',
-    colorName: 'Verde Esmeralda & Rosa Quartzo',
-    colorClass: 'text-emerald-400',
-    borderClass: 'border-emerald-500/40',
-    bgGradient: 'from-emerald-950/40 via-[#FBF8F2] to-[#F3EBDD]',
-    badgeBg: 'bg-emerald-500/20 text-emerald-300 border-emerald-500/30',
-    location: 'Centro do peito / coração espiritual',
-    element: 'Ar',
-    bijaMantra: 'YAM',
-    solfeggioFreq: '639Hz (Amor & Conexão)',
-    icon: Heart,
-    symbolizes: 'Amor incondicional, compaixão, capacidade de perdoar, cura de dores afetivas e ponte entre os chakras físicos e espirituais.',
-    inBalance: 'Amor próprio profundo, empatia, facilidade para perdoar e reconciliar, generosidade e paz interior radiante.',
-    whenBlocked: 'Na tradição energética, pode ser associado a mágoa, rancor, dificuldade de receber afeto, medo de abandono ou fechamento emocional.',
-    protocolAction: 'O Bálsamo do Amor & Névoa Verde-Oliva: expansão da luz rosa-quartzo que preenche os vazios e regenera o campo afetivo.',
-    affirmation: 'Eu sou puro amor. Eu me perdoo, eu me acolho e abro meu coração para a vida.'
+    id: 'anahata', number: 4, sanskritName: 'Anahata', name: 'Chakra Cardíaco',
+    color: '#3f8f64', colorSoft: '#e6f4ea', location: 'Centro do peito', element: 'Ar', bijaMantra: 'YAM', solfeggioFreq: '639 Hz',
+    symbolizes: 'Na tradição dos chakras, representa amor, compaixão, perdão, acolhimento e conexão afetiva.',
+    inBalance: 'É tradicionalmente associado a empatia, autoaceitação, generosidade e abertura emocional.',
+    whenBlocked: 'Na tradição energética, pode ser associado a mágoa, rancor, dificuldade de receber afeto ou fechamento emocional.',
+    protocolAction: 'Bálsamo do Amor: expansão simbólica de luz rosa e verde como convite a acolhimento, ternura e perdão.',
+    affirmation: 'Eu me acolho com amor e abro espaço para relações mais conscientes.'
   },
   {
-    id: 'vishuddha',
-    number: 5,
-    sanskritName: 'Vishuddha',
-    name: 'Chakra Laríngeo',
-    colorName: 'Azul Turquesa & Celeste',
-    colorClass: 'text-cyan-400',
-    borderClass: 'border-cyan-500/40',
-    bgGradient: 'from-cyan-950/40 via-[#FBF8F2] to-[#F3EBDD]',
-    badgeBg: 'bg-cyan-500/20 text-cyan-300 border-cyan-500/30',
-    location: 'Garganta e cordas vocais',
-    element: 'Éter / Espaço',
-    bijaMantra: 'HAM',
-    solfeggioFreq: '741Hz (Expressão & Clareza)',
-    icon: Activity,
-    symbolizes: 'Comunicação autêntica, poder da palavra falada, expressão da verdade interior e verbalização de limites saudáveis.',
-    inBalance: 'Voz firme e serena, clareza ao expressar sentimentos, capacidade de escutar o outro e canalizar decretos poderosos.',
-    whenBlocked: 'Na tradição energética, pode ser associado a dificuldade de dizer o que sente, medo de se expressar, autocensura ou pouca escuta de si.',
-    protocolAction: 'Decreto de Aceitação & Mantras Ho\'oponopono: liberação do canal vocal para declarar sua cura e verdade divina.',
-    affirmation: 'Minha voz é um instrumento sagrado de cura, verdade e amor.'
+    id: 'vishuddha', number: 5, sanskritName: 'Vishuddha', name: 'Chakra Laríngeo',
+    color: '#3c8ba4', colorSoft: '#e7f5f8', location: 'Garganta', element: 'Éter / Espaço', bijaMantra: 'HAM', solfeggioFreq: '741 Hz',
+    symbolizes: 'Na tradição dos chakras, representa comunicação, autenticidade, escuta e expressão da verdade interior.',
+    inBalance: 'É tradicionalmente associado a expressão clara, escuta presente e comunicação coerente com seus limites.',
+    whenBlocked: 'Na tradição energética, pode ser associado a autocensura, medo de falar, dificuldade de escuta ou de dizer o que sente.',
+    protocolAction: 'Decretos e mantras: uso consciente da palavra como instrumento de intenção, expressão e presença.',
+    affirmation: 'Minha voz expressa minha verdade com respeito e clareza.'
   },
   {
-    id: 'ajna',
-    number: 6,
-    sanskritName: 'Ajna',
-    name: 'Chakra Frontal (Terceiro Olho)',
-    colorName: 'Azul Índigo & Safira',
-    colorClass: 'text-[#B88736]',
-    borderClass: 'border-[#B88736]/40',
-    bgGradient: 'from-indigo-950/40 via-[#FBF8F2] to-[#F3EBDD]',
-    badgeBg: 'bg-[#B88736]/20 text-[#B88736] border-[#B88736]/30',
-    location: 'Entre as sobrancelhas (glândula pineal e hipófise)',
-    element: 'Luz Pura',
-    bijaMantra: 'OM',
-    solfeggioFreq: '852Hz (Despertar da Intuição)',
-    icon: Eye,
-    symbolizes: 'Intuição aguçada, discernimento espiritual, clareza mental, sabedoria interior e visão além das ilusões materiais.',
-    inBalance: 'Forte intuição, sonhos lúcidos e inspiradores, mente focada e pacífica, facilidade para encontrar soluções sábias.',
-    whenBlocked: 'Na tradição energética, pode ser associado a excesso de pensamentos, dificuldade de discernimento, desconexão da intuição ou rigidez de percepção.',
-    protocolAction: 'Armadura Safira & Clareza Interior: pontos de luz dourada e azul simbolizam organização, foco e silêncio mental.',
-    affirmation: 'Eu enxergo a verdade com clareza e confio plenamente na minha intuição.'
+    id: 'ajna', number: 6, sanskritName: 'Ajna', name: 'Chakra Frontal (Terceiro Olho)',
+    color: '#5d60a8', colorSoft: '#ececf8', location: 'Entre as sobrancelhas', element: 'Luz', bijaMantra: 'OM', solfeggioFreq: '852 Hz',
+    symbolizes: 'Na tradição dos chakras, representa intuição, discernimento, imaginação e clareza de percepção.',
+    inBalance: 'É tradicionalmente associado a foco, discernimento, contemplação e confiança na própria percepção.',
+    whenBlocked: 'Na tradição energética, pode ser associado a excesso de pensamentos, rigidez de percepção ou dificuldade de confiar na intuição.',
+    protocolAction: 'Clareza Interior: pontos de luz dourada e azul simbolizam foco, organização e silêncio mental.',
+    affirmation: 'Eu observo com clareza e confio no meu discernimento.'
   },
   {
-    id: 'sahasrara',
-    number: 7,
-    sanskritName: 'Sahasrara',
-    name: 'Chakra Coronário',
-    colorName: 'Violeta & Dourado Cósmico',
-    colorClass: 'text-purple-400',
-    borderClass: 'border-purple-500/40',
-    bgGradient: 'from-purple-950/40 via-[#FBF8F2] to-[#F3EBDD]',
-    badgeBg: 'bg-purple-500/20 text-[#B88736] border-purple-500/30',
-    location: 'Topo da cabeça (coroa)',
-    element: 'Consciência Pura',
-    bijaMantra: 'AUM / Silêncio',
-    solfeggioFreq: '963Hz (Contemplação & Conexão Divina)',
-    icon: Crown,
-    symbolizes: 'Conexão direta com a Fonte Criadora, unidade cósmica, iluminação, transcendência e soberania espiritual.',
-    inBalance: 'Sensação de comunhão com o Todo, paz incondicional, propósito de vida claro e alinhamento com a Providência Divina.',
-    whenBlocked: 'Sensação de vazio existencial, abandono divino, ceticismo fechado ou desconexão da realidade física.',
-    protocolAction: 'Cascata de Luz Ouro & Trono Cósmico: banho simbólico de luz dourada que representa integração e conclusão da jornada.',
-    affirmation: 'Eu sou um com a Fonte Criadora. Eu sou luz, eu sou paz, eu sou cura.'
+    id: 'sahasrara', number: 7, sanskritName: 'Sahasrara', name: 'Chakra Coronário',
+    color: '#8b62aa', colorSoft: '#f1e9f6', location: 'Topo da cabeça', element: 'Consciência', bijaMantra: 'AUM / Silêncio', solfeggioFreq: '963 Hz',
+    symbolizes: 'Na tradição dos chakras, representa espiritualidade, contemplação, unidade e relação com o transcendente.',
+    inBalance: 'É tradicionalmente associado a sentido, serenidade, conexão espiritual e visão mais ampla da própria caminhada.',
+    whenBlocked: 'Na tradição energética, pode ser associado a sensação de desconexão, vazio de sentido ou rigidez espiritual.',
+    protocolAction: 'Cascata de Luz Dourada: visualização simbólica de integração, gratidão e encerramento da jornada.',
+    affirmation: 'Eu acolho a conexão espiritual com presença, liberdade e paz.'
   }
 ];
 
 export function ChakrasGuideModal({ isOpen, onClose }: ChakrasGuideModalProps) {
-  const [selectedChakraId, setSelectedChakraId] = useState<string>('muladhara');
-
+  const [selectedChakraId, setSelectedChakraId] = useState('muladhara');
   if (!isOpen) return null;
 
-  const currentChakra = CHAKRAS_DATA.find((c) => c.id === selectedChakraId) || CHAKRAS_DATA[0];
-  const Icon = currentChakra.icon;
+  const current = CHAKRAS_DATA.find(chakra => chakra.id === selectedChakraId) || CHAKRAS_DATA[0];
 
   return (
-    <div className="fixed inset-0 z-50 flex items-start sm:items-center justify-center p-2 sm:p-4 bg-[#2A2420]/30 backdrop-blur-md overflow-y-auto overscroll-contain" id="chakras-guide-modal" role="dialog" aria-modal="true" aria-label="Guia dos chakras">
+    <div
+      className="fixed inset-0 z-50 flex items-start sm:items-center justify-center p-2 sm:p-4 bg-[#2A2420]/30 backdrop-blur-md overflow-y-auto overscroll-contain"
+      id="chakras-guide-modal"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="chakras-guide-title"
+    >
       <motion.div
-        initial={{ opacity: 0, scale: 0.95, y: 15 }}
+        initial={{ opacity: 0, scale: 0.96, y: 12 }}
         animate={{ opacity: 1, scale: 1, y: 0 }}
-        exit={{ opacity: 0, scale: 0.95 }}
-        className="w-full max-w-4xl bg-[#FBF8F2] border border-[#B88736]/30 rounded-2xl sm:rounded-3xl p-4 sm:p-6 md:p-8 shadow-2xl relative overflow-hidden my-1 sm:my-6 max-h-[calc(100dvh-1rem)] overflow-y-auto overscroll-contain"
+        exit={{ opacity: 0, scale: 0.96 }}
+        className="relative my-1 sm:my-6 w-full max-w-4xl max-h-[calc(100dvh-1rem)] overflow-y-auto overscroll-contain rounded-2xl sm:rounded-3xl border border-[#B88736]/30 bg-[#FBF8F2] p-4 sm:p-6 md:p-8 shadow-2xl"
       >
-        {/* Ambient background glows */}
-        <div className="absolute -top-24 -right-24 w-72 h-72 bg-[#B88736]/10 rounded-full blur-3xl pointer-events-none" />
-        <div className="absolute -bottom-24 -left-24 w-72 h-72 bg-[#B88736]/6 rounded-full blur-3xl pointer-events-none" />
-
-        {/* Close button */}
         <button
+          type="button"
           onClick={onClose}
           aria-label="Fechar guia dos chakras"
-          className="absolute top-4 right-4 w-11 h-11 rounded-full bg-[#F5EFE4]/90 border border-[#E5DAC6] text-[#5C5248] hover:text-[#2A2420] flex items-center justify-center transition cursor-pointer z-10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B88736]/30"
+          className="absolute right-4 top-4 z-10 flex h-11 w-11 items-center justify-center rounded-xl border border-[#E5DAC6] bg-[#F5EFE4] text-[#5C5248] transition hover:bg-[#EFE4D3] hover:text-[#2A2420] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B88736]/30"
         >
-          <X size={16} />
+          <X size={18} />
         </button>
 
-        <div className="space-y-6">
-          {/* Header */}
-          <div className="text-center space-y-2">
-            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#B88736]/10 border border-[#B88736]/30 text-[#B88736] text-xs font-mono font-medium">
-              <Sparkles size={13} className="text-[#B88736]" />
-              <span>GUIA ANATÔMICO & ENERGÉTICO</span>
-            </div>
-            <h2 className="text-2xl md:text-3xl font-display font-medium text-[#2A2420]">
-              O Significado Sagrado dos 7 Chakras
-            </h2>
-            <p className="text-xs md:text-sm text-[#5C5248] max-w-2xl mx-auto">
-              Descubra o que cada centro de força simboliza no seu corpo, os sintomas de desequilíbrio e como o Protocolo de 21 Dias age restaurando cada frequência.
-            </p>
+        <header className="mx-auto max-w-2xl space-y-2 pr-12 text-center">
+          <div className="inline-flex items-center gap-2 rounded-full border border-[#B88736]/25 bg-[#B88736]/8 px-3 py-1 text-[11px] font-semibold uppercase tracking-[.18em] text-[#8F631E]">
+            <Sparkles size={13} />
+            Tradição energética dos 7 chakras
           </div>
+          <h2 id="chakras-guide-title" className="font-display text-2xl font-semibold text-[#2A2420] md:text-3xl">Guia dos 7 Chakras</h2>
+          <p className="text-xs leading-relaxed text-[#5C5248] md:text-sm">
+            Referências simbólicas e tradicionais para estudo e reflexão. Não representam diagnóstico físico ou psicológico.
+          </p>
+        </header>
 
-          {/* Quick Selectors Pills */}
-          <div className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-7 gap-2">
-            {CHAKRAS_DATA.map((chakra) => {
-              const isSelected = chakra.id === selectedChakraId;
-              const CIcon = chakra.icon;
-              return (
-                <button
-                  key={chakra.id}
-                  onClick={() => setSelectedChakraId(chakra.id)}
-                  className={`p-2.5 rounded-2xl border text-left flex flex-col items-center justify-center gap-1 transition cursor-pointer ${
-                    isSelected
-                      ? `${chakra.bgGradient} ${chakra.borderClass} ring-1 ring-white/20 shadow-lg scale-105`
-                      : 'bg-white/70 border-[#E5DAC6] text-[#5C5248] hover:border-[#E5DAC6] hover:text-[#2A2420]'
-                  }`}
-                >
-                  <div className={`p-1.5 rounded-xl ${isSelected ? chakra.badgeBg : 'bg-[#FBF8F2] text-[#85786C]'}`}>
-                    <CIcon size={16} />
-                  </div>
-                  <span className="text-[10px] font-mono font-bold text-center">
-                    {chakra.number}º {chakra.sanskritName}
-                  </span>
-                  <span className="text-[9px] text-[#85786C] text-center line-clamp-1 font-sans">
-                    {chakra.colorName.split(' ')[0]}
-                  </span>
-                </button>
-              );
-            })}
-          </div>
-
-          {/* Detailed Selected Chakra Card */}
-          <div className={`p-6 rounded-3xl border bg-gradient-to-b ${currentChakra.bgGradient} ${currentChakra.borderClass} space-y-5 shadow-xl transition-all duration-300`}>
-            {/* Top Bar of Card */}
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-white/10 pb-4">
-              <div className="flex items-center gap-3">
-                <div className={`p-3 rounded-2xl ${currentChakra.badgeBg} shadow-md`}>
-                  <Icon size={24} />
-                </div>
-                <div>
-                  <div className="flex items-center gap-2">
-                    <span className="text-xs font-mono uppercase font-bold tracking-widest text-[#5C5248]">
-                      {currentChakra.number}º CENTRO ENERGÉTICO
-                    </span>
-                    <span className={`px-2 py-0.5 rounded-full text-[10px] font-mono border ${currentChakra.badgeBg}`}>
-                      {currentChakra.colorName}
-                    </span>
-                  </div>
-                  <h3 className="text-xl md:text-2xl font-bold text-[#2A2420] mt-0.5">
-                    {currentChakra.name} ({currentChakra.sanskritName})
-                  </h3>
-                </div>
-              </div>
-
-              {/* Solfeggio frequency & Mantra */}
-              <div className="flex items-center gap-2 sm:self-center">
-                <div className="bg-white/80 px-3 py-1.5 rounded-xl border border-white/10 text-center">
-                  <span className="text-[9px] font-mono text-[#85786C] uppercase block">Som Sagrado</span>
-                  <strong className="text-xs font-mono text-amber-300">{currentChakra.bijaMantra}</strong>
-                </div>
-                <div className="bg-white/80 px-3 py-1.5 rounded-xl border border-white/10 text-center">
-                  <span className="text-[9px] font-mono text-[#85786C] uppercase block">Ressonância</span>
-                  <strong className="text-xs font-mono text-emerald-300">{currentChakra.solfeggioFreq}</strong>
-                </div>
-              </div>
-            </div>
-
-            {/* Content Matrix */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              {/* O que simboliza */}
-              <div className="p-4 rounded-2xl bg-white/80 border border-[#E5DAC6] space-y-1.5">
-                <span className="text-[11px] font-mono text-[#5C5248] uppercase tracking-wider flex items-center gap-1.5 font-semibold">
-                  <Sparkles size={12} className={currentChakra.colorClass} />
-                  <span>O que este Chakra Simboliza:</span>
-                </span>
-                <p className="text-xs text-[#2A2420] leading-relaxed font-sans">
-                  {currentChakra.symbolizes}
-                </p>
-                <div className="pt-2 text-[10px] text-[#5C5248] font-mono">
-                  <strong>Localização:</strong> {currentChakra.location} • <strong>Elemento:</strong> {currentChakra.element}
-                </div>
-              </div>
-
-              {/* Em Equilíbrio */}
-              <div className="p-4 rounded-2xl bg-white/80 border border-emerald-500/20 space-y-1.5">
-                <span className="text-[11px] font-mono text-emerald-400 uppercase tracking-wider flex items-center gap-1.5 font-semibold">
-                  <CheckCircle2 size={12} />
-                  <span>Sinais de Equilíbrio & Alinhamento:</span>
-                </span>
-                <p className="text-xs text-[#2A2420] leading-relaxed font-sans">
-                  {currentChakra.inBalance}
-                </p>
-              </div>
-
-              {/* Quando Bloqueado */}
-              <div className="p-4 rounded-2xl bg-white/80 border border-rose-500/20 space-y-1.5">
-                <span className="text-[11px] font-mono text-rose-400 uppercase tracking-wider flex items-center gap-1.5 font-semibold">
-                  <Activity size={12} />
-                  <span>Sintomas de Bloqueio ou Desalinhamento:</span>
-                </span>
-                <p className="text-xs text-[#5C5248] leading-relaxed font-sans">
-                  {currentChakra.whenBlocked}
-                </p>
-              </div>
-
-              {/* Atuação no Protocolo de 21 Dias */}
-              <div className="p-4 rounded-2xl bg-white/80 border border-[#B88736]/30 space-y-1.5">
-                <span className="text-[11px] font-mono text-[#B88736] uppercase tracking-wider flex items-center gap-1.5 font-semibold">
-                  <Crown size={12} />
-                  <span>Atuação no Protocolo de 21 Dias:</span>
-                </span>
-                <p className="text-xs text-[#2A2420] leading-relaxed font-sans">
-                  {currentChakra.protocolAction}
-                </p>
-              </div>
-            </div>
-
-            {/* Decree / Affirmation Box */}
-            <div className="p-4 rounded-2xl bg-[#2A2420]/30 border border-amber-400/30 space-y-1 text-center">
-              <span className="text-[10px] font-mono text-amber-400 uppercase tracking-wider block font-bold">
-                Decreto Sagrado de Alinhamento Instantâneo:
-              </span>
-              <p className="text-sm font-serif italic text-amber-200 font-medium">
-                "{currentChakra.affirmation}"
-              </p>
-            </div>
-          </div>
-
-          {/* Footer CTA */}
-          <div className="flex flex-col sm:flex-row items-center justify-between gap-3 pt-2">
-            <p className="text-xs text-[#5C5248] text-center sm:text-left">
-              Cada dia dos 21 dias trabalha harmonizando a totalidade dos seus 7 centros de força.
-            </p>
-            <button
-              type="button"
-              onClick={onClose}
-              className="px-6 py-2.5 bg-[#B88736] hover:bg-[#B88736] text-white rounded-xl text-xs font-semibold transition cursor-pointer shadow-lg shadow-indigo-600/20"
-            >
-              Fechar Guia dos Chakras
-            </button>
-          </div>
+        <div className="mt-6 grid grid-cols-7 gap-2" role="tablist" aria-label="Selecionar chakra">
+          {CHAKRAS_DATA.map(chakra => {
+            const selected = chakra.id === current.id;
+            return (
+              <button
+                key={chakra.id}
+                type="button"
+                role="tab"
+                aria-selected={selected}
+                aria-label={`${chakra.number}. ${chakra.name}`}
+                onClick={() => setSelectedChakraId(chakra.id)}
+                className={`flex min-h-14 flex-col items-center justify-center gap-1 rounded-xl border px-1 py-2 text-[10px] font-semibold transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B88736]/30 ${selected ? 'shadow-sm' : 'bg-white/75 hover:bg-white'}`}
+                style={{
+                  borderColor: selected ? chakra.color : '#E5DAC6',
+                  backgroundColor: selected ? chakra.colorSoft : undefined,
+                  color: selected ? chakra.color : '#5C5248'
+                }}
+              >
+                <span className="flex h-6 w-6 items-center justify-center rounded-full text-[11px] font-bold text-white" style={{ backgroundColor: chakra.color }}>{chakra.number}</span>
+                <span className="hidden sm:block">{chakra.sanskritName}</span>
+              </button>
+            );
+          })}
         </div>
+
+        <section className="mt-5 overflow-hidden rounded-[1.75rem] border border-[#E5DAC6] bg-white/85 shadow-sm">
+          <div className="p-5 sm:p-6" style={{ background: `linear-gradient(135deg, ${current.colorSoft}, rgba(255,255,255,.94))` }}>
+            <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+              <div>
+                <p className="text-[10px] font-mono uppercase tracking-[.18em]" style={{ color: current.color }}>{current.sanskritName}</p>
+                <h3 className="mt-1 font-display text-2xl font-semibold text-[#2A2420]">{current.name}</h3>
+                <p className="mt-2 text-xs text-[#5C5248]">{current.location} • Elemento: {current.element}</p>
+              </div>
+              <div className="grid grid-cols-2 gap-2 sm:min-w-52">
+                <div className="rounded-xl border border-white/80 bg-white/70 p-3 text-center">
+                  <span className="block text-[9px] font-mono uppercase text-[#85786C]">Bija mantra</span>
+                  <strong className="mt-1 block text-sm" style={{ color: current.color }}>{current.bijaMantra}</strong>
+                </div>
+                <div className="rounded-xl border border-white/80 bg-white/70 p-3 text-center">
+                  <span className="block text-[9px] font-mono uppercase text-[#85786C]">Referência sonora</span>
+                  <strong className="mt-1 block text-sm" style={{ color: current.color }}>{current.solfeggioFreq}</strong>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className="grid gap-3 p-4 sm:p-6 md:grid-cols-2">
+            <article className="rounded-2xl border border-[#E5DAC6] bg-[#FBF8F2] p-4">
+              <span className="flex items-center gap-2 text-[10px] font-semibold uppercase tracking-[.14em] text-[#8F631E]"><Sparkles size={13} />O que simboliza</span>
+              <p className="mt-2 text-xs leading-relaxed text-[#5C5248]">{current.symbolizes}</p>
+            </article>
+            <article className="rounded-2xl border border-emerald-200 bg-emerald-50/70 p-4">
+              <span className="flex items-center gap-2 text-[10px] font-semibold uppercase tracking-[.14em] text-emerald-700"><CheckCircle2 size={13} />Quando percebido em equilíbrio</span>
+              <p className="mt-2 text-xs leading-relaxed text-[#5C5248]">{current.inBalance}</p>
+            </article>
+            <article className="rounded-2xl border border-rose-200 bg-rose-50/65 p-4">
+              <span className="flex items-center gap-2 text-[10px] font-semibold uppercase tracking-[.14em] text-rose-700"><Activity size={13} />Quando percebido em desequilíbrio</span>
+              <p className="mt-2 text-xs leading-relaxed text-[#5C5248]">{current.whenBlocked}</p>
+            </article>
+            <article className="rounded-2xl border border-[#B88736]/25 bg-[#B88736]/7 p-4">
+              <span className="flex items-center gap-2 text-[10px] font-semibold uppercase tracking-[.14em] text-[#8F631E]"><Crown size={13} />Na jornada de 21 dias</span>
+              <p className="mt-2 text-xs leading-relaxed text-[#5C5248]">{current.protocolAction}</p>
+            </article>
+          </div>
+
+          <div className="mx-4 mb-4 rounded-2xl border border-[#B88736]/25 bg-[#F5EFE4] p-4 text-center sm:mx-6 sm:mb-6">
+            <span className="block text-[10px] font-mono uppercase tracking-[.15em] text-[#8F631E]">Afirmação de presença</span>
+            <p className="mt-2 font-display text-base italic leading-relaxed text-[#2A2420]">“{current.affirmation}”</p>
+          </div>
+        </section>
+
+        <footer className="mt-5 flex flex-col items-center justify-between gap-3 border-t border-[#E5DAC6] pt-4 sm:flex-row">
+          <p className="max-w-xl text-center text-xs leading-relaxed text-[#5C5248] sm:text-left">
+            As práticas energéticas são apresentadas como tradição espiritual e de autocuidado e não substituem cuidados médicos ou psicológicos.
+          </p>
+          <button
+            type="button"
+            onClick={onClose}
+            className="min-h-11 shrink-0 rounded-xl bg-[#B88736] px-5 py-2.5 text-xs font-semibold text-white transition hover:bg-[#8F631E] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B88736]/35"
+          >
+            Fechar guia
+          </button>
+        </footer>
       </motion.div>
     </div>
   );

@@ -292,7 +292,7 @@ export default function AudioSettingsModal({
                   <div className="flex items-center justify-between">
                     <span className="text-xs font-semibold block">{track.name}</span>
                     {track.pro && (
-                      <span className="text-[9px] font-mono font-bold text-amber-400 bg-amber-500/10 px-1.5 py-0.2 rounded">
+                      <span className="text-[9px] font-mono font-bold text-[#8F631E] bg-[#B88736]/10 px-1.5 py-0.2 rounded">
                         VIP
                       </span>
                     )}
@@ -341,7 +341,7 @@ export default function AudioSettingsModal({
               <div>
                 <div className="flex items-center gap-2">
                   <span className="text-[10px] font-mono uppercase tracking-widest text-[#B88736] font-bold">
-                    Bioacústica Integrativa
+                    Áudio Binaural Opcional
                   </span>
                   <span className="text-[9px] font-mono font-bold text-[#8F631E] bg-[#EAD5A8]/50 px-2 py-0.5 rounded-full border border-[#B88736]/30">
                     Estéreo Binaural
@@ -379,11 +379,11 @@ export default function AudioSettingsModal({
 
           {bioactiveBinauralEnabled ? (
             <div className="space-y-4 pt-1 border-t border-[#E5DAC6]/70">
-              {/* Seletor de Tipo de Onda Cerebral Alvo */}
+              {/* Seletor de Tipo de Batimento Binaural Selecionado */}
               <div className="space-y-2">
                 <div className="flex items-center justify-between">
                   <label className="text-[11px] font-mono text-[#8F631E] font-semibold uppercase flex items-center gap-1.5">
-                    <Activity size={13} /> Onda Cerebral Alvo ({currentBeatHz.toFixed(1)} Hz)
+                    <Activity size={13} /> Batimento Binaural Selecionado ({currentBeatHz.toFixed(1)} Hz)
                   </label>
                   <span className="text-[10px] text-[#8F631E] font-mono font-bold bg-[#EAD5A8]/40 px-2 py-0.5 rounded border border-[#B88736]/20">
                     {binauralWaveType.toUpperCase()}
@@ -520,11 +520,11 @@ export default function AudioSettingsModal({
                   </div>
                 </div>
                 <p className="text-[10px] font-sans text-[#85786C] pt-1 leading-normal">
-                  Diferença percebida no cérebro: <strong>{currentBeatHz.toFixed(1)} Hz</strong>. Fones de ouvido recomendados para o efeito bioativo completo.
+                  Diferença estéreo entre os canais: <strong>{currentBeatHz.toFixed(1)} Hz</strong>. Fones de ouvido são recomendados para perceber a separação estéreo.
                 </p>
               </div>
 
-              {/* Botão de Prévia da Sintonização Bioativa */}
+              {/* Botão de Prévia Binaural */}
               <button
                 type="button"
                 onClick={toggleBioactivePreview}
@@ -536,7 +536,7 @@ export default function AudioSettingsModal({
               >
                 {isPlayingBioactivePreview ? <Pause size={14} /> : <Play size={14} fill="currentColor" />}
                 <span>
-                  {isPlayingBioactivePreview ? 'Pausar Demonstração Bioativa' : 'Ouvir Prévia da Sintonização Bioativa'}
+                  {isPlayingBioactivePreview ? 'Pausar prévia binaural' : 'Ouvir prévia binaural'}
                 </span>
               </button>
             </div>
@@ -544,7 +544,7 @@ export default function AudioSettingsModal({
             <div className="text-[11px] text-[#85786C] bg-white/60 p-3 rounded-xl border border-[#E5DAC6]/60 flex items-center gap-2">
               <Info size={14} className="text-[#B88736] shrink-0" />
               <span>
-                Ative para sobrepor batidas binaurais estéreo (Delta, Theta, Alpha, Beta ou Gamma) sincronizadas com sua frequência de fundo.
+                Ative para adicionar uma diferença estéreo opcional entre os canais sobre a trilha escolhida. Os nomes Delta, Theta, Alpha, Beta e Gamma identificam apenas a diferença de frequência selecionada.
               </span>
             </div>
           )}
@@ -621,7 +621,7 @@ export default function AudioSettingsModal({
           onClick={handleTestVoice}
           className={`w-full py-3 rounded-xl border font-mono text-xs flex items-center justify-center gap-2 transition cursor-pointer ${
             isTestingVoice
-              ? 'bg-amber-500/20 border-amber-400 text-amber-300 animate-pulse'
+              ? 'bg-[#B88736]/15 border-[#B88736] text-[#8F631E]'
               : 'bg-[#FBF8F2] border-[#E5DAC6] text-[#5C5248] hover:border-[#B88736]/50'
           }`}
         >
@@ -634,7 +634,7 @@ export default function AudioSettingsModal({
           <button
             type="button"
             onClick={handleSave}
-            className="w-full bg-[#B88736] hover:bg-[#B88736] text-white font-medium py-3.5 rounded-xl transition duration-200 shadow-lg shadow-indigo-600/20 text-xs tracking-wider uppercase flex items-center justify-center gap-2 cursor-pointer border-none font-sans font-bold"
+            className="w-full min-h-11 bg-[#B88736] hover:bg-[#8F631E] text-white font-medium py-3.5 rounded-xl transition duration-200 shadow-sm text-xs tracking-wider uppercase flex items-center justify-center gap-2 cursor-pointer border-none font-sans font-bold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B88736]/35"
           >
             <Check size={16} />
             Salvar e Aplicar Ajustes de Som

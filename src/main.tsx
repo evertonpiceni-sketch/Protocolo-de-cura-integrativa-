@@ -5,6 +5,8 @@ import './index.css';
 import './approved-theme.css';
 import './natural-sereno.css';
 import './natural-sereno-refinement.css';
+import './lib/audioIntegrityPatch';
+import './lib/reintegrationPublicNarrationPatch';
 import { ErrorBoundary } from './ErrorBoundary.tsx';
 
 createRoot(document.getElementById('root')!).render(

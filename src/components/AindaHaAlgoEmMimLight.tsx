@@ -36,106 +36,103 @@ const QUESTIONS = [
 export const AindaHaAlgoEmMimLight: React.FC<Props> = ({ onFinishReflection }) => {
   const [currentIdx, setCurrentIdx] = useState(0);
   const [answers, setAnswers] = useState<Record<number, string>>({});
-  const q = QUESTIONS[currentIdx];
+  const question = QUESTIONS[currentIdx];
 
   const handleNext = () => {
-    if (currentIdx < QUESTIONS.length - 1) setCurrentIdx(i => i + 1);
-    else onFinishReflection?.(answers);
+    if (currentIdx < QUESTIONS.length - 1) {
+      setCurrentIdx(index => index + 1);
+      return;
+    }
+    onFinishReflection?.(answers);
   };
 
   const handleBack = () => {
-    if (currentIdx > 0) setCurrentIdx(i => i - 1);
+    if (currentIdx > 0) setCurrentIdx(index => index - 1);
   };
 
   return (
-    <div className="min-h-screen bg-[#F8F4EC] text-[#2A2420] font-sans flex flex-col justify-between relative overflow-hidden px-6 py-8 select-none">
-      <div className="absolute top-[-10%] left-[-10%] w-[550px] h-[550px] bg-gradient-to-br from-[#EBD9BF]/50 to-transparent rounded-full blur-3xl pointer-events-none -z-10" />
-      <div className="absolute bottom-[-10%] right-[-10%] w-[550px] h-[550px] bg-gradient-to-tl from-[#D8C7AA]/40 to-transparent rounded-full blur-3xl pointer-events-none -z-10" />
-      <div className="absolute top-1/4 right-0 w-80 h-80 bg-gradient-to-l from-[#5E7153]/5 to-transparent rounded-full blur-3xl pointer-events-none -z-10" />
+    <div className="relative flex min-h-dvh flex-col justify-between overflow-hidden bg-[#F8F4EC] px-4 py-6 font-sans text-[#2A2420] sm:px-6 sm:py-8">
+      <div className="pointer-events-none absolute left-[-10%] top-[-10%] -z-10 h-[550px] w-[550px] rounded-full bg-gradient-to-br from-[#EBD9BF]/50 to-transparent blur-3xl" />
+      <div className="pointer-events-none absolute bottom-[-10%] right-[-10%] -z-10 h-[550px] w-[550px] rounded-full bg-gradient-to-tl from-[#D8C7AA]/40 to-transparent blur-3xl" />
+      <div className="pointer-events-none absolute right-0 top-1/4 -z-10 h-80 w-80 rounded-full bg-gradient-to-l from-[#5E7153]/5 to-transparent blur-3xl" />
 
-      <header className="max-w-md mx-auto w-full flex items-center justify-between">
-        {currentIdx > 0 ? (
-          <button
-            onClick={handleBack}
-            className="flex items-center gap-1 text-xs uppercase tracking-wider text-[#7A6D5E] hover:text-[#2A2420] transition-colors cursor-pointer"
-          >
-            <ArrowLeft className="w-3.5 h-3.5" />
-            <span>Voltar</span>
-          </button>
-        ) : (
-          <div className="w-12" />
-        )}
+      <header className="mx-auto flex w-full max-w-md items-center justify-between gap-3">
+        <div className="w-24">
+          {currentIdx > 0 && (
+            <button
+              type="button"
+              onClick={handleBack}
+              className="flex min-h-11 items-center gap-1 rounded-xl px-2 text-xs uppercase tracking-wider text-[#7A6D5E] transition-colors hover:bg-[#F5EFE4] hover:text-[#2A2420] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B88736]/30"
+            >
+              <ArrowLeft className="h-3.5 w-3.5" />
+              <span>Voltar</span>
+            </button>
+          )}
+        </div>
 
-        <div className="flex items-center gap-1.5 text-xs text-[#7A6D5E]">
-          <Feather className="w-3.5 h-3.5 text-[#5E7153]" />
+        <div className="flex items-center gap-1.5 text-xs text-[#7A6D5E]" aria-live="polite">
+          <Feather className="h-3.5 w-3.5 text-[#5E7153]" />
           <span>Reflexão {currentIdx + 1} de {QUESTIONS.length}</span>
         </div>
 
-        <div className="w-12" />
+        <div className="w-24" aria-hidden="true" />
       </header>
 
-      <main className="max-w-md mx-auto w-full my-auto py-6">
+      <main className="mx-auto my-auto w-full max-w-md py-6">
         <AnimatePresence mode="wait">
-          <motion.div
-            key={q.id}
+          <motion.section
+            key={question.id}
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -16 }}
             transition={{ duration: 0.3 }}
-            className="bg-white/85 backdrop-blur-xl border border-[#E8DFC8] rounded-3xl p-7 sm:p-9 shadow-xl shadow-[#B88736]/5"
+            className="rounded-3xl border border-[#E8DFC8] bg-white/85 p-6 shadow-xl shadow-[#B88736]/5 backdrop-blur-xl sm:p-9"
+            aria-labelledby={`reflection-question-${question.id}`}
           >
-            <div className="inline-flex items-center gap-2 mb-3">
-              <span className="w-1.5 h-1.5 rounded-full bg-[#5E7153]" />
-              <span className="text-[11px] font-semibold tracking-widest text-[#B88736] uppercase">
-                Ainda Há Algo em Mim
-              </span>
+            <div className="mb-3 inline-flex items-center gap-2">
+              <span className="h-1.5 w-1.5 rounded-full bg-[#5E7153]" />
+              <span className="text-[11px] font-semibold uppercase tracking-widest text-[#B88736]">Ainda Há Algo em Mim</span>
             </div>
 
-            <h2 className="text-2xl sm:text-3xl font-serif text-[#2A2420] leading-snug mb-2">{q.title}</h2>
-            <p className="text-xs text-[#5C5248] font-light leading-relaxed mb-6">{q.subtitle}</p>
+            <h1 id={`reflection-question-${question.id}`} className="mb-2 font-serif text-2xl leading-snug text-[#2A2420] sm:text-3xl">{question.title}</h1>
+            <p className="mb-6 text-xs font-light leading-relaxed text-[#5C5248]">{question.subtitle}</p>
 
-            <div className="space-y-2 mb-6">
+            <div className="mb-6 space-y-2">
+              <label htmlFor={`reflection-answer-${question.id}`} className="sr-only">Resposta opcional para: {question.title}</label>
               <textarea
-                value={answers[q.id] || ""}
-                onChange={(e) => setAnswers(prev => ({ ...prev, [q.id]: e.target.value }))}
-                placeholder={q.placeholder}
+                id={`reflection-answer-${question.id}`}
+                value={answers[question.id] || ''}
+                onChange={event => setAnswers(previous => ({ ...previous, [question.id]: event.target.value }))}
+                placeholder={question.placeholder}
                 rows={4}
-                className="w-full p-4 rounded-2xl bg-[#F5EFE4] border border-[#E2D5BE] text-[#2A2420] placeholder-[#9E9080] text-sm focus:outline-none focus:border-[#B88736] focus:ring-2 focus:ring-[#B88736]/20 transition-all resize-none font-light leading-relaxed"
+                className="w-full resize-none rounded-2xl border border-[#E2D5BE] bg-[#F5EFE4] p-4 text-sm font-light leading-relaxed text-[#2A2420] placeholder-[#9E9080] transition-all focus:border-[#B88736] focus:outline-none focus:ring-2 focus:ring-[#B88736]/20"
               />
-              <span className="text-[10px] text-[#8A7C6D] block text-right">
-                A escrita é opcional. Você pode apenas refletir em silêncio se preferir.
-              </span>
+              <span className="block text-right text-[10px] text-[#8A7C6D]">A escrita é opcional. Você pode apenas refletir em silêncio se preferir.</span>
             </div>
 
             <button
               type="button"
               onClick={handleNext}
-              className="w-full py-3.5 px-6 rounded-xl font-medium text-sm text-white flex items-center justify-center gap-2 bg-gradient-to-r from-[#D6A756] via-[#B88736] to-[#9E6E24] hover:brightness-105 active:scale-[0.99] transition-all shadow-md shadow-[#B88736]/25 cursor-pointer"
+              className="flex min-h-11 w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-[#D6A756] via-[#B88736] to-[#9E6E24] px-6 py-3.5 text-sm font-medium text-white shadow-md shadow-[#B88736]/25 transition-all hover:brightness-105 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B88736]/35"
             >
-              <span>{currentIdx === QUESTIONS.length - 1 ? "Concluir reflexão" : "Avançar com calma"}</span>
-              <ArrowRight className="w-4 h-4" />
+              <span>{currentIdx === QUESTIONS.length - 1 ? 'Concluir reflexão' : 'Avançar com calma'}</span>
+              <ArrowRight className="h-4 w-4" />
             </button>
-          </motion.div>
+          </motion.section>
         </AnimatePresence>
 
-        <div className="mt-6 text-center space-y-1.5">
-          <p className="text-xs text-[#5C5248] font-light">
-            “Aqui, ninguém precisa estar bem para ser bem-vindo.”
-          </p>
+        <div className="mt-6 space-y-1.5 text-center">
+          <p className="text-xs font-light text-[#5C5248]">“Aqui, ninguém precisa estar bem para ser bem-vindo.”</p>
           <div className="flex items-center justify-center gap-1.5 text-[10.5px] text-[#8A7C6D]">
-            <ShieldCheck className="w-3.5 h-3.5 text-[#B88736]" />
-            <span>Suas respostas são pessoais e protegidas.</span>
+            <ShieldCheck className="h-3.5 w-3.5 text-[#B88736]" />
+            <span>Você decide o que deseja escrever e registrar.</span>
           </div>
         </div>
       </main>
 
-      <footer className="max-w-md mx-auto w-full text-center border-t border-[#E8DFC8]/70 pt-4">
-        <div className="text-[11px] text-[#7A6D5E] tracking-wider uppercase">
-          @terapiamorevida • Evoluir também é cuidar de si
-        </div>
-        <p className="text-[10px] text-[#9E9080] mt-1">
-          Em momentos de sofrimento agudo, lembre-se: procure apoio humano especializado (CVV: 188).
-        </p>
+      <footer className="mx-auto w-full max-w-md border-t border-[#E8DFC8]/70 pt-4 text-center">
+        <div className="text-[11px] uppercase tracking-wider text-[#7A6D5E]">@terapiamorevida • Evoluir também é cuidar de si</div>
+        <p className="mt-1 text-[10px] text-[#9E9080]">Se esta reflexão despertar sofrimento intenso, interrompa a prática e procure uma pessoa ou serviço de apoio adequado.</p>
       </footer>
     </div>
   );

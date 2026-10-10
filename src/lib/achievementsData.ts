@@ -20,24 +20,34 @@ export const ALL_ACHIEVEMENTS: AchievementItem[] = [
   { id: 'mestre_frequencia', title: '21 Momentos para Mim', description: 'Concluiu os 21 momentos do Protocolo da Transformação.', category: 'jornada', icon: 'Crown', points: 500, requirementText: 'Concluir os 21 momentos do Protocolo da Transformação' }
 ];
 
-export interface AchievementEvaluation { unlocked: AchievementItem[]; locked: AchievementItem[]; unlockedIds: string[]; totalPoints: number; maxPoints: number; percentage: number; }
+export interface AchievementEvaluation {
+  unlocked: AchievementItem[];
+  locked: AchievementItem[];
+  unlockedIds: string[];
+  totalPoints: number;
+  maxPoints: number;
+  percentage: number;
+}
 
 export function evaluateUserAchievements(profile: UserProfile | null | undefined, progress: DayProgress[]): AchievementEvaluation {
-  const completedCount = progress.filter(p => p.completed).length;
-  const currentStreak = profile?.currentStreak || 0;
-  const longestStreak = profile?.longestStreak || 0;
+  const completedCount = progress.filter(item => item.completed).length;
+  const currentStreak = Number(profile?.currentStreak || 0);
+  const longestStreak = Number(profile?.longestStreak || 0);
   const maxStreak = Math.max(currentStreak, longestStreak);
-  const hasJournalEntry = progress.some(p => (p.journalText && p.journalText.trim().length > 0) || p.beforeFeeling?.notes || p.afterFeeling?.notes);
-  const hasSystemicAnswer = progress.some(p => p.systemicAnswer && p.systemicAnswer.trim().length > 0);
-  const hasAnamnesis = Boolean(profile?.anamnesis && profile.anamnesis.mainComplaints && profile.anamnesis.mainComplaints.length > 0);
-  const hasAstralMap = Boolean(profile?.astralMap || profile?.birthDate);
-  const hasArchangel = Boolean(profile?.archangelPrayerCompletedDays && profile.archangelPrayerCompletedDays.length > 0);
-  const hasHooponopono = Boolean((profile?.hooponoponoPracticedCount || 0) > 0);
+  const hasJournalEntry = progress.some(item => Boolean(item.journalText?.trim() || item.beforeFeeling?.notes || item.afterFeeling?.notes));
+  const hasSystemicAnswer = progress.some(item => Boolean(item.systemicAnswer?.trim()));
+  const hasAnamnesis = Boolean(profile?.anamnesis?.mainComplaints?.length);
+  const hasAstralMap = Boolean(profile?.astralMap);
+  const sevenChakraDays = profile?.journeyProgress?.arcanjo7CompletedDays;
+  const hasSevenChakraJourney = Array.isArray(sevenChakraDays) && new Set(sevenChakraDays.filter(day => day >= 1 && day <= 7)).size >= 7;
+  const hasArchangel = Boolean(profile?.archangelPrayerCompletedDays?.length);
+  const hasHooponopono = Number(profile?.hooponoponoPracticedCount || 0) > 0;
+
   const unlockedIds = new Set<string>(profile?.unlockedAchievements || []);
   if (completedCount >= 1) unlockedIds.add('primeiro_passo');
   if (maxStreak >= 3 || completedCount >= 3) unlockedIds.add('foco_sagrado');
   if (completedCount >= 7 || maxStreak >= 7) unlockedIds.add('meditador_constante');
-  if (completedCount >= 7) unlockedIds.add('mestre_dos_chakras');
+  if (hasSevenChakraJourney) unlockedIds.add('mestre_dos_chakras');
   if (hasArchangel) unlockedIds.add('guarda_de_miguel');
   if (hasHooponopono) unlockedIds.add('coracao_puro');
   if (hasJournalEntry) unlockedIds.add('auto_observador');
@@ -46,10 +56,29 @@ export function evaluateUserAchievements(profile: UserProfile | null | undefined
   if (hasAstralMap) unlockedIds.add('mapa_estelar');
   if (completedCount >= 14) unlockedIds.add('soberania_espiritual');
   if (completedCount >= 21) unlockedIds.add('mestre_frequencia');
-  const unlocked: AchievementItem[] = []; const locked: AchievementItem[] = []; let totalPoints = 0;
-  const maxPoints = ALL_ACHIEVEMENTS.reduce((acc, curr) => acc + curr.points, 0);
-  ALL_ACHIEVEMENTS.forEach(ach => { if (unlockedIds.has(ach.id)) { unlocked.push(ach); totalPoints += ach.points; } else locked.push(ach); });
-  return { unlocked, locked, unlockedIds: Array.from(unlockedIds), totalPoints, maxPoints, percentage: Math.round((unlocked.length / ALL_ACHIEVEMENTS.length) * 100) };
+
+  const unlocked: AchievementItem[] = [];
+  const locked: AchievementItem[] = [];
+  let totalPoints = 0;
+  const maxPoints = ALL_ACHIEVEMENTS.reduce((sum, achievement) => sum + achievement.points, 0);
+
+  ALL_ACHIEVEMENTS.forEach(achievement => {
+    if (unlockedIds.has(achievement.id)) {
+      unlocked.push(achievement);
+      totalPoints += achievement.points;
+    } else {
+      locked.push(achievement);
+    }
+  });
+
+  return {
+    unlocked,
+    locked,
+    unlockedIds: Array.from(unlockedIds),
+    totalPoints,
+    maxPoints,
+    percentage: Math.round((unlocked.length / ALL_ACHIEVEMENTS.length) * 100)
+  };
 }
 
 export const evaluateAchievements = evaluateUserAchievements;

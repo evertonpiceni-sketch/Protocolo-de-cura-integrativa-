@@ -22,11 +22,17 @@ test('keeps the canonical visual breathing cadence at 4 inhale, 3 hold and 5 exh
   assert.equal(protocolBreathTransitionSeconds('exhale'), 5);
 });
 
-test('production protocol player keeps the fixed elapsed-time conversion and 4-3-5 cadence', () => {
+test('production protocol player keeps 4-3-5 cadence and the startup audio integrity layer is loaded', () => {
   const session = fs.readFileSync('src/components/MeditationSession.tsx', 'utf8');
   assert.ok(!session.includes('curr / 1000'), 'audio engine has already normalized native speech progress');
   assert.ok(session.includes("position < 4 ? 'inhale' : position < 7 ? 'hold' : 'exhale'"), 'breathing phase boundaries must remain 4-3-5');
   assert.ok(session.includes("breathePhase === 'hold' ? 3 : 5"), 'visual transition must use a 3-second hold');
+  const main = fs.readFileSync('src/main.tsx', 'utf8');
+  const integrity = fs.readFileSync('src/lib/audioIntegrityPatch.ts', 'utf8');
+  assert.ok(main.includes("./lib/audioIntegrityPatch"), 'audio integrity patch must load before the app');
+  const audio = fs.readFileSync('src/lib/audio.ts', 'utf8');
+  assert.ok(audio.includes('speechElapsedSeconds('), 'native events must be normalized once at their source');
+  assert.ok(!integrity.includes('seconds * 1000'), 'compatibility layer must not reintroduce milliseconds');
 });
 
 test('the 21-day journey exposes a distinct daily title instead of one repeated day label', () => {
@@ -60,10 +66,17 @@ test('sacred animation remains semantically mapped to the six narrated protocol 
   }
 });
 
-test('Arcanjo flow starts the selected Solfeggio and reads the approved script set', () => {
+test('all Hz-labelled audio entrypoints use the exact Solfeggio oscillator', () => {
   const arcanjo = fs.readFileSync('src/components/ArcanjoProtocolView.tsx', 'utf8');
+  const integrity = fs.readFileSync('src/lib/audioIntegrityPatch.ts', 'utf8');
+  const tone = fs.readFileSync('src/lib/solfeggioTone.ts', 'utf8');
   assert.ok(arcanjo.includes('DISTANCE_TREATMENT_SCRIPT'));
   assert.ok(arcanjo.includes('audioEngine.startSynth(`${config.freq}hz`)'));
   assert.ok(arcanjo.includes('APPROVED_SECTIONS.map(section => section.ttsScript)'));
-  assert.ok(arcanjo.includes('audioEngine.stopSynth()'));
+  assert.ok(integrity.includes('engine.startBG = (type: any) =>'));
+  assert.ok(integrity.includes('engine.startSynth = (type: any) =>'));
+  assert.ok(integrity.includes('solfeggioTone.start(Number(match[1])'));
+  assert.ok(integrity.includes('engine.getCurrentSynthType = () => exactBackgroundType || originalGetCurrentSynthType()'));
+  assert.ok(integrity.includes('solfeggioTone.setVolume(exactVolume())'));
+  assert.ok(tone.includes('oscillator.frequency.setValueAtTime(frequency'));
 });

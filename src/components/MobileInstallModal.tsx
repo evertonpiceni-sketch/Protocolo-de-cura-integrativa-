@@ -1,27 +1,162 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { motion } from 'motion/react';
-import { Smartphone, Download, CheckCircle2, ShieldCheck, Zap, X, Play, Share2, Apple } from 'lucide-react';
+import { Smartphone, Download, CheckCircle2, ShieldCheck, Zap, X, Play, Share2, Apple, Info } from 'lucide-react';
 
-interface MobileInstallModalProps { onClose: () => void; deferredPrompt?: any; }
+interface MobileInstallModalProps {
+  onClose: () => void;
+  deferredPrompt?: any;
+}
 
 export default function MobileInstallModal({ onClose, deferredPrompt }: MobileInstallModalProps) {
   const [isInstalling, setIsInstalling] = useState(false);
   const [installSuccess, setInstallSuccess] = useState(false);
+  const [installFeedback, setInstallFeedback] = useState<string | null>(null);
   const [activeTab, setActiveTab] = useState<'android' | 'ios'>('android');
-  useEffect(() => { const isIos = /ipad|iphone|ipod/.test(navigator.userAgent.toLowerCase()) && !(window as any).MSStream; if (isIos) setActiveTab('ios'); }, [deferredPrompt]);
+
+  useEffect(() => {
+    const isIos = /ipad|iphone|ipod/.test(navigator.userAgent.toLowerCase()) && !(window as any).MSStream;
+    if (isIos) setActiveTab('ios');
+  }, []);
+
   const handleInstallClick = async () => {
-    if (deferredPrompt) { setIsInstalling(true); deferredPrompt.prompt(); const { outcome } = await deferredPrompt.userChoice; if (outcome === 'accepted') setInstallSuccess(true); setIsInstalling(false); }
-    else alert("Para instalar no Android: abra o menu do navegador e toque em 'Instalar aplicativo' ou 'Adicionar à tela inicial'.");
+    setInstallFeedback(null);
+    if (!deferredPrompt) {
+      setInstallFeedback("Seu navegador não disponibilizou o botão automático. Abra o menu do navegador e escolha 'Instalar aplicativo' ou 'Adicionar à tela inicial'.");
+      return;
+    }
+
+    try {
+      setIsInstalling(true);
+      await deferredPrompt.prompt();
+      const { outcome } = await deferredPrompt.userChoice;
+      if (outcome === 'accepted') {
+        setInstallSuccess(true);
+        setInstallFeedback('Solicitação de instalação aceita. Verifique a tela inicial do aparelho.');
+      } else {
+        setInstallFeedback('A instalação foi cancelada. Você pode tentar novamente quando quiser.');
+      }
+    } catch (error) {
+      console.warn('Não foi possível iniciar a instalação automática.', error);
+      setInstallFeedback("Não foi possível abrir a instalação automática. Use o menu do navegador e escolha 'Adicionar à tela inicial'.");
+    } finally {
+      setIsInstalling(false);
+    }
   };
+
+  const tabClass = (selected: boolean) => `min-h-11 flex-1 rounded-xl px-3 py-2 text-xs font-semibold transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B88736]/35 ${
+    selected
+      ? 'border border-[#B88736]/35 bg-[#B88736]/12 text-[#8F631E]'
+      : 'border border-transparent bg-transparent text-[#5C5248] hover:bg-[#F5EFE4]'
+  }`;
+
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4 bg-white/80 backdrop-blur-md overflow-y-auto overscroll-contain" id="mobile-install-modal" role="dialog" aria-modal="true" aria-label="Instalar aplicativo">
-      <motion.div initial={{ opacity: 0, scale: 0.95, y: 15 }} animate={{ opacity: 1, scale: 1, y: 0 }} exit={{ opacity: 0, scale: 0.95, y: 15 }} className="w-full max-w-lg bg-[#FBF8F2] border border-[#E5DAC6] rounded-2xl sm:rounded-3xl p-4 sm:p-6 md:p-8 shadow-2xl space-y-6 relative overflow-hidden my-1 sm:my-4 max-h-[calc(100dvh-1rem)] overflow-y-auto overscroll-contain">
-        <div className="absolute top-0 right-0 w-64 h-64 bg-emerald-500/10 rounded-full blur-3xl pointer-events-none" /><div className="absolute bottom-0 left-0 w-64 h-64 bg-amber-500/10 rounded-full blur-3xl pointer-events-none" />
-        <button onClick={onClose} aria-label="Fechar" className="absolute top-4 right-4 w-11 h-11 text-[#5C5248] hover:text-[#2A2420] rounded-xl bg-[#F5EFE4]/80 hover:bg-[#EFE4D3] transition cursor-pointer border border-[#E5DAC6] z-10 flex items-center justify-center focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B88736]/30"><X size={18} /></button>
-        <div className="flex items-center gap-3.5 relative z-10"><div className="w-14 h-14 bg-emerald-500/10 border border-emerald-500/30 rounded-2xl flex items-center justify-center text-emerald-400 shrink-0"><Smartphone size={28} /></div><div><span className="text-[10px] font-mono font-bold text-emerald-400 bg-emerald-500/10 border border-emerald-500/20 px-2.5 py-0.5 rounded-full uppercase tracking-wider">App Oficial</span><h3 className="text-lg md:text-xl font-display font-medium text-[#2A2420] mt-1">Instalar no celular</h3></div></div>
-        <div className="flex bg-white rounded-xl p-1 relative z-10"><button onClick={() => setActiveTab('android')} className={`flex-1 flex items-center justify-center gap-2 py-2 text-xs font-semibold rounded-lg border-none cursor-pointer ${activeTab === 'android' ? 'bg-emerald-500/20 text-emerald-400' : 'text-[#5C5248] bg-transparent'}`}><Play size={14} /> Android</button><button onClick={() => setActiveTab('ios')} className={`flex-1 flex items-center justify-center gap-2 py-2 text-xs font-semibold rounded-lg border-none cursor-pointer ${activeTab === 'ios' ? 'bg-amber-500/20 text-amber-300' : 'text-[#5C5248] bg-transparent'}`}><Apple size={14} /> iOS</button></div>
-        <div className="p-4 rounded-2xl bg-white/80 border border-[#E5DAC6] flex items-center gap-4 relative z-10"><div className="w-14 h-14 rounded-2xl overflow-hidden bg-[#FBF8F2] border border-[#E5DAC6] flex items-center justify-center shrink-0"><img src="/icon-192.svg" alt="Ícone do aplicativo" className="w-12 h-12 object-contain" /></div><div className="min-w-0 flex-1"><h4 className="text-sm font-semibold text-[#2A2420] truncate">Protocolo da Transformação</h4><p className="text-xs text-[#5C5248] truncate">Por Éverton Rodrigo Piceni</p><p className="mt-1 text-[11px] text-emerald-400">Um lugar para voltar para si.</p></div></div>
-        {activeTab === 'android' ? <div className="space-y-4 relative z-10"><div className="space-y-2.5 text-xs"><div className="flex items-start gap-3 p-2.5 rounded-xl bg-white/40 border border-[#E5DAC6]/60 text-[#5C5248]"><ShieldCheck size={16} className="text-emerald-400 shrink-0 mt-0.5" /><div><strong className="text-[#2A2420] block">Acesso pela tela inicial</strong>Use o projeto como aplicativo em tela cheia no seu celular.</div></div><div className="flex items-start gap-3 p-2.5 rounded-xl bg-white/40 border border-[#E5DAC6]/60 text-[#5C5248]"><Zap size={16} className="text-amber-400 shrink-0 mt-0.5" /><div><strong className="text-[#2A2420] block">Seu espaço de cuidado por perto</strong>Acesse seus momentos, jornadas e recursos com facilidade.</div></div></div>{installSuccess ? <div className="p-3 bg-emerald-50 border border-emerald-200 text-emerald-700 rounded-xl text-center text-xs font-medium" role="status" aria-live="polite">Aplicativo instalado. Verifique a tela inicial.</div> : <button onClick={handleInstallClick} disabled={isInstalling} className="w-full bg-gradient-to-r from-emerald-700 to-amber-500 text-white font-medium py-3.5 rounded-xl text-xs tracking-wider uppercase flex items-center justify-center gap-2 border-none"><Download size={16} />{isInstalling ? 'Instalando...' : 'Instalar no Android'}</button>}</div> : <div className="relative z-10 p-4 rounded-xl bg-white/40 border border-[#E5DAC6]/60 text-sm text-[#5C5248] space-y-4"><p className="font-medium text-[#2A2420] text-xs">No Safari:</p><ol className="space-y-4 list-decimal pl-5 text-xs"><li className="pl-2">Toque em <strong className="text-white">Compartilhar</strong>.<div className="mt-2 flex justify-center"><Share2 size={20} /></div></li><li className="pl-2">Selecione <strong className="text-white">Adicionar à Tela de Início</strong>.</li><li className="pl-2">Confirme em <strong className="text-white">Adicionar</strong>.</li></ol><div className="p-3 rounded-lg bg-emerald-500/10 border border-emerald-500/20 text-xs text-emerald-300 flex gap-2"><CheckCircle2 size={16} className="shrink-0" /><p>Depois disso, o Protocolo da Transformação ficará disponível na sua tela inicial.</p></div></div>}
+    <div
+      className="fixed inset-0 z-50 flex items-center justify-center overflow-y-auto overscroll-contain bg-[#2A2420]/30 p-2 sm:p-4 backdrop-blur-md"
+      id="mobile-install-modal"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="mobile-install-title"
+    >
+      <motion.div
+        initial={{ opacity: 0, scale: 0.95, y: 15 }}
+        animate={{ opacity: 1, scale: 1, y: 0 }}
+        exit={{ opacity: 0, scale: 0.95, y: 15 }}
+        className="relative my-1 w-full max-w-lg max-h-[calc(100dvh-1rem)] space-y-5 overflow-y-auto overscroll-contain rounded-2xl border border-[#E5DAC6] bg-[#FBF8F2] p-4 shadow-2xl sm:my-4 sm:rounded-3xl sm:p-6 md:p-8"
+      >
+        <div className="pointer-events-none absolute right-0 top-0 h-64 w-64 rounded-full bg-[#B88736]/8 blur-3xl" aria-hidden="true" />
+        <div className="pointer-events-none absolute bottom-0 left-0 h-64 w-64 rounded-full bg-[#5E7153]/8 blur-3xl" aria-hidden="true" />
+
+        <button
+          type="button"
+          onClick={onClose}
+          aria-label="Fechar instalação do aplicativo"
+          className="absolute right-4 top-4 z-10 flex h-11 w-11 items-center justify-center rounded-xl border border-[#E5DAC6] bg-[#F5EFE4] text-[#5C5248] transition hover:bg-[#EFE4D3] hover:text-[#2A2420] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B88736]/30"
+        >
+          <X size={18} />
+        </button>
+
+        <header className="relative z-10 flex items-center gap-3.5 pr-12">
+          <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl border border-[#B88736]/25 bg-[#B88736]/10 text-[#8F631E]">
+            <Smartphone size={28} />
+          </div>
+          <div>
+            <span className="rounded-full border border-[#B88736]/20 bg-[#B88736]/8 px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-wider text-[#8F631E]">
+              Atalho do aplicativo
+            </span>
+            <h2 id="mobile-install-title" className="mt-1 font-display text-lg font-medium text-[#2A2420] md:text-xl">Instalar no celular</h2>
+            <p className="mt-1 text-[11px] leading-relaxed text-[#85786C]">Adicione o Protocolo da Transformação à tela inicial para abrir com mais facilidade.</p>
+          </div>
+        </header>
+
+        <div className="relative z-10 flex rounded-2xl border border-[#E5DAC6] bg-white/75 p-1" role="tablist" aria-label="Sistema do aparelho">
+          <button type="button" role="tab" aria-selected={activeTab === 'android'} onClick={() => { setActiveTab('android'); setInstallFeedback(null); }} className={tabClass(activeTab === 'android')}>
+            <Play size={14} className="mr-1.5 inline" /> Android
+          </button>
+          <button type="button" role="tab" aria-selected={activeTab === 'ios'} onClick={() => { setActiveTab('ios'); setInstallFeedback(null); }} className={tabClass(activeTab === 'ios')}>
+            <Apple size={14} className="mr-1.5 inline" /> iOS
+          </button>
+        </div>
+
+        <section className="relative z-10 flex items-center gap-4 rounded-2xl border border-[#E5DAC6] bg-white/80 p-4">
+          <div className="flex h-14 w-14 shrink-0 items-center justify-center overflow-hidden rounded-2xl border border-[#E5DAC6] bg-[#FBF8F2]">
+            <img src="/icon-192.svg" alt="Ícone do Protocolo da Transformação" className="h-12 w-12 object-contain" />
+          </div>
+          <div className="min-w-0 flex-1">
+            <h3 className="truncate text-sm font-semibold text-[#2A2420]">Protocolo da Transformação</h3>
+            <p className="truncate text-xs text-[#5C5248]">Por Éverton Rodrigo Piceni</p>
+            <p className="mt-1 text-[11px] text-[#8F631E]">Um lugar para voltar para si.</p>
+          </div>
+        </section>
+
+        {activeTab === 'android' ? (
+          <section className="relative z-10 space-y-4" role="tabpanel">
+            <div className="space-y-2.5 text-xs">
+              <div className="flex items-start gap-3 rounded-xl border border-[#E5DAC6] bg-white/70 p-3 text-[#5C5248]">
+                <ShieldCheck size={17} className="mt-0.5 shrink-0 text-[#5E7153]" />
+                <div><strong className="block text-[#2A2420]">Acesso pela tela inicial</strong>Abra o projeto como aplicativo, sem precisar procurar o endereço novamente.</div>
+              </div>
+              <div className="flex items-start gap-3 rounded-xl border border-[#E5DAC6] bg-white/70 p-3 text-[#5C5248]">
+                <Zap size={17} className="mt-0.5 shrink-0 text-[#B88736]" />
+                <div><strong className="block text-[#2A2420]">Sua jornada por perto</strong>Acesse jornadas, diário e recursos com poucos toques.</div>
+              </div>
+            </div>
+
+            {installSuccess ? (
+              <div className="rounded-xl border border-emerald-200 bg-emerald-50 p-3 text-center text-xs font-medium text-emerald-700" role="status" aria-live="polite">
+                Solicitação de instalação aceita. Verifique a tela inicial.
+              </div>
+            ) : (
+              <button
+                type="button"
+                onClick={handleInstallClick}
+                disabled={isInstalling}
+                className="flex min-h-11 w-full items-center justify-center gap-2 rounded-xl bg-[#B88736] py-3.5 text-xs font-semibold uppercase tracking-wider text-white transition hover:bg-[#8F631E] disabled:cursor-wait disabled:opacity-60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B88736]/35"
+              >
+                <Download size={16} />{isInstalling ? 'Abrindo instalação...' : 'Instalar no Android'}
+              </button>
+            )}
+          </section>
+        ) : (
+          <section className="relative z-10 space-y-4 rounded-2xl border border-[#E5DAC6] bg-white/75 p-4 text-sm text-[#5C5248]" role="tabpanel">
+            <p className="text-xs font-semibold text-[#2A2420]">No Safari:</p>
+            <ol className="space-y-4 pl-5 text-xs list-decimal">
+              <li className="pl-2">Toque em <strong className="text-[#2A2420]">Compartilhar</strong>.<div className="mt-2 flex justify-center text-[#8F631E]"><Share2 size={20} /></div></li>
+              <li className="pl-2">Selecione <strong className="text-[#2A2420]">Adicionar à Tela de Início</strong>.</li>
+              <li className="pl-2">Confirme em <strong className="text-[#2A2420]">Adicionar</strong>.</li>
+            </ol>
+            <div className="flex gap-2 rounded-xl border border-[#B88736]/20 bg-[#B88736]/7 p-3 text-xs text-[#5C5248]">
+              <CheckCircle2 size={16} className="shrink-0 text-[#8F631E]" />
+              <p>Depois disso, o Protocolo da Transformação ficará disponível na sua tela inicial.</p>
+            </div>
+          </section>
+        )}
+
+        {installFeedback && (
+          <div className="relative z-10 flex gap-2 rounded-xl border border-[#E5DAC6] bg-[#F5EFE4] p-3 text-xs leading-relaxed text-[#5C5248]" role="status" aria-live="polite">
+            <Info size={16} className="mt-0.5 shrink-0 text-[#8F631E]" />
+            <span>{installFeedback}</span>
+          </div>
+        )}
       </motion.div>
     </div>
   );
