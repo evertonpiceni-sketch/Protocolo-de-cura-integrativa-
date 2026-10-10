@@ -1,15 +1,23 @@
 export type ProtocolBreathPhase = 'inhale' | 'hold' | 'exhale';
 
 /**
- * HTMLMediaElement reports currentTime/duration in seconds.
- * SpeechSynthesisEvent.elapsedTime is expressed in milliseconds by browsers.
- * The native fallback reports duration=0, which lets us distinguish the source
- * without inventing a total duration.
+ * Modern SpeechSynthesisEvent.elapsedTime is expressed in seconds.
+ * Very old implementations used milliseconds. Because our protocol chunks are
+ * short, values above 10 minutes are treated as legacy milliseconds.
+ */
+export function normalizeSpeechElapsedTime(value: number): number {
+  const raw = Number.isFinite(value) && value >= 0 ? value : 0;
+  return raw > 600 ? raw / 1000 : raw;
+}
+
+/**
+ * HTMLMediaElement reports currentTime/duration in seconds. Native Web Speech
+ * reports duration=0, so only its elapsed value needs legacy-unit protection.
  */
 export function normalizeProtocolProgress(current: number, duration: number): { current: number; duration: number } {
   const safeDuration = Number.isFinite(duration) && duration > 0 ? duration : 0;
   const rawCurrent = Number.isFinite(current) && current >= 0 ? current : 0;
-  const safeCurrent = safeDuration > 0 ? rawCurrent : rawCurrent / 1000;
+  const safeCurrent = safeDuration > 0 ? rawCurrent : normalizeSpeechElapsedTime(rawCurrent);
   return {
     current: Number.isFinite(safeCurrent) && safeCurrent >= 0 ? safeCurrent : 0,
     duration: safeDuration
