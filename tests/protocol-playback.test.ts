@@ -1,11 +1,14 @@
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import test from 'node:test';
-import { normalizeProtocolProgress, protocolBreathPhaseAt, protocolBreathTransitionSeconds } from '../src/utils/protocolPlayback';
+import { normalizeProtocolProgress, normalizeSpeechElapsedTime, protocolBreathPhaseAt, protocolBreathTransitionSeconds } from '../src/utils/protocolPlayback';
 import { DAILY_INSIGHTS } from '../src/types';
 import { DISTANCE_TREATMENT_SCRIPT } from '../src/data/protocol_scripts';
 
-test('normalizes Web Speech elapsedTime from milliseconds instead of displaying it as seconds', () => {
+test('keeps modern Web Speech elapsedTime in seconds and protects legacy millisecond values', () => {
+  assert.equal(normalizeSpeechElapsedTime(26.184), 26.184);
+  assert.equal(normalizeSpeechElapsedTime(26_184), 26.184);
+  assert.deepEqual(normalizeProtocolProgress(26.184, 0), { current: 26.184, duration: 0 });
   assert.deepEqual(normalizeProtocolProgress(26_184, 0), { current: 26.184, duration: 0 });
   assert.deepEqual(normalizeProtocolProgress(42.5, 180), { current: 42.5, duration: 180 });
 });
@@ -22,9 +25,9 @@ test('keeps the canonical visual breathing cadence at 4 inhale, 3 hold and 5 exh
   assert.equal(protocolBreathTransitionSeconds('exhale'), 5);
 });
 
-test('production protocol player keeps the fixed elapsed-time conversion and 4-3-5 cadence', () => {
+test('production protocol player uses protocol progress normalization and 4-3-5 cadence', () => {
   const session = fs.readFileSync('src/components/MeditationSession.tsx', 'utf8');
-  assert.ok(session.includes('curr / 1000'), 'native speech elapsedTime must be converted from milliseconds');
+  assert.ok(session.includes('normalizeProtocolProgress(curr, dur)'), 'protocol player must normalize speech progress through the shared utility');
   assert.ok(session.includes("position < 4 ? 'inhale' : position < 7 ? 'hold' : 'exhale'"), 'breathing phase boundaries must remain 4-3-5');
   assert.ok(session.includes("breathePhase === 'hold' ? 3 : 5"), 'visual transition must use a 3-second hold');
 });
@@ -60,10 +63,10 @@ test('sacred animation remains semantically mapped to the six narrated protocol 
   }
 });
 
-test('Arcanjo flow starts the selected Solfeggio and reads the approved script set', () => {
+test('Arcanjo flow starts the selected exact Solfeggio and reads the approved script set', () => {
   const arcanjo = fs.readFileSync('src/components/ArcanjoProtocolView.tsx', 'utf8');
   assert.ok(arcanjo.includes('DISTANCE_TREATMENT_SCRIPT'));
-  assert.ok(arcanjo.includes('audioEngine.startSynth(`${config.freq}hz`)'));
+  assert.ok(arcanjo.includes('solfeggioTone.start(config.freq)'));
   assert.ok(arcanjo.includes('APPROVED_SECTIONS.map(section => section.ttsScript)'));
-  assert.ok(arcanjo.includes('audioEngine.stopSynth()'));
+  assert.ok(arcanjo.includes('solfeggioTone.stop()'));
 });
