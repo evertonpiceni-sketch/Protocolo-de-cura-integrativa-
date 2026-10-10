@@ -1480,7 +1480,7 @@ export default function App() {
                   <button
                     type="button"
                     onClick={() => setShowContactModal(true)}
-                    className="min-h-11 px-3.5 py-2 bg-[#B88736] hover:bg-[#8F631E] text-white rounded-xl text-xs font-semibold flex items-center justify-center gap-1.5 transition cursor-pointer shadow-sm shrink-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B88736]/35"
+                    id="settings-support-contact" className="min-h-11 px-3.5 py-2 bg-[#B88736] hover:bg-[#8F631E] text-white rounded-xl text-xs font-semibold flex items-center justify-center gap-1.5 transition cursor-pointer shadow-sm shrink-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B88736]/35"
                   >
                     <MessageCircle size={14} />
                     <span>Fale Conosco</span>

@@ -211,3 +211,12 @@
 #profile-setup-view.ep-auth-style-one #onboarding-card .ep-brand-signature { opacity: 1; filter: none; }
 
 #profile-setup-view.ep-auth-style-one #auth-forgot-password { color: #71511c !important; min-height: 44px; }
+
+/* Contrast for controls introduced by the latest shared component updates. */
+:root[data-layout="natural-sereno"] #chakras-guide-modal button[aria-label] > span { color: #26372a !important; }
+:root[data-layout="natural-sereno"] #chakras-guide-modal [class*="text-[#8F631E]"] { color: #71511c !important; }
+:root[data-layout="natural-sereno"] #hooponopono-modal [role="tab"][aria-selected="true"] { background: #174b37 !important; color: #fffbed !important; }
+:root[data-layout="natural-sereno"] #settings-view button[class*="bg-[#B88736]"] { background: #dfc57f !important; color: #073b2b !important; }
+:root[data-layout="natural-sereno"] #settings-view button[class*="bg-[#B88736]"] :is(span,svg) { color: #073b2b !important; }
+
+:root[data-layout="natural-sereno"] #settings-view #settings-support-contact :is(span,svg) { color: #073b2b !important; }
