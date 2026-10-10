@@ -209,3 +209,5 @@
 :root[data-layout="natural-sereno"] #main-header .ep-brand-signature { opacity: 1 !important; filter: none !important; }
 #profile-setup-view.ep-auth-style-one #onboarding-card .ep-brand-signature-wrap { width: 84px; height: 84px; opacity: .9 !important; }
 #profile-setup-view.ep-auth-style-one #onboarding-card .ep-brand-signature { opacity: 1; filter: none; }
+
+#profile-setup-view.ep-auth-style-one #auth-forgot-password { color: #71511c !important; min-height: 44px; }

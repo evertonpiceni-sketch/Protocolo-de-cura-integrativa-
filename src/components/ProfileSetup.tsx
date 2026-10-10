@@ -339,7 +339,7 @@ export default function ProfileSetup({ onComplete }: ProfileSetupProps) {
             <div className="absolute inset-0 bg-[#d6ae52]/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10 pointer-events-none"></div>
             <img src={APPROVED_LOGO_DATA_URI} alt="Everton Piceni — Terapias Holísticas e Bem-Estar" className="ep-brand-signature w-full h-full object-contain transition-opacity duration-700" />
           </div>
-          <span className="text-xs font-mono tracking-widest text-[#e5c66f] uppercase font-semibold">Terapias Holísticas e Bem-Estar</span>
+          <span className="text-xs font-sans tracking-widest text-[#e5c66f] uppercase font-semibold">Terapias Holísticas e Bem-Estar</span>
           <h1 className="text-xl md:text-2xl font-display font-medium text-[#2A2420] leading-tight">
             Que bom ter você aqui.<br />Este é o seu momento de transformação
           </h1>
@@ -406,7 +406,7 @@ export default function ProfileSetup({ onComplete }: ProfileSetupProps) {
           <form onSubmit={handleRegister} className="space-y-4" id="register-form">
             {/* Full Name */}
             <div className="space-y-1.5">
-              <label htmlFor="reg-fullname" className="block text-[11px] font-mono text-[#5C5248] uppercase tracking-wider">
+              <label htmlFor="reg-fullname" className="block text-[11px] font-sans text-[#5C5248] uppercase tracking-wider">
                 Nome Completo
               </label>
               <div className="relative">
@@ -428,7 +428,7 @@ export default function ProfileSetup({ onComplete }: ProfileSetupProps) {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {/* Date of Birth */}
               <div className="space-y-1.5">
-                <label htmlFor="reg-birthdate" className="block text-[11px] font-mono text-[#5C5248] uppercase tracking-wider">
+                <label htmlFor="reg-birthdate" className="block text-[11px] font-sans text-[#5C5248] uppercase tracking-wider">
                   Data de Nascimento
                 </label>
                 <div className="relative">
@@ -449,7 +449,7 @@ export default function ProfileSetup({ onComplete }: ProfileSetupProps) {
 
               {/* Email */}
               <div className="space-y-1.5">
-                <label htmlFor="reg-email" className="block text-[11px] font-mono text-[#5C5248] uppercase tracking-wider">
+                <label htmlFor="reg-email" className="block text-[11px] font-sans text-[#5C5248] uppercase tracking-wider">
                   E-mail
                 </label>
                 <div className="relative">
@@ -470,7 +470,7 @@ export default function ProfileSetup({ onComplete }: ProfileSetupProps) {
 
               {/* WhatsApp / Phone */}
               <div className="space-y-1.5 md:col-span-2">
-                <label htmlFor="reg-phone" className="block text-[10px] font-mono text-[#5C5248] uppercase tracking-wider flex items-center justify-between">
+                <label htmlFor="reg-phone" className="block text-[10px] font-sans text-[#5C5248] uppercase tracking-wider flex items-center justify-between">
                   <span>Telefone / WhatsApp (Opcional)</span>
                   <span className="text-[10px] text-emerald-700 font-sans">Acolhimento & Mensagens</span>
                 </label>
@@ -495,14 +495,14 @@ export default function ProfileSetup({ onComplete }: ProfileSetupProps) {
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div className="space-y-1.5">
-                <label htmlFor="reg-login" className="block text-xs font-mono text-[#5C5248] uppercase tracking-wider">Nome de usuário</label>
+                <label htmlFor="reg-login" className="block text-xs font-sans text-[#5C5248] uppercase tracking-wider">Nome de usuário</label>
                 <div className="relative">
                   <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-[#B88736]/80"><User size={16} /></div>
                   <input id="reg-login" type="text" required autoComplete="username" value={regLogin} onChange={(e) => setRegLogin(e.target.value)} placeholder="ex: joaosilva" className="w-full min-h-12 bg-white border border-[#E5DAC6] focus:border-[#B88736] focus:ring-1 focus:ring-[#B88736]/30 text-[#2A2420] rounded-xl pl-10 pr-4 text-base transition outline-none placeholder-slate-600" />
                 </div>
               </div>
               <div className="space-y-1.5">
-                <label htmlFor="reg-password" className="block text-xs font-mono text-[#5C5248] uppercase tracking-wider">Senha</label>
+                <label htmlFor="reg-password" className="block text-xs font-sans text-[#5C5248] uppercase tracking-wider">Senha</label>
                 <div className="relative">
                   <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-[#85786C]"><Lock size={16} /></div>
                   <input id="reg-password" type="password" required minLength={6} autoComplete="new-password" value={regPassword} onChange={(e) => setRegPassword(e.target.value)} placeholder="Mínimo 6 caracteres" className="w-full min-h-12 bg-white border border-[#E5DAC6] focus:border-[#B88736] focus:ring-1 focus:ring-[#B88736]/30 text-[#2A2420] rounded-xl pl-10 pr-4 text-base transition outline-none placeholder-slate-600" />
@@ -523,18 +523,18 @@ export default function ProfileSetup({ onComplete }: ProfileSetupProps) {
             {/* Astral Map Data Section */}
             <div className="p-3.5 rounded-2xl bg-white/75 border border-[#E5DAC6] space-y-3">
               <div className="flex items-center justify-between">
-                <span className="text-[11px] font-mono uppercase tracking-wider text-[#8F631E] font-bold flex items-center gap-1.5">
+                <span className="text-[11px] font-sans uppercase tracking-wider text-[#8F631E] font-bold flex items-center gap-1.5">
                   <Sparkles size={13} className="text-amber-400" />
                   <span>Cálculo do seu Mapa Astral (Presente)</span>
                 </span>
-                <span className="text-[9px] font-mono px-2 py-0.5 rounded-full bg-[#B88736]/10 text-[#8F631E] border border-[#B88736]/25">
+                <span className="text-[9px] font-sans px-2 py-0.5 rounded-full bg-[#B88736]/10 text-[#8F631E] border border-[#B88736]/25">
                   Gratuito
                 </span>
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                 <div className="space-y-1">
-                  <label htmlFor="reg-birthtime" className="block text-[11px] font-mono text-[#5C5248] uppercase tracking-wider">
+                  <label htmlFor="reg-birthtime" className="block text-[11px] font-sans text-[#5C5248] uppercase tracking-wider">
                     Horário (Opcional)
                   </label>
                   <div className="relative">
@@ -552,7 +552,7 @@ export default function ProfileSetup({ onComplete }: ProfileSetupProps) {
                 </div>
 
                 <div className="space-y-1">
-                  <label htmlFor="reg-birthcity" className="block text-[11px] font-mono text-[#5C5248] uppercase tracking-wider">
+                  <label htmlFor="reg-birthcity" className="block text-[11px] font-sans text-[#5C5248] uppercase tracking-wider">
                     Cidade de Nascimento (Opcional)
                   </label>
                   <div className="relative">
@@ -573,7 +573,7 @@ export default function ProfileSetup({ onComplete }: ProfileSetupProps) {
             </div>
 
             <div className="space-y-1.5">
-              <label htmlFor="reg-coupon" className="block text-[11px] font-mono text-[#5C5248] uppercase tracking-wider">
+              <label htmlFor="reg-coupon" className="block text-[11px] font-sans text-[#5C5248] uppercase tracking-wider">
                 Possui Cupom do Terapeuta? (Opcional)
               </label>
               <div className="relative">
@@ -586,14 +586,14 @@ export default function ProfileSetup({ onComplete }: ProfileSetupProps) {
                   value={regCoupon}
                   onChange={(e) => setRegCoupon(e.target.value.toUpperCase())}
                   placeholder="Digite seu código de cupom aqui..."
-                  className="w-full bg-white border border-[#E5DAC6]/80 focus:border-amber-500 focus:ring-1 focus:ring-amber-500 text-amber-200 rounded-xl py-2.5 pl-10 pr-4 text-xs transition duration-150 outline-none uppercase font-mono placeholder-slate-600"
+                  className="w-full bg-white border border-[#E5DAC6]/80 focus:border-amber-500 focus:ring-1 focus:ring-amber-500 text-amber-200 rounded-xl py-2.5 pl-10 pr-4 text-xs transition duration-150 outline-none uppercase font-sans placeholder-slate-600"
                 />
               </div>
             </div>
 
             <div className="space-y-2 pt-1" id="voice-gender-selector">
               <div className="flex items-center justify-between">
-                <label className="block text-[10px] font-mono text-[#B88736] uppercase tracking-wider font-semibold flex items-center gap-1.5">
+                <label className="block text-[10px] font-sans text-[#B88736] uppercase tracking-wider font-semibold flex items-center gap-1.5">
                   <Volume2 size={13} className="text-[#B88736]" />
                   <span>Voz da condução guiada</span>
                 </label>
@@ -626,7 +626,7 @@ export default function ProfileSetup({ onComplete }: ProfileSetupProps) {
                   </div>
 
                   <div className="mt-2.5 pt-2 border-t border-[#E5DAC6]/60 flex items-center justify-between">
-                    <span className="text-[9px] font-mono text-[#B88736] bg-[#B88736]/10 px-2 py-0.5 rounded">
+                    <span className="text-[9px] font-sans text-[#B88736] bg-[#B88736]/10 px-2 py-0.5 rounded">
                       Tom Terapêutico Natural
                     </span>
                     <button
@@ -682,7 +682,7 @@ export default function ProfileSetup({ onComplete }: ProfileSetupProps) {
                   </div>
 
                   <div className="mt-2.5 pt-2 border-t border-[#E5DAC6]/60 flex items-center justify-between">
-                    <span className="text-[9px] font-mono text-rose-700 bg-rose-50 px-2 py-0.5 rounded">
+                    <span className="text-[9px] font-sans text-rose-700 bg-rose-50 px-2 py-0.5 rounded">
                       Acolhimento da Alma
                     </span>
                     <button
@@ -716,7 +716,7 @@ export default function ProfileSetup({ onComplete }: ProfileSetupProps) {
             </div>
 
             <div className="space-y-2 pt-2">
-              <label className="block text-[11px] font-mono text-[#5C5248] uppercase tracking-wider">
+              <label className="block text-[11px] font-sans text-[#5C5248] uppercase tracking-wider">
                 Frequência Sonora Inicial
               </label>
               <div className="grid grid-cols-2 sm:grid-cols-3 gap-2" id="soundscape-selector">
@@ -738,7 +738,7 @@ export default function ProfileSetup({ onComplete }: ProfileSetupProps) {
                         : 'bg-white border-[#E5DAC6] text-[#5C5248] hover:border-[#E5DAC6]'
                     }`}
                   >
-                    <div className="text-[11px] font-bold font-mono text-[#2A2420]">{opt.name}</div>
+                    <div className="text-[11px] font-bold font-sans text-[#2A2420]">{opt.name}</div>
                     <div className="text-[9px] text-[#5C5248]">{opt.desc}</div>
                   </button>
                 ))}
@@ -775,7 +775,7 @@ export default function ProfileSetup({ onComplete }: ProfileSetupProps) {
           /* LOGIN FORM */
           <form onSubmit={handleLogin} className="space-y-4" id="login-form">
             <div className="space-y-1.5">
-              <label htmlFor="log-login" className="block text-[11px] font-mono text-[#5C5248] uppercase tracking-wider">
+              <label htmlFor="log-login" className="block text-[11px] font-sans text-[#5C5248] uppercase tracking-wider">
                 Nome de Usuário (Login) ou E-mail
               </label>
               <div className="relative">
@@ -796,7 +796,7 @@ export default function ProfileSetup({ onComplete }: ProfileSetupProps) {
 
             <div className="space-y-1.5">
               <div className="flex items-center justify-between">
-                <label htmlFor="log-password" className="block text-[11px] font-mono text-[#5C5248] uppercase tracking-wider">
+                <label htmlFor="log-password" className="block text-[11px] font-sans text-[#5C5248] uppercase tracking-wider">
                   Senha
                 </label>
                 <button
@@ -806,7 +806,7 @@ export default function ProfileSetup({ onComplete }: ProfileSetupProps) {
                     setError('');
                     setSuccessMsg('');
                   }}
-                  className="text-[11px] text-[#B88736] hover:text-[#B88736] transition cursor-pointer underline underline-offset-2"
+                  id="auth-forgot-password" className="text-[11px] text-[#71511C] hover:text-[#174B37] transition cursor-pointer underline underline-offset-2"
                 >
                   Esqueci minha senha
                 </button>

@@ -33,3 +33,5 @@ O teste de navegador `scripts/verify-registration-recovery.mjs` passou com fixtu
 A varredura identificou opacidade acumulada no contêiner e na imagem do logo, além de uma regra antiga de 56 px no cadastro. Corrigido o logo do cadastro para 84 px e eliminada a redução acumulada no cabeçalho do Natural Sereno. O arquivo oficial foi preservado; isso não cria transparência real na fonte. Os outros três cabeçalhos não receberam essa alteração.
 
 O login também permanece bloqueado durante a transição após sucesso. O teste de recuperação foi ampliado e passou com login bem-sucedido após erro 503. Lint, 23 testes e build passaram novamente.
+
+Na conferência das novas capturas, corrigidos também os rótulos monoespaçados do cadastro/login e o contraste e área de toque do link de recuperação. A recuperação por SMS/e-mail ainda não está implementada no produto existente; o botão abre a orientação atual e não foi certificado como envio de recuperação funcional.

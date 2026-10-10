@@ -30,6 +30,7 @@ try{
  assert.equal(registrationCalls,2,'No additional registration after profile-sync failures');
  await page.waitForSelector('.ns-app',{timeout:10000});
  await page.evaluate(()=>{localStorage.clear();sessionStorage.clear();});await page.reload({waitUntil:'networkidle0'});await page.waitForSelector('#auth-tabs');await page.click('#auth-tabs button:nth-child(2)');
+ assert.equal(await page.$eval('#auth-forgot-password',el=>getComputedStyle(el).color),'rgb(113, 81, 28)');assert(!(await page.$eval('label[for=log-login]',el=>getComputedStyle(el).fontFamily)).toLowerCase().includes('mono'));
  await page.type('#log-login','audit-only');await page.type('#log-password','test-password');await page.click('#btn-login-submit');await page.waitForSelector('#auth-error');
  assert.match(await page.$eval('#auth-error',el=>el.textContent),/temporariamente indisponível/);
  loginAvailable=true;await page.click('#btn-login-submit');await page.waitForSelector('#auth-success');assert.equal(await page.$eval('#btn-login-submit',el=>el.disabled),true);assert.equal(loginCalls,2);await page.waitForSelector('.ns-app');
