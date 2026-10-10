@@ -21,3 +21,9 @@ O estúdio foi aberto por acionamento do controle no DOM; o botão Próximo dia 
 Permanecem as pendências registradas em 07/10: vídeos específicos dos 21 dias, correspondência editorial integral dos roteiros do Protocolo, logo oficial com transparência real, cadastro/login completo no ambiente publicado e comparação final de todas as telas auxiliares com a referência. A fonte recuperada da Jornada Integrada tem estrutura diferente da jornada atual; não foi aplicada como substituição automática.
 
 Nenhuma alteração de preços, pagamento, APIs ou jornada nesta rodada. Produção não atualizada por esta varredura. Estilos 2, 3 e 4 não iniciados.
+
+## Continuação — recuperação do cadastro
+
+Corrigido o bloqueio do formulário após sucesso: o botão permanece indisponível até a entrada no app, evitando um segundo cadastro durante a mensagem de confirmação. Falhas liberam a tentativa e preservam os campos. O login agora distingue indisponibilidade do servidor de problemas de credenciais, inclusive quando a resposta de erro não é JSON.
+
+O teste de navegador `scripts/verify-registration-recovery.mjs` passou com fixtures locais: erro 503 e nova tentativa, criação bem-sucedida com três falhas de sincronização do perfil sem repetir o cadastro, bloqueio durante a transição, entrada no app e erro 503 no login. Lint, 23 testes e build novamente aprovados. Isso não certifica uma conta criada na produção.

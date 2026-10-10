@@ -176,6 +176,7 @@ export default function ProfileSetup({ onComplete }: ProfileSetupProps) {
 
   const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (isSubmitting) return;
     setError('');
     setSuccessMsg('');
     setServiceUnavailable(false);
@@ -189,6 +190,7 @@ export default function ProfileSetup({ onComplete }: ProfileSetupProps) {
     if (!cleanLogin || cleanLogin.length < 3) return setError('O login deve ter pelo menos 3 caracteres.');
     if (!regPassword || regPassword.length < 6) return setError('A senha deve ter pelo menos 6 caracteres.');
 
+    let registrationSucceeded = false;
     try {
       setIsSubmitting(true);
       const res = await fetch('/api/auth/register', {
@@ -250,13 +252,17 @@ export default function ProfileSetup({ onComplete }: ProfileSetupProps) {
         console.warn('Account created, but profile sync is temporarily unavailable.');
         setSuccessMsg('Conta criada com sucesso. Alguns dados do perfil ainda serão sincronizados.');
       }
-      setTimeout(() => onComplete(newAccount), 1500);
+      registrationSucceeded = true;
+      setTimeout(() => { onComplete(newAccount); setIsSubmitting(false); }, 1500);
+      return;
     } catch (err) {
       console.error(err);
       setServiceUnavailable(true);
       setError('Não conseguimos conectar ao serviço agora. Verifique sua internet e tente novamente.');
     } finally {
-      setIsSubmitting(false);
+      // Keep the form locked during the successful transition into the app.
+      // Failures release it so the person can retry without losing their fields.
+      if (!registrationSucceeded) setIsSubmitting(false);
     }
   };
 
@@ -286,7 +292,8 @@ export default function ProfileSetup({ onComplete }: ProfileSetupProps) {
       const data = await res.json().catch(() => ({}));
       
       if (!res.ok) {
-        setError(data.error || 'Erro ao realizar login.');
+        setServiceUnavailable(res.status >= 500);
+        setError(data.error || (res.status >= 500 ? 'O acesso está temporariamente indisponível. Tente novamente em alguns instantes.' : 'Não foi possível entrar. Confira seu login e senha.'));
         return;
       }
       
