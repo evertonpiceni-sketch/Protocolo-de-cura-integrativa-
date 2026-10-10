@@ -96,3 +96,5 @@ jobs:
           fi
           git commit -m 'fix: align protocol timing and exact Solfeggio playback'
           git push origin HEAD:main
+
+# rerun after workflow exists on main
