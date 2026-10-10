@@ -66,14 +66,17 @@ test('sacred animation remains semantically mapped to the six narrated protocol 
   }
 });
 
-test('Arcanjo flow reads approved scripts and exact Solfeggio presets are enforced at the audio boundary', () => {
+test('all Hz-labelled audio entrypoints use the exact Solfeggio oscillator', () => {
   const arcanjo = fs.readFileSync('src/components/ArcanjoProtocolView.tsx', 'utf8');
   const integrity = fs.readFileSync('src/lib/audioIntegrityPatch.ts', 'utf8');
   const tone = fs.readFileSync('src/lib/solfeggioTone.ts', 'utf8');
   assert.ok(arcanjo.includes('DISTANCE_TREATMENT_SCRIPT'));
   assert.ok(arcanjo.includes('audioEngine.startSynth(`${config.freq}hz`)'));
   assert.ok(arcanjo.includes('APPROVED_SECTIONS.map(section => section.ttsScript)'));
-  assert.ok(integrity.includes('solfeggioTone.start(Number(match[1]))'));
-  assert.ok(integrity.includes('solfeggioTone.stop()'));
+  assert.ok(integrity.includes('engine.startBG = (type: any) =>'));
+  assert.ok(integrity.includes('engine.startSynth = (type: any) =>'));
+  assert.ok(integrity.includes('solfeggioTone.start(Number(match[1])'));
+  assert.ok(integrity.includes('engine.getCurrentSynthType = () => exactBackgroundType || originalGetCurrentSynthType()'));
+  assert.ok(integrity.includes('solfeggioTone.setVolume(exactVolume())'));
   assert.ok(tone.includes('oscillator.frequency.setValueAtTime(frequency'));
 });
