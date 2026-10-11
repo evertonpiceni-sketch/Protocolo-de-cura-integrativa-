@@ -37,40 +37,21 @@ export const ALL_PLANS_DATA: DetailedPlanInfo[] = [
   {
     id: 'jornada_7d',
     category: 'assinatura',
-    title: 'Jornada de 7 Dias',
-    badge: 'Protocolo avulso',
+    title: 'Acesso avulso — 7 dias',
+    badge: 'Opção avulsa',
     priceFormatted: 'R$ 15,00',
     periodText: 'acesso por 7 dias',
     priceNumeric: 15,
     highlightBenefit: 'Um ciclo curto e completo, com Anamnese Compacta incluída.',
     features: [
       'Anamnese Compacta com resultado imediato',
-      'Orientação para escolher o protocolo mais adequado ao seu momento',
+      'Orientação para identificar o protocolo mais adequado ao seu momento',
+      'Escolha livre entre os protocolos disponíveis para 7 dias',
       'Ciclo de 7 dias com começo, desenvolvimento, integração e fechamento',
       'Anamnese Completa opcional por R$ 15,00'
     ],
-    description: 'Para quem prefere começar por uma jornada objetiva, sem abrir mão da orientação inicial.',
-    ctaText: 'Escolher 7 Dias',
-    accentColor: 'emerald',
-    buttonClass: 'bg-[#073B2B] hover:bg-[#073B2B] text-[#FFF9E8] shadow-[#073B2B]/15'
-  },
-  {
-    id: 'arcanjo_7d',
-    category: 'assinatura',
-    title: 'Protocolo Específico de 7 Dias',
-    badge: 'Protocolo avulso',
-    priceFormatted: 'R$ 29,90',
-    periodText: 'acesso por 7 dias',
-    priceNumeric: 29.9,
-    highlightBenefit: 'Uma jornada específica de 7 dias orientada pelo resultado da Anamnese Compacta.',
-    features: [
-      'Anamnese Compacta com resultado imediato',
-      'Sugestão do protocolo mais coerente com o momento atual',
-      'Liberdade para escolher outro protocolo disponível',
-      'Anamnese Completa opcional por R$ 15,00'
-    ],
-    description: 'A recomendação orienta sua escolha, mas não prende você a um único caminho.',
-    ctaText: 'Escolher protocolo',
+    description: 'Você recebe a orientação primeiro e só depois escolhe o protocolo que deseja seguir durante os 7 dias.',
+    ctaText: 'Escolher acesso de 7 dias',
     accentColor: 'emerald',
     buttonClass: 'bg-[#073B2B] hover:bg-[#073B2B] text-[#FFF9E8] shadow-[#073B2B]/15'
   },
@@ -286,7 +267,7 @@ export function PlansValuesGuideModal({
               <span>PLANOS E VALORES</span>
             </div>
             <h2 className="text-2xl md:text-3xl font-display font-medium text-[#26372A]">Escolha o formato que combina com o seu momento</h2>
-            <p className="text-xs md:text-sm text-[#5F6857] max-w-2xl mx-auto">A Anamnese Compacta orienta o próximo passo. A partir do trimestral, a Anamnese Completa já está incluída.</p>
+            <p className="text-xs md:text-sm text-[#5F6857] max-w-2xl mx-auto">Aqui você escolhe a forma de acesso. A Anamnese Compacta orienta o próximo passo e, depois do resultado, você escolhe livremente o protocolo e a duração disponíveis. A partir do trimestral, a Anamnese Completa já está incluída.</p>
           </div>
 
           <div className="p-4 rounded-2xl bg-[#073B2B] border border-[#D8B867]/30 flex flex-col sm:flex-row items-center justify-between gap-3 shadow-lg">
@@ -307,7 +288,7 @@ export function PlansValuesGuideModal({
           <div className="flex flex-wrap items-center justify-center gap-2">
             {[
               ['todos', `Todos (${ALL_PLANS_DATA.length})`],
-              ['assinatura', 'Planos e protocolos'],
+              ['assinatura', 'Acessos e planos'],
               ['tratamento_individual', 'Acompanhamentos individuais']
             ].map(([value, label]) => (
               <button key={value} onClick={() => setFilterCategory(value as typeof filterCategory)} className={`px-3.5 py-1.5 rounded-xl text-xs font-semibold transition ${filterCategory === value ? 'bg-[#073B2B] text-[#FFF9E8]' : 'bg-white/70 text-[#5F6857] border border-[#D8B867]/20'}`}>
