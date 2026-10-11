@@ -113,11 +113,15 @@
   background-repeat: no-repeat !important;
 }
 
-/* Desktop/notebook: preservar a proporção da arte em vez de recortá-la com cover. */
+/* Desktop/notebook: a arte principal permanece inteira. Uma segunda camada da
+   própria floresta preenche o widescreen, evitando tanto o recorte quanto a
+   faixa verde sólida que aparecia quando contain deixava área lateral livre. */
 @media (min-width: 768px) {
   :root[data-layout="natural-sereno"] #auth-loading-view {
-    background-size: contain !important;
-    background-position: center center !important;
+    background-image: url('/brand/natural-sereno/presenca.webp'), url('/brand/natural-sereno/presenca.webp') !important;
+    background-size: contain, cover !important;
+    background-position: center center, center center !important;
+    background-repeat: no-repeat, no-repeat !important;
   }
 }
 
