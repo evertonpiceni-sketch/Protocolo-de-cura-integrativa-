@@ -103,6 +103,8 @@ function ensureStyles() {
     .ep-courses-locked{opacity:.66!important;cursor:not-allowed!important;position:relative!important}
     .ep-courses-locked::after{content:'Em preparação';margin-left:auto;padding:4px 8px;border-radius:999px;border:1px solid #d9c58f;background:#fffaf0;color:#71511c;font:700 9px/1 Inter,sans-serif;letter-spacing:.06em;text-transform:uppercase}
     #daily-diary-modal [data-ep-diary-hide="true"]{display:none!important}
+    :root[data-layout="natural-sereno"] .ep-home-anamnesis-card > small{font-size:0!important}
+    :root[data-layout="natural-sereno"] .ep-home-anamnesis-card > small::after{content:'Anamnese Compacta';font-size:10px!important}
     @media(max-width:520px){#ep-weekly-diary-analysis .ep-week-grid{grid-template-columns:1fr}}
   `;
   document.head.appendChild(style);
@@ -228,26 +230,11 @@ function lockCoursesInNaturalSereno() {
   }
 }
 
-function relabelCompactAnamnesis() {
-  const root = document.querySelector<HTMLElement>('.ns-app');
-  if (!root) return;
-  const elements = Array.from(root.querySelectorAll<HTMLElement>('strong,h2,h3,span,p'));
-  for (const element of elements) {
-    if (element.children.length > 0) continue;
-    const text = element.textContent?.trim();
-    if (!text) continue;
-    if (text === 'Anamnese' || text === 'Minha Anamnese' || text === 'Como estou?' || text === 'Anamnese Energética') {
-      element.textContent = 'Anamnese Compacta';
-    }
-  }
-}
-
 function apply() {
   ensureStyles();
   simplifyDailyDiary();
   renderWeeklyDiaryAnalysis();
   lockCoursesInNaturalSereno();
-  relabelCompactAnamnesis();
 }
 
 if (typeof window !== 'undefined' && typeof document !== 'undefined') {
