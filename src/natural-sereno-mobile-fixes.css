@@ -1,0 +1,209 @@
+/* Correções mobile posteriores à auditoria visual real em Android.
+   Não redesenha o Natural Sereno: neutraliza apenas heranças e sobreposições. */
+
+:root[data-layout="natural-sereno"] {
+  --ns-mobile-ink: #26372a;
+  --ns-mobile-muted: #586454;
+  --ns-mobile-paper: #fffaf0;
+  --ns-mobile-line: #d9c58f;
+  --ns-mobile-gold: #b88736;
+  --ns-mobile-forest: #073b2b;
+}
+
+/* A regra antiga que transforma bg-[#B88736]/xx em sólido não pode atingir
+   halos de iluminação. Mantemos a atmosfera, mas sem lavar texto/conteúdo. */
+:root[data-layout="natural-sereno"] :is(
+  #numerology-modal,
+  #systemic-questions-modal,
+  #courses-modal,
+  #admin-panel-modal,
+  #chakras-guide-modal,
+  #herbal-baths-modal,
+  #astral-map-modal
+) .pointer-events-none[class*="blur"] {
+  background: rgba(184,135,54,.055) !important;
+  opacity: .42 !important;
+}
+
+:root[data-layout="natural-sereno"] :is(
+  #numerology-modal,
+  #systemic-questions-modal,
+  #courses-modal,
+  #admin-panel-modal,
+  #chakras-guide-modal,
+  #herbal-baths-modal,
+  #astral-map-modal
+) [class*="blur-3xl"] {
+  filter: blur(46px) !important;
+}
+
+/* Conteúdo sempre acima dos halos decorativos. */
+:root[data-layout="natural-sereno"] :is(
+  #numerology-modal,
+  #systemic-questions-modal,
+  #courses-modal,
+  #admin-panel-modal
+) > div > :not(.pointer-events-none) {
+  position: relative;
+  z-index: 1;
+}
+
+/* Numerologia: recuperar contraste e evitar cabeçalho espremido no celular. */
+:root[data-layout="natural-sereno"] #numerology-modal {
+  color: var(--ns-mobile-ink) !important;
+}
+:root[data-layout="natural-sereno"] #numerology-modal [role="tab"] {
+  opacity: 1 !important;
+  color: var(--ns-mobile-ink) !important;
+  background: rgba(255,250,240,.96) !important;
+  border-color: var(--ns-mobile-line) !important;
+}
+:root[data-layout="natural-sereno"] #numerology-modal [role="tab"][aria-selected="true"] {
+  background: #efe2bd !important;
+  border-color: #b88736 !important;
+}
+:root[data-layout="natural-sereno"] #numerology-modal :is(h1,h2,h3,h4,strong) {
+  color: var(--ns-mobile-ink) !important;
+}
+:root[data-layout="natural-sereno"] #numerology-modal :is(p,small) {
+  color: var(--ns-mobile-muted) !important;
+}
+
+/* Perguntas sistêmicas: sem névoa sobre o texto e sem rodapé cobrindo conteúdo. */
+:root[data-layout="natural-sereno"] #systemic-questions-modal > div {
+  background: rgba(255,250,240,.985) !important;
+}
+:root[data-layout="natural-sereno"] #systemic-questions-modal [class*="overflow-y-auto"] {
+  scrollbar-color: rgba(123,96,44,.38) transparent;
+  scrollbar-width: thin;
+}
+:root[data-layout="natural-sereno"] #systemic-questions-modal :is(h1,h2,h3,h4,strong) {
+  color: var(--ns-mobile-ink) !important;
+}
+:root[data-layout="natural-sereno"] #systemic-questions-modal :is(p,small) {
+  color: var(--ns-mobile-muted) !important;
+}
+
+/* Cursos: etiquetas legíveis e sem dourado chapado sobre texto. */
+:root[data-layout="natural-sereno"] #courses-modal [class*="bg-amber-500/10"],
+:root[data-layout="natural-sereno"] #courses-modal [class*="bg-[#B88736]/"] {
+  background: #f1e7c8 !important;
+  color: #61491e !important;
+}
+:root[data-layout="natural-sereno"] #courses-modal :is([class*="text-amber-300"],[class*="text-amber-400"]) {
+  color: #71511c !important;
+}
+
+/* Admin: retirar vazamentos neon/legado e manter hierarquia Natural Sereno. */
+:root[data-layout="natural-sereno"] #admin-panel-modal {
+  --admin-paper: #fffaf0;
+  --admin-line: #d9c58f;
+  --admin-ink: #26372a;
+  --admin-muted: #586454;
+  --admin-gold: #b88736;
+  --admin-forest: #073b2b;
+}
+:root[data-layout="natural-sereno"] #admin-panel-modal > div {
+  background: var(--admin-paper) !important;
+  border-color: var(--admin-line) !important;
+}
+:root[data-layout="natural-sereno"] #admin-panel-modal :is(h1,h2,h3,h4,strong) {
+  color: var(--admin-ink) !important;
+}
+:root[data-layout="natural-sereno"] #admin-panel-modal :is(p,small,label) {
+  color: var(--admin-muted) !important;
+}
+:root[data-layout="natural-sereno"] #admin-panel-modal :is([class*="text-emerald"],[class*="text-amber-300"],[class*="text-amber-400"]) {
+  color: #71511c !important;
+}
+:root[data-layout="natural-sereno"] #admin-panel-modal :is([class*="bg-amber-500/10"],[class*="bg-amber-500/20"],[class*="bg-[#B88736]/"]) {
+  background: #f1e7c8 !important;
+  border-color: #cdaa57 !important;
+}
+:root[data-layout="natural-sereno"] #admin-panel-modal button[class*="bg-emerald"] {
+  background: var(--admin-forest) !important;
+  color: #fffbed !important;
+}
+:root[data-layout="natural-sereno"] #admin-panel-modal button[class*="bg-emerald"] :is(span,svg) {
+  color: inherit !important;
+}
+
+/* Guia dos Chakras: barra de rolagem discreta e área útil íntegra. */
+:root[data-layout="natural-sereno"] #chakras-guide-modal [class*="overflow-y-auto"] {
+  scrollbar-color: rgba(123,96,44,.34) transparent;
+  scrollbar-width: thin;
+}
+
+/* Home Natural Sereno: impedir corte do hero pelo cabeçalho e reduzir botão dourado pesado. */
+:root[data-layout="natural-sereno"] .ns-home-scene {
+  scroll-margin-top: 84px;
+}
+:root[data-layout="natural-sereno"] .ns-home-scene > .ns-gold,
+:root[data-layout="natural-sereno"] .ns-editorial-card > .ns-gold {
+  background: linear-gradient(180deg,#d7b45c,#a67a28) !important;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.36), 0 7px 18px rgba(116,83,24,.16) !important;
+  color: #073b2b !important;
+}
+
+@media (max-width: 639px) {
+  :root[data-layout="natural-sereno"] :is(
+    #numerology-modal,
+    #systemic-questions-modal,
+    #courses-modal,
+    #admin-panel-modal,
+    #chakras-guide-modal
+  ) {
+    padding: 8px !important;
+  }
+
+  :root[data-layout="natural-sereno"] :is(
+    #numerology-modal,
+    #systemic-questions-modal,
+    #courses-modal,
+    #admin-panel-modal,
+    #chakras-guide-modal
+  ) > div {
+    width: 100% !important;
+    max-width: calc(100vw - 16px) !important;
+    max-height: calc(100dvh - 16px) !important;
+    margin: 0 !important;
+    border-radius: 24px !important;
+  }
+
+  :root[data-layout="natural-sereno"] #numerology-modal > div {
+    padding: 16px !important;
+  }
+  :root[data-layout="natural-sereno"] #numerology-modal > div > div:first-of-type {
+    gap: 10px !important;
+    align-items: flex-start !important;
+  }
+  :root[data-layout="natural-sereno"] #numerology-modal [role="tablist"] {
+    gap: 8px !important;
+    overflow-x: auto !important;
+    padding-bottom: 8px !important;
+  }
+  :root[data-layout="natural-sereno"] #numerology-modal [role="tab"] {
+    flex: 0 0 auto !important;
+    min-width: 160px !important;
+  }
+
+  :root[data-layout="natural-sereno"] #systemic-questions-modal > div {
+    padding-bottom: 18px !important;
+  }
+  :root[data-layout="natural-sereno"] #systemic-questions-modal [class*="overflow-y-auto"] {
+    padding-bottom: 84px !important;
+  }
+
+  :root[data-layout="natural-sereno"] #courses-modal > div,
+  :root[data-layout="natural-sereno"] #admin-panel-modal > div {
+    padding: 16px !important;
+  }
+
+  :root[data-layout="natural-sereno"] #admin-panel-modal button {
+    min-height: 44px;
+  }
+
+  :root[data-layout="natural-sereno"] .ns-home-scene {
+    padding-top: max(18px, env(safe-area-inset-top)) !important;
+  }
+}
