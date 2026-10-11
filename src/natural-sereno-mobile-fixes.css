@@ -43,7 +43,7 @@
   :root[data-layout="natural-sereno"] .ns-home-scene { padding-top:max(18px,env(safe-area-inset-top)) !important; }
 }
 
-/* Abertura: uma única arte; desktop recebe enquadramento intermediário sem deformação. */
+/* Abertura: a própria arte ocupa a viewport. Nunca esticar, nunca criar uma segunda cópia. */
 :root[data-layout="natural-sereno"] #auth-loading-view > div:first-child:has(> img) { display:none !important; }
 :root[data-layout="natural-sereno"] #auth-loading-view {
   box-sizing:border-box;
@@ -57,9 +57,9 @@
 }
 @media (min-width:768px) {
   :root[data-layout="natural-sereno"] #auth-loading-view {
-    /* Meio-termo entre o cover gigante e o 100% de altura estreito: sem distorcer a arte. */
-    background-size:auto 138% !important;
-    background-position:center 48% !important;
+    /* Widescreen: preencher toda a página mantendo a razão da imagem; o corte fica só nas extremidades. */
+    background-size:cover !important;
+    background-position:center 50% !important;
   }
 }
 :root[data-layout="natural-sereno"] #auth-loading-view > :is(p,h2,.ns-loading-details) { box-sizing:border-box;min-width:0;max-width:100%;flex-shrink:0;overflow-wrap:anywhere; }
