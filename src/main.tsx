@@ -15,7 +15,6 @@ import './lib/universalAnamnesisDiaryAccessPatch';
 import './lib/authStartupResiliencePatch';
 import './lib/naturalSerenoHomeApprovedModel';
 import './lib/naturalSerenoHomeJourneyStateFix';
-import './lib/naturalSerenoPrivateLibraryPatch';
 import { ErrorBoundary } from './ErrorBoundary.tsx';
 
 createRoot(document.getElementById('root')!).render(
