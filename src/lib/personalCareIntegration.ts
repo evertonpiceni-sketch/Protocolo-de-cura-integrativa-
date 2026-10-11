@@ -102,6 +102,7 @@ function ensureStyles() {
     #ep-weekly-diary-analysis .ep-week-note{margin-top:10px;font-size:10px;color:#6b6d61}
     .ep-courses-locked{opacity:.66!important;cursor:not-allowed!important;position:relative!important}
     .ep-courses-locked::after{content:'Em preparação';margin-left:auto;padding:4px 8px;border-radius:999px;border:1px solid #d9c58f;background:#fffaf0;color:#71511c;font:700 9px/1 Inter,sans-serif;letter-spacing:.06em;text-transform:uppercase}
+    #daily-diary-modal [data-ep-diary-hide="true"]{display:none!important}
     @media(max-width:520px){#ep-weekly-diary-analysis .ep-week-grid{grid-template-columns:1fr}}
   `;
   document.head.appendChild(style);
@@ -112,6 +113,45 @@ function getActiveDiaryDay(modal: HTMLElement) {
   if (!explicit) return null;
   const day = Number(explicit[1]);
   return Number.isFinite(day) ? day : null;
+}
+
+function simplifyDailyDiary() {
+  const modal = document.getElementById('daily-diary-modal') as HTMLElement | null;
+  if (!modal) return;
+
+  const texts = Array.from(modal.querySelectorAll<HTMLElement>('span,p,strong,h3'));
+  for (const element of texts) {
+    const text = (element.textContent || '').replace(/\s+/g, ' ').trim();
+    if (!text) continue;
+
+    if (
+      text.startsWith('[1] COMO ESTAVA ANTES') ||
+      text.startsWith('[2] COMO ESTOU DEPOIS') ||
+      text.startsWith('Resposta à Pergunta Sistêmica do Dia') ||
+      text.startsWith('O QUE OBSERVAR DURANTE OS 21 DIAS')
+    ) {
+      const card = element.closest<HTMLElement>('.rounded-2xl') || element.parentElement;
+      card?.setAttribute('data-ep-diary-hide', 'true');
+    }
+
+    if (text.startsWith('Reflexão & Diário do Dia')) {
+      element.textContent = text.replace('Reflexão & Diário do Dia', 'Meu espaço de escrita — Dia');
+    }
+
+    if (text === 'Humor Geral:') {
+      const row = element.closest<HTMLElement>('.flex.items-center.gap-2');
+      row?.setAttribute('data-ep-diary-hide', 'true');
+    }
+  }
+
+  const textarea = modal.querySelector<HTMLTextAreaElement>('textarea[placeholder*="percepções"], textarea[placeholder*="transformações"]');
+  if (textarea) textarea.placeholder = 'Escreva livremente o que quiser colocar para fora hoje. Este espaço é privado e não recebe análise imediata.';
+
+  const title = Array.from(modal.querySelectorAll<HTMLElement>('h2')).find(item => (item.textContent || '').includes('Diário de Reconexão'));
+  if (title) title.textContent = 'Meu Diário';
+
+  const badge = Array.from(modal.querySelectorAll<HTMLElement>('span')).find(item => (item.textContent || '').trim() === 'REGISTRO DIÁRIO DO CLIENTE');
+  if (badge) badge.textContent = 'ESPAÇO PRIVADO DE ESCRITA';
 }
 
 function renderWeeklyDiaryAnalysis() {
@@ -188,7 +228,7 @@ function lockCoursesInNaturalSereno() {
   }
 }
 
-function relabelEnergeticAnamnesis() {
+function relabelCompactAnamnesis() {
   const root = document.querySelector<HTMLElement>('.ns-app');
   if (!root) return;
   const elements = Array.from(root.querySelectorAll<HTMLElement>('strong,h2,h3,span,p'));
@@ -196,17 +236,18 @@ function relabelEnergeticAnamnesis() {
     if (element.children.length > 0) continue;
     const text = element.textContent?.trim();
     if (!text) continue;
-    if (text === 'Anamnese' || text === 'Minha Anamnese' || text === 'Como estou?') {
-      element.textContent = 'Anamnese Energética';
+    if (text === 'Anamnese' || text === 'Minha Anamnese' || text === 'Como estou?' || text === 'Anamnese Energética') {
+      element.textContent = 'Anamnese Compacta';
     }
   }
 }
 
 function apply() {
   ensureStyles();
+  simplifyDailyDiary();
   renderWeeklyDiaryAnalysis();
   lockCoursesInNaturalSereno();
-  relabelEnergeticAnamnesis();
+  relabelCompactAnamnesis();
 }
 
 if (typeof window !== 'undefined' && typeof document !== 'undefined') {
