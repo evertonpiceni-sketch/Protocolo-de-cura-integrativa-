@@ -17,6 +17,7 @@ import './lib/naturalSerenoHomeApprovedModel';
 import './lib/naturalSerenoHomeJourneyStateFix';
 import './lib/naturalSerenoPublicCatalogGuard';
 import './lib/anamnesisCommercialFlowPatch';
+import './lib/screenByScreenPolishPatch';
 import { ErrorBoundary } from './ErrorBoundary.tsx';
 
 createRoot(document.getElementById('root')!).render(
