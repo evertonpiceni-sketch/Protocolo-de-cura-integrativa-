@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import {
   ArrowLeft, Award, AudioLines, BookOpen, ChevronRight, Flower2,
-  GraduationCap, Headphones, Heart, Home, Leaf, LogOut, Menu, MessageCircle,
+  Headphones, Heart, Home, Leaf, LogOut, Menu, MessageCircle,
   Pause, Play, Sliders, Sparkles, Sun, UserRound, Users, Waves, CalendarDays, Citrus, Search,
 } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
@@ -11,7 +11,7 @@ import { DAILY_INSIGHTS } from '../types';
 import { APPROVED_LOGO_DATA_URI } from './ApprovedBrand';
 import NaturalSerenoCommunity from './NaturalSerenoCommunity';
 
-type View = 'home' | 'menu' | 'journey' | 'library' | 'tools' | 'profile' | 'result' | 'community';
+type View = 'home' | 'menu' | 'journey' | 'resources' | 'tools' | 'profile' | 'result' | 'community';
 type Props = TransformationHomeProps & {
   firstName: string;
   journeyEntered: boolean;
@@ -21,10 +21,25 @@ type Props = TransformationHomeProps & {
   onEnterJourney: () => void;
   recommendation: TreatmentRecommendation | null;
 };
-type Row = { key?: string; title: string; copy: string; icon: LucideIcon; action: () => void };
+type Row = {
+  key?: string;
+  title: string;
+  copy: string;
+  icon: LucideIcon;
+  action: () => void;
+  protocolId?: string;
+  protocolDuration?: '7d' | '21d';
+  requiresActiveJourney?: boolean;
+};
 
-function CareRow({ title, copy, icon: Icon, action }: Row) {
-  return <button className="ns-row" onClick={action}>
+function CareRow({ title, copy, icon: Icon, action, protocolId, protocolDuration, requiresActiveJourney }: Row) {
+  return <button
+    className="ns-row"
+    onClick={action}
+    data-ep-protocol-id={protocolId}
+    data-ep-protocol-duration={protocolDuration}
+    data-ep-requires-active-journey={requiresActiveJourney ? 'true' : undefined}
+  >
     <span className="ns-row-icon"><Icon size={22} strokeWidth={1.5} /></span>
     <span className="ns-row-copy"><strong>{title}</strong><small>{copy}</small></span>
     <ChevronRight size={18} aria-hidden="true" />
@@ -45,6 +60,7 @@ export default function NaturalSerenoHome(props: Props) {
     setView(next);
     window.scrollTo({ top: 0, behavior: 'instant' });
   };
+
   const tools: Row[] = [
     { title: 'Mapa Astral', copy: 'Um olhar simbólico para sua jornada', icon: Sun, action: props.onOpenAstral },
     { title: 'Numerologia', copy: 'Ciclos, essência e caminhos', icon: Flower2, action: props.onOpenNumerology },
@@ -53,18 +69,21 @@ export default function NaturalSerenoHome(props: Props) {
     { title: 'Perguntas sistêmicas', copy: 'Outros caminhos da sua jornada', icon: Users, action: props.onOpenSystemic },
     { title: 'Ho’oponopono', copy: 'Outros caminhos da sua jornada', icon: Heart, action: props.onOpenHooponopono },
   ];
-  const library: (Row & { category: string; image: string })[] = [
-    { title: 'Cursos e conteúdos', copy: 'Biblioteca de apoio', icon: GraduationCap, action: props.onOpenCourses, category: 'Cursos', image: '/brand/natural-sereno/library/cursos.webp' },
+
+  const resources: (Row & { category: string; image: string })[] = [
     { title: 'Guia dos 7 Chakras', copy: 'Conheça seus centros de energia', icon: Sparkles, action: props.onOpenChakras, category: 'Práticas', image: '/brand/natural-sereno/library/chakras.webp' },
     { title: 'Banhos e Aromas', copy: 'Natureza como parte do cuidado', icon: Leaf, action: props.onOpenBaths, category: 'Práticas', image: '/brand/natural-sereno/library/banhos.webp' },
-    { title: 'Ho’oponopono', copy: 'Outros caminhos da sua jornada', icon: Heart, action: props.onOpenHooponopono, category: 'Práticas', image: '/brand/natural-sereno/library/hooponopono.webp' },
+    { title: 'Ho’oponopono', copy: 'Prática de presença e reconciliação interior', icon: Heart, action: props.onOpenHooponopono, category: 'Práticas', image: '/brand/natural-sereno/library/hooponopono.webp' },
     { title: 'Numerologia', copy: 'Ciclos, essência e caminhos', icon: Flower2, action: props.onOpenNumerology, category: 'Autoconhecimento', image: '/brand/natural-sereno/library/numerologia.webp' },
     { title: 'Mapa Astral', copy: 'Um olhar simbólico para sua jornada', icon: Sun, action: props.onOpenAstral, category: 'Autoconhecimento', image: '/brand/natural-sereno/library/mapa-astral.webp' },
   ];
+
   const menu: Row[] = [
-    { title: '21 Dias para Voltar para Mim', copy: 'Reintegração da Vida', icon: Leaf, action: props.onOpenPersonalJourney },
-    { title: 'Anamnese / Teste', copy: 'Olhar meu momento', icon: Waves, action: props.onOpenAnamnesis },
-    { title: 'Biblioteca Integrativa', copy: 'Cursos, práticas e materiais', icon: BookOpen, action: () => changeView('library') },
+    { title: 'Protocolo da Transformação', copy: 'Jornada guiada de 21 dias', icon: Leaf, action: () => changeView('journey'), protocolId: 'transformacao', protocolDuration: '21d' },
+    { title: '21 Dias para Voltar para Mim', copy: 'Reintegração da Vida', icon: Leaf, action: props.onOpenPersonalJourney, protocolId: 'reintegracao-vida', protocolDuration: '21d' },
+    { title: 'Proteção e Presença', copy: 'Jornada de São Miguel', icon: Sparkles, action: props.onOpenArcanjo },
+    { title: 'Anamnese Compacta', copy: 'Olhar meu momento', icon: Waves, action: props.onOpenAnamnesis },
+    { title: 'Recursos', copy: 'Práticas e conteúdos de apoio', icon: BookOpen, action: () => changeView('resources') },
     { title: 'Ferramentas de Apoio', copy: 'Natureza como parte do cuidado', icon: Flower2, action: () => changeView('tools') },
     { title: 'Minha Comunidade', copy: 'Compartilhe e evolua', icon: Users, action: () => changeView('community') },
     { title: 'Meu Perfil', copy: 'Acompanhe seu progresso', icon: UserRound, action: () => changeView('profile') },
@@ -77,22 +96,23 @@ export default function NaturalSerenoHome(props: Props) {
         <h1>Um acolhimento para você</h1>
         <p>Ouça este momento de chegada antes de entrar no seu espaço de cuidado.</p>
         <div className="ns-welcome-audio">
-        <img className="ns-audio-wave" src="/brand/natural-sereno/onda-acolhimento.webp" alt="" />
-        <button className="ns-welcome-play" onClick={props.onToggleWelcome} aria-label={props.isSpeaking ? 'Pausar acolhimento' : 'Ouvir acolhimento'}>
-          {props.isSpeaking ? <Pause size={34} /> : <Play size={34} fill="currentColor" />}
-        </button>
+          <img className="ns-audio-wave" src="/brand/natural-sereno/onda-acolhimento.webp" alt="" />
+          <button className="ns-welcome-play" onClick={props.onToggleWelcome} aria-label={props.isSpeaking ? 'Pausar acolhimento' : 'Ouvir acolhimento'}>
+            {props.isSpeaking ? <Pause size={34} /> : <Play size={34} fill="currentColor" />}
+          </button>
         </div>
         <p className="ns-welcome-status" aria-live="polite">{props.isSpeaking ? 'Pausar acolhimento' : 'Ouvir acolhimento'}</p>
-        <button className="ns-gold" onClick={props.onEnterJourney}>Entrar na minha jornada <ChevronRight size={19} /></button>
+        <button className="ns-gold" onClick={props.onEnterJourney}>Entrar no meu espaço <ChevronRight size={19} /></button>
         <p className="ns-signature">Cuidar de si também é um ato de amor.</p>
       </div>
     </div>;
   }
 
   const headings: Record<View, [string, string]> = {
-    home: ['', ''], menu: ['Seu Protocolo', 'Um lugar para voltar para si.'],
+    home: ['', ''],
+    menu: ['Seu espaço', 'Um lugar para voltar para si.'],
     journey: ['Sua Jornada', 'Protocolo da Transformação'],
-    library: ['Biblioteca Integrativa', 'Conhecimento que transforma'],
+    resources: ['Recursos', 'Práticas e conteúdos de apoio'],
     tools: ['Ferramentas de Apoio', 'Recursos para o seu dia a dia'],
     profile: ['Meu Perfil', 'Acompanhe seu progresso'],
     result: ['Seu Resultado', recommendation?.categoryLabel || 'Olhar meu momento'],
@@ -110,18 +130,18 @@ export default function NaturalSerenoHome(props: Props) {
         <button className="ns-home-menu" onClick={() => changeView('menu')} aria-label="Abrir menu principal"><Menu size={22} /></button>
         <div className="ns-greeting"><h1>Olá, {props.firstName}.</h1><p>Que bom que você voltou para si.</p><p>Respire. Você não precisa fazer tudo hoje. Escolha apenas o cuidado que combina com o seu momento.</p></div>
         <div className="ns-home-message"><p>Um novo capítulo<br />pode começar hoje.</p><span>Respire. Acolha. Transforme.<br />Você consegue.</span></div>
-        <button className="ns-gold" onClick={() => changeView('journey')}>Começar minha jornada <ChevronRight size={19} /></button>
+        <button className="ns-gold" data-ep-requires-active-journey="true" onClick={() => changeView('journey')}>Continuar minha jornada <ChevronRight size={19} /></button>
       </section>
       <div className="ns-home-content">
-        <button className="ns-current-day ns-row" onClick={() => props.onStartSession(props.currentDay)}>
+        <button className="ns-current-day ns-row" data-ep-requires-active-journey="true" onClick={() => props.onStartSession(props.currentDay)}>
           <img src={`/brand/natural-sereno/days/dia-${String(props.currentDay).padStart(2, '0')}.webp`} alt="" />
           <span className="ns-row-copy"><small>Dia {props.currentDay}</small><strong>{insight?.title}</strong></span><Play size={19} />
         </button>
         {!props.anamnesis ? <section className="ns-editorial-card">
           <small>Primeiro, vamos ouvir você</small><h2>Como você está de verdade?</h2>
-          <p>Responda à anamnese para receber seu resultado, frequência, chakra em foco, floral, aroma e protocolo recomendado.</p>
+          <p>Responda à Anamnese Compacta para receber seu resultado imediato e uma orientação para o próximo passo.</p>
           <button className="ns-gold" onClick={props.onOpenAnamnesis}>Começar minha anamnese <ChevronRight size={18} /></button>
-        </section> : recommendation && <CareRow title={recommendation.categoryLabel} copy="Seu resultado personalizado" icon={Heart} action={() => changeView('result')} />}
+        </section> : recommendation && <CareRow title={recommendation.categoryLabel} copy="Seu resultado compacto" icon={Heart} action={() => changeView('result')} />}
         <section className="ns-editorial-card ns-insight"><small>Afirmação do dia</small><h2>{insight?.title}</h2><p>{insight?.description}</p><blockquote>{insight?.focus}</blockquote></section>
         <section className="ns-editorial-card"><h2>Você já fez muito por você.</h2><p>Agora, é a sua vez.</p></section>
         <CareRow title="Menu" copy="Outros caminhos da sua jornada" icon={Menu} action={() => changeView('menu')} />
@@ -131,8 +151,8 @@ export default function NaturalSerenoHome(props: Props) {
 
     {view === 'menu' && <section className="ns-list">{menu.map(row => <CareRow key={row.title} {...row} />)}<p className="ns-signature">Cuidar de si também é um ato de amor.</p></section>}
 
-    {view === 'journey' && <section className="ns-list ns-journey">
-      <div className="ns-journey-intro"><p>Primeiro escolha a experiência. O aceite aparece dentro da jornada escolhida, antes do início da prática.</p></div>
+    {view === 'journey' && <section className="ns-list ns-journey" data-ep-requires-active-journey="true">
+      <div className="ns-journey-intro"><p>Esta é a jornada que você escolheu. O aceite aparece antes do início da prática.</p></div>
       {DAILY_INSIGHTS.map(entry => {
         const done = props.progress.some(item => item.dayNumber === entry.day && item.completed);
         return <button key={entry.day} className="ns-row ns-day" aria-label={`Abrir dia ${entry.day}: ${entry.title}`} onClick={() => props.onStartSession(entry.day)}>
@@ -141,15 +161,13 @@ export default function NaturalSerenoHome(props: Props) {
           <span className="ns-row-copy"><strong>{entry.title}</strong><small>{done ? 'Concluído' : entry.day === props.currentDay ? 'Seu momento' : entry.focus}</small></span><ChevronRight size={17} />
         </button>;
       })}
-      <CareRow title="21 Dias para Voltar para Mim" copy="Reintegração da Vida" icon={Leaf} action={props.onOpenPersonalJourney} />
-      <CareRow title="Proteção e Presença" copy="Jornada de São Miguel" icon={Sparkles} action={props.onOpenArcanjo} />
     </section>}
 
-    {view === 'library' && <section className="ns-list">
-      <label className="ns-search"><Search size={20} /><input value={search} onChange={e => setSearch(e.target.value)} placeholder="Buscar um curso, prática ou tema…" aria-label="Buscar na biblioteca" /></label>
-      <div className="ns-filter" aria-label="Categorias da biblioteca">{['Todos', 'Cursos', 'Práticas', 'Autoconhecimento'].map(label => <button key={label} aria-pressed={category === label} onClick={() => setCategory(label)}>{label}</button>)}</div>
-      {library.filter(row => (category === 'Todos' || row.category === category) && `${row.title} ${row.copy}`.toLocaleLowerCase('pt-BR').includes(search.toLocaleLowerCase('pt-BR'))).map(row => <button key={row.title} className="ns-row ns-library-row" onClick={row.action}><img src={row.image} alt="" /><span className="ns-row-copy"><strong>{row.title}</strong><small>{row.copy}</small></span><ChevronRight size={17} /></button>)}
-      {!library.some(row => (category === 'Todos' || row.category === category) && `${row.title} ${row.copy}`.toLocaleLowerCase('pt-BR').includes(search.toLocaleLowerCase('pt-BR'))) && <p role="status" className="ns-empty">Nenhum conteúdo encontrado.</p>}
+    {view === 'resources' && <section className="ns-list">
+      <label className="ns-search"><Search size={20} /><input value={search} onChange={e => setSearch(e.target.value)} placeholder="Buscar uma prática ou tema…" aria-label="Buscar nos recursos" /></label>
+      <div className="ns-filter" aria-label="Categorias dos recursos">{['Todos', 'Práticas', 'Autoconhecimento'].map(label => <button key={label} aria-pressed={category === label} onClick={() => setCategory(label)}>{label}</button>)}</div>
+      {resources.filter(row => (category === 'Todos' || row.category === category) && `${row.title} ${row.copy}`.toLocaleLowerCase('pt-BR').includes(search.toLocaleLowerCase('pt-BR'))).map(row => <button key={row.title} className="ns-row ns-library-row" onClick={row.action}><img src={row.image} alt="" /><span className="ns-row-copy"><strong>{row.title}</strong><small>{row.copy}</small></span><ChevronRight size={17} /></button>)}
+      {!resources.some(row => (category === 'Todos' || row.category === category) && `${row.title} ${row.copy}`.toLocaleLowerCase('pt-BR').includes(search.toLocaleLowerCase('pt-BR'))) && <p role="status" className="ns-empty">Nenhum conteúdo encontrado.</p>}
       <p className="ns-signature">Cuidar de si também é um ato de amor.</p>
     </section>}
 
@@ -164,11 +182,11 @@ export default function NaturalSerenoHome(props: Props) {
       <div className="ns-profile-identity"><UserRound size={42} strokeWidth={1.2} aria-hidden="true" /><h2>{props.userName}</h2></div>
       <section className="ns-profile-progress"><div><Leaf size={22} /><h3>Meu Progresso</h3><span>{completed} de {total} dias</span></div><progress value={completed} max={total} aria-label="Dias concluídos" /><small>{percentage}%</small></section>
       <CareRow title="Meu Diário" copy="Registrar percepções" icon={BookOpen} action={props.onOpenJournal} />
-      <CareRow title="Meus Protocolos" copy="Prática guiada do seu ciclo atual" icon={Leaf} action={() => changeView('journey')} />
+      <CareRow title="Minha Jornada" copy="Prática guiada do seu ciclo atual" icon={Leaf} action={() => changeView('journey')} requiresActiveJourney />
       <CareRow title="Como estou?" copy="Olhar meu momento" icon={Waves} action={props.onOpenAnamnesis} />
       <CareRow title="Conquistas e marcos" copy="Outros caminhos da sua jornada" icon={Award} action={props.onOpenAchievements} />
-      <CareRow title="Configurações" copy="Ajustes da Prática" icon={Sliders} action={props.onOpenSettings} />
-      <CareRow title="Fale conosco" copy="Biblioteca de apoio" icon={MessageCircle} action={props.onOpenContact} />
+      <CareRow title="Configurações" copy="Ajustes da prática" icon={Sliders} action={props.onOpenSettings} />
+      <CareRow title="Fale conosco" copy="Suporte e orientações" icon={MessageCircle} action={props.onOpenContact} />
       {props.onLogout && <CareRow title="Sair" copy="Encerrar sessão" icon={LogOut} action={props.onLogout} />}
       <p className="ns-signature">Cuidar de si também é um ato de amor.</p>
     </section>}
@@ -177,11 +195,11 @@ export default function NaturalSerenoHome(props: Props) {
       <Flower2 size={43} strokeWidth={1} aria-hidden="true" />
       <p>{recommendation.summaryDiagnosis}</p>
       {([
-        ['Frequência Solfeggio', recommendation.frequencyLabel, AudioLines],
-        ['Chakra em foco', recommendation.primaryChakraFocus, Sun],
-        ['Floral recomendado', recommendation.recommendedFloral || props.anamnesis?.recommendedFloral || 'Definido conforme sua anamnese', Flower2],
-        ['Aromaterapia recomendada', recommendation.recommendedAromatherapy || props.anamnesis?.recommendedAromatherapy || 'Definida conforme sua anamnese', Citrus],
-        ['Protocolo indicado', recommendation.treatmentTitle, BookOpen],
+        ['Frequência de apoio', recommendation.frequencyLabel, AudioLines],
+        ['Centro em foco', recommendation.primaryChakraFocus, Sun],
+        ['Floral sugerido', recommendation.recommendedFloral || props.anamnesis?.recommendedFloral || 'Definido conforme sua anamnese', Flower2],
+        ['Aromaterapia sugerida', recommendation.recommendedAromatherapy || props.anamnesis?.recommendedAromatherapy || 'Definida conforme sua anamnese', Citrus],
+        ['Caminho sugerido', recommendation.treatmentTitle, BookOpen],
         ['Duração sugerida', `${recommendation.recommendedDurationDays} dias`, CalendarDays],
       ] as [string, string, LucideIcon][]).map(([label, value, Icon]) => <div key={label} className="ns-result-item"><span className="ns-result-symbol"><Icon size={25} strokeWidth={1.4} /></span><div><small>{label}</small><strong>{value}</strong></div></div>)}
       <button className="ns-gold" onClick={props.onSpeakResult}><Headphones size={19} />Ouvir meu resultado</button>
@@ -190,8 +208,11 @@ export default function NaturalSerenoHome(props: Props) {
 
     <nav className="ns-dock" aria-label="Navegação principal">
       {([
-        ['home', Home, 'Início'], ['journey', Leaf, 'Jornada'], ['library', BookOpen, 'Biblioteca'], ['community', Users, 'Comunidade'],
-      ] as [View, LucideIcon, string][]).map(([destination, Icon, label]) => <button key={destination} onClick={() => changeView(destination)} aria-current={view === destination ? 'page' : undefined}><Icon size={22} strokeWidth={1.5} /><span>{label}</span></button>)}
+        ['home', Home, 'Início', false],
+        ['journey', Leaf, 'Jornada', true],
+        ['resources', BookOpen, 'Recursos', false],
+        ['community', Users, 'Comunidade', false],
+      ] as [View, LucideIcon, string, boolean][]).map(([destination, Icon, label, requiresActive]) => <button key={destination} data-ep-requires-active-journey={requiresActive ? 'true' : undefined} onClick={() => changeView(destination)} aria-current={view === destination ? 'page' : undefined}><Icon size={22} strokeWidth={1.5} /><span>{label}</span></button>)}
     </nav>
   </div>;
 }
