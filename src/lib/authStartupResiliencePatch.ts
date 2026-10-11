@@ -37,21 +37,33 @@ if (typeof window !== 'undefined' && typeof window.fetch === 'function') {
       const timeoutPromise = new Promise<Response>((resolve) => {
         timeoutId = window.setTimeout(() => {
           controller.abort();
-          console.warn('Auth startup timeout activated');
+          console.warn('Auth startup hard timeout activated');
           resolve(fallbackResponse());
         }, AUTH_STARTUP_TIMEOUT_MS);
       });
 
-      const requestPromise = nativeFetch(input, { ...init, signal: controller.signal })
+      /*
+       * The deadline must cover BOTH receipt of the response headers and
+       * consumption of its body. Previously the timeout ended as soon as fetch()
+       * returned a Response; if res.json() then stalled, App.tsx never reached
+       * its finally block and the opening screen stayed forever.
+       */
+      const completedResponsePromise = nativeFetch(input, { ...init, signal: controller.signal })
+        .then(async (response) => {
+          const body = await response.text();
+          return new Response(body, {
+            status: response.status,
+            statusText: response.statusText,
+            headers: response.headers,
+          });
+        })
         .catch((error) => {
           console.warn('Auth startup fallback activated', error);
           return fallbackResponse();
         });
 
       try {
-        // Promise.race is intentional: some browser/network combinations do not settle
-        // fetch promptly after AbortController.abort(). The app must still leave loading.
-        return await Promise.race([requestPromise, timeoutPromise]);
+        return await Promise.race([completedResponsePromise, timeoutPromise]);
       } finally {
         window.clearTimeout(timeoutId);
         inheritedSignal?.removeEventListener('abort', abortFromParent);
