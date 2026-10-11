@@ -1,4 +1,4 @@
-const CORE_BENEFIT_TEXT = 'Anamnese Energética + Diário de desabafo incluídos';
+const CORE_BENEFIT_TEXT = 'Anamnese Compacta + Diário privado incluídos';
 
 const normalize = (value: string) => value
   .normalize('NFD')
@@ -14,6 +14,7 @@ const isCoreAccessControl = (element: Element) => {
 
   return [
     'anamnese',
+    'anamnese compacta',
     'anamnese energetica',
     'meu diario',
     'diario de reconexao',
