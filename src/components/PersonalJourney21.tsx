@@ -28,6 +28,7 @@ export default function PersonalJourney21({ onClose, initialCompletedDays, onCom
   const cueRequestRef = useRef<AbortController | null>(null);
   const lastCueRef = useRef(-1);
   const cuePendingRef = useRef(false);
+  const cueRetryAtRef = useRef<Record<number, number>>({});
   const [activeCueIndex, setActiveCueIndex] = useState(-1);
   const [showScript, setShowScript] = useState(false);
   const scriptRef = useRef<HTMLElement | null>(null);
@@ -100,6 +101,7 @@ export default function PersonalJourney21({ onClose, initialCompletedDays, onCom
 
   const stopSession = () => {
     playingRef.current = false; clearVoice(); musicRef.current?.pause();
+    if ('mediaSession' in navigator) navigator.mediaSession.playbackState = 'paused';
     void wakeLockRef.current?.release?.(); wakeLockRef.current = null; setPlaying(false);
   };
 
@@ -116,6 +118,7 @@ export default function PersonalJourney21({ onClose, initialCompletedDays, onCom
     if (!playingRef.current || cuePendingRef.current || nativeUtteranceRef.current || (voiceRef.current && !voiceRef.current.paused)) return;
     const dueCue = currentReintegrationCue(item.audioCues, currentTime, lastCueRef.current);
     if (dueCue < 0 || dueCue <= lastCueRef.current) return;
+    if (Date.now() < (cueRetryAtRef.current[dueCue] || 0)) return;
     const cue = item.audioCues[dueCue];
 
     cuePendingRef.current = true;
@@ -132,17 +135,25 @@ export default function PersonalJourney21({ onClose, initialCompletedDays, onCom
       if (voiceUrlRef.current) URL.revokeObjectURL(voiceUrlRef.current);
       const url = URL.createObjectURL(blob); voiceUrlRef.current = url;
       const voice = new Audio(url); voice.preload = 'auto'; voice.volume = 1; voiceRef.current = voice;
+      voice.setAttribute('playsinline', 'true');
       voice.onended = () => {
         if (voiceRef.current === voice) voiceRef.current = null;
         if (voiceUrlRef.current === url) { URL.revokeObjectURL(url); voiceUrlRef.current = null; }
         cuePendingRef.current = false; void playCueForTime(musicRef.current?.currentTime || 0);
       };
-      voice.onerror = () => { cuePendingRef.current = false; };
-      await voice.play(); lastCueRef.current = dueCue;
+      voice.onerror = () => {
+        if (voiceRef.current === voice) voiceRef.current = null;
+        cueRetryAtRef.current[dueCue] = Date.now() + 5000;
+        cuePendingRef.current = false;
+      };
+      await voice.play();
+      delete cueRetryAtRef.current[dueCue];
+      lastCueRef.current = dueCue;
+      if ('mediaSession' in navigator) navigator.mediaSession.playbackState = 'playing';
     } catch (error: any) {
       if (error?.name !== 'AbortError' && !controller.signal.aborted && currentReintegrationCue(item.audioCues, musicRef.current?.currentTime || 0, lastCueRef.current) === dueCue) {
-        console.warn('Reintegração: condução neural indisponível; usando voz do dispositivo.', error);
-        speakCueNatively(cue.text, dueCue);
+        console.warn('Reintegração: voz neural indisponível; nova tentativa será feita mantendo o player de mídia ativo.', error);
+        cueRetryAtRef.current[dueCue] = Date.now() + 5000;
       }
     } finally {
       if (cueRequestRef.current === controller) cueRequestRef.current = null;
@@ -158,15 +169,19 @@ export default function PersonalJourney21({ onClose, initialCompletedDays, onCom
   }, []);
   useEffect(() => {
     stopSession(); setAccepted(false); setStarted(false); setAudioProgress(0);
-    lastCueRef.current = -1; cuePendingRef.current = false;
+    lastCueRef.current = -1; cuePendingRef.current = false; cueRetryAtRef.current = {};
     setActiveCueIndex(-1); setShowScript(false);
     if (musicRef.current) musicRef.current.currentTime = 0;
   }, [day]);
   useEffect(() => { playingRef.current = playing; }, [playing]);
   useEffect(() => {
     const handleVisibility = () => {
-      if (document.visibilityState !== 'visible' || !playingRef.current) return;
+      if (!playingRef.current) return;
       const music = musicRef.current; if (!music) return;
+      if (document.visibilityState !== 'visible') {
+        if ('mediaSession' in navigator) navigator.mediaSession.playbackState = 'playing';
+        return;
+      }
       void requestWakeLock();
       const now = music.currentTime || 0;
       if (Number.isFinite(music.duration) && music.duration > 0) setAudioProgress((now / music.duration) * 100);
@@ -181,6 +196,38 @@ export default function PersonalJourney21({ onClose, initialCompletedDays, onCom
     document.addEventListener('visibilitychange', handleVisibility); window.addEventListener('pageshow', handleVisibility); window.addEventListener('focus', handleVisibility);
     return () => { document.removeEventListener('visibilitychange', handleVisibility); window.removeEventListener('pageshow', handleVisibility); window.removeEventListener('focus', handleVisibility); };
   }, [day]);
+  useEffect(() => {
+    if (!('mediaSession' in navigator)) return;
+    try {
+      navigator.mediaSession.metadata = new MediaMetadata({
+        title: `Dia ${day} · ${item.title}`,
+        artist: 'Everton Piceni · Reintegração da Vida',
+        album: '21 Dias para Voltar para Mim'
+      });
+      navigator.mediaSession.playbackState = playing ? 'playing' : 'paused';
+      navigator.mediaSession.setActionHandler('play', () => {
+        playingRef.current = true; setPlaying(true);
+        void musicRef.current?.play().catch(() => undefined);
+        if (voiceRef.current?.paused) void voiceRef.current.play().catch(() => undefined);
+      });
+      navigator.mediaSession.setActionHandler('pause', () => {
+        voiceRef.current?.pause(); musicRef.current?.pause(); playingRef.current = false; setPlaying(false);
+      });
+      navigator.mediaSession.setActionHandler('seekbackward', () => {
+        const music = musicRef.current; if (!music) return;
+        const target = Math.max(0, music.currentTime - 15); clearVoice(); music.currentTime = target;
+        const currentCue = item.audioCues.reduce((last, cue, index) => cue.at <= target + .5 ? index : last, -1);
+        lastCueRef.current = currentCue - 1; void playCueForTime(target);
+      });
+    } catch { /* Media Session is an enhancement; playback remains functional without it. */ }
+    return () => {
+      try {
+        navigator.mediaSession.setActionHandler('play', null);
+        navigator.mediaSession.setActionHandler('pause', null);
+        navigator.mediaSession.setActionHandler('seekbackward', null);
+      } catch { /* no-op */ }
+    };
+  }, [day, item.title, playing]);
 
   const startGuidedMeditation = async () => {
     if (!accepted) return;
@@ -188,23 +235,26 @@ export default function PersonalJourney21({ onClose, initialCompletedDays, onCom
     audioEngine.stopBG();
     if (playing) {
       voiceRef.current?.pause();
-      if (typeof window !== 'undefined' && 'speechSynthesis' in window) window.speechSynthesis.pause();
-      musicRef.current?.pause(); playingRef.current = false; setPlaying(false); return;
+      musicRef.current?.pause(); playingRef.current = false; setPlaying(false);
+      if ('mediaSession' in navigator) navigator.mediaSession.playbackState = 'paused';
+      return;
     }
     if (started && audioProgress < 100) {
       playingRef.current = true; setPlaying(true);
       await musicRef.current?.play().catch(() => undefined);
       if (voiceRef.current?.paused) await voiceRef.current.play().catch(() => undefined);
-      if (typeof window !== 'undefined' && 'speechSynthesis' in window && window.speechSynthesis.paused) window.speechSynthesis.resume();
+      if ('mediaSession' in navigator) navigator.mediaSession.playbackState = 'playing';
       await requestWakeLock(); void playCueForTime(musicRef.current?.currentTime || 0); return;
     }
     audioEngine.stopSpeech();
-    setStarted(true); clearVoice(); lastCueRef.current = -1;
+    setStarted(true); clearVoice(); lastCueRef.current = -1; cueRetryAtRef.current = {};
     playingRef.current = true; setPlaying(true);
     if (musicRef.current) { musicRef.current.volume = 0.22; musicRef.current.currentTime = 0; }
     // The first neural cue is requested immediately from the same user gesture as Play.
     void playCueForTime(0);
-    await musicRef.current?.play().catch(() => undefined); await requestWakeLock();
+    await musicRef.current?.play().catch(() => undefined);
+    if ('mediaSession' in navigator) navigator.mediaSession.playbackState = 'playing';
+    await requestWakeLock();
   };
 
   const rewindMeditation = () => {
@@ -225,9 +275,9 @@ export default function PersonalJourney21({ onClose, initialCompletedDays, onCom
 
   return <div className="ep-reintegration-shell relative min-h-screen bg-[#F8F4EC] px-4 py-5 text-[#2A2420]">
     <div className="pointer-events-none fixed right-4 top-4 z-20 h-14 w-14 overflow-hidden rounded-full border border-[#B88736]/14 bg-[#F8F4EC]/35 opacity-30 shadow-[0_8px_24px_rgba(0,0,0,.12)] backdrop-blur-md sm:right-6 sm:top-6 sm:h-16 sm:w-16"><img src={APPROVED_LOGO_DATA_URI} alt="" aria-hidden="true" className="h-full w-full object-contain opacity-80" /></div>
-    <audio ref={musicRef} src={REINTEGRATION_MUSIC_URL} preload="metadata"
+    <audio ref={musicRef} src={REINTEGRATION_MUSIC_URL} preload="auto" playsInline
       onTimeUpdate={event => { const audio=event.currentTarget; if(Number.isFinite(audio.duration)&&audio.duration>0)setAudioProgress((audio.currentTime/audio.duration)*100); void playCueForTime(audio.currentTime); }}
-      onEnded={() => { clearVoice(); playingRef.current=false; setPlaying(false); setAudioProgress(100); }}/>
+      onEnded={() => { clearVoice(); playingRef.current=false; setPlaying(false); setAudioProgress(100); if ('mediaSession' in navigator) navigator.mediaSession.playbackState='none'; }}/>
     <main className="mx-auto w-full max-w-[620px]">
       <div className="mb-4 flex flex-wrap items-center justify-between gap-2">
         <button onClick={() => { stopSession(); onClose(); }} className="flex items-center gap-2 rounded-full border border-[#E5DAC6] bg-white/80 px-4 py-2 text-sm font-semibold text-[#524842] shadow-[0_10px_24px_rgba(0,0,0,.06)] backdrop-blur-md"><ArrowLeft size={17}/>Voltar ao início</button>
@@ -278,21 +328,22 @@ export default function PersonalJourney21({ onClose, initialCompletedDays, onCom
       <button onClick={() => setShowReflexao(false)} className="fixed right-4 top-4 z-[140] rounded-full border border-[#E5DAC6] bg-white/90 px-4 py-2 text-sm font-semibold text-[#5C5248] shadow-sm">Fechar</button>
       <AindaHaAlgoEmMimLight onFinishReflection={() => setShowReflexao(false)} />
     </section>}
-    {started && <section className="fixed inset-0 z-[120] flex min-h-[100dvh] flex-col overflow-hidden bg-[#F8F4EC] text-[#2A2420]" aria-label="Meditação guiada em andamento">
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(226,185,107,.16),transparent_46%)]"/>
-      <button onClick={()=>{stopSession();setStarted(false);}} className="absolute right-4 top-[max(1rem,env(safe-area-inset-top))] z-20 rounded-full border border-[#E5DAC6] bg-white/80 p-3 text-[#524842] shadow-sm backdrop-blur-md" aria-label="Fechar meditação"><X size={22}/></button>
-      <div className="relative z-10 flex flex-1 items-center justify-center">
-        <div className="relative w-[82vw] max-w-[430px]">
+    {started && <section className="ep-reintegration-running fixed inset-0 z-[120] flex min-h-[100dvh] flex-col overflow-hidden bg-[#031426] text-[#F8E8C2]" aria-label="Meditação guiada em andamento">
+      <div className="absolute inset-[-7%] scale-110 bg-cover bg-center opacity-45 blur-[12px]" style={{backgroundImage:`linear-gradient(180deg,rgba(2,13,29,.38),rgba(2,13,29,.88)),url('/brand/days/dia-${day}.png')`}}/>
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_32%,rgba(226,185,107,.22),transparent_34%),linear-gradient(180deg,rgba(1,14,32,.18),rgba(1,14,32,.72)_62%,rgba(1,10,24,.97))]"/>
+      <button onClick={()=>{stopSession();setStarted(false);}} className="absolute right-4 top-[max(1rem,env(safe-area-inset-top))] z-20 rounded-full border border-[#D9B86C]/55 bg-[#06192B]/75 p-3 text-[#F7E7C0] shadow-[0_8px_28px_rgba(0,0,0,.3)] backdrop-blur-md" aria-label="Fechar meditação"><X size={22}/></button>
+      <div className="relative z-10 flex flex-1 items-center justify-center pt-4">
+        <div className="relative w-[82vw] max-w-[430px] drop-shadow-[0_0_28px_rgba(215,170,78,.16)]">
           <ReintegrationPresenceVisual day={day} elapsedSeconds={elapsedSeconds} />
         </div>
       </div>
-      <div className="relative z-10 space-y-4 bg-gradient-to-t from-[#F8F4EC] via-[#F8F4EC]/96 to-transparent px-6 pb-[max(1.5rem,env(safe-area-inset-bottom))] pt-12 text-center">
-        <p className="text-xs font-semibold uppercase tracking-[.22em] text-[#B88736]">Dia {day} · {item.title}</p>
-        <p className="font-display text-2xl text-[#2A2420]">{playing?(elapsedSeconds>=1260&&elapsedSeconds<1620?'Absorção e silêncio':'Permaneça neste momento'):audioProgress>=100?'Meditação concluída':'Meditação pausada'}</p>
-        <p className="mx-auto max-w-md text-base leading-7 text-[#5C5248]">{reflectionText}</p>
-        <button onClick={() => setShowScript(true)} className="rounded-full border border-[#E5DAC6] bg-white/80 px-4 py-2 text-sm text-[#524842]">Ler roteiro deste dia</button>
-        <div className="mx-auto max-w-md"><div className="h-2 overflow-hidden rounded-full bg-[#E5DAC6]"><div className="h-full rounded-full bg-gradient-to-r from-[#D6A756] to-[#9E6E24] transition-all duration-500" style={{width:`${audioProgress}%`}}/></div><div className="mt-2 flex justify-between text-xs text-[#85786C]"><span>{formatTime(elapsedSeconds)}</span><span>{formatTime(totalSeconds)}</span></div></div>
-        <div className="flex items-center justify-center gap-3"><button onClick={rewindMeditation} className="flex items-center justify-center gap-2 rounded-full border border-[#E5DAC6] bg-white/80 px-4 py-4 text-sm font-semibold text-[#524842]" aria-label="Voltar 15 segundos"><RotateCcw size={20}/>15s</button><button onClick={startGuidedMeditation} className="flex min-w-48 items-center justify-center gap-3 rounded-full bg-gradient-to-r from-[#D6A756] to-[#9E6E24] px-6 py-4 font-bold text-[#1F1B18] shadow-md shadow-[#B88736]/20">{playing?<Pause size={21}/>:<Play size={21}/>} {playing?'Pausar':audioProgress>=100?'Ouvir novamente':'Continuar'}</button></div>
+      <div className="relative z-10 space-y-4 bg-gradient-to-t from-[#02101F] via-[#031426]/96 to-transparent px-6 pb-[max(1.5rem,env(safe-area-inset-bottom))] pt-12 text-center">
+        <p className="text-xs font-semibold uppercase tracking-[.22em] text-[#D9A84E]">Dia {day} · {item.title}</p>
+        <p className="font-display text-2xl text-[#FFF3D8]">{playing?(elapsedSeconds>=1260&&elapsedSeconds<1620?'Absorção e silêncio':'Permaneça neste momento'):audioProgress>=100?'Meditação concluída':'Meditação pausada'}</p>
+        <p className="mx-auto max-w-md text-base leading-7 text-[#E7E0D3]">{reflectionText}</p>
+        <button onClick={() => setShowScript(true)} className="rounded-full border border-[#D9B86C]/55 bg-[#071B2E]/72 px-4 py-2 text-sm text-[#F3DFC0] shadow-[0_8px_24px_rgba(0,0,0,.18)] backdrop-blur-md">Ler roteiro deste dia</button>
+        <div className="mx-auto max-w-md"><div className="h-2 overflow-hidden rounded-full bg-white/20"><div className="h-full rounded-full bg-gradient-to-r from-[#F1C66C] to-[#A97522] transition-all duration-500 shadow-[0_0_14px_rgba(232,184,82,.35)]" style={{width:`${audioProgress}%`}}/></div><div className="mt-2 flex justify-between text-xs text-[#E2D6C1]/80"><span>{formatTime(elapsedSeconds)}</span><span>{formatTime(totalSeconds)}</span></div></div>
+        <div className="flex items-center justify-center gap-3"><button onClick={rewindMeditation} className="flex items-center justify-center gap-2 rounded-full border border-[#D9B86C]/55 bg-[#071B2E]/72 px-4 py-4 text-sm font-semibold text-[#F3DFC0] backdrop-blur-md" aria-label="Voltar 15 segundos"><RotateCcw size={20}/>15s</button><button onClick={startGuidedMeditation} className="flex min-w-48 items-center justify-center gap-3 rounded-full bg-gradient-to-r from-[#F0C66D] to-[#A97422] px-6 py-4 font-bold text-[#1A1712] shadow-[0_8px_30px_rgba(204,151,52,.28)]">{playing?<Pause size={21}/>:<Play size={21}/>} {playing?'Pausar':audioProgress>=100?'Ouvir novamente':'Continuar'}</button></div>
       </div>
     </section>}
     {showScript && <section ref={scriptRef} role="dialog" aria-modal="true" aria-label={`Roteiro do Dia ${day}: ${item.title}`} className="fixed inset-0 z-[150] overflow-y-auto bg-[#F8F4EC] p-6 text-[#2A2420]">
