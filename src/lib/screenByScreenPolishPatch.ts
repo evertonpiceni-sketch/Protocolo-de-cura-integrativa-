@@ -29,14 +29,15 @@ function ensureStyles() {
     #specific-treatment-modal [data-ep-duplicate-price-hidden="true"] { display:none!important; }
 
     #plans-values-guide-modal .ep-secure-checkout-note,
-    #specific-treatment-modal .ep-secure-checkout-note {
+    #specific-treatment-modal .ep-secure-checkout-note,
+    #plans-modal .ep-secure-checkout-note {
       display:flex;align-items:center;justify-content:center;gap:8px;margin:0 auto;
       max-width:680px;padding:12px 14px;border:1px solid rgba(216,184,103,.35);
       border-radius:16px;background:rgba(255,255,255,.66);color:#5f6857;
       font:600 12px/1.45 Inter,system-ui,sans-serif;text-align:center;
     }
 
-    #numerology-modal,#systemic-questions-modal,#anamnesis-modal,#courses-modal,#plans-values-guide-modal,#specific-treatment-modal { overflow-x:hidden!important; }
+    #numerology-modal,#systemic-questions-modal,#anamnesis-modal,#courses-modal,#plans-values-guide-modal,#specific-treatment-modal,#plans-modal { overflow-x:hidden!important; }
     #numerology-modal > div,#systemic-questions-modal > div,#anamnesis-modal > div,#courses-modal > div,#plans-values-guide-modal > div,#specific-treatment-modal > div { max-width:calc(100vw - 1rem)!important; }
   `;
   document.head.appendChild(style);
@@ -118,6 +119,45 @@ function polishSpecificTreatment() {
   }
 }
 
+function polishPlansModal() {
+  const modal = document.getElementById('plans-modal');
+  if (!modal) return;
+
+  const checkout = document.getElementById('checkout-planos');
+  if (checkout && !checkout.querySelector('.ep-secure-checkout-note')) {
+    const note = document.createElement('div');
+    note.className = 'ep-secure-checkout-note';
+    note.textContent = 'Pagamento processado no checkout seguro da InfinityPay. PIX ou cartão são escolhidos aqui e confirmados pelo provedor antes da liberação do acesso.';
+    const paymentButtons = Array.from(checkout.querySelectorAll<HTMLButtonElement>('button')).find(button => normalize(button.textContent || '') === 'pix')?.parentElement;
+    if (paymentButtons?.parentElement) paymentButtons.parentElement.insertBefore(note, paymentButtons.nextSibling);
+    else checkout.appendChild(note);
+  }
+}
+
+function blockLegacySevenDayCoupon(event: Event) {
+  const target = event.target instanceof Element ? event.target : null;
+  const modal = target?.closest<HTMLElement>('#plans-modal');
+  if (!modal) return false;
+  const applyButton = target?.closest<HTMLButtonElement>('button');
+  if (!applyButton || normalize(applyButton.textContent || '') !== 'aplicar') return false;
+  const input = modal.querySelector<HTMLInputElement>('input[placeholder="Digite o código"]');
+  const code = normalize(input?.value || '').replace(/\s+/g, '');
+  if (!['vip7', 'testevip', '7dias', 'gratis7'].includes(code)) return false;
+
+  event.preventDefault();
+  event.stopImmediatePropagation();
+  const feedbackHost = input?.closest<HTMLElement>('.rounded-2xl');
+  let message = feedbackHost?.querySelector<HTMLElement>('[data-ep-coupon-feedback="true"]') || null;
+  if (!message && feedbackHost) {
+    message = document.createElement('p');
+    message.dataset.epCouponFeedback = 'true';
+    message.className = 'text-xs mt-2 text-[#71511c]';
+    feedbackHost.appendChild(message);
+  }
+  if (message) message.textContent = 'O período gratuito atual é de 1 dia e faz parte da experiência inicial do aplicativo; este código antigo não é mais válido.';
+  return true;
+}
+
 function cleanAdminPlanLabel() {
   const admin = document.getElementById('admin-panel-modal');
   if (!admin) return;
@@ -132,6 +172,7 @@ function apply() {
   ensureStyles();
   replaceManualPixGuide();
   polishSpecificTreatment();
+  polishPlansModal();
   cleanAdminPlanLabel();
 }
 
@@ -139,10 +180,9 @@ if (typeof window !== 'undefined' && typeof document !== 'undefined') {
   const start = () => {
     apply();
     document.addEventListener('click', event => {
+      if (blockLegacySevenDayCoupon(event)) return;
       const button = event.target instanceof Element ? event.target.closest<HTMLButtonElement>('#specific-treatment-modal [data-ep-infinity-pay-selector="true"]') : null;
       if (!button) return;
-      // The legacy PIX selector copied a manual key. PIX remains the checkout method,
-      // but the provider now owns the actual payment experience.
       event.preventDefault();
       event.stopImmediatePropagation();
     }, true);
