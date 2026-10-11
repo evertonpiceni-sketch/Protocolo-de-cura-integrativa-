@@ -4,6 +4,7 @@ const ACCOUNTS_KEY = 'cura_integrada_accounts_v1';
 
 type HomeJourneyState = {
   selectedJourney?: string;
+  selectedProtocolId?: string;
   subscriptionPlan?: string;
 };
 
@@ -19,11 +20,13 @@ function addFlowStyles() {
   const style = document.createElement('style');
   style.id = HOME_FLOW_STYLE_ID;
   style.textContent = `
-    :root[data-layout="natural-sereno"] .ep-home-needs-protocol .ns-current-day {
+    :root[data-layout="natural-sereno"] .ep-home-needs-protocol .ns-current-day,
+    :root[data-layout="natural-sereno"] .ep-home-needs-anamnesis .ns-current-day {
       display: none !important;
     }
 
-    :root[data-layout="natural-sereno"] .ep-home-needs-protocol .ns-home-scene > .ns-gold {
+    :root[data-layout="natural-sereno"] .ep-home-needs-protocol .ns-home-scene > .ns-gold,
+    :root[data-layout="natural-sereno"] .ep-home-needs-anamnesis .ns-home-scene > .ns-gold {
       display: none !important;
     }
 
@@ -111,7 +114,8 @@ function addFlowStyles() {
       display: flex;
     }
 
-    :root[data-layout="natural-sereno"] .ep-home-needs-protocol .ep-home-continue {
+    :root[data-layout="natural-sereno"] .ep-home-needs-protocol .ep-home-continue,
+    :root[data-layout="natural-sereno"] .ep-home-needs-anamnesis .ep-home-continue {
       display: none !important;
     }
   `;
@@ -128,6 +132,7 @@ function readLocalState(): HomeJourneyState {
     const account = accounts.find((item: any) => item?.login === login || item?.profile?.login === login);
     return {
       selectedJourney: account?.profile?.selectedJourney,
+      selectedProtocolId: account?.profile?.selectedProtocolId,
       subscriptionPlan: account?.profile?.subscriptionPlan,
     };
   } catch {
@@ -145,6 +150,7 @@ function requestRemoteState() {
       if (profile) {
         remoteState = {
           selectedJourney: profile.selectedJourney,
+          selectedProtocolId: profile.selectedProtocolId,
           subscriptionPlan: profile.subscriptionPlan,
         };
         queueApply();
@@ -158,8 +164,8 @@ function getJourneyState(): HomeJourneyState {
 }
 
 function hasExplicitJourney(state: HomeJourneyState) {
-  if (state.selectedJourney) return true;
-  return state.subscriptionPlan === 'jornada_7d' || state.subscriptionPlan === 'arcanjo_7d';
+  const validDuration = state.selectedJourney === '7d' || state.selectedJourney === '21d';
+  return Boolean(state.selectedProtocolId && validDuration);
 }
 
 function findPlanTrigger(): HTMLButtonElement | null {
@@ -184,7 +190,7 @@ function ensureProtocolChoice(root: HTMLElement, recommendationRow: HTMLElement 
     card.innerHTML = `
       <small>Seu próximo passo</small>
       <h2>Escolha o caminho que combina com o seu momento.</h2>
-      <p>Seu resultado já pode orientar você. Veja o protocolo mais indicado, compare as outras possibilidades e escolha livremente a opção e a duração de 7 ou 21 dias.</p>
+      <p>Seu resultado já pode orientar você. Veja o protocolo mais indicado, compare as outras possibilidades e escolha livremente o protocolo e a duração de 7 ou 21 dias.</p>
       <button type="button">Escolher protocolo e duração</button>
     `;
     card.querySelector('button')?.addEventListener('click', () => {
@@ -227,7 +233,7 @@ function setHeroCopy(root: HTMLElement, needsAnamnesis: boolean, needsProtocol: 
       ? 'Sua jornada está em andamento. Siga no seu tempo, um dia de cada vez.'
       : needsProtocol
         ? 'Agora você pode conhecer a indicação para o seu momento e escolher livremente o protocolo e a duração que fazem sentido para você.'
-        : 'Um espaço para você se ouvir, se acolher e seguir no seu tempo, do seu jeito.';
+        : 'Seu primeiro dia é um espaço para experimentar, se ouvir e conhecer o cuidado antes de escolher o protocolo que deseja seguir.';
   }
 }
 
@@ -236,7 +242,7 @@ function adjustQuickJourney(root: HTMLElement, activeJourney: boolean) {
   if (!button) return;
   button.disabled = !activeJourney;
   const helper = button.querySelector('small');
-  if (helper) helper.textContent = activeJourney ? 'Meu progresso do dia a dia' : 'Disponível após escolher seu protocolo';
+  if (helper) helper.textContent = activeJourney ? 'Meu progresso do dia a dia' : 'Disponível após escolher protocolo e duração';
 }
 
 function applyFlowState() {
@@ -257,6 +263,7 @@ function applyFlowState() {
   root.classList.toggle('ep-home-needs-anamnesis', needsAnamnesis);
   root.classList.toggle('ep-home-needs-protocol', needsProtocol);
   root.classList.toggle('ep-home-active-journey', activeJourney);
+  root.classList.toggle('ep-home-has-anamnesis', hasAnamnesis);
 
   setHeroCopy(root, needsAnamnesis, needsProtocol, activeJourney);
 
