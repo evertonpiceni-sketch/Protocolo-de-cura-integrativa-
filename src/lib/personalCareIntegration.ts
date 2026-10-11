@@ -23,10 +23,7 @@ const EMOTION_RULES: EmotionRule[] = [
 ];
 
 function normalize(value: string) {
-  return value
-    .normalize('NFD')
-    .replace(/[\u0300-\u036f]/g, '')
-    .toLocaleLowerCase('pt-BR');
+  return value.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLocaleLowerCase('pt-BR');
 }
 
 function readCurrentAccount(): UserAccount | undefined {
@@ -43,37 +40,27 @@ function readCurrentAccount(): UserAccount | undefined {
 
 function extractInitialEmotions(anamnesis?: AnamnesisData) {
   if (!anamnesis) return [];
-  return Array.from(new Set([
-    ...(anamnesis.emotionalState || []),
-    ...(anamnesis.mainComplaints || [])
-  ].map(item => String(item).trim()).filter(Boolean)));
+  return Array.from(new Set([...(anamnesis.emotionalState || []), ...(anamnesis.mainComplaints || [])].map(item => String(item).trim()).filter(Boolean)));
 }
 
 function collectPeriodText(progress: DayProgress[], startDay: number, endDay: number) {
   return progress
     .filter(item => item.dayNumber >= startDay && item.dayNumber <= endDay)
-    .map(item => [
-      item.journalText || '',
-      item.beforeFeeling?.notes || '',
-      item.afterFeeling?.notes || ''
-    ].join(' '))
+    .map(item => [item.journalText || '', item.beforeFeeling?.notes || '', item.afterFeeling?.notes || ''].join(' '))
     .join(' ');
 }
 
 function countEmotionPatterns(text: string) {
   const source = normalize(text);
-  return EMOTION_RULES
-    .map(rule => ({
-      ...rule,
-      count: rule.terms.reduce((total, term) => {
-        const normalizedTerm = normalize(term);
-        if (!normalizedTerm) return total;
-        const matches = source.match(new RegExp(normalizedTerm.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'g'));
-        return total + (matches?.length || 0);
-      }, 0)
-    }))
-    .filter(item => item.count > 0)
-    .sort((a, b) => b.count - a.count);
+  return EMOTION_RULES.map(rule => ({
+    ...rule,
+    count: rule.terms.reduce((total, term) => {
+      const normalizedTerm = normalize(term);
+      if (!normalizedTerm) return total;
+      const matches = source.match(new RegExp(normalizedTerm.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'g'));
+      return total + (matches?.length || 0);
+    }, 0)
+  })).filter(item => item.count > 0).sort((a, b) => b.count - a.count);
 }
 
 function averageMood(progress: DayProgress[], startDay: number, endDay: number) {
@@ -117,13 +104,11 @@ function getActiveDiaryDay(modal: HTMLElement) {
 function renderWeeklyDiaryAnalysis() {
   const modal = document.getElementById('daily-diary-modal') as HTMLElement | null;
   if (!modal) return;
-
   const scroll = modal.querySelector<HTMLElement>('.flex-1.min-h-0.overflow-y-auto');
   if (!scroll) return;
 
   const activeDay = getActiveDiaryDay(modal);
   let card = document.getElementById('ep-weekly-diary-analysis');
-
   if (!activeDay || !WEEKLY_MILESTONES.includes(activeDay as 7 | 14 | 21)) {
     card?.remove();
     return;
@@ -150,25 +135,16 @@ function renderWeeklyDiaryAnalysis() {
   const patternMarkup = topPatterns.length
     ? topPatterns.map(item => `<div class="ep-week-item"><span>Apareceu nos registros</span><strong>${item.label}</strong></div>`).join('')
     : '<div class="ep-week-item"><span>Leitura da semana</span><strong>Sem padrão emocional dominante nos registros disponíveis.</strong></div>';
-
-  const initialText = initialEmotions.length
-    ? initialEmotions.slice(0, 6).join(', ')
-    : 'Não há emoções iniciais registradas na anamnese.';
-
-  const moodText = avgMood == null
-    ? 'Sem dados suficientes para calcular a média de humor.'
-    : `${avgMood.toFixed(1).replace('.', ',')} / 5`;
+  const initialText = initialEmotions.length ? initialEmotions.slice(0, 6).join(', ') : 'Não há emoções iniciais registradas na anamnese.';
+  const moodText = avgMood == null ? 'Sem dados suficientes para calcular a média de humor.' : `${avgMood.toFixed(1).replace('.', ',')} / 5`;
 
   card.innerHTML = `
     <p class="ep-week-kicker">Fechamento dos dias ${startDay}–${activeDay}</p>
     <h3>Minha semana emocional</h3>
-    <p>Seu diário continua sendo um espaço livre para desabafar. A leitura abaixo só acontece neste marco de 7 dias e compara o que apareceu nos seus registros com o estado emocional inicial informado na anamnese.</p>
+    <p>Seu diário continua sendo um espaço livre para desabafar. A leitura abaixo só acontece neste marco de 7 dias e compara o que apareceu nos seus registros com o estado emocional inicial informado na Anamnese Compacta.</p>
     <div class="ep-week-box"><p><strong>Estado emocional inicial:</strong> ${initialText}</p></div>
     <div class="ep-week-grid">${patternMarkup}</div>
-    <div class="ep-week-grid">
-      <div class="ep-week-item"><span>Registros considerados</span><strong>${recordsInPeriod} de 7 dias</strong></div>
-      <div class="ep-week-item"><span>Humor médio registrado</span><strong>${moodText}</strong></div>
-    </div>
+    <div class="ep-week-grid"><div class="ep-week-item"><span>Registros considerados</span><strong>${recordsInPeriod} de 7 dias</strong></div><div class="ep-week-item"><span>Humor médio registrado</span><strong>${moodText}</strong></div></div>
     <div class="ep-week-note">Esta leitura resume palavras e emoções registradas por você. Não é diagnóstico e não interpreta cada desabafo individualmente.</div>
   `;
 }
@@ -176,8 +152,7 @@ function renderWeeklyDiaryAnalysis() {
 function lockCoursesInNaturalSereno() {
   const root = document.querySelector<HTMLElement>('.ns-app');
   if (!root) return;
-  const buttons = Array.from(root.querySelectorAll<HTMLButtonElement>('button'));
-  for (const button of buttons) {
+  for (const button of Array.from(root.querySelectorAll<HTMLButtonElement>('button'))) {
     const text = button.textContent || '';
     if (text.includes('Cursos e conteúdos') || text.includes('Cursos & Formações')) {
       button.disabled = true;
@@ -188,7 +163,7 @@ function lockCoursesInNaturalSereno() {
   }
 }
 
-function relabelEnergeticAnamnesis() {
+function relabelCompactAnamnesis() {
   const root = document.querySelector<HTMLElement>('.ns-app');
   if (!root) return;
   const elements = Array.from(root.querySelectorAll<HTMLElement>('strong,h2,h3,span,p'));
@@ -196,9 +171,7 @@ function relabelEnergeticAnamnesis() {
     if (element.children.length > 0) continue;
     const text = element.textContent?.trim();
     if (!text) continue;
-    if (text === 'Anamnese' || text === 'Minha Anamnese' || text === 'Como estou?') {
-      element.textContent = 'Anamnese Energética';
-    }
+    if (text === 'Anamnese' || text === 'Minha Anamnese' || text === 'Anamnese Energética') element.textContent = 'Anamnese Compacta';
   }
 }
 
@@ -206,7 +179,7 @@ function apply() {
   ensureStyles();
   renderWeeklyDiaryAnalysis();
   lockCoursesInNaturalSereno();
-  relabelEnergeticAnamnesis();
+  relabelCompactAnamnesis();
 }
 
 if (typeof window !== 'undefined' && typeof document !== 'undefined') {
@@ -215,7 +188,6 @@ if (typeof window !== 'undefined' && typeof document !== 'undefined') {
     const observer = new MutationObserver(() => apply());
     observer.observe(document.body, { childList: true, subtree: true });
   };
-
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', start, { once: true });
   else start();
 }
@@ -224,5 +196,6 @@ export const PERSONAL_CARE_INTEGRATION = Object.freeze({
   diaryPurpose: 'desabafo',
   weeklyAnalysisDays: WEEKLY_MILESTONES,
   anamnesisUniversal: true,
+  anamnesisName: 'Anamnese Compacta',
   libraryVisibleToUsers: false
 });
