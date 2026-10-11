@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import {
-  ArrowLeft, Award, AudioLines, BookOpen, ChevronRight, Flower2,
+  ArrowLeft, Award, BookOpen, ChevronRight, Flower2,
   Headphones, Heart, Home, Leaf, LogOut, Menu, MessageCircle,
-  Pause, Play, Sliders, Sparkles, Sun, UserRound, Users, Waves, CalendarDays, Citrus, Search,
+  Pause, Play, Sliders, Sparkles, Sun, UserRound, Users, Waves, CalendarDays, Search,
 } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
 import type { TransformationHomeProps } from './TransformationHome';
@@ -81,7 +81,6 @@ export default function NaturalSerenoHome(props: Props) {
   const menu: Row[] = [
     { title: 'Protocolo da Transformação', copy: 'Jornada guiada de 21 dias', icon: Leaf, action: () => changeView('journey'), protocolId: 'transformacao', protocolDuration: '21d' },
     { title: '21 Dias para Voltar para Mim', copy: 'Reintegração da Vida', icon: Leaf, action: props.onOpenPersonalJourney, protocolId: 'reintegracao-vida', protocolDuration: '21d' },
-    { title: 'Proteção e Presença', copy: 'Jornada de São Miguel', icon: Sparkles, action: props.onOpenArcanjo },
     { title: 'Anamnese Compacta', copy: 'Olhar meu momento', icon: Waves, action: props.onOpenAnamnesis },
     { title: 'Recursos', copy: 'Práticas e conteúdos de apoio', icon: BookOpen, action: () => changeView('resources') },
     { title: 'Ferramentas de Apoio', copy: 'Natureza como parte do cuidado', icon: Flower2, action: () => changeView('tools') },
@@ -193,15 +192,14 @@ export default function NaturalSerenoHome(props: Props) {
 
     {view === 'result' && recommendation && <section className="ns-list ns-result">
       <Flower2 size={43} strokeWidth={1} aria-hidden="true" />
+      <small className="ep-home-recommended-label">Mais indicado para o seu momento</small>
       <p>{recommendation.summaryDiagnosis}</p>
       {([
-        ['Frequência de apoio', recommendation.frequencyLabel, AudioLines],
-        ['Centro em foco', recommendation.primaryChakraFocus, Sun],
-        ['Floral sugerido', recommendation.recommendedFloral || props.anamnesis?.recommendedFloral || 'Definido conforme sua anamnese', Flower2],
-        ['Aromaterapia sugerida', recommendation.recommendedAromatherapy || props.anamnesis?.recommendedAromatherapy || 'Definida conforme sua anamnese', Citrus],
+        ['Ponto central da sua leitura', recommendation.primaryChakraFocus, Sun],
         ['Caminho sugerido', recommendation.treatmentTitle, BookOpen],
         ['Duração sugerida', `${recommendation.recommendedDurationDays} dias`, CalendarDays],
       ] as [string, string, LucideIcon][]).map(([label, value, Icon]) => <div key={label} className="ns-result-item"><span className="ns-result-symbol"><Icon size={25} strokeWidth={1.4} /></span><div><small>{label}</small><strong>{value}</strong></div></div>)}
+      <p className="ns-result-note">Esta é uma orientação para facilitar sua escolha. Você continua livre para escolher outro protocolo disponível.</p>
       <button className="ns-gold" onClick={props.onSpeakResult}><Headphones size={19} />Ouvir meu resultado</button>
       <button className="ns-secondary" onClick={props.onOpenAnamnesis}>Ver ou refazer minha anamnese <ChevronRight size={18} /></button>
     </section>}
