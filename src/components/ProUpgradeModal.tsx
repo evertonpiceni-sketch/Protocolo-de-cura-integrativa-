@@ -29,7 +29,7 @@ type PlanItem = {
 
 const PRO_COMMON = [
   'Anamnese Compacta com resultado imediato e orientação do próximo passo',
-  'Escolha do protocolo mais adequado ao seu momento, sem limitar sua liberdade de escolha',
+  'Indicação do protocolo mais adequado ao seu momento, sem limitar sua liberdade de escolha',
   'Acesso às jornadas disponíveis de 7 e 21 dias',
   'Diário privado para registrar o dia no seu próprio ritmo',
   'Leituras de acompanhamento nos marcos da jornada',
@@ -39,30 +39,17 @@ const PRO_COMMON = [
 const PLANS: PlanItem[] = [
   {
     id: 'jornada_7d',
-    title: 'Jornada 7 Dias',
+    title: 'Acesso avulso — 7 dias',
     price: 15,
     period: 'acesso 7 dias',
-    badge: 'Protocolo avulso',
-    summary: ['Anamnese Compacta incluída', '7 dias de jornada', 'Anamnese Completa opcional por R$ 15'],
+    badge: 'Opção avulsa',
+    summary: ['Anamnese Compacta incluída', '7 dias de acesso', 'Anamnese Completa opcional por R$ 15'],
     details: [
       'Anamnese Compacta com resultado mostrado imediatamente',
-      'Orientação para escolher o protocolo mais adequado ao momento',
-      'Jornada de 7 dias organizada como ciclo completo, do início ao fechamento',
+      'Orientação para identificar o protocolo mais adequado ao momento',
+      'Escolha livre entre os protocolos disponíveis para 7 dias',
+      'O ciclo de 7 dias preserva início, desenvolvimento, integração e fechamento',
       'Anamnese Completa disponível por R$ 15,00 após o resultado compacto'
-    ]
-  },
-  {
-    id: 'arcanjo_7d',
-    title: 'Protocolo Avulso de 7 Dias',
-    price: 29.9,
-    period: 'acesso 7 dias',
-    badge: 'Protocolo específico',
-    summary: ['Anamnese Compacta incluída', 'Ciclo específico de 7 dias', 'Anamnese Completa opcional por R$ 15'],
-    details: [
-      'Anamnese Compacta com resultado imediato',
-      'Indicação do protocolo mais coerente com o momento atual',
-      'Ciclo completo de 7 dias, sem ser apenas o recorte inicial de uma jornada maior',
-      'Anamnese Completa disponível por R$ 15,00'
     ]
   },
   {
@@ -110,7 +97,7 @@ const PLANS: PlanItem[] = [
   {
     id: 'anual',
     title: 'Plano Anual',
-    price: 149.9,
+    price: 159.9,
     period: '/ ano',
     badge: 'Anamnese Completa incluída',
     summary: ['Anamnese Completa incluída', '12 meses de acesso', 'Histórico preservado'],
@@ -118,22 +105,6 @@ const PLANS: PlanItem[] = [
       ...PRO_COMMON,
       'Anamnese Completa incluída sem cobrança adicional',
       'Escolha 1: Mapa Astral Completo OU Numerologia Completa',
-      'Acesso por 12 meses'
-    ]
-  },
-  {
-    id: 'anual_master' as SubscriptionPlanType,
-    title: 'Plano Anual Master',
-    price: 197,
-    period: '/ ano',
-    badge: 'Mais completo',
-    summary: ['Anamnese Completa incluída', 'Mapa Astral + Numerologia', '1 curso elegível gratuito'],
-    details: [
-      ...PRO_COMMON,
-      'Anamnese Completa incluída sem cobrança adicional',
-      'Mapa Astral Completo',
-      'Numerologia Completa',
-      '1 curso elegível gratuito',
       'Acesso por 12 meses'
     ]
   }
@@ -157,7 +128,7 @@ export default function ProUpgradeModal({ isOpen, onClose, onUpgradeSuccess }: P
   const [isProcessing, setIsProcessing] = useState(false);
   const [checkoutError, setCheckoutError] = useState<string | null>(null);
 
-  const selectedPlan = PLANS.find(plan => plan.id === selectedId) || PLANS[2];
+  const selectedPlan = PLANS.find(plan => plan.id === selectedId) || PLANS.find(plan => plan.id === 'trimestral') || PLANS[0];
   const couponRule = appliedCoupon ? COUPONS[appliedCoupon] : undefined;
   const finalPrice = useMemo(() => {
     if (!couponRule || couponRule.vip) return couponRule?.vip ? 0 : selectedPlan.price;
@@ -203,8 +174,8 @@ export default function ProUpgradeModal({ isOpen, onClose, onUpgradeSuccess }: P
     }
   };
 
-  const proPlans = PLANS.filter(plan => !['jornada_7d', 'arcanjo_7d'].includes(plan.id));
-  const standalone = PLANS.filter(plan => ['jornada_7d', 'arcanjo_7d'].includes(plan.id));
+  const plans = PLANS.filter(plan => plan.id !== 'jornada_7d');
+  const standalone = PLANS.filter(plan => plan.id === 'jornada_7d');
 
   return (
     <div ref={dialogRef} id="plans-modal" role="dialog" aria-modal="true" aria-labelledby="plans-title" className="fixed inset-0 z-[100] bg-[#1F2E27]/35 backdrop-blur-xl overflow-y-auto">
@@ -213,7 +184,7 @@ export default function ProUpgradeModal({ isOpen, onClose, onUpgradeSuccess }: P
           <div className="max-w-6xl mx-auto px-4 py-4 flex items-center justify-between">
             <div>
               <p className="text-[#9C7429] tracking-[0.24em] text-[10px] font-bold uppercase">Sua jornada</p>
-              <h2 id="plans-title" className="font-serif text-xl text-[#26372A]">Planos & Protocolos</h2>
+              <h2 id="plans-title" className="font-serif text-xl text-[#26372A]">Planos & Acessos</h2>
             </div>
             <button onClick={onClose} className="p-2 rounded-full border border-[#D8B867]/25 bg-white/60" aria-label="Fechar"><X size={20} /></button>
           </div>
@@ -222,14 +193,14 @@ export default function ProUpgradeModal({ isOpen, onClose, onUpgradeSuccess }: P
         <main className="max-w-6xl mx-auto px-4 py-8 space-y-10">
           <section className="text-center max-w-2xl mx-auto">
             <Sparkles className="mx-auto text-[#B88736] mb-3" size={24} />
-            <h1 className="font-serif text-3xl md:text-5xl text-[#26372A]">Escolha o caminho que combina com o seu momento</h1>
-            <p className="mt-3 text-sm md:text-base text-[#5F6857]">A Anamnese Compacta orienta sua escolha. A recomendação ajuda, mas a decisão continua sendo sua.</p>
+            <h1 className="font-serif text-3xl md:text-5xl text-[#26372A]">Escolha o formato que combina com o seu momento</h1>
+            <p className="mt-3 text-sm md:text-base text-[#5F6857]">Aqui você escolhe sua forma de acesso. A Anamnese Compacta orienta o próximo passo e, depois do resultado, a escolha do protocolo continua sendo sua.</p>
           </section>
 
           <section>
             <div className="mb-4">
-              <h3 className="font-serif text-2xl text-[#26372A]">Protocolos avulsos</h3>
-              <p className="text-sm text-[#5F6857]">Acesso por período definido, com Anamnese Compacta incluída.</p>
+              <h3 className="font-serif text-2xl text-[#26372A]">Acesso avulso</h3>
+              <p className="text-sm text-[#5F6857]">Acesso por período definido, com Anamnese Compacta incluída. O protocolo é escolhido depois da orientação.</p>
             </div>
             <div className="grid md:grid-cols-2 gap-4 items-stretch">
               {standalone.map(plan => (
@@ -242,11 +213,11 @@ export default function ProUpgradeModal({ isOpen, onClose, onUpgradeSuccess }: P
             <div className="mb-4 flex items-end justify-between gap-4">
               <div>
                 <div className="flex items-center gap-2"><Crown className="text-[#B88736]" size={22} /><h3 className="font-serif text-2xl text-[#26372A]">Planos</h3></div>
-                <p className="text-sm text-[#5F6857] mt-1">No mensal, a análise completa tem R$ 5 de desconto. A partir do trimestral, ela já está incluída.</p>
+                <p className="text-sm text-[#5F6857] mt-1">No mensal, a Anamnese Completa tem R$ 5 de desconto. A partir do trimestral, ela já está incluída.</p>
               </div>
             </div>
-            <div className="grid sm:grid-cols-2 lg:grid-cols-5 gap-4 items-stretch">
-              {proPlans.map(plan => (
+            <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 items-stretch">
+              {plans.map(plan => (
                 <PlanCard key={plan.id} plan={plan} expanded={expandedId === plan.id} onToggle={() => setExpandedId(expandedId === plan.id ? null : plan.id)} onChoose={() => choosePlan(plan)} />
               ))}
             </div>
