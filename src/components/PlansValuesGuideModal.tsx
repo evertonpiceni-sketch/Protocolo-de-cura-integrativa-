@@ -4,8 +4,8 @@
  */
 
 import React, { useState } from 'react';
-import { motion, AnimatePresence } from 'motion/react';
-import { X, Check, Sparkles, Crown, Heart, QrCode, Copy, ShieldCheck, CheckCircle2, Star, ArrowRight, MessageCircle } from 'lucide-react';
+import { motion } from 'motion/react';
+import { X, Check, Crown, QrCode, Copy, Star, ArrowRight, MessageCircle } from 'lucide-react';
 
 interface PlansValuesGuideModalProps {
   isOpen: boolean;
@@ -29,201 +29,122 @@ export interface DetailedPlanInfo {
   features: string[];
   description: string;
   ctaText: string;
-  accentColor: string;
-  buttonClass: string;
 }
 
 export const ALL_PLANS_DATA: DetailedPlanInfo[] = [
   {
-    id: 'jornada_7d',
-    category: 'assinatura',
-    title: 'Jornada 7 Dias (Alinhamento dos Chakras)',
-    badge: 'Iniciação Quântica • R$ 15,00',
-    priceFormatted: 'R$ 15,00',
-    periodText: 'acesso à jornada de 7 dias',
-    priceNumeric: 15.00,
-    highlightBenefit: 'Acesso completo à nova jornada de 7 dias para alinhamento dos 7 centros de força.',
-    features: [
-      'Acesso completo à Jornada de 7 Dias (Chakra Raiz ao Coronário)',
-      'Todas as frequências Solfeggio específicas (396Hz a 963Hz)',
-      'Sons de fundo imersivos de floresta zen, chuva e ondas',
-      'Diário de bordo quântico para anotações e registro diário',
-      'Certificado Oficial de Conclusão da Jornada de 7 Dias'
-    ],
-    description: 'Ideal para quem busca um despertar rápido, focado e transformador de 7 dias.',
-    ctaText: 'Escolher 7 Dias (R$ 15,00)',
-    accentColor: 'emerald',
-    buttonClass: 'bg-emerald-600 hover:bg-emerald-500 text-white shadow-emerald-600/20'
-  },
-  {
     id: 'mensal',
     category: 'assinatura',
-    title: 'Plano Pro Mensal',
-    badge: 'Acesso Completo ao App',
+    title: 'Plano Mensal',
+    badge: 'R$ 5 de desconto na Anamnese Completa',
     priceFormatted: 'R$ 39,90',
     periodText: 'por mês',
-    priceNumeric: 39.90,
-    highlightBenefit: 'Acesso ilimitado às jornadas de 7 e 21 dias durante 30 dias com relatórios e suporte.',
+    priceNumeric: 39.9,
+    highlightBenefit: 'No mensal, a Anamnese Completa cai de R$ 15,00 para R$ 10,00.',
     features: [
-      'Acesso ilimitado às Jornadas de 7 e 21 Dias',
-      'Todas as 9 frequências Solfeggio e sons imersivos de fundo',
-      'Relatório de jornada e acompanhamento das percepções registradas',
-      'Diário de bordo com histórico completo e sincronização de streaks',
-      'Suporte humanizado no WhatsApp com Éverton Rodrigo Piceni'
+      'Anamnese Compacta incluída com resultado imediato',
+      'Acesso aos protocolos disponíveis durante 30 dias',
+      'Diário privado e acompanhamento nos marcos da jornada',
+      'Anamnese Completa por R$ 10,00 — desconto de R$ 5,00',
+      'Você pode seguir normalmente apenas com o resultado compacto'
     ],
-    description: 'Para quem deseja manter uma rotina constante de autocuidado, presença e reconexão.',
-    ctaText: 'Escolher Mensal (R$ 39,90)',
-    accentColor: 'indigo',
-    buttonClass: 'bg-[#B88736] hover:bg-[#B88736] text-white shadow-indigo-600/20'
+    description: 'Para quem quer um mês de acesso e a opção de aprofundar a análise com valor reduzido.',
+    ctaText: 'Escolher Mensal'
   },
   {
     id: 'trimestral',
     category: 'assinatura',
-    title: 'Plano Pro Trimestral',
-    badge: 'Prática individual de 7 dias inclusa',
+    title: 'Plano Trimestral',
+    badge: 'Anamnese Completa incluída',
     isPopular: true,
     priceFormatted: 'R$ 69,90',
-    periodText: 'por 3 meses (R$ 23,30/mês)',
-    priceNumeric: 69.90,
-    highlightBenefit: '3 meses contínuos + DIREITO A 1 TRATAMENTO ESPECÍFICO DE 7 DIAS INCLUSO.',
+    periodText: 'por 3 meses',
+    priceNumeric: 69.9,
+    highlightBenefit: 'A partir do trimestral, a Anamnese Completa já faz parte do plano.',
     features: [
-      '1 prática individual de 7 dias inclusa com Éverton Piceni',
-      'Acesso Pro irrestrito por 90 dias a todas as jornadas (7 e 21 dias)',
-      'Práticas de atenção aos 7 chakras e continuidade da jornada',
-      'Emissão de Certificados Oficiais nominais de conclusão',
-      'Atendimento e acolhimento prioritário no WhatsApp'
+      'Anamnese Compacta com resultado imediato',
+      'Anamnese Completa incluída sem cobrança adicional',
+      'Acesso aos protocolos disponíveis por 90 dias',
+      'Diário privado e leituras de acompanhamento',
+      'Mais tempo para continuidade e integração'
     ],
-    description: 'Oferece mais tempo para aprofundar a jornada e inclui uma prática individualizada de 7 dias.',
-    ctaText: 'Escolher Trimestral (R$ 69,90)',
-    accentColor: 'amber',
-    buttonClass: 'bg-gradient-to-r from-amber-500 to-amber-400 hover:from-amber-400 hover:to-amber-300 text-slate-950 shadow-amber-500/20'
+    description: 'O plano de continuidade com o aprofundamento completo já incluído.',
+    ctaText: 'Escolher Trimestral'
   },
   {
     id: 'semestral',
     category: 'assinatura',
-    title: 'Plano Pro Semestral',
-    badge: '1 áudio individual de 7 dias incluso',
+    title: 'Plano Semestral',
+    badge: 'Anamnese Completa incluída',
     priceFormatted: 'R$ 99,90',
-    periodText: 'por 6 meses (R$ 16,65/mês)',
-    priceNumeric: 99.90,
-    highlightBenefit: '6 meses contínuos + DIREITO A 1 ÁUDIO PERSONALIZADO DE 7 DIAS INCLUSO.',
+    periodText: 'por 6 meses',
+    priceNumeric: 99.9,
+    highlightBenefit: 'Seis meses de acesso com Anamnese Completa já incluída.',
     features: [
-      '1 áudio personalizado de 7 dias incluso',
-      'Acesso Pro irrestrito por 180 dias a todas as ferramentas e jornadas',
-      'Relatório ampliado da jornada e acompanhamento de longo prazo',
-      'Certificados de conclusão das jornadas',
-      'Canal VIP direto com o terapeuta Éverton Piceni'
+      'Anamnese Compacta e Anamnese Completa incluídas',
+      'Acesso aos protocolos disponíveis durante 180 dias',
+      'Diário privado e acompanhamento de longo prazo',
+      '1 áudio personalizado de 7 dias',
+      'Mapa Astral Completo OU Numerologia Completa'
     ],
-    description: 'Seis meses para aprofundar práticas de presença, espiritualidade e autocuidado com áudio individual.',
-    ctaText: 'Escolher Semestral (R$ 99,90)',
-    accentColor: 'purple',
-    buttonClass: 'bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white shadow-purple-600/20'
+    description: 'Para quem deseja sustentar a jornada por mais tempo, com benefícios adicionais.',
+    ctaText: 'Escolher Semestral'
   },
   {
     id: 'anual',
     category: 'assinatura',
-    title: 'Acesso Anual (Master Pro)',
-    badge: '2 áudios especiais inclusos',
+    title: 'Plano Anual',
+    badge: 'Anamnese Completa incluída',
     priceFormatted: 'R$ 159,90',
-    periodText: 'acesso por 12 meses',
-    priceNumeric: 159.90,
-    highlightBenefit: 'Acesso por 12 meses + DIREITO A 1 ÁUDIO DE 7 DIAS + 1 ÁUDIO DE LIVRE ESCOLHA.',
+    periodText: 'por 12 meses',
+    priceNumeric: 159.9,
+    highlightBenefit: 'Acesso contínuo por um ano com Anamnese Completa incluída.',
     features: [
-      '1 áudio de 7 dias + 1 áudio de livre escolha inclusos',
-      'Desbloqueio de todo o acervo (Florais, Aromaterapia, Diário de Bordo, Chakras, Banhos, Astrologia)',
-      'Relatórios de reflexão e evolução percebida ao final do ciclo',
-      'Desconto de 60% na compra de novos Tratamentos Específicos',
+      'Anamnese Compacta e Anamnese Completa incluídas',
+      'Acesso aos protocolos e recursos disponíveis por 12 meses',
+      'Histórico e acompanhamento preservados',
+      'Benefícios adicionais do plano anual'
     ],
-    description: 'Um espaço contínuo de presença, reflexão e autocuidado sempre acessível.',
-    ctaText: 'Acesso Anual (R$ 159,90)',
-    accentColor: 'emerald',
-    buttonClass: 'bg-emerald-600 hover:bg-emerald-500 text-white shadow-emerald-500/20'
-  },
-  {
-    id: 'vip_curso',
-    category: 'assinatura',
-    title: 'Acesso Vip (Anual + Curso)',
-    badge: 'Curso Incluso!',
-    isPopular: true,
-    priceFormatted: 'R$ 199,90',
-    periodText: 'acesso por 12 meses + 1 curso',
-    priceNumeric: 199.90,
-    highlightBenefit: 'Tudo do Plano Anual + Acesso a 1 Curso de Formação Completo.',
-    features: [
-      'TUDO DO PLANO ANUAL INCLUSO',
-      'DIREITO A 1 CURSO DE FORMAÇÃO COMPLETO COM CERTIFICADO',
-      'Sessão de mentoria em grupo exclusiva',
-      'Acesso prioritário a novos recursos',
-    ],
-    description: 'A jornada de mestria definitiva para transformar sua vida.',
-    ctaText: 'Escolher VIP + Curso (R$ 199,90)',
-    accentColor: 'rose',
-    buttonClass: 'bg-gradient-to-r from-rose-600 to-amber-500 hover:from-rose-500 hover:to-amber-400 text-white shadow-rose-600/20'
-  },
-  {
-    id: 'arcanjo_7d',
-    category: 'assinatura',
-    title: 'Protocolo São Miguel, Rafael e Chama Violeta',
-    badge: '7 Chakras Divinos',
-    priceFormatted: 'R$ 29,90',
-    periodText: 'acesso 7 dias',
-    priceNumeric: 29.90,
-    highlightBenefit: 'Protocolo de Cura Arcanjo São Miguel, Raio de Ouro de São Rafael e Chama Violeta.',
-    features: [
-      'Alinhamento exato de 1 Chakra por dia (Cores, Nomes e Frequências)',
-      'Limpeza com Raio de Ouro de São Rafael',
-      'Transmutação profunda com a Chama Violeta',
-      'Proteção Divina de São Miguel Arcanjo',
-      'Ideal para blindagem espiritual e quebra de laços cármicos'
-    ],
-    description: 'Um ciclo curto e intensivo para blindagem espiritual e aceleração da transmutação cármica.',
-    ctaText: 'Escolher (R$ 29,90)',
-    accentColor: 'violet',
-    buttonClass: 'bg-violet-600 hover:bg-violet-500 text-white shadow-violet-500/20'
+    description: 'Para quem prefere manter um espaço contínuo de acompanhamento ao longo do ano.',
+    ctaText: 'Escolher Anual'
   },
   {
     id: 'tratamento_7d',
     category: 'tratamento_individual',
-    title: 'Tratamento Específico (7 Dias)',
-    badge: 'Canalização Pontual',
+    title: 'Acompanhamento Específico — 7 Dias',
+    badge: 'Ciclo individual',
     priceFormatted: 'R$ 59,90',
     periodText: 'ciclo único de 7 dias',
-    priceNumeric: 59.90,
-    highlightBenefit: 'Atendimento focado em uma queixa aguda, dor física ou crise pontual.',
+    priceNumeric: 59.9,
+    highlightBenefit: 'Um ciclo individual de sete dias voltado ao tema trazido pela pessoa.',
     features: [
-      'Canalização vibracional focada no seu relato pessoal',
-      'Direcionamento de frequência Solfeggio e sons curativos específicos',
-      'Decreto de reprogramação psíquica para a dor/desafio informado',
-      'Acompanhamento energético durante o ciclo de 7 dias',
-      'Suporte direto via WhatsApp com Éverton Rodrigo Piceni'
+      'Escuta do relato e definição do foco do ciclo',
+      'Práticas de apoio organizadas para sete dias',
+      'Anamnese Compacta incluída',
+      'Anamnese Completa opcional por R$ 15,00',
+      'Acompanhamento direto durante o período contratado'
     ],
-    description: 'Voltado para quem passa por um momento de urgência emocional, dor física repentina ou bloqueio específico.',
-    ctaText: 'Solicitar 7 Dias (R$ 59,90)',
-    accentColor: 'teal',
-    buttonClass: 'bg-teal-600 hover:bg-teal-500 text-white shadow-teal-600/20'
+    description: 'Acompanhamento individualizado; não é a adaptação automática de uma jornada de 21 dias.',
+    ctaText: 'Solicitar 7 Dias'
   },
   {
     id: 'tratamento_21d',
     category: 'tratamento_individual',
-    title: 'Tratamento Específico (21 Dias)',
-    badge: 'Canalização Aprofundada Individual',
-    isPopular: true,
+    title: 'Acompanhamento Específico — 21 Dias',
+    badge: 'Ciclo individual aprofundado',
     priceFormatted: 'R$ 99,90',
-    periodText: 'jornada completa de 21 dias',
-    priceNumeric: 99.90,
-    highlightBenefit: 'Alinhamento integral dos 7 chakras para dores crônicas, traumas ou prosperidade.',
+    periodText: 'ciclo único de 21 dias',
+    priceNumeric: 99.9,
+    highlightBenefit: 'Um ciclo individual mais longo, com espaço para aprofundamento e integração.',
     features: [
-      'Canalização diária individualizada durante os 21 dias inteiros',
-      'Práticas integrativas voltadas ao acolhimento, relaxamento e bem-estar',
-      'Desbloqueio de fluxos de prosperidade material e reconciliação afetiva',
-      'Limpeza de cordões energéticos e proteção áurica com Chama Violeta',
-      'Caminhos de cuidado personalizados a partir da anamnese',
-      'Atendimento e acolhimento direto com Éverton no WhatsApp'
+      'Escuta do relato e definição do foco do ciclo',
+      'Práticas de apoio organizadas para 21 dias',
+      'Anamnese Compacta incluída',
+      'Anamnese Completa opcional por R$ 15,00',
+      'Acompanhamento direto durante o período contratado'
     ],
-    description: 'A transformação mais profunda e recomendada para quem deseja reescrever seu padrão vibracional em 21 dias.',
-    ctaText: 'Solicitar 21 Dias (R$ 59,90)',
-    accentColor: 'amber',
-    buttonClass: 'bg-gradient-to-r from-amber-500 to-amber-400 hover:from-amber-400 hover:to-amber-300 text-slate-950 shadow-amber-500/20'
+    description: 'Para quem deseja mais tempo de continuidade em um ciclo individualizado.',
+    ctaText: 'Solicitar 21 Dias'
   }
 ];
 
@@ -240,13 +161,7 @@ export function PlansValuesGuideModal({
   const [filterCategory, setFilterCategory] = useState<'todos' | 'assinatura' | 'tratamento_individual'>('todos');
 
   React.useEffect(() => {
-    if (isOpen) {
-      setTimeout(() => {
-        if (containerRef.current) {
-          containerRef.current.scrollTop = 0;
-        }
-      }, 50);
-    }
+    if (isOpen) window.setTimeout(() => { if (containerRef.current) containerRef.current.scrollTop = 0; }, 50);
   }, [isOpen]);
 
   if (!isOpen) return null;
@@ -254,266 +169,53 @@ export function PlansValuesGuideModal({
   const handleCopyPix = () => {
     navigator.clipboard.writeText('evertonpiceni@gmail.com');
     setCopiedPixKey(true);
-    setTimeout(() => setCopiedPixKey(false), 3500);
+    window.setTimeout(() => setCopiedPixKey(false), 3500);
   };
 
   const handleTriggerPlan = (planId: string) => {
     onClose();
-    if (onOpenProModal) {
-      onOpenProModal(planId);
-    } else if (onSelectPlan) {
-      onSelectPlan(planId);
-    }
+    if (onOpenProModal) onOpenProModal(planId);
+    else onSelectPlan?.(planId);
   };
 
-  const handleTriggerSpecificTreatment = () => {
+  const handleSpecificTreatment = () => {
     onClose();
-    if (onOpenSpecificTreatment) {
-      onOpenSpecificTreatment();
-    } else if (onSelectSpecificTreatment) {
-      onSelectSpecificTreatment();
-    }
+    if (onOpenSpecificTreatment) onOpenSpecificTreatment();
+    else onSelectSpecificTreatment?.();
   };
 
-  const filteredPlans = filterCategory === 'todos' 
-    ? ALL_PLANS_DATA 
-    : ALL_PLANS_DATA.filter((p) => p.category === filterCategory);
+  const filteredPlans = filterCategory === 'todos' ? ALL_PLANS_DATA : ALL_PLANS_DATA.filter(plan => plan.category === filterCategory);
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-[#2A2420]/30 backdrop-blur-md overflow-y-auto" id="plans-values-guide-modal">
-      <motion.div
-        ref={containerRef}
-        initial={{ opacity: 0, scale: 0.95, y: 15 }}
-        animate={{ opacity: 1, scale: 1, y: 0 }}
-        exit={{ opacity: 0, scale: 0.95 }}
-        className="w-full max-w-5xl bg-[#FBF8F2] border border-amber-500/30 rounded-3xl p-5 sm:p-7 md:p-8 shadow-2xl relative overflow-hidden my-4 max-h-[92vh] overflow-y-auto"
-      >
-        {/* Glow Effects */}
-        <div className="absolute -top-24 -right-24 w-80 h-80 bg-amber-500/10 rounded-full blur-3xl pointer-events-none" />
-        <div className="absolute -bottom-24 -left-24 w-80 h-80 bg-[#B88736]/10 rounded-full blur-3xl pointer-events-none" />
-
-        {/* Close Button */}
-        <button
-          onClick={onClose}
-          className="absolute top-5 right-5 w-8 h-8 rounded-full bg-[#F5EFE4]/80 border border-[#E5DAC6] text-[#5C5248] hover:text-[#2A2420] flex items-center justify-center transition cursor-pointer z-10"
-        >
-          <X size={16} />
-        </button>
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-[#1F2E27]/35 backdrop-blur-md overflow-y-auto" id="plans-values-guide-modal">
+      <motion.div ref={containerRef} initial={{ opacity: 0, scale: 0.97, y: 12 }} animate={{ opacity: 1, scale: 1, y: 0 }} className="w-full max-w-5xl bg-[#FFF9E8] border border-[#D8B867]/30 rounded-3xl p-5 sm:p-7 md:p-8 shadow-2xl relative my-4 max-h-[92vh] overflow-y-auto">
+        <button onClick={onClose} className="absolute top-5 right-5 w-8 h-8 rounded-full bg-white/70 border border-[#D8B867]/25 text-[#5F6857] flex items-center justify-center z-10" aria-label="Fechar"><X size={16} /></button>
 
         <div className="space-y-6">
-          {/* Header */}
-          <div className="text-center space-y-2">
-            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-300 text-xs font-mono font-medium">
-              <Crown size={14} className="text-amber-400" />
-              <span>TRANSPARÊNCIA TOTAL & VALORES</span>
-            </div>
-            <h2 className="text-2xl md:text-3xl font-display font-medium text-[#2A2420]">
-              Todas as Opções de Valores e Planos
-            </h2>
-            <p className="text-xs md:text-sm text-[#5C5248] max-w-2xl mx-auto">
-              Conheça exatamente o que cada plano e atendimento compreende. Escolha a opção que melhor abraça o seu momento de cura.
-            </p>
+          <header className="text-center space-y-2 px-8">
+            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#F7E5AA]/40 border border-[#D8B867]/30 text-[#7C5A1D] text-xs font-medium"><Crown size={14} /><span>PLANOS E VALORES</span></div>
+            <h2 className="text-2xl md:text-3xl font-display font-medium text-[#26372A]">Escolha a forma de acesso que combina com o seu momento</h2>
+            <p className="text-xs md:text-sm text-[#5F6857] max-w-2xl mx-auto">Seu primeiro dia é de experiência. A Anamnese Compacta mostra o resultado imediatamente. Depois, você escolhe um protocolo realmente disponível; a adaptação pública de 7 dias só será oferecida quando estiver finalizada e auditada.</p>
+          </header>
+
+          <div className="p-4 rounded-2xl bg-[#073B2B] border border-[#D8B867]/30 flex flex-col sm:flex-row items-center justify-between gap-3 shadow-lg">
+            <div className="flex items-center gap-3 text-center sm:text-left"><div className="p-2.5 rounded-xl bg-white/10 text-[#F7E5AA] border border-white/10 shrink-0"><QrCode size={22} /></div><div><span className="text-[10px] uppercase tracking-wider text-[#D9BD72] font-bold block">CHAVE PIX OFICIAL</span><strong className="text-sm md:text-base text-[#FFF9E8] font-bold">evertonpiceni@gmail.com</strong><span className="text-[11px] text-[#E9DFC9] block">Titular: Éverton Rodrigo Piceni</span></div></div>
+            <button type="button" onClick={handleCopyPix} className="px-4 py-2 bg-[#F7E5AA] text-[#073B2B] rounded-xl text-xs font-semibold flex items-center gap-1.5">{copiedPixKey ? <Check size={14} /> : <Copy size={14} />}<span>{copiedPixKey ? 'Chave copiada' : 'Copiar chave PIX'}</span></button>
           </div>
 
-          {/* Quick PIX Card with instant auto-copy notice */}
-          <div className="p-4 rounded-2xl bg-gradient-to-r from-emerald-950/60 via-slate-950 to-teal-950/50 border border-emerald-500/40 flex flex-col sm:flex-row items-center justify-between gap-3 shadow-lg">
-            <div className="flex items-center gap-3 text-center sm:text-left">
-              <div className="p-2.5 rounded-xl bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 shrink-0">
-                <QrCode size={22} />
-              </div>
-              <div>
-                <span className="text-[10px] font-mono uppercase tracking-wider text-emerald-400 font-bold block">
-                  CHAVE PIX OFICIAL (E-MAIL)
-                </span>
-                <strong className="text-sm md:text-base font-mono text-[#2A2420] font-bold">
-                  evertonpiceni@gmail.com
-                </strong>
-                <span className="text-[11px] text-[#5C5248] block">Titular: Éverton Rodrigo Piceni</span>
-              </div>
-            </div>
-
-            <div className="flex items-center gap-2">
-              <button
-                type="button"
-                onClick={handleCopyPix}
-                className="px-4 py-2 bg-emerald-600 hover:bg-emerald-500 text-white rounded-xl text-xs font-semibold transition cursor-pointer flex items-center gap-1.5 shadow-md shadow-emerald-600/20"
-              >
-                {copiedPixKey ? <Check size={14} className="shrink-0" /> : <Copy size={14} className="shrink-0" />}
-                <span>{copiedPixKey ? 'Chave Copiada! ' : 'Copiar Chave PIX'}</span>
-              </button>
-              <a
-                href="https://wa.me/5551982215296?text=Ol%C3%A1%20%C3%89verton%2C%20gostaria%20de%20tirar%20d%C3%BAvidas%20sobre%20os%20planos%20do%20Protocolo%20de%20Cura%20Integrada!"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="px-3 py-2 bg-[#F5EFE4] hover:bg-slate-700 text-[#2A2420] rounded-xl text-xs font-semibold transition flex items-center gap-1.5 border border-[#E5DAC6]"
-              >
-                <MessageCircle size={14} className="text-emerald-400" />
-                <span>WhatsApp</span>
-              </a>
-            </div>
+          <div className="flex flex-wrap items-center justify-center gap-2">
+            {([['todos', `Todos (${ALL_PLANS_DATA.length})`], ['assinatura', 'Planos'], ['tratamento_individual', 'Acompanhamentos individuais']] as const).map(([value, label]) => <button key={value} onClick={() => setFilterCategory(value)} className={`px-3.5 py-1.5 rounded-xl text-xs font-semibold transition ${filterCategory === value ? 'bg-[#073B2B] text-[#FFF9E8]' : 'bg-white/70 text-[#5F6857] border border-[#D8B867]/20'}`}>{label}</button>)}
           </div>
 
-          {/* Filter tabs */}
-          <div className="flex items-center justify-center gap-2">
-            <button
-              onClick={() => setFilterCategory('todos')}
-              className={`px-3.5 py-1.5 rounded-xl text-xs font-semibold transition cursor-pointer ${
-                filterCategory === 'todos' ? 'bg-amber-500 text-slate-950 font-bold' : 'bg-[#F5EFE4] text-[#5C5248] hover:text-[#2A2420]'
-              }`}
-            >
-              Todos os Planos ({ALL_PLANS_DATA.length})
-            </button>
-            <button
-              onClick={() => setFilterCategory('assinatura')}
-              className={`px-3.5 py-1.5 rounded-xl text-xs font-semibold transition cursor-pointer ${
-                filterCategory === 'assinatura' ? 'bg-amber-500 text-slate-950 font-bold' : 'bg-[#F5EFE4] text-[#5C5248] hover:text-[#2A2420]'
-              }`}
-            >
-              Planos do App
-            </button>
-            <button
-              onClick={() => setFilterCategory('tratamento_individual')}
-              className={`px-3.5 py-1.5 rounded-xl text-xs font-semibold transition cursor-pointer ${
-                filterCategory === 'tratamento_individual' ? 'bg-amber-500 text-slate-950 font-bold' : 'bg-[#F5EFE4] text-[#5C5248] hover:text-[#2A2420]'
-              }`}
-            >
-              Tratamentos Específicos (7d / 21d)
-            </button>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 items-stretch">
+            {filteredPlans.map(plan => <article key={plan.id} className={`p-5 rounded-3xl border flex h-full flex-col ${plan.isPopular ? 'bg-[#FFF6D9] border-[#B88736]/50 shadow-xl shadow-[#6A5425]/10' : 'bg-white/75 border-[#D8B867]/22'}`}>
+              {plan.badge && <div className="mb-3"><span className={`px-2.5 py-1 rounded-full text-[10px] font-bold border inline-flex items-center gap-1 ${plan.isPopular ? 'bg-[#073B2B] text-[#FFF9E8] border-[#073B2B]' : 'bg-[#F7E5AA]/45 text-[#7C5A1D] border-[#D8B867]/25'}`}>{plan.isPopular && <Star size={10} />}{plan.badge}</span></div>}
+              <div className="space-y-3 flex-1"><div><h3 className="text-base font-bold text-[#26372A] min-h-[2.5rem]">{plan.title}</h3><div className="flex items-baseline gap-1 mt-1"><strong className="text-2xl font-bold text-[#073B2B]">{plan.priceFormatted}</strong><span className="text-xs text-[#6A725F]">{plan.periodText}</span></div></div><p className="text-xs text-[#8A6727] font-medium leading-snug">{plan.highlightBenefit}</p><p className="text-[11px] text-[#5F6857] leading-relaxed">{plan.description}</p><div className="pt-2 border-t border-[#D8B867]/18 space-y-1.5"><span className="text-[10px] text-[#6A725F] uppercase tracking-wider block font-bold">O que está incluído</span>{plan.features.map(feature => <div key={feature} className="flex items-start gap-1.5 text-xs text-[#5F6857]"><Check size={13} className="text-[#2F6B50] shrink-0 mt-0.5" /><span className="leading-tight text-[11px]">{feature}</span></div>)}</div></div>
+              <div className="pt-4 mt-4 border-t border-[#D8B867]/18"><button type="button" onClick={() => plan.category === 'tratamento_individual' ? handleSpecificTreatment() : handleTriggerPlan(plan.id)} className="w-full py-2.5 rounded-xl text-xs font-bold transition flex items-center justify-center gap-1.5 shadow-md bg-[#073B2B] text-[#FFF9E8]"><span>{plan.ctaText}</span><ArrowRight size={13} /></button></div>
+            </article>)}
           </div>
 
-          {/* Plans Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            {filteredPlans.map((plan) => {
-              return (
-                <div
-                  key={plan.id}
-                  className={`p-5 rounded-3xl border flex flex-col justify-between transition-all duration-200 relative overflow-hidden ${
-                    plan.isPopular
-                      ? 'bg-white/80 border-amber-500/50 shadow-xl shadow-amber-950/20 ring-1 ring-amber-500/30'
-                      : 'bg-white/70 border-[#E5DAC6] hover:border-[#E5DAC6]'
-                  }`}
-                >
-                  {/* Top Badge */}
-                  {plan.badge && (
-                    <div className="mb-3">
-                      <span className={`px-2.5 py-0.5 rounded-full text-[10px] font-mono font-bold border inline-flex items-center gap-1 ${
-                        plan.isPopular
-                          ? 'bg-amber-500/20 text-amber-300 border-amber-500/40'
-                          : plan.category === 'tratamento_individual'
-                          ? 'bg-emerald-500/20 text-emerald-300 border-emerald-500/30'
-                          : 'bg-[#B88736]/20 text-[#B88736] border-[#B88736]/30'
-                      }`}>
-                        {plan.isPopular && <Star size={10} className="fill-amber-400 text-amber-400" />}
-                        {plan.badge}
-                      </span>
-                    </div>
-                  )}
-
-                  <div className="space-y-3">
-                    <div>
-                      <h3 className="text-base font-bold text-[#2A2420]">{plan.title}</h3>
-                      <div className="flex items-baseline gap-1 mt-1">
-                        <strong className="text-2xl font-bold text-[#2A2420]">{plan.priceFormatted}</strong>
-                        <span className="text-xs text-[#5C5248] font-sans">{plan.periodText}</span>
-                      </div>
-                    </div>
-
-                    <p className="text-xs text-[#B88736]/90 font-medium leading-snug">
-                      {plan.highlightBenefit}
-                    </p>
-
-                    <p className="text-[11px] text-[#5C5248] leading-relaxed">
-                      {plan.description}
-                    </p>
-
-                    {/* Features list */}
-                    <div className="pt-2 border-t border-[#E5DAC6] space-y-1.5">
-                      <span className="text-[10px] font-mono text-[#5C5248] uppercase tracking-wider block font-bold">
-                        O que este valor compreende:
-                      </span>
-                      {plan.features.map((feat, idx) => (
-                        <div key={idx} className="flex items-start gap-1.5 text-xs text-[#5C5248]">
-                          <CheckCircle2 size={13} className="text-emerald-400 shrink-0 mt-0.5" />
-                          <span className="leading-tight text-[11px]">{feat}</span>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-
-                  {/* Action Button */}
-                  <div className="pt-4 mt-4 border-t border-[#E5DAC6]">
-                    <button
-                      type="button"
-                      onClick={() => {
-                        if (plan.category === 'tratamento_individual') {
-                          handleTriggerSpecificTreatment();
-                        } else {
-                          handleTriggerPlan(plan.id);
-                        }
-                      }}
-                      className={`w-full py-2.5 rounded-xl text-xs font-bold transition flex items-center justify-center gap-1.5 cursor-pointer shadow-md ${plan.buttonClass}`}
-                    >
-                      <span>{plan.ctaText}</span>
-                      <ArrowRight size={13} />
-                    </button>
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-
-          {/* Therapist Direct Assistance & Custom Coupon Notice */}
-          <div className="p-5 rounded-2xl bg-gradient-to-r from-amber-950/20 via-purple-950/20 to-slate-900 border border-amber-500/30 space-y-3" id="coupons-directory">
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
-              <span className="text-xs font-mono font-bold text-amber-300 uppercase tracking-wider flex items-center gap-1.5">
-                <Sparkles size={14} className="text-amber-400" />
-                <span>Cupons de Desconto & Cortesias Exclusivas</span>
-              </span>
-              <span className="text-[10px] font-mono text-[#5C5248]">Liberados sob consulta</span>
-            </div>
-
-            <div className="p-4 rounded-xl bg-white/80 border border-[#E5DAC6] flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 text-xs">
-              <div className="space-y-1">
-                <p className="text-[#2A2420] font-medium leading-relaxed">
-                  Os cupons de desconto, bolsas terapêuticas e cortesias de degustação de 7 dias são liberados individualmente pelo terapeuta <strong>Éverton Rodrigo Piceni</strong>.
-                </p>
-                <p className="text-[11px] text-[#5C5248]">
-                  Se você recebeu um código de cupom pessoal, basta inseri-lo no campo de cupom na tela de inscrição ou no checkout para ativar seu benefício.
-                </p>
-              </div>
-
-              <div className="shrink-0 flex items-center gap-2 w-full sm:w-auto">
-                <a
-                  href="https://wa.me/5551982215296?text=Ol%C3%A1%20%C3%89verton%2C%20gostaria%20de%20saber%20sobre%20as%20condi%C3%A7%C3%B5es%20especiais%20e%20cupons%20do%20Protocolo%20de%20Cura%20Integrada!"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="w-full sm:w-auto px-4 py-2.5 bg-emerald-600 hover:bg-emerald-500 text-white rounded-xl text-xs font-bold transition flex items-center justify-center gap-1.5 shadow-md shadow-emerald-600/20"
-                >
-                  <MessageCircle size={14} />
-                  <span>Fale Conosco</span>
-                </a>
-              </div>
-            </div>
-
-            <div className="p-3 rounded-xl bg-purple-950/40 border border-purple-500/30 flex items-center justify-between gap-3 text-xs">
-              <div className="flex items-center gap-2">
-                <Sparkles size={16} className="text-[#B88736] shrink-0" />
-                <span className="text-[#5C5248] font-medium">
-                  <strong>Brinde para Todos os Clientes:</strong> Cálculo automático do seu <strong>Mapa Astral & Energético Quântico</strong> (Sol, Lua, Ascendente, 4 Elementos e Chakra regente).
-                </span>
-              </div>
-            </div>
-          </div>
-
-          {/* Footer note */}
-          <div className="p-4 rounded-2xl bg-white/75 border border-[#E5DAC6] text-center space-y-1">
-            <p className="text-xs text-[#5C5248] font-sans">
-              <strong>Valores Acessíveis & Personalizados:</strong> Caso queira ajustar o valor da sua contribuição ou tirar dúvidas, fale conosco diretamente pelo WhatsApp.
-            </p>
-            <p className="text-[10px] text-[#85786C] font-mono">
-              O Protocolo de Cura Integrada de 21 dias é canalizado e conduzido por Éverton Rodrigo Piceni.
-            </p>
-          </div>
+          <div className="p-4 rounded-2xl bg-white/70 border border-[#D8B867]/20 text-center space-y-2"><p className="text-xs text-[#5F6857]">No acesso avulso/individual, a Anamnese Completa custa R$ 15,00. No mensal, custa R$ 10,00 com R$ 5,00 de desconto. A partir do trimestral, já vem incluída.</p><a href="https://wa.me/5551982215296?text=Ol%C3%A1%20%C3%89verton%2C%20gostaria%20de%20tirar%20d%C3%BAvidas%20sobre%20os%20planos." target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1.5 text-xs font-bold text-[#073B2B]"><MessageCircle size={14} /> Fale conosco</a></div>
         </div>
       </motion.div>
     </div>
