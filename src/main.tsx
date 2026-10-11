@@ -12,6 +12,7 @@ import './lib/backgroundMediaPatch';
 import './lib/noDecorativeEmojiPatch';
 import './lib/personalCareIntegration';
 import './lib/universalAnamnesisDiaryAccessPatch';
+import './lib/authStartupResiliencePatch';
 import './lib/naturalSerenoHomeApprovedModel';
 import './lib/naturalSerenoHomeJourneyStateFix';
 import './lib/naturalSerenoPrivateLibraryPatch';
