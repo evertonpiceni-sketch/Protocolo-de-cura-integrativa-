@@ -1,96 +1,25 @@
-import type { AnamnesisData, UserAccount, UserProfile } from '../types';
-
-type CareRule = {
-  id: string;
-  label: string;
-  terms: string[];
-  system: string;
-  crystal: string;
-  frequency: string;
-  practice: string;
-};
-
-type CareInsight = CareRule & {
-  reason: string;
-  anamnesisLine?: string;
-};
+import type { AnamnesisData, DayProgress, UserAccount, UserProfile } from '../types';
 
 const CURRENT_LOGIN_KEY = 'cura_integrada_logged_in_user_v1';
 const ACCOUNTS_KEY = 'cura_integrada_accounts_v1';
+const WEEKLY_MILESTONES = [7, 14, 21] as const;
 
-const CARE_RULES: CareRule[] = [
-  {
-    id: 'seguranca',
-    label: 'Segurança, medo e aterramento',
-    terms: ['medo', 'insegur', 'ansios', 'angust', 'panico', 'pânico', 'ameaça', 'ameaca', 'apreens', 'preocup'],
-    system: 'Karuna Ki — Zonar, Halu e Shanti',
-    crystal: 'Turmalina Negra, Quartzo Fumê ou Jaspe Vermelho',
-    frequency: '396 Hz',
-    practice: 'Aterramento pelos pés, respiração lenta e aplicação breve na base do corpo e no centro do peito.'
-  },
-  {
-    id: 'procrastinacao',
-    label: 'Procrastinação, travamento e retomada de movimento',
-    terms: ['procrast', 'travado', 'travada', 'adiando', 'adiar', 'sem vontade', 'desanim', 'paralis', 'não consigo começar', 'nao consigo comecar'],
-    system: 'Karuna Ki — Kriya e Rama',
-    crystal: 'Cornalina, Olho de Tigre ou Citrino',
-    frequency: '417 Hz',
-    practice: 'Escolha uma ação pequena e concreta para hoje e faça a aplicação antes de iniciá-la.'
-  },
-  {
-    id: 'autocobranca',
-    label: 'Autocobrança, culpa e excesso mental',
-    terms: ['culpa', 'cobran', 'perfeito', 'perfeccion', 'fracass', 'erro', 'errei', 'insuficiente', 'não sou bom', 'nao sou bom'],
-    system: 'Karuna Ki — Harth e Shanti',
-    crystal: 'Quartzo Rosa, Ametista ou Rodonita',
-    frequency: '528 Hz',
-    practice: 'Aplicação no centro do peito com foco em gentileza, seguida de alguns minutos de silêncio.'
-  },
-  {
-    id: 'cansaco',
-    label: 'Cansaço, sobrecarga e necessidade de recuperação',
-    terms: ['cansad', 'esgot', 'exaust', 'sem energia', 'sobrecarreg', 'peso', 'drenado', 'drenada'],
-    system: 'Usui + Life Force Energy Cone',
-    crystal: 'Cristal de Quartzo, Hematita ou Jaspe Vermelho',
-    frequency: '432 Hz',
-    practice: 'Aplicação curta e tranquila no corpo, priorizando descanso e recomposição em vez de intensidade.'
-  },
-  {
-    id: 'emocional',
-    label: 'Emoções intensas e necessidade de acolhimento',
-    terms: ['triste', 'chor', 'saudade', 'abandono', 'rejei', 'solid', 'mágoa', 'magoa', 'dor emocional', 'coração', 'coracao'],
-    system: 'Harth + Universal Love + Soul Healing',
-    crystal: 'Quartzo Rosa, Rodonita ou Aventurina Verde',
-    frequency: '639 Hz',
-    practice: 'Aplicação suave no centro do peito, sem tentar apressar ou corrigir a emoção.'
-  },
-  {
-    id: 'clareza',
-    label: 'Confusão, excesso de pensamentos e busca de clareza',
-    terms: ['confus', 'pensando demais', 'mente', 'indecis', 'dúvida', 'duvida', 'não sei', 'nao sei', 'clareza', 'rumin'],
-    system: 'Gnosa + Mind Empowerment + Shanti',
-    crystal: 'Sodalita, Lápis-Lazúli ou Ametista',
-    frequency: '741 Hz',
-    practice: 'Aplicação breve na região frontal e depois uma pergunta simples: qual é o próximo passo possível?' 
-  },
-  {
-    id: 'protecao',
-    label: 'Proteção, limites e sensação de campo carregado',
-    terms: ['carregado', 'carregada', 'energia ruim', 'proteção', 'protecao', 'limite', 'invad', 'sugado', 'sugada', 'ambiente pesado'],
-    system: 'São Miguel + Chama Violeta + Rama',
-    crystal: 'Turmalina Negra, Obsidiana ou Ametista',
-    frequency: '417 Hz',
-    practice: 'Organize o ambiente, faça uma aplicação de proteção e encerre com aterramento pelos pés.'
-  },
-  {
-    id: 'presenca',
-    label: 'Presença e integração',
-    terms: [],
-    system: 'Usui + Shanti',
-    crystal: 'Cristal de Quartzo',
-    frequency: '432 Hz',
-    practice: 'Respiração natural, mãos no corpo e alguns minutos apenas percebendo o que está presente.'
-  }
+type EmotionRule = {
+  id: string;
+  label: string;
+  terms: string[];
+};
+
+const EMOTION_RULES: EmotionRule[] = [
+  { id: 'ansiedade', label: 'Ansiedade / preocupação', terms: ['ansios', 'preocup', 'apreens', 'angust', 'nervos', 'agitado', 'agitada'] },
+  { id: 'medo', label: 'Medo / insegurança', terms: ['medo', 'insegur', 'receio', 'ameaça', 'ameaca', 'pânico', 'panico'] },
+  { id: 'tristeza', label: 'Tristeza / desânimo', terms: ['triste', 'desanim', 'vazio', 'vazia', 'chor', 'saudade', 'abatid'] },
+  { id: 'cansaco', label: 'Cansaço / sobrecarga', terms: ['cansad', 'exaust', 'esgot', 'sobrecarreg', 'sem energia', 'peso'] },
+  { id: 'autocobranca', label: 'Autocobrança / culpa', terms: ['culpa', 'cobran', 'fracass', 'errei', 'erro', 'perfeito', 'perfeccion', 'insuficiente'] },
+  { id: 'raiva', label: 'Irritação / raiva', terms: ['raiva', 'irritad', 'ódio', 'odio', 'revolt', 'bravo', 'brava'] },
+  { id: 'calma', label: 'Calma / alívio', terms: ['calmo', 'calma', 'aliv', 'leve', 'tranquil', 'paz'] },
+  { id: 'esperanca', label: 'Esperança / confiança', terms: ['esperan', 'confian', 'melhor', 'animad', 'motivad', 'seguro', 'segura'] },
+  { id: 'alegria', label: 'Alegria / gratidão', terms: ['feliz', 'alegr', 'grat', 'contente', 'satisfeit'] }
 ];
 
 function normalize(value: string) {
@@ -100,147 +29,148 @@ function normalize(value: string) {
     .toLocaleLowerCase('pt-BR');
 }
 
-function readCurrentProfile(): UserProfile | undefined {
+function readCurrentAccount(): UserAccount | undefined {
   try {
     const login = localStorage.getItem(CURRENT_LOGIN_KEY);
     const raw = localStorage.getItem(ACCOUNTS_KEY);
     if (!raw) return undefined;
     const accounts = JSON.parse(raw) as UserAccount[];
-    const account = login ? accounts.find(item => item.login === login) : accounts[0];
-    return account?.profile;
+    return login ? accounts.find(item => item.login === login) : accounts[0];
   } catch {
     return undefined;
   }
 }
 
-function anamnesisText(anamnesis?: AnamnesisData) {
-  if (!anamnesis) return '';
-  return normalize([
-    ...(anamnesis.mainComplaints || []),
-    anamnesis.complaintNotes || '',
+function extractInitialEmotions(anamnesis?: AnamnesisData) {
+  if (!anamnesis) return [];
+  return Array.from(new Set([
     ...(anamnesis.emotionalState || []),
-    ...(anamnesis.physicalSymptoms || []),
-    ...(anamnesis.chakraImbalance || []),
-    anamnesis.primaryGoal || '',
-    anamnesis.goalDetails || '',
-    anamnesis.prescribedFocus || ''
-  ].join(' '));
+    ...(anamnesis.mainComplaints || [])
+  ].map(item => String(item).trim()).filter(Boolean)));
 }
 
-function buildInsight(text: string, anamnesis?: AnamnesisData): CareInsight {
-  const journal = normalize(text);
-  const base = anamnesisText(anamnesis);
-  let best = CARE_RULES[CARE_RULES.length - 1];
-  let bestScore = 0;
+function collectPeriodText(progress: DayProgress[], startDay: number, endDay: number) {
+  return progress
+    .filter(item => item.dayNumber >= startDay && item.dayNumber <= endDay)
+    .map(item => [
+      item.journalText || '',
+      item.beforeFeeling?.notes || '',
+      item.afterFeeling?.notes || ''
+    ].join(' '))
+    .join(' ');
+}
 
-  for (const rule of CARE_RULES.slice(0, -1)) {
-    let score = 0;
-    for (const term of rule.terms) {
-      const normalizedTerm = normalize(term);
-      if (journal.includes(normalizedTerm)) score += 3;
-      if (base.includes(normalizedTerm)) score += 1;
-    }
-    if (score > bestScore) {
-      bestScore = score;
-      best = rule;
-    }
-  }
+function countEmotionPatterns(text: string) {
+  const source = normalize(text);
+  return EMOTION_RULES
+    .map(rule => ({
+      ...rule,
+      count: rule.terms.reduce((total, term) => {
+        const normalizedTerm = normalize(term);
+        if (!normalizedTerm) return total;
+        const matches = source.match(new RegExp(normalizedTerm.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'g'));
+        return total + (matches?.length || 0);
+      }, 0)
+    }))
+    .filter(item => item.count > 0)
+    .sort((a, b) => b.count - a.count);
+}
 
-  const anamnesisLine = anamnesis
-    ? [
-        anamnesis.prescribedFocus ? `foco da anamnese: ${anamnesis.prescribedFocus}` : '',
-        anamnesis.chakraImbalance?.length ? `centros em atenção: ${anamnesis.chakraImbalance.join(', ')}` : '',
-        anamnesis.recommendedFrequency ? `frequência já indicada: ${anamnesis.recommendedFrequency.replace('hz', ' Hz')}` : ''
-      ].filter(Boolean).join(' · ')
-    : undefined;
-
-  return {
-    ...best,
-    reason: bestScore > 0
-      ? `O registro de hoje aponta principalmente para ${best.label.toLocaleLowerCase('pt-BR')}.`
-      : 'Seu registro de hoje não mostra um padrão dominante; por isso a sugestão permanece simples e voltada à presença.',
-    anamnesisLine
-  };
+function averageMood(progress: DayProgress[], startDay: number, endDay: number) {
+  const values = progress
+    .filter(item => item.dayNumber >= startDay && item.dayNumber <= endDay)
+    .map(item => item.afterFeeling?.mood || item.mood || item.beforeFeeling?.mood)
+    .filter((value): value is number => typeof value === 'number' && Number.isFinite(value));
+  if (!values.length) return null;
+  return values.reduce((sum, value) => sum + value, 0) / values.length;
 }
 
 function ensureStyles() {
-  if (document.getElementById('ep-personal-care-integration-styles')) return;
+  if (document.getElementById('ep-weekly-diary-analysis-styles')) return;
   const style = document.createElement('style');
-  style.id = 'ep-personal-care-integration-styles';
+  style.id = 'ep-weekly-diary-analysis-styles';
   style.textContent = `
-    #ep-diary-care-bridge{position:relative;border:1px solid rgba(184,135,54,.28);background:linear-gradient(180deg,rgba(255,253,247,.98),rgba(248,241,224,.96));border-radius:20px;padding:16px;box-shadow:0 10px 28px rgba(68,55,35,.08);color:#2A2420}
-    #ep-diary-care-bridge .ep-care-kicker{font:700 10px/1.4 Inter,sans-serif;letter-spacing:.13em;text-transform:uppercase;color:#71511c;margin:0 0 5px}
-    #ep-diary-care-bridge h3{font:600 20px/1.2 Georgia,serif;color:#26372a;margin:0 0 8px}
-    #ep-diary-care-bridge p{font:400 12px/1.65 Inter,sans-serif;color:#5c5248;margin:0}
-    #ep-diary-care-bridge .ep-care-context{margin-top:10px;padding:10px 12px;border-radius:14px;background:rgba(255,255,255,.72);border:1px solid #e5dac6}
-    #ep-diary-care-bridge .ep-care-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:12px}
-    #ep-diary-care-bridge .ep-care-item{padding:11px;border-radius:14px;background:#fffaf0;border:1px solid #e5dac6}
-    #ep-diary-care-bridge .ep-care-item span{display:block;font:700 9px/1.3 Inter,sans-serif;letter-spacing:.09em;text-transform:uppercase;color:#71511c;margin-bottom:4px}
-    #ep-diary-care-bridge .ep-care-item strong{display:block;font:600 12px/1.45 Inter,sans-serif;color:#26372a}
-    #ep-diary-care-bridge .ep-care-practice{margin-top:10px;padding:12px;border-radius:14px;background:#f1e7c8;border:1px solid #d9c58f}
-    #ep-diary-care-bridge .ep-care-note{margin-top:10px;font-size:10px;color:#6b6d61}
+    #ep-weekly-diary-analysis{position:relative;border:1px solid rgba(184,135,54,.28);background:linear-gradient(180deg,rgba(255,253,247,.98),rgba(248,241,224,.96));border-radius:20px;padding:16px;box-shadow:0 10px 28px rgba(68,55,35,.08);color:#2A2420}
+    #ep-weekly-diary-analysis .ep-week-kicker{font:700 10px/1.4 Inter,sans-serif;letter-spacing:.13em;text-transform:uppercase;color:#71511c;margin:0 0 5px}
+    #ep-weekly-diary-analysis h3{font:600 20px/1.2 Georgia,serif;color:#26372a;margin:0 0 8px}
+    #ep-weekly-diary-analysis p{font:400 12px/1.65 Inter,sans-serif;color:#5c5248;margin:0}
+    #ep-weekly-diary-analysis .ep-week-box{margin-top:10px;padding:11px 12px;border-radius:14px;background:rgba(255,255,255,.78);border:1px solid #e5dac6}
+    #ep-weekly-diary-analysis .ep-week-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px}
+    #ep-weekly-diary-analysis .ep-week-item{padding:11px;border-radius:14px;background:#fffaf0;border:1px solid #e5dac6}
+    #ep-weekly-diary-analysis .ep-week-item span{display:block;font:700 9px/1.3 Inter,sans-serif;letter-spacing:.08em;text-transform:uppercase;color:#71511c;margin-bottom:4px}
+    #ep-weekly-diary-analysis .ep-week-item strong{display:block;font:600 12px/1.45 Inter,sans-serif;color:#26372a}
+    #ep-weekly-diary-analysis .ep-week-note{margin-top:10px;font-size:10px;color:#6b6d61}
     .ep-courses-locked{opacity:.66!important;cursor:not-allowed!important;position:relative!important}
     .ep-courses-locked::after{content:'Em preparação';margin-left:auto;padding:4px 8px;border-radius:999px;border:1px solid #d9c58f;background:#fffaf0;color:#71511c;font:700 9px/1 Inter,sans-serif;letter-spacing:.06em;text-transform:uppercase}
-    @media(max-width:520px){#ep-diary-care-bridge .ep-care-grid{grid-template-columns:1fr}}
+    @media(max-width:520px){#ep-weekly-diary-analysis .ep-week-grid{grid-template-columns:1fr}}
   `;
   document.head.appendChild(style);
 }
 
-function journalTextFromModal(modal: HTMLElement) {
-  const editor = modal.querySelector<HTMLTextAreaElement>('textarea[placeholder*="percepções"]');
-  if (editor?.value.trim()) return editor.value.trim();
-  const candidates = Array.from(modal.querySelectorAll<HTMLElement>('p.whitespace-pre-wrap'));
-  const saved = candidates.map(item => item.textContent?.trim() || '').find(text => text && !text.startsWith('Nenhuma reflexão'));
-  return saved || '';
+function getActiveDiaryDay(modal: HTMLElement) {
+  const explicit = modal.textContent?.match(/DIA\s+(\d{1,2})/i);
+  if (!explicit) return null;
+  const day = Number(explicit[1]);
+  return Number.isFinite(day) ? day : null;
 }
 
-function renderDiaryBridge() {
-  const modal = document.getElementById('daily-diary-modal');
+function renderWeeklyDiaryAnalysis() {
+  const modal = document.getElementById('daily-diary-modal') as HTMLElement | null;
   if (!modal) return;
+
   const scroll = modal.querySelector<HTMLElement>('.flex-1.min-h-0.overflow-y-auto');
   if (!scroll) return;
 
-  let card = document.getElementById('ep-diary-care-bridge');
+  const activeDay = getActiveDiaryDay(modal);
+  let card = document.getElementById('ep-weekly-diary-analysis');
+
+  if (!activeDay || !WEEKLY_MILESTONES.includes(activeDay as 7 | 14 | 21)) {
+    card?.remove();
+    return;
+  }
+
+  const account = readCurrentAccount();
+  const profile: UserProfile | undefined = account?.profile;
+  const progress = account?.progress || [];
+  const startDay = activeDay - 6;
+  const periodText = collectPeriodText(progress, startDay, activeDay);
+  const patterns = countEmotionPatterns(periodText);
+  const initialEmotions = extractInitialEmotions(profile?.anamnesis);
+  const avgMood = averageMood(progress, startDay, activeDay);
+  const recordsInPeriod = progress.filter(item => item.dayNumber >= startDay && item.dayNumber <= activeDay && (item.journalText || item.beforeFeeling?.notes || item.afterFeeling?.notes)).length;
+
   if (!card) {
     card = document.createElement('section');
-    card.id = 'ep-diary-care-bridge';
+    card.id = 'ep-weekly-diary-analysis';
     card.setAttribute('aria-live', 'polite');
     scroll.appendChild(card);
   }
 
-  const profile = readCurrentProfile();
-  const anamnesis = profile?.anamnesis;
-  const journal = journalTextFromModal(modal);
+  const topPatterns = patterns.slice(0, 4);
+  const patternMarkup = topPatterns.length
+    ? topPatterns.map(item => `<div class="ep-week-item"><span>Apareceu nos registros</span><strong>${item.label}</strong></div>`).join('')
+    : '<div class="ep-week-item"><span>Leitura da semana</span><strong>Sem padrão emocional dominante nos registros disponíveis.</strong></div>';
 
-  if (!journal) {
-    const next = `
-      <p class="ep-care-kicker">Diário + Anamnese Energética</p>
-      <h3>Leitura integrada do seu momento</h3>
-      <p>Escreva seu registro do dia primeiro. Depois de salvar, esta área cruza o que apareceu no diário com ${anamnesis ? 'a sua anamnese energética já preenchida' : 'a sua anamnese energética, quando estiver preenchida'} e organiza uma sugestão prática de cuidado.</p>
-      <div class="ep-care-note">A escrita vem primeiro. A leitura só aparece depois, sem interromper o seu desabafo.</div>`;
-    if (card.innerHTML !== next) card.innerHTML = next;
-    return;
-  }
+  const initialText = initialEmotions.length
+    ? initialEmotions.slice(0, 6).join(', ')
+    : 'Não há emoções iniciais registradas na anamnese.';
 
-  const insight = buildInsight(journal, anamnesis);
-  const context = anamnesis
-    ? `<div class="ep-care-context"><p><strong>Anamnese energética:</strong> ${insight.anamnesisLine || 'registro preenchido e considerado nesta leitura.'}</p></div>`
-    : `<div class="ep-care-context"><p><strong>Anamnese energética:</strong> ainda não preenchida. A sugestão abaixo considera apenas o diário de hoje. Você pode completar a anamnese pelo menu do app.</p></div>`;
+  const moodText = avgMood == null
+    ? 'Sem dados suficientes para calcular a média de humor.'
+    : `${avgMood.toFixed(1).replace('.', ',')} / 5`;
 
-  const next = `
-    <p class="ep-care-kicker">Diário + Anamnese Energética</p>
-    <h3>Leitura integrada do seu momento</h3>
-    <p>${insight.reason}</p>
-    ${context}
-    <div class="ep-care-grid">
-      <div class="ep-care-item"><span>Sistema sugerido</span><strong>${insight.system}</strong></div>
-      <div class="ep-care-item"><span>Cristais</span><strong>${insight.crystal}</strong></div>
-      <div class="ep-care-item"><span>Frequência</span><strong>${insight.frequency}</strong></div>
-      <div class="ep-care-item"><span>Foco de hoje</span><strong>${insight.label}</strong></div>
+  card.innerHTML = `
+    <p class="ep-week-kicker">Fechamento dos dias ${startDay}–${activeDay}</p>
+    <h3>Minha semana emocional</h3>
+    <p>Seu diário continua sendo um espaço livre para desabafar. A leitura abaixo só acontece neste marco de 7 dias e compara o que apareceu nos seus registros com o estado emocional inicial informado na anamnese.</p>
+    <div class="ep-week-box"><p><strong>Estado emocional inicial:</strong> ${initialText}</p></div>
+    <div class="ep-week-grid">${patternMarkup}</div>
+    <div class="ep-week-grid">
+      <div class="ep-week-item"><span>Registros considerados</span><strong>${recordsInPeriod} de 7 dias</strong></div>
+      <div class="ep-week-item"><span>Humor médio registrado</span><strong>${moodText}</strong></div>
     </div>
-    <div class="ep-care-practice"><p><strong>Como aplicar hoje:</strong> ${insight.practice}</p></div>
-    <div class="ep-care-note">Sugestão de autocuidado baseada no seu próprio registro e, quando disponível, na anamnese energética. Não substitui avaliação médica ou psicológica.</div>`;
-  if (card.innerHTML !== next) card.innerHTML = next;
+    <div class="ep-week-note">Esta leitura resume palavras e emoções registradas por você. Não é diagnóstico e não interpreta cada desabafo individualmente.</div>
+  `;
 }
 
 function lockCoursesInNaturalSereno() {
@@ -261,34 +191,38 @@ function lockCoursesInNaturalSereno() {
 function relabelEnergeticAnamnesis() {
   const root = document.querySelector<HTMLElement>('.ns-app');
   if (!root) return;
-  const elements = Array.from(root.querySelectorAll<HTMLElement>('strong,h2,h3,span'));
+  const elements = Array.from(root.querySelectorAll<HTMLElement>('strong,h2,h3,span,p'));
   for (const element of elements) {
+    if (element.children.length > 0) continue;
     const text = element.textContent?.trim();
-    if (text === 'Anamnese / Teste' || text === 'Como estou?') element.textContent = 'Anamnese Energética';
-    if (text === 'Olhar meu momento' && element.parentElement?.textContent?.includes('Anamnese Energética')) element.textContent = 'Mapear meu momento';
+    if (!text) continue;
+    if (text === 'Anamnese' || text === 'Minha Anamnese' || text === 'Como estou?') {
+      element.textContent = 'Anamnese Energética';
+    }
   }
 }
 
-export function installPersonalCareIntegration() {
-  if (typeof window === 'undefined' || typeof document === 'undefined') return;
+function apply() {
   ensureStyles();
-
-  let timer = 0;
-  const refresh = () => {
-    window.clearTimeout(timer);
-    timer = window.setTimeout(() => {
-      renderDiaryBridge();
-      lockCoursesInNaturalSereno();
-      relabelEnergeticAnamnesis();
-    }, 60);
-  };
-
-  const observer = new MutationObserver(refresh);
-  observer.observe(document.documentElement, { childList: true, subtree: true, characterData: true });
-  document.addEventListener('input', refresh, true);
-  document.addEventListener('change', refresh, true);
-  document.addEventListener('click', refresh, true);
-  refresh();
+  renderWeeklyDiaryAnalysis();
+  lockCoursesInNaturalSereno();
+  relabelEnergeticAnamnesis();
 }
 
-installPersonalCareIntegration();
+if (typeof window !== 'undefined' && typeof document !== 'undefined') {
+  const start = () => {
+    apply();
+    const observer = new MutationObserver(() => apply());
+    observer.observe(document.body, { childList: true, subtree: true });
+  };
+
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', start, { once: true });
+  else start();
+}
+
+export const PERSONAL_CARE_INTEGRATION = Object.freeze({
+  diaryPurpose: 'desabafo',
+  weeklyAnalysisDays: WEEKLY_MILESTONES,
+  anamnesisUniversal: true,
+  libraryVisibleToUsers: false
+});
