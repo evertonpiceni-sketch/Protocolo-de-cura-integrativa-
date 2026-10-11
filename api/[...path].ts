@@ -2,8 +2,9 @@ import app from "../server.js";
 import { getDb, initializeDb, saveDb } from "../src/db.js";
 import jwt from "jsonwebtoken";
 
+// Legacy identifier kept for accounts created before the one-day experience was adopted.
 const FREE_TRIAL_PLAN = "teste_vip_7d";
-const FREE_TRIAL_DAYS = 7;
+const FREE_TRIAL_DAYS = 1;
 
 function getCookie(req: any, name: string) {
   const raw = typeof req.headers?.cookie === "string" ? req.headers.cookie : "";
@@ -54,16 +55,16 @@ async function redeemFreeTrial(req: any, res: any) {
     Number(price) !== 0 ||
     String(couponCode || "").trim().toUpperCase() !== "VIP7"
   ) {
-    return res.status(403).json({ error: "Degustação VIP7 inválida." });
+    return res.status(403).json({ error: "Código de experiência inválido." });
   }
 
   if (user.profile?.trial7dRedeemedAt) {
-    return res.status(409).json({ error: "A degustação VIP de 7 dias já foi utilizada nesta conta." });
+    return res.status(409).json({ error: "O dia de experiência já foi utilizado nesta conta." });
   }
 
   const redeemedCount = getDb().users.filter((candidate: any) => Boolean(candidate.profile?.trial7dRedeemedAt)).length;
   if (redeemedCount >= 20) {
-    return res.status(410).json({ error: "A campanha VIP7 atingiu o limite de 20 resgates." });
+    return res.status(410).json({ error: "A campanha de experiência atingiu o limite de resgates." });
   }
 
   const activatedAt = new Date();
@@ -83,8 +84,8 @@ async function redeemFreeTrial(req: any, res: any) {
     const { password: _password, ...safeUser } = user;
     return res.json({ success: true, user: safeUser, expiresAt: expiresAt.toISOString() });
   } catch (error) {
-    console.error("Failed to persist VIP trial:", error);
-    return res.status(503).json({ error: "Não foi possível ativar a degustação agora.", code: "PERSISTENCE_UNAVAILABLE" });
+    console.error("Failed to persist experience access:", error);
+    return res.status(503).json({ error: "Não foi possível ativar o dia de experiência agora.", code: "PERSISTENCE_UNAVAILABLE" });
   }
 }
 
@@ -103,8 +104,9 @@ export default async function handler(req: any, res: any) {
     await initializeDb();
     await expireTrialIfNeeded(req);
 
-    // Compatibility route for the existing VIP modal. Only the zero-cost
-    // 7-day trial is accepted here; paid upgrades remain fail-closed.
+    // Legacy compatibility route. New users receive the normal one-day
+    // experience through the product flow; this endpoint no longer represents
+    // a seven-day public trial.
     if (requestPath === "/api/user/upgrade" && req.method === "POST") {
       return redeemFreeTrial(req, res);
     }
