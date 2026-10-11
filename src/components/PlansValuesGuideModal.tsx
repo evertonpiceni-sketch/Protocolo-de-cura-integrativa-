@@ -140,26 +140,6 @@ export const ALL_PLANS_DATA: DetailedPlanInfo[] = [
     buttonClass: 'bg-[#073B2B] hover:bg-[#073B2B] text-[#FFF9E8] shadow-[#073B2B]/15'
   },
   {
-    id: 'vip_curso',
-    category: 'assinatura',
-    title: 'Plano Anual + Curso',
-    badge: 'Anamnese Completa incluída',
-    priceFormatted: 'R$ 199,90',
-    periodText: '12 meses + 1 curso',
-    priceNumeric: 199.9,
-    highlightBenefit: 'Tudo do plano anual, mais um curso elegível quando os cursos estiverem liberados.',
-    features: [
-      'Anamnese Compacta e Anamnese Completa incluídas',
-      'Tudo do Plano Anual',
-      '1 curso elegível incluído quando a área de cursos estiver disponível',
-      'Acesso prioritário a novos recursos'
-    ],
-    description: 'Plano de longa duração com benefício adicional de formação elegível.',
-    ctaText: 'Escolher Anual + Curso',
-    accentColor: 'emerald',
-    buttonClass: 'bg-[#073B2B] hover:bg-[#073B2B] text-[#FFF9E8] shadow-[#073B2B]/15'
-  },
-  {
     id: 'tratamento_7d',
     category: 'tratamento_individual',
     title: 'Acompanhamento Específico — 7 Dias',
