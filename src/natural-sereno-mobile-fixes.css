@@ -43,7 +43,7 @@
   :root[data-layout="natural-sereno"] .ns-home-scene { padding-top:max(18px,env(safe-area-inset-top)) !important; }
 }
 
-/* Abertura: a própria arte ocupa a viewport. Nunca esticar, nunca criar uma segunda cópia. */
+/* Abertura mobile aprovada: congelada. */
 :root[data-layout="natural-sereno"] #auth-loading-view > div:first-child:has(> img) { display:none !important; }
 :root[data-layout="natural-sereno"] #auth-loading-view {
   box-sizing:border-box;
@@ -55,13 +55,39 @@
   background-position:center center !important;
   background-repeat:no-repeat !important;
 }
+
+/* Desktop/notebook: mantém a arte inteira e a proporção original.
+   As laterais são uma continuação cromática em CSS: sem esticar a arte,
+   sem duplicar o homem e sem faixas verdes chapadas. */
 @media (min-width:768px) {
   :root[data-layout="natural-sereno"] #auth-loading-view {
-    /* Widescreen: preencher toda a página mantendo a razão da imagem; o corte fica só nas extremidades. */
+    position:relative;
+    isolation:isolate;
+    overflow:hidden;
+    background-color:#123d2a !important;
+    background-image:
+      radial-gradient(ellipse at 12% 18%,rgba(215,180,92,.32) 0%,rgba(215,180,92,.08) 26%,transparent 46%),
+      radial-gradient(ellipse at 88% 24%,rgba(110,145,68,.38) 0%,rgba(54,91,48,.16) 35%,transparent 58%),
+      radial-gradient(ellipse at 15% 86%,rgba(64,104,55,.48) 0%,transparent 52%),
+      radial-gradient(ellipse at 86% 82%,rgba(39,79,47,.52) 0%,transparent 55%),
+      linear-gradient(90deg,#123a29 0%,#315c39 25%,#244c32 42%,#244c32 58%,#315c39 75%,#123a29 100%) !important;
     background-size:cover !important;
-    background-position:center 50% !important;
+    background-position:center !important;
+    background-repeat:no-repeat !important;
+  }
+  :root[data-layout="natural-sereno"] #auth-loading-view::before {
+    content:"";
+    position:absolute;
+    inset:0;
+    z-index:-1;
+    pointer-events:none;
+    background-image:url('/brand/natural-sereno/presenca.webp');
+    background-size:auto 100%;
+    background-position:center center;
+    background-repeat:no-repeat;
   }
 }
+
 :root[data-layout="natural-sereno"] #auth-loading-view > :is(p,h2,.ns-loading-details) { box-sizing:border-box;min-width:0;max-width:100%;flex-shrink:0;overflow-wrap:anywhere; }
 :root[data-layout="natural-sereno"] #auth-loading-view > h2 { font-size:clamp(20px,5.5vw,28px);line-height:1.2; }
 :root[data-layout="natural-sereno"] #auth-loading-view .ns-loading-details { padding-top:24px; }
