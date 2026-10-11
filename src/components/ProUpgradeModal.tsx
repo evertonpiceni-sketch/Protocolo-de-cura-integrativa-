@@ -28,13 +28,12 @@ type PlanItem = {
 };
 
 const PRO_COMMON = [
-  'Anamnese energética a cada 7 dias',
-  'Reiki e frequência Solfeggio personalizados após a anamnese',
-  'Florais de Bach e Aromaterapia personalizados após a anamnese',
-  'Diário antes e depois do tratamento + evolução do humor',
-  'Acesso às Jornadas de 7 e 21 dias',
-  'Protocolo de Cura Integrada de 21 Dias com suas práticas energéticas',
-  'Conteúdos e recursos exclusivos PRO'
+  'Anamnese Compacta com resultado imediato e orientação do próximo passo',
+  'Escolha do protocolo mais adequado ao seu momento, sem limitar sua liberdade de escolha',
+  'Acesso às jornadas disponíveis de 7 e 21 dias',
+  'Diário privado para registrar o dia no seu próprio ritmo',
+  'Leituras de acompanhamento nos marcos da jornada',
+  'Recursos de apoio incluídos no plano'
 ];
 
 const PLANS: PlanItem[] = [
@@ -43,73 +42,100 @@ const PLANS: PlanItem[] = [
     title: 'Jornada 7 Dias',
     price: 15,
     period: 'acesso 7 dias',
-    badge: 'Jornada avulsa',
-    summary: ['7 chakras', 'Frequências Solfeggio', 'Diário da jornada'],
+    badge: 'Protocolo avulso',
+    summary: ['Anamnese Compacta incluída', '7 dias de jornada', 'Anamnese Completa opcional por R$ 15'],
     details: [
-      'Alinhamento dos 7 chakras, um por dia',
-      'Frequências Solfeggio específicas',
-      'Sons imersivos e diário de bordo',
-      'Certificado de conclusão'
+      'Anamnese Compacta com resultado mostrado imediatamente',
+      'Orientação para escolher o protocolo mais adequado ao momento',
+      'Jornada de 7 dias organizada como ciclo completo, do início ao fechamento',
+      'Anamnese Completa disponível por R$ 15,00 após o resultado compacto'
     ]
   },
   {
     id: 'arcanjo_7d',
-    title: 'São Miguel, Rafael e Chama Violeta',
+    title: 'Protocolo Avulso de 7 Dias',
     price: 29.9,
     period: 'acesso 7 dias',
-    badge: 'Protocolo avulso',
-    summary: ['7 Chakras Divinos', 'Proteção', 'Transmutação'],
+    badge: 'Protocolo específico',
+    summary: ['Anamnese Compacta incluída', 'Ciclo específico de 7 dias', 'Anamnese Completa opcional por R$ 15'],
     details: [
-      'Alinhamento de 1 chakra por dia',
-      'Raio de Ouro de São Rafael',
-      'Chama Violeta para transmutação',
-      'Proteção de São Miguel Arcanjo'
+      'Anamnese Compacta com resultado imediato',
+      'Indicação do protocolo mais coerente com o momento atual',
+      'Ciclo completo de 7 dias, sem ser apenas o recorte inicial de uma jornada maior',
+      'Anamnese Completa disponível por R$ 15,00'
     ]
   },
   {
     id: 'mensal',
-    title: 'PRO Mensal',
+    title: 'Plano Mensal',
     price: 39.9,
     period: '/ mês',
-    summary: ['PRO completo', 'Anamnese a cada 7 dias', 'Diário de evolução'],
-    details: [...PRO_COMMON]
+    badge: 'R$ 5 de desconto na análise completa',
+    summary: ['Anamnese Compacta incluída', 'Anamnese Completa por R$ 10', 'Acesso por 30 dias'],
+    details: [
+      ...PRO_COMMON,
+      'Quer ter a análise completa? No mensal, a Anamnese Completa sai de R$ 15,00 por R$ 10,00',
+      'Benefício exclusivo do mensal: R$ 5,00 de desconto no aprofundamento da análise'
+    ]
   },
   {
     id: 'trimestral',
-    title: 'PRO Trimestral',
+    title: 'Plano Trimestral',
     price: 69.9,
     period: '/ 3 meses',
-    badge: 'Tratamento 7d incluso',
-    summary: ['PRO completo', '1 tratamento específico de 7 dias', 'Jornadas exclusivas'],
-    details: [...PRO_COMMON, '1 tratamento específico de 7 dias incluso', 'Atendimento prioritário']
+    badge: 'Anamnese Completa incluída',
+    highlight: true,
+    summary: ['Anamnese Completa incluída', '3 meses de acesso', 'Mais indicado para continuidade'],
+    details: [
+      ...PRO_COMMON,
+      'Anamnese Completa incluída sem cobrança adicional',
+      'Aprofundamento do resultado disponível como benefício do plano trimestral',
+      'Atendimento prioritário'
+    ]
   },
   {
     id: 'semestral',
-    title: 'PRO Semestral',
+    title: 'Plano Semestral',
     price: 99.9,
     period: '/ 6 meses',
-    badge: 'Benefício especial',
-    summary: ['PRO completo', '1 áudio personalizado de 7 dias', 'Mapa OU Numerologia completa'],
-    details: [...PRO_COMMON, '1 áudio personalizado de 7 dias', 'Escolha 1: Mapa Astral Completo OU Numerologia Completa']
+    badge: 'Anamnese Completa incluída',
+    summary: ['Anamnese Completa incluída', '6 meses de acesso', 'Acompanhamento prolongado'],
+    details: [
+      ...PRO_COMMON,
+      'Anamnese Completa incluída sem cobrança adicional',
+      '1 áudio personalizado de 7 dias',
+      'Escolha 1: Mapa Astral Completo OU Numerologia Completa'
+    ]
   },
   {
     id: 'anual',
-    title: 'PRO Anual',
+    title: 'Plano Anual',
     price: 149.9,
     period: '/ ano',
-    badge: 'Melhor economia',
-    summary: ['PRO por 12 meses', 'Mapa OU Numerologia completa', 'Histórico preservado'],
-    details: [...PRO_COMMON, 'Escolha 1: Mapa Astral Completo OU Numerologia Completa', 'Acesso PRO por 12 meses']
+    badge: 'Anamnese Completa incluída',
+    summary: ['Anamnese Completa incluída', '12 meses de acesso', 'Histórico preservado'],
+    details: [
+      ...PRO_COMMON,
+      'Anamnese Completa incluída sem cobrança adicional',
+      'Escolha 1: Mapa Astral Completo OU Numerologia Completa',
+      'Acesso por 12 meses'
+    ]
   },
   {
     id: 'anual_master' as SubscriptionPlanType,
-    title: 'PRO Anual Master',
+    title: 'Plano Anual Master',
     price: 197,
     period: '/ ano',
     badge: 'Mais completo',
-    highlight: true,
-    summary: ['Mapa Astral Completo', 'Numerologia Completa', '1 curso elegível gratuito'],
-    details: [...PRO_COMMON, 'Mapa Astral Completo', 'Numerologia Completa', '1 curso elegível gratuito', 'Acesso PRO por 12 meses']
+    summary: ['Anamnese Completa incluída', 'Mapa Astral + Numerologia', '1 curso elegível gratuito'],
+    details: [
+      ...PRO_COMMON,
+      'Anamnese Completa incluída sem cobrança adicional',
+      'Mapa Astral Completo',
+      'Numerologia Completa',
+      '1 curso elegível gratuito',
+      'Acesso por 12 meses'
+    ]
   }
 ];
 
@@ -151,11 +177,7 @@ export default function ProUpgradeModal({ isOpen, onClose, onUpgradeSuccess }: P
       return;
     }
     setAppliedCoupon(code);
-    if (rule.vip) {
-      setCouponMessage('VIP7: Acesso Total PRO (7 Dias). Inclui o curso e todos os protocolos VIP (Arcanjos).');
-    } else {
-      setCouponMessage(`${rule.discount}% de desconto aplicado.`);
-    }
+    setCouponMessage(rule.vip ? 'Cupom de acesso temporário aplicado.' : `${rule.discount}% de desconto aplicado.`);
   };
 
   const choosePlan = (plan: PlanItem) => {
@@ -185,83 +207,71 @@ export default function ProUpgradeModal({ isOpen, onClose, onUpgradeSuccess }: P
   const standalone = PLANS.filter(plan => ['jornada_7d', 'arcanjo_7d'].includes(plan.id));
 
   return (
-    <div ref={dialogRef} id="plans-modal" role="dialog" aria-modal="true" aria-labelledby="plans-title" className="fixed inset-0 z-[100] bg-[#2A2420]/30 backdrop-blur-xl overflow-y-auto">
-      <div className="min-h-screen bg-[radial-gradient(circle_at_top_right,rgba(88,28,135,0.20),transparent_32%),radial-gradient(circle_at_bottom_left,rgba(202,138,4,0.10),transparent_28%)] text-[#2A2420]">
-        <header className="sticky top-0 z-20 border-b border-amber-400/10 bg-[#2A2420]/30 backdrop-blur-xl">
+    <div ref={dialogRef} id="plans-modal" role="dialog" aria-modal="true" aria-labelledby="plans-title" className="fixed inset-0 z-[100] bg-[#1F2E27]/35 backdrop-blur-xl overflow-y-auto">
+      <div className="min-h-screen bg-[linear-gradient(180deg,#FFF9E8_0%,#F8F0DF_100%)] text-[#26372A]">
+        <header className="sticky top-0 z-20 border-b border-[#D8B867]/20 bg-[#FFF9E8]/90 backdrop-blur-xl">
           <div className="max-w-6xl mx-auto px-4 py-4 flex items-center justify-between">
             <div>
-              <p className="text-amber-300 tracking-[0.28em] text-[10px] font-bold uppercase">Everton Piceni</p>
-              <h2 id="plans-title" className="font-serif text-xl text-amber-100">Planos & Jornadas</h2>
+              <p className="text-[#9C7429] tracking-[0.24em] text-[10px] font-bold uppercase">Sua jornada</p>
+              <h2 id="plans-title" className="font-serif text-xl text-[#26372A]">Planos & Protocolos</h2>
             </div>
-            <button onClick={onClose} className="p-2 rounded-full border border-white/10 hover:bg-white/5" aria-label="Fechar"><X size={20} /></button>
+            <button onClick={onClose} className="p-2 rounded-full border border-[#D8B867]/25 bg-white/60" aria-label="Fechar"><X size={20} /></button>
           </div>
         </header>
 
         <main className="max-w-6xl mx-auto px-4 py-8 space-y-10">
           <section className="text-center max-w-2xl mx-auto">
-            <Sparkles className="mx-auto text-amber-300 mb-3" size={26} />
-            <h1 className="font-serif text-3xl md:text-5xl text-amber-100">Escolha o seu plano</h1>
-            <p className="mt-3 text-sm md:text-base text-[#5C5248]">Compare as possibilidades no seu tempo. Toque em “Ver tudo” para conhecer os detalhes.</p>
+            <Sparkles className="mx-auto text-[#B88736] mb-3" size={24} />
+            <h1 className="font-serif text-3xl md:text-5xl text-[#26372A]">Escolha o caminho que combina com o seu momento</h1>
+            <p className="mt-3 text-sm md:text-base text-[#5F6857]">A Anamnese Compacta orienta sua escolha. A recomendação ajuda, mas a decisão continua sendo sua.</p>
           </section>
 
           <section>
             <div className="mb-4">
-              <h3 className="font-serif text-2xl text-amber-100">Jornadas e protocolos avulsos</h3>
-              <p className="text-sm text-[#5C5248]">Experiências para percorrer no seu tempo.</p>
+              <h3 className="font-serif text-2xl text-[#26372A]">Protocolos avulsos</h3>
+              <p className="text-sm text-[#5F6857]">Acesso por período definido, com Anamnese Compacta incluída.</p>
             </div>
-            <div className="grid md:grid-cols-2 gap-4">
+            <div className="grid md:grid-cols-2 gap-4 items-stretch">
               {standalone.map(plan => (
                 <PlanCard key={plan.id} plan={plan} expanded={expandedId === plan.id} onToggle={() => setExpandedId(expandedId === plan.id ? null : plan.id)} onChoose={() => choosePlan(plan)} />
               ))}
             </div>
           </section>
 
-          <section className="rounded-3xl border border-violet-400/20 bg-violet-500/[0.06] p-5 md:p-7">
-            <div className="flex items-start gap-3">
-              <div className="rounded-2xl bg-violet-500/10 border border-violet-400/20 p-3"><Sparkles className="text-violet-300" /></div>
-              <div>
-                <p className="text-[10px] tracking-[0.2em] uppercase text-violet-300 font-bold">Preservado no PRO</p>
-                <h3 className="font-serif text-2xl text-white">Protocolo de Cura Integrada de 21 Dias</h3>
-                <p className="mt-2 text-sm text-[#5C5248] max-w-3xl">O protocolo de 21 dias continua na plataforma com sua estrutura energética já existente. Ele faz parte das jornadas PRO e não foi substituído pelos novos módulos.</p>
-              </div>
-            </div>
-          </section>
-
           <section>
             <div className="mb-4 flex items-end justify-between gap-4">
               <div>
-                <div className="flex items-center gap-2"><Crown className="text-amber-300" size={22} /><h3 className="font-serif text-2xl text-amber-100">Planos PRO</h3></div>
-                <p className="text-sm text-[#5C5248] mt-1">Florais e Aromaterapia são exclusivos PRO e personalizados após a anamnese.</p>
+                <div className="flex items-center gap-2"><Crown className="text-[#B88736]" size={22} /><h3 className="font-serif text-2xl text-[#26372A]">Planos</h3></div>
+                <p className="text-sm text-[#5F6857] mt-1">No mensal, a análise completa tem R$ 5 de desconto. A partir do trimestral, ela já está incluída.</p>
               </div>
             </div>
-            <div className="grid sm:grid-cols-2 lg:grid-cols-5 gap-4">
+            <div className="grid sm:grid-cols-2 lg:grid-cols-5 gap-4 items-stretch">
               {proPlans.map(plan => (
                 <PlanCard key={plan.id} plan={plan} expanded={expandedId === plan.id} onToggle={() => setExpandedId(expandedId === plan.id ? null : plan.id)} onChoose={() => choosePlan(plan)} />
               ))}
             </div>
           </section>
 
-          <section id="checkout-planos" className="max-w-2xl mx-auto rounded-3xl border border-amber-400/25 bg-[#FBF8F2]/90 p-5 md:p-7 shadow-2xl shadow-amber-950/20">
+          <section id="checkout-planos" className="max-w-2xl mx-auto rounded-3xl border border-[#D8B867]/30 bg-white/80 p-5 md:p-7 shadow-xl shadow-[#6A5425]/10">
             <div className="flex items-center justify-between gap-4 mb-5">
-              <div><p className="text-xs text-[#5C5248]">Selecionado</p><h3 className="font-serif text-2xl text-amber-100">{selectedPlan.title}</h3></div>
-              <div className="text-right"><strong className="text-2xl text-white">{money(finalPrice)}</strong><p className="text-xs text-[#5C5248]">{couponRule?.vip ? '7 dias PRO' : selectedPlan.period}</p></div>
+              <div><p className="text-xs text-[#6A725F]">Selecionado</p><h3 className="font-serif text-2xl text-[#26372A]">{selectedPlan.title}</h3></div>
+              <div className="text-right"><strong className="text-2xl text-[#073B2B]">{money(finalPrice)}</strong><p className="text-xs text-[#6A725F]">{couponRule?.vip ? '7 dias' : selectedPlan.period}</p></div>
             </div>
 
-            <div className="rounded-2xl border border-white/10 bg-black/20 p-4 mb-4">
-              <label className="text-xs font-bold text-[#5C5248] flex items-center gap-2 mb-2"><Tag size={14} /> Tem um cupom?</label>
-              <div className="flex gap-2"><input value={coupon} onChange={e => setCoupon(e.target.value)} placeholder="Digite o código" className="min-w-0 flex-1 rounded-xl bg-white border border-white/10 px-3 py-3 outline-none focus:border-amber-400/50" /><button onClick={applyCoupon} className="rounded-xl bg-amber-400 text-slate-950 font-bold px-4">Aplicar</button></div>
-              {couponMessage && <p className={`text-xs mt-2 ${appliedCoupon ? 'text-emerald-300' : 'text-rose-300'}`}>{couponMessage}</p>}
-              <p className="text-[11px] text-[#85786C] mt-2">VIP7: campanha de teste com 20 resgates no total. PROMO15: 15%. PROMO20: 20%. Cupons não são cumulativos.</p>
+            <div className="rounded-2xl border border-[#D8B867]/20 bg-[#FFF9E8] p-4 mb-4">
+              <label className="text-xs font-bold text-[#5F6857] flex items-center gap-2 mb-2"><Tag size={14} /> Tem um cupom?</label>
+              <div className="flex gap-2"><input value={coupon} onChange={e => setCoupon(e.target.value)} placeholder="Digite o código" className="min-w-0 flex-1 rounded-xl bg-white border border-[#D8B867]/25 px-3 py-3 outline-none focus:border-[#B88736]" /><button onClick={applyCoupon} className="rounded-xl bg-[#073B2B] text-[#FFF9E8] font-bold px-4">Aplicar</button></div>
+              {couponMessage && <p className={`text-xs mt-2 ${appliedCoupon ? 'text-[#2F6B50]' : 'text-rose-700'}`}>{couponMessage}</p>}
             </div>
 
             <div className="grid grid-cols-2 gap-2 mb-4">
-              <button onClick={() => setPaymentMethod('pix')} className={`rounded-xl border p-3 text-sm font-bold ${paymentMethod === 'pix' ? 'border-amber-400 bg-amber-400/10 text-amber-200' : 'border-white/10 text-[#5C5248]'}`}>PIX</button>
-              <button onClick={() => setPaymentMethod('card')} className={`rounded-xl border p-3 text-sm font-bold ${paymentMethod === 'card' ? 'border-amber-400 bg-amber-400/10 text-amber-200' : 'border-white/10 text-[#5C5248]'}`}>Cartão</button>
+              <button onClick={() => setPaymentMethod('pix')} className={`rounded-xl border p-3 text-sm font-bold ${paymentMethod === 'pix' ? 'border-[#B88736] bg-[#F7E5AA]/35 text-[#26372A]' : 'border-[#D8B867]/20 text-[#5F6857]'}`}>PIX</button>
+              <button onClick={() => setPaymentMethod('card')} className={`rounded-xl border p-3 text-sm font-bold ${paymentMethod === 'card' ? 'border-[#B88736] bg-[#F7E5AA]/35 text-[#26372A]' : 'border-[#D8B867]/20 text-[#5F6857]'}`}>Cartão</button>
             </div>
 
             {checkoutError && <p role="alert" className="mb-3 rounded-xl border border-rose-200 bg-rose-50 px-3 py-2 text-xs text-rose-700">{checkoutError}</p>}
-            <button disabled={isProcessing} onClick={finish} className={`w-full rounded-2xl bg-gradient-to-r from-amber-500 to-yellow-300 text-slate-950 font-black py-4 shadow-lg shadow-amber-500/10 ${isProcessing ? 'opacity-70 cursor-not-allowed' : ''}`}>{isProcessing ? 'PROCESSANDO...' : (couponRule?.vip ? 'ATIVAR 7 DIAS PRO' : 'INICIAR PAGAMENTO SEGURO')}</button>
-            <div className="mt-3 flex items-center justify-center gap-2 text-[11px] text-[#85786C]"><ShieldCheck size={13} /> Seu acesso é liberado após a confirmação do pagamento.</div>
+            <button disabled={isProcessing} onClick={finish} className={`w-full rounded-2xl bg-[#073B2B] text-[#FFF9E8] font-black py-4 shadow-lg shadow-[#073B2B]/10 ${isProcessing ? 'opacity-70 cursor-not-allowed' : ''}`}>{isProcessing ? 'PROCESSANDO...' : (couponRule?.vip ? 'ATIVAR ACESSO' : 'INICIAR PAGAMENTO SEGURO')}</button>
+            <div className="mt-3 flex items-center justify-center gap-2 text-[11px] text-[#6A725F]"><ShieldCheck size={13} /> Seu acesso é liberado após a confirmação do pagamento.</div>
           </section>
         </main>
       </div>
@@ -271,14 +281,14 @@ export default function ProUpgradeModal({ isOpen, onClose, onUpgradeSuccess }: P
 
 function PlanCard({ plan, expanded, onToggle, onChoose }: { key?: string | number; plan: PlanItem; expanded: boolean; onToggle: () => void; onChoose: () => void }) {
   return (
-    <article className={`relative rounded-3xl border p-5 flex flex-col ${plan.highlight ? 'border-amber-300/70 bg-gradient-to-b from-amber-400/[0.12] to-[#F3EBDD] shadow-xl shadow-amber-900/20' : 'border-white/10 bg-[#FBF8F2]/80'}`}>
-      {plan.badge && <span className={`self-start rounded-full px-3 py-1 text-[10px] font-black uppercase tracking-wide mb-3 ${plan.highlight ? 'bg-amber-300 text-slate-950' : 'bg-white/5 text-[#5C5248] border border-white/10'}`}>{plan.badge}</span>}
-      <h4 className="font-serif text-xl text-white">{plan.title}</h4>
-      <div className="mt-2"><strong className="text-2xl text-amber-100">{money(plan.price)}</strong><span className="text-xs text-[#85786C] ml-1">{plan.period}</span></div>
-      <ul className="mt-4 space-y-2 flex-1">{plan.summary.map(item => <li key={item} className="flex gap-2 text-xs text-[#5C5248]"><Check size={14} className="text-emerald-400 shrink-0 mt-0.5" />{item}</li>)}</ul>
-      {expanded && <div className="mt-4 pt-4 border-t border-white/10 space-y-2">{plan.details.map(item => <div key={item} className="flex gap-2 text-[11px] text-[#5C5248]"><Check size={12} className="text-amber-300 shrink-0 mt-0.5" />{item}</div>)}</div>}
-      <button onClick={onToggle} className="mt-4 text-xs text-[#5C5248] underline underline-offset-4 flex items-center gap-1">{expanded ? 'Ocultar detalhes' : 'Ver tudo que está incluso'} <ChevronDown size={13} className={expanded ? 'rotate-180' : ''} /></button>
-      <button onClick={onChoose} className={`mt-4 rounded-xl py-3 text-sm font-black ${plan.highlight ? 'bg-amber-300 text-slate-950' : 'border border-amber-300/50 text-amber-200 hover:bg-amber-300/10'}`}>Escolher plano</button>
+    <article className={`relative rounded-3xl border p-5 flex h-full flex-col ${plan.highlight ? 'border-[#B88736]/55 bg-gradient-to-b from-[#FFF6D9] to-[#FFF9E8] shadow-xl shadow-[#6A5425]/10' : 'border-[#D8B867]/22 bg-white/78 shadow-sm'}`}>
+      {plan.badge && <span className={`self-start rounded-full px-3 py-1 text-[10px] font-black uppercase tracking-wide mb-3 ${plan.highlight ? 'bg-[#073B2B] text-[#FFF9E8]' : 'bg-[#F7E5AA]/45 text-[#7C5A1D] border border-[#D8B867]/25'}`}>{plan.badge}</span>}
+      <h4 className="font-serif text-xl text-[#26372A] min-h-[3rem]">{plan.title}</h4>
+      <div className="mt-2"><strong className="text-2xl text-[#073B2B]">{money(plan.price)}</strong><span className="text-xs text-[#6A725F] ml-1">{plan.period}</span></div>
+      <ul className="mt-4 space-y-2 flex-1">{plan.summary.map(item => <li key={item} className="flex gap-2 text-xs text-[#5F6857]"><Check size={14} className="text-[#2F6B50] shrink-0 mt-0.5" />{item}</li>)}</ul>
+      {expanded && <div className="mt-4 pt-4 border-t border-[#D8B867]/18 space-y-2">{plan.details.map(item => <div key={item} className="flex gap-2 text-[11px] text-[#5F6857]"><Check size={12} className="text-[#B88736] shrink-0 mt-0.5" />{item}</div>)}</div>}
+      <button onClick={onToggle} className="mt-4 text-xs text-[#6A725F] underline underline-offset-4 flex items-center gap-1">{expanded ? 'Ocultar detalhes' : 'Ver tudo que está incluso'} <ChevronDown size={13} className={expanded ? 'rotate-180' : ''} /></button>
+      <button onClick={onChoose} className={`mt-4 rounded-xl py-3 text-sm font-black ${plan.highlight ? 'bg-[#073B2B] text-[#FFF9E8]' : 'border border-[#073B2B]/30 text-[#073B2B] hover:bg-[#073B2B]/5'}`}>Escolher</button>
     </article>
   );
 }
