@@ -61,7 +61,7 @@ export default function CoursesModal({ isOpen, onClose }: CoursesModalProps) {
             <img src={APPROVED_LOGO_DATA_URI} alt="Everton Piceni" className="w-full h-full object-contain" />
           </div>
           <div>
-            <p className="text-[10px] uppercase tracking-[.16em] text-[#71511c] font-semibold">Biblioteca Integrativa</p>
+            <p className="text-[10px] uppercase tracking-[.16em] text-[#71511c] font-semibold">Conteúdos e formações</p>
             <h2 className="font-display text-2xl text-[#26372a] mt-1">Cursos em preparação</h2>
           </div>
         </div>
@@ -72,7 +72,7 @@ export default function CoursesModal({ isOpen, onClose }: CoursesModalProps) {
           </div>
           <h3 className="font-display text-[1.65rem] leading-tight text-[#26372a]">Esta área ainda não está liberada</h3>
           <p className="mx-auto mt-3 max-w-md text-sm leading-6 text-[#5C5248]">
-            Os cursos e formações ainda estão sendo organizados e auditados. Enquanto esse conteúdo não estiver completo, esta aba permanece bloqueada para não apresentar material incompleto.
+            Os cursos e formações ainda estão sendo organizados e auditados. Enquanto esse conteúdo não estiver completo, esta área permanece bloqueada para não apresentar material incompleto.
           </p>
 
           <div className="mt-6 rounded-2xl border border-[#E5DAC6] bg-white/75 p-4 text-left">
@@ -80,7 +80,7 @@ export default function CoursesModal({ isOpen, onClose }: CoursesModalProps) {
               <BookOpen size={20} className="mt-0.5 shrink-0 text-[#B88736]" />
               <div>
                 <strong className="block text-sm text-[#26372a]">O restante do app continua disponível</strong>
-                <p className="mt-1 text-xs leading-5 text-[#5C5248]">Jornadas, anamnese energética, diário, biblioteca de práticas e demais recursos aprovados continuam funcionando normalmente.</p>
+                <p className="mt-1 text-xs leading-5 text-[#5C5248]">Anamnese Compacta, diário, recursos de apoio e as jornadas já liberadas continuam funcionando normalmente.</p>
               </div>
             </div>
           </div>
