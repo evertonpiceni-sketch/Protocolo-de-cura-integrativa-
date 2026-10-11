@@ -60,7 +60,7 @@ function findByExactText(root: ParentNode, selector: string, expected: string) {
 
 function findResultRoot() {
   const marker = Array.from(document.querySelectorAll<HTMLElement>('span,h2,h3,h4'))
-    .find(element => normalize(textOf(element)).includes('caminhos de cuidado personalizados'));
+    .find(element => normalize(textOf(element)).includes('caminhos de cuidado personalizados') || normalize(textOf(element)).includes('resultado da anamnese compacta') || normalize(textOf(element)) === 'anamnese completa');
   if (!marker) return null;
   return marker.closest<HTMLElement>('[role="dialog"]') || marker.closest<HTMLElement>('.fixed.inset-0') || marker.parentElement;
 }
@@ -74,15 +74,11 @@ function resolveAvailableProtocol(resultRoot: HTMLElement) {
 }
 
 function hideFullOnlySections(resultRoot: HTMLElement, compactOnly: boolean) {
-  const fullSectionHeadings = [
-    'Mapa do Momento Bioenergético',
-    'Práticas Integrativas Complementares Recomendadas:'
-  ];
-
+  const fullSectionHeadings = ['Mapa do Momento Bioenergético', 'Práticas Integrativas Complementares Recomendadas:'];
   for (const heading of fullSectionHeadings) {
     const element = findByExactText(resultRoot, 'span,h3,h4,h5', heading);
     if (!element) continue;
-    const section = element.closest<HTMLElement>('.rounded-2xl') || element.closest<HTMLElement>('.space-y-1\.5') || element.parentElement?.parentElement;
+    const section = element.closest<HTMLElement>('.rounded-2xl') || element.closest<HTMLElement>('.space-y-1\\.5') || element.parentElement?.parentElement;
     if (!section) continue;
     section.dataset.epCompactHidden = compactOnly ? 'true' : 'false';
   }
@@ -111,7 +107,8 @@ function correctPrimaryAction(resultRoot: HTMLElement) {
   if (!button || button.dataset.epProtocolChoiceAction === 'true') return;
 
   button.dataset.epProtocolChoiceAction = 'true';
-  button.querySelector('span')?.replaceChildren('Escolher meu protocolo');
+  const label = button.querySelector('span');
+  if (label) label.textContent = 'Escolher meu protocolo';
   button.addEventListener('click', event => {
     event.preventDefault();
     event.stopImmediatePropagation();
@@ -162,6 +159,9 @@ function apply() {
 
   const profile = readProfile();
   const fullIncluded = hasFullIncluded(profile);
+  const stateKey = fullIncluded ? 'included' : isMonthly(profile) ? 'monthly' : 'compact';
+  if (resultRoot.dataset.epAnamnesisCommercialFlow === stateKey && resultRoot.querySelector('.ep-anamnesis-complete-offer')) return;
+
   hideFullOnlySections(resultRoot, !fullIncluded);
   correctRecommendation(resultRoot);
   correctPrimaryAction(resultRoot);
@@ -170,6 +170,8 @@ function apply() {
   const compactLabel = Array.from(resultRoot.querySelectorAll<HTMLElement>('span,p'))
     .find(element => normalize(textOf(element)) === 'caminhos de cuidado personalizados');
   if (compactLabel) compactLabel.textContent = fullIncluded ? 'Anamnese Completa' : 'Resultado da Anamnese Compacta';
+
+  resultRoot.dataset.epAnamnesisCommercialFlow = stateKey;
 }
 
 let queued = false;
