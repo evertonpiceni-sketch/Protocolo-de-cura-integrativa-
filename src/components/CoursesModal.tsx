@@ -61,7 +61,7 @@ export default function CoursesModal({ isOpen, onClose }: CoursesModalProps) {
             <img src={APPROVED_LOGO_DATA_URI} alt="Everton Piceni" className="w-full h-full object-contain" />
           </div>
           <div>
-            <p className="text-[10px] uppercase tracking-[.16em] text-[#71511c] font-semibold">Biblioteca Integrativa</p>
+            <p className="text-[10px] uppercase tracking-[.16em] text-[#71511c] font-semibold">Conteúdos de aprendizagem</p>
             <h2 className="font-display text-2xl text-[#26372a] mt-1">Cursos em preparação</h2>
           </div>
         </div>
