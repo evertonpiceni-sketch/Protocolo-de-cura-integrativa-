@@ -13,6 +13,8 @@ import './lib/backgroundMediaPatch';
 import './lib/noDecorativeEmojiPatch';
 import './lib/personalCareIntegration';
 import './lib/universalAnamnesisDiaryAccessPatch';
+import './lib/naturalSerenoHomeApprovedModel';
+import './lib/naturalSerenoHomeJourneyStateFix';
 import { ErrorBoundary } from './ErrorBoundary.tsx';
 
 createRoot(document.getElementById('root')!).render(
