@@ -25,10 +25,13 @@ const unlockCoreControl = (element: Element) => {
   if (!(element instanceof HTMLButtonElement || element instanceof HTMLAnchorElement)) return;
   if (!isCoreAccessControl(element)) return;
 
-  if (element instanceof HTMLButtonElement) element.disabled = false;
-  element.removeAttribute('disabled');
-  element.setAttribute('aria-disabled', 'false');
-  element.classList.remove('pointer-events-none', 'cursor-not-allowed', 'opacity-40', 'opacity-50');
+  // The observer watches these attributes: write only when they change so
+  // applying the same access policy cannot starve rendering in a microtask loop.
+  if (element.hasAttribute('disabled')) element.removeAttribute('disabled');
+  if (element.getAttribute('aria-disabled') !== 'false') element.setAttribute('aria-disabled', 'false');
+  for (const token of ['pointer-events-none', 'cursor-not-allowed', 'opacity-40', 'opacity-50']) {
+    if (element.classList.contains(token)) element.classList.remove(token);
+  }
   element.dataset.coreAccess = 'universal';
 };
 
