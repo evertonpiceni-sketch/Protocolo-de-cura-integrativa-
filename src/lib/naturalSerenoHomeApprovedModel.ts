@@ -1,3 +1,5 @@
+import { setStableText } from './stableDomText';
+
 const HOME_PATCH_STYLE_ID = 'ep-natural-sereno-home-approved-model';
 
 function addStyles() {
@@ -425,12 +427,7 @@ function addQuickLinks(root: HTMLElement, hasAnamnesis: boolean) {
     else content.appendChild(quick);
   }
 
-  const journey = quick.querySelector<HTMLButtonElement>('[data-ep-quick="journey"]');
-  if (journey) {
-    journey.disabled = !hasAnamnesis;
-    const helper = journey.querySelector('small');
-    if (helper) helper.textContent = hasAnamnesis ? 'Meu progresso do dia a dia' : 'Disponível após a anamnese';
-  }
+
 }
 
 function applyHomeModel() {
@@ -444,21 +441,12 @@ function applyHomeModel() {
   root.classList.toggle('ep-home-has-anamnesis', hasAnamnesis);
   root.classList.toggle('ep-home-needs-anamnesis', !hasAnamnesis);
 
-  const greeting = root.querySelector<HTMLElement>('.ns-greeting');
-  if (greeting) {
-    const heading = greeting.querySelector('h1');
-    const paragraphs = greeting.querySelectorAll('p');
-    if (heading) heading.textContent = heading.textContent || 'Olá.';
-    if (paragraphs[0]) paragraphs[0].textContent = hasAnamnesis ? 'Que bom ter você aqui novamente.' : 'Que bom que você está aqui novamente.';
-    if (paragraphs[1]) paragraphs[1].textContent = hasAnamnesis
-      ? 'Seu momento atual já pode orientar o seu cuidado, no seu tempo e do seu jeito.'
-      : 'Um espaço para você se ouvir, se acolher e seguir no seu tempo, do seu jeito.';
-  }
+  // Journey-state patch owns contextual greeting copy.
 
   const heroCta = root.querySelector<HTMLButtonElement>('.ns-home-scene > .ns-gold');
   if (heroCta && hasAnamnesis) {
     for (const node of Array.from(heroCta.childNodes)) {
-      if (node.nodeType === Node.TEXT_NODE) node.textContent = 'Continuar minha jornada ';
+      if (node.nodeType === Node.TEXT_NODE) setStableText(node, 'Continuar minha jornada ');
     }
   }
 
@@ -466,8 +454,8 @@ function applyHomeModel() {
     anamnesisCard.classList.add('ep-home-anamnesis-card');
     const small = anamnesisCard.querySelector('small');
     const paragraph = anamnesisCard.querySelector('p');
-    if (small) small.textContent = 'Anamnese Energética';
-    if (paragraph) paragraph.textContent = 'Responda algumas perguntas para entendermos seu momento e indicar o melhor caminho para você.';
+    if (small) setStableText(small, 'Anamnese Energética');
+    if (paragraph) setStableText(paragraph, 'Responda algumas perguntas para entendermos seu momento e indicar o melhor caminho para você.');
   }
 
   const currentDay = root.querySelector<HTMLElement>('.ns-current-day');

@@ -1,3 +1,5 @@
+import { setStableText } from './stableDomText';
+
 const HOME_FLOW_STYLE_ID = 'ep-natural-sereno-home-flow-state-fix';
 const CURRENT_LOGIN_KEY = 'cura_integrada_logged_in_user_v1';
 const ACCOUNTS_KEY = 'cura_integrada_accounts_v1';
@@ -309,6 +311,10 @@ function ensureProtocolChoice(root: HTMLElement, recommendationRow: HTMLElement 
     else content.prepend(card);
   }
 
+  const renderKey = hasAccess ? 'protocols' : `plans-${isWithinFreeDay(state)}`;
+  if (card.dataset.renderKey === renderKey) return;
+  card.dataset.renderKey = renderKey;
+
   if (!hasAccess) {
     const trialCopy = isWithinFreeDay(state)
       ? 'Você está no seu dia de experiência. Seu resultado já está disponível; quando quiser iniciar oficialmente uma jornada, escolha a forma de acesso que combina com você.'
@@ -363,31 +369,31 @@ function setHeroCopy(root: HTMLElement, needsAnamnesis: boolean, needsAccess: bo
   if (!greeting) return;
   const paragraphs = greeting.querySelectorAll('p');
   if (paragraphs[0]) {
-    paragraphs[0].textContent = activeJourney
+    setStableText(paragraphs[0], activeJourney
       ? 'Que bom ter você aqui novamente.'
       : needsProtocol
         ? 'Seu acesso está pronto.'
         : needsAccess
           ? 'Seu resultado já está pronto.'
-          : 'Que bom que você está aqui novamente.';
+          : 'Que bom que você está aqui novamente.');
   }
   if (paragraphs[1]) {
-    paragraphs[1].textContent = activeJourney
+    setStableText(paragraphs[1], activeJourney
       ? 'Sua jornada está em andamento. Siga no seu tempo, um dia de cada vez.'
       : needsProtocol
         ? 'Agora escolha qual protocolo deseja seguir. A decisão é sua e nenhum Dia 1 começa antes dessa escolha.'
         : needsAccess
           ? 'Use seu dia de experiência para conhecer o espaço. Quando quiser iniciar oficialmente, escolha seu acesso e depois o protocolo.'
-          : 'Seu primeiro dia é um espaço para experimentar, se ouvir e conhecer o cuidado antes de escolher o protocolo que deseja seguir.';
+          : 'Seu primeiro dia é um espaço para experimentar, se ouvir e conhecer o cuidado antes de escolher o protocolo que deseja seguir.');
   }
 }
 
 function adjustQuickJourney(root: HTMLElement, activeJourney: boolean) {
   const button = root.querySelector<HTMLButtonElement>('[data-ep-quick="journey"]');
   if (!button) return;
-  button.disabled = !activeJourney;
+  if (button.disabled !== !activeJourney) button.disabled = !activeJourney;
   const helper = button.querySelector('small');
-  if (helper) helper.textContent = activeJourney ? 'Meu progresso do dia a dia' : 'Disponível após escolher acesso e protocolo';
+  setStableText(helper, activeJourney ? 'Meu progresso do dia a dia' : 'Disponível após escolher acesso e protocolo');
 }
 
 function installProtocolCapture() {

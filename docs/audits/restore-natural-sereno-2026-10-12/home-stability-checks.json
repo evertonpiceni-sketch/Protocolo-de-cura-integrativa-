@@ -1,0 +1,26 @@
+[
+  {
+    "state": "no-anamnesis",
+    "mutations": 0,
+    "journeyDisabled": true,
+    "errors": []
+  },
+  {
+    "state": "no-access",
+    "mutations": 0,
+    "journeyDisabled": true,
+    "errors": []
+  },
+  {
+    "state": "choose-protocol",
+    "mutations": 0,
+    "journeyDisabled": true,
+    "errors": []
+  },
+  {
+    "state": "active-journey",
+    "mutations": 0,
+    "journeyDisabled": false,
+    "errors": []
+  }
+]
