@@ -57,6 +57,10 @@ class CalmingAudioEngine {
   private voiceAudioElement: HTMLAudioElement | null = null;
   private voiceAudioUrl: string | null = null;
   private isElevenLabsPlaying: boolean = false;
+  private protocolRequestGeneration = 0;
+  private ownsProtocolMediaSession = false;
+  private protocolPlaybackPaused = false;
+  private pendingProtocolFallback: (() => void) | null = null;
 
   constructor() {
     // Audio context is lazily initialized on user gesture
@@ -114,6 +118,7 @@ class CalmingAudioEngine {
 
   public setMainVolume(volume: number) {
     this.mainVolume = volume;
+    if (this.voiceAudioElement) this.voiceAudioElement.volume = Math.max(0, Math.min(1, volume));
     this.initCtx();
     if (this.mainGain && this.ctx) {
       try {
@@ -1417,14 +1422,33 @@ class CalmingAudioEngine {
   }
 
   public stopSpeech() {
+    this.protocolRequestGeneration++;
+    this.protocolPlaybackPaused = false;
+    this.pendingProtocolFallback = null;
+    if (this.ownsProtocolMediaSession && 'mediaSession' in navigator) {
+      for (const action of ['play', 'pause', 'seekbackward', 'seekforward', 'seekto'] as MediaSessionAction[]) {
+        try { navigator.mediaSession.setActionHandler(action, null); } catch { /* unsupported action */ }
+      }
+      navigator.mediaSession.playbackState = 'none';
+      navigator.mediaSession.metadata = null;
+      this.ownsProtocolMediaSession = false;
+    }
     this.isSpeakingActive = false;
     if (this.pauseTimeoutId) {
       clearTimeout(this.pauseTimeoutId);
       this.pauseTimeoutId = null;
     }
     if (this.voiceAudioElement) {
+      this.voiceAudioElement.onplay = null;
+      this.voiceAudioElement.onpause = null;
+      this.voiceAudioElement.onended = null;
+      this.voiceAudioElement.onerror = null;
+      this.voiceAudioElement.ontimeupdate = null;
       this.voiceAudioElement.pause();
       this.voiceAudioElement.currentTime = 0;
+      if (this.voiceAudioElement.parentElement?.id === 'ep-background-media-dock') {
+        this.voiceAudioElement.remove();
+      }
       this.voiceAudioElement = null;
     }
     if (this.voiceAudioUrl) {
@@ -1440,6 +1464,7 @@ class CalmingAudioEngine {
   }
 
   public pauseSpeech() {
+    this.protocolPlaybackPaused = true;
     if (this.voiceAudioElement && !this.voiceAudioElement.paused) {
       this.voiceAudioElement.pause();
     }
@@ -1449,6 +1474,13 @@ class CalmingAudioEngine {
   }
 
   public resumeSpeech() {
+    this.protocolPlaybackPaused = false;
+    if (this.pendingProtocolFallback) {
+      const resumeFallback = this.pendingProtocolFallback;
+      this.pendingProtocolFallback = null;
+      resumeFallback();
+      return;
+    }
     if (this.voiceAudioElement && this.voiceAudioElement.paused) {
       this.voiceAudioElement.play().catch(() => {});
     }
@@ -1474,6 +1506,7 @@ class CalmingAudioEngine {
     stageTitle = 'Protocolo de Cura Integrada',
     dayNumber = 1,
     onProgress,
+    onPlaybackChange,
     onEnd,
     onError
   }: {
@@ -1483,10 +1516,22 @@ class CalmingAudioEngine {
     stageTitle?: string;
     dayNumber?: number;
     onProgress?: (curr: number, dur: number) => void;
+    onPlaybackChange?: (playing: boolean) => void;
     onEnd?: () => void;
     onError?: (err: any) => void;
   }): Promise<HTMLAudioElement | null> {
     this.stopSpeech();
+    const generation = this.protocolRequestGeneration;
+    const isCurrent = () => generation === this.protocolRequestGeneration;
+    const startFallback = () => {
+      if (!isCurrent()) return;
+      if (this.protocolPlaybackPaused) {
+        this.pendingProtocolFallback = startFallback;
+        return;
+      }
+      this.speak(text, this.mainVolume, () => onPlaybackChange?.(true), () => onEnd?.(), undefined, undefined,
+        { voiceId, rate: speed, onSpeechProgress: seconds => onProgress?.(seconds, 0) });
+    };
     try {
       if (!this.voiceAudioElement) {
         this.voiceAudioElement = new Audio();
@@ -1494,6 +1539,7 @@ class CalmingAudioEngine {
       }
       const audioEl = this.voiceAudioElement;
       audioEl.pause();
+      audioEl.volume = Math.max(0, Math.min(1, this.mainVolume));
 
       const response = await fetch('/api/tts/stream', {
         method: 'POST',
@@ -1501,16 +1547,20 @@ class CalmingAudioEngine {
         body: JSON.stringify({ text, voiceId, speed })
       });
 
+      if (!isCurrent()) return null;
+
       if (!response.ok) {
         const errorData = await response.json().catch(() => ({}));
+        if (!isCurrent()) return null;
         if (errorData.fallbackToSpeechSynthesis) {
-          this.speak(text, 1.0, () => {}, () => onEnd?.(), undefined, undefined, { voiceId, rate: speed, onSpeechProgress: seconds => onProgress?.(seconds, 0) });
+          startFallback();
           return null;
         }
         throw new Error('Falha ao obter stream contínuo.');
       }
 
       const blob = await response.blob();
+      if (!isCurrent()) return null;
       if (this.voiceAudioUrl) {
         URL.revokeObjectURL(this.voiceAudioUrl);
       }
@@ -1518,6 +1568,14 @@ class CalmingAudioEngine {
       audioEl.src = this.voiceAudioUrl;
 
       if ('mediaSession' in navigator) {
+        this.ownsProtocolMediaSession = true;
+        const setAction = (action: MediaSessionAction, handler: MediaSessionActionHandler) => {
+          try {
+            navigator.mediaSession.setActionHandler(action, details => {
+              if (isCurrent()) handler(details);
+            });
+          } catch { /* Optional system controls must not prevent native audio playback. */ }
+        };
         navigator.mediaSession.metadata = new MediaMetadata({
           title: stageTitle,
           artist: 'Éverton Rodrigo Piceni - Cura Integrada',
@@ -1528,28 +1586,39 @@ class CalmingAudioEngine {
           ]
         });
 
-        navigator.mediaSession.setActionHandler('play', () => {
+        setAction('play', () => {
           audioEl.play().catch(() => {});
         });
-        navigator.mediaSession.setActionHandler('pause', () => {
+        setAction('pause', () => {
           audioEl.pause();
         });
-        navigator.mediaSession.setActionHandler('seekbackward', (details) => {
+        setAction('seekbackward', (details) => {
           const skipTime = details.seekOffset || 15;
           audioEl.currentTime = Math.max(audioEl.currentTime - skipTime, 0);
         });
-        navigator.mediaSession.setActionHandler('seekforward', (details) => {
+        setAction('seekforward', (details) => {
           const skipTime = details.seekOffset || 15;
           audioEl.currentTime = Math.min(audioEl.currentTime + skipTime, audioEl.duration || 0);
         });
-        navigator.mediaSession.setActionHandler('seekto', (details) => {
+        setAction('seekto', (details) => {
           if (details.seekTime !== undefined) {
             audioEl.currentTime = details.seekTime;
           }
         });
       }
 
+      audioEl.onplay = () => {
+        if (!isCurrent()) return;
+        if ('mediaSession' in navigator) navigator.mediaSession.playbackState = 'playing';
+        onPlaybackChange?.(true);
+      };
+      audioEl.onpause = () => {
+        if (!isCurrent()) return;
+        if ('mediaSession' in navigator) navigator.mediaSession.playbackState = 'paused';
+        onPlaybackChange?.(false);
+      };
       audioEl.ontimeupdate = () => {
+        if (!isCurrent()) return;
         if (onProgress && audioEl.duration) {
           onProgress(audioEl.currentTime, audioEl.duration);
         }
@@ -1565,21 +1634,25 @@ class CalmingAudioEngine {
       };
 
       audioEl.onended = () => {
+        if (!isCurrent()) return;
         this.isElevenLabsPlaying = false;
+        if ('mediaSession' in navigator) navigator.mediaSession.playbackState = 'none';
         onEnd?.();
       };
 
       audioEl.onerror = (e) => {
+        if (!isCurrent()) return;
         console.warn('Erro no elemento de áudio, usando fallback nativo:', e);
-        this.speak(text, 1.0, () => {}, () => onEnd?.(), undefined, undefined, { voiceId, rate: speed, onSpeechProgress: seconds => onProgress?.(seconds, 0) });
+        startFallback();
       };
 
       this.isElevenLabsPlaying = true;
-      await audioEl.play();
+      if (!this.protocolPlaybackPaused) await audioEl.play();
       return audioEl;
     } catch (err) {
+      if (!isCurrent()) return null;
       console.warn('Erro ao processar stream de áudio contínuo:', err);
-      this.speak(text, 1.0, () => {}, () => onEnd?.(), undefined, undefined, { voiceId, rate: speed, onSpeechProgress: seconds => onProgress?.(seconds, 0) });
+      startFallback();
       return null;
     }
   }

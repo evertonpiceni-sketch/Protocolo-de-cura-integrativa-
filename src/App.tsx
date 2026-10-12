@@ -308,11 +308,17 @@ export default function App() {
 
   // Initialize and load saved state from backend on mount
   useEffect(() => {
+    const controller = new AbortController();
+    let active = true;
+    // A stalled session request must not keep the entire application on its splash screen.
+    const timeout = window.setTimeout(() => controller.abort(), 10000);
     const checkAuth = async () => {
       try {
-        const res = await fetch('/api/auth/me');
+        const res = await fetch('/api/auth/me', { signal: controller.signal });
+        if (!active) return;
         if (res.ok) {
           const data = await res.json();
+          if (!active) return;
           const account = data.user;
           const profileWithAdmin = { ...account.profile, isAdmin: account.role === 'admin' };
           setUserProfile(profileWithAdmin);
@@ -366,12 +372,18 @@ export default function App() {
           setProgress(defaultProgress);
         }
       } catch (err) {
-        setIsLoggedIn(false);
+        if (active) setIsLoggedIn(false);
       } finally {
-        setIsLoadingAuth(false);
+        window.clearTimeout(timeout);
+        if (active) setIsLoadingAuth(false);
       }
     };
-    checkAuth();
+    void checkAuth();
+    return () => {
+      active = false;
+      window.clearTimeout(timeout);
+      controller.abort();
+    };
   }, []);
 
   const updateLocalAccountCache = (profileToCache: UserProfile, progressToCache: DayProgress[]) => {

@@ -2,6 +2,7 @@ import React, { useEffect, useRef } from 'react';
 import { ProtocolStage } from '../../types';
 
 interface SacredEnergyCanvasProps {
+  dayNumber?: number;
   stageId: ProtocolStage | string;
   isPlaying: boolean;
   elapsedSeconds?: number;
@@ -13,13 +14,14 @@ interface SacredEnergyCanvasProps {
 }
 
 export const SacredEnergyCanvas: React.FC<SacredEnergyCanvasProps> = ({
+  dayNumber,
   stageId,
   isPlaying,
-  elapsedSeconds,
-  breathePhase = 'inhale'
+  elapsedSeconds
 }) => {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const clockRef = useRef(elapsedSeconds);
+  const refreshRef = useRef<(() => void) | null>(null);
   clockRef.current = elapsedSeconds;
 
   useEffect(() => {
@@ -28,11 +30,17 @@ export const SacredEnergyCanvas: React.FC<SacredEnergyCanvasProps> = ({
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
 
-    let animationId: number;
+    let animationId = 0;
     let time = 0;
 
     // Check prefers-reduced-motion
-    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const motionPreference = window.matchMedia('(prefers-reduced-motion: reduce)');
+    let prefersReducedMotion = motionPreference.matches;
+    const updateMotionPreference = () => {
+      prefersReducedMotion = motionPreference.matches;
+      refreshRef.current?.();
+    };
+    motionPreference.addEventListener('change', updateMotionPreference);
 
     // Resize handling with DPR for crisp rendering
     const handleResize = () => {
@@ -44,7 +52,11 @@ export const SacredEnergyCanvas: React.FC<SacredEnergyCanvasProps> = ({
     };
 
     handleResize();
-    window.addEventListener('resize', handleResize);
+    const refreshSize = () => {
+      handleResize();
+      refreshRef.current?.();
+    };
+    window.addEventListener('resize', refreshSize);
 
     // Dynamic particles for current stage
     const particlesCount = stageId === ProtocolStage.TRANSMUTACAO ? 40 : 25;
@@ -101,7 +113,8 @@ export const SacredEnergyCanvas: React.FC<SacredEnergyCanvasProps> = ({
 
           // 8-petal subtle golden flower of light
           ctx.strokeStyle = 'rgba(212, 175, 55, 0.3)';
-          for (let p = 0; p < 8; p++) {
+          // Day 1 opens with spacious light rather than ornate geometry.
+          for (let p = 0; p < (dayNumber === 1 ? 0 : 8); p++) {
             const rot = (p * Math.PI / 4) + time * 0.15;
             ctx.beginPath();
             ctx.arc(
@@ -338,16 +351,30 @@ export const SacredEnergyCanvas: React.FC<SacredEnergyCanvasProps> = ({
           break;
       }
 
-      animationId = requestAnimationFrame(render);
+      if (isPlaying && !prefersReducedMotion && !document.hidden) {
+        animationId = requestAnimationFrame(render);
+      }
     };
 
+    const refresh = () => {
+      cancelAnimationFrame(animationId);
+      render();
+    };
+    refreshRef.current = refresh;
+    document.addEventListener('visibilitychange', refresh);
     render();
 
     return () => {
       cancelAnimationFrame(animationId);
-      window.removeEventListener('resize', handleResize);
+      refreshRef.current = null;
+      window.removeEventListener('resize', refreshSize);
+      document.removeEventListener('visibilitychange', refresh);
+      motionPreference.removeEventListener('change', updateMotionPreference);
     };
-  }, [stageId, isPlaying, breathePhase]);
+  }, [stageId, isPlaying, dayNumber]);
+
+  // Paused seeking still redraws at the authoritative audio position.
+  useEffect(() => { refreshRef.current?.(); }, [elapsedSeconds]);
 
   return (
     <div className="relative w-full max-w-[320px] aspect-square mx-auto flex items-center justify-center">

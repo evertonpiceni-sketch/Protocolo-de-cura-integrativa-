@@ -105,12 +105,15 @@ export default function MeditationSession({
   }, [isPlaying, currentTime]);
 
   useEffect(() => {
+    let disposed = false;
     let releaseWakeLock: (() => void) | null = null;
     requestWakeLock().then(release => {
-      releaseWakeLock = release;
+      if (disposed) release?.();
+      else releaseWakeLock = release;
     });
 
     return () => {
+      disposed = true;
       if (releaseWakeLock) releaseWakeLock();
       audioEngine.stopSpeech();
       audioEngine.stopSynth();
@@ -209,6 +212,7 @@ export default function MeditationSession({
       speed: voiceRate,
       stageTitle: `Dia ${dayNumber} — ${currentInsight.title} — ${currentStage.title}`,
       dayNumber,
+      onPlaybackChange: setIsPlaying,
       onProgress: (curr, dur) => {
         // The audio engine reports seconds for media and native speech.
         const normalizedCurrent = curr;
@@ -342,6 +346,7 @@ export default function MeditationSession({
     <div id="meditation-session" data-session-phase={sessionPhase} className="ep-session fixed inset-0 z-50 bg-[#FAF7F2] text-[#2A2420] flex flex-col justify-between overflow-hidden select-none min-h-dvh">
       <div className="ep-session-backdrop absolute inset-0 pointer-events-none">
         <SacredEnergyCanvas
+          dayNumber={document.documentElement.dataset.layout === 'natural-sereno' ? dayNumber : undefined}
           stageId={currentStage.id}
           isPlaying={isPlaying}
           breathePhase={breathePhase}
@@ -469,6 +474,7 @@ export default function MeditationSession({
             <button
               key={stage.id}
               onClick={() => {
+                if (idx === currentStageIndex) return;
                 audioEngine.stopSpeech();
                 setCurrentStageIndex(idx);
                 setCurrentTime(0);

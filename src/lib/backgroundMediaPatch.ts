@@ -32,19 +32,9 @@ if (typeof window !== 'undefined' && typeof document !== 'undefined' && !window.
     return originalPlay.apply(this, args as any);
   } as HTMLMediaElement['play'];
 
-  const keepPlayingWhenHidden = () => {
-    if (document.visibilityState !== 'hidden') return;
-    const dock = ensureMediaDock();
-    dock.querySelectorAll('audio').forEach(audio => {
-      const el = audio as HTMLAudioElement;
-      if (!el.ended && el.currentTime > 0 && el.paused) {
-        void originalPlay.call(el).catch(() => undefined);
-      }
-    });
-  };
-
-  document.addEventListener('visibilitychange', keepPlayingWhenHidden, { passive: true });
-  window.addEventListener('pagehide', keepPlayingWhenHidden, { passive: true });
+  // Connected HTMLAudioElements use native background playback. Do not restart
+  // paused media on visibility/pagehide: it may have been paused by the person
+  // or by the lock-screen controls, and leaving the app must respect that choice.
 }
 
 export {};

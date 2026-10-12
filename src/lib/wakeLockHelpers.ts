@@ -1,7 +1,8 @@
-export const requestWakeLock = async () => {
+export const requestWakeLock = async (): Promise<(() => void) | null> => {
   try {
     if (typeof navigator !== 'undefined' && navigator && 'wakeLock' in navigator) {
-      return await (navigator as any).wakeLock.request('screen');
+      const lock = await navigator.wakeLock.request('screen');
+      return () => { void lock.release().catch(() => undefined); };
     }
   } catch (err) {
     console.warn('Wake Lock error:', err);

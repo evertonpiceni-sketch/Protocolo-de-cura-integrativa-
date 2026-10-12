@@ -336,6 +336,40 @@ function addStyles() {
       :root[data-layout="natural-sereno"] .ep-home-quicklinks button { min-height: 88px; }
     }
   `;
+  // Restore the approved Natural Sereno visual while retaining current journey gates.
+  style.textContent += `
+    :root[data-layout="natural-sereno"] .ns-home-scene {
+      min-height: 700px !important;
+      padding: 25px 18px 17px !important;
+      background: linear-gradient(180deg, rgba(255,249,232,.96), rgba(255,249,232,.7) 30%, transparent 60%), var(--ns-valley) center / cover no-repeat !important;
+      color: #26372a;
+    }
+    :root[data-layout="natural-sereno"] .ns-home-scene::after { display: none; }
+    :root[data-layout="natural-sereno"] .ns-home-menu {
+      position: absolute !important; top: 11px; right: 12px; left: auto; width: 44px; height: 44px; display: grid; place-items: center;
+      color: #073b2b !important; background: rgba(255,250,231,.7) !important;
+      border: 0 !important; box-shadow: none; backdrop-filter: none;
+    }
+    :root[data-layout="natural-sereno"] .ns-greeting { max-width: 350px !important; padding-top: 0; text-shadow: none; }
+    :root[data-layout="natural-sereno"] .ns-greeting h1 { color: #26372a !important; font-size: 35px !important; font-weight: 700 !important; line-height: 1.15 !important; margin-bottom: 7px !important; letter-spacing: normal !important; }
+    :root[data-layout="natural-sereno"] .ns-greeting p { color: #26372a !important; font-family: 'Lora', Georgia, serif; font-size: 15px !important; margin: 3px 0 !important; }
+    :root[data-layout="natural-sereno"] .ns-home-message { display: block !important; color: #26372a; }
+    :root[data-layout="natural-sereno"] .ns-home-message span { font-family: 'Lora', Georgia, serif; }
+    :root[data-layout="natural-sereno"] .ns-home-scene > .ns-gold {
+      margin-top: 0; width: 100% !important; min-height: 70px !important; font-size: 20px;
+      background: linear-gradient(180deg, #ead394 0%, #c49b42 25%, #aa7d25 58%, #98701f 78%, #d7b55e 100%) !important;
+      color: #fff9e8 !important; box-shadow: inset 0 2px 5px rgba(255,247,203,.85), inset 0 -2px 4px rgba(92,61,12,.4), 0 0 0 2px rgba(236,207,135,.17), 0 3px 12px rgba(86,64,16,.28) !important;
+    }
+    :root[data-layout="natural-sereno"] .ep-home-needs-anamnesis .ns-home-content,
+    :root[data-layout="natural-sereno"] .ep-home-has-anamnesis .ns-home-content { margin-top: 0 !important; padding-top: 13px !important; }
+    @media (min-width: 768px) {
+      :root[data-layout="natural-sereno"] .ns-home-scene { min-height: 540px !important; padding: 24px !important; }
+      :root[data-layout="natural-sereno"] .ns-home-scene > .ns-gold { min-height: 52px !important; font-size: 17px; }
+    }
+    @media (max-height: 700px) and (max-width: 767px) {
+      :root[data-layout="natural-sereno"] .ns-home-scene { min-height: 560px !important; }
+    }
+  `;
   document.head.appendChild(style);
 }
 

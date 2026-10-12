@@ -1,0 +1,16 @@
+{
+  "checks": [
+    "No overflow; playback reachable at 320×568",
+    "No overflow; playback reachable at 360×740",
+    "No overflow; playback reachable at 390×844",
+    "No overflow; playback reachable at 430×932",
+    "No overflow; playback reachable at 390×460",
+    "No overflow; playback reachable at 844×390",
+    "No overflow; playback reachable at 1365×768",
+    "Ambient scene visibly moves",
+    "Play/pause, mute, previous/next and script callbacks work",
+    "Reduced motion disables ambient animation",
+    "Session exit releases wake lock without errors"
+  ],
+  "errors": []
+}

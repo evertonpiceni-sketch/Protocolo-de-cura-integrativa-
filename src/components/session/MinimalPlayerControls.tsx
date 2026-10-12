@@ -65,8 +65,9 @@ export const MinimalPlayerControls: React.FC<MinimalPlayerControlsProps> = ({
             aria-valuetext={`${formatTime(safeCurrentTime)} de ${formatTime(duration)}`}
             className="ep-protocol-progress block w-full h-8 cursor-pointer accent-[#B88736]"
             style={{
+              '--ep-progress': `${progressPercent}%`,
               background: `linear-gradient(90deg, #B88736 0%, #D4AF37 ${progressPercent}%, #E5DAC6 ${progressPercent}%, #E5DAC6 100%)`
-            }}
+            } as React.CSSProperties}
           />
         ) : (
           <div

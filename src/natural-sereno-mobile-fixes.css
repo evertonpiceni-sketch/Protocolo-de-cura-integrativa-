@@ -10,85 +10,363 @@
   --ns-mobile-forest: #073b2b;
 }
 
-:root[data-layout="natural-sereno"] :is(#numerology-modal,#systemic-questions-modal,#courses-modal,#admin-panel-modal,#chakras-guide-modal,#herbal-baths-modal,#astral-map-modal) .pointer-events-none[class*="blur"] { background: rgba(184,135,54,.055) !important; opacity: .42 !important; }
-:root[data-layout="natural-sereno"] :is(#numerology-modal,#systemic-questions-modal,#courses-modal,#admin-panel-modal,#chakras-guide-modal,#herbal-baths-modal,#astral-map-modal) [class*="blur-3xl"] { filter: blur(46px) !important; }
-:root[data-layout="natural-sereno"] :is(#numerology-modal,#systemic-questions-modal,#courses-modal,#admin-panel-modal) > div > :not(.pointer-events-none) { position: relative; z-index: 1; }
-:root[data-layout="natural-sereno"] #numerology-modal { color: var(--ns-mobile-ink) !important; }
-:root[data-layout="natural-sereno"] #numerology-modal [role="tab"] { opacity: 1 !important; color: var(--ns-mobile-ink) !important; background: rgba(255,250,240,.96) !important; border-color: var(--ns-mobile-line) !important; }
-:root[data-layout="natural-sereno"] #numerology-modal [role="tab"][aria-selected="true"] { background: #efe2bd !important; border-color: #b88736 !important; }
-:root[data-layout="natural-sereno"] #numerology-modal :is(h1,h2,h3,h4,strong),:root[data-layout="natural-sereno"] #systemic-questions-modal :is(h1,h2,h3,h4,strong),:root[data-layout="natural-sereno"] #admin-panel-modal :is(h1,h2,h3,h4,strong) { color: var(--ns-mobile-ink) !important; }
-:root[data-layout="natural-sereno"] #numerology-modal :is(p,small),:root[data-layout="natural-sereno"] #systemic-questions-modal :is(p,small),:root[data-layout="natural-sereno"] #admin-panel-modal :is(p,small,label) { color: var(--ns-mobile-muted) !important; }
-:root[data-layout="natural-sereno"] #systemic-questions-modal > div { background: rgba(255,250,240,.985) !important; }
-:root[data-layout="natural-sereno"] #systemic-questions-modal [class*="overflow-y-auto"],:root[data-layout="natural-sereno"] #chakras-guide-modal [class*="overflow-y-auto"] { scrollbar-color: rgba(123,96,44,.34) transparent; scrollbar-width: thin; }
-:root[data-layout="natural-sereno"] #courses-modal [class*="bg-amber-500/10"],:root[data-layout="natural-sereno"] #courses-modal [class*="bg-[#B88736]/"] { background: #f1e7c8 !important; color: #61491e !important; }
-:root[data-layout="natural-sereno"] #courses-modal :is([class*="text-amber-300"],[class*="text-amber-400"]) { color: #71511c !important; }
-:root[data-layout="natural-sereno"] #admin-panel-modal { --admin-paper:#fffaf0;--admin-line:#d9c58f;--admin-ink:#26372a;--admin-muted:#586454;--admin-gold:#b88736;--admin-forest:#073b2b; }
-:root[data-layout="natural-sereno"] #admin-panel-modal > div { background: var(--admin-paper) !important; border-color: var(--admin-line) !important; }
-:root[data-layout="natural-sereno"] #admin-panel-modal :is([class*="text-emerald"],[class*="text-amber-300"],[class*="text-amber-400"]) { color:#71511c !important; }
-:root[data-layout="natural-sereno"] #admin-panel-modal :is([class*="bg-amber-500/10"],[class*="bg-amber-500/20"],[class*="bg-[#B88736]/"]) { background:#f1e7c8 !important;border-color:#cdaa57 !important; }
-:root[data-layout="natural-sereno"] #admin-panel-modal button[class*="bg-emerald"] { background:var(--admin-forest) !important;color:#fffbed !important; }
-:root[data-layout="natural-sereno"] #admin-panel-modal button[class*="bg-emerald"] :is(span,svg) { color:inherit !important; }
-:root[data-layout="natural-sereno"] .ns-home-scene { scroll-margin-top:84px; }
-:root[data-layout="natural-sereno"] .ns-home-scene > .ns-gold,:root[data-layout="natural-sereno"] .ns-editorial-card > .ns-gold { background:linear-gradient(180deg,#d7b45c,#a67a28) !important;box-shadow:inset 0 1px 0 rgba(255,255,255,.36),0 7px 18px rgba(116,83,24,.16) !important;color:#073b2b !important; }
-
-@media (max-width:639px) {
-  :root[data-layout="natural-sereno"] :is(#numerology-modal,#systemic-questions-modal,#courses-modal,#admin-panel-modal,#chakras-guide-modal) { padding:8px !important; }
-  :root[data-layout="natural-sereno"] :is(#numerology-modal,#systemic-questions-modal,#courses-modal,#admin-panel-modal,#chakras-guide-modal) > div { width:100% !important;max-width:calc(100vw - 16px) !important;max-height:calc(100dvh - 16px) !important;margin:0 !important;border-radius:24px !important; }
-  :root[data-layout="natural-sereno"] #numerology-modal > div,:root[data-layout="natural-sereno"] #courses-modal > div,:root[data-layout="natural-sereno"] #admin-panel-modal > div { padding:16px !important; }
-  :root[data-layout="natural-sereno"] #numerology-modal > div > div:first-of-type { gap:10px !important;align-items:flex-start !important; }
-  :root[data-layout="natural-sereno"] #numerology-modal [role="tablist"] { gap:8px !important;overflow-x:auto !important;padding-bottom:8px !important; }
-  :root[data-layout="natural-sereno"] #numerology-modal [role="tab"] { flex:0 0 auto !important;min-width:160px !important; }
-  :root[data-layout="natural-sereno"] #systemic-questions-modal > div { padding-bottom:84px !important; }
-  :root[data-layout="natural-sereno"] #admin-panel-modal button { min-height:44px; }
-  :root[data-layout="natural-sereno"] .ns-home-scene { padding-top:max(18px,env(safe-area-inset-top)) !important; }
+/* A regra antiga que transforma bg-[#B88736]/xx em sólido não pode atingir
+   halos de iluminação. Mantemos a atmosfera, mas sem lavar texto/conteúdo. */
+:root[data-layout="natural-sereno"] :is(
+  #numerology-modal,
+  #systemic-questions-modal,
+  #courses-modal,
+  #admin-panel-modal,
+  #chakras-guide-modal,
+  #herbal-baths-modal,
+  #astral-map-modal
+) .pointer-events-none[class*="blur"] {
+  background: rgba(184,135,54,.055) !important;
+  opacity: .42 !important;
 }
 
-/* Abertura mobile aprovada: congelada. */
-:root[data-layout="natural-sereno"] #auth-loading-view > div:first-child:has(> img) { display:none !important; }
-:root[data-layout="natural-sereno"] #auth-loading-view {
-  box-sizing:border-box;
-  width:100%;max-width:100%;min-height:100vh;min-height:100dvh;
-  padding:max(24px,env(safe-area-inset-top)) max(20px,env(safe-area-inset-right)) max(24px,env(safe-area-inset-bottom)) max(20px,env(safe-area-inset-left));
-  background-color:#073b2b !important;
-  background-image:url('/brand/natural-sereno/presenca.webp') !important;
-  background-size:cover !important;
-  background-position:center center !important;
-  background-repeat:no-repeat !important;
+:root[data-layout="natural-sereno"] :is(
+  #numerology-modal,
+  #systemic-questions-modal,
+  #courses-modal,
+  #admin-panel-modal,
+  #chakras-guide-modal,
+  #herbal-baths-modal,
+  #astral-map-modal
+) [class*="blur-3xl"] {
+  filter: blur(46px) !important;
 }
 
-/* Desktop/notebook: mantém a arte inteira e a proporção original.
-   As laterais são uma continuação cromática em CSS: sem esticar a arte,
-   sem duplicar o homem e sem faixas verdes chapadas. */
-@media (min-width:768px) {
-  :root[data-layout="natural-sereno"] #auth-loading-view {
-    position:relative;
-    isolation:isolate;
-    overflow:hidden;
-    background-color:#123d2a !important;
-    background-image:
-      radial-gradient(ellipse at 12% 18%,rgba(215,180,92,.32) 0%,rgba(215,180,92,.08) 26%,transparent 46%),
-      radial-gradient(ellipse at 88% 24%,rgba(110,145,68,.38) 0%,rgba(54,91,48,.16) 35%,transparent 58%),
-      radial-gradient(ellipse at 15% 86%,rgba(64,104,55,.48) 0%,transparent 52%),
-      radial-gradient(ellipse at 86% 82%,rgba(39,79,47,.52) 0%,transparent 55%),
-      linear-gradient(90deg,#123a29 0%,#315c39 25%,#244c32 42%,#244c32 58%,#315c39 75%,#123a29 100%) !important;
-    background-size:cover !important;
-    background-position:center !important;
-    background-repeat:no-repeat !important;
+/* Conteúdo sempre acima dos halos decorativos. */
+:root[data-layout="natural-sereno"] :is(
+  #numerology-modal,
+  #systemic-questions-modal,
+  #courses-modal,
+  #admin-panel-modal
+) > div > :not(.pointer-events-none) {
+  position: relative;
+  z-index: 1;
+}
+
+/* Numerologia: recuperar contraste e evitar cabeçalho espremido no celular. */
+:root[data-layout="natural-sereno"] #numerology-modal {
+  color: var(--ns-mobile-ink) !important;
+}
+:root[data-layout="natural-sereno"] #numerology-modal [role="tab"] {
+  opacity: 1 !important;
+  color: var(--ns-mobile-ink) !important;
+  background: rgba(255,250,240,.96) !important;
+  border-color: var(--ns-mobile-line) !important;
+}
+:root[data-layout="natural-sereno"] #numerology-modal [role="tab"][aria-selected="true"] {
+  background: #efe2bd !important;
+  border-color: #b88736 !important;
+}
+:root[data-layout="natural-sereno"] #numerology-modal :is(h1,h2,h3,h4,strong) {
+  color: var(--ns-mobile-ink) !important;
+}
+:root[data-layout="natural-sereno"] #numerology-modal :is(p,small) {
+  color: var(--ns-mobile-muted) !important;
+}
+
+/* Perguntas sistêmicas: sem névoa sobre o texto e sem rodapé cobrindo conteúdo. */
+:root[data-layout="natural-sereno"] #systemic-questions-modal > div {
+  background: rgba(255,250,240,.985) !important;
+}
+:root[data-layout="natural-sereno"] #systemic-questions-modal [class*="overflow-y-auto"] {
+  scrollbar-color: rgba(123,96,44,.38) transparent;
+  scrollbar-width: thin;
+}
+:root[data-layout="natural-sereno"] #systemic-questions-modal :is(h1,h2,h3,h4,strong) {
+  color: var(--ns-mobile-ink) !important;
+}
+:root[data-layout="natural-sereno"] #systemic-questions-modal :is(p,small) {
+  color: var(--ns-mobile-muted) !important;
+}
+
+/* Cursos: etiquetas legíveis e sem dourado chapado sobre texto. */
+:root[data-layout="natural-sereno"] #courses-modal [class*="bg-amber-500/10"],
+:root[data-layout="natural-sereno"] #courses-modal [class*="bg-[#B88736]/"] {
+  background: #f1e7c8 !important;
+  color: #61491e !important;
+}
+:root[data-layout="natural-sereno"] #courses-modal :is([class*="text-amber-300"],[class*="text-amber-400"]) {
+  color: #71511c !important;
+}
+
+/* Admin: retirar vazamentos neon/legado e manter hierarquia Natural Sereno. */
+:root[data-layout="natural-sereno"] #admin-panel-modal {
+  --admin-paper: #fffaf0;
+  --admin-line: #d9c58f;
+  --admin-ink: #26372a;
+  --admin-muted: #586454;
+  --admin-gold: #b88736;
+  --admin-forest: #073b2b;
+}
+:root[data-layout="natural-sereno"] #admin-panel-modal > div {
+  background: var(--admin-paper) !important;
+  border-color: var(--admin-line) !important;
+}
+:root[data-layout="natural-sereno"] #admin-panel-modal :is(h1,h2,h3,h4,strong) {
+  color: var(--admin-ink) !important;
+}
+:root[data-layout="natural-sereno"] #admin-panel-modal :is(p,small,label) {
+  color: var(--admin-muted) !important;
+}
+:root[data-layout="natural-sereno"] #admin-panel-modal :is([class*="text-emerald"],[class*="text-amber-300"],[class*="text-amber-400"]) {
+  color: #71511c !important;
+}
+:root[data-layout="natural-sereno"] #admin-panel-modal :is([class*="bg-amber-500/10"],[class*="bg-amber-500/20"],[class*="bg-[#B88736]/"]) {
+  background: #f1e7c8 !important;
+  border-color: #cdaa57 !important;
+}
+:root[data-layout="natural-sereno"] #admin-panel-modal button[class*="bg-emerald"] {
+  background: var(--admin-forest) !important;
+  color: #fffbed !important;
+}
+:root[data-layout="natural-sereno"] #admin-panel-modal button[class*="bg-emerald"] :is(span,svg) {
+  color: inherit !important;
+}
+
+/* Guia dos Chakras: barra de rolagem discreta e área útil íntegra. */
+:root[data-layout="natural-sereno"] #chakras-guide-modal [class*="overflow-y-auto"] {
+  scrollbar-color: rgba(123,96,44,.34) transparent;
+  scrollbar-width: thin;
+}
+
+/* Home Natural Sereno: impedir corte do hero pelo cabeçalho e reduzir botão dourado pesado. */
+:root[data-layout="natural-sereno"] .ns-home-scene {
+  scroll-margin-top: 84px;
+}
+:root[data-layout="natural-sereno"] .ns-home-scene > .ns-gold,
+:root[data-layout="natural-sereno"] .ns-editorial-card > .ns-gold {
+  background: linear-gradient(180deg,#d7b45c,#a67a28) !important;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.36), 0 7px 18px rgba(116,83,24,.16) !important;
+  color: #073b2b !important;
+}
+
+@media (max-width: 639px) {
+  :root[data-layout="natural-sereno"] :is(
+    #numerology-modal,
+    #systemic-questions-modal,
+    #courses-modal,
+    #admin-panel-modal,
+    #chakras-guide-modal
+  ) {
+    padding: 8px !important;
   }
-  :root[data-layout="natural-sereno"] #auth-loading-view::before {
-    content:"";
-    position:absolute;
-    inset:0;
-    z-index:-1;
-    pointer-events:none;
-    background-image:url('/brand/natural-sereno/presenca.webp');
-    background-size:auto 100%;
-    background-position:center center;
-    background-repeat:no-repeat;
+
+  :root[data-layout="natural-sereno"] :is(
+    #numerology-modal,
+    #systemic-questions-modal,
+    #courses-modal,
+    #admin-panel-modal,
+    #chakras-guide-modal
+  ) > div {
+    width: 100% !important;
+    max-width: calc(100vw - 16px) !important;
+    max-height: calc(100dvh - 16px) !important;
+    margin: 0 !important;
+    border-radius: 24px !important;
+  }
+
+  :root[data-layout="natural-sereno"] #numerology-modal > div {
+    padding: 16px !important;
+  }
+  :root[data-layout="natural-sereno"] #numerology-modal > div > div:first-of-type {
+    gap: 10px !important;
+    align-items: flex-start !important;
+  }
+  :root[data-layout="natural-sereno"] #numerology-modal [role="tablist"] {
+    gap: 8px !important;
+    overflow-x: auto !important;
+    padding-bottom: 8px !important;
+  }
+  :root[data-layout="natural-sereno"] #numerology-modal [role="tab"] {
+    flex: 0 0 auto !important;
+    min-width: 160px !important;
+  }
+
+  :root[data-layout="natural-sereno"] #systemic-questions-modal > div {
+    padding-bottom: 18px !important;
+  }
+  :root[data-layout="natural-sereno"] #systemic-questions-modal [class*="overflow-y-auto"] {
+    padding-bottom: 84px !important;
+  }
+
+  :root[data-layout="natural-sereno"] #courses-modal > div,
+  :root[data-layout="natural-sereno"] #admin-panel-modal > div {
+    padding: 16px !important;
+  }
+
+  :root[data-layout="natural-sereno"] #admin-panel-modal button {
+    min-height: 44px;
+  }
+
+  :root[data-layout="natural-sereno"] .ns-home-scene {
+    padding-top: max(18px, env(safe-area-inset-top)) !important;
   }
 }
 
-:root[data-layout="natural-sereno"] #auth-loading-view > :is(p,h2,.ns-loading-details) { box-sizing:border-box;min-width:0;max-width:100%;flex-shrink:0;overflow-wrap:anywhere; }
-:root[data-layout="natural-sereno"] #auth-loading-view > h2 { font-size:clamp(20px,5.5vw,28px);line-height:1.2; }
-:root[data-layout="natural-sereno"] #auth-loading-view .ns-loading-details { padding-top:24px; }
-:root[data-layout="natural-sereno"] #auth-loading-view .ns-loading-details > p { font-size:clamp(20px,5.8vw,28px);margin-bottom:clamp(14px,3dvh,30px); }
+/* Jornada: one scoped composition, retaining the existing stage/audio controls. */
+:root[data-layout="natural-sereno"] #meditation-session[data-session-phase="playing"] {
+  background-image: none !important;
+  isolation: isolate;
+  min-height: 0;
+  height: 100dvh;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+:root[data-layout="natural-sereno"] #meditation-session[data-session-phase="playing"] .ep-session-backdrop {
+  position: fixed;
+  background: linear-gradient(180deg, rgba(3,26,19,.18), rgba(3,26,19,.56) 36%, rgba(3,26,19,.9) 78%);
+  overflow: hidden;
+}
+:root[data-layout="natural-sereno"] #meditation-session[data-session-phase="playing"] .ep-session-backdrop::before {
+  content: '';
+  position: absolute;
+  inset: -3%;
+  z-index: -1;
+  background: linear-gradient(180deg, rgba(3,26,19,.08), rgba(3,26,19,.5) 36%, rgba(3,26,19,.93) 78%), var(--ns-waterfall) center top / cover no-repeat;
+  animation: ns-journey-presence 24s ease-in-out infinite alternate;
+  will-change: transform;
+}
+:root[data-layout="natural-sereno"] #meditation-session[data-session-phase="playing"] .ep-session-backdrop::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at 50% 17%, rgba(242,216,151,.2), transparent 46%);
+  animation: ns-journey-light 12s ease-in-out infinite alternate;
+  pointer-events: none;
+}
+@keyframes ns-journey-presence { from { transform: scale(1) translateY(0); } to { transform: scale(1.035) translateY(-.8%); } }
+@keyframes ns-journey-light { from { opacity: .35; } to { opacity: .85; } }
+:root[data-layout="natural-sereno"] #meditation-session[data-session-phase="playing"] .ep-session-backdrop > div:first-child {
+  position: absolute;
+  top: 58px;
+  left: 50%;
+  width: 180px;
+  max-width: 180px;
+  transform: translateX(-50%);
+  z-index: 1;
+}
+:root[data-layout="natural-sereno"] #meditation-session[data-session-phase="playing"] .ep-session-backdrop canvas {
+  inset: 0;
+  width: 100% !important;
+  height: 100% !important;
+  opacity: .8;
+}
+:root[data-layout="natural-sereno"] #meditation-session[data-session-phase="playing"] > header {
+  gap: 10px;
+  padding: calc(10px + env(safe-area-inset-top)) max(16px, env(safe-area-inset-right)) 10px max(16px, env(safe-area-inset-left));
+  background: rgba(3,26,19,.36) !important;
+  border-bottom: 1px solid rgba(239,223,183,.12);
+}
+:root[data-layout="natural-sereno"] #meditation-session[data-session-phase="playing"] > header > div:first-child { min-width: 0; gap: 8px; }
+:root[data-layout="natural-sereno"] #meditation-session[data-session-phase="playing"] > header > div:first-child > div:last-child { min-width: 0; }
+:root[data-layout="natural-sereno"] #meditation-session[data-session-phase="playing"] > header h1 { font-size: 12px; line-height: 1.4; letter-spacing: 0; }
+:root[data-layout="natural-sereno"] #meditation-session[data-session-phase="playing"] > header .tracking-widest { font: 9px/1.5 'Inter', sans-serif; letter-spacing: .08em; }
+:root[data-layout="natural-sereno"] #meditation-session[data-session-phase="playing"] > header > div:last-child { gap: 4px; flex-shrink: 0; }
+:root[data-layout="natural-sereno"] #meditation-session[data-session-phase="playing"] > header button { min-width: 44px; width: 44px; padding: 0; border-color: rgba(239,223,183,.2) !important; background: rgba(3,26,19,.28) !important; }
+:root[data-layout="natural-sereno"] #meditation-session[data-session-phase="playing"] > main {
+  flex: 1 0 auto;
+  justify-content: center;
+  padding: 92px 20px 16px !important;
+  max-width: 480px;
+}
+:root[data-layout="natural-sereno"] #meditation-session[data-session-phase="playing"] .ep-session-stage { grid-template-columns: minmax(0,1fr) 104px; column-gap: 16px; }
+:root[data-layout="natural-sereno"] #meditation-session[data-session-phase="playing"] .ns-session-title { margin-bottom: 18px; }
+:root[data-layout="natural-sereno"] #meditation-session[data-session-phase="playing"] .ns-session-title > p { font: 18px/1.4 'Cormorant Garamond', Georgia, serif; margin-bottom: 6px; }
+:root[data-layout="natural-sereno"] #meditation-session[data-session-phase="playing"] .ns-session-title > h2 { font-size: clamp(25px,7vw,30px) !important; line-height: 1.15; font-weight: 500; letter-spacing: 0; text-wrap: balance; text-shadow: 0 2px 16px rgba(0,0,0,.28); }
+:root[data-layout="natural-sereno"] #meditation-session[data-session-phase="playing"] .ep-stage-badge { margin-bottom: 22px; padding: 7px 12px; font: 10px/1.5 'Inter',sans-serif; max-width: 100%; }
+:root[data-layout="natural-sereno"] #meditation-session[data-session-phase="playing"] .ep-stage-title { font-size: 19px !important; line-height: 1.35; margin-bottom: 6px; text-wrap: balance; }
+:root[data-layout="natural-sereno"] #meditation-session[data-session-phase="playing"] .ep-stage-subtitle { font-size: 13px; line-height: 1.6; }
+:root[data-layout="natural-sereno"] #meditation-session[data-session-phase="playing"] > main .ep-breathing-guide.relative.w-44.h-44 { width: 96px !important; height: 96px !important; margin: 0 !important; justify-self: center; }
+:root[data-layout="natural-sereno"] #meditation-session[data-session-phase="playing"] .ep-breathing-guide > div:first-child { background: radial-gradient(circle,rgba(229,207,152,.12),rgba(6,46,32,.28)) !important; border-color: rgba(236,220,181,.35) !important; box-shadow: none; }
+:root[data-layout="natural-sereno"] #meditation-session[data-session-phase="playing"] > main .ep-breathing-guide span { font: 10px/1.5 'Inter',sans-serif; letter-spacing: .06em; max-width: 82px; }
+:root[data-layout="natural-sereno"] #meditation-session[data-session-phase="playing"] .ep-breathing-guide span:last-child { font-size: 11px; letter-spacing: 0; font-variant-numeric: tabular-nums; }
+:root[data-layout="natural-sereno"] #meditation-session[data-session-phase="playing"] > main .ep-session-mantra { width: 100%; max-width: none; margin-top: 24px; padding: 18px 20px !important; border-radius: 18px; background: rgba(5,38,28,.58) !important; border-color: rgba(234,217,178,.24) !important; font: italic 15px/1.7 'Lora',Georgia,serif; box-shadow: none; text-wrap: balance; }
+:root[data-layout="natural-sereno"] #meditation-session[data-session-phase="playing"] > footer { background: rgba(3,26,19,.38) !important; backdrop-filter: none; padding: 8px 20px calc(18px + env(safe-area-inset-bottom)); }
+:root[data-layout="natural-sereno"] #meditation-session[data-session-phase="playing"] > footer > div { padding: 0; }
+:root[data-layout="natural-sereno"] #meditation-session[data-session-phase="playing"] > footer > div > div:last-child { gap: 18px 12px; }
+:root[data-layout="natural-sereno"] #meditation-session[data-session-phase="playing"] > footer > div > div:last-child > div { width: 100%; justify-content: space-between; gap: 4px; }
+:root[data-layout="natural-sereno"] #meditation-session[data-session-phase="playing"] .ns-play-toggle { width: 64px; height: 64px; border: 1px solid rgba(243,223,171,.8); background: rgba(38,80,58,.8) !important; box-shadow: inset 0 1px 0 rgba(255,255,255,.1),0 6px 22px rgba(0,0,0,.16); }
+:root[data-layout="natural-sereno"] #meditation-session[data-session-phase="playing"] .ns-play-toggle svg { width: 24px; height: 24px; }
+:root[data-layout="natural-sereno"] #meditation-session[data-session-phase="playing"] > footer button:is([aria-label="Voltar 15 segundos"],[aria-label="Avançar 15 segundos"]) { width: 44px; height: 44px; }
+:root[data-layout="natural-sereno"] #meditation-session[data-session-phase="playing"] > footer button:is([aria-label="Voltar 15 segundos"],[aria-label="Avançar 15 segundos"]) svg { width: 20px; height: 20px; }
+:root[data-layout="natural-sereno"] #meditation-session[data-session-phase="playing"] > footer button span { color: inherit; }
+:root[data-layout="natural-sereno"] #meditation-session[data-session-phase="playing"] > footer button:disabled { opacity: .5; }
+:root[data-layout="natural-sereno"] #meditation-session[data-session-phase="playing"] > footer > div > div:last-child > button { height: 44px; border-radius: 14px; font: 12px/1.4 'Inter',sans-serif; border-color: rgba(239,223,183,.25); background: rgba(15,49,36,.55); }
+:root[data-layout="natural-sereno"] #meditation-session[data-session-phase="playing"] > footer input[type="range"] {
+  appearance: none; height: 28px; border: 0; border-radius: 0;
+  background-color: transparent !important;
+  background-image: linear-gradient(90deg, #d8bd7a 0%, #ead8a6 var(--ep-progress, 0%), rgba(234,216,166,.3) var(--ep-progress, 0%), rgba(234,216,166,.3) 100%) !important;
+  background-size: 100% 4px !important; background-repeat: no-repeat !important; background-position: center !important;
+}
+:root[data-layout="natural-sereno"] #meditation-session[data-session-phase="playing"] > footer input[type="range"]::-webkit-slider-thumb { appearance: none; width: 12px; height: 12px; border-radius: 50%; background: #ebd7a0; border: 2px solid #fff4d8; box-shadow: 0 0 0 3px rgba(235,215,160,.12); }
+:root[data-layout="natural-sereno"] #meditation-session[data-session-phase="playing"] > footer input[type="range"]::-moz-range-thumb { width: 10px; height: 10px; border-radius: 50%; background: #ebd7a0; border: 2px solid #fff4d8; }
+:root[data-layout="natural-sereno"] #meditation-session[data-session-phase="playing"] > footer [role="progressbar"] { height: 4px; margin-block: 12px; opacity: .8; }
+:root[data-layout="natural-sereno"] #meditation-session[data-session-phase="playing"] > footer .font-mono { font: 11px/1.5 'Inter',sans-serif; font-variant-numeric: tabular-nums; }
+@media (max-width: 359px) {
+  :root[data-layout="natural-sereno"] #meditation-session[data-session-phase="playing"] > header { padding-inline: 12px; gap: 4px; }
+  :root[data-layout="natural-sereno"] #meditation-session[data-session-phase="playing"] > header > div:first-child > div:first-child { display: none; }
+  :root[data-layout="natural-sereno"] #meditation-session[data-session-phase="playing"] > main { padding-inline: 16px !important; }
+  :root[data-layout="natural-sereno"] #meditation-session[data-session-phase="playing"] .ep-session-stage { column-gap: 12px; grid-template-columns: minmax(0,1fr) 92px; }
+}
+@media (max-height: 700px) {
+  :root[data-layout="natural-sereno"] #meditation-session[data-session-phase="playing"] > main { padding-top: 48px !important; }
+  :root[data-layout="natural-sereno"] #meditation-session[data-session-phase="playing"] .ns-session-title { margin-bottom: 12px; }
+  :root[data-layout="natural-sereno"] #meditation-session[data-session-phase="playing"] .ep-stage-badge { margin-bottom: 16px; }
+  :root[data-layout="natural-sereno"] #meditation-session[data-session-phase="playing"] > main .ep-session-mantra { margin-top: 16px; padding-block: 12px !important; }
+}
+@media (min-width: 900px) {
+  :root[data-layout="natural-sereno"] #meditation-session[data-session-phase="playing"] .ep-session-backdrop { right: 50%; }
+  :root[data-layout="natural-sereno"] #meditation-session[data-session-phase="playing"] .ep-session-backdrop > div:first-child { top: 25%; }
+  :root[data-layout="natural-sereno"] #meditation-session[data-session-phase="playing"] > main { padding-top: 100px !important; }
+}
+@media (prefers-reduced-motion: reduce) {
+  :root[data-layout="natural-sereno"] #meditation-session[data-session-phase="playing"] .ep-session-backdrop::before,
+  :root[data-layout="natural-sereno"] #meditation-session[data-session-phase="playing"] .ep-session-backdrop::after { animation: none; will-change: auto; }
+  :root[data-layout="natural-sereno"] #meditation-session[data-session-phase="playing"] .ep-breathing-guide > div:first-child { transform: none !important; transition: none !important; }
+}
+/* The script remains readable when opened from the dark player. */
+:root[data-layout="natural-sereno"] #meditation-session[data-session-phase="playing"] [aria-label="Roteiro da sessão"] > .relative {
+  background: #fffaf0 !important;
+  color: #26372a !important;
+  max-width: 560px;
+}
+:root[data-layout="natural-sereno"] #meditation-session[data-session-phase="playing"] [aria-label="Roteiro da sessão"] > .relative > div {
+  border-radius: 0 !important;
+  background: #fffaf0 !important;
+  color: #26372a !important;
+}
+:root[data-layout="natural-sereno"] #meditation-session[data-session-phase="playing"] [aria-label="Roteiro da sessão"] :is(p,h3,h4) { color: #26372a !important; }
+:root[data-layout="natural-sereno"] #meditation-session[data-session-phase="playing"] [aria-label="Roteiro da sessão"] > .relative > div:first-child {
+  flex-shrink: 0;
+  padding: calc(16px + env(safe-area-inset-top)) 16px 16px;
+  gap: 8px;
+}
+:root[data-layout="natural-sereno"] #meditation-session[data-session-phase="playing"] [aria-label="Roteiro da sessão"] > .relative > div:first-child > div { min-width: 0; gap: 10px; }
+:root[data-layout="natural-sereno"] #meditation-session[data-session-phase="playing"] [aria-label="Roteiro da sessão"] h3 { font-size: 18px; line-height: 1.3; }
+:root[data-layout="natural-sereno"] #meditation-session[data-session-phase="playing"] [aria-label="Fechar roteiro"] { flex-shrink: 0; }
+:root[data-layout="natural-sereno"] #meditation-session[data-session-phase="playing"] [aria-label="Roteiro da sessão"] > .relative > div:nth-child(2) {
+  min-height: 0;
+  padding: 20px 16px;
+}
+:root[data-layout="natural-sereno"] #meditation-session[data-session-phase="playing"] [aria-label="Roteiro da sessão"] > .relative > div:last-child {
+  flex-shrink: 0;
+  padding: 12px 16px calc(12px + env(safe-area-inset-bottom));
+}
+@media (max-width: 899px) and (max-height: 760px) {
+  :root[data-layout="natural-sereno"] #meditation-session[data-session-phase="playing"] .ep-session-backdrop > div:first-child {
+    top: 68px;
+    width: 84px;
+  }
+}
+
+/* Keep reading and controls on independent layers above the animated scenery.
+   Chromium can otherwise drop painted glyphs during ambient compositing. */
+:root[data-layout="natural-sereno"] #meditation-session[data-session-phase="playing"] > main,
+:root[data-layout="natural-sereno"] #meditation-session[data-session-phase="playing"] > footer {
+  transform: translateZ(0);
+}
