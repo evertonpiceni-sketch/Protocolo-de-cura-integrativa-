@@ -256,18 +256,18 @@
   height: 100% !important;
   opacity: .8;
 }
-:root[data-layout="natural-sereno"] #meditation-session[data-session-phase="playing"] > header {
+:root[data-layout="natural-sereno"] #meditation-session > header {
   gap: 10px;
   padding: calc(10px + env(safe-area-inset-top)) max(16px, env(safe-area-inset-right)) 10px max(16px, env(safe-area-inset-left));
   background: rgba(3,26,19,.36) !important;
   border-bottom: 1px solid rgba(239,223,183,.12);
 }
-:root[data-layout="natural-sereno"] #meditation-session[data-session-phase="playing"] > header > div:first-child { min-width: 0; gap: 8px; }
-:root[data-layout="natural-sereno"] #meditation-session[data-session-phase="playing"] > header > div:first-child > div:last-child { min-width: 0; }
-:root[data-layout="natural-sereno"] #meditation-session[data-session-phase="playing"] > header h1 { font-size: 12px; line-height: 1.4; letter-spacing: 0; }
-:root[data-layout="natural-sereno"] #meditation-session[data-session-phase="playing"] > header .tracking-widest { font: 9px/1.5 'Inter', sans-serif; letter-spacing: .08em; }
-:root[data-layout="natural-sereno"] #meditation-session[data-session-phase="playing"] > header > div:last-child { gap: 4px; flex-shrink: 0; }
-:root[data-layout="natural-sereno"] #meditation-session[data-session-phase="playing"] > header button { min-width: 44px; width: 44px; padding: 0; border-color: rgba(239,223,183,.2) !important; background: rgba(3,26,19,.28) !important; }
+:root[data-layout="natural-sereno"] #meditation-session > header > div:first-child { min-width: 0; gap: 8px; }
+:root[data-layout="natural-sereno"] #meditation-session > header > div:first-child > div:last-child { min-width: 0; }
+:root[data-layout="natural-sereno"] #meditation-session > header h1 { font-size: 12px; line-height: 1.4; letter-spacing: 0; }
+:root[data-layout="natural-sereno"] #meditation-session > header .tracking-widest { font: 9px/1.5 'Inter', sans-serif; letter-spacing: .08em; }
+:root[data-layout="natural-sereno"] #meditation-session > header > div:last-child { gap: 4px; flex-shrink: 0; }
+:root[data-layout="natural-sereno"] #meditation-session > header button { min-width: 44px; width: 44px; padding: 0; border-color: rgba(239,223,183,.2) !important; background: rgba(3,26,19,.28) !important; }
 :root[data-layout="natural-sereno"] #meditation-session[data-session-phase="playing"] > main {
   flex: 1 0 auto;
   justify-content: center;
@@ -308,8 +308,8 @@
 :root[data-layout="natural-sereno"] #meditation-session[data-session-phase="playing"] > footer [role="progressbar"] { height: 4px; margin-block: 12px; opacity: .8; }
 :root[data-layout="natural-sereno"] #meditation-session[data-session-phase="playing"] > footer .font-mono { font: 11px/1.5 'Inter',sans-serif; font-variant-numeric: tabular-nums; }
 @media (max-width: 359px) {
-  :root[data-layout="natural-sereno"] #meditation-session[data-session-phase="playing"] > header { padding-inline: 12px; gap: 4px; }
-  :root[data-layout="natural-sereno"] #meditation-session[data-session-phase="playing"] > header > div:first-child > div:first-child { display: none; }
+  :root[data-layout="natural-sereno"] #meditation-session > header { padding-inline: 12px; gap: 4px; }
+  :root[data-layout="natural-sereno"] #meditation-session > header > div:first-child > div:first-child { display: none; }
   :root[data-layout="natural-sereno"] #meditation-session[data-session-phase="playing"] > main { padding-inline: 16px !important; }
   :root[data-layout="natural-sereno"] #meditation-session[data-session-phase="playing"] .ep-session-stage { column-gap: 12px; grid-template-columns: minmax(0,1fr) 92px; }
 }
