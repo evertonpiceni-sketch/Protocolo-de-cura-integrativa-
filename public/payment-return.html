@@ -34,7 +34,7 @@
       const payload = {
         order_nsu: params.get('order_nsu') || '',
         transaction_nsu: params.get('transaction_nsu') || '',
-        slug: params.get('slug') || '',
+        slug: params.get('slug') || params.get('invoice_slug') || '',
       };
       const title = document.getElementById('title');
       const message = document.getElementById('message');
