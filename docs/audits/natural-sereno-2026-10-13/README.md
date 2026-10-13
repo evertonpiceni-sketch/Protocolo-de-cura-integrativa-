@@ -68,17 +68,18 @@ A documentação oficial atual da InfinitePay confirma que preços e `amount` s�
 
 ## Novos achados de robustez — ainda não fechados
 
-1. **Seleção PIX/cartão na interface:** a documentação do Checkout Integrado indica que o comprador escolhe Pix ou cartão dentro da própria InfinitePay. O payload documentado de criação do link não oferece parâmetro de pré-seleção. Os botões atuais do app registram uma preferência interna, mas não controlam o método final do checkout. A interface deve ser ajustada para não sugerir que controla essa escolha.
+1. **Seleção PIX/cartão na interface:** o comprador escolhe Pix ou cartão dentro da InfinitePay. O payload documentado de criação do link não oferece parâmetro de pré-seleção. Os botões atuais do app registram uma preferência interna, mas não controlam o método final do checkout. A interface deve ser ajustada para não sugerir que controla essa escolha.
 2. **Valor personalizado da prática individual:** a tela ainda permite habilitar valor personalizado, porém o servidor aceita somente os valores canônicos do ciclo menos cupons reconhecidos. Hoje uma tentativa de valor livre termina em rejeição do servidor. É necessário remover/adequar esse controle ou criar um fluxo seguro de valor previamente autorizado; não se deve confiar em preço arbitrário enviado pelo cliente.
 3. **Rate limiting do pagamento na Vercel:** os endpoints tratados diretamente por `api/index.ts` não passam pelo `apiLimiter` do Express local. Uma conta autenticada pode tentar criar muitos pedidos/links. Deve existir limitação específica antes da liberação em produção.
 4. **Pedidos pendentes após falha externa:** o pedido é salvo como `pending` antes da chamada de criação de link. Se a InfinitePay falhar, o registro pode permanecer pendente indefinidamente. Deve ser marcado como falha/expirado ou limpo por política explícita.
 5. **Servidor local:** `server.ts` continua deliberadamente fail-closed para pagamento após autenticação, enquanto a implementação real está no entrypoint Vercel `api/index.ts`. É dívida de paridade de desenvolvimento, não bypass de pagamento.
+6. **Tipo do plano de 21 dias:** `SubscriptionPlanType` ainda não contém `jornada_21d`, enquanto o fluxo novo usa esse identificador. Uma tentativa de correção mínima foi auditada e revelou alterações laterais indesejadas no arquivo; a branch foi revertida imediatamente para o commit anterior. Portanto, o modelo de tipos permanece como pendência explícita, sem dano ao restante do arquivo.
 
 ## Pendências externas antes de produção
 
 1. **Criação de checkout real sem pagamento:** a tentativa automatizada desta auditoria foi bloqueada pela política de segurança da ferramenta antes de enviar credenciais descartáveis; portanto, não registrar como testado.
 2. **Transação real InfinitePay:** não foi efetuada cobrança. Ainda é necessário validar PIX, cartão, retorno, webhook e `payment_check` em ambiente controlado.
-3. **Taxas/parcelamento:** a configuração da conta InfinitePay deve estar em “Repassar taxas” se esta for a regra comercial escolhida. A documentação atual informa que essa configuração é feita nos meios de pagamento da InfinitePay; o código não deve inventar taxas.
+3. **Taxas/parcelamento:** a configuração da conta InfinitePay deve estar em “Repassar taxas” se esta for a regra comercial escolhida. A configuração ocorre nos meios de pagamento da InfinitePay; o código não deve inventar taxas.
 
 ## Estado de publicação
 
