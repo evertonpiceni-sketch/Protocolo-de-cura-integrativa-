@@ -4,7 +4,7 @@ Data de referência: 12/10/2026, America/Sao_Paulo. Base: `ab5b280`. Método for
 
 ## Resultado local
 
-62 telas e estados, 186 verificações em 320×568, 390×844 e 1365×768. Conferência visual por capturas reais do Chromium, incluindo rolagem das páginas longas e acessos das Configurações. Zero erros JavaScript, zero transbordamento horizontal e zero controles interativos sem nome acessível nas amostras finais. Nos 38 estados com diálogo, foco inicial, Tab e Escape passaram.
+63 telas e estados, 189 verificações em 320×568, 390×844 e 1365×768. Conferência visual por capturas reais do Chromium, incluindo rolagem das páginas longas e acessos das Configurações. Zero erros JavaScript, zero transbordamento horizontal e zero controles interativos sem nome acessível nas amostras finais. Nos 38 estados com diálogo, foco inicial, Tab e Escape passaram.
 
 [Inventário página por página](coverage.md) · [Resultados completos](results.json) · [Resumo das verificações](summary.json)
 
@@ -21,7 +21,7 @@ A cobertura foi construída em lotes: varredura geral, caminhos públicos das fe
 | Controles | Botões de cenas, navegação do diário e campos sem identificação acessível | Incluídos nomes/associações de labels, sem mudar textos visíveis |
 | Formulários por etapas | Foco se perdia ao refazer a anamnese, abrir a anotação ou trocar reflexões | Foco levado ao título/campo correspondente; todas as etapas conferidas |
 | Diário detalhado | Névoa dourada, selos ilegíveis e título próximo ao botão de fechar | Corrigidos halo, contraste local e espaço reservado no header |
-| Configurações | Status sempre dizia anual; painel escuro destoava do Layout 1 | Status reflete a assinatura já existente; cores locais Natural Sereno |
+| Configurações | Selo e descrição sempre diziam anual; painel escuro destoava do Layout 1 | Selo e descrição refletem a assinatura já existente; cores locais Natural Sereno |
 | Fale conosco | Névoa encobria leitura; copiar podia anunciar sucesso após rejeição | Halo atenuado; sucesso somente após clipboard resolver; rejeição testada |
 | Mapa Astral / Sistêmicas | Texto escuro no botão verde; botão fechar fora da posição | Contraste pontual e posição/área de toque corrigidos |
 | Admin / páginas legais | Botões laranja e páginas na paleta escura antiga | Aplicada a paleta aprovada nos seletores locais e estilos legais; corpos dos dois documentos idênticos à base |
@@ -55,4 +55,4 @@ Teclado virtual, notch/safe-area físicos, instalação PWA real e bloqueio de t
 
 ## Publicação
 
-Código validado localmente. A conferência da implantação será registrada em `production.md` após o envio e a identificação dos assets publicados.
+Correções enviadas ao `main` e implantadas. A versão final `9173f4d` foi identificada pelos assets `index-MkxuPuBF.js` / `index-BRN1mmNx.css`. A abertura real sem autenticação e a API de saúde passaram; 21 estados distintos e o player foram conferidos no site publicado, com fixtures para os estados autenticados. [Conferência de produção](production.md).

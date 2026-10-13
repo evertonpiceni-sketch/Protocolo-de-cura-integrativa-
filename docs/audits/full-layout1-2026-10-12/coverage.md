@@ -1,6 +1,6 @@
 # Cobertura página por página — Layout 1
 
-62 estados, 186 verificações de viewport. Capturas locais com perfis sintéticos; nenhuma compra, mensagem ou alteração administrativa real. As entradas técnicas são identificadas explicitamente.
+63 estados, 189 verificações de viewport. Capturas locais com perfis sintéticos; nenhuma compra, mensagem ou alteração administrativa real. As entradas técnicas são identificadas explicitamente.
 
 | Tela / estado | Entrada conferida | Resultado / evidência |
 | --- | --- | --- |
@@ -66,3 +66,4 @@
 | Ainda Há Algo em Mim: reflexão 4 | visible | [Conferido](screenshots/still-something-step-4-390.png) |
 | Editar anotação do diário | visible | [Conferido](screenshots/daily-diary-edit-390.png) |
 | Editar intenção do diário | visible | [Conferido](screenshots/daily-diary-intention-390.png) |
+| Configurações: assinatura anual | visible | [Conferido](screenshots/settings-annual-390.png) |

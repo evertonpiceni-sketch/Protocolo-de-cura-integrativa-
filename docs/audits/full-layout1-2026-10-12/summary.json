@@ -1,6 +1,6 @@
 {
-  "states": 62,
-  "viewportChecks": 186,
+  "states": 63,
+  "viewportChecks": 189,
   "widths": [
     320,
     390,
@@ -22,5 +22,17 @@
     ],
     "activeReferencesRepaired": true
   },
-  "production": "pending verification"
+  "production": {
+    "codeCommit": "9173f4d",
+    "verified": true,
+    "distinctStates": 21,
+    "viewportChecksExecuted": 66,
+    "assets": [
+      "index-MkxuPuBF.js",
+      "index-BRN1mmNx.css"
+    ],
+    "realGuestStartup": true,
+    "realHealthStatus": 200,
+    "physicalScreenLockTested": false
+  }
 }
