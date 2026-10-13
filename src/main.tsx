@@ -18,6 +18,7 @@ import './lib/naturalSerenoHomeApprovedModel';
 import './lib/naturalSerenoHomeJourneyStateFix';
 import './lib/naturalSerenoPublicCatalogGuard';
 import './lib/paymentLabelIntegrityPatch';
+import './lib/paymentPlanSelectionPatch';
 import { ErrorBoundary } from './ErrorBoundary.tsx';
 
 createRoot(document.getElementById('root')!).render(
