@@ -5,11 +5,10 @@ import { useDialogFocus } from '../hooks/useDialogFocus';
  */
 
 import React, { useState } from 'react';
-import { motion, AnimatePresence } from 'motion/react';
+import { motion } from 'motion/react';
 import {
   Sparkles, X, Heart, Shield, Check, QrCode, CreditCard,
-  Copy, CheckCircle2, Flame, User, AlertCircle, FileText,
-  Clock, ArrowRight, Zap, Target, Star, MessageSquare, Landmark, ShieldCheck, Tag, Percent, Trash2, Calendar
+  CheckCircle2, Flame, User, Zap, Target, MessageSquare, ShieldCheck, Tag, Percent, Trash2, Calendar
 } from 'lucide-react';
 import { UserProfile, SpecificTreatment } from '../types';
 import calmLotusImg from '../assets/images/calm_quantum_lotus_1786776428440.jpg';
@@ -43,21 +42,19 @@ export default function SpecificTreatmentModal({
   onConfirmTreatment
 }: SpecificTreatmentModalProps) {
   const [activeTab, setActiveTab] = useState<'request' | 'my_treatments'>('request');
-  const [durationDays, setDurationDays] = useState<1 | 7 | 21>(21); // Changed default to 1
+  const [durationDays, setDurationDays] = useState<1 | 7 | 21>(21);
   const [isCustomPrice, setIsCustomPrice] = useState<boolean>(false);
   const [customPriceInput, setCustomPriceInput] = useState<string>('99,90');
   const [selectedCategory, setSelectedCategory] = useState<string>('saude_fisica');
   const [treatmentTitle, setTreatmentTitle] = useState<string>('');
   const [patientDescription, setPatientDescription] = useState<string>('');
   const [selectedPains, setSelectedPains] = useState<string[]>([]);
-  const [paymentMethod, setPaymentMethod] = useState<'pix' | 'credit' | 'debit'>('pix');
-  const [copiedPix, setCopiedPix] = useState<boolean>(false);
+  const [paymentMethod, setPaymentMethod] = useState<'pix' | 'card'>('pix');
   const [isProcessing, setIsProcessing] = useState<boolean>(false);
   const [showSuccessScreen, setShowSuccessScreen] = useState<boolean>(false);
   const [checkoutError, setCheckoutError] = useState<string | null>(null);
   const [lastCreatedTreatment, setLastCreatedTreatment] = useState<SpecificTreatment | null>(null);
 
-  // Discount coupon state
   const [couponInput, setCouponInput] = useState('');
   const [appliedCoupon, setAppliedCoupon] = useState<string | null>(null);
   const [discountPercent, setDiscountPercent] = useState<number>(0);
@@ -70,7 +67,6 @@ export default function SpecificTreatmentModal({
 
   if (!isOpen) return null;
 
-  // Pricing: 21 Days Complete is R$ 59,90, 7 Days is R$ 59,90, 1 Day (Sessão Única) is R$ 20,00
   const parsedCustomPrice = parseFloat(customPriceInput.replace(',', '.')) || 0;
   const standardPrice = durationDays === 21 ? 99.9 : (durationDays === 7 ? 59.9 : 20.0);
   const basePrice = isCustomPrice ? Math.max(0, parsedCustomPrice) : standardPrice;
@@ -179,17 +175,8 @@ export default function SpecificTreatmentModal({
     }
   };
 
-  const handleCopyPix = () => {
-    navigator.clipboard.writeText('evertonpiceni@gmail.com');
-    setCopiedPix(true);
-    setTimeout(() => setCopiedPix(false), 3500);
-  };
-
-  const handleSelectPaymentMethod = (method: 'pix' | 'credit' | 'debit') => {
+  const handleSelectPaymentMethod = (method: 'pix' | 'card') => {
     setPaymentMethod(method);
-    if (method === 'pix') {
-      handleCopyPix();
-    }
   };
 
   return (
@@ -200,11 +187,9 @@ export default function SpecificTreatmentModal({
         exit={{ opacity: 0, scale: 0.96 }}
         className="w-full max-w-2xl max-h-[calc(100dvh-2rem)] bg-[#FBF8F2] border border-[#E5DAC6] rounded-3xl p-6 md:p-8 shadow-2xl relative overflow-y-auto my-auto"
       >
-        {/* Ambient glow */}
         <div className="absolute -top-24 -right-24 w-60 h-60 bg-emerald-500/10 rounded-full blur-3xl pointer-events-none" />
         <div className="absolute -bottom-24 -left-24 w-60 h-60 bg-[#B88736]/10 rounded-full blur-3xl pointer-events-none" />
 
-        {/* Close */}
         <button
           aria-label="Fechar prática individual"
           onClick={onClose}
@@ -214,9 +199,6 @@ export default function SpecificTreatmentModal({
         </button>
 
         {showSuccessScreen && lastCreatedTreatment ? (
-          /* ========================================================================= */
-          /*                          SUCCESS / ACTIVATED SCREEN                       */
-          /* ========================================================================= */
           <div className="text-center space-y-5 py-4 animate-fade-in">
             <div className="w-16 h-16 rounded-full bg-emerald-500/20 border-2 border-emerald-500 text-emerald-400 flex items-center justify-center mx-auto shadow-lg shadow-emerald-500/20">
               <CheckCircle2 size={32} />
@@ -224,17 +206,16 @@ export default function SpecificTreatmentModal({
 
             <div className="space-y-1.5">
               <span className="px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-300 text-xs font-mono font-bold uppercase">
-                Prática Individual Ativado com Sucesso
+                Prática Individual Ativada com Sucesso
               </span>
               <h2 className="text-2xl font-display font-medium text-[#2A2420]">
                 {lastCreatedTreatment.title}
               </h2>
               <p className="text-xs text-[#5C5248] max-w-md mx-auto">
-                Seu caso foi registrado e integrado ao seu campo energético no aplicativo com a frequência e decretos dedicados.
+                Seu caso foi registrado no aplicativo após a confirmação segura do pagamento.
               </p>
             </div>
 
-            {/* Prescribed Specific Box */}
             <div className="p-5 rounded-2xl bg-gradient-to-br from-indigo-950/40 via-[#FBF8F2] to-[#F3EBDD] border border-[#B88736]/40 text-left space-y-3 shadow-xl">
               <div className="flex items-center justify-between border-b border-[#B88736]/20 pb-2">
                 <span className="text-xs font-mono text-[#B88736] font-bold uppercase">
@@ -296,11 +277,7 @@ export default function SpecificTreatmentModal({
             </div>
           </div>
         ) : (
-          /* ========================================================================= */
-          /*                       REQUEST / ORDER & LIST FORM                         */
-          /* ========================================================================= */
           <div className="space-y-6">
-            {/* Header with Title and Price */}
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-[#E5DAC6] pb-4">
               <div>
                 <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-300 text-xs font-mono font-medium mb-1">
@@ -315,7 +292,6 @@ export default function SpecificTreatmentModal({
                 </p>
               </div>
 
-              {/* Price Tag Badge */}
               <div className="bg-gradient-to-br from-emerald-950/80 to-slate-900 border-2 border-emerald-500/50 p-3 rounded-2xl text-right shrink-0">
                 <span className="text-[10px] font-mono uppercase text-emerald-400 font-bold block">
                   {durationDays} Dias ({appliedCoupon ? `Com Cupom ${appliedCoupon}` : 'Valor'})
@@ -323,7 +299,7 @@ export default function SpecificTreatmentModal({
                 <div className="flex items-baseline gap-1 justify-end">
                   {appliedCoupon && (
                     <span className="text-xs text-[#85786C] line-through font-mono">
-                      {durationDays === 21 ? 'R$ 99,90' : 'R$ 59,90'}
+                      {durationDays === 21 ? 'R$ 99,90' : durationDays === 7 ? 'R$ 59,90' : 'R$ 20,00'}
                     </span>
                   )}
                   <span className="text-2xl font-display font-bold text-emerald-300">{formattedFinalPrice}</span>
@@ -331,7 +307,6 @@ export default function SpecificTreatmentModal({
               </div>
             </div>
 
-            {/* Duration & Value Selector */}
             <div className="space-y-3">
               <div className="flex items-center justify-between">
                 <label className="text-[11px] font-mono text-[#5C5248] uppercase block">
@@ -341,9 +316,7 @@ export default function SpecificTreatmentModal({
                   type="button"
                   onClick={() => {
                     setIsCustomPrice(!isCustomPrice);
-                    if (!isCustomPrice) {
-                      setCustomPriceInput('59,90'); // will be handled correctly by effect or manual
-                    }
+                    if (!isCustomPrice) setCustomPriceInput(standardPrice.toFixed(2).replace('.', ','));
                   }}
                   className="text-[11px] font-mono text-emerald-400 hover:text-emerald-300 transition flex items-center gap-1 cursor-pointer"
                 >
@@ -353,504 +326,177 @@ export default function SpecificTreatmentModal({
               </div>
 
               <div className="flex flex-col gap-3">
-                {/* 1 Day Plan (Distance Treatment) */}
                 <button
                   type="button"
-                  onClick={() => {
-                    setDurationDays(1);
-                    if (!isCustomPrice) {
-                      setCustomPriceInput('20,00');
-                    }
-                  }}
-                  className={`p-3.5 rounded-2xl border text-left flex items-start gap-3 transition cursor-pointer relative ${
-                    durationDays === 1 && !isCustomPrice
-                      ? 'bg-indigo-950/50 border-[#B88736] text-indigo-200 shadow-md shadow-indigo-500/10'
-                      : 'bg-white/70 border-[#E5DAC6] text-[#5C5248] hover:border-[#E5DAC6]'
-                  }`}
+                  onClick={() => { setDurationDays(1); if (!isCustomPrice) setCustomPriceInput('20,00'); }}
+                  className={`p-3.5 rounded-2xl border text-left flex items-start gap-3 transition cursor-pointer relative ${durationDays === 1 && !isCustomPrice ? 'bg-indigo-950/50 border-[#B88736] text-indigo-200 shadow-md shadow-indigo-500/10' : 'bg-white/70 border-[#E5DAC6] text-[#5C5248] hover:border-[#E5DAC6]'}`}
                 >
-                  <div className={`p-2 rounded-xl shrink-0 mt-0.5 ${durationDays === 1 && !isCustomPrice ? 'bg-[#B88736]/20 text-[#B88736]' : 'bg-[#FBF8F2] text-[#85786C]'}`}>
-                    <Zap size={18} />
-                  </div>
+                  <div className={`p-2 rounded-xl shrink-0 mt-0.5 ${durationDays === 1 && !isCustomPrice ? 'bg-[#B88736]/20 text-[#B88736]' : 'bg-[#FBF8F2] text-[#85786C]'}`}><Zap size={18} /></div>
                   <div className="flex-1">
-                    <div className="flex items-center justify-between">
-                      <strong className="text-xs text-[#2A2420]">Tratamento à Distância (Sessão Única)</strong>
-                      <span className="text-xs font-mono font-bold text-[#B88736]">R$ 20,00</span>
-                    </div>
-                    <p className="text-[10px] text-[#5C5248] mt-0.5">
-                      Sessão única de envio energético programado à distância.
-                    </p>
+                    <div className="flex items-center justify-between"><strong className="text-xs text-[#2A2420]">Tratamento à Distância (Sessão Única)</strong><span className="text-xs font-mono font-bold text-[#B88736]">R$ 20,00</span></div>
+                    <p className="text-[10px] text-[#5C5248] mt-0.5">Sessão única de envio energético programado à distância.</p>
                   </div>
                 </button>
 
-                {/* 7 Days Plan */}
                 <button
                   type="button"
-                  onClick={() => {
-                    setDurationDays(7);
-                    if (!isCustomPrice) {
-                      setCustomPriceInput('59,90');
-                    }
-                  }}
-                  className={`p-3.5 rounded-2xl border text-left flex items-start gap-3 transition cursor-pointer relative ${
-                    durationDays === 7 && !isCustomPrice
-                      ? 'bg-emerald-950/50 border-emerald-500 text-emerald-200 shadow-md shadow-emerald-500/10'
-                      : 'bg-white/70 border-[#E5DAC6] text-[#5C5248] hover:border-[#E5DAC6]'
-                  }`}
+                  onClick={() => { setDurationDays(7); if (!isCustomPrice) setCustomPriceInput('59,90'); }}
+                  className={`p-3.5 rounded-2xl border text-left flex items-start gap-3 transition cursor-pointer relative ${durationDays === 7 && !isCustomPrice ? 'bg-emerald-950/50 border-emerald-500 text-emerald-200 shadow-md shadow-emerald-500/10' : 'bg-white/70 border-[#E5DAC6] text-[#5C5248] hover:border-[#E5DAC6]'}`}
                 >
-                  <div className={`p-2 rounded-xl shrink-0 mt-0.5 ${durationDays === 7 && !isCustomPrice ? 'bg-emerald-500/20 text-emerald-300' : 'bg-[#FBF8F2] text-[#85786C]'}`}>
-                    <Calendar size={18} />
-                  </div>
-                  <div className="flex-1">
-                    <div className="flex items-center justify-between">
-                      <strong className="text-xs text-[#2A2420]">Ciclo de 7 Dias</strong>
-                      <span className="text-xs font-mono font-bold text-emerald-400">R$ 59,90</span>
-                    </div>
-                    <p className="text-[10px] text-[#5C5248] mt-0.5">
-                      Canalização pontual para alívio de sintomas agudos e decretos específicos.
-                    </p>
-                  </div>
+                  <div className={`p-2 rounded-xl shrink-0 mt-0.5 ${durationDays === 7 && !isCustomPrice ? 'bg-emerald-500/20 text-emerald-300' : 'bg-[#FBF8F2] text-[#85786C]'}`}><Calendar size={18} /></div>
+                  <div className="flex-1"><div className="flex items-center justify-between"><strong className="text-xs text-[#2A2420]">Ciclo de 7 Dias</strong><span className="text-xs font-mono font-bold text-emerald-400">R$ 59,90</span></div><p className="text-[10px] text-[#5C5248] mt-0.5">Canalização pontual para alívio de sintomas agudos e decretos específicos.</p></div>
                 </button>
 
-                {/* 21 Days Plan */}
                 <button
                   type="button"
-                  onClick={() => {
-                    setDurationDays(21);
-                    if (!isCustomPrice) {
-                      setCustomPriceInput('99,90');
-                    }
-                  }}
-                  className={`p-3.5 rounded-2xl border text-left flex items-start gap-3 transition cursor-pointer relative ${
-                    durationDays === 21 && !isCustomPrice
-                      ? 'bg-amber-950/40 border-amber-400 text-amber-200 shadow-lg shadow-amber-500/10'
-                      : 'bg-white/70 border-[#E5DAC6] text-[#5C5248] hover:border-[#E5DAC6]'
-                  }`}
+                  onClick={() => { setDurationDays(21); if (!isCustomPrice) setCustomPriceInput('99,90'); }}
+                  className={`p-3.5 rounded-2xl border text-left flex items-start gap-3 transition cursor-pointer relative ${durationDays === 21 && !isCustomPrice ? 'bg-amber-950/40 border-amber-400 text-amber-200 shadow-lg shadow-amber-500/10' : 'bg-white/70 border-[#E5DAC6] text-[#5C5248] hover:border-[#E5DAC6]'}`}
                 >
-                  <div className="absolute -top-2.5 right-3 px-2 py-0.5 rounded-full bg-amber-400 text-slate-950 text-[9px] font-bold font-mono uppercase tracking-wider">
-                    ⭐ Completo (Recomendado)
-                  </div>
-                  <div className={`p-2 rounded-xl shrink-0 mt-0.5 ${durationDays === 21 && !isCustomPrice ? 'bg-amber-500/20 text-amber-300' : 'bg-[#FBF8F2] text-[#85786C]'}`}>
-                    <Sparkles size={18} />
-                  </div>
-                  <div className="flex-1">
-                    <div className="flex items-center justify-between">
-                      <strong className="text-xs text-[#2A2420]">Tratamento de 21 Dias</strong>
-                      <span className="text-xs font-mono font-bold text-amber-300">R$ 99,90</span>
-                    </div>
-                    <p className="text-[10px] text-[#5C5248] mt-0.5">
-                      Ciclo ampliado de práticas integrativas, reflexão e acompanhamento da jornada.
-                    </p>
-                  </div>
+                  <div className="absolute -top-2.5 right-3 px-2 py-0.5 rounded-full bg-amber-400 text-slate-950 text-[9px] font-bold font-mono uppercase tracking-wider">Completo (Recomendado)</div>
+                  <div className={`p-2 rounded-xl shrink-0 mt-0.5 ${durationDays === 21 && !isCustomPrice ? 'bg-amber-500/20 text-amber-300' : 'bg-[#FBF8F2] text-[#85786C]'}`}><Sparkles size={18} /></div>
+                  <div className="flex-1"><div className="flex items-center justify-between"><strong className="text-xs text-[#2A2420]">Tratamento de 21 Dias</strong><span className="text-xs font-mono font-bold text-amber-300">R$ 99,90</span></div><p className="text-[10px] text-[#5C5248] mt-0.5">Ciclo ampliado de práticas integrativas, reflexão e acompanhamento da jornada.</p></div>
                 </button>
               </div>
 
-              {/* Custom Value Input Box */}
               {isCustomPrice && (
                 <div className="p-4 rounded-2xl bg-white border border-emerald-500/40 space-y-3 shadow-inner">
-                  <div className="flex items-center justify-between">
-                    <span className="text-xs font-semibold text-emerald-300 flex items-center gap-1.5">
-                      <span>Definir Valor Personalizado / Ajuste</span>
-                    </span>
-                    <span className="text-[10px] font-mono text-[#5C5248]">
-                      Ciclo: <strong>{durationDays} Dias</strong>
-                    </span>
-                  </div>
-
+                  <div className="flex items-center justify-between"><span className="text-xs font-semibold text-emerald-300">Definir Valor Personalizado / Ajuste</span><span className="text-[10px] font-mono text-[#5C5248]">Ciclo: <strong>{durationDays} Dias</strong></span></div>
                   <div className="flex items-center gap-2">
-                    <div className="relative flex-1">
-                      <span className="absolute left-3.5 top-1/2 -translate-y-1/2 text-xs font-mono text-[#5C5248] font-bold">R$</span>
-                      <input
-                        type="text"
-                        value={customPriceInput}
-                        onChange={(e) => setCustomPriceInput(e.target.value.replace(/[^0-9,.]/g, ''))}
-                        placeholder="59,90"
-                        className="w-full pl-9 pr-3 py-2 bg-[#FBF8F2] border border-slate-750 rounded-xl text-sm font-mono font-bold text-emerald-300 outline-none focus:border-emerald-400"
-                      />
-                    </div>
-                    <div className="flex items-center gap-1">
-                      {['30,00', '59,90', '99,90', '150,00'].map((val) => (
-                        <button
-                          key={val}
-                          type="button"
-                          onClick={() => setCustomPriceInput(val)}
-                          className="px-2 py-1 bg-[#FBF8F2] hover:bg-[#F5EFE4] border border-slate-750 text-[10px] font-mono text-[#5C5248] rounded-lg transition cursor-pointer"
-                        >
-                          R$ {val}
-                        </button>
-                      ))}
-                    </div>
+                    <div className="relative flex-1"><span className="absolute left-3.5 top-1/2 -translate-y-1/2 text-xs font-mono text-[#5C5248] font-bold">R$</span><input type="text" value={customPriceInput} onChange={(e) => setCustomPriceInput(e.target.value.replace(/[^0-9,.]/g, ''))} placeholder="59,90" className="w-full pl-9 pr-3 py-2 bg-[#FBF8F2] border border-slate-750 rounded-xl text-sm font-mono font-bold text-emerald-300 outline-none focus:border-emerald-400" /></div>
                   </div>
-                  <p className="text-[10px] text-[#5C5248]">
-                    Você pode alterar livremente o valor do tratamento de acordo com a sua contribuição ou valor acordado.
-                  </p>
+                  <p className="text-[10px] text-[#5C5248]">Valores personalizados dependem de validação do servidor antes da criação do checkout.</p>
                 </div>
               )}
             </div>
 
-            {/* Serene Quantum Lotus Visual Header */}
             <div className="relative rounded-2xl overflow-hidden border border-emerald-500/30 shadow-lg">
-              <img
-                src={calmLotusImg}
-                alt="Frequências de Cura e Serenidade"
-                referrerPolicy="no-referrer"
-                className="w-full h-28 sm:h-32 object-cover object-center filter brightness-95"
-              />
+              <img src={calmLotusImg} alt="Frequências de Cura e Serenidade" referrerPolicy="no-referrer" className="w-full h-28 sm:h-32 object-cover object-center filter brightness-95" />
               <div className="absolute inset-0 bg-gradient-to-t from-[#F8F4EC]/90 via-slate-950/40 to-transparent flex items-end p-3.5">
-                <div className="flex items-center gap-2">
-                  <div className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-                  <p className="text-xs font-medium text-emerald-200 drop-shadow-sm">
-                    Canalização Quântica Personalizada • Conexão Sagrada com Éverton Rodrigo Piceni
-                  </p>
-                </div>
+                <div className="flex items-center gap-2"><div className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" /><p className="text-xs font-medium text-emerald-200 drop-shadow-sm">Canalização Quântica Personalizada • Conexão Sagrada com Éverton Rodrigo Piceni</p></div>
               </div>
             </div>
 
-            {/* Tab switch if treatments exist */}
             {existingTreatments.length > 0 && (
               <div className="flex rounded-xl bg-white p-1 border border-[#E5DAC6]">
-                <button
-                  type="button"
-                  onClick={() => setActiveTab('request')}
-                  className={`flex-1 py-2 text-xs font-medium rounded-lg transition cursor-pointer ${
-                    activeTab === 'request'
-                      ? 'bg-[#B88736] text-white'
-                      : 'text-[#5C5248] hover:text-[#2A2420]'
-                  }`}
-                >
-                  Solicitar Novo Tratamento
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setActiveTab('my_treatments')}
-                  className={`flex-1 py-2 text-xs font-medium rounded-lg transition cursor-pointer flex items-center justify-center gap-1.5 ${
-                    activeTab === 'my_treatments'
-                      ? 'bg-[#B88736] text-white'
-                      : 'text-[#5C5248] hover:text-[#2A2420]'
-                  }`}
-                >
-                  <span>Minhas práticas</span>
-                  <span className="px-1.5 py-0.2 rounded-full bg-emerald-500/20 text-emerald-300 text-[10px] font-mono">
-                    {existingTreatments.length}
-                  </span>
-                </button>
+                <button type="button" onClick={() => setActiveTab('request')} className={`flex-1 py-2 text-xs font-medium rounded-lg transition cursor-pointer ${activeTab === 'request' ? 'bg-[#B88736] text-white' : 'text-[#5C5248] hover:text-[#2A2420]'}`}>Solicitar Novo Tratamento</button>
+                <button type="button" onClick={() => setActiveTab('my_treatments')} className={`flex-1 py-2 text-xs font-medium rounded-lg transition cursor-pointer flex items-center justify-center gap-1.5 ${activeTab === 'my_treatments' ? 'bg-[#B88736] text-white' : 'text-[#5C5248] hover:text-[#2A2420]'}`}><span>Minhas práticas</span><span className="px-1.5 py-0.2 rounded-full bg-emerald-500/20 text-emerald-300 text-[10px] font-mono">{existingTreatments.length}</span></button>
               </div>
             )}
 
             {activeTab === 'my_treatments' && existingTreatments.length > 0 ? (
-              /* List of Existing Treatments */
               <div className="space-y-4 max-h-96 overflow-y-auto pr-1">
                 {existingTreatments.map((t) => (
-                  <div
-                    key={t.id}
-                    className="p-4 rounded-2xl bg-white border border-[#E5DAC6] space-y-3"
-                  >
+                  <div key={t.id} className="p-4 rounded-2xl bg-white border border-[#E5DAC6] space-y-3">
                     <div className="flex items-start justify-between gap-2">
-                      <div>
-                        <div className="flex items-center gap-2">
-                          <span className="px-2 py-0.5 rounded bg-emerald-500/10 border border-emerald-500/30 text-emerald-300 text-[10px] font-mono uppercase font-bold">
-                            {t.status.toUpperCase()}
-                          </span>
-                          <span className="text-xs text-[#85786C] font-mono">
-                            {new Date(t.requestedAt).toLocaleDateString('pt-BR')}
-                          </span>
-                        </div>
-                        <h4 className="text-sm font-semibold text-[#2A2420] mt-1">{t.title}</h4>
-                      </div>
-                      <span className="text-xs font-mono text-[#B88736] font-bold">
-                        {t.assignedFrequency?.toUpperCase()}
-                      </span>
+                      <div><div className="flex items-center gap-2"><span className="px-2 py-0.5 rounded bg-emerald-500/10 border border-emerald-500/30 text-emerald-300 text-[10px] font-mono uppercase font-bold">{t.status.toUpperCase()}</span><span className="text-xs text-[#85786C] font-mono">{new Date(t.requestedAt).toLocaleDateString('pt-BR')}</span></div><h4 className="text-sm font-semibold text-[#2A2420] mt-1">{t.title}</h4></div>
+                      <span className="text-xs font-mono text-[#B88736] font-bold">{t.assignedFrequency?.toUpperCase()}</span>
                     </div>
-
-                    <div className="bg-[#FBF8F2]/90 p-3 rounded-xl border border-[#E5DAC6] text-xs text-[#5C5248]">
-                      <span className="text-[10px] font-mono text-[#85786C] uppercase block">Relato Enviado:</span>
-                      <p className="italic mt-0.5 line-clamp-2">"{t.patientDescription}"</p>
-                    </div>
-
-                    {t.therapistNotes && (
-                      <div className="bg-indigo-950/30 p-3 rounded-xl border border-[#B88736]/30 text-xs text-indigo-200">
-                        <span className="text-[10px] font-mono text-[#B88736] uppercase block">Prescrição do Terapeuta:</span>
-                        <p className="mt-0.5">{t.therapistNotes}</p>
-                      </div>
-                    )}
-
-                    {t.targetDecree && (
-                      <div className="bg-amber-950/20 p-3 rounded-xl border border-amber-500/30 text-xs text-amber-200/90 font-serif italic">
-                        "{t.targetDecree}"
-                      </div>
-                    )}
+                    <div className="bg-[#FBF8F2]/90 p-3 rounded-xl border border-[#E5DAC6] text-xs text-[#5C5248]"><span className="text-[10px] font-mono text-[#85786C] uppercase block">Relato Enviado:</span><p className="italic mt-0.5 line-clamp-2">"{t.patientDescription}"</p></div>
+                    {t.therapistNotes && <div className="bg-indigo-950/30 p-3 rounded-xl border border-[#B88736]/30 text-xs text-indigo-200"><span className="text-[10px] font-mono text-[#B88736] uppercase block">Prescrição do Terapeuta:</span><p className="mt-0.5">{t.therapistNotes}</p></div>}
+                    {t.targetDecree && <div className="bg-amber-950/20 p-3 rounded-xl border border-amber-500/30 text-xs text-amber-200/90 font-serif italic">"{t.targetDecree}"</div>}
                   </div>
                 ))}
               </div>
             ) : (
-              /* Request Form */
               <div className="space-y-5">
-                {/* Category Selector */}
                 <div className="space-y-2">
-                  <label className="text-[11px] font-mono text-[#5C5248] uppercase block">
-                    1. Qual o foco principal do seu prática individual?
-                  </label>
+                  <label className="text-[11px] font-mono text-[#5C5248] uppercase block">1. Qual o foco principal da sua prática individual?</label>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                     {CATEGORIES.map((cat) => {
                       const isSel = selectedCategory === cat.id;
                       const Icon = cat.icon;
                       return (
-                        <button
-                          key={cat.id}
-                          type="button"
-                          onClick={() => setSelectedCategory(cat.id)}
-                          className={`p-3 rounded-2xl border text-left flex items-start gap-2.5 transition cursor-pointer ${
-                            isSel
-                              ? 'bg-emerald-950/40 border-emerald-500 text-emerald-200 shadow-sm'
-                              : 'bg-white/65 border-[#E5DAC6] text-[#5C5248] hover:border-[#E5DAC6]'
-                          }`}
-                        >
-                          <div className={`p-1.5 rounded-lg shrink-0 mt-0.5 ${isSel ? 'bg-emerald-500/20 text-emerald-300' : 'bg-[#FBF8F2] text-[#85786C]'}`}>
-                            <Icon size={15} />
-                          </div>
-                          <div>
-                            <strong className="text-xs block text-[#2A2420]">{cat.label}</strong>
-                            <span className="text-[10px] opacity-75 line-clamp-1">{cat.desc}</span>
-                          </div>
+                        <button key={cat.id} type="button" onClick={() => setSelectedCategory(cat.id)} className={`p-3 rounded-2xl border text-left flex items-start gap-2.5 transition cursor-pointer ${isSel ? 'bg-emerald-950/40 border-emerald-500 text-emerald-200 shadow-sm' : 'bg-white/65 border-[#E5DAC6] text-[#5C5248] hover:border-[#E5DAC6]'}`}>
+                          <div className={`p-1.5 rounded-lg shrink-0 mt-0.5 ${isSel ? 'bg-emerald-500/20 text-emerald-300' : 'bg-[#FBF8F2] text-[#85786C]'}`}><Icon size={15} /></div>
+                          <div><strong className="text-xs block text-[#2A2420]">{cat.label}</strong><span className="text-[10px] opacity-75 line-clamp-1">{cat.desc}</span></div>
                         </button>
                       );
                     })}
                   </div>
                 </div>
 
-                {/* Patient Case Description */}
                 <div className="space-y-1.5">
-                  <label className="text-[11px] font-mono text-[#5C5248] uppercase block">
-                    2. Escreva detalhadamente o que você deseja tratar ou curar:
-                  </label>
-                  <textarea
-                    rows={4}
-                    value={patientDescription}
-                    onChange={(e) => setPatientDescription(e.target.value)}
-                    placeholder="Descreva a situação, histórico da dor física, peso emocional, bloqueio financeiro ou circunstância específica para a canalização..."
-                    className="w-full bg-white border border-[#E5DAC6] rounded-2xl p-3.5 text-xs text-[#2A2420] placeholder-slate-600 outline-none focus:border-emerald-500 resize-none leading-relaxed"
-                  />
+                  <label className="text-[11px] font-mono text-[#5C5248] uppercase block">2. Escreva detalhadamente o que você deseja tratar ou curar:</label>
+                  <textarea rows={4} value={patientDescription} onChange={(e) => setPatientDescription(e.target.value)} placeholder="Descreva a situação, histórico da dor física, peso emocional, bloqueio financeiro ou circunstância específica para a canalização..." className="w-full bg-white border border-[#E5DAC6] rounded-2xl p-3.5 text-xs text-[#2A2420] placeholder-slate-600 outline-none focus:border-emerald-500 resize-none leading-relaxed" />
                 </div>
 
-                {/* Urgent Pain Tags */}
                 <div className="space-y-1.5">
-                  <label className="text-[11px] font-mono text-[#5C5248] uppercase block">
-                    3. Sensações urgentes presentes no seu momento (opcional):
-                  </label>
+                  <label className="text-[11px] font-mono text-[#5C5248] uppercase block">3. Sensações urgentes presentes no seu momento (opcional):</label>
                   <div className="flex flex-wrap gap-1.5">
                     {URGENT_PAIN_TAGS.map((tag) => {
                       const isSel = selectedPains.includes(tag);
-                      return (
-                        <button
-                          key={tag}
-                          type="button"
-                          onClick={() => togglePain(tag)}
-                          className={`px-2.5 py-1 rounded-xl text-[11px] border transition cursor-pointer ${
-                            isSel
-                              ? 'bg-emerald-500/20 border-emerald-500 text-emerald-300 font-semibold'
-                              : 'bg-white border-[#E5DAC6] text-[#5C5248] hover:border-[#E5DAC6]'
-                          }`}
-                        >
-                          {tag}
-                        </button>
-                      );
+                      return <button key={tag} type="button" onClick={() => togglePain(tag)} className={`px-2.5 py-1 rounded-xl text-[11px] border transition cursor-pointer ${isSel ? 'bg-emerald-500/20 border-emerald-500 text-emerald-300 font-semibold' : 'bg-white border-[#E5DAC6] text-[#5C5248] hover:border-[#E5DAC6]'}`}>{tag}</button>;
                     })}
                   </div>
                 </div>
 
-                {/* Discount Coupon Section */}
                 <div className="p-3 rounded-2xl bg-white/75 border border-[#E5DAC6] space-y-2">
                   <div className="flex items-center justify-between">
-                    <span className="text-[11px] font-mono text-[#5C5248] uppercase tracking-wider flex items-center gap-1.5 font-semibold">
-                      <Tag size={12} className="text-emerald-400 shrink-0" />
-                      <span>Cupom de Desconto:</span>
-                    </span>
-                    {appliedCoupon && (
-                      <span className="px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 text-[10px] font-mono font-bold border border-emerald-500/30 flex items-center gap-1">
-                        <Percent size={10} />
-                        {discountPercent}% OFF
-                      </span>
-                    )}
+                    <span className="text-[11px] font-mono text-[#5C5248] uppercase tracking-wider flex items-center gap-1.5 font-semibold"><Tag size={12} className="text-emerald-400 shrink-0" /><span>Cupom de Desconto:</span></span>
+                    {appliedCoupon && <span className="px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 text-[10px] font-mono font-bold border border-emerald-500/30 flex items-center gap-1"><Percent size={10} />{discountPercent}% OFF</span>}
                   </div>
 
                   {!appliedCoupon ? (
                     <div className="space-y-1.5">
                       <div className="flex items-center gap-1.5">
-                        <input
-                          type="text"
-                          value={couponInput}
-                          onChange={(e) => setCouponInput(e.target.value.toUpperCase())}
-                          onKeyDown={(e) => e.key === 'Enter' && handleApplyCoupon()}
-                          placeholder="Ex.: CURA10, PAZ20"
-                          className="flex-1 bg-[#FBF8F2] border border-[#E5DAC6] rounded-xl px-3 py-1.5 text-xs text-[#2A2420] placeholder:text-[#85786C] outline-none focus:border-emerald-500 font-mono uppercase"
-                        />
-                        <button
-                          type="button"
-                          onClick={() => handleApplyCoupon()}
-                          className="px-3 py-1.5 bg-emerald-600 hover:bg-emerald-500 text-white rounded-xl text-xs font-semibold transition cursor-pointer flex items-center gap-1 shrink-0"
-                        >
-                          <Tag size={12} className="shrink-0" />
-                          <span>Aplicar</span>
-                        </button>
+                        <input type="text" value={couponInput} onChange={(e) => setCouponInput(e.target.value.toUpperCase())} onKeyDown={(e) => e.key === 'Enter' && handleApplyCoupon()} placeholder="Ex.: CURA10, PAZ20" className="flex-1 bg-[#FBF8F2] border border-[#E5DAC6] rounded-xl px-3 py-1.5 text-xs text-[#2A2420] placeholder:text-[#85786C] outline-none focus:border-emerald-500 font-mono uppercase" />
+                        <button type="button" onClick={() => handleApplyCoupon()} className="px-3 py-1.5 bg-emerald-600 hover:bg-emerald-500 text-white rounded-xl text-xs font-semibold transition cursor-pointer flex items-center gap-1 shrink-0"><Tag size={12} className="shrink-0" /><span>Aplicar</span></button>
                       </div>
-
-                      {/* Quick discount buttons */}
                       <div className="flex flex-wrap items-center gap-1.5 pt-0.5">
                         {[
-                          { code: 'VIP7', label: 'VIP7 (7 Dias Grátis )', isFree: true },
-                          { code: 'CURA10', label: 'CURA10 (-10%)', isFree: false },
-                          { code: 'PAZ20', label: 'PAZ20 (-20%)', isFree: false },
-                          { code: 'PICENI50', label: 'PICENI50 (-50%)', isFree: false }
+                          { code: 'CURA10', label: 'CURA10 (-10%)' },
+                          { code: 'PAZ20', label: 'PAZ20 (-20%)' },
+                          { code: 'PICENI50', label: 'PICENI50 (-50%)' }
                         ].map((c) => (
-                          <button
-                            key={c.code}
-                            type="button"
-                            onClick={() => {
-                              setCouponInput(c.code);
-                              handleApplyCoupon(c.code);
-                            }}
-                            className={`px-2 py-0.5 rounded-lg text-[10px] font-mono border transition cursor-pointer flex items-center gap-1 font-semibold ${
-                              c.isFree
-                                ? 'bg-emerald-500/20 hover:bg-emerald-500/30 text-emerald-300 border-emerald-500/40'
-                                : 'bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-300 border-emerald-500/20'
-                            }`}
-                          >
-                            <Sparkles size={9} className="shrink-0" />
-                            <span>{c.label}</span>
-                          </button>
+                          <button key={c.code} type="button" onClick={() => { setCouponInput(c.code); handleApplyCoupon(c.code); }} className="px-2 py-0.5 rounded-lg text-[10px] font-mono border transition cursor-pointer flex items-center gap-1 font-semibold bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-300 border-emerald-500/20"><Sparkles size={9} className="shrink-0" /><span>{c.label}</span></button>
                         ))}
                       </div>
                     </div>
                   ) : (
                     <div className="flex items-center justify-between p-2 rounded-xl bg-emerald-950/40 border border-emerald-500/30 text-xs">
-                      <div className="flex items-center gap-2">
-                        <CheckCircle2 size={14} className="text-emerald-400 shrink-0" />
-                        <div>
-                          <div className="font-semibold text-emerald-300 font-mono text-[11px]">
-                            Cupom "{appliedCoupon}" Ativo
-                          </div>
-                          <div className="text-[10px] text-[#5C5248]">
-                            Valor reduzido de <span className="line-through text-[#85786C]">{durationDays === 21 ? 'R$ 99,90' : 'R$ 59,90'}</span> para <strong className="text-emerald-300 font-bold">{formattedFinalPrice}</strong>
-                          </div>
-                        </div>
-                      </div>
-                      <button
-                        type="button"
-                        onClick={handleRemoveCoupon}
-                        className="p-1 text-[#5C5248] hover:text-rose-400 transition cursor-pointer"
-                        title="Remover"
-                      >
-                        <Trash2 size={13} />
-                      </button>
+                      <div className="flex items-center gap-2"><CheckCircle2 size={14} className="text-emerald-400 shrink-0" /><div><div className="font-semibold text-emerald-300 font-mono text-[11px]">Cupom "{appliedCoupon}" Ativo</div><div className="text-[10px] text-[#5C5248]">Valor reduzido de <span className="line-through text-[#85786C]">{standardPrice.toFixed(2).replace('.', ',')}</span> para <strong className="text-emerald-300 font-bold">{formattedFinalPrice}</strong></div></div></div>
+                      <button type="button" onClick={handleRemoveCoupon} className="p-1 text-[#5C5248] hover:text-rose-400 transition cursor-pointer" title="Remover"><Trash2 size={13} /></button>
                     </div>
                   )}
 
-                  {couponFeedback && !appliedCoupon && (
-                    <p className={`text-[10px] ${couponFeedback.type === 'success' ? 'text-emerald-400' : 'text-rose-400'}`}>
-                      {couponFeedback.message}
-                    </p>
-                  )}
+                  {couponFeedback && !appliedCoupon && <p className={`text-[10px] ${couponFeedback.type === 'success' ? 'text-emerald-400' : 'text-rose-400'}`}>{couponFeedback.message}</p>}
                 </div>
 
-                {/* Payment Selection */}
                 <div className="p-4 rounded-2xl bg-white border border-[#E5DAC6] space-y-4">
                   <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
-                    <span className="text-xs font-mono uppercase text-[#5C5248] font-bold flex items-center gap-1.5">
-                      <span>Valor da prática:</span>
-                      {appliedCoupon ? (
-                        <div className="flex items-center gap-1">
-                          <span className="line-through text-[#85786C] text-xs font-normal">R$ 70,00</span>
-                          <span className="text-emerald-400 font-bold text-sm">{formattedFinalPrice}</span>
-                        </div>
-                      ) : (
-                        <span className="text-emerald-400">R$ 70,00</span>
-                      )}
-                    </span>
-                    <div className="flex flex-wrap items-center gap-1 bg-[#FBF8F2] p-1 rounded-xl border border-[#E5DAC6]">
-                      <button
-                        type="button"
-                        onClick={() => handleSelectPaymentMethod('pix')}
-                        className={`px-3 py-1 text-xs font-medium rounded-lg transition cursor-pointer flex items-center gap-1.5 ${
-                          paymentMethod === 'pix' ? 'bg-emerald-600 text-white shadow-sm' : 'text-[#5C5248] hover:text-[#2A2420]'
-                        }`}
-                      >
-                        <QrCode size={12} className="shrink-0" />
-                        <span>PIX</span>
-                      </button>
-                      
-                      
+                    <span className="text-xs font-mono uppercase text-[#5C5248] font-bold flex items-center gap-1.5"><span>Valor da prática:</span><span className="text-emerald-400 font-bold text-sm">{formattedFinalPrice}</span></span>
+                    <div className="grid grid-cols-2 gap-1 bg-[#FBF8F2] p-1 rounded-xl border border-[#E5DAC6]">
+                      <button type="button" onClick={() => handleSelectPaymentMethod('pix')} className={`px-3 py-1 text-xs font-medium rounded-lg transition cursor-pointer flex items-center justify-center gap-1.5 ${paymentMethod === 'pix' ? 'bg-emerald-600 text-white shadow-sm' : 'text-[#5C5248] hover:text-[#2A2420]'}`}><QrCode size={12} className="shrink-0" /><span>PIX</span></button>
+                      <button type="button" onClick={() => handleSelectPaymentMethod('card')} className={`px-3 py-1 text-xs font-medium rounded-lg transition cursor-pointer flex items-center justify-center gap-1.5 ${paymentMethod === 'card' ? 'bg-[#073B2B] text-white shadow-sm' : 'text-[#5C5248] hover:text-[#2A2420]'}`}><CreditCard size={12} className="shrink-0" /><span>Cartão</span></button>
                     </div>
                   </div>
 
                   {paymentMethod === 'pix' && (
-                    <div className="p-3 bg-[#FBF8F2]/90 border border-[#E5DAC6] rounded-xl space-y-2 text-xs">
-                      {/* Auto copy alert toast banner */}
-                      <div className="p-2 rounded-lg bg-emerald-950/60 border border-emerald-500/40 flex items-center justify-between text-xs text-emerald-300">
-                        <div className="flex items-center gap-1.5">
-                          <Sparkles size={13} className="text-emerald-400 shrink-0" />
-                          <span className="text-[11px]">
-                            {copiedPix
-                              ? 'Chave PIX copiada para sua área de transferência.'
-                              : 'Chave copiada automaticamente ao clicar no PIX.'}
-                          </span>
-                        </div>
-                        {copiedPix && (
-                          <span className="px-1.5 py-0.2 rounded bg-emerald-500/20 text-emerald-300 font-mono text-[9px] font-bold">
-                            COPIADA
-                          </span>
-                        )}
-                      </div>
-
-                      <div className="flex items-center justify-between">
-                        <span className="text-[#5C5248] text-[11px]">Chave PIX Oficial (E-mail):</span>
-                        <button
-                          type="button"
-                          onClick={handleCopyPix}
-                          className="text-[11px] font-mono text-emerald-400 hover:text-emerald-300 flex items-center gap-1 cursor-pointer"
-                        >
-                          {copiedPix ? <Check size={12} className="shrink-0" /> : <Copy size={12} className="shrink-0" />}
-                          <span>{copiedPix ? 'Copiado!' : 'Copiar Chave'}</span>
-                        </button>
-                      </div>
-                      <div className="p-2 bg-white rounded-lg font-mono text-[#2A2420] text-xs border border-[#E5DAC6] select-all break-all flex items-center justify-between">
-                        <span>evertonpiceni@gmail.com</span>
-                        <span className="text-emerald-400 font-bold font-mono text-[11px]">{formattedFinalPrice}</span>
-                      </div>
-                      <p className="text-[10px] text-[#85786C]">
-                        Após o envio do PIX de {formattedFinalPrice}, a liberação só acontece depois da confirmação segura do pagamento.
-                      </p>
+                    <div className="p-3 bg-[#FBF8F2]/90 border border-[#E5DAC6] rounded-xl space-y-2 text-xs text-center">
+                      <ShieldCheck size={18} className="mx-auto text-emerald-700" />
+                      <p className="text-[#5C5248] text-[11px]">O PIX será gerado no checkout oficial da InfinitePay. Nenhuma chave PIX pessoal é exibida ou copiada pelo aplicativo.</p>
+                      <p className="text-[10px] text-[#85786C]">A prática só é liberada depois da confirmação segura do pagamento pelo servidor.</p>
                     </div>
-                  )} 
+                  )}
 
+                  {paymentMethod === 'card' && (
+                    <div className="p-3 bg-[#FBF8F2]/90 border border-[#E5DAC6] rounded-xl space-y-2 text-xs text-center">
+                      <ShieldCheck size={18} className="mx-auto text-[#8F631E]" />
+                      <p className="text-[#5C5248] text-[11px]">O cartão é processado diretamente no checkout seguro da InfinitePay. O aplicativo não coleta os dados do cartão.</p>
+                      <p className="text-[10px] text-[#85786C]">Parcelamento e eventuais taxas são apresentados pelo provedor antes da confirmação.</p>
+                    </div>
+                  )}
                 </div>
 
-                {checkoutError && (
-                  <p role="alert" className="rounded-xl border border-rose-200 bg-rose-50 px-3 py-2 text-xs text-rose-700">
-                    {checkoutError}
-                  </p>
-                )}
+                {checkoutError && <p role="alert" className="rounded-xl border border-rose-200 bg-rose-50 px-3 py-2 text-xs text-rose-700">{checkoutError}</p>}
 
-                {/* Submit button */}
                 <button
                   type="button"
                   disabled={!patientDescription.trim() || isProcessing}
                   onClick={handleProcessOrder}
-                  className={`w-full py-3.5 rounded-2xl text-xs font-semibold flex items-center justify-center gap-2 transition cursor-pointer shadow-xl ${
-                    patientDescription.trim() && !isProcessing
-                      ? 'bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white shadow-emerald-600/20'
-                      : 'bg-[#F5EFE4] text-[#85786C] cursor-not-allowed border border-[#E5DAC6]'
-                  }`}
+                  className={`w-full py-3.5 rounded-2xl text-xs font-semibold flex items-center justify-center gap-2 transition cursor-pointer shadow-xl ${patientDescription.trim() && !isProcessing ? 'bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white shadow-emerald-600/20' : 'bg-[#F5EFE4] text-[#85786C] cursor-not-allowed border border-[#E5DAC6]'}`}
                 >
-                  {isProcessing ? (
-                    <>
-                      <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-                      <span>Iniciando pagamento seguro...</span>
-                    </>
-                  ) : (
-                    <>
-                      <Sparkles size={16} />
-                                            <span>Iniciar pagamento ({formattedFinalPrice})</span>
-                    </>
-                  )}
+                  {isProcessing ? <><div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" /><span>Iniciando pagamento seguro...</span></> : <><Sparkles size={16} /><span>Iniciar pagamento ({formattedFinalPrice})</span></>}
                 </button>
               </div>
             )}
