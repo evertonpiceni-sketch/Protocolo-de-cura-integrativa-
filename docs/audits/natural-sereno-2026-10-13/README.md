@@ -17,6 +17,8 @@ O Natural Sereno aprovado foi preservado. Esta auditoria não redesenha o produt
 5. A prática individual ainda apresentava rótulo/preço fixo antigo de R$ 70,00 em trechos da interface/traduções, apesar de possuir ciclos com valores diferentes.
 6. Cupons pagos do modal PRO eram calculados apenas no cliente; isso poderia apresentar um valor diferente do que o servidor deveria aceitar.
 7. O retorno do navegador não possuía uma etapa dedicada para revalidar o pagamento antes da liberação.
+8. Os cards do guia de valores abriam o seletor, mas não preservavam o plano 7/21 dias clicado como seleção no checkout.
+9. No preview da Vercel, a ausência de `PUBLIC_APP_URL` específico da branch permitia que a resolução de origem recorresse ao hostname de produção. Em um teste de pagamento isso poderia direcionar `redirect_url` e `webhook_url` para produção, rompendo o isolamento do pedido criado no preview.
 
 ## Correções realizadas
 
@@ -34,12 +36,23 @@ O Natural Sereno aprovado foi preservado. Esta auditoria não redesenha o produt
 - Numerologia e prática individual passaram a usar o mesmo fluxo de confirmação segura.
 - O preço fixo antigo da prática individual foi neutralizado nos rótulos exibidos.
 - Cupons pagos que existiam apenas no cliente foram removidos do modal PRO; descontos da prática individual são recalculados e validados no servidor.
+- A seleção feita no guia de valores agora é preservada por sessão e reaplicada ao abrir o seletor de planos, incluindo 7 e 21 dias.
+- A branch de auditoria recebeu `PUBLIC_APP_URL` próprio, restrito ao target `preview` e ao Git branch desta auditoria, apontando para o alias estável da própria branch. Nenhuma variável de produção foi alterada.
 
 ## Reauditoria executada
 
-A branch foi implantada somente como preview da Vercel. O build de preview terminou com estado READY e a raiz respondeu HTTP 200, com `noindex`.
+A correção de seleção de plano foi validada inicialmente em sandbox isolado da Vercel e depois enviada à branch de auditoria.
 
-O GitHub Actions `Security Audit` concluiu com sucesso, incluindo:
+Validações no sandbox:
+
+- TypeScript (`npm run lint`): aprovado;
+- testes (`npm test`): 32/32 aprovados, 0 falhas;
+- build de produção (`npm run build`): aprovado;
+- `git diff --check`: aprovado;
+- servidor local: `/api/health` respondeu HTTP 200;
+- endpoint local de checkout sem autenticação permaneceu fail-closed com HTTP 401.
+
+A CI da branch também foi executada novamente após a correção de pré-seleção. O GitHub Actions `Security Audit` concluiu com sucesso para o commit correspondente, incluindo:
 
 - instalação de dependências;
 - `npm audit`;
@@ -53,12 +66,14 @@ O GitHub Actions `Security Audit` concluiu com sucesso, incluindo:
 - smoke test de health/registro;
 - verificação fail-closed dos endpoints de pagamento.
 
+O preview da mesma revisão ficou READY na Vercel. Após identificar o risco de retorno cruzado entre preview e produção, foi adicionada a configuração `PUBLIC_APP_URL` exclusiva da branch e solicitado novo redeploy para validar o isolamento antes de qualquer teste de pagamento.
+
 ## Pendências reais antes de produção
 
-1. **Pagamento real InfinitePay:** não foi efetuada cobrança real nesta auditoria. É necessário validar no ambiente da conta o checkout, PIX, cartão, eventual parcelamento/taxas, webhook e `payment_check` com uma transação real antes do merge para produção.
+1. **Pagamento real InfinitePay:** não foi efetuada cobrança real nesta auditoria. É necessário validar no ambiente isolado da branch o checkout, PIX, cartão, eventual parcelamento/taxas, webhook e `payment_check` com uma transação real antes do merge para produção.
 2. **Taxas/parcelamento:** a regra de que as taxas ficam com o cliente deve ser conferida no checkout/configuração da conta InfinitePay; o código não deve inventar ou simular taxas.
-3. **CTA do guia de valores:** os cards avulsos abrem corretamente o seletor de planos, mas o callback atual do `App.tsx` não preserva o plano clicado como pré-seleção. O usuário ainda pode escolher 7/21 dias no seletor. Não é falha de cobrança, porém o texto do botão pode sugerir pré-seleção mais direta do que a ação atual.
-4. **Servidor local de desenvolvimento:** o `server.ts` continua fail-closed (503) para pagamentos; a implementação InfinitePay está no entrypoint Vercel `api/index.ts`. Produção/preview utilizam este entrypoint. Se for desejada paridade total em `npm run dev`, a lógica deve ser extraída para módulo comum antes de substituir o bloqueio local.
+3. **Servidor local de desenvolvimento:** o `server.ts` continua deliberadamente fail-closed para pagamentos após autenticação, enquanto a implementação InfinitePay está no entrypoint Vercel `api/index.ts`. Preview/produção utilizam o entrypoint Vercel. Isso é dívida de paridade de desenvolvimento, não liberação indevida de pagamento.
+4. **Isolamento do preview:** confirmar que o redeploy realizado depois da criação do `PUBLIC_APP_URL` da branch está READY e responde pelo alias estável antes de iniciar qualquer transação real.
 
 ## Estado de publicação
 
