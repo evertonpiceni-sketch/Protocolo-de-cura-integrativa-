@@ -8,73 +8,78 @@ PR: #36
 
 O Natural Sereno aprovado foi preservado. Esta auditoria não redesenha o produto, não substitui o layout por versões antigas e não promove a branch para produção antes da validação.
 
-## Inconsistências encontradas
+## Inconsistências encontradas e tratadas
 
-1. O checkout do servidor permanecia desativado com resposta 503 e a interface ainda não usava InfinitePay.
-2. O acesso avulso de 7 dias aparecia por R$ 15,00, divergindo da decisão vigente de R$ 25,00.
-3. O acesso avulso de 21 dias por R$ 50,00 não estava disponível na tela principal de planos.
-4. Numerologia, guia de valores e prática individual ainda exibiam/copiavam `evertonpiceni@gmail.com` como chave PIX pessoal.
-5. A prática individual ainda apresentava rótulo/preço fixo antigo de R$ 70,00 em trechos da interface/traduções, apesar de possuir ciclos com valores diferentes.
-6. Cupons pagos do modal PRO eram calculados apenas no cliente; isso poderia apresentar um valor diferente do que o servidor deveria aceitar.
-7. O retorno do navegador não possuía uma etapa dedicada para revalidar o pagamento antes da liberação.
-8. Os cards do guia de valores abriam o seletor, mas não preservavam o plano 7/21 dias clicado como seleção no checkout.
-9. No preview da Vercel, a ausência de `PUBLIC_APP_URL` específico da branch permitia que a resolução de origem recorresse ao hostname de produção. Em um teste de pagamento isso poderia direcionar `redirect_url` e `webhook_url` para produção, rompendo o isolamento do pedido criado no preview.
+1. Checkout do servidor desativado com 503 e interface sem InfinitePay.
+2. Acesso avulso de 7 dias aparecendo por R$ 15,00 em vez de R$ 25,00.
+3. Ausência do acesso avulso de 21 dias por R$ 50,00 na tela principal de planos.
+4. Chave PIX pessoal exposta/copiável em planos, Numerologia e prática individual.
+5. Preço fixo antigo de R$ 70,00 na prática individual apesar de ciclos com valores diferentes.
+6. Cupons pagos do PRO calculados apenas no cliente.
+7. Retorno do navegador sem revalidação dedicada do pagamento.
+8. Card 7/21 dias não preservando o plano escolhido ao abrir o checkout.
+9. Preview podendo usar a URL de produção como retorno/webhook na ausência de `PUBLIC_APP_URL` específico.
+10. Preview e produção compartilhando o mesmo namespace Redis padrão (`cura_integrada:database:v1`), o que permitiria que um teste na branch gravasse pedido/usuário no conjunto de produção.
 
 ## Correções realizadas
 
 - InfinitePay configurada com o identificador oficial `evertonterapeutareiki`.
-- Acesso avulso de 7 dias definido no servidor e interface como R$ 25,00.
-- Acesso avulso de 21 dias definido no servidor e interface como R$ 50,00.
-- O servidor passou a criar e persistir um pedido pendente com `order_nsu` próprio antes do checkout.
-- O valor da assinatura é calculado no servidor; o preço enviado pela interface não é utilizado como fonte de verdade.
-- A confirmação usa `payment_check` e compara o valor pago com o valor esperado antes de liberar acesso.
-- O webhook também revalida a transação com a InfinitePay; seu payload não é aceito isoladamente como prova de pagamento.
-- Pagamento pendente, inválido ou retorno incompleto permanece sem liberação.
-- Foi criada uma tela de retorno que só apresenta sucesso após confirmação do servidor.
-- O período de acesso passa a ter expiração conforme o produto adquirido.
-- Chaves PIX pessoais foram removidas das telas alteradas; PIX/cartão são encaminhados ao checkout do provedor.
-- Numerologia e prática individual passaram a usar o mesmo fluxo de confirmação segura.
-- O preço fixo antigo da prática individual foi neutralizado nos rótulos exibidos.
-- Cupons pagos que existiam apenas no cliente foram removidos do modal PRO; descontos da prática individual são recalculados e validados no servidor.
-- A seleção feita no guia de valores agora é preservada por sessão e reaplicada ao abrir o seletor de planos, incluindo 7 e 21 dias.
-- A branch de auditoria recebeu `PUBLIC_APP_URL` próprio, restrito ao target `preview` e ao Git branch desta auditoria, apontando para o alias estável da própria branch. Nenhuma variável de produção foi alterada.
+- 7 dias = R$ 25,00; 21 dias = R$ 50,00.
+- Valor da assinatura definido no servidor, não confiado ao valor enviado pela interface.
+- Pedido pendente com `order_nsu` próprio persistido antes do checkout.
+- `payment_check` obrigatório e comparação do `amount` recebido com o valor esperado antes da liberação.
+- Webhook revalidado com a InfinitePay; payload recebido sozinho não é considerado prova de pagamento.
+- Retorno incompleto, pagamento inválido ou pendente não libera acesso.
+- Tela de retorno dedicada criada para confirmação segura.
+- Expiração de acesso conforme período comprado.
+- Chaves PIX pessoais removidas das telas alteradas.
+- Numerologia e prática individual encaminhadas ao checkout seguro.
+- Preço fixo antigo da prática individual neutralizado nos rótulos exibidos.
+- Cupons pagos que existiam apenas no cliente removidos do modal PRO; descontos da prática individual são recalculados e validados no servidor.
+- Seleção 7/21/planos do guia preservada por sessão e reaplicada ao abrir o seletor.
+- `PUBLIC_APP_URL` criado somente para o target `preview` e somente para a branch desta auditoria, apontando para o alias estável da própria branch.
+- `UPSTASH_DB_KEY` criado somente para o target `preview` e somente para a branch desta auditoria, usando namespace separado: `cura_integrada:database:audit-natural-sereno-2026-10-13`.
+- Nenhuma variável de produção foi alterada.
 
 ## Reauditoria executada
 
-A correção de seleção de plano foi validada inicialmente em sandbox isolado da Vercel e depois enviada à branch de auditoria.
-
-Validações no sandbox:
+Validações em sandbox isolado:
 
 - TypeScript (`npm run lint`): aprovado;
 - testes (`npm test`): 32/32 aprovados, 0 falhas;
 - build de produção (`npm run build`): aprovado;
 - `git diff --check`: aprovado;
-- servidor local: `/api/health` respondeu HTTP 200;
-- endpoint local de checkout sem autenticação permaneceu fail-closed com HTTP 401.
+- servidor local `/api/health`: HTTP 200;
+- endpoint local de checkout sem autenticação: HTTP 401, fail-closed.
 
-A CI da branch também foi executada novamente após a correção de pré-seleção. O GitHub Actions `Security Audit` concluiu com sucesso para o commit correspondente, incluindo:
+GitHub Actions `Security Audit` executado novamente após a correção de seleção de plano e concluído com sucesso, incluindo `npm audit`, TypeScript, regressão, build, verificação dos entrypoints, padrões de segredos, JWT fail-closed, criação de administrador, smoke tests e pagamentos fail-closed.
 
-- instalação de dependências;
-- `npm audit`;
-- TypeScript check;
-- testes de regressão;
-- build;
-- verificação dos entrypoints Express/Vercel;
-- busca por padrões comuns de segredos;
-- validação fail-closed do JWT;
-- validação de criação de administrador;
-- smoke test de health/registro;
-- verificação fail-closed dos endpoints de pagamento.
+Vercel:
 
-O preview da correção de seleção ficou READY na Vercel. Após identificar o risco de retorno cruzado entre preview e produção, foi criada a configuração `PUBLIC_APP_URL` exclusiva da branch e iniciado novo redeploy. O alias estável confirmado para a branch é `protocolodecuraintegrativa-git-audi-2509fc-evertonpiceni-sketch.vercel.app`.
+- preview da correção: READY;
+- redeploy posterior ao `PUBLIC_APP_URL`: READY;
+- redeploy posterior ao namespace Redis isolado: READY;
+- alias estável da branch: `protocolodecuraintegrativa-git-audi-2509fc-evertonpiceni-sketch.vercel.app`;
+- home no alias: HTTP 200 / `noindex`;
+- `payment-return.html`: HTTP 200 / `noindex`;
+- `/api/health`: HTTP 200.
 
-## Pendências reais antes de produção
+A documentação oficial atual da InfinitePay confirma que preços e `amount` são expressos em centavos e que `payment_check` retorna `amount` no mesmo padrão, coerente com a validação implantada.
 
-1. **Pagamento real InfinitePay:** não foi efetuada cobrança real nesta auditoria. É necessário validar no ambiente isolado da branch o checkout, PIX, cartão, eventual parcelamento/taxas, webhook e `payment_check` com uma transação real antes do merge para produção.
-2. **Taxas/parcelamento:** a regra de que as taxas ficam com o cliente deve ser conferida no checkout/configuração da conta InfinitePay; o código não deve inventar ou simular taxas.
-3. **Servidor local de desenvolvimento:** o `server.ts` continua deliberadamente fail-closed para pagamentos após autenticação, enquanto a implementação InfinitePay está no entrypoint Vercel `api/index.ts`. Preview/produção utilizam o entrypoint Vercel. Isso é dívida de paridade de desenvolvimento, não liberação indevida de pagamento.
-4. **Redeploy de isolamento:** confirmar que o deployment disparado depois da criação do `PUBLIC_APP_URL` da branch termina em READY e que o alias estável responde normalmente antes de iniciar qualquer transação real.
+## Novos achados de robustez — ainda não fechados
+
+1. **Seleção PIX/cartão na interface:** a documentação do Checkout Integrado indica que o comprador escolhe Pix ou cartão dentro da própria InfinitePay. O payload documentado de criação do link não oferece parâmetro de pré-seleção. Os botões atuais do app registram uma preferência interna, mas não controlam o método final do checkout. A interface deve ser ajustada para não sugerir que controla essa escolha.
+2. **Valor personalizado da prática individual:** a tela ainda permite habilitar valor personalizado, porém o servidor aceita somente os valores canônicos do ciclo menos cupons reconhecidos. Hoje uma tentativa de valor livre termina em rejeição do servidor. É necessário remover/adequar esse controle ou criar um fluxo seguro de valor previamente autorizado; não se deve confiar em preço arbitrário enviado pelo cliente.
+3. **Rate limiting do pagamento na Vercel:** os endpoints tratados diretamente por `api/index.ts` não passam pelo `apiLimiter` do Express local. Uma conta autenticada pode tentar criar muitos pedidos/links. Deve existir limitação específica antes da liberação em produção.
+4. **Pedidos pendentes após falha externa:** o pedido é salvo como `pending` antes da chamada de criação de link. Se a InfinitePay falhar, o registro pode permanecer pendente indefinidamente. Deve ser marcado como falha/expirado ou limpo por política explícita.
+5. **Servidor local:** `server.ts` continua deliberadamente fail-closed para pagamento após autenticação, enquanto a implementação real está no entrypoint Vercel `api/index.ts`. É dívida de paridade de desenvolvimento, não bypass de pagamento.
+
+## Pendências externas antes de produção
+
+1. **Criação de checkout real sem pagamento:** a tentativa automatizada desta auditoria foi bloqueada pela política de segurança da ferramenta antes de enviar credenciais descartáveis; portanto, não registrar como testado.
+2. **Transação real InfinitePay:** não foi efetuada cobrança. Ainda é necessário validar PIX, cartão, retorno, webhook e `payment_check` em ambiente controlado.
+3. **Taxas/parcelamento:** a configuração da conta InfinitePay deve estar em “Repassar taxas” se esta for a regra comercial escolhida. A documentação atual informa que essa configuração é feita nos meios de pagamento da InfinitePay; o código não deve inventar taxas.
 
 ## Estado de publicação
 
-Nenhuma alteração desta auditoria foi mesclada ao `main` ou promovida para produção. A PR #36 permanece em rascunho enquanto as pendências externas acima não forem validadas.
+Nenhuma alteração desta auditoria foi mesclada ao `main` ou promovida para produção. A PR #36 permanece em rascunho. Os novos achados de robustez acima devem ser resolvidos antes do merge, além da validação externa do checkout.
