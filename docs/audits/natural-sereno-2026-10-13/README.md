@@ -66,14 +66,14 @@ A CI da branch também foi executada novamente após a correção de pré-seleç
 - smoke test de health/registro;
 - verificação fail-closed dos endpoints de pagamento.
 
-O preview da mesma revisão ficou READY na Vercel. Após identificar o risco de retorno cruzado entre preview e produção, foi adicionada a configuração `PUBLIC_APP_URL` exclusiva da branch e solicitado novo redeploy para validar o isolamento antes de qualquer teste de pagamento.
+O preview da correção de seleção ficou READY na Vercel. Após identificar o risco de retorno cruzado entre preview e produção, foi criada a configuração `PUBLIC_APP_URL` exclusiva da branch e iniciado novo redeploy. O alias estável confirmado para a branch é `protocolodecuraintegrativa-git-audi-2509fc-evertonpiceni-sketch.vercel.app`.
 
 ## Pendências reais antes de produção
 
 1. **Pagamento real InfinitePay:** não foi efetuada cobrança real nesta auditoria. É necessário validar no ambiente isolado da branch o checkout, PIX, cartão, eventual parcelamento/taxas, webhook e `payment_check` com uma transação real antes do merge para produção.
 2. **Taxas/parcelamento:** a regra de que as taxas ficam com o cliente deve ser conferida no checkout/configuração da conta InfinitePay; o código não deve inventar ou simular taxas.
 3. **Servidor local de desenvolvimento:** o `server.ts` continua deliberadamente fail-closed para pagamentos após autenticação, enquanto a implementação InfinitePay está no entrypoint Vercel `api/index.ts`. Preview/produção utilizam o entrypoint Vercel. Isso é dívida de paridade de desenvolvimento, não liberação indevida de pagamento.
-4. **Isolamento do preview:** confirmar que o redeploy realizado depois da criação do `PUBLIC_APP_URL` da branch está READY e responde pelo alias estável antes de iniciar qualquer transação real.
+4. **Redeploy de isolamento:** confirmar que o deployment disparado depois da criação do `PUBLIC_APP_URL` da branch termina em READY e que o alias estável responde normalmente antes de iniciar qualquer transação real.
 
 ## Estado de publicação
 
