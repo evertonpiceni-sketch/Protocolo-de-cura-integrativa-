@@ -769,6 +769,9 @@ export default function App() {
     return <ProfileSetup onComplete={handleOnboardingComplete} />;
   }
 
+  const subscriptionLabel = ({ teste_vip_7d: 'VIP7', jornada_7d: '7 DIAS', arcanjo_7d: '7 DIAS', semanal: 'SEMANAL', mensal: 'MENSAL', trimestral: 'TRIMESTRAL', semestral: 'SEMESTRAL', anual: 'ANUAL' } as const)[userProfile.subscriptionPlan!] || 'PRO';
+  const subscriptionPeriod = ({ teste_vip_7d: 'por 7 dias', jornada_7d: 'por 7 dias', arcanjo_7d: 'por 7 dias', semanal: 'semanal', mensal: 'mensal', trimestral: 'trimestral', semestral: 'semestral', anual: 'anual' } as const)[userProfile.subscriptionPlan!] || '';
+
   const selectedProgress = selectedDayDetail ? progress.find(p => p.dayNumber === selectedDayDetail) : null;
   const currentInsightsList = userProfile.selectedJourney === '7d' ? JOURNEY_7D_INSIGHTS : DAILY_INSIGHTS;
   const selectedInsight = selectedDayDetail ? currentInsightsList[selectedDayDetail - 1] : null;
@@ -1031,7 +1034,7 @@ export default function App() {
                   </div>
                   {userProfile.plan === 'pro' ? (
                     <span className="px-2.5 py-0.5 rounded-full bg-amber-500/20 text-amber-300 text-[10px] font-mono font-semibold border border-amber-500/40">
-                      ATIVO {({ teste_vip_7d: 'VIP7', jornada_7d: '7 DIAS', arcanjo_7d: '7 DIAS', semanal: 'SEMANAL', mensal: 'MENSAL', trimestral: 'TRIMESTRAL', semestral: 'SEMESTRAL', anual: 'ANUAL' } as const)[userProfile.subscriptionPlan!] || 'PRO'}
+                      ATIVO {subscriptionLabel}
                     </span>
                   ) : (
                     <button
@@ -1047,7 +1050,7 @@ export default function App() {
 
                 <p className="text-xs text-[#5C5248] leading-relaxed">
                   {userProfile.plan === 'pro'
-                    ? 'Você possui acesso anual a todas as Frequências Sagradas (963Hz/741Hz), vozes neurais humanizadas, download dos áudios e emissão do certificado nominal.'
+                    ? `Você possui acesso${subscriptionPeriod ? ` ${subscriptionPeriod}` : ''} a todas as Frequências Sagradas (963Hz/741Hz), vozes neurais humanizadas, download dos áudios e emissão do certificado nominal.`
                     : 'Acesse as frequências quânticas 963Hz e 741Hz, emissão do Certificado Oficial Nominal de Conclusão e Relatório Quântico dos 21 Dias.'}
                 </p>
 
