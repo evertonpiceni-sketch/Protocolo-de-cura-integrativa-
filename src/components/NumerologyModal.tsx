@@ -8,7 +8,7 @@ import React, { useRef, useState } from 'react';
 import { motion } from 'motion/react';
 import {
   Sparkles, X, Hash, Heart, Shield, Crown, CheckCircle2,
-  Copy, QrCode, CreditCard, Award, Printer, Lock,
+  QrCode, CreditCard, Award, Printer, Lock,
   Sun, Compass, Star, Eye, Zap, MessageSquare
 } from 'lucide-react';
 import { UserProfile, NumerologyData } from '../types';
@@ -35,7 +35,6 @@ export default function NumerologyModal({
 }: NumerologyModalProps) {
   const printRef = useRef<HTMLDivElement>(null);
   const [activeTab, setActiveTab] = useState<NumerologyTab>('compact');
-  const [pixCopied, setPixCopied] = useState(false);
   const [selectedPaymentMethod, setSelectedPaymentMethod] = useState<'pix' | 'card'>('pix');
   const [isCheckoutProcessing, setIsCheckoutProcessing] = useState(false);
   const [checkoutError, setCheckoutError] = useState<string | null>(null);
@@ -56,16 +55,6 @@ export default function NumerologyModal({
   const handlePrint = () => {
     if (!isFullUnlocked) return;
     window.print();
-  };
-
-  const handleCopyPix = async () => {
-    try {
-      await navigator.clipboard.writeText('evertonpiceni@gmail.com');
-      setPixCopied(true);
-      setTimeout(() => setPixCopied(false), 3000);
-    } catch {
-      setCheckoutError('Não foi possível copiar a chave automaticamente. Selecione e copie a chave manualmente.');
-    }
   };
 
   const handleConfirmPurchase = async () => {
@@ -231,11 +220,14 @@ export default function NumerologyModal({
                 </div>
 
                 {selectedPaymentMethod === 'pix' && (
-                  <div className="p-4 rounded-2xl bg-[#FBF8F2] border border-[#E5DAC6] space-y-3 text-center"><p className="text-xs text-[#5C5248]">A chave PIX pode ser usada quando o provedor/fluxo de pagamento estiver disponível. <strong>O acesso não é liberado pelo simples envio do PIX:</strong> a confirmação precisa chegar ao servidor.</p><div className="p-3 bg-white border border-[#E5DAC6] rounded-xl flex items-center justify-between gap-2 max-w-md mx-auto"><span className="font-mono text-xs text-emerald-800 font-bold truncate">evertonpiceni@gmail.com</span><button type="button" onClick={handleCopyPix} className="min-h-11 px-3 py-1.5 bg-emerald-700 hover:bg-emerald-800 text-white rounded-lg text-xs font-mono font-bold flex items-center gap-1.5 cursor-pointer shrink-0 transition"><Copy size={13} /><span>{pixCopied ? 'Copiado' : 'Copiar chave'}</span></button></div>{pixCopied && <p role="status" aria-live="polite" className="text-[11px] text-emerald-700">Chave copiada.</p>}</div>
+                  <div className="p-4 rounded-2xl bg-[#FBF8F2] border border-[#E5DAC6] space-y-2 text-center">
+                    <p className="text-xs text-[#5C5248]">O PIX é gerado no checkout oficial da InfinitePay. Nenhuma chave PIX pessoal é exibida nesta tela.</p>
+                    <p className="text-[11px] text-[#85786C]"><strong>O acesso não é liberado pelo simples retorno do navegador:</strong> a confirmação precisa chegar ao servidor.</p>
+                  </div>
                 )}
 
                 {selectedPaymentMethod === 'card' && (
-                  <div className="p-4 rounded-2xl bg-[#FBF8F2] border border-[#E5DAC6] space-y-3 text-xs text-[#5C5248]"><p>Os dados de cartão não são coletados pelo aplicativo. Quando o checkout seguro estiver disponível, ele será iniciado pelo provedor de pagamento.</p>{onOpenContact && <button type="button" onClick={onOpenContact} className="w-full min-h-11 py-2.5 rounded-xl bg-[#B88736] hover:bg-[#8F631E] text-white font-bold text-xs flex items-center justify-center gap-2 cursor-pointer transition"><MessageSquare size={14} /><span>Falar com o suporte</span></button>}</div>
+                  <div className="p-4 rounded-2xl bg-[#FBF8F2] border border-[#E5DAC6] space-y-3 text-xs text-[#5C5248]"><p>Os dados de cartão não são coletados pelo aplicativo. O pagamento é concluído no checkout seguro da InfinitePay.</p>{onOpenContact && <button type="button" onClick={onOpenContact} className="w-full min-h-11 py-2.5 rounded-xl bg-[#B88736] hover:bg-[#8F631E] text-white font-bold text-xs flex items-center justify-center gap-2 cursor-pointer transition"><MessageSquare size={14} /><span>Falar com o suporte</span></button>}</div>
                 )}
 
                 <div className="pt-2 space-y-2">
