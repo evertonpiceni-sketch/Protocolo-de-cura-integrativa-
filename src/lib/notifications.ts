@@ -41,7 +41,7 @@ class LocalNotificationManager {
     return Notification.permission;
   }
 
-  public sendNotification(title: string, body: string, icon = '/app-icon.jpg') {
+  public sendNotification(title: string, body: string, icon = '/icon-192.svg') {
     if (typeof window !== 'undefined' && 'Notification' in window && Notification.permission === 'granted') {
       try { new Notification(title, { body, icon, tag: 'cura-integrada-daily' }); }
       catch (e) { console.warn('Failed to create native notification', e); }

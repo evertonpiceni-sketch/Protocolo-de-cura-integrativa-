@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useCallback } from "react";
 import { Clock, Armchair, CheckCircle2, X } from "lucide-react";
 
 interface Practice {
@@ -53,6 +53,7 @@ const PRACTICES: Practice[] = [
 ];
 
 export const PausaConscienteLight: React.FC = () => {
+  const focusHeading = useCallback((heading: HTMLHeadingElement | null) => { heading?.focus({ preventScroll: true }); }, []);
   const [selectedDuration, setSelectedDuration] = useState<number | null>(null);
   const [activePractice, setActivePractice] = useState<Practice | null>(null);
 
@@ -71,7 +72,7 @@ export const PausaConscienteLight: React.FC = () => {
           <section className="rounded-3xl border border-[#E8DFC8] bg-white/85 p-6 shadow-xl shadow-[#B88736]/5 backdrop-blur-xl sm:p-9" aria-labelledby="pause-title">
             <header className="mb-6 text-center">
               <span className="mb-1 block text-[11px] font-semibold uppercase tracking-widest text-[#B88736]">Autocuidado Corporal</span>
-              <h1 id="pause-title" className="font-serif text-2xl text-[#2A2420] sm:text-3xl">Pausa Consciente</h1>
+              <h1 ref={focusHeading} tabIndex={-1} id="pause-title" className="font-serif text-2xl text-[#2A2420] sm:text-3xl">Pausa Consciente</h1>
               <p className="mt-1.5 text-xs font-light leading-relaxed text-[#5C5248]">Pequenas experiências para interromper o automático, perceber o corpo e voltar ao presente.</p>
             </header>
 
@@ -131,7 +132,7 @@ export const PausaConscienteLight: React.FC = () => {
               </button>
             </header>
 
-            <h2 id="active-pause-title" className="mb-2 font-serif text-2xl text-[#2A2420]">{activePractice.title}</h2>
+            <h2 ref={focusHeading} tabIndex={-1} id="active-pause-title" className="mb-2 font-serif text-2xl text-[#2A2420]">{activePractice.title}</h2>
             <p className="mb-6 text-xs font-light leading-relaxed text-[#5C5248]">{activePractice.description}</p>
 
             <ol className="mb-8 space-y-4">

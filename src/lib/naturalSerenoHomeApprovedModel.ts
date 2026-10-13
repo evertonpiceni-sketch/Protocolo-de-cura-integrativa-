@@ -348,7 +348,7 @@ function addStyles() {
     }
     :root[data-layout="natural-sereno"] .ns-home-scene::after { display: none; }
     :root[data-layout="natural-sereno"] .ns-home-menu {
-      position: absolute !important; top: 11px; right: 12px; left: auto; width: 44px; height: 44px; display: grid; place-items: center;
+      position: absolute !important; z-index: 2 !important; top: 11px; right: 12px; left: auto; width: 44px; height: 44px; display: grid; place-items: center;
       color: #073b2b !important; background: rgba(255,250,231,.7) !important;
       border: 0 !important; box-shadow: none; backdrop-filter: none;
     }

@@ -1,3 +1,4 @@
+import { useDialogFocus } from '../hooks/useDialogFocus';
 /**
  * @license
  * SPDX-License-Identifier: Apache-2.0
@@ -125,6 +126,9 @@ export default function AdminPanelModal({ isOpen, onClose }: AdminPanelModalProp
     return () => { cancelled = true; };
   }, [isOpen]);
 
+  const dialogRef = React.useRef<HTMLDivElement | null>(null);
+  useDialogFocus(isOpen && document.documentElement.dataset.layout === 'natural-sereno', dialogRef, onClose);
+
   if (!isOpen) return null;
 
   const handleLogin = async (e: React.FormEvent) => {
@@ -231,7 +235,7 @@ export default function AdminPanelModal({ isOpen, onClose }: AdminPanelModalProp
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4 bg-[#2A2420]/30 backdrop-blur-md overflow-y-auto overscroll-contain" id="admin-panel-modal" role="dialog" aria-modal="true" aria-label="Painel administrativo">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4 bg-[#2A2420]/30 backdrop-blur-md overflow-y-auto overscroll-contain" ref={dialogRef} id="admin-panel-modal" role="dialog" aria-modal="true" aria-label="Painel administrativo">
       <motion.div
         initial={{ opacity: 0, scale: 0.96, y: 15 }}
         animate={{ opacity: 1, scale: 1, y: 0 }}
@@ -283,7 +287,7 @@ export default function AdminPanelModal({ isOpen, onClose }: AdminPanelModalProp
             </div>
 
             {authError && (
-              <div className="p-3 rounded-xl bg-rose-500/10 border border-rose-500/30 text-rose-300 text-xs text-center font-mono">
+              <div role="alert" className="p-3 rounded-xl bg-rose-500/10 border border-rose-500/30 text-rose-300 text-xs text-center font-mono">
                 {authError}
               </div>
             )}
@@ -293,7 +297,7 @@ export default function AdminPanelModal({ isOpen, onClose }: AdminPanelModalProp
                 <label className="text-[11px] font-mono text-[#5C5248] block uppercase">Login ou e-mail do Administrador</label>
                 <input
                   type="text"
-                  value={adminEmail}
+                  aria-label="Login ou e-mail do Administrador" value={adminEmail}
                   onChange={(e) => setAdminEmail(e.target.value)}
                   className="w-full bg-white border border-[#E5DAC6] rounded-xl px-3.5 py-2.5 text-xs text-[#2A2420] focus:border-amber-500 outline-none font-mono"
                   required
@@ -305,7 +309,7 @@ export default function AdminPanelModal({ isOpen, onClose }: AdminPanelModalProp
                 <input
                   type="password"
                   placeholder="Digite sua senha de acesso..."
-                  value={adminPass}
+                  aria-label="Senha da conta administrativa" value={adminPass}
                   onChange={(e) => setAdminPass(e.target.value)}
                   className="w-full bg-white border border-[#E5DAC6] rounded-xl px-3.5 py-2.5 text-xs text-[#2A2420] focus:border-amber-500 outline-none"
                   required
@@ -410,7 +414,7 @@ export default function AdminPanelModal({ isOpen, onClose }: AdminPanelModalProp
 
                     <div className="space-y-1">
                       <label className="text-[10px] font-mono text-[#5C5248] uppercase block">Vincular ao Dia (1 a 21)</label>
-                      <select
+                      <select aria-label="Dia da prática personalizada"
                         value={newAudioDay}
                         onChange={(e) => setNewAudioDay(parseInt(e.target.value))}
                         className="w-full bg-[#FBF8F2] border border-[#E5DAC6] rounded-xl px-3 py-2 text-xs text-[#2A2420] focus:border-amber-500 outline-none font-mono"
@@ -532,7 +536,7 @@ export default function AdminPanelModal({ isOpen, onClose }: AdminPanelModalProp
 
                     <div className="space-y-1">
                       <label className="text-[10px] font-mono text-[#5C5248] uppercase block">Desconto (%)</label>
-                      <select
+                      <select aria-label="Desconto do cupom em porcentagem"
                         value={newCouponDiscount}
                         onChange={(e) => setNewCouponDiscount(parseInt(e.target.value))}
                         className="w-full bg-[#FBF8F2] border border-[#E5DAC6] rounded-xl px-3 py-2 text-xs text-[#2A2420] focus:border-amber-500 outline-none font-mono"

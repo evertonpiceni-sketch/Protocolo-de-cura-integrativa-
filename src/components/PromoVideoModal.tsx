@@ -1,3 +1,4 @@
+import { useDialogFocus } from '../hooks/useDialogFocus';
 /**
  * @license
  * SPDX-License-Identifier: Apache-2.0
@@ -163,6 +164,9 @@ export default function PromoVideoModal({
     };
   }, [isOpen, isPlaying, isMuted, scene.frequency]);
 
+  const dialogRef = React.useRef<HTMLDivElement | null>(null);
+  useDialogFocus(isOpen && document.documentElement.dataset.layout === 'natural-sereno', dialogRef, () => { audioEngine.stopBG(); onClose(); });
+
   if (!isOpen) return null;
 
   const handleNext = () => {
@@ -190,7 +194,7 @@ export default function PromoVideoModal({
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center overflow-y-auto overscroll-contain bg-[#021b13]/96 p-2 sm:p-4 backdrop-blur-xl" id="promo-video-modal" role="dialog" aria-modal="true" aria-label="Vídeo de apresentação">
+    <div className="fixed inset-0 z-50 flex items-center justify-center overflow-y-auto overscroll-contain bg-[#021b13]/96 p-2 sm:p-4 backdrop-blur-xl" ref={dialogRef} id="promo-video-modal" role="dialog" aria-modal="true" aria-label="Vídeo de apresentação">
       <motion.div
         initial={{ opacity: 0, scale: 0.95, y: 15 }}
         animate={{ opacity: 1, scale: 1, y: 0 }}
@@ -222,6 +226,7 @@ export default function PromoVideoModal({
               <Share2 size={16} />
             </button>
             <button
+              aria-label="Fechar vídeo de apresentação"
               onClick={() => {
                 audioEngine.stopBG();
                 onClose();
@@ -238,6 +243,8 @@ export default function PromoVideoModal({
           {PROMO_SCENES.map((sc, i) => (
             <button
               key={sc.id}
+              aria-label={`Ir para cena ${i + 1}: ${sc.title}`}
+              aria-current={i === currentSceneIndex ? 'step' : undefined}
               onClick={() => {
                 setCurrentSceneIndex(i);
                 setSceneProgress(0);

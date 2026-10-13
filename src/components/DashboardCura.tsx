@@ -1,3 +1,4 @@
+import { useDialogFocus } from '../hooks/useDialogFocus';
 import React, { useMemo, useEffect, useState } from 'react';
 import { DayProgress, UserProfile } from '../types';
 import { ArrowLeft, Flame, Lock, Play, CheckCircle2, Award, Sparkles } from 'lucide-react';
@@ -14,6 +15,8 @@ const CHAKRAS_DATA = [
 
 export default function DashboardCura({ onClose, progress, userProfile }: { onClose: () => void; progress: DayProgress[], userProfile?: UserProfile }) {
   const [completedDays, setCompletedDays] = useState<number[]>([]);
+  const dialogRef = React.useRef<HTMLDivElement | null>(null);
+  useDialogFocus(document.documentElement.dataset.layout === 'natural-sereno', dialogRef, onClose);
 
   useEffect(() => {
     const profileCompleted = userProfile?.journeyProgress?.arcanjo7CompletedDays;
@@ -46,7 +49,7 @@ export default function DashboardCura({ onClose, progress, userProfile }: { onCl
   };
 
   return (
-    <div className="fixed inset-0 z-[100] flex flex-col bg-[#F8F4EC] text-[#2A2420] font-sans selection:bg-[#E4C573]/30 overflow-y-auto">
+    <div ref={dialogRef} id="progress-dashboard" role="dialog" aria-modal="true" aria-label="Dashboard de Progresso Analítico" className="fixed inset-0 z-[100] flex flex-col bg-[#F8F4EC] text-[#2A2420] font-sans selection:bg-[#E4C573]/30 overflow-y-auto">
       {/* Background Gradient */}
       <div className="fixed inset-0 pointer-events-none bg-[radial-gradient(circle_at_50%_0,rgba(214,167,86,.12),transparent_30rem),linear-gradient(180deg,#FBF8F2,#F8F4EC)]" />
 
@@ -93,7 +96,7 @@ export default function DashboardCura({ onClose, progress, userProfile }: { onCl
       <main className="relative z-10 mx-auto w-full max-w-lg flex-1 px-5 pb-12">
         {/* Central Energy Visualizer */}
         <div className="relative mx-auto my-8 aspect-[4/5] w-full max-w-[360px] rounded-[2rem] border border-[#E4C573]/30 bg-white/75 shadow-[0_22px_60px_rgba(0,0,0,.38)] overflow-hidden">
-          <img src="/brand/chakra-body.png" alt="Pessoa em meditação com os sete chakras" className="absolute inset-0 h-full w-full object-cover" />
+          <img src="/brand/human-chakra-model.jpg" alt="Pessoa em meditação com os sete chakras" className="absolute inset-0 h-full w-full object-cover" />
           <div className="absolute inset-0 bg-gradient-to-t from-[#F8F4EC]/70 via-transparent to-transparent" />
           
           {CHAKRAS_DATA.map((chakra) => {
@@ -139,7 +142,7 @@ export default function DashboardCura({ onClose, progress, userProfile }: { onCl
 
             if (isCompleted) {
               return (
-                <div key={day} onClick={() => handlePlayDay(day)} className="relative flex cursor-pointer items-center justify-between rounded-2xl border border-[#E4C573]/50 bg-[#E4C573]/5 px-5 py-4 transition hover:bg-[#E4C573]/10">
+                <button type="button" key={day} onClick={() => handlePlayDay(day)} className="relative flex w-full text-left cursor-pointer items-center justify-between rounded-2xl border border-[#E4C573]/50 bg-[#E4C573]/5 px-5 py-4 transition hover:bg-[#E4C573]/10">
                   <div className="absolute left-0 top-0 h-full w-2 rounded-l-2xl" style={{ backgroundColor: chakra.color, opacity: 0.8 }} />
                   <div className="ml-3">
                     <h3 className="font-serif text-[15px] font-semibold text-[#E4C573]">Dia {day}: {chakra.name}</h3>
@@ -148,7 +151,7 @@ export default function DashboardCura({ onClose, progress, userProfile }: { onCl
                   <div className="flex h-8 w-8 items-center justify-center rounded-full bg-[#E4C573]/20 text-[#E4C573]">
                     <CheckCircle2 size={18} />
                   </div>
-                </div>
+                </button>
               );
             }
 

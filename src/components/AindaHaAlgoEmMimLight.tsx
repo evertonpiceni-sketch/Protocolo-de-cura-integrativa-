@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useCallback } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { ArrowRight, ArrowLeft, Feather, ShieldCheck } from "lucide-react";
 
@@ -34,6 +34,7 @@ const QUESTIONS = [
 ];
 
 export const AindaHaAlgoEmMimLight: React.FC<Props> = ({ onFinishReflection }) => {
+  const focusHeading = useCallback((heading: HTMLHeadingElement | null) => { heading?.focus({ preventScroll: true }); }, []);
   const [currentIdx, setCurrentIdx] = useState(0);
   const [answers, setAnswers] = useState<Record<number, string>>({});
   const question = QUESTIONS[currentIdx];
@@ -94,7 +95,7 @@ export const AindaHaAlgoEmMimLight: React.FC<Props> = ({ onFinishReflection }) =
               <span className="text-[11px] font-semibold uppercase tracking-widest text-[#B88736]">Ainda Há Algo em Mim</span>
             </div>
 
-            <h1 id={`reflection-question-${question.id}`} className="mb-2 font-serif text-2xl leading-snug text-[#2A2420] sm:text-3xl">{question.title}</h1>
+            <h1 ref={focusHeading} tabIndex={-1} id={`reflection-question-${question.id}`} className="mb-2 font-serif text-2xl leading-snug text-[#2A2420] sm:text-3xl">{question.title}</h1>
             <p className="mb-6 text-xs font-light leading-relaxed text-[#5C5248]">{question.subtitle}</p>
 
             <div className="mb-6 space-y-2">

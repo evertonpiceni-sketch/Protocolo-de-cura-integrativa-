@@ -80,6 +80,11 @@ export default function AnamnesisModal({
     if (isOpen && naturalSereno) {
       if (cardRef.current) cardRef.current.scrollTop = 0;
       if (dialogRef.current) dialogRef.current.scrollTop = 0;
+      const heading = cardRef.current?.querySelector<HTMLElement>('.ep-assessment-heading h2');
+      if (isEditing && heading) {
+        heading.tabIndex = -1;
+        heading.focus({ preventScroll: true });
+      }
     }
   }, [isOpen, currentStep, isEditing, naturalSereno]);
 

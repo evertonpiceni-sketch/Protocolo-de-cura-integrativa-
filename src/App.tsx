@@ -741,8 +741,7 @@ export default function App() {
     );
   }
 
-  if (isLoadingAuth) {
-    return (
+  const loadingScreen = (
       <div id="auth-loading-view" className="min-h-screen bg-[#F8F4EC] text-[#2A2420] flex flex-col items-center justify-center p-6 text-center">
         <div className="w-16 h-16 rounded-full overflow-hidden border-2 border-[#B88736] shadow-md p-1 bg-[#FBF8F2] flex items-center justify-center mb-4 animate-pulse">
           <img src={APPROVED_LOGO_DATA_URI} alt="Everton Piceni" className="w-full h-full object-contain" />
@@ -762,8 +761,9 @@ export default function App() {
           <small>Preparando seu espaço de presença e acolhimento...</small>
         </div>
       </div>
-    );
-  }
+  );
+
+  if (isLoadingAuth) return loadingScreen;
 
   if (!userProfile) {
     return <ProfileSetup onComplete={handleOnboardingComplete} />;
@@ -774,7 +774,7 @@ export default function App() {
   const selectedInsight = selectedDayDetail ? currentInsightsList[selectedDayDetail - 1] : null;
 
   return (
-    <React.Suspense fallback={null}>
+    <React.Suspense fallback={loadingScreen}>
     <>
       {!userProfile.visualLayout && (
         <LayoutChoiceModal
@@ -1021,7 +1021,7 @@ export default function App() {
               <div className="border-t border-[#E5DAC6]" />
 
               {/* PRO VIP Status Card */}
-              <div className="p-5 rounded-2xl bg-gradient-to-br from-amber-950/30 via-slate-900 to-slate-950 border border-amber-500/30 space-y-3">
+              <div data-ns-status-card="true" className="p-5 rounded-2xl bg-gradient-to-br from-amber-950/30 via-slate-900 to-slate-950 border border-amber-500/30 space-y-3">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-2">
                     <Crown className="text-amber-400" size={18} />
@@ -1031,7 +1031,7 @@ export default function App() {
                   </div>
                   {userProfile.plan === 'pro' ? (
                     <span className="px-2.5 py-0.5 rounded-full bg-amber-500/20 text-amber-300 text-[10px] font-mono font-semibold border border-amber-500/40">
-                      ATIVO ANUAL
+                      ATIVO {({ teste_vip_7d: 'VIP7', jornada_7d: '7 DIAS', arcanjo_7d: '7 DIAS', semanal: 'SEMANAL', mensal: 'MENSAL', trimestral: 'TRIMESTRAL', semestral: 'SEMESTRAL', anual: 'ANUAL' } as const)[userProfile.subscriptionPlan!] || 'PRO'}
                     </span>
                   ) : (
                     <button

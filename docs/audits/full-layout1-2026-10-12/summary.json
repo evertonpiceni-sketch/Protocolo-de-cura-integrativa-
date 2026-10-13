@@ -1,0 +1,26 @@
+{
+  "states": 62,
+  "viewportChecks": 186,
+  "widths": [
+    320,
+    390,
+    1365
+  ],
+  "javascriptErrors": 0,
+  "horizontalOverflow": 0,
+  "unnamedControls": 0,
+  "keyboardDialogs": 38,
+  "testSuite": {
+    "passed": 32,
+    "failed": 0
+  },
+  "imageScan": {
+    "scanned": 65,
+    "corruptUnreferencedFiles": [
+      "public/app-icon.jpg",
+      "public/brand/chakra-body.png"
+    ],
+    "activeReferencesRepaired": true
+  },
+  "production": "pending verification"
+}

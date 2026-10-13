@@ -1,14 +1,18 @@
 import { useEffect, useRef, type RefObject } from 'react';
 
+const activeDialogs: HTMLElement[] = [];
+
 export function useDialogFocus(open: boolean, ref: RefObject<HTMLElement | null>, onClose: (() => void) | null) {
   const closeRef = useRef(onClose); closeRef.current = onClose;
   useEffect(() => {
     if (!open || !ref.current) return;
     const dialog = ref.current;
+    activeDialogs.push(dialog);
     const previous = document.activeElement as HTMLElement | null;
     const controls = () => [...dialog.querySelectorAll<HTMLElement>('button, input, select, textarea, a[href], [tabindex]')].filter(element => !element.hasAttribute('disabled') && element.tabIndex >= 0 && element.getClientRects().length);
     const initial = controls()[0]; initial?.focus();
     function keydown(event: KeyboardEvent) {
+      if (activeDialogs[activeDialogs.length - 1] !== dialog) return;
       if (event.key === 'Escape' && closeRef.current) { event.preventDefault(); closeRef.current(); }
       if (event.key !== 'Tab') return;
       const items = controls();
@@ -19,6 +23,6 @@ export function useDialogFocus(open: boolean, ref: RefObject<HTMLElement | null>
       else if (!event.shiftKey && (document.activeElement === last || !focusedControl)) { event.preventDefault(); first.focus(); }
     }
     document.addEventListener('keydown', keydown);
-    return () => { document.removeEventListener('keydown', keydown); if (previous?.isConnected) previous.focus(); };
+    return () => { const index = activeDialogs.lastIndexOf(dialog); if (index >= 0) activeDialogs.splice(index, 1); document.removeEventListener('keydown', keydown); if (previous?.isConnected) previous.focus(); };
   }, [open, ref]);
 }

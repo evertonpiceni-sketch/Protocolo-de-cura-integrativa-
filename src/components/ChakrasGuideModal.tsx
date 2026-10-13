@@ -1,3 +1,4 @@
+import { useDialogFocus } from '../hooks/useDialogFocus';
 /**
  * @license
  * SPDX-License-Identifier: Apache-2.0
@@ -99,6 +100,9 @@ export const CHAKRAS_DATA: ChakraInfo[] = [
 
 export function ChakrasGuideModal({ isOpen, onClose }: ChakrasGuideModalProps) {
   const [selectedChakraId, setSelectedChakraId] = useState('muladhara');
+  const dialogRef = React.useRef<HTMLDivElement | null>(null);
+  useDialogFocus(isOpen && document.documentElement.dataset.layout === 'natural-sereno', dialogRef, onClose);
+
   if (!isOpen) return null;
 
   const current = CHAKRAS_DATA.find(chakra => chakra.id === selectedChakraId) || CHAKRAS_DATA[0];
@@ -106,7 +110,7 @@ export function ChakrasGuideModal({ isOpen, onClose }: ChakrasGuideModalProps) {
   return (
     <div
       className="fixed inset-0 z-50 flex items-start sm:items-center justify-center p-2 sm:p-4 bg-[#2A2420]/30 backdrop-blur-md overflow-y-auto overscroll-contain"
-      id="chakras-guide-modal"
+      ref={dialogRef} id="chakras-guide-modal"
       role="dialog"
       aria-modal="true"
       aria-labelledby="chakras-guide-title"

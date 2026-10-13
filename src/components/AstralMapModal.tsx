@@ -1,3 +1,4 @@
+import { useDialogFocus } from '../hooks/useDialogFocus';
 /**
  * @license
  * SPDX-License-Identifier: Apache-2.0
@@ -38,6 +39,9 @@ export default function AstralMapModal({
   const [editBirthTime, setEditBirthTime] = useState(userProfile.birthTime || '');
   const [editBirthCity, setEditBirthCity] = useState(userProfile.birthCity || '');
   const [saveFeedback, setSaveFeedback] = useState('');
+
+  const dialogRef = React.useRef<HTMLDivElement | null>(null);
+  useDialogFocus(isOpen && document.documentElement.dataset.layout === 'natural-sereno', dialogRef, onClose);
 
   if (!isOpen) return null;
 
@@ -106,7 +110,7 @@ export default function AstralMapModal({
   }`;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-start sm:items-center justify-center p-2 sm:p-4 bg-[#2A2420]/30 backdrop-blur-md overflow-y-auto overscroll-contain" id="astral-map-modal" role="dialog" aria-modal="true" aria-label="Mapa astral">
+    <div className="fixed inset-0 z-50 flex items-start sm:items-center justify-center p-2 sm:p-4 bg-[#2A2420]/30 backdrop-blur-md overflow-y-auto overscroll-contain" ref={dialogRef} id="astral-map-modal" role="dialog" aria-modal="true" aria-label="Mapa astral">
       <motion.div
         initial={{ opacity: 0, scale: 0.97, y: 10 }}
         animate={{ opacity: 1, scale: 1, y: 0 }}

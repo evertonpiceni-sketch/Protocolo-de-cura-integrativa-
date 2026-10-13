@@ -370,3 +370,34 @@
 :root[data-layout="natural-sereno"] #meditation-session[data-session-phase="playing"] > footer {
   transform: translateZ(0);
 }
+
+/* Full-page audit: keep legacy panels within the approved Natural Sereno palette. */
+:root[data-layout="natural-sereno"] #settings-view [data-ns-status-card] {
+  background: linear-gradient(180deg, #fffaf0, #f1e7c8) !important;
+  border-color: #d9c58f !important;
+}
+:root[data-layout="natural-sereno"] #settings-view [data-ns-status-card] > div:first-child { flex-wrap: wrap; gap: 8px; }
+:root[data-layout="natural-sereno"] #settings-view [data-ns-status-card] :is(p,span,svg) { color: #26372a !important; }
+:root[data-layout="natural-sereno"] #specific-treatment-modal [class*="bg-gradient"]:not(.pointer-events-none) {
+  background: linear-gradient(180deg, #fffaf0, #efe2bd) !important;
+  border-color: #d9c58f !important;
+}
+:root[data-layout="natural-sereno"] #specific-treatment-modal :is([class*="text-emerald"],[class*="text-teal"],[class*="text-amber"],[class*="text-white"]) { color: #26372a !important; }
+:root[data-layout="natural-sereno"] #specific-treatment-modal .pointer-events-none[class*="blur"] { background: rgba(184,135,54,.055) !important; opacity: .42 !important; }
+:root[data-layout="natural-sereno"] #admin-panel-modal button[type="submit"] { background: linear-gradient(180deg, #e5c773, #b78d36) !important; color: #26372a !important; }
+
+:root[data-layout="natural-sereno"] #astral-map-modal a[class*="bg-emerald"][class*="text-white"] { color: #fff9e8 !important; }
+:root[data-layout="natural-sereno"] #systemic-questions-modal > div > button[aria-label="Fechar reflexões sistêmicas"] { position: absolute !important; width: 44px; height: 44px; top: 16px; right: 16px; z-index: 3; }
+
+:root[data-layout="natural-sereno"] #contact-us-modal .pointer-events-none[class*="blur"] { background: rgba(184,135,54,.055) !important; opacity: .42 !important; }
+
+:root[data-layout="natural-sereno"] #progress-dashboard header h1 { color: #26372a; }
+:root[data-layout="natural-sereno"] #progress-dashboard header [class*="text-[#E4C573]"] { color: #71511c; }
+
+:root[data-layout="natural-sereno"] #daily-diary-modal .pointer-events-none[class*="blur"] { background: rgba(184,135,54,.055) !important; opacity: .42 !important; }
+:root[data-layout="natural-sereno"] #daily-diary-modal :is(div,span)[class*="bg-[#B88736]/"] { background: #f1e7c8 !important; color: #26372a !important; }
+:root[data-layout="natural-sereno"] #daily-diary-modal :is(div,span)[class*="bg-[#B88736]/"] :is(span,svg) { color: #26372a !important; }
+
+:root[data-layout="natural-sereno"] #daily-diary-modal > div > .shrink-0 > div:first-child { padding-right: 48px !important; align-items: flex-start !important; }
+:root[data-layout="natural-sereno"] #daily-diary-modal > div > .shrink-0 > div:first-child > div { min-width: 0; max-width: 100%; }
+:root[data-layout="natural-sereno"] #daily-diary-modal > div > .shrink-0 .inline-flex { max-width: 100%; font-size: 10px; white-space: normal; }

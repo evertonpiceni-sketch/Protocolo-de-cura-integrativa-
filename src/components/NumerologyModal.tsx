@@ -1,3 +1,4 @@
+import { useDialogFocus } from '../hooks/useDialogFocus';
 /**
  * @license
  * SPDX-License-Identifier: Apache-2.0
@@ -38,6 +39,9 @@ export default function NumerologyModal({
   const [selectedPaymentMethod, setSelectedPaymentMethod] = useState<'pix' | 'card'>('pix');
   const [isCheckoutProcessing, setIsCheckoutProcessing] = useState(false);
   const [checkoutError, setCheckoutError] = useState<string | null>(null);
+
+  const dialogRef = React.useRef<HTMLDivElement | null>(null);
+  useDialogFocus(isOpen && document.documentElement.dataset.layout === 'natural-sereno', dialogRef, onClose);
 
   if (!isOpen) return null;
 
@@ -102,7 +106,7 @@ export default function NumerologyModal({
   const tabClass = (selected: boolean) => `min-h-11 px-4 py-2 rounded-xl text-xs font-mono font-semibold transition cursor-pointer border flex items-center gap-1.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B88736]/35 ${selected ? 'bg-[#F5EFE4] border-[#B88736] text-[#2A2420] shadow-sm' : 'bg-white border-[#E5DAC6] text-[#5C5248] hover:border-[#B88736]/45'}`;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-start sm:items-center justify-center p-2 sm:p-4 bg-[#2A2420]/30 backdrop-blur-md overflow-y-auto overscroll-contain" id="numerology-modal" role="dialog" aria-modal="true" aria-label="Mapa numerológico">
+    <div className="fixed inset-0 z-50 flex items-start sm:items-center justify-center p-2 sm:p-4 bg-[#2A2420]/30 backdrop-blur-md overflow-y-auto overscroll-contain" ref={dialogRef} id="numerology-modal" role="dialog" aria-modal="true" aria-label="Mapa numerológico">
       <motion.div
         initial={{ opacity: 0, scale: 0.97, y: 10 }}
         animate={{ opacity: 1, scale: 1, y: 0 }}

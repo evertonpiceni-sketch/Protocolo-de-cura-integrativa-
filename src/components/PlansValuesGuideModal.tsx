@@ -1,3 +1,4 @@
+import { useDialogFocus } from '../hooks/useDialogFocus';
 /**
  * @license
  * SPDX-License-Identifier: Apache-2.0
@@ -203,6 +204,9 @@ export function PlansValuesGuideModal({
     }
   }, [isOpen]);
 
+  const dialogRef = React.useRef<HTMLDivElement | null>(null);
+  useDialogFocus(isOpen && document.documentElement.dataset.layout === 'natural-sereno', dialogRef, onClose);
+
   if (!isOpen) return null;
 
   const handleCopyPix = () => {
@@ -228,7 +232,7 @@ export function PlansValuesGuideModal({
     : ALL_PLANS_DATA.filter((plan) => plan.category === filterCategory);
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-[#1F2E27]/35 backdrop-blur-md overflow-y-auto" id="plans-values-guide-modal">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-[#1F2E27]/35 backdrop-blur-md overflow-y-auto" ref={dialogRef} id="plans-values-guide-modal" role="dialog" aria-modal="true" aria-label="Planos e valores">
       <motion.div
         ref={containerRef}
         initial={{ opacity: 0, scale: 0.97, y: 12 }}

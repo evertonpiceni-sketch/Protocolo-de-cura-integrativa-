@@ -1,3 +1,4 @@
+import { useDialogFocus } from '../hooks/useDialogFocus';
 /**
  * @license
  * SPDX-License-Identifier: Apache-2.0
@@ -23,6 +24,9 @@ export default function ProReportCertificateModal({
 }: ProReportCertificateModalProps) {
   const [activeTab, setActiveTab] = useState<'certificate' | 'report'>('certificate');
 
+  const dialogRef = React.useRef<HTMLDivElement | null>(null);
+  useDialogFocus(isOpen && document.documentElement.dataset.layout === 'natural-sereno', dialogRef, onClose);
+
   if (!isOpen) return null;
 
   const completedDays = progress.filter(item => item.completed);
@@ -43,7 +47,7 @@ export default function ProReportCertificateModal({
   return (
     <div
       className="fixed inset-0 z-50 flex items-start sm:items-center justify-center p-2 sm:p-4 bg-[#2A2420]/30 backdrop-blur-md overflow-y-auto overscroll-contain"
-      id="pro-certificate-modal"
+      ref={dialogRef} id="pro-certificate-modal"
       role="dialog"
       aria-modal="true"
       aria-label="Relatório da jornada"

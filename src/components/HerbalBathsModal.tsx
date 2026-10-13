@@ -1,3 +1,4 @@
+import { useDialogFocus } from '../hooks/useDialogFocus';
 /**
  * @license
  * SPDX-License-Identifier: Apache-2.0
@@ -252,6 +253,9 @@ export default function HerbalBathsModal({ isOpen, onClose }: HerbalBathsModalPr
   const [copiedId, setCopiedId] = useState<string | null>(null);
   const [copyError, setCopyError] = useState('');
 
+  const dialogRef = React.useRef<HTMLDivElement | null>(null);
+  useDialogFocus(isOpen && document.documentElement.dataset.layout === 'natural-sereno', dialogRef, onClose);
+
   if (!isOpen) return null;
 
   const categories = ['Todos', 'Coronário & Paz Mental', 'Limpeza & Descarrego', 'Abertura & Prosperidade', 'Amor & Harmonização', 'Acalento & Sono'];
@@ -282,7 +286,7 @@ export default function HerbalBathsModal({ isOpen, onClose }: HerbalBathsModalPr
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-5 bg-[#2A2420]/30 backdrop-blur-md overflow-y-auto overscroll-contain" id="herbal-baths-modal" role="dialog" aria-modal="true" aria-label="Guia de banhos de ervas">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-5 bg-[#2A2420]/30 backdrop-blur-md overflow-y-auto overscroll-contain" ref={dialogRef} id="herbal-baths-modal" role="dialog" aria-modal="true" aria-label="Guia de banhos de ervas">
       <motion.div initial={{ opacity: 0, scale: 0.95, y: 15 }} animate={{ opacity: 1, scale: 1, y: 0 }} exit={{ opacity: 0, scale: 0.95, y: 15 }} className="bg-[#FBF8F2] border border-[#E5DAC6] rounded-2xl sm:rounded-3xl w-full max-w-4xl max-h-[calc(100dvh-1rem)] sm:max-h-[92dvh] flex flex-col overflow-hidden shadow-2xl relative my-auto">
         <div className="p-5 sm:p-6 border-b border-[#E5DAC6] bg-gradient-to-r from-emerald-50 via-[#FBF8F2] to-[#F5EFE4] flex items-center justify-between shrink-0">
           <div className="flex items-center gap-3.5 min-w-0"><div className="w-11 h-11 rounded-2xl bg-emerald-50 text-emerald-700 border border-emerald-200 flex items-center justify-center shrink-0"><Leaf size={22} /></div><div className="min-w-0"><span className="text-[10px] font-mono uppercase tracking-widest text-emerald-800 font-bold bg-emerald-50 px-2 py-0.5 rounded-full border border-emerald-200">Sabedoria Tradicional & Ervas</span><h2 className="text-lg sm:text-xl font-display font-bold text-[#2A2420] mt-0.5">Guia de Banhos de Ervas & Práticas Energéticas</h2></div></div>

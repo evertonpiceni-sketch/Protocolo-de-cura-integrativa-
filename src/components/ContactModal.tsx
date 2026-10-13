@@ -1,3 +1,4 @@
+import { useDialogFocus } from '../hooks/useDialogFocus';
 /**
  * @license
  * SPDX-License-Identifier: Apache-2.0
@@ -35,6 +36,9 @@ export default function ContactModal({
   const [isSent, setIsSent] = useState(false);
   const [copiedEmail, setCopiedEmail] = useState(false);
 
+  const dialogRef = React.useRef<HTMLDivElement | null>(null);
+  useDialogFocus(isOpen && document.documentElement.dataset.layout === 'natural-sereno', dialogRef, onClose);
+
   if (!isOpen) return null;
 
   const topicLabels: Record<string, string> = {
@@ -45,10 +49,14 @@ export default function ContactModal({
     outro: 'Outro assunto'
   };
 
-  const handleCopyEmail = () => {
-    navigator.clipboard.writeText('evertonpiceni@gmail.com');
-    setCopiedEmail(true);
-    setTimeout(() => setCopiedEmail(false), 2500);
+  const handleCopyEmail = async () => {
+    try {
+      await navigator.clipboard.writeText('evertonpiceni@gmail.com');
+      setCopiedEmail(true);
+      setTimeout(() => setCopiedEmail(false), 2500);
+    } catch {
+      setCopiedEmail(false);
+    }
   };
 
   const handleSendMessage = (e: React.FormEvent) => {
@@ -81,7 +89,7 @@ export default function ContactModal({
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4 bg-[#2A2420]/30 backdrop-blur-md overflow-y-auto overscroll-contain" id="contact-us-modal" role="dialog" aria-modal="true" aria-label="Fale Conosco">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4 bg-[#2A2420]/30 backdrop-blur-md overflow-y-auto overscroll-contain" ref={dialogRef} id="contact-us-modal" role="dialog" aria-modal="true" aria-label="Fale Conosco">
       <motion.div
         initial={{ opacity: 0, scale: 0.95, y: 15 }}
         animate={{ opacity: 1, scale: 1, y: 0 }}
@@ -204,12 +212,12 @@ export default function ContactModal({
             <form onSubmit={handleSendMessage} className="space-y-4">
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <div className="space-y-1">
-                  <label className="text-[10px] font-mono text-[#5C5248] uppercase font-bold">
+                  <label htmlFor="contact-sender-name" className="text-[10px] font-mono text-[#5C5248] uppercase font-bold">
                     Seu Nome
                   </label>
                   <input
                     type="text"
-                    value={senderName}
+                    id="contact-sender-name" value={senderName}
                     onChange={(e) => setSenderName(e.target.value)}
                     placeholder="Como prefere ser chamado(a)"
                     className="w-full bg-white border border-[#E5DAC6] rounded-xl px-3.5 py-2 text-xs text-[#2A2420] placeholder:text-[#85786C] outline-none focus:border-[#B88736] focus:ring-2 focus:ring-[#B88736]/15"
@@ -217,12 +225,12 @@ export default function ContactModal({
                 </div>
 
                 <div className="space-y-1">
-                  <label className="text-[10px] font-mono text-[#5C5248] uppercase font-bold">
+                  <label htmlFor="contact-sender-email" className="text-[10px] font-mono text-[#5C5248] uppercase font-bold">
                     Seu E-mail para Resposta
                   </label>
                   <input
                     type="email"
-                    value={senderEmail}
+                    id="contact-sender-email" value={senderEmail}
                     onChange={(e) => setSenderEmail(e.target.value)}
                     placeholder="seuemail@exemplo.com"
                     className="w-full bg-white border border-[#E5DAC6] rounded-xl px-3.5 py-2 text-xs text-[#2A2420] placeholder:text-[#85786C] outline-none focus:border-[#B88736] focus:ring-2 focus:ring-[#B88736]/15"
@@ -231,11 +239,11 @@ export default function ContactModal({
               </div>
 
               <div className="space-y-1">
-                <label className="text-[10px] font-mono text-[#5C5248] uppercase font-bold">
+                <label htmlFor="contact-topic" className="text-[10px] font-mono text-[#5C5248] uppercase font-bold">
                   Assunto / Tema do Contato
                 </label>
                 <select
-                  value={topic}
+                  id="contact-topic" value={topic}
                   onChange={(e) => setTopic(e.target.value as any)}
                   className="w-full bg-white border border-[#E5DAC6] rounded-xl px-3.5 py-2 text-xs text-[#2A2420] outline-none focus:border-[#B88736] focus:ring-2 focus:ring-[#B88736]/15 cursor-pointer font-sans"
                 >
@@ -248,13 +256,13 @@ export default function ContactModal({
               </div>
 
               <div className="space-y-1">
-                <label className="text-[10px] font-mono text-[#5C5248] uppercase font-bold">
+                <label htmlFor="contact-message" className="text-[10px] font-mono text-[#5C5248] uppercase font-bold">
                   Sua Mensagem ou Dúvida
                 </label>
                 <textarea
                   rows={4}
                   required
-                  value={message}
+                  id="contact-message" value={message}
                   onChange={(e) => setMessage(e.target.value)}
                   placeholder="Escreva aqui como podemos te ajudar, suas percepções durante as sessões ou perguntas..."
                   className="w-full bg-white border border-[#E5DAC6] rounded-xl p-3.5 text-xs text-[#2A2420] placeholder:text-[#85786C] outline-none focus:border-[#B88736] focus:ring-2 focus:ring-[#B88736]/15 resize-none leading-relaxed"

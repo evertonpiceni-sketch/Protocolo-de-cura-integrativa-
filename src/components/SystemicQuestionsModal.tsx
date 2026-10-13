@@ -1,3 +1,4 @@
+import { useDialogFocus } from '../hooks/useDialogFocus';
 /**
  * @license
  * SPDX-License-Identifier: Apache-2.0
@@ -91,6 +92,9 @@ export default function SystemicQuestionsModal({
     setIsSavedRecently(false);
   }, [activeDay, progress]);
 
+  const dialogRef = React.useRef<HTMLDivElement | null>(null);
+  useDialogFocus(isOpen && document.documentElement.dataset.layout === 'natural-sereno', dialogRef, () => handleCloseModal());
+
   if (!isOpen) return null;
 
   const currentQuestionItem: SystemicQuestionItem = SYSTEMIC_QUESTIONS_21D[activeDay - 1] || SYSTEMIC_QUESTIONS_21D[0];
@@ -133,7 +137,7 @@ export default function SystemicQuestionsModal({
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4 bg-[#2A2420]/30 backdrop-blur-md overflow-y-auto overscroll-contain" id="systemic-questions-modal" role="dialog" aria-modal="true" aria-label="Reflexões sistêmicas">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4 bg-[#2A2420]/30 backdrop-blur-md overflow-y-auto overscroll-contain" ref={dialogRef} id="systemic-questions-modal" role="dialog" aria-modal="true" aria-label="Reflexões sistêmicas">
       <motion.div
         initial={{ opacity: 0, scale: 0.95, y: 15 }}
         animate={{ opacity: 1, scale: 1, y: 0 }}
@@ -155,7 +159,7 @@ export default function SystemicQuestionsModal({
 
         {/* Header */}
         <div className="shrink-0 space-y-3 pb-4 border-b border-[#E5DAC6]">
-          <div className="text-center space-y-1 pr-8 pl-8">
+          <div className="text-center space-y-1 pr-12 pl-12">
             <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#B88736]/10 border border-[#B88736]/30 text-[#B88736] text-xs font-mono font-medium">
               <GitBranch size={14} className="text-[#B88736]" />
               <span>REFLEXÕES SISTÊMICAS & ANCESTRALIDADE</span>

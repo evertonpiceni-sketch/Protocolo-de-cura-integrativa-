@@ -1,3 +1,4 @@
+import { useDialogFocus } from '../hooks/useDialogFocus';
 /**
  * @license
  * SPDX-License-Identifier: Apache-2.0
@@ -67,6 +68,9 @@ export default function ArchangelMichaelPrayerModal({
     () => Math.round((Math.min(completedDays.length, 21) / 21) * 100),
     [completedDays.length]
   );
+
+  const dialogRef = React.useRef<HTMLDivElement | null>(null);
+  useDialogFocus(isOpen && document.documentElement.dataset.layout === 'natural-sereno', dialogRef, () => handleClose());
 
   if (!isOpen) return null;
 
@@ -146,7 +150,7 @@ export default function ArchangelMichaelPrayerModal({
   return (
     <div
       className="fixed inset-0 z-50 flex items-center justify-center overflow-y-auto overscroll-contain bg-[#2A2420]/30 p-2 sm:p-4 backdrop-blur-md"
-      id="archangel-prayer-modal"
+      ref={dialogRef} id="archangel-prayer-modal"
       role="dialog"
       aria-modal="true"
       aria-labelledby="archangel-prayer-title"

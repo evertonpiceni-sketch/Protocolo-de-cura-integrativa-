@@ -31,6 +31,10 @@ export default function PersonalJourney21({ onClose, initialCompletedDays, onCom
   const cueRetryAtRef = useRef<Record<number, number>>({});
   const [activeCueIndex, setActiveCueIndex] = useState(-1);
   const [showScript, setShowScript] = useState(false);
+  const pauseRef = useRef<HTMLElement | null>(null);
+  const reflectionRef = useRef<HTMLElement | null>(null);
+  useDialogFocus(showPausaConsciente, pauseRef, () => setShowPausaConsciente(false));
+  useDialogFocus(showReflexao, reflectionRef, () => setShowReflexao(false));
   const scriptRef = useRef<HTMLElement | null>(null);
   useDialogFocus(showScript, scriptRef, () => setShowScript(false));
   const wakeLockRef = useRef<any>(null);
@@ -320,12 +324,12 @@ export default function PersonalJourney21({ onClose, initialCompletedDays, onCom
         </div>
       </section>
     </main>
-    {showPausaConsciente && <section className="fixed inset-0 z-[130] overflow-y-auto bg-[#F8F4EC]">
-      <button onClick={() => setShowPausaConsciente(false)} className="fixed right-4 top-4 z-[140] rounded-full border border-[#E5DAC6] bg-white/90 px-4 py-2 text-sm font-semibold text-[#5C5248] shadow-sm">Fechar</button>
+    {showPausaConsciente && <section ref={pauseRef} role="dialog" aria-modal="true" aria-label="Pausa Consciente" className="fixed inset-0 z-[130] overflow-y-auto bg-[#F8F4EC]">
+      <button onClick={() => setShowPausaConsciente(false)} className="fixed right-4 top-[max(1rem,env(safe-area-inset-top))] z-[140] min-h-11 rounded-full border border-[#E5DAC6] bg-white/90 px-4 py-2 text-sm font-semibold text-[#5C5248] shadow-sm">Fechar</button>
       <PausaConscienteLight />
     </section>}
-    {showReflexao && <section className="fixed inset-0 z-[130] overflow-y-auto bg-[#F8F4EC]">
-      <button onClick={() => setShowReflexao(false)} className="fixed right-4 top-4 z-[140] rounded-full border border-[#E5DAC6] bg-white/90 px-4 py-2 text-sm font-semibold text-[#5C5248] shadow-sm">Fechar</button>
+    {showReflexao && <section ref={reflectionRef} role="dialog" aria-modal="true" aria-label="Ainda Há Algo em Mim" className="fixed inset-0 z-[130] overflow-y-auto bg-[#F8F4EC]">
+      <button onClick={() => setShowReflexao(false)} className="fixed right-4 top-[max(1rem,env(safe-area-inset-top))] z-[140] min-h-11 rounded-full border border-[#E5DAC6] bg-white/90 px-4 py-2 text-sm font-semibold text-[#5C5248] shadow-sm">Fechar</button>
       <AindaHaAlgoEmMimLight onFinishReflection={() => setShowReflexao(false)} />
     </section>}
     {started && <section className="ep-reintegration-running fixed inset-0 z-[120] flex min-h-[100dvh] flex-col overflow-hidden bg-[#031426] text-[#F8E8C2]" aria-label="Meditação guiada em andamento">

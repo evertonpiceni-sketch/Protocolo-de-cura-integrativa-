@@ -1,3 +1,4 @@
+import { useDialogFocus } from '../hooks/useDialogFocus';
 /**
  * @license
  * SPDX-License-Identifier: Apache-2.0
@@ -63,6 +64,9 @@ export default function SpecificTreatmentModal({
   const [couponFeedback, setCouponFeedback] = useState<{ type: 'success' | 'error'; message: string } | null>(null);
 
   const existingTreatments = userProfile.specificTreatments || [];
+
+  const dialogRef = React.useRef<HTMLDivElement | null>(null);
+  useDialogFocus(isOpen && document.documentElement.dataset.layout === 'natural-sereno', dialogRef, onClose);
 
   if (!isOpen) return null;
 
@@ -189,12 +193,12 @@ export default function SpecificTreatmentModal({
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-[#2A2420]/30 backdrop-blur-md overflow-y-auto" id="specific-treatment-modal">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-[#2A2420]/30 backdrop-blur-md overflow-y-auto" ref={dialogRef} id="specific-treatment-modal" role="dialog" aria-modal="true" aria-label="Prática individual">
       <motion.div
         initial={{ opacity: 0, scale: 0.96 }}
         animate={{ opacity: 1, scale: 1 }}
         exit={{ opacity: 0, scale: 0.96 }}
-        className="w-full max-w-2xl bg-[#FBF8F2] border border-[#E5DAC6] rounded-3xl p-6 md:p-8 shadow-2xl relative overflow-hidden my-6"
+        className="w-full max-w-2xl max-h-[calc(100dvh-2rem)] bg-[#FBF8F2] border border-[#E5DAC6] rounded-3xl p-6 md:p-8 shadow-2xl relative overflow-y-auto my-auto"
       >
         {/* Ambient glow */}
         <div className="absolute -top-24 -right-24 w-60 h-60 bg-emerald-500/10 rounded-full blur-3xl pointer-events-none" />
@@ -202,6 +206,7 @@ export default function SpecificTreatmentModal({
 
         {/* Close */}
         <button
+          aria-label="Fechar prática individual"
           onClick={onClose}
           className="absolute top-5 right-5 w-8 h-8 rounded-full bg-[#F5EFE4]/80 border border-[#E5DAC6] text-[#5C5248] hover:text-[#2A2420] flex items-center justify-center transition cursor-pointer z-10"
         >

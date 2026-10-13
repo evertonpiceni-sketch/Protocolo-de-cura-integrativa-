@@ -1,3 +1,4 @@
+import { useDialogFocus } from '../hooks/useDialogFocus';
 /**
  * @license
  * SPDX-License-Identifier: Apache-2.0
@@ -44,6 +45,14 @@ export default function DailyDiaryModal({
   const [isExpectationEditing, setIsExpectationEditing] = useState<boolean>(false);
   const [expectationsText, setExpectationsText] = useState<string>(userProfile?.treatmentExpectations || '');
   const [saveSuccessMsg, setSaveSuccessMsg] = useState<boolean>(false);
+
+  const dialogRef = React.useRef<HTMLDivElement | null>(null);
+  useDialogFocus(isOpen && document.documentElement.dataset.layout === 'natural-sereno', dialogRef, onClose);
+  React.useLayoutEffect(() => {
+    if (isOpen && isEditing && document.documentElement.dataset.layout === 'natural-sereno') {
+      dialogRef.current?.querySelector<HTMLTextAreaElement>('textarea[aria-label^="Reflexão e diário"]')?.focus();
+    }
+  }, [isOpen, isEditing]);
 
   if (!isOpen) return null;
 
@@ -151,7 +160,7 @@ export default function DailyDiaryModal({
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4 bg-[#2A2420]/30 backdrop-blur-md overflow-y-auto overscroll-contain" id="daily-diary-modal" role="dialog" aria-modal="true" aria-label="Diário de Reconexão">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4 bg-[#2A2420]/30 backdrop-blur-md overflow-y-auto overscroll-contain" ref={dialogRef} id="daily-diary-modal" role="dialog" aria-modal="true" aria-label="Diário de Reconexão">
       <motion.div
         initial={{ opacity: 0, scale: 0.95, y: 15 }}
         animate={{ opacity: 1, scale: 1, y: 0 }}
@@ -222,6 +231,7 @@ export default function DailyDiaryModal({
               <div className="space-y-2">
                 <textarea
                   rows={2}
+                  aria-label="O que desejo cultivar nesta jornada"
                   value={expectationsText}
                   onChange={(e) => setExpectationsText(e.target.value)}
                   placeholder="Ex: Quero cultivar mais presença, descanso, clareza, gentileza comigo e espaço para perceber o que preciso neste momento..."
@@ -245,7 +255,7 @@ export default function DailyDiaryModal({
           {/* Days selector bar */}
           <div className="flex items-center justify-between gap-2 pt-1">
             <button
-              onClick={() => setActiveDay(prev => Math.max(prev - 1, 1))}
+              aria-label="Dia anterior" onClick={() => setActiveDay(prev => Math.max(prev - 1, 1))}
               disabled={activeDay === 1}
               className="w-11 h-11 rounded-xl bg-white border border-[#E5DAC6] text-[#5C5248] hover:text-[#2A2420] disabled:opacity-30 disabled:cursor-not-allowed transition cursor-pointer shrink-0 flex items-center justify-center focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B88736]/30"
             >
@@ -287,7 +297,7 @@ export default function DailyDiaryModal({
             </div>
 
             <button
-              onClick={() => setActiveDay(prev => Math.min(prev + 1, 21))}
+              aria-label="Próximo dia" onClick={() => setActiveDay(prev => Math.min(prev + 1, 21))}
               disabled={activeDay === 21}
               className="w-11 h-11 rounded-xl bg-white border border-[#E5DAC6] text-[#5C5248] hover:text-[#2A2420] disabled:opacity-30 disabled:cursor-not-allowed transition cursor-pointer shrink-0 flex items-center justify-center focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B88736]/30"
             >
@@ -420,6 +430,7 @@ export default function DailyDiaryModal({
               <div className="space-y-3">
                 <textarea
                   rows={4}
+                  aria-label={`Reflexão e diário do dia ${activeDay}`}
                   value={editingDayText}
                   onChange={(e) => setEditingDayText(e.target.value)}
                   placeholder="Escreva suas percepções, sonhos, pensamentos e transformações deste dia..."
@@ -429,7 +440,7 @@ export default function DailyDiaryModal({
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
                   <div className="flex items-center gap-2 text-xs text-[#5C5248]">
                     <span>Humor Geral:</span>
-                    <select
+                    <select aria-label="Humor Geral"
                       value={editingMood}
                       onChange={(e) => setEditingMood(parseInt(e.target.value))}
                           className="bg-[#FBF8F2] border border-[#E5DAC6] text-[#2A2420] text-xs rounded-lg px-2 py-1 disabled:opacity-50"
