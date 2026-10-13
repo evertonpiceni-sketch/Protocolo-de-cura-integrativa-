@@ -127,9 +127,9 @@ const PLANS: PlanItem[] = [
   }
 ];
 
+// O único cupom aceito nesta tela é a degustação gratuita, que possui validação
+// específica no servidor. Descontos pagos não ficam somente no cliente.
 const COUPONS: Record<string, { discount: number; vip?: boolean }> = {
-  PROMO15: { discount: 15 },
-  PROMO20: { discount: 20 },
   VIP7: { discount: 100, vip: true }
 };
 
