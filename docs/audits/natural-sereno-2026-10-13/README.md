@@ -84,3 +84,7 @@ A documentação oficial atual da InfinitePay confirma que preços e `amount` s�
 ## Estado de publicação
 
 Nenhuma alteração desta auditoria foi mesclada ao `main` ou promovida para produção. A PR #36 permanece em rascunho. Os novos achados de robustez acima devem ser resolvidos antes do merge, além da validação externa do checkout.
+
+## Fechamento desta rodada
+
+A branch foi mantida íntegra após rollback preventivo da tentativa de alteração de `types.ts`. O ambiente temporário de sandbox utilizado para inspeções e testes locais deve ser encerrado ao fim da rodada para evitar consumo desnecessário. O preview branch-scoped e suas variáveis de isolamento permanecem disponíveis para a próxima etapa controlada da auditoria.
