@@ -87,4 +87,4 @@ Nenhuma alteração desta auditoria foi mesclada ao `main` ou promovida para pro
 
 ## Fechamento desta rodada
 
-A branch foi mantida íntegra após rollback preventivo da tentativa de alteração de `types.ts`. O ambiente temporário de sandbox utilizado para inspeções e testes locais foi preparado para encerramento sem afetar o preview persistente da branch. O preview branch-scoped e suas variáveis de isolamento permanecem disponíveis para a próxima etapa controlada da auditoria.
+A branch foi mantida íntegra após rollback preventivo da tentativa de alteração de `types.ts`. O sandbox temporário `natural-sereno-audit-20261013` foi encerrado e seus recursos liberados. O preview persistente da branch e as variáveis branch-scoped de isolamento permanecem disponíveis para a próxima etapa controlada da auditoria.
