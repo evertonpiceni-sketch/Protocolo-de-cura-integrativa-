@@ -25,8 +25,6 @@ const unlockCoreControl = (element: Element) => {
   if (!(element instanceof HTMLButtonElement || element instanceof HTMLAnchorElement)) return;
   if (!isCoreAccessControl(element)) return;
 
-  // The observer watches these attributes: write only when they change so
-  // applying the same access policy cannot starve rendering in a microtask loop.
   if (element.hasAttribute('disabled')) element.removeAttribute('disabled');
   if (element.getAttribute('aria-disabled') !== 'false') element.setAttribute('aria-disabled', 'false');
   for (const token of ['pointer-events-none', 'cursor-not-allowed', 'opacity-40', 'opacity-50']) {
@@ -40,7 +38,7 @@ const addCoreBenefitToPlanCard = (card: Element) => {
 
   const marker = document.createElement('div');
   marker.dataset.universalCoreBenefit = 'true';
-  marker.className = 'mt-3 rounded-xl border border-[#B88736]/25 bg-[#B88736]/8 px-3 py-2 text-[11px] font-semibold leading-5 text-[#8F631E]';
+  marker.className = 'mt-3 rounded-xl border border-[#D8CBA8]/45 bg-[#FBF8EF]/70 px-3 py-2 text-[11px] font-medium leading-5 text-[#355548]';
   marker.textContent = CORE_BENEFIT_TEXT;
   card.appendChild(marker);
 };
