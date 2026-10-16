@@ -1,0 +1,128 @@
+/* Natural Sereno — integridade final dos botões
+   Método Éverton: correção mínima, sem redesenho.
+   Regra vigente: ação principal em verde profundo; dourado apenas como detalhe. */
+
+:root[data-layout="natural-sereno"] :is(
+  .ns-gold,
+  .ep-gold-button,
+  .ep-gold-action
+) {
+  background: #073b2b !important;
+  background-image: none !important;
+  color: #fff9e8 !important;
+  border: 1px solid rgba(184, 135, 54, .34) !important;
+  box-shadow: 0 8px 20px rgba(7, 59, 43, .14) !important;
+  text-shadow: none !important;
+}
+
+:root[data-layout="natural-sereno"] :is(
+  .ns-gold,
+  .ep-gold-button,
+  .ep-gold-action
+) :is(span, svg) {
+  color: inherit !important;
+}
+
+:root[data-layout="natural-sereno"] :is(
+  .ns-gold,
+  .ep-gold-button,
+  .ep-gold-action
+):hover {
+  background: #0a4a36 !important;
+  background-image: none !important;
+  color: #fff9e8 !important;
+  filter: none !important;
+}
+
+:root[data-layout="natural-sereno"] .ns-secondary {
+  background: rgba(255, 253, 248, .94) !important;
+  color: #073b2b !important;
+  border-color: rgba(184, 135, 54, .28) !important;
+  box-shadow: none !important;
+  text-shadow: none !important;
+}
+
+:root[data-layout="natural-sereno"] .ns-secondary:hover {
+  background: #f5efe4 !important;
+  color: #073b2b !important;
+  border-color: rgba(184, 135, 54, .42) !important;
+}
+
+/* Filtros são seleção, não CTA dourado. */
+:root[data-layout="natural-sereno"] .ns-community .ns-filter button[aria-pressed="true"] {
+  background: #073b2b !important;
+  background-image: none !important;
+  color: #fff9e8 !important;
+  border-color: rgba(184, 135, 54, .34) !important;
+  box-shadow: none !important;
+}
+
+/* CTAs de autenticação não devem reaparecer como blocos dourados. */
+#profile-setup-view.ep-auth-style-one :is(
+  #register-form,
+  #login-form
+) button[type="submit"],
+#profile-setup-view.ep-auth-style-one #auth-tabs button[class*="bg-"] {
+  background: #073b2b !important;
+  background-image: none !important;
+  color: #fff9e8 !important;
+  border-color: rgba(184, 135, 54, .34) !important;
+  box-shadow: 0 8px 20px rgba(7, 59, 43, .14) !important;
+  text-shadow: none !important;
+}
+
+#profile-setup-view.ep-auth-style-one :is(
+  #register-form,
+  #login-form
+) button[type="submit"]:hover,
+#profile-setup-view.ep-auth-style-one #auth-tabs button[class*="bg-"]:hover {
+  background: #0a4a36 !important;
+  filter: none !important;
+}
+
+/* Submit administrativo: ação principal, não bloco dourado. */
+:root[data-layout="natural-sereno"] #admin-panel-modal button[type="submit"] {
+  background: #073b2b !important;
+  background-image: none !important;
+  color: #fff9e8 !important;
+  border-color: rgba(184, 135, 54, .34) !important;
+  box-shadow: 0 8px 20px rgba(7, 59, 43, .14) !important;
+}
+
+/* Fechamento de gradientes residuais nos planos. */
+:root[data-layout="natural-sereno"] #plans-modal :is(
+  button[class*="to-yellow-300"],
+  button[class*="bg-amber-300"]
+) {
+  background: #073b2b !important;
+  background-image: none !important;
+  color: #fff9e8 !important;
+  border-color: rgba(184, 135, 54, .34) !important;
+  box-shadow: 0 8px 20px rgba(7, 59, 43, .14) !important;
+}
+
+/* CTA do cabeçalho: o dourado permanece apenas como borda/detalhe. */
+:root[data-layout="natural-sereno"] #main-header button:has(.lucide-crown) {
+  background: #073b2b !important;
+  background-image: none !important;
+  color: #fff9e8 !important;
+  border-color: rgba(184, 135, 54, .34) !important;
+  box-shadow: none !important;
+}
+
+:root[data-layout="natural-sereno"] #main-header button:has(.lucide-crown) :is(span, svg) {
+  color: inherit !important;
+}
+
+/* Estados de foco permanecem discretos e consistentes. */
+:root[data-layout="natural-sereno"] :is(
+  .ns-gold,
+  .ns-secondary,
+  .ep-gold-button,
+  .ep-gold-action,
+  #main-header button:has(.lucide-crown),
+  #admin-panel-modal button[type="submit"]
+):focus-visible {
+  outline: 2px solid rgba(184, 135, 54, .5) !important;
+  outline-offset: 3px !important;
+}
