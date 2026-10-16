@@ -6,7 +6,7 @@ import { useDialogFocus } from '../hooks/useDialogFocus';
 
 import React, { useState } from 'react';
 import { motion } from 'motion/react';
-import { X, Check, Crown, QrCode, Copy, Star, ArrowRight, MessageCircle } from 'lucide-react';
+import { X, Check, Crown, ShieldCheck, Star, ArrowRight, MessageCircle } from 'lucide-react';
 
 interface PlansValuesGuideModalProps {
   isOpen: boolean;
@@ -40,9 +40,9 @@ export const ALL_PLANS_DATA: DetailedPlanInfo[] = [
     category: 'assinatura',
     title: 'Acesso avulso — 7 dias',
     badge: 'Opção avulsa',
-    priceFormatted: 'R$ 15,00',
+    priceFormatted: 'R$ 25,00',
     periodText: 'acesso por 7 dias',
-    priceNumeric: 15,
+    priceNumeric: 25,
     highlightBenefit: 'Um ciclo curto e completo, com Anamnese Compacta incluída.',
     features: [
       'Anamnese Compacta com resultado imediato',
@@ -54,6 +54,28 @@ export const ALL_PLANS_DATA: DetailedPlanInfo[] = [
     description: 'Você recebe a orientação primeiro e só depois escolhe o protocolo que deseja seguir durante os 7 dias.',
     ctaText: 'Escolher acesso de 7 dias',
     accentColor: 'emerald',
+    buttonClass: 'bg-[#073B2B] hover:bg-[#073B2B] text-[#FFF9E8] shadow-[#073B2B]/15'
+  },
+  {
+    id: 'jornada_21d',
+    category: 'assinatura',
+    title: 'Acesso avulso — 21 dias',
+    badge: 'Jornada completa',
+    isPopular: true,
+    priceFormatted: 'R$ 50,00',
+    periodText: 'acesso por 21 dias',
+    priceNumeric: 50,
+    highlightBenefit: 'Vinte e um dias de continuidade integral da jornada, com Anamnese Compacta incluída.',
+    features: [
+      'Anamnese Compacta com resultado imediato',
+      'Orientação para identificar o protocolo mais adequado ao seu momento',
+      'Escolha livre entre os protocolos disponíveis para 21 dias',
+      'Acesso preservado durante os 21 dias completos da jornada',
+      'Diário privado e recursos de acompanhamento durante o período'
+    ],
+    description: 'Para quem deseja percorrer a jornada completa com continuidade durante os 21 dias.',
+    ctaText: 'Escolher acesso de 21 dias',
+    accentColor: 'amber',
     buttonClass: 'bg-[#073B2B] hover:bg-[#073B2B] text-[#FFF9E8] shadow-[#073B2B]/15'
   },
   {
@@ -82,7 +104,6 @@ export const ALL_PLANS_DATA: DetailedPlanInfo[] = [
     category: 'assinatura',
     title: 'Plano Trimestral',
     badge: 'Anamnese Completa incluída',
-    isPopular: true,
     priceFormatted: 'R$ 69,90',
     periodText: 'por 3 meses',
     priceNumeric: 69.9,
@@ -193,7 +214,6 @@ export function PlansValuesGuideModal({
   onOpenSpecificTreatment
 }: PlansValuesGuideModalProps) {
   const containerRef = React.useRef<HTMLDivElement>(null);
-  const [copiedPixKey, setCopiedPixKey] = useState(false);
   const [filterCategory, setFilterCategory] = useState<'todos' | 'assinatura' | 'tratamento_individual'>('todos');
 
   React.useEffect(() => {
@@ -208,12 +228,6 @@ export function PlansValuesGuideModal({
   useDialogFocus(isOpen && document.documentElement.dataset.layout === 'natural-sereno', dialogRef, onClose);
 
   if (!isOpen) return null;
-
-  const handleCopyPix = () => {
-    navigator.clipboard.writeText('evertonpiceni@gmail.com');
-    setCopiedPixKey(true);
-    setTimeout(() => setCopiedPixKey(false), 3500);
-  };
 
   const handleTriggerPlan = (planId: string) => {
     onClose();
@@ -238,15 +252,15 @@ export function PlansValuesGuideModal({
         initial={{ opacity: 0, scale: 0.97, y: 12 }}
         animate={{ opacity: 1, scale: 1, y: 0 }}
         exit={{ opacity: 0, scale: 0.97 }}
-        className="w-full max-w-5xl bg-[#FFF9E8] border border-[#D8B867]/30 rounded-3xl p-5 sm:p-7 md:p-8 shadow-2xl relative my-4 max-h-[92vh] overflow-y-auto"
+        className="w-full max-w-5xl bg-[#FFFDF8] border border-[#D8B867]/24 rounded-3xl p-5 sm:p-7 md:p-8 shadow-2xl relative my-4 max-h-[92vh] overflow-y-auto"
       >
-        <button onClick={onClose} className="absolute top-5 right-5 w-8 h-8 rounded-full bg-white/70 border border-[#D8B867]/25 text-[#5F6857] flex items-center justify-center z-10" aria-label="Fechar">
+        <button onClick={onClose} className="absolute top-5 right-5 w-8 h-8 rounded-full bg-white/70 border border-[#D8B867]/20 text-[#5F6857] flex items-center justify-center z-10" aria-label="Fechar">
           <X size={16} />
         </button>
 
         <div className="space-y-6">
           <div className="text-center space-y-2 px-8">
-            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#F7E5AA]/40 border border-[#D8B867]/30 text-[#7C5A1D] text-xs font-medium">
+            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#F7E5AA]/24 border border-[#D8B867]/22 text-[#7C5A1D] text-xs font-medium">
               <Crown size={14} />
               <span>PLANOS E VALORES</span>
             </div>
@@ -254,19 +268,15 @@ export function PlansValuesGuideModal({
             <p className="text-xs md:text-sm text-[#5F6857] max-w-2xl mx-auto">Aqui você escolhe a forma de acesso. A Anamnese Compacta orienta o próximo passo e, depois do resultado, você escolhe livremente o protocolo e a duração disponíveis. A partir do trimestral, a Anamnese Completa já está incluída.</p>
           </div>
 
-          <div className="p-4 rounded-2xl bg-[#073B2B] border border-[#D8B867]/30 flex flex-col sm:flex-row items-center justify-between gap-3 shadow-lg">
+          <div className="p-4 rounded-2xl bg-white/82 border border-[#D8B867]/22 flex flex-col sm:flex-row items-center justify-between gap-3 shadow-sm">
             <div className="flex items-center gap-3 text-center sm:text-left">
-              <div className="p-2.5 rounded-xl bg-white/10 text-[#F7E5AA] border border-white/10 shrink-0"><QrCode size={22} /></div>
+              <div className="p-2.5 rounded-xl bg-[#073B2B]/7 text-[#073B2B] border border-[#073B2B]/10 shrink-0"><ShieldCheck size={22} /></div>
               <div>
-                <span className="text-[10px] uppercase tracking-wider text-[#D9BD72] font-bold block">CHAVE PIX OFICIAL</span>
-                <strong className="text-sm md:text-base text-[#FFF9E8] font-bold">evertonpiceni@gmail.com</strong>
-                <span className="text-[11px] text-[#E9DFC9] block">Titular: Éverton Rodrigo Piceni</span>
+                <span className="text-[10px] uppercase tracking-wider text-[#8F631E] font-bold block">PAGAMENTO SEGURO</span>
+                <strong className="text-sm md:text-base text-[#26372A] font-bold">Checkout oficial InfinitePay</strong>
+                <span className="text-[11px] text-[#6A725F] block">PIX e cartão são concluídos no provedor. Nenhuma chave PIX pessoal é exibida no aplicativo.</span>
               </div>
             </div>
-            <button type="button" onClick={handleCopyPix} className="px-4 py-2 bg-[#F7E5AA] text-[#073B2B] rounded-xl text-xs font-semibold flex items-center gap-1.5">
-              {copiedPixKey ? <Check size={14} /> : <Copy size={14} />}
-              <span>{copiedPixKey ? 'Chave copiada' : 'Copiar chave PIX'}</span>
-            </button>
           </div>
 
           <div className="flex flex-wrap items-center justify-center gap-2">
@@ -283,10 +293,10 @@ export function PlansValuesGuideModal({
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 items-stretch">
             {filteredPlans.map((plan) => (
-              <div key={plan.id} className={`p-5 rounded-3xl border flex h-full flex-col transition-all relative overflow-hidden ${plan.isPopular ? 'bg-[#FFF6D9] border-[#B88736]/50 shadow-xl shadow-[#6A5425]/10' : 'bg-white/75 border-[#D8B867]/22'}`}>
+              <div key={plan.id} className={`p-5 rounded-3xl border flex h-full flex-col transition-all relative overflow-hidden ${plan.isPopular ? 'bg-[#FFFDF8] border-[#B88736]/42 shadow-xl shadow-[#6A5425]/8' : 'bg-white/78 border-[#D8B867]/20'}`}>
                 {plan.badge && (
                   <div className="mb-3">
-                    <span className={`px-2.5 py-1 rounded-full text-[10px] font-bold border inline-flex items-center gap-1 ${plan.isPopular ? 'bg-[#073B2B] text-[#FFF9E8] border-[#073B2B]' : 'bg-[#F7E5AA]/45 text-[#7C5A1D] border-[#D8B867]/25'}`}>
+                    <span className={`px-2.5 py-1 rounded-full text-[10px] font-bold border inline-flex items-center gap-1 ${plan.isPopular ? 'bg-[#073B2B] text-[#FFF9E8] border-[#073B2B]' : 'bg-[#F7E5AA]/30 text-[#7C5A1D] border-[#D8B867]/22'}`}>
                       {plan.isPopular && <Star size={10} />}
                       {plan.badge}
                     </span>

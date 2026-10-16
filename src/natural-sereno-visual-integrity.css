@@ -1,0 +1,324 @@
+/* Natural Sereno — integridade visual
+   Escopo deliberadamente limitado ao layout Natural Sereno e às telas auditadas.
+   Base: creme/branco; ação: verde profundo; dourado: detalhe. */
+
+:root[data-layout="natural-sereno"] {
+  --ns-paper: #fffdf8;
+  --ns-paper-soft: #fbf8f2;
+  --ns-paper-muted: #f5efe4;
+  --ns-ink: #26372a;
+  --ns-muted: #5c5248;
+  --ns-soft-muted: #85786c;
+  --ns-forest: #073b2b;
+  --ns-forest-hover: #0a4a36;
+  --ns-forest-soft: rgba(7, 59, 43, 0.07);
+  --ns-green: #2f6b50;
+  --ns-gold: #b88736;
+  --ns-gold-dark: #8f631e;
+  --ns-gold-soft: rgba(247, 229, 170, 0.22);
+  --ns-line: #e5dac6;
+}
+
+:root[data-layout="natural-sereno"] :is(
+  #anamnesis-modal,
+  #admin-panel-modal,
+  #herbal-baths-modal,
+  #astral-map-modal,
+  #numerology-modal,
+  #profile-setup-view,
+  #promo-video-modal,
+  #daily-diary-modal,
+  #welcome-modal,
+  #systemic-questions-modal,
+  #specific-treatment-modal,
+  #plans-modal,
+  #plans-values-guide-modal
+) {
+  color: var(--ns-ink);
+}
+
+/* Retira blocos escuros/vivos herdados sem alterar estados de erro. */
+:root[data-layout="natural-sereno"] :is(
+  #anamnesis-modal,
+  #admin-panel-modal,
+  #herbal-baths-modal,
+  #astral-map-modal,
+  #numerology-modal,
+  #profile-setup-view,
+  #promo-video-modal,
+  #daily-diary-modal,
+  #welcome-modal,
+  #systemic-questions-modal,
+  #specific-treatment-modal,
+  #plans-modal,
+  #plans-values-guide-modal
+) :is(
+  [class*="bg-emerald-"],
+  [class*="bg-teal-"],
+  [class*="bg-indigo-"],
+  [class*="bg-slate-"]
+):not([class*="rose-"]) {
+  background-color: var(--ns-forest-soft) !important;
+  background-image: none !important;
+}
+
+:root[data-layout="natural-sereno"] :is(
+  #anamnesis-modal,
+  #admin-panel-modal,
+  #herbal-baths-modal,
+  #astral-map-modal,
+  #numerology-modal,
+  #profile-setup-view,
+  #promo-video-modal,
+  #daily-diary-modal,
+  #welcome-modal,
+  #systemic-questions-modal,
+  #specific-treatment-modal,
+  #plans-modal,
+  #plans-values-guide-modal
+) [class*="bg-amber-"] {
+  background-color: var(--ns-gold-soft) !important;
+  background-image: none !important;
+}
+
+:root[data-layout="natural-sereno"] :is(
+  #anamnesis-modal,
+  #admin-panel-modal,
+  #herbal-baths-modal,
+  #astral-map-modal,
+  #numerology-modal,
+  #profile-setup-view,
+  #promo-video-modal,
+  #daily-diary-modal,
+  #welcome-modal,
+  #systemic-questions-modal,
+  #specific-treatment-modal,
+  #plans-modal,
+  #plans-values-guide-modal
+) :is([class*="text-emerald-"], [class*="text-teal-"]) {
+  color: var(--ns-green) !important;
+}
+
+:root[data-layout="natural-sereno"] :is(
+  #anamnesis-modal,
+  #admin-panel-modal,
+  #herbal-baths-modal,
+  #astral-map-modal,
+  #numerology-modal,
+  #profile-setup-view,
+  #promo-video-modal,
+  #daily-diary-modal,
+  #welcome-modal,
+  #systemic-questions-modal,
+  #specific-treatment-modal,
+  #plans-modal,
+  #plans-values-guide-modal
+) :is([class*="text-amber-"]) {
+  color: var(--ns-gold-dark) !important;
+}
+
+:root[data-layout="natural-sereno"] :is(
+  #anamnesis-modal,
+  #admin-panel-modal,
+  #herbal-baths-modal,
+  #astral-map-modal,
+  #numerology-modal,
+  #profile-setup-view,
+  #promo-video-modal,
+  #daily-diary-modal,
+  #welcome-modal,
+  #systemic-questions-modal,
+  #specific-treatment-modal,
+  #plans-modal,
+  #plans-values-guide-modal
+) :is([class*="text-indigo-"], [class*="text-slate-"]) {
+  color: var(--ns-muted) !important;
+}
+
+/* Dourado não vira mais bloco principal. */
+:root[data-layout="natural-sereno"] :is(
+  #anamnesis-modal,
+  #admin-panel-modal,
+  #herbal-baths-modal,
+  #astral-map-modal,
+  #numerology-modal,
+  #profile-setup-view,
+  #promo-video-modal,
+  #daily-diary-modal,
+  #welcome-modal,
+  #systemic-questions-modal,
+  #specific-treatment-modal,
+  #plans-modal,
+  #plans-values-guide-modal
+) :is(button, a[role="button"], a[class*="rounded"])[class*="bg-[#B88736]"] {
+  background: var(--ns-forest) !important;
+  color: #fff9e8 !important;
+  border-color: rgba(184, 135, 54, 0.28) !important;
+}
+
+/* Todos os CTAs herdados de cores vivas convergem para o botão principal aprovado. */
+:root[data-layout="natural-sereno"] :is(
+  #anamnesis-modal,
+  #admin-panel-modal,
+  #herbal-baths-modal,
+  #astral-map-modal,
+  #numerology-modal,
+  #profile-setup-view,
+  #promo-video-modal,
+  #daily-diary-modal,
+  #welcome-modal,
+  #systemic-questions-modal,
+  #specific-treatment-modal,
+  #plans-modal,
+  #plans-values-guide-modal
+) :is(button, a[role="button"], a[class*="rounded"]):is(
+  [class*="bg-emerald-"],
+  [class*="bg-teal-"],
+  [class*="bg-indigo-"],
+  [class*="bg-amber-"]
+) {
+  background: var(--ns-forest) !important;
+  background-image: none !important;
+  color: #fff9e8 !important;
+  border-color: rgba(184, 135, 54, 0.24) !important;
+  box-shadow: 0 8px 20px rgba(7, 59, 43, 0.10) !important;
+}
+
+:root[data-layout="natural-sereno"] :is(
+  #anamnesis-modal,
+  #admin-panel-modal,
+  #herbal-baths-modal,
+  #astral-map-modal,
+  #numerology-modal,
+  #profile-setup-view,
+  #promo-video-modal,
+  #daily-diary-modal,
+  #welcome-modal,
+  #systemic-questions-modal,
+  #specific-treatment-modal,
+  #plans-modal,
+  #plans-values-guide-modal
+) :is(button, a[role="button"], a[class*="rounded"]):is(
+  [class*="bg-emerald-"],
+  [class*="bg-teal-"],
+  [class*="bg-indigo-"],
+  [class*="bg-amber-"],
+  [class*="bg-[#B88736]"]
+):hover {
+  background: var(--ns-forest-hover) !important;
+  color: #fff9e8 !important;
+}
+
+/* Botão secundário: claro, borda suave, sem cinza/azul escuro no hover. */
+:root[data-layout="natural-sereno"] :is(
+  #anamnesis-modal,
+  #admin-panel-modal,
+  #herbal-baths-modal,
+  #astral-map-modal,
+  #numerology-modal,
+  #profile-setup-view,
+  #promo-video-modal,
+  #daily-diary-modal,
+  #welcome-modal,
+  #systemic-questions-modal,
+  #specific-treatment-modal,
+  #plans-modal,
+  #plans-values-guide-modal
+) button:is([class*="bg-white"], [class*="bg-[#F5EFE4]"], [class*="bg-[#FBF8F2]"]):hover {
+  background: #efe4d3 !important;
+  color: var(--ns-ink) !important;
+  border-color: rgba(184, 135, 54, 0.32) !important;
+}
+
+/* Seleção leve: nunca bloco verde/âmbar pesado. */
+:root[data-layout="natural-sereno"] :is(
+  #anamnesis-modal,
+  #admin-panel-modal,
+  #herbal-baths-modal,
+  #astral-map-modal,
+  #numerology-modal,
+  #profile-setup-view,
+  #promo-video-modal,
+  #daily-diary-modal,
+  #welcome-modal,
+  #systemic-questions-modal,
+  #specific-treatment-modal,
+  #plans-modal,
+  #plans-values-guide-modal
+) :is([aria-pressed="true"], [aria-selected="true"]):not([role="tab"]) {
+  border-color: var(--ns-gold) !important;
+}
+
+/* Foco e estado desabilitado uniformes. */
+:root[data-layout="natural-sereno"] :is(
+  #anamnesis-modal,
+  #admin-panel-modal,
+  #herbal-baths-modal,
+  #astral-map-modal,
+  #numerology-modal,
+  #profile-setup-view,
+  #promo-video-modal,
+  #daily-diary-modal,
+  #welcome-modal,
+  #systemic-questions-modal,
+  #specific-treatment-modal,
+  #plans-modal,
+  #plans-values-guide-modal
+) :is(button, input, textarea, select):focus-visible {
+  outline: 2px solid rgba(184, 135, 54, 0.46) !important;
+  outline-offset: 2px;
+}
+
+:root[data-layout="natural-sereno"] :is(
+  #anamnesis-modal,
+  #admin-panel-modal,
+  #herbal-baths-modal,
+  #astral-map-modal,
+  #numerology-modal,
+  #profile-setup-view,
+  #promo-video-modal,
+  #daily-diary-modal,
+  #welcome-modal,
+  #systemic-questions-modal,
+  #specific-treatment-modal,
+  #plans-modal,
+  #plans-values-guide-modal
+) button:disabled {
+  background: var(--ns-paper-muted) !important;
+  color: var(--ns-soft-muted) !important;
+  border-color: var(--ns-line) !important;
+  box-shadow: none !important;
+  opacity: 0.78 !important;
+}
+
+/* Correções pontuais encontradas na auditoria. */
+:root[data-layout="natural-sereno"] #specific-treatment-modal a[class*="bg-emerald-950"] {
+  background: var(--ns-forest) !important;
+  color: #fff9e8 !important;
+}
+
+:root[data-layout="natural-sereno"] #specific-treatment-modal [class*="from-indigo-950"],
+:root[data-layout="natural-sereno"] #specific-treatment-modal [class*="from-emerald-950"] {
+  background: var(--ns-paper) !important;
+  background-image: none !important;
+  color: var(--ns-ink) !important;
+}
+
+/* Erros permanecem semanticamente vermelhos; a normalização não os apaga. */
+:root[data-layout="natural-sereno"] :is(
+  #anamnesis-modal,
+  #admin-panel-modal,
+  #herbal-baths-modal,
+  #astral-map-modal,
+  #numerology-modal,
+  #profile-setup-view,
+  #promo-video-modal,
+  #daily-diary-modal,
+  #welcome-modal,
+  #systemic-questions-modal,
+  #specific-treatment-modal,
+  #plans-modal,
+  #plans-values-guide-modal
+) [class*="rose-"] {
+  /* mantém a semântica de erro definida pelo componente */
+}

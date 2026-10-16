@@ -8,16 +8,18 @@ import { useDialogFocus } from '../hooks/useDialogFocus';
 import { Check, ChevronDown, Crown, Sparkles, X, Tag, ShieldCheck } from 'lucide-react';
 import { UserProfile, SubscriptionPlanType } from '../types';
 
+type CheckoutPlanId = SubscriptionPlanType | 'jornada_21d';
+
 interface ProUpgradeModalProps {
   isOpen: boolean;
   onClose: () => void;
   userProfile: UserProfile;
-  onUpgradeSuccess: (plan: SubscriptionPlanType, paymentMethod: 'pix' | 'card', price: number) => boolean | void | Promise<boolean | void>;
+  onUpgradeSuccess: (plan: CheckoutPlanId, paymentMethod: 'pix' | 'card', price: number) => boolean | void | Promise<boolean | void>;
   onOpenContact?: () => void;
 }
 
 type PlanItem = {
-  id: SubscriptionPlanType;
+  id: CheckoutPlanId;
   title: string;
   price: number;
   period: string;
@@ -40,7 +42,7 @@ const PLANS: PlanItem[] = [
   {
     id: 'jornada_7d',
     title: 'Acesso avulso — 7 dias',
-    price: 15,
+    price: 25,
     period: 'acesso 7 dias',
     badge: 'Opção avulsa',
     summary: ['Anamnese Compacta incluída', '7 dias de acesso', 'Anamnese Completa opcional por R$ 15'],
@@ -50,6 +52,22 @@ const PLANS: PlanItem[] = [
       'Escolha livre entre os protocolos disponíveis para 7 dias',
       'O ciclo de 7 dias preserva início, desenvolvimento, integração e fechamento',
       'Anamnese Completa disponível por R$ 15,00 após o resultado compacto'
+    ]
+  },
+  {
+    id: 'jornada_21d',
+    title: 'Acesso avulso — 21 dias',
+    price: 50,
+    period: 'acesso 21 dias',
+    badge: 'Jornada completa',
+    highlight: true,
+    summary: ['Anamnese Compacta incluída', '21 dias de acesso', 'Continuidade integral da jornada'],
+    details: [
+      'Anamnese Compacta com resultado mostrado imediatamente',
+      'Orientação para identificar o protocolo mais adequado ao momento',
+      'Escolha livre entre os protocolos disponíveis para 21 dias',
+      'Acesso preservado durante os 21 dias completos da jornada',
+      'Diário e recursos de acompanhamento mantidos durante o período de acesso'
     ]
   },
   {
@@ -71,7 +89,6 @@ const PLANS: PlanItem[] = [
     price: 69.9,
     period: '/ 3 meses',
     badge: 'Anamnese Completa incluída',
-    highlight: true,
     summary: ['Anamnese Completa incluída', '3 meses de acesso', 'Mais indicado para continuidade'],
     details: [
       ...PRO_COMMON,
@@ -110,17 +127,17 @@ const PLANS: PlanItem[] = [
   }
 ];
 
+// O único cupom aceito nesta tela é a degustação gratuita, que possui validação
+// específica no servidor. Descontos pagos não ficam somente no cliente.
 const COUPONS: Record<string, { discount: number; vip?: boolean }> = {
-  PROMO15: { discount: 15 },
-  PROMO20: { discount: 20 },
   VIP7: { discount: 100, vip: true }
 };
 
 const money = (value: number) => `R$ ${value.toFixed(2).replace('.', ',')}`;
 
 export default function ProUpgradeModal({ isOpen, onClose, onUpgradeSuccess }: ProUpgradeModalProps) {
-  const [selectedId, setSelectedId] = useState<SubscriptionPlanType>('trimestral');
-  const [expandedId, setExpandedId] = useState<SubscriptionPlanType | null>(null);
+  const [selectedId, setSelectedId] = useState<CheckoutPlanId>('jornada_21d');
+  const [expandedId, setExpandedId] = useState<CheckoutPlanId | null>(null);
   const [coupon, setCoupon] = useState('');
   const [appliedCoupon, setAppliedCoupon] = useState<string | null>(null);
   const [couponMessage, setCouponMessage] = useState<string | null>(null);
@@ -128,7 +145,7 @@ export default function ProUpgradeModal({ isOpen, onClose, onUpgradeSuccess }: P
   const [isProcessing, setIsProcessing] = useState(false);
   const [checkoutError, setCheckoutError] = useState<string | null>(null);
 
-  const selectedPlan = PLANS.find(plan => plan.id === selectedId) || PLANS.find(plan => plan.id === 'trimestral') || PLANS[0];
+  const selectedPlan = PLANS.find(plan => plan.id === selectedId) || PLANS.find(plan => plan.id === 'jornada_21d') || PLANS[0];
   const couponRule = appliedCoupon ? COUPONS[appliedCoupon] : undefined;
   const finalPrice = useMemo(() => {
     if (!couponRule || couponRule.vip) return couponRule?.vip ? 0 : selectedPlan.price;
@@ -174,19 +191,20 @@ export default function ProUpgradeModal({ isOpen, onClose, onUpgradeSuccess }: P
     }
   };
 
-  const plans = PLANS.filter(plan => plan.id !== 'jornada_7d');
-  const standalone = PLANS.filter(plan => plan.id === 'jornada_7d');
+  const standaloneIds = new Set<CheckoutPlanId>(['jornada_7d', 'jornada_21d']);
+  const plans = PLANS.filter(plan => !standaloneIds.has(plan.id));
+  const standalone = PLANS.filter(plan => standaloneIds.has(plan.id));
 
   return (
     <div ref={dialogRef} id="plans-modal" role="dialog" aria-modal="true" aria-labelledby="plans-title" className="fixed inset-0 z-[100] bg-[#1F2E27]/35 backdrop-blur-xl overflow-y-auto">
-      <div className="min-h-screen bg-[linear-gradient(180deg,#FFF9E8_0%,#F8F0DF_100%)] text-[#26372A]">
-        <header className="sticky top-0 z-20 border-b border-[#D8B867]/20 bg-[#FFF9E8]/90 backdrop-blur-xl">
+      <div className="min-h-screen bg-[linear-gradient(180deg,#FFFDF8_0%,#F8F4EC_100%)] text-[#26372A]">
+        <header className="sticky top-0 z-20 border-b border-[#D8B867]/18 bg-[#FFFDF8]/92 backdrop-blur-xl">
           <div className="max-w-6xl mx-auto px-4 py-4 flex items-center justify-between">
             <div>
-              <p className="text-[#9C7429] tracking-[0.24em] text-[10px] font-bold uppercase">Sua jornada</p>
+              <p className="text-[#8F631E] tracking-[0.24em] text-[10px] font-bold uppercase">Sua jornada</p>
               <h2 id="plans-title" className="font-serif text-xl text-[#26372A]">Planos & Acessos</h2>
             </div>
-            <button onClick={onClose} className="p-2 rounded-full border border-[#D8B867]/25 bg-white/60" aria-label="Fechar"><X size={20} /></button>
+            <button onClick={onClose} className="p-2 rounded-full border border-[#D8B867]/20 bg-white/70" aria-label="Fechar"><X size={20} /></button>
           </div>
         </header>
 
@@ -223,26 +241,27 @@ export default function ProUpgradeModal({ isOpen, onClose, onUpgradeSuccess }: P
             </div>
           </section>
 
-          <section id="checkout-planos" className="max-w-2xl mx-auto rounded-3xl border border-[#D8B867]/30 bg-white/80 p-5 md:p-7 shadow-xl shadow-[#6A5425]/10">
+          <section id="checkout-planos" className="max-w-2xl mx-auto rounded-3xl border border-[#D8B867]/25 bg-white/82 p-5 md:p-7 shadow-xl shadow-[#6A5425]/8">
             <div className="flex items-center justify-between gap-4 mb-5">
               <div><p className="text-xs text-[#6A725F]">Selecionado</p><h3 className="font-serif text-2xl text-[#26372A]">{selectedPlan.title}</h3></div>
               <div className="text-right"><strong className="text-2xl text-[#073B2B]">{money(finalPrice)}</strong><p className="text-xs text-[#6A725F]">{couponRule?.vip ? '7 dias' : selectedPlan.period}</p></div>
             </div>
 
-            <div className="rounded-2xl border border-[#D8B867]/20 bg-[#FFF9E8] p-4 mb-4">
+            <div className="rounded-2xl border border-[#D8B867]/18 bg-[#FBF8F2] p-4 mb-4">
               <label className="text-xs font-bold text-[#5F6857] flex items-center gap-2 mb-2"><Tag size={14} /> Tem um cupom?</label>
-              <div className="flex gap-2"><input value={coupon} onChange={e => setCoupon(e.target.value)} placeholder="Digite o código" className="min-w-0 flex-1 rounded-xl bg-white border border-[#D8B867]/25 px-3 py-3 outline-none focus:border-[#B88736]" /><button onClick={applyCoupon} className="rounded-xl bg-[#073B2B] text-[#FFF9E8] font-bold px-4">Aplicar</button></div>
+              <div className="flex gap-2"><input value={coupon} onChange={e => setCoupon(e.target.value)} placeholder="Digite o código" className="min-w-0 flex-1 rounded-xl bg-white border border-[#D8B867]/22 px-3 py-3 outline-none focus:border-[#B88736]" /><button onClick={applyCoupon} className="rounded-xl bg-[#073B2B] text-[#FFF9E8] font-bold px-4">Aplicar</button></div>
               {couponMessage && <p className={`text-xs mt-2 ${appliedCoupon ? 'text-[#2F6B50]' : 'text-rose-700'}`}>{couponMessage}</p>}
             </div>
 
             <div className="grid grid-cols-2 gap-2 mb-4">
-              <button onClick={() => setPaymentMethod('pix')} className={`rounded-xl border p-3 text-sm font-bold ${paymentMethod === 'pix' ? 'border-[#B88736] bg-[#F7E5AA]/35 text-[#26372A]' : 'border-[#D8B867]/20 text-[#5F6857]'}`}>PIX</button>
-              <button onClick={() => setPaymentMethod('card')} className={`rounded-xl border p-3 text-sm font-bold ${paymentMethod === 'card' ? 'border-[#B88736] bg-[#F7E5AA]/35 text-[#26372A]' : 'border-[#D8B867]/20 text-[#5F6857]'}`}>Cartão</button>
+              <button onClick={() => setPaymentMethod('pix')} className={`rounded-xl border p-3 text-sm font-bold ${paymentMethod === 'pix' ? 'border-[#B88736] bg-[#F7E5AA]/22 text-[#26372A]' : 'border-[#D8B867]/18 text-[#5F6857]'}`}>PIX</button>
+              <button onClick={() => setPaymentMethod('card')} className={`rounded-xl border p-3 text-sm font-bold ${paymentMethod === 'card' ? 'border-[#B88736] bg-[#F7E5AA]/22 text-[#26372A]' : 'border-[#D8B867]/18 text-[#5F6857]'}`}>Cartão</button>
             </div>
 
             {checkoutError && <p role="alert" className="mb-3 rounded-xl border border-rose-200 bg-rose-50 px-3 py-2 text-xs text-rose-700">{checkoutError}</p>}
             <button disabled={isProcessing} onClick={finish} className={`w-full rounded-2xl bg-[#073B2B] text-[#FFF9E8] font-black py-4 shadow-lg shadow-[#073B2B]/10 ${isProcessing ? 'opacity-70 cursor-not-allowed' : ''}`}>{isProcessing ? 'PROCESSANDO...' : (couponRule?.vip ? 'ATIVAR ACESSO' : 'INICIAR PAGAMENTO SEGURO')}</button>
-            <div className="mt-3 flex items-center justify-center gap-2 text-[11px] text-[#6A725F]"><ShieldCheck size={13} /> Seu acesso é liberado após a confirmação do pagamento.</div>
+            <div className="mt-3 flex items-center justify-center gap-2 text-[11px] text-[#6A725F]"><ShieldCheck size={13} /> Seu acesso é liberado somente após a confirmação segura do pagamento.</div>
+            {paymentMethod === 'card' && <p className="mt-2 text-center text-[10px] leading-relaxed text-[#85786C]">Parcelamento e eventuais taxas são apresentados no checkout da InfinitePay e ficam a cargo do cliente, preservando o valor-base do acesso.</p>}
           </section>
         </main>
       </div>
@@ -252,8 +271,8 @@ export default function ProUpgradeModal({ isOpen, onClose, onUpgradeSuccess }: P
 
 function PlanCard({ plan, expanded, onToggle, onChoose }: { key?: string | number; plan: PlanItem; expanded: boolean; onToggle: () => void; onChoose: () => void }) {
   return (
-    <article className={`relative rounded-3xl border p-5 flex h-full flex-col ${plan.highlight ? 'border-[#B88736]/55 bg-gradient-to-b from-[#FFF6D9] to-[#FFF9E8] shadow-xl shadow-[#6A5425]/10' : 'border-[#D8B867]/22 bg-white/78 shadow-sm'}`}>
-      {plan.badge && <span className={`self-start rounded-full px-3 py-1 text-[10px] font-black uppercase tracking-wide mb-3 ${plan.highlight ? 'bg-[#073B2B] text-[#FFF9E8]' : 'bg-[#F7E5AA]/45 text-[#7C5A1D] border border-[#D8B867]/25'}`}>{plan.badge}</span>}
+    <article className={`relative rounded-3xl border p-5 flex h-full flex-col ${plan.highlight ? 'border-[#B88736]/45 bg-gradient-to-b from-[#FFFDF8] to-[#F8F4EC] shadow-xl shadow-[#6A5425]/8' : 'border-[#D8B867]/20 bg-white/82 shadow-sm'}`}>
+      {plan.badge && <span className={`self-start rounded-full px-3 py-1 text-[10px] font-black uppercase tracking-wide mb-3 ${plan.highlight ? 'bg-[#073B2B] text-[#FFF9E8]' : 'bg-[#F7E5AA]/30 text-[#7C5A1D] border border-[#D8B867]/20'}`}>{plan.badge}</span>}
       <h4 className="font-serif text-xl text-[#26372A] min-h-[3rem]">{plan.title}</h4>
       <div className="mt-2"><strong className="text-2xl text-[#073B2B]">{money(plan.price)}</strong><span className="text-xs text-[#6A725F] ml-1">{plan.period}</span></div>
       <ul className="mt-4 space-y-2 flex-1">{plan.summary.map(item => <li key={item} className="flex gap-2 text-xs text-[#5F6857]"><Check size={14} className="text-[#2F6B50] shrink-0 mt-0.5" />{item}</li>)}</ul>
