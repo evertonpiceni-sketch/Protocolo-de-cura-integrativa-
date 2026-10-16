@@ -26,9 +26,11 @@ test('keeps the four official visual layouts registered', () => {
   );
 });
 
-test('falls back to Natural Sereno for an invalid or missing layout', () => {
-  assert.equal(DEFAULT_LAYOUT, 'natural-sereno');
-  assert.equal(normalizeLayoutId(undefined), 'natural-sereno');
-  assert.equal(normalizeLayoutId('layout-inexistente'), 'natural-sereno');
-  assert.equal(normalizeLayoutId('mistico-moderno'), 'mistico-moderno');
+test('falls back to Místico Moderno for an invalid or missing layout', () => {
+  assert.equal(DEFAULT_LAYOUT, 'mistico-moderno');
+  assert.equal(normalizeLayoutId(undefined), 'mistico-moderno');
+  assert.equal(normalizeLayoutId('layout-inexistente'), 'mistico-moderno');
+  for (const layout of OFFICIAL_LAYOUTS) {
+    assert.equal(normalizeLayoutId(layout.id), layout.id);
+  }
 });

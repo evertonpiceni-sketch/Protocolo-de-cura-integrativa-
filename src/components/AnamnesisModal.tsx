@@ -75,7 +75,7 @@ export default function AnamnesisModal({
   const dialogRef = React.useRef<HTMLDivElement | null>(null);
   const cardRef = React.useRef<HTMLDivElement | null>(null);
   const naturalSereno = document.documentElement.dataset.layout === 'natural-sereno';
-  useDialogFocus(isOpen && naturalSereno, dialogRef, () => handleCloseModal());
+  useDialogFocus(isOpen && (naturalSereno || document.documentElement.dataset.layout === 'mistico-moderno'), dialogRef, () => handleCloseModal());
   React.useLayoutEffect(() => {
     if (isOpen && naturalSereno) {
       if (cardRef.current) cardRef.current.scrollTop = 0;
