@@ -114,6 +114,46 @@
   color: inherit !important;
 }
 
+/* Ações douradas explícitas que sobreviveram a seletores antigos mais específicos. */
+:root[data-layout="natural-sereno"] #anamnesis-modal .ep-assessment-actions button:first-child,
+:root[data-layout="natural-sereno"] #anamnesis-modal #anamnesis-audio-player-card #btn-play-diagnosis-audio,
+:root[data-layout="natural-sereno"] #meditation-session .ep-acceptance-portal button:last-child,
+:root[data-layout="natural-sereno"] #settings-view button[class*="bg-[#B88736]"],
+:root[data-layout="natural-sereno"] :is(
+  #audio-settings-modal,
+  #mobile-install-modal,
+  #achievements-modal,
+  #journal-dashboard-view
+) button[class~="bg-[#B88736]"] {
+  background: #073b2b !important;
+  background-image: none !important;
+  color: #fff9e8 !important;
+  border-color: rgba(184, 135, 54, .34) !important;
+  box-shadow: 0 8px 20px rgba(7, 59, 43, .14) !important;
+  text-shadow: none !important;
+}
+
+:root[data-layout="natural-sereno"] :is(
+  #anamnesis-modal .ep-assessment-actions button:first-child,
+  #anamnesis-modal #anamnesis-audio-player-card #btn-play-diagnosis-audio,
+  #meditation-session .ep-acceptance-portal button:last-child,
+  #settings-view button[class*="bg-[#B88736]"]
+) :is(span, svg) {
+  color: inherit !important;
+}
+
+:root[data-layout="natural-sereno"] :is(
+  #anamnesis-modal .ep-assessment-actions button:first-child,
+  #anamnesis-modal #anamnesis-audio-player-card #btn-play-diagnosis-audio,
+  #meditation-session .ep-acceptance-portal button:last-child,
+  #settings-view button[class*="bg-[#B88736]"]
+):hover {
+  background: #0a4a36 !important;
+  background-image: none !important;
+  color: #fff9e8 !important;
+  filter: none !important;
+}
+
 /* Estados de foco permanecem discretos e consistentes. */
 :root[data-layout="natural-sereno"] :is(
   .ns-gold,
@@ -121,7 +161,10 @@
   .ep-gold-button,
   .ep-gold-action,
   #main-header button:has(.lucide-crown),
-  #admin-panel-modal button[type="submit"]
+  #admin-panel-modal button[type="submit"],
+  #anamnesis-modal .ep-assessment-actions button:first-child,
+  #anamnesis-modal #anamnesis-audio-player-card #btn-play-diagnosis-audio,
+  #meditation-session .ep-acceptance-portal button:last-child
 ):focus-visible {
   outline: 2px solid rgba(184, 135, 54, .5) !important;
   outline-offset: 3px !important;
