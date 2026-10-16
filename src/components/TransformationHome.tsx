@@ -6,6 +6,7 @@ import { evaluateBestTreatmentFromAnamnesis } from '../lib/anamnesisTreatmentEng
 import { audioEngine } from '../lib/audio';
 import { LayoutId } from '../config/layouts';
 import NaturalSerenoHome from './NaturalSerenoHome';
+import EssenciaLuminosaWelcome from './EssenciaLuminosaWelcome';
 
 export type TransformationHomeProps = {
   visualLayout?: LayoutId;
@@ -60,7 +61,7 @@ export default function TransformationHome(props: TransformationHomeProps) {
     void audioEngine.speakWithElevenLabsOrFallback(text, 1, () => setIsSpeaking(true), () => setIsSpeaking(false), undefined, undefined, { voiceId: 'Marcus', stability: .5, similarityBoost: .78, userName: props.userName, enableBreathingPauses: true, preferElevenLabs: true, lang: 'pt-BR', rate: .82, pitch: .92 });
   };
 
-  if (props.visualLayout === 'natural-sereno') {
+  if ((props.visualLayout === 'natural-sereno' || (props.visualLayout === 'essencia-luminosa' && journeyEntered))) {
     return <NaturalSerenoHome
       {...props}
       firstName={firstName}
@@ -80,6 +81,7 @@ export default function TransformationHome(props: TransformationHomeProps) {
 
   if (!journeyEntered) {
     const enterJourney = () => { audioEngine.stopSpeech(); setIsSpeaking(false); sessionStorage.setItem('transformation_journey_entered_v2', 'true'); setJourneyEntered(true); };
+    if (props.visualLayout === 'essencia-luminosa') return <EssenciaLuminosaWelcome isSpeaking={isSpeaking} onToggleWelcome={toggleWelcome} onEnterJourney={enterJourney} />;
     return <div className="mx-auto w-full max-w-[520px] px-4 py-4 sm:py-6">
       <section className="ep-welcome-audio ep-home-hero relative w-full overflow-hidden rounded-[2rem] border border-[#B88736]/28 px-6 py-8 text-center">
         <div className="absolute inset-x-0 top-0 h-48 bg-[radial-gradient(circle_at_50%_0,rgba(214,167,86,.13),transparent_75%)]" />

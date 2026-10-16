@@ -51,7 +51,7 @@ export const MinimalPlayerControls: React.FC<MinimalPlayerControlsProps> = ({
     : 0;
 
   return (
-    <div className="w-full max-w-xl mx-auto px-4 pb-6 pt-2 select-none">
+    <div className="ep-player-controls w-full max-w-xl mx-auto px-4 pb-6 pt-2 select-none">
       <div className="space-y-1.5 mb-4">
         {hasKnownDuration ? (
           <input

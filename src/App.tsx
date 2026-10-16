@@ -7,6 +7,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Sparkles, Calendar, BookOpen, Volume2, VolumeX, User, RefreshCw, Compass, Heart, Award, Info, X, Play, Clock, Smile, LogOut, Crown, Star, Check, Mic, Sliders, Activity, FileText, Globe, MessageCircle, Phone, Smartphone, Download, Leaf, Bell, Headphones, Video } from 'lucide-react';
 import { DayProgress, UserProfile, UserAccount, DAILY_INSIGHTS, JOURNEY_7D_INSIGHTS, PROTOCOL_STAGES, AnamnesisData, SpecificTreatment, SessionCheckIn, JourneyType } from './types';
 import ProfileSetup from './components/ProfileSetup';
+import EssenciaLuminosaLoading from './components/EssenciaLuminosaLoading';
 import MeditationSession from './components/MeditationSession';
 import JournalLog from './components/JournalLog';
 import ProUpgradeModal from './components/ProUpgradeModal';
@@ -741,7 +742,7 @@ export default function App() {
     );
   }
 
-  const loadingScreen = (
+  const loadingScreen = normalizeLayoutId(userProfile?.visualLayout) === 'essencia-luminosa' ? <EssenciaLuminosaLoading /> : (
       <div id="auth-loading-view" className="min-h-screen bg-[#F8F4EC] text-[#2A2420] flex flex-col items-center justify-center p-6 text-center">
         <div className="w-16 h-16 rounded-full overflow-hidden border-2 border-[#B88736] shadow-md p-1 bg-[#FBF8F2] flex items-center justify-center mb-4 animate-pulse">
           <img src={APPROVED_LOGO_DATA_URI} alt="Everton Piceni" className="w-full h-full object-contain" />
@@ -844,7 +845,7 @@ export default function App() {
           <header className="bg-[#F8F4EC]/90 backdrop-blur-md border-b border-[#E5DAC6] sticky top-0 z-30 px-3 sm:px-4 py-3" id="main-header">
         <div className="max-w-5xl mx-auto flex items-center justify-between gap-2 sm:gap-4">
           <div className="flex items-center gap-2 sm:gap-2.5 min-w-0">
-            <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-full overflow-hidden border-[1.5px] border-indigo-500/40 shadow-[0_0_12px_rgba(99,102,241,0.25)] shrink-0 bg-[#FBF8F2] flex items-center justify-center">
+            <div className="ep-header-brand w-10 h-10 sm:w-11 sm:h-11 rounded-full overflow-hidden border-[1.5px] border-indigo-500/40 shadow-[0_0_12px_rgba(99,102,241,0.25)] shrink-0 bg-[#FBF8F2] flex items-center justify-center">
               <img src={APPROVED_LOGO_DATA_URI} alt="Everton Piceni — Terapias Holísticas e Bem-Estar" className="ep-brand-signature w-full h-full object-contain transition-opacity duration-500" />
             </div>
             <div className="min-w-0">

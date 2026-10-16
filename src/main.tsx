@@ -3,6 +3,7 @@ import {createRoot} from 'react-dom/client';
 import App from './App.tsx';
 import './index.css';
 import './approved-theme.css';
+import './essencia-luminosa.css';
 import './natural-sereno.css';
 import './natural-sereno-refinement.css';
 import './natural-sereno-mobile-fixes.css';

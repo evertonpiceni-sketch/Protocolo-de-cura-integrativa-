@@ -333,7 +333,7 @@ export default function PersonalJourney21({ onClose, initialCompletedDays, onCom
       <AindaHaAlgoEmMimLight onFinishReflection={() => setShowReflexao(false)} />
     </section>}
     {started && <section className="ep-reintegration-running fixed inset-0 z-[120] flex min-h-[100dvh] flex-col overflow-hidden bg-[#031426] text-[#F8E8C2]" aria-label="Meditação guiada em andamento">
-      <div className="absolute inset-[-7%] scale-110 bg-cover bg-center opacity-45 blur-[12px]" style={{backgroundImage:`linear-gradient(180deg,rgba(2,13,29,.38),rgba(2,13,29,.88)),url('/brand/days/dia-${day}.png')`}}/>
+      <div className="absolute inset-[-7%] scale-110 bg-cover bg-center opacity-45 blur-[12px]" style={{backgroundImage:`linear-gradient(180deg,rgba(2,13,29,.38),rgba(2,13,29,.88)),url('/brand/days/dia-${String(day).padStart(2, '0')}.png')`}}/>
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_32%,rgba(226,185,107,.22),transparent_34%),linear-gradient(180deg,rgba(1,14,32,.18),rgba(1,14,32,.72)_62%,rgba(1,10,24,.97))]"/>
       <button onClick={()=>{stopSession();setStarted(false);}} className="absolute right-4 top-[max(1rem,env(safe-area-inset-top))] z-20 rounded-full border border-[#D9B86C]/55 bg-[#06192B]/75 p-3 text-[#F7E7C0] shadow-[0_8px_28px_rgba(0,0,0,.3)] backdrop-blur-md" aria-label="Fechar meditação"><X size={22}/></button>
       <div className="relative z-10 flex flex-1 items-center justify-center pt-4">
