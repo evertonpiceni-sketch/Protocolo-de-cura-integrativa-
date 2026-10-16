@@ -92,7 +92,7 @@ async function createInfinitePayCheckout(req: any, res: any) {
   const orderNsu = `protocolo-${user.id}-${Date.now()}-${crypto.randomBytes(4).toString("hex")}`;
   const origin = requestOrigin(req);
   if (!origin) return res.status(500).json({ error: "Não foi possível determinar a URL pública do aplicativo." });
-  const order = { orderNsu, planId, baseAmountCents: plan.priceCents, amountCents, couponCode: coupon || undefined, status: "pending", createdAt: new Date().toISOString() };
+  const order: any = { orderNsu, planId, baseAmountCents: plan.priceCents, amountCents, couponCode: coupon || undefined, status: "pending", createdAt: new Date().toISOString() };
   getPaymentOrders(user).push(order); await saveDb();
   const response = await fetch(`${INFINITEPAY_API}/links`, {
     method: "POST", headers: { "Content-Type": "application/json" },
