@@ -17,6 +17,7 @@ import './lib/personalCareIntegration';
 import './lib/universalAnamnesisDiaryAccessPatch';
 import './lib/naturalSerenoHomeApprovedModel';
 import './lib/naturalSerenoHomeJourneyStateFix';
+import './lib/vipSelectedProtocolGuard';
 import './lib/naturalSerenoPublicCatalogGuard';
 import { ErrorBoundary } from './ErrorBoundary.tsx';
 
