@@ -6,6 +6,7 @@ import './approved-theme.css';
 import './natural-sereno.css';
 import './natural-sereno-refinement.css';
 import './natural-sereno-mobile-fixes.css';
+import './lib/authLegacyStorageGuard';
 import './lib/authStartupResiliencePatch';
 import './lib/startupUiResiliencePatch';
 import './lib/audioIntegrityPatch';
@@ -38,7 +39,10 @@ async function startApp() {
   }
 
   try {
-    LEGACY_AUTH_KEYS.forEach((key) => localStorage.removeItem(key));
+    LEGACY_AUTH_KEYS.forEach((key) => {
+      localStorage.removeItem(key);
+      sessionStorage.removeItem(key);
+    });
   } catch (error) {
     console.warn('Limpeza do estado local antigo não concluída.', error);
   }
