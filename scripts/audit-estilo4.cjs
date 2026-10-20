@@ -14,6 +14,10 @@ async function enterPlayer(p) {
 }
 const routes=[
  ['session-playing',true,enterPlayer],
+ ['session-unknown-duration',true,async p=>{await enterPlayer(p);await p.waitForSelector('[aria-label="Duração da narração ainda não disponível"]');for(const label of ['Voltar 15 segundos','Avançar 15 segundos']){if(!await p.$eval(`[aria-label="${label}"]`,e=>e.disabled))throw Error('Seek enabled without a known duration');}}],
+ ['session-last-stage',true,async p=>{await enterPlayer(p);const titles=[];for(let i=0;i<6;i++){titles.push(await p.$eval('.ep-stage-title',e=>e.textContent));if(i<5){await p.click('[aria-label="Próxima etapa"]');await pause(700);}}if(new Set(titles).size!==6)throw Error('Protocol stages must have distinct titles');if(!await p.$eval('[aria-label="Próxima etapa"]',e=>e.disabled))throw Error('Last stage must not advance beyond the protocol');if(await p.$('[aria-label="Sessão concluída"]'))throw Error('Skipping stages must not mark the session completed');}],
+ ['session-exit',true,async p=>{await enterPlayer(p);await p.click('[aria-label="Sair da sessão"]');await p.waitForSelector('.ns-app[data-ns-screen="home"]');if(await p.$('#meditation-session'))throw Error('Session remains mounted after exit');}],
+
  ['session-pause-resume',true,async p=>{await enterPlayer(p);await p.waitForSelector('[aria-label="Pausar sessão"]');await p.click('[aria-label="Pausar sessão"]');await p.waitForSelector('[aria-label="Iniciar sessão"]');await p.click('[aria-label="Iniciar sessão"]');await p.waitForSelector('[aria-label="Pausar sessão"]');}],
  ['session-next-previous',true,async p=>{await enterPlayer(p);await p.click('[aria-label="Próxima etapa"]');await p.waitForFunction(()=>!document.querySelector('[aria-label="Etapa anterior"]').disabled);await p.click('[aria-label="Etapa anterior"]');await p.waitForFunction(()=>document.querySelector('[aria-label="Etapa anterior"]').disabled);}],
  ['session-script',true,async p=>{await enterPlayer(p);await p.click('[aria-label="Ler roteiro completo"]');}],
