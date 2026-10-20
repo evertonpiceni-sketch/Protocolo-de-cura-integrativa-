@@ -80,7 +80,11 @@ export default function HooponoponoModal({ isOpen, onClose, userName = 'Buscador
 
   useEffect(() => () => audioEngine.stopSpeech(), []);
   const dialogRef = React.useRef<HTMLDivElement | null>(null);
-  useDialogFocus(isOpen && document.documentElement.dataset.layout === 'natural-sereno', dialogRef, () => close());
+  useDialogFocus(
+    isOpen && ['natural-sereno', 'essencia-luminosa'].includes(document.documentElement.dataset.layout || ''),
+    dialogRef,
+    () => close()
+  );
 
   if (!isOpen) return null;
 

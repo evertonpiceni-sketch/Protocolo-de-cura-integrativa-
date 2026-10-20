@@ -55,3 +55,9 @@ A reauditoria isolada do Guia dos 7 Chakras passou nas três larguras: sem overf
 O defeito de teclado foi reproduzido isoladamente no Guia de Banhos de Ervas: nas três larguras não havia overflow horizontal nem controles sem nome, mas o foco inicial permanecia fora do diálogo, Tab escapava e Escape não fechava no Estilo 3. A correção mínima habilitou para `essencia-luminosa` o mesmo hook já usado em Natural Sereno, sem alterar receitas, avisos, busca, filtros ou lógica de cópia.
 
 A reauditoria em 320, 390 e 1365 px passou sem overflow horizontal ou controles sem nome, com rolagem até o fim do conteúdo, foco inicial dentro, Tab contido e Escape fechando o diálogo. Permanecem com a falha de teclado já comprovada: Ho'oponopono, Numerologia, Mapa Astral, Perguntas Sistêmicas, Cursos, Dashboard, Oração do Arcanjo Miguel e painel Admin; o modal de contato continua pendente de validação específica pelo auditor.
+
+## Continuação da reauditoria — Ho'oponopono
+
+O modal de Ho'oponopono reproduziu isoladamente a falha já inventariada: foco inicial e Tab permaneciam fora do diálogo e Escape não fechava no Estilo 3, embora não houvesse overflow horizontal nem controles sem nome nas três larguras. A correção mínima habilitou para `essencia-luminosa` o mesmo hook de foco existente, sem alterar oração, temas, contagem, áudio ou progresso.
+
+A reauditoria em 320, 390 e 1365 px passou sem overflow horizontal ou controles sem nome, com rolagem completa, foco inicial dentro, Tab contido e Escape fechando o diálogo. Permanecem com a falha de teclado comprovada: Numerologia, Mapa Astral, Perguntas Sistêmicas, Cursos, Dashboard, Oração do Arcanjo Miguel e painel Admin; o modal de contato continua pendente de validação específica.
