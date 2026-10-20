@@ -129,3 +129,11 @@ A rolagem completa da Prática Individual revelou uma divergência funcional na 
 O auditor passou a selecionar os três ciclos e exigir consistência entre selo, resumo e botão. A reauditoria confirmou R$ 20,00 para a sessão única, R$ 59,90 para sete dias e R$ 99,90 para 21 dias, em 320, 390 e 1365 px, sem iniciar checkout ou cobrança. A página permaneceu sem overflow horizontal ou controles sem nome, com foco inicial dentro, Tab contido e Escape fechando o diálogo.
 
 Os 32 testes existentes, TypeScript, build de produção e `git diff --check` passaram novamente. Permanecem pendentes a comparação visual integral contra os ativos oficiais separados ainda ausentes, a escuta e sincronização do áudio real e a validação de serviços reais fora das fixtures; essas pendências impedem declarar o Estilo 3 concluído.
+
+## Continuação da reauditoria — Ajustes de Áudio
+
+A captura completa dos Ajustes de Áudio comprovou outra ocorrência da regra global que convertia fundos dourados translúcidos em superfícies opacas. Os dois brilhos cobriam cabeçalho e painel binaural, enquanto os ícones dourados desapareciam sobre o fundo da mesma cor. A correção ficou restrita ao `#audio-settings-modal` do Estilo 3 e restaurou exatamente as transparências de 10%, 12% e 15% já declaradas pelo componente, sem alterar frequências, volumes, voz, camada binaural, bloqueios VIP, salvamento ou reprodução.
+
+A reauditoria visual confirmou cabeçalho, ícones, frequências e painel binaural legíveis em 320, 390 e 1365 px. A tela permaneceu sem overflow horizontal ou controles sem nome, com rolagem até o fim, foco inicial dentro, Tab contido e Escape fechando o diálogo. Nenhum áudio foi executado nem salvo; a captura e os testes de interface não substituem a escuta integral e a validação de sincronização ainda pendentes.
+
+Os 32 testes existentes, TypeScript, build de produção e `git diff --check` passaram novamente. Permanecem pendentes os ativos oficiais separados, a comparação visual integral das demais telas, a escuta e sincronização completa do áudio real e a validação de serviços reais fora das fixtures.
