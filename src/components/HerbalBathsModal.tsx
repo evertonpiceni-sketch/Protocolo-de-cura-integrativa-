@@ -254,7 +254,11 @@ export default function HerbalBathsModal({ isOpen, onClose }: HerbalBathsModalPr
   const [copyError, setCopyError] = useState('');
 
   const dialogRef = React.useRef<HTMLDivElement | null>(null);
-  useDialogFocus(isOpen && document.documentElement.dataset.layout === 'natural-sereno', dialogRef, onClose);
+  useDialogFocus(
+    isOpen && ['natural-sereno', 'essencia-luminosa'].includes(document.documentElement.dataset.layout || ''),
+    dialogRef,
+    onClose
+  );
 
   if (!isOpen) return null;
 
