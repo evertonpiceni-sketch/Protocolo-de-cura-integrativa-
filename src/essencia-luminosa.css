@@ -124,6 +124,8 @@
 :root[data-layout="essencia-luminosa"] #anamnesis-modal .ep-assessment-actions button:first-child{background:linear-gradient(180deg,#ebd495,#c29648);color:#35290f;border-color:#aa8437}
 :root[data-layout="essencia-luminosa"] #progress-dashboard header h1{color:#463d2d}
 :root[data-layout="essencia-luminosa"] #progress-dashboard header [class*="text-[#E4C573]"]{color:#71511c}
+:root[data-layout="essencia-luminosa"] #contact-us-modal [class*="bg-[#B88736]/"]{background:rgba(194,150,72,.12)!important}
+:root[data-layout="essencia-luminosa"] #contact-us-modal .pointer-events-none[class*="blur"]{background:rgba(194,150,72,.055)!important;opacity:.42!important}
 @media(min-width:700px){.el-loading-frame{background-size:auto 100%}}
 @media(max-height:600px){.el-loading-logo{width:115px;margin-bottom:16px}.el-loading-divider{margin:16px 0}.el-loading-status{margin-top:24px}}
 @media(max-height:640px){:root[data-layout="essencia-luminosa"] #courses-modal{align-items:flex-start}}
