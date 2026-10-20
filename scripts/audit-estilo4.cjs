@@ -7,7 +7,17 @@ const pause=ms=>new Promise(r=>setTimeout(r,ms));
 (async()=>{const browser=await puppeteer.launch({pipe:true,executablePath:process.env.AUDIT_BROWSER||puppeteer.executablePath(),args:['--no-sandbox','--no-zygote','--single-process','--disable-dev-shm-usage','--disable-gpu','--disable-software-rasterizer',...(process.env.HTTPS_PROXY?['--proxy-server='+process.env.HTTPS_PROXY,'--proxy-bypass-list=127.0.0.1;localhost']:[])]});const results=[];
 async function clickText(page,text){const candidates=await page.$$('button');for(const h of candidates){if(await h.evaluate((e,t)=>{const r=e.getBoundingClientRect();return r.width>0&&r.height>0&&!e.disabled&&e.textContent.trim().startsWith(t)},text)){await h.evaluate(e=>e.scrollIntoView({block:'center'}));await h.click();await pause(600);return}}throw Error('Visible control missing: '+text)}
 async function menu(page,text){await page.tap('.ns-home-menu');await page.waitForSelector('.ns-app[data-ns-screen="menu"]');await pause(300);if(text)await clickText(page,text)}
+async function enterPlayer(p) {
+ await clickText(p,'Jornada');await p.click('.ns-day');await p.waitForSelector('#meditation-session');
+ await clickText(p,'Aceitar e Adentrar');await clickText(p,'Iniciar a Harmonização');
+ await p.waitForSelector('#meditation-session[data-session-phase="playing"]');
+}
 const routes=[
+ ['session-playing',true,enterPlayer],
+ ['session-pause-resume',true,async p=>{await enterPlayer(p);await p.waitForSelector('[aria-label="Pausar sessão"]');await p.click('[aria-label="Pausar sessão"]');await p.waitForSelector('[aria-label="Iniciar sessão"]');await p.click('[aria-label="Iniciar sessão"]');await p.waitForSelector('[aria-label="Pausar sessão"]');}],
+ ['session-next-previous',true,async p=>{await enterPlayer(p);await p.click('[aria-label="Próxima etapa"]');await p.waitForFunction(()=>!document.querySelector('[aria-label="Etapa anterior"]').disabled);await p.click('[aria-label="Etapa anterior"]');await p.waitForFunction(()=>document.querySelector('[aria-label="Etapa anterior"]').disabled);}],
+ ['session-script',true,async p=>{await enterPlayer(p);await p.click('[aria-label="Ler roteiro completo"]');}],
+
  ['session',true,async p=>{await clickText(p,'Jornada');await p.click('.ns-day');await p.waitForSelector('#meditation-session')}],
  ['terms',false,async p=>{await p.goto(new URL('/termos.html',url).href,{waitUntil:'domcontentloaded'})}],['privacy',false,async p=>{await p.goto(new URL('/privacidade.html',url).href,{waitUntil:'domcontentloaded'})}],
  ['registration',false,async()=>{}],['login',false,async p=>clickText(p,'Entrar / Acesso')],['password-recovery',false,async p=>{await clickText(p,'Entrar / Acesso');await p.click('#auth-forgot-password')}],
@@ -53,7 +63,7 @@ try{for(const [name,logged,open,entry='visible'] of routes){if(process.env.AUDIT
   await pause(300);await page.screenshot({path:path.join(out,name+'-scroll-end.png'),fromSurface:false});
   await page.evaluate(()=>{for(const e of [document.scrollingElement,...document.querySelectorAll('*')])if(e)e.scrollTop=0;});
  }
- const modal=await page.$('[role="dialog"], [id$="-modal"]');if(modal){const initialInside=await modal.evaluate(e=>e.contains(document.activeElement));await page.keyboard.press('Tab');const tabInside=await modal.evaluate(e=>e.contains(document.activeElement));await page.keyboard.press('Escape');await pause(300);const escapeClosed=await modal.evaluate(e=>!e.isConnected||getComputedStyle(e).display==='none').catch(()=>true);row.keyboard={initialInside,tabInside,escapeClosed};}
+ const modal=await page.$('[role="dialog"], [id$="-modal"]');if(modal){const initialInside=await modal.evaluate(e=>e.contains(document.activeElement));await page.keyboard.press('Tab');const tabInside=await modal.evaluate(e=>e.contains(document.activeElement));await page.keyboard.press('Escape');await page.waitForFunction(e=>!e.isConnected||getComputedStyle(e).display==='none',{timeout:2000},modal).catch(()=>{});const escapeClosed=await modal.evaluate(e=>!e.isConnected||getComputedStyle(e).display==='none').catch(()=>true);row.keyboard={initialInside,tabInside,escapeClosed};}
  }catch(e){row.blocker=e.message;await page.screenshot({path:path.join(out,name+'-blocked.png')}).catch(()=>{})}results.push(row);fs.writeFileSync(path.join(out,'results.json'),JSON.stringify(results,null,2));console.log(name,row.blocker?'BLOCKED: '+row.blocker:errors.length?'ERROR: '+errors.join(', '):'captured',row.states.map(s=>`${s.width}: overflow=${s.overflow}, unnamed=${s.unnamed.length}`).join('; '));await page.close();}
 const retired=new Set();
 const broken=results.filter(r=>r.blocker||r.errors.length||r.states.some(s=>s.overflow||s.unnamed.length)||(!retired.has(r.name)&&r.keyboard&&Object.values(r.keyboard).some(v=>!v)));
