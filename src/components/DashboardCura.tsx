@@ -16,7 +16,11 @@ const CHAKRAS_DATA = [
 export default function DashboardCura({ onClose, progress, userProfile }: { onClose: () => void; progress: DayProgress[], userProfile?: UserProfile }) {
   const [completedDays, setCompletedDays] = useState<number[]>([]);
   const dialogRef = React.useRef<HTMLDivElement | null>(null);
-  useDialogFocus(document.documentElement.dataset.layout === 'natural-sereno', dialogRef, onClose);
+  useDialogFocus(
+    ['natural-sereno', 'essencia-luminosa'].includes(document.documentElement.dataset.layout || ''),
+    dialogRef,
+    onClose
+  );
 
   useEffect(() => {
     const profileCompleted = userProfile?.journeyProgress?.arcanjo7CompletedDays;
