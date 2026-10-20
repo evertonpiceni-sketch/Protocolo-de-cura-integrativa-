@@ -90,7 +90,7 @@ export const SecondaryScriptDrawer: React.FC<SecondaryScriptDrawerProps> = ({
                 const legacyText = (scriptData.fullText || scriptData.text || '')
                   .replace(/\{userName\}/g, displayName)
                   .replace(/\[NOME\]/g, displayName);
-                const baseScriptText = document.documentElement.dataset.layout === 'natural-sereno'
+                const baseScriptText = ['natural-sereno', 'mistico-moderno'].includes(document.documentElement.dataset.layout || '')
                   ? resolveProtocolScript(stg.id, language, userName, stg.text, customDecree).readingText
                   : legacyText;
                 const dayContext = getStageContext?.(stg.id);
