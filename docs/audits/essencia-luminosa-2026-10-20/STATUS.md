@@ -31,3 +31,15 @@ Para rodar o restante, ajuste AUDIT_FILTER ou omita-o. Não confundir testes de 
 - Não publicar produção nem fazer merge antes das validações essenciais. Preservar demais estilos, lógica, conteúdo, pagamento, Biblioteca e Mini Diagnóstico.
 
 Agendamento existente Essência Luminosa reativado como Auditar Estilo 3, de hora em hora a partir de 01:00 de 20/10, America/Sao_Paulo; ID 6ab1a28a9ef08191ab2c91c1234dd3f5. Retomar deste relatório e do estado remoto, sem repetir tarefas já verificadas. Sem merge ou atualização de produção nesta execução.
+
+## Continuação da reauditoria — player e modais
+
+A prancha oficial `1001196525(1).png` foi relida como referência. O auditor passou a cobrir separadamente portal de aceite, acolhimento inicial, player em execução e gaveta do roteiro, além de corrigir a própria fixture de boas-vindas e a seleção do diálogo realmente visível. Essas correções evitam falso bloqueio por estado de sessão persistido e falso negativo causado por um diálogo oculto no DOM. A fixture também passou a bloquear toda requisição HTTP externa, incluindo telemetria, mantendo a reauditoria estritamente local.
+
+Defeito comprovado no player mobile: o cartão do acolhimento inicial ultrapassava a área útil e era cortado pelo contêiner fixo; título e textos escuros apareciam sobre o cartão verde; no estado de execução, cabeçalho, conteúdo e controles competiam por altura. A correção ficou restrita ao Estilo 3: portal e check-in ganharam rolagem interna, o check-in voltou à superfície clara com contraste legível e cabeçalho/conteúdo/controles passaram a respeitar a altura disponível. Portal, check-in, player e roteiro foram novamente renderizados em 320, 390 e 1365 px sem overflow horizontal, controles sem nome ou falha de teclado detectada. Isso comprova encaixe e operação básica, não fidelidade integral à prancha nem sincronização de áudio.
+
+Os modais de relatório/certificado, planos, prática individual, vídeo de apresentação e Diário de Reconexão ainda limitavam foco/Tab/Escape ao Natural Sereno. O mesmo mecanismo já existente foi habilitado para Essência Luminosa, sem mudar conteúdo ou lógica. Reauditoria dos cinco modais, dos dois estados de edição do diário e da gaveta do roteiro passou nas três larguras; Escape fechou, o foco iniciou e permaneceu no diálogo.
+
+Verificação técnica desta continuação: 32 testes passaram com `node --import tsx --test tests/*.test.ts`; TypeScript, build de produção e `git diff --check` passaram. O comando `npm test` não conseguiu abrir o pipe IPC do `tsx` neste executor (`EPERM`), mas a mesma suíte foi executada diretamente pelo carregador `tsx` e passou integralmente. Nenhuma cobrança, conta real, publicação ou deploy foi acionado.
+
+Pendências permanecem: comparação visual completa das 12 telas contra ativos oficiais separados ainda ausentes; escuta integral e sincronização do áudio real; validação de serviços reais fora das fixtures. Não declarar o Estilo 3 concluído enquanto esses pontos permanecerem.

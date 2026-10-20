@@ -86,11 +86,27 @@
 :root[data-layout="essencia-luminosa"] .ns-community-notice{padding:14px;border:1px solid #b18a3b;border-radius:12px;line-height:1.7}
 :root[data-layout="essencia-luminosa"] .ns-day-number{flex-shrink:0;font-size:13px;color:#665b45}
 :root[data-layout="essencia-luminosa"] #meditation-session{background:#fffff8;color:#463d2d}
-:root[data-layout="essencia-luminosa"] #meditation-session>header{background:#fffff8ed;border-color:#d4b57455;padding-inline:max(12px,env(safe-area-inset-left));gap:8px}
+:root[data-layout="essencia-luminosa"] #meditation-session>header{flex-shrink:0;background:#fffff8ed;border-color:#d4b57455;padding-inline:max(12px,env(safe-area-inset-left));gap:8px}
 :root[data-layout="essencia-luminosa"] #meditation-session>header>div:first-child{min-width:0;flex:1}
 :root[data-layout="essencia-luminosa"] #meditation-session>header h1{overflow-wrap:anywhere}
 :root[data-layout="essencia-luminosa"] #meditation-session>header>div:last-child{flex-shrink:0;gap:6px}
 :root[data-layout="essencia-luminosa"] #meditation-session .ep-session-mantra{border-color:#d4b57466;background:#fffff8e8;color:#594b33;border-radius:18px;font-family:Georgia,serif;line-height:1.7}
+:root[data-layout="essencia-luminosa"] #meditation-session[data-session-phase="portal"]>main,
+:root[data-layout="essencia-luminosa"] #meditation-session[data-session-phase^="checkin"]>main{display:none}
+:root[data-layout="essencia-luminosa"] #meditation-session[data-session-phase="portal"]>.ep-acceptance-portal,
+:root[data-layout="essencia-luminosa"] #meditation-session[data-session-phase^="checkin"]>.relative.z-10{flex:1;min-height:0;margin:0 auto;padding-block:16px;overflow-y:auto;overscroll-behavior:contain}
+:root[data-layout="essencia-luminosa"] #meditation-session[data-session-phase^="checkin"]>.relative.z-10>div{background:#fffff8f5!important;border-color:#d4b57477!important;color:#463d2d!important}
+:root[data-layout="essencia-luminosa"] #meditation-session[data-session-phase^="checkin"]>.relative.z-10 :is(h3,p,label,span){color:#463d2d!important;text-shadow:none!important}
+:root[data-layout="essencia-luminosa"] #meditation-session[data-session-phase^="checkin"]>.relative.z-10 button[class*="bg-[#8F631E]"]{color:#fff!important}
+:root[data-layout="essencia-luminosa"] #meditation-session[data-session-phase="playing"]>main{flex:1;min-height:0;overflow:hidden;padding:12px 18px!important;justify-content:center!important}
+:root[data-layout="essencia-luminosa"] #meditation-session[data-session-phase="playing"] .ep-session-stage{max-height:100%;justify-content:center}
+:root[data-layout="essencia-luminosa"] #meditation-session[data-session-phase="playing"] .ep-stage-badge{margin-bottom:12px}
+:root[data-layout="essencia-luminosa"] #meditation-session[data-session-phase="playing"] .ep-stage-title{font-size:clamp(25px,8vw,34px)!important;margin-bottom:6px}
+:root[data-layout="essencia-luminosa"] #meditation-session[data-session-phase="playing"] .ep-stage-subtitle{margin-bottom:8px}
+:root[data-layout="essencia-luminosa"] #meditation-session[data-session-phase="playing"] .ep-breathing-guide{width:clamp(96px,27vw,132px)!important;height:clamp(96px,27vw,132px)!important;margin:4px 0!important}
+:root[data-layout="essencia-luminosa"] #meditation-session[data-session-phase="playing"] .ep-session-mantra{margin-top:8px;padding:10px 14px!important}
+:root[data-layout="essencia-luminosa"] #meditation-session[data-session-phase="playing"]>footer{flex-shrink:0;padding:8px 12px max(10px,env(safe-area-inset-bottom))}
+:root[data-layout="essencia-luminosa"] #meditation-session[data-session-phase="playing"] .ep-player-controls{padding-block:2px 4px}
 :root[data-layout="essencia-luminosa"] .ep-player-controls{border-top:1px solid #d4b57455;border-radius:24px 24px 0 0;background:#fffff8ed;padding-bottom:max(24px,env(safe-area-inset-bottom))}
 :root[data-layout="essencia-luminosa"] .ep-player-controls .ns-play-toggle{border-radius:50%;border:1px solid #aa8437;background:linear-gradient(180deg,#ebd495,#c29648);box-shadow:inset 0 1px 2px #fff9e8,0 5px 14px #91723933}
 :root[data-layout="essencia-luminosa"] .ep-player-controls button:focus-visible{outline:3px solid #697d58;outline-offset:3px}

@@ -47,12 +47,13 @@ export default function DailyDiaryModal({
   const [saveSuccessMsg, setSaveSuccessMsg] = useState<boolean>(false);
 
   const dialogRef = React.useRef<HTMLDivElement | null>(null);
-  useDialogFocus(isOpen && document.documentElement.dataset.layout === 'natural-sereno', dialogRef, onClose);
+  const managedDialogFocus = ['natural-sereno', 'essencia-luminosa'].includes(document.documentElement.dataset.layout || '');
+  useDialogFocus(isOpen && managedDialogFocus, dialogRef, onClose);
   React.useLayoutEffect(() => {
-    if (isOpen && isEditing && document.documentElement.dataset.layout === 'natural-sereno') {
+    if (isOpen && isEditing && managedDialogFocus) {
       dialogRef.current?.querySelector<HTMLTextAreaElement>('textarea[aria-label^="Reflexão e diário"]')?.focus();
     }
-  }, [isOpen, isEditing]);
+  }, [isOpen, isEditing, managedDialogFocus]);
 
   if (!isOpen) return null;
 
