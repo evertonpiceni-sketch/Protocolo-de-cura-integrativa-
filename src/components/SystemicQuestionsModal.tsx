@@ -93,7 +93,11 @@ export default function SystemicQuestionsModal({
   }, [activeDay, progress]);
 
   const dialogRef = React.useRef<HTMLDivElement | null>(null);
-  useDialogFocus(isOpen && document.documentElement.dataset.layout === 'natural-sereno', dialogRef, () => handleCloseModal());
+  useDialogFocus(
+    isOpen && ['natural-sereno', 'essencia-luminosa'].includes(document.documentElement.dataset.layout || ''),
+    dialogRef,
+    () => handleCloseModal()
+  );
 
   if (!isOpen) return null;
 

@@ -73,3 +73,9 @@ A reauditoria em 320, 390 e 1365 px passou sem overflow horizontal ou controles 
 O modal de Mapa Astral reproduziu isoladamente a falha já inventariada: foco inicial e Tab permaneciam fora do diálogo e Escape não fechava no Estilo 3, embora as três larguras não apresentassem overflow horizontal nem controles sem nome. A correção mínima habilitou para `essencia-luminosa` o mesmo hook de foco existente, sem alterar cálculos, dados pessoais, abas, impressão, conteúdo ou pagamento.
 
 A reauditoria em 320, 390 e 1365 px passou sem overflow horizontal ou controles sem nome, com rolagem até o fim, foco inicial dentro, Tab contido e Escape fechando o diálogo. Permanecem com a falha de teclado comprovada: Perguntas Sistêmicas, Cursos, Dashboard, Oração do Arcanjo Miguel e painel Admin; o modal de contato continua pendente de validação específica. A captura confirma renderização e operação básica, não fidelidade visual integral à prancha.
+
+## Continuação da reauditoria — Perguntas Sistêmicas
+
+O modal de Perguntas Sistêmicas reproduziu isoladamente a falha de teclado: foco inicial e Tab permaneciam fora do diálogo e Escape não fechava no Estilo 3, sem overflow horizontal nem controles sem nome nas três larguras. A correção mínima habilitou para `essencia-luminosa` o hook de foco existente, sem alterar perguntas, respostas, progresso, frequência, áudio ou lógica de salvamento.
+
+A reauditoria em 320, 390 e 1365 px passou sem overflow horizontal ou controles sem nome, com rolagem até o fim, foco inicial dentro, Tab contido e Escape fechando o diálogo. Permanecem com a falha de teclado comprovada: Cursos, Dashboard, Oração do Arcanjo Miguel e painel Admin; o modal de contato continua pendente de validação específica. A captura confirma renderização e operação básica, não fidelidade visual integral à prancha nem escuta do áudio de 639 Hz.
