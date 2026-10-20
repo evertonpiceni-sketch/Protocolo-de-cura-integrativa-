@@ -101,7 +101,11 @@ export const CHAKRAS_DATA: ChakraInfo[] = [
 export function ChakrasGuideModal({ isOpen, onClose }: ChakrasGuideModalProps) {
   const [selectedChakraId, setSelectedChakraId] = useState('muladhara');
   const dialogRef = React.useRef<HTMLDivElement | null>(null);
-  useDialogFocus(isOpen && document.documentElement.dataset.layout === 'natural-sereno', dialogRef, onClose);
+  useDialogFocus(
+    isOpen && ['natural-sereno', 'essencia-luminosa'].includes(document.documentElement.dataset.layout || ''),
+    dialogRef,
+    onClose
+  );
 
   if (!isOpen) return null;
 

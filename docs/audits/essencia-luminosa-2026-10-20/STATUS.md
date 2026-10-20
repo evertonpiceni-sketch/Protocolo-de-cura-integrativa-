@@ -43,3 +43,9 @@ Os modais de relatório/certificado, planos, prática individual, vídeo de apre
 Verificação técnica desta continuação: 32 testes passaram com `node --import tsx --test tests/*.test.ts`; TypeScript, build de produção e `git diff --check` passaram. O comando `npm test` não conseguiu abrir o pipe IPC do `tsx` neste executor (`EPERM`), mas a mesma suíte foi executada diretamente pelo carregador `tsx` e passou integralmente. Nenhuma cobrança, conta real, publicação ou deploy foi acionado.
 
 Pendências permanecem: comparação visual completa das 12 telas contra ativos oficiais separados ainda ausentes; escuta integral e sincronização do áudio real; validação de serviços reais fora das fixtures. Não declarar o Estilo 3 concluído enquanto esses pontos permanecerem.
+
+## Continuação da reauditoria — Guia dos 7 Chakras
+
+A varredura dos modais ainda não cobertos confirmou, sem overflow horizontal ou controles sem nome nas larguras de 320, 390 e 1365 px, uma falha de teclado comum em dez telas: foco inicial fora do diálogo, Tab sem contenção e Escape inoperante no Estilo 3. Conforme a regra de uma página e um defeito por vez, somente o Guia dos 7 Chakras foi corrigido nesta passagem. O hook de foco existente passou a reconhecer `essencia-luminosa`, preservando o comportamento de Natural Sereno e sem mudar conteúdo ou lógica.
+
+A reauditoria isolada do Guia dos 7 Chakras passou nas três larguras: sem overflow horizontal, sem controle sem nome, com rolagem até o fim, foco inicial dentro, Tab contido e Escape fechando o diálogo. Permanecem para a sequência os mesmos três requisitos de teclado em Banhos e Aromas, Ho'oponopono, Numerologia, Mapa Astral, Perguntas Sistêmicas, Cursos, Dashboard, Oração do Arcanjo Miguel e painel Admin. O modal de contato não entrou na checagem automática de teclado por não usar o seletor de diálogo do auditor e deve ser validado separadamente.
