@@ -70,12 +70,13 @@ export default function SpecificTreatmentModal({
 
   if (!isOpen) return null;
 
-  // Pricing: 21 Days Complete is R$ 59,90, 7 Days is R$ 59,90, 1 Day (Sessão Única) is R$ 20,00
+  // Pricing: 21 Days Complete is R$ 99,90, 7 Days is R$ 59,90, 1 Day (Sessão Única) is R$ 20,00
   const parsedCustomPrice = parseFloat(customPriceInput.replace(',', '.')) || 0;
   const standardPrice = durationDays === 21 ? 99.9 : (durationDays === 7 ? 59.9 : 20.0);
   const basePrice = isCustomPrice ? Math.max(0, parsedCustomPrice) : standardPrice;
   const discountAmount = discountPercent > 0 ? (basePrice * discountPercent) / 100 : 0;
   const finalPrice = Math.max(0, basePrice - discountAmount);
+  const formattedBasePrice = `R$ ${basePrice.toFixed(2).replace('.', ',')}`;
   const formattedFinalPrice = `R$ ${finalPrice.toFixed(2).replace('.', ',')}`;
 
   const handleApplyCoupon = (codeToApply?: string) => {
@@ -323,7 +324,7 @@ export default function SpecificTreatmentModal({
                 <div className="flex items-baseline gap-1 justify-end">
                   {appliedCoupon && (
                     <span className="text-xs text-[#85786C] line-through font-mono">
-                      {durationDays === 21 ? 'R$ 99,90' : 'R$ 59,90'}
+                      {formattedBasePrice}
                     </span>
                   )}
                   <span className="text-2xl font-display font-bold text-emerald-300">{formattedFinalPrice}</span>
@@ -758,11 +759,11 @@ export default function SpecificTreatmentModal({
                       <span>Valor da prática:</span>
                       {appliedCoupon ? (
                         <div className="flex items-center gap-1">
-                          <span className="line-through text-[#85786C] text-xs font-normal">R$ 70,00</span>
+                          <span className="line-through text-[#85786C] text-xs font-normal">{formattedBasePrice}</span>
                           <span className="text-emerald-400 font-bold text-sm">{formattedFinalPrice}</span>
                         </div>
                       ) : (
-                        <span className="text-emerald-400">R$ 70,00</span>
+                        <span className="text-emerald-400">{formattedFinalPrice}</span>
                       )}
                     </span>
                     <div className="flex flex-wrap items-center gap-1 bg-[#FBF8F2] p-1 rounded-xl border border-[#E5DAC6]">
