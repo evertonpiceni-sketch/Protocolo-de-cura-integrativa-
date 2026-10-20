@@ -110,3 +110,9 @@
 @media(max-height:600px){.el-loading-logo{width:115px;margin-bottom:16px}.el-loading-divider{margin:16px 0}.el-loading-status{margin-top:24px}}
 @media(max-width:360px){.el-welcome{padding:26px 16px}.el-welcome-intro{padding:0 4px}:root[data-layout="essencia-luminosa"] :is(.ns-home-content,.ns-list){padding:16px 12px}:root[data-layout="essencia-luminosa"] .ep-player-controls{padding-inline:8px}:root[data-layout="essencia-luminosa"] .ep-player-controls>div:last-child{gap:0;flex-wrap:wrap;row-gap:8px}:root[data-layout="essencia-luminosa"] .ep-player-controls>div:last-child>div{order:-1;flex-basis:100%;justify-content:center}:root[data-layout="essencia-luminosa"] #meditation-session>header{padding-block:10px}}
 @media(prefers-reduced-motion:reduce){.el-loading-track>span{animation:none;transform:translateX(50%)}:root[data-layout="essencia-luminosa"] :is(.ep-player-controls,#anamnesis-modal) :is(.animate-pulse,.animate-ping){animation:none}}
+/* Reauditoria visual 20/10: manter suporte fora da navegação inferior. */
+:root[data-layout="essencia-luminosa"]:has(.ns-app) #floating-whatsapp-btn{bottom:96px!important;right:max(12px,calc((100vw - 520px)/2 - 68px))!important}
+/* Preservar os estados de entrada da jornada já calculados pelo fluxo existente. */
+:root[data-layout="essencia-luminosa"] .ns-current-day[aria-hidden="true"],
+:root[data-layout="essencia-luminosa"] .ns-home-scene > .ns-gold[aria-disabled="true"]{display:none!important}
+:root[data-layout="essencia-luminosa"] [data-ep-requires-active-journey="true"][aria-disabled="true"]{pointer-events:none;opacity:.42;cursor:not-allowed}

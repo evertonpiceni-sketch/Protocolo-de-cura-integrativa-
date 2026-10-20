@@ -431,6 +431,7 @@ function addQuickLinks(root: HTMLElement, hasAnamnesis: boolean) {
 }
 
 function applyHomeModel() {
+  if (document.documentElement.dataset.layout !== 'natural-sereno') return;
   const root = document.querySelector<HTMLElement>('.ns-app[data-ns-screen="home"]');
   if (!root) return;
 

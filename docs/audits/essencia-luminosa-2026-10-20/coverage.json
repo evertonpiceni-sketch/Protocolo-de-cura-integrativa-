@@ -1,0 +1,486 @@
+[
+  {
+    "page": "registration",
+    "blocker": null,
+    "errors": [],
+    "widths": [
+      {
+        "width": 390,
+        "horizontalOverflow": false,
+        "unnamedControls": 0
+      },
+      {
+        "width": 320,
+        "horizontalOverflow": false,
+        "unnamedControls": 0
+      },
+      {
+        "width": 1365,
+        "horizontalOverflow": false,
+        "unnamedControls": 0
+      }
+    ],
+    "keyboard": null
+  },
+  {
+    "page": "login",
+    "blocker": null,
+    "errors": [],
+    "widths": [
+      {
+        "width": 390,
+        "horizontalOverflow": false,
+        "unnamedControls": 0
+      },
+      {
+        "width": 320,
+        "horizontalOverflow": false,
+        "unnamedControls": 0
+      },
+      {
+        "width": 1365,
+        "horizontalOverflow": false,
+        "unnamedControls": 0
+      }
+    ],
+    "keyboard": null
+  },
+  {
+    "page": "home-no-anamnesis",
+    "blocker": null,
+    "errors": [],
+    "widths": [
+      {
+        "width": 390,
+        "horizontalOverflow": false,
+        "unnamedControls": 0
+      },
+      {
+        "width": 320,
+        "horizontalOverflow": false,
+        "unnamedControls": 0
+      },
+      {
+        "width": 1365,
+        "horizontalOverflow": false,
+        "unnamedControls": 0
+      }
+    ],
+    "keyboard": null
+  },
+  {
+    "page": "result",
+    "blocker": null,
+    "errors": [],
+    "widths": [
+      {
+        "width": 390,
+        "horizontalOverflow": false,
+        "unnamedControls": 0
+      },
+      {
+        "width": 320,
+        "horizontalOverflow": false,
+        "unnamedControls": 0
+      },
+      {
+        "width": 1365,
+        "horizontalOverflow": false,
+        "unnamedControls": 0
+      }
+    ],
+    "keyboard": null
+  },
+  {
+    "page": "home",
+    "blocker": null,
+    "errors": [],
+    "widths": [
+      {
+        "width": 390,
+        "horizontalOverflow": false,
+        "unnamedControls": 0
+      },
+      {
+        "width": 320,
+        "horizontalOverflow": false,
+        "unnamedControls": 0
+      },
+      {
+        "width": 1365,
+        "horizontalOverflow": false,
+        "unnamedControls": 0
+      }
+    ],
+    "keyboard": null
+  },
+  {
+    "page": "menu",
+    "blocker": null,
+    "errors": [],
+    "widths": [
+      {
+        "width": 390,
+        "horizontalOverflow": false,
+        "unnamedControls": 0
+      },
+      {
+        "width": 320,
+        "horizontalOverflow": false,
+        "unnamedControls": 0
+      },
+      {
+        "width": 1365,
+        "horizontalOverflow": false,
+        "unnamedControls": 0
+      }
+    ],
+    "keyboard": null
+  },
+  {
+    "page": "journey",
+    "blocker": null,
+    "errors": [],
+    "widths": [
+      {
+        "width": 390,
+        "horizontalOverflow": false,
+        "unnamedControls": 0
+      },
+      {
+        "width": 320,
+        "horizontalOverflow": false,
+        "unnamedControls": 0
+      },
+      {
+        "width": 1365,
+        "horizontalOverflow": false,
+        "unnamedControls": 0
+      }
+    ],
+    "keyboard": null
+  },
+  {
+    "page": "resources",
+    "blocker": null,
+    "errors": [],
+    "widths": [
+      {
+        "width": 390,
+        "horizontalOverflow": false,
+        "unnamedControls": 0
+      },
+      {
+        "width": 320,
+        "horizontalOverflow": false,
+        "unnamedControls": 0
+      },
+      {
+        "width": 1365,
+        "horizontalOverflow": false,
+        "unnamedControls": 0
+      }
+    ],
+    "keyboard": null
+  },
+  {
+    "page": "resource-empty",
+    "blocker": null,
+    "errors": [],
+    "widths": [
+      {
+        "width": 390,
+        "horizontalOverflow": false,
+        "unnamedControls": 0
+      },
+      {
+        "width": 320,
+        "horizontalOverflow": false,
+        "unnamedControls": 0
+      },
+      {
+        "width": 1365,
+        "horizontalOverflow": false,
+        "unnamedControls": 0
+      }
+    ],
+    "keyboard": null
+  },
+  {
+    "page": "tools",
+    "blocker": null,
+    "errors": [],
+    "widths": [
+      {
+        "width": 390,
+        "horizontalOverflow": false,
+        "unnamedControls": 0
+      },
+      {
+        "width": 320,
+        "horizontalOverflow": false,
+        "unnamedControls": 0
+      },
+      {
+        "width": 1365,
+        "horizontalOverflow": false,
+        "unnamedControls": 0
+      }
+    ],
+    "keyboard": null
+  },
+  {
+    "page": "community",
+    "blocker": null,
+    "errors": [],
+    "widths": [
+      {
+        "width": 390,
+        "horizontalOverflow": false,
+        "unnamedControls": 0
+      },
+      {
+        "width": 320,
+        "horizontalOverflow": false,
+        "unnamedControls": 0
+      },
+      {
+        "width": 1365,
+        "horizontalOverflow": false,
+        "unnamedControls": 0
+      }
+    ],
+    "keyboard": null
+  },
+  {
+    "page": "profile",
+    "blocker": null,
+    "errors": [],
+    "widths": [
+      {
+        "width": 390,
+        "horizontalOverflow": false,
+        "unnamedControls": 0
+      },
+      {
+        "width": 320,
+        "horizontalOverflow": false,
+        "unnamedControls": 0
+      },
+      {
+        "width": 1365,
+        "horizontalOverflow": false,
+        "unnamedControls": 0
+      }
+    ],
+    "keyboard": null
+  },
+  {
+    "page": "settings",
+    "blocker": null,
+    "errors": [],
+    "widths": [
+      {
+        "width": 390,
+        "horizontalOverflow": false,
+        "unnamedControls": 0
+      },
+      {
+        "width": 320,
+        "horizontalOverflow": false,
+        "unnamedControls": 0
+      },
+      {
+        "width": 1365,
+        "horizontalOverflow": false,
+        "unnamedControls": 0
+      }
+    ],
+    "keyboard": null
+  },
+  {
+    "page": "anamnesis-step-1",
+    "blocker": null,
+    "errors": [],
+    "widths": [
+      {
+        "width": 390,
+        "horizontalOverflow": false,
+        "unnamedControls": 0
+      },
+      {
+        "width": 320,
+        "horizontalOverflow": false,
+        "unnamedControls": 0
+      },
+      {
+        "width": 1365,
+        "horizontalOverflow": false,
+        "unnamedControls": 0
+      }
+    ],
+    "keyboard": {
+      "initialInside": true,
+      "tabInside": true,
+      "escapeClosed": true
+    }
+  },
+  {
+    "page": "anamnesis-step-2",
+    "blocker": null,
+    "errors": [],
+    "widths": [
+      {
+        "width": 390,
+        "horizontalOverflow": false,
+        "unnamedControls": 0
+      },
+      {
+        "width": 320,
+        "horizontalOverflow": false,
+        "unnamedControls": 0
+      },
+      {
+        "width": 1365,
+        "horizontalOverflow": false,
+        "unnamedControls": 0
+      }
+    ],
+    "keyboard": {
+      "initialInside": true,
+      "tabInside": true,
+      "escapeClosed": true
+    }
+  },
+  {
+    "page": "anamnesis-step-3",
+    "blocker": null,
+    "errors": [],
+    "widths": [
+      {
+        "width": 390,
+        "horizontalOverflow": false,
+        "unnamedControls": 0
+      },
+      {
+        "width": 320,
+        "horizontalOverflow": false,
+        "unnamedControls": 0
+      },
+      {
+        "width": 1365,
+        "horizontalOverflow": false,
+        "unnamedControls": 0
+      }
+    ],
+    "keyboard": {
+      "initialInside": true,
+      "tabInside": true,
+      "escapeClosed": true
+    }
+  },
+  {
+    "page": "anamnesis-step-4",
+    "blocker": null,
+    "errors": [],
+    "widths": [
+      {
+        "width": 390,
+        "horizontalOverflow": false,
+        "unnamedControls": 0
+      },
+      {
+        "width": 320,
+        "horizontalOverflow": false,
+        "unnamedControls": 0
+      },
+      {
+        "width": 1365,
+        "horizontalOverflow": false,
+        "unnamedControls": 0
+      }
+    ],
+    "keyboard": {
+      "initialInside": true,
+      "tabInside": true,
+      "escapeClosed": true
+    }
+  },
+  {
+    "page": "pause-conscious",
+    "blocker": null,
+    "errors": [],
+    "widths": [
+      {
+        "width": 390,
+        "horizontalOverflow": false,
+        "unnamedControls": 0
+      },
+      {
+        "width": 320,
+        "horizontalOverflow": false,
+        "unnamedControls": 0
+      },
+      {
+        "width": 1365,
+        "horizontalOverflow": false,
+        "unnamedControls": 0
+      }
+    ],
+    "keyboard": {
+      "initialInside": true,
+      "tabInside": true,
+      "escapeClosed": true
+    }
+  },
+  {
+    "page": "still-something",
+    "blocker": null,
+    "errors": [],
+    "widths": [
+      {
+        "width": 390,
+        "horizontalOverflow": false,
+        "unnamedControls": 0
+      },
+      {
+        "width": 320,
+        "horizontalOverflow": false,
+        "unnamedControls": 0
+      },
+      {
+        "width": 1365,
+        "horizontalOverflow": false,
+        "unnamedControls": 0
+      }
+    ],
+    "keyboard": {
+      "initialInside": true,
+      "tabInside": true,
+      "escapeClosed": true
+    }
+  },
+  {
+    "page": "reintegration",
+    "blocker": null,
+    "errors": [],
+    "widths": [
+      {
+        "width": 390,
+        "horizontalOverflow": false,
+        "unnamedControls": 0
+      },
+      {
+        "width": 320,
+        "horizontalOverflow": false,
+        "unnamedControls": 0
+      },
+      {
+        "width": 1365,
+        "horizontalOverflow": false,
+        "unnamedControls": 0
+      }
+    ],
+    "keyboard": null
+  }
+]
