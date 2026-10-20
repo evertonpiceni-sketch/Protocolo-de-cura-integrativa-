@@ -134,3 +134,26 @@
 :root[data-layout="mistico-moderno"] #profile-setup-view.ep-auth-style-one #auth-tabs button { color: var(--mm-text) !important; }
 :root[data-layout="mistico-moderno"] .ep-acceptance-portal > div { background: var(--mm-panel) !important; border-color: var(--mm-line) !important; }
 :root[data-layout="mistico-moderno"] .ep-acceptance-portal :is(p,h2,span) { color: var(--mm-text) !important; }
+
+/* Keep the active session and its controls in the viewport on short screens. */
+:root[data-layout="mistico-moderno"] #meditation-session[data-session-phase="playing"] > main { min-height: 0; padding: 12px 16px; }
+:root[data-layout="mistico-moderno"] #meditation-session .ep-session-stage { background: var(--mm-panel) !important; border-color: var(--mm-line) !important; }
+:root[data-layout="mistico-moderno"] #meditation-session .ep-stage-badge { background: #141f30 !important; color: var(--mm-gold) !important; margin-bottom: 16px; }
+:root[data-layout="mistico-moderno"] #meditation-session .ep-breathing-guide { width: 112px !important; height: 112px !important; margin-block: 12px; flex-shrink: 0; }
+@media (max-height: 700px) {
+  :root[data-layout="mistico-moderno"] #meditation-session .ep-stage-title { font-size: 23px !important; margin-bottom: 6px; }
+  :root[data-layout="mistico-moderno"] #meditation-session .ep-stage-subtitle { margin-bottom: 6px; }
+  :root[data-layout="mistico-moderno"] #meditation-session .ep-breathing-guide { width: 76px !important; height: 76px !important; margin-block: 8px; }
+  :root[data-layout="mistico-moderno"] #meditation-session .ep-stage-badge { margin-bottom: 8px; }
+}
+:root[data-layout="mistico-moderno"] #meditation-session[data-session-phase="playing"] { overflow: hidden; }
+:root[data-layout="mistico-moderno"] #meditation-session[data-session-phase="playing"] > main { overflow-y: auto; justify-content: flex-start !important; }
+:root[data-layout="mistico-moderno"] #meditation-session .ep-session-stage { padding: 12px !important; flex-shrink: 0; }
+:root[data-layout="mistico-moderno"] #meditation-session > :is(header,footer) { flex-shrink: 0; }
+:root[data-layout="mistico-moderno"] #meditation-session > header > div:first-child { flex: 1; }
+:root[data-layout="mistico-moderno"] #meditation-session > header > div:last-child { flex-shrink: 0; gap: 4px; }
+:root[data-layout="mistico-moderno"] #meditation-session > header h1 { font-size: 12px; line-height: 1.35; }
+@media (max-width: 380px) {
+  :root[data-layout="mistico-moderno"] #meditation-session > header { padding: 8px !important; }
+  :root[data-layout="mistico-moderno"] #meditation-session > header > div:first-child > div:first-child { display: none; }
+}
