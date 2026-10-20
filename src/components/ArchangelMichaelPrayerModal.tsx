@@ -70,7 +70,11 @@ export default function ArchangelMichaelPrayerModal({
   );
 
   const dialogRef = React.useRef<HTMLDivElement | null>(null);
-  useDialogFocus(isOpen && document.documentElement.dataset.layout === 'natural-sereno', dialogRef, () => handleClose());
+  useDialogFocus(
+    isOpen && ['natural-sereno', 'essencia-luminosa'].includes(document.documentElement.dataset.layout || ''),
+    dialogRef,
+    () => handleClose()
+  );
 
   if (!isOpen) return null;
 

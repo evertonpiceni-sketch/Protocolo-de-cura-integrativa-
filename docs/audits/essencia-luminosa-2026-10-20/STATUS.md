@@ -91,3 +91,9 @@ A reauditoria final em 320, 390 e 1365 px passou sem overflow horizontal ou cont
 O Dashboard reproduziu a falha de teclado inventariada: foco inicial e Tab fora do diálogo e Escape inoperante no Estilo 3, sem overflow horizontal nem controles sem nome nas três larguras. O hook existente passou a reconhecer `essencia-luminosa`, sem alterar progresso, sequência dos sete dias, desbloqueios ou navegação. A primeira captura corrigida revelou ainda título branco e percentual dourado com contraste insuficiente no fundo claro; o Estilo 3 passou a usar os tons escuros já existentes somente nesses textos.
 
 A reauditoria final em 320, 390 e 1365 px passou sem overflow horizontal ou controles sem nome, com contraste legível, rolagem até o fim, foco inicial dentro, Tab contido e Escape fechando. Permanecem com a falha de teclado comprovada: Oração do Arcanjo Miguel e painel Admin; o modal de contato segue pendente de validação específica. A captura comprova renderização e operação básica com dados sintéticos, não valida progresso real nem fidelidade visual integral.
+
+## Continuação da reauditoria — Oração do Arcanjo Miguel
+
+O modal da Oração do Arcanjo Miguel reproduziu a falha de teclado inventariada: foco inicial e Tab fora do diálogo e Escape inoperante no Estilo 3, sem overflow horizontal nem controles sem nome nas três larguras. A correção mínima habilitou para `essencia-luminosa` o hook existente, sem alterar oração, partes, cópia, áudio, contador ou progresso diário.
+
+A reauditoria em 320, 390 e 1365 px passou sem overflow horizontal ou controles sem nome, com rolagem até o fim, foco inicial dentro, Tab contido e Escape fechando o diálogo. Permanece com a falha de teclado comprovada o painel Admin; o modal de contato segue pendente de validação específica. A captura confirma renderização e operação básica, não escuta integral do áudio nem fidelidade visual integral.
