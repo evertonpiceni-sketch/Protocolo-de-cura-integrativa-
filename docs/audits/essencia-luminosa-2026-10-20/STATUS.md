@@ -273,3 +273,11 @@ A reauditoria visual das quatro cenas do vídeo de apresentação comprovou outr
 O auditor agora pausa e silencia a fixture, percorre as quatro cenas e reprova o retorno do halo opaco. A reauditoria em 320, 390 e 1365 px confirmou o halo sutil, sem overflow horizontal ou controles sem nome, com foco inicial dentro, Tab contido e Escape fechando o diálogo. Nenhum compartilhamento, contato, desbloqueio ou cobrança foi iniciado; a navegação sintética não equivale à escuta integral do áudio.
 
 A inspeção final revelou um defeito visual independente ainda pendente: na cena 4, o título escuro tem baixo contraste sobre o fundo verde. Ele não foi agrupado nesta correção para preservar a revisão de um defeito por vez. Permanecem também pendentes os ativos oficiais separados, a fidelidade visual integral, a escuta e sincronização completa do áudio real e a validação de serviços reais fora das fixtures.
+
+## Continuação da reauditoria — título da cena 4 do vídeo de apresentação
+
+A repetição da captura com espera explícita pelo término da animação de 0,9 segundo confirmou que a primeira evidência também continha um estado transitório, mas o defeito registrado no título permanecia no estado estável: “Um passo de cada vez” usava texto escuro sobre o fundo verde profundo. A correção mínima aplicou o tom claro já existente na paleta somente ao título da cena 4, sem alterar as demais cenas, conteúdo, temporização, frequências ou ações.
+
+O auditor agora espera cada transição terminar antes de validar as quatro cenas e exige a cor legível específica no último título. A reauditoria em 320, 390 e 1365 px confirmou o título nítido, sem overflow horizontal ou controles sem nome, com rolagem, foco inicial dentro, Tab contido e Escape fechando o diálogo. A fixture permaneceu pausada e silenciada; nenhum compartilhamento, contato, desbloqueio ou cobrança foi iniciado.
+
+Permanecem pendentes os ativos oficiais separados, a fidelidade visual integral contra a prancha, a escuta e sincronização completa do áudio real e a validação de serviços reais fora das fixtures.

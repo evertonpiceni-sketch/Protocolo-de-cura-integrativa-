@@ -302,7 +302,7 @@ export default function PromoVideoModal({
                   <span className="text-xs font-mono text-amber-400 uppercase tracking-widest font-bold">
                     {scene.subtitle}
                   </span>
-                  <h2 className="text-xl sm:text-3xl font-display font-medium text-[#2A2420] leading-tight">
+                  <h2 className={`text-xl sm:text-3xl font-display font-medium leading-tight ${scene.id === 4 ? 'text-[#FFFAE7]' : 'text-[#2A2420]'}`}>
                     {scene.title}
                   </h2>
                 </div>
