@@ -217,3 +217,11 @@ A reauditoria visual do Mapa Numerológico comprovou outro efeito da regra globa
 A reauditoria em 320, 390 e 1365 px confirmou título, cartões, números, etiquetas e textos legíveis, sem overflow horizontal ou controles sem nome, com rolagem até o fim, foco inicial dentro, Tab contido e Escape fechando o diálogo. O auditor agora reprova automaticamente o retorno do dourado opaco. Nenhuma impressão, tentativa de desbloqueio ou cobrança foi iniciada.
 
 Os 32 testes existentes, TypeScript, build de produção e `git diff --check` passaram novamente. Permanecem pendentes os ativos oficiais separados, a comparação visual integral das demais telas, a escuta e sincronização completa do áudio real e a validação de serviços reais fora das fixtures.
+
+## Continuação da reauditoria — contraste do Mapa Astral
+
+A reauditoria visual do Mapa Astral comprovou outro efeito da regra global de tema: o halo decorativo perdia os 8% de transparência declarados e formava uma camada dourada opaca sobre cabeçalho, dados pessoais e abas; o selo superior e a etiqueta do Ascendente também perdiam os 10% de transparência. A correção ficou restrita ao `#astral-map-modal` do Estilo 3 e somente restaurou essas opacidades, sem alterar cálculos, dados pessoais, abas, edição, impressão, conteúdo ou pagamento.
+
+A reauditoria em 320, 390 e 1365 px confirmou cabeçalho, dados, abas, etiquetas e cartões legíveis, sem overflow horizontal ou controles sem nome, com rolagem até o fim, foco inicial dentro, Tab contido e Escape fechando o diálogo. O auditor agora reprova automaticamente o retorno do dourado opaco. Nenhum dado foi editado e nenhuma impressão ou cobrança foi iniciada.
+
+Os 32 testes existentes, TypeScript, build de produção e `git diff --check` passaram novamente. Permanecem pendentes os ativos oficiais separados, a comparação visual integral das demais telas, a escuta e sincronização completa do áudio real e a validação de serviços reais fora das fixtures.
