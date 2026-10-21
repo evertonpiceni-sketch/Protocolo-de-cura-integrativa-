@@ -265,3 +265,11 @@ A reauditoria visual do Estúdio de Vídeos comprovou outro efeito da regra glob
 A reauditoria em 320, 390 e 1365 px confirmou o ícone novamente sutil e legível, sem overflow horizontal ou controles sem nome, com rolagem até o fim, foco inicial dentro, Tab contido e Escape fechando o diálogo. O auditor agora reprova automaticamente o retorno do dourado opaco e aceita um tempo de espera configurável para a primeira compilação local, preservando o limite padrão. Nenhum vídeo, áudio, dado ou serviço externo foi criado ou alterado.
 
 Os 32 testes existentes, TypeScript, build de produção e `git diff --check` passaram novamente. Permanecem pendentes os ativos oficiais separados, a comparação visual integral das demais telas, a escuta e sincronização completa do áudio real e a validação de serviços reais fora das fixtures.
+
+## Continuação da reauditoria — halo do vídeo de apresentação
+
+A reauditoria visual das quatro cenas do vídeo de apresentação comprovou outro efeito da regra global de tema: o halo dourado perdia os 20% de transparência declarados e formava uma massa opaca sobre o conteúdo do player. A correção ficou restrita ao `#promo-video-modal` no Estilo 3 e somente restaurou essa opacidade, sem alterar textos, cenas, temporização, frequências, chamadas ou acessos.
+
+O auditor agora pausa e silencia a fixture, percorre as quatro cenas e reprova o retorno do halo opaco. A reauditoria em 320, 390 e 1365 px confirmou o halo sutil, sem overflow horizontal ou controles sem nome, com foco inicial dentro, Tab contido e Escape fechando o diálogo. Nenhum compartilhamento, contato, desbloqueio ou cobrança foi iniciado; a navegação sintética não equivale à escuta integral do áudio.
+
+A inspeção final revelou um defeito visual independente ainda pendente: na cena 4, o título escuro tem baixo contraste sobre o fundo verde. Ele não foi agrupado nesta correção para preservar a revisão de um defeito por vez. Permanecem também pendentes os ativos oficiais separados, a fidelidade visual integral, a escuta e sincronização completa do áudio real e a validação de serviços reais fora das fixtures.
