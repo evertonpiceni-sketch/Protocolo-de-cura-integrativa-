@@ -1,5 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { X, Wind, Sparkles } from 'lucide-react';
+import { useDialogFocus } from '../hooks/useDialogFocus';
 
 const TIPS = [
   'Respire pelo nariz por 4 segundos, sustente com suavidade por 3 e solte por 5. Perceba o corpo antes de continuar sua jornada de hoje.',
@@ -17,6 +18,8 @@ interface DailyTipModalProps {
 
 export default function DailyTipModal({ onClose, userName }: DailyTipModalProps) {
   const [tip, setTip] = useState(TIPS[0]);
+  const dialogRef = useRef<HTMLDivElement>(null);
+  useDialogFocus(document.documentElement.dataset.layout === 'essencia-luminosa', dialogRef, onClose);
 
   useEffect(() => {
     setTip(TIPS[Math.floor(Math.random() * TIPS.length)]);
@@ -24,6 +27,7 @@ export default function DailyTipModal({ onClose, userName }: DailyTipModalProps)
 
   return (
     <div
+      ref={dialogRef}
       className="fixed inset-0 z-[100] flex items-center justify-center overflow-y-auto overscroll-contain bg-[#2A2420]/25 p-2 sm:p-4 backdrop-blur-sm animate-fade-in"
       role="dialog"
       aria-modal="true"

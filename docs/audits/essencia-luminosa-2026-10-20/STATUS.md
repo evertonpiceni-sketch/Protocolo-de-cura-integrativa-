@@ -169,3 +169,11 @@ A rolagem completa do modal de upgrade do plano gratuito revelou que os avisos u
 A reauditoria visual confirmou os avisos legíveis em 320, 390 e 1365 px. A página permaneceu sem overflow horizontal ou controles sem nome, com rolagem até o fim, foco inicial dentro, Tab contido e Escape fechando o diálogo. O auditor agora reprova automaticamente o retorno do fundo opaco. Nenhum cupom, checkout ou cobrança foi iniciado.
 
 Os 32 testes existentes, TypeScript, build de produção e `git diff --check` passaram novamente. Permanecem pendentes os ativos oficiais separados, a comparação visual integral das demais telas, a escuta e sincronização completa do áudio real e a validação de serviços reais fora das fixtures.
+
+## Continuação da reauditoria — Pausa de presença diária
+
+O auditor passou a reproduzir a Pausa de presença após um login sintético bem-sucedido, removendo somente na fixture a marca diária criada pela proteção de inicialização. A tela realmente renderizada comprovou que o foco permanecia no conteúdo atrás do diálogo, Tab escapava e Escape não fechava. A correção mínima conectou o modal ao hook de foco já existente somente no Estilo 3, sem alterar as seis mensagens, a frequência de exibição, login, jornada ou progresso.
+
+A reauditoria em 320, 390 e 1365 px passou sem overflow horizontal ou controles sem nome, com foco inicial dentro, Tab contido e Escape fechando o diálogo. A captura também revelou brilho e ícone dourados opacos; esse defeito visual independente permanece para a próxima passagem, respeitando a correção de um item por vez.
+
+Os 32 testes existentes, TypeScript, build de produção e `git diff --check` passaram novamente. Permanecem também pendentes os ativos oficiais separados, a comparação visual integral das demais telas, a escuta e sincronização completa do áudio real e a validação de serviços reais fora das fixtures.
