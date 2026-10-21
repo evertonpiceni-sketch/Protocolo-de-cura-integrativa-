@@ -161,3 +161,11 @@ A captura do Guia de Instalação comprovou nova ocorrência da regra global de 
 Android e iOS foram renderizados separadamente em 320, 390 e 1365 px. Ambos ficaram legíveis, sem overflow horizontal ou controles sem nome, com rolagem disponível, foco inicial dentro, Tab contido e Escape fechando o diálogo. O auditor passou a cobrir também a aba iOS. Nenhum pedido de instalação foi iniciado.
 
 Os 32 testes existentes, TypeScript, build de produção e `git diff --check` passaram novamente. Permanecem pendentes os ativos oficiais separados, a comparação visual integral das demais telas, a escuta e sincronização completa do áudio real e a validação de serviços reais fora das fixtures.
+
+## Continuação da reauditoria — Planos & Acessos
+
+A rolagem completa do modal de upgrade do plano gratuito revelou que os avisos universais “Anamnese Energética + Diário de desabafo incluídos” perdiam a transparência de 8% declarada e apareciam como barras douradas opacas com texto dourado de baixo contraste. A correção ficou restrita a esses avisos dentro de `#plans-modal` no Estilo 3, sem alterar planos, valores, benefícios, cupons, métodos ou integração de pagamento.
+
+A reauditoria visual confirmou os avisos legíveis em 320, 390 e 1365 px. A página permaneceu sem overflow horizontal ou controles sem nome, com rolagem até o fim, foco inicial dentro, Tab contido e Escape fechando o diálogo. O auditor agora reprova automaticamente o retorno do fundo opaco. Nenhum cupom, checkout ou cobrança foi iniciado.
+
+Os 32 testes existentes, TypeScript, build de produção e `git diff --check` passaram novamente. Permanecem pendentes os ativos oficiais separados, a comparação visual integral das demais telas, a escuta e sincronização completa do áudio real e a validação de serviços reais fora das fixtures.
