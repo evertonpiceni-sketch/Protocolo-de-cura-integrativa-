@@ -241,3 +241,11 @@ A reauditoria visual de Cursos em preparação comprovou outro efeito da regra g
 A reauditoria em 320, 390 e 1365 px confirmou cabeçalho, logo oficial, aviso e ação de retorno legíveis, sem overflow horizontal ou controles sem nome, com rolagem até o fim, foco inicial dentro, Tab contido e Escape fechando o diálogo. O auditor agora reprova automaticamente o retorno do dourado opaco. Nenhum curso, desbloqueio, checkout ou cobrança foi iniciado.
 
 Os 32 testes existentes, TypeScript, build de produção e `git diff --check` passaram novamente. Permanecem pendentes os ativos oficiais separados, a comparação visual integral das demais telas, a escuta e sincronização completa do áudio real e a validação de serviços reais fora das fixtures.
+
+## Continuação da reauditoria — contraste da Oração do Arcanjo Miguel
+
+A reauditoria visual da Oração do Arcanjo Miguel comprovou outro efeito da regra global de tema: o halo inferior e o selo “Acesso livre” perdiam as transparências de 10% e 8% declaradas e apareciam como superfícies douradas opacas; a transparência de 12% usada pelo estado concluído das partes também ficava sujeita à mesma regressão. A correção ficou restrita ao `#archangel-prayer-modal` do Estilo 3 e somente restaurou essas opacidades, sem alterar oração, partes, contador, cópia, áudio ou progresso.
+
+A reauditoria em 320, 390 e 1365 px confirmou cabeçalho, selo, contador, partes e texto legíveis, sem overflow horizontal ou controles sem nome, com rolagem até o fim, foco inicial dentro, Tab contido e Escape fechando o diálogo. O auditor agora reprova automaticamente o retorno do dourado opaco. Nenhum áudio foi executado, nenhuma parte foi concluída e nenhum progresso foi gravado.
+
+Os 32 testes existentes, TypeScript, build de produção e `git diff --check` passaram novamente. Permanecem pendentes os ativos oficiais separados, a comparação visual integral das demais telas, a escuta e sincronização completa do áudio real e a validação de serviços reais fora das fixtures.
