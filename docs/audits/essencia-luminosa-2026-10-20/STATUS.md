@@ -177,3 +177,11 @@ O auditor passou a reproduzir a Pausa de presença após um login sintético bem
 A reauditoria em 320, 390 e 1365 px passou sem overflow horizontal ou controles sem nome, com foco inicial dentro, Tab contido e Escape fechando o diálogo. A captura também revelou brilho e ícone dourados opacos; esse defeito visual independente permanece para a próxima passagem, respeitando a correção de um item por vez.
 
 Os 32 testes existentes, TypeScript, build de produção e `git diff --check` passaram novamente. Permanecem também pendentes os ativos oficiais separados, a comparação visual integral das demais telas, a escuta e sincronização completa do áudio real e a validação de serviços reais fora das fixtures.
+
+## Continuação da reauditoria — contraste da Pausa de presença
+
+A reauditoria visual do diálogo já coberto pelo teclado confirmou o defeito registrado: o brilho decorativo e o círculo do ícone de vento perdiam os 10% de transparência declarados e apareciam dourados opacos, cobrindo parte do cartão e reduzindo o contraste do ícone. A correção ficou restrita a `[aria-labelledby="daily-tip-title"]` no Estilo 3 e apenas restaurou essa transparência, sem alterar as seis mensagens, a frequência de exibição, login, jornada ou progresso.
+
+A reauditoria em 320, 390 e 1365 px confirmou brilho sutil, ícone legível e conteúdo preservado. A tela permaneceu sem overflow horizontal ou controles sem nome, com foco inicial dentro, Tab contido e Escape fechando o diálogo. O auditor agora reprova automaticamente o retorno do dourado opaco.
+
+Os 32 testes existentes, TypeScript, build de produção e `git diff --check` passaram novamente. Permanecem pendentes os ativos oficiais separados, a comparação visual integral das demais telas, a escuta e sincronização completa do áudio real e a validação de serviços reais fora das fixtures.

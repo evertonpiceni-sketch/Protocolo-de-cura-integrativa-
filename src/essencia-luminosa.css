@@ -137,6 +137,7 @@
 :root[data-layout="essencia-luminosa"] #mobile-install-modal [class*="bg-[#B88736]/8"]{background:rgba(194,150,72,.08)!important}
 :root[data-layout="essencia-luminosa"] #mobile-install-modal [class*="bg-[#B88736]/10"]{background:rgba(194,150,72,.10)!important}
 :root[data-layout="essencia-luminosa"] #mobile-install-modal [class*="bg-[#B88736]/12"]{background:rgba(194,150,72,.12)!important}
+:root[data-layout="essencia-luminosa"] [aria-labelledby="daily-tip-title"] [class*="bg-[#B88736]/10"]{background:rgba(194,150,72,.10)!important}
 :root[data-layout="essencia-luminosa"] #plans-modal [data-universal-core-benefit="true"]{background:rgba(194,150,72,.08)!important}
 @media(min-width:700px){.el-loading-frame{background-size:auto 100%}}
 @media(max-height:600px){.el-loading-logo{width:115px;margin-bottom:16px}.el-loading-divider{margin:16px 0}.el-loading-status{margin-top:24px}}
