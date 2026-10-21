@@ -225,3 +225,11 @@ A reauditoria visual do Mapa Astral comprovou outro efeito da regra global de te
 A reauditoria em 320, 390 e 1365 px confirmou cabeçalho, dados, abas, etiquetas e cartões legíveis, sem overflow horizontal ou controles sem nome, com rolagem até o fim, foco inicial dentro, Tab contido e Escape fechando o diálogo. O auditor agora reprova automaticamente o retorno do dourado opaco. Nenhum dado foi editado e nenhuma impressão ou cobrança foi iniciada.
 
 Os 32 testes existentes, TypeScript, build de produção e `git diff --check` passaram novamente. Permanecem pendentes os ativos oficiais separados, a comparação visual integral das demais telas, a escuta e sincronização completa do áudio real e a validação de serviços reais fora das fixtures.
+
+## Continuação da reauditoria — contraste das Perguntas Sistêmicas
+
+A reauditoria visual das Perguntas Sistêmicas comprovou outro efeito da regra global de tema: os halos decorativos perdiam as transparências de 6% e 10% declaradas e formavam camadas douradas opacas sobre cabeçalho, pergunta, reflexão e rodapé; selos e controles de apoio também perdiam as transparências de 12% e 20%. A correção ficou restrita ao `#systemic-questions-modal` do Estilo 3 e somente restaurou essas opacidades, sem alterar perguntas, respostas, progresso, frequência, áudio ou salvamento.
+
+A reauditoria em 320, 390 e 1365 px confirmou cabeçalho, frequência, navegação, pergunta e formulário legíveis, sem overflow horizontal ou controles sem nome, com rolagem até o fim, foco inicial dentro, Tab contido e Escape fechando o diálogo. O auditor agora reprova automaticamente o retorno do dourado opaco. Nenhum áudio foi executado e nenhuma resposta foi salva.
+
+Os 32 testes existentes, TypeScript, build de produção e `git diff --check` passaram novamente. Permanecem pendentes os ativos oficiais separados, a comparação visual integral das demais telas, a escuta e sincronização completa do áudio real e a validação de serviços reais fora das fixtures.
