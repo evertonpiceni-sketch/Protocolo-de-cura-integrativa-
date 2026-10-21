@@ -257,3 +257,11 @@ A reauditoria visual do painel Admin com perfil administrativo fictício comprov
 A reauditoria em 320, 390 e 1365 px confirmou o botão novamente legível e o painel preservado, sem overflow horizontal ou controles sem nome, com rolagem disponível, foco inicial dentro, Tab contido e Escape fechando o diálogo. O auditor agora reprova automaticamente o retorno do dourado opaco. Nenhum formulário foi enviado e nenhum áudio, cupom, usuário ou vídeo foi criado, alterado ou excluído.
 
 Os 32 testes existentes, TypeScript, build de produção e `git diff --check` passaram novamente. Permanecem pendentes os ativos oficiais separados, a comparação visual integral das demais telas, a escuta e sincronização completa do áudio real e a validação de serviços reais fora das fixtures.
+
+## Continuação da reauditoria — contraste do Estúdio de Vídeos
+
+A reauditoria visual do Estúdio de Vídeos comprovou outro efeito da regra global de tema: o fundo do ícone de filme perdia os 10% de transparência declarados e aparecia como um bloco dourado opaco. A correção ficou restrita ao diálogo identificado por `visual-studio-title` no Estilo 3 e somente restaurou essa opacidade, sem alterar dias, formatos, textos, prévias, mapa visual ou permissões administrativas.
+
+A reauditoria em 320, 390 e 1365 px confirmou o ícone novamente sutil e legível, sem overflow horizontal ou controles sem nome, com rolagem até o fim, foco inicial dentro, Tab contido e Escape fechando o diálogo. O auditor agora reprova automaticamente o retorno do dourado opaco e aceita um tempo de espera configurável para a primeira compilação local, preservando o limite padrão. Nenhum vídeo, áudio, dado ou serviço externo foi criado ou alterado.
+
+Os 32 testes existentes, TypeScript, build de produção e `git diff --check` passaram novamente. Permanecem pendentes os ativos oficiais separados, a comparação visual integral das demais telas, a escuta e sincronização completa do áudio real e a validação de serviços reais fora das fixtures.
