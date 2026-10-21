@@ -201,3 +201,11 @@ A reauditoria visual do Guia de Banhos de Ervas comprovou um defeito independent
 A reauditoria em 320, 390 e 1365 px confirmou os selos legíveis, conteúdo preservado e rolagem até o fim. A tela permaneceu sem overflow horizontal ou controles sem nome, com foco inicial dentro, Tab contido e Escape fechando o diálogo. O auditor agora reprova automaticamente o retorno do dourado opaco. Nenhuma orientação foi copiada ou compartilhada.
 
 Os 32 testes existentes, TypeScript, build de produção e `git diff --check` passaram novamente. Permanecem pendentes os ativos oficiais separados, a comparação visual integral das demais telas, a escuta e sincronização completa do áudio real e a validação de serviços reais fora das fixtures.
+
+## Continuação da reauditoria — contraste do Ho’oponopono
+
+A reauditoria visual do Ho’oponopono comprovou outro efeito da regra global de tema: o selo superior e as superfícies douradas de apoio perdiam as transparências de 7% e 8% declaradas pelo componente e apareciam opacas. A correção ficou restrita ao `#hooponopono-modal` do Estilo 3 e somente restaurou essas opacidades, sem alterar oração, temas, quatro chaves, contagem, áudio ou progresso.
+
+O auditor passou a percorrer Oração, Repetições e 4 Chaves e a reprovar qualquer retorno do dourado opaco antes de voltar ao estado inicial. A reauditoria visual em 320, 390 e 1365 px confirmou o selo legível e o conteúdo preservado, sem overflow horizontal ou controles sem nome, com rolagem até o fim, foco inicial dentro, Tab contido e Escape fechando o diálogo. Nenhum áudio foi executado e nenhuma repetição foi registrada.
+
+Os 32 testes existentes, TypeScript, build de produção e `git diff --check` passaram novamente. Permanecem pendentes os ativos oficiais separados, a comparação visual integral das demais telas, a escuta e sincronização completa do áudio real e a validação de serviços reais fora das fixtures.
