@@ -305,3 +305,11 @@ A captura do Registro da Jornada comprovou outro efeito da regra global de tema:
 O auditor passou a renderizar separadamente o Registro e a aba Relatório da Jornada e a reprovar o retorno do dourado opaco. A reauditoria dos dois estados em 320, 390 e 1365 px confirmou abas, ícone, conteúdo e estado vazio legíveis, sem overflow horizontal ou controles sem nome, com rolagem, foco inicial dentro, Tab contido e Escape fechando o diálogo. Nenhuma impressão ou gravação de PDF foi iniciada.
 
 Permanecem pendentes os ativos oficiais separados, a fidelidade visual integral contra a prancha, a escuta e sincronização completa do áudio real e a validação de serviços reais fora das fixtures. Capturas e testes de interface não substituem essas validações essenciais.
+
+## Continuação da reauditoria — contraste da Anamnese Energética
+
+A captura integral dos quatro passos da Anamnese Energética comprovou outro efeito da regra global de tema: os halos e realces dourados perdiam as transparências de 6%, 10%, 12% e 20% declaradas e apareciam como superfícies opacas. O halo superior formava uma faixa sólida sobre o cabeçalho e os estados selecionados perdiam contraste. A correção ficou restrita ao `#anamnesis-modal` do Estilo 3 e somente restaurou essas opacidades, sem alterar perguntas, opções, recomendações, frequências, áudio, respostas, salvamento ou fluxo.
+
+O auditor agora reprova o retorno do dourado opaco em cada um dos quatro passos. A reauditoria em 320, 390 e 1365 px confirmou cabeçalhos, frequência, formulários, opções e estados selecionados legíveis, sem overflow horizontal ou controles sem nome, com rolagem até o fim, foco inicial dentro, Tab contido e Escape fechando o diálogo. Nenhuma resposta foi salva e nenhum áudio, serviço real ou cobrança foi acionado.
+
+Os 32 testes existentes, TypeScript, build de produção e `git diff --check` passaram novamente. Permanecem pendentes os ativos oficiais separados, a fidelidade visual integral contra a prancha, a escuta e sincronização completa do áudio real e a validação de serviços reais fora das fixtures. Capturas e testes de interface não substituem essas validações essenciais.
