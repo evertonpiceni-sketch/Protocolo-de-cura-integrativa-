@@ -209,3 +209,11 @@ A reauditoria visual do Ho’oponopono comprovou outro efeito da regra global de
 O auditor passou a percorrer Oração, Repetições e 4 Chaves e a reprovar qualquer retorno do dourado opaco antes de voltar ao estado inicial. A reauditoria visual em 320, 390 e 1365 px confirmou o selo legível e o conteúdo preservado, sem overflow horizontal ou controles sem nome, com rolagem até o fim, foco inicial dentro, Tab contido e Escape fechando o diálogo. Nenhum áudio foi executado e nenhuma repetição foi registrada.
 
 Os 32 testes existentes, TypeScript, build de produção e `git diff --check` passaram novamente. Permanecem pendentes os ativos oficiais separados, a comparação visual integral das demais telas, a escuta e sincronização completa do áudio real e a validação de serviços reais fora das fixtures.
+
+## Continuação da reauditoria — contraste da Numerologia
+
+A reauditoria visual do Mapa Numerológico comprovou outro efeito da regra global de tema: o brilho decorativo, o selo superior, o número do Caminho de Vida e as etiquetas de palavras-chave perdiam os 10% de transparência declarados e apareciam como superfícies douradas opacas, cobrindo conteúdo e reduzindo o contraste. A correção ficou restrita ao `#numerology-modal` do Estilo 3 e somente restaurou essa opacidade, sem alterar cálculos, abas, desbloqueio, impressão, conteúdo ou pagamento.
+
+A reauditoria em 320, 390 e 1365 px confirmou título, cartões, números, etiquetas e textos legíveis, sem overflow horizontal ou controles sem nome, com rolagem até o fim, foco inicial dentro, Tab contido e Escape fechando o diálogo. O auditor agora reprova automaticamente o retorno do dourado opaco. Nenhuma impressão, tentativa de desbloqueio ou cobrança foi iniciada.
+
+Os 32 testes existentes, TypeScript, build de produção e `git diff --check` passaram novamente. Permanecem pendentes os ativos oficiais separados, a comparação visual integral das demais telas, a escuta e sincronização completa do áudio real e a validação de serviços reais fora das fixtures.
