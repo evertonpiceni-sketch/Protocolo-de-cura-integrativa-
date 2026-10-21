@@ -193,3 +193,11 @@ A reauditoria visual do Guia dos 7 Chakras confirmou um defeito independente do 
 A reauditoria em 320, 390 e 1365 px confirmou selo e cartão legíveis, conteúdo preservado e rolagem até o fim. A tela permaneceu sem overflow horizontal ou controles sem nome, com foco inicial dentro, Tab contido e Escape fechando o diálogo. O auditor agora reprova automaticamente o retorno do dourado opaco.
 
 Os 32 testes existentes, TypeScript, build de produção e `git diff --check` passaram novamente. Permanecem pendentes os ativos oficiais separados, a comparação visual integral das demais telas, a escuta e sincronização completa do áudio real e a validação de serviços reais fora das fixtures.
+
+## Continuação da reauditoria — contraste de Banhos e Aromas
+
+A reauditoria visual do Guia de Banhos de Ervas comprovou um defeito independente do teclado: os selos das receitas comuns, como “Do pescoço para baixo”, perdiam os 10% de transparência declarados e apareciam dourados opacos, reduzindo o contraste do texto. A correção ficou restrita ao `#herbal-baths-modal` do Estilo 3 e somente restaurou essa transparência, sem alterar receitas, avisos, busca, filtros, cópia ou compartilhamento.
+
+A reauditoria em 320, 390 e 1365 px confirmou os selos legíveis, conteúdo preservado e rolagem até o fim. A tela permaneceu sem overflow horizontal ou controles sem nome, com foco inicial dentro, Tab contido e Escape fechando o diálogo. O auditor agora reprova automaticamente o retorno do dourado opaco. Nenhuma orientação foi copiada ou compartilhada.
+
+Os 32 testes existentes, TypeScript, build de produção e `git diff --check` passaram novamente. Permanecem pendentes os ativos oficiais separados, a comparação visual integral das demais telas, a escuta e sincronização completa do áudio real e a validação de serviços reais fora das fixtures.
