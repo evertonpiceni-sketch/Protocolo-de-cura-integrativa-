@@ -289,3 +289,11 @@ A captura estável da cena 4 confirmou um defeito visual independente do título
 O auditor agora exige a cor legível nos dois metadados após percorrer as quatro cenas e aguardar o término de cada transição. A reauditoria em 320, 390 e 1365 px confirmou frequência e contador nítidos, sem overflow horizontal ou controles sem nome, com rolagem, foco inicial dentro, Tab contido e Escape fechando o diálogo. A fixture permaneceu pausada e silenciada; nenhum compartilhamento, contato, desbloqueio ou cobrança foi iniciado.
 
 Permanecem pendentes os ativos oficiais separados, a fidelidade visual integral contra a prancha, a escuta e sincronização completa do áudio real e a validação de serviços reais fora das fixtures. Capturas e testes de interface não substituem essas validações essenciais.
+
+## Continuação da reauditoria — metadados da cena 4 no mobile
+
+Após recuperar o contraste, a captura de 390 px revelou um defeito responsivo independente: a frequência quebrava em duas linhas e o contador era comprimido para “Cena 4 de” seguido de “4” em outra linha. A correção mínima empilhou frequência e contador apenas em telas compactas, mantendo a disposição horizontal existente a partir de 640 px, sem alterar textos, cenas, temporização, áudio ou ações.
+
+O auditor agora verifica geometricamente que, no mobile, os metadados ficam empilhados, dentro da faixa e com o contador em uma única linha. A reauditoria em 320, 390 e 1365 px passou sem overflow horizontal ou controles sem nome, com rolagem, foco inicial dentro, Tab contido e Escape fechando o diálogo; a inspeção visual confirmou o desktop inalterado. A fixture permaneceu pausada e silenciada, sem acionar compartilhamento, contato, desbloqueio ou cobrança.
+
+Permanecem pendentes os ativos oficiais separados, a fidelidade visual integral contra a prancha, a escuta e sincronização completa do áudio real e a validação de serviços reais fora das fixtures. Capturas e testes de interface não substituem essas validações essenciais.

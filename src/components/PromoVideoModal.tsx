@@ -325,7 +325,10 @@ export default function PromoVideoModal({
           </AnimatePresence>
 
           {/* Equalizer animation bar */}
-          <div className="flex items-center justify-between z-10 pt-4 border-t border-[#E5DAC6]/60">
+          <div
+            data-promo-scene-meta-row
+            className="flex flex-col items-start gap-2 sm:flex-row sm:items-center sm:justify-between sm:gap-0 z-10 pt-4 border-t border-[#E5DAC6]/60"
+          >
             <div
               data-promo-scene-meta
               className={`flex items-center gap-2 text-xs font-mono ${scene.id === 4 ? 'text-[#E5DAC6]' : 'text-[#5C5248]'}`}
@@ -341,7 +344,8 @@ export default function PromoVideoModal({
 
             <span
               data-promo-scene-meta
-              className={`text-xs font-mono ${scene.id === 4 ? 'text-[#E5DAC6]' : 'text-[#5C5248]'}`}
+              data-promo-scene-counter
+              className={`self-end whitespace-nowrap text-xs font-mono sm:self-auto ${scene.id === 4 ? 'text-[#E5DAC6]' : 'text-[#5C5248]'}`}
             >
               Cena {currentSceneIndex + 1} de {PROMO_SCENES.length}
             </span>
