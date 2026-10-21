@@ -153,3 +153,11 @@ Após corrigir o contraste, a captura de 320 px revelou um defeito independente 
 A reauditoria em 320, 390 e 1365 px confirmou `Todos` integralmente visível na posição inicial, demais categorias acessíveis pela rolagem horizontal e desktop ainda centralizado. O auditor agora exige que a primeira categoria esteja dentro da área visível antes das capturas. A tela permaneceu sem overflow da página ou controles sem nome, com foco inicial dentro, Tab contido e Escape fechando o diálogo.
 
 Os 32 testes existentes, TypeScript, build de produção e `git diff --check` passaram novamente. Permanecem pendentes os ativos oficiais separados, a comparação visual integral das demais telas, a escuta e sincronização completa do áudio real e a validação de serviços reais fora das fixtures.
+
+## Continuação da reauditoria — Guia de Instalação
+
+A captura do Guia de Instalação comprovou nova ocorrência da regra global de fundos dourados: brilho decorativo, selo, ícone do celular e aba ativa perdiam suas transparências de 7%, 8%, 10% e 12%, formando superfícies opacas e reduzindo o contraste. A correção ficou restrita ao `#mobile-install-modal` do Estilo 3 e apenas restaurou as opacidades já declaradas no componente, sem alterar textos, ícone oficial, instruções ou instalação.
+
+Android e iOS foram renderizados separadamente em 320, 390 e 1365 px. Ambos ficaram legíveis, sem overflow horizontal ou controles sem nome, com rolagem disponível, foco inicial dentro, Tab contido e Escape fechando o diálogo. O auditor passou a cobrir também a aba iOS. Nenhum pedido de instalação foi iniciado.
+
+Os 32 testes existentes, TypeScript, build de produção e `git diff --check` passaram novamente. Permanecem pendentes os ativos oficiais separados, a comparação visual integral das demais telas, a escuta e sincronização completa do áudio real e a validação de serviços reais fora das fixtures.
