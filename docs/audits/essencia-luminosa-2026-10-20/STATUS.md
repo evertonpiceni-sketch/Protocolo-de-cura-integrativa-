@@ -249,3 +249,11 @@ A reauditoria visual da Oração do Arcanjo Miguel comprovou outro efeito da reg
 A reauditoria em 320, 390 e 1365 px confirmou cabeçalho, selo, contador, partes e texto legíveis, sem overflow horizontal ou controles sem nome, com rolagem até o fim, foco inicial dentro, Tab contido e Escape fechando o diálogo. O auditor agora reprova automaticamente o retorno do dourado opaco. Nenhum áudio foi executado, nenhuma parte foi concluída e nenhum progresso foi gravado.
 
 Os 32 testes existentes, TypeScript, build de produção e `git diff --check` passaram novamente. Permanecem pendentes os ativos oficiais separados, a comparação visual integral das demais telas, a escuta e sincronização completa do áudio real e a validação de serviços reais fora das fixtures.
+
+## Continuação da reauditoria — contraste do painel Admin
+
+A reauditoria visual do painel Admin com perfil administrativo fictício comprovou outro efeito da regra global de tema: o botão “Estúdio de Vídeos & Vinhetas” perdia os 15% de transparência declarados e aparecia como um bloco dourado opaco, ocultando texto e ícone. A correção ficou restrita ao `#admin-panel-modal` do Estilo 3 e restaurou as transparências douradas de 10%, 15% e 25% já previstas no componente, sem alterar autenticação, permissões, áudios, cupons, usuários, vídeos ou chamadas de API.
+
+A reauditoria em 320, 390 e 1365 px confirmou o botão novamente legível e o painel preservado, sem overflow horizontal ou controles sem nome, com rolagem disponível, foco inicial dentro, Tab contido e Escape fechando o diálogo. O auditor agora reprova automaticamente o retorno do dourado opaco. Nenhum formulário foi enviado e nenhum áudio, cupom, usuário ou vídeo foi criado, alterado ou excluído.
+
+Os 32 testes existentes, TypeScript, build de produção e `git diff --check` passaram novamente. Permanecem pendentes os ativos oficiais separados, a comparação visual integral das demais telas, a escuta e sincronização completa do áudio real e a validação de serviços reais fora das fixtures.
