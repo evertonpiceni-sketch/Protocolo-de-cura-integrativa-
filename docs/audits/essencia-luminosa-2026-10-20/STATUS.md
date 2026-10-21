@@ -297,3 +297,11 @@ Após recuperar o contraste, a captura de 390 px revelou um defeito responsivo i
 O auditor agora verifica geometricamente que, no mobile, os metadados ficam empilhados, dentro da faixa e com o contador em uma única linha. A reauditoria em 320, 390 e 1365 px passou sem overflow horizontal ou controles sem nome, com rolagem, foco inicial dentro, Tab contido e Escape fechando o diálogo; a inspeção visual confirmou o desktop inalterado. A fixture permaneceu pausada e silenciada, sem acionar compartilhamento, contato, desbloqueio ou cobrança.
 
 Permanecem pendentes os ativos oficiais separados, a fidelidade visual integral contra a prancha, a escuta e sincronização completa do áudio real e a validação de serviços reais fora das fixtures. Capturas e testes de interface não substituem essas validações essenciais.
+
+## Continuação da reauditoria — contraste do Registro e Relatório da Jornada
+
+A captura do Registro da Jornada comprovou outro efeito da regra global de tema: a aba ativa e o círculo do ícone perdiam as transparências de 12% e 10% declaradas e apareciam dourados opacos, reduzindo o contraste. A correção ficou restrita ao `#pro-certificate-modal` do Estilo 3 e somente restaurou essas opacidades, sem alterar progresso, dados pessoais, cálculos, textos, impressão ou geração de PDF.
+
+O auditor passou a renderizar separadamente o Registro e a aba Relatório da Jornada e a reprovar o retorno do dourado opaco. A reauditoria dos dois estados em 320, 390 e 1365 px confirmou abas, ícone, conteúdo e estado vazio legíveis, sem overflow horizontal ou controles sem nome, com rolagem, foco inicial dentro, Tab contido e Escape fechando o diálogo. Nenhuma impressão ou gravação de PDF foi iniciada.
+
+Permanecem pendentes os ativos oficiais separados, a fidelidade visual integral contra a prancha, a escuta e sincronização completa do áudio real e a validação de serviços reais fora das fixtures. Capturas e testes de interface não substituem essas validações essenciais.
