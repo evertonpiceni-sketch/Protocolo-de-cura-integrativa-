@@ -145,3 +145,11 @@ A captura da tela Conquistas e Marcos comprovou mais uma ocorrência isolada da 
 A reauditoria visual confirmou selo, título, ícone de coroa, resumo e cartões legíveis em 320, 390 e 1365 px. A tela permaneceu sem overflow horizontal ou controles sem nome, com rolagem disponível, foco inicial dentro, Tab contido e Escape fechando o diálogo. A fixture manteve todos os emblemas bloqueados e não escreveu progresso real.
 
 Os 32 testes existentes, TypeScript, build de produção e `git diff --check` passaram novamente. Permanecem pendentes os ativos oficiais separados, a comparação visual integral das demais telas, a escuta e sincronização completa do áudio real e a validação de serviços reais fora das fixtures.
+
+## Continuação da reauditoria — categorias de Conquistas no mobile
+
+Após corrigir o contraste, a captura de 320 px revelou um defeito independente na faixa horizontal de categorias: a centralização de uma linha mais larga que o contêiner posicionava `Todos` e parte de `Constância` fora da borda esquerda, sem possibilidade de retornar ao início. A correção ficou restrita ao Estilo 3 e a telas de até 640 px, alinhando a faixa ao início e mantendo a centralização existente no desktop; categorias, filtros e resultados não foram alterados.
+
+A reauditoria em 320, 390 e 1365 px confirmou `Todos` integralmente visível na posição inicial, demais categorias acessíveis pela rolagem horizontal e desktop ainda centralizado. O auditor agora exige que a primeira categoria esteja dentro da área visível antes das capturas. A tela permaneceu sem overflow da página ou controles sem nome, com foco inicial dentro, Tab contido e Escape fechando o diálogo.
+
+Os 32 testes existentes, TypeScript, build de produção e `git diff --check` passaram novamente. Permanecem pendentes os ativos oficiais separados, a comparação visual integral das demais telas, a escuta e sincronização completa do áudio real e a validação de serviços reais fora das fixtures.
