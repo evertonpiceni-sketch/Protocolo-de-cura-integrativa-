@@ -185,3 +185,11 @@ A reauditoria visual do diálogo já coberto pelo teclado confirmou o defeito re
 A reauditoria em 320, 390 e 1365 px confirmou brilho sutil, ícone legível e conteúdo preservado. A tela permaneceu sem overflow horizontal ou controles sem nome, com foco inicial dentro, Tab contido e Escape fechando o diálogo. O auditor agora reprova automaticamente o retorno do dourado opaco.
 
 Os 32 testes existentes, TypeScript, build de produção e `git diff --check` passaram novamente. Permanecem pendentes os ativos oficiais separados, a comparação visual integral das demais telas, a escuta e sincronização completa do áudio real e a validação de serviços reais fora das fixtures.
+
+## Continuação da reauditoria — contraste do Guia dos 7 Chakras
+
+A reauditoria visual do Guia dos 7 Chakras confirmou um defeito independente do teclado: o selo “Tradição energética dos 7 chakras” e o cartão “Na jornada de 21 dias” perdiam as transparências de 8% e 7% declaradas pelo componente. Ambos apareciam como superfícies douradas opacas e reduziam o contraste do texto. A correção ficou restrita ao `#chakras-guide-modal` do Estilo 3 e somente restaurou essas transparências, sem alterar referências, frequências, chakras, afirmações, jornada ou avisos.
+
+A reauditoria em 320, 390 e 1365 px confirmou selo e cartão legíveis, conteúdo preservado e rolagem até o fim. A tela permaneceu sem overflow horizontal ou controles sem nome, com foco inicial dentro, Tab contido e Escape fechando o diálogo. O auditor agora reprova automaticamente o retorno do dourado opaco.
+
+Os 32 testes existentes, TypeScript, build de produção e `git diff --check` passaram novamente. Permanecem pendentes os ativos oficiais separados, a comparação visual integral das demais telas, a escuta e sincronização completa do áudio real e a validação de serviços reais fora das fixtures.
