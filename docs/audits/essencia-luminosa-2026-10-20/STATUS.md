@@ -313,3 +313,11 @@ A captura integral dos quatro passos da Anamnese Energética comprovou outro efe
 O auditor agora reprova o retorno do dourado opaco em cada um dos quatro passos. A reauditoria em 320, 390 e 1365 px confirmou cabeçalhos, frequência, formulários, opções e estados selecionados legíveis, sem overflow horizontal ou controles sem nome, com rolagem até o fim, foco inicial dentro, Tab contido e Escape fechando o diálogo. Nenhuma resposta foi salva e nenhum áudio, serviço real ou cobrança foi acionado.
 
 Os 32 testes existentes, TypeScript, build de produção e `git diff --check` passaram novamente. Permanecem pendentes os ativos oficiais separados, a fidelidade visual integral contra a prancha, a escuta e sincronização completa do áudio real e a validação de serviços reais fora das fixtures. Capturas e testes de interface não substituem essas validações essenciais.
+
+## Continuação da reauditoria — contraste da Prática Individual
+
+A captura integral da tela “Prática Individual” comprovou outro efeito da regra global de tema: o halo inferior perdia os 10% de transparência declarados e formava uma mancha dourada opaca sobre o formulário; o realce de 20% da opção individual também ficava sujeito à regressão. A correção ficou restrita ao `#specific-treatment-modal` do Estilo 3 e somente restaurou essas opacidades, sem alterar opções, valores, formulário, cupons, tratamentos, integração ou pagamento.
+
+O auditor agora percorre Tratamento à Distância, Ciclo de 7 Dias e Tratamento de 21 Dias, confirma respectivamente R$ 20,00, R$ 59,90 e R$ 99,90 e reprova o retorno do dourado opaco em cada estado selecionado. A reauditoria em 320, 390 e 1365 px confirmou cabeçalho, valores, opções, imagem e formulário legíveis, sem overflow horizontal ou controles sem nome, com rolagem até o fim, foco inicial dentro, Tab contido e Escape fechando o diálogo. Nenhum formulário foi enviado e nenhum checkout, cobrança ou serviço real foi acionado.
+
+Os 32 testes existentes, TypeScript, build de produção e `git diff --check` passaram novamente. Permanecem pendentes os ativos oficiais separados, a fidelidade visual integral contra a prancha, a escuta e sincronização completa do áudio real e a validação de serviços reais fora das fixtures. Capturas e testes de interface não substituem essas validações essenciais.
