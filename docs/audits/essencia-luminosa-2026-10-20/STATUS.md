@@ -137,3 +137,11 @@ A captura completa dos Ajustes de Áudio comprovou outra ocorrência da regra gl
 A reauditoria visual confirmou cabeçalho, ícones, frequências e painel binaural legíveis em 320, 390 e 1365 px. A tela permaneceu sem overflow horizontal ou controles sem nome, com rolagem até o fim, foco inicial dentro, Tab contido e Escape fechando o diálogo. Nenhum áudio foi executado nem salvo; a captura e os testes de interface não substituem a escuta integral e a validação de sincronização ainda pendentes.
 
 Os 32 testes existentes, TypeScript, build de produção e `git diff --check` passaram novamente. Permanecem pendentes os ativos oficiais separados, a comparação visual integral das demais telas, a escuta e sincronização completa do áudio real e a validação de serviços reais fora das fixtures.
+
+## Continuação da reauditoria — Conquistas e Marcos
+
+A captura da tela Conquistas e Marcos comprovou mais uma ocorrência isolada da regra global de fundos dourados: o brilho decorativo de 10% tornava-se uma mancha opaca sobre o título, e o fundo de 12% do resumo apagava o ícone de coroa. A correção ficou restrita ao `#achievements-modal` do Estilo 3 e somente restaurou essas duas transparências já declaradas pelo componente, sem alterar critérios, pontos, categorias, progresso ou desbloqueios.
+
+A reauditoria visual confirmou selo, título, ícone de coroa, resumo e cartões legíveis em 320, 390 e 1365 px. A tela permaneceu sem overflow horizontal ou controles sem nome, com rolagem disponível, foco inicial dentro, Tab contido e Escape fechando o diálogo. A fixture manteve todos os emblemas bloqueados e não escreveu progresso real.
+
+Os 32 testes existentes, TypeScript, build de produção e `git diff --check` passaram novamente. Permanecem pendentes os ativos oficiais separados, a comparação visual integral das demais telas, a escuta e sincronização completa do áudio real e a validação de serviços reais fora das fixtures.

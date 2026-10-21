@@ -131,6 +131,8 @@
 :root[data-layout="essencia-luminosa"] #audio-settings-modal [class*="bg-[#B88736]/10"]{background:rgba(194,150,72,.10)!important}
 :root[data-layout="essencia-luminosa"] #audio-settings-modal [class*="bg-[#B88736]/12"]{background:rgba(194,150,72,.12)!important}
 :root[data-layout="essencia-luminosa"] #audio-settings-modal [class*="bg-[#B88736]/15"]{background:rgba(194,150,72,.15)!important}
+:root[data-layout="essencia-luminosa"] #achievements-modal [class*="bg-[#B88736]/10"]{background:rgba(194,150,72,.10)!important}
+:root[data-layout="essencia-luminosa"] #achievements-modal [class*="bg-[#B88736]/12"]{background:rgba(194,150,72,.12)!important}
 @media(min-width:700px){.el-loading-frame{background-size:auto 100%}}
 @media(max-height:600px){.el-loading-logo{width:115px;margin-bottom:16px}.el-loading-divider{margin:16px 0}.el-loading-status{margin-top:24px}}
 @media(max-height:640px){:root[data-layout="essencia-luminosa"] #courses-modal{align-items:flex-start}}
