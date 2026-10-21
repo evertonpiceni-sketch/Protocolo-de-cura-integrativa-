@@ -326,7 +326,10 @@ export default function PromoVideoModal({
 
           {/* Equalizer animation bar */}
           <div className="flex items-center justify-between z-10 pt-4 border-t border-[#E5DAC6]/60">
-            <div className="flex items-center gap-2 text-xs font-mono text-[#5C5248]">
+            <div
+              data-promo-scene-meta
+              className={`flex items-center gap-2 text-xs font-mono ${scene.id === 4 ? 'text-[#E5DAC6]' : 'text-[#5C5248]'}`}
+            >
               <span className="flex items-end gap-0.5 h-4">
                 <span className={`w-1 bg-indigo-400 rounded-full transition-all ${isPlaying ? 'h-3 animate-pulse' : 'h-1'}`} />
                 <span className={`w-1 bg-purple-400 rounded-full transition-all ${isPlaying ? 'h-4 animate-bounce' : 'h-1'}`} />
@@ -336,7 +339,10 @@ export default function PromoVideoModal({
               <span>{scene.frequencyLabel}</span>
             </div>
 
-            <span className="text-xs font-mono text-[#5C5248]">
+            <span
+              data-promo-scene-meta
+              className={`text-xs font-mono ${scene.id === 4 ? 'text-[#E5DAC6]' : 'text-[#5C5248]'}`}
+            >
               Cena {currentSceneIndex + 1} de {PROMO_SCENES.length}
             </span>
           </div>

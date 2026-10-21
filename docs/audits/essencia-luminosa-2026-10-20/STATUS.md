@@ -281,3 +281,11 @@ A repetição da captura com espera explícita pelo término da animação de 0,
 O auditor agora espera cada transição terminar antes de validar as quatro cenas e exige a cor legível específica no último título. A reauditoria em 320, 390 e 1365 px confirmou o título nítido, sem overflow horizontal ou controles sem nome, com rolagem, foco inicial dentro, Tab contido e Escape fechando o diálogo. A fixture permaneceu pausada e silenciada; nenhum compartilhamento, contato, desbloqueio ou cobrança foi iniciado.
 
 Permanecem pendentes os ativos oficiais separados, a fidelidade visual integral contra a prancha, a escuta e sincronização completa do áudio real e a validação de serviços reais fora das fixtures.
+
+## Continuação da reauditoria — metadados da cena 4 do vídeo de apresentação
+
+A captura estável da cena 4 confirmou um defeito visual independente do título: a frequência “963 Hz • Contemplação & Conexão Divina” e o contador “Cena 4 de 4” usavam texto cinza escuro sobre o fundo verde profundo. A correção mínima aplicou o tom claro já existente na paleta somente a esses dois metadados quando a cena 4 está ativa, sem alterar as cenas anteriores, textos, temporização, áudio, frequências ou ações.
+
+O auditor agora exige a cor legível nos dois metadados após percorrer as quatro cenas e aguardar o término de cada transição. A reauditoria em 320, 390 e 1365 px confirmou frequência e contador nítidos, sem overflow horizontal ou controles sem nome, com rolagem, foco inicial dentro, Tab contido e Escape fechando o diálogo. A fixture permaneceu pausada e silenciada; nenhum compartilhamento, contato, desbloqueio ou cobrança foi iniciado.
+
+Permanecem pendentes os ativos oficiais separados, a fidelidade visual integral contra a prancha, a escuta e sincronização completa do áudio real e a validação de serviços reais fora das fixtures. Capturas e testes de interface não substituem essas validações essenciais.
