@@ -7,10 +7,11 @@ const FREE_TRIAL_PLAN = "teste_vip_7d";
 const FREE_TRIAL_DAYS = 7;
 const INFINITEPAY_API = "https://api.checkout.infinitepay.io";
 const INFINITEPAY_HANDLE = String(process.env.INFINITEPAY_HANDLE || "evertonterapeutareiki").trim().replace(/^\$/, "");
+const INFINITEPAY_API_KEY = String(process.env.INFINITEPAY_API_KEY || "").trim();
 
 const PAID_PLANS: Record<string, { priceCents: number; days: number; description: string }> = {
-  jornada_7d: { priceCents: 2500, days: 7, description: "Acesso avulso — 7 dias" },
-  jornada_21d: { priceCents: 5000, days: 21, description: "Acesso avulso — 21 dias" },
+  jornada_7d: { priceCents: 5990, days: 7, description: "Acesso avulso — 7 dias" },
+  jornada_21d: { priceCents: 9990, days: 21, description: "Acesso avulso — 21 dias" },
   mensal: { priceCents: 3990, days: 30, description: "Plano Mensal" },
   trimestral: { priceCents: 6990, days: 90, description: "Plano Trimestral" },
   semestral: { priceCents: 9990, days: 180, description: "Plano Semestral" },
@@ -18,6 +19,11 @@ const PAID_PLANS: Record<string, { priceCents: number; days: number; description
 };
 const COUPONS: Record<string, number> = { PROMO15: 15, PROMO20: 20 };
 
+function infinitePayHeaders() {
+  const headers: Record<string, string> = { "Content-Type": "application/json" };
+  if (INFINITEPAY_API_KEY) headers["X-Api-Key"] = INFINITEPAY_API_KEY;
+  return headers;
+}
 function getCookie(req: any, name: string) {
   const raw = typeof req.headers?.cookie === "string" ? req.headers.cookie : "";
   for (const part of raw.split(";")) {
@@ -58,7 +64,7 @@ function findOrder(orderNsu: string) {
 }
 async function verifyInfinitePayPayment(order: any, transactionNsu: string, slug: string) {
   const response = await fetch(`${INFINITEPAY_API}/payment_check`, {
-    method: "POST", headers: { "Content-Type": "application/json" },
+    method: "POST", headers: infinitePayHeaders(),
     body: JSON.stringify({ handle: INFINITEPAY_HANDLE, order_nsu: order.orderNsu, transaction_nsu: transactionNsu, slug }),
   });
   if (!response.ok) return null;
@@ -94,11 +100,24 @@ async function createInfinitePayCheckout(req: any, res: any) {
   if (!origin) return res.status(500).json({ error: "Não foi possível determinar a URL pública do aplicativo." });
   const order: any = { orderNsu, planId, baseAmountCents: plan.priceCents, amountCents, couponCode: coupon || undefined, status: "pending", createdAt: new Date().toISOString() };
   getPaymentOrders(user).push(order); await saveDb();
+  const payload: any = {
+    redirect_url: `${origin}/api/payment/return`,
+    order_nsu: orderNsu,
+    customer: { name: user.fullName || user.profile?.name || user.login, email: user.email || user.profile?.email || undefined, phone_number: user.profile?.phone || undefined },
+    items: [{ quantity: 1, price: amountCents, description: plan.description }],
+    options: {
+      assured_installments: 0,
+      single_payment: true,
+      payment_methods_enabled: ["credit_card", "pix"]
+    },
+    webhook: {
+      url: `${origin}/api/webhooks/infinitepay`,
+      events: ["paid", "refunded", "canceled", "payment_failed"]
+    }
+  };
+  if (!INFINITEPAY_API_KEY) payload.handle = INFINITEPAY_HANDLE;
   const response = await fetch(`${INFINITEPAY_API}/links`, {
-    method: "POST", headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ handle: INFINITEPAY_HANDLE, redirect_url: `${origin}/api/payment/return`, webhook_url: `${origin}/api/webhooks/infinitepay`, order_nsu: orderNsu,
-      customer: { name: user.fullName || user.profile?.name || user.login, email: user.email || user.profile?.email || undefined, phone_number: user.profile?.phone || undefined },
-      items: [{ quantity: 1, price: amountCents, description: plan.description }] }),
+    method: "POST", headers: infinitePayHeaders(), body: JSON.stringify(payload),
   });
   const data = await response.json().catch(() => ({})) as any;
   if (!response.ok || !data?.url) {
@@ -111,7 +130,9 @@ async function createInfinitePayCheckout(req: any, res: any) {
 }
 async function handleInfinitePayWebhook(req: any, res: any) {
   const payload = req.body || {};
-  const orderNsu = String(payload.order_nsu || ""), transactionNsu = String(payload.transaction_nsu || ""), slug = String(payload.invoice_slug || payload.slug || "");
+  const orderNsu = String(payload.order_nsu || payload.orderNsu || "");
+  const transactionNsu = String(payload.transaction_nsu || payload.transactionNsu || "");
+  const slug = String(payload.invoice_slug || payload.slug || "");
   if (!orderNsu || !transactionNsu || !slug) return res.status(400).json({ success: false, message: "Dados de pagamento incompletos" });
   const found = findOrder(orderNsu);
   if (!found) return res.status(400).json({ success: false, message: "Pedido não encontrado" });
