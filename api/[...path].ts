@@ -100,22 +100,32 @@ async function createInfinitePayCheckout(req: any, res: any) {
   if (!origin) return res.status(500).json({ error: "Não foi possível determinar a URL pública do aplicativo." });
   const order: any = { orderNsu, planId, baseAmountCents: plan.priceCents, amountCents, couponCode: coupon || undefined, status: "pending", createdAt: new Date().toISOString() };
   getPaymentOrders(user).push(order); await saveDb();
-  const payload: any = {
+
+  const commonPayload = {
     redirect_url: `${origin}/api/payment/return`,
     order_nsu: orderNsu,
     customer: { name: user.fullName || user.profile?.name || user.login, email: user.email || user.profile?.email || undefined, phone_number: user.profile?.phone || undefined },
-    items: [{ quantity: 1, price: amountCents, description: plan.description }],
-    options: {
-      assured_installments: 0,
-      single_payment: true,
-      payment_methods_enabled: ["credit_card", "pix"]
-    },
-    webhook: {
-      url: `${origin}/api/webhooks/infinitepay`,
-      events: ["paid", "refunded", "canceled", "payment_failed"]
-    }
+    items: [{ quantity: 1, price: amountCents, description: plan.description }]
   };
-  if (!INFINITEPAY_API_KEY) payload.handle = INFINITEPAY_HANDLE;
+  const payload: any = INFINITEPAY_API_KEY
+    ? {
+        ...commonPayload,
+        options: {
+          assured_installments: 0,
+          single_payment: true,
+          payment_methods_enabled: ["credit_card", "pix"]
+        },
+        webhook: {
+          url: `${origin}/api/webhooks/infinitepay`,
+          events: ["paid", "refunded", "canceled", "payment_failed"]
+        }
+      }
+    : {
+        ...commonPayload,
+        handle: INFINITEPAY_HANDLE,
+        webhook_url: `${origin}/api/webhooks/infinitepay`
+      };
+
   const response = await fetch(`${INFINITEPAY_API}/links`, {
     method: "POST", headers: infinitePayHeaders(), body: JSON.stringify(payload),
   });
