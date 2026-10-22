@@ -337,3 +337,11 @@ A revisão isolada do defeito registrado no Diário confirmou que o contador “
 A reauditoria em 320, 390 e 1365 px confirmou contador, título e descrição legíveis, sem overflow horizontal ou controles sem nome e com rolagem até o fim. O auditor agora reprova automaticamente o retorno do fundo opaco. Nenhum registro foi criado, editado, exportado ou excluído.
 
 Os 32 testes existentes, TypeScript, build de produção e `git diff --check` passaram novamente. Permanecem pendentes os ativos oficiais separados, a fidelidade visual integral contra a prancha, a escuta e sincronização completa do áudio real e a validação de serviços reais fora das fixtures. Capturas e testes de interface não substituem essas validações essenciais.
+
+## Continuação da reauditoria — marcador do dia no Diário preenchido
+
+A renderização do Diário com um registro sintético comprovou um defeito independente do contador: o selo “Dia 01” perdia os 10% de transparência declarados e aparecia como um bloco dourado opaco. A correção ficou restrita aos marcadores de dia em `#journal-timeline-list` no Estilo 3 e somente restaurou essa transparência, sem alterar registros, busca, exportação, humor, percepção, jornada ou navegação.
+
+A reauditoria do estado preenchido em 320, 390 e 1365 px confirmou marcador, título, data, estado e percepção legíveis, sem overflow horizontal ou controles sem nome e com rolagem até o fim. O auditor agora reprova automaticamente o retorno do selo opaco. A fixture permaneceu local; nenhum registro foi criado, editado, exportado ou excluído.
+
+Os 32 testes existentes, TypeScript, build de produção e `git diff --check` passaram novamente. Permanecem pendentes os ativos oficiais separados, a fidelidade visual integral contra a prancha, a escuta e sincronização completa do áudio real e a validação de serviços reais fora das fixtures. Capturas e testes de interface não substituem essas validações essenciais.
