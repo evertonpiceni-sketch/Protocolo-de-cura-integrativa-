@@ -169,6 +169,7 @@
 :root[data-layout="essencia-luminosa"] #specific-treatment-modal [class*="bg-[#B88736]/10"]{background:rgba(194,150,72,.10)!important}
 :root[data-layout="essencia-luminosa"] #specific-treatment-modal [class*="bg-[#B88736]/20"]{background:rgba(194,150,72,.20)!important}
 :root[data-layout="essencia-luminosa"] #journal-dashboard-view>header{padding:16px;border:1px solid #d4b57455;border-radius:20px;background:rgba(255,255,248,.96);box-shadow:0 10px 28px #765c2520}
+:root[data-layout="essencia-luminosa"] #journal-dashboard-view>header [class*="bg-[#B88736]/10"]{background:rgba(194,150,72,.10)!important}
 @media(min-width:700px){.el-loading-frame{background-size:auto 100%}}
 @media(max-height:600px){.el-loading-logo{width:115px;margin-bottom:16px}.el-loading-divider{margin:16px 0}.el-loading-status{margin-top:24px}}
 @media(max-height:640px){:root[data-layout="essencia-luminosa"] #courses-modal{align-items:flex-start}}

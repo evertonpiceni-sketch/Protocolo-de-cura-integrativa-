@@ -329,3 +329,11 @@ A captura do estado vazio do Diário de Reconexão comprovou um defeito de leitu
 A reauditoria em 320, 390 e 1365 px confirmou título, descrição, retorno e contador legíveis sobre a cena, sem overflow horizontal ou controles sem nome e com rolagem até o fim. O auditor agora exige a superfície de leitura do cabeçalho. Nenhum registro foi criado, editado, exportado ou excluído.
 
 A inspeção também confirmou um defeito visual independente ainda pendente: o contador “0 dias concluídos” perde os 10% de transparência declarados e aparece dourado opaco. Ele não foi agrupado nesta correção para preservar a revisão de um defeito por vez. Permanecem ainda pendentes os ativos oficiais separados, a fidelidade visual integral contra a prancha, a escuta e sincronização completa do áudio real e a validação de serviços reais fora das fixtures. Os 32 testes existentes, TypeScript, build de produção e `git diff --check` passaram novamente.
+
+## Continuação da reauditoria — contraste do contador do Diário
+
+A revisão isolada do defeito registrado no Diário confirmou que o contador “0 dias concluídos” perdia os 10% de transparência declarados e aparecia como uma cápsula dourada opaca. A correção ficou restrita ao contador dentro do cabeçalho de `#journal-dashboard-view` no Estilo 3 e somente restaurou essa transparência, sem alterar registros, exportação, busca, estado vazio, jornada ou navegação.
+
+A reauditoria em 320, 390 e 1365 px confirmou contador, título e descrição legíveis, sem overflow horizontal ou controles sem nome e com rolagem até o fim. O auditor agora reprova automaticamente o retorno do fundo opaco. Nenhum registro foi criado, editado, exportado ou excluído.
+
+Os 32 testes existentes, TypeScript, build de produção e `git diff --check` passaram novamente. Permanecem pendentes os ativos oficiais separados, a fidelidade visual integral contra a prancha, a escuta e sincronização completa do áudio real e a validação de serviços reais fora das fixtures. Capturas e testes de interface não substituem essas validações essenciais.
