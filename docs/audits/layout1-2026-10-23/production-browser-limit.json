@@ -1,0 +1,26 @@
+[
+  {
+    "name": "registration",
+    "entry": "visible",
+    "errors": [],
+    "failures": [],
+    "states": [],
+    "blocker": "net::ERR_CERT_AUTHORITY_INVALID at https://protocolo-de-cura-integrativa.vercel.app/"
+  },
+  {
+    "name": "home",
+    "entry": "visible",
+    "errors": [],
+    "failures": [],
+    "states": [],
+    "blocker": "net::ERR_CERT_AUTHORITY_INVALID at https://protocolo-de-cura-integrativa.vercel.app/"
+  },
+  {
+    "name": "welcome",
+    "entry": "visible",
+    "errors": [],
+    "failures": [],
+    "states": [],
+    "blocker": "net::ERR_CERT_AUTHORITY_INVALID at https://protocolo-de-cura-integrativa.vercel.app/"
+  }
+]

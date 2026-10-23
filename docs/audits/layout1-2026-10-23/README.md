@@ -35,8 +35,14 @@ Players adicionais: `node scripts/audit-extra-players.cjs`. Todos esses scripts 
 
 Compilação validada: index-BSfVmHdN.js, index-V3LUpK_S.css.
 
-## Implantação ainda pendente
+## Implantação confirmada
 
-A implementação foi enviada ao `main` em `95684e0`. Na conferência após o push, o endereço público respondeu HTTP 200, mas continuou servindo os assets anteriores `index-7fZdwNcS.js` / `index-5Cu-5DaH.css`. A nova rota `/api/payment/confirm` respondeu 404 em produção; na versão corrigida, uma chamada sem sessão recebe 401. Portanto, as correções estão no GitHub e validadas localmente, mas **não foi confirmada sua implantação no site público**. [Verificação](production-status.json).
+A nova conferência de 23/10/2026 confirmou a publicação automática no endereço https://protocolo-de-cura-integrativa.vercel.app/. O HTML aponta para `index-BSfVmHdN.js` / `index-V3LUpK_S.css`, e os **30 arquivos JavaScript/CSS** publicados foram comparados byte a byte com a compilação auditada: todos idênticos, todos HTTP 200. [Integridade dos arquivos](production-chunks.json).
 
-Não há credencial Vercel nem configuração local do projeto neste ambiente. O acesso à API de status do GitHub retornou Forbidden, e não há ferramenta de deploy Vercel conectada. Para concluir, é necessário executar o deploy do `main` no painel Vercel e verificar a abertura do checkout na versão implantada. Como alternativa para permitir a implantação por esta sessão, foi salva no rascunho a exigência `VERCEL_TOKEN`, a ser preenchida somente nas configurações seguras do ambiente, junto dos domínios necessários. Nenhum valor secreto foi solicitado em chat. O rascunho precisa ser revisado/salvo e o ambiente publicado para ativar a configuração; isso não publica automaticamente o aplicativo.
+A API de saúde respondeu 200. Sem autenticação, `/api/auth/me`, `/api/payment/create-checkout`, `/api/payment/confirm` e `/api/user/upgrade` responderam 401. O webhook recebeu somente `{}` e rejeitou com 400, sem criar ou confirmar pagamento. [Conferência atual](production-status.json). A primeira observação, antes de terminar o deploy automático, foi preservada em [registro anterior](production-status-before.json).
+
+O bloqueio de implantação descrito anteriormente foi resolvido pelo deploy automático; **não é necessário fornecer token Vercel ou refazer o deploy para esta entrega**. A exigência de token salva no rascunho anterior dizia respeito à alternativa de deploy manual e não foi utilizada.
+
+A nova tentativa de captura direta em produção encontrou `ERR_CERT_AUTHORITY_INVALID` no Chromium deste ambiente. Não se alterou o armazenamento de confiança nem se desativou TLS. As capturas visuais desta auditoria são locais; os arquivos publicados foram obtidos via HTTPS com verificação de certificado e comparados com a compilação usada nessas capturas. Não se apresenta a tentativa bloqueada como auditoria visual de produção. [Limite registrado](production-browser-limit.json).
+
+Continuam pendentes apenas as validações externas já descritas: abertura visual da página InfinitePay, liquidação financeira real e bloqueio físico da tela em aparelho. Não houve cobrança nem modificação de conta real nesta conferência.

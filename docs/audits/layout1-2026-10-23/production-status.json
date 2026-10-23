@@ -1,14 +1,51 @@
 {
-  "url": "https://protocolo-de-cura-integrativa.vercel.app/",
-  "http": 200,
+  "verifiedAt": "2026-10-23T10:27:30.436192+00:00",
+  "url": "https://protocolo-de-cura-integrativa.vercel.app",
   "assets": [
-    "index-7fZdwNcS.js",
-    "index-5Cu-5DaH.css"
+    {
+      "file": "index-BSfVmHdN.js",
+      "status": 200,
+      "sha256": "07bac1d30666b81b11f70b3c17cdf64bfe57ff0efbe5f0771f87f91822752cbb",
+      "matchesLocal": true
+    },
+    {
+      "file": "index-V3LUpK_S.css",
+      "status": 200,
+      "sha256": "4e8faf91bc4a78af92b9d99f962156d04bbf783270c6ca5c617021264673270b",
+      "matchesLocal": true
+    }
   ],
-  "expectedAssets": [
-    "index-BSfVmHdN.js",
-    "index-V3LUpK_S.css"
+  "routes": [
+    {
+      "path": "/api/health",
+      "status": 200,
+      "body": "{\"status\":\"ok\"}"
+    },
+    {
+      "path": "/api/auth/me",
+      "status": 401,
+      "body": "{\"error\":\"N\u00e3o autorizado.\"}"
+    },
+    {
+      "path": "/api/payment/create-checkout",
+      "status": 401,
+      "body": "{\"error\":\"N\u00e3o autorizado.\"}"
+    },
+    {
+      "path": "/api/payment/confirm",
+      "status": 401,
+      "body": "{\"error\":\"N\u00e3o autorizado.\"}"
+    },
+    {
+      "path": "/api/user/upgrade",
+      "status": 401,
+      "body": "{\"error\":\"N\u00e3o autorizado.\"}"
+    },
+    {
+      "path": "/api/webhooks/payment",
+      "status": 400,
+      "body": "{\"error\":\"Confirma\u00e7\u00e3o inv\u00e1lida.\"}"
+    }
   ],
-  "updated": false,
-  "confirmRouteUnauthenticatedStatus": 404
+  "http": 200
 }
