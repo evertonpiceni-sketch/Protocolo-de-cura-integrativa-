@@ -81,7 +81,7 @@ function addStyles() {
       align-self: center;
       min-height: 54px !important;
       border-radius: 999px !important;
-      color: #fff9e8 !important;
+      color: #073b2b !important;
       background: #073b2b !important;
       border: 1px solid rgba(246,223,154,.58) !important;
       box-shadow: 0 14px 30px rgba(3,31,22,.28), inset 0 1px rgba(255,255,255,.10) !important;
@@ -144,10 +144,10 @@ function addStyles() {
     :root[data-layout="natural-sereno"] .ep-home-anamnesis-card .ns-gold {
       min-height: 56px !important;
       border-radius: 999px !important;
-      background: #073b2b !important;
-      border-color: #073b2b !important;
-      color: #fff9e8 !important;
-      box-shadow: 0 10px 24px rgba(7,59,43,.18) !important;
+      background: linear-gradient(180deg,#ead394,#c49b42 35%,#b68b36) !important;
+      border-color: #b68b36 !important;
+      color: #073b2b !important;
+      box-shadow: 0 4px 12px rgba(85,60,11,.12) !important;
     }
 
     :root[data-layout="natural-sereno"] .ep-home-has-anamnesis .ns-current-day {
@@ -157,10 +157,10 @@ function addStyles() {
       padding: 22px !important;
       overflow: hidden;
       border-radius: 28px !important;
-      border: 1px solid rgba(246,223,154,.32) !important;
-      background: linear-gradient(145deg, #0a4a35, #073b2b 58%, #052d21) !important;
-      box-shadow: 0 18px 44px rgba(7,59,43,.20) !important;
-      color: #fff9e8 !important;
+      border: 1px solid rgba(183,141,54,.3) !important;
+      background: #fff9e8 !important;
+      box-shadow: 0 18px 44px rgba(7,59,43,.08) !important;
+      color: #073b2b !important;
       align-items: flex-start !important;
       flex-wrap: wrap;
     }
@@ -174,12 +174,12 @@ function addStyles() {
     }
 
     :root[data-layout="natural-sereno"] .ep-home-has-anamnesis .ns-current-day .ns-row-copy {
-      color: #fff9e8 !important;
+      color: #073b2b !important;
       padding-right: 8px;
     }
 
     :root[data-layout="natural-sereno"] .ep-home-has-anamnesis .ns-current-day .ns-row-copy small {
-      color: #d9bd72 !important;
+      color: #806522 !important;
       font-size: 10px !important;
       text-transform: uppercase;
       letter-spacing: .12em;
@@ -187,7 +187,7 @@ function addStyles() {
     }
 
     :root[data-layout="natural-sereno"] .ep-home-has-anamnesis .ns-current-day .ns-row-copy strong {
-      color: #fff9e8 !important;
+      color: #073b2b !important;
       font-family: 'Cormorant Garamond', Georgia, serif;
       font-size: 27px !important;
       line-height: 1 !important;
@@ -196,7 +196,7 @@ function addStyles() {
     }
 
     :root[data-layout="natural-sereno"] .ep-home-has-anamnesis .ns-current-day > svg {
-      color: #f2d88f !important;
+      color: #073b2b !important;
       margin-left: auto;
       margin-top: 8px;
     }
@@ -360,7 +360,7 @@ function addStyles() {
     :root[data-layout="natural-sereno"] .ns-home-scene > .ns-gold {
       margin-top: 0; width: 100% !important; min-height: 70px !important; font-size: 20px;
       background: linear-gradient(180deg, #ead394 0%, #c49b42 25%, #aa7d25 58%, #98701f 78%, #d7b55e 100%) !important;
-      color: #fff9e8 !important; box-shadow: inset 0 2px 5px rgba(255,247,203,.85), inset 0 -2px 4px rgba(92,61,12,.4), 0 0 0 2px rgba(236,207,135,.17), 0 3px 12px rgba(86,64,16,.28) !important;
+      color: #073b2b !important; box-shadow: inset 0 2px 5px rgba(255,247,203,.85), inset 0 -2px 4px rgba(92,61,12,.4), 0 0 0 2px rgba(236,207,135,.17), 0 3px 12px rgba(86,64,16,.28) !important;
     }
     :root[data-layout="natural-sereno"] .ep-home-needs-anamnesis .ns-home-content,
     :root[data-layout="natural-sereno"] .ep-home-has-anamnesis .ns-home-content { margin-top: 0 !important; padding-top: 13px !important; }

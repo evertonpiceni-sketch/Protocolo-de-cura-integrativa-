@@ -1286,13 +1286,17 @@ class CalmingAudioEngine {
       similarityBoost?: number;
       userName?: string;
       onStart?: () => void;
+      onPause?: () => void;
       onTimeUpdate?: (seconds: number, duration: number) => void;
       onEnd?: () => void;
       onError?: () => void;
     }
   ) {
     this.stopSpeech();
+    const generation = this.protocolRequestGeneration;
+    const isCurrent = () => generation === this.protocolRequestGeneration;
     this.initKeepAlive();
+    if ('mediaSession' in navigator) this.ownsProtocolMediaSession = true;
 
     try {
       const responses = await Promise.all(parts.map((part, index) => {
@@ -1313,11 +1317,13 @@ class CalmingAudioEngine {
         });
       }));
 
+      if (!isCurrent()) return;
       if (responses.some(response => !response.ok || !response.headers.get('content-type')?.includes('audio'))) {
         throw new Error('A meditação completa não pôde ser preparada');
       }
 
       const buffers = await Promise.all(responses.map(response => response.arrayBuffer()));
+      if (!isCurrent()) return;
       const audioUrl = URL.createObjectURL(new Blob(buffers, { type: 'audio/mpeg' }));
       this.voiceAudioUrl = audioUrl;
       const audio = new Audio(audioUrl);
@@ -1326,18 +1332,24 @@ class CalmingAudioEngine {
       audio.volume = Math.max(0, Math.min(1, options.volume ?? 0.9));
 
       if ('mediaSession' in navigator) {
+        this.ownsProtocolMediaSession = true;
+        const setHandler = (action: MediaSessionAction, handler: MediaSessionActionHandler) => {
+          try { navigator.mediaSession.setActionHandler(action, handler); } catch { /* optional system control */ }
+        };
         navigator.mediaSession.metadata = new MediaMetadata({
           title: options.title,
           artist: 'Everton Piceni — Protocolo da Transformação',
           album: options.subtitle,
           artwork: [{ src: '/brand/chakra-body.svg', sizes: 'any', type: 'image/svg+xml' }]
         });
-        navigator.mediaSession.setActionHandler('play', () => this.resumeSpeech());
-        navigator.mediaSession.setActionHandler('pause', () => this.pauseSpeech());
-        navigator.mediaSession.setActionHandler('seekbackward', detail => {
+        setHandler('play', () => { if (isCurrent()) this.resumeSpeech(); });
+        setHandler('pause', () => { if (isCurrent()) this.pauseSpeech(); });
+        setHandler('seekbackward', detail => {
+          if (!isCurrent()) return;
           audio.currentTime = Math.max(0, audio.currentTime - (detail.seekOffset || 10));
         });
-        navigator.mediaSession.setActionHandler('seekforward', detail => {
+        setHandler('seekforward', detail => {
+          if (!isCurrent()) return;
           audio.currentTime = Math.min(audio.duration || Infinity, audio.currentTime + (detail.seekOffset || 10));
         });
       }
@@ -1355,6 +1367,7 @@ class CalmingAudioEngine {
         }
       };
       audio.onpause = () => {
+        options.onPause?.();
         if ('mediaSession' in navigator) navigator.mediaSession.playbackState = 'paused';
       };
       audio.onended = () => {
@@ -1366,6 +1379,7 @@ class CalmingAudioEngine {
       audio.onerror = () => { options.onError?.(); };
       await audio.play();
     } catch (error) {
+      if (!isCurrent()) return;
       console.warn('Guided meditation background playback failed:', error);
       options.onError?.();
     }

@@ -147,6 +147,7 @@ export default function SpecificTreatmentModal({
           paymentMethod,
           price: finalPrice,
           durationDays,
+          customAmount: isCustomPrice ? Math.round(basePrice * 100) : undefined,
           category: selectedCategory,
           title: treatmentTitle.trim() || undefined,
           patientDescription: patientDescription.trim(),

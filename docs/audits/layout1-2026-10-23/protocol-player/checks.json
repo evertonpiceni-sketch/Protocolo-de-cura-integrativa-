@@ -1,0 +1,22 @@
+{
+  "checks": [
+    "Pause during delayed native audio loading prevents late autoplay; resume works",
+    "Late prior response discarded; no overlapping audio",
+    "Real local WAV: duration, range, +15s, -15s, pause and resume verified",
+    "Background: audio and stage transition continue; intentional pause retained; Media Session controls update UI",
+    "No overflow; playback reachable at 320×568",
+    "No overflow; playback reachable at 360×740",
+    "No overflow; playback reachable at 390×844",
+    "No overflow; playback reachable at 430×932",
+    "No overflow; playback reachable at 390×460",
+    "No overflow; playback reachable at 844×390",
+    "No overflow; playback reachable at 1365×768",
+    "Ambient scene visibly moves",
+    "Play/pause, mute, previous/next and script callbacks work",
+    "All six stages: no horizontal overflow or retained old audio",
+    "Reduced motion disables ambient animation",
+    "Session exit releases wake lock without errors",
+    "Exit clears Media Session and stale system play cannot restart retired audio"
+  ],
+  "errors": []
+}

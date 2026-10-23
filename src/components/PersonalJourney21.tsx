@@ -103,7 +103,9 @@ export default function PersonalJourney21({ onClose, initialCompletedDays, onCom
     return true;
   };
 
+  const sessionActiveRef = useRef(false);
   const stopSession = () => {
+    sessionActiveRef.current = false;
     playingRef.current = false; clearVoice(); musicRef.current?.pause();
     if ('mediaSession' in navigator) navigator.mediaSession.playbackState = 'paused';
     void wakeLockRef.current?.release?.(); wakeLockRef.current = null; setPlaying(false);
@@ -201,7 +203,8 @@ export default function PersonalJourney21({ onClose, initialCompletedDays, onCom
     return () => { document.removeEventListener('visibilitychange', handleVisibility); window.removeEventListener('pageshow', handleVisibility); window.removeEventListener('focus', handleVisibility); };
   }, [day]);
   useEffect(() => {
-    if (!('mediaSession' in navigator)) return;
+    if (!('mediaSession' in navigator) || !started || !sessionActiveRef.current) return;
+    let active = true;
     try {
       navigator.mediaSession.metadata = new MediaMetadata({
         title: `Dia ${day} · ${item.title}`,
@@ -210,14 +213,17 @@ export default function PersonalJourney21({ onClose, initialCompletedDays, onCom
       });
       navigator.mediaSession.playbackState = playing ? 'playing' : 'paused';
       navigator.mediaSession.setActionHandler('play', () => {
+        if (!active || !sessionActiveRef.current) return;
         playingRef.current = true; setPlaying(true);
         void musicRef.current?.play().catch(() => undefined);
         if (voiceRef.current?.paused) void voiceRef.current.play().catch(() => undefined);
       });
       navigator.mediaSession.setActionHandler('pause', () => {
+        if (!active || !sessionActiveRef.current) return;
         voiceRef.current?.pause(); musicRef.current?.pause(); playingRef.current = false; setPlaying(false);
       });
       navigator.mediaSession.setActionHandler('seekbackward', () => {
+        if (!active || !sessionActiveRef.current) return;
         const music = musicRef.current; if (!music) return;
         const target = Math.max(0, music.currentTime - 15); clearVoice(); music.currentTime = target;
         const currentCue = item.audioCues.reduce((last, cue, index) => cue.at <= target + .5 ? index : last, -1);
@@ -225,16 +231,20 @@ export default function PersonalJourney21({ onClose, initialCompletedDays, onCom
       });
     } catch { /* Media Session is an enhancement; playback remains functional without it. */ }
     return () => {
+      active = false;
+      navigator.mediaSession.metadata = null;
+      navigator.mediaSession.playbackState = 'none';
       try {
         navigator.mediaSession.setActionHandler('play', null);
         navigator.mediaSession.setActionHandler('pause', null);
         navigator.mediaSession.setActionHandler('seekbackward', null);
       } catch { /* no-op */ }
     };
-  }, [day, item.title, playing]);
+  }, [day, item.title, playing, started]);
 
   const startGuidedMeditation = async () => {
     if (!accepted) return;
+    sessionActiveRef.current = true;
     // Defensive guard against global audio being reactivated by the same click/touch gesture.
     audioEngine.stopBG();
     if (playing) {

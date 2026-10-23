@@ -12,7 +12,7 @@ interface ProUpgradeModalProps {
   isOpen: boolean;
   onClose: () => void;
   userProfile: UserProfile;
-  onUpgradeSuccess: (plan: SubscriptionPlanType, paymentMethod: 'pix' | 'card', price: number) => boolean | void | Promise<boolean | void>;
+  onUpgradeSuccess: (plan: SubscriptionPlanType, paymentMethod: 'pix' | 'card', price: number, couponCode?: string) => boolean | void | Promise<boolean | void>;
   onOpenContact?: () => void;
 }
 
@@ -164,7 +164,7 @@ export default function ProUpgradeModal({ isOpen, onClose, onUpgradeSuccess }: P
       if (couponRule?.vip) {
         await onUpgradeSuccess('teste_vip_7d', paymentMethod, 0);
       } else {
-        await onUpgradeSuccess(selectedPlan.id, paymentMethod, finalPrice);
+        await onUpgradeSuccess(selectedPlan.id, paymentMethod, finalPrice, appliedCoupon || undefined);
       }
     } catch (e) {
       console.error(e);

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useLayoutEffect } from 'react';
 import {
   ArrowLeft, Award, AudioLines, BookOpen, ChevronRight, Flower2,
   Headphones, Heart, Home, Leaf, LogOut, Menu, MessageCircle,
@@ -48,6 +48,7 @@ function CareRow({ title, copy, icon: Icon, action, protocolId, protocolDuration
 
 /** Natural Sereno owns presentation only. All care actions use the existing callbacks. */
 export default function NaturalSerenoHome(props: Props) {
+  useLayoutEffect(() => { if (props.journeyEntered) window.scrollTo(0, 0); }, [props.journeyEntered]);
   const [view, setView] = useState<View>('home');
   const [search, setSearch] = useState('');
   const [category, setCategory] = useState('Todos');

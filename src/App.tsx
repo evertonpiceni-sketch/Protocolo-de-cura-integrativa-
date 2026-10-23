@@ -131,6 +131,38 @@ export default function App() {
 
   // Initialize and register local notification daily checker
   useEffect(() => {
+    if (!isLoggedIn) return;
+    const params = new URLSearchParams(window.location.search);
+    const order = params.get('payment_order') || params.get('order_nsu');
+    const transaction = params.get('transaction_nsu');
+    const slug = params.get('slug') || params.get('invoice_slug');
+    if (!order || !transaction || !slug) return;
+    const controller = new AbortController();
+    let attempts = 0;
+    let retryTimer: ReturnType<typeof setTimeout> | undefined;
+    const confirmPayment = () => {
+      attempts++;
+      void fetch('/api/payment/confirm', {
+        method: 'POST', credentials: 'same-origin', signal: controller.signal,
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ order_nsu: order, transaction_nsu: transaction, slug })
+      }).then(async response => {
+        const data = await response.json();
+        if (controller.signal.aborted) return;
+        if (response.ok && data.status === 'paid' && data.user?.profile) {
+          setUserProfile(data.user.profile);
+          for (const key of ['payment_order', 'order_nsu', 'transaction_nsu', 'slug', 'invoice_slug', 'receipt_url', 'capture_method']) params.delete(key);
+          window.history.replaceState(null, '', window.location.pathname + (params.size ? '?' + params : '') + window.location.hash);
+        } else if (response.ok && data.status === 'pending' && attempts < 10) {
+          retryTimer = setTimeout(confirmPayment, 2000);
+        }
+      }).catch(error => { if (error.name !== 'AbortError') console.error('Payment confirmation unavailable'); });
+    };
+    confirmPayment();
+    return () => { controller.abort(); clearTimeout(retryTimer); };
+  }, [isLoggedIn]);
+
+  useEffect(() => {
     localNotificationManager.setInAppNotifier((title, body) => {
       setInAppToast({ title, body });
       setTimeout(() => setInAppToast(null), 8000);
@@ -2143,7 +2175,7 @@ export default function App() {
           isOpen={showProModal}
           onClose={() => setShowProModal(false)}
           userProfile={userProfile}
-          onUpgradeSuccess={async (plan, paymentMethod, price) => {
+          onUpgradeSuccess={async (plan, paymentMethod, price, couponCode) => {
             if (!isLoggedIn) {
               throw new Error('Entre na sua conta para iniciar uma compra ou ativar a degustação.');
             }
@@ -2173,6 +2205,7 @@ export default function App() {
                 productType: 'subscription',
                 planId: plan,
                 paymentMethod,
+                couponCode,
                 price
               })
             });

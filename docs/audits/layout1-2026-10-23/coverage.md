@@ -1,0 +1,69 @@
+# Cobertura da varredura — 23/10/2026
+
+Cada estado foi capturado em 320×568, 390×844 e 1365×768. API e conta sintéticas, salvo o teste identificado da InfinitePay.
+
+| Nº | Tela/estado | Resultado | Captura mobile |
+| --- | --- | --- | --- |
+| 1 | terms | Sem erro JS, overflow ou controle sem nome | [Captura](screens/terms-390.png) |
+| 2 | privacy | Sem erro JS, overflow ou controle sem nome | [Captura](screens/privacy-390.png) |
+| 3 | registration | Sem erro JS, overflow ou controle sem nome | [Captura](screens/registration-390.png) |
+| 4 | login | Sem erro JS, overflow ou controle sem nome | [Captura](screens/login-390.png) |
+| 5 | password-recovery | Sem erro JS, overflow ou controle sem nome | [Captura](screens/password-recovery-390.png) |
+| 6 | home-no-anamnesis | Sem erro JS, overflow ou controle sem nome | [Captura](screens/home-no-anamnesis-390.png) |
+| 7 | result | Sem erro JS, overflow ou controle sem nome | [Captura](screens/result-390.png) |
+| 8 | home | Sem erro JS, overflow ou controle sem nome | [Captura](screens/home-390.png) |
+| 9 | menu | Sem erro JS, overflow ou controle sem nome | [Captura](screens/menu-390.png) |
+| 10 | journey | Sem erro JS, overflow ou controle sem nome | [Captura](screens/journey-390.png) |
+| 11 | resources | Sem erro JS, overflow ou controle sem nome | [Captura](screens/resources-390.png) |
+| 12 | resource-empty | Sem erro JS, overflow ou controle sem nome | [Captura](screens/resource-empty-390.png) |
+| 13 | tools | Sem erro JS, overflow ou controle sem nome | [Captura](screens/tools-390.png) |
+| 14 | community | Sem erro JS, overflow ou controle sem nome | [Captura](screens/community-390.png) |
+| 15 | profile | Sem erro JS, overflow ou controle sem nome | [Captura](screens/profile-390.png) |
+| 16 | journal | Sem erro JS, overflow ou controle sem nome | [Captura](screens/journal-390.png) |
+| 17 | settings | Sem erro JS, overflow ou controle sem nome | [Captura](screens/settings-390.png) |
+| 18 | settings-annual | Sem erro JS, overflow ou controle sem nome | [Captura](screens/settings-annual-390.png) |
+| 19 | anamnesis | Sem erro JS, overflow ou controle sem nome | [Captura](screens/anamnesis-390.png) |
+| 20 | anamnesis-step-1 | Sem erro JS, overflow ou controle sem nome | [Captura](screens/anamnesis-step-1-390.png) |
+| 21 | anamnesis-step-2 | Sem erro JS, overflow ou controle sem nome | [Captura](screens/anamnesis-step-2-390.png) |
+| 22 | anamnesis-step-3 | Sem erro JS, overflow ou controle sem nome | [Captura](screens/anamnesis-step-3-390.png) |
+| 23 | anamnesis-step-4 | Sem erro JS, overflow ou controle sem nome | [Captura](screens/anamnesis-step-4-390.png) |
+| 24 | certificate | Sem erro JS, overflow ou controle sem nome | [Captura](screens/certificate-390.png) |
+| 25 | admin-coupons | Sem erro JS, overflow ou controle sem nome | [Captura](screens/admin-coupons-390.png) |
+| 26 | slow-modal | Sem erro JS, overflow ou controle sem nome | [Captura](screens/slow-modal-390.png) |
+| 27 | login-error | Sem erro JS, overflow ou controle sem nome | [Captura](screens/login-error-390.png) |
+| 28 | registration-validation | Sem erro JS, overflow ou controle sem nome | [Captura](screens/registration-validation-390.png) |
+| 29 | welcome | Sem erro JS, overflow ou controle sem nome | [Captura](screens/welcome-390.png) |
+| 30 | journal-populated | Sem erro JS, overflow ou controle sem nome | [Captura](screens/journal-populated-390.png) |
+| 31 | community-share-fixture | Sem erro JS, overflow ou controle sem nome | [Captura](screens/community-share-fixture-390.png) |
+| 32 | admin-denied | Sem erro JS, overflow ou controle sem nome | [Captura](screens/admin-denied-390.png) |
+| 33 | free-upgrade | Sem erro JS, overflow ou controle sem nome | [Captura](screens/free-upgrade-390.png) |
+| 34 | install-guide | Sem erro JS, overflow ou controle sem nome | [Captura](screens/install-guide-390.png) |
+| 35 | contact-copy-denied | Sem erro JS, overflow ou controle sem nome | [Captura](screens/contact-copy-denied-390.png) |
+| 36 | admin-users | Sem erro JS, overflow ou controle sem nome | [Captura](screens/admin-users-390.png) |
+| 37 | achievements | Sem erro JS, overflow ou controle sem nome | [Captura](screens/achievements-390.png) |
+| 38 | contact | Sem erro JS, overflow ou controle sem nome | [Captura](screens/contact-390.png) |
+| 39 | chakras | Sem erro JS, overflow ou controle sem nome | [Captura](screens/chakras-390.png) |
+| 40 | herbal-baths | Sem erro JS, overflow ou controle sem nome | [Captura](screens/herbal-baths-390.png) |
+| 41 | hooponopono | Sem erro JS, overflow ou controle sem nome | [Captura](screens/hooponopono-390.png) |
+| 42 | numerology | Sem erro JS, overflow ou controle sem nome | [Captura](screens/numerology-390.png) |
+| 43 | astral | Sem erro JS, overflow ou controle sem nome | [Captura](screens/astral-390.png) |
+| 44 | systemic | Sem erro JS, overflow ou controle sem nome | [Captura](screens/systemic-390.png) |
+| 45 | plans | Sem erro JS, overflow ou controle sem nome | [Captura](screens/plans-390.png) |
+| 46 | audio-settings | Sem erro JS, overflow ou controle sem nome | [Captura](screens/audio-settings-390.png) |
+| 47 | specific-treatment | Sem erro JS, overflow ou controle sem nome | [Captura](screens/specific-treatment-390.png) |
+| 48 | promo-video | Sem erro JS, overflow ou controle sem nome | [Captura](screens/promo-video-390.png) |
+| 49 | video-studio | Sem erro JS, overflow ou controle sem nome | [Captura](screens/video-studio-390.png) |
+| 50 | courses-preparation | Sem erro JS, overflow ou controle sem nome | [Captura](screens/courses-preparation-390.png) |
+| 51 | dashboard | Sem erro JS, overflow ou controle sem nome | [Captura](screens/dashboard-390.png) |
+| 52 | daily-diary-edit | Sem erro JS, overflow ou controle sem nome | [Captura](screens/daily-diary-edit-390.png) |
+| 53 | daily-diary-intention | Sem erro JS, overflow ou controle sem nome | [Captura](screens/daily-diary-intention-390.png) |
+| 54 | daily-diary | Sem erro JS, overflow ou controle sem nome | [Captura](screens/daily-diary-390.png) |
+| 55 | pause-conscious | Sem erro JS, overflow ou controle sem nome | [Captura](screens/pause-conscious-390.png) |
+| 56 | pause-practice | Sem erro JS, overflow ou controle sem nome | [Captura](screens/pause-practice-390.png) |
+| 57 | still-something | Sem erro JS, overflow ou controle sem nome | [Captura](screens/still-something-390.png) |
+| 58 | still-something-step-2 | Sem erro JS, overflow ou controle sem nome | [Captura](screens/still-something-step-2-390.png) |
+| 59 | still-something-step-3 | Sem erro JS, overflow ou controle sem nome | [Captura](screens/still-something-step-3-390.png) |
+| 60 | still-something-step-4 | Sem erro JS, overflow ou controle sem nome | [Captura](screens/still-something-step-4-390.png) |
+| 61 | reintegration | Sem erro JS, overflow ou controle sem nome | [Captura](screens/reintegration-390.png) |
+| 62 | archangel-prayer | Sem erro JS, overflow ou controle sem nome | [Captura](screens/archangel-prayer-390.png) |
+| 63 | admin | Sem erro JS, overflow ou controle sem nome | [Captura](screens/admin-390.png) |

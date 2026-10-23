@@ -20,6 +20,7 @@ const REDIS_TIMEOUT_MS = 8000;
 
 export interface Database {
   users: any[];
+  paymentOrders?: import('./lib/paymentRoutes.js').PaymentOrder[];
 }
 
 let db: Database = { users: [] };

@@ -1,0 +1,720 @@
+[
+  {
+    "name": "home",
+    "entry": "visible",
+    "errors": [],
+    "failures": [
+      {
+        "status": 404,
+        "url": "http://127.0.0.1:4180/_vercel/speed-insights/script.js"
+      }
+    ],
+    "states": [
+      {
+        "width": 390,
+        "height": 844,
+        "overflow": false,
+        "text": "TERAPIAS HOLÍSTICAS E BEM-ESTAR\nProtocolo da Transformação\nOlá, Maria.\n\nQue bom ter você aqui novamente.\n\nSua jornada está em andamento. Siga no seu tempo, um dia de cada vez.\n\nUm novo capítulo\npode começar hoje.\n\nRespire. Acolha. Transforme.\nVocê consegue.\nContinuar minha jornada\nDIA 1\nO Despertar da Decisão\nContinuar minha jornada\nAcolhimento Emocional & Serenidade\nSeu resultado compacto\nAFIRMAÇÃO DO DIA\nDeclarar aceitação e respirar profundamente.\nJornada\nMeu progresso do dia a dia\nComunidade\nTroque experiências com segurança\nMeu Espaço\nDiário e acompanhamento\nFale conosco\nEstamos aqui por você\nVocê já fez muito por você.\n\nAgora, é a sua vez.\n\nInício\nJornada\nRecursos\nComunidade\n\nO Protocolo da Transformação é canalizado energeticamente por Éverton Rodrigo Piceni, respeitando o tempo e a jornada de cada pessoa.\n\nEU SOU LIVRE • EU SOU CURA • EU ESTOU EM PAZ",
+        "dialog": [],
+        "buttons": [
+          {
+            "text": "Som",
+            "label": null,
+            "title": "Ajustar sons, frequências e sintonização bioativa",
+            "rect": {
+              "x": 334,
+              "y": 5,
+              "width": 44,
+              "height": 44,
+              "top": 5,
+              "right": 378,
+              "bottom": 49,
+              "left": 334
+            }
+          },
+          {
+            "text": "",
+            "label": "Abrir menu principal",
+            "title": "",
+            "rect": {
+              "x": 334,
+              "y": 66,
+              "width": 44,
+              "height": 44,
+              "top": 66,
+              "right": 378,
+              "bottom": 110,
+              "left": 334
+            }
+          },
+          {
+            "text": "Continuar minha jornada",
+            "label": null,
+            "title": "",
+            "rect": {
+              "x": 18,
+              "y": 668,
+              "width": 354,
+              "height": 70,
+              "top": 668,
+              "right": 372,
+              "bottom": 738,
+              "left": 18
+            }
+          },
+          {
+            "text": "Dia 1O Despertar da DecisãoContinuar minha jornada",
+            "label": null,
+            "title": "",
+            "rect": {
+              "x": 16,
+              "y": 768,
+              "width": 358,
+              "height": 220,
+              "top": 768,
+              "right": 374,
+              "bottom": 988,
+              "left": 16
+            }
+          },
+          {
+            "text": "Acolhimento Emocional & SerenidadeSeu resultado compacto",
+            "label": null,
+            "title": "",
+            "rect": {
+              "x": 16,
+              "y": 1006,
+              "width": 358,
+              "height": 102.375,
+              "top": 1006,
+              "right": 374,
+              "bottom": 1108.375,
+              "left": 16
+            }
+          },
+          {
+            "text": "JornadaMeu progresso do dia a dia",
+            "label": null,
+            "title": "",
+            "rect": {
+              "x": 16,
+              "y": 1290.90625,
+              "width": 175,
+              "height": 88,
+              "top": 1290.90625,
+              "right": 191,
+              "bottom": 1378.90625,
+              "left": 16
+            }
+          },
+          {
+            "text": "ComunidadeTroque experiências com segurança",
+            "label": null,
+            "title": "",
+            "rect": {
+              "x": 199,
+              "y": 1290.90625,
+              "width": 175,
+              "height": 88,
+              "top": 1290.90625,
+              "right": 374,
+              "bottom": 1378.90625,
+              "left": 199
+            }
+          },
+          {
+            "text": "Meu EspaçoDiário e acompanhamento",
+            "label": null,
+            "title": "",
+            "rect": {
+              "x": 16,
+              "y": 1386.90625,
+              "width": 175,
+              "height": 88,
+              "top": 1386.90625,
+              "right": 191,
+              "bottom": 1474.90625,
+              "left": 16
+            }
+          },
+          {
+            "text": "Fale conoscoEstamos aqui por você",
+            "label": null,
+            "title": "",
+            "rect": {
+              "x": 199,
+              "y": 1386.90625,
+              "width": 175,
+              "height": 88,
+              "top": 1386.90625,
+              "right": 374,
+              "bottom": 1474.90625,
+              "left": 199
+            }
+          },
+          {
+            "text": "Início",
+            "label": null,
+            "title": "",
+            "rect": {
+              "x": 5,
+              "y": 776,
+              "width": 95,
+              "height": 61,
+              "top": 776,
+              "right": 100,
+              "bottom": 837,
+              "left": 5
+            }
+          },
+          {
+            "text": "Jornada",
+            "label": null,
+            "title": "",
+            "rect": {
+              "x": 100,
+              "y": 776,
+              "width": 95,
+              "height": 61,
+              "top": 776,
+              "right": 195,
+              "bottom": 837,
+              "left": 100
+            }
+          },
+          {
+            "text": "Recursos",
+            "label": null,
+            "title": "",
+            "rect": {
+              "x": 195,
+              "y": 776,
+              "width": 95,
+              "height": 61,
+              "top": 776,
+              "right": 290,
+              "bottom": 837,
+              "left": 195
+            }
+          },
+          {
+            "text": "Comunidade",
+            "label": null,
+            "title": "",
+            "rect": {
+              "x": 290,
+              "y": 776,
+              "width": 95,
+              "height": 61,
+              "top": 776,
+              "right": 385,
+              "bottom": 837,
+              "left": 290
+            }
+          }
+        ],
+        "unnamed": []
+      },
+      {
+        "width": 320,
+        "height": 568,
+        "overflow": false,
+        "text": "TERAPIAS HOLÍSTICAS E BEM-ESTAR\nProtocolo da Transformação\nOlá, Maria.\n\nQue bom ter você aqui novamente.\n\nSua jornada está em andamento. Siga no seu tempo, um dia de cada vez.\n\nUm novo capítulo\npode começar hoje.\n\nRespire. Acolha. Transforme.\nVocê consegue.\nContinuar minha jornada\nDIA 1\nO Despertar da Decisão\nContinuar minha jornada\nAcolhimento Emocional & Serenidade\nSeu resultado compacto\nAFIRMAÇÃO DO DIA\nDeclarar aceitação e respirar profundamente.\nJornada\nMeu progresso do dia a dia\nComunidade\nTroque experiências com segurança\nMeu Espaço\nDiário e acompanhamento\nFale conosco\nEstamos aqui por você\nVocê já fez muito por você.\n\nAgora, é a sua vez.\n\nInício\nJornada\nRecursos\nComunidade\n\nO Protocolo da Transformação é canalizado energeticamente por Éverton Rodrigo Piceni, respeitando o tempo e a jornada de cada pessoa.\n\nEU SOU LIVRE • EU SOU CURA • EU ESTOU EM PAZ",
+        "dialog": [],
+        "buttons": [
+          {
+            "text": "Som",
+            "label": null,
+            "title": "Ajustar sons, frequências e sintonização bioativa",
+            "rect": {
+              "x": 264,
+              "y": 5,
+              "width": 44,
+              "height": 44,
+              "top": 5,
+              "right": 308,
+              "bottom": 49,
+              "left": 264
+            }
+          },
+          {
+            "text": "",
+            "label": "Abrir menu principal",
+            "title": "",
+            "rect": {
+              "x": 264,
+              "y": 66,
+              "width": 44,
+              "height": 44,
+              "top": 66,
+              "right": 308,
+              "bottom": 110,
+              "left": 264
+            }
+          },
+          {
+            "text": "Continuar minha jornada",
+            "label": null,
+            "title": "",
+            "rect": {
+              "x": 18,
+              "y": 516,
+              "width": 284,
+              "height": 82,
+              "top": 516,
+              "right": 302,
+              "bottom": 598,
+              "left": 18
+            }
+          },
+          {
+            "text": "Dia 1O Despertar da DecisãoContinuar minha jornada",
+            "label": null,
+            "title": "",
+            "rect": {
+              "x": 16,
+              "y": 628,
+              "width": 288,
+              "height": 229,
+              "top": 628,
+              "right": 304,
+              "bottom": 857,
+              "left": 16
+            }
+          },
+          {
+            "text": "Acolhimento Emocional & SerenidadeSeu resultado compacto",
+            "label": null,
+            "title": "",
+            "rect": {
+              "x": 16,
+              "y": 875,
+              "width": 288,
+              "height": 125.3125,
+              "top": 875,
+              "right": 304,
+              "bottom": 1000.3125,
+              "left": 16
+            }
+          },
+          {
+            "text": "JornadaMeu progresso do dia a dia",
+            "label": null,
+            "title": "",
+            "rect": {
+              "x": 16,
+              "y": 1182.84375,
+              "width": 140,
+              "height": 88,
+              "top": 1182.84375,
+              "right": 156,
+              "bottom": 1270.84375,
+              "left": 16
+            }
+          },
+          {
+            "text": "ComunidadeTroque experiências com segurança",
+            "label": null,
+            "title": "",
+            "rect": {
+              "x": 164,
+              "y": 1182.84375,
+              "width": 140,
+              "height": 88,
+              "top": 1182.84375,
+              "right": 304,
+              "bottom": 1270.84375,
+              "left": 164
+            }
+          },
+          {
+            "text": "Meu EspaçoDiário e acompanhamento",
+            "label": null,
+            "title": "",
+            "rect": {
+              "x": 16,
+              "y": 1278.84375,
+              "width": 140,
+              "height": 88,
+              "top": 1278.84375,
+              "right": 156,
+              "bottom": 1366.84375,
+              "left": 16
+            }
+          },
+          {
+            "text": "Fale conoscoEstamos aqui por você",
+            "label": null,
+            "title": "",
+            "rect": {
+              "x": 164,
+              "y": 1278.84375,
+              "width": 140,
+              "height": 88,
+              "top": 1278.84375,
+              "right": 304,
+              "bottom": 1366.84375,
+              "left": 164
+            }
+          },
+          {
+            "text": "Início",
+            "label": null,
+            "title": "",
+            "rect": {
+              "x": 5,
+              "y": 500,
+              "width": 77.5,
+              "height": 61,
+              "top": 500,
+              "right": 82.5,
+              "bottom": 561,
+              "left": 5
+            }
+          },
+          {
+            "text": "Jornada",
+            "label": null,
+            "title": "",
+            "rect": {
+              "x": 82.5,
+              "y": 500,
+              "width": 77.5,
+              "height": 61,
+              "top": 500,
+              "right": 160,
+              "bottom": 561,
+              "left": 82.5
+            }
+          },
+          {
+            "text": "Recursos",
+            "label": null,
+            "title": "",
+            "rect": {
+              "x": 160,
+              "y": 500,
+              "width": 77.5,
+              "height": 61,
+              "top": 500,
+              "right": 237.5,
+              "bottom": 561,
+              "left": 160
+            }
+          },
+          {
+            "text": "Comunidade",
+            "label": null,
+            "title": "",
+            "rect": {
+              "x": 237.5,
+              "y": 500,
+              "width": 77.5,
+              "height": 61,
+              "top": 500,
+              "right": 315,
+              "bottom": 561,
+              "left": 237.5
+            }
+          }
+        ],
+        "unnamed": []
+      },
+      {
+        "width": 1365,
+        "height": 768,
+        "overflow": false,
+        "text": "TERAPIAS HOLÍSTICAS E BEM-ESTAR\nProtocolo da Transformação\nMEMBRO PRO\nSom\nArcanjo\nPortuguês\nEnglish\nEspañol\nFrançais\nItaliano\nDeutsch\nApp\nSair\nOlá, Maria.\n\nQue bom ter você aqui novamente.\n\nSua jornada está em andamento. Siga no seu tempo, um dia de cada vez.\n\nUm novo capítulo\npode começar hoje.\n\nRespire. Acolha. Transforme.\nVocê consegue.\nContinuar minha jornada\nDIA 1\nO Despertar da Decisão\nContinuar minha jornada\nAcolhimento Emocional & Serenidade\nSeu resultado compacto\nAFIRMAÇÃO DO DIA\nDeclarar aceitação e respirar profundamente.\nJornada\nMeu progresso do dia a dia\nComunidade\nTroque experiências com segurança\nMeu Espaço\nDiário e acompanhamento\nFale conosco\nEstamos aqui por você\nVocê já fez muito por você.\n\nAgora, é a sua vez.\n\nInício\nJornada\nRecursos\nComunidade\n\nO Protocolo da Transformação é canalizado energeticamente por Éverton Rodrigo Piceni, respeitando o tempo e a jornada de cada pessoa.\n\nEU SOU LIVRE • EU SOU CURA • EU ESTOU EM PAZ\nFale Conosco",
+        "dialog": [],
+        "buttons": [
+          {
+            "text": "MEMBRO PROPRO",
+            "label": null,
+            "title": "Abrir Certificado e Relatório Quântico",
+            "rect": {
+              "x": 660.953125,
+              "y": 19,
+              "width": 111.015625,
+              "height": 30,
+              "top": 19,
+              "right": 771.96875,
+              "bottom": 49,
+              "left": 660.953125
+            }
+          },
+          {
+            "text": "",
+            "label": null,
+            "title": "Ativar trilha de cura",
+            "rect": {
+              "x": 781.96875,
+              "y": 18,
+              "width": 32,
+              "height": 32,
+              "top": 18,
+              "right": 813.96875,
+              "bottom": 50,
+              "left": 781.96875
+            }
+          },
+          {
+            "text": "Som",
+            "label": null,
+            "title": "Ajustar sons, frequências e sintonização bioativa",
+            "rect": {
+              "x": 817.96875,
+              "y": 19,
+              "width": 60.671875,
+              "height": 30,
+              "top": 19,
+              "right": 878.640625,
+              "bottom": 49,
+              "left": 817.96875
+            }
+          },
+          {
+            "text": "Arcanjo",
+            "label": null,
+            "title": "Oração de 21 Dias do Arcanjo Miguel (Gratuito)",
+            "rect": {
+              "x": 888.640625,
+              "y": 19,
+              "width": 85.28125,
+              "height": 30,
+              "top": 19,
+              "right": 973.921875,
+              "bottom": 49,
+              "left": 888.640625
+            }
+          },
+          {
+            "text": "App",
+            "label": null,
+            "title": "Instalar aplicativo oficial no seu celular Android / Google Play",
+            "rect": {
+              "x": 1114.921875,
+              "y": 19,
+              "width": 62.609375,
+              "height": 30,
+              "top": 19,
+              "right": 1177.53125,
+              "bottom": 49,
+              "left": 1114.921875
+            }
+          },
+          {
+            "text": "Sair",
+            "label": "Sair da conta",
+            "title": "Encerrar sessão e sair do aplicativo",
+            "rect": {
+              "x": 1187.53125,
+              "y": 18,
+              "width": 70.96875,
+              "height": 32,
+              "top": 18,
+              "right": 1258.5,
+              "bottom": 50,
+              "left": 1187.53125
+            }
+          },
+          {
+            "text": "",
+            "label": "Abrir menu principal",
+            "title": "",
+            "rect": {
+              "x": 674.109375,
+              "y": 80,
+              "width": 44,
+              "height": 44,
+              "top": 80,
+              "right": 718.109375,
+              "bottom": 124,
+              "left": 674.109375
+            }
+          },
+          {
+            "text": "Continuar minha jornada",
+            "label": null,
+            "title": "",
+            "rect": {
+              "x": 24,
+              "y": 617,
+              "width": 682.109375,
+              "height": 52,
+              "top": 617,
+              "right": 706.109375,
+              "bottom": 669,
+              "left": 24
+            }
+          },
+          {
+            "text": "Dia 1O Despertar da DecisãoContinuar minha jornada",
+            "label": null,
+            "title": "",
+            "rect": {
+              "x": 746.109375,
+              "y": 82,
+              "width": 602.875,
+              "height": 220,
+              "top": 82,
+              "right": 1348.984375,
+              "bottom": 302,
+              "left": 746.109375
+            }
+          },
+          {
+            "text": "Acolhimento Emocional & SerenidadeSeu resultado compacto",
+            "label": null,
+            "title": "",
+            "rect": {
+              "x": 746.109375,
+              "y": 320,
+              "width": 602.875,
+              "height": 88,
+              "top": 320,
+              "right": 1348.984375,
+              "bottom": 408,
+              "left": 746.109375
+            }
+          },
+          {
+            "text": "JornadaMeu progresso do dia a dia",
+            "label": null,
+            "title": "",
+            "rect": {
+              "x": 746.109375,
+              "y": 561.265625,
+              "width": 144.71875,
+              "height": 104,
+              "top": 561.265625,
+              "right": 890.828125,
+              "bottom": 665.265625,
+              "left": 746.109375
+            }
+          },
+          {
+            "text": "ComunidadeTroque experiências com segurança",
+            "label": null,
+            "title": "",
+            "rect": {
+              "x": 898.828125,
+              "y": 561.265625,
+              "width": 144.71875,
+              "height": 104,
+              "top": 561.265625,
+              "right": 1043.546875,
+              "bottom": 665.265625,
+              "left": 898.828125
+            }
+          },
+          {
+            "text": "Meu EspaçoDiário e acompanhamento",
+            "label": null,
+            "title": "",
+            "rect": {
+              "x": 1051.546875,
+              "y": 561.265625,
+              "width": 144.71875,
+              "height": 104,
+              "top": 561.265625,
+              "right": 1196.265625,
+              "bottom": 665.265625,
+              "left": 1051.546875
+            }
+          },
+          {
+            "text": "Fale conoscoEstamos aqui por você",
+            "label": null,
+            "title": "",
+            "rect": {
+              "x": 1204.265625,
+              "y": 561.265625,
+              "width": 144.71875,
+              "height": 104,
+              "top": 561.265625,
+              "right": 1348.984375,
+              "bottom": 665.265625,
+              "left": 1204.265625
+            }
+          },
+          {
+            "text": "Início",
+            "label": null,
+            "title": "",
+            "rect": {
+              "x": 5,
+              "y": 700,
+              "width": 338.75,
+              "height": 61,
+              "top": 700,
+              "right": 343.75,
+              "bottom": 761,
+              "left": 5
+            }
+          },
+          {
+            "text": "Jornada",
+            "label": null,
+            "title": "",
+            "rect": {
+              "x": 343.75,
+              "y": 700,
+              "width": 338.75,
+              "height": 61,
+              "top": 700,
+              "right": 682.5,
+              "bottom": 761,
+              "left": 343.75
+            }
+          },
+          {
+            "text": "Recursos",
+            "label": null,
+            "title": "",
+            "rect": {
+              "x": 682.5,
+              "y": 700,
+              "width": 338.75,
+              "height": 61,
+              "top": 700,
+              "right": 1021.25,
+              "bottom": 761,
+              "left": 682.5
+            }
+          },
+          {
+            "text": "Comunidade",
+            "label": null,
+            "title": "",
+            "rect": {
+              "x": 1021.25,
+              "y": 700,
+              "width": 338.75,
+              "height": 61,
+              "top": 700,
+              "right": 1360,
+              "bottom": 761,
+              "left": 1021.25
+            }
+          },
+          {
+            "text": "Fale Conosco",
+            "label": null,
+            "title": "Fale Conosco",
+            "rect": {
+              "x": 1297,
+              "y": 634,
+              "width": 52,
+              "height": 44,
+              "top": 634,
+              "right": 1349,
+              "bottom": 678,
+              "left": 1297
+            }
+          }
+        ],
+        "unnamed": []
+      }
+    ]
+  }
+]

@@ -209,8 +209,14 @@ export default function ArcanjoProtocolView({ userProfile, onClose, onLogout, in
       userName: userProfile.name,
       onStart: () => {
         if (runId !== narrationRunRef.current) return;
+        audioEngine.startSynth(`${config.freq}hz`);
         setIsPreparingAudio(false);
         setIsPlaying(true);
+      },
+      onPause: () => {
+        if (runId !== narrationRunRef.current) return;
+        setIsPlaying(false);
+        audioEngine.stopSynth();
       },
       onTimeUpdate: (seconds, realDuration) => {
         if (runId !== narrationRunRef.current) return;

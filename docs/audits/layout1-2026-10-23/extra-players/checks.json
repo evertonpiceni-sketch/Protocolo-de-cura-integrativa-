@@ -1,0 +1,12 @@
+{
+  "checks": [
+    "Reintegration opens and scrolls at 320, 390 and 1365px",
+    "Reintegration system pause and resume",
+    "Day 1 artwork changes with the audio clock",
+    "All five Day 1 visual phases remain tied to audio",
+    "Reintegration exit clears metadata",
+    "Seven-day player system pause and resume update interface",
+    "Seven-day exit clears media controls"
+  ],
+  "errors": []
+}

@@ -254,7 +254,7 @@ export function PlansValuesGuideModal({
             <p className="text-xs md:text-sm text-[#5F6857] max-w-2xl mx-auto">Aqui você escolhe a forma de acesso. A Anamnese Compacta orienta o próximo passo e, depois do resultado, você escolhe livremente o protocolo e a duração disponíveis. A partir do trimestral, a Anamnese Completa já está incluída.</p>
           </div>
 
-          <div className="p-4 rounded-2xl bg-[#073B2B] border border-[#D8B867]/30 flex flex-col sm:flex-row items-center justify-between gap-3 shadow-lg">
+          <div data-ns-pix-card="true" className="p-4 rounded-2xl bg-[#073B2B] border border-[#D8B867]/30 flex flex-col sm:flex-row items-center justify-between gap-3 shadow-lg">
             <div className="flex items-center gap-3 text-center sm:text-left">
               <div className="p-2.5 rounded-xl bg-white/10 text-[#F7E5AA] border border-white/10 shrink-0"><QrCode size={22} /></div>
               <div>
