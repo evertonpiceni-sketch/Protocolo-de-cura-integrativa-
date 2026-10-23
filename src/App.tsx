@@ -131,6 +131,35 @@ export default function App() {
 
   // Initialize and register local notification daily checker
   useEffect(() => {
+    if (!isLoggedIn) return;
+    const params = new URLSearchParams(location.search);
+    const order = params.get('payment_order');
+    if (!order) return;
+    const controller = new AbortController(); let timer: ReturnType<typeof setTimeout>; let attempts = 0;
+    const refreshPayment = async () => {
+      try {
+        const response = await fetch(`/api/payment/orders/${encodeURIComponent(order)}`, { credentials: 'same-origin', signal: controller.signal });
+        const payment = await response.json();
+        if (response.ok && payment.status === 'paid') {
+          const session = await fetch('/api/auth/me', { credentials: 'same-origin', signal: controller.signal });
+          if (!session.ok) return;
+          const data = await session.json();
+          if (controller.signal.aborted) return;
+          setUserProfile({ ...data.user.profile, isAdmin: data.user.role === 'admin' });
+          if (payment.productType === 'specific_treatment') {
+            sessionStorage.setItem('cura_specific_paid_order_v1', order);
+            setShowSpecificTreatmentModal(true);
+          }
+          for (const key of ['payment','payment_order','order_nsu','transaction_nsu','slug','invoice_slug','receipt_url','capture_method']) params.delete(key);
+          history.replaceState(null, '', location.pathname + (params.size ? '?' + params : '') + location.hash);
+        } else if (response.ok && ['pending','creating'].includes(payment.status) && ++attempts < 10) timer = setTimeout(refreshPayment, 2000);
+      } catch { /* Pending confirmation remains server controlled and can be retried. */ }
+    };
+    void refreshPayment();
+    return () => { controller.abort(); clearTimeout(timer); };
+  }, [isLoggedIn]);
+
+  useEffect(() => {
     localNotificationManager.setInAppNotifier((title, body) => {
       setInAppToast({ title, body });
       setTimeout(() => setInAppToast(null), 8000);
@@ -440,6 +469,13 @@ export default function App() {
 
   // Profile Onboarding complete (Register or Login complete)
   const handleOnboardingComplete = (account: UserAccount) => {
+    setIsLoggedIn(true);
+    if (sessionStorage.getItem('cura_pending_checkout_v1')) setShowProModal(true);
+    try {
+      const pending = JSON.parse(sessionStorage.getItem('cura_pending_specific_checkout_v1') || '{}');
+      if (pending.patientDescription && (!pending.ownerLogin || pending.ownerLogin !== account.login)) sessionStorage.removeItem('cura_pending_specific_checkout_v1');
+      else if (pending.patientDescription) setShowSpecificTreatmentModal(true);
+    } catch { sessionStorage.removeItem('cura_pending_specific_checkout_v1'); }
     localStorage.setItem(LOCAL_STORAGE_KEY_CURRENT_LOGIN, account.login);
     try {
       const rawAccounts = localStorage.getItem(LOCAL_STORAGE_KEY_ACCOUNTS);
@@ -600,6 +636,8 @@ export default function App() {
       console.warn("Server logout request completed with offline status");
     }
     localStorage.removeItem(LOCAL_STORAGE_KEY_CURRENT_LOGIN);
+    for (const key of ['cura_pending_checkout_v1','cura_pending_specific_checkout_v1','cura_specific_paid_order_v1']) sessionStorage.removeItem(key);
+    setShowProModal(false); setShowSpecificTreatmentModal(false);
     setUserProfile(null);
     setProgress([]);
     setCurrentDay(1);
@@ -769,8 +807,8 @@ export default function App() {
     return <ProfileSetup onComplete={handleOnboardingComplete} />;
   }
 
-  const subscriptionLabel = ({ teste_vip_7d: 'VIP7', jornada_7d: '7 DIAS', arcanjo_7d: '7 DIAS', semanal: 'SEMANAL', mensal: 'MENSAL', trimestral: 'TRIMESTRAL', semestral: 'SEMESTRAL', anual: 'ANUAL' } as const)[userProfile.subscriptionPlan!] || 'PRO';
-  const subscriptionPeriod = ({ teste_vip_7d: 'por 7 dias', jornada_7d: 'por 7 dias', arcanjo_7d: 'por 7 dias', semanal: 'semanal', mensal: 'mensal', trimestral: 'trimestral', semestral: 'semestral', anual: 'anual' } as const)[userProfile.subscriptionPlan!] || '';
+  const subscriptionLabel = ({ teste_vip_7d: 'VIP7', jornada_7d: '7 DIAS', jornada_21d: '21 DIAS', arcanjo_7d: '7 DIAS', semanal: 'SEMANAL', mensal: 'MENSAL', trimestral: 'TRIMESTRAL', semestral: 'SEMESTRAL', anual: 'ANUAL' } as const)[userProfile.subscriptionPlan!] || 'PRO';
+  const subscriptionPeriod = ({ teste_vip_7d: 'por 7 dias', jornada_7d: 'por 7 dias', jornada_21d: 'por 21 dias', arcanjo_7d: 'por 7 dias', semanal: 'semanal', mensal: 'mensal', trimestral: 'trimestral', semestral: 'semestral', anual: 'anual' } as const)[userProfile.subscriptionPlan!] || '';
 
   const selectedProgress = selectedDayDetail ? progress.find(p => p.dayNumber === selectedDayDetail) : null;
   const currentInsightsList = userProfile.selectedJourney === '7d' ? JOURNEY_7D_INSIGHTS : DAILY_INSIGHTS;
@@ -1182,7 +1220,7 @@ export default function App() {
 
                 <div className="p-4 bg-white border border-[#E5DAC6] rounded-2xl space-y-3">
                   <p className="text-xs text-[#5C5248] leading-relaxed">
-                    {userProfile.anamnesis
+                    {typeof userProfile.anamnesis?.recommendedFrequency === 'string' && userProfile.anamnesis.recommendedFrequency
                       ? `Frequência sugerida: ${userProfile.anamnesis.recommendedFrequency.toUpperCase()} • Foco: ${userProfile.anamnesis.primaryGoal}`
                       : 'Responda à anamnese para organizar seu Mapa do Momento e receber caminhos de cuidado coerentes com o que você compartilhou.'}
                   </p>
@@ -1741,6 +1779,7 @@ export default function App() {
         ) : (
           /* New approved transformation home */
           <TransformationHome
+            onOpenSpecificTreatment={() => setShowSpecificTreatmentModal(true)}
             visualLayout={normalizeLayoutId(userProfile.visualLayout)}
             userName={userProfile.name}
             currentDay={currentDay}
@@ -2143,6 +2182,7 @@ export default function App() {
           isOpen={showProModal}
           onClose={() => setShowProModal(false)}
           userProfile={userProfile}
+          onRequireLogin={() => { setShowProModal(false); setIsLoggedIn(false); setUserProfile(null); }}
           onUpgradeSuccess={async (plan, paymentMethod, price) => {
             if (!isLoggedIn) {
               throw new Error('Entre na sua conta para iniciar uma compra ou ativar a degustação.');
@@ -2234,10 +2274,11 @@ export default function App() {
         />
       )}
 
-      {/* Specific Individualized Treatment Modal (R$ 70,00) */}
+      {/* Specific individualized treatment checkout */}
       {showSpecificTreatmentModal && userProfile && (
         <SpecificTreatmentModal
           isOpen={showSpecificTreatmentModal}
+          onRequireLogin={() => { setShowSpecificTreatmentModal(false); setIsLoggedIn(false); setUserProfile(null); }}
           onClose={() => setShowSpecificTreatmentModal(false)}
           userProfile={userProfile}
           onConfirmTreatment={handleConfirmSpecificTreatment}

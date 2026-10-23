@@ -28,6 +28,7 @@ export type TransformationHomeProps = {
   onOpenCourses: () => void;
   onOpenContact: () => void;
   onOpenPersonalJourney: () => void;
+  onOpenSpecificTreatment?: () => void;
   onLogout?: () => void;
 };
 

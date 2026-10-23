@@ -122,7 +122,7 @@ export default async function handler(req: any, res: any) {
   if (pathname === "/api/reintegration-tts") return serveReintegrationVoice(req, res);
 
   try {
-    await initializeDb();
+    await initializeDb(true);
     if (pathname === "/api/admin/bootstrap" && req.method === "POST") {
       if (!allowBootstrapAttempt(req)) return res.status(429).json({ error: "Muitas tentativas. Aguarde alguns minutos e tente novamente." });
       const configuredSecret = process.env.ADMIN_BOOTSTRAP_SECRET;

@@ -1,0 +1,13 @@
+{
+  "login": true,
+  "refreshSession": true,
+  "specificNavigation": true,
+  "checkoutRedirect": "https://checkout.infinitepay.io/evertonterapeutareiki?ui-fixture=1",
+  "serverPrice": 4792,
+  "provider": "simulated; no real payment",
+  "errors": [],
+  "vip7": {
+    "days": 6.999986111111111,
+    "serverPlan": "teste_vip_7d"
+  }
+}

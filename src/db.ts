@@ -1,5 +1,6 @@
 import fs from 'fs';
 import path from 'path';
+import { mergeStoredChanges } from './lib/dbMerge.js';
 
 const DB_FILE = path.join(process.cwd(), 'database.json');
 const DB_KEY = process.env.UPSTASH_DB_KEY || 'cura_integrada:database:v1';
@@ -20,10 +21,14 @@ const REDIS_TIMEOUT_MS = 8000;
 
 export interface Database {
   users: any[];
+  paymentOrders?: import('./lib/paymentRoutes.js').PaymentOrder[];
 }
 
 let db: Database = { users: [] };
 let initialized = false;
+let persistedSnapshot = JSON.stringify(db);
+let persistedRaw = '';
+const copy = <T>(value: T): T => JSON.parse(JSON.stringify(value));
 let initializationPromise: Promise<void> | null = null;
 
 function readLocalDatabase(): Database | null {
@@ -52,13 +57,16 @@ export async function redisCommand(command: string, args: string[] = []) {
   if (!UPSTASH_URL || !UPSTASH_TOKEN) return null;
 
   const suffix = args.map(encodeURIComponent).join('/');
-  const url = suffix ? `${UPSTASH_URL}/${command}/${suffix}` : `${UPSTASH_URL}/${command}`;
+  const bodyCommand = command.toLowerCase() === 'eval';
+  const url = bodyCommand ? UPSTASH_URL : suffix ? `${UPSTASH_URL}/${command}/${suffix}` : `${UPSTASH_URL}/${command}`;
   const controller = new AbortController();
   const timeout = setTimeout(() => controller.abort(), REDIS_TIMEOUT_MS);
 
   try {
     const response = await fetch(url, {
-      headers: { Authorization: `Bearer ${UPSTASH_TOKEN}` },
+      method: bodyCommand ? 'POST' : 'GET',
+      headers: { Authorization: `Bearer ${UPSTASH_TOKEN}`, ...(bodyCommand ? { 'Content-Type': 'application/json' } : {}) },
+      ...(bodyCommand ? { body: JSON.stringify([command, ...args]) } : {}),
       signal: controller.signal,
       cache: 'no-store',
     });
@@ -86,8 +94,8 @@ function requireProductionPersistence() {
   }
 }
 
-export async function initializeDb() {
-  if (initialized) return;
+export async function initializeDb(refresh = false) {
+  if (initialized && !refresh) return;
   if (initializationPromise) return initializationPromise;
 
   initializationPromise = (async () => {
@@ -102,12 +110,16 @@ export async function initializeDb() {
             throw new Error('Persistent database contains an invalid schema.');
           }
           db = parsed;
-        }
+          persistedRaw = remote;
+        } else if (remote == null) {
+          db = { users: [] }; persistedRaw = '';
+        } else { throw new Error('Persistent database contains an invalid schema.'); }
       } else {
         const local = readLocalDatabase();
         if (local) db = local;
       }
 
+      persistedSnapshot = JSON.stringify(db);
       initialized = true;
     } catch (err) {
       console.error('Error initializing database:', err);
@@ -132,13 +144,31 @@ export function getDb() {
   return db;
 }
 
-export async function saveDb(): Promise<void> {
+export async function saveDb(validate?: (candidate: Database) => void): Promise<void> {
   requireProductionPersistence();
-  const snapshot = JSON.stringify(db);
-  if (process.env.NODE_ENV !== 'production') writeLocalDatabase(db);
+  let baseline = JSON.parse(persistedSnapshot);
+  let expected = persistedRaw;
+  let snapshot = copy(db);
   if (UPSTASH_URL && UPSTASH_TOKEN) {
-    await redisCommand('set', [DB_KEY, snapshot]);
+    const cas = "local v=redis.call('GET',KEYS[1]); if (v or '')~=ARGV[1] then return 0 end; redis.call('SET',KEYS[1],ARGV[2]); return 1";
+    for (let attempt = 0; attempt < 4; attempt++) {
+      validate?.(snapshot);
+      const serialized = JSON.stringify(snapshot);
+      const written = await redisCommand('eval', [cas, '1', DB_KEY, expected, serialized]);
+      if (Number(written) === 1) {
+        db = snapshot; persistedSnapshot = serialized; persistedRaw = serialized;
+        return;
+      }
+      const remote = await redisCommand('get', [DB_KEY]);
+      const current = typeof remote === 'string' ? JSON.parse(remote) : remote || { users: [] };
+      snapshot = mergeStoredChanges(baseline, snapshot, current);
+      baseline = current; expected = typeof remote === 'string' ? remote : remote ? JSON.stringify(remote) : '';
+    }
+    throw new Error('PERSISTENCE_CONFLICT');
   }
+  validate?.(snapshot);
+  writeLocalDatabase(snapshot);
+  persistedSnapshot = JSON.stringify(snapshot);
 }
 
 export function hasPersistentDatabase() {

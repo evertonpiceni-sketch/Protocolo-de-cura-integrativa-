@@ -16,6 +16,7 @@ interface ProUpgradeModalProps {
   userProfile: UserProfile;
   onUpgradeSuccess: (plan: SubscriptionPlanType, paymentMethod: 'pix' | 'card', price: number) => boolean | void | Promise<boolean | void>;
   onOpenContact?: () => void;
+  onRequireLogin?: () => void;
 }
 
 type PlanItem = { id: PaymentPlanId; title: string; price: number; period: string; badge?: string; highlight?: boolean; summary: string[]; details: string[]; };
@@ -36,11 +37,11 @@ const COUPONS: Record<string, { discount: number; vip?: boolean }> = {
 };
 const money = (value: number) => `R$ ${value.toFixed(2).replace('.', ',')}`;
 
-export default function ProUpgradeModal({ isOpen, onClose, onUpgradeSuccess }: ProUpgradeModalProps) {
-  const [selectedId, setSelectedId] = useState<PaymentPlanId>('trimestral');
+export default function ProUpgradeModal({ isOpen, onClose, onUpgradeSuccess, onRequireLogin }: ProUpgradeModalProps) {
+  const [selectedId, setSelectedId] = useState<PaymentPlanId>(() => { try { const pending = JSON.parse(sessionStorage.getItem('cura_pending_checkout_v1') || '{}'); return PLANS.some(p => p.id === pending.planId) ? pending.planId : 'trimestral'; } catch { return 'trimestral'; } });
   const [expandedId, setExpandedId] = useState<PaymentPlanId | null>(null);
   const [coupon, setCoupon] = useState('');
-  const [appliedCoupon, setAppliedCoupon] = useState<string | null>(null);
+  const [appliedCoupon, setAppliedCoupon] = useState<string | null>(() => { try { const code = JSON.parse(sessionStorage.getItem('cura_pending_checkout_v1') || '{}').couponCode; return Object.hasOwn(COUPONS, code) ? code : null; } catch { return null; } });
   const [couponMessage, setCouponMessage] = useState<string | null>(null);
   const [isProcessing, setIsProcessing] = useState(false);
   const [checkoutError, setCheckoutError] = useState<string | null>(null);
@@ -62,7 +63,7 @@ export default function ProUpgradeModal({ isOpen, onClose, onUpgradeSuccess }: P
     sessionStorage.setItem('cura_pending_checkout_v1', JSON.stringify({ planId: selectedPlan.id, price: finalPrice, couponCode: appliedCoupon || undefined }));
     localStorage.removeItem('cura_integrada_logged_in_user_v1');
     onClose();
-    window.location.reload();
+    onRequireLogin?.();
   };
   const finish = async () => {
     if (isProcessing) return;
@@ -90,6 +91,7 @@ export default function ProUpgradeModal({ isOpen, onClose, onUpgradeSuccess }: P
         const data = await res.json().catch(() => ({}));
         if (!res.ok) throw new Error(data.error || 'Não foi possível iniciar o pagamento.');
         if (!data.checkoutUrl) throw new Error('A InfinitePay não retornou o link de pagamento.');
+        sessionStorage.removeItem('cura_pending_checkout_v1');
         window.location.assign(data.checkoutUrl);
       }
     } catch (e) {

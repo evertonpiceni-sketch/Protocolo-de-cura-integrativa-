@@ -31,7 +31,6 @@
     "react": "^19.0.1",
     "react-dom": "^19.0.1",
     "recharts": "^3.9.1",
-    "vite": "^6.2.3",
     "zod": "^4.5.4"
   },
   "devDependencies": {
@@ -46,12 +45,12 @@
     "tailwindcss": "^4.1.14",
     "tsx": "^4.21.0",
     "typescript": "~5.8.2",
-    "vite": "^6.2.3"
+    "vite": "6.4.5"
   },
   "overrides": {
     "browserslist": "^4.29.3",
     "baseline-browser-mapping": "^2.11.26",
-    "ip-address": "^10.7.3",
+    "ip-address": "^10.7.4",
     "body-parser": "1.20.8",
     "qs": "6.16.0",
     "proxy-addr": "2.0.8",

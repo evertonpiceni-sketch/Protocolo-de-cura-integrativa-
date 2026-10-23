@@ -7,7 +7,6 @@ import './natural-sereno.css';
 import './natural-sereno-refinement.css';
 import './natural-sereno-mobile-fixes.css';
 import './lib/authStartupResiliencePatch';
-import './lib/authSessionRefreshBridge';
 import './lib/startupUiResiliencePatch';
 import './lib/audioIntegrityPatch';
 import './lib/reintegrationPublicNarrationPatch';

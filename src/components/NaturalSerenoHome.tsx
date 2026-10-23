@@ -80,6 +80,7 @@ export default function NaturalSerenoHome(props: Props) {
 
   const menu: Row[] = [
     { title: 'Protocolo da Transformação', copy: 'Jornada guiada de 21 dias', icon: Leaf, action: () => changeView('journey'), protocolId: 'transformacao', protocolDuration: '21d' },
+    ...(props.onOpenSpecificTreatment ? [{ title: 'Práticas Específicas', copy: 'Protocolos individuais de 7 e 21 dias', icon: Heart, action: props.onOpenSpecificTreatment }] : []),
     { title: '21 Dias para Voltar para Mim', copy: 'Reintegração da Vida', icon: Leaf, action: props.onOpenPersonalJourney, protocolId: 'reintegracao-vida', protocolDuration: '21d' },
     { title: 'Proteção e Presença', copy: 'Jornada de São Miguel', icon: Sparkles, action: props.onOpenArcanjo },
     { title: 'Anamnese Compacta', copy: 'Olhar meu momento', icon: Waves, action: props.onOpenAnamnesis },

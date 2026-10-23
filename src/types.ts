@@ -28,6 +28,9 @@ export interface DayProgress {
 export interface SpecificTreatment {
   id: string;
   requestedAt: string;
+  paidAt?: string;
+  expiresAt?: string;
+  paymentOrderId?: string;
   durationDays?: 1 | 7 | 21; // 1 dia (sessão única), 7 dias ou 21 dias
   category: 'prosperidade' | 'saude_fisica' | 'liberacao_emocional' | 'relacionamentos' | 'limpeza_espiritual' | 'outro';
   title: string;
@@ -86,7 +89,7 @@ export interface AnamnesisData {
 
 export type JourneyType = '7d' | '21d' | 'arcanjo_7d';
 
-export type SubscriptionPlanType = 'teste_vip_7d' | 'jornada_7d' | 'arcanjo_7d' | 'semanal' | 'mensal' | 'trimestral' | 'semestral' | 'anual';
+export type SubscriptionPlanType = 'teste_vip_7d' | 'jornada_7d' | 'jornada_21d' | 'arcanjo_7d' | 'semanal' | 'mensal' | 'trimestral' | 'semestral' | 'anual';
 
 export interface AstralElementBalance {
   fire: number;   // Fogo %

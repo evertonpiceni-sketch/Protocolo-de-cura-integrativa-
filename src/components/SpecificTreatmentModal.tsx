@@ -4,7 +4,7 @@ import { useDialogFocus } from '../hooks/useDialogFocus';
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import {
   Sparkles, X, Heart, Shield, Check, QrCode, CreditCard,
@@ -18,6 +18,7 @@ interface SpecificTreatmentModalProps {
   isOpen: boolean;
   onClose: () => void;
   userProfile: UserProfile;
+  onRequireLogin?: () => void;
   onConfirmTreatment: (treatment: SpecificTreatment) => void;
 }
 
@@ -40,18 +41,20 @@ export default function SpecificTreatmentModal({
   isOpen,
   onClose,
   userProfile,
-  onConfirmTreatment
+  onConfirmTreatment,
+  onRequireLogin
 }: SpecificTreatmentModalProps) {
-  const [activeTab, setActiveTab] = useState<'request' | 'my_treatments'>('request');
-  const [durationDays, setDurationDays] = useState<1 | 7 | 21>(21); // Changed default to 1
+  const pending = React.useMemo(() => { try { return JSON.parse(sessionStorage.getItem('cura_pending_specific_checkout_v1') || '{}'); } catch { return {}; } }, []);
+  const [activeTab, setActiveTab] = useState<'request' | 'my_treatments'>(() => sessionStorage.getItem('cura_specific_paid_order_v1') ? 'my_treatments' : 'request');
+  useEffect(() => { sessionStorage.removeItem('cura_specific_paid_order_v1'); }, []);
+  const [durationDays, setDurationDays] = useState<1 | 7 | 21>([1,7,21].includes(pending.durationDays) ? pending.durationDays : 21); // Preserves the approved 21-day default.
   const [isCustomPrice, setIsCustomPrice] = useState<boolean>(false);
   const [customPriceInput, setCustomPriceInput] = useState<string>('99,90');
-  const [selectedCategory, setSelectedCategory] = useState<string>('saude_fisica');
-  const [treatmentTitle, setTreatmentTitle] = useState<string>('');
-  const [patientDescription, setPatientDescription] = useState<string>('');
-  const [selectedPains, setSelectedPains] = useState<string[]>([]);
-  const [paymentMethod, setPaymentMethod] = useState<'pix' | 'credit' | 'debit'>('pix');
-  const [copiedPix, setCopiedPix] = useState<boolean>(false);
+  const [selectedCategory, setSelectedCategory] = useState<string>(pending.selectedCategory || 'saude_fisica');
+  const [treatmentTitle, setTreatmentTitle] = useState<string>(pending.treatmentTitle || '');
+  const [patientDescription, setPatientDescription] = useState<string>(pending.patientDescription || '');
+  const [selectedPains, setSelectedPains] = useState<string[]>(pending.selectedPains || []);
+  const [needsLogin, setNeedsLogin] = useState(false);
   const [isProcessing, setIsProcessing] = useState<boolean>(false);
   const [showSuccessScreen, setShowSuccessScreen] = useState<boolean>(false);
   const [checkoutError, setCheckoutError] = useState<string | null>(null);
@@ -70,7 +73,7 @@ export default function SpecificTreatmentModal({
 
   if (!isOpen) return null;
 
-  // Pricing: 21 Days Complete is R$ 59,90, 7 Days is R$ 59,90, 1 Day (Sessão Única) is R$ 20,00
+  // Approved cycles: 21 days R$ 99,90; 7 days R$ 59,90; existing single session R$ 20,00.
   const parsedCustomPrice = parseFloat(customPriceInput.replace(',', '.')) || 0;
   const standardPrice = durationDays === 21 ? 99.9 : (durationDays === 7 ? 59.9 : 20.0);
   const basePrice = isCustomPrice ? Math.max(0, parsedCustomPrice) : standardPrice;
@@ -93,6 +96,8 @@ export default function SpecificTreatmentModal({
     }
 
     const knownCoupons: Record<string, number> = {
+      PROMO15: 15,
+      PROMO20: 20,
       CURA10: 10,
       PAZ10: 10,
       PAZ20: 20,
@@ -144,8 +149,8 @@ export default function SpecificTreatmentModal({
         credentials: 'same-origin',
         body: JSON.stringify({
           productType: 'specific_treatment',
-          paymentMethod,
           price: finalPrice,
+          customAmount: isCustomPrice ? Math.round(basePrice * 100) : undefined,
           durationDays,
           category: selectedCategory,
           title: treatmentTitle.trim() || undefined,
@@ -155,11 +160,13 @@ export default function SpecificTreatmentModal({
         })
       });
       const data = await response.json().catch(() => ({}));
+      if (response.status === 401) setNeedsLogin(true);
       if (!response.ok) {
         throw new Error(data.error || 'Pagamento ainda não está disponível.');
       }
 
       if (data.checkoutUrl) {
+        sessionStorage.removeItem('cura_pending_specific_checkout_v1');
         window.location.assign(data.checkoutUrl);
         return;
       }
@@ -176,19 +183,6 @@ export default function SpecificTreatmentModal({
       setCheckoutError(error instanceof Error ? error.message : 'Não foi possível iniciar o pagamento.');
     } finally {
       setIsProcessing(false);
-    }
-  };
-
-  const handleCopyPix = () => {
-    navigator.clipboard.writeText('evertonpiceni@gmail.com');
-    setCopiedPix(true);
-    setTimeout(() => setCopiedPix(false), 3500);
-  };
-
-  const handleSelectPaymentMethod = (method: 'pix' | 'credit' | 'debit') => {
-    setPaymentMethod(method);
-    if (method === 'pix') {
-      handleCopyPix();
     }
   };
 
@@ -337,7 +331,7 @@ export default function SpecificTreatmentModal({
                 <label className="text-[11px] font-mono text-[#5C5248] uppercase block">
                   Escolha o ciclo ou ajuste o valor:
                 </label>
-                <button
+                {userProfile.isAdmin && (<button
                   type="button"
                   onClick={() => {
                     setIsCustomPrice(!isCustomPrice);
@@ -349,7 +343,7 @@ export default function SpecificTreatmentModal({
                 >
                   <Sparkles size={12} />
                   <span>{isCustomPrice ? 'Usar Valores Padrão' : 'Mudar / Ajustar Valor'}</span>
-                </button>
+                </button>)}
               </div>
 
               <div className="flex flex-col gap-3">
@@ -696,10 +690,8 @@ export default function SpecificTreatmentModal({
                       {/* Quick discount buttons */}
                       <div className="flex flex-wrap items-center gap-1.5 pt-0.5">
                         {[
-                          { code: 'VIP7', label: 'VIP7 (7 Dias Grátis )', isFree: true },
-                          { code: 'CURA10', label: 'CURA10 (-10%)', isFree: false },
-                          { code: 'PAZ20', label: 'PAZ20 (-20%)', isFree: false },
-                          { code: 'PICENI50', label: 'PICENI50 (-50%)', isFree: false }
+                          { code: 'PROMO15', label: 'PROMO15 (-15%)', isFree: false },
+                          { code: 'PROMO20', label: 'PROMO20 (-20%)', isFree: false }
                         ].map((c) => (
                           <button
                             key={c.code}
@@ -751,77 +743,14 @@ export default function SpecificTreatmentModal({
                   )}
                 </div>
 
-                {/* Payment Selection */}
-                <div className="p-4 rounded-2xl bg-white border border-[#E5DAC6] space-y-4">
-                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
-                    <span className="text-xs font-mono uppercase text-[#5C5248] font-bold flex items-center gap-1.5">
-                      <span>Valor da prática:</span>
-                      {appliedCoupon ? (
-                        <div className="flex items-center gap-1">
-                          <span className="line-through text-[#85786C] text-xs font-normal">R$ 70,00</span>
-                          <span className="text-emerald-400 font-bold text-sm">{formattedFinalPrice}</span>
-                        </div>
-                      ) : (
-                        <span className="text-emerald-400">R$ 70,00</span>
-                      )}
-                    </span>
-                    <div className="flex flex-wrap items-center gap-1 bg-[#FBF8F2] p-1 rounded-xl border border-[#E5DAC6]">
-                      <button
-                        type="button"
-                        onClick={() => handleSelectPaymentMethod('pix')}
-                        className={`px-3 py-1 text-xs font-medium rounded-lg transition cursor-pointer flex items-center gap-1.5 ${
-                          paymentMethod === 'pix' ? 'bg-emerald-600 text-white shadow-sm' : 'text-[#5C5248] hover:text-[#2A2420]'
-                        }`}
-                      >
-                        <QrCode size={12} className="shrink-0" />
-                        <span>PIX</span>
-                      </button>
-                      
-                      
-                    </div>
-                  </div>
-
-                  {paymentMethod === 'pix' && (
-                    <div className="p-3 bg-[#FBF8F2]/90 border border-[#E5DAC6] rounded-xl space-y-2 text-xs">
-                      {/* Auto copy alert toast banner */}
-                      <div className="p-2 rounded-lg bg-emerald-950/60 border border-emerald-500/40 flex items-center justify-between text-xs text-emerald-300">
-                        <div className="flex items-center gap-1.5">
-                          <Sparkles size={13} className="text-emerald-400 shrink-0" />
-                          <span className="text-[11px]">
-                            {copiedPix
-                              ? 'Chave PIX copiada para sua área de transferência.'
-                              : 'Chave copiada automaticamente ao clicar no PIX.'}
-                          </span>
-                        </div>
-                        {copiedPix && (
-                          <span className="px-1.5 py-0.2 rounded bg-emerald-500/20 text-emerald-300 font-mono text-[9px] font-bold">
-                            COPIADA
-                          </span>
-                        )}
-                      </div>
-
-                      <div className="flex items-center justify-between">
-                        <span className="text-[#5C5248] text-[11px]">Chave PIX Oficial (E-mail):</span>
-                        <button
-                          type="button"
-                          onClick={handleCopyPix}
-                          className="text-[11px] font-mono text-emerald-400 hover:text-emerald-300 flex items-center gap-1 cursor-pointer"
-                        >
-                          {copiedPix ? <Check size={12} className="shrink-0" /> : <Copy size={12} className="shrink-0" />}
-                          <span>{copiedPix ? 'Copiado!' : 'Copiar Chave'}</span>
-                        </button>
-                      </div>
-                      <div className="p-2 bg-white rounded-lg font-mono text-[#2A2420] text-xs border border-[#E5DAC6] select-all break-all flex items-center justify-between">
-                        <span>evertonpiceni@gmail.com</span>
-                        <span className="text-emerald-400 font-bold font-mono text-[11px]">{formattedFinalPrice}</span>
-                      </div>
-                      <p className="text-[10px] text-[#85786C]">
-                        Após o envio do PIX de {formattedFinalPrice}, a liberação só acontece depois da confirmação segura do pagamento.
-                      </p>
-                    </div>
-                  )} 
-
+                <div className="p-4 rounded-2xl bg-white border border-[#E5DAC6] space-y-3">
+                  <div className="flex items-center justify-between text-sm"><span>Valor da prática:</span><strong>{formattedFinalPrice}</strong></div>
+                  <p className="text-xs text-[#5C5248]">Pagamento seguro pela InfinitePay. Escolha PIX ou cartão no checkout. A prática será vinculada à sua conta após a confirmação do pagamento.</p>
                 </div>
+                {needsLogin && <button type="button" onClick={() => {
+                  sessionStorage.setItem('cura_pending_specific_checkout_v1', JSON.stringify({ ownerLogin: userProfile.login || localStorage.getItem('cura_integrada_logged_in_user_v1'), durationDays, selectedCategory, treatmentTitle, patientDescription, selectedPains }));
+                  onRequireLogin?.();
+                }} className="w-full rounded-xl border border-[#B88736] p-3 text-sm font-semibold">Entrar para continuar</button>}
 
                 {checkoutError && (
                   <p role="alert" className="rounded-xl border border-rose-200 bg-rose-50 px-3 py-2 text-xs text-rose-700">

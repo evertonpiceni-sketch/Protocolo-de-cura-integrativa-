@@ -14,6 +14,7 @@ import rateLimit from "express-rate-limit";
 import { z } from "zod";
 import { getDb, saveDb, initializeDb } from "./src/db.js";
 import { normalizeBrazilianNationalPhone, toBrazilianWhatsAppNumber } from "./src/utils/phone.js";
+import { paymentRoutes } from './src/lib/paymentRoutes.js';
 import { communityRoutes } from "./src/lib/communityRoutes.js";
 import { prepareTherapeuticSSML, protocolAudioCacheKey } from './src/lib/ttsText.js';
 
@@ -65,7 +66,25 @@ export function createApp() {
   const apiLimiter = rateLimit({ windowMs: 15 * 60 * 1000, max: 100, validate: { xForwardedForHeader: false, trustProxy: false, forwardedHeader: false }, message: { error: "Limite de uso da API excedido." } });
   app.use(express.json({ limit: "1mb" })); app.use(cookieParser()); app.use('/api/', globalLimiter);
 
-  const authenticate = (req: any, res: any, next: any) => { const token = req.cookies.token; if (!token) return res.status(401).json({ error: "Não autorizado." }); try { const decoded = jwt.verify(token, EFFECTIVE_JWT_SECRET) as any; req.userId = decoded.userId; const db = getDb(); const user = db.users.find(u => u.id === req.userId); if (!user) { res.clearCookie("token"); return res.status(401).json({ error: "Usuário não encontrado." }); } req.user = user; next(); } catch { res.status(401).json({ error: "Sessão inválida ou expirada." }); } };
+  const authenticate = async (req: any, res: any, next: any) => {
+    const token = req.cookies.token;
+    if (!token) return res.status(401).json({ error: 'Não autorizado.' });
+    let decoded: any;
+    try { decoded = jwt.verify(token, EFFECTIVE_JWT_SECRET); }
+    catch { return res.status(401).json({ error: 'Sessão inválida ou expirada.' }); }
+    const user = getDb().users.find(u => u.id === decoded.userId);
+    if (!user) { res.clearCookie('token'); return res.status(401).json({ error: 'Usuário não encontrado.' }); }
+    req.userId = user.id;
+    const expiration = Date.parse(user.profile?.subscriptionExpiresAt);
+    if (user.plan === 'pro' && Number.isFinite(expiration) && expiration <= Date.now()) {
+      const previous = { plan: user.plan, profile: user.profile };
+      user.plan = 'free'; user.profile = { ...user.profile, plan: 'free', subscriptionPlan: undefined, subscriptionExpiresAt: undefined, proActiveSince: undefined };
+      try { await saveDb(); } catch { user.plan = previous.plan; user.profile = previous.profile; return res.status(503).json({ error: 'Não foi possível verificar seu acesso agora.' }); }
+    }
+    req.user = getDb().users.find(u => u.id === req.userId);
+    next();
+  };
+
   const authenticateAdmin = (req: any, res: any, next: any) => { if (!req.user || req.user.role !== 'admin') return res.status(403).json({ error: "Acesso administrativo negado." }); next(); };
   app.use('/api/community', communityRoutes(authenticate, apiLimiter));
   app.get("/api/health", (_req, res) => res.json({ status: "ok" }));
@@ -76,7 +95,7 @@ export function createApp() {
     const { login } = req.params;
     const { plan, subscriptionPlan } = req.body || {};
     const allowedPlans = new Set(["free", "pro"]);
-    const allowedSubscriptions = new Set(["teste_vip_7d", "jornada_7d", "arcanjo_7d", "semanal", "mensal", "trimestral", "semestral", "anual"]);
+    const allowedSubscriptions = new Set(["teste_vip_7d", "jornada_7d", "jornada_21d", "arcanjo_7d", "semanal", "mensal", "trimestral", "semestral", "anual"]);
     if (!allowedPlans.has(plan)) return res.status(400).json({ error: "Plano inválido." });
     if (subscriptionPlan != null && !allowedSubscriptions.has(subscriptionPlan)) return res.status(400).json({ error: "Assinatura inválida." });
     const user = db.users.find(u => u.login === login);
@@ -105,9 +124,8 @@ export function createApp() {
   app.post("/api/auth/login", authLimiter, async (req, res) => { try { const { login, password } = loginSchema.parse(req.body); const normalizedLogin = login.trim().toLowerCase(); const db = getDb(); const user = db.users.find(u => u.login === normalizedLogin || (u.email && u.email.toLowerCase() === normalizedLogin)); if (!user || !(await bcrypt.compare(password, user.password))) return res.status(400).json({ error: "Credenciais inválidas." }); const token = jwt.sign({ userId: user.id }, EFFECTIVE_JWT_SECRET, { expiresIn: '7d' }); res.cookie("token", token, { httpOnly: true, secure: process.env.NODE_ENV === "production", sameSite: "lax" }); const { password: _, ...userWithoutPassword } = user; return res.json({ user: userWithoutPassword }); } catch { return res.status(400).json({ error: "Dados de login inválidos." }); } });
   app.post("/api/auth/logout", (req, res) => { res.clearCookie("token"); res.json({ success: true }); });
   app.get("/api/auth/me", authenticate, (req: any, res: any) => { const db = getDb(); const user = db.users.find(u => u.id === req.userId); if (!user) return res.status(404).json({ error: "Usuário não encontrado." }); const { password: _, ...userWithoutPassword } = user; res.json({ user: userWithoutPassword }); });
-  app.post("/api/user/sync", authenticate, async (req: any, res: any) => { const db = getDb(); const userIndex = db.users.findIndex(u => u.id === req.userId); if (userIndex === -1) return res.status(404).json({ error: "Usuário não encontrado." }); const { profile, progress } = req.body; if (profile) { const currentProfile = db.users[userIndex].profile || {}; db.users[userIndex].profile = { ...currentProfile, ...profile, plan: db.users[userIndex].plan, subscriptionPlan: currentProfile.subscriptionPlan, subscriptionExpiresAt: currentProfile.subscriptionExpiresAt, proActiveSince: currentProfile.proActiveSince, trial7dRedeemedAt: currentProfile.trial7dRedeemedAt, numerologyPurchased: currentProfile.numerologyPurchased, specificTreatments: currentProfile.specificTreatments }; } if (progress) db.users[userIndex].progress = progress; try { await saveDb(); return res.json({ success: true }); } catch (err) { console.error("Error syncing user:", err); return res.status(503).json({ error: "Não foi possível salvar o perfil agora.", code: "PERSISTENCE_UNAVAILABLE" }); } });
-  app.post("/api/payment/create-checkout", authenticate, apiLimiter, (_req: any, res: any) => res.status(503).json({ error: "Pagamento ainda não está configurado." }));
-  app.post("/api/webhooks/payment", express.raw({ type: "application/json" }), (_req: any, res: any) => res.status(503).json({ error: "Webhook de pagamento ainda não está configurado." }));
+  app.post("/api/user/sync", authenticate, async (req: any, res: any) => { const db = getDb(); const userIndex = db.users.findIndex(u => u.id === req.userId); if (userIndex === -1) return res.status(404).json({ error: "Usuário não encontrado." }); const { profile, progress } = req.body; if (profile) { const currentProfile = db.users[userIndex].profile || {}; db.users[userIndex].profile = { ...currentProfile, ...profile, plan: db.users[userIndex].plan, subscriptionPlan: currentProfile.subscriptionPlan, subscriptionExpiresAt: currentProfile.subscriptionExpiresAt, subscriptionPrice: currentProfile.subscriptionPrice, subscriptionPaymentMethod: currentProfile.subscriptionPaymentMethod, proActiveSince: currentProfile.proActiveSince, trial7dRedeemedAt: currentProfile.trial7dRedeemedAt, numerologyPurchased: currentProfile.numerologyPurchased, specificTreatments: currentProfile.specificTreatments, paymentOrders: currentProfile.paymentOrders }; } if (progress) db.users[userIndex].progress = progress; try { await saveDb(); return res.json({ success: true }); } catch (err) { console.error("Error syncing user:", err); return res.status(503).json({ error: "Não foi possível salvar o perfil agora.", code: "PERSISTENCE_UNAVAILABLE" }); } });
+  app.use('/api', paymentRoutes(authenticate, apiLimiter));
 
   app.post("/api/anamnese", authenticate, apiLimiter, handleProcessAnamnese); app.post("/api/anamnesis", authenticate, apiLimiter, handleProcessAnamnese);
   async function handleProcessAnamnese(req: any, res: any) { try { const db = getDb(); const user = db.users.find(u => u.id === req.userId); if (!user) return res.status(401).json({ error: "Não autorizado" }); const { anamnesis } = req.body; const isPremium = user.plan === "pro"; if (!anamnesis) return res.status(400).json({ error: "Dados de anamnese ausentes." }); const ai = getGemini(); if (!ai) return res.json({ status: "success", treatmentTitle: "Reequilíbrio Inicial", summaryDiagnosis: "Análise baseada nos dados fornecidos.", therapeuticRationale: "Aguardando conexão com IA.", primaryChakraFocus: "Básico", planName: isPremium ? "Plano PRO 21 Dias" : "Plano Gratuito 7 Dias", frequencyLabel: "528Hz", severityLevel: "moderado", flowerRemedy: isPremium ? "Rescue Remedy" : "", essentialOil: isPremium ? "Lavanda" : "", flowerRemedyDescription: "Harmonização inicial.", essentialOilDescription: "Calmante.", premiumBlocked: !isPremium, disclaimer: "Nota Terapêutica: As sugestões atuam como práticas integrativas. Não substituem tratamento médico." }); const prompt = `Analise os dados de anamnese e forneça recomendações integrativas e de bem-estar. Não faça diagnósticos médicos, e não prescreva tratamentos médicos. Apresente como práticas de relaxamento e autocuidado. Queixas: ${anamnesis.mainComplaints?.join(', ')} Estresse: ${anamnesis.stressLevel} Relato: ${anamnesis.personalReport} Premium: ${isPremium} Retorne APENAS um JSON válido com os seguintes campos: treatmentTitle, summaryDiagnosis, therapeuticRationale, primaryChakraFocus, planName, frequencyLabel, severityLevel (baixo, moderado, alto), flowerRemedy (apenas se Premium, senão string vazia), essentialOil (apenas se Premium), flowerRemedyDescription, essentialOilDescription.`; const response = await ai.models.generateContent({ model: "gemini-2.5-flash", contents: prompt, config: { responseMimeType: "application/json" } }); let parsed: any = {}; try { parsed = JSON.parse(response.text || "{}"); } catch { return res.status(500).json({ error: "Erro ao processar dados da IA." }); } parsed = isPremium ? { ...parsed, premiumBlocked: false } : { ...parsed, flowerRemedy: "", essentialOil: "", premiumBlocked: true }; const disclaimer = "Nota Terapêutica: O Protocolo de Cura Integrada e as sugestões de Florais de Bach e Óleos Essenciais atuam como práticas integrativas e de bem-estar. Eles não substituem, sob nenhuma hipótese, o diagnóstico, tratamento ou acompanhamento médico, psiquiátrico ou psicológico tradicional. Mantenha seus tratamentos de saúde ativos."; return res.json({ status: "success", ...parsed, disclaimer }); } catch (err) { console.error(err); return res.status(500).json({ error: "Erro interno ao processar anamnese." }); } }

@@ -401,3 +401,19 @@
 :root[data-layout="natural-sereno"] #daily-diary-modal > div > .shrink-0 > div:first-child { padding-right: 48px !important; align-items: flex-start !important; }
 :root[data-layout="natural-sereno"] #daily-diary-modal > div > .shrink-0 > div:first-child > div { min-width: 0; max-width: 100%; }
 :root[data-layout="natural-sereno"] #daily-diary-modal > div > .shrink-0 .inline-flex { max-width: 100%; font-size: 10px; white-space: normal; }
+
+/* Protocol checkout uses the approved neutral surfaces, with restrained gold. */
+:root[data-layout="natural-sereno"] :is(#plans-modal, #plans-values-guide-modal, #specific-treatment-modal) { color: #26372a; }
+:root[data-layout="natural-sereno"] #plans-modal,
+:root[data-layout="natural-sereno"] #plans-modal > div,
+:root[data-layout="natural-sereno"] #plans-modal header { background: #f8f4ec; }
+:root[data-layout="natural-sereno"] :is(#plans-modal, #plans-values-guide-modal) [class*="bg-[#FFF6D9]"],
+:root[data-layout="natural-sereno"] :is(#plans-modal, #plans-values-guide-modal) [class*="from-[#FFF6D9]"] { background: #fffdf8; }
+:root[data-layout="natural-sereno"] #plans-modal button[class*="bg-[#073B2B]"] { background: linear-gradient(180deg,#e4d3aa,#bc9a54); color: #073b2b; border: 1px solid #b59758; box-shadow: 0 3px 10px rgba(38,55,42,.08); }
+:root[data-layout="natural-sereno"] :is(#plans-values-guide-modal, #specific-treatment-modal) > div { background: #f8f4ec; }
+:root[data-layout="natural-sereno"] #specific-treatment-modal > div > .absolute { display: none; }
+:root[data-layout="natural-sereno"] #specific-treatment-modal :is(.text-emerald-300,.text-emerald-400,.text-amber-300) { color: #47634b; }
+:root[data-layout="natural-sereno"] #specific-treatment-modal [class*="bg-gradient"]:not(.pointer-events-none) { background: #fffdf8 !important; border-color: #dfd4c3 !important; }
+:root[data-layout="natural-sereno"] #specific-treatment-modal .relative > img + [class*="bg-gradient"] { background: linear-gradient(0deg,rgba(248,244,236,.94),rgba(248,244,236,.08) 80%) !important; }
+:root[data-layout="natural-sereno"] #specific-treatment-modal :is([class*="bg-amber-950/40"],[class*="bg-emerald-950/40"],[class*="bg-emerald-950/50"]) { background: #edf0e8 !important; border-color: #87937d !important; box-shadow: 0 2px 8px rgba(38,55,42,.06) !important; }
+:root[data-layout="natural-sereno"] #specific-treatment-modal [class*="bg-amber-400"] { background: #e9dfcb !important; color: #43503d !important; }
