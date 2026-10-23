@@ -32,11 +32,21 @@ Branch: `integracao-infinitepay-protocolo`, base `94bae32`. Etapa técnica local
 
 ## Bloqueios externos e próximos passos obrigatórios
 
-- A política efetiva deste ambiente não permite `api.checkout.infinitepay.io` (CONNECT 403). A inclusão do domínio foi salva em rascunho de configuração, mas ainda precisa ser revisada/publicada nas configurações do ambiente. Não se utilizou endpoint legado para contornar o bloqueio.
+- Inicialmente `api.checkout.infinitepay.io` falhou com CONNECT 403. Em nova tentativa o domínio respondeu normalmente; foi possível validar criação real de checkout, descrita abaixo. Persistem CONNECT 403 no domínio da prévia e falha de transporte em recurso necessário do checkout hospedado. Não se usou endpoint legado para contornar o bloqueio.
 - Sem credenciais/conector Vercel, não foi possível conferir ou alterar variáveis reais Preview/Production. Confirmar `INFINITEPAY_HANDLE=evertonterapeutareiki`, `PUBLIC_APP_URL`/`APP_URL` do ambiente correto, JWT_SECRET estável e persistência Upstash. O contrato público adotado não usa API key; ausência dela não é tomada isoladamente como causa do erro.
 - O erro relatado “conta não cadastrada” tem uma causa possível concreta corrigida (omissão de handle). O reconhecimento real da conta precisa ser confirmado pelo provedor. Não trocar o destinatário por hipótese.
 - Um checkout legado previamente emitido abriu “Página não encontrada”; isso não comprova que a InfiniteTag esteja errada. Validar novo link no contrato atual.
-- Validar preview efetivamente publicado antes de qualquer consolidação em produção. Conferir cookie/sessão no domínio real e no retorno InfinitePay.
+- GitHub/Vercel confirmou deployment Preview do commit `e145f31` com status success. URL fornecida pelo próprio status do deployment: `https://protocolodecuraintegrativa-9bmp3a9xd-evertonpiceni-sketch.vercel.app`. GET da prévia, health e sessão foram bloqueados pela rede deste ambiente (CONNECT 403), portanto a prévia não foi validada por HTTP/navegador. Conferir cookie/sessão no domínio real e no retorno InfinitePay antes de produção.
 - Completar transações controladas PIX/cartão, parcelamento até 12x conforme conta InfinitePay, retorno, webhook/payment_check, valor, produto e expiração gravada. Testar atraso e repetição do webhook. Nenhum destes testes reais foi declarado aprovado.
 
 Seguir `docs/DECISOES_VIGENTES_2026-10-23.md`. Estilos 2/3/4, áudio e demais etapas do Relatório-Mestre continuam pendentes; Mini Diagnóstico permanece fora do escopo.
+
+## Atualização: criação real no provedor
+
+Após o push, a API atual ficou acessível. Um servidor local com as rotas reais, autenticação HTTP e banco de auditoria isolado criou um pedido de jornada de 7 dias com PROMO20. A requisição de saída foi encaminhada à API real por transporte HTTPS com certificado verificado: `/api/payment/create-checkout` retornou 200 e a InfinitePay devolveu URL oficial em `checkout.infinitepay.io/evertonterapeutareiki`. Valor enviado: 4792 centavos. Nenhuma cobrança foi realizada.
+
+O pedido está em banco local de auditoria, separado de usuários reais. O link não deve ser pago, pois o callback público não tem acesso a esse banco local. Isso valida autenticação → preço no servidor → pedido persistido → criação real de link; não valida pagamento → webhook → acesso em produção. O link completo não foi publicado neste relatório.
+
+A tentativa de abrir o checkout com recursos HTTPS reais não pôde validar o formulário: a página depende de `infinitepay-invoice-api.services.production.infinitepay.io`, cuja requisição falhou neste ambiente. A mensagem “Página não encontrada” nessa captura incompleta não comprova conta inválida. Não considerar o formulário hospedado aprovado.
+
+Próximo passo obrigatório: permitir acesso à prévia e aos recursos normais da InfinitePay, conferir variáveis Preview/Production com acesso autenticado à Vercel, gerar checkout ligado ao banco do domínio de teste e completar pagamento controlado com retorno, webhook/payment_check e expiração. Produção e `main` permanecem inalterados por esta entrega.
