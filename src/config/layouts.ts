@@ -12,7 +12,7 @@ export interface LayoutDefinition {
   tone: 'light' | 'dark';
 }
 
-export const DEFAULT_LAYOUT: LayoutId = 'natural-sereno';
+export const DEFAULT_LAYOUT: LayoutId = 'mistico-moderno';
 
 export const OFFICIAL_LAYOUTS: LayoutDefinition[] = [
   {

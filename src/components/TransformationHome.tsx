@@ -60,7 +60,7 @@ export default function TransformationHome(props: TransformationHomeProps) {
     void audioEngine.speakWithElevenLabsOrFallback(text, 1, () => setIsSpeaking(true), () => setIsSpeaking(false), undefined, undefined, { voiceId: 'Marcus', stability: .5, similarityBoost: .78, userName: props.userName, enableBreathingPauses: true, preferElevenLabs: true, lang: 'pt-BR', rate: .82, pitch: .92 });
   };
 
-  if (props.visualLayout === 'natural-sereno') {
+  if (props.visualLayout === 'natural-sereno' || props.visualLayout === 'mistico-moderno') {
     return <NaturalSerenoHome
       {...props}
       firstName={firstName}
