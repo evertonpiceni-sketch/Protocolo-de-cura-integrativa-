@@ -34,3 +34,9 @@ Player principal: `PLAYER_QA_FONTS=/tmp/player-audit-fonts JORNADA_QA_URL=http:/
 Players adicionais: `node scripts/audit-extra-players.cjs`. Todos esses scripts usam dados sintéticos e mídia de teste. Não simulam sucesso financeiro na aplicação publicada.
 
 Compilação validada: index-BSfVmHdN.js, index-V3LUpK_S.css.
+
+## Implantação ainda pendente
+
+A implementação foi enviada ao `main` em `95684e0`. Na conferência após o push, o endereço público respondeu HTTP 200, mas continuou servindo os assets anteriores `index-7fZdwNcS.js` / `index-5Cu-5DaH.css`. A nova rota `/api/payment/confirm` respondeu 404 em produção; na versão corrigida, uma chamada sem sessão recebe 401. Portanto, as correções estão no GitHub e validadas localmente, mas **não foi confirmada sua implantação no site público**. [Verificação](production-status.json).
+
+Não há credencial Vercel nem configuração local do projeto neste ambiente. O acesso à API de status do GitHub retornou Forbidden, e não há ferramenta de deploy Vercel conectada. Para concluir, é necessário executar o deploy do `main` no painel Vercel e verificar a abertura do checkout na versão implantada. Como alternativa para permitir a implantação por esta sessão, foi salva no rascunho a exigência `VERCEL_TOKEN`, a ser preenchida somente nas configurações seguras do ambiente, junto dos domínios necessários. Nenhum valor secreto foi solicitado em chat. O rascunho precisa ser revisado/salvo e o ambiente publicado para ativar a configuração; isso não publica automaticamente o aplicativo.

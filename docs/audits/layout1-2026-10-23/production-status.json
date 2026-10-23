@@ -1,0 +1,14 @@
+{
+  "url": "https://protocolo-de-cura-integrativa.vercel.app/",
+  "http": 200,
+  "assets": [
+    "index-7fZdwNcS.js",
+    "index-5Cu-5DaH.css"
+  ],
+  "expectedAssets": [
+    "index-BSfVmHdN.js",
+    "index-V3LUpK_S.css"
+  ],
+  "updated": false,
+  "confirmRouteUnauthenticatedStatus": 404
+}
