@@ -4,7 +4,7 @@ import { getDb, saveDb } from '../db.js';
 
 import { PAYMENT_PLANS, paymentQuote, type Plan } from './paymentCatalog.js';
 export type PaymentOrder = { id: string; userId: string; planId: Plan; treatment?: import('../types.js').SpecificTreatment; cents: number; method: string; createdAt: string; paidAt?: string; transaction?: string };
-const API = 'https://api.infinitepay.io/invoices/public/checkout';
+const API = 'https://api.checkout.infinitepay.io';
 export function paymentRoutes(authenticate: any, limiter: any, providerFetch: typeof fetch = fetch) {
   const router = Router();
   const handle = () => process.env.INFINITEPAY_HANDLE || 'evertonterapeutareiki';
@@ -14,7 +14,7 @@ export function paymentRoutes(authenticate: any, limiter: any, providerFetch: ty
     return url.origin;
   };
   async function provider(path: string, body: unknown) {
-    const response = await providerFetch(API + path, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body), signal: AbortSignal.timeout(15000) });
+    const response = await providerFetch(API + path, { method: 'POST', headers: { 'Content-Type': 'application/json', ...(process.env.INFINITEPAY_API_KEY ? { 'X-Api-Key': process.env.INFINITEPAY_API_KEY } : {}) }, body: JSON.stringify(body), signal: AbortSignal.timeout(15000) });
     if (!response.ok) throw new Error('O provedor não conseguiu processar o pagamento agora.');
     return response.json();
   }

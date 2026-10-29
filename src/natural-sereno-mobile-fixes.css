@@ -411,8 +411,6 @@
   :root[data-layout="natural-sereno"] .ns-welcome-content { max-width: 920px; margin-inline: auto; }
   :root[data-layout="natural-sereno"]:has(.ns-app) #floating-whatsapp-btn { right: 16px !important; }
 }
-:root[data-layout="natural-sereno"] [data-ns-pix-card] { background: #f6efd9; border-color: #d8caa9; box-shadow: 0 3px 12px rgba(38,55,42,.07); }
-:root[data-layout="natural-sereno"] [data-ns-pix-card] :is(span,strong,svg) { color: #073b2b; }
 :root[data-layout="natural-sereno"] #plans-modal button[class*="bg-[#073B2B]"] { background: linear-gradient(180deg,#ead394,#c49b42 35%,#b68b36); color: #073b2b; border-color: #b68b36; }
 .ep-reintegration-running { overflow-x: clip; overflow-y: auto; }
 @media (max-width: 899px) and (max-height: 700px) {
@@ -440,3 +438,17 @@
 }
 :root[data-layout="natural-sereno"] .ns-home-scene > .ns-gold { color: #073b2b; }
 :root[data-layout="natural-sereno"] .ep-home-has-anamnesis .ns-current-day > svg { color: #073b2b !important; }
+/* Plans use the approved Natural Sereno palette; benefits live in each card. */
+:root[data-layout="natural-sereno"] #plans-values-guide-modal > div { background: var(--layout-canvas); border-color: var(--layout-border); }
+:root[data-layout="natural-sereno"] #plans-values-guide-modal [class*="bg-[#F7E5AA]"] { background: var(--layout-card-subtle); color: var(--layout-text-secondary); border-color: var(--layout-border); }
+:root[data-layout="natural-sereno"] #plans-values-guide-modal [class*="text-[#8A6727]"] { color: var(--layout-text-secondary); }
+:root[data-layout="natural-sereno"] #plans-values-guide-modal [class*="bg-[#2D4A3E]"] { background: var(--layout-canvas-alt); color: var(--layout-text); border: 1px solid var(--layout-border); box-shadow: none; }
+:root[data-layout="natural-sereno"] #plans-values-guide-modal button[class*="bg-[#2D4A3E]"]:hover { background: var(--layout-input); }
+:root[data-layout="natural-sereno"] #plans-values-guide-modal strong { color: var(--layout-text); }
+:root[data-layout="natural-sereno"] #plans-modal > div,
+:root[data-layout="natural-sereno"] #plans-modal header { background: var(--layout-canvas); color: var(--layout-text); }
+:root[data-layout="natural-sereno"] #plans-modal button[class*="bg-[#073B2B]"],
+:root[data-layout="natural-sereno"] #plans-modal button[class*="bg-[#F7E5AA]"],
+:root[data-layout="natural-sereno"] #plans-modal [class*="bg-[#FFF9E8]"],
+:root[data-layout="natural-sereno"] #plans-modal article { background: var(--layout-card-subtle); color: var(--layout-text); border-color: var(--layout-border); box-shadow: none; }
+:root[data-layout="natural-sereno"] #plans-modal [class*="text-[#073B2B]"] { color: var(--layout-text); }

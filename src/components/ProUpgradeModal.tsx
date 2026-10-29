@@ -10,6 +10,7 @@ import { UserProfile, SubscriptionPlanType } from '../types';
 
 interface ProUpgradeModalProps {
   isOpen: boolean;
+  initialPlanId?: SubscriptionPlanType;
   onClose: () => void;
   userProfile: UserProfile;
   onUpgradeSuccess: (plan: SubscriptionPlanType, paymentMethod: 'pix' | 'card', price: number, couponCode?: string) => boolean | void | Promise<boolean | void>;
@@ -40,7 +41,7 @@ const PLANS: PlanItem[] = [
   {
     id: 'jornada_7d',
     title: 'Acesso avulso — 7 dias',
-    price: 15,
+    price: 29.9,
     period: 'acesso 7 dias',
     badge: 'Opção avulsa',
     summary: ['Anamnese Compacta incluída', '7 dias de acesso', 'Anamnese Completa opcional por R$ 15'],
@@ -118,8 +119,8 @@ const COUPONS: Record<string, { discount: number; vip?: boolean }> = {
 
 const money = (value: number) => `R$ ${value.toFixed(2).replace('.', ',')}`;
 
-export default function ProUpgradeModal({ isOpen, onClose, onUpgradeSuccess }: ProUpgradeModalProps) {
-  const [selectedId, setSelectedId] = useState<SubscriptionPlanType>('trimestral');
+export default function ProUpgradeModal({ isOpen, onClose, onUpgradeSuccess, initialPlanId }: ProUpgradeModalProps) {
+  const [selectedId, setSelectedId] = useState<SubscriptionPlanType>(initialPlanId || 'trimestral');
   const [expandedId, setExpandedId] = useState<SubscriptionPlanType | null>(null);
   const [coupon, setCoupon] = useState('');
   const [appliedCoupon, setAppliedCoupon] = useState<string | null>(null);
@@ -174,8 +175,8 @@ export default function ProUpgradeModal({ isOpen, onClose, onUpgradeSuccess }: P
     }
   };
 
-  const plans = PLANS.filter(plan => plan.id !== 'jornada_7d');
-  const standalone = PLANS.filter(plan => plan.id === 'jornada_7d');
+  const plans = initialPlanId ? [] : PLANS.filter(plan => plan.id !== 'jornada_7d');
+  const standalone = initialPlanId ? [] : PLANS.filter(plan => plan.id === 'jornada_7d');
 
   return (
     <div ref={dialogRef} id="plans-modal" role="dialog" aria-modal="true" aria-labelledby="plans-title" className="fixed inset-0 z-[100] bg-[#1F2E27]/35 backdrop-blur-xl overflow-y-auto">
@@ -191,13 +192,13 @@ export default function ProUpgradeModal({ isOpen, onClose, onUpgradeSuccess }: P
         </header>
 
         <main className="max-w-6xl mx-auto px-4 py-8 space-y-10">
-          <section className="text-center max-w-2xl mx-auto">
+          {!initialPlanId && <section className="text-center max-w-2xl mx-auto">
             <Sparkles className="mx-auto text-[#B88736] mb-3" size={24} />
             <h1 className="font-serif text-3xl md:text-5xl text-[#26372A]">Escolha o formato que combina com o seu momento</h1>
             <p className="mt-3 text-sm md:text-base text-[#5F6857]">Aqui você escolhe sua forma de acesso. A Anamnese Compacta orienta o próximo passo e, depois do resultado, a escolha do protocolo continua sendo sua.</p>
-          </section>
+          </section>}
 
-          <section>
+          {!initialPlanId && <section>
             <div className="mb-4">
               <h3 className="font-serif text-2xl text-[#26372A]">Acesso avulso</h3>
               <p className="text-sm text-[#5F6857]">Acesso por período definido, com Anamnese Compacta incluída. O protocolo é escolhido depois da orientação.</p>
@@ -207,9 +208,9 @@ export default function ProUpgradeModal({ isOpen, onClose, onUpgradeSuccess }: P
                 <PlanCard key={plan.id} plan={plan} expanded={expandedId === plan.id} onToggle={() => setExpandedId(expandedId === plan.id ? null : plan.id)} onChoose={() => choosePlan(plan)} />
               ))}
             </div>
-          </section>
+          </section>}
 
-          <section>
+          {!initialPlanId && <section>
             <div className="mb-4 flex items-end justify-between gap-4">
               <div>
                 <div className="flex items-center gap-2"><Crown className="text-[#B88736]" size={22} /><h3 className="font-serif text-2xl text-[#26372A]">Planos</h3></div>
@@ -221,7 +222,7 @@ export default function ProUpgradeModal({ isOpen, onClose, onUpgradeSuccess }: P
                 <PlanCard key={plan.id} plan={plan} expanded={expandedId === plan.id} onToggle={() => setExpandedId(expandedId === plan.id ? null : plan.id)} onChoose={() => choosePlan(plan)} />
               ))}
             </div>
-          </section>
+          </section>}
 
           <section id="checkout-planos" className="max-w-2xl mx-auto rounded-3xl border border-[#D8B867]/30 bg-white/80 p-5 md:p-7 shadow-xl shadow-[#6A5425]/10">
             <div className="flex items-center justify-between gap-4 mb-5">
