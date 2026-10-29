@@ -6,6 +6,7 @@ import './approved-theme.css';
 import './natural-sereno.css';
 import './natural-sereno-refinement.css';
 import './natural-sereno-mobile-fixes.css';
+import './natural-sereno-approved-overrides.css';
 import './lib/authStartupResiliencePatch';
 import './lib/startupUiResiliencePatch';
 import './lib/audioIntegrityPatch';
