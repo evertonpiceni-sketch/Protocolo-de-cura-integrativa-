@@ -1,4 +1,4 @@
-const CORE_BENEFIT_TEXT = 'Anamnese Energética + Diário de desabafo incluídos';
+
 
 const normalize = (value: string) => value
   .normalize('NFD')
@@ -35,37 +35,11 @@ const unlockCoreControl = (element: Element) => {
   element.dataset.coreAccess = 'universal';
 };
 
-const addCoreBenefitToPlanCard = (card: Element) => {
-  if (card.querySelector('[data-universal-core-benefit="true"]')) return;
-
-  const marker = document.createElement('div');
-  marker.dataset.universalCoreBenefit = 'true';
-  marker.className = 'mt-3 rounded-xl border border-[#B88736]/25 bg-[#B88736]/8 px-3 py-2 text-[11px] font-semibold leading-5 text-[#8F631E]';
-  marker.textContent = CORE_BENEFIT_TEXT;
-  card.appendChild(marker);
-};
-
-const patchPlanPresentation = (root: ParentNode) => {
-  const planRoots = [
-    root.querySelector?.('#plans-modal'),
-    root.querySelector?.('#plans-values-guide-modal')
-  ].filter(Boolean) as Element[];
-
-  for (const planRoot of planRoots) {
-    const candidates = Array.from(planRoot.querySelectorAll('article, [class*="rounded-3xl"], [class*="rounded-2xl"]'));
-    for (const candidate of candidates) {
-      const text = normalize(candidate.textContent || '');
-      const looksLikePlan = /r\$|jornada|plano|tratamento|pro mensal|pro trimestral|pro semestral|pro anual/.test(text);
-      if (looksLikePlan && candidate.querySelector('button')) addCoreBenefitToPlanCard(candidate);
-    }
-  }
-};
-
 const applyUniversalCoreAccess = () => {
   document.documentElement.dataset.anamnesisDiaryAccess = 'universal';
 
   document.querySelectorAll('button, a').forEach(unlockCoreControl);
-  patchPlanPresentation(document);
+
 };
 
 if (typeof window !== 'undefined' && typeof document !== 'undefined') {

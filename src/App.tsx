@@ -5,7 +5,7 @@
 
 import React, { useState, useEffect, useRef } from 'react';
 import { Sparkles, Calendar, BookOpen, Volume2, VolumeX, User, RefreshCw, Compass, Heart, Award, Info, X, Play, Clock, Smile, LogOut, Crown, Star, Check, Mic, Sliders, Activity, FileText, Globe, MessageCircle, Phone, Smartphone, Download, Leaf, Bell, Headphones, Video } from 'lucide-react';
-import { DayProgress, UserProfile, UserAccount, DAILY_INSIGHTS, JOURNEY_7D_INSIGHTS, PROTOCOL_STAGES, AnamnesisData, SpecificTreatment, SessionCheckIn, JourneyType } from './types';
+import { DayProgress, SubscriptionPlanType, UserProfile, UserAccount, DAILY_INSIGHTS, JOURNEY_7D_INSIGHTS, PROTOCOL_STAGES, AnamnesisData, SpecificTreatment, SessionCheckIn, JourneyType } from './types';
 import ProfileSetup from './components/ProfileSetup';
 import MeditationSession from './components/MeditationSession';
 import JournalLog from './components/JournalLog';
@@ -92,6 +92,7 @@ export default function App() {
   const [isJournalOpen, setIsJournalOpen] = useState<boolean>(false);
   const [selectedDayDetail, setSelectedDayDetail] = useState<number | null>(null);
   const [showSettings, setShowSettings] = useState<boolean>(false);
+  const [checkoutPlanId, setCheckoutPlanId] = useState<SubscriptionPlanType | undefined>();
   const [showProModal, setShowProModal] = useState<boolean>(false);
   const [showCertificateModal, setShowCertificateModal] = useState<boolean>(false);
   const [showAnamnesisModal, setShowAnamnesisModal] = useState<boolean>(false);
@@ -472,6 +473,7 @@ export default function App() {
 
   // Profile Onboarding complete (Register or Login complete)
   const handleOnboardingComplete = (account: UserAccount) => {
+    setIsLoggedIn(true);
     localStorage.setItem(LOCAL_STORAGE_KEY_CURRENT_LOGIN, account.login);
     try {
       const rawAccounts = localStorage.getItem(LOCAL_STORAGE_KEY_ACCOUNTS);
@@ -2173,11 +2175,17 @@ export default function App() {
       {showProModal && (
         <ProUpgradeModal
           isOpen={showProModal}
-          onClose={() => setShowProModal(false)}
+          initialPlanId={checkoutPlanId}
+          onClose={() => { setShowProModal(false); setCheckoutPlanId(undefined); }}
           userProfile={userProfile}
           onUpgradeSuccess={async (plan, paymentMethod, price, couponCode) => {
             if (!isLoggedIn) {
-              throw new Error('Entre na sua conta para iniciar uma compra ou ativar a degustação.');
+              const session = await fetch('/api/auth/me', { credentials: 'same-origin' });
+              if (session.status === 401) {
+                throw new Error('Sua sessão expirou. Entre novamente para continuar com o plano escolhido.');
+              }
+              if (!session.ok) throw new Error('Não foi possível verificar sua sessão agora. Tente novamente em instantes.');
+              setIsLoggedIn(true);
             }
 
             if (plan === 'teste_vip_7d') {
@@ -2294,7 +2302,8 @@ export default function App() {
         <PlansValuesGuideModal
           isOpen={showPlansGuideModal}
           onClose={() => setShowPlansGuideModal(false)}
-          onOpenProModal={() => {
+          onOpenProModal={(planId) => {
+            setCheckoutPlanId(planId as SubscriptionPlanType);
             setShowPlansGuideModal(false);
             setShowProModal(true);
           }}
