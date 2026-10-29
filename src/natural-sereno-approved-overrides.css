@@ -1,0 +1,24 @@
+/* Approved, minimal overrides for Estilo 1 — Natural Sereno.
+   Keep this file small and loaded after legacy refinement/mobile layers.
+   It exists only to restore frozen decisions without rewriting approved screens. */
+
+/* Logo oficial: assinatura visual discreta; nunca elemento dominante. */
+:root[data-layout="natural-sereno"] #main-header .ep-brand-signature-wrap {
+  opacity: .48 !important;
+}
+
+:root[data-layout="natural-sereno"] #main-header .ep-brand-signature {
+  opacity: 1 !important;
+  filter: none !important;
+}
+
+#profile-setup-view.ep-auth-style-one #onboarding-card .ep-brand-signature-wrap {
+  width: 84px;
+  height: 84px;
+  opacity: .38 !important;
+}
+
+#profile-setup-view.ep-auth-style-one #onboarding-card .ep-brand-signature {
+  opacity: 1 !important;
+  filter: none !important;
+}
