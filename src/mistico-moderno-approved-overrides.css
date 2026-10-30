@@ -1,0 +1,58 @@
+/* Estilo 4 — Místico Moderno
+   Correções finais isoladas. Mantém o modelo aprovado e impede heranças visuais
+   das camadas legadas/Natural Sereno carregadas anteriormente. */
+
+:root[data-layout="mistico-moderno"] body::before{
+  background:
+    radial-gradient(ellipse at -8% 24%,rgba(108,63,160,.12),transparent 24%),
+    radial-gradient(ellipse at 108% 34%,rgba(212,175,55,.08),transparent 24%);
+}
+
+:root[data-layout="mistico-moderno"] #main-header{
+  background:var(--bg-card)!important;
+  border-color:var(--border-subtle)!important;
+  box-shadow:0 10px 30px rgba(0,0,0,.24)!important;
+}
+
+:root[data-layout="mistico-moderno"] #main-header [class*="bg-slate"],
+:root[data-layout="mistico-moderno"] #main-header [class*="bg-indigo"]{
+  background:var(--bg-card-subtle)!important;
+  border-color:var(--border-subtle)!important;
+}
+
+:root[data-layout="mistico-moderno"] .ep-home-hero,
+:root[data-layout="mistico-moderno"] .ep-home>section,
+:root[data-layout="mistico-moderno"] .ep-forest-panel,
+:root[data-layout="mistico-moderno"] .ep-premium-surface,
+:root[data-layout="mistico-moderno"] .ep-luxury-card{
+  background:
+    radial-gradient(circle at 50% 0,rgba(108,63,160,.13),transparent 22rem),
+    var(--bg-card)!important;
+  border-color:var(--border-card)!important;
+  box-shadow:0 18px 48px rgba(0,0,0,.24),inset 0 1px 0 rgba(255,255,255,.05)!important;
+}
+
+:root[data-layout="mistico-moderno"] .ep-home [class*="bg-[#FBF8F2]"],
+:root[data-layout="mistico-moderno"] .ep-home [class*="bg-[#062f21]"],
+:root[data-layout="mistico-moderno"] .ep-home [class*="bg-[#073426]"],
+:root[data-layout="mistico-moderno"] .ep-home [class*="bg-[#0a412d]"],
+:root[data-layout="mistico-moderno"] .ep-home [class*="from-[#315f49]"]{
+  background:var(--bg-card-subtle)!important;
+  border-color:var(--border-subtle)!important;
+}
+
+:root[data-layout="mistico-moderno"] .ep-gold-button,
+:root[data-layout="mistico-moderno"] .ep-gold-action{
+  background:var(--gold-gradient)!important;
+  border-color:var(--gold-border)!important;
+  box-shadow:0 12px 28px var(--gold-shadow)!important;
+}
+
+:root[data-layout="mistico-moderno"] body,
+:root[data-layout="mistico-moderno"] button,
+:root[data-layout="mistico-moderno"] input,
+:root[data-layout="mistico-moderno"] textarea,
+:root[data-layout="mistico-moderno"] select{
+  -webkit-font-smoothing:antialiased;
+  text-rendering:optimizeLegibility;
+}
