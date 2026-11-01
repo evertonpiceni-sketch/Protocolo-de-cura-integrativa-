@@ -95,6 +95,39 @@
   outline-offset: 2px;
 }
 
+/* Bottom navigation had legacy emerald/purple/indigo/amber slabs from older visual systems.
+   Keep semantic icons as small accents, but make every surface belong to Natural Sereno. */
+:root[data-layout="natural-sereno"] [id^="bottom-btn-"] {
+  background: rgba(250,247,242,.92) !important;
+  border-color: rgba(200,157,82,.34) !important;
+  color: var(--ns-final-coffee) !important;
+  box-shadow: 0 8px 22px rgba(79,61,43,.08) !important;
+  backdrop-filter: blur(10px);
+}
+
+:root[data-layout="natural-sereno"] [id^="bottom-btn-"]:hover {
+  background: linear-gradient(180deg, rgba(255,252,247,.98), rgba(245,239,229,.96)) !important;
+  border-color: rgba(200,157,82,.52) !important;
+  color: var(--ns-final-coffee) !important;
+  transform: translateY(-1px);
+}
+
+:root[data-layout="natural-sereno"] [id^="bottom-btn-"]:focus-visible {
+  outline: 2px solid rgba(200,157,82,.58);
+  outline-offset: 2px;
+}
+
+:root[data-layout="natural-sereno"] #bottom-btn-specific-treatment span.font-mono {
+  background: rgba(107,122,75,.12) !important;
+  color: #56623D !important;
+}
+
+:root[data-layout="natural-sereno"] #bottom-btn-journal.bg-indigo-600 {
+  background: linear-gradient(180deg, var(--ns-final-gold-soft), var(--ns-final-gold)) !important;
+  border-color: rgba(168,126,55,.46) !important;
+  color: var(--ns-final-coffee) !important;
+}
+
 /* Payment modal: remove legacy forest-green surfaces while preserving checkout behavior. */
 :root[data-layout="natural-sereno"] #plans-modal {
   color: var(--ns-final-coffee);
