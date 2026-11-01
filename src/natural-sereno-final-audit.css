@@ -171,6 +171,7 @@
 :root[data-layout="natural-sereno"] #specific-treatment-modal .bg-emerald-950\/80,
 :root[data-layout="natural-sereno"] #specific-treatment-modal .bg-emerald-600,
 :root[data-layout="natural-sereno"] #specific-treatment-modal .bg-indigo-950\/40,
+:root[data-layout="natural-sereno"] #specific-treatment-modal .bg-indigo-950\/50,
 :root[data-layout="natural-sereno"] #specific-treatment-modal .bg-amber-950\/20 {
   background: linear-gradient(180deg, rgba(255,252,247,.98), rgba(245,239,229,.96)) !important;
   color: var(--ns-final-coffee) !important;
@@ -183,6 +184,18 @@
   background: linear-gradient(180deg, var(--ns-final-gold-soft), var(--ns-final-gold)) !important;
   color: var(--ns-final-coffee) !important;
   border-color: rgba(168,126,55,.42) !important;
+}
+
+:root[data-layout="natural-sereno"] #specific-treatment-modal .hover\:bg-slate-700:hover,
+:root[data-layout="natural-sereno"] #specific-treatment-modal .hover\:bg-emerald-900:hover,
+:root[data-layout="natural-sereno"] #specific-treatment-modal .hover\:bg-emerald-500:hover {
+  background: linear-gradient(180deg, #E8C47D, #C89D52) !important;
+  color: var(--ns-final-coffee) !important;
+}
+
+:root[data-layout="natural-sereno"] #specific-treatment-modal .text-indigo-200,
+:root[data-layout="natural-sereno"] #specific-treatment-modal .text-indigo-300 {
+  color: var(--ns-final-muted) !important;
 }
 
 :root[data-layout="natural-sereno"] #specific-treatment-modal .text-emerald-300,
