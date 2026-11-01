@@ -1,0 +1,48 @@
+/* Elegância Profunda — Mapa Astral e Numerologia.
+   Escopo estrito: remove apenas superfícies claras herdadas destes dois modais. */
+
+:root[data-layout="elegancia-profunda"] :is(#astral-map-modal,#numerology-modal) {
+  background: color-mix(in srgb, var(--layout-canvas) 88%, transparent) !important;
+}
+
+:root[data-layout="elegancia-profunda"] :is(#astral-map-modal,#numerology-modal) > div {
+  background: linear-gradient(155deg, color-mix(in srgb, var(--layout-card) 97%, black), color-mix(in srgb, var(--layout-canvas) 94%, black)) !important;
+  border-color: color-mix(in srgb, var(--layout-gold) 30%, var(--layout-border-card)) !important;
+  color: var(--layout-text) !important;
+  box-shadow: 0 30px 72px rgba(0,0,0,.44) !important;
+}
+
+:root[data-layout="elegancia-profunda"] :is(#astral-map-modal,#numerology-modal) :is(h1,h2,h3,h4) {
+  color: var(--layout-text) !important;
+}
+
+:root[data-layout="elegancia-profunda"] :is(#astral-map-modal,#numerology-modal) :is(p,small,label,[class*="text-[#5C5248]"],[class*="text-[#85786C]"]) {
+  color: var(--layout-text-soft) !important;
+}
+
+:root[data-layout="elegancia-profunda"] :is(#astral-map-modal,#numerology-modal) :is([class*="bg-white"],[class*="bg-[#FBF8F2]"],[class*="bg-[#F5EFE4]"]) {
+  background-color: color-mix(in srgb, var(--layout-card) 93%, black) !important;
+  border-color: color-mix(in srgb, var(--layout-gold) 22%, var(--layout-border-card)) !important;
+}
+
+:root[data-layout="elegancia-profunda"] :is(#astral-map-modal,#numerology-modal) :is(input,select,textarea) {
+  background: color-mix(in srgb, var(--layout-card) 91%, black) !important;
+  border-color: color-mix(in srgb, var(--layout-gold) 30%, var(--layout-border-card)) !important;
+  color: var(--layout-text) !important;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.025) !important;
+}
+
+:root[data-layout="elegancia-profunda"] :is(#astral-map-modal,#numerology-modal) :is(input,select,textarea):focus {
+  border-color: color-mix(in srgb, var(--layout-gold) 68%, transparent) !important;
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--layout-gold) 13%, transparent) !important;
+}
+
+:root[data-layout="elegancia-profunda"] :is(#astral-map-modal,#numerology-modal) button:not([class*="emerald"]):not([class*="rose"]):not([class*="red"]) {
+  border-color: color-mix(in srgb, var(--layout-gold) 30%, var(--layout-border-card)) !important;
+}
+
+@media (max-width: 640px) {
+  :root[data-layout="elegancia-profunda"] :is(#astral-map-modal,#numerology-modal) > div {
+    border-radius: 1.25rem;
+  }
+}
