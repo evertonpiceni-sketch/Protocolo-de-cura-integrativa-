@@ -10,6 +10,7 @@ import './natural-sereno-approved-overrides.css';
 import './mistico-moderno-approved-overrides.css';
 import './essencia-luminosa-approved-overrides.css';
 import './elegancia-profunda-approved-overrides.css';
+import './natural-sereno-final-audit.css';
 import './lib/authStartupResiliencePatch';
 import './lib/startupUiResiliencePatch';
 import './lib/audioIntegrityPatch';
