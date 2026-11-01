@@ -91,6 +91,26 @@
   border-color:var(--border-subtle)!important;
 }
 
+/* Controles legados da página de Configurações ainda usam marfim/branco/café
+   diretamente no JSX. Neutraliza apenas esses tokens dentro da view Mística. */
+:root[data-layout="mistico-moderno"] #settings-view [class*="bg-white"],
+:root[data-layout="mistico-moderno"] #settings-view [class*="bg-[#F5EFE4]"]{
+  background:var(--bg-card-subtle)!important;
+  border-color:var(--border-subtle)!important;
+  color:var(--text-secondary)!important;
+}
+:root[data-layout="mistico-moderno"] #settings-view [class*="text-[#2A2420]"],
+:root[data-layout="mistico-moderno"] #settings-view [class*="text-[#2A2421]"]{
+  color:var(--text-primary)!important;
+}
+:root[data-layout="mistico-moderno"] #settings-view [class*="text-[#5C5248]"],
+:root[data-layout="mistico-moderno"] #settings-view [class*="text-[#85786C]"]{
+  color:var(--text-secondary)!important;
+}
+:root[data-layout="mistico-moderno"] #settings-view [class*="border-[#E5DAC6]"]{
+  border-color:var(--border-subtle)!important;
+}
+
 :root[data-layout="mistico-moderno"] .ep-gold-button,
 :root[data-layout="mistico-moderno"] .ep-gold-action{
   background:var(--gold-gradient)!important;
