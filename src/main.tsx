@@ -12,6 +12,7 @@ import './mistico-moderno-modal-audit.css';
 import './essencia-luminosa-approved-overrides.css';
 import './elegancia-profunda-approved-overrides.css';
 import './elegancia-profunda-modal-audit.css';
+import './elegancia-profunda-contact-audit.css';
 import './lib/authStartupResiliencePatch';
 import './lib/startupUiResiliencePatch';
 import './lib/audioIntegrityPatch';
