@@ -69,6 +69,31 @@
   border-color: rgba(184,135,54,.44) !important;
 }
 
+/* Header actions still exposed blue/emerald slabs from generic/older chrome.
+   Keep semantic icons and behavior, but Natural Sereno uses ivory surfaces,
+   coffee text and refined gold; green remains only a small natural accent. */
+:root[data-layout="natural-sereno"] #header-btn-archangel,
+:root[data-layout="natural-sereno"] #header-btn-google-play {
+  background: rgba(251,248,242,.94) !important;
+  color: #5C5248 !important;
+  border-color: rgba(184,135,54,.28) !important;
+  box-shadow: 0 6px 16px rgba(67,52,39,.06) !important;
+}
+
+:root[data-layout="natural-sereno"] #header-btn-archangel:hover,
+:root[data-layout="natural-sereno"] #header-btn-google-play:hover {
+  background: #F5EFE4 !important;
+  border-color: rgba(184,135,54,.42) !important;
+}
+
+:root[data-layout="natural-sereno"] #header-btn-archangel svg {
+  color: #B88736 !important;
+}
+
+:root[data-layout="natural-sereno"] #header-btn-google-play svg {
+  color: #6F7B55 !important;
+}
+
 /* Header chrome must not leak indigo from another style. */
 :root[data-layout="natural-sereno"] #main-header .ep-brand-signature {
   border-color: transparent !important;
