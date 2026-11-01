@@ -19,7 +19,7 @@ export const OFFICIAL_LAYOUTS: LayoutDefinition[] = [
     id: 'natural-sereno',
     name: 'Natural Sereno',
     description: 'Natureza realista, base creme/marfim, café, dourado refinado e verde apenas como acento natural.',
-    swatches: ['#FAF7F2', '#2A2421', '#6B7A4B', '#C89D52'],
+    swatches: ['#FAF7F2', '#2A2421', '#C89D52', '#6B7A4B'],
     tone: 'light'
   },
   {
