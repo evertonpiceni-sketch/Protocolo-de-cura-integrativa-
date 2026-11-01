@@ -1,0 +1,62 @@
+/* Elegância Profunda — Fale Conosco.
+   Corrige somente heranças claras/âmbar do modal de contato quando o Estilo 2 está ativo. */
+:root[data-layout="elegancia-profunda"] #contact-us-modal {
+  background: color-mix(in srgb, var(--layout-canvas) 86%, transparent) !important;
+}
+
+:root[data-layout="elegancia-profunda"] #contact-us-modal > div {
+  background: linear-gradient(155deg, color-mix(in srgb, var(--layout-card) 97%, black), color-mix(in srgb, var(--layout-canvas) 94%, black)) !important;
+  border-color: color-mix(in srgb, var(--layout-gold) 28%, var(--layout-border-card)) !important;
+  color: var(--layout-text) !important;
+  box-shadow: 0 30px 72px rgba(0,0,0,.44) !important;
+}
+
+:root[data-layout="elegancia-profunda"] #contact-us-modal :is(h1,h2,h3,strong,label) {
+  color: var(--layout-text) !important;
+}
+
+:root[data-layout="elegancia-profunda"] #contact-us-modal :is(p,small,[class*="text-[#5C5248]"],[class*="text-[#85786C]"]) {
+  color: var(--layout-text-soft) !important;
+}
+
+:root[data-layout="elegancia-profunda"] #contact-us-modal :is([class*="text-[#B88736]"],[class*="text-[#8F631E]"]) {
+  color: var(--layout-gold) !important;
+}
+
+:root[data-layout="elegancia-profunda"] #contact-us-modal :is([class*="bg-white"],[class*="bg-[#FBF8F2]"],[class*="bg-[#F5EFE4]"],[class*="bg-[#EFE4D3]"]) {
+  background-color: color-mix(in srgb, var(--layout-card) 94%, black) !important;
+  border-color: var(--layout-border-card) !important;
+}
+
+:root[data-layout="elegancia-profunda"] #contact-us-modal :is(input,select,textarea) {
+  background: color-mix(in srgb, var(--layout-card) 96%, black) !important;
+  border-color: color-mix(in srgb, var(--layout-gold) 24%, var(--layout-border-card)) !important;
+  color: var(--layout-text) !important;
+}
+
+:root[data-layout="elegancia-profunda"] #contact-us-modal :is(input,select,textarea):focus {
+  border-color: color-mix(in srgb, var(--layout-gold) 58%, var(--layout-border-card)) !important;
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--layout-gold) 14%, transparent) !important;
+  outline: none;
+}
+
+:root[data-layout="elegancia-profunda"] #contact-us-modal button:not([disabled]) {
+  border-color: color-mix(in srgb, var(--layout-gold) 30%, transparent) !important;
+  box-shadow: 0 10px 26px rgba(0,0,0,.18);
+}
+
+:root[data-layout="elegancia-profunda"] #contact-us-modal button:focus-visible {
+  outline: 2px solid color-mix(in srgb, var(--layout-gold) 68%, white);
+  outline-offset: 3px;
+}
+
+/* O estado de sucesso mantém sua cor semântica; não recolorir emerald globalmente. */
+:root[data-layout="elegancia-profunda"] #contact-us-modal img[alt*="Marca" i] {
+  opacity: .30 !important;
+  filter: saturate(.88) contrast(.96);
+}
+
+@media (max-width: 640px) {
+  :root[data-layout="elegancia-profunda"] #contact-us-modal > div { border-radius: 1.25rem; }
+  :root[data-layout="elegancia-profunda"] #contact-us-modal img[alt*="Marca" i] { opacity: .26 !important; }
+}
