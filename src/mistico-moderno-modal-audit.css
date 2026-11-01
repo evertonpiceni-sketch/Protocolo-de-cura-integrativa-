@@ -1,12 +1,12 @@
 /* Estilo 4 — Místico Moderno | auditoria incremental de modais compartilhados.
    Escopo estrito ao layout ativo: não altera conteúdo, lógica nem os outros estilos. */
 
-:root[data-layout="mistico-moderno"] :is(#astral-map-modal,#numerology-modal,#pro-certificate-modal,#courses-modal){
+:root[data-layout="mistico-moderno"] :is(#astral-map-modal,#numerology-modal,#pro-certificate-modal,#courses-modal,#achievements-modal){
   background:rgba(4,7,13,.76)!important;
   color:var(--text-primary)!important;
 }
 
-:root[data-layout="mistico-moderno"] :is(#astral-map-modal,#numerology-modal,#pro-certificate-modal,#courses-modal)>div{
+:root[data-layout="mistico-moderno"] :is(#astral-map-modal,#numerology-modal,#pro-certificate-modal,#courses-modal,#achievements-modal)>div{
   background:
     radial-gradient(circle at 88% 0,rgba(108,63,160,.14),transparent 24rem),
     radial-gradient(circle at 8% 100%,rgba(22,101,82,.07),transparent 22rem),
@@ -16,9 +16,9 @@
   box-shadow:0 22px 58px rgba(0,0,0,.42),inset 0 1px 0 rgba(255,255,255,.045)!important;
 }
 
-:root[data-layout="mistico-moderno"] :is(#astral-map-modal,#numerology-modal,#pro-certificate-modal,#courses-modal) [class*="bg-[#FBF8F2]"],
-:root[data-layout="mistico-moderno"] :is(#astral-map-modal,#numerology-modal,#pro-certificate-modal,#courses-modal) [class*="bg-[#F5EFE4]"],
-:root[data-layout="mistico-moderno"] :is(#astral-map-modal,#numerology-modal,#pro-certificate-modal,#courses-modal) [class*="bg-white"],
+:root[data-layout="mistico-moderno"] :is(#astral-map-modal,#numerology-modal,#pro-certificate-modal,#courses-modal,#achievements-modal) [class*="bg-[#FBF8F2]"],
+:root[data-layout="mistico-moderno"] :is(#astral-map-modal,#numerology-modal,#pro-certificate-modal,#courses-modal,#achievements-modal) [class*="bg-[#F5EFE4]"],
+:root[data-layout="mistico-moderno"] :is(#astral-map-modal,#numerology-modal,#pro-certificate-modal,#courses-modal,#achievements-modal) [class*="bg-white"],
 :root[data-layout="mistico-moderno"] :is(#astral-map-modal,#numerology-modal,#pro-certificate-modal,#courses-modal) [class*="bg-amber-50"],
 :root[data-layout="mistico-moderno"] #courses-modal [class*="bg-[#FFF9EA]"],
 :root[data-layout="mistico-moderno"] #courses-modal [class*="bg-[#F1E7C8]"],
@@ -27,20 +27,20 @@
   border-color:var(--border-subtle)!important;
 }
 
-:root[data-layout="mistico-moderno"] :is(#astral-map-modal,#numerology-modal,#pro-certificate-modal,#courses-modal) [class*="border-[#E5DAC6]"],
+:root[data-layout="mistico-moderno"] :is(#astral-map-modal,#numerology-modal,#pro-certificate-modal,#courses-modal,#achievements-modal) [class*="border-[#E5DAC6]"],
 :root[data-layout="mistico-moderno"] :is(#astral-map-modal,#numerology-modal,#pro-certificate-modal,#courses-modal) [class*="border-amber"],
 :root[data-layout="mistico-moderno"] #courses-modal [class*="border-[#D9C58F]"]{
   border-color:var(--border-subtle)!important;
 }
 
-:root[data-layout="mistico-moderno"] :is(#astral-map-modal,#numerology-modal,#pro-certificate-modal,#courses-modal) [class*="text-[#2A2420]"],
+:root[data-layout="mistico-moderno"] :is(#astral-map-modal,#numerology-modal,#pro-certificate-modal,#courses-modal,#achievements-modal) [class*="text-[#2A2420]"],
 :root[data-layout="mistico-moderno"] :is(#astral-map-modal,#numerology-modal,#pro-certificate-modal) [class*="text-[#2A2421]"],
 :root[data-layout="mistico-moderno"] #courses-modal [class*="text-[#26372a]"]{
   color:var(--text-primary)!important;
 }
 
-:root[data-layout="mistico-moderno"] :is(#astral-map-modal,#numerology-modal,#pro-certificate-modal,#courses-modal) [class*="text-[#5C5248]"],
-:root[data-layout="mistico-moderno"] :is(#astral-map-modal,#numerology-modal,#pro-certificate-modal) [class*="text-[#85786C]"]{
+:root[data-layout="mistico-moderno"] :is(#astral-map-modal,#numerology-modal,#pro-certificate-modal,#courses-modal,#achievements-modal) [class*="text-[#5C5248]"],
+:root[data-layout="mistico-moderno"] :is(#astral-map-modal,#numerology-modal,#pro-certificate-modal,#achievements-modal) [class*="text-[#85786C]"]{
   color:var(--text-secondary)!important;
 }
 
@@ -49,7 +49,7 @@
   color:var(--text-secondary)!important;
 }
 :root[data-layout="mistico-moderno"] :is(#numerology-modal,#pro-certificate-modal) [class*="text-amber"],
-:root[data-layout="mistico-moderno"] :is(#numerology-modal,#pro-certificate-modal) [class*="text-[#8F631E]"],
+:root[data-layout="mistico-moderno"] :is(#numerology-modal,#pro-certificate-modal,#achievements-modal) [class*="text-[#8F631E]"],
 :root[data-layout="mistico-moderno"] #pro-certificate-modal [class*="text-[#B88736]"],
 :root[data-layout="mistico-moderno"] #courses-modal [class*="text-[#71511c]"]{
   color:#D8B96C!important;
@@ -89,12 +89,34 @@
   box-shadow:inset 0 1px 0 rgba(255,255,255,.06),0 10px 28px rgba(0,0,0,.20)!important;
 }
 
-:root[data-layout="mistico-moderno"] :is(#astral-map-modal,#numerology-modal,#pro-certificate-modal,#courses-modal) button{
+/* Conquistas: cartões e filtros deixam de herdar creme/branco; dourado fica como acento premium. */
+:root[data-layout="mistico-moderno"] #achievements-modal [class*="bg-white"],
+:root[data-layout="mistico-moderno"] #achievements-modal [class*="bg-[#FBF8F2]"],
+:root[data-layout="mistico-moderno"] #achievements-modal [class*="bg-[#F5EFE4]"]{
+  background:linear-gradient(145deg,rgba(20,31,48,.92),rgba(13,20,34,.94))!important;
+}
+:root[data-layout="mistico-moderno"] #achievements-modal [class*="border-[#E5DAC6]"]{
+  border-color:rgba(148,126,194,.24)!important;
+}
+:root[data-layout="mistico-moderno"] #achievements-modal [class*="text-[#B88736]"],
+:root[data-layout="mistico-moderno"] #achievements-modal [class*="text-[#8F631E]"]{
+  color:#D8B96C!important;
+}
+:root[data-layout="mistico-moderno"] #achievements-modal button[class*="bg-[#B88736]"]{
+  background:linear-gradient(135deg,#B88A36,#7C5A9E)!important;
+  color:#FFF9EC!important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.14),0 10px 24px rgba(0,0,0,.22)!important;
+}
+:root[data-layout="mistico-moderno"] #achievements-modal [class*="text-emerald-700"]{
+  color:#78C6A5!important;
+}
+
+:root[data-layout="mistico-moderno"] :is(#astral-map-modal,#numerology-modal,#pro-certificate-modal,#courses-modal,#achievements-modal) button{
   -webkit-font-smoothing:antialiased;
   text-rendering:optimizeLegibility;
 }
 
-:root[data-layout="mistico-moderno"] :is(#astral-map-modal,#numerology-modal,#pro-certificate-modal,#courses-modal) button:focus-visible{
+:root[data-layout="mistico-moderno"] :is(#astral-map-modal,#numerology-modal,#pro-certificate-modal,#courses-modal,#achievements-modal) button:focus-visible{
   outline:none!important;
   box-shadow:0 0 0 2px rgba(212,175,55,.34)!important;
 }
