@@ -1,9 +1,46 @@
 import React from 'react';
 import { Check } from 'lucide-react';
-import { OFFICIAL_LAYOUTS, LayoutId } from '../config/layouts';
+import { OFFICIAL_LAYOUTS, LayoutDefinition, LayoutId } from '../config/layouts';
 
 interface LayoutChoiceModalProps {
   onSelect: (layout: LayoutId) => void;
+}
+
+function LayoutPreview({ layout }: { layout: LayoutDefinition }) {
+  const [canvas, accent, gold, surface] = layout.swatches;
+  const foreground = layout.tone === 'dark' ? '#F4F1EB' : '#2A2420';
+  const muted = layout.tone === 'dark' ? 'rgba(244,241,235,.68)' : 'rgba(42,36,32,.62)';
+
+  return (
+    <div
+      className="mt-4 overflow-hidden rounded-2xl border border-black/10 shadow-inner"
+      style={{ background: `linear-gradient(145deg, ${canvas}, ${surface})`, color: foreground }}
+      aria-hidden="true"
+    >
+      <div className="flex items-center justify-between border-b border-white/10 px-3 py-2">
+        <span className="h-1.5 w-14 rounded-full" style={{ backgroundColor: gold, opacity: .75 }} />
+        <span className="h-4 w-4 rounded-full border border-white/20" style={{ backgroundColor: accent }} />
+      </div>
+      <div className="p-3">
+        <div className="rounded-xl border border-white/10 p-3" style={{ backgroundColor: `${accent}33` }}>
+          <span className="block h-1.5 w-16 rounded-full" style={{ backgroundColor: gold }} />
+          <span className="mt-2 block h-2.5 w-3/4 rounded-full" style={{ backgroundColor: foreground, opacity: .9 }} />
+          <span className="mt-1.5 block h-1.5 w-1/2 rounded-full" style={{ backgroundColor: muted }} />
+          <span
+            className="mt-3 inline-flex rounded-full px-3 py-1 text-[8px] font-bold uppercase tracking-[.12em] shadow-sm"
+            style={{ background: `linear-gradient(135deg, ${gold}, ${accent})`, color: layout.tone === 'dark' ? '#0B1712' : '#fff' }}
+          >
+            Iniciar jornada
+          </span>
+        </div>
+        <div className="mt-2 grid grid-cols-4 gap-1.5">
+          {[accent, gold, surface, accent].map((color, index) => (
+            <span key={`${color}-${index}`} className="h-7 rounded-lg border border-white/10" style={{ backgroundColor: `${color}66` }} />
+          ))}
+        </div>
+      </div>
+    </div>
+  );
 }
 
 export default function LayoutChoiceModal({ onSelect }: LayoutChoiceModalProps) {
@@ -14,12 +51,12 @@ export default function LayoutChoiceModal({ onSelect }: LayoutChoiceModalProps) 
       aria-modal="true"
       aria-labelledby="layout-choice-title"
     >
-      <section className="my-2 w-full max-w-3xl rounded-[2rem] border border-[#E5DAC6] bg-[#FBF8F2] p-5 shadow-2xl sm:p-7">
+      <section className="my-2 w-full max-w-4xl rounded-[2rem] border border-[#E5DAC6] bg-[#FBF8F2] p-5 shadow-2xl sm:p-7">
         <div className="mx-auto max-w-xl text-center">
           <p className="text-xs font-semibold uppercase tracking-[.2em] text-[#B88736]">4 estilos, uma mesma essência</p>
           <h2 id="layout-choice-title" className="mt-2 font-display text-3xl text-[#2A2420]">Escolha o que mais toca você</h2>
           <p className="mt-2 text-sm leading-relaxed text-[#5C5248]">
-            A jornada, os conteúdos e seus dados permanecem iguais. Muda apenas a atmosfera visual.
+            Veja a prévia de cada atmosfera antes de escolher. A jornada, os conteúdos e seus dados permanecem iguais.
           </p>
         </div>
 
@@ -40,9 +77,10 @@ export default function LayoutChoiceModal({ onSelect }: LayoutChoiceModalProps) 
                   <Check size={16} />
                 </span>
               </div>
-              <div className="mt-5 flex gap-2" aria-hidden="true">
+              <LayoutPreview layout={layout} />
+              <div className="mt-4 flex gap-2" aria-hidden="true">
                 {layout.swatches.map(color => (
-                  <span key={color} className="h-7 flex-1 rounded-lg border border-black/10 shadow-inner" style={{ backgroundColor: color }} />
+                  <span key={color} className="h-3 flex-1 rounded-full border border-black/10 shadow-inner" style={{ backgroundColor: color }} />
                 ))}
               </div>
             </button>
