@@ -1,0 +1,112 @@
+:root[data-layout="natural-sereno"] {
+  --ns-final-ivory: #FAF7F2;
+  --ns-final-cream: #F5EFE5;
+  --ns-final-coffee: #2A2421;
+  --ns-final-muted: #6B625B;
+  --ns-final-gold: #C89D52;
+  --ns-final-gold-soft: #E2B96B;
+  --ns-final-leaf: #6B7A4B;
+}
+
+/* Final Natural Sereno guard: approved light/ivory base; green is an accent only. */
+:root[data-layout="natural-sereno"] body {
+  background: var(--ns-final-ivory);
+  color: var(--ns-final-coffee);
+}
+
+/* Protocol player: remove the inherited split/offset composition and keep one balanced canvas. */
+:root[data-layout="natural-sereno"] #meditation-session.ep-session {
+  background: linear-gradient(180deg, rgba(250,247,242,.96), rgba(245,239,229,.94));
+  color: var(--ns-final-coffee);
+}
+
+:root[data-layout="natural-sereno"] #meditation-session .ep-session-backdrop {
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  opacity: .92;
+}
+
+:root[data-layout="natural-sereno"] #meditation-session main {
+  width: min(100%, 920px) !important;
+  max-width: 920px !important;
+  margin-inline: auto !important;
+  padding-inline: clamp(20px, 5vw, 64px) !important;
+  justify-content: center !important;
+  text-align: center !important;
+}
+
+:root[data-layout="natural-sereno"] #meditation-session .ep-session-stage {
+  width: min(100%, 680px) !important;
+  margin-inline: auto !important;
+  align-items: center !important;
+}
+
+:root[data-layout="natural-sereno"] #meditation-session .ep-stage-title {
+  color: var(--ns-final-coffee) !important;
+  text-wrap: balance;
+}
+
+:root[data-layout="natural-sereno"] #meditation-session .ep-stage-subtitle,
+:root[data-layout="natural-sereno"] #meditation-session .ep-session-mantra {
+  color: var(--ns-final-muted) !important;
+}
+
+:root[data-layout="natural-sereno"] #meditation-session .ep-stage-badge {
+  background: rgba(250,247,242,.84) !important;
+  border-color: rgba(200,157,82,.42) !important;
+  color: #8A642A !important;
+  backdrop-filter: blur(10px);
+}
+
+:root[data-layout="natural-sereno"] #meditation-session .ep-breathing-guide {
+  width: clamp(150px, 22vw, 190px) !important;
+  height: clamp(150px, 22vw, 190px) !important;
+  margin-inline: auto !important;
+}
+
+:root[data-layout="natural-sereno"] #meditation-session footer {
+  width: min(100%, 760px) !important;
+  max-width: 760px !important;
+  margin-inline: auto !important;
+  background: rgba(250,247,242,.92) !important;
+  border-color: rgba(200,157,82,.22) !important;
+}
+
+/* Buttons remain premium and restrained; never restore large forest-green slabs. */
+:root[data-layout="natural-sereno"] #meditation-session button:focus-visible {
+  outline: 2px solid rgba(200,157,82,.58);
+  outline-offset: 2px;
+}
+
+/* Official logo is a signature, not the protagonist. */
+:root[data-layout="natural-sereno"] .approved-brand,
+:root[data-layout="natural-sereno"] [data-approved-brand],
+:root[data-layout="natural-sereno"] img[alt*="Éverton" i][src*="logo" i],
+:root[data-layout="natural-sereno"] img[alt*="Everton" i][src*="logo" i] {
+  opacity: .24 !important;
+  filter: none !important;
+  object-fit: contain !important;
+}
+
+@media (max-width: 767px) {
+  :root[data-layout="natural-sereno"] #meditation-session main {
+    max-width: 100% !important;
+    padding-inline: 18px !important;
+  }
+
+  :root[data-layout="natural-sereno"] #meditation-session .ep-session-stage {
+    width: 100% !important;
+  }
+
+  :root[data-layout="natural-sereno"] #meditation-session .ep-breathing-guide {
+    width: 148px !important;
+    height: 148px !important;
+  }
+
+  :root[data-layout="natural-sereno"] #meditation-session footer {
+    max-width: 100% !important;
+    padding-inline: 16px !important;
+  }
+}
