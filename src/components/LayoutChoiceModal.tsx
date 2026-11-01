@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Check } from 'lucide-react';
 import { OFFICIAL_LAYOUTS, LayoutDefinition, LayoutId } from '../config/layouts';
 
@@ -52,6 +52,9 @@ function LayoutPreview({ layout }: { layout: LayoutDefinition }) {
 }
 
 export default function LayoutChoiceModal({ onSelect }: LayoutChoiceModalProps) {
+  const [selectedLayout, setSelectedLayout] = useState<LayoutId | null>(null);
+  const selectedDefinition = OFFICIAL_LAYOUTS.find(layout => layout.id === selectedLayout);
+
   return (
     <div
       className="fixed inset-0 z-[160] flex items-center justify-center overflow-y-auto overscroll-contain bg-[#2A2420]/35 p-2 sm:p-5 backdrop-blur-md"
@@ -64,35 +67,51 @@ export default function LayoutChoiceModal({ onSelect }: LayoutChoiceModalProps) 
           <p className="text-xs font-semibold uppercase tracking-[.2em] text-[#B88736]">4 estilos, uma mesma essência</p>
           <h2 id="layout-choice-title" className="mt-2 font-display text-3xl text-[#2A2420]">Escolha o que mais toca você</h2>
           <p className="mt-2 text-sm leading-relaxed text-[#5C5248]">
-            Veja a prévia de cada atmosfera antes de escolher. A jornada, os conteúdos e seus dados permanecem iguais.
+            Veja a prévia de cada atmosfera, selecione uma opção e confirme. A jornada, os conteúdos e seus dados permanecem iguais.
           </p>
         </div>
 
         <div className="mt-6 grid grid-cols-1 gap-3 sm:grid-cols-2">
-          {OFFICIAL_LAYOUTS.map(layout => (
-            <button
-              key={layout.id}
-              type="button"
-              onClick={() => onSelect(layout.id)}
-              className="group min-h-36 rounded-2xl border border-[#E5DAC6] bg-white/85 p-5 text-left transition hover:-translate-y-0.5 hover:border-[#B88736]/60 hover:shadow-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B88736]/35"
-            >
-              <div className="flex items-start justify-between gap-3">
-                <div>
-                  <h3 className="font-display text-xl font-semibold text-[#2A2420]">{layout.name}</h3>
-                  <p className="mt-1 text-xs leading-relaxed text-[#5C5248]">{layout.description}</p>
+          {OFFICIAL_LAYOUTS.map(layout => {
+            const isSelected = selectedLayout === layout.id;
+            return (
+              <button
+                key={layout.id}
+                type="button"
+                onClick={() => setSelectedLayout(layout.id)}
+                aria-pressed={isSelected}
+                className={`group min-h-36 rounded-2xl border bg-white/85 p-5 text-left transition hover:-translate-y-0.5 hover:shadow-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B88736]/35 ${isSelected ? 'border-[#B88736] ring-2 ring-[#B88736]/20 shadow-lg' : 'border-[#E5DAC6] hover:border-[#B88736]/60'}`}
+              >
+                <div className="flex items-start justify-between gap-3">
+                  <div>
+                    <h3 className="font-display text-xl font-semibold text-[#2A2420]">{layout.name}</h3>
+                    <p className="mt-1 text-xs leading-relaxed text-[#5C5248]">{layout.description}</p>
+                  </div>
+                  <span className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-full border transition ${isSelected ? 'border-[#B88736] bg-[#B88736] text-white opacity-100' : 'border-[#E5DAC6] text-[#B88736] opacity-0 group-hover:opacity-100'}`} aria-hidden="true">
+                    <Check size={16} />
+                  </span>
                 </div>
-                <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-[#E5DAC6] text-[#B88736] opacity-0 transition group-hover:opacity-100" aria-hidden="true">
-                  <Check size={16} />
-                </span>
-              </div>
-              <LayoutPreview layout={layout} />
-              <div className="mt-4 flex gap-2" aria-hidden="true">
-                {layout.swatches.map(color => (
-                  <span key={color} className="h-3 flex-1 rounded-full border border-black/10 shadow-inner" style={{ backgroundColor: color }} />
-                ))}
-              </div>
-            </button>
-          ))}
+                <LayoutPreview layout={layout} />
+                <div className="mt-4 flex gap-2" aria-hidden="true">
+                  {layout.swatches.map(color => (
+                    <span key={color} className="h-3 flex-1 rounded-full border border-black/10 shadow-inner" style={{ backgroundColor: color }} />
+                  ))}
+                </div>
+              </button>
+            );
+          })}
+        </div>
+
+        <div className="mt-6 flex flex-col items-center gap-2 border-t border-[#E5DAC6] pt-5">
+          <button
+            type="button"
+            disabled={!selectedLayout}
+            onClick={() => selectedLayout && onSelect(selectedLayout)}
+            className="min-h-12 w-full max-w-sm rounded-full bg-gradient-to-r from-[#C89D52] via-[#D9B66D] to-[#A87E37] px-6 py-3 text-sm font-bold uppercase tracking-[.12em] text-white shadow-lg transition hover:-translate-y-0.5 hover:shadow-xl disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:translate-y-0 disabled:hover:shadow-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B88736]/40 focus-visible:ring-offset-2"
+          >
+            {selectedDefinition ? `Confirmar ${selectedDefinition.name}` : 'Selecione um estilo'}
+          </button>
+          <p className="text-center text-xs text-[#6B625B]">O estilo só será aplicado depois da sua confirmação.</p>
         </div>
       </section>
     </div>
