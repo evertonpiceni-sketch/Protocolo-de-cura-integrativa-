@@ -78,6 +78,29 @@
 :root[data-layout="essencia-luminosa"] #settings-view :is(h1,h2,h3,strong){color:var(--layout-text)!important;}
 :root[data-layout="essencia-luminosa"] #settings-view :is(p,label,small){color:var(--layout-text-soft)!important;}
 
+/* Resíduos cromáticos do componente legado: login, Mapa Astral, lembretes, anamnese e badges
+   ainda usavam utilitários índigo/roxo/âmbar. Neutraliza somente dentro de Configurações. */
+:root[data-layout="essencia-luminosa"] #settings-view :is(
+  [class*="text-indigo-"],
+  [class*="text-purple-"],
+  [class*="text-amber-"]
+){color:var(--layout-gold)!important;}
+:root[data-layout="essencia-luminosa"] #settings-view :is(
+  [class*="bg-indigo-"],
+  [class*="bg-purple-"],
+  [class*="bg-amber-"]
+){background-color:color-mix(in srgb,var(--layout-gold) 9%,var(--layout-card))!important;}
+:root[data-layout="essencia-luminosa"] #settings-view :is(
+  [class*="border-indigo-"],
+  [class*="border-purple-"],
+  [class*="border-amber-"]
+){border-color:color-mix(in srgb,var(--layout-gold) 30%,var(--layout-border-card))!important;}
+:root[data-layout="essencia-luminosa"] #settings-view :is(
+  [class*="focus:border-indigo-"],
+  [class*="focus:border-purple-"],
+  [class*="focus:border-amber-"]
+):focus{border-color:var(--layout-gold)!important;}
+
 /* Player: devolve o palco aos tokens luminosos aprovados sem alterar lógica/animação. */
 :root[data-layout="essencia-luminosa"] #meditation-session.ep-session{
   background:
