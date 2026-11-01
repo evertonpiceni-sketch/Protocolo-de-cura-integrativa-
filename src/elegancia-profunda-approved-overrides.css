@@ -40,6 +40,13 @@
   background: var(--layout-card) !important;
   border-color: var(--layout-border-card) !important;
 }
+/* O invólucro real do logo no cabeçalho não usa ep-brand-signature-wrap e ainda
+   trazia bg marfim + borda/sombra índigo no JSX-base. Neutraliza só no Estilo 2. */
+:root[data-layout="elegancia-profunda"] #main-header div:has(> .ep-brand-signature) {
+  background: color-mix(in srgb, var(--layout-card) 92%, black) !important;
+  border-color: color-mix(in srgb, var(--layout-gold) 22%, transparent) !important;
+  box-shadow: 0 10px 28px rgba(0,0,0,.20) !important;
+}
 :root[data-layout="elegancia-profunda"] #main-header :is(h1,h2,h3) {
   color: var(--layout-text) !important;
 }
