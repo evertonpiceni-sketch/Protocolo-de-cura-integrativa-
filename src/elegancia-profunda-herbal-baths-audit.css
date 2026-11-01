@@ -1,0 +1,82 @@
+/* Estilo 2 — Elegância Profunda | Banhos de Ervas
+   Remove apenas superfícies claras herdadas quando o Estilo 2 está ativo.
+   Estados semânticos de segurança/sucesso (amber/emerald/rose) permanecem intactos. */
+:root[data-layout="elegancia-profunda"] #herbal-baths-modal {
+  background: color-mix(in srgb, var(--layout-canvas) 88%, transparent) !important;
+}
+
+:root[data-layout="elegancia-profunda"] #herbal-baths-modal > div {
+  background: linear-gradient(145deg, color-mix(in srgb, var(--layout-surface) 96%, #071f19), var(--layout-canvas)) !important;
+  border-color: color-mix(in srgb, var(--layout-accent) 42%, transparent) !important;
+  box-shadow: 0 28px 70px rgba(0, 0, 0, .42) !important;
+}
+
+:root[data-layout="elegancia-profunda"] #herbal-baths-modal > div > div:first-child {
+  background: linear-gradient(90deg, color-mix(in srgb, var(--layout-surface) 92%, #071f19), color-mix(in srgb, var(--layout-canvas) 94%, #0d2d24)) !important;
+  border-color: color-mix(in srgb, var(--layout-accent) 30%, transparent) !important;
+}
+
+:root[data-layout="elegancia-profunda"] #herbal-baths-modal .bg-white,
+:root[data-layout="elegancia-profunda"] #herbal-baths-modal .bg-\[\#FBF8F2\],
+:root[data-layout="elegancia-profunda"] #herbal-baths-modal .bg-\[\#F5EFE4\] {
+  background: color-mix(in srgb, var(--layout-surface) 94%, #071f19) !important;
+}
+
+:root[data-layout="elegancia-profunda"] #herbal-baths-modal .border-\[\#E5DAC6\] {
+  border-color: color-mix(in srgb, var(--layout-accent) 24%, transparent) !important;
+}
+
+:root[data-layout="elegancia-profunda"] #herbal-baths-modal .text-\[\#2A2420\] {
+  color: var(--layout-text) !important;
+}
+
+:root[data-layout="elegancia-profunda"] #herbal-baths-modal .text-\[\#5C5248\],
+:root[data-layout="elegancia-profunda"] #herbal-baths-modal .text-\[\#85786C\] {
+  color: var(--layout-muted) !important;
+}
+
+:root[data-layout="elegancia-profunda"] #herbal-baths-modal .text-\[\#8F631E\] {
+  color: var(--layout-accent) !important;
+}
+
+:root[data-layout="elegancia-profunda"] #herbal-baths-modal input[type="search"] {
+  background: color-mix(in srgb, var(--layout-surface) 90%, #071f19) !important;
+  border-color: color-mix(in srgb, var(--layout-accent) 28%, transparent) !important;
+  color: var(--layout-text) !important;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.025) !important;
+}
+
+:root[data-layout="elegancia-profunda"] #herbal-baths-modal input[type="search"]:focus {
+  border-color: color-mix(in srgb, var(--layout-accent) 72%, transparent) !important;
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--layout-accent) 12%, transparent) !important;
+}
+
+:root[data-layout="elegancia-profunda"] #herbal-baths-modal article:not(.bg-amber-50) {
+  background: linear-gradient(150deg, color-mix(in srgb, var(--layout-surface) 96%, #0a251e), color-mix(in srgb, var(--layout-canvas) 92%, #071f19)) !important;
+  border-color: color-mix(in srgb, var(--layout-accent) 24%, transparent) !important;
+  box-shadow: 0 14px 34px rgba(0,0,0,.22) !important;
+}
+
+:root[data-layout="elegancia-profunda"] #herbal-baths-modal button.bg-white,
+:root[data-layout="elegancia-profunda"] #herbal-baths-modal button.bg-\[\#F5EFE4\] {
+  background: color-mix(in srgb, var(--layout-surface) 92%, #0a251e) !important;
+  border-color: color-mix(in srgb, var(--layout-accent) 32%, transparent) !important;
+  color: var(--layout-text) !important;
+}
+
+:root[data-layout="elegancia-profunda"] #herbal-baths-modal button.bg-white:hover,
+:root[data-layout="elegancia-profunda"] #herbal-baths-modal button.bg-\[\#F5EFE4\]:hover {
+  background: color-mix(in srgb, var(--layout-accent) 12%, var(--layout-surface)) !important;
+  border-color: color-mix(in srgb, var(--layout-accent) 55%, transparent) !important;
+}
+
+:root[data-layout="elegancia-profunda"] #herbal-baths-modal > div > div:last-child {
+  background: color-mix(in srgb, var(--layout-surface) 96%, #071f19) !important;
+  border-color: color-mix(in srgb, var(--layout-accent) 30%, transparent) !important;
+}
+
+@media (max-width: 640px) {
+  :root[data-layout="elegancia-profunda"] #herbal-baths-modal > div {
+    border-radius: 1.1rem !important;
+  }
+}
