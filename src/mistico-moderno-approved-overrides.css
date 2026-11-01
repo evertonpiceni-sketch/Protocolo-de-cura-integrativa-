@@ -81,15 +81,9 @@
   border-color:rgba(212,175,55,.24)!important;
   box-shadow:0 16px 38px rgba(0,0,0,.24),inset 0 1px 0 rgba(255,255,255,.04)!important;
 }
-:root[data-layout="mistico-moderno"] #settings-view [data-ns-status-card="true"] :is(h1,h2,h3,strong){
-  color:var(--text-primary)!important;
-}
-:root[data-layout="mistico-moderno"] #settings-view [data-ns-status-card="true"] :is(p,small,span){
-  color:var(--text-secondary)!important;
-}
-:root[data-layout="mistico-moderno"] #settings-view .border-t{
-  border-color:var(--border-subtle)!important;
-}
+:root[data-layout="mistico-moderno"] #settings-view [data-ns-status-card="true"] :is(h1,h2,h3,strong){color:var(--text-primary)!important;}
+:root[data-layout="mistico-moderno"] #settings-view [data-ns-status-card="true"] :is(p,small,span){color:var(--text-secondary)!important;}
+:root[data-layout="mistico-moderno"] #settings-view .border-t{border-color:var(--border-subtle)!important;}
 
 /* Controles legados da página de Configurações ainda usam marfim/branco/café
    diretamente no JSX. Neutraliza apenas esses tokens dentro da view Mística. */
@@ -100,16 +94,35 @@
   color:var(--text-secondary)!important;
 }
 :root[data-layout="mistico-moderno"] #settings-view [class*="text-[#2A2420]"],
-:root[data-layout="mistico-moderno"] #settings-view [class*="text-[#2A2421]"]{
-  color:var(--text-primary)!important;
-}
+:root[data-layout="mistico-moderno"] #settings-view [class*="text-[#2A2421]"]{color:var(--text-primary)!important;}
 :root[data-layout="mistico-moderno"] #settings-view [class*="text-[#5C5248]"],
-:root[data-layout="mistico-moderno"] #settings-view [class*="text-[#85786C]"]{
-  color:var(--text-secondary)!important;
-}
-:root[data-layout="mistico-moderno"] #settings-view [class*="border-[#E5DAC6]"]{
+:root[data-layout="mistico-moderno"] #settings-view [class*="text-[#85786C]"]{color:var(--text-secondary)!important;}
+:root[data-layout="mistico-moderno"] #settings-view [class*="border-[#E5DAC6]"]{border-color:var(--border-subtle)!important;}
+
+/* Diário de Reconexão é compartilhado e ainda traz a paleta clara/âmbar no JSX.
+   Isola a tela no Místico sem alterar conteúdo, estados ou semântica do diário. */
+:root[data-layout="mistico-moderno"] #journal-dashboard-view [class*="bg-[#FBF8F2]"],
+:root[data-layout="mistico-moderno"] #journal-dashboard-view [class*="bg-[#F5EFE4]"],
+:root[data-layout="mistico-moderno"] #journal-dashboard-view [class*="bg-white"]{
+  background:var(--bg-card-subtle)!important;
   border-color:var(--border-subtle)!important;
 }
+:root[data-layout="mistico-moderno"] #journal-dashboard-view [class*="border-[#E5DAC6]"]{border-color:var(--border-subtle)!important;}
+:root[data-layout="mistico-moderno"] #journal-dashboard-view [class*="text-[#2A2420]"]{color:var(--text-primary)!important;}
+:root[data-layout="mistico-moderno"] #journal-dashboard-view [class*="text-[#5C5248]"],
+:root[data-layout="mistico-moderno"] #journal-dashboard-view [class*="text-[#85786C]"]{color:var(--text-secondary)!important;}
+:root[data-layout="mistico-moderno"] #journal-dashboard-view [class*="bg-[#B88736]"]{
+  background:var(--gold-gradient)!important;
+  color:#0A0F18!important;
+  box-shadow:0 10px 24px var(--gold-shadow)!important;
+}
+:root[data-layout="mistico-moderno"] #journal-dashboard-view [class*="bg-amber"],
+:root[data-layout="mistico-moderno"] #journal-dashboard-view [class*="bg-emerald"]{
+  background:rgba(20,31,48,.88)!important;
+  border-color:rgba(108,63,160,.28)!important;
+}
+:root[data-layout="mistico-moderno"] #journal-dashboard-view [class*="text-amber"],
+:root[data-layout="mistico-moderno"] #journal-dashboard-view [class*="text-emerald"]{color:var(--text-secondary)!important;}
 
 :root[data-layout="mistico-moderno"] .ep-gold-button,
 :root[data-layout="mistico-moderno"] .ep-gold-action{
