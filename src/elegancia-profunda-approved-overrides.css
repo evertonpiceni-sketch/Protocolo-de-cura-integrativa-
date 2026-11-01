@@ -67,8 +67,55 @@
   color: var(--layout-text-soft) !important;
 }
 
+/* Varredura 11: impede que cartões claros/índigo/roxo antigos reapareçam nas Configurações. */
+:root[data-layout="elegancia-profunda"] #settings-view :is([class*="bg-white"],[class*="bg-slate"],[class*="bg-indigo"],[class*="bg-purple"]) {
+  background-color: var(--layout-card) !important;
+  border-color: var(--layout-border-card) !important;
+}
+:root[data-layout="elegancia-profunda"] #settings-view :is([class*="text-indigo"],[class*="text-purple"],[class*="text-amber"]) {
+  color: var(--layout-gold) !important;
+}
+:root[data-layout="elegancia-profunda"] #settings-view :is([class*="text-[#2A2420]"],[class*="text-[#5C5248]"],[class*="text-[#85786C]"]) {
+  color: var(--layout-text-soft) !important;
+}
+
+/* Player: mantém um único palco profundo e premium, sem superfícies claras ou cores de outros estilos. */
+:root[data-layout="elegancia-profunda"] #meditation-session.ep-session {
+  background: linear-gradient(180deg, color-mix(in srgb,var(--layout-canvas) 96%,black), color-mix(in srgb,var(--layout-card) 94%,black)) !important;
+  color: var(--layout-text) !important;
+}
+:root[data-layout="elegancia-profunda"] #meditation-session .ep-session-stage {
+  width: min(100%, 720px);
+  margin-inline: auto;
+}
+:root[data-layout="elegancia-profunda"] #meditation-session .ep-stage-title {
+  color: var(--layout-text) !important;
+  text-wrap: balance;
+}
+:root[data-layout="elegancia-profunda"] #meditation-session :is(.ep-stage-subtitle,.ep-session-mantra) {
+  color: var(--layout-text-soft) !important;
+}
+:root[data-layout="elegancia-profunda"] #meditation-session .ep-stage-badge,
+:root[data-layout="elegancia-profunda"] #meditation-session footer {
+  background: color-mix(in srgb,var(--layout-card) 88%,transparent) !important;
+  border-color: color-mix(in srgb,var(--layout-gold) 28%,transparent) !important;
+  backdrop-filter: blur(12px);
+}
+:root[data-layout="elegancia-profunda"] #meditation-session button:not([disabled]) {
+  border-color: color-mix(in srgb,var(--layout-gold) 34%,transparent) !important;
+  box-shadow: 0 10px 28px rgba(0,0,0,.22);
+}
+:root[data-layout="elegancia-profunda"] #meditation-session button:focus-visible {
+  outline: 2px solid color-mix(in srgb,var(--layout-gold) 64%,white);
+  outline-offset: 3px;
+}
+
 @media (max-width:640px) {
   :root[data-layout="elegancia-profunda"] .ep-brand-signature,
   :root[data-layout="elegancia-profunda"] img[src*="logo" i],
   :root[data-layout="elegancia-profunda"] img[alt*="logo" i] { opacity:.26 !important; }
+
+  :root[data-layout="elegancia-profunda"] #meditation-session .ep-session-stage {
+    width: 100%;
+  }
 }
