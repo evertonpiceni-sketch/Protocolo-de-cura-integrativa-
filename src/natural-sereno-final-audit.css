@@ -95,6 +95,23 @@
   outline-offset: 2px;
 }
 
+/* Settings still contained legacy indigo/emerald utility classes from older visual systems.
+   Scope the correction to Natural Sereno so semantic behavior is preserved without recoloring other styles. */
+:root[data-layout="natural-sereno"] button.bg-indigo-600\/30 {
+  background: linear-gradient(180deg, var(--ns-final-gold-soft), var(--ns-final-gold)) !important;
+  border-color: rgba(168,126,55,.42) !important;
+  color: var(--ns-final-coffee) !important;
+  box-shadow: 0 8px 20px rgba(168,126,55,.14) !important;
+}
+
+:root[data-layout="natural-sereno"] button.bg-indigo-600\/30:hover {
+  background: linear-gradient(180deg, #E8C47D, #C89D52) !important;
+}
+
+:root[data-layout="natural-sereno"] .text-emerald-400 {
+  color: #56623D !important;
+}
+
 /* Bottom navigation had legacy emerald/purple/indigo/amber slabs from older visual systems.
    Keep semantic icons as small accents, but make every surface belong to Natural Sereno. */
 :root[data-layout="natural-sereno"] [id^="bottom-btn-"] {
