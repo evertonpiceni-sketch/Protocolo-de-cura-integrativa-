@@ -22,7 +22,9 @@
 }
 
 /* O logo oficial funciona como assinatura e nunca como protagonista. */
-:root[data-layout="essencia-luminosa"] .ep-brand-signature{
+:root[data-layout="essencia-luminosa"] .ep-brand-signature,
+:root[data-layout="essencia-luminosa"] img[src*="logo" i],
+:root[data-layout="essencia-luminosa"] img[alt*="logo" i]{
   opacity:.30!important;
   filter:saturate(.86) contrast(.96);
   border-color:transparent!important;
@@ -61,6 +63,9 @@
 :root[data-layout="essencia-luminosa"] #settings-view [data-ns-status-card="true"] :is(p,small,span){
   color:var(--layout-text-soft)!important;
 }
+:root[data-layout="essencia-luminosa"] #settings-view .border-t{
+  border-color:var(--layout-border-card)!important;
+}
 
 /* Tipografia permanece nítida sobre as superfícies luminosas. */
 :root[data-layout="essencia-luminosa"] .ep-home,
@@ -70,5 +75,7 @@
 }
 
 @media (max-width:640px){
-  :root[data-layout="essencia-luminosa"] .ep-brand-signature{opacity:.26!important;}
+  :root[data-layout="essencia-luminosa"] .ep-brand-signature,
+  :root[data-layout="essencia-luminosa"] img[src*="logo" i],
+  :root[data-layout="essencia-luminosa"] img[alt*="logo" i]{opacity:.26!important;}
 }
