@@ -95,6 +95,27 @@
   outline-offset: 2px;
 }
 
+/* Payment modal: remove legacy forest-green surfaces while preserving checkout behavior. */
+:root[data-layout="natural-sereno"] #plans-modal {
+  color: var(--ns-final-coffee);
+}
+
+:root[data-layout="natural-sereno"] #plans-modal strong.text-\[\#073B2B\] {
+  color: var(--ns-final-coffee) !important;
+}
+
+:root[data-layout="natural-sereno"] #plans-modal button.bg-\[\#073B2B\],
+:root[data-layout="natural-sereno"] #plans-modal span.bg-\[\#073B2B\] {
+  background: linear-gradient(180deg, var(--ns-final-gold-soft), var(--ns-final-gold)) !important;
+  color: var(--ns-final-coffee) !important;
+  border: 1px solid rgba(168,126,55,.42) !important;
+  box-shadow: 0 10px 24px rgba(168,126,55,.16) !important;
+}
+
+:root[data-layout="natural-sereno"] #plans-modal button.bg-\[\#073B2B\]:hover {
+  filter: brightness(.98);
+}
+
 /* Official logo is a signature, not the protagonist. Cover every currently used logo hook,
    including data-URI images that cannot be matched by a filename selector. */
 :root[data-layout="natural-sereno"] .approved-brand,
