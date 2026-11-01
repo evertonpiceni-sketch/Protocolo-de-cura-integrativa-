@@ -25,7 +25,7 @@ export const OFFICIAL_LAYOUTS: LayoutDefinition[] = [
   {
     id: 'elegancia-profunda',
     name: 'Elegância Profunda',
-    description: 'Sofisticação, contraste refinado e presença contemplativa.',
+    description: 'Natureza integrada, verde profundo intencional, dourado nobre/champagne/bronze e marfim em uma composição sofisticada, contemplativa e elegante.',
     swatches: ['#0B1712', '#2E6B4F', '#D4AF37', '#132A1F'],
     tone: 'dark'
   },
