@@ -149,6 +149,52 @@
   border-color:rgba(212,175,55,.24)!important;
 }
 
+/* Planos/pagamento é compartilhado e ainda nasce no tema claro/verde.
+   Mantém integralmente catálogo, cupons e checkout; corrige apenas apresentação no Místico. */
+:root[data-layout="mistico-moderno"] #plans-modal{
+  background:rgba(4,7,13,.72)!important;
+  color:var(--text-primary)!important;
+}
+:root[data-layout="mistico-moderno"] #plans-modal>div{
+  background:
+    radial-gradient(circle at 15% 0,rgba(108,63,160,.12),transparent 28rem),
+    linear-gradient(180deg,#0A0F18 0%,#101827 100%)!important;
+  color:var(--text-primary)!important;
+}
+:root[data-layout="mistico-moderno"] #plans-modal header{
+  background:rgba(10,15,24,.90)!important;
+  border-color:rgba(212,175,55,.18)!important;
+}
+:root[data-layout="mistico-moderno"] #plans-modal :is(article,#checkout-planos,[class*="bg-white"],[class*="bg-[#FFF9E8]"],[class*="from-[#FFF6D9]"]){
+  background:linear-gradient(145deg,rgba(20,31,48,.96),rgba(10,15,24,.94))!important;
+  border-color:var(--border-subtle)!important;
+  box-shadow:0 14px 34px rgba(0,0,0,.22),inset 0 1px 0 rgba(255,255,255,.035)!important;
+}
+:root[data-layout="mistico-moderno"] #plans-modal :is(h1,h2,h3,h4,[class*="text-[#26372A]"],[class*="text-[#073B2B]"]){
+  color:var(--text-primary)!important;
+}
+:root[data-layout="mistico-moderno"] #plans-modal :is(p,span,label,[class*="text-[#5F6857]"],[class*="text-[#6A725F]"]){
+  color:var(--text-secondary)!important;
+}
+:root[data-layout="mistico-moderno"] #plans-modal input{
+  background:rgba(10,15,24,.72)!important;
+  border-color:rgba(108,63,160,.30)!important;
+  color:var(--text-primary)!important;
+}
+:root[data-layout="mistico-moderno"] #plans-modal input:focus{border-color:rgba(212,175,55,.48)!important;}
+:root[data-layout="mistico-moderno"] #plans-modal button[class*="bg-[#073B2B]"],
+:root[data-layout="mistico-moderno"] #plans-modal button[class*="bg-[#B88736]"]{
+  background:var(--gold-gradient)!important;
+  border-color:var(--gold-border)!important;
+  color:#0A0F18!important;
+  box-shadow:0 10px 24px var(--gold-shadow)!important;
+}
+:root[data-layout="mistico-moderno"] #plans-modal [class*="bg-[#F7E5AA]"]{
+  background:rgba(108,63,160,.18)!important;
+  border-color:rgba(212,175,55,.30)!important;
+  color:var(--text-primary)!important;
+}
+
 :root[data-layout="mistico-moderno"] .ep-gold-button,
 :root[data-layout="mistico-moderno"] .ep-gold-action{
   background:var(--gold-gradient)!important;
