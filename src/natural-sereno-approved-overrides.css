@@ -3,23 +3,34 @@
    subtle logo treatment. Visual composition follows the official Estilo 1 card
    and must be corrected in each owning component, not by global recoloring. */
 
-/* Logo oficial: assinatura visual discreta; nunca elemento dominante. */
+/* Logo oficial: assinatura visual discreta; nunca elemento dominante.
+   Keep the artwork itself intact and reduce only its visual weight. */
 :root[data-layout="natural-sereno"] #main-header .ep-brand-signature-wrap {
-  opacity: .48 !important;
+  opacity: .30 !important;
+  max-width: min(240px, 34vw);
 }
 
 :root[data-layout="natural-sereno"] #main-header .ep-brand-signature {
   opacity: 1 !important;
   filter: none !important;
+  object-fit: contain !important;
 }
 
 #profile-setup-view.ep-auth-style-one #onboarding-card .ep-brand-signature-wrap {
   width: 84px;
   height: 84px;
-  opacity: .38 !important;
+  opacity: .30 !important;
 }
 
 #profile-setup-view.ep-auth-style-one #onboarding-card .ep-brand-signature {
   opacity: 1 !important;
   filter: none !important;
+  object-fit: contain !important;
+}
+
+@media (max-width: 640px) {
+  :root[data-layout="natural-sereno"] #main-header .ep-brand-signature-wrap {
+    opacity: .26 !important;
+    max-width: 168px;
+  }
 }
