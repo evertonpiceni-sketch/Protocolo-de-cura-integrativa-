@@ -22,3 +22,122 @@
   opacity: 1 !important;
   filter: none !important;
 }
+
+/* 2026-11-01 — restaura a decisão congelada do Natural Sereno:
+   sem herança de verdão/amarelão dominante; natureza ocupa a composição. */
+:root[data-layout="natural-sereno"] {
+  --ns-forest: #2A2421 !important;
+  --ns-ink: #2A2421 !important;
+  --ns-cream: #FAF7F2 !important;
+  --ns-paper: rgba(250,247,242,.96) !important;
+  --ns-muted: #6B625B !important;
+  --ns-gold: #A87E37 !important;
+  --ns-line: #E8E0D5 !important;
+}
+
+/* Acolhimento: a paisagem é o fundo; retirar o painel verde herdado. */
+:root[data-layout="natural-sereno"] .ns-welcome {
+  background: #FAF7F2 !important;
+}
+
+:root[data-layout="natural-sereno"] .ns-welcome::after {
+  background: url('/brand/natural-sereno/acolhimento.webp') center / cover no-repeat !important;
+  filter: none !important;
+  opacity: 1 !important;
+}
+
+:root[data-layout="natural-sereno"] .ns-welcome::before {
+  left: 0 !important;
+  right: 0 !important;
+  width: 100% !important;
+  transform: none !important;
+  mask-image: none !important;
+  -webkit-mask-image: none !important;
+  background:
+    linear-gradient(180deg, rgba(42,36,33,.18), rgba(42,36,33,.08) 45%, rgba(42,36,33,.28)),
+    url('/brand/natural-sereno/acolhimento.webp') center / cover no-repeat !important;
+}
+
+/* Home desktop: a paisagem volta a acompanhar a largura da página.
+   O conteúdo segue abaixo, sem dividir a cena ao meio. */
+@media (min-width: 900px) {
+  :root[data-layout="natural-sereno"] .ns-app[data-ns-screen="home"] {
+    display: block !important;
+    width: 100% !important;
+    max-width: none !important;
+  }
+
+  :root[data-layout="natural-sereno"] .ns-home-scene {
+    width: 100% !important;
+    min-height: clamp(520px, 62vh, 720px) !important;
+    height: auto !important;
+    max-height: none !important;
+    background:
+      linear-gradient(180deg, rgba(250,247,242,.90), rgba(250,247,242,.46) 30%, rgba(250,247,242,.05) 62%, rgba(42,36,33,.16)),
+      var(--ns-valley) center 55% / cover no-repeat !important;
+  }
+
+  :root[data-layout="natural-sereno"] .ns-home-content {
+    width: min(100%, 1120px) !important;
+    margin: 0 auto !important;
+    padding: 28px 28px 110px !important;
+    background: #FAF7F2 !important;
+  }
+}
+
+/* Botões e blocos que ainda herdavam o verde escuro. */
+:root[data-layout="natural-sereno"] .ns-home-menu {
+  color: #2A2421 !important;
+  background: rgba(250,247,242,.82) !important;
+  border-color: rgba(168,126,55,.30) !important;
+}
+
+:root[data-layout="natural-sereno"] .ns-home-scene > .ns-gold,
+:root[data-layout="natural-sereno"] .ep-home-protocol-choice button,
+:root[data-layout="natural-sereno"] #plans-modal button[class*="bg-[#073B2B]"] {
+  color: #2A2421 !important;
+  background: linear-gradient(180deg,#E2B96B,#C89D52 55%,#A87E37) !important;
+  border-color: #C89D52 !important;
+  box-shadow: inset 0 1px 2px rgba(255,255,255,.62), 0 8px 20px rgba(42,36,33,.12) !important;
+}
+
+:root[data-layout="natural-sereno"] .ep-home-protocol-choice button span {
+  color: #5F554D !important;
+}
+
+:root[data-layout="natural-sereno"] .ns-row-icon,
+:root[data-layout="natural-sereno"] .ns-day-number {
+  background: #F3E8D5 !important;
+  color: #A87E37 !important;
+  border: 1px solid #E8E0D5 !important;
+  box-shadow: none !important;
+}
+
+/* Encerramento da Home: retirar a faixa verde dominante. */
+:root[data-layout="natural-sereno"] .ep-home-closing {
+  background:
+    linear-gradient(180deg, rgba(250,247,242,.90), rgba(243,232,213,.94)),
+    var(--ns-valley) center 72% / cover no-repeat !important;
+  border-top: 1px solid #E8E0D5 !important;
+}
+
+:root[data-layout="natural-sereno"] .ep-home-closing h2 {
+  color: #2A2421 !important;
+}
+
+:root[data-layout="natural-sereno"] .ep-home-closing p {
+  color: #A87E37 !important;
+}
+
+/* Evitar que o verde legado reapareça em estados já conhecidos da Home. */
+:root[data-layout="natural-sereno"] .ep-home-has-anamnesis .ns-current-day,
+:root[data-layout="natural-sereno"] .ep-home-has-anamnesis .ns-current-day .ns-row-copy,
+:root[data-layout="natural-sereno"] .ep-home-has-anamnesis .ns-current-day .ns-row-copy strong,
+:root[data-layout="natural-sereno"] .ep-home-has-anamnesis .ns-current-day > svg,
+:root[data-layout="natural-sereno"] .ep-home-continue {
+  color: #2A2421 !important;
+}
+
+:root[data-layout="natural-sereno"] .ep-home-continue {
+  background: linear-gradient(180deg,#F3E3B2,#DDBD70) !important;
+}
