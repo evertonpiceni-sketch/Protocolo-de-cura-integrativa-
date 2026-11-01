@@ -166,6 +166,35 @@
   filter: brightness(.98);
 }
 
+/* Specific treatment modal still contains legacy emerald/indigo/amber slabs.
+   Normalize surfaces only inside Natural Sereno; keep green as a small semantic accent. */
+:root[data-layout="natural-sereno"] #specific-treatment-modal .bg-emerald-950\/80,
+:root[data-layout="natural-sereno"] #specific-treatment-modal .bg-emerald-600,
+:root[data-layout="natural-sereno"] #specific-treatment-modal .bg-indigo-950\/40,
+:root[data-layout="natural-sereno"] #specific-treatment-modal .bg-amber-950\/20 {
+  background: linear-gradient(180deg, rgba(255,252,247,.98), rgba(245,239,229,.96)) !important;
+  color: var(--ns-final-coffee) !important;
+  border-color: rgba(200,157,82,.38) !important;
+  box-shadow: 0 10px 24px rgba(79,61,43,.08) !important;
+}
+
+:root[data-layout="natural-sereno"] #specific-treatment-modal button.bg-emerald-600,
+:root[data-layout="natural-sereno"] #specific-treatment-modal a.bg-emerald-950\/80 {
+  background: linear-gradient(180deg, var(--ns-final-gold-soft), var(--ns-final-gold)) !important;
+  color: var(--ns-final-coffee) !important;
+  border-color: rgba(168,126,55,.42) !important;
+}
+
+:root[data-layout="natural-sereno"] #specific-treatment-modal .text-emerald-300,
+:root[data-layout="natural-sereno"] #specific-treatment-modal .text-emerald-400 {
+  color: #56623D !important;
+}
+
+:root[data-layout="natural-sereno"] #specific-treatment-modal .text-amber-200\/90,
+:root[data-layout="natural-sereno"] #specific-treatment-modal .text-amber-400 {
+  color: #8A642A !important;
+}
+
 /* Official logo is a signature, not the protagonist. Cover every currently used logo hook,
    including data-URI images that cannot be matched by a filename selector. */
 :root[data-layout="natural-sereno"] .approved-brand,
