@@ -67,6 +67,39 @@
   border-color:var(--layout-border-card)!important;
 }
 
+/* Player: o componente-base ainda nasce com fundo e texto fixos do Natural Sereno.
+   No Estilo 3, devolve o palco aos tokens luminosos aprovados sem alterar lógica/animação. */
+:root[data-layout="essencia-luminosa"] #meditation-session.ep-session{
+  background:
+    radial-gradient(circle at 50% 12%,color-mix(in srgb,var(--layout-gold) 8%,transparent),transparent 30rem),
+    linear-gradient(180deg,var(--layout-canvas),color-mix(in srgb,var(--layout-card) 94%,var(--layout-canvas)))!important;
+  color:var(--layout-text)!important;
+}
+:root[data-layout="essencia-luminosa"] #meditation-session .ep-session-stage{
+  width:min(100%,720px);
+  margin-inline:auto;
+}
+:root[data-layout="essencia-luminosa"] #meditation-session .ep-stage-title{
+  color:var(--layout-text)!important;
+  text-wrap:balance;
+}
+:root[data-layout="essencia-luminosa"] #meditation-session :is(.ep-stage-subtitle,.ep-session-mantra){
+  color:var(--layout-text-soft)!important;
+}
+:root[data-layout="essencia-luminosa"] #meditation-session :is(.ep-stage-badge,footer){
+  background:color-mix(in srgb,var(--layout-card) 88%,transparent)!important;
+  border-color:color-mix(in srgb,var(--layout-gold) 24%,transparent)!important;
+  backdrop-filter:blur(12px);
+}
+:root[data-layout="essencia-luminosa"] #meditation-session button:not([disabled]){
+  border-color:color-mix(in srgb,var(--layout-gold) 30%,transparent)!important;
+  box-shadow:0 10px 28px rgba(112,91,58,.09);
+}
+:root[data-layout="essencia-luminosa"] #meditation-session button:focus-visible{
+  outline:2px solid color-mix(in srgb,var(--layout-gold) 58%,white);
+  outline-offset:3px;
+}
+
 /* Tipografia permanece nítida sobre as superfícies luminosas. */
 :root[data-layout="essencia-luminosa"] .ep-home,
 :root[data-layout="essencia-luminosa"] #cura-main-layout{
@@ -78,4 +111,5 @@
   :root[data-layout="essencia-luminosa"] .ep-brand-signature,
   :root[data-layout="essencia-luminosa"] img[src*="logo" i],
   :root[data-layout="essencia-luminosa"] img[alt*="logo" i]{opacity:.26!important;}
+  :root[data-layout="essencia-luminosa"] #meditation-session .ep-session-stage{width:100%;}
 }
