@@ -110,6 +110,52 @@
   outline-offset: 3px;
 }
 
+/* Diário de Reconexão: o componente-base ainda usa marfim/branco, âmbar e emerald claros.
+   No Estilo 2, mantém significado e conteúdo, mas remove a herança visual dos outros estilos. */
+:root[data-layout="elegancia-profunda"] #journal-dashboard-view {
+  color: var(--layout-text) !important;
+}
+:root[data-layout="elegancia-profunda"] #journal-dashboard-view header,
+:root[data-layout="elegancia-profunda"] #journal-timeline-list article,
+:root[data-layout="elegancia-profunda"] #journal-timeline-list section,
+:root[data-layout="elegancia-profunda"] #journal-timeline-list > div,
+:root[data-layout="elegancia-profunda"] #journal-search-container input {
+  background: color-mix(in srgb,var(--layout-card) 94%,black) !important;
+  border-color: var(--layout-border-card) !important;
+  color: var(--layout-text) !important;
+}
+:root[data-layout="elegancia-profunda"] #journal-dashboard-view :is(h1,h2,strong,[class*="text-[#2A2420]"]) {
+  color: var(--layout-text) !important;
+}
+:root[data-layout="elegancia-profunda"] #journal-dashboard-view :is(p,small,[class*="text-[#5C5248]"],[class*="text-[#85786C]"]) {
+  color: var(--layout-text-soft) !important;
+}
+:root[data-layout="elegancia-profunda"] #journal-dashboard-view :is([class*="text-[#B88736]"],[class*="text-[#8F631E]"],[class*="text-amber"]) {
+  color: var(--layout-gold) !important;
+}
+:root[data-layout="elegancia-profunda"] #journal-dashboard-view :is([class*="bg-[#FBF8F2]"],[class*="bg-[#F5EFE4]"],[class*="bg-white"],[class*="bg-amber"],[class*="bg-emerald"]) {
+  background-color: color-mix(in srgb,var(--layout-card) 92%,black) !important;
+  border-color: color-mix(in srgb,var(--layout-gold) 22%,var(--layout-border-card)) !important;
+}
+:root[data-layout="elegancia-profunda"] #journal-dashboard-view :is([class*="text-emerald"],[class*="border-emerald"]) {
+  color: color-mix(in srgb,var(--layout-accent) 70%,var(--layout-gold)) !important;
+  border-color: color-mix(in srgb,var(--layout-accent) 48%,var(--layout-border-card)) !important;
+}
+:root[data-layout="elegancia-profunda"] #btn-back-from-journal,
+:root[data-layout="elegancia-profunda"] #btn-export-journal {
+  border: 1px solid color-mix(in srgb,var(--layout-gold) 34%,transparent) !important;
+  background: linear-gradient(145deg,color-mix(in srgb,var(--layout-card) 88%,black),color-mix(in srgb,var(--layout-gold) 12%,var(--layout-card))) !important;
+  color: var(--layout-text) !important;
+  box-shadow: 0 10px 28px rgba(0,0,0,.22);
+}
+:root[data-layout="elegancia-profunda"] #journal-search-container input::placeholder {
+  color: color-mix(in srgb,var(--layout-text-soft) 72%,transparent) !important;
+}
+:root[data-layout="elegancia-profunda"] #journal-search-container input:focus {
+  border-color: color-mix(in srgb,var(--layout-gold) 58%,transparent) !important;
+  box-shadow: 0 0 0 3px color-mix(in srgb,var(--layout-gold) 14%,transparent) !important;
+}
+
 @media (max-width:640px) {
   :root[data-layout="elegancia-profunda"] .ep-brand-signature,
   :root[data-layout="elegancia-profunda"] img[src*="logo" i],
