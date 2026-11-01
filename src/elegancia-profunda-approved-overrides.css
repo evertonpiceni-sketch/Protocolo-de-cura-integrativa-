@@ -30,9 +30,12 @@
 :root[data-layout="elegancia-profunda"] #settings-view [data-ns-status-card="true"] { background:linear-gradient(145deg,color-mix(in srgb,var(--layout-card) 94%,black),color-mix(in srgb,var(--layout-gold) 8%,var(--layout-card)))!important; border-color:color-mix(in srgb,var(--layout-gold) 30%,transparent)!important; box-shadow:0 16px 38px rgba(0,0,0,.22)!important; }
 :root[data-layout="elegancia-profunda"] #settings-view [data-ns-status-card="true"] :is(h1,h2,h3,strong) { color:var(--layout-text)!important; }
 :root[data-layout="elegancia-profunda"] #settings-view [data-ns-status-card="true"] :is(p,small,span) { color:var(--layout-text-soft)!important; }
-:root[data-layout="elegancia-profunda"] #settings-view :is([class*="bg-white"],[class*="bg-slate"],[class*="bg-indigo"],[class*="bg-purple"]) { background-color:var(--layout-card)!important; border-color:var(--layout-border-card)!important; }
+:root[data-layout="elegancia-profunda"] #settings-view :is([class*="bg-white"],[class*="bg-slate"],[class*="bg-indigo"],[class*="bg-purple"],[class*="bg-[#F5EFE4]"]) { background-color:var(--layout-card)!important; border-color:var(--layout-border-card)!important; }
 :root[data-layout="elegancia-profunda"] #settings-view :is([class*="text-indigo"],[class*="text-purple"],[class*="text-amber"]) { color:var(--layout-gold)!important; }
 :root[data-layout="elegancia-profunda"] #settings-view :is([class*="text-[#2A2420]"],[class*="text-[#5C5248]"],[class*="text-[#85786C]"]) { color:var(--layout-text-soft)!important; }
+/* Cards de Solfeggio: seleção profunda com champagne, sem marfim herdado. */
+:root[data-layout="elegancia-profunda"] #settings-view button[class*="bg-[#F5EFE4]"] { background:linear-gradient(145deg,color-mix(in srgb,var(--layout-card) 92%,black),color-mix(in srgb,var(--layout-gold) 10%,var(--layout-card)))!important; border-color:color-mix(in srgb,var(--layout-gold) 54%,var(--layout-border-card))!important; color:var(--layout-text)!important; box-shadow:0 10px 24px rgba(0,0,0,.18)!important; }
+:root[data-layout="elegancia-profunda"] #settings-view button[class*="bg-white"]:hover { border-color:color-mix(in srgb,var(--layout-gold) 34%,var(--layout-border-card))!important; background:color-mix(in srgb,var(--layout-card) 94%,var(--layout-gold))!important; }
 
 /* Player. */
 :root[data-layout="elegancia-profunda"] #meditation-session.ep-session { background:linear-gradient(180deg,color-mix(in srgb,var(--layout-canvas) 96%,black),color-mix(in srgb,var(--layout-card) 94%,black))!important; color:var(--layout-text)!important; }
