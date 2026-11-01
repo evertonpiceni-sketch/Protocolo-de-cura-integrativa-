@@ -95,14 +95,22 @@
   outline-offset: 2px;
 }
 
-/* Official logo is a signature, not the protagonist. */
+/* Official logo is a signature, not the protagonist. Cover every currently used logo hook,
+   including data-URI images that cannot be matched by a filename selector. */
 :root[data-layout="natural-sereno"] .approved-brand,
 :root[data-layout="natural-sereno"] [data-approved-brand],
+:root[data-layout="natural-sereno"] .ep-brand-signature,
+:root[data-layout="natural-sereno"] .ns-welcome-brand,
 :root[data-layout="natural-sereno"] img[alt*="Éverton" i][src*="logo" i],
 :root[data-layout="natural-sereno"] img[alt*="Everton" i][src*="logo" i] {
   opacity: .24 !important;
   filter: none !important;
   object-fit: contain !important;
+}
+
+:root[data-layout="natural-sereno"] .ep-brand-signature-wrap,
+:root[data-layout="natural-sereno"] .ns-welcome-content:has(.ns-welcome-brand) {
+  isolation: isolate;
 }
 
 @media (max-width: 767px) {
