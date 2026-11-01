@@ -1,14 +1,12 @@
 /* Estilo 4 — Místico Moderno | auditoria incremental de modais compartilhados.
    Escopo estrito ao layout ativo: não altera conteúdo, lógica nem os outros estilos. */
 
-:root[data-layout="mistico-moderno"] #astral-map-modal,
-:root[data-layout="mistico-moderno"] #numerology-modal{
+:root[data-layout="mistico-moderno"] :is(#astral-map-modal,#numerology-modal,#pro-certificate-modal){
   background:rgba(4,7,13,.76)!important;
   color:var(--text-primary)!important;
 }
 
-:root[data-layout="mistico-moderno"] #astral-map-modal>div,
-:root[data-layout="mistico-moderno"] #numerology-modal>div{
+:root[data-layout="mistico-moderno"] :is(#astral-map-modal,#numerology-modal,#pro-certificate-modal)>div{
   background:
     radial-gradient(circle at 88% 0,rgba(108,63,160,.14),transparent 24rem),
     radial-gradient(circle at 8% 100%,rgba(22,101,82,.07),transparent 22rem),
@@ -18,26 +16,27 @@
   box-shadow:0 22px 58px rgba(0,0,0,.42),inset 0 1px 0 rgba(255,255,255,.045)!important;
 }
 
-:root[data-layout="mistico-moderno"] :is(#astral-map-modal,#numerology-modal) [class*="bg-[#FBF8F2]"],
-:root[data-layout="mistico-moderno"] :is(#astral-map-modal,#numerology-modal) [class*="bg-[#F5EFE4]"],
-:root[data-layout="mistico-moderno"] :is(#astral-map-modal,#numerology-modal) [class*="bg-white"],
-:root[data-layout="mistico-moderno"] :is(#astral-map-modal,#numerology-modal) [class*="bg-amber-50"]{
+:root[data-layout="mistico-moderno"] :is(#astral-map-modal,#numerology-modal,#pro-certificate-modal) [class*="bg-[#FBF8F2]"],
+:root[data-layout="mistico-moderno"] :is(#astral-map-modal,#numerology-modal,#pro-certificate-modal) [class*="bg-[#F5EFE4]"],
+:root[data-layout="mistico-moderno"] :is(#astral-map-modal,#numerology-modal,#pro-certificate-modal) [class*="bg-white"],
+:root[data-layout="mistico-moderno"] :is(#astral-map-modal,#numerology-modal,#pro-certificate-modal) [class*="bg-amber-50"],
+:root[data-layout="mistico-moderno"] #pro-certificate-modal [class*="from-white"]{
   background:rgba(20,31,48,.88)!important;
   border-color:var(--border-subtle)!important;
 }
 
-:root[data-layout="mistico-moderno"] :is(#astral-map-modal,#numerology-modal) [class*="border-[#E5DAC6]"],
-:root[data-layout="mistico-moderno"] :is(#astral-map-modal,#numerology-modal) [class*="border-amber"]{
+:root[data-layout="mistico-moderno"] :is(#astral-map-modal,#numerology-modal,#pro-certificate-modal) [class*="border-[#E5DAC6]"],
+:root[data-layout="mistico-moderno"] :is(#astral-map-modal,#numerology-modal,#pro-certificate-modal) [class*="border-amber"]{
   border-color:var(--border-subtle)!important;
 }
 
-:root[data-layout="mistico-moderno"] :is(#astral-map-modal,#numerology-modal) [class*="text-[#2A2420]"],
-:root[data-layout="mistico-moderno"] :is(#astral-map-modal,#numerology-modal) [class*="text-[#2A2421]"]{
+:root[data-layout="mistico-moderno"] :is(#astral-map-modal,#numerology-modal,#pro-certificate-modal) [class*="text-[#2A2420]"],
+:root[data-layout="mistico-moderno"] :is(#astral-map-modal,#numerology-modal,#pro-certificate-modal) [class*="text-[#2A2421]"]{
   color:var(--text-primary)!important;
 }
 
-:root[data-layout="mistico-moderno"] :is(#astral-map-modal,#numerology-modal) [class*="text-[#5C5248]"],
-:root[data-layout="mistico-moderno"] :is(#astral-map-modal,#numerology-modal) [class*="text-[#85786C]"]{
+:root[data-layout="mistico-moderno"] :is(#astral-map-modal,#numerology-modal,#pro-certificate-modal) [class*="text-[#5C5248]"],
+:root[data-layout="mistico-moderno"] :is(#astral-map-modal,#numerology-modal,#pro-certificate-modal) [class*="text-[#85786C]"]{
   color:var(--text-secondary)!important;
 }
 
@@ -45,8 +44,9 @@
 :root[data-layout="mistico-moderno"] #astral-map-modal [class*="text-amber"]{
   color:var(--text-secondary)!important;
 }
-:root[data-layout="mistico-moderno"] #numerology-modal [class*="text-amber"],
-:root[data-layout="mistico-moderno"] #numerology-modal [class*="text-[#8F631E]"]{
+:root[data-layout="mistico-moderno"] :is(#numerology-modal,#pro-certificate-modal) [class*="text-amber"],
+:root[data-layout="mistico-moderno"] :is(#numerology-modal,#pro-certificate-modal) [class*="text-[#8F631E]"],
+:root[data-layout="mistico-moderno"] #pro-certificate-modal [class*="text-[#B88736]"]{
   color:#D8B96C!important;
 }
 
@@ -56,22 +56,26 @@
   color:#F5F0E6!important;
 }
 
-:root[data-layout="mistico-moderno"] #numerology-modal [class*="bg-[#B88736]/"]{
+:root[data-layout="mistico-moderno"] :is(#numerology-modal,#pro-certificate-modal) [class*="bg-[#B88736]/"]{
   background:rgba(212,175,55,.10)!important;
 }
-:root[data-layout="mistico-moderno"] #numerology-modal [class*="border-[#B88736]"]{
+:root[data-layout="mistico-moderno"] :is(#numerology-modal,#pro-certificate-modal) [class*="border-[#B88736]"]{
   border-color:rgba(212,175,55,.28)!important;
 }
 :root[data-layout="mistico-moderno"] #numerology-modal [class*="text-[#B88736]"]{
   color:#D8B96C!important;
 }
 
-:root[data-layout="mistico-moderno"] :is(#astral-map-modal,#numerology-modal) button{
+:root[data-layout="mistico-moderno"] #pro-certificate-modal [class*="text-[#2D4A3E]"]{
+  color:#D8B96C!important;
+}
+
+:root[data-layout="mistico-moderno"] :is(#astral-map-modal,#numerology-modal,#pro-certificate-modal) button{
   -webkit-font-smoothing:antialiased;
   text-rendering:optimizeLegibility;
 }
 
-:root[data-layout="mistico-moderno"] :is(#astral-map-modal,#numerology-modal) button:focus-visible{
+:root[data-layout="mistico-moderno"] :is(#astral-map-modal,#numerology-modal,#pro-certificate-modal) button:focus-visible{
   outline:none!important;
   box-shadow:0 0 0 2px rgba(212,175,55,.34)!important;
 }
