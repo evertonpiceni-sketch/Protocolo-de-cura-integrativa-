@@ -1,0 +1,24 @@
+/* Elegância Profunda — camada visual aprovada.
+   Isola o estilo de tratamentos claros/sálvia herdados sem alterar lógica ou conteúdo. */
+
+:root[data-layout="elegancia-profunda"] body::before {
+  background:
+    radial-gradient(ellipse at -8% 24%, color-mix(in srgb, var(--layout-accent) 12%, transparent), transparent 24%),
+    radial-gradient(ellipse at 108% 34%, color-mix(in srgb, var(--layout-gold) 10%, transparent), transparent 24%) !important;
+}
+
+:root[data-layout="elegancia-profunda"] body {
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+}
+
+:root[data-layout="elegancia-profunda"] button:not([disabled]),
+:root[data-layout="elegancia-profunda"] [role="button"] {
+  -webkit-font-smoothing: antialiased;
+}
+
+/* O logo oficial funciona como assinatura, nunca como elemento dominante. */
+:root[data-layout="elegancia-profunda"] img[src*="logo" i],
+:root[data-layout="elegancia-profunda"] img[alt*="logo" i] {
+  opacity: .58;
+}
