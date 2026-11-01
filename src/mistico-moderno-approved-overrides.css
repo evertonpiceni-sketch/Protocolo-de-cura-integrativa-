@@ -71,6 +71,14 @@
   filter:saturate(.90) contrast(.97);
 }
 
+/* O logo do header não usa ep-brand-signature-wrap no JSX. Neutraliza o disco
+   marfim no próprio invólucro sem afetar os demais estilos. */
+:root[data-layout="mistico-moderno"] #main-header div:has(> img.ep-brand-signature){
+  background:rgba(20,31,48,.18)!important;
+  border-color:rgba(212,175,55,.16)!important;
+  box-shadow:0 0 18px rgba(108,63,160,.08)!important;
+}
+
 /* Configurações ainda usa um cartão PRO compartilhado com classes slate/amber.
    Mantém conteúdo e hierarquia, mas devolve superfície índigo-noturna e acentos
    violeta/dourado próprios do Místico. */
@@ -123,6 +131,23 @@
 }
 :root[data-layout="mistico-moderno"] #journal-dashboard-view [class*="text-amber"],
 :root[data-layout="mistico-moderno"] #journal-dashboard-view [class*="text-emerald"]{color:var(--text-secondary)!important;}
+
+/* Navegação inferior compartilhada ainda nasce marfim/café no App.tsx. */
+:root[data-layout="mistico-moderno"] :is(#bottom-btn-journal,#bottom-btn-dashboard,#bottom-btn-audio){
+  background:rgba(20,31,48,.94)!important;
+  border-color:rgba(108,63,160,.26)!important;
+  color:var(--text-secondary)!important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.035)!important;
+}
+:root[data-layout="mistico-moderno"] :is(#bottom-btn-journal,#bottom-btn-dashboard,#bottom-btn-audio):hover{
+  color:var(--text-primary)!important;
+  border-color:rgba(212,175,55,.28)!important;
+}
+:root[data-layout="mistico-moderno"] #bottom-btn-journal.bg-indigo-600{
+  background:linear-gradient(135deg,rgba(108,63,160,.88),rgba(47,62,112,.92))!important;
+  color:var(--text-primary)!important;
+  border-color:rgba(212,175,55,.24)!important;
+}
 
 :root[data-layout="mistico-moderno"] .ep-gold-button,
 :root[data-layout="mistico-moderno"] .ep-gold-action{
