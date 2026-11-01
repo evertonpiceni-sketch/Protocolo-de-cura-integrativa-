@@ -50,6 +50,25 @@
   color: #6B625B !important;
 }
 
+/* Reminder controls still carried indigo chrome from another style.
+   Preserve their behavior while returning the field and CTA to the approved
+   ivory / coffee / refined-gold language. */
+:root[data-layout="natural-sereno"] #settings-view .focus\:border-indigo-500:focus {
+  border-color: #B88736 !important;
+}
+
+:root[data-layout="natural-sereno"] #settings-view button.bg-indigo-500\/20 {
+  background: rgba(184,135,54,.12) !important;
+  color: #6B4E2E !important;
+  border-color: rgba(184,135,54,.30) !important;
+  box-shadow: 0 8px 18px rgba(67,52,39,.06) !important;
+}
+
+:root[data-layout="natural-sereno"] #settings-view button.bg-indigo-500\/20:hover {
+  background: rgba(184,135,54,.20) !important;
+  border-color: rgba(184,135,54,.44) !important;
+}
+
 /* Header chrome must not leak indigo from another style. */
 :root[data-layout="natural-sereno"] #main-header .ep-brand-signature {
   border-color: transparent !important;
