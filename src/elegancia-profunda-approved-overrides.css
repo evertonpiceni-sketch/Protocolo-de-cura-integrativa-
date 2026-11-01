@@ -25,6 +25,19 @@
 :root[data-layout="elegancia-profunda"] #main-header span:not(.sr-only) { color:var(--layout-text-soft)!important; }
 :root[data-layout="elegancia-profunda"] #main-header [class*="text-amber"] { color:var(--layout-gold)!important; }
 :root[data-layout="elegancia-profunda"] #main-header [class*="text-emerald"] { color:var(--layout-accent)!important; }
+/* Controles do cabeçalho: remove marfim/azul/âmbar herdados do JSX sem alterar ações. */
+:root[data-layout="elegancia-profunda"] #header-audio-quick-control button,
+:root[data-layout="elegancia-profunda"] #header-btn-audio-settings,
+:root[data-layout="elegancia-profunda"] #header-btn-archangel,
+:root[data-layout="elegancia-profunda"] #header-language-selector { background:linear-gradient(145deg,color-mix(in srgb,var(--layout-card) 94%,black),color-mix(in srgb,var(--layout-gold) 7%,var(--layout-card)))!important; border-color:color-mix(in srgb,var(--layout-gold) 28%,var(--layout-border-card))!important; color:var(--layout-text-soft)!important; box-shadow:0 8px 22px rgba(0,0,0,.16)!important; }
+:root[data-layout="elegancia-profunda"] #header-audio-quick-control button:hover,
+:root[data-layout="elegancia-profunda"] #header-btn-audio-settings:hover,
+:root[data-layout="elegancia-profunda"] #header-btn-archangel:hover { background:color-mix(in srgb,var(--layout-card) 90%,var(--layout-gold))!important; border-color:color-mix(in srgb,var(--layout-gold) 46%,var(--layout-border-card))!important; }
+:root[data-layout="elegancia-profunda"] #header-audio-quick-control :is(svg,span),
+:root[data-layout="elegancia-profunda"] #header-btn-audio-settings :is(svg,span),
+:root[data-layout="elegancia-profunda"] #header-btn-archangel :is(svg,span),
+:root[data-layout="elegancia-profunda"] #header-language-selector :is(svg,select) { color:var(--layout-gold)!important; }
+:root[data-layout="elegancia-profunda"] #header-language-selector select { background:transparent!important; }
 
 /* Configurações. */
 :root[data-layout="elegancia-profunda"] #settings-view [data-ns-status-card="true"] { background:linear-gradient(145deg,color-mix(in srgb,var(--layout-card) 94%,black),color-mix(in srgb,var(--layout-gold) 8%,var(--layout-card)))!important; border-color:color-mix(in srgb,var(--layout-gold) 30%,transparent)!important; box-shadow:0 16px 38px rgba(0,0,0,.22)!important; }
@@ -64,8 +77,7 @@
 :root[data-layout="elegancia-profunda"] #journal-search-container input::placeholder { color:color-mix(in srgb,var(--layout-text-soft) 72%,transparent)!important; }
 :root[data-layout="elegancia-profunda"] #journal-search-container input:focus { border-color:color-mix(in srgb,var(--layout-gold) 58%,transparent)!important; box-shadow:0 0 0 3px color-mix(in srgb,var(--layout-gold) 14%,transparent)!important; }
 
-/* Varredura 13: modal de detalhe do dia ainda vinha branco/marfim e com cores fixas no JSX.
-   Corrige apenas sua superfície e hierarquia no Estilo 2, sem tocar conteúdo/estado. */
+/* Modal de detalhe do dia: superfície e hierarquia próprias do Estilo 2. */
 :root[data-layout="elegancia-profunda"] #day-detail-modal { background:color-mix(in srgb,var(--layout-canvas) 84%,transparent)!important; }
 :root[data-layout="elegancia-profunda"] #day-detail-modal > div { background:linear-gradient(155deg,color-mix(in srgb,var(--layout-card) 97%,black),color-mix(in srgb,var(--layout-canvas) 94%,black))!important; border-color:color-mix(in srgb,var(--layout-gold) 26%,var(--layout-border-card))!important; color:var(--layout-text)!important; box-shadow:0 28px 70px rgba(0,0,0,.42)!important; }
 :root[data-layout="elegancia-profunda"] #day-detail-modal :is(h1,h2,h3,strong) { color:var(--layout-text)!important; }
