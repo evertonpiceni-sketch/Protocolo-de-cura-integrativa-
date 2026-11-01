@@ -1,0 +1,44 @@
+/* Elegância Profunda — auditoria incremental de modais.
+   Escopo estrito: somente o layout Elegância Profunda; preserva cores semânticas dos chakras. */
+
+:root[data-layout="elegancia-profunda"] #chakras-guide-modal {
+  background: color-mix(in srgb, var(--layout-canvas) 86%, transparent) !important;
+}
+
+:root[data-layout="elegancia-profunda"] #chakras-guide-modal > div {
+  background: linear-gradient(155deg, color-mix(in srgb, var(--layout-card) 97%, black), color-mix(in srgb, var(--layout-canvas) 94%, black)) !important;
+  border-color: color-mix(in srgb, var(--layout-gold) 28%, var(--layout-border-card)) !important;
+  color: var(--layout-text) !important;
+  box-shadow: 0 30px 72px rgba(0,0,0,.44) !important;
+}
+
+:root[data-layout="elegancia-profunda"] #chakras-guide-modal :is(h2,h3) {
+  color: var(--layout-text) !important;
+}
+
+:root[data-layout="elegancia-profunda"] #chakras-guide-modal :is(p,small,[class*="text-[#5C5248]"],[class*="text-[#85786C]"]) {
+  color: var(--layout-text-soft) !important;
+}
+
+:root[data-layout="elegancia-profunda"] #chakras-guide-modal :is([class*="bg-white"],[class*="bg-[#FBF8F2]"],[class*="bg-[#F5EFE4]"]) {
+  background-color: color-mix(in srgb, var(--layout-card) 93%, black) !important;
+  border-color: color-mix(in srgb, var(--layout-gold) 20%, var(--layout-border-card)) !important;
+}
+
+:root[data-layout="elegancia-profunda"] #chakras-guide-modal > div > button[aria-label="Fechar guia dos chakras"],
+:root[data-layout="elegancia-profunda"] #chakras-guide-modal footer button {
+  background: linear-gradient(145deg, color-mix(in srgb, var(--layout-card) 88%, black), color-mix(in srgb, var(--layout-gold) 16%, var(--layout-card))) !important;
+  border-color: color-mix(in srgb, var(--layout-gold) 40%, transparent) !important;
+  color: var(--layout-text) !important;
+  box-shadow: 0 10px 26px rgba(0,0,0,.24) !important;
+}
+
+:root[data-layout="elegancia-profunda"] #chakras-guide-modal footer {
+  border-color: color-mix(in srgb, var(--layout-gold) 22%, var(--layout-border-card)) !important;
+}
+
+@media (max-width: 640px) {
+  :root[data-layout="elegancia-profunda"] #chakras-guide-modal > div {
+    border-radius: 1.25rem;
+  }
+}
