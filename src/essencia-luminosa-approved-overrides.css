@@ -1,0 +1,41 @@
+/* Estilo 3 — Essência Luminosa
+   Correções isoladas sobre a camada visual aprovada.
+   Não altera estrutura, conteúdo ou lógica dos demais estilos. */
+
+:root[data-layout="essencia-luminosa"] body::before{
+  background:
+    radial-gradient(ellipse at -8% 24%,color-mix(in srgb,var(--layout-accent) 8%,transparent),transparent 24%),
+    radial-gradient(ellipse at 108% 34%,color-mix(in srgb,var(--layout-gold) 8%,transparent),transparent 24%)!important;
+}
+
+:root[data-layout="essencia-luminosa"] .ep-home-hero,
+:root[data-layout="essencia-luminosa"] .ep-home>section,
+:root[data-layout="essencia-luminosa"] .ep-forest-panel,
+:root[data-layout="essencia-luminosa"] .ep-premium-surface,
+:root[data-layout="essencia-luminosa"] .ep-luxury-card{
+  background:
+    radial-gradient(circle at 50% 0,color-mix(in srgb,var(--layout-gold) 9%,transparent),transparent 22rem),
+    var(--layout-card)!important;
+  border-color:var(--layout-border-card)!important;
+  color:var(--layout-text)!important;
+  box-shadow:0 18px 48px rgba(112,91,58,.08),inset 0 1px 0 rgba(255,255,255,.72)!important;
+}
+
+/* O logo oficial funciona como assinatura e nunca como protagonista. */
+:root[data-layout="essencia-luminosa"] .ep-brand-signature{
+  opacity:.46!important;
+  filter:saturate(.86) contrast(.96);
+}
+
+:root[data-layout="essencia-luminosa"] .ep-brand-signature-wrap{
+  background:rgba(255,255,248,.56)!important;
+  border-color:color-mix(in srgb,var(--layout-gold) 20%,transparent)!important;
+  box-shadow:0 10px 30px rgba(112,91,58,.07)!important;
+}
+
+/* Tipografia permanece nítida sobre as superfícies luminosas. */
+:root[data-layout="essencia-luminosa"] .ep-home,
+:root[data-layout="essencia-luminosa"] #cura-main-layout{
+  -webkit-font-smoothing:antialiased;
+  text-rendering:optimizeLegibility;
+}
