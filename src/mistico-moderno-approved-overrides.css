@@ -5,7 +5,8 @@
 :root[data-layout="mistico-moderno"] body::before{
   background:
     radial-gradient(ellipse at -8% 24%,rgba(108,63,160,.12),transparent 24%),
-    radial-gradient(ellipse at 108% 34%,rgba(212,175,55,.08),transparent 24%);
+    radial-gradient(ellipse at 108% 34%,rgba(212,175,55,.08),transparent 24%),
+    radial-gradient(ellipse at 50% 108%,rgba(22,101,82,.08),transparent 28%);
 }
 
 :root[data-layout="mistico-moderno"] #main-header{
@@ -27,18 +28,44 @@
 :root[data-layout="mistico-moderno"] .ep-luxury-card{
   background:
     radial-gradient(circle at 50% 0,rgba(108,63,160,.13),transparent 22rem),
-    var(--bg-card)!important;
+    linear-gradient(145deg,rgba(20,31,48,.96),rgba(10,15,24,.94))!important;
   border-color:var(--border-card)!important;
   box-shadow:0 18px 48px rgba(0,0,0,.24),inset 0 1px 0 rgba(255,255,255,.05)!important;
 }
 
 :root[data-layout="mistico-moderno"] .ep-home [class*="bg-[#FBF8F2]"],
+:root[data-layout="mistico-moderno"] .ep-home [class*="bg-[#FFFFFF]"],
+:root[data-layout="mistico-moderno"] .ep-home [class*="bg-[#F8F4EC]"],
+:root[data-layout="mistico-moderno"] .ep-home [class*="bg-[#F5EFE4]"],
 :root[data-layout="mistico-moderno"] .ep-home [class*="bg-[#062f21]"],
 :root[data-layout="mistico-moderno"] .ep-home [class*="bg-[#073426]"],
 :root[data-layout="mistico-moderno"] .ep-home [class*="bg-[#0a412d]"],
 :root[data-layout="mistico-moderno"] .ep-home [class*="from-[#315f49]"]{
   background:var(--bg-card-subtle)!important;
   border-color:var(--border-subtle)!important;
+}
+
+/* O legado compartilhado ainda contém texto café do tema claro. No Místico,
+   converte apenas essas ocorrências para os tokens oficiais marfim/cinza-azulado. */
+:root[data-layout="mistico-moderno"] .ep-home [class*="text-[#2A2420]"],
+:root[data-layout="mistico-moderno"] .ep-home [class*="text-[#2A2421]"]{
+  color:var(--text-primary)!important;
+}
+
+:root[data-layout="mistico-moderno"] .ep-home [class*="text-[#5C5248]"],
+:root[data-layout="mistico-moderno"] .ep-home [class*="text-[#6B625B]"]{
+  color:var(--text-secondary)!important;
+}
+
+/* Assinatura oficial: sutil/transparente, sem disco branco herdado. */
+:root[data-layout="mistico-moderno"] .ep-brand-signature-wrap{
+  background:rgba(20,31,48,.28)!important;
+  border-color:rgba(212,175,55,.20)!important;
+  box-shadow:0 0 24px rgba(108,63,160,.10)!important;
+}
+
+:root[data-layout="mistico-moderno"] .ep-brand-signature{
+  opacity:.58!important;
 }
 
 :root[data-layout="mistico-moderno"] .ep-gold-button,
