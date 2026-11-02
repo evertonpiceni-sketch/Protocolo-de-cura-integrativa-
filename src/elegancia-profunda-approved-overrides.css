@@ -25,7 +25,6 @@
 :root[data-layout="elegancia-profunda"] #main-header span:not(.sr-only) { color:var(--layout-text-soft)!important; }
 :root[data-layout="elegancia-profunda"] #main-header [class*="text-amber"] { color:var(--layout-gold)!important; }
 :root[data-layout="elegancia-profunda"] #main-header [class*="text-emerald"] { color:var(--layout-accent)!important; }
-/* Controles do cabeçalho: remove marfim/azul/âmbar herdados do JSX sem alterar ações. */
 :root[data-layout="elegancia-profunda"] #header-audio-quick-control button,
 :root[data-layout="elegancia-profunda"] #header-btn-audio-settings,
 :root[data-layout="elegancia-profunda"] #header-btn-archangel,
@@ -46,9 +45,20 @@
 :root[data-layout="elegancia-profunda"] #settings-view :is([class*="bg-white"],[class*="bg-slate"],[class*="bg-indigo"],[class*="bg-purple"],[class*="bg-[#F5EFE4]"]) { background-color:var(--layout-card)!important; border-color:var(--layout-border-card)!important; }
 :root[data-layout="elegancia-profunda"] #settings-view :is([class*="text-indigo"],[class*="text-purple"],[class*="text-amber"]) { color:var(--layout-gold)!important; }
 :root[data-layout="elegancia-profunda"] #settings-view :is([class*="text-[#2A2420]"],[class*="text-[#5C5248]"],[class*="text-[#85786C]"]) { color:var(--layout-text-soft)!important; }
-/* Cards de Solfeggio: seleção profunda com champagne, sem marfim herdado. */
 :root[data-layout="elegancia-profunda"] #settings-view button[class*="bg-[#F5EFE4]"] { background:linear-gradient(145deg,color-mix(in srgb,var(--layout-card) 92%,black),color-mix(in srgb,var(--layout-gold) 10%,var(--layout-card)))!important; border-color:color-mix(in srgb,var(--layout-gold) 54%,var(--layout-border-card))!important; color:var(--layout-text)!important; box-shadow:0 10px 24px rgba(0,0,0,.18)!important; }
 :root[data-layout="elegancia-profunda"] #settings-view button[class*="bg-white"]:hover { border-color:color-mix(in srgb,var(--layout-gold) 34%,var(--layout-border-card))!important; background:color-mix(in srgb,var(--layout-card) 94%,var(--layout-gold))!important; }
+
+/* Voz, Solfeggio e ações: remove azul/índigo e superfícies claras ainda presentes no JSX. */
+:root[data-layout="elegancia-profunda"] #settings-view select,
+:root[data-layout="elegancia-profunda"] #settings-view input[type="text"],
+:root[data-layout="elegancia-profunda"] #settings-view input[type="time"] { background:color-mix(in srgb,var(--layout-card) 94%,black)!important; border-color:color-mix(in srgb,var(--layout-gold) 26%,var(--layout-border-card))!important; color:var(--layout-text)!important; }
+:root[data-layout="elegancia-profunda"] #settings-view select:focus,
+:root[data-layout="elegancia-profunda"] #settings-view input:focus { border-color:color-mix(in srgb,var(--layout-gold) 62%,var(--layout-border-card))!important; box-shadow:0 0 0 3px color-mix(in srgb,var(--layout-gold) 12%,transparent)!important; outline:none!important; }
+:root[data-layout="elegancia-profunda"] #settings-view button[class*="bg-indigo"] { background:linear-gradient(145deg,color-mix(in srgb,var(--layout-card) 88%,black),color-mix(in srgb,var(--layout-gold) 16%,var(--layout-card)))!important; border-color:color-mix(in srgb,var(--layout-gold) 38%,var(--layout-border-card))!important; color:var(--layout-text)!important; box-shadow:0 9px 22px rgba(0,0,0,.18)!important; }
+:root[data-layout="elegancia-profunda"] #settings-view button[class*="bg-indigo"]:hover { background:linear-gradient(145deg,color-mix(in srgb,var(--layout-card) 82%,black),color-mix(in srgb,var(--layout-gold) 24%,var(--layout-card)))!important; border-color:color-mix(in srgb,var(--layout-gold) 56%,var(--layout-border-card))!important; }
+:root[data-layout="elegancia-profunda"] #settings-view input[type="range"] { accent-color:var(--layout-gold)!important; }
+:root[data-layout="elegancia-profunda"] #settings-view button[class*="bg-rose"] { background:color-mix(in srgb,var(--layout-card) 84%,#5b2028)!important; border:1px solid color-mix(in srgb,#a95d66 42%,var(--layout-border-card))!important; color:var(--layout-text)!important; box-shadow:none!important; }
+:root[data-layout="elegancia-profunda"] #settings-view button[class*="bg-rose"]:hover { background:color-mix(in srgb,var(--layout-card) 76%,#6f2832)!important; }
 
 /* Player. */
 :root[data-layout="elegancia-profunda"] #meditation-session.ep-session { background:linear-gradient(180deg,color-mix(in srgb,var(--layout-canvas) 96%,black),color-mix(in srgb,var(--layout-card) 94%,black))!important; color:var(--layout-text)!important; }
@@ -77,7 +87,7 @@
 :root[data-layout="elegancia-profunda"] #journal-search-container input::placeholder { color:color-mix(in srgb,var(--layout-text-soft) 72%,transparent)!important; }
 :root[data-layout="elegancia-profunda"] #journal-search-container input:focus { border-color:color-mix(in srgb,var(--layout-gold) 58%,transparent)!important; box-shadow:0 0 0 3px color-mix(in srgb,var(--layout-gold) 14%,transparent)!important; }
 
-/* Modal de detalhe do dia: superfície e hierarquia próprias do Estilo 2. */
+/* Modal de detalhe do dia. */
 :root[data-layout="elegancia-profunda"] #day-detail-modal { background:color-mix(in srgb,var(--layout-canvas) 84%,transparent)!important; }
 :root[data-layout="elegancia-profunda"] #day-detail-modal > div { background:linear-gradient(155deg,color-mix(in srgb,var(--layout-card) 97%,black),color-mix(in srgb,var(--layout-canvas) 94%,black))!important; border-color:color-mix(in srgb,var(--layout-gold) 26%,var(--layout-border-card))!important; color:var(--layout-text)!important; box-shadow:0 28px 70px rgba(0,0,0,.42)!important; }
 :root[data-layout="elegancia-profunda"] #day-detail-modal :is(h1,h2,h3,strong) { color:var(--layout-text)!important; }
@@ -85,7 +95,7 @@
 :root[data-layout="elegancia-profunda"] #day-detail-modal :is([class*="text-amber"],[class*="text-indigo"],[class*="text-purple"]) { color:var(--layout-gold)!important; }
 :root[data-layout="elegancia-profunda"] #day-detail-modal :is([class*="bg-white"],[class*="bg-[#FBF8F2]"],[class*="bg-indigo"],[class*="bg-purple"],[class*="bg-amber"]) { background-color:color-mix(in srgb,var(--layout-card) 92%,black)!important; border-color:var(--layout-border-card)!important; }
 
-/* Contato flutuante: remove emerald genérico somente no Estilo 2 e devolve acabamento premium. */
+/* Contato flutuante. */
 :root[data-layout="elegancia-profunda"] #floating-whatsapp-btn { background:linear-gradient(145deg,color-mix(in srgb,var(--layout-accent) 78%,black),color-mix(in srgb,var(--layout-gold) 22%,var(--layout-accent)))!important; border-color:color-mix(in srgb,var(--layout-gold) 42%,transparent)!important; color:var(--layout-text)!important; box-shadow:0 14px 34px rgba(0,0,0,.32)!important; }
 :root[data-layout="elegancia-profunda"] #floating-whatsapp-btn:hover { background:linear-gradient(145deg,color-mix(in srgb,var(--layout-accent) 88%,black),color-mix(in srgb,var(--layout-gold) 30%,var(--layout-accent)))!important; }
 :root[data-layout="elegancia-profunda"] #floating-whatsapp-btn :is(svg,span) { color:var(--layout-text)!important; fill:currentColor; }
