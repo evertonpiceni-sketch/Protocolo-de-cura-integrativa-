@@ -1,0 +1,19 @@
+/* Elegância Profunda — ajuste semântico final de Configurações.
+   Mantém verde profundo somente onde comunica estado/atividade e remove o emerald genérico herdado. */
+:root[data-layout="elegancia-profunda"] #settings-view [class*="text-emerald"] {
+  color: color-mix(in srgb, var(--layout-accent) 72%, var(--layout-gold)) !important;
+}
+
+:root[data-layout="elegancia-profunda"] #settings-view [class*="bg-emerald"] {
+  background: color-mix(in srgb, var(--layout-accent) 20%, var(--layout-card)) !important;
+  border-color: color-mix(in srgb, var(--layout-gold) 28%, var(--layout-border-card)) !important;
+}
+
+:root[data-layout="elegancia-profunda"] #settings-view [class*="border-emerald"] {
+  border-color: color-mix(in srgb, var(--layout-accent) 48%, var(--layout-gold)) !important;
+}
+
+/* Prática ativa: verde profundo intencional, sem neon/emerald genérico. */
+:root[data-layout="elegancia-profunda"] #settings-view [class*="text-emerald"]:is(h1,h2,h3,h4,strong,span) {
+  text-shadow: none !important;
+}
