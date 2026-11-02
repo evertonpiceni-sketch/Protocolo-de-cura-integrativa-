@@ -1,0 +1,44 @@
+/* Estilo 3 — Essência Luminosa | instalação móvel.
+   Escopo estrito ao layout ativo; preserva o verde apenas como estado semântico de sucesso. */
+:root[data-layout="essencia-luminosa"] #mobile-install-modal{
+  background:color-mix(in srgb,var(--layout-bg) 82%,transparent)!important;
+}
+:root[data-layout="essencia-luminosa"] #mobile-install-modal>div{
+  background:radial-gradient(circle at 88% 8%,color-mix(in srgb,var(--layout-gold-soft) 22%,transparent),transparent 15rem),var(--layout-card)!important;
+  border-color:var(--layout-border-card)!important;
+  color:var(--layout-text)!important;
+  box-shadow:0 24px 64px rgba(112,91,58,.10)!important;
+}
+:root[data-layout="essencia-luminosa"] #mobile-install-modal :is([class*="bg-[#F5EFE4]"],[class*="bg-white"]){
+  background:color-mix(in srgb,var(--layout-card) 90%,var(--layout-accent-soft))!important;
+}
+:root[data-layout="essencia-luminosa"] #mobile-install-modal :is([class*="border-[#E5DAC6]"],[class*="border-amber-"]){
+  border-color:color-mix(in srgb,var(--layout-gold) 22%,var(--layout-border-card))!important;
+}
+:root[data-layout="essencia-luminosa"] #mobile-install-modal :is([class*="text-amber-"],[class*="text-[#B88736]"]){
+  color:var(--layout-gold)!important;
+}
+:root[data-layout="essencia-luminosa"] #mobile-install-modal button:not([aria-label]){
+  border-radius:1rem;
+  box-shadow:0 8px 20px rgba(112,91,58,.07);
+}
+:root[data-layout="essencia-luminosa"] #mobile-install-modal button[class*="bg-[#B88736]"]{
+  background:linear-gradient(105deg,color-mix(in srgb,var(--layout-accent) 72%,#fff),color-mix(in srgb,var(--layout-gold) 72%,var(--layout-accent)))!important;
+  color:#fff!important;
+  border-color:color-mix(in srgb,var(--layout-gold) 28%,var(--layout-border-card))!important;
+  box-shadow:0 10px 24px rgba(112,91,58,.09)!important;
+}
+/* Sucesso de instalação é semântico; não transforma emerald em cor estrutural do tema. */
+:root[data-layout="essencia-luminosa"] #mobile-install-modal .bg-emerald-50{
+  background:color-mix(in srgb,var(--layout-accent-soft) 62%,var(--layout-card))!important;
+}
+:root[data-layout="essencia-luminosa"] #mobile-install-modal .border-emerald-200{
+  border-color:color-mix(in srgb,var(--layout-accent) 28%,var(--layout-border-card))!important;
+}
+:root[data-layout="essencia-luminosa"] #mobile-install-modal .text-emerald-700{
+  color:var(--layout-accent)!important;
+}
+:root[data-layout="essencia-luminosa"] #mobile-install-modal{
+  -webkit-font-smoothing:antialiased;
+  text-rendering:optimizeLegibility;
+}
