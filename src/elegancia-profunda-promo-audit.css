@@ -1,0 +1,48 @@
+/* Elegância Profunda — auditoria do vídeo de apresentação.
+   Corrige somente superfícies neutras herdadas; preserva cores semânticas das cenas e lógica de áudio/player. */
+
+:root[data-layout="elegancia-profunda"] #promo-video-modal {
+  background: color-mix(in srgb, var(--layout-canvas) 92%, transparent) !important;
+}
+
+:root[data-layout="elegancia-profunda"] #promo-video-modal > div {
+  background: linear-gradient(155deg,
+    color-mix(in srgb, var(--layout-card) 97%, black),
+    color-mix(in srgb, var(--layout-canvas) 94%, black)) !important;
+  border-color: color-mix(in srgb, var(--layout-gold) 34%, var(--layout-border-card)) !important;
+  color: var(--layout-text) !important;
+  box-shadow: 0 30px 76px rgba(0,0,0,.46) !important;
+}
+
+:root[data-layout="elegancia-profunda"] #promo-video-modal :is([class*="bg-white"],[class*="bg-[#FBF8F2]"],[class*="bg-[#F5EFE4]"]) {
+  background-color: color-mix(in srgb, var(--layout-card) 94%, black) !important;
+  border-color: color-mix(in srgb, var(--layout-gold) 24%, var(--layout-border-card)) !important;
+}
+
+:root[data-layout="elegancia-profunda"] #promo-video-modal :is([class*="text-[#2A2420]"],h1,h2,h3,strong) {
+  color: var(--layout-text) !important;
+}
+
+:root[data-layout="elegancia-profunda"] #promo-video-modal :is([class*="text-[#5C5248]"],[class*="text-[#85786C]"]) {
+  color: var(--layout-text-soft) !important;
+}
+
+:root[data-layout="elegancia-profunda"] #promo-video-modal :is([class*="text-[#B88736]"],[class*="text-amber"]) {
+  color: var(--layout-gold) !important;
+}
+
+:root[data-layout="elegancia-profunda"] #promo-video-modal button:not([disabled]) {
+  border-color: color-mix(in srgb, var(--layout-gold) 32%, transparent) !important;
+  box-shadow: 0 10px 26px rgba(0,0,0,.20);
+}
+
+:root[data-layout="elegancia-profunda"] #promo-video-modal button:focus-visible {
+  outline: 2px solid color-mix(in srgb, var(--layout-gold) 68%, white);
+  outline-offset: 3px;
+}
+
+@media (max-width:640px) {
+  :root[data-layout="elegancia-profunda"] #promo-video-modal > div {
+    border-radius: 1.25rem;
+  }
+}
