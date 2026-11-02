@@ -1,0 +1,51 @@
+/* Estilo 4 — Místico Moderno: Cursos
+   Isolamento estrito para não alterar os demais estilos. */
+:root[data-layout="mistico-moderno"] #courses-modal {
+  background: rgba(4, 8, 20, .82) !important;
+}
+
+:root[data-layout="mistico-moderno"] #courses-modal > div {
+  background: linear-gradient(145deg, rgba(10, 18, 38, .98), rgba(18, 17, 48, .97)) !important;
+  border-color: rgba(178, 145, 78, .34) !important;
+  box-shadow: 0 28px 80px rgba(0, 0, 0, .48), 0 0 44px rgba(95, 70, 180, .10) !important;
+}
+
+:root[data-layout="mistico-moderno"] #courses-modal [class*="bg-white"],
+:root[data-layout="mistico-moderno"] #courses-modal [class*="bg-[#FFF9EA]"],
+:root[data-layout="mistico-moderno"] #courses-modal [class*="bg-[#F1E7C8]"] {
+  background: rgba(20, 29, 53, .78) !important;
+}
+
+:root[data-layout="mistico-moderno"] #courses-modal [class*="border-[#E5DAC6]"],
+:root[data-layout="mistico-moderno"] #courses-modal [class*="border-[#D9C58F]"] {
+  border-color: rgba(139, 116, 207, .30) !important;
+}
+
+:root[data-layout="mistico-moderno"] #courses-modal h2,
+:root[data-layout="mistico-moderno"] #courses-modal h3,
+:root[data-layout="mistico-moderno"] #courses-modal strong {
+  color: #f4efe4 !important;
+}
+
+:root[data-layout="mistico-moderno"] #courses-modal p {
+  color: rgba(244, 239, 228, .74) !important;
+}
+
+:root[data-layout="mistico-moderno"] #courses-modal p[class*="uppercase"] {
+  color: #d9b66f !important;
+}
+
+:root[data-layout="mistico-moderno"] #courses-modal button {
+  color: #f4efe4 !important;
+  border-color: rgba(205, 165, 82, .36) !important;
+}
+
+:root[data-layout="mistico-moderno"] #courses-modal button:hover {
+  background: rgba(54, 43, 91, .88) !important;
+  border-color: rgba(222, 181, 94, .58) !important;
+}
+
+:root[data-layout="mistico-moderno"] #courses-modal img[alt="Everton Piceni"] {
+  opacity: .38 !important;
+  filter: saturate(.82) brightness(1.04);
+}
