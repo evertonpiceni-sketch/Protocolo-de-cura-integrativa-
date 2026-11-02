@@ -1,0 +1,43 @@
+/* Estilo 3 — Essência Luminosa | Numerologia.
+   Correção incremental estritamente escopada ao layout ativo.
+   Remove resíduos verde-escuro/amarelo forte sem alterar conteúdo ou lógica. */
+:root[data-layout="essencia-luminosa"] #numerology-modal > div {
+  background: radial-gradient(circle at 92% 8%, color-mix(in srgb, var(--layout-gold-soft) 24%, transparent), transparent 18rem), var(--layout-card) !important;
+  border-color: color-mix(in srgb, var(--layout-gold) 24%, var(--layout-border-card)) !important;
+  color: var(--layout-text) !important;
+  box-shadow: 0 24px 64px rgba(112,91,58,.09) !important;
+}
+
+/* Ícone principal ainda vinha do componente-base em #073b2b. */
+:root[data-layout="essencia-luminosa"] #numerology-modal div[class*="bg-[#073b2b]"] {
+  background: color-mix(in srgb, var(--layout-accent-soft) 64%, var(--layout-card)) !important;
+  color: var(--layout-gold) !important;
+  border-color: color-mix(in srgb, var(--layout-gold) 28%, var(--layout-border-card)) !important;
+  box-shadow: 0 8px 20px rgba(112,91,58,.06) !important;
+}
+
+/* Amarelos saturados do componente-base viram champagne/ouro suave. */
+:root[data-layout="essencia-luminosa"] #numerology-modal :is([class*="bg-amber-50"],[class*="bg-amber-100"],[class*="border-amber-"],[class*="text-amber-"]) {
+  background: color-mix(in srgb, var(--layout-gold-soft) 34%, var(--layout-card)) !important;
+  border-color: color-mix(in srgb, var(--layout-gold) 26%, var(--layout-border-card)) !important;
+  color: var(--layout-gold) !important;
+}
+
+/* Verde semântico permanece reconhecível, mas dentro da sálvia clara do Estilo 3. */
+:root[data-layout="essencia-luminosa"] #numerology-modal :is([class*="bg-emerald-"],[class*="border-emerald-"],[class*="text-emerald-"]) {
+  background: color-mix(in srgb, var(--layout-accent-soft) 52%, var(--layout-card)) !important;
+  border-color: color-mix(in srgb, var(--layout-accent) 27%, var(--layout-border-card)) !important;
+  color: var(--layout-accent) !important;
+}
+
+:root[data-layout="essencia-luminosa"] #numerology-modal :is(button,a)[class*="bg-emerald-"] {
+  background: linear-gradient(105deg, color-mix(in srgb, var(--layout-accent) 76%, #fff), color-mix(in srgb, var(--layout-gold) 68%, var(--layout-accent))) !important;
+  color: #fff !important;
+  border-color: color-mix(in srgb, var(--layout-gold) 28%, var(--layout-border-card)) !important;
+  box-shadow: 0 10px 24px rgba(112,91,58,.08) !important;
+}
+
+:root[data-layout="essencia-luminosa"] #numerology-modal {
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
