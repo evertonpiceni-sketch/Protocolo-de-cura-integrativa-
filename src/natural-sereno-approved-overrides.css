@@ -50,23 +50,37 @@
   color: #6B625B !important;
 }
 
-/* Reminder controls still carried indigo chrome from another style.
-   Preserve their behavior while returning the field and CTA to the approved
-   ivory / coffee / refined-gold language. */
+/* Reminder and settings controls still carried indigo chrome from another style.
+   Preserve behavior while returning fields and CTAs to ivory / coffee / refined gold. */
 :root[data-layout="natural-sereno"] #settings-view .focus\:border-indigo-500:focus {
   border-color: #B88736 !important;
 }
 
-:root[data-layout="natural-sereno"] #settings-view button.bg-indigo-500\/20 {
+:root[data-layout="natural-sereno"] #settings-view button.bg-indigo-500\/20,
+:root[data-layout="natural-sereno"] #settings-view button.bg-indigo-600\/30 {
   background: rgba(184,135,54,.12) !important;
   color: #6B4E2E !important;
   border-color: rgba(184,135,54,.30) !important;
   box-shadow: 0 8px 18px rgba(67,52,39,.06) !important;
 }
 
-:root[data-layout="natural-sereno"] #settings-view button.bg-indigo-500\/20:hover {
+:root[data-layout="natural-sereno"] #settings-view button.bg-indigo-500\/20:hover,
+:root[data-layout="natural-sereno"] #settings-view button.bg-indigo-600\/30:hover {
   background: rgba(184,135,54,.20) !important;
+  color: #5A4026 !important;
   border-color: rgba(184,135,54,.44) !important;
+}
+
+:root[data-layout="natural-sereno"] #settings-view .bg-indigo-500\/10 {
+  background: rgba(200,157,82,.10) !important;
+  color: #8F631E !important;
+  border-color: rgba(184,135,54,.24) !important;
+}
+
+/* Practice heading inherited emerald as a dominant accent. Natural Sereno keeps
+   green for small nature cues only, so the heading returns to coffee. */
+:root[data-layout="natural-sereno"] #settings-view h3.text-emerald-400 {
+  color: #2A2421 !important;
 }
 
 /* Header actions still exposed blue/emerald slabs from generic/older chrome.
