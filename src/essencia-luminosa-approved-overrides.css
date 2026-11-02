@@ -47,6 +47,10 @@
 :root[data-layout="essencia-luminosa"] #settings-view :is([class*="bg-indigo-"],[class*="bg-purple-"],[class*="bg-amber-"]){background-color:color-mix(in srgb,var(--layout-gold) 9%,var(--layout-card))!important;}
 :root[data-layout="essencia-luminosa"] #settings-view :is([class*="border-indigo-"],[class*="border-purple-"],[class*="border-amber-"]){border-color:color-mix(in srgb,var(--layout-gold) 30%,var(--layout-border-card))!important;}
 :root[data-layout="essencia-luminosa"] #settings-view :is([class*="focus:border-indigo-"],[class*="focus:border-purple-"],[class*="focus:border-amber-"]):focus{border-color:var(--layout-gold)!important;}
+/* Verde esmeralda do componente-base não pertence ao Estilo 3: estados positivos usam o acento sálvia/oliva aprovado. */
+:root[data-layout="essencia-luminosa"] #settings-view [class*="text-emerald-"]{color:var(--layout-accent)!important;}
+:root[data-layout="essencia-luminosa"] #settings-view [class*="bg-emerald-"]{background-color:color-mix(in srgb,var(--layout-accent) 11%,var(--layout-card))!important;}
+:root[data-layout="essencia-luminosa"] #settings-view [class*="border-emerald-"]{border-color:color-mix(in srgb,var(--layout-accent) 34%,var(--layout-border-card))!important;}
 
 :root[data-layout="essencia-luminosa"] #meditation-session.ep-session{background:radial-gradient(circle at 50% 12%,color-mix(in srgb,var(--layout-gold) 8%,transparent),transparent 30rem),linear-gradient(180deg,var(--layout-canvas),color-mix(in srgb,var(--layout-card) 94%,var(--layout-canvas)))!important;color:var(--layout-text)!important;}
 :root[data-layout="essencia-luminosa"] #meditation-session .ep-session-stage{width:min(100%,720px);margin-inline:auto;}
