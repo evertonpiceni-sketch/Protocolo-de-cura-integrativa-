@@ -1,0 +1,53 @@
+/* Elegância Profunda — auditoria da navegação inferior
+   Escopo estrito: não altera os demais estilos. */
+html[data-layout="elegancia-profunda"] #bottom-btn-video-studio,
+html[data-layout="elegancia-profunda"] #bottom-btn-astral-map,
+html[data-layout="elegancia-profunda"] #bottom-btn-numerology,
+html[data-layout="elegancia-profunda"] #bottom-btn-specific-treatment,
+html[data-layout="elegancia-profunda"] #bottom-btn-courses,
+html[data-layout="elegancia-profunda"] #bottom-btn-chakras {
+  background: linear-gradient(145deg, rgba(24, 49, 42, .96), rgba(12, 31, 27, .98));
+  border-color: rgba(211, 177, 112, .48);
+  color: #F3EBDD;
+  box-shadow: 0 8px 22px rgba(5, 18, 15, .24), inset 0 1px 0 rgba(255,255,255,.035);
+}
+
+html[data-layout="elegancia-profunda"] #bottom-btn-video-studio:hover,
+html[data-layout="elegancia-profunda"] #bottom-btn-astral-map:hover,
+html[data-layout="elegancia-profunda"] #bottom-btn-numerology:hover,
+html[data-layout="elegancia-profunda"] #bottom-btn-specific-treatment:hover,
+html[data-layout="elegancia-profunda"] #bottom-btn-courses:hover,
+html[data-layout="elegancia-profunda"] #bottom-btn-chakras:hover {
+  background: linear-gradient(145deg, rgba(32, 62, 52, .98), rgba(17, 39, 33, .99));
+  border-color: rgba(225, 193, 130, .72);
+  color: #FFF8EA;
+  transform: translateY(-1px);
+}
+
+html[data-layout="elegancia-profunda"] #bottom-btn-video-studio:focus-visible,
+html[data-layout="elegancia-profunda"] #bottom-btn-astral-map:focus-visible,
+html[data-layout="elegancia-profunda"] #bottom-btn-numerology:focus-visible,
+html[data-layout="elegancia-profunda"] #bottom-btn-specific-treatment:focus-visible,
+html[data-layout="elegancia-profunda"] #bottom-btn-courses:focus-visible,
+html[data-layout="elegancia-profunda"] #bottom-btn-chakras:focus-visible {
+  outline: 2px solid rgba(225, 193, 130, .9);
+  outline-offset: 2px;
+}
+
+/* Ícones deixam de herdar purple/indigo/emerald/teal estruturais. */
+html[data-layout="elegancia-profunda"] #bottom-btn-video-studio svg,
+html[data-layout="elegancia-profunda"] #bottom-btn-astral-map svg,
+html[data-layout="elegancia-profunda"] #bottom-btn-numerology svg,
+html[data-layout="elegancia-profunda"] #bottom-btn-specific-treatment svg,
+html[data-layout="elegancia-profunda"] #bottom-btn-courses svg,
+html[data-layout="elegancia-profunda"] #bottom-btn-chakras svg {
+  color: #D8B873 !important;
+}
+
+/* Badges funcionais continuam legíveis, porém integrados à identidade. */
+html[data-layout="elegancia-profunda"] #bottom-btn-video-studio span[class*="bg-[#B88736]"],
+html[data-layout="elegancia-profunda"] #bottom-btn-specific-treatment span[class*="bg-emerald"] {
+  background: rgba(211, 177, 112, .14) !important;
+  color: #E5C98F !important;
+  border-color: rgba(211, 177, 112, .25) !important;
+}
