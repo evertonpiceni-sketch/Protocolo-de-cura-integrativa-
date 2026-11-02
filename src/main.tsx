@@ -6,7 +6,6 @@ import './approved-theme.css';
 import './natural-sereno.css';
 import './natural-sereno-refinement.css';
 import './natural-sereno-mobile-fixes.css';
-import './natural-sereno-approved-overrides.css';
 import './mistico-moderno-approved-overrides.css';
 import './mistico-moderno-modal-audit.css';
 import './mistico-moderno-dashboard-audit.css';
@@ -42,6 +41,10 @@ import './lib/naturalSerenoHomeJourneyStateFix';
 import './lib/naturalSerenoPublicCatalogGuard';
 import './natural-sereno-final-audit.css';
 import './natural-sereno-home-latest-approved.css';
+// Latest approved Natural Sereno decisions must win over older audit/refinement layers.
+// Keep this import last among theme CSS so discarded green/amber/indigo inheritance
+// cannot regain precedence through cascade order.
+import './natural-sereno-approved-overrides.css';
 import { ErrorBoundary } from './ErrorBoundary.tsx';
 
 createRoot(document.getElementById('root')!).render(
