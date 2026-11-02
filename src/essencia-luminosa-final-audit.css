@@ -61,6 +61,14 @@
   color:var(--layout-gold)!important;
 }
 
+/* Diário: dias concluídos ainda chegam do componente-base em emerald.
+   Mantém o significado de concluído, mas dentro da paleta sálvia/oliva clara do Estilo 3. */
+:root[data-layout="essencia-luminosa"] #daily-diary-modal :is([class*="bg-emerald-"],[class*="border-emerald-"],[class*="text-emerald-"]){
+  background:color-mix(in srgb,var(--layout-accent-soft) 54%,var(--layout-card))!important;
+  border-color:color-mix(in srgb,var(--layout-accent) 28%,var(--layout-border-card))!important;
+  color:var(--layout-accent)!important;
+}
+
 /* Mantém tipografia luminosa nítida mesmo em componentes com classes legadas. */
 :root[data-layout="essencia-luminosa"] :is(#cura-main-layout,#settings-view,#meditation-session,#daily-diary-modal,#daily-tip-modal){
   -webkit-font-smoothing:antialiased;
