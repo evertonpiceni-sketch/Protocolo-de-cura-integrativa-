@@ -1,0 +1,33 @@
+:root[data-layout="mistico-moderno"] #progress-dashboard {
+  background:
+    radial-gradient(circle at 18% 10%, rgba(109, 40, 217, .16), transparent 34rem),
+    radial-gradient(circle at 84% 16%, rgba(5, 150, 105, .10), transparent 30rem),
+    linear-gradient(180deg, #080b18 0%, #0b1024 48%, #10142b 100%) !important;
+  color: #f4efe4 !important;
+}
+
+:root[data-layout="mistico-moderno"] #progress-dashboard [class*="bg-[#F8F4EC]"],
+:root[data-layout="mistico-moderno"] #progress-dashboard [class*="bg-[#FBF8F2]"],
+:root[data-layout="mistico-moderno"] #progress-dashboard [class*="bg-white"] {
+  background-color: rgba(15, 20, 43, .88) !important;
+}
+
+:root[data-layout="mistico-moderno"] #progress-dashboard [class*="border-[#E5DAC6]"] {
+  border-color: rgba(167, 139, 250, .22) !important;
+}
+
+:root[data-layout="mistico-moderno"] #progress-dashboard [class*="text-[#2A2420]"],
+:root[data-layout="mistico-moderno"] #progress-dashboard [class*="text-[#5C5248]"],
+:root[data-layout="mistico-moderno"] #progress-dashboard [class*="text-[#85786C]"] {
+  color: #f4efe4 !important;
+}
+
+:root[data-layout="mistico-moderno"] #progress-dashboard button:not([class*="rose"]):not([class*="red"]) {
+  border-color: rgba(212, 175, 55, .34) !important;
+  box-shadow: 0 12px 34px rgba(4, 7, 20, .26);
+}
+
+:root[data-layout="mistico-moderno"] #progress-dashboard .ep-brand-signature {
+  opacity: .34 !important;
+  filter: saturate(.88) contrast(.96);
+}
