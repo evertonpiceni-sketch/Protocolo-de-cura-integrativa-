@@ -99,6 +99,37 @@
   border-color: transparent !important;
 }
 
+/* Legacy floating dock is currently hidden, but its old multicolour chrome must
+   not return if the component is re-enabled. Neutralize the inherited emerald,
+   indigo, blue, teal, purple and amber slabs at the style boundary. */
+:root[data-layout="natural-sereno"] #bottom-action-dock button:not(#bottom-btn-logout) {
+  background: rgba(251,248,242,.94) !important;
+  color: #5C5248 !important;
+  border-color: rgba(184,135,54,.28) !important;
+  box-shadow: 0 6px 16px rgba(67,52,39,.06) !important;
+}
+
+:root[data-layout="natural-sereno"] #bottom-action-dock button:not(#bottom-btn-logout):hover {
+  background: #F5EFE4 !important;
+  color: #2A2421 !important;
+  border-color: rgba(184,135,54,.44) !important;
+}
+
+:root[data-layout="natural-sereno"] #bottom-action-dock button:not(#bottom-btn-logout) svg {
+  color: #B88736 !important;
+}
+
+:root[data-layout="natural-sereno"] #bottom-action-dock #bottom-btn-specific-treatment svg,
+:root[data-layout="natural-sereno"] #bottom-action-dock #bottom-btn-herbal-baths svg,
+:root[data-layout="natural-sereno"] #bottom-action-dock #bottom-btn-systemic svg {
+  color: #6F7B55 !important;
+}
+
+:root[data-layout="natural-sereno"] #bottom-action-dock #bottom-btn-journal {
+  background: rgba(200,157,82,.16) !important;
+  color: #6B4E2E !important;
+}
+
 @media (max-width: 640px) {
   :root[data-layout="natural-sereno"] #main-header .ep-brand-signature {
     opacity: .26 !important;
