@@ -26,6 +26,7 @@ import './elegancia-profunda-daily-diary-audit.css';
 import './elegancia-profunda-hooponopono-audit.css';
 import './elegancia-profunda-promo-audit.css';
 import './elegancia-profunda-settings-final-audit.css';
+import './elegancia-profunda-settings-semantic-audit.css';
 import './elegancia-profunda-courses-audit.css';
 import './elegancia-profunda-achievements-audit.css';
 import './elegancia-profunda-bottom-nav-audit.css';
