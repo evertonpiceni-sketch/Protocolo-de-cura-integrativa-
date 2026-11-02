@@ -1,0 +1,51 @@
+:root[data-layout="elegancia-profunda"] #mobile-install-modal {
+  background: rgba(5, 18, 14, 0.72) !important;
+}
+
+:root[data-layout="elegancia-profunda"] #mobile-install-modal > div {
+  background: linear-gradient(145deg, #10241d 0%, #0b1c17 58%, #081511 100%) !important;
+  border-color: rgba(201, 168, 106, 0.34) !important;
+  color: #f4ecdc !important;
+  box-shadow: 0 28px 80px rgba(0, 0, 0, 0.42), inset 0 1px 0 rgba(244, 236, 220, 0.04) !important;
+}
+
+:root[data-layout="elegancia-profunda"] #mobile-install-modal .bg-white\/75,
+:root[data-layout="elegancia-profunda"] #mobile-install-modal .bg-white\/80,
+:root[data-layout="elegancia-profunda"] #mobile-install-modal .bg-white\/70,
+:root[data-layout="elegancia-profunda"] #mobile-install-modal .bg-\[\#FBF8F2\],
+:root[data-layout="elegancia-profunda"] #mobile-install-modal .bg-\[\#F5EFE4\] {
+  background-color: rgba(20, 48, 38, 0.82) !important;
+}
+
+:root[data-layout="elegancia-profunda"] #mobile-install-modal .border-\[\#E5DAC6\] {
+  border-color: rgba(201, 168, 106, 0.28) !important;
+}
+
+:root[data-layout="elegancia-profunda"] #mobile-install-modal .text-\[\#2A2420\] {
+  color: #f4ecdc !important;
+}
+
+:root[data-layout="elegancia-profunda"] #mobile-install-modal .text-\[\#5C5248\],
+:root[data-layout="elegancia-profunda"] #mobile-install-modal .text-\[\#85786C\] {
+  color: #d9cdb8 !important;
+}
+
+:root[data-layout="elegancia-profunda"] #mobile-install-modal .text-\[\#8F631E\] {
+  color: #d6b678 !important;
+}
+
+:root[data-layout="elegancia-profunda"] #mobile-install-modal .bg-\[\#B88736\] {
+  background: linear-gradient(135deg, #d2b06f 0%, #a87835 100%) !important;
+  color: #102018 !important;
+  box-shadow: 0 10px 26px rgba(168, 120, 53, 0.22) !important;
+}
+
+:root[data-layout="elegancia-profunda"] #mobile-install-modal .hover\:bg-\[\#F5EFE4\]:hover,
+:root[data-layout="elegancia-profunda"] #mobile-install-modal .hover\:bg-\[\#EFE4D3\]:hover {
+  background-color: rgba(201, 168, 106, 0.14) !important;
+}
+
+/* Success remains semantic: green communicates installation completion, not theme structure. */
+:root[data-layout="elegancia-profunda"] #mobile-install-modal .bg-emerald-50 {
+  background-color: rgba(16, 185, 129, 0.10) !important;
+}
