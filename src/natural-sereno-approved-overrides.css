@@ -85,6 +85,20 @@
   border-color: rgba(184,135,54,.24) !important;
 }
 
+/* Settings status chips still used saturated emerald/amber slabs. Keep their
+   meaning, but express status with quiet Natural Sereno accents instead of blocks. */
+:root[data-layout="natural-sereno"] #settings-view .bg-emerald-500\/20 {
+  background: rgba(111,123,85,.10) !important;
+  color: #5E6948 !important;
+  border-color: rgba(111,123,85,.24) !important;
+}
+
+:root[data-layout="natural-sereno"] #settings-view .bg-amber-500\/20 {
+  background: rgba(200,157,82,.10) !important;
+  color: #8F631E !important;
+  border-color: rgba(184,135,54,.24) !important;
+}
+
 /* Practice heading inherited emerald as a dominant accent. Natural Sereno keeps
    green for small nature cues only, so the heading returns to coffee. */
 :root[data-layout="natural-sereno"] #settings-view h3.text-emerald-400 {
