@@ -126,4 +126,19 @@
 :root[data-layout="natural-sereno"] #astral-map-modal :is(button,a)[class*="bg-emerald"] :is(span,svg),
 :root[data-layout="natural-sereno"] #settings-view :is(button,a)[class*="bg-emerald"]:not([class*="/20"]) :is(span,svg) { color:#B88736!important; }
 
+/* Prática individual: remove heranças esmeralda/índigo/âmbar saturado ainda
+   presentes no modal sem alterar lógica, conteúdo ou fluxo de pagamento. */
+:root[data-layout="natural-sereno"] #specific-treatment-modal [class*="bg-emerald-500/10"],
+:root[data-layout="natural-sereno"] #specific-treatment-modal [class*="bg-emerald-500/20"] { background:rgba(111,123,85,.09)!important; }
+:root[data-layout="natural-sereno"] #specific-treatment-modal [class*="border-emerald"] { border-color:rgba(111,123,85,.26)!important; }
+:root[data-layout="natural-sereno"] #specific-treatment-modal :is(.text-emerald-300,.text-emerald-400) { color:#5E6948!important; }
+:root[data-layout="natural-sereno"] #specific-treatment-modal [class*="from-indigo-950"] { background-image:linear-gradient(145deg,#FFFDF8 0%,#F5EFE4 58%,#EEE4D3 100%)!important; }
+:root[data-layout="natural-sereno"] #specific-treatment-modal :is(.text-amber-200\/90,.text-amber-300,.text-amber-400) { color:#8F631E!important; }
+:root[data-layout="natural-sereno"] #specific-treatment-modal [class*="bg-amber-950"] { background:rgba(200,157,82,.08)!important; border-color:rgba(184,135,54,.24)!important; }
+:root[data-layout="natural-sereno"] #specific-treatment-modal :is(button,a)[class*="bg-emerald-6"],
+:root[data-layout="natural-sereno"] #specific-treatment-modal :is(button,a)[class*="bg-emerald-9"] { background:#B88736!important; color:#FFFDF8!important; border-color:#B88736!important; box-shadow:0 9px 20px rgba(67,52,39,.10)!important; }
+:root[data-layout="natural-sereno"] #specific-treatment-modal :is(button,a)[class*="bg-emerald-6"]:hover,
+:root[data-layout="natural-sereno"] #specific-treatment-modal :is(button,a)[class*="bg-emerald-9"]:hover { background:#8F631E!important; }
+:root[data-layout="natural-sereno"] #specific-treatment-modal .hover\:bg-slate-700:hover { background:#EEE4D3!important; color:#2A2421!important; }
+
 @media (max-width:640px) { :root[data-layout="natural-sereno"] #main-header .ep-brand-signature { opacity:.26!important; } }
