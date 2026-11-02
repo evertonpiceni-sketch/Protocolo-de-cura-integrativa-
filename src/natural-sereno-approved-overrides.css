@@ -144,6 +144,26 @@
   color: #6B4E2E !important;
 }
 
+/* Floating contact CTA still carried a large emerald slab from generic chrome.
+   Preserve the contact action while returning the surface to ivory/gold; green
+   remains a small natural cue on the icon only. */
+:root[data-layout="natural-sereno"] #floating-whatsapp-btn {
+  background: rgba(251,248,242,.96) !important;
+  color: #5C5248 !important;
+  border-color: rgba(184,135,54,.34) !important;
+  box-shadow: 0 12px 28px rgba(67,52,39,.12) !important;
+}
+
+:root[data-layout="natural-sereno"] #floating-whatsapp-btn:hover {
+  background: #F5EFE4 !important;
+  color: #2A2421 !important;
+  border-color: rgba(184,135,54,.48) !important;
+}
+
+:root[data-layout="natural-sereno"] #floating-whatsapp-btn svg {
+  color: #6F7B55 !important;
+}
+
 @media (max-width: 640px) {
   :root[data-layout="natural-sereno"] #main-header .ep-brand-signature {
     opacity: .26 !important;
