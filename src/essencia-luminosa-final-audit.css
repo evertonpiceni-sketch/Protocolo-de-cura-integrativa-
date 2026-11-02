@@ -61,6 +61,28 @@
   color:var(--layout-gold)!important;
 }
 
+/* Boas-vindas: o componente-base ainda mistura emerald intenso e amber saturado.
+   No Estilo 3 converte apenas esses utilitários visuais para sálvia/champagne/ouro suave. */
+:root[data-layout="essencia-luminosa"] #welcome-modal :is([class*="bg-emerald-"],[class*="border-emerald-"],[class*="text-emerald-"]){
+  background:color-mix(in srgb,var(--layout-accent-soft) 52%,var(--layout-card))!important;
+  border-color:color-mix(in srgb,var(--layout-accent) 26%,var(--layout-border-card))!important;
+  color:var(--layout-accent)!important;
+}
+:root[data-layout="essencia-luminosa"] #welcome-modal :is([class*="bg-amber-"],[class*="border-amber-"],[class*="text-amber-"]){
+  background:color-mix(in srgb,var(--layout-gold-soft) 44%,var(--layout-card))!important;
+  border-color:color-mix(in srgb,var(--layout-gold) 25%,var(--layout-border-card))!important;
+  color:var(--layout-gold)!important;
+}
+:root[data-layout="essencia-luminosa"] #welcome-modal button[class*="from-emerald-"]{
+  background:linear-gradient(105deg,color-mix(in srgb,var(--layout-accent) 78%,#fff) 0%,var(--layout-gold) 100%)!important;
+  color:#fff!important;
+  border-color:color-mix(in srgb,var(--layout-gold) 30%,transparent)!important;
+  box-shadow:0 10px 24px rgba(112,91,58,.10)!important;
+}
+:root[data-layout="essencia-luminosa"] #welcome-modal input[type="checkbox"]{
+  accent-color:var(--layout-accent);
+}
+
 /* Diário modal: dias concluídos ainda chegam do componente-base em emerald.
    Mantém o significado de concluído, mas dentro da paleta sálvia/oliva clara do Estilo 3. */
 :root[data-layout="essencia-luminosa"] #daily-diary-modal :is([class*="bg-emerald-"],[class*="border-emerald-"],[class*="text-emerald-"]){
@@ -78,7 +100,7 @@
 }
 
 /* Mantém tipografia luminosa nítida mesmo em componentes com classes legadas. */
-:root[data-layout="essencia-luminosa"] :is(#cura-main-layout,#settings-view,#meditation-session,#daily-diary-modal,#daily-tip-modal,#journal-dashboard-view){
+:root[data-layout="essencia-luminosa"] :is(#cura-main-layout,#settings-view,#meditation-session,#daily-diary-modal,#daily-tip-modal,#journal-dashboard-view,#welcome-modal){
   -webkit-font-smoothing:antialiased;
   text-rendering:optimizeLegibility;
 }
