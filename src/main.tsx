@@ -38,6 +38,7 @@ import './essencia-luminosa-numerology-audit.css';
 import './lib/authStartupResiliencePatch';
 import './lib/startupUiResiliencePatch';
 import './lib/audioIntegrityPatch';
+import './lib/arcanjoAudioOwnershipPatch';
 import './lib/naturalSerenoOfficialVoicePatch';
 import './lib/reintegrationPublicNarrationPatch';
 import './lib/backgroundMediaPatch';
