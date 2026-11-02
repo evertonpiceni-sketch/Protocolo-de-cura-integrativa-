@@ -228,6 +228,56 @@
   color: #2A2421 !important;
 }
 
+/* Presentation/video modal still carries cinematic emerald/purple/indigo slabs
+   from an older visual language. Keep scene content, timing and Solfeggio logic,
+   but make Natural Sereno's presentation light, warm and nature-accented. */
+:root[data-layout="natural-sereno"] #promo-video-modal {
+  background: rgba(42,36,33,.72) !important;
+}
+
+:root[data-layout="natural-sereno"] #promo-video-modal [class*="from-[#0a412d]"],
+:root[data-layout="natural-sereno"] #promo-video-modal [class*="from-[#0c4a34]"],
+:root[data-layout="natural-sereno"] #promo-video-modal [class*="from-[#123f2f]"],
+:root[data-layout="natural-sereno"] #promo-video-modal [class*="from-[#174c38]"] {
+  background-image: linear-gradient(145deg, #FAF7F2 0%, #F4EBDD 58%, #EDE2D1 100%) !important;
+}
+
+:root[data-layout="natural-sereno"] #promo-video-modal .bg-purple-500\/20 {
+  background: rgba(111,123,85,.10) !important;
+}
+
+:root[data-layout="natural-sereno"] #promo-video-modal :is(.text-purple-400,.text-indigo-400) {
+  color: #B88736 !important;
+}
+
+:root[data-layout="natural-sereno"] #promo-video-modal .bg-indigo-400,
+:root[data-layout="natural-sereno"] #promo-video-modal .bg-purple-400 {
+  background: #C89D52 !important;
+}
+
+:root[data-layout="natural-sereno"] #promo-video-modal .bg-emerald-400 {
+  background: #6F7B55 !important;
+}
+
+:root[data-layout="natural-sereno"] #promo-video-modal .text-emerald-400 {
+  color: #6F7B55 !important;
+}
+
+:root[data-layout="natural-sereno"] #promo-video-modal .from-indigo-500 {
+  --tw-gradient-from: #C89D52 var(--tw-gradient-from-position) !important;
+  --tw-gradient-to: rgba(200,157,82,0) var(--tw-gradient-to-position) !important;
+}
+
+:root[data-layout="natural-sereno"] #promo-video-modal button.bg-emerald-600 {
+  background: #B88736 !important;
+  color: #fffdf8 !important;
+  box-shadow: 0 10px 24px rgba(67,52,39,.12) !important;
+}
+
+:root[data-layout="natural-sereno"] #promo-video-modal button.bg-emerald-600:hover {
+  background: #8F631E !important;
+}
+
 @media (max-width: 640px) {
   :root[data-layout="natural-sereno"] #main-header .ep-brand-signature {
     opacity: .26 !important;
