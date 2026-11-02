@@ -57,9 +57,21 @@
   transform: translateY(-1px);
 }
 
-/* Verde de conclusão permanece semântico; não é usado como superfície estrutural. */
-:root[data-layout="elegancia-profunda"] #daily-diary-modal .bg-emerald-500,
+/* Estados concluídos: verde profundo intencional do Estilo 2, sem emerald genérico. */
+:root[data-layout="elegancia-profunda"] #daily-diary-modal .bg-emerald-50 {
+  background-color: rgba(31, 72, 59, 0.58) !important;
+}
+:root[data-layout="elegancia-profunda"] #daily-diary-modal .border-emerald-200 {
+  border-color: rgba(201, 164, 104, 0.34) !important;
+}
+:root[data-layout="elegancia-profunda"] #daily-diary-modal .text-emerald-700 {
+  color: #eadbc5 !important;
+}
+:root[data-layout="elegancia-profunda"] #daily-diary-modal .bg-emerald-400,
+:root[data-layout="elegancia-profunda"] #daily-diary-modal .bg-emerald-500 {
+  background-color: #8fae91 !important;
+}
 :root[data-layout="elegancia-profunda"] #daily-diary-modal .text-emerald-400,
 :root[data-layout="elegancia-profunda"] #daily-diary-modal .text-emerald-500 {
-  isolation: isolate;
+  color: #b8cbb8 !important;
 }
