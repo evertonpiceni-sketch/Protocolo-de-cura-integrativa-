@@ -1,0 +1,57 @@
+/* Estilo 2 — Elegância Profunda | Ho'oponopono audit
+   Isolated correction: removes inherited light surfaces without changing ritual content or semantic states. */
+html[data-layout="elegancia-profunda"] #hooponopono-modal {
+  background: rgba(8, 18, 16, .72) !important;
+  backdrop-filter: blur(18px) saturate(.92);
+}
+
+html[data-layout="elegancia-profunda"] #hooponopono-modal > div {
+  background: linear-gradient(155deg, rgba(19, 42, 35, .985), rgba(11, 28, 24, .99)) !important;
+  border-color: rgba(211, 180, 118, .34) !important;
+  box-shadow: 0 28px 80px rgba(0, 0, 0, .42), inset 0 1px 0 rgba(244, 231, 204, .06) !important;
+  color: #F2E9DA;
+}
+
+html[data-layout="elegancia-profunda"] #hooponopono-modal h2,
+html[data-layout="elegancia-profunda"] #hooponopono-modal strong {
+  color: #F4EBDD !important;
+}
+
+html[data-layout="elegancia-profunda"] #hooponopono-modal p,
+html[data-layout="elegancia-profunda"] #hooponopono-modal span:not(.sr-only) {
+  color: #D8CCB8;
+}
+
+html[data-layout="elegancia-profunda"] #hooponopono-modal .bg-white\/75,
+html[data-layout="elegancia-profunda"] #hooponopono-modal .bg-white\/80,
+html[data-layout="elegancia-profunda"] #hooponopono-modal .bg-white\/85,
+html[data-layout="elegancia-profunda"] #hooponopono-modal .bg-white {
+  background-color: rgba(31, 57, 48, .72) !important;
+}
+
+html[data-layout="elegancia-profunda"] #hooponopono-modal .bg-\[\#F5EFE4\],
+html[data-layout="elegancia-profunda"] #hooponopono-modal .bg-\[\#EFE4D3\] {
+  background-color: rgba(43, 69, 58, .78) !important;
+}
+
+html[data-layout="elegancia-profunda"] #hooponopono-modal .border-\[\#E5DAC6\] {
+  border-color: rgba(211, 180, 118, .28) !important;
+}
+
+html[data-layout="elegancia-profunda"] #hooponopono-modal .text-\[\#2A2420\],
+html[data-layout="elegancia-profunda"] #hooponopono-modal .text-\[\#5C5248\],
+html[data-layout="elegancia-profunda"] #hooponopono-modal .text-\[\#85786C\] {
+  color: #D8CCB8 !important;
+}
+
+html[data-layout="elegancia-profunda"] #hooponopono-modal button:not([class*="emerald"]):focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(211, 180, 118, .22);
+}
+
+/* Preserve semantic completion/success colors; only neutral inherited surfaces are themed. */
+@media (max-width: 640px) {
+  html[data-layout="elegancia-profunda"] #hooponopono-modal > div {
+    border-radius: 1.25rem !important;
+  }
+}
