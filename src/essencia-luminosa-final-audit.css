@@ -26,6 +26,25 @@
   box-shadow:0 8px 24px rgba(112,91,58,.07)!important;
 }
 
+/* Arcanjo e CTA de instalação ainda chegam do componente-base em azul/esmeralda.
+   No Estilo 3 eles seguem a linguagem luminosa sem alterar função ou hierarquia. */
+:root[data-layout="essencia-luminosa"] #main-header #header-btn-archangel,
+:root[data-layout="essencia-luminosa"] #main-header #header-btn-google-play{
+  background:color-mix(in srgb,var(--layout-card) 82%,var(--layout-accent-soft))!important;
+  border-color:color-mix(in srgb,var(--layout-gold) 24%,var(--layout-border-card))!important;
+  color:var(--layout-text-secondary)!important;
+  box-shadow:0 6px 18px rgba(112,91,58,.055)!important;
+}
+:root[data-layout="essencia-luminosa"] #main-header #header-btn-archangel:hover,
+:root[data-layout="essencia-luminosa"] #main-header #header-btn-google-play:hover{
+  background:color-mix(in srgb,var(--layout-card) 68%,var(--layout-accent-soft))!important;
+  border-color:color-mix(in srgb,var(--layout-gold) 34%,var(--layout-border-card))!important;
+}
+:root[data-layout="essencia-luminosa"] #main-header #header-btn-archangel svg,
+:root[data-layout="essencia-luminosa"] #main-header #header-btn-google-play svg{
+  color:var(--layout-gold)!important;
+}
+
 /* Mantém tipografia luminosa nítida mesmo em componentes com classes legadas. */
 :root[data-layout="essencia-luminosa"] :is(#cura-main-layout,#settings-view,#meditation-session,#daily-diary-modal,#daily-tip-modal){
   -webkit-font-smoothing:antialiased;
