@@ -12,6 +12,7 @@ import './mistico-moderno-dashboard-audit.css';
 import './mistico-moderno-header-audit.css';
 import './mistico-moderno-guides-audit.css';
 import './mistico-moderno-session-audit.css';
+import './mistico-moderno-courses-audit.css';
 import './essencia-luminosa-approved-overrides.css';
 import './elegancia-profunda-approved-overrides.css';
 import './elegancia-profunda-modal-audit.css';
