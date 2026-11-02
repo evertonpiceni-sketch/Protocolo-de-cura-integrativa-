@@ -107,4 +107,23 @@
 :root[data-layout="natural-sereno"] #promo-video-modal button.bg-emerald-600 { background:#B88736!important; color:#fffdf8!important; box-shadow:0 10px 24px rgba(67,52,39,.12)!important; }
 :root[data-layout="natural-sereno"] #promo-video-modal button.bg-emerald-600:hover { background:#8F631E!important; }
 
+/* Reauditoria: uma camada antiga ainda convertia CTAs emerald do Mapa Astral e
+   Ajustes em verde-floresta opaco. No Natural Sereno, verde não pode virar chapa. */
+:root[data-layout="natural-sereno"] #astral-map-modal :is(button,a)[class*="bg-emerald"],
+:root[data-layout="natural-sereno"] #settings-view :is(button,a)[class*="bg-emerald"]:not([class*="/20"]) {
+  background:#FBF8F2!important;
+  background-image:linear-gradient(145deg,#FFFDF8,#F3E8D5)!important;
+  color:#5A4026!important;
+  border:1px solid rgba(184,135,54,.34)!important;
+  box-shadow:0 8px 18px rgba(67,52,39,.08)!important;
+}
+:root[data-layout="natural-sereno"] #astral-map-modal :is(button,a)[class*="bg-emerald"]:hover,
+:root[data-layout="natural-sereno"] #settings-view :is(button,a)[class*="bg-emerald"]:not([class*="/20"]):hover {
+  background:#F5EFE4!important;
+  background-image:none!important;
+  border-color:rgba(184,135,54,.48)!important;
+}
+:root[data-layout="natural-sereno"] #astral-map-modal :is(button,a)[class*="bg-emerald"] :is(span,svg),
+:root[data-layout="natural-sereno"] #settings-view :is(button,a)[class*="bg-emerald"]:not([class*="/20"]) :is(span,svg) { color:#B88736!important; }
+
 @media (max-width:640px) { :root[data-layout="natural-sereno"] #main-header .ep-brand-signature { opacity:.26!important; } }
