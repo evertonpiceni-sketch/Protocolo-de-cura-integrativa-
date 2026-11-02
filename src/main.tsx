@@ -18,6 +18,7 @@ import './elegancia-profunda-maps-audit.css';
 import './elegancia-profunda-journal-audit.css';
 import './elegancia-profunda-hooponopono-audit.css';
 import './elegancia-profunda-promo-audit.css';
+import './elegancia-profunda-settings-final-audit.css';
 import './essencia-luminosa-final-audit.css';
 import './lib/authStartupResiliencePatch';
 import './lib/startupUiResiliencePatch';
