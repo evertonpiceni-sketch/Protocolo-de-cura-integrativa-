@@ -78,6 +78,23 @@
 :root[data-layout="essencia-luminosa"] #daily-tip-modal button:last-child{background:linear-gradient(135deg,var(--layout-gold),color-mix(in srgb,var(--layout-gold) 78%,white))!important;color:var(--layout-canvas)!important;box-shadow:0 12px 28px rgba(112,91,58,.12)!important;}
 :root[data-layout="essencia-luminosa"] #daily-tip-modal button:focus-visible{outline:2px solid color-mix(in srgb,var(--layout-gold) 58%,white)!important;outline-offset:3px;}
 
+/* Vídeo de apresentação: neutraliza verdes escuros, índigo e roxo herdados do componente-base.
+   Mantém a estrutura e as animações, mas integra o palco à paleta clara e expansiva do Estilo 3. */
+:root[data-layout="essencia-luminosa"] #promo-video-modal{background:color-mix(in srgb,var(--layout-text) 14%,transparent)!important;}
+:root[data-layout="essencia-luminosa"] #promo-video-modal>div{background:var(--layout-card)!important;border-color:color-mix(in srgb,var(--layout-gold) 26%,var(--layout-border-card))!important;box-shadow:0 28px 72px rgba(112,91,58,.12)!important;}
+:root[data-layout="essencia-luminosa"] #promo-video-modal [class*="from-[#0a412d]"],
+:root[data-layout="essencia-luminosa"] #promo-video-modal [class*="from-[#0c4a34]"],
+:root[data-layout="essencia-luminosa"] #promo-video-modal [class*="from-[#123f2f]"],
+:root[data-layout="essencia-luminosa"] #promo-video-modal [class*="from-[#174c38]"]{background-image:radial-gradient(circle at 88% 10%,color-mix(in srgb,var(--layout-gold) 12%,transparent),transparent 24rem),linear-gradient(145deg,var(--layout-canvas),color-mix(in srgb,var(--layout-accent) 8%,var(--layout-card)),var(--layout-card))!important;}
+:root[data-layout="essencia-luminosa"] #promo-video-modal :is([class*="text-emerald-"],[class*="text-purple-"],[class*="text-indigo-"]){color:var(--layout-accent)!important;}
+:root[data-layout="essencia-luminosa"] #promo-video-modal :is([class*="bg-emerald-"],[class*="bg-purple-"],[class*="bg-indigo-"]){background-color:var(--layout-accent)!important;}
+:root[data-layout="essencia-luminosa"] #promo-video-modal [class*="from-indigo-"]{--tw-gradient-from:var(--layout-accent) var(--tw-gradient-from-position)!important;--tw-gradient-to:color-mix(in srgb,var(--layout-accent) 0%,transparent) var(--tw-gradient-to-position)!important;}
+:root[data-layout="essencia-luminosa"] #promo-video-modal [class*="to-amber-"]{--tw-gradient-to:var(--layout-gold) var(--tw-gradient-to-position)!important;}
+:root[data-layout="essencia-luminosa"] #promo-video-modal :is(h1,h2,h3,strong){color:var(--layout-text)!important;}
+:root[data-layout="essencia-luminosa"] #promo-video-modal :is(p,small){color:var(--layout-text-soft)!important;}
+:root[data-layout="essencia-luminosa"] #promo-video-modal button{border-color:color-mix(in srgb,var(--layout-gold) 28%,var(--layout-border-card))!important;}
+:root[data-layout="essencia-luminosa"] #promo-video-modal button:focus-visible{outline:2px solid color-mix(in srgb,var(--layout-gold) 58%,white)!important;outline-offset:3px;}
+
 :root[data-layout="essencia-luminosa"] .ep-home,
 :root[data-layout="essencia-luminosa"] #cura-main-layout{-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;}
 
