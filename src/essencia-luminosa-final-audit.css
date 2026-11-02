@@ -105,6 +105,12 @@
 }
 :root[data-layout="essencia-luminosa"] #astral-map-modal a[class*="bg-emerald-"]:hover{filter:brightness(.97) saturate(.92);}
 
+/* Numerologia: o halo inferior do componente-base ainda chega em emerald escuro.
+   No Estilo 3 ele vira acento sálvia/oliva claro e permanece atmosférico, sem pesar a tela. */
+:root[data-layout="essencia-luminosa"] #numerology-modal [class*="bg-emerald-"]{
+  background-color:color-mix(in srgb,var(--layout-accent-soft) 48%,transparent)!important;
+}
+
 /* Fale Conosco: confirmação e ícone de cópia ainda trazem emerald forte do componente-base.
    Mantém o significado positivo, mas usa a sálvia/oliva clara do Essência Luminosa. */
 :root[data-layout="essencia-luminosa"] #contact-us-modal :is([class*="bg-emerald-"],[class*="border-emerald-"],[class*="text-emerald-"],[class*="shadow-emerald-"]){
@@ -115,7 +121,7 @@
 }
 
 /* Mantém tipografia luminosa nítida mesmo em componentes com classes legadas. */
-:root[data-layout="essencia-luminosa"] :is(#cura-main-layout,#settings-view,#meditation-session,#daily-diary-modal,#daily-tip-modal,#journal-dashboard-view,#welcome-modal,#astral-map-modal,#contact-us-modal){
+:root[data-layout="essencia-luminosa"] :is(#cura-main-layout,#settings-view,#meditation-session,#daily-diary-modal,#daily-tip-modal,#journal-dashboard-view,#welcome-modal,#astral-map-modal,#numerology-modal,#contact-us-modal){
   -webkit-font-smoothing:antialiased;
   text-rendering:optimizeLegibility;
 }
