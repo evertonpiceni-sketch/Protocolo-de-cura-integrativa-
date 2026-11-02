@@ -14,6 +14,7 @@ import './mistico-moderno-guides-audit.css';
 import './mistico-moderno-session-audit.css';
 import './mistico-moderno-courses-audit.css';
 import './mistico-moderno-maps-audit.css';
+import './mistico-moderno-achievements-audit.css';
 import './essencia-luminosa-approved-overrides.css';
 import './elegancia-profunda-approved-overrides.css';
 import './elegancia-profunda-modal-audit.css';
