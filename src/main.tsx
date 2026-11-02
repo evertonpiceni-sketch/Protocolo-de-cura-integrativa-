@@ -26,6 +26,7 @@ import './elegancia-profunda-courses-audit.css';
 import './elegancia-profunda-achievements-audit.css';
 import './elegancia-profunda-bottom-nav-audit.css';
 import './elegancia-profunda-mobile-install-audit.css';
+import './elegancia-profunda-header-final-audit.css';
 import './essencia-luminosa-final-audit.css';
 import './lib/authStartupResiliencePatch';
 import './lib/startupUiResiliencePatch';
