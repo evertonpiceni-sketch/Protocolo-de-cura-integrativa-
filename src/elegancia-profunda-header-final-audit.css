@@ -1,0 +1,32 @@
+/* Elegância Profunda — auditoria final do cabeçalho.
+   Neutraliza somente heranças cromáticas do JSX sob o Estilo 2. */
+:root[data-layout="elegancia-profunda"] #header-btn-google-play {
+  background:linear-gradient(145deg,color-mix(in srgb,var(--layout-card) 92%,black),color-mix(in srgb,var(--layout-accent) 18%,var(--layout-card)))!important;
+  border-color:color-mix(in srgb,var(--layout-gold) 34%,var(--layout-border-card))!important;
+  color:var(--layout-text-soft)!important;
+  box-shadow:0 8px 22px rgba(0,0,0,.18)!important;
+}
+:root[data-layout="elegancia-profunda"] #header-btn-google-play :is(svg,span) { color:var(--layout-gold)!important; }
+:root[data-layout="elegancia-profunda"] #header-btn-google-play:hover {
+  background:linear-gradient(145deg,color-mix(in srgb,var(--layout-card) 88%,black),color-mix(in srgb,var(--layout-gold) 14%,var(--layout-card)))!important;
+  border-color:color-mix(in srgb,var(--layout-gold) 52%,var(--layout-border-card))!important;
+}
+
+/* Sair continua semanticamente destrutivo, mas sem o bloco rosa que pertencia ao tratamento genérico. */
+:root[data-layout="elegancia-profunda"] #header-btn-logout {
+  background:color-mix(in srgb,var(--layout-card) 92%,#5f2323)!important;
+  border-color:color-mix(in srgb,var(--layout-gold) 24%,#8f4b45)!important;
+  color:color-mix(in srgb,var(--layout-text) 88%,#efb0a8)!important;
+  box-shadow:0 8px 22px rgba(0,0,0,.18)!important;
+}
+:root[data-layout="elegancia-profunda"] #header-btn-logout :is(svg,span) { color:inherit!important; }
+:root[data-layout="elegancia-profunda"] #header-btn-logout:hover {
+  background:color-mix(in srgb,var(--layout-card) 84%,#74302d)!important;
+  border-color:color-mix(in srgb,var(--layout-gold) 34%,#a65c54)!important;
+}
+
+:root[data-layout="elegancia-profunda"] #header-btn-google-play:focus-visible,
+:root[data-layout="elegancia-profunda"] #header-btn-logout:focus-visible {
+  outline:2px solid color-mix(in srgb,var(--layout-gold) 68%,white);
+  outline-offset:3px;
+}
