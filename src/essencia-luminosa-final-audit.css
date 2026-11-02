@@ -61,7 +61,7 @@
   color:var(--layout-gold)!important;
 }
 
-/* Diário: dias concluídos ainda chegam do componente-base em emerald.
+/* Diário modal: dias concluídos ainda chegam do componente-base em emerald.
    Mantém o significado de concluído, mas dentro da paleta sálvia/oliva clara do Estilo 3. */
 :root[data-layout="essencia-luminosa"] #daily-diary-modal :is([class*="bg-emerald-"],[class*="border-emerald-"],[class*="text-emerald-"]){
   background:color-mix(in srgb,var(--layout-accent-soft) 54%,var(--layout-card))!important;
@@ -69,8 +69,16 @@
   color:var(--layout-accent)!important;
 }
 
+/* Diário de Reconexão / histórico: o componente separado JournalLog também traz emerald
+   nos estados 4–5 e no bloco “Como estou agora”. Neutraliza apenas dentro desse dashboard. */
+:root[data-layout="essencia-luminosa"] #journal-dashboard-view :is([class*="bg-emerald-"],[class*="border-emerald-"],[class*="text-emerald-"]){
+  background:color-mix(in srgb,var(--layout-accent-soft) 50%,var(--layout-card))!important;
+  border-color:color-mix(in srgb,var(--layout-accent) 27%,var(--layout-border-card))!important;
+  color:var(--layout-accent)!important;
+}
+
 /* Mantém tipografia luminosa nítida mesmo em componentes com classes legadas. */
-:root[data-layout="essencia-luminosa"] :is(#cura-main-layout,#settings-view,#meditation-session,#daily-diary-modal,#daily-tip-modal){
+:root[data-layout="essencia-luminosa"] :is(#cura-main-layout,#settings-view,#meditation-session,#daily-diary-modal,#daily-tip-modal,#journal-dashboard-view){
   -webkit-font-smoothing:antialiased;
   text-rendering:optimizeLegibility;
 }
