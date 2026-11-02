@@ -1,0 +1,67 @@
+/* Estilo 4 — Místico Moderno | Welcome modal
+   Isolado por data-layout para não contaminar os demais estilos. */
+:root[data-layout="mistico-moderno"] #welcome-modal {
+  background: rgba(5, 10, 24, .78) !important;
+}
+
+:root[data-layout="mistico-moderno"] #welcome-modal > div {
+  background:
+    radial-gradient(circle at 86% 8%, rgba(108, 63, 160, .16), transparent 34%),
+    radial-gradient(circle at 8% 92%, rgba(22, 112, 96, .10), transparent 36%),
+    linear-gradient(155deg, rgba(12, 20, 38, .98), rgba(17, 24, 45, .98)) !important;
+  border-color: rgba(212, 175, 55, .24) !important;
+  color: #F5F0E6 !important;
+  box-shadow: 0 28px 80px rgba(0, 0, 0, .46), 0 0 0 1px rgba(108, 63, 160, .08) inset !important;
+}
+
+:root[data-layout="mistico-moderno"] #welcome-modal h2,
+:root[data-layout="mistico-moderno"] #welcome-modal h4,
+:root[data-layout="mistico-moderno"] #welcome-modal strong {
+  color: #F5F0E6 !important;
+}
+
+:root[data-layout="mistico-moderno"] #welcome-modal p,
+:root[data-layout="mistico-moderno"] #welcome-modal label,
+:root[data-layout="mistico-moderno"] #welcome-modal label span {
+  color: rgba(245, 240, 230, .78) !important;
+}
+
+:root[data-layout="mistico-moderno"] #welcome-modal [class*="bg-white/80"] {
+  background: rgba(20, 31, 48, .76) !important;
+  border-color: rgba(108, 63, 160, .24) !important;
+}
+
+:root[data-layout="mistico-moderno"] #welcome-modal [class*="bg-[#F5EFE4]"] {
+  background: rgba(20, 31, 48, .88) !important;
+  border-color: rgba(212, 175, 55, .20) !important;
+  color: #F5F0E6 !important;
+}
+
+:root[data-layout="mistico-moderno"] #welcome-modal input[type="checkbox"] {
+  background: #101827 !important;
+  border-color: rgba(212, 175, 55, .32) !important;
+  accent-color: #D4AF37;
+}
+
+:root[data-layout="mistico-moderno"] #welcome-modal button:first-of-type {
+  color: rgba(245, 240, 230, .78) !important;
+}
+
+:root[data-layout="mistico-moderno"] #welcome-modal button[class*="from-emerald-700"] {
+  background: linear-gradient(100deg, #243A73 0%, #6C3FA0 58%, #B88736 100%) !important;
+  color: #FFF9EC !important;
+  border: 1px solid rgba(212, 175, 55, .26) !important;
+  box-shadow: 0 12px 32px rgba(8, 12, 28, .42), 0 0 20px rgba(108, 63, 160, .10) !important;
+}
+
+:root[data-layout="mistico-moderno"] #welcome-modal button[class*="from-emerald-700"]:hover {
+  filter: brightness(1.08);
+}
+
+:root[data-layout="mistico-moderno"] #welcome-modal img {
+  filter: saturate(.96) contrast(1.03);
+}
+
+:root[data-layout="mistico-moderno"] #welcome-modal img + div {
+  background: linear-gradient(to top, rgba(5, 10, 24, .92), rgba(12, 20, 38, .22), transparent) !important;
+}
