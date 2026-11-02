@@ -1,0 +1,16 @@
+/* Estilo 3 — Essência Luminosa | correção incremental do canvas global.
+   approved-theme.css ainda desenha body::before com RGBA fixo do legado sálvia/dourado.
+   Aqui a decoração passa a obedecer exclusivamente aos tokens do Estilo 3. */
+:root[data-layout="essencia-luminosa"] body::before{
+  background:
+    radial-gradient(ellipse at -8% 24%,color-mix(in srgb,var(--layout-accent) 8%,transparent),transparent 24%),
+    radial-gradient(ellipse at 108% 34%,color-mix(in srgb,var(--layout-gold) 7%,transparent),transparent 24%)!important;
+  opacity:.78;
+}
+
+:root[data-layout="essencia-luminosa"] body{
+  background:
+    radial-gradient(circle at 12% 4%,color-mix(in srgb,var(--layout-gold) 10%,transparent),transparent 25rem),
+    radial-gradient(circle at 92% 20%,color-mix(in srgb,var(--layout-accent) 8%,transparent),transparent 28rem),
+    linear-gradient(180deg,var(--layout-card-subtle) 0%,var(--layout-canvas) 58%,var(--layout-canvas-alt) 100%)!important;
+}
