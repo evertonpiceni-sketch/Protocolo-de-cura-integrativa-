@@ -1,0 +1,37 @@
+/* Estilo 3 — Essência Luminosa | auditoria final incremental.
+   Escopo estrito ao layout ativo; preserva conteúdo, lógica e demais estilos. */
+
+/* Corrige token legado inexistente usado por overrides anteriores. */
+:root[data-layout="essencia-luminosa"]{
+  --layout-text-soft:var(--layout-text-secondary);
+}
+
+/* O wrapper do logo no App ainda carrega border/shadow indigo do componente-base.
+   Neutraliza somente no Estilo 3 e mantém o logo como assinatura sutil. */
+:root[data-layout="essencia-luminosa"] #main-header .ep-brand-signature{
+  opacity:.30!important;
+  filter:saturate(.86) contrast(.96)!important;
+}
+:root[data-layout="essencia-luminosa"] #main-header div:has(> .ep-brand-signature){
+  background:color-mix(in srgb,var(--layout-card) 72%,transparent)!important;
+  border-color:color-mix(in srgb,var(--layout-gold) 22%,var(--layout-border-card))!important;
+  box-shadow:0 8px 24px rgba(112,91,58,.07)!important;
+}
+
+/* Remove resíduos cromáticos explícitos do header sem atingir estados semânticos fora dele. */
+:root[data-layout="essencia-luminosa"] #main-header :is([class*="border-indigo-"],[class*="border-purple-"]){
+  border-color:color-mix(in srgb,var(--layout-gold) 22%,var(--layout-border-card))!important;
+}
+:root[data-layout="essencia-luminosa"] #main-header :is([class*="shadow-[0_0_12px_rgba(99,102,241"],[class*="shadow-indigo-"]){
+  box-shadow:0 8px 24px rgba(112,91,58,.07)!important;
+}
+
+/* Mantém tipografia luminosa nítida mesmo em componentes com classes legadas. */
+:root[data-layout="essencia-luminosa"] :is(#cura-main-layout,#settings-view,#meditation-session,#daily-diary-modal,#daily-tip-modal){
+  -webkit-font-smoothing:antialiased;
+  text-rendering:optimizeLegibility;
+}
+
+@media (max-width:640px){
+  :root[data-layout="essencia-luminosa"] #main-header .ep-brand-signature{opacity:.26!important;}
+}
