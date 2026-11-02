@@ -1,0 +1,76 @@
+/* Elegância Profunda — auditoria final de Configurações.
+   Escopo estrito: remove apenas superfícies/controles claros ou cromas de outros estilos
+   ainda declarados no JSX de App.tsx. Estados semânticos de sucesso/alerta/perigo ficam intactos. */
+
+:root[data-layout="elegancia-profunda"] #settings-view :is(
+  [class*="bg-[#FBF8F2]"],
+  [class*="bg-[#F5EFE4]"],
+  [class*="bg-white"]
+) {
+  background-color: color-mix(in srgb, var(--layout-card) 94%, black) !important;
+  border-color: color-mix(in srgb, var(--layout-gold) 24%, var(--layout-border-card)) !important;
+}
+
+:root[data-layout="elegancia-profunda"] #settings-view :is(input,select,textarea) {
+  background: color-mix(in srgb, var(--layout-card) 96%, black) !important;
+  border-color: color-mix(in srgb, var(--layout-gold) 26%, var(--layout-border-card)) !important;
+  color: var(--layout-text) !important;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.025) !important;
+}
+
+:root[data-layout="elegancia-profunda"] #settings-view :is(input,select,textarea):focus {
+  outline: none !important;
+  border-color: color-mix(in srgb, var(--layout-gold) 62%, var(--layout-border-card)) !important;
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--layout-gold) 13%, transparent) !important;
+}
+
+:root[data-layout="elegancia-profunda"] #settings-view :is(input,textarea)::placeholder {
+  color: color-mix(in srgb, var(--layout-text-soft) 68%, transparent) !important;
+}
+
+:root[data-layout="elegancia-profunda"] #settings-view select option {
+  background: var(--layout-card) !important;
+  color: var(--layout-text) !important;
+}
+
+/* Ações genéricas herdadas de indigo/purple tornam-se champagne/bronze.
+   Emerald/amber/rose de status permanecem sem recoloração global. */
+:root[data-layout="elegancia-profunda"] #settings-view button[class*="bg-indigo"],
+:root[data-layout="elegancia-profunda"] #settings-view button[class*="bg-purple"] {
+  background: linear-gradient(145deg,
+    color-mix(in srgb, var(--layout-card) 86%, var(--layout-gold)),
+    color-mix(in srgb, var(--layout-card) 94%, black)) !important;
+  border-color: color-mix(in srgb, var(--layout-gold) 42%, var(--layout-border-card)) !important;
+  color: var(--layout-text) !important;
+  box-shadow: 0 10px 26px rgba(0,0,0,.20) !important;
+}
+
+:root[data-layout="elegancia-profunda"] #settings-view button[class*="bg-indigo"]:hover,
+:root[data-layout="elegancia-profunda"] #settings-view button[class*="bg-purple"]:hover {
+  background: linear-gradient(145deg,
+    color-mix(in srgb, var(--layout-card) 78%, var(--layout-gold)),
+    color-mix(in srgb, var(--layout-card) 90%, black)) !important;
+  border-color: color-mix(in srgb, var(--layout-gold) 58%, var(--layout-border-card)) !important;
+}
+
+/* Estúdio de vídeo ainda nascia marfim; mantém ação e conteúdo, troca apenas tratamento visual. */
+:root[data-layout="elegancia-profunda"] #settings-view button[class*="bg-[#F5EFE4]"] {
+  background: linear-gradient(145deg,
+    color-mix(in srgb, var(--layout-card) 94%, black),
+    color-mix(in srgb, var(--layout-gold) 9%, var(--layout-card))) !important;
+  border-color: color-mix(in srgb, var(--layout-gold) 34%, var(--layout-border-card)) !important;
+  color: var(--layout-gold) !important;
+}
+
+/* Slider neutro: trilho profundo; mantém o acento champagne já aprovado. */
+:root[data-layout="elegancia-profunda"] #settings-view input[type="range"] {
+  background: color-mix(in srgb, var(--layout-card) 84%, black) !important;
+  border-color: color-mix(in srgb, var(--layout-gold) 20%, var(--layout-border-card)) !important;
+  accent-color: var(--layout-gold) !important;
+}
+
+@media (max-width: 640px) {
+  :root[data-layout="elegancia-profunda"] #settings-view :is(input,select,textarea,button) {
+    min-height: 44px;
+  }
+}
