@@ -2,284 +2,92 @@
    This file must not redesign frozen screens. It only fixes confirmed regressions
    after the official Estilo 1 card and later approved decisions. */
 
-/* Logo oficial: assinatura visual discreta; nunca elemento dominante.
-   The current header does not expose ep-brand-signature-wrap, therefore the
-   signature itself must carry the approved low visual weight. */
-:root[data-layout="natural-sereno"] #main-header .ep-brand-signature {
-  opacity: .30 !important;
-  filter: none !important;
-  object-fit: contain !important;
-}
+/* Logo oficial: assinatura visual discreta; nunca elemento dominante. */
+:root[data-layout="natural-sereno"] #main-header .ep-brand-signature { opacity:.30!important; filter:none!important; object-fit:contain!important; border-color:transparent!important; }
+:root[data-layout="natural-sereno"] #main-header .ep-brand-signature:is(img) { max-width:100%; max-height:100%; }
+:root[data-layout="natural-sereno"] #main-header .border-indigo-500\/40 { border-color:rgba(184,135,54,.24)!important; background:rgba(251,248,242,.92)!important; box-shadow:0 6px 16px rgba(67,52,39,.06)!important; }
+#profile-setup-view.ep-auth-style-one #onboarding-card .ep-brand-signature-wrap { width:84px; height:84px; opacity:.30!important; }
+#profile-setup-view.ep-auth-style-one #onboarding-card .ep-brand-signature { opacity:1!important; filter:none!important; object-fit:contain!important; }
 
-:root[data-layout="natural-sereno"] #main-header .ep-brand-signature:is(img) {
-  max-width: 100%;
-  max-height: 100%;
-}
-
-/* The logo container itself still inherited an indigo border/glow from another
-   style. Keep the approved logo untouched and make its chrome quiet ivory/gold. */
-:root[data-layout="natural-sereno"] #main-header .border-indigo-500\/40 {
-  border-color: rgba(184,135,54,.24) !important;
-  background: rgba(251,248,242,.92) !important;
-  box-shadow: 0 6px 16px rgba(67,52,39,.06) !important;
-}
-
-#profile-setup-view.ep-auth-style-one #onboarding-card .ep-brand-signature-wrap {
-  width: 84px;
-  height: 84px;
-  opacity: .30 !important;
-}
-
-#profile-setup-view.ep-auth-style-one #onboarding-card .ep-brand-signature {
-  opacity: 1 !important;
-  filter: none !important;
-  object-fit: contain !important;
-}
-
-/* Settings had a dark slate/amber PRO card inherited from another visual era.
-   Keep the information and hierarchy, but return its surface to Natural Sereno. */
-:root[data-layout="natural-sereno"] #settings-view [data-ns-status-card="true"] {
-  background: linear-gradient(145deg, rgba(255,253,248,.98), rgba(246,239,224,.96)) !important;
-  border-color: rgba(200,157,82,.34) !important;
-  box-shadow: 0 14px 34px rgba(67,52,39,.08) !important;
-}
-
-:root[data-layout="natural-sereno"] #settings-view [data-ns-status-card="true"] :is(h1,h2,h3,strong) {
-  color: #2A2421 !important;
-}
-
-:root[data-layout="natural-sereno"] #settings-view [data-ns-status-card="true"] :is(p,small) {
-  color: #6B625B !important;
-}
-
-/* Account details still exposed an indigo login label from another style.
-   Keep the same hierarchy, but return the identifier to the approved coffee tone. */
-:root[data-layout="natural-sereno"] #settings-view .text-indigo-300 {
-  color: #6B625B !important;
-}
-
-/* Reminder and settings controls still carried indigo chrome from another style.
-   Preserve behavior while returning fields and CTAs to ivory / coffee / refined gold. */
-:root[data-layout="natural-sereno"] #settings-view .focus\:border-indigo-500:focus {
-  border-color: #B88736 !important;
-}
-
+/* Settings */
+:root[data-layout="natural-sereno"] #settings-view [data-ns-status-card="true"] { background:linear-gradient(145deg,rgba(255,253,248,.98),rgba(246,239,224,.96))!important; border-color:rgba(200,157,82,.34)!important; box-shadow:0 14px 34px rgba(67,52,39,.08)!important; }
+:root[data-layout="natural-sereno"] #settings-view [data-ns-status-card="true"] :is(h1,h2,h3,strong) { color:#2A2421!important; }
+:root[data-layout="natural-sereno"] #settings-view [data-ns-status-card="true"] :is(p,small) { color:#6B625B!important; }
+:root[data-layout="natural-sereno"] #settings-view .text-indigo-300 { color:#6B625B!important; }
+:root[data-layout="natural-sereno"] #settings-view .focus\:border-indigo-500:focus { border-color:#B88736!important; }
 :root[data-layout="natural-sereno"] #settings-view button.bg-indigo-500\/20,
-:root[data-layout="natural-sereno"] #settings-view button.bg-indigo-600\/30 {
-  background: rgba(184,135,54,.12) !important;
-  color: #6B4E2E !important;
-  border-color: rgba(184,135,54,.30) !important;
-  box-shadow: 0 8px 18px rgba(67,52,39,.06) !important;
-}
-
+:root[data-layout="natural-sereno"] #settings-view button.bg-indigo-600\/30 { background:rgba(184,135,54,.12)!important; color:#6B4E2E!important; border-color:rgba(184,135,54,.30)!important; box-shadow:0 8px 18px rgba(67,52,39,.06)!important; }
 :root[data-layout="natural-sereno"] #settings-view button.bg-indigo-500\/20:hover,
-:root[data-layout="natural-sereno"] #settings-view button.bg-indigo-600\/30:hover {
-  background: rgba(184,135,54,.20) !important;
-  color: #5A4026 !important;
-  border-color: rgba(184,135,54,.44) !important;
-}
+:root[data-layout="natural-sereno"] #settings-view button.bg-indigo-600\/30:hover { background:rgba(184,135,54,.20)!important; color:#5A4026!important; border-color:rgba(184,135,54,.44)!important; }
+:root[data-layout="natural-sereno"] #settings-view .bg-indigo-500\/10 { background:rgba(200,157,82,.10)!important; color:#8F631E!important; border-color:rgba(184,135,54,.24)!important; }
+:root[data-layout="natural-sereno"] #settings-view .bg-emerald-500\/20 { background:rgba(111,123,85,.10)!important; color:#5E6948!important; border-color:rgba(111,123,85,.24)!important; }
+:root[data-layout="natural-sereno"] #settings-view .bg-amber-500\/20 { background:rgba(200,157,82,.10)!important; color:#8F631E!important; border-color:rgba(184,135,54,.24)!important; }
+:root[data-layout="natural-sereno"] #settings-view h3.text-emerald-400 { color:#2A2421!important; }
 
-:root[data-layout="natural-sereno"] #settings-view .bg-indigo-500\/10 {
-  background: rgba(200,157,82,.10) !important;
-  color: #8F631E !important;
-  border-color: rgba(184,135,54,.24) !important;
-}
-
-/* Settings status chips still used saturated emerald/amber slabs. Keep their
-   meaning, but express status with quiet Natural Sereno accents instead of blocks. */
-:root[data-layout="natural-sereno"] #settings-view .bg-emerald-500\/20 {
-  background: rgba(111,123,85,.10) !important;
-  color: #5E6948 !important;
-  border-color: rgba(111,123,85,.24) !important;
-}
-
-:root[data-layout="natural-sereno"] #settings-view .bg-amber-500\/20 {
-  background: rgba(200,157,82,.10) !important;
-  color: #8F631E !important;
-  border-color: rgba(184,135,54,.24) !important;
-}
-
-/* Practice heading inherited emerald as a dominant accent. Natural Sereno keeps
-   green for small nature cues only, so the heading returns to coffee. */
-:root[data-layout="natural-sereno"] #settings-view h3.text-emerald-400 {
-  color: #2A2421 !important;
-}
-
-/* Header actions still exposed blue/emerald slabs from generic/older chrome.
-   Keep semantic icons and behavior, but Natural Sereno uses ivory surfaces,
-   coffee text and refined gold; green remains only a small natural accent. */
+/* Header actions */
 :root[data-layout="natural-sereno"] #header-btn-archangel,
-:root[data-layout="natural-sereno"] #header-btn-google-play {
-  background: rgba(251,248,242,.94) !important;
-  color: #5C5248 !important;
-  border-color: rgba(184,135,54,.28) !important;
-  box-shadow: 0 6px 16px rgba(67,52,39,.06) !important;
-}
-
+:root[data-layout="natural-sereno"] #header-btn-google-play { background:rgba(251,248,242,.94)!important; color:#5C5248!important; border-color:rgba(184,135,54,.28)!important; box-shadow:0 6px 16px rgba(67,52,39,.06)!important; }
 :root[data-layout="natural-sereno"] #header-btn-archangel:hover,
-:root[data-layout="natural-sereno"] #header-btn-google-play:hover {
-  background: #F5EFE4 !important;
-  border-color: rgba(184,135,54,.42) !important;
-}
+:root[data-layout="natural-sereno"] #header-btn-google-play:hover { background:#F5EFE4!important; border-color:rgba(184,135,54,.42)!important; }
+:root[data-layout="natural-sereno"] #header-btn-archangel svg { color:#B88736!important; }
+:root[data-layout="natural-sereno"] #header-btn-google-play svg { color:#6F7B55!important; }
 
-:root[data-layout="natural-sereno"] #header-btn-archangel svg {
-  color: #B88736 !important;
+/* VIP header chrome was still a saturated amber slab. Keep status hierarchy but
+   express it as premium ivory/gold, consistent with the approved Estilo 1 card. */
+:root[data-layout="natural-sereno"] #main-header button.bg-amber-500\/15,
+:root[data-layout="natural-sereno"] #main-header button.bg-gradient-to-r.from-amber-500 {
+  background:#FBF8F2!important;
+  background-image:linear-gradient(145deg,#FFFDF8,#F3E8D5)!important;
+  color:#5A4026!important;
+  border:1px solid rgba(184,135,54,.34)!important;
+  box-shadow:0 7px 18px rgba(67,52,39,.08)!important;
 }
+:root[data-layout="natural-sereno"] #main-header button.bg-amber-500\/15:hover,
+:root[data-layout="natural-sereno"] #main-header button.bg-gradient-to-r.from-amber-500:hover { background:#F5EFE4!important; background-image:none!important; border-color:rgba(184,135,54,.48)!important; }
+:root[data-layout="natural-sereno"] #main-header button.bg-amber-500\/15 svg,
+:root[data-layout="natural-sereno"] #main-header button.bg-gradient-to-r.from-amber-500 svg { color:#B88736!important; }
 
-:root[data-layout="natural-sereno"] #header-btn-google-play svg {
-  color: #6F7B55 !important;
-}
-
-/* Header chrome must not leak indigo from another style. */
-:root[data-layout="natural-sereno"] #main-header .ep-brand-signature {
-  border-color: transparent !important;
-}
-
-/* Legacy floating dock is currently hidden, but its old multicolour chrome must
-   not return if the component is re-enabled. Neutralize the inherited emerald,
-   indigo, blue, teal, purple and amber slabs at the style boundary. */
-:root[data-layout="natural-sereno"] #bottom-action-dock button:not(#bottom-btn-logout) {
-  background: rgba(251,248,242,.94) !important;
-  color: #5C5248 !important;
-  border-color: rgba(184,135,54,.28) !important;
-  box-shadow: 0 6px 16px rgba(67,52,39,.06) !important;
-}
-
-:root[data-layout="natural-sereno"] #bottom-action-dock button:not(#bottom-btn-logout):hover {
-  background: #F5EFE4 !important;
-  color: #2A2421 !important;
-  border-color: rgba(184,135,54,.44) !important;
-}
-
-:root[data-layout="natural-sereno"] #bottom-action-dock button:not(#bottom-btn-logout) svg {
-  color: #B88736 !important;
-}
-
+/* Legacy floating dock */
+:root[data-layout="natural-sereno"] #bottom-action-dock button:not(#bottom-btn-logout) { background:rgba(251,248,242,.94)!important; color:#5C5248!important; border-color:rgba(184,135,54,.28)!important; box-shadow:0 6px 16px rgba(67,52,39,.06)!important; }
+:root[data-layout="natural-sereno"] #bottom-action-dock button:not(#bottom-btn-logout):hover { background:#F5EFE4!important; color:#2A2421!important; border-color:rgba(184,135,54,.44)!important; }
+:root[data-layout="natural-sereno"] #bottom-action-dock button:not(#bottom-btn-logout) svg { color:#B88736!important; }
 :root[data-layout="natural-sereno"] #bottom-action-dock #bottom-btn-specific-treatment svg,
 :root[data-layout="natural-sereno"] #bottom-action-dock #bottom-btn-herbal-baths svg,
-:root[data-layout="natural-sereno"] #bottom-action-dock #bottom-btn-systemic svg {
-  color: #6F7B55 !important;
-}
+:root[data-layout="natural-sereno"] #bottom-action-dock #bottom-btn-systemic svg { color:#6F7B55!important; }
+:root[data-layout="natural-sereno"] #bottom-action-dock #bottom-btn-journal { background:rgba(200,157,82,.16)!important; color:#6B4E2E!important; }
 
-:root[data-layout="natural-sereno"] #bottom-action-dock #bottom-btn-journal {
-  background: rgba(200,157,82,.16) !important;
-  color: #6B4E2E !important;
-}
+/* Floating contact */
+:root[data-layout="natural-sereno"] #floating-whatsapp-btn { background:rgba(251,248,242,.96)!important; color:#5C5248!important; border-color:rgba(184,135,54,.34)!important; box-shadow:0 12px 28px rgba(67,52,39,.12)!important; }
+:root[data-layout="natural-sereno"] #floating-whatsapp-btn:hover { background:#F5EFE4!important; color:#2A2421!important; border-color:rgba(184,135,54,.48)!important; }
+:root[data-layout="natural-sereno"] #floating-whatsapp-btn svg { color:#6F7B55!important; }
 
-/* Floating contact CTA still carried a large emerald slab from generic chrome.
-   Preserve the contact action while returning the surface to ivory/gold; green
-   remains a small natural cue on the icon only. */
-:root[data-layout="natural-sereno"] #floating-whatsapp-btn {
-  background: rgba(251,248,242,.96) !important;
-  color: #5C5248 !important;
-  border-color: rgba(184,135,54,.34) !important;
-  box-shadow: 0 12px 28px rgba(67,52,39,.12) !important;
-}
-
-:root[data-layout="natural-sereno"] #floating-whatsapp-btn:hover {
-  background: #F5EFE4 !important;
-  color: #2A2421 !important;
-  border-color: rgba(184,135,54,.48) !important;
-}
-
-:root[data-layout="natural-sereno"] #floating-whatsapp-btn svg {
-  color: #6F7B55 !important;
-}
-
-/* Diário still contained generic emerald, indigo, purple, slate and bright amber
-   utility classes. Keep completion/phase meaning while returning the visual
-   language to ivory, coffee, refined gold and only small natural-green accents. */
-:root[data-layout="natural-sereno"] #daily-diary-modal .bg-emerald-50 {
-  background: rgba(111,123,85,.09) !important;
-}
-
-:root[data-layout="natural-sereno"] #daily-diary-modal .border-emerald-200 {
-  border-color: rgba(111,123,85,.24) !important;
-}
-
+/* Diário */
+:root[data-layout="natural-sereno"] #daily-diary-modal .bg-emerald-50 { background:rgba(111,123,85,.09)!important; }
+:root[data-layout="natural-sereno"] #daily-diary-modal .border-emerald-200 { border-color:rgba(111,123,85,.24)!important; }
 :root[data-layout="natural-sereno"] #daily-diary-modal .text-emerald-700,
-:root[data-layout="natural-sereno"] #daily-diary-modal .text-emerald-400 {
-  color: #5E6948 !important;
-}
-
-:root[data-layout="natural-sereno"] #daily-diary-modal .bg-emerald-400 {
-  background: #6F7B55 !important;
-}
-
-:root[data-layout="natural-sereno"] #daily-diary-modal .bg-amber-50 {
-  background: rgba(200,157,82,.09) !important;
-}
-
+:root[data-layout="natural-sereno"] #daily-diary-modal .text-emerald-400 { color:#5E6948!important; }
+:root[data-layout="natural-sereno"] #daily-diary-modal .bg-emerald-400 { background:#6F7B55!important; }
+:root[data-layout="natural-sereno"] #daily-diary-modal .bg-amber-50 { background:rgba(200,157,82,.09)!important; }
 :root[data-layout="natural-sereno"] #daily-diary-modal .border-amber-200,
-:root[data-layout="natural-sereno"] #daily-diary-modal .border-purple-500\/20 {
-  border-color: rgba(184,135,54,.24) !important;
-}
+:root[data-layout="natural-sereno"] #daily-diary-modal .border-purple-500\/20 { border-color:rgba(184,135,54,.24)!important; }
+:root[data-layout="natural-sereno"] #daily-diary-modal :is(.text-amber-700,.text-amber-400,.text-amber-300,.text-purple-400) { color:#8F631E!important; }
+:root[data-layout="natural-sereno"] #daily-diary-modal .focus\:ring-indigo-400:focus { --tw-ring-color:rgba(184,135,54,.35)!important; }
+:root[data-layout="natural-sereno"] #daily-diary-modal .hover\:bg-slate-700:hover { background:#EEE4D3!important; color:#2A2421!important; }
 
-:root[data-layout="natural-sereno"] #daily-diary-modal :is(.text-amber-700,.text-amber-400,.text-amber-300,.text-purple-400) {
-  color: #8F631E !important;
-}
-
-:root[data-layout="natural-sereno"] #daily-diary-modal .focus\:ring-indigo-400:focus {
-  --tw-ring-color: rgba(184,135,54,.35) !important;
-}
-
-:root[data-layout="natural-sereno"] #daily-diary-modal .hover\:bg-slate-700:hover {
-  background: #EEE4D3 !important;
-  color: #2A2421 !important;
-}
-
-/* Presentation/video modal still carries cinematic emerald/purple/indigo slabs
-   from an older visual language. Keep scene content, timing and Solfeggio logic,
-   but make Natural Sereno's presentation light, warm and nature-accented. */
-:root[data-layout="natural-sereno"] #promo-video-modal {
-  background: rgba(42,36,33,.72) !important;
-}
-
+/* Presentation/video */
+:root[data-layout="natural-sereno"] #promo-video-modal { background:rgba(42,36,33,.72)!important; }
 :root[data-layout="natural-sereno"] #promo-video-modal [class*="from-[#0a412d]"],
 :root[data-layout="natural-sereno"] #promo-video-modal [class*="from-[#0c4a34]"],
 :root[data-layout="natural-sereno"] #promo-video-modal [class*="from-[#123f2f]"],
-:root[data-layout="natural-sereno"] #promo-video-modal [class*="from-[#174c38]"] {
-  background-image: linear-gradient(145deg, #FAF7F2 0%, #F4EBDD 58%, #EDE2D1 100%) !important;
-}
-
-:root[data-layout="natural-sereno"] #promo-video-modal .bg-purple-500\/20 {
-  background: rgba(111,123,85,.10) !important;
-}
-
-:root[data-layout="natural-sereno"] #promo-video-modal :is(.text-purple-400,.text-indigo-400) {
-  color: #B88736 !important;
-}
-
+:root[data-layout="natural-sereno"] #promo-video-modal [class*="from-[#174c38]"] { background-image:linear-gradient(145deg,#FAF7F2 0%,#F4EBDD 58%,#EDE2D1 100%)!important; }
+:root[data-layout="natural-sereno"] #promo-video-modal .bg-purple-500\/20 { background:rgba(111,123,85,.10)!important; }
+:root[data-layout="natural-sereno"] #promo-video-modal :is(.text-purple-400,.text-indigo-400) { color:#B88736!important; }
 :root[data-layout="natural-sereno"] #promo-video-modal .bg-indigo-400,
-:root[data-layout="natural-sereno"] #promo-video-modal .bg-purple-400 {
-  background: #C89D52 !important;
-}
+:root[data-layout="natural-sereno"] #promo-video-modal .bg-purple-400 { background:#C89D52!important; }
+:root[data-layout="natural-sereno"] #promo-video-modal .bg-emerald-400 { background:#6F7B55!important; }
+:root[data-layout="natural-sereno"] #promo-video-modal .text-emerald-400 { color:#6F7B55!important; }
+:root[data-layout="natural-sereno"] #promo-video-modal .from-indigo-500 { --tw-gradient-from:#C89D52 var(--tw-gradient-from-position)!important; --tw-gradient-to:rgba(200,157,82,0) var(--tw-gradient-to-position)!important; }
+:root[data-layout="natural-sereno"] #promo-video-modal button.bg-emerald-600 { background:#B88736!important; color:#fffdf8!important; box-shadow:0 10px 24px rgba(67,52,39,.12)!important; }
+:root[data-layout="natural-sereno"] #promo-video-modal button.bg-emerald-600:hover { background:#8F631E!important; }
 
-:root[data-layout="natural-sereno"] #promo-video-modal .bg-emerald-400 {
-  background: #6F7B55 !important;
-}
-
-:root[data-layout="natural-sereno"] #promo-video-modal .text-emerald-400 {
-  color: #6F7B55 !important;
-}
-
-:root[data-layout="natural-sereno"] #promo-video-modal .from-indigo-500 {
-  --tw-gradient-from: #C89D52 var(--tw-gradient-from-position) !important;
-  --tw-gradient-to: rgba(200,157,82,0) var(--tw-gradient-to-position) !important;
-}
-
-:root[data-layout="natural-sereno"] #promo-video-modal button.bg-emerald-600 {
-  background: #B88736 !important;
-  color: #fffdf8 !important;
-  box-shadow: 0 10px 24px rgba(67,52,39,.12) !important;
-}
-
-:root[data-layout="natural-sereno"] #promo-video-modal button.bg-emerald-600:hover {
-  background: #8F631E !important;
-}
-
-@media (max-width: 640px) {
-  :root[data-layout="natural-sereno"] #main-header .ep-brand-signature {
-    opacity: .26 !important;
-  }
-}
+@media (max-width:640px) { :root[data-layout="natural-sereno"] #main-header .ep-brand-signature { opacity:.26!important; } }
