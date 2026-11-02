@@ -19,11 +19,27 @@
 }
 
 /* Remove resíduos cromáticos explícitos do header sem atingir estados semânticos fora dele. */
-:root[data-layout="essencia-luminosa"] #main-header :is([class*="border-indigo-"],[class*="border-purple-"]){
+:root[data-layout="essencia-luminosa"] #main-header :is([class*="border-indigo-"],[class*="border-purple-"],[class*="border-amber-"]){
   border-color:color-mix(in srgb,var(--layout-gold) 22%,var(--layout-border-card))!important;
 }
 :root[data-layout="essencia-luminosa"] #main-header :is([class*="shadow-[0_0_12px_rgba(99,102,241"],[class*="shadow-indigo-"]){
   box-shadow:0 8px 24px rgba(112,91,58,.07)!important;
+}
+
+/* Botões legados de apresentação/mapa ainda chegam em amber+indigo/purple no App.
+   No Estilo 3 passam para superfície marfim/champagne e ouro suave, sem alterar ação. */
+:root[data-layout="essencia-luminosa"] #main-header :is([class*="from-amber-"],[class*="bg-purple-"],[class*="bg-indigo-"]){
+  background:color-mix(in srgb,var(--layout-card) 82%,var(--layout-accent-soft))!important;
+  border-color:color-mix(in srgb,var(--layout-gold) 24%,var(--layout-border-card))!important;
+  color:var(--layout-text-secondary)!important;
+  box-shadow:0 6px 18px rgba(112,91,58,.055)!important;
+}
+:root[data-layout="essencia-luminosa"] #main-header :is([class*="from-amber-"],[class*="bg-purple-"],[class*="bg-indigo-"]):hover{
+  background:color-mix(in srgb,var(--layout-card) 68%,var(--layout-accent-soft))!important;
+  border-color:color-mix(in srgb,var(--layout-gold) 34%,var(--layout-border-card))!important;
+}
+:root[data-layout="essencia-luminosa"] #main-header :is([class*="from-amber-"],[class*="bg-purple-"],[class*="bg-indigo-"]) svg{
+  color:var(--layout-gold)!important;
 }
 
 /* Arcanjo e CTA de instalação ainda chegam do componente-base em azul/esmeralda.
