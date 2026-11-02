@@ -42,8 +42,7 @@
   color:var(--layout-gold)!important;
 }
 
-/* Arcanjo e CTA de instalação ainda chegam do componente-base em azul/esmeralda.
-   No Estilo 3 eles seguem a linguagem luminosa sem alterar função ou hierarquia. */
+/* Arcanjo e CTA de instalação ainda chegam do componente-base em azul/esmeralda. */
 :root[data-layout="essencia-luminosa"] #main-header #header-btn-archangel,
 :root[data-layout="essencia-luminosa"] #main-header #header-btn-google-play{
   background:color-mix(in srgb,var(--layout-card) 82%,var(--layout-accent-soft))!important;
@@ -57,12 +56,9 @@
   border-color:color-mix(in srgb,var(--layout-gold) 34%,var(--layout-border-card))!important;
 }
 :root[data-layout="essencia-luminosa"] #main-header #header-btn-archangel svg,
-:root[data-layout="essencia-luminosa"] #main-header #header-btn-google-play svg{
-  color:var(--layout-gold)!important;
-}
+:root[data-layout="essencia-luminosa"] #main-header #header-btn-google-play svg{color:var(--layout-gold)!important;}
 
-/* Boas-vindas: o componente-base ainda mistura emerald intenso e amber saturado.
-   No Estilo 3 converte apenas esses utilitários visuais para sálvia/champagne/ouro suave. */
+/* Boas-vindas. */
 :root[data-layout="essencia-luminosa"] #welcome-modal :is([class*="bg-emerald-"],[class*="border-emerald-"],[class*="text-emerald-"]){
   background:color-mix(in srgb,var(--layout-accent-soft) 52%,var(--layout-card))!important;
   border-color:color-mix(in srgb,var(--layout-accent) 26%,var(--layout-border-card))!important;
@@ -79,29 +75,23 @@
   border-color:color-mix(in srgb,var(--layout-gold) 30%,transparent)!important;
   box-shadow:0 10px 24px rgba(112,91,58,.10)!important;
 }
-:root[data-layout="essencia-luminosa"] #welcome-modal input[type="checkbox"]{
-  accent-color:var(--layout-accent);
-}
+:root[data-layout="essencia-luminosa"] #welcome-modal input[type="checkbox"]{accent-color:var(--layout-accent);}
 
-/* Diário modal: dias concluídos ainda chegam do componente-base em emerald.
-   Mantém o significado de concluído, mas dentro da paleta sálvia/oliva clara do Estilo 3. */
+/* Diário modal. */
 :root[data-layout="essencia-luminosa"] #daily-diary-modal :is([class*="bg-emerald-"],[class*="border-emerald-"],[class*="text-emerald-"]){
   background:color-mix(in srgb,var(--layout-accent-soft) 54%,var(--layout-card))!important;
   border-color:color-mix(in srgb,var(--layout-accent) 28%,var(--layout-border-card))!important;
   color:var(--layout-accent)!important;
 }
 
-/* Diário de Reconexão / histórico: o componente separado JournalLog também traz emerald
-   nos estados 4–5 e no bloco “Como estou agora”. Neutraliza apenas dentro desse dashboard. */
+/* Diário de Reconexão / histórico. */
 :root[data-layout="essencia-luminosa"] #journal-dashboard-view :is([class*="bg-emerald-"],[class*="border-emerald-"],[class*="text-emerald-"]){
   background:color-mix(in srgb,var(--layout-accent-soft) 50%,var(--layout-card))!important;
   border-color:color-mix(in srgb,var(--layout-accent) 27%,var(--layout-border-card))!important;
   color:var(--layout-accent)!important;
 }
 
-/* Mapa Astral: o componente-base ainda traz emerald escuro no halo decorativo,
-   em Ervas & Aromas, no feedback de salvamento e no CTA de contato. No Estilo 3,
-   converte somente esses utilitários para sálvia/oliva clara, preservando significado e ação. */
+/* Mapa Astral. */
 :root[data-layout="essencia-luminosa"] #astral-map-modal :is([class*="bg-emerald-"],[class*="border-emerald-"],[class*="text-emerald-"]){
   background:color-mix(in srgb,var(--layout-accent-soft) 48%,var(--layout-card))!important;
   border-color:color-mix(in srgb,var(--layout-accent) 28%,var(--layout-border-card))!important;
@@ -113,12 +103,19 @@
   color:#fff!important;
   box-shadow:0 8px 20px rgba(112,91,58,.08)!important;
 }
-:root[data-layout="essencia-luminosa"] #astral-map-modal a[class*="bg-emerald-"]:hover{
-  filter:brightness(.97) saturate(.92);
+:root[data-layout="essencia-luminosa"] #astral-map-modal a[class*="bg-emerald-"]:hover{filter:brightness(.97) saturate(.92);}
+
+/* Fale Conosco: confirmação e ícone de cópia ainda trazem emerald forte do componente-base.
+   Mantém o significado positivo, mas usa a sálvia/oliva clara do Essência Luminosa. */
+:root[data-layout="essencia-luminosa"] #contact-us-modal :is([class*="bg-emerald-"],[class*="border-emerald-"],[class*="text-emerald-"],[class*="shadow-emerald-"]){
+  background:color-mix(in srgb,var(--layout-accent-soft) 50%,var(--layout-card))!important;
+  border-color:color-mix(in srgb,var(--layout-accent) 27%,var(--layout-border-card))!important;
+  color:var(--layout-accent)!important;
+  box-shadow:0 8px 20px rgba(112,91,58,.07)!important;
 }
 
 /* Mantém tipografia luminosa nítida mesmo em componentes com classes legadas. */
-:root[data-layout="essencia-luminosa"] :is(#cura-main-layout,#settings-view,#meditation-session,#daily-diary-modal,#daily-tip-modal,#journal-dashboard-view,#welcome-modal,#astral-map-modal){
+:root[data-layout="essencia-luminosa"] :is(#cura-main-layout,#settings-view,#meditation-session,#daily-diary-modal,#daily-tip-modal,#journal-dashboard-view,#welcome-modal,#astral-map-modal,#contact-us-modal){
   -webkit-font-smoothing:antialiased;
   text-rendering:optimizeLegibility;
 }
