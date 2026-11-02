@@ -12,19 +12,12 @@
   box-shadow: 0 30px 72px rgba(0,0,0,.44) !important;
 }
 
-:root[data-layout="elegancia-profunda"] #chakras-guide-modal :is(h2,h3) {
-  color: var(--layout-text) !important;
-}
-
-:root[data-layout="elegancia-profunda"] #chakras-guide-modal :is(p,small,[class*="text-[#5C5248]"],[class*="text-[#85786C]"]) {
-  color: var(--layout-text-soft) !important;
-}
-
+:root[data-layout="elegancia-profunda"] #chakras-guide-modal :is(h2,h3) { color: var(--layout-text) !important; }
+:root[data-layout="elegancia-profunda"] #chakras-guide-modal :is(p,small,[class*="text-[#5C5248]"],[class*="text-[#85786C]"]) { color: var(--layout-text-soft) !important; }
 :root[data-layout="elegancia-profunda"] #chakras-guide-modal :is([class*="bg-white"],[class*="bg-[#FBF8F2]"],[class*="bg-[#F5EFE4]"]) {
   background-color: color-mix(in srgb, var(--layout-card) 93%, black) !important;
   border-color: color-mix(in srgb, var(--layout-gold) 20%, var(--layout-border-card)) !important;
 }
-
 :root[data-layout="elegancia-profunda"] #chakras-guide-modal > div > button[aria-label="Fechar guia dos chakras"],
 :root[data-layout="elegancia-profunda"] #chakras-guide-modal footer button {
   background: linear-gradient(145deg, color-mix(in srgb, var(--layout-card) 88%, black), color-mix(in srgb, var(--layout-gold) 16%, var(--layout-card))) !important;
@@ -32,49 +25,62 @@
   color: var(--layout-text) !important;
   box-shadow: 0 10px 26px rgba(0,0,0,.24) !important;
 }
+:root[data-layout="elegancia-profunda"] #chakras-guide-modal footer { border-color: color-mix(in srgb, var(--layout-gold) 22%, var(--layout-border-card)) !important; }
 
-:root[data-layout="elegancia-profunda"] #chakras-guide-modal footer {
-  border-color: color-mix(in srgb, var(--layout-gold) 22%, var(--layout-border-card)) !important;
+/* Celebrações dos dias 8/15/21: o conteúdo simbólico permanece, mas a moldura estrutural
+   não herda índigo/violeta/rosa de outros tratamentos visuais. */
+:root[data-layout="elegancia-profunda"] div[role="dialog"][aria-label="Celebração de progresso"] {
+  background: color-mix(in srgb, var(--layout-canvas) 88%, transparent) !important;
+}
+:root[data-layout="elegancia-profunda"] div[role="dialog"][aria-label="Celebração de progresso"] > div {
+  background: linear-gradient(155deg, color-mix(in srgb, var(--layout-card) 97%, black), color-mix(in srgb, var(--layout-canvas) 94%, black)) !important;
+  border-color: color-mix(in srgb, var(--layout-gold) 42%, var(--layout-border-card)) !important;
+  color: var(--layout-text) !important;
+  box-shadow: 0 32px 80px rgba(0,0,0,.5) !important;
+}
+:root[data-layout="elegancia-profunda"] div[role="dialog"][aria-label="Celebração de progresso"] :is(h2,p) { color: var(--layout-text) !important; }
+:root[data-layout="elegancia-profunda"] div[role="dialog"][aria-label="Celebração de progresso"] :is([class*="bg-white"],[class*="bg-[#FBF8F2]"],[class*="bg-[#F5EFE4]"]) {
+  background: color-mix(in srgb, var(--layout-card) 92%, black) !important;
+  border-color: color-mix(in srgb, var(--layout-gold) 24%, var(--layout-border-card)) !important;
+  color: var(--layout-text) !important;
+}
+:root[data-layout="elegancia-profunda"] div[role="dialog"][aria-label="Celebração de progresso"] button:not([class*="emerald"]),
+:root[data-layout="elegancia-profunda"] div[role="dialog"][aria-label="Celebração de progresso"] button[class*="amber"] {
+  background: linear-gradient(135deg, color-mix(in srgb, var(--layout-gold) 88%, #f7e7bd), color-mix(in srgb, var(--layout-bronze, #9B7446) 88%, black)) !important;
+  border-color: color-mix(in srgb, var(--layout-gold) 48%, transparent) !important;
+  color: #102019 !important;
+  box-shadow: 0 12px 28px rgba(0,0,0,.28) !important;
+}
+:root[data-layout="elegancia-profunda"] div[role="dialog"][aria-label="Celebração de progresso"] a[class*="emerald"] {
+  /* WhatsApp remains semantic/action-specific; only its shadow is neutralized. */
+  box-shadow: 0 12px 28px rgba(0,0,0,.24) !important;
 }
 
 /* Relatório/Certificado PRO: remove herança clara apenas na interface.
    A impressão fica fora deste bloco para preservar o documento imprimível. */
 @media screen {
-  :root[data-layout="elegancia-profunda"] #pro-certificate-modal {
-    background: color-mix(in srgb, var(--layout-canvas) 88%, transparent) !important;
-  }
-
+  :root[data-layout="elegancia-profunda"] #pro-certificate-modal { background: color-mix(in srgb, var(--layout-canvas) 88%, transparent) !important; }
   :root[data-layout="elegancia-profunda"] #pro-certificate-modal > div {
     background: linear-gradient(155deg, color-mix(in srgb, var(--layout-card) 97%, black), color-mix(in srgb, var(--layout-canvas) 94%, black)) !important;
     border-color: color-mix(in srgb, var(--layout-gold) 30%, var(--layout-border-card)) !important;
     color: var(--layout-text) !important;
     box-shadow: 0 30px 76px rgba(0,0,0,.48) !important;
   }
-
-  :root[data-layout="elegancia-profunda"] #pro-certificate-modal :is(h1,h2,h3,h4) {
-    color: var(--layout-text) !important;
-  }
-
-  :root[data-layout="elegancia-profunda"] #pro-certificate-modal :is(p,small,[class*="text-[#5C5248]"],[class*="text-[#85786C]"]) {
-    color: var(--layout-text-soft) !important;
-  }
-
+  :root[data-layout="elegancia-profunda"] #pro-certificate-modal :is(h1,h2,h3,h4) { color: var(--layout-text) !important; }
+  :root[data-layout="elegancia-profunda"] #pro-certificate-modal :is(p,small,[class*="text-[#5C5248]"],[class*="text-[#85786C]"]) { color: var(--layout-text-soft) !important; }
   :root[data-layout="elegancia-profunda"] #pro-certificate-modal :is([class*="bg-white"],[class*="bg-[#FBF8F2]"],[class*="bg-[#F5EFE4]"]) {
     background-color: color-mix(in srgb, var(--layout-card) 92%, black) !important;
     border-color: color-mix(in srgb, var(--layout-gold) 22%, var(--layout-border-card)) !important;
   }
-
   :root[data-layout="elegancia-profunda"] #pro-certificate-modal button[aria-label="Fechar relatório"] {
     background: linear-gradient(145deg, color-mix(in srgb, var(--layout-card) 88%, black), color-mix(in srgb, var(--layout-gold) 14%, var(--layout-card))) !important;
     border-color: color-mix(in srgb, var(--layout-gold) 42%, transparent) !important;
     color: var(--layout-text) !important;
   }
-
   :root[data-layout="elegancia-profunda"] #pro-certificate-modal [role="tab"] {
     border-color: color-mix(in srgb, var(--layout-gold) 28%, var(--layout-border-card)) !important;
     color: var(--layout-text-soft) !important;
   }
-
   :root[data-layout="elegancia-profunda"] #pro-certificate-modal [role="tab"][aria-selected="true"] {
     background: linear-gradient(135deg, color-mix(in srgb, var(--layout-gold) 22%, var(--layout-card)), color-mix(in srgb, var(--layout-bronze, #9B7446) 18%, var(--layout-card))) !important;
     border-color: color-mix(in srgb, var(--layout-gold) 54%, transparent) !important;
@@ -85,7 +91,6 @@
 
 @media (max-width: 640px) {
   :root[data-layout="elegancia-profunda"] #chakras-guide-modal > div,
-  :root[data-layout="elegancia-profunda"] #pro-certificate-modal > div {
-    border-radius: 1.25rem;
-  }
+  :root[data-layout="elegancia-profunda"] #pro-certificate-modal > div,
+  :root[data-layout="elegancia-profunda"] div[role="dialog"][aria-label="Celebração de progresso"] > div { border-radius: 1.25rem; }
 }
