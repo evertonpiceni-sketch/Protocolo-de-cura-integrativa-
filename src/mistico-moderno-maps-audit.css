@@ -1,0 +1,48 @@
+/* Místico Moderno — Mapa Astral e Numerologia.
+   Escopo estrito: remove superfícies claras herdadas sem alterar conteúdo ou lógica. */
+
+:root[data-layout="mistico-moderno"] :is(#astral-map-modal,#numerology-modal) {
+  background: color-mix(in srgb, var(--layout-canvas) 90%, transparent) !important;
+}
+
+:root[data-layout="mistico-moderno"] :is(#astral-map-modal,#numerology-modal) > div {
+  background: linear-gradient(155deg, color-mix(in srgb, var(--layout-card) 96%, #070916), color-mix(in srgb, var(--layout-canvas) 94%, #080713)) !important;
+  border-color: color-mix(in srgb, var(--layout-gold) 32%, var(--layout-border-card)) !important;
+  color: var(--layout-text) !important;
+  box-shadow: 0 30px 72px rgba(0,0,0,.48), 0 0 42px color-mix(in srgb, var(--layout-accent) 8%, transparent) !important;
+}
+
+:root[data-layout="mistico-moderno"] :is(#astral-map-modal,#numerology-modal) :is(h1,h2,h3,h4) {
+  color: var(--layout-text) !important;
+}
+
+:root[data-layout="mistico-moderno"] :is(#astral-map-modal,#numerology-modal) :is(p,small,label,[class*="text-[#5C5248]"],[class*="text-[#85786C]"]) {
+  color: var(--layout-text-soft) !important;
+}
+
+:root[data-layout="mistico-moderno"] :is(#astral-map-modal,#numerology-modal) :is([class*="bg-white"],[class*="bg-[#FBF8F2]"],[class*="bg-[#F5EFE4]"]) {
+  background-color: color-mix(in srgb, var(--layout-card) 92%, #070916) !important;
+  border-color: color-mix(in srgb, var(--layout-gold) 24%, var(--layout-border-card)) !important;
+}
+
+:root[data-layout="mistico-moderno"] :is(#astral-map-modal,#numerology-modal) :is(input,select,textarea) {
+  background: color-mix(in srgb, var(--layout-card) 90%, #070916) !important;
+  border-color: color-mix(in srgb, var(--layout-accent) 28%, var(--layout-border-card)) !important;
+  color: var(--layout-text) !important;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.035) !important;
+}
+
+:root[data-layout="mistico-moderno"] :is(#astral-map-modal,#numerology-modal) :is(input,select,textarea):focus {
+  border-color: color-mix(in srgb, var(--layout-gold) 65%, var(--layout-accent)) !important;
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--layout-accent) 14%, transparent) !important;
+}
+
+:root[data-layout="mistico-moderno"] :is(#astral-map-modal,#numerology-modal) button:not([class*="emerald"]):not([class*="rose"]):not([class*="red"]) {
+  border-color: color-mix(in srgb, var(--layout-gold) 30%, var(--layout-border-card)) !important;
+}
+
+@media (max-width: 640px) {
+  :root[data-layout="mistico-moderno"] :is(#astral-map-modal,#numerology-modal) > div {
+    border-radius: 1.25rem;
+  }
+}
