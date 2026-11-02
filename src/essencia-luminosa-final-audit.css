@@ -19,113 +19,43 @@
 }
 
 /* Remove resíduos cromáticos explícitos do header sem atingir estados semânticos fora dele. */
-:root[data-layout="essencia-luminosa"] #main-header :is([class*="border-indigo-"],[class*="border-purple-"],[class*="border-amber-"]){
-  border-color:color-mix(in srgb,var(--layout-gold) 22%,var(--layout-border-card))!important;
-}
-:root[data-layout="essencia-luminosa"] #main-header :is([class*="shadow-[0_0_12px_rgba(99,102,241"],[class*="shadow-indigo-"]){
-  box-shadow:0 8px 24px rgba(112,91,58,.07)!important;
-}
-
-/* Botões legados de apresentação/mapa ainda chegam em amber+indigo/purple no App.
-   No Estilo 3 passam para superfície marfim/champagne e ouro suave, sem alterar ação. */
-:root[data-layout="essencia-luminosa"] #main-header :is([class*="from-amber-"],[class*="bg-purple-"],[class*="bg-indigo-"]){
-  background:color-mix(in srgb,var(--layout-card) 82%,var(--layout-accent-soft))!important;
-  border-color:color-mix(in srgb,var(--layout-gold) 24%,var(--layout-border-card))!important;
-  color:var(--layout-text-secondary)!important;
-  box-shadow:0 6px 18px rgba(112,91,58,.055)!important;
-}
-:root[data-layout="essencia-luminosa"] #main-header :is([class*="from-amber-"],[class*="bg-purple-"],[class*="bg-indigo-"]):hover{
-  background:color-mix(in srgb,var(--layout-card) 68%,var(--layout-accent-soft))!important;
-  border-color:color-mix(in srgb,var(--layout-gold) 34%,var(--layout-border-card))!important;
-}
-:root[data-layout="essencia-luminosa"] #main-header :is([class*="from-amber-"],[class*="bg-purple-"],[class*="bg-indigo-"]) svg{
-  color:var(--layout-gold)!important;
-}
-
-/* Arcanjo e CTA de instalação ainda chegam do componente-base em azul/esmeralda. */
+:root[data-layout="essencia-luminosa"] #main-header :is([class*="border-indigo-"],[class*="border-purple-"],[class*="border-amber-"]){border-color:color-mix(in srgb,var(--layout-gold) 22%,var(--layout-border-card))!important;}
+:root[data-layout="essencia-luminosa"] #main-header :is([class*="shadow-[0_0_12px_rgba(99,102,241"],[class*="shadow-indigo-"]){box-shadow:0 8px 24px rgba(112,91,58,.07)!important;}
+:root[data-layout="essencia-luminosa"] #main-header :is([class*="from-amber-"],[class*="bg-purple-"],[class*="bg-indigo-"]){background:color-mix(in srgb,var(--layout-card) 82%,var(--layout-accent-soft))!important;border-color:color-mix(in srgb,var(--layout-gold) 24%,var(--layout-border-card))!important;color:var(--layout-text-secondary)!important;box-shadow:0 6px 18px rgba(112,91,58,.055)!important;}
+:root[data-layout="essencia-luminosa"] #main-header :is([class*="from-amber-"],[class*="bg-purple-"],[class*="bg-indigo-"]):hover{background:color-mix(in srgb,var(--layout-card) 68%,var(--layout-accent-soft))!important;border-color:color-mix(in srgb,var(--layout-gold) 34%,var(--layout-border-card))!important;}
+:root[data-layout="essencia-luminosa"] #main-header :is([class*="from-amber-"],[class*="bg-purple-"],[class*="bg-indigo-"]) svg{color:var(--layout-gold)!important;}
 :root[data-layout="essencia-luminosa"] #main-header #header-btn-archangel,
-:root[data-layout="essencia-luminosa"] #main-header #header-btn-google-play{
-  background:color-mix(in srgb,var(--layout-card) 82%,var(--layout-accent-soft))!important;
-  border-color:color-mix(in srgb,var(--layout-gold) 24%,var(--layout-border-card))!important;
-  color:var(--layout-text-secondary)!important;
-  box-shadow:0 6px 18px rgba(112,91,58,.055)!important;
-}
+:root[data-layout="essencia-luminosa"] #main-header #header-btn-google-play{background:color-mix(in srgb,var(--layout-card) 82%,var(--layout-accent-soft))!important;border-color:color-mix(in srgb,var(--layout-gold) 24%,var(--layout-border-card))!important;color:var(--layout-text-secondary)!important;box-shadow:0 6px 18px rgba(112,91,58,.055)!important;}
 :root[data-layout="essencia-luminosa"] #main-header #header-btn-archangel:hover,
-:root[data-layout="essencia-luminosa"] #main-header #header-btn-google-play:hover{
-  background:color-mix(in srgb,var(--layout-card) 68%,var(--layout-accent-soft))!important;
-  border-color:color-mix(in srgb,var(--layout-gold) 34%,var(--layout-border-card))!important;
-}
+:root[data-layout="essencia-luminosa"] #main-header #header-btn-google-play:hover{background:color-mix(in srgb,var(--layout-card) 68%,var(--layout-accent-soft))!important;border-color:color-mix(in srgb,var(--layout-gold) 34%,var(--layout-border-card))!important;}
 :root[data-layout="essencia-luminosa"] #main-header #header-btn-archangel svg,
 :root[data-layout="essencia-luminosa"] #main-header #header-btn-google-play svg{color:var(--layout-gold)!important;}
 
 /* Boas-vindas. */
-:root[data-layout="essencia-luminosa"] #welcome-modal :is([class*="bg-emerald-"],[class*="border-emerald-"],[class*="text-emerald-"]){
-  background:color-mix(in srgb,var(--layout-accent-soft) 52%,var(--layout-card))!important;
-  border-color:color-mix(in srgb,var(--layout-accent) 26%,var(--layout-border-card))!important;
-  color:var(--layout-accent)!important;
-}
-:root[data-layout="essencia-luminosa"] #welcome-modal :is([class*="bg-amber-"],[class*="border-amber-"],[class*="text-amber-"]){
-  background:color-mix(in srgb,var(--layout-gold-soft) 44%,var(--layout-card))!important;
-  border-color:color-mix(in srgb,var(--layout-gold) 25%,var(--layout-border-card))!important;
-  color:var(--layout-gold)!important;
-}
-:root[data-layout="essencia-luminosa"] #welcome-modal button[class*="from-emerald-"]{
-  background:linear-gradient(105deg,color-mix(in srgb,var(--layout-accent) 78%,#fff) 0%,var(--layout-gold) 100%)!important;
-  color:#fff!important;
-  border-color:color-mix(in srgb,var(--layout-gold) 30%,transparent)!important;
-  box-shadow:0 10px 24px rgba(112,91,58,.10)!important;
-}
+:root[data-layout="essencia-luminosa"] #welcome-modal :is([class*="bg-emerald-"],[class*="border-emerald-"],[class*="text-emerald-"]){background:color-mix(in srgb,var(--layout-accent-soft) 52%,var(--layout-card))!important;border-color:color-mix(in srgb,var(--layout-accent) 26%,var(--layout-border-card))!important;color:var(--layout-accent)!important;}
+:root[data-layout="essencia-luminosa"] #welcome-modal :is([class*="bg-amber-"],[class*="border-amber-"],[class*="text-amber-"]){background:color-mix(in srgb,var(--layout-gold-soft) 44%,var(--layout-card))!important;border-color:color-mix(in srgb,var(--layout-gold) 25%,var(--layout-border-card))!important;color:var(--layout-gold)!important;}
+:root[data-layout="essencia-luminosa"] #welcome-modal button[class*="from-emerald-"]{background:linear-gradient(105deg,color-mix(in srgb,var(--layout-accent) 78%,#fff) 0%,var(--layout-gold) 100%)!important;color:#fff!important;border-color:color-mix(in srgb,var(--layout-gold) 30%,transparent)!important;box-shadow:0 10px 24px rgba(112,91,58,.10)!important;}
 :root[data-layout="essencia-luminosa"] #welcome-modal input[type="checkbox"]{accent-color:var(--layout-accent);}
 
-/* Diário modal. */
-:root[data-layout="essencia-luminosa"] #daily-diary-modal :is([class*="bg-emerald-"],[class*="border-emerald-"],[class*="text-emerald-"]){
-  background:color-mix(in srgb,var(--layout-accent-soft) 54%,var(--layout-card))!important;
-  border-color:color-mix(in srgb,var(--layout-accent) 28%,var(--layout-border-card))!important;
-  color:var(--layout-accent)!important;
-}
+/* Diário modal e histórico. */
+:root[data-layout="essencia-luminosa"] #daily-diary-modal :is([class*="bg-emerald-"],[class*="border-emerald-"],[class*="text-emerald-"]){background:color-mix(in srgb,var(--layout-accent-soft) 54%,var(--layout-card))!important;border-color:color-mix(in srgb,var(--layout-accent) 28%,var(--layout-border-card))!important;color:var(--layout-accent)!important;}
+:root[data-layout="essencia-luminosa"] #journal-dashboard-view :is([class*="bg-emerald-"],[class*="border-emerald-"],[class*="text-emerald-"]){background:color-mix(in srgb,var(--layout-accent-soft) 50%,var(--layout-card))!important;border-color:color-mix(in srgb,var(--layout-accent) 27%,var(--layout-border-card))!important;color:var(--layout-accent)!important;}
 
-/* Diário de Reconexão / histórico. */
-:root[data-layout="essencia-luminosa"] #journal-dashboard-view :is([class*="bg-emerald-"],[class*="border-emerald-"],[class*="text-emerald-"]){
-  background:color-mix(in srgb,var(--layout-accent-soft) 50%,var(--layout-card))!important;
-  border-color:color-mix(in srgb,var(--layout-accent) 27%,var(--layout-border-card))!important;
-  color:var(--layout-accent)!important;
-}
-
-/* Mapa Astral. */
-:root[data-layout="essencia-luminosa"] #astral-map-modal :is([class*="bg-emerald-"],[class*="border-emerald-"],[class*="text-emerald-"]){
-  background:color-mix(in srgb,var(--layout-accent-soft) 48%,var(--layout-card))!important;
-  border-color:color-mix(in srgb,var(--layout-accent) 28%,var(--layout-border-card))!important;
-  color:var(--layout-accent)!important;
-}
-:root[data-layout="essencia-luminosa"] #astral-map-modal a[class*="bg-emerald-"]{
-  background:linear-gradient(105deg,color-mix(in srgb,var(--layout-accent) 82%,#fff) 0%,color-mix(in srgb,var(--layout-gold) 72%,var(--layout-accent)) 100%)!important;
-  border-color:color-mix(in srgb,var(--layout-gold) 28%,var(--layout-border-card))!important;
-  color:#fff!important;
-  box-shadow:0 8px 20px rgba(112,91,58,.08)!important;
-}
+/* Mapa Astral, Numerologia e Contato. */
+:root[data-layout="essencia-luminosa"] #astral-map-modal :is([class*="bg-emerald-"],[class*="border-emerald-"],[class*="text-emerald-"]){background:color-mix(in srgb,var(--layout-accent-soft) 48%,var(--layout-card))!important;border-color:color-mix(in srgb,var(--layout-accent) 28%,var(--layout-border-card))!important;color:var(--layout-accent)!important;}
+:root[data-layout="essencia-luminosa"] #astral-map-modal a[class*="bg-emerald-"]{background:linear-gradient(105deg,color-mix(in srgb,var(--layout-accent) 82%,#fff) 0%,color-mix(in srgb,var(--layout-gold) 72%,var(--layout-accent)) 100%)!important;border-color:color-mix(in srgb,var(--layout-gold) 28%,var(--layout-border-card))!important;color:#fff!important;box-shadow:0 8px 20px rgba(112,91,58,.08)!important;}
 :root[data-layout="essencia-luminosa"] #astral-map-modal a[class*="bg-emerald-"]:hover{filter:brightness(.97) saturate(.92);}
+:root[data-layout="essencia-luminosa"] #numerology-modal [class*="bg-emerald-"]{background-color:color-mix(in srgb,var(--layout-accent-soft) 48%,transparent)!important;}
+:root[data-layout="essencia-luminosa"] #contact-us-modal :is([class*="bg-emerald-"],[class*="border-emerald-"],[class*="text-emerald-"],[class*="shadow-emerald-"]){background:color-mix(in srgb,var(--layout-accent-soft) 50%,var(--layout-card))!important;border-color:color-mix(in srgb,var(--layout-accent) 27%,var(--layout-border-card))!important;color:var(--layout-accent)!important;box-shadow:0 8px 20px rgba(112,91,58,.07)!important;}
 
-/* Numerologia: o halo inferior do componente-base ainda chega em emerald escuro.
-   No Estilo 3 ele vira acento sálvia/oliva claro e permanece atmosférico, sem pesar a tela. */
-:root[data-layout="essencia-luminosa"] #numerology-modal [class*="bg-emerald-"]{
-  background-color:color-mix(in srgb,var(--layout-accent-soft) 48%,transparent)!important;
-}
-
-/* Fale Conosco: confirmação e ícone de cópia ainda trazem emerald forte do componente-base.
-   Mantém o significado positivo, mas usa a sálvia/oliva clara do Essência Luminosa. */
-:root[data-layout="essencia-luminosa"] #contact-us-modal :is([class*="bg-emerald-"],[class*="border-emerald-"],[class*="text-emerald-"],[class*="shadow-emerald-"]){
-  background:color-mix(in srgb,var(--layout-accent-soft) 50%,var(--layout-card))!important;
-  border-color:color-mix(in srgb,var(--layout-accent) 27%,var(--layout-border-card))!important;
-  color:var(--layout-accent)!important;
-  box-shadow:0 8px 20px rgba(112,91,58,.07)!important;
-}
+/* Apresentação: o componente-base ainda usa fundo verde quase preto, gradientes verdes,
+   ícone emerald e purple. No Essência Luminosa a apresentação permanece clara e expansiva. */
+:root[data-layout="essencia-luminosa"] #promo-video-modal{background:color-mix(in srgb,var(--layout-bg) 92%,transparent)!important;}
+:root[data-layout="essencia-luminosa"] #promo-video-modal :is([class*="from-[#0a412d]"],[class*="from-[#0c4a34]"],[class*="from-[#123f2f]"],[class*="from-[#174c38]"],[class*="via-[#062f21]"],[class*="to-[#021b13]"]){background-image:linear-gradient(135deg,var(--layout-card) 0%,color-mix(in srgb,var(--layout-gold-soft) 28%,var(--layout-card)) 52%,color-mix(in srgb,var(--layout-accent-soft) 36%,var(--layout-card)) 100%)!important;}
+:root[data-layout="essencia-luminosa"] #promo-video-modal :is([class*="text-emerald-"],[class*="text-purple-"]){color:var(--layout-accent)!important;}
+:root[data-layout="essencia-luminosa"] #promo-video-modal :is([class*="bg-emerald-"],[class*="border-emerald-"]){background:color-mix(in srgb,var(--layout-accent-soft) 48%,var(--layout-card))!important;border-color:color-mix(in srgb,var(--layout-accent) 26%,var(--layout-border-card))!important;}
 
 /* Mantém tipografia luminosa nítida mesmo em componentes com classes legadas. */
-:root[data-layout="essencia-luminosa"] :is(#cura-main-layout,#settings-view,#meditation-session,#daily-diary-modal,#daily-tip-modal,#journal-dashboard-view,#welcome-modal,#astral-map-modal,#numerology-modal,#contact-us-modal){
-  -webkit-font-smoothing:antialiased;
-  text-rendering:optimizeLegibility;
-}
+:root[data-layout="essencia-luminosa"] :is(#cura-main-layout,#settings-view,#meditation-session,#daily-diary-modal,#daily-tip-modal,#journal-dashboard-view,#welcome-modal,#astral-map-modal,#numerology-modal,#contact-us-modal,#promo-video-modal){-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;}
 
-@media (max-width:640px){
-  :root[data-layout="essencia-luminosa"] #main-header .ep-brand-signature{opacity:.26!important;}
-}
+@media (max-width:640px){:root[data-layout="essencia-luminosa"] #main-header .ep-brand-signature{opacity:.26!important;}}
