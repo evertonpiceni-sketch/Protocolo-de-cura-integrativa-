@@ -16,6 +16,7 @@ import './elegancia-profunda-contact-audit.css';
 import './elegancia-profunda-herbal-baths-audit.css';
 import './elegancia-profunda-maps-audit.css';
 import './elegancia-profunda-journal-audit.css';
+import './elegancia-profunda-hooponopono-audit.css';
 import './essencia-luminosa-final-audit.css';
 import './lib/authStartupResiliencePatch';
 import './lib/startupUiResiliencePatch';
