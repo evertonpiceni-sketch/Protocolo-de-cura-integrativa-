@@ -8,15 +8,8 @@
 
 /* O wrapper do logo no App ainda carrega border/shadow indigo do componente-base.
    Neutraliza somente no Estilo 3 e mantém o logo como assinatura sutil. */
-:root[data-layout="essencia-luminosa"] #main-header .ep-brand-signature{
-  opacity:.30!important;
-  filter:saturate(.86) contrast(.96)!important;
-}
-:root[data-layout="essencia-luminosa"] #main-header div:has(> .ep-brand-signature){
-  background:color-mix(in srgb,var(--layout-card) 72%,transparent)!important;
-  border-color:color-mix(in srgb,var(--layout-gold) 22%,var(--layout-border-card))!important;
-  box-shadow:0 8px 24px rgba(112,91,58,.07)!important;
-}
+:root[data-layout="essencia-luminosa"] #main-header .ep-brand-signature{opacity:.30!important;filter:saturate(.86) contrast(.96)!important;}
+:root[data-layout="essencia-luminosa"] #main-header div:has(> .ep-brand-signature){background:color-mix(in srgb,var(--layout-card) 72%,transparent)!important;border-color:color-mix(in srgb,var(--layout-gold) 22%,var(--layout-border-card))!important;box-shadow:0 8px 24px rgba(112,91,58,.07)!important;}
 
 /* Remove resíduos cromáticos explícitos do header sem atingir estados semânticos fora dele. */
 :root[data-layout="essencia-luminosa"] #main-header :is([class*="border-indigo-"],[class*="border-purple-"],[class*="border-amber-"]){border-color:color-mix(in srgb,var(--layout-gold) 22%,var(--layout-border-card))!important;}
@@ -48,14 +41,23 @@
 :root[data-layout="essencia-luminosa"] #numerology-modal [class*="bg-emerald-"]{background-color:color-mix(in srgb,var(--layout-accent-soft) 48%,transparent)!important;}
 :root[data-layout="essencia-luminosa"] #contact-us-modal :is([class*="bg-emerald-"],[class*="border-emerald-"],[class*="text-emerald-"],[class*="shadow-emerald-"]){background:color-mix(in srgb,var(--layout-accent-soft) 50%,var(--layout-card))!important;border-color:color-mix(in srgb,var(--layout-accent) 27%,var(--layout-border-card))!important;color:var(--layout-accent)!important;box-shadow:0 8px 20px rgba(112,91,58,.07)!important;}
 
-/* Apresentação: o componente-base ainda usa fundo verde quase preto, gradientes verdes,
-   ícone emerald e purple. No Essência Luminosa a apresentação permanece clara e expansiva. */
+/* Apresentação. */
 :root[data-layout="essencia-luminosa"] #promo-video-modal{background:color-mix(in srgb,var(--layout-bg) 92%,transparent)!important;}
 :root[data-layout="essencia-luminosa"] #promo-video-modal :is([class*="from-[#0a412d]"],[class*="from-[#0c4a34]"],[class*="from-[#123f2f]"],[class*="from-[#174c38]"],[class*="via-[#062f21]"],[class*="to-[#021b13]"]){background-image:linear-gradient(135deg,var(--layout-card) 0%,color-mix(in srgb,var(--layout-gold-soft) 28%,var(--layout-card)) 52%,color-mix(in srgb,var(--layout-accent-soft) 36%,var(--layout-card)) 100%)!important;}
 :root[data-layout="essencia-luminosa"] #promo-video-modal :is([class*="text-emerald-"],[class*="text-purple-"]){color:var(--layout-accent)!important;}
 :root[data-layout="essencia-luminosa"] #promo-video-modal :is([class*="bg-emerald-"],[class*="border-emerald-"]){background:color-mix(in srgb,var(--layout-accent-soft) 48%,var(--layout-card))!important;border-color:color-mix(in srgb,var(--layout-accent) 26%,var(--layout-border-card))!important;}
 
+/* Prática individual: remove o verde-esmeralda, índigo e âmbar escuro herdados do componente-base.
+   Estados funcionais continuam distinguíveis por sálvia/oliva clara e ouro suave. */
+:root[data-layout="essencia-luminosa"] #specific-treatment-modal>div{background:radial-gradient(circle at 92% 7%,color-mix(in srgb,var(--layout-gold-soft) 26%,transparent),transparent 17rem),var(--layout-card)!important;border-color:var(--layout-border-card)!important;color:var(--layout-text)!important;box-shadow:0 24px 64px rgba(112,91,58,.10)!important;}
+:root[data-layout="essencia-luminosa"] #specific-treatment-modal :is([class*="bg-emerald-"],[class*="border-emerald-"],[class*="text-emerald-"],[class*="shadow-emerald-"]){background:color-mix(in srgb,var(--layout-accent-soft) 50%,var(--layout-card))!important;border-color:color-mix(in srgb,var(--layout-accent) 28%,var(--layout-border-card))!important;color:var(--layout-accent)!important;box-shadow:0 8px 20px rgba(112,91,58,.065)!important;}
+:root[data-layout="essencia-luminosa"] #specific-treatment-modal :is([class*="bg-indigo-"],[class*="border-indigo-"],[class*="text-indigo-"],[class*="shadow-indigo-"]){background:color-mix(in srgb,var(--layout-gold-soft) 24%,var(--layout-card))!important;border-color:color-mix(in srgb,var(--layout-gold) 26%,var(--layout-border-card))!important;color:var(--layout-text-secondary)!important;box-shadow:0 8px 20px rgba(112,91,58,.06)!important;}
+:root[data-layout="essencia-luminosa"] #specific-treatment-modal :is([class*="bg-amber-950"],[class*="text-amber-200"],[class*="text-amber-300"],[class*="shadow-amber-"]){background:color-mix(in srgb,var(--layout-gold-soft) 30%,var(--layout-card))!important;color:var(--layout-gold)!important;box-shadow:0 8px 20px rgba(112,91,58,.06)!important;}
+:root[data-layout="essencia-luminosa"] #specific-treatment-modal :is(button,a)[class*="bg-emerald-"]{background:linear-gradient(105deg,color-mix(in srgb,var(--layout-accent) 76%,#fff),color-mix(in srgb,var(--layout-gold) 68%,var(--layout-accent)))!important;color:#fff!important;border-color:color-mix(in srgb,var(--layout-gold) 28%,var(--layout-border-card))!important;box-shadow:0 10px 24px rgba(112,91,58,.09)!important;}
+:root[data-layout="essencia-luminosa"] #specific-treatment-modal :is(input,textarea,select){background:color-mix(in srgb,var(--layout-card) 94%,white)!important;border-color:var(--layout-border-card)!important;color:var(--layout-text)!important;}
+:root[data-layout="essencia-luminosa"] #specific-treatment-modal :is(input,textarea,select):focus{border-color:color-mix(in srgb,var(--layout-gold) 54%,var(--layout-border-card))!important;outline:none;}
+
 /* Mantém tipografia luminosa nítida mesmo em componentes com classes legadas. */
-:root[data-layout="essencia-luminosa"] :is(#cura-main-layout,#settings-view,#meditation-session,#daily-diary-modal,#daily-tip-modal,#journal-dashboard-view,#welcome-modal,#astral-map-modal,#numerology-modal,#contact-us-modal,#promo-video-modal){-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;}
+:root[data-layout="essencia-luminosa"] :is(#cura-main-layout,#settings-view,#meditation-session,#daily-diary-modal,#daily-tip-modal,#journal-dashboard-view,#welcome-modal,#astral-map-modal,#numerology-modal,#contact-us-modal,#promo-video-modal,#specific-treatment-modal){-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;}
 
 @media (max-width:640px){:root[data-layout="essencia-luminosa"] #main-header .ep-brand-signature{opacity:.26!important;}}
