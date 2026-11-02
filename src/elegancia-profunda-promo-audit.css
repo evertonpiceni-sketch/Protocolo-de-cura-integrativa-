@@ -1,8 +1,9 @@
 /* Elegância Profunda — auditoria do vídeo de apresentação.
-   Corrige somente superfícies neutras herdadas; preserva cores semânticas das cenas e lógica de áudio/player. */
+   Escopo estrito ao Estilo 2. Remove neutros claros e acentos índigo/violeta herdados,
+   preservando estados semânticos, conteúdo, lógica de áudio/player e movimento das cenas. */
 
 :root[data-layout="elegancia-profunda"] #promo-video-modal {
-  background: color-mix(in srgb, var(--layout-canvas) 92%, transparent) !important;
+  background: color-mix(in srgb, var(--layout-canvas) 94%, transparent) !important;
 }
 
 :root[data-layout="elegancia-profunda"] #promo-video-modal > div {
@@ -29,6 +30,30 @@
 
 :root[data-layout="elegancia-profunda"] #promo-video-modal :is([class*="text-[#B88736]"],[class*="text-amber"]) {
   color: var(--layout-gold) !important;
+}
+
+/* Acentos decorativos de outros estilos não pertencem à prancha Elegância Profunda. */
+:root[data-layout="elegancia-profunda"] #promo-video-modal :is([class*="bg-indigo-"],[class*="bg-purple-"]) {
+  background-color: color-mix(in srgb, var(--layout-gold) 82%, #8b6a35) !important;
+}
+
+:root[data-layout="elegancia-profunda"] #promo-video-modal :is([class*="text-indigo-"],[class*="text-purple-"]) {
+  color: var(--layout-gold) !important;
+}
+
+:root[data-layout="elegancia-profunda"] #promo-video-modal :is([class*="border-indigo-"],[class*="border-purple-"]) {
+  border-color: color-mix(in srgb, var(--layout-gold) 36%, transparent) !important;
+}
+
+:root[data-layout="elegancia-profunda"] #promo-video-modal [class*="from-indigo-"][class*="to-amber-"] {
+  background-image: linear-gradient(to right,
+    color-mix(in srgb, var(--layout-gold) 72%, #8b6a35),
+    color-mix(in srgb, var(--layout-gold) 92%, #f3e2bd)) !important;
+}
+
+/* O verde permanece apenas quando é semântico (frequência/estado positivo), não como superfície estrutural. */
+:root[data-layout="elegancia-profunda"] #promo-video-modal :is(.text-emerald-400,.text-emerald-300) {
+  filter: saturate(.72) brightness(1.04);
 }
 
 :root[data-layout="elegancia-profunda"] #promo-video-modal button:not([disabled]) {
