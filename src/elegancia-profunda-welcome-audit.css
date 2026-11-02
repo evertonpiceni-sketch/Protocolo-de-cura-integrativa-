@@ -1,0 +1,59 @@
+/* Elegância Profunda — auditoria do modal de boas-vindas.
+   Corrige apenas heranças visuais neutras/genéricas do componente proprietário. */
+:root[data-layout="elegancia-profunda"] #welcome-modal {
+  background: color-mix(in srgb, var(--layout-canvas) 82%, transparent) !important;
+}
+
+:root[data-layout="elegancia-profunda"] #welcome-modal > div {
+  background: linear-gradient(155deg,
+    color-mix(in srgb, var(--layout-card) 97%, black),
+    color-mix(in srgb, var(--layout-canvas) 93%, black)) !important;
+  border-color: color-mix(in srgb, var(--layout-gold) 28%, var(--layout-border-card)) !important;
+  color: var(--layout-text) !important;
+  box-shadow: 0 30px 76px rgba(0,0,0,.46) !important;
+}
+
+:root[data-layout="elegancia-profunda"] #welcome-modal :is(h1,h2,h3,h4,strong) {
+  color: var(--layout-text) !important;
+}
+
+:root[data-layout="elegancia-profunda"] #welcome-modal :is(p,label,span,[class*="text-[#5C5248]"],[class*="text-[#85786C]"]) {
+  color: var(--layout-text-soft) !important;
+}
+
+:root[data-layout="elegancia-profunda"] #welcome-modal :is([class*="bg-white"],[class*="bg-[#FBF8F2]"],[class*="bg-[#F5EFE4]"],[class*="bg-[#EFE4D3]"]) {
+  background-color: color-mix(in srgb, var(--layout-card) 94%, black) !important;
+  border-color: color-mix(in srgb, var(--layout-gold) 24%, var(--layout-border-card)) !important;
+}
+
+/* O verde profundo pertence ao Estilo 2, mas o CTA recebe acabamento champagne/bronze premium. */
+:root[data-layout="elegancia-profunda"] #welcome-modal button[class*="from-emerald"] {
+  background: linear-gradient(135deg,
+    color-mix(in srgb, var(--layout-gold) 90%, #f4e4bd),
+    color-mix(in srgb, var(--layout-accent) 72%, var(--layout-gold))) !important;
+  border: 1px solid color-mix(in srgb, var(--layout-gold) 48%, transparent) !important;
+  color: color-mix(in srgb, var(--layout-canvas) 88%, black) !important;
+  box-shadow: 0 14px 34px rgba(0,0,0,.30) !important;
+}
+
+:root[data-layout="elegancia-profunda"] #welcome-modal button[class*="from-emerald"]:hover {
+  filter: brightness(1.06);
+  transform: translateY(-1px);
+}
+
+:root[data-layout="elegancia-profunda"] #welcome-modal button:focus-visible,
+:root[data-layout="elegancia-profunda"] #welcome-modal input:focus-visible {
+  outline: 2px solid color-mix(in srgb, var(--layout-gold) 68%, white) !important;
+  outline-offset: 3px;
+}
+
+:root[data-layout="elegancia-profunda"] #welcome-modal img[src*="brand" i] {
+  filter: saturate(.88) contrast(.98) brightness(.86);
+}
+
+:root[data-layout="elegancia-profunda"] #welcome-modal [class*="from-slate-900"] {
+  background-image: linear-gradient(to top,
+    color-mix(in srgb, var(--layout-canvas) 94%, black),
+    color-mix(in srgb, var(--layout-card) 38%, transparent),
+    transparent) !important;
+}
