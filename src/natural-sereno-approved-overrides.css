@@ -186,6 +186,48 @@
   color: #6F7B55 !important;
 }
 
+/* Diário still contained generic emerald, indigo, purple, slate and bright amber
+   utility classes. Keep completion/phase meaning while returning the visual
+   language to ivory, coffee, refined gold and only small natural-green accents. */
+:root[data-layout="natural-sereno"] #daily-diary-modal .bg-emerald-50 {
+  background: rgba(111,123,85,.09) !important;
+}
+
+:root[data-layout="natural-sereno"] #daily-diary-modal .border-emerald-200 {
+  border-color: rgba(111,123,85,.24) !important;
+}
+
+:root[data-layout="natural-sereno"] #daily-diary-modal .text-emerald-700,
+:root[data-layout="natural-sereno"] #daily-diary-modal .text-emerald-400 {
+  color: #5E6948 !important;
+}
+
+:root[data-layout="natural-sereno"] #daily-diary-modal .bg-emerald-400 {
+  background: #6F7B55 !important;
+}
+
+:root[data-layout="natural-sereno"] #daily-diary-modal .bg-amber-50 {
+  background: rgba(200,157,82,.09) !important;
+}
+
+:root[data-layout="natural-sereno"] #daily-diary-modal .border-amber-200,
+:root[data-layout="natural-sereno"] #daily-diary-modal .border-purple-500\/20 {
+  border-color: rgba(184,135,54,.24) !important;
+}
+
+:root[data-layout="natural-sereno"] #daily-diary-modal :is(.text-amber-700,.text-amber-400,.text-amber-300,.text-purple-400) {
+  color: #8F631E !important;
+}
+
+:root[data-layout="natural-sereno"] #daily-diary-modal .focus\:ring-indigo-400:focus {
+  --tw-ring-color: rgba(184,135,54,.35) !important;
+}
+
+:root[data-layout="natural-sereno"] #daily-diary-modal .hover\:bg-slate-700:hover {
+  background: #EEE4D3 !important;
+  color: #2A2421 !important;
+}
+
 @media (max-width: 640px) {
   :root[data-layout="natural-sereno"] #main-header .ep-brand-signature {
     opacity: .26 !important;
