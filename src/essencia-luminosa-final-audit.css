@@ -59,6 +59,12 @@
 :root[data-layout="essencia-luminosa"] #specific-treatment-modal :is(input,textarea,select){background:color-mix(in srgb,var(--layout-card) 94%,white)!important;border-color:var(--layout-border-card)!important;color:var(--layout-text)!important;}
 :root[data-layout="essencia-luminosa"] #specific-treatment-modal :is(input,textarea,select):focus{border-color:color-mix(in srgb,var(--layout-gold) 54%,var(--layout-border-card))!important;outline:none;}
 
+/* Barra de ações: Perguntas Sistêmicas ainda vinha do App com emerald-950/emerald-500.
+   Mantém a ação reconhecível, mas dentro da linguagem clara/sálvia/ouro do Estilo 3. */
+:root[data-layout="essencia-luminosa"] #bottom-btn-systemic{background:linear-gradient(105deg,color-mix(in srgb,var(--layout-accent-soft) 62%,var(--layout-card)),color-mix(in srgb,var(--layout-gold-soft) 34%,var(--layout-card)))!important;border-color:color-mix(in srgb,var(--layout-accent) 30%,var(--layout-border-card))!important;color:var(--layout-text-secondary)!important;box-shadow:0 6px 18px rgba(112,91,58,.06)!important;}
+:root[data-layout="essencia-luminosa"] #bottom-btn-systemic:hover{background:linear-gradient(105deg,color-mix(in srgb,var(--layout-accent-soft) 72%,var(--layout-card)),color-mix(in srgb,var(--layout-gold-soft) 44%,var(--layout-card)))!important;border-color:color-mix(in srgb,var(--layout-gold) 34%,var(--layout-border-card))!important;}
+:root[data-layout="essencia-luminosa"] #bottom-btn-systemic svg{color:var(--layout-accent)!important;}
+
 /* Mantém tipografia luminosa nítida mesmo em componentes com classes legadas. */
 :root[data-layout="essencia-luminosa"] :is(#cura-main-layout,#settings-view,#meditation-session,#daily-diary-modal,#daily-tip-modal,#journal-dashboard-view,#welcome-modal,#astral-map-modal,#numerology-modal,#contact-us-modal,#promo-video-modal,#specific-treatment-modal){-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;}
 
