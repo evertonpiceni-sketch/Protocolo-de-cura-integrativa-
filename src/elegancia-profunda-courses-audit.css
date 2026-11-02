@@ -1,0 +1,45 @@
+:root[data-layout="elegancia-profunda"] #courses-modal {
+  background: rgba(7, 18, 14, .72) !important;
+}
+
+:root[data-layout="elegancia-profunda"] #courses-modal > div {
+  background: color-mix(in srgb, var(--layout-card) 94%, black) !important;
+  border-color: color-mix(in srgb, var(--layout-accent) 42%, transparent) !important;
+  box-shadow: 0 30px 76px rgba(0, 0, 0, .48) !important;
+}
+
+:root[data-layout="elegancia-profunda"] #courses-modal :is([class*="bg-white"],[class*="bg-[#FBF8F2]"],[class*="bg-[#FFF9EA]"]) {
+  background-color: color-mix(in srgb, var(--layout-card) 90%, black) !important;
+}
+
+:root[data-layout="elegancia-profunda"] #courses-modal :is([class*="border-[#E5DAC6]"],[class*="border-[#D9C58F]"]) {
+  border-color: color-mix(in srgb, var(--layout-accent) 34%, transparent) !important;
+}
+
+:root[data-layout="elegancia-profunda"] #courses-modal :is([class*="text-[#26372a]"],[class*="text-[#2A2420]"]) {
+  color: var(--layout-text) !important;
+}
+
+:root[data-layout="elegancia-profunda"] #courses-modal [class*="text-[#5C5248]"] {
+  color: var(--layout-text-soft) !important;
+}
+
+:root[data-layout="elegancia-profunda"] #courses-modal :is([class*="text-[#71511c]"],[class*="text-[#B88736]"]) {
+  color: var(--layout-accent) !important;
+}
+
+:root[data-layout="elegancia-profunda"] #courses-modal img[alt="Everton Piceni"] {
+  opacity: .28 !important;
+  filter: saturate(.88) contrast(.96) !important;
+}
+
+:root[data-layout="elegancia-profunda"] #courses-modal button:last-child {
+  background: linear-gradient(135deg, color-mix(in srgb, var(--layout-accent) 88%, #f4e4b8), color-mix(in srgb, var(--layout-accent) 62%, #7b5a2b)) !important;
+  border-color: color-mix(in srgb, var(--layout-accent) 52%, transparent) !important;
+  color: #14231d !important;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, .28), inset 0 1px 0 rgba(255, 255, 255, .28) !important;
+}
+
+:root[data-layout="elegancia-profunda"] #courses-modal button:last-child:hover {
+  filter: brightness(1.06) !important;
+}
