@@ -16,6 +16,14 @@
   max-height: 100%;
 }
 
+/* The logo container itself still inherited an indigo border/glow from another
+   style. Keep the approved logo untouched and make its chrome quiet ivory/gold. */
+:root[data-layout="natural-sereno"] #main-header .border-indigo-500\/40 {
+  border-color: rgba(184,135,54,.24) !important;
+  background: rgba(251,248,242,.92) !important;
+  box-shadow: 0 6px 16px rgba(67,52,39,.06) !important;
+}
+
 #profile-setup-view.ep-auth-style-one #onboarding-card .ep-brand-signature-wrap {
   width: 84px;
   height: 84px;
