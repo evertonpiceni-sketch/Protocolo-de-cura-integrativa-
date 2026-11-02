@@ -37,6 +37,7 @@ import './essencia-luminosa-numerology-audit.css';
 import './lib/authStartupResiliencePatch';
 import './lib/startupUiResiliencePatch';
 import './lib/audioIntegrityPatch';
+import './lib/naturalSerenoOfficialVoicePatch';
 import './lib/reintegrationPublicNarrationPatch';
 import './lib/backgroundMediaPatch';
 import './lib/noDecorativeEmojiPatch';
