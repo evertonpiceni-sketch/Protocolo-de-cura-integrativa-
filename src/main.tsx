@@ -31,6 +31,7 @@ import './elegancia-profunda-dashboard-audit.css';
 import './essencia-luminosa-final-audit.css';
 import './essencia-luminosa-canvas-audit.css';
 import './essencia-luminosa-mobile-install-audit.css';
+import './essencia-luminosa-numerology-audit.css';
 import './lib/authStartupResiliencePatch';
 import './lib/startupUiResiliencePatch';
 import './lib/audioIntegrityPatch';
