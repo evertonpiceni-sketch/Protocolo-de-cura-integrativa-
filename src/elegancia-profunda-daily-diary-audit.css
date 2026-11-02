@@ -1,0 +1,65 @@
+:root[data-layout="elegancia-profunda"] #daily-diary-modal {
+  background: rgba(8, 20, 17, 0.72) !important;
+}
+
+:root[data-layout="elegancia-profunda"] #daily-diary-modal > div {
+  background: linear-gradient(145deg, rgba(17, 42, 35, 0.98), rgba(9, 27, 23, 0.99)) !important;
+  border-color: rgba(201, 164, 104, 0.38) !important;
+  color: #f3eadc !important;
+  box-shadow: 0 30px 80px rgba(2, 12, 10, 0.46), inset 0 1px 0 rgba(255,255,255,0.04) !important;
+}
+
+:root[data-layout="elegancia-profunda"] #daily-diary-modal .bg-white,
+:root[data-layout="elegancia-profunda"] #daily-diary-modal [class*="bg-white/"],
+:root[data-layout="elegancia-profunda"] #daily-diary-modal [class*="bg-[#FBF8F2]"],
+:root[data-layout="elegancia-profunda"] #daily-diary-modal [class*="bg-[#F5EFE4]"] {
+  background-color: rgba(22, 52, 43, 0.88) !important;
+}
+
+:root[data-layout="elegancia-profunda"] #daily-diary-modal [class*="border-[#E5DAC6]"] {
+  border-color: rgba(201, 164, 104, 0.26) !important;
+}
+
+:root[data-layout="elegancia-profunda"] #daily-diary-modal [class*="text-[#2A2420]"] {
+  color: #f5ecdf !important;
+}
+
+:root[data-layout="elegancia-profunda"] #daily-diary-modal [class*="text-[#5C5248]"],
+:root[data-layout="elegancia-profunda"] #daily-diary-modal [class*="text-[#85786C]"] {
+  color: #d9cbb8 !important;
+}
+
+:root[data-layout="elegancia-profunda"] #daily-diary-modal textarea,
+:root[data-layout="elegancia-profunda"] #daily-diary-modal input,
+:root[data-layout="elegancia-profunda"] #daily-diary-modal select {
+  background: rgba(8, 28, 23, 0.9) !important;
+  border-color: rgba(201, 164, 104, 0.32) !important;
+  color: #f5ecdf !important;
+}
+
+:root[data-layout="elegancia-profunda"] #daily-diary-modal textarea:focus,
+:root[data-layout="elegancia-profunda"] #daily-diary-modal input:focus,
+:root[data-layout="elegancia-profunda"] #daily-diary-modal select:focus {
+  border-color: #c9a468 !important;
+  box-shadow: 0 0 0 3px rgba(201, 164, 104, 0.14) !important;
+}
+
+:root[data-layout="elegancia-profunda"] #daily-diary-modal #btn-export-full-diary,
+:root[data-layout="elegancia-profunda"] #daily-diary-modal button[class*="bg-[#B88736]"] {
+  background: linear-gradient(135deg, #d7ba84, #a97838) !important;
+  border: 1px solid rgba(245, 236, 223, 0.24) !important;
+  color: #10251f !important;
+  box-shadow: 0 10px 28px rgba(7, 22, 18, 0.34) !important;
+}
+
+:root[data-layout="elegancia-profunda"] #daily-diary-modal button[class*="bg-[#B88736]"]:hover {
+  filter: brightness(1.06);
+  transform: translateY(-1px);
+}
+
+/* Verde de conclusão permanece semântico; não é usado como superfície estrutural. */
+:root[data-layout="elegancia-profunda"] #daily-diary-modal .bg-emerald-500,
+:root[data-layout="elegancia-profunda"] #daily-diary-modal .text-emerald-400,
+:root[data-layout="elegancia-profunda"] #daily-diary-modal .text-emerald-500 {
+  isolation: isolate;
+}
