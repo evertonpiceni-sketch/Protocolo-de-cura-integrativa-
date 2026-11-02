@@ -80,6 +80,17 @@
 :root[data-layout="natural-sereno"] #daily-diary-modal .focus\:ring-indigo-400:focus { --tw-ring-color:rgba(184,135,54,.35)!important; }
 :root[data-layout="natural-sereno"] #daily-diary-modal .hover\:bg-slate-700:hover { background:#EEE4D3!important; color:#2A2421!important; }
 
+/* Mapa do Momento / Anamnese: the enabled feedback action was still a saturated
+   emerald slab. Keep green as a small semantic accent, not the dominant button. */
+:root[data-layout="natural-sereno"] #anamnesis-modal button.bg-emerald-600 {
+  background:#B88736!important;
+  color:#FFFDF8!important;
+  border-color:#B88736!important;
+  box-shadow:0 9px 20px rgba(67,52,39,.10)!important;
+}
+:root[data-layout="natural-sereno"] #anamnesis-modal button.bg-emerald-600:hover { background:#8F631E!important; }
+:root[data-layout="natural-sereno"] #anamnesis-modal button.bg-emerald-600 svg { color:#F5EFE4!important; }
+
 /* Presentation/video */
 :root[data-layout="natural-sereno"] #promo-video-modal { background:rgba(42,36,33,.72)!important; }
 :root[data-layout="natural-sereno"] #promo-video-modal [class*="from-[#0a412d]"],
