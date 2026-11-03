@@ -1,0 +1,52 @@
+/* Estilo 3 — Essência Luminosa | Anamnese / Mapa do Momento
+   Latest-approved isolated correction. Do not leak into other layouts. */
+:root[data-layout="essencia-luminosa"] #anamnesis-modal {
+  --el-ivory:#FFFCF6;
+  --el-champagne:#F5EBDD;
+  --el-gold:#B9914F;
+  --el-gold-deep:#8F6A2F;
+  --el-sage:#A9B59A;
+  --el-olive:#77836B;
+  --el-ink:#403A32;
+}
+
+:root[data-layout="essencia-luminosa"] #anamnesis-modal .bg-gradient-to-br,
+:root[data-layout="essencia-luminosa"] #anamnesis-modal .bg-gradient-to-r {
+  --tw-gradient-from:var(--el-ivory) var(--tw-gradient-from-position)!important;
+  --tw-gradient-via:var(--el-champagne) var(--tw-gradient-via-position)!important;
+  --tw-gradient-to:#EEF0E7 var(--tw-gradient-to-position)!important;
+}
+
+:root[data-layout="essencia-luminosa"] #anamnesis-modal :is(.bg-indigo-600,.bg-indigo-500,.bg-purple-600,.bg-purple-500,.bg-violet-600,.bg-violet-500,.bg-emerald-600,.bg-emerald-500) {
+  background:linear-gradient(135deg,var(--el-gold),var(--el-gold-deep))!important;
+  color:#fff!important;
+  box-shadow:0 12px 28px rgba(111,91,56,.18)!important;
+}
+
+:root[data-layout="essencia-luminosa"] #anamnesis-modal :is(.bg-indigo-500\/10,.bg-purple-500\/10,.bg-violet-500\/10,.bg-emerald-500\/10,.bg-indigo-50,.bg-purple-50,.bg-violet-50,.bg-emerald-50) {
+  background:rgba(245,235,221,.72)!important;
+}
+
+:root[data-layout="essencia-luminosa"] #anamnesis-modal :is(.text-indigo-700,.text-indigo-600,.text-indigo-400,.text-purple-700,.text-purple-600,.text-purple-400,.text-violet-700,.text-violet-600,.text-violet-400,.text-emerald-700,.text-emerald-600,.text-emerald-400) {
+  color:var(--el-olive)!important;
+}
+
+:root[data-layout="essencia-luminosa"] #anamnesis-modal :is(.border-indigo-500\/40,.border-indigo-500\/30,.border-purple-500\/40,.border-purple-500\/30,.border-violet-500\/40,.border-violet-500\/30,.border-emerald-500\/40,.border-emerald-500\/30) {
+  border-color:rgba(185,145,79,.32)!important;
+}
+
+:root[data-layout="essencia-luminosa"] #anamnesis-modal :is(button,a,[role="button"]) {
+  transition:transform .18s ease,box-shadow .18s ease,border-color .18s ease,background-color .18s ease!important;
+}
+:root[data-layout="essencia-luminosa"] #anamnesis-modal :is(button,a,[role="button"]):focus-visible {
+  outline:2px solid rgba(185,145,79,.72)!important;
+  outline-offset:3px!important;
+}
+:root[data-layout="essencia-luminosa"] #anamnesis-modal button:not(:disabled):hover {
+  transform:translateY(-1px);
+}
+
+/* Preserve chakra semantic colors: they communicate chakra identity, not theme inheritance. */
+:root[data-layout="essencia-luminosa"] #anamnesis-modal .ep-chakra-option {
+  filter:saturate(.86) brightness(1.03);
+}
