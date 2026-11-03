@@ -46,7 +46,7 @@ const cacheKeyFor = (text: string) => {
 
 export default async function handler(req: any, res: any) {
   if (req.method !== 'POST') return res.status(405).json({ error: 'Método não permitido.' });
-  if (!allowVoiceAttempt(req)) return res.status(429).json({ error: 'Limite temporário de voz atingido.', fallbackToSpeechSynthesis: true });
+  if (!allowVoiceAttempt(req)) return res.status(429).json({ error: 'Limite temporário de voz atingido.', fallbackToSpeechSynthesis: false });
   try {
     const text = typeof req.body?.text === 'string' ? req.body.text.trim() : '';
     if (!text || !allowedCues.has(text)) return res.status(403).json({ error: 'Trecho não autorizado para esta jornada.' });
@@ -62,7 +62,7 @@ export default async function handler(req: any, res: any) {
     }
 
     const apiKey = process.env.ELEVENLABS_API_KEY;
-    if (!apiKey) return res.status(503).json({ error: 'Voz neural indisponível.' });
+    if (!apiKey) return res.status(503).json({ error: 'Voz neural indisponível.', fallbackToSpeechSynthesis: false });
 
     const client = new ElevenLabsClient({ apiKey });
     const audioStream = await client.generate({
@@ -95,16 +95,16 @@ export default async function handler(req: any, res: any) {
   } catch (error: any) {
     const statusCode = Number(error?.statusCode || error?.status || error?.response?.status || 0);
     if (statusCode === 402 || statusCode === 429) {
-      console.warn('Reintegração TTS temporariamente indisponível; o cliente usará a voz do dispositivo.', statusCode);
+      console.warn('Reintegração TTS temporariamente indisponível; fallback para voz do dispositivo permanece proibido.', statusCode);
       return res.status(503).json({
         error: 'Voz neural temporariamente indisponível.',
-        fallbackToSpeechSynthesis: true
+        fallbackToSpeechSynthesis: false
       });
     }
     console.error('Reintegração TTS:', error?.message || error);
     return res.status(500).json({
       error: 'Não foi possível preparar a condução de voz.',
-      fallbackToSpeechSynthesis: true
+      fallbackToSpeechSynthesis: false
     });
   }
 }
