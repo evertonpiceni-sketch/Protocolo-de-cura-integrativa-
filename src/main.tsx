@@ -23,6 +23,7 @@ import './elegancia-profunda-herbal-baths-audit.css';
 import './elegancia-profunda-maps-audit.css';
 import './elegancia-profunda-journal-audit.css';
 import './elegancia-profunda-daily-diary-audit.css';
+import './elegancia-profunda-day-detail-audit.css';
 import './elegancia-profunda-hooponopono-audit.css';
 import './elegancia-profunda-promo-audit.css';
 import './elegancia-profunda-settings-final-audit.css';
