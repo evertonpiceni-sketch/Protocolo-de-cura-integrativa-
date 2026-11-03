@@ -1,0 +1,33 @@
+/* Essência Luminosa: conquistas. Não altera os outros estilos nem os dados dos emblemas. */
+html[data-layout="essencia-luminosa"] #achievements-modal { background: rgba(61, 65, 53, .22); }
+html[data-layout="essencia-luminosa"] #achievements-modal > div {
+  background: #FFFCF7; border-color: #E8DDC8; color: #39372F;
+  box-shadow: 0 24px 75px rgba(73, 64, 43, .14);
+}
+html[data-layout="essencia-luminosa"] #achievements-modal header,
+html[data-layout="essencia-luminosa"] #achievements-modal footer { border-color: #E8DDC8; }
+html[data-layout="essencia-luminosa"] #achievements-modal header section,
+html[data-layout="essencia-luminosa"] #achievements-modal article {
+  background: rgba(255, 255, 252, .93); border-color: #E8DDC8;
+}
+html[data-layout="essencia-luminosa"] #achievements-modal button[aria-label="Fechar conquistas"] {
+  background: #F8F3E9; border-color: #E8DDC8; color: #545B48;
+}
+html[data-layout="essencia-luminosa"] #achievements-modal [role="tab"][aria-selected="true"],
+html[data-layout="essencia-luminosa"] #achievements-modal footer button {
+  background: linear-gradient(125deg, #A68C57, #C3AA78); color: #25281F;
+  border: 1px solid #9B8354; box-shadow: 0 5px 14px rgba(124, 102, 57, .16);
+}
+html[data-layout="essencia-luminosa"] #achievements-modal [role="tab"][aria-selected="false"] {
+  background: #FFFEFA; border-color: #E8DDC8; color: #555B4B;
+}
+html[data-layout="essencia-luminosa"] #achievements-modal :is(button,[role="tab"]):focus-visible {
+  outline: 2px solid #8A946D; outline-offset: 3px;
+}
+html[data-layout="essencia-luminosa"] #achievements-modal .text-emerald-700 { color: #657B57; }
+html[data-layout="essencia-luminosa"] #achievements-modal [role="progressbar"] > div {
+  background: linear-gradient(90deg, #8A946D, #C5B180);
+}
+@media (prefers-reduced-motion: reduce) {
+ html[data-layout="essencia-luminosa"] #achievements-modal [role="progressbar"] > div { transition: none; }
+}
