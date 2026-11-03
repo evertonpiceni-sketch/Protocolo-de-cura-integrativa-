@@ -32,7 +32,26 @@ export default function AudioSettingsModal({
   onOpenProModal
 }: AudioSettingsModalProps) {
   const dialogRef = useRef<HTMLDivElement>(null);
-  useDialogFocus(isOpen, dialogRef, () => { audioEngine.stopSpeech(); onClose(); });
+  const closeWithoutSaving = () => {
+    audioEngine.stopSpeech();
+    // Preview playback belongs to this dialog; do not leave its temporary
+    // frequency or binaural settings running after a cancelled edit.
+    audioEngine.stopBG();
+    audioEngine.setBioactiveConfig({
+      enabled: userProfile.bioactiveBinauralEnabled ?? false,
+      waveType: userProfile.binauralWaveType ?? 'alpha',
+      intensity: userProfile.binauralIntensity ?? 0.35,
+      carrierMode: userProfile.binauralCarrierMode ?? 'sync'
+    });
+    audioEngine.setBGVolume(userProfile.bgMusicVolume ?? 0.5);
+    if (userProfile.audioEnabled !== false && userProfile.bgMusicType && userProfile.bgMusicType !== 'none') {
+      audioEngine.startBG(userProfile.bgMusicType);
+    }
+    setIsTestingVoice(false);
+    setIsPlayingBioactivePreview(false);
+    onClose();
+  };
+  useDialogFocus(isOpen, dialogRef, closeWithoutSaving);
   const [bgMusicType, setBgMusicType] = useState(userProfile.bgMusicType);
   const [bgMusicVolume, setBgMusicVolume] = useState(userProfile.bgMusicVolume ?? 0.5);
   const [voiceVolume, setVoiceVolume] = useState(userProfile.voiceVolume ?? 0.85);
@@ -230,10 +249,7 @@ export default function AudioSettingsModal({
           </div>
 
           <button
-            onClick={() => {
-              audioEngine.stopSpeech();
-              onClose();
-            }}
+            onClick={closeWithoutSaving}
             aria-label="Fechar ajustes de áudio"
             className="w-11 h-11 text-[#5C5248] hover:text-[#2A2420] bg-[#F5EFE4]/70 hover:bg-[#EFE4D3] rounded-xl transition cursor-pointer border-none flex items-center justify-center focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B88736]/30"
           >
