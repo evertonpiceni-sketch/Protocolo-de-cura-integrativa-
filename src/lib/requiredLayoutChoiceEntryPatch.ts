@@ -2,6 +2,7 @@ import { OFFICIAL_LAYOUTS, normalizeLayoutId } from '../config/layouts';
 
 const SESSION_KEY = 'cura_layout_confirmed_this_entry_v1';
 const OVERLAY_ID = 'required-layout-choice-entry';
+const PENDING_LAYOUT = 'layout-choice-pending';
 
 const escapeHtml = (value: string) => value.replace(/[&<>"']/g, ch => ({ '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;' }[ch] || ch));
 
@@ -9,18 +10,42 @@ async function mountRequiredLayoutChoice() {
   if (typeof window === 'undefined' || typeof document === 'undefined') return;
   if (sessionStorage.getItem(SESSION_KEY) === '1' || document.getElementById(OVERLAY_ID)) return;
 
+  // A persisted preference is only a preselection. While this entry is not confirmed,
+  // prevent App.tsx from visually applying that persisted theme behind the chooser.
+  // This removes the previous flash/automatic application without changing saved data.
+  document.documentElement.dataset.layout = PENDING_LAYOUT;
+  let guardingLayout = true;
+  const layoutGuard = new MutationObserver(() => {
+    if (!guardingLayout) return;
+    if (document.documentElement.dataset.layout !== PENDING_LAYOUT) {
+      document.documentElement.dataset.layout = PENDING_LAYOUT;
+    }
+  });
+  layoutGuard.observe(document.documentElement, { attributes: true, attributeFilter: ['data-layout'] });
+
+  const releaseGuard = () => {
+    guardingLayout = false;
+    layoutGuard.disconnect();
+  };
+
   let account: any;
   try {
     const response = await fetch('/api/auth/me', { credentials: 'same-origin' });
-    if (!response.ok) return;
+    if (!response.ok) { releaseGuard(); return; }
     const data = await response.json();
     account = data?.user;
   } catch {
+    releaseGuard();
     return;
   }
 
   const profile = account?.profile;
-  if (!profile?.visualLayout) return; // Existing React modal owns first-time selection.
+  if (!profile?.visualLayout) {
+    // First-time selection is owned by the React modal. Do not keep the guard attached.
+    releaseGuard();
+    delete document.documentElement.dataset.layout;
+    return;
+  }
 
   let selected = normalizeLayoutId(profile.visualLayout);
   const overlay = document.createElement('div');
@@ -54,8 +79,9 @@ async function mountRequiredLayoutChoice() {
           body: JSON.stringify({ profile: updatedProfile, progress: account.progress || [] })
         });
         if (!response.ok) throw new Error('sync failed');
-        document.documentElement.dataset.layout = selected;
         sessionStorage.setItem(SESSION_KEY, '1');
+        releaseGuard();
+        document.documentElement.dataset.layout = selected;
         overlay.remove();
         window.location.reload();
       } catch {
