@@ -7,10 +7,15 @@ import { audioEngine } from './audio';
  * rule directly. It is intentionally narrow and does not alter narration/synth audio.
  */
 const ARCANJO_VIEW_MARKER = 'img[alt="Pessoa em meditação com os sete chakras"]';
+const DASHBOARD_MARKER = '#progress-dashboard';
 let arcanjoOpening = false;
 
-const isArcanjoViewMounted = () =>
-  typeof document !== 'undefined' && Boolean(document.querySelector(ARCANJO_VIEW_MARKER));
+const isArcanjoViewMounted = () => {
+  if (typeof document === 'undefined') return false;
+  return Array.from(document.querySelectorAll(ARCANJO_VIEW_MARKER)).some(
+    marker => !marker.closest(DASHBOARD_MARKER)
+  );
+};
 
 const arcanjoOwnsAudio = () => arcanjoOpening || isArcanjoViewMounted();
 
