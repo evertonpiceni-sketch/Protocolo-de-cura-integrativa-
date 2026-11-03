@@ -1,0 +1,51 @@
+/* Estilo 4 — Místico Moderno | celebrações de progresso
+   Escopo deliberadamente restrito ao layout ativo. Mantém conteúdo e lógica intactos. */
+
+html[data-layout="mistico-moderno"] [role="dialog"][aria-label="Celebração de progresso"] {
+  background: rgba(4, 8, 24, 0.72) !important;
+}
+
+html[data-layout="mistico-moderno"] [role="dialog"][aria-label="Celebração de progresso"] > div {
+  background: linear-gradient(155deg, rgba(7, 15, 38, 0.98), rgba(23, 20, 58, 0.97) 55%, rgba(8, 42, 43, 0.96)) !important;
+  border-color: rgba(214, 170, 83, 0.38) !important;
+  box-shadow: 0 28px 80px rgba(2, 6, 23, 0.56), inset 0 1px 0 rgba(255, 244, 214, 0.06) !important;
+}
+
+html[data-layout="mistico-moderno"] [role="dialog"][aria-label="Celebração de progresso"] h2,
+html[data-layout="mistico-moderno"] [role="dialog"][aria-label="Celebração de progresso"] p {
+  color: #F4EEDF !important;
+}
+
+html[data-layout="mistico-moderno"] [role="dialog"][aria-label="Celebração de progresso"] .bg-white\/75,
+html[data-layout="mistico-moderno"] [role="dialog"][aria-label="Celebração de progresso"] .bg-\[\#FBF8F2\]\/90 {
+  background: rgba(15, 23, 52, 0.78) !important;
+  border-color: rgba(214, 170, 83, 0.24) !important;
+  backdrop-filter: blur(14px);
+}
+
+html[data-layout="mistico-moderno"] [role="dialog"][aria-label="Celebração de progresso"] .bg-\[\#F5EFE4\]\/80,
+html[data-layout="mistico-moderno"] [role="dialog"][aria-label="Celebração de progresso"] .bg-\[\#F5EFE4\] {
+  background: rgba(20, 27, 59, 0.88) !important;
+  border-color: rgba(214, 170, 83, 0.28) !important;
+  color: #F4EEDF !important;
+}
+
+html[data-layout="mistico-moderno"] [role="dialog"][aria-label="Celebração de progresso"] .border-\[\#E5DAC6\] {
+  border-color: rgba(214, 170, 83, 0.22) !important;
+}
+
+html[data-layout="mistico-moderno"] [role="dialog"][aria-label="Celebração de progresso"] .text-\[\#2A2420\],
+html[data-layout="mistico-moderno"] [role="dialog"][aria-label="Celebração de progresso"] .text-\[\#5C5248\] {
+  color: #F4EEDF !important;
+}
+
+html[data-layout="mistico-moderno"] [role="dialog"][aria-label="Celebração de progresso"] button.bg-\[\#B88736\] {
+  background: linear-gradient(135deg, #B9893F, #D6AA53) !important;
+  color: #081126 !important;
+  box-shadow: 0 12px 30px rgba(214, 170, 83, 0.18) !important;
+}
+
+html[data-layout="mistico-moderno"] [role="dialog"][aria-label="Celebração de progresso"] a.bg-emerald-600 {
+  background: linear-gradient(135deg, #0D5A50, #16806D) !important;
+  box-shadow: 0 12px 30px rgba(22, 128, 109, 0.16) !important;
+}
