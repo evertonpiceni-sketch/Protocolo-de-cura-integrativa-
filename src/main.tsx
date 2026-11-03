@@ -55,11 +55,11 @@ import './lib/naturalSerenoHomeJourneyStateFix';
 import './lib/naturalSerenoPublicCatalogGuard';
 import './natural-sereno-final-audit.css';
 import './natural-sereno-home-latest-approved.css';
-// Latest approved Natural Sereno decisions must win over older audit/refinement layers.
-// Keep this import last among theme CSS so discarded green/amber/indigo inheritance
-// cannot regain precedence through cascade order.
-import './natural-sereno-approved-overrides.css';
 import './natural-sereno-milestone-audit.css';
+// Latest approved Natural Sereno decisions must win over every older audit/refinement layer.
+// Keep this import last among Natural Sereno theme CSS so discarded green/amber/indigo
+// inheritance cannot regain precedence through cascade order.
+import './natural-sereno-approved-overrides.css';
 import { ErrorBoundary } from './ErrorBoundary.tsx';
 
 createRoot(document.getElementById('root')!).render(
