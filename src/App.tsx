@@ -81,6 +81,9 @@ const BG_TRACKS: Record<string, string[]> = {
 // App State Definition
 export default function App() {
   const [userProfile, setUserProfile] = useState<UserProfile | null>(null);
+  // A persisted preference is not consent to apply a theme in this session.
+  const [layoutConfirmedThisSession, setLayoutConfirmedThisSession] = useState(false);
+  const [layoutChoiceRequested, setLayoutChoiceRequested] = useState(false);
   const [isLoadingAuth, setIsLoadingAuth] = useState<boolean>(true);
   const [progress, setProgress] = useState<DayProgress[]>([]);
   const [currentDay, setCurrentDay] = useState<number>(1);
@@ -336,7 +339,7 @@ export default function App() {
 
   useEffect(() => {
     // Never activate a visual theme before the user explicitly confirms a choice.
-    const selected = OFFICIAL_LAYOUTS.find(layout => layout.id === userProfile?.visualLayout);
+    const selected = layoutConfirmedThisSession ? OFFICIAL_LAYOUTS.find(layout => layout.id === userProfile?.visualLayout) : undefined;
     if (!selected) {
       delete document.documentElement.dataset.layout;
       return;
@@ -347,7 +350,7 @@ export default function App() {
         delete document.documentElement.dataset.layout;
       }
     };
-  }, [userProfile?.visualLayout]);
+  }, [userProfile?.visualLayout, layoutConfirmedThisSession]);
 
   // Initialize and load saved state from backend on mount
   useEffect(() => {
@@ -822,9 +825,13 @@ export default function App() {
   return (
     <React.Suspense fallback={loadingScreen}>
     <>
-      {!userProfile.visualLayout && (
+      {(!layoutConfirmedThisSession || layoutChoiceRequested) && (
         <LayoutChoiceModal
-          onSelect={(layout) => saveProfile({ ...userProfile, visualLayout: layout })}
+          onSelect={(layout) => {
+            setLayoutConfirmedThisSession(true);
+            setLayoutChoiceRequested(false);
+            saveProfile({ ...userProfile, visualLayout: layout });
+          }}
         />
       )}
 
@@ -1042,7 +1049,7 @@ export default function App() {
                         key={layout.id}
                         type="button"
                         aria-pressed={selected}
-                        onClick={() => saveProfile({ ...userProfile, visualLayout: layout.id })}
+                        onClick={() => setLayoutChoiceRequested(true)}
                         className={`ep-layout-choice min-h-24 rounded-2xl border p-4 text-left transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B88736]/35 ${
                           selected
                             ? 'border-[#B88736] bg-[#B88736]/8 shadow-sm'
