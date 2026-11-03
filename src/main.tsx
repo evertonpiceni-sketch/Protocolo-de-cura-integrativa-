@@ -26,6 +26,7 @@ import './mistico-moderno-promo-audit.css';
 import './mistico-moderno-contact-audit.css';
 import './mistico-moderno-video-studio-audit.css';
 import './mistico-moderno-bottom-nav-audit.css';
+import './mistico-moderno-mobile-install-audit.css';
 import './essencia-luminosa-approved-overrides.css';
 import './elegancia-profunda-approved-overrides.css';
 import './elegancia-profunda-modal-audit.css';
