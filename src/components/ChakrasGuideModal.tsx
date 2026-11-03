@@ -1,4 +1,5 @@
 import { useDialogFocus } from '../hooks/useDialogFocus';
+import '../essencia-luminosa-chakras-guide-audit.css';
 /**
  * @license
  * SPDX-License-Identifier: Apache-2.0
