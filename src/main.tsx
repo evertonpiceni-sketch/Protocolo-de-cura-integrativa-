@@ -45,6 +45,7 @@ import './lib/startupUiResiliencePatch';
 import './lib/audioIntegrityPatch';
 import './lib/arcanjoAudioOwnershipPatch';
 import './lib/naturalSerenoOfficialVoicePatch';
+import './lib/misticoModernoOfficialVoicePatch';
 import './lib/reintegrationPublicNarrationPatch';
 import './lib/backgroundMediaPatch';
 import './lib/noDecorativeEmojiPatch';
