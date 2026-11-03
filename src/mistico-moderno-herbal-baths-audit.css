@@ -1,0 +1,82 @@
+/* Estilo 4 — Místico Moderno | Guia de Banhos
+   Remove somente heranças claras/café quando o Místico Moderno está ativo.
+   Preserva estados semânticos de segurança/sucesso e o verde natural ligado às ervas. */
+:root[data-layout="mistico-moderno"] #herbal-baths-modal {
+  background: color-mix(in srgb, var(--layout-canvas) 90%, transparent) !important;
+}
+
+:root[data-layout="mistico-moderno"] #herbal-baths-modal > div {
+  background: linear-gradient(145deg, color-mix(in srgb, var(--layout-surface) 96%, #071225), color-mix(in srgb, var(--layout-canvas) 96%, #160d2c)) !important;
+  border-color: color-mix(in srgb, var(--layout-accent) 38%, transparent) !important;
+  box-shadow: 0 28px 72px rgba(0, 0, 0, .48), 0 0 34px color-mix(in srgb, var(--layout-accent) 8%, transparent) !important;
+}
+
+:root[data-layout="mistico-moderno"] #herbal-baths-modal > div > div:first-child {
+  background: linear-gradient(90deg, color-mix(in srgb, var(--layout-surface) 94%, #08162c), color-mix(in srgb, var(--layout-canvas) 92%, #21103b)) !important;
+  border-color: color-mix(in srgb, var(--layout-accent) 28%, transparent) !important;
+}
+
+:root[data-layout="mistico-moderno"] #herbal-baths-modal .bg-white,
+:root[data-layout="mistico-moderno"] #herbal-baths-modal .bg-\[\#FBF8F2\],
+:root[data-layout="mistico-moderno"] #herbal-baths-modal .bg-\[\#F5EFE4\] {
+  background: color-mix(in srgb, var(--layout-surface) 94%, #08162c) !important;
+}
+
+:root[data-layout="mistico-moderno"] #herbal-baths-modal .border-\[\#E5DAC6\] {
+  border-color: color-mix(in srgb, var(--layout-accent) 24%, transparent) !important;
+}
+
+:root[data-layout="mistico-moderno"] #herbal-baths-modal .text-\[\#2A2420\] {
+  color: var(--layout-text) !important;
+}
+
+:root[data-layout="mistico-moderno"] #herbal-baths-modal .text-\[\#5C5248\],
+:root[data-layout="mistico-moderno"] #herbal-baths-modal .text-\[\#85786C\] {
+  color: var(--layout-muted) !important;
+}
+
+:root[data-layout="mistico-moderno"] #herbal-baths-modal .text-\[\#8F631E\] {
+  color: var(--layout-accent) !important;
+}
+
+:root[data-layout="mistico-moderno"] #herbal-baths-modal input[type="search"] {
+  background: color-mix(in srgb, var(--layout-surface) 90%, #071225) !important;
+  border-color: color-mix(in srgb, var(--layout-accent) 30%, transparent) !important;
+  color: var(--layout-text) !important;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.035) !important;
+}
+
+:root[data-layout="mistico-moderno"] #herbal-baths-modal input[type="search"]:focus {
+  border-color: color-mix(in srgb, var(--layout-accent) 72%, transparent) !important;
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--layout-accent) 12%, transparent) !important;
+}
+
+:root[data-layout="mistico-moderno"] #herbal-baths-modal article:not(.bg-amber-50) {
+  background: linear-gradient(150deg, color-mix(in srgb, var(--layout-surface) 96%, #09182d), color-mix(in srgb, var(--layout-canvas) 92%, #170d2b)) !important;
+  border-color: color-mix(in srgb, var(--layout-accent) 24%, transparent) !important;
+  box-shadow: 0 14px 34px rgba(0,0,0,.28) !important;
+}
+
+:root[data-layout="mistico-moderno"] #herbal-baths-modal button.bg-white,
+:root[data-layout="mistico-moderno"] #herbal-baths-modal button.bg-\[\#F5EFE4\] {
+  background: color-mix(in srgb, var(--layout-surface) 92%, #09182d) !important;
+  border-color: color-mix(in srgb, var(--layout-accent) 32%, transparent) !important;
+  color: var(--layout-text) !important;
+}
+
+:root[data-layout="mistico-moderno"] #herbal-baths-modal button.bg-white:hover,
+:root[data-layout="mistico-moderno"] #herbal-baths-modal button.bg-\[\#F5EFE4\]:hover {
+  background: color-mix(in srgb, var(--layout-accent) 12%, var(--layout-surface)) !important;
+  border-color: color-mix(in srgb, var(--layout-accent) 58%, transparent) !important;
+}
+
+:root[data-layout="mistico-moderno"] #herbal-baths-modal > div > div:last-child {
+  background: color-mix(in srgb, var(--layout-surface) 96%, #071225) !important;
+  border-color: color-mix(in srgb, var(--layout-accent) 28%, transparent) !important;
+}
+
+@media (max-width: 640px) {
+  :root[data-layout="mistico-moderno"] #herbal-baths-modal > div {
+    border-radius: 1.1rem !important;
+  }
+}
