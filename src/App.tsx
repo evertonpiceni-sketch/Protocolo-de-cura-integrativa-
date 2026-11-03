@@ -335,10 +335,15 @@ export default function App() {
   }, [userProfile?.reminderTime, userProfile?.name]);
 
   useEffect(() => {
-    const layout = normalizeLayoutId(userProfile?.visualLayout);
-    document.documentElement.dataset.layout = layout;
+    // Never activate a visual theme before the user explicitly confirms a choice.
+    const selected = OFFICIAL_LAYOUTS.find(layout => layout.id === userProfile?.visualLayout);
+    if (!selected) {
+      delete document.documentElement.dataset.layout;
+      return;
+    }
+    document.documentElement.dataset.layout = selected.id;
     return () => {
-      if (document.documentElement.dataset.layout === layout) {
+      if (document.documentElement.dataset.layout === selected.id) {
         delete document.documentElement.dataset.layout;
       }
     };
