@@ -20,6 +20,7 @@ import './mistico-moderno-hooponopono-audit.css';
 import './mistico-moderno-journal-audit.css';
 import './mistico-moderno-milestone-audit.css';
 import './mistico-moderno-report-certificate-audit.css';
+import './mistico-moderno-herbal-baths-audit.css';
 import './essencia-luminosa-approved-overrides.css';
 import './elegancia-profunda-approved-overrides.css';
 import './elegancia-profunda-modal-audit.css';
