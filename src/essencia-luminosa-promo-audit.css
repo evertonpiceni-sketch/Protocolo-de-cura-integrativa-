@@ -1,0 +1,38 @@
+/* Estilo 3 — Essência Luminosa | PromoVideoModal
+   Isolated correction: remove inherited dark green/indigo/purple/emerald presentation
+   without changing scene content, timing, Solfeggio behavior, or other styles. */
+:root[data-layout="essencia-luminosa"] #promo-video-modal {
+  background: rgba(250,247,242,.86) !important;
+}
+
+:root[data-layout="essencia-luminosa"] #promo-video-modal [class*="from-[#0a412d]"],
+:root[data-layout="essencia-luminosa"] #promo-video-modal [class*="from-[#0c4a34]"],
+:root[data-layout="essencia-luminosa"] #promo-video-modal [class*="from-[#123f2f]"],
+:root[data-layout="essencia-luminosa"] #promo-video-modal [class*="from-[#174c38]"] {
+  background-image: linear-gradient(135deg,#fffdf8 0%,#f7f0e4 48%,#edf0e5 100%) !important;
+}
+
+:root[data-layout="essencia-luminosa"] #promo-video-modal [class*="bg-purple-500"] {
+  background-color: rgba(151,157,113,.12) !important;
+}
+
+:root[data-layout="essencia-luminosa"] #promo-video-modal :is([class*="text-purple-"],[class*="text-indigo-"],[class*="text-emerald-"]) {
+  color: #7f875f !important;
+}
+
+:root[data-layout="essencia-luminosa"] #promo-video-modal :is([class*="bg-indigo-"],[class*="bg-purple-"],[class*="bg-emerald-"]) {
+  background-color: #a7aa7d !important;
+}
+
+:root[data-layout="essencia-luminosa"] #promo-video-modal [class*="from-indigo-500"][class*="to-amber-400"] {
+  background-image: linear-gradient(90deg,#b7a26a 0%,#d4b76d 100%) !important;
+}
+
+:root[data-layout="essencia-luminosa"] #promo-video-modal button {
+  box-shadow: 0 8px 24px rgba(102,88,57,.08);
+}
+
+:root[data-layout="essencia-luminosa"] #promo-video-modal button:focus-visible {
+  outline: 2px solid rgba(184,135,54,.58) !important;
+  outline-offset: 3px;
+}
