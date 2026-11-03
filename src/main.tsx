@@ -58,6 +58,7 @@ import './natural-sereno-home-latest-approved.css';
 // Keep this import last among theme CSS so discarded green/amber/indigo inheritance
 // cannot regain precedence through cascade order.
 import './natural-sereno-approved-overrides.css';
+import './natural-sereno-milestone-audit.css';
 import { ErrorBoundary } from './ErrorBoundary.tsx';
 
 createRoot(document.getElementById('root')!).render(
