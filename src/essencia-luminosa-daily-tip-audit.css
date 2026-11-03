@@ -1,0 +1,60 @@
+:root[data-layout="essencia-luminosa"] #daily-tip-modal {
+  background: color-mix(in srgb, var(--layout-text) 18%, transparent) !important;
+}
+
+:root[data-layout="essencia-luminosa"] #daily-tip-modal > div {
+  border-color: color-mix(in srgb, var(--layout-gold) 24%, var(--layout-border-card)) !important;
+  background: linear-gradient(145deg, color-mix(in srgb, var(--layout-card) 96%, white), color-mix(in srgb, var(--layout-bg) 92%, var(--layout-gold) 8%)) !important;
+  color: var(--layout-text) !important;
+  box-shadow: 0 24px 60px color-mix(in srgb, var(--layout-text) 12%, transparent) !important;
+}
+
+:root[data-layout="essencia-luminosa"] #daily-tip-modal > div > div[aria-hidden="true"]:first-of-type {
+  background: color-mix(in srgb, var(--layout-gold) 12%, transparent) !important;
+}
+
+:root[data-layout="essencia-luminosa"] #daily-tip-modal > div > div[aria-hidden="true"]:nth-of-type(2) {
+  background: color-mix(in srgb, var(--layout-accent) 10%, transparent) !important;
+}
+
+:root[data-layout="essencia-luminosa"] #daily-tip-modal button[aria-label="Fechar dica do dia"] {
+  border-color: var(--layout-border-card) !important;
+  background: color-mix(in srgb, var(--layout-card) 88%, var(--layout-bg)) !important;
+  color: var(--layout-text-muted) !important;
+}
+
+:root[data-layout="essencia-luminosa"] #daily-tip-modal button[aria-label="Fechar dica do dia"]:hover {
+  border-color: color-mix(in srgb, var(--layout-gold) 34%, var(--layout-border-card)) !important;
+  color: var(--layout-text) !important;
+}
+
+:root[data-layout="essencia-luminosa"] #daily-tip-modal .relative.z-10.mb-4 > div {
+  border-color: color-mix(in srgb, var(--layout-gold) 28%, var(--layout-border-card)) !important;
+  background: color-mix(in srgb, var(--layout-gold) 9%, var(--layout-card)) !important;
+  color: color-mix(in srgb, var(--layout-gold) 76%, var(--layout-text)) !important;
+}
+
+:root[data-layout="essencia-luminosa"] #daily-tip-title {
+  color: var(--layout-text) !important;
+}
+
+:root[data-layout="essencia-luminosa"] #daily-tip-title + p {
+  color: var(--layout-text-muted) !important;
+}
+
+:root[data-layout="essencia-luminosa"] #daily-tip-modal button:last-child {
+  border: 1px solid color-mix(in srgb, var(--layout-gold) 32%, var(--layout-border-card)) !important;
+  background: linear-gradient(135deg, color-mix(in srgb, var(--layout-gold) 84%, #fff 16%), color-mix(in srgb, var(--layout-accent) 28%, var(--layout-gold))) !important;
+  color: color-mix(in srgb, var(--layout-text) 88%, #000 12%) !important;
+  box-shadow: 0 10px 24px color-mix(in srgb, var(--layout-gold) 18%, transparent) !important;
+}
+
+:root[data-layout="essencia-luminosa"] #daily-tip-modal button:last-child:hover {
+  filter: brightness(1.035);
+  transform: translateY(-1px);
+}
+
+:root[data-layout="essencia-luminosa"] #daily-tip-modal button:focus-visible {
+  outline: 2px solid color-mix(in srgb, var(--layout-gold) 48%, transparent) !important;
+  outline-offset: 2px;
+}
