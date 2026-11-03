@@ -9,6 +9,7 @@ const bootstrapAttempts = new Map<string, { count: number; resetAt: number }>();
 const reintegrationAudioCache = new Map<string, Buffer>();
 const reintegrationVoiceAttempts = new Map<string, { count: number; resetAt: number }>();
 const reintegrationCues = new Set(REINTEGRATION_DAYS.flatMap(day => day.audioCues.map(cue => cue.text.trim())));
+const REINTEGRATION_VOICE_ID = "21m00Tcm4TlvDq8ikWAM";
 
 function allowBootstrapAttempt(req: any) {
   const key = String(req.headers?.["x-forwarded-for"] || req.socket?.remoteAddress || "unknown").split(",")[0].trim();
@@ -48,7 +49,7 @@ const prepareReintegrationText = (text: string) => text
 async function serveReintegrationVoice(req: any, res: any) {
   if (req.method !== "POST") return res.status(405).json({ error: "Método não permitido." });
   if (!allowReintegrationVoiceAttempt(req)) {
-    return res.status(429).json({ error: "Limite temporário de voz atingido.", fallbackToSpeechSynthesis: true });
+    return res.status(429).json({ error: "Limite temporário de voz atingido." });
   }
   const text = typeof req.body?.text === "string" ? req.body.text.trim() : "";
   const day = Math.max(1, Math.min(21, Number(req.body?.day) || 1));
@@ -56,21 +57,23 @@ async function serveReintegrationVoice(req: any, res: any) {
   const apiKey = process.env.ELEVENLABS_API_KEY;
   if (!apiKey) return res.status(503).json({ error: "Voz neural indisponível." });
 
-  // The panel, native fallback and neural voice all read the approved cue,
-  // without an extra opening injected only by this route.
+  // A Reintegração usa exclusivamente a voz neural oficial aprovada. Não oferecer
+  // fallback de speechSynthesis/voz do dispositivo, que reintroduziria voz robótica.
   const spokenText = text;
-  const cacheKey = protocolAudioCacheKey(`reintegration_v4_${day}_Rachel`, 1, spokenText);
+  const cacheKey = protocolAudioCacheKey(`reintegration_v5_${day}_${REINTEGRATION_VOICE_ID}`, 1, spokenText);
   const cached = reintegrationAudioCache.get(cacheKey);
   if (cached) {
     res.setHeader("Content-Type", "audio/mpeg");
-    res.setHeader("Cache-Control", "public, max-age=86400, s-maxage=604800");
+    res.setHeader("Cache-Control", "public, max-age=31536000, s-maxage=31536000, immutable");
+    res.setHeader("X-Reintegration-Voice", REINTEGRATION_VOICE_ID);
+    res.setHeader("X-Reintegration-Audio-Cache", "HIT");
     return res.send(cached);
   }
 
   try {
     const client = new ElevenLabsClient({ apiKey });
     const audioStream = await client.generate({
-      voice: "21m00Tcm4TlvDq8ikWAM",
+      voice: REINTEGRATION_VOICE_ID,
       model_id: "eleven_multilingual_v2",
       text: prepareReintegrationText(spokenText),
       voice_settings: { stability: 0.46, similarity_boost: 0.8, style: 0.08, use_speaker_boost: true }
@@ -83,22 +86,18 @@ async function serveReintegrationVoice(req: any, res: any) {
     reintegrationAudioCache.set(cacheKey, buffer);
     res.setHeader("Content-Type", "audio/mpeg");
     res.setHeader("Content-Length", buffer.length);
-    res.setHeader("Cache-Control", "public, max-age=86400, s-maxage=604800");
+    res.setHeader("Cache-Control", "public, max-age=31536000, s-maxage=31536000, immutable");
+    res.setHeader("X-Reintegration-Voice", REINTEGRATION_VOICE_ID);
+    res.setHeader("X-Reintegration-Audio-Cache", "MISS");
     return res.send(buffer);
   } catch (error: any) {
     const statusCode = Number(error?.statusCode || error?.status || error?.response?.status || 0);
     if (statusCode === 402 || statusCode === 429) {
-      console.warn("Reintegração TTS temporariamente indisponível; o cliente usará a voz do dispositivo.", statusCode);
-      return res.status(503).json({
-        error: "Voz neural temporariamente indisponível.",
-        fallbackToSpeechSynthesis: true
-      });
+      console.warn("Reintegração TTS temporariamente indisponível; mantendo a voz do dispositivo desativada.", statusCode);
+      return res.status(503).json({ error: "Voz neural temporariamente indisponível." });
     }
     console.error("Reintegração TTS:", error?.message || error);
-    return res.status(500).json({
-      error: "Não foi possível preparar a condução de voz.",
-      fallbackToSpeechSynthesis: true
-    });
+    return res.status(500).json({ error: "Não foi possível preparar a condução de voz." });
   }
 }
 
