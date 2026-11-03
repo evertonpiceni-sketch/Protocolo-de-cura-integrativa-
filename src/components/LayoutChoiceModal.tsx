@@ -102,8 +102,11 @@ export default function LayoutChoiceModal({ onSelect }: LayoutChoiceModalProps) 
                 </div>
                 <LayoutPreview layout={layout} />
                 <div className="mt-4 flex gap-2" aria-hidden="true">
-                  {layout.swatches.map(color => (
-                    <span key={color} className="h-3 flex-1 rounded-full border border-black/10 shadow-inner" style={{ backgroundColor: color }} />
+                  {(layout.id === 'natural-sereno'
+                    ? [layout.swatches[0], layout.swatches[2], '#F3EDE4', '#E8E0D5']
+                    : layout.swatches
+                  ).map((color, index) => (
+                    <span key={index} className="h-3 flex-1 rounded-full border border-black/10 shadow-inner" style={{ backgroundColor: color }} />
                   ))}
                 </div>
               </button>
