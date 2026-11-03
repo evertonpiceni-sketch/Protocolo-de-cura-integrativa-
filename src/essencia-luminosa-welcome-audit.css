@@ -1,0 +1,57 @@
+/* Estilo 3 — Essência Luminosa | WelcomeModal
+   Correção isolada: remove a herança café/âmbar/oliva do componente-base
+   sem alterar conteúdo, fluxo ou os demais estilos. */
+:root[data-layout="essencia-luminosa"] #welcome-modal {
+  background: color-mix(in srgb, var(--layout-canvas, #fffaf0) 72%, transparent) !important;
+}
+
+:root[data-layout="essencia-luminosa"] #welcome-modal > div {
+  background: linear-gradient(155deg,
+    color-mix(in srgb, var(--layout-card, #fffdf8) 96%, white),
+    color-mix(in srgb, var(--layout-canvas, #fff8e8) 90%, var(--layout-gold, #c8a96a) 10%)) !important;
+  border-color: color-mix(in srgb, var(--layout-gold, #c8a96a) 30%, transparent) !important;
+  box-shadow: 0 28px 70px rgba(91, 75, 46, .14) !important;
+}
+
+:root[data-layout="essencia-luminosa"] #welcome-modal h2,
+:root[data-layout="essencia-luminosa"] #welcome-modal h4 {
+  color: var(--layout-text, #3d382f) !important;
+}
+
+:root[data-layout="essencia-luminosa"] #welcome-modal p,
+:root[data-layout="essencia-luminosa"] #welcome-modal label,
+:root[data-layout="essencia-luminosa"] #welcome-modal button:not(:first-of-type) {
+  color: var(--layout-muted, #746d61);
+}
+
+:root[data-layout="essencia-luminosa"] #welcome-modal img {
+  filter: saturate(.9) contrast(.97) brightness(1.04);
+}
+
+:root[data-layout="essencia-luminosa"] #welcome-modal [class*="bg-[#6F7B55]"],
+:root[data-layout="essencia-luminosa"] #welcome-modal [class*="text-[#5E6948]"] {
+  background-color: color-mix(in srgb, var(--layout-sage, #aab58c) 14%, transparent) !important;
+  color: color-mix(in srgb, var(--layout-sage, #8f9b73) 76%, #4f5541) !important;
+}
+
+:root[data-layout="essencia-luminosa"] #welcome-modal [class*="bg-[#C89D52]"],
+:root[data-layout="essencia-luminosa"] #welcome-modal [class*="text-[#8F631E]"] {
+  background-color: color-mix(in srgb, var(--layout-gold, #c8a96a) 13%, transparent) !important;
+  color: color-mix(in srgb, var(--layout-gold, #b89450) 78%, #67542e) !important;
+}
+
+:root[data-layout="essencia-luminosa"] #welcome-modal button[class*="bg-gradient-to-r"] {
+  background-image: linear-gradient(110deg,
+    color-mix(in srgb, var(--layout-gold, #c8a96a) 76%, #fff7df),
+    var(--layout-gold, #c8a96a),
+    color-mix(in srgb, var(--layout-sage, #aab58c) 36%, var(--layout-gold, #c8a96a))) !important;
+  color: #fffdf8 !important;
+  border-color: color-mix(in srgb, var(--layout-gold, #c8a96a) 42%, transparent) !important;
+  box-shadow: 0 12px 30px color-mix(in srgb, var(--layout-gold, #c8a96a) 20%, transparent) !important;
+}
+
+:root[data-layout="essencia-luminosa"] #welcome-modal button:focus-visible,
+:root[data-layout="essencia-luminosa"] #welcome-modal input:focus-visible {
+  outline: 2px solid color-mix(in srgb, var(--layout-gold, #c8a96a) 54%, transparent) !important;
+  outline-offset: 2px;
+}
