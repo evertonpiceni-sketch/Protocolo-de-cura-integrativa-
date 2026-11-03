@@ -1,13 +1,16 @@
 /* Elegância Profunda — auditoria final do cabeçalho.
    Neutraliza somente heranças cromáticas do JSX sob o Estilo 2. */
-:root[data-layout="elegancia-profunda"] #header-btn-google-play {
+:root[data-layout="elegancia-profunda"] #header-btn-google-play,
+:root[data-layout="elegancia-profunda"] #header-btn-archangel {
   background:linear-gradient(145deg,color-mix(in srgb,var(--layout-card) 92%,black),color-mix(in srgb,var(--layout-accent) 18%,var(--layout-card)))!important;
   border-color:color-mix(in srgb,var(--layout-gold) 34%,var(--layout-border-card))!important;
   color:var(--layout-text-soft)!important;
   box-shadow:0 8px 22px rgba(0,0,0,.18)!important;
 }
-:root[data-layout="elegancia-profunda"] #header-btn-google-play :is(svg,span) { color:var(--layout-gold)!important; }
-:root[data-layout="elegancia-profunda"] #header-btn-google-play:hover {
+:root[data-layout="elegancia-profunda"] #header-btn-google-play :is(svg,span),
+:root[data-layout="elegancia-profunda"] #header-btn-archangel :is(svg,span) { color:var(--layout-gold)!important; }
+:root[data-layout="elegancia-profunda"] #header-btn-google-play:hover,
+:root[data-layout="elegancia-profunda"] #header-btn-archangel:hover {
   background:linear-gradient(145deg,color-mix(in srgb,var(--layout-card) 88%,black),color-mix(in srgb,var(--layout-gold) 14%,var(--layout-card)))!important;
   border-color:color-mix(in srgb,var(--layout-gold) 52%,var(--layout-border-card))!important;
 }
@@ -26,6 +29,7 @@
 }
 
 :root[data-layout="elegancia-profunda"] #header-btn-google-play:focus-visible,
+:root[data-layout="elegancia-profunda"] #header-btn-archangel:focus-visible,
 :root[data-layout="elegancia-profunda"] #header-btn-logout:focus-visible {
   outline:2px solid color-mix(in srgb,var(--layout-gold) 68%,white);
   outline-offset:3px;
