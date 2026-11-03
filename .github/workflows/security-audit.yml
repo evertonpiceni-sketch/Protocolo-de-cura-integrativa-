@@ -29,6 +29,8 @@ jobs:
         run: npm ci --no-audit --no-fund
 
       - name: Security Audit (npm audit)
+        id: dependency_audit
+        continue-on-error: true
         run: npm audit --audit-level=moderate
 
       - name: TypeScript check
@@ -157,3 +159,9 @@ jobs:
           grep -q 'Pagamento ainda não está configurado' server.ts
           grep -q 'Webhook de pagamento ainda não está configurado' server.ts
 
+
+      - name: Enforce dependency audit result
+        if: always() && steps.dependency_audit.outcome == 'failure'
+        run: |
+          echo 'Dependency vulnerabilities remain: see Security Audit (npm audit) above.'
+          exit 1
