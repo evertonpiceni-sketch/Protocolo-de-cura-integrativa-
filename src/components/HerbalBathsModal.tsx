@@ -1,3 +1,4 @@
+import '../essencia-luminosa-herbal-baths-audit.css';
 import { useDialogFocus } from '../hooks/useDialogFocus';
 /**
  * @license
