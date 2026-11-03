@@ -1,0 +1,56 @@
+/* Elegância Profunda — detalhe diário.
+   Escopo estrito ao Estilo 2: remove superfícies claras e emerald genérico
+   sem alterar conteúdo, estado funcional ou semântica de conclusão. */
+
+:root[data-layout="elegancia-profunda"] #day-detail-modal {
+  background: color-mix(in srgb, var(--layout-canvas) 88%, transparent) !important;
+}
+
+:root[data-layout="elegancia-profunda"] #day-detail-modal > div {
+  background: linear-gradient(155deg, color-mix(in srgb, var(--layout-card) 97%, black), color-mix(in srgb, var(--layout-canvas) 94%, black)) !important;
+  border-color: color-mix(in srgb, var(--layout-gold) 30%, var(--layout-border-card)) !important;
+  color: var(--layout-text) !important;
+  box-shadow: 0 30px 76px rgba(0, 0, 0, .48) !important;
+}
+
+:root[data-layout="elegancia-profunda"] #day-detail-modal :is(h2,h3) {
+  color: var(--layout-text) !important;
+}
+
+:root[data-layout="elegancia-profunda"] #day-detail-modal :is([class*="bg-white"],[class*="bg-[#FBF8F2]"],[class*="bg-[#F5EFE4]"]) {
+  background-color: color-mix(in srgb, var(--layout-card) 92%, black) !important;
+  border-color: color-mix(in srgb, var(--layout-gold) 22%, var(--layout-border-card)) !important;
+}
+
+:root[data-layout="elegancia-profunda"] #day-detail-modal :is([class*="text-[#5C5248]"],[class*="text-[#85786C]"]) {
+  color: var(--layout-text-soft) !important;
+}
+
+/* Conclusão continua semanticamente verde, mas usa o verde profundo intencional do Estilo 2. */
+:root[data-layout="elegancia-profunda"] #day-detail-modal #detail-completed-log [class*="text-emerald"] {
+  color: #9fb7a8 !important;
+}
+
+:root[data-layout="elegancia-profunda"] #day-detail-modal #detail-completed-log [class*="bg-emerald"] {
+  background-color: color-mix(in srgb, #173c31 72%, var(--layout-card)) !important;
+}
+
+:root[data-layout="elegancia-profunda"] #day-detail-modal #detail-completed-log [class*="border-emerald"] {
+  border-color: color-mix(in srgb, var(--layout-gold) 28%, #31594b) !important;
+}
+
+:root[data-layout="elegancia-profunda"] #day-detail-modal button:not([aria-label="Fechar detalhes do dia"]) {
+  box-shadow: 0 10px 26px rgba(0, 0, 0, .22);
+}
+
+:root[data-layout="elegancia-profunda"] #day-detail-modal button[aria-label="Fechar detalhes do dia"] {
+  background: color-mix(in srgb, var(--layout-card) 92%, black) !important;
+  border-color: color-mix(in srgb, var(--layout-gold) 26%, var(--layout-border-card)) !important;
+  color: var(--layout-text-soft) !important;
+}
+
+@media (max-width: 640px) {
+  :root[data-layout="elegancia-profunda"] #day-detail-modal > div {
+    border-radius: 1.25rem;
+  }
+}
