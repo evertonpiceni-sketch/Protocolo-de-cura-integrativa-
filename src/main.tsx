@@ -53,6 +53,7 @@ import './lib/universalAnamnesisDiaryAccessPatch';
 import './lib/naturalSerenoHomeApprovedModel';
 import './lib/naturalSerenoHomeJourneyStateFix';
 import './lib/naturalSerenoPublicCatalogGuard';
+import './lib/requiredLayoutChoiceEntryPatch';
 import './natural-sereno-final-audit.css';
 import './natural-sereno-home-latest-approved.css';
 import './natural-sereno-milestone-audit.css';
