@@ -1,0 +1,63 @@
+/* Estilo 3 — Essência Luminosa | auditoria semântica do cabeçalho
+   Escopo deliberadamente restrito ao layout 3. Preserva estados funcionais,
+   mas impede que indigo/emerald/blue/amber do componente-base virem identidade visual. */
+
+:root[data-layout="essencia-luminosa"] #main-header > div > div:first-child > div:first-child{
+  background:color-mix(in srgb,var(--layout-card) 90%,white)!important;
+  border-color:color-mix(in srgb,var(--layout-gold) 28%,var(--layout-border-card))!important;
+  box-shadow:0 8px 24px rgba(112,91,58,.08)!important;
+}
+
+:root[data-layout="essencia-luminosa"] #main-header :is(
+  [class*="text-indigo-"],
+  [class*="text-purple-"],
+  [class*="text-emerald-"],
+  [class*="text-blue-"],
+  [class*="text-amber-"]
+){color:var(--layout-gold)!important;}
+
+:root[data-layout="essencia-luminosa"] #main-header :is(
+  [class*="bg-indigo-"],
+  [class*="bg-purple-"],
+  [class*="bg-emerald-"],
+  [class*="bg-blue-"],
+  [class*="bg-amber-"]
+){background-color:color-mix(in srgb,var(--layout-gold) 8%,var(--layout-card))!important;}
+
+:root[data-layout="essencia-luminosa"] #main-header :is(
+  [class*="border-indigo-"],
+  [class*="border-purple-"],
+  [class*="border-emerald-"],
+  [class*="border-blue-"],
+  [class*="border-amber-"]
+){border-color:color-mix(in srgb,var(--layout-gold) 28%,var(--layout-border-card))!important;}
+
+/* CTA principal: premium claro, sem amarelo saturado. */
+:root[data-layout="essencia-luminosa"] #main-header button[class*="from-amber-"]{
+  background-image:linear-gradient(135deg,
+    color-mix(in srgb,var(--layout-gold) 76%,white),
+    color-mix(in srgb,var(--layout-gold) 52%,var(--layout-card)))!important;
+  color:var(--layout-text)!important;
+  border:1px solid color-mix(in srgb,var(--layout-gold) 34%,var(--layout-border-card))!important;
+  box-shadow:0 9px 22px rgba(112,91,58,.10)!important;
+}
+
+:root[data-layout="essencia-luminosa"] #main-header #header-btn-google-play,
+:root[data-layout="essencia-luminosa"] #main-header #header-btn-archangel,
+:root[data-layout="essencia-luminosa"] #main-header #header-btn-audio-settings,
+:root[data-layout="essencia-luminosa"] #main-header #header-audio-quick-control button{
+  background:color-mix(in srgb,var(--layout-card) 91%,var(--layout-accent))!important;
+  border-color:color-mix(in srgb,var(--layout-gold) 24%,var(--layout-border-card))!important;
+  color:var(--layout-text-soft)!important;
+  box-shadow:0 7px 18px rgba(112,91,58,.065)!important;
+}
+
+:root[data-layout="essencia-luminosa"] #main-header :is(button,select):focus-visible{
+  outline:2px solid color-mix(in srgb,var(--layout-gold) 58%,white)!important;
+  outline-offset:3px;
+}
+
+/* Logout permanece semanticamente destrutivo: não o recolorimos como identidade do tema. */
+:root[data-layout="essencia-luminosa"] #main-header #header-btn-logout{
+  box-shadow:0 7px 18px rgba(112,91,58,.05)!important;
+}
