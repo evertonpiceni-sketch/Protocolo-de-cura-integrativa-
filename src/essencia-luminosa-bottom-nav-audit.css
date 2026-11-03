@@ -1,0 +1,53 @@
+/* Estilo 3 — Essência Luminosa | navegação inferior
+   Escopo estrito: remove heranças café/âmbar e acentos de outros estilos
+   sem alterar conteúdo, ações ou os demais layouts. */
+html[data-layout="essencia-luminosa"] #bottom-btn-video-studio,
+html[data-layout="essencia-luminosa"] #bottom-btn-astral-map,
+html[data-layout="essencia-luminosa"] #bottom-btn-numerology,
+html[data-layout="essencia-luminosa"] #bottom-btn-specific-treatment,
+html[data-layout="essencia-luminosa"] #bottom-btn-courses,
+html[data-layout="essencia-luminosa"] #bottom-btn-chakras {
+  background: linear-gradient(145deg, rgba(255,253,247,.96), rgba(244,239,225,.94)) !important;
+  border-color: rgba(191,161,98,.38) !important;
+  color: #514b3f !important;
+  box-shadow: 0 8px 22px rgba(111,91,56,.10), inset 0 1px 0 rgba(255,255,255,.78) !important;
+  backdrop-filter: blur(12px);
+}
+
+html[data-layout="essencia-luminosa"] #bottom-btn-video-studio:hover,
+html[data-layout="essencia-luminosa"] #bottom-btn-astral-map:hover,
+html[data-layout="essencia-luminosa"] #bottom-btn-numerology:hover,
+html[data-layout="essencia-luminosa"] #bottom-btn-specific-treatment:hover,
+html[data-layout="essencia-luminosa"] #bottom-btn-courses:hover,
+html[data-layout="essencia-luminosa"] #bottom-btn-chakras:hover {
+  background: linear-gradient(145deg, rgba(255,255,252,.99), rgba(238,233,215,.97)) !important;
+  border-color: rgba(180,147,80,.58) !important;
+  color: #3f4938 !important;
+  transform: translateY(-1px);
+}
+
+html[data-layout="essencia-luminosa"] #bottom-btn-video-studio:focus-visible,
+html[data-layout="essencia-luminosa"] #bottom-btn-astral-map:focus-visible,
+html[data-layout="essencia-luminosa"] #bottom-btn-numerology:focus-visible,
+html[data-layout="essencia-luminosa"] #bottom-btn-specific-treatment:focus-visible,
+html[data-layout="essencia-luminosa"] #bottom-btn-courses:focus-visible,
+html[data-layout="essencia-luminosa"] #bottom-btn-chakras:focus-visible {
+  outline: 2px solid rgba(180,147,80,.78);
+  outline-offset: 2px;
+}
+
+html[data-layout="essencia-luminosa"] #bottom-btn-video-studio svg,
+html[data-layout="essencia-luminosa"] #bottom-btn-astral-map svg,
+html[data-layout="essencia-luminosa"] #bottom-btn-numerology svg,
+html[data-layout="essencia-luminosa"] #bottom-btn-specific-treatment svg,
+html[data-layout="essencia-luminosa"] #bottom-btn-courses svg,
+html[data-layout="essencia-luminosa"] #bottom-btn-chakras svg {
+  color: #a98a4d !important;
+}
+
+html[data-layout="essencia-luminosa"] #bottom-btn-video-studio span[class*="bg-[#B88736]"],
+html[data-layout="essencia-luminosa"] #bottom-btn-specific-treatment span[class*="bg-emerald"] {
+  background: rgba(142,153,111,.14) !important;
+  color: #66704f !important;
+  border-color: rgba(142,153,111,.26) !important;
+}
