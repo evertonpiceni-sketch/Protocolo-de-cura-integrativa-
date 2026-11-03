@@ -23,6 +23,7 @@ import './mistico-moderno-report-certificate-audit.css';
 import './mistico-moderno-herbal-baths-audit.css';
 import './mistico-moderno-specific-treatment-audit.css';
 import './mistico-moderno-promo-audit.css';
+import './mistico-moderno-contact-audit.css';
 import './essencia-luminosa-approved-overrides.css';
 import './elegancia-profunda-approved-overrides.css';
 import './elegancia-profunda-modal-audit.css';
