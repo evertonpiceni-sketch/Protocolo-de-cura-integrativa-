@@ -24,7 +24,6 @@ export default function PersonalJourney21({ onClose, initialCompletedDays, onCom
   const musicRef = useRef<HTMLAudioElement | null>(null);
   const voiceRef = useRef<HTMLAudioElement | null>(null);
   const voiceUrlRef = useRef<string | null>(null);
-  const nativeUtteranceRef = useRef<SpeechSynthesisUtterance | null>(null);
   const cueRequestRef = useRef<AbortController | null>(null);
   const lastCueRef = useRef(-1);
   const cuePendingRef = useRef(false);
@@ -67,40 +66,7 @@ export default function PersonalJourney21({ onClose, initialCompletedDays, onCom
     cueRequestRef.current?.abort(); cueRequestRef.current = null;
     if (voiceRef.current) { voiceRef.current.pause(); voiceRef.current.src = ''; voiceRef.current = null; }
     if (voiceUrlRef.current) { URL.revokeObjectURL(voiceUrlRef.current); voiceUrlRef.current = null; }
-    if (typeof window !== 'undefined' && 'speechSynthesis' in window) {
-      window.speechSynthesis.cancel();
-    }
-    nativeUtteranceRef.current = null;
     cuePendingRef.current = false;
-  };
-
-  const speakCueNatively = (text: string, dueCue: number) => {
-    if (typeof window === 'undefined' || !('speechSynthesis' in window) || !playingRef.current) return false;
-
-    const utterance = new SpeechSynthesisUtterance(text);
-    utterance.lang = 'pt-BR';
-    utterance.rate = 0.88;
-    utterance.pitch = 1.03;
-    const voices = window.speechSynthesis.getVoices();
-    const portugueseVoices = voices.filter(voice => voice.lang?.toLowerCase().startsWith('pt'));
-    utterance.voice = portugueseVoices.find(voice => /female|maria|francisca|luciana|leticia|victoria|zira/i.test(voice.name))
-      || portugueseVoices[0]
-      || null;
-    utterance.onend = () => {
-      nativeUtteranceRef.current = null;
-      cuePendingRef.current = false;
-      void playCueForTime(musicRef.current?.currentTime || 0);
-    };
-    utterance.onerror = () => {
-      nativeUtteranceRef.current = null;
-      cuePendingRef.current = false;
-    };
-
-    nativeUtteranceRef.current = utterance;
-    lastCueRef.current = dueCue;
-    window.speechSynthesis.cancel();
-    window.speechSynthesis.speak(utterance);
-    return true;
   };
 
   const sessionActiveRef = useRef(false);
@@ -118,10 +84,10 @@ export default function PersonalJourney21({ onClose, initialCompletedDays, onCom
 
   const playCueForTime = async (currentTime: number) => {
     if (playingRef.current && isReintegrationAbsorption(currentTime)) {
-      if (cuePendingRef.current || voiceRef.current || nativeUtteranceRef.current) clearVoice();
+      if (cuePendingRef.current || voiceRef.current) clearVoice();
       return;
     }
-    if (!playingRef.current || cuePendingRef.current || nativeUtteranceRef.current || (voiceRef.current && !voiceRef.current.paused)) return;
+    if (!playingRef.current || cuePendingRef.current || (voiceRef.current && !voiceRef.current.paused)) return;
     const dueCue = currentReintegrationCue(item.audioCues, currentTime, lastCueRef.current);
     if (dueCue < 0 || dueCue <= lastCueRef.current) return;
     if (Date.now() < (cueRetryAtRef.current[dueCue] || 0)) return;
