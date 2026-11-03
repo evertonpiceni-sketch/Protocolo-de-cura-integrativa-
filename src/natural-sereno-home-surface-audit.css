@@ -1,0 +1,92 @@
+/* Natural Sereno — correção mínima da home.
+   Decisão posterior aprovada: base creme/marfim, café/marrom e dourado refinado;
+   verde somente como acento natural, nunca como chapa/CTA dominante.
+   A especificidade dupla é intencional para neutralizar o style runtime legado
+   de naturalSerenoHomeApprovedModel sem alterar os demais estilos. */
+
+:root[data-layout="natural-sereno"]:root .ns-app[data-ns-screen="home"] {
+  background:#FAF7F2!important;
+  color:#2A2421!important;
+}
+
+:root[data-layout="natural-sereno"]:root .ns-app[data-ns-screen="home"] .ns-home-scene {
+  color:#2A2421!important;
+  background:
+    linear-gradient(180deg,rgba(250,247,242,.96) 0%,rgba(250,247,242,.72) 28%,rgba(250,247,242,.10) 58%,rgba(250,247,242,.20) 100%),
+    var(--ns-valley) center 56% / cover no-repeat!important;
+}
+
+:root[data-layout="natural-sereno"]:root .ns-app[data-ns-screen="home"] .ns-home-scene::after {
+  display:none!important;
+  background:none!important;
+}
+
+:root[data-layout="natural-sereno"]:root .ns-app[data-ns-screen="home"] .ns-home-menu {
+  color:#6B4E2E!important;
+  background:rgba(250,247,242,.88)!important;
+  border:1px solid rgba(200,157,82,.30)!important;
+  box-shadow:0 8px 22px rgba(67,52,39,.08)!important;
+}
+
+:root[data-layout="natural-sereno"]:root .ns-app[data-ns-screen="home"] .ns-home-scene > .ns-gold,
+:root[data-layout="natural-sereno"]:root .ns-app[data-ns-screen="home"] .ep-home-anamnesis-card .ns-gold {
+  color:#FFFDF8!important;
+  background:#B88736!important;
+  background-image:linear-gradient(180deg,#D8B86A 0%,#C89D52 42%,#A87E37 100%)!important;
+  border:1px solid rgba(168,126,55,.72)!important;
+  box-shadow:inset 0 1px rgba(255,255,255,.46),0 9px 22px rgba(67,52,39,.13)!important;
+}
+
+:root[data-layout="natural-sereno"]:root .ns-app[data-ns-screen="home"] .ns-home-scene > .ns-gold:hover,
+:root[data-layout="natural-sereno"]:root .ns-app[data-ns-screen="home"] .ep-home-anamnesis-card .ns-gold:hover {
+  background:#A87E37!important;
+  background-image:none!important;
+}
+
+:root[data-layout="natural-sereno"]:root .ns-app[data-ns-screen="home"] .ep-home-has-anamnesis .ns-current-day,
+:root[data-layout="natural-sereno"]:root .ns-app[data-ns-screen="home"] .ep-home-has-anamnesis .ns-current-day .ns-row-copy,
+:root[data-layout="natural-sereno"]:root .ns-app[data-ns-screen="home"] .ep-home-has-anamnesis .ns-current-day .ns-row-copy strong,
+:root[data-layout="natural-sereno"]:root .ns-app[data-ns-screen="home"] .ep-home-has-anamnesis .ns-current-day > svg,
+:root[data-layout="natural-sereno"]:root .ns-app[data-ns-screen="home"] .ep-home-continue {
+  color:#2A2421!important;
+}
+
+:root[data-layout="natural-sereno"]:root .ns-app[data-ns-screen="home"] .ep-home-has-anamnesis .ns-current-day {
+  background:#FFFDF8!important;
+  border-color:rgba(200,157,82,.28)!important;
+  box-shadow:0 16px 38px rgba(67,52,39,.08)!important;
+}
+
+:root[data-layout="natural-sereno"]:root .ns-app[data-ns-screen="home"] .ep-home-closing {
+  background:#F3EDE4!important;
+  background-image:linear-gradient(180deg,#FAF7F2 0%,#F3EDE4 100%)!important;
+  border-top:1px solid rgba(200,157,82,.24)!important;
+}
+
+:root[data-layout="natural-sereno"]:root .ns-app[data-ns-screen="home"] .ep-home-closing h2 {
+  color:#2A2421!important;
+}
+
+:root[data-layout="natural-sereno"]:root .ns-app[data-ns-screen="home"] .ep-home-closing p {
+  color:#8F631E!important;
+}
+
+/* Verde natural fica reservado a pequenos acentos semânticos. */
+:root[data-layout="natural-sereno"]:root .ns-app[data-ns-screen="home"] .ep-home-has-anamnesis .ns-current-day > svg {
+  color:#6F7B55!important;
+}
+
+/* A paisagem acompanha a composição sem altura fixa excessiva em telas largas. */
+@media (min-width:768px) {
+  :root[data-layout="natural-sereno"]:root .ns-app[data-ns-screen="home"] .ns-home-scene {
+    min-height:clamp(480px,62vh,680px)!important;
+    background-position:center 52%!important;
+  }
+}
+
+@media (max-width:767px) {
+  :root[data-layout="natural-sereno"]:root .ns-app[data-ns-screen="home"] .ns-home-scene {
+    min-height:clamp(520px,72vh,700px)!important;
+    background-position:center 54%!important;
+  }
+}
