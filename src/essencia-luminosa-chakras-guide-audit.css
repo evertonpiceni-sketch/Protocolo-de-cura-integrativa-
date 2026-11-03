@@ -1,0 +1,47 @@
+/* Essência Luminosa: interface do Guia dos Chakras; cores simbólicas dos sete chakras preservadas. */
+html[data-layout="essencia-luminosa"] #chakras-guide-modal { background: rgba(54, 60, 49, .25); }
+html[data-layout="essencia-luminosa"] #chakras-guide-modal > div {
+  background: #fcfaf5; border-color: #ded7c5; box-shadow: 0 24px 70px rgba(65, 61, 46, .13);
+  color: #393b32;
+}
+html[data-layout="essencia-luminosa"] #chakras-guide-modal header > div {
+  background: #f6f0df; border-color: #dfd3b5; color: #74633c;
+}
+html[data-layout="essencia-luminosa"] #chakras-guide-modal header h2,
+html[data-layout="essencia-luminosa"] #chakras-guide-modal section h3 { color: #353a31; }
+html[data-layout="essencia-luminosa"] #chakras-guide-modal header p,
+html[data-layout="essencia-luminosa"] #chakras-guide-modal section article p,
+html[data-layout="essencia-luminosa"] #chakras-guide-modal footer p { color: #5e6257; }
+html[data-layout="essencia-luminosa"] #chakras-guide-modal > div > button {
+  background: #faf7ee; border-color: #dfd7c4; color: #535c4d;
+}
+html[data-layout="essencia-luminosa"] #chakras-guide-modal > div > button:hover { background: #f0eadc; }
+html[data-layout="essencia-luminosa"] #chakras-guide-modal section {
+  background: #fffdf9; border-color: #e6dfd0;
+}
+html[data-layout="essencia-luminosa"] #chakras-guide-modal section article {
+  border-color: #e2dccd; background: #faf8f1;
+}
+html[data-layout="essencia-luminosa"] #chakras-guide-modal section article:nth-child(2) {
+  background: #f0f4e9; border-color: #d8e1ce;
+}
+html[data-layout="essencia-luminosa"] #chakras-guide-modal section article:nth-child(2) > span { color: #657b5c; }
+html[data-layout="essencia-luminosa"] #chakras-guide-modal section article:nth-child(3) {
+  background: #fbf4f0; border-color: #eadbd5;
+}
+html[data-layout="essencia-luminosa"] #chakras-guide-modal section article:nth-child(4) {
+  background: #f8f3e7; border-color: #e6d9b9;
+}
+html[data-layout="essencia-luminosa"] #chakras-guide-modal section article:first-child > span,
+html[data-layout="essencia-luminosa"] #chakras-guide-modal section article:nth-child(4) > span { color: #79663d; }
+html[data-layout="essencia-luminosa"] #chakras-guide-modal section > div:last-child {
+  background: #f7f2e8; border-color: #e4d9c2;
+}
+html[data-layout="essencia-luminosa"] #chakras-guide-modal footer { border-color: #e4dccd; }
+html[data-layout="essencia-luminosa"] #chakras-guide-modal footer button {
+  background: #877747; color: #fffdf8; box-shadow: 0 8px 18px rgba(103, 92, 59, .16);
+}
+html[data-layout="essencia-luminosa"] #chakras-guide-modal footer button:hover { background: #70643f; }
+html[data-layout="essencia-luminosa"] #chakras-guide-modal :is(button, [role="tab"]):focus-visible {
+  outline: 2px solid #8b9a74; outline-offset: 3px;
+}
