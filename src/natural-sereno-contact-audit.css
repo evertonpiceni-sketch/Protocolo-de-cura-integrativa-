@@ -1,0 +1,26 @@
+/* Estilo 1 — Natural Sereno | Fale Conosco
+   Correção mínima: estados semânticos positivos não podem reintroduzir
+   esmeralda saturado como superfície dominante. Verde permanece acento natural. */
+
+:root[data-layout="natural-sereno"] #contact-us-modal .bg-emerald-500\/20 {
+  background: rgba(111,123,85,.09) !important;
+}
+
+:root[data-layout="natural-sereno"] #contact-us-modal .border-emerald-500\/40 {
+  border-color: rgba(111,123,85,.24) !important;
+}
+
+:root[data-layout="natural-sereno"] #contact-us-modal :is(.text-emerald-400) {
+  color: #5E6948 !important;
+}
+
+:root[data-layout="natural-sereno"] #contact-us-modal .shadow-emerald-500\/20 {
+  --tw-shadow-color: rgba(67,52,39,.08) !important;
+}
+
+/* O logo compõe como assinatura, sem competir com o conteúdo. */
+:root[data-layout="natural-sereno"] #contact-us-modal img[alt="Marca do Protocolo da Transformação"] {
+  opacity: .30 !important;
+  filter: none !important;
+  object-fit: contain !important;
+}
