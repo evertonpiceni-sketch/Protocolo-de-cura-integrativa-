@@ -1,0 +1,51 @@
+/* Estilo 3 — Essência Luminosa | celebrações de progresso
+   Camada estritamente visual e isolada ao layout ativo.
+   Preserva conteúdo, estados e lógica do componente compartilhado. */
+:root[data-layout="essencia-luminosa"] [aria-label="Celebração de progresso"] {
+  background: color-mix(in srgb, var(--layout-text) 15%, transparent) !important;
+}
+
+:root[data-layout="essencia-luminosa"] [aria-label="Celebração de progresso"] > div {
+  background:
+    radial-gradient(circle at 88% 10%, color-mix(in srgb, var(--layout-gold-soft) 24%, transparent), transparent 17rem),
+    radial-gradient(circle at 8% 92%, color-mix(in srgb, var(--layout-accent) 15%, transparent), transparent 19rem),
+    linear-gradient(145deg, color-mix(in srgb, var(--layout-card) 96%, white), color-mix(in srgb, var(--layout-bg) 92%, var(--layout-gold-soft))) !important;
+  border-color: color-mix(in srgb, var(--layout-gold-soft) 42%, var(--layout-border)) !important;
+  box-shadow: 0 24px 68px color-mix(in srgb, var(--layout-text) 14%, transparent) !important;
+}
+
+:root[data-layout="essencia-luminosa"] [aria-label="Celebração de progresso"] :is(.bg-purple-500\/10,.bg-indigo-500\/10,.bg-violet-500\/10) {
+  background: color-mix(in srgb, var(--layout-accent) 9%, transparent) !important;
+}
+
+:root[data-layout="essencia-luminosa"] [aria-label="Celebração de progresso"] :is([class*="text-purple-"],[class*="text-indigo-"],[class*="text-violet-"]) {
+  color: var(--layout-accent) !important;
+}
+
+:root[data-layout="essencia-luminosa"] [aria-label="Celebração de progresso"] :is([class*="border-purple-"],[class*="border-indigo-"],[class*="border-violet-"]) {
+  border-color: color-mix(in srgb, var(--layout-accent) 34%, var(--layout-border)) !important;
+}
+
+:root[data-layout="essencia-luminosa"] [aria-label="Celebração de progresso"] .text-emerald-400 {
+  color: color-mix(in srgb, var(--layout-accent) 82%, var(--layout-text)) !important;
+}
+
+/* WhatsApp permanece reconhecível como ação externa, mas sem verde saturado dominar a prancha. */
+:root[data-layout="essencia-luminosa"] [aria-label="Celebração de progresso"] a.bg-emerald-600 {
+  background: color-mix(in srgb, var(--layout-accent) 76%, var(--layout-text)) !important;
+  box-shadow: 0 10px 26px color-mix(in srgb, var(--layout-accent) 18%, transparent) !important;
+}
+:root[data-layout="essencia-luminosa"] [aria-label="Celebração de progresso"] a.bg-emerald-600:hover {
+  background: color-mix(in srgb, var(--layout-accent) 88%, var(--layout-text)) !important;
+}
+
+:root[data-layout="essencia-luminosa"] [aria-label="Celebração de progresso"] button.bg-\[\#B88736\] {
+  background: linear-gradient(135deg, var(--layout-gold-soft), color-mix(in srgb, var(--layout-gold-soft) 72%, var(--layout-text))) !important;
+  box-shadow: 0 10px 28px color-mix(in srgb, var(--layout-gold-soft) 22%, transparent) !important;
+}
+
+:root[data-layout="essencia-luminosa"] [aria-label="Celebração de progresso"] button:focus-visible,
+:root[data-layout="essencia-luminosa"] [aria-label="Celebração de progresso"] a:focus-visible {
+  outline: 2px solid color-mix(in srgb, var(--layout-gold-soft) 78%, white) !important;
+  outline-offset: 3px;
+}
