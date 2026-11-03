@@ -11,20 +11,27 @@ function LayoutPreview({ layout }: { layout: LayoutDefinition }) {
   const foreground = layout.tone === 'dark' ? '#F4F1EB' : '#2A2420';
   const muted = layout.tone === 'dark' ? 'rgba(244,241,235,.68)' : 'rgba(42,36,32,.62)';
   const isNaturalSereno = layout.id === 'natural-sereno';
+  const naturalIvory = '#F3EDE4';
+  const previewBackground = isNaturalSereno
+    ? `linear-gradient(145deg, ${canvas}, ${naturalIvory})`
+    : `linear-gradient(145deg, ${canvas}, ${surface})`;
   const previewSurface = isNaturalSereno ? 'rgba(255,255,255,.78)' : `${accent}33`;
   const actionBackground = isNaturalSereno
     ? `linear-gradient(135deg, ${gold}, #A87E37)`
     : `linear-gradient(135deg, ${gold}, ${accent})`;
+  const previewSwatches = isNaturalSereno
+    ? [canvas, gold, naturalIvory, `${surface}55`]
+    : [canvas, gold, surface, accent];
 
   return (
     <div
       className="mt-4 overflow-hidden rounded-2xl border border-black/10 shadow-inner"
-      style={{ background: `linear-gradient(145deg, ${canvas}, ${surface})`, color: foreground }}
+      style={{ background: previewBackground, color: foreground }}
       aria-hidden="true"
     >
       <div className="flex items-center justify-between border-b border-black/5 px-3 py-2">
         <span className="h-1.5 w-14 rounded-full" style={{ backgroundColor: gold, opacity: .75 }} />
-        <span className="h-4 w-4 rounded-full border border-black/10" style={{ backgroundColor: isNaturalSereno ? canvas : accent }} />
+        <span className="h-4 w-4 rounded-full border border-black/10" style={{ backgroundColor: isNaturalSereno ? surface : accent, opacity: isNaturalSereno ? .62 : 1 }} />
       </div>
       <div className="p-3">
         <div className="rounded-xl border border-black/5 p-3 shadow-sm" style={{ backgroundColor: previewSurface }}>
@@ -32,7 +39,9 @@ function LayoutPreview({ layout }: { layout: LayoutDefinition }) {
           <span className="mt-2 block h-2.5 w-3/4 rounded-full" style={{ backgroundColor: foreground, opacity: .9 }} />
           <span className="mt-1.5 block h-1.5 w-1/2 rounded-full" style={{ backgroundColor: muted }} />
           {isNaturalSereno && (
-            <span className="mt-3 block h-7 w-full rounded-lg border border-black/5" style={{ background: `linear-gradient(90deg, ${canvas}, ${surface})` }} />
+            <span className="mt-3 flex h-7 w-full items-center rounded-lg border border-black/5 px-2" style={{ background: `linear-gradient(90deg, ${canvas}, ${naturalIvory})` }}>
+              <span className="h-2 w-8 rounded-full" style={{ backgroundColor: surface, opacity: .48 }} />
+            </span>
           )}
           <span
             className="mt-3 inline-flex rounded-full px-3 py-1 text-[8px] font-bold uppercase tracking-[.12em] shadow-sm"
@@ -42,8 +51,8 @@ function LayoutPreview({ layout }: { layout: LayoutDefinition }) {
           </span>
         </div>
         <div className="mt-2 grid grid-cols-4 gap-1.5">
-          {[canvas, gold, surface, accent].map((color, index) => (
-            <span key={`${color}-${index}`} className="h-7 rounded-lg border border-black/5" style={{ backgroundColor: isNaturalSereno && index === 3 ? `${color}55` : `${color}88` }} />
+          {previewSwatches.map((color, index) => (
+            <span key={`${color}-${index}`} className="h-7 rounded-lg border border-black/5" style={{ backgroundColor: color }} />
           ))}
         </div>
       </div>
