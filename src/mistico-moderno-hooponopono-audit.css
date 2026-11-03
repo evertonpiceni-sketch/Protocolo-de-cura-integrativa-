@@ -1,0 +1,68 @@
+/* Estilo 4 — Místico Moderno | Ho’oponopono.
+   Escopo estrito ao layout ativo. Preserva conteúdo e lógica; remove somente heranças visuais claras/café. */
+
+:root[data-layout="mistico-moderno"] #hooponopono-modal {
+  background: rgba(4, 7, 13, .78) !important;
+  color: #F5F0E6 !important;
+}
+
+:root[data-layout="mistico-moderno"] #hooponopono-modal > div {
+  background:
+    radial-gradient(circle at 88% 0, rgba(108, 63, 160, .16), transparent 25rem),
+    radial-gradient(circle at 8% 100%, rgba(22, 101, 82, .09), transparent 23rem),
+    linear-gradient(180deg, #0A0F18 0%, #101827 100%) !important;
+  border-color: rgba(212, 175, 55, .22) !important;
+  color: #F5F0E6 !important;
+  box-shadow: 0 24px 64px rgba(0,0,0,.46), inset 0 1px 0 rgba(255,255,255,.045) !important;
+}
+
+:root[data-layout="mistico-moderno"] #hooponopono-modal :is([class*="bg-[#FBF8F2]"],[class*="bg-[#F8F4EC]"],[class*="bg-[#F5EFE4]"],[class*="bg-[#EFE4D3]"],[class*="bg-white"]) {
+  background: linear-gradient(145deg, rgba(20,31,48,.90), rgba(13,20,34,.94)) !important;
+}
+
+:root[data-layout="mistico-moderno"] #hooponopono-modal :is([class*="border-[#E5DAC6]"],[class*="border-[#B88736]"]) {
+  border-color: rgba(148,126,194,.27) !important;
+}
+
+:root[data-layout="mistico-moderno"] #hooponopono-modal :is([class*="text-[#2A2420]"],[class*="text-[#2A2421]"]) {
+  color: #F5F0E6 !important;
+}
+
+:root[data-layout="mistico-moderno"] #hooponopono-modal :is([class*="text-[#5C5248]"],[class*="text-[#85786C]"]) {
+  color: #B9C2D0 !important;
+}
+
+:root[data-layout="mistico-moderno"] #hooponopono-modal :is([class*="text-[#8F631E]"],[class*="text-[#B88736]"]) {
+  color: #D8B96C !important;
+}
+
+:root[data-layout="mistico-moderno"] #hooponopono-modal button[class*="bg-[#B88736]"] {
+  background: linear-gradient(135deg, #B88A36, #7C5A9E) !important;
+  color: #FFF9EC !important;
+  border-color: rgba(212,175,55,.30) !important;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.13), 0 10px 26px rgba(0,0,0,.24) !important;
+}
+
+:root[data-layout="mistico-moderno"] #hooponopono-modal button[aria-pressed="true"] {
+  background: linear-gradient(135deg, rgba(184,138,54,.20), rgba(108,63,160,.24)) !important;
+  border-color: rgba(212,175,55,.34) !important;
+  color: #FFF9EC !important;
+}
+
+:root[data-layout="mistico-moderno"] #hooponopono-modal :is([class*="bg-emerald-50"],[class*="bg-emerald-500"]) {
+  background: rgba(37,126,98,.13) !important;
+}
+
+:root[data-layout="mistico-moderno"] #hooponopono-modal :is([class*="text-emerald-700"],[class*="text-emerald-400"]) {
+  color: #78C6A5 !important;
+}
+
+:root[data-layout="mistico-moderno"] #hooponopono-modal button {
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+:root[data-layout="mistico-moderno"] #hooponopono-modal button:focus-visible {
+  outline: none !important;
+  box-shadow: 0 0 0 2px rgba(212,175,55,.34) !important;
+}
