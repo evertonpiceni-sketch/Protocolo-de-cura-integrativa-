@@ -41,6 +41,7 @@ import './essencia-luminosa-canvas-audit.css';
 import './essencia-luminosa-mobile-install-audit.css';
 import './essencia-luminosa-numerology-audit.css';
 import './essencia-luminosa-header-semantic-audit.css';
+import './essencia-luminosa-hooponopono-audit.css';
 import './lib/authStartupResiliencePatch';
 import './lib/startupUiResiliencePatch';
 import './lib/audioIntegrityPatch';
