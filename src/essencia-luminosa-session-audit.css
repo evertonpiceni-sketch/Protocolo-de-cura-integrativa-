@@ -1,0 +1,107 @@
+/* Estilo 3 — Essência Luminosa | sessão principal
+   Correção isolada da sessão compartilhada: o componente-base ainda usa a paleta
+   café/âmbar do Natural Sereno. Mantém estrutura, conteúdo, player, respiração e
+   animações; apenas devolve a sessão à prancha clara/expansiva do Estilo 3. */
+
+:root[data-layout="essencia-luminosa"] #meditation-session {
+  background:
+    radial-gradient(circle at 50% 10%, color-mix(in srgb, var(--layout-gold) 10%, transparent), transparent 28rem),
+    linear-gradient(180deg, var(--layout-canvas), color-mix(in srgb, var(--layout-accent) 5%, var(--layout-card))) !important;
+  color: var(--layout-text) !important;
+}
+
+:root[data-layout="essencia-luminosa"] #meditation-session > header,
+:root[data-layout="essencia-luminosa"] #meditation-session > footer {
+  background: color-mix(in srgb, var(--layout-card) 90%, transparent) !important;
+  border-color: color-mix(in srgb, var(--layout-gold) 20%, var(--layout-border-card)) !important;
+  box-shadow: 0 10px 34px rgba(112, 91, 58, .055);
+  backdrop-filter: blur(16px);
+}
+
+:root[data-layout="essencia-luminosa"] #meditation-session .ep-session-backdrop > div {
+  background: radial-gradient(circle at 50% 38%, transparent 0 24%, color-mix(in srgb, var(--layout-canvas) 42%, transparent) 58%, color-mix(in srgb, var(--layout-card) 88%, transparent) 100%) !important;
+}
+
+:root[data-layout="essencia-luminosa"] #meditation-session :is(
+  [class*="text-[#8F631E]"],
+  [class*="text-[#B88736]"]
+) { color: var(--layout-gold) !important; }
+
+:root[data-layout="essencia-luminosa"] #meditation-session :is(
+  [class*="text-[#2A2420]"],
+  [class*="text-[#2A2421]"]
+) { color: var(--layout-text) !important; }
+
+:root[data-layout="essencia-luminosa"] #meditation-session :is(
+  [class*="text-[#5C5248]"],
+  [class*="text-[#85786C]"]
+) { color: var(--layout-text-soft) !important; }
+
+:root[data-layout="essencia-luminosa"] #meditation-session :is(
+  [class*="bg-[#FAF7F2]"],
+  [class*="bg-[#FAF4E8]"],
+  [class*="bg-[#F4EFE6]"]
+) { background-color: color-mix(in srgb, var(--layout-card) 92%, var(--layout-canvas)) !important; }
+
+:root[data-layout="essencia-luminosa"] #meditation-session :is(
+  [class*="border-[#E5DAC6]"],
+  [class*="border-[#B88736]"]
+) { border-color: color-mix(in srgb, var(--layout-gold) 25%, var(--layout-border-card)) !important; }
+
+:root[data-layout="essencia-luminosa"] #meditation-session .ep-stage-badge,
+:root[data-layout="essencia-luminosa"] #meditation-session .ep-session-mantra {
+  background: color-mix(in srgb, var(--layout-card) 90%, white) !important;
+  border-color: color-mix(in srgb, var(--layout-gold) 24%, var(--layout-border-card)) !important;
+  box-shadow: 0 12px 30px rgba(112, 91, 58, .06) !important;
+}
+
+:root[data-layout="essencia-luminosa"] #meditation-session .ep-breathing-guide > div:first-child {
+  border-color: color-mix(in srgb, var(--layout-gold) 24%, transparent) !important;
+  background: radial-gradient(circle, color-mix(in srgb, var(--layout-gold) 11%, transparent), color-mix(in srgb, var(--layout-accent) 5%, transparent) 48%, transparent 72%) !important;
+  box-shadow: 0 16px 48px color-mix(in srgb, var(--layout-gold) 9%, transparent) !important;
+}
+
+/* Portal e check-ins pertencem à mesma sessão e ainda traziam café/âmbar rígido. */
+:root[data-layout="essencia-luminosa"] #meditation-session .ep-acceptance-portal > div,
+:root[data-layout="essencia-luminosa"] #meditation-session [data-session-phase="checkin_before"] ~ * {
+  border-color: var(--layout-border-card) !important;
+}
+
+:root[data-layout="essencia-luminosa"] #meditation-session textarea {
+  background: color-mix(in srgb, var(--layout-card) 94%, white) !important;
+  border-color: var(--layout-border-card) !important;
+  color: var(--layout-text) !important;
+}
+
+:root[data-layout="essencia-luminosa"] #meditation-session textarea:focus {
+  border-color: color-mix(in srgb, var(--layout-gold) 68%, var(--layout-accent)) !important;
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--layout-gold) 12%, transparent);
+}
+
+:root[data-layout="essencia-luminosa"] #meditation-session button:not([disabled]) {
+  border-color: color-mix(in srgb, var(--layout-gold) 25%, var(--layout-border-card)) !important;
+}
+
+:root[data-layout="essencia-luminosa"] #meditation-session button[class*="bg-[#8F631E]"] {
+  background: linear-gradient(135deg, color-mix(in srgb, var(--layout-accent) 86%, white), var(--layout-accent)) !important;
+  color: #fff !important;
+  border-color: color-mix(in srgb, var(--layout-accent) 70%, var(--layout-border-card)) !important;
+  box-shadow: 0 8px 22px color-mix(in srgb, var(--layout-accent) 18%, transparent) !important;
+}
+
+:root[data-layout="essencia-luminosa"] #meditation-session button[class*="from-[#B88736]"] {
+  background-image: linear-gradient(135deg, color-mix(in srgb, var(--layout-gold) 88%, white), var(--layout-gold), color-mix(in srgb, var(--layout-accent) 62%, var(--layout-gold))) !important;
+  color: #fff !important;
+  box-shadow: 0 12px 30px color-mix(in srgb, var(--layout-gold) 18%, transparent) !important;
+}
+
+:root[data-layout="essencia-luminosa"] #meditation-session button:focus-visible {
+  outline: 2px solid color-mix(in srgb, var(--layout-gold) 58%, white) !important;
+  outline-offset: 3px;
+}
+
+@media (max-width: 640px) {
+  :root[data-layout="essencia-luminosa"] #meditation-session > header { padding-inline: 1rem; }
+  :root[data-layout="essencia-luminosa"] #meditation-session main { padding-inline: 1.15rem; }
+  :root[data-layout="essencia-luminosa"] #meditation-session .ep-breathing-guide { width: 10rem; height: 10rem; }
+}
