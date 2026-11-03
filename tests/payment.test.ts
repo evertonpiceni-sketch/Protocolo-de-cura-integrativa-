@@ -24,7 +24,7 @@ test('checkout binds account, validates provider confirmation and grants only on
   const { paymentRoutes } = await import('../src/lib/paymentRoutes');
   await initializeDb(); const db = getDb();
   db.users.push({ id: 'owner', plan: 'free', profile: {} });
-  let amount = 1200; let paid = false; const calls: any[] = [];
+  let amount = paymentQuote('jornada_7d', 'PROMO20').cents; let paid = false; const calls: any[] = [];
   const provider = async (url: any, options: any) => {
     calls.push({ url, body: JSON.parse(options.body) });
     return new Response(JSON.stringify(String(url).endsWith('/links') ? { url: 'https://checkout.infinitepay.io/test' } : { success: true, paid, amount }), { status: 200 });
@@ -43,14 +43,14 @@ test('checkout binds account, validates provider confirmation and grants only on
     const checkout = await call('payment/create-checkout', { productType: 'subscription', planId: 'jornada_7d', paymentMethod: 'pix', price: .01, couponCode: 'PROMO20' });
     assert.equal(checkout.status, 200); const { orderId } = await checkout.json();
     assert.equal(calls[0].body.handle, 'evertonterapeutareiki');
-    assert.equal(calls[0].body.items[0].price, 1200);
+    assert.equal(calls[0].body.items[0].price, paymentQuote('jornada_7d', 'PROMO20').cents);
     assert.equal(db.users[0].plan, 'free');
     const body = { order_nsu: orderId, transaction_nsu: 'transaction', slug: 'slug' };
     assert.equal((await call('payment/confirm', body, 'other')).status, 404);
     assert.equal((await call('payment/confirm', body)).status, 202);
     paid = true; amount = 1;
     assert.equal((await call('webhooks/payment', body)).status, 202);
-    assert.equal(db.users[0].plan, 'free'); amount = 1200;
+    assert.equal(db.users[0].plan, 'free'); amount = paymentQuote('jornada_7d', 'PROMO20').cents;
     assert.equal((await call('webhooks/payment', body)).status, 200);
     assert.equal(db.users[0].plan, 'pro');
     const individual = await call('payment/create-checkout', { productType: 'specific_treatment', paymentMethod: 'credit', durationDays: 21, category: 'outro', patientDescription: 'Texto sintético privado.', urgentPains: [], couponCode: 'CURA20', price: .01 });
