@@ -1,0 +1,93 @@
+/* Estilo 4 — Místico Moderno | Diário de Reconexão (histórico)
+   Escopo estrito: não altera os demais estilos nem a semântica do conteúdo. */
+:root[data-layout="mistico-moderno"] #journal-dashboard-view {
+  color: #F5F0E6;
+}
+
+:root[data-layout="mistico-moderno"] #journal-dashboard-view header {
+  border-color: rgba(201, 164, 92, .22) !important;
+}
+
+:root[data-layout="mistico-moderno"] #journal-dashboard-view :is(h1,h2) {
+  color: #F7F1E6 !important;
+  text-shadow: 0 1px 18px rgba(118, 92, 205, .12);
+}
+
+:root[data-layout="mistico-moderno"] #journal-dashboard-view :is(p,[class*="text-[#85786C]"],[class*="text-[#5C5248]"]) {
+  color: rgba(245, 240, 230, .74) !important;
+}
+
+:root[data-layout="mistico-moderno"] #btn-back-from-journal,
+:root[data-layout="mistico-moderno"] #journal-search-container input,
+:root[data-layout="mistico-moderno"] #journal-timeline-list > section,
+:root[data-layout="mistico-moderno"] #journal-timeline-list > div,
+:root[data-layout="mistico-moderno"] #journal-timeline-list > article {
+  background: linear-gradient(145deg, rgba(13, 19, 47, .94), rgba(24, 18, 55, .90)) !important;
+  border-color: rgba(201, 164, 92, .22) !important;
+  color: #F5F0E6 !important;
+  box-shadow: 0 20px 54px rgba(2, 6, 23, .28);
+}
+
+:root[data-layout="mistico-moderno"] #journal-search-container input::placeholder {
+  color: rgba(245, 240, 230, .48) !important;
+}
+
+:root[data-layout="mistico-moderno"] #journal-search-container input:focus {
+  border-color: rgba(219, 177, 86, .72) !important;
+  box-shadow: 0 0 0 3px rgba(126, 87, 194, .14), 0 0 28px rgba(219, 177, 86, .08) !important;
+}
+
+:root[data-layout="mistico-moderno"] #journal-dashboard-view [class*="bg-white"],
+:root[data-layout="mistico-moderno"] #journal-dashboard-view [class*="bg-[#FBF8F2]"],
+:root[data-layout="mistico-moderno"] #journal-dashboard-view [class*="bg-[#F5EFE4]"] {
+  background-color: rgba(19, 25, 58, .76) !important;
+}
+
+:root[data-layout="mistico-moderno"] #journal-dashboard-view [class*="border-[#E5DAC6]"] {
+  border-color: rgba(201, 164, 92, .20) !important;
+}
+
+:root[data-layout="mistico-moderno"] #journal-dashboard-view [class*="text-[#2A2420]"] {
+  color: #F7F1E6 !important;
+}
+
+:root[data-layout="mistico-moderno"] #journal-dashboard-view [class*="text-[#8F631E]"] {
+  color: #E8C87A !important;
+}
+
+:root[data-layout="mistico-moderno"] #btn-export-journal {
+  background: linear-gradient(135deg, #C99B43, #E2B85C) !important;
+  color: #11162F !important;
+  border: 1px solid rgba(255, 231, 166, .34);
+  box-shadow: 0 10px 30px rgba(201, 155, 67, .18), inset 0 1px 0 rgba(255,255,255,.25);
+}
+
+:root[data-layout="mistico-moderno"] #btn-export-journal:hover {
+  filter: brightness(1.05);
+  transform: translateY(-1px);
+}
+
+/* “Como estou agora” mantém o significado positivo, mas integra o esmeralda à noite sofisticada. */
+:root[data-layout="mistico-moderno"] #journal-dashboard-view [class*="border-emerald-200"][class*="bg-emerald-50"] {
+  background: linear-gradient(135deg, rgba(7, 69, 62, .30), rgba(17, 27, 58, .82)) !important;
+  border-color: rgba(73, 190, 158, .30) !important;
+}
+
+:root[data-layout="mistico-moderno"] #journal-dashboard-view :is([class*="text-emerald-700"],[class*="text-emerald-800"]) {
+  color: #A9E2CF !important;
+}
+
+:root[data-layout="mistico-moderno"] #journal-dashboard-view [class*="border-emerald-200"][class*="bg-white"] {
+  background-color: rgba(9, 50, 49, .52) !important;
+  border-color: rgba(73, 190, 158, .26) !important;
+}
+
+@media (max-width: 640px) {
+  :root[data-layout="mistico-moderno"] #journal-dashboard-view {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+  :root[data-layout="mistico-moderno"] #journal-timeline-list > article {
+    box-shadow: 0 14px 36px rgba(2, 6, 23, .22);
+  }
+}
