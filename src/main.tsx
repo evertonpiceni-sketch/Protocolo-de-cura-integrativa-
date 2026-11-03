@@ -59,6 +59,7 @@ import './essencia-luminosa-session-audit.css';
 import './essencia-luminosa-bottom-nav-audit.css';
 import './essencia-luminosa-daily-diary-semantic-audit.css';
 import './essencia-luminosa-daily-tip-audit.css';
+import './essencia-luminosa-journal-dashboard-audit.css';
 import './lib/authStartupResiliencePatch';
 import './lib/startupUiResiliencePatch';
 import './lib/audioIntegrityPatch';
