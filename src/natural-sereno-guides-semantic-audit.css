@@ -1,0 +1,14 @@
+/* Natural Sereno — semantic states without legacy green slabs.
+   Keep completion/positive meaning recognizable while green remains a small natural accent. */
+:root[data-layout="natural-sereno"] :is(#systemic-questions-modal,#herbal-baths-modal) :is([class*="bg-emerald-50"],[class*="bg-emerald-100"]){
+  background:linear-gradient(145deg,#FBF8F2 0%,#F3EDE4 100%)!important;
+}
+:root[data-layout="natural-sereno"] :is(#systemic-questions-modal,#herbal-baths-modal) :is([class*="border-emerald-"]){
+  border-color:rgba(107,122,75,.28)!important;
+}
+:root[data-layout="natural-sereno"] :is(#systemic-questions-modal,#herbal-baths-modal) :is([class*="text-emerald-"]){
+  color:#596744!important;
+}
+:root[data-layout="natural-sereno"] :is(#systemic-questions-modal,#herbal-baths-modal) :is([class*="ring-emerald-"]){
+  --tw-ring-color:rgba(107,122,75,.18)!important;
+}
