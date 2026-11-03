@@ -37,22 +37,25 @@ async function mountRequiredLayoutChoice() {
   layoutGuard.observe(document.documentElement, { attributes: true, attributeFilter: ['data-layout'] });
 
   const releaseGuard = () => { guardingLayout = false; layoutGuard.disconnect(); };
+  const releasePendingLayout = () => {
+    releaseGuard();
+    if (document.documentElement.dataset.layout === PENDING_LAYOUT) delete document.documentElement.dataset.layout;
+  };
 
   let account: any;
   try {
     const response = await fetch('/api/auth/me', { credentials: 'same-origin' });
-    if (!response.ok) { releaseGuard(); return; }
+    if (!response.ok) { releasePendingLayout(); return; }
     const data = await response.json();
     account = data?.user;
   } catch {
-    releaseGuard();
+    releasePendingLayout();
     return;
   }
 
   const profile = account?.profile;
   if (!profile?.visualLayout) {
-    releaseGuard();
-    delete document.documentElement.dataset.layout;
+    releasePendingLayout();
     return;
   }
 
