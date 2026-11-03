@@ -8,6 +8,7 @@ import { motion } from 'motion/react';
 import { Headphones, Compass, Shield, ArrowRight, X } from 'lucide-react';
 import '../elegancia-profunda-welcome-audit.css';
 import '../mistico-moderno-welcome-audit.css';
+import '../essencia-luminosa-welcome-audit.css';
 
 interface WelcomeModalProps {
   isOpen: boolean;
