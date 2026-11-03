@@ -265,7 +265,8 @@ export default function App() {
     userProfile?.binauralCarrierMode,
     activeSessionDay,
     showPersonalJourney,
-    showArcanjoView
+    showArcanjoView,
+    userProfile?.subscriptionPlan
   ]);
 
   // Reintegração da Vida owns its audio while open: stop global music and speech to prevent overlap.
