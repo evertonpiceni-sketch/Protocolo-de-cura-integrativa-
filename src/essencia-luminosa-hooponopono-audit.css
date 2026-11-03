@@ -1,0 +1,24 @@
+/* Estilo 3 — Essência Luminosa | Ho'oponopono
+   Camada estritamente visual. Mantém conteúdo, estados e lógica aprovados. */
+:root[data-layout="essencia-luminosa"] #hooponopono-modal{
+  background:color-mix(in srgb,var(--layout-text) 16%,transparent)!important;
+}
+:root[data-layout="essencia-luminosa"] #hooponopono-modal>div{
+  background:radial-gradient(circle at 86% 8%,color-mix(in srgb,var(--layout-gold-soft) 28%,transparent),transparent 16rem),linear-gradient(145deg,color-mix(in srgb,var(--layout-card) 96%,#fff),color-mix(in srgb,var(--layout-accent-soft) 18%,var(--layout-card)))!important;
+  border-color:color-mix(in srgb,var(--layout-gold) 22%,var(--layout-border-card))!important;
+  color:var(--layout-text)!important;
+  box-shadow:0 24px 64px rgba(112,91,58,.10)!important;
+}
+:root[data-layout="essencia-luminosa"] #hooponopono-modal :is([class*="bg-[#B88736]"],[class*="bg-emerald-"]){
+  background:linear-gradient(105deg,color-mix(in srgb,var(--layout-accent) 74%,#fff),color-mix(in srgb,var(--layout-gold) 70%,var(--layout-accent)))!important;
+  color:#fff!important;
+  border-color:color-mix(in srgb,var(--layout-gold) 28%,var(--layout-border-card))!important;
+  box-shadow:0 8px 20px rgba(112,91,58,.07)!important;
+}
+:root[data-layout="essencia-luminosa"] #hooponopono-modal :is([class*="text-emerald-"],[class*="text-[#8F631E]"]){color:var(--layout-accent)!important;}
+:root[data-layout="essencia-luminosa"] #hooponopono-modal :is([class*="border-emerald-"],[class*="border-[#B88736]"]){border-color:color-mix(in srgb,var(--layout-accent) 30%,var(--layout-border-card))!important;}
+:root[data-layout="essencia-luminosa"] #hooponopono-modal :is([class*="bg-[#F5EFE4]"],[class*="bg-[#EFE4D3]"],[class*="bg-white"]){background:color-mix(in srgb,var(--layout-card) 88%,var(--layout-gold-soft))!important;}
+:root[data-layout="essencia-luminosa"] #hooponopono-modal button{transition:background-color .2s ease,border-color .2s ease,box-shadow .2s ease,transform .2s ease;}
+:root[data-layout="essencia-luminosa"] #hooponopono-modal button:hover{box-shadow:0 8px 18px rgba(112,91,58,.07);}
+:root[data-layout="essencia-luminosa"] #hooponopono-modal :focus-visible{outline:none!important;box-shadow:0 0 0 3px color-mix(in srgb,var(--layout-gold) 22%,transparent)!important;}
+:root[data-layout="essencia-luminosa"] #hooponopono-modal{-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;}
