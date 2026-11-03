@@ -5,6 +5,7 @@ import { useDialogFocus } from '../hooks/useDialogFocus';
  */
 
 import React from 'react';
+import '../essencia-luminosa-courses-audit.css';
 import { motion } from 'motion/react';
 import { BookOpen, Lock, X } from 'lucide-react';
 import { UserProfile } from '../types';
