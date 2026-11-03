@@ -8,7 +8,9 @@ import { audioEngine } from './audio';
  */
 const ARCANJO_VIEW_MARKER = 'img[alt="Pessoa em meditação com os sete chakras"]';
 const DASHBOARD_MARKER = '#progress-dashboard';
+const ARCANJO_OPENING_GUARD_MS = 5000;
 let arcanjoOpening = false;
+let openingGuardTimer: number | null = null;
 
 const isArcanjoViewMounted = () => {
   if (typeof document === 'undefined') return false;
@@ -28,24 +30,34 @@ audioEngine.startBG = ((type: Parameters<typeof audioEngine.startBG>[0]) => {
   return originalStartBG(type);
 }) as typeof audioEngine.startBG;
 
+const releaseOpeningGuard = () => {
+  arcanjoOpening = false;
+  if (openingGuardTimer !== null) {
+    window.clearTimeout(openingGuardTimer);
+    openingGuardTimer = null;
+  }
+};
+
 if (typeof window !== 'undefined') {
   // OPEN_PROTOCOL_DAY fires before React has mounted the full-screen protocol.
   // Claim ownership immediately so a gesture/autoplay effect cannot restart the
-  // global background in the small interval before the DOM marker exists.
+  // global background while slower devices are still mounting the protocol view.
   window.addEventListener('OPEN_PROTOCOL_DAY', () => {
     arcanjoOpening = true;
     audioEngine.stopBG();
-    window.setTimeout(() => {
-      arcanjoOpening = false;
+
+    if (openingGuardTimer !== null) window.clearTimeout(openingGuardTimer);
+    openingGuardTimer = window.setTimeout(() => {
+      releaseOpeningGuard();
       if (isArcanjoViewMounted()) audioEngine.stopBG();
-    }, 1200);
+    }, ARCANJO_OPENING_GUARD_MS);
   });
 }
 
 if (typeof document !== 'undefined' && typeof MutationObserver !== 'undefined') {
   const observer = new MutationObserver(() => {
     if (isArcanjoViewMounted()) {
-      arcanjoOpening = false;
+      releaseOpeningGuard();
       audioEngine.stopBG();
     }
   });
