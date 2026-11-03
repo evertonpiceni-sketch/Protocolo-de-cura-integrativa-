@@ -53,6 +53,7 @@ import './essencia-luminosa-milestone-audit.css';
 import './essencia-luminosa-anamnesis-audit.css';
 import './essencia-luminosa-promo-audit.css';
 import './essencia-luminosa-session-audit.css';
+import './essencia-luminosa-bottom-nav-audit.css';
 import './lib/authStartupResiliencePatch';
 import './lib/startupUiResiliencePatch';
 import './lib/audioIntegrityPatch';
