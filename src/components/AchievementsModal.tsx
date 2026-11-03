@@ -4,6 +4,7 @@
  */
 
 import React, { useRef, useState } from 'react';
+import '../essencia-luminosa-achievements-audit.css';
 import { useDialogFocus } from '../hooks/useDialogFocus';
 import { motion } from 'motion/react';
 import {
