@@ -6,27 +6,33 @@ const PENDING_LAYOUT = 'layout-choice-pending';
 
 const escapeHtml = (value: string) => value.replace(/[&<>"']/g, ch => ({ '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;' }[ch] || ch));
 
+function previewMarkup(layout: (typeof OFFICIAL_LAYOUTS)[number]) {
+  const [canvas, accent, gold, surface] = layout.swatches;
+  const natural = layout.id === 'natural-sereno';
+  const foreground = layout.tone === 'dark' ? '#F4F1EB' : '#2A2420';
+  const muted = layout.tone === 'dark' ? 'rgba(244,241,235,.58)' : 'rgba(42,36,32,.34)';
+  const card = natural ? 'rgba(255,255,255,.80)' : `${accent}22`;
+  const action = natural ? `linear-gradient(135deg,${gold},#A87E37)` : `linear-gradient(135deg,${gold},${accent})`;
+  return `<div aria-hidden="true" style="margin-top:13px;overflow:hidden;border-radius:14px;border:1px solid rgba(42,36,33,.09);background:linear-gradient(145deg,${canvas},${surface});color:${foreground}">
+    <div style="display:flex;align-items:center;justify-content:space-between;padding:7px 9px;border-bottom:1px solid rgba(42,36,33,.07)"><i style="display:block;width:46px;height:4px;border-radius:99px;background:${gold};opacity:.8"></i><i style="display:block;width:13px;height:13px;border-radius:50%;background:${natural ? canvas : accent};border:1px solid rgba(42,36,33,.10)"></i></div>
+    <div style="padding:9px"><div style="padding:10px;border-radius:10px;background:${card};border:1px solid rgba(42,36,33,.06);box-shadow:0 4px 12px rgba(42,36,33,.05)"><i style="display:block;width:54px;height:4px;border-radius:99px;background:${gold}"></i><i style="display:block;width:72%;height:7px;margin-top:7px;border-radius:99px;background:${foreground};opacity:.82"></i><i style="display:block;width:48%;height:5px;margin-top:5px;border-radius:99px;background:${muted}"></i>${natural ? `<i style="display:block;width:100%;height:20px;margin-top:9px;border-radius:7px;background:linear-gradient(90deg,${canvas},${surface});border:1px solid rgba(42,36,33,.05)"></i>` : ''}<i style="display:block;width:70px;height:20px;margin-top:9px;border-radius:99px;background:${action};box-shadow:0 4px 10px rgba(42,36,33,.08)"></i></div></div>
+  </div>`;
+}
+
 async function mountRequiredLayoutChoice() {
   if (typeof window === 'undefined' || typeof document === 'undefined') return;
   if (sessionStorage.getItem(SESSION_KEY) === '1' || document.getElementById(OVERLAY_ID)) return;
 
-  // A persisted preference is only a preselection. While this entry is not confirmed,
-  // prevent App.tsx from visually applying that persisted theme behind the chooser.
-  // This removes the previous flash/automatic application without changing saved data.
+  // Persisted preference is only a preselection. No theme is applied behind the chooser.
   document.documentElement.dataset.layout = PENDING_LAYOUT;
   let guardingLayout = true;
   const layoutGuard = new MutationObserver(() => {
     if (!guardingLayout) return;
-    if (document.documentElement.dataset.layout !== PENDING_LAYOUT) {
-      document.documentElement.dataset.layout = PENDING_LAYOUT;
-    }
+    if (document.documentElement.dataset.layout !== PENDING_LAYOUT) document.documentElement.dataset.layout = PENDING_LAYOUT;
   });
   layoutGuard.observe(document.documentElement, { attributes: true, attributeFilter: ['data-layout'] });
 
-  const releaseGuard = () => {
-    guardingLayout = false;
-    layoutGuard.disconnect();
-  };
+  const releaseGuard = () => { guardingLayout = false; layoutGuard.disconnect(); };
 
   let account: any;
   try {
@@ -41,7 +47,6 @@ async function mountRequiredLayoutChoice() {
 
   const profile = account?.profile;
   if (!profile?.visualLayout) {
-    // First-time selection is owned by the React modal. Do not keep the guard attached.
     releaseGuard();
     delete document.documentElement.dataset.layout;
     return;
@@ -53,31 +58,25 @@ async function mountRequiredLayoutChoice() {
   overlay.setAttribute('role', 'dialog');
   overlay.setAttribute('aria-modal', 'true');
   overlay.setAttribute('aria-label', 'Escolha a atmosfera visual');
-  overlay.style.cssText = 'position:fixed;inset:0;z-index:2147483000;background:rgba(42,36,33,.56);backdrop-filter:blur(8px);display:grid;place-items:center;padding:20px;';
+  overlay.style.cssText = 'position:fixed;inset:0;z-index:2147483000;background:rgba(42,36,33,.56);backdrop-filter:blur(8px);display:grid;place-items:center;padding:14px;';
 
   const render = () => {
-    overlay.innerHTML = `<section style="width:min(920px,100%);max-height:92vh;overflow:auto;background:#FAF7F2;border:1px solid #E8E0D5;border-radius:28px;padding:clamp(22px,4vw,38px);box-shadow:0 28px 80px rgba(42,36,33,.22);font-family:inherit;color:#2A2421">
-      <div style="text-align:center;max-width:680px;margin:0 auto 24px"><p style="margin:0 0 7px;color:#A87E37;font-size:12px;font-weight:700;letter-spacing:.12em;text-transform:uppercase">Sua experiência visual</p><h2 style="margin:0;font-size:clamp(24px,4vw,36px);line-height:1.15">Escolha como você quer entrar hoje</h2><p style="margin:12px 0 0;color:#6B625B;line-height:1.6">Sua preferência anterior aparece pré-selecionada, mas nenhum estilo será aplicado automaticamente sem sua confirmação.</p></div>
+    overlay.innerHTML = `<section style="width:min(960px,100%);max-height:94vh;overflow:auto;background:#FAF7F2;border:1px solid #E8E0D5;border-radius:28px;padding:clamp(20px,4vw,36px);box-shadow:0 28px 80px rgba(42,36,33,.22);font-family:inherit;color:#2A2421">
+      <div style="text-align:center;max-width:680px;margin:0 auto 22px"><p style="margin:0 0 7px;color:#A87E37;font-size:12px;font-weight:700;letter-spacing:.12em;text-transform:uppercase">4 estilos, uma mesma essência</p><h2 style="margin:0;font-size:clamp(24px,4vw,36px);line-height:1.15">Escolha como você quer entrar hoje</h2><p style="margin:12px 0 0;color:#6B625B;line-height:1.6">Sua preferência anterior aparece pré-selecionada. Veja a prévia de cada atmosfera e confirme: nenhum estilo será aplicado automaticamente.</p></div>
       <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:14px">${OFFICIAL_LAYOUTS.map(layout => {
         const active = layout.id === selected;
-        return `<button type="button" data-layout-id="${escapeHtml(layout.id)}" aria-pressed="${active}" style="appearance:none;text-align:left;min-height:154px;padding:18px;border-radius:20px;border:${active ? '2px solid #B88736' : '1px solid #E8E0D5'};background:${active ? '#FFFDF8' : 'rgba(255,255,255,.72)'};box-shadow:${active ? '0 10px 28px rgba(67,52,39,.10)' : 'none'};cursor:pointer;color:#2A2421"><strong style="display:block;font-size:15px;margin-bottom:9px">${escapeHtml(layout.name)}</strong><span style="display:flex;gap:5px;margin-bottom:11px">${layout.swatches.map(color => `<i aria-hidden="true" style="display:block;width:18px;height:18px;border-radius:999px;background:${escapeHtml(color)};border:1px solid rgba(0,0,0,.08)"></i>`).join('')}</span><span style="display:block;color:#6B625B;font-size:12px;line-height:1.5">${escapeHtml(layout.description)}</span></button>`;
+        return `<button type="button" data-layout-id="${escapeHtml(layout.id)}" aria-pressed="${active}" style="appearance:none;text-align:left;min-height:260px;padding:16px;border-radius:20px;border:${active ? '2px solid #B88736' : '1px solid #E8E0D5'};background:${active ? '#FFFDF8' : 'rgba(255,255,255,.72)'};box-shadow:${active ? '0 10px 28px rgba(67,52,39,.10)' : 'none'};cursor:pointer;color:#2A2421"><strong style="display:block;font-size:15px;margin-bottom:7px">${escapeHtml(layout.name)}</strong><span style="display:block;color:#6B625B;font-size:12px;line-height:1.45;min-height:35px">${escapeHtml(layout.description)}</span>${previewMarkup(layout)}<span style="display:flex;gap:5px;margin-top:11px">${layout.swatches.map(color => `<i aria-hidden="true" style="display:block;flex:1;height:9px;border-radius:999px;background:${escapeHtml(color)};border:1px solid rgba(0,0,0,.08)"></i>`).join('')}</span></button>`;
       }).join('')}</div>
-      <div style="display:flex;justify-content:center;margin-top:24px"><button type="button" id="required-layout-confirm" style="appearance:none;border:1px solid #A87E37;border-radius:14px;background:linear-gradient(145deg,#C89D52,#A87E37);color:#FFFDF8;padding:13px 24px;font-weight:700;cursor:pointer;box-shadow:0 10px 24px rgba(67,52,39,.14)">Confirmar estilo</button></div>
+      <div style="display:flex;justify-content:center;margin-top:22px"><button type="button" id="required-layout-confirm" style="appearance:none;border:1px solid #A87E37;border-radius:14px;background:linear-gradient(145deg,#C89D52,#A87E37);color:#FFFDF8;padding:13px 24px;font-weight:700;cursor:pointer;box-shadow:0 10px 24px rgba(67,52,39,.14)">Confirmar ${escapeHtml(OFFICIAL_LAYOUTS.find(layout => layout.id === selected)?.name || 'estilo')}</button></div>
     </section>`;
 
     overlay.querySelectorAll<HTMLButtonElement>('[data-layout-id]').forEach(button => {
-      button.addEventListener('click', () => {
-        selected = normalizeLayoutId(button.dataset.layoutId);
-        render();
-      });
+      button.addEventListener('click', () => { selected = normalizeLayoutId(button.dataset.layoutId); render(); });
     });
     overlay.querySelector<HTMLButtonElement>('#required-layout-confirm')?.addEventListener('click', async () => {
       const updatedProfile = { ...profile, visualLayout: selected };
       try {
-        const response = await fetch('/api/user/sync', {
-          method: 'POST', credentials: 'same-origin', headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ profile: updatedProfile, progress: account.progress || [] })
-        });
+        const response = await fetch('/api/user/sync', { method: 'POST', credentials: 'same-origin', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ profile: updatedProfile, progress: account.progress || [] }) });
         if (!response.ok) throw new Error('sync failed');
         sessionStorage.setItem(SESSION_KEY, '1');
         releaseGuard();
