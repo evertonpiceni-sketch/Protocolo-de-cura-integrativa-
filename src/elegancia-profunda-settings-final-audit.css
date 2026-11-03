@@ -53,6 +53,20 @@
   border-color: color-mix(in srgb, var(--layout-gold) 58%, var(--layout-border-card)) !important;
 }
 
+/* Resíduos índigo não interativos (badges, rótulos e bordas) pertenciam a uma linguagem antiga.
+   No Estilo 2 tornam-se profundos/champagne sem tocar estados semânticos emerald/amber/rose. */
+:root[data-layout="elegancia-profunda"] #settings-view :not(button)[class*="bg-indigo"] {
+  background: color-mix(in srgb, var(--layout-gold) 9%, var(--layout-card)) !important;
+}
+
+:root[data-layout="elegancia-profunda"] #settings-view :not(button)[class*="border-indigo"] {
+  border-color: color-mix(in srgb, var(--layout-gold) 34%, var(--layout-border-card)) !important;
+}
+
+:root[data-layout="elegancia-profunda"] #settings-view :not(button)[class*="text-indigo"] {
+  color: color-mix(in srgb, var(--layout-gold) 82%, var(--layout-text)) !important;
+}
+
 /* Estúdio de vídeo ainda nascia marfim; mantém ação e conteúdo, troca apenas tratamento visual. */
 :root[data-layout="elegancia-profunda"] #settings-view button[class*="bg-[#F5EFE4]"] {
   background: linear-gradient(145deg,
