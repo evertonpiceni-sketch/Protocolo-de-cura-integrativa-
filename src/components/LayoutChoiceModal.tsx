@@ -8,7 +8,11 @@ interface LayoutChoiceModalProps {
 }
 
 function LayoutPreview({ layout }: { layout: LayoutDefinition }) {
-  const [canvas, accent, gold, surface] = layout.swatches;
+  // A prévia do Estilo 3 usa sua própria paleta, sem herdar os acentos dos outros estilos.
+  const isEssenciaLuminosa = layout.id === 'essencia-luminosa';
+  const [canvas, accent, gold, surface] = isEssenciaLuminosa
+    ? ['#FFFFF8', '#A6B49B', '#C6A46A', '#F7F3E8']
+    : layout.swatches;
   const foreground = layout.tone === 'dark' ? '#F4F1EB' : '#2A2420';
   const muted = layout.tone === 'dark' ? 'rgba(244,241,235,.68)' : 'rgba(42,36,32,.62)';
   const isNaturalSereno = layout.id === 'natural-sereno';
