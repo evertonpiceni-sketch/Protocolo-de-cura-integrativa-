@@ -70,7 +70,7 @@ const openConfirmation = (button: HTMLButtonElement) => {
     <p style="margin:14px 0 0;color:${theme.muted};font-size:12px;line-height:1.55">A aparência só será aplicada depois da sua confirmação.</p>
     <div style="display:flex;gap:10px;justify-content:flex-end;margin-top:24px;flex-wrap:wrap">
       <button type="button" data-layout-cancel style="border:1px solid ${theme.cancelBorder};border-radius:13px;background:transparent;color:${theme.cancelText};padding:11px 17px;font-weight:650;cursor:pointer">Voltar</button>
-      <button type="button" data-layout-confirm style="border:1px solid ${theme.accent};border-radius:13px;background:linear-gradient(145deg,${theme.accent},${theme.secondary});color:#FFFDF8;padding:11px 18px;font-weight:750;cursor:pointer;box-shadow:0 10px 28px rgba(80,66,42,.18)">Aplicar ${layout.name}</button>
+      <button type="button" data-layout-confirm style="border:1px solid ${theme.accent};border-radius:13px;background:linear-gradient(145deg,${theme.accent},${theme.secondary});color:${layout.id === 'mistico-moderno' ? '#0A0F18' : '#FFFDF8'};padding:11px 18px;font-weight:750;cursor:pointer;box-shadow:0 10px 28px rgba(80,66,42,.18)">Aplicar ${layout.name}</button>
     </div>
   </section>`;
 
