@@ -33,7 +33,7 @@ export const OFFICIAL_LAYOUTS: LayoutDefinition[] = [
     id: 'essencia-luminosa',
     name: 'Essência Luminosa',
     description: 'Leveza, luz, respiro e delicadeza visual.',
-    swatches: ['#FFFFF8', '#F7F3E8', '#7E9680', '#C29648'],
+    swatches: ['#FFFFF8', '#C6A46A', '#F7F3E8', '#A6B49B'],
     tone: 'light'
   },
   {
