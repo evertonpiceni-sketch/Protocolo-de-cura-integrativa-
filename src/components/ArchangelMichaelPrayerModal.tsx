@@ -6,7 +6,7 @@ import { useDialogFocus } from '../hooks/useDialogFocus';
 
 import React, { useEffect, useMemo, useState } from 'react';
 import { motion } from 'motion/react';
-import { Shield, Play, Pause, CheckCircle2, X, Sparkles, Copy, Check, Flower2 } from 'lucide-react';
+import { Shield, Play, Pause, CheckCircle2, X, Sparkles, Copy, Check } from 'lucide-react';
 import { ARCHANGEL_MICHAEL_PRAYER_FULL, ARCHANGEL_MICHAEL_FULL_TEXT } from '../data/archangel_prayer';
 import { audioEngine } from '../lib/audio';
 import { getLocalDateString } from '../utils/date';
@@ -225,7 +225,7 @@ export default function ArchangelMichaelPrayerModal({
                   }`}
                   title={`Dia ${day}: ${isDone ? 'concluído' : 'pendente'}`}
                 >
-                  {isDone ? <CheckCircle2 size={12} /> : <Flower2 size={11} className="opacity-45" />}
+                  <span aria-hidden="true">{day}</span>
                 </div>
               );
             })}
