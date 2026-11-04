@@ -76,7 +76,6 @@ import './lib/universalAnamnesisDiaryAccessPatch';
 import './lib/naturalSerenoHomeApprovedModel';
 import './lib/naturalSerenoHomeJourneyStateFix';
 import './lib/naturalSerenoPublicCatalogGuard';
-import './lib/requiredLayoutChoiceEntryPatch';
 import './lib/layoutSettingsExplicitConfirmationPatch';
 import './natural-sereno-final-audit.css';
 import './natural-sereno-home-latest-approved.css';
