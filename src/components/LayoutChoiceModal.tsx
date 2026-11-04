@@ -42,7 +42,7 @@ function LayoutPreview({ layout }: { layout: LayoutDefinition }) {
     >
       <div className="flex items-center justify-between border-b border-black/5 px-3 py-2">
         <span className="h-1.5 w-14 rounded-full" style={{ backgroundColor: gold, opacity: .75 }} />
-        <span className="h-4 w-4 rounded-full border border-black/10" style={{ backgroundColor: isNaturalSereno ? surface : accent, opacity: isNaturalSereno ? .62 : 1 }} />
+        <span className="h-4 w-4 rounded-full border border-black/10" style={{ backgroundColor: isNaturalSereno ? '#E8E0D5' : accent, opacity: 1 }} />
       </div>
       <div className="p-3">
         <div className="rounded-xl border border-black/5 p-3 shadow-sm" style={{ backgroundColor: previewSurface }}>
