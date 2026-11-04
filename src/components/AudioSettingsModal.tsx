@@ -125,6 +125,7 @@ export default function AudioSettingsModal({
   };
 
   const toggleBioactivePreview = () => {
+    if (!allowBackgroundPlayback) return;
     audioEngine.unlock();
     if (isPlayingBioactivePreview) {
       audioEngine.stopBG();
@@ -156,7 +157,7 @@ export default function AudioSettingsModal({
       const testPhrase = `Olá, ${userProfile.name}. Esta é uma prévia da voz escolhida para acompanhar suas práticas com calma e presença.`;
       
       // Also play the bg frequency briefly for test
-      if (bgMusicType !== 'none' && audioEnabled) {
+      if (allowBackgroundPlayback && bgMusicType !== 'none' && audioEnabled) {
         audioEngine.startBG(bgMusicType);
       }
 
@@ -299,10 +300,12 @@ export default function AudioSettingsModal({
                       return;
                     }
                     setBgMusicType(track.id as any);
-                    if (track.id !== 'none') {
-                      audioEngine.startBG(track.id as any);
-                    } else {
-                      audioEngine.stopBG();
+                    if (allowBackgroundPlayback) {
+                      if (track.id !== 'none') {
+                        audioEngine.startBG(track.id as any);
+                      } else {
+                        audioEngine.stopBG();
+                      }
                     }
                   }}
                   className={`p-2.5 rounded-xl text-left border transition cursor-pointer relative overflow-hidden ${
