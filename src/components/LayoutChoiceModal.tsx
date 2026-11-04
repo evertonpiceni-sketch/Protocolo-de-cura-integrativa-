@@ -51,7 +51,7 @@ function LayoutPreview({ layout }: { layout: LayoutDefinition }) {
           <span className="mt-1.5 block h-1.5 w-1/2 rounded-full" style={{ backgroundColor: muted }} />
           {isNaturalSereno && (
             <span className="mt-3 flex h-7 w-full items-center rounded-lg border border-black/5 px-2" style={{ background: `linear-gradient(90deg, ${canvas}, ${naturalIvory})` }}>
-              <span className="h-2 w-8 rounded-full" style={{ backgroundColor: surface, opacity: .48 }} />
+              <span className="h-2 w-8 rounded-full" style={{ backgroundColor: '#C89D52', opacity: .48 }} />
             </span>
           )}
           <span
