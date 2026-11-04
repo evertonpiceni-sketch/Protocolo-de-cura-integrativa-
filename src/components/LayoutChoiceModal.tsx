@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
+import { useDialogFocus } from '../hooks/useDialogFocus';
 import { Check } from 'lucide-react';
 import { OFFICIAL_LAYOUTS, LayoutDefinition, LayoutId } from '../config/layouts';
 
@@ -62,10 +63,14 @@ function LayoutPreview({ layout }: { layout: LayoutDefinition }) {
 
 export default function LayoutChoiceModal({ onSelect }: LayoutChoiceModalProps) {
   const [selectedLayout, setSelectedLayout] = useState<LayoutId | null>(null);
+  const dialogRef = useRef<HTMLDivElement>(null);
+  // Selection is mandatory: trap keyboard focus without allowing Escape to bypass confirmation.
+  useDialogFocus(true, dialogRef, null);
   const selectedDefinition = OFFICIAL_LAYOUTS.find(layout => layout.id === selectedLayout);
 
   return (
     <div
+      ref={dialogRef}
       className="fixed inset-0 z-[160] flex items-center justify-center overflow-y-auto overscroll-contain bg-[#2A2420]/35 p-2 sm:p-5 backdrop-blur-md"
       role="dialog"
       aria-modal="true"
