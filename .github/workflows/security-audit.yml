@@ -156,8 +156,13 @@ jobs:
             echo 'Unsafe manual upgrade endpoint is still present.'
             exit 1
           fi
-          grep -q 'Pagamento ainda não está configurado' server.ts
-          grep -q 'Webhook de pagamento ainda não está configurado' server.ts
+          # Payment routes were moved from server.ts to src/lib/paymentRoutes.ts.
+          # Verify the real provider-backed flow rather than obsolete placeholder messages.
+          grep -q "app.use('/api', paymentRoutes(authenticate, apiLimiter))" server.ts
+          grep -q "router.post('/payment/create-checkout', authenticate, limiter" src/lib/paymentRoutes.ts
+          grep -q "router.post('/payment/confirm', authenticate, limiter" src/lib/paymentRoutes.ts
+          grep -q "router.post('/webhooks/payment', limiter" src/lib/paymentRoutes.ts
+          grep -q "verified.success !== true || verified.paid !== true || verified.amount !== order.cents" src/lib/paymentRoutes.ts
 
 
       - name: Enforce dependency audit result
