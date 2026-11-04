@@ -113,7 +113,9 @@ export default function LayoutChoiceModal({ onSelect }: LayoutChoiceModalProps) 
                 <div className="mt-4 flex gap-2" aria-hidden="true">
                   {(layout.id === 'natural-sereno'
                     ? [layout.swatches[0], layout.swatches[2], '#F3EDE4', '#E8E0D5']
-                    : layout.swatches
+                    : layout.id === 'essencia-luminosa'
+                      ? ['#FFFFF8', '#C6A46A', '#F7F3E8', '#A6B49B']
+                      : layout.swatches
                   ).map((color, index) => (
                     <span key={index} className="h-3 flex-1 rounded-full border border-black/10 shadow-inner" style={{ backgroundColor: color }} />
                   ))}
