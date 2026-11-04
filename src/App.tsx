@@ -2411,6 +2411,7 @@ export default function App() {
       {showAudioSettingsModal && userProfile && (
         <AudioSettingsModal
           isOpen={showAudioSettingsModal}
+          allowBackgroundPlayback={activeSessionDay === null && !showPersonalJourney && !showArcanjoView && userProfile.subscriptionPlan !== 'arcanjo_7d'}
           onClose={() => setShowAudioSettingsModal(false)}
           userProfile={userProfile}
           onSaveProfile={saveProfile}
