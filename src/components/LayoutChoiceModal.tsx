@@ -136,7 +136,7 @@ export default function LayoutChoiceModal({ onSelect }: LayoutChoiceModalProps) 
             type="button"
             disabled={!selectedLayout}
             onClick={() => selectedLayout && onSelect(selectedLayout)}
-            className="min-h-12 w-full max-w-sm rounded-full bg-gradient-to-r from-[#C89D52] via-[#D9B66D] to-[#A87E37] px-6 py-3 text-sm font-bold uppercase tracking-[.12em] text-white shadow-lg transition hover:-translate-y-0.5 hover:shadow-xl disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:translate-y-0 disabled:hover:shadow-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B88736]/40 focus-visible:ring-offset-2"
+            className="min-h-12 w-full max-w-sm rounded-full bg-gradient-to-r from-[#C89D52] via-[#D9B66D] to-[#A87E37] px-6 py-3 text-sm font-bold uppercase tracking-[.12em] text-[#2A2420] shadow-lg transition hover:-translate-y-0.5 hover:shadow-xl disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:translate-y-0 disabled:hover:shadow-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B88736]/40 focus-visible:ring-offset-2"
           >
             {selectedDefinition ? `Confirmar ${selectedDefinition.name}` : 'Selecione um estilo'}
           </button>
