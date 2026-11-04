@@ -31,7 +31,7 @@ function LayoutPreview({ layout }: { layout: LayoutDefinition }) {
         ? 'linear-gradient(135deg, #D4AF77, #A77B43)'
         : `linear-gradient(135deg, ${gold}, ${accent})`;
   const previewSwatches = isNaturalSereno
-    ? [canvas, gold, naturalIvory, '#E8E0D5']
+    ? [canvas, accent, gold, naturalIvory]
     : [canvas, gold, surface, accent];
 
   return (
@@ -118,7 +118,7 @@ export default function LayoutChoiceModal({ onSelect }: LayoutChoiceModalProps) 
                 <LayoutPreview layout={layout} />
                 <div className="mt-4 flex gap-2" aria-hidden="true">
                   {(layout.id === 'natural-sereno'
-                    ? [layout.swatches[0], layout.swatches[2], '#F3EDE4', '#E8E0D5']
+                    ? [layout.swatches[0], layout.swatches[1], layout.swatches[2], '#F3EDE4']
                     : layout.id === 'essencia-luminosa'
                       ? ['#FFFFF8', '#C6A46A', '#F7F3E8', '#A6B49B']
                       : layout.swatches
