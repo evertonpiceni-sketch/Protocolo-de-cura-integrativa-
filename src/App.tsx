@@ -511,12 +511,8 @@ export default function App() {
     const nextUncompleted = account.progress.find(p => !p.completed);
     setCurrentDay(nextUncompleted ? nextUncompleted.dayNumber : 21);
 
-    const bgMusic = account.profile.bgMusicType;
-    if (bgMusic !== 'none') {
-      audioEngine.unlock();
-      audioEngine.setBGVolume(account.profile.bgMusicVolume ?? 0.5);
-      audioEngine.startBG(bgMusic);
-    }
+    // The central background-audio effect owns playback after login.
+    // Do not start a frequency here before session guards are evaluated.
 
         // Check if welcome modal was seen
     const seenWelcome = localStorage.getItem('cura_integrada_welcome_seen_v1');
@@ -698,10 +694,9 @@ export default function App() {
         : newAnamnesis.recommendedFrequency,
       audioEnabled: true
     };
+    // Saving the profile triggers the guarded background-audio effect.
+    // Avoid bypassing active protocol/journey playback restrictions.
     saveProfile(updatedProfile);
-    if (updatedProfile.bgMusicType !== 'none') {
-      audioEngine.startBG(updatedProfile.bgMusicType);
-    }
   };
 
   // Save purchased / requested specific individual treatment
