@@ -115,7 +115,7 @@ export function PlansValuesGuideModal({ isOpen, onClose, onSelectPlan, onOpenPro
   const [filterCategory, setFilterCategory] = useState<'todos' | 'assinatura' | 'tratamento_individual'>('todos');
   React.useEffect(() => { if (isOpen) setTimeout(() => { if (containerRef.current) containerRef.current.scrollTop = 0; }, 50); }, [isOpen]);
   const dialogRef = React.useRef<HTMLDivElement | null>(null);
-  useDialogFocus(isOpen && document.documentElement.dataset.layout === 'natural-sereno', dialogRef, onClose);
+  useDialogFocus(isOpen, dialogRef, onClose);
   if (!isOpen) return null;
   const handleTriggerPlan = (planId: string) => { onClose(); if (onOpenProModal) onOpenProModal(planId); else if (onSelectPlan) onSelectPlan(planId); };
   const handleTriggerSpecificTreatment = () => { onClose(); if (onOpenSpecificTreatment) onOpenSpecificTreatment(); else if (onSelectSpecificTreatment) onSelectSpecificTreatment(); };
