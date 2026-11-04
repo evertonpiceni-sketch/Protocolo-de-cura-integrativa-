@@ -59,7 +59,7 @@ async function mountRequiredLayoutChoice() {
     return;
   }
 
-  let selected = normalizeLayoutId(profile.visualLayout);
+  let selected: (typeof OFFICIAL_LAYOUTS)[number]['id'] | null = null;
   const overlay = document.createElement('div');
   overlay.id = OVERLAY_ID;
   overlay.setAttribute('role', 'dialog');
@@ -69,18 +69,19 @@ async function mountRequiredLayoutChoice() {
 
   const render = () => {
     overlay.innerHTML = `<section style="width:min(960px,100%);max-height:94vh;overflow:auto;background:#FAF7F2;border:1px solid #E8E0D5;border-radius:28px;padding:clamp(20px,4vw,36px);box-shadow:0 28px 80px rgba(42,36,33,.22);font-family:inherit;color:#2A2421">
-      <div style="text-align:center;max-width:680px;margin:0 auto 22px"><p style="margin:0 0 7px;color:#A87E37;font-size:12px;font-weight:700;letter-spacing:.12em;text-transform:uppercase">4 estilos, uma mesma essência</p><h2 style="margin:0;font-size:clamp(24px,4vw,36px);line-height:1.15">Escolha como você quer entrar hoje</h2><p style="margin:12px 0 0;color:#6B625B;line-height:1.6">Sua preferência anterior aparece pré-selecionada. Veja a prévia de cada atmosfera e confirme: nenhum estilo será aplicado automaticamente.</p></div>
+      <div style="text-align:center;max-width:680px;margin:0 auto 22px"><p style="margin:0 0 7px;color:#A87E37;font-size:12px;font-weight:700;letter-spacing:.12em;text-transform:uppercase">4 estilos, uma mesma essência</p><h2 style="margin:0;font-size:clamp(24px,4vw,36px);line-height:1.15">Escolha como você quer entrar hoje</h2><p style="margin:12px 0 0;color:#6B625B;line-height:1.6">Selecione uma das quatro atmosferas e confirme. Nenhum estilo será aplicado automaticamente.</p></div>
       <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:14px">${OFFICIAL_LAYOUTS.map(layout => {
-        const active = layout.id === selected;
+        const active = selected !== null && layout.id === selected;
         return `<button type="button" data-layout-id="${escapeHtml(layout.id)}" aria-pressed="${active}" style="appearance:none;text-align:left;min-height:260px;padding:16px;border-radius:20px;border:${active ? '2px solid #B88736' : '1px solid #E8E0D5'};background:${active ? '#FFFDF8' : 'rgba(255,255,255,.72)'};box-shadow:${active ? '0 10px 28px rgba(67,52,39,.10)' : 'none'};cursor:pointer;color:#2A2421"><strong style="display:block;font-size:15px;margin-bottom:7px">${escapeHtml(layout.name)}</strong><span style="display:block;color:#6B625B;font-size:12px;line-height:1.45;min-height:35px">${escapeHtml(layout.description)}</span>${previewMarkup(layout)}<span style="display:flex;gap:5px;margin-top:11px">${layout.swatches.map(color => `<i aria-hidden="true" style="display:block;flex:1;height:9px;border-radius:999px;background:${escapeHtml(color)};border:1px solid rgba(0,0,0,.08)"></i>`).join('')}</span></button>`;
       }).join('')}</div>
-      <div style="display:flex;justify-content:center;margin-top:22px"><button type="button" id="required-layout-confirm" style="appearance:none;border:1px solid #A87E37;border-radius:14px;background:linear-gradient(145deg,#C89D52,#A87E37);color:#FFFDF8;padding:13px 24px;font-weight:700;cursor:pointer;box-shadow:0 10px 24px rgba(67,52,39,.14)">Confirmar ${escapeHtml(OFFICIAL_LAYOUTS.find(layout => layout.id === selected)?.name || 'estilo')}</button></div>
+      <div style="display:flex;justify-content:center;margin-top:22px"><button type="button" id="required-layout-confirm" ${selected === null ? 'disabled aria-disabled="true"' : ''} style="appearance:none;border:1px solid #A87E37;border-radius:14px;background:linear-gradient(145deg,#C89D52,#A87E37);color:#FFFDF8;padding:13px 24px;font-weight:700;cursor:${selected === null ? 'not-allowed' : 'pointer'};opacity:${selected === null ? '.5' : '1'};box-shadow:0 10px 24px rgba(67,52,39,.14)">Confirmar ${escapeHtml(OFFICIAL_LAYOUTS.find(layout => layout.id === selected)?.name || 'estilo')}</button></div>
     </section>`;
 
     overlay.querySelectorAll<HTMLButtonElement>('[data-layout-id]').forEach(button => {
       button.addEventListener('click', () => { selected = normalizeLayoutId(button.dataset.layoutId); render(); });
     });
     overlay.querySelector<HTMLButtonElement>('#required-layout-confirm')?.addEventListener('click', async () => {
+      if (selected === null) return;
       const updatedProfile = { ...profile, visualLayout: selected };
       try {
         const response = await fetch('/api/user/sync', { method: 'POST', credentials: 'same-origin', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ profile: updatedProfile, progress: account.progress || [] }) });
