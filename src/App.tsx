@@ -159,7 +159,12 @@ export default function App() {
         } else if (response.ok && data.status === 'pending' && attempts < 10) {
           retryTimer = setTimeout(confirmPayment, 2000);
         }
-      }).catch(error => { if (error.name !== 'AbortError') console.error('Payment confirmation unavailable'); });
+      }).catch(error => {
+        if (controller.signal.aborted || error?.name === 'AbortError') return;
+        console.error('Payment confirmation unavailable');
+        // Falhas transitórias de rede não devem encerrar a verificação do retorno.
+        if (attempts < 10) retryTimer = setTimeout(confirmPayment, 2000);
+      });
     };
     confirmPayment();
     return () => { controller.abort(); clearTimeout(retryTimer); };
