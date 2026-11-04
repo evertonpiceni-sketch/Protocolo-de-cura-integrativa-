@@ -156,7 +156,8 @@ export default function App() {
           setUserProfile(data.user.profile);
           for (const key of ['payment_order', 'order_nsu', 'transaction_nsu', 'slug', 'invoice_slug', 'receipt_url', 'capture_method']) params.delete(key);
           window.history.replaceState(null, '', window.location.pathname + (params.size ? '?' + params : '') + window.location.hash);
-        } else if (response.ok && data.status === 'pending' && attempts < 10) {
+        } else if (attempts < 10 && ((response.ok && data.status === 'pending') || response.status === 429 || response.status >= 500)) {
+          // Repetir apenas estados pendentes e falhas temporárias do servidor.
           retryTimer = setTimeout(confirmPayment, 2000);
         }
       }).catch(error => {
