@@ -1791,7 +1791,7 @@ export default function App() {
         ) : (
           /* New approved transformation home */
           <TransformationHome
-            visualLayout={normalizeLayoutId(userProfile.visualLayout)}
+            visualLayout={layoutConfirmedThisSession ? normalizeLayoutId(userProfile.visualLayout) : undefined}
             userName={userProfile.name}
             currentDay={currentDay}
             progress={progress}
