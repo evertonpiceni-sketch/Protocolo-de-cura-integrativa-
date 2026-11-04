@@ -30,7 +30,7 @@
 :root[data-layout="elegancia-profunda"] #welcome-modal button[class*="from-emerald"] {
   background: linear-gradient(135deg,
     color-mix(in srgb, var(--layout-gold) 90%, #f4e4bd),
-    color-mix(in srgb, var(--layout-accent) 72%, var(--layout-gold))) !important;
+    color-mix(in srgb, var(--layout-gold) 68%, #76512f)) !important;
   border: 1px solid color-mix(in srgb, var(--layout-gold) 48%, transparent) !important;
   color: color-mix(in srgb, var(--layout-canvas) 88%, black) !important;
   box-shadow: 0 14px 34px rgba(0,0,0,.30) !important;
