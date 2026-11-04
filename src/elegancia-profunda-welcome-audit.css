@@ -48,7 +48,9 @@
 }
 
 :root[data-layout="elegancia-profunda"] #welcome-modal img[src*="brand" i] {
-  filter: saturate(.88) contrast(.98) brightness(.86);
+  /* Assinatura discreta: preservar a arte e evitar protagonismo do logo. */
+  opacity: .38;
+  filter: saturate(.88) contrast(.98);
 }
 
 :root[data-layout="elegancia-profunda"] #welcome-modal [class*="from-slate-900"] {
