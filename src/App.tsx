@@ -249,7 +249,7 @@ export default function App() {
       });
 
       // Handle play/pause state
-      const shouldPlay = (userProfile.audioEnabled !== false) && 
+      const shouldPlay = layoutConfirmedThisSession && (userProfile.audioEnabled !== false) && 
                          userProfile.bgMusicType !== 'none' && 
                          activeSessionDay === null &&
                          !showPersonalJourney &&
@@ -275,7 +275,8 @@ export default function App() {
     activeSessionDay,
     showPersonalJourney,
     showArcanjoView,
-    userProfile?.subscriptionPlan
+    userProfile?.subscriptionPlan,
+    layoutConfirmedThisSession
   ]);
 
   // Reintegração da Vida owns its audio while open: stop global music and speech to prevent overlap.
@@ -291,7 +292,7 @@ export default function App() {
       audioEngine.unlock();
 
       if (userProfile) {
-        const shouldPlay = (userProfile.audioEnabled !== false) && 
+        const shouldPlay = layoutConfirmedThisSession && (userProfile.audioEnabled !== false) && 
                            userProfile.bgMusicType !== 'none' && 
                            activeSessionDay === null &&
                            !showPersonalJourney &&
@@ -314,7 +315,7 @@ export default function App() {
       window.removeEventListener('click', handleGesture);
       window.removeEventListener('touchstart', handleGesture);
     };
-  }, [userProfile, activeSessionDay, showPersonalJourney, showArcanjoView]);
+  }, [userProfile, activeSessionDay, showPersonalJourney, showArcanjoView, layoutConfirmedThisSession]);
 
   useEffect(() => {
     if (!userProfile?.reminderTime || typeof Notification === 'undefined' || Notification.permission !== 'granted') return;
