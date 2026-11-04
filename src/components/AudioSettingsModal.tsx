@@ -21,6 +21,7 @@ interface AudioSettingsModalProps {
   onSaveProfile: (updated: UserProfile) => void;
   availableVoices?: SpeechSynthesisVoice[];
   onOpenProModal?: () => void;
+  allowBackgroundPlayback?: boolean;
 }
 
 export default function AudioSettingsModal({
@@ -29,7 +30,8 @@ export default function AudioSettingsModal({
   userProfile,
   onSaveProfile,
   availableVoices,
-  onOpenProModal
+  onOpenProModal,
+  allowBackgroundPlayback = true
 }: AudioSettingsModalProps) {
   const dialogRef = useRef<HTMLDivElement>(null);
   const closeWithoutSaving = () => {
@@ -44,7 +46,7 @@ export default function AudioSettingsModal({
       carrierMode: userProfile.binauralCarrierMode ?? 'sync'
     });
     audioEngine.setBGVolume(userProfile.bgMusicVolume ?? 0.5);
-    if (userProfile.audioEnabled !== false && userProfile.bgMusicType && userProfile.bgMusicType !== 'none') {
+    if (allowBackgroundPlayback && userProfile.audioEnabled !== false && userProfile.bgMusicType && userProfile.bgMusicType !== 'none') {
       audioEngine.startBG(userProfile.bgMusicType);
     }
     setIsTestingVoice(false);
@@ -212,7 +214,7 @@ export default function AudioSettingsModal({
       carrierMode: binauralCarrierMode
     });
 
-    if (audioEnabled && bgMusicType !== 'none') {
+    if (allowBackgroundPlayback && audioEnabled && bgMusicType !== 'none') {
       audioEngine.startBG(bgMusicType);
     } else {
       audioEngine.stopBG();
