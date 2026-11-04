@@ -21,9 +21,13 @@ function LayoutPreview({ layout }: { layout: LayoutDefinition }) {
     ? `linear-gradient(145deg, ${canvas}, ${naturalIvory})`
     : `linear-gradient(145deg, ${canvas}, ${surface})`;
   const previewSurface = isNaturalSereno ? 'rgba(255,255,255,.78)' : `${accent}33`;
+  // No Místico Moderno, o CTA deve permanecer dourado/âmbar e legível:
+  // mesclar dourado com violeta escurece a metade do botão sob texto escuro.
   const actionBackground = isNaturalSereno
     ? `linear-gradient(135deg, ${gold}, #A87E37)`
-    : `linear-gradient(135deg, ${gold}, ${accent})`;
+    : layout.id === 'mistico-moderno'
+      ? `linear-gradient(135deg, ${gold}, #E2B96B)`
+      : `linear-gradient(135deg, ${gold}, ${accent})`;
   const previewSwatches = isNaturalSereno
     ? [canvas, gold, naturalIvory, `${surface}55`]
     : [canvas, gold, surface, accent];
