@@ -25,7 +25,10 @@
 :root[data-layout="essencia-luminosa"] #main-header #header-btn-google-play svg{color:var(--layout-gold)!important;}
 
 /* Boas-vindas. */
-:root[data-layout="essencia-luminosa"] #welcome-modal :is([class*="bg-emerald-"],[class*="border-emerald-"],[class*="text-emerald-"]){background:color-mix(in srgb,var(--layout-accent-soft) 52%,var(--layout-card))!important;border-color:color-mix(in srgb,var(--layout-accent) 26%,var(--layout-border-card))!important;color:var(--layout-accent)!important;}
+/* Separação por função: classes de texto não devem receber fundo/borda, nem classes de fundo devem perder o contraste textual. */
+:root[data-layout="essencia-luminosa"] #welcome-modal [class*="bg-emerald-"]{background:color-mix(in srgb,var(--layout-accent-soft) 52%,var(--layout-card))!important;}
+:root[data-layout="essencia-luminosa"] #welcome-modal [class*="border-emerald-"]{border-color:color-mix(in srgb,var(--layout-accent) 26%,var(--layout-border-card))!important;}
+:root[data-layout="essencia-luminosa"] #welcome-modal [class*="text-emerald-"]{color:var(--layout-accent)!important;}
 :root[data-layout="essencia-luminosa"] #welcome-modal :is([class*="bg-amber-"],[class*="border-amber-"],[class*="text-amber-"]){background:color-mix(in srgb,var(--layout-gold-soft) 44%,var(--layout-card))!important;border-color:color-mix(in srgb,var(--layout-gold) 25%,var(--layout-border-card))!important;color:var(--layout-gold)!important;}
 :root[data-layout="essencia-luminosa"] #welcome-modal button[class*="from-emerald-"]{background:linear-gradient(105deg,color-mix(in srgb,var(--layout-accent) 78%,#fff) 0%,var(--layout-gold) 100%)!important;color:var(--layout-text)!important;border-color:color-mix(in srgb,var(--layout-gold) 30%,transparent)!important;box-shadow:0 10px 24px rgba(112,91,58,.10)!important;}
 :root[data-layout="essencia-luminosa"] #welcome-modal input[type="checkbox"]{accent-color:var(--layout-accent);}
