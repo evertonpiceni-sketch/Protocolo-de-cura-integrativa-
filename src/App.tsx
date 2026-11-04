@@ -253,8 +253,7 @@ export default function App() {
                          userProfile.bgMusicType !== 'none' && 
                          activeSessionDay === null &&
                          !showPersonalJourney &&
-                         !showArcanjoView &&
-                         userProfile.subscriptionPlan !== 'arcanjo_7d'; // Pause global background music during any active meditation/journey
+                         !showArcanjoView; // Pause global background music during any active meditation/journey
 
       if (shouldPlay) {
         audioEngine.startBG(userProfile.bgMusicType);
@@ -296,8 +295,7 @@ export default function App() {
                            userProfile.bgMusicType !== 'none' && 
                            activeSessionDay === null &&
                            !showPersonalJourney &&
-                           !showArcanjoView &&
-                         userProfile.subscriptionPlan !== 'arcanjo_7d';
+                           !showArcanjoView;
                            
         if (shouldPlay) {
           audioEngine.startBG(userProfile.bgMusicType);
@@ -2413,7 +2411,7 @@ export default function App() {
       {showAudioSettingsModal && userProfile && (
         <AudioSettingsModal
           isOpen={showAudioSettingsModal}
-          allowBackgroundPlayback={activeSessionDay === null && !showPersonalJourney && !showArcanjoView && userProfile.subscriptionPlan !== 'arcanjo_7d'}
+          allowBackgroundPlayback={activeSessionDay === null && !showPersonalJourney && !showArcanjoView}
           onClose={() => setShowAudioSettingsModal(false)}
           userProfile={userProfile}
           onSaveProfile={saveProfile}
