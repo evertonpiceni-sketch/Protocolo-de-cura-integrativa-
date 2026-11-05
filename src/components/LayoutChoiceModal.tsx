@@ -50,9 +50,16 @@ function LayoutPreview({ layout }: { layout: LayoutDefinition }) {
           <span className="mt-2 block h-2.5 w-3/4 rounded-full" style={{ backgroundColor: foreground, opacity: .9 }} />
           <span className="mt-1.5 block h-1.5 w-1/2 rounded-full" style={{ backgroundColor: muted }} />
           {isNaturalSereno && (
-            <span className="mt-3 flex h-7 w-full items-center rounded-lg border border-black/5 px-2" style={{ background: `linear-gradient(90deg, ${canvas}, ${naturalIvory})` }}>
-              <span className="h-2 w-8 rounded-full" style={{ backgroundColor: '#C89D52', opacity: .48 }} />
-            </span>
+            <span
+              className="mt-3 block h-20 w-full overflow-hidden rounded-lg border border-[#E8E0D5]"
+              style={{
+                backgroundImage: 'linear-gradient(180deg, rgba(250,247,242,.06), rgba(42,36,33,.14)), url("/brand/natural-sereno/vale-amanhecer.webp")',
+                backgroundPosition: 'center 55%',
+                backgroundSize: 'cover',
+                backgroundRepeat: 'no-repeat',
+                backgroundColor: naturalIvory
+              }}
+            />
           )}
           <span
             className="mt-3 inline-flex rounded-full px-3 py-1 text-[8px] font-bold uppercase tracking-[.12em] shadow-sm"
