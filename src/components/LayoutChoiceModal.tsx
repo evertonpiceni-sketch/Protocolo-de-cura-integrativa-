@@ -29,7 +29,9 @@ function LayoutPreview({ layout }: { layout: LayoutDefinition }) {
       ? `linear-gradient(135deg, ${gold}, #E2B96B)`
       : layout.id === 'elegancia-profunda'
         ? 'linear-gradient(135deg, #D4AF77, #A77B43)'
-        : `linear-gradient(135deg, ${gold}, ${accent})`;
+        : isEssenciaLuminosa
+          ? `linear-gradient(135deg, ${gold}, #E9D6AF)`
+          : `linear-gradient(135deg, ${gold}, ${accent})`;
   const previewSwatches = isNaturalSereno
     ? [canvas, accent, gold, naturalIvory]
     : [canvas, gold, surface, accent];
