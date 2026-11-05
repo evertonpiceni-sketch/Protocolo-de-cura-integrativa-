@@ -136,3 +136,18 @@
   background:rgba(20,31,48,.82)!important;
   border-color:var(--border-subtle)!important;
 }
+
+/* Acolhimento anterior à jornada: não usa .ep-home e escapava dos
+   neutralizadores noturnos. Escopo exclusivo do Estilo 4. */
+:root[data-layout="mistico-moderno"] .ep-welcome-audio.ep-home-hero{
+  background:radial-gradient(circle at 50% 0,rgba(108,63,160,.13),transparent 22rem),linear-gradient(145deg,rgba(20,31,48,.96),rgba(10,15,24,.94))!important;
+  border-color:var(--border-card)!important;
+  color:var(--text-primary)!important;
+}
+:root[data-layout="mistico-moderno"] .ep-welcome-audio [class*="text-[#2A2420]"]{color:var(--text-primary)!important;}
+:root[data-layout="mistico-moderno"] .ep-welcome-audio [class*="text-[#5C5248]"]{color:var(--text-secondary)!important;}
+:root[data-layout="mistico-moderno"] .ep-welcome-audio button[class*="bg-white"]{
+  background:rgba(20,31,48,.86)!important;
+  border-color:rgba(212,175,55,.30)!important;
+  color:var(--text-primary)!important;
+}
