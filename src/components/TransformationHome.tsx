@@ -3,7 +3,7 @@ import { Award, BookOpen, ChevronRight, Flower2, GraduationCap, Headphones, Hear
 import { AnamnesisData, DAILY_INSIGHTS, DayProgress } from '../types';
 import { APPROVED_LOGO_DATA_URI } from './ApprovedBrand';
 import { evaluateBestTreatmentFromAnamnesis } from '../lib/anamnesisTreatmentEngine';
-import { audioEngine } from '../lib/audio';
+import { audioEngine, OFFICIAL_PROTOCOL_VOICE_ID } from '../lib/audio';
 import { LayoutId } from '../config/layouts';
 import NaturalSerenoHome from './NaturalSerenoHome';
 
@@ -51,13 +51,13 @@ export default function TransformationHome(props: TransformationHomeProps) {
   const welcomeText = `Olá, ${firstName}. Que bom que você voltou para si. Respire com calma. Você não precisa fazer tudo hoje. Estamos juntos neste processo. ${insight?.quote || ''}`;
   const toggleWelcome = () => {
     if (isSpeaking) { audioEngine.stopSpeech(); setIsSpeaking(false); return; }
-    void audioEngine.speakWithElevenLabsOrFallback(welcomeText, 1, () => setIsSpeaking(true), () => setIsSpeaking(false), undefined, undefined, { voiceId: 'Marcus', stability: .5, similarityBoost: .78, userName: props.userName, enableBreathingPauses: true, preferElevenLabs: true, lang: 'pt-BR', rate: .82, pitch: .92 });
+    void audioEngine.speakWithElevenLabsOrFallback(welcomeText, 1, () => setIsSpeaking(true), () => setIsSpeaking(false), undefined, undefined, { voiceId: props.visualLayout === 'mistico-moderno' ? OFFICIAL_PROTOCOL_VOICE_ID : 'Marcus', stability: .5, similarityBoost: .78, userName: props.userName, enableBreathingPauses: true, preferElevenLabs: true, lang: 'pt-BR', rate: .82, pitch: .92 });
   };
   const speakResult = () => {
     if (!recommendation) return;
     const text = `Olá, ${firstName}. Seu resultado personalizado indica ${recommendation.categoryLabel}. ${recommendation.summaryDiagnosis}. A frequência recomendada é ${recommendation.frequencyLabel}. O chakra em foco é ${recommendation.primaryChakraFocus}. O floral recomendado é ${recommendation.recommendedFloral}. A aromaterapia recomendada é ${recommendation.recommendedAromatherapy}. Estamos juntos neste processo.`;
     audioEngine.stopSpeech();
-    void audioEngine.speakWithElevenLabsOrFallback(text, 1, () => setIsSpeaking(true), () => setIsSpeaking(false), undefined, undefined, { voiceId: 'Marcus', stability: .5, similarityBoost: .78, userName: props.userName, enableBreathingPauses: true, preferElevenLabs: true, lang: 'pt-BR', rate: .82, pitch: .92 });
+    void audioEngine.speakWithElevenLabsOrFallback(text, 1, () => setIsSpeaking(true), () => setIsSpeaking(false), undefined, undefined, { voiceId: props.visualLayout === 'mistico-moderno' ? OFFICIAL_PROTOCOL_VOICE_ID : 'Marcus', stability: .5, similarityBoost: .78, userName: props.userName, enableBreathingPauses: true, preferElevenLabs: true, lang: 'pt-BR', rate: .82, pitch: .92 });
   };
 
   if (props.visualLayout === 'natural-sereno') {
