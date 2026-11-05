@@ -4,7 +4,7 @@ import { Check } from 'lucide-react';
 import { OFFICIAL_LAYOUTS, LayoutDefinition, LayoutId } from '../config/layouts';
 
 interface LayoutChoiceModalProps {
-  onSelect: (layout: LayoutId) => void;
+  onSelect: (layout: LayoutId) => void | Promise<void>;
 }
 
 function LayoutPreview({ layout }: { layout: LayoutDefinition }) {
@@ -82,6 +82,21 @@ function LayoutPreview({ layout }: { layout: LayoutDefinition }) {
 
 export default function LayoutChoiceModal({ onSelect }: LayoutChoiceModalProps) {
   const [selectedLayout, setSelectedLayout] = useState<LayoutId | null>(null);
+  const [isSaving, setIsSaving] = useState(false);
+  const [saveError, setSaveError] = useState<string | null>(null);
+  const confirmSelection = async () => {
+    if (!selectedLayout || isSaving) return;
+    setIsSaving(true);
+    setSaveError(null);
+    try {
+      await onSelect(selectedLayout);
+    } catch (error) {
+      console.error('Layout selection could not be persisted', error);
+      setSaveError('Não foi possível salvar sua escolha. Tente novamente.');
+    } finally {
+      setIsSaving(false);
+    }
+  };
   const dialogRef = useRef<HTMLDivElement>(null);
   // Selection is mandatory: trap keyboard focus without allowing Escape to bypass confirmation.
   useDialogFocus(true, dialogRef, null);
@@ -111,7 +126,8 @@ export default function LayoutChoiceModal({ onSelect }: LayoutChoiceModalProps) 
               <button
                 key={layout.id}
                 type="button"
-                onClick={() => setSelectedLayout(layout.id)}
+                onClick={() => { setSelectedLayout(layout.id); setSaveError(null); }}
+                disabled={isSaving}
                 aria-pressed={isSelected}
                 className={`group min-h-36 rounded-2xl border bg-white/85 p-5 text-left transition hover:-translate-y-0.5 hover:shadow-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B88736]/35 ${isSelected ? 'border-[#B88736] ring-2 ring-[#B88736]/20 shadow-lg' : 'border-[#E5DAC6] hover:border-[#B88736]/60'}`}
               >
@@ -143,12 +159,13 @@ export default function LayoutChoiceModal({ onSelect }: LayoutChoiceModalProps) 
         <div className="mt-6 flex flex-col items-center gap-2 border-t border-[#E5DAC6] pt-5">
           <button
             type="button"
-            disabled={!selectedLayout}
-            onClick={() => selectedLayout && onSelect(selectedLayout)}
+            disabled={!selectedLayout || isSaving}
+            onClick={confirmSelection}
             className="min-h-12 w-full max-w-sm rounded-full bg-gradient-to-r from-[#C89D52] via-[#D9B66D] to-[#A87E37] px-6 py-3 text-sm font-bold uppercase tracking-[.12em] text-[#2A2420] shadow-lg transition hover:-translate-y-0.5 hover:shadow-xl disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:translate-y-0 disabled:hover:shadow-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B88736]/40 focus-visible:ring-offset-2"
           >
-            {selectedDefinition ? `Confirmar ${selectedDefinition.name}` : 'Selecione um estilo'}
+            {isSaving ? 'Salvando escolha…' : selectedDefinition ? `Confirmar ${selectedDefinition.name}` : 'Selecione um estilo'}
           </button>
+          {saveError && <p role="alert" className="text-center text-sm font-medium text-red-800">{saveError}</p>}
           <p className="text-center text-xs text-[#6B625B]">O estilo só será aplicado depois da sua confirmação.</p>
         </div>
       </section>
