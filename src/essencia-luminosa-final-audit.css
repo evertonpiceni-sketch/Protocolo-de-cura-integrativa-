@@ -44,7 +44,9 @@
 :root[data-layout="essencia-luminosa"] #journal-dashboard-view [class*="text-emerald-"]{color:var(--layout-accent)!important;}
 
 /* Mapa Astral, Numerologia e Contato. */
-:root[data-layout="essencia-luminosa"] #astral-map-modal :is([class*="bg-emerald-"],[class*="border-emerald-"],[class*="text-emerald-"]){background:color-mix(in srgb,var(--layout-accent-soft) 48%,var(--layout-card))!important;border-color:color-mix(in srgb,var(--layout-accent) 28%,var(--layout-border-card))!important;color:var(--layout-accent)!important;}
+:root[data-layout="essencia-luminosa"] #astral-map-modal [class*="bg-emerald-"]{background:color-mix(in srgb,var(--layout-accent-soft) 48%,var(--layout-card))!important;}
+:root[data-layout="essencia-luminosa"] #astral-map-modal [class*="border-emerald-"]{border-color:color-mix(in srgb,var(--layout-accent) 28%,var(--layout-border-card))!important;}
+:root[data-layout="essencia-luminosa"] #astral-map-modal [class*="text-emerald-"]{color:var(--layout-accent)!important;}
 :root[data-layout="essencia-luminosa"] #astral-map-modal a[class*="bg-emerald-"]{background:linear-gradient(105deg,color-mix(in srgb,var(--layout-accent) 82%,#fff) 0%,color-mix(in srgb,var(--layout-gold) 72%,var(--layout-accent)) 100%)!important;border-color:color-mix(in srgb,var(--layout-gold) 28%,var(--layout-border-card))!important;color:var(--layout-text)!important;box-shadow:0 8px 20px rgba(112,91,58,.08)!important;}
 :root[data-layout="essencia-luminosa"] #astral-map-modal a[class*="bg-emerald-"]:hover{filter:brightness(.97) saturate(.92);}
 :root[data-layout="essencia-luminosa"] #numerology-modal [class*="bg-emerald-"]{background-color:color-mix(in srgb,var(--layout-accent-soft) 48%,transparent)!important;}
