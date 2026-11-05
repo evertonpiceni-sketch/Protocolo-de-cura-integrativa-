@@ -129,3 +129,10 @@
   :root[data-layout="mistico-moderno"] img[src*="logo" i],
   :root[data-layout="mistico-moderno"] img[alt*="logo" i]{opacity:.26!important;}
 }
+
+/* Home: neutraliza cartões marfim herdados dentro dos painéis de progresso e afirmação.
+   Mantém o texto marfim legível no Estilo 4 sem afetar os outros temas. */
+:root[data-layout="mistico-moderno"] .ep-home .ep-luxury-card [class*="bg-[#F5EFE4]"]{
+  background:rgba(20,31,48,.82)!important;
+  border-color:var(--border-subtle)!important;
+}
