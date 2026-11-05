@@ -1537,14 +1537,18 @@ class CalmingAudioEngine {
     this.stopSpeech();
     const generation = this.protocolRequestGeneration;
     const isCurrent = () => generation === this.protocolRequestGeneration;
-    const startFallback = () => {
-      if (!isCurrent()) return;
-      if (this.protocolPlaybackPaused) {
-        this.pendingProtocolFallback = startFallback;
-        return;
-      }
-      this.speak(text, this.mainVolume, () => onPlaybackChange?.(true), () => onEnd?.(), undefined, undefined,
-        { voiceId, rate: speed, onSpeechProgress: seconds => onProgress?.(seconds, 0) });
+    // The approved protocol narration must never silently switch to browser TTS.
+    // Report a recoverable failure to the player without marking the stage complete.
+    let errorReported = false;
+    const reportVoiceError = (error: unknown) => {
+      if (!isCurrent() || errorReported) return;
+      errorReported = true;
+      this.isElevenLabsPlaying = false;
+      this.protocolPlaybackPaused = false;
+      this.pendingProtocolFallback = null;
+      this.voiceAudioElement?.pause();
+      onPlaybackChange?.(false);
+      onError?.(error instanceof Error ? error : new Error('Narração oficial indisponível. Tente novamente.'));
     };
     try {
       if (!this.voiceAudioElement) {
@@ -1567,8 +1571,7 @@ class CalmingAudioEngine {
         const errorData = await response.json().catch(() => ({}));
         if (!isCurrent()) return null;
         if (errorData.fallbackToSpeechSynthesis) {
-          startFallback();
-          return null;
+          throw new Error('Narração oficial indisponível. Tente novamente.');
         }
         throw new Error('Falha ao obter stream contínuo.');
       }
@@ -1656,8 +1659,8 @@ class CalmingAudioEngine {
 
       audioEl.onerror = (e) => {
         if (!isCurrent()) return;
-        console.warn('Erro no elemento de áudio, usando fallback nativo:', e);
-        startFallback();
+        console.warn('Erro na reprodução da narração oficial:', e);
+        reportVoiceError(new Error('Não foi possível reproduzir a narração oficial. Tente novamente.'));
       };
 
       this.isElevenLabsPlaying = true;
@@ -1666,7 +1669,7 @@ class CalmingAudioEngine {
     } catch (err) {
       if (!isCurrent()) return null;
       console.warn('Erro ao processar stream de áudio contínuo:', err);
-      startFallback();
+      reportVoiceError(err);
       return null;
     }
   }
