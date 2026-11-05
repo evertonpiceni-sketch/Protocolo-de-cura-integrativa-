@@ -41,7 +41,7 @@ if (!engine.__naturalSerenoAudioIntegrityPatch) {
   engine.startBG = (type: any) => {
     const match = typeof type === 'string' ? type.match(SOLFEGGIO_PATTERN) : null;
     if (match) {
-      if (exactBackgroundType === type && solfeggioTone.getFrequency() === Number(match[1])) return;
+      if (exactBackgroundType === type.toLowerCase() && solfeggioTone.getFrequency() === Number(match[1])) return;
       originalStopBG();
       exactBackgroundType = type.toLowerCase();
       solfeggioTone.start(Number(match[1]), exactVolume());
