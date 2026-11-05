@@ -829,10 +829,21 @@ export default function App() {
     <>
       {(!layoutConfirmedThisSession || layoutChoiceRequested) && (
         <LayoutChoiceModal
-          onSelect={(layout) => {
+          onSelect={async (layout) => {
+            const updatedProfile = { ...userProfile, visualLayout: layout };
+            // Do not dismiss the chooser until the server accepts the preference.
+            if (isLoggedIn) {
+              const response = await fetch('/api/user/sync', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ profile: updatedProfile, progress })
+              });
+              if (!response.ok) throw new Error(`Não foi possível salvar o estilo (HTTP ${response.status})`);
+            }
+            setUserProfile(updatedProfile);
+            updateLocalAccountCache(updatedProfile, progress);
             setLayoutConfirmedThisSession(true);
             setLayoutChoiceRequested(false);
-            saveProfile({ ...userProfile, visualLayout: layout });
           }}
         />
       )}
