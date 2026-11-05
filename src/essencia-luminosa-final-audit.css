@@ -59,7 +59,8 @@
 :root[data-layout="essencia-luminosa"] #promo-video-modal{background:color-mix(in srgb,var(--layout-bg) 92%,transparent)!important;}
 :root[data-layout="essencia-luminosa"] #promo-video-modal :is([class*="from-[#0a412d]"],[class*="from-[#0c4a34]"],[class*="from-[#123f2f]"],[class*="from-[#174c38]"],[class*="via-[#062f21]"],[class*="to-[#021b13]"]){background-image:linear-gradient(135deg,var(--layout-card) 0%,color-mix(in srgb,var(--layout-gold-soft) 28%,var(--layout-card)) 52%,color-mix(in srgb,var(--layout-accent-soft) 36%,var(--layout-card)) 100%)!important;}
 :root[data-layout="essencia-luminosa"] #promo-video-modal :is([class*="text-emerald-"],[class*="text-purple-"]){color:var(--layout-accent)!important;}
-:root[data-layout="essencia-luminosa"] #promo-video-modal :is([class*="bg-emerald-"],[class*="border-emerald-"]){background:color-mix(in srgb,var(--layout-accent-soft) 48%,var(--layout-card))!important;border-color:color-mix(in srgb,var(--layout-accent) 26%,var(--layout-border-card))!important;}
+:root[data-layout="essencia-luminosa"] #promo-video-modal [class*="bg-emerald-"]{background:color-mix(in srgb,var(--layout-accent-soft) 48%,var(--layout-card))!important;}
+:root[data-layout="essencia-luminosa"] #promo-video-modal [class*="border-emerald-"]{border-color:color-mix(in srgb,var(--layout-accent) 26%,var(--layout-border-card))!important;}
 
 /* Prática individual: remove o verde-esmeralda, índigo e âmbar escuro herdados do componente-base.
    Estados funcionais continuam distinguíveis por sálvia/oliva clara e ouro suave. */
@@ -68,8 +69,13 @@
 :root[data-layout="essencia-luminosa"] #specific-treatment-modal [class*="border-emerald-"]{border-color:color-mix(in srgb,var(--layout-accent) 28%,var(--layout-border-card))!important;}
 :root[data-layout="essencia-luminosa"] #specific-treatment-modal [class*="text-emerald-"]{color:var(--layout-accent)!important;}
 :root[data-layout="essencia-luminosa"] #specific-treatment-modal [class*="shadow-emerald-"]{box-shadow:0 8px 20px rgba(112,91,58,.065)!important;}
-:root[data-layout="essencia-luminosa"] #specific-treatment-modal :is([class*="bg-indigo-"],[class*="border-indigo-"],[class*="text-indigo-"],[class*="shadow-indigo-"]){background:color-mix(in srgb,var(--layout-gold-soft) 24%,var(--layout-card))!important;border-color:color-mix(in srgb,var(--layout-gold) 26%,var(--layout-border-card))!important;color:var(--layout-text-secondary)!important;box-shadow:0 8px 20px rgba(112,91,58,.06)!important;}
-:root[data-layout="essencia-luminosa"] #specific-treatment-modal :is([class*="bg-amber-950"],[class*="text-amber-200"],[class*="text-amber-300"],[class*="shadow-amber-"]){background:color-mix(in srgb,var(--layout-gold-soft) 30%,var(--layout-card))!important;color:var(--layout-gold)!important;box-shadow:0 8px 20px rgba(112,91,58,.06)!important;}
+:root[data-layout="essencia-luminosa"] #specific-treatment-modal [class*="bg-indigo-"]{background:color-mix(in srgb,var(--layout-gold-soft) 24%,var(--layout-card))!important;}
+:root[data-layout="essencia-luminosa"] #specific-treatment-modal [class*="border-indigo-"]{border-color:color-mix(in srgb,var(--layout-gold) 26%,var(--layout-border-card))!important;}
+:root[data-layout="essencia-luminosa"] #specific-treatment-modal [class*="text-indigo-"]{color:var(--layout-text-secondary)!important;}
+:root[data-layout="essencia-luminosa"] #specific-treatment-modal [class*="shadow-indigo-"]{box-shadow:0 8px 20px rgba(112,91,58,.06)!important;}
+:root[data-layout="essencia-luminosa"] #specific-treatment-modal [class*="bg-amber-950"]{background:color-mix(in srgb,var(--layout-gold-soft) 30%,var(--layout-card))!important;}
+:root[data-layout="essencia-luminosa"] #specific-treatment-modal :is([class*="text-amber-200"],[class*="text-amber-300"]){color:var(--layout-gold)!important;}
+:root[data-layout="essencia-luminosa"] #specific-treatment-modal [class*="shadow-amber-"]{box-shadow:0 8px 20px rgba(112,91,58,.06)!important;}
 :root[data-layout="essencia-luminosa"] #specific-treatment-modal :is([class*="bg-slate-900"],[class*="bg-slate-950"],[class*="via-slate-950"],[class*="hover:bg-slate-700"]){background:color-mix(in srgb,var(--layout-card) 84%,var(--layout-gold-soft))!important;background-image:none!important;color:var(--layout-text-secondary)!important;border-color:var(--layout-border-card)!important;}
 :root[data-layout="essencia-luminosa"] #specific-treatment-modal :is([class*="border-slate-750"],[class*="border-slate-700"]){border-color:var(--layout-border-card)!important;}
 :root[data-layout="essencia-luminosa"] #specific-treatment-modal :is(button,a)[class*="bg-emerald-"]{background:linear-gradient(105deg,color-mix(in srgb,var(--layout-accent) 76%,#fff),color-mix(in srgb,var(--layout-gold) 68%,var(--layout-accent)))!important;color:var(--layout-text)!important;border-color:color-mix(in srgb,var(--layout-gold) 28%,var(--layout-border-card))!important;box-shadow:0 10px 24px rgba(112,91,58,.09)!important;}
