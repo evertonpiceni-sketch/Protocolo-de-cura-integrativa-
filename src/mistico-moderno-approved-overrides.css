@@ -55,9 +55,8 @@
   border-color:rgba(212,175,55,.16)!important;
   box-shadow:0 0 24px rgba(108,63,160,.08)!important;
 }
-:root[data-layout="mistico-moderno"] .ep-brand-signature,
-:root[data-layout="mistico-moderno"] img[src*="logo" i],
-:root[data-layout="mistico-moderno"] img[alt*="logo" i]{opacity:.30!important;filter:saturate(.90) contrast(.97);}
+/* Apenas a assinatura oficial: não reduzir a opacidade de outras imagens com "logo" no nome. */
+:root[data-layout="mistico-moderno"] .ep-brand-signature{opacity:.30!important;filter:saturate(.90) contrast(.97);}
 :root[data-layout="mistico-moderno"] #main-header div:has(> img.ep-brand-signature){background:rgba(20,31,48,.18)!important;border-color:rgba(212,175,55,.16)!important;box-shadow:0 0 18px rgba(108,63,160,.08)!important;}
 
 :root[data-layout="mistico-moderno"] #settings-view [data-ns-status-card="true"]{background:radial-gradient(circle at 100% 0,rgba(108,63,160,.12),transparent 18rem),linear-gradient(145deg,rgba(20,31,48,.97),rgba(10,15,24,.96))!important;border-color:rgba(212,175,55,.24)!important;box-shadow:0 16px 38px rgba(0,0,0,.24),inset 0 1px 0 rgba(255,255,255,.04)!important;}
@@ -125,9 +124,7 @@
 :root[data-layout="mistico-moderno"] select{-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;}
 
 @media (max-width:640px){
-  :root[data-layout="mistico-moderno"] .ep-brand-signature,
-  :root[data-layout="mistico-moderno"] img[src*="logo" i],
-  :root[data-layout="mistico-moderno"] img[alt*="logo" i]{opacity:.26!important;}
+  :root[data-layout="mistico-moderno"] .ep-brand-signature{opacity:.26!important;}
 }
 
 /* Home: neutraliza cartões marfim herdados dentro dos painéis de progresso e afirmação.
