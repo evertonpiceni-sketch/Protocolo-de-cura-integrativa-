@@ -80,7 +80,7 @@
 :root[data-layout="essencia-luminosa"] #specific-treatment-modal :is([class*="border-slate-750"],[class*="border-slate-700"]){border-color:var(--layout-border-card)!important;}
 :root[data-layout="essencia-luminosa"] #specific-treatment-modal :is(button,a)[class*="bg-emerald-"]{background:linear-gradient(105deg,color-mix(in srgb,var(--layout-accent) 76%,#fff),color-mix(in srgb,var(--layout-gold) 68%,var(--layout-accent)))!important;color:var(--layout-text)!important;border-color:color-mix(in srgb,var(--layout-gold) 28%,var(--layout-border-card))!important;box-shadow:0 10px 24px rgba(112,91,58,.09)!important;}
 :root[data-layout="essencia-luminosa"] #specific-treatment-modal :is(input,textarea,select){background:color-mix(in srgb,var(--layout-card) 94%,white)!important;border-color:var(--layout-border-card)!important;color:var(--layout-text)!important;}
-:root[data-layout="essencia-luminosa"] #specific-treatment-modal :is(input,textarea,select):focus{border-color:color-mix(in srgb,var(--layout-gold) 54%,var(--layout-border-card))!important;outline:none;}
+:root[data-layout="essencia-luminosa"] #specific-treatment-modal :is(input,textarea,select):focus-visible{border-color:var(--layout-gold)!important;outline:2px solid var(--layout-gold)!important;outline-offset:2px;}
 
 /* Barra de ações: Perguntas Sistêmicas ainda vinha do App com emerald-950/emerald-500.
    Mantém a ação reconhecível, mas dentro da linguagem clara/sálvia/ouro do Estilo 3. */
