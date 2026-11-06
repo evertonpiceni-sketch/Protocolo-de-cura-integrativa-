@@ -38,7 +38,7 @@ function LayoutPreview({ layout }: { layout: LayoutDefinition }) {
 
   return (
     <div
-      className="mt-4 overflow-hidden rounded-2xl border border-black/10 shadow-inner"
+      className={`mt-4 overflow-hidden rounded-2xl border shadow-inner ${layout.tone === 'dark' ? 'border-[#D4AF77]/35' : 'border-black/10'}`}
       style={{ background: previewBackground, color: foreground }}
       aria-hidden="true"
     >
@@ -47,7 +47,7 @@ function LayoutPreview({ layout }: { layout: LayoutDefinition }) {
         <span className="h-4 w-4 rounded-full border border-black/10" style={{ backgroundColor: isNaturalSereno ? '#E8E0D5' : accent, opacity: 1 }} />
       </div>
       <div className="p-3">
-        <div className="rounded-xl border border-black/5 p-3 shadow-sm" style={{ backgroundColor: previewSurface }}>
+        <div className={`rounded-xl border p-3 shadow-sm ${layout.tone === 'dark' ? 'border-[#D4AF77]/25' : 'border-black/5'}`} style={{ backgroundColor: previewSurface }}>
           <span className="block h-1.5 w-16 rounded-full" style={{ backgroundColor: gold }} />
           <span className="mt-2 block h-2.5 w-3/4 rounded-full" style={{ backgroundColor: foreground, opacity: .9 }} />
           <span className="mt-1.5 block h-1.5 w-1/2 rounded-full" style={{ backgroundColor: muted }} />
