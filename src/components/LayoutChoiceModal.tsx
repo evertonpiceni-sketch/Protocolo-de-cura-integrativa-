@@ -16,6 +16,8 @@ function LayoutPreview({ layout }: { layout: LayoutDefinition }) {
   const foreground = layout.tone === 'dark' ? '#F4F1EB' : '#2A2420';
   const muted = layout.tone === 'dark' ? 'rgba(244,241,235,.68)' : 'rgba(42,36,32,.62)';
   const isNaturalSereno = layout.id === 'natural-sereno';
+  const previewBorder = layout.id === 'elegancia-profunda' ? 'rgba(212,175,119,.35)' : layout.id === 'mistico-moderno' ? 'rgba(108,63,160,.40)' : 'rgba(42,36,32,.10)';
+  const innerBorder = layout.id === 'elegancia-profunda' ? 'rgba(212,175,119,.25)' : layout.id === 'mistico-moderno' ? 'rgba(108,63,160,.28)' : 'rgba(42,36,32,.06)';
   const naturalIvory = '#F3EDE4';
   const previewBackground = isNaturalSereno
     ? `linear-gradient(145deg, ${canvas}, ${naturalIvory})`
@@ -38,8 +40,8 @@ function LayoutPreview({ layout }: { layout: LayoutDefinition }) {
 
   return (
     <div
-      className={`mt-4 overflow-hidden rounded-2xl border shadow-inner ${layout.tone === 'dark' ? 'border-[#D4AF77]/35' : 'border-black/10'}`}
-      style={{ background: previewBackground, color: foreground }}
+      className="mt-4 overflow-hidden rounded-2xl border shadow-inner"
+      style={{ background: previewBackground, color: foreground, borderColor: previewBorder }}
       aria-hidden="true"
     >
       <div className="flex items-center justify-between border-b border-black/5 px-3 py-2">
@@ -47,7 +49,7 @@ function LayoutPreview({ layout }: { layout: LayoutDefinition }) {
         <span className="h-4 w-4 rounded-full border border-black/10" style={{ backgroundColor: isNaturalSereno ? '#E8E0D5' : accent, opacity: 1 }} />
       </div>
       <div className="p-3">
-        <div className={`rounded-xl border p-3 shadow-sm ${layout.tone === 'dark' ? 'border-[#D4AF77]/25' : 'border-black/5'}`} style={{ backgroundColor: previewSurface }}>
+        <div className="rounded-xl border p-3 shadow-sm" style={{ backgroundColor: previewSurface, borderColor: innerBorder }}>
           <span className="block h-1.5 w-16 rounded-full" style={{ backgroundColor: gold }} />
           <span className="mt-2 block h-2.5 w-3/4 rounded-full" style={{ backgroundColor: foreground, opacity: .9 }} />
           <span className="mt-1.5 block h-1.5 w-1/2 rounded-full" style={{ backgroundColor: muted }} />
