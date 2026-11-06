@@ -1075,7 +1075,7 @@ export default function App() {
                           <span className="text-sm font-semibold text-[#2A2420]">{layout.name}</span>
                           <span className="flex gap-1" aria-hidden="true">
                             {layout.swatches.map(color => (
-                              <span key={color} className="h-4 w-4 rounded-full border border-black/10" style={{ backgroundColor: color }} />
+                              <span key={color} className="h-4 w-4 rounded-full border" style={{ backgroundColor: color, borderColor: layout.id === 'elegancia-profunda' ? 'rgba(212,175,119,.35)' : layout.id === 'mistico-moderno' ? 'rgba(108,63,160,.40)' : 'rgba(42,36,32,.10)' }} />
                             ))}
                           </span>
                         </div>
