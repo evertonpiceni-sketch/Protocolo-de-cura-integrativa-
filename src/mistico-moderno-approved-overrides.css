@@ -61,7 +61,7 @@
 
 :root[data-layout="mistico-moderno"] #settings-view [data-ns-status-card="true"]{background:radial-gradient(circle at 100% 0,rgba(108,63,160,.12),transparent 18rem),linear-gradient(145deg,rgba(20,31,48,.97),rgba(10,15,24,.96))!important;border-color:rgba(212,175,55,.24)!important;box-shadow:0 16px 38px rgba(0,0,0,.24),inset 0 1px 0 rgba(255,255,255,.04)!important;}
 :root[data-layout="mistico-moderno"] #settings-view [data-ns-status-card="true"] :is(h1,h2,h3,strong){color:var(--text-primary)!important;}
-:root[data-layout="mistico-moderno"] #settings-view [data-ns-status-card="true"] :is(p,small,span){color:var(--text-secondary)!important;}
+:root[data-layout="mistico-moderno"] #settings-view [data-ns-status-card="true"] :is(p,small){color:var(--text-secondary)!important;}
 :root[data-layout="mistico-moderno"] #settings-view .border-t{border-color:var(--border-subtle)!important;}
 :root[data-layout="mistico-moderno"] #settings-view [class*="bg-white"],
 :root[data-layout="mistico-moderno"] #settings-view [class*="bg-[#F5EFE4]"]{background:var(--bg-card-subtle)!important;border-color:var(--border-subtle)!important;color:var(--text-secondary)!important;}
