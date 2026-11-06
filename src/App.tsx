@@ -486,7 +486,9 @@ export default function App() {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ profile: userProfile, progress: newProgress })
-      }).catch(console.error);
+      }).then(response => {
+        if (!response.ok) throw new Error(`Progress sync failed (HTTP ${response.status})`);
+      }).catch(error => console.error('Progress sync failed; changes may only be saved locally', error));
     }
   };
 
