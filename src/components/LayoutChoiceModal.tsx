@@ -150,7 +150,7 @@ export default function LayoutChoiceModal({ onSelect }: LayoutChoiceModalProps) 
                       ? ['#FFFFF8', '#C6A46A', '#F7F3E8', '#A6B49B']
                       : layout.swatches
                   ).map((color, index) => (
-                    <span key={index} className="h-3 flex-1 rounded-full border border-black/10 shadow-inner" style={{ backgroundColor: color }} />
+                    <span key={index} className="h-3 flex-1 rounded-full border shadow-inner" style={{ backgroundColor: color, borderColor: layout.id === 'elegancia-profunda' ? 'rgba(212,175,119,.35)' : layout.id === 'mistico-moderno' ? 'rgba(108,63,160,.40)' : 'rgba(42,36,32,.10)' }} />
                   ))}
                 </div>
               </button>
