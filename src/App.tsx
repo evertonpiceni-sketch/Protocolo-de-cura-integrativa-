@@ -1058,7 +1058,7 @@ export default function App() {
                 </div>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                   {OFFICIAL_LAYOUTS.map(layout => {
-                    const selected = normalizeLayoutId(userProfile.visualLayout) === layout.id;
+                    const selected = layoutConfirmedThisSession && userProfile.visualLayout === layout.id;
                     return (
                       <button
                         key={layout.id}
