@@ -76,7 +76,6 @@ import './lib/universalAnamnesisDiaryAccessPatch';
 import './lib/naturalSerenoHomeApprovedModel';
 import './lib/naturalSerenoHomeJourneyStateFix';
 import './lib/naturalSerenoPublicCatalogGuard';
-import './lib/layoutSettingsExplicitConfirmationPatch';
 // The React LayoutChoiceModal in App.tsx is the single authoritative chooser.
 // Do not mount the legacy DOM chooser: it can overlap the React modal.
 import './natural-sereno-final-audit.css';
