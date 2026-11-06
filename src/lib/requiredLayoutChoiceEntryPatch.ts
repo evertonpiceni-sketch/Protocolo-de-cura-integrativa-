@@ -7,12 +7,16 @@ const PENDING_LAYOUT = 'layout-choice-pending';
 const escapeHtml = (value: string) => value.replace(/[&<>"']/g, ch => ({ '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;' }[ch] || ch));
 
 function previewMarkup(layout: (typeof OFFICIAL_LAYOUTS)[number]) {
-  const [canvas, accent, gold, surface] = layout.swatches;
+  // O Estilo 3 armazena as amostras como [marfim, ouro, champagne, sálvia].
+  // Normalize os papéis antes de montar a prévia para evitar ouro como superfície e sálvia como CTA.
+  const [canvas, accent, gold, surface] = layout.id === 'essencia-luminosa'
+    ? ['#FFFFF8', '#A6B49B', '#C6A46A', '#F7F3E8']
+    : layout.swatches;
   const natural = layout.id === 'natural-sereno';
   const foreground = layout.tone === 'dark' ? '#F4F1EB' : '#2A2420';
   const muted = layout.tone === 'dark' ? 'rgba(244,241,235,.58)' : 'rgba(42,36,32,.34)';
   const card = natural ? 'rgba(255,255,255,.80)' : `${accent}22`;
-  const action = natural ? `linear-gradient(135deg,${gold},#A87E37)` : layout.id === 'mistico-moderno' ? `linear-gradient(135deg,${gold},#E2B96B)` : `linear-gradient(135deg,${gold},${accent})`;
+  const action = natural ? `linear-gradient(135deg,${gold},#A87E37)` : layout.id === 'mistico-moderno' ? `linear-gradient(135deg,${gold},#E2B96B)` : layout.id === 'essencia-luminosa' ? `linear-gradient(135deg,${gold},#E9D6AF)` : `linear-gradient(135deg,${gold},${accent})`;
   // Natural Sereno's fourth swatch is a natural green accent, not a surface color.
   // Keep the preview itself cream/ivory and use green only as a small organic detail.
   const previewSurface = natural ? '#F3EDE4' : surface;
