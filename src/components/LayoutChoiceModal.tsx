@@ -44,7 +44,7 @@ function LayoutPreview({ layout }: { layout: LayoutDefinition }) {
       style={{ background: previewBackground, color: foreground, borderColor: previewBorder }}
       aria-hidden="true"
     >
-      <div className="flex items-center justify-between border-b border-black/5 px-3 py-2">
+      <div className="flex items-center justify-between border-b px-3 py-2" style={{ borderColor: innerBorder }}>
         <span className="h-1.5 w-14 rounded-full" style={{ backgroundColor: gold, opacity: .75 }} />
         <span className="h-4 w-4 rounded-full border border-black/10" style={{ backgroundColor: isNaturalSereno ? '#E8E0D5' : accent, opacity: 1 }} />
       </div>
@@ -74,7 +74,7 @@ function LayoutPreview({ layout }: { layout: LayoutDefinition }) {
         </div>
         <div className="mt-2 grid grid-cols-4 gap-1.5">
           {previewSwatches.map((color, index) => (
-            <span key={`${color}-${index}`} className="h-7 rounded-lg border border-black/5" style={{ backgroundColor: color }} />
+            <span key={`${color}-${index}`} className="h-7 rounded-lg border" style={{ backgroundColor: color, borderColor: innerBorder }} />
           ))}
         </div>
       </div>
