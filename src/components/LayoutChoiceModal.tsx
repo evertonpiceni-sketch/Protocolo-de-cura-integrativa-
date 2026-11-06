@@ -105,7 +105,7 @@ export default function LayoutChoiceModal({ onSelect }: LayoutChoiceModalProps) 
   return (
     <div
       ref={dialogRef}
-      className="fixed inset-0 z-[160] flex items-center justify-center overflow-y-auto overscroll-contain bg-[#2A2420]/35 p-2 sm:p-5 backdrop-blur-md"
+      className="fixed inset-0 z-[160] flex items-start justify-center overflow-y-auto overscroll-contain bg-[#2A2420]/35 p-2 sm:p-5 backdrop-blur-md"
       role="dialog"
       aria-modal="true"
       aria-labelledby="layout-choice-title"
