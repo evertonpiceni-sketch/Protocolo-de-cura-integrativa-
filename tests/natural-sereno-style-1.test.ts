@@ -145,3 +145,13 @@ test('a mensagem de voz é específica do Natural Sereno sem contaminar os outro
   assert.ok(home.includes('A voz Maiara aprovada não está configurada.'));
   assert.ok(home.includes('A voz neural selecionada não foi reconhecida.'));
 });
+
+
+test('Ajustes de áudio não inicializa nem lista Marianne como substituta da voz Maiara', () => {
+  const settings = read('src/components/AudioSettingsModal.tsx');
+  assert.ok(settings.includes('isNaturalSerenoVoiceId(savedVoiceId) ? savedVoiceId :'));
+  assert.ok(settings.includes('!isNaturalSereno || isNaturalSerenoVoiceId(voice.voice_id)'));
+  assert.ok(settings.includes('Selecione Maiara — voz feminina brasileira'));
+  assert.ok(settings.includes('Marianne, Rachel e a voz do dispositivo não serão usadas como substitutas.'));
+  assert.ok(settings.includes('fallbackToSpeechSynthesis: !requiresNeuralVoice'));
+});
