@@ -5,6 +5,7 @@ import { useDialogFocus } from '../hooks/useDialogFocus';
  */
 
 import React, { useState } from 'react';
+import '../essencia-luminosa-specific-treatment-audit.css';
 import { motion } from 'motion/react';
 import {
   Sparkles, X, Heart, Shield, Check, QrCode,
