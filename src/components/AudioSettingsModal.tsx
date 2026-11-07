@@ -84,6 +84,7 @@ export default function AudioSettingsModal({
     ? availableVoices 
     : audioEngine.getAvailableVoices();
   const voices = rawVoices.filter(v => v.lang.startsWith('pt') || v.lang.startsWith('en') || v.lang.startsWith('es'));
+  const resolvedVoiceId = rawVoices.find(v => v.voiceURI === voiceId)?.name || voiceId;
 
   // Live calculation of binaural frequencies for the panel monitor
   const getCarrierHz = () => {
@@ -196,7 +197,7 @@ export default function AudioSettingsModal({
       voiceVolume,
       voiceRate,
       voicePitch,
-      voiceId,
+      voiceId: resolvedVoiceId,
       audioEnabled,
       bioactiveBinauralEnabled,
       binauralWaveType,
@@ -589,7 +590,7 @@ export default function AudioSettingsModal({
               <span className="text-[11px] text-[#5C5248] block">Timbre da Voz (Instaladas no Dispositivo)</span>
               <select
                 aria-label="Timbre da voz instalada no dispositivo"
-                value={voiceId}
+                value={resolvedVoiceId}
                 onChange={(e) => setVoiceId(e.target.value)}
                 className="w-full bg-[#FBF8F2] border border-[#E5DAC6] rounded-xl px-3 py-2 text-xs text-[#2A2420] focus:border-[#B88736] outline-none"
               >
