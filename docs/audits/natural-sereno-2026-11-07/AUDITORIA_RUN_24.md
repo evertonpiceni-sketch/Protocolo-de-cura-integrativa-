@@ -26,7 +26,7 @@
 - Assinaturas e Prática Específica permanecem com preços calculados no servidor e confirmação InfinitePay.
 
 ## Pendente
-- GitHub Actions run 1527 (commit `ce429897`): TypeScript aprovado; **115/115 testes aprovados**; build, entrypoints Express, verificações de segredo/JWT/autenticação, smoke tests e endpoints de pagamento aprovados.
+- GitHub Actions run 1528 (commit `014aaefd`): TypeScript aprovado; **115/115 testes aprovados**; build, entrypoints Express, verificações de segredo/JWT/autenticação, smoke tests e endpoints de pagamento aprovados.
 - O gate final de segurança permanece bloqueado por **9 vulnerabilidades (3 moderadas e 6 altas)**: `body-parser` (<1.20.9), `ip-address` (≤10.7.3), `qs` (6.7.0–6.16.0), `vite` (≤6.4.3) e `zod` (<4.6.6, também transitivo em Puppeteer/Chromium Bidi). O relatório do npm indica correção disponível via `npm audit fix`; não atualizei lockfile sem executar e revisar o conjunto completo de dependências.
 - A primeira execução após a nova paleta (run 1524) expôs duas asserções textuais antigas dos testes de Estilo 2/3; somente as expectativas dos testes foram ajustadas para a nova condição ternária. No run 1527, as 115 verificações passaram.
 - Homologação renderizada de todas as páginas em desktop e mobile. O check Vercel do commit continua em falha por `build-rate-limit`; não há captura atual da branch.
