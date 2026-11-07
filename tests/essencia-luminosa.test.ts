@@ -381,3 +381,16 @@ test('o acesso neutro antes da escolha não mantém CTA, ícones ou foco verdes 
   assert.ok(profile.includes('fill-[#A99B84] text-[#817460]'), 'Os ícones de reprodução e pausa não devem herdar verde/amarelo saturado.');
   assert.ok(!/emerald-|amber-(?:300|400|500)|text-amber-200/.test(profile), 'O acesso neutro não deve carregar classes cromáticas antigas.');
 });
+
+
+test('o Diário da Essência Luminosa usa champagne e ouro suave nos CTAs e na seleção do dia', () => {
+  const css = fs.readFileSync('src/essencia-luminosa-daily-diary-semantic-audit.css', 'utf8');
+  assert.ok(css.includes(':root[data-layout="essencia-luminosa"] #daily-diary-modal button:not([aria-label^="Abrir dia "])[class~="bg-[#B88736]"]'));
+  assert.ok(css.includes('background: var(--layout-gold-gradient) !important;'));
+  assert.ok(css.includes('color: var(--layout-text) !important;'));
+  assert.ok(css.includes('#daily-diary-modal button[aria-label^="Abrir dia "][class~="bg-[#B88736]"]'));
+  assert.ok(css.includes('var(--layout-gold-soft)'));
+  assert.ok(css.includes('#daily-diary-modal button[class*="hover:bg-slate-700"]:hover'));
+  assert.ok(css.includes('#daily-diary-modal [class*="text-[#B88736]"]'));
+  assert.doesNotMatch(css, /:root\\[data-layout="(?:natural-sereno|elegancia-profunda|mistico-moderno)"\\]/);
+});
