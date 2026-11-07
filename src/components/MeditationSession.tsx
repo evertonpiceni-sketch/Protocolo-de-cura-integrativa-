@@ -242,8 +242,9 @@ export default function MeditationSession({
     const selectedVoiceId = voiceId?.trim();
     const savedVoiceId = isElevenLabsVoiceId(selectedVoiceId) ? selectedVoiceId : OFFICIAL_PROTOCOL_VOICE_ID;
     const style2VoiceId = isElevenLabsVoiceId(selectedVoiceId) ? selectedVoiceId : '';
+    const style4VoiceId = isElevenLabsVoiceId(selectedVoiceId) ? selectedVoiceId : '';
 
-    if (activeLayout === 'elegancia-profunda' && !style2VoiceId) {
+    if ((activeLayout === 'elegancia-profunda' && !style2VoiceId) || (activeLayout === 'mistico-moderno' && !style4VoiceId)) {
       setIsPlaying(false);
       setVoiceError(true);
       return;
@@ -259,7 +260,7 @@ export default function MeditationSession({
           : activeLayout === 'essencia-luminosa'
             ? savedVoiceId
             : isMisticoModerno
-              ? OFFICIAL_PROTOCOL_VOICE_ID
+              ? style4VoiceId
               : OFFICIAL_PROTOCOL_VOICE_ID,
       speed: voiceRate,
       stageTitle: `Dia ${dayNumber} — ${currentInsight.title} — ${currentStage.title}`,
@@ -467,7 +468,7 @@ export default function MeditationSession({
       <main className="relative z-10 flex-1 flex flex-col items-center justify-center px-6 max-w-xl mx-auto w-full text-center">
         {voiceError && (
           <p role="alert" className="ep-voice-error mb-5 max-w-md rounded-xl px-4 py-3 text-xs leading-5">
-            {isMisticoModerno ? 'A voz oficial do Místico Moderno está indisponível no servidor. A sessão foi interrompida sem recorrer à voz do navegador.' : 'A voz neural selecionada não foi identificada ou está indisponível. Abra Ajustes de áudio e escolha uma voz do catálogo ElevenLabs.'}
+            {isMisticoModerno ? 'A voz neural escolhida está indisponível. A sessão foi interrompida sem recorrer à voz do navegador.' : 'A voz neural selecionada não foi identificada ou está indisponível. Abra Ajustes de áudio e escolha uma voz do catálogo ElevenLabs.'}
           </p>
         )}
         {sessionPhase === 'playing' && (

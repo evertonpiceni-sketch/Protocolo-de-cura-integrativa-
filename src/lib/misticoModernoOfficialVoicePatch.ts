@@ -1,11 +1,11 @@
-import { audioEngine, OFFICIAL_PROTOCOL_VOICE_ID } from './audio';
+import { audioEngine } from './audio';
+import { isElevenLabsVoiceId } from './voiceSelection';
 
 /**
- * Místico Moderno — integridade da voz aprovada.
- *
- * A voz Marianne — Meditação é fixa neste estilo. Nenhum caminho legado pode
- * trocar a voz por Rachel/Marcus ou recorrer à síntese nativa do navegador.
- * Se a voz neural falhar, a reprodução é interrompida e o erro fica visível.
+ * Místico Moderno — preserva a voz neural escolhida no perfil.
+ * Nenhum caminho pode substituir o ID salvo por Marianne, Rachel, Marcus
+ * ou pela síntese nativa do navegador. Se o ID não for válido/estiver
+ * indisponível, a reprodução para e o erro é apresentado ao usuário.
  */
 const engine = audioEngine as typeof audioEngine & {
   __misticoModernoOfficialVoicePatched?: boolean;
@@ -15,6 +15,9 @@ const isMisticoModernoActive = () =>
   typeof document !== 'undefined' &&
   document.documentElement.dataset.layout === 'mistico-moderno';
 
+const voiceSelectionError = () =>
+  new Error('Selecione uma voz neural válida em Ajustes de áudio para o Místico Moderno.');
+
 if (!engine.__misticoModernoOfficialVoicePatched) {
   const originalPlayProtocolStageStream = engine.playProtocolStageStream.bind(engine);
   const originalPlayGuidedMeditation = engine.playGuidedMeditation.bind(engine);
@@ -22,7 +25,13 @@ if (!engine.__misticoModernoOfficialVoicePatched) {
 
   engine.playProtocolStageStream = ((options: Parameters<typeof engine.playProtocolStageStream>[0]) => {
     if (!isMisticoModernoActive()) return originalPlayProtocolStageStream(options);
-    return originalPlayProtocolStageStream({ ...options, voiceId: OFFICIAL_PROTOCOL_VOICE_ID });
+    if (!isElevenLabsVoiceId(options?.voiceId)) {
+      engine.stopSpeech();
+      engine.stopSynth();
+      options?.onError?.(voiceSelectionError());
+      return Promise.resolve(null);
+    }
+    return originalPlayProtocolStageStream(options);
   }) as typeof engine.playProtocolStageStream;
 
   engine.playGuidedMeditation = ((
@@ -30,9 +39,14 @@ if (!engine.__misticoModernoOfficialVoicePatched) {
     options: Parameters<typeof engine.playGuidedMeditation>[1]
   ) => {
     if (!isMisticoModernoActive()) return originalPlayGuidedMeditation(parts, options);
+    if (!isElevenLabsVoiceId(options?.voiceId)) {
+      engine.stopSpeech();
+      engine.stopSynth();
+      options?.onError?.();
+      return Promise.resolve();
+    }
     return originalPlayGuidedMeditation(parts, {
-      ...(options || {}),
-      voiceId: OFFICIAL_PROTOCOL_VOICE_ID,
+      ...options,
       requireExplicitVoiceId: true
     });
   }) as typeof engine.playGuidedMeditation;
@@ -49,9 +63,14 @@ if (!engine.__misticoModernoOfficialVoicePatched) {
     if (!isMisticoModernoActive()) {
       return originalSpeakWithElevenLabsOrFallback(text, voiceVolume, onStart, onEnd, onPause, onResume, options);
     }
+    if (!isElevenLabsVoiceId(options?.voiceId)) {
+      engine.stopSpeech();
+      engine.stopSynth();
+      options?.onError?.(voiceSelectionError());
+      return Promise.resolve();
+    }
     return originalSpeakWithElevenLabsOrFallback(text, voiceVolume, onStart, onEnd, onPause, onResume, {
-      ...(options || {}),
-      voiceId: OFFICIAL_PROTOCOL_VOICE_ID,
+      ...options,
       preferElevenLabs: true,
       fallbackToSpeechSynthesis: false
     });

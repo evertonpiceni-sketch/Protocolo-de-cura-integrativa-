@@ -57,7 +57,8 @@ test('all imported Místico Moderno CSS modules remain scoped to the active layo
 });
 
 
-test('Style 4 locks narration to the approved Marianne — Meditação neural voice', () => {
+test('Style 4 honors the saved neural voice selection and blocks browser speech fallback', () => {
+  const app = readFileSync(resolve(root, 'src/App.tsx'), 'utf8');
   const home = readFileSync(resolve(root, 'src/components/TransformationHome.tsx'), 'utf8');
   const settings = readFileSync(resolve(root, 'src/components/AudioSettingsModal.tsx'), 'utf8');
   const session = readFileSync(resolve(root, 'src/components/MeditationSession.tsx'), 'utf8');
@@ -65,31 +66,40 @@ test('Style 4 locks narration to the approved Marianne — Meditação neural vo
   const patch = readFileSync(resolve(root, 'src/lib/misticoModernoOfficialVoicePatch.ts'), 'utf8');
   const main = readFileSync(resolve(root, 'src/main.tsx'), 'utf8');
 
-  assert.match(home, /const isMisticoModerno = props\.visualLayout === 'mistico-moderno'/);
+  assert.match(app, /const isMisticoModerno = layoutConfirmedThisSession && userProfile\?\.visualLayout === 'mistico-moderno'/);
+  assert.match(app, /usesNeuralVoiceCatalog = isEleganciaProfunda \|\| isEssenciaLuminosa \|\| isMisticoModerno/);
+  assert.match(app, /if \(isEleganciaProfunda \|\| isMisticoModerno\)/);
+  assert.match(app, /voiceId: userProfile\.voiceId/);
+  assert.match(app, /fallbackToSpeechSynthesis: false/);
+
   assert.match(home, /requiresNeuralVoice = isEleganciaProfunda \|\| isEssenciaLuminosa \|\| isMisticoModerno/);
-  assert.match(home, /isMisticoModerno\s*\? OFFICIAL_PROTOCOL_VOICE_ID/);
+  assert.match(home, /const approvedVoiceId = isEleganciaProfunda \|\| isMisticoModerno/);
+  assert.match(home, /const narrationVoiceId = usesSavedVoiceSettings \? approvedVoiceId : 'Marcus'/);
   assert.match(home, /fallbackToSpeechSynthesis: !requiresNeuralVoice/);
 
-  assert.match(settings, /isMisticoModerno\s*\? OFFICIAL_PROTOCOL_VOICE_ID/);
-  assert.match(settings, /Marianne — Meditação/);
-  assert.match(settings, /fallbackToSpeechSynthesis: !requiresNeuralVoice/);
-  assert.match(settings, /voiceId: isMisticoModerno \? OFFICIAL_PROTOCOL_VOICE_ID : voiceId/);
+  assert.match(settings, /const requiresNeuralVoice = isEleganciaProfunda \|\| isEssenciaLuminosa \|\| isMisticoModerno/);
+  assert.match(settings, /const initialVoiceId = isEssenciaLuminosa && !isElevenLabsVoiceId\(savedVoiceId\)/);
+  assert.match(settings, /value=\{voiceId\}/);
+  assert.doesNotMatch(settings, /Voz oficial aprovada|Esta voz permanece fixa neste estilo/);
+  assert.doesNotMatch(settings, /voiceId: isMisticoModerno \? OFFICIAL_PROTOCOL_VOICE_ID/);
 
+  assert.match(session, /const style4VoiceId = isElevenLabsVoiceId\(selectedVoiceId\) \? selectedVoiceId : ''/);
+  assert.match(session, /activeLayout === 'mistico-moderno' && !style4VoiceId/);
+  assert.match(session, /activeLayout === 'mistico-moderno'\s*\?\s*style4VoiceId/);
   assert.match(session, /MISTICO_MODERNO_CANVAS_THEME/);
-  assert.match(session, /isMisticoModerno\s*\? OFFICIAL_PROTOCOL_VOICE_ID/);
-  assert.match(arcanjo, /voiceId: isMisticoModerno\s*\? OFFICIAL_PROTOCOL_VOICE_ID/);
+
+  assert.match(arcanjo, /if \(\(isEleganciaProfunda \|\| isMisticoModerno\) && !isElevenLabsVoiceId\(userProfile\.voiceId\)\)/);
+  assert.match(arcanjo, /voiceId: isEleganciaProfunda \|\| isMisticoModerno\s*\? userProfile\.voiceId/);
   assert.match(arcanjo, /requireExplicitVoiceId: isEleganciaProfunda \|\| isMisticoModerno/);
   assert.match(arcanjo, /if \(isEleganciaProfunda \|\| isMisticoModerno\)/);
-  assert.match(arcanjo, /audioEngine\.stopSynth\(\)/);
 
-  assert.match(patch, /voiceId: OFFICIAL_PROTOCOL_VOICE_ID/);
+  assert.match(patch, /isElevenLabsVoiceId/);
   assert.match(patch, /fallbackToSpeechSynthesis: false/);
   assert.match(patch, /requireExplicitVoiceId: true/);
+  assert.doesNotMatch(patch, /OFFICIAL_PROTOCOL_VOICE_ID/);
   assert.match(main, /import '\.\/lib\/misticoModernoOfficialVoicePatch';/);
-
-  assert.doesNotMatch(session, /MISTICO_MODERNO_OFFICIAL_VOICE_ALIAS/);
-  assert.doesNotMatch(arcanjo, /MISTICO_MODERNO_OFFICIAL_VOICE_ALIAS/);
 });
+
 
 test('Solfeggio stays stopped during spoken protocol playback and the Diary stays closed by default', () => {
   const policy = readFileSync(resolve(root, 'src/lib/protocolSessionAudioPolicy.ts'), 'utf8');
@@ -110,6 +120,12 @@ test('Style 4 board is the recovered official 4:3 reference and its palette rema
   const board = readFileSync(boardPath);
   assert.equal(board.toString('ascii', 0, 4), 'RIFF');
   assert.equal(board.toString('ascii', 8, 12), 'WEBP');
+  assert.equal(board.toString('ascii', 12, 16), 'VP8 ');
+  const boardWidth = board.readUInt16LE(30) & 0x3fff;
+  const boardHeight = board.readUInt16LE(32) & 0x3fff;
+  assert.equal(boardWidth, 256);
+  assert.equal(boardHeight, 192);
+  assert.equal(boardWidth / boardHeight, 4 / 3);
 
   const modal = readFileSync(resolve(root, 'src/components/LayoutChoiceModal.tsx'), 'utf8');
   for (const color of ['#0A2742', '#2E3B73', '#1E6B5A', '#6C3FA0', '#D4AF37', '#E2B96B', '#F4F1EB', '#6F8F55']) {

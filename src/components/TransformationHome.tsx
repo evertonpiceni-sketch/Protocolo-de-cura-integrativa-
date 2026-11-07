@@ -60,20 +60,16 @@ export default function TransformationHome(props: TransformationHomeProps) {
   const isEssenciaLuminosa = props.visualLayout === 'essencia-luminosa';
   const isMisticoModerno = props.visualLayout === 'mistico-moderno';
   const requiresNeuralVoice = isEleganciaProfunda || isEssenciaLuminosa || isMisticoModerno;
-  const approvedVoiceId = isMisticoModerno
-    ? OFFICIAL_PROTOCOL_VOICE_ID
-    : isEleganciaProfunda
+  const approvedVoiceId = isEleganciaProfunda || isMisticoModerno
     ? (isElevenLabsVoiceId(savedVoiceId) ? savedVoiceId : '')
     : isEssenciaLuminosa
       ? (isElevenLabsVoiceId(savedVoiceId) ? savedVoiceId : OFFICIAL_PROTOCOL_VOICE_ID)
       : savedVoiceId && !['Rachel', 'Marcus', 'masculina', 'feminina'].includes(savedVoiceId)
         ? savedVoiceId
         : OFFICIAL_PROTOCOL_VOICE_ID;
-  // Essência Luminosa and Elegância Profunda honor saved neural voice IDs and their controls.
+  // Essência Luminosa, Elegância Profunda and Místico Moderno honor the saved neural voice ID and its controls.
   const usesSavedVoiceSettings = requiresNeuralVoice;
-  const narrationVoiceId = isMisticoModerno
-    ? OFFICIAL_PROTOCOL_VOICE_ID
-    : usesSavedVoiceSettings ? approvedVoiceId : 'Marcus';
+  const narrationVoiceId = usesSavedVoiceSettings ? approvedVoiceId : 'Marcus';
   const narrationVolume = usesSavedVoiceSettings ? props.voiceVolume ?? 1 : 1;
   const narrationRate = usesSavedVoiceSettings ? props.voiceRate ?? .82 : .82;
   const narrationPitch = usesSavedVoiceSettings ? props.voicePitch ?? .92 : .92;

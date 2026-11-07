@@ -115,7 +115,8 @@ export default function App() {
   const [voicePreviewError, setVoicePreviewError] = useState(false);
   const isEleganciaProfunda = layoutConfirmedThisSession && userProfile?.visualLayout === 'elegancia-profunda';
   const isEssenciaLuminosa = layoutConfirmedThisSession && userProfile?.visualLayout === 'essencia-luminosa';
-  const usesNeuralVoiceCatalog = isEleganciaProfunda || isEssenciaLuminosa;
+  const isMisticoModerno = layoutConfirmedThisSession && userProfile?.visualLayout === 'mistico-moderno';
+  const usesNeuralVoiceCatalog = isEleganciaProfunda || isEssenciaLuminosa || isMisticoModerno;
 
   // Initialize and register local notification daily checker
   useEffect(() => {
@@ -218,7 +219,7 @@ export default function App() {
     }
   }, []);
 
-  // Elegância Profunda and Essência Luminosa use actual ElevenLabs IDs, never browser SpeechSynthesis names/URIs.
+  // Elegância Profunda, Essência Luminosa and Místico Moderno use actual ElevenLabs IDs, never browser SpeechSynthesis names/URIs.
   useEffect(() => {
     if (!isLoggedIn || !usesNeuralVoiceCatalog || (!showSettings && !showAudioSettingsModal)) return;
     let cancelled = false;
@@ -1283,7 +1284,7 @@ export default function App() {
 
                 <div className="p-4 bg-white border border-[#E5DAC6] rounded-2xl space-y-4">
                   {/* Voice Select */}
-                  {isEleganciaProfunda ? (
+                  {isEleganciaProfunda || isMisticoModerno ? (
                     <div className="space-y-1.5">
                       <label className="text-[10px] font-mono text-[#5C5248] uppercase">Voz neural (ElevenLabs)</label>
                       <select
@@ -1377,7 +1378,7 @@ export default function App() {
                           return;
                         }
                         setVoicePreviewError(false);
-                        if (isEleganciaProfunda) {
+                        if (isEleganciaProfunda || isMisticoModerno) {
                           if (!isElevenLabsVoiceId(userProfile.voiceId)) {
                             setVoicePreviewError(true);
                             return;
@@ -1421,12 +1422,12 @@ export default function App() {
                       className="px-3 py-1.5 bg-indigo-600/30 hover:bg-indigo-600/50 border border-indigo-500/50 text-indigo-200 rounded-xl text-xs font-medium flex items-center gap-1.5 transition cursor-pointer shrink-0"
                     >
                       <Volume2 size={13} className={isPlayingVoiceTest ? 'animate-pulse' : ''} />
-                      <span>{isPlayingVoiceTest ? 'Ouvindo...' : isEleganciaProfunda ? 'Testar voz neural' : 'Testar Voz'}</span>
+                      <span>{isPlayingVoiceTest ? 'Ouvindo...' : isEleganciaProfunda || isMisticoModerno ? 'Testar voz neural' : 'Testar Voz'}</span>
                     </button>
                   </div>
                   {voicePreviewError && (
                     <p role="alert" className="ep-voice-error rounded-xl px-3 py-2 text-xs">
-                      Selecione uma voz neural válida do catálogo. O Estilo 2 não usará a voz robótica do dispositivo.
+                      {isMisticoModerno ? 'A voz neural escolhida não respondeu. A voz do dispositivo não será usada no Místico Moderno.' : 'Selecione uma voz neural válida do catálogo. O Estilo 2 não usará a voz robótica do dispositivo.'}
                     </p>
                   )}
                 </div>
