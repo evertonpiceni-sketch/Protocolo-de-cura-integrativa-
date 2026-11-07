@@ -13,6 +13,7 @@ import { ORIGINAL_PROTOCOL_SCRIPTS } from '../data/protocol_scripts';
 import { audioEngine, OFFICIAL_PROTOCOL_VOICE_ID } from '../lib/audio';
 import { isElevenLabsVoiceId } from '../lib/voiceSelection';
 import { shouldPlayProtocolSessionBackground } from '../lib/protocolSessionAudioPolicy';
+import { MISTICO_MODERNO_OFFICIAL_VOICE_ALIAS } from '../config/voiceAliases';
 import { requestWakeLock } from '../lib/wakeLockHelpers';
 import { AppLanguage, STAGE_AUDIO_TRANSLATIONS } from '../lib/i18n';
 import { resolveProtocolScript } from '../lib/protocolScript';
@@ -230,7 +231,7 @@ export default function MeditationSession({
           ? style2VoiceId
           : activeLayout === 'essencia-luminosa'
             ? savedVoiceId
-            : OFFICIAL_PROTOCOL_VOICE_ID,
+            : activeLayout === 'mistico-moderno' ? MISTICO_MODERNO_OFFICIAL_VOICE_ALIAS : OFFICIAL_PROTOCOL_VOICE_ID,
       speed: voiceRate,
       stageTitle: `Dia ${dayNumber} — ${currentInsight.title} — ${currentStage.title}`,
       dayNumber,
