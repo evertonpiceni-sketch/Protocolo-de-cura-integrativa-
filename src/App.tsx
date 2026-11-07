@@ -28,7 +28,7 @@ import { evaluateAchievements } from './lib/achievementsData';
 import { AppLanguage, SUPPORTED_LANGUAGES, UI_TRANSLATIONS } from './lib/i18n';
 import { AnimatePresence } from "motion/react";
 import { localNotificationManager } from './lib/notifications';
-import { OFFICIAL_LAYOUTS, isLayoutId } from './config/layouts';
+import { OFFICIAL_LAYOUTS, isLayoutId, type LayoutId } from './config/layouts';
 import { getLocalDateString } from './utils/date';
 import LayoutChoiceModal from './components/LayoutChoiceModal';
 
@@ -63,6 +63,7 @@ export default function App() {
   // A persisted preference is not consent to apply a theme in this session.
   const [layoutConfirmedThisSession, setLayoutConfirmedThisSession] = useState(false);
   const [layoutChoiceRequested, setLayoutChoiceRequested] = useState(false);
+  const [layoutChoiceInitialSelection, setLayoutChoiceInitialSelection] = useState<LayoutId | null>(null);
   const [isLoadingAuth, setIsLoadingAuth] = useState<boolean>(true);
   const [progress, setProgress] = useState<DayProgress[]>([]);
   const [currentDay, setCurrentDay] = useState<number>(1);
@@ -113,9 +114,10 @@ export default function App() {
   const [isLoadingElevenLabsVoices, setIsLoadingElevenLabsVoices] = useState(false);
   const [isPlayingVoiceTest, setIsPlayingVoiceTest] = useState<boolean>(false);
   const [voicePreviewError, setVoicePreviewError] = useState(false);
+  const isNaturalSereno = layoutConfirmedThisSession && userProfile?.visualLayout === 'natural-sereno';
   const isEleganciaProfunda = layoutConfirmedThisSession && userProfile?.visualLayout === 'elegancia-profunda';
   const isEssenciaLuminosa = layoutConfirmedThisSession && userProfile?.visualLayout === 'essencia-luminosa';
-  const usesNeuralVoiceCatalog = isEleganciaProfunda || isEssenciaLuminosa;
+  const usesNeuralVoiceCatalog = isNaturalSereno || isEleganciaProfunda || isEssenciaLuminosa;
 
   // Initialize and register local notification daily checker
   useEffect(() => {
@@ -834,6 +836,7 @@ export default function App() {
     <>
       {(!layoutConfirmedThisSession || layoutChoiceRequested) && (
         <LayoutChoiceModal
+          initialLayout={layoutChoiceInitialSelection ?? (isLayoutId(userProfile.visualLayout) ? userProfile.visualLayout : null)}
           onSelect={async (layout) => {
             const updatedProfile = { ...userProfile, visualLayout: layout };
             // Do not dismiss the chooser until the server accepts the preference.
@@ -849,6 +852,7 @@ export default function App() {
             updateLocalAccountCache(updatedProfile, progress);
             setLayoutConfirmedThisSession(true);
             setLayoutChoiceRequested(false);
+            setLayoutChoiceInitialSelection(null);
           }}
         />
       )}
@@ -1067,7 +1071,7 @@ export default function App() {
                         key={layout.id}
                         type="button"
                         aria-pressed={selected}
-                        onClick={() => setLayoutChoiceRequested(true)}
+                        onClick={() => { setLayoutChoiceInitialSelection(layout.id); setLayoutChoiceRequested(true); }}
                         className={`ep-layout-choice min-h-24 rounded-2xl border p-4 text-left transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B88736]/35 ${
                           selected
                             ? 'border-[#B88736] bg-[#B88736]/8 shadow-sm'
