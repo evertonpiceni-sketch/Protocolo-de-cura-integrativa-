@@ -331,7 +331,7 @@ test('a página de Configurações usa ElevenLabs também na Essência Luminosa'
   const block = app.slice(start, end);
 
   assert.ok(app.includes('const usesNeuralVoiceCatalog = isNaturalSereno || isEleganciaProfunda || isEssenciaLuminosa || isMisticoModerno;'));
-  assert.ok(block.includes('{usesNeuralVoiceCatalog ? ('));
+  assert.ok(block.includes('usesNeuralVoiceCatalog ? ('));
   assert.ok(block.includes('if (usesNeuralVoiceCatalog) {'));
   assert.ok(block.includes('fallbackToSpeechSynthesis: false'));
   assert.ok(block.includes('id="settings-voice-preview"'));
