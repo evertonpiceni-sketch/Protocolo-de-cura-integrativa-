@@ -654,6 +654,10 @@ export default function App() {
       console.warn("Server logout request completed with offline status");
     }
     localStorage.removeItem(LOCAL_STORAGE_KEY_CURRENT_LOGIN);
+    // A confirmação visual pertence à conta encerrada; a próxima conta deve escolher novamente.
+    setLayoutConfirmedThisSession(false);
+    setLayoutChoiceRequested(false);
+    delete document.documentElement.dataset.layout;
     setUserProfile(null);
     setProgress([]);
     setCurrentDay(1);
