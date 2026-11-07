@@ -71,6 +71,11 @@ test('a narração do Estilo 2 usa IDs ElevenLabs válidos e não cai na voz do 
   const settings = read('src/components/AudioSettingsModal.tsx');
   const home = read('src/components/TransformationHome.tsx');
   const session = read('src/components/MeditationSession.tsx');
+  const anamnesis = read('src/components/AnamnesisModal.tsx');
+  const hooponopono = read('src/components/HooponoponoModal.tsx');
+  const arcanjo = read('src/components/ArcanjoProtocolView.tsx');
+  const systemic = read('src/components/SystemicQuestionsModal.tsx');
+  const archangelPrayer = read('src/components/ArchangelMichaelPrayerModal.tsx');
   assert.ok(voiceSelection.includes('/^[A-Za-z0-9]{20}$/'));
   assert.ok(audio.includes('fallbackToSpeechSynthesis?: boolean'));
   assert.ok(audio.includes('failWithoutNativeVoice'));
@@ -78,6 +83,11 @@ test('a narração do Estilo 2 usa IDs ElevenLabs válidos e não cai na voz do 
   assert.ok(settings.includes('Voz neural (ElevenLabs)'));
   assert.ok(home.includes('fallbackToSpeechSynthesis: !isEleganciaProfunda'));
   assert.ok(session.includes("activeLayout === 'elegancia-profunda' && !style2VoiceId"));
+  assert.ok(anamnesis.includes('fallbackToSpeechSynthesis: false'));
+  assert.ok(hooponopono.includes('fallbackToSpeechSynthesis: !isEleganciaProfunda'));
+  assert.ok(arcanjo.includes('requireExplicitVoiceId: isEleganciaProfunda'));
+  assert.ok(systemic.includes('fallbackToSpeechSynthesis: false'));
+  assert.ok(archangelPrayer.includes('fallbackToSpeechSynthesis: !isEleganciaProfunda'));
 });
 
 test('o acolhimento inicial do Estilo 2 mantém contraste marfim sobre verde profundo', () => {
