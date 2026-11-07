@@ -318,7 +318,7 @@ test('todas as folhas CSS do Estilo 2 permanecem isoladas do restante do sistema
   assert.equal(styleSheets.length, 21, 'A auditoria deve cobrir todas as folhas CSS ativas do Estilo 2.');
 
   for (const file of styleSheets) {
-    const css = read(\`src/\${file}\`).replace(/\/\*[\s\S]*?\*\//g, '');
+    const css = read('src/' + file).replace(/\/\*[\s\S]*?\*\//g, '');
     const selectors = [...css.matchAll(/(?:^|})\s*([^{}@]+)\s*\{/g)]
       .map(match => match[1].trim())
       .filter(Boolean);
@@ -327,7 +327,7 @@ test('todas as folhas CSS do Estilo 2 permanecem isoladas do restante do sistema
       if (/^(from|to|\d+%)(\s*,\s*(from|to|\d+%))*$/.test(selector)) continue;
       assert.ok(
         selector.includes('data-layout="elegancia-profunda"'),
-        \`\${file} contém seletor fora do escopo Elegância Profunda: \${selector}\`
+        file + ' contém seletor fora do escopo Elegância Profunda: ' + selector
       );
     }
   }
