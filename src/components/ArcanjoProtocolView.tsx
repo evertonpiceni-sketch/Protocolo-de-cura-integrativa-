@@ -297,7 +297,7 @@ export default function ArcanjoProtocolView({ userProfile, onClose, onLogout, in
     audioEngine.seekSpeech(offset);
   };
 
-  return <div className="fixed inset-0 z-[100] overflow-y-auto bg-[#F8F4EC] text-[#2A2420]">
+  return <div id="arcanjo-protocol-view" className="fixed inset-0 z-[100] overflow-y-auto bg-[#F8F4EC] text-[#2A2420]">
     <div className="fixed inset-0 bg-[radial-gradient(circle_at_50%_0,rgba(214,167,86,.12),transparent_30rem),linear-gradient(180deg,#FBF8F2,#F8F4EC)]" />
     <header className="sticky top-0 z-20 border-b border-[#B88736]/20 bg-[#F8F4EC]/92 px-4 py-4 backdrop-blur-xl">
       <div className="mx-auto flex w-full max-w-5xl items-center justify-between gap-2">
