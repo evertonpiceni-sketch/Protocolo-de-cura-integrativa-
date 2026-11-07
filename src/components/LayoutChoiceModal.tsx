@@ -73,6 +73,25 @@ function LayoutPreview({ layout }: { layout: LayoutDefinition }) {
       </div>
     );
   }
+  if (layout.id === 'mistico-moderno') {
+    // A prancha oficial é referência visual do card; não substitui jornadas ou conteúdos aprovados posteriormente.
+    return (
+      <div
+        className="mt-4 flex h-[184px] w-full items-center justify-center overflow-hidden rounded-2xl border shadow-inner"
+        style={{ backgroundColor: '#0A0F18', borderColor: 'rgba(108,63,160,.42)' }}
+        aria-hidden="true"
+      >
+        <img
+          src="/brand/mistico-moderno/prancha-oficial.webp"
+          alt=""
+          loading="lazy"
+          decoding="async"
+          draggable={false}
+          className="h-full w-full object-contain p-1"
+        />
+      </div>
+    );
+  }
   const innerBorder = layout.id === 'mistico-moderno' ? 'rgba(108,63,160,.28)' : 'rgba(42,36,32,.06)';
   const naturalIvory = '#F3EDE4';
   const previewBackground = isNaturalSereno
