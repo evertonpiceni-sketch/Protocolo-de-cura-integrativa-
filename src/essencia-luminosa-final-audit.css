@@ -471,3 +471,14 @@
 }
 :root[data-layout="essencia-luminosa"] #arcanjo-protocol-view button[class*="border-rose-"]{border-color:var(--layout-border-card)!important;}
 :root[data-layout="essencia-luminosa"] #arcanjo-protocol-view button[class*="text-rose-"]{color:var(--layout-text-soft)!important;}
+
+/* Prática Individual: o selo recomendado mantém destaque sem o amarelo saturado do componente-base. */
+:root[data-layout="essencia-luminosa"] #specific-treatment-modal .ep-treatment-recommended-badge {
+  background: linear-gradient(135deg,
+    color-mix(in srgb, var(--layout-gold-soft) 88%, var(--layout-card)),
+    color-mix(in srgb, var(--layout-gold) 16%, var(--layout-card))
+  ) !important;
+  border: 1px solid color-mix(in srgb, var(--layout-gold) 36%, var(--layout-border-card)) !important;
+  color: var(--layout-gold-dark) !important;
+  box-shadow: 0 4px 12px rgba(112, 91, 58, .06) !important;
+}
