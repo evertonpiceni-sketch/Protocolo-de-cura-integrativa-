@@ -27,7 +27,7 @@ A prancha oficial do Estilo 2 permanece como referência do seletor (public/bran
 - A política de Solfeggio permanece: os osciladores de frequência exata e a política de sessão do player não foram substituídos por MP3s rotulados sem comprovação. As trilhas 639 Hz das ferramentas continuam ligadas às próprias telas e devem parar ao fechar/sair.
 - Diário, Diário de Reconexão, mapas, cursos, banhos, Ho'oponopono, configurações e conquistas mantêm seus módulos específicos.
 - O fluxo de pagamento permanece no checkout e confirmação server-side da InfinitePay. Não foi reintroduzido PIX manual nem liberação local de acesso.
-- O onboarding ativo continua sendo o fluxo atual; arquivos legados não foram reativados.
+- O App ainda contém referência condicional a WelcomeModal além do fluxo atual de onboarding. Não removi esse componente sem uma confirmação confiável de que a substituição foi definitiva; sua ativação e compatibilidade visual com o Estilo 2 permanecem pendentes.
 
 ## Varredura por tela
 1. **Seletor/prévia:** prancha oficial mantida; escolha explícita antes do tema.
