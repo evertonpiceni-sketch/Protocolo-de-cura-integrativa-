@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { motion } from 'motion/react';
 import {
   Volume2, VolumeX, Sliders, Mic, Play, Pause,
@@ -66,15 +66,24 @@ export default function AudioSettingsModal({
   const [voicePitch, setVoicePitch] = useState(userProfile.voicePitch ?? 1.0);
   const isEleganciaProfunda = typeof document !== 'undefined' && document.documentElement.dataset.layout === 'elegancia-profunda';
   const isEssenciaLuminosa = typeof document !== 'undefined' && document.documentElement.dataset.layout === 'essencia-luminosa';
-  const requiresNeuralVoice = isEleganciaProfunda || isEssenciaLuminosa;
+  const isMisticoModerno = typeof document !== 'undefined' && document.documentElement.dataset.layout === 'mistico-moderno';
+  const requiresNeuralVoice = isEleganciaProfunda || isEssenciaLuminosa || isMisticoModerno;
   const savedVoiceId = userProfile.voiceId?.trim() || '';
-  const initialVoiceId = isEssenciaLuminosa && !isElevenLabsVoiceId(savedVoiceId)
+  const initialVoiceId = isMisticoModerno
     ? OFFICIAL_PROTOCOL_VOICE_ID
-    : savedVoiceId;
+    : isEssenciaLuminosa && !isElevenLabsVoiceId(savedVoiceId)
+      ? OFFICIAL_PROTOCOL_VOICE_ID
+      : savedVoiceId;
   const [voiceId, setVoiceId] = useState(initialVoiceId);
   const [audioEnabled, setAudioEnabled] = useState(userProfile.audioEnabled !== false);
   const [isTestingVoice, setIsTestingVoice] = useState(false);
   const [voiceTestError, setVoiceTestError] = useState(false);
+
+  useEffect(() => {
+    if (!isOpen) return;
+    setVoiceId(isMisticoModerno ? OFFICIAL_PROTOCOL_VOICE_ID : initialVoiceId);
+    setVoiceTestError(false);
+  }, [isOpen, isMisticoModerno, initialVoiceId]);
   const neuralVoices = elevenLabsVoices.filter(voice => isElevenLabsVoiceId(voice.voice_id));
 
   // Camada Binaural State
@@ -171,7 +180,8 @@ export default function AudioSettingsModal({
     }
 
     setVoiceTestError(false);
-    if (requiresNeuralVoice && !isElevenLabsVoiceId(voiceId)) {
+    const testVoiceId = isMisticoModerno ? OFFICIAL_PROTOCOL_VOICE_ID : voiceId;
+    if (requiresNeuralVoice && !isElevenLabsVoiceId(testVoiceId)) {
       setVoiceTestError(true);
       return;
     }
@@ -194,7 +204,7 @@ export default function AudioSettingsModal({
       undefined,
       undefined,
       {
-        voiceId,
+        voiceId: testVoiceId,
         rate: voiceRate,
         pitch: voicePitch,
         lang: 'pt-BR',
@@ -202,6 +212,7 @@ export default function AudioSettingsModal({
         similarityBoost: 0.75,
         enableBreathingPauses: true,
         userName: userProfile.name,
+        preferElevenLabs: requiresNeuralVoice,
         fallbackToSpeechSynthesis: !requiresNeuralVoice,
         onError: requiresNeuralVoice
           ? () => {
@@ -232,7 +243,7 @@ export default function AudioSettingsModal({
       voiceVolume,
       voiceRate,
       voicePitch,
-      voiceId,
+      voiceId: isMisticoModerno ? (userProfile.voiceId ?? '') : voiceId,
       audioEnabled,
       bioactiveBinauralEnabled,
       binauralWaveType,
@@ -620,7 +631,15 @@ export default function AudioSettingsModal({
           </label>
 
           {/* Voice Selector */}
-          {requiresNeuralVoice ? (
+          {isMisticoModerno ? (
+            <div className="ep-mistico-voice-lock space-y-1 rounded-xl border border-[#E5DAC6] bg-white/70 p-3">
+              <span className="block text-[11px] text-[#5C5248]">Voz oficial do Místico Moderno</span>
+              <strong className="block text-sm font-semibold text-[#2A2420]">Marianne — Meditação</strong>
+              <p className="text-[10px] leading-relaxed text-[#85786C]">
+                Voz neural aprovada para este estilo. Se o serviço de áudio falhar, a narração será interrompida com aviso, sem substituição pela voz do dispositivo.
+              </p>
+            </div>
+          ) : requiresNeuralVoice ? (
             <div className="space-y-1">
               <span className="text-[11px] text-[#5C5248] block">Voz neural (ElevenLabs)</span>
               <select
@@ -719,7 +738,9 @@ export default function AudioSettingsModal({
         </button>
         {voiceTestError && (
           <p role="alert" className="ep-voice-error rounded-xl px-3 py-2 text-xs">
-            Selecione uma voz neural válida do catálogo. Os Estilos 2 e 3 não usarão a voz robótica do dispositivo.
+            {isMisticoModerno
+              ? 'Não foi possível reproduzir Marianne — Meditação. O Místico Moderno não substituirá a voz oficial pela voz do dispositivo.'
+              : 'Selecione uma voz neural válida do catálogo. Os Estilos 2 e 3 não usarão a voz robótica do dispositivo.'}
           </p>
         )}
 
