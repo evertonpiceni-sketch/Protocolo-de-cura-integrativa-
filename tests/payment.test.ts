@@ -145,6 +145,11 @@ test('checkout binds account, validates provider confirmation and grants only on
     assert.equal((await call('payment/create-checkout', { productType: 'numerology_full', paymentMethod: 'pix' }, 'numerology-owner')).status, 409);
     db.users.push({ id: 'coupon-owner', plan: 'free', profile: {} });
     assert.equal((await call('payment/create-checkout', { productType: 'numerology_full', paymentMethod: 'pix', couponCode: 'PROMO20' }, 'coupon-owner')).status, 400);
+    db.users.push({ id: 'preparing-owner', plan: 'free', profile: {} });
+    (db.paymentOrders ||= []).push({ id: 'numerology-pending-without-link', userId: 'preparing-owner', productType: 'numerology_full', cents: 9000, method: 'pix', createdAt: new Date().toISOString() });
+    const linksBeforePendingRetry = calls.filter(c => String(c.url).endsWith('/links')).length;
+    assert.equal((await call('payment/create-checkout', { productType: 'numerology_full', paymentMethod: 'pix' }, 'preparing-owner')).status, 409);
+    assert.equal(calls.filter(c => String(c.url).endsWith('/links')).length, linksBeforePendingRetry);
 
     db.users.push({ id: 'trial-account', plan: 'free', profile: {} });
     const trial = { planId: 'teste_vip_7d', paymentMethod: 'trial', couponCode: 'VIP7' };
