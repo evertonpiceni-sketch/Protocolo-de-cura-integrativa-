@@ -9,7 +9,7 @@ export type ElevenLabsVoiceOption = {
 /**
  * ElevenLabs voice IDs are opaque 20-character identifiers.
  * Device SpeechSynthesis names/URIs and the rejected Rachel/Marcus fallback IDs
- * are not valid selections for Elegância Profunda.
+ * are not valid selections for Natural Sereno, Elegância Profunda or Essência Luminosa.
  */
 const REJECTED_FALLBACK_VOICE_IDS = new Set([
   '21m00Tcm4TlvDq8ikWAM',
