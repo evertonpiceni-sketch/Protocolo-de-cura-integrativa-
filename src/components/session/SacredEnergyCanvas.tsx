@@ -3,6 +3,7 @@ import { ProtocolStage } from '../../types';
 
 interface SacredEnergyCanvasProps {
   dayNumber?: number;
+  dayOneOpening?: boolean;
   stageId: ProtocolStage | string;
   isPlaying: boolean;
   elapsedSeconds?: number;
@@ -23,6 +24,7 @@ interface SacredEnergyCanvasProps {
 
 export const SacredEnergyCanvas: React.FC<SacredEnergyCanvasProps> = ({
   dayNumber,
+  dayOneOpening = false,
   stageId,
   isPlaying,
   elapsedSeconds,
@@ -105,8 +107,69 @@ export const SacredEnergyCanvas: React.FC<SacredEnergyCanvasProps> = ({
       if (!prefersReducedMotion && clockRef.current !== undefined) time = clockRef.current * 0.9;
       else if (!prefersReducedMotion && isPlaying) time += 0.015;
 
-      // Render stage-specific sacred geometry & atmosphere
-      switch (stageId) {
+      // Day 1 of Elegância Profunda follows the approved descent to the feet and golden roots.
+      // This opening intentionally contains no circles, petals, chakra points or mandalas.
+      if (dayOneOpening) {
+        const elapsed = Math.max(0, clockRef.current ?? 0);
+        const channelStartY = height * 0.14;
+        const feetY = height * 0.68;
+        const channelProgress = Math.min(1, elapsed / 240);
+        const channelEndY = channelStartY + (feetY - channelStartY) * channelProgress;
+        const pulse = 0.92 + Math.sin(time * 1.1) * 0.05;
+
+        if (channelProgress > 0) {
+          const channelGradient = ctx.createLinearGradient(
+            cx, channelStartY, cx, Math.max(channelEndY, channelStartY + 1)
+          );
+          channelGradient.addColorStop(0, palette?.transparent ?? 'rgba(255, 255, 248, 0)');
+          channelGradient.addColorStop(0.55, palette?.goldSoft ?? 'rgba(212, 175, 55, 0.12)');
+          channelGradient.addColorStop(1, palette?.goldGlow ?? 'rgba(212, 175, 55, 0.32)');
+          ctx.strokeStyle = channelGradient;
+          ctx.lineWidth = 2.2;
+          ctx.shadowColor = palette?.gold ?? '#D4AF37';
+          ctx.shadowBlur = 12 * pulse;
+          ctx.beginPath();
+          ctx.moveTo(cx, channelStartY);
+          ctx.lineTo(cx, channelEndY);
+          ctx.stroke();
+          ctx.shadowBlur = 0;
+        }
+
+        const rootProgress = Math.min(1, Math.max(0, (elapsed - 240) / 120));
+        if (rootProgress > 0) {
+          ctx.save();
+          ctx.globalAlpha = rootProgress;
+          ctx.strokeStyle = palette?.goldLine ?? 'rgba(212, 175, 55, 0.52)';
+          ctx.lineWidth = 1.25;
+          ctx.shadowColor = palette?.gold ?? '#D4AF37';
+          ctx.shadowBlur = 5;
+          for (let root = -3; root <= 3; root++) {
+            const spread = root * 16;
+            const sway = Math.sin(time * 0.25 + root) * 2;
+            const rootDepth = height * 0.27 * rootProgress;
+            ctx.beginPath();
+            ctx.moveTo(cx, feetY);
+            ctx.quadraticCurveTo(
+              cx + spread * 0.35 + sway,
+              feetY + rootDepth * 0.35,
+              cx + spread * rootProgress,
+              Math.min(height * 0.96, feetY + rootDepth + Math.abs(spread) * 0.25)
+            );
+            ctx.stroke();
+          }
+          ctx.restore();
+        }
+
+        if (channelProgress >= 1) {
+          ctx.fillStyle = palette?.ivory ?? '#F4F1EB';
+          ctx.shadowColor = palette?.gold ?? '#D4AF37';
+          ctx.shadowBlur = 9;
+          ctx.fillRect(cx - 1.5, feetY - 1.5, 3, 3);
+          ctx.shadowBlur = 0;
+        }
+      } else {
+        // Other days retain their own stage-specific visual language.
+        switch (stageId) {
         case ProtocolStage.ABERTURA: {
           // Soft gold expanding rings & sacred presence
           const pulse = Math.sin(time * 1.5) * 12 + 65;
@@ -371,6 +434,7 @@ export const SacredEnergyCanvas: React.FC<SacredEnergyCanvasProps> = ({
 
         default:
           break;
+        }
       }
 
       if (isPlaying && !prefersReducedMotion && !document.hidden) {
@@ -393,7 +457,7 @@ export const SacredEnergyCanvas: React.FC<SacredEnergyCanvasProps> = ({
       document.removeEventListener('visibilitychange', refresh);
       motionPreference.removeEventListener('change', updateMotionPreference);
     };
-  }, [stageId, isPlaying, dayNumber, colorTheme]);
+  }, [stageId, isPlaying, dayNumber, dayOneOpening, colorTheme]);
 
   // Paused seeking still redraws at the authoritative audio position.
   useEffect(() => { refreshRef.current?.(); }, [elapsedSeconds]);

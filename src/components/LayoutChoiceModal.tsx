@@ -11,7 +11,7 @@ interface LayoutChoiceModalProps {
 }
 
 function LayoutPreview({ layout }: { layout: LayoutDefinition }) {
-  // A prévia do Estilo 3 usa a prancha oficial como referência visual aprovada.
+  // A prancha oficial do Estilo 2 é referência visual; a jornada funcional aprovada permanece com 21 dias.
   const isEssenciaLuminosa = layout.id === 'essencia-luminosa';
   const [canvas, accent, gold, surface] = layout.swatches;
   const foreground = layout.tone === 'dark' ? '#F4F1EB' : '#2A2420';

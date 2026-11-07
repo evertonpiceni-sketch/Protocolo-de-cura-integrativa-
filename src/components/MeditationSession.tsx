@@ -385,6 +385,7 @@ export default function MeditationSession({
         <SacredEnergyCanvas
           dayNumber={['natural-sereno', 'elegancia-profunda', 'essencia-luminosa'].includes(activeLayout || '') ? dayNumber : undefined}
           colorTheme={isEleganciaProfunda ? ELEGANCIA_PROFUNDA_CANVAS_THEME : isEssenciaLuminosa ? ESSENCIA_LUMINOSA_CANVAS_THEME : undefined}
+          dayOneOpening={isEleganciaProfunda && dayNumber === 1}
           stageId={currentStage.id}
           isPlaying={isPlaying}
           breathePhase={breathePhase}

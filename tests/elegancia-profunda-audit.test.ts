@@ -78,6 +78,21 @@ test('o player respeita o contexto de dia do Estilo 2 sem herdar a cena da Reint
   assert.ok(css.includes('#meditation-session .ep-session-backdrop > div:last-child'));
 });
 
+test('o Dia 1 do Estilo 2 mostra a descida da luz e as raízes sem geometria circular', () => {
+  const session = read('src/components/MeditationSession.tsx');
+  const canvas = read('src/components/session/SacredEnergyCanvas.tsx');
+  assert.ok(session.includes('dayOneOpening={isEleganciaProfunda && dayNumber === 1}'));
+  const start = canvas.indexOf('if (dayOneOpening) {');
+  const end = canvas.indexOf('} else {', start);
+  assert.ok(start >= 0 && end > start, 'A cena aprovada do Dia 1 deve estar isolada dos demais estágios.');
+  const dayOneScene = canvas.slice(start, end);
+  assert.ok(dayOneScene.includes('channelProgress'));
+  assert.ok(dayOneScene.includes('rootProgress'));
+  assert.ok(!dayOneScene.includes('ctx.arc('), 'A cena do Dia 1 não deve desenhar anéis ou círculos.');
+  assert.ok(!dayOneScene.includes('ctx.strokeRect('));
+  assert.ok(!dayOneScene.includes('for (let p = 0'));
+});
+
 test('a narração do Estilo 2 usa IDs ElevenLabs válidos e não cai na voz do dispositivo', () => {
   const voiceSelection = read('src/lib/voiceSelection.ts');
   const audio = read('src/lib/audio.ts');
