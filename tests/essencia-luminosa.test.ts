@@ -70,7 +70,7 @@ test('o player usa ouro suave e sálvia nas animações da Essência Luminosa', 
   const session = fs.readFileSync('src/components/MeditationSession.tsx', 'utf8');
   const canvas = fs.readFileSync('src/components/session/SacredEnergyCanvas.tsx', 'utf8');
   assert.ok(session.includes("colorTheme={isMisticoModerno ? MISTICO_MODERNO_CANVAS_THEME : isEleganciaProfunda ? ELEGANCIA_PROFUNDA_CANVAS_THEME : isEssenciaLuminosa ? ESSENCIA_LUMINOSA_CANVAS_THEME : undefined}"));
-  assert.ok(session.includes("'essencia-luminosa'].includes(activeLayout || '')"));
+  assert.ok(session.includes("'essencia-luminosa', 'mistico-moderno'].includes(activeLayout || '')"));
   assert.ok(canvas.includes('const palette = colorTheme ?'));
   assert.ok(canvas.includes('rgba(198, 164, 106'));
   assert.ok(canvas.includes('rgba(166, 180, 155'));
@@ -99,7 +99,7 @@ test('os Ajustes de Áudio do Estilo 3 oferecem vozes neurais e preservam Marian
   const settings = fs.readFileSync('src/components/AudioSettingsModal.tsx', 'utf8');
   const app = fs.readFileSync('src/App.tsx', 'utf8');
   assert.ok(settings.includes("const isEssenciaLuminosa = typeof document !== 'undefined' && document.documentElement.dataset.layout === 'essencia-luminosa';"));
-  assert.ok(settings.includes('const requiresNeuralVoice = isEleganciaProfunda || isEssenciaLuminosa;'));
+  assert.ok(settings.includes('const requiresNeuralVoice = isEleganciaProfunda || isEssenciaLuminosa || isMisticoModerno;'));
   assert.ok(settings.includes('const initialVoiceId = isEssenciaLuminosa && !isElevenLabsVoiceId(savedVoiceId)'));
   assert.ok(settings.includes('fallbackToSpeechSynthesis: !requiresNeuralVoice'));
   assert.ok(app.includes('const usesNeuralVoiceCatalog = isEleganciaProfunda || isEssenciaLuminosa;'));
