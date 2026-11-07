@@ -121,6 +121,8 @@ export default function MeditationSession({
   }, [isPlaying, currentTime]);
 
   useEffect(() => {
+    if (sessionPhase !== 'playing' || !isPlaying) return;
+
     let disposed = false;
     let releaseWakeLock: (() => void) | null = null;
     requestWakeLock().then(release => {
@@ -131,6 +133,11 @@ export default function MeditationSession({
     return () => {
       disposed = true;
       if (releaseWakeLock) releaseWakeLock();
+    };
+  }, [isPlaying, sessionPhase]);
+
+  useEffect(() => {
+    return () => {
       audioEngine.stopSpeech();
       audioEngine.stopSynth();
     };
