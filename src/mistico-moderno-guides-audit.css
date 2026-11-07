@@ -7,7 +7,7 @@
 }
 
 :root[data-layout="mistico-moderno"] :is(#chakras-guide-modal,#systemic-questions-modal,#anamnesis-modal)>div{
-  background:radial-gradient(circle at 88% 0,rgba(108,63,160,.14),transparent 24rem),radial-gradient(circle at 8% 100%,rgba(22,101,82,.07),transparent 22rem),linear-gradient(180deg,#0A0F18 0%,#101827 100%)!important;
+  background:radial-gradient(circle at 88% 0,rgba(108,63,160,.14),transparent 24rem),radial-gradient(circle at 8% 100%,rgba(22,101,82,.07),transparent 22rem),linear-gradient(180deg,#07111F 0%,#141D3A 100%)!important;
   border-color:rgba(212,175,55,.22)!important;
   color:#F5F0E6!important;
   box-shadow:0 22px 58px rgba(0,0,0,.42),inset 0 1px 0 rgba(255,255,255,.045)!important;
