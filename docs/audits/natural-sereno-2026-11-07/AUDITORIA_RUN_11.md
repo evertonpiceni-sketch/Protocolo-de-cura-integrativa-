@@ -22,7 +22,9 @@ Data: 2026-11-07
 - Reintegração da Vida, corpo neutro, movimento da luz e logo discreto permanecem fora de qualquer redesign desta rodada.
 
 ## Pendente / limites de validação
-- Executar lint, testes e build na branch/CI; esta rodada não executou ambiente local nem navegador.
+- Reexecutar CI após a atualização de uma expectativa compartilhada do teste do Estilo 2 (o Arcanjo agora também bloqueia fallback no Natural Sereno). A primeira execução confirmou TypeScript e 64/65 testes; o único teste falhou por ainda esperar a assinatura antiga de `requireExplicitVoiceId` e foi atualizado.
+- O gate de segurança da CI também identificou 9 vulnerabilidades de dependência (3 moderadas, 6 altas: body-parser, ip-address, qs via elevenlabs, vite e zod via chromium-bidi/puppeteer). Não alterei dependências nesta rodada de identidade visual/voz para evitar atualização transversal sem auditoria própria.
+- Build e capturas Chromium ainda dependem da nova execução de CI/preview.
 - Recapturar e comparar as 12 telas após as mudanças, em desktop e mobile, especialmente Home, Anamnese/Resultado, Biblioteca, Ferramentas, Comunidade e Perfil.
 - Ouvir uma sessão real com ElevenLabs e validar a indisponibilidade neural sem fallback de dispositivo; confirmar áudio exclusivo durante Arcanjo/Solfeggio em runtime.
 - Validar animações/canvas visualmente e fazer smoke test do checkout InfinitePay em ambiente de teste, sem transação real.
