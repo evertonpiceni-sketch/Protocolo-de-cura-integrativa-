@@ -142,3 +142,40 @@
 :root[data-layout="natural-sereno"] #specific-treatment-modal .hover\:bg-slate-700:hover { background:#EEE4D3!important; color:#2A2421!important; }
 
 @media (max-width:640px) { :root[data-layout="natural-sereno"] #main-header .ep-brand-signature { opacity:.26!important; } }
+
+
+/* Natural Sereno — Solfeggio/Arcanjo view: retain chakra information, remove forest-green slabs. */
+:root[data-layout="natural-sereno"] .ns-arcanjo-protocol .ns-arcanjo-panel {
+  background:linear-gradient(145deg,#FFFDF8 0%,#F5EFE5 100%)!important;
+  background-image:none!important;
+  border:1px solid rgba(200,157,82,.30)!important;
+  box-shadow:0 14px 32px rgba(67,52,39,.08)!important;
+  color:#2A2421!important;
+  backdrop-filter:none!important;
+}
+:root[data-layout="natural-sereno"] .ns-arcanjo-protocol .ns-arcanjo-panel [class~="text-[#d9e6dc]"],
+:root[data-layout="natural-sereno"] .ns-arcanjo-protocol .ns-arcanjo-panel [class~="text-[#bad0c4]"],
+:root[data-layout="natural-sereno"] .ns-arcanjo-protocol .ns-arcanjo-panel [class~="text-[#e9f1e9]"],
+:root[data-layout="natural-sereno"] .ns-arcanjo-protocol .ns-arcanjo-panel [class~="text-[#e6eee8]"],
+:root[data-layout="natural-sereno"] .ns-arcanjo-protocol .ns-arcanjo-panel [class~="text-[#d7e2d8]"],
+:root[data-layout="natural-sereno"] .ns-arcanjo-protocol .ns-arcanjo-panel [class~="text-[#c8d8cc]"] { color:#6B625B!important; }
+:root[data-layout="natural-sereno"] .ns-arcanjo-protocol .ns-arcanjo-panel [class~="text-[#f5e8bd]"] { color:#2A2421!important; }
+:root[data-layout="natural-sereno"] .ns-arcanjo-protocol .ns-arcanjo-panel [class~="text-[#f0d989]"] { color:#8F631E!important; }
+:root[data-layout="natural-sereno"] .ns-arcanjo-protocol .ns-arcanjo-panel [class~="bg-black/30"] { background:rgba(42,36,33,.08)!important; }
+:root[data-layout="natural-sereno"] .ns-arcanjo-protocol .ns-arcanjo-panel [class~="bg-black/20"],
+:root[data-layout="natural-sereno"] .ns-arcanjo-protocol .ns-arcanjo-panel [class~="bg-black/10"] { background:rgba(42,36,33,.045)!important; }
+:root[data-layout="natural-sereno"] .ns-arcanjo-protocol .ns-arcanjo-chakra-body {
+  background:#F3EDE4!important;
+  border-color:rgba(200,157,82,.34)!important;
+  box-shadow:0 18px 42px rgba(67,52,39,.12)!important;
+}
+:root[data-layout="natural-sereno"] .ns-arcanjo-protocol .ns-arcanjo-chakra-caption {
+  background:linear-gradient(to top,rgba(250,247,242,.98),rgba(250,247,242,.78),transparent)!important;
+}
+:root[data-layout="natural-sereno"] .ns-arcanjo-protocol .ns-arcanjo-chakra-caption [class~="text-[#f5e8bd]"] { color:#2A2421!important; }
+:root[data-layout="natural-sereno"] .ns-arcanjo-protocol .ns-arcanjo-chakra-caption [class~="text-[#c8d9cd]"] { color:#6B625B!important; }
+:root[data-layout="natural-sereno"] .ns-arcanjo-protocol .ns-arcanjo-error {
+  background:rgba(200,157,82,.09)!important;
+  border-color:rgba(200,157,82,.30)!important;
+  color:#5C5248!important;
+}
