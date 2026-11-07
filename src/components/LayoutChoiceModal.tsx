@@ -16,7 +16,7 @@ function LayoutPreview({ layout }: { layout: LayoutDefinition }) {
   const foreground = layout.tone === 'dark' ? '#F4F1EB' : '#2A2420';
   const muted = layout.tone === 'dark' ? 'rgba(244,241,235,.68)' : 'rgba(42,36,32,.62)';
   const isNaturalSereno = layout.id === 'natural-sereno';
-  const previewBorder = layout.id === 'elegancia-profunda' ? 'rgba(212,175,119,.35)' : layout.id === 'mistico-moderno' ? 'rgba(108,63,160,.40)' : 'rgba(42,36,32,.10)';
+  const previewBorder = layout.id === 'elegancia-profunda' ? 'rgba(212,175,119,.35)' : layout.id === 'mistico-moderno' ? 'rgba(108,63,160,.40)' : isEssenciaLuminosa ? 'rgba(198,164,106,.35)' : 'rgba(42,36,32,.10)';
   if (layout.id === 'elegancia-profunda') {
     return (
       <div
@@ -35,7 +35,26 @@ function LayoutPreview({ layout }: { layout: LayoutDefinition }) {
       </div>
     );
   }
-  const innerBorder = layout.id === 'elegancia-profunda' ? 'rgba(212,175,119,.25)' : layout.id === 'mistico-moderno' ? 'rgba(108,63,160,.28)' : 'rgba(42,36,32,.06)';
+  if (isEssenciaLuminosa) {
+    return (
+      <div
+        className="mt-4 flex h-[184px] w-full items-center justify-center overflow-hidden rounded-2xl border shadow-inner"
+        style={{ backgroundColor: surface, borderColor: previewBorder }}
+        data-reference-board="essencia-luminosa"
+        aria-hidden="true"
+      >
+        <img
+          src="/brand/essencia-luminosa/prancha-oficial.svg"
+          alt=""
+          loading="lazy"
+          decoding="async"
+          draggable={false}
+          className="h-full w-full object-contain"
+        />
+      </div>
+    );
+  }
+  const innerBorder = layout.id === 'elegancia-profunda' ? 'rgba(212,175,119,.25)' : layout.id === 'mistico-moderno' ? 'rgba(108,63,160,.28)' : isEssenciaLuminosa ? 'rgba(198,164,106,.25)' : 'rgba(42,36,32,.06)';
   const naturalIvory = '#F3EDE4';
   const previewBackground = isNaturalSereno
     ? `linear-gradient(145deg, ${canvas}, ${naturalIvory})`
@@ -125,7 +144,7 @@ export default function LayoutChoiceModal({ onSelect }: LayoutChoiceModalProps) 
   return (
     <div
       ref={dialogRef}
-      className="fixed inset-0 z-[160] flex items-start justify-center overflow-y-auto overscroll-contain bg-[#2A2420]/35 p-2 sm:p-5 backdrop-blur-md"
+      className="fixed inset-0 z-[160] flex items-start justify-center overflow-y-auto overscroll-contain bg-[#F7F3E8] p-2 sm:p-5 backdrop-blur-md"
       role="dialog"
       aria-modal="true"
       aria-labelledby="layout-choice-title"
