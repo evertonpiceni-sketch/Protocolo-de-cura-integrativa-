@@ -110,12 +110,12 @@ test('a narração do Estilo 2 usa IDs ElevenLabs válidos e não cai na voz do 
   assert.ok(audio.includes('failWithoutNativeVoice'));
   assert.ok(app.includes('Voz neural (ElevenLabs)'));
   assert.ok(settings.includes('Voz neural (ElevenLabs)'));
-  assert.ok(home.includes('const requiresNeuralVoice = isEleganciaProfunda || isEssenciaLuminosa;'));
+  assert.ok(home.includes('const requiresNeuralVoice = isEleganciaProfunda || isEssenciaLuminosa || isMisticoModerno;'));
   assert.ok(home.includes('fallbackToSpeechSynthesis: !requiresNeuralVoice'));
   assert.ok(session.includes("activeLayout === 'elegancia-profunda' && !style2VoiceId"));
   assert.ok(anamnesis.includes('fallbackToSpeechSynthesis: false'));
   assert.ok(hooponopono.includes('fallbackToSpeechSynthesis: !isEleganciaProfunda'));
-  assert.ok(arcanjo.includes('requireExplicitVoiceId: isEleganciaProfunda'));
+  assert.ok(arcanjo.includes('requireExplicitVoiceId: isEleganciaProfunda || isMisticoModerno'));
   assert.ok(audio.includes('requireExplicitVoiceId?: boolean'));
   assert.ok(audio.includes('if (options.requireExplicitVoiceId && !isElevenLabsVoiceId(options.voiceId))'));
   assert.ok(systemic.includes('fallbackToSpeechSynthesis: false'));
@@ -149,7 +149,7 @@ test('as telas de Anamnese e oração usam a paleta específica do Estilo 2', ()
 test('o Estilo 2 não substitui silenciosamente a voz neural escolhida por uma voz padrão', () => {
   const home = read('src/components/TransformationHome.tsx');
   const settings = read('src/components/AudioSettingsModal.tsx');
-  assert.ok(home.includes("const approvedVoiceId = isEleganciaProfunda\n    ? (isElevenLabsVoiceId(savedVoiceId) ? savedVoiceId : '')"));
+  assert.ok(home.includes("const approvedVoiceId = isEleganciaProfunda || isMisticoModerno\n    ? (isElevenLabsVoiceId(savedVoiceId) ? savedVoiceId : '')"));
   assert.ok(home.includes("isEssenciaLuminosa\n      ? (isElevenLabsVoiceId(savedVoiceId) ? savedVoiceId : OFFICIAL_PROTOCOL_VOICE_ID)"));
   assert.ok(settings.includes('if (requiresNeuralVoice && !isElevenLabsVoiceId(voiceId))'));
 });
@@ -185,7 +185,7 @@ test('o canvas do Estilo 2 usa verde profundo e dourado, sem herdar a paleta da 
   assert.ok(session.includes("const ELEGANCIA_PROFUNDA_CANVAS_THEME = {"));
   assert.ok(session.includes("glow: '#D4AF37'"));
   assert.ok(session.includes("accent: '#2E6B4F'"));
-  assert.ok(session.includes("colorTheme={isEleganciaProfunda ? ELEGANCIA_PROFUNDA_CANVAS_THEME"));
+  assert.ok(session.includes("colorTheme={isMisticoModerno ? MISTICO_MODERNO_CANVAS_THEME : isEleganciaProfunda ? ELEGANCIA_PROFUNDA_CANVAS_THEME"));
   assert.ok(canvas.includes('goldSoft?: string;'));
   assert.ok(canvas.includes('sageSoft?: string;'));
   assert.ok(canvas.includes('goldSoft: colorTheme.goldSoft ||'));
@@ -293,8 +293,7 @@ test('o destaque de ciclo recomendado usa champagne e bronze no Estilo 2', () =>
 
 test('o Estilo 2 não herda a imagem de fundo da Reintegração no tema compartilhado', () => {
   const theme = read('src/approved-theme.css');
-  const style2SceneBlock = theme.match(/:root\[data-layout="elegancia-profunda"\]\s*\{[^}]*--ep-scene:[^}]*\}/)?.[0] ?? '';
-  assert.ok(style2SceneBlock, 'O bloco de cena do Estilo 2 deve existir.');
-  assert.ok(style2SceneBlock.includes('--ep-scene:none;'));
-  assert.ok(!style2SceneBlock.includes('reintegracao-presenca-arte.png'));
+  const style2Theme = theme.match(/:root\[data-layout="elegancia-profunda"\]\s*\{(?=[^}]*--ep-scene:none;)[^}]*\}/)?.[0] ?? '';
+  assert.ok(style2Theme, 'O bloco de cena do Estilo 2 deve existir e declarar --ep-scene:none.');
+  assert.ok(!style2Theme.includes('reintegracao-presenca-arte.png'));
 });
