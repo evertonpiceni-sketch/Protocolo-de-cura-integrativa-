@@ -1,6 +1,6 @@
 import { ACCESS_SUPPORT_URL } from '../lib/accessRecoveryPatch';
-import React, { useState, useRef } from 'react';
-import { User, Sparkles, Shield, Heart, Lock, Mail, Calendar as CalendarIcon, LogIn, UserPlus, KeyRound, CheckCircle2, ArrowLeft, Clock, MapPin, Tag, Phone, Volume2, Play, Square, Loader2 } from 'lucide-react';
+import React, { useState } from 'react';
+import { User, Sparkles, Shield, Heart, Lock, Mail, Calendar as CalendarIcon, LogIn, UserPlus, KeyRound, CheckCircle2, ArrowLeft, Clock, MapPin, Tag, Phone, Volume2, Loader2 } from 'lucide-react';
 import { UserAccount } from '../types';
 import { APPROVED_LOGO_DATA_URI } from './ApprovedBrand';
 import { normalizeBrazilianNationalPhone } from '../utils/phone';
@@ -40,131 +40,6 @@ export default function ProfileSetup({ onComplete }: ProfileSetupProps) {
   const [regCoupon, setRegCoupon] = useState('');
   const [musicType, setMusicType] = useState<'528hz' | '432hz' | '963hz' | '741hz' | 'waves' | 'none'>('528hz');
   const [voiceChoice, setVoiceChoice] = useState<'masculina' | 'feminina'>('masculina');
-  const [isPlayingPreview, setIsPlayingPreview] = useState<boolean>(false);
-  const [loadingVoiceType, setLoadingVoiceType] = useState<'masculina' | 'feminina' | null>(null);
-  const previewAudioRef = useRef<HTMLAudioElement | null>(null);
-
-  const stopVoicePreview = () => {
-    if (previewAudioRef.current) {
-      previewAudioRef.current.pause();
-      previewAudioRef.current = null;
-    }
-    if (typeof window !== 'undefined' && 'speechSynthesis' in window) {
-      window.speechSynthesis.cancel();
-    }
-    setIsPlayingPreview(false);
-    setLoadingVoiceType(null);
-  };
-
-  const playVoicePreview = async (gender: 'masculina' | 'feminina') => {
-    if (isPlayingPreview) {
-      stopVoicePreview();
-      return;
-    }
-
-    setLoadingVoiceType(gender);
-    const sampleText = gender === 'masculina'
-      ? "Olá. Que bom ter você aqui. Este é o seu espaço de cuidado, presença e reconexão."
-      : "Olá. Que bom ter você aqui. Permita-se receber este momento de calma, presença e acolhimento.";
-
-    try {
-      // The sample must work before login without opening the authenticated TTS API.
-      if (gender === 'masculina') {
-        const audio = new Audio('/brand/natural-sereno/voz-masculina-amostra.mp3');
-        previewAudioRef.current = audio;
-        audio.onended = stopVoicePreview;
-        audio.onerror = stopVoicePreview;
-        await audio.play();
-        setIsPlayingPreview(true);
-        setLoadingVoiceType(null);
-        return;
-      }
-      const response = await fetch('/api/elevenlabs/tts', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          text: sampleText,
-          voiceId: 'Rachel',
-          stability: 0.45,
-          similarityBoost: 0.75
-        })
-      });
-
-      if (response.ok) {
-        const blob = await response.blob();
-        const url = URL.createObjectURL(blob);
-        const audio = new Audio(url);
-        previewAudioRef.current = audio;
-
-        audio.onended = () => {
-          setIsPlayingPreview(false);
-          setLoadingVoiceType(null);
-        };
-        audio.onerror = () => {
-          setIsPlayingPreview(false);
-          setLoadingVoiceType(null);
-        };
-
-        await audio.play();
-        setIsPlayingPreview(true);
-        setLoadingVoiceType(null);
-        return;
-      }
-    } catch (e) {
-      console.warn("ElevenLabs preview fallback to native TTS", e);
-    }
-
-    // Fallback Web Speech
-    if (typeof window !== 'undefined' && 'speechSynthesis' in window) {
-      const utterance = new SpeechSynthesisUtterance(sampleText);
-      utterance.lang = 'pt-BR';
-      const voices = window.speechSynthesis.getVoices();
-      
-      const ptVoices = voices.filter(v => v.lang.startsWith('pt') || v.lang.includes('BR'));
-      if (gender === 'feminina') {
-        const femaleVoice = ptVoices.find(v => 
-          v.name.toLowerCase().includes('female') || 
-          v.name.toLowerCase().includes('maria') || 
-          v.name.toLowerCase().includes('francisca') || 
-          v.name.toLowerCase().includes('luciana') || 
-          v.name.toLowerCase().includes('leticia') || 
-          v.name.toLowerCase().includes('victoria') ||
-          v.name.toLowerCase().includes('zira')
-        ) || ptVoices[0];
-        if (femaleVoice) utterance.voice = femaleVoice;
-        utterance.pitch = 1.05;
-        utterance.rate = 0.88;
-      } else {
-        const maleVoice = ptVoices.find(v => 
-          v.name.toLowerCase().includes('male') || 
-          v.name.toLowerCase().includes('antonio') || 
-          v.name.toLowerCase().includes('felipe') || 
-          v.name.toLowerCase().includes('daniel') || 
-          v.name.toLowerCase().includes('ricardo') ||
-          v.name.toLowerCase().includes('david')
-        ) || ptVoices[0];
-        if (maleVoice) utterance.voice = maleVoice;
-        utterance.pitch = 0.92;
-        utterance.rate = 0.86;
-      }
-
-      utterance.onend = () => {
-        setIsPlayingPreview(false);
-        setLoadingVoiceType(null);
-      };
-      utterance.onerror = () => {
-        setIsPlayingPreview(false);
-        setLoadingVoiceType(null);
-      };
-
-      window.speechSynthesis.speak(utterance);
-      setIsPlayingPreview(true);
-      setLoadingVoiceType(null);
-    } else {
-      setLoadingVoiceType(null);
-    }
-  };
-
   // Login Fields
   const [logLogin, setLogLogin] = useState('');
   const [logPassword, setLogPassword] = useState('');
@@ -592,68 +467,40 @@ export default function ProfileSetup({ onComplete }: ProfileSetupProps) {
             </div>
 
             <div className="space-y-2 pt-1" id="voice-gender-selector">
-              <div className="flex items-center justify-between">
+              <div className="flex flex-col gap-1 sm:flex-row sm:items-center sm:justify-between">
                 <label className="block text-[10px] font-sans text-[#817460] uppercase tracking-wider font-semibold flex items-center gap-1.5">
                   <Volume2 size={13} className="text-[#817460]" />
-                  <span>Voz da condução guiada</span>
+                  <span>Preferência de timbre</span>
                 </label>
-                <span className="text-[10px] text-[#5C5248]">Escolha a voz que mais acolhe seu coração</span>
+                <span className="text-[10px] text-[#5C5248]">A voz neural será escolhida em Ajustes de áudio após a entrada.</span>
               </div>
 
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3" role="radiogroup" aria-label="Voz da condução guiada">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3" role="radiogroup" aria-label="Preferência de timbre">
                 <div
                   onClick={() => setVoiceChoice('masculina')}
                   className={`p-3.5 rounded-2xl border transition duration-150 cursor-pointer flex flex-col justify-between ${
                     voiceChoice === 'masculina'
-                      ? 'bg-[#F5EFE4] border-[#B88736] shadow-sm ring-1 ring-[#B88736]/25'
-                      : 'bg-white/70 border-[#E5DAC6] hover:border-[#E5DAC6] text-[#5C5248]'
+                      ? 'bg-[#F1EFE9] border-[#A99B84] shadow-sm ring-1 ring-[#A99B84]/25'
+                      : 'bg-white/70 border-[#E3DFD6] hover:border-[#A99B84]/50 text-[#5C5248]'
                   }`}
                 >
                   <input className="sr-only" type="radio" name="guided-voice" aria-label="Voz masculina" checked={voiceChoice === 'masculina'} onChange={() => setVoiceChoice('masculina')} onClick={event => event.stopPropagation()} />
                   <div className="space-y-1">
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-2">
-                        <Volume2 size={16} className="text-[#d9bd69]" />
+                        <Volume2 size={16} className="text-[#817460]" />
                         <span className="text-xs font-bold text-[#2A2420]">Voz masculina</span>
                       </div>
-                      {voiceChoice === 'masculina' && (
-                        <span className="w-2 h-2 rounded-full bg-[#B88736] animate-ping" />
-                      )}
+                      {voiceChoice === 'masculina' && <span className="w-2 h-2 rounded-full bg-[#A99B84]" />}
                     </div>
                     <p className="text-[10px] text-[#5C5248] leading-snug">
                       Voz masculina profunda, firme e serena para ancoramento, decretos quânticos e transmutação.
                     </p>
                   </div>
-
-                  <div className="mt-2.5 pt-2 border-t border-[#E5DAC6]/60 flex items-center justify-between">
-                    <span className="text-[9px] font-sans text-[#817460] bg-[#B88736]/10 px-2 py-0.5 rounded">
+                  <div className="mt-2.5 pt-2 border-t border-[#E3DFD6]/80">
+                    <span className="text-[9px] font-sans text-[#625E56] bg-[#F1EFE9] px-2 py-0.5 rounded">
                       Tom Terapêutico Natural
                     </span>
-                    <button
-                      type="button"
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        playVoicePreview('masculina');
-                      }}
-                      className="px-2 py-1 rounded-lg bg-[#E4E0D7] hover:bg-[#D8D2C7] text-[#302E2A] border border-[#C9C2B7] text-[10px] flex items-center gap-1 transition cursor-pointer"
-                    >
-                      {loadingVoiceType === 'masculina' ? (
-                        <>
-                          <Loader2 size={11} className="animate-spin" />
-                          <span>Carregando...</span>
-                        </>
-                      ) : isPlayingPreview && voiceChoice === 'masculina' ? (
-                        <>
-                          <Square size={10} className="fill-[#A99B84] text-[#817460]" />
-                          <span>Pausar</span>
-                        </>
-                      ) : (
-                        <>
-                          <Play size={10} className="fill-[#A99B84] text-[#817460]" />
-                          <span>Ouvir Amostra</span>
-                        </>
-                      )}
-                    </button>
                   </div>
                 </div>
 
@@ -661,60 +508,34 @@ export default function ProfileSetup({ onComplete }: ProfileSetupProps) {
                   onClick={() => setVoiceChoice('feminina')}
                   className={`p-3.5 rounded-2xl border transition duration-150 cursor-pointer flex flex-col justify-between ${
                     voiceChoice === 'feminina'
-                      ? 'bg-rose-50 border-rose-300 shadow-sm ring-1 ring-rose-200'
-                      : 'bg-white/70 border-[#E5DAC6] hover:border-[#E5DAC6] text-[#5C5248]'
+                      ? 'bg-[#F1EFE9] border-[#A99B84] shadow-sm ring-1 ring-[#A99B84]/25'
+                      : 'bg-white/70 border-[#E3DFD6] hover:border-[#A99B84]/50 text-[#5C5248]'
                   }`}
                 >
                   <input className="sr-only" type="radio" name="guided-voice" aria-label="Voz feminina" checked={voiceChoice === 'feminina'} onChange={() => setVoiceChoice('feminina')} onClick={event => event.stopPropagation()} />
                   <div className="space-y-1">
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-2">
-                        <Volume2 size={16} className="text-[#d9bd69]" />
+                        <Volume2 size={16} className="text-[#817460]" />
                         <span className="text-xs font-bold text-[#2A2420]">Voz Feminina Suave</span>
                       </div>
-                      {voiceChoice === 'feminina' && (
-                        <span className="w-2 h-2 rounded-full bg-rose-400 animate-ping" />
-                      )}
+                      {voiceChoice === 'feminina' && <span className="w-2 h-2 rounded-full bg-[#A99B84]" />}
                     </div>
                     <p className="text-[10px] text-[#5C5248] leading-snug">
                       Voz feminina maternal, doce e pausada, ideal para relaxamento profundo, sono e Raio Rosa.
                     </p>
                   </div>
-
-                  <div className="mt-2.5 pt-2 border-t border-[#E5DAC6]/60 flex items-center justify-between">
-                    <span className="text-[9px] font-sans text-rose-700 bg-rose-50 px-2 py-0.5 rounded">
+                  <div className="mt-2.5 pt-2 border-t border-[#E3DFD6]/80">
+                    <span className="text-[9px] font-sans text-[#625E56] bg-[#F1EFE9] px-2 py-0.5 rounded">
                       Acolhimento da Alma
                     </span>
-                    <button
-                      type="button"
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        playVoicePreview('feminina');
-                      }}
-                      className="px-2 py-1 rounded-lg bg-[#E4E0D7] hover:bg-[#D8D2C7] text-[#302E2A] border border-[#C9C2B7] text-[10px] flex items-center gap-1 transition cursor-pointer"
-                    >
-                      {loadingVoiceType === 'feminina' ? (
-                        <>
-                          <Loader2 size={11} className="animate-spin" />
-                          <span>Carregando...</span>
-                        </>
-                      ) : isPlayingPreview && voiceChoice === 'feminina' ? (
-                        <>
-                          <Square size={10} className="fill-[#A99B84] text-[#817460]" />
-                          <span>Pausar</span>
-                        </>
-                      ) : (
-                        <>
-                          <Play size={10} className="fill-[#A99B84] text-[#817460]" />
-                          <span>Ouvir Amostra</span>
-                        </>
-                      )}
-                    </button>
                   </div>
                 </div>
               </div>
+              <p id="voice-preview-note" className="text-[10px] leading-relaxed text-[#625E56]">
+                Esta escolha registra sua preferência de timbre. A voz neural e a amostra correspondente serão escolhidas em Ajustes de áudio depois que você entrar e confirmar um dos quatro estilos.
+              </p>
             </div>
-
             <div className="space-y-2 pt-2">
               <label className="block text-[11px] font-sans text-[#5C5248] uppercase tracking-wider">
                 Frequência Sonora Inicial
