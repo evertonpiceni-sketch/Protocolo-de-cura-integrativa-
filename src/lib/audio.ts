@@ -1059,6 +1059,8 @@ class CalmingAudioEngine {
       userName?: string;
       enableBreathingPauses?: boolean;
       preferElevenLabs?: boolean;
+      allowNativeFallback?: boolean;
+      onError?: (error: Error) => void;
       rate?: number;
       pitch?: number;
       lang?: string;
@@ -1068,6 +1070,24 @@ class CalmingAudioEngine {
     this.stopSpeech();
 
     const preferElevenLabs = options?.preferElevenLabs !== false;
+    const allowNativeFallback = options?.allowNativeFallback !== false;
+    let voiceErrorReported = false;
+    const reportVoiceError = (error: unknown) => {
+      if (voiceErrorReported) return;
+      voiceErrorReported = true;
+      this.isElevenLabsPlaying = false;
+      this.isSpeakingActive = false;
+      const normalizedError = error instanceof Error
+        ? error
+        : new Error('Narração oficial indisponível. Tente novamente.');
+      if (options?.onError) {
+        options.onError(normalizedError);
+      } else if (typeof window !== 'undefined' && typeof CustomEvent !== 'undefined') {
+        window.dispatchEvent(new CustomEvent('protocolo:erro-voz', {
+          detail: { message: normalizedError.message }
+        }));
+      }
+    };
 
     if (preferElevenLabs && typeof window !== 'undefined') {
       try {
@@ -1156,6 +1176,10 @@ class CalmingAudioEngine {
                 };
 
                 audio.onerror = () => {
+                  if (!allowNativeFallback) {
+                    reportVoiceError(new Error('Narração oficial indisponível. Tente novamente.'));
+                    return;
+                  }
                   this.isElevenLabsPlaying = false;
                   this.isSpeakingActive = false;
                   const fallbackText = text
@@ -1179,6 +1203,10 @@ class CalmingAudioEngine {
 
                 await audio.play();
               } catch (err) {
+                if (!allowNativeFallback) {
+                  reportVoiceError(err);
+                  return;
+                }
                 console.warn("Protocol segment TTS failed, using native fallback:", err);
                 this.isElevenLabsPlaying = false;
                 this.isSpeakingActive = false;
@@ -1249,6 +1277,10 @@ class CalmingAudioEngine {
           };
 
           audio.onerror = (e) => {
+            if (!allowNativeFallback) {
+              reportVoiceError(new Error('Narração oficial indisponível. Tente novamente.'));
+              return;
+            }
             console.warn("ElevenLabs audio playback failed, falling back to Web Speech API:", e);
             this.isElevenLabsPlaying = false;
             this.speak(text, voiceVolume, onStart, onEnd, onPause, onResume, options);
@@ -1259,14 +1291,26 @@ class CalmingAudioEngine {
         } else {
           // Server returned fallback or error status (e.g. 503 API key not set)
           const errData = await response.json().catch(() => ({}));
+          if (!allowNativeFallback) {
+            reportVoiceError(new Error(errData.message || errData.error || 'Narração oficial indisponível. Tente novamente.'));
+            return;
+          }
           console.info("ElevenLabs TTS info / fallback:", errData.message || errData.error || response.statusText);
         }
       } catch (err) {
+        if (!allowNativeFallback) {
+          reportVoiceError(err);
+          return;
+        }
         console.warn("Could not connect to ElevenLabs TTS route, using native fallback:", err);
       }
     }
 
-    // Fallback to Web Speech API
+    if (!allowNativeFallback) {
+      reportVoiceError(new Error('Narração oficial indisponível. Tente novamente.'));
+      return;
+    }
+    // Fallback to Web Speech API for styles that explicitly allow it.
     this.speak(text, voiceVolume, onStart, onEnd, onPause, onResume, options);
   }
 

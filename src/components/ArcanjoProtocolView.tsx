@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { X, Play, Pause, RotateCcw, RotateCw, Volume2, BookOpen, ChevronLeft, Leaf, ShieldCheck, Heart, Loader2, LogOut } from 'lucide-react';
 import { UserProfile } from '../types';
+import { MISTICO_MODERNO_OFFICIAL_VOICE_ALIAS } from '../config/voiceAliases';
 import { audioEngine } from '../lib/audio';
 import { DISTANCE_TREATMENT_SCRIPT } from '../data/protocol_scripts';
 
@@ -95,7 +96,11 @@ export default function ArcanjoProtocolView({ userProfile, onClose, onLogout, in
   const [activeSectionIndex, setActiveSectionIndex] = useState(0);
   const [showRoteiro, setShowRoteiro] = useState(false);
   const [completedDays, setCompletedDays] = useState<number[]>([]);
+  const [narrationError, setNarrationError] = useState<string | null>(null);
   const fallbackTimerRef = useRef<number | null>(null);
+  const isMisticoModerno = () =>
+    typeof document !== 'undefined' &&
+    document.documentElement.dataset.layout === 'mistico-moderno';
   const narrationRunRef = useRef(0);
   const config = DADOS_PROTOCOLO[diaAtual];
   const hasKnownDuration = Number.isFinite(duration) && duration > 0;
@@ -146,6 +151,7 @@ export default function ArcanjoProtocolView({ userProfile, onClose, onLogout, in
     setElapsed(0);
     setDuration(0);
     setActiveSectionIndex(0);
+    setNarrationError(null);
   };
 
   const complete = () => {
@@ -157,6 +163,18 @@ export default function ArcanjoProtocolView({ userProfile, onClose, onLogout, in
   };
 
   const startNativeFallback = (runId: number) => {
+    if (isMisticoModerno()) {
+      audioEngine.stopSpeech();
+      audioEngine.stopSynth();
+      setDuration(0);
+      setElapsed(0);
+      setActiveSectionIndex(0);
+      setIsPreparingAudio(false);
+      setIsPlaying(false);
+      setHasStarted(false);
+      setNarrationError('A voz oficial do Místico Moderno não está disponível. A voz do navegador foi bloqueada para preservar a narração aprovada.');
+      return;
+    }
     setDuration(0);
     setElapsed(0);
     setActiveSectionIndex(0);
@@ -204,7 +222,9 @@ export default function ArcanjoProtocolView({ userProfile, onClose, onLogout, in
     void audioEngine.playGuidedMeditation(parts, {
       title: `Dia ${config.dia} — São Miguel, Chama Violeta e São Rafael`,
       subtitle: `${config.nome} • ${config.freq} Hz`,
-      voiceId: userProfile.voiceId || (userProfile.preferredVoiceGender === 'feminina' ? 'Rachel' : 'Marcus'),
+      voiceId: isMisticoModerno()
+        ? MISTICO_MODERNO_OFFICIAL_VOICE_ALIAS
+        : userProfile.voiceId || (userProfile.preferredVoiceGender === 'feminina' ? 'Rachel' : 'Marcus'),
       volume: userProfile.voiceVolume ?? 0.9,
       userName: userProfile.name,
       onStart: () => {
@@ -317,7 +337,9 @@ export default function ArcanjoProtocolView({ userProfile, onClose, onLogout, in
 
           <div className="mt-4 flex items-center justify-center gap-2 text-center text-sm text-[#bad0c4]">
             <Volume2 size={17}/>
-            <span>{isPreparingAudio ? 'Preparando narração aprovada…' : isPlaying ? `Voz humana + Solfeggio ${config.freq} Hz ativos` : hasStarted ? `Pausado — Solfeggio ${config.freq} Hz interrompido` : `Pronto — Solfeggio ${config.freq} Hz será reproduzido junto com a narração`}</span>
+            {narrationError
+              ? <span role="alert" aria-live="polite" className="text-[#E2B96B]">{narrationError}</span>
+              : <span>{isPreparingAudio ? 'Preparando narração aprovada…' : isPlaying ? `Voz humana + Solfeggio ${config.freq} Hz ativos` : hasStarted ? `Pausado — Solfeggio ${config.freq} Hz interrompido` : `Pronto — Solfeggio ${config.freq} Hz será reproduzido junto com a narração`}</span>}
           </div>
         </div>
 

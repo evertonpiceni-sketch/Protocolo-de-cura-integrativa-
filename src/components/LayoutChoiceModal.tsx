@@ -8,7 +8,6 @@ interface LayoutChoiceModalProps {
 }
 
 function LayoutPreview({ layout }: { layout: LayoutDefinition }) {
-  // A prévia do Estilo 3 usa sua própria paleta, sem herdar os acentos dos outros estilos.
   const isEssenciaLuminosa = layout.id === 'essencia-luminosa';
   const [canvas, accent, gold, surface] = isEssenciaLuminosa
     ? ['#FFFFF8', '#A6B49B', '#C6A46A', '#F7F3E8']
@@ -16,12 +15,12 @@ function LayoutPreview({ layout }: { layout: LayoutDefinition }) {
   const foreground = layout.tone === 'dark' ? '#F4F1EB' : '#2A2420';
   const muted = layout.tone === 'dark' ? 'rgba(244,241,235,.68)' : 'rgba(42,36,32,.62)';
   const isNaturalSereno = layout.id === 'natural-sereno';
-  const previewBorder = layout.id === 'elegancia-profunda' ? 'rgba(212,175,119,.35)' : layout.id === 'mistico-moderno' ? 'rgba(108,63,160,.40)' : 'rgba(42,36,32,.10)';
+
   if (layout.id === 'elegancia-profunda') {
     return (
       <div
         className="mt-4 flex h-[184px] w-full items-center justify-center overflow-hidden rounded-2xl border shadow-inner"
-        style={{ backgroundColor: '#0B1712', borderColor: previewBorder }}
+        style={{ backgroundColor: '#0B1712', borderColor: 'rgba(212,175,119,.35)' }}
         aria-hidden="true"
       >
         <img
@@ -35,21 +34,39 @@ function LayoutPreview({ layout }: { layout: LayoutDefinition }) {
       </div>
     );
   }
-  const innerBorder = layout.id === 'mistico-moderno' ? 'rgba(108,63,160,.28)' : 'rgba(42,36,32,.06)';
+
+  if (layout.id === 'mistico-moderno') {
+    return (
+      <div
+        className="mt-4 flex h-[184px] w-full items-center justify-center overflow-hidden rounded-2xl border shadow-inner"
+        style={{
+          backgroundColor: '#0A0F18',
+          borderColor: 'rgba(212,175,55,.32)',
+          boxShadow: 'inset 0 1px 0 rgba(255,255,255,.04), 0 12px 28px rgba(0,0,0,.22)'
+        }}
+        aria-hidden="true"
+      >
+        <img
+          src="/brand/mistico-moderno/prancha-oficial.webp"
+          alt=""
+          loading="eager"
+          decoding="async"
+          draggable={false}
+          className="h-full w-full object-contain"
+        />
+      </div>
+    );
+  }
+
+  const innerBorder = 'rgba(42,36,32,.06)';
   const naturalIvory = '#F3EDE4';
   const previewBackground = isNaturalSereno
     ? `linear-gradient(145deg, ${canvas}, ${naturalIvory})`
     : `linear-gradient(145deg, ${canvas}, ${surface})`;
   const previewSurface = isNaturalSereno ? 'rgba(255,255,255,.78)' : `${accent}33`;
-  // No Místico Moderno, o CTA deve permanecer dourado/âmbar e legível:
-  // mesclar dourado com violeta escurece a metade do botão sob texto escuro.
   const actionBackground = isNaturalSereno
     ? `linear-gradient(135deg, ${gold}, #A87E37)`
-    : layout.id === 'mistico-moderno'
-      ? `linear-gradient(135deg, ${gold}, #E2B96B)`
-      : isEssenciaLuminosa
-        ? `linear-gradient(135deg, ${gold}, #E9D6AF)`
-        : `linear-gradient(135deg, ${gold}, ${accent})`;
+    : `linear-gradient(135deg, ${gold}, #E9D6AF)`;
   const previewSwatches = isNaturalSereno
     ? [canvas, accent, gold, naturalIvory]
     : [canvas, gold, surface, accent];
@@ -57,7 +74,7 @@ function LayoutPreview({ layout }: { layout: LayoutDefinition }) {
   return (
     <div
       className="mt-4 overflow-hidden rounded-2xl border shadow-inner"
-      style={{ background: previewBackground, color: foreground, borderColor: previewBorder }}
+      style={{ background: previewBackground, color: foreground, borderColor: 'rgba(42,36,32,.10)' }}
       aria-hidden="true"
     >
       <div className="flex items-center justify-between border-b px-3 py-2" style={{ borderColor: innerBorder }}>
@@ -83,7 +100,7 @@ function LayoutPreview({ layout }: { layout: LayoutDefinition }) {
           )}
           <span
             className="mt-3 inline-flex rounded-full px-3 py-1 text-[8px] font-bold uppercase tracking-[.12em] shadow-sm"
-            style={{ background: actionBackground, color: isNaturalSereno || isEssenciaLuminosa || layout.id === 'mistico-moderno' ? '#2A2420' : layout.tone === 'dark' ? '#0B1712' : '#fff' }}
+            style={{ background: actionBackground, color: '#2A2420' }}
           >
             Iniciar jornada
           </span>
@@ -97,7 +114,6 @@ function LayoutPreview({ layout }: { layout: LayoutDefinition }) {
     </div>
   );
 }
-
 export default function LayoutChoiceModal({ onSelect }: LayoutChoiceModalProps) {
   const [selectedLayout, setSelectedLayout] = useState<LayoutId | null>(null);
   const [isSaving, setIsSaving] = useState(false);
@@ -140,6 +156,7 @@ export default function LayoutChoiceModal({ onSelect }: LayoutChoiceModalProps) 
         <div className="mt-6 grid grid-cols-1 gap-3 sm:grid-cols-2">
           {OFFICIAL_LAYOUTS.map(layout => {
             const isSelected = selectedLayout === layout.id;
+            const isMystic = layout.id === 'mistico-moderno';
             return (
               <button
                 key={layout.id}
@@ -147,14 +164,14 @@ export default function LayoutChoiceModal({ onSelect }: LayoutChoiceModalProps) 
                 onClick={() => { setSelectedLayout(layout.id); setSaveError(null); }}
                 disabled={isSaving}
                 aria-pressed={isSelected}
-                className={`group min-h-36 rounded-2xl border bg-white/85 p-5 text-left transition hover:-translate-y-0.5 hover:shadow-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B88736]/35 ${isSelected ? 'border-[#B88736] ring-2 ring-[#B88736]/20 shadow-lg' : 'border-[#E5DAC6] hover:border-[#B88736]/60'}`}
+                className={`group min-h-36 rounded-2xl border p-5 text-left transition hover:-translate-y-0.5 hover:shadow-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B88736]/35 ${isMystic ? 'bg-[#0A0F18] border-[#6C3FA0]/45 hover:border-[#D4AF37]/60' : 'bg-white/85 border-[#E5DAC6] hover:border-[#B88736]/60'} ${isSelected ? (isMystic ? 'border-[#D4AF37] ring-2 ring-[#D4AF37]/20 shadow-lg' : 'border-[#B88736] ring-2 ring-[#B88736]/20 shadow-lg') : ''}`}
               >
                 <div className="flex items-start justify-between gap-3">
                   <div>
-                    <h3 className="font-display text-xl font-semibold text-[#2A2420]">{layout.name}</h3>
-                    <p className="mt-1 text-xs leading-relaxed text-[#5C5248]">{layout.description}</p>
+                    <h3 className={`font-display text-xl font-semibold ${isMystic ? 'text-[#F4F1EB]' : 'text-[#2A2420]'}`}>{layout.name}</h3>
+                    <p className={`mt-1 text-xs leading-relaxed ${isMystic ? 'text-[#C8D0DC]' : 'text-[#5C5248]'}`}>{layout.description}</p>
                   </div>
-                  <span className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-full border transition ${isSelected ? 'border-[#B88736] bg-[#B88736] text-white opacity-100' : 'border-[#E5DAC6] text-[#B88736] opacity-0 group-hover:opacity-100'}`} aria-hidden="true">
+                  <span className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-full border transition ${isSelected ? 'border-[#B88736] bg-[#B88736] text-white opacity-100' : isMystic ? 'border-[#6C3FA0]/70 text-[#D4AF37] opacity-100' : 'border-[#E5DAC6] text-[#B88736] opacity-0 group-hover:opacity-100'}`} aria-hidden="true">
                     <Check size={16} />
                   </span>
                 </div>

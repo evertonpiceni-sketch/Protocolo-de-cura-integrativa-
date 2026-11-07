@@ -10,6 +10,7 @@ import {
 } from 'lucide-react';
 import { ProtocolStage, PROTOCOL_STAGES, DAILY_INSIGHTS, JOURNEY_7D_INSIGHTS, SessionCheckIn } from '../types';
 import { ORIGINAL_PROTOCOL_SCRIPTS } from '../data/protocol_scripts';
+import { MISTICO_MODERNO_OFFICIAL_VOICE_ALIAS } from '../config/voiceAliases';
 import { audioEngine, OFFICIAL_PROTOCOL_VOICE_ID } from '../lib/audio';
 import { requestWakeLock } from '../lib/wakeLockHelpers';
 import { AppLanguage, STAGE_AUDIO_TRANSLATIONS } from '../lib/i18n';
@@ -216,7 +217,9 @@ export default function MeditationSession({
         ? (voiceId || (voiceGender === 'masculina' ? 'masculina' : voiceGender === 'feminina' ? 'Rachel' : OFFICIAL_PROTOCOL_VOICE_ID))
         : activeLayout === 'elegancia-profunda'
           ? style2VoiceId
-          : OFFICIAL_PROTOCOL_VOICE_ID,
+          : activeLayout === 'mistico-moderno'
+            ? MISTICO_MODERNO_OFFICIAL_VOICE_ALIAS
+            : OFFICIAL_PROTOCOL_VOICE_ID,
       speed: voiceRate,
       stageTitle: `Dia ${dayNumber} — ${currentInsight.title} — ${currentStage.title}`,
       dayNumber,
