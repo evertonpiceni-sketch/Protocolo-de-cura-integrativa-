@@ -28,6 +28,6 @@
 }
 
 :root[data-layout="mistico-moderno"] #progress-dashboard .ep-brand-signature {
-  opacity: .34 !important;
-  filter: saturate(.88) contrast(.96);
+  opacity: .30 !important;
+  filter: none !important;
 }
