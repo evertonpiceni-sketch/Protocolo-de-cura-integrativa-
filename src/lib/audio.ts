@@ -5,6 +5,7 @@
 
 import { speechElapsedSeconds } from './speechElapsed';
 import { isElevenLabsVoiceId, type ElevenLabsVoiceOption } from './voiceSelection';
+import { MISTICO_MODERNO_OFFICIAL_VOICE_ALIAS } from '../config/voiceAliases';
 
 export interface BioactiveBinauralConfig {
   enabled: boolean;
@@ -1101,7 +1102,7 @@ class CalmingAudioEngine {
       onEnd();
     };
 
-    if (!allowNativeFallback && !isElevenLabsVoiceId(options?.voiceId)) {
+    if (!allowNativeFallback && !isElevenLabsVoiceId(options?.voiceId) && options?.voiceId !== MISTICO_MODERNO_OFFICIAL_VOICE_ALIAS) {
       failWithoutNativeVoice(new Error('Selecione uma voz neural válida do catálogo ElevenLabs.'));
       return;
     }
@@ -1354,7 +1355,7 @@ class CalmingAudioEngine {
     }
   ) {
     this.stopSpeech();
-    if (options.requireExplicitVoiceId && !isElevenLabsVoiceId(options.voiceId)) {
+    if (options.requireExplicitVoiceId && !isElevenLabsVoiceId(options.voiceId) && options.voiceId !== MISTICO_MODERNO_OFFICIAL_VOICE_ALIAS) {
       options.onError?.();
       return;
     }
