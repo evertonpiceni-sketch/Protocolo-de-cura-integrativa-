@@ -122,18 +122,16 @@ test('Anamnese e boas-vindas usam a paleta atual sem oliva escura ou dourado ant
 });
 
 test('as camadas CSS do Estilo 3 não deixam tokens de layout sem definição nem vazam para outros estilos', () => {
-  const files = fs.readdirSync('src').filter(name => /^essencia-luminosa.*\\.css$/.test(name));
-  const styleCss = files.map(name => fs.readFileSync(`src/${name}`, 'utf8')).join('\\n');
+  const files = fs.readdirSync('src').filter(name => name.startsWith('essencia-luminosa') && name.endsWith('.css'));
+  const styleCss = files.map(name => fs.readFileSync('src/' + name, 'utf8')).join('\n');
   const theme = fs.readFileSync('src/approved-theme.css', 'utf8');
-  const start = theme.indexOf(':root[data-layout="essencia-luminosa"]{');
-  const end = start >= 0 ? theme.indexOf('\\n}', start) : -1;
-  const themeBlock = start >= 0 && end > start ? theme.slice(start, end) : '';
-  const declarations = new Set([...(`${themeBlock}\\n${styleCss}`).matchAll(/(--[a-zA-Z0-9_-]+)\\s*:/g)].map(match => match[1]));
-  const references = new Set([...styleCss.matchAll(/var\\(\\s*(--layout-[a-zA-Z0-9_-]+)/g)].map(match => match[1]));
+  const themeBlock = theme.split(':root[data-layout="essencia-luminosa"]{')[1]?.split('}')[0] || '';
+  const declarations = new Set([...(themeBlock + '\n' + styleCss).matchAll(/(--[a-zA-Z0-9_-]+)\s*:/g)].map(match => match[1]));
+  const references = new Set([...styleCss.matchAll(/var\(\s*(--layout-[a-zA-Z0-9_-]+)/g)].map(match => match[1]));
   assert.deepEqual([...references].filter(name => !declarations.has(name)), []);
   for (const name of files) {
-    const source = fs.readFileSync(`src/${name}`, 'utf8').replace(/\\/\\*[\\s\\S]*?\\*\\//g, '');
-    const selectors = [...source.matchAll(/([^{}]+)\\{/g)].map(match => match[1].trim()).filter(selector => selector && !selector.startsWith('@'));
+    const source = fs.readFileSync('src/' + name, 'utf8').replace(/\/\*[\s\S]*?\*\//g, '');
+    const selectors = [...source.matchAll(/([^{}]+)\{/g)].map(match => match[1].trim()).filter(selector => selector && !selector.startsWith('@'));
     assert.deepEqual(selectors.filter(selector => !selector.includes('data-layout="essencia-luminosa"')), [], name);
   }
 });
