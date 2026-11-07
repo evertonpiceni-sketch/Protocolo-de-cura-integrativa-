@@ -57,10 +57,12 @@ export default function TransformationHome(props: TransformationHomeProps) {
   const style2VoiceId = savedVoiceId && !['Rachel', 'Marcus', 'masculina', 'feminina'].includes(savedVoiceId)
     ? savedVoiceId
     : OFFICIAL_PROTOCOL_VOICE_ID;
-  // Natural Sereno must honor the voice and cadence saved in the user's profile.
-  // The approved Maiara choice is never guessed or replaced with a hard-coded alias.
+  const naturalSerenoVoiceId = savedVoiceId && savedVoiceId !== 'Rachel'
+    ? savedVoiceId
+    : OFFICIAL_PROTOCOL_VOICE_ID;
+  // Preserve an explicit saved voice (including Maiara); never revive the rejected Rachel alias.
   const narrationVoiceId = props.visualLayout === 'natural-sereno'
-    ? (savedVoiceId || OFFICIAL_PROTOCOL_VOICE_ID)
+    ? naturalSerenoVoiceId
     : props.visualLayout === 'elegancia-profunda'
       ? style2VoiceId
       : props.visualLayout === 'mistico-moderno' ? OFFICIAL_PROTOCOL_VOICE_ID : 'Marcus';
