@@ -86,8 +86,12 @@ test('a narração do Estilo 2 usa IDs ElevenLabs válidos e não cai na voz do 
   assert.ok(anamnesis.includes('fallbackToSpeechSynthesis: false'));
   assert.ok(hooponopono.includes('fallbackToSpeechSynthesis: !isEleganciaProfunda'));
   assert.ok(arcanjo.includes('requireExplicitVoiceId: isEleganciaProfunda'));
+  assert.ok(audio.includes('requireExplicitVoiceId?: boolean'));
+  assert.ok(audio.includes('if (options.requireExplicitVoiceId && !isElevenLabsVoiceId(options.voiceId))'));
   assert.ok(systemic.includes('fallbackToSpeechSynthesis: false'));
   assert.ok(archangelPrayer.includes('fallbackToSpeechSynthesis: !isEleganciaProfunda'));
+  assert.ok(app.includes('userProfile={userProfile || undefined}'));
+  assert.ok(app.includes('voiceId={userProfile?.voiceId}'));
 });
 
 test('o acolhimento inicial do Estilo 2 mantém contraste marfim sobre verde profundo', () => {
@@ -96,3 +100,17 @@ test('o acolhimento inicial do Estilo 2 mantém contraste marfim sobre verde pro
   assert.ok(css.includes('color:var(--layout-text)!important'));
   assert.ok(css.includes(':root[data-layout="elegancia-profunda"] .ep-voice-error'));
 });
+test('as telas de Anamnese e oração usam a paleta específica do Estilo 2', () => {
+  const anamnesisCss = read('src/elegancia-profunda-anamnesis-audit.css');
+  const prayerCss = read('src/elegancia-profunda-prayer-audit.css');
+  const headerCss = read('src/elegancia-profunda-header-final-audit.css');
+  const main = read('src/main.tsx');
+  assert.ok(anamnesisCss.includes('.ep-anamnesis-progress-fill'));
+  assert.ok(anamnesisCss.includes('linear-gradient(90deg,#A87E37'));
+  assert.ok(prayerCss.includes('.ep-archangel-prayer'));
+  assert.ok(prayerCss.includes('315C85'));
+  assert.ok(headerCss.includes('#header-profile-avatar'));
+  assert.ok(main.includes("import './elegancia-profunda-anamnesis-audit.css'"));
+  assert.ok(main.includes("import './elegancia-profunda-prayer-audit.css'"));
+});
+
