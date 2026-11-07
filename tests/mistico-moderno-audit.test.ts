@@ -24,6 +24,13 @@ test('Style 4 selector uses the official board derivative and explicit confirmat
   assert.match(modal, /isSelected \? <Check size=\{16\} \/> : null/);
   const app = readFileSync(resolve(root, 'src/App.tsx'), 'utf8');
   assert.match(app, /setLayoutConfirmedThisSession\(false\);\s*setLayoutChoiceRequested\(false\);/);
+  const settings = readFileSync(resolve(root, 'src/components/AudioSettingsModal.tsx'), 'utf8');
+  assert.match(settings, /isMisticoModerno \? \(/);
+  assert.match(settings, /: requiresNeuralVoice \? \(/, 'The neural voice selector for Styles 2 and 3 must remain available.');
+  assert.match(settings, /fallbackToSpeechSynthesis: !requiresNeuralVoice && !isMisticoModerno/);
+  const session = readFileSync(resolve(root, 'src/components/MeditationSession.tsx'), 'utf8');
+  assert.match(session, /MISTICO_MODERNO_OFFICIAL_VOICE_ALIAS/);
+
 });
 
 test('Style 4 server alias rejects known legacy voice labels and IDs', () => {
