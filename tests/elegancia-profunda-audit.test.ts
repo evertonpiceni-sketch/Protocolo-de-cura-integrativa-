@@ -20,7 +20,6 @@ test('o seletor usa a prancha oficial do Estilo 2 e exige confirmação explíci
   assert.equal(webp.readUInt32LE(4) + 8, webp.length, 'O RIFF deve corresponder ao tamanho integral do arquivo.');
   assert.equal(webp.readUInt16LE(26) & 0x3fff, 240, 'A prévia deve ter 240 px de largura real.');
   assert.equal(webp.readUInt16LE(28) & 0x3fff, 180, 'A prévia deve ter 180 px de altura real.');
-  assert.equal(webp.readUInt16LE(28) & 0x3fff, 288, 'A prévia deve ter 288 px de altura real.');
   assert.ok(modal.includes('useState<LayoutId | null>(null)'));
   assert.ok(modal.includes('disabled={!selectedLayout || isSaving}'));
   assert.ok(app.includes('const [layoutConfirmedThisSession, setLayoutConfirmedThisSession] = useState(false)'));
