@@ -252,6 +252,6 @@ test('a Prática Individual não mantém gradientes verde-escuro ou índigo no E
 
 test('a prévia da Essência Luminosa usa a prancha original em resolução integral', () => {
   const modal = fs.readFileSync('src/components/LayoutChoiceModal.tsx', 'utf8');
-  assert.ok(modal.includes('/brand/essencia-luminosa/prancha-oficial.png'));
-  assert.ok(!modal.includes('/brand/essencia-luminosa/prancha-oficial.webp'));
+  assert.ok(modal.includes('/brand/essencia-luminosa/prancha-oficial.webp'));
+  assert.ok(!modal.includes('/brand/essencia-luminosa/prancha-oficial.png'));
 });
