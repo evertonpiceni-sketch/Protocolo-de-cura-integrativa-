@@ -84,7 +84,7 @@ GitHub Actions — execução `42417519178` para a primeira versão do patch (`7
 - Verificação dos endpoints de pagamento: aprovada.
 - Enforcement final de dependências: reprovado por resultado não limpo do `npm audit`.
 
-O workflow da primeira versão do patch terminou em falha somente na etapa de enforcement do audit de dependências; as etapas de TypeScript, testes, build e verificações funcionais listadas acima passaram. A correspondência exata do seletor foi refinada depois desse run e disparou uma nova execução; a validação final dessa revisão ainda estava em andamento no momento deste registro. O status Vercel continua em falha por `build-rate-limit`; não há deploy de produção homologado.
+O workflow da primeira versão do patch terminou em falha somente na etapa de enforcement do audit de dependências; as etapas de TypeScript, testes, build e verificações funcionais listadas acima passaram. A revisão final do seletor foi validada na execução `42417700777` (HEAD de código `ea12f016ca397e70c2747b5b392b3503ce69a93b`) e novamente na execução `42417715309` (HEAD `c2a7a9196931ec8490bb00fe55944a4a300e8af1`). Em ambas, TypeScript, testes de regressão, build e verificações funcionais passaram; o workflow permaneceu vermelho somente na etapa de enforcement do audit de dependências. O status Vercel continua em falha por `build-rate-limit`; não há deploy de produção homologado. Execuções: [Run 72 — código](https://github.com/evertonpiceni-sketch/Protocolo-de-cura-integrativa-/actions/runs/42417700777) e [Run 72 — relatório](https://github.com/evertonpiceni-sketch/Protocolo-de-cura-integrativa-/actions/runs/42417715309).
 
 ## Pendente
 
