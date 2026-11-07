@@ -9,8 +9,13 @@ test('o seletor usa a prancha oficial do Estilo 2 e exige confirmação explíci
   const board = read('public/brand/elegancia-profunda/prancha-oficial.svg');
   const app = read('src/App.tsx');
   assert.ok(modal.includes('/brand/elegancia-profunda/prancha-oficial.svg'));
-  assert.ok(board.includes('width="384" height="288"'));
+  assert.ok(board.includes('width="240" height="180"'));
   assert.ok(board.includes('data:image/webp;base64,'));
+  const payload = board.match(/data:image\/webp;base64,([A-Za-z0-9+/=]+)"/)?.[1] ?? '';
+  assert.ok(payload.length > 0 && payload.length % 4 === 0, 'A prévia oficial deve conter base64 completo.');
+  const webp = Buffer.from(payload, 'base64');
+  assert.equal(webp.subarray(0, 4).toString('ascii'), 'RIFF');
+  assert.equal(webp.subarray(8, 12).toString('ascii'), 'WEBP');
   assert.ok(modal.includes('useState<LayoutId | null>(null)'));
   assert.ok(modal.includes('disabled={!selectedLayout || isSaving}'));
   assert.ok(app.includes('const [layoutConfirmedThisSession, setLayoutConfirmedThisSession] = useState(false)'));
