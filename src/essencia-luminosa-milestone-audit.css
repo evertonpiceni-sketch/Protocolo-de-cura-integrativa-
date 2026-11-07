@@ -70,3 +70,9 @@
 :root[data-layout="essencia-luminosa"] [aria-label="Celebração de progresso"] button[class*="from-amber-"]:hover {
   filter: brightness(.98) saturate(.96);
 }
+
+
+:root[data-layout="essencia-luminosa"] [aria-label="Celebração de progresso"] button[class*="bg-[#B88736]"] {
+  color: var(--layout-text) !important;
+  border-color: var(--layout-gold-border) !important;
+}

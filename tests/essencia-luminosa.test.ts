@@ -203,6 +203,7 @@ test('os overlays compartilhados do Estilo 3 não herdam índigo, verde escuro o
   assert.ok(finalCss.includes('var(--layout-gold-gradient)'));
   assert.ok(milestoneCss.includes('[class*="from-amber-"]'));
   assert.ok(milestoneCss.includes('[class*="text-amber-"]'));
+  assert.ok(milestoneCss.includes('button[class*="bg-[#B88736]"]'));
   assert.ok(app.includes("fetch('/api/payment/create-checkout'"));
   assert.ok(app.includes('data.checkoutUrl'));
   assert.ok(plans.includes('onUpgradeSuccess(selectedPlan.id, paymentMethod, finalPrice, appliedCoupon || undefined)'));

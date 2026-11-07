@@ -10,7 +10,7 @@
 - Cabeçalho: o selo de membro PRO e a chamada de upgrade deixam de exibir amarelo/âmbar legado; o CTA usa o gradiente ouro suave aprovado.
 - Ajustes de áudio: controles, sliders, estados selecionados, painel binaural e botão de salvar passam a usar os tokens atuais de ouro/champagne, sem alterar vozes, frequências ou comportamento do áudio.
 - Planos e checkout: corrigidos os fundos amarelo-claro antigos e os botões verde-escuros herdados; cartões, preços, seleção PIX/cartão e CTAs passam a seguir marfim/champagne/ouro/sálvia.
-- Celebração de progresso: acentos âmbar, bordas e CTA passam a usar ouro suave. O fundo principal já estava neutralizado e foi preservado.
+- Celebração de progresso: acentos âmbar, bordas e CTA passam a usar ouro suave; o texto do botão dourado foi escurecido para manter contraste. O fundo principal já estava neutralizado e foi preservado.
 - Adicionado teste de regressão para essas superfícies compartilhadas e para a permanência do checkout InfinitePay.
 
 ## Preservado
