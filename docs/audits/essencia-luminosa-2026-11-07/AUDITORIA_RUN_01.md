@@ -35,7 +35,7 @@
 ## Pendente
 - O player principal de protocolo continua usando o ID canônico de voz do fluxo ElevenLabs, enquanto o seletor atual de áudio grava vozes instaladas no dispositivo. A busca no workspace ElevenLabs conectado não encontrou uma voz chamada Maiara; nenhum ID foi presumido e o fluxo de streaming/seek não foi trocado por síntese de navegador.
 - A voz e o áudio precisam de teste auditivo real no dispositivo. Esta execução não comprova timbre, pronúncia ou naturalidade.
-- Ainda falta validação visual em navegador, desktop e celular de todas as páginas, além de build, lint e execução dos testes automatizados. Foi adicionado um teste de regressão para os tokens, a escolha explícita, a prancha e a voz do acolhimento, mas ele ainda não foi executado nesta execução.
+- Ainda falta validação visual em navegador, desktop e celular de todas as páginas, além de build, lint e execução dos testes automatizados. Foi adicionado um teste de regressão para os tokens, a escolha explícita, a prancha, o logo e a voz do acolhimento, mas ele ainda não foi executado. O preview do Vercel foi interrompido antes da etapa de compilação com `Resource provisioning failed`; não foram disponibilizados logs de build, portanto isso não foi classificado como erro de código.
 - A imagem de fundo compartilhada pela aplicação e a integração de natureza nas telas internas precisam de conferência visual em runtime; a prancha oficial foi adicionada somente ao card do seletor, não usada como fundo de páginas.
 
 **Estado:** correções gravadas em branch de revisão; nenhuma publicação em produção foi feita.
