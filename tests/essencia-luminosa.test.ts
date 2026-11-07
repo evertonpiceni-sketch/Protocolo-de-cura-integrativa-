@@ -272,7 +272,7 @@ test('nenhum tema oficial é aplicado antes da confirmação explícita', () => 
   const app = fs.readFileSync('src/App.tsx', 'utf8');
 
   assert.ok(theme.includes(':root[data-layout="natural-sereno"]{'));
-  assert.ok(!/:root,\\s*:root\\[data-layout="natural-sereno"\\]\\{/.test(theme));
+  assert.ok(!/:root,\s*:root\[data-layout="natural-sereno"\]\{/.test(theme));
   assert.ok(theme.includes(':root:not([data-layout]){'));
   assert.ok(theme.includes('--layout-accent:#85847B;'));
   assert.ok(profile.includes('ep-auth-prestyle'));
