@@ -54,5 +54,5 @@ A prancha oficial do Estilo 2 permanece como referência do seletor (public/bran
 - InfinitePay foi preservada e conferida estaticamente; a confirmação de pagamento real/webhook ainda exige teste transacional controlado.
 
 ## Registro
-Último commit de código desta rodada: adbed32184d656907ba8b1d62be75f67e998a6e. Último commit do relatório: d6396c9f3425316c97f8604f87c3c158cb56790c.
+Último commit de código desta rodada: adbed32184d656907ba8b1d62be75f67e998a6e.
 Status: correções de código registradas; Estilo 2 ainda não homologado integralmente.
