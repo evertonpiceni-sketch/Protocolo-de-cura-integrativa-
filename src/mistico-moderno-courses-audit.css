@@ -45,7 +45,7 @@
   border-color: rgba(222, 181, 94, .58) !important;
 }
 
-:root[data-layout="mistico-moderno"] #courses-modal img[alt="Everton Piceni"] {
-  opacity: .38 !important;
-  filter: saturate(.82) brightness(1.04);
+:root[data-layout="mistico-moderno"] #courses-modal .ep-brand-signature {
+  opacity: .30 !important;
+  filter: none !important;
 }
