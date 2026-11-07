@@ -75,6 +75,9 @@ test('o logo permanece como assinatura discreta e o Diário conserva superfície
   assert.ok(css.includes('#main-header .ep-brand-signature { opacity:.30!important'));
   assert.ok(css.includes('#main-header .ep-brand-signature { opacity:.26!important'));
   assert.ok(diary.includes('id="daily-diary-modal"'));
+  const app = read('src/App.tsx');
+  assert.ok(app.includes('onSaveEntry={handleSaveDiaryDay}'));
+  assert.ok(app.includes('saveProgress(updatedProgress)'), 'a anotação do Diário é persistida no progresso e sincronizada');
   assert.ok(css.includes('#daily-diary-modal .bg-emerald-50'));
   assert.ok(css.includes('#daily-diary-modal .bg-amber-50'));
 });
@@ -88,6 +91,16 @@ test('o player Natural Sereno usa voz neural e não reativa o Solfeggio durante 
 
   assert.ok(profile.includes('voiceType: voiceChoice'));
   assert.ok(profile.includes('preferredVoiceGender: voiceChoice'));
+  assert.ok(app.includes('voiceId={userProfile.voiceId}'), 'o player recebe a voz neural salva no perfil');
+  assert.ok(session.includes('const selectedVoiceId = voiceId?.trim();'));
+  assert.ok(session.includes('const savedVoiceId = isElevenLabsVoiceId(selectedVoiceId) ? selectedVoiceId : OFFICIAL_PROTOCOL_VOICE_ID;'));
+  const audio = read('src/lib/audio.ts');
+  const streamStart = audio.indexOf('public async playProtocolStageStream(');
+  const streamEnd = audio.indexOf('\n  public ', streamStart + 1);
+  const protocolStream = audio.slice(streamStart, streamEnd > streamStart ? streamEnd : undefined);
+  assert.ok(protocolStream.includes("fetch('/api/tts/stream'"));
+  assert.ok(protocolStream.includes('if (errorData.fallbackToSpeechSynthesis)'));
+  assert.ok(!protocolStream.includes('speechSynthesis.speak'), 'o player não troca silenciosamente para voz robótica do navegador');
   assert.ok(!profile.includes('Rachel'));
   assert.ok(!profile.includes('SpeechSynthesis'));
   assert.ok(!profile.includes('speechSynthesis'));
@@ -109,6 +122,8 @@ test('a animação do player preserva etapas, movimento por frame e preferência
   const canvas = read('src/components/session/SacredEnergyCanvas.tsx');
 
   assert.ok(session.includes('<SacredEnergyCanvas'));
+  assert.ok(session.includes('const NATURAL_SERENO_CANVAS_THEME = {'));
+  assert.ok(session.includes('colorTheme={isNaturalSereno ? NATURAL_SERENO_CANVAS_THEME'));
   assert.ok(session.includes('stageId={currentStage.id}'));
   assert.ok(canvas.includes('prefers-reduced-motion: reduce'));
   assert.ok(canvas.includes('requestAnimationFrame(render)'));
