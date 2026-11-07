@@ -90,18 +90,19 @@ export function paymentRoutes(authenticate: any, limiter: any, providerFetch: ty
       if (verified.success !== true || verified.paid !== true || verified.amount !== order.cents) return { status: 202, data: { status: 'pending' } };
       if (order.paidAt) return { status: 200, data: userId ? { status: 'paid', user: { profile: user.profile } } : { success: true } };
       if (db.paymentOrders?.some(o => o.id !== order.id && o.transaction === transaction_nsu)) return { status: 409, data: { error: 'Transação já utilizada.' } };
+      const orderProductType = order.productType ?? (order.treatment ? 'specific_treatment' : 'subscription');
+      if (!['subscription', 'specific_treatment', 'numerology_full'].includes(orderProductType)) return { status: 409, data: { error: 'Tipo de compra não reconhecido.' } };
+      if (orderProductType === 'specific_treatment' && !order.treatment) return { status: 409, data: { error: 'Dados da prática não encontrados.' } };
+      if (orderProductType === 'subscription' && (!order.planId || !Object.hasOwn(PAYMENT_PLANS, order.planId))) return { status: 409, data: { error: 'Plano da compra não encontrado.' } };
       const previous = { plan: user.plan, profile: user.profile };
       const now = new Date();
       order.paidAt = now.toISOString(); order.transaction = transaction_nsu;
-      const orderProductType = order.productType ?? (order.treatment ? 'specific_treatment' : 'subscription');
       if (orderProductType === 'numerology_full') {
         user.profile = { ...user.profile, numerologyPurchased: true };
       } else if (orderProductType === 'specific_treatment') {
-        if (!order.treatment) return { status: 409, data: { error: 'Dados da prática não encontrados.' } };
-        user.profile = { ...user.profile, specificTreatments: [...(user.profile?.specificTreatments || []), order.treatment] };
+        user.profile = { ...user.profile, specificTreatments: [...(user.profile?.specificTreatments || []), order.treatment!] };
       } else {
-        if (!order.planId || !Object.hasOwn(PAYMENT_PLANS, order.planId)) return { status: 409, data: { error: 'Plano da compra não encontrado.' } };
-        const plan = PAYMENT_PLANS[order.planId];
+        const plan = PAYMENT_PLANS[order.planId!];
         user.plan = 'pro';
         user.profile = { ...user.profile, plan: 'pro', subscriptionPlan: order.planId,
           subscriptionPrice: order.cents / 100, subscriptionPaymentMethod: order.method,
