@@ -8,6 +8,10 @@
 - Mantida a paisagem realista da Home. A camada responsiva existente conserva `cover` e enquadramentos distintos: desktop a 52% e mobile a 54%, com alturas fluidas por viewport.
 - Adicionado `tests/natural-sereno-audit.test.ts` para proteger seletor, referência visual, responsividade, assinatura do logo, Diário, política de voz/Solfeggio, animação e checkout.
 
+
+
+- Reforçado o acabamento dos CTAs do Natural Sereno: Home e autenticação deixam o raio de pílula legado e passam a cantos de 18 px; o botão de confirmação do seletor usa o mesmo acabamento somente quando Natural Sereno está selecionado. Os outros três estilos permanecem intactos.
+
 ## Preservado
 - O seletor React continua sendo o único seletor oficial. A escolha começa sem opção pré-selecionada, exige confirmação e o tema só é aplicado depois da confirmação. As quatro opções permanecem disponíveis.
 - A prévia Natural Sereno continua apontando para a prancha arquivada em `docs/visual-qa/natural-sereno/reference.jpg`; nenhuma arte aprovada foi substituída.
