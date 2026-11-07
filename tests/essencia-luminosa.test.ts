@@ -82,4 +82,8 @@ test('componentes compartilhados preservam assinatura sutil e acentos claros no 
   assert.ok(welcome.includes('color: #2A2420 !important;'));
   assert.ok(specific.includes("import '../essencia-luminosa-specific-treatment-audit.css';"));
   assert.ok(specificCss.includes('html[data-layout="essencia-luminosa"] #specific-treatment-modal'));
+  const promo = read('src/essencia-luminosa-promo-audit.css');
+  assert.ok(promo.includes('rgba(166,180,155,.18)'));
+  assert.ok(promo.includes('#E2C68E'));
+  assert.ok(!promo.includes('#a7aa7d'));
 });
