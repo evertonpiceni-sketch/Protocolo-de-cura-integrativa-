@@ -24,6 +24,10 @@ class CalmingAudioEngine {
   private mainGain: GainNode | null = null;
   private musicGain: GainNode | null = null;
   private synthType: '396hz' | '528hz' | '432hz' | '639hz' | '741hz' | '852hz' | '963hz' | '417hz' | 'waves' | 'florestazen' | 'chuvaserena' | 'none' = 'none';
+  // Explicit ownership lets Arcanjo/Solfeggio coexist with the app-level background guard.
+  private synthStartInProgress = false;
+  private protocolSynthActive = false;
+  private protocolSynthType: string | null = null;
   private extraOscs: OscillatorNode[] = []; // List to track additional harmony voices
   private extraSynthGains: GainNode[] = [];
 
@@ -1753,11 +1757,36 @@ class CalmingAudioEngine {
     return this.voiceAudioElement && !isNaN(this.voiceAudioElement.duration) ? this.voiceAudioElement.duration : 0;
   }
 
+  public isStartingSynth(): boolean {
+    return this.synthStartInProgress;
+  }
+
+  public isProtocolSynthActive(): boolean {
+    return this.protocolSynthActive;
+  }
+
+  public getProtocolSynthType(): string | null {
+    return this.protocolSynthType;
+  }
+
   public startSynth(type: any) {
-    this.startBG(type);
+    this.synthStartInProgress = true;
+    this.protocolSynthActive = true;
+    this.protocolSynthType = String(type);
+    try {
+      this.startBG(type);
+    } catch (error) {
+      this.protocolSynthActive = false;
+      this.protocolSynthType = null;
+      throw error;
+    } finally {
+      this.synthStartInProgress = false;
+    }
   }
 
   public stopSynth() {
+    this.protocolSynthActive = false;
+    this.protocolSynthType = null;
     this.stopBG();
   }
 
