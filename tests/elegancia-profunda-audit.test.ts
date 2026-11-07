@@ -386,3 +386,18 @@ test('a narração do Estilo 2 não recorre à voz nativa e preserva os caminhos
   assert.ok(payments.includes('verified.amount !== order.cents'));
   assert.ok(payments.includes('o.transaction === transaction_nsu'));
 });
+
+
+test('splash e cadastro mantêm o logo oficial como assinatura, sem moldura ou pulsação dominante', () => {
+  const app = read('src/App.tsx');
+  const profile = read('src/components/ProfileSetup.tsx');
+  const loading = app.slice(app.indexOf('const loadingScreen = ('), app.indexOf('if (isLoadingAuth) return loadingScreen;'));
+  assert.ok(loading.includes('ep-brand-signature-wrap'));
+  assert.ok(loading.includes('ep-brand-signature h-full w-full object-contain'));
+  assert.ok(loading.includes('style={{ opacity: 0.3 }}'));
+  assert.ok(!loading.includes('animate-pulse'));
+  assert.ok(!loading.includes('shadow-md'));
+  assert.ok(profile.includes('ep-brand-signature-wrap w-16 h-16'));
+  assert.ok(profile.includes('ep-brand-signature w-full h-full object-contain'));
+  assert.ok(profile.includes('style={{ opacity: 0.3 }}'));
+});
