@@ -157,3 +157,15 @@ test('as camadas antigas de confirmação não são importadas e o logo continua
   assert.ok(headerCss.includes('opacity:.28'));
   assert.ok(approvedCss.includes('data-layout="mistico-moderno"'));
 });
+
+test('Místico Moderno final palette remains isolated and normalizes legacy green UI', () => {
+  const palette = readFileSync('src/mistico-moderno-final-palette.css', 'utf8');
+  const entry = readFileSync('src/main.tsx', 'utf8');
+  assert.ok(palette.includes(':root[data-layout="mistico-moderno"]'));
+  assert.ok(palette.includes('--layout-canvas: #07111F'));
+  assert.ok(palette.includes('--layout-emerald: #176B5B'));
+  assert.ok(palette.includes('#C89D52'));
+  assert.ok(palette.includes('[class*="bg-emerald-"]'));
+  assert.ok(entry.includes("import './mistico-moderno-final-palette.css';"));
+  assert.ok(!palette.includes(':root {'));
+});
