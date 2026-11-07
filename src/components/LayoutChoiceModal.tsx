@@ -53,7 +53,7 @@ function LayoutPreview({ layout }: { layout: LayoutDefinition }) {
           ? `linear-gradient(135deg, ${gold}, #E9D6AF)`
           : `linear-gradient(135deg, ${gold}, ${accent})`;
   const previewSwatches = isNaturalSereno
-    ? [canvas, accent, gold, naturalIvory]
+    ? [canvas, accent, gold, surface]
     : [canvas, gold, surface, accent];
 
   return (
@@ -84,7 +84,7 @@ function LayoutPreview({ layout }: { layout: LayoutDefinition }) {
             />
           )}
           <span
-            className="mt-3 inline-flex rounded-full px-3 py-1 text-[8px] font-bold uppercase tracking-[.12em] shadow-sm"
+            className={`mt-3 inline-flex ${isNaturalSereno ? 'rounded-lg' : 'rounded-full'} px-3 py-1 text-[8px] font-bold uppercase tracking-[.12em] shadow-sm`}
             style={{ background: actionBackground, color: isNaturalSereno || isEssenciaLuminosa || layout.id === 'mistico-moderno' ? '#2A2420' : layout.tone === 'dark' ? '#0B1712' : '#fff' }}
           >
             Iniciar jornada
@@ -163,7 +163,7 @@ export default function LayoutChoiceModal({ onSelect }: LayoutChoiceModalProps) 
                 <LayoutPreview layout={layout} />
                 <div className="mt-4 flex gap-2" aria-hidden="true">
                   {(layout.id === 'natural-sereno'
-                    ? [layout.swatches[0], layout.swatches[1], layout.swatches[2], '#F3EDE4']
+                    ? [...layout.swatches]
                     : layout.id === 'essencia-luminosa'
                       ? ['#FFFFF8', '#C6A46A', '#F7F3E8', '#A6B49B']
                       : layout.id === 'elegancia-profunda'
@@ -183,7 +183,7 @@ export default function LayoutChoiceModal({ onSelect }: LayoutChoiceModalProps) 
             type="button"
             disabled={!selectedLayout || isSaving}
             onClick={confirmSelection}
-            className="min-h-12 w-full max-w-sm rounded-full bg-gradient-to-r from-[#C89D52] via-[#D9B66D] to-[#A87E37] px-6 py-3 text-sm font-bold uppercase tracking-[.12em] text-[#2A2420] shadow-lg transition hover:-translate-y-0.5 hover:shadow-xl disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:translate-y-0 disabled:hover:shadow-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B88736]/40 focus-visible:ring-offset-2"
+            className="min-h-12 w-full max-w-sm rounded-2xl bg-gradient-to-r from-[#C89D52] via-[#D9B66D] to-[#A87E37] px-6 py-3 text-sm font-bold uppercase tracking-[.12em] text-[#2A2420] shadow-lg transition hover:-translate-y-0.5 hover:shadow-xl disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:translate-y-0 disabled:hover:shadow-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B88736]/40 focus-visible:ring-offset-2"
           >
             {isSaving ? 'Salvando escolha…' : selectedDefinition ? `Confirmar ${selectedDefinition.name}` : 'Selecione um estilo'}
           </button>
