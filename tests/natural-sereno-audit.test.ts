@@ -66,11 +66,11 @@ test('o player Natural Sereno usa voz neural e não reativa o Solfeggio durante 
   const app = read('src/App.tsx');
   const profile = read('src/components/ProfileSetup.tsx');
 
-  assert.ok(profile.includes("voiceId: OFFICIAL_PROTOCOL_VOICE_ID"));
-  assert.ok(profile.includes('browser speech fallback is disabled'));
-  assert.ok(!profile.includes("voiceId: 'Rachel'"));
-  assert.ok(!profile.includes('SpeechSynthesisUtterance'));
-  assert.ok(profile.includes('voicePreviewError'));
+  assert.ok(profile.includes('voiceType: voiceChoice'));
+  assert.ok(profile.includes('preferredVoiceGender: voiceChoice'));
+  assert.ok(!profile.includes('Rachel'));
+  assert.ok(!profile.includes('SpeechSynthesis'));
+  assert.ok(!profile.includes('speechSynthesis'));
   assert.ok(home.includes('const requiresNeuralVoice = isNaturalSereno ||'));
   assert.ok(home.includes('fallbackToSpeechSynthesis: !requiresNeuralVoice'));
   assert.ok(voicePatch.includes('fallbackToSpeechSynthesis: false'));
