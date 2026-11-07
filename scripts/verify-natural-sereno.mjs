@@ -110,7 +110,18 @@ try {
  const handles=await page.$$('.ns-home-content .ns-row');for(const h of handles){if(await h.evaluate(el=>el.querySelector('small')?.textContent==='Seu resultado personalizado')){await h.click();break}}
  await ready('[data-ns-screen="result"]');await shot('result');checks.push('Result uses existing recommendation engine, without altering its content or rules.');
  for(const width of [320,390,768,1440]){await page.setViewport({width,height:900,deviceScaleFactor:1});await dock('Início');await ready('[data-ns-screen="home"]');assert(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),`No horizontal overflow at ${width}`);await shot(`responsive-${width}`)}
- checks.push('No horizontal overflow at 320, 390, 768 and 1440 CSS px.');
+ const desktopLandscape=await page.$eval('.ns-home-scene',el=>{const s=getComputedStyle(el);return{image:s.backgroundImage,size:s.backgroundSize,position:s.backgroundPosition,height:el.getBoundingClientRect().height}});
+ assert(desktopLandscape.image.includes('vale-amanhecer.webp'),'Desktop home must keep the approved realistic landscape.');
+ assert(desktopLandscape.size.includes('cover'),'Desktop landscape must cover the scene without stretching.');
+ assert(desktopLandscape.height>=620,'Desktop landscape must retain the approved hero height.');
+ assert(desktopLandscape.position.includes('52%'),'Desktop landscape crop must use its dedicated focal position.');
+ await page.setViewport({width:390,height:900,deviceScaleFactor:1});await ready('[data-ns-screen="home"]');
+ const mobileLandscape=await page.$eval('.ns-home-scene',el=>{const s=getComputedStyle(el);return{image:s.backgroundImage,size:s.backgroundSize,position:s.backgroundPosition,height:el.getBoundingClientRect().height}});
+ assert(mobileLandscape.image.includes('vale-amanhecer.webp'),'Mobile home must keep the approved realistic landscape.');
+ assert(mobileLandscape.size.includes('cover'),'Mobile landscape must cover the scene without stretching.');
+ assert(mobileLandscape.height>=580,'Mobile landscape must retain enough vertical space.');
+ assert(mobileLandscape.position.includes('48%'),'Mobile landscape crop must use its dedicated focal position.');
+ checks.push('No horizontal overflow at 320, 390, 768 and 1440 CSS px; approved landscape and separate desktop/mobile crops are present.');
  for(const theme of ['elegancia-profunda','essencia-luminosa','mistico-moderno']){profile.visualLayout=theme;await page.reload({waitUntil:'networkidle0'});await confirmLayoutChoice(layoutNames[theme]);await ready('.ep-home');assert.equal(await page.$('.ns-app'),null);await shot(`isolated-${theme}`)}
  checks.push('The three other themes keep the legacy component branch and never render Natural Sereno.');
  profile.visualLayout='natural-sereno';await page.reload({waitUntil:'networkidle0'});await confirmLayoutChoice('Natural Sereno');await ready('.ns-app');await page.evaluate(()=>localStorage.setItem('natural-sereno-qa-welcome','true'));await page.reload({waitUntil:'networkidle0'});await confirmLayoutChoice('Natural Sereno');await ready('[data-ns-screen="welcome"]');await page.setViewport({width:390,height:844,deviceScaleFactor:1});await shot('welcome');
