@@ -2,26 +2,26 @@
    Correção isolada: remove a herança café/âmbar/oliva do componente-base
    sem alterar conteúdo, fluxo ou os demais estilos. */
 :root[data-layout="essencia-luminosa"] #welcome-modal {
-  background: color-mix(in srgb, var(--layout-canvas, #fffaf0) 72%, transparent) !important;
+  background: color-mix(in srgb, var(--layout-canvas, #FFFFF8) 72%, transparent) !important;
 }
 
 :root[data-layout="essencia-luminosa"] #welcome-modal > div {
   background: linear-gradient(155deg,
-    color-mix(in srgb, var(--layout-card, #fffdf8) 96%, white),
-    color-mix(in srgb, var(--layout-canvas, #fff8e8) 90%, var(--layout-gold, #c8a96a) 10%)) !important;
-  border-color: color-mix(in srgb, var(--layout-gold, #c8a96a) 30%, transparent) !important;
+    color-mix(in srgb, var(--layout-card, #FFFFFF) 96%, white),
+    color-mix(in srgb, var(--layout-canvas, #FFFFF8) 90%, var(--layout-gold, #C6A46A) 10%)) !important;
+  border-color: color-mix(in srgb, var(--layout-gold, #C6A46A) 30%, transparent) !important;
   box-shadow: 0 28px 70px rgba(91, 75, 46, .14) !important;
 }
 
 :root[data-layout="essencia-luminosa"] #welcome-modal h2,
 :root[data-layout="essencia-luminosa"] #welcome-modal h4 {
-  color: var(--layout-text, #3d382f) !important;
+  color: var(--layout-text, #2A2420) !important;
 }
 
 :root[data-layout="essencia-luminosa"] #welcome-modal p,
 :root[data-layout="essencia-luminosa"] #welcome-modal label,
 :root[data-layout="essencia-luminosa"] #welcome-modal button:not(:first-of-type) {
-  color: var(--layout-muted, #746d61);
+  color: var(--layout-text-secondary, #5C5248);
 }
 
 :root[data-layout="essencia-luminosa"] #welcome-modal img {
@@ -30,28 +30,28 @@
 
 :root[data-layout="essencia-luminosa"] #welcome-modal [class*="bg-[#6F7B55]"],
 :root[data-layout="essencia-luminosa"] #welcome-modal [class*="text-[#5E6948]"] {
-  background-color: color-mix(in srgb, var(--layout-sage, #aab58c) 14%, transparent) !important;
-  color: color-mix(in srgb, var(--layout-sage, #8f9b73) 76%, #4f5541) !important;
+  background-color: color-mix(in srgb, var(--layout-accent, #A6B49B) 14%, transparent) !important;
+  color: color-mix(in srgb, var(--layout-accent, #A6B49B) 76%, var(--layout-text-secondary, #5C5248)) !important;
 }
 
 :root[data-layout="essencia-luminosa"] #welcome-modal [class*="bg-[#C89D52]"],
 :root[data-layout="essencia-luminosa"] #welcome-modal [class*="text-[#8F631E]"] {
-  background-color: color-mix(in srgb, var(--layout-gold, #c8a96a) 13%, transparent) !important;
-  color: color-mix(in srgb, var(--layout-gold, #b89450) 78%, #67542e) !important;
+  background-color: color-mix(in srgb, var(--layout-gold, #C6A46A) 13%, transparent) !important;
+  color: color-mix(in srgb, var(--layout-gold, #C6A46A) 78%, var(--layout-text-secondary, #5C5248)) !important;
 }
 
 :root[data-layout="essencia-luminosa"] #welcome-modal button[class*="bg-gradient-to-r"] {
   background-image: linear-gradient(110deg,
-    color-mix(in srgb, var(--layout-gold, #c8a96a) 76%, #fff7df),
-    var(--layout-gold, #c8a96a),
-    color-mix(in srgb, var(--layout-sage, #aab58c) 36%, var(--layout-gold, #c8a96a))) !important;
-  color: #fffdf8 !important;
-  border-color: color-mix(in srgb, var(--layout-gold, #c8a96a) 42%, transparent) !important;
-  box-shadow: 0 12px 30px color-mix(in srgb, var(--layout-gold, #c8a96a) 20%, transparent) !important;
+    color-mix(in srgb, var(--layout-gold, #C6A46A) 76%, var(--layout-canvas-alt, #F7F3E8)),
+    var(--layout-gold, #C6A46A),
+    color-mix(in srgb, var(--layout-accent, #A6B49B) 36%, var(--layout-gold, #C6A46A))) !important;
+  color: var(--layout-text, #2A2420) !important;
+  border-color: color-mix(in srgb, var(--layout-gold, #C6A46A) 42%, transparent) !important;
+  box-shadow: 0 12px 30px color-mix(in srgb, var(--layout-gold, #C6A46A) 20%, transparent) !important;
 }
 
 :root[data-layout="essencia-luminosa"] #welcome-modal button:focus-visible,
 :root[data-layout="essencia-luminosa"] #welcome-modal input:focus-visible {
-  outline: 2px solid color-mix(in srgb, var(--layout-gold, #c8a96a) 54%, transparent) !important;
+  outline: 2px solid color-mix(in srgb, var(--layout-gold, #C6A46A) 54%, transparent) !important;
   outline-offset: 2px;
 }

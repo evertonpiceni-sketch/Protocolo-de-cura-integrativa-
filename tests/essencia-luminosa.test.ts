@@ -88,6 +88,9 @@ test('os tokens ativos do Estilo 3 correspondem à paleta aprovada mais recente'
   assert.ok(block.includes('--layout-accent:#A6B49B;'));
   assert.ok(block.includes('--layout-gold:#C6A46A;'));
   assert.ok(block.includes('--layout-gold-dark:#A87E37;'));
+  assert.ok(block.includes('--layout-bg:#FFFFF8;'));
+  assert.ok(block.includes('--layout-accent-soft:rgba(166,180,155,.18);'));
+  assert.ok(block.includes('--layout-gold-soft:rgba(198,164,106,.18);'));
   assert.ok(!block.includes('#C29648'));
   assert.ok(!block.includes('#7E9680'));
 });
@@ -101,4 +104,36 @@ test('os Ajustes de Áudio do Estilo 3 oferecem vozes neurais e preservam Marian
   assert.ok(settings.includes('fallbackToSpeechSynthesis: !requiresNeuralVoice'));
   assert.ok(app.includes('const usesNeuralVoiceCatalog = isEleganciaProfunda || isEssenciaLuminosa;'));
   assert.ok(app.includes('!usesNeuralVoiceCatalog'));
+});
+
+
+test('Anamnese e boas-vindas usam a paleta atual sem oliva escura ou dourado antigo', () => {
+  const anamnesis = fs.readFileSync('src/essencia-luminosa-anamnesis-audit.css', 'utf8');
+  const welcome = fs.readFileSync('src/essencia-luminosa-welcome-audit.css', 'utf8');
+  assert.ok(anamnesis.includes('--el-ivory:var(--layout-canvas);'));
+  assert.ok(anamnesis.includes('--el-gold:var(--layout-gold);'));
+  assert.ok(anamnesis.includes('--el-sage:var(--layout-accent);'));
+  assert.ok(anamnesis.includes('--el-olive:var(--layout-text-secondary);'));
+  assert.ok(!anamnesis.includes('#B9914F'));
+  assert.ok(!anamnesis.includes('#77836B'));
+  assert.ok(welcome.includes('var(--layout-accent, #A6B49B)'));
+  assert.ok(welcome.includes('var(--layout-text-secondary, #5C5248)'));
+  assert.ok(!/#aab58c|#8f9b73|#c8a96a|#b89450|#fff7df/i.test(welcome));
+});
+
+test('as camadas CSS do Estilo 3 não deixam tokens de layout sem definição nem vazam para outros estilos', () => {
+  const files = fs.readdirSync('src').filter(name => /^essencia-luminosa.*\\.css$/.test(name));
+  const styleCss = files.map(name => fs.readFileSync(`src/${name}`, 'utf8')).join('\\n');
+  const theme = fs.readFileSync('src/approved-theme.css', 'utf8');
+  const start = theme.indexOf(':root[data-layout="essencia-luminosa"]{');
+  const end = start >= 0 ? theme.indexOf('\\n}', start) : -1;
+  const themeBlock = start >= 0 && end > start ? theme.slice(start, end) : '';
+  const declarations = new Set([...(`${themeBlock}\\n${styleCss}`).matchAll(/(--[a-zA-Z0-9_-]+)\\s*:/g)].map(match => match[1]));
+  const references = new Set([...styleCss.matchAll(/var\\(\\s*(--layout-[a-zA-Z0-9_-]+)/g)].map(match => match[1]));
+  assert.deepEqual([...references].filter(name => !declarations.has(name)), []);
+  for (const name of files) {
+    const source = fs.readFileSync(`src/${name}`, 'utf8').replace(/\\/\\*[\\s\\S]*?\\*\\//g, '');
+    const selectors = [...source.matchAll(/([^{}]+)\\{/g)].map(match => match[1].trim()).filter(selector => selector && !selector.startsWith('@'));
+    assert.deepEqual(selectors.filter(selector => !selector.includes('data-layout="essencia-luminosa"')), [], name);
+  }
 });
