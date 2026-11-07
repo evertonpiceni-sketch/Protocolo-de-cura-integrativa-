@@ -6,8 +6,11 @@ const read = (path: string) => fs.readFileSync(path, 'utf8');
 
 test('o seletor usa a prancha oficial do Estilo 2 e exige confirmação explícita', () => {
   const modal = read('src/components/LayoutChoiceModal.tsx');
+  const board = read('public/brand/elegancia-profunda/prancha-oficial.svg');
   const app = read('src/App.tsx');
   assert.ok(modal.includes('/brand/elegancia-profunda/prancha-oficial.svg'));
+  assert.ok(board.includes('width="384" height="288"'));
+  assert.ok(board.includes('data:image/webp;base64,'));
   assert.ok(modal.includes('useState<LayoutId | null>(null)'));
   assert.ok(modal.includes('disabled={!selectedLayout || isSaving}'));
   assert.ok(app.includes('const [layoutConfirmedThisSession, setLayoutConfirmedThisSession] = useState(false)'));
