@@ -27,3 +27,25 @@ export function specificTreatmentCouponDiscount(coupon: string = ''): number | n
   }
   return null;
 }
+
+
+/** Fixed prices approved for individual treatments; values are stored in cents. */
+export const SPECIFIC_TREATMENT_PRICES = Object.freeze({
+  7: 5990,
+  21: 9990
+} as const);
+
+export function specificTreatmentQuote(durationDays: number, coupon: string = '') {
+  if (!Object.hasOwn(SPECIFIC_TREATMENT_PRICES, durationDays)) {
+    throw new Error('Duração inválida para prática individual.');
+  }
+  const discount = specificTreatmentCouponDiscount(coupon);
+  if (coupon.trim() && discount === null) {
+    throw new Error('Cupom inválido para prática individual.');
+  }
+  const baseCents = SPECIFIC_TREATMENT_PRICES[durationDays as keyof typeof SPECIFIC_TREATMENT_PRICES];
+  return {
+    baseCents,
+    cents: Math.round(baseCents * (1 - ((discount ?? 0) / 100)))
+  };
+}
