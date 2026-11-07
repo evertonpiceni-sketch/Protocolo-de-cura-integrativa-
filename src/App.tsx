@@ -1281,7 +1281,7 @@ export default function App() {
                       Voz de Condução ({availableVoices.length > 0 ? `${availableVoices.length} vozes detectadas` : 'Voz Padrão do Sistema'})
                     </label>
                     <select
-                      value={userProfile.voiceId || ''}
+                      value={availableVoices.find(v => v.voiceURI === userProfile.voiceId)?.name || userProfile.voiceId || ''}
                       aria-label="Voz de condução"
                       onChange={(e) => {
                         saveProfile({
@@ -1293,7 +1293,7 @@ export default function App() {
                     >
                       <option key="voice-auto" value="">Automático: Melhor Voz Português (Neural/Acolhedora)</option>
                       {availableVoices.map((v, index) => (
-                        <option key={`voice-${v.voiceURI || v.name}-${index}`} value={v.voiceURI}>
+                        <option key={`voice-${v.name}-${index}`} value={v.name}>
                           {v.name} ({v.lang})
                         </option>
                       ))}
@@ -1342,7 +1342,7 @@ export default function App() {
                         setIsPlayingVoiceTest(true);
                         audioEngine.previewVoice({
                           text: `Olá, ${userProfile.name}. Respire profundamente. Sinta a paz se expandir em todo o seu ser agora.`,
-                          voiceId: userProfile.voiceId,
+                          voiceId: availableVoices.find(v => v.voiceURI === userProfile.voiceId)?.name || userProfile.voiceId,
                           rate: userProfile.voiceRate ?? 0.82,
                           pitch: userProfile.voicePitch ?? 1.0,
                           onEnd: () => setIsPlayingVoiceTest(false)
@@ -1808,7 +1808,7 @@ export default function App() {
           <TransformationHome
             visualLayout={layoutConfirmedThisSession ? normalizeLayoutId(userProfile.visualLayout) : undefined}
             userName={userProfile.name}
-            voiceId={userProfile.voiceId}
+            voiceId={availableVoices.find(v => v.voiceURI === userProfile.voiceId)?.name || userProfile.voiceId}
             voiceVolume={userProfile.voiceVolume}
             voiceRate={userProfile.voiceRate}
             voicePitch={userProfile.voicePitch}
