@@ -147,7 +147,7 @@
 /* Paleta posterior aprovada: creme/marfim, café e dourado; verde apenas como
    acento natural. Neutraliza as variáveis antigas sem tocar nos outros estilos. */
 :root[data-layout="natural-sereno"] {
-  --ns-forest:#6F7B55;
+  --ns-forest:#6B7A4B;
   --ns-ink:#2A2421;
   --ns-cream:#FAF7F2;
   --ns-paper:rgba(255,253,248,.94);
