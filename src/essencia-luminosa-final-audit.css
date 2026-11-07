@@ -354,3 +354,23 @@
   outline: 2px solid color-mix(in srgb, var(--layout-gold) 58%, white) !important;
   outline-offset: 3px;
 }
+
+
+/* Estilo 3 — prática individual: neutraliza os gradientes legados que usam utilities from-*.
+   O componente é compartilhado; a correção só vale sob data-layout=essencia-luminosa. */
+:root[data-layout="essencia-luminosa"] #specific-treatment-modal [class*="from-indigo-950/40"] {
+  background: linear-gradient(
+    135deg,
+    color-mix(in srgb, var(--layout-gold-soft) 20%, var(--layout-card)),
+    color-mix(in srgb, var(--layout-accent-soft) 14%, var(--layout-card))
+  ) !important;
+}
+
+:root[data-layout="essencia-luminosa"] #specific-treatment-modal [class*="from-emerald-950/80"] {
+  background: linear-gradient(
+    135deg,
+    color-mix(in srgb, var(--layout-accent-soft) 48%, var(--layout-card)),
+    color-mix(in srgb, var(--layout-gold-soft) 22%, var(--layout-card))
+  ) !important;
+  border-color: color-mix(in srgb, var(--layout-gold) 30%, var(--layout-border-card)) !important;
+}

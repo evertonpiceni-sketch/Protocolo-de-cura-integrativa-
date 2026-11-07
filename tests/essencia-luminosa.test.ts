@@ -237,3 +237,14 @@ test('a Home da Essência Luminosa não herda fotografia de outro estilo ou da R
   assert.ok(!css.includes('/brand/natural-sereno/'));
   assert.ok(!css.includes('/brand/reintegracao-presenca-arte.png'));
 });
+
+
+test('a Prática Individual não mantém gradientes verde-escuro ou índigo no Estilo 3', () => {
+  const css = fs.readFileSync('src/essencia-luminosa-final-audit.css', 'utf8');
+  const modal = fs.readFileSync('src/components/SpecificTreatmentModal.tsx', 'utf8');
+  assert.ok(modal.includes('from-indigo-950/40'));
+  assert.ok(modal.includes('from-emerald-950/80'));
+  assert.ok(modal.includes('to-slate-900'));
+  assert.ok(css.includes(':root[data-layout="essencia-luminosa"] #specific-treatment-modal [class*="from-indigo-950/40"]'));
+  assert.ok(css.includes(':root[data-layout="essencia-luminosa"] #specific-treatment-modal [class*="from-emerald-950/80"]'));
+});
