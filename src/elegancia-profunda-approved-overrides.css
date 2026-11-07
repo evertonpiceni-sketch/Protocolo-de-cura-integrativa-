@@ -220,3 +220,177 @@
   border:1px solid rgba(212,175,55,.38)!important;
   color:#f1dfb8!important;
 }
+
+
+/* Estilo 2 — Reintegração da Vida: mesma composição aprovada, agora sem a herança clara/azul. */
+:root[data-layout="elegancia-profunda"] [data-ep-reintegration="true"] {
+  background:
+    radial-gradient(ellipse at 50% -8%,rgba(212,175,119,.12),transparent 30rem),
+    linear-gradient(180deg,#0b1c14 0%,#07150f 100%) !important;
+  color:#F4EBDD !important;
+}
+:root[data-layout="elegancia-profunda"] [data-ep-reintegration="true"] .ep-reintegration-logo {
+  opacity:1!important;
+  background:transparent!important;
+  border:0!important;
+  box-shadow:none!important;
+  filter:none!important;
+}
+:root[data-layout="elegancia-profunda"] [data-ep-reintegration="true"] .ep-reintegration-logo img {
+  opacity:.30!important;
+  filter:saturate(.88) contrast(.96);
+}
+:root[data-layout="elegancia-profunda"] [data-ep-reintegration="true"] .ep-reintegration-panel {
+  background:linear-gradient(155deg,rgba(16,41,30,.98),rgba(7,21,15,.99))!important;
+  border:1px solid rgba(212,175,119,.34)!important;
+  box-shadow:0 28px 72px rgba(0,0,0,.40),inset 0 1px 0 rgba(255,255,255,.035)!important;
+}
+:root[data-layout="elegancia-profunda"] [data-ep-reintegration="true"] .ep-reintegration-luminous {
+  background:
+    radial-gradient(ellipse at 50% 0,rgba(212,175,119,.13),transparent 22rem),
+    linear-gradient(145deg,#153727 0%,#0b1c14 68%,#08170f 100%)!important;
+  color:#F4EBDD!important;
+}
+:root[data-layout="elegancia-profunda"] [data-ep-reintegration="true"] .ep-reintegration-content {
+  background:linear-gradient(180deg,#0b2017,#08170f)!important;
+  color:#F4EBDD!important;
+}
+:root[data-layout="elegancia-profunda"] [data-ep-reintegration="true"] :is(h1,h2,h3,strong) {
+  color:#F4EBDD!important;
+}
+:root[data-layout="elegancia-profunda"] [data-ep-reintegration="true"] :is(p,span,small,summary) {
+  color:#D9CBB8!important;
+}
+:root[data-layout="elegancia-profunda"] [data-ep-reintegration="true"] .ep-reintegration-card,
+:root[data-layout="elegancia-profunda"] [data-ep-reintegration="true"] .ep-reintegration-player-card,
+:root[data-layout="elegancia-profunda"] [data-ep-reintegration="true"] .ep-reintegration-details {
+  background:linear-gradient(145deg,rgba(16,41,30,.96),rgba(8,24,17,.98))!important;
+  border-color:rgba(212,175,119,.28)!important;
+  color:#F4EBDD!important;
+  box-shadow:0 14px 34px rgba(0,0,0,.22)!important;
+}
+:root[data-layout="elegancia-profunda"] [data-ep-reintegration="true"] .ep-reintegration-top-button,
+:root[data-layout="elegancia-profunda"] [data-ep-reintegration="true"] .ep-reintegration-nav-button,
+:root[data-layout="elegancia-profunda"] [data-ep-reintegration="true"] .ep-reintegration-day-button {
+  background:linear-gradient(145deg,#112b20,#0a1d15)!important;
+  border-color:rgba(212,175,119,.34)!important;
+  color:#F4EBDD!important;
+  box-shadow:0 8px 22px rgba(0,0,0,.20)!important;
+}
+:root[data-layout="elegancia-profunda"] [data-ep-reintegration="true"] .ep-reintegration-day-button[aria-pressed="true"] {
+  background:linear-gradient(145deg,#E2B96B,#A87E37)!important;
+  border-color:rgba(244,235,221,.62)!important;
+  color:#14251c!important;
+}
+:root[data-layout="elegancia-profunda"] [data-ep-reintegration="true"] .ep-reintegration-day-button[data-completed="true"]:not([aria-pressed="true"]) {
+  background:linear-gradient(145deg,rgba(29,75,54,.86),rgba(11,37,26,.96))!important;
+  border-color:rgba(212,175,119,.48)!important;
+  color:#E2C994!important;
+}
+:root[data-layout="elegancia-profunda"] [data-ep-reintegration="true"] .ep-reintegration-player-stage {
+  background:
+    radial-gradient(circle at 50% 40%,rgba(212,175,119,.12),transparent 48%),
+    linear-gradient(180deg,#10291e,#071710)!important;
+}
+:root[data-layout="elegancia-profunda"] [data-ep-reintegration="true"] .ep-reintegration-player-glow {
+  background:radial-gradient(circle at center,rgba(212,175,119,.17),transparent 46%)!important;
+}
+:root[data-layout="elegancia-profunda"] [data-ep-reintegration="true"] .ep-reintegration-player-voice-card {
+  background:linear-gradient(145deg,rgba(15,43,31,.96),rgba(7,24,17,.98))!important;
+  border-color:rgba(212,175,119,.30)!important;
+  color:#F4EBDD!important;
+  box-shadow:0 12px 30px rgba(0,0,0,.24)!important;
+}
+:root[data-layout="elegancia-profunda"] [data-ep-reintegration="true"] .ep-reintegration-progress-track {
+  background:rgba(244,235,221,.14)!important;
+}
+:root[data-layout="elegancia-profunda"] [data-ep-reintegration="true"] .ep-reintegration-progress-fill {
+  background:linear-gradient(90deg,#E2B96B,#A87E37)!important;
+  box-shadow:0 0 14px rgba(212,175,119,.28);
+}
+:root[data-layout="elegancia-profunda"] [data-ep-reintegration="true"] .ep-reintegration-acceptance {
+  background:rgba(13,38,27,.94)!important;
+  border-color:rgba(212,175,119,.30)!important;
+  color:#F4EBDD!important;
+}
+:root[data-layout="elegancia-profunda"] [data-ep-reintegration="true"] .ep-reintegration-cta,
+:root[data-layout="elegancia-profunda"] [data-ep-reintegration="true"] .ep-gold-button {
+  background:linear-gradient(135deg,#E2B96B,#A87E37)!important;
+  border:1px solid rgba(244,235,221,.34)!important;
+  color:#15251c!important;
+  box-shadow:0 12px 28px rgba(0,0,0,.28)!important;
+}
+:root[data-layout="elegancia-profunda"] [data-ep-reintegration="true"] .ep-reintegration-footer {
+  border-color:rgba(212,175,119,.28)!important;
+}
+:root[data-layout="elegancia-profunda"] [data-ep-reintegration="true"] .reintegration-presence-visual {
+  background:#0b2017!important;
+  border:1px solid rgba(212,175,119,.22);
+  box-shadow:0 18px 44px rgba(0,0,0,.30);
+}
+:root[data-layout="elegancia-profunda"] [data-ep-reintegration="true"] [data-ep-reintegration-modal] {
+  background:linear-gradient(160deg,#0d261b,#06150f)!important;
+  color:#F4EBDD!important;
+}
+:root[data-layout="elegancia-profunda"] [data-ep-reintegration="true"] [data-ep-reintegration-modal] :is([class*="bg-white"],[class*="bg-[#FBF8F2]"],[class*="bg-[#FAF7F2]"],[class*="bg-[#F8F4EC]"],[class*="bg-[#F3EBDD]"]) {
+  background:rgba(15,41,30,.94)!important;
+  border-color:rgba(212,175,119,.28)!important;
+}
+:root[data-layout="elegancia-profunda"] [data-ep-reintegration="true"] [data-ep-reintegration-modal] :is([class*="text-[#2A2420]"],[class*="text-[#5C5248]"],[class*="text-[#85786C]"]) {
+  color:#D9CBB8!important;
+}
+:root[data-layout="elegancia-profunda"] [data-ep-reintegration="true"] [data-ep-reintegration-modal] button {
+  background:linear-gradient(145deg,#112b20,#0a1d15)!important;
+  border-color:rgba(212,175,119,.34)!important;
+  color:#F4EBDD!important;
+}
+:root[data-layout="elegancia-profunda"] [data-ep-reintegration="true"] .ep-reintegration-running {
+  background:#06150f!important;
+  color:#F4EBDD!important;
+}
+:root[data-layout="elegancia-profunda"] [data-ep-reintegration="true"] .ep-reintegration-running-backdrop {
+  filter:saturate(.90) brightness(.82) contrast(1.04);
+}
+:root[data-layout="elegancia-profunda"] [data-ep-reintegration="true"] .ep-reintegration-running-glow {
+  background:
+    radial-gradient(circle at 50% 32%,rgba(212,175,119,.20),transparent 34%),
+    linear-gradient(180deg,rgba(3,20,14,.18),rgba(3,20,14,.72) 62%,rgba(2,12,9,.97))!important;
+}
+:root[data-layout="elegancia-profunda"] [data-ep-reintegration="true"] .ep-reintegration-running-close,
+:root[data-layout="elegancia-profunda"] [data-ep-reintegration="true"] .ep-reintegration-running-script-button,
+:root[data-layout="elegancia-profunda"] [data-ep-reintegration="true"] .ep-reintegration-running-control {
+  background:linear-gradient(145deg,#10291e,#071710)!important;
+  border-color:rgba(212,175,119,.42)!important;
+  color:#F4EBDD!important;
+  box-shadow:0 8px 24px rgba(0,0,0,.24)!important;
+}
+:root[data-layout="elegancia-profunda"] [data-ep-reintegration="true"] .ep-reintegration-running-footer {
+  background:linear-gradient(180deg,rgba(7,21,15,.04),rgba(7,21,15,.92) 34%,#06150f)!important;
+}
+:root[data-layout="elegancia-profunda"] [data-ep-reintegration="true"] .ep-reintegration-running-progress-track {
+  background:rgba(244,235,221,.16)!important;
+}
+:root[data-layout="elegancia-profunda"] [data-ep-reintegration="true"] .ep-reintegration-running-progress-fill {
+  background:linear-gradient(90deg,#E2B96B,#A87E37)!important;
+  box-shadow:0 0 14px rgba(212,175,119,.30)!important;
+}
+:root[data-layout="elegancia-profunda"] [data-ep-reintegration="true"] .ep-reintegration-running-cta {
+  background:linear-gradient(135deg,#E2B96B,#A87E37)!important;
+  color:#15251c!important;
+  border:1px solid rgba(244,235,221,.34)!important;
+  box-shadow:0 12px 30px rgba(0,0,0,.28)!important;
+}
+:root[data-layout="elegancia-profunda"] [data-ep-reintegration="true"] .ep-reintegration-script {
+  background:linear-gradient(160deg,#0d261b,#06150f)!important;
+  color:#F4EBDD!important;
+}
+:root[data-layout="elegancia-profunda"] [data-ep-reintegration="true"] .ep-reintegration-script-card {
+  background:rgba(15,41,30,.94)!important;
+  border-color:rgba(212,175,119,.28)!important;
+  color:#F4EBDD!important;
+}
+:root[data-layout="elegancia-profunda"] [data-ep-reintegration="true"] .ep-reintegration-script-close {
+  background:linear-gradient(145deg,#112b20,#0a1d15)!important;
+  border-color:rgba(212,175,119,.34)!important;
+  color:#F4EBDD!important;
+}
