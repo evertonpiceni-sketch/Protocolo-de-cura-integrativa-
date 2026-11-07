@@ -4,6 +4,7 @@ import { AnamnesisData, DAILY_INSIGHTS, DayProgress } from '../types';
 import { APPROVED_LOGO_DATA_URI } from './ApprovedBrand';
 import { evaluateBestTreatmentFromAnamnesis } from '../lib/anamnesisTreatmentEngine';
 import { audioEngine, OFFICIAL_PROTOCOL_VOICE_ID } from '../lib/audio';
+import { isElevenLabsVoiceId } from '../lib/voiceSelection';
 import { LayoutId } from '../config/layouts';
 import NaturalSerenoHome from './NaturalSerenoHome';
 
@@ -44,6 +45,7 @@ const careCards = [
 
 export default function TransformationHome(props: TransformationHomeProps) {
   const [isSpeaking, setIsSpeaking] = useState(false);
+  const [voiceError, setVoiceError] = useState(false);
   const [journeyEntered, setJourneyEntered] = useState(() => sessionStorage.getItem('transformation_journey_entered_v2') === 'true');
   const firstName = props.userName?.trim().split(' ')[0] || 'bem-vindo';
   const completed = props.progress.filter(item => item.completed).length;
@@ -54,9 +56,12 @@ export default function TransformationHome(props: TransformationHomeProps) {
   const actions: Record<string, () => void> = { chakras: props.onOpenChakras, bath: props.onOpenBaths, astral: props.onOpenAstral, numerology: props.onOpenNumerology };
   const welcomeText = `Olá, ${firstName}. Que bom que você voltou para si. Respire com calma. Você não precisa fazer tudo hoje. Estamos juntos neste processo. ${insight?.quote || ''}`;
   const savedVoiceId = props.voiceId?.trim();
-  const approvedVoiceId = savedVoiceId && !['Rachel', 'Marcus', 'masculina', 'feminina'].includes(savedVoiceId)
-    ? savedVoiceId
-    : OFFICIAL_PROTOCOL_VOICE_ID;
+  const isEleganciaProfunda = props.visualLayout === 'elegancia-profunda';
+  const approvedVoiceId = isEleganciaProfunda
+    ? (isElevenLabsVoiceId(savedVoiceId) ? savedVoiceId : '')
+    : savedVoiceId && !['Rachel', 'Marcus', 'masculina', 'feminina'].includes(savedVoiceId)
+      ? savedVoiceId
+      : OFFICIAL_PROTOCOL_VOICE_ID;
   // Essência Luminosa and Elegância Profunda both honor the saved voice and its controls.
   const usesSavedVoiceSettings = props.visualLayout === 'elegancia-profunda' || props.visualLayout === 'essencia-luminosa';
   const narrationVoiceId = usesSavedVoiceSettings
@@ -65,15 +70,50 @@ export default function TransformationHome(props: TransformationHomeProps) {
   const narrationVolume = usesSavedVoiceSettings ? props.voiceVolume ?? 1 : 1;
   const narrationRate = usesSavedVoiceSettings ? props.voiceRate ?? .82 : .82;
   const narrationPitch = usesSavedVoiceSettings ? props.voicePitch ?? .92 : .92;
+  const playNarration = (text: string) => {
+    setVoiceError(false);
+    if (isEleganciaProfunda && !isElevenLabsVoiceId(narrationVoiceId)) {
+      setVoiceError(true);
+      setIsSpeaking(false);
+      return;
+    }
+    void audioEngine.speakWithElevenLabsOrFallback(
+      text,
+      narrationVolume,
+      () => setIsSpeaking(true),
+      () => setIsSpeaking(false),
+      undefined,
+      undefined,
+      {
+        voiceId: narrationVoiceId,
+        stability: .5,
+        similarityBoost: .78,
+        userName: props.userName,
+        enableBreathingPauses: true,
+        preferElevenLabs: true,
+        lang: 'pt-BR',
+        rate: narrationRate,
+        pitch: narrationPitch,
+        fallbackToSpeechSynthesis: !isEleganciaProfunda,
+        onError: isEleganciaProfunda
+          ? () => { setIsSpeaking(false); setVoiceError(true); }
+          : undefined
+      }
+    );
+  };
   const toggleWelcome = () => {
-    if (isSpeaking) { audioEngine.stopSpeech(); setIsSpeaking(false); return; }
-    void audioEngine.speakWithElevenLabsOrFallback(welcomeText, narrationVolume, () => setIsSpeaking(true), () => setIsSpeaking(false), undefined, undefined, { voiceId: narrationVoiceId, stability: .5, similarityBoost: .78, userName: props.userName, enableBreathingPauses: true, preferElevenLabs: true, lang: 'pt-BR', rate: narrationRate, pitch: narrationPitch });
+    if (isSpeaking) {
+      audioEngine.stopSpeech();
+      setIsSpeaking(false);
+      return;
+    }
+    playNarration(welcomeText);
   };
   const speakResult = () => {
     if (!recommendation) return;
     const text = `Olá, ${firstName}. Seu resultado personalizado indica ${recommendation.categoryLabel}. ${recommendation.summaryDiagnosis}. A frequência recomendada é ${recommendation.frequencyLabel}. O chakra em foco é ${recommendation.primaryChakraFocus}. O floral recomendado é ${recommendation.recommendedFloral}. A aromaterapia recomendada é ${recommendation.recommendedAromatherapy}. Estamos juntos neste processo.`;
     audioEngine.stopSpeech();
-    void audioEngine.speakWithElevenLabsOrFallback(text, narrationVolume, () => setIsSpeaking(true), () => setIsSpeaking(false), undefined, undefined, { voiceId: narrationVoiceId, stability: .5, similarityBoost: .78, userName: props.userName, enableBreathingPauses: true, preferElevenLabs: true, lang: 'pt-BR', rate: narrationRate, pitch: narrationPitch });
+    playNarration(text);
   };
 
   if (props.visualLayout === 'natural-sereno') {
@@ -108,6 +148,7 @@ export default function TransformationHome(props: TransformationHomeProps) {
             {isSpeaking ? <Pause size={20} /> : <Headphones size={20} />}
             <span>{isSpeaking ? 'Pausar acolhimento' : 'Ouvir acolhimento'}</span>
           </button>
+          {voiceError && <p role="alert" className="ep-voice-error relative mt-3 rounded-xl px-3 py-2 text-xs">A voz neural selecionada não foi reconhecida. Abra Ajustes de áudio e escolha uma voz do catálogo ElevenLabs.</p>}
           <button onClick={enterJourney} className="ep-gold-button mt-3 flex min-h-14 w-full items-center justify-center gap-3 rounded-2xl px-5 py-4 text-base font-bold"><span>Entrar na minha jornada</span><ChevronRight size={20}/></button>
           <div className="mt-7 grid grid-cols-4 gap-2 text-[#B88736]">{[[Waves,'Escuta'],[Leaf,'Presença'],[Heart,'Equilíbrio'],[Sparkles,'Transformação']].map(([Icon,label]) => { const PillarIcon=Icon as typeof Waves; return <div key={label as string} className="flex min-w-0 flex-col items-center gap-2"><PillarIcon size={20}/><span className="w-full break-words text-center text-[9px] uppercase leading-4 tracking-[.06em] text-[#5C5248]">{label as string}</span></div>; })}</div>
         </div>
@@ -121,7 +162,7 @@ export default function TransformationHome(props: TransformationHomeProps) {
       <p className="text-xs font-semibold uppercase tracking-[.24em] text-[#B88736]">Protocolo da Transformação</p><h2 className="mt-4 font-display text-[2.15rem] font-semibold leading-tight text-[#2A2420]">Olá, {firstName}.</h2><p className="mx-auto mt-3 max-w-sm font-display text-xl italic leading-7 text-[#5C5248]">Que bom que você voltou para si.</p><div className="mx-auto mt-6 h-px w-24 bg-gradient-to-r from-transparent via-[#B88736] to-transparent" /><p className="mx-auto mt-5 max-w-sm text-base leading-7 text-[#5C5248]">Respire. Você não precisa fazer tudo hoje. Escolha apenas o cuidado que combina com o seu momento.</p>
     </section>
 
-    {!props.anamnesis ? <section className="mt-5 rounded-[1.75rem] border border-[#B88736]/30 bg-[#FBF8F2]/95 p-5 shadow-[0_18px_48px_rgba(0,0,0,.28)]"><p className="text-xs uppercase tracking-[.2em] text-[#B88736]">Primeiro, vamos ouvir você</p><h3 className="mt-2 font-display text-3xl text-[#2A2420]">Como você está de verdade?</h3><p className="mt-3 text-base leading-7 text-[#5C5248]">Responda à anamnese para receber seu resultado, frequência, chakra em foco, floral, aroma e protocolo recomendado.</p><button onClick={props.onOpenAnamnesis} className="ep-gold-button mt-5 w-full rounded-2xl px-5 py-4 text-base font-bold">Começar minha anamnese</button></section> : recommendation && <section className="mt-5 overflow-hidden rounded-[1.75rem] border border-[#B88736]/30 bg-[#FFFFFF]/96 shadow-[0_18px_48px_rgba(0,0,0,.28)]"><div className="relative h-56 overflow-hidden border-b border-[#B88736]/20"><img src="/brand/chakra-body.svg" alt="Corpo em meditação com os sete chakras" className="h-full w-full object-contain object-center bg-[#F8F4EC]/45" /><div className="absolute inset-0 bg-gradient-to-t from-[#FFFFFF] via-transparent to-transparent" /><p className="absolute bottom-4 left-5 text-xs uppercase tracking-[.2em] text-[#B88736]">Seu resultado personalizado</p></div><div className="p-5"><h3 className="font-display text-3xl leading-tight text-[#2A2420]">{recommendation.categoryLabel}</h3><p className="mt-3 text-base leading-7 text-[#5C5248]">{recommendation.summaryDiagnosis}</p><button onClick={speakResult} className="mt-4 flex items-center gap-2 rounded-full border border-[#B88736]/35 bg-[#F5EFE4] px-4 py-2.5 text-sm font-semibold text-[#B88736]"><Headphones size={17} />Ouvir meu resultado</button><div className="mt-5 space-y-3">{[['Frequência Solfeggio', recommendation.frequencyLabel],['Chakra em foco', recommendation.primaryChakraFocus],['Floral recomendado', recommendation.recommendedFloral || props.anamnesis.recommendedFloral || 'Definido conforme sua anamnese'],['Aromaterapia recomendada', recommendation.recommendedAromatherapy || props.anamnesis.recommendedAromatherapy || 'Definida conforme sua anamnese'],['Protocolo indicado', recommendation.treatmentTitle],['Duração sugerida', `${recommendation.recommendedDurationDays} dias`]].map(([label,value]) => <div key={label} className="rounded-2xl border border-[#B88736]/18 bg-[#F5EFE4] p-4"><span className="block text-xs uppercase tracking-[.15em] text-[#B88736]">{label}</span><strong className="mt-1 block text-base leading-6 text-[#2A2420]">{value}</strong></div>)}</div><button onClick={props.onOpenAnamnesis} className="mt-4 w-full rounded-2xl border border-[#B88736]/35 px-5 py-3 text-sm font-semibold text-[#B88736]">Ver ou refazer minha anamnese</button></div></section>}
+    {!props.anamnesis ? <section className="mt-5 rounded-[1.75rem] border border-[#B88736]/30 bg-[#FBF8F2]/95 p-5 shadow-[0_18px_48px_rgba(0,0,0,.28)]"><p className="text-xs uppercase tracking-[.2em] text-[#B88736]">Primeiro, vamos ouvir você</p><h3 className="mt-2 font-display text-3xl text-[#2A2420]">Como você está de verdade?</h3><p className="mt-3 text-base leading-7 text-[#5C5248]">Responda à anamnese para receber seu resultado, frequência, chakra em foco, floral, aroma e protocolo recomendado.</p><button onClick={props.onOpenAnamnesis} className="ep-gold-button mt-5 w-full rounded-2xl px-5 py-4 text-base font-bold">Começar minha anamnese</button></section> : recommendation && <section className="mt-5 overflow-hidden rounded-[1.75rem] border border-[#B88736]/30 bg-[#FFFFFF]/96 shadow-[0_18px_48px_rgba(0,0,0,.28)]"><div className="relative h-56 overflow-hidden border-b border-[#B88736]/20"><img src="/brand/chakra-body.svg" alt="Corpo em meditação com os sete chakras" className="h-full w-full object-contain object-center bg-[#F8F4EC]/45" /><div className="absolute inset-0 bg-gradient-to-t from-[#FFFFFF] via-transparent to-transparent" /><p className="absolute bottom-4 left-5 text-xs uppercase tracking-[.2em] text-[#B88736]">Seu resultado personalizado</p></div><div className="p-5"><h3 className="font-display text-3xl leading-tight text-[#2A2420]">{recommendation.categoryLabel}</h3><p className="mt-3 text-base leading-7 text-[#5C5248]">{recommendation.summaryDiagnosis}</p><button onClick={speakResult} className="mt-4 flex items-center gap-2 rounded-full border border-[#B88736]/35 bg-[#F5EFE4] px-4 py-2.5 text-sm font-semibold text-[#B88736]"><Headphones size={17} />Ouvir meu resultado</button>{voiceError && <p role="alert" className="ep-voice-error mt-3 rounded-xl px-3 py-2 text-xs">A voz neural selecionada não foi reconhecida. Abra Ajustes de áudio e escolha uma voz do catálogo ElevenLabs.</p>}<div className="mt-5 space-y-3">{[['Frequência Solfeggio', recommendation.frequencyLabel],['Chakra em foco', recommendation.primaryChakraFocus],['Floral recomendado', recommendation.recommendedFloral || props.anamnesis.recommendedFloral || 'Definido conforme sua anamnese'],['Aromaterapia recomendada', recommendation.recommendedAromatherapy || props.anamnesis.recommendedAromatherapy || 'Definida conforme sua anamnese'],['Protocolo indicado', recommendation.treatmentTitle],['Duração sugerida', `${recommendation.recommendedDurationDays} dias`]].map(([label,value]) => <div key={label} className="rounded-2xl border border-[#B88736]/18 bg-[#F5EFE4] p-4"><span className="block text-xs uppercase tracking-[.15em] text-[#B88736]">{label}</span><strong className="mt-1 block text-base leading-6 text-[#2A2420]">{value}</strong></div>)}</div><button onClick={props.onOpenAnamnesis} className="mt-4 w-full rounded-2xl border border-[#B88736]/35 px-5 py-3 text-sm font-semibold text-[#B88736]">Ver ou refazer minha anamnese</button></div></section>}
 
     <section className="ep-luxury-card ep-progress-card mt-5 rounded-[1.75rem] p-5"><div className="flex items-center justify-between"><div><p className="text-xs uppercase tracking-[.2em] text-[#B88736]">Seu progresso</p><h3 className="mt-2 font-display text-2xl text-[#2A2420]">Um passo de cada vez</h3></div><span className="font-display text-2xl text-[#B88736]">{percentage}%</span></div><div className="mt-5 h-2 overflow-hidden rounded-full bg-black/25"><div className="h-full rounded-full bg-gradient-to-r from-[#b78d32] to-[#f0d98d]" style={{width:`${percentage}%`}}/></div><div className="mt-5 grid grid-cols-2 gap-3"><button onClick={props.onOpenJournal} className="ep-subcard flex items-center gap-3 rounded-2xl p-4 text-left"><BookOpen size={21} className="text-[#B88736]"/><span><strong className="block text-sm text-[#2A2420]">Meu Diário</strong><small className="mt-1 block text-xs text-[#5C5248]">Registrar percepções</small></span></button><button onClick={props.onOpenAnamnesis} className="ep-subcard flex items-center gap-3 rounded-2xl p-4 text-left"><Waves size={21} className="text-[#B88736]"/><span><strong className="block text-sm text-[#2A2420]">Como estou?</strong><small className="mt-1 block text-xs text-[#5C5248]">Olhar meu momento</small></span></button></div></section>
 
