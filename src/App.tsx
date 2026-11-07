@@ -22,7 +22,7 @@ import TransformationHome from './components/TransformationHome';
 import { APPROVED_LOGO_DATA_URI } from './components/ApprovedBrand';
 
 import { calculateAstralMap } from './utils/astrology';
-import { audioEngine } from './lib/audio';
+import { audioEngine, OFFICIAL_PROTOCOL_VOICE_ID } from './lib/audio';
 import { isElevenLabsVoiceId, type ElevenLabsVoiceOption } from './lib/voiceSelection';
 import { evaluateAchievements } from './lib/achievementsData';
 import { AppLanguage, SUPPORTED_LANGUAGES, UI_TRANSLATIONS } from './lib/i18n';
@@ -113,9 +113,14 @@ export default function App() {
   const [isLoadingElevenLabsVoices, setIsLoadingElevenLabsVoices] = useState(false);
   const [isPlayingVoiceTest, setIsPlayingVoiceTest] = useState<boolean>(false);
   const [voicePreviewError, setVoicePreviewError] = useState(false);
+  const isNaturalSereno = layoutConfirmedThisSession && userProfile?.visualLayout === 'natural-sereno';
   const isEleganciaProfunda = layoutConfirmedThisSession && userProfile?.visualLayout === 'elegancia-profunda';
   const isEssenciaLuminosa = layoutConfirmedThisSession && userProfile?.visualLayout === 'essencia-luminosa';
-  const usesNeuralVoiceCatalog = isEleganciaProfunda || isEssenciaLuminosa;
+  const usesNeuralVoiceCatalog = isNaturalSereno || isEleganciaProfunda || isEssenciaLuminosa;
+  const savedNeuralVoiceId = userProfile?.voiceId || '';
+  const effectiveNeuralVoiceId = (isNaturalSereno || isEssenciaLuminosa) && !isElevenLabsVoiceId(savedNeuralVoiceId)
+    ? OFFICIAL_PROTOCOL_VOICE_ID
+    : savedNeuralVoiceId;
 
   // Initialize and register local notification daily checker
   useEffect(() => {
@@ -218,7 +223,7 @@ export default function App() {
     }
   }, []);
 
-  // Elegância Profunda and Essência Luminosa use actual ElevenLabs IDs, never browser SpeechSynthesis names/URIs.
+  // Natural Sereno, Elegância Profunda and Essência Luminosa use actual ElevenLabs IDs, never browser SpeechSynthesis names/URIs.
   useEffect(() => {
     if (!isLoggedIn || !usesNeuralVoiceCatalog || (!showSettings && !showAudioSettingsModal)) return;
     let cancelled = false;
@@ -1286,7 +1291,7 @@ export default function App() {
                     <div className="space-y-1.5">
                       <label className="text-[10px] font-mono text-[#5C5248] uppercase">Voz neural (ElevenLabs)</label>
                       <select
-                        value={userProfile.voiceId || ''}
+                        value={effectiveNeuralVoiceId}
                         aria-label="Voz neural ElevenLabs"
                         onChange={(e) => {
                           setVoicePreviewError(false);
@@ -1294,9 +1299,9 @@ export default function App() {
                         }}
                         className="w-full bg-[#FBF8F2] border border-[#E5DAC6] text-[#2A2420] rounded-xl px-3 py-2 text-xs outline-none focus:border-[#B88736]"
                       >
-                        {userProfile.voiceId && !elevenLabsVoices.some(voice => voice.voice_id === userProfile.voiceId) && (
-                          <option value={userProfile.voiceId} disabled>
-                            {isElevenLabsVoiceId(userProfile.voiceId) ? 'Voz salva — não listada no catálogo' : 'Seleção anterior do dispositivo — escolha uma voz neural'}
+                        {effectiveNeuralVoiceId && !elevenLabsVoices.some(voice => voice.voice_id === effectiveNeuralVoiceId) && (
+                          <option value={effectiveNeuralVoiceId} disabled>
+                            {effectiveNeuralVoiceId === OFFICIAL_PROTOCOL_VOICE_ID ? 'Marianne — Meditação (voz oficial)' : isElevenLabsVoiceId(effectiveNeuralVoiceId) ? 'Voz salva — não listada no catálogo' : 'Seleção anterior do dispositivo — escolha uma voz neural'}
                           </option>
                         )}
                         <option value="">Selecione uma voz neural</option>
@@ -1377,7 +1382,7 @@ export default function App() {
                         }
                         setVoicePreviewError(false);
                         if (usesNeuralVoiceCatalog) {
-                          if (!isElevenLabsVoiceId(userProfile.voiceId)) {
+                          if (!isElevenLabsVoiceId(effectiveNeuralVoiceId)) {
                             setVoicePreviewError(true);
                             return;
                           }
@@ -1390,7 +1395,7 @@ export default function App() {
                             undefined,
                             undefined,
                             {
-                              voiceId: userProfile.voiceId,
+                              voiceId: effectiveNeuralVoiceId,
                               rate: userProfile.voiceRate ?? 0.82,
                               pitch: userProfile.voicePitch ?? 1.0,
                               lang: 'pt-BR',
@@ -1426,7 +1431,7 @@ export default function App() {
                   </div>
                   {voicePreviewError && (
                     <p role="alert" className="ep-voice-error rounded-xl px-3 py-2 text-xs">
-                      Selecione uma voz neural válida do catálogo. Os Estilos 2 e 3 não usam a voz do dispositivo.
+                      Selecione uma voz neural válida do catálogo. Natural Sereno, Elegância Profunda e Essência Luminosa não usam a voz do dispositivo.
                     </p>
                   )}
                 </div>
