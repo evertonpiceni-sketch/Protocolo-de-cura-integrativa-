@@ -9,6 +9,10 @@ import NaturalSerenoHome from './NaturalSerenoHome';
 
 export type TransformationHomeProps = {
   visualLayout?: LayoutId;
+  voiceId?: string;
+  voiceVolume?: number;
+  voiceRate?: number;
+  voicePitch?: number;
   userName: string;
   currentDay: number;
   progress: DayProgress[];
@@ -49,15 +53,23 @@ export default function TransformationHome(props: TransformationHomeProps) {
   const recommendation = useMemo(() => props.anamnesis ? evaluateBestTreatmentFromAnamnesis(props.anamnesis) : null, [props.anamnesis]);
   const actions: Record<string, () => void> = { chakras: props.onOpenChakras, bath: props.onOpenBaths, astral: props.onOpenAstral, numerology: props.onOpenNumerology };
   const welcomeText = `Olá, ${firstName}. Que bom que você voltou para si. Respire com calma. Você não precisa fazer tudo hoje. Estamos juntos neste processo. ${insight?.quote || ''}`;
+  // Natural Sereno must use the voice explicitly saved in the profile; only when
+  // no voice was chosen do we fall back to the verified official protocol voice.
+  const homeVoiceId = props.visualLayout === 'natural-sereno'
+    ? (props.voiceId || OFFICIAL_PROTOCOL_VOICE_ID)
+    : props.visualLayout === 'mistico-moderno' ? OFFICIAL_PROTOCOL_VOICE_ID : 'Marcus';
+  const homeVoiceVolume = props.visualLayout === 'natural-sereno' ? (props.voiceVolume ?? 0.85) : 1;
+  const homeVoiceRate = props.visualLayout === 'natural-sereno' ? (props.voiceRate ?? 0.82) : 0.82;
+  const homeVoicePitch = props.visualLayout === 'natural-sereno' ? (props.voicePitch ?? 1) : 0.92;
   const toggleWelcome = () => {
     if (isSpeaking) { audioEngine.stopSpeech(); setIsSpeaking(false); return; }
-    void audioEngine.speakWithElevenLabsOrFallback(welcomeText, 1, () => setIsSpeaking(true), () => setIsSpeaking(false), undefined, undefined, { voiceId: props.visualLayout === 'mistico-moderno' ? OFFICIAL_PROTOCOL_VOICE_ID : 'Marcus', stability: .5, similarityBoost: .78, userName: props.userName, enableBreathingPauses: true, preferElevenLabs: true, lang: 'pt-BR', rate: .82, pitch: .92 });
+    void audioEngine.speakWithElevenLabsOrFallback(welcomeText, homeVoiceVolume, () => setIsSpeaking(true), () => setIsSpeaking(false), undefined, undefined, { voiceId: homeVoiceId, stability: .5, similarityBoost: .78, userName: props.userName, enableBreathingPauses: true, preferElevenLabs: true, lang: 'pt-BR', rate: homeVoiceRate, pitch: homeVoicePitch });
   };
   const speakResult = () => {
     if (!recommendation) return;
     const text = `Olá, ${firstName}. Seu resultado personalizado indica ${recommendation.categoryLabel}. ${recommendation.summaryDiagnosis}. A frequência recomendada é ${recommendation.frequencyLabel}. O chakra em foco é ${recommendation.primaryChakraFocus}. O floral recomendado é ${recommendation.recommendedFloral}. A aromaterapia recomendada é ${recommendation.recommendedAromatherapy}. Estamos juntos neste processo.`;
     audioEngine.stopSpeech();
-    void audioEngine.speakWithElevenLabsOrFallback(text, 1, () => setIsSpeaking(true), () => setIsSpeaking(false), undefined, undefined, { voiceId: props.visualLayout === 'mistico-moderno' ? OFFICIAL_PROTOCOL_VOICE_ID : 'Marcus', stability: .5, similarityBoost: .78, userName: props.userName, enableBreathingPauses: true, preferElevenLabs: true, lang: 'pt-BR', rate: .82, pitch: .92 });
+    void audioEngine.speakWithElevenLabsOrFallback(text, homeVoiceVolume, () => setIsSpeaking(true), () => setIsSpeaking(false), undefined, undefined, { voiceId: homeVoiceId, stability: .5, similarityBoost: .78, userName: props.userName, enableBreathingPauses: true, preferElevenLabs: true, lang: 'pt-BR', rate: homeVoiceRate, pitch: homeVoicePitch });
   };
 
   if (props.visualLayout === 'natural-sereno') {
