@@ -509,3 +509,94 @@
     background-position: center, center 48% !important;
   }
 }
+
+
+/* Run 13 — Natural Sereno: remover as últimas heranças de verde-floresta
+   sem apagar as fotografias reais nem alterar os outros estilos. */
+:root[data-layout="natural-sereno"] .ns-welcome {
+  background-color: #FAF7F2 !important;
+  background-image:
+    linear-gradient(180deg,rgba(250,247,242,.48) 0%,rgba(250,247,242,.68) 52%,rgba(250,247,242,.88) 100%),
+    url('/brand/natural-sereno/acolhimento.webp') !important;
+  background-position: center center !important;
+  background-size: cover !important;
+  background-repeat: no-repeat !important;
+  color: #2A2421 !important;
+}
+:root[data-layout="natural-sereno"] .ns-welcome::before {
+  background: linear-gradient(180deg,rgba(250,247,242,.28),rgba(250,247,242,.56) 56%,rgba(250,247,242,.76)) !important;
+}
+:root[data-layout="natural-sereno"] .ns-welcome::after {
+  opacity: .12 !important;
+  filter: blur(10px) !important;
+}
+:root[data-layout="natural-sereno"] .ns-welcome :is(h1,h2,h3,p,span,strong,small) {
+  color: #2A2421 !important;
+  text-shadow: none !important;
+}
+:root[data-layout="natural-sereno"] .ns-welcome-brand {
+  opacity: .28 !important;
+  filter: none !important;
+  mix-blend-mode: multiply !important;
+}
+:root[data-layout="natural-sereno"] .ns-welcome-play {
+  border-color: rgba(200,157,82,.68) !important;
+  color: #8F631E !important;
+  background: rgba(255,253,248,.92) !important;
+  box-shadow: 0 8px 24px rgba(67,52,39,.10) !important;
+}
+:root[data-layout="natural-sereno"] .ns-welcome .ns-gold,
+:root[data-layout="natural-sereno"] .ns-home-scene > .ns-gold,
+:root[data-layout="natural-sereno"] .ns-editorial-card > .ns-gold {
+  background: linear-gradient(180deg,#E2B96B 0%,#C89D52 100%) !important;
+  color: #2A2421 !important;
+  border-color: rgba(168,126,55,.58) !important;
+}
+:root[data-layout="natural-sereno"] .ns-app .ns-gold {
+  border-radius: 18px !important;
+}
+:root[data-layout="natural-sereno"] .ns-app .ns-secondary {
+  border-radius: 16px !important;
+}
+:root[data-layout="natural-sereno"] #profile-setup-view.ep-auth-style-one #onboarding-card :is(#register-form,#login-form) button[type="submit"] {
+  border-radius: 18px !important;
+}
+
+/* Ações auxiliares: café/marfim/dourado; sálvia permanece só em pequenos sinais. */
+:root[data-layout="natural-sereno"] #herbal-baths-modal button[class*="bg-[#073b2b]"] {
+  background: linear-gradient(180deg,#E2B96B 0%,#C89D52 100%) !important;
+  color: #2A2421 !important;
+  border-color: rgba(168,126,55,.58) !important;
+  box-shadow: 0 8px 18px rgba(67,52,39,.08) !important;
+}
+:root[data-layout="natural-sereno"] #herbal-baths-modal button[class*="bg-[#073b2b]"]:hover {
+  background: linear-gradient(180deg,#E8C47D 0%,#A87E37 100%) !important;
+}
+:root[data-layout="natural-sereno"] #admin-panel-modal :is(button,a)[class*="bg-emerald"] {
+  background: linear-gradient(180deg,#E2B96B 0%,#C89D52 100%) !important;
+  color: #2A2421 !important;
+  border-color: rgba(168,126,55,.58) !important;
+  box-shadow: 0 8px 18px rgba(67,52,39,.09) !important;
+}
+:root[data-layout="natural-sereno"] #admin-panel-modal :is(button,a)[class*="bg-emerald"] :is(span,svg) {
+  color: #2A2421 !important;
+}
+:root[data-layout="natural-sereno"] #admin-panel-modal button[type="submit"] {
+  background: linear-gradient(180deg,#E2B96B 0%,#C89D52 100%) !important;
+  color: #2A2421 !important;
+}
+:root[data-layout="natural-sereno"] #admin-panel-modal :is(h1,h2,h3,h4,strong) { color:#2A2421 !important; }
+:root[data-layout="natural-sereno"] #admin-panel-modal :is(p,small,label) { color:#6B625B !important; }
+:root[data-layout="natural-sereno"] [data-ns-pix-card] :is(span,strong,svg) { color:#2A2421 !important; }
+:root[data-layout="natural-sereno"] #plans-modal button[class*="bg-[#073B2B]"] { color:#2A2421 !important; }
+:root[data-layout="natural-sereno"] #specific-treatment-modal :is([class*="text-emerald"],[class*="text-teal"],[class*="text-amber"]) {
+  color:#2A2421 !important;
+}
+:root[data-layout="natural-sereno"] :is(#settings-view,#audio-settings-modal,#mobile-install-modal,#achievements-modal,#journal-dashboard-view) button[class*="bg-[#B88736]"] {
+  background: linear-gradient(180deg,#E2B96B 0%,#C89D52 100%) !important;
+  color:#2A2421 !important;
+}
+:root[data-layout="natural-sereno"] :is(#settings-view,#audio-settings-modal,#mobile-install-modal,#achievements-modal,#journal-dashboard-view) button[class*="bg-[#B88736]"] :is(span,svg) {
+  color:#2A2421 !important;
+}
+:root[data-layout="natural-sereno"] #auth-loading-view { background-color:#FAF7F2 !important; }
