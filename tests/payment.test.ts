@@ -4,7 +4,7 @@ import express from 'express';
 import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
-import { paymentQuote, PAYMENT_PLANS, specificTreatmentCouponDiscount, specificTreatmentQuote } from '../src/lib/paymentCatalog';
+import { paymentQuote, PAYMENT_PLANS, NUMEROLOGY_FULL_PRICE_CENTS, specificTreatmentCouponDiscount, specificTreatmentQuote } from '../src/lib/paymentCatalog';
 
 test('payment prices are authoritative for every approved plan and coupon', () => {
   for (const [id, plan] of Object.entries(PAYMENT_PLANS)) {
@@ -14,6 +14,7 @@ test('payment prices are authoritative for every approved plan and coupon', () =
   }
   for (const id of ['__proto__', 'missing']) assert.throws(() => paymentQuote(id));
   assert.throws(() => paymentQuote('mensal', 'VIP7'));
+  assert.equal(NUMEROLOGY_FULL_PRICE_CENTS, 9000);
 });
 
 test('specific treatment coupons accept only the current approved promotional codes', () => {
@@ -100,6 +101,24 @@ test('checkout binds account, validates provider confirmation and grants only on
     const fixedSevenDay = await call('payment/create-checkout', { productType: 'specific_treatment', paymentMethod: 'pix', durationDays: 7, category: 'outro', patientDescription: 'Texto sintético privado.', urgentPains: [], couponCode: 'PROMO15', price: .01 });
     assert.equal(fixedSevenDay.status, 200);
     assert.equal(calls.at(-1).body.items[0].price, 5092);
+    db.users.push({ id: 'numerology-account', plan: 'free', profile: {} });
+    const numerologyCheckout = await call('payment/create-checkout', { productType: 'numerology_full', paymentMethod: 'pix', price: .01 }, 'numerology-account');
+    assert.equal(numerologyCheckout.status, 200);
+    const numerologyOrder = await numerologyCheckout.json();
+    assert.equal(calls.at(-1).body.items[0].price, NUMEROLOGY_FULL_PRICE_CENTS);
+    assert.equal(db.users[1].profile.numerologyPurchased, undefined);
+    const numerologyPayment = { order_nsu: numerologyOrder.orderId, transaction_nsu: 'numerology-transaction', slug: 'numerology' };
+    paid = false; amount = NUMEROLOGY_FULL_PRICE_CENTS;
+    assert.equal((await call('payment/confirm', numerologyPayment, 'numerology-account')).status, 202);
+    paid = true; amount = NUMEROLOGY_FULL_PRICE_CENTS - 1;
+    assert.equal((await call('webhooks/payment', numerologyPayment)).status, 202);
+    assert.equal(db.users[1].profile.numerologyPurchased, undefined);
+    amount = NUMEROLOGY_FULL_PRICE_CENTS;
+    assert.equal((await call('webhooks/payment', numerologyPayment)).status, 200);
+    assert.equal(db.users[1].profile.numerologyPurchased, true);
+    assert.equal(db.users[1].plan, 'free');
+    assert.equal((await call('payment/create-checkout', { productType: 'numerology_full', paymentMethod: 'pix' }, 'numerology-account')).status, 409);
+    assert.equal((await call('payment/confirm', numerologyPayment, 'numerology-account')).status, 200);
     db.users.push({ id: 'trial-account', plan: 'free', profile: {} });
     const trial = { planId: 'teste_vip_7d', paymentMethod: 'trial', couponCode: 'VIP7' };
     assert.equal((await call('user/upgrade', trial, 'trial-account')).status, 200);
