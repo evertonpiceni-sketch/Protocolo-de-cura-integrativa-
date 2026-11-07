@@ -18,6 +18,7 @@ test('Style 4 selector uses the official board and still requires explicit confi
 
   const modal = readFileSync(resolve(root, 'src/components/LayoutChoiceModal.tsx'), 'utf8');
   assert.match(modal, /\/brand\/mistico-moderno\/prancha-oficial\.webp/);
+  assert.match(modal, /\/brand\/essencia-luminosa\/prancha-oficial\.webp/, 'Style 4 audit must not regress the newer Style 3 approved preview.');
   assert.match(modal, /useState<LayoutId \| null>\(null\)/);
   assert.match(modal, /disabled=\{!selectedLayout \|\| isSaving\}/);
   assert.match(modal, /isSelected \|\| !isMystic \? <Check size=\{16\} \/> : null/);
@@ -37,8 +38,12 @@ test('Style 4 voice alias resolves only to a configured ElevenLabs voice ID', ()
   assert.equal(resolveMisticoModernoOfficialVoiceId(''), null);
   assert.equal(resolveMisticoModernoOfficialVoiceId('Rachel'), null);
   assert.equal(resolveMisticoModernoOfficialVoiceId('Marcus'), null);
+  assert.equal(resolveMisticoModernoOfficialVoiceId('mJqP14JQFEK0PojR5lfV'), null);
   const server = readFileSync(resolve(root, 'server.ts'), 'utf8');
   assert.match(server, /cacheKey}_\$\{cacheVoiceId\}/);
+  const aliasResolutionIndex = server.indexOf('resolveMisticoModernoOfficialVoiceId(process.env.ELEVENLABS_VOICE_ID)');
+  const cacheLookupIndex = server.indexOf('const effectiveCacheKey = cacheKey', aliasResolutionIndex);
+  assert.ok(aliasResolutionIndex >= 0 && cacheLookupIndex > aliasResolutionIndex, 'Style 4 must reject a superseded voice before a cached stream can be returned.');
 });
 
 test('Style 4 forces the server voice alias and never falls back to browser speech', async () => {
