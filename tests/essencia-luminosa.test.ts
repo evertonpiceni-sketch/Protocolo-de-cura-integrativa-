@@ -376,4 +376,8 @@ test('o acesso neutro antes da escolha não mantém CTA, ícones ou foco verdes 
   assert.ok(profile.includes('focus:border-[#A99B84]'));
   assert.ok(theme.includes('a:not([data-access-support-link="true"])'));
   assert.ok(profile.includes('ep-auth-prestyle min-h-dvh text-[#302E2A]'));
+  assert.ok(profile.includes('bg-[#F7F3E8] border border-[#E5DAC6] text-[#5C5248]'), 'O aviso de sucesso deve permanecer neutro antes da escolha.');
+  assert.ok(profile.includes('bg-[#E4E0D7] hover:bg-[#D8D2C7] text-[#302E2A] border border-[#C9C2B7]'), 'As prévias de voz devem usar o mesmo tratamento neutro.');
+  assert.ok(profile.includes('fill-[#A99B84] text-[#817460]'), 'Os ícones de reprodução e pausa não devem herdar verde/amarelo saturado.');
+  assert.ok(!/emerald-|amber-(?:300|400|500)|text-amber-200/.test(profile), 'O acesso neutro não deve carregar classes cromáticas antigas.');
 });
