@@ -100,7 +100,8 @@ test('os Ajustes de Áudio do Estilo 3 oferecem vozes neurais e preservam Marian
   const app = fs.readFileSync('src/App.tsx', 'utf8');
   assert.ok(settings.includes("const isEssenciaLuminosa = typeof document !== 'undefined' && document.documentElement.dataset.layout === 'essencia-luminosa';"));
   assert.ok(settings.includes('const requiresNeuralVoice = isEleganciaProfunda || isEssenciaLuminosa || isMisticoModerno;'));
-  assert.ok(settings.includes('const initialVoiceId = isEssenciaLuminosa && !isElevenLabsVoiceId(savedVoiceId)'));
+  assert.ok(settings.includes('const initialVoiceId = isMisticoModerno'));
+  assert.ok(settings.includes('isEssenciaLuminosa && !isElevenLabsVoiceId(savedVoiceId)'));
   assert.ok(settings.includes('fallbackToSpeechSynthesis: !requiresNeuralVoice'));
   assert.ok(app.includes('const usesNeuralVoiceCatalog = isEleganciaProfunda || isEssenciaLuminosa;'));
   assert.ok(app.includes('!usesNeuralVoiceCatalog'));
