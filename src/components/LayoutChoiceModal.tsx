@@ -1,9 +1,10 @@
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useDialogFocus } from '../hooks/useDialogFocus';
 import { Check } from 'lucide-react';
 import { OFFICIAL_LAYOUTS, LayoutDefinition, LayoutId } from '../config/layouts';
 
 interface LayoutChoiceModalProps {
+  initialLayout?: LayoutId | null;
   onSelect: (layout: LayoutId) => void | Promise<void>;
 }
 
@@ -84,7 +85,7 @@ function LayoutPreview({ layout }: { layout: LayoutDefinition }) {
             />
           )}
           <span
-            className="mt-3 inline-flex rounded-full px-3 py-1 text-[8px] font-bold uppercase tracking-[.12em] shadow-sm"
+            className={`mt-3 inline-flex ${isNaturalSereno ? 'rounded-lg' : 'rounded-full'} px-3 py-1 text-[8px] font-bold uppercase tracking-[.12em] shadow-sm`}
             style={{ background: actionBackground, color: isNaturalSereno || isEssenciaLuminosa || layout.id === 'mistico-moderno' ? '#2A2420' : layout.tone === 'dark' ? '#0B1712' : '#fff' }}
           >
             Iniciar jornada
@@ -100,8 +101,11 @@ function LayoutPreview({ layout }: { layout: LayoutDefinition }) {
   );
 }
 
-export default function LayoutChoiceModal({ onSelect }: LayoutChoiceModalProps) {
-  const [selectedLayout, setSelectedLayout] = useState<LayoutId | null>(null);
+export default function LayoutChoiceModal({ initialLayout = null, onSelect }: LayoutChoiceModalProps) {
+  const [selectedLayout, setSelectedLayout] = useState<LayoutId | null>(initialLayout);
+  useEffect(() => {
+    if (!selectedLayout && initialLayout) setSelectedLayout(initialLayout);
+  }, [initialLayout, selectedLayout]);
   const [isSaving, setIsSaving] = useState(false);
   const [saveError, setSaveError] = useState<string | null>(null);
   const confirmSelection = async () => {
@@ -183,7 +187,7 @@ export default function LayoutChoiceModal({ onSelect }: LayoutChoiceModalProps) 
             type="button"
             disabled={!selectedLayout || isSaving}
             onClick={confirmSelection}
-            className="min-h-12 w-full max-w-sm rounded-full bg-gradient-to-r from-[#C89D52] via-[#D9B66D] to-[#A87E37] px-6 py-3 text-sm font-bold uppercase tracking-[.12em] text-[#2A2420] shadow-lg transition hover:-translate-y-0.5 hover:shadow-xl disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:translate-y-0 disabled:hover:shadow-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B88736]/40 focus-visible:ring-offset-2"
+            className="min-h-12 w-full max-w-sm rounded-2xl bg-gradient-to-r from-[#C89D52] via-[#D9B66D] to-[#A87E37] px-6 py-3 text-sm font-bold uppercase tracking-[.12em] text-[#2A2420] shadow-lg transition hover:-translate-y-0.5 hover:shadow-xl disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:translate-y-0 disabled:hover:shadow-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B88736]/40 focus-visible:ring-offset-2"
           >
             {isSaving ? 'Salvando escolha…' : selectedDefinition ? `Confirmar ${selectedDefinition.name}` : 'Selecione um estilo'}
           </button>
