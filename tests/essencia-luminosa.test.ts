@@ -504,15 +504,20 @@ test('o logo da Essência Luminosa neutraliza o destaque compartilhado no hero e
   const main = fs.readFileSync('src/main.tsx', 'utf8');
   const home = fs.readFileSync('src/components/TransformationHome.tsx', 'utf8');
 
-  assert.match(
-    shared,
-    /:root\\[data-layout\\] \\.ep-home-hero \\.ep-brand-signature,[\\s\\S]*?:root\\[data-layout\\] \\.ep-welcome-audio \\.ep-brand-signature\\{opacity:\\.72!important\\}/,
-    'A regra compartilhada de 72% precisa continuar coberta pelo override específico.'
-  );
-  assert.ok(css.includes(':root[data-layout="essencia-luminosa"] .ep-home-hero .ep-brand-signature-wrap,\\n:root[data-layout="essencia-luminosa"] .ep-welcome-audio .ep-brand-signature-wrap'));
-  assert.ok(css.includes(':root[data-layout="essencia-luminosa"] .ep-home-hero .ep-brand-signature,\\n:root[data-layout="essencia-luminosa"] .ep-welcome-audio .ep-brand-signature'));
-  assert.ok(css.includes('opacity: .30 !important;'));
-  assert.ok(css.includes('opacity: .26 !important;'));
+  const sharedRuleStart = shared.indexOf(':root[data-layout] .ep-home-hero .ep-brand-signature,');
+  assert.ok(sharedRuleStart >= 0, 'A regra compartilhada do hero precisa continuar identificável.');
+  const sharedRule = shared.slice(sharedRuleStart, sharedRuleStart + 260);
+  assert.ok(sharedRule.includes(':root[data-layout] .ep-welcome-audio .ep-brand-signature'));
+  assert.ok(sharedRule.includes('opacity:.72!important'));
+
+  const style3RuleStart = css.indexOf(':root[data-layout="essencia-luminosa"] .ep-home-hero .ep-brand-signature-wrap,');
+  assert.ok(style3RuleStart >= 0, 'O override do Estilo 3 precisa cobrir o wrapper do hero.');
+  const style3Rule = css.slice(style3RuleStart, style3RuleStart + 1100);
+  assert.ok(style3Rule.includes(':root[data-layout="essencia-luminosa"] .ep-welcome-audio .ep-brand-signature-wrap'));
+  assert.ok(style3Rule.includes(':root[data-layout="essencia-luminosa"] .ep-welcome-audio .ep-brand-signature'));
+  assert.ok(style3Rule.includes('opacity: .30 !important;'));
+  assert.ok(style3Rule.includes('opacity: .26 !important;'));
+
   assert.ok(main.indexOf("import './approved-theme.css'") < main.indexOf("import './essencia-luminosa-final-audit.css'"));
   assert.ok(home.includes('ep-welcome-audio ep-home-hero'));
 });
