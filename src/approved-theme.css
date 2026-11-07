@@ -80,6 +80,7 @@
   --layout-gold-shadow:rgba(212,175,55,.30);
   --layout-text:#F4F1EB;
   --layout-text-secondary:#C8D6CD;
+  --layout-text-soft:var(--layout-text-secondary);
   --layout-text-muted:#8E9F94;
   --layout-border:rgba(212,175,55,.22);
   --layout-border-card:rgba(212,175,55,.28);
