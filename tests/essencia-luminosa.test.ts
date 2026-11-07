@@ -294,10 +294,10 @@ test('os CTAs claros do Estilo 3 usam texto escuro e legível sobre champagne, s
   assert.ok(anamnesis.includes('color:#221D17!important;'));
   assert.ok(mobileInstall.includes('color:var(--layout-text)!important;'));
   assert.ok(numerology.includes('color: var(--layout-text) !important;'));
-  assert.equal((session.match(/color: var\\(--layout-text\\) !important;/g) ?? []).length, 2);
+  assert.equal((session.match(/color: var\(--layout-text\) !important;/g) ?? []).length, 2);
 
   for (const source of [anamnesis, mobileInstall, numerology, session]) {
-    assert.doesNotMatch(source, /color\\s*:\\s*#fff(?:fff)?\\s*!important/i);
+    assert.doesNotMatch(source, /color\s*:\s*#fff(?:fff)?\s*!important/i);
   }
 });
 
