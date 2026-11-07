@@ -9,6 +9,12 @@
 #profile-setup-view.ep-auth-style-one #onboarding-card .ep-brand-signature-wrap { width:84px; height:84px; opacity:.30!important; }
 #profile-setup-view.ep-auth-style-one #onboarding-card .ep-brand-signature { opacity:1!important; filter:none!important; object-fit:contain!important; }
 
+/* Auth loading uses the approved data-URI logo without the signature class. Keep it equally discreet. */
+:root[data-layout="natural-sereno"] #auth-loading-view img[alt="Everton Piceni"] { opacity:.24!important; filter:none!important; object-fit:contain!important; }
+
+/* Auth loading uses the approved data-URI logo without the signature class. Keep it equally discreet. */
+:root[data-layout="natural-sereno"] #auth-loading-view img[alt="Everton Piceni"] { opacity:.24!important; filter:none!important; object-fit:contain!important; }
+
 /* Settings */
 :root[data-layout="natural-sereno"] #settings-view [data-ns-status-card="true"] { background:linear-gradient(145deg,rgba(255,253,248,.98),rgba(246,239,224,.96))!important; border-color:rgba(200,157,82,.34)!important; box-shadow:0 14px 34px rgba(67,52,39,.08)!important; }
 :root[data-layout="natural-sereno"] #settings-view [data-ns-status-card="true"] :is(h1,h2,h3,strong) { color:#2A2421!important; }
@@ -453,4 +459,54 @@
 }
 :root[data-layout="natural-sereno"] .ep-app-toast svg {
   color: #C89D52 !important;
+}
+
+
+/* Reauditoria de Numerologia e telas auxiliares:
+   suaviza o âmbar de estado e remove pequenos tiles/tab ativos verde-floresta,
+   sem apagar o acento sálvia nem os significados semânticos. */
+:root[data-layout="natural-sereno"] #numerology-modal [class*="bg-amber-50"] {
+  background: rgba(200,157,82,.08) !important;
+}
+:root[data-layout="natural-sereno"] #numerology-modal [class*="border-amber-200"] {
+  border-color: rgba(200,157,82,.24) !important;
+}
+:root[data-layout="natural-sereno"] #numerology-modal :is([class*="text-amber-800"],[class*="text-amber-900"]) {
+  color: #8F631E !important;
+}
+:root[data-layout="natural-sereno"] #numerology-modal [class*="border-emerald-200"] {
+  border-color: rgba(107,122,75,.24) !important;
+}
+:root[data-layout="natural-sereno"] #numerology-modal [class*="text-emerald-800"] {
+  color: #56623D !important;
+}
+:root[data-layout="natural-sereno"] :is(#astral-map-modal,#numerology-modal) div[class*="bg-[#073b2b]"] {
+  background: rgba(107,122,75,.12) !important;
+  border-color: rgba(107,122,75,.24) !important;
+  color: #6B7A4B !important;
+  box-shadow: 0 8px 18px rgba(67,52,39,.05) !important;
+}
+:root[data-layout="natural-sereno"] #hooponopono-modal [role="tab"][aria-selected="true"],
+:root[data-layout="natural-sereno"] :is(#mobile-install-modal,#achievements-modal) [role="tab"][aria-selected="true"] {
+  background: linear-gradient(180deg,#E2B96B,#C89D52) !important;
+  color: #2A2421 !important;
+  border-color: rgba(168,126,55,.46) !important;
+  box-shadow: 0 6px 16px rgba(67,52,39,.08) !important;
+}
+
+
+/* Player Natural Sereno — a cachoeira permanece visível sob véu creme;
+   a animação continua ativa, mas sem a antiga camada verde-floresta. */
+:root[data-layout="natural-sereno"] #meditation-session.ep-session .ep-session-backdrop::before {
+  background:
+    linear-gradient(180deg,rgba(250,247,242,.10) 0%,rgba(250,247,242,.34) 36%,rgba(245,239,229,.70) 78%),
+    var(--ns-waterfall) center 18% / cover no-repeat !important;
+}
+:root[data-layout="natural-sereno"] #meditation-session.ep-session .ep-session-backdrop canvas {
+  opacity: .38 !important;
+}
+@media (max-width: 899px) {
+  :root[data-layout="natural-sereno"] #meditation-session.ep-session .ep-session-backdrop::before {
+    background-position: center, center 48% !important;
+  }
 }
