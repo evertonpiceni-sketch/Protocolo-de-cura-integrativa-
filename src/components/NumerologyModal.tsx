@@ -13,6 +13,7 @@ import {
 } from 'lucide-react';
 import { UserProfile, NumerologyData } from '../types';
 import { calculateNumerology } from '../utils/numerology';
+import { NUMEROLOGY_FULL_PRICE_CENTS } from '../lib/paymentCatalog';
 
 interface NumerologyModalProps {
   isOpen: boolean;
@@ -40,7 +41,8 @@ export default function NumerologyModal({
   const [checkoutError, setCheckoutError] = useState<string | null>(null);
 
   const dialogRef = React.useRef<HTMLDivElement | null>(null);
-  useDialogFocus(isOpen && document.documentElement.dataset.layout === 'natural-sereno', dialogRef, onClose);
+  const activeLayout = typeof document !== 'undefined' ? document.documentElement.dataset.layout : undefined;
+  useDialogFocus(isOpen && (activeLayout === 'natural-sereno' || activeLayout === 'mistico-moderno'), dialogRef, onClose);
 
   if (!isOpen) return null;
 
@@ -49,6 +51,7 @@ export default function NumerologyModal({
     userProfile.birthDate
   );
 
+  const numerologyFullPriceLabel = (NUMEROLOGY_FULL_PRICE_CENTS / 100).toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
   const isPro = userProfile.plan === 'pro';
   const isFullUnlocked = isPro || Boolean(userProfile.numerologyPurchased);
 
@@ -69,7 +72,6 @@ export default function NumerologyModal({
         body: JSON.stringify({
           productType: 'numerology_full',
           paymentMethod: selectedPaymentMethod,
-          price: 90
         })
       });
       const data = await response.json().catch(() => ({}));
@@ -129,7 +131,7 @@ export default function NumerologyModal({
           <button role="tab" aria-selected={activeTab === 'compact'} onClick={() => setActiveTab('compact')} className={tabClass(activeTab === 'compact')}><Sparkles size={13} className="text-[#B88736]" /><span>Versão Compacta</span></button>
           <button role="tab" aria-selected={activeTab === 'complete' || activeTab === 'payment'} onClick={selectComplete} className={tabClass(activeTab === 'complete' || activeTab === 'payment')}>
             {isFullUnlocked ? <Crown size={13} className="text-[#B88736]" /> : <Lock size={13} className="text-[#B88736]" />}
-            <span>Versão Completa (R$ 90,00)</span>
+            <span>Versão Completa (R$ {numerologyFullPriceLabel})</span>
           </button>
         </div>
 
