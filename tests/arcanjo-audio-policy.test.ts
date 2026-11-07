@@ -20,3 +20,12 @@ test('an active Arcanjo subscription unlocks access but does not auto-open the s
   assert.ok(app.includes('const isArcanjoProtocolActive = showArcanjoView;'));
   assert.ok(!app.includes("showArcanjoView || userProfile?.subscriptionPlan === 'arcanjo_7d'"));
 });
+
+
+test('Natural Sereno no Arcanjo exige a voz neural salva e não abre fallback nativo', () => {
+  const view = fs.readFileSync('src/components/ArcanjoProtocolView.tsx', 'utf8');
+  assert.ok(view.includes('isNaturalSerenoVoiceId(userProfile.voiceId)'));
+  assert.ok(view.includes('requireExplicitVoiceId: requiresExplicitNeuralVoice'));
+  assert.ok(view.includes('if (requiresExplicitNeuralVoice)'));
+  assert.ok(view.includes('audioEngine.startSynth(`${config.freq}hz`)'));
+});
