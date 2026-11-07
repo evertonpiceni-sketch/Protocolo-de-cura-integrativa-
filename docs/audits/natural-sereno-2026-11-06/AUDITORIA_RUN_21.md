@@ -38,4 +38,11 @@
 - O preview da Vercel associado à PR retornou `BUILD_FAILED / Resource provisioning failed`, sem eventos de build. O erro é de provisionamento do ambiente, não uma falha de compilação demonstrada; não foi feita nova implantação manual.
 - A correção de asserção já está no branch e aguarda nova execução do workflow.
 
+
+## Resultado da reexecução de CI
+- A segunda execução validou a correção do teste: **35/35 testes passaram**.
+- TypeScript, build, verificações de entrypoints Vercel, varredura de segredos, JWT fail-closed, proteção de cadastro/admin, smoke test e validação fail-closed dos endpoints de pagamento passaram.
+- O workflow continua com conclusão geral `failure` exclusivamente na etapa final de `npm audit`, que detecta as 9 vulnerabilidades já descritas. Nenhuma dessas dependências foi atualizada nesta PR.
+- O preview da Vercel continuou falhando antes de emitir eventos de build, com `Resource provisioning failed`; a compilação do projeto, por sua vez, passou no GitHub Actions.
+
 **Conclusão:** o código atual já contém as proteções visuais e funcionais principais do Natural Sereno. A única correção aplicada nesta rodada foi alinhar o teste de regressão à política aprovada de não usar voz nativa robótica como fallback do player oficial. A homologação final continua aberta até CI, segurança de dependências e teste visual/funcional ao vivo.
