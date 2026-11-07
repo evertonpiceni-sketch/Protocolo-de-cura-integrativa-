@@ -360,3 +360,20 @@ test('o logout limpa a confirmação de estilo também para a próxima conta na 
   assert.ok(app.includes('{(!layoutConfirmedThisSession || layoutChoiceRequested) && ('));
   assert.ok(app.includes('delete document.documentElement.dataset.layout'));
 });
+
+
+test('o acesso neutro antes da escolha não mantém CTA, ícones ou foco verdes herdados', () => {
+  const profile = fs.readFileSync('src/components/ProfileSetup.tsx', 'utf8');
+  const theme = fs.readFileSync('src/approved-theme.css', 'utf8');
+  const supportStart = profile.indexOf('data-access-support-link="true"');
+  assert.ok(supportStart >= 0, 'O link de suporte deve continuar identificado para acessibilidade e estilo.');
+  const supportBlock = profile.slice(Math.max(0, supportStart - 320), supportStart + 220);
+  assert.ok(supportBlock.includes('bg-[#E4E0D7]'));
+  assert.ok(supportBlock.includes('text-[#302E2A]'));
+  assert.ok(!supportBlock.includes('#174B37'));
+  assert.ok(!supportBlock.includes('#FFFAE7'));
+  assert.ok(profile.includes('text-[#817460]'));
+  assert.ok(profile.includes('focus:border-[#A99B84]'));
+  assert.ok(theme.includes('a:not([data-access-support-link="true"])'));
+  assert.ok(profile.includes('ep-auth-prestyle min-h-dvh text-[#302E2A]'));
+});
