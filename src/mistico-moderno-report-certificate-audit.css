@@ -4,8 +4,8 @@
 }
 
 :root[data-layout="mistico-moderno"] #pro-certificate-modal > div {
-  background: linear-gradient(145deg, rgba(10, 18, 46, .98), rgba(20, 18, 58, .97) 56%, rgba(7, 38, 42, .96)) !important;
-  border-color: rgba(214, 171, 83, .34) !important;
+  background: linear-gradient(145deg, rgba(10, 18, 46, .98), rgba(20, 18, 58, .97) 56%, rgba(7, 17, 31, .96)) !important;
+  border-color: rgba(200, 157, 82, .34) !important;
   color: #F5F0E6 !important;
   box-shadow: 0 28px 90px rgba(0, 0, 0, .52), 0 0 42px rgba(112, 76, 190, .10) !important;
 }
@@ -24,7 +24,7 @@
 }
 
 :root[data-layout="mistico-moderno"] #pro-certificate-modal [class*="to-[#F3EBDD]"] {
-  --tw-gradient-to: rgba(8, 47, 50, .90) var(--tw-gradient-to-position) !important;
+  --tw-gradient-to: rgba(20, 29, 58, .90) var(--tw-gradient-to-position) !important;
 }
 
 :root[data-layout="mistico-moderno"] #pro-certificate-modal :is([class*="text-[#2A2420]"],[class*="text-[#5C5248]"]) {
@@ -44,7 +44,7 @@
 }
 
 :root[data-layout="mistico-moderno"] #pro-certificate-modal :is([class*="border-[#E5DAC6]"],[class*="border-[#B88736]"]) {
-  border-color: rgba(214, 171, 83, .30) !important;
+  border-color: rgba(200, 157, 82, .30) !important;
 }
 
 :root[data-layout="mistico-moderno"] #pro-certificate-modal button:not([class*="bg-[#B88736]"]) {
