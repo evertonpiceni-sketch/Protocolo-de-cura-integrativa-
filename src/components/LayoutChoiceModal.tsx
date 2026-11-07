@@ -194,14 +194,23 @@ export default function LayoutChoiceModal({ onSelect }: LayoutChoiceModalProps) 
           {OFFICIAL_LAYOUTS.map(layout => {
             const isSelected = selectedLayout === layout.id;
             const isEssenciaCard = layout.id === 'essencia-luminosa';
+            const isMysticCard = layout.id === 'mistico-moderno';
             const selectionClasses = isEssenciaCard
               ? isSelected
                 ? 'border-[#C6A46A] ring-2 ring-[#C6A46A]/20 shadow-lg'
                 : 'border-[#E5DAC6] hover:border-[#C6A46A]/60'
-              : isSelected
-                ? 'border-[#B88736] ring-2 ring-[#B88736]/20 shadow-lg'
-                : 'border-[#E5DAC6] hover:border-[#B88736]/60';
-            const focusRingClass = isEssenciaCard ? 'focus-visible:ring-[#C6A46A]/35' : 'focus-visible:ring-[#B88736]/35';
+              : isMysticCard
+                ? isSelected
+                  ? 'border-[#C89D52] ring-2 ring-[#C89D52]/20 shadow-lg'
+                  : 'border-[#6C3FA0]/40 hover:border-[#C89D52]/70'
+                : isSelected
+                  ? 'border-[#B88736] ring-2 ring-[#B88736]/20 shadow-lg'
+                  : 'border-[#E5DAC6] hover:border-[#B88736]/60';
+            const focusRingClass = isEssenciaCard
+              ? 'focus-visible:ring-[#C6A46A]/35'
+              : isMysticCard
+                ? 'focus-visible:ring-[#C89D52]/35'
+                : 'focus-visible:ring-[#B88736]/35';
             return (
               <button
                 key={layout.id}
@@ -216,7 +225,7 @@ export default function LayoutChoiceModal({ onSelect }: LayoutChoiceModalProps) 
                     <h3 className={`font-display text-xl font-semibold ${layout.id === "mistico-moderno" ? "text-[#F4F1EB]" : "text-[#2A2420]"}`}>{layout.name}</h3>
                     <p className={`mt-1 text-xs leading-relaxed ${layout.id === "mistico-moderno" ? "text-[#D8D4CA]" : "text-[#5C5248]"}`}>{layout.description}</p>
                   </div>
-                  <span className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-full border transition ${isSelected ? (isEssenciaCard ? 'border-[#C6A46A] bg-[#C6A46A] text-white opacity-100' : 'border-[#B88736] bg-[#B88736] text-white opacity-100') : (isEssenciaCard ? 'border-[#E5DAC6] text-[#C6A46A] opacity-0 group-hover:opacity-100' : 'border-[#E5DAC6] text-[#B88736] opacity-0 group-hover:opacity-100')}`} aria-hidden="true">
+                  <span className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-full border transition ${isSelected ? (isEssenciaCard ? 'border-[#C6A46A] bg-[#C6A46A] text-white opacity-100' : isMysticCard ? 'border-[#C89D52] bg-[#C89D52] text-[#07111F] opacity-100' : 'border-[#B88736] bg-[#B88736] text-white opacity-100') : (isEssenciaCard ? 'border-[#E5DAC6] text-[#C6A46A] opacity-0 group-hover:opacity-100' : isMysticCard ? 'border-[#6C3FA0] text-[#C89D52] opacity-0 group-hover:opacity-100' : 'border-[#E5DAC6] text-[#B88736] opacity-0 group-hover:opacity-100')}`} aria-hidden="true">
                     <Check size={16} />
                   </span>
                 </div>
