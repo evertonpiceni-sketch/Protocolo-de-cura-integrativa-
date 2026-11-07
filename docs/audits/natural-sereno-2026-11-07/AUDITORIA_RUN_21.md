@@ -23,3 +23,10 @@
 - O patch `naturalSerenoHomeApprovedModel.ts` continua carregado por conter lógica de estado da jornada; as regras visuais antigas são neutralizadas pelas folhas aprovadas carregadas depois. Separar lógica e CSS exige uma refatoração própria, não necessária para esta correção pontual.
 
 **Status:** correções visuais pontuais registradas; homologação integral permanece aberta até concluir os testes pendentes.
+
+
+## Validação automatizada
+- GitHub Actions run `1417`: verificação TypeScript passou.
+- Os 7 testes novos do Natural Sereno passaram. A suíte completa ficou em **105 aprovados / 1 reprovado**: a falha é preexistente no teste do Estilo 2 (`tests/elegancia-profunda-audit.test.ts:23`), que exige altura de 288 px enquanto a prancha atual mede 180 px. Não alterei o Estilo 2.
+- `npm audit --audit-level=moderate` encontrou **9 vulnerabilidades (3 moderadas, 6 altas)**. Por isso, o build e as etapas seguintes foram interrompidos pelo workflow.
+- O PR `#55` permanece aberto e não foi mesclado; não contornei as verificações globais nem alterei dependências ou outro estilo fora do escopo.
