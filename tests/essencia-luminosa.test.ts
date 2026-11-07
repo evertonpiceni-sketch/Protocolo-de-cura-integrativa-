@@ -32,7 +32,7 @@ test('a escolha dos quatro estilos continua explícita antes da aplicação', ()
 
 test('a Home da Essência Luminosa respeita a voz neural salva e não cai em Web Speech', () => {
   const home = fs.readFileSync('src/components/TransformationHome.tsx', 'utf8');
-  assert.ok(home.includes('const requiresNeuralVoice = isEleganciaProfunda || isEssenciaLuminosa;'));
+  assert.ok(home.includes('const requiresNeuralVoice = isNaturalSereno || isEleganciaProfunda || isEssenciaLuminosa;'));
   assert.ok(home.includes('isElevenLabsVoiceId(savedVoiceId) ? savedVoiceId : OFFICIAL_PROTOCOL_VOICE_ID'));
   assert.ok(home.includes('const narrationVoiceId = usesSavedVoiceSettings'));
   assert.ok(home.includes('fallbackToSpeechSynthesis: !requiresNeuralVoice'));
@@ -99,10 +99,10 @@ test('os Ajustes de Áudio do Estilo 3 oferecem vozes neurais e preservam Marian
   const settings = fs.readFileSync('src/components/AudioSettingsModal.tsx', 'utf8');
   const app = fs.readFileSync('src/App.tsx', 'utf8');
   assert.ok(settings.includes("const isEssenciaLuminosa = typeof document !== 'undefined' && document.documentElement.dataset.layout === 'essencia-luminosa';"));
-  assert.ok(settings.includes('const requiresNeuralVoice = isEleganciaProfunda || isEssenciaLuminosa;'));
-  assert.ok(settings.includes('const initialVoiceId = isEssenciaLuminosa && !isElevenLabsVoiceId(savedVoiceId)'));
+  assert.ok(settings.includes('const requiresNeuralVoice = isNaturalSereno || isEleganciaProfunda || isEssenciaLuminosa;'));
+  assert.ok(settings.includes('const initialVoiceId = (isNaturalSereno || isEssenciaLuminosa) && !isElevenLabsVoiceId(savedVoiceId)'));
   assert.ok(settings.includes('fallbackToSpeechSynthesis: !requiresNeuralVoice'));
-  assert.ok(app.includes('const usesNeuralVoiceCatalog = isEleganciaProfunda || isEssenciaLuminosa;'));
+  assert.ok(app.includes('const usesNeuralVoiceCatalog = isNaturalSereno || isEleganciaProfunda || isEssenciaLuminosa;'));
   assert.ok(app.includes('!usesNeuralVoiceCatalog'));
 });
 
@@ -330,7 +330,7 @@ test('a página de Configurações usa ElevenLabs também na Essência Luminosa'
   assert.ok(start >= 0 && end > start, 'voice settings block must exist');
   const block = app.slice(start, end);
 
-  assert.ok(app.includes('const usesNeuralVoiceCatalog = isEleganciaProfunda || isEssenciaLuminosa;'));
+  assert.ok(app.includes('const usesNeuralVoiceCatalog = isNaturalSereno || isEleganciaProfunda || isEssenciaLuminosa;'));
   assert.ok(block.includes('{usesNeuralVoiceCatalog ? ('));
   assert.ok(block.includes('if (usesNeuralVoiceCatalog) {'));
   assert.ok(block.includes('fallbackToSpeechSynthesis: false'));
