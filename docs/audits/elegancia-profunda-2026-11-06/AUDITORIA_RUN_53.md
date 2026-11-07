@@ -6,7 +6,7 @@ Referência oficial: prancha 1001194194.png (Library file file_00000000121c820e9
 ## Corrigido
 - Seletor: a prévia do Estilo 2 agora usa o recorte real da tela “Menu Principal” da prancha oficial, armazenado em public/brand/elegancia-profunda/menu-principal-preview.webp. O recorte não reutiliza a figura corporal nem o logo da prancha; os demais três cards permanecem intactos.
 - Voz da Reintegração: api/reintegration-tts.ts passa a usar Marianne — Meditação (mJqP14JQFEK0PojR5lfV), em vez do ID legado Rachel. O endpoint continua sem fallback para voz nativa.
-- Boas-vindas e resultado do Estilo 2: TransformationHome usa o stream oficial de Marianne, sem fallback para voz do dispositivo. O botão de acolhimento agora pausa/retoma de verdade e falhas da voz oficial são comunicadas sem trocar de voz.
+- Boas-vindas e resultado do Estilo 2: TransformationHome usa o stream oficial de Marianne, sem fallback para voz do dispositivo. O botão de acolhimento pausa/retoma de verdade, falhas são comunicadas e o botão de áudio do resultado usa acabamento retangular premium, sem formato pill.
 
 ## Varredura página por página (12 telas da prancha)
 1. Splash/carregamento: shell de autenticação permanece fixo e independente da preferência; nenhum tema escolhido é aplicado antes da confirmação.
