@@ -1188,7 +1188,7 @@ class CalmingAudioEngine {
 
                 audio.onerror = () => {
                   const fallbackText = text
-                    .replace(/<break\\s+time=["'][\\d.]+s["']\\s*\\/>/gi, '\\n')
+                    .replace(/<break\s+time=["'][\d.]+s["']\s*\/>/gi, '\n')
                     .replace(/<[^>]+>/g, '');
                   fallbackOrFail(fallbackText, new Error('Falha ao reproduzir um trecho da voz oficial.'));
                 };
@@ -1197,7 +1197,7 @@ class CalmingAudioEngine {
               } catch (err) {
                 console.warn("Protocol segment TTS failed:", err);
                 const fallbackText = text
-                  .replace(/<break\\s+time=["'][\\d.]+s["']\\s*\\/>/gi, '\\n')
+                  .replace(/<break\s+time=["'][\d.]+s["']\s*\/>/gi, '\n')
                   .replace(/<[^>]+>/g, '');
                 fallbackOrFail(fallbackText, err);
               }
