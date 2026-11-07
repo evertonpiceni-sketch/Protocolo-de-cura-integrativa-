@@ -355,8 +355,8 @@ export default function MeditationSession({
 
   if (userPlan === 'free' && dayNumber > 7) {
     return (
-      <div className="fixed inset-0 z-50 bg-[#FAF7F2]/95 backdrop-blur-md text-[#2A2420] flex items-center justify-center p-3 sm:p-6 overflow-y-auto overscroll-contain" role="dialog" aria-modal="true" aria-label="Acesso à jornada completa">
-        <div className="max-w-md w-full bg-white border border-[#E5DAC6] rounded-2xl sm:rounded-3xl p-5 sm:p-8 text-center shadow-xl">
+      <div className="ep-session-access-gate fixed inset-0 z-50 bg-[#FAF7F2]/95 backdrop-blur-md text-[#2A2420] flex items-center justify-center p-3 sm:p-6 overflow-y-auto overscroll-contain" role="dialog" aria-modal="true" aria-label="Acesso à jornada completa">
+        <div className="ep-session-access-card max-w-md w-full bg-white border border-[#E5DAC6] rounded-2xl sm:rounded-3xl p-5 sm:p-8 text-center shadow-xl">
           <div className="w-16 h-16 mx-auto mb-6 rounded-full bg-[#FAF4E8] border border-[#B88736]/30 flex items-center justify-center">
             <Sparkles className="w-8 h-8 text-[#8F631E]" />
           </div>
