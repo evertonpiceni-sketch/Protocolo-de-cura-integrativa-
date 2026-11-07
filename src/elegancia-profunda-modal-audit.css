@@ -68,8 +68,10 @@
   box-shadow: 0 32px 80px rgba(0,0,0,.5) !important;
 }
 :root[data-layout="elegancia-profunda"] #specific-treatment-modal :is(h2,h3,h4) { color: var(--layout-text) !important; }
+:root[data-layout="elegancia-profunda"] #specific-treatment-modal :is(strong,[class*="text-[#2A2420]"]) { color:var(--layout-text)!important; }
+:root[data-layout="elegancia-profunda"] #specific-treatment-modal [class*="text-indigo-"] { color:var(--layout-text-secondary)!important; }
 :root[data-layout="elegancia-profunda"] #specific-treatment-modal :is(p,small,label,[class*="text-[#5C5248]"],[class*="text-[#85786C]"]) { color: var(--layout-text-soft) !important; }
-:root[data-layout="elegancia-profunda"] #specific-treatment-modal :is([class*="bg-[#FBF8F2]"],[class*="bg-[#F5EFE4]"],[class*="via-[#FBF8F2]"],[class*="to-[#F3EBDD]"]) {
+:root[data-layout="elegancia-profunda"] #specific-treatment-modal :is([class*="bg-white"],[class*="bg-[#FBF8F2]"],[class*="bg-[#F5EFE4]"],[class*="bg-[#F8F4EC]"],[class*="via-[#FBF8F2]"],[class*="to-[#F3EBDD]"]) {
   background: color-mix(in srgb, var(--layout-card) 92%, black) !important;
   border-color: color-mix(in srgb, var(--layout-gold) 24%, var(--layout-border-card)) !important;
 }
