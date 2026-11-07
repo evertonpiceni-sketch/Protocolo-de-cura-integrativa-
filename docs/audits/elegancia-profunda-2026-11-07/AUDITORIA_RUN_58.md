@@ -8,6 +8,8 @@ Base: 9e0fc17f38cddbd1e449514c88bda85dc2351e8e; preservada a atualização conco
 - A prancha oficial 1001194194.png permanece a referência do seletor por meio de `/brand/elegancia-profunda/prancha-oficial.svg`.
 - A prancha orienta atmosfera e composição; não substitui decisões posteriores. A jornada vigente de 21 dias e o corpo neutro aprovado permanecem intactos.
 - A escolha explícita dos quatro estilos continua obrigatória antes de aplicar qualquer tema.
+- Varredura dos módulos: 22 arquivos CSS do Estilo 2 encontrados; 21 importados. O único arquivo de boas-vindas antigo está inativo.
+- `WelcomeModal.tsx`, `requiredLayoutChoiceEntryPatch.ts` e `layoutSettingsExplicitConfirmationPatch.ts` permanecem fora dos imports; o seletor React é a única entrada de escolha de estilo. O fluxo ativo usa `OnboardingFlow`; a narração de acolhimento da Home só inicia após ação explícita.
 - Logo oficial permanece como assinatura discreta/transparente; nenhum asset do Natural Sereno foi reaproveitado.
 
 ## Corrigido
