@@ -11,7 +11,7 @@ test('o seletor usa a prancha oficial do Estilo 2 e exige confirmação explíci
   assert.ok(modal.includes('/brand/elegancia-profunda/prancha-oficial.svg'));
   assert.ok(board.includes('width="384" height="288" viewBox="0 0 384 288"'));
   assert.ok(board.includes('data:image/webp;base64,'));
-  const payload = board.match(/data:image\/webp;base64,([A-Za-z0-9+/=]+)"/)?.[1] ?? '';
+  const payload = board.match(/data:image\/webp;base64,([A-Za-z0-9+/=\s]+)"/)?.[1]?.replace(/\s+/g, '') ?? '';
   assert.ok(payload.length > 0 && payload.length % 4 === 0, 'A prévia oficial deve conter base64 completo.');
   const webp = Buffer.from(payload, 'base64');
   assert.equal(webp.subarray(0, 4).toString('ascii'), 'RIFF');
