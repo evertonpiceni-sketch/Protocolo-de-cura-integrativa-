@@ -458,7 +458,7 @@ export default function AnamnesisModal({
         initial={{ opacity: 0, scale: 0.96 }}
         animate={{ opacity: 1, scale: 1 }}
         exit={{ opacity: 0, scale: 0.96 }}
-        className="w-full max-w-3xl bg-[#FBF8F2] border border-[#E5DAC6] rounded-2xl sm:rounded-3xl p-4 sm:p-6 md:p-8 shadow-2xl relative overflow-hidden my-1 sm:my-6 max-h-[calc(100dvh-1rem)] overflow-y-auto overscroll-contain"
+        className="ep-anamnesis-shell w-full max-w-3xl bg-[#FBF8F2] border border-[#E5DAC6] rounded-2xl sm:rounded-3xl p-4 sm:p-6 md:p-8 shadow-2xl relative overflow-hidden my-1 sm:my-6 max-h-[calc(100dvh-1rem)] overflow-y-auto overscroll-contain"
       >
         {/* Glow effects */}
         <div className="absolute -top-20 -right-20 w-56 h-56 bg-[#B88736]/10 rounded-full blur-3xl pointer-events-none" />
@@ -1058,9 +1058,9 @@ export default function AnamnesisModal({
             </div>
 
             {/* Progress Bar */}
-            <div className="w-full h-1.5 bg-[#F5EFE4] rounded-full overflow-hidden">
+            <div className="ep-anamnesis-progress-track w-full h-1.5 bg-[#F5EFE4] rounded-full overflow-hidden">
               <div
-                className="h-full bg-gradient-to-r from-indigo-500 to-emerald-400 transition-all duration-300"
+                className="ep-anamnesis-progress-fill h-full bg-gradient-to-r from-indigo-500 to-emerald-400 transition-all duration-300"
                 style={{ width: `${(currentStep / 4) * 100}%` }}
               />
             </div>
