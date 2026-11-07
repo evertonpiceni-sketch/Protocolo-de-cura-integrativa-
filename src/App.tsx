@@ -23,6 +23,7 @@ import { APPROVED_LOGO_DATA_URI } from './components/ApprovedBrand';
 
 import { calculateAstralMap } from './utils/astrology';
 import { audioEngine, OFFICIAL_PROTOCOL_VOICE_ID } from './lib/audio';
+import { shouldPlayProtocolSessionBackground } from './lib/protocolSessionAudioPolicy';
 import { isElevenLabsVoiceId, type ElevenLabsVoiceOption } from './lib/voiceSelection';
 import { evaluateAchievements } from './lib/achievementsData';
 import { AppLanguage, SUPPORTED_LANGUAGES, UI_TRANSLATIONS } from './lib/i18n';
@@ -261,7 +262,9 @@ export default function App() {
                          userProfile.bgMusicType !== 'none' && 
                          activeSessionDay === null &&
                          !showPersonalJourney &&
-                         !showArcanjoView; // Pause global background music during any active meditation/journey
+                         !showArcanjoView &&
+                         (!isEssenciaLuminosa || !isPlayingVoiceTest ||
+                           shouldPlayProtocolSessionBackground('playing', userProfile.bgMusicType)); // Keep Solfeggio out of spoken Style 3 previews
 
       if (shouldPlay) {
         audioEngine.startBG(userProfile.bgMusicType);
@@ -283,7 +286,8 @@ export default function App() {
     showPersonalJourney,
     showArcanjoView,
     userProfile?.subscriptionPlan,
-    layoutConfirmedThisSession
+    layoutConfirmedThisSession,
+    isPlayingVoiceTest
   ]);
 
   // Reintegração da Vida owns its audio while open: stop global music and speech to prevent overlap.
@@ -303,7 +307,9 @@ export default function App() {
                            userProfile.bgMusicType !== 'none' && 
                            activeSessionDay === null &&
                            !showPersonalJourney &&
-                           !showArcanjoView;
+                           !showArcanjoView &&
+                           (!isEssenciaLuminosa || !isPlayingVoiceTest ||
+                             shouldPlayProtocolSessionBackground('playing', userProfile.bgMusicType));
                            
         if (shouldPlay) {
           audioEngine.startBG(userProfile.bgMusicType);
@@ -321,7 +327,7 @@ export default function App() {
       window.removeEventListener('click', handleGesture);
       window.removeEventListener('touchstart', handleGesture);
     };
-  }, [userProfile, activeSessionDay, showPersonalJourney, showArcanjoView, layoutConfirmedThisSession]);
+  }, [userProfile, activeSessionDay, showPersonalJourney, showArcanjoView, layoutConfirmedThisSession, isPlayingVoiceTest]);
 
   useEffect(() => {
     if (!userProfile?.reminderTime || typeof Notification === 'undefined' || Notification.permission !== 'granted') return;
