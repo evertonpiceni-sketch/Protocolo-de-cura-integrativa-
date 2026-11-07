@@ -11,6 +11,12 @@ test('Estilo 3 usa a prancha oficial no card de prévia do seletor', () => {
   assert.ok(fs.statSync(boardPath).size > 10000, 'a prévia deve conter a prancha visual, não um placeholder vazio');
 });
 
+test('uma preferência inválida não cai automaticamente no Natural Sereno', () => {
+  const app = fs.readFileSync('src/App.tsx', 'utf8');
+  assert.ok(app.includes('layoutConfirmedThisSession && isLayoutId(userProfile.visualLayout) ? userProfile.visualLayout : undefined'));
+  assert.ok(!app.includes('normalizeLayoutId(userProfile.visualLayout)'));
+});
+
 test('a escolha dos quatro estilos continua explícita antes da aplicação', () => {
   const modal = fs.readFileSync('src/components/LayoutChoiceModal.tsx', 'utf8');
   const app = fs.readFileSync('src/App.tsx', 'utf8');
@@ -52,4 +58,16 @@ test('o protocolo não reinicia Solfeggio como trilha de fundo', () => {
   assert.equal(shouldPlayProtocolSessionBackground('playing', 'waves'), true);
   assert.equal(shouldPlayProtocolSessionBackground('playing', 'none'), false);
   assert.equal(shouldPlayProtocolSessionBackground('portal', 'waves'), false);
+});
+
+
+test('o player usa ouro suave e sálvia nas animações da Essência Luminosa', () => {
+  const session = fs.readFileSync('src/components/MeditationSession.tsx', 'utf8');
+  const canvas = fs.readFileSync('src/components/session/SacredEnergyCanvas.tsx', 'utf8');
+  assert.ok(session.includes("colorTheme={isEssenciaLuminosa ? ESSENCIA_LUMINOSA_CANVAS_THEME : undefined}"));
+  assert.ok(session.includes("'essencia-luminosa'].includes(activeLayout || '')"));
+  assert.ok(canvas.includes('const palette = colorTheme ?'));
+  assert.ok(canvas.includes('rgba(198, 164, 106'));
+  assert.ok(canvas.includes('rgba(166, 180, 155'));
+  assert.ok(canvas.includes('rgba(255, 255, 248, 0)'));
 });
