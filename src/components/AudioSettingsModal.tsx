@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { motion } from 'motion/react';
 import {
   Volume2, VolumeX, Sliders, Mic, Play, Pause,
@@ -14,6 +14,7 @@ import { UserProfile } from '../types';
 import { audioEngine, OFFICIAL_PROTOCOL_VOICE_ID } from '../lib/audio';
 import { isElevenLabsVoiceId, type ElevenLabsVoiceOption } from '../lib/voiceSelection';
 import { useDialogFocus } from '../hooks/useDialogFocus';
+import { MISTICO_MODERNO_OFFICIAL_VOICE_ALIAS } from '../config/voiceAliases';
 
 interface AudioSettingsModalProps {
   isOpen: boolean;
@@ -64,9 +65,21 @@ export default function AudioSettingsModal({
   const [voiceVolume, setVoiceVolume] = useState(userProfile.voiceVolume ?? 0.85);
   const [voiceRate, setVoiceRate] = useState(userProfile.voiceRate ?? 0.82);
   const [voicePitch, setVoicePitch] = useState(userProfile.voicePitch ?? 1.0);
+  const isMisticoModerno = typeof document !== 'undefined' && document.documentElement.dataset.layout === 'mistico-moderno';
+  const [isMisticoVoiceConfigured, setIsMisticoVoiceConfigured] = useState<boolean | null>(null);
+  useEffect(() => {
+    if (!isOpen || !isMisticoModerno) return;
+    let active = true;
+    fetch('/api/elevenlabs/status')
+      .then(response => { if (!response.ok) throw new Error('Status de voz indisponível'); return response.json(); })
+      .then(status => { if (active) setIsMisticoVoiceConfigured(status.configured === true && status.misticoModernoVoiceConfigured === true); })
+      .catch(() => { if (active) setIsMisticoVoiceConfigured(false); });
+    return () => { active = false; };
+  }, [isOpen, isMisticoModerno]);
   const isEleganciaProfunda = typeof document !== 'undefined' && document.documentElement.dataset.layout === 'elegancia-profunda';
   const isEssenciaLuminosa = typeof document !== 'undefined' && document.documentElement.dataset.layout === 'essencia-luminosa';
   const requiresNeuralVoice = isEleganciaProfunda || isEssenciaLuminosa;
+  const requiresOfficialServerVoice = requiresNeuralVoice || isMisticoModerno;
   const savedVoiceId = userProfile.voiceId?.trim() || '';
   const initialVoiceId = isEssenciaLuminosa && !isElevenLabsVoiceId(savedVoiceId)
     ? OFFICIAL_PROTOCOL_VOICE_ID
@@ -194,7 +207,7 @@ export default function AudioSettingsModal({
       undefined,
       undefined,
       {
-        voiceId,
+        voiceId: isMisticoModerno ? MISTICO_MODERNO_OFFICIAL_VOICE_ALIAS : voiceId,
         rate: voiceRate,
         pitch: voicePitch,
         lang: 'pt-BR',
@@ -202,10 +215,10 @@ export default function AudioSettingsModal({
         similarityBoost: 0.75,
         enableBreathingPauses: true,
         userName: userProfile.name,
-        fallbackToSpeechSynthesis: !requiresNeuralVoice,
-        onError: requiresNeuralVoice
+        fallbackToSpeechSynthesis: !requiresOfficialServerVoice,
+        onError: requiresOfficialServerVoice
           ? () => {
-              audioEngine.stopBG();
+              if (allowBackgroundPlayback) audioEngine.stopBG();
               setIsTestingVoice(false);
               setVoiceTestError(true);
             }
@@ -620,7 +633,15 @@ export default function AudioSettingsModal({
           </label>
 
           {/* Voice Selector */}
-          {requiresNeuralVoice ? (
+          {isMisticoModerno ? (
+            <div className="space-y-2 rounded-xl border border-[#6C3FA0]/30 bg-[#0A0F18]/80 p-3">
+              <span className="block text-[11px] font-semibold text-[#F4F1EB]">Voz oficial do Místico Moderno</span>
+              <p className="text-[11px] leading-relaxed text-[#C8D0DC]">A voz aprovada é definida no servidor. Este estilo não utiliza as vozes instaladas no navegador.</p>
+              <p className={`text-[10px] ${isMisticoVoiceConfigured === false ? 'text-[#E2B96B]' : 'text-[#9FB6C9]'}`}>
+                {isMisticoVoiceConfigured === null ? 'Verificando a configuração da voz…' : isMisticoVoiceConfigured ? 'Configuração do servidor encontrada. Use o teste para validar a reprodução.' : 'Voz oficial não configurada ou inválida no servidor.'}
+              </p>
+            </div>
+          ) : requiresNeuralVoice ? (
             <div className="space-y-1">
               <span className="text-[11px] text-[#5C5248] block">Voz neural (ElevenLabs)</span>
               <select
@@ -719,7 +740,7 @@ export default function AudioSettingsModal({
         </button>
         {voiceTestError && (
           <p role="alert" className="ep-voice-error rounded-xl px-3 py-2 text-xs">
-            Selecione uma voz neural válida do catálogo. Os Estilos 2 e 3 não usarão a voz robótica do dispositivo.
+            {isMisticoModerno ? 'A voz oficial do Místico Moderno está indisponível no servidor. A reprodução foi interrompida sem recorrer à voz do navegador.' : 'Selecione uma voz neural válida do catálogo. Os Estilos 2 e 3 não usarão a voz robótica do dispositivo.'}
           </p>
         )}
 
