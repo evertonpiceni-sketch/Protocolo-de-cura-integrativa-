@@ -22,13 +22,23 @@ const isArcanjoViewMounted = () => {
 const arcanjoOwnsAudio = () => arcanjoOpening || isArcanjoViewMounted();
 
 const originalStartBG = audioEngine.startBG.bind(audioEngine);
+const originalStopBG = audioEngine.stopBG.bind(audioEngine);
+
 audioEngine.startBG = ((type: Parameters<typeof audioEngine.startBG>[0]) => {
-  if (arcanjoOwnsAudio()) {
-    audioEngine.stopBG();
+  const isOwnedSolfeggio = audioEngine.isProtocolSynthActive() && type === audioEngine.getProtocolSynthType();
+  if (arcanjoOwnsAudio() && !audioEngine.isStartingSynth() && !isOwnedSolfeggio) {
+    if (!audioEngine.isProtocolSynthActive()) audioEngine.stopBG();
     return;
   }
   return originalStartBG(type);
 }) as typeof audioEngine.startBG;
+
+audioEngine.stopBG = (() => {
+  // Global app effects must not stop the protocol's Solfeggio while Arcanjo owns audio.
+  // stopSynth() clears this ownership flag before invoking stopBG, so an explicit pause/close still works.
+  if (arcanjoOwnsAudio() && audioEngine.isProtocolSynthActive()) return;
+  return originalStopBG();
+}) as typeof audioEngine.stopBG;
 
 const releaseOpeningGuard = () => {
   arcanjoOpening = false;
@@ -44,12 +54,12 @@ if (typeof window !== 'undefined') {
   // global background while slower devices are still mounting the protocol view.
   window.addEventListener('OPEN_PROTOCOL_DAY', () => {
     arcanjoOpening = true;
-    audioEngine.stopBG();
+    if (!audioEngine.isProtocolSynthActive()) audioEngine.stopBG();
 
     if (openingGuardTimer !== null) window.clearTimeout(openingGuardTimer);
     openingGuardTimer = window.setTimeout(() => {
       releaseOpeningGuard();
-      if (isArcanjoViewMounted()) audioEngine.stopBG();
+      if (isArcanjoViewMounted() && !audioEngine.isProtocolSynthActive()) audioEngine.stopBG();
     }, ARCANJO_OPENING_GUARD_MS);
   });
 }
@@ -58,7 +68,7 @@ if (typeof document !== 'undefined' && typeof MutationObserver !== 'undefined') 
   const observer = new MutationObserver(() => {
     if (isArcanjoViewMounted()) {
       releaseOpeningGuard();
-      audioEngine.stopBG();
+      if (!audioEngine.isProtocolSynthActive()) audioEngine.stopBG();
     }
   });
 
