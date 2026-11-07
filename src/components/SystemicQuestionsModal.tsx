@@ -40,6 +40,7 @@ export default function SystemicQuestionsModal({
   const [voiceError, setVoiceError] = useState(false);
   const isEleganciaProfunda = typeof document !== 'undefined' && document.documentElement.dataset.layout === 'elegancia-profunda';
   const isEssenciaLuminosa = typeof document !== 'undefined' && document.documentElement.dataset.layout === 'essencia-luminosa';
+  const isMisticoModerno = typeof document !== 'undefined' && document.documentElement.dataset.layout === 'mistico-moderno';
   const [copiedSentence, setCopiedSentence] = useState<boolean>(false);
   const [is639HzActive, setIs639HzActive] = useState<boolean>(true);
 
@@ -118,7 +119,7 @@ export default function SystemicQuestionsModal({
       `Frase de integração: ${currentQuestionItem.healingSentence}`;
 
     setVoiceError(false);
-    if (isEleganciaProfunda || isEssenciaLuminosa) {
+    if (isEleganciaProfunda || isEssenciaLuminosa || isMisticoModerno) {
       const neuralVoiceId = isElevenLabsVoiceId(userProfile?.voiceId)
         ? userProfile?.voiceId
         : isEssenciaLuminosa ? OFFICIAL_PROTOCOL_VOICE_ID : '';
@@ -321,7 +322,7 @@ export default function SystemicQuestionsModal({
                 <span>{isReadingVoice ? 'Ouvindo Reflexão...' : 'Ouvir com Voz'}</span>
               </button>
             </div>
-            {voiceError && <p role="alert" className="ep-voice-error mt-2 rounded-xl px-3 py-2 text-xs">{isEssenciaLuminosa ? 'A narração neural está indisponível. A voz do dispositivo não será usada.' : 'Selecione uma voz neural válida em Ajustes de áudio. O Estilo 2 não usará a voz do dispositivo.'}</p>}
+            {voiceError && <p role="alert" className="ep-voice-error mt-2 rounded-xl px-3 py-2 text-xs">{isEssenciaLuminosa || isMisticoModerno ? 'A narração neural está indisponível. A voz do dispositivo não será usada.' : 'Selecione uma voz neural válida em Ajustes de áudio. O Estilo 2 não usará a voz do dispositivo.'}</p>}
 
             <h3 className="text-lg sm:text-xl font-bold text-[#2A2420] leading-snug">
               {currentQuestionItem.theme}
