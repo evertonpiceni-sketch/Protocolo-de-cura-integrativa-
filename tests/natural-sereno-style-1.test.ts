@@ -137,3 +137,11 @@ test('a Home Natural Sereno não substitui Maiara por Marianne', () => {
   assert.ok(home.includes('isNaturalSerenoVoiceId(savedVoiceId)'));
   assert.ok(home.includes("? (isNaturalSerenoVoiceId(savedVoiceId) ? savedVoiceId : '')"));
 });
+
+
+test('a mensagem de voz é específica do Natural Sereno sem contaminar os outros estilos', () => {
+  const home = read('src/components/TransformationHome.tsx');
+  assert.ok(home.includes('const voiceErrorMessage = isNaturalSereno'));
+  assert.ok(home.includes('A voz Maiara aprovada não está configurada.'));
+  assert.ok(home.includes('A voz neural selecionada não foi reconhecida.'));
+});
