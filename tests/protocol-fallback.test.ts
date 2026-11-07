@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 import test from 'node:test';
 import { audioEngine } from '../src/lib/audio';
 
-test('protocol fallback preserves pause, cancellation and initial voice volume', async t => {
+test('protocol narration fails closed without a robotic browser-voice fallback', async t => {
   const keys = ['window', 'navigator', 'Audio', 'SpeechSynthesisUtterance', 'fetch'] as const;
   const original = new Map(keys.map(key => [key, Object.getOwnPropertyDescriptor(globalThis, key)]));
   const spoken: any[] = [];
@@ -33,26 +33,29 @@ test('protocol fallback preserves pause, cancellation and initial voice volume',
         } });
         spoken.length = 0;
         audioEngine.setMainVolume(0);
-        const playback = audioEngine.playProtocolStageStream({ text: 'Texto aprovado.', voiceId: 'Rachel', stageTitle: 'Etapa', dayNumber: 1 });
+        let errors = 0;
+        const playback = audioEngine.playProtocolStageStream({ text: 'Texto aprovado.', voiceId: 'Rachel', stageTitle: 'Etapa', dayNumber: 1, onError: () => { errors += 1; } });
         audioEngine.pauseSpeech();
         release();
         await playback;
         assert.equal(spoken.length, 0);
+        assert.equal(errors, 1);
         audioEngine.resumeSpeech();
-        assert.equal(spoken.length, 1);
-        assert.equal(spoken[0].volume, 0);
+        assert.equal(spoken.length, 0);
         audioEngine.stopSpeech();
       });
     }
     await t.test('exit discards a pending fallback', async () => {
       Object.defineProperty(globalThis, 'fetch', { configurable: true, value: async () => new Response(JSON.stringify({ fallbackToSpeechSynthesis: true }), { status: 503 }) });
       spoken.length = 0;
-      const playback = audioEngine.playProtocolStageStream({ text: 'Texto aprovado.', voiceId: 'Rachel', stageTitle: 'Etapa', dayNumber: 1 });
+      let errors = 0;
+      const playback = audioEngine.playProtocolStageStream({ text: 'Texto aprovado.', voiceId: 'Rachel', stageTitle: 'Etapa', dayNumber: 1, onError: () => { errors += 1; } });
       audioEngine.pauseSpeech();
       await playback;
       audioEngine.stopSpeech();
       audioEngine.resumeSpeech();
       assert.equal(spoken.length, 0);
+      assert.equal(errors, 1);
     });
   } finally {
     audioEngine.stopSpeech();
