@@ -14,6 +14,9 @@ test('Místico Moderno uses its own official board in the four-style selector', 
   assert.match(modal, /bg-\[#0A0F18\]/);
   assert.match(modal, /useState<LayoutId \| null>\(null\)/);
   assert.match(modal, /disabled=\{!selectedLayout \|\| isSaving\}/);
+  const app = readFileSync(resolve(root, 'src/App.tsx'), 'utf8');
+  assert.match(app, /onClick=\{\(\) => setLayoutChoiceRequested\(true\)\}/);
+  assert.match(app, /const selected = layoutConfirmedThisSession \? OFFICIAL_LAYOUTS\.find/);
 });
 
 test('logout discards the previous account layout confirmation', () => {

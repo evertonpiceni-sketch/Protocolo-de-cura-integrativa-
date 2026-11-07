@@ -94,7 +94,7 @@ function LayoutPreview({ layout }: { layout: LayoutDefinition }) {
       </div>
     );
   }
-  const innerBorder = layout.id === 'mistico-moderno' ? 'rgba(108,63,160,.28)' : 'rgba(42,36,32,.06)';
+  const innerBorder = 'rgba(42,36,32,.06)';
   const naturalIvory = '#F3EDE4';
   const previewBackground = isNaturalSereno
     ? `linear-gradient(145deg, ${canvas}, ${naturalIvory})`
