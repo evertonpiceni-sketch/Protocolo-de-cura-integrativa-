@@ -7,8 +7,8 @@
 }
 
 :root[data-layout="mistico-moderno"] :is(#chakras-guide-modal,#systemic-questions-modal,#anamnesis-modal)>div{
-  background:radial-gradient(circle at 88% 0,rgba(108,63,160,.14),transparent 24rem),radial-gradient(circle at 8% 100%,rgba(22,101,82,.07),transparent 22rem),linear-gradient(180deg,#0A0F18 0%,#101827 100%)!important;
-  border-color:rgba(212,175,55,.22)!important;
+  background:radial-gradient(circle at 88% 0,rgba(108,63,160,.14),transparent 24rem),radial-gradient(circle at 8% 100%,rgba(22,101,82,.07),transparent 22rem),linear-gradient(180deg,#07111F 0%,#141D3A 100%)!important;
+  border-color:rgba(200,157,82,.22)!important;
   color:#F5F0E6!important;
   box-shadow:0 22px 58px rgba(0,0,0,.42),inset 0 1px 0 rgba(255,255,255,.045)!important;
 }
@@ -45,8 +45,8 @@
 }
 
 :root[data-layout="mistico-moderno"] :is(#chakras-guide-modal,#systemic-questions-modal,#anamnesis-modal) button[class*="bg-[#B88736]"]{
-  background:linear-gradient(135deg,#B88A36,#7C5A9E)!important;
-  color:#FFF9EC!important;
+  background:linear-gradient(135deg,#C89D52,#6C3FA0)!important;
+  color:#F4F1EB!important;
   box-shadow:inset 0 1px 0 rgba(255,255,255,.12),0 10px 24px rgba(0,0,0,.22)!important;
 }
 
@@ -57,5 +57,5 @@
 
 :root[data-layout="mistico-moderno"] :is(#chakras-guide-modal,#systemic-questions-modal,#anamnesis-modal) button:focus-visible{
   outline:none!important;
-  box-shadow:0 0 0 2px rgba(212,175,55,.34)!important;
+  box-shadow:0 0 0 2px rgba(200,157,82,.34)!important;
 }

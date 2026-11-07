@@ -1,11 +1,11 @@
 /* Estilo 4 — ajustes de áudio; somente identidade visual, sem alterar o motor de som. */
 :root[data-layout="mistico-moderno"] #audio-settings-modal{background:rgba(4,7,16,.78)!important;color:#F5F0E6!important}
 :root[data-layout="mistico-moderno"] #audio-settings-modal>div{background:radial-gradient(circle at 90% 0%,rgba(106,67,151,.17),transparent 45%),linear-gradient(155deg,#0A1120,#131B30)!important;border-color:rgba(205,169,96,.27)!important;color:#F5F0E6!important;box-shadow:0 24px 65px rgba(0,0,0,.5)!important}
-:root[data-layout="mistico-moderno"] #audio-settings-modal :is([class*="bg-[#FBF8F2]"],[class*="bg-[#F5EFE4]"],[class*="bg-[#EFE4D3]"],[class*="bg-white"]){background:rgba(24,35,57,.85)!important}
+:root[data-layout="mistico-moderno"] #audio-settings-modal :is([class*="bg-[#FBF8F2]"],[class*="bg-[#F5EFE4]"],[class*="bg-[#EFE4D3]"],[class*="bg-white"]){background:rgba(14,27,48,.85)!important}
 :root[data-layout="mistico-moderno"] #audio-settings-modal [class*="border-[#E5DAC6]"]{border-color:rgba(160,143,194,.28)!important}
 :root[data-layout="mistico-moderno"] #audio-settings-modal :is([class*="text-[#2A2420]"],[class*="text-[#5C5248]"]){color:#F5F0E6!important}
 :root[data-layout="mistico-moderno"] #audio-settings-modal [class*="text-[#85786C]"]{color:#BAC3D1!important}
-:root[data-layout="mistico-moderno"] #audio-settings-modal :is([class*="text-[#8F631E]"],[class*="text-[#B88736]"]){color:#E2BD78!important}
+:root[data-layout="mistico-moderno"] #audio-settings-modal :is([class*="text-[#8F631E]"],[class*="text-[#B88736]"]){color:#E2B96B!important}
 :root[data-layout="mistico-moderno"] #audio-settings-modal :is(input,select,textarea){accent-color:#D6AD67;color-scheme:dark}
 :root[data-layout="mistico-moderno"] #audio-settings-modal button:focus-visible{outline:2px solid #D6AD67!important;outline-offset:2px}
 :root[data-layout="mistico-moderno"] #audio-settings-modal button:hover{border-color:rgba(226,189,120,.52)!important}
