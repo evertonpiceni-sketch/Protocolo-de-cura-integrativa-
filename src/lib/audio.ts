@@ -831,6 +831,7 @@ class CalmingAudioEngine {
       volume?: number;
       text?: string;
       onEnd?: () => void;
+      onError?: (error: unknown) => void;
     }
   ) {
     this.stopSpeech();
