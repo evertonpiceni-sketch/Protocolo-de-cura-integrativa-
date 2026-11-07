@@ -1,6 +1,7 @@
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import test from 'node:test';
+import { shouldPlayProtocolSessionBackground } from '../src/lib/protocolSessionAudioPolicy';
 
 test('Estilo 3 usa a prancha oficial no card de prévia do seletor', () => {
   const modal = fs.readFileSync('src/components/LayoutChoiceModal.tsx', 'utf8');
@@ -36,4 +37,19 @@ test('a Home do Estilo 3 neutraliza texto amarelo de baixo contraste e trilho es
   assert.ok(css.includes('.ep-progress-card [class*="bg-black/25"]'));
   assert.ok(css.includes('[class*="from-[#b78d32]"]'));
   assert.ok(css.includes('[class*="to-[#f0d98d]"]'));
+});
+
+test('o player do Estilo 3 respeita a voz salva no perfil', () => {
+  const session = fs.readFileSync('src/components/MeditationSession.tsx', 'utf8');
+  assert.ok(session.includes("activeLayout === 'elegancia-profunda' || activeLayout === 'essencia-luminosa'"));
+  assert.ok(session.includes('? savedVoiceId'));
+});
+
+test('o protocolo não reinicia Solfeggio como trilha de fundo', () => {
+  assert.equal(shouldPlayProtocolSessionBackground('playing', '528hz'), false);
+  assert.equal(shouldPlayProtocolSessionBackground('playing', '432hz'), false);
+  assert.equal(shouldPlayProtocolSessionBackground('playing', '963hz'), false);
+  assert.equal(shouldPlayProtocolSessionBackground('playing', 'waves'), true);
+  assert.equal(shouldPlayProtocolSessionBackground('playing', 'none'), false);
+  assert.equal(shouldPlayProtocolSessionBackground('portal', 'waves'), false);
 });
