@@ -21,6 +21,7 @@ test('o seletor apresenta os quatro estilos e exige confirmação antes de aplic
   assert.ok(modal.includes('disabled={!selectedLayout || isSaving}'));
   assert.ok(modal.includes('O estilo só será aplicado depois da sua confirmação.'));
   assert.ok(modal.includes('../../docs/visual-qa/natural-sereno/reference.jpg'));
+  assert.ok(modal.includes("selectedLayout === 'natural-sereno' ? 'rounded-2xl' : 'rounded-full'"));
   assert.ok(fs.existsSync('docs/visual-qa/natural-sereno/reference.jpg'));
 });
 
@@ -43,6 +44,8 @@ test('as últimas heranças verde-floresta são neutralizadas somente no Natural
   assert.ok(css.includes(':root[data-layout="natural-sereno"] #herbal-baths-modal button[class*="bg-[#073b2b]"]'));
   assert.ok(css.includes(':root[data-layout="natural-sereno"] #hooponopono-modal [role="tab"][aria-selected="true"]'));
   assert.ok(css.includes(':root[data-layout="natural-sereno"] #admin-panel-modal button[class*="bg-emerald"]'));
+  assert.ok(css.includes(':root[data-layout="natural-sereno"] .ns-app .ns-gold {\n  border-radius: 18px !important;'));
+  assert.ok(css.includes('#profile-setup-view.ep-auth-style-one #onboarding-card'));
 });
 
 test('o logo permanece como assinatura discreta e o Diário conserva superfícies claras', () => {
