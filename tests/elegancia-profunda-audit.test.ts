@@ -223,3 +223,13 @@ test('o toast global não herda indigo/roxo no Estilo 2 e mantém contraste leg�
   assert.ok(css.includes('color:#F4F1EB!important'));
   assert.ok(css.includes('color:#C8D6CD!important'));
 });
+
+test('a Reintegração carrega as 21 artes diárias com nomes zero-padded', () => {
+  const journey = read('src/components/PersonalJourney21.tsx');
+  assert.match(journey, /const dayArtworkUrl = `\/brand\/days\/dia-\$\{String\(day\)\.padStart\(2,\s*'0'\)\}\.png`;/);
+  assert.ok(journey.includes("url('${dayArtworkUrl}')"));
+  for (let day = 1; day <= 21; day += 1) {
+    const asset = `public/brand/days/dia-${String(day).padStart(2, '0')}.png`;
+    assert.ok(fs.existsSync(asset), `Arte diária ausente: ${asset}`);
+  }
+});
