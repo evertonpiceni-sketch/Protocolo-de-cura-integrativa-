@@ -182,3 +182,41 @@
   :root[data-layout="elegancia-profunda"] .ep-care-onboarding { background-attachment:scroll!important; }
   :root[data-layout="elegancia-profunda"] .ep-care-onboarding-card { border-radius:1.55rem!important; padding:1.35rem!important; }
 }
+
+/* Acolhimento inicial — contraste próprio do Estilo 2, sem herdar o texto café do tema claro. */
+:root[data-layout="elegancia-profunda"] .ep-welcome-audio.ep-home-hero {
+  background:
+    radial-gradient(ellipse at 50% 0,rgba(212,175,55,.14),transparent 25rem),
+    linear-gradient(145deg,#10291e 0%,#0b1c14 56%,#07150f 100%)!important;
+  border-color:color-mix(in srgb,var(--layout-gold) 38%,transparent)!important;
+  box-shadow:0 24px 64px rgba(0,0,0,.34),inset 0 1px 0 rgba(255,255,255,.035)!important;
+  color:var(--layout-text)!important;
+}
+:root[data-layout="elegancia-profunda"] .ep-welcome-audio :is(h1,h2,h3,strong) {
+  color:var(--layout-text)!important;
+}
+:root[data-layout="elegancia-profunda"] .ep-welcome-audio :is(p,small,span) {
+  color:var(--layout-text-secondary)!important;
+}
+:root[data-layout="elegancia-profunda"] .ep-welcome-audio [class*="text-[#B88736]"],
+:root[data-layout="elegancia-profunda"] .ep-welcome-audio [class*="text-[#8F631E]"] {
+  color:var(--layout-gold-light)!important;
+}
+:root[data-layout="elegancia-profunda"] .ep-welcome-audio button:not(.ep-gold-button) {
+  background:linear-gradient(145deg,rgba(17,47,34,.96),rgba(7,24,17,.98))!important;
+  border-color:color-mix(in srgb,var(--layout-gold) 34%,transparent)!important;
+  color:var(--layout-text)!important;
+  box-shadow:0 12px 28px rgba(0,0,0,.22)!important;
+}
+:root[data-layout="elegancia-profunda"] .ep-welcome-audio button:not(.ep-gold-button) :is(svg,span) {
+  color:var(--layout-gold-light)!important;
+}
+:root[data-layout="elegancia-profunda"] .ep-welcome-audio .ep-gold-button,
+:root[data-layout="elegancia-profunda"] .ep-welcome-audio .ep-gold-button * {
+  color:#17271e!important;
+}
+:root[data-layout="elegancia-profunda"] .ep-voice-error {
+  background:rgba(71,42,24,.38)!important;
+  border:1px solid rgba(212,175,55,.38)!important;
+  color:#f1dfb8!important;
+}
