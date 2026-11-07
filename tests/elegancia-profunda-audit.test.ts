@@ -119,7 +119,8 @@ test('a narração do Estilo 2 usa IDs ElevenLabs válidos e não cai na voz do 
   assert.ok(session.includes("activeLayout === 'elegancia-profunda' && !style2VoiceId"));
   assert.ok(anamnesis.includes('fallbackToSpeechSynthesis: false'));
   assert.ok(hooponopono.includes('fallbackToSpeechSynthesis: !isEleganciaProfunda'));
-  assert.ok(arcanjo.includes('requireExplicitVoiceId: isEleganciaProfunda'));
+  assert.ok(arcanjo.includes('const requiresExplicitNeuralVoice = isEleganciaProfunda || isNaturalSereno;'));
+  assert.ok(arcanjo.includes('requireExplicitVoiceId: requiresExplicitNeuralVoice'));
   assert.ok(audio.includes('requireExplicitVoiceId?: boolean'));
   assert.ok(audio.includes('if (options.requireExplicitVoiceId && !isElevenLabsVoiceId(options.voiceId))'));
   assert.ok(systemic.includes('fallbackToSpeechSynthesis: false'));
@@ -154,7 +155,8 @@ test('o Estilo 2 não substitui silenciosamente a voz neural escolhida por uma v
   const home = read('src/components/TransformationHome.tsx');
   const settings = read('src/components/AudioSettingsModal.tsx');
   assert.ok(home.includes("const approvedVoiceId = isEleganciaProfunda\n    ? (isElevenLabsVoiceId(savedVoiceId) ? savedVoiceId : '')"));
-  assert.ok(home.includes("(isNaturalSereno || isEssenciaLuminosa)\n      ? (isElevenLabsVoiceId(savedVoiceId) ? savedVoiceId : OFFICIAL_PROTOCOL_VOICE_ID)"));
+  assert.ok(home.includes("isNaturalSereno\n      ? (isNaturalSerenoVoiceId(savedVoiceId) ? savedVoiceId : '')"));
+  assert.ok(home.includes("isEssenciaLuminosa\n        ? (isElevenLabsVoiceId(savedVoiceId) ? savedVoiceId : OFFICIAL_PROTOCOL_VOICE_ID)"));
   assert.ok(settings.includes('if (requiresNeuralVoice && !isElevenLabsVoiceId(voiceId))'));
 });
 
@@ -189,7 +191,7 @@ test('o canvas do Estilo 2 usa verde profundo e dourado, sem herdar a paleta da 
   assert.ok(session.includes("const ELEGANCIA_PROFUNDA_CANVAS_THEME = {"));
   assert.ok(session.includes("glow: '#D4AF37'"));
   assert.ok(session.includes("accent: '#2E6B4F'"));
-  assert.ok(session.includes("colorTheme={isEleganciaProfunda ? ELEGANCIA_PROFUNDA_CANVAS_THEME"));
+  assert.ok(session.includes("colorTheme={isNaturalSereno ? NATURAL_SERENO_CANVAS_THEME : isEleganciaProfunda ? ELEGANCIA_PROFUNDA_CANVAS_THEME"));
   assert.ok(canvas.includes('goldSoft?: string;'));
   assert.ok(canvas.includes('sageSoft?: string;'));
   assert.ok(canvas.includes('goldSoft: colorTheme.goldSoft ||'));

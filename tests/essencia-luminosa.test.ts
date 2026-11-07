@@ -69,7 +69,7 @@ test('o protocolo não reinicia Solfeggio como trilha de fundo', () => {
 test('o player usa ouro suave e sálvia nas animações da Essência Luminosa', () => {
   const session = fs.readFileSync('src/components/MeditationSession.tsx', 'utf8');
   const canvas = fs.readFileSync('src/components/session/SacredEnergyCanvas.tsx', 'utf8');
-  assert.ok(session.includes("colorTheme={isEleganciaProfunda ? ELEGANCIA_PROFUNDA_CANVAS_THEME : isEssenciaLuminosa ? ESSENCIA_LUMINOSA_CANVAS_THEME : undefined}"));
+  assert.ok(session.includes("colorTheme={isNaturalSereno ? NATURAL_SERENO_CANVAS_THEME : isEleganciaProfunda ? ELEGANCIA_PROFUNDA_CANVAS_THEME : isEssenciaLuminosa ? ESSENCIA_LUMINOSA_CANVAS_THEME : undefined}"));
   assert.ok(session.includes("'essencia-luminosa'].includes(activeLayout || '')"));
   assert.ok(canvas.includes('const palette = colorTheme ?'));
   assert.ok(canvas.includes('rgba(198, 164, 106'));
@@ -335,7 +335,8 @@ test('a página de Configurações usa ElevenLabs também na Essência Luminosa'
   assert.ok(block.includes('if (usesNeuralVoiceCatalog) {'));
   assert.ok(block.includes('fallbackToSpeechSynthesis: false'));
   assert.ok(block.includes('id="settings-voice-preview"'));
-  assert.ok(block.includes('Natural Sereno, Elegância Profunda e Essência Luminosa não usam a voz do dispositivo.'));
+  assert.ok(block.includes('Elegância Profunda e Essência Luminosa não usam a voz do dispositivo.'));
+  assert.ok(block.includes('A voz Maiara aprovada no catálogo ElevenLabs.'));
   assert.doesNotMatch(block, /if \(isEleganciaProfunda\)/);
 });
 

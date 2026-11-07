@@ -11,7 +11,7 @@ import {
 import { ProtocolStage, PROTOCOL_STAGES, DAILY_INSIGHTS, JOURNEY_7D_INSIGHTS, SessionCheckIn } from '../types';
 import { ORIGINAL_PROTOCOL_SCRIPTS } from '../data/protocol_scripts';
 import { audioEngine, OFFICIAL_PROTOCOL_VOICE_ID } from '../lib/audio';
-import { isElevenLabsVoiceId } from '../lib/voiceSelection';
+import { isElevenLabsVoiceId, isNaturalSerenoVoiceId } from '../lib/voiceSelection';
 import { shouldPlayProtocolSessionBackground } from '../lib/protocolSessionAudioPolicy';
 import { requestWakeLock } from '../lib/wakeLockHelpers';
 import { AppLanguage, STAGE_AUDIO_TRANSLATIONS } from '../lib/i18n';
@@ -50,6 +50,18 @@ interface MeditationSessionProps {
   onChangeBgMusic?: (bgMusicType: '528hz' | '432hz' | '963hz' | '741hz' | 'waves' | 'none') => void;
 }
 
+const NATURAL_SERENO_CANVAS_THEME = {
+  glow: '#C89D52',
+  accent: '#6B7A4B',
+  goldSoft: 'rgba(200,157,82,0.16)',
+  goldGlow: 'rgba(200,157,82,0.28)',
+  goldLine: 'rgba(168,126,55,0.40)',
+  sageSoft: 'rgba(107,122,75,0.08)',
+  sageGlow: 'rgba(107,122,75,0.14)',
+  sageLine: 'rgba(107,122,75,0.24)',
+  ivory: '#FAF7F2',
+  transparent: 'rgba(250,247,242,0)'
+};
 const ELEGANCIA_PROFUNDA_CANVAS_THEME = {
   glow: '#D4AF37',
   accent: '#2E6B4F',
@@ -78,6 +90,7 @@ export default function MeditationSession({
   onClose,
 }: MeditationSessionProps) {
   const activeLayout = typeof document !== 'undefined' ? document.documentElement.dataset.layout : undefined;
+  const isNaturalSereno = activeLayout === 'natural-sereno';
   const isEleganciaProfunda = activeLayout === 'elegancia-profunda';
   const isEssenciaLuminosa = activeLayout === 'essencia-luminosa';
   const [sessionPhase, setSessionPhase] = useState<'portal' | 'checkin_before' | 'playing' | 'checkin_after' | 'completed'>('portal');
@@ -199,8 +212,15 @@ export default function MeditationSession({
     if (dayContext) personalizedText = `${dayContext}\n\n${personalizedText}`;
 
     const selectedVoiceId = voiceId?.trim();
+    const naturalSerenoVoiceId = isNaturalSerenoVoiceId(selectedVoiceId) ? selectedVoiceId : '';
     const savedVoiceId = isElevenLabsVoiceId(selectedVoiceId) ? selectedVoiceId : OFFICIAL_PROTOCOL_VOICE_ID;
     const style2VoiceId = isElevenLabsVoiceId(selectedVoiceId) ? selectedVoiceId : '';
+
+    if (activeLayout === 'natural-sereno' && !naturalSerenoVoiceId) {
+      setIsPlaying(false);
+      setVoiceError(true);
+      return;
+    }
 
     if (activeLayout === 'elegancia-profunda' && !style2VoiceId) {
       setIsPlaying(false);
@@ -212,7 +232,7 @@ export default function MeditationSession({
     await audioEngine.playProtocolStageStream({
       text: personalizedText,
       voiceId: activeLayout === 'natural-sereno'
-        ? savedVoiceId
+        ? naturalSerenoVoiceId
         : activeLayout === 'elegancia-profunda'
           ? style2VoiceId
           : activeLayout === 'essencia-luminosa'
@@ -358,7 +378,7 @@ export default function MeditationSession({
       <div className="ep-session-backdrop absolute inset-0 pointer-events-none">
         <SacredEnergyCanvas
           dayNumber={['natural-sereno', 'elegancia-profunda', 'essencia-luminosa'].includes(activeLayout || '') ? dayNumber : undefined}
-          colorTheme={isEleganciaProfunda ? ELEGANCIA_PROFUNDA_CANVAS_THEME : isEssenciaLuminosa ? ESSENCIA_LUMINOSA_CANVAS_THEME : undefined}
+          colorTheme={isNaturalSereno ? NATURAL_SERENO_CANVAS_THEME : isEleganciaProfunda ? ELEGANCIA_PROFUNDA_CANVAS_THEME : isEssenciaLuminosa ? ESSENCIA_LUMINOSA_CANVAS_THEME : undefined}
           dayOneOpening={isEleganciaProfunda && dayNumber === 1}
           stageId={currentStage.id}
           isPlaying={isPlaying}

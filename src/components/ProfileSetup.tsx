@@ -42,15 +42,13 @@ export default function ProfileSetup({ onComplete }: ProfileSetupProps) {
   const [voiceChoice, setVoiceChoice] = useState<'masculina' | 'feminina'>('masculina');
   const [isPlayingPreview, setIsPlayingPreview] = useState<boolean>(false);
   const [loadingVoiceType, setLoadingVoiceType] = useState<'masculina' | 'feminina' | null>(null);
+  const [voicePreviewMessage, setVoicePreviewMessage] = useState('');
   const previewAudioRef = useRef<HTMLAudioElement | null>(null);
 
   const stopVoicePreview = () => {
     if (previewAudioRef.current) {
       previewAudioRef.current.pause();
       previewAudioRef.current = null;
-    }
-    if (typeof window !== 'undefined' && 'speechSynthesis' in window) {
-      window.speechSynthesis.cancel();
     }
     setIsPlayingPreview(false);
     setLoadingVoiceType(null);
@@ -62,106 +60,31 @@ export default function ProfileSetup({ onComplete }: ProfileSetupProps) {
       return;
     }
 
-    setLoadingVoiceType(gender);
-    const sampleText = gender === 'masculina'
-      ? "Olá. Que bom ter você aqui. Este é o seu espaço de cuidado, presença e reconexão."
-      : "Olá. Que bom ter você aqui. Permita-se receber este momento de calma, presença e acolhimento.";
-
-    try {
-      // The sample must work before login without opening the authenticated TTS API.
-      if (gender === 'masculina') {
-        const audio = new Audio('/brand/natural-sereno/voz-masculina-amostra.mp3');
-        previewAudioRef.current = audio;
-        audio.onended = stopVoicePreview;
-        audio.onerror = stopVoicePreview;
-        await audio.play();
-        setIsPlayingPreview(true);
-        setLoadingVoiceType(null);
-        return;
-      }
-      const response = await fetch('/api/elevenlabs/tts', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          text: sampleText,
-          voiceId: 'Rachel',
-          stability: 0.45,
-          similarityBoost: 0.75
-        })
-      });
-
-      if (response.ok) {
-        const blob = await response.blob();
-        const url = URL.createObjectURL(blob);
-        const audio = new Audio(url);
-        previewAudioRef.current = audio;
-
-        audio.onended = () => {
-          setIsPlayingPreview(false);
-          setLoadingVoiceType(null);
-        };
-        audio.onerror = () => {
-          setIsPlayingPreview(false);
-          setLoadingVoiceType(null);
-        };
-
-        await audio.play();
-        setIsPlayingPreview(true);
-        setLoadingVoiceType(null);
-        return;
-      }
-    } catch (e) {
-      console.warn("ElevenLabs preview fallback to native TTS", e);
+    setVoicePreviewMessage('');
+    if (gender === 'feminina') {
+      setLoadingVoiceType(null);
+      setIsPlayingPreview(false);
+      setVoicePreviewMessage('A voz Maiara será configurada após entrar, em Ajustes de áudio. Não haverá substituição por Rachel ou pela voz do dispositivo.');
+      return;
     }
 
-    // Fallback Web Speech
-    if (typeof window !== 'undefined' && 'speechSynthesis' in window) {
-      const utterance = new SpeechSynthesisUtterance(sampleText);
-      utterance.lang = 'pt-BR';
-      const voices = window.speechSynthesis.getVoices();
-      
-      const ptVoices = voices.filter(v => v.lang.startsWith('pt') || v.lang.includes('BR'));
-      if (gender === 'feminina') {
-        const femaleVoice = ptVoices.find(v => 
-          v.name.toLowerCase().includes('female') || 
-          v.name.toLowerCase().includes('maria') || 
-          v.name.toLowerCase().includes('francisca') || 
-          v.name.toLowerCase().includes('luciana') || 
-          v.name.toLowerCase().includes('leticia') || 
-          v.name.toLowerCase().includes('victoria') ||
-          v.name.toLowerCase().includes('zira')
-        ) || ptVoices[0];
-        if (femaleVoice) utterance.voice = femaleVoice;
-        utterance.pitch = 1.05;
-        utterance.rate = 0.88;
-      } else {
-        const maleVoice = ptVoices.find(v => 
-          v.name.toLowerCase().includes('male') || 
-          v.name.toLowerCase().includes('antonio') || 
-          v.name.toLowerCase().includes('felipe') || 
-          v.name.toLowerCase().includes('daniel') || 
-          v.name.toLowerCase().includes('ricardo') ||
-          v.name.toLowerCase().includes('david')
-        ) || ptVoices[0];
-        if (maleVoice) utterance.voice = maleVoice;
-        utterance.pitch = 0.92;
-        utterance.rate = 0.86;
-      }
-
-      utterance.onend = () => {
+    setLoadingVoiceType('masculina');
+    try {
+      const audio = new Audio('/brand/natural-sereno/voz-masculina-amostra.mp3');
+      previewAudioRef.current = audio;
+      audio.onended = stopVoicePreview;
+      audio.onerror = () => {
         setIsPlayingPreview(false);
         setLoadingVoiceType(null);
+        setVoicePreviewMessage('A amostra masculina está indisponível no momento.');
       };
-      utterance.onerror = () => {
-        setIsPlayingPreview(false);
-        setLoadingVoiceType(null);
-      };
-
-      window.speechSynthesis.speak(utterance);
+      await audio.play();
       setIsPlayingPreview(true);
       setLoadingVoiceType(null);
-    } else {
+    } catch {
+      setIsPlayingPreview(false);
       setLoadingVoiceType(null);
+      setVoicePreviewMessage('A amostra masculina está indisponível no momento.');
     }
   };
 
@@ -602,14 +525,14 @@ export default function ProfileSetup({ onComplete }: ProfileSetupProps) {
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3" role="radiogroup" aria-label="Voz da condução guiada">
                 <div
-                  onClick={() => setVoiceChoice('masculina')}
+                  onClick={() => { setVoiceChoice('masculina'); setVoicePreviewMessage(''); }}
                   className={`p-3.5 rounded-2xl border transition duration-150 cursor-pointer flex flex-col justify-between ${
                     voiceChoice === 'masculina'
                       ? 'bg-[#F5EFE4] border-[#B88736] shadow-sm ring-1 ring-[#B88736]/25'
                       : 'bg-white/70 border-[#E5DAC6] hover:border-[#E5DAC6] text-[#5C5248]'
                   }`}
                 >
-                  <input className="sr-only" type="radio" name="guided-voice" aria-label="Voz masculina" checked={voiceChoice === 'masculina'} onChange={() => setVoiceChoice('masculina')} onClick={event => event.stopPropagation()} />
+                  <input className="sr-only" type="radio" name="guided-voice" aria-label="Voz masculina" checked={voiceChoice === 'masculina'} onChange={() => { setVoiceChoice('masculina'); setVoicePreviewMessage(''); }} onClick={event => event.stopPropagation()} />
                   <div className="space-y-1">
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-2">
@@ -658,32 +581,32 @@ export default function ProfileSetup({ onComplete }: ProfileSetupProps) {
                 </div>
 
                 <div
-                  onClick={() => setVoiceChoice('feminina')}
+                  onClick={() => { setVoiceChoice('feminina'); setVoicePreviewMessage(''); }}
                   className={`p-3.5 rounded-2xl border transition duration-150 cursor-pointer flex flex-col justify-between ${
                     voiceChoice === 'feminina'
-                      ? 'bg-rose-50 border-rose-300 shadow-sm ring-1 ring-rose-200'
+                      ? 'bg-[#F5EFE4] border-[#B88736] shadow-sm ring-1 ring-[#B88736]/25'
                       : 'bg-white/70 border-[#E5DAC6] hover:border-[#E5DAC6] text-[#5C5248]'
                   }`}
                 >
-                  <input className="sr-only" type="radio" name="guided-voice" aria-label="Voz feminina" checked={voiceChoice === 'feminina'} onChange={() => setVoiceChoice('feminina')} onClick={event => event.stopPropagation()} />
+                  <input className="sr-only" type="radio" name="guided-voice" aria-label="Voz feminina" checked={voiceChoice === 'feminina'} onChange={() => { setVoiceChoice('feminina'); setVoicePreviewMessage(''); }} onClick={event => event.stopPropagation()} />
                   <div className="space-y-1">
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-2">
                         <Volume2 size={16} className="text-[#d9bd69]" />
-                        <span className="text-xs font-bold text-[#2A2420]">Voz Feminina Suave</span>
+                        <span className="text-xs font-bold text-[#2A2420]">Maiara — voz feminina brasileira</span>
                       </div>
                       {voiceChoice === 'feminina' && (
-                        <span className="w-2 h-2 rounded-full bg-rose-400 animate-ping" />
+                        <span className="w-2 h-2 rounded-full bg-[#B88736] animate-ping" />
                       )}
                     </div>
                     <p className="text-[10px] text-[#5C5248] leading-snug">
-                      Voz feminina maternal, doce e pausada, ideal para relaxamento profundo, sono e Raio Rosa.
+                      Voz brasileira escolhida para o Natural Sereno, com condução calma, acolhedora e pausada.
                     </p>
                   </div>
 
                   <div className="mt-2.5 pt-2 border-t border-[#E5DAC6]/60 flex items-center justify-between">
-                    <span className="text-[9px] font-sans text-rose-700 bg-rose-50 px-2 py-0.5 rounded">
-                      Acolhimento da Alma
+                    <span className="text-[9px] font-sans text-[#8F631E] bg-[#B88736]/10 px-2 py-0.5 rounded">
+                      Voz Maiara
                     </span>
                     <button
                       type="button"
@@ -693,26 +616,17 @@ export default function ProfileSetup({ onComplete }: ProfileSetupProps) {
                       }}
                       className="px-2 py-1 rounded-lg bg-[#E4E0D7] hover:bg-[#D8D2C7] text-[#302E2A] border border-[#C9C2B7] text-[10px] flex items-center gap-1 transition cursor-pointer"
                     >
-                      {loadingVoiceType === 'feminina' ? (
-                        <>
-                          <Loader2 size={11} className="animate-spin" />
-                          <span>Carregando...</span>
-                        </>
-                      ) : isPlayingPreview && voiceChoice === 'feminina' ? (
-                        <>
-                          <Square size={10} className="fill-[#A99B84] text-[#817460]" />
-                          <span>Pausar</span>
-                        </>
-                      ) : (
-                        <>
-                          <Play size={10} className="fill-[#A99B84] text-[#817460]" />
-                          <span>Ouvir Amostra</span>
-                        </>
-                      )}
+                      <Lock size={10} className="text-[#8F631E]" />
+                      <span>Configurar após entrar</span>
                     </button>
                   </div>
                 </div>
               </div>
+              {voicePreviewMessage && (
+                <p role="status" className="rounded-xl border border-[#B88736]/24 bg-[#F5EFE4] px-3 py-2 text-[11px] leading-5 text-[#6B4E2E]">
+                  {voicePreviewMessage}
+                </p>
+              )}
             </div>
 
             <div className="space-y-2 pt-2">

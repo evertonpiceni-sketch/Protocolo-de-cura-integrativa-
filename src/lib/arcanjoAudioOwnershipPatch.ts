@@ -1,14 +1,16 @@
 import { audioEngine } from './audio';
+import { shouldBlockArcanjoBackground } from './arcanjoAudioPolicy';
 
 /**
  * Arcanjo/Solfeggio owns the audio surface while its full-screen protocol is mounted.
  * This guard prevents the app-level background player (including gesture unlock)
- * from restarting underneath the protocol until App.tsx carries the same ownership
- * rule directly. It is intentionally narrow and does not alter narration/synth audio.
+ * from restarting underneath the protocol. Only global ambience is blocked;
+ * the protocol's seven approved Solfeggio tones remain available through startSynth.
  */
 const ARCANJO_VIEW_MARKER = 'img[alt="Pessoa em meditação com os sete chakras"]';
 const DASHBOARD_MARKER = '#progress-dashboard';
 const ARCANJO_OPENING_GUARD_MS = 5000;
+let arcanjoWasMounted = false;
 let arcanjoOpening = false;
 let openingGuardTimer: number | null = null;
 
@@ -23,10 +25,7 @@ const arcanjoOwnsAudio = () => arcanjoOpening || isArcanjoViewMounted();
 
 const originalStartBG = audioEngine.startBG.bind(audioEngine);
 audioEngine.startBG = ((type: Parameters<typeof audioEngine.startBG>[0]) => {
-  if (arcanjoOwnsAudio()) {
-    audioEngine.stopBG();
-    return;
-  }
+  if (shouldBlockArcanjoBackground(type, arcanjoOwnsAudio())) return;
   return originalStartBG(type);
 }) as typeof audioEngine.startBG;
 
@@ -56,7 +55,15 @@ if (typeof window !== 'undefined') {
 
 if (typeof document !== 'undefined' && typeof MutationObserver !== 'undefined') {
   const observer = new MutationObserver(() => {
-    if (isArcanjoViewMounted()) {
+    const mounted = isArcanjoViewMounted();
+    if (!mounted) {
+      arcanjoWasMounted = false;
+      return;
+    }
+    // Stop global ambience once on entry. Repeated React mutations must not
+    // stop the protocol-owned Solfeggio oscillator while the player is running.
+    if (!arcanjoWasMounted) {
+      arcanjoWasMounted = true;
       releaseOpeningGuard();
       audioEngine.stopBG();
     }
@@ -65,7 +72,11 @@ if (typeof document !== 'undefined' && typeof MutationObserver !== 'undefined') 
   const startObserving = () => {
     if (!document.body) return;
     observer.observe(document.body, { childList: true, subtree: true });
-    if (isArcanjoViewMounted()) audioEngine.stopBG();
+    arcanjoWasMounted = isArcanjoViewMounted();
+    if (arcanjoWasMounted) {
+      releaseOpeningGuard();
+      audioEngine.stopBG();
+    }
   };
 
   if (document.body) startObserving();
