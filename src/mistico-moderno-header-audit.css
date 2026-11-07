@@ -21,11 +21,11 @@
 }
 :root[data-layout="mistico-moderno"] #main-header :is(#header-btn-audio-settings,#header-btn-archangel,#header-btn-google-play):hover{
   background:rgba(33,43,72,.94)!important;
-  border-color:rgba(212,175,55,.28)!important;
+  border-color:rgba(200,157,82,.28)!important;
 }
 :root[data-layout="mistico-moderno"] #main-header :is(#header-btn-audio-settings,#header-btn-archangel,#header-btn-google-play) svg,
 :root[data-layout="mistico-moderno"] #header-language-selector svg{
-  color:#D4AF37!important;
+  color:#C89D52!important;
 }
 :root[data-layout="mistico-moderno"] #header-language-selector select{
   color:#F4EFE4!important;

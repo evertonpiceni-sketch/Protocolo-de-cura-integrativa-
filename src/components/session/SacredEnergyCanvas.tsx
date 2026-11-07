@@ -30,7 +30,7 @@ export const SacredEnergyCanvas: React.FC<SacredEnergyCanvasProps> = ({
   elapsedSeconds,
   colorTheme
 }) => {
-  // Style 2 and Style 3 pass explicit palettes; unconfigured styles retain their existing stage colors.
+  // Style 2, Style 3 and Místico Moderno pass explicit palettes; unconfigured styles retain their existing stage colors.
   const palette = colorTheme ? {
     gold: colorTheme.glow || '#C6A46A',
     sage: colorTheme.accent || '#A6B49B',

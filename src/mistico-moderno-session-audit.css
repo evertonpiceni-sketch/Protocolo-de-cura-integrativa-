@@ -7,7 +7,7 @@
 }
 
 :root[data-layout="mistico-moderno"] #meditation-session .ep-session-backdrop{
-  opacity:.82;
+  opacity:.62;
   mix-blend-mode:screen;
 }
 

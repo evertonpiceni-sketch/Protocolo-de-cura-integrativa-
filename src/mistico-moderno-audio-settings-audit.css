@@ -9,3 +9,19 @@
 :root[data-layout="mistico-moderno"] #audio-settings-modal :is(input,select,textarea){accent-color:#D6AD67;color-scheme:dark}
 :root[data-layout="mistico-moderno"] #audio-settings-modal button:focus-visible{outline:2px solid #D6AD67!important;outline-offset:2px}
 :root[data-layout="mistico-moderno"] #audio-settings-modal button:hover{border-color:rgba(226,189,120,.52)!important}
+
+:root[data-layout="mistico-moderno"] #audio-settings-modal .ep-mistico-voice-lock {
+  background: linear-gradient(145deg, rgba(16, 29, 52, .97), rgba(9, 16, 31, .99)) !important;
+  border-color: rgba(200, 157, 82, .34) !important;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, .22) !important;
+  color: #F4F1EB !important;
+}
+
+:root[data-layout="mistico-moderno"] #audio-settings-modal .ep-mistico-voice-lock span,
+:root[data-layout="mistico-moderno"] #audio-settings-modal .ep-mistico-voice-lock p {
+  color: rgba(244, 241, 235, .72) !important;
+}
+
+:root[data-layout="mistico-moderno"] #audio-settings-modal .ep-mistico-voice-lock strong {
+  color: #F4F1EB !important;
+}

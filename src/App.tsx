@@ -663,6 +663,9 @@ export default function App() {
     setShowArcanjoView(false);
     setActiveSessionDay(null);
     setIsLoggedIn(false);
+    setLayoutConfirmedThisSession(false);
+    setLayoutChoiceRequested(false);
+    document.documentElement.removeAttribute('data-layout');
   };
 
   // Retrieve mood description text
