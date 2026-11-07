@@ -58,7 +58,8 @@ export default function TransformationHome(props: TransformationHomeProps) {
   const savedVoiceId = props.voiceId?.trim();
   const isEleganciaProfunda = props.visualLayout === 'elegancia-profunda';
   const isEssenciaLuminosa = props.visualLayout === 'essencia-luminosa';
-  const requiresNeuralVoice = isEleganciaProfunda || isEssenciaLuminosa;
+  const isMisticoModerno = props.visualLayout === 'mistico-moderno';
+  const requiresNeuralVoice = isEleganciaProfunda || isEssenciaLuminosa || isMisticoModerno;
   const approvedVoiceId = isEleganciaProfunda
     ? (isElevenLabsVoiceId(savedVoiceId) ? savedVoiceId : '')
     : isEssenciaLuminosa
@@ -67,10 +68,10 @@ export default function TransformationHome(props: TransformationHomeProps) {
         ? savedVoiceId
         : OFFICIAL_PROTOCOL_VOICE_ID;
   // Essência Luminosa and Elegância Profunda honor saved neural voice IDs and their controls.
-  const usesSavedVoiceSettings = requiresNeuralVoice;
-  const narrationVoiceId = usesSavedVoiceSettings
-    ? approvedVoiceId
-    : props.visualLayout === 'mistico-moderno' ? OFFICIAL_PROTOCOL_VOICE_ID : 'Marcus';
+  const usesSavedVoiceSettings = isEleganciaProfunda || isEssenciaLuminosa;
+  const narrationVoiceId = isMisticoModerno
+    ? OFFICIAL_PROTOCOL_VOICE_ID
+    : usesSavedVoiceSettings ? approvedVoiceId : 'Marcus';
   const narrationVolume = usesSavedVoiceSettings ? props.voiceVolume ?? 1 : 1;
   const narrationRate = usesSavedVoiceSettings ? props.voiceRate ?? .82 : .82;
   const narrationPitch = usesSavedVoiceSettings ? props.voicePitch ?? .92 : .92;
@@ -152,7 +153,7 @@ export default function TransformationHome(props: TransformationHomeProps) {
             {isSpeaking ? <Pause size={20} /> : <Headphones size={20} />}
             <span>{isSpeaking ? 'Pausar acolhimento' : 'Ouvir acolhimento'}</span>
           </button>
-          {voiceError && <p role="alert" className="ep-voice-error relative mt-3 rounded-xl px-3 py-2 text-xs">A voz neural selecionada não foi reconhecida. Abra Ajustes de áudio e escolha uma voz do catálogo ElevenLabs.</p>}
+          {voiceError && <p role="alert" className="ep-voice-error relative mt-3 rounded-xl px-3 py-2 text-xs">A voz oficial Marianne — Meditação não está disponível agora. Nenhuma voz do dispositivo será usada como substituta.</p>}
           <button onClick={enterJourney} className="ep-gold-button mt-3 flex min-h-14 w-full items-center justify-center gap-3 rounded-2xl px-5 py-4 text-base font-bold"><span>Entrar na minha jornada</span><ChevronRight size={20}/></button>
           <div className="mt-7 grid grid-cols-4 gap-2 text-[#B88736]">{[[Waves,'Escuta'],[Leaf,'Presença'],[Heart,'Equilíbrio'],[Sparkles,'Transformação']].map(([Icon,label]) => { const PillarIcon=Icon as typeof Waves; return <div key={label as string} className="flex min-w-0 flex-col items-center gap-2"><PillarIcon size={20}/><span className="w-full break-words text-center text-[9px] uppercase leading-4 tracking-[.06em] text-[#5C5248]">{label as string}</span></div>; })}</div>
         </div>
