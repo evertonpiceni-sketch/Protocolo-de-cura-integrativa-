@@ -346,3 +346,17 @@ test('o botão de teste de voz do Estilo 3 usa acabamento champagne e texto de a
   assert.ok(css.includes('#settings-view #settings-voice-preview :is(svg,span)'));
   assert.ok(css.includes('color:var(--layout-text)!important;'));
 });
+
+test('o logout limpa a confirmação de estilo também para a próxima conta na Essência Luminosa', () => {
+  const app = fs.readFileSync('src/App.tsx', 'utf8');
+  const start = app.indexOf('const handleLogout = async () => {');
+  const end = app.indexOf('\n  };', start);
+  assert.ok(start >= 0 && end > start, 'O handler de logout deve existir.');
+  const logout = app.slice(start, end);
+
+  assert.ok(logout.includes('setLayoutConfirmedThisSession(false)'));
+  assert.ok(logout.includes('setLayoutChoiceRequested(false)'));
+  assert.ok(app.includes('const [layoutConfirmedThisSession, setLayoutConfirmedThisSession] = useState(false);'));
+  assert.ok(app.includes('{(!layoutConfirmedThisSession || layoutChoiceRequested) && ('));
+  assert.ok(app.includes('delete document.documentElement.dataset.layout'));
+});
