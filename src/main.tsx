@@ -31,6 +31,8 @@ import './mistico-moderno-audio-settings-audit.css';
 import './essencia-luminosa-approved-overrides.css';
 import './elegancia-profunda-approved-overrides.css';
 import './elegancia-profunda-modal-audit.css';
+import './elegancia-profunda-anamnesis-audit.css';
+import './elegancia-profunda-prayer-audit.css';
 import './elegancia-profunda-contact-audit.css';
 import './elegancia-profunda-herbal-baths-audit.css';
 import './elegancia-profunda-maps-audit.css';
