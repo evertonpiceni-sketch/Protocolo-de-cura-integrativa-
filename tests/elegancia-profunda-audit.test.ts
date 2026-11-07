@@ -159,7 +159,8 @@ test('o Estilo 2 não substitui silenciosamente a voz neural escolhida por uma v
   assert.ok(home.includes("const approvedVoiceId = isEleganciaProfunda\n    ? (isElevenLabsVoiceId(savedVoiceId) ? savedVoiceId : '')"));
   assert.ok(home.includes("isNaturalSereno\n      ? (isNaturalSerenoVoiceId(savedVoiceId) ? savedVoiceId : '')"));
   assert.ok(home.includes("isEssenciaLuminosa\n        ? (isElevenLabsVoiceId(savedVoiceId) ? savedVoiceId : OFFICIAL_PROTOCOL_VOICE_ID)"));
-  assert.ok(settings.includes('if (requiresNeuralVoice && !isElevenLabsVoiceId(voiceId))'));
+  assert.ok(settings.includes('const hasApprovedVoice = isNaturalSereno'));
+  assert.ok(settings.includes('if (requiresNeuralVoice && !hasApprovedVoice)'));
 });
 
 test('a Reintegração mantém o áudio neural dedicado aprovado e não recupera voz nativa', () => {
