@@ -29,5 +29,5 @@ PR: #42 — rascunho, sem merge e sem deploy de produção.
 - Prévia do Estilo 4 e prévias mais recentes dos Estilos 2 e 3 coexistem no seletor.
 - A escolha continua explícita e salva antes da aplicação.
 - O alias de voz não aceita o ID antigo nem permite retorno de cache antes da validação.
-- Nenhum arquivo dos estilos 1–3, da Reintegração ou dos pagamentos foi alterado nesta rodada.
+- Nenhum módulo próprio dos Estilos 1–3, da Reintegração ou dos pagamentos foi alterado. O seletor compartilhado foi reconciliado para preservar as prévias oficiais mais recentes dos Estilos 2 e 3.
 - PR #42 permanece em rascunho; a branch ainda está divergente da `main`. Não foi feito merge nem deploy.
