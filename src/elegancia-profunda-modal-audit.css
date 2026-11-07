@@ -137,3 +137,11 @@
   :root[data-layout="elegancia-profunda"] #pro-certificate-modal > div,
   :root[data-layout="elegancia-profunda"] div[role="dialog"][aria-label="Celebração de progresso"] > div { border-radius: 1.25rem; }
 }
+
+
+:root[data-layout="elegancia-profunda"] #specific-treatment-modal .ep-treatment-recommended-badge {
+  background:linear-gradient(135deg,#E5CFA0 0%,#C6A46A 55%,#9B7446 100%)!important;
+  border:1px solid rgba(244,235,221,.56)!important;
+  color:#14251c!important;
+  box-shadow:0 6px 16px rgba(0,0,0,.22)!important;
+}
