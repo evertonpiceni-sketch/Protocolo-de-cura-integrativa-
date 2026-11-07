@@ -153,7 +153,7 @@ export default function SpecificTreatmentModal({ isOpen, onClose, userProfile, o
                       onClick={() => setDurationDays(plan.days)}
                       className={`p-3.5 rounded-2xl border text-left flex items-start gap-3 transition cursor-pointer relative ${selected ? 'bg-emerald-950/40 border-emerald-500 text-emerald-200 shadow-sm' : 'bg-white/70 border-[#E5DAC6] text-[#5C5248] hover:border-[#E5DAC6]'}`}
                     >
-                      {plan.days === 21 && <div className="absolute -top-2.5 right-3 px-2 py-0.5 rounded-full bg-amber-400 text-slate-950 text-[9px] font-bold font-mono uppercase tracking-wider">Completo (Recomendado)</div>}
+                      {plan.days === 21 && <div className="ep-treatment-recommended-badge absolute -top-2.5 right-3 px-2 py-0.5 rounded-full bg-amber-400 text-slate-950 text-[9px] font-bold font-mono uppercase tracking-wider">Completo (Recomendado)</div>}
                       <div className={`p-2 rounded-xl shrink-0 mt-0.5 ${selected ? 'bg-emerald-500/20 text-emerald-300' : 'bg-[#FBF8F2] text-[#85786C]'}`}>
                         <Icon size={18} />
                       </div>
