@@ -2,33 +2,34 @@ import { audioEngine, OFFICIAL_PROTOCOL_VOICE_ID } from './audio';
 
 /**
  * Místico Moderno — voice integrity guard.
- *
- * Some legacy UI/API paths can still send the old `Rachel` alias. The server
- * resolves that alias to a different premade voice, which can reintroduce the
- * robotic/legacy narration. Normalize only that stale alias while Místico
- * Moderno is active; explicit male/custom voice choices remain untouched.
+ * The approved narration is Marianne — Meditação (ElevenLabs).
+ * Every audio entry point is pinned to that voice while this layout is active;
+ * browser speech synthesis and legacy Rachel/Marcus aliases are never substitutes.
  */
 const engine = audioEngine as typeof audioEngine & {
   __misticoModernoOfficialVoicePatched?: boolean;
 };
 
-const normalizeLegacyVoiceId = (voiceId?: string) =>
+const isMisticoModerno = () =>
   typeof document !== 'undefined' &&
-  document.documentElement.dataset.layout === 'mistico-moderno' &&
-  voiceId === 'Rachel' ? OFFICIAL_PROTOCOL_VOICE_ID : voiceId;
+  document.documentElement.dataset.layout === 'mistico-moderno';
+
+export const normalizeMisticoModernoVoiceId = (voiceId?: string) =>
+  isMisticoModerno() ? OFFICIAL_PROTOCOL_VOICE_ID : voiceId;
 
 if (!engine.__misticoModernoOfficialVoicePatched) {
+  const originalPreviewVoice = engine.previewVoice.bind(engine);
   const originalPlayProtocolStageStream = engine.playProtocolStageStream.bind(engine);
   const originalPlayGuidedMeditation = engine.playGuidedMeditation.bind(engine);
   const originalSpeakWithElevenLabsOrFallback = engine.speakWithElevenLabsOrFallback.bind(engine);
 
   engine.playProtocolStageStream = ((options: Parameters<typeof engine.playProtocolStageStream>[0]) => {
-    const voiceId = normalizeLegacyVoiceId(options?.voiceId);
+    const voiceId = normalizeMisticoModernoVoiceId(options?.voiceId);
     return originalPlayProtocolStageStream(voiceId !== options?.voiceId ? { ...options, voiceId } : options);
   }) as typeof engine.playProtocolStageStream;
 
   engine.playGuidedMeditation = ((parts: Parameters<typeof engine.playGuidedMeditation>[0], options: Parameters<typeof engine.playGuidedMeditation>[1]) => {
-    const voiceId = normalizeLegacyVoiceId(options?.voiceId);
+    const voiceId = normalizeMisticoModernoVoiceId(options?.voiceId);
     return originalPlayGuidedMeditation(parts, voiceId !== options?.voiceId ? { ...options, voiceId } : options);
   }) as typeof engine.playGuidedMeditation;
 
@@ -41,10 +42,44 @@ if (!engine.__misticoModernoOfficialVoicePatched) {
     onResume?: Parameters<typeof engine.speakWithElevenLabsOrFallback>[5],
     options?: Parameters<typeof engine.speakWithElevenLabsOrFallback>[6]
   ) => {
-    const voiceId = normalizeLegacyVoiceId(options?.voiceId);
-    return originalSpeakWithElevenLabsOrFallback(text, voiceVolume, onStart, onEnd, onPause, onResume,
-      voiceId !== options?.voiceId ? { ...options, voiceId, preferElevenLabs: true } : options);
+    const voiceId = normalizeMisticoModernoVoiceId(options?.voiceId);
+    if (!isMisticoModerno()) {
+      return originalSpeakWithElevenLabsOrFallback(text, voiceVolume, onStart, onEnd, onPause, onResume, options);
+    }
+    const onError = options?.onError || ((error: unknown) => {
+      console.warn('Marianne — Meditação is unavailable; no browser voice will be substituted.', error);
+      if (onPause) onPause();
+      else onEnd();
+    });
+    return originalSpeakWithElevenLabsOrFallback(text, voiceVolume, onStart, onEnd, onPause, onResume, {
+      ...options,
+      voiceId,
+      preferElevenLabs: true,
+      allowNativeFallback: false,
+      onError
+    });
   }) as typeof engine.speakWithElevenLabsOrFallback;
+
+  engine.previewVoice = ((options?: Parameters<typeof engine.previewVoice>[0]) => {
+    if (!isMisticoModerno()) return originalPreviewVoice(options);
+    void engine.speakWithElevenLabsOrFallback(
+      options?.text || 'Respire profundamente. Sinta a paz e a presença da cura neste momento.',
+      options?.volume ?? 0.9,
+      () => {},
+      () => options?.onEnd?.(),
+      undefined,
+      undefined,
+      {
+        voiceId: OFFICIAL_PROTOCOL_VOICE_ID,
+        rate: options?.rate,
+        pitch: options?.pitch,
+        lang: 'pt-BR',
+        preferElevenLabs: true,
+        allowNativeFallback: false,
+        onError: () => options?.onEnd?.()
+      }
+    );
+  }) as typeof engine.previewVoice;
 
   engine.__misticoModernoOfficialVoicePatched = true;
 }
