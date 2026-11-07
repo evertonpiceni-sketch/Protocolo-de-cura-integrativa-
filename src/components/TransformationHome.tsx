@@ -54,15 +54,17 @@ export default function TransformationHome(props: TransformationHomeProps) {
   const actions: Record<string, () => void> = { chakras: props.onOpenChakras, bath: props.onOpenBaths, astral: props.onOpenAstral, numerology: props.onOpenNumerology };
   const welcomeText = `Olá, ${firstName}. Que bom que você voltou para si. Respire com calma. Você não precisa fazer tudo hoje. Estamos juntos neste processo. ${insight?.quote || ''}`;
   const savedVoiceId = props.voiceId?.trim();
-  const style2VoiceId = savedVoiceId && !['Rachel', 'Marcus', 'masculina', 'feminina'].includes(savedVoiceId)
+  const approvedVoiceId = savedVoiceId && !['Rachel', 'Marcus', 'masculina', 'feminina'].includes(savedVoiceId)
     ? savedVoiceId
     : OFFICIAL_PROTOCOL_VOICE_ID;
-  const narrationVoiceId = props.visualLayout === 'elegancia-profunda'
-    ? style2VoiceId
+  // Essência Luminosa and Elegância Profunda both honor the saved voice and its controls.
+  const usesSavedVoiceSettings = props.visualLayout === 'elegancia-profunda' || props.visualLayout === 'essencia-luminosa';
+  const narrationVoiceId = usesSavedVoiceSettings
+    ? approvedVoiceId
     : props.visualLayout === 'mistico-moderno' ? OFFICIAL_PROTOCOL_VOICE_ID : 'Marcus';
-  const narrationVolume = props.visualLayout === 'elegancia-profunda' ? props.voiceVolume ?? 1 : 1;
-  const narrationRate = props.visualLayout === 'elegancia-profunda' ? props.voiceRate ?? .82 : .82;
-  const narrationPitch = props.visualLayout === 'elegancia-profunda' ? props.voicePitch ?? .92 : .92;
+  const narrationVolume = usesSavedVoiceSettings ? props.voiceVolume ?? 1 : 1;
+  const narrationRate = usesSavedVoiceSettings ? props.voiceRate ?? .82 : .82;
+  const narrationPitch = usesSavedVoiceSettings ? props.voicePitch ?? .92 : .92;
   const toggleWelcome = () => {
     if (isSpeaking) { audioEngine.stopSpeech(); setIsSpeaking(false); return; }
     void audioEngine.speakWithElevenLabsOrFallback(welcomeText, narrationVolume, () => setIsSpeaking(true), () => setIsSpeaking(false), undefined, undefined, { voiceId: narrationVoiceId, stability: .5, similarityBoost: .78, userName: props.userName, enableBreathingPauses: true, preferElevenLabs: true, lang: 'pt-BR', rate: narrationRate, pitch: narrationPitch });

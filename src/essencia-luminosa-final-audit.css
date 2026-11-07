@@ -92,3 +92,16 @@
 :root[data-layout="essencia-luminosa"] :is(#cura-main-layout,#settings-view,#meditation-session,#daily-diary-modal,#daily-tip-modal,#journal-dashboard-view,#welcome-modal,#astral-map-modal,#numerology-modal,#contact-us-modal,#promo-video-modal,#specific-treatment-modal){-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;}
 
 @media (max-width:640px){:root[data-layout="essencia-luminosa"] #main-header .ep-brand-signature{opacity:.26!important;}}
+
+
+/* Home da Essência Luminosa: remove o texto amarelo de baixo contraste e o trilho escuro
+   herdados do componente compartilhado; mantém o ouro suave aprovado. */
+:root[data-layout="essencia-luminosa"] .ep-home [class*="text-[#f2e7c6]"]{color:var(--layout-text-secondary)!important;}
+:root[data-layout="essencia-luminosa"] .ep-home [class*="text-[#B88736]"]{color:var(--layout-gold)!important;}
+:root[data-layout="essencia-luminosa"] .ep-home [class*="text-[#8F631E]"]{color:var(--layout-text-secondary)!important;}
+:root[data-layout="essencia-luminosa"] .ep-home [class*="border-[#B88736]"]{border-color:color-mix(in srgb,var(--layout-gold) 28%,var(--layout-border-card))!important;}
+:root[data-layout="essencia-luminosa"] .ep-home [class*="bg-[#B88736]"]{background-color:color-mix(in srgb,var(--layout-gold) 10%,var(--layout-card))!important;}
+:root[data-layout="essencia-luminosa"] .ep-home .ep-progress-card [class*="bg-black/25"]{background:color-mix(in srgb,var(--layout-border-card) 82%,var(--layout-card))!important;}
+:root[data-layout="essencia-luminosa"] .ep-home .ep-progress-card [class*="from-[#b78d32]"]{--tw-gradient-from:var(--layout-gold) var(--tw-gradient-from-position)!important;--tw-gradient-to:color-mix(in srgb,var(--layout-gold) 0%,transparent) var(--tw-gradient-to-position)!important;}
+:root[data-layout="essencia-luminosa"] .ep-home .ep-progress-card [class*="to-[#f0d98d]"]{--tw-gradient-to:color-mix(in srgb,var(--layout-gold) 72%,var(--layout-card)) var(--tw-gradient-to-position)!important;}
+:root[data-layout="essencia-luminosa"] .ep-home .ep-gold-button{background-image:linear-gradient(115deg,var(--layout-gold),color-mix(in srgb,var(--layout-gold) 72%,white))!important;color:var(--layout-text)!important;border-color:color-mix(in srgb,var(--layout-gold) 34%,var(--layout-border-card))!important;box-shadow:0 12px 28px rgba(112,91,58,.10)!important;}

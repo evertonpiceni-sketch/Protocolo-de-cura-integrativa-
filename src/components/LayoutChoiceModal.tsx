@@ -8,7 +8,7 @@ interface LayoutChoiceModalProps {
 }
 
 function LayoutPreview({ layout }: { layout: LayoutDefinition }) {
-  // A prévia do Estilo 3 usa sua própria paleta, sem herdar os acentos dos outros estilos.
+  // A prévia do Estilo 3 usa a prancha oficial como referência, com tokens atuais aprovados.
   const isEssenciaLuminosa = layout.id === 'essencia-luminosa';
   const [canvas, accent, gold, surface] = isEssenciaLuminosa
     ? ['#FFFFF8', '#A6B49B', '#C6A46A', '#F7F3E8']
@@ -31,6 +31,24 @@ function LayoutPreview({ layout }: { layout: LayoutDefinition }) {
           decoding="async"
           draggable={false}
           className="h-full w-full object-contain"
+        />
+      </div>
+    );
+  }
+  if (isEssenciaLuminosa) {
+    return (
+      <div
+        className="mt-4 flex h-[184px] w-full items-center justify-center overflow-hidden rounded-2xl border shadow-inner"
+        style={{ backgroundColor: '#FFFFF8', borderColor: 'rgba(198,164,106,.32)' }}
+        aria-hidden="true"
+      >
+        <img
+          src="/brand/essencia-luminosa/prancha-oficial.webp"
+          alt=""
+          loading="lazy"
+          decoding="async"
+          draggable={false}
+          className="h-full w-full object-contain p-1"
         />
       </div>
     );
