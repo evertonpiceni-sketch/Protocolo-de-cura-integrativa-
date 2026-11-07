@@ -22,7 +22,8 @@ test('a entrada ativa usa OnboardingFlow e recebe tratamento visual isolado do E
   assert.ok(app.includes('<OnboardingFlow'));
   assert.ok(onboarding.includes('ep-care-onboarding'));
   assert.ok(css.includes(':root[data-layout="elegancia-profunda"] .ep-care-onboarding'));
-  assert.ok(css.includes('var(--ep-scene)'));
+  assert.ok(css.includes('--ep-scene:none'));
+  assert.ok(!css.includes('var(--ep-scene)'));
 });
 
 test('o logo permanece assinatura transparente sem opacidade dupla', () => {
