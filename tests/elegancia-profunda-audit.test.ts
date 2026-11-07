@@ -8,7 +8,7 @@ test('o seletor usa a prancha oficial do Estilo 2 e exige confirmação explíci
   const modal = read('src/components/LayoutChoiceModal.tsx');
   const app = read('src/App.tsx');
   assert.ok(modal.includes('/brand/elegancia-profunda/prancha-oficial.svg'));
-  assert.ok(modal.includes('useState<LayoutId | null>(null)'));
+  assert.ok(modal.includes('useState<LayoutId | null>(initialLayout ?? null)'));
   assert.ok(modal.includes('disabled={!selectedLayout || isSaving}'));
   assert.ok(app.includes('const [layoutConfirmedThisSession, setLayoutConfirmedThisSession] = useState(false)'));
   assert.ok(app.includes('{(!layoutConfirmedThisSession || layoutChoiceRequested) && ('));
@@ -81,12 +81,12 @@ test('a narração do Estilo 2 usa IDs ElevenLabs válidos e não cai na voz do 
   assert.ok(audio.includes('failWithoutNativeVoice'));
   assert.ok(app.includes('Voz neural (ElevenLabs)'));
   assert.ok(settings.includes('Voz neural (ElevenLabs)'));
-  assert.ok(home.includes('const requiresNeuralVoice = isEleganciaProfunda || isEssenciaLuminosa;'));
+  assert.ok(home.includes("const requiresNeuralVoice = isEleganciaProfunda || isEssenciaLuminosa || props.visualLayout === 'natural-sereno';"));
   assert.ok(home.includes('fallbackToSpeechSynthesis: !requiresNeuralVoice'));
   assert.ok(session.includes("activeLayout === 'elegancia-profunda' && !style2VoiceId"));
   assert.ok(anamnesis.includes('fallbackToSpeechSynthesis: false'));
   assert.ok(hooponopono.includes('fallbackToSpeechSynthesis: !isEleganciaProfunda'));
-  assert.ok(arcanjo.includes('requireExplicitVoiceId: isEleganciaProfunda'));
+  assert.ok(arcanjo.includes('requireExplicitVoiceId: isNaturalSereno || isEleganciaProfunda'));
   assert.ok(audio.includes('requireExplicitVoiceId?: boolean'));
   assert.ok(audio.includes('if (options.requireExplicitVoiceId && !isElevenLabsVoiceId(options.voiceId))'));
   assert.ok(systemic.includes('fallbackToSpeechSynthesis: false'));

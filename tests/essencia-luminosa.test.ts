@@ -22,7 +22,7 @@ test('uma preferência inválida não cai automaticamente no Natural Sereno', ()
 test('a escolha dos quatro estilos continua explícita antes da aplicação', () => {
   const modal = fs.readFileSync('src/components/LayoutChoiceModal.tsx', 'utf8');
   const app = fs.readFileSync('src/App.tsx', 'utf8');
-  assert.ok(modal.includes('useState<LayoutId | null>(null)'));
+  assert.ok(modal.includes('useState<LayoutId | null>(initialLayout ?? null)'));
   assert.ok(modal.includes('disabled={!selectedLayout || isSaving}'));
   assert.ok(modal.includes('O estilo só será aplicado depois da sua confirmação.'));
   assert.ok(app.includes('useState(false)'));
@@ -32,7 +32,7 @@ test('a escolha dos quatro estilos continua explícita antes da aplicação', ()
 
 test('a Home da Essência Luminosa respeita a voz neural salva e não cai em Web Speech', () => {
   const home = fs.readFileSync('src/components/TransformationHome.tsx', 'utf8');
-  assert.ok(home.includes('const requiresNeuralVoice = isEleganciaProfunda || isEssenciaLuminosa;'));
+  assert.ok(home.includes("const requiresNeuralVoice = isEleganciaProfunda || isEssenciaLuminosa || props.visualLayout === 'natural-sereno';"));
   assert.ok(home.includes('isElevenLabsVoiceId(savedVoiceId) ? savedVoiceId : OFFICIAL_PROTOCOL_VOICE_ID'));
   assert.ok(home.includes('const narrationVoiceId = usesSavedVoiceSettings'));
   assert.ok(home.includes('fallbackToSpeechSynthesis: !requiresNeuralVoice'));
@@ -99,10 +99,10 @@ test('os Ajustes de Áudio do Estilo 3 oferecem vozes neurais e preservam Marian
   const settings = fs.readFileSync('src/components/AudioSettingsModal.tsx', 'utf8');
   const app = fs.readFileSync('src/App.tsx', 'utf8');
   assert.ok(settings.includes("const isEssenciaLuminosa = typeof document !== 'undefined' && document.documentElement.dataset.layout === 'essencia-luminosa';"));
-  assert.ok(settings.includes('const requiresNeuralVoice = isEleganciaProfunda || isEssenciaLuminosa;'));
-  assert.ok(settings.includes('const initialVoiceId = isEssenciaLuminosa && !isElevenLabsVoiceId(savedVoiceId)'));
+  assert.ok(settings.includes('const requiresNeuralVoice = isNaturalSereno || isEleganciaProfunda || isEssenciaLuminosa;'));
+  assert.ok(settings.includes('const initialVoiceId = (isNaturalSereno || isEssenciaLuminosa) && !isElevenLabsVoiceId(savedVoiceId)'));
   assert.ok(settings.includes('fallbackToSpeechSynthesis: !requiresNeuralVoice'));
-  assert.ok(app.includes('const usesNeuralVoiceCatalog = isEleganciaProfunda || isEssenciaLuminosa;'));
+  assert.ok(app.includes('const usesNeuralVoiceCatalog = isNaturalSereno || isEleganciaProfunda || isEssenciaLuminosa;'));
   assert.ok(app.includes('!usesNeuralVoiceCatalog'));
 });
 

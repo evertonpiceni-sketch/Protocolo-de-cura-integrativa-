@@ -91,6 +91,7 @@ export default function ArcanjoProtocolView({ userProfile, onClose, onLogout, in
   const [isPlaying, setIsPlaying] = useState(false);
   const [isPreparingAudio, setIsPreparingAudio] = useState(false);
   const [voiceError, setVoiceError] = useState(false);
+  const isNaturalSereno = typeof document !== 'undefined' && document.documentElement.dataset.layout === 'natural-sereno';
   const isEleganciaProfunda = typeof document !== 'undefined' && document.documentElement.dataset.layout === 'elegancia-profunda';
   const [hasStarted, setHasStarted] = useState(false);
   const [elapsed, setElapsed] = useState(0);
@@ -161,7 +162,7 @@ export default function ArcanjoProtocolView({ userProfile, onClose, onLogout, in
   };
 
   const startNativeFallback = (runId: number) => {
-    if (isEleganciaProfunda) {
+    if (isNaturalSereno || isEleganciaProfunda) {
       setIsPreparingAudio(false);
       setIsPlaying(false);
       setHasStarted(false);
@@ -225,7 +226,7 @@ export default function ArcanjoProtocolView({ userProfile, onClose, onLogout, in
         : userProfile.voiceId || (userProfile.preferredVoiceGender === 'feminina' ? 'Rachel' : 'Marcus'),
       volume: userProfile.voiceVolume ?? 0.9,
       userName: userProfile.name,
-      requireExplicitVoiceId: isEleganciaProfunda,
+      requireExplicitVoiceId: isNaturalSereno || isEleganciaProfunda,
       onStart: () => {
         if (runId !== narrationRunRef.current) return;
         audioEngine.startSynth(`${config.freq}hz`);
@@ -248,7 +249,7 @@ export default function ArcanjoProtocolView({ userProfile, onClose, onLogout, in
       onError: () => {
         if (runId !== narrationRunRef.current) return;
         audioEngine.stopSpeech();
-        if (isEleganciaProfunda) {
+        if (isNaturalSereno || isEleganciaProfunda) {
           audioEngine.stopSynth();
           setIsPreparingAudio(false);
           setIsPlaying(false);
