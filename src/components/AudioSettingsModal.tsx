@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { motion } from 'motion/react';
 import {
   Volume2, VolumeX, Sliders, Mic, Play, Pause,
@@ -67,12 +67,18 @@ export default function AudioSettingsModal({
   const isNaturalSereno = typeof document !== 'undefined' && document.documentElement.dataset.layout === 'natural-sereno';
   const isEleganciaProfunda = typeof document !== 'undefined' && document.documentElement.dataset.layout === 'elegancia-profunda';
   const isEssenciaLuminosa = typeof document !== 'undefined' && document.documentElement.dataset.layout === 'essencia-luminosa';
-  const requiresNeuralVoice = isNaturalSereno || isEleganciaProfunda || isEssenciaLuminosa;
+  const isMisticoModerno = typeof document !== 'undefined' && document.documentElement.dataset.layout === 'mistico-moderno';
+  const requiresNeuralVoice = isNaturalSereno || isEleganciaProfunda || isEssenciaLuminosa || isMisticoModerno;
   const savedVoiceId = userProfile.voiceId?.trim() || '';
-  const initialVoiceId = (isNaturalSereno || isEssenciaLuminosa) && !isElevenLabsVoiceId(savedVoiceId)
+  const initialVoiceId = isMisticoModerno
     ? OFFICIAL_PROTOCOL_VOICE_ID
-    : savedVoiceId;
+    : (isNaturalSereno || isEssenciaLuminosa) && !isElevenLabsVoiceId(savedVoiceId)
+      ? OFFICIAL_PROTOCOL_VOICE_ID
+      : savedVoiceId;
   const [voiceId, setVoiceId] = useState(initialVoiceId);
+  useEffect(() => {
+    if (isMisticoModerno) setVoiceId(OFFICIAL_PROTOCOL_VOICE_ID);
+  }, [isMisticoModerno]);
   const [audioEnabled, setAudioEnabled] = useState(userProfile.audioEnabled !== false);
   const [isTestingVoice, setIsTestingVoice] = useState(false);
   const [voiceTestError, setVoiceTestError] = useState(false);
@@ -233,7 +239,8 @@ export default function AudioSettingsModal({
       voiceVolume,
       voiceRate,
       voicePitch,
-      voiceId,
+      // Style 4 is fixed to the approved voice but must not overwrite the profile's voice preference for other styles.
+      voiceId: isMisticoModerno ? userProfile.voiceId : voiceId,
       audioEnabled,
       bioactiveBinauralEnabled,
       binauralWaveType,
@@ -621,7 +628,20 @@ export default function AudioSettingsModal({
           </label>
 
           {/* Voice Selector */}
-          {requiresNeuralVoice ? (
+          {isMisticoModerno ? (
+            <div className="space-y-1">
+              <span className="text-[11px] text-[#5C5248] block">Voz oficial do Místico Moderno</span>
+              <select
+                aria-label="Voz oficial Marianne — Meditação"
+                value={OFFICIAL_PROTOCOL_VOICE_ID}
+                disabled
+                className="w-full bg-[#FBF8F2] border border-[#E5DAC6] rounded-xl px-3 py-2 text-xs text-[#2A2420] opacity-85"
+              >
+                <option value={OFFICIAL_PROTOCOL_VOICE_ID}>Marianne — Meditação (voz oficial)</option>
+              </select>
+              <p className="text-[10px] text-[#85786C]">Voz fixa deste estilo. Em caso de indisponibilidade, a reprodução é interrompida sem substituição pela voz do dispositivo.</p>
+            </div>
+          ) : requiresNeuralVoice ? (
             <div className="space-y-1">
               <span className="text-[11px] text-[#5C5248] block">Voz neural (ElevenLabs)</span>
               <select
