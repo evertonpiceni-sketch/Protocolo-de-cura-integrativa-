@@ -5,6 +5,7 @@ import { OFFICIAL_LAYOUTS, LayoutDefinition, LayoutId } from '../config/layouts'
 
 // Prancha oficial do Natural Sereno. As amostras abaixo continuam refletindo a paleta aprovada posteriormente.
 const NATURAL_SERENO_OFFICIAL_BOARD = new URL('../../docs/visual-qa/natural-sereno/reference.jpg', import.meta.url).href;
+const MISTICO_MODERNO_OFFICIAL_BOARD = '/brand/mistico-moderno/prancha-oficial.svg';
 
 interface LayoutChoiceModalProps {
   onSelect: (layout: LayoutId) => void | Promise<void>;
@@ -13,11 +14,12 @@ interface LayoutChoiceModalProps {
 function LayoutPreview({ layout }: { layout: LayoutDefinition }) {
   // A prévia do Estilo 3 usa a prancha oficial como referência visual aprovada.
   const isEssenciaLuminosa = layout.id === 'essencia-luminosa';
+  const isMisticoModerno = layout.id === 'mistico-moderno';
   const [canvas, accent, gold, surface] = layout.swatches;
   const foreground = layout.tone === 'dark' ? '#F4F1EB' : '#2A2420';
   const muted = layout.tone === 'dark' ? 'rgba(244,241,235,.68)' : 'rgba(42,36,32,.62)';
   const isNaturalSereno = layout.id === 'natural-sereno';
-  const previewBorder = layout.id === 'elegancia-profunda' ? 'rgba(212,175,119,.35)' : layout.id === 'mistico-moderno' ? 'rgba(108,63,160,.40)' : 'rgba(42,36,32,.10)';
+  const previewBorder = layout.id === 'elegancia-profunda' ? 'rgba(212,175,119,.35)' : layout.id === 'mistico-moderno' ? 'rgba(200,157,82,.42)' : 'rgba(42,36,32,.10)';
   if (isNaturalSereno) {
     return (
       <div
@@ -64,6 +66,24 @@ function LayoutPreview({ layout }: { layout: LayoutDefinition }) {
       >
         <img
           src="/brand/essencia-luminosa/prancha-oficial.webp"
+          alt=""
+          loading="lazy"
+          decoding="async"
+          draggable={false}
+          className="h-full w-full object-contain p-1"
+        />
+      </div>
+    );
+  }
+  if (isMisticoModerno) {
+    return (
+      <div
+        className="mt-4 flex h-[184px] w-full items-center justify-center overflow-hidden rounded-2xl border bg-[#07111F] shadow-inner"
+        style={{ borderColor: previewBorder }}
+        aria-hidden="true"
+      >
+        <img
+          src={MISTICO_MODERNO_OFFICIAL_BOARD}
           alt=""
           loading="lazy"
           decoding="async"
@@ -175,14 +195,23 @@ export default function LayoutChoiceModal({ onSelect }: LayoutChoiceModalProps) 
           {OFFICIAL_LAYOUTS.map(layout => {
             const isSelected = selectedLayout === layout.id;
             const isEssenciaCard = layout.id === 'essencia-luminosa';
+            const isMisticoCard = layout.id === 'mistico-moderno';
             const selectionClasses = isEssenciaCard
               ? isSelected
                 ? 'border-[#C6A46A] ring-2 ring-[#C6A46A]/20 shadow-lg'
                 : 'border-[#E5DAC6] hover:border-[#C6A46A]/60'
-              : isSelected
-                ? 'border-[#B88736] ring-2 ring-[#B88736]/20 shadow-lg'
-                : 'border-[#E5DAC6] hover:border-[#B88736]/60';
-            const focusRingClass = isEssenciaCard ? 'focus-visible:ring-[#C6A46A]/35' : 'focus-visible:ring-[#B88736]/35';
+              : isMisticoCard
+                ? isSelected
+                  ? 'border-[#C89D52] ring-2 ring-[#6C3FA0]/35 shadow-[0_18px_42px_rgba(0,0,0,.28)]'
+                  : 'border-[#C89D52]/35 hover:border-[#E2B96B]/70'
+                : isSelected
+                  ? 'border-[#B88736] ring-2 ring-[#B88736]/20 shadow-lg'
+                  : 'border-[#E5DAC6] hover:border-[#B88736]/60';
+            const focusRingClass = isEssenciaCard
+              ? 'focus-visible:ring-[#C6A46A]/35'
+              : isMisticoCard
+                ? 'focus-visible:ring-[#C89D52]/40'
+                : 'focus-visible:ring-[#B88736]/35';
             return (
               <button
                 key={layout.id}
@@ -190,14 +219,14 @@ export default function LayoutChoiceModal({ onSelect }: LayoutChoiceModalProps) 
                 onClick={() => { setSelectedLayout(layout.id); setSaveError(null); }}
                 disabled={isSaving}
                 aria-pressed={isSelected}
-                className={`group min-h-36 rounded-2xl border bg-white/85 p-5 text-left transition hover:-translate-y-0.5 hover:shadow-lg focus-visible:outline-none focus-visible:ring-2 ${focusRingClass} ${selectionClasses}`}
+                className={`group min-h-36 rounded-2xl border ${isMisticoCard ? 'bg-[#07111F] text-[#F4F1EB]' : 'bg-white/85'} p-5 text-left transition hover:-translate-y-0.5 hover:shadow-lg focus-visible:outline-none focus-visible:ring-2 ${focusRingClass} ${selectionClasses}`}
               >
                 <div className="flex items-start justify-between gap-3">
                   <div>
-                    <h3 className="font-display text-xl font-semibold text-[#2A2420]">{layout.name}</h3>
-                    <p className="mt-1 text-xs leading-relaxed text-[#5C5248]">{layout.description}</p>
+                    <h3 className={`font-display text-xl font-semibold ${isMisticoCard ? "text-[#F4F1EB]" : "text-[#2A2420]"}`}>{layout.name}</h3>
+                    <p className={`mt-1 text-xs leading-relaxed ${isMisticoCard ? "text-[#D8D4CA]" : "text-[#5C5248]"}`}>{layout.description}</p>
                   </div>
-                  <span className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-full border transition ${isSelected ? (isEssenciaCard ? 'border-[#C6A46A] bg-[#C6A46A] text-white opacity-100' : 'border-[#B88736] bg-[#B88736] text-white opacity-100') : (isEssenciaCard ? 'border-[#E5DAC6] text-[#C6A46A] opacity-0 group-hover:opacity-100' : 'border-[#E5DAC6] text-[#B88736] opacity-0 group-hover:opacity-100')}`} aria-hidden="true">
+                  <span className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-full border transition ${isSelected ? (isEssenciaCard ? 'border-[#C6A46A] bg-[#C6A46A] text-white opacity-100' : isMisticoCard ? 'border-[#C89D52] bg-[#C89D52] text-[#07111F] opacity-100' : 'border-[#B88736] bg-[#B88736] text-white opacity-100') : (isEssenciaCard ? 'border-[#E5DAC6] text-[#C6A46A] opacity-0 group-hover:opacity-100' : isMisticoCard ? 'border-[#C89D52]/45 text-[#E2B96B] opacity-100' : 'border-[#E5DAC6] text-[#B88736] opacity-0 group-hover:opacity-100')}`} aria-hidden="true">
                     <Check size={16} />
                   </span>
                 </div>
@@ -209,9 +238,11 @@ export default function LayoutChoiceModal({ onSelect }: LayoutChoiceModalProps) 
                       ? ['#FFFFF8', '#C6A46A', '#F7F3E8', '#A6B49B']
                       : layout.id === 'elegancia-profunda'
                         ? ['#0B1712', '#2E6B4F', '#D4AF37', '#E5D3B1', '#8A5D3B', '#F4F1EB']
-                        : layout.swatches
+                        : layout.id === 'mistico-moderno'
+                          ? ['#07111F', '#26355F', '#176B5B', '#6C3FA0', '#C89D52']
+                          : layout.swatches
                   ).map((color, index) => (
-                    <span key={index} className="h-3 flex-1 rounded-full border shadow-inner" style={{ backgroundColor: color, borderColor: layout.id === 'elegancia-profunda' ? 'rgba(212,175,119,.35)' : layout.id === 'mistico-moderno' ? 'rgba(108,63,160,.40)' : 'rgba(42,36,32,.10)' }} />
+                    <span key={index} className="h-3 flex-1 rounded-full border shadow-inner" style={{ backgroundColor: color, borderColor: layout.id === 'elegancia-profunda' ? 'rgba(212,175,119,.35)' : layout.id === 'mistico-moderno' ? 'rgba(200,157,82,.42)' : 'rgba(42,36,32,.10)' }} />
                   ))}
                 </div>
               </button>
@@ -224,7 +255,7 @@ export default function LayoutChoiceModal({ onSelect }: LayoutChoiceModalProps) 
             type="button"
             disabled={!selectedLayout || isSaving}
             onClick={confirmSelection}
-            className={`min-h-12 w-full max-w-sm rounded-full ${selectedLayout === 'essencia-luminosa' ? 'bg-gradient-to-r from-[#D8C59B] via-[#C6A46A] to-[#E9DCC4] focus-visible:ring-[#C6A46A]/40' : 'bg-gradient-to-r from-[#C89D52] via-[#D9B66D] to-[#A87E37] focus-visible:ring-[#B88736]/40'} px-6 py-3 text-sm font-bold uppercase tracking-[.12em] text-[#2A2420] shadow-lg transition hover:-translate-y-0.5 hover:shadow-xl disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:translate-y-0 disabled:hover:shadow-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2`}
+            className={`min-h-12 w-full max-w-sm rounded-full ${selectedLayout === 'essencia-luminosa' ? 'bg-gradient-to-r from-[#D8C59B] via-[#C6A46A] to-[#E9DCC4] focus-visible:ring-[#C6A46A]/40' : selectedLayout === 'mistico-moderno' ? 'bg-gradient-to-r from-[#C89D52] via-[#E2B96B] to-[#A87E37] focus-visible:ring-[#C89D52]/40' : 'bg-gradient-to-r from-[#C89D52] via-[#D9B66D] to-[#A87E37] focus-visible:ring-[#B88736]/40'} px-6 py-3 text-sm font-bold uppercase tracking-[.12em] text-[#07111F] shadow-lg transition hover:-translate-y-0.5 hover:shadow-xl disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:translate-y-0 disabled:hover:shadow-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2`}
           >
             {isSaving ? 'Salvando escolha…' : selectedDefinition ? `Confirmar ${selectedDefinition.name}` : 'Selecione um estilo'}
           </button>
