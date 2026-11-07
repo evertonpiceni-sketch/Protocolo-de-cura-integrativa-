@@ -2466,6 +2466,10 @@ export default function App() {
           isOpen={showArchangelModal}
           onClose={() => setShowArchangelModal(false)}
           userName={userProfile?.name}
+          voiceId={userProfile?.voiceId}
+          voiceRate={userProfile?.voiceRate}
+          voicePitch={userProfile?.voicePitch}
+          voiceVolume={userProfile?.voiceVolume}
           onProgressChange={(days) => {
             if (userProfile) saveProfile({ ...userProfile, archangelPrayerCompletedDays: days });
           }}
@@ -2554,6 +2558,7 @@ export default function App() {
           onClose={() => setShowSystemicQuestionsModal(false)}
           currentDay={systemicModalDay}
           progress={progress}
+          userProfile={userProfile || undefined}
           userName={userProfile?.name}
           onSaveAnswer={handleSaveSystemicAnswer}
         />
