@@ -63,7 +63,8 @@ test('as últimas heranças verde-floresta são neutralizadas somente no Natural
   assert.ok(css.includes(':root[data-layout="natural-sereno"] #anamnesis-modal .ep-anamnesis-frequency'));
   assert.ok(css.includes("url('/brand/natural-sereno/acolhimento.webp')"));
   assert.ok(css.includes(':root[data-layout="natural-sereno"] .ns-app .ns-gold {\n  border-radius: 18px !important;'));
-  assert.ok(css.includes('#profile-setup-view.ep-auth-prestyle #onboarding-card :is(#register-form,#login-form) button[type="submit"]'));
+  assert.ok(css.includes(':root[data-layout="natural-sereno"] #profile-setup-view.ep-auth-prestyle #onboarding-card :is(#register-form,#login-form) button[type="submit"]'));
+  assert.ok(!css.includes('\n#profile-setup-view.ep-auth-prestyle #onboarding-card'));
   assert.ok(!css.includes('#profile-setup-view.ep-auth-style-one #onboarding-card'));
 });
 
