@@ -60,8 +60,9 @@ test('official protocol stream reports failure without falling back to browser s
         assert.ok(errors[0] instanceof Error);
         assert.ok(errors[0].message.length > 0);
         assert.deepEqual(playbackChanges, [false]);
-        assert.equal(audioInstances[0]?.volume, 0);
-        assert.equal(audioInstances[0]?.playCalls, 0);
+        const protocolAudio = audioInstances[audioInstances.length - 1];
+        assert.equal(protocolAudio?.volume, 0);
+        assert.equal(protocolAudio?.playCalls, 0);
 
         audioEngine.resumeSpeech();
         assert.equal(spoken.length, 0);
