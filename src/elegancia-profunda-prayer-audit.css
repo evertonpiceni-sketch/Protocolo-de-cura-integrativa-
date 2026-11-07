@@ -1,0 +1,51 @@
+/* Elegância Profunda — oração do Arcanjo Miguel.
+   Mantém os 21 dias aprovados, troca somente o azul legado pela paleta verde/champagne. */
+:root[data-layout="elegancia-profunda"] .ep-archangel-prayer {
+  background:linear-gradient(155deg,#10291e 0%,#0b1c14 100%)!important;
+  border-color:rgba(212,175,55,.38)!important;
+  color:var(--layout-text)!important;
+  box-shadow:0 30px 76px rgba(0,0,0,.48)!important;
+}
+:root[data-layout="elegancia-profunda"] .ep-archangel-prayer :is(header,footer) {
+  border-color:rgba(212,175,55,.24)!important;
+}
+:root[data-layout="elegancia-profunda"] .ep-archangel-prayer :is(h2,h3,strong) {
+  color:var(--layout-text)!important;
+}
+:root[data-layout="elegancia-profunda"] .ep-archangel-prayer :is(p,span,small) {
+  color:var(--layout-text-secondary)!important;
+}
+:root[data-layout="elegancia-profunda"] .ep-archangel-prayer :is([class*="bg-white"],[class*="bg-[#FBF8F2]"],[class*="bg-[#F5EFE4]"]) {
+  background:linear-gradient(145deg,rgba(21,50,37,.94),rgba(10,28,20,.96))!important;
+  border-color:rgba(212,175,55,.25)!important;
+}
+:root[data-layout="elegancia-profunda"] .ep-archangel-prayer [class*="text-[#2A2420]"],
+:root[data-layout="elegancia-profunda"] .ep-archangel-prayer [class*="text-[#5C5248]"],
+:root[data-layout="elegancia-profunda"] .ep-archangel-prayer [class*="text-[#85786C]"] {
+  color:var(--layout-text-secondary)!important;
+}
+:root[data-layout="elegancia-profunda"] .ep-archangel-prayer [class*="315C85"] {
+  color:var(--layout-gold-light)!important;
+  border-color:rgba(212,175,55,.34)!important;
+}
+:root[data-layout="elegancia-profunda"] .ep-archangel-prayer [class*="bg-[#315C85]"] {
+  background:rgba(212,175,55,.14)!important;
+}
+:root[data-layout="elegancia-profunda"] .ep-archangel-prayer [class*="border-l-2"] {
+  border-left-color:var(--layout-gold)!important;
+}
+:root[data-layout="elegancia-profunda"] .ep-archangel-prayer button[class*="bg-[#315C85]"],
+:root[data-layout="elegancia-profunda"] .ep-archangel-prayer button[class*="bg-[#274B6C]"] {
+  background:linear-gradient(135deg,#E5C365 0%,#D4AF37 52%,#A87E37 100%)!important;
+  border-color:rgba(229,195,101,.58)!important;
+  color:#14251c!important;
+  box-shadow:0 12px 26px rgba(0,0,0,.24)!important;
+}
+:root[data-layout="elegancia-profunda"] .ep-archangel-prayer button[class*="bg-[#315C85]"] :is(svg,span) {
+  color:#14251c!important;
+}
+:root[data-layout="elegancia-profunda"] .ep-archangel-prayer :is(button[aria-label="Copiar oração completa"],button[aria-label="Fechar oração de São Miguel"]) {
+  background:linear-gradient(145deg,#183b2d,#0d2118)!important;
+  border-color:rgba(212,175,55,.38)!important;
+  color:var(--layout-gold-light)!important;
+}
