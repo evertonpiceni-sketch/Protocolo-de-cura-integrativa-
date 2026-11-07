@@ -59,11 +59,13 @@ export default function TransformationHome(props: TransformationHomeProps) {
   const isEleganciaProfunda = props.visualLayout === 'elegancia-profunda';
   const isEssenciaLuminosa = props.visualLayout === 'essencia-luminosa';
   const requiresNeuralVoice = isEleganciaProfunda || isEssenciaLuminosa;
-  const approvedVoiceId = requiresNeuralVoice
+  const approvedVoiceId = isEleganciaProfunda
     ? (isElevenLabsVoiceId(savedVoiceId) ? savedVoiceId : '')
-    : savedVoiceId && !['Rachel', 'Marcus', 'masculina', 'feminina'].includes(savedVoiceId)
-      ? savedVoiceId
-      : OFFICIAL_PROTOCOL_VOICE_ID;
+    : isEssenciaLuminosa
+      ? (isElevenLabsVoiceId(savedVoiceId) ? savedVoiceId : OFFICIAL_PROTOCOL_VOICE_ID)
+      : savedVoiceId && !['Rachel', 'Marcus', 'masculina', 'feminina'].includes(savedVoiceId)
+        ? savedVoiceId
+        : OFFICIAL_PROTOCOL_VOICE_ID;
   // Essência Luminosa and Elegância Profunda honor saved neural voice IDs and their controls.
   const usesSavedVoiceSettings = requiresNeuralVoice;
   const narrationVoiceId = usesSavedVoiceSettings
