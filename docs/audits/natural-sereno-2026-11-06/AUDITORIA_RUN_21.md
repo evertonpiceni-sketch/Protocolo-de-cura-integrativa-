@@ -31,4 +31,11 @@
 3. **Homologação ao vivo:** ainda falta repetir a navegação visual em 390 px e 1440 px, testar a reprodução com as credenciais de voz de produção e conferir o retorno do checkout em ambiente real. Nenhuma transação foi iniciada.
 4. **Anexo original:** a cópia versionada da prancha foi usada como referência visual; a comparação binária com o anexo original permanece pendente por indisponibilidade do arquivo no runtime.
 
+
+## Reauditoria após a primeira execução de CI
+- A primeira execução da PR rodou TypeScript com sucesso e 33/35 testes passaram. O único teste novo que falhou estava lendo a primeira instância de áudio, que é o elemento keep-alive inicializado pelo motor, e não o elemento do player oficial. A asserção foi corrigida para verificar a última instância criada (o áudio do protocolo).
+- A execução também confirmou novamente 9 vulnerabilidades de dependências (3 moderadas e 6 altas). O build foi ignorado porque a suíte de testes não concluiu; o workflow permanece bloqueado pela auditoria de dependências.
+- O preview da Vercel associado à PR retornou `BUILD_FAILED / Resource provisioning failed`, sem eventos de build. O erro é de provisionamento do ambiente, não uma falha de compilação demonstrada; não foi feita nova implantação manual.
+- A correção de asserção já está no branch e aguarda nova execução do workflow.
+
 **Conclusão:** o código atual já contém as proteções visuais e funcionais principais do Natural Sereno. A única correção aplicada nesta rodada foi alinhar o teste de regressão à política aprovada de não usar voz nativa robótica como fallback do player oficial. A homologação final continua aberta até CI, segurança de dependências e teste visual/funcional ao vivo.
