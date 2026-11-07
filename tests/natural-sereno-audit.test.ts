@@ -128,6 +128,8 @@ test('Numerologia e Prática Específica usam checkout InfinitePay com confirma�
   assert.ok(treatment.includes("productType: 'specific_treatment'"));
   assert.ok(!treatment.includes('handleCopyPix'));
   assert.ok(routes.includes("router.post('/payment/create-checkout'"));
+  assert.ok(routes.includes("productType === 'numerology_full'"));
+  assert.ok(routes.includes('numerologyPurchased: true'));
   assert.ok(routes.includes("provider('/payment_check'"));
   assert.ok(routes.includes('verified.success !== true || verified.paid !== true || verified.amount !== order.cents'));
 });
