@@ -7,24 +7,25 @@ await fs.mkdir(out,{recursive:true});
 const qaUrl=process.env.NATURAL_SERENO_QA_URL || 'http://127.0.0.1:4173/';
 const browser=await puppeteer.launch({executablePath:process.env.NATURAL_SERENO_QA_BROWSER || '/usr/bin/chromium',args:['--no-sandbox']});
 const page=await browser.newPage();
-const errors=[]; const consoleErrors=[]; const checks=[];
+const errors=[]; const consoleErrors=[]; const checks=[]; const voiceRequests=[];
 page.on('pageerror',err=>errors.push(err.message));
 page.on('console',msg=>{if(msg.type()==='error'&&!msg.text().includes('Failed to load resource'))consoleErrors.push(msg.text())});
-let profile={name:'Maria',fullName:'Maria',login:'visual-qa',email:'visual-qa@example.test',birthDate:'1990-01-01',currentStreak:0,longestStreak:0,visualLayout:'natural-sereno',audioEnabled:false,bgMusicVolume:0,voiceVolume:1,bgMusicType:'none',plan:'pro',selectedJourney:'21d',notificationsEnabled:false};
+let profile={name:'Maria',fullName:'Maria',login:'visual-qa',email:'visual-qa@example.test',birthDate:'1990-01-01',currentStreak:0,longestStreak:0,visualLayout:'natural-sereno',audioEnabled:false,bgMusicVolume:0,voiceId:'Maiara',preferredVoiceGender:'feminina',voiceVolume:0.72,voiceRate:0.91,voicePitch:1.08,bgMusicType:'none',plan:'pro',selectedJourney:'21d',notificationsEnabled:false};
 const progress=Array.from({length:21},(_,i)=>({dayNumber:i+1,completed:i<2}));
 await page.setRequestInterception(true);
 page.on('request',req=>{
  const path=new URL(req.url()).pathname;
  if(path==='/api/auth/me')return req.respond({status:200,contentType:'application/json',body:JSON.stringify({user:{profile,progress,role:'user'}})});
  if(path==='/api/community')return req.respond({status:200,contentType:'application/json',body:JSON.stringify({posts:[],canModerate:false})});
- if(path==='/api/elevenlabs/tts')return req.respond({status:503,contentType:'application/json',body:'{"error":"QA: use browser voice fallback"}'});
+ if(path==='/api/elevenlabs/tts'){try{voiceRequests.push(JSON.parse(req.postData()||'{}'))}catch{}return req.respond({status:503,contentType:'application/json',body:'{"error":"QA: use browser voice fallback"}'});}
  if(path.startsWith('/api/'))return req.respond({status:200,contentType:'application/json',body:'{}'});
  req.continue();
 });
 await page.evaluateOnNewDocument(()=>{
  if(localStorage.getItem('natural-sereno-qa-welcome')==='true')sessionStorage.removeItem('transformation_journey_entered_v2');else sessionStorage.setItem('transformation_journey_entered_v2','true');
  localStorage.setItem('cura_integrada_welcome_seen_v1','true');
- Object.defineProperty(window.speechSynthesis,'speak',{value:utterance=>{utterance.onstart?.(new Event('start'));},configurable:true});
+ window.__naturalSerenoQaUtterances=[];
+ Object.defineProperty(window.speechSynthesis,'speak',{value:utterance=>{window.__naturalSerenoQaUtterances.push({rate:utterance.rate,pitch:utterance.pitch,volume:utterance.volume,voice:utterance.voice?.name||null});utterance.onstart?.(new Event('start'));},configurable:true});
 });
 const ready=async(selector)=>{await page.waitForSelector(selector);await new Promise(r=>setTimeout(r,750))};
 const shot=async(name)=>{console.log(`QA capture: ${name}`);await page.screenshot({path:`${out}/${name}.png`})};
@@ -37,10 +38,23 @@ const dock=async(label)=>{
 };
 const menu=async()=>{await dock('Início');await page.click('[aria-label="Abrir menu principal"]');await ready('[data-ns-screen="menu"]')};
 const row=async(title)=>{const handles=await page.$$('.ns-row');for(const h of handles){if(await h.evaluate((el,title)=>el.querySelector('strong')?.textContent===title,title)){await h.evaluate(el=>el.scrollIntoView({block:'center'}));await h.click();return}}throw Error(`Missing row ${title}`)};
-const textButton=async(text)=>{for(const h of await page.$$('button')){if(await h.evaluate((el,text)=>el.textContent.trim()===text,text)){await h.click();return}}throw Error(`Missing ${text}`)};
+const textButton=async(text)=>{for(const h of await page.$('button')){if(await h.evaluate((el,text)=>el.textContent.trim()===text,text)){await h.click();return}}throw Error(`Missing ${text}`)};
+const layoutIds={'Natural Sereno':'natural-sereno','Elegância Profunda':'elegancia-profunda','Essência Luminosa':'essencia-luminosa','Místico Moderno':'mistico-moderno'};
+const layoutNames={'elegancia-profunda':'Elegância Profunda','essencia-luminosa':'Essência Luminosa','mistico-moderno':'Místico Moderno'};
+const confirmLayoutChoice=async(layoutName)=>{
+ await page.waitForSelector('#layout-choice-title');
+ const state=await page.evaluate(()=>({appliedLayout:document.documentElement.dataset.layout||null,options:Array.from(document.querySelectorAll('[role="dialog"] button[aria-pressed]')).map(button=>({name:button.querySelector('h3')?.textContent?.trim(),selected:button.getAttribute('aria-pressed')==='true'}))}));
+ assert.equal(state.options.length,4,'The chooser must show all four official styles.');
+ assert.equal(state.options.filter(option=>option.selected).length,1,'The saved style may preselect exactly one option.');
+ assert.equal(state.options.find(option=>option.selected)?.name,layoutName,'The saved preference must only preselect the matching style.');
+ assert.equal(state.appliedLayout,null,'No visual theme may apply before explicit confirmation.');
+ await textButton(`Confirmar ${layoutName}`);
+ await page.waitForFunction(id=>document.documentElement.dataset.layout===id,{},layoutIds[layoutName]);
+};
 try {
  await page.setViewport({width:390,height:844,deviceScaleFactor:1});
  await page.goto(qaUrl,{waitUntil:'networkidle0'});
+ await confirmLayoutChoice('Natural Sereno');
  await ready('[data-ns-screen="home"]');await shot('home');
  for(const [label,screen]of[['Jornada','journey'],['Biblioteca','library'],['Comunidade','community']]){await dock(label);await ready(`[data-ns-screen="${screen}"]`);await shot(screen)}
  checks.push('Home, jornada, biblioteca and community navigate by real pointer clicks; dock unobstructed.');
@@ -94,11 +108,18 @@ try {
  await ready('[data-ns-screen="result"]');await shot('result');checks.push('Result uses existing recommendation engine, without altering its content or rules.');
  for(const width of [320,390,768,1440]){await page.setViewport({width,height:900,deviceScaleFactor:1});await dock('Início');await ready('[data-ns-screen="home"]');assert(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),`No horizontal overflow at ${width}`);await shot(`responsive-${width}`)}
  checks.push('No horizontal overflow at 320, 390, 768 and 1440 CSS px.');
- for(const theme of ['elegancia-profunda','essencia-luminosa','mistico-moderno']){profile.visualLayout=theme;await page.reload({waitUntil:'networkidle0'});await ready('.ep-home');assert.equal(await page.$('.ns-app'),null);await shot(`isolated-${theme}`)}
+ for(const theme of ['elegancia-profunda','essencia-luminosa','mistico-moderno']){profile.visualLayout=theme;await page.reload({waitUntil:'networkidle0'});await confirmLayoutChoice(layoutNames[theme]);await ready('.ep-home');assert.equal(await page.$('.ns-app'),null);await shot(`isolated-${theme}`)}
  checks.push('The three other themes keep the legacy component branch and never render Natural Sereno.');
- profile.visualLayout='natural-sereno';await page.reload({waitUntil:'networkidle0'});await ready('.ns-app');await page.evaluate(()=>localStorage.setItem('natural-sereno-qa-welcome','true'));await page.reload({waitUntil:'networkidle0'});await ready('[data-ns-screen="welcome"]');await page.setViewport({width:390,height:844,deviceScaleFactor:1});await shot('welcome');
- await page.click('[aria-label="Ouvir acolhimento"]');await page.waitForSelector('[aria-label="Pausar acolhimento"]');await page.click('[aria-label="Pausar acolhimento"]');await textButton('Entrar na minha jornada');await ready('[data-ns-screen="home"]');
- checks.push('Welcome voice toggle and session-persisted entry still work.');
+ profile.visualLayout='natural-sereno';await page.reload({waitUntil:'networkidle0'});await confirmLayoutChoice('Natural Sereno');await ready('.ns-app');await page.evaluate(()=>localStorage.setItem('natural-sereno-qa-welcome','true'));await page.reload({waitUntil:'networkidle0'});await confirmLayoutChoice('Natural Sereno');await ready('[data-ns-screen="welcome"]');await page.setViewport({width:390,height:844,deviceScaleFactor:1});await shot('welcome');
+ await page.click('[aria-label="Ouvir acolhimento"]');await page.waitForSelector('[aria-label="Pausar acolhimento"]');
+ assert.equal(voiceRequests.at(-1)?.voiceId,profile.voiceId,'Natural Sereno must send the saved Maiara voice choice to TTS.');
+ const spoken=await page.evaluate(()=>window.__naturalSerenoQaUtterances?.[0]||null);
+ assert(spoken,'The native fallback should receive the speech settings.');
+ assert.equal(spoken.rate,profile.voiceRate,'Saved narration rate must be preserved.');
+ assert.equal(spoken.pitch,profile.voicePitch,'Saved narration pitch must be preserved.');
+ assert.equal(spoken.volume,profile.voiceVolume,'Saved narration volume must be preserved.');
+ await page.click('[aria-label="Pausar acolhimento"]');await textButton('Entrar no meu espaço');await ready('[data-ns-screen="home"]');
+ checks.push('Natural Sereno forwards the saved Maiara voice choice and preserves selected rate, pitch and volume through native fallback.');
  const loadingPage=await browser.newPage();
  await loadingPage.setViewport({width:390,height:844,deviceScaleFactor:1});
  await loadingPage.setRequestInterception(true);
