@@ -419,3 +419,8 @@
 :root[data-layout="elegancia-profunda"] .ep-app-toast button:hover {
   color:#E5C365!important;
 }
+
+/* Atalhos de cuidado da Home: títulos em marfim sobre as superfícies verde-profundo. */
+:root[data-layout="elegancia-profunda"] #journey-choices .grid.grid-cols-2 > button strong {
+  color:var(--ep-panel-text)!important;
+}
