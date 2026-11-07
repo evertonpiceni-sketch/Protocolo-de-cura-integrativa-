@@ -38,7 +38,30 @@
 /* ---------- Arquitetura dos 4 layouts oficiais ----------
    Paletas transpostas do CSS oficial congelado.
    A troca altera somente a camada visual; lógica, conteúdo e estrutura permanecem iguais. */
-:root,
+/* Base neutra de entrada: nenhum dos quatro estilos é aplicado antes da confirmação explícita. */
+:root {
+  color-scheme: light;
+  --layout-canvas:#F8F4EC;
+  --layout-canvas-alt:#F3EBDD;
+  --layout-card:rgba(255,255,255,.88);
+  --layout-card-hover:rgba(255,255,255,.96);
+  --layout-card-subtle:#FBF8F2;
+  --layout-input:#F5EFE4;
+  --layout-accent:#6B625B;
+  --layout-accent-light:#85786C;
+  --layout-gold:#B88736;
+  --layout-gold-light:#D6A756;
+  --layout-gold-dark:#8F631E;
+  --layout-gold-border:rgba(184,135,54,.35);
+  --layout-gold-gradient:linear-gradient(135deg,#D6A756 0%,#B88736 52%,#8F631E 100%);
+  --layout-gold-shadow:rgba(184,135,54,.18);
+  --layout-text:#2A2420;
+  --layout-text-secondary:#5C5248;
+  --layout-text-muted:#85786C;
+  --layout-border:#E5DAC6;
+  --layout-border-card:#EADFCF;
+}
+
 :root[data-layout="natural-sereno"]{
   color-scheme:light;
   --layout-canvas:#F5EFE6;
@@ -129,6 +152,11 @@
   --layout-text-muted:#8E9DB2;
   --layout-border:rgba(108,63,160,.30);
   --layout-border-card:rgba(108,63,160,.35);
+}
+
+/* The authenticated shell stays hidden until an explicit layout has been confirmed. */
+:root:not([data-layout]) #cura-main-layout {
+  visibility: hidden !important;
 }
 
 :root[data-layout]{
