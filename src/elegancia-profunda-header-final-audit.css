@@ -34,3 +34,35 @@
   outline:2px solid color-mix(in srgb,var(--layout-gold) 68%,white);
   outline-offset:3px;
 }
+
+/* Cabeçalho principal — a assinatura e os controles seguem a paleta champagne/verde profundo. */
+:root[data-layout="elegancia-profunda"] #header-profile-avatar {
+  background:#10251b!important;
+  border-color:color-mix(in srgb,var(--layout-gold) 52%,transparent)!important;
+  box-shadow:0 0 12px rgba(212,175,55,.18)!important;
+}
+:root[data-layout="elegancia-profunda"] #main-header h1,
+:root[data-layout="elegancia-profunda"] #main-header [class*="text-[#2A2420]"] {
+  color:var(--layout-text)!important;
+}
+:root[data-layout="elegancia-profunda"] #main-header [class*="text-[#5C5248]"],
+:root[data-layout="elegancia-profunda"] #main-header [class*="text-[#85786C]"] {
+  color:var(--layout-text-soft)!important;
+}
+:root[data-layout="elegancia-profunda"] #header-audio-quick-control button,
+:root[data-layout="elegancia-profunda"] #header-btn-audio-settings,
+:root[data-layout="elegancia-profunda"] #header-language-selector {
+  background:linear-gradient(145deg,color-mix(in srgb,var(--layout-card) 92%,black),color-mix(in srgb,var(--layout-gold) 9%,var(--layout-card)))!important;
+  border-color:color-mix(in srgb,var(--layout-gold) 36%,var(--layout-border-card))!important;
+  color:var(--layout-text-soft)!important;
+  box-shadow:0 8px 22px rgba(0,0,0,.18)!important;
+}
+:root[data-layout="elegancia-profunda"] #header-audio-quick-control button :is(svg,span),
+:root[data-layout="elegancia-profunda"] #header-btn-audio-settings :is(svg,span),
+:root[data-layout="elegancia-profunda"] #header-language-selector :is(svg,select) {
+  color:var(--layout-gold-light)!important;
+}
+:root[data-layout="elegancia-profunda"] #header-language-selector option {
+  background:var(--layout-card)!important;
+  color:var(--layout-text)!important;
+}
