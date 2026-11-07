@@ -94,6 +94,7 @@ export default function AudioSettingsModal({
 
   if (!isOpen) return null;
 
+  const isMisticoModerno = typeof document !== 'undefined' && document.documentElement.dataset.layout === 'mistico-moderno';
   const rawVoices = availableVoices && availableVoices.length > 0 
     ? availableVoices 
     : audioEngine.getAvailableVoices();
@@ -202,8 +203,8 @@ export default function AudioSettingsModal({
         similarityBoost: 0.75,
         enableBreathingPauses: true,
         userName: userProfile.name,
-        fallbackToSpeechSynthesis: !requiresNeuralVoice,
-        onError: requiresNeuralVoice
+        fallbackToSpeechSynthesis: !requiresNeuralVoice && !isMisticoModerno,
+        onError: requiresNeuralVoice || isMisticoModerno
           ? () => {
               audioEngine.stopBG();
               setIsTestingVoice(false);
@@ -620,7 +621,14 @@ export default function AudioSettingsModal({
           </label>
 
           {/* Voice Selector */}
-          {requiresNeuralVoice ? (
+          {isMisticoModerno ? (
+            <div className="rounded-xl border border-[#6C3FA0]/35 bg-[#0A0F18] p-3">
+              <span className="block text-[11px] font-semibold text-[#F4F1EB]">Voz oficial do Místico Moderno</span>
+              <p className="mt-1 text-[11px] leading-relaxed text-[#C8D0DC]">
+                O player utiliza a voz ElevenLabs configurada no servidor. As vozes instaladas neste dispositivo não substituem essa narração.
+              </p>
+            </div>
+          ) : requiresNeuralVoice ? (
             <div className="space-y-1">
               <span className="text-[11px] text-[#5C5248] block">Voz neural (ElevenLabs)</span>
               <select
