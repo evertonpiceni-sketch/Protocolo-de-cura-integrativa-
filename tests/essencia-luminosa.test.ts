@@ -250,7 +250,7 @@ test('a Prática Individual não mantém gradientes verde-escuro ou índigo no E
 });
 
 
-test('a prévia da Essência Luminosa usa a prancha original em resolução integral', () => {
+test('a prévia do Estilo 3 usa o WebP versionado da prancha oficial, sem alegar acesso ao PNG original', () => {
   const modal = fs.readFileSync('src/components/LayoutChoiceModal.tsx', 'utf8');
   assert.ok(modal.includes('/brand/essencia-luminosa/prancha-oficial.webp'));
   assert.ok(!modal.includes('/brand/essencia-luminosa/prancha-oficial.png'));
@@ -335,7 +335,7 @@ test('a página de Configurações usa ElevenLabs também na Essência Luminosa'
   assert.ok(block.includes('if (usesNeuralVoiceCatalog) {'));
   assert.ok(block.includes('fallbackToSpeechSynthesis: false'));
   assert.ok(block.includes('id="settings-voice-preview"'));
-  assert.ok(block.includes('Os Estilos 2 e 3 não usam a voz do dispositivo.'));
+  assert.ok(block.includes('Natural Sereno, Elegância Profunda e Essência Luminosa não usam a voz do dispositivo.'));
   assert.doesNotMatch(block, /if \(isEleganciaProfunda\)/);
 });
 
