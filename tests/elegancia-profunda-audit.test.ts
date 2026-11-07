@@ -247,3 +247,12 @@ test('a Reintegração carrega as 21 artes diárias com nomes zero-padded', () =
     assert.ok(fs.existsSync(asset), `Arte diária ausente: ${asset}`);
   }
 });
+
+
+test('o player do Estilo 2 substitui o véu claro herdado por vinheta verde profunda', () => {
+  const session = read('src/components/MeditationSession.tsx');
+  const playerCss = read('src/elegancia-profunda-player-audit.css');
+  assert.ok(session.includes('ep-session-light-overlay'));
+  assert.ok(playerCss.includes(':root[data-layout="elegancia-profunda"] #meditation-session .ep-session-light-overlay'));
+  assert.ok(playerCss.includes('rgba(7,19,14,.72)'));
+});
