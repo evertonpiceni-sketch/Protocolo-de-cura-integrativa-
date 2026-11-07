@@ -28,6 +28,7 @@ test('Natural Sereno usa a voz neural aprovada e não recorre à voz robótica d
   const session = read('src/components/MeditationSession.tsx');
   const settings = read('src/components/AudioSettingsModal.tsx');
   const patch = read('src/lib/naturalSerenoOfficialVoicePatch.ts');
+  const arcanjo = read('src/components/ArcanjoProtocolView.tsx');
   const audio = read('src/lib/audio.ts');
 
   assert.ok(audio.includes("export const OFFICIAL_PROTOCOL_VOICE_ID = 'mJqP14JQFEK0PojR5lfV'"));
@@ -41,6 +42,8 @@ test('Natural Sereno usa a voz neural aprovada e não recorre à voz robótica d
   assert.ok(patch.includes('!isElevenLabsVoiceId(voiceId) ? OFFICIAL_PROTOCOL_VOICE_ID : voiceId'));
   assert.ok(patch.includes('fallbackToSpeechSynthesis: false'));
   assert.ok(patch.includes('requireExplicitVoiceId: true'));
+  assert.ok(arcanjo.includes('if (isNaturalSereno || isEleganciaProfunda)'));
+  assert.ok(arcanjo.includes('requireExplicitVoiceId: isNaturalSereno || isEleganciaProfunda'));
 });
 
 test('Solfeggio mantém posse exclusiva do áudio durante Arcanjo', () => {
