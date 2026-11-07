@@ -12,6 +12,7 @@ import {
 } from 'lucide-react';
 import { UserProfile } from '../types';
 import { audioEngine } from '../lib/audio';
+import { isElevenLabsVoiceId, type ElevenLabsVoiceOption } from '../lib/voiceSelection';
 import { useDialogFocus } from '../hooks/useDialogFocus';
 
 interface AudioSettingsModalProps {
@@ -20,6 +21,8 @@ interface AudioSettingsModalProps {
   userProfile: UserProfile;
   onSaveProfile: (updated: UserProfile) => void;
   availableVoices?: SpeechSynthesisVoice[];
+  elevenLabsVoices?: ElevenLabsVoiceOption[];
+  isLoadingElevenLabsVoices?: boolean;
   onOpenProModal?: () => void;
   allowBackgroundPlayback?: boolean;
 }
@@ -30,6 +33,8 @@ export default function AudioSettingsModal({
   userProfile,
   onSaveProfile,
   availableVoices,
+  elevenLabsVoices = [],
+  isLoadingElevenLabsVoices = false,
   onOpenProModal,
   allowBackgroundPlayback = true
 }: AudioSettingsModalProps) {
@@ -62,6 +67,9 @@ export default function AudioSettingsModal({
   const [voiceId, setVoiceId] = useState(userProfile.voiceId || '');
   const [audioEnabled, setAudioEnabled] = useState(userProfile.audioEnabled !== false);
   const [isTestingVoice, setIsTestingVoice] = useState(false);
+  const [voiceTestError, setVoiceTestError] = useState(false);
+  const isEleganciaProfunda = typeof document !== 'undefined' && document.documentElement.dataset.layout === 'elegancia-profunda';
+  const neuralVoices = elevenLabsVoices.filter(voice => isElevenLabsVoiceId(voice.voice_id));
 
   // Camada Binaural State
   const [bioactiveBinauralEnabled, setBioactiveBinauralEnabled] = useState<boolean>(
@@ -152,34 +160,48 @@ export default function AudioSettingsModal({
     if (isTestingVoice) {
       audioEngine.stopSpeech();
       setIsTestingVoice(false);
-    } else {
-      setIsTestingVoice(true);
-      const testPhrase = `Olá, ${userProfile.name}. Esta é uma prévia da voz escolhida para acompanhar suas práticas com calma e presença.`;
-      
-      // Also play the bg frequency briefly for test
-      if (allowBackgroundPlayback && bgMusicType !== 'none' && audioEnabled) {
-        audioEngine.startBG(bgMusicType);
-      }
-
-      audioEngine.speakWithElevenLabsOrFallback(
-        testPhrase,
-        voiceVolume,
-        () => setIsTestingVoice(true),
-        () => setIsTestingVoice(false),
-        undefined,
-        undefined,
-        {
-          voiceId,
-          rate: voiceRate,
-          pitch: voicePitch,
-          lang: 'pt-BR',
-          stability: 0.45,
-          similarityBoost: 0.75,
-          enableBreathingPauses: true,
-          userName: userProfile.name
-        }
-      );
+      return;
     }
+
+    setVoiceTestError(false);
+    if (isEleganciaProfunda && !isElevenLabsVoiceId(voiceId)) {
+      setVoiceTestError(true);
+      return;
+    }
+
+    setIsTestingVoice(true);
+    const testPhrase = `Olá, ${userProfile.name}. Esta é uma prévia da voz escolhida para acompanhar suas práticas com calma e presença.`;
+
+    if (allowBackgroundPlayback && bgMusicType !== 'none' && audioEnabled) {
+      audioEngine.startBG(bgMusicType);
+    }
+
+    audioEngine.speakWithElevenLabsOrFallback(
+      testPhrase,
+      voiceVolume,
+      () => setIsTestingVoice(true),
+      () => setIsTestingVoice(false),
+      undefined,
+      undefined,
+      {
+        voiceId,
+        rate: voiceRate,
+        pitch: voicePitch,
+        lang: 'pt-BR',
+        stability: 0.45,
+        similarityBoost: 0.75,
+        enableBreathingPauses: true,
+        userName: userProfile.name,
+        fallbackToSpeechSynthesis: !isEleganciaProfunda,
+        onError: isEleganciaProfunda
+          ? () => {
+              audioEngine.stopBG();
+              setIsTestingVoice(false);
+              setVoiceTestError(true);
+            }
+          : undefined
+      }
+    );
   };
 
   const handleSave = () => {
@@ -584,7 +606,32 @@ export default function AudioSettingsModal({
           </label>
 
           {/* Voice Selector */}
-          {voices.length > 0 && (
+          {isEleganciaProfunda ? (
+            <div className="space-y-1">
+              <span className="text-[11px] text-[#5C5248] block">Voz neural (ElevenLabs)</span>
+              <select
+                aria-label="Voz neural ElevenLabs"
+                value={voiceId}
+                onChange={(e) => { setVoiceId(e.target.value); setVoiceTestError(false); }}
+                className="w-full bg-[#FBF8F2] border border-[#E5DAC6] rounded-xl px-3 py-2 text-xs text-[#2A2420] focus:border-[#B88736] outline-none"
+              >
+                {voiceId && !neuralVoices.some(voice => voice.voice_id === voiceId) && (
+                  <option value={voiceId} disabled>
+                    {isElevenLabsVoiceId(voiceId) ? 'Voz salva — não listada no catálogo' : 'Seleção anterior do dispositivo — escolha uma voz neural'}
+                  </option>
+                )}
+                <option value="">Selecione uma voz neural</option>
+                {neuralVoices.map(voice => (
+                  <option key={voice.voice_id} value={voice.voice_id}>{voice.name}</option>
+                ))}
+              </select>
+              {isLoadingElevenLabsVoices
+                ? <p className="text-[10px] text-[#85786C]">Carregando catálogo de vozes neurais…</p>
+                : neuralVoices.length === 0
+                  ? <p className="text-[10px] text-[#85786C]">Nenhuma voz neural disponível no catálogo. A voz do dispositivo não será usada neste estilo.</p>
+                  : null}
+            </div>
+          ) : voices.length > 0 && (
             <div className="space-y-1">
               <span className="text-[11px] text-[#5C5248] block">Timbre da Voz (Instaladas no Dispositivo)</span>
               <select
@@ -656,6 +703,11 @@ export default function AudioSettingsModal({
           {isTestingVoice ? <VolumeX size={15} /> : <Play size={15} fill="currentColor" />}
           <span>{isTestingVoice ? 'Pausar Demonstração da Voz' : 'Ouvir Teste de Áudio e Frequência'}</span>
         </button>
+        {voiceTestError && (
+          <p role="alert" className="ep-voice-error rounded-xl px-3 py-2 text-xs">
+            Selecione uma voz neural válida do catálogo. O Estilo 2 não usará a voz robótica do dispositivo.
+          </p>
+        )}
 
         {/* Save & Apply Button */}
         <div className="pt-2">
