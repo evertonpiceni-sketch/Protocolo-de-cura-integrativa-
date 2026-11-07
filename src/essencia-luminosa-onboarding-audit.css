@@ -37,6 +37,7 @@
 }
 
 :root[data-layout="essencia-luminosa"] .ep-care-onboarding-card .ep-brand-signature-wrap {
+  opacity: 1 !important;
   background: color-mix(in srgb, var(--layout-card) 86%, transparent) !important;
   border-color: color-mix(in srgb, var(--layout-gold) 24%, var(--layout-border-card)) !important;
   box-shadow: none !important;

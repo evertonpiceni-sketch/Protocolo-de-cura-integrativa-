@@ -158,3 +158,24 @@ test('o Guia de Banhos do Estilo 3 usa sálvia clara e champagne sem verde escur
   assert.ok(css.includes('var(--layout-gold-gradient)'));
   assert.ok(!/#63745a|#53634c|#877747|#917649|#ac945f|#a68b56|#a58c58/i.test(css));
 });
+
+test('a Home e o acolhimento do Estilo 3 neutralizam o overlay escuro compartilhado', () => {
+  const css = fs.readFileSync('src/essencia-luminosa-final-audit.css', 'utf8');
+  const onboardingCss = fs.readFileSync('src/essencia-luminosa-onboarding-audit.css', 'utf8');
+  assert.ok(css.includes(':root[data-layout="essencia-luminosa"] .ep-welcome-audio.ep-home-hero'));
+  assert.ok(css.includes(':root[data-layout="essencia-luminosa"] #cura-main-layout'));
+  assert.ok(css.includes('rgba(255,255,248,.76)'));
+  assert.ok(css.includes('var(--ep-scene) center/cover no-repeat'));
+  assert.ok(css.includes('position: relative !important'));
+  assert.ok(css.includes('opacity: .30 !important'));
+  assert.ok(onboardingCss.includes('opacity: 1 !important'));
+});
+
+test('as assinaturas do logo em Home, Contato e Cursos permanecem discretas no Estilo 3', () => {
+  const finalCss = fs.readFileSync('src/essencia-luminosa-final-audit.css', 'utf8');
+  const contactCss = fs.readFileSync('src/essencia-luminosa-contact-audit.css', 'utf8');
+  const coursesCss = fs.readFileSync('src/essencia-luminosa-courses-audit.css', 'utf8');
+  assert.ok(finalCss.includes('.ep-brand-signature {\n  opacity: .30 !important;'));
+  assert.ok(contactCss.includes('opacity:.30'));
+  assert.ok(coursesCss.includes('opacity:.30'));
+});

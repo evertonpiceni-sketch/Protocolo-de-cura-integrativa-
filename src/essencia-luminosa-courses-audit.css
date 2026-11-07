@@ -6,7 +6,7 @@ html[data-layout="essencia-luminosa"] #courses-modal h2,
 html[data-layout="essencia-luminosa"] #courses-modal h3,
 html[data-layout="essencia-luminosa"] #courses-modal strong { color:#494c3d; }
 html[data-layout="essencia-luminosa"] #courses-modal p { color:#6d695d; }
-html[data-layout="essencia-luminosa"] #courses-modal img[alt="Everton Piceni"] { opacity:.46; }
+html[data-layout="essencia-luminosa"] #courses-modal img[alt="Everton Piceni"] { opacity:.30; filter:saturate(.86) contrast(.96); }
 html[data-layout="essencia-luminosa"] #courses-modal button { border-color:#d8c9a7; }
 html[data-layout="essencia-luminosa"] #courses-modal > div > button:last-child { background:linear-gradient(110deg,#f0e5ce,#e5dfc8); color:#454839; box-shadow:0 7px 22px rgba(115,101,65,.12); }
 html[data-layout="essencia-luminosa"] #courses-modal > div > button:last-child:hover { background:linear-gradient(110deg,#e9dbc0,#dcd5b8); transform:translateY(-1px); }

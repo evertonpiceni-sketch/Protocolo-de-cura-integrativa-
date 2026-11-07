@@ -12,5 +12,5 @@ html[data-layout="essencia-luminosa"] #contact-us-modal input:focus-visible,
 html[data-layout="essencia-luminosa"] #contact-us-modal textarea:focus-visible,
 html[data-layout="essencia-luminosa"] #contact-us-modal select:focus-visible,
 html[data-layout="essencia-luminosa"] #contact-us-modal button:focus-visible { outline:2px solid #a5ae8b; outline-offset:2px; }
-html[data-layout="essencia-luminosa"] #contact-us-modal img[alt="Marca do Protocolo da Transformação"] { opacity:.48; }
+html[data-layout="essencia-luminosa"] #contact-us-modal img[alt="Marca do Protocolo da Transformação"] { opacity:.30; filter:saturate(.86) contrast(.96); }
 html[data-layout="essencia-luminosa"] #contact-us-modal [class*="bg-emerald-500"] { background-color:rgb(163 177 143 / 20%); border-color:rgb(141 159 117 / 45%); color:#647653; box-shadow:none; }
