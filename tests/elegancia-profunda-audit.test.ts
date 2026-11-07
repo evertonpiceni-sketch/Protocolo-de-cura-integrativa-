@@ -119,7 +119,8 @@ test('a narração do Estilo 2 usa IDs ElevenLabs válidos e não cai na voz do 
   assert.ok(session.includes("activeLayout === 'elegancia-profunda' && !style2VoiceId"));
   assert.ok(anamnesis.includes('fallbackToSpeechSynthesis: false'));
   assert.ok(hooponopono.includes('fallbackToSpeechSynthesis: !isEleganciaProfunda'));
-  assert.ok(arcanjo.includes('requireExplicitVoiceId: isEleganciaProfunda'));
+  assert.ok(arcanjo.includes('const requiresExplicitNeuralVoice = isEleganciaProfunda || isNaturalSereno;'));
+  assert.ok(arcanjo.includes('requireExplicitVoiceId: requiresExplicitNeuralVoice'));
   assert.ok(audio.includes('requireExplicitVoiceId?: boolean'));
   assert.ok(audio.includes('if (options.requireExplicitVoiceId && !isElevenLabsVoiceId(options.voiceId))'));
   assert.ok(systemic.includes('fallbackToSpeechSynthesis: false'));
@@ -154,7 +155,8 @@ test('o Estilo 2 não substitui silenciosamente a voz neural escolhida por uma v
   const home = read('src/components/TransformationHome.tsx');
   const settings = read('src/components/AudioSettingsModal.tsx');
   assert.ok(home.includes("const approvedVoiceId = isEleganciaProfunda\n    ? (isElevenLabsVoiceId(savedVoiceId) ? savedVoiceId : '')"));
-  assert.ok(home.includes("(isNaturalSereno || isEssenciaLuminosa)\n      ? (isElevenLabsVoiceId(savedVoiceId) ? savedVoiceId : OFFICIAL_PROTOCOL_VOICE_ID)"));
+  assert.ok(home.includes("isNaturalSereno\n      ? (isNaturalSerenoVoiceId(savedVoiceId) ? savedVoiceId : '')"));
+  assert.ok(home.includes("isEssenciaLuminosa\n        ? (isElevenLabsVoiceId(savedVoiceId) ? savedVoiceId : OFFICIAL_PROTOCOL_VOICE_ID)"));
   assert.ok(settings.includes('if (requiresNeuralVoice && !isElevenLabsVoiceId(voiceId))'));
 });
 
