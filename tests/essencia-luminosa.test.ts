@@ -526,3 +526,27 @@ test('o logo da Essência Luminosa neutraliza o destaque compartilhado no hero e
   assert.ok(main.indexOf("import './approved-theme.css'") < main.indexOf("import './essencia-luminosa-final-audit.css'"));
   assert.ok(home.includes('ep-welcome-audio ep-home-hero'));
 });
+
+test('a prévia de voz da Essência Luminosa não toca Solfeggio durante a narração', () => {
+  const app = fs.readFileSync('src/App.tsx', 'utf8');
+  const settings = fs.readFileSync('src/components/AudioSettingsModal.tsx', 'utf8');
+
+  for (const frequency of ['396hz', '417hz', '432hz', '528hz', '639hz', '741hz', '852hz', '963hz']) {
+    assert.equal(shouldPlayProtocolSessionBackground('playing', frequency), false, frequency);
+  }
+  assert.equal(shouldPlayProtocolSessionBackground('playing', 'waves'), true);
+  assert.equal(shouldPlayProtocolSessionBackground('playing', 'chuvaserena'), true);
+
+  assert.equal(
+    (app.match(/shouldPlayProtocolSessionBackground\('playing', userProfile\.bgMusicType\)/g) || []).length,
+    2,
+    'a reprodução global e o desbloqueio por gesto devem respeitar a prévia de voz'
+  );
+  assert.ok(app.includes('!isEssenciaLuminosa || !isPlayingVoiceTest'));
+  assert.ok(app.includes('layoutConfirmedThisSession,\n    isPlayingVoiceTest\n  ]);'));
+  assert.ok(app.includes('layoutConfirmedThisSession, isPlayingVoiceTest]);'));
+
+  assert.ok(settings.includes('const shouldPlayVoiceBackground = !isEssenciaLuminosa'));
+  assert.ok(settings.includes("audioEnabled && shouldPlayProtocolSessionBackground('playing', bgMusicType)"));
+  assert.ok(settings.includes('else if (allowBackgroundPlayback && isEssenciaLuminosa)'));
+});
