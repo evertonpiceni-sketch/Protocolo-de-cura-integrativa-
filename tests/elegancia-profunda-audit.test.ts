@@ -309,3 +309,26 @@ test('o logout limpa a confirmação do estilo para exigir nova escolha na próx
   assert.ok(logout.includes('setLayoutChoiceRequested(false)'));
   assert.ok(app.includes('{(!layoutConfirmedThisSession || layoutChoiceRequested) && ('));
 });
+
+
+test('todas as folhas CSS do Estilo 2 permanecem isoladas do restante do sistema', () => {
+  const main = read('src/main.tsx');
+  const styleSheets = [...main.matchAll(/import\\s+['"]\\.\\/(elegancia-profunda[^'"]+\\.css)['"];/g)]
+    .map(match => match[1]);
+  assert.equal(styleSheets.length, 21, 'A auditoria deve cobrir todas as folhas CSS ativas do Estilo 2.');
+
+  for (const file of styleSheets) {
+    const css = read(`src/${file}`).replace(/\\/\\*[\\s\\S]*?\\*\\//g, '');
+    const selectors = [...css.matchAll(/(?:^|})\\s*([^{}@]+)\\s*\\{/g)]
+      .map(match => match[1].trim())
+      .filter(Boolean);
+
+    for (const selector of selectors) {
+      if (/^(from|to|\\d+%)(\\s*,\\s*(from|to|\\d+%))*$/.test(selector)) continue;
+      assert.ok(
+        selector.includes('data-layout="elegancia-profunda"'),
+        `${file} contém seletor fora do escopo Elegância Profunda: ${selector}`
+      );
+    }
+  }
+});
