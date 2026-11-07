@@ -10,7 +10,11 @@ test('o seletor mostra a prancha oficial do Místico Moderno e exige escolha exp
   const app = read('src/App.tsx');
   const layouts = read('src/config/layouts.ts');
 
+  assert.ok(modal.includes('NATURAL_SERENO_OFFICIAL_BOARD'));
+  assert.ok(modal.includes('/brand/elegancia-profunda/prancha-oficial.svg'));
+  assert.ok(modal.includes('/brand/essencia-luminosa/prancha-oficial.webp'));
   assert.ok(modal.includes('/brand/mistico-moderno/prancha-oficial.svg'));
+  assert.ok(!modal.includes('actionBackground'));
   assert.ok(board.includes('data:image/webp;base64,'));
   const payload = board.match(/data:image\/webp;base64,([A-Za-z0-9+/=]+)"/)?.[1] ?? '';
   assert.ok(payload.length > 0 && payload.length % 4 === 0);
