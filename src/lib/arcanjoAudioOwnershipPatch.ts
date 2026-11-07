@@ -72,7 +72,11 @@ if (typeof document !== 'undefined' && typeof MutationObserver !== 'undefined') 
   const startObserving = () => {
     if (!document.body) return;
     observer.observe(document.body, { childList: true, subtree: true });
-    if (isArcanjoViewMounted()) audioEngine.stopBG();
+    arcanjoWasMounted = isArcanjoViewMounted();
+    if (arcanjoWasMounted) {
+      releaseOpeningGuard();
+      audioEngine.stopBG();
+    }
   };
 
   if (document.body) startObserving();
