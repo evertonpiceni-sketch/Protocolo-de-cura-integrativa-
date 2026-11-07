@@ -19,6 +19,8 @@ interface SacredEnergyCanvasProps {
     sageLine?: string;
     ivory?: string;
     transparent?: string;
+    particleGold?: string;
+    particleAccent?: string;
   };
 }
 
@@ -30,7 +32,7 @@ export const SacredEnergyCanvas: React.FC<SacredEnergyCanvasProps> = ({
   elapsedSeconds,
   colorTheme
 }) => {
-  // Style 2 and Style 3 pass explicit palettes; unconfigured styles retain their existing stage colors.
+  // Styles 2, 3 and 4 pass explicit palettes; unconfigured styles retain their existing stage colors.
   const palette = colorTheme ? {
     gold: colorTheme.glow || '#C6A46A',
     sage: colorTheme.accent || '#A6B49B',
@@ -41,7 +43,9 @@ export const SacredEnergyCanvas: React.FC<SacredEnergyCanvasProps> = ({
     sageGlow: colorTheme.sageGlow || 'rgba(166, 180, 155, 0.24)',
     sageLine: colorTheme.sageLine || 'rgba(166, 180, 155, 0.40)',
     ivory: colorTheme.ivory || '#FFFFF8',
-    transparent: colorTheme.transparent || 'rgba(255, 255, 248, 0)'
+    transparent: colorTheme.transparent || 'rgba(255, 255, 248, 0)',
+    particleGold: colorTheme.particleGold || 'rgba(198, 164, 106, 0.75)',
+    particleAccent: colorTheme.particleAccent || 'rgba(166, 180, 155, 0.72)'
   } : null;
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const clockRef = useRef(elapsedSeconds);
@@ -337,7 +341,7 @@ export const SacredEnergyCanvas: React.FC<SacredEnergyCanvasProps> = ({
             const px = cx + Math.cos(flameAngle) * dist;
             const py = cy + Math.sin(flameAngle) * (dist * 0.7) - ((time * 25 + idx * 10) % 65);
 
-            ctx.fillStyle = palette ? (idx % 2 === 0 ? 'rgba(198, 164, 106, 0.75)' : 'rgba(166, 180, 155, 0.72)') : (idx % 2 === 0 ? 'rgba(192, 132, 252, 0.75)' : 'rgba(96, 165, 250, 0.75)');
+            ctx.fillStyle = palette ? (idx % 2 === 0 ? palette.particleGold : palette.particleAccent) : (idx % 2 === 0 ? 'rgba(192, 132, 252, 0.75)' : 'rgba(96, 165, 250, 0.75)');
             ctx.beginPath();
             ctx.arc(px, py, p.radius, 0, Math.PI * 2);
             ctx.fill();
