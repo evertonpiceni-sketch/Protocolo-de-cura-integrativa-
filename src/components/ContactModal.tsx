@@ -104,12 +104,12 @@ export default function ContactModal({
         {/* Header */}
         <div className="flex items-center justify-between border-b border-[#E5DAC6] pb-4">
           <div className="flex items-center gap-3">
-            <div className="w-12 h-12 rounded-2xl overflow-hidden border border-[#E5DAC6] shrink-0 shadow-sm opacity-75">
+            <div className="ep-brand-signature-wrap w-12 h-12 rounded-2xl overflow-hidden shrink-0">
               <img
                 src={APPROVED_LOGO_DATA_URI}
                 alt="Marca do Protocolo da Transformação"
                 referrerPolicy="no-referrer"
-                className="w-full h-full object-contain"
+                className="ep-brand-signature w-full h-full object-contain"
               />
             </div>
             <div>
