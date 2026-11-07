@@ -49,3 +49,24 @@
   outline: 2px solid color-mix(in srgb, var(--layout-gold-soft) 78%, white) !important;
   outline-offset: 3px;
 }
+
+
+/* Os acentos âmbar do componente-base são semânticos, mas devem usar o ouro suave no Estilo 3. */
+:root[data-layout="essencia-luminosa"] [aria-label="Celebração de progresso"] :is([class*="bg-amber-"], [class*="bg-yellow-"]) {
+  background: var(--layout-gold-soft) !important;
+}
+:root[data-layout="essencia-luminosa"] [aria-label="Celebração de progresso"] :is([class*="border-amber-"], [class*="border-yellow-"]) {
+  border-color: var(--layout-gold-border) !important;
+}
+:root[data-layout="essencia-luminosa"] [aria-label="Celebração de progresso"] :is([class*="text-amber-"], [class*="text-yellow-"]) {
+  color: var(--layout-gold-dark) !important;
+}
+:root[data-layout="essencia-luminosa"] [aria-label="Celebração de progresso"] button[class*="from-amber-"] {
+  background: var(--layout-gold-gradient) !important;
+  color: var(--layout-text) !important;
+  border-color: var(--layout-gold-border) !important;
+  box-shadow: 0 10px 26px var(--layout-gold-shadow) !important;
+}
+:root[data-layout="essencia-luminosa"] [aria-label="Celebração de progresso"] button[class*="from-amber-"]:hover {
+  filter: brightness(.98) saturate(.96);
+}

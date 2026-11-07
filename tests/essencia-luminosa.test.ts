@@ -189,3 +189,22 @@ test('a pré-seleção da Essência Luminosa usa ouro suave sem alterar o CTA do
   assert.ok(modal.includes('focus-visible:ring-[#C6A46A]/40'));
   assert.ok(modal.includes('from-[#C89D52] via-[#D9B66D] to-[#A87E37]'));
 });
+
+
+test('os overlays compartilhados do Estilo 3 não herdam índigo, verde escuro ou amarelo antigo', () => {
+  const finalCss = fs.readFileSync('src/essencia-luminosa-final-audit.css', 'utf8');
+  const milestoneCss = fs.readFileSync('src/essencia-luminosa-milestone-audit.css', 'utf8');
+  const app = fs.readFileSync('src/App.tsx', 'utf8');
+  const plans = fs.readFileSync('src/components/ProUpgradeModal.tsx', 'utf8');
+  assert.ok(finalCss.includes(':root[data-layout="essencia-luminosa"] .ep-app-toast'));
+  assert.ok(finalCss.includes(':root[data-layout="essencia-luminosa"] #plans-modal'));
+  assert.ok(finalCss.includes(':root[data-layout="essencia-luminosa"] #audio-settings-modal'));
+  assert.ok(finalCss.includes('button[class~="bg-[#B88736]"]'));
+  assert.ok(finalCss.includes('var(--layout-gold-gradient)'));
+  assert.ok(milestoneCss.includes('[class*="from-amber-"]'));
+  assert.ok(milestoneCss.includes('[class*="text-amber-"]'));
+  assert.ok(app.includes("fetch('/api/payment/create-checkout'"));
+  assert.ok(app.includes('data.checkoutUrl'));
+  assert.ok(plans.includes('onUpgradeSuccess(selectedPlan.id, paymentMethod, finalPrice, appliedCoupon || undefined)'));
+  assert.ok(!/chave PIX manual|copiar chave PIX/i.test(plans));
+});

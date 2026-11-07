@@ -209,3 +209,146 @@
     opacity: .26 !important;
   }
 }
+
+
+/* Estilo 3 — superfícies compartilhadas que ainda herdavam cores dos temas antigos. */
+:root[data-layout="essencia-luminosa"] .ep-app-toast {
+  background:
+    radial-gradient(circle at 90% 8%, color-mix(in srgb, var(--layout-gold-soft) 72%, transparent), transparent 14rem),
+    var(--layout-card) !important;
+  border: 1px solid var(--layout-gold-border) !important;
+  color: var(--layout-text) !important;
+  box-shadow: 0 18px 46px rgba(112, 91, 58, .12) !important;
+}
+:root[data-layout="essencia-luminosa"] .ep-app-toast .text-amber-400 {
+  color: var(--layout-gold-dark) !important;
+}
+
+:root[data-layout="essencia-luminosa"] #main-header [class*="bg-amber-"] {
+  background: color-mix(in srgb, var(--layout-gold-soft) 74%, var(--layout-card)) !important;
+}
+:root[data-layout="essencia-luminosa"] #main-header [class*="border-amber-"] {
+  border-color: var(--layout-gold-border) !important;
+}
+:root[data-layout="essencia-luminosa"] #main-header [class*="text-amber-"] {
+  color: var(--layout-gold-dark) !important;
+}
+:root[data-layout="essencia-luminosa"] #main-header button[class*="from-amber-"] {
+  background: var(--layout-gold-gradient) !important;
+  color: var(--layout-text) !important;
+  border: 1px solid var(--layout-gold-border) !important;
+  box-shadow: 0 10px 24px var(--layout-gold-shadow) !important;
+}
+:root[data-layout="essencia-luminosa"] #main-header button[class*="from-amber-"]:hover {
+  filter: brightness(.98) saturate(.96);
+}
+
+/* Planos e checkout: mantém InfinitePay e todos os valores; corrige apenas a camada visual. */
+:root[data-layout="essencia-luminosa"] #plans-modal {
+  background: color-mix(in srgb, var(--layout-text) 16%, transparent) !important;
+}
+:root[data-layout="essencia-luminosa"] #plans-modal > div {
+  background: linear-gradient(180deg, var(--layout-canvas), var(--layout-canvas-alt)) !important;
+  color: var(--layout-text) !important;
+}
+:root[data-layout="essencia-luminosa"] #plans-modal header {
+  background: color-mix(in srgb, var(--layout-card) 94%, transparent) !important;
+  border-color: var(--layout-border-card) !important;
+}
+:root[data-layout="essencia-luminosa"] #plans-modal article {
+  background: var(--layout-card) !important;
+  border-color: var(--layout-border-card) !important;
+  color: var(--layout-text) !important;
+  box-shadow: 0 14px 34px rgba(112, 91, 58, .075) !important;
+}
+:root[data-layout="essencia-luminosa"] #plans-modal article[class*="from-[#FFF6D9]"] {
+  background: linear-gradient(145deg, color-mix(in srgb, var(--layout-gold-soft) 62%, var(--layout-card)), var(--layout-card)) !important;
+  border-color: var(--layout-gold-border) !important;
+}
+:root[data-layout="essencia-luminosa"] #plans-modal :is([class*="bg-[#FFF9E8]"], [class*="bg-[#F8F0DF]"], [class*="bg-[#FFF6D9]"]) {
+  background: var(--layout-canvas-alt) !important;
+}
+:root[data-layout="essencia-luminosa"] #plans-modal [class*="bg-[#F7E5AA]"] {
+  background: var(--layout-gold-soft) !important;
+}
+:root[data-layout="essencia-luminosa"] #plans-modal :is([class*="border-[#D8B867]"], [class*="border-[#B88736]"], [class*="border-[#073B2B]"]) {
+  border-color: var(--layout-gold-border) !important;
+}
+:root[data-layout="essencia-luminosa"] #plans-modal :is([class*="text-[#26372A]"], [class*="text-[#073B2B]"], [class*="text-[#FFF9E8]"]) {
+  color: var(--layout-text) !important;
+}
+:root[data-layout="essencia-luminosa"] #plans-modal :is([class*="text-[#9C7429]"], [class*="text-[#B88736]"], [class*="text-[#7C5A1D]"]) {
+  color: var(--layout-gold-dark) !important;
+}
+:root[data-layout="essencia-luminosa"] #plans-modal :is([class*="text-[#5F6857]"], [class*="text-[#6A725F]"]) {
+  color: var(--layout-text-secondary) !important;
+}
+:root[data-layout="essencia-luminosa"] #plans-modal [class*="text-[#2F6B50]"] {
+  color: var(--layout-accent) !important;
+}
+:root[data-layout="essencia-luminosa"] #plans-modal [class~="bg-[#073B2B]"] {
+  background: var(--layout-gold-gradient) !important;
+  color: var(--layout-text) !important;
+  box-shadow: 0 10px 26px var(--layout-gold-shadow) !important;
+}
+:root[data-layout="essencia-luminosa"] #plans-modal button[class*="hover:bg-[#073B2B]"]:hover {
+  background: var(--layout-gold-soft) !important;
+}
+:root[data-layout="essencia-luminosa"] #plans-modal :is(input, select, textarea) {
+  background: var(--layout-card) !important;
+  border-color: var(--layout-border-card) !important;
+  color: var(--layout-text) !important;
+}
+:root[data-layout="essencia-luminosa"] #plans-modal :is(button, input, select, textarea):focus-visible {
+  outline: 2px solid color-mix(in srgb, var(--layout-gold) 58%, white) !important;
+  outline-offset: 3px;
+}
+
+/* Ajustes de áudio: harmoniza os controles com o ouro suave aprovado. */
+:root[data-layout="essencia-luminosa"] #audio-settings-modal > div {
+  background: var(--layout-card) !important;
+  border-color: var(--layout-border-card) !important;
+  color: var(--layout-text) !important;
+  box-shadow: 0 22px 58px rgba(112, 91, 58, .10) !important;
+}
+:root[data-layout="essencia-luminosa"] #audio-settings-modal #bioactive-tuning-panel {
+  background: linear-gradient(145deg, var(--layout-card), color-mix(in srgb, var(--layout-gold-soft) 34%, var(--layout-canvas-alt)) 100%) !important;
+  border-color: var(--layout-gold-border) !important;
+}
+:root[data-layout="essencia-luminosa"] #audio-settings-modal :is([class*="bg-[#B88736]"], [class*="bg-[#EAD5A8]"]) {
+  background: var(--layout-gold-soft) !important;
+}
+:root[data-layout="essencia-luminosa"] #audio-settings-modal [class*="border-[#B88736]"] {
+  border-color: var(--layout-gold-border) !important;
+}
+:root[data-layout="essencia-luminosa"] #audio-settings-modal :is([class*="text-[#B88736]"], [class*="text-[#8F631E]"]) {
+  color: var(--layout-gold-dark) !important;
+}
+:root[data-layout="essencia-luminosa"] #audio-settings-modal [class*="accent-[#B88736]"] {
+  accent-color: var(--layout-gold) !important;
+}
+:root[data-layout="essencia-luminosa"] #audio-settings-modal [class*="border-[#E5DAC6]"] {
+  border-color: var(--layout-border-card) !important;
+}
+:root[data-layout="essencia-luminosa"] #audio-settings-modal :is([class*="bg-[#F5EFE4]"], [class*="bg-[#FBF8F2]"]) {
+  background: var(--layout-card-subtle) !important;
+}
+:root[data-layout="essencia-luminosa"] #audio-settings-modal [class*="text-[#2A2420]"] {
+  color: var(--layout-text) !important;
+}
+:root[data-layout="essencia-luminosa"] #audio-settings-modal [class*="text-[#5C5248]"] {
+  color: var(--layout-text-secondary) !important;
+}
+:root[data-layout="essencia-luminosa"] #audio-settings-modal button[class~="bg-[#B88736]"] {
+  background: var(--layout-gold-gradient) !important;
+  color: var(--layout-text) !important;
+  border: 1px solid var(--layout-gold-border) !important;
+  box-shadow: 0 8px 22px var(--layout-gold-shadow) !important;
+}
+:root[data-layout="essencia-luminosa"] #audio-settings-modal button[class~="bg-[#B88736]"]:hover {
+  filter: brightness(.98) saturate(.96);
+}
+:root[data-layout="essencia-luminosa"] #audio-settings-modal :is(button, input):focus-visible {
+  outline: 2px solid color-mix(in srgb, var(--layout-gold) 58%, white) !important;
+  outline-offset: 3px;
+}
