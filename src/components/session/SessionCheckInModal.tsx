@@ -74,7 +74,7 @@ export const SessionCheckInModal: React.FC<SessionCheckInModalProps> = ({
       animate={{ opacity: 1, scale: 1, y: 0 }}
       exit={{ opacity: 0, scale: 0.96, y: -12 }}
       transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
-      className="relative z-10 max-w-xl mx-auto w-full px-4 py-6 my-auto"
+      className="ep-session-checkin relative z-10 max-w-xl mx-auto w-full px-4 py-6 my-auto"
     >
       <div className="relative rounded-3xl p-6 sm:p-8 border border-[#E5DAC6] bg-[#FAF7F2]/98 shadow-[0_20px_50px_rgba(143,99,30,0.08)] backdrop-blur-xl text-left">
         
@@ -116,6 +116,7 @@ export const SessionCheckInModal: React.FC<SessionCheckInModalProps> = ({
                 key={val}
                 type="button"
                 onClick={() => onMoodChange(val)}
+                aria-pressed={mood === val}
                 className={`py-3 rounded-xl border text-sm font-serif font-medium transition-all duration-200 ${
                   mood === val
                     ? 'bg-[#8F631E] text-white border-[#8F631E] shadow-[0_2px_10px_rgba(143,99,30,0.3)] scale-105'
@@ -145,6 +146,7 @@ export const SessionCheckInModal: React.FC<SessionCheckInModalProps> = ({
                   key={sens}
                   type="button"
                   onClick={() => onToggleSensation(sens)}
+                  aria-pressed={isSelected}
                   className={`px-3 py-1.5 rounded-lg border text-xs font-sans transition-all duration-150 flex items-center gap-1.5 ${
                     isSelected
                       ? 'bg-[#8F631E] text-white border-[#8F631E] shadow-sm'
