@@ -11,7 +11,7 @@ import {
 import { ProtocolStage, PROTOCOL_STAGES, DAILY_INSIGHTS, JOURNEY_7D_INSIGHTS, SessionCheckIn } from '../types';
 import { ORIGINAL_PROTOCOL_SCRIPTS } from '../data/protocol_scripts';
 import { audioEngine, OFFICIAL_PROTOCOL_VOICE_ID } from '../lib/audio';
-import { isElevenLabsVoiceId } from '../lib/voiceSelection';
+import { isElevenLabsVoiceId, isNaturalSerenoVoiceId } from '../lib/voiceSelection';
 import { shouldPlayProtocolSessionBackground } from '../lib/protocolSessionAudioPolicy';
 import { requestWakeLock } from '../lib/wakeLockHelpers';
 import { AppLanguage, STAGE_AUDIO_TRANSLATIONS } from '../lib/i18n';
@@ -212,8 +212,15 @@ export default function MeditationSession({
     if (dayContext) personalizedText = `${dayContext}\n\n${personalizedText}`;
 
     const selectedVoiceId = voiceId?.trim();
+    const naturalSerenoVoiceId = isNaturalSerenoVoiceId(selectedVoiceId) ? selectedVoiceId : '';
     const savedVoiceId = isElevenLabsVoiceId(selectedVoiceId) ? selectedVoiceId : OFFICIAL_PROTOCOL_VOICE_ID;
     const style2VoiceId = isElevenLabsVoiceId(selectedVoiceId) ? selectedVoiceId : '';
+
+    if (activeLayout === 'natural-sereno' && !naturalSerenoVoiceId) {
+      setIsPlaying(false);
+      setVoiceError(true);
+      return;
+    }
 
     if (activeLayout === 'elegancia-profunda' && !style2VoiceId) {
       setIsPlaying(false);
@@ -225,7 +232,7 @@ export default function MeditationSession({
     await audioEngine.playProtocolStageStream({
       text: personalizedText,
       voiceId: activeLayout === 'natural-sereno'
-        ? savedVoiceId
+        ? naturalSerenoVoiceId
         : activeLayout === 'elegancia-profunda'
           ? style2VoiceId
           : activeLayout === 'essencia-luminosa'
