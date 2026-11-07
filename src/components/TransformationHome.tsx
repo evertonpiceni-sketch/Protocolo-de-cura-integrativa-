@@ -57,13 +57,15 @@ export default function TransformationHome(props: TransformationHomeProps) {
   const welcomeText = `Olá, ${firstName}. Que bom que você voltou para si. Respire com calma. Você não precisa fazer tudo hoje. Estamos juntos neste processo. ${insight?.quote || ''}`;
   const savedVoiceId = props.voiceId?.trim();
   const isEleganciaProfunda = props.visualLayout === 'elegancia-profunda';
-  const approvedVoiceId = isEleganciaProfunda
-    ? (isElevenLabsVoiceId(savedVoiceId) ? savedVoiceId : '')
+  const isEssenciaLuminosa = props.visualLayout === 'essencia-luminosa';
+  const requiresNeuralVoice = isEleganciaProfunda || isEssenciaLuminosa;
+  const approvedVoiceId = requiresNeuralVoice
+    ? (isElevenLabsVoiceId(savedVoiceId) ? savedVoiceId : OFFICIAL_PROTOCOL_VOICE_ID)
     : savedVoiceId && !['Rachel', 'Marcus', 'masculina', 'feminina'].includes(savedVoiceId)
       ? savedVoiceId
       : OFFICIAL_PROTOCOL_VOICE_ID;
-  // Essência Luminosa and Elegância Profunda both honor the saved voice and its controls.
-  const usesSavedVoiceSettings = props.visualLayout === 'elegancia-profunda' || props.visualLayout === 'essencia-luminosa';
+  // Essência Luminosa and Elegância Profunda honor saved neural voice IDs and their controls.
+  const usesSavedVoiceSettings = requiresNeuralVoice;
   const narrationVoiceId = usesSavedVoiceSettings
     ? approvedVoiceId
     : props.visualLayout === 'mistico-moderno' ? OFFICIAL_PROTOCOL_VOICE_ID : 'Marcus';
@@ -72,7 +74,7 @@ export default function TransformationHome(props: TransformationHomeProps) {
   const narrationPitch = usesSavedVoiceSettings ? props.voicePitch ?? .92 : .92;
   const playNarration = (text: string) => {
     setVoiceError(false);
-    if (isEleganciaProfunda && !isElevenLabsVoiceId(narrationVoiceId)) {
+    if (requiresNeuralVoice && !isElevenLabsVoiceId(narrationVoiceId)) {
       setVoiceError(true);
       setIsSpeaking(false);
       return;
@@ -94,8 +96,8 @@ export default function TransformationHome(props: TransformationHomeProps) {
         lang: 'pt-BR',
         rate: narrationRate,
         pitch: narrationPitch,
-        fallbackToSpeechSynthesis: !isEleganciaProfunda,
-        onError: isEleganciaProfunda
+        fallbackToSpeechSynthesis: !requiresNeuralVoice,
+        onError: requiresNeuralVoice
           ? () => { setIsSpeaking(false); setVoiceError(true); }
           : undefined
       }

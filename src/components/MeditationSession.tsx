@@ -212,9 +212,7 @@ export default function MeditationSession({
     if (dayContext) personalizedText = `${dayContext}\n\n${personalizedText}`;
 
     const selectedVoiceId = voiceId?.trim();
-    const savedVoiceId = selectedVoiceId && !['Rachel', 'Marcus', 'masculina', 'feminina'].includes(selectedVoiceId)
-      ? selectedVoiceId
-      : OFFICIAL_PROTOCOL_VOICE_ID;
+    const savedVoiceId = isElevenLabsVoiceId(selectedVoiceId) ? selectedVoiceId : OFFICIAL_PROTOCOL_VOICE_ID;
     const style2VoiceId = isElevenLabsVoiceId(selectedVoiceId) ? selectedVoiceId : '';
 
     if (activeLayout === 'elegancia-profunda' && !style2VoiceId) {

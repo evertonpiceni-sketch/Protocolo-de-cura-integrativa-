@@ -8,11 +8,9 @@ interface LayoutChoiceModalProps {
 }
 
 function LayoutPreview({ layout }: { layout: LayoutDefinition }) {
-  // A prévia do Estilo 2 usa a prancha oficial como referência visual aprovada.
+  // A prévia do Estilo 3 usa a prancha oficial como referência visual aprovada.
   const isEssenciaLuminosa = layout.id === 'essencia-luminosa';
-  const [canvas, accent, gold, surface] = isEssenciaLuminosa
-    ? ['#FFFFF8', '#A6B49B', '#C6A46A', '#F7F3E8']
-    : layout.swatches;
+  const [canvas, accent, gold, surface] = layout.swatches;
   const foreground = layout.tone === 'dark' ? '#F4F1EB' : '#2A2420';
   const muted = layout.tone === 'dark' ? 'rgba(244,241,235,.68)' : 'rgba(42,36,32,.62)';
   const isNaturalSereno = layout.id === 'natural-sereno';
@@ -63,9 +61,7 @@ function LayoutPreview({ layout }: { layout: LayoutDefinition }) {
   // mesclar dourado com violeta escurece a metade do botão sob texto escuro.
   const actionBackground = isNaturalSereno
     ? `linear-gradient(135deg, ${gold}, #A87E37)`
-    : layout.id === 'mistico-moderno'
-      ? `linear-gradient(135deg, ${gold}, #E2B96B)`
-      : `linear-gradient(135deg, ${gold}, ${accent})`;
+    : `linear-gradient(135deg, ${gold}, #E2B96B)`;
   const previewSwatches = isNaturalSereno
     ? [canvas, accent, gold, naturalIvory]
     : [canvas, gold, surface, accent];
@@ -99,7 +95,7 @@ function LayoutPreview({ layout }: { layout: LayoutDefinition }) {
           )}
           <span
             className="mt-3 inline-flex rounded-full px-3 py-1 text-[8px] font-bold uppercase tracking-[.12em] shadow-sm"
-            style={{ background: actionBackground, color: isNaturalSereno || isEssenciaLuminosa || layout.id === 'mistico-moderno' ? '#2A2420' : layout.tone === 'dark' ? '#0B1712' : '#fff' }}
+            style={{ background: actionBackground, color: '#2A2420' }}
           >
             Iniciar jornada
           </span>

@@ -11,7 +11,7 @@ import {
   Headphones, Activity, Waves, Info
 } from 'lucide-react';
 import { UserProfile } from '../types';
-import { audioEngine } from '../lib/audio';
+import { audioEngine, OFFICIAL_PROTOCOL_VOICE_ID } from '../lib/audio';
 import { isElevenLabsVoiceId, type ElevenLabsVoiceOption } from '../lib/voiceSelection';
 import { useDialogFocus } from '../hooks/useDialogFocus';
 
@@ -64,11 +64,17 @@ export default function AudioSettingsModal({
   const [voiceVolume, setVoiceVolume] = useState(userProfile.voiceVolume ?? 0.85);
   const [voiceRate, setVoiceRate] = useState(userProfile.voiceRate ?? 0.82);
   const [voicePitch, setVoicePitch] = useState(userProfile.voicePitch ?? 1.0);
-  const [voiceId, setVoiceId] = useState(userProfile.voiceId || '');
+  const isEleganciaProfunda = typeof document !== 'undefined' && document.documentElement.dataset.layout === 'elegancia-profunda';
+  const isEssenciaLuminosa = typeof document !== 'undefined' && document.documentElement.dataset.layout === 'essencia-luminosa';
+  const requiresNeuralVoice = isEleganciaProfunda || isEssenciaLuminosa;
+  const savedVoiceId = userProfile.voiceId?.trim() || '';
+  const initialVoiceId = isEssenciaLuminosa && !isElevenLabsVoiceId(savedVoiceId)
+    ? OFFICIAL_PROTOCOL_VOICE_ID
+    : savedVoiceId;
+  const [voiceId, setVoiceId] = useState(initialVoiceId);
   const [audioEnabled, setAudioEnabled] = useState(userProfile.audioEnabled !== false);
   const [isTestingVoice, setIsTestingVoice] = useState(false);
   const [voiceTestError, setVoiceTestError] = useState(false);
-  const isEleganciaProfunda = typeof document !== 'undefined' && document.documentElement.dataset.layout === 'elegancia-profunda';
   const neuralVoices = elevenLabsVoices.filter(voice => isElevenLabsVoiceId(voice.voice_id));
 
   // Camada Binaural State
@@ -165,7 +171,7 @@ export default function AudioSettingsModal({
     }
 
     setVoiceTestError(false);
-    if (isEleganciaProfunda && !isElevenLabsVoiceId(voiceId)) {
+    if (requiresNeuralVoice && !isElevenLabsVoiceId(voiceId)) {
       setVoiceTestError(true);
       return;
     }
@@ -196,8 +202,8 @@ export default function AudioSettingsModal({
         similarityBoost: 0.75,
         enableBreathingPauses: true,
         userName: userProfile.name,
-        fallbackToSpeechSynthesis: !isEleganciaProfunda,
-        onError: isEleganciaProfunda
+        fallbackToSpeechSynthesis: !requiresNeuralVoice,
+        onError: requiresNeuralVoice
           ? () => {
               audioEngine.stopBG();
               setIsTestingVoice(false);
@@ -209,6 +215,10 @@ export default function AudioSettingsModal({
   };
 
   const handleSave = () => {
+    if (isEssenciaLuminosa && !isElevenLabsVoiceId(voiceId)) {
+      setVoiceTestError(true);
+      return;
+    }
     audioEngine.stopSpeech();
     setIsTestingVoice(false);
     if (isPlayingBioactivePreview) {
@@ -610,7 +620,7 @@ export default function AudioSettingsModal({
           </label>
 
           {/* Voice Selector */}
-          {isEleganciaProfunda ? (
+          {requiresNeuralVoice ? (
             <div className="space-y-1">
               <span className="text-[11px] text-[#5C5248] block">Voz neural (ElevenLabs)</span>
               <select
@@ -621,7 +631,7 @@ export default function AudioSettingsModal({
               >
                 {voiceId && !neuralVoices.some(voice => voice.voice_id === voiceId) && (
                   <option value={voiceId} disabled>
-                    {isElevenLabsVoiceId(voiceId) ? 'Voz salva — não listada no catálogo' : 'Seleção anterior do dispositivo — escolha uma voz neural'}
+                    {voiceId === OFFICIAL_PROTOCOL_VOICE_ID ? 'Marianne — Meditação (voz oficial)' : isElevenLabsVoiceId(voiceId) ? 'Voz salva — não listada no catálogo' : 'Seleção anterior do dispositivo — escolha uma voz neural'}
                   </option>
                 )}
                 <option value="">Selecione uma voz neural</option>
@@ -709,7 +719,7 @@ export default function AudioSettingsModal({
         </button>
         {voiceTestError && (
           <p role="alert" className="ep-voice-error rounded-xl px-3 py-2 text-xs">
-            Selecione uma voz neural válida do catálogo. O Estilo 2 não usará a voz robótica do dispositivo.
+            Selecione uma voz neural válida do catálogo. Os Estilos 2 e 3 não usarão a voz robótica do dispositivo.
           </p>
         )}
 

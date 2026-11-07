@@ -114,6 +114,8 @@ export default function App() {
   const [isPlayingVoiceTest, setIsPlayingVoiceTest] = useState<boolean>(false);
   const [voicePreviewError, setVoicePreviewError] = useState(false);
   const isEleganciaProfunda = layoutConfirmedThisSession && userProfile?.visualLayout === 'elegancia-profunda';
+  const isEssenciaLuminosa = layoutConfirmedThisSession && userProfile?.visualLayout === 'essencia-luminosa';
+  const usesNeuralVoiceCatalog = isEleganciaProfunda || isEssenciaLuminosa;
 
   // Initialize and register local notification daily checker
   useEffect(() => {
@@ -216,9 +218,9 @@ export default function App() {
     }
   }, []);
 
-  // Elegância Profunda uses actual ElevenLabs IDs, never browser SpeechSynthesis names/URIs.
+  // Elegância Profunda and Essência Luminosa use actual ElevenLabs IDs, never browser SpeechSynthesis names/URIs.
   useEffect(() => {
-    if (!isLoggedIn || !isEleganciaProfunda || (!showSettings && !showAudioSettingsModal)) return;
+    if (!isLoggedIn || !usesNeuralVoiceCatalog || (!showSettings && !showAudioSettingsModal)) return;
     let cancelled = false;
     setIsLoadingElevenLabsVoices(true);
     void audioEngine.fetchElevenLabsVoices()
@@ -232,7 +234,7 @@ export default function App() {
         if (!cancelled) setIsLoadingElevenLabsVoices(false);
       });
     return () => { cancelled = true; };
-  }, [isLoggedIn, isEleganciaProfunda, showSettings, showAudioSettingsModal]);
+  }, [isLoggedIn, usesNeuralVoiceCatalog, showSettings, showAudioSettingsModal]);
 
   // Synchronize global audio player with profile settings and fallbacks using unified audioEngine
   useEffect(() => {
