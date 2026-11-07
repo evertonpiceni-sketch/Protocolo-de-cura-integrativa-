@@ -116,11 +116,14 @@ export default function App() {
   const isNaturalSereno = layoutConfirmedThisSession && userProfile?.visualLayout === 'natural-sereno';
   const isEleganciaProfunda = layoutConfirmedThisSession && userProfile?.visualLayout === 'elegancia-profunda';
   const isEssenciaLuminosa = layoutConfirmedThisSession && userProfile?.visualLayout === 'essencia-luminosa';
-  const usesNeuralVoiceCatalog = isNaturalSereno || isEleganciaProfunda || isEssenciaLuminosa;
+  const isMisticoModerno = layoutConfirmedThisSession && userProfile?.visualLayout === 'mistico-moderno';
+  const usesNeuralVoiceCatalog = isNaturalSereno || isEleganciaProfunda || isEssenciaLuminosa || isMisticoModerno;
   const savedNeuralVoiceId = userProfile?.voiceId || '';
-  const effectiveNeuralVoiceId = (isNaturalSereno || isEssenciaLuminosa) && !isElevenLabsVoiceId(savedNeuralVoiceId)
+  const effectiveNeuralVoiceId = isMisticoModerno
     ? OFFICIAL_PROTOCOL_VOICE_ID
-    : savedNeuralVoiceId;
+    : (isNaturalSereno || isEssenciaLuminosa) && !isElevenLabsVoiceId(savedNeuralVoiceId)
+      ? OFFICIAL_PROTOCOL_VOICE_ID
+      : savedNeuralVoiceId;
 
   // Initialize and register local notification daily checker
   useEffect(() => {
@@ -1287,7 +1290,13 @@ export default function App() {
 
                 <div className="p-4 bg-white border border-[#E5DAC6] rounded-2xl space-y-4">
                   {/* Voice Select */}
-                  {usesNeuralVoiceCatalog ? (
+                  {isMisticoModerno ? (
+                    <div className="ep-mistico-voice-lock space-y-1.5 rounded-xl border border-[#C89D52]/30 bg-[#07111F]/75 p-3">
+                      <label className="text-[10px] font-mono text-[#D8D4CA] uppercase">Voz oficial do Místico Moderno</label>
+                      <strong className="block text-sm font-semibold text-[#F4F1EB]">Marianne — Meditação</strong>
+                      <p className="text-[10px] leading-relaxed text-[#9AA8BD]">A voz neural aprovada é fixa neste estilo. Se o serviço falhar, a narração será interrompida com aviso, sem substituição pela voz do dispositivo.</p>
+                    </div>
+                  ) : usesNeuralVoiceCatalog ? (
                     <div className="space-y-1.5">
                       <label className="text-[10px] font-mono text-[#5C5248] uppercase">Voz neural (ElevenLabs)</label>
                       <select
