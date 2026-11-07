@@ -19,7 +19,8 @@ test('o seletor usa a prancha oficial do Estilo 2 e exige confirmação explíci
   assert.ok(modal.includes('useState<LayoutId | null>(null)'));
   assert.ok(modal.includes('disabled={!selectedLayout || isSaving}'));
   assert.ok(app.includes('const [layoutConfirmedThisSession, setLayoutConfirmedThisSession] = useState(false)'));
-  assert.ok(app.includes('{(!layoutConfirmedThisSession || layoutChoiceRequested) && ('));
+  assert.ok(app.includes('{layoutChoiceRequested && userProfile && ('));
+  assert.ok(!app.includes('(!layoutConfirmedThisSession || layoutChoiceRequested)'));
 });
 
 test('o modal de prática individual mantém foco acessível também no Estilo 2', () => {
