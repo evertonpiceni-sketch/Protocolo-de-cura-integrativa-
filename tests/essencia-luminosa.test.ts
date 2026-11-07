@@ -99,10 +99,10 @@ test('os Ajustes de Áudio do Estilo 3 oferecem vozes neurais e preservam Marian
   const settings = fs.readFileSync('src/components/AudioSettingsModal.tsx', 'utf8');
   const app = fs.readFileSync('src/App.tsx', 'utf8');
   assert.ok(settings.includes("const isEssenciaLuminosa = typeof document !== 'undefined' && document.documentElement.dataset.layout === 'essencia-luminosa';"));
-  assert.ok(settings.includes('const requiresNeuralVoice = isEleganciaProfunda || isEssenciaLuminosa;'));
-  assert.ok(settings.includes('const initialVoiceId = isEssenciaLuminosa && !isElevenLabsVoiceId(savedVoiceId)'));
+  assert.ok(settings.includes('const requiresNeuralVoice = isNaturalSereno || isEleganciaProfunda || isEssenciaLuminosa;'));
+  assert.ok(settings.includes('const initialVoiceId = (isNaturalSereno && currentLanguage === 'pt') || ((isNaturalSereno || isEssenciaLuminosa) && !isElevenLabsVoiceId(savedVoiceId))'));
   assert.ok(settings.includes('fallbackToSpeechSynthesis: !requiresNeuralVoice'));
-  assert.ok(app.includes('const usesNeuralVoiceCatalog = isEleganciaProfunda || isEssenciaLuminosa;'));
+  assert.ok(app.includes('const usesNeuralVoiceCatalog = isNaturalSereno || isEleganciaProfunda || isEssenciaLuminosa;'));
   assert.ok(app.includes('!usesNeuralVoiceCatalog'));
 });
 
@@ -330,12 +330,12 @@ test('a página de Configurações usa ElevenLabs também na Essência Luminosa'
   assert.ok(start >= 0 && end > start, 'voice settings block must exist');
   const block = app.slice(start, end);
 
-  assert.ok(app.includes('const usesNeuralVoiceCatalog = isEleganciaProfunda || isEssenciaLuminosa;'));
+  assert.ok(app.includes('const usesNeuralVoiceCatalog = isNaturalSereno || isEleganciaProfunda || isEssenciaLuminosa;'));
   assert.ok(block.includes('{usesNeuralVoiceCatalog ? ('));
   assert.ok(block.includes('if (usesNeuralVoiceCatalog) {'));
   assert.ok(block.includes('fallbackToSpeechSynthesis: false'));
   assert.ok(block.includes('id="settings-voice-preview"'));
-  assert.ok(block.includes('Os Estilos 2 e 3 não usam a voz do dispositivo.'));
+  assert.ok(block.includes('Natural Sereno, Elegância Profunda e Essência Luminosa não usam a voz do dispositivo.'));
   assert.doesNotMatch(block, /if \(isEleganciaProfunda\)/);
 });
 

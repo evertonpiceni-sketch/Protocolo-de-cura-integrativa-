@@ -11,6 +11,7 @@ import {
   Headphones, Activity, Waves, Info
 } from 'lucide-react';
 import { UserProfile } from '../types';
+import type { AppLanguage } from '../lib/i18n';
 import { audioEngine, OFFICIAL_PROTOCOL_VOICE_ID } from '../lib/audio';
 import { isElevenLabsVoiceId, type ElevenLabsVoiceOption } from '../lib/voiceSelection';
 import { useDialogFocus } from '../hooks/useDialogFocus';
@@ -19,6 +20,7 @@ interface AudioSettingsModalProps {
   isOpen: boolean;
   onClose: () => void;
   userProfile: UserProfile;
+  currentLanguage: AppLanguage;
   onSaveProfile: (updated: UserProfile) => void;
   availableVoices?: SpeechSynthesisVoice[];
   elevenLabsVoices?: ElevenLabsVoiceOption[];
@@ -31,6 +33,7 @@ export default function AudioSettingsModal({
   isOpen,
   onClose,
   userProfile,
+  currentLanguage,
   onSaveProfile,
   availableVoices,
   elevenLabsVoices = [],
@@ -64,11 +67,12 @@ export default function AudioSettingsModal({
   const [voiceVolume, setVoiceVolume] = useState(userProfile.voiceVolume ?? 0.85);
   const [voiceRate, setVoiceRate] = useState(userProfile.voiceRate ?? 0.82);
   const [voicePitch, setVoicePitch] = useState(userProfile.voicePitch ?? 1.0);
+  const isNaturalSereno = typeof document !== 'undefined' && document.documentElement.dataset.layout === 'natural-sereno';
   const isEleganciaProfunda = typeof document !== 'undefined' && document.documentElement.dataset.layout === 'elegancia-profunda';
   const isEssenciaLuminosa = typeof document !== 'undefined' && document.documentElement.dataset.layout === 'essencia-luminosa';
-  const requiresNeuralVoice = isEleganciaProfunda || isEssenciaLuminosa;
+  const requiresNeuralVoice = isNaturalSereno || isEleganciaProfunda || isEssenciaLuminosa;
   const savedVoiceId = userProfile.voiceId?.trim() || '';
-  const initialVoiceId = isEssenciaLuminosa && !isElevenLabsVoiceId(savedVoiceId)
+  const initialVoiceId = (isNaturalSereno && currentLanguage === 'pt') || ((isNaturalSereno || isEssenciaLuminosa) && !isElevenLabsVoiceId(savedVoiceId))
     ? OFFICIAL_PROTOCOL_VOICE_ID
     : savedVoiceId;
   const [voiceId, setVoiceId] = useState(initialVoiceId);
@@ -76,6 +80,9 @@ export default function AudioSettingsModal({
   const [isTestingVoice, setIsTestingVoice] = useState(false);
   const [voiceTestError, setVoiceTestError] = useState(false);
   const neuralVoices = elevenLabsVoices.filter(voice => isElevenLabsVoiceId(voice.voice_id));
+  const selectableNeuralVoices = isNaturalSereno && currentLanguage === 'pt'
+    ? neuralVoices.filter(voice => voice.voice_id === OFFICIAL_PROTOCOL_VOICE_ID)
+    : neuralVoices;
 
   // Camada Binaural State
   const [bioactiveBinauralEnabled, setBioactiveBinauralEnabled] = useState<boolean>(
@@ -625,6 +632,7 @@ export default function AudioSettingsModal({
               <span className="text-[11px] text-[#5C5248] block">Voz neural (ElevenLabs)</span>
               <select
                 aria-label="Voz neural ElevenLabs"
+                disabled={isNaturalSereno && currentLanguage === 'pt'}
                 value={voiceId}
                 onChange={(e) => { setVoiceId(e.target.value); setVoiceTestError(false); }}
                 className="w-full bg-[#FBF8F2] border border-[#E5DAC6] rounded-xl px-3 py-2 text-xs text-[#2A2420] focus:border-[#B88736] outline-none"
@@ -635,7 +643,7 @@ export default function AudioSettingsModal({
                   </option>
                 )}
                 <option value="">Selecione uma voz neural</option>
-                {neuralVoices.map(voice => (
+                {selectableNeuralVoices.map(voice => (
                   <option key={voice.voice_id} value={voice.voice_id}>{voice.name}</option>
                 ))}
               </select>
@@ -719,7 +727,7 @@ export default function AudioSettingsModal({
         </button>
         {voiceTestError && (
           <p role="alert" className="ep-voice-error rounded-xl px-3 py-2 text-xs">
-            Selecione uma voz neural válida do catálogo. Os Estilos 2 e 3 não usarão a voz robótica do dispositivo.
+            Selecione uma voz neural válida do catálogo. Natural Sereno, Elegância Profunda e Essência Luminosa não usam a voz do dispositivo.
           </p>
         )}
 
