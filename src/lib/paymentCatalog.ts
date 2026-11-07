@@ -7,6 +7,10 @@ export const PAYMENT_PLANS = {
   anual: { cents: 15990, days: 365, title: 'Plano Anual' }
 } as const;
 export type Plan = keyof typeof PAYMENT_PLANS;
+
+// Valor definido no servidor para a compra avulsa do mapa numerológico completo.
+export const NUMEROLOGY_FULL_CENTS = 9000;
+export const NUMEROLOGY_FULL_TITLE = 'Mapa Numerológico Completo';
 export function paymentQuote(planId: string, coupon: string = '') {
   if (!Object.hasOwn(PAYMENT_PLANS, planId)) throw new Error('Plano inválido.');
   const code = coupon.trim().toUpperCase();
