@@ -5,6 +5,7 @@ Data: 07/11/2026
 - Logout agora encerra também a confirmação visual da sessão e limpa a solicitação pendente. Ao entrar com outra conta na mesma aba, a preferência anterior não é tratada como consentimento: o seletor explícito volta a ser exigido.
 - A tela Arcanjo/Solfeggio recebeu tratamento noturno próprio do Místico Moderno, limitado a `data-layout="mistico-moderno"`. O fundo creme/verde herdado foi substituído por azul-noturno/índigo, violeta discreto, dourado/âmbar e texto marfim. O indicador de dias não concluídos usa índigo no Estilo 4.
 - O áudio global já estava protegido: `App.tsx` bloqueia o background durante Arcanjo e a proteção `arcanjoAudioOwnershipPatch` continua carregada. Nenhuma segunda camada de controle de áudio foi criada.
+- Corrigidas duas comparações TypeScript inalcançáveis no preview do seletor: após o retorno antecipado da prancha do Estilo 2, removi apenas as condições redundantes para `elegancia-profunda`. O resultado visual não muda; o seletor deixa de gerar TS2367.
 
 ## Preservado
 - Seletor React único, quatro estilos oficiais, escolha sem pré-seleção automática, CTA de confirmação e persistência antes de fechar.
@@ -18,7 +19,9 @@ Data: 07/11/2026
 1. A prancha exata `1001196522.png` / `file_000000009978820eb49581883ae6340d` não ficou acessível nesta execução. O repositório contém apenas um fragmento incompleto que foi removido no commit `109d510`; ele não foi restaurado e nenhuma prancha alternativa foi usada. A prévia do Místico no seletor continua esquemática até a prancha original ser disponibilizada.
 2. Voz: não alterei IDs nem aliases sem confirmação da voz aprovada. O código ainda usa `OFFICIAL_PROTOCOL_VOICE_ID` em caminhos do Místico, enquanto Ajustes expõe vozes instaladas no navegador; a correspondência com a voz escolhida e o resultado auditivo em pt-BR precisam ser homologados. Não foi feita troca especulativa para Marianne, Rachel ou outro identificador.
 3. `SacredEnergyCanvas` mantém animações compartilhadas de geometria, partículas e cores por etapa. Não foram removidas sem confronto com a prancha e com a aprovação específica da animação.
-4. Build, testes automatizados, inspeção renderizada desktop/mobile, reprodução real do Solfeggio/voz e checkout InfinitePay ponta a ponta não foram executados nesta passagem.
+4. O workflow `Security Audit` executou `npm audit` e encontrou vulnerabilidades preexistentes em `body-parser`, `ip-address`, `qs` (via ElevenLabs), `vite` e `zod`; por isso interrompeu regressões e build. O TypeScript também apontou as duas condições inalcançáveis do seletor, agora corrigidas nesta continuação. O workflow será reexecutado pelo novo commit.
+5. O preview Vercel do commit anterior falhou duas vezes com `BUILD_FAILED / Resource provisioning failed`, sem eventos de build disponíveis. Não há evidência de erro de compilação do Vercel; permanece necessária nova validação de preview.
+6. Inspeção renderizada desktop/mobile, reprodução real do Solfeggio/voz e checkout InfinitePay ponta a ponta continuam pendentes.
 
 ## Reauditoria estática
 - A escolha explícita continua condicionada a `layoutConfirmedThisSession`; o tema não é aplicado antes da confirmação.
