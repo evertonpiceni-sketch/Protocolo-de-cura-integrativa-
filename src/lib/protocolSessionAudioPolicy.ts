@@ -8,8 +8,8 @@ export type ProtocolSessionPhase =
   | 'completed';
 
 /**
- * During spoken protocol playback, Solfeggio belongs to the global listening
- * state and must stay stopped. Non-tonal ambience such as waves may continue.
+ * During spoken protocol playback and neural voice previews, Solfeggio belongs
+ * to the global listening state and must stay stopped. Non-tonal ambience may continue.
  */
 export function shouldPlayProtocolSessionBackground(
   sessionPhase: ProtocolSessionPhase,
