@@ -54,24 +54,30 @@ export default function TransformationHome(props: TransformationHomeProps) {
   const actions: Record<string, () => void> = { chakras: props.onOpenChakras, bath: props.onOpenBaths, astral: props.onOpenAstral, numerology: props.onOpenNumerology };
   const welcomeText = `Olá, ${firstName}. Que bom que você voltou para si. Respire com calma. Você não precisa fazer tudo hoje. Estamos juntos neste processo. ${insight?.quote || ''}`;
   const savedVoiceId = props.voiceId?.trim();
-  const style2VoiceId = savedVoiceId && !['Rachel', 'Marcus', 'masculina', 'feminina'].includes(savedVoiceId)
-    ? savedVoiceId
-    : OFFICIAL_PROTOCOL_VOICE_ID;
-  const narrationVoiceId = props.visualLayout === 'elegancia-profunda'
-    ? style2VoiceId
-    : props.visualLayout === 'mistico-moderno' ? OFFICIAL_PROTOCOL_VOICE_ID : 'Marcus';
-  const narrationVolume = props.visualLayout === 'elegancia-profunda' ? props.voiceVolume ?? 1 : 1;
-  const narrationRate = props.visualLayout === 'elegancia-profunda' ? props.voiceRate ?? .82 : .82;
-  const narrationPitch = props.visualLayout === 'elegancia-profunda' ? props.voicePitch ?? .92 : .92;
+  const isEssenciaLuminosa = props.visualLayout === 'essencia-luminosa';
+  const isLegacyVoiceAlias = !savedVoiceId || ['Rachel', 'Marcus', 'masculina', 'feminina'].includes(savedVoiceId);
+  const savedOrOfficialVoiceId = !isLegacyVoiceAlias ? savedVoiceId : OFFICIAL_PROTOCOL_VOICE_ID;
+  // Essência Luminosa stores the installed browser voice selected in AudioSettingsModal.
+  // Use that exact device voice; never send a browser voice name to ElevenLabs or force Marcus.
+  const narrationVoiceId = isEssenciaLuminosa
+    ? (isLegacyVoiceAlias ? undefined : savedVoiceId)
+    : props.visualLayout === 'elegancia-profunda'
+      ? savedOrOfficialVoiceId
+      : props.visualLayout === 'mistico-moderno' ? OFFICIAL_PROTOCOL_VOICE_ID : 'Marcus';
+  const usesSavedVoiceSettings = isEssenciaLuminosa || props.visualLayout === 'elegancia-profunda';
+  const narrationVolume = usesSavedVoiceSettings ? props.voiceVolume ?? 1 : 1;
+  const narrationRate = usesSavedVoiceSettings ? props.voiceRate ?? .82 : .82;
+  const narrationPitch = usesSavedVoiceSettings ? props.voicePitch ?? .92 : .92;
+  const preferElevenLabs = !isEssenciaLuminosa;
   const toggleWelcome = () => {
     if (isSpeaking) { audioEngine.stopSpeech(); setIsSpeaking(false); return; }
-    void audioEngine.speakWithElevenLabsOrFallback(welcomeText, narrationVolume, () => setIsSpeaking(true), () => setIsSpeaking(false), undefined, undefined, { voiceId: narrationVoiceId, stability: .5, similarityBoost: .78, userName: props.userName, enableBreathingPauses: true, preferElevenLabs: true, lang: 'pt-BR', rate: narrationRate, pitch: narrationPitch });
+    void audioEngine.speakWithElevenLabsOrFallback(welcomeText, narrationVolume, () => setIsSpeaking(true), () => setIsSpeaking(false), undefined, undefined, { voiceId: narrationVoiceId, stability: .5, similarityBoost: .78, userName: props.userName, enableBreathingPauses: true, preferElevenLabs, lang: 'pt-BR', rate: narrationRate, pitch: narrationPitch });
   };
   const speakResult = () => {
     if (!recommendation) return;
     const text = `Olá, ${firstName}. Seu resultado personalizado indica ${recommendation.categoryLabel}. ${recommendation.summaryDiagnosis}. A frequência recomendada é ${recommendation.frequencyLabel}. O chakra em foco é ${recommendation.primaryChakraFocus}. O floral recomendado é ${recommendation.recommendedFloral}. A aromaterapia recomendada é ${recommendation.recommendedAromatherapy}. Estamos juntos neste processo.`;
     audioEngine.stopSpeech();
-    void audioEngine.speakWithElevenLabsOrFallback(text, narrationVolume, () => setIsSpeaking(true), () => setIsSpeaking(false), undefined, undefined, { voiceId: narrationVoiceId, stability: .5, similarityBoost: .78, userName: props.userName, enableBreathingPauses: true, preferElevenLabs: true, lang: 'pt-BR', rate: narrationRate, pitch: narrationPitch });
+    void audioEngine.speakWithElevenLabsOrFallback(text, narrationVolume, () => setIsSpeaking(true), () => setIsSpeaking(false), undefined, undefined, { voiceId: narrationVoiceId, stability: .5, similarityBoost: .78, userName: props.userName, enableBreathingPauses: true, preferElevenLabs, lang: 'pt-BR', rate: narrationRate, pitch: narrationPitch });
   };
 
   if (props.visualLayout === 'natural-sereno') {
