@@ -27,7 +27,3 @@
   box-shadow: 0 12px 34px rgba(4, 7, 20, .26);
 }
 
-:root[data-layout="mistico-moderno"] #progress-dashboard .ep-brand-signature {
-  opacity: .34 !important;
-  filter: saturate(.88) contrast(.96);
-}
