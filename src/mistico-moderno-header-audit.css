@@ -2,7 +2,7 @@
    Remove heranças claras do Natural Sereno sem alterar os outros estilos. */
 :root[data-layout="mistico-moderno"] #main-header{
   background:rgba(10,15,24,.92)!important;
-  border-color:rgba(212,175,55,.16)!important;
+  border-color:rgba(200,157,82,.16)!important;
   box-shadow:0 12px 34px rgba(0,0,0,.28)!important;
 }
 :root[data-layout="mistico-moderno"] #main-header .ep-brand-signature{
@@ -21,7 +21,7 @@
 }
 :root[data-layout="mistico-moderno"] #main-header :is(#header-btn-audio-settings,#header-btn-archangel,#header-btn-google-play):hover{
   background:rgba(33,43,72,.94)!important;
-  border-color:rgba(212,175,55,.28)!important;
+  border-color:rgba(200,157,82,.28)!important;
 }
 :root[data-layout="mistico-moderno"] #main-header :is(#header-btn-audio-settings,#header-btn-archangel,#header-btn-google-play) svg,
 :root[data-layout="mistico-moderno"] #header-language-selector svg{
@@ -43,7 +43,7 @@
 }
 :root[data-layout="mistico-moderno"] #header-btn-logout:hover{
   background:rgba(91,34,57,.72)!important;
-  border-color:rgba(212,175,55,.24)!important;
+  border-color:rgba(200,157,82,.24)!important;
 }
 @media (max-width:640px){
   :root[data-layout="mistico-moderno"] #main-header .ep-brand-signature{opacity:.24!important;}
