@@ -116,11 +116,15 @@ export default function App() {
   const isNaturalSereno = layoutConfirmedThisSession && userProfile?.visualLayout === 'natural-sereno';
   const isEleganciaProfunda = layoutConfirmedThisSession && userProfile?.visualLayout === 'elegancia-profunda';
   const isEssenciaLuminosa = layoutConfirmedThisSession && userProfile?.visualLayout === 'essencia-luminosa';
+  const isMisticoModerno = layoutConfirmedThisSession && userProfile?.visualLayout === 'mistico-moderno';
   const usesNeuralVoiceCatalog = isNaturalSereno || isEleganciaProfunda || isEssenciaLuminosa;
+  const requiresNeuralVoice = usesNeuralVoiceCatalog || isMisticoModerno;
   const savedNeuralVoiceId = userProfile?.voiceId || '';
-  const effectiveNeuralVoiceId = (isNaturalSereno || isEssenciaLuminosa) && !isElevenLabsVoiceId(savedNeuralVoiceId)
+  const effectiveNeuralVoiceId = isMisticoModerno
     ? OFFICIAL_PROTOCOL_VOICE_ID
-    : savedNeuralVoiceId;
+    : (isNaturalSereno || isEssenciaLuminosa) && !isElevenLabsVoiceId(savedNeuralVoiceId)
+      ? OFFICIAL_PROTOCOL_VOICE_ID
+      : savedNeuralVoiceId;
 
   // Initialize and register local notification daily checker
   useEffect(() => {
@@ -223,7 +227,7 @@ export default function App() {
     }
   }, []);
 
-  // Natural Sereno, Elegância Profunda and Essência Luminosa use actual ElevenLabs IDs, never browser SpeechSynthesis names/URIs.
+  // Natural Sereno, Elegância Profunda and Essência Luminosa use catalog IDs; Místico Moderno uses the fixed official Marianne ID.
   useEffect(() => {
     if (!isLoggedIn || !usesNeuralVoiceCatalog || (!showSettings && !showAudioSettingsModal)) return;
     let cancelled = false;
@@ -1287,7 +1291,20 @@ export default function App() {
 
                 <div className="p-4 bg-white border border-[#E5DAC6] rounded-2xl space-y-4">
                   {/* Voice Select */}
-                  {usesNeuralVoiceCatalog ? (
+                  {isMisticoModerno ? (
+                    <div className="space-y-1.5">
+                      <label className="text-[10px] font-mono text-[#5C5248] uppercase">Voz oficial do Místico Moderno</label>
+                      <select
+                        value={OFFICIAL_PROTOCOL_VOICE_ID}
+                        aria-label="Voz oficial Marianne — Meditação"
+                        disabled
+                        className="w-full bg-[#FBF8F2] border border-[#E5DAC6] text-[#2A2420] rounded-xl px-3 py-2 text-xs outline-none opacity-85"
+                      >
+                        <option value={OFFICIAL_PROTOCOL_VOICE_ID}>Marianne — Meditação (voz oficial)</option>
+                      </select>
+                      <p className="text-[10px] text-[#85786C]">Identidade sonora fixa deste estilo; a voz do dispositivo não substitui a narração oficial.</p>
+                    </div>
+                  ) : usesNeuralVoiceCatalog ? (
                     <div className="space-y-1.5">
                       <label className="text-[10px] font-mono text-[#5C5248] uppercase">Voz neural (ElevenLabs)</label>
                       <select
@@ -1381,7 +1398,7 @@ export default function App() {
                           return;
                         }
                         setVoicePreviewError(false);
-                        if (usesNeuralVoiceCatalog) {
+                        if (requiresNeuralVoice) {
                           if (!isElevenLabsVoiceId(effectiveNeuralVoiceId)) {
                             setVoicePreviewError(true);
                             return;
@@ -1431,7 +1448,7 @@ export default function App() {
                   </div>
                   {voicePreviewError && (
                     <p role="alert" className="ep-voice-error rounded-xl px-3 py-2 text-xs">
-                      Selecione uma voz neural válida do catálogo. Natural Sereno, Elegância Profunda e Essência Luminosa não usam a voz do dispositivo.
+                      {isMisticoModerno ? 'A voz oficial Marianne — Meditação está indisponível. A voz do dispositivo não será usada.' : 'Selecione uma voz neural válida do catálogo. Natural Sereno, Elegância Profunda e Essência Luminosa não usam a voz do dispositivo.'}
                     </p>
                   )}
                 </div>
