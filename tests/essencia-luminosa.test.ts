@@ -479,3 +479,20 @@ test('o Estilo 3 não herda a cena da Reintegração e suaviza o selo recomendad
   assert.ok(finalCss.includes('var(--layout-gold-soft)'));
   assert.ok(finalCss.includes('var(--layout-gold-dark)'));
 });
+
+
+test('o Mapa Astral da Essência Luminosa não mantém verde profundo nem dourado legado', () => {
+  const component = fs.readFileSync('src/components/AstralMapModal.tsx', 'utf8');
+  const css = fs.readFileSync('src/essencia-luminosa-final-audit.css', 'utf8');
+  const main = fs.readFileSync('src/main.tsx', 'utf8');
+
+  assert.ok(component.includes('bg-[#073b2b]'), 'A auditoria deve cobrir o fundo verde profundo real do ícone.');
+  assert.ok(component.includes('text-[#f2dda4]'), 'A auditoria deve cobrir o texto amarelo claro sobre o ícone.');
+  assert.ok(component.includes('bg-[#B88736]'), 'A auditoria deve cobrir os CTAs dourados legados do Mapa Astral.');
+  assert.ok(css.includes(':root[data-layout="essencia-luminosa"] #astral-map-modal [class*="bg-[#073b2b]"]'));
+  assert.ok(css.includes(':root[data-layout="essencia-luminosa"] #astral-map-modal [class*="text-[#f2dda4]"]'));
+  assert.ok(css.includes(':root[data-layout="essencia-luminosa"] #astral-map-modal [class*="bg-[#B88736]"]:not([class*="/"])'));
+  assert.ok(css.includes(':root[data-layout="essencia-luminosa"] #astral-map-modal [class*="bg-amber-"]'));
+  assert.ok(css.includes(':root[data-layout="essencia-luminosa"] #astral-map-modal [class*="text-amber-"]'));
+  assert.ok(main.includes("import './essencia-luminosa-final-audit.css';"));
+});
