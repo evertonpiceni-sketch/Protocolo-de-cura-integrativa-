@@ -60,7 +60,7 @@ export default function TransformationHome(props: TransformationHomeProps) {
   const isEssenciaLuminosa = props.visualLayout === 'essencia-luminosa';
   const requiresNeuralVoice = isEleganciaProfunda || isEssenciaLuminosa;
   const approvedVoiceId = requiresNeuralVoice
-    ? (isElevenLabsVoiceId(savedVoiceId) ? savedVoiceId : OFFICIAL_PROTOCOL_VOICE_ID)
+    ? (isElevenLabsVoiceId(savedVoiceId) ? savedVoiceId : '')
     : savedVoiceId && !['Rachel', 'Marcus', 'masculina', 'feminina'].includes(savedVoiceId)
       ? savedVoiceId
       : OFFICIAL_PROTOCOL_VOICE_ID;
