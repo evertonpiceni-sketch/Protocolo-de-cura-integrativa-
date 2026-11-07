@@ -882,7 +882,7 @@ export default function App() {
           dayNumber={activeSessionDay}
           userName={userProfile.name}
           bgMusicType={userProfile.bgMusicType}
-          voiceId={userProfile.voiceId}
+          voiceId={userProfile.voiceId || userProfile.preferredVoice}
           voiceGender={userProfile.preferredVoiceGender || (userProfile.voiceType === 'everton' ? 'masculina' : userProfile.voiceType)}
           voiceRate={userProfile.voiceRate}
           voicePitch={userProfile.voicePitch}
@@ -1809,7 +1809,7 @@ export default function App() {
           <TransformationHome
             visualLayout={layoutConfirmedThisSession ? normalizeLayoutId(userProfile.visualLayout) : undefined}
             userName={userProfile.name}
-            voiceId={userProfile.voiceId}
+            voiceId={userProfile.voiceId || userProfile.preferredVoice}
             voiceVolume={userProfile.voiceVolume}
             voiceRate={userProfile.voiceRate}
             voicePitch={userProfile.voicePitch}
