@@ -66,12 +66,18 @@ export default function AudioSettingsModal({
   const [voicePitch, setVoicePitch] = useState(userProfile.voicePitch ?? 1.0);
   const isEleganciaProfunda = typeof document !== 'undefined' && document.documentElement.dataset.layout === 'elegancia-profunda';
   const isEssenciaLuminosa = typeof document !== 'undefined' && document.documentElement.dataset.layout === 'essencia-luminosa';
-  const requiresNeuralVoice = isEleganciaProfunda || isEssenciaLuminosa;
+  const isMisticoModerno = typeof document !== 'undefined' && document.documentElement.dataset.layout === 'mistico-moderno';
+  const requiresNeuralVoice = isEleganciaProfunda || isEssenciaLuminosa || isMisticoModerno;
   const savedVoiceId = userProfile.voiceId?.trim() || '';
   const initialVoiceId = isEssenciaLuminosa && !isElevenLabsVoiceId(savedVoiceId)
     ? OFFICIAL_PROTOCOL_VOICE_ID
     : savedVoiceId;
   const [voiceId, setVoiceId] = useState(initialVoiceId);
+  useEffect(() => {
+    if (!isOpen || !isMisticoModerno) return;
+    setVoiceId(userProfile.voiceId?.trim() || '');
+    setVoiceTestError(false);
+  }, [isOpen, isMisticoModerno]);
   const [audioEnabled, setAudioEnabled] = useState(userProfile.audioEnabled !== false);
   const [isTestingVoice, setIsTestingVoice] = useState(false);
   const [voiceTestError, setVoiceTestError] = useState(false);
@@ -719,7 +725,7 @@ export default function AudioSettingsModal({
         </button>
         {voiceTestError && (
           <p role="alert" className="ep-voice-error rounded-xl px-3 py-2 text-xs">
-            Selecione uma voz neural válida do catálogo. Os Estilos 2 e 3 não usarão a voz robótica do dispositivo.
+            Selecione uma voz neural válida do catálogo. Os Estilos 2, 3 e 4 não usarão a voz robótica do dispositivo.
           </p>
         )}
 
