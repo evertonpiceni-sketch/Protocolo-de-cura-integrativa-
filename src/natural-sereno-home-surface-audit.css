@@ -90,3 +90,54 @@
     background-position:center 54%!important;
   }
 }
+
+/* Reauditoria RUN_22 — neutralizar os últimos tons oliva/amarelo da Home
+   injetados pelo modelo legado, sem alterar a fotografia nem os estados da jornada. */
+:root[data-layout="natural-sereno"]:root .ns-app[data-ns-screen="home"] .ns-home-content {
+  background: linear-gradient(180deg,#FAF7F2 0%,#F3EDE4 70%,#FAF7F2 100%) !important;
+  color: #2A2421 !important;
+}
+:root[data-layout="natural-sereno"]:root .ns-app[data-ns-screen="home"] :is(.ns-greeting h1,.ns-greeting p,.ns-home-message) {
+  color: #2A2421 !important;
+  text-shadow: none !important;
+}
+:root[data-layout="natural-sereno"]:root .ns-app[data-ns-screen="home"] .ep-home-anamnesis-card {
+  background: linear-gradient(145deg,#FFFDF8 0%,#F3EDE4 100%) !important;
+  border-color: rgba(200,157,82,.34) !important;
+}
+:root[data-layout="natural-sereno"]:root .ns-app[data-ns-screen="home"] .ep-home-anamnesis-card small {
+  color: #8F631E !important;
+}
+:root[data-layout="natural-sereno"]:root .ns-app[data-ns-screen="home"] .ep-home-anamnesis-card h2 {
+  color: #2A2421 !important;
+}
+:root[data-layout="natural-sereno"]:root .ns-app[data-ns-screen="home"] .ep-home-anamnesis-card p {
+  color: #6B625B !important;
+}
+:root[data-layout="natural-sereno"]:root .ns-app[data-ns-screen="home"] .ep-home-continue {
+  min-height: 52px !important;
+  border: 1px solid rgba(168,126,55,.58) !important;
+  border-radius: 18px !important;
+  background: linear-gradient(180deg,#E2B96B 0%,#C89D52 100%) !important;
+  color: #2A2421 !important;
+  box-shadow: inset 0 1px rgba(255,255,255,.48),0 8px 20px rgba(67,52,39,.10) !important;
+}
+:root[data-layout="natural-sereno"]:root .ns-app[data-ns-screen="home"] .ns-insight {
+  background:
+    linear-gradient(90deg,rgba(250,247,242,.92),rgba(250,247,242,.80)),
+    var(--ns-valley) center 72% / cover no-repeat !important;
+}
+:root[data-layout="natural-sereno"]:root .ns-app[data-ns-screen="home"] .ns-insight > small {
+  color: #8F631E !important;
+}
+:root[data-layout="natural-sereno"]:root .ns-app[data-ns-screen="home"] .ns-insight blockquote {
+  color: #2A2421 !important;
+}
+:root[data-layout="natural-sereno"]:root .ns-app[data-ns-screen="home"] .ep-home-quicklinks button {
+  background: #FFFDF8 !important;
+  color: #2A2421 !important;
+  border-color: rgba(200,157,82,.30) !important;
+}
+:root[data-layout="natural-sereno"]:root .ns-app[data-ns-screen="home"] .ep-home-quicklinks small {
+  color: #6B625B !important;
+}
