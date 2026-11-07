@@ -59,15 +59,16 @@ export default function TransformationHome(props: TransformationHomeProps) {
   const isNaturalSereno = props.visualLayout === 'natural-sereno';
   const isEleganciaProfunda = props.visualLayout === 'elegancia-profunda';
   const isEssenciaLuminosa = props.visualLayout === 'essencia-luminosa';
-  const requiresNeuralVoice = isNaturalSereno || isEleganciaProfunda || isEssenciaLuminosa;
+  const isMisticoModerno = props.visualLayout === 'mistico-moderno';
+  const requiresNeuralVoice = isNaturalSereno || isEleganciaProfunda || isEssenciaLuminosa || isMisticoModerno;
   const approvedVoiceId = isEleganciaProfunda
     ? (isElevenLabsVoiceId(savedVoiceId) ? savedVoiceId : '')
-    : (isNaturalSereno || isEssenciaLuminosa)
+    : (isNaturalSereno || isEssenciaLuminosa || isMisticoModerno)
       ? (isElevenLabsVoiceId(savedVoiceId) ? savedVoiceId : OFFICIAL_PROTOCOL_VOICE_ID)
       : savedVoiceId && !['Rachel', 'Marcus', 'masculina', 'feminina'].includes(savedVoiceId)
         ? savedVoiceId
         : OFFICIAL_PROTOCOL_VOICE_ID;
-  // Natural Sereno, Essência Luminosa and Elegância Profunda honor saved neural voice IDs and their controls.
+  // The four approved styles honor saved neural voice IDs; Místico Moderno defaults to Marianne and never falls back to browser speech.
   const usesSavedVoiceSettings = requiresNeuralVoice;
   const narrationVoiceId = usesSavedVoiceSettings
     ? approvedVoiceId
