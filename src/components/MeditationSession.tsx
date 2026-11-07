@@ -213,7 +213,7 @@ export default function MeditationSession({
     await audioEngine.playProtocolStageStream({
       text: personalizedText,
       voiceId: activeLayout === 'natural-sereno'
-        ? (voiceId || (voiceGender === 'masculina' ? 'masculina' : voiceGender === 'feminina' ? 'Rachel' : OFFICIAL_PROTOCOL_VOICE_ID))
+        ? (voiceId || OFFICIAL_PROTOCOL_VOICE_ID)
         : activeLayout === 'elegancia-profunda'
           ? style2VoiceId
           : OFFICIAL_PROTOCOL_VOICE_ID,
