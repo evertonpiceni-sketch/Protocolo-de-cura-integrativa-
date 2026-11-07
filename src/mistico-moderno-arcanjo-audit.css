@@ -1,0 +1,82 @@
+/* Estilo 4 — Místico Moderno: Arcanjo/Solfeggio.
+   Camada isolada; não altera os outros três estilos nem a Reintegração da Vida. */
+:root[data-layout="mistico-moderno"] #arcanjo-protocol-view{
+  background:#07111F!important;
+  color:#F4F1EB!important;
+}
+:root[data-layout="mistico-moderno"] #arcanjo-protocol-backdrop{
+  background:
+    radial-gradient(circle at 84% 8%,rgba(108,63,160,.16),transparent 30rem),
+    radial-gradient(circle at 12% 88%,rgba(38,53,95,.20),transparent 28rem),
+    radial-gradient(circle at 52% 100%,rgba(23,107,91,.10),transparent 30rem),
+    linear-gradient(180deg,#07111F 0%,#141D3A 58%,#07111F 100%)!important;
+}
+:root[data-layout="mistico-moderno"] #arcanjo-protocol-view>header{
+  background:rgba(7,17,31,.94)!important;
+  border-color:rgba(200,157,82,.22)!important;
+  box-shadow:0 12px 36px rgba(0,0,0,.32)!important;
+}
+:root[data-layout="mistico-moderno"] #arcanjo-protocol-view header h1{
+  color:#F4F1EB!important;
+}
+:root[data-layout="mistico-moderno"] #arcanjo-protocol-view main{
+  color:#F4F1EB!important;
+}
+:root[data-layout="mistico-moderno"] #arcanjo-protocol-view [class*="text-[#5C6A60]"]{
+  color:#D8D4CA!important;
+}
+:root[data-layout="mistico-moderno"] #arcanjo-protocol-view .ep-forest-panel{
+  background:
+    radial-gradient(circle at 92% 0%,rgba(108,63,160,.13),transparent 22rem),
+    linear-gradient(145deg,rgba(14,27,48,.97),rgba(7,17,31,.98))!important;
+  border:1px solid rgba(108,63,160,.30)!important;
+  box-shadow:0 18px 48px rgba(0,0,0,.30),inset 0 1px 0 rgba(255,255,255,.035)!important;
+  color:#F4F1EB!important;
+}
+:root[data-layout="mistico-moderno"] #arcanjo-chakra-stage{
+  background:
+    radial-gradient(circle at 50% 42%,rgba(108,63,160,.17),transparent 48%),
+    linear-gradient(160deg,#141D3A,#07111F)!important;
+  border-color:rgba(200,157,82,.30)!important;
+  box-shadow:0 24px 70px rgba(0,0,0,.48)!important;
+}
+:root[data-layout="mistico-moderno"] #arcanjo-chakra-caption{
+  background:linear-gradient(to top,rgba(7,17,31,.98),rgba(20,29,58,.84) 62%,transparent)!important;
+}
+:root[data-layout="mistico-moderno"] #arcanjo-protocol-view .ep-forest-panel
+:is([class*="text-[#5C6A60]"],[class*="text-[#e9f1e9]"],[class*="text-[#c8d8cc]"],[class*="text-[#c8d9cd]"],[class*="text-[#bad0c4]"],[class*="text-[#d7e2d8]"]){
+  color:#D8D4CA!important;
+}
+:root[data-layout="mistico-moderno"] #arcanjo-protocol-view .ep-forest-panel [class*="bg-black/20"]{
+  background:rgba(7,17,31,.76)!important;
+}
+:root[data-layout="mistico-moderno"] #arcanjo-protocol-view .ep-forest-panel button:not(.ep-gold-button){
+  background:rgba(14,27,48,.78)!important;
+  border-color:rgba(108,63,160,.34)!important;
+  color:#F4F1EB!important;
+}
+:root[data-layout="mistico-moderno"] #arcanjo-protocol-view .ep-forest-panel button:not(.ep-gold-button):hover{
+  background:rgba(38,53,95,.84)!important;
+  border-color:rgba(200,157,82,.44)!important;
+}
+:root[data-layout="mistico-moderno"] #arcanjo-protocol-view button.ep-gold-button{
+  background:linear-gradient(135deg,#C89D52,#E2B96B 55%,#A87E37)!important;
+  border:1px solid rgba(226,185,107,.48)!important;
+  color:#07111F!important;
+  box-shadow:0 12px 28px rgba(200,157,82,.18)!important;
+}
+:root[data-layout="mistico-moderno"] #arcanjo-protocol-view #arcanjo-btn-logout{
+  background:rgba(75,32,43,.42)!important;
+  border:1px solid rgba(190,100,115,.34)!important;
+  color:#F2D8DC!important;
+  box-shadow:none!important;
+}
+:root[data-layout="mistico-moderno"] #arcanjo-protocol-view .ep-voice-error{
+  background:rgba(75,32,43,.32)!important;
+  border:1px solid rgba(190,100,115,.30)!important;
+  color:#F2D8DC!important;
+}
+:root[data-layout="mistico-moderno"] #arcanjo-protocol-view button:focus-visible{
+  outline:2px solid rgba(226,185,107,.78)!important;
+  outline-offset:3px;
+}
