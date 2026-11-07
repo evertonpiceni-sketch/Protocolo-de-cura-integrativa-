@@ -180,3 +180,10 @@ test('o onboarding antigo permanece inativo e o fluxo ativo continua sendo Onboa
   assert.ok(!app.includes("import('./components/WelcomeModal')"));
   assert.ok(!main.includes("elegancia-profunda-welcome-audit.css"));
 });
+
+test('o Media Session não volta para pausado depois que a trilha termina', () => {
+  const journey = read('src/components/PersonalJourney21.tsx');
+  assert.ok(journey.includes('const endedRef = useRef(false);'));
+  assert.ok(journey.includes("navigator.mediaSession.playbackState = endedRef.current ? 'none' : playing ? 'playing' : 'paused';"));
+  assert.match(journey, /onEnded=\{\(\) => \{ endedRef\.current=true;[\s\S]*?playbackState='none'/);
+});
