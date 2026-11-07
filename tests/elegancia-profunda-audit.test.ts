@@ -256,3 +256,13 @@ test('o player do Estilo 2 substitui o véu claro herdado por vinheta verde prof
   assert.ok(playerCss.includes(':root[data-layout="elegancia-profunda"] #meditation-session .ep-session-light-overlay'));
   assert.ok(playerCss.includes('rgba(7,19,14,.72)'));
 });
+
+
+test('o destaque de ciclo recomendado usa champagne e bronze no Estilo 2', () => {
+  const treatmentModal = read('src/components/SpecificTreatmentModal.tsx');
+  const modalCss = read('src/elegancia-profunda-modal-audit.css');
+  assert.ok(treatmentModal.includes('ep-treatment-recommended-badge'));
+  assert.ok(modalCss.includes(':root[data-layout="elegancia-profunda"] #specific-treatment-modal .ep-treatment-recommended-badge'));
+  assert.ok(modalCss.includes('#E5CFA0'));
+  assert.ok(modalCss.includes('#9B7446'));
+});
