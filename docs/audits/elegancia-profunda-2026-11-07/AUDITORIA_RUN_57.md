@@ -45,8 +45,9 @@ A prancha 1001194194.png (file_00000000121c820e931b56bb6b1467e9) foi recuperada 
 - Não foi localizada fotografia independente de natureza do Estilo 2 com aprovação comprovada para fundo global. A cena permanece em profundidade verde e luz champagne; não foi reutilizada fotografia exclusiva do Natural Sereno nem asset antigo sem aprovação.
 - O canvas do player principal ainda é uma composição abstrata por etapas. A comparação visual final com a silhueta neutra, luz central e raízes da prancha precisa ser feita em navegador; esta rodada corrigiu a paleta, não redesenhou a geometria aprovada.
 - Catálogo e reprodução real da voz, oscilador Solfeggio em dispositivo, Media Session, Wake Lock em dispositivos reais e navegação desktop/mobile precisam de homologação funcional.
-- npm test, npm run lint e npm run build não foram executados: o clone local falhou por resolução DNS (Could not resolve host: github.com). A revisão desta rodada é estática e os testes de regressão foram adicionados, não executados.
+- O clone local falhou por resolução DNS (Could not resolve host: github.com), mas o GitHub Actions executou com sucesso TypeScript check, testes de regressão, build, verificações dos entrypoints Express, smoke tests e validação dos endpoints de pagamento no commit 27837d76c06c913a59b62e0032a7f56fe755082f. O workflow não executou um passo separado de lint. O job ainda termina em falha porque npm audit encontrou 9 vulnerabilidades nas dependências (3 moderadas e 6 altas), em body-parser, ip-address, qs, vite e zod; não atualizei dependências sem revisão isolada do lockfile.
 - Checkout, webhook e confirmação de pagamento InfinitePay ainda exigem transação controlada em ambiente de teste.
+- A implantação Vercel segue sem homologação: o status do commit retorna build-rate-limit. O build do GitHub Actions passou, mas isso não confirma publicação em produção.
 
 ## Arquivos alterados
 - src/components/MeditationSession.tsx
