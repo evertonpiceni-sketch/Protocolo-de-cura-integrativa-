@@ -63,3 +63,26 @@ test('o player respeita o contexto de dia do Estilo 2 sem herdar a cena da Reint
   assert.ok(!css.includes('var(--ep-scene)'));
   assert.ok(css.includes('#meditation-session .ep-session-backdrop > div:last-child'));
 });
+
+test('a narração do Estilo 2 usa IDs ElevenLabs válidos e não cai na voz do dispositivo', () => {
+  const voiceSelection = read('src/lib/voiceSelection.ts');
+  const audio = read('src/lib/audio.ts');
+  const app = read('src/App.tsx');
+  const settings = read('src/components/AudioSettingsModal.tsx');
+  const home = read('src/components/TransformationHome.tsx');
+  const session = read('src/components/MeditationSession.tsx');
+  assert.ok(voiceSelection.includes('/^[A-Za-z0-9]{20}$/'));
+  assert.ok(audio.includes('fallbackToSpeechSynthesis?: boolean'));
+  assert.ok(audio.includes('failWithoutNativeVoice'));
+  assert.ok(app.includes('Voz neural (ElevenLabs)'));
+  assert.ok(settings.includes('Voz neural (ElevenLabs)'));
+  assert.ok(home.includes('fallbackToSpeechSynthesis: !isEleganciaProfunda'));
+  assert.ok(session.includes("activeLayout === 'elegancia-profunda' && !style2VoiceId"));
+});
+
+test('o acolhimento inicial do Estilo 2 mantém contraste marfim sobre verde profundo', () => {
+  const css = read('src/elegancia-profunda-approved-overrides.css');
+  assert.ok(css.includes(':root[data-layout="elegancia-profunda"] .ep-welcome-audio.ep-home-hero'));
+  assert.ok(css.includes('color:var(--layout-text)!important'));
+  assert.ok(css.includes(':root[data-layout="elegancia-profunda"] .ep-voice-error'));
+});
