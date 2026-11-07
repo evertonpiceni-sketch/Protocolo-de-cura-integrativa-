@@ -62,8 +62,8 @@ export default function CoursesModal({ isOpen, onClose }: CoursesModalProps) {
         </button>
 
         <div className="flex items-center gap-3 pr-12 pb-5 border-b border-[#E5DAC6]">
-          <div className="w-14 h-14 rounded-2xl overflow-hidden border border-[#B88736]/25 bg-white/70 shrink-0">
-            <img src={APPROVED_LOGO_DATA_URI} alt="Everton Piceni" className="w-full h-full object-contain" />
+          <div className="ep-brand-signature-wrap w-14 h-14 rounded-2xl overflow-hidden border border-[#B88736]/25 bg-white/70 shrink-0">
+            <img src={APPROVED_LOGO_DATA_URI} alt="Everton Piceni" className="ep-brand-signature w-full h-full object-contain" />
           </div>
           <div>
             <p className="text-[10px] uppercase tracking-[.16em] text-[#71511c] font-semibold">Biblioteca Integrativa</p>

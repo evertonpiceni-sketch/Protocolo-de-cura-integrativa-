@@ -14,7 +14,7 @@
 :root[data-layout="mistico-moderno"] :is(#numerology-modal,#pro-certificate-modal,#courses-modal,#daily-diary-modal,#admin-panel-modal,#video-studio-modal,#specific-treatment-modal) [class*="border-[#B88736]"]{border-color:rgba(212,175,55,.28)!important}
 
 /* Cursos: logo como assinatura, não protagonista; CTA premium noturno. */
-:root[data-layout="mistico-moderno"] #courses-modal img[alt="Everton Piceni"]{opacity:.28!important;filter:saturate(.82) brightness(.96)!important}
+:root[data-layout="mistico-moderno"] #courses-modal .ep-brand-signature{opacity:.30!important;filter:none!important}
 :root[data-layout="mistico-moderno"] #courses-modal button[class*="bg-[#F1E7C8]"]{background:linear-gradient(135deg,rgba(212,175,55,.18),rgba(108,63,160,.20))!important;border-color:rgba(212,175,55,.34)!important;color:#F5F0E6!important;box-shadow:inset 0 1px 0 rgba(255,255,255,.06),0 10px 28px rgba(0,0,0,.20)!important}
 
 /* Conquistas: dourado fica como acento premium; esmeralda apenas no estado positivo. */
