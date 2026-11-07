@@ -8,7 +8,7 @@ Data: 2026-11-07
 
 ## Corrigido nesta rodada
 1. **Seletor dos quatro estilos:** a preferência persistida passa a ser apenas pré-seleção. A escolha da tela de Aparência também pré-seleciona o card clicado. Em ambos os casos, o tema só é aplicado após confirmação explícita; a persistência autenticada continua dependendo da resposta bem-sucedida do servidor.
-2. **Voz Natural Sereno:** Home/boas-vindas/resultado e Ajustes de Áudio passam a exigir voz neural. O ID oficial Marianne é o padrão quando não há ID ElevenLabs válido; IDs neurais válidos já salvos continuam preservados. O player principal usa o ID salvo válido ou Marianne, em vez dos aliases legados Rachel/Marcus/masculina/feminina. O patch de áudio normaliza aliases inválidos e bloqueia fallback para Web Speech no Natural Sereno, evitando troca silenciosa para voz robótica.
+2. **Voz Natural Sereno:** Home/boas-vindas/resultado e Ajustes de Áudio passam a exigir voz neural. O ID oficial Marianne é o padrão quando não há ID ElevenLabs válido; IDs neurais válidos já salvos continuam preservados. O player principal usa o ID salvo válido ou Marianne, em vez dos aliases legados Rachel/Marcus/masculina/feminina. O patch de áudio normaliza aliases inválidos e bloqueia fallback para Web Speech no Natural Sereno, evitando troca silenciosa para voz robótica. O Arcanjo/Solfeggio também deixa de acionar o antigo `startNativeFallback`: falha neural agora interrompe a reprodução, interrompe o synth e apresenta erro recuperável, sem marcar a prática como concluída por áudio silencioso.
 3. **Regressão preventiva:** adicionados testes de regressão para pré-seleção sem aplicação automática, voz neural, posse de áudio do Arcanjo/Solfeggio, Diário/player e checkout InfinitePay. As expectativas compartilhadas dos testes dos Estilos 2 e 3 foram ajustadas sem alterar suas paletas ou fluxos.
 4. **Varredura CSS:** analisadas as 12 folhas importadas do Natural Sereno. Os seletores do tema estão restritos ao `data-layout="natural-sereno"` ou ao shell de autenticação. Duas regras sem tema, `.ep-reintegration-running` e seu visual de presença mobile, foram preservadas por pertencerem à experiência independente Reintegração da Vida.
 
@@ -34,6 +34,7 @@ Data: 2026-11-07
 - `src/components/TransformationHome.tsx`
 - `src/components/MeditationSession.tsx`
 - `src/components/AudioSettingsModal.tsx`
+- `src/components/ArcanjoProtocolView.tsx`
 - `src/lib/naturalSerenoOfficialVoicePatch.ts`
 - `tests/natural-sereno-audit.test.ts`
 - `tests/essencia-luminosa.test.ts`
