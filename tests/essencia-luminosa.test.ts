@@ -135,3 +135,26 @@ test('as camadas CSS do Estilo 3 não deixam tokens de layout sem definição ne
     assert.deepEqual(selectors.filter(selector => !selector.includes('data-layout="essencia-luminosa"')), [], name);
   }
 });
+
+test('o onboarding ativo do Estilo 3 usa superfície clara e logo como assinatura discreta', () => {
+  const app = fs.readFileSync('src/App.tsx', 'utf8');
+  const flow = fs.readFileSync('src/components/OnboardingFlow.tsx', 'utf8');
+  const css = fs.readFileSync('src/essencia-luminosa-onboarding-audit.css', 'utf8');
+  assert.ok(app.includes('{showWelcomeModal && userProfile && ('));
+  assert.ok(app.includes('<OnboardingFlow'));
+  assert.ok(flow.includes("import '../essencia-luminosa-onboarding-audit.css';"));
+  assert.ok(css.includes(':root[data-layout="essencia-luminosa"] .ep-care-onboarding-card'));
+  assert.ok(css.includes('var(--layout-canvas)'));
+  assert.ok(css.includes('opacity: .30'));
+  assert.ok(!css.includes('#073b2b'));
+});
+
+test('o Guia de Banhos do Estilo 3 usa sálvia clara e champagne sem verde escuro/amarelo saturado', () => {
+  const component = fs.readFileSync('src/components/HerbalBathsModal.tsx', 'utf8');
+  const css = fs.readFileSync('src/essencia-luminosa-herbal-baths-audit.css', 'utf8');
+  assert.ok(component.includes("import '../essencia-luminosa-herbal-baths-audit.css';"));
+  assert.ok(css.includes(':root[data-layout="essencia-luminosa"] #herbal-baths-modal'));
+  assert.ok(css.includes('var(--layout-accent-soft)'));
+  assert.ok(css.includes('var(--layout-gold-gradient)'));
+  assert.ok(!/#63745a|#53634c|#877747|#917649|#ac945f|#a68b56|#a58c58/i.test(css));
+});

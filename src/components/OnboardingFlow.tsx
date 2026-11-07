@@ -1,4 +1,5 @@
 import React, { useRef, useState } from 'react';
+import '../essencia-luminosa-onboarding-audit.css';
 import { useDialogFocus } from '../hooks/useDialogFocus';
 import { motion, AnimatePresence } from 'motion/react';
 import { ArrowRight, ShieldCheck } from 'lucide-react';

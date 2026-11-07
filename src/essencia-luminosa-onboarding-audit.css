@@ -1,0 +1,85 @@
+/* Estilo 3 — Essência Luminosa | fluxo de acolhimento ativo.
+   Escopo exclusivo: preserva os seis passos e o conteúdo, corrigindo apenas a herança
+   de painel verde-escuro e garantindo a assinatura do logo em baixa opacidade. */
+:root[data-layout="essencia-luminosa"] .ep-care-onboarding {
+  background:
+    radial-gradient(circle at 12% 0%, color-mix(in srgb, var(--layout-gold-soft) 58%, transparent), transparent 26rem),
+    radial-gradient(circle at 100% 100%, color-mix(in srgb, var(--layout-accent-soft) 68%, transparent), transparent 28rem),
+    linear-gradient(180deg, var(--layout-canvas), var(--layout-canvas-alt)) !important;
+  color: var(--layout-text) !important;
+}
+
+:root[data-layout="essencia-luminosa"] .ep-care-onboarding-card {
+  background: linear-gradient(145deg, var(--layout-card), color-mix(in srgb, var(--layout-canvas-alt) 82%, var(--layout-card))) !important;
+  border-color: color-mix(in srgb, var(--layout-gold) 28%, var(--layout-border-card)) !important;
+  color: var(--layout-text) !important;
+  box-shadow: 0 24px 70px rgba(112, 91, 58, .12) !important;
+}
+
+:root[data-layout="essencia-luminosa"] .ep-care-onboarding-card :is(h1, h2, h3) {
+  color: var(--layout-text) !important;
+}
+
+:root[data-layout="essencia-luminosa"] .ep-care-onboarding-card :is(p, small) {
+  color: var(--layout-text-secondary) !important;
+}
+
+:root[data-layout="essencia-luminosa"] .ep-care-onboarding-card [class*="text-[#eee6d4]"] {
+  color: var(--layout-text-secondary) !important;
+}
+
+:root[data-layout="essencia-luminosa"] .ep-care-onboarding-card :is([class*="text-[#d5ba78]"], [class*="text-[#e1c171]"]) {
+  color: var(--layout-gold-dark) !important;
+}
+
+:root[data-layout="essencia-luminosa"] .ep-care-onboarding-card [class*="text-[#cbbf9f]"] {
+  color: var(--layout-text-muted) !important;
+}
+
+:root[data-layout="essencia-luminosa"] .ep-care-onboarding-card .ep-brand-signature-wrap {
+  background: color-mix(in srgb, var(--layout-card) 86%, transparent) !important;
+  border-color: color-mix(in srgb, var(--layout-gold) 24%, var(--layout-border-card)) !important;
+  box-shadow: none !important;
+}
+
+:root[data-layout="essencia-luminosa"] .ep-care-onboarding-card .ep-brand-signature {
+  opacity: .30 !important;
+  filter: saturate(.82) contrast(.96) !important;
+}
+
+:root[data-layout="essencia-luminosa"] .ep-care-onboarding-card .ep-gold-button {
+  background-image: var(--layout-gold-gradient) !important;
+  color: var(--layout-text) !important;
+  border: 1px solid var(--layout-gold-border) !important;
+  box-shadow: 0 10px 24px rgba(112, 91, 58, .10) !important;
+}
+
+:root[data-layout="essencia-luminosa"] .ep-care-onboarding-card button[aria-pressed="true"] {
+  background: color-mix(in srgb, var(--layout-accent) 24%, var(--layout-card)) !important;
+  border-color: color-mix(in srgb, var(--layout-accent) 72%, var(--layout-gold)) !important;
+  color: var(--layout-text) !important;
+}
+
+:root[data-layout="essencia-luminosa"] .ep-care-onboarding-card button[aria-pressed="false"] {
+  background: color-mix(in srgb, var(--layout-card) 94%, var(--layout-canvas-alt)) !important;
+  border-color: var(--layout-border-card) !important;
+  color: var(--layout-text-secondary) !important;
+}
+
+:root[data-layout="essencia-luminosa"] .ep-care-onboarding-card button:focus-visible {
+  outline: 2px solid color-mix(in srgb, var(--layout-gold) 68%, white) !important;
+  outline-offset: 3px;
+}
+
+@media (max-width: 640px) {
+  :root[data-layout="essencia-luminosa"] .ep-care-onboarding-card .ep-brand-signature {
+    opacity: .26 !important;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root[data-layout="essencia-luminosa"] .ep-care-onboarding-card button {
+    transition: none !important;
+    transform: none !important;
+  }
+}
