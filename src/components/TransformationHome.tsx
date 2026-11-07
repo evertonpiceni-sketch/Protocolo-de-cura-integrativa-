@@ -153,7 +153,7 @@ export default function TransformationHome(props: TransformationHomeProps) {
             {isSpeaking ? <Pause size={20} /> : <Headphones size={20} />}
             <span>{isSpeaking ? 'Pausar acolhimento' : 'Ouvir acolhimento'}</span>
           </button>
-          {voiceError && <p role="alert" className="ep-voice-error relative mt-3 rounded-xl px-3 py-2 text-xs">A voz oficial Marianne — Meditação não está disponível agora. Nenhuma voz do dispositivo será usada como substituta.</p>}
+          {voiceError && <p role="alert" className="ep-voice-error relative mt-3 rounded-xl px-3 py-2 text-xs">{isMisticoModerno ? 'A voz oficial Marianne — Meditação não está disponível agora. Nenhuma voz do dispositivo será usada como substituta.' : 'A voz neural selecionada não foi reconhecida. Abra Ajustes de áudio e escolha uma voz do catálogo ElevenLabs.'}</p>}
           <button onClick={enterJourney} className="ep-gold-button mt-3 flex min-h-14 w-full items-center justify-center gap-3 rounded-2xl px-5 py-4 text-base font-bold"><span>Entrar na minha jornada</span><ChevronRight size={20}/></button>
           <div className="mt-7 grid grid-cols-4 gap-2 text-[#B88736]">{[[Waves,'Escuta'],[Leaf,'Presença'],[Heart,'Equilíbrio'],[Sparkles,'Transformação']].map(([Icon,label]) => { const PillarIcon=Icon as typeof Waves; return <div key={label as string} className="flex min-w-0 flex-col items-center gap-2"><PillarIcon size={20}/><span className="w-full break-words text-center text-[9px] uppercase leading-4 tracking-[.06em] text-[#5C5248]">{label as string}</span></div>; })}</div>
         </div>
