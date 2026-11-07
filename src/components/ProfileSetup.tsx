@@ -327,7 +327,7 @@ export default function ProfileSetup({ onComplete }: ProfileSetupProps) {
   };
 
   return (
-    <div className="ep-auth-style-one min-h-dvh text-[#F8F4EC] flex items-start md:items-center justify-center px-3 sm:px-4 md:px-8 pt-[max(0.75rem,env(safe-area-inset-top))] pb-[max(0.75rem,env(safe-area-inset-bottom))] md:py-8" id="profile-setup-view">
+    <div className="ep-auth-prestyle min-h-dvh text-[#F8F4EC] flex items-start md:items-center justify-center px-3 sm:px-4 md:px-8 pt-[max(0.75rem,env(safe-area-inset-top))] pb-[max(0.75rem,env(safe-area-inset-bottom))] md:py-8" id="profile-setup-view">
       <div className="ep-auth-nature-bg fixed inset-0 pointer-events-none" />
       <div className="ep-auth-light-vignette absolute inset-0 pointer-events-none" />
 
