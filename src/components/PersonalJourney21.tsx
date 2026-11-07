@@ -71,16 +71,33 @@ export default function PersonalJourney21({ onClose, initialCompletedDays, onCom
   };
 
   const sessionActiveRef = useRef(false);
+  const releaseWakeLock = () => {
+    const lock = wakeLockRef.current;
+    wakeLockRef.current = null;
+    if (!lock?.release) return;
+    try { void Promise.resolve(lock.release()).catch(() => undefined); }
+    catch { /* the browser may already have released this lock */ }
+  };
   const stopSession = () => {
     sessionActiveRef.current = false;
     playingRef.current = false; clearVoice(); musicRef.current?.pause();
     if ('mediaSession' in navigator) navigator.mediaSession.playbackState = 'paused';
-    void wakeLockRef.current?.release?.(); wakeLockRef.current = null; setPlaying(false);
+    releaseWakeLock(); setPlaying(false);
   };
 
   const requestWakeLock = async () => {
-    try { if ('wakeLock' in navigator && !wakeLockRef.current) wakeLockRef.current = await (navigator as any).wakeLock.request('screen'); }
-    catch { /* music remains the authoritative clock */ }
+    try {
+      if (!('wakeLock' in navigator) || wakeLockRef.current || !playingRef.current) return;
+      const lock = await (navigator as any).wakeLock.request('screen');
+      if (!playingRef.current) {
+        await lock?.release?.();
+        return;
+      }
+      wakeLockRef.current = lock;
+      lock?.addEventListener?.('release', () => {
+        if (wakeLockRef.current === lock) wakeLockRef.current = null;
+      }, { once: true });
+    } catch { /* music remains the authoritative clock */ }
   };
 
   const playCueForTime = async (currentTime: number) => {
@@ -182,12 +199,13 @@ export default function PersonalJourney21({ onClose, initialCompletedDays, onCom
       navigator.mediaSession.setActionHandler('play', () => {
         if (!active || !sessionActiveRef.current) return;
         playingRef.current = true; setPlaying(true);
+        void requestWakeLock();
         void musicRef.current?.play().catch(() => undefined);
         if (voiceRef.current?.paused) void voiceRef.current.play().catch(() => undefined);
       });
       navigator.mediaSession.setActionHandler('pause', () => {
         if (!active || !sessionActiveRef.current) return;
-        voiceRef.current?.pause(); musicRef.current?.pause(); playingRef.current = false; setPlaying(false);
+        voiceRef.current?.pause(); musicRef.current?.pause(); playingRef.current = false; setPlaying(false); releaseWakeLock();
       });
       navigator.mediaSession.setActionHandler('seekbackward', () => {
         if (!active || !sessionActiveRef.current) return;
@@ -216,7 +234,7 @@ export default function PersonalJourney21({ onClose, initialCompletedDays, onCom
     audioEngine.stopBG();
     if (playing) {
       voiceRef.current?.pause();
-      musicRef.current?.pause(); playingRef.current = false; setPlaying(false);
+      musicRef.current?.pause(); playingRef.current = false; setPlaying(false); releaseWakeLock();
       if ('mediaSession' in navigator) navigator.mediaSession.playbackState = 'paused';
       return;
     }
@@ -258,7 +276,7 @@ export default function PersonalJourney21({ onClose, initialCompletedDays, onCom
     <div className="ep-reintegration-logo pointer-events-none fixed right-4 top-4 z-20 h-14 w-14 sm:right-6 sm:top-6 sm:h-16 sm:w-16"><img src={APPROVED_LOGO_DATA_URI} alt="" aria-hidden="true" className="h-full w-full object-contain opacity-30" /></div>
     <audio ref={musicRef} src={REINTEGRATION_MUSIC_URL} preload="auto" playsInline
       onTimeUpdate={event => { const audio=event.currentTarget; if(Number.isFinite(audio.duration)&&audio.duration>0)setAudioProgress((audio.currentTime/audio.duration)*100); void playCueForTime(audio.currentTime); }}
-      onEnded={() => { clearVoice(); playingRef.current=false; setPlaying(false); setAudioProgress(100); if ('mediaSession' in navigator) navigator.mediaSession.playbackState='none'; }}/>
+      onEnded={() => { clearVoice(); playingRef.current=false; setPlaying(false); setAudioProgress(100); releaseWakeLock(); if ('mediaSession' in navigator) navigator.mediaSession.playbackState='none'; }}/>
     <main className="mx-auto w-full max-w-[620px]">
       <div className="ep-reintegration-top-actions mb-4 flex flex-wrap items-center justify-between gap-2">
         <button onClick={() => { stopSession(); onClose(); }} className="ep-reintegration-top-button flex items-center gap-2 rounded-full border border-[#E5DAC6] bg-white/80 px-4 py-2 text-sm font-semibold text-[#524842] shadow-[0_10px_24px_rgba(0,0,0,.06)] backdrop-blur-md"><ArrowLeft size={17}/>Voltar ao início</button>
