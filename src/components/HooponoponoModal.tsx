@@ -8,6 +8,7 @@ import React, { useEffect, useState } from 'react';
 import { motion } from 'motion/react';
 import { Heart, Play, Pause, RotateCcw, CheckCircle2, Copy, X, Info } from 'lucide-react';
 import { audioEngine } from '../lib/audio';
+import { isElevenLabsVoiceId } from '../lib/voiceSelection';
 import { UserProfile } from '../types';
 import { getLocalDateString } from '../utils/date';
 
@@ -72,6 +73,8 @@ export default function HooponoponoModal({ isOpen, onClose, userName = 'Buscador
   const [targetCount, setTargetCount] = useState(108);
   const [count, setCount] = useState(0);
   const [isPlayingAudio, setIsPlayingAudio] = useState(false);
+  const [voiceError, setVoiceError] = useState(false);
+  const isEleganciaProfunda = typeof document !== 'undefined' && document.documentElement.dataset.layout === 'elegancia-profunda';
   const [copiedText, setCopiedText] = useState(false);
   const [prayedToday, setPrayedToday] = useState(() => {
     try { return localStorage.getItem(`cura_integrada_hooponopono_${getLocalDateString()}`) === 'true'; }
@@ -110,6 +113,11 @@ export default function HooponoponoModal({ isOpen, onClose, userName = 'Buscador
     const text = selectedTab === 'oracao'
       ? MORRNAH_PRAYER
       : `${selectedTheme.title}. ${selectedTheme.desc}. ${selectedTheme.focusPhrase}`;
+    if (isEleganciaProfunda && !isElevenLabsVoiceId(userProfile?.voiceId)) {
+      setVoiceError(true);
+      return;
+    }
+    setVoiceError(false);
     setIsPlayingAudio(true);
     void audioEngine.speakWithElevenLabsOrFallback(
       text,
@@ -119,11 +127,17 @@ export default function HooponoponoModal({ isOpen, onClose, userName = 'Buscador
       undefined,
       undefined,
       {
-        voiceId: userProfile?.voiceId || (userProfile?.preferredVoiceGender === 'feminina' ? 'Rachel' : 'Marcus'),
+        voiceId: isEleganciaProfunda
+          ? userProfile?.voiceId
+          : userProfile?.voiceId || (userProfile?.preferredVoiceGender === 'feminina' ? 'Rachel' : 'Marcus'),
         rate: userProfile?.voiceRate ?? 0.82,
         pitch: userProfile?.voicePitch ?? 0.98,
         lang: 'pt-BR',
-        userName
+        userName,
+        fallbackToSpeechSynthesis: !isEleganciaProfunda,
+        onError: isEleganciaProfunda
+          ? () => { setIsPlayingAudio(false); setVoiceError(true); }
+          : undefined
       }
     );
   };
@@ -181,6 +195,7 @@ export default function HooponoponoModal({ isOpen, onClose, userName = 'Buscador
                 <button type="button" onClick={markDone} className={`min-h-11 rounded-xl border px-3 py-2.5 text-xs font-semibold ${prayedToday ? 'border-emerald-200 bg-emerald-50 text-emerald-700' : 'border-[#E5DAC6] bg-white text-[#5C5248]'}`}><CheckCircle2 size={14} className="mr-1.5 inline" />{prayedToday ? 'Praticado hoje' : 'Marcar como feito'}</button>
               </div>
             </div>
+            {voiceError && <p role="alert" className="ep-voice-error rounded-xl px-3 py-2 text-xs">Selecione uma voz neural válida em Ajustes de áudio. O Estilo 2 não usará a voz do dispositivo.</p>}
           </section>
         )}
 
