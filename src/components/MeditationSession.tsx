@@ -390,7 +390,7 @@ export default function MeditationSession({
           breathePhase={breathePhase}
           elapsedSeconds={currentTime}
         />
-        <div className="absolute inset-0 bg-radial from-transparent via-[#FAF7F2]/40 to-[#F4EFE6] pointer-events-none" />
+        <div className="ep-session-light-overlay absolute inset-0 bg-radial from-transparent via-[#FAF7F2]/40 to-[#F4EFE6] pointer-events-none" />
       </div>
 
       <header className="relative z-20 flex items-center justify-between px-6 py-4 border-b border-[#E5DAC6] bg-[#FAF7F2]/90 backdrop-blur-md">
