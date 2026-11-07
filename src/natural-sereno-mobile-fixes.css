@@ -420,7 +420,7 @@
 }
 @media (min-width: 900px) {
   :root[data-layout="natural-sereno"] .ns-welcome {
-    background: #063020;
+    background: #2A2421;
   }
   :root[data-layout="natural-sereno"] .ns-welcome::after {
     content: ''; position: absolute; inset: 0; z-index: -2; pointer-events: none;
@@ -428,7 +428,7 @@
     filter: blur(12px); opacity: .65;
   }
   :root[data-layout="natural-sereno"] .ns-welcome::before {
-    background: linear-gradient(180deg,rgba(2,31,19,.08),rgba(2,31,19,.2)), url('/brand/natural-sereno/acolhimento.webp') center / auto 100% no-repeat;
+    background: linear-gradient(180deg,rgba(42,36,33,.08),rgba(42,36,33,.2)), url('/brand/natural-sereno/acolhimento.webp') center / auto 100% no-repeat;
   }
 }
 @media (min-width: 900px) {

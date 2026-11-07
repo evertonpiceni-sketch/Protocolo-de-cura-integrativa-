@@ -9,6 +9,7 @@
 
 - O ajuste de voz do Natural Sereno ainda permitia seleção de voz instalada no dispositivo e fallback silencioso para SpeechSynthesis. Isso podia substituir a voz neural aprovada por uma voz robótica do navegador.
 - Removido o bloco global antigo de cadastro/login que ainda aplicava a arte da Reintegração, chapas verde-escuras e tratamento de logo forte. As regras `.ep-auth-style-one` obsoletas foram descartadas das folhas Natural Sereno; o fluxo atual permanece no shell neutro `ep-auth-prestyle`, com a assinatura discreta aprovada. Os assets da Reintegração fora do shell de autenticação foram preservados.
+- As telas de chegada, player e acolhimento mantêm as fotografias aprovadas, mas os fallbacks sólidos e overlays verdes foram substituídos por café `#2A2421`; assim, a falha eventual de uma imagem não revela uma grande chapa verde.
 - Natural Sereno agora carrega o catálogo ElevenLabs quando os ajustes de áudio são abertos.
 - A página principal de Configurações também mostra e testa o mesmo ID neural resolvido; perfis com nome/URI antigo de voz do dispositivo passam a exibir Marianne, sem prévia divergente.
 - A voz Marcus da tela TransformationHome (acolhimento e leitura de resultados) permanece separada; a correção não a mistura com a voz Marianne aprovada para o player do protocolo.

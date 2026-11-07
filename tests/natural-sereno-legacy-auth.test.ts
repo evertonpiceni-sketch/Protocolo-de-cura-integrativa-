@@ -20,4 +20,6 @@ test('the replaced Natural Sereno auth shell cannot restore the old Reintegra√ß√
   for (const css of naturalSerenoSheets) {
     assert.doesNotMatch(css, /ep-auth-style-one/);
   }
+  const homeAndMobile = [read('src/natural-sereno.css'), read('src/natural-sereno-mobile-fixes.css')].join('\\n');
+  assert.doesNotMatch(homeAndMobile, /#063020|rgba\\(2,\\s*31,\\s*19/);
 });
