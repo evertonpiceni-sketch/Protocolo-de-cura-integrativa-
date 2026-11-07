@@ -25,8 +25,11 @@ PR: #42 (rascunho; sem merge e sem deploy de produção)
 
 - Foram inspecionados estaticamente 24 módulos CSS do Místico Moderno; as regras permanecem escopadas ao atributo `data-layout="mistico-moderno"`.
 - O catálogo conectado do ElevenLabs não retornou uma voz chamada “Maiara”. O Vercel confirma que `ELEVENLABS_VOICE_ID` existe em produção e preview, mas seu valor é protegido; não foi lido nem alterado. O código usa essa configuração existente. A identidade audível como Maiara ainda precisa ser confirmada por escuta real.
-- Os previews Vercel desta branch continuam retornando `BUILD_FAILED / Resource provisioning failed`, sem eventos de build. A inspeção renderizada página por página em desktop e celular continua pendente.
-- A última execução do GitHub Actions antes desta rodada passou TypeScript, testes e build, mas a etapa final de `npm audit` permaneceu vermelha por vulnerabilidades em dependências. O novo commit aguarda CI.
+- Preview visual isolado via Puppeteer: o seletor foi renderizado em desktop e mobile (390×844). No mobile, `scrollWidth=clientWidth=390`; os quatro cartões iniciam com `aria-pressed=false` e o botão “SELECIONE UM ESTILO” permanece desabilitado até uma escolha. O cartão Místico usa fundo `#0A0F18`, carrega a prancha oficial (224×168) e não exibe check quando não selecionado.
+- Arcanjo/Solfeggio foi renderizado em mobile (390×844): o botão “Sair” usa fundo noturno, borda/texto/ícone dourados e não herda mais o rosa; não há overflow horizontal.
+- Três chamadas de API retornaram 401 no preview isolado. Portanto, não foi possível testar áudio real, confirmar a voz por escuta ou validar páginas autenticadas adicionais. A inspeção renderizada de todas as páginas continua pendente.
+- O preview de deployment do Vercel para a branch ainda retorna `BUILD_FAILED / Resource provisioning failed`; a renderização no sandbox isolado não substitui a homologação completa no preview do projeto.
+- Validação no sandbox isolado no commit `733c4c9`: 38/38 testes aprovados, `npm run lint` (`tsc --noEmit`) aprovado e `npm run build` aprovado. O build emitiu apenas aviso de chunks acima de 500 kB. `npm audit` encontrou 10 vulnerabilidades (3 moderadas, 7 altas, 0 críticas); a correção de dependências ficou fora deste escopo visual/voz.
 - Não foi realizada transação real InfinitePay. Nenhum preço, cupom ou endpoint de pagamento foi alterado.
 - `SacredEnergyCanvas` e demais animações não foram modificados sem evidência visual suficiente.
 
