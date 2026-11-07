@@ -19,7 +19,7 @@
 
 :root[data-layout="essencia-luminosa"] #anamnesis-modal :is(.bg-indigo-600,.bg-indigo-500,.bg-purple-600,.bg-purple-500,.bg-violet-600,.bg-violet-500,.bg-emerald-600,.bg-emerald-500) {
   background:linear-gradient(135deg,var(--el-gold),var(--el-gold-deep))!important;
-  color:#fff!important;
+  color:#221D17!important;
   box-shadow:0 12px 28px rgba(111,91,56,.18)!important;
 }
 

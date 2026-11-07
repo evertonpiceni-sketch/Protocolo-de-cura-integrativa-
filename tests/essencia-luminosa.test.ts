@@ -283,3 +283,30 @@ test('nenhum tema oficial é aplicado antes da confirmação explícita', () => 
   assert.ok(app.includes('delete document.documentElement.dataset.layout;'));
   assert.ok(app.includes('setLayoutConfirmedThisSession(true);'));
 });
+
+
+test('os CTAs claros do Estilo 3 usam texto escuro e legível sobre champagne, sálvia e ouro suave', () => {
+  const anamnesis = fs.readFileSync('src/essencia-luminosa-anamnesis-audit.css', 'utf8');
+  const mobileInstall = fs.readFileSync('src/essencia-luminosa-mobile-install-audit.css', 'utf8');
+  const numerology = fs.readFileSync('src/essencia-luminosa-numerology-audit.css', 'utf8');
+  const session = fs.readFileSync('src/essencia-luminosa-session-audit.css', 'utf8');
+
+  assert.ok(anamnesis.includes('color:#221D17!important;'));
+  assert.ok(mobileInstall.includes('color:var(--layout-text)!important;'));
+  assert.ok(numerology.includes('color: var(--layout-text) !important;'));
+  assert.equal((session.match(/color: var\\(--layout-text\\) !important;/g) ?? []).length, 2);
+
+  for (const source of [anamnesis, mobileInstall, numerology, session]) {
+    assert.doesNotMatch(source, /color\\s*:\\s*#fff(?:fff)?\\s*!important/i);
+  }
+});
+
+test('a escolha de estilo usa somente o fluxo React ativo e mantém seletores DOM legados inativos', () => {
+  const main = fs.readFileSync('src/main.tsx', 'utf8');
+  const app = fs.readFileSync('src/App.tsx', 'utf8');
+
+  assert.ok(app.includes("import LayoutChoiceModal from './components/LayoutChoiceModal';"));
+  assert.ok(app.includes('<OnboardingFlow'));
+  assert.doesNotMatch(app, /import WelcomeModal/);
+  assert.doesNotMatch(main, /requiredLayoutChoiceEntryPatch|layoutSettingsExplicitConfirmationPatch/);
+});

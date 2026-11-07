@@ -84,14 +84,14 @@
 
 :root[data-layout="essencia-luminosa"] #meditation-session button[class*="bg-[#8F631E]"] {
   background: linear-gradient(135deg, color-mix(in srgb, var(--layout-accent) 86%, white), var(--layout-accent)) !important;
-  color: #fff !important;
+  color: var(--layout-text) !important;
   border-color: color-mix(in srgb, var(--layout-accent) 70%, var(--layout-border-card)) !important;
   box-shadow: 0 8px 22px color-mix(in srgb, var(--layout-accent) 18%, transparent) !important;
 }
 
 :root[data-layout="essencia-luminosa"] #meditation-session button[class*="from-[#B88736]"] {
   background-image: linear-gradient(135deg, color-mix(in srgb, var(--layout-gold) 88%, white), var(--layout-gold), color-mix(in srgb, var(--layout-accent) 62%, var(--layout-gold))) !important;
-  color: #fff !important;
+  color: var(--layout-text) !important;
   box-shadow: 0 12px 30px color-mix(in srgb, var(--layout-gold) 18%, transparent) !important;
 }
 

@@ -32,7 +32,7 @@
 
 :root[data-layout="essencia-luminosa"] #numerology-modal :is(button,a)[class*="bg-emerald-"] {
   background: linear-gradient(105deg, color-mix(in srgb, var(--layout-accent) 76%, #fff), color-mix(in srgb, var(--layout-gold) 68%, var(--layout-accent))) !important;
-  color: #fff !important;
+  color: var(--layout-text) !important;
   border-color: color-mix(in srgb, var(--layout-gold) 28%, var(--layout-border-card)) !important;
   box-shadow: 0 10px 24px rgba(112,91,58,.08) !important;
 }
