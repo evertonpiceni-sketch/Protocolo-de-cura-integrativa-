@@ -179,3 +179,13 @@ test('as assinaturas do logo em Home, Contato e Cursos permanecem discretas no E
   assert.ok(contactCss.includes('opacity:.30'));
   assert.ok(coursesCss.includes('opacity:.30'));
 });
+
+test('a pré-seleção da Essência Luminosa usa ouro suave sem alterar o CTA dos outros estilos', () => {
+  const modal = fs.readFileSync('src/components/LayoutChoiceModal.tsx', 'utf8');
+  assert.ok(modal.includes("const isEssenciaCard = layout.id === 'essencia-luminosa';"));
+  assert.ok(modal.includes('border-[#C6A46A] ring-2 ring-[#C6A46A]/20'));
+  assert.ok(modal.includes('bg-[#C6A46A] text-white opacity-100'));
+  assert.ok(modal.includes('from-[#D8C59B] via-[#C6A46A] to-[#E9DCC4]'));
+  assert.ok(modal.includes('focus-visible:ring-[#C6A46A]/40'));
+  assert.ok(modal.includes('from-[#C89D52] via-[#D9B66D] to-[#A87E37]'));
+});

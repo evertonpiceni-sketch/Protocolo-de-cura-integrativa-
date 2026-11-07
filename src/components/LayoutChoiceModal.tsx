@@ -173,6 +173,15 @@ export default function LayoutChoiceModal({ onSelect }: LayoutChoiceModalProps) 
         <div className="mt-6 grid grid-cols-1 gap-3 sm:grid-cols-2">
           {OFFICIAL_LAYOUTS.map(layout => {
             const isSelected = selectedLayout === layout.id;
+            const isEssenciaCard = layout.id === 'essencia-luminosa';
+            const selectionClasses = isEssenciaCard
+              ? isSelected
+                ? 'border-[#C6A46A] ring-2 ring-[#C6A46A]/20 shadow-lg'
+                : 'border-[#E5DAC6] hover:border-[#C6A46A]/60'
+              : isSelected
+                ? 'border-[#B88736] ring-2 ring-[#B88736]/20 shadow-lg'
+                : 'border-[#E5DAC6] hover:border-[#B88736]/60';
+            const focusRingClass = isEssenciaCard ? 'focus-visible:ring-[#C6A46A]/35' : 'focus-visible:ring-[#B88736]/35';
             return (
               <button
                 key={layout.id}
@@ -180,14 +189,14 @@ export default function LayoutChoiceModal({ onSelect }: LayoutChoiceModalProps) 
                 onClick={() => { setSelectedLayout(layout.id); setSaveError(null); }}
                 disabled={isSaving}
                 aria-pressed={isSelected}
-                className={`group min-h-36 rounded-2xl border bg-white/85 p-5 text-left transition hover:-translate-y-0.5 hover:shadow-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B88736]/35 ${isSelected ? 'border-[#B88736] ring-2 ring-[#B88736]/20 shadow-lg' : 'border-[#E5DAC6] hover:border-[#B88736]/60'}`}
+                className={`group min-h-36 rounded-2xl border bg-white/85 p-5 text-left transition hover:-translate-y-0.5 hover:shadow-lg focus-visible:outline-none focus-visible:ring-2 ${focusRingClass} ${selectionClasses}`}
               >
                 <div className="flex items-start justify-between gap-3">
                   <div>
                     <h3 className="font-display text-xl font-semibold text-[#2A2420]">{layout.name}</h3>
                     <p className="mt-1 text-xs leading-relaxed text-[#5C5248]">{layout.description}</p>
                   </div>
-                  <span className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-full border transition ${isSelected ? 'border-[#B88736] bg-[#B88736] text-white opacity-100' : 'border-[#E5DAC6] text-[#B88736] opacity-0 group-hover:opacity-100'}`} aria-hidden="true">
+                  <span className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-full border transition ${isSelected ? (isEssenciaCard ? 'border-[#C6A46A] bg-[#C6A46A] text-white opacity-100' : 'border-[#B88736] bg-[#B88736] text-white opacity-100') : (isEssenciaCard ? 'border-[#E5DAC6] text-[#C6A46A] opacity-0 group-hover:opacity-100' : 'border-[#E5DAC6] text-[#B88736] opacity-0 group-hover:opacity-100')}`} aria-hidden="true">
                     <Check size={16} />
                   </span>
                 </div>
@@ -214,7 +223,7 @@ export default function LayoutChoiceModal({ onSelect }: LayoutChoiceModalProps) 
             type="button"
             disabled={!selectedLayout || isSaving}
             onClick={confirmSelection}
-            className="min-h-12 w-full max-w-sm rounded-full bg-gradient-to-r from-[#C89D52] via-[#D9B66D] to-[#A87E37] px-6 py-3 text-sm font-bold uppercase tracking-[.12em] text-[#2A2420] shadow-lg transition hover:-translate-y-0.5 hover:shadow-xl disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:translate-y-0 disabled:hover:shadow-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B88736]/40 focus-visible:ring-offset-2"
+            className={`min-h-12 w-full max-w-sm rounded-full ${selectedLayout === 'essencia-luminosa' ? 'bg-gradient-to-r from-[#D8C59B] via-[#C6A46A] to-[#E9DCC4] focus-visible:ring-[#C6A46A]/40' : 'bg-gradient-to-r from-[#C89D52] via-[#D9B66D] to-[#A87E37] focus-visible:ring-[#B88736]/40'} px-6 py-3 text-sm font-bold uppercase tracking-[.12em] text-[#2A2420] shadow-lg transition hover:-translate-y-0.5 hover:shadow-xl disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:translate-y-0 disabled:hover:shadow-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2`}
           >
             {isSaving ? 'Salvando escolha…' : selectedDefinition ? `Confirmar ${selectedDefinition.name}` : 'Selecione um estilo'}
           </button>
