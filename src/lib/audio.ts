@@ -23,6 +23,7 @@ class CalmingAudioEngine {
   private mainGain: GainNode | null = null;
   private musicGain: GainNode | null = null;
   private synthType: '396hz' | '528hz' | '432hz' | '639hz' | '741hz' | '852hz' | '963hz' | '417hz' | 'waves' | 'florestazen' | 'chuvaserena' | 'none' = 'none';
+  private synthStartInProgress = false;
   private extraOscs: OscillatorNode[] = []; // List to track additional harmony voices
   private extraSynthGains: GainNode[] = [];
 
@@ -1738,8 +1739,17 @@ class CalmingAudioEngine {
     return this.voiceAudioElement && !isNaN(this.voiceAudioElement.duration) ? this.voiceAudioElement.duration : 0;
   }
 
+  public isStartingSynth(): boolean {
+    return this.synthStartInProgress;
+  }
+
   public startSynth(type: any) {
-    this.startBG(type);
+    this.synthStartInProgress = true;
+    try {
+      this.startBG(type);
+    } finally {
+      this.synthStartInProgress = false;
+    }
   }
 
   public stopSynth() {
