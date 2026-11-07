@@ -17,6 +17,24 @@ function LayoutPreview({ layout }: { layout: LayoutDefinition }) {
   const muted = layout.tone === 'dark' ? 'rgba(244,241,235,.68)' : 'rgba(42,36,32,.62)';
   const isNaturalSereno = layout.id === 'natural-sereno';
   const previewBorder = layout.id === 'elegancia-profunda' ? 'rgba(212,175,119,.35)' : layout.id === 'mistico-moderno' ? 'rgba(108,63,160,.40)' : 'rgba(42,36,32,.10)';
+  if (layout.id === 'elegancia-profunda') {
+    return (
+      <div
+        className="mt-4 flex h-[184px] w-full items-center justify-center overflow-hidden rounded-2xl border shadow-inner"
+        style={{ backgroundColor: '#0B1712', borderColor: previewBorder }}
+        aria-hidden="true"
+      >
+        <img
+          src="/brand/elegancia-profunda/prancha-oficial.svg"
+          alt=""
+          loading="lazy"
+          decoding="async"
+          draggable={false}
+          className="h-full w-full object-contain"
+        />
+      </div>
+    );
+  }
   const innerBorder = layout.id === 'elegancia-profunda' ? 'rgba(212,175,119,.25)' : layout.id === 'mistico-moderno' ? 'rgba(108,63,160,.28)' : 'rgba(42,36,32,.06)';
   const naturalIvory = '#F3EDE4';
   const previewBackground = isNaturalSereno
@@ -148,7 +166,9 @@ export default function LayoutChoiceModal({ onSelect }: LayoutChoiceModalProps) 
                     ? [layout.swatches[0], layout.swatches[1], layout.swatches[2], '#F3EDE4']
                     : layout.id === 'essencia-luminosa'
                       ? ['#FFFFF8', '#C6A46A', '#F7F3E8', '#A6B49B']
-                      : layout.swatches
+                      : layout.id === 'elegancia-profunda'
+                        ? ['#0B1712', '#2E6B4F', '#D4AF37', '#E5D3B1', '#8A5D3B', '#F4F1EB']
+                        : layout.swatches
                   ).map((color, index) => (
                     <span key={index} className="h-3 flex-1 rounded-full border shadow-inner" style={{ backgroundColor: color, borderColor: layout.id === 'elegancia-profunda' ? 'rgba(212,175,119,.35)' : layout.id === 'mistico-moderno' ? 'rgba(108,63,160,.40)' : 'rgba(42,36,32,.10)' }} />
                   ))}
