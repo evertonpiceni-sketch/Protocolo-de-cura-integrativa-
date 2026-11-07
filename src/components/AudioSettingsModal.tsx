@@ -36,6 +36,8 @@ export default function AudioSettingsModal({
   const dialogRef = useRef<HTMLDivElement>(null);
   const closeWithoutSaving = () => {
     audioEngine.stopSpeech();
+    setIsTestingVoice(false);
+    setVoiceTestError(null);
     // Preview playback belongs to this dialog; do not leave its temporary
     // frequency or binaural settings running after a cancelled edit.
     audioEngine.stopBG();
@@ -194,6 +196,7 @@ export default function AudioSettingsModal({
   const handleSave = () => {
     audioEngine.stopSpeech();
     setIsTestingVoice(false);
+    setVoiceTestError(null);
     if (isPlayingBioactivePreview) {
       setIsPlayingBioactivePreview(false);
     }
