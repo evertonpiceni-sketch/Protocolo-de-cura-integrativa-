@@ -14,7 +14,8 @@ test('o seletor mostra a prancha oficial do Místico Moderno e exige escolha exp
   assert.ok(modal.includes('/brand/elegancia-profunda/prancha-oficial.svg'));
   assert.ok(modal.includes('/brand/essencia-luminosa/prancha-oficial.webp'));
   assert.ok(modal.includes('/brand/mistico-moderno/prancha-oficial.svg'));
-  assert.ok(!modal.includes('actionBackground'));
+  assert.ok(modal.includes('if (isMisticoModerno)'));
+  assert.ok(modal.includes('src={MISTICO_MODERNO_OFFICIAL_BOARD}'));
   assert.ok(board.includes('data:image/webp;base64,'));
   const payload = board.match(/data:image\/webp;base64,([A-Za-z0-9+/=]+)"/)?.[1] ?? '';
   assert.ok(payload.length > 0 && payload.length % 4 === 0);
