@@ -120,3 +120,20 @@ test('Natural Sereno welcome uses a real landscape, a light surface and a subtle
   assert.ok(css.includes('#admin-panel-modal :is(button,a)[class*="bg-emerald"]'));
   assert.ok(css.includes('.ns-app .ns-gold {\n  border-radius: 18px !important;'));
 });
+
+
+test('a prévia feminina do cadastro não usa Rachel nem síntese do navegador', () => {
+  const setup = read('src/components/ProfileSetup.tsx');
+  assert.ok(setup.includes('Maiara — voz feminina brasileira'));
+  assert.ok(setup.includes('Configurar após entrar'));
+  assert.ok(!setup.includes("voiceId: 'Rachel'"));
+  assert.ok(!setup.includes('SpeechSynthesisUtterance'));
+  assert.ok(!setup.includes('speechSynthesis.speak'));
+  assert.ok(setup.includes('voicePreviewMessage'));
+});
+
+test('a Home Natural Sereno não substitui Maiara por Marianne', () => {
+  const home = read('src/components/TransformationHome.tsx');
+  assert.ok(home.includes('isNaturalSerenoVoiceId(savedVoiceId)'));
+  assert.ok(home.includes("? (isNaturalSerenoVoiceId(savedVoiceId) ? savedVoiceId : '')"));
+});
