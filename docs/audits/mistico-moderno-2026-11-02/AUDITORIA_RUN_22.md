@@ -8,7 +8,7 @@ PR: #42 (rascunho; sem merge e sem deploy de produção)
 
 - Recuperada a prancha original `1001196522.png` da Biblioteca de arquivos do Everton. Foi criada uma derivação WebP otimizada para o cartão do seletor em `public/brand/mistico-moderno/prancha-oficial.webp`; a imagem original permaneceu intacta.
 - O cartão do Estilo 4 agora mostra a prancha oficial, com moldura noturna, dourado e violeta. O desenho esquemático anterior foi removido. Os cartões dos outros estilos foram preservados.
-- A narração do Místico Moderno agora usa o alias interno `mistico-moderno-oficial`, resolvido no servidor pelo `ELEVENLABS_VOICE_ID` já configurado no Vercel. O ID não é exposto ao cliente nem foi alterado.
+- A narração do Místico Moderno agora usa o alias interno `mistico-moderno-oficial`, resolvido no servidor pelo `ELEVENLABS_VOICE_ID` já configurado no Vercel. O ID não é exposto ao cliente nem foi alterado; o cache de áudio também passou a separar os resultados pelo ID efetivo da voz, evitando reutilizar áudio de outra voz.
 - O Místico Moderno não troca silenciosamente para Web Speech do navegador quando a narração ElevenLabs falha. O player Arcanjo/Solfeggio interrompe a frequência e informa a indisponibilidade, em vez de iniciar a voz nativa.
 - Ajustes de áudio deixa de apresentar as vozes locais como se controlassem o player do Místico Moderno; a lista local permanece disponível nos demais estilos.
 - Adicionados testes para a prancha do seletor, confirmação explícita, resolução do alias e bloqueio do fallback robótico.

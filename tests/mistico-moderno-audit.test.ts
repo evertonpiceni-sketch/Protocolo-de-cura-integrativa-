@@ -28,6 +28,8 @@ test('Style 4 voice alias resolves only to a configured ElevenLabs voice ID', ()
   assert.equal(resolveMisticoModernoOfficialVoiceId(''), null);
   assert.equal(resolveMisticoModernoOfficialVoiceId('Rachel'), null);
   assert.equal(resolveMisticoModernoOfficialVoiceId('Marcus'), null);
+  const server = readFileSync(resolve(root, 'server.ts'), 'utf8');
+  assert.match(server, /cacheKey}_\$\{cacheVoiceId\}/);
 });
 
 test('Style 4 forces the server voice alias and never falls back to browser speech', async () => {
