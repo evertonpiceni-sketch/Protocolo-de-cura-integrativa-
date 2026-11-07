@@ -116,6 +116,8 @@ test('a narração do Estilo 2 usa IDs ElevenLabs válidos e não cai na voz do 
   assert.ok(settings.includes('Voz neural (ElevenLabs)'));
   assert.ok(home.includes('const requiresNeuralVoice = isNaturalSereno || isEleganciaProfunda || isEssenciaLuminosa;'));
   assert.ok(home.includes('fallbackToSpeechSynthesis: !requiresNeuralVoice'));
+  assert.ok(home.includes('const voiceErrorMessage = isNaturalSereno'));
+  assert.ok(home.includes('A voz neural selecionada não foi reconhecida.'));
   assert.ok(session.includes("activeLayout === 'elegancia-profunda' && !style2VoiceId"));
   assert.ok(anamnesis.includes('fallbackToSpeechSynthesis: false'));
   assert.ok(hooponopono.includes('fallbackToSpeechSynthesis: !isEleganciaProfunda'));
