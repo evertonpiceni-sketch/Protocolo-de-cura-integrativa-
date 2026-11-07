@@ -76,7 +76,11 @@ if (!engine.__misticoModernoOfficialVoicePatched) {
         lang: 'pt-BR',
         preferElevenLabs: true,
         allowNativeFallback: false,
-        onError: () => options?.onEnd?.()
+        onError: (error: unknown) => {
+          console.warn('Marianne — Meditação preview failed; no browser voice will be substituted.', error);
+          if (options?.onError) options.onError(error);
+          else options?.onEnd?.();
+        }
       }
     );
   }) as typeof engine.previewVoice;
