@@ -9,7 +9,7 @@ Base auditada: `b56a795f34a2f0f938ed42e5ccc0fd8d710e1f2a`
 - Foi identificada uma disputa real de especificidade no logo do acolhimento/Home. A camada compartilhada `approved-theme.css` elevava a imagem dentro de `.ep-home-hero` e `.ep-welcome-audio` para 72% de opacidade; a regra geral de 30% do Estilo 2 tinha menor especificidade e não vencia a cascata.
 - Adicionada regra exclusiva de Elegância Profunda, com especificidade equivalente à regra compartilhada e carregamento posterior, mantendo o logo em **30% de opacidade** nos dois contextos.
 - O wrapper permanece transparente, sem moldura, fundo ou sombra. Nenhuma regra compartilhada ou identidade dos outros estilos foi alterada.
-- O teste de regressão agora cobre explicitamente a regra compartilhada de 72% e a neutralização de 30% do Estilo 2.
+- O teste de regressão agora cobre explicitamente a regra compartilhada de 72%, a neutralização de 30% do Estilo 2 e a ordem de imports que garante que o override específico seja carregado depois do tema compartilhado.
 
 ## Varredura página por página
 
@@ -70,7 +70,7 @@ A paleta própria continua definida por verde profundo, dourado nobre, champagne
 ## Commits desta rodada
 
 - `b5d36787b110aae86720476ab8fd9863d02f034c` — regra de 30% para o logo do hero no Estilo 2.
-- `42e2d0a91bdff27cad84f4a35849022c60ddd6a8`, `7f57b4eef6b8be85605ea0e26d64dd42d49f0fbd`, `58d2819090f3e30b680da8ea7f1515378d6c87b1` — teste de regressão e refinamento das asserções.
+- `42e2d0a91bdff27cad84f4a35849022c60ddd6a8`, `7f57b4eef6b8be85605ea0e26d64dd42d49f0fbd`, `58d2819090f3e30b680da8ea7f1515378d6c87b1`, `a7d7ce0d6cefedde87ffea849052d26c07b6304a` — teste de regressão, refinamento das asserções e proteção da ordem de imports.
 
 ## Critério de continuidade
 
