@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { X, Play, Pause, RotateCcw, RotateCw, Volume2, BookOpen, ChevronLeft, Leaf, ShieldCheck, Heart, Loader2, LogOut } from 'lucide-react';
 import { UserProfile } from '../types';
-import { audioEngine } from '../lib/audio';
+import { audioEngine, OFFICIAL_PROTOCOL_VOICE_ID } from '../lib/audio';
 import { isElevenLabsVoiceId } from '../lib/voiceSelection';
 import { DISTANCE_TREATMENT_SCRIPT } from '../data/protocol_scripts';
 
@@ -92,6 +92,7 @@ export default function ArcanjoProtocolView({ userProfile, onClose, onLogout, in
   const [isPreparingAudio, setIsPreparingAudio] = useState(false);
   const [voiceError, setVoiceError] = useState(false);
   const isEleganciaProfunda = typeof document !== 'undefined' && document.documentElement.dataset.layout === 'elegancia-profunda';
+  const isMisticoModerno = typeof document !== 'undefined' && document.documentElement.dataset.layout === 'mistico-moderno';
   const [hasStarted, setHasStarted] = useState(false);
   const [elapsed, setElapsed] = useState(0);
   const [duration, setDuration] = useState(0);
@@ -161,7 +162,9 @@ export default function ArcanjoProtocolView({ userProfile, onClose, onLogout, in
   };
 
   const startNativeFallback = (runId: number) => {
-    if (isEleganciaProfunda) {
+    if (isEleganciaProfunda || isMisticoModerno) {
+      audioEngine.stopSpeech();
+      if (isMisticoModerno) audioEngine.stopSynth();
       setIsPreparingAudio(false);
       setIsPlaying(false);
       setHasStarted(false);
@@ -220,12 +223,14 @@ export default function ArcanjoProtocolView({ userProfile, onClose, onLogout, in
     void audioEngine.playGuidedMeditation(parts, {
       title: `Dia ${config.dia} — São Miguel, Chama Violeta e São Rafael`,
       subtitle: `${config.nome} • ${config.freq} Hz`,
-      voiceId: isEleganciaProfunda
-        ? userProfile.voiceId
-        : userProfile.voiceId || (userProfile.preferredVoiceGender === 'feminina' ? 'Rachel' : 'Marcus'),
+      voiceId: isMisticoModerno
+        ? OFFICIAL_PROTOCOL_VOICE_ID
+        : isEleganciaProfunda
+          ? userProfile.voiceId
+          : userProfile.voiceId || (userProfile.preferredVoiceGender === 'feminina' ? 'Rachel' : 'Marcus'),
       volume: userProfile.voiceVolume ?? 0.9,
       userName: userProfile.name,
-      requireExplicitVoiceId: isEleganciaProfunda,
+      requireExplicitVoiceId: isEleganciaProfunda || isMisticoModerno,
       onStart: () => {
         if (runId !== narrationRunRef.current) return;
         audioEngine.startSynth(`${config.freq}hz`);
@@ -248,7 +253,7 @@ export default function ArcanjoProtocolView({ userProfile, onClose, onLogout, in
       onError: () => {
         if (runId !== narrationRunRef.current) return;
         audioEngine.stopSpeech();
-        if (isEleganciaProfunda) {
+        if (isEleganciaProfunda || isMisticoModerno) {
           audioEngine.stopSynth();
           setIsPreparingAudio(false);
           setIsPlaying(false);
@@ -294,7 +299,7 @@ export default function ArcanjoProtocolView({ userProfile, onClose, onLogout, in
   };
 
   return <div id="arcanjo-protocol-view" className="fixed inset-0 z-[100] overflow-y-auto bg-[#F8F4EC] text-[#2A2420]">
-    <div id="arcanjo-protocol-backdrop" className="fixed inset-0 bg-[radial-gradient(circle_at_50%_0,rgba(214,167,86,.12),transparent 30rem),linear-gradient(180deg,#FBF8F2,#F8F4EC)]" />
+    <div id="arcanjo-protocol-backdrop" className="fixed inset-0 bg-[radial-gradient(circle_at_50%_0,rgba(214,167,86,.12),transparent_30rem),linear-gradient(180deg,#FBF8F2,#F8F4EC)]" />
     <header className="sticky top-0 z-20 border-b border-[#B88736]/20 bg-[#F8F4EC]/92 px-4 py-4 backdrop-blur-xl">
       <div className="mx-auto flex w-full max-w-5xl items-center justify-between gap-2">
         <button onClick={onClose} className="flex h-11 w-11 items-center justify-center text-[#B88736] shrink-0" aria-label="Voltar"><ChevronLeft size={25}/></button>
@@ -305,6 +310,7 @@ export default function ArcanjoProtocolView({ userProfile, onClose, onLogout, in
         <div className="flex items-center gap-1.5 shrink-0">
           {onLogout && (
             <button
+              id="arcanjo-btn-logout"
               onClick={onLogout}
               className="min-h-11 px-2.5 py-1.5 rounded-xl bg-rose-50 hover:bg-rose-100 border-2 border-rose-300 text-rose-700 text-xs font-bold flex items-center gap-1 transition cursor-pointer shadow-sm"
               title="Encerrar sessão e sair da conta"
@@ -346,7 +352,7 @@ export default function ArcanjoProtocolView({ userProfile, onClose, onLogout, in
             <button disabled={!hasKnownDuration} className="flex h-11 w-11 items-center justify-center rounded-xl text-[#d7e2d8] disabled:opacity-30" aria-label="Avançar dez segundos" onClick={()=>seek(10)}><RotateCw/></button>
           </div>
 
-          {voiceError && <p role="alert" className="ep-voice-error mt-4 rounded-xl px-4 py-3 text-xs">Selecione uma voz neural válida em Ajustes de áudio. O Estilo 2 não usará a voz do dispositivo.</p>}
+          {voiceError && <p role="alert" className="ep-voice-error mt-4 rounded-xl px-4 py-3 text-xs">{isMisticoModerno ? 'A voz oficial do Místico Moderno está indisponível no servidor. O Solfeggio foi interrompido e não será usada a voz do navegador.' : 'Selecione uma voz neural válida em Ajustes de áudio. O Estilo 2 não usará a voz do dispositivo.'}</p>}
           <div className="mt-4 flex items-center justify-center gap-2 text-center text-sm text-[#bad0c4]">
             <Volume2 size={17}/>
             <span>{isPreparingAudio ? 'Preparando narração aprovada…' : isPlaying ? `Voz humana + Solfeggio ${config.freq} Hz ativos` : hasStarted ? `Pausado — Solfeggio ${config.freq} Hz interrompido` : `Pronto — Solfeggio ${config.freq} Hz será reproduzido junto com a narração`}</span>
@@ -371,7 +377,7 @@ export default function ArcanjoProtocolView({ userProfile, onClose, onLogout, in
 
         <div className="ep-forest-panel rounded-[1.75rem] p-5 sm:p-7">
           <div className="mb-5 text-center"><h3 className="font-display text-2xl text-[#f5e8bd]">Seu progresso</h3><p className="mt-1 text-sm text-[#bad0c4]">Equilíbrio hoje, presença amanhã.</p></div>
-          <div className="grid grid-cols-7 gap-2">{[1,2,3,4,5,6,7].map(day=>{const dayConfig=DADOS_PROTOCOLO[day];const done=completedDays.includes(day);return <button key={day} onClick={()=>selectDay(day)} aria-label={`Abrir dia ${day}, ${dayConfig.nome}`} className={`flex min-w-0 flex-col items-center gap-2 rounded-xl border px-1 py-3 ${diaAtual===day?'border-[#B88736] bg-[#e5c66f]/12':'border-[#B88736]/15 bg-black/10'}`}><span className="flex h-7 w-7 items-center justify-center rounded-full text-xs font-bold" style={{background:done||diaAtual===day?dayConfig.cor:'#214536',color:'#fff'}}>{done?'✓':day}</span><span className="hidden text-[11px] text-[#c8d8cc] sm:block">{dayConfig.nome.replace('Chakra ','')}</span></button>})}</div>
+          <div className="grid grid-cols-7 gap-2">{[1,2,3,4,5,6,7].map(day=>{const dayConfig=DADOS_PROTOCOLO[day];const done=completedDays.includes(day);return <button key={day} onClick={()=>selectDay(day)} aria-label={`Abrir dia ${day}, ${dayConfig.nome}`} className={`flex min-w-0 flex-col items-center gap-2 rounded-xl border px-1 py-3 ${diaAtual===day?'border-[#B88736] bg-[#e5c66f]/12':'border-[#B88736]/15 bg-black/10'}`}><span className="flex h-7 w-7 items-center justify-center rounded-full text-xs font-bold" style={{background:done||diaAtual===day?dayConfig.cor:isMisticoModerno?'#2F3E70':'#214536',color:'#fff'}}>{done?'✓':day}</span><span className="hidden text-[11px] text-[#c8d8cc] sm:block">{dayConfig.nome.replace('Chakra ','')}</span></button>})}</div>
         </div>
 
         <button className="ep-gold-button flex min-h-12 w-full items-center justify-center gap-2 rounded-2xl px-5 py-4 font-semibold" onClick={complete}><Heart size={18}/>Concluir o momento de hoje</button>

@@ -55,3 +55,86 @@ test('all imported Místico Moderno CSS modules remain scoped to the active layo
     assert.deepEqual(unscoped, [], `${filename} contains a selector outside the Místico Moderno scope.`);
   }
 });
+
+
+test('Style 4 locks narration to the approved Marianne — Meditação neural voice', () => {
+  const home = readFileSync(resolve(root, 'src/components/TransformationHome.tsx'), 'utf8');
+  const settings = readFileSync(resolve(root, 'src/components/AudioSettingsModal.tsx'), 'utf8');
+  const session = readFileSync(resolve(root, 'src/components/MeditationSession.tsx'), 'utf8');
+  const arcanjo = readFileSync(resolve(root, 'src/components/ArcanjoProtocolView.tsx'), 'utf8');
+  const patch = readFileSync(resolve(root, 'src/lib/misticoModernoOfficialVoicePatch.ts'), 'utf8');
+  const main = readFileSync(resolve(root, 'src/main.tsx'), 'utf8');
+
+  assert.match(home, /const isMisticoModerno = props\.visualLayout === 'mistico-moderno'/);
+  assert.match(home, /requiresNeuralVoice = isEleganciaProfunda \|\| isEssenciaLuminosa \|\| isMisticoModerno/);
+  assert.match(home, /isMisticoModerno\s*\? OFFICIAL_PROTOCOL_VOICE_ID/);
+  assert.match(home, /fallbackToSpeechSynthesis: !requiresNeuralVoice/);
+
+  assert.match(settings, /isMisticoModerno\s*\? OFFICIAL_PROTOCOL_VOICE_ID/);
+  assert.match(settings, /Marianne — Meditação/);
+  assert.match(settings, /fallbackToSpeechSynthesis: !requiresNeuralVoice/);
+  assert.match(settings, /voiceId: isMisticoModerno \? OFFICIAL_PROTOCOL_VOICE_ID : voiceId/);
+
+  assert.match(session, /MISTICO_MODERNO_CANVAS_THEME/);
+  assert.match(session, /isMisticoModerno\s*\? OFFICIAL_PROTOCOL_VOICE_ID/);
+  assert.match(arcanjo, /voiceId: isMisticoModerno\s*\? OFFICIAL_PROTOCOL_VOICE_ID/);
+  assert.match(arcanjo, /requireExplicitVoiceId: isEleganciaProfunda \|\| isMisticoModerno/);
+  assert.match(arcanjo, /if \(isEleganciaProfunda \|\| isMisticoModerno\)/);
+  assert.match(arcanjo, /audioEngine\.stopSynth\(\)/);
+
+  assert.match(patch, /voiceId: OFFICIAL_PROTOCOL_VOICE_ID/);
+  assert.match(patch, /fallbackToSpeechSynthesis: false/);
+  assert.match(patch, /requireExplicitVoiceId: true/);
+  assert.match(main, /import '\.\/lib\/misticoModernoOfficialVoicePatch';/);
+
+  assert.doesNotMatch(session, /MISTICO_MODERNO_OFFICIAL_VOICE_ALIAS/);
+  assert.doesNotMatch(arcanjo, /MISTICO_MODERNO_OFFICIAL_VOICE_ALIAS/);
+});
+
+test('Solfeggio stays stopped during spoken protocol playback and the Diary stays closed by default', () => {
+  const policy = readFileSync(resolve(root, 'src/lib/protocolSessionAudioPolicy.ts'), 'utf8');
+  const app = readFileSync(resolve(root, 'src/App.tsx'), 'utf8');
+  const canvas = readFileSync(resolve(root, 'src/components/session/SacredEnergyCanvas.tsx'), 'utf8');
+
+  assert.match(policy, /sessionPhase === 'playing' && type !== 'none' && !isSolfeggioFrequency/);
+  assert.match(app, /const \[isJournalOpen, setIsJournalOpen\] = useState<boolean>\(false\)/);
+  assert.match(app, /const \[showDailyDiaryModal, setShowDailyDiaryModal\] = useState<boolean>\(false\)/);
+  assert.match(canvas, /prefers-reduced-motion/);
+  assert.match(canvas, /particleGold/);
+  assert.match(canvas, /particleAccent/);
+});
+
+test('Style 4 board is the recovered official 4:3 reference and its palette remains complete', () => {
+  const boardPath = resolve(root, 'public/brand/mistico-moderno/prancha-oficial.webp');
+  assert.equal(existsSync(boardPath), true);
+  const board = readFileSync(boardPath);
+  assert.equal(board.toString('ascii', 0, 4), 'RIFF');
+  assert.equal(board.toString('ascii', 8, 12), 'WEBP');
+
+  const modal = readFileSync(resolve(root, 'src/components/LayoutChoiceModal.tsx'), 'utf8');
+  for (const color of ['#0A2742', '#2E3B73', '#1E6B5A', '#6C3FA0', '#D4AF37', '#E2B96B', '#F4F1EB', '#6F8F55']) {
+    assert.ok(modal.includes(color), `Missing official Style 4 swatch ${color}`);
+  }
+  assert.match(modal, /object-contain/);
+  assert.match(modal, /\/brand\/mistico-moderno\/prancha-oficial\.webp/);
+});
+
+test('the official logo remains a transparent signature and Style 4 header has no rose logout treatment', () => {
+  const approved = readFileSync(resolve(root, 'src/mistico-moderno-approved-overrides.css'), 'utf8');
+  const dashboard = readFileSync(resolve(root, 'src/mistico-moderno-dashboard-audit.css'), 'utf8');
+  const header = readFileSync(resolve(root, 'src/mistico-moderno-header-audit.css'), 'utf8');
+  const courses = readFileSync(resolve(root, 'src/mistico-moderno-courses-audit.css'), 'utf8');
+  const contact = readFileSync(resolve(root, 'src/components/ContactModal.tsx'), 'utf8');
+  const coursesModal = readFileSync(resolve(root, 'src/components/CoursesModal.tsx'), 'utf8');
+
+  assert.match(approved, /\.ep-brand-signature-wrap[\s\S]*?background:\s*transparent/);
+  assert.match(approved, /\.ep-brand-signature[\s\S]*?opacity:\s*\.30/);
+  assert.doesNotMatch(dashboard, /\.ep-brand-signature\s*\{[^}]*opacity:\s*\.34/);
+  assert.match(header, /#header-btn-logout/);
+  assert.doesNotMatch(header, /rose-/);
+  assert.match(courses, /\.ep-brand-signature/);
+  assert.match(contact, /ep-brand-signature-wrap/);
+  assert.match(contact, /ep-brand-signature/);
+  assert.match(coursesModal, /ep-brand-signature-wrap/);
+  assert.match(coursesModal, /ep-brand-signature/);
+});

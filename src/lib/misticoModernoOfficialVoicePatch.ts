@@ -1,21 +1,19 @@
 import { audioEngine, OFFICIAL_PROTOCOL_VOICE_ID } from './audio';
 
 /**
- * Místico Moderno — voice integrity guard.
+ * Místico Moderno — integridade da voz aprovada.
  *
- * Some legacy UI/API paths can still send the old `Rachel` alias. The server
- * resolves that alias to a different premade voice, which can reintroduce the
- * robotic/legacy narration. Normalize only that stale alias while Místico
- * Moderno is active; explicit male/custom voice choices remain untouched.
+ * A voz Marianne — Meditação é fixa neste estilo. Nenhum caminho legado pode
+ * trocar a voz por Rachel/Marcus ou recorrer à síntese nativa do navegador.
+ * Se a voz neural falhar, a reprodução é interrompida e o erro fica visível.
  */
 const engine = audioEngine as typeof audioEngine & {
   __misticoModernoOfficialVoicePatched?: boolean;
 };
 
-const normalizeLegacyVoiceId = (voiceId?: string) =>
+const isMisticoModernoActive = () =>
   typeof document !== 'undefined' &&
-  document.documentElement.dataset.layout === 'mistico-moderno' &&
-  voiceId === 'Rachel' ? OFFICIAL_PROTOCOL_VOICE_ID : voiceId;
+  document.documentElement.dataset.layout === 'mistico-moderno';
 
 if (!engine.__misticoModernoOfficialVoicePatched) {
   const originalPlayProtocolStageStream = engine.playProtocolStageStream.bind(engine);
@@ -23,13 +21,20 @@ if (!engine.__misticoModernoOfficialVoicePatched) {
   const originalSpeakWithElevenLabsOrFallback = engine.speakWithElevenLabsOrFallback.bind(engine);
 
   engine.playProtocolStageStream = ((options: Parameters<typeof engine.playProtocolStageStream>[0]) => {
-    const voiceId = normalizeLegacyVoiceId(options?.voiceId);
-    return originalPlayProtocolStageStream(voiceId !== options?.voiceId ? { ...options, voiceId } : options);
+    if (!isMisticoModernoActive()) return originalPlayProtocolStageStream(options);
+    return originalPlayProtocolStageStream({ ...options, voiceId: OFFICIAL_PROTOCOL_VOICE_ID });
   }) as typeof engine.playProtocolStageStream;
 
-  engine.playGuidedMeditation = ((parts: Parameters<typeof engine.playGuidedMeditation>[0], options: Parameters<typeof engine.playGuidedMeditation>[1]) => {
-    const voiceId = normalizeLegacyVoiceId(options?.voiceId);
-    return originalPlayGuidedMeditation(parts, voiceId !== options?.voiceId ? { ...options, voiceId } : options);
+  engine.playGuidedMeditation = ((
+    parts: Parameters<typeof engine.playGuidedMeditation>[0],
+    options: Parameters<typeof engine.playGuidedMeditation>[1]
+  ) => {
+    if (!isMisticoModernoActive()) return originalPlayGuidedMeditation(parts, options);
+    return originalPlayGuidedMeditation(parts, {
+      ...(options || {}),
+      voiceId: OFFICIAL_PROTOCOL_VOICE_ID,
+      requireExplicitVoiceId: true
+    });
   }) as typeof engine.playGuidedMeditation;
 
   engine.speakWithElevenLabsOrFallback = ((
@@ -41,9 +46,15 @@ if (!engine.__misticoModernoOfficialVoicePatched) {
     onResume?: Parameters<typeof engine.speakWithElevenLabsOrFallback>[5],
     options?: Parameters<typeof engine.speakWithElevenLabsOrFallback>[6]
   ) => {
-    const voiceId = normalizeLegacyVoiceId(options?.voiceId);
-    return originalSpeakWithElevenLabsOrFallback(text, voiceVolume, onStart, onEnd, onPause, onResume,
-      voiceId !== options?.voiceId ? { ...options, voiceId, preferElevenLabs: true } : options);
+    if (!isMisticoModernoActive()) {
+      return originalSpeakWithElevenLabsOrFallback(text, voiceVolume, onStart, onEnd, onPause, onResume, options);
+    }
+    return originalSpeakWithElevenLabsOrFallback(text, voiceVolume, onStart, onEnd, onPause, onResume, {
+      ...(options || {}),
+      voiceId: OFFICIAL_PROTOCOL_VOICE_ID,
+      preferElevenLabs: true,
+      fallbackToSpeechSynthesis: false
+    });
   }) as typeof engine.speakWithElevenLabsOrFallback;
 
   engine.__misticoModernoOfficialVoicePatched = true;
