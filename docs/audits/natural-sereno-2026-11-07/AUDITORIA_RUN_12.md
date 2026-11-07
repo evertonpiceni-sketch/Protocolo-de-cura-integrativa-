@@ -31,7 +31,7 @@ Referência oficial conferida: `1001196520.png` / `file_00000000317c820ebaad657d
 - **Prancha e paisagens:** a referência oficial foi mantida; Home e Comunidade preservam fotografia real e regras responsivas desktop/mobile. A cachoeira do player continua presente.
 - **Diário e conteúdo:** textos, registros, exportação e lógica do Diário não foram alterados; os overrides continuam limitados a `data-layout="natural-sereno"`.
 - **Voz:** o patch neural oficial continua carregado. IDs ElevenLabs válidos salvos no perfil são preservados; valores inválidos continuam normalizados para o ID oficial existente. Nenhum ID novo foi inventado.
-- **Pagamento:** InfinitePay e confirmação server-side permanecem intactos; Prática Individual continua em R$ 59,90/7 dias e R$ 99,90/21 dias; PROMO15/PROMO20 preservados; sem chave PIX manual.
+- **Pagamento:** InfinitePay e confirmação server-side permanecem intactos; Prática Individual continua em R$ 59,90/7 dias e R$ 99,90/21 dias; PROMO15/PROMO20 permanecem nos descontos de prática; VIP7 continua exclusivo da degustação PRO de 7 dias, validado no servidor e recusado para prática individual; sem chave PIX manual.
 
 ## Pendente
 
