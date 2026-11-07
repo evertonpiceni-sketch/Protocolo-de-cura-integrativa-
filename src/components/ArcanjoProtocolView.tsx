@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { X, Play, Pause, RotateCcw, RotateCw, Volume2, BookOpen, ChevronLeft, Leaf, ShieldCheck, Heart, Loader2, LogOut } from 'lucide-react';
 import { UserProfile } from '../types';
-import { audioEngine } from '../lib/audio';
+import { audioEngine, OFFICIAL_PROTOCOL_VOICE_ID } from '../lib/audio';
 import { isElevenLabsVoiceId } from '../lib/voiceSelection';
 import { DISTANCE_TREATMENT_SCRIPT } from '../data/protocol_scripts';
 
@@ -92,6 +92,7 @@ export default function ArcanjoProtocolView({ userProfile, onClose, onLogout, in
   const [isPreparingAudio, setIsPreparingAudio] = useState(false);
   const [voiceError, setVoiceError] = useState(false);
   const isEleganciaProfunda = typeof document !== 'undefined' && document.documentElement.dataset.layout === 'elegancia-profunda';
+  const isEssenciaLuminosa = typeof document !== 'undefined' && document.documentElement.dataset.layout === 'essencia-luminosa';
   const [hasStarted, setHasStarted] = useState(false);
   const [elapsed, setElapsed] = useState(0);
   const [duration, setDuration] = useState(0);
@@ -161,7 +162,8 @@ export default function ArcanjoProtocolView({ userProfile, onClose, onLogout, in
   };
 
   const startNativeFallback = (runId: number) => {
-    if (isEleganciaProfunda) {
+    if (isEleganciaProfunda || isEssenciaLuminosa) {
+      audioEngine.stopSynth();
       setIsPreparingAudio(false);
       setIsPlaying(false);
       setHasStarted(false);
@@ -222,10 +224,12 @@ export default function ArcanjoProtocolView({ userProfile, onClose, onLogout, in
       subtitle: `${config.nome} • ${config.freq} Hz`,
       voiceId: isEleganciaProfunda
         ? userProfile.voiceId
-        : userProfile.voiceId || (userProfile.preferredVoiceGender === 'feminina' ? 'Rachel' : 'Marcus'),
+        : isEssenciaLuminosa
+          ? (isElevenLabsVoiceId(userProfile.voiceId) ? userProfile.voiceId : OFFICIAL_PROTOCOL_VOICE_ID)
+          : userProfile.voiceId || (userProfile.preferredVoiceGender === 'feminina' ? 'Rachel' : 'Marcus'),
       volume: userProfile.voiceVolume ?? 0.9,
       userName: userProfile.name,
-      requireExplicitVoiceId: isEleganciaProfunda,
+      requireExplicitVoiceId: isEleganciaProfunda || isEssenciaLuminosa,
       onStart: () => {
         if (runId !== narrationRunRef.current) return;
         audioEngine.startSynth(`${config.freq}hz`);
@@ -248,7 +252,7 @@ export default function ArcanjoProtocolView({ userProfile, onClose, onLogout, in
       onError: () => {
         if (runId !== narrationRunRef.current) return;
         audioEngine.stopSpeech();
-        if (isEleganciaProfunda) {
+        if (isEleganciaProfunda || isEssenciaLuminosa) {
           audioEngine.stopSynth();
           setIsPreparingAudio(false);
           setIsPlaying(false);
@@ -346,7 +350,7 @@ export default function ArcanjoProtocolView({ userProfile, onClose, onLogout, in
             <button disabled={!hasKnownDuration} className="flex h-11 w-11 items-center justify-center rounded-xl text-[#d7e2d8] disabled:opacity-30" aria-label="Avançar dez segundos" onClick={()=>seek(10)}><RotateCw/></button>
           </div>
 
-          {voiceError && <p role="alert" className="ep-voice-error mt-4 rounded-xl px-4 py-3 text-xs">Selecione uma voz neural válida em Ajustes de áudio. O Estilo 2 não usará a voz do dispositivo.</p>}
+          {voiceError && <p role="alert" className="ep-voice-error mt-4 rounded-xl px-4 py-3 text-xs">{isEssenciaLuminosa ? 'A narração neural está indisponível. A voz do dispositivo não será usada.' : 'Selecione uma voz neural válida em Ajustes de áudio. O Estilo 2 não usará a voz do dispositivo.'}</p>}
           <div className="mt-4 flex items-center justify-center gap-2 text-center text-sm text-[#bad0c4]">
             <Volume2 size={17}/>
             <span>{isPreparingAudio ? 'Preparando narração aprovada…' : isPlaying ? `Voz humana + Solfeggio ${config.freq} Hz ativos` : hasStarted ? `Pausado — Solfeggio ${config.freq} Hz interrompido` : `Pronto — Solfeggio ${config.freq} Hz será reproduzido junto com a narração`}</span>
