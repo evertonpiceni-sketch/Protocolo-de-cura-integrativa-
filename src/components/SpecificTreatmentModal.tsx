@@ -11,7 +11,7 @@ import {
   CheckCircle2, Flame, User, Zap, Target, MessageSquare, Tag, Percent, Trash2, Calendar
 } from 'lucide-react';
 import { UserProfile, SpecificTreatment } from '../types';
-import { specificTreatmentCouponDiscount } from '../lib/paymentCatalog';
+import { SPECIFIC_TREATMENT_PRICES, specificTreatmentCouponDiscount } from '../lib/paymentCatalog';
 import calmLotusImg from '../assets/images/calm_quantum_lotus_1786776428440.jpg';
 
 interface SpecificTreatmentModalProps {
@@ -38,9 +38,7 @@ const URGENT_PAIN_TAGS = [
 
 export default function SpecificTreatmentModal({ isOpen, onClose, userProfile, onConfirmTreatment }: SpecificTreatmentModalProps) {
   const [activeTab, setActiveTab] = useState<'request' | 'my_treatments'>('request');
-  const [durationDays, setDurationDays] = useState<1 | 7 | 21>(21);
-  const [isCustomPrice, setIsCustomPrice] = useState<boolean>(false);
-  const [customPriceInput, setCustomPriceInput] = useState<string>('99,90');
+  const [durationDays, setDurationDays] = useState<7 | 21>(21);
   const [selectedCategory, setSelectedCategory] = useState<string>('saude_fisica');
   const [treatmentTitle] = useState<string>('');
   const [patientDescription, setPatientDescription] = useState<string>('');
@@ -60,9 +58,7 @@ export default function SpecificTreatmentModal({ isOpen, onClose, userProfile, o
   useDialogFocus(isOpen, dialogRef, onClose);
   if (!isOpen) return null;
 
-  const parsedCustomPrice = parseFloat(customPriceInput.replace(',', '.')) || 0;
-  const standardPrice = durationDays === 21 ? 99.9 : (durationDays === 7 ? 59.9 : 20.0);
-  const basePrice = isCustomPrice ? Math.max(0, parsedCustomPrice) : standardPrice;
+  const basePrice = SPECIFIC_TREATMENT_PRICES[durationDays] / 100;
   const discountAmount = discountPercent > 0 ? (basePrice * discountPercent) / 100 : 0;
   const finalPrice = Math.max(0, basePrice - discountAmount);
   const formattedBasePrice = `R$ ${basePrice.toFixed(2).replace('.', ',')}`;
@@ -95,7 +91,7 @@ export default function SpecificTreatmentModal({ isOpen, onClose, userProfile, o
     try {
       const response = await fetch('/api/payment/create-checkout', {
         method: 'POST', headers: { 'Content-Type': 'application/json' }, credentials: 'same-origin',
-        body: JSON.stringify({ productType: 'specific_treatment', paymentMethod, price: finalPrice, durationDays, customAmount: isCustomPrice ? Math.round(basePrice * 100) : undefined, category: selectedCategory, title: treatmentTitle.trim() || undefined, patientDescription: patientDescription.trim(), urgentPains: selectedPains, couponCode: appliedCoupon || undefined })
+        body: JSON.stringify({ productType: 'specific_treatment', paymentMethod, durationDays, category: selectedCategory, title: treatmentTitle.trim() || undefined, patientDescription: patientDescription.trim(), urgentPains: selectedPains, couponCode: appliedCoupon || undefined })
       });
       const data = await response.json().catch(() => ({}));
       if (!response.ok) throw new Error(data.error || 'Pagamento ainda não está disponível.');
@@ -143,11 +139,35 @@ export default function SpecificTreatmentModal({ isOpen, onClose, userProfile, o
             </div>
 
             <div className="space-y-3">
-              <div className="flex items-center justify-between"><label className="text-[11px] font-mono text-[#5C5248] uppercase block">Escolha o ciclo ou ajuste o valor:</label><button type="button" onClick={() => { setIsCustomPrice(!isCustomPrice); if (!isCustomPrice) setCustomPriceInput('59,90'); }} className="text-[11px] font-mono text-emerald-400 hover:text-emerald-300 transition flex items-center gap-1 cursor-pointer"><Sparkles size={12} /><span>{isCustomPrice ? 'Usar Valores Padrão' : 'Mudar / Ajustar Valor'}</span></button></div>
-              <div className="flex flex-col gap-3">
-                {([{ days: 1 as const, title: 'Tratamento à Distância (Sessão Única)', price: 'R$ 20,00', desc: 'Sessão única de envio energético programado à distância.', icon: Zap }, { days: 7 as const, title: 'Ciclo de 7 Dias', price: 'R$ 59,90', desc: 'Canalização pontual para alívio de sintomas agudos e decretos específicos.', icon: Calendar }, { days: 21 as const, title: 'Tratamento de 21 Dias', price: 'R$ 99,90', desc: 'Ciclo ampliado de práticas integrativas, reflexão e acompanhamento da jornada.', icon: Sparkles }]).map((plan) => { const Icon = plan.icon; const selected = durationDays === plan.days && !isCustomPrice; return <button key={plan.days} type="button" onClick={() => { setDurationDays(plan.days); if (!isCustomPrice) setCustomPriceInput(plan.days === 21 ? '99,90' : plan.days === 7 ? '59,90' : '20,00'); }} className={`p-3.5 rounded-2xl border text-left flex items-start gap-3 transition cursor-pointer relative ${selected ? 'bg-emerald-950/40 border-emerald-500 text-emerald-200 shadow-sm' : 'bg-white/70 border-[#E5DAC6] text-[#5C5248] hover:border-[#E5DAC6]'}`}>{plan.days === 21 && <div className="absolute -top-2.5 right-3 px-2 py-0.5 rounded-full bg-amber-400 text-slate-950 text-[9px] font-bold font-mono uppercase tracking-wider">⭐ Completo (Recomendado)</div>}<div className={`p-2 rounded-xl shrink-0 mt-0.5 ${selected ? 'bg-emerald-500/20 text-emerald-300' : 'bg-[#FBF8F2] text-[#85786C]'}`}><Icon size={18} /></div><div className="flex-1"><div className="flex items-center justify-between"><strong className="text-xs text-[#2A2420]">{plan.title}</strong><span className="text-xs font-mono font-bold text-[#B88736]">{plan.price}</span></div><p className="text-[10px] text-[#5C5248] mt-0.5">{plan.desc}</p></div></button>; })}
+              <div className="flex items-center justify-between">
+                <label className="text-[11px] font-mono text-[#5C5248] uppercase block">Escolha o ciclo:</label>
               </div>
-              {isCustomPrice && <div className="p-4 rounded-2xl bg-white border border-emerald-500/40 space-y-3 shadow-inner"><div className="flex items-center justify-between"><span className="text-xs font-semibold text-emerald-300">Definir Valor Personalizado / Ajuste</span><span className="text-[10px] font-mono text-[#5C5248]">Ciclo: <strong>{durationDays} Dias</strong></span></div><div className="flex items-center gap-2"><div className="relative flex-1"><span className="absolute left-3.5 top-1/2 -translate-y-1/2 text-xs font-mono text-[#5C5248] font-bold">R$</span><input type="text" value={customPriceInput} onChange={(e) => setCustomPriceInput(e.target.value.replace(/[^0-9,.]/g, ''))} placeholder="59,90" className="w-full pl-9 pr-3 py-2 bg-[#FBF8F2] border border-slate-750 rounded-xl text-sm font-mono font-bold text-emerald-300 outline-none focus:border-emerald-400" /></div></div><p className="text-[10px] text-[#5C5248]">Você pode alterar livremente o valor do tratamento de acordo com a sua contribuição ou valor acordado.</p></div>}
+              <div className="flex flex-col gap-3">
+                {([{ days: 7 as const, title: 'Ciclo de 7 Dias', price: 'R$ 59,90', desc: 'Canalização pontual para alívio de sintomas agudos e decretos específicos.', icon: Calendar }, { days: 21 as const, title: 'Tratamento de 21 Dias', price: 'R$ 99,90', desc: 'Ciclo ampliado de práticas integrativas, reflexão e acompanhamento da jornada.', icon: Sparkles }]).map((plan) => {
+                  const Icon = plan.icon;
+                  const selected = durationDays === plan.days;
+                  return (
+                    <button
+                      key={plan.days}
+                      type="button"
+                      onClick={() => setDurationDays(plan.days)}
+                      className={`p-3.5 rounded-2xl border text-left flex items-start gap-3 transition cursor-pointer relative ${selected ? 'bg-emerald-950/40 border-emerald-500 text-emerald-200 shadow-sm' : 'bg-white/70 border-[#E5DAC6] text-[#5C5248] hover:border-[#E5DAC6]'}`}
+                    >
+                      {plan.days === 21 && <div className="absolute -top-2.5 right-3 px-2 py-0.5 rounded-full bg-amber-400 text-slate-950 text-[9px] font-bold font-mono uppercase tracking-wider">Completo (Recomendado)</div>}
+                      <div className={`p-2 rounded-xl shrink-0 mt-0.5 ${selected ? 'bg-emerald-500/20 text-emerald-300' : 'bg-[#FBF8F2] text-[#85786C]'}`}>
+                        <Icon size={18} />
+                      </div>
+                      <div className="flex-1">
+                        <div className="flex items-center justify-between">
+                          <strong className="text-xs text-[#2A2420]">{plan.title}</strong>
+                          <span className="text-xs font-mono font-bold text-[#B88736]">{plan.price}</span>
+                        </div>
+                        <p className="text-[10px] text-[#5C5248] mt-0.5">{plan.desc}</p>
+                      </div>
+                    </button>
+                  );
+                })}
+              </div>
             </div>
 
             <div className="relative rounded-2xl overflow-hidden border border-emerald-500/30 shadow-lg"><img src={calmLotusImg} alt="Frequências de Cura e Serenidade" referrerPolicy="no-referrer" className="w-full h-28 sm:h-32 object-cover object-center filter brightness-95" /><div className="absolute inset-0 bg-gradient-to-t from-[#F8F4EC]/90 via-slate-950/40 to-transparent flex items-end p-3.5"><div className="flex items-center gap-2"><div className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" /><p className="text-xs font-medium text-emerald-200 drop-shadow-sm">Canalização Quântica Personalizada • Conexão Sagrada com Éverton Rodrigo Piceni</p></div></div></div>
