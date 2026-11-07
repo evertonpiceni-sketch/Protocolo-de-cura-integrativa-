@@ -208,9 +208,11 @@ export default function MeditationSession({
 
     const activeLayout = document.documentElement.dataset.layout;
     const selectedVoiceId = voiceId?.trim();
-    const savedVoiceId = selectedVoiceId && !['Rachel', 'Marcus', 'masculina', 'feminina'].includes(selectedVoiceId)
-      ? selectedVoiceId
-      : OFFICIAL_PROTOCOL_VOICE_ID;
+    const savedVoiceId = activeLayout === 'elegancia-profunda'
+      ? OFFICIAL_PROTOCOL_VOICE_ID
+      : selectedVoiceId && !['Rachel', 'Marcus', 'masculina', 'feminina'].includes(selectedVoiceId)
+        ? selectedVoiceId
+        : OFFICIAL_PROTOCOL_VOICE_ID;
 
     setIsPlaying(true);
     await audioEngine.playProtocolStageStream({
