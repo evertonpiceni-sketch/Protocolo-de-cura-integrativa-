@@ -374,3 +374,29 @@
   ) !important;
   border-color: color-mix(in srgb, var(--layout-gold) 30%, var(--layout-border-card)) !important;
 }
+
+
+/* CTA do Tratamento Específico no dock principal: remove o gradiente verde profundo herdado. */
+:root[data-layout="essencia-luminosa"] #bottom-btn-specific-treatment {
+  background: linear-gradient(
+    105deg,
+    color-mix(in srgb, var(--layout-accent-soft) 62%, var(--layout-card)),
+    color-mix(in srgb, var(--layout-gold-soft) 34%, var(--layout-card))
+  ) !important;
+  border-color: color-mix(in srgb, var(--layout-accent) 30%, var(--layout-border-card)) !important;
+  color: var(--layout-text-secondary) !important;
+  box-shadow: 0 6px 18px rgba(112,91,58,.06) !important;
+}
+:root[data-layout="essencia-luminosa"] #bottom-btn-specific-treatment:hover {
+  background: linear-gradient(
+    105deg,
+    color-mix(in srgb, var(--layout-accent-soft) 72%, var(--layout-card)),
+    color-mix(in srgb, var(--layout-gold-soft) 44%, var(--layout-card))
+  ) !important;
+}
+:root[data-layout="essencia-luminosa"] #bottom-btn-specific-treatment [class*="text-emerald-"] {
+  color: color-mix(in srgb, var(--layout-accent) 72%, var(--layout-text)) !important;
+}
+:root[data-layout="essencia-luminosa"] #bottom-btn-specific-treatment [class*="bg-emerald-"] {
+  background: color-mix(in srgb, var(--layout-accent-soft) 48%, var(--layout-card)) !important;
+}

@@ -255,3 +255,13 @@ test('a prévia da Essência Luminosa usa a prancha original em resolução inte
   assert.ok(modal.includes('/brand/essencia-luminosa/prancha-oficial.webp'));
   assert.ok(!modal.includes('/brand/essencia-luminosa/prancha-oficial.png'));
 });
+
+
+test('o botão Tratamento do dock principal não herda o gradiente verde no Estilo 3', () => {
+  const app = fs.readFileSync('src/App.tsx', 'utf8');
+  const css = fs.readFileSync('src/essencia-luminosa-final-audit.css', 'utf8');
+  assert.ok(app.includes('id="bottom-btn-specific-treatment"'));
+  assert.ok(css.includes(':root[data-layout="essencia-luminosa"] #bottom-btn-specific-treatment'));
+  assert.ok(css.includes('#bottom-btn-specific-treatment:hover'));
+  assert.ok(css.includes('#bottom-btn-specific-treatment [class*="text-emerald-"]'));
+});
