@@ -1,0 +1,27 @@
+/* Estilo 4 — Místico Moderno: assinatura oficial discreta e consistente em todas as superfícies. */
+:root[data-layout="mistico-moderno"] .ep-brand-signature-wrap{
+  opacity:1!important;
+  background:transparent!important;
+  border-color:transparent!important;
+  box-shadow:none!important;
+  filter:none!important;
+  backdrop-filter:none!important;
+}
+:root[data-layout="mistico-moderno"] .ep-brand-signature,
+:root[data-layout="mistico-moderno"] #main-header .ep-brand-signature,
+:root[data-layout="mistico-moderno"] #progress-dashboard .ep-brand-signature,
+:root[data-layout="mistico-moderno"] #courses-modal .ep-brand-signature,
+:root[data-layout="mistico-moderno"] #contact-modal .ep-brand-signature{
+  opacity:.30!important;
+  filter:none!important;
+  mix-blend-mode:normal!important;
+}
+@media(max-width:640px){
+  :root[data-layout="mistico-moderno"] .ep-brand-signature,
+  :root[data-layout="mistico-moderno"] #main-header .ep-brand-signature,
+  :root[data-layout="mistico-moderno"] #progress-dashboard .ep-brand-signature,
+  :root[data-layout="mistico-moderno"] #courses-modal .ep-brand-signature,
+  :root[data-layout="mistico-moderno"] #contact-modal .ep-brand-signature{
+    opacity:.26!important;
+  }
+}
