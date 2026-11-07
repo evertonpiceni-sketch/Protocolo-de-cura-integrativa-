@@ -31,14 +31,15 @@ HEAD auditado antes deste registro: `1c3a9234785dbf66e5e3092349530e69f3848294`
 
 ## CI, segurança e publicação
 
-Execução mais recente observada para o HEAD auditado: [GitHub Actions #42422218792](https://github.com/evertonpiceni-sketch/Protocolo-de-cura-integrativa-/actions/runs/42422218792).
+Execução mais recente do HEAD deste relatório: [GitHub Actions #42422696509](https://github.com/evertonpiceni-sketch/Protocolo-de-cura-integrativa-/actions/runs/42422696509).
 
 - TypeScript: passou.
-- Testes: **107 passaram; 1 falhou**.
-- A única falha de regressão identificada no log é de `tests/essencia-luminosa.test.ts`, no teste do logo da **Essência Luminosa (Estilo 3)**: a asserção procura `opacity: .26 !important;` dentro de uma janela textual de 1.100 caracteres. Não é uma falha do Estilo 2 e não foi alterada nesta tarefa para não modificar outro estilo aprovado.
-- Build e etapas posteriores foram pulados após a falha de testes.
-- `npm audit` continua encontrando **9 vulnerabilidades (3 moderadas e 6 altas)**: `body-parser <1.20.9`, `ip-address <=10.7.3`, `qs 6.7.0–6.16.0`, `vite <=6.4.3` e `zod <4.6.6`, incluindo dependências transitivas. O relatório do CI indica correção disponível por atualização de dependências; o lockfile não foi editado manualmente.
-- O status Vercel do commit continua em falha por `build-rate-limit`; não há implantação homologada.
+- Testes de regressão: **108/108 passaram; 0 falhas**.
+- Build: passou.
+- Entry points Express, padrões de segredos, JWT fail-closed, proteção de administrador, smoke tests e endpoints de pagamento: passaram.
+- O job geral continua reprovado somente no enforcement do `npm audit`.
+- O audit atual confirma **9 vulnerabilidades (3 moderadas, 6 altas)**: `body-parser <1.20.9`, `ip-address <=10.7.3`, `qs 6.7.0–6.16.0`, `vite <=6.4.3` e `zod <4.6.6`, incluindo dependências transitivas. O relatório do CI indica correção disponível por atualização controlada; o lockfile não foi editado manualmente.
+- O status Vercel do commit permanece em falha por `build-rate-limit`; não há implantação homologada.
 
 ## Preservado
 
