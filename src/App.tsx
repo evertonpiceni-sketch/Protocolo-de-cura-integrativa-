@@ -1357,7 +1357,11 @@ export default function App() {
                           voiceId: userProfile.voiceId,
                           rate: userProfile.voiceRate ?? 0.82,
                           pitch: userProfile.voicePitch ?? 1.0,
-                          onEnd: () => setIsPlayingVoiceTest(false)
+                          onEnd: () => setIsPlayingVoiceTest(false),
+                          onError: () => {
+                            setIsPlayingVoiceTest(false);
+                            setInAppToast({ title: 'Voz oficial indisponível', body: 'A narração Marianne — Meditação não pôde ser carregada. Nenhuma voz do dispositivo será usada como substituta.' });
+                          }
                         });
                       }}
                       className="px-3 py-1.5 bg-indigo-600/30 hover:bg-indigo-600/50 border border-indigo-500/50 text-indigo-200 rounded-xl text-xs font-medium flex items-center gap-1.5 transition cursor-pointer shrink-0"
