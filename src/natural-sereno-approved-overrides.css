@@ -454,3 +454,42 @@
 :root[data-layout="natural-sereno"] .ep-app-toast svg {
   color: #C89D52 !important;
 }
+
+
+/* Reauditoria 2026-11-07 — neutralizar as últimas superfícies verde-floresta
+   que escapavam das camadas anteriores. Escopo exclusivo do Natural Sereno. */
+:root[data-layout="natural-sereno"] :is(#astral-map-modal,#numerology-modal) div[class*="bg-[#073b2b]"] {
+  background: linear-gradient(145deg,#FFFDF8 0%,#F3EDE4 100%) !important;
+  color: #8F631E !important;
+  border-color: rgba(200,157,82,.36) !important;
+  box-shadow: 0 6px 16px rgba(67,52,39,.06) !important;
+}
+
+:root[data-layout="natural-sereno"] #herbal-baths-modal button[class*="bg-[#073b2b]"] {
+  background: linear-gradient(180deg,#E2B96B 0%,#C89D52 100%) !important;
+  color: #2A2421 !important;
+  border-color: rgba(168,126,55,.58) !important;
+  box-shadow: 0 8px 18px rgba(67,52,39,.08) !important;
+}
+:root[data-layout="natural-sereno"] #herbal-baths-modal button[class*="bg-[#073b2b]"]:hover {
+  background: linear-gradient(180deg,#E8C47D 0%,#A87E37 100%) !important;
+  color: #2A2421 !important;
+}
+
+:root[data-layout="natural-sereno"] #hooponopono-modal [role="tab"][aria-selected="true"],
+:root[data-layout="natural-sereno"] :is(#mobile-install-modal,#achievements-modal) [role="tab"][aria-selected="true"] {
+  background: linear-gradient(180deg,#E2B96B 0%,#C89D52 100%) !important;
+  color: #2A2421 !important;
+  border-color: rgba(168,126,55,.58) !important;
+  box-shadow: 0 7px 16px rgba(67,52,39,.08) !important;
+}
+
+:root[data-layout="natural-sereno"] #admin-panel-modal button[class*="bg-emerald"] {
+  background: linear-gradient(180deg,#E2B96B 0%,#C89D52 100%) !important;
+  color: #2A2421 !important;
+  border-color: rgba(168,126,55,.58) !important;
+  box-shadow: 0 8px 18px rgba(67,52,39,.09) !important;
+}
+:root[data-layout="natural-sereno"] #admin-panel-modal button[class*="bg-emerald"] :is(span,svg) {
+  color: #2A2421 !important;
+}
