@@ -30,6 +30,7 @@ test('Místico Moderno keeps Marianne — Meditação and never falls back to br
   assert.match(home, /isMisticoModerno/);
   assert.match(home, /requiresNeuralVoice = [^;]*isMisticoModerno/);
   assert.match(home, /usesSavedVoiceSettings = requiresNeuralVoice/);
+  assert.ok(!home.includes(\`: {isMisticoModerno ?\`), 'Home error copy must not nest a JSX conditional');
   assert.match(arcanjo, /if \(isEleganciaProfunda \|\| isMisticoModerno\)/);
   assert.match(arcanjo, /voiceId: isMisticoModerno\s*\?\s*OFFICIAL_PROTOCOL_VOICE_ID/);
   assert.match(arcanjo, /requireExplicitVoiceId: isEleganciaProfunda \|\| isMisticoModerno/);
