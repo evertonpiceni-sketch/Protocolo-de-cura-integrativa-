@@ -189,7 +189,7 @@ test('o canvas do Estilo 2 usa verde profundo e dourado, sem herdar a paleta da 
   assert.ok(session.includes("const ELEGANCIA_PROFUNDA_CANVAS_THEME = {"));
   assert.ok(session.includes("glow: '#D4AF37'"));
   assert.ok(session.includes("accent: '#2E6B4F'"));
-  assert.ok(session.includes("colorTheme={isEleganciaProfunda ? ELEGANCIA_PROFUNDA_CANVAS_THEME"));
+  assert.ok(session.includes("colorTheme={isNaturalSereno ? NATURAL_SERENO_CANVAS_THEME : isEleganciaProfunda ? ELEGANCIA_PROFUNDA_CANVAS_THEME"));
   assert.ok(canvas.includes('goldSoft?: string;'));
   assert.ok(canvas.includes('sageSoft?: string;'));
   assert.ok(canvas.includes('goldSoft: colorTheme.goldSoft ||'));
