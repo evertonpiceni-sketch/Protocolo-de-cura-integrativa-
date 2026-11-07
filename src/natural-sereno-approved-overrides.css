@@ -493,3 +493,15 @@
 :root[data-layout="natural-sereno"] #admin-panel-modal button[class*="bg-emerald"] :is(span,svg) {
   color: #2A2421 !important;
 }
+
+
+/* Botões Natural Sereno: acabamento premium sem formato de pílula herdado. */
+:root[data-layout="natural-sereno"] .ns-app .ns-gold {
+  border-radius: 18px !important;
+}
+:root[data-layout="natural-sereno"] .ns-app .ns-secondary {
+  border-radius: 16px !important;
+}
+#profile-setup-view.ep-auth-style-one #onboarding-card :is(#register-form,#login-form) button[type="submit"] {
+  border-radius: 18px !important;
+}
