@@ -24,7 +24,12 @@ test('a escolha dos quatro estilos continua explícita antes da aplicação', ()
 test('a Home da Essência Luminosa respeita a voz salva e seus controles', () => {
   const home = fs.readFileSync('src/components/TransformationHome.tsx', 'utf8');
   assert.ok(home.includes("const usesSavedVoiceSettings = isEssenciaLuminosa || props.visualLayout === 'elegancia-profunda';"));
+  assert.ok(home.includes("const isEssenciaLuminosa = props.visualLayout === 'essencia-luminosa';"));
+  assert.ok(home.includes('isLegacyVoiceAlias ? undefined : savedVoiceId'));
   assert.ok(home.includes('const preferElevenLabs = !isEssenciaLuminosa;'));
+  const audio = read('src/lib/audio.ts');
+  assert.ok(audio.includes('const customVoice = voices.find(v => v.name === options.voiceId);'));
+  assert.ok(audio.includes('const preferElevenLabs = options?.preferElevenLabs !== false;'));
   assert.equal(home.split("preferElevenLabs, lang: 'pt-BR'").length - 1, 2);
   assert.ok(home.includes('const narrationVoiceId = usesSavedVoiceSettings'));
   assert.ok(home.includes('props.voiceVolume ?? 1'));
