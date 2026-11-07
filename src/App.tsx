@@ -103,9 +103,9 @@ export default function App() {
   const [showDashboardCura, setShowDashboardCura] = useState<boolean>(false);
   const [showDailyTip, setShowDailyTip] = useState<boolean>(false);
   const [showPersonalJourney, setShowPersonalJourney] = useState<boolean>(false);
-  // The 7-day Arcanjo plan renders the protocol even when its explicit view flag is false.
-  // Treat both entry paths as protocol-owned audio so global background never overlaps Solfeggio.
-  const isArcanjoProtocolActive = showArcanjoView || userProfile?.subscriptionPlan === 'arcanjo_7d';
+  // A subscription unlocks access but must not open the protocol by itself.
+  // Only an explicit entry action owns this screen and its Solfeggio audio.
+  const isArcanjoProtocolActive = showArcanjoView;
 
   const [milestoneModalDay, setMilestoneModalDay] = useState<number>(8);
   const [inAppToast, setInAppToast] = useState<{ title: string; body: string } | null>(null);
