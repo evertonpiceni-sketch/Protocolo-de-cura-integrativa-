@@ -68,8 +68,7 @@ export default function NumerologyModal({
         credentials: 'same-origin',
         body: JSON.stringify({
           productType: 'numerology_full',
-          paymentMethod: selectedPaymentMethod,
-          price: 90
+          paymentMethod: selectedPaymentMethod
         })
       });
       const data = await response.json().catch(() => ({}));
