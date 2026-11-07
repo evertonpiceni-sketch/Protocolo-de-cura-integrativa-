@@ -27,7 +27,8 @@ test('Style 4 selector uses the official board and still requires explicit confi
   const logoutEnd = arcanjo.indexOf('</button>', logoutStart);
   const logoutBlock = arcanjo.slice(logoutStart, logoutEnd);
   assert.match(logoutBlock, /isMisticoModerno\(\)/);
-  assert.doesNotMatch(logoutBlock, /bg-rose-50|text-rose-600/);
+  assert.match(logoutBlock, /isMisticoModerno\(\) \? 'bg-\[#0A0F18\][^']*text-\[#E2B96B\]' : 'bg-rose-50/);
+  assert.match(logoutBlock, /isMisticoModerno\(\) \? 'text-\[#D4AF37\]' : 'text-rose-600'/);
 });
 
 test('Style 4 voice alias resolves only to a configured ElevenLabs voice ID', () => {
