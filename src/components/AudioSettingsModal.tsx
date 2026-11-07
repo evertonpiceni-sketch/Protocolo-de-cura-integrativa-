@@ -166,7 +166,7 @@ export default function AudioSettingsModal({
 
   const restoreBackgroundAfterVoiceTest = () => {
     if (!allowBackgroundPlayback) return;
-    if (isEssenciaLuminosa && audioEnabled && bgMusicType !== 'none') {
+    if ((isEssenciaLuminosa || isMisticoModerno) && audioEnabled && bgMusicType !== 'none') {
       audioEngine.startBG(bgMusicType);
     } else {
       audioEngine.stopBG();
@@ -191,12 +191,13 @@ export default function AudioSettingsModal({
     setIsTestingVoice(true);
     const testPhrase = `Olá, ${userProfile.name}. Esta é uma prévia da voz escolhida para acompanhar suas práticas com calma e presença.`;
 
-    const shouldPlayVoiceBackground = !isEssenciaLuminosa
+    const avoidsTonalVoiceOverlap = isEssenciaLuminosa || isMisticoModerno;
+    const shouldPlayVoiceBackground = !avoidsTonalVoiceOverlap
       ? bgMusicType !== 'none'
       : audioEnabled && shouldPlayProtocolSessionBackground('playing', bgMusicType);
     if (allowBackgroundPlayback && shouldPlayVoiceBackground) {
       audioEngine.startBG(bgMusicType);
-    } else if (allowBackgroundPlayback && isEssenciaLuminosa) {
+    } else if (allowBackgroundPlayback && avoidsTonalVoiceOverlap) {
       // A frequência tonal não deve tocar junto com a narração neural.
       setIsPlayingBioactivePreview(false);
       audioEngine.stopBG();
