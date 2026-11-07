@@ -9,6 +9,7 @@
 
 - O ajuste de voz do Natural Sereno ainda permitia seleção de voz instalada no dispositivo e fallback silencioso para SpeechSynthesis. Isso podia substituir a voz neural aprovada por uma voz robótica do navegador.
 - Natural Sereno agora carrega o catálogo ElevenLabs quando os ajustes de áudio são abertos.
+- A página principal de Configurações também mostra e testa o mesmo ID neural resolvido; perfis com nome/URI antigo de voz do dispositivo passam a exibir Marianne, sem prévia divergente.
 - A voz aprovada **Marianne — Meditação** (`mJqP14JQFEK0PojR5lfV`) passa a ser a seleção inicial quando o perfil não contém um ID ElevenLabs válido.
 - O teste de voz do Natural Sereno não recorre silenciosamente à voz do dispositivo; falhas da voz neural são exibidas ao usuário.
 - O player dos protocolos de 21 e 7 dias usa um ID ElevenLabs válido salvo ou, na ausência/invalidade de um ID, a voz oficial Marianne. IDs neurais válidos explicitamente salvos continuam preservados.
