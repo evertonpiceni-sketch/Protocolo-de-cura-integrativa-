@@ -8,8 +8,16 @@ export type ElevenLabsVoiceOption = {
 
 /**
  * ElevenLabs voice IDs are opaque 20-character identifiers.
- * Device SpeechSynthesis names/URIs and legacy aliases are not valid neural IDs.
+ * Device SpeechSynthesis names/URIs and the rejected Rachel/Marcus fallback IDs
+ * are not valid selections for Elegância Profunda.
  */
+const REJECTED_FALLBACK_VOICE_IDS = new Set([
+  '21m00Tcm4TlvDq8ikWAM',
+  'nPczCjzI2devNBz1zQrb'
+]);
+
 export function isElevenLabsVoiceId(value: unknown): value is string {
-  return typeof value === 'string' && /^[A-Za-z0-9]{20}$/.test(value.trim());
+  if (typeof value !== 'string') return false;
+  const voiceId = value.trim();
+  return /^[A-Za-z0-9]{20}$/.test(voiceId) && !REJECTED_FALLBACK_VOICE_IDS.has(voiceId);
 }
