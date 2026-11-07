@@ -88,6 +88,7 @@ import './natural-sereno-journal-dashboard-audit.css';
 import './natural-sereno-contact-audit.css';
 import './natural-sereno-home-surface-audit.css';
 import './natural-sereno-guides-semantic-audit.css';
+import './natural-sereno-approved-overrides.css';
 import './natural-sereno-legacy-green-audit.css';
 // Latest approved Natural Sereno decisions must win over every older audit/refinement layer.
 // Keep this import last among Natural Sereno theme CSS so discarded green/amber/indigo
