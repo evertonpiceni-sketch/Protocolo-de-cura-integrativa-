@@ -4,9 +4,10 @@ import express from 'express';
 import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
-import { paymentQuote, PAYMENT_PLANS } from '../src/lib/paymentCatalog';
+import { NUMEROLOGY_FULL_CENTS, paymentQuote, PAYMENT_PLANS } from '../src/lib/paymentCatalog';
 
 test('payment prices are authoritative for every approved plan and coupon', () => {
+  assert.equal(NUMEROLOGY_FULL_CENTS, 9000);
   for (const [id, plan] of Object.entries(PAYMENT_PLANS)) {
     assert.equal(paymentQuote(id).cents, plan.cents);
     assert.equal(paymentQuote(id, 'promo15').cents, Math.round(plan.cents * .85));
@@ -63,6 +64,22 @@ test('checkout binds account, validates provider confirmation and grants only on
     assert.equal(db.users[0].profile.specificTreatments.length, 1);
     assert.equal(db.users[0].profile.specificTreatments[0].status, 'pendente');
     assert.equal((await call('payment/create-checkout', { productType: 'specific_treatment', paymentMethod: 'pix', durationDays: 1, category: 'outro', patientDescription: 'Teste', urgentPains: [], customAmount: 1 })).status, 400);
+    db.users.push({ id: 'numerology-account', plan: 'free', profile: {} });
+    assert.equal((await call('payment/create-checkout', { productType: 'numerology_full', paymentMethod: 'pix', couponCode: 'PROMO15' }, 'numerology-account')).status, 400);
+    const numerologyCheckout = await call('payment/create-checkout', { productType: 'numerology_full', paymentMethod: 'pix', price: 0.01 }, 'numerology-account');
+    assert.equal(numerologyCheckout.status, 200);
+    const numerologyOrder = await numerologyCheckout.json();
+    assert.equal(calls.at(-1).body.items[0].price, NUMEROLOGY_FULL_CENTS);
+    assert.equal(calls.at(-1).body.items[0].description, 'Mapa Numerológico Completo');
+    amount = NUMEROLOGY_FULL_CENTS;
+    const numerologyPayment = { order_nsu: numerologyOrder.orderId, transaction_nsu: 'numerology-transaction', slug: 'numerology' };
+    assert.equal((await call('webhooks/payment', numerologyPayment)).status, 200);
+    const numerologyUser = db.users.find(user => user.id === 'numerology-account');
+    assert.equal(numerologyUser.profile.numerologyPurchased, true);
+    assert.equal(numerologyUser.plan, 'free');
+    assert.equal(numerologyUser.profile.subscriptionPlan, undefined);
+    assert.equal((await call('webhooks/payment', numerologyPayment)).status, 200);
+    assert.equal((await call('payment/create-checkout', { productType: 'numerology_full', paymentMethod: 'pix' }, 'numerology-account')).status, 409);
     db.users.push({ id: 'trial-account', plan: 'free', profile: {} });
     const trial = { planId: 'teste_vip_7d', paymentMethod: 'trial', couponCode: 'VIP7' };
     assert.equal((await call('user/upgrade', trial, 'trial-account')).status, 200);
