@@ -1,4 +1,5 @@
 import { audioEngine } from './audio';
+import { shouldBlockArcanjoBackground } from './arcanjoAudioPolicy';
 
 /**
  * Arcanjo/Solfeggio owns the audio surface while its full-screen protocol is mounted.
@@ -9,7 +10,6 @@ import { audioEngine } from './audio';
 const ARCANJO_VIEW_MARKER = 'img[alt="Pessoa em meditação com os sete chakras"]';
 const DASHBOARD_MARKER = '#progress-dashboard';
 const ARCANJO_OPENING_GUARD_MS = 5000;
-const ARCANJO_SOLFEGGIO_TYPES = new Set(['396hz', '417hz', '528hz', '639hz', '741hz', '852hz', '963hz']);
 let arcanjoWasMounted = false;
 let arcanjoOpening = false;
 let openingGuardTimer: number | null = null;
@@ -25,7 +25,7 @@ const arcanjoOwnsAudio = () => arcanjoOpening || isArcanjoViewMounted();
 
 const originalStartBG = audioEngine.startBG.bind(audioEngine);
 audioEngine.startBG = ((type: Parameters<typeof audioEngine.startBG>[0]) => {
-  if (arcanjoOwnsAudio() && !ARCANJO_SOLFEGGIO_TYPES.has(type)) return;
+  if (shouldBlockArcanjoBackground(type, arcanjoOwnsAudio())) return;
   return originalStartBG(type);
 }) as typeof audioEngine.startBG;
 
