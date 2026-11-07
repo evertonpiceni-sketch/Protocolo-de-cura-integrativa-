@@ -13,6 +13,7 @@ import {
 import { DayProgress, UserProfile, SystemicQuestionItem } from '../types';
 import { SYSTEMIC_QUESTIONS_21D } from '../lib/systemicData';
 import { audioEngine } from '../lib/audio';
+import { isElevenLabsVoiceId } from '../lib/voiceSelection';
 
 interface SystemicQuestionsModalProps {
   isOpen: boolean;
@@ -36,6 +37,8 @@ export default function SystemicQuestionsModal({
   const [currentAnswer, setCurrentAnswer] = useState<string>('');
   const [isSavedRecently, setIsSavedRecently] = useState<boolean>(false);
   const [isReadingVoice, setIsReadingVoice] = useState<boolean>(false);
+  const [voiceError, setVoiceError] = useState(false);
+  const isEleganciaProfunda = typeof document !== 'undefined' && document.documentElement.dataset.layout === 'elegancia-profunda';
   const [copiedSentence, setCopiedSentence] = useState<boolean>(false);
   const [is639HzActive, setIs639HzActive] = useState<boolean>(true);
 
@@ -108,12 +111,42 @@ export default function SystemicQuestionsModal({
   };
 
   const handleReadVoice = () => {
-    setIsReadingVoice(true);
     const speechText = `Pergunta Sistêmica do Dia ${activeDay}: ${currentQuestionItem.theme}. ` +
       `${currentQuestionItem.question} ` +
       `Reflexão guiada: ${currentQuestionItem.guidedReflection} ` +
       `Frase de integração: ${currentQuestionItem.healingSentence}`;
 
+    setVoiceError(false);
+    if (isEleganciaProfunda) {
+      if (!isElevenLabsVoiceId(userProfile?.voiceId)) {
+        setVoiceError(true);
+        setIsReadingVoice(false);
+        return;
+      }
+      void audioEngine.speakWithElevenLabsOrFallback(
+        speechText,
+        userProfile?.voiceVolume ?? 0.9,
+        () => setIsReadingVoice(true),
+        () => setIsReadingVoice(false),
+        undefined,
+        undefined,
+        {
+          voiceId: userProfile?.voiceId,
+          rate: userProfile?.voiceRate ?? 0.82,
+          pitch: userProfile?.voicePitch ?? 1.0,
+          lang: 'pt-BR',
+          stability: 0.45,
+          similarityBoost: 0.75,
+          enableBreathingPauses: true,
+          userName: userProfile?.name,
+          fallbackToSpeechSynthesis: false,
+          onError: () => { setIsReadingVoice(false); setVoiceError(true); }
+        }
+      );
+      return;
+    }
+
+    setIsReadingVoice(true);
     audioEngine.previewVoice({
       text: speechText,
       voiceId: userProfile?.voiceId,
@@ -121,7 +154,6 @@ export default function SystemicQuestionsModal({
       pitch: userProfile?.voicePitch ?? 1.0,
       onEnd: () => setIsReadingVoice(false)
     });
-
     setTimeout(() => setIsReadingVoice(false), 12000);
   };
 
@@ -285,6 +317,7 @@ export default function SystemicQuestionsModal({
                 <span>{isReadingVoice ? 'Ouvindo Reflexão...' : 'Ouvir com Voz'}</span>
               </button>
             </div>
+            {voiceError && <p role="alert" className="ep-voice-error mt-2 rounded-xl px-3 py-2 text-xs">Selecione uma voz neural válida em Ajustes de áudio. O Estilo 2 não usará a voz do dispositivo.</p>}
 
             <h3 className="text-lg sm:text-xl font-bold text-[#2A2420] leading-snug">
               {currentQuestionItem.theme}
