@@ -103,7 +103,9 @@ export default function App() {
   const [showDashboardCura, setShowDashboardCura] = useState<boolean>(false);
   const [showDailyTip, setShowDailyTip] = useState<boolean>(false);
   const [showPersonalJourney, setShowPersonalJourney] = useState<boolean>(false);
-
+  // The 7-day Arcanjo plan renders the protocol even when its explicit view flag is false.
+  // Treat both entry paths as protocol-owned audio so global background never overlaps Solfeggio.
+  const isArcanjoProtocolActive = showArcanjoView || userProfile?.subscriptionPlan === 'arcanjo_7d';
 
   const [milestoneModalDay, setMilestoneModalDay] = useState<number>(8);
   const [inAppToast, setInAppToast] = useState<{ title: string; body: string } | null>(null);
@@ -261,7 +263,7 @@ export default function App() {
                          userProfile.bgMusicType !== 'none' && 
                          activeSessionDay === null &&
                          !showPersonalJourney &&
-                         !showArcanjoView; // Pause global background music during any active meditation/journey
+                         !isArcanjoProtocolActive; // Pause global background music during any active meditation/journey
 
       if (shouldPlay) {
         audioEngine.startBG(userProfile.bgMusicType);
@@ -281,7 +283,7 @@ export default function App() {
     userProfile?.binauralCarrierMode,
     activeSessionDay,
     showPersonalJourney,
-    showArcanjoView,
+    isArcanjoProtocolActive,
     userProfile?.subscriptionPlan,
     layoutConfirmedThisSession
   ]);
@@ -303,7 +305,7 @@ export default function App() {
                            userProfile.bgMusicType !== 'none' && 
                            activeSessionDay === null &&
                            !showPersonalJourney &&
-                           !showArcanjoView;
+                           !isArcanjoProtocolActive;
                            
         if (shouldPlay) {
           audioEngine.startBG(userProfile.bgMusicType);
@@ -321,7 +323,7 @@ export default function App() {
       window.removeEventListener('click', handleGesture);
       window.removeEventListener('touchstart', handleGesture);
     };
-  }, [userProfile, activeSessionDay, showPersonalJourney, showArcanjoView, layoutConfirmedThisSession]);
+  }, [userProfile, activeSessionDay, showPersonalJourney, isArcanjoProtocolActive, layoutConfirmedThisSession]);
 
   useEffect(() => {
     if (!userProfile?.reminderTime || typeof Notification === 'undefined' || Notification.permission !== 'granted') return;
@@ -873,7 +875,7 @@ export default function App() {
             }
           })}
         />
-      ) : showArcanjoView || userProfile.subscriptionPlan === 'arcanjo_7d' ? (
+      ) : isArcanjoProtocolActive ? (
         <ArcanjoProtocolView 
           userProfile={userProfile}
           onLogout={handleLogout}
@@ -2513,7 +2515,7 @@ export default function App() {
       {showAudioSettingsModal && userProfile && (
         <AudioSettingsModal
           isOpen={showAudioSettingsModal}
-          allowBackgroundPlayback={activeSessionDay === null && !showPersonalJourney && !showArcanjoView}
+          allowBackgroundPlayback={activeSessionDay === null && !showPersonalJourney && !isArcanjoProtocolActive}
           onClose={() => setShowAudioSettingsModal(false)}
           userProfile={userProfile}
           onSaveProfile={saveProfile}
