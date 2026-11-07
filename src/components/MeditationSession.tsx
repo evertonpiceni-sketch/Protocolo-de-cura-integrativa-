@@ -51,6 +51,7 @@ interface MeditationSessionProps {
 
 const MALE_NATIVE_VOICE_HINTS = ['antonio', 'antônio', 'daniel', 'jorge', 'felipe', 'ricardo', 'carlos', 'paulo', 'marcos', 'male', 'masculino'];
 const FEMALE_NATIVE_VOICE_HINTS = ['francisca', 'luciana', 'maria', 'leticia', 'camila', 'vitoria', 'vitória', 'helena', 'female', 'feminina'];
+const ESSENCIA_LUMINOSA_CANVAS_THEME = { glow: '#C6A46A', accent: '#A6B49B' };
 
 export default function MeditationSession({
   dayNumber,
@@ -66,6 +67,8 @@ export default function MeditationSession({
   onCompleteSession,
   onClose,
 }: MeditationSessionProps) {
+  const activeLayout = typeof document !== 'undefined' ? document.documentElement.dataset.layout : undefined;
+  const isEssenciaLuminosa = activeLayout === 'essencia-luminosa';
   const [sessionPhase, setSessionPhase] = useState<'portal' | 'checkin_before' | 'playing' | 'checkin_after' | 'completed'>('portal');
 
   useLayoutEffect(() => {
@@ -206,7 +209,6 @@ export default function MeditationSession({
     const dayContext = dailyStageContext();
     if (dayContext) personalizedText = `${dayContext}\n\n${personalizedText}`;
 
-    const activeLayout = document.documentElement.dataset.layout;
     const selectedVoiceId = voiceId?.trim();
     const savedVoiceId = selectedVoiceId && !['Rachel', 'Marcus', 'masculina', 'feminina'].includes(selectedVoiceId)
       ? selectedVoiceId
@@ -357,7 +359,8 @@ export default function MeditationSession({
     <div id="meditation-session" data-session-phase={sessionPhase} className="ep-session fixed inset-0 z-50 bg-[#FAF7F2] text-[#2A2420] flex flex-col justify-between overflow-hidden select-none min-h-dvh">
       <div className="ep-session-backdrop absolute inset-0 pointer-events-none">
         <SacredEnergyCanvas
-          dayNumber={['natural-sereno', 'elegancia-profunda'].includes(document.documentElement.dataset.layout || '') ? dayNumber : undefined}
+          dayNumber={['natural-sereno', 'elegancia-profunda', 'essencia-luminosa'].includes(activeLayout || '') ? dayNumber : undefined}
+          colorTheme={isEssenciaLuminosa ? ESSENCIA_LUMINOSA_CANVAS_THEME : undefined}
           stageId={currentStage.id}
           isPlaying={isPlaying}
           breathePhase={breathePhase}
