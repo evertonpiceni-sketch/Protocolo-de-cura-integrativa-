@@ -2,9 +2,9 @@ import { audioEngine } from './audio';
 
 /**
  * Arcanjo/Solfeggio owns the audio surface while its full-screen protocol is mounted.
- * This guard prevents the app-level background player (including gesture unlock)
- * from restarting underneath the protocol until App.tsx carries the same ownership
- * rule directly. It is intentionally narrow and does not alter narration/synth audio.
+ * This guard blocks only app-level background starts (including gesture unlock).
+ * startSynth marks its own call so the protocol's Solfeggio oscillator remains active
+ * while the full-screen Arcanjo experience owns the audio surface.
  */
 const ARCANJO_VIEW_MARKER = 'img[alt="Pessoa em meditação com os sete chakras"]';
 const DASHBOARD_MARKER = '#progress-dashboard';
@@ -23,7 +23,7 @@ const arcanjoOwnsAudio = () => arcanjoOpening || isArcanjoViewMounted();
 
 const originalStartBG = audioEngine.startBG.bind(audioEngine);
 audioEngine.startBG = ((type: Parameters<typeof audioEngine.startBG>[0]) => {
-  if (arcanjoOwnsAudio()) {
+  if (arcanjoOwnsAudio() && !audioEngine.isStartingSynth()) {
     audioEngine.stopBG();
     return;
   }
