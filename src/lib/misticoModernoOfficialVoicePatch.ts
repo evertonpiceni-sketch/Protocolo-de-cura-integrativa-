@@ -1,50 +1,44 @@
-import { audioEngine, OFFICIAL_PROTOCOL_VOICE_ID } from './audio';
+import { MISTICO_MODERNO_OFFICIAL_VOICE_ALIAS } from '../config/voiceAliases';
+import { audioEngine } from './audio';
 
-/**
- * Místico Moderno — voice integrity guard.
- *
- * Some legacy UI/API paths can still send the old `Rachel` alias. The server
- * resolves that alias to a different premade voice, which can reintroduce the
- * robotic/legacy narration. Normalize only that stale alias while Místico
- * Moderno is active; explicit male/custom voice choices remain untouched.
- */
-const engine = audioEngine as typeof audioEngine & {
-  __misticoModernoOfficialVoicePatched?: boolean;
-};
+type PatchedAudioEngine = typeof audioEngine & { __misticoModernoOfficialVoicePatched?: boolean };
+const engine = audioEngine as PatchedAudioEngine;
+const isMisticoModernoActive = () => typeof document !== 'undefined'
+  && document.documentElement.dataset.layout === 'mistico-moderno';
 
-const normalizeLegacyVoiceId = (voiceId?: string) =>
-  typeof document !== 'undefined' &&
-  document.documentElement.dataset.layout === 'mistico-moderno' &&
-  voiceId === 'Rachel' ? OFFICIAL_PROTOCOL_VOICE_ID : voiceId;
+if (typeof window !== 'undefined' && !engine.__misticoModernoOfficialVoicePatched) {
+  engine.__misticoModernoOfficialVoicePatched = true;
 
-if (!engine.__misticoModernoOfficialVoicePatched) {
-  const originalPlayProtocolStageStream = engine.playProtocolStageStream.bind(engine);
-  const originalPlayGuidedMeditation = engine.playGuidedMeditation.bind(engine);
-  const originalSpeakWithElevenLabsOrFallback = engine.speakWithElevenLabsOrFallback.bind(engine);
-
-  engine.playProtocolStageStream = ((options: Parameters<typeof engine.playProtocolStageStream>[0]) => {
-    const voiceId = normalizeLegacyVoiceId(options?.voiceId);
-    return originalPlayProtocolStageStream(voiceId !== options?.voiceId ? { ...options, voiceId } : options);
-  }) as typeof engine.playProtocolStageStream;
-
-  engine.playGuidedMeditation = ((parts: Parameters<typeof engine.playGuidedMeditation>[0], options: Parameters<typeof engine.playGuidedMeditation>[1]) => {
-    const voiceId = normalizeLegacyVoiceId(options?.voiceId);
-    return originalPlayGuidedMeditation(parts, voiceId !== options?.voiceId ? { ...options, voiceId } : options);
-  }) as typeof engine.playGuidedMeditation;
-
-  engine.speakWithElevenLabsOrFallback = ((
-    text: Parameters<typeof engine.speakWithElevenLabsOrFallback>[0],
-    voiceVolume: Parameters<typeof engine.speakWithElevenLabsOrFallback>[1],
-    onStart: Parameters<typeof engine.speakWithElevenLabsOrFallback>[2],
-    onEnd: Parameters<typeof engine.speakWithElevenLabsOrFallback>[3],
-    onPause?: Parameters<typeof engine.speakWithElevenLabsOrFallback>[4],
-    onResume?: Parameters<typeof engine.speakWithElevenLabsOrFallback>[5],
-    options?: Parameters<typeof engine.speakWithElevenLabsOrFallback>[6]
-  ) => {
-    const voiceId = normalizeLegacyVoiceId(options?.voiceId);
-    return originalSpeakWithElevenLabsOrFallback(text, voiceVolume, onStart, onEnd, onPause, onResume,
-      voiceId !== options?.voiceId ? { ...options, voiceId, preferElevenLabs: true } : options);
+  const originalSpeak = engine.speakWithElevenLabsOrFallback.bind(engine);
+  engine.speakWithElevenLabsOrFallback = ((...args: Parameters<typeof engine.speakWithElevenLabsOrFallback>) => {
+    if (!isMisticoModernoActive()) return originalSpeak(...args);
+    const [text, volume, onStart, onEnd, onPause, onResume, options] = args;
+    return originalSpeak(text, volume, onStart, onEnd, onPause, onResume, {
+      ...options,
+      voiceId: MISTICO_MODERNO_OFFICIAL_VOICE_ALIAS,
+      preferElevenLabs: true,
+      fallbackToSpeechSynthesis: false
+    });
   }) as typeof engine.speakWithElevenLabsOrFallback;
 
-  engine.__misticoModernoOfficialVoicePatched = true;
+  const originalGuided = engine.playGuidedMeditation.bind(engine);
+  engine.playGuidedMeditation = ((...args: Parameters<typeof engine.playGuidedMeditation>) => {
+    if (!isMisticoModernoActive()) return originalGuided(...args);
+    const [parts, options] = args;
+    return originalGuided(parts, {
+      ...options,
+      voiceId: MISTICO_MODERNO_OFFICIAL_VOICE_ALIAS,
+      requireExplicitVoiceId: false
+    });
+  }) as typeof engine.playGuidedMeditation;
+
+  const originalStage = engine.playProtocolStageStream.bind(engine);
+  engine.playProtocolStageStream = ((...args: Parameters<typeof engine.playProtocolStageStream>) => {
+    if (!isMisticoModernoActive()) return originalStage(...args);
+    const [options] = args;
+    return originalStage({
+      ...options,
+      voiceId: MISTICO_MODERNO_OFFICIAL_VOICE_ALIAS
+    });
+  }) as typeof engine.playProtocolStageStream;
 }

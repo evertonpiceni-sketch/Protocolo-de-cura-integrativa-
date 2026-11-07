@@ -5,6 +5,7 @@
 
 import { speechElapsedSeconds } from './speechElapsed';
 import { isElevenLabsVoiceId, type ElevenLabsVoiceOption } from './voiceSelection';
+import { MISTICO_MODERNO_OFFICIAL_VOICE_ALIAS } from '../config/voiceAliases';
 
 export interface BioactiveBinauralConfig {
   enabled: boolean;
@@ -1101,7 +1102,10 @@ class CalmingAudioEngine {
       onEnd();
     };
 
-    if (!allowNativeFallback && !isElevenLabsVoiceId(options?.voiceId)) {
+    const isMisticoModernoAlias = options?.voiceId === MISTICO_MODERNO_OFFICIAL_VOICE_ALIAS
+      && typeof document !== 'undefined'
+      && document.documentElement.dataset.layout === 'mistico-moderno';
+    if (!allowNativeFallback && !isElevenLabsVoiceId(options?.voiceId) && !isMisticoModernoAlias) {
       failWithoutNativeVoice(new Error('Selecione uma voz neural válida do catálogo ElevenLabs.'));
       return;
     }
