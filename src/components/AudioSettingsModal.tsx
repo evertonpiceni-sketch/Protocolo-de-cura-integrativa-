@@ -13,6 +13,7 @@ import {
 import { UserProfile } from '../types';
 import { audioEngine, OFFICIAL_PROTOCOL_VOICE_ID } from '../lib/audio';
 import { isElevenLabsVoiceId, type ElevenLabsVoiceOption } from '../lib/voiceSelection';
+import { shouldPlayProtocolSessionBackground } from '../lib/protocolSessionAudioPolicy';
 import { useDialogFocus } from '../hooks/useDialogFocus';
 
 interface AudioSettingsModalProps {
@@ -180,8 +181,14 @@ export default function AudioSettingsModal({
     setIsTestingVoice(true);
     const testPhrase = `Olá, ${userProfile.name}. Esta é uma prévia da voz escolhida para acompanhar suas práticas com calma e presença.`;
 
-    if (allowBackgroundPlayback && bgMusicType !== 'none' && audioEnabled) {
+    const shouldPlayVoiceBackground = !isEssenciaLuminosa
+      ? bgMusicType !== 'none'
+      : audioEnabled && shouldPlayProtocolSessionBackground('playing', bgMusicType);
+    if (allowBackgroundPlayback && shouldPlayVoiceBackground) {
       audioEngine.startBG(bgMusicType);
+    } else if (allowBackgroundPlayback && isEssenciaLuminosa) {
+      // A frequência tonal não deve tocar junto com a narração neural.
+      audioEngine.stopBG();
     }
 
     audioEngine.speakWithElevenLabsOrFallback(
