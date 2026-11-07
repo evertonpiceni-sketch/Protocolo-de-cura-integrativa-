@@ -120,6 +120,9 @@ export default function App() {
   const selectedNeuralVoiceId = isNaturalSereno && (currentLanguage === 'pt' || !isElevenLabsVoiceId(userProfile?.voiceId))
     ? OFFICIAL_PROTOCOL_VOICE_ID
     : userProfile?.voiceId || '';
+  const selectableSettingsNeuralVoices = isNaturalSereno && currentLanguage === 'pt'
+    ? elevenLabsVoices.filter(voice => voice.voice_id === OFFICIAL_PROTOCOL_VOICE_ID)
+    : elevenLabsVoices;
 
   // Initialize and register local notification daily checker
   useEffect(() => {
@@ -1291,6 +1294,7 @@ export default function App() {
                       <label className="text-[10px] font-mono text-[#5C5248] uppercase">Voz neural (ElevenLabs)</label>
                       <select
                         value={selectedNeuralVoiceId}
+                        disabled={isNaturalSereno && currentLanguage === 'pt'}
                         aria-label="Voz neural ElevenLabs"
                         onChange={(e) => {
                           setVoicePreviewError(false);
@@ -1304,7 +1308,7 @@ export default function App() {
                           </option>
                         )}
                         <option value="">Selecione uma voz neural</option>
-                        {elevenLabsVoices.map(voice => (
+                        {selectableSettingsNeuralVoices.map(voice => (
                           <option key={voice.voice_id} value={voice.voice_id}>{voice.name}</option>
                         ))}
                       </select>

@@ -16,6 +16,7 @@
 - A voz aprovada **Marianne — Meditação** (`mJqP14JQFEK0PojR5lfV`) passa a ser a seleção inicial quando o perfil não contém um ID ElevenLabs válido.
 - O teste de voz do Natural Sereno não recorre silenciosamente à voz do dispositivo; falhas da voz neural são exibidas ao usuário.
 - O player dos protocolos de 21 e 7 dias usa obrigatoriamente Marianne em português, conforme a decisão congelada no commit de 16/09/2026; para outros idiomas, mantém um ID neural válido salvo ou usa Marianne como padrão.
+- Os dois seletores de voz (Configurações e Ajustes Avançados) exibem e bloqueiam a troca para Marianne quando o idioma ativo é português; para outros idiomas, o catálogo continua disponível.
 - Marianne foi incluída no catálogo curado do endpoint de vozes, para continuar disponível mesmo quando a consulta dinâmica da conta ElevenLabs falhar.
 - Criado teste de regressão para seleção, catálogo e ausência de fallback de dispositivo.
 

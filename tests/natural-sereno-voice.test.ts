@@ -14,6 +14,10 @@ test('Natural Sereno uses the approved Marianne neural voice without silent devi
   assert.ok(app.includes('const usesNeuralVoiceCatalog = isNaturalSereno || isEleganciaProfunda || isEssenciaLuminosa;'));
   assert.ok(app.includes("const selectedNeuralVoiceId = isNaturalSereno && (currentLanguage === 'pt' || !isElevenLabsVoiceId(userProfile?.voiceId))"));
   assert.ok(app.includes('currentLanguage={currentLanguage}'));
+  assert.ok(app.includes('disabled={isNaturalSereno && currentLanguage === \'pt\'}'));
+  assert.ok(app.includes('const selectableSettingsNeuralVoices = isNaturalSereno && currentLanguage === \'pt\''));
+  assert.ok(settings.includes('const selectableNeuralVoices = isNaturalSereno && currentLanguage === \'pt\''));
+  assert.ok(settings.includes('disabled={isNaturalSereno && currentLanguage === \'pt\'}'));
   assert.ok(app.includes('voiceId: selectedNeuralVoiceId'));
   assert.ok(app.includes('Natural Sereno, Elegância Profunda e Essência Luminosa não usam a voz do dispositivo.'));
   assert.ok(settings.includes("const requiresNeuralVoice = isNaturalSereno || isEleganciaProfunda || isEssenciaLuminosa;"));

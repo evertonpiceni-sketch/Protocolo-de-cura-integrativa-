@@ -80,6 +80,9 @@ export default function AudioSettingsModal({
   const [isTestingVoice, setIsTestingVoice] = useState(false);
   const [voiceTestError, setVoiceTestError] = useState(false);
   const neuralVoices = elevenLabsVoices.filter(voice => isElevenLabsVoiceId(voice.voice_id));
+  const selectableNeuralVoices = isNaturalSereno && currentLanguage === 'pt'
+    ? neuralVoices.filter(voice => voice.voice_id === OFFICIAL_PROTOCOL_VOICE_ID)
+    : neuralVoices;
 
   // Camada Binaural State
   const [bioactiveBinauralEnabled, setBioactiveBinauralEnabled] = useState<boolean>(
@@ -629,6 +632,7 @@ export default function AudioSettingsModal({
               <span className="text-[11px] text-[#5C5248] block">Voz neural (ElevenLabs)</span>
               <select
                 aria-label="Voz neural ElevenLabs"
+                disabled={isNaturalSereno && currentLanguage === 'pt'}
                 value={voiceId}
                 onChange={(e) => { setVoiceId(e.target.value); setVoiceTestError(false); }}
                 className="w-full bg-[#FBF8F2] border border-[#E5DAC6] rounded-xl px-3 py-2 text-xs text-[#2A2420] focus:border-[#B88736] outline-none"
@@ -639,7 +643,7 @@ export default function AudioSettingsModal({
                   </option>
                 )}
                 <option value="">Selecione uma voz neural</option>
-                {neuralVoices.map(voice => (
+                {selectableNeuralVoices.map(voice => (
                   <option key={voice.voice_id} value={voice.voice_id}>{voice.name}</option>
                 ))}
               </select>
