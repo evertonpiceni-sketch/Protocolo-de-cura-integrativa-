@@ -142,3 +142,218 @@
 :root[data-layout="natural-sereno"] #specific-treatment-modal .hover\:bg-slate-700:hover { background:#EEE4D3!important; color:#2A2421!important; }
 
 @media (max-width:640px) { :root[data-layout="natural-sereno"] #main-header .ep-brand-signature { opacity:.26!important; } }
+
+
+/* Natural Sereno — consolidação da paleta posterior aprovada.
+   Mantém as fotografias reais de natureza; retira o predomínio de verde-floresta
+   e amarelo antigo sem tocar nos outros três estilos. */
+:root[data-layout="natural-sereno"] {
+  --ns-forest: #596B48;
+  --ns-ink: #2A2421;
+  --ns-cream: #FAF7F2;
+  --ns-paper: rgba(255,253,248,.94);
+  --ns-muted: #6B625B;
+  --ns-gold: #C89D52;
+  --ns-line: rgba(200,157,82,.28);
+}
+
+:root[data-layout="natural-sereno"] #main-header {
+  background: rgba(250,247,242,.96) !important;
+  border-bottom-color: rgba(200,157,82,.28) !important;
+  color: #2A2421 !important;
+}
+
+:root[data-layout="natural-sereno"] .ns-app {
+  color: #2A2421 !important;
+  background-color: #FAF7F2 !important;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* As telas internas ficam claras; a chegada mantém sua fotografia imersiva.
+   A home preserva a paisagem aprovada e o enquadramento desktop/mobile. */
+:root[data-layout="natural-sereno"] .ns-app:not(.ns-welcome):not([data-ns-screen="community"])::before {
+  background: rgba(250,247,242,.78) !important;
+}
+:root[data-layout="natural-sereno"] .ns-app[data-ns-screen="home"]::before {
+  background: rgba(250,247,242,.24) !important;
+}
+
+/* CTA premium: ouro refinado, texto café e raio retangular suave — sem pill. */
+:root[data-layout="natural-sereno"] .ns-app .ns-gold {
+  min-height: 48px;
+  border: 1px solid rgba(168,126,55,.42) !important;
+  border-radius: 16px !important;
+  background: linear-gradient(135deg,#C89D52 0%,#E2B96B 48%,#A87E37 100%) !important;
+  color: #2A2421 !important;
+  box-shadow: 0 10px 22px rgba(67,52,39,.12), inset 0 1px 0 rgba(255,253,248,.72) !important;
+  font-weight: 700;
+  letter-spacing: .02em;
+}
+:root[data-layout="natural-sereno"] .ns-app .ns-gold:hover {
+  background: linear-gradient(135deg,#B88736 0%,#C89D52 55%,#8F631E 100%) !important;
+  color: #2A2421 !important;
+}
+:root[data-layout="natural-sereno"] .ns-app .ns-secondary {
+  border: 1px solid rgba(200,157,82,.30) !important;
+  border-radius: 14px !important;
+  background: rgba(255,253,248,.94) !important;
+  color: #5C5248 !important;
+}
+
+/* Comunidade: a cachoeira permanece como natureza real, mas deixa de ficar
+   soterrada por uma camada verde-escura dominante. */
+:root[data-layout="natural-sereno"] .ns-app[data-ns-screen="community"] {
+  color: #2A2421 !important;
+  background: linear-gradient(180deg,rgba(250,247,242,.82),rgba(250,247,242,.90)),var(--ns-waterfall) center / cover no-repeat #FAF7F2 !important;
+}
+:root[data-layout="natural-sereno"] .ns-app[data-ns-screen="community"]::before {
+  background: transparent !important;
+}
+:root[data-layout="natural-sereno"] .ns-app[data-ns-screen="community"] .ns-page-heading {
+  color: #2A2421 !important;
+  background: transparent !important;
+}
+:root[data-layout="natural-sereno"] .ns-app[data-ns-screen="community"] .ns-page-heading > button {
+  color: #2A2421 !important;
+  background: rgba(255,253,248,.90) !important;
+  border: 1px solid rgba(200,157,82,.28) !important;
+}
+:root[data-layout="natural-sereno"] .ns-community .ns-filter button {
+  background: rgba(255,253,248,.94) !important;
+  color: #2A2421 !important;
+  border: 1px solid rgba(200,157,82,.30) !important;
+  border-radius: 14px !important;
+}
+:root[data-layout="natural-sereno"] .ns-community .ns-filter button[aria-pressed="true"] {
+  background: linear-gradient(135deg,#C89D52,#E2B96B) !important;
+  color: #2A2421 !important;
+  border-color: #A87E37 !important;
+}
+:root[data-layout="natural-sereno"] .ns-community-composer,
+:root[data-layout="natural-sereno"] .ns-community-post,
+:root[data-layout="natural-sereno"] .ns-community-empty {
+  background: rgba(255,253,248,.94) !important;
+  color: #2A2421 !important;
+  border-color: rgba(200,157,82,.28) !important;
+}
+
+/* Player: conserva a cachoeira e o movimento original; troca a dominante
+   verde por café translúcido e uma base marfim legível. */
+:root[data-layout="natural-sereno"] #meditation-session[data-session-phase="playing"] .ep-session-backdrop {
+  background: linear-gradient(180deg,rgba(42,36,33,.10),rgba(42,36,33,.58)),var(--ns-waterfall) center / cover no-repeat #2A2421 !important;
+}
+:root[data-layout="natural-sereno"] #meditation-session[data-session-phase="playing"] .ep-session-backdrop::before {
+  background: linear-gradient(180deg,rgba(42,36,33,.06),rgba(42,36,33,.24)) !important;
+}
+:root[data-layout="natural-sereno"] #meditation-session[data-session-phase="playing"] > header {
+  background: rgba(42,36,33,.28) !important;
+  border-color: rgba(200,157,82,.24) !important;
+}
+:root[data-layout="natural-sereno"] #meditation-session[data-session-phase="playing"] > footer {
+  background: rgba(250,247,242,.97) !important;
+  border-top: 1px solid rgba(200,157,82,.32) !important;
+  color: #2A2421 !important;
+}
+:root[data-layout="natural-sereno"] #meditation-session[data-session-phase="playing"] > footer :is(p,span,small) {
+  color: #5C5248 !important;
+}
+:root[data-layout="natural-sereno"] #meditation-session[data-session-phase="playing"] > footer button:not(.ns-play-toggle) {
+  background: #FFFDF8 !important;
+  color: #5C5248 !important;
+  border: 1px solid rgba(200,157,82,.30) !important;
+}
+:root[data-layout="natural-sereno"] #meditation-session[data-session-phase="playing"] > footer .ns-play-toggle {
+  border: 1px solid rgba(168,126,55,.42) !important;
+  border-radius: 18px !important;
+  background: linear-gradient(135deg,#C89D52,#E2B96B,#A87E37) !important;
+  color: #2A2421 !important;
+  box-shadow: 0 10px 24px rgba(42,36,33,.20) !important;
+}
+:root[data-layout="natural-sereno"] #meditation-session[data-session-phase="playing"] [aria-label="Roteiro da sessão"] > .relative {
+  background: rgba(250,247,242,.96) !important;
+  border-color: rgba(200,157,82,.34) !important;
+  color: #2A2421 !important;
+}
+:root[data-layout="natural-sereno"] #meditation-session[data-session-phase="playing"] [aria-label="Roteiro da sessão"] :is(h3,h4,p,span) {
+  color: #2A2421 !important;
+}
+
+/* Entrada/autenticação: marfim, café e dourado; folhagem real permanece sutil.
+   A assinatura oficial continua com baixa opacidade conforme decisão congelada. */
+#profile-setup-view.ep-auth-style-one {
+  background-color: #FAF7F2 !important;
+  color: #2A2421 !important;
+}
+#profile-setup-view.ep-auth-style-one #onboarding-card {
+  background: rgba(255,253,248,.94) !important;
+  border-color: rgba(200,157,82,.32) !important;
+  color: #2A2421 !important;
+}
+#profile-setup-view.ep-auth-style-one #onboarding-card::before {
+  opacity: .18 !important;
+}
+#profile-setup-view.ep-auth-style-one #onboarding-card :is(h1,h2,h3,strong) {
+  color: #2A2421 !important;
+}
+#profile-setup-view.ep-auth-style-one #onboarding-card :is(p,label,span) {
+  color: #6B625B !important;
+}
+#profile-setup-view.ep-auth-style-one #auth-tabs {
+  background: #F5EFE4 !important;
+  border-color: rgba(200,157,82,.32) !important;
+}
+#profile-setup-view.ep-auth-style-one #auth-tabs button {
+  color: #2A2421 !important;
+}
+#profile-setup-view.ep-auth-style-one #onboarding-card :is(input:not([type="checkbox"]),select) {
+  background: #FFFDF8 !important;
+  border-color: rgba(200,157,82,.34) !important;
+  color: #2A2421 !important;
+}
+#profile-setup-view.ep-auth-style-one #onboarding-card :is(#register-form,#login-form) button[type="submit"] {
+  min-height: 48px;
+  border: 1px solid rgba(168,126,55,.42) !important;
+  border-radius: 16px !important;
+  background: linear-gradient(135deg,#C89D52,#E2B96B,#A87E37) !important;
+  color: #2A2421 !important;
+  box-shadow: 0 10px 22px rgba(67,52,39,.12) !important;
+}
+#profile-setup-view.ep-auth-style-one #auth-success {
+  background: rgba(89,107,72,.08) !important;
+  border-color: rgba(89,107,72,.24) !important;
+  color: #596B48 !important;
+}
+
+/* Numerologia e Mapa Astral: verde e âmbar permanecem apenas em pequenos
+   indicadores semânticos; superfícies de leitura ficam marfim/café. */
+:root[data-layout="natural-sereno"] #numerology-modal .bg-\[\#073b2b\] {
+  background: #F5EFE4 !important;
+  color: #8F631E !important;
+  border-color: rgba(200,157,82,.32) !important;
+}
+:root[data-layout="natural-sereno"] #numerology-modal .bg-amber-50,
+:root[data-layout="natural-sereno"] #numerology-modal .bg-amber-100 {
+  background: #F5EFE4 !important;
+}
+:root[data-layout="natural-sereno"] #numerology-modal .border-amber-200 {
+  border-color: rgba(200,157,82,.28) !important;
+}
+:root[data-layout="natural-sereno"] #numerology-modal :is(.text-amber-800,.text-amber-900) {
+  color: #8F631E !important;
+}
+:root[data-layout="natural-sereno"] #numerology-modal :is(.text-emerald-700,.text-emerald-800) {
+  color: #596B48 !important;
+}
+:root[data-layout="natural-sereno"] #numerology-modal .bg-emerald-50 {
+  background: rgba(89,107,72,.08) !important;
+}
+:root[data-layout="natural-sereno"] #numerology-modal .border-emerald-200 {
+  border-color: rgba(89,107,72,.22) !important;
+}
+:root[data-layout="natural-sereno"] #astral-map-modal :is(.bg-amber-50,.bg-amber-100) {
+  background: #F5EFE4 !important;
+}
+:root[data-layout="natural-sereno"] #astral-map-modal :is(.text-amber-800,.text-amber-900) {
+  color: #8F631E !important;
+}
