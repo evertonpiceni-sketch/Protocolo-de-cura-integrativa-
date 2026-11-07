@@ -2,17 +2,20 @@ import assert from 'node:assert/strict';
 import test from 'node:test';
 import { audioEngine } from '../src/lib/audio';
 
-test('protocol fallback preserves pause, cancellation and initial voice volume', async t => {
+test('official protocol stream reports failure without falling back to browser speech', async t => {
   const keys = ['window', 'navigator', 'Audio', 'SpeechSynthesisUtterance', 'fetch'] as const;
   const original = new Map(keys.map(key => [key, Object.getOwnPropertyDescriptor(globalThis, key)]));
   const spoken: any[] = [];
+  const audioInstances: any[] = [];
   class FakeAudio {
     paused = true;
     currentTime = 0;
     preload = '';
     volume = 1;
+    playCalls = 0;
+    constructor() { audioInstances.push(this); }
     pause() { this.paused = true; }
-    play() { this.paused = false; return Promise.resolve(); }
+    play() { this.playCalls += 1; this.paused = false; return Promise.resolve(); }
   }
   const globals = {
     window: { speechSynthesis: { cancel() {}, pause() {}, resume() {}, getVoices: () => [], speak(u: any) { spoken.push(u); u.onstart?.(); } } },
@@ -21,9 +24,10 @@ test('protocol fallback preserves pause, cancellation and initial voice volume',
     SpeechSynthesisUtterance: class { constructor(public text: string) {} }
   };
   for (const [key, value] of Object.entries(globals)) Object.defineProperty(globalThis, key, { configurable: true, value });
+
   try {
     for (const failure of ['service-fallback', 'network-error']) {
-      await t.test(`pause before ${failure} prevents speech until resume`, async () => {
+      await t.test(`reports ${failure} without starting browser speech`, async () => {
         let release!: () => void;
         const gate = new Promise<void>(resolve => { release = resolve; });
         Object.defineProperty(globalThis, 'fetch', { configurable: true, value: async () => {
@@ -31,27 +35,66 @@ test('protocol fallback preserves pause, cancellation and initial voice volume',
           if (failure === 'network-error') throw new Error('fixture network failure');
           return new Response(JSON.stringify({ fallbackToSpeechSynthesis: true }), { status: 503 });
         } });
+
         spoken.length = 0;
+        audioInstances.length = 0;
+        const errors: Error[] = [];
+        const playbackChanges: boolean[] = [];
         audioEngine.setMainVolume(0);
-        const playback = audioEngine.playProtocolStageStream({ text: 'Texto aprovado.', voiceId: 'Rachel', stageTitle: 'Etapa', dayNumber: 1 });
+        const playback = audioEngine.playProtocolStageStream({
+          text: 'Texto aprovado.',
+          voiceId: 'Rachel',
+          stageTitle: 'Etapa',
+          dayNumber: 1,
+          onError: error => errors.push(error),
+          onPlaybackChange: playing => playbackChanges.push(playing)
+        });
+
         audioEngine.pauseSpeech();
         release();
-        await playback;
+        const result = await playback;
+
+        assert.equal(result, null);
         assert.equal(spoken.length, 0);
+        assert.equal(errors.length, 1);
+        assert.ok(errors[0] instanceof Error);
+        assert.ok(errors[0].message.length > 0);
+        assert.deepEqual(playbackChanges, [false]);
+        assert.equal(audioInstances[0]?.volume, 0);
+        assert.equal(audioInstances[0]?.playCalls, 0);
+
         audioEngine.resumeSpeech();
-        assert.equal(spoken.length, 1);
-        assert.equal(spoken[0].volume, 0);
+        assert.equal(spoken.length, 0);
         audioEngine.stopSpeech();
       });
     }
-    await t.test('exit discards a pending fallback', async () => {
-      Object.defineProperty(globalThis, 'fetch', { configurable: true, value: async () => new Response(JSON.stringify({ fallbackToSpeechSynthesis: true }), { status: 503 }) });
+
+    await t.test('exit cancels an in-flight official request without invoking browser speech', async () => {
+      let release!: () => void;
+      const gate = new Promise<void>(resolve => { release = resolve; });
+      Object.defineProperty(globalThis, 'fetch', { configurable: true, value: async () => {
+        await gate;
+        return new Response(JSON.stringify({ fallbackToSpeechSynthesis: true }), { status: 503 });
+      } });
+
       spoken.length = 0;
-      const playback = audioEngine.playProtocolStageStream({ text: 'Texto aprovado.', voiceId: 'Rachel', stageTitle: 'Etapa', dayNumber: 1 });
+      const errors: Error[] = [];
+      const playback = audioEngine.playProtocolStageStream({
+        text: 'Texto aprovado.',
+        voiceId: 'Rachel',
+        stageTitle: 'Etapa',
+        dayNumber: 1,
+        onError: error => errors.push(error)
+      });
+
       audioEngine.pauseSpeech();
-      await playback;
       audioEngine.stopSpeech();
+      release();
+      const result = await playback;
       audioEngine.resumeSpeech();
+
+      assert.equal(result, null);
+      assert.equal(errors.length, 0);
       assert.equal(spoken.length, 0);
     });
   } finally {
