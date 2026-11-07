@@ -65,6 +65,13 @@ const ELEGANCIA_PROFUNDA_CANVAS_THEME = {
   transparent: 'rgba(11,23,18,0)'
 };
 const ESSENCIA_LUMINOSA_CANVAS_THEME = { glow: '#C6A46A', accent: '#A6B49B' };
+const MISTICO_MODERNO_CANVAS_THEME = {
+  glow: '#D4AF37', accent: '#6C3FA0',
+  goldSoft: 'rgba(212,175,55,0.16)', goldGlow: 'rgba(212,175,55,0.28)', goldLine: 'rgba(212,175,55,0.42)',
+  sageSoft: 'rgba(108,63,160,0.14)', sageGlow: 'rgba(108,63,160,0.22)', sageLine: 'rgba(108,63,160,0.38)',
+  ivory: '#F4F1EB', transparent: 'rgba(10,15,24,0)',
+  particleGold: 'rgba(226,185,107,0.72)', particleAccent: 'rgba(108,63,160,0.64)'
+};
 
 export default function MeditationSession({
   dayNumber,
@@ -83,6 +90,7 @@ export default function MeditationSession({
   const activeLayout = typeof document !== 'undefined' ? document.documentElement.dataset.layout : undefined;
   const isEleganciaProfunda = activeLayout === 'elegancia-profunda';
   const isEssenciaLuminosa = activeLayout === 'essencia-luminosa';
+  const isMisticoModerno = activeLayout === 'mistico-moderno';
   const [sessionPhase, setSessionPhase] = useState<'portal' | 'checkin_before' | 'playing' | 'checkin_after' | 'completed'>('portal');
 
   useLayoutEffect(() => {
@@ -227,8 +235,9 @@ export default function MeditationSession({
     const selectedVoiceId = voiceId?.trim();
     const savedVoiceId = isElevenLabsVoiceId(selectedVoiceId) ? selectedVoiceId : OFFICIAL_PROTOCOL_VOICE_ID;
     const style2VoiceId = isElevenLabsVoiceId(selectedVoiceId) ? selectedVoiceId : '';
+    const style4VoiceId = isElevenLabsVoiceId(selectedVoiceId) ? selectedVoiceId : '';
 
-    if (activeLayout === 'elegancia-profunda' && !style2VoiceId) {
+    if ((activeLayout === 'elegancia-profunda' && !style2VoiceId) || (isMisticoModerno && !style4VoiceId)) {
       setIsPlaying(false);
       setVoiceError(true);
       return;
@@ -243,7 +252,9 @@ export default function MeditationSession({
           ? style2VoiceId
           : activeLayout === 'essencia-luminosa'
             ? savedVoiceId
-            : OFFICIAL_PROTOCOL_VOICE_ID,
+            : isMisticoModerno
+              ? style4VoiceId
+              : OFFICIAL_PROTOCOL_VOICE_ID,
       speed: voiceRate,
       stageTitle: `Dia ${dayNumber} — ${currentInsight.title} — ${currentStage.title}`,
       dayNumber,
@@ -384,7 +395,7 @@ export default function MeditationSession({
       <div className="ep-session-backdrop absolute inset-0 pointer-events-none">
         <SacredEnergyCanvas
           dayNumber={['natural-sereno', 'elegancia-profunda', 'essencia-luminosa'].includes(activeLayout || '') ? dayNumber : undefined}
-          colorTheme={isEleganciaProfunda ? ELEGANCIA_PROFUNDA_CANVAS_THEME : isEssenciaLuminosa ? ESSENCIA_LUMINOSA_CANVAS_THEME : undefined}
+          colorTheme={isMisticoModerno ? MISTICO_MODERNO_CANVAS_THEME : isEleganciaProfunda ? ELEGANCIA_PROFUNDA_CANVAS_THEME : isEssenciaLuminosa ? ESSENCIA_LUMINOSA_CANVAS_THEME : undefined}
           dayOneOpening={isEleganciaProfunda && dayNumber === 1}
           stageId={currentStage.id}
           isPlaying={isPlaying}
@@ -451,7 +462,7 @@ export default function MeditationSession({
       <main className="relative z-10 flex-1 flex flex-col items-center justify-center px-6 max-w-xl mx-auto w-full text-center">
         {voiceError && (
           <p role="alert" className="ep-voice-error mb-5 max-w-md rounded-xl px-4 py-3 text-xs leading-5">
-            A voz neural selecionada não foi identificada ou está indisponível. Abra Ajustes de áudio e escolha uma voz do catálogo ElevenLabs.
+            {isMisticoModerno ? 'A voz neural escolhida está indisponível. A sessão foi interrompida sem recorrer à voz do navegador.' : 'A voz neural selecionada não foi identificada ou está indisponível. Abra Ajustes de áudio e escolha uma voz do catálogo ElevenLabs.'}
           </p>
         )}
         {sessionPhase === 'playing' && (
