@@ -654,6 +654,8 @@ export default function App() {
       console.warn("Server logout request completed with offline status");
     }
     localStorage.removeItem(LOCAL_STORAGE_KEY_CURRENT_LOGIN);
+    setLayoutConfirmedThisSession(false);
+    setLayoutChoiceRequested(false);
     setUserProfile(null);
     setProgress([]);
     setCurrentDay(1);
