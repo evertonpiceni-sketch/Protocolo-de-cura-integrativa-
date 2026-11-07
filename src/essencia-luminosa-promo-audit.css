@@ -2,7 +2,7 @@
    Isolated correction: remove inherited dark green/indigo/purple/emerald presentation
    without changing scene content, timing, Solfeggio behavior, or other styles. */
 :root[data-layout="essencia-luminosa"] #promo-video-modal {
-  background: rgba(250,247,242,.86) !important;
+  background: rgba(255,255,248,.92) !important;
 }
 
 :root[data-layout="essencia-luminosa"] #promo-video-modal [class*="from-[#0a412d]"],
@@ -13,19 +13,23 @@
 }
 
 :root[data-layout="essencia-luminosa"] #promo-video-modal [class*="bg-purple-500"] {
-  background-color: rgba(151,157,113,.12) !important;
+  background-color: rgba(166,180,155,.18) !important;
 }
 
 :root[data-layout="essencia-luminosa"] #promo-video-modal :is([class*="text-purple-"],[class*="text-indigo-"],[class*="text-emerald-"]) {
-  color: #7f875f !important;
+  color: #53664B !important;
 }
 
 :root[data-layout="essencia-luminosa"] #promo-video-modal :is([class*="bg-indigo-"],[class*="bg-purple-"],[class*="bg-emerald-"]) {
-  background-color: #a7aa7d !important;
+  background-color: rgba(166,180,155,.18) !important;
+  color: #46523F !important;
+  border-color: rgba(166,180,155,.38) !important;
 }
 
 :root[data-layout="essencia-luminosa"] #promo-video-modal [class*="from-indigo-500"][class*="to-amber-400"] {
-  background-image: linear-gradient(90deg,#b7a26a 0%,#d4b76d 100%) !important;
+  background-image: linear-gradient(90deg,#E2C68E 0%,#C6A46A 100%) !important;
+  color: #2A2420 !important;
+  border-color: #B99557 !important;
 }
 
 :root[data-layout="essencia-luminosa"] #promo-video-modal button {
@@ -33,6 +37,6 @@
 }
 
 :root[data-layout="essencia-luminosa"] #promo-video-modal button:focus-visible {
-  outline: 2px solid rgba(184,135,54,.58) !important;
+  outline: 2px solid rgba(198,164,106,.48) !important;
   outline-offset: 3px;
 }
