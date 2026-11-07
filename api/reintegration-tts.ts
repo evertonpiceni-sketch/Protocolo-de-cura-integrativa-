@@ -5,7 +5,7 @@ import { REINTEGRATION_DAYS } from '../src/data/reintegrationJourneyPublic.js';
 // Voz oficial aprovada para a Jornada Reintegração da Vida.
 // Manter estes parâmetros fixos evita variações entre os 21 dias.
 const REINTEGRATION_VOICE = Object.freeze({
-  voiceId: '21m00Tcm4TlvDq8ikWAM',
+  voiceId: 'mJqP14JQFEK0PojR5lfV',
   modelId: 'eleven_multilingual_v2',
   stability: 0.46,
   similarityBoost: 0.8,

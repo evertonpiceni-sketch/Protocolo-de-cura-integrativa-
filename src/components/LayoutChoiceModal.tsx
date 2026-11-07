@@ -8,6 +8,39 @@ interface LayoutChoiceModalProps {
 }
 
 function LayoutPreview({ layout }: { layout: LayoutDefinition }) {
+  // Recorte oficial da prancha 1001194194.png: Menu Principal do Elegância Profunda.
+  // Não reutiliza a figura corporal da prancha, pois decisões posteriores a substituíram na Reintegração.
+  if (layout.id === 'elegancia-profunda') {
+    return (
+      <div
+        className="mt-4 overflow-hidden rounded-2xl border shadow-inner"
+        style={{
+          background: 'radial-gradient(circle at 50% 0, rgba(212,175,119,.13), transparent 58%), linear-gradient(145deg, #0B1712, #132A1F)',
+          color: '#F7F1E4',
+          borderColor: 'rgba(212,175,119,.35)'
+        }}
+        aria-hidden="true"
+        data-reference="1001194194.png"
+      >
+        <div className="flex min-h-[224px] items-center justify-center px-3 py-3">
+          <img
+            src="/brand/elegancia-profunda/menu-principal-preview.webp"
+            alt=""
+            loading="lazy"
+            decoding="async"
+            className="h-[190px] w-auto rounded-[18px] border object-contain shadow-[0_14px_30px_rgba(0,0,0,.42)]"
+            style={{ borderColor: 'rgba(212,175,119,.42)' }}
+          />
+        </div>
+        <div className="grid grid-cols-4 gap-1.5 px-3 pb-3">
+          {layout.swatches.map((color, index) => (
+            <span key={`${color}-${index}`} className="h-7 rounded-lg border" style={{ backgroundColor: color, borderColor: 'rgba(212,175,119,.25)' }} />
+          ))}
+        </div>
+      </div>
+    );
+  }
+
   // A prévia do Estilo 3 usa sua própria paleta, sem herdar os acentos dos outros estilos.
   const isEssenciaLuminosa = layout.id === 'essencia-luminosa';
   const [canvas, accent, gold, surface] = isEssenciaLuminosa
@@ -16,8 +49,8 @@ function LayoutPreview({ layout }: { layout: LayoutDefinition }) {
   const foreground = layout.tone === 'dark' ? '#F4F1EB' : '#2A2420';
   const muted = layout.tone === 'dark' ? 'rgba(244,241,235,.68)' : 'rgba(42,36,32,.62)';
   const isNaturalSereno = layout.id === 'natural-sereno';
-  const previewBorder = layout.id === 'elegancia-profunda' ? 'rgba(212,175,119,.35)' : layout.id === 'mistico-moderno' ? 'rgba(108,63,160,.40)' : 'rgba(42,36,32,.10)';
-  const innerBorder = layout.id === 'elegancia-profunda' ? 'rgba(212,175,119,.25)' : layout.id === 'mistico-moderno' ? 'rgba(108,63,160,.28)' : 'rgba(42,36,32,.06)';
+  const previewBorder = layout.id === 'mistico-moderno' ? 'rgba(108,63,160,.40)' : 'rgba(42,36,32,.10)';
+  const innerBorder = layout.id === 'mistico-moderno' ? 'rgba(108,63,160,.28)' : 'rgba(42,36,32,.06)';
   const naturalIvory = '#F3EDE4';
   const previewBackground = isNaturalSereno
     ? `linear-gradient(145deg, ${canvas}, ${naturalIvory})`
@@ -29,11 +62,9 @@ function LayoutPreview({ layout }: { layout: LayoutDefinition }) {
     ? `linear-gradient(135deg, ${gold}, #A87E37)`
     : layout.id === 'mistico-moderno'
       ? `linear-gradient(135deg, ${gold}, #E2B96B)`
-      : layout.id === 'elegancia-profunda'
-        ? 'linear-gradient(135deg, #D4AF77, #A77B43)'
-        : isEssenciaLuminosa
-          ? `linear-gradient(135deg, ${gold}, #E9D6AF)`
-          : `linear-gradient(135deg, ${gold}, ${accent})`;
+      : isEssenciaLuminosa
+        ? `linear-gradient(135deg, ${gold}, #E9D6AF)`
+        : `linear-gradient(135deg, ${gold}, ${accent})`;
   const previewSwatches = isNaturalSereno
     ? [canvas, accent, gold, naturalIvory]
     : [canvas, gold, surface, accent];
