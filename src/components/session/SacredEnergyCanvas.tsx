@@ -247,7 +247,7 @@ export const SacredEnergyCanvas: React.FC<SacredEnergyCanvasProps> = ({
         }
 
         case ProtocolStage.TRANSMUTACAO: {
-          // Protective dome and luminous transmutation; the active layout supplies its own palette.
+          // Violet Flame stage semantics: protective dome and luminous transmutation; the active layout supplies its own palette.
           const domeRadius = 78;
 
           // Sapphire outer dome
