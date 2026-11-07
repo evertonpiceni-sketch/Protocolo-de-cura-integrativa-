@@ -4,6 +4,7 @@ import { Check } from 'lucide-react';
 import { OFFICIAL_LAYOUTS, LayoutDefinition, LayoutId } from '../config/layouts';
 
 interface LayoutChoiceModalProps {
+  initialLayout?: LayoutId | null;
   onSelect: (layout: LayoutId) => void | Promise<void>;
 }
 
@@ -35,7 +36,7 @@ function LayoutPreview({ layout }: { layout: LayoutDefinition }) {
           ? `linear-gradient(135deg, ${gold}, #E9D6AF)`
           : `linear-gradient(135deg, ${gold}, ${accent})`;
   const previewSwatches = isNaturalSereno
-    ? [canvas, accent, gold, naturalIvory]
+    ? [canvas, accent, gold, surface]
     : [canvas, gold, surface, accent];
 
   return (
@@ -46,7 +47,7 @@ function LayoutPreview({ layout }: { layout: LayoutDefinition }) {
     >
       <div className="flex items-center justify-between border-b px-3 py-2" style={{ borderColor: innerBorder }}>
         <span className="h-1.5 w-14 rounded-full" style={{ backgroundColor: gold, opacity: .75 }} />
-        <span className="h-4 w-4 rounded-full border" style={{ backgroundColor: isNaturalSereno ? '#E8E0D5' : accent, borderColor: innerBorder, opacity: 1 }} />
+        <span className="h-4 w-4 rounded-full border" style={{ backgroundColor: isNaturalSereno ? surface : accent, borderColor: innerBorder, opacity: isNaturalSereno ? .72 : 1 }} />
       </div>
       <div className="p-3">
         <div className="rounded-xl border p-3 shadow-sm" style={{ backgroundColor: previewSurface, borderColor: innerBorder }}>
@@ -66,7 +67,7 @@ function LayoutPreview({ layout }: { layout: LayoutDefinition }) {
             />
           )}
           <span
-            className="mt-3 inline-flex rounded-full px-3 py-1 text-[8px] font-bold uppercase tracking-[.12em] shadow-sm"
+            className="mt-3 inline-flex rounded-xl px-3 py-1 text-[8px] font-bold uppercase tracking-[.12em] shadow-sm"
             style={{ background: actionBackground, color: isNaturalSereno || isEssenciaLuminosa || layout.id === 'mistico-moderno' ? '#2A2420' : layout.tone === 'dark' ? '#0B1712' : '#fff' }}
           >
             Iniciar jornada
@@ -82,8 +83,10 @@ function LayoutPreview({ layout }: { layout: LayoutDefinition }) {
   );
 }
 
-export default function LayoutChoiceModal({ onSelect }: LayoutChoiceModalProps) {
-  const [selectedLayout, setSelectedLayout] = useState<LayoutId | null>(null);
+export default function LayoutChoiceModal({ initialLayout = null, onSelect }: LayoutChoiceModalProps) {
+  // A preferência salva apenas pré-seleciona o card; a aplicação continua
+  // bloqueada até a confirmação explícita desta sessão.
+  const [selectedLayout, setSelectedLayout] = useState<LayoutId | null>(initialLayout);
   const [isSaving, setIsSaving] = useState(false);
   const [saveError, setSaveError] = useState<string | null>(null);
   const confirmSelection = async () => {
@@ -145,7 +148,7 @@ export default function LayoutChoiceModal({ onSelect }: LayoutChoiceModalProps) 
                 <LayoutPreview layout={layout} />
                 <div className="mt-4 flex gap-2" aria-hidden="true">
                   {(layout.id === 'natural-sereno'
-                    ? [layout.swatches[0], layout.swatches[1], layout.swatches[2], '#F3EDE4']
+                    ? [layout.swatches[0], layout.swatches[1], layout.swatches[2], layout.swatches[3]]
                     : layout.id === 'essencia-luminosa'
                       ? ['#FFFFF8', '#C6A46A', '#F7F3E8', '#A6B49B']
                       : layout.swatches
@@ -163,7 +166,7 @@ export default function LayoutChoiceModal({ onSelect }: LayoutChoiceModalProps) 
             type="button"
             disabled={!selectedLayout || isSaving}
             onClick={confirmSelection}
-            className="min-h-12 w-full max-w-sm rounded-full bg-gradient-to-r from-[#C89D52] via-[#D9B66D] to-[#A87E37] px-6 py-3 text-sm font-bold uppercase tracking-[.12em] text-[#2A2420] shadow-lg transition hover:-translate-y-0.5 hover:shadow-xl disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:translate-y-0 disabled:hover:shadow-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B88736]/40 focus-visible:ring-offset-2"
+            className="min-h-12 w-full max-w-sm rounded-2xl bg-gradient-to-r from-[#C89D52] via-[#D9B66D] to-[#A87E37] px-6 py-3 text-sm font-bold uppercase tracking-[.12em] text-[#2A2420] shadow-lg transition hover:-translate-y-0.5 hover:shadow-xl disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:translate-y-0 disabled:hover:shadow-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B88736]/40 focus-visible:ring-offset-2"
           >
             {isSaving ? 'Salvando escolha…' : selectedDefinition ? `Confirmar ${selectedDefinition.name}` : 'Selecione um estilo'}
           </button>
