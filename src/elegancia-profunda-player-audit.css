@@ -257,3 +257,9 @@
     transition:none!important;
   }
 }
+
+
+/* The shared cream vignette belongs to the light styles, not Elegância Profunda. */
+:root[data-layout="elegancia-profunda"] #meditation-session .ep-session-light-overlay {
+  background:radial-gradient(ellipse at center,rgba(11,23,18,0) 24%,rgba(11,23,18,.18) 62%,rgba(7,19,14,.72) 100%)!important;
+}
