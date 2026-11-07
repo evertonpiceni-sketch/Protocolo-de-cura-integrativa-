@@ -3,6 +3,7 @@
 **Data:** 7 de novembro de 2026  
 **Branch:** `main`  
 **Base inspecionada:** `d503057a37aee8f84fe5bcd8a01cde85acb468b2`  
+**Correção visual/testes:** `5c22bfd42a350eb48a03f454c40d24d95c202977` / `3f9ff5dba88e62ec196afe9b746eb859b12b1a16`  
 **Referência visual:** prancha original `1001196521.png` / `file_0000000019d0820eb7a70b6c982619d6`, recuperada e inspecionada nesta execução. O card do seletor aponta para `public/brand/essencia-luminosa/prancha-oficial.webp`; a imagem versionada corresponde à prancha e permanece restrita à prévia.
 
 ## Corrigido
@@ -46,6 +47,6 @@ A varredura desta execução foi estática por código/imports/testes; não houv
 - Checkout, retorno e webhook InfinitePay em sandbox.
 - Segurança de dependências: o workflow anterior da base auditada registrou 9 vulnerabilidades (3 moderadas e 6 altas); a etapa de enforcement falhou. Não foram feitas atualizações indiscriminadas nesta correção visual.
 - Publicação: o status Vercel conhecido para a base estava em falha por `build-rate-limit`; não há deploy de produção homologado.
-- CI da nova correção e dos testes recém-adicionados: aguardando a execução do GitHub Actions.
+- CI da correção (GitHub Actions run `42386642823`, commit `3f9ff5dba88e62ec196afe9b746eb859b12b1a16`): TypeScript, testes de regressão, build, entrypoints Express, autenticação, smoke test e endpoints de pagamento passaram. O workflow geral permanece em falha somente no enforcement final do `npm audit`, que registra 9 vulnerabilidades (3 moderadas e 6 altas).
 
 **Status:** corrigido o contraste dos CTAs claros e adicionada proteção de regressão. A identidade aprovada e os fluxos funcionais foram preservados. A homologação visual/funcional completa continua aberta.
