@@ -187,3 +187,27 @@ test('o Media Session não volta para pausado depois que a trilha termina', () =
   assert.ok(journey.includes("navigator.mediaSession.playbackState = endedRef.current ? 'none' : playing ? 'playing' : 'paused';"));
   assert.match(journey, /onEnded=\{\(\) => \{ endedRef\.current=true;[\s\S]*?playbackState='none'/);
 });
+
+
+test('o player do Estilo 2 mantém todas as fases em verde profundo, champagne e marfim', () => {
+  const theme = read('src/approved-theme.css');
+  const main = read('src/main.tsx');
+  const playerCss = read('src/elegancia-profunda-player-audit.css');
+  const session = read('src/components/MeditationSession.tsx');
+  const checkin = read('src/components/session/SessionCheckInModal.tsx');
+  const drawer = read('src/components/session/SecondaryScriptDrawer.tsx');
+  assert.ok(theme.includes('--layout-text-soft:var(--layout-text-secondary)'));
+  assert.ok(main.includes("import './elegancia-profunda-player-audit.css'"));
+  assert.ok(main.indexOf('elegancia-profunda-player-audit.css') > main.indexOf('elegancia-profunda-dashboard-audit.css'));
+  assert.ok(playerCss.includes('#meditation-session > header'));
+  assert.ok(playerCss.includes('.ep-acceptance-portal'));
+  assert.ok(playerCss.includes('.ep-session-checkin'));
+  assert.ok(playerCss.includes('[aria-label="Roteiro da sessão"]'));
+  assert.ok(playerCss.includes('[aria-label="Sessão concluída"]'));
+  assert.ok(playerCss.includes('.ep-session-access-gate'));
+  assert.ok(session.includes('ep-session-access-gate'));
+  assert.ok(checkin.includes('ep-session-checkin'));
+  assert.ok(checkin.includes('aria-pressed={mood === val}'));
+  assert.ok(checkin.includes('aria-pressed={isSelected}'));
+  assert.ok(drawer.includes('aria-label="Roteiro da sessão"'));
+});
