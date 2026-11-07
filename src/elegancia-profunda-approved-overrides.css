@@ -18,7 +18,6 @@
   background:transparent!important;
   border-color:color-mix(in srgb,var(--layout-gold) 14%,transparent)!important;
   box-shadow:none!important;
-  opacity:.36!important;
 }
 
 /* Cabeçalho. */
