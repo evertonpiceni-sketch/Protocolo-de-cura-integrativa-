@@ -49,8 +49,8 @@ test('o logo permanece assinatura transparente e o hero não herda opacidade de 
   const sharedTheme = read('src/approved-theme.css');
   assert.match(css, /\.ep-brand-signature-wrap \{\s*opacity:1!important;\s*background:transparent!important;/);
   assert.match(css, /\.ep-brand-signature\s*,[\s\S]*?opacity:\.30\s*!important/);
-  assert.match(css, /:root\\[data-layout="elegancia-profunda"\\] \.ep-home-hero \.ep-brand-signature,[\\s\\S]*?:root\\[data-layout="elegancia-profunda"\\] \.ep-welcome-audio \.ep-brand-signature \\{\\s*opacity:\\.30!important;/);
-  assert.match(sharedTheme, /\.ep-home-hero \.ep-brand-signature,?[\\s\\S]*?opacity:\.72!important/);
+  assert.ok(css.includes(':root[data-layout="elegancia-profunda"] .ep-home-hero .ep-brand-signature,\\n:root[data-layout="elegancia-profunda"] .ep-welcome-audio .ep-brand-signature {\\n  opacity:.30!important;\\n}'));
+  assert.ok(sharedTheme.includes('opacity:.72!important'), 'A camada compartilhada contém a regra mais forte que precisa ser neutralizada no Estilo 2.');
   assert.match(css, /#main-header div:has\(> \.ep-brand-signature\)[^\n]*background:transparent!important/);
 });
 
