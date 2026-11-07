@@ -8,6 +8,7 @@ A prancha 1001194194.png (file_00000000121c820e931b56bb6b1467e9) foi recuperada 
 ## Corrigido nesta rodada
 - O player principal agora passa ao SacredEnergyCanvas uma paleta explícita do Estilo 2: verde profundo #2E6B4F, ouro nobre #D4AF37, champagne/bronze de apoio e marfim. Antes, o Estilo 2 recebia colorTheme indefinido e usava cores legadas de etapas azuis, violetas e rosadas.
 - O canvas agora aceita os valores tonais completos da paleta. A paleta própria da Essência Luminosa e o comportamento dos estilos sem tema explícito foram preservados.
+- A reexecução dos testes revelou uma regressão anterior no acolhimento da Essência Luminosa: o fallback neural oficial desse estilo havia sido removido ao tornar a voz do Estilo 2 estrita. O fallback oficial da Essência Luminosa foi restaurado, mantendo o Estilo 2 sem substituição automática; o teste agora diferencia explicitamente as duas regras.
 - O ciclo de Wake Lock da Reintegração foi corrigido: libera ao pausar, encerrar, fechar ou trocar de dia; limpa a referência quando o navegador libera o bloqueio; e solicita novamente ao retomar pelo controle de mídia ou ao voltar à aba.
 - O estado da Media Session agora permanece como none quando a trilha termina, em vez de ser sobrescrito para paused pelo efeito de reprodução. Retomar ou buscar para trás limpa corretamente o estado de fim.
 - Foram adicionados testes de regressão para o tema do canvas, o ciclo de Wake Lock, o estado final da Media Session e a não reativação do onboarding antigo.
