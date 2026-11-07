@@ -53,6 +53,9 @@ test('as últimas heranças verde-floresta são neutralizadas somente no Natural
   assert.ok(css.includes(':root[data-layout="natural-sereno"] :is(#settings-view,#audio-settings-modal,#mobile-install-modal,#achievements-modal,#journal-dashboard-view) button[class~="bg-[#B88736]"]'));
   assert.ok(css.includes(':root[data-layout="natural-sereno"] #daily-diary-modal :is(div,span)[class*="bg-[#B88736]/"]'));
   assert.ok(css.includes(':root[data-layout="natural-sereno"] #admin-panel-modal button[type="submit"]'));
+  assert.ok(css.includes('#specific-treatment-modal div[class*="bg-gradient"]:not(.pointer-events-none):not(.absolute)'));
+  assert.ok(css.includes('#specific-treatment-modal .relative > .absolute[class*="bg-gradient-to-t"]'));
+  assert.ok(css.includes('rgba(250,247,242,.90)'));
   assert.ok(css.includes(':root[data-layout="natural-sereno"] [data-ns-pix-card]'));
   assert.ok(css.includes(':root[data-layout="natural-sereno"] #anamnesis-modal > div'));
   assert.ok(css.includes(':root[data-layout="natural-sereno"] #anamnesis-modal :is(button,a)[class*="bg-emerald-"]'));
