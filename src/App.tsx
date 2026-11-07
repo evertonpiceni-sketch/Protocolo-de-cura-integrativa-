@@ -910,7 +910,7 @@ export default function App() {
           <header className="bg-[#F8F4EC]/90 backdrop-blur-md border-b border-[#E5DAC6] sticky top-0 z-30 px-3 sm:px-4 py-3" id="main-header">
         <div className="max-w-5xl mx-auto flex items-center justify-between gap-2 sm:gap-4">
           <div className="flex items-center gap-2 sm:gap-2.5 min-w-0">
-            <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-full overflow-hidden border-[1.5px] border-indigo-500/40 shadow-[0_0_12px_rgba(99,102,241,0.25)] shrink-0 bg-[#FBF8F2] flex items-center justify-center">
+            <div id="header-profile-avatar" className="w-10 h-10 sm:w-11 sm:h-11 rounded-full overflow-hidden border-[1.5px] border-indigo-500/40 shadow-[0_0_12px_rgba(99,102,241,0.25)] shrink-0 bg-[#FBF8F2] flex items-center justify-center">
               <img src={APPROVED_LOGO_DATA_URI} alt="Everton Piceni — Terapias Holísticas e Bem-Estar" className="ep-brand-signature w-full h-full object-contain transition-opacity duration-500" />
             </div>
             <div className="min-w-0">
