@@ -23,7 +23,7 @@ if (!engine.__misticoModernoOfficialVoicePatchedV2) {
   engine.playProtocolStageStream = ((options: Parameters<typeof engine.playProtocolStageStream>[0]) => {
     if (!isMisticoModernoActive()) return originalPlayProtocolStageStream(options);
     return originalPlayProtocolStageStream({
-      ...options,
+      ...(options ?? {}),
       voiceId: OFFICIAL_PROTOCOL_VOICE_ID
     });
   }) as typeof engine.playProtocolStageStream;
@@ -34,7 +34,7 @@ if (!engine.__misticoModernoOfficialVoicePatchedV2) {
   ) => {
     if (!isMisticoModernoActive()) return originalPlayGuidedMeditation(parts, options);
     return originalPlayGuidedMeditation(parts, {
-      ...options,
+      ...(options ?? {}),
       voiceId: OFFICIAL_PROTOCOL_VOICE_ID,
       requireExplicitVoiceId: true
     });
