@@ -9,7 +9,7 @@
 
 - Removida do bloco `:root[data-layout="elegancia-profunda"]` em `src/approved-theme.css` a referência antiga `/brand/reintegracao-presenca-arte.png`. O Estilo 2 agora declara `--ep-scene:none` também na camada compartilhada, e não apenas no override carregado depois. Isso elimina a herança residual da arte da Reintegração e evita regressão/flash antes do override específico.
 - Acrescentado teste para garantir que o bloco do Estilo 2 não volte a apontar para a arte da Reintegração.
-- Corrigido o delimitador do novo teste: ele agora localiza o fechamento real do bloco CSS (`\n}`), em vez de procurar os caracteres literais `\\n}`.
+- Corrigido o teste de regressão para localizar especificamente o bloco de cena do Estilo 2 (o bloco que declara `--ep-scene`), sem confundi-lo com o bloco anterior de tokens de cor.
 
 ## Varredura e preservado
 
@@ -39,6 +39,6 @@
 - `tests/elegancia-profunda-audit.test.ts`
 - `docs/audits/elegancia-profunda-2026-11-07/AUDITORIA_RUN_64.md`
 
-**Commits de código/teste:** `026e6bccd9b54a02d77bb6d84993ebcc482cc353`, `d22401c0a5a18b1b0e4a01d0216b9176188eb148`, `6ddfc2b03c9006904af03c1e830ebde8fbbbd8d2`.
+**Commits relevantes de código/teste:** `026e6bccd9b54a02d77bb6d84993ebcc482cc353`, `d22401c0a5a18b1b0e4a01d0216b9176188eb148` e `2ba6f3785767f9702996152828353a39ab2f93cb`.
 
 **Status:** corrigida uma herança residual de imagem entre estilos e criada proteção de regressão. Estilo 2 permanece sem homologação visual/funcional integral.
