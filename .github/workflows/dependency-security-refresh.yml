@@ -1,0 +1,59 @@
+name: Refresh dependency lockfile
+
+on:
+  push:
+    branches:
+      - chore/style2-dependency-security-refresh
+    paths:
+      - package.json
+      - .github/workflows/dependency-security-refresh.yml
+
+permissions:
+  contents: write
+
+jobs:
+  refresh-and-verify:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout dependency refresh branch
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Regenerate lockfile from patched package constraints
+        run: npm install --package-lock-only --ignore-scripts --no-audit --no-fund
+
+      - name: Install the exact lockfile
+        run: npm ci --no-audit --no-fund
+
+      - name: Enforce a clean dependency audit
+        run: npm audit --audit-level=moderate
+
+      - name: TypeScript check
+        run: npm run lint
+
+      - name: Regression tests
+        run: npm test
+
+      - name: Production build
+        run: npm run build
+
+      - name: Commit regenerated lockfile
+        shell: bash
+        run: |
+          set -euo pipefail
+          if git diff --quiet -- package-lock.json; then
+            echo "The lockfile already matches the patched constraints."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add package-lock.json
+          git commit -m "chore(deps): regenerate lockfile with patched dependencies"
+          git push
