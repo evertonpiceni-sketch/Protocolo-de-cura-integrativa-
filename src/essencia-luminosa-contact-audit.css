@@ -6,11 +6,14 @@ html[data-layout="essencia-luminosa"] #contact-us-modal [class*="text-[#8F631E]"
 html[data-layout="essencia-luminosa"] #contact-us-modal [class*="text-[#B88736]"] { color:#8d7549; }
 html[data-layout="essencia-luminosa"] #contact-us-modal [class*="border-[#E5DAC6]"] { border-color:#e8dfcd; }
 html[data-layout="essencia-luminosa"] #contact-us-modal [class*="bg-[#F5EFE4]"] { background-color:#f4f1e7; }
-html[data-layout="essencia-luminosa"] #contact-us-modal [class*="bg-[#B88736]"]:not([class*="/"]) { background-color:#98845c; color:#fffdf7; }
-html[data-layout="essencia-luminosa"] #contact-us-modal [class*="hover:bg-[#8F631E]"]:hover { background-color:#776745; }
+html[data-layout="essencia-luminosa"] #contact-us-modal [class*="bg-[#B88736]"]:not([class*="/"]) { background-image:linear-gradient(135deg,#E2C68E,#C6A46A); background-color:#C6A46A; color:#2A2420; border-color:#B99557; }
+html[data-layout="essencia-luminosa"] #contact-us-modal [class*="hover:bg-[#8F631E]"]:hover { background-color:#B99557; color:#2A2420; }
 html[data-layout="essencia-luminosa"] #contact-us-modal input:focus-visible,
 html[data-layout="essencia-luminosa"] #contact-us-modal textarea:focus-visible,
 html[data-layout="essencia-luminosa"] #contact-us-modal select:focus-visible,
 html[data-layout="essencia-luminosa"] #contact-us-modal button:focus-visible { outline:2px solid #a5ae8b; outline-offset:2px; }
-html[data-layout="essencia-luminosa"] #contact-us-modal img[alt="Marca do Protocolo da Transformação"] { opacity:.48; }
+html[data-layout="essencia-luminosa"] #contact-us-modal img[alt="Marca do Protocolo da Transformação"] { opacity:.4!important; }
+@media(max-width:640px) {
+  html[data-layout="essencia-luminosa"] #contact-us-modal img[alt="Marca do Protocolo da Transformação"] { opacity:.35!important; }
+}
 html[data-layout="essencia-luminosa"] #contact-us-modal [class*="bg-emerald-500"] { background-color:rgb(163 177 143 / 20%); border-color:rgb(141 159 117 / 45%); color:#647653; box-shadow:none; }
