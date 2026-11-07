@@ -10,7 +10,10 @@
 - Seletor: o botão de confirmação recebe cantos de 18 px somente quando Natural Sereno está selecionado. Cadastro/login continuam neutros antes da escolha explícita; nenhuma regra de tema é aplicada antecipadamente.
 - Numerologia: InfinitePay aceita `numerology_full`, fixa o preço em R$ 90,00 no servidor, ignora preço enviado pelo cliente e só libera o mapa após confirmação do valor exato.
 - Proteção contra cobrança duplicada: checkout pendente da Numerologia reutiliza o mesmo link e pedido; uma segunda tentativa simultânea recebe conflito enquanto o primeiro link é criado. A proteção usa lock Redis quando a persistência está configurada e lock local nos testes/desenvolvimento. O link pendente fica registrado para reutilização até a confirmação do pagamento.
-- Testes ampliados para cobrir concorrência e repetição do checkout sem criar uma segunda ordem.
+- Player: o canvas do Natural Sereno agora recebe paleta própria creme/café/dourado e verde-sálvia discreto, sem alterar a geometria das seis etapas nem os outros estilos.
+- Voz: confirmada a passagem de userProfile.voiceId do App ao player; o protocolo usa o ID neural salvo quando válido e a rota de stream não faz fallback silencioso para SpeechSynthesis. A escuta real ainda depende de prévia publicada.
+- Diário: confirmado o caminho de gravação para saveProgress e sincronização do perfil/progresso.
+- Testes ampliados para cobrir concorrência, reutilização e ordem pendente sem link, além da passagem da voz salva e persistência do Diário.
 
 ## Preservado
 - Escolha explícita entre Natural Sereno, Elegância Profunda, Essência Luminosa e Místico Moderno, sem opção pré-selecionada e sem aplicar tema antes da confirmação.
@@ -26,7 +29,8 @@
 - CI desta branch, incluindo TypeScript, testes, build e gate `npm audit`.
 - O último run observado (1501, commit anterior) concluiu TypeScript, regressões, build, entrypoints, verificações de segredo/JWT/autenticação, smoke tests e endpoints; o gate final permaneceu bloqueado por 9 vulnerabilidades (3 moderadas e 6 altas).
 - Homologação renderizada de todas as páginas em desktop e mobile. A Vercel recusou a prévia por limite diário de deployments (`api-deployments-free-per-day`); não há captura atual da branch.
-- Reprodução real da voz e da ambiência no navegador.
+- Reprodução real da voz e da ambiência no navegador. A verificação estática confirma o ID salvo chegando ao player e bloqueio do fallback nativo; não comprova qual voz o usuário escuta em produção.
+- A geometria existente do canvas continua com desenhos circulares em algumas etapas. A paleta foi alinhada ao Natural Sereno; não houve redesenho geométrico sem uma referência aprovada específica para as seis etapas deste player.
 - Checkout ponta a ponta em ambiente de teste da InfinitePay, sem cobrança real.
 - A voz exata escolhida pelo usuário não pode ser deduzida do repositório; manter o ID ElevenLabs válido salvo no perfil, sem substituição presumida.
 
