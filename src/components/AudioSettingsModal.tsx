@@ -12,7 +12,7 @@ import {
 } from 'lucide-react';
 import { UserProfile } from '../types';
 import { audioEngine, OFFICIAL_PROTOCOL_VOICE_ID } from '../lib/audio';
-import { isElevenLabsVoiceId, type ElevenLabsVoiceOption } from '../lib/voiceSelection';
+import { isElevenLabsVoiceId, isNaturalSerenoVoiceId, type ElevenLabsVoiceOption } from '../lib/voiceSelection';
 import { useDialogFocus } from '../hooks/useDialogFocus';
 
 interface AudioSettingsModalProps {
@@ -69,14 +69,18 @@ export default function AudioSettingsModal({
   const isEssenciaLuminosa = typeof document !== 'undefined' && document.documentElement.dataset.layout === 'essencia-luminosa';
   const requiresNeuralVoice = isNaturalSereno || isEleganciaProfunda || isEssenciaLuminosa;
   const savedVoiceId = userProfile.voiceId?.trim() || '';
-  const initialVoiceId = (isNaturalSereno || isEssenciaLuminosa) && !isElevenLabsVoiceId(savedVoiceId)
-    ? OFFICIAL_PROTOCOL_VOICE_ID
-    : savedVoiceId;
+  const initialVoiceId = isNaturalSereno
+    ? (isNaturalSerenoVoiceId(savedVoiceId) ? savedVoiceId : '')
+    : isEssenciaLuminosa && !isElevenLabsVoiceId(savedVoiceId)
+      ? OFFICIAL_PROTOCOL_VOICE_ID
+      : savedVoiceId;
   const [voiceId, setVoiceId] = useState(initialVoiceId);
   const [audioEnabled, setAudioEnabled] = useState(userProfile.audioEnabled !== false);
   const [isTestingVoice, setIsTestingVoice] = useState(false);
   const [voiceTestError, setVoiceTestError] = useState(false);
-  const neuralVoices = elevenLabsVoices.filter(voice => isElevenLabsVoiceId(voice.voice_id));
+  const neuralVoices = elevenLabsVoices.filter(voice =>
+    isElevenLabsVoiceId(voice.voice_id) && (!isNaturalSereno || isNaturalSerenoVoiceId(voice.voice_id))
+  );
 
   // Camada Binaural State
   const [bioactiveBinauralEnabled, setBioactiveBinauralEnabled] = useState<boolean>(
@@ -172,7 +176,10 @@ export default function AudioSettingsModal({
     }
 
     setVoiceTestError(false);
-    if (requiresNeuralVoice && !isElevenLabsVoiceId(voiceId)) {
+    const hasApprovedVoice = isNaturalSereno
+      ? isNaturalSerenoVoiceId(voiceId)
+      : isElevenLabsVoiceId(voiceId);
+    if (requiresNeuralVoice && !hasApprovedVoice) {
       setVoiceTestError(true);
       return;
     }
@@ -216,7 +223,10 @@ export default function AudioSettingsModal({
   };
 
   const handleSave = () => {
-    if (requiresNeuralVoice && !isElevenLabsVoiceId(voiceId)) {
+    const hasApprovedVoice = isNaturalSereno
+      ? isNaturalSerenoVoiceId(voiceId)
+      : isElevenLabsVoiceId(voiceId);
+    if (requiresNeuralVoice && (!isNaturalSereno || voiceId) && !hasApprovedVoice) {
       setVoiceTestError(true);
       return;
     }
@@ -635,7 +645,7 @@ export default function AudioSettingsModal({
                     {voiceId === OFFICIAL_PROTOCOL_VOICE_ID ? 'Marianne — Meditação (voz oficial)' : isElevenLabsVoiceId(voiceId) ? 'Voz salva — não listada no catálogo' : 'Seleção anterior do dispositivo — escolha uma voz neural'}
                   </option>
                 )}
-                <option value="">Selecione uma voz neural</option>
+                <option value="">{isNaturalSereno ? 'Selecione Maiara — voz feminina brasileira' : 'Selecione uma voz neural'}</option>
                 {neuralVoices.map(voice => (
                   <option key={voice.voice_id} value={voice.voice_id}>{voice.name}</option>
                 ))}
@@ -720,7 +730,9 @@ export default function AudioSettingsModal({
         </button>
         {voiceTestError && (
           <p role="alert" className="ep-voice-error rounded-xl px-3 py-2 text-xs">
-            Selecione uma voz neural válida do catálogo. Este estilo não usa a voz do dispositivo.
+            {isNaturalSereno
+              ? 'Selecione a voz Maiara aprovada. Marianne, Rachel e a voz do dispositivo não serão usadas como substitutas.'
+              : 'Selecione uma voz neural válida do catálogo. Este estilo não usa a voz do dispositivo.'}
           </p>
         )}
 
