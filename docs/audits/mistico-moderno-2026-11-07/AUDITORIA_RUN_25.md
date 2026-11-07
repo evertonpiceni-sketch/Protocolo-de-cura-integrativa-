@@ -20,11 +20,20 @@
 - Checkout InfinitePay, validação de cupons no servidor e ausência de chave PIX manual. Nenhuma regra de preço ou pagamento foi alterada.
 - Logo oficial como assinatura discreta, com opacidade aproximada de 28–30%.
 
+## Validação técnica concluída
+
+- TypeScript: aprovado.
+- Regressão: **97/97 testes aprovados**.
+- Build de produção: aprovado.
+- Verificação de entrypoints Vercel, autenticação, registro e endpoints de pagamento: aprovadas.
+- O PR está baseado na revisão atual de `main`, sem commits atrás; não houve merge nem deploy.
+
 ## Pendente
 
-- Executar CI completo (testes, TypeScript e build) nesta branch e revisar logs do preview.
 - Homologar visualmente todas as páginas em desktop e celular; a auditoria atual dos 23 CSS é estática.
 - Ouvir Marianne — Meditação no player, no Arcanjo e no teste de voz, inclusive o tratamento de falha do serviço.
 - O PNG original do anexo não ficou disponível para leitura direta nesta execução; foi usada a cópia WebP da prancha oficial recuperada no histórico do projeto, sem substituir por outra referência.
+- O preview Vercel não foi provisionado: o status retornou `build-rate-limit`. O build de produção no CI passou.
+- O gate de dependências permanece bloqueado por **9 vulnerabilidades (3 moderadas e 6 altas)** em `body-parser`, `ip-address`, `qs`, `vite` e `zod`. Não atualizei dependências neste escopo para evitar regressões fora do Estilo 4.
 
 **Escopo de segurança:** nenhuma alteração foi feita em produção ou nos estilos 1, 2 e 3. O branch parte da revisão atual de `main`, não do PR #42 antigo, que permanece sem merge.
