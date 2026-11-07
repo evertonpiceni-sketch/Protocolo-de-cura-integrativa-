@@ -85,7 +85,7 @@ function LayoutPreview({ layout }: { layout: LayoutDefinition }) {
     ? `linear-gradient(135deg, ${gold}, #A87E37)`
     : `linear-gradient(135deg, ${gold}, #E2B96B)`;
   const previewSwatches = isNaturalSereno
-    ? [canvas, accent, gold, naturalIvory]
+    ? layout.swatches
     : [canvas, gold, surface, accent];
 
   return (
