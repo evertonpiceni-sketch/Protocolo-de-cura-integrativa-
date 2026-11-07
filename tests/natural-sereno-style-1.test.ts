@@ -7,12 +7,13 @@ const read = (path: string) => fs.readFileSync(path, 'utf8');
 test('o seletor Natural Sereno exige escolha explícita entre os quatro estilos', () => {
   const app = read('src/App.tsx');
   const chooser = read('src/components/LayoutChoiceModal.tsx');
+  const layouts = read('src/config/layouts.ts');
   const entry = read('src/main.tsx');
 
   assert.ok(app.includes('const [layoutConfirmedThisSession, setLayoutConfirmedThisSession] = useState(false);'));
   assert.ok(app.includes('(!layoutConfirmedThisSession || layoutChoiceRequested)'));
   for (const label of ['Natural Sereno', 'Elegância Profunda', 'Essência Luminosa', 'Místico Moderno']) {
-    assert.ok(chooser.includes(label), label);
+    assert.ok(layouts.includes(label), label);
   }
   assert.ok(entry.includes('The React LayoutChoiceModal in App.tsx is the single authoritative chooser.'));
   assert.ok(!entry.includes('legacyLayoutChooser'));
@@ -32,7 +33,7 @@ test('o player Natural Sereno usa creme, café e dourado, mantendo a paisagem e 
   assert.ok(approved.includes('.ep-session-backdrop::before'));
   assert.ok(approved.includes('rgba(250,247,242,.34)'));
   assert.ok(approved.includes('canvas {\n  opacity: .38 !important;'));
-  assert.ok(approved.includes('ns-journey-presence'));
+  assert.ok(mobile.includes('ns-journey-presence'));
 });
 
 test('a animação do canvas usa a paleta aprovada do Natural Sereno', () => {
@@ -42,7 +43,7 @@ test('a animação do canvas usa a paleta aprovada do Natural Sereno', () => {
   assert.ok(session.includes("glow: '#C89D52'"));
   assert.ok(session.includes("accent: '#6B7A4B'"));
   assert.ok(session.includes('colorTheme={isNaturalSereno ? NATURAL_SERENO_CANVAS_THEME'));
-  assert.ok(canvas.includes('Natural Sereno, Elegância Profunda e Essência Luminosa pass explicit palettes'));
+  assert.ok(canvas.includes('Natural Sereno, Elegância Profunda and Essência Luminosa pass explicit palettes'));
 });
 
 test('a voz neural do Natural Sereno não cai silenciosamente para SpeechSynthesis', () => {
