@@ -172,7 +172,8 @@
   color: var(--layout-text) !important;
 }
 
-:root[data-layout="essencia-luminosa"] .ep-home-hero .ep-brand-signature-wrap {
+:root[data-layout="essencia-luminosa"] .ep-home-hero .ep-brand-signature-wrap,
+:root[data-layout="essencia-luminosa"] .ep-welcome-audio .ep-brand-signature-wrap {
   position: relative !important;
   top: auto !important;
   left: auto !important;
@@ -186,7 +187,8 @@
   box-shadow: none !important;
 }
 
-:root[data-layout="essencia-luminosa"] .ep-home-hero .ep-brand-signature {
+:root[data-layout="essencia-luminosa"] .ep-home-hero .ep-brand-signature,
+:root[data-layout="essencia-luminosa"] .ep-welcome-audio .ep-brand-signature {
   opacity: .30 !important;
   filter: saturate(.86) contrast(.96) !important;
 }
@@ -207,7 +209,8 @@
     padding: 1.75rem 1.25rem 1.5rem !important;
   }
 
-  :root[data-layout="essencia-luminosa"] .ep-home-hero .ep-brand-signature {
+  :root[data-layout="essencia-luminosa"] .ep-home-hero .ep-brand-signature,
+  :root[data-layout="essencia-luminosa"] .ep-welcome-audio .ep-brand-signature {
     opacity: .26 !important;
   }
 }
