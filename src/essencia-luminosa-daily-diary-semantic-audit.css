@@ -21,3 +21,56 @@
 :root[data-layout="essencia-luminosa"] #daily-diary-modal :is([class*="focus:ring-indigo-"],[class*="focus:ring-purple-"],[class*="focus:ring-emerald-"]):focus {
   --tw-ring-color: color-mix(in srgb, var(--layout-gold) 42%, transparent) !important;
 }
+
+/* Os CTAs do Diário ainda carregavam o ouro antigo #B88736 com texto branco.
+   No Estilo 3, usam champagne/ouro suave e texto grafite; somente esta tela é afetada. */
+:root[data-layout="essencia-luminosa"] #daily-diary-modal [class*="text-[#B88736]"] {
+  color: var(--layout-gold) !important;
+}
+:root[data-layout="essencia-luminosa"] #daily-diary-modal [class*="text-[#8F631E]"] {
+  color: var(--layout-gold-dark) !important;
+}
+:root[data-layout="essencia-luminosa"] #daily-diary-modal [class*="bg-[#B88736]/"] {
+  background-color: var(--layout-gold-soft) !important;
+}
+:root[data-layout="essencia-luminosa"] #daily-diary-modal [class*="border-[#B88736]"] {
+  border-color: var(--layout-gold-border) !important;
+}
+:root[data-layout="essencia-luminosa"] #daily-diary-modal [class*="ring-[#B88736]"] {
+  --tw-ring-color: var(--layout-gold-soft) !important;
+}
+:root[data-layout="essencia-luminosa"] #daily-diary-modal button:not([aria-label^="Abrir dia "])[class~="bg-[#B88736]"] {
+  background: var(--layout-gold-gradient) !important;
+  color: var(--layout-text) !important;
+  border-color: var(--layout-gold-border) !important;
+  box-shadow: 0 10px 24px var(--layout-gold-shadow) !important;
+}
+:root[data-layout="essencia-luminosa"] #daily-diary-modal button:not([aria-label^="Abrir dia "])[class~="bg-[#B88736]"] :is(svg,span) {
+  color: var(--layout-text) !important;
+}
+:root[data-layout="essencia-luminosa"] #daily-diary-modal button:not([aria-label^="Abrir dia "])[class~="bg-[#B88736]"]:hover {
+  background: var(--layout-gold-gradient) !important;
+  filter: brightness(1.035);
+  transform: translateY(-1px);
+}
+:root[data-layout="essencia-luminosa"] #daily-diary-modal button[aria-label^="Abrir dia "][class~="bg-[#B88736]"] {
+  background: color-mix(in srgb, var(--layout-gold-soft) 74%, var(--layout-card)) !important;
+  color: var(--layout-text) !important;
+  border: 1px solid color-mix(in srgb, var(--layout-gold) 44%, var(--layout-border-card)) !important;
+  --tw-ring-color: color-mix(in srgb, var(--layout-gold) 18%, transparent) !important;
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--layout-gold) 12%, transparent) !important;
+}
+:root[data-layout="essencia-luminosa"] #daily-diary-modal button[class*="hover:bg-slate-700"]:hover {
+  background: color-mix(in srgb, var(--layout-canvas-alt) 74%, var(--layout-card)) !important;
+  color: var(--layout-text) !important;
+  border-color: var(--layout-border-card) !important;
+}
+:root[data-layout="essencia-luminosa"] #daily-diary-modal button:focus-visible {
+  outline: 2px solid color-mix(in srgb, var(--layout-gold) 62%, transparent) !important;
+  outline-offset: 3px !important;
+}
+:root[data-layout="essencia-luminosa"] #daily-diary-modal :is(input,textarea):focus {
+  border-color: var(--layout-gold) !important;
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--layout-gold) 18%, transparent) !important;
+  outline: none !important;
+}
