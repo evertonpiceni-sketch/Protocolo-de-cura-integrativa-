@@ -72,12 +72,14 @@ test('os três caminhos de reprodução do Místico Moderno usam a voz do servid
   assert.ok(arcanjo.includes('isEleganciaProfunda || isMisticoModerno'));
 });
 
-test('a configuração de voz no servidor é reportada sem expor o ID ou a chave', () => {
+test('a interface de Ajustes usa o status da voz oficial sem mostrar ID ou chave', () => {
   const server = read('server.ts');
   const settings = read('src/components/AudioSettingsModal.tsx');
   assert.ok(server.includes('misticoModernoVoiceConfigured = hasKey && !!resolveMisticoModernoOfficialVoiceId'));
   assert.ok(settings.includes("fetch('/api/elevenlabs/status')"));
   assert.ok(settings.includes('Voz oficial do Místico Moderno'));
+  assert.ok(!settings.includes('status.defaultVoice'));
+  assert.ok(!settings.includes('ELEVENLABS_API_KEY'));
   assert.ok(settings.includes('não utiliza as vozes instaladas no navegador'));
 });
 
