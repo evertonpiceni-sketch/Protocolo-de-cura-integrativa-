@@ -1,10 +1,11 @@
 import { Router } from 'express';
 import crypto from 'node:crypto';
-import { getDb, saveDb } from '../db.js';
+import { getDb, saveDb, hasPersistentDatabase, redisCommand } from '../db.js';
 
 import { PAYMENT_PLANS, paymentQuote, specificTreatmentQuote, type Plan } from './paymentCatalog.js';
-export type PaymentOrder = { id: string; userId: string; planId: Plan; treatment?: import('../types.js').SpecificTreatment; cents: number; method: string; createdAt: string; paidAt?: string; transaction?: string };
+export type PaymentOrder = { id: string; userId: string; productType?: 'subscription' | 'specific_treatment' | 'numerology_full'; planId?: Plan; treatment?: import('../types.js').SpecificTreatment; cents: number; method: string; createdAt: string; paidAt?: string; transaction?: string; checkoutUrl?: string; failedAt?: string };
 const API = 'https://api.infinitepay.io/invoices/public/checkout';
+const localNumerologyCheckoutLocks = new Set<string>();
 export function paymentRoutes(authenticate: any, limiter: any, providerFetch: typeof fetch = fetch) {
   const router = Router();
   const handle = () => process.env.INFINITEPAY_HANDLE || 'evertonterapeutareiki';
@@ -17,6 +18,26 @@ export function paymentRoutes(authenticate: any, limiter: any, providerFetch: ty
     const response = await providerFetch(API + path, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body), signal: AbortSignal.timeout(15000) });
     if (!response.ok) throw new Error('O provedor não conseguiu processar o pagamento agora.');
     return response.json();
+  }
+  const numerologyCheckoutKey = (userId: string) => `cura_integrada:numerology-checkout:${userId}`;
+  async function acquireNumerologyCheckoutLock(userId: string): Promise<(() => Promise<void>) | null> {
+    const key = `cura_integrada:numerology-checkout-lock:${userId}`;
+    const token = crypto.randomUUID();
+    if (hasPersistentDatabase()) {
+      const acquired = await redisCommand('set', [key, token, 'nx', 'px', '30000']);
+      if (acquired !== 'OK') return null;
+      return async () => {
+        try {
+          await redisCommand('eval', [
+            'if redis.call("get", KEYS[1]) == ARGV[1] then return redis.call("del", KEYS[1]) else return 0 end',
+            '1', key, token
+          ]);
+        } catch { /* O TTL do lock é a proteção final caso a liberação falhe. */ }
+      };
+    }
+    if (localNumerologyCheckoutLocks.has(userId)) return null;
+    localNumerologyCheckoutLocks.add(userId);
+    return async () => { localNumerologyCheckoutLocks.delete(userId); };
   }
   router.post('/user/upgrade', authenticate, limiter, async (req: any, res) => {
     if (req.body?.planId !== 'teste_vip_7d' || req.body?.couponCode !== 'VIP7' || req.body?.paymentMethod !== 'trial') return res.status(400).json({ error: 'Ativação inválida.' });
@@ -34,12 +55,18 @@ export function paymentRoutes(authenticate: any, limiter: any, providerFetch: ty
   });
   router.post('/payment/create-checkout', authenticate, limiter, async (req: any, res) => {
     const { planId, paymentMethod, couponCode, productType } = req.body || {};
-    let quote;
+    let quote: { cents: number; title: string };
     let treatment: import('../types.js').SpecificTreatment | undefined;
+    let releaseNumerologyLock: (() => Promise<void>) | undefined;
+    let order: PaymentOrder | undefined;
+
     try {
-      if (!['subscription', 'specific_treatment'].includes(productType) || !['pix', 'card', 'credit', 'debit'].includes(paymentMethod) || (productType === 'subscription' && typeof planId !== 'string') || (couponCode != null && typeof couponCode !== 'string')) throw new Error('Compra inválida.');
+      if (!['subscription', 'specific_treatment', 'numerology_full'].includes(productType) || !['pix', 'card', 'credit', 'debit'].includes(paymentMethod) || (productType === 'subscription' && typeof planId !== 'string') || (productType !== 'subscription' && planId != null) || (couponCode != null && typeof couponCode !== 'string')) throw new Error('Compra inválida.');
       if (productType === 'subscription') quote = paymentQuote(planId, couponCode || '');
-      else {
+      else if (productType === 'numerology_full') {
+        if ((couponCode || '').trim() || req.body.customAmount != null) throw new Error('Cupom ou valor personalizado não permitido para este produto.');
+        quote = { cents: 9000, title: 'Mapa Numerológico Cabalístico Completo' };
+      } else {
         const { durationDays, category, patientDescription, urgentPains, title } = req.body;
         if (![7,21].includes(durationDays) || !['saude_fisica','prosperidade','liberacao_emocional','relacionamentos','limpeza_espiritual','outro'].includes(category) || typeof patientDescription !== 'string' || !patientDescription.trim() || patientDescription.length > 10000 || (title != null && (typeof title !== 'string' || title.length > 200)) || !Array.isArray(urgentPains) || urgentPains.length > 30 || urgentPains.some((v: unknown) => typeof v !== 'string' || v.length > 200)) throw new Error('Dados da prática inválidos.');
         const code = (couponCode || '').trim().toUpperCase();
@@ -49,19 +76,75 @@ export function paymentRoutes(authenticate: any, limiter: any, providerFetch: ty
         treatment = { id: crypto.randomUUID(), requestedAt: new Date().toISOString(), durationDays, category, title: title?.trim() || quote.title, patientDescription: patientDescription.trim(), urgentPains, status: 'pendente', price: treatmentQuote.cents / 100, paymentMethod: paymentMethod === 'pix' ? 'pix' : 'cartao' };
       }
     } catch (error) { return res.status(400).json({ error: (error as Error).message }); }
-    const order: PaymentOrder = { id: crypto.randomUUID(), userId: req.userId, planId: planId as Plan, ...(treatment ? { treatment } : {}), cents: quote.cents, method: paymentMethod, createdAt: new Date().toISOString() };
+
     try {
+      if (productType === 'numerology_full') {
+        releaseNumerologyLock = await acquireNumerologyCheckoutLock(req.userId);
+        if (!releaseNumerologyLock) return res.status(409).json({ error: 'Já existe uma tentativa de checkout em andamento. Aguarde alguns segundos e tente novamente.' });
+
+        const db = getDb();
+        const buyer = db.users.find(u => u.id === req.userId);
+        if (!buyer) return res.sendStatus(401);
+        if (buyer.plan === 'pro' || buyer.profile?.plan === 'pro' || buyer.profile?.numerologyPurchased) {
+          return res.status(409).json({ error: 'O mapa numerológico completo já está liberado nesta conta.' });
+        }
+
+        const key = numerologyCheckoutKey(req.userId);
+        if (hasPersistentDatabase()) {
+          const stored = await redisCommand('get', [key]);
+          if (typeof stored === 'string') {
+            try {
+              const saved = JSON.parse(stored);
+              if (typeof saved.orderId === 'string' && typeof saved.checkoutUrl === 'string') {
+                return res.json({ checkoutUrl: saved.checkoutUrl, orderId: saved.orderId, reused: true });
+              }
+            } catch { /* Ignora apenas um registro de idempotência inválido. */ }
+          }
+        }
+
+        const pending = db.paymentOrders?.find(o => o.userId === req.userId && o.productType === 'numerology_full' && !o.paidAt && !o.failedAt);
+        if (pending) {
+          if (pending.checkoutUrl) {
+            if (hasPersistentDatabase()) await redisCommand('set', [key, JSON.stringify({ orderId: pending.id, checkoutUrl: pending.checkoutUrl })]);
+            return res.json({ checkoutUrl: pending.checkoutUrl, orderId: pending.id, reused: true });
+          }
+          return res.status(409).json({ error: 'Já existe um checkout de Numerologia em preparação. Aguarde a conclusão antes de tentar novamente.' });
+        }
+      }
+
+      const createdOrder: PaymentOrder = {
+        id: crypto.randomUUID(), userId: req.userId, productType,
+        ...(productType === 'subscription' ? { planId: planId as Plan } : {}),
+        ...(treatment ? { treatment } : {}),
+        cents: quote.cents, method: paymentMethod, createdAt: new Date().toISOString()
+      };
+      order = createdOrder;
       const origin = appUrl();
       const db = getDb();
-      (db.paymentOrders ||= []).push(order);
+      (db.paymentOrders ||= []).push(createdOrder);
       await saveDb();
-      const result = await provider('/links', { handle: handle(), order_nsu: order.id,
-        redirect_url: `${origin}/?payment_order=${order.id}`, webhook_url: `${origin}/api/webhooks/payment`,
-        items: [{ quantity: 1, price: order.cents, description: quote.title }] });
+
+      const result = await provider('/links', { handle: handle(), order_nsu: createdOrder.id,
+        redirect_url: `${origin}/?payment_order=${createdOrder.id}`, webhook_url: `${origin}/api/webhooks/payment`,
+        items: [{ quantity: 1, price: createdOrder.cents, description: quote.title }] });
       const checkout = new URL(result.url);
       if (checkout.protocol !== 'https:' || !['checkout.infinitepay.io', 'invoice.infinitepay.io', 'pay.infinitepay.io'].includes(checkout.hostname) || checkout.username || checkout.password) throw new Error('Endereço de pagamento inválido.');
-      return res.json({ checkoutUrl: checkout.href, orderId: order.id });
-    } catch { return res.status(503).json({ error: 'Não foi possível abrir o pagamento seguro. Tente novamente em instantes.' }); }
+
+      createdOrder.checkoutUrl = checkout.href;
+      await saveDb();
+      if (productType === 'numerology_full' && hasPersistentDatabase()) {
+        await redisCommand('set', [numerologyCheckoutKey(req.userId), JSON.stringify({ orderId: createdOrder.id, checkoutUrl: checkout.href })]);
+      }
+      return res.json({ checkoutUrl: checkout.href, orderId: createdOrder.id });
+    } catch {
+      if (order && !order.checkoutUrl) {
+        order.failedAt = new Date().toISOString();
+        try { await saveDb(); } catch { /* Mantém a tentativa bloqueada se a persistência falhar. */ }
+      }
+      return res.status(503).json({ error: 'Não foi possível abrir o pagamento seguro. Tente novamente em instantes.' });
+    } finally {
+      if (releaseNumerologyLock) await releaseNumerologyLock();
+    }
   });
   async function confirm(body: any, userId?: string) {
     const { order_nsu, transaction_nsu } = body || {};
@@ -72,6 +155,8 @@ export function paymentRoutes(authenticate: any, limiter: any, providerFetch: ty
     if (!order) return { status: 404, data: { error: 'Compra não encontrada.' } };
     const user = db.users.find(u => u.id === order.userId);
     if (!user) return { status: 404, data: { error: 'Conta não encontrada.' } };
+    const subscriptionPlan = order.planId ? PAYMENT_PLANS[order.planId] : undefined;
+    if (!order.treatment && order.productType !== 'numerology_full' && !subscriptionPlan) return { status: 409, data: { error: 'Compra sem produto ou plano válido.' } };
     if (!order.paidAt) {
       const verified = await provider('/payment_check', { handle: handle(), order_nsu, transaction_nsu, slug });
       if (verified.success !== true || verified.paid !== true || verified.amount !== order.cents) return { status: 202, data: { status: 'pending' } };
@@ -82,13 +167,18 @@ export function paymentRoutes(authenticate: any, limiter: any, providerFetch: ty
       order.paidAt = now.toISOString(); order.transaction = transaction_nsu;
       if (order.treatment) {
         user.profile = { ...user.profile, specificTreatments: [...(user.profile?.specificTreatments || []), order.treatment] };
+      } else if (order.productType === 'numerology_full') {
+        user.profile = { ...user.profile, numerologyPurchased: true };
       } else {
-      user.plan = 'pro';
-      user.profile = { ...user.profile, plan: 'pro', subscriptionPlan: order.planId,
-        subscriptionPrice: order.cents / 100, subscriptionPaymentMethod: order.method,
-        proActiveSince: now.toISOString(), subscriptionExpiresAt: new Date(now.getTime() + PAYMENT_PLANS[order.planId].days * 86400000).toISOString() };
+        user.plan = 'pro';
+        user.profile = { ...user.profile, plan: 'pro', subscriptionPlan: order.planId,
+          subscriptionPrice: order.cents / 100, subscriptionPaymentMethod: order.method,
+          proActiveSince: now.toISOString(), subscriptionExpiresAt: new Date(now.getTime() + subscriptionPlan!.days * 86400000).toISOString() };
       }
       try { await saveDb(); } catch (error) { user.plan = previous.plan; user.profile = previous.profile; delete order.paidAt; delete order.transaction; throw error; }
+      if (order.productType === 'numerology_full' && hasPersistentDatabase()) {
+        try { await redisCommand('del', [numerologyCheckoutKey(order.userId)]); } catch { /* A liberação do entitlement já foi persistida. */ }
+      }
     }
     return { status: 200, data: userId ? { status: 'paid', user: { profile: user.profile } } : { success: true } };
   }
