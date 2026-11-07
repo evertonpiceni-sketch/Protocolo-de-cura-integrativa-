@@ -392,5 +392,7 @@ test('o Diário da Essência Luminosa usa champagne e ouro suave nos CTAs e na s
   assert.ok(css.includes('var(--layout-gold-soft)'));
   assert.ok(css.includes('#daily-diary-modal button[class*="hover:bg-slate-700"]:hover'));
   assert.ok(css.includes('#daily-diary-modal [class*="text-[#B88736]"]'));
-  assert.doesNotMatch(css, /:root\\[data-layout="(?:natural-sereno|elegancia-profunda|mistico-moderno)"\\]/);
+  assert.ok(!css.includes(':root[data-layout="natural-sereno"]'));
+  assert.ok(!css.includes(':root[data-layout="elegancia-profunda"]'));
+  assert.ok(!css.includes(':root[data-layout="mistico-moderno"]'));
 });
