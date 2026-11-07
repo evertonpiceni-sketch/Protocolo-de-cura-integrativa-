@@ -174,8 +174,3 @@
 }
 :root[data-layout="natural-sereno"] .ns-arcanjo-protocol .ns-arcanjo-chakra-caption [class~="text-[#f5e8bd]"] { color:#2A2421!important; }
 :root[data-layout="natural-sereno"] .ns-arcanjo-protocol .ns-arcanjo-chakra-caption [class~="text-[#c8d9cd]"] { color:#6B625B!important; }
-:root[data-layout="natural-sereno"] .ns-arcanjo-protocol .ns-arcanjo-error {
-  background:rgba(200,157,82,.09)!important;
-  border-color:rgba(200,157,82,.30)!important;
-  color:#5C5248!important;
-}
