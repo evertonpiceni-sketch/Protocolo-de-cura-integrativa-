@@ -295,7 +295,7 @@ test('o Estilo 2 não herda a imagem de fundo da Reintegração no tema comparti
   const theme = read('src/approved-theme.css');
   const start = theme.indexOf(':root[data-layout="elegancia-profunda"]{');
   assert.ok(start >= 0, 'O bloco de tema do Estilo 2 deve existir.');
-  const end = theme.indexOf('\\n}', start);
+  const end = theme.indexOf('\n}', start);
   assert.ok(end > start, 'O bloco do Estilo 2 deve estar fechado.');
   const style2Theme = theme.slice(start, end);
   assert.ok(style2Theme.includes('--ep-scene:none;'));
