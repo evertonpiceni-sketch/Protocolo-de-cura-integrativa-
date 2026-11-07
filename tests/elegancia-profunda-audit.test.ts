@@ -47,6 +47,8 @@ test('a entrada ativa usa OnboardingFlow e recebe tratamento visual isolado do E
 test('o logo permanece assinatura transparente e o hero não herda opacidade de 72%', () => {
   const css = read('src/elegancia-profunda-approved-overrides.css');
   const sharedTheme = read('src/approved-theme.css');
+  const main = read('src/main.tsx');
+  assert.ok(main.indexOf("import './approved-theme.css'") < main.indexOf("import './elegancia-profunda-approved-overrides.css'"));
   assert.match(css, /\.ep-brand-signature-wrap \{\s*opacity:1!important;\s*background:transparent!important;/);
   assert.match(css, /\.ep-brand-signature\s*,[\s\S]*?opacity:\.30\s*!important/);
   const heroLogoRuleStart = css.indexOf(':root[data-layout="elegancia-profunda"] .ep-home-hero .ep-brand-signature,');
