@@ -172,7 +172,7 @@ export default function LayoutChoiceModal({ onSelect }: LayoutChoiceModalProps) 
                     <p className={`mt-1 text-xs leading-relaxed ${isMystic ? 'text-[#C8D0DC]' : 'text-[#5C5248]'}`}>{layout.description}</p>
                   </div>
                   <span className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-full border transition ${isSelected ? 'border-[#B88736] bg-[#B88736] text-white opacity-100' : isMystic ? 'border-[#6C3FA0]/70 text-[#D4AF37] opacity-100' : 'border-[#E5DAC6] text-[#B88736] opacity-0 group-hover:opacity-100'}`} aria-hidden="true">
-                    <Check size={16} />
+                    {isSelected || !isMystic ? <Check size={16} /> : null}
                   </span>
                 </div>
                 <LayoutPreview layout={layout} />

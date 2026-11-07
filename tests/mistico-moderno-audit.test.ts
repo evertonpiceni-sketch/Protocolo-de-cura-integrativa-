@@ -20,6 +20,14 @@ test('Style 4 selector uses the official board and still requires explicit confi
   assert.match(modal, /\/brand\/mistico-moderno\/prancha-oficial\.webp/);
   assert.match(modal, /useState<LayoutId \| null>\(null\)/);
   assert.match(modal, /disabled=\{!selectedLayout \|\| isSaving\}/);
+  assert.match(modal, /isSelected \|\| !isMystic \? <Check size=\{16\} \/> : null/);
+
+  const arcanjo = readFileSync(resolve(root, 'src/components/ArcanjoProtocolView.tsx'), 'utf8');
+  const logoutStart = arcanjo.indexOf('{onLogout && (');
+  const logoutEnd = arcanjo.indexOf('</button>', logoutStart);
+  const logoutBlock = arcanjo.slice(logoutStart, logoutEnd);
+  assert.match(logoutBlock, /isMisticoModerno\(\)/);
+  assert.doesNotMatch(logoutBlock, /bg-rose-50|text-rose-600/);
 });
 
 test('Style 4 voice alias resolves only to a configured ElevenLabs voice ID', () => {

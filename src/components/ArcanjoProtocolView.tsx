@@ -295,10 +295,10 @@ export default function ArcanjoProtocolView({ userProfile, onClose, onLogout, in
           {onLogout && (
             <button
               onClick={onLogout}
-              className="min-h-11 px-2.5 py-1.5 rounded-xl bg-rose-50 hover:bg-rose-100 border-2 border-rose-300 text-rose-700 text-xs font-bold flex items-center gap-1 transition cursor-pointer shadow-sm"
+              className={`min-h-11 px-2.5 py-1.5 rounded-xl border-2 text-xs font-bold flex items-center gap-1 transition cursor-pointer shadow-sm ${isMisticoModerno() ? 'bg-[#0A0F18] hover:bg-[#151B29] border-[#D4AF37]/45 text-[#E2B96B]' : 'bg-rose-50 hover:bg-rose-100 border-rose-300 text-rose-700'}`}
               title="Encerrar sessão e sair da conta"
             >
-              <LogOut size={13} className="text-rose-600" />
+              <LogOut size={13} className={isMisticoModerno() ? 'text-[#D4AF37]' : 'text-rose-600'} />
               <span>Sair</span>
             </button>
           )}
