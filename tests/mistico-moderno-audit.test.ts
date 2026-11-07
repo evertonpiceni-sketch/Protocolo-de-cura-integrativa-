@@ -107,7 +107,7 @@ test('Diário e histórico permanecem isolados no Místico Moderno', () => {
 test('pagamentos continuam no checkout InfinitePay sem chave PIX manual', () => {
   const specific = read('src/components/SpecificTreatmentModal.tsx');
   const numerology = read('src/components/NumerologyModal.tsx');
-  const server = read('server.ts');
+  const paymentRoutes = read('src/lib/paymentRoutes.ts');
   const paymentTests = read('tests/payment.test.ts');
 
   assert.ok(specific.includes('/api/payment/create-checkout'));
@@ -115,7 +115,9 @@ test('pagamentos continuam no checkout InfinitePay sem chave PIX manual', () => 
   assert.ok(!/handleCopyPix|pixKey|chavePix/.test(specific));
   assert.ok(numerology.includes('/api/payment/create-checkout'));
   assert.ok(numerology.includes('Nenhuma chave PIX manual é exibida'));
-  assert.ok(server.toLowerCase().includes('infinitepay'));
+  assert.ok(paymentRoutes.includes('https://api.infinitepay.io/invoices/public/checkout'));
+  assert.ok(paymentRoutes.includes("checkout.infinitepay.io"));
+  assert.ok(paymentRoutes.includes("req.body?.couponCode !== 'VIP7'"));
   assert.ok(paymentTests.includes('PROMO15'));
   assert.ok(paymentTests.includes('PROMO20'));
 });
