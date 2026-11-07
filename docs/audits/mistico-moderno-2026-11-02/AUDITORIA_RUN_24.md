@@ -26,12 +26,17 @@ PR: #42 — rascunho; sem merge na `main` e sem deploy de produção.
 - O seletor React permanece como único seletor montado; o seletor DOM legado continua fora do ponto de entrada.
 - A seleção inicia sem cartão marcado e o botão de confirmação permanece desabilitado até uma escolha explícita.
 
+## Validação executada
+
+- Workflow GitHub Security Audit do commit `7817b1712121f0607e58c4629fc9439f7ef5b678`: TypeScript aprovado; 50/50 testes de regressão aprovados; build de produção aprovado (com aviso de chunk principal acima de 500 kB).
+- Verificações de entrypoints Vercel, padrões de segredos, JWT, registro/admin, smoke test de saúde/registro e endpoints de pagamento fail-closed aprovadas.
+- O workflow terminou em falha somente no gate final de dependências: `npm audit` encontrou 9 vulnerabilidades (3 moderadas e 6 altas). Nenhuma dependência foi atualizada nesta rodada, para evitar regressões fora do escopo visual/funcional.
+
 ## Pendente / limites desta rodada
 
-1. CI integral após a atualização da branch ainda precisa concluir. Não declaro build/testes aprovados antes do resultado do workflow deste novo commit.
-2. A identidade audível da voz não pôde ser confirmada por escuta: o valor de `ELEVENLABS_VOICE_ID` é protegido no Vercel. Não foi presumida uma voz chamada “Maiara”, nem reintroduzidos Rachel, Marcus ou Marianne.
-3. A homologação renderizada de todas as páginas autenticadas continua pendente. O Vercel bloqueou novas implantações por limite diário do plano (`api-deployments-free-per-day`); o preview não foi disponibilizado.
-4. Não foi executada transação real InfinitePay. O último relatório de segurança disponível indicava 9 vulnerabilidades de dependências (3 moderadas e 6 altas); a auditoria de dependências precisa de rodada própria, sem atualização especulativa.
+1. A identidade audível da voz não pôde ser confirmada por escuta: o valor de `ELEVENLABS_VOICE_ID` é protegido no Vercel. Não foi presumida uma voz chamada “Maiara”, nem reintroduzidos Rachel, Marcus ou Marianne.
+2. A homologação renderizada de todas as páginas autenticadas continua pendente. O Vercel bloqueou novas implantações por limite diário do plano (`api-deployments-free-per-day`); o preview não foi disponibilizado.
+3. Não foi executada transação real InfinitePay. A auditoria de dependências requer rodada própria, com análise de compatibilidade antes de qualquer atualização.
 
 ## Reauditoria
 
