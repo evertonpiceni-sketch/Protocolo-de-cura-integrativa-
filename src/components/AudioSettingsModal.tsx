@@ -67,11 +67,14 @@ export default function AudioSettingsModal({
   const isNaturalSereno = typeof document !== 'undefined' && document.documentElement.dataset.layout === 'natural-sereno';
   const isEleganciaProfunda = typeof document !== 'undefined' && document.documentElement.dataset.layout === 'elegancia-profunda';
   const isEssenciaLuminosa = typeof document !== 'undefined' && document.documentElement.dataset.layout === 'essencia-luminosa';
-  const requiresNeuralVoice = isNaturalSereno || isEleganciaProfunda || isEssenciaLuminosa;
+  const isMisticoModerno = typeof document !== 'undefined' && document.documentElement.dataset.layout === 'mistico-moderno';
+  const requiresNeuralVoice = isNaturalSereno || isEleganciaProfunda || isEssenciaLuminosa || isMisticoModerno;
   const savedVoiceId = userProfile.voiceId?.trim() || '';
-  const initialVoiceId = (isNaturalSereno || isEssenciaLuminosa) && !isElevenLabsVoiceId(savedVoiceId)
+  const initialVoiceId = isMisticoModerno
     ? OFFICIAL_PROTOCOL_VOICE_ID
-    : savedVoiceId;
+    : (isNaturalSereno || isEssenciaLuminosa) && !isElevenLabsVoiceId(savedVoiceId)
+      ? OFFICIAL_PROTOCOL_VOICE_ID
+      : savedVoiceId;
   const [voiceId, setVoiceId] = useState(initialVoiceId);
   const [audioEnabled, setAudioEnabled] = useState(userProfile.audioEnabled !== false);
   const [isTestingVoice, setIsTestingVoice] = useState(false);
@@ -195,7 +198,7 @@ export default function AudioSettingsModal({
       undefined,
       undefined,
       {
-        voiceId,
+        voiceId: isMisticoModerno ? OFFICIAL_PROTOCOL_VOICE_ID : voiceId,
         rate: voiceRate,
         pitch: voicePitch,
         lang: 'pt-BR',
@@ -233,7 +236,7 @@ export default function AudioSettingsModal({
       voiceVolume,
       voiceRate,
       voicePitch,
-      voiceId,
+      voiceId: isMisticoModerno ? OFFICIAL_PROTOCOL_VOICE_ID : voiceId,
       audioEnabled,
       bioactiveBinauralEnabled,
       binauralWaveType,
@@ -621,7 +624,15 @@ export default function AudioSettingsModal({
           </label>
 
           {/* Voice Selector */}
-          {requiresNeuralVoice ? (
+          {isMisticoModerno ? (
+            <div className="space-y-1">
+              <span className="text-[11px] text-[#5C5248] block">Voz oficial aprovada</span>
+              <div role="status" className="w-full rounded-xl border border-[#E5DAC6] bg-[#FBF8F2] px-3 py-2 text-xs font-semibold text-[#2A2420]">
+                Marianne — Meditação · ElevenLabs
+              </div>
+              <p className="text-[10px] leading-relaxed text-[#5C5248]">A narração usa a voz aprovada. Vozes instaladas no dispositivo não serão usadas como substitutas.</p>
+            </div>
+          ) : requiresNeuralVoice ? (
             <div className="space-y-1">
               <span className="text-[11px] text-[#5C5248] block">Voz neural (ElevenLabs)</span>
               <select

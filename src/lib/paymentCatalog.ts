@@ -1,3 +1,5 @@
+export const NUMEROLOGY_FULL_PRICE_CENTS = 9000;
+
 export const PAYMENT_PLANS = {
   jornada_7d: { cents: 5990, days: 7, title: 'Acesso — 7 dias' },
   jornada_21d: { cents: 9990, days: 21, title: 'Acesso — 21 dias' },

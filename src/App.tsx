@@ -116,11 +116,14 @@ export default function App() {
   const isNaturalSereno = layoutConfirmedThisSession && userProfile?.visualLayout === 'natural-sereno';
   const isEleganciaProfunda = layoutConfirmedThisSession && userProfile?.visualLayout === 'elegancia-profunda';
   const isEssenciaLuminosa = layoutConfirmedThisSession && userProfile?.visualLayout === 'essencia-luminosa';
-  const usesNeuralVoiceCatalog = isNaturalSereno || isEleganciaProfunda || isEssenciaLuminosa;
+  const isMisticoModerno = layoutConfirmedThisSession && userProfile?.visualLayout === 'mistico-moderno';
+  const usesNeuralVoiceCatalog = isNaturalSereno || isEleganciaProfunda || isEssenciaLuminosa || isMisticoModerno;
   const savedNeuralVoiceId = userProfile?.voiceId || '';
-  const effectiveNeuralVoiceId = (isNaturalSereno || isEssenciaLuminosa) && !isElevenLabsVoiceId(savedNeuralVoiceId)
+  const effectiveNeuralVoiceId = isMisticoModerno
     ? OFFICIAL_PROTOCOL_VOICE_ID
-    : savedNeuralVoiceId;
+    : (isNaturalSereno || isEssenciaLuminosa) && !isElevenLabsVoiceId(savedNeuralVoiceId)
+      ? OFFICIAL_PROTOCOL_VOICE_ID
+      : savedNeuralVoiceId;
 
   // Initialize and register local notification daily checker
   useEffect(() => {
@@ -223,7 +226,7 @@ export default function App() {
     }
   }, []);
 
-  // Natural Sereno, Elegância Profunda and Essência Luminosa use actual ElevenLabs IDs, never browser SpeechSynthesis names/URIs.
+  // Natural Sereno, Elegância Profunda, Essência Luminosa and Místico Moderno use ElevenLabs; Místico keeps Marianne fixed.
   useEffect(() => {
     if (!isLoggedIn || !usesNeuralVoiceCatalog || (!showSettings && !showAudioSettingsModal)) return;
     let cancelled = false;
@@ -1287,7 +1290,15 @@ export default function App() {
 
                 <div className="p-4 bg-white border border-[#E5DAC6] rounded-2xl space-y-4">
                   {/* Voice Select */}
-                  {usesNeuralVoiceCatalog ? (
+                  {isMisticoModerno ? (
+                    <div className="space-y-1.5">
+                      <label className="text-[10px] font-mono text-[#5C5248] uppercase">Voz oficial aprovada</label>
+                      <div role="status" className="w-full rounded-xl border border-[#E5DAC6] bg-[#FBF8F2] px-3 py-2 text-xs font-semibold text-[#2A2420]">
+                        Marianne — Meditação · ElevenLabs
+                      </div>
+                      <p className="text-[10px] leading-relaxed text-[#5C5248]">A voz aprovada permanece fixa neste estilo. Vozes do dispositivo não serão usadas como substitutas.</p>
+                    </div>
+                  ) : usesNeuralVoiceCatalog ? (
                     <div className="space-y-1.5">
                       <label className="text-[10px] font-mono text-[#5C5248] uppercase">Voz neural (ElevenLabs)</label>
                       <select
@@ -1431,7 +1442,7 @@ export default function App() {
                   </div>
                   {voicePreviewError && (
                     <p role="alert" className="ep-voice-error rounded-xl px-3 py-2 text-xs">
-                      Selecione uma voz neural válida do catálogo. Natural Sereno, Elegância Profunda e Essência Luminosa não usam a voz do dispositivo.
+                      {isMisticoModerno ? 'A voz oficial Marianne — Meditação está indisponível. Nenhuma voz do navegador será usada.' : 'Selecione uma voz neural válida do catálogo. Natural Sereno, Elegância Profunda e Essência Luminosa não usam a voz do dispositivo.'}
                     </p>
                   )}
                 </div>

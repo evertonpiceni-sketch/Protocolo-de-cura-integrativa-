@@ -179,8 +179,13 @@
   --layout-input:#121B2B;
   --layout-accent:#6C3FA0;
   --layout-accent-light:#8E5CC8;
+  --layout-indigo:#2E3B73;
+  --layout-emerald:#1E6B5A;
+  --layout-violet:#6C3FA0;
+  --layout-amber:#E2B96B;
+  --layout-natural-green:#6F8F55;
   --layout-gold:#D4AF37;
-  --layout-gold-light:#F2D06B;
+  --layout-gold-light:#E2B96B;
   --layout-gold-dark:#A47D1C;
   --layout-gold-border:rgba(212,175,55,.40);
   --layout-gold-gradient:linear-gradient(135deg,#6C3FA0 0%,#4D2678 40%,#D4AF37 100%);
