@@ -2,7 +2,7 @@
 
 **Data:** 7 de novembro de 2026  
 **Branch:** `main`  
-**HEAD desta rodada:** `757d473d9c6209c814835cf157629b4d4bcca153`  
+**HEAD de código desta rodada:** `ea12f016ca397e70c2747b5b392b3503ce69a93b`  
 **Base antes das correções:** `2c4f5532160acd3eed0e7b056845cca3b478ad8e`
 
 ## Referência visual
@@ -31,7 +31,7 @@ Foi adicionada uma camada estritamente escopada a `data-layout="essencia-luminos
 
 A alteração é apenas visual. Cálculos, conteúdo, tabs, links, impressão e comportamento do Mapa Astral não foram modificados.
 
-Foi acrescentado teste de regressão em `tests/essencia-luminosa.test.ts` cobrindo os hardcodes reais do componente e os overrides escopados.
+Foi acrescentado teste de regressão em `tests/essencia-luminosa.test.ts` cobrindo os hardcodes reais do componente e os overrides escopados. A regra para fundo sólido usa correspondência exata do token de classe (`class~=`), evitando que outras classes de opacidade no mesmo atributo impeçam a correção do botão.
 
 ## Preservado
 
@@ -71,7 +71,7 @@ A varredura incluiu as 22 folhas CSS específicas da Essência Luminosa e os com
 
 ## Validação automatizada
 
-GitHub Actions — execução `42417519178` para o HEAD `757d473d9c6209c814835cf157629b4d4bcca153`:
+GitHub Actions — execução `42417519178` para a primeira versão do patch (`757d473d9c6209c814835cf157629b4d4bcca153`):
 
 - TypeScript: aprovado.
 - Testes de regressão: aprovados.
@@ -84,7 +84,7 @@ GitHub Actions — execução `42417519178` para o HEAD `757d473d9c6209c814835cf
 - Verificação dos endpoints de pagamento: aprovada.
 - Enforcement final de dependências: reprovado por resultado não limpo do `npm audit`.
 
-O workflow terminou em falha somente na etapa de enforcement do audit de dependências; as etapas de TypeScript, testes, build e verificações funcionais listadas acima passaram. O status Vercel continua em falha por `build-rate-limit`; não há deploy de produção homologado.
+O workflow da primeira versão do patch terminou em falha somente na etapa de enforcement do audit de dependências; as etapas de TypeScript, testes, build e verificações funcionais listadas acima passaram. A correspondência exata do seletor foi refinada depois desse run e disparou uma nova execução; a validação final dessa revisão ainda estava em andamento no momento deste registro. O status Vercel continua em falha por `build-rate-limit`; não há deploy de produção homologado.
 
 ## Pendente
 
@@ -99,6 +99,8 @@ O workflow terminou em falha somente na etapa de enforcement do audit de depend�
 ## Commits desta rodada
 
 - `73ea45a1cc9d52d5d46c721f0715d58dd2b2cac7` — neutraliza heranças do Mapa Astral.
-- `757d473d9c6209c814835cf157629b4d4bcca153` — adiciona teste de regressão do Mapa Astral.
+- `757d473d9c6209c814835cf157629b4d4bcca153` — primeira versão do teste de regressão do Mapa Astral.
+- `559c1d170d2aa103c95465d6f14c67abd94b12b0` — usa correspondência exata para a classe de fundo sólido.
+- `ea12f016ca397e70c2747b5b392b3503ce69a93b` — atualiza o teste para exigir o seletor exato.
 
 **Conclusão:** uma herança cromática concreta do Mapa Astral foi corrigida e protegida por teste. O restante da identidade e das funcionalidades aprovadas foi preservado. A Essência Luminosa ainda não deve ser considerada concluída enquanto faltarem natureza própria, homologação visual em navegador, testes de runtime e publicação validada.
