@@ -4,7 +4,8 @@ Referência visual examinada: prancha enviada nesta solicitação, `1001196520.p
 
 ## Corrigido nesta rodada
 
-- **Ownership de áudio/Solfeggio:** `App.tsx` agora trata tanto `showArcanjoView` quanto o plano `arcanjo_7d` como experiência ativa. A música global não reinicia no efeito principal, no desbloqueio por gesto nem pelos Ajustes de Áudio.
+- **Entrada sem abertura automática:** a assinatura `arcanjo_7d` deixa de forçar a tela do protocolo em todo login. O plano concede acesso; a tela só abre por ação explícita (ou pela rota de sucesso do pagamento já existente), e o botão de fechar volta a funcionar.
+- **Ownership de áudio/Solfeggio:** `App.tsx` pausa a música global somente enquanto `showArcanjoView` está realmente aberto, inclusive no efeito principal, no desbloqueio por gesto e nos Ajustes de Áudio.
 - **Regressão no guard Arcanjo:** o guard anterior interceptava `startBG`, método também usado por `startSynth`, e podia bloquear os próprios tons do protocolo. Agora permite somente os sete tons usados pelo Arcanjo (396, 417, 528, 639, 741, 852 e 963 Hz), bloqueia ambiências globais e interrompe o fundo uma única vez na entrada — não a cada mutação do React.
 - **Teste de regressão:** criada política pura `src/lib/arcanjoAudioPolicy.ts` e teste `tests/arcanjo-audio-policy.test.ts` cobrindo os sete tons permitidos e o bloqueio das ambiências.
 - **Logo:** a marca oficial do carregamento, que não tinha a classe de assinatura usada pelos outros pontos, agora recebe opacidade de 24% no Natural Sereno.
