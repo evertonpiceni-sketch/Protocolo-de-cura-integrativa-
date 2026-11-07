@@ -6,8 +6,6 @@
 :root[data-layout="natural-sereno"] #main-header .ep-brand-signature { opacity:.30!important; filter:none!important; object-fit:contain!important; border-color:transparent!important; }
 :root[data-layout="natural-sereno"] #main-header .ep-brand-signature:is(img) { max-width:100%; max-height:100%; }
 :root[data-layout="natural-sereno"] #main-header .border-indigo-500\/40 { border-color:rgba(184,135,54,.24)!important; background:rgba(251,248,242,.92)!important; box-shadow:0 6px 16px rgba(67,52,39,.06)!important; }
-#profile-setup-view.ep-auth-style-one #onboarding-card .ep-brand-signature-wrap { width:84px; height:84px; opacity:.30!important; }
-#profile-setup-view.ep-auth-style-one #onboarding-card .ep-brand-signature { opacity:1!important; filter:none!important; object-fit:contain!important; }
 
 /* Settings */
 :root[data-layout="natural-sereno"] #settings-view [data-ns-status-card="true"] { background:linear-gradient(145deg,rgba(255,253,248,.98),rgba(246,239,224,.96))!important; border-color:rgba(200,157,82,.34)!important; box-shadow:0 14px 34px rgba(67,52,39,.08)!important; }
@@ -502,7 +500,7 @@
 :root[data-layout="natural-sereno"] .ns-app .ns-secondary {
   border-radius: 16px !important;
 }
-#profile-setup-view.ep-auth-style-one #onboarding-card :is(#register-form,#login-form) button[type="submit"] {
+#profile-setup-view.ep-auth-prestyle #onboarding-card :is(#register-form,#login-form) button[type="submit"] {
   border-radius: 18px !important;
 }
 
