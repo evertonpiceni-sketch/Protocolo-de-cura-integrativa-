@@ -378,7 +378,7 @@ test('o acesso neutro antes da escolha não mantém CTA, ícones ou foco verdes 
   assert.ok(profile.includes('ep-auth-prestyle min-h-dvh text-[#302E2A]'));
   assert.ok(profile.includes('bg-[#F7F3E8] border border-[#E5DAC6] text-[#5C5248]'), 'O aviso de sucesso deve permanecer neutro antes da escolha.');
   const voiceStart = profile.indexOf('id="voice-gender-selector"');
-  const voiceEnd = profile.indexOf('id="soundscape-selector"', voiceStart);
+  const voiceEnd = profile.indexOf('<div className="space-y-2 pt-2">', voiceStart);
   const voiceSelector = profile.slice(voiceStart, voiceEnd);
   assert.ok(voiceSelector.includes('Preferência de timbre'));
   assert.ok(voiceSelector.includes('id="voice-preview-note"'));
