@@ -496,3 +496,23 @@ test('o Mapa Astral da Essência Luminosa não mantém verde profundo nem dourad
   assert.ok(css.includes(':root[data-layout="essencia-luminosa"] #astral-map-modal [class*="text-amber-"]'));
   assert.ok(main.includes("import './essencia-luminosa-final-audit.css';"));
 });
+
+
+test('o logo da Essência Luminosa neutraliza o destaque compartilhado no hero e no acolhimento', () => {
+  const shared = fs.readFileSync('src/approved-theme.css', 'utf8');
+  const css = fs.readFileSync('src/essencia-luminosa-final-audit.css', 'utf8');
+  const main = fs.readFileSync('src/main.tsx', 'utf8');
+  const home = fs.readFileSync('src/components/TransformationHome.tsx', 'utf8');
+
+  assert.match(
+    shared,
+    /:root\\[data-layout\\] \\.ep-home-hero \\.ep-brand-signature,[\\s\\S]*?:root\\[data-layout\\] \\.ep-welcome-audio \\.ep-brand-signature\\{opacity:\\.72!important\\}/,
+    'A regra compartilhada de 72% precisa continuar coberta pelo override específico.'
+  );
+  assert.ok(css.includes(':root[data-layout="essencia-luminosa"] .ep-home-hero .ep-brand-signature-wrap,\\n:root[data-layout="essencia-luminosa"] .ep-welcome-audio .ep-brand-signature-wrap'));
+  assert.ok(css.includes(':root[data-layout="essencia-luminosa"] .ep-home-hero .ep-brand-signature,\\n:root[data-layout="essencia-luminosa"] .ep-welcome-audio .ep-brand-signature'));
+  assert.ok(css.includes('opacity: .30 !important;'));
+  assert.ok(css.includes('opacity: .26 !important;'));
+  assert.ok(main.indexOf("import './approved-theme.css'") < main.indexOf("import './essencia-luminosa-final-audit.css'"));
+  assert.ok(home.includes('ep-welcome-audio ep-home-hero'));
+});
