@@ -5,6 +5,7 @@ import { UserAccount } from '../types';
 import { APPROVED_LOGO_DATA_URI } from './ApprovedBrand';
 import { normalizeBrazilianNationalPhone } from '../utils/phone';
 import { getLocalDateString } from '../utils/date';
+import { OFFICIAL_PROTOCOL_VOICE_ID } from '../lib/audio';
 
 const formatBrazilianPhone = (value: string) => {
   const digits = normalizeBrazilianNationalPhone(value);
@@ -84,7 +85,7 @@ export default function ProfileSetup({ onComplete }: ProfileSetupProps) {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           text: sampleText,
-          voiceId: 'Rachel',
+          voiceId: OFFICIAL_PROTOCOL_VOICE_ID,
           stability: 0.45,
           similarityBoost: 0.75
         })
@@ -124,6 +125,7 @@ export default function ProfileSetup({ onComplete }: ProfileSetupProps) {
       if (gender === 'feminina') {
         const femaleVoice = ptVoices.find(v => 
           v.name.toLowerCase().includes('female') || 
+          v.name.toLowerCase().includes('maiara') ||
           v.name.toLowerCase().includes('maria') || 
           v.name.toLowerCase().includes('francisca') || 
           v.name.toLowerCase().includes('luciana') || 
