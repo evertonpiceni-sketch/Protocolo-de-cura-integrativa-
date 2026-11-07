@@ -115,7 +115,8 @@ export default function App() {
   const [voicePreviewError, setVoicePreviewError] = useState(false);
   const isEleganciaProfunda = layoutConfirmedThisSession && userProfile?.visualLayout === 'elegancia-profunda';
   const isEssenciaLuminosa = layoutConfirmedThisSession && userProfile?.visualLayout === 'essencia-luminosa';
-  const usesNeuralVoiceCatalog = isEleganciaProfunda || isEssenciaLuminosa;
+  const isMisticoModerno = layoutConfirmedThisSession && userProfile?.visualLayout === 'mistico-moderno';
+  const usesNeuralVoiceCatalog = isEleganciaProfunda || isEssenciaLuminosa || isMisticoModerno;
 
   // Initialize and register local notification daily checker
   useEffect(() => {
@@ -218,7 +219,7 @@ export default function App() {
     }
   }, []);
 
-  // Elegância Profunda and Essência Luminosa use actual ElevenLabs IDs, never browser SpeechSynthesis names/URIs.
+  // Elegância Profunda, Essência Luminosa and Místico Moderno use actual ElevenLabs IDs, never browser SpeechSynthesis names/URIs.
   useEffect(() => {
     if (!isLoggedIn || !usesNeuralVoiceCatalog || (!showSettings && !showAudioSettingsModal)) return;
     let cancelled = false;
@@ -654,7 +655,8 @@ export default function App() {
       console.warn("Server logout request completed with offline status");
     }
     localStorage.removeItem(LOCAL_STORAGE_KEY_CURRENT_LOGIN);
-    // A nova sessão precisa confirmar explicitamente um dos quatro estilos.
+    // A confirmação visual pertence à conta encerrada; a próxima conta precisa escolher novamente.
+    delete document.documentElement.dataset.layout;
     setLayoutConfirmedThisSession(false);
     setLayoutChoiceRequested(false);
     setUserProfile(null);
@@ -835,9 +837,10 @@ export default function App() {
   return (
     <React.Suspense fallback={loadingScreen}>
     <>
-      {(!layoutConfirmedThisSession || layoutChoiceRequested) && (
+      {layoutChoiceRequested && userProfile && (
         <LayoutChoiceModal
           onSelect={async (layout) => {
+            if (!userProfile) return;
             const updatedProfile = { ...userProfile, visualLayout: layout };
             // Do not dismiss the chooser until the server accepts the preference.
             if (isLoggedIn) {
@@ -1426,7 +1429,7 @@ export default function App() {
                   </div>
                   {voicePreviewError && (
                     <p role="alert" className="ep-voice-error rounded-xl px-3 py-2 text-xs">
-                      Selecione uma voz neural válida do catálogo. Os Estilos 2 e 3 não usam a voz do dispositivo.
+                      Selecione uma voz neural válida do catálogo. Os Estilos 2, 3 e 4 não usam a voz do dispositivo.
                     </p>
                   )}
                 </div>
