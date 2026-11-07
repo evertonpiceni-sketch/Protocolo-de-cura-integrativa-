@@ -52,7 +52,7 @@ test('a voz neural do Natural Sereno não cai silenciosamente para SpeechSynthes
   const audio = read('src/lib/audio.ts');
   assert.ok(entry.includes("import './lib/naturalSerenoOfficialVoicePatch';"));
   assert.ok(voicePatch.includes('fallbackToSpeechSynthesis: false'));
-  assert.ok(voicePatch.includes('isElevenLabsVoiceId'));
+  assert.ok(voicePatch.includes('isNaturalSerenoVoiceId'));
   assert.ok(audio.includes('OFFICIAL_PROTOCOL_VOICE_ID'));
 });
 
