@@ -23,7 +23,7 @@ import { APPROVED_LOGO_DATA_URI } from './components/ApprovedBrand';
 
 import { calculateAstralMap } from './utils/astrology';
 import { audioEngine, OFFICIAL_PROTOCOL_VOICE_ID } from './lib/audio';
-import { isElevenLabsVoiceId, type ElevenLabsVoiceOption } from './lib/voiceSelection';
+import { isElevenLabsVoiceId, isNaturalSerenoVoiceId, type ElevenLabsVoiceOption } from './lib/voiceSelection';
 import { evaluateAchievements } from './lib/achievementsData';
 import { AppLanguage, SUPPORTED_LANGUAGES, UI_TRANSLATIONS } from './lib/i18n';
 import { AnimatePresence } from "motion/react";
@@ -120,9 +120,11 @@ export default function App() {
   const isEssenciaLuminosa = layoutConfirmedThisSession && userProfile?.visualLayout === 'essencia-luminosa';
   const usesNeuralVoiceCatalog = isNaturalSereno || isEleganciaProfunda || isEssenciaLuminosa;
   const savedNeuralVoiceId = userProfile?.voiceId || '';
-  const effectiveNeuralVoiceId = (isNaturalSereno || isEssenciaLuminosa) && !isElevenLabsVoiceId(savedNeuralVoiceId)
-    ? OFFICIAL_PROTOCOL_VOICE_ID
-    : savedNeuralVoiceId;
+  const effectiveNeuralVoiceId = isNaturalSereno
+    ? (isNaturalSerenoVoiceId(savedNeuralVoiceId) ? savedNeuralVoiceId : '')
+    : isEssenciaLuminosa && !isElevenLabsVoiceId(savedNeuralVoiceId)
+      ? OFFICIAL_PROTOCOL_VOICE_ID
+      : savedNeuralVoiceId;
 
   // Initialize and register local notification daily checker
   useEffect(() => {
@@ -1307,9 +1309,11 @@ export default function App() {
                           </option>
                         )}
                         <option value="">Selecione uma voz neural</option>
-                        {elevenLabsVoices.map(voice => (
-                          <option key={voice.voice_id} value={voice.voice_id}>{voice.name}</option>
-                        ))}
+                        {elevenLabsVoices
+                          .filter(voice => !isNaturalSereno || isNaturalSerenoVoiceId(voice.voice_id))
+                          .map(voice => (
+                            <option key={voice.voice_id} value={voice.voice_id}>{voice.name}</option>
+                          ))}
                       </select>
                       {isLoadingElevenLabsVoices
                         ? <p className="text-[10px] text-[#85786C]">Carregando catálogo de vozes neurais…</p>
@@ -1433,7 +1437,9 @@ export default function App() {
                   </div>
                   {voicePreviewError && (
                     <p role="alert" className="ep-voice-error rounded-xl px-3 py-2 text-xs">
-                      Selecione uma voz neural válida do catálogo. Natural Sereno, Elegância Profunda e Essência Luminosa não usam a voz do dispositivo.
+                      {isNaturalSereno
+                        ? 'Selecione a voz Maiara aprovada no catálogo ElevenLabs. Marianne e a voz do dispositivo não serão usadas como substitutas.'
+                        : 'Selecione uma voz neural válida do catálogo. Elegância Profunda e Essência Luminosa não usam a voz do dispositivo.'}
                     </p>
                   )}
                 </div>
