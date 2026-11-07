@@ -2,8 +2,9 @@ import { Router } from 'express';
 import crypto from 'node:crypto';
 import { getDb, saveDb } from '../db.js';
 
-import { PAYMENT_PLANS, paymentQuote, type Plan } from './paymentCatalog.js';
-export type PaymentOrder = { id: string; userId: string; planId: Plan; treatment?: import('../types.js').SpecificTreatment; cents: number; method: string; createdAt: string; paidAt?: string; transaction?: string };
+import { NUMEROLOGY_FULL_CENTS, NUMEROLOGY_FULL_TITLE, PAYMENT_PLANS, paymentQuote, type Plan } from './paymentCatalog.js';
+export type PaymentProductType = 'subscription' | 'specific_treatment' | 'numerology_full';
+export type PaymentOrder = { id: string; userId: string; productType?: PaymentProductType; planId?: Plan; treatment?: import('../types.js').SpecificTreatment; cents: number; method: string; createdAt: string; paidAt?: string; transaction?: string };
 const API = 'https://api.infinitepay.io/invoices/public/checkout';
 export function paymentRoutes(authenticate: any, limiter: any, providerFetch: typeof fetch = fetch) {
   const router = Router();
@@ -37,9 +38,15 @@ export function paymentRoutes(authenticate: any, limiter: any, providerFetch: ty
     let quote;
     let treatment: import('../types.js').SpecificTreatment | undefined;
     try {
-      if (!['subscription', 'specific_treatment'].includes(productType) || !['pix', 'card', 'credit', 'debit'].includes(paymentMethod) || (productType === 'subscription' && typeof planId !== 'string') || (couponCode != null && typeof couponCode !== 'string')) throw new Error('Compra inválida.');
+      if (!['subscription', 'specific_treatment', 'numerology_full'].includes(productType) || !['pix', 'card', 'credit', 'debit'].includes(paymentMethod) || (productType === 'subscription' && typeof planId !== 'string') || (couponCode != null && typeof couponCode !== 'string')) throw new Error('Compra inválida.');
       if (productType === 'subscription') quote = paymentQuote(planId, couponCode || '');
-      else {
+      else if (productType === 'numerology_full') {
+        if ((couponCode || '').trim()) throw new Error('Cupom não disponível para esta compra.');
+        const user = getDb().users.find(u => u.id === req.userId);
+        if (!user) return res.sendStatus(401);
+        if (user.plan === 'pro' || user.profile?.numerologyPurchased) return res.status(409).json({ error: 'A versão completa já está liberada para esta conta.' });
+        quote = { cents: NUMEROLOGY_FULL_CENTS, title: NUMEROLOGY_FULL_TITLE };
+      } else {
         const { durationDays, category, patientDescription, urgentPains, title } = req.body;
         if (![1,7,21].includes(durationDays) || !['saude_fisica','prosperidade','liberacao_emocional','relacionamentos','limpeza_espiritual','outro'].includes(category) || typeof patientDescription !== 'string' || !patientDescription.trim() || patientDescription.length > 10000 || (title != null && (typeof title !== 'string' || title.length > 200)) || !Array.isArray(urgentPains) || urgentPains.length > 30 || urgentPains.some((v: unknown) => typeof v !== 'string' || v.length > 200)) throw new Error('Dados da prática inválidos.');
         const coupons: Record<string,number> = { CURA10:10, PAZ10:10, PAZ20:20, CURA20:20, GRATIDAO:20, PROMO30:30, CURA30:30, PICENI50:50, VIP50:50 };
@@ -55,7 +62,7 @@ export function paymentRoutes(authenticate: any, limiter: any, providerFetch: ty
         treatment = { id: crypto.randomUUID(), requestedAt: new Date().toISOString(), durationDays, category, title: title?.trim() || quote.title, patientDescription: patientDescription.trim(), urgentPains, status: 'pendente', price: cents / 100, paymentMethod: paymentMethod === 'pix' ? 'pix' : 'cartao' };
       }
     } catch (error) { return res.status(400).json({ error: (error as Error).message }); }
-    const order: PaymentOrder = { id: crypto.randomUUID(), userId: req.userId, planId: planId as Plan, ...(treatment ? { treatment } : {}), cents: quote.cents, method: paymentMethod, createdAt: new Date().toISOString() };
+    const order: PaymentOrder = { id: crypto.randomUUID(), userId: req.userId, productType: productType as PaymentProductType, ...(productType === 'subscription' ? { planId: planId as Plan } : {}), ...(treatment ? { treatment } : {}), cents: quote.cents, method: paymentMethod, createdAt: new Date().toISOString() };
     try {
       const origin = appUrl();
       const db = getDb();
@@ -86,13 +93,19 @@ export function paymentRoutes(authenticate: any, limiter: any, providerFetch: ty
       const previous = { plan: user.plan, profile: user.profile };
       const now = new Date();
       order.paidAt = now.toISOString(); order.transaction = transaction_nsu;
-      if (order.treatment) {
+      const orderProductType = order.productType ?? (order.treatment ? 'specific_treatment' : 'subscription');
+      if (orderProductType === 'numerology_full') {
+        user.profile = { ...user.profile, numerologyPurchased: true };
+      } else if (orderProductType === 'specific_treatment') {
+        if (!order.treatment) return { status: 409, data: { error: 'Dados da prática não encontrados.' } };
         user.profile = { ...user.profile, specificTreatments: [...(user.profile?.specificTreatments || []), order.treatment] };
       } else {
-      user.plan = 'pro';
-      user.profile = { ...user.profile, plan: 'pro', subscriptionPlan: order.planId,
-        subscriptionPrice: order.cents / 100, subscriptionPaymentMethod: order.method,
-        proActiveSince: now.toISOString(), subscriptionExpiresAt: new Date(now.getTime() + PAYMENT_PLANS[order.planId].days * 86400000).toISOString() };
+        if (!order.planId || !Object.hasOwn(PAYMENT_PLANS, order.planId)) return { status: 409, data: { error: 'Plano da compra não encontrado.' } };
+        const plan = PAYMENT_PLANS[order.planId];
+        user.plan = 'pro';
+        user.profile = { ...user.profile, plan: 'pro', subscriptionPlan: order.planId,
+          subscriptionPrice: order.cents / 100, subscriptionPaymentMethod: order.method,
+          proActiveSince: now.toISOString(), subscriptionExpiresAt: new Date(now.getTime() + plan.days * 86400000).toISOString() };
       }
       try { await saveDb(); } catch (error) { user.plan = previous.plan; user.profile = previous.profile; delete order.paidAt; delete order.transaction; throw error; }
     }
