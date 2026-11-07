@@ -23,7 +23,7 @@
 - O ID neural personalizado que Everton escolheu não aparece comprovado no histórico recuperado nem pode ser inferido do repositório. O fluxo autenticado preserva IDs ElevenLabs válidos salvos e usa `OFFICIAL_PROTOCOL_VOICE_ID` como fallback canônico quando necessário. A reprodução real ainda precisa ser ouvida no navegador.
 - Homologação visual renderizada, página por página, em desktop e mobile continua pendente. O deploy de preview anterior falhou por limite diário da Vercel (`api-deployments-free-per-day`, mais de 100 deployments); não foi possível validar o branch no navegador.
 - Checkout InfinitePay ainda requer teste em ambiente de teste, sem cobrança real.
-- A verificação de dependências permanece bloqueada: a execução 1424 passou TypeScript, regressões (106/106), build, smoke tests e verificações dos endpoints, mas falhou no gate `npm audit --audit-level=moderate` com 9 vulnerabilidades (3 moderadas e 6 altas). Nenhuma dependência foi atualizada fora do escopo.
+- A verificação de dependências permanece bloqueada: a execução 1424 passou TypeScript, regressões (106/106), build, smoke tests e verificações dos endpoints, mas falhou no gate `npm audit --audit-level=moderate` com 9 vulnerabilidades (3 moderadas e 6 altas). O log identifica `body-parser <1.20.9` (alta), `ip-address <=10.7.3` (moderada), `qs 6.7.0–6.16.0` via `elevenlabs` (moderada), `vite <=6.4.3` (alta) e `zod <4.6.6` via `chromium-bidi`/`puppeteer` (alta). O log indica correção disponível por `npm audit fix`; não executei atualização de dependências sem validar compatibilidade e regressões.
 - O relatório RUN_21 continua como registro histórico da rodada anterior; esta reauditoria não o sobrescreve.
 
 ## Estado da validação
