@@ -2,7 +2,7 @@ import { Router } from 'express';
 import crypto from 'node:crypto';
 import { getDb, saveDb } from '../db.js';
 
-import { PAYMENT_PLANS, paymentQuote, type Plan } from './paymentCatalog.js';
+import { PAYMENT_PLANS, paymentQuote, specificTreatmentCouponDiscount, type Plan } from './paymentCatalog.js';
 export type PaymentOrder = { id: string; userId: string; planId: Plan; treatment?: import('../types.js').SpecificTreatment; cents: number; method: string; createdAt: string; paidAt?: string; transaction?: string };
 const API = 'https://api.infinitepay.io/invoices/public/checkout';
 export function paymentRoutes(authenticate: any, limiter: any, providerFetch: typeof fetch = fetch) {
@@ -42,15 +42,15 @@ export function paymentRoutes(authenticate: any, limiter: any, providerFetch: ty
       else {
         const { durationDays, category, patientDescription, urgentPains, title } = req.body;
         if (![1,7,21].includes(durationDays) || !['saude_fisica','prosperidade','liberacao_emocional','relacionamentos','limpeza_espiritual','outro'].includes(category) || typeof patientDescription !== 'string' || !patientDescription.trim() || patientDescription.length > 10000 || (title != null && (typeof title !== 'string' || title.length > 200)) || !Array.isArray(urgentPains) || urgentPains.length > 30 || urgentPains.some((v: unknown) => typeof v !== 'string' || v.length > 200)) throw new Error('Dados da prática inválidos.');
-        const coupons: Record<string,number> = { CURA10:10, PAZ10:10, PAZ20:20, CURA20:20, GRATIDAO:20, PROMO30:30, CURA30:30, PICENI50:50, VIP50:50 };
         const code = (couponCode || '').trim().toUpperCase();
-        if (code && !Object.hasOwn(coupons, code)) throw new Error('Cupom inválido.');
+        const discount = specificTreatmentCouponDiscount(code);
+        if (code && discount === null) throw new Error('Cupom inválido para prática individual.');
         let cents = durationDays === 1 ? 2000 : durationDays === 7 ? 5990 : 9990;
         if (req.body.customAmount != null) {
           if (!Number.isSafeInteger(req.body.customAmount) || req.body.customAmount < 100 || req.body.customAmount > 1000000) throw new Error('Valor inválido.');
           cents = req.body.customAmount;
         }
-        cents = Math.round(cents * (1 - (coupons[code] || 0) / 100));
+        cents = Math.round(cents * (1 - ((discount ?? 0) / 100)));
         quote = { cents, title: `Prática individual — ${durationDays} dia(s)` };
         treatment = { id: crypto.randomUUID(), requestedAt: new Date().toISOString(), durationDays, category, title: title?.trim() || quote.title, patientDescription: patientDescription.trim(), urgentPains, status: 'pendente', price: cents / 100, paymentMethod: paymentMethod === 'pix' ? 'pix' : 'cartao' };
       }
