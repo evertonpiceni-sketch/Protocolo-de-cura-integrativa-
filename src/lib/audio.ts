@@ -49,6 +49,9 @@ class CalmingAudioEngine {
   private delayNode: DelayNode | null = null;
   private delayFeedback: GainNode | null = null;
   private synthActive: boolean = false;
+  private synthStartInProgress: boolean = false;
+  private protocolSynthActive: boolean = false;
+  private protocolSynthType: string | null = null;
 
   private currentUtterance: SpeechSynthesisUtterance | null = null;
   private isSpeakingActive: boolean = false;
@@ -832,6 +835,7 @@ class CalmingAudioEngine {
       volume?: number;
       text?: string;
       onEnd?: () => void;
+      onError?: (error: unknown) => void;
     }
   ) {
     this.stopSpeech();
@@ -1754,11 +1758,32 @@ class CalmingAudioEngine {
   }
 
   public startSynth(type: any) {
-    this.startBG(type);
+    this.synthStartInProgress = true;
+    try {
+      this.startBG(type);
+      this.protocolSynthActive = this.synthActive;
+      this.protocolSynthType = this.protocolSynthActive ? type : null;
+    } finally {
+      this.synthStartInProgress = false;
+    }
   }
 
   public stopSynth() {
+    this.protocolSynthActive = false;
+    this.protocolSynthType = null;
     this.stopBG();
+  }
+
+  public isStartingSynth(): boolean {
+    return this.synthStartInProgress;
+  }
+
+  public isProtocolSynthActive(): boolean {
+    return this.protocolSynthActive && this.synthActive;
+  }
+
+  public getProtocolSynthType(): string | null {
+    return this.protocolSynthType;
   }
 
   public setMasterVolume(vol: number) {
