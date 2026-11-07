@@ -47,3 +47,13 @@ Branch: `fix/mistico-moderno-mainline-2026-11-07`
 - `src/mistico-moderno-arcanjo-audit.css`
 - `tests/mistico-moderno-mainline-audit.test.ts`
 - `docs/audits/mistico-moderno-2026-11-07/AUDITORIA_RUN_25.md`
+
+## Resultado do CI — run 1298 (07/11/2026)
+- TypeScript: aprovado.
+- Testes de regressão: **89 aprovados, 0 falhas**, incluindo os quatro testes adicionados nesta auditoria.
+- Build de produção: aprovado.
+- Verificações de entrypoints Vercel, segredos, JWT, criação de administrador, autenticação administrativa, smoke test e endpoints de pagamento: aprovadas.
+- Gate de dependências: **reprovado**. `npm audit` reportou 9 vulnerabilidades (3 moderadas e 6 altas), envolvendo `body-parser`, `ip-address`, `qs`, `vite` e `zod`. Não alterei o lockfile nesta correção visual: a atualização exige manutenção própria de dependências e nova homologação.
+- Preview Vercel: continua bloqueado pelo check `build-rate-limit`; não houve deploy.
+
+A primeira execução deste PR identificou uma comparação TypeScript inalcançável no preview genérico depois da nova saída específica do Estilo 4. A condição redundante foi removida no commit seguinte; a execução 1298 confirmou TypeScript, testes e build aprovados.
