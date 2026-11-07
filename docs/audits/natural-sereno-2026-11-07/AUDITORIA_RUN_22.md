@@ -8,8 +8,10 @@
 - Reconciliado `ProfileSetup.tsx` com a versão mais recente já aprovada em `main`: essa versão posterior removeu a prévia de voz pré-login e, com ela, o alias `Rachel` e o fallback para `SpeechSynthesis`. A branch não reintroduz o fluxo antigo.
 - Preservados `voiceType` e `preferredVoiceGender` no cadastro; a escolha neural efetiva continua no fluxo autenticado de Ajustes de Áudio, que mantém IDs ElevenLabs válidos salvos.
 - Corrigidos resíduos adicionais identificados na varredura por página: Home (conteúdo creme, CTA de continuidade em dourado refinado e tipografia café), acolhimento desktop (restaurada a fotografia aprovada no lugar do fallback verde sólido), Configurações, Ajustes de Áudio, Instalação, Conquistas, Diário, Prática Específica, Anamnese (progresso, frequência, estados emerald/amber e CTAs), cartões PIX e ação de envio do painel administrativo (superfícies claras/dourado refinado, sem chapas verde-floresta ou amarelo saturado).
+- Corrigido o seletor do botão de cadastro/login para a classe atual `ep-auth-prestyle`; os seletores antigos sem correspondência foram retirados. O logo continua com opacidade de 30% pela camada aprovada de autenticação.
+- Preservada a fotografia de lótus na Prática Específica: a regra de superfície agora exclui overlays absolutos e o fade da legenda volta a ser translúcido, sem cobrir a imagem.
 - Todas as regras novas permanecem sob `data-layout="natural-sereno"`; a assinatura do logo, a paisagem realista, os estados semânticos em verde-sálvia e os outros três estilos foram preservados.
-- Atualizados os testes de regressão para cobrir o link de WhatsApp, precedência das folhas finais, Home responsiva e neutralização das superfícies adicionais.
+- Atualizados os testes de regressão para cobrir o link de WhatsApp, precedência das folhas finais, Home responsiva, botão de autenticação e preservação do overlay fotográfico.
 
 ## Preservado
 - Os quatro estilos continuam com escolha explícita e confirmação antes da aplicação; preferência salva não equivale a confirmação.
@@ -27,7 +29,7 @@
 - O relatório RUN_21 continua como registro histórico da rodada anterior; esta reauditoria não o sobrescreve.
 
 ## Estado da validação
-- As alterações desta rodada foram gravadas na branch e o apontamento inline foi resolvido.
-- A CI correspondente ao commit mais recente ainda não foi observada nesta consulta; não declarar os novos testes aprovados até a conclusão de uma execução posterior.
+- As alterações desta rodada foram gravadas na branch; os três apontamentos inline (CTA WhatsApp, seletor de autenticação e overlay da foto de lótus) foram resolvidos.
+- A execução 1491 para o commit mais recente está em andamento; aguardar sua conclusão antes de declarar a última rodada validada.
 
 **Status:** correções pontuais aplicadas; Estilo 1 ainda não está homologado integralmente.
