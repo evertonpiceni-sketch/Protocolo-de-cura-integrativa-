@@ -11,7 +11,7 @@ import {
   Headphones, Activity, Waves, Info
 } from 'lucide-react';
 import { UserProfile } from '../types';
-import { audioEngine } from '../lib/audio';
+import { audioEngine, OFFICIAL_PROTOCOL_VOICE_ID } from '../lib/audio';
 import { useDialogFocus } from '../hooks/useDialogFocus';
 
 interface AudioSettingsModalProps {
@@ -62,6 +62,7 @@ export default function AudioSettingsModal({
   const [voiceId, setVoiceId] = useState(userProfile.voiceId || '');
   const [audioEnabled, setAudioEnabled] = useState(userProfile.audioEnabled !== false);
   const [isTestingVoice, setIsTestingVoice] = useState(false);
+  const [voiceTestError, setVoiceTestError] = useState<string | null>(null);
 
   // Camada Binaural State
   const [bioactiveBinauralEnabled, setBioactiveBinauralEnabled] = useState<boolean>(
@@ -80,6 +81,7 @@ export default function AudioSettingsModal({
 
   if (!isOpen) return null;
 
+  const isMisticoModerno = typeof document !== 'undefined' && document.documentElement.dataset.layout === 'mistico-moderno';
   const rawVoices = availableVoices && availableVoices.length > 0 
     ? availableVoices 
     : audioEngine.getAvailableVoices();
@@ -152,7 +154,9 @@ export default function AudioSettingsModal({
     if (isTestingVoice) {
       audioEngine.stopSpeech();
       setIsTestingVoice(false);
+      setVoiceTestError(null);
     } else {
+      setVoiceTestError(null);
       setIsTestingVoice(true);
       const testPhrase = `Olá, ${userProfile.name}. Esta é uma prévia da voz escolhida para acompanhar suas práticas com calma e presença.`;
       
@@ -169,7 +173,12 @@ export default function AudioSettingsModal({
         undefined,
         undefined,
         {
-          voiceId,
+          voiceId: isMisticoModerno ? OFFICIAL_PROTOCOL_VOICE_ID : voiceId,
+          allowNativeFallback: isMisticoModerno ? false : undefined,
+          onError: isMisticoModerno ? () => {
+            setIsTestingVoice(false);
+            setVoiceTestError('A voz oficial Marianne — Meditação não está disponível agora. Nenhuma voz do dispositivo será usada como substituta.');
+          } : undefined,
           rate: voiceRate,
           pitch: voicePitch,
           lang: 'pt-BR',
@@ -584,7 +593,15 @@ export default function AudioSettingsModal({
           </label>
 
           {/* Voice Selector */}
-          {voices.length > 0 && (
+          {isMisticoModerno ? (
+            <div className="space-y-1">
+              <span className="text-[11px] text-[#5C5248] block">Voz oficial aprovada</span>
+              <div role="status" className="w-full rounded-xl border border-[#E5DAC6] bg-[#FBF8F2] px-3 py-2 text-xs font-semibold text-[#2A2420]">
+                Marianne — Meditação · ElevenLabs
+              </div>
+              <p className="text-[10px] leading-relaxed text-[#5C5248]">A narração usa a voz aprovada. Vozes instaladas no dispositivo não serão usadas como substitutas.</p>
+            </div>
+          ) : voices.length > 0 && (
             <div className="space-y-1">
               <span className="text-[11px] text-[#5C5248] block">Timbre da Voz (Instaladas no Dispositivo)</span>
               <select
@@ -642,6 +659,8 @@ export default function AudioSettingsModal({
             />
           </div>
         </div>
+
+        {voiceTestError && <p role="alert" className="rounded-xl border border-rose-300/40 bg-rose-950/30 px-3 py-2 text-xs text-rose-200">{voiceTestError}</p>}
 
         {/* Test Audio Button */}
         <button
