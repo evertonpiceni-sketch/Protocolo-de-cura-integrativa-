@@ -66,7 +66,8 @@ export default function AudioSettingsModal({
   const [voicePitch, setVoicePitch] = useState(userProfile.voicePitch ?? 1.0);
   const isEleganciaProfunda = typeof document !== 'undefined' && document.documentElement.dataset.layout === 'elegancia-profunda';
   const isEssenciaLuminosa = typeof document !== 'undefined' && document.documentElement.dataset.layout === 'essencia-luminosa';
-  const requiresNeuralVoice = isEleganciaProfunda || isEssenciaLuminosa;
+  const isMisticoModerno = typeof document !== 'undefined' && document.documentElement.dataset.layout === 'mistico-moderno';
+  const requiresNeuralVoice = isEleganciaProfunda || isEssenciaLuminosa || isMisticoModerno;
   const savedVoiceId = userProfile.voiceId?.trim() || '';
   const initialVoiceId = isEssenciaLuminosa && !isElevenLabsVoiceId(savedVoiceId)
     ? OFFICIAL_PROTOCOL_VOICE_ID

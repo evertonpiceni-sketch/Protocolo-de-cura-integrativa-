@@ -115,7 +115,8 @@ export default function App() {
   const [voicePreviewError, setVoicePreviewError] = useState(false);
   const isEleganciaProfunda = layoutConfirmedThisSession && userProfile?.visualLayout === 'elegancia-profunda';
   const isEssenciaLuminosa = layoutConfirmedThisSession && userProfile?.visualLayout === 'essencia-luminosa';
-  const usesNeuralVoiceCatalog = isEleganciaProfunda || isEssenciaLuminosa;
+  const isMisticoModerno = layoutConfirmedThisSession && userProfile?.visualLayout === 'mistico-moderno';
+  const usesNeuralVoiceCatalog = isEleganciaProfunda || isEssenciaLuminosa || isMisticoModerno;
 
   // Initialize and register local notification daily checker
   useEffect(() => {
@@ -218,7 +219,7 @@ export default function App() {
     }
   }, []);
 
-  // Elegância Profunda and Essência Luminosa use actual ElevenLabs IDs, never browser SpeechSynthesis names/URIs.
+  // Elegância Profunda, Essência Luminosa and Místico Moderno use actual ElevenLabs IDs, never browser SpeechSynthesis names/URIs.
   useEffect(() => {
     if (!isLoggedIn || !usesNeuralVoiceCatalog || (!showSettings && !showAudioSettingsModal)) return;
     let cancelled = false;
@@ -654,6 +655,9 @@ export default function App() {
       console.warn("Server logout request completed with offline status");
     }
     localStorage.removeItem(LOCAL_STORAGE_KEY_CURRENT_LOGIN);
+    // A confirmação visual pertence à conta/sessão anterior; a próxima conta deve escolher novamente.
+    setLayoutConfirmedThisSession(false);
+    setLayoutChoiceRequested(false);
     setUserProfile(null);
     setProgress([]);
     setCurrentDay(1);
