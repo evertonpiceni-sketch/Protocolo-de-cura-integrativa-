@@ -57,12 +57,22 @@ export default function TransformationHome(props: TransformationHomeProps) {
   const style2VoiceId = savedVoiceId && !['Rachel', 'Marcus', 'masculina', 'feminina'].includes(savedVoiceId)
     ? savedVoiceId
     : OFFICIAL_PROTOCOL_VOICE_ID;
-  const narrationVoiceId = props.visualLayout === 'elegancia-profunda'
-    ? style2VoiceId
-    : props.visualLayout === 'mistico-moderno' ? OFFICIAL_PROTOCOL_VOICE_ID : 'Marcus';
-  const narrationVolume = props.visualLayout === 'elegancia-profunda' ? props.voiceVolume ?? 1 : 1;
-  const narrationRate = props.visualLayout === 'elegancia-profunda' ? props.voiceRate ?? .82 : .82;
-  const narrationPitch = props.visualLayout === 'elegancia-profunda' ? props.voicePitch ?? .92 : .92;
+  // Natural Sereno must honor the voice and cadence saved in the user's profile.
+  // The approved Maiara choice is never guessed or replaced with a hard-coded alias.
+  const narrationVoiceId = props.visualLayout === 'natural-sereno'
+    ? (savedVoiceId || OFFICIAL_PROTOCOL_VOICE_ID)
+    : props.visualLayout === 'elegancia-profunda'
+      ? style2VoiceId
+      : props.visualLayout === 'mistico-moderno' ? OFFICIAL_PROTOCOL_VOICE_ID : 'Marcus';
+  const narrationVolume = props.visualLayout === 'natural-sereno'
+    ? props.voiceVolume ?? 0.85
+    : props.visualLayout === 'elegancia-profunda' ? props.voiceVolume ?? 1 : 1;
+  const narrationRate = props.visualLayout === 'natural-sereno'
+    ? props.voiceRate ?? .82
+    : props.visualLayout === 'elegancia-profunda' ? props.voiceRate ?? .82 : .82;
+  const narrationPitch = props.visualLayout === 'natural-sereno'
+    ? props.voicePitch ?? 1
+    : props.visualLayout === 'elegancia-profunda' ? props.voicePitch ?? .92 : .92;
   const toggleWelcome = () => {
     if (isSpeaking) { audioEngine.stopSpeech(); setIsSpeaking(false); return; }
     void audioEngine.speakWithElevenLabsOrFallback(welcomeText, narrationVolume, () => setIsSpeaking(true), () => setIsSpeaking(false), undefined, undefined, { voiceId: narrationVoiceId, stability: .5, similarityBoost: .78, userName: props.userName, enableBreathingPauses: true, preferElevenLabs: true, lang: 'pt-BR', rate: narrationRate, pitch: narrationPitch });
