@@ -54,14 +54,17 @@ export default function TransformationHome(props: TransformationHomeProps) {
   const actions: Record<string, () => void> = { chakras: props.onOpenChakras, bath: props.onOpenBaths, astral: props.onOpenAstral, numerology: props.onOpenNumerology };
   const welcomeText = `Olá, ${firstName}. Que bom que você voltou para si. Respire com calma. Você não precisa fazer tudo hoje. Estamos juntos neste processo. ${insight?.quote || ''}`;
   const savedVoiceId = props.voiceId?.trim();
-  const approvedVoiceId = savedVoiceId && !['Rachel', 'Marcus', 'masculina', 'feminina'].includes(savedVoiceId)
-    ? savedVoiceId
-    : OFFICIAL_PROTOCOL_VOICE_ID;
-  // Essência Luminosa and Elegância Profunda both honor the saved voice and its controls.
-  const usesSavedVoiceSettings = props.visualLayout === 'elegancia-profunda' || props.visualLayout === 'essencia-luminosa';
-  const narrationVoiceId = usesSavedVoiceSettings
-    ? approvedVoiceId
-    : props.visualLayout === 'mistico-moderno' ? OFFICIAL_PROTOCOL_VOICE_ID : 'Marcus';
+  const isEssenciaLuminosa = props.visualLayout === 'essencia-luminosa';
+  const isLegacyVoiceAlias = !savedVoiceId || ['Rachel', 'Marcus', 'masculina', 'feminina'].includes(savedVoiceId);
+  const savedOrOfficialVoiceId = !isLegacyVoiceAlias ? savedVoiceId : OFFICIAL_PROTOCOL_VOICE_ID;
+  // Essência Luminosa uses the exact installed browser voice selected in AudioSettingsModal.
+  // Browser voice names are never sent as ElevenLabs voice IDs.
+  const narrationVoiceId = isEssenciaLuminosa
+    ? (isLegacyVoiceAlias ? undefined : savedVoiceId)
+    : props.visualLayout === 'elegancia-profunda'
+      ? savedOrOfficialVoiceId
+      : props.visualLayout === 'mistico-moderno' ? OFFICIAL_PROTOCOL_VOICE_ID : 'Marcus';
+  const usesSavedVoiceSettings = isEssenciaLuminosa || props.visualLayout === 'elegancia-profunda';
   const narrationVolume = usesSavedVoiceSettings ? props.voiceVolume ?? 1 : 1;
   const narrationRate = usesSavedVoiceSettings ? props.voiceRate ?? .82 : .82;
   const narrationPitch = usesSavedVoiceSettings ? props.voicePitch ?? .92 : .92;
