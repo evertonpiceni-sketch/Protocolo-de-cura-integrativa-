@@ -78,6 +78,9 @@ try {
  checks.push('All six menu rows fit above the dock at 390×844.');
  await row('Ferramentas de Apoio');await ready('[data-ns-screen="tools"]');await shot('tools');
  await menu();await row('Meu Perfil');await ready('[data-ns-screen="profile"]');await shot('profile');
+ await row('Meu Diário');await ready('#journal-dashboard-view');await shot('diary-log');await page.click('#btn-back-from-journal');await ready('[data-ns-screen="profile"]');
+ await row('Configurações');await textButton('Diário de Reconexão');await page.waitForSelector('#daily-diary-modal');await shot('daily-diary-modal');await page.click('[aria-label="Fechar Diário de Reconexão"]');await page.waitForSelector('#daily-diary-modal',{hidden:true});await ready('[data-ns-screen="profile"]');
+ checks.push('The journal page and the 21-day diary modal both open and close without leaving the Natural Sereno navigation.');
  assert.equal(await page.$eval('progress',el=>el.value),2);checks.push('Profile progress uses the supplied real completion data.');
  assert(await page.$eval('.ns-profile .ns-row:last-of-type',el=>el.getBoundingClientRect().bottom<=document.querySelector('.ns-dock').getBoundingClientRect().top),'Profile logout stays above the dock');
  await row('Fale conosco');await ready('#contact-us-modal');await page.click('button[aria-label="Fechar Fale Conosco"]');await ready('[data-ns-screen="profile"]');
