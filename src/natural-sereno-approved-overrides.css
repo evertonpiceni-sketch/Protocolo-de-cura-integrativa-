@@ -526,9 +526,18 @@
 :root[data-layout="natural-sereno"] #daily-diary-modal :is(div,span)[class*="bg-[#B88736]/"] :is(span,svg) {
   color: #6B4E2E !important;
 }
-:root[data-layout="natural-sereno"] #specific-treatment-modal div[class*="bg-gradient"]:not(.pointer-events-none) {
+:root[data-layout="natural-sereno"] #specific-treatment-modal div[class*="bg-gradient"]:not(.pointer-events-none):not(.absolute) {
   background: linear-gradient(145deg,#FFFDF8 0%,#F3EDE4 100%) !important;
   border-color: rgba(200,157,82,.34) !important;
+}
+
+/* Preserve the lotus photograph: only its caption fade is translucent, never a solid card. */
+:root[data-layout="natural-sereno"] #specific-treatment-modal .relative > .absolute[class*="bg-gradient-to-t"] {
+  background: linear-gradient(to top,rgba(250,247,242,.90) 0%,rgba(42,36,33,.34) 55%,transparent 100%) !important;
+}
+:root[data-layout="natural-sereno"] #specific-treatment-modal .relative > .absolute[class*="bg-gradient-to-t"] p {
+  color: #2A2421 !important;
+  text-shadow: 0 1px 2px rgba(255,255,255,.42) !important;
 }
 :root[data-layout="natural-sereno"] #admin-panel-modal button[type="submit"] {
   background: linear-gradient(180deg,#E2B96B 0%,#C89D52 100%) !important;
