@@ -377,8 +377,16 @@ test('o acesso neutro antes da escolha não mantém CTA, ícones ou foco verdes 
   assert.ok(theme.includes('a:not([data-access-support-link="true"])'));
   assert.ok(profile.includes('ep-auth-prestyle min-h-dvh text-[#302E2A]'));
   assert.ok(profile.includes('bg-[#F7F3E8] border border-[#E5DAC6] text-[#5C5248]'), 'O aviso de sucesso deve permanecer neutro antes da escolha.');
-  assert.ok(profile.includes('bg-[#E4E0D7] hover:bg-[#D8D2C7] text-[#302E2A] border border-[#C9C2B7]'), 'As prévias de voz devem usar o mesmo tratamento neutro.');
-  assert.ok(profile.includes('fill-[#A99B84] text-[#817460]'), 'Os ícones de reprodução e pausa não devem herdar verde/amarelo saturado.');
+  const voiceStart = profile.indexOf('id="voice-gender-selector"');
+  const voiceEnd = profile.indexOf('id="soundscape-selector"', voiceStart);
+  const voiceSelector = profile.slice(voiceStart, voiceEnd);
+  assert.ok(voiceSelector.includes('Preferência de timbre'));
+  assert.ok(voiceSelector.includes('id="voice-preview-note"'));
+  assert.ok(!/(?:rose-|emerald-|amber-|#B88736|#d9bd69)/i.test(voiceSelector), 'A preferência de timbre deve permanecer neutra antes da escolha do estilo.');
+  assert.ok(!profile.includes('/brand/natural-sereno/voz-masculina-amostra.mp3'));
+  assert.ok(!profile.includes("voiceId: 'Rachel'"));
+  assert.ok(!profile.includes('SpeechSynthesisUtterance') && !profile.includes('speechSynthesis.speak'), 'O acesso não pode reproduzir amostras de outros estilos nem voz robótica do navegador.');
+  assert.ok(profile.includes('voiceType: voiceChoice') && profile.includes('preferredVoiceGender: voiceChoice'), 'A preferência de timbre continua salva sem escolher uma voz neural por antecipação.');
   assert.ok(!/emerald-|amber-(?:300|400|500)|text-amber-200/.test(profile), 'O acesso neutro não deve carregar classes cromáticas antigas.');
 });
 
@@ -397,4 +405,60 @@ test('o Diário da Essência Luminosa usa champagne e ouro suave nos CTAs e na s
   assert.ok(!css.includes(':root[data-layout="natural-sereno"]'));
   assert.ok(!css.includes(':root[data-layout="elegancia-profunda"]'));
   assert.ok(!css.includes(':root[data-layout="mistico-moderno"]'));
+});
+
+
+test('todos os fluxos de voz da Essência Luminosa preservam a voz neural e falham sem voz robótica', () => {
+  const voicePatch = fs.readFileSync('src/lib/essenciaLuminosaOfficialVoicePatch.ts', 'utf8');
+  const anamnesis = fs.readFileSync('src/components/AnamnesisModal.tsx', 'utf8');
+  const systemic = fs.readFileSync('src/components/SystemicQuestionsModal.tsx', 'utf8');
+  const arcanjo = fs.readFileSync('src/components/ArcanjoProtocolView.tsx', 'utf8');
+  const hooponopono = fs.readFileSync('src/components/HooponoponoModal.tsx', 'utf8');
+  const archangelPrayer = fs.readFileSync('src/components/ArchangelMichaelPrayerModal.tsx', 'utf8');
+
+  assert.ok(voicePatch.includes('originalPlayGuidedMeditation'));
+  assert.ok(voicePatch.includes('originalSpeakWithElevenLabsOrFallback'));
+  assert.ok(voicePatch.includes('isElevenLabsVoiceId(voiceId)'));
+  assert.ok(voicePatch.includes('preferElevenLabs: true'));
+  assert.ok(voicePatch.includes('fallbackToSpeechSynthesis: false'));
+  assert.ok(voicePatch.includes('requireExplicitVoiceId: true'));
+
+  assert.ok(anamnesis.includes('isEleganciaProfunda || isEssenciaLuminosa'));
+  assert.ok(anamnesis.includes('isEssenciaLuminosa ? OFFICIAL_PROTOCOL_VOICE_ID'));
+  assert.ok(anamnesis.includes('fallbackToSpeechSynthesis: false'));
+  assert.ok(anamnesis.includes('!isEleganciaProfunda && !isEssenciaLuminosa ? ('));
+
+  assert.ok(systemic.includes('isEleganciaProfunda || isEssenciaLuminosa'));
+  assert.ok(systemic.includes('voiceId: neuralVoiceId'));
+  assert.ok(systemic.includes('audioEngine.speakWithElevenLabsOrFallback'));
+  assert.ok(systemic.includes('audioEngine.previewVoice({'), 'A prévia nativa continua reservada aos estilos que não exigem voz neural.');
+
+  assert.ok(arcanjo.includes('requireExplicitVoiceId: isEleganciaProfunda || isEssenciaLuminosa'));
+  assert.ok(arcanjo.includes('if (isEleganciaProfunda || isEssenciaLuminosa)'));
+  assert.ok(arcanjo.includes('OFFICIAL_PROTOCOL_VOICE_ID'));
+
+  assert.ok(hooponopono.includes('fallbackToSpeechSynthesis: !(isEleganciaProfunda || isEssenciaLuminosa)'));
+  assert.ok(archangelPrayer.includes('fallbackToSpeechSynthesis: !(isEleganciaProfunda || isEssenciaLuminosa)'));
+});
+
+test('as páginas de reflexão e oração usam superfícies próprias da Essência Luminosa', () => {
+  const css = fs.readFileSync('src/essencia-luminosa-final-audit.css', 'utf8');
+  const arcanjo = fs.readFileSync('src/components/ArcanjoProtocolView.tsx', 'utf8');
+  assert.ok(css.includes(':root[data-layout="essencia-luminosa"] #systemic-questions-modal>div'));
+  assert.ok(css.includes(':root[data-layout="essencia-luminosa"] #archangel-prayer-modal .ep-archangel-prayer'));
+  assert.ok(css.includes(':root[data-layout="essencia-luminosa"] #arcanjo-protocol-view'));
+  assert.ok(arcanjo.includes('id="arcanjo-protocol-view"'));
+});
+
+test('as telas de pagamento não reintroduzem PIX manual e usam o checkout InfinitePay', () => {
+  const specificTreatment = fs.readFileSync('src/components/SpecificTreatmentModal.tsx', 'utf8');
+  const numerology = fs.readFileSync('src/components/NumerologyModal.tsx', 'utf8');
+  const paymentRoutes = fs.readFileSync('src/lib/paymentRoutes.ts', 'utf8');
+
+  assert.ok(specificTreatment.includes('/api/payment/create-checkout'));
+  assert.ok(numerology.includes('/api/payment/create-checkout'));
+  assert.ok(!/handleCopyPix|evertonpiceni@gmail\.com/.test(specificTreatment));
+  assert.ok(!/handleCopyPix|evertonpiceni@gmail\.com/.test(numerology));
+  assert.ok(paymentRoutes.includes('confirm'));
+  assert.ok(paymentRoutes.includes('signature') || paymentRoutes.includes('webhook'));
 });
