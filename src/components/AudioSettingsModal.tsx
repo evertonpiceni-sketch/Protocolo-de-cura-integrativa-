@@ -67,9 +67,10 @@ export default function AudioSettingsModal({
   const isNaturalSereno = typeof document !== 'undefined' && document.documentElement.dataset.layout === 'natural-sereno';
   const isEleganciaProfunda = typeof document !== 'undefined' && document.documentElement.dataset.layout === 'elegancia-profunda';
   const isEssenciaLuminosa = typeof document !== 'undefined' && document.documentElement.dataset.layout === 'essencia-luminosa';
-  const requiresNeuralVoice = isNaturalSereno || isEleganciaProfunda || isEssenciaLuminosa;
+  const isMisticoModerno = typeof document !== 'undefined' && document.documentElement.dataset.layout === 'mistico-moderno';
+  const requiresNeuralVoice = isNaturalSereno || isEleganciaProfunda || isEssenciaLuminosa || isMisticoModerno;
   const savedVoiceId = userProfile.voiceId?.trim() || '';
-  const initialVoiceId = (isNaturalSereno || isEssenciaLuminosa) && !isElevenLabsVoiceId(savedVoiceId)
+  const initialVoiceId = (isNaturalSereno || isEssenciaLuminosa || isMisticoModerno) && !isElevenLabsVoiceId(savedVoiceId)
     ? OFFICIAL_PROTOCOL_VOICE_ID
     : savedVoiceId;
   const [voiceId, setVoiceId] = useState(initialVoiceId);
@@ -79,9 +80,9 @@ export default function AudioSettingsModal({
   useEffect(() => {
     if (!isOpen) return;
     const saved = userProfile.voiceId?.trim() || '';
-    setVoiceId((isEssenciaLuminosa || isMisticoModerno) && !isElevenLabsVoiceId(saved) ? OFFICIAL_PROTOCOL_VOICE_ID : saved);
+    setVoiceId((isNaturalSereno || isEssenciaLuminosa || isMisticoModerno) && !isElevenLabsVoiceId(saved) ? OFFICIAL_PROTOCOL_VOICE_ID : saved);
     setVoiceTestError(false);
-  }, [isOpen, isEssenciaLuminosa, isMisticoModerno, userProfile.voiceId]);
+  }, [isOpen, isNaturalSereno, isEssenciaLuminosa, isMisticoModerno, userProfile.voiceId]);
   const neuralVoices = elevenLabsVoices.filter(voice => isElevenLabsVoiceId(voice.voice_id));
 
   // Camada Binaural State
