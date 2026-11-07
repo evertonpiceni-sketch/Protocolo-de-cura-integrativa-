@@ -15,7 +15,7 @@ test('Místico Moderno uses its official board in a dedicated night card', () =>
   assert.ok(modal.includes('text-[#F4F1EB]'));
   assert.ok(board.includes('aria-label="Prancha oficial do Estilo 4'));
   assert.ok(board.includes('data:image/webp;base64,'));
-  const payload = board.match(/data:image\\/webp;base64,([A-Za-z0-9+/=]+)"/)?.[1] ?? '';
+  const payload = board.match(/data:image\/webp;base64,([A-Za-z0-9+/=]+)"/)?.[1] ?? '';
   assert.ok(payload.length > 0 && payload.length % 4 === 0);
   const webp = Buffer.from(payload, 'base64');
   assert.equal(webp.subarray(0, 4).toString('ascii'), 'RIFF');
@@ -87,10 +87,10 @@ test('all Style 4 CSS modules stay scoped to the selected layout', () => {
   const imports = [...main.matchAll(/import '\.\/(mistico-moderno-[^']+\.css)';/g)].map(match => match[1]);
   assert.ok(imports.length >= 23, `Expected the 22 existing modules plus Arcanjo; found ${imports.length}.`);
   for (const filename of imports) {
-    const css = read(`src/${filename}`).replace(/\\/\\*[\\s\\S]*?\\*\\//g, '');
-    const selectors = [...css.matchAll(/([^{}]+)\\{/g)]
-      .map(match => match[1].trim().replace(/\\s+/g, ' '))
-      .filter(selector => selector && !selector.startsWith('@') && !/^(from|to|\\d+%)/.test(selector));
+    const css = read(`src/${filename}`).replace(/\/\*[\s\S]*?\*\//g, '');
+    const selectors = [...css.matchAll(/([^{}]+)\{/g)]
+      .map(match => match[1].trim().replace(/\s+/g, ' '))
+      .filter(selector => selector && !selector.startsWith('@') && !/^(from|to|\d+%)/.test(selector));
     const unscoped = selectors.filter(selector => !selector.includes('data-layout="mistico-moderno"'));
     assert.deepEqual(unscoped, [], `${filename} contains a selector outside the Style 4 scope.`);
   }
