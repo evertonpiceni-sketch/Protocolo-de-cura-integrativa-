@@ -7,8 +7,10 @@
 }
 
 :root[data-layout="mistico-moderno"] #meditation-session .ep-session-backdrop{
-  opacity:.82;
-  mix-blend-mode:screen;
+  position:absolute;
+  opacity:1!important;
+  mix-blend-mode:normal!important;
+  isolation:isolate;
 }
 
 :root[data-layout="mistico-moderno"] #meditation-session header{
