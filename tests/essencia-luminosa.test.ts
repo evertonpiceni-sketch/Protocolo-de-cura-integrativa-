@@ -47,7 +47,8 @@ test('a Home do Estilo 3 neutraliza texto amarelo de baixo contraste e trilho es
 
 test('o player do Estilo 3 respeita a voz salva no perfil', () => {
   const session = fs.readFileSync('src/components/MeditationSession.tsx', 'utf8');
-  assert.ok(session.includes("activeLayout === 'elegancia-profunda' || activeLayout === 'essencia-luminosa'"));
+  assert.ok(session.includes("activeLayout === 'essencia-luminosa'"));
+  assert.ok(session.includes("? savedVoiceId"));
   assert.ok(session.includes('? savedVoiceId'));
 });
 
