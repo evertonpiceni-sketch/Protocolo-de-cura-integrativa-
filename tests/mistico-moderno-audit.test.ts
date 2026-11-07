@@ -65,7 +65,7 @@ test('os três caminhos de reprodução do Místico Moderno usam a voz do servid
   assert.ok(server.includes('fallbackToSpeechSynthesis: !isMisticoVoice'));
   assert.ok(settings.includes('status.misticoModernoVoiceConfigured === true'));
   assert.ok(settings.includes('fallbackToSpeechSynthesis: !requiresOfficialServerVoice'));
-  assert.ok(home.includes('voiceId: isMisticoModerno ? MISTICO_MODERNO_OFFICIAL_VOICE_ALIAS'));
+  assert.ok(home.includes('const narrationVoiceId = isMisticoModerno') && home.includes('? MISTICO_MODERNO_OFFICIAL_VOICE_ALIAS'));
   assert.ok(home.includes('fallbackToSpeechSynthesis: !requiresOfficialServerVoice'));
   assert.ok(session.includes('MISTICO_MODERNO_OFFICIAL_VOICE_ALIAS'));
   assert.ok(arcanjo.includes('MISTICO_MODERNO_OFFICIAL_VOICE_ALIAS'));
