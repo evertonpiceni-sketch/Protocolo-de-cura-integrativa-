@@ -9,6 +9,7 @@ import { motion } from 'motion/react';
 import { Shield, Play, Pause, CheckCircle2, X, Sparkles, Copy, Check } from 'lucide-react';
 import { ARCHANGEL_MICHAEL_PRAYER_FULL, ARCHANGEL_MICHAEL_FULL_TEXT } from '../data/archangel_prayer';
 import { audioEngine } from '../lib/audio';
+import { isElevenLabsVoiceId } from '../lib/voiceSelection';
 import { getLocalDateString } from '../utils/date';
 
 interface ArchangelMichaelPrayerModalProps {
@@ -18,6 +19,7 @@ interface ArchangelMichaelPrayerModalProps {
   voiceId?: string;
   voiceRate?: number;
   voicePitch?: number;
+  voiceVolume?: number;
   onProgressChange?: (days: number[]) => void;
 }
 
@@ -31,9 +33,12 @@ export default function ArchangelMichaelPrayerModal({
   voiceId,
   voiceRate = 0.84,
   voicePitch = 1.0,
+  voiceVolume = 0.85,
   onProgressChange
 }: ArchangelMichaelPrayerModalProps) {
   const [isPlaying, setIsPlaying] = useState(false);
+  const [voiceError, setVoiceError] = useState(false);
+  const isEleganciaProfunda = typeof document !== 'undefined' && document.documentElement.dataset.layout === 'elegancia-profunda';
   const [currentSectionIndex, setCurrentSectionIndex] = useState(0);
   const [completedDays, setCompletedDays] = useState<number[]>([]);
   const [completedToday, setCompletedToday] = useState(false);
@@ -95,11 +100,16 @@ export default function ArchangelMichaelPrayerModal({
       return;
     }
 
+    if (isEleganciaProfunda && !isElevenLabsVoiceId(voiceId)) {
+      setVoiceError(true);
+      return;
+    }
+    setVoiceError(false);
     const textToSpeak = currentSection.text.replace(/\[NOME\]/g, userName || 'Filho de Deus');
     setIsPlaying(true);
     void audioEngine.speakWithElevenLabsOrFallback(
       textToSpeak,
-      0.85,
+      voiceVolume,
       () => setIsPlaying(true),
       () => setIsPlaying(false),
       undefined,
@@ -112,7 +122,11 @@ export default function ArchangelMichaelPrayerModal({
         stability: 0.45,
         similarityBoost: 0.75,
         enableBreathingPauses: true,
-        userName
+        userName,
+        fallbackToSpeechSynthesis: !isEleganciaProfunda,
+        onError: isEleganciaProfunda
+          ? () => { setIsPlaying(false); setVoiceError(true); }
+          : undefined
       }
     );
   };
@@ -264,18 +278,21 @@ export default function ArchangelMichaelPrayerModal({
         </section>
 
         <footer className="relative z-10 flex shrink-0 flex-col items-stretch justify-between gap-3 border-t border-[#E5DAC6] pt-3 sm:flex-row sm:items-center">
-          <button
-            type="button"
-            onClick={handleTogglePlay}
-            className={`min-h-11 rounded-xl border px-5 py-3 text-xs font-medium transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B88736]/30 ${
-              isPlaying
-                ? 'border-[#B88736] bg-[#B88736]/12 text-[#8F631E]'
-                : 'border-[#315C85]/30 bg-[#315C85] text-white hover:bg-[#274B6C]'
-            }`}
-          >
-            {isPlaying ? <Pause size={16} className="mr-2 inline" /> : <Play size={16} className="mr-2 inline" />}
-            {isPlaying ? 'Pausar áudio' : 'Ouvir esta parte'}
-          </button>
+          <div className="flex flex-col gap-2">
+            <button
+              type="button"
+              onClick={handleTogglePlay}
+              className={`min-h-11 rounded-xl border px-5 py-3 text-xs font-medium transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B88736]/30 ${
+                isPlaying
+                  ? 'border-[#B88736] bg-[#B88736]/12 text-[#8F631E]'
+                  : 'border-[#315C85]/30 bg-[#315C85] text-white hover:bg-[#274B6C]'
+              }`}
+            >
+              {isPlaying ? <Pause size={16} className="mr-2 inline" /> : <Play size={16} className="mr-2 inline" />}
+              {isPlaying ? 'Pausar áudio' : 'Ouvir esta parte'}
+            </button>
+            {voiceError && <p role="alert" className="ep-voice-error rounded-xl px-3 py-2 text-xs">Selecione uma voz neural válida em Ajustes de áudio. O Estilo 2 não usará a voz do dispositivo.</p>}
+          </div>
 
           <button
             type="button"
