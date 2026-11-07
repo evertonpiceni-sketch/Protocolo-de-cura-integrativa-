@@ -845,7 +845,7 @@ class CalmingAudioEngine {
 
     const voices = window.speechSynthesis.getVoices();
     if (options?.voiceId) {
-      const selected = voices.find(v => v.name === options.voiceId);
+      const selected = voices.find(v => v.name === options.voiceId || v.voiceURI === options.voiceId);
       if (selected) utterance.voice = selected;
     }
 
@@ -981,7 +981,7 @@ class CalmingAudioEngine {
       
       // Select voice based on user preference or automatic best match for the language
       if (options?.voiceId) {
-        const customVoice = voices.find(v => v.name === options.voiceId);
+        const customVoice = voices.find(v => v.name === options.voiceId || v.voiceURI === options.voiceId);
         if (customVoice) {
           utterance.voice = customVoice;
         }
