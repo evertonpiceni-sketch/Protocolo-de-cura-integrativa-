@@ -500,7 +500,7 @@
 :root[data-layout="natural-sereno"] .ns-app .ns-secondary {
   border-radius: 16px !important;
 }
-#profile-setup-view.ep-auth-prestyle #onboarding-card :is(#register-form,#login-form) button[type="submit"] {
+:root[data-layout="natural-sereno"] #profile-setup-view.ep-auth-prestyle #onboarding-card :is(#register-form,#login-form) button[type="submit"] {
   border-radius: 18px !important;
 }
 
