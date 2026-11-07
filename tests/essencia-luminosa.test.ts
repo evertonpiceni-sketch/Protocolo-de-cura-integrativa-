@@ -176,8 +176,8 @@ test('as assinaturas do logo em Home, Contato e Cursos permanecem discretas no E
   const contactCss = fs.readFileSync('src/essencia-luminosa-contact-audit.css', 'utf8');
   const coursesCss = fs.readFileSync('src/essencia-luminosa-courses-audit.css', 'utf8');
   assert.ok(finalCss.includes('.ep-brand-signature {\n  opacity: .30 !important;'));
-  assert.ok(contactCss.includes('opacity:.30'));
-  assert.ok(coursesCss.includes('opacity:.30'));
+  assert.ok(/opacity:\s*\.30/.test(contactCss));
+  assert.ok(/opacity:\s*\.30/.test(coursesCss));
 });
 
 test('a pré-seleção da Essência Luminosa usa ouro suave sem alterar o CTA dos outros estilos', () => {
@@ -247,4 +247,11 @@ test('a Prática Individual não mantém gradientes verde-escuro ou índigo no E
   assert.ok(modal.includes('to-slate-900'));
   assert.ok(css.includes(':root[data-layout="essencia-luminosa"] #specific-treatment-modal [class*="from-indigo-950/40"]'));
   assert.ok(css.includes(':root[data-layout="essencia-luminosa"] #specific-treatment-modal [class*="from-emerald-950/80"]'));
+});
+
+
+test('a prévia da Essência Luminosa usa a prancha original em resolução integral', () => {
+  const modal = fs.readFileSync('src/components/LayoutChoiceModal.tsx', 'utf8');
+  assert.ok(modal.includes('/brand/essencia-luminosa/prancha-oficial.png'));
+  assert.ok(!modal.includes('/brand/essencia-luminosa/prancha-oficial.webp'));
 });

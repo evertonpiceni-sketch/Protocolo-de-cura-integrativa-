@@ -62,7 +62,7 @@ function LayoutPreview({ layout }: { layout: LayoutDefinition }) {
         aria-hidden="true"
       >
         <img
-          src="/brand/essencia-luminosa/prancha-oficial.webp"
+          src="/brand/essencia-luminosa/prancha-oficial.png"
           alt=""
           loading="lazy"
           decoding="async"
