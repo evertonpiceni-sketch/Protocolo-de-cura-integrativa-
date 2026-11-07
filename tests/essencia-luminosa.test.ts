@@ -335,7 +335,8 @@ test('a página de Configurações usa ElevenLabs também na Essência Luminosa'
   assert.ok(block.includes('if (usesNeuralVoiceCatalog) {'));
   assert.ok(block.includes('fallbackToSpeechSynthesis: false'));
   assert.ok(block.includes('id="settings-voice-preview"'));
-  assert.ok(block.includes('Natural Sereno, Elegância Profunda e Essência Luminosa não usam a voz do dispositivo.'));
+  assert.ok(block.includes('Elegância Profunda e Essência Luminosa não usam a voz do dispositivo.'));
+  assert.ok(block.includes('A voz Maiara aprovada no catálogo ElevenLabs.'));
   assert.doesNotMatch(block, /if \(isEleganciaProfunda\)/);
 });
 
