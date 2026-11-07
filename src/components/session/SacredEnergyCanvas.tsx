@@ -10,6 +10,14 @@ interface SacredEnergyCanvasProps {
   colorTheme?: {
     glow?: string;
     accent?: string;
+    goldSoft?: string;
+    goldGlow?: string;
+    goldLine?: string;
+    sageSoft?: string;
+    sageGlow?: string;
+    sageLine?: string;
+    ivory?: string;
+    transparent?: string;
   };
 }
 
@@ -20,18 +28,18 @@ export const SacredEnergyCanvas: React.FC<SacredEnergyCanvasProps> = ({
   elapsedSeconds,
   colorTheme
 }) => {
-  // Style 3 receives soft champagne-gold and light sage; other styles retain their existing stage colors.
+  // Style 2 and Style 3 pass explicit palettes; unconfigured styles retain their existing stage colors.
   const palette = colorTheme ? {
     gold: colorTheme.glow || '#C6A46A',
     sage: colorTheme.accent || '#A6B49B',
-    goldSoft: 'rgba(198, 164, 106, 0.18)',
-    goldGlow: 'rgba(198, 164, 106, 0.32)',
-    goldLine: 'rgba(198, 164, 106, 0.46)',
-    sageSoft: 'rgba(166, 180, 155, 0.14)',
-    sageGlow: 'rgba(166, 180, 155, 0.24)',
-    sageLine: 'rgba(166, 180, 155, 0.40)',
-    ivory: '#FFFFF8',
-    transparent: 'rgba(255, 255, 248, 0)'
+    goldSoft: colorTheme.goldSoft || 'rgba(198, 164, 106, 0.18)',
+    goldGlow: colorTheme.goldGlow || 'rgba(198, 164, 106, 0.32)',
+    goldLine: colorTheme.goldLine || 'rgba(198, 164, 106, 0.46)',
+    sageSoft: colorTheme.sageSoft || 'rgba(166, 180, 155, 0.14)',
+    sageGlow: colorTheme.sageGlow || 'rgba(166, 180, 155, 0.24)',
+    sageLine: colorTheme.sageLine || 'rgba(166, 180, 155, 0.40)',
+    ivory: colorTheme.ivory || '#FFFFF8',
+    transparent: colorTheme.transparent || 'rgba(255, 255, 248, 0)'
   } : null;
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const clockRef = useRef(elapsedSeconds);
@@ -239,7 +247,7 @@ export const SacredEnergyCanvas: React.FC<SacredEnergyCanvasProps> = ({
         }
 
         case ProtocolStage.TRANSMUTACAO: {
-          // Sapphire protective dome + Violet Flame transmutation
+          // Protective dome and luminous transmutation; the active layout supplies its own palette.
           const domeRadius = 78;
 
           // Sapphire outer dome
@@ -275,7 +283,7 @@ export const SacredEnergyCanvas: React.FC<SacredEnergyCanvasProps> = ({
         }
 
         case ProtocolStage.BALSAMO: {
-          // Rose Quartz Heart expansion & Golden Light Source cascade
+          // Heart-centered expansion and golden light cascade.
           const heartPulse = Math.sin(time * 1.8) * 8 + 68;
 
           // Rose soft bloom
