@@ -47,6 +47,8 @@ import './elegancia-profunda-bottom-nav-audit.css';
 import './elegancia-profunda-mobile-install-audit.css';
 import './elegancia-profunda-header-final-audit.css';
 import './elegancia-profunda-dashboard-audit.css';
+// Última camada específica do Estilo 2: o modal de boas-vindas também deve seguir a prancha oficial.
+import './elegancia-profunda-welcome-audit.css';
 import './essencia-luminosa-final-audit.css';
 import './essencia-luminosa-canvas-audit.css';
 import './essencia-luminosa-mobile-install-audit.css';
