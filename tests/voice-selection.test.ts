@@ -4,7 +4,7 @@ import { isElevenLabsVoiceId } from '../src/lib/voiceSelection';
 
 test('accepts opaque ElevenLabs voice IDs', () => {
   assert.equal(isElevenLabsVoiceId('mJqP14JQFEK0PojR5lfV'), true);
-  assert.equal(isElevenLabsVoiceId('21m00Tcm4TlvDq8ikWAM'), true);
+  assert.equal(isElevenLabsVoiceId('AbCdEfGhIjKlMnOpQrSt'), true);
 });
 
 test('rejects device voice names, URIs and legacy aliases', () => {

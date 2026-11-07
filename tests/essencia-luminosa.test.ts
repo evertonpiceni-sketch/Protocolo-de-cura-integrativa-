@@ -80,7 +80,9 @@ test('o player usa ouro suave e sálvia nas animações da Essência Luminosa', 
 
 test('os tokens ativos do Estilo 3 correspondem à paleta aprovada mais recente', () => {
   const theme = fs.readFileSync('src/approved-theme.css', 'utf8');
-  const block = theme.match(/:root\\[data-layout="essencia-luminosa"\\]\\s*\\{([\\s\\S]*?)\\n\\}/)?.[1] || '';
+  const start = theme.indexOf(':root[data-layout="essencia-luminosa"]{');
+  const end = start >= 0 ? theme.indexOf('\n}', start) : -1;
+  const block = start >= 0 && end > start ? theme.slice(start, end) : '';
   assert.ok(block.includes('--layout-canvas:#FFFFF8;'));
   assert.ok(block.includes('--layout-canvas-alt:#F7F3E8;'));
   assert.ok(block.includes('--layout-accent:#A6B49B;'));
