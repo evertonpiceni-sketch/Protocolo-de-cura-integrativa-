@@ -659,6 +659,8 @@ export default function App() {
     setShowSettings(false);
     setShowArcanjoView(false);
     setActiveSessionDay(null);
+    setLayoutConfirmedThisSession(false);
+    setLayoutChoiceRequested(false);
     setIsLoggedIn(false);
   };
 
@@ -1276,29 +1278,39 @@ export default function App() {
 
                 <div className="p-4 bg-white border border-[#E5DAC6] rounded-2xl space-y-4">
                   {/* Voice Select */}
-                  <div className="space-y-1.5">
-                    <label className="text-[10px] font-mono text-[#5C5248] uppercase">
-                      Voz de Condução ({availableVoices.length > 0 ? `${availableVoices.length} vozes detectadas` : 'Voz Padrão do Sistema'})
-                    </label>
-                    <select
-                      value={userProfile.voiceId || ''}
-                      aria-label="Voz de condução"
-                      onChange={(e) => {
-                        saveProfile({
-                          ...userProfile,
-                          voiceId: e.target.value
-                        });
-                      }}
-                      className="w-full bg-[#FBF8F2] border border-[#E5DAC6] text-[#2A2420] rounded-xl px-3 py-2 text-xs outline-none focus:border-indigo-500"
-                    >
-                      <option key="voice-auto" value="">Automático: Melhor Voz Português (Neural/Acolhedora)</option>
-                      {availableVoices.map((v, index) => (
-                        <option key={`voice-${v.voiceURI || v.name}-${index}`} value={v.voiceURI}>
-                          {v.name} ({v.lang})
-                        </option>
-                      ))}
-                    </select>
-                  </div>
+                  {layoutConfirmedThisSession && userProfile.visualLayout === 'mistico-moderno' ? (
+                    <div className="space-y-1.5">
+                      <label className="text-[10px] font-mono text-[#5C5248] uppercase">Voz de Condução</label>
+                      <div role="status" className="w-full bg-[#FBF8F2] border border-[#E5DAC6] text-[#2A2420] rounded-xl px-3 py-2 text-xs font-semibold">
+                        Marianne — Meditação · ElevenLabs
+                      </div>
+                      <p className="text-[10px] text-[#5C5248] leading-relaxed">Voz oficial aprovada. Vozes instaladas no dispositivo não serão usadas como substitutas.</p>
+                    </div>
+                  ) : (
+                    <div className="space-y-1.5">
+                      <label className="text-[10px] font-mono text-[#5C5248] uppercase">
+                        Voz de Condução ({availableVoices.length > 0 ? `${availableVoices.length} vozes detectadas` : 'Voz Padrão do Sistema'})
+                      </label>
+                      <select
+                        value={userProfile.voiceId || ''}
+                        aria-label="Voz de condução"
+                        onChange={(e) => {
+                          saveProfile({
+                            ...userProfile,
+                            voiceId: e.target.value
+                          });
+                        }}
+                        className="w-full bg-[#FBF8F2] border border-[#E5DAC6] text-[#2A2420] rounded-xl px-3 py-2 text-xs outline-none focus:border-indigo-500"
+                      >
+                        <option key="voice-auto" value="">Automático: Melhor Voz Português (Neural/Acolhedora)</option>
+                        {availableVoices.map((v, index) => (
+                          <option key={`voice-${v.voiceURI || v.name}-${index}`} value={v.voiceURI}>
+                            {v.name} ({v.lang})
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+                  )}
 
                   {/* Speed / Cadence Slider */}
                   <div className="space-y-1.5">
@@ -1347,7 +1359,6 @@ export default function App() {
                           pitch: userProfile.voicePitch ?? 1.0,
                           onEnd: () => setIsPlayingVoiceTest(false)
                         });
-                        setTimeout(() => setIsPlayingVoiceTest(false), 5500);
                       }}
                       className="px-3 py-1.5 bg-indigo-600/30 hover:bg-indigo-600/50 border border-indigo-500/50 text-indigo-200 rounded-xl text-xs font-medium flex items-center gap-1.5 transition cursor-pointer shrink-0"
                     >
