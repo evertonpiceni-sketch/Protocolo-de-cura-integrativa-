@@ -15,6 +15,7 @@ import { UserProfile, AnamnesisData } from '../types';
 import { useDialogFocus } from '../hooks/useDialogFocus';
 import { evaluateBestTreatmentFromAnamnesis } from '../lib/anamnesisTreatmentEngine';
 import { audioEngine } from '../lib/audio';
+import { isElevenLabsVoiceId } from '../lib/voiceSelection';
 
 interface AnamnesisModalProps {
   isOpen: boolean;
@@ -75,6 +76,7 @@ export default function AnamnesisModal({
   const dialogRef = React.useRef<HTMLDivElement | null>(null);
   const cardRef = React.useRef<HTMLDivElement | null>(null);
   const naturalSereno = document.documentElement.dataset.layout === 'natural-sereno';
+  const isEleganciaProfunda = document.documentElement.dataset.layout === 'elegancia-profunda';
   useDialogFocus(isOpen && naturalSereno, dialogRef, () => handleCloseModal());
   React.useLayoutEffect(() => {
     if (isOpen && naturalSereno) {
@@ -112,6 +114,7 @@ export default function AnamnesisModal({
   const [isPlayingTherapeuticVoice, setIsPlayingTherapeuticVoice] = useState<boolean>(false);
   const [actionNotice, setActionNotice] = useState('');
   const [isLoadingVoice, setIsLoadingVoice] = useState<boolean>(false);
+  const [voiceError, setVoiceError] = useState(false);
   const [selectedVoiceGender, setSelectedVoiceGender] = useState<'masculina' | 'feminina'>(
     userProfile.preferredVoiceGender || (userProfile.preferredVoice === 'Rachel' ? 'feminina' : 'masculina')
   );
@@ -171,6 +174,7 @@ export default function AnamnesisModal({
   };
 
   const stopTherapeuticVoice = () => {
+    if (isEleganciaProfunda) audioEngine.stopSpeech();
     if (audioPlayerRef.current) {
       audioPlayerRef.current.pause();
       audioPlayerRef.current = null;
@@ -189,6 +193,43 @@ export default function AnamnesisModal({
       return;
     }
 
+    if (isEleganciaProfunda) {
+      const neuralVoiceId = isElevenLabsVoiceId(userProfile.voiceId) ? userProfile.voiceId : '';
+      if (!neuralVoiceId) {
+        setVoiceError(true);
+        setIsLoadingVoice(false);
+        return;
+      }
+      setVoiceError(false);
+      setIsLoadingVoice(true);
+      void audioEngine.speakWithElevenLabsOrFallback(
+        text,
+        userProfile.voiceVolume ?? 0.9,
+        () => { setIsPlayingTherapeuticVoice(true); setIsLoadingVoice(false); },
+        () => { setIsPlayingTherapeuticVoice(false); setIsLoadingVoice(false); },
+        undefined,
+        undefined,
+        {
+          voiceId: neuralVoiceId,
+          rate: userProfile.voiceRate ?? 0.82,
+          pitch: userProfile.voicePitch ?? 0.98,
+          lang: 'pt-BR',
+          stability: 0.45,
+          similarityBoost: 0.75,
+          enableBreathingPauses: true,
+          userName: userProfile.name,
+          fallbackToSpeechSynthesis: false,
+          onError: () => {
+            setIsPlayingTherapeuticVoice(false);
+            setIsLoadingVoice(false);
+            setVoiceError(true);
+          }
+        }
+      );
+      return;
+    }
+
+    setVoiceError(false);
     setIsLoadingVoice(true);
     try {
       // 1. Try ElevenLabs API endpoint with chosen voice
@@ -505,38 +546,42 @@ export default function AnamnesisModal({
                   </div>
                 </div>
 
-                {/* Voice Gender Switcher */}
-                <div className="flex items-center gap-1.5 p-1 bg-white/80 rounded-xl border border-[#E5DAC6] self-start sm:self-auto">
-                  <button
-                    type="button"
-                    onClick={() => {
-                      if (isPlayingTherapeuticVoice) stopTherapeuticVoice();
-                      setSelectedVoiceGender('masculina');
-                    }}
-                    className={`px-3 py-1.5 rounded-lg text-xs font-medium transition cursor-pointer flex items-center gap-1.5 ${
-                      selectedVoiceGender === 'masculina'
-                        ? 'bg-[#B88736] text-white shadow-sm'
-                        : 'text-[#5C5248] hover:text-[#2A2420]'
-                    }`}
-                  >
-                    <span>Voz masculina</span>
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => {
-                      if (isPlayingTherapeuticVoice) stopTherapeuticVoice();
-                      setSelectedVoiceGender('feminina');
-                    }}
-                    className={`px-3 py-1.5 rounded-lg text-xs font-medium transition cursor-pointer flex items-center gap-1.5 ${
-                      selectedVoiceGender === 'feminina'
-                        ? 'bg-[#B88736] text-white shadow-sm'
-                        : 'text-[#5C5248] hover:text-[#2A2420]'
-                    }`}
-                  >
-                    <span>Voz Suave</span>
-                  </button>
-                </div>
+                {!isEleganciaProfunda ? (
+                  <div className="flex items-center gap-1.5 p-1 bg-white/80 rounded-xl border border-[#E5DAC6] self-start sm:self-auto">
+                    <button
+                      type="button"
+                      onClick={() => {
+                        if (isPlayingTherapeuticVoice) stopTherapeuticVoice();
+                        setSelectedVoiceGender('masculina');
+                      }}
+                      className={`px-3 py-1.5 rounded-lg text-xs font-medium transition cursor-pointer flex items-center gap-1.5 ${
+                        selectedVoiceGender === 'masculina'
+                          ? 'bg-[#B88736] text-white shadow-sm'
+                          : 'text-[#5C5248] hover:text-[#2A2420]'
+                      }`}
+                    >
+                      <span>Voz masculina</span>
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        if (isPlayingTherapeuticVoice) stopTherapeuticVoice();
+                        setSelectedVoiceGender('feminina');
+                      }}
+                      className={`px-3 py-1.5 rounded-lg text-xs font-medium transition cursor-pointer flex items-center gap-1.5 ${
+                        selectedVoiceGender === 'feminina'
+                          ? 'bg-[#B88736] text-white shadow-sm'
+                          : 'text-[#5C5248] hover:text-[#2A2420]'
+                      }`}
+                    >
+                      <span>Voz Suave</span>
+                    </button>
+                  </div>
+                ) : (
+                  <span className="text-xs text-[#B88736]">Voz neural selecionada no perfil</span>
+                )}
               </div>
+              {voiceError && <p role="alert" className="ep-voice-error rounded-xl px-3 py-2 text-xs">Selecione uma voz neural válida em Ajustes de áudio. O Estilo 2 não usará a voz do dispositivo.</p>}
 
               {/* Player Controls & Waveform */}
               <div className="p-4 rounded-2xl bg-white/80 border border-[#E5DAC6] space-y-3">
