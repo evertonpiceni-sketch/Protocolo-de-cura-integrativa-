@@ -79,7 +79,7 @@
   width: 100%;
   padding: 10px 16px;
   border: 1px solid rgba(200,157,82,.62);
-  border-radius: 24px;
+  border-radius: 16px;
   color: #2A2421;
   font-family: 'Lora', Georgia, serif;
   font-size: 14px;
@@ -220,13 +220,13 @@
 }
 :root[data-layout="natural-sereno"] .ns-dock button { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 5px; color: var(--ns-muted); font: 10px/1.3 'Inter', sans-serif; min-height: 48px; }
 :root[data-layout="natural-sereno"] .ns-dock button[aria-current="page"] { color: var(--ns-forest); }
-:root[data-layout="natural-sereno"] .ns-welcome { display: flex; min-height: calc(100dvh - 76px); align-items: center; padding: 24px 26px; background: var(--ns-waterfall) center / cover no-repeat #062f22; color: #fff8df; }
-:root[data-layout="natural-sereno"] .ns-welcome::before { background: linear-gradient(180deg, rgba(4, 36, 25, .16), rgba(4, 36, 25, .72) 55%, rgba(4, 36, 25, .85)); }
+:root[data-layout="natural-sereno"] .ns-welcome { display: flex; min-height: calc(100dvh - 76px); align-items: center; padding: 24px 26px; background: var(--ns-waterfall) center / cover no-repeat #FAF7F2; color: #FAF7F2; }
+:root[data-layout="natural-sereno"] .ns-welcome::before { background: linear-gradient(180deg, rgba(42,36,33,.12), rgba(42,36,33,.58) 55%, rgba(42,36,33,.72)); }
 :root[data-layout="natural-sereno"] .ns-welcome-content { width: 100%; text-align: center; }
 :root[data-layout="natural-sereno"] .ns-welcome h1 { font-size: 34px; }
 :root[data-layout="natural-sereno"] .ns-welcome p { font-size: 14px; line-height: 1.7; margin: 20px 0; }
 :root[data-layout="natural-sereno"] .ns-audio-lines { margin: 22px auto 8px; color: #A87E37; }
-:root[data-layout="natural-sereno"] .ns-welcome-play { display: grid; place-items: center; width: 86px; height: 86px; margin: 0 auto; border: 2px solid #ebd594; border-radius: 50%; color: #E2B96B; background: rgba(8, 62, 43, .7); box-shadow: 0 0 0 6px rgba(230, 205, 130, .13), 0 0 20px rgba(226, 197, 105, .23); }
+:root[data-layout="natural-sereno"] .ns-welcome-play { display: grid; place-items: center; width: 86px; height: 86px; margin: 0 auto; border: 2px solid #C89D52; border-radius: 50%; color: #E2B96B; background: rgba(42,36,33,.52); box-shadow: 0 0 0 6px rgba(200,157,82,.13), 0 0 20px rgba(200,157,82,.18); }
 :root[data-layout="natural-sereno"] .ns-welcome .ns-welcome-status { font-size: 12px; margin: 14px 0 30px; }
 
 /* Existing assessment and course data remain intact; only their Natural Sereno
@@ -261,22 +261,22 @@
   background: var(--ns-waterfall) center / cover no-repeat #063020 !important;
   overflow-y: auto;
 }
-:root[data-layout="natural-sereno"] #meditation-session .ep-session-backdrop { background: linear-gradient(180deg, transparent 0%, rgba(3, 36, 24, .86) 78%); }
+:root[data-layout="natural-sereno"] #meditation-session .ep-session-backdrop { background: linear-gradient(180deg, rgba(250,247,242,.08), rgba(250,247,242,.30) 78%); }
 :root[data-layout="natural-sereno"] #meditation-session .ep-session-backdrop canvas { opacity: .18; }
 :root[data-layout="natural-sereno"] #meditation-session .ep-session-backdrop > div:last-child { background: transparent !important; }
-:root[data-layout="natural-sereno"] #meditation-session > header { flex-shrink: 0; border: 0; padding: 14px 16px; background: rgba(4, 38, 26, .4) !important; box-shadow: none !important; }
+:root[data-layout="natural-sereno"] #meditation-session > header { flex-shrink: 0; border: 0; padding: 14px 16px; background: rgba(250,247,242,.90) !important; box-shadow: 0 5px 18px rgba(67,52,39,.05) !important; }
 :root[data-layout="natural-sereno"] #meditation-session > header :is(h1, div, span) { color: #fff8e6 !important; }
-:root[data-layout="natural-sereno"] #meditation-session > header button { background: rgba(6, 52, 35, .6) !important; border-color: rgba(227, 206, 148, .4) !important; color: #fff8e6 !important; }
+:root[data-layout="natural-sereno"] #meditation-session > header button { background: rgba(251,248,242,.94) !important; border-color: rgba(200,157,82,.34) !important; color: #6B4E2E !important; }
 :root[data-layout="natural-sereno"] #meditation-session > main { justify-content: flex-end; min-height: 390px; max-width: 480px; padding: 150px 20px 16px; }
 :root[data-layout="natural-sereno"] #meditation-session > main :is(h2, p, span) { color: #fff8e6 !important; }
 :root[data-layout="natural-sereno"] #meditation-session > main h2 { font-size: 31px !important; }
 :root[data-layout="natural-sereno"] #meditation-session > main p { font-size: 13px; }
 :root[data-layout="natural-sereno"] #meditation-session > main .relative.w-44.h-44 { width: 110px !important; height: 110px !important; margin: 8px 0 !important; }
-:root[data-layout="natural-sereno"] #meditation-session > main .border { background: rgba(3, 43, 29, .67) !important; border-color: rgba(228, 208, 146, .38) !important; color: #fff8e6 !important; }
-:root[data-layout="natural-sereno"] #meditation-session > footer { flex-shrink: 0; max-width: 480px; border: 0; background: rgba(3, 35, 24, .84) !important; padding: 12px 6px max(10px, env(safe-area-inset-bottom)); }
-:root[data-layout="natural-sereno"] #meditation-session > footer button { color: #fff4cd !important; }
-:root[data-layout="natural-sereno"] #meditation-session > footer [class*="text-[#5C5248]"] { color: #fff4cd !important; }
-:root[data-layout="natural-sereno"] #meditation-session .ns-play-toggle { width: 66px; height: 66px; border-radius: 50%; border: 2px solid #f2dda4; background: rgba(8, 69, 45, .7) !important; box-shadow: 0 0 0 5px rgba(206, 182, 100, .12); }
+:root[data-layout="natural-sereno"] #meditation-session > main .border { background: rgba(250,247,242,.84) !important; border-color: rgba(200,157,82,.34) !important; color: #2A2421 !important; }
+:root[data-layout="natural-sereno"] #meditation-session > footer { flex-shrink: 0; max-width: 480px; border: 0; background: rgba(250,247,242,.94) !important; padding: 12px 6px max(10px, env(safe-area-inset-bottom)); }
+:root[data-layout="natural-sereno"] #meditation-session > footer button { color: #6B4E2E !important; }
+:root[data-layout="natural-sereno"] #meditation-session > footer [class*="text-[#5C5248]"] { color: #6B625B !important; }
+:root[data-layout="natural-sereno"] #meditation-session .ns-play-toggle { width: 66px; height: 66px; border-radius: 50%; border: 2px solid #C89D52; color: #2A2421 !important; background: linear-gradient(180deg,#E2B96B,#C89D52) !important; box-shadow: 0 0 0 5px rgba(200,157,82,.12); }
 :root[data-layout="natural-sereno"] #meditation-session[data-session-phase="portal"] > main { display: none; }
 :root[data-layout="natural-sereno"] #meditation-session .ep-acceptance-portal { max-width: 480px !important; padding: 24px 18px !important; }
 :root[data-layout="natural-sereno"] #meditation-session .ep-acceptance-portal > div { color: var(--ns-ink) !important; background: rgba(250, 247, 242, .96) !important; border: 1px solid rgba(200,157,82,.36) !important; border-radius: 16px !important; box-shadow: 0 12px 40px rgba(0, 29, 17, .2) !important; padding: 28px 22px; }
@@ -296,9 +296,9 @@
   right: 12px;
   padding: 10px;
   border: 1px solid rgba(200,157,82,.40);
-  background: var(--ns-forest);
-  color: #fff8df;
-  box-shadow: 0 3px 10px rgba(6, 43, 28, .15);
+  background: #FBF8F2;
+  color: #6B4E2E;
+  box-shadow: 0 6px 18px rgba(67,52,39,.10);
 }
 :root[data-layout="natural-sereno"] #main-footer { padding-bottom: 94px; }
 @media (max-width: 640px) {
@@ -318,7 +318,7 @@
 :root[data-layout="natural-sereno"] .ns-community-empty h2 { font-size: 29px; }
 :root[data-layout="natural-sereno"] .ns-community-empty p { font-size: 13px; line-height: 1.65; }
 :root[data-layout="natural-sereno"] #main-header > div > div:first-child > div:first-child { opacity: .6; background: transparent !important; border: 0; box-shadow: none; }
-:root[data-layout="natural-sereno"] #auth-loading-view { background: linear-gradient(180deg, rgba(2, 34, 21, .15), rgba(2, 34, 21, .75)), var(--ns-waterfall) center / cover no-repeat !important; }
+:root[data-layout="natural-sereno"] #auth-loading-view { background: linear-gradient(180deg, rgba(42,36,33,.12), rgba(42,36,33,.68)), var(--ns-waterfall) center / cover no-repeat #FAF7F2 !important; }
 :root[data-layout="natural-sereno"] #auth-loading-view :is(h2, p) { color: #fff8e6 !important; }
 :root[data-layout="natural-sereno"] #auth-loading-view > div { background: transparent !important; border: 0; box-shadow: none; opacity: .65; }
 :root[data-layout="natural-sereno"] #anamnesis-modal div[class*="bg-[#B88736]/"] { background: rgba(182, 139, 54, .1) !important; }
@@ -335,15 +335,15 @@
 :root[data-layout="natural-sereno"] #meditation-session > footer > div { padding-bottom: 8px; }
 :root[data-layout="natural-sereno"] #meditation-session > footer > div > div:last-child { display: grid; grid-template-columns: 1fr 1fr; gap: 15px 12px; }
 :root[data-layout="natural-sereno"] #meditation-session > footer > div > div:last-child > div { grid-column: 1 / -1; grid-row: 1; justify-content: center; gap: 16px; }
-:root[data-layout="natural-sereno"] #meditation-session > footer > div > div:last-child > button { grid-row: 2; display: flex; align-items: center; justify-content: center; border: 1px solid rgba(228, 208, 146, .4); background: rgba(3, 43, 29, .45); min-height: 42px; }
+:root[data-layout="natural-sereno"] #meditation-session > footer > div > div:last-child > button { grid-row: 2; display: flex; align-items: center; justify-content: center; border: 1px solid rgba(200,157,82,.34); background: rgba(251,248,242,.94); color: #6B4E2E; min-height: 42px; }
 :root[data-layout="natural-sereno"] #meditation-session > footer button[title="Ler roteiro completo"] span { display: inline; }
-:root[data-layout="natural-sereno"] #floating-whatsapp-btn :is(svg, span) { color: #fff8df !important; fill: transparent; }
-:root[data-layout="natural-sereno"] .ns-app[data-ns-screen="community"] { color: #fff8df; background: var(--ns-waterfall) center / cover no-repeat #2A2421; }
-:root[data-layout="natural-sereno"] .ns-app[data-ns-screen="community"]::before { background: rgba(3, 40, 26, .7); }
+:root[data-layout="natural-sereno"] #floating-whatsapp-btn :is(svg, span) { color: #6B4E2E !important; fill: transparent; }
+:root[data-layout="natural-sereno"] .ns-app[data-ns-screen="community"] { color: #2A2421; background: var(--ns-waterfall) center / cover no-repeat #FAF7F2; }
+:root[data-layout="natural-sereno"] .ns-app[data-ns-screen="community"]::before { background: rgba(250,247,242,.88); }
 :root[data-layout="natural-sereno"] .ns-app[data-ns-screen="community"] .ns-page-heading { background: transparent; }
-:root[data-layout="natural-sereno"] .ns-app[data-ns-screen="community"] .ns-page-heading > button { color: #fff8df; }
+:root[data-layout="natural-sereno"] .ns-app[data-ns-screen="community"] .ns-page-heading > button { color: #2A2421; }
 :root[data-layout="natural-sereno"] .ns-community-empty { color: var(--ns-ink); }
-:root[data-layout="natural-sereno"] .ns-community .ns-filter button { background: rgba(9, 66, 44, .75); color: #fff8df; border: 1px solid rgba(224, 205, 142, .45); }
+:root[data-layout="natural-sereno"] .ns-community .ns-filter button { background: rgba(250,247,242,.94); color: #6B4E2E; border: 1px solid rgba(200,157,82,.34); }
 :root[data-layout="natural-sereno"] .ns-community .ns-filter button[aria-pressed="true"] { background: linear-gradient(180deg, #E2B96B, #C89D52); color: #2A2421; }
 /* Second source comparison: restore the approved phone-scale proportions. */
 :root[data-layout="natural-sereno"] #cura-main-layout:has(.ns-app:not([data-ns-screen="home"])) #main-header { display: none !important; }
@@ -473,7 +473,7 @@
 :root[data-layout="natural-sereno"] #meditation-session > main > div > .inline-flex { font-size: 10px; margin-bottom: 10px; }
 :root[data-layout="natural-sereno"] #meditation-session > main .relative.w-44.h-44 { width: 80px !important; height: 80px !important; }
 :root[data-layout="natural-sereno"] #meditation-session > main { padding-top: 170px; min-height: 390px; }
-:root[data-layout="natural-sereno"] #meditation-session > header > div:first-child > div:first-child { background: #2A2421 !important; border-color: rgba(200,157,82,.40) !important; flex-shrink: 0; }
+:root[data-layout="natural-sereno"] #meditation-session > header > div:first-child > div:first-child { background: #F5EFE5 !important; color: #A87E37 !important; border-color: rgba(200,157,82,.40) !important; flex-shrink: 0; }
 :root[data-layout="natural-sereno"] #meditation-session > main .relative.w-44.h-44 span { font-size: 9px; }
 :root[data-layout="natural-sereno"] .ns-app[data-ns-screen="menu"] .ns-signature { padding-right: 20px; font-size: 23px; }
 :root[data-layout="natural-sereno"] .ns-welcome-brand,
@@ -547,15 +547,15 @@
 }
 :root[data-layout="natural-sereno"] .ns-home-scene > .ns-gold { min-height: 70px; font-size: 20px; }
 :root[data-layout="natural-sereno"] .ns-page-heading p { font-size: 15px; }
-:root[data-layout="natural-sereno"] .ns-row-copy small { font-size: 13px; color: #58604b; }
-:root[data-layout="natural-sereno"] .ns-row { background: linear-gradient(180deg, rgba(255, 252, 238, .98), rgba(250, 242, 217, .94)); box-shadow: inset 0 1px 2px #FBF8F2, 0 2px 6px rgba(70, 62, 32, .07); }
-:root[data-layout="natural-sereno"] .ns-row-icon { box-shadow: inset 0 1px 4px rgba(255, 247, 198, .28), 0 1px 3px rgba(4, 40, 25, .16); }
+:root[data-layout="natural-sereno"] .ns-row-copy small { font-size: 13px; color: #6B625B; }
+:root[data-layout="natural-sereno"] .ns-row { background: linear-gradient(180deg, rgba(255,253,248,.98), rgba(245,239,229,.94)); box-shadow: inset 0 1px 2px rgba(255,255,255,.72), 0 2px 6px rgba(67,52,39,.07); }
+:root[data-layout="natural-sereno"] .ns-row-icon { box-shadow: inset 0 1px 4px rgba(255,255,255,.24), 0 1px 3px rgba(67,52,39,.10); }
 :root[data-layout="natural-sereno"] .ns-app[data-ns-screen="menu"] .ns-page-heading { min-height: 135px; }
 :root[data-layout="natural-sereno"] .ns-app[data-ns-screen="menu"] .ns-row { min-height: 94px; padding: 10px 12px; }
 :root[data-layout="natural-sereno"] .ns-app[data-ns-screen="menu"] .ns-row-icon { width: 66px; height: 66px; }
 :root[data-layout="natural-sereno"] .ns-app[data-ns-screen="menu"] .ns-row-icon svg { width: 30px; height: 30px; stroke-width: 1.6; }
 :root[data-layout="natural-sereno"] .ns-app[data-ns-screen="menu"] .ns-row-copy strong { font-size: 19px; }
-:root[data-layout="natural-sereno"] .ns-dock { background: #2A2421; }
+:root[data-layout="natural-sereno"] .ns-dock { background: rgba(250,247,242,.97); border-top: 1px solid var(--ns-line); }
 :root[data-layout="natural-sereno"] .ns-dock button { font-size: 12px; font-weight: 500; }
 :root[data-layout="natural-sereno"] .ns-dock svg { width: 29px; height: 29px; stroke-width: 1.9; }
 :root[data-layout="natural-sereno"] .ns-dock button[aria-current="page"] { font-weight: 700; }
