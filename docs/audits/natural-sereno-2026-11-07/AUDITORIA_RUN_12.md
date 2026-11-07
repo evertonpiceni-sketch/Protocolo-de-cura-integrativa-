@@ -9,6 +9,7 @@ Referência oficial conferida: `1001196520.png` / `file_00000000317c820ebaad657d
 - **Solfeggio/ownership:** a política permite os sete tons do protocolo (396, 417, 528, 639, 741, 852 e 963 Hz) e bloqueia ambiência global enquanto Arcanjo está aberto. A interrupção da trilha ocorre uma vez na entrada, não em cada mutação React.
 - **Abertura automática:** possuir a assinatura `arcanjo_7d` não força mais a abertura da tela no login; ela abre por ação explícita ou pela confirmação de compra já existente.
 - **Varredura de superfícies secundárias:** estados selecionados de Numerologia, Mapa Astral, Ho'oponopono, instalação e conquistas foram alinhados ao creme/café/dourado/sálvia. O logo do carregamento recebe opacidade de 24%.
+- **Prévia do Estilo 2:** restaurado o SVG oficial a partir da cópia válida do audit run 55; o WebP embutido voltou a ter payload completo (384×288). A prancha não foi redesenhada; apenas o arquivo corrompido foi substituído.
 
 ## Preservado
 
@@ -22,7 +23,7 @@ Referência oficial conferida: `1001196520.png` / `file_00000000317c820ebaad657d
 
 1. Confirmar o ID ElevenLabs efetivamente salvo no perfil e ouvir a amostra no navegador. O repositório não comprova qual voz específica foi escolhida.
 2. Homologar em navegador real desktop e mobile: recorte das paisagens, nitidez, alinhamento final do player, animação visível e reprodução acústica dos sete tons.
-3. Aguardar CI desta atualização (TypeScript, suíte de testes e build). Nenhum checkout real foi disparado e nenhuma implantação de produção foi executada.
+3. Aguardar a última execução do CI. Na execução anterior, TypeScript passou; a suíte apontou a prancha do Estilo 2 com base64 truncado, agora restaurada e com validador ajustado para quebras de linha. A auditoria de dependências ainda reporta vulnerabilidades preexistentes; não foram feitas atualizações de pacotes fora do escopo. Nenhum checkout real foi disparado e nenhuma implantação de produção foi executada.
 
 ## Escopo
 
