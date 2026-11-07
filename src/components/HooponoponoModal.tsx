@@ -119,7 +119,7 @@ export default function HooponoponoModal({ isOpen, onClose, userName = 'Buscador
       undefined,
       undefined,
       {
-        voiceId: userProfile?.voiceId || (userProfile?.preferredVoiceGender === 'feminina' ? 'Rachel' : 'Marcus'),
+        voiceId: userProfile?.voiceId || userProfile?.preferredVoice || (userProfile?.preferredVoiceGender === 'feminina' ? 'Rachel' : 'Marcus'),
         rate: userProfile?.voiceRate ?? 0.82,
         pitch: userProfile?.voicePitch ?? 0.98,
         lang: 'pt-BR',
