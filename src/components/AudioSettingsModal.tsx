@@ -215,7 +215,7 @@ export default function AudioSettingsModal({
   };
 
   const handleSave = () => {
-    if (isEssenciaLuminosa && !isElevenLabsVoiceId(voiceId)) {
+    if (requiresNeuralVoice && !isElevenLabsVoiceId(voiceId)) {
       setVoiceTestError(true);
       return;
     }
