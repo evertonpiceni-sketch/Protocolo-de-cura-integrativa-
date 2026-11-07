@@ -11,8 +11,9 @@ interface LayoutChoiceModalProps {
 }
 
 function LayoutPreview({ layout }: { layout: LayoutDefinition }) {
-  // A prévia do Estilo 3 usa a prancha oficial como referência visual aprovada.
+  // As pranchas são referências visuais; conteúdos e fluxos seguem as decisões posteriores.
   const isEssenciaLuminosa = layout.id === 'essencia-luminosa';
+  const isMystic = layout.id === 'mistico-moderno';
   const [canvas, accent, gold, surface] = layout.swatches;
   const foreground = layout.tone === 'dark' ? '#F4F1EB' : '#2A2420';
   const muted = layout.tone === 'dark' ? 'rgba(244,241,235,.68)' : 'rgba(42,36,32,.62)';
@@ -72,7 +73,17 @@ function LayoutPreview({ layout }: { layout: LayoutDefinition }) {
       </div>
     );
   }
-  const innerBorder = layout.id === 'mistico-moderno' ? 'rgba(108,63,160,.28)' : 'rgba(42,36,32,.06)';
+  if (isMystic) {
+    return (
+      <div className="mt-4 overflow-hidden rounded-2xl border shadow-inner" style={{ backgroundColor: '#0A0F18', borderColor: 'rgba(108,63,160,.45)' }} aria-hidden="true">
+        <img src="/brand/mistico-moderno/prancha-oficial.svg" alt="" loading="eager" decoding="async" draggable={false} className="h-[184px] w-full object-contain p-1" />
+        <p className="border-t border-[#6C3FA0]/25 px-3 py-2 text-[10px] leading-relaxed text-[#C8D0DC]">
+          Prancha visual oficial. Conteúdos e fluxos seguem as decisões aprovadas posteriores.
+        </p>
+      </div>
+    );
+  }
+  const innerBorder = 'rgba(42,36,32,.06)';
   const naturalIvory = '#F3EDE4';
   const previewBackground = isNaturalSereno
     ? `linear-gradient(145deg, ${canvas}, ${naturalIvory})`
@@ -174,14 +185,19 @@ export default function LayoutChoiceModal({ onSelect }: LayoutChoiceModalProps) 
           {OFFICIAL_LAYOUTS.map(layout => {
             const isSelected = selectedLayout === layout.id;
             const isEssenciaCard = layout.id === 'essencia-luminosa';
-            const selectionClasses = isEssenciaCard
+            const isMysticCard = layout.id === 'mistico-moderno';
+            const selectionClasses = isMysticCard
               ? isSelected
-                ? 'border-[#C6A46A] ring-2 ring-[#C6A46A]/20 shadow-lg'
-                : 'border-[#E5DAC6] hover:border-[#C6A46A]/60'
-              : isSelected
-                ? 'border-[#B88736] ring-2 ring-[#B88736]/20 shadow-lg'
-                : 'border-[#E5DAC6] hover:border-[#B88736]/60';
-            const focusRingClass = isEssenciaCard ? 'focus-visible:ring-[#C6A46A]/35' : 'focus-visible:ring-[#B88736]/35';
+                ? 'border-[#D4AF37] ring-2 ring-[#D4AF37]/20 shadow-lg'
+                : 'border-[#6C3FA0]/45 hover:border-[#D4AF37]/60'
+              : isEssenciaCard
+                ? isSelected
+                  ? 'border-[#C6A46A] ring-2 ring-[#C6A46A]/20 shadow-lg'
+                  : 'border-[#E5DAC6] hover:border-[#C6A46A]/60'
+                : isSelected
+                  ? 'border-[#B88736] ring-2 ring-[#B88736]/20 shadow-lg'
+                  : 'border-[#E5DAC6] hover:border-[#B88736]/60';
+            const focusRingClass = isMysticCard ? 'focus-visible:ring-[#D4AF37]/35' : isEssenciaCard ? 'focus-visible:ring-[#C6A46A]/35' : 'focus-visible:ring-[#B88736]/35';
             return (
               <button
                 key={layout.id}
@@ -189,14 +205,14 @@ export default function LayoutChoiceModal({ onSelect }: LayoutChoiceModalProps) 
                 onClick={() => { setSelectedLayout(layout.id); setSaveError(null); }}
                 disabled={isSaving}
                 aria-pressed={isSelected}
-                className={`group min-h-36 rounded-2xl border bg-white/85 p-5 text-left transition hover:-translate-y-0.5 hover:shadow-lg focus-visible:outline-none focus-visible:ring-2 ${focusRingClass} ${selectionClasses}`}
+                className={`group min-h-36 rounded-2xl border ${isMysticCard ? 'bg-[#0A0F18]' : 'bg-white/85'} p-5 text-left transition hover:-translate-y-0.5 hover:shadow-lg focus-visible:outline-none focus-visible:ring-2 ${focusRingClass} ${selectionClasses}`}
               >
                 <div className="flex items-start justify-between gap-3">
                   <div>
-                    <h3 className="font-display text-xl font-semibold text-[#2A2420]">{layout.name}</h3>
-                    <p className="mt-1 text-xs leading-relaxed text-[#5C5248]">{layout.description}</p>
+                    <h3 className={`font-display text-xl font-semibold ${isMysticCard ? 'text-[#F4F1EB]' : 'text-[#2A2420]'}`}>{layout.name}</h3>
+                    <p className={`mt-1 text-xs leading-relaxed ${isMysticCard ? 'text-[#C8D0DC]' : 'text-[#5C5248]'}`}>{layout.description}</p>
                   </div>
-                  <span className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-full border transition ${isSelected ? (isEssenciaCard ? 'border-[#C6A46A] bg-[#C6A46A] text-white opacity-100' : 'border-[#B88736] bg-[#B88736] text-white opacity-100') : (isEssenciaCard ? 'border-[#E5DAC6] text-[#C6A46A] opacity-0 group-hover:opacity-100' : 'border-[#E5DAC6] text-[#B88736] opacity-0 group-hover:opacity-100')}`} aria-hidden="true">
+                  <span className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-full border transition ${isSelected ? (isMysticCard ? 'border-[#D4AF37] bg-[#D4AF37] text-[#0A0F18] opacity-100' : isEssenciaCard ? 'border-[#C6A46A] bg-[#C6A46A] text-white opacity-100' : 'border-[#B88736] bg-[#B88736] text-white opacity-100') : (isMysticCard ? 'border-[#6C3FA0]/70 text-[#D4AF37] opacity-100' : isEssenciaCard ? 'border-[#E5DAC6] text-[#C6A46A] opacity-0 group-hover:opacity-100' : 'border-[#E5DAC6] text-[#B88736] opacity-0 group-hover:opacity-100')}`} aria-hidden="true">
                     <Check size={16} />
                   </span>
                 </div>
