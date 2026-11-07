@@ -11,7 +11,7 @@ import {
   Headphones, Activity, Waves, Info
 } from 'lucide-react';
 import { UserProfile } from '../types';
-import { audioEngine } from '../lib/audio';
+import { audioEngine, OFFICIAL_PROTOCOL_VOICE_ID } from '../lib/audio';
 import { useDialogFocus } from '../hooks/useDialogFocus';
 
 interface AudioSettingsModalProps {
@@ -60,6 +60,9 @@ export default function AudioSettingsModal({
   const [voiceRate, setVoiceRate] = useState(userProfile.voiceRate ?? 0.82);
   const [voicePitch, setVoicePitch] = useState(userProfile.voicePitch ?? 1.0);
   const [voiceId, setVoiceId] = useState(userProfile.voiceId || '');
+  const [voiceError, setVoiceError] = useState('');
+  const isEleganciaProfunda = typeof document !== 'undefined' &&
+    document.documentElement.dataset.layout === 'elegancia-profunda';
   const [audioEnabled, setAudioEnabled] = useState(userProfile.audioEnabled !== false);
   const [isTestingVoice, setIsTestingVoice] = useState(false);
 
@@ -149,6 +152,7 @@ export default function AudioSettingsModal({
 
   const handleTestVoice = () => {
     audioEngine.unlock();
+    setVoiceError('');
     if (isTestingVoice) {
       audioEngine.stopSpeech();
       setIsTestingVoice(false);
@@ -169,14 +173,20 @@ export default function AudioSettingsModal({
         undefined,
         undefined,
         {
-          voiceId,
+          voiceId: isEleganciaProfunda ? OFFICIAL_PROTOCOL_VOICE_ID : voiceId,
           rate: voiceRate,
           pitch: voicePitch,
           lang: 'pt-BR',
           stability: 0.45,
           similarityBoost: 0.75,
           enableBreathingPauses: true,
-          userName: userProfile.name
+          userName: userProfile.name,
+          allowNativeFallback: !isEleganciaProfunda,
+          onError: () => {
+            setIsTestingVoice(false);
+            setVoiceError('A voz oficial Marianne — Meditação não está disponível agora. Tente novamente mais tarde.');
+            audioEngine.stopBG();
+          }
         }
       );
     }
@@ -196,7 +206,7 @@ export default function AudioSettingsModal({
       voiceVolume,
       voiceRate,
       voicePitch,
-      voiceId,
+      voiceId: isEleganciaProfunda ? OFFICIAL_PROTOCOL_VOICE_ID : voiceId,
       audioEnabled,
       bioactiveBinauralEnabled,
       binauralWaveType,
@@ -583,8 +593,14 @@ export default function AudioSettingsModal({
             <Mic size={14} /> Voz da Meditação Guiada
           </label>
 
-          {/* Voice Selector */}
-          {voices.length > 0 && (
+          {/* Style 2 uses the single approved ElevenLabs voice; device voices are not valid provider IDs. */}
+          {isEleganciaProfunda ? (
+            <div className="rounded-xl border border-[#D4AF37]/30 bg-[#132A1F]/80 px-4 py-3">
+              <span className="block text-[10px] uppercase tracking-[.18em] text-[#E5C365]">Voz oficial da jornada</span>
+              <strong className="mt-1 block text-sm text-[#F4F1EB]">Marianne — Meditação</strong>
+              <span className="mt-1 block text-[11px] text-[#C8D6CD]">ElevenLabs · voz feminina brasileira aprovada</span>
+            </div>
+          ) : voices.length > 0 && (
             <div className="space-y-1">
               <span className="text-[11px] text-[#5C5248] block">Timbre da Voz (Instaladas no Dispositivo)</span>
               <select
@@ -656,6 +672,7 @@ export default function AudioSettingsModal({
           {isTestingVoice ? <VolumeX size={15} /> : <Play size={15} fill="currentColor" />}
           <span>{isTestingVoice ? 'Pausar Demonstração da Voz' : 'Ouvir Teste de Áudio e Frequência'}</span>
         </button>
+        {voiceError && <p role="status" aria-live="polite" className="rounded-xl border border-[#D4AF37]/25 bg-[#132A1F]/80 px-3 py-2 text-xs text-[#F4F1EB]">{voiceError}</p>}
 
         {/* Save & Apply Button */}
         <div className="pt-2">
