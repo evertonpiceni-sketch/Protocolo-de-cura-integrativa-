@@ -8,6 +8,7 @@ const NATURAL_SERENO_OFFICIAL_BOARD = new URL('../../docs/visual-qa/natural-sere
 
 interface LayoutChoiceModalProps {
   onSelect: (layout: LayoutId) => void | Promise<void>;
+  initialLayout?: LayoutId | null;
 }
 
 function LayoutPreview({ layout }: { layout: LayoutDefinition }) {
@@ -131,8 +132,8 @@ function LayoutPreview({ layout }: { layout: LayoutDefinition }) {
   );
 }
 
-export default function LayoutChoiceModal({ onSelect }: LayoutChoiceModalProps) {
-  const [selectedLayout, setSelectedLayout] = useState<LayoutId | null>(null);
+export default function LayoutChoiceModal({ onSelect, initialLayout = null }: LayoutChoiceModalProps) {
+  const [selectedLayout, setSelectedLayout] = useState<LayoutId | null>(initialLayout ?? null);
   const [isSaving, setIsSaving] = useState(false);
   const [saveError, setSaveError] = useState<string | null>(null);
   const confirmSelection = async () => {
