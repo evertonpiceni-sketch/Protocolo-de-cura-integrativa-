@@ -63,6 +63,20 @@ const ELEGANCIA_PROFUNDA_CANVAS_THEME = {
   transparent: 'rgba(11,23,18,0)'
 };
 const ESSENCIA_LUMINOSA_CANVAS_THEME = { glow: '#C6A46A', accent: '#A6B49B' };
+const MISTICO_MODERNO_CANVAS_THEME = {
+  glow: '#E2B96B',
+  accent: '#26355F',
+  goldSoft: 'rgba(200,157,82,0.16)',
+  goldGlow: 'rgba(200,157,82,0.28)',
+  goldLine: 'rgba(200,157,82,0.42)',
+  sageSoft: 'rgba(38,53,95,0.14)',
+  sageGlow: 'rgba(38,53,95,0.22)',
+  sageLine: 'rgba(38,53,95,0.38)',
+  ivory: '#F4F1EB',
+  transparent: 'rgba(7,17,31,0)',
+  particleGold: 'rgba(226,185,107,0.72)',
+  particleAccent: 'rgba(108,63,160,0.64)'
+};
 
 export default function MeditationSession({
   dayNumber,
@@ -80,6 +94,7 @@ export default function MeditationSession({
   const activeLayout = typeof document !== 'undefined' ? document.documentElement.dataset.layout : undefined;
   const isEleganciaProfunda = activeLayout === 'elegancia-profunda';
   const isEssenciaLuminosa = activeLayout === 'essencia-luminosa';
+  const isMisticoModerno = activeLayout === 'mistico-moderno';
   const [sessionPhase, setSessionPhase] = useState<'portal' | 'checkin_before' | 'playing' | 'checkin_after' | 'completed'>('portal');
 
   useLayoutEffect(() => {
@@ -201,6 +216,7 @@ export default function MeditationSession({
     const selectedVoiceId = voiceId?.trim();
     const savedVoiceId = isElevenLabsVoiceId(selectedVoiceId) ? selectedVoiceId : OFFICIAL_PROTOCOL_VOICE_ID;
     const style2VoiceId = isElevenLabsVoiceId(selectedVoiceId) ? selectedVoiceId : '';
+    const style4VoiceId = isElevenLabsVoiceId(selectedVoiceId) ? selectedVoiceId : OFFICIAL_PROTOCOL_VOICE_ID;
 
     if (activeLayout === 'elegancia-profunda' && !style2VoiceId) {
       setIsPlaying(false);
@@ -217,7 +233,9 @@ export default function MeditationSession({
           ? style2VoiceId
           : activeLayout === 'essencia-luminosa'
             ? savedVoiceId
-            : OFFICIAL_PROTOCOL_VOICE_ID,
+            : activeLayout === 'mistico-moderno'
+              ? style4VoiceId
+              : OFFICIAL_PROTOCOL_VOICE_ID,
       speed: voiceRate,
       stageTitle: `Dia ${dayNumber} — ${currentInsight.title} — ${currentStage.title}`,
       dayNumber,
@@ -358,7 +376,7 @@ export default function MeditationSession({
       <div className="ep-session-backdrop absolute inset-0 pointer-events-none">
         <SacredEnergyCanvas
           dayNumber={['natural-sereno', 'elegancia-profunda', 'essencia-luminosa'].includes(activeLayout || '') ? dayNumber : undefined}
-          colorTheme={isEleganciaProfunda ? ELEGANCIA_PROFUNDA_CANVAS_THEME : isEssenciaLuminosa ? ESSENCIA_LUMINOSA_CANVAS_THEME : undefined}
+          colorTheme={isEleganciaProfunda ? ELEGANCIA_PROFUNDA_CANVAS_THEME : isEssenciaLuminosa ? ESSENCIA_LUMINOSA_CANVAS_THEME : isMisticoModerno ? MISTICO_MODERNO_CANVAS_THEME : undefined}
           dayOneOpening={isEleganciaProfunda && dayNumber === 1}
           stageId={currentStage.id}
           isPlaying={isPlaying}
