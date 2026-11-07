@@ -1279,7 +1279,7 @@ export default function App() {
 
                 <div className="p-4 bg-white border border-[#E5DAC6] rounded-2xl space-y-4">
                   {/* Voice Select */}
-                  {isEleganciaProfunda ? (
+                  {usesNeuralVoiceCatalog ? (
                     <div className="space-y-1.5">
                       <label className="text-[10px] font-mono text-[#5C5248] uppercase">Voz neural (ElevenLabs)</label>
                       <select
@@ -1373,7 +1373,7 @@ export default function App() {
                           return;
                         }
                         setVoicePreviewError(false);
-                        if (isEleganciaProfunda) {
+                        if (usesNeuralVoiceCatalog) {
                           if (!isElevenLabsVoiceId(userProfile.voiceId)) {
                             setVoicePreviewError(true);
                             return;
@@ -1414,15 +1414,16 @@ export default function App() {
                         });
                         setTimeout(() => setIsPlayingVoiceTest(false), 5500);
                       }}
+                      id="settings-voice-preview"
                       className="px-3 py-1.5 bg-indigo-600/30 hover:bg-indigo-600/50 border border-indigo-500/50 text-indigo-200 rounded-xl text-xs font-medium flex items-center gap-1.5 transition cursor-pointer shrink-0"
                     >
                       <Volume2 size={13} className={isPlayingVoiceTest ? 'animate-pulse' : ''} />
-                      <span>{isPlayingVoiceTest ? 'Ouvindo...' : isEleganciaProfunda ? 'Testar voz neural' : 'Testar Voz'}</span>
+                      <span>{isPlayingVoiceTest ? 'Ouvindo...' : usesNeuralVoiceCatalog ? 'Testar voz neural' : 'Testar Voz'}</span>
                     </button>
                   </div>
                   {voicePreviewError && (
                     <p role="alert" className="ep-voice-error rounded-xl px-3 py-2 text-xs">
-                      Selecione uma voz neural válida do catálogo. O Estilo 2 não usará a voz robótica do dispositivo.
+                      Selecione uma voz neural válida do catálogo. Os Estilos 2 e 3 não usam a voz do dispositivo.
                     </p>
                   )}
                 </div>
