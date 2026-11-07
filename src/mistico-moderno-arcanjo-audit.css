@@ -1,0 +1,74 @@
+/* Estilo 4 — Arcanjo/Solfeggio: composição noturna exclusiva do Místico Moderno. */
+:root[data-layout="mistico-moderno"] #arcanjo-protocol-view{
+  background:#07111F!important;
+  color:#F4F1EB!important;
+}
+:root[data-layout="mistico-moderno"] #arcanjo-protocol-view>div:first-child{
+  background:
+    radial-gradient(ellipse at 12% 0,rgba(108,63,160,.18),transparent 26rem),
+    radial-gradient(ellipse at 88% 100%,rgba(38,53,95,.18),transparent 30rem),
+    linear-gradient(180deg,#07111F 0%,#101B31 55%,#07111F 100%)!important;
+}
+:root[data-layout="mistico-moderno"] #arcanjo-protocol-view header{
+  background:rgba(7,17,31,.94)!important;
+  border-color:rgba(200,157,82,.22)!important;
+  color:#F4F1EB!important;
+  box-shadow:0 12px 32px rgba(0,0,0,.24)!important;
+}
+:root[data-layout="mistico-moderno"] #arcanjo-protocol-view header [class*="text-[#B88736]"],
+:root[data-layout="mistico-moderno"] #arcanjo-protocol-view main [class*="text-[#B88736]"]{
+  color:#E2B96B!important;
+}
+:root[data-layout="mistico-moderno"] #arcanjo-protocol-view main{
+  color:#D8D4CA!important;
+}
+:root[data-layout="mistico-moderno"] #arcanjo-protocol-view main [class*="text-[#5C6A60]"],
+:root[data-layout="mistico-moderno"] #arcanjo-protocol-view main [class*="text-[#d9e6dc]"],
+:root[data-layout="mistico-moderno"] #arcanjo-protocol-view main [class*="text-[#d7e2d8]"],
+:root[data-layout="mistico-moderno"] #arcanjo-protocol-view main [class*="text-[#bad0c4]"]{
+  color:#D8D4CA!important;
+}
+:root[data-layout="mistico-moderno"] #arcanjo-protocol-view .ep-forest-panel{
+  background:
+    radial-gradient(circle at 50% 0,rgba(108,63,160,.16),transparent 20rem),
+    linear-gradient(145deg,rgba(20,29,58,.96),rgba(7,17,31,.97))!important;
+  border:1px solid rgba(200,157,82,.24)!important;
+  color:#F4F1EB!important;
+  box-shadow:0 20px 48px rgba(0,0,0,.30),inset 0 1px 0 rgba(255,255,255,.045)!important;
+}
+:root[data-layout="mistico-moderno"] #arcanjo-chakra-stage{
+  background:#141D3A!important;
+  border-color:rgba(200,157,82,.34)!important;
+  box-shadow:0 24px 70px rgba(0,0,0,.46),0 0 28px rgba(108,63,160,.10)!important;
+}
+:root[data-layout="mistico-moderno"] #arcanjo-chakra-stage>img{
+  object-position:center;
+}
+:root[data-layout="mistico-moderno"] #arcanjo-chakra-caption{
+  background:linear-gradient(180deg,transparent 0%,rgba(7,17,31,.82) 48%,rgba(7,17,31,.98) 100%)!important;
+}
+:root[data-layout="mistico-moderno"] #arcanjo-chakra-caption p:first-child{
+  color:#F4F1EB!important;
+  text-shadow:0 0 18px rgba(200,157,82,.18);
+}
+:root[data-layout="mistico-moderno"] #arcanjo-chakra-caption p:nth-child(2){
+  color:#E2B96B!important;
+}
+:root[data-layout="mistico-moderno"] #arcanjo-protocol-view .ep-gold-button{
+  background:linear-gradient(135deg,#C89D52 0%,#E2B96B 55%,#A87E37 100%)!important;
+  border:1px solid rgba(200,157,82,.42)!important;
+  color:#07111F!important;
+  box-shadow:0 12px 28px rgba(200,157,82,.18)!important;
+}
+:root[data-layout="mistico-moderno"] #arcanjo-protocol-view .ep-voice-error{
+  background:rgba(108,63,160,.16)!important;
+  border:1px solid rgba(200,157,82,.30)!important;
+  color:#F4F1EB!important;
+}
+:root[data-layout="mistico-moderno"] #arcanjo-protocol-view button:not(.ep-gold-button){
+  color:#D8D4CA;
+}
+:root[data-layout="mistico-moderno"] #arcanjo-protocol-view button:focus-visible{
+  outline:2px solid rgba(200,157,82,.72)!important;
+  outline-offset:3px!important;
+}
