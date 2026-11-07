@@ -56,17 +56,18 @@ export default function TransformationHome(props: TransformationHomeProps) {
   const actions: Record<string, () => void> = { chakras: props.onOpenChakras, bath: props.onOpenBaths, astral: props.onOpenAstral, numerology: props.onOpenNumerology };
   const welcomeText = `Olá, ${firstName}. Que bom que você voltou para si. Respire com calma. Você não precisa fazer tudo hoje. Estamos juntos neste processo. ${insight?.quote || ''}`;
   const savedVoiceId = props.voiceId?.trim();
+  const isNaturalSereno = props.visualLayout === 'natural-sereno';
   const isEleganciaProfunda = props.visualLayout === 'elegancia-profunda';
   const isEssenciaLuminosa = props.visualLayout === 'essencia-luminosa';
-  const requiresNeuralVoice = isEleganciaProfunda || isEssenciaLuminosa;
+  const requiresNeuralVoice = isNaturalSereno || isEleganciaProfunda || isEssenciaLuminosa;
   const approvedVoiceId = isEleganciaProfunda
     ? (isElevenLabsVoiceId(savedVoiceId) ? savedVoiceId : '')
-    : isEssenciaLuminosa
+    : (isNaturalSereno || isEssenciaLuminosa)
       ? (isElevenLabsVoiceId(savedVoiceId) ? savedVoiceId : OFFICIAL_PROTOCOL_VOICE_ID)
       : savedVoiceId && !['Rachel', 'Marcus', 'masculina', 'feminina'].includes(savedVoiceId)
         ? savedVoiceId
         : OFFICIAL_PROTOCOL_VOICE_ID;
-  // Essência Luminosa and Elegância Profunda honor saved neural voice IDs and their controls.
+  // Natural Sereno, Essência Luminosa and Elegância Profunda honor saved neural voice IDs and their controls.
   const usesSavedVoiceSettings = requiresNeuralVoice;
   const narrationVoiceId = usesSavedVoiceSettings
     ? approvedVoiceId
