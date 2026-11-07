@@ -33,6 +33,9 @@ test('a paisagem do Natural Sereno mantém enquadramento responsivo em desktop e
   assert.ok(home.includes('@media (max-width:767px)'));
   assert.ok(home.includes('background-position:center 52%'));
   assert.ok(home.includes('background-position:center 54%'));
+  assert.ok(home.includes('.ep-home-continue'));
+  assert.ok(home.includes('.ns-home-content'));
+  assert.ok(home.includes('background: linear-gradient(180deg,#E2B96B 0%,#C89D52 100%)'));
 });
 
 test('as últimas heranças verde-floresta são neutralizadas somente no Natural Sereno', () => {
@@ -40,10 +43,19 @@ test('as últimas heranças verde-floresta são neutralizadas somente no Natural
   const css = read('src/natural-sereno-approved-overrides.css');
 
   assert.ok(main.indexOf("import './natural-sereno-approved-overrides.css'") > main.indexOf("import './natural-sereno-legacy-green-audit.css'"));
+  assert.ok(main.indexOf("import './natural-sereno-approved-overrides.css'") > main.indexOf("import './natural-sereno-refinement.css'"));
+  assert.ok(main.indexOf("import './natural-sereno-approved-overrides.css'") > main.indexOf("import './natural-sereno-mobile-fixes.css'"));
+  assert.ok(main.indexOf("import './natural-sereno-approved-overrides.css'") > main.indexOf("import './natural-sereno-home-surface-audit.css'"));
   assert.ok(css.includes(':root[data-layout="natural-sereno"] :is(#astral-map-modal,#numerology-modal) div[class*="bg-[#073b2b]"]'));
   assert.ok(css.includes(':root[data-layout="natural-sereno"] #herbal-baths-modal button[class*="bg-[#073b2b]"]'));
   assert.ok(css.includes(':root[data-layout="natural-sereno"] #hooponopono-modal [role="tab"][aria-selected="true"]'));
   assert.ok(css.includes(':root[data-layout="natural-sereno"] #admin-panel-modal :is(button,a)[class*="bg-emerald"]'));
+  assert.ok(css.includes(':root[data-layout="natural-sereno"] :is(#settings-view,#audio-settings-modal,#mobile-install-modal,#achievements-modal,#journal-dashboard-view) button[class~="bg-[#B88736]"]'));
+  assert.ok(css.includes(':root[data-layout="natural-sereno"] #daily-diary-modal :is(div,span)[class*="bg-[#B88736]/"]'));
+  assert.ok(css.includes(':root[data-layout="natural-sereno"] #admin-panel-modal button[type="submit"]'));
+  assert.ok(css.includes(':root[data-layout="natural-sereno"] [data-ns-pix-card]'));
+  assert.ok(css.includes(':root[data-layout="natural-sereno"] #anamnesis-modal > div'));
+  assert.ok(css.includes("url('/brand/natural-sereno/acolhimento.webp')"));
   assert.ok(css.includes(':root[data-layout="natural-sereno"] .ns-app .ns-gold {\n  border-radius: 18px !important;'));
   assert.ok(css.includes('#profile-setup-view.ep-auth-style-one #onboarding-card'));
 });
