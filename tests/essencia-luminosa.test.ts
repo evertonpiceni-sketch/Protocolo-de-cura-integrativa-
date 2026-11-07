@@ -491,7 +491,7 @@ test('o Mapa Astral da Essência Luminosa não mantém verde profundo nem dourad
   assert.ok(component.includes('bg-[#B88736]'), 'A auditoria deve cobrir os CTAs dourados legados do Mapa Astral.');
   assert.ok(css.includes(':root[data-layout="essencia-luminosa"] #astral-map-modal [class*="bg-[#073b2b]"]'));
   assert.ok(css.includes(':root[data-layout="essencia-luminosa"] #astral-map-modal [class*="text-[#f2dda4]"]'));
-  assert.ok(css.includes(':root[data-layout="essencia-luminosa"] #astral-map-modal [class*="bg-[#B88736]"]:not([class*="/"])'));
+  assert.ok(css.includes(':root[data-layout="essencia-luminosa"] #astral-map-modal [class~="bg-[#B88736]"]'));
   assert.ok(css.includes(':root[data-layout="essencia-luminosa"] #astral-map-modal [class*="bg-amber-"]'));
   assert.ok(css.includes(':root[data-layout="essencia-luminosa"] #astral-map-modal [class*="text-amber-"]'));
   assert.ok(main.includes("import './essencia-luminosa-final-audit.css';"));
