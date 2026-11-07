@@ -14,6 +14,7 @@ import {
 } from 'lucide-react';
 import { UserProfile, AstralMapData } from '../types';
 import { calculateAstralMap } from '../utils/astrology';
+import { hasCompleteMapsAccess } from '../lib/planEntitlements';
 
 interface AstralMapModalProps {
   isOpen: boolean;
@@ -45,7 +46,7 @@ export default function AstralMapModal({
 
   if (!isOpen) return null;
 
-  const isPro = userProfile.plan === 'pro';
+  const hasCompleteMapAccess = hasCompleteMapsAccess(userProfile) || Boolean(userProfile.astralMapPurchased);
   const astral: AstralMapData | null = userProfile.birthDate ? calculateAstralMap(
     userProfile.birthDate,
     userProfile.birthTime || editBirthTime,
@@ -57,7 +58,7 @@ export default function AstralMapModal({
   };
 
   const selectTab = (tab: AstralTab) => {
-    if (tab === 'planets' && !isPro) {
+    if (tab === 'planets' && !hasCompleteMapAccess) {
       requestPro();
       return;
     }
@@ -66,7 +67,7 @@ export default function AstralMapModal({
 
   const handlePrint = () => {
     if (!astral) return;
-    if (!isPro) {
+    if (!hasCompleteMapAccess) {
       requestPro();
       return;
     }
@@ -128,7 +129,7 @@ export default function AstralMapModal({
             <div className="min-w-0">
               <div className="flex flex-wrap items-center gap-2">
                 <span className="text-[10px] font-mono uppercase tracking-widest text-[#8F631E] bg-[#B88736]/10 border border-[#B88736]/25 px-2.5 py-0.5 rounded-full font-bold">Astrologia Integrativa</span>
-                {isPro && <span className="text-[10px] font-mono text-[#8F631E] bg-amber-50 border border-amber-300 px-2 py-0.5 rounded-full font-bold">VIP PRO</span>}
+                {hasCompleteMapAccess && <span className="text-[10px] font-mono text-[#8F631E] bg-amber-50 border border-amber-300 px-2 py-0.5 rounded-full font-bold">SEMESTRAL+</span>}
               </div>
               <h2 className="text-base sm:text-lg font-display font-medium text-[#2A2420] mt-0.5 truncate">Mapa Astral de {userProfile.fullName || userProfile.name}</h2>
             </div>
@@ -159,9 +160,9 @@ export default function AstralMapModal({
           <button disabled={!astral} role="tab" aria-selected={activeTab === 'trinity'} onClick={() => selectTab('trinity')} className={tabClass('trinity')}>
             <Sun size={13} className="text-[#B88736]" /><span>Versão Compacta (Trindade & Elementos)</span>
           </button>
-          <button disabled={!astral} role="tab" aria-selected={activeTab === 'planets'} aria-label={`Versão Completa, Planetas e Casas${isPro ? '' : ', recurso PRO'}`} onClick={() => selectTab('planets')} className={tabClass('planets')}>
+          <button disabled={!astral} role="tab" aria-selected={activeTab === 'planets'} aria-label={`Versão Completa, Planetas e Casas${hasCompleteMapAccess ? '' : ', recurso do plano semestral ou anual'}`} onClick={() => selectTab('planets')} className={tabClass('planets')}>
             <Orbit size={13} className="text-[#8F631E]" /><span>Versão Completa (Planetas & Casas)</span>
-            {!isPro && <span className="px-1.5 py-0.5 rounded bg-amber-50 text-amber-800 text-[9px] font-bold border border-amber-300 flex items-center gap-1"><Lock size={9} /> PRO</span>}
+            {!hasCompleteMapAccess && <span className="px-1.5 py-0.5 rounded bg-amber-50 text-amber-800 text-[9px] font-bold border border-amber-300 flex items-center gap-1"><Lock size={9} /> SEMESTRAL+</span>}
           </button>
           <button disabled={!astral} role="tab" aria-selected={activeTab === 'attitudes'} onClick={() => selectTab('attitudes')} className={tabClass('attitudes')}>
             <Compass size={13} className="text-emerald-700" /><span>Atitudes & Práticas Sagradas</span>
@@ -220,7 +221,7 @@ export default function AstralMapModal({
             </div>
           )}
 
-          {astral && activeTab === 'planets' && isPro && (
+          {astral && activeTab === 'planets' && hasCompleteMapAccess && (
             <div className="space-y-3.5" role="tabpanel">
               {astral.midheavenMission && (
                 <div className="p-4 rounded-2xl bg-[#F5EFE4] border border-[#B88736]/25 space-y-1.5">
@@ -281,7 +282,7 @@ export default function AstralMapModal({
 
         <div className="pt-3 border-t border-[#E5DAC6] flex flex-wrap items-center justify-between gap-3 shrink-0 print:hidden">
           <a href={astral ? `https://wa.me/5551982215296?text=Ol%C3%A1%20%C3%89verton%2C%20visualizei%20meu%20Mapa%20Astral%20no%20app%20(Sol%20em%20${encodeURIComponent(astral?.sunSign || '')}%20e%20Ascendente%20em%20${encodeURIComponent(astral?.ascendantSign || '')})%20e%20gostaria%20de%20tirar%20uma%20d%C3%BAvida!` : 'https://wa.me/5551982215296?text=Ol%C3%A1%2C%20gostaria%20de%20conversar%20sobre%20o%20Mapa%20Astral.'} target="_blank" rel="noopener noreferrer" className="min-h-11 px-4 py-2.5 bg-emerald-700 hover:bg-emerald-800 text-white rounded-xl text-xs font-medium flex items-center gap-2 transition cursor-pointer shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-700/30"><MessageCircle size={15} /><span>Falar com Éverton Piceni</span></a>
-          <button type="button" disabled={!astral} onClick={handlePrint} aria-label={isPro ? 'Imprimir ou salvar o Mapa Astral em PDF' : 'Impressão em PDF, recurso PRO'} className="min-h-11 px-4 py-2.5 bg-[#B88736] hover:bg-[#8F631E] text-white font-medium rounded-xl text-xs flex items-center gap-2 transition cursor-pointer shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B88736]/35"><Printer size={15} /><span>{isPro ? 'Imprimir / Salvar PDF' : 'PDF • PRO'}</span>{!isPro && <Lock size={12} />}</button>
+          <button type="button" disabled={!astral} onClick={handlePrint} aria-label={hasCompleteMapAccess ? 'Imprimir ou salvar o Mapa Astral em PDF' : 'Impressão em PDF, recurso PRO'} className="min-h-11 px-4 py-2.5 bg-[#B88736] hover:bg-[#8F631E] text-white font-medium rounded-xl text-xs flex items-center gap-2 transition cursor-pointer shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B88736]/35"><Printer size={15} /><span>{hasCompleteMapAccess ? 'Imprimir / Salvar PDF' : 'PDF • PRO'}</span>{!hasCompleteMapAccess && <Lock size={12} />}</button>
         </div>
       </motion.div>
     </div>
