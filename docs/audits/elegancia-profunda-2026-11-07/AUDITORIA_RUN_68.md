@@ -32,7 +32,7 @@
 4. Não foram feitas capturas reais de todas as páginas em desktop e celular nesta rodada.
 5. Voz neural geral, reprodução/transição de frequências, persistência do Diário e transação controlada InfinitePay/webhook/liberação de acesso ainda precisam de homologação funcional em dispositivos/ambiente real. O nome/ID da voz geral aprovada não aparece nos registros recuperados; nenhum ID foi inventado.
 6. O GitHub Actions do commit `151f9b534515016504e1108ea755128e75401af3` concluiu TypeScript, testes de regressão, build, entrypoints Express, verificações de autenticação, smoke tests e endpoints de pagamento com sucesso. A etapa de segurança permanece reprovada: `npm audit` encontrou 9 vulnerabilidades (3 moderadas e 6 altas), incluindo `body-parser`, `ip-address`, `qs`, `vite` e `zod`.
-7. A verificação Vercel continua em falha `build-rate-limit`; não há implantação nova confirmada.
+7. A implantação Vercel associada a este commit está em `ERROR` / `BUILD_FAILED`, com mensagem `Resource provisioning failed`. A consulta de eventos de build não retornou logs; portanto, não há evidência para atribuir a falha a uma alteração do Estilo 2.
 
 ## Resultado
 
