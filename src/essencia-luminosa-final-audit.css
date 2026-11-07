@@ -28,7 +28,7 @@
 /* Separação por função: classes de texto não devem receber fundo/borda, nem classes de fundo devem perder o contraste textual. */
 :root[data-layout="essencia-luminosa"] #welcome-modal [class*="bg-emerald-"]{background:color-mix(in srgb,var(--layout-accent-soft) 52%,var(--layout-card))!important;}
 :root[data-layout="essencia-luminosa"] #welcome-modal [class*="border-emerald-"]{border-color:color-mix(in srgb,var(--layout-accent) 26%,var(--layout-border-card))!important;}
-:root[data-layout="essencia-luminosa"] #welcome-modal [class*="text-emerald-"]{color:var(--layout-accent)!important;}
+:root[data-layout="essencia-luminosa"] #welcome-modal [class*="text-emerald-"]{color:color-mix(in srgb,var(--layout-accent) 72%,var(--layout-text))!important;}
 :root[data-layout="essencia-luminosa"] #welcome-modal [class*="bg-amber-"]{background:color-mix(in srgb,var(--layout-gold-soft) 44%,var(--layout-card))!important;}
 :root[data-layout="essencia-luminosa"] #welcome-modal [class*="border-amber-"]{border-color:color-mix(in srgb,var(--layout-gold) 25%,var(--layout-border-card))!important;}
 :root[data-layout="essencia-luminosa"] #welcome-modal [class*="text-amber-"]{color:var(--layout-gold)!important;}
@@ -38,27 +38,27 @@
 /* Diário modal e histórico. */
 :root[data-layout="essencia-luminosa"] #daily-diary-modal [class*="bg-emerald-"]{background:color-mix(in srgb,var(--layout-accent-soft) 54%,var(--layout-card))!important;}
 :root[data-layout="essencia-luminosa"] #daily-diary-modal [class*="border-emerald-"]{border-color:color-mix(in srgb,var(--layout-accent) 28%,var(--layout-border-card))!important;}
-:root[data-layout="essencia-luminosa"] #daily-diary-modal [class*="text-emerald-"]{color:var(--layout-accent)!important;}
+:root[data-layout="essencia-luminosa"] #daily-diary-modal [class*="text-emerald-"]{color:color-mix(in srgb,var(--layout-accent) 72%,var(--layout-text))!important;}
 :root[data-layout="essencia-luminosa"] #journal-dashboard-view [class*="bg-emerald-"]{background:color-mix(in srgb,var(--layout-accent-soft) 50%,var(--layout-card))!important;}
 :root[data-layout="essencia-luminosa"] #journal-dashboard-view [class*="border-emerald-"]{border-color:color-mix(in srgb,var(--layout-accent) 27%,var(--layout-border-card))!important;}
-:root[data-layout="essencia-luminosa"] #journal-dashboard-view [class*="text-emerald-"]{color:var(--layout-accent)!important;}
+:root[data-layout="essencia-luminosa"] #journal-dashboard-view [class*="text-emerald-"]{color:color-mix(in srgb,var(--layout-accent) 72%,var(--layout-text))!important;}
 
 /* Mapa Astral, Numerologia e Contato. */
 :root[data-layout="essencia-luminosa"] #astral-map-modal [class*="bg-emerald-"]{background:color-mix(in srgb,var(--layout-accent-soft) 48%,var(--layout-card))!important;}
 :root[data-layout="essencia-luminosa"] #astral-map-modal [class*="border-emerald-"]{border-color:color-mix(in srgb,var(--layout-accent) 28%,var(--layout-border-card))!important;}
-:root[data-layout="essencia-luminosa"] #astral-map-modal [class*="text-emerald-"]{color:var(--layout-accent)!important;}
+:root[data-layout="essencia-luminosa"] #astral-map-modal [class*="text-emerald-"]{color:color-mix(in srgb,var(--layout-accent) 72%,var(--layout-text))!important;}
 :root[data-layout="essencia-luminosa"] #astral-map-modal a[class*="bg-emerald-"]{background:linear-gradient(105deg,color-mix(in srgb,var(--layout-accent) 82%,#fff) 0%,color-mix(in srgb,var(--layout-gold) 72%,var(--layout-accent)) 100%)!important;border-color:color-mix(in srgb,var(--layout-gold) 28%,var(--layout-border-card))!important;color:var(--layout-text)!important;box-shadow:0 8px 20px rgba(112,91,58,.08)!important;}
 :root[data-layout="essencia-luminosa"] #astral-map-modal a[class*="bg-emerald-"]:hover{filter:brightness(.97) saturate(.92);}
 :root[data-layout="essencia-luminosa"] #numerology-modal [class*="bg-emerald-"]{background-color:color-mix(in srgb,var(--layout-accent-soft) 48%,transparent)!important;}
 :root[data-layout="essencia-luminosa"] #contact-us-modal [class*="bg-emerald-"]{background:color-mix(in srgb,var(--layout-accent-soft) 50%,var(--layout-card))!important;}
 :root[data-layout="essencia-luminosa"] #contact-us-modal [class*="border-emerald-"]{border-color:color-mix(in srgb,var(--layout-accent) 27%,var(--layout-border-card))!important;}
-:root[data-layout="essencia-luminosa"] #contact-us-modal [class*="text-emerald-"]{color:var(--layout-accent)!important;}
+:root[data-layout="essencia-luminosa"] #contact-us-modal [class*="text-emerald-"]{color:color-mix(in srgb,var(--layout-accent) 72%,var(--layout-text))!important;}
 :root[data-layout="essencia-luminosa"] #contact-us-modal [class*="shadow-emerald-"]{box-shadow:0 8px 20px rgba(112,91,58,.07)!important;}
 
 /* Apresentação. */
 :root[data-layout="essencia-luminosa"] #promo-video-modal{background:color-mix(in srgb,var(--layout-bg) 92%,transparent)!important;}
 :root[data-layout="essencia-luminosa"] #promo-video-modal :is([class*="from-[#0a412d]"],[class*="from-[#0c4a34]"],[class*="from-[#123f2f]"],[class*="from-[#174c38]"],[class*="via-[#062f21]"],[class*="to-[#021b13]"]){background-image:linear-gradient(135deg,var(--layout-card) 0%,color-mix(in srgb,var(--layout-gold-soft) 28%,var(--layout-card)) 52%,color-mix(in srgb,var(--layout-accent-soft) 36%,var(--layout-card)) 100%)!important;}
-:root[data-layout="essencia-luminosa"] #promo-video-modal :is([class*="text-emerald-"],[class*="text-purple-"]){color:var(--layout-accent)!important;}
+:root[data-layout="essencia-luminosa"] #promo-video-modal :is([class*="text-emerald-"],[class*="text-purple-"]){color:color-mix(in srgb,var(--layout-accent) 72%,var(--layout-text))!important;}
 :root[data-layout="essencia-luminosa"] #promo-video-modal [class*="bg-emerald-"]{background:color-mix(in srgb,var(--layout-accent-soft) 48%,var(--layout-card))!important;}
 :root[data-layout="essencia-luminosa"] #promo-video-modal [class*="border-emerald-"]{border-color:color-mix(in srgb,var(--layout-accent) 26%,var(--layout-border-card))!important;}
 
@@ -67,7 +67,7 @@
 :root[data-layout="essencia-luminosa"] #specific-treatment-modal>div{background:radial-gradient(circle at 92% 7%,color-mix(in srgb,var(--layout-gold-soft) 26%,transparent),transparent 17rem),var(--layout-card)!important;border-color:var(--layout-border-card)!important;color:var(--layout-text)!important;box-shadow:0 24px 64px rgba(112,91,58,.10)!important;}
 :root[data-layout="essencia-luminosa"] #specific-treatment-modal [class*="bg-emerald-"]{background:color-mix(in srgb,var(--layout-accent-soft) 50%,var(--layout-card))!important;}
 :root[data-layout="essencia-luminosa"] #specific-treatment-modal [class*="border-emerald-"]{border-color:color-mix(in srgb,var(--layout-accent) 28%,var(--layout-border-card))!important;}
-:root[data-layout="essencia-luminosa"] #specific-treatment-modal [class*="text-emerald-"]{color:var(--layout-accent)!important;}
+:root[data-layout="essencia-luminosa"] #specific-treatment-modal [class*="text-emerald-"]{color:color-mix(in srgb,var(--layout-accent) 72%,var(--layout-text))!important;}
 :root[data-layout="essencia-luminosa"] #specific-treatment-modal [class*="shadow-emerald-"]{box-shadow:0 8px 20px rgba(112,91,58,.065)!important;}
 :root[data-layout="essencia-luminosa"] #specific-treatment-modal [class*="bg-indigo-"]{background:color-mix(in srgb,var(--layout-gold-soft) 24%,var(--layout-card))!important;}
 :root[data-layout="essencia-luminosa"] #specific-treatment-modal [class*="border-indigo-"]{border-color:color-mix(in srgb,var(--layout-gold) 26%,var(--layout-border-card))!important;}
@@ -86,7 +86,7 @@
    Mantém a ação reconhecível, mas dentro da linguagem clara/sálvia/ouro do Estilo 3. */
 :root[data-layout="essencia-luminosa"] #bottom-btn-systemic{background:linear-gradient(105deg,color-mix(in srgb,var(--layout-accent-soft) 62%,var(--layout-card)),color-mix(in srgb,var(--layout-gold-soft) 34%,var(--layout-card)))!important;border-color:color-mix(in srgb,var(--layout-accent) 30%,var(--layout-border-card))!important;color:var(--layout-text-secondary)!important;box-shadow:0 6px 18px rgba(112,91,58,.06)!important;}
 :root[data-layout="essencia-luminosa"] #bottom-btn-systemic:hover{background:linear-gradient(105deg,color-mix(in srgb,var(--layout-accent-soft) 72%,var(--layout-card)),color-mix(in srgb,var(--layout-gold-soft) 44%,var(--layout-card)))!important;border-color:color-mix(in srgb,var(--layout-gold) 34%,var(--layout-border-card))!important;}
-:root[data-layout="essencia-luminosa"] #bottom-btn-systemic svg{color:var(--layout-accent)!important;}
+:root[data-layout="essencia-luminosa"] #bottom-btn-systemic svg{color:color-mix(in srgb,var(--layout-accent) 72%,var(--layout-text))!important;}
 
 /* Mantém tipografia luminosa nítida mesmo em componentes com classes legadas. */
 :root[data-layout="essencia-luminosa"] :is(#cura-main-layout,#settings-view,#meditation-session,#daily-diary-modal,#daily-tip-modal,#journal-dashboard-view,#welcome-modal,#astral-map-modal,#numerology-modal,#contact-us-modal,#promo-video-modal,#specific-treatment-modal){-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;}
@@ -111,6 +111,8 @@
    causando contraste e sobreposição. Mantém a cena existente sob véu marfim/champagne
    até existir um conjunto fotográfico exclusivo e aprovado para esta identidade. */
 :root[data-layout="essencia-luminosa"] {
+  /* Não herdar foto do Natural Sereno nem da Reintegração; aguarda fotografia própria aprovada. */
+  --ep-scene: none;
   --ep-scene-overlay: linear-gradient(180deg, rgba(255,255,248,.70), rgba(255,255,248,.42) 46%, rgba(247,243,232,.78));
 }
 

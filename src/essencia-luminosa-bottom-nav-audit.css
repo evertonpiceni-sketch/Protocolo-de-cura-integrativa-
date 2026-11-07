@@ -1,16 +1,15 @@
-/* Estilo 3 — Essência Luminosa | navegação inferior
-   Escopo estrito: remove heranças café/âmbar e acentos de outros estilos
-   sem alterar conteúdo, ações ou os demais layouts. */
+/* Estilo 3 — Essência Luminosa | navegação inferior.
+   Usa somente marfim/champagne/ouro suave/sálvia clara; ações e rótulos preservados. */
 html[data-layout="essencia-luminosa"] #bottom-btn-video-studio,
 html[data-layout="essencia-luminosa"] #bottom-btn-astral-map,
 html[data-layout="essencia-luminosa"] #bottom-btn-numerology,
 html[data-layout="essencia-luminosa"] #bottom-btn-specific-treatment,
 html[data-layout="essencia-luminosa"] #bottom-btn-courses,
 html[data-layout="essencia-luminosa"] #bottom-btn-chakras {
-  background: linear-gradient(145deg, rgba(255,253,247,.96), rgba(244,239,225,.94)) !important;
-  border-color: rgba(191,161,98,.38) !important;
-  color: #514b3f !important;
-  box-shadow: 0 8px 22px rgba(111,91,56,.10), inset 0 1px 0 rgba(255,255,255,.78) !important;
+  background: linear-gradient(145deg, color-mix(in srgb, var(--layout-card) 96%, white), color-mix(in srgb, var(--layout-canvas-alt) 72%, var(--layout-card))) !important;
+  border-color: color-mix(in srgb, var(--layout-gold) 34%, var(--layout-border-card)) !important;
+  color: var(--layout-text-secondary) !important;
+  box-shadow: 0 8px 22px rgba(112, 91, 58, .07), inset 0 1px 0 rgba(255,255,255,.82) !important;
   backdrop-filter: blur(12px);
 }
 
@@ -20,9 +19,9 @@ html[data-layout="essencia-luminosa"] #bottom-btn-numerology:hover,
 html[data-layout="essencia-luminosa"] #bottom-btn-specific-treatment:hover,
 html[data-layout="essencia-luminosa"] #bottom-btn-courses:hover,
 html[data-layout="essencia-luminosa"] #bottom-btn-chakras:hover {
-  background: linear-gradient(145deg, rgba(255,255,252,.99), rgba(238,233,215,.97)) !important;
-  border-color: rgba(180,147,80,.58) !important;
-  color: #3f4938 !important;
+  background: linear-gradient(145deg, var(--layout-card), color-mix(in srgb, var(--layout-gold-soft) 34%, var(--layout-card))) !important;
+  border-color: color-mix(in srgb, var(--layout-gold) 52%, var(--layout-border-card)) !important;
+  color: var(--layout-text) !important;
   transform: translateY(-1px);
 }
 
@@ -32,7 +31,7 @@ html[data-layout="essencia-luminosa"] #bottom-btn-numerology:focus-visible,
 html[data-layout="essencia-luminosa"] #bottom-btn-specific-treatment:focus-visible,
 html[data-layout="essencia-luminosa"] #bottom-btn-courses:focus-visible,
 html[data-layout="essencia-luminosa"] #bottom-btn-chakras:focus-visible {
-  outline: 2px solid rgba(180,147,80,.78);
+  outline: 2px solid var(--layout-gold) !important;
   outline-offset: 2px;
 }
 
@@ -42,12 +41,12 @@ html[data-layout="essencia-luminosa"] #bottom-btn-numerology svg,
 html[data-layout="essencia-luminosa"] #bottom-btn-specific-treatment svg,
 html[data-layout="essencia-luminosa"] #bottom-btn-courses svg,
 html[data-layout="essencia-luminosa"] #bottom-btn-chakras svg {
-  color: #a98a4d !important;
+  color: var(--layout-gold-dark) !important;
 }
 
 html[data-layout="essencia-luminosa"] #bottom-btn-video-studio span[class*="bg-[#B88736]"],
 html[data-layout="essencia-luminosa"] #bottom-btn-specific-treatment span[class*="bg-emerald"] {
-  background: rgba(142,153,111,.14) !important;
-  color: #66704f !important;
-  border-color: rgba(142,153,111,.26) !important;
+  background: var(--layout-accent-soft) !important;
+  color: color-mix(in srgb, var(--layout-accent) 72%, var(--layout-text)) !important;
+  border-color: color-mix(in srgb, var(--layout-accent) 34%, var(--layout-border-card)) !important;
 }

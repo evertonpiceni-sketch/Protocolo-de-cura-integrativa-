@@ -209,3 +209,31 @@ test('os overlays compartilhados do Estilo 3 não herdam índigo, verde escuro o
   assert.ok(plans.includes('onUpgradeSuccess(selectedPlan.id, paymentMethod, finalPrice, appliedCoupon || undefined)'));
   assert.ok(!/chave PIX manual|copiar chave PIX/i.test(plans));
 });
+
+
+test('as telas secundárias da Essência Luminosa usam tokens atuais sem paleta verde/ouro legada', () => {
+  const files = [
+    'src/essencia-luminosa-journal-dashboard-audit.css',
+    'src/essencia-luminosa-achievements-audit.css',
+    'src/essencia-luminosa-chakras-guide-audit.css',
+    'src/essencia-luminosa-contact-audit.css',
+    'src/essencia-luminosa-courses-audit.css',
+    'src/essencia-luminosa-bottom-nav-audit.css',
+    'src/essencia-luminosa-promo-audit.css',
+    'src/essencia-luminosa-daily-diary-semantic-audit.css'
+  ];
+  const sources = files.map(path => fs.readFileSync(path, 'utf8'));
+  for (const source of sources) {
+    assert.ok(source.includes('var(--layout-'), 'cada tela deve consumir os tokens atuais do Estilo 3');
+  }
+  const declarations = sources.join('\\n');
+  assert.ok(!/(?:color|background(?:-color)?|border-color|outline):[^;]*#(?:a4874f|687451|657b57|a68c57|c3aa78|9b8354|877747|8b9a74|a98a4d|66704f|8d7549|98845c|776745|a9ad8b|7f875f|a7aa7d|b7a26a|d4b76d|b79a60|9f8755)/i.test(declarations));
+});
+
+test('a Home da Essência Luminosa não herda fotografia de outro estilo ou da Reintegração', () => {
+  const css = fs.readFileSync('src/essencia-luminosa-final-audit.css', 'utf8');
+  assert.ok(css.includes('--ep-scene: none;'));
+  assert.ok(css.includes('var(--ep-scene) center top/cover fixed no-repeat'));
+  assert.ok(!css.includes('/brand/natural-sereno/'));
+  assert.ok(!css.includes('/brand/reintegracao-presenca-arte.png'));
+});

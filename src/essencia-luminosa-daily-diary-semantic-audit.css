@@ -1,24 +1,23 @@
-/* Estilo 3 — Essência Luminosa | Diário
-   Neutraliza somente resíduos cromáticos do componente-base.
-   Estados continuam semanticamente distinguíveis em sálvia/oliva clara e ouro suave. */
-:root[data-layout="essencia-luminosa"] #daily-diary-modal :is([class*="bg-emerald-"],[class*="bg-indigo-"],[class*="bg-purple-"]){
-  background-color:color-mix(in srgb,var(--layout-accent) 10%,var(--layout-card))!important;
+/* Estilo 3 — Essência Luminosa | Diário.
+   Estados seguem semanticamente distinguíveis em sálvia clara e ouro suave. */
+:root[data-layout="essencia-luminosa"] #daily-diary-modal :is([class*="bg-emerald-"],[class*="bg-indigo-"],[class*="bg-purple-"]) {
+  background-color: color-mix(in srgb, var(--layout-accent-soft) 54%, var(--layout-card)) !important;
 }
-:root[data-layout="essencia-luminosa"] #daily-diary-modal :is([class*="text-emerald-"],[class*="text-indigo-"],[class*="text-purple-"]){
-  color:var(--layout-accent)!important;
+:root[data-layout="essencia-luminosa"] #daily-diary-modal :is([class*="text-emerald-"],[class*="text-indigo-"],[class*="text-purple-"]) {
+  color: color-mix(in srgb, var(--layout-accent) 72%, var(--layout-text)) !important;
 }
-:root[data-layout="essencia-luminosa"] #daily-diary-modal :is([class*="border-emerald-"],[class*="border-indigo-"],[class*="border-purple-"]){
-  border-color:color-mix(in srgb,var(--layout-accent) 30%,var(--layout-border-card))!important;
+:root[data-layout="essencia-luminosa"] #daily-diary-modal :is([class*="border-emerald-"],[class*="border-indigo-"],[class*="border-purple-"]) {
+  border-color: color-mix(in srgb, var(--layout-accent) 30%, var(--layout-border-card)) !important;
 }
-:root[data-layout="essencia-luminosa"] #daily-diary-modal :is([class*="bg-amber-"],[class*="bg-yellow-"]){
-  background-color:color-mix(in srgb,var(--layout-gold) 9%,var(--layout-card))!important;
+:root[data-layout="essencia-luminosa"] #daily-diary-modal :is([class*="bg-amber-"],[class*="bg-yellow-"]) {
+  background-color: var(--layout-gold-soft) !important;
 }
-:root[data-layout="essencia-luminosa"] #daily-diary-modal :is([class*="text-amber-"],[class*="text-yellow-"]){
-  color:var(--layout-gold-dark)!important;
+:root[data-layout="essencia-luminosa"] #daily-diary-modal :is([class*="text-amber-"],[class*="text-yellow-"]) {
+  color: var(--layout-gold-dark) !important;
 }
-:root[data-layout="essencia-luminosa"] #daily-diary-modal :is([class*="border-amber-"],[class*="border-yellow-"]){
-  border-color:color-mix(in srgb,var(--layout-gold) 28%,var(--layout-border-card))!important;
+:root[data-layout="essencia-luminosa"] #daily-diary-modal :is([class*="border-amber-"],[class*="border-yellow-"]) {
+  border-color: var(--layout-gold-border) !important;
 }
-:root[data-layout="essencia-luminosa"] #daily-diary-modal :is([class*="focus:ring-indigo-"],[class*="focus:ring-purple-"],[class*="focus:ring-emerald-"]):focus{
-  --tw-ring-color:color-mix(in srgb,var(--layout-gold) 42%,transparent)!important;
+:root[data-layout="essencia-luminosa"] #daily-diary-modal :is([class*="focus:ring-indigo-"],[class*="focus:ring-purple-"],[class*="focus:ring-emerald-"]):focus {
+  --tw-ring-color: color-mix(in srgb, var(--layout-gold) 42%, transparent) !important;
 }

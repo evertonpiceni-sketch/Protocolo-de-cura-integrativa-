@@ -1,13 +1,13 @@
 /* Essência Luminosa — Diário de Reconexão
- * Escopo deliberadamente restrito ao layout ativo para não contaminar os demais estilos.
+ * Escopo exclusivo do Estilo 3. Superfícies e estados usam os tokens aprovados atuais.
  */
 html[data-layout="essencia-luminosa"] #journal-dashboard-view {
-  color: #3f3a32;
+  color: var(--layout-text) !important;
 }
 
 html[data-layout="essencia-luminosa"] #journal-dashboard-view header,
 html[data-layout="essencia-luminosa"] #journal-dashboard-view article > div:first-child {
-  border-color: rgba(178, 154, 104, .28) !important;
+  border-color: var(--layout-border-card) !important;
 }
 
 html[data-layout="essencia-luminosa"] #btn-back-from-journal,
@@ -15,43 +15,46 @@ html[data-layout="essencia-luminosa"] #journal-search-container input,
 html[data-layout="essencia-luminosa"] #journal-timeline-list article,
 html[data-layout="essencia-luminosa"] #journal-timeline-list > section,
 html[data-layout="essencia-luminosa"] #journal-timeline-list > div {
-  border-color: rgba(178, 154, 104, .30) !important;
-  background: rgba(255, 252, 245, .88) !important;
-  color: #474238 !important;
-  box-shadow: 0 18px 48px rgba(104, 91, 62, .08);
+  border-color: var(--layout-border-card) !important;
+  background: color-mix(in srgb, var(--layout-card) 92%, var(--layout-canvas-alt)) !important;
+  color: var(--layout-text-secondary) !important;
+  box-shadow: 0 18px 48px rgba(112, 91, 58, .07);
 }
 
 html[data-layout="essencia-luminosa"] #journal-dashboard-view h1,
 html[data-layout="essencia-luminosa"] #journal-dashboard-view h2 {
-  color: #3f3a32 !important;
+  color: var(--layout-text) !important;
 }
 
 html[data-layout="essencia-luminosa"] #journal-dashboard-view h1 svg,
 html[data-layout="essencia-luminosa"] #journal-dashboard-view [class*="text-[#B88736]"],
 html[data-layout="essencia-luminosa"] #journal-dashboard-view [class*="text-[#8F631E]"] {
-  color: #a4874f !important;
+  color: var(--layout-gold-dark) !important;
 }
 
-html[data-layout="essencia-luminosa"] #journal-dashboard-view [class*="bg-[#B88736]"] {
-  background: linear-gradient(135deg, #b79a60, #9f8755) !important;
+html[data-layout="essencia-luminosa"] #journal-dashboard-view [class*="bg-[#B88736]"]:not([class*="/"]) {
+  background: var(--layout-gold-gradient) !important;
+  color: var(--layout-text) !important;
+  border-color: var(--layout-gold-border) !important;
 }
 
 html[data-layout="essencia-luminosa"] #journal-dashboard-view [class*="bg-[#B88736]/10"] {
-  background: rgba(183, 154, 96, .10) !important;
-  border-color: rgba(183, 154, 96, .25) !important;
+  background: var(--layout-gold-soft) !important;
+  border-color: var(--layout-gold-border) !important;
 }
 
 html[data-layout="essencia-luminosa"] #journal-search-container input:focus,
 html[data-layout="essencia-luminosa"] #btn-back-from-journal:focus-visible,
 html[data-layout="essencia-luminosa"] #btn-export-journal:focus-visible {
-  border-color: #b79a60 !important;
-  box-shadow: 0 0 0 3px rgba(183, 154, 96, .16) !important;
+  border-color: var(--layout-gold) !important;
+  box-shadow: 0 0 0 3px var(--layout-gold-soft) !important;
 }
 
 html[data-layout="essencia-luminosa"] #btn-export-journal {
-  background: linear-gradient(135deg, #b79a60, #9f8755) !important;
-  color: #fffdf8 !important;
-  box-shadow: 0 10px 26px rgba(159, 135, 85, .18);
+  background: var(--layout-gold-gradient) !important;
+  color: var(--layout-text) !important;
+  border-color: var(--layout-gold-border) !important;
+  box-shadow: 0 10px 26px var(--layout-gold-shadow);
 }
 
 html[data-layout="essencia-luminosa"] #btn-export-journal:hover {
@@ -59,16 +62,34 @@ html[data-layout="essencia-luminosa"] #btn-export-journal:hover {
   transform: translateY(-1px);
 }
 
-/* Estado final positivo: sálvia/oliva clara, sem o esmeralda saturado herdado. */
+/* Estados semânticos: sucesso em sálvia; estado intermediário em champagne. */
 html[data-layout="essencia-luminosa"] #journal-dashboard-view [class*="border-emerald-200"] {
-  border-color: rgba(132, 145, 108, .30) !important;
+  border-color: color-mix(in srgb, var(--layout-accent) 38%, var(--layout-border-card)) !important;
 }
 html[data-layout="essencia-luminosa"] #journal-dashboard-view [class*="bg-emerald-50"] {
-  background: rgba(237, 240, 228, .76) !important;
+  background: color-mix(in srgb, var(--layout-accent) 18%, var(--layout-card)) !important;
 }
 html[data-layout="essencia-luminosa"] #journal-dashboard-view [class*="text-emerald-700"],
 html[data-layout="essencia-luminosa"] #journal-dashboard-view [class*="text-emerald-800"] {
-  color: #687451 !important;
+  color: color-mix(in srgb, var(--layout-accent) 72%, var(--layout-text)) !important;
+}
+html[data-layout="essencia-luminosa"] #journal-dashboard-view [class*="border-amber-200"] {
+  border-color: var(--layout-gold-border) !important;
+}
+html[data-layout="essencia-luminosa"] #journal-dashboard-view [class*="bg-amber-50"] {
+  background: var(--layout-gold-soft) !important;
+}
+html[data-layout="essencia-luminosa"] #journal-dashboard-view [class*="text-amber-700"] {
+  color: var(--layout-gold-dark) !important;
+}
+html[data-layout="essencia-luminosa"] #journal-dashboard-view [class*="border-[#E5DAC6]"] {
+  border-color: var(--layout-border-card) !important;
+}
+html[data-layout="essencia-luminosa"] #journal-dashboard-view [class*="bg-[#F5EFE4]"] {
+  background: var(--layout-input) !important;
+}
+html[data-layout="essencia-luminosa"] #journal-dashboard-view [class*="text-[#85786C]"] {
+  color: var(--layout-text-muted) !important;
 }
 
 @media (max-width: 640px) {

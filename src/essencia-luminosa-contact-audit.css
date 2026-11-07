@@ -1,16 +1,48 @@
 /* Essência Luminosa — Fale Conosco. Escopo exclusivo; demais estilos intactos. */
-html[data-layout="essencia-luminosa"] #contact-us-modal { background-color: rgb(54 52 43 / 24%); }
-html[data-layout="essencia-luminosa"] #contact-us-modal > div { background: linear-gradient(155deg,#fffdf8 0%,#f9f5e9 58%,#f4f2e8 100%); border-color:#e7ddc8; box-shadow:0 22px 64px rgb(74 66 45 / 14%); color:#3d4036; }
-html[data-layout="essencia-luminosa"] #contact-us-modal [class*="text-[#2A2420]"] { color:#363d34; }
+html[data-layout="essencia-luminosa"] #contact-us-modal {
+  background-color: color-mix(in srgb, var(--layout-text) 24%, transparent);
+}
+html[data-layout="essencia-luminosa"] #contact-us-modal > div {
+  background: linear-gradient(155deg, var(--layout-card) 0%, var(--layout-canvas-alt) 100%);
+  border-color: var(--layout-border-card);
+  box-shadow: 0 22px 64px rgba(74, 66, 45, .11);
+  color: var(--layout-text);
+}
+html[data-layout="essencia-luminosa"] #contact-us-modal [class*="text-[#2A2420]"] {
+  color: var(--layout-text);
+}
 html[data-layout="essencia-luminosa"] #contact-us-modal [class*="text-[#8F631E]"],
-html[data-layout="essencia-luminosa"] #contact-us-modal [class*="text-[#B88736]"] { color:#8d7549; }
-html[data-layout="essencia-luminosa"] #contact-us-modal [class*="border-[#E5DAC6]"] { border-color:#e8dfcd; }
-html[data-layout="essencia-luminosa"] #contact-us-modal [class*="bg-[#F5EFE4]"] { background-color:#f4f1e7; }
-html[data-layout="essencia-luminosa"] #contact-us-modal [class*="bg-[#B88736]"]:not([class*="/"]) { background-color:#98845c; color:#fffdf7; }
-html[data-layout="essencia-luminosa"] #contact-us-modal [class*="hover:bg-[#8F631E]"]:hover { background-color:#776745; }
+html[data-layout="essencia-luminosa"] #contact-us-modal [class*="text-[#B88736]"] {
+  color: var(--layout-gold-dark);
+}
+html[data-layout="essencia-luminosa"] #contact-us-modal [class*="border-[#E5DAC6]"] {
+  border-color: var(--layout-border-card);
+}
+html[data-layout="essencia-luminosa"] #contact-us-modal [class*="bg-[#F5EFE4]"] {
+  background-color: var(--layout-input);
+}
+html[data-layout="essencia-luminosa"] #contact-us-modal [class*="bg-[#B88736]"]:not([class*="/"]) {
+  background: var(--layout-gold-gradient);
+  color: var(--layout-text);
+  border-color: var(--layout-gold-border);
+}
+html[data-layout="essencia-luminosa"] #contact-us-modal [class*="hover:bg-[#8F631E]"]:hover {
+  filter: brightness(.96);
+}
 html[data-layout="essencia-luminosa"] #contact-us-modal input:focus-visible,
 html[data-layout="essencia-luminosa"] #contact-us-modal textarea:focus-visible,
 html[data-layout="essencia-luminosa"] #contact-us-modal select:focus-visible,
-html[data-layout="essencia-luminosa"] #contact-us-modal button:focus-visible { outline:2px solid #a5ae8b; outline-offset:2px; }
-html[data-layout="essencia-luminosa"] #contact-us-modal img[alt="Marca do Protocolo da Transformação"] { opacity:.30; filter:saturate(.86) contrast(.96); }
-html[data-layout="essencia-luminosa"] #contact-us-modal [class*="bg-emerald-500"] { background-color:rgb(163 177 143 / 20%); border-color:rgb(141 159 117 / 45%); color:#647653; box-shadow:none; }
+html[data-layout="essencia-luminosa"] #contact-us-modal button:focus-visible {
+  outline: 2px solid var(--layout-gold);
+  outline-offset: 2px;
+}
+html[data-layout="essencia-luminosa"] #contact-us-modal img[alt="Marca do Protocolo da Transformação"] {
+  opacity: .30;
+  filter: saturate(.86) contrast(.96);
+}
+html[data-layout="essencia-luminosa"] #contact-us-modal [class*="bg-emerald-500"] {
+  background-color: color-mix(in srgb, var(--layout-accent-soft) 60%, var(--layout-card));
+  border-color: color-mix(in srgb, var(--layout-accent) 34%, var(--layout-border-card));
+  color: color-mix(in srgb, var(--layout-accent) 72%, var(--layout-text));
+  box-shadow: none;
+}
