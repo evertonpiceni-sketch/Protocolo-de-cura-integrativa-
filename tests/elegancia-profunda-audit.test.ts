@@ -148,3 +148,35 @@ test('a Reintegração recebe o tratamento isolado do Estilo 2 e mantém a assin
   assert.ok(visual.includes('data-visual-fallback="approved-human"'));
   assert.ok(journey.includes('data-journey-days="21"'));
 });
+
+
+test('o canvas do Estilo 2 usa verde profundo e dourado, sem herdar a paleta da Essência Luminosa', () => {
+  const session = read('src/components/MeditationSession.tsx');
+  const canvas = read('src/components/session/SacredEnergyCanvas.tsx');
+  assert.ok(session.includes("const ELEGANCIA_PROFUNDA_CANVAS_THEME = {"));
+  assert.ok(session.includes("glow: '#D4AF37'"));
+  assert.ok(session.includes("accent: '#2E6B4F'"));
+  assert.ok(session.includes("colorTheme={isEleganciaProfunda ? ELEGANCIA_PROFUNDA_CANVAS_THEME"));
+  assert.ok(canvas.includes('goldSoft?: string;'));
+  assert.ok(canvas.includes('sageSoft?: string;'));
+  assert.ok(canvas.includes('goldSoft: colorTheme.goldSoft ||'));
+  assert.ok(canvas.includes('sageSoft: colorTheme.sageSoft ||'));
+});
+
+test('a Reintegração libera e readquire o Wake Lock ao pausar, concluir ou voltar à aba', () => {
+  const journey = read('src/components/PersonalJourney21.tsx');
+  assert.ok(journey.includes('const releaseWakeLock = () =>'));
+  assert.ok(journey.includes("lock?.addEventListener?.('release'"));
+  assert.match(journey, /onEnded=\{\(\) => \{[\s\S]*?releaseWakeLock\(\);[\s\S]*?playbackState='none'/);
+  assert.match(journey, /setActionHandler\('pause',[\s\S]*?releaseWakeLock\(\);/);
+  assert.match(journey, /setActionHandler\('play',[\s\S]*?requestWakeLock\(\);/);
+  assert.match(journey, /if \(playing\) \{[\s\S]*?releaseWakeLock\(\);/);
+});
+
+test('o onboarding antigo permanece inativo e o fluxo ativo continua sendo OnboardingFlow', () => {
+  const app = read('src/App.tsx');
+  const main = read('src/main.tsx');
+  assert.ok(app.includes("import('./components/OnboardingFlow')"));
+  assert.ok(!app.includes("import('./components/WelcomeModal')"));
+  assert.ok(!main.includes("elegancia-profunda-welcome-audit.css"));
+});
