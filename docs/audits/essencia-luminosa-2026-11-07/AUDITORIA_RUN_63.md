@@ -36,6 +36,7 @@
 
 - O novo commit inclui um teste de regressão adicional; resultado de CI ainda depende da execução do GitHub Actions.
 - Homologação visual com capturas reais de cada página em desktop e celular permanece pendente.
+- Fotografias realistas próprias da Essência Luminosa para Home e demais páginas continuam pendentes; nenhum cenário do Natural Sereno ou de outro estilo foi reutilizado como substituto.
 - Teste real de voz ElevenLabs, transições Solfeggio/player/animações e checkout/webhook InfinitePay em sandbox permanece pendente.
 - A recuperação da prancha PNG original para nova transferência binária ao repositório não foi repetida nesta rodada; o card derivado WebP válido foi preservado.
 - Atualização isolada das dependências vulneráveis e nova publicação Vercel continuam pendentes; o último status disponível indicava `build-rate-limit`.
