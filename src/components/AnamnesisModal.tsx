@@ -75,9 +75,10 @@ export default function AnamnesisModal({
   const dialogRef = React.useRef<HTMLDivElement | null>(null);
   const cardRef = React.useRef<HTMLDivElement | null>(null);
   const naturalSereno = document.documentElement.dataset.layout === 'natural-sereno';
-  useDialogFocus(isOpen && naturalSereno, dialogRef, () => handleCloseModal());
+  const managedDialogFocus = naturalSereno || document.documentElement.dataset.layout === 'essencia-luminosa';
+  useDialogFocus(isOpen && managedDialogFocus, dialogRef, () => handleCloseModal());
   React.useLayoutEffect(() => {
-    if (isOpen && naturalSereno) {
+    if (isOpen && managedDialogFocus) {
       if (cardRef.current) cardRef.current.scrollTop = 0;
       if (dialogRef.current) dialogRef.current.scrollTop = 0;
       const heading = cardRef.current?.querySelector<HTMLElement>('.ep-assessment-heading h2');
@@ -86,7 +87,7 @@ export default function AnamnesisModal({
         heading.focus({ preventScroll: true });
       }
     }
-  }, [isOpen, currentStep, isEditing, naturalSereno]);
+  }, [isOpen, currentStep, isEditing, managedDialogFocus]);
 
   // Computed recommendation if anamnesis exists
   const recommendation = existingAnamnesis
