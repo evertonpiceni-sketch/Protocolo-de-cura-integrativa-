@@ -43,7 +43,7 @@ test('as últimas heranças verde-floresta são neutralizadas somente no Natural
   assert.ok(css.includes(':root[data-layout="natural-sereno"] :is(#astral-map-modal,#numerology-modal) div[class*="bg-[#073b2b]"]'));
   assert.ok(css.includes(':root[data-layout="natural-sereno"] #herbal-baths-modal button[class*="bg-[#073b2b]"]'));
   assert.ok(css.includes(':root[data-layout="natural-sereno"] #hooponopono-modal [role="tab"][aria-selected="true"]'));
-  assert.ok(css.includes(':root[data-layout="natural-sereno"] #admin-panel-modal button[class*="bg-emerald"]'));
+  assert.ok(css.includes(':root[data-layout="natural-sereno"] #admin-panel-modal :is(button,a)[class*="bg-emerald"]'));
   assert.ok(css.includes(':root[data-layout="natural-sereno"] .ns-app .ns-gold {\n  border-radius: 18px !important;'));
   assert.ok(css.includes('#profile-setup-view.ep-auth-style-one #onboarding-card'));
 });
