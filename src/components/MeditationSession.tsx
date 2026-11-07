@@ -11,6 +11,7 @@ import {
 import { ProtocolStage, PROTOCOL_STAGES, DAILY_INSIGHTS, JOURNEY_7D_INSIGHTS, SessionCheckIn } from '../types';
 import { ORIGINAL_PROTOCOL_SCRIPTS } from '../data/protocol_scripts';
 import { audioEngine, OFFICIAL_PROTOCOL_VOICE_ID } from '../lib/audio';
+import { isElevenLabsVoiceId } from '../lib/voiceSelection';
 import { shouldPlayProtocolSessionBackground } from '../lib/protocolSessionAudioPolicy';
 import { requestWakeLock } from '../lib/wakeLockHelpers';
 import { AppLanguage, STAGE_AUDIO_TRANSLATIONS } from '../lib/i18n';
@@ -80,6 +81,7 @@ export default function MeditationSession({
 
   const [currentStageIndex, setCurrentStageIndex] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
+  const [voiceError, setVoiceError] = useState(false);
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
   const [isMuted, setIsMuted] = useState(false);
@@ -213,15 +215,24 @@ export default function MeditationSession({
     const savedVoiceId = selectedVoiceId && !['Rachel', 'Marcus', 'masculina', 'feminina'].includes(selectedVoiceId)
       ? selectedVoiceId
       : OFFICIAL_PROTOCOL_VOICE_ID;
+    const style2VoiceId = isElevenLabsVoiceId(selectedVoiceId) ? selectedVoiceId : '';
 
+    if (activeLayout === 'elegancia-profunda' && !style2VoiceId) {
+      setIsPlaying(false);
+      setVoiceError(true);
+      return;
+    }
+    setVoiceError(false);
     setIsPlaying(true);
     await audioEngine.playProtocolStageStream({
       text: personalizedText,
       voiceId: activeLayout === 'natural-sereno'
         ? (voiceId || (voiceGender === 'masculina' ? 'masculina' : voiceGender === 'feminina' ? 'Rachel' : OFFICIAL_PROTOCOL_VOICE_ID))
-        : activeLayout === 'elegancia-profunda' || activeLayout === 'essencia-luminosa'
-          ? savedVoiceId
-          : OFFICIAL_PROTOCOL_VOICE_ID,
+        : activeLayout === 'elegancia-profunda'
+          ? style2VoiceId
+          : activeLayout === 'essencia-luminosa'
+            ? savedVoiceId
+            : OFFICIAL_PROTOCOL_VOICE_ID,
       speed: voiceRate,
       stageTitle: `Dia ${dayNumber} — ${currentInsight.title} — ${currentStage.title}`,
       dayNumber,
@@ -237,11 +248,13 @@ export default function MeditationSession({
       },
       onError: () => {
         setIsPlaying(false);
+        setVoiceError(true);
       }
     });
   };
 
   const handleStageComplete = () => {
+    setVoiceError(false);
     if (currentStageIndex < stages.length - 1) {
       setCurrentStageIndex(prev => prev + 1);
       setCurrentTime(0);
@@ -424,6 +437,11 @@ export default function MeditationSession({
       </header>
 
       <main className="relative z-10 flex-1 flex flex-col items-center justify-center px-6 max-w-xl mx-auto w-full text-center">
+        {voiceError && (
+          <p role="alert" className="ep-voice-error mb-5 max-w-md rounded-xl px-4 py-3 text-xs leading-5">
+            A voz neural selecionada não foi identificada ou está indisponível. Abra Ajustes de áudio e escolha uma voz do catálogo ElevenLabs.
+          </p>
+        )}
         {sessionPhase === 'playing' && (
           <motion.div
             key={currentStage.id}
