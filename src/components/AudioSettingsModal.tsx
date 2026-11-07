@@ -11,6 +11,7 @@ import {
   Headphones, Activity, Waves, Info
 } from 'lucide-react';
 import { UserProfile } from '../types';
+import type { AppLanguage } from '../lib/i18n';
 import { audioEngine, OFFICIAL_PROTOCOL_VOICE_ID } from '../lib/audio';
 import { isElevenLabsVoiceId, type ElevenLabsVoiceOption } from '../lib/voiceSelection';
 import { useDialogFocus } from '../hooks/useDialogFocus';
@@ -19,6 +20,7 @@ interface AudioSettingsModalProps {
   isOpen: boolean;
   onClose: () => void;
   userProfile: UserProfile;
+  currentLanguage: AppLanguage;
   onSaveProfile: (updated: UserProfile) => void;
   availableVoices?: SpeechSynthesisVoice[];
   elevenLabsVoices?: ElevenLabsVoiceOption[];
@@ -31,6 +33,7 @@ export default function AudioSettingsModal({
   isOpen,
   onClose,
   userProfile,
+  currentLanguage,
   onSaveProfile,
   availableVoices,
   elevenLabsVoices = [],
@@ -69,7 +72,7 @@ export default function AudioSettingsModal({
   const isEssenciaLuminosa = typeof document !== 'undefined' && document.documentElement.dataset.layout === 'essencia-luminosa';
   const requiresNeuralVoice = isNaturalSereno || isEleganciaProfunda || isEssenciaLuminosa;
   const savedVoiceId = userProfile.voiceId?.trim() || '';
-  const initialVoiceId = (isNaturalSereno || isEssenciaLuminosa) && !isElevenLabsVoiceId(savedVoiceId)
+  const initialVoiceId = (isNaturalSereno && currentLanguage === 'pt') || ((isNaturalSereno || isEssenciaLuminosa) && !isElevenLabsVoiceId(savedVoiceId))
     ? OFFICIAL_PROTOCOL_VOICE_ID
     : savedVoiceId;
   const [voiceId, setVoiceId] = useState(initialVoiceId);

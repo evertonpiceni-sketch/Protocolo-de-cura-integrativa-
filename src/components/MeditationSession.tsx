@@ -226,6 +226,7 @@ export default function MeditationSession({
 
     const selectedVoiceId = voiceId?.trim();
     const savedVoiceId = isElevenLabsVoiceId(selectedVoiceId) ? selectedVoiceId : OFFICIAL_PROTOCOL_VOICE_ID;
+    const protocolVoiceId = language === 'pt' ? OFFICIAL_PROTOCOL_VOICE_ID : savedVoiceId;
     const style2VoiceId = isElevenLabsVoiceId(selectedVoiceId) ? selectedVoiceId : '';
 
     if (activeLayout === 'elegancia-profunda' && !style2VoiceId) {
@@ -238,7 +239,7 @@ export default function MeditationSession({
     await audioEngine.playProtocolStageStream({
       text: personalizedText,
       voiceId: activeLayout === 'natural-sereno'
-        ? savedVoiceId
+        ? protocolVoiceId
         : activeLayout === 'elegancia-profunda'
           ? style2VoiceId
           : activeLayout === 'essencia-luminosa'

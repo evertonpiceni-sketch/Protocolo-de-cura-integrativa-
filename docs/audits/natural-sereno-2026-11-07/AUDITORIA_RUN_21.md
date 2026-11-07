@@ -15,7 +15,7 @@
 - A voz Marcus da tela TransformationHome (acolhimento e leitura de resultados) permanece separada; a correção não a mistura com a voz Marianne aprovada para o player do protocolo.
 - A voz aprovada **Marianne — Meditação** (`mJqP14JQFEK0PojR5lfV`) passa a ser a seleção inicial quando o perfil não contém um ID ElevenLabs válido.
 - O teste de voz do Natural Sereno não recorre silenciosamente à voz do dispositivo; falhas da voz neural são exibidas ao usuário.
-- O player dos protocolos de 21 e 7 dias usa um ID ElevenLabs válido salvo ou, na ausência/invalidade de um ID, a voz oficial Marianne. IDs neurais válidos explicitamente salvos continuam preservados.
+- O player dos protocolos de 21 e 7 dias usa obrigatoriamente Marianne em português, conforme a decisão congelada no commit de 16/09/2026; para outros idiomas, mantém um ID neural válido salvo ou usa Marianne como padrão.
 - Marianne foi incluída no catálogo curado do endpoint de vozes, para continuar disponível mesmo quando a consulta dinâmica da conta ElevenLabs falhar.
 - Criado teste de regressão para seleção, catálogo e ausência de fallback de dispositivo.
 

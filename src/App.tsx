@@ -117,7 +117,7 @@ export default function App() {
   const isEleganciaProfunda = layoutConfirmedThisSession && userProfile?.visualLayout === 'elegancia-profunda';
   const isEssenciaLuminosa = layoutConfirmedThisSession && userProfile?.visualLayout === 'essencia-luminosa';
   const usesNeuralVoiceCatalog = isNaturalSereno || isEleganciaProfunda || isEssenciaLuminosa;
-  const selectedNeuralVoiceId = isNaturalSereno && !isElevenLabsVoiceId(userProfile?.voiceId)
+  const selectedNeuralVoiceId = isNaturalSereno && (currentLanguage === 'pt' || !isElevenLabsVoiceId(userProfile?.voiceId))
     ? OFFICIAL_PROTOCOL_VOICE_ID
     : userProfile?.voiceId || '';
 
@@ -2427,6 +2427,7 @@ export default function App() {
           isOpen={showAstralMapModal}
           onClose={() => setShowAstralMapModal(false)}
           userProfile={userProfile}
+          currentLanguage={currentLanguage}
           onSaveProfile={saveProfile}
           onOpenProModal={() => {
             setShowAstralMapModal(false);
