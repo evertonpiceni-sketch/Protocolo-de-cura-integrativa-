@@ -163,11 +163,20 @@ export default function AudioSettingsModal({
     }
   };
 
+  const restoreBackgroundAfterVoiceTest = () => {
+    if (!allowBackgroundPlayback) return;
+    if (isEssenciaLuminosa && audioEnabled && bgMusicType !== 'none') {
+      audioEngine.startBG(bgMusicType);
+    } else {
+      audioEngine.stopBG();
+    }
+  };
+
   const handleTestVoice = () => {
     audioEngine.unlock();
     if (isTestingVoice) {
       audioEngine.stopSpeech();
-      if (allowBackgroundPlayback) audioEngine.stopBG();
+      restoreBackgroundAfterVoiceTest();
       setIsTestingVoice(false);
       return;
     }
@@ -198,7 +207,7 @@ export default function AudioSettingsModal({
       () => setIsTestingVoice(true),
       () => {
         setIsTestingVoice(false);
-        if (allowBackgroundPlayback) audioEngine.stopBG();
+        restoreBackgroundAfterVoiceTest();
       },
       undefined,
       undefined,
@@ -214,7 +223,7 @@ export default function AudioSettingsModal({
         fallbackToSpeechSynthesis: !requiresNeuralVoice,
         onError: requiresNeuralVoice
           ? () => {
-              audioEngine.stopBG();
+              restoreBackgroundAfterVoiceTest();
               setIsTestingVoice(false);
               setVoiceTestError(true);
             }
