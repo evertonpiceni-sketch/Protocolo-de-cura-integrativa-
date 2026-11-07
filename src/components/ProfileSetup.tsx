@@ -327,7 +327,7 @@ export default function ProfileSetup({ onComplete }: ProfileSetupProps) {
   };
 
   return (
-    <div className="ep-auth-prestyle min-h-dvh text-[#F8F4EC] flex items-start md:items-center justify-center px-3 sm:px-4 md:px-8 pt-[max(0.75rem,env(safe-area-inset-top))] pb-[max(0.75rem,env(safe-area-inset-bottom))] md:py-8" id="profile-setup-view">
+    <div className="ep-auth-prestyle min-h-dvh text-[#302E2A] flex items-start md:items-center justify-center px-3 sm:px-4 md:px-8 pt-[max(0.75rem,env(safe-area-inset-top))] pb-[max(0.75rem,env(safe-area-inset-bottom))] md:py-8" id="profile-setup-view">
       <div className="ep-auth-nature-bg fixed inset-0 pointer-events-none" />
       <div className="ep-auth-light-vignette absolute inset-0 pointer-events-none" />
 
@@ -473,11 +473,11 @@ export default function ProfileSetup({ onComplete }: ProfileSetupProps) {
               <div className="space-y-1.5 md:col-span-2">
                 <label htmlFor="reg-phone" className="block text-[10px] font-sans text-[#5C5248] uppercase tracking-wider flex items-center justify-between">
                   <span>Telefone / WhatsApp (Opcional)</span>
-                  <span className="text-[10px] text-emerald-700 font-sans">Acolhimento & Mensagens</span>
+                  <span className="text-[10px] text-[#756B5D] font-sans">Acolhimento & Mensagens</span>
                 </label>
                 <div className="relative">
                   <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-[#85786C]">
-                    <Phone size={16} className="text-emerald-400/80" />
+                    <Phone size={16} className="text-[#817460]" />
                   </div>
                   <input
                     id="reg-phone"
@@ -485,7 +485,7 @@ export default function ProfileSetup({ onComplete }: ProfileSetupProps) {
                     value={phone}
                     onChange={(e) => setPhone(formatBrazilianPhone(e.target.value))}
                     placeholder="(11) 99999-9999"
-                    className="w-full bg-white border border-[#E5DAC6]/80 focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 text-[#2A2420] rounded-xl py-2.5 pl-10 pr-4 text-xs transition duration-150 outline-none placeholder-slate-600"
+                    className="w-full bg-white border border-[#E5DAC6]/80 focus:border-[#A99B84] focus:ring-1 focus:ring-[#A99B84]/25 text-[#2A2420] rounded-xl py-2.5 pl-10 pr-4 text-xs transition duration-150 outline-none placeholder-slate-600"
                   />
                 </div>
                 <span className="text-[10px] text-[#85786C] font-sans block">
@@ -807,7 +807,7 @@ export default function ProfileSetup({ onComplete }: ProfileSetupProps) {
                     setError('');
                     setSuccessMsg('');
                   }}
-                  id="auth-forgot-password" className="text-[11px] text-[#71511C] hover:text-[#174B37] transition cursor-pointer underline underline-offset-2"
+                  id="auth-forgot-password" className="text-[11px] text-[#71511C] hover:text-[#756B5D] transition cursor-pointer underline underline-offset-2"
                 >
                   Ajuda para acessar
                 </button>
@@ -853,12 +853,12 @@ export default function ProfileSetup({ onComplete }: ProfileSetupProps) {
               <ArrowLeft size={14} /> Voltar ao Login
             </button>
             <div className="text-center p-6 bg-white rounded-xl border border-[#E5DAC6]/80 space-y-3">
-              <Shield size={32} className="text-[#174B37] mx-auto" />
+              <Shield size={32} className="text-[#817460] mx-auto" />
               <h3 className="text-sm font-semibold text-[#2A2420]">Ajuda para acessar</h3>
               <p className="text-xs text-[#5C5248] leading-relaxed">
                 A recuperação automática de senha ainda não está disponível. Para recuperar o acesso, fale diretamente com o suporte.
               </p>
-              <a href={ACCESS_SUPPORT_URL} target="_blank" rel="noopener noreferrer" data-access-support-link="true" className="inline-flex min-h-11 w-full items-center justify-center rounded-xl bg-[#174B37] px-4 py-3 text-sm font-semibold text-[#FFFAE7] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B88736]">Falar com o suporte no WhatsApp</a>
+              <a href={ACCESS_SUPPORT_URL} target="_blank" rel="noopener noreferrer" data-access-support-link="true" className="inline-flex min-h-11 w-full items-center justify-center rounded-xl border border-[#C9C2B7] bg-[#E4E0D7] px-4 py-3 text-sm font-semibold text-[#302E2A] hover:bg-[#CFC8BC] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#A99B84]">Falar com o suporte no WhatsApp</a>
             </div>
           </div>
         )}
