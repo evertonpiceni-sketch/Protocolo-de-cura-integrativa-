@@ -219,7 +219,7 @@ export default function App() {
     }
   }, []);
 
-  // Elegância Profunda, Essência Luminosa and Místico Moderno use actual ElevenLabs IDs, never browser SpeechSynthesis names/URIs.
+  // Elegância Profunda and Essência Luminosa use actual ElevenLabs IDs, never browser SpeechSynthesis names/URIs.
   useEffect(() => {
     if (!isLoggedIn || !usesNeuralVoiceCatalog || (!showSettings && !showAudioSettingsModal)) return;
     let cancelled = false;
@@ -655,7 +655,7 @@ export default function App() {
       console.warn("Server logout request completed with offline status");
     }
     localStorage.removeItem(LOCAL_STORAGE_KEY_CURRENT_LOGIN);
-    // A confirmação visual pertence à conta encerrada; a próxima conta deve escolher novamente.
+    // A nova sessão precisa confirmar explicitamente um dos quatro estilos.
     setLayoutConfirmedThisSession(false);
     setLayoutChoiceRequested(false);
     delete document.documentElement.dataset.layout;
