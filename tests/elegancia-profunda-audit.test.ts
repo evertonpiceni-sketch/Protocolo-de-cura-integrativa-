@@ -22,6 +22,12 @@ test('o seletor usa a prancha oficial do Estilo 2 e exige confirmação explíci
   assert.ok(app.includes('{(!layoutConfirmedThisSession || layoutChoiceRequested) && ('));
 });
 
+test('o modal de prática individual mantém foco acessível também no Estilo 2', () => {
+  const modal = read('src/components/SpecificTreatmentModal.tsx');
+  assert.ok(modal.includes('useDialogFocus(isOpen, dialogRef, onClose)'));
+  assert.ok(!modal.includes("dataset.layout === 'natural-sereno'"));
+});
+
 test('a entrada ativa usa OnboardingFlow e recebe tratamento visual isolado do Estilo 2', () => {
   const app = read('src/App.tsx');
   const onboarding = read('src/components/OnboardingFlow.tsx');
