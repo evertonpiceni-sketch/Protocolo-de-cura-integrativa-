@@ -100,6 +100,26 @@ test('checkout binds account, validates provider confirmation and grants only on
     const fixedSevenDay = await call('payment/create-checkout', { productType: 'specific_treatment', paymentMethod: 'pix', durationDays: 7, category: 'outro', patientDescription: 'Texto sintético privado.', urgentPains: [], couponCode: 'PROMO15', price: .01 });
     assert.equal(fixedSevenDay.status, 200);
     assert.equal(calls.at(-1).body.items[0].price, 5092);
+
+    db.users.push({ id: 'numerology-owner', plan: 'free', profile: {} });
+    paid = false; amount = 9000;
+    const numerologyCheckout = await call('payment/create-checkout', { productType: 'numerology_full', paymentMethod: 'pix', price: 0.01 }, 'numerology-owner');
+    assert.equal(numerologyCheckout.status, 200);
+    const numerologyOrder = await numerologyCheckout.json();
+    assert.equal(calls.at(-1).body.items[0].price, 9000);
+    assert.equal(db.users.find(u => u.id === 'numerology-owner')?.profile.numerologyPurchased, undefined);
+    const numerologyBody = { order_nsu: numerologyOrder.orderId, transaction_nsu: 'numerology-transaction', slug: 'numerology' };
+    assert.equal((await call('payment/confirm', numerologyBody, 'numerology-owner')).status, 202);
+    paid = true; amount = 8999;
+    assert.equal((await call('webhooks/payment', numerologyBody)).status, 202);
+    assert.equal(db.users.find(u => u.id === 'numerology-owner')?.profile.numerologyPurchased, undefined);
+    amount = 9000;
+    assert.equal((await call('webhooks/payment', numerologyBody)).status, 200);
+    assert.equal(db.users.find(u => u.id === 'numerology-owner')?.profile.numerologyPurchased, true);
+    assert.equal(db.users.find(u => u.id === 'numerology-owner')?.plan, 'free');
+    assert.equal((await call('payment/create-checkout', { productType: 'numerology_full', paymentMethod: 'pix' }, 'numerology-owner')).status, 409);
+    assert.equal((await call('payment/create-checkout', { productType: 'numerology_full', paymentMethod: 'pix', couponCode: 'PROMO20' }, 'owner')).status, 400);
+
     db.users.push({ id: 'trial-account', plan: 'free', profile: {} });
     const trial = { planId: 'teste_vip_7d', paymentMethod: 'trial', couponCode: 'VIP7' };
     assert.equal((await call('user/upgrade', trial, 'trial-account')).status, 200);
