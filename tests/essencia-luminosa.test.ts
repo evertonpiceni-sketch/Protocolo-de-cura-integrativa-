@@ -466,9 +466,12 @@ test('as telas de pagamento não reintroduzem PIX manual e usam o checkout Infin
 test('o Estilo 3 não herda a cena da Reintegração e suaviza o selo recomendado', () => {
   const theme = fs.readFileSync('src/approved-theme.css', 'utf8');
   const finalCss = fs.readFileSync('src/essencia-luminosa-final-audit.css', 'utf8');
-  assert.doesNotMatch(
-    theme,
-    /:root\\[data-layout="essencia-luminosa"\\]\\s*\\{[^}]*--ep-scene:\\s*url\\(['"]\\/brand\\/reintegracao-presenca-arte\\.png['"]\\)/,
+  const style3Blocks = theme
+    .split(':root[data-layout="essencia-luminosa"]')
+    .slice(1)
+    .map(block => block.slice(0, block.indexOf('}')));
+  assert.ok(
+    style3Blocks.length > 0 && style3Blocks.every(block => !block.includes('--ep-scene:url(')),
     'A Essência Luminosa não pode herdar a imagem da Reintegração da Vida.'
   );
   assert.ok(finalCss.includes('--ep-scene: none;'));
