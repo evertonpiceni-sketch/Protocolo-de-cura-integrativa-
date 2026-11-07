@@ -27,7 +27,7 @@ import { evaluateAchievements } from './lib/achievementsData';
 import { AppLanguage, SUPPORTED_LANGUAGES, UI_TRANSLATIONS } from './lib/i18n';
 import { AnimatePresence } from "motion/react";
 import { localNotificationManager } from './lib/notifications';
-import { OFFICIAL_LAYOUTS, normalizeLayoutId } from './config/layouts';
+import { isLayoutId, OFFICIAL_LAYOUTS, normalizeLayoutId } from './config/layouts';
 import { getLocalDateString } from './utils/date';
 import LayoutChoiceModal from './components/LayoutChoiceModal';
 
@@ -831,6 +831,7 @@ export default function App() {
     <>
       {(!layoutConfirmedThisSession || layoutChoiceRequested) && (
         <LayoutChoiceModal
+          initialLayout={isLayoutId(userProfile.visualLayout) ? userProfile.visualLayout : null}
           onSelect={async (layout) => {
             const updatedProfile = { ...userProfile, visualLayout: layout };
             // Do not dismiss the chooser until the server accepts the preference.
@@ -1807,6 +1808,10 @@ export default function App() {
           /* New approved transformation home */
           <TransformationHome
             visualLayout={layoutConfirmedThisSession ? normalizeLayoutId(userProfile.visualLayout) : undefined}
+            voiceId={userProfile.voiceId}
+            voiceVolume={userProfile.voiceVolume}
+            voiceRate={userProfile.voiceRate}
+            voicePitch={userProfile.voicePitch}
             userName={userProfile.name}
             currentDay={currentDay}
             progress={progress}
