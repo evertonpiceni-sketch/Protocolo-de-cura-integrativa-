@@ -113,9 +113,10 @@ export default function App() {
   const [isLoadingElevenLabsVoices, setIsLoadingElevenLabsVoices] = useState(false);
   const [isPlayingVoiceTest, setIsPlayingVoiceTest] = useState<boolean>(false);
   const [voicePreviewError, setVoicePreviewError] = useState(false);
+  const isNaturalSereno = layoutConfirmedThisSession && userProfile?.visualLayout === 'natural-sereno';
   const isEleganciaProfunda = layoutConfirmedThisSession && userProfile?.visualLayout === 'elegancia-profunda';
   const isEssenciaLuminosa = layoutConfirmedThisSession && userProfile?.visualLayout === 'essencia-luminosa';
-  const usesNeuralVoiceCatalog = isEleganciaProfunda || isEssenciaLuminosa;
+  const usesNeuralVoiceCatalog = isNaturalSereno || isEleganciaProfunda || isEssenciaLuminosa;
 
   // Initialize and register local notification daily checker
   useEffect(() => {
