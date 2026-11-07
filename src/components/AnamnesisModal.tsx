@@ -14,7 +14,7 @@ import {
 import { UserProfile, AnamnesisData } from '../types';
 import { useDialogFocus } from '../hooks/useDialogFocus';
 import { evaluateBestTreatmentFromAnamnesis } from '../lib/anamnesisTreatmentEngine';
-import { audioEngine } from '../lib/audio';
+import { audioEngine, OFFICIAL_PROTOCOL_VOICE_ID } from '../lib/audio';
 
 interface AnamnesisModalProps {
   isOpen: boolean;
@@ -184,6 +184,7 @@ export default function AnamnesisModal({
 
   const playTherapeuticVoice = async (text: string, overrideGender?: 'masculina' | 'feminina') => {
     const gender = overrideGender || selectedVoiceGender;
+    const savedVoiceId = userProfile.voiceId?.trim() || userProfile.preferredVoice?.trim();
     if (isPlayingTherapeuticVoice) {
       stopTherapeuticVoice();
       return;
@@ -192,7 +193,9 @@ export default function AnamnesisModal({
     setIsLoadingVoice(true);
     try {
       // 1. Try ElevenLabs API endpoint with chosen voice
-      const chosenVoiceId = gender === 'masculina' ? (userProfile.preferredVoice || 'Marcus') : 'Rachel';
+      const chosenVoiceId = savedVoiceId && savedVoiceId !== 'Rachel'
+        ? savedVoiceId
+        : gender === 'masculina' ? 'Marcus' : OFFICIAL_PROTOCOL_VOICE_ID;
       const response = await fetch('/api/elevenlabs/tts', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -237,8 +240,12 @@ export default function AnamnesisModal({
       utterance.lang = 'pt-BR';
       const voices = window.speechSynthesis.getVoices();
       const ptVoices = voices.filter(v => v.lang.startsWith('pt') || v.lang.includes('BR'));
+      const selectedNativeVoice = savedVoiceId && savedVoiceId !== 'Rachel'
+        ? voices.find(v => v.name === savedVoiceId || v.voiceURI === savedVoiceId)
+        : undefined;
+      if (selectedNativeVoice) utterance.voice = selectedNativeVoice;
 
-      if (gender === 'feminina') {
+      if (!utterance.voice && gender === 'feminina') {
         const femaleVoice = ptVoices.find(v => 
           v.name.toLowerCase().includes('female') || 
           v.name.toLowerCase().includes('francisca') || 
@@ -251,7 +258,7 @@ export default function AnamnesisModal({
         if (femaleVoice) utterance.voice = femaleVoice;
         utterance.pitch = 1.05;
         utterance.rate = 0.86;
-      } else {
+      } else if (!utterance.voice) {
         const maleVoice = ptVoices.find(v => 
           v.name.toLowerCase().includes('male') || 
           v.name.toLowerCase().includes('antonio') || 
