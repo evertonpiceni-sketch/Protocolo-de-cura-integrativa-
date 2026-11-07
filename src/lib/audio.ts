@@ -1063,11 +1063,42 @@ class CalmingAudioEngine {
       pitch?: number;
       lang?: string;
       protocolStageId?: string;
+      allowNativeFallback?: boolean;
+      onError?: (error: Error) => void;
     }
   ) {
     this.stopSpeech();
 
     const preferElevenLabs = options?.preferElevenLabs !== false;
+    const reportFailure = (reason: unknown) => {
+      const error = reason instanceof Error
+        ? reason
+        : new Error('A voz oficial não está disponível no momento. Tente novamente.');
+      this.isElevenLabsPlaying = false;
+      this.isSpeakingActive = false;
+      this.pendingProtocolFallback = null;
+      this.voiceAudioElement?.pause();
+      this.voiceAudioElement = null;
+      if (this.voiceAudioUrl) {
+        URL.revokeObjectURL(this.voiceAudioUrl);
+        this.voiceAudioUrl = null;
+      }
+      if (options?.onError) options.onError(error);
+      else onEnd();
+    };
+    const fallbackOrFail = (fallbackText: string, reason: unknown) => {
+      if (options?.allowNativeFallback === false) {
+        reportFailure(reason);
+        return;
+      }
+      this.speak(fallbackText, voiceVolume, onStart, onEnd, onPause, onResume, {
+        voiceId: options?.voiceId,
+        rate: options?.rate,
+        pitch: options?.pitch,
+        lang: options?.lang
+      });
+    };
+    let requestError: unknown = new Error('A voz oficial não está disponível no momento.');
 
     if (preferElevenLabs && typeof window !== 'undefined') {
       try {
@@ -1156,49 +1187,19 @@ class CalmingAudioEngine {
                 };
 
                 audio.onerror = () => {
-                  this.isElevenLabsPlaying = false;
-                  this.isSpeakingActive = false;
                   const fallbackText = text
-                    .replace(/<break\s+time=["'][\d.]+s["']\s*\/>/gi, '\n')
+                    .replace(/<break\\s+time=["'][\\d.]+s["']\\s*\\/>/gi, '\\n')
                     .replace(/<[^>]+>/g, '');
-                  this.speak(
-                    fallbackText,
-                    voiceVolume,
-                    onStart,
-                    onEnd,
-                    onPause,
-                    onResume,
-                    {
-                      voiceId: options?.voiceId,
-                      rate: options?.rate,
-                      pitch: options?.pitch,
-                      lang: options?.lang
-                    }
-                  );
+                  fallbackOrFail(fallbackText, new Error('Falha ao reproduzir um trecho da voz oficial.'));
                 };
 
                 await audio.play();
               } catch (err) {
-                console.warn("Protocol segment TTS failed, using native fallback:", err);
-                this.isElevenLabsPlaying = false;
-                this.isSpeakingActive = false;
+                console.warn("Protocol segment TTS failed:", err);
                 const fallbackText = text
-                  .replace(/<break\s+time=["'][\d.]+s["']\s*\/>/gi, '\n')
+                  .replace(/<break\\s+time=["'][\\d.]+s["']\\s*\\/>/gi, '\\n')
                   .replace(/<[^>]+>/g, '');
-                this.speak(
-                  fallbackText,
-                  voiceVolume,
-                  onStart,
-                  onEnd,
-                  onPause,
-                  onResume,
-                  {
-                      voiceId: options?.voiceId,
-                      rate: options?.rate,
-                      pitch: options?.pitch,
-                      lang: options?.lang
-                    }
-                );
+                fallbackOrFail(fallbackText, err);
               }
             };
 
@@ -1249,24 +1250,29 @@ class CalmingAudioEngine {
           };
 
           audio.onerror = (e) => {
-            console.warn("ElevenLabs audio playback failed, falling back to Web Speech API:", e);
-            this.isElevenLabsPlaying = false;
-            this.speak(text, voiceVolume, onStart, onEnd, onPause, onResume, options);
+            console.warn("ElevenLabs audio playback failed:", e);
+            fallbackOrFail(text, new Error('Falha ao reproduzir a voz oficial.'));
           };
 
           await audio.play();
           return;
         } else {
-          // Server returned fallback or error status (e.g. 503 API key not set)
+          // A response without audio is not a valid narration result.
           const errData = await response.json().catch(() => ({}));
-          console.info("ElevenLabs TTS info / fallback:", errData.message || errData.error || response.statusText);
+          requestError = new Error(errData.message || errData.error || response.statusText || 'A voz oficial não retornou áudio.');
+          console.info("ElevenLabs TTS unavailable:", (requestError as Error).message);
         }
       } catch (err) {
-        console.warn("Could not connect to ElevenLabs TTS route, using native fallback:", err);
+        requestError = err;
+        console.warn("Could not connect to ElevenLabs TTS route:", err);
       }
     }
 
-    // Fallback to Web Speech API
+    if (options?.allowNativeFallback === false) {
+      reportFailure(requestError);
+      return;
+    }
+    // Preserve the legacy fallback only for layouts that explicitly allow it.
     this.speak(text, voiceVolume, onStart, onEnd, onPause, onResume, options);
   }
 
