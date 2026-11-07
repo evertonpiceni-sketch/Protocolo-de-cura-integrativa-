@@ -57,7 +57,7 @@ GitHub Actions — Security Audit do commit-base `fad7f79bcbd2cfbf39e4ed6e2afa9c
 - Enforcement final de dependências: falhou por **9 vulnerabilidades (3 moderadas e 6 altas)**.
 - Status Vercel do commit-base: falha `build-rate-limit`; não há deploy de produção homologado.
 
-O novo teste de logout foi gravado após esse run e aguarda a execução do workflow correspondente ao novo commit.
+Após a inclusão do teste, os workflows dos commits `01094c6d1d73c326fc08ad7d2448d26e0d52219e` (run `42393200698`) e `25b24425a22e98e049312c0ab32d3dd83dc62c1e` (run `42393239953`) concluíram: TypeScript, suíte de regressão, build e verificações de servidor/pagamento passaram; o enforcement final falhou exclusivamente pelo mesmo resultado de 9 vulnerabilidades (3 moderadas e 6 altas).
 
 ## Pendente
 
