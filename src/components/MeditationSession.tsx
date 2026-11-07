@@ -50,8 +50,6 @@ interface MeditationSessionProps {
   onChangeBgMusic?: (bgMusicType: '528hz' | '432hz' | '963hz' | '741hz' | 'waves' | 'none') => void;
 }
 
-const MALE_NATIVE_VOICE_HINTS = ['antonio', 'antônio', 'daniel', 'jorge', 'felipe', 'ricardo', 'carlos', 'paulo', 'marcos', 'male', 'masculino'];
-const FEMALE_NATIVE_VOICE_HINTS = ['francisca', 'luciana', 'maria', 'leticia', 'camila', 'vitoria', 'vitória', 'helena', 'female', 'feminina'];
 const ELEGANCIA_PROFUNDA_CANVAS_THEME = {
   glow: '#D4AF37',
   accent: '#2E6B4F',
@@ -71,7 +69,6 @@ export default function MeditationSession({
   userName,
   bgMusicType,
   voiceId,
-  voiceGender,
   voiceRate = 0.82,
   userPlan = 'free',
   customDecree,
@@ -138,36 +135,6 @@ export default function MeditationSession({
       audioEngine.stopSynth();
     };
   }, []);
-
-  // Web Speech does not expose a gender field. When a gender preference was
-  // explicitly chosen, resolve the best matching native voice by name before
-  // the engine's fallback runs. This prevents a silent switch to the opposite
-  // preference on devices that expose a recognizable voice name.
-  useEffect(() => {
-    if (document.documentElement.dataset.layout !== 'natural-sereno' || !voiceGender || !('speechSynthesis' in window)) return;
-    const engine = audioEngine as any;
-    const originalSpeak = engine.speak.bind(engine);
-    const resolveNativeVoice = (requested: string | undefined) => {
-      const aliasMatchesGender = requested === voiceGender ||
-        (voiceGender === 'masculina' && ['masculina', 'male', 'Marcus', 'everton'].includes(requested || '')) ||
-        (voiceGender === 'feminina' && ['feminina', 'female', 'Rachel', 'sofia'].includes(requested || ''));
-      if (!aliasMatchesGender) return requested;
-      const voices: SpeechSynthesisVoice[] = window.speechSynthesis.getVoices();
-      const portuguese = voices.filter(v => v.lang.toLowerCase().startsWith('pt'));
-      const hints = voiceGender === 'masculina' ? MALE_NATIVE_VOICE_HINTS : FEMALE_NATIVE_VOICE_HINTS;
-      const match = portuguese.find(v => hints.some(hint => v.name.toLowerCase().includes(hint))) ||
-        voices.find(v => hints.some(hint => v.name.toLowerCase().includes(hint)));
-      return match?.name || requested;
-    };
-    engine.speak = (...args: any[]) => {
-      const options = args[6] ? { ...args[6] } : {};
-      options.voiceId = resolveNativeVoice(options.voiceId);
-      return originalSpeak(...args.slice(0, 6), options);
-    };
-    return () => {
-      engine.speak = originalSpeak;
-    };
-  }, [voiceGender]);
 
   useEffect(() => {
     // A trilha global já é interrompida ao abrir o protocolo. Não a reinicie
@@ -238,7 +205,7 @@ export default function MeditationSession({
     await audioEngine.playProtocolStageStream({
       text: personalizedText,
       voiceId: activeLayout === 'natural-sereno'
-        ? (voiceId || (voiceGender === 'masculina' ? 'masculina' : voiceGender === 'feminina' ? 'Rachel' : OFFICIAL_PROTOCOL_VOICE_ID))
+        ? savedVoiceId
         : activeLayout === 'elegancia-profunda'
           ? style2VoiceId
           : activeLayout === 'essencia-luminosa'
