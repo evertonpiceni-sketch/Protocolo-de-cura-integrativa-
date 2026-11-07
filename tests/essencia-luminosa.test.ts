@@ -321,3 +321,28 @@ test('a escolha de estilo usa somente o fluxo React ativo e mantém seletores DO
   assert.doesNotMatch(app, /import WelcomeModal/);
   assert.doesNotMatch(main, /requiredLayoutChoiceEntryPatch|layoutSettingsExplicitConfirmationPatch/);
 });
+
+
+test('a página de Configurações usa ElevenLabs também na Essência Luminosa', () => {
+  const app = fs.readFileSync('src/App.tsx', 'utf8');
+  const start = app.indexOf('{/* Voice Select */}');
+  const end = app.indexOf('{/* Solfeggio soundscape toggle', start);
+  assert.ok(start >= 0 && end > start, 'voice settings block must exist');
+  const block = app.slice(start, end);
+
+  assert.ok(app.includes('const usesNeuralVoiceCatalog = isEleganciaProfunda || isEssenciaLuminosa;'));
+  assert.ok(block.includes('{usesNeuralVoiceCatalog ? ('));
+  assert.ok(block.includes('if (usesNeuralVoiceCatalog) {'));
+  assert.ok(block.includes('fallbackToSpeechSynthesis: false'));
+  assert.ok(block.includes('id="settings-voice-preview"'));
+  assert.ok(block.includes('Os Estilos 2 e 3 não usam a voz do dispositivo.'));
+  assert.doesNotMatch(block, /if \(isEleganciaProfunda\)/);
+});
+
+test('o botão de teste de voz do Estilo 3 usa acabamento champagne e texto de alto contraste', () => {
+  const css = fs.readFileSync('src/essencia-luminosa-approved-overrides.css', 'utf8');
+  assert.ok(css.includes('#settings-view #settings-voice-preview'));
+  assert.ok(css.includes('background:var(--layout-gold-gradient)!important;'));
+  assert.ok(css.includes('#settings-view #settings-voice-preview :is(svg,span)'));
+  assert.ok(css.includes('color:var(--layout-text)!important;'));
+});
