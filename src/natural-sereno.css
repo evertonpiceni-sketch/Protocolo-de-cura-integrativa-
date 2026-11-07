@@ -585,56 +585,6 @@
   :root[data-layout="natural-sereno"] .ns-welcome-play { width: 120px; height: 120px; }
 }
 
-/* Authentication always belongs to Natural Sereno, before a profile exists.
-   Scope by the existing auth shell, independently of the saved theme. */
-#profile-setup-view.ep-auth-style-one { background: #FAF7F2 !important; color: #2A2421 !important; font-family: 'Lora', Georgia, serif; }
-#profile-setup-view.ep-auth-style-one .ep-auth-nature-bg {
-  background: linear-gradient(180deg, rgba(250,247,242,.35), rgba(6, 47, 34, .32)), url('/brand/natural-sereno/vale-amanhecer.webp') center / cover no-repeat !important;
-  filter: none; transform: none;
-}
-#profile-setup-view.ep-auth-style-one .ep-auth-light-vignette { background: radial-gradient(ellipse at 50% 12%, rgba(255, 245, 205, .4), transparent 65%) !important; }
-#profile-setup-view.ep-auth-style-one #onboarding-card.ep-auth-card {
-  max-width: 480px !important;
-  background: #FAF7F2 !important;
-  color: #2A2421 !important;
-  border: 1px solid rgba(200,157,82,.34) !important;
-  border-radius: 22px !important;
-  box-shadow: 0 12px 40px rgba(6, 47, 34, .18), inset 0 1px 2px #FBF8F2 !important;
-  backdrop-filter: none !important;
-}
-#profile-setup-view.ep-auth-style-one #onboarding-card::before { background: url('/brand/natural-sereno/folhagem.webp') center top / 100% 680px no-repeat; opacity: .32; }
-#profile-setup-view.ep-auth-style-one #onboarding-card > div.absolute { display: none; }
-#profile-setup-view.ep-auth-style-one #onboarding-card > :not(.absolute) { position: relative; }
-#profile-setup-view.ep-auth-style-one #onboarding-card .ep-brand-signature-wrap { width: 56px; height: 56px; opacity: .65 !important; background: transparent !important; border: 0 !important; box-shadow: none !important; }
-#profile-setup-view.ep-auth-style-one #onboarding-card .ep-brand-signature { mix-blend-mode: multiply; }
-#profile-setup-view.ep-auth-style-one #onboarding-card :is(h1, h2, h3, strong) { color: #2A2421 !important; font-family: 'Cormorant Garamond', Georgia, serif; font-weight: 700; }
-#profile-setup-view.ep-auth-style-one #onboarding-card :is(p, label, span) { color: #58604b !important; }
-#profile-setup-view.ep-auth-style-one #onboarding-card h1 { font-size: 28px; }
-#profile-setup-view.ep-auth-style-one #auth-tabs { background: #efe8d0 !important; border-color: rgba(200,157,82,.34) !important; }
-#profile-setup-view.ep-auth-style-one #auth-tabs button { color: #2A2421 !important; }
-#profile-setup-view.ep-auth-style-one #onboarding-card :is(input:not([type="checkbox"]), select) { background: #FBF8F2 !important; border-color: rgba(200,157,82,.34) !important; color: #2A2421 !important; color-scheme: light !important; box-shadow: inset 0 1px 2px #eee6cc !important; }
-#profile-setup-view.ep-auth-style-one #onboarding-card input::placeholder { color: #777c67 !important; }
-#profile-setup-view.ep-auth-style-one #onboarding-card input:focus { border-color: #a98235 !important; box-shadow: 0 0 0 3px rgba(182, 139, 54, .16) !important; }
-#profile-setup-view.ep-auth-style-one #onboarding-card :is(#register-form, #login-form) button[type="submit"] { border: 1px solid #efd896; border-radius: 999px; background: linear-gradient(180deg, #ead394, #c49b42 25%, #98701f 78%, #d7b55e) !important; color: #2A2421 !important; box-shadow: inset 0 2px 4px #fff0b3, 0 3px 10px rgba(86, 64, 16, .2) !important; }
-#profile-setup-view.ep-auth-style-one #auth-error { background: #fff0ec !important; border-color: #d59782 !important; color: #802f27 !important; }
-#profile-setup-view.ep-auth-style-one #auth-success { background: #edf1df !important; border-color: #aebc8c !important; color: #214c30 !important; }
-/* Expanded registration fields use the same ivory surfaces as the main form. */
-#profile-setup-view.ep-auth-style-one #register-form details { background: #FBF8F2 !important; border-color: rgba(200,157,82,.34) !important; }
-#profile-setup-view.ep-auth-style-one #register-form details > div { background: #faf3df !important; border-color: rgba(200,157,82,.34) !important; }
-#profile-setup-view.ep-auth-style-one #register-form details [class*="bg-white"],
-#profile-setup-view.ep-auth-style-one #register-form details [class*="bg-[#F5EFE4]"] { background: #FBF8F2 !important; border-color: rgba(200,157,82,.34) !important; }
-#profile-setup-view.ep-auth-style-one #voice-gender-selector > .flex { align-items: flex-start; flex-wrap: wrap; gap: 8px; }
-#profile-setup-view.ep-auth-style-one #voice-gender-selector > .grid > div { min-width: 0; }
-#profile-setup-view.ep-auth-style-one #voice-gender-selector > .grid > div > div:last-child { flex-wrap: wrap; gap: 8px; }
-#profile-setup-view.ep-auth-style-one #onboarding-card details :is(input, select) { min-width: 0; width: 100%; }
-#profile-setup-view.ep-auth-style-one #onboarding-card .ep-brand-signature-wrap { width: 76px; height: 76px; opacity: 1 !important; }
-#profile-setup-view.ep-auth-style-one #onboarding-card .ep-brand-signature { opacity: 1 !important; filter: none !important; }
-#profile-setup-view.ep-auth-style-one #onboarding-card :is(label, summary) { letter-spacing: .04em; }
-#profile-setup-view.ep-auth-style-one #onboarding-card input:-webkit-autofill { -webkit-text-fill-color: #2A2421; box-shadow: inset 0 0 0 1000px #FBF8F2 !important; }
-@media (max-width: 540px) {
-  #profile-setup-view.ep-auth-style-one #register-form details .grid { grid-template-columns: minmax(0, 1fr) !important; }
-}
-
 /* Audit corrections: keep the reference's mobile proportions and give web
    enough room for the scenery and controls without stretching the portrait. */
 :root[data-layout="natural-sereno"] .ns-community-composer,
@@ -720,8 +670,6 @@
 :root[data-layout="natural-sereno"] :is(#courses-modal, #astral-map-modal, #audio-settings-modal, #settings-view) :is([class*="text-indigo"], [class*="text-purple"], [class*="text-slate"], [class*="text-white"], [class*="text-amber-200"], [class*="text-amber-400"]):not(.ep-layout-choice, .ep-layout-choice *) { color: var(--ns-ink) !important; }
 :root[data-layout="natural-sereno"] .ns-home-scene { background-image: linear-gradient(180deg, rgba(250,247,242,.96), rgba(250,247,242,.7) 30%, transparent 60%), var(--ns-valley); }
 :root[data-layout="natural-sereno"] #meditation-session .ep-session-backdrop canvas { position: absolute; }
-#profile-setup-view.ep-auth-style-one #voice-gender-selector .grid > div:has(input:focus-visible) { outline: 2px solid #C89D52; outline-offset: 3px; }
-#profile-setup-view.ep-auth-style-one #voice-gender-selector input[type="radio"] { position: absolute !important; left: 0 !important; top: 0 !important; width: 1px !important; height: 1px !important; min-width: 0 !important; min-height: 0 !important; max-width: 1px !important; max-height: 1px !important; padding: 0 !important; margin: -1px !important; overflow: hidden !important; clip: rect(0, 0, 0, 0) !important; white-space: nowrap !important; border: 0 !important; }
 @media (min-width: 900px) {
   :root[data-layout="natural-sereno"] #meditation-session .ep-session-backdrop > div:first-child { position: absolute; top: 15%; left: 75%; width: 240px; max-width: 240px; transform: translateX(-50%); }
   :root[data-layout="natural-sereno"] #meditation-session .ep-session-backdrop canvas { left: 0; width: 100% !important; height: 100% !important; opacity: .25; }
