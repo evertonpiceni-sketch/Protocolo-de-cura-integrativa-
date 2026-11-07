@@ -203,12 +203,20 @@ export default function MeditationSession({
     const dayContext = dailyStageContext();
     if (dayContext) personalizedText = `${dayContext}\n\n${personalizedText}`;
 
+    const activeLayout = document.documentElement.dataset.layout;
+    const selectedVoiceId = voiceId?.trim();
+    const style2VoiceId = selectedVoiceId && !['Rachel', 'Marcus', 'masculina', 'feminina'].includes(selectedVoiceId)
+      ? selectedVoiceId
+      : OFFICIAL_PROTOCOL_VOICE_ID;
+
     setIsPlaying(true);
     await audioEngine.playProtocolStageStream({
       text: personalizedText,
-      voiceId: document.documentElement.dataset.layout === 'natural-sereno'
+      voiceId: activeLayout === 'natural-sereno'
         ? (voiceId || (voiceGender === 'masculina' ? 'masculina' : voiceGender === 'feminina' ? 'Rachel' : OFFICIAL_PROTOCOL_VOICE_ID))
-        : OFFICIAL_PROTOCOL_VOICE_ID,
+        : activeLayout === 'elegancia-profunda'
+          ? style2VoiceId
+          : OFFICIAL_PROTOCOL_VOICE_ID,
       speed: voiceRate,
       stageTitle: `Dia ${dayNumber} — ${currentInsight.title} — ${currentStage.title}`,
       dayNumber,
