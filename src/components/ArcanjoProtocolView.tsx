@@ -89,7 +89,6 @@ export default function ArcanjoProtocolView({ userProfile, onClose, onLogout, in
   const [diaAtual, setDiaAtual] = useState(1);
   const [isPlaying, setIsPlaying] = useState(false);
   const [isPreparingAudio, setIsPreparingAudio] = useState(false);
-  const [audioError, setAudioError] = useState<string | null>(null);
   const [hasStarted, setHasStarted] = useState(false);
   const [elapsed, setElapsed] = useState(0);
   const [duration, setDuration] = useState(0);
@@ -102,6 +101,11 @@ export default function ArcanjoProtocolView({ userProfile, onClose, onLogout, in
   const hasKnownDuration = Number.isFinite(duration) && duration > 0;
   const progressPercent = hasKnownDuration ? Math.min(100, Math.max(0, elapsed / duration * 100)) : null;
   const activeSection = APPROVED_SECTIONS[Math.min(activeSectionIndex, APPROVED_SECTIONS.length - 1)];
+  const selectedVoiceId = () => {
+    const saved = userProfile.voiceId?.trim();
+    if (!saved) return userProfile.preferredVoiceGender === 'feminina' ? 'Rachel' : 'Marcus';
+    return audioEngine.getAvailableVoices().find(voice => voice.voiceURI === saved)?.name || saved;
+  };
 
   useEffect(() => {
     let done: number[] = [];
@@ -147,7 +151,6 @@ export default function ArcanjoProtocolView({ userProfile, onClose, onLogout, in
     setElapsed(0);
     setDuration(0);
     setActiveSectionIndex(0);
-    setAudioError(null);
   };
 
   const complete = () => {
@@ -158,11 +161,46 @@ export default function ArcanjoProtocolView({ userProfile, onClose, onLogout, in
     resetPlayback();
   };
 
+  const startNativeFallback = (runId: number) => {
+    setDuration(0);
+    setElapsed(0);
+    setActiveSectionIndex(0);
+    setIsPreparingAudio(false);
+    setIsPlaying(true);
+    setHasStarted(true);
+
+    const chunks = [dayIntroduction(config), ...APPROVED_SECTIONS.map(section => section.ttsScript)];
+    const playChunk = (index: number) => {
+      if (runId !== narrationRunRef.current) return;
+      if (index >= chunks.length) {
+        complete();
+        return;
+      }
+      setActiveSectionIndex(Math.max(0, index - 1));
+      void audioEngine.speakWithElevenLabsOrFallback(
+        chunks[index],
+        userProfile.voiceVolume ?? 0.9,
+        () => { if (runId === narrationRunRef.current) setIsPlaying(true); },
+        () => playChunk(index + 1),
+        undefined,
+        undefined,
+        {
+          voiceId: selectedVoiceId(),
+          rate: userProfile.voiceRate ?? 0.84,
+          pitch: userProfile.voicePitch ?? 1,
+          lang: 'pt-BR',
+          preferElevenLabs: false,
+          userName: userProfile.name
+        }
+      );
+    };
+    playChunk(0);
+  };
+
   const start = () => {
     resetPlayback();
     audioEngine.unlock();
     audioEngine.startSynth(`${config.freq}hz`);
-    setAudioError(null);
     setIsPreparingAudio(true);
     setHasStarted(true);
     const runId = narrationRunRef.current;
@@ -196,13 +234,7 @@ export default function ArcanjoProtocolView({ userProfile, onClose, onLogout, in
       onError: () => {
         if (runId !== narrationRunRef.current) return;
         audioEngine.stopSpeech();
-        audioEngine.stopSynth();
-        setIsPreparingAudio(false);
-        setIsPlaying(false);
-        setHasStarted(false);
-        setElapsed(0);
-        setDuration(0);
-        setAudioError('A narração selecionada não ficou disponível. Tente novamente; a prática não será substituída por uma voz automática.');
+        startNativeFallback(runId);
       }
     });
   };
@@ -292,7 +324,6 @@ export default function ArcanjoProtocolView({ userProfile, onClose, onLogout, in
             <Volume2 size={17}/>
             <span>{isPreparingAudio ? 'Preparando narração aprovada…' : isPlaying ? `Voz humana + Solfeggio ${config.freq} Hz ativos` : hasStarted ? `Pausado — Solfeggio ${config.freq} Hz interrompido` : `Pronto — Solfeggio ${config.freq} Hz será reproduzido junto com a narração`}</span>
           </div>
-          {audioError && <p className="ns-arcanjo-error mt-4 rounded-xl border px-4 py-3 text-sm leading-6" role="alert">{audioError}</p>}
         </div>
 
         <div className="ep-forest-panel ns-arcanjo-panel rounded-[1.75rem] p-5 sm:p-7">
