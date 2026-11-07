@@ -23,6 +23,10 @@ test('Style 4 selector uses the official board and still requires explicit confi
   assert.match(modal, /disabled=\{!selectedLayout \|\| isSaving\}/);
   assert.match(modal, /isSelected \|\| !isMystic \? <Check size=\{16\} \/> : null/);
 
+  const session = readFileSync(resolve(root, 'src/components/MeditationSession.tsx'), 'utf8');
+  assert.match(session, /MISTICO_MODERNO_OFFICIAL_VOICE_ALIAS/);
+  assert.match(session, /dayNumber=\{\['natural-sereno', 'elegancia-profunda'\]/, 'Style 4 voice routing must not erase the latest Style 2 canvas behavior.');
+
   const arcanjo = readFileSync(resolve(root, 'src/components/ArcanjoProtocolView.tsx'), 'utf8');
   const logoutStart = arcanjo.indexOf('{onLogout && (');
   const logoutEnd = arcanjo.indexOf('</button>', logoutStart);
