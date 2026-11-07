@@ -831,6 +831,7 @@ export default function App() {
     <>
       {(!layoutConfirmedThisSession || layoutChoiceRequested) && (
         <LayoutChoiceModal
+          initialLayout={OFFICIAL_LAYOUTS.find(layout => layout.id === userProfile.visualLayout)?.id ?? null}
           onSelect={async (layout) => {
             const updatedProfile = { ...userProfile, visualLayout: layout };
             // Do not dismiss the chooser until the server accepts the preference.
