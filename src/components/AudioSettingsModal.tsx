@@ -64,11 +64,12 @@ export default function AudioSettingsModal({
   const [voiceVolume, setVoiceVolume] = useState(userProfile.voiceVolume ?? 0.85);
   const [voiceRate, setVoiceRate] = useState(userProfile.voiceRate ?? 0.82);
   const [voicePitch, setVoicePitch] = useState(userProfile.voicePitch ?? 1.0);
+  const isNaturalSereno = typeof document !== 'undefined' && document.documentElement.dataset.layout === 'natural-sereno';
   const isEleganciaProfunda = typeof document !== 'undefined' && document.documentElement.dataset.layout === 'elegancia-profunda';
   const isEssenciaLuminosa = typeof document !== 'undefined' && document.documentElement.dataset.layout === 'essencia-luminosa';
-  const requiresNeuralVoice = isEleganciaProfunda || isEssenciaLuminosa;
+  const requiresNeuralVoice = isNaturalSereno || isEleganciaProfunda || isEssenciaLuminosa;
   const savedVoiceId = userProfile.voiceId?.trim() || '';
-  const initialVoiceId = isEssenciaLuminosa && !isElevenLabsVoiceId(savedVoiceId)
+  const initialVoiceId = (isNaturalSereno || isEssenciaLuminosa) && !isElevenLabsVoiceId(savedVoiceId)
     ? OFFICIAL_PROTOCOL_VOICE_ID
     : savedVoiceId;
   const [voiceId, setVoiceId] = useState(initialVoiceId);
@@ -215,7 +216,7 @@ export default function AudioSettingsModal({
   };
 
   const handleSave = () => {
-    if (isEssenciaLuminosa && !isElevenLabsVoiceId(voiceId)) {
+    if ((isNaturalSereno || isEssenciaLuminosa) && !isElevenLabsVoiceId(voiceId)) {
       setVoiceTestError(true);
       return;
     }
