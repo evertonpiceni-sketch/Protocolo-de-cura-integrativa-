@@ -57,9 +57,11 @@ export default function TransformationHome(props: TransformationHomeProps) {
   const style2VoiceId = savedVoiceId && !['Rachel', 'Marcus', 'masculina', 'feminina'].includes(savedVoiceId)
     ? savedVoiceId
     : OFFICIAL_PROTOCOL_VOICE_ID;
-  const narrationVoiceId = props.visualLayout === 'elegancia-profunda'
-    ? style2VoiceId
-    : props.visualLayout === 'mistico-moderno' ? OFFICIAL_PROTOCOL_VOICE_ID : 'Marcus';
+  const narrationVoiceId = props.visualLayout === 'natural-sereno'
+    ? (savedVoiceId || OFFICIAL_PROTOCOL_VOICE_ID)
+    : props.visualLayout === 'elegancia-profunda'
+      ? style2VoiceId
+      : props.visualLayout === 'mistico-moderno' ? OFFICIAL_PROTOCOL_VOICE_ID : 'Marcus';
   const narrationVolume = props.visualLayout === 'elegancia-profunda' ? props.voiceVolume ?? 1 : 1;
   const narrationRate = props.visualLayout === 'elegancia-profunda' ? props.voiceRate ?? .82 : .82;
   const narrationPitch = props.visualLayout === 'elegancia-profunda' ? props.voicePitch ?? .92 : .92;
