@@ -18,7 +18,8 @@ html[data-layout="essencia-luminosa"] #herbal-baths-modal input[type="search"]:f
   border-color:#b7a477; box-shadow:0 0 0 3px rgba(188,167,117,.17);
 }
 html[data-layout="essencia-luminosa"] #herbal-baths-modal [aria-pressed="true"] {
-  background:#63745a; border-color:#63745a; color:#fff;
+  background:#E9EEE6; border-color:#A6B49B; color:#46523F;
+  box-shadow:inset 0 0 0 1px rgba(166,180,155,.16);
 }
 html[data-layout="essencia-luminosa"] #herbal-baths-modal [aria-pressed="false"] {
   background:#fffdf8; border-color:#e3dbc9; color:#625e53;
@@ -38,10 +39,10 @@ html[data-layout="essencia-luminosa"] #herbal-baths-modal > div > div:last-child
   background:#fffdf8; border-color:#e7dece;
 }
 html[data-layout="essencia-luminosa"] #herbal-baths-modal > div > div:last-child button {
-  background:linear-gradient(115deg,#a68b56,#bea773);
-  color:#fff; border:1px solid #a58c58;
+  background:linear-gradient(115deg,#E2C68E,#C6A46A);
+  color:#2A2420; border:1px solid #B99557;
   box-shadow:0 7px 18px rgba(128,103,57,.17);
 }
 html[data-layout="essencia-luminosa"] #herbal-baths-modal > div > div:last-child button:hover {
-  background:linear-gradient(115deg,#917649,#ac945f);
+  background:linear-gradient(115deg,#D9C08F,#B99557); color:#2A2420;
 }
