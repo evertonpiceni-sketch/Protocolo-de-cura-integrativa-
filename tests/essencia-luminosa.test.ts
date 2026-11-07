@@ -385,6 +385,8 @@ test('o acesso neutro antes da escolha não mantém CTA, ícones ou foco verdes 
 
 test('o Diário da Essência Luminosa usa champagne e ouro suave nos CTAs e na seleção do dia', () => {
   const css = fs.readFileSync('src/essencia-luminosa-daily-diary-semantic-audit.css', 'utf8');
+  const main = fs.readFileSync('src/main.tsx', 'utf8');
+  assert.ok(main.includes("import './essencia-luminosa-daily-diary-semantic-audit.css';"));
   assert.ok(css.includes(':root[data-layout="essencia-luminosa"] #daily-diary-modal button:not([aria-label^="Abrir dia "])[class~="bg-[#B88736]"]'));
   assert.ok(css.includes('background: var(--layout-gold-gradient) !important;'));
   assert.ok(css.includes('color: var(--layout-text) !important;'));
