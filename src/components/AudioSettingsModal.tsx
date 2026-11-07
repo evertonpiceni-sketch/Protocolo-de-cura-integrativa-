@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { motion } from 'motion/react';
 import {
   Volume2, VolumeX, Sliders, Mic, Play, Pause,
@@ -76,6 +76,12 @@ export default function AudioSettingsModal({
   const [audioEnabled, setAudioEnabled] = useState(userProfile.audioEnabled !== false);
   const [isTestingVoice, setIsTestingVoice] = useState(false);
   const [voiceTestError, setVoiceTestError] = useState(false);
+  useEffect(() => {
+    if (!isOpen) return;
+    const saved = userProfile.voiceId?.trim() || '';
+    setVoiceId((isEssenciaLuminosa || isMisticoModerno) && !isElevenLabsVoiceId(saved) ? OFFICIAL_PROTOCOL_VOICE_ID : saved);
+    setVoiceTestError(false);
+  }, [isOpen, isEssenciaLuminosa, isMisticoModerno, userProfile.voiceId]);
   const neuralVoices = elevenLabsVoices.filter(voice => isElevenLabsVoiceId(voice.voice_id));
 
   // Camada Binaural State
