@@ -4,7 +4,7 @@ import express from 'express';
 import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
-import { paymentQuote, PAYMENT_PLANS } from '../src/lib/paymentCatalog';
+import { paymentQuote, PAYMENT_PLANS, specificTreatmentCouponDiscount } from '../src/lib/paymentCatalog';
 
 test('payment prices are authoritative for every approved plan and coupon', () => {
   for (const [id, plan] of Object.entries(PAYMENT_PLANS)) {
@@ -14,6 +14,22 @@ test('payment prices are authoritative for every approved plan and coupon', () =
   }
   for (const id of ['__proto__', 'missing']) assert.throws(() => paymentQuote(id));
   assert.throws(() => paymentQuote('mensal', 'VIP7'));
+});
+
+test('specific treatment coupons accept only the current approved promotional codes', () => {
+  assert.equal(specificTreatmentCouponDiscount('promo15'), 15);
+  assert.equal(specificTreatmentCouponDiscount('PROMO20'), 20);
+  assert.equal(specificTreatmentCouponDiscount(''), 0);
+  for (const code of ['CURA10', 'PAZ10', 'PAZ20', 'CURA20', 'GRATIDAO', 'PROMO30', 'CURA30', 'PICENI50', 'VIP50', 'VIP7']) {
+    assert.equal(specificTreatmentCouponDiscount(code), null);
+  }
+  const modal = fs.readFileSync('src/components/SpecificTreatmentModal.tsx', 'utf8');
+  const routes = fs.readFileSync('src/lib/paymentRoutes.ts', 'utf8');
+  assert.ok(modal.includes('specificTreatmentCouponDiscount(rawCode)'));
+  assert.ok(modal.includes('Ex.: PROMO15, PROMO20'));
+  assert.ok(routes.includes('specificTreatmentCouponDiscount(code)'));
+  assert.ok(!modal.includes('CURA10'));
+  assert.ok(!routes.includes('CURA10'));
 });
 
 test('checkout binds account, validates provider confirmation and grants only once', async () => {
@@ -53,7 +69,9 @@ test('checkout binds account, validates provider confirmation and grants only on
     assert.equal(db.users[0].plan, 'free'); amount = paymentQuote('jornada_7d', 'PROMO20').cents;
     assert.equal((await call('webhooks/payment', body)).status, 200);
     assert.equal(db.users[0].plan, 'pro');
-    const individual = await call('payment/create-checkout', { productType: 'specific_treatment', paymentMethod: 'credit', durationDays: 21, category: 'outro', patientDescription: 'Texto sintético privado.', urgentPains: [], couponCode: 'CURA20', price: .01 });
+    const legacyCoupon = await call('payment/create-checkout', { productType: 'specific_treatment', paymentMethod: 'credit', durationDays: 21, category: 'outro', patientDescription: 'Texto sintético privado.', urgentPains: [], couponCode: 'CURA20' });
+    assert.equal(legacyCoupon.status, 400);
+    const individual = await call('payment/create-checkout', { productType: 'specific_treatment', paymentMethod: 'credit', durationDays: 21, category: 'outro', patientDescription: 'Texto sintético privado.', urgentPains: [], couponCode: 'PROMO20', price: .01 });
     assert.equal(individual.status, 200);
     const individualOrder = await individual.json();
     assert.equal(calls.at(-1).body.items[0].price, 7992);
