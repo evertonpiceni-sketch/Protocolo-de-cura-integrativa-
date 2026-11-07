@@ -159,6 +159,7 @@ export default function AudioSettingsModal({
     audioEngine.unlock();
     if (isTestingVoice) {
       audioEngine.stopSpeech();
+      if (allowBackgroundPlayback) audioEngine.stopBG();
       setIsTestingVoice(false);
       return;
     }
@@ -180,7 +181,10 @@ export default function AudioSettingsModal({
       testPhrase,
       voiceVolume,
       () => setIsTestingVoice(true),
-      () => setIsTestingVoice(false),
+      () => {
+        setIsTestingVoice(false);
+        if (allowBackgroundPlayback) audioEngine.stopBG();
+      },
       undefined,
       undefined,
       {
