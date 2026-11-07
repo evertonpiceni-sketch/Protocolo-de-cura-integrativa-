@@ -104,3 +104,20 @@
   :root[data-layout="essencia-luminosa"] img[alt*="logo" i]{opacity:.26!important;}
   :root[data-layout="essencia-luminosa"] #meditation-session .ep-session-stage{width:100%;}
 }
+
+
+/* O teste da voz neural também é uma ação premium no Estilo 3:
+   neutraliza o índigo legado e mantém texto/ícone escuros sobre champagne. */
+:root[data-layout="essencia-luminosa"] #settings-view #settings-voice-preview{
+  background:var(--layout-gold-gradient)!important;
+  border-color:color-mix(in srgb,var(--layout-gold) 48%,var(--layout-border-card))!important;
+  color:var(--layout-text)!important;
+  box-shadow:0 10px 24px rgba(112,91,58,.12),inset 0 1px 0 rgba(255,255,255,.55)!important;
+}
+:root[data-layout="essencia-luminosa"] #settings-view #settings-voice-preview :is(svg,span){
+  color:var(--layout-text)!important;
+}
+:root[data-layout="essencia-luminosa"] #settings-view #settings-voice-preview:hover{
+  filter:brightness(1.035);
+  box-shadow:0 14px 28px rgba(112,91,58,.15),inset 0 1px 0 rgba(255,255,255,.65)!important;
+}
