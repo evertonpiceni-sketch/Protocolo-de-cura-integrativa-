@@ -36,7 +36,7 @@ test('a Home da Essência Luminosa respeita a voz neural salva e não cai em Web
   assert.ok(home.includes('isElevenLabsVoiceId(savedVoiceId) ? savedVoiceId : OFFICIAL_PROTOCOL_VOICE_ID'));
   assert.ok(home.includes('const narrationVoiceId = isMisticoModerno') && home.includes(': usesSavedVoiceSettings ? approvedVoiceId :'));
   assert.ok(home.includes('fallbackToSpeechSynthesis: !requiresOfficialServerVoice'));
-  assert.ok(home.includes('onError: requiresNeuralVoice'));
+  assert.ok(home.includes('onError: requiresOfficialServerVoice'));
   assert.ok(home.includes('props.voiceVolume ?? 1'));
   assert.ok(home.includes('props.voiceRate ?? .82'));
   assert.ok(home.includes('props.voicePitch ?? .92'));
