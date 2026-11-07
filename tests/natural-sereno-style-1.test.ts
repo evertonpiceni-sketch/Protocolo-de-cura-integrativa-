@@ -72,3 +72,26 @@ test('Diário e pagamento continuam escopados e sem chave PIX manual', () => {
   assert.ok(!numerology.includes('evertonpiceni@gmail.com'));
   assert.ok(routes.includes('https://api.infinitepay.io/invoices/public/checkout'));
 });
+
+
+test('Home e Comunidade preservam paisagens reais com véu creme e recorte responsivo', () => {
+  const home = read('src/natural-sereno-home-surface-audit.css');
+  const appCss = read('src/natural-sereno.css');
+  const entry = read('src/main.tsx');
+
+  assert.ok(home.includes('var(--ns-valley)'));
+  assert.ok(home.includes('@media (min-width:768px)'));
+  assert.ok(home.includes('@media (max-width:767px)'));
+  assert.ok(home.includes('rgba(250,247,242,.96)'));
+  assert.ok(appCss.includes('.ns-app[data-ns-screen="community"] { color: #2A2421; background: var(--ns-waterfall)'));
+  assert.ok(appCss.includes('.ns-app[data-ns-screen="community"]::before { background: rgba(250,247,242,.88);'));
+  assert.ok(entry.includes("import './natural-sereno-home-surface-audit.css';"));
+});
+
+test('logo e superfícies secundárias mantêm a assinatura discreta e os acentos dourado/sálvia', () => {
+  const approved = read('src/natural-sereno-approved-overrides.css');
+  assert.ok(approved.includes('#auth-loading-view img[alt="Everton Piceni"] { opacity:.24!important;'));
+  for (const selector of ['#numerology-modal', '#astral-map-modal', '#hooponopono-modal', '#mobile-install-modal', '#achievements-modal']) {
+    assert.ok(approved.includes(selector), selector);
+  }
+});
