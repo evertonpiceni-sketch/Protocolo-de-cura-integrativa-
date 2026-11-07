@@ -1063,11 +1063,31 @@ class CalmingAudioEngine {
       pitch?: number;
       lang?: string;
       protocolStageId?: string;
+      allowNativeFallback?: boolean;
+      onError?: (error: unknown) => void;
     }
   ) {
     this.stopSpeech();
 
     const preferElevenLabs = options?.preferElevenLabs !== false;
+    const allowNativeFallback = options?.allowNativeFallback !== false;
+    const reportFailure = (error: unknown) => {
+      this.isSpeakingActive = false;
+      this.isElevenLabsPlaying = false;
+      if (this.pauseTimeoutId) {
+        clearTimeout(this.pauseTimeoutId);
+        this.pauseTimeoutId = null;
+      }
+      if (this.voiceAudioElement) {
+        try { this.voiceAudioElement.pause(); } catch { /* already stopped */ }
+        this.voiceAudioElement = null;
+      }
+      if (this.voiceAudioUrl) {
+        URL.revokeObjectURL(this.voiceAudioUrl);
+        this.voiceAudioUrl = null;
+      }
+      options?.onError?.(error);
+    };
 
     if (preferElevenLabs && typeof window !== 'undefined') {
       try {
@@ -1155,7 +1175,12 @@ class CalmingAudioEngine {
                   }, pauseMs);
                 };
 
-                audio.onerror = () => {
+                audio.onerror = (event) => {
+                  if (!allowNativeFallback) {
+                    console.warn('Official voice segment playback failed; browser fallback is disabled.', event);
+                    reportFailure(new Error('Falha ao reproduzir segmento da voz oficial.'));
+                    return;
+                  }
                   this.isElevenLabsPlaying = false;
                   this.isSpeakingActive = false;
                   const fallbackText = text
@@ -1179,6 +1204,11 @@ class CalmingAudioEngine {
 
                 await audio.play();
               } catch (err) {
+                if (!allowNativeFallback) {
+                  console.warn('Official voice segment request failed; browser fallback is disabled.', err);
+                  reportFailure(err);
+                  return;
+                }
                 console.warn("Protocol segment TTS failed, using native fallback:", err);
                 this.isElevenLabsPlaying = false;
                 this.isSpeakingActive = false;
@@ -1249,6 +1279,11 @@ class CalmingAudioEngine {
           };
 
           audio.onerror = (e) => {
+            if (!allowNativeFallback) {
+              console.warn('Official ElevenLabs audio playback failed; browser fallback is disabled.', e);
+              reportFailure(new Error('Falha ao reproduzir a voz oficial.'));
+              return;
+            }
             console.warn("ElevenLabs audio playback failed, falling back to Web Speech API:", e);
             this.isElevenLabsPlaying = false;
             this.speak(text, voiceVolume, onStart, onEnd, onPause, onResume, options);
@@ -1257,16 +1292,30 @@ class CalmingAudioEngine {
           await audio.play();
           return;
         } else {
-          // Server returned fallback or error status (e.g. 503 API key not set)
+          // Server returned fallback or error status (e.g. 503 API key not set).
           const errData = await response.json().catch(() => ({}));
-          console.info("ElevenLabs TTS info / fallback:", errData.message || errData.error || response.statusText);
+          const message = errData.message || errData.error || response.statusText || `HTTP ${response.status}`;
+          console.info("ElevenLabs TTS info / fallback:", message);
+          if (!allowNativeFallback) {
+            reportFailure(new Error(message));
+            return;
+          }
         }
       } catch (err) {
+        if (!allowNativeFallback) {
+          console.warn('Official ElevenLabs request failed; browser fallback is disabled.', err);
+          reportFailure(err);
+          return;
+        }
         console.warn("Could not connect to ElevenLabs TTS route, using native fallback:", err);
       }
     }
 
-    // Fallback to Web Speech API
+    if (!allowNativeFallback) {
+      reportFailure(new Error('Narração oficial indisponível. Nenhuma voz alternativa foi iniciada.'));
+      return;
+    }
+    // Fallback to Web Speech API for styles that explicitly allow it.
     this.speak(text, voiceVolume, onStart, onEnd, onPause, onResume, options);
   }
 
