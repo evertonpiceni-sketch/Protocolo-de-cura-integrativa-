@@ -642,7 +642,7 @@ body::before{
   --ep-panel-text:#20382d;
 }
 :root[data-layout="essencia-luminosa"]{
-  --ep-scene:url('/brand/reintegracao-presenca-arte.png');
+  --ep-scene: none;
   --ep-scene-overlay:linear-gradient(180deg,rgba(255,255,248,.48),rgba(255,255,248,.20) 46%,rgba(247,243,232,.52));
   --ep-panel:rgba(255,253,247,.91);
   --ep-panel-strong:rgba(255,255,250,.97);
