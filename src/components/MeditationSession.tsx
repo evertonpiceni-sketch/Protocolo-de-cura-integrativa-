@@ -470,7 +470,7 @@ export default function MeditationSession({
       <main className="relative z-10 flex-1 flex flex-col items-center justify-center px-6 max-w-xl mx-auto w-full text-center">
         {voiceError && (
           <p role="alert" className="ep-voice-error mb-5 max-w-md rounded-xl px-4 py-3 text-xs leading-5">
-            A voz neural selecionada não foi identificada ou está indisponível. Abra Ajustes de áudio e escolha uma voz do catálogo ElevenLabs.
+            {isMisticoModerno ? 'A voz neural escolhida está indisponível. A sessão foi interrompida sem recorrer à voz do navegador.' : 'A voz neural selecionada não foi identificada ou está indisponível. Abra Ajustes de áudio e escolha uma voz do catálogo ElevenLabs.'}
           </p>
         )}
         {sessionPhase === 'playing' && (
