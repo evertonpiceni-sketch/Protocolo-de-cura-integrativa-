@@ -22,7 +22,7 @@
 
 ## Pendente
 
-- Teste de regressão/build desta rodada aguardando CI.
+- **CI concluído no run 42372537447:** TypeScript, 79 testes de regressão, build Vite, entrypoints Express, verificações de autenticação/segurança e endpoints de pagamento passaram. A etapa final de enforcement permanece em falha porque o `npm audit` encontrou 9 vulnerabilidades (3 moderadas e 6 altas).
 - Capturas e homologação visual real página por página em desktop e celular.
-- Fotografias independentes de natureza aprovadas para a Home do Estilo 3; o card do seletor continua apontando para o WebP versionado porque a tentativa de transferir o PNG original não retornou bytes binários íntegros.
-- Testes de voz, Solfeggio, player e animações em dispositivos; checkout InfinitePay em sandbox; segurança de dependências e deploy.
+- Fotografias independentes de natureza aprovadas para a Home do Estilo 3; o card do seletor continua apontando para o WebP versionado. A prancha original foi recuperada e inspecionada, mas a transferência dos bytes integrais para o repositório não foi concluída com segurança.
+- Testes de voz, Solfeggio, player e animações em dispositivos; checkout InfinitePay em sandbox; correção das 9 vulnerabilidades de dependências; deploy. O status Vercel do commit auditado continua `failure` por `build-rate-limit`, portanto não há homologação de produção.
