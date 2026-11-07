@@ -1308,7 +1308,7 @@ export default function App() {
                             {effectiveNeuralVoiceId === OFFICIAL_PROTOCOL_VOICE_ID ? 'Marianne — Meditação (voz oficial)' : isElevenLabsVoiceId(effectiveNeuralVoiceId) ? 'Voz salva — não listada no catálogo' : 'Seleção anterior do dispositivo — escolha uma voz neural'}
                           </option>
                         )}
-                        <option value="">Selecione uma voz neural</option>
+                        <option value="">{isNaturalSereno ? 'Selecione Maiara — voz feminina brasileira' : 'Selecione uma voz neural'}</option>
                         {elevenLabsVoices
                           .filter(voice => !isNaturalSereno || isNaturalSerenoVoiceId(voice.voice_id))
                           .map(voice => (
