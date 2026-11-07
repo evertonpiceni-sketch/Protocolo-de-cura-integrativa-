@@ -2,8 +2,8 @@ import { Router } from 'express';
 import crypto from 'node:crypto';
 import { getDb, saveDb } from '../db.js';
 
-import { PAYMENT_PLANS, paymentQuote, type Plan } from './paymentCatalog.js';
-export type PaymentOrder = { id: string; userId: string; planId: Plan; treatment?: import('../types.js').SpecificTreatment; cents: number; method: string; createdAt: string; paidAt?: string; transaction?: string };
+import { NUMEROLOGY_FULL_PRICE_CENTS, PAYMENT_PLANS, paymentQuote, type Plan } from './paymentCatalog.js';
+export type PaymentOrder = { id: string; userId: string; productType?: 'subscription' | 'specific_treatment' | 'numerology_full'; planId?: Plan; treatment?: import('../types.js').SpecificTreatment; cents: number; method: string; createdAt: string; paidAt?: string; transaction?: string };
 const API = 'https://api.infinitepay.io/invoices/public/checkout';
 export function paymentRoutes(authenticate: any, limiter: any, providerFetch: typeof fetch = fetch) {
   const router = Router();
@@ -37,8 +37,9 @@ export function paymentRoutes(authenticate: any, limiter: any, providerFetch: ty
     let quote;
     let treatment: import('../types.js').SpecificTreatment | undefined;
     try {
-      if (!['subscription', 'specific_treatment'].includes(productType) || !['pix', 'card', 'credit', 'debit'].includes(paymentMethod) || (productType === 'subscription' && typeof planId !== 'string') || (couponCode != null && typeof couponCode !== 'string')) throw new Error('Compra inválida.');
+      if (!['subscription', 'specific_treatment', 'numerology_full'].includes(productType) || !['pix', 'card', 'credit', 'debit'].includes(paymentMethod) || (couponCode != null && typeof couponCode !== 'string') || (productType === 'subscription' && typeof planId !== 'string') || (productType === 'numerology_full' && Boolean(couponCode?.trim()))) throw new Error('Compra inválida.');
       if (productType === 'subscription') quote = paymentQuote(planId, couponCode || '');
+      else if (productType === 'numerology_full') quote = { cents: NUMEROLOGY_FULL_PRICE_CENTS, title: 'Mapa Numerológico Completo' };
       else {
         const { durationDays, category, patientDescription, urgentPains, title } = req.body;
         if (![1,7,21].includes(durationDays) || !['saude_fisica','prosperidade','liberacao_emocional','relacionamentos','limpeza_espiritual','outro'].includes(category) || typeof patientDescription !== 'string' || !patientDescription.trim() || patientDescription.length > 10000 || (title != null && (typeof title !== 'string' || title.length > 200)) || !Array.isArray(urgentPains) || urgentPains.length > 30 || urgentPains.some((v: unknown) => typeof v !== 'string' || v.length > 200)) throw new Error('Dados da prática inválidos.');
@@ -55,7 +56,7 @@ export function paymentRoutes(authenticate: any, limiter: any, providerFetch: ty
         treatment = { id: crypto.randomUUID(), requestedAt: new Date().toISOString(), durationDays, category, title: title?.trim() || quote.title, patientDescription: patientDescription.trim(), urgentPains, status: 'pendente', price: cents / 100, paymentMethod: paymentMethod === 'pix' ? 'pix' : 'cartao' };
       }
     } catch (error) { return res.status(400).json({ error: (error as Error).message }); }
-    const order: PaymentOrder = { id: crypto.randomUUID(), userId: req.userId, planId: planId as Plan, ...(treatment ? { treatment } : {}), cents: quote.cents, method: paymentMethod, createdAt: new Date().toISOString() };
+    const order: PaymentOrder = { id: crypto.randomUUID(), userId: req.userId, productType, ...(productType === 'subscription' ? { planId: planId as Plan } : {}), ...(treatment ? { treatment } : {}), cents: quote.cents, method: paymentMethod, createdAt: new Date().toISOString() };
     try {
       const origin = appUrl();
       const db = getDb();
@@ -83,16 +84,20 @@ export function paymentRoutes(authenticate: any, limiter: any, providerFetch: ty
       if (verified.success !== true || verified.paid !== true || verified.amount !== order.cents) return { status: 202, data: { status: 'pending' } };
       if (order.paidAt) return { status: 200, data: userId ? { status: 'paid', user: { profile: user.profile } } : { success: true } };
       if (db.paymentOrders?.some(o => o.id !== order.id && o.transaction === transaction_nsu)) return { status: 409, data: { error: 'Transação já utilizada.' } };
+      const plan = order.planId && Object.hasOwn(PAYMENT_PLANS, order.planId) ? PAYMENT_PLANS[order.planId] : undefined;
+      if (!order.treatment && order.productType !== 'numerology_full' && !plan) return { status: 409, data: { error: 'Plano de pagamento inválido.' } };
       const previous = { plan: user.plan, profile: user.profile };
       const now = new Date();
       order.paidAt = now.toISOString(); order.transaction = transaction_nsu;
       if (order.treatment) {
         user.profile = { ...user.profile, specificTreatments: [...(user.profile?.specificTreatments || []), order.treatment] };
-      } else {
-      user.plan = 'pro';
-      user.profile = { ...user.profile, plan: 'pro', subscriptionPlan: order.planId,
-        subscriptionPrice: order.cents / 100, subscriptionPaymentMethod: order.method,
-        proActiveSince: now.toISOString(), subscriptionExpiresAt: new Date(now.getTime() + PAYMENT_PLANS[order.planId].days * 86400000).toISOString() };
+      } else if (order.productType === 'numerology_full') {
+        user.profile = { ...user.profile, numerologyPurchased: true, numerologyPurchasedAt: now.toISOString(), numerologyPurchasePrice: order.cents / 100, numerologyPaymentMethod: order.method };
+      } else if (plan) {
+        user.plan = 'pro';
+        user.profile = { ...user.profile, plan: 'pro', subscriptionPlan: order.planId,
+          subscriptionPrice: order.cents / 100, subscriptionPaymentMethod: order.method,
+          proActiveSince: now.toISOString(), subscriptionExpiresAt: new Date(now.getTime() + plan.days * 86400000).toISOString() };
       }
       try { await saveDb(); } catch (error) { user.plan = previous.plan; user.profile = previous.profile; delete order.paidAt; delete order.transaction; throw error; }
     }
