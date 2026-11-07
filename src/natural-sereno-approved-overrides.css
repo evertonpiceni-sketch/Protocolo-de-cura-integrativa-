@@ -571,3 +571,52 @@
     background: url('/brand/natural-sereno/acolhimento.webp') center / cover no-repeat #FAF7F2 !important;
   }
 }
+
+/* Anamnese: sem chapas emerald/amber; verde-sálvia fica restrito a pequenos sinais. */
+:root[data-layout="natural-sereno"] #anamnesis-modal :is([class*="bg-emerald-50"],[class*="bg-emerald-100"],[class*="bg-emerald-500/"]) {
+  background: rgba(111,123,85,.09) !important;
+}
+:root[data-layout="natural-sereno"] #anamnesis-modal :is(button,a)[class*="bg-emerald-"],
+:root[data-layout="natural-sereno"] #anamnesis-modal :is(button,a)[class*="from-emerald-"] {
+  background: linear-gradient(180deg,#E2B96B 0%,#C89D52 100%) !important;
+  color: #2A2421 !important;
+  border-color: rgba(168,126,55,.58) !important;
+  box-shadow: 0 8px 18px rgba(67,52,39,.09) !important;
+}
+:root[data-layout="natural-sereno"] #anamnesis-modal :is(button,a)[class*="bg-amber-"],
+:root[data-layout="natural-sereno"] #anamnesis-modal :is(button,a)[class*="from-amber-"] {
+  background: linear-gradient(180deg,#E2B96B 0%,#C89D52 100%) !important;
+  color: #2A2421 !important;
+  border-color: rgba(168,126,55,.58) !important;
+  box-shadow: 0 8px 18px rgba(67,52,39,.09) !important;
+}
+:root[data-layout="natural-sereno"] #anamnesis-modal :is(button,a)[class*="bg-emerald-"] :is(span,svg),
+:root[data-layout="natural-sereno"] #anamnesis-modal :is(button,a)[class*="from-emerald-"] :is(span,svg),
+:root[data-layout="natural-sereno"] #anamnesis-modal :is(button,a)[class*="bg-amber-"] :is(span,svg),
+:root[data-layout="natural-sereno"] #anamnesis-modal :is(button,a)[class*="from-amber-"] :is(span,svg) {
+  color: #2A2421 !important;
+}
+:root[data-layout="natural-sereno"] #anamnesis-modal [class*="text-emerald-"] {
+  color: #5E6948 !important;
+}
+:root[data-layout="natural-sereno"] #anamnesis-modal [class*="text-amber-"] {
+  color: #8F631E !important;
+}
+:root[data-layout="natural-sereno"] #anamnesis-modal [class*="border-emerald-"] {
+  border-color: rgba(111,123,85,.24) !important;
+}
+:root[data-layout="natural-sereno"] #anamnesis-modal [class*="border-amber-"] {
+  border-color: rgba(200,157,82,.30) !important;
+}
+:root[data-layout="natural-sereno"] #anamnesis-modal .ep-anamnesis-progress-fill {
+  background: linear-gradient(90deg,#E2B96B 0%,#C89D52 55%,#A87E37 100%) !important;
+}
+:root[data-layout="natural-sereno"] #anamnesis-modal .ep-anamnesis-frequency {
+  background: linear-gradient(145deg,#FFFDF8 0%,#F3EDE4 100%) !important;
+  border-color: rgba(200,157,82,.34) !important;
+}
+:root[data-layout="natural-sereno"] #anamnesis-modal .ep-anamnesis-frequency [class*="bg-emerald"] {
+  background: rgba(111,123,85,.10) !important;
+  color: #5E6948 !important;
+  border-color: rgba(111,123,85,.24) !important;
+}
