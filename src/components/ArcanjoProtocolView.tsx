@@ -180,7 +180,7 @@ export default function ArcanjoProtocolView({ userProfile, onClose, onLogout, in
         undefined,
         undefined,
         {
-          voiceId: userProfile.voiceId || (userProfile.preferredVoiceGender === 'feminina' ? 'Rachel' : 'Marcus'),
+          voiceId: userProfile.voiceId || userProfile.preferredVoice || (userProfile.preferredVoiceGender === 'feminina' ? 'Rachel' : 'Marcus'),
           rate: userProfile.voiceRate ?? 0.84,
           pitch: userProfile.voicePitch ?? 1,
           lang: 'pt-BR',
@@ -204,7 +204,7 @@ export default function ArcanjoProtocolView({ userProfile, onClose, onLogout, in
     void audioEngine.playGuidedMeditation(parts, {
       title: `Dia ${config.dia} — São Miguel, Chama Violeta e São Rafael`,
       subtitle: `${config.nome} • ${config.freq} Hz`,
-      voiceId: userProfile.voiceId || (userProfile.preferredVoiceGender === 'feminina' ? 'Rachel' : 'Marcus'),
+      voiceId: userProfile.voiceId || userProfile.preferredVoice || (userProfile.preferredVoiceGender === 'feminina' ? 'Rachel' : 'Marcus'),
       volume: userProfile.voiceVolume ?? 0.9,
       userName: userProfile.name,
       onStart: () => {
