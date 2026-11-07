@@ -23,6 +23,7 @@ import { APPROVED_LOGO_DATA_URI } from './components/ApprovedBrand';
 
 import { calculateAstralMap } from './utils/astrology';
 import { audioEngine } from './lib/audio';
+import { isElevenLabsVoiceId, type ElevenLabsVoiceOption } from './lib/voiceSelection';
 import { evaluateAchievements } from './lib/achievementsData';
 import { AppLanguage, SUPPORTED_LANGUAGES, UI_TRANSLATIONS } from './lib/i18n';
 import { AnimatePresence } from "motion/react";
@@ -108,7 +109,11 @@ export default function App() {
   const [inAppToast, setInAppToast] = useState<{ title: string; body: string } | null>(null);
   const [deferredInstallPrompt, setDeferredInstallPrompt] = useState<any>(null);
   const [availableVoices, setAvailableVoices] = useState<SpeechSynthesisVoice[]>([]);
+  const [elevenLabsVoices, setElevenLabsVoices] = useState<ElevenLabsVoiceOption[]>([]);
+  const [isLoadingElevenLabsVoices, setIsLoadingElevenLabsVoices] = useState(false);
   const [isPlayingVoiceTest, setIsPlayingVoiceTest] = useState<boolean>(false);
+  const [voicePreviewError, setVoicePreviewError] = useState(false);
+  const isEleganciaProfunda = layoutConfirmedThisSession && userProfile?.visualLayout === 'elegancia-profunda';
 
   // Initialize and register local notification daily checker
   useEffect(() => {
@@ -198,7 +203,7 @@ export default function App() {
     };
   }, []);
 
-  // Load available system voices for voice humanization
+  // Load available system voices for layouts that still use device speech.
   useEffect(() => {
     const updateVoices = () => {
       const voices = audioEngine.getAvailableVoices();
@@ -210,6 +215,24 @@ export default function App() {
       window.speechSynthesis.onvoiceschanged = updateVoices;
     }
   }, []);
+
+  // Elegância Profunda uses actual ElevenLabs IDs, never browser SpeechSynthesis names/URIs.
+  useEffect(() => {
+    if (!isLoggedIn || !isEleganciaProfunda || (!showSettings && !showAudioSettingsModal)) return;
+    let cancelled = false;
+    setIsLoadingElevenLabsVoices(true);
+    void audioEngine.fetchElevenLabsVoices()
+      .then(voices => {
+        if (!cancelled) setElevenLabsVoices(voices.filter(voice => isElevenLabsVoiceId(voice.voice_id)));
+      })
+      .catch(() => {
+        if (!cancelled) setElevenLabsVoices([]);
+      })
+      .finally(() => {
+        if (!cancelled) setIsLoadingElevenLabsVoices(false);
+      });
+    return () => { cancelled = true; };
+  }, [isLoggedIn, isEleganciaProfunda, showSettings, showAudioSettingsModal]);
 
   // Synchronize global audio player with profile settings and fallbacks using unified audioEngine
   useEffect(() => {
@@ -1254,29 +1277,54 @@ export default function App() {
 
                 <div className="p-4 bg-white border border-[#E5DAC6] rounded-2xl space-y-4">
                   {/* Voice Select */}
-                  <div className="space-y-1.5">
-                    <label className="text-[10px] font-mono text-[#5C5248] uppercase">
-                      Voz de Condução ({availableVoices.length > 0 ? `${availableVoices.length} vozes detectadas` : 'Voz Padrão do Sistema'})
-                    </label>
-                    <select
-                      value={userProfile.voiceId || ''}
-                      aria-label="Voz de condução"
-                      onChange={(e) => {
-                        saveProfile({
-                          ...userProfile,
-                          voiceId: e.target.value
-                        });
-                      }}
-                      className="w-full bg-[#FBF8F2] border border-[#E5DAC6] text-[#2A2420] rounded-xl px-3 py-2 text-xs outline-none focus:border-indigo-500"
-                    >
-                      <option key="voice-auto" value="">Automático: Melhor Voz Português (Neural/Acolhedora)</option>
-                      {availableVoices.map((v, index) => (
-                        <option key={`voice-${v.voiceURI || v.name}-${index}`} value={v.voiceURI}>
-                          {v.name} ({v.lang})
-                        </option>
-                      ))}
-                    </select>
-                  </div>
+                  {isEleganciaProfunda ? (
+                    <div className="space-y-1.5">
+                      <label className="text-[10px] font-mono text-[#5C5248] uppercase">Voz neural (ElevenLabs)</label>
+                      <select
+                        value={userProfile.voiceId || ''}
+                        aria-label="Voz neural ElevenLabs"
+                        onChange={(e) => {
+                          setVoicePreviewError(false);
+                          saveProfile({ ...userProfile, voiceId: e.target.value });
+                        }}
+                        className="w-full bg-[#FBF8F2] border border-[#E5DAC6] text-[#2A2420] rounded-xl px-3 py-2 text-xs outline-none focus:border-[#B88736]"
+                      >
+                        {userProfile.voiceId && !elevenLabsVoices.some(voice => voice.voice_id === userProfile.voiceId) && (
+                          <option value={userProfile.voiceId} disabled>
+                            {isElevenLabsVoiceId(userProfile.voiceId) ? 'Voz salva — não listada no catálogo' : 'Seleção anterior do dispositivo — escolha uma voz neural'}
+                          </option>
+                        )}
+                        <option value="">Selecione uma voz neural</option>
+                        {elevenLabsVoices.map(voice => (
+                          <option key={voice.voice_id} value={voice.voice_id}>{voice.name}</option>
+                        ))}
+                      </select>
+                      {isLoadingElevenLabsVoices
+                        ? <p className="text-[10px] text-[#85786C]">Carregando catálogo de vozes neurais…</p>
+                        : elevenLabsVoices.length === 0
+                          ? <p className="text-[10px] text-[#85786C]">Nenhuma voz neural disponível. A voz do dispositivo não será usada neste estilo.</p>
+                          : null}
+                    </div>
+                  ) : (
+                    <div className="space-y-1.5">
+                      <label className="text-[10px] font-mono text-[#5C5248] uppercase">
+                        Voz de Condução ({availableVoices.length > 0 ? `${availableVoices.length} vozes detectadas` : 'Voz Padrão do Sistema'})
+                      </label>
+                      <select
+                        value={userProfile.voiceId || ''}
+                        aria-label="Voz de condução"
+                        onChange={(e) => saveProfile({ ...userProfile, voiceId: e.target.value })}
+                        className="w-full bg-[#FBF8F2] border border-[#E5DAC6] text-[#2A2420] rounded-xl px-3 py-2 text-xs outline-none focus:border-indigo-500"
+                      >
+                        <option key="voice-auto" value="">Automático: Melhor Voz Português (Neural/Acolhedora)</option>
+                        {availableVoices.map((v, index) => (
+                          <option key={`voice-${v.voiceURI || v.name}-${index}`} value={v.voiceURI}>
+                            {v.name} ({v.lang})
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+                  )}
 
                   {/* Speed / Cadence Slider */}
                   <div className="space-y-1.5">
@@ -1317,6 +1365,43 @@ export default function App() {
                     <button
                       type="button"
                       onClick={() => {
+                        if (isPlayingVoiceTest) {
+                          audioEngine.stopSpeech();
+                          setIsPlayingVoiceTest(false);
+                          return;
+                        }
+                        setVoicePreviewError(false);
+                        if (isEleganciaProfunda) {
+                          if (!isElevenLabsVoiceId(userProfile.voiceId)) {
+                            setVoicePreviewError(true);
+                            return;
+                          }
+                          setIsPlayingVoiceTest(true);
+                          void audioEngine.speakWithElevenLabsOrFallback(
+                            `Olá, ${userProfile.name}. Respire profundamente. Sinta a paz se expandir em todo o seu ser agora.`,
+                            userProfile.voiceVolume ?? 0.85,
+                            () => setIsPlayingVoiceTest(true),
+                            () => setIsPlayingVoiceTest(false),
+                            undefined,
+                            undefined,
+                            {
+                              voiceId: userProfile.voiceId,
+                              rate: userProfile.voiceRate ?? 0.82,
+                              pitch: userProfile.voicePitch ?? 1.0,
+                              lang: 'pt-BR',
+                              stability: 0.45,
+                              similarityBoost: 0.75,
+                              enableBreathingPauses: true,
+                              userName: userProfile.name,
+                              fallbackToSpeechSynthesis: false,
+                              onError: () => {
+                                setIsPlayingVoiceTest(false);
+                                setVoicePreviewError(true);
+                              }
+                            }
+                          );
+                          return;
+                        }
                         setIsPlayingVoiceTest(true);
                         audioEngine.previewVoice({
                           text: `Olá, ${userProfile.name}. Respire profundamente. Sinta a paz se expandir em todo o seu ser agora.`,
@@ -1330,9 +1415,14 @@ export default function App() {
                       className="px-3 py-1.5 bg-indigo-600/30 hover:bg-indigo-600/50 border border-indigo-500/50 text-indigo-200 rounded-xl text-xs font-medium flex items-center gap-1.5 transition cursor-pointer shrink-0"
                     >
                       <Volume2 size={13} className={isPlayingVoiceTest ? 'animate-pulse' : ''} />
-                      <span>{isPlayingVoiceTest ? 'Ouvindo...' : 'Testar Voz'}</span>
+                      <span>{isPlayingVoiceTest ? 'Ouvindo...' : isEleganciaProfunda ? 'Testar voz neural' : 'Testar Voz'}</span>
                     </button>
                   </div>
+                  {voicePreviewError && (
+                    <p role="alert" className="ep-voice-error rounded-xl px-3 py-2 text-xs">
+                      Selecione uma voz neural válida do catálogo. O Estilo 2 não usará a voz robótica do dispositivo.
+                    </p>
+                  )}
                 </div>
               </div>
 
@@ -2413,6 +2503,8 @@ export default function App() {
           userProfile={userProfile}
           onSaveProfile={saveProfile}
           availableVoices={availableVoices}
+          elevenLabsVoices={elevenLabsVoices}
+          isLoadingElevenLabsVoices={isLoadingElevenLabsVoices}
           onOpenProModal={() => {
             setShowAudioSettingsModal(false);
             setShowProModal(true);
