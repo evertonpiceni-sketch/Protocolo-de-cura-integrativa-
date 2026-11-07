@@ -3,7 +3,7 @@ import crypto from 'node:crypto';
 import { getDb, saveDb } from '../db.js';
 
 import { PAYMENT_PLANS, paymentQuote, specificTreatmentQuote, type Plan } from './paymentCatalog.js';
-export type PaymentOrder = { id: string; userId: string; planId: Plan; treatment?: import('../types.js').SpecificTreatment; cents: number; method: string; createdAt: string; paidAt?: string; transaction?: string };
+export type PaymentOrder = { id: string; userId: string; productType?: 'subscription' | 'specific_treatment' | 'numerology_full'; planId?: Plan; treatment?: import('../types.js').SpecificTreatment; cents: number; method: string; createdAt: string; paidAt?: string; transaction?: string };
 const API = 'https://api.infinitepay.io/invoices/public/checkout';
 export function paymentRoutes(authenticate: any, limiter: any, providerFetch: typeof fetch = fetch) {
   const router = Router();
@@ -37,9 +37,15 @@ export function paymentRoutes(authenticate: any, limiter: any, providerFetch: ty
     let quote;
     let treatment: import('../types.js').SpecificTreatment | undefined;
     try {
-      if (!['subscription', 'specific_treatment'].includes(productType) || !['pix', 'card', 'credit', 'debit'].includes(paymentMethod) || (productType === 'subscription' && typeof planId !== 'string') || (couponCode != null && typeof couponCode !== 'string')) throw new Error('Compra inválida.');
+      if (!['subscription', 'specific_treatment', 'numerology_full'].includes(productType) || !['pix', 'card', 'credit', 'debit'].includes(paymentMethod) || (productType === 'subscription' && typeof planId !== 'string') || (productType !== 'subscription' && planId != null) || (couponCode != null && typeof couponCode !== 'string')) throw new Error('Compra inválida.');
       if (productType === 'subscription') quote = paymentQuote(planId, couponCode || '');
-      else {
+      else if (productType === 'numerology_full') {
+        const buyer = getDb().users.find(u => u.id === req.userId);
+        if (!buyer) return res.sendStatus(401);
+        if (buyer.plan === 'pro' || buyer.profile?.plan === 'pro' || buyer.profile?.numerologyPurchased) return res.status(409).json({ error: 'O mapa numerológico completo já está liberado nesta conta.' });
+        if ((couponCode || '').trim() || req.body.customAmount != null) throw new Error('Cupom ou valor personalizado não permitido para este produto.');
+        quote = { cents: 9000, title: 'Mapa Numerológico Cabalístico Completo' };
+      } else {
         const { durationDays, category, patientDescription, urgentPains, title } = req.body;
         if (![7,21].includes(durationDays) || !['saude_fisica','prosperidade','liberacao_emocional','relacionamentos','limpeza_espiritual','outro'].includes(category) || typeof patientDescription !== 'string' || !patientDescription.trim() || patientDescription.length > 10000 || (title != null && (typeof title !== 'string' || title.length > 200)) || !Array.isArray(urgentPains) || urgentPains.length > 30 || urgentPains.some((v: unknown) => typeof v !== 'string' || v.length > 200)) throw new Error('Dados da prática inválidos.');
         const code = (couponCode || '').trim().toUpperCase();
@@ -49,7 +55,7 @@ export function paymentRoutes(authenticate: any, limiter: any, providerFetch: ty
         treatment = { id: crypto.randomUUID(), requestedAt: new Date().toISOString(), durationDays, category, title: title?.trim() || quote.title, patientDescription: patientDescription.trim(), urgentPains, status: 'pendente', price: treatmentQuote.cents / 100, paymentMethod: paymentMethod === 'pix' ? 'pix' : 'cartao' };
       }
     } catch (error) { return res.status(400).json({ error: (error as Error).message }); }
-    const order: PaymentOrder = { id: crypto.randomUUID(), userId: req.userId, planId: planId as Plan, ...(treatment ? { treatment } : {}), cents: quote.cents, method: paymentMethod, createdAt: new Date().toISOString() };
+    const order: PaymentOrder = { id: crypto.randomUUID(), userId: req.userId, productType, ...(productType === 'subscription' ? { planId: planId as Plan } : {}), ...(treatment ? { treatment } : {}), cents: quote.cents, method: paymentMethod, createdAt: new Date().toISOString() };
     try {
       const origin = appUrl();
       const db = getDb();
@@ -72,6 +78,8 @@ export function paymentRoutes(authenticate: any, limiter: any, providerFetch: ty
     if (!order) return { status: 404, data: { error: 'Compra não encontrada.' } };
     const user = db.users.find(u => u.id === order.userId);
     if (!user) return { status: 404, data: { error: 'Conta não encontrada.' } };
+    const subscriptionPlan = order.planId ? PAYMENT_PLANS[order.planId] : undefined;
+    if (!order.treatment && order.productType !== 'numerology_full' && !subscriptionPlan) return { status: 409, data: { error: 'Compra sem produto ou plano válido.' } };
     if (!order.paidAt) {
       const verified = await provider('/payment_check', { handle: handle(), order_nsu, transaction_nsu, slug });
       if (verified.success !== true || verified.paid !== true || verified.amount !== order.cents) return { status: 202, data: { status: 'pending' } };
@@ -82,11 +90,13 @@ export function paymentRoutes(authenticate: any, limiter: any, providerFetch: ty
       order.paidAt = now.toISOString(); order.transaction = transaction_nsu;
       if (order.treatment) {
         user.profile = { ...user.profile, specificTreatments: [...(user.profile?.specificTreatments || []), order.treatment] };
+      } else if (order.productType === 'numerology_full') {
+        user.profile = { ...user.profile, numerologyPurchased: true };
       } else {
-      user.plan = 'pro';
-      user.profile = { ...user.profile, plan: 'pro', subscriptionPlan: order.planId,
-        subscriptionPrice: order.cents / 100, subscriptionPaymentMethod: order.method,
-        proActiveSince: now.toISOString(), subscriptionExpiresAt: new Date(now.getTime() + PAYMENT_PLANS[order.planId].days * 86400000).toISOString() };
+        user.plan = 'pro';
+        user.profile = { ...user.profile, plan: 'pro', subscriptionPlan: order.planId,
+          subscriptionPrice: order.cents / 100, subscriptionPaymentMethod: order.method,
+          proActiveSince: now.toISOString(), subscriptionExpiresAt: new Date(now.getTime() + subscriptionPlan!.days * 86400000).toISOString() };
       }
       try { await saveDb(); } catch (error) { user.plan = previous.plan; user.profile = previous.profile; delete order.paidAt; delete order.transaction; throw error; }
     }
