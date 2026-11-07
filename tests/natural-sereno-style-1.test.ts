@@ -95,3 +95,28 @@ test('logo e superfícies secundárias mantêm a assinatura discreta e os acento
     assert.ok(approved.includes(selector), selector);
   }
 });
+
+
+test('Natural Sereno preserves the Maiara choice without Marianne or browser fallback', () => {
+  const app = read('src/App.tsx');
+  const session = read('src/components/MeditationSession.tsx');
+  const voicePatch = read('src/lib/naturalSerenoOfficialVoicePatch.ts');
+  const voiceSelection = read('src/lib/voiceSelection.ts');
+
+  assert.ok(app.includes('isNaturalSerenoVoiceId(savedNeuralVoiceId)'));
+  assert.ok(session.includes("activeLayout === 'natural-sereno' && !naturalSerenoVoiceId"));
+  assert.ok(voicePatch.includes('requireExplicitVoiceId: true'));
+  assert.ok(voicePatch.includes('fallbackToSpeechSynthesis: false'));
+  assert.ok(voicePatch.includes('isNaturalSerenoVoiceId'));
+  assert.ok(!voicePatch.includes('OFFICIAL_PROTOCOL_VOICE_ID'));
+  assert.ok(voiceSelection.includes('mJqP14JQFEK0PojR5lfV'));
+});
+
+test('Natural Sereno welcome uses a real landscape, a light surface and a subtle logo', () => {
+  const css = read('src/natural-sereno-approved-overrides.css');
+  assert.ok(css.includes("url('/brand/natural-sereno/acolhimento.webp')"));
+  assert.ok(css.includes('background-color: #FAF7F2 !important;'));
+  assert.ok(css.includes('.ns-welcome-brand {\n  opacity: .28 !important;'));
+  assert.ok(css.includes('#admin-panel-modal :is(button,a)[class*="bg-emerald"]'));
+  assert.ok(css.includes('.ns-app .ns-gold {\n  border-radius: 18px !important;'));
+});
