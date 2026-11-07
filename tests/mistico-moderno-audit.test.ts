@@ -28,6 +28,25 @@ test('o seletor mostra a prancha oficial do Místico Moderno e exige escolha exp
   assert.ok(app.includes("document.documentElement.removeAttribute('data-layout')"));
 });
 
+test('os tokens do Místico Moderno usam azul noturno, índigo, esmeralda, violeta e ouro âmbar', () => {
+  const theme = read('src/approved-theme.css');
+  const start = theme.indexOf(':root[data-layout="mistico-moderno"]{');
+  const end = start >= 0 ? theme.indexOf('\n}', start) : -1;
+  const block = start >= 0 && end > start ? theme.slice(start, end) : '';
+
+  assert.ok(block.includes('--layout-canvas:#07111F;'));
+  assert.ok(block.includes('--layout-indigo:#26355F;'));
+  assert.ok(block.includes('--layout-emerald:#176B5B;'));
+  assert.ok(block.includes('--layout-violet:#6C3FA0;'));
+  assert.ok(block.includes('--layout-gold:#C89D52;'));
+  assert.ok(block.includes('--layout-gold-light:#E2B96B;'));
+  assert.ok(block.includes('--layout-gold-dark:#A87E37;'));
+  assert.ok(block.includes('--layout-text:#F4F1EB;'));
+  assert.ok(!block.includes('#D4AF37'));
+  assert.ok(!block.includes('#F2D06B'));
+  assert.ok(!block.includes('#A47D1C'));
+});
+
 test('o Estilo 4 mantém Marianne — Meditação e não usa voz nativa como substituta', () => {
   const settings = read('src/components/AudioSettingsModal.tsx');
   const voicePatch = read('src/lib/misticoModernoOfficialVoicePatch.ts');
