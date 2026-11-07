@@ -505,3 +505,69 @@
 #profile-setup-view.ep-auth-style-one #onboarding-card :is(#register-form,#login-form) button[type="submit"] {
   border-radius: 18px !important;
 }
+
+/* Reauditoria RUN_22 — últimas superfícies herdadas de amarelo/verde.
+   Escopo restrito às páginas Natural Sereno; estados naturais pequenos permanecem. */
+:root[data-layout="natural-sereno"] :is(#settings-view,#audio-settings-modal,#mobile-install-modal,#achievements-modal,#journal-dashboard-view) button[class~="bg-[#B88736]"] {
+  background: linear-gradient(180deg,#E2B96B 0%,#C89D52 100%) !important;
+  color: #2A2421 !important;
+  border-color: rgba(168,126,55,.58) !important;
+  box-shadow: inset 0 1px rgba(255,255,255,.48),0 8px 18px rgba(67,52,39,.09) !important;
+}
+:root[data-layout="natural-sereno"] :is(#settings-view,#audio-settings-modal,#mobile-install-modal,#achievements-modal,#journal-dashboard-view) button[class~="bg-[#B88736]"] :is(span,svg) {
+  color: #2A2421 !important;
+}
+:root[data-layout="natural-sereno"] #settings-view #settings-support-contact :is(span,svg) {
+  color: #8F631E !important;
+}
+:root[data-layout="natural-sereno"] #daily-diary-modal :is(div,span)[class*="bg-[#B88736]/"] {
+  background: rgba(200,157,82,.10) !important;
+  color: #6B4E2E !important;
+  border-color: rgba(200,157,82,.24) !important;
+}
+:root[data-layout="natural-sereno"] #daily-diary-modal :is(div,span)[class*="bg-[#B88736]/"] :is(span,svg) {
+  color: #6B4E2E !important;
+}
+:root[data-layout="natural-sereno"] #specific-treatment-modal div[class*="bg-gradient"]:not(.pointer-events-none) {
+  background: linear-gradient(145deg,#FFFDF8 0%,#F3EDE4 100%) !important;
+  border-color: rgba(200,157,82,.34) !important;
+}
+:root[data-layout="natural-sereno"] #admin-panel-modal button[type="submit"] {
+  background: linear-gradient(180deg,#E2B96B 0%,#C89D52 100%) !important;
+  color: #2A2421 !important;
+  border: 1px solid rgba(168,126,55,.58) !important;
+  box-shadow: inset 0 1px rgba(255,255,255,.48),0 8px 18px rgba(67,52,39,.09) !important;
+}
+:root[data-layout="natural-sereno"] #admin-panel-modal button[type="submit"] :is(span,svg) {
+  color: #2A2421 !important;
+}
+:root[data-layout="natural-sereno"] [data-ns-pix-card] {
+  background: linear-gradient(145deg,#FFFDF8 0%,#F3EDE4 100%) !important;
+  border-color: rgba(200,157,82,.30) !important;
+  box-shadow: 0 8px 20px rgba(67,52,39,.06) !important;
+}
+:root[data-layout="natural-sereno"] [data-ns-pix-card] :is(span,strong,svg) {
+  color: #6B4E2E !important;
+}
+:root[data-layout="natural-sereno"] #anamnesis-modal > div {
+  background: linear-gradient(180deg,#FAF7F2 0%,#F3EDE4 100%) !important;
+  color: #2A2421 !important;
+}
+:root[data-layout="natural-sereno"] #anamnesis-modal [class*="bg-amber-50"] {
+  background: #F3EDE4 !important;
+  border-color: rgba(200,157,82,.30) !important;
+}
+:root[data-layout="natural-sereno"] #progress-dashboard header h1 {
+  color: #2A2421 !important;
+}
+
+/* A tela de acolhimento usa a fotografia aprovada também em desktop;
+   o fallback verde sólido de mobile-fixes não pode ocultar a paisagem. */
+:root[data-layout="natural-sereno"] .ns-welcome::before {
+  background: linear-gradient(180deg,rgba(42,36,33,.08),rgba(42,36,33,.42) 55%,rgba(42,36,33,.60)) !important;
+}
+@media (min-width:900px) {
+  :root[data-layout="natural-sereno"] .ns-welcome {
+    background: url('/brand/natural-sereno/acolhimento.webp') center / cover no-repeat #FAF7F2 !important;
+  }
+}
