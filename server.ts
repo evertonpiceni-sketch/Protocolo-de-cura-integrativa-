@@ -17,6 +17,7 @@ import { normalizeBrazilianNationalPhone, toBrazilianWhatsAppNumber } from "./sr
 import { paymentRoutes } from './src/lib/paymentRoutes.js';
 import { communityRoutes } from "./src/lib/communityRoutes.js";
 import { prepareTherapeuticSSML, protocolAudioCacheKey } from './src/lib/ttsText.js';
+import { MISTICO_MODERNO_OFFICIAL_VOICE_ALIAS, resolveMisticoModernoOfficialVoiceId } from './src/config/voiceAliases.js';
 
 const JWT_SECRET = process.env.JWT_SECRET;
 if (process.env.NODE_ENV === "production" && (!JWT_SECRET || JWT_SECRET.length < 32)) {
@@ -164,9 +165,107 @@ export function createApp() {
   app.get("/api/elevenlabs/status", (_req, res) => { const hasKey = !!process.env.ELEVENLABS_API_KEY && process.env.ELEVENLABS_API_KEY.length > 5; res.json({ configured: hasKey, defaultVoice: process.env.ELEVENLABS_VOICE_ID || "Marcus", model: "eleven_multilingual_v2", stability: 0.5, similarityBoost: 0.75, style: 0, speed: 0.92 }); });
   app.get("/api/elevenlabs/voices", authenticate, apiLimiter, async (_req, res) => { const client = getElevenLabs(); const defaultCuratedVoices = [{ voice_id: "Marcus", name: "Voz masculina", category: "premade", description: "Voz masculina profunda, acolhedora, serena e terapêutica.", preview_url: "" }, { voice_id: "Rachel", name: "Rachel (Acolhimento & Paz)", category: "premade", description: "Voz feminina suave, doce e maternal.", preview_url: "" }]; if (!client) return res.json({ voices: defaultCuratedVoices, isCustomApiKey: false }); try { const response = await client.voices.getAll(); const apiVoices = (response.voices || []).map((v: any) => ({ voice_id: v.voice_id, name: v.name, category: v.category || "custom", description: v.description || (v.labels ? Object.values(v.labels).join(", ") : "Voz ElevenLabs"), preview_url: v.preview_url || "" })); const allVoices = [...defaultCuratedVoices]; apiVoices.forEach((av: any) => { if (!allVoices.some(v => v.voice_id === av.voice_id)) allVoices.push(av); }); return res.json({ voices: allVoices, isCustomApiKey: true }); } catch (err: any) { console.warn("ElevenLabs voices fetch warning:", err?.message || err); return res.json({ voices: defaultCuratedVoices, isCustomApiKey: true }); } });
 
-  app.post("/api/elevenlabs/tts", authenticate, apiLimiter, async (req, res) => { try { const { text, voiceId = process.env.ELEVENLABS_VOICE_ID || "Marcus", stability = 0.5, similarityBoost = 0.75, style = 0, speed = 0.92, useSpeakerBoost = true, enableBreathingPauses = true, cacheKey } = req.body; if (!text || typeof text !== "string" || text.trim().length === 0) return res.status(400).json({ error: "Texto para sintetizar é obrigatório." }); const safeStability = Math.max(0.35, Math.min(0.7, Number(stability))); const safeSimilarity = Math.max(0.5, Math.min(0.9, Number(similarityBoost))); const safeStyle = Math.max(0, Math.min(0.2, Number(style))); const safeSpeed = Math.max(0.82, Math.min(1.05, Number(speed))); const effectiveCacheKey = cacheKey || `${voiceId}_${safeStability}_${safeSimilarity}_${safeStyle}_${safeSpeed}_${text.slice(0, 100)}_${text.length}`; if (audioCache.has(effectiveCacheKey)) { const cached = audioCache.get(effectiveCacheKey)!; res.setHeader("Content-Type", cached.contentType); res.setHeader("X-Audio-Cache", "HIT"); return res.send(cached.buffer); } const client = getElevenLabs(); if (!client) return res.status(503).json({ error: "ELEVENLABS_API_KEY não configurada no servidor.", fallbackToNativeTTS: true, message: "Configure sua chave." }); const formattedText = enableBreathingPauses ? prepareTherapeuticSSML(text) : text; let resolvedVoiceId = voiceId; if (['masculina','male','everton','Marcus'].includes(voiceId)) resolvedVoiceId = process.env.ELEVENLABS_MALE_VOICE_ID || "nPczCjzI2devNBz1zQrb"; else if (['feminina','female','sofia','Rachel'].includes(voiceId)) resolvedVoiceId = "21m00Tcm4TlvDq8ikWAM"; const audioStream = await client.generate({ voice: resolvedVoiceId, model_id: "eleven_multilingual_v2", text: formattedText, voice_settings: { stability: safeStability, similarity_boost: safeSimilarity, style: safeStyle, speed: safeSpeed, use_speaker_boost: useSpeakerBoost } } as any); const chunks: Buffer[] = []; for await (const chunk of audioStream as any) chunks.push(Buffer.isBuffer(chunk) ? chunk : Buffer.from(chunk)); const audioBuffer = Buffer.concat(chunks); if (audioCache.size > 50) { const firstKey = audioCache.keys().next().value; if (firstKey) audioCache.delete(firstKey); } audioCache.set(effectiveCacheKey, { buffer: audioBuffer, contentType: "audio/mpeg" }); res.setHeader("Content-Type", "audio/mpeg"); res.setHeader("Content-Length", audioBuffer.length); res.setHeader("X-Audio-Cache", "MISS"); return res.send(audioBuffer); } catch (error: any) { console.error("Erro na geração de áudio ElevenLabs:", error); return res.status(500).json({ error: error.message || "Falha ao sintetizar áudio", fallbackToNativeTTS: true }); } });
+  app.post("/api/elevenlabs/tts", authenticate, apiLimiter, async (req, res) => {
+    try {
+      const {
+        text,
+        voiceId = process.env.ELEVENLABS_VOICE_ID || "Marcus",
+        stability = 0.5,
+        similarityBoost = 0.75,
+        style = 0,
+        speed = 0.92,
+        useSpeakerBoost = true,
+        enableBreathingPauses = true,
+        cacheKey
+      } = req.body;
 
-  // Dedicated Continuous Stream for Protocol Stages (Marianne voice official)
+      if (!text || typeof text !== "string" || text.trim().length === 0) {
+        return res.status(400).json({ error: "Texto para sintetizar é obrigatório." });
+      }
+
+      const safeStability = Math.max(0.35, Math.min(0.7, Number(stability)));
+      const safeSimilarity = Math.max(0.5, Math.min(0.9, Number(similarityBoost)));
+      const safeStyle = Math.max(0, Math.min(0.2, Number(style)));
+      const safeSpeed = Math.max(0.82, Math.min(1.05, Number(speed)));
+
+      // Resolve and validate the Style 4 alias before consulting cache. A stale
+      // cached Marianne stream must never bypass the legacy-voice denylist.
+      let resolvedVoiceId = voiceId;
+      if (voiceId === MISTICO_MODERNO_OFFICIAL_VOICE_ALIAS) {
+        const configuredVoiceId = resolveMisticoModernoOfficialVoiceId(process.env.ELEVENLABS_VOICE_ID);
+        if (!configuredVoiceId) {
+          return res.status(503).json({
+            error: "Voz oficial do Místico Moderno não configurada no servidor.",
+            fallbackToNativeTTS: false
+          });
+        }
+        resolvedVoiceId = configuredVoiceId;
+      } else if (['masculina', 'male', 'everton', 'Marcus'].includes(voiceId)) {
+        resolvedVoiceId = process.env.ELEVENLABS_MALE_VOICE_ID || "nPczCjzI2devNBz1zQrb";
+      } else if (['feminina', 'female', 'sofia', 'Rachel'].includes(voiceId)) {
+        resolvedVoiceId = "21m00Tcm4TlvDq8ikWAM";
+      }
+
+      const cacheVoiceId = voiceId === MISTICO_MODERNO_OFFICIAL_VOICE_ALIAS ? resolvedVoiceId : voiceId;
+      const effectiveCacheKey = cacheKey
+        ? (voiceId === MISTICO_MODERNO_OFFICIAL_VOICE_ALIAS ? `${cacheKey}_${cacheVoiceId}` : cacheKey)
+        : `${cacheVoiceId}_${safeStability}_${safeSimilarity}_${safeStyle}_${safeSpeed}_${text.slice(0, 100)}_${text.length}`;
+
+      if (audioCache.has(effectiveCacheKey)) {
+        const cached = audioCache.get(effectiveCacheKey)!;
+        res.setHeader("Content-Type", cached.contentType);
+        res.setHeader("X-Audio-Cache", "HIT");
+        return res.send(cached.buffer);
+      }
+
+      const client = getElevenLabs();
+      if (!client) {
+        return res.status(503).json({
+          error: "ELEVENLABS_API_KEY não configurada no servidor.",
+          fallbackToNativeTTS: voiceId !== MISTICO_MODERNO_OFFICIAL_VOICE_ALIAS,
+          message: "Configure sua chave."
+        });
+      }
+
+      const formattedText = enableBreathingPauses ? prepareTherapeuticSSML(text) : text;
+      const audioStream = await client.generate({
+        voice: resolvedVoiceId,
+        model_id: "eleven_multilingual_v2",
+        text: formattedText,
+        voice_settings: {
+          stability: safeStability,
+          similarity_boost: safeSimilarity,
+          style: safeStyle,
+          speed: safeSpeed,
+          use_speaker_boost: useSpeakerBoost
+        }
+      } as any);
+
+      const chunks: Buffer[] = [];
+      for await (const chunk of audioStream as any) {
+        chunks.push(Buffer.isBuffer(chunk) ? chunk : Buffer.from(chunk));
+      }
+      const audioBuffer = Buffer.concat(chunks);
+
+      if (audioCache.size > 50) {
+        const firstKey = audioCache.keys().next().value;
+        if (firstKey) audioCache.delete(firstKey);
+      }
+      audioCache.set(effectiveCacheKey, { buffer: audioBuffer, contentType: "audio/mpeg" });
+      res.setHeader("Content-Type", "audio/mpeg");
+      res.setHeader("Content-Length", audioBuffer.length);
+      res.setHeader("X-Audio-Cache", "MISS");
+      return res.send(audioBuffer);
+    } catch (error: any) {
+      console.error("Erro na geração de áudio ElevenLabs:", error);
+      return res.status(500).json({
+        error: error.message || "Falha ao sintetizar áudio",
+        fallbackToNativeTTS: req.body?.voiceId !== MISTICO_MODERNO_OFFICIAL_VOICE_ALIAS
+      });
+    }
+  });
+
+  // Dedicated continuous stream. Style 4 resolves its alias to the configured Vercel voice ID.
   app.post("/api/tts/stream", async (req, res) => {
     try {
       const { text, voiceId = OFFICIAL_PROTOCOL_VOICE_ID, speed = 0.85 } = req.body;
@@ -175,11 +274,22 @@ export function createApp() {
       }
 
       const client = getElevenLabs();
-      const resolvedVoice = (voiceId === "mJqP14JQFEK0PojR5lfV" || voiceId === "marianne" || !voiceId)
-        ? OFFICIAL_PROTOCOL_VOICE_ID
-        : ['masculina', 'male', 'everton', 'Marcus'].includes(voiceId)
-          ? process.env.ELEVENLABS_MALE_VOICE_ID || 'nPczCjzI2devNBz1zQrb'
-          : ['Rachel', 'feminina', 'female'].includes(voiceId) ? '21m00Tcm4TlvDq8ikWAM' : voiceId;
+      const configuredMisticoVoiceId = voiceId === MISTICO_MODERNO_OFFICIAL_VOICE_ALIAS
+        ? resolveMisticoModernoOfficialVoiceId(process.env.ELEVENLABS_VOICE_ID)
+        : null;
+      if (voiceId === MISTICO_MODERNO_OFFICIAL_VOICE_ALIAS && !configuredMisticoVoiceId) {
+        return res.status(503).json({
+          error: "Voz oficial do Místico Moderno não configurada no servidor.",
+          fallbackToSpeechSynthesis: false
+        });
+      }
+      const resolvedVoice = voiceId === MISTICO_MODERNO_OFFICIAL_VOICE_ALIAS
+        ? configuredMisticoVoiceId!
+        : (voiceId === "mJqP14JQFEK0PojR5lfV" || voiceId === "marianne" || !voiceId)
+          ? OFFICIAL_PROTOCOL_VOICE_ID
+          : ['masculina', 'male', 'everton', 'Marcus'].includes(voiceId)
+            ? process.env.ELEVENLABS_MALE_VOICE_ID || 'nPczCjzI2devNBz1zQrb'
+            : ['Rachel', 'feminina', 'female'].includes(voiceId) ? '21m00Tcm4TlvDq8ikWAM' : voiceId;
 
       const cacheKey = protocolAudioCacheKey(resolvedVoice, speed, text);
       if (audioCache.has(cacheKey)) {

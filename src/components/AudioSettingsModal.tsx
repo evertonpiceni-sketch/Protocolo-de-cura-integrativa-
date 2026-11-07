@@ -50,6 +50,7 @@ export default function AudioSettingsModal({
       audioEngine.startBG(userProfile.bgMusicType);
     }
     setIsTestingVoice(false);
+    setVoiceTestError(null);
     setIsPlayingBioactivePreview(false);
     onClose();
   };
@@ -62,6 +63,7 @@ export default function AudioSettingsModal({
   const [voiceId, setVoiceId] = useState(userProfile.voiceId || '');
   const [audioEnabled, setAudioEnabled] = useState(userProfile.audioEnabled !== false);
   const [isTestingVoice, setIsTestingVoice] = useState(false);
+  const [voiceTestError, setVoiceTestError] = useState<string | null>(null);
 
   // Camada Binaural State
   const [bioactiveBinauralEnabled, setBioactiveBinauralEnabled] = useState<boolean>(
@@ -80,6 +82,7 @@ export default function AudioSettingsModal({
 
   if (!isOpen) return null;
 
+  const isMisticoModerno = typeof document !== 'undefined' && document.documentElement.dataset.layout === 'mistico-moderno';
   const rawVoices = availableVoices && availableVoices.length > 0 
     ? availableVoices 
     : audioEngine.getAvailableVoices();
@@ -152,7 +155,9 @@ export default function AudioSettingsModal({
     if (isTestingVoice) {
       audioEngine.stopSpeech();
       setIsTestingVoice(false);
+      setVoiceTestError(null);
     } else {
+      setVoiceTestError(null);
       setIsTestingVoice(true);
       const testPhrase = `Olá, ${userProfile.name}. Esta é uma prévia da voz escolhida para acompanhar suas práticas com calma e presença.`;
       
@@ -176,7 +181,13 @@ export default function AudioSettingsModal({
           stability: 0.45,
           similarityBoost: 0.75,
           enableBreathingPauses: true,
-          userName: userProfile.name
+          userName: userProfile.name,
+          allowNativeFallback: !isMisticoModerno,
+          onError: (error: Error) => {
+            setIsTestingVoice(false);
+            setVoiceTestError(error.message || 'A voz oficial não pôde ser carregada. Tente novamente.');
+            if (allowBackgroundPlayback && bgMusicType !== 'none') audioEngine.stopBG();
+          }
         }
       );
     }
@@ -185,6 +196,7 @@ export default function AudioSettingsModal({
   const handleSave = () => {
     audioEngine.stopSpeech();
     setIsTestingVoice(false);
+    setVoiceTestError(null);
     if (isPlayingBioactivePreview) {
       setIsPlayingBioactivePreview(false);
     }
@@ -583,8 +595,15 @@ export default function AudioSettingsModal({
             <Mic size={14} /> Voz da Meditação Guiada
           </label>
 
-          {/* Voice Selector */}
-          {voices.length > 0 && (
+          {/* Místico Moderno uses the server-configured voice; local device voices are not substitutes. */}
+          {isMisticoModerno ? (
+            <div className="rounded-xl border border-[#6C3FA0]/35 bg-[#0A0F18] p-3">
+              <span className="block text-[11px] font-semibold text-[#F4F1EB]">Voz oficial do Místico Moderno</span>
+              <p className="mt-1 text-[11px] leading-relaxed text-[#C8D0DC]">
+                O player utiliza a voz ElevenLabs configurada no servidor. As vozes instaladas neste dispositivo não substituem essa narração.
+              </p>
+            </div>
+          ) : voices.length > 0 && (
             <div className="space-y-1">
               <span className="text-[11px] text-[#5C5248] block">Timbre da Voz (Instaladas no Dispositivo)</span>
               <select
@@ -656,6 +675,7 @@ export default function AudioSettingsModal({
           {isTestingVoice ? <VolumeX size={15} /> : <Play size={15} fill="currentColor" />}
           <span>{isTestingVoice ? 'Pausar Demonstração da Voz' : 'Ouvir Teste de Áudio e Frequência'}</span>
         </button>
+        {voiceTestError && <p role="alert" aria-live="polite" className="text-center text-xs font-medium text-[#E2B96B]">{voiceTestError}</p>}
 
         {/* Save & Apply Button */}
         <div className="pt-2">
