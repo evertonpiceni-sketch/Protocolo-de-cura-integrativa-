@@ -2,6 +2,8 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import test from 'node:test';
 
+const read = (path: string) => fs.readFileSync(path, 'utf8');
+
 test('Estilo 3 usa a prancha oficial no card de prévia do seletor', () => {
   const modal = fs.readFileSync('src/components/LayoutChoiceModal.tsx', 'utf8');
   const boardPath = 'public/brand/essencia-luminosa/prancha-oficial.webp';
