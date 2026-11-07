@@ -12,6 +12,9 @@
 /* Auth loading uses the approved data-URI logo without the signature class. Keep it equally discreet. */
 :root[data-layout="natural-sereno"] #auth-loading-view img[alt="Everton Piceni"] { opacity:.24!important; filter:none!important; object-fit:contain!important; }
 
+/* Auth loading uses the approved data-URI logo without the signature class. Keep it equally discreet. */
+:root[data-layout="natural-sereno"] #auth-loading-view img[alt="Everton Piceni"] { opacity:.24!important; filter:none!important; object-fit:contain!important; }
+
 /* Settings */
 :root[data-layout="natural-sereno"] #settings-view [data-ns-status-card="true"] { background:linear-gradient(145deg,rgba(255,253,248,.98),rgba(246,239,224,.96))!important; border-color:rgba(200,157,82,.34)!important; box-shadow:0 14px 34px rgba(67,52,39,.08)!important; }
 :root[data-layout="natural-sereno"] #settings-view [data-ns-status-card="true"] :is(h1,h2,h3,strong) { color:#2A2421!important; }
