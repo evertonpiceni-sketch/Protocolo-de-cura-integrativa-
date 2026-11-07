@@ -8,6 +8,7 @@ interface LayoutChoiceModalProps {
 }
 
 function LayoutPreview({ layout }: { layout: LayoutDefinition }) {
+  // A prévia do Estilo 3 usa a prancha oficial como referência, com tokens atuais aprovados.
   const isEssenciaLuminosa = layout.id === 'essencia-luminosa';
   const [canvas, accent, gold, surface] = isEssenciaLuminosa
     ? ['#FFFFF8', '#A6B49B', '#C6A46A', '#F7F3E8']
@@ -15,12 +16,13 @@ function LayoutPreview({ layout }: { layout: LayoutDefinition }) {
   const foreground = layout.tone === 'dark' ? '#F4F1EB' : '#2A2420';
   const muted = layout.tone === 'dark' ? 'rgba(244,241,235,.68)' : 'rgba(42,36,32,.62)';
   const isNaturalSereno = layout.id === 'natural-sereno';
-
+  const isMystic = layout.id === 'mistico-moderno';
+  const previewBorder = layout.id === 'elegancia-profunda' ? 'rgba(212,175,119,.35)' : layout.id === 'mistico-moderno' ? 'rgba(108,63,160,.40)' : 'rgba(42,36,32,.10)';
   if (layout.id === 'elegancia-profunda') {
     return (
       <div
         className="mt-4 flex h-[184px] w-full items-center justify-center overflow-hidden rounded-2xl border shadow-inner"
-        style={{ backgroundColor: '#0B1712', borderColor: 'rgba(212,175,119,.35)' }}
+        style={{ backgroundColor: '#0B1712', borderColor: previewBorder }}
         aria-hidden="true"
       >
         <img
@@ -34,8 +36,7 @@ function LayoutPreview({ layout }: { layout: LayoutDefinition }) {
       </div>
     );
   }
-
-  if (layout.id === 'mistico-moderno') {
+  if (isMystic) {
     return (
       <div
         className="mt-4 flex h-[184px] w-full items-center justify-center overflow-hidden rounded-2xl border shadow-inner"
@@ -58,15 +59,41 @@ function LayoutPreview({ layout }: { layout: LayoutDefinition }) {
     );
   }
 
-  const innerBorder = 'rgba(42,36,32,.06)';
+  if (isEssenciaLuminosa) {
+    return (
+      <div
+        className="mt-4 flex h-[184px] w-full items-center justify-center overflow-hidden rounded-2xl border shadow-inner"
+        style={{ backgroundColor: '#FFFFF8', borderColor: 'rgba(198,164,106,.32)' }}
+        aria-hidden="true"
+      >
+        <img
+          src="/brand/essencia-luminosa/prancha-oficial.webp"
+          alt=""
+          loading="lazy"
+          decoding="async"
+          draggable={false}
+          className="h-full w-full object-contain p-1"
+        />
+      </div>
+    );
+  }
+  const innerBorder = layout.id === 'elegancia-profunda' ? 'rgba(212,175,119,.25)' : layout.id === 'mistico-moderno' ? 'rgba(108,63,160,.28)' : 'rgba(42,36,32,.06)';
   const naturalIvory = '#F3EDE4';
   const previewBackground = isNaturalSereno
     ? `linear-gradient(145deg, ${canvas}, ${naturalIvory})`
     : `linear-gradient(145deg, ${canvas}, ${surface})`;
   const previewSurface = isNaturalSereno ? 'rgba(255,255,255,.78)' : `${accent}33`;
+  // No Místico Moderno, o CTA deve permanecer dourado/âmbar e legível:
+  // mesclar dourado com violeta escurece a metade do botão sob texto escuro.
   const actionBackground = isNaturalSereno
     ? `linear-gradient(135deg, ${gold}, #A87E37)`
-    : `linear-gradient(135deg, ${gold}, #E9D6AF)`;
+    : layout.id === 'mistico-moderno'
+      ? `linear-gradient(135deg, ${gold}, #E2B96B)`
+      : layout.id === 'elegancia-profunda'
+        ? 'linear-gradient(135deg, #D4AF77, #A77B43)'
+        : isEssenciaLuminosa
+          ? `linear-gradient(135deg, ${gold}, #E9D6AF)`
+          : `linear-gradient(135deg, ${gold}, ${accent})`;
   const previewSwatches = isNaturalSereno
     ? [canvas, accent, gold, naturalIvory]
     : [canvas, gold, surface, accent];
@@ -74,7 +101,7 @@ function LayoutPreview({ layout }: { layout: LayoutDefinition }) {
   return (
     <div
       className="mt-4 overflow-hidden rounded-2xl border shadow-inner"
-      style={{ background: previewBackground, color: foreground, borderColor: 'rgba(42,36,32,.10)' }}
+      style={{ background: previewBackground, color: foreground, borderColor: previewBorder }}
       aria-hidden="true"
     >
       <div className="flex items-center justify-between border-b px-3 py-2" style={{ borderColor: innerBorder }}>
@@ -100,7 +127,7 @@ function LayoutPreview({ layout }: { layout: LayoutDefinition }) {
           )}
           <span
             className="mt-3 inline-flex rounded-full px-3 py-1 text-[8px] font-bold uppercase tracking-[.12em] shadow-sm"
-            style={{ background: actionBackground, color: '#2A2420' }}
+            style={{ background: actionBackground, color: isNaturalSereno || isEssenciaLuminosa || layout.id === 'mistico-moderno' ? '#2A2420' : layout.tone === 'dark' ? '#0B1712' : '#fff' }}
           >
             Iniciar jornada
           </span>
@@ -114,6 +141,7 @@ function LayoutPreview({ layout }: { layout: LayoutDefinition }) {
     </div>
   );
 }
+
 export default function LayoutChoiceModal({ onSelect }: LayoutChoiceModalProps) {
   const [selectedLayout, setSelectedLayout] = useState<LayoutId | null>(null);
   const [isSaving, setIsSaving] = useState(false);
@@ -156,7 +184,6 @@ export default function LayoutChoiceModal({ onSelect }: LayoutChoiceModalProps) 
         <div className="mt-6 grid grid-cols-1 gap-3 sm:grid-cols-2">
           {OFFICIAL_LAYOUTS.map(layout => {
             const isSelected = selectedLayout === layout.id;
-            const isMystic = layout.id === 'mistico-moderno';
             return (
               <button
                 key={layout.id}
