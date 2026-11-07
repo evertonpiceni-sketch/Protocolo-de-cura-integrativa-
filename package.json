@@ -31,8 +31,8 @@
     "react": "^19.0.1",
     "react-dom": "^19.0.1",
     "recharts": "^3.9.1",
-    "vite": "^6.2.3",
-    "zod": "^4.5.4"
+    "vite": "^6.4.5",
+    "zod": "^4.6.7"
   },
   "devDependencies": {
     "@types/bcryptjs": "^2.4.6",
@@ -42,7 +42,7 @@
     "@types/node": "^22.14.0",
     "autoprefixer": "^10.4.21",
     "esbuild": "^0.25.0",
-    "puppeteer": "^25.9.0",
+    "puppeteer": "^25.16.0",
     "tailwindcss": "^4.1.14",
     "tsx": "^4.21.0",
     "typescript": "~5.8.2",
@@ -51,9 +51,9 @@
   "overrides": {
     "browserslist": "^4.29.3",
     "baseline-browser-mapping": "^2.11.26",
-    "ip-address": "^10.7.3",
-    "body-parser": "1.20.8",
-    "qs": "6.16.0",
+    "ip-address": "10.7.4",
+    "body-parser": "1.20.9",
+    "qs": "6.16.1",
     "proxy-addr": "2.0.8",
     "source-map-js": "1.2.2"
   }
