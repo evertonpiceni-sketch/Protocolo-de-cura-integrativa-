@@ -356,3 +356,33 @@ test('os títulos dos atalhos de cuidado mantêm contraste marfim no Estilo 2', 
   assert.ok(css.includes(':root[data-layout="elegancia-profunda"] #journey-choices .grid.grid-cols-2 > button strong'));
   assert.ok(css.includes('color:var(--ep-panel-text)!important'));
 });
+
+
+test('os modais de contato e cursos mantêm o logo como assinatura discreta no Estilo 2', () => {
+  const contact = read('src/components/ContactModal.tsx');
+  const courses = read('src/components/CoursesModal.tsx');
+  const css = read('src/elegancia-profunda-approved-overrides.css');
+  assert.ok(contact.includes('ep-brand-signature-wrap w-12 h-12'));
+  assert.ok(contact.includes('ep-brand-signature w-full h-full object-contain'));
+  assert.ok(!contact.includes('opacity-75'));
+  assert.ok(courses.includes('ep-brand-signature-wrap w-14 h-14'));
+  assert.ok(courses.includes('ep-brand-signature w-full h-full object-contain'));
+  assert.match(css, /:root\[data-layout="elegancia-profunda"\] \.ep-brand-signature,[\s\S]*?opacity:\.30\s*!important/);
+});
+
+test('a narração do Estilo 2 não recorre à voz nativa e preserva os caminhos de áudio, diário e pagamento', () => {
+  const home = read('src/components/TransformationHome.tsx');
+  const settings = read('src/components/AudioSettingsModal.tsx');
+  const api = read('api/index.ts');
+  const audio = read('src/lib/audio.ts');
+  const app = read('src/App.tsx');
+  const payments = read('src/lib/paymentRoutes.ts');
+  assert.ok(home.includes('fallbackToSpeechSynthesis: !requiresNeuralVoice'));
+  assert.ok(settings.includes('fallbackToSpeechSynthesis: !requiresNeuralVoice'));
+  assert.ok(api.includes('REINTEGRATION_VOICE_ID = "21m00Tcm4TlvDq8ikWAM"'));
+  assert.ok(api.includes('Não oferecer fallback de speechSynthesis/voz do dispositivo'));
+  assert.ok(audio.includes('fundamental.frequency.setValueAtTime(Number.parseFloat(type), now)'));
+  assert.ok(app.includes('onSaveEntry={handleSaveDiaryDay}'));
+  assert.ok(payments.includes('verified.amount !== order.cents'));
+  assert.ok(payments.includes('o.transaction === transaction_nsu'));
+});
