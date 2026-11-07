@@ -49,8 +49,8 @@ function LayoutPreview({ layout }: { layout: LayoutDefinition }) {
   const foreground = layout.tone === 'dark' ? '#F4F1EB' : '#2A2420';
   const muted = layout.tone === 'dark' ? 'rgba(244,241,235,.68)' : 'rgba(42,36,32,.62)';
   const isNaturalSereno = layout.id === 'natural-sereno';
-  const previewBorder = layout.id === 'elegancia-profunda' ? 'rgba(212,175,119,.35)' : layout.id === 'mistico-moderno' ? 'rgba(108,63,160,.40)' : 'rgba(42,36,32,.10)';
-  const innerBorder = layout.id === 'elegancia-profunda' ? 'rgba(212,175,119,.25)' : layout.id === 'mistico-moderno' ? 'rgba(108,63,160,.28)' : 'rgba(42,36,32,.06)';
+  const previewBorder = layout.id === 'mistico-moderno' ? 'rgba(108,63,160,.40)' : 'rgba(42,36,32,.10)';
+  const innerBorder = layout.id === 'mistico-moderno' ? 'rgba(108,63,160,.28)' : 'rgba(42,36,32,.06)';
   const naturalIvory = '#F3EDE4';
   const previewBackground = isNaturalSereno
     ? `linear-gradient(145deg, ${canvas}, ${naturalIvory})`
@@ -62,11 +62,9 @@ function LayoutPreview({ layout }: { layout: LayoutDefinition }) {
     ? `linear-gradient(135deg, ${gold}, #A87E37)`
     : layout.id === 'mistico-moderno'
       ? `linear-gradient(135deg, ${gold}, #E2B96B)`
-      : layout.id === 'elegancia-profunda'
-        ? 'linear-gradient(135deg, #D4AF77, #A77B43)'
-        : isEssenciaLuminosa
-          ? `linear-gradient(135deg, ${gold}, #E9D6AF)`
-          : `linear-gradient(135deg, ${gold}, ${accent})`;
+      : isEssenciaLuminosa
+        ? `linear-gradient(135deg, ${gold}, #E9D6AF)`
+        : `linear-gradient(135deg, ${gold}, ${accent})`;
   const previewSwatches = isNaturalSereno
     ? [canvas, accent, gold, naturalIvory]
     : [canvas, gold, surface, accent];

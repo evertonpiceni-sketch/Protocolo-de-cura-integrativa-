@@ -36,3 +36,8 @@ Referência oficial: prancha 1001194194.png (Library file file_00000000121c820e9
 - Validar em navegador desktop/mobile: seletor, navegação, animações, player, áudio real de Marianne e interrupção de Solfeggio. Esta rodada foi estática; não houve teste de reprodução real.
 - Executar build, lint e testes automatizados no CI da branch/PR; não houve ambiente local de dependências nesta execução.
 - Validar checkout InfinitePay em sandbox/produção controlada; a inspeção de código não equivale a transação real.
+
+## Validação CI complementar
+- O primeiro TypeScript check identificou três comparações redundantes com o ID do Estilo 2 depois do early return da prévia; essas comparações foram removidas na correção subsequente.
+- O workflow também reportou 9 vulnerabilidades já presentes na base main (3 moderadas e 6 altas: body-parser, ip-address, qs/elevenlabs, vite e zod via puppeteer). Não foram atualizadas dependências nesta tarefa visual/funcional; a auditoria de dependências permanece pendente e bloqueia o check final.
+- O deploy Vercel do branch e o deploy de produção da base main falharam com o mesmo erro de infraestrutura “Resource provisioning failed”; o redeploy repetiu o erro, portanto não há evidência de regressão específica do Estilo 2.
