@@ -58,7 +58,7 @@ test('o pagamento continua no checkout InfinitePay sem cópia manual de PIX', ()
 test('o player respeita o contexto de dia do Estilo 2 sem herdar a cena da Reintegração', () => {
   const session = read('src/components/MeditationSession.tsx');
   const css = read('src/elegancia-profunda-approved-overrides.css');
-  assert.ok(session.includes("['natural-sereno', 'elegancia-profunda', 'essencia-luminosa'].includes(activeLayout || '') ? dayNumber : undefined"));
+  assert.ok(session.includes("['natural-sereno', 'elegancia-profunda', 'essencia-luminosa', 'mistico-moderno'].includes(activeLayout || '') ? dayNumber : undefined"));
   assert.ok(css.includes('--ep-scene:none'));
   assert.ok(!css.includes('var(--ep-scene)'));
   assert.ok(css.includes('#meditation-session .ep-session-backdrop > div:last-child'));
@@ -81,12 +81,12 @@ test('a narração do Estilo 2 usa IDs ElevenLabs válidos e não cai na voz do 
   assert.ok(audio.includes('failWithoutNativeVoice'));
   assert.ok(app.includes('Voz neural (ElevenLabs)'));
   assert.ok(settings.includes('Voz neural (ElevenLabs)'));
-  assert.ok(home.includes('const requiresNeuralVoice = isEleganciaProfunda || isEssenciaLuminosa;'));
+  assert.ok(home.includes('const requiresNeuralVoice = isEleganciaProfunda || isEssenciaLuminosa || isMisticoModerno;'));
   assert.ok(home.includes('fallbackToSpeechSynthesis: !requiresNeuralVoice'));
   assert.ok(session.includes("activeLayout === 'elegancia-profunda' && !style2VoiceId"));
   assert.ok(anamnesis.includes('fallbackToSpeechSynthesis: false'));
   assert.ok(hooponopono.includes('fallbackToSpeechSynthesis: !isEleganciaProfunda'));
-  assert.ok(arcanjo.includes('requireExplicitVoiceId: isEleganciaProfunda'));
+  assert.ok(arcanjo.includes('requireExplicitVoiceId: requiresOfficialVoice'));
   assert.ok(audio.includes('requireExplicitVoiceId?: boolean'));
   assert.ok(audio.includes('if (options.requireExplicitVoiceId && !isElevenLabsVoiceId(options.voiceId))'));
   assert.ok(systemic.includes('fallbackToSpeechSynthesis: false'));
@@ -122,7 +122,7 @@ test('o Estilo 2 não substitui silenciosamente a voz neural escolhida por uma v
   const settings = read('src/components/AudioSettingsModal.tsx');
   assert.ok(home.includes("const approvedVoiceId = isEleganciaProfunda\n    ? (isElevenLabsVoiceId(savedVoiceId) ? savedVoiceId : '')"));
   assert.ok(home.includes("isEssenciaLuminosa\n      ? (isElevenLabsVoiceId(savedVoiceId) ? savedVoiceId : OFFICIAL_PROTOCOL_VOICE_ID)"));
-  assert.ok(settings.includes('if (requiresNeuralVoice && !isElevenLabsVoiceId(voiceId))'));
+  assert.ok(settings.includes('if (requiresSelectableNeuralVoice && !isElevenLabsVoiceId(voiceId))'));
 });
 
 test('a Reintegração mantém o áudio neural dedicado aprovado e não recupera voz nativa', () => {
