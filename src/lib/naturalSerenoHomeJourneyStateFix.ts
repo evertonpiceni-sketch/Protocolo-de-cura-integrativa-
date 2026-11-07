@@ -64,15 +64,15 @@ function addFlowStyles() {
       margin: 0 0 18px;
       padding: 24px 22px 22px;
       border-radius: 28px;
-      border: 1px solid rgba(182,139,54,.28);
-      background: rgba(255,250,238,.98);
-      box-shadow: 0 18px 42px rgba(82,60,22,.11);
+      border: 1px solid rgba(200,157,82,.28);
+      background: rgba(251,248,242,.98);
+      box-shadow: 0 18px 42px rgba(67,52,39,.08);
     }
 
     :root[data-layout="natural-sereno"] .ep-home-protocol-choice small {
       display: inline-block;
       margin-bottom: 8px;
-      color: #9c7429;
+      color: #8F631E;
       font-size: 10px;
       font-weight: 700;
       letter-spacing: .14em;
@@ -81,7 +81,7 @@ function addFlowStyles() {
 
     :root[data-layout="natural-sereno"] .ep-home-protocol-choice h2 {
       margin: 0 0 10px;
-      color: #26372a;
+      color: #2A2421;
       font-family: 'Cormorant Garamond', Georgia, serif;
       font-size: 29px;
       line-height: 1.05;
@@ -90,7 +90,7 @@ function addFlowStyles() {
 
     :root[data-layout="natural-sereno"] .ep-home-protocol-choice p {
       margin: 0 0 16px;
-      color: #5f6857;
+      color: #6B625B;
       font-size: 14px;
       line-height: 1.6;
     }
@@ -104,21 +104,21 @@ function addFlowStyles() {
     :root[data-layout="natural-sereno"] .ep-home-protocol-choice button {
       width: 100%;
       min-height: 54px;
-      border: 1px solid #073b2b;
-      border-radius: 18px;
-      background: #073b2b;
-      color: #fff9e8;
+      border: 1px solid rgba(168,126,55,.62);
+      border-radius: 16px;
+      background: linear-gradient(180deg,#E2B96B,#C89D52);
+      color: #2A2421;
       padding: 10px 14px;
       font-family: 'Lora', Georgia, serif;
       font-size: 14px;
       line-height: 1.25;
-      box-shadow: 0 10px 24px rgba(7,59,43,.14);
+      box-shadow: inset 0 1px rgba(255,255,255,.46), 0 8px 20px rgba(67,52,39,.10);
     }
 
     :root[data-layout="natural-sereno"] .ep-home-protocol-choice button span {
       display: block;
       margin-top: 3px;
-      color: #e3cd8a;
+      color: #8F631E;
       font-family: system-ui, sans-serif;
       font-size: 9px;
       letter-spacing: .08em;
@@ -132,7 +132,7 @@ function addFlowStyles() {
     :root[data-layout="natural-sereno"] .ep-home-recommended-label {
       display: block;
       margin-bottom: 7px;
-      color: #9c7429;
+      color: #8F631E;
       font-size: 9px;
       font-weight: 700;
       letter-spacing: .13em;
