@@ -52,6 +52,18 @@ interface MeditationSessionProps {
 
 const MALE_NATIVE_VOICE_HINTS = ['antonio', 'antônio', 'daniel', 'jorge', 'felipe', 'ricardo', 'carlos', 'paulo', 'marcos', 'male', 'masculino'];
 const FEMALE_NATIVE_VOICE_HINTS = ['francisca', 'luciana', 'maria', 'leticia', 'camila', 'vitoria', 'vitória', 'helena', 'female', 'feminina'];
+const ELEGANCIA_PROFUNDA_CANVAS_THEME = {
+  glow: '#D4AF37',
+  accent: '#2E6B4F',
+  goldSoft: 'rgba(212,175,55,0.18)',
+  goldGlow: 'rgba(212,175,55,0.32)',
+  goldLine: 'rgba(212,175,55,0.46)',
+  sageSoft: 'rgba(46,107,79,0.14)',
+  sageGlow: 'rgba(46,107,79,0.24)',
+  sageLine: 'rgba(46,107,79,0.40)',
+  ivory: '#F4F1EB',
+  transparent: 'rgba(11,23,18,0)'
+};
 const ESSENCIA_LUMINOSA_CANVAS_THEME = { glow: '#C6A46A', accent: '#A6B49B' };
 
 export default function MeditationSession({
@@ -69,6 +81,7 @@ export default function MeditationSession({
   onClose,
 }: MeditationSessionProps) {
   const activeLayout = typeof document !== 'undefined' ? document.documentElement.dataset.layout : undefined;
+  const isEleganciaProfunda = activeLayout === 'elegancia-profunda';
   const isEssenciaLuminosa = activeLayout === 'essencia-luminosa';
   const [sessionPhase, setSessionPhase] = useState<'portal' | 'checkin_before' | 'playing' | 'checkin_after' | 'completed'>('portal');
 
@@ -371,7 +384,7 @@ export default function MeditationSession({
       <div className="ep-session-backdrop absolute inset-0 pointer-events-none">
         <SacredEnergyCanvas
           dayNumber={['natural-sereno', 'elegancia-profunda', 'essencia-luminosa'].includes(activeLayout || '') ? dayNumber : undefined}
-          colorTheme={isEssenciaLuminosa ? ESSENCIA_LUMINOSA_CANVAS_THEME : undefined}
+          colorTheme={isEleganciaProfunda ? ELEGANCIA_PROFUNDA_CANVAS_THEME : isEssenciaLuminosa ? ESSENCIA_LUMINOSA_CANVAS_THEME : undefined}
           stageId={currentStage.id}
           isPlaying={isPlaying}
           breathePhase={breathePhase}
