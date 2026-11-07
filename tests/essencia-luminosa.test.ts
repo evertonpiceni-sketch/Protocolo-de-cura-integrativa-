@@ -294,7 +294,18 @@ test('os CTAs claros do Estilo 3 usam texto escuro e legível sobre champagne, s
   assert.ok(anamnesis.includes('color:#221D17!important;'));
   assert.ok(mobileInstall.includes('color:var(--layout-text)!important;'));
   assert.ok(numerology.includes('color: var(--layout-text) !important;'));
-  assert.equal((session.match(/color: var\(--layout-text\) !important;/g) ?? []).length, 2);
+  const assertRuleContains = (source: string, selector: string, declaration: string) => {
+    const start = source.indexOf(selector);
+    const end = start >= 0 ? source.indexOf('}', start) : -1;
+    assert.ok(start >= 0 && end > start, `selector not found: ${selector}`);
+    assert.ok(source.slice(start, end).includes(declaration), `missing contrast declaration in: ${selector}`);
+  };
+
+  assertRuleContains(anamnesis, '#anamnesis-modal :is(.bg-indigo-600', 'color:#221D17!important;');
+  assertRuleContains(mobileInstall, '#mobile-install-modal button[class*="bg-[#B88736]"]', 'color:var(--layout-text)!important;');
+  assertRuleContains(numerology, '#numerology-modal :is(button,a)[class*="bg-emerald-"]', 'color: var(--layout-text) !important;');
+  assertRuleContains(session, '#meditation-session button[class*="bg-[#8F631E]"]', 'color: var(--layout-text) !important;');
+  assertRuleContains(session, '#meditation-session button[class*="from-[#B88736]"]', 'color: var(--layout-text) !important;');
 
   for (const source of [anamnesis, mobileInstall, numerology, session]) {
     assert.doesNotMatch(source, /color\s*:\s*#fff(?:fff)?\s*!important/i);
