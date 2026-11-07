@@ -2,6 +2,7 @@ import React, { useRef, useState } from 'react';
 import { useDialogFocus } from '../hooks/useDialogFocus';
 import { Check } from 'lucide-react';
 import { OFFICIAL_LAYOUTS, LayoutDefinition, LayoutId } from '../config/layouts';
+import { MISTICO_MODERNO_BOARD_DATA_URI } from '../assets/misticoModernoBoard';
 
 // Prancha oficial do Natural Sereno. As amostras abaixo continuam refletindo a paleta aprovada posteriormente.
 const NATURAL_SERENO_OFFICIAL_BOARD = new URL('../../docs/visual-qa/natural-sereno/reference.jpg', import.meta.url).href;
@@ -17,6 +18,7 @@ function LayoutPreview({ layout }: { layout: LayoutDefinition }) {
   const foreground = layout.tone === 'dark' ? '#F4F1EB' : '#2A2420';
   const muted = layout.tone === 'dark' ? 'rgba(244,241,235,.68)' : 'rgba(42,36,32,.62)';
   const isNaturalSereno = layout.id === 'natural-sereno';
+  const isMystic = layout.id === 'mistico-moderno';
   const previewBorder = layout.id === 'elegancia-profunda' ? 'rgba(212,175,119,.35)' : layout.id === 'mistico-moderno' ? 'rgba(108,63,160,.40)' : 'rgba(42,36,32,.10)';
   if (isNaturalSereno) {
     return (
@@ -68,6 +70,29 @@ function LayoutPreview({ layout }: { layout: LayoutDefinition }) {
           decoding="async"
           draggable={false}
           className="h-full w-full object-contain p-1"
+        />
+      </div>
+    );
+  }
+  // Card de referência oficial do Estilo 4; as telas reais continuam subordinadas à paleta aprovada posteriormente.
+  if (isMystic) {
+    return (
+      <div
+        className="mt-4 flex h-[184px] w-full items-center justify-center overflow-hidden rounded-2xl border shadow-inner"
+        style={{
+          backgroundColor: '#0A0F18',
+          borderColor: 'rgba(212,175,55,.32)',
+          boxShadow: 'inset 0 1px 0 rgba(255,255,255,.04), 0 12px 28px rgba(0,0,0,.22)'
+        }}
+        aria-hidden="true"
+      >
+        <img
+          src={MISTICO_MODERNO_BOARD_DATA_URI}
+          alt=""
+          loading="eager"
+          decoding="async"
+          draggable={false}
+          className="h-full w-full object-contain"
         />
       </div>
     );
