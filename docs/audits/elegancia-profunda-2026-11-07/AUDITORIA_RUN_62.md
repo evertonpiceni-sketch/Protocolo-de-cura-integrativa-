@@ -7,7 +7,7 @@ Base: cbb68335f80fc64580c68d2722f6b1ead95f5159
 - O player de sessão agora tem uma cena explícita para o Dia 1 do Elegância Profunda: a luz desce pelo eixo central até os pés e, a partir do relógio real da sessão, revela raízes douradas. Essa cena não desenha anéis, pétalas, pontos de chakra ou mandalas.
 - A nova prop `dayOneOpening` só é ativada quando o Estilo 2 está confirmado e `dayNumber === 1`. Outros estilos e os demais dias mantêm os visuais existentes.
 - Foi acrescentado teste de regressão para a cena do Dia 1.
-- Corrigido um comentário no seletor que atribuía a prancha do Estilo 2 ao Estilo 3.
+- Acrescentado comentário específico no ramo do Estilo 2, preservando a anotação já coberta pelo teste do Estilo 3.
 
 ## Preservado
 - A seleção dos quatro estilos continua iniciando vazia; `App.tsx` só define `data-layout` depois da confirmação explícita. Preferência salva não aplica tema sozinha.
