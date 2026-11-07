@@ -15,8 +15,16 @@
 :root[data-layout="elegancia-profunda"] img[src*="logo" i],
 :root[data-layout="elegancia-profunda"] img[alt*="logo" i] { opacity:.30 !important; filter:saturate(.88) contrast(.96); }
 :root[data-layout="elegancia-profunda"] .ep-brand-signature-wrap {
+  opacity:1!important;
   background:transparent!important;
-  border-color:color-mix(in srgb,var(--layout-gold) 14%,transparent)!important;
+  border-color:transparent!important;
+  box-shadow:none!important;
+}
+:root[data-layout="elegancia-profunda"] .ep-home-hero .ep-brand-signature-wrap,
+:root[data-layout="elegancia-profunda"] .ep-welcome-audio .ep-brand-signature-wrap {
+  opacity:1!important;
+  background:transparent!important;
+  border-color:transparent!important;
   box-shadow:none!important;
 }
 
@@ -24,7 +32,7 @@
 :root[data-layout="elegancia-profunda"] #main-header { background:color-mix(in srgb,var(--layout-canvas) 92%,transparent)!important; border-color:var(--layout-border-card)!important; }
 :root[data-layout="elegancia-profunda"] #main-header [class*="bg-slate"],
 :root[data-layout="elegancia-profunda"] #main-header [class*="bg-indigo"] { background:var(--layout-card)!important; border-color:var(--layout-border-card)!important; }
-:root[data-layout="elegancia-profunda"] #main-header div:has(> .ep-brand-signature) { background:color-mix(in srgb,var(--layout-card) 92%,black)!important; border-color:color-mix(in srgb,var(--layout-gold) 22%,transparent)!important; box-shadow:0 10px 28px rgba(0,0,0,.20)!important; }
+:root[data-layout="elegancia-profunda"] #main-header div:has(> .ep-brand-signature) { opacity:1!important; background:transparent!important; border-color:transparent!important; box-shadow:none!important; }
 :root[data-layout="elegancia-profunda"] #main-header :is(h1,h2,h3) { color:var(--layout-text)!important; }
 :root[data-layout="elegancia-profunda"] #main-header span:not(.sr-only) { color:var(--layout-text-soft)!important; }
 :root[data-layout="elegancia-profunda"] #main-header [class*="text-amber"] { color:var(--layout-gold)!important; }
@@ -111,4 +119,52 @@
   :root[data-layout="elegancia-profunda"] img[alt*="logo" i] { opacity:.26!important; }
   :root[data-layout="elegancia-profunda"] #meditation-session .ep-session-stage { width:100%; }
   :root[data-layout="elegancia-profunda"] #day-detail-modal > div { border-radius:1.25rem; }
+}
+
+/* OnboardingFlow ativo — paisagem e superfícies próprias do Estilo 2. */
+:root[data-layout="elegancia-profunda"] .ep-care-onboarding {
+  background:
+    linear-gradient(180deg,rgba(3,22,16,.42),rgba(2,17,12,.82)),
+    var(--ep-scene) center 44%/cover fixed no-repeat!important;
+  color:var(--layout-text)!important;
+}
+:root[data-layout="elegancia-profunda"] .ep-care-onboarding-card {
+  background:linear-gradient(145deg,rgba(8,42,30,.92),rgba(3,24,17,.97))!important;
+  border-color:color-mix(in srgb,var(--layout-gold) 38%,transparent)!important;
+  box-shadow:0 28px 80px rgba(0,0,0,.46),inset 0 1px 0 rgba(255,255,255,.035)!important;
+}
+:root[data-layout="elegancia-profunda"] .ep-care-onboarding-card :is(h1,h2,h3,strong) {
+  color:var(--layout-text)!important;
+}
+:root[data-layout="elegancia-profunda"] .ep-care-onboarding-card :is(p,small,span) {
+  color:var(--layout-text-secondary)!important;
+}
+:root[data-layout="elegancia-profunda"] .ep-care-onboarding-card [class*="text-[#d5ba78]"],
+:root[data-layout="elegancia-profunda"] .ep-care-onboarding-card [class*="text-[#e1c171]"] {
+  color:var(--layout-gold-light)!important;
+}
+:root[data-layout="elegancia-profunda"] .ep-care-onboarding-card button[aria-pressed="false"] {
+  background:color-mix(in srgb,var(--layout-card) 90%,black)!important;
+  border-color:color-mix(in srgb,var(--layout-gold) 20%,transparent)!important;
+  color:var(--layout-text-secondary)!important;
+}
+:root[data-layout="elegancia-profunda"] .ep-care-onboarding-card button[aria-pressed="true"] {
+  background:linear-gradient(145deg,color-mix(in srgb,var(--layout-gold) 26%,var(--layout-card)),color-mix(in srgb,var(--layout-gold) 12%,var(--layout-card)))!important;
+  border-color:color-mix(in srgb,var(--layout-gold) 64%,transparent)!important;
+  color:var(--layout-text)!important;
+  box-shadow:0 8px 24px rgba(0,0,0,.18)!important;
+}
+:root[data-layout="elegancia-profunda"] .ep-care-onboarding-card button:not(.ep-gold-button):not([aria-pressed]) {
+  background:linear-gradient(145deg,color-mix(in srgb,var(--layout-card) 92%,black),color-mix(in srgb,var(--layout-gold) 8%,var(--layout-card)))!important;
+  border-color:color-mix(in srgb,var(--layout-gold) 32%,transparent)!important;
+  color:var(--layout-text)!important;
+  box-shadow:0 10px 24px rgba(0,0,0,.18)!important;
+}
+:root[data-layout="elegancia-profunda"] .ep-care-onboarding-card button:focus-visible {
+  outline:2px solid color-mix(in srgb,var(--layout-gold) 68%,white)!important;
+  outline-offset:3px;
+}
+@media(max-width:640px) {
+  :root[data-layout="elegancia-profunda"] .ep-care-onboarding { background-attachment:scroll!important; }
+  :root[data-layout="elegancia-profunda"] .ep-care-onboarding-card { border-radius:1.55rem!important; padding:1.35rem!important; }
 }

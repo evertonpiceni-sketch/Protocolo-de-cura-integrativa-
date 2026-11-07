@@ -8,7 +8,7 @@ interface LayoutChoiceModalProps {
 }
 
 function LayoutPreview({ layout }: { layout: LayoutDefinition }) {
-  // A prévia do Estilo 3 usa a prancha oficial como referência, com tokens atuais aprovados.
+  // A prévia do Estilo 2 usa a prancha oficial como referência visual aprovada.
   const isEssenciaLuminosa = layout.id === 'essencia-luminosa';
   const [canvas, accent, gold, surface] = isEssenciaLuminosa
     ? ['#FFFFF8', '#A6B49B', '#C6A46A', '#F7F3E8']

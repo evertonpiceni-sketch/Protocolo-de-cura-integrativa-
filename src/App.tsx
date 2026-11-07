@@ -55,28 +55,6 @@ const OnboardingFlow = React.lazy(() => import('./components/OnboardingFlow'));
 const LOCAL_STORAGE_KEY_CURRENT_LOGIN = 'cura_integrada_logged_in_user_v1';
 const LOCAL_STORAGE_KEY_ACCOUNTS = 'cura_integrada_accounts_v1';
 
-const BG_TRACKS: Record<string, string[]> = {
-  '396hz': [
-    'https://upload.wikimedia.org/wikipedia/commons/f/fc/Ethereal_Ether_%28ambient_synthesizer_music_by_Z8Phyr%29.mp3',
-    'https://upload.wikimedia.org/wikipedia/commons/1/1d/Stargazing_%28ambient_synthesizer_music_by_Z8Phyr%29.mp3'
-  ],
-  '528hz': [
-    'https://upload.wikimedia.org/wikipedia/commons/f/fc/Ethereal_Ether_%28ambient_synthesizer_music_by_Z8Phyr%29.mp3',
-    'https://upload.wikimedia.org/wikipedia/commons/a/a2/Clair_de_Lune_%28Debussy%29.mp3'
-  ],
-  '432hz': [
-    'https://upload.wikimedia.org/wikipedia/commons/2/23/Warm_Aura_%28ambient_synthesizer_music_by_Z8Phyr%29.mp3',
-    'https://upload.wikimedia.org/wikipedia/commons/e/e5/Gymnop%C3%A9die_No._1_-_Satie_-_performed_by_La_Tempesta.mp3'
-  ],
-  '417hz': [
-    'https://upload.wikimedia.org/wikipedia/commons/2/23/Warm_Aura_%28ambient_synthesizer_music_by_Z8Phyr%29.mp3',
-    'https://upload.wikimedia.org/wikipedia/commons/1/1d/Stargazing_%28ambient_synthesizer_music_by_Z8Phyr%29.mp3'
-  ],
-  'waves': [
-    'https://upload.wikimedia.org/wikipedia/commons/1/1d/Stargazing_%28ambient_synthesizer_music_by_Z8Phyr%29.mp3',
-    'https://upload.wikimedia.org/wikipedia/commons/c/c9/Stardust_%28ambient_synthesizer_music_by_Z8Phyr%29.mp3'
-  ],
-};
 
 // App State Definition
 export default function App() {
