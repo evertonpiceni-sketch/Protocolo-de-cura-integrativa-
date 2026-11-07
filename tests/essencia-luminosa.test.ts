@@ -6,7 +6,7 @@ const read = (path: string) => fs.readFileSync(path, 'utf8');
 
 test('Essência Luminosa keeps the latest approved ivory, champagne, soft-gold and sage palette', () => {
   const theme = read('src/approved-theme.css');
-  const block = theme.match(/:root\\[data-layout="essencia-luminosa"\\]\\s*\\{([\\s\\S]*?)\\n\\}/)?.[1];
+  const block = theme.match(/:root\[data-layout="essencia-luminosa"\]\s*\{([\s\S]*?)\n\}/)?.[1];
   assert.ok(block, 'Style 3 token block must exist');
 
   for (const token of [
@@ -38,6 +38,10 @@ test('the four-style chooser displays the official Style 3 board and requires ex
   assert.ok(app.includes('Never activate a visual theme before the user explicitly confirms a choice.'));
   assert.ok(app.includes('delete document.documentElement.dataset.layout'));
   assert.ok(app.includes('setLayoutConfirmedThisSession(true)'));
+  const brand = read('src/essencia-luminosa-approved-overrides.css');
+  const finalAudit = read('src/essencia-luminosa-final-audit.css');
+  assert.ok(brand.includes('opacity:.30!important') || finalAudit.includes('opacity:.30!important'));
+  assert.ok(finalAudit.includes('opacity:.26!important'));
 });
 
 test('Style 3 welcome and result narration honor the saved installed device voice', () => {
