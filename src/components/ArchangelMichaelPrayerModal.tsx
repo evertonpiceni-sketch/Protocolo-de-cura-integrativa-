@@ -173,7 +173,7 @@ export default function ArchangelMichaelPrayerModal({
         initial={{ opacity: 0, scale: 0.96, y: 15 }}
         animate={{ opacity: 1, scale: 1, y: 0 }}
         exit={{ opacity: 0, scale: 0.96, y: 15 }}
-        className="relative my-1 flex max-h-[calc(100dvh-1rem)] w-full max-w-2xl flex-col gap-5 overflow-hidden rounded-2xl border border-[#B88736]/25 bg-[#FBF8F2] p-4 shadow-2xl sm:my-4 sm:max-h-[92dvh] sm:rounded-3xl sm:p-7"
+        className="ep-archangel-prayer relative my-1 flex max-h-[calc(100dvh-1rem)] w-full max-w-2xl flex-col gap-5 overflow-hidden rounded-2xl border border-[#B88736]/25 bg-[#FBF8F2] p-4 shadow-2xl sm:my-4 sm:max-h-[92dvh] sm:rounded-3xl sm:p-7"
       >
         <div className="pointer-events-none absolute right-0 top-0 h-64 w-64 rounded-full bg-[#315C85]/8 blur-3xl" aria-hidden="true" />
         <div className="pointer-events-none absolute bottom-0 left-0 h-64 w-64 rounded-full bg-[#B88736]/10 blur-3xl" aria-hidden="true" />
