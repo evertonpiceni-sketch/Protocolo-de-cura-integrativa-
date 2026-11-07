@@ -33,7 +33,7 @@ test('a Home da Essência Luminosa respeita a voz salva e seus controles', () =>
   assert.ok(audio.includes('const customVoice = voices.find(v => v.name === options.voiceId);'));
   assert.ok(audio.includes('const preferElevenLabs = options?.preferElevenLabs !== false;'));
   assert.equal(home.split("preferElevenLabs, lang: 'pt-BR'").length - 1, 2);
-  assert.ok(home.includes('const narrationVoiceId = usesSavedVoiceSettings'));
+  assert.ok(home.includes('const narrationVoiceId = isEssenciaLuminosa'));
   assert.ok(home.includes('props.voiceVolume ?? 1'));
   assert.ok(home.includes('props.voiceRate ?? .82'));
   assert.ok(home.includes('props.voicePitch ?? .92'));
