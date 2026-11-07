@@ -25,8 +25,8 @@
 Na execução GitHub Actions `42394909601` (commit base `37971cae5b352e38e01bd30d5741a0e119f3632c`):
 - Instalação, TypeScript, testes de regressão, build, entrypoints Express, verificações de segredo/JWT/admin, smoke test e testes de pagamento: aprovados.
 - Auditoria de dependências: reprovada — 9 vulnerabilidades (3 moderadas, 6 altas). Foram identificados `body-parser 1.20.8`, `ip-address 10.7.3`, `qs 6.16.0`, `vite 6.4.3` e `zod 4.5.4`. O lockfile não foi alterado sem executar e validar a atualização completa.
-- Status Vercel no commit base: falha `build-rate-limit`; sem implantação homologada.
-- A execução do commit intermediário `94b9b715` falhou no teste da prévia por payload incompleto. O commit de recuperação restaura o ativo e a asserção válidos; a nova execução do Actions ainda precisa concluir.
+- Status Vercel no commit final `b31a25e`: falha `build-rate-limit`; sem implantação homologada.
+- A execução do commit intermediário `94b9b715` falhou no teste da prévia por payload incompleto. O commit de recuperação `b31a25e` restaurou o ativo e a asserção válidos. Na execução `42396833597`, TypeScript, testes de regressão, build, smoke tests e verificações de pagamento passaram; somente a etapa de enforcement da auditoria de dependências falhou.
 
 ## Pendente
 1. Incorporar a prévia de alta densidade a partir do original, com validação binária e teste aprovados.
