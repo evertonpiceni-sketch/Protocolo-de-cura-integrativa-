@@ -484,13 +484,13 @@
   box-shadow: 0 7px 16px rgba(67,52,39,.08) !important;
 }
 
-:root[data-layout="natural-sereno"] #admin-panel-modal button[class*="bg-emerald"] {
+:root[data-layout="natural-sereno"] #admin-panel-modal :is(button,a)[class*="bg-emerald"] {
   background: linear-gradient(180deg,#E2B96B 0%,#C89D52 100%) !important;
   color: #2A2421 !important;
   border-color: rgba(168,126,55,.58) !important;
   box-shadow: 0 8px 18px rgba(67,52,39,.09) !important;
 }
-:root[data-layout="natural-sereno"] #admin-panel-modal button[class*="bg-emerald"] :is(span,svg) {
+:root[data-layout="natural-sereno"] #admin-panel-modal :is(button,a)[class*="bg-emerald"] :is(span,svg) {
   color: #2A2421 !important;
 }
 
