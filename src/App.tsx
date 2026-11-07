@@ -1808,6 +1808,10 @@ export default function App() {
           <TransformationHome
             visualLayout={layoutConfirmedThisSession ? normalizeLayoutId(userProfile.visualLayout) : undefined}
             userName={userProfile.name}
+            voiceId={userProfile.voiceId}
+            voiceVolume={userProfile.voiceVolume}
+            voiceRate={userProfile.voiceRate}
+            voicePitch={userProfile.voicePitch}
             currentDay={currentDay}
             progress={progress}
             anamnesis={userProfile.anamnesis}
