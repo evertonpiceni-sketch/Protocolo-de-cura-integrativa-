@@ -14,7 +14,7 @@ import {
 import { UserProfile, AnamnesisData } from '../types';
 import { useDialogFocus } from '../hooks/useDialogFocus';
 import { evaluateBestTreatmentFromAnamnesis } from '../lib/anamnesisTreatmentEngine';
-import { audioEngine } from '../lib/audio';
+import { audioEngine, OFFICIAL_PROTOCOL_VOICE_ID } from '../lib/audio';
 
 interface AnamnesisModalProps {
   isOpen: boolean;
@@ -120,6 +120,8 @@ export default function AnamnesisModal({
   const [feedbackSubmitted, setFeedbackSubmitted] = useState<boolean>(false);
   const [is639HzActive, setIs639HzActive] = useState<boolean>(true);
   const audioPlayerRef = React.useRef<HTMLAudioElement | null>(null);
+  const isEleganciaProfunda = typeof document !== 'undefined' &&
+    document.documentElement.dataset.layout === 'elegancia-profunda';
 
   // Manage 639Hz Solfeggio frequency: melhora a compreensão, tolerância e relações interpessoais enquanto o usuário escolhe as respostas
   React.useEffect(() => {
@@ -190,9 +192,11 @@ export default function AnamnesisModal({
     }
 
     setIsLoadingVoice(true);
+    setActionNotice('');
     try {
-      // 1. Try ElevenLabs API endpoint with chosen voice
-      const chosenVoiceId = gender === 'masculina' ? (userProfile.preferredVoice || 'Marcus') : 'Rachel';
+      const chosenVoiceId = isEleganciaProfunda
+        ? OFFICIAL_PROTOCOL_VOICE_ID
+        : gender === 'masculina' ? (userProfile.preferredVoice || 'Marcus') : 'Rachel';
       const response = await fetch('/api/elevenlabs/tts', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -206,19 +210,24 @@ export default function AnamnesisModal({
         })
       });
 
-      if (response.ok) {
+      if (response.ok && response.headers.get('content-type')?.includes('audio')) {
         const blob = await response.blob();
         const url = URL.createObjectURL(blob);
         const audio = new Audio(url);
         audioPlayerRef.current = audio;
 
         audio.onended = () => {
+          URL.revokeObjectURL(url);
           setIsPlayingTherapeuticVoice(false);
           setIsLoadingVoice(false);
         };
         audio.onerror = () => {
+          URL.revokeObjectURL(url);
           setIsPlayingTherapeuticVoice(false);
           setIsLoadingVoice(false);
+          if (isEleganciaProfunda) {
+            setActionNotice('A voz oficial Marianne — Meditação não pôde ser reproduzida. Tente novamente mais tarde.');
+          }
         };
 
         await audio.play();
@@ -226,11 +235,22 @@ export default function AnamnesisModal({
         setIsLoadingVoice(false);
         return;
       }
+
+      if (isEleganciaProfunda) {
+        setIsLoadingVoice(false);
+        setActionNotice('A voz oficial Marianne — Meditação não está disponível agora. Tente novamente mais tarde.');
+        return;
+      }
     } catch (e) {
-      console.warn("ElevenLabs TTS unavailable, falling back to natural Web Speech", e);
+      console.warn("ElevenLabs TTS unavailable:", e);
+      if (isEleganciaProfunda) {
+        setIsLoadingVoice(false);
+        setActionNotice('A voz oficial Marianne — Meditação não está disponível agora. Tente novamente mais tarde.');
+        return;
+      }
     }
 
-    // 2. Fallback to High-Definition Natural Web Speech API with matched gender
+    // Legacy fallback remains limited to layouts that still use device voices.
     if (typeof window !== 'undefined' && 'speechSynthesis' in window) {
       window.speechSynthesis.cancel();
       const utterance = new SpeechSynthesisUtterance(text);
@@ -505,37 +525,43 @@ export default function AnamnesisModal({
                   </div>
                 </div>
 
-                {/* Voice Gender Switcher */}
-                <div className="flex items-center gap-1.5 p-1 bg-white/80 rounded-xl border border-[#E5DAC6] self-start sm:self-auto">
-                  <button
-                    type="button"
-                    onClick={() => {
-                      if (isPlayingTherapeuticVoice) stopTherapeuticVoice();
-                      setSelectedVoiceGender('masculina');
-                    }}
-                    className={`px-3 py-1.5 rounded-lg text-xs font-medium transition cursor-pointer flex items-center gap-1.5 ${
-                      selectedVoiceGender === 'masculina'
-                        ? 'bg-[#B88736] text-white shadow-sm'
-                        : 'text-[#5C5248] hover:text-[#2A2420]'
-                    }`}
-                  >
-                    <span>Voz masculina</span>
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => {
-                      if (isPlayingTherapeuticVoice) stopTherapeuticVoice();
-                      setSelectedVoiceGender('feminina');
-                    }}
-                    className={`px-3 py-1.5 rounded-lg text-xs font-medium transition cursor-pointer flex items-center gap-1.5 ${
-                      selectedVoiceGender === 'feminina'
-                        ? 'bg-[#B88736] text-white shadow-sm'
-                        : 'text-[#5C5248] hover:text-[#2A2420]'
-                    }`}
-                  >
-                    <span>Voz Suave</span>
-                  </button>
-                </div>
+                {/* Style 2 keeps the approved voice fixed; other layouts retain their existing preference control. */}
+                {isEleganciaProfunda ? (
+                  <div className="rounded-xl border border-[#D4AF37]/30 bg-[#132A1F]/80 px-3 py-2 text-xs text-[#F4F1EB]">
+                    Marianne — Meditação · ElevenLabs
+                  </div>
+                ) : (
+                  <div className="flex items-center gap-1.5 p-1 bg-white/80 rounded-xl border border-[#E5DAC6] self-start sm:self-auto">
+                    <button
+                      type="button"
+                      onClick={() => {
+                        if (isPlayingTherapeuticVoice) stopTherapeuticVoice();
+                        setSelectedVoiceGender('masculina');
+                      }}
+                      className={`px-3 py-1.5 rounded-lg text-xs font-medium transition cursor-pointer flex items-center gap-1.5 ${
+                        selectedVoiceGender === 'masculina'
+                          ? 'bg-[#B88736] text-white shadow-sm'
+                          : 'text-[#5C5248] hover:text-[#2A2420]'
+                      }`}
+                    >
+                      <span>Voz masculina</span>
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        if (isPlayingTherapeuticVoice) stopTherapeuticVoice();
+                        setSelectedVoiceGender('feminina');
+                      }}
+                      className={`px-3 py-1.5 rounded-lg text-xs font-medium transition cursor-pointer flex items-center gap-1.5 ${
+                        selectedVoiceGender === 'feminina'
+                          ? 'bg-[#B88736] text-white shadow-sm'
+                          : 'text-[#5C5248] hover:text-[#2A2420]'
+                      }`}
+                    >
+                      <span>Voz Suave</span>
+                    </button>
+                  </div>
+                )}
               </div>
 
               {/* Player Controls & Waveform */}
@@ -577,7 +603,7 @@ export default function AnamnesisModal({
                             : "Ouvir Mapa do Momento Personalizado"}
                         </span>
                         <span className="text-[11px] font-mono text-[#B88736]">
-                          {selectedVoiceGender === 'masculina' ? 'Voz Masculina (Éverton Piceni)' : 'Voz Feminina (Acolhimento da Alma)'}
+                          {isEleganciaProfunda ? 'Marianne — Meditação' : selectedVoiceGender === 'masculina' ? 'Voz Masculina (Éverton Piceni)' : 'Voz Feminina (Acolhimento da Alma)'}
                         </span>
                       </div>
                       <p className="text-[11px] text-[#5C5248] line-clamp-1 mt-0.5">
