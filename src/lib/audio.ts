@@ -4,6 +4,7 @@
  */
 
 import { speechElapsedSeconds } from './speechElapsed';
+import { isElevenLabsVoiceId, type ElevenLabsVoiceOption } from './voiceSelection';
 
 export interface BioactiveBinauralConfig {
   enabled: boolean;
@@ -1063,11 +1064,44 @@ class CalmingAudioEngine {
       pitch?: number;
       lang?: string;
       protocolStageId?: string;
+      fallbackToSpeechSynthesis?: boolean;
+      onError?: (error: unknown) => void;
     }
   ) {
     this.stopSpeech();
 
     const preferElevenLabs = options?.preferElevenLabs !== false;
+    const allowNativeFallback = options?.fallbackToSpeechSynthesis !== false;
+    let failureReported = false;
+    const failWithoutNativeVoice = (error: unknown) => {
+      if (failureReported) return;
+      failureReported = true;
+      this.isElevenLabsPlaying = false;
+      this.isSpeakingActive = false;
+      this.protocolPlaybackPaused = false;
+      this.pendingProtocolFallback = null;
+      if (this.pauseTimeoutId) {
+        clearTimeout(this.pauseTimeoutId);
+        this.pauseTimeoutId = null;
+      }
+      if (this.voiceAudioElement) {
+        this.voiceAudioElement.pause();
+        this.voiceAudioElement.onended = null;
+        this.voiceAudioElement.onerror = null;
+        this.voiceAudioElement = null;
+      }
+      if (this.voiceAudioUrl) {
+        URL.revokeObjectURL(this.voiceAudioUrl);
+        this.voiceAudioUrl = null;
+      }
+      options?.onError?.(error);
+      onEnd();
+    };
+
+    if (!allowNativeFallback && !isElevenLabsVoiceId(options?.voiceId)) {
+      failWithoutNativeVoice(new Error('Selecione uma voz neural válida do catálogo ElevenLabs.'));
+      return;
+    }
 
     if (preferElevenLabs && typeof window !== 'undefined') {
       try {
@@ -1156,6 +1190,10 @@ class CalmingAudioEngine {
                 };
 
                 audio.onerror = () => {
+                  if (!allowNativeFallback) {
+                    failWithoutNativeVoice(new Error('A voz neural não pôde ser reproduzida. Tente novamente.'));
+                    return;
+                  }
                   this.isElevenLabsPlaying = false;
                   this.isSpeakingActive = false;
                   const fallbackText = text
@@ -1179,7 +1217,11 @@ class CalmingAudioEngine {
 
                 await audio.play();
               } catch (err) {
-                console.warn("Protocol segment TTS failed, using native fallback:", err);
+                console.warn("Protocol segment TTS failed:", err);
+                if (!allowNativeFallback) {
+                  failWithoutNativeVoice(err);
+                  return;
+                }
                 this.isElevenLabsPlaying = false;
                 this.isSpeakingActive = false;
                 const fallbackText = text
@@ -1249,7 +1291,11 @@ class CalmingAudioEngine {
           };
 
           audio.onerror = (e) => {
-            console.warn("ElevenLabs audio playback failed, falling back to Web Speech API:", e);
+            console.warn("ElevenLabs audio playback failed:", e);
+            if (!allowNativeFallback) {
+              failWithoutNativeVoice(new Error('A voz neural não pôde ser reproduzida. Tente novamente.'));
+              return;
+            }
             this.isElevenLabsPlaying = false;
             this.speak(text, voiceVolume, onStart, onEnd, onPause, onResume, options);
           };
@@ -1259,15 +1305,26 @@ class CalmingAudioEngine {
         } else {
           // Server returned fallback or error status (e.g. 503 API key not set)
           const errData = await response.json().catch(() => ({}));
-          console.info("ElevenLabs TTS info / fallback:", errData.message || errData.error || response.statusText);
+          console.info("ElevenLabs TTS info:", errData.message || errData.error || response.statusText);
+          if (!allowNativeFallback) {
+            failWithoutNativeVoice(new Error(errData.message || errData.error || 'A narração neural está indisponível.'));
+            return;
+          }
         }
       } catch (err) {
-        console.warn("Could not connect to ElevenLabs TTS route, using native fallback:", err);
+        console.warn("Could not connect to ElevenLabs TTS route:", err);
+        if (!allowNativeFallback) {
+          failWithoutNativeVoice(err);
+          return;
+        }
       }
     }
 
-    // Fallback to Web Speech API
-    this.speak(text, voiceVolume, onStart, onEnd, onPause, onResume, options);
+    if (allowNativeFallback) {
+      this.speak(text, voiceVolume, onStart, onEnd, onPause, onResume, options);
+    } else {
+      failWithoutNativeVoice(new Error('A narração neural está indisponível.'));
+    }
   }
 
   /**
@@ -1395,7 +1452,7 @@ class CalmingAudioEngine {
     return Boolean(this.voiceAudioElement && Number.isFinite(this.voiceAudioElement.duration) && this.voiceAudioElement.duration > 0);
   }
 
-  public async fetchElevenLabsVoices(): Promise<{ voice_id: string; name: string; category: string; description: string; preview_url: string }[]> {
+  public async fetchElevenLabsVoices(): Promise<ElevenLabsVoiceOption[]> {
     try {
       const res = await fetch('/api/elevenlabs/voices');
       if (res.ok) {
