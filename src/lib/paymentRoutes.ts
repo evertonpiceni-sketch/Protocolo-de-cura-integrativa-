@@ -85,7 +85,10 @@ export function paymentRoutes(authenticate: any, limiter: any, providerFetch: ty
       if (order.paidAt) return { status: 200, data: userId ? { status: 'paid', user: { profile: user.profile } } : { success: true } };
       if (db.paymentOrders?.some(o => o.id !== order.id && o.transaction === transaction_nsu)) return { status: 409, data: { error: 'Transação já utilizada.' } };
       const plan = order.planId && Object.hasOwn(PAYMENT_PLANS, order.planId) ? PAYMENT_PLANS[order.planId] : undefined;
-      if (!order.treatment && order.productType !== 'numerology_full' && !plan) return { status: 409, data: { error: 'Plano de pagamento inválido.' } };
+      const isSubscriptionOrder = !order.productType || order.productType === 'subscription';
+      if ((order.productType === 'specific_treatment' && !order.treatment) || (isSubscriptionOrder && !plan) || (!order.treatment && order.productType !== 'numerology_full' && !isSubscriptionOrder)) {
+        return { status: 409, data: { error: 'Produto de pagamento inválido.' } };
+      }
       const previous = { plan: user.plan, profile: user.profile };
       const now = new Date();
       order.paidAt = now.toISOString(); order.transaction = transaction_nsu;
@@ -93,7 +96,7 @@ export function paymentRoutes(authenticate: any, limiter: any, providerFetch: ty
         user.profile = { ...user.profile, specificTreatments: [...(user.profile?.specificTreatments || []), order.treatment] };
       } else if (order.productType === 'numerology_full') {
         user.profile = { ...user.profile, numerologyPurchased: true, numerologyPurchasedAt: now.toISOString(), numerologyPurchasePrice: order.cents / 100, numerologyPaymentMethod: order.method };
-      } else if (plan) {
+      } else if (isSubscriptionOrder && plan) {
         user.plan = 'pro';
         user.profile = { ...user.profile, plan: 'pro', subscriptionPlan: order.planId,
           subscriptionPrice: order.cents / 100, subscriptionPaymentMethod: order.method,
