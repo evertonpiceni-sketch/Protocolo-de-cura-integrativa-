@@ -27,7 +27,7 @@ import { evaluateAchievements } from './lib/achievementsData';
 import { AppLanguage, SUPPORTED_LANGUAGES, UI_TRANSLATIONS } from './lib/i18n';
 import { AnimatePresence } from "motion/react";
 import { localNotificationManager } from './lib/notifications';
-import { OFFICIAL_LAYOUTS, normalizeLayoutId } from './config/layouts';
+import { OFFICIAL_LAYOUTS, isLayoutId } from './config/layouts';
 import { getLocalDateString } from './utils/date';
 import LayoutChoiceModal from './components/LayoutChoiceModal';
 
@@ -1784,7 +1784,7 @@ export default function App() {
         ) : (
           /* New approved transformation home */
           <TransformationHome
-            visualLayout={layoutConfirmedThisSession ? normalizeLayoutId(userProfile.visualLayout) : undefined}
+            visualLayout={layoutConfirmedThisSession && isLayoutId(userProfile.visualLayout) ? userProfile.visualLayout : undefined}
             userName={userProfile.name}
             voiceId={userProfile.voiceId}
             voiceVolume={userProfile.voiceVolume}
