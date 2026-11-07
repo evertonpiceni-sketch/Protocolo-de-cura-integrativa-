@@ -2,6 +2,7 @@ import React, { useRef, useState } from 'react';
 import { useDialogFocus } from '../hooks/useDialogFocus';
 import { Check } from 'lucide-react';
 import { OFFICIAL_LAYOUTS, LayoutDefinition, LayoutId } from '../config/layouts';
+import { MISTICO_MODERNO_BOARD_DATA_URI } from '../assets/misticoModernoBoard';
 
 interface LayoutChoiceModalProps {
   onSelect: (layout: LayoutId) => void | Promise<void>;
@@ -16,6 +17,7 @@ function LayoutPreview({ layout }: { layout: LayoutDefinition }) {
   const foreground = layout.tone === 'dark' ? '#F4F1EB' : '#2A2420';
   const muted = layout.tone === 'dark' ? 'rgba(244,241,235,.68)' : 'rgba(42,36,32,.62)';
   const isNaturalSereno = layout.id === 'natural-sereno';
+  const isMystic = layout.id === 'mistico-moderno';
   const previewBorder = layout.id === 'elegancia-profunda' ? 'rgba(212,175,119,.35)' : layout.id === 'mistico-moderno' ? 'rgba(108,63,160,.40)' : 'rgba(42,36,32,.10)';
   if (layout.id === 'elegancia-profunda') {
     return (
@@ -49,6 +51,28 @@ function LayoutPreview({ layout }: { layout: LayoutDefinition }) {
           decoding="async"
           draggable={false}
           className="h-full w-full object-contain p-1"
+        />
+      </div>
+    );
+  }
+  if (isMystic) {
+    return (
+      <div
+        className="mt-4 flex h-[184px] w-full items-center justify-center overflow-hidden rounded-2xl border shadow-inner"
+        style={{
+          backgroundColor: '#0A0F18',
+          borderColor: 'rgba(212,175,55,.32)',
+          boxShadow: 'inset 0 1px 0 rgba(255,255,255,.04), 0 12px 28px rgba(0,0,0,.22)'
+        }}
+        aria-hidden="true"
+      >
+        <img
+          src={MISTICO_MODERNO_BOARD_DATA_URI}
+          alt=""
+          loading="eager"
+          decoding="async"
+          draggable={false}
+          className="h-full w-full object-contain"
         />
       </div>
     );
@@ -156,6 +180,7 @@ export default function LayoutChoiceModal({ onSelect }: LayoutChoiceModalProps) 
         <div className="mt-6 grid grid-cols-1 gap-3 sm:grid-cols-2">
           {OFFICIAL_LAYOUTS.map(layout => {
             const isSelected = selectedLayout === layout.id;
+            const isMystic = layout.id === 'mistico-moderno';
             return (
               <button
                 key={layout.id}
@@ -163,15 +188,15 @@ export default function LayoutChoiceModal({ onSelect }: LayoutChoiceModalProps) 
                 onClick={() => { setSelectedLayout(layout.id); setSaveError(null); }}
                 disabled={isSaving}
                 aria-pressed={isSelected}
-                className={`group min-h-36 rounded-2xl border bg-white/85 p-5 text-left transition hover:-translate-y-0.5 hover:shadow-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B88736]/35 ${isSelected ? 'border-[#B88736] ring-2 ring-[#B88736]/20 shadow-lg' : 'border-[#E5DAC6] hover:border-[#B88736]/60'}`}
+                className={`group min-h-36 rounded-2xl border p-5 text-left transition hover:-translate-y-0.5 hover:shadow-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B88736]/35 ${isMystic ? 'bg-[#0A0F18] text-[#F4F1EB]' : 'bg-white/85'} ${isSelected ? (isMystic ? 'border-[#D4AF37] ring-2 ring-[#D4AF37]/20 shadow-lg' : 'border-[#B88736] ring-2 ring-[#B88736]/20 shadow-lg') : (isMystic ? 'border-[#6C3FA0]/45 hover:border-[#D4AF37]/60' : 'border-[#E5DAC6] hover:border-[#B88736]/60')}`}
               >
                 <div className="flex items-start justify-between gap-3">
                   <div>
-                    <h3 className="font-display text-xl font-semibold text-[#2A2420]">{layout.name}</h3>
-                    <p className="mt-1 text-xs leading-relaxed text-[#5C5248]">{layout.description}</p>
+                    <h3 className={`font-display text-xl font-semibold ${isMystic ? 'text-[#F4F1EB]' : 'text-[#2A2420]'}`}>{layout.name}</h3>
+                    <p className={`mt-1 text-xs leading-relaxed ${isMystic ? 'text-[#C8D0DC]' : 'text-[#5C5248]'}`}>{layout.description}</p>
                   </div>
-                  <span className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-full border transition ${isSelected ? 'border-[#B88736] bg-[#B88736] text-white opacity-100' : 'border-[#E5DAC6] text-[#B88736] opacity-0 group-hover:opacity-100'}`} aria-hidden="true">
-                    <Check size={16} />
+                  <span className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-full border transition ${isSelected ? (isMystic ? 'border-[#D4AF37] bg-[#D4AF37] text-[#0A0F18] opacity-100' : 'border-[#B88736] bg-[#B88736] text-white opacity-100') : (isMystic ? 'border-[#6C3FA0]/70 text-[#D4AF37] opacity-100' : 'border-[#E5DAC6] text-[#B88736] opacity-0 group-hover:opacity-100')}`} aria-hidden="true">
+                    {isSelected || !isMystic ? <Check size={16} /> : null}
                   </span>
                 </div>
                 <LayoutPreview layout={layout} />
