@@ -11,7 +11,7 @@ const LEGACY_VOICE_ALIASES = new Set([
   'sofia',
   'mjqp14jqfek0pojr5lfv',
   '21m00tcm4tlvdq8ikwam',
-  'npczcjz2devnbz1zqrb'
+  'npczcjzi2devnbz1zqrb'
 ]);
 
 export function resolveMisticoModernoOfficialVoiceId(configuredVoiceId?: string | null): string | null {
