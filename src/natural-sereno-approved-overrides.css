@@ -313,3 +313,144 @@
 :root[data-layout="natural-sereno"] #numerology-modal [role="tabpanel"] [class*="text-amber-800"] {
   color: #8F631E !important;
 }
+
+/* Reauditoria 2026-11-07 — checkout e prática individual:
+   retirar superfícies verde-floresta/amarelo antigo sem alterar os fluxos
+   de checkout InfinitePay, cupons, valores ou liberação de acesso. */
+:root[data-layout="natural-sereno"] #plans-modal {
+  background: rgba(42,36,33,.46) !important;
+  color: #2A2421 !important;
+}
+:root[data-layout="natural-sereno"] #plans-modal > div {
+  background: linear-gradient(180deg,#FAF7F2 0%,#F4EDE3 100%) !important;
+  color: #2A2421 !important;
+}
+:root[data-layout="natural-sereno"] #plans-modal header {
+  background: rgba(250,247,242,.96) !important;
+  border-color: rgba(200,157,82,.28) !important;
+  box-shadow: 0 8px 22px rgba(67,52,39,.05) !important;
+}
+:root[data-layout="natural-sereno"] #plans-modal :is(h1,h2,h3,h4) {
+  color: #2A2421 !important;
+}
+:root[data-layout="natural-sereno"] #plans-modal [class*="text-[#26372A]"],
+:root[data-layout="natural-sereno"] #plans-modal [class*="text-[#073B2B]"] {
+  color: #2A2421 !important;
+}
+:root[data-layout="natural-sereno"] #plans-modal [class*="text-[#5F6857]"],
+:root[data-layout="natural-sereno"] #plans-modal [class*="text-[#6A725F]"] {
+  color: #6B625B !important;
+}
+:root[data-layout="natural-sereno"] #plans-modal [class*="text-[#9C7429]"],
+:root[data-layout="natural-sereno"] #plans-modal [class*="text-[#7C5A1D]"] {
+  color: #8F631E !important;
+}
+:root[data-layout="natural-sereno"] #plans-modal [class*="text-[#2F6B50]"] {
+  color: #6B7A4B !important;
+}
+:root[data-layout="natural-sereno"] #plans-modal [class*="border-[#D8B867]"] {
+  border-color: rgba(200,157,82,.30) !important;
+}
+:root[data-layout="natural-sereno"] #plans-modal [class*="bg-[#FFF9E8]"] {
+  background: #FBF8F2 !important;
+}
+:root[data-layout="natural-sereno"] #plans-modal [class*="bg-[#F7E5AA]"] {
+  background: rgba(200,157,82,.12) !important;
+}
+:root[data-layout="natural-sereno"] #plans-modal article {
+  background: linear-gradient(180deg,#FFFDF8 0%,#F5EFE4 100%) !important;
+  border-color: rgba(200,157,82,.32) !important;
+  box-shadow: 0 10px 28px rgba(67,52,39,.07) !important;
+}
+:root[data-layout="natural-sereno"] #plans-modal article span[class*="bg-[#073B2B]"] {
+  background: rgba(200,157,82,.14) !important;
+  color: #8F631E !important;
+  border: 1px solid rgba(200,157,82,.28) !important;
+}
+:root[data-layout="natural-sereno"] #plans-modal #checkout-planos {
+  background: rgba(255,253,248,.96) !important;
+  border-color: rgba(200,157,82,.34) !important;
+  box-shadow: 0 14px 34px rgba(67,52,39,.08) !important;
+}
+:root[data-layout="natural-sereno"] #plans-modal #checkout-planos > div:nth-child(2) {
+  background: rgba(200,157,82,.08) !important;
+  border-color: rgba(200,157,82,.24) !important;
+}
+:root[data-layout="natural-sereno"] #plans-modal button[class*="bg-[#073B2B]"] {
+  background: linear-gradient(180deg,#E2B96B 0%,#C89D52 100%) !important;
+  color: #2A2421 !important;
+  border-color: rgba(168,126,55,.58) !important;
+  box-shadow: 0 9px 20px rgba(67,52,39,.10) !important;
+}
+:root[data-layout="natural-sereno"] #plans-modal button[class*="bg-[#073B2B]"]:hover {
+  background: linear-gradient(180deg,#E8C47D 0%,#A87E37 100%) !important;
+}
+:root[data-layout="natural-sereno"] #plans-modal button[class*="border-[#073B2B]"] {
+  background: #FBF8F2 !important;
+  color: #6B4E2E !important;
+  border-color: rgba(200,157,82,.34) !important;
+}
+:root[data-layout="natural-sereno"] #plans-modal button[class*="border-[#073B2B]"]:hover {
+  background: #F5EFE4 !important;
+}
+:root[data-layout="natural-sereno"] #plans-modal input {
+  background: #FFFDF8 !important;
+  color: #2A2421 !important;
+  border-color: rgba(200,157,82,.34) !important;
+}
+:root[data-layout="natural-sereno"] #plans-modal input:focus {
+  border-color: #C89D52 !important;
+  box-shadow: 0 0 0 2px rgba(200,157,82,.12) !important;
+}
+
+/* Prática Individual: os estados selecionados continuam claros; o verde fica
+   restrito a pequenos indicadores semânticos e não ocupa cartões ou CTAs. */
+:root[data-layout="natural-sereno"] #specific-treatment-modal [class*="from-emerald-950"] {
+  background: linear-gradient(145deg,#FFFDF8 0%,#F5EFE4 100%) !important;
+  border-color: rgba(200,157,82,.34) !important;
+  box-shadow: 0 10px 24px rgba(67,52,39,.07) !important;
+}
+:root[data-layout="natural-sereno"] #specific-treatment-modal [class*="bg-emerald-950/40"] {
+  background: rgba(200,157,82,.09) !important;
+  border-color: rgba(200,157,82,.42) !important;
+  color: #2A2421 !important;
+  box-shadow: 0 8px 18px rgba(67,52,39,.06) !important;
+}
+:root[data-layout="natural-sereno"] #specific-treatment-modal [class*="border-emerald-500"] {
+  border-color: rgba(200,157,82,.46) !important;
+}
+:root[data-layout="natural-sereno"] #specific-treatment-modal [class*="text-emerald-200"] {
+  color: #6B4E2E !important;
+}
+:root[data-layout="natural-sereno"] #specific-treatment-modal button[class*="from-emerald-600"] {
+  background: linear-gradient(180deg,#E2B96B 0%,#C89D52 100%) !important;
+  color: #2A2421 !important;
+  border: 1px solid rgba(168,126,55,.58) !important;
+  box-shadow: 0 10px 22px rgba(67,52,39,.10) !important;
+}
+:root[data-layout="natural-sereno"] #specific-treatment-modal button[class*="from-emerald-600"]:hover {
+  background: linear-gradient(180deg,#E8C47D 0%,#A87E37 100%) !important;
+}
+:root[data-layout="natural-sereno"] #specific-treatment-modal button[class*="from-emerald-600"] :is(span,svg) {
+  color: #2A2421 !important;
+}
+:root[data-layout="natural-sereno"] #specific-treatment-modal [class*="shadow-emerald"] {
+  --tw-shadow-color: rgba(67,52,39,.08) !important;
+}
+
+/* Toasts antigos em índigo/violeta passam a usar a mesma superfície marfim. */
+:root[data-layout="natural-sereno"] .ep-app-toast {
+  background: linear-gradient(145deg,#FFFDF8 0%,#F4EDE3 100%) !important;
+  border: 1px solid rgba(200,157,82,.34) !important;
+  color: #2A2421 !important;
+  box-shadow: 0 14px 34px rgba(67,52,39,.12) !important;
+}
+:root[data-layout="natural-sereno"] .ep-app-toast h4 {
+  color: #2A2421 !important;
+}
+:root[data-layout="natural-sereno"] .ep-app-toast p {
+  color: #6B625B !important;
+}
+:root[data-layout="natural-sereno"] .ep-app-toast svg {
+  color: #C89D52 !important;
+}
