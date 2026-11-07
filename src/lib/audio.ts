@@ -1350,9 +1350,14 @@ class CalmingAudioEngine {
       onTimeUpdate?: (seconds: number, duration: number) => void;
       onEnd?: () => void;
       onError?: () => void;
+      requireExplicitVoiceId?: boolean;
     }
   ) {
     this.stopSpeech();
+    if (options.requireExplicitVoiceId && !isElevenLabsVoiceId(options.voiceId)) {
+      options.onError?.();
+      return;
+    }
     const generation = this.protocolRequestGeneration;
     const isCurrent = () => generation === this.protocolRequestGeneration;
     this.initKeepAlive();
