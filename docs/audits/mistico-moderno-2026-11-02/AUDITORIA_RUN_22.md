@@ -31,6 +31,7 @@ PR: #42 (rascunho; sem merge e sem deploy de produção)
 - O preview de deployment do Vercel para a branch ainda retorna `BUILD_FAILED / Resource provisioning failed`; a renderização no sandbox isolado não substitui a homologação completa no preview do projeto.
 - Validação no sandbox isolado no commit `733c4c9`: 38/38 testes aprovados, `npm run lint` (`tsc --noEmit`) aprovado e `npm run build` aprovado. O build emitiu apenas aviso de chunks acima de 500 kB. `npm audit` encontrou 10 vulnerabilidades (3 moderadas, 7 altas, 0 críticas); a correção de dependências ficou fora deste escopo visual/voz.
 - Não foi realizada transação real InfinitePay. Nenhum preço, cupom ou endpoint de pagamento foi alterado.
+- GitHub atualmente marca o PR #42 como não mesclável (`mergeable_state=dirty`) em relação à `main`; não foi feita tentativa de merge ou rebase.
 - `SacredEnergyCanvas` e demais animações não foram modificados sem evidência visual suficiente.
 
 ## Critério de conclusão
