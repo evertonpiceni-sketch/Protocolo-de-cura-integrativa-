@@ -549,4 +549,5 @@ test('a prévia de voz da Essência Luminosa não toca Solfeggio durante a narra
   assert.ok(settings.includes('const shouldPlayVoiceBackground = !isEssenciaLuminosa'));
   assert.ok(settings.includes("audioEnabled && shouldPlayProtocolSessionBackground('playing', bgMusicType)"));
   assert.ok(settings.includes('else if (allowBackgroundPlayback && isEssenciaLuminosa)'));
+  assert.ok(settings.includes('setIsPlayingBioactivePreview(false)'));
 });
