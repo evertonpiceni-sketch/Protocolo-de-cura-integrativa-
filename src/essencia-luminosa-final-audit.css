@@ -482,3 +482,52 @@
   color: var(--layout-gold-dark) !important;
   box-shadow: 0 4px 12px rgba(112, 91, 58, .06) !important;
 }
+
+
+/* Estilo 3 — Mapa Astral: remove a herança de verde profundo e dourado antigo do componente-base. */
+:root[data-layout="essencia-luminosa"] #astral-map-modal [class*="bg-[#073b2b]"]{
+  background:linear-gradient(145deg,
+    color-mix(in srgb,var(--layout-accent) 22%,var(--layout-card)) 0%,
+    color-mix(in srgb,var(--layout-gold-soft) 42%,var(--layout-card)) 100%)!important;
+  border-color:var(--layout-gold-border)!important;
+  color:var(--layout-text)!important;
+  box-shadow:0 10px 24px rgba(112,91,58,.08),inset 0 1px 0 rgba(255,255,255,.72)!important;
+}
+:root[data-layout="essencia-luminosa"] #astral-map-modal [class*="text-[#f2dda4]"]{
+  color:var(--layout-text)!important;
+}
+:root[data-layout="essencia-luminosa"] #astral-map-modal [class*="bg-[#B88736]"]:not([class*="/"]){
+  background:var(--layout-gold-gradient)!important;
+  border-color:var(--layout-gold-border)!important;
+  color:var(--layout-text)!important;
+}
+:root[data-layout="essencia-luminosa"] #astral-map-modal [class*="bg-[#B88736]/"]{
+  background:color-mix(in srgb,var(--layout-gold) 12%,transparent)!important;
+}
+:root[data-layout="essencia-luminosa"] #astral-map-modal :is([class*="text-[#B88736]"],[class*="text-[#8F631E]"]){
+  color:var(--layout-gold-dark)!important;
+}
+:root[data-layout="essencia-luminosa"] #astral-map-modal [class*="border-[#B88736]"]{
+  border-color:var(--layout-gold-border)!important;
+}
+:root[data-layout="essencia-luminosa"] #astral-map-modal [class*="bg-amber-"]{
+  background:var(--layout-gold-soft)!important;
+}
+:root[data-layout="essencia-luminosa"] #astral-map-modal [class*="border-amber-"]{
+  border-color:var(--layout-gold-border)!important;
+}
+:root[data-layout="essencia-luminosa"] #astral-map-modal [class*="text-amber-"]{
+  color:var(--layout-gold-dark)!important;
+}
+:root[data-layout="essencia-luminosa"] #astral-map-modal button[class*="bg-[#B88736]"] :is(span,svg){
+  color:var(--layout-text)!important;
+}
+:root[data-layout="essencia-luminosa"] #astral-map-modal button[class*="hover:bg-[#8F631E]"]:hover{
+  background:var(--layout-gold-gradient)!important;
+  filter:brightness(.97);
+}
+:root[data-layout="essencia-luminosa"] #astral-map-modal :is(button,input):focus-visible{
+  outline:2px solid color-mix(in srgb,var(--layout-gold) 62%,white)!important;
+  outline-offset:3px;
+  box-shadow:0 0 0 3px var(--layout-gold-soft)!important;
+}
