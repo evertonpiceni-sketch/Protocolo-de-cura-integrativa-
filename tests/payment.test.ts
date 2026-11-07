@@ -4,7 +4,7 @@ import express from 'express';
 import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
-import { paymentQuote, PAYMENT_PLANS, specificTreatmentCouponDiscount } from '../src/lib/paymentCatalog';
+import { paymentQuote, PAYMENT_PLANS, specificTreatmentCouponDiscount, specificTreatmentQuote } from '../src/lib/paymentCatalog';
 
 test('payment prices are authoritative for every approved plan and coupon', () => {
   for (const [id, plan] of Object.entries(PAYMENT_PLANS)) {
@@ -27,9 +27,24 @@ test('specific treatment coupons accept only the current approved promotional co
   const routes = fs.readFileSync('src/lib/paymentRoutes.ts', 'utf8');
   assert.ok(modal.includes('specificTreatmentCouponDiscount(rawCode)'));
   assert.ok(modal.includes('Ex.: PROMO15, PROMO20'));
-  assert.ok(routes.includes('specificTreatmentCouponDiscount(code)'));
+  assert.ok(routes.includes('specificTreatmentQuote(durationDays, code)'));
   assert.ok(!modal.includes('CURA10'));
   assert.ok(!routes.includes('CURA10'));
+});
+
+test('specific treatments use only the fixed approved 7-day and 21-day prices', () => {
+  assert.equal(specificTreatmentQuote(7).cents, 5990);
+  assert.equal(specificTreatmentQuote(21).cents, 9990);
+  assert.equal(specificTreatmentQuote(7, 'PROMO15').cents, 5092);
+  assert.equal(specificTreatmentQuote(21, 'PROMO20').cents, 7992);
+  assert.throws(() => specificTreatmentQuote(1));
+  assert.throws(() => specificTreatmentQuote(7, 'VIP7'));
+  const modal = fs.readFileSync('src/components/SpecificTreatmentModal.tsx', 'utf8');
+  assert.ok(modal.includes('useState<7 | 21>(21)'));
+  assert.ok(!modal.includes('isCustomPrice'));
+  assert.ok(!modal.includes('customPriceInput'));
+  assert.ok(!modal.includes('customAmount'));
+  assert.ok(!modal.includes('Sessão Única'));
 });
 
 test('checkout binds account, validates provider confirmation and grants only once', async () => {
@@ -80,7 +95,11 @@ test('checkout binds account, validates provider confirmation and grants only on
     assert.equal((await call('webhooks/payment', { order_nsu: individualOrder.orderId, transaction_nsu: 'individual-transaction', invoice_slug: 'individual' })).status, 200);
     assert.equal(db.users[0].profile.specificTreatments.length, 1);
     assert.equal(db.users[0].profile.specificTreatments[0].status, 'pendente');
-    assert.equal((await call('payment/create-checkout', { productType: 'specific_treatment', paymentMethod: 'pix', durationDays: 1, category: 'outro', patientDescription: 'Teste', urgentPains: [], customAmount: 1 })).status, 400);
+    assert.equal((await call('payment/create-checkout', { productType: 'specific_treatment', paymentMethod: 'pix', durationDays: 1, category: 'outro', patientDescription: 'Teste', urgentPains: [] })).status, 400);
+    assert.equal((await call('payment/create-checkout', { productType: 'specific_treatment', paymentMethod: 'pix', durationDays: 7, category: 'outro', patientDescription: 'Teste', urgentPains: [], customAmount: 100 })).status, 400);
+    const fixedSevenDay = await call('payment/create-checkout', { productType: 'specific_treatment', paymentMethod: 'pix', durationDays: 7, category: 'outro', patientDescription: 'Texto sintético privado.', urgentPains: [], couponCode: 'PROMO15', price: .01 });
+    assert.equal(fixedSevenDay.status, 200);
+    assert.equal(calls.at(-1).body.items[0].price, 5092);
     db.users.push({ id: 'trial-account', plan: 'free', profile: {} });
     const trial = { planId: 'teste_vip_7d', paymentMethod: 'trial', couponCode: 'VIP7' };
     assert.equal((await call('user/upgrade', trial, 'trial-account')).status, 200);
