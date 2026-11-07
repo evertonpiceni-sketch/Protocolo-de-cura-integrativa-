@@ -227,8 +227,9 @@ export default function MeditationSession({
     const selectedVoiceId = voiceId?.trim();
     const savedVoiceId = isElevenLabsVoiceId(selectedVoiceId) ? selectedVoiceId : OFFICIAL_PROTOCOL_VOICE_ID;
     const style2VoiceId = isElevenLabsVoiceId(selectedVoiceId) ? selectedVoiceId : '';
+    const style4VoiceId = isElevenLabsVoiceId(selectedVoiceId) ? selectedVoiceId : '';
 
-    if (activeLayout === 'elegancia-profunda' && !style2VoiceId) {
+    if ((activeLayout === 'elegancia-profunda' && !style2VoiceId) || (activeLayout === 'mistico-moderno' && !style4VoiceId)) {
       setIsPlaying(false);
       setVoiceError(true);
       return;
@@ -243,7 +244,9 @@ export default function MeditationSession({
           ? style2VoiceId
           : activeLayout === 'essencia-luminosa'
             ? savedVoiceId
-            : OFFICIAL_PROTOCOL_VOICE_ID,
+            : activeLayout === 'mistico-moderno'
+              ? style4VoiceId
+              : OFFICIAL_PROTOCOL_VOICE_ID,
       speed: voiceRate,
       stageTitle: `Dia ${dayNumber} — ${currentInsight.title} — ${currentStage.title}`,
       dayNumber,
