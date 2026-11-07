@@ -516,7 +516,12 @@ test('o logo da Essência Luminosa neutraliza o destaque compartilhado no hero e
   assert.ok(style3Rule.includes(':root[data-layout="essencia-luminosa"] .ep-welcome-audio .ep-brand-signature-wrap'));
   assert.ok(style3Rule.includes(':root[data-layout="essencia-luminosa"] .ep-welcome-audio .ep-brand-signature'));
   assert.ok(style3Rule.includes('opacity: .30 !important;'));
-  assert.ok(style3Rule.includes('opacity: .26 !important;'));
+
+  const mobileRuleStart = css.indexOf('@media (max-width: 640px)');
+  assert.ok(mobileRuleStart >= 0, 'O override mobile do logo precisa existir.');
+  const mobileRule = css.slice(mobileRuleStart, mobileRuleStart + 700);
+  assert.ok(mobileRule.includes(':root[data-layout="essencia-luminosa"] .ep-welcome-audio .ep-brand-signature'));
+  assert.ok(mobileRule.includes('opacity: .26 !important;'));
 
   assert.ok(main.indexOf("import './approved-theme.css'") < main.indexOf("import './essencia-luminosa-final-audit.css'"));
   assert.ok(home.includes('ep-welcome-audio ep-home-hero'));
