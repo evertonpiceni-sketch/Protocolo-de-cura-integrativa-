@@ -211,3 +211,15 @@ test('o player do Estilo 2 mantém todas as fases em verde profundo, champagne e
   assert.ok(checkin.includes('aria-pressed={isSelected}'));
   assert.ok(drawer.includes('aria-label="Roteiro da sessão"'));
 });
+
+
+test('o toast global não herda indigo/roxo no Estilo 2 e mantém contraste legível', () => {
+  const app = read('src/App.tsx');
+  const css = read('src/elegancia-profunda-approved-overrides.css');
+  assert.ok(app.includes('className="ep-app-toast fixed'));
+  assert.ok(app.includes('role="status"'));
+  assert.ok(css.includes(':root[data-layout="elegancia-profunda"] .ep-app-toast'));
+  assert.ok(css.includes('background:linear-gradient(145deg,#132A1F 0%,#0B1712 100%)!important'));
+  assert.ok(css.includes('color:#F4F1EB!important'));
+  assert.ok(css.includes('color:#C8D6CD!important'));
+});
