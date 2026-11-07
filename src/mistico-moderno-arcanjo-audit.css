@@ -80,3 +80,13 @@
   outline:2px solid rgba(226,185,107,.78)!important;
   outline-offset:3px;
 }
+
+
+:root[data-layout="mistico-moderno"] #arcanjo-protocol-view header [class*="text-[#B88736]"],
+:root[data-layout="mistico-moderno"] #arcanjo-chakra-caption [class*="text-[#B88736]"]{
+  color:#E2B96B!important;
+}
+:root[data-layout="mistico-moderno"] #arcanjo-protocol-view header button[aria-label="Voltar"],
+:root[data-layout="mistico-moderno"] #arcanjo-protocol-view header button[aria-label="Fechar"]{
+  color:#C89D52!important;
+}
