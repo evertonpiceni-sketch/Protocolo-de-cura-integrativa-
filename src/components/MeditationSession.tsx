@@ -11,6 +11,7 @@ import {
 import { ProtocolStage, PROTOCOL_STAGES, DAILY_INSIGHTS, JOURNEY_7D_INSIGHTS, SessionCheckIn } from '../types';
 import { ORIGINAL_PROTOCOL_SCRIPTS } from '../data/protocol_scripts';
 import { audioEngine, OFFICIAL_PROTOCOL_VOICE_ID } from '../lib/audio';
+import { shouldPlayProtocolSessionBackground } from '../lib/protocolSessionAudioPolicy';
 import { requestWakeLock } from '../lib/wakeLockHelpers';
 import { AppLanguage, STAGE_AUDIO_TRANSLATIONS } from '../lib/i18n';
 import { resolveProtocolScript } from '../lib/protocolScript';
@@ -151,7 +152,9 @@ export default function MeditationSession({
   }, [voiceGender]);
 
   useEffect(() => {
-    if (sessionPhase === 'playing' && bgMusicType !== 'none') {
+    // A trilha global já é interrompida ao abrir o protocolo. Não a reinicie
+    // aqui quando ela for uma frequência Solfeggio; mantenha apenas ambiência não tonal.
+    if (shouldPlayProtocolSessionBackground(sessionPhase, bgMusicType)) {
       audioEngine.startSynth(bgMusicType);
     } else {
       audioEngine.stopSynth();
@@ -205,7 +208,7 @@ export default function MeditationSession({
 
     const activeLayout = document.documentElement.dataset.layout;
     const selectedVoiceId = voiceId?.trim();
-    const style2VoiceId = selectedVoiceId && !['Rachel', 'Marcus', 'masculina', 'feminina'].includes(selectedVoiceId)
+    const savedVoiceId = selectedVoiceId && !['Rachel', 'Marcus', 'masculina', 'feminina'].includes(selectedVoiceId)
       ? selectedVoiceId
       : OFFICIAL_PROTOCOL_VOICE_ID;
 
@@ -214,8 +217,8 @@ export default function MeditationSession({
       text: personalizedText,
       voiceId: activeLayout === 'natural-sereno'
         ? (voiceId || (voiceGender === 'masculina' ? 'masculina' : voiceGender === 'feminina' ? 'Rachel' : OFFICIAL_PROTOCOL_VOICE_ID))
-        : activeLayout === 'elegancia-profunda'
-          ? style2VoiceId
+        : activeLayout === 'elegancia-profunda' || activeLayout === 'essencia-luminosa'
+          ? savedVoiceId
           : OFFICIAL_PROTOCOL_VOICE_ID,
       speed: voiceRate,
       stageTitle: `Dia ${dayNumber} — ${currentInsight.title} — ${currentStage.title}`,
