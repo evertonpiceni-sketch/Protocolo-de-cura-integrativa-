@@ -120,8 +120,8 @@ test('as telas de Anamnese e oração usam a paleta específica do Estilo 2', ()
 test('o Estilo 2 não substitui silenciosamente a voz neural escolhida por uma voz padrão', () => {
   const home = read('src/components/TransformationHome.tsx');
   const settings = read('src/components/AudioSettingsModal.tsx');
-  assert.ok(home.includes("isElevenLabsVoiceId(savedVoiceId) ? savedVoiceId : ''"));
-  assert.ok(!home.includes('isElevenLabsVoiceId(savedVoiceId) ? savedVoiceId : OFFICIAL_PROTOCOL_VOICE_ID'));
+  assert.ok(home.includes("const approvedVoiceId = isEleganciaProfunda\n    ? (isElevenLabsVoiceId(savedVoiceId) ? savedVoiceId : '')"));
+  assert.ok(home.includes("isEssenciaLuminosa\n      ? (isElevenLabsVoiceId(savedVoiceId) ? savedVoiceId : OFFICIAL_PROTOCOL_VOICE_ID)"));
   assert.ok(settings.includes('if (requiresNeuralVoice && !isElevenLabsVoiceId(voiceId))'));
 });
 
