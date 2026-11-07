@@ -118,7 +118,8 @@ test('checkout binds account, validates provider confirmation and grants only on
     assert.equal(db.users.find(u => u.id === 'numerology-owner')?.profile.numerologyPurchased, true);
     assert.equal(db.users.find(u => u.id === 'numerology-owner')?.plan, 'free');
     assert.equal((await call('payment/create-checkout', { productType: 'numerology_full', paymentMethod: 'pix' }, 'numerology-owner')).status, 409);
-    assert.equal((await call('payment/create-checkout', { productType: 'numerology_full', paymentMethod: 'pix', couponCode: 'PROMO20' }, 'owner')).status, 400);
+    db.users.push({ id: 'coupon-owner', plan: 'free', profile: {} });
+    assert.equal((await call('payment/create-checkout', { productType: 'numerology_full', paymentMethod: 'pix', couponCode: 'PROMO20' }, 'coupon-owner')).status, 400);
 
     db.users.push({ id: 'trial-account', plan: 'free', profile: {} });
     const trial = { planId: 'teste_vip_7d', paymentMethod: 'trial', couponCode: 'VIP7' };
