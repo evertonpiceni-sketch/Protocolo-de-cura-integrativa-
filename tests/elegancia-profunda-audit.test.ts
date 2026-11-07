@@ -298,3 +298,14 @@ test('o Estilo 2 não herda a imagem de fundo da Reintegração no tema comparti
   assert.ok(style2SceneBlock.includes('--ep-scene:none;'));
   assert.ok(!style2SceneBlock.includes('reintegracao-presenca-arte.png'));
 });
+
+test('o logout limpa a confirmação do estilo para exigir nova escolha na próxima conta', () => {
+  const app = read('src/App.tsx');
+  const start = app.indexOf('const handleLogout = async () => {');
+  const end = app.indexOf('\n  };', start);
+  assert.ok(start >= 0 && end > start, 'O handler de logout deve existir.');
+  const logout = app.slice(start, end);
+  assert.ok(logout.includes('setLayoutConfirmedThisSession(false)'));
+  assert.ok(logout.includes('setLayoutChoiceRequested(false)'));
+  assert.ok(app.includes('{(!layoutConfirmedThisSession || layoutChoiceRequested) && ('));
+});
