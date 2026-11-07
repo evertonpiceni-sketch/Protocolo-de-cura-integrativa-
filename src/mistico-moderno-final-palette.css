@@ -1,0 +1,134 @@
+/* Final palette normalization — Estilo 4 only.
+   Imported after page-specific modules so older light/green treatments cannot leak
+   into Místico Moderno. No selector in this file applies to the other layouts. */
+:root[data-layout="mistico-moderno"] {
+  color-scheme: dark;
+  --layout-canvas: #07111F;
+  --layout-canvas-alt: #141D3A;
+  --layout-indigo: #26355F;
+  --layout-emerald: #176B5B;
+  --layout-violet: #6C3FA0;
+  --layout-gold: #C89D52;
+  --layout-gold-light: #E2B96B;
+  --layout-gold-dark: #A87E37;
+  --layout-text: #F4F1EB;
+  --layout-text-secondary: #D8D4CA;
+  --layout-text-muted: #9AA8BD;
+}
+
+:root[data-layout="mistico-moderno"] [id$="-modal"] > div {
+  color: #F4F1EB !important;
+  border-color: rgba(200,157,82,.24) !important;
+  background:
+    radial-gradient(circle at 86% 0, rgba(108,63,160,.12), transparent 24rem),
+    linear-gradient(145deg, rgba(14,27,48,.97), rgba(7,17,31,.985)) !important;
+}
+
+:root[data-layout="mistico-moderno"] [id$="-modal"] :is(
+  [class*="bg-white"], [class*="bg-[#FBF8F2]"], [class*="bg-[#F5EFE4]"],
+  [class*="bg-[#FAF7F2]"], [class*="bg-[#F7F1E6]"]
+) {
+  background-color: rgba(14,27,48,.82) !important;
+  background-image: none !important;
+  border-color: rgba(200,157,82,.24) !important;
+}
+
+:root[data-layout="mistico-moderno"] [id$="-modal"] :is(
+  [class*="text-[#2A2420]"], [class*="text-[#2A2421]"]
+) { color: #F4F1EB !important; }
+
+:root[data-layout="mistico-moderno"] [id$="-modal"] :is(
+  [class*="text-[#5C5248]"], [class*="text-[#85786C]"], [class*="text-[#6B625B]"]
+) { color: #D8D4CA !important; }
+
+:root[data-layout="mistico-moderno"] [id$="-modal"] :is(
+  [class*="text-[#8F631E]"], [class*="text-[#B88736]"], [class*="text-[#71511C]"]
+) { color: #E2B96B !important; }
+
+:root[data-layout="mistico-moderno"] [id$="-modal"] :is(
+  [class*="border-[#E5DAC6]"], [class*="border-emerald-"], [class*="border-green-"]
+) { border-color: rgba(200,157,82,.28) !important; }
+
+:root[data-layout="mistico-moderno"] [id$="-modal"] :is(
+  [class*="bg-emerald-"], [class*="bg-green-"]
+) {
+  background-color: rgba(108,63,160,.16) !important;
+  background-image: none !important;
+  color: #F4F1EB !important;
+}
+
+:root[data-layout="mistico-moderno"] [id$="-modal"] :is(
+  [class*="text-emerald-"], [class*="text-green-"]
+) { color: #E2B96B !important; }
+
+:root[data-layout="mistico-moderno"] [id$="-modal"] :is(
+  button[class*="bg-emerald-"], button[class*="bg-green-"],
+  button[class*="bg-[#B88736]"], button[class*="bg-[#B88A36]"]
+) {
+  background: linear-gradient(135deg,#C89D52 0%,#E2B96B 55%,#A87E37 100%) !important;
+  border-color: rgba(226,185,107,.42) !important;
+  color: #07111F !important;
+  box-shadow: 0 8px 22px rgba(200,157,82,.14) !important;
+}
+
+:root[data-layout="mistico-moderno"] [id$="-modal"] :is(input,textarea,select) {
+  background: #101B31 !important;
+  border-color: rgba(200,157,82,.24) !important;
+  color: #F4F1EB !important;
+  caret-color: #E2B96B !important;
+}
+
+:root[data-layout="mistico-moderno"] [id$="-modal"] :is(input,textarea,select)::placeholder {
+  color: rgba(216,212,202,.54) !important;
+}
+
+:root[data-layout="mistico-moderno"] [id$="-modal"] button:focus-visible,
+:root[data-layout="mistico-moderno"] button:focus-visible {
+  outline: 2px solid #E2B96B !important;
+  outline-offset: 3px;
+}
+
+:root[data-layout="mistico-moderno"] #journal-dashboard-view :is(
+  [class*="bg-white"], [class*="bg-[#FBF8F2]"], [class*="bg-[#F5EFE4]"]
+) {
+  background: linear-gradient(145deg, rgba(20,29,58,.94), rgba(14,27,48,.92)) !important;
+  border-color: rgba(200,157,82,.22) !important;
+  color: #F4F1EB !important;
+}
+
+:root[data-layout="mistico-moderno"] #journal-dashboard-view :is(
+  [class*="text-[#2A2420]"], [class*="text-[#5C5248]"], [class*="text-[#85786C]"]
+) { color: #D8D4CA !important; }
+
+:root[data-layout="mistico-moderno"] #journal-dashboard-view :is(
+  [class*="text-emerald-"], [class*="text-green-"]
+) { color: #E2B96B !important; }
+
+:root[data-layout="mistico-moderno"] #journal-dashboard-view :is(
+  [class*="bg-emerald-"], [class*="bg-green-"]
+) {
+  background: rgba(108,63,160,.16) !important;
+  border-color: rgba(200,157,82,.26) !important;
+}
+
+:root[data-layout="mistico-moderno"] #journal-dashboard-view button[class*="bg-emerald-"],
+:root[data-layout="mistico-moderno"] #journal-dashboard-view button[class*="bg-green-"] {
+  background: linear-gradient(135deg,#C89D52 0%,#E2B96B 55%,#A87E37 100%) !important;
+  color: #07111F !important;
+}
+
+:root[data-layout="mistico-moderno"] .ep-mistico-voice-lock {
+  background: rgba(7,17,31,.78) !important;
+  border-color: rgba(200,157,82,.30) !important;
+  color: #F4F1EB !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root[data-layout="mistico-moderno"] [id$="-modal"] *,
+  :root[data-layout="mistico-moderno"] #journal-dashboard-view * {
+    transition-duration: .01ms !important;
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+  }
+}
