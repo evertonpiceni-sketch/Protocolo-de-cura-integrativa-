@@ -70,16 +70,16 @@
 /* “Como estou agora” mantém o significado positivo, mas integra o esmeralda à noite sofisticada. */
 :root[data-layout="mistico-moderno"] #journal-dashboard-view [class*="border-emerald-200"][class*="bg-emerald-50"] {
   background: linear-gradient(135deg, rgba(7, 69, 62, .30), rgba(17, 27, 58, .82)) !important;
-  border-color: rgba(73, 190, 158, .30) !important;
+  border-color: rgba(23, 107, 91, .32) !important;
 }
 
 :root[data-layout="mistico-moderno"] #journal-dashboard-view :is([class*="text-emerald-700"],[class*="text-emerald-800"]) {
-  color: #A9E2CF !important;
+  color: #B7D9D0 !important;
 }
 
 :root[data-layout="mistico-moderno"] #journal-dashboard-view [class*="border-emerald-200"][class*="bg-white"] {
   background-color: rgba(9, 50, 49, .52) !important;
-  border-color: rgba(73, 190, 158, .26) !important;
+  border-color: rgba(23, 107, 91, .28) !important;
 }
 
 @media (max-width: 640px) {
