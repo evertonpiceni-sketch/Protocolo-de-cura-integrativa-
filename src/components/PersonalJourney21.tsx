@@ -38,6 +38,7 @@ export default function PersonalJourney21({ onClose, initialCompletedDays, onCom
   useDialogFocus(showScript, scriptRef, () => setShowScript(false));
   const wakeLockRef = useRef<any>(null);
   const playingRef = useRef(false);
+  const endedRef = useRef(false);
   const [completed, setCompleted] = useState<number[]>(() => {
     if (Array.isArray(initialCompletedDays)) {
       return [...new Set(initialCompletedDays)].filter(day => day >= 1 && day <= 21).sort((a,b) => a-b);
@@ -80,6 +81,7 @@ export default function PersonalJourney21({ onClose, initialCompletedDays, onCom
   };
   const stopSession = () => {
     sessionActiveRef.current = false;
+    endedRef.current = false;
     playingRef.current = false; clearVoice(); musicRef.current?.pause();
     if ('mediaSession' in navigator) navigator.mediaSession.playbackState = 'paused';
     releaseWakeLock(); setPlaying(false);
@@ -195,9 +197,10 @@ export default function PersonalJourney21({ onClose, initialCompletedDays, onCom
         artist: 'Everton Piceni · Reintegração da Vida',
         album: '21 Dias para Voltar para Mim'
       });
-      navigator.mediaSession.playbackState = playing ? 'playing' : 'paused';
+      navigator.mediaSession.playbackState = endedRef.current ? 'none' : playing ? 'playing' : 'paused';
       navigator.mediaSession.setActionHandler('play', () => {
         if (!active || !sessionActiveRef.current) return;
+        endedRef.current = false;
         playingRef.current = true; setPlaying(true);
         void requestWakeLock();
         void musicRef.current?.play().catch(() => undefined);
@@ -212,7 +215,7 @@ export default function PersonalJourney21({ onClose, initialCompletedDays, onCom
         const music = musicRef.current; if (!music) return;
         const target = Math.max(0, music.currentTime - 15); clearVoice(); music.currentTime = target;
         const currentCue = item.audioCues.reduce((last, cue, index) => cue.at <= target + .5 ? index : last, -1);
-        lastCueRef.current = currentCue - 1; void playCueForTime(target);
+        endedRef.current = false; lastCueRef.current = currentCue - 1; void playCueForTime(target);
       });
     } catch { /* Media Session is an enhancement; playback remains functional without it. */ }
     return () => {
@@ -229,6 +232,7 @@ export default function PersonalJourney21({ onClose, initialCompletedDays, onCom
 
   const startGuidedMeditation = async () => {
     if (!accepted) return;
+    endedRef.current = false;
     sessionActiveRef.current = true;
     // Defensive guard against global audio being reactivated by the same click/touch gesture.
     audioEngine.stopBG();
@@ -260,7 +264,7 @@ export default function PersonalJourney21({ onClose, initialCompletedDays, onCom
     const music = musicRef.current; if (!music) return;
     const target = Math.max(0, music.currentTime - 15); clearVoice(); music.currentTime = target;
     const currentCue = item.audioCues.reduce((last, cue, index) => cue.at <= target + .5 ? index : last, -1);
-    lastCueRef.current = currentCue - 1; void playCueForTime(target);
+    endedRef.current = false; lastCueRef.current = currentCue - 1; void playCueForTime(target);
   };
 
   const complete = () => {
@@ -276,7 +280,7 @@ export default function PersonalJourney21({ onClose, initialCompletedDays, onCom
     <div className="ep-reintegration-logo pointer-events-none fixed right-4 top-4 z-20 h-14 w-14 sm:right-6 sm:top-6 sm:h-16 sm:w-16"><img src={APPROVED_LOGO_DATA_URI} alt="" aria-hidden="true" className="h-full w-full object-contain opacity-30" /></div>
     <audio ref={musicRef} src={REINTEGRATION_MUSIC_URL} preload="auto" playsInline
       onTimeUpdate={event => { const audio=event.currentTarget; if(Number.isFinite(audio.duration)&&audio.duration>0)setAudioProgress((audio.currentTime/audio.duration)*100); void playCueForTime(audio.currentTime); }}
-      onEnded={() => { clearVoice(); playingRef.current=false; setPlaying(false); setAudioProgress(100); releaseWakeLock(); if ('mediaSession' in navigator) navigator.mediaSession.playbackState='none'; }}/>
+      onEnded={() => { endedRef.current=true; clearVoice(); playingRef.current=false; setPlaying(false); setAudioProgress(100); releaseWakeLock(); if ('mediaSession' in navigator) navigator.mediaSession.playbackState='none'; }}/>
     <main className="mx-auto w-full max-w-[620px]">
       <div className="ep-reintegration-top-actions mb-4 flex flex-wrap items-center justify-between gap-2">
         <button onClick={() => { stopSession(); onClose(); }} className="ep-reintegration-top-button flex items-center gap-2 rounded-full border border-[#E5DAC6] bg-white/80 px-4 py-2 text-sm font-semibold text-[#524842] shadow-[0_10px_24px_rgba(0,0,0,.06)] backdrop-blur-md"><ArrowLeft size={17}/>Voltar ao início</button>
