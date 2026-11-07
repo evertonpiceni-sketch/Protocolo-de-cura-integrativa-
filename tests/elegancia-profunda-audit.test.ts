@@ -115,3 +115,36 @@ test('as telas de Anamnese e oração usam a paleta específica do Estilo 2', ()
   assert.ok(main.includes("import './elegancia-profunda-prayer-audit.css'"));
 });
 
+
+
+test('o Estilo 2 não substitui silenciosamente a voz neural escolhida por uma voz padrão', () => {
+  const home = read('src/components/TransformationHome.tsx');
+  const settings = read('src/components/AudioSettingsModal.tsx');
+  assert.ok(home.includes("isElevenLabsVoiceId(savedVoiceId) ? savedVoiceId : ''"));
+  assert.ok(!home.includes('isElevenLabsVoiceId(savedVoiceId) ? savedVoiceId : OFFICIAL_PROTOCOL_VOICE_ID'));
+  assert.ok(settings.includes('if (requiresNeuralVoice && !isElevenLabsVoiceId(voiceId))'));
+});
+
+test('a Reintegração mantém o áudio neural dedicado aprovado e não recupera voz nativa', () => {
+  const journey = read('src/components/PersonalJourney21.tsx');
+  const api = read('api/index.ts');
+  assert.ok(journey.includes("fetch('/api/reintegration-tts'"));
+  assert.ok(api.includes('const REINTEGRATION_VOICE_ID = "21m00Tcm4TlvDq8ikWAM";'));
+  assert.ok(!journey.includes('speechSynthesis'));
+  assert.ok(journey.includes('Voz neural dedicada'));
+});
+
+test('a Reintegração recebe o tratamento isolado do Estilo 2 e mantém a assinatura transparente', () => {
+  const journey = read('src/components/PersonalJourney21.tsx');
+  const css = read('src/elegancia-profunda-approved-overrides.css');
+  const visual = read('src/components/ReintegrationPresenceVisual.tsx');
+  assert.ok(journey.includes('data-ep-reintegration="true"'));
+  assert.ok(journey.includes('ep-reintegration-logo'));
+  assert.ok(journey.includes('opacity-30'));
+  assert.ok(!journey.includes('bg-[#F8F4EC]/35 opacity-30 shadow-'));
+  assert.ok(css.includes(':root[data-layout="elegancia-profunda"] [data-ep-reintegration="true"]'));
+  assert.ok(css.includes('.ep-reintegration-running-glow'));
+  assert.ok(css.includes('rgba(3,20,14'));
+  assert.ok(visual.includes('data-visual-fallback="approved-human"'));
+  assert.ok(journey.includes('data-journey-days="21"'));
+});
