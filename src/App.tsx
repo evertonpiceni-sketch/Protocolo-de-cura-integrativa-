@@ -2646,7 +2646,11 @@ export default function App() {
 
       {/* Notificação / Toast Diário em Tempo Real */}
       {inAppToast && (
-        <div className="fixed top-5 right-5 z-50 max-w-sm p-4 rounded-2xl bg-gradient-to-br from-indigo-950 via-slate-900 to-purple-950 border-2 border-amber-500/50 shadow-2xl animate-fade-in flex items-start gap-3">
+        <div
+          role="status"
+          aria-live="polite"
+          className="ep-app-toast fixed top-5 right-5 z-50 max-w-sm p-4 rounded-2xl bg-gradient-to-br from-indigo-950 via-slate-900 to-purple-950 border-2 border-amber-500/50 shadow-2xl animate-fade-in flex items-start gap-3"
+        >
           <Sparkles className="w-5 h-5 text-amber-400 shrink-0 mt-0.5 animate-pulse" />
           <div className="flex-1 space-y-1">
             <h4 className="text-xs font-bold text-[#2A2420]">{inAppToast.title}</h4>
