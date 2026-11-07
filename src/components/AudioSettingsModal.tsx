@@ -188,6 +188,7 @@ export default function AudioSettingsModal({
       audioEngine.startBG(bgMusicType);
     } else if (allowBackgroundPlayback && isEssenciaLuminosa) {
       // A frequência tonal não deve tocar junto com a narração neural.
+      setIsPlayingBioactivePreview(false);
       audioEngine.stopBG();
     }
 
