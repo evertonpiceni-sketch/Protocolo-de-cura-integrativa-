@@ -20,8 +20,8 @@
 - O componente legado `naturalSerenoHomeApprovedModel.ts` permanece porque contém lógica de estado e atualização da Home. Seus estilos visuais antigos estão subordinados aos overrides finais de maior especificidade; removê-lo integralmente exigiria separar lógica e apresentação e não é necessário para esta correção pontual.
 
 ## Pendente
-- Aguardar a execução de CI no commit desta rodada. A última execução disponível, run `1493`, aprovou TypeScript, testes, build, entrypoints, verificações de segredo/JWT/autenticação, smoke tests e endpoints; falhou somente no gate `npm audit`, ainda com **9 vulnerabilidades (3 moderadas e 6 altas)**.
-- Homologação renderizada página por página em navegador desktop/mobile continua pendente. A prévia anterior da Vercel foi bloqueada pelo limite diário de deployments; não há captura atual do branch.
+- A execução `1499` (commit de código `dd6941e`) aprovou TypeScript, **113/113 testes**, build, entrypoints, verificações de segredo/JWT/autenticação, smoke tests e endpoints de pagamento. Falhou somente no gate `npm audit`, ainda com **9 vulnerabilidades (3 moderadas e 6 altas)**. O commit mais recente `86d6619` acrescenta apenas este relatório, sem alterar código.
+- Homologação renderizada página por página em navegador desktop/mobile continua pendente. O status Vercel do branch permanece em falha por limite diário de deployments (`api-deployments-free-per-day`); não há captura atual do branch.
 - Reprodução real da voz e da ambiência ainda precisa ser ouvida no navegador.
 - O checkout foi coberto por testes com provedor simulado; ainda falta teste de ponta a ponta em ambiente de teste da InfinitePay, sem cobrança real.
 
