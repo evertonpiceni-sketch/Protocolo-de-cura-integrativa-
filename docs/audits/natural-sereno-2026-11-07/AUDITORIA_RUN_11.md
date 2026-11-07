@@ -28,3 +28,13 @@ Referência visual examinada: prancha enviada nesta solicitação, `1001196520.p
 
 - Correções isoladas em `audit/estilo-1-natural-sereno-2026-11-07-mainline`, criada a partir de `main`.
 - A antiga `integracao-infinitepay-protocolo` está divergente e muito atrás da árvore atual; não foi alterada nem usada como base.
+
+## CI após o PR #52
+
+- TypeScript check: passou.
+- O novo teste de ownership do Arcanjo/Solfeggio: passou.
+- Suíte geral: 91/97 testes passaram; 6 falharam em asserções já existentes de Estilos 2 e 3 (prévia base64 do Estilo 2 e expectativas antigas de voz em `TransformationHome`, `AudioSettingsModal` e `App`). Nenhum dos arquivos dessas asserções foi alterado nesta PR.
+- `npm audit`: 9 vulnerabilidades reportadas (3 moderadas, 6 altas); o workflow encerrou em falha e pulou build/smoke tests.
+- O preview Vercel também retornou `build-rate-limit`; não houve deploy de prévia nesta rodada.
+
+Portanto, a correção específica de áudio foi verificada pelo teste novo e pelo TypeScript, mas o PR não está homologado integralmente. As falhas da suíte de outros estilos e as vulnerabilidades de dependências precisam ser tratadas separadamente, sem misturar uma atualização ampla de dependências a esta correção do Estilo 1.
