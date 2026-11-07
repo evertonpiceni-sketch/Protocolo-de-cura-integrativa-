@@ -5,6 +5,7 @@ import { UserAccount } from '../types';
 import { APPROVED_LOGO_DATA_URI } from './ApprovedBrand';
 import { normalizeBrazilianNationalPhone } from '../utils/phone';
 import { getLocalDateString } from '../utils/date';
+import { OFFICIAL_PROTOCOL_VOICE_ID } from '../lib/audio';
 
 const formatBrazilianPhone = (value: string) => {
   const digits = normalizeBrazilianNationalPhone(value);
@@ -42,15 +43,13 @@ export default function ProfileSetup({ onComplete }: ProfileSetupProps) {
   const [voiceChoice, setVoiceChoice] = useState<'masculina' | 'feminina'>('masculina');
   const [isPlayingPreview, setIsPlayingPreview] = useState<boolean>(false);
   const [loadingVoiceType, setLoadingVoiceType] = useState<'masculina' | 'feminina' | null>(null);
+  const [voicePreviewError, setVoicePreviewError] = useState(false);
   const previewAudioRef = useRef<HTMLAudioElement | null>(null);
 
   const stopVoicePreview = () => {
     if (previewAudioRef.current) {
       previewAudioRef.current.pause();
       previewAudioRef.current = null;
-    }
-    if (typeof window !== 'undefined' && 'speechSynthesis' in window) {
-      window.speechSynthesis.cancel();
     }
     setIsPlayingPreview(false);
     setLoadingVoiceType(null);
@@ -62,106 +61,72 @@ export default function ProfileSetup({ onComplete }: ProfileSetupProps) {
       return;
     }
 
+    setVoicePreviewError(false);
     setLoadingVoiceType(gender);
-    const sampleText = gender === 'masculina'
-      ? "Olá. Que bom ter você aqui. Este é o seu espaço de cuidado, presença e reconexão."
-      : "Olá. Que bom ter você aqui. Permita-se receber este momento de calma, presença e acolhimento.";
 
-    try {
-      // The sample must work before login without opening the authenticated TTS API.
-      if (gender === 'masculina') {
+    if (gender === 'masculina') {
+      try {
         const audio = new Audio('/brand/natural-sereno/voz-masculina-amostra.mp3');
         previewAudioRef.current = audio;
         audio.onended = stopVoicePreview;
-        audio.onerror = stopVoicePreview;
+        audio.onerror = () => {
+          setVoicePreviewError(true);
+          stopVoicePreview();
+        };
         await audio.play();
         setIsPlayingPreview(true);
         setLoadingVoiceType(null);
-        return;
+      } catch (error) {
+        console.warn('Male voice preview could not be played', error);
+        setVoicePreviewError(true);
+        stopVoicePreview();
       }
+      return;
+    }
+
+    const sampleText = 'Olá. Que bom ter você aqui. Permita-se receber este momento de calma, presença e acolhimento.';
+    let previewUrl: string | null = null;
+
+    try {
       const response = await fetch('/api/elevenlabs/tts', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           text: sampleText,
-          voiceId: 'Rachel',
+          voiceId: OFFICIAL_PROTOCOL_VOICE_ID,
           stability: 0.45,
           similarityBoost: 0.75
         })
       });
 
-      if (response.ok) {
-        const blob = await response.blob();
-        const url = URL.createObjectURL(blob);
-        const audio = new Audio(url);
-        previewAudioRef.current = audio;
-
-        audio.onended = () => {
-          setIsPlayingPreview(false);
-          setLoadingVoiceType(null);
-        };
-        audio.onerror = () => {
-          setIsPlayingPreview(false);
-          setLoadingVoiceType(null);
-        };
-
-        await audio.play();
-        setIsPlayingPreview(true);
-        setLoadingVoiceType(null);
-        return;
-      }
-    } catch (e) {
-      console.warn("ElevenLabs preview fallback to native TTS", e);
-    }
-
-    // Fallback Web Speech
-    if (typeof window !== 'undefined' && 'speechSynthesis' in window) {
-      const utterance = new SpeechSynthesisUtterance(sampleText);
-      utterance.lang = 'pt-BR';
-      const voices = window.speechSynthesis.getVoices();
-      
-      const ptVoices = voices.filter(v => v.lang.startsWith('pt') || v.lang.includes('BR'));
-      if (gender === 'feminina') {
-        const femaleVoice = ptVoices.find(v => 
-          v.name.toLowerCase().includes('female') || 
-          v.name.toLowerCase().includes('maria') || 
-          v.name.toLowerCase().includes('francisca') || 
-          v.name.toLowerCase().includes('luciana') || 
-          v.name.toLowerCase().includes('leticia') || 
-          v.name.toLowerCase().includes('victoria') ||
-          v.name.toLowerCase().includes('zira')
-        ) || ptVoices[0];
-        if (femaleVoice) utterance.voice = femaleVoice;
-        utterance.pitch = 1.05;
-        utterance.rate = 0.88;
-      } else {
-        const maleVoice = ptVoices.find(v => 
-          v.name.toLowerCase().includes('male') || 
-          v.name.toLowerCase().includes('antonio') || 
-          v.name.toLowerCase().includes('felipe') || 
-          v.name.toLowerCase().includes('daniel') || 
-          v.name.toLowerCase().includes('ricardo') ||
-          v.name.toLowerCase().includes('david')
-        ) || ptVoices[0];
-        if (maleVoice) utterance.voice = maleVoice;
-        utterance.pitch = 0.92;
-        utterance.rate = 0.86;
+      if (!response.ok) {
+        throw new Error(`ElevenLabs preview returned ${response.status}`);
       }
 
-      utterance.onend = () => {
-        setIsPlayingPreview(false);
-        setLoadingVoiceType(null);
+      const blob = await response.blob();
+      if (!blob.size) throw new Error('ElevenLabs returned an empty audio preview');
+
+      previewUrl = URL.createObjectURL(blob);
+      const audio = new Audio(previewUrl);
+      previewAudioRef.current = audio;
+      audio.onended = () => {
+        if (previewUrl) URL.revokeObjectURL(previewUrl);
+        stopVoicePreview();
       };
-      utterance.onerror = () => {
-        setIsPlayingPreview(false);
-        setLoadingVoiceType(null);
+      audio.onerror = () => {
+        if (previewUrl) URL.revokeObjectURL(previewUrl);
+        setVoicePreviewError(true);
+        stopVoicePreview();
       };
 
-      window.speechSynthesis.speak(utterance);
+      await audio.play();
       setIsPlayingPreview(true);
       setLoadingVoiceType(null);
-    } else {
-      setLoadingVoiceType(null);
+    } catch (error) {
+      if (previewUrl) URL.revokeObjectURL(previewUrl);
+      console.warn('ElevenLabs preview failed; browser speech fallback is disabled', error);
+      setVoicePreviewError(true);
+      stopVoicePreview();
     }
   };
 
@@ -714,6 +679,11 @@ export default function ProfileSetup({ onComplete }: ProfileSetupProps) {
                   </div>
                 </div>
               </div>
+              {voicePreviewError && (
+                <p role="alert" className="text-[10px] leading-5 text-[#8F631E]">
+                  Não foi possível reproduzir a amostra neural agora. A voz do navegador não será usada como substituta.
+                </p>
+              )}
             </div>
 
             <div className="space-y-2 pt-2">
