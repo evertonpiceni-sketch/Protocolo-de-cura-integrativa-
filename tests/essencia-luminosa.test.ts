@@ -265,3 +265,21 @@ test('o botão Tratamento do dock principal não herda o gradiente verde no Esti
   assert.ok(css.includes('#bottom-btn-specific-treatment:hover'));
   assert.ok(css.includes('#bottom-btn-specific-treatment [class*="text-emerald-"]'));
 });
+
+test('nenhum tema oficial é aplicado antes da confirmação explícita', () => {
+  const theme = fs.readFileSync('src/approved-theme.css', 'utf8');
+  const profile = fs.readFileSync('src/components/ProfileSetup.tsx', 'utf8');
+  const app = fs.readFileSync('src/App.tsx', 'utf8');
+
+  assert.ok(theme.includes(':root[data-layout="natural-sereno"]{'));
+  assert.ok(!/:root,\\s*:root\\[data-layout="natural-sereno"\\]\\{/.test(theme));
+  assert.ok(theme.includes(':root:not([data-layout]){'));
+  assert.ok(theme.includes('--layout-accent:#85847B;'));
+  assert.ok(profile.includes('ep-auth-prestyle'));
+  assert.ok(!profile.includes('ep-auth-style-one'));
+  assert.ok(theme.includes('#profile-setup-view.ep-auth-prestyle'));
+  assert.ok(!theme.includes('#profile-setup-view.ep-auth-prestyle .ep-auth-nature-bg{background-image:url'));
+  assert.ok(app.includes('const [layoutConfirmedThisSession, setLayoutConfirmedThisSession] = useState(false);'));
+  assert.ok(app.includes('delete document.documentElement.dataset.layout;'));
+  assert.ok(app.includes('setLayoutConfirmedThisSession(true);'));
+});
