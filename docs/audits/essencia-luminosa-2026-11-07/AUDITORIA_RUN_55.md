@@ -19,10 +19,13 @@ Referência visual oficial: prancha 1001196521.png / file_0000000019d0820eb7a70b
 - As 21 folhas CSS específicas do Estilo 3 foram verificadas: 329 seletores encontrados e todos estão limitados a `data-layout="essencia-luminosa"` (incluindo regras dentro de media queries).
 - InfinitePay continua como checkout e confirmação server-side; não foi reintroduzida cópia manual de chave PIX. A antiga camada DOM de seleção não é montada; o seletor React segue como autoridade.
 
+## Validação após o commit
+- GitHub Actions no commit `e6112310a8d2bf894fb85ad1ed23c2816e39c679`: TypeScript check aprovado; testes `56/56` aprovados; build aprovado; verificações de entrypoints, autenticação/JWT, cadastro e endpoints de pagamento aprovadas.
+- O workflow geral continua vermelho no bloqueio final de dependências: `npm audit` identifica 9 vulnerabilidades (3 moderadas e 6 altas), envolvendo `body-parser`, `ip-address`, `qs`/ElevenLabs, `vite` e `zod` em dependências transitivas de Puppeteer. Não atualizei dependências fora do escopo para evitar regressões.
+- O check externo da Vercel permanece em falha por `build-rate-limit`; o build de CI passou, mas o deploy de produção não foi validado.
+
 ## Pendente
-- Executar novamente lint, testes e build após este commit; o resultado do GitHub Actions será conferido separadamente.
 - Teste real da voz neural em sessão autenticada/ElevenLabs e validação de volume, pausa e retomada em dispositivo.
 - Capturas renderizadas página por página em desktop e celular. A varredura desta rodada foi estática; não substitui a validação visual em runtime.
 - Teste de checkout/retorno InfinitePay em sandbox, sem transação real.
 - A prancha do seletor está presente, mas o diretório do Estilo 3 ainda não contém um conjunto próprio de fotografias de natureza para todas as páginas. Não importei imagens do Natural Sereno nem inventei assets; a integração visual de natureza aguarda imagens aprovadas para este estilo.
-- Revalidar o alerta de dependências no workflow de segurança, sem atualizar dependências fora do escopo nesta rodada.
