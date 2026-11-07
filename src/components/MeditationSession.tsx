@@ -354,7 +354,7 @@ export default function MeditationSession({
     <div id="meditation-session" data-session-phase={sessionPhase} className="ep-session fixed inset-0 z-50 bg-[#FAF7F2] text-[#2A2420] flex flex-col justify-between overflow-hidden select-none min-h-dvh">
       <div className="ep-session-backdrop absolute inset-0 pointer-events-none">
         <SacredEnergyCanvas
-          dayNumber={document.documentElement.dataset.layout === 'natural-sereno' ? dayNumber : undefined}
+          dayNumber={['natural-sereno', 'elegancia-profunda'].includes(document.documentElement.dataset.layout || '') ? dayNumber : undefined}
           stageId={currentStage.id}
           isPlaying={isPlaying}
           breathePhase={breathePhase}

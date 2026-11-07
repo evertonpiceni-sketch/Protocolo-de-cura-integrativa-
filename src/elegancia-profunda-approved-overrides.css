@@ -1,3 +1,13 @@
+/* O Estilo 2 não reutiliza a arte de fundo da Reintegração da Vida.
+   Até existir uma fotografia de natureza aprovada e própria do estilo, mantém profundidade verde sem improvisar imagem. */
+:root[data-layout="elegancia-profunda"] {
+  --ep-scene:none;
+  --ep-scene-overlay:
+    radial-gradient(ellipse at 16% 12%,rgba(212,175,55,.12),transparent 28rem),
+    radial-gradient(ellipse at 88% 34%,rgba(30,84,58,.26),transparent 34rem),
+    linear-gradient(180deg,#0a1b14 0%,#07140f 56%,#06110c 100%);
+}
+
 /* Elegância Profunda — camada visual aprovada.
    Isola o estilo de tratamentos claros/sálvia herdados sem alterar lógica ou conteúdo. */
 
@@ -82,6 +92,10 @@
 :root[data-layout="elegancia-profunda"] #meditation-session button:not([disabled]) { border-color:color-mix(in srgb,var(--layout-gold) 34%,transparent)!important; box-shadow:0 10px 28px rgba(0,0,0,.22); }
 :root[data-layout="elegancia-profunda"] #meditation-session button:focus-visible { outline:2px solid color-mix(in srgb,var(--layout-gold) 64%,white); outline-offset:3px; }
 
+:root[data-layout="elegancia-profunda"] #meditation-session .ep-session-backdrop > div:last-child {
+  background:radial-gradient(circle at 50% 38%,rgba(212,175,55,.10),rgba(3,18,13,.80) 76%)!important;
+}
+
 /* Diário de Reconexão. */
 :root[data-layout="elegancia-profunda"] #journal-dashboard-view { color:var(--layout-text)!important; }
 :root[data-layout="elegancia-profunda"] #journal-dashboard-view header,
@@ -124,8 +138,8 @@
 /* OnboardingFlow ativo — paisagem e superfícies próprias do Estilo 2. */
 :root[data-layout="elegancia-profunda"] .ep-care-onboarding {
   background:
-    linear-gradient(180deg,rgba(3,22,16,.42),rgba(2,17,12,.82)),
-    var(--ep-scene) center 44%/cover fixed no-repeat!important;
+    radial-gradient(ellipse at 50% 0,rgba(212,175,55,.12),transparent 24rem),
+    linear-gradient(180deg,#0b1c14 0%,#07150f 56%,#06110c 100%)!important;
   color:var(--layout-text)!important;
 }
 :root[data-layout="elegancia-profunda"] .ep-care-onboarding-card {
