@@ -397,7 +397,7 @@ export default function ProfileSetup({ onComplete }: ProfileSetupProps) {
           </div>
         )}
         {successMsg && (
-          <div className="bg-emerald-50 border border-emerald-200 text-emerald-700 text-xs p-3 rounded-xl text-center" id="auth-success">
+          <div className="bg-[#F7F3E8] border border-[#E5DAC6] text-[#5C5248] text-xs p-3 rounded-xl text-center" id="auth-success">
             {successMsg}
           </div>
         )}
@@ -498,7 +498,7 @@ export default function ProfileSetup({ onComplete }: ProfileSetupProps) {
               <div className="space-y-1.5">
                 <label htmlFor="reg-login" className="block text-xs font-sans text-[#5C5248] uppercase tracking-wider">Nome de usuário</label>
                 <div className="relative">
-                  <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-[#B88736]/80"><User size={16} /></div>
+                  <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-[#817460]/80"><User size={16} /></div>
                   <input id="reg-login" type="text" required autoComplete="username" value={regLogin} onChange={(e) => setRegLogin(e.target.value)} placeholder="ex: joaosilva" className="w-full min-h-12 bg-white border border-[#E5DAC6] focus:border-[#B88736] focus:ring-1 focus:ring-[#B88736]/30 text-[#2A2420] rounded-xl pl-10 pr-4 text-base transition outline-none placeholder-slate-600" />
                 </div>
               </div>
@@ -514,21 +514,21 @@ export default function ProfileSetup({ onComplete }: ProfileSetupProps) {
             <details className="group rounded-2xl border border-[#E5DAC6] bg-white/70">
               <summary className="flex min-h-12 cursor-pointer list-none items-center justify-between gap-3 p-4 text-sm font-semibold text-[#5C5248]">
                 <span className="flex items-center gap-2">
-                  <Sparkles size={16} className="text-amber-400" />
+                  <Sparkles size={16} className="text-[#A99B84]" />
                   Personalizar mapa, voz e frequência
                 </span>
-                <span className="text-xs text-[#8F631E] group-open:hidden">Opcional</span>
-                <span className="hidden text-xs text-[#8F631E] group-open:inline">Fechar</span>
+                <span className="text-xs text-[#817460] group-open:hidden">Opcional</span>
+                <span className="hidden text-xs text-[#817460] group-open:inline">Fechar</span>
               </summary>
               <div className="space-y-4 border-t border-[#E5DAC6] p-4">
             {/* Astral Map Data Section */}
             <div className="p-3.5 rounded-2xl bg-white/75 border border-[#E5DAC6] space-y-3">
               <div className="flex items-center justify-between">
-                <span className="text-[11px] font-sans uppercase tracking-wider text-[#8F631E] font-bold flex items-center gap-1.5">
-                  <Sparkles size={13} className="text-amber-400" />
+                <span className="text-[11px] font-sans uppercase tracking-wider text-[#817460] font-bold flex items-center gap-1.5">
+                  <Sparkles size={13} className="text-[#A99B84]" />
                   <span>Cálculo do seu Mapa Astral (Presente)</span>
                 </span>
-                <span className="text-[9px] font-sans px-2 py-0.5 rounded-full bg-[#B88736]/10 text-[#8F631E] border border-[#B88736]/25">
+                <span className="text-[9px] font-sans px-2 py-0.5 rounded-full bg-[#A99B84]/10 text-[#817460] border border-[#A99B84]/25">
                   Gratuito
                 </span>
               </div>
@@ -578,7 +578,7 @@ export default function ProfileSetup({ onComplete }: ProfileSetupProps) {
                 Possui Cupom do Terapeuta? (Opcional)
               </label>
               <div className="relative">
-                <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-amber-500/80">
+                <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-[#817460]">
                   <Tag size={16} />
                 </div>
                 <input
@@ -587,15 +587,15 @@ export default function ProfileSetup({ onComplete }: ProfileSetupProps) {
                   value={regCoupon}
                   onChange={(e) => setRegCoupon(e.target.value.toUpperCase())}
                   placeholder="Digite seu código de cupom aqui..."
-                  className="w-full bg-white border border-[#E5DAC6]/80 focus:border-amber-500 focus:ring-1 focus:ring-amber-500 text-amber-200 rounded-xl py-2.5 pl-10 pr-4 text-xs transition duration-150 outline-none uppercase font-sans placeholder-slate-600"
+                  className="w-full bg-white border border-[#E5DAC6]/80 focus:border-[#A99B84] focus:ring-1 focus:ring-[#A99B84] text-[#302E2A] rounded-xl py-2.5 pl-10 pr-4 text-xs transition duration-150 outline-none uppercase font-sans placeholder-slate-600"
                 />
               </div>
             </div>
 
             <div className="space-y-2 pt-1" id="voice-gender-selector">
               <div className="flex items-center justify-between">
-                <label className="block text-[10px] font-sans text-[#B88736] uppercase tracking-wider font-semibold flex items-center gap-1.5">
-                  <Volume2 size={13} className="text-[#B88736]" />
+                <label className="block text-[10px] font-sans text-[#817460] uppercase tracking-wider font-semibold flex items-center gap-1.5">
+                  <Volume2 size={13} className="text-[#817460]" />
                   <span>Voz da condução guiada</span>
                 </label>
                 <span className="text-[10px] text-[#5C5248]">Escolha a voz que mais acolhe seu coração</span>
@@ -627,7 +627,7 @@ export default function ProfileSetup({ onComplete }: ProfileSetupProps) {
                   </div>
 
                   <div className="mt-2.5 pt-2 border-t border-[#E5DAC6]/60 flex items-center justify-between">
-                    <span className="text-[9px] font-sans text-[#B88736] bg-[#B88736]/10 px-2 py-0.5 rounded">
+                    <span className="text-[9px] font-sans text-[#817460] bg-[#B88736]/10 px-2 py-0.5 rounded">
                       Tom Terapêutico Natural
                     </span>
                     <button
@@ -636,7 +636,7 @@ export default function ProfileSetup({ onComplete }: ProfileSetupProps) {
                         e.stopPropagation();
                         playVoicePreview('masculina');
                       }}
-                      className="px-2 py-1 rounded-lg bg-[#B88736]/30 hover:bg-[#B88736]/50 text-[#8F631E] border border-[#B88736]/30 text-[10px] flex items-center gap-1 transition cursor-pointer"
+                      className="px-2 py-1 rounded-lg bg-[#E4E0D7] hover:bg-[#D8D2C7] text-[#302E2A] border border-[#C9C2B7] text-[10px] flex items-center gap-1 transition cursor-pointer"
                     >
                       {loadingVoiceType === 'masculina' ? (
                         <>
@@ -645,12 +645,12 @@ export default function ProfileSetup({ onComplete }: ProfileSetupProps) {
                         </>
                       ) : isPlayingPreview && voiceChoice === 'masculina' ? (
                         <>
-                          <Square size={10} className="fill-amber-300 text-amber-300" />
+                          <Square size={10} className="fill-[#A99B84] text-[#817460]" />
                           <span>Pausar</span>
                         </>
                       ) : (
                         <>
-                          <Play size={10} className="fill-emerald-300 text-emerald-300" />
+                          <Play size={10} className="fill-[#A99B84] text-[#817460]" />
                           <span>Ouvir Amostra</span>
                         </>
                       )}
@@ -692,7 +692,7 @@ export default function ProfileSetup({ onComplete }: ProfileSetupProps) {
                         e.stopPropagation();
                         playVoicePreview('feminina');
                       }}
-                      className="px-2 py-1 rounded-lg bg-rose-50 hover:bg-rose-100 text-rose-700 border border-rose-300 text-[10px] flex items-center gap-1 transition cursor-pointer"
+                      className="px-2 py-1 rounded-lg bg-[#E4E0D7] hover:bg-[#D8D2C7] text-[#302E2A] border border-[#C9C2B7] text-[10px] flex items-center gap-1 transition cursor-pointer"
                     >
                       {loadingVoiceType === 'feminina' ? (
                         <>
@@ -701,12 +701,12 @@ export default function ProfileSetup({ onComplete }: ProfileSetupProps) {
                         </>
                       ) : isPlayingPreview && voiceChoice === 'feminina' ? (
                         <>
-                          <Square size={10} className="fill-amber-300 text-amber-300" />
+                          <Square size={10} className="fill-[#A99B84] text-[#817460]" />
                           <span>Pausar</span>
                         </>
                       ) : (
                         <>
-                          <Play size={10} className="fill-emerald-300 text-emerald-300" />
+                          <Play size={10} className="fill-[#A99B84] text-[#817460]" />
                           <span>Ouvir Amostra</span>
                         </>
                       )}
@@ -753,10 +753,10 @@ export default function ProfileSetup({ onComplete }: ProfileSetupProps) {
                 type="checkbox" 
                 id="lgpd-consent" 
                 required 
-                className="mt-0.5 shrink-0 bg-[#FBF8F2] border-[#E5DAC6] rounded text-[#8F631E] focus:ring-[#B88736]" 
+                className="mt-0.5 shrink-0 bg-[#FBF8F2] border-[#E5DAC6] rounded text-[#817460] focus:ring-[#B88736]" 
               />
               <label htmlFor="lgpd-consent" className="text-xs text-[#5C5248] leading-relaxed">
-                Declaro que li e concordo com os <a href="/termos.html" target="_blank" rel="noreferrer" className="text-[#B88736] underline underline-offset-2">Termos de Uso</a> e a <a href="/privacidade.html" target="_blank" rel="noreferrer" className="text-[#B88736] underline underline-offset-2">Política de Privacidade</a>.
+                Declaro que li e concordo com os <a href="/termos.html" target="_blank" rel="noreferrer" className="text-[#817460] underline underline-offset-2">Termos de Uso</a> e a <a href="/privacidade.html" target="_blank" rel="noreferrer" className="text-[#817460] underline underline-offset-2">Política de Privacidade</a>.
                 Autorizo o tratamento dos meus dados (incluindo anamnese) estritamente para 
                 a formulação de práticas integrativas, conforme a LGPD.
               </label>
