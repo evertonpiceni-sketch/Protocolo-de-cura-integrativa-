@@ -24,7 +24,7 @@ test('official protocol narration never silently falls back to browser TTS', asy
 
   try {
     for (const failure of ['service-fallback', 'network-error']) {
-      await t.test(`\u001b[0m${failure} reports the official voice error without invoking browser speech`, async () => {
+      await t.test(`${failure} reports the official voice error without invoking browser speech`, async () => {
         let release!: () => void;
         const gate = new Promise<void>(resolve => { release = resolve; });
         Object.defineProperty(globalThis, 'fetch', { configurable: true, value: async () => {
