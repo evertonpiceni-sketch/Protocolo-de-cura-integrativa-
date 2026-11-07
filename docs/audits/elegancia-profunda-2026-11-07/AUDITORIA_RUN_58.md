@@ -29,10 +29,10 @@ Base: 9e0fc17f38cddbd1e449514c88bda85dc2351e8e; preservada a atualização conco
 
 ## Validação e pendências
 - A alteração visual é restrita ao Estilo 2; os seletores começam por `:root[data-layout="elegancia-profunda"]`.
-- Testes automatizados e build serão conferidos pelo GitHub Actions após os commits.
-- Não houve teste visual em navegador nesta execução.
-- Permanecem pendentes: fotografia independente de natureza aprovada para a superfície global do Estilo 2; homologação visual em desktop/mobile; reprodução real da voz escolhida e de Solfeggio em dispositivos; transação controlada InfinitePay/webhook.
-- A auditoria de dependências do projeto permanece pendente devido às vulnerabilidades já registradas no RUN 57; não foram atualizadas dependências nesta correção.
+- GitHub Actions run `42362183295`: TypeScript check, testes de regressão (incluindo o novo teste do player), build, entrypoints Express, verificações de segredos/JWT/registro/admin e teste dos endpoints de pagamento passaram.
+- O job permanece reprovado apenas na etapa de auditoria de dependências: `npm audit --audit-level=moderate` encontrou 9 vulnerabilidades (3 moderadas e 6 altas) em `body-parser`, `ip-address`, `qs` (cadeia do ElevenLabs), `vite` e `zod`. Não atualizei dependências nem lockfile nesta correção para manter a alteração restrita ao Estilo 2.
+- Não houve teste visual em navegador nesta execução, nem confirmação de uma nova implantação Vercel.
+- Permanecem pendentes: fotografia independente de natureza aprovada para a superfície global do Estilo 2; homologação visual em desktop/mobile; reprodução real da voz escolhida e de Solfeggio em dispositivos; transação controlada InfinitePay/webhook; correção isolada das dependências vulneráveis.
 
 ## Arquivos alterados
 - `src/approved-theme.css`
