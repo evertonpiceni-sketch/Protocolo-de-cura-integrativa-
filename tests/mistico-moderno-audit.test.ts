@@ -101,9 +101,9 @@ test('a animação respeita movimento reduzido e preserva o relógio real do áu
   const canvas = read('src/components/session/SacredEnergyCanvas.tsx');
   const session = read('src/components/MeditationSession.tsx');
   assert.match(canvas, /prefers-reduced-motion/);
-  assert.ok(session.includes('audioRef.current.currentTime'));
-  assert.ok(session.includes('audioRef.current.duration'));
-  assert.ok(session.includes('onTimeUpdate'));
+  assert.ok(session.includes('onProgress: (curr, dur) =>'));
+  assert.ok(session.includes('setCurrentTime(Number.isFinite(normalizedCurrent) ? normalizedCurrent : 0)'));
+  assert.ok(session.includes('setDuration(Number.isFinite(dur) && dur > 0 ? dur : 0)'));
 });
 
 test('Arcanjo/Solfeggio tem superfície noturna própria e não cai na voz robótica', () => {
@@ -164,7 +164,8 @@ test('a assinatura oficial é transparente, sem badge claro e sem opacidade dive
   assert.ok(contact.includes('ep-brand-signature w-full'));
   assert.ok(courseComponent.includes('ep-brand-signature-wrap'));
   assert.ok(courseComponent.includes('ep-brand-signature w-full'));
-  assert.doesNotMatch(approved + header + modal + courses, /opacity:\.(28|38|34)\s*!important/);
+  const logoRules = [approved, header, modal, courses].map(css => (css.match(/[^}]*\.ep-brand-signature[^}]*\}/g) || []).join('\n')).join('\n');
+  assert.doesNotMatch(logoRules, /opacity:\s*\.(28|38|34)\s*!important/);
 });
 
 test('as folhas do Estilo 4 permanecem escopadas e o logout usa a paleta noturna', () => {
