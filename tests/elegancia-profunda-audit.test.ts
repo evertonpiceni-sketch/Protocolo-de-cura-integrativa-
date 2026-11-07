@@ -335,3 +335,23 @@ test('todas as folhas CSS do Estilo 2 permanecem isoladas do restante do sistema
     }
   }
 });
+
+test('o Wake Lock do player existe somente durante a reprodução e é liberado ao pausar ou concluir', () => {
+  const session = read('src/components/MeditationSession.tsx');
+  assert.ok(session.includes("if (sessionPhase !== 'playing' || !isPlaying) return;"));
+  assert.ok(session.includes('}, [isPlaying, sessionPhase]);'));
+  const wakeEffectStart = session.indexOf("if (sessionPhase !== 'playing' || !isPlaying) return;");
+  const wakeEffectEnd = session.indexOf('}, [isPlaying, sessionPhase]);', wakeEffectStart);
+  assert.ok(wakeEffectStart >= 0 && wakeEffectEnd > wakeEffectStart);
+  const wakeEffect = session.slice(wakeEffectStart, wakeEffectEnd);
+  assert.ok(wakeEffect.includes('if (releaseWakeLock) releaseWakeLock();'));
+  assert.ok(!wakeEffect.includes('audioEngine.stopSpeech()'), 'A limpeza do áudio não deve rodar a cada pausa/retomada.');
+});
+
+test('os títulos dos atalhos de cuidado mantêm contraste marfim no Estilo 2', () => {
+  const home = read('src/components/TransformationHome.tsx');
+  const css = read('src/elegancia-profunda-approved-overrides.css');
+  assert.ok(home.includes('careCards.map'));
+  assert.ok(css.includes(':root[data-layout="elegancia-profunda"] #journey-choices .grid.grid-cols-2 > button strong'));
+  assert.ok(css.includes('color:var(--ep-panel-text)!important'));
+});
