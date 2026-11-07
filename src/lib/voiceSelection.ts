@@ -21,3 +21,17 @@ export function isElevenLabsVoiceId(value: unknown): value is string {
   const voiceId = value.trim();
   return /^[A-Za-z0-9]{20}$/.test(voiceId) && !REJECTED_FALLBACK_VOICE_IDS.has(voiceId);
 }
+
+
+/**
+ * Natural Sereno uses the voice selected by the user (Maiara), never the
+ * legacy Marianne default or a browser voice alias. The exact Maiara ID is
+ * intentionally not guessed; a valid saved ElevenLabs ID must be preserved.
+ */
+const REJECTED_NATURAL_SERENO_VOICE_IDS = new Set([
+  'mJqP14JQFEK0PojR5lfV' // Marianne — Meditação, not the selected Maiara voice.
+]);
+
+export function isNaturalSerenoVoiceId(value: unknown): value is string {
+  return isElevenLabsVoiceId(value) && !REJECTED_NATURAL_SERENO_VOICE_IDS.has(value.trim());
+}
