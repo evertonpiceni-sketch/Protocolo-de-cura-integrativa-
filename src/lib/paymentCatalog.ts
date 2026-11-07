@@ -6,6 +6,10 @@ export const PAYMENT_PLANS = {
   semestral: { cents: 9990, days: 180, title: 'Plano Semestral' },
   anual: { cents: 15990, days: 365, title: 'Plano Anual' }
 } as const;
+
+/** Fixed, server-authoritative price for the individual complete numerology map. */
+export const NUMEROLOGY_FULL_PRICE_CENTS = 9000;
+
 export type Plan = keyof typeof PAYMENT_PLANS;
 export function paymentQuote(planId: string, coupon: string = '') {
   if (!Object.hasOwn(PAYMENT_PLANS, planId)) throw new Error('Plano inválido.');
