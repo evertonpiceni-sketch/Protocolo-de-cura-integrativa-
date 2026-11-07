@@ -78,23 +78,23 @@ export function paymentRoutes(authenticate: any, limiter: any, providerFetch: ty
     if (!order) return { status: 404, data: { error: 'Compra não encontrada.' } };
     const user = db.users.find(u => u.id === order.userId);
     if (!user) return { status: 404, data: { error: 'Conta não encontrada.' } };
+    const resolvedProductType = order.productType || (order.treatment ? 'specific_treatment' : 'subscription');
     if (!order.paidAt) {
       const verified = await provider('/payment_check', { handle: handle(), order_nsu, transaction_nsu, slug });
       if (verified.success !== true || verified.paid !== true || verified.amount !== order.cents) return { status: 202, data: { status: 'pending' } };
       if (order.paidAt) return { status: 200, data: userId ? { status: 'paid', user: { profile: user.profile } } : { success: true } };
       if (db.paymentOrders?.some(o => o.id !== order.id && o.transaction === transaction_nsu)) return { status: 409, data: { error: 'Transação já utilizada.' } };
+      if (resolvedProductType === 'specific_treatment' && !order.treatment) return { status: 400, data: { error: 'Dados da prática individual ausentes.' } };
+      if (resolvedProductType === 'subscription' && (!order.planId || !PAYMENT_PLANS[order.planId])) return { status: 400, data: { error: 'Plano da compra não encontrado.' } };
       const previous = { plan: user.plan, profile: user.profile };
       const now = new Date();
       order.paidAt = now.toISOString(); order.transaction = transaction_nsu;
-      const productType = order.productType || (order.treatment ? 'specific_treatment' : 'subscription');
-      if (productType === 'numerology_full') {
+      if (resolvedProductType === 'numerology_full') {
         user.profile = { ...user.profile, numerologyPurchased: true };
-      } else if (productType === 'specific_treatment' || order.treatment) {
-        if (!order.treatment) return { status: 400, data: { error: 'Dados da prática individual ausentes.' } };
-        user.profile = { ...user.profile, specificTreatments: [...(user.profile?.specificTreatments || []), order.treatment] };
+      } else if (resolvedProductType === 'specific_treatment') {
+        user.profile = { ...user.profile, specificTreatments: [...(user.profile?.specificTreatments || []), order.treatment!] };
       } else {
-        const plan = order.planId ? PAYMENT_PLANS[order.planId] : undefined;
-        if (!plan) return { status: 400, data: { error: 'Plano da compra não encontrado.' } };
+        const plan = PAYMENT_PLANS[order.planId!];
         user.plan = 'pro';
         user.profile = { ...user.profile, plan: 'pro', subscriptionPlan: order.planId,
           subscriptionPrice: order.cents / 100, subscriptionPaymentMethod: order.method,
