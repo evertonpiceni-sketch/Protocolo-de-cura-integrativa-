@@ -1,0 +1,73 @@
+/* Estilo 3 — Prática Individual. Neutraliza apenas a paleta herdada do componente-base. */
+html[data-layout="essencia-luminosa"] #specific-treatment-modal > div {
+  background:linear-gradient(145deg,#FFFFF8 0%,#F7F3E8 100%)!important;
+  border-color:#E8E0D2!important;
+  color:#2A2420!important;
+  box-shadow:0 24px 70px rgba(75,64,44,.12)!important;
+}
+html[data-layout="essencia-luminosa"] #specific-treatment-modal [class*="from-emerald-950"],
+html[data-layout="essencia-luminosa"] #specific-treatment-modal [class*="from-indigo-950"] {
+  background-image:linear-gradient(135deg,#F7F3E8 0%,#E9EEE6 100%)!important;
+}
+html[data-layout="essencia-luminosa"] #specific-treatment-modal [class*="bg-indigo-950"] {
+  background-color:#F7F3E8!important;
+}
+html[data-layout="essencia-luminosa"] #specific-treatment-modal [class*="bg-emerald-950"] {
+  background-color:#E9EEE6!important;
+  color:#46523F!important;
+}
+html[data-layout="essencia-luminosa"] #specific-treatment-modal [class*="bg-emerald-500/10"],
+html[data-layout="essencia-luminosa"] #specific-treatment-modal [class*="bg-emerald-500/20"] {
+  background-color:rgba(166,180,155,.18)!important;
+}
+html[data-layout="essencia-luminosa"] #specific-treatment-modal [class*="border-emerald"] {
+  border-color:#A6B49B!important;
+}
+html[data-layout="essencia-luminosa"] #specific-treatment-modal [class*="text-emerald"] {
+  color:#53664B!important;
+}
+html[data-layout="essencia-luminosa"] #specific-treatment-modal [class*="bg-amber-400"],
+html[data-layout="essencia-luminosa"] #specific-treatment-modal [class*="bg-amber-950/20"] {
+  background-color:#F3E9D8!important;
+}
+html[data-layout="essencia-luminosa"] #specific-treatment-modal [class*="border-amber"] {
+  border-color:#D7C49A!important;
+}
+html[data-layout="essencia-luminosa"] #specific-treatment-modal [class*="text-amber"] {
+  color:#8B744A!important;
+}
+html[data-layout="essencia-luminosa"] #specific-treatment-modal [class*="text-slate-950"] {
+  color:#6D5631!important;
+}
+html[data-layout="essencia-luminosa"] #specific-treatment-modal button[class*="bg-emerald-600"] {
+  background-image:linear-gradient(135deg,#E2C68E,#C6A46A)!important;
+  background-color:#C6A46A!important;
+  color:#2A2420!important;
+  border-color:#B99557!important;
+  box-shadow:0 8px 20px rgba(198,164,106,.18)!important;
+}
+html[data-layout="essencia-luminosa"] #specific-treatment-modal button[class*="bg-emerald-950/80"] {
+  background:#E9EEE6!important;
+  color:#46523F!important;
+  border-color:#A6B49B!important;
+  box-shadow:none!important;
+}
+html[data-layout="essencia-luminosa"] #specific-treatment-modal button[class*="hover:bg-emerald-500"]:hover {
+  background:#B99557!important;
+  color:#2A2420!important;
+}
+html[data-layout="essencia-luminosa"] #specific-treatment-modal button[class*="hover:bg-emerald-900"]:hover,
+html[data-layout="essencia-luminosa"] #specific-treatment-modal button[class*="hover:bg-slate-700"]:hover {
+  background:#DCE5D4!important;
+  color:#46523F!important;
+}
+html[data-layout="essencia-luminosa"] #specific-treatment-modal :is(button,input,textarea,select):focus-visible {
+  outline:2px solid #A6B49B;
+  outline-offset:2px;
+}
+@media(prefers-reduced-motion:reduce) {
+  html[data-layout="essencia-luminosa"] #specific-treatment-modal button {
+    transition:none!important;
+    transform:none!important;
+  }
+}
