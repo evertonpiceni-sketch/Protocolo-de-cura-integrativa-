@@ -119,18 +119,21 @@ test('Arcanjo no Natural Sereno usa superfícies marfim/café sem recolorir os c
 });
 
 
-test('telas de entrada do Natural Sereno preservam logo discreto e botões premium', () => {
+test('o acesso permanece neutro até a escolha explícita e o Natural Sereno não vaza para a pré-seleção', () => {
   const css = read('src/natural-sereno-approved-overrides.css');
   const base = read('src/natural-sereno.css');
+  const profile = read('src/components/ProfileSetup.tsx');
+  const theme = read('src/approved-theme.css');
   const main = read('src/main.tsx');
 
-  assert.ok(css.includes('#profile-setup-view.ep-auth-style-one #onboarding-card .ep-brand-signature'));
-  assert.ok(css.includes('opacity:.30!important'));
-  assert.ok(css.includes('border-radius:18px!important'));
-  assert.ok(css.includes('linear-gradient(180deg,#E2B96B 0%,#C89D52 55%,#A87E37 100%)'));
+  assert.ok(profile.includes('className="ep-auth-prestyle min-h-dvh'));
+  assert.ok(!profile.includes('ep-auth-style-one'));
+  assert.ok(theme.includes('#profile-setup-view.ep-auth-prestyle'));
+  assert.ok(!theme.includes('#profile-setup-view.ep-auth-prestyle .ep-auth-nature-bg{background-image:url'));
+  assert.ok(!base.includes('#profile-setup-view.ep-auth-style-one'));
+  assert.ok(!css.includes('#profile-setup-view.ep-auth-style-one'));
   assert.ok(css.includes('.ns-app :is(button,a).ns-gold'));
   assert.ok(css.includes('.ns-welcome-brand'));
   assert.ok(css.includes('.ep-care-onboarding-card .ep-brand-signature'));
-  assert.ok(base.includes('#profile-setup-view.ep-auth-style-one'));
   assert.ok(main.indexOf("import './natural-sereno-approved-overrides.css';") > main.indexOf("import './natural-sereno.css';"));
 });
