@@ -46,3 +46,60 @@
     border-radius: 1.25rem;
   }
 }
+
+
+/* Elegância Profunda — harmonização dos acentos dos modais compartilhados.
+   Corrige amber/emerald herdados sem alterar os estados semânticos nem os outros estilos. */
+:root[data-layout="elegancia-profunda"] :is(#astral-map-modal,#numerology-modal) :is([class*="bg-amber-50"],[class*="bg-emerald-50"]) {
+  background: color-mix(in srgb, var(--layout-card) 90%, black) !important;
+  border-color: color-mix(in srgb, var(--layout-gold) 32%, var(--layout-border-card)) !important;
+}
+
+:root[data-layout="elegancia-profunda"] :is(#astral-map-modal,#numerology-modal) :is([class*="border-amber-"],[class*="border-emerald-"]) {
+  border-color: color-mix(in srgb, var(--layout-gold) 30%, var(--layout-border-card)) !important;
+}
+
+:root[data-layout="elegancia-profunda"] :is(#astral-map-modal,#numerology-modal) :is([class*="text-amber-"],[class*="text-emerald-"],[class*="text-[#8F631E]"]) {
+  color: var(--layout-gold-light) !important;
+}
+
+:root[data-layout="elegancia-profunda"] :is(#astral-map-modal,#numerology-modal) [class*="text-[#2A2420]"] {
+  color: var(--layout-text) !important;
+}
+
+:root[data-layout="elegancia-profunda"] :is(#astral-map-modal,#numerology-modal) :is([class*="text-[#5C5248]"],[class*="text-[#85786C]"]) {
+  color: var(--layout-text-soft) !important;
+}
+
+/* Os quatro elementos mantêm sua leitura: fogo em ouro e terra em verde profundo. */
+:root[data-layout="elegancia-profunda"] #astral-map-modal [class~="bg-amber-500"] {
+  background-color: var(--layout-gold) !important;
+}
+
+:root[data-layout="elegancia-profunda"] #astral-map-modal [class~="bg-emerald-600"] {
+  background-color: var(--layout-accent) !important;
+}
+
+/* O contato continua sendo uma ação verde, agora no tom profundo do Estilo 2. */
+:root[data-layout="elegancia-profunda"] #astral-map-modal a[class~="bg-emerald-700"] {
+  background: linear-gradient(145deg, var(--layout-accent-light), var(--layout-accent)) !important;
+  border: 1px solid color-mix(in srgb, var(--layout-gold) 46%, transparent) !important;
+  color: var(--layout-text) !important;
+  box-shadow: 0 10px 26px rgba(0,0,0,.24) !important;
+}
+
+:root[data-layout="elegancia-profunda"] #astral-map-modal a[class~="hover:bg-emerald-800"]:hover {
+  background: linear-gradient(145deg, var(--layout-accent), color-mix(in srgb, var(--layout-accent) 76%, black)) !important;
+  border-color: color-mix(in srgb, var(--layout-gold) 62%, transparent) !important;
+}
+
+/* Feedback de salvamento continua semanticamente positivo, com contraste do tema escuro. */
+:root[data-layout="elegancia-profunda"] #astral-map-modal [role="status"] {
+  background: color-mix(in srgb, var(--layout-accent) 22%, var(--layout-card)) !important;
+  border-color: color-mix(in srgb, var(--layout-accent-light) 48%, var(--layout-border-card)) !important;
+  color: var(--layout-text) !important;
+}
+
+:root[data-layout="elegancia-profunda"] #astral-map-modal [role="status"] :is(svg,span) {
+  color: var(--layout-gold-light) !important;
+}
