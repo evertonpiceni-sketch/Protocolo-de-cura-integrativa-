@@ -228,6 +228,49 @@ test('checkout binds account, validates provider confirmation and grants only on
     assert.equal(unsafeLegacyRetry.status, 503);
     assert.equal(calls.length, callsBeforeUnsafeLegacyRetry, 'link legado sem pagamento único não deve ser duplicado');
 
+    // Uma prática legada pagável com conteúdo diferente também bloqueia novo link,
+    // evitando que um retry alterado deixe dois pedidos antigos e novos em aberto.
+    db.users.push({ id: 'different-legacy-treatment-owner', plan: 'free', profile: {} });
+    (db.paymentOrders ||= []).push({
+      id: 'different-legacy-treatment-order',
+      userId: 'different-legacy-treatment-owner',
+      treatment: {
+        id: 'different-legacy-treatment-id',
+        requestedAt: new Date().toISOString(),
+        durationDays: 7,
+        category: 'outro',
+        title: 'Prática individual — 7 dias',
+        patientDescription: 'Descrição anterior.',
+        urgentPains: [],
+        status: 'pendente',
+        price: 59.9,
+        paymentMethod: 'pix'
+      },
+      cents: 5990,
+      method: 'pix',
+      createdAt: new Date().toISOString(),
+      checkoutUrl: 'https://checkout.infinitepay.io/different-legacy-treatment',
+      checkoutPayload: {
+        handle: 'evertonterapeutareiki',
+        order_nsu: 'different-legacy-treatment-order',
+        redirect_url: 'https://example.com/?payment_order=different-legacy-treatment-order',
+        webhook_url: 'https://example.com/api/webhooks/payment',
+        items: [{ quantity: 1, price: 5990, description: 'Prática individual — 7 dias' }],
+        options: { single_payment: true }
+      }
+    });
+    const callsBeforeDifferentLegacyRetry = calls.length;
+    const differentLegacyRetry = await call('payment/create-checkout', {
+      productType: 'specific_treatment',
+      paymentMethod: 'pix',
+      durationDays: 7,
+      category: 'outro',
+      patientDescription: 'Descrição nova.',
+      urgentPains: []
+    }, 'different-legacy-treatment-owner');
+    assert.equal(differentLegacyRetry.status, 409);
+    assert.equal(calls.length, callsBeforeDifferentLegacyRetry, 'não abrir novo link enquanto houver prática legada diferente pendente');
+
     const body = { order_nsu: orderId, transaction_nsu: 'transaction', slug: 'slug' };
     assert.equal((await call('payment/confirm', body, 'other')).status, 404);
     assert.equal((await call('payment/confirm', body)).status, 202);
