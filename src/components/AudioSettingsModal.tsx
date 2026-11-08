@@ -193,14 +193,13 @@ export default function AudioSettingsModal({
     setIsTestingVoice(true);
     const testPhrase = `Olá, ${userProfile.name}. Esta é uma prévia da voz escolhida para acompanhar suas práticas com calma e presença.`;
 
-    const avoidsTonalVoiceOverlap = isEssenciaLuminosa || isMisticoModerno;
-    const shouldPlayVoiceBackground = !avoidsTonalVoiceOverlap
+    const shouldPlayVoiceBackground = !requiresNeuralVoice
       ? bgMusicType !== 'none'
       : audioEnabled && shouldPlayProtocolSessionBackground('playing', bgMusicType);
     if (allowBackgroundPlayback && shouldPlayVoiceBackground) {
       audioEngine.startBG(bgMusicType);
-    } else if (allowBackgroundPlayback && avoidsTonalVoiceOverlap) {
-      // Frequências tonais ficam pausadas durante a prévia neural nos Estilos 3 e 4.
+    } else if (allowBackgroundPlayback && requiresNeuralVoice) {
+      // Frequências tonais ficam pausadas durante a prévia neural nos quatro estilos com catálogo neural.
       setIsPlayingBioactivePreview(false);
       audioEngine.stopBG();
     }
