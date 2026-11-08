@@ -105,3 +105,15 @@ test('Natural Sereno bloqueia Solfeggio durante a prévia neural sem bloquear am
   assert.ok(settings.includes('if (isTrackBlockedDuringVoicePreview) return;'));
   assert.ok(policy.includes('export function isSolfeggioFrequency(bgMusicType: string): boolean'));
 });
+
+test('Arcanjo no Natural Sereno usa superfícies marfim/café sem recolorir os chakras', () => {
+  const css = read('src/natural-sereno-approved-overrides.css');
+  const arcanjo = read('src/components/ArcanjoProtocolView.tsx');
+  assert.ok(css.includes(':root[data-layout="natural-sereno"] #arcanjo-protocol-view .ep-forest-panel'));
+  assert.ok(css.includes('background:linear-gradient(145deg,#FFFDF8,#F3E8D5)!important'));
+  assert.ok(css.includes(':root[data-layout="natural-sereno"] #arcanjo-protocol-view [class*="bg-[#021b13]"]'));
+  assert.ok(css.includes(':root[data-layout="natural-sereno"] #arcanjo-protocol-view [class*="from-[#021b13]"]'));
+  assert.ok(arcanjo.includes('config.corSecundaria'));
+  assert.ok(arcanjo.includes('background:`radial-gradient(circle,${config.corSecundaria}cc'));
+  assert.ok(!/^\\s*#arcanjo-protocol-view/m.test(css), 'A correção deve permanecer exclusiva do Natural Sereno.');
+});
