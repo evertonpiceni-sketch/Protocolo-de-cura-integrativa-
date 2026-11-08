@@ -3,6 +3,45 @@ import fs from 'node:fs';
 import test from 'node:test';
 
 const read = (path: string) => fs.readFileSync(path, 'utf8');
+const splitSelectorList = (selectorList: string): string[] => {
+  const selectors: string[] = [];
+  let start = 0;
+  let parentheses = 0;
+  let brackets = 0;
+  let quote: string | null = null;
+  let escaped = false;
+
+  for (let index = 0; index < selectorList.length; index += 1) {
+    const char = selectorList[index];
+    if (escaped) {
+      escaped = false;
+      continue;
+    }
+    if (char === '\\') {
+      escaped = true;
+      continue;
+    }
+    if (quote) {
+      if (char === quote) quote = null;
+      continue;
+    }
+    if (char === "'" || char === '"') {
+      quote = char;
+      continue;
+    }
+    if (char === '(') parentheses += 1;
+    else if (char === ')') parentheses -= 1;
+    else if (char === '[') brackets += 1;
+    else if (char === ']') brackets -= 1;
+    else if (char === ',' && parentheses === 0 && brackets === 0) {
+      selectors.push(selectorList.slice(start, index).trim());
+      start = index + 1;
+    }
+  }
+
+  selectors.push(selectorList.slice(start).trim());
+  return selectors.filter(Boolean);
+};
 const ruleBody = (source: string, selector: string) => {
   const start = source.indexOf(selector);
   if (start < 0) return '';
@@ -56,7 +95,7 @@ test('o CTA estrutural do vídeo usa ouro e o estado mudo não herda rosa no Est
   assert.ok(css.includes('button[class*="bg-rose-500"] svg'));
 });
 
-test('as 21 folhas CSS ativas do Estilo 2 permanecem isoladas e a folha legada não é importada', () => {
+test('as 21 folhas CSS ativas do Estilo 2 mantêm cada seletor isolado e a folha legada não é importada', () => {
   const main = read('src/main.tsx');
   const imports = main.match(/import '\.\/elegancia-profunda-[^']+\.css';/g) ?? [];
 
@@ -66,11 +105,19 @@ test('as 21 folhas CSS ativas do Estilo 2 permanecem isoladas e a folha legada n
   for (const entry of imports) {
     const file = entry.match(/'\.\/(.+)'/)?.[1];
     assert.ok(file);
-    const css = read(`src/${file}`);
-    const selectors = [...css.matchAll(/([^{}]+)\{/g)]
+    const css = read('src/' + file).replace(/\/\*[\s\S]*?\*\//g, '');
+    const selectorGroups = [...css.matchAll(/([^{}]+)\{/g)]
       .map(match => match[1].trim())
-      .filter(selector => selector && !selector.startsWith('@') && !selector.startsWith('/*'));
-    const unscoped = selectors.filter(selector => !selector.includes('data-layout="elegancia-profunda"'));
-    assert.deepEqual(unscoped, [], `${file} deve permanecer restrito à Elegância Profunda.`);
+      .filter(selector => selector && !selector.startsWith('@'));
+
+    for (const group of selectorGroups) {
+      for (const selector of splitSelectorList(group)) {
+        assert.match(
+          selector,
+          /^(?::root|html)\[data-layout="elegancia-profunda"\]/,
+          file + ' contém seletor fora do escopo Elegância Profunda: ' + selector
+        );
+      }
+    }
   }
 });
