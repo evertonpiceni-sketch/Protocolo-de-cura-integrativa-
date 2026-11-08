@@ -108,9 +108,9 @@ test('Home Natural Sereno não mantém regras runtime antigas contraditórias', 
   assert.equal(count(':root[data-layout="natural-sereno"] .ns-greeting h1 {'), 1);
   assert.equal(count(':root[data-layout="natural-sereno"] .ns-greeting p {'), 1);
   assert.equal(count(':root[data-layout="natural-sereno"] .ns-home-message {'), 1);
-  assert.doesNotMatch(model, /margin-top:\\s*-34px|max-width:\\s*84%|min-height:\\s*405px/);
-  assert.match(model, /line-height:\\s*1\\.55 !important/);
-  assert.match(model, /align-self:\\s*center/);
+  assert.doesNotMatch(model, /margin-top:\s*-34px|max-width:\s*84%|min-height:\s*405px/);
+  assert.match(model, /line-height:\s*1\.55 !important/);
+  assert.match(model, /align-self:\s*center/);
 });
 
 test('salvar o Diário sem campos opcionais preserva sensações e gratidões existentes', () => {
