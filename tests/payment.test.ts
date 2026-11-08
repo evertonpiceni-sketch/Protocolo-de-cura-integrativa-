@@ -213,7 +213,7 @@ test('checkout binds account, validates provider confirmation and grants only on
         redirect_url: 'https://example.com/?payment_order=unsafe-legacy-treatment-order',
         webhook_url: 'https://example.com/api/webhooks/payment',
         items: [{ quantity: 1, price: 5990, description: 'Prática individual — 7 dias' }],
-        options: { single_payment: false }
+        options: {} as any
       }
     });
     const callsBeforeUnsafeLegacyRetry = calls.length;
