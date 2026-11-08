@@ -3,7 +3,7 @@ import { useDialogFocus } from '../hooks/useDialogFocus';
 import { Check } from 'lucide-react';
 import { OFFICIAL_LAYOUTS, LayoutDefinition, LayoutId } from '../config/layouts';
 
-// Prancha oficial do Natural Sereno. As amostras abaixo continuam refletindo a paleta aprovada posteriormente.
+// Referências visuais oficiais dos quatro estilos; paletas e tratamentos seguem as decisões aprovadas mais recentes.
 const NATURAL_SERENO_OFFICIAL_BOARD = new URL('../../docs/visual-qa/natural-sereno/reference.jpg', import.meta.url).href;
 
 interface LayoutChoiceModalProps {
