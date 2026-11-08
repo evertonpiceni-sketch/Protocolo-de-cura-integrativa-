@@ -14,7 +14,7 @@ test('Home Natural Sereno não injeta grandes chapas verdes nem CTA amarelo em p
 
 test('CTAs base do Natural Sereno usam dourado refinado, texto café e cantos de 18px', () => {
   const css = read('src/natural-sereno.css');
-  const goldBlock = css.match(/:root\[data-layout="natural-sereno"\]\s+\.ns-gold\s*\{([\s\S]*?)\n\}/)?.[1] ?? '';
+  const goldBlock = css.match(/:root\[data-layout="natural-sereno"\] \.ns-gold \{\s*border:[\s\S]*?\n\}/)?.[0] ?? '';
   assert.ok(goldBlock.includes('border-radius: 18px;'));
   assert.ok(goldBlock.includes('background: linear-gradient(180deg,#E2B96B 0%,#C89D52 100%);'));
   assert.ok(goldBlock.includes('color: #2A2421;'));
