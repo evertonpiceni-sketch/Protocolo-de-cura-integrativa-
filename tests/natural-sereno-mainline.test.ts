@@ -73,7 +73,10 @@ test('pagamento mantém apenas produtos atuais e checkout InfinitePay fail-close
   assert.ok(routes.includes("paymentQuote(planId, couponCode || '')"));
   assert.ok(routes.includes('specificTreatmentQuote(durationDays, code)'));
   assert.ok(!routes.includes('numerology_full'));
-  assert.ok(!routes.includes('numerologyPurchased'));
+  assert.ok(routes.includes("planId === 'semestral' || planId === 'anual'"));
+  assert.ok(routes.includes("order.benefitChoice === 'numerology'"));
+  assert.ok(routes.includes('numerologyPurchased: true'));
+  assert.ok(!catalog.includes('numerology_full'));
   assert.ok(catalog.includes('jornada_7d'));
   assert.ok(catalog.includes('jornada_21d'));
   assert.ok(catalog.includes('5990'));

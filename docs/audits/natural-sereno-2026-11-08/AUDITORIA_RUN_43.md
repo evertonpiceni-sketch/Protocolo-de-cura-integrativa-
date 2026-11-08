@@ -61,3 +61,12 @@
 6. Revisão/limpeza da variável plain de preview da branch antiga, após confirmar que não há dependência operacional.
 
 **Conclusão:** a integração foi reconciliada sem recuperar versões reprovadas; a sincronização agora permanece tentando por uma janela superior ao timeout do provedor. A homologação visual, auditiva e financeira continua pendente. Nenhuma publicação em produção foi realizada.
+
+
+## Reauditoria do primeiro CI após a integração
+
+- Execução #1773: `npm audit` aprovado e TypeScript aprovado.
+- Testes: 167/168 aprovados. A única falha foi uma asserção antiga de `tests/natural-sereno-mainline.test.ts` que proibia qualquer ocorrência de `numerologyPurchased`.
+- A decisão posterior da main permite esse entitlement exclusivamente quando o plano Semestral/Anual tem escolha explícita e o pagamento é confirmado. O checkout avulso `numerology_full` continua removido.
+- Atualizada a asserção para verificar a origem restrita do entitlement e manter a proibição do produto avulso.
+- Nova execução CI aguardando após este commit.
