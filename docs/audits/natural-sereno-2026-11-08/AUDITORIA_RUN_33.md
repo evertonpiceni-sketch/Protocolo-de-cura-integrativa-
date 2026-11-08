@@ -56,8 +56,8 @@ A camada Natural Sereno mantém regras escopadas ao atributo `data-layout="natur
 
 ## Evidência
 
-- O head anterior tinha CI completo aprovado (npm audit 0, TypeScript, build, segurança e testes); esta branch RUN 33 precisa de execução própria após o novo commit.
-- O review automatizado apontou dois itens P1: API Key ausente no ambiente e múltiplos links de assinatura pendentes. O segundo foi corrigido nesta rodada; o primeiro é configuração externa obrigatória antes de qualquer publicação.
+- A execução GitHub Actions **#1668**, no head `4d49a4f3be7c20ee48d93469e8a863abe0c01455`, concluiu com sucesso: `npm audit` encontrou **0 vulnerabilidades**; TypeScript, build, entry points Vercel, verificação de segredos/JWT, proteção administrativa, smoke tests e endpoints de pagamento aprovados; **136/136 testes aprovados**.
+- O review automatizado apontou três pontos P1 ao longo da rodada: API Key ausente no ambiente, múltiplos links de assinatura pendentes e snapshot Redis desatualizado entre instâncias. Os dois problemas de código foram corrigidos; os respectivos tópicos de revisão foram tratados. A API Key continua sendo configuração externa obrigatória antes de qualquer publicação.
 - Não houve merge, deploy de produção, transação real, cobrança ou estorno.
 
-**Critério:** não mesclar nem publicar enquanto o segredo InfinitePay não estiver configurado e enquanto a homologação visual/auditiva não puder ser concluída.
+**Evidência CI:** [Execução #1668 — 136/136 testes e zero vulnerabilidades](https://github.com/evertonpiceni-sketch/Protocolo-de-cura-integrativa-/actions/runs/42453011750).\n\n**Critério:** não mesclar nem publicar enquanto o segredo InfinitePay não estiver configurado e enquanto a homologação visual/auditiva não puder ser concluída.
