@@ -62,6 +62,19 @@ const ELEGANCIA_PROFUNDA_CANVAS_THEME = {
   ivory: '#F4F1EB',
   transparent: 'rgba(11,23,18,0)'
 };
+const MISTICO_MODERNO_CANVAS_THEME = {
+  glow: '#D4AF37',
+  accent: '#6C3FA0',
+  goldSoft: 'rgba(212, 175, 55, 0.10)',
+  goldGlow: 'rgba(212, 175, 55, 0.22)',
+  goldLine: 'rgba(212, 175, 55, 0.38)',
+  sageSoft: 'rgba(30, 107, 90, 0.10)',
+  sageGlow: 'rgba(30, 107, 90, 0.20)',
+  sageLine: 'rgba(30, 107, 90, 0.34)',
+  ivory: '#F4F1EB',
+  transparent: 'rgba(10, 15, 24, 0)'
+};
+
 const ESSENCIA_LUMINOSA_CANVAS_THEME = { glow: '#C6A46A', accent: '#A6B49B' };
 
 export default function MeditationSession({
@@ -366,8 +379,8 @@ export default function MeditationSession({
     <div id="meditation-session" data-session-phase={sessionPhase} className="ep-session fixed inset-0 z-50 bg-[#FAF7F2] text-[#2A2420] flex flex-col justify-between overflow-hidden select-none min-h-dvh">
       <div className="ep-session-backdrop absolute inset-0 pointer-events-none">
         <SacredEnergyCanvas
-          dayNumber={['natural-sereno', 'elegancia-profunda', 'essencia-luminosa'].includes(activeLayout || '') ? dayNumber : undefined}
-          colorTheme={isEleganciaProfunda ? ELEGANCIA_PROFUNDA_CANVAS_THEME : isEssenciaLuminosa ? ESSENCIA_LUMINOSA_CANVAS_THEME : undefined}
+          dayNumber={['natural-sereno', 'elegancia-profunda', 'essencia-luminosa', 'mistico-moderno'].includes(activeLayout || '') ? dayNumber : undefined}
+          colorTheme={isEleganciaProfunda ? ELEGANCIA_PROFUNDA_CANVAS_THEME : isEssenciaLuminosa ? ESSENCIA_LUMINOSA_CANVAS_THEME : isMisticoModerno ? MISTICO_MODERNO_CANVAS_THEME : undefined}
           dayOneOpening={isEleganciaProfunda && dayNumber === 1}
           stageId={currentStage.id}
           isPlaying={isPlaying}
