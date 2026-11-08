@@ -221,7 +221,7 @@
 }
 :root[data-layout="natural-sereno"] #meditation-session[data-session-phase="playing"] .ep-session-backdrop {
   position: fixed;
-  background: linear-gradient(180deg, rgba(3,26,19,.18), rgba(3,26,19,.56) 36%, rgba(3,26,19,.9) 78%);
+  background: linear-gradient(180deg,rgba(250,247,242,.06),rgba(250,247,242,.14) 58%,rgba(245,239,229,.32) 100%);
   overflow: hidden;
 }
 :root[data-layout="natural-sereno"] #meditation-session[data-session-phase="playing"] .ep-session-backdrop::before {
@@ -229,7 +229,7 @@
   position: absolute;
   inset: -3%;
   z-index: -1;
-  background: linear-gradient(180deg, rgba(3,26,19,.08), rgba(3,26,19,.5) 36%, rgba(3,26,19,.93) 78%), var(--ns-waterfall) center top / cover no-repeat;
+  background: linear-gradient(180deg,rgba(250,247,242,.16),rgba(250,247,242,.38) 36%,rgba(245,239,229,.62) 78%), var(--ns-waterfall) center top / cover no-repeat;
   animation: ns-journey-presence 24s ease-in-out infinite alternate;
   will-change: transform;
 }
@@ -261,15 +261,15 @@
 :root[data-layout="natural-sereno"] #meditation-session > header {
   gap: 10px;
   padding: calc(10px + env(safe-area-inset-top)) max(16px, env(safe-area-inset-right)) 10px max(16px, env(safe-area-inset-left));
-  background: rgba(3,26,19,.36) !important;
-  border-bottom: 1px solid rgba(239,223,183,.12);
+  background: rgba(250,247,242,.90) !important;
+  border-bottom: 1px solid rgba(200,157,82,.24);
 }
 :root[data-layout="natural-sereno"] #meditation-session > header > div:first-child { min-width: 0; gap: 8px; }
 :root[data-layout="natural-sereno"] #meditation-session > header > div:first-child > div:last-child { min-width: 0; }
 :root[data-layout="natural-sereno"] #meditation-session > header h1 { font-size: 12px; line-height: 1.4; letter-spacing: 0; }
 :root[data-layout="natural-sereno"] #meditation-session > header .tracking-widest { font: 9px/1.5 'Inter', sans-serif; letter-spacing: .08em; }
 :root[data-layout="natural-sereno"] #meditation-session > header > div:last-child { gap: 4px; flex-shrink: 0; }
-:root[data-layout="natural-sereno"] #meditation-session > header button { min-width: 44px; width: 44px; padding: 0; border-color: rgba(239,223,183,.2) !important; background: rgba(3,26,19,.28) !important; }
+:root[data-layout="natural-sereno"] #meditation-session > header button { min-width: 44px; width: 44px; padding: 0; border-color: rgba(200,157,82,.34) !important; background: rgba(255,253,248,.94) !important; }
 :root[data-layout="natural-sereno"] #meditation-session[data-session-phase="playing"] > main {
   flex: 1 0 auto;
   justify-content: center;
@@ -287,8 +287,8 @@
 :root[data-layout="natural-sereno"] #meditation-session[data-session-phase="playing"] .ep-breathing-guide > div:first-child { background: radial-gradient(circle,rgba(229,207,152,.12),rgba(6,46,32,.28)) !important; border-color: rgba(236,220,181,.35) !important; box-shadow: none; }
 :root[data-layout="natural-sereno"] #meditation-session[data-session-phase="playing"] > main .ep-breathing-guide span { font: 10px/1.5 'Inter',sans-serif; letter-spacing: .06em; max-width: 82px; }
 :root[data-layout="natural-sereno"] #meditation-session[data-session-phase="playing"] .ep-breathing-guide span:last-child { font-size: 11px; letter-spacing: 0; font-variant-numeric: tabular-nums; }
-:root[data-layout="natural-sereno"] #meditation-session[data-session-phase="playing"] > main .ep-session-mantra { width: 100%; max-width: none; margin-top: 24px; padding: 18px 20px !important; border-radius: 18px; background: rgba(5,38,28,.58) !important; border-color: rgba(234,217,178,.24) !important; font: italic 15px/1.7 'Lora',Georgia,serif; box-shadow: none; text-wrap: balance; }
-:root[data-layout="natural-sereno"] #meditation-session[data-session-phase="playing"] > footer { background: rgba(3,26,19,.38) !important; backdrop-filter: none; padding: 8px 20px calc(18px + env(safe-area-inset-bottom)); }
+:root[data-layout="natural-sereno"] #meditation-session[data-session-phase="playing"] > main .ep-session-mantra { width: 100%; max-width: none; margin-top: 24px; padding: 18px 20px !important; border-radius: 18px; background: rgba(250,247,242,.86) !important; border-color: rgba(200,157,82,.30) !important; font: italic 15px/1.7 'Lora',Georgia,serif; box-shadow: none; text-wrap: balance; }
+:root[data-layout="natural-sereno"] #meditation-session[data-session-phase="playing"] > footer { background: rgba(250,247,242,.94) !important; backdrop-filter: none; padding: 8px 20px calc(18px + env(safe-area-inset-bottom)); }
 :root[data-layout="natural-sereno"] #meditation-session[data-session-phase="playing"] > footer > div { padding: 0; }
 :root[data-layout="natural-sereno"] #meditation-session[data-session-phase="playing"] > footer > div > div:last-child { gap: 18px 12px; }
 :root[data-layout="natural-sereno"] #meditation-session[data-session-phase="playing"] > footer > div > div:last-child > div { width: 100%; justify-content: space-between; gap: 4px; }
