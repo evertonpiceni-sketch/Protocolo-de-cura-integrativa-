@@ -10,7 +10,7 @@ test('todos os escritores do snapshot completo usam o mesmo lock Redis', () => {
   const helper = paymentRoutes.slice(helperStart, helperEnd);
   assert.ok(helper.indexOf('await lock.assertHeld()') < helper.indexOf('await refreshDbFromPersistentStorage()'));
   assert.ok(helper.lastIndexOf('await lock.assertHeld()') > helper.indexOf('await refreshDbFromPersistentStorage()'));
-  assert.equal(paymentRoutes.split('acquireSharedDatabaseWriteLock()').length - 1, 3, 'checkout, confirmação e VIP7 devem usar o helper');
+  assert.equal(paymentRoutes.split('await acquireSharedDatabaseWriteLock()').length - 1, 3, 'checkout, confirmação e VIP7 devem usar o helper');
 
   const writers = [
     { path: 'server.ts', writes: 3, label: 'admin plan, cadastro e sincronização de perfil' },
