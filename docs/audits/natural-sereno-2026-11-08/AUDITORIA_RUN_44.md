@@ -65,3 +65,8 @@ A `main` recebeu mais quatro commits após a primeira integração, todos relati
 - A branch voltou a incluir a `main` atual sem commits atrasados.
 
 O primeiro CI após a limpeza do player encontrou um erro de escape na expressão regular do teste; a sintaxe foi corrigida. O CI do HEAD seguinte deve ser tratado como fonte de verdade para a validação final.
+
+
+## Registro posterior da Elegância Profunda
+
+A auditoria RUN 94 da Elegância Profunda, publicada depois da segunda integração, também foi incorporada à branch. O documento registra que a correção recente de rótulo `waves` afeta somente os Estilos 2 e 3; Natural Sereno e Místico Moderno permanecem inalterados. A branch agora inclui esse registro sem reintroduzir componentes ou cores de outro estilo no Natural Sereno.
