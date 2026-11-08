@@ -49,7 +49,13 @@ test('specific treatments use only the fixed approved 7-day and 21-day prices', 
 
 test('checkout binds account, validates provider confirmation and grants only once', async () => {
   const cwd = process.cwd(); const folder = fs.mkdtempSync(path.join(os.tmpdir(), 'payment-test-'));
+  const originalEnv = {
+    apiKey: process.env.INFINITEPAY_API_KEY,
+    handle: process.env.INFINITEPAY_HANDLE,
+    appUrl: process.env.PUBLIC_APP_URL
+  };
   process.chdir(folder); process.env.NODE_ENV = 'test';
+  process.env.INFINITEPAY_API_KEY = 'test-only-infinitepay-key';
   for (const key of Object.keys(process.env)) if (/UPSTASH|KV_REST/.test(key)) delete process.env[key];
   const { getDb, initializeDb } = await import('../src/db');
   const { paymentRoutes } = await import('../src/lib/paymentRoutes');
@@ -64,7 +70,7 @@ test('checkout binds account, validates provider confirmation and grants only on
   const numerologyLinkGate = new Promise<void>(resolve => { releaseNumerologyLink = resolve; });
   const provider = async (url: any, options: any) => {
     const body = JSON.parse(options.body);
-    calls.push({ url, body });
+    calls.push({ url, body, headers: options.headers });
     if (String(url).endsWith('/links') && body.items?.[0]?.description === 'Mapa Numerológico Cabalístico Completo') {
       if (failNextNumerologyLink) {
         failNextNumerologyLink = false;
@@ -88,10 +94,23 @@ test('checkout binds account, validates provider confirmation and grants only on
   try {
     assert.equal((await call('payment/create-checkout', {}, '')).status, 401);
     assert.equal((await call('payment/create-checkout', { productType: 'subscription', planId: '__proto__', paymentMethod: 'pix' })).status, 400);
+
+    db.users.push({ id: 'no-api-key-owner', plan: 'free', profile: {} });
+    const providerCallsBeforeMissingKey = calls.length;
+    delete process.env.INFINITEPAY_API_KEY;
+    const missingApiKeyCheckout = await call('payment/create-checkout', { productType: 'subscription', planId: 'jornada_7d', paymentMethod: 'pix' }, 'no-api-key-owner');
+    assert.equal(missingApiKeyCheckout.status, 503);
+    assert.equal(calls.length, providerCallsBeforeMissingKey, 'sem API Key não cria link reutilizável');
+    assert.equal(db.paymentOrders?.some(order => order.userId === 'no-api-key-owner'), false);
+    process.env.INFINITEPAY_API_KEY = 'test-only-infinitepay-key';
+
     const checkout = await call('payment/create-checkout', { productType: 'subscription', planId: 'jornada_7d', paymentMethod: 'pix', price: .01, couponCode: 'PROMO20' });
     assert.equal(checkout.status, 200); const { orderId } = await checkout.json();
     assert.equal(calls[0].body.handle, 'evertonterapeutareiki');
     assert.equal(calls[0].body.items[0].price, paymentQuote('jornada_7d', 'PROMO20').cents);
+    assert.equal(calls[0].body.options.single_payment, true);
+    assert.equal(calls[0].headers['X-Api-Key'], 'test-only-infinitepay-key');
+    assert.ok(db.paymentOrders?.find(order => order.id === orderId)?.checkoutPayload?.options.single_payment);
     assert.equal(db.users[0].plan, 'free');
     const body = { order_nsu: orderId, transaction_nsu: 'transaction', slug: 'slug' };
     assert.equal((await call('payment/confirm', body, 'other')).status, 404);
@@ -159,9 +178,20 @@ test('checkout binds account, validates provider confirmation and grants only on
       productType: 'numerology_full' as const,
       cents: 9000,
       method: 'pix',
-      createdAt: new Date(Date.now() - 6 * 60 * 1000).toISOString()
+      createdAt: new Date(Date.now() - 6 * 60 * 1000).toISOString(),
+      checkoutPayload: {
+        handle: 'original-handle',
+        order_nsu: 'numerology-pending-without-link',
+        redirect_url: 'https://original.example/?payment_order=numerology-pending-without-link',
+        webhook_url: 'https://original.example/api/webhooks/payment',
+        items: [{ quantity: 1, price: 9000, description: 'Mapa Numerológico Cabalístico Completo' }],
+        options: { single_payment: true }
+      }
     };
     (db.paymentOrders ||= []).push(pendingNumerologyOrder);
+    const originalPayload = structuredClone(pendingNumerologyOrder.checkoutPayload);
+    process.env.INFINITEPAY_HANDLE = 'changed-handle';
+    process.env.PUBLIC_APP_URL = 'https://changed.example';
     const linksBeforeRecovery = calls.filter(c => String(c.url).endsWith('/links')).length;
     failNextNumerologyLink = true;
     const interruptedRecovery = await call('payment/create-checkout', { productType: 'numerology_full', paymentMethod: 'pix' }, 'preparing-owner');
@@ -178,10 +208,40 @@ test('checkout binds account, validates provider confirmation and grants only on
     assert.equal(pendingNumerologyOrder.checkoutUrl, 'https://checkout.infinitepay.io/test');
     const recoveryRequests = calls.filter(c => c.body.order_nsu === pendingNumerologyOrder.id);
     assert.equal(recoveryRequests.length, 2);
-    assert.deepEqual(recoveryRequests[0].body, recoveryRequests[1].body, 'a recuperação repete exatamente o payload original');
+    assert.deepEqual(recoveryRequests[0].body, originalPayload, 'a recuperação usa os valores persistidos, mesmo após mudança de ambiente');
+    assert.deepEqual(recoveryRequests[1].body, originalPayload, 'a nova tentativa repete exatamente o payload original');
     assert.equal(recoveryRequests[0].url, 'https://api.checkout.infinitepay.io/links');
     assert.equal(calls.filter(c => String(c.url).endsWith('/links')).length, linksBeforeRecovery + 2);
     assert.equal(db.paymentOrders?.filter(o => o.userId === 'preparing-owner' && o.productType === 'numerology_full').length, 1);
+
+    db.users.push({ id: 'legacy-link-owner', plan: 'free', profile: {} });
+    db.paymentOrders.push({
+      id: 'legacy-multi-use-link',
+      userId: 'legacy-link-owner',
+      productType: 'numerology_full',
+      cents: 9000,
+      method: 'pix',
+      createdAt: new Date().toISOString(),
+      checkoutUrl: 'https://checkout.infinitepay.io/legacy'
+    });
+    const callsBeforeLegacyLink = calls.length;
+    const legacyLinkAttempt = await call('payment/create-checkout', { productType: 'numerology_full', paymentMethod: 'pix' }, 'legacy-link-owner');
+    assert.equal(legacyLinkAttempt.status, 503);
+    assert.equal(calls.length, callsBeforeLegacyLink, 'link legado sem single_payment não é reutilizado nem substituído automaticamente');
+
+    db.users.push({ id: 'legacy-preparing-owner', plan: 'free', profile: {} });
+    db.paymentOrders.push({
+      id: 'legacy-preparing-order',
+      userId: 'legacy-preparing-owner',
+      productType: 'numerology_full',
+      cents: 9000,
+      method: 'pix',
+      createdAt: new Date().toISOString()
+    });
+    const callsBeforeLegacyPreparing = calls.length;
+    const legacyPreparingAttempt = await call('payment/create-checkout', { productType: 'numerology_full', paymentMethod: 'pix' }, 'legacy-preparing-owner');
+    assert.equal(legacyPreparingAttempt.status, 503);
+    assert.equal(calls.length, callsBeforeLegacyPreparing, 'pedido antigo sem payload original não é reconstruído com variáveis atuais');
 
     db.users.push({ id: 'trial-account', plan: 'free', profile: {} });
     const trial = { planId: 'teste_vip_7d', paymentMethod: 'trial', couponCode: 'VIP7' };
@@ -190,5 +250,12 @@ test('checkout binds account, validates provider confirmation and grants only on
     const expires = db.users[0].profile.subscriptionExpiresAt;
     assert.equal((await call('payment/confirm', body)).status, 200);
     assert.equal(db.users[0].profile.subscriptionExpiresAt, expires);
-  } finally { await new Promise<void>(r => server.close(() => r())); process.chdir(cwd); fs.rmSync(folder, { recursive: true, force: true }); }
+  } finally {
+    await new Promise<void>(r => server.close(() => r()));
+    if (originalEnv.apiKey === undefined) delete process.env.INFINITEPAY_API_KEY; else process.env.INFINITEPAY_API_KEY = originalEnv.apiKey;
+    if (originalEnv.handle === undefined) delete process.env.INFINITEPAY_HANDLE; else process.env.INFINITEPAY_HANDLE = originalEnv.handle;
+    if (originalEnv.appUrl === undefined) delete process.env.PUBLIC_APP_URL; else process.env.PUBLIC_APP_URL = originalEnv.appUrl;
+    process.chdir(cwd);
+    fs.rmSync(folder, { recursive: true, force: true });
+  }
 });
