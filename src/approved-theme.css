@@ -657,8 +657,12 @@ body::before{
   --ep-panel-text:#F7F1E4;
 }
 :root[data-layout="mistico-moderno"]{
-  --ep-scene:url('/brand/reintegracao-presenca-arte.png');
-  --ep-scene-overlay:linear-gradient(180deg,rgba(10,15,24,.14),rgba(10,15,24,.58) 48%,rgba(4,9,16,.88));
+  /* Style 4 is independent from the Reintegração artwork; nature imagery belongs in approved Style 4 scenes only. */
+  --ep-scene:none;
+  --ep-scene-overlay:
+    radial-gradient(ellipse at 18% 12%,rgba(108,63,160,.14),transparent 40%),
+    radial-gradient(ellipse at 82% 22%,rgba(1,61,41,.12),transparent 38%),
+    linear-gradient(180deg,rgba(0,20,45,.88),rgba(10,15,24,.94) 48%,rgba(4,9,16,.98));
   --ep-panel:rgba(11,24,38,.84);
   --ep-panel-strong:rgba(8,20,33,.94);
   --ep-panel-text:#F4F1EB;
