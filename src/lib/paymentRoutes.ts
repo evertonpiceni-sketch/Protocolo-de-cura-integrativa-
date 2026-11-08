@@ -13,35 +13,36 @@ export type InfinitePayCheckoutPayload = {
 };
 export type PaymentOrder = { id: string; userId: string; productType?: 'subscription' | 'specific_treatment' | 'numerology_full'; planId?: Plan; treatment?: import('../types.js').SpecificTreatment; cents: number; method: string; createdAt: string; paidAt?: string; transaction?: string; checkoutUrl?: string; checkoutPayload?: InfinitePayCheckoutPayload; checkoutRecoveryAttempts?: number; failedAt?: string };
 const API = 'https://api.checkout.infinitepay.io';
-const localNumerologyCheckoutLocks = new Set<string>();
-const NUMEROLOGY_CHECKOUT_LOCK_TTL_MS = 30_000;
-const NUMEROLOGY_CHECKOUT_LOCK_RENEW_INTERVAL_MS = 10_000;
-const RENEW_NUMEROLOGY_CHECKOUT_LOCK_SCRIPT = 'if redis.call("get", KEYS[1]) == ARGV[1] then return redis.call("pexpire", KEYS[1], ARGV[2]) else return 0 end';
-const RELEASE_NUMEROLOGY_CHECKOUT_LOCK_SCRIPT = 'if redis.call("get", KEYS[1]) == ARGV[1] then return redis.call("del", KEYS[1]) else return 0 end';
+const localPaymentCheckoutLocks = new Set<string>();
+const CHECKOUT_LOCK_TTL_MS = 30_000;
+const CHECKOUT_LOCK_RENEW_INTERVAL_MS = 10_000;
+const RENEW_CHECKOUT_LOCK_SCRIPT = 'if redis.call("get", KEYS[1]) == ARGV[1] then return redis.call("pexpire", KEYS[1], ARGV[2]) else return 0 end';
+const RELEASE_CHECKOUT_LOCK_SCRIPT = 'if redis.call("get", KEYS[1]) == ARGV[1] then return redis.call("del", KEYS[1]) else return 0 end';
 
-export type NumerologyCheckoutLock = {
+export type CheckoutCreationLock = {
   assertHeld: () => Promise<void>;
   release: () => Promise<void>;
 };
+export type NumerologyCheckoutLock = CheckoutCreationLock;
 
-type NumerologyCheckoutLockDependencies = {
+type CheckoutCreationLockDependencies = {
   hasPersistentDatabase?: () => boolean;
   redisCommand?: typeof redisCommand;
   ttlMs?: number;
   renewIntervalMs?: number;
 };
 
-export async function acquireNumerologyCheckoutLock(
-  userId: string,
-  dependencies: NumerologyCheckoutLockDependencies = {}
-): Promise<NumerologyCheckoutLock | null> {
+export async function acquireCheckoutCreationLock(
+  scope: string,
+  dependencies: CheckoutCreationLockDependencies = {}
+): Promise<CheckoutCreationLock | null> {
   const persistent = dependencies.hasPersistentDatabase ?? hasPersistentDatabase;
   const runRedisCommand = dependencies.redisCommand ?? redisCommand;
-  const ttlMs = dependencies.ttlMs ?? NUMEROLOGY_CHECKOUT_LOCK_TTL_MS;
-  const renewIntervalMs = dependencies.renewIntervalMs ?? NUMEROLOGY_CHECKOUT_LOCK_RENEW_INTERVAL_MS;
+  const ttlMs = dependencies.ttlMs ?? CHECKOUT_LOCK_TTL_MS;
+  const renewIntervalMs = dependencies.renewIntervalMs ?? CHECKOUT_LOCK_RENEW_INTERVAL_MS;
 
   if (persistent()) {
-    const key = `cura_integrada:numerology-checkout-lock:${userId}`;
+    const key = `cura_integrada:checkout-lock:${scope}`;
     const token = crypto.randomUUID();
     const acquired = await runRedisCommand('set', [key, token, 'nx', 'px', String(ttlMs)]);
     if (acquired !== 'OK') return null;
@@ -54,7 +55,7 @@ export async function acquireNumerologyCheckoutLock(
       if (released || lost) return false;
       try {
         const result = await runRedisCommand('eval', [
-          RENEW_NUMEROLOGY_CHECKOUT_LOCK_SCRIPT, '1', key, token, String(ttlMs)
+          RENEW_CHECKOUT_LOCK_SCRIPT, '1', key, token, String(ttlMs)
         ]);
         const renewed = result === 1 || result === '1';
         if (!renewed) lost = true;
@@ -87,27 +88,34 @@ export async function acquireNumerologyCheckoutLock(
         clearInterval(timer);
         if (renewalInFlight) await renewalInFlight;
         try {
-          await runRedisCommand('eval', [RELEASE_NUMEROLOGY_CHECKOUT_LOCK_SCRIPT, '1', key, token]);
+          await runRedisCommand('eval', [RELEASE_CHECKOUT_LOCK_SCRIPT, '1', key, token]);
         } catch { /* O TTL libera o lock caso a exclusão explícita falhe. */ }
       }
     };
   }
 
-  if (localNumerologyCheckoutLocks.has(userId)) return null;
-  localNumerologyCheckoutLocks.add(userId);
+  if (localPaymentCheckoutLocks.has(scope)) return null;
+  localPaymentCheckoutLocks.add(scope);
   let released = false;
   return {
     assertHeld: async () => {
-      if (released || !localNumerologyCheckoutLocks.has(userId)) {
+      if (released || !localPaymentCheckoutLocks.has(scope)) {
         throw new Error('A proteção do checkout expirou. Tente novamente.');
       }
     },
     release: async () => {
       if (released) return;
       released = true;
-      localNumerologyCheckoutLocks.delete(userId);
+      localPaymentCheckoutLocks.delete(scope);
     }
   };
+}
+
+export async function acquireNumerologyCheckoutLock(
+  userId: string,
+  dependencies: CheckoutCreationLockDependencies = {}
+): Promise<NumerologyCheckoutLock | null> {
+  return acquireCheckoutCreationLock(`numerology:${userId}`, dependencies);
 }
 
 export function paymentRoutes(authenticate: any, limiter: any, providerFetch: typeof fetch = fetch, saveCheckoutOrder: typeof saveDb = saveDb) {
@@ -168,8 +176,10 @@ export function paymentRoutes(authenticate: any, limiter: any, providerFetch: ty
     let quote: { cents: number; title: string };
     let treatment: import('../types.js').SpecificTreatment | undefined;
     let releaseNumerologyLock: NumerologyCheckoutLock | undefined;
+    let releaseStandardCheckoutLock: CheckoutCreationLock | undefined;
     let order: PaymentOrder | undefined;
     let providerRequestStarted = false;
+    let recoveringExistingOrder = false;
 
     try {
       if (!['subscription', 'specific_treatment', 'numerology_full'].includes(productType) || !['pix', 'card', 'credit', 'debit'].includes(paymentMethod) || (productType === 'subscription' && typeof planId !== 'string') || (productType !== 'subscription' && planId != null) || (couponCode != null && typeof couponCode !== 'string')) throw new Error('Compra inválida.');
@@ -283,10 +293,17 @@ export function paymentRoutes(authenticate: any, limiter: any, providerFetch: ty
           }
           await releaseNumerologyLock.assertHeld();
           order = preparingOrder;
-          providerRequestStarted = true;
+          const previousRecoveryAttempts = preparingOrder.checkoutRecoveryAttempts;
           preparingOrder.checkoutRecoveryAttempts = recoveryAttempts + 1;
-          await saveCheckoutOrder();
+          try {
+            await saveCheckoutOrder();
+          } catch (error) {
+            if (previousRecoveryAttempts === undefined) delete preparingOrder.checkoutRecoveryAttempts;
+            else preparingOrder.checkoutRecoveryAttempts = previousRecoveryAttempts;
+            throw error;
+          }
           await releaseNumerologyLock.assertHeld();
+          providerRequestStarted = true;
           const checkoutUrl = await createCheckoutUrl(preparingOrder.checkoutPayload);
           await releaseNumerologyLock.assertHeld();
           preparingOrder.checkoutUrl = checkoutUrl;
@@ -299,6 +316,10 @@ export function paymentRoutes(authenticate: any, limiter: any, providerFetch: ty
       }
 
       if (productType !== 'numerology_full') {
+        releaseStandardCheckoutLock = await acquireCheckoutCreationLock(`standard:${req.userId}:${productType}`);
+        if (!releaseStandardCheckoutLock) return res.status(409).json({ error: 'Já existe uma tentativa de checkout em andamento. Aguarde alguns segundos e tente novamente.' });
+        await releaseStandardCheckoutLock.assertHeld();
+
         const db = getDb();
         const pendingStandardOrders = (db.paymentOrders || []).filter(candidate =>
           candidate.userId === req.userId &&
@@ -338,11 +359,22 @@ export function paymentRoutes(authenticate: any, limiter: any, providerFetch: ty
             return res.status(503).json({ error: 'A recuperação automática já foi utilizada. É necessária conferência manual para evitar links duplicados.' });
           }
           order = preparing;
-          providerRequestStarted = true;
+          recoveringExistingOrder = true;
+          await releaseStandardCheckoutLock.assertHeld();
+          const previousRecoveryAttempts = preparing.checkoutRecoveryAttempts;
           preparing.checkoutRecoveryAttempts = recoveryAttempts + 1;
-          await saveCheckoutOrder();
+          try {
+            await saveCheckoutOrder();
+          } catch (error) {
+            if (previousRecoveryAttempts === undefined) delete preparing.checkoutRecoveryAttempts;
+            else preparing.checkoutRecoveryAttempts = previousRecoveryAttempts;
+            throw error;
+          }
+          await releaseStandardCheckoutLock.assertHeld();
+          providerRequestStarted = true;
           // A InfinitePay não oferece consulta por order_nsu; uma única repetição idêntica pode devolver o mesmo link.
           const checkoutUrl = await createCheckoutUrl(payload);
+          await releaseStandardCheckoutLock.assertHeld();
           preparing.checkoutUrl = checkoutUrl;
           await saveCheckoutOrder();
           return res.json({ checkoutUrl, orderId: preparing.id, reused: true, recovered: true });
@@ -371,6 +403,7 @@ export function paymentRoutes(authenticate: any, limiter: any, providerFetch: ty
         }
       }
 
+      if (releaseStandardCheckoutLock) await releaseStandardCheckoutLock.assertHeld();
       const createdOrder: PaymentOrder = {
         id: crypto.randomUUID(), userId: req.userId, productType,
         ...(productType === 'subscription' ? { planId: planId as Plan } : {}),
@@ -386,22 +419,25 @@ export function paymentRoutes(authenticate: any, limiter: any, providerFetch: ty
       await saveCheckoutOrder();
 
       if (releaseNumerologyLock) await releaseNumerologyLock.assertHeld();
+      if (releaseStandardCheckoutLock) await releaseStandardCheckoutLock.assertHeld();
       providerRequestStarted = true;
       createdOrder.checkoutUrl = await createCheckoutUrl(createdOrder.checkoutPayload);
       if (releaseNumerologyLock) await releaseNumerologyLock.assertHeld();
+      if (releaseStandardCheckoutLock) await releaseStandardCheckoutLock.assertHeld();
       await saveCheckoutOrder();
       if (productType === 'numerology_full' && hasPersistentDatabase()) {
         await redisCommand('set', [numerologyCheckoutKey(req.userId), JSON.stringify({ orderId: createdOrder.id, checkoutUrl: createdOrder.checkoutUrl }), 'ex', '86400']);
       }
       return res.json({ checkoutUrl: createdOrder.checkoutUrl, orderId: createdOrder.id });
     } catch {
-      if (order && !order.checkoutUrl && productType !== 'numerology_full' && !providerRequestStarted) {
+      if (order && !order.checkoutUrl && productType !== 'numerology_full' && !providerRequestStarted && !recoveringExistingOrder) {
         order.failedAt = new Date().toISOString();
         try { await saveCheckoutOrder(); } catch { /* Mantém a tentativa bloqueada se a persistência falhar. */ }
       }
       return res.status(503).json({ error: 'Não foi possível abrir o pagamento seguro. Tente novamente em instantes.' });
     } finally {
       if (releaseNumerologyLock) await releaseNumerologyLock.release();
+      if (releaseStandardCheckoutLock) await releaseStandardCheckoutLock.release();
     }
   });
   async function confirm(body: any, userId?: string) {
