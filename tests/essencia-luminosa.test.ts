@@ -814,3 +814,21 @@ test('as decisões aprovadas da Essência Luminosa ficam na última camada CSS',
   assert.ok(errorBoundaryImport > approvedImport, 'Nenhuma folha CSS deve ser importada depois da camada aprovada do Estilo 3.');
   assert.equal(main.split("import './essencia-luminosa-approved-overrides.css';").length - 1, 1);
 });
+
+
+test('a cena efetiva da Home do Estilo 3 permanece sem foto herdada e usa apenas o overlay claro previsto', () => {
+  const theme = fs.readFileSync('src/approved-theme.css', 'utf8');
+  const finalCss = fs.readFileSync('src/essencia-luminosa-final-audit.css', 'utf8');
+  const themeStart = theme.indexOf(':root[data-layout="essencia-luminosa"]{');
+  const themeEnd = theme.indexOf('\\n}', themeStart);
+  const themeBlock = themeStart >= 0 && themeEnd > themeStart ? theme.slice(themeStart, themeEnd) : '';
+  const finalBlock = finalCss.match(/:root\\[data-layout="essencia-luminosa"\\]\\s*\\{([^}]*)\\}/)?.[1] || '';
+
+  assert.ok(themeBlock.includes('--ep-scene:none;'));
+  assert.ok(themeBlock.includes('--ep-scene-overlay:none;'));
+  assert.match(finalBlock, /--ep-scene:\\s*none;/);
+  assert.match(finalBlock, /--ep-scene-overlay:\\s*linear-gradient\\(180deg,\\s*rgba\\(255,255,248,.70\\),\\s*rgba\\(255,255,248,.42\\)\\s*46%,\\s*rgba\\(247,243,232,.78\\)\\)/);
+  assert.ok(finalCss.includes('var(--ep-scene-overlay)'));
+  assert.ok(finalCss.includes('var(--ep-scene)'));
+  assert.doesNotMatch(finalBlock, /natural-sereno|reintegracao|brand\\/(?:natural-sereno|reintegracao)/i);
+});
