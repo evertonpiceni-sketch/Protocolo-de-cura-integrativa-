@@ -188,6 +188,8 @@ test('a recuperação do checkout Numerologia repete o mesmo pedido sem criar no
   assert.ok((routes.match(/candidate\.checkoutPayload\?\.options\?\.single_payment === true/g) || []).length >= 2, 'cache e reutilização só aceitam links de pagamento único');
   assert.ok(routes.includes('checkoutPayload?: InfinitePayCheckoutPayload'));
   assert.ok(routes.includes('options: { single_payment: true }'));
+  assert.ok(routes.includes('payload.options?.single_payment !== true'));
+  assert.ok(routes.includes('preparingOrder.checkoutPayload.options?.single_payment !== true'));
   assert.ok(routes.includes("headers['X-Api-Key'] = key"));
   assert.ok(routes.includes("if (!apiKey()) return res.status(503)"));
   assert.ok(routes.includes('createCheckoutUrl(preparingOrder.checkoutPayload)'));
