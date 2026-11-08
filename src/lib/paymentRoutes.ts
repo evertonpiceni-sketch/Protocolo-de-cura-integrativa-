@@ -330,6 +330,13 @@ export function paymentRoutes(authenticate: any, limiter: any, providerFetch: ty
           return res.json({ checkoutUrl, orderId: preparing.id, reused: true, recovered: true });
         }
 
+        const legacyLinkedOrder = pendingStandardOrders.find(candidate =>
+          Boolean(candidate.checkoutUrl) && candidate.checkoutPayload?.options?.single_payment !== true
+        );
+        if (legacyLinkedOrder) {
+          return res.status(503).json({ error: 'Existe um link anterior sem proteção de pagamento único que precisa de conferência antes de abrir outro.' });
+        }
+
         const matchingLinkedOrders = pendingStandardOrders.filter(candidate =>
           Boolean(candidate.checkoutUrl) && matchesRequestedStandardOrder(candidate)
         );
@@ -343,12 +350,6 @@ export function paymentRoutes(authenticate: any, limiter: any, providerFetch: ty
             return res.status(503).json({ error: 'O link anterior não comprova pagamento único e precisa de conferência antes de ser reutilizado.' });
           }
           return res.json({ checkoutUrl: matching.checkoutUrl, orderId: matching.id, reused: true });
-        }
-        const legacyLinkedOrder = pendingStandardOrders.find(candidate =>
-          Boolean(candidate.checkoutUrl) && candidate.checkoutPayload?.options?.single_payment !== true
-        );
-        if (legacyLinkedOrder) {
-          return res.status(503).json({ error: 'Existe um link anterior sem proteção de pagamento único que precisa de conferência antes de abrir outro.' });
         }
       }
 
