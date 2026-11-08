@@ -781,7 +781,7 @@ test('as decisões aprovadas da Essência Luminosa ficam na última camada CSS',
   const main = fs.readFileSync('src/main.tsx', 'utf8');
   const approvedImport = main.indexOf("import './essencia-luminosa-approved-overrides.css';");
   const style3Imports = main
-    .split('\\n')
+    .split('\n')
     .filter(line => line.includes("import './essencia-luminosa-") && !line.includes('approved-overrides'));
   const lastStyle3Import = Math.max(...style3Imports.map(line => main.indexOf(line)));
   const errorBoundaryImport = main.indexOf("import { ErrorBoundary }");
@@ -789,5 +789,5 @@ test('as decisões aprovadas da Essência Luminosa ficam na última camada CSS',
   assert.ok(approvedImport >= 0, 'A camada aprovada do Estilo 3 precisa estar carregada.');
   assert.ok(lastStyle3Import >= 0 && approvedImport > lastStyle3Import, 'A camada aprovada precisa vir depois de todas as auditorias CSS do Estilo 3.');
   assert.ok(errorBoundaryImport > approvedImport, 'Nenhuma folha CSS deve ser importada depois da camada aprovada do Estilo 3.');
-  assert.equal((main.match(/import '\\.\/essencia-luminosa-approved-overrides\\.css';/g) || []).length, 1);
+  assert.equal((main.match(/import '\.\/essencia-luminosa-approved-overrides\.css';/g) || []).length, 1);
 });
