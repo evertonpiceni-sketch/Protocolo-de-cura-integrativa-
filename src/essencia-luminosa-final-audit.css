@@ -107,19 +107,17 @@
 :root[data-layout="essencia-luminosa"] .ep-home .ep-gold-button{background-image:linear-gradient(115deg,var(--layout-gold),color-mix(in srgb,var(--layout-gold) 72%,white))!important;color:var(--layout-text)!important;border-color:color-mix(in srgb,var(--layout-gold) 34%,var(--layout-border-card))!important;box-shadow:0 12px 28px rgba(112,91,58,.10)!important;}
 
 /* HOME E ACOLHIMENTO — Estilo 3.
-   O tema compartilhado aplicava overlay escuro e posicionava o logo fora do fluxo,
-   causando contraste e sobreposição. Mantém a cena existente sob véu marfim/champagne
-   até existir um conjunto fotográfico exclusivo e aprovado para esta identidade. */
+   Fotografia costeira real, exclusiva desta identidade; o véu marfim mantém
+   a leitura dos cartões sem apagar a paisagem. */
 :root[data-layout="essencia-luminosa"] {
-  /* Não herdar foto do Natural Sereno nem da Reintegração; aguarda fotografia própria aprovada. */
-  --ep-scene: none;
-  --ep-scene-overlay: linear-gradient(180deg, rgba(255,255,248,.70), rgba(255,255,248,.42) 46%, rgba(247,243,232,.78));
+  --ep-scene: url('https://images.unsplash.com/photo-1617359073337-ba0fa2b80df4?auto=format&fit=crop&w=1600&h=900&q=80');
+  --ep-scene-overlay: linear-gradient(180deg, rgba(255,255,248,.52), rgba(255,255,248,.32) 46%, rgba(247,243,232,.66));
 }
 
 :root[data-layout="essencia-luminosa"] #cura-main-layout {
   background:
     var(--ep-scene-overlay),
-    var(--ep-scene) center top/cover fixed no-repeat !important;
+    var(--ep-scene) center 56%/cover fixed no-repeat !important;
 }
 
 :root[data-layout="essencia-luminosa"] #cura-main-layout::before {
@@ -131,8 +129,8 @@
 :root[data-layout="essencia-luminosa"] .ep-home-hero,
 :root[data-layout="essencia-luminosa"] .ep-welcome-audio.ep-home-hero {
   background:
-    linear-gradient(180deg, rgba(255,255,248,.76), rgba(255,255,248,.58) 48%, rgba(247,243,232,.88)),
-    var(--ep-scene) center/cover no-repeat !important;
+    linear-gradient(180deg, rgba(255,255,248,.66), rgba(255,255,248,.44) 48%, rgba(247,243,232,.76)),
+    var(--ep-scene) center 56%/cover no-repeat !important;
   border-color: color-mix(in srgb, var(--layout-gold) 28%, var(--layout-border-card)) !important;
   box-shadow: 0 18px 48px rgba(89, 70, 43, .08), inset 0 1px 0 rgba(255,255,255,.65) !important;
   color: var(--layout-text) !important;
@@ -661,4 +659,12 @@
   border-color: var(--layout-gold) !important;
   color: var(--layout-text) !important;
   box-shadow: 0 8px 20px var(--layout-gold-shadow) !important;
+}
+
+
+/* Em telas pequenas, evita o custo e os saltos de background-attachment: fixed. */
+@media (max-width: 640px) {
+  :root[data-layout="essencia-luminosa"] #cura-main-layout {
+    background-attachment: scroll, scroll !important;
+  }
 }

@@ -204,8 +204,8 @@ test('a Home e o acolhimento do Estilo 3 neutralizam o overlay escuro compartilh
   const onboardingCss = fs.readFileSync('src/essencia-luminosa-onboarding-audit.css', 'utf8');
   assert.ok(css.includes(':root[data-layout="essencia-luminosa"] .ep-welcome-audio.ep-home-hero'));
   assert.ok(css.includes(':root[data-layout="essencia-luminosa"] #cura-main-layout'));
-  assert.ok(css.includes('rgba(255,255,248,.76)'));
-  assert.ok(css.includes('var(--ep-scene) center/cover no-repeat'));
+  assert.ok(css.includes('rgba(255,255,248,.66)'));
+  assert.ok(css.includes('var(--ep-scene) center 56%/cover no-repeat'));
   assert.ok(css.includes('position: relative !important'));
   assert.ok(css.includes('opacity: .30 !important'));
   assert.ok(onboardingCss.includes('opacity: 1 !important'));
@@ -292,8 +292,8 @@ test('as telas secundárias da Essência Luminosa usam tokens atuais sem paleta 
 
 test('a Home da Essência Luminosa não herda fotografia de outro estilo ou da Reintegração', () => {
   const css = fs.readFileSync('src/essencia-luminosa-final-audit.css', 'utf8');
-  assert.ok(css.includes('--ep-scene: none;'));
-  assert.ok(css.includes('var(--ep-scene) center top/cover fixed no-repeat'));
+  assert.ok(css.includes('--ep-scene: url('https://images.unsplash.com/photo-1617359073337-ba0fa2b80df4?auto=format&fit=crop&w=1600&h=900&q=80');'));
+  assert.ok(css.includes('var(--ep-scene) center 56%/cover fixed no-repeat'));
   assert.ok(!css.includes('/brand/natural-sereno/'));
   assert.ok(!css.includes('/brand/reintegracao-presenca-arte.png'));
 });
@@ -310,7 +310,7 @@ test('a Prática Individual não mantém gradientes verde-escuro ou índigo no E
 });
 
 
-test('a prévia do Estilo 3 usa o WebP versionado da prancha oficial, sem alegar acesso ao PNG original', () => {
+test('a prévia do Estilo 3 usa o WebP versionado da prancha oficial', () => {
   const modal = fs.readFileSync('src/components/LayoutChoiceModal.tsx', 'utf8');
   assert.ok(modal.includes('/brand/essencia-luminosa/prancha-oficial.webp'));
   assert.ok(!modal.includes('/brand/essencia-luminosa/prancha-oficial.png'));
@@ -537,7 +537,7 @@ test('o Estilo 3 não herda a cena da Reintegração e suaviza o selo recomendad
     style3Blocks.length > 0 && style3Blocks.every(block => !block.includes('--ep-scene:url(')),
     'A Essência Luminosa não pode herdar a imagem da Reintegração da Vida.'
   );
-  assert.ok(finalCss.includes('--ep-scene: none;'));
+  assert.ok(finalCss.includes('--ep-scene: url('https://images.unsplash.com/photo-1617359073337-ba0fa2b80df4?auto=format&fit=crop&w=1600&h=900&q=80');'));
   assert.ok(finalCss.includes(':root[data-layout="essencia-luminosa"] #specific-treatment-modal .ep-treatment-recommended-badge'));
   assert.ok(finalCss.includes('var(--layout-gold-soft)'));
   assert.ok(finalCss.includes('var(--layout-gold-dark)'));
@@ -816,16 +816,17 @@ test('as decisões aprovadas da Essência Luminosa ficam na última camada CSS',
 });
 
 
-test('a cena efetiva da Home do Estilo 3 permanece sem foto herdada e usa apenas o overlay claro previsto', () => {
+test('a cena efetiva da Home do Estilo 3 usa fotografia costeira própria e overlay leve', () => {
   const theme = fs.readFileSync('src/approved-theme.css', 'utf8');
   const finalCss = fs.readFileSync('src/essencia-luminosa-final-audit.css', 'utf8');
 
   assert.ok(theme.includes('--ep-scene:none;'));
   assert.ok(theme.includes('--ep-scene-overlay:none;'));
-  assert.ok(finalCss.includes('--ep-scene: none;'));
-  assert.ok(finalCss.includes('--ep-scene-overlay: linear-gradient(180deg, rgba(255,255,248,.70), rgba(255,255,248,.42) 46%, rgba(247,243,232,.78));'));
+  assert.ok(finalCss.includes('--ep-scene: url('https://images.unsplash.com/photo-1617359073337-ba0fa2b80df4?auto=format&fit=crop&w=1600&h=900&q=80');'));
+  assert.ok(finalCss.includes('--ep-scene-overlay: linear-gradient(180deg, rgba(255,255,248,.52), rgba(255,255,248,.32) 46%, rgba(247,243,232,.66));'));
   assert.ok(finalCss.includes('var(--ep-scene-overlay)'));
   assert.ok(finalCss.includes('var(--ep-scene)'));
+  assert.ok(finalCss.includes('background-attachment: scroll, scroll !important;'));
   assert.ok(!finalCss.includes('/brand/natural-sereno/'));
   assert.ok(!finalCss.includes('/brand/reintegracao/'));
 });
