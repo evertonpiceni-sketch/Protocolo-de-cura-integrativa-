@@ -8,7 +8,7 @@ export interface LayoutDefinition {
   id: LayoutId;
   name: string;
   description: string;
-  swatches: [string, string, string, string];
+  swatches: string[];
   tone: 'light' | 'dark';
 }
 
@@ -40,7 +40,7 @@ export const OFFICIAL_LAYOUTS: LayoutDefinition[] = [
     id: 'mistico-moderno',
     name: 'Místico Moderno',
     description: 'Espiritualidade com tecnologia, fundo noturno sofisticado, azul-noturno/índigo, violeta e esmeralda integrados, dourado/âmbar como acentos e marfim para leitura.',
-    swatches: ['#0A0F18', '#6C3FA0', '#D4AF37', '#141F30'],
+    swatches: ['#0A0F18', '#243B63', '#0D5F4F', '#6C3FA0', '#D4AF37', '#E2B96B'],
     tone: 'dark'
   }
 ];
