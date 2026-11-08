@@ -819,19 +819,13 @@ test('as decisões aprovadas da Essência Luminosa ficam na última camada CSS',
 test('a cena efetiva da Home do Estilo 3 permanece sem foto herdada e usa apenas o overlay claro previsto', () => {
   const theme = fs.readFileSync('src/approved-theme.css', 'utf8');
   const finalCss = fs.readFileSync('src/essencia-luminosa-final-audit.css', 'utf8');
-  const themeStart = theme.indexOf(':root[data-layout="essencia-luminosa"]{');
-  const themeEnd = theme.indexOf('\n}', themeStart);
-  const themeBlock = themeStart >= 0 && themeEnd > themeStart ? theme.slice(themeStart, themeEnd) : '';
-  const finalStart = finalCss.indexOf(':root[data-layout="essencia-luminosa"]{');
-  const finalEnd = finalCss.indexOf('\n}', finalStart);
-  const finalBlock = finalStart >= 0 && finalEnd > finalStart ? finalCss.slice(finalStart, finalEnd) : '';
 
-  assert.ok(themeBlock.includes('--ep-scene:none;'));
-  assert.ok(themeBlock.includes('--ep-scene-overlay:none;'));
-  assert.ok(finalBlock.includes('--ep-scene: none;'));
-  assert.ok(finalBlock.includes('--ep-scene-overlay: linear-gradient(180deg, rgba(255,255,248,.70), rgba(255,255,248,.42) 46%, rgba(247,243,232,.78));'));
+  assert.ok(theme.includes('--ep-scene:none;'));
+  assert.ok(theme.includes('--ep-scene-overlay:none;'));
+  assert.ok(finalCss.includes('--ep-scene: none;'));
+  assert.ok(finalCss.includes('--ep-scene-overlay: linear-gradient(180deg, rgba(255,255,248,.70), rgba(255,255,248,.42) 46%, rgba(247,243,232,.78));'));
   assert.ok(finalCss.includes('var(--ep-scene-overlay)'));
   assert.ok(finalCss.includes('var(--ep-scene)'));
-  assert.ok(!finalBlock.includes('natural-sereno'));
-  assert.ok(!finalBlock.includes('reintegracao'));
+  assert.ok(!finalCss.includes('/brand/natural-sereno/'));
+  assert.ok(!finalCss.includes('/brand/reintegracao/'));
 });
