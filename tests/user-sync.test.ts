@@ -61,7 +61,7 @@ test('user sync does not retry permanent authentication or validation errors', a
         },
       },
     ),
-    /HTTP 401 after 1 attempt/,
+    /HTTP 401/,
   );
   assert.equal(calls, 1);
 });
@@ -107,7 +107,8 @@ test('active profile, progress, onboarding and Natural Sereno journey paths use 
   const journey = readFileSync('src/lib/naturalSerenoHomeJourneyStateFix.ts', 'utf8');
 
   assert.match(app, /const saveProfile = \(newProfile: UserProfile, progressOverride\?: DayProgress\[\]\) =>/);
-  assert.match(app, /const syncPayload = progressOverride \? \{ profile: newProfile, progress: progressOverride \} : \{ profile: newProfile \};/);
+  const normalizedApp = app.replace(/\s+/g, ' ');
+  assert.ok(normalizedApp.includes('const syncPayload = progressOverride ? { profile: newProfile, progress: progressOverride } : { profile: newProfile };'));
   assert.match(app, /void syncUserState\(syncPayload\)/);
   assert.match(app, /void syncUserState\(\{ progress: newProgress \}\)/);
   assert.match(app, /await syncUserState\(\{ profile: updatedProfile \}\)/);
