@@ -36,7 +36,13 @@ Foi criado `tests/natural-sereno-logo-audit.test.ts` para impedir o retorno da o
 - Revisados os caminhos de voz neural, Solfeggio, Diário e confirmação de pagamento no código da `main`.
 - A branch anterior RUN 96 não contém commits exclusivos em relação à `main` atual; esta correção parte diretamente da linha principal vigente e não recupera a branch antiga.
 
-**CI desta correção:** pendente de execução após o push da branch/abertura da PR. O teste novo foi adicionado, mas ainda não declaro lint, suíte ou build aprovados nesta rodada.
+**CI GitHub Actions #1876 — execução `42518553276`: aprovada.**
+- `npm audit`: 0 vulnerabilidades.
+- TypeScript: aprovado.
+- Testes: **152/152 aprovados**, incluindo o novo teste do logo no onboarding.
+- Build Vite: aprovado; 2.247 módulos transformados.
+- Entry points Vercel/Express, padrões de segredos, JWT fail-closed, cadastro/admin, smoke tests e endpoints de pagamento fail-closed: aprovados.
+- Check externo Vercel: continua em falha `build-rate-limit`; preview READY não disponível.
 
 ## Pendente
 
