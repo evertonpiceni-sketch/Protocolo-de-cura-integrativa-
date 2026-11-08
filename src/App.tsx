@@ -1484,7 +1484,7 @@ export default function App() {
                     { id: '741hz', title: '741Hz • Clareza & Renovação', subtitle: 'Clareza & Desbloqueio Simbólico', isPro: true },
                     { id: 'florestazen', title: 'Floresta Zen', subtitle: 'Canto Suave de Pássaros & Águas Claras', isPro: false },
                     { id: 'chuvaserena', title: 'Chuva Serena', subtitle: 'Gotas Relaxantes para Sono Profundo', isPro: false },
-                    { id: 'waves', title: isEssenciaLuminosa ? 'Ondas do Mar' : 'Sinos & Brisa Tibetana', subtitle: isEssenciaLuminosa ? 'Maré suave e brisa costeira' : 'Atmosfera de Templo Sagrado', isPro: false },
+                    { id: 'waves', title: isEssenciaLuminosa || isEleganciaProfunda ? 'Ondas do Mar' : 'Sinos & Brisa Tibetana', subtitle: isEssenciaLuminosa || isEleganciaProfunda ? 'Maré suave e brisa costeira' : 'Atmosfera de Templo Sagrado', isPro: false },
                     { id: 'none', title: 'Sem Música de Fundo', subtitle: 'Apenas a Voz Canalizada do Protocolo', isPro: false }
                   ].map(option => (
                     <button
