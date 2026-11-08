@@ -494,6 +494,7 @@ export default function App() {
   // Save profile state whenever it changes
   const saveProfile = (newProfile: UserProfile, progressOverride: DayProgress[] = progress) => {
     setUserProfile(newProfile);
+    setProgress(progressOverride);
     updateLocalAccountCache(newProfile, progressOverride);
     if (isLoggedIn) {
       fetch('/api/user/sync', {
@@ -760,8 +761,6 @@ export default function App() {
       return d;
     });
 
-    saveProgress(updatedProgress);
-
     if (userProfile) {
       const unlocked = evaluateAchievements(userProfile, updatedProgress);
       const updatedProfile: UserProfile = {
@@ -769,6 +768,8 @@ export default function App() {
         unlockedAchievements: unlocked.unlockedIds
       };
       saveProfile(updatedProfile, updatedProgress);
+    } else {
+      saveProgress(updatedProgress);
     }
   };
 
@@ -787,8 +788,6 @@ export default function App() {
       return d;
     });
 
-    saveProgress(updatedProgress);
-
     if (userProfile) {
       const unlocked = evaluateAchievements(userProfile, updatedProgress);
       const updatedProfile: UserProfile = {
@@ -796,6 +795,8 @@ export default function App() {
         unlockedAchievements: unlocked.unlockedIds
       };
       saveProfile(updatedProfile, updatedProgress);
+    } else {
+      saveProgress(updatedProgress);
     }
   };
 
