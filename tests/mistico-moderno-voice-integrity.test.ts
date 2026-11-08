@@ -101,3 +101,27 @@ test('Místico Moderno blocks Solfeggio changes during neural voice preview and 
   assert.match(player, /isMisticoModerno && !style4VoiceId/);
   assert.match(player, /isMisticoModerno\s*\?\s*style4VoiceId/);
 });
+
+
+test('Místico Moderno mantém a voz neural nas práticas legadas e suspende 639 Hz durante a fala', () => {
+  const anamnesis = read('src/components/AnamnesisModal.tsx');
+  const systemic = read('src/components/SystemicQuestionsModal.tsx');
+  const hooponopono = read('src/components/HooponoponoModal.tsx');
+  const archangelPrayer = read('src/components/ArchangelMichaelPrayerModal.tsx');
+
+  assert.match(anamnesis, /if \(isEleganciaProfunda \|\| isEssenciaLuminosa \|\| isMisticoModerno\)/);
+  assert.match(anamnesis, /resumeStyle4AnamnesisSolfeggio/);
+  assert.match(anamnesis, /isMisticoModerno && audioEngine\.getCurrentSynthType\(\) === '639hz'/);
+  assert.match(anamnesis, /!isEleganciaProfunda && !isEssenciaLuminosa && !isMisticoModerno/);
+  assert.match(anamnesis, /fallbackToSpeechSynthesis: false/);
+
+  assert.match(systemic, /if \(isEleganciaProfunda \|\| isEssenciaLuminosa \|\| isMisticoModerno\)/);
+  assert.match(systemic, /resumeStyle4SystemicSolfeggio/);
+  assert.match(systemic, /isMisticoModerno && audioEngine\.getCurrentSynthType\(\) === '639hz'/);
+  assert.match(systemic, /fallbackToSpeechSynthesis: false/);
+
+  assert.match(hooponopono, /if \(\(isEleganciaProfunda \|\| isMisticoModerno\) && !isElevenLabsVoiceId/);
+  assert.match(hooponopono, /fallbackToSpeechSynthesis: !\(isEleganciaProfunda \|\| isEssenciaLuminosa \|\| isMisticoModerno\)/);
+  assert.match(archangelPrayer, /if \(\(isEleganciaProfunda \|\| isMisticoModerno\) && !isElevenLabsVoiceId/);
+  assert.match(archangelPrayer, /fallbackToSpeechSynthesis: !\(isEleganciaProfunda \|\| isEssenciaLuminosa \|\| isMisticoModerno\)/);
+});
