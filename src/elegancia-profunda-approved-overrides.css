@@ -2,6 +2,8 @@
    Até existir uma fotografia de natureza aprovada e própria do estilo, mantém profundidade verde sem improvisar imagem. */
 :root[data-layout="elegancia-profunda"] {
   --ep-scene:none;
+  --font-display:"Playfair Display",Georgia,serif;
+  --font-sans:"Montserrat",ui-sans-serif,system-ui,sans-serif;
   --ep-scene-overlay:
     radial-gradient(ellipse at 16% 12%,rgba(212,175,55,.12),transparent 28rem),
     radial-gradient(ellipse at 88% 34%,rgba(30,84,58,.26),transparent 34rem),
@@ -17,7 +19,8 @@
     radial-gradient(ellipse at 108% 34%, color-mix(in srgb, var(--layout-gold) 10%, transparent), transparent 24%) !important;
 }
 
-:root[data-layout="elegancia-profunda"] body { text-rendering: optimizeLegibility; -webkit-font-smoothing: antialiased; }
+:root[data-layout="elegancia-profunda"] body { font-family:"Montserrat",ui-sans-serif,system-ui,sans-serif!important; text-rendering: optimizeLegibility; -webkit-font-smoothing: antialiased; }
+:root[data-layout="elegancia-profunda"] :is(h1,h2,h3,.font-display,.font-serif) { font-family:"Playfair Display",Georgia,serif!important; letter-spacing:.01em; }
 :root[data-layout="elegancia-profunda"] button:not([disabled]), :root[data-layout="elegancia-profunda"] [role="button"] { -webkit-font-smoothing: antialiased; }
 
 /* Logo oficial: assinatura discreta. */
