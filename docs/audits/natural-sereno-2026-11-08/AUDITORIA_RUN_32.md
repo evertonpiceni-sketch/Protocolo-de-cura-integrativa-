@@ -49,7 +49,7 @@ A integração desta PR com a main mais recente concluiu no GitHub Actions #1662
 
 ## Pendente
 
-1. Revisão de código independente e confirmação de mergeability da PR. O CI de integração já está verde.
+1. Revisão de código independente do Codex ainda em andamento. A PR #66 está mergeable; não foi mesclada.
 2. Preview navegável e capturas reais página a página em desktop/mobile. A última tentativa Vercel foi bloqueada por `api-deployments-free-per-day` (mais de 100 deployments; aguardar janela de 24h).
 3. Escuta real da voz selecionada e das transições narração/Solfeggio/ambiência.
 4. Cadastrar a `INFINITEPAY_API_KEY` oficial no ambiente Vercel correto. A última consulta de metadados não a encontrou; enquanto ausente, o checkout fica bloqueado por segurança.
