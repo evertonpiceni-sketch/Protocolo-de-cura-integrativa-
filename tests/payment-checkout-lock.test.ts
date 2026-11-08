@@ -37,7 +37,7 @@ test('lock global serializa snapshots de checkout de usuários e produtos difere
     renewIntervalMs: 10_000
   };
   const routes = fs.readFileSync('src/lib/paymentRoutes.ts', 'utf8');
-  assert.equal(routes.split('acquireSharedDatabaseWriteLock()').length - 1, 3, 'checkout, confirmação e degustação devem usar o lock global com refresh');
+  assert.equal(routes.split('await acquireSharedDatabaseWriteLock()').length - 1, 3, 'checkout, confirmação e degustação devem usar o lock global com refresh');
   assert.ok(!routes.includes('`standard:${req.userId}:${productType}`'), 'não pode haver lock separado por usuário/produto');
 
   // Simula usuário A em assinatura e usuário B em prática individual: ambos usam a mesma chave.
