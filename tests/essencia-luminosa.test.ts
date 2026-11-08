@@ -558,8 +558,8 @@ test('a prévia de voz da Essência Luminosa não toca Solfeggio durante a narra
 
   assert.equal(
     (app.match(/shouldPlayProtocolSessionBackground\('playing', userProfile\.bgMusicType\)/g) || []).length,
-    2,
-    'a reprodução global e o desbloqueio por gesto devem respeitar a prévia de voz'
+    3,
+    'a sincronização global, o desbloqueio por gesto e o início da prévia neural devem respeitar a política Solfeggio'
   );
   assert.ok(app.includes('!usesNeuralVoiceCatalog || !isPlayingVoiceTest'));
   assert.ok(app.includes('layoutConfirmedThisSession,\n    usesNeuralVoiceCatalog,\n    isPlayingVoiceTest\n  ]);'));
