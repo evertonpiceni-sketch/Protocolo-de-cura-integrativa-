@@ -29,3 +29,14 @@ test('o seletor não aplica nenhum estilo antes da escolha e confirmação expl�
   assert.match(modal, /await onSelect\(selectedLayout\)/);
   assert.match(modal, /O estilo só será aplicado depois da sua confirmação/);
 });
+
+
+test('Místico Moderno não herda a arte de fundo da Reintegração', () => {
+  const theme = read('src/approved-theme.css');
+  const style4Scene = theme.match(/:root\\[data-layout="mistico-moderno"\\]\\s*\\{[^}]*--ep-scene:[^}]*\\}/)?.[0] ?? '';
+
+  assert.ok(style4Scene, 'O bloco de cena do Estilo 4 deve existir.');
+  assert.match(style4Scene, /--ep-scene:none;/);
+  assert.ok(!style4Scene.includes('/brand/reintegracao-presenca-arte.png'));
+  assert.match(style4Scene, /radial-gradient/);
+});
