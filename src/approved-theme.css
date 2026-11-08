@@ -145,6 +145,9 @@
 
 :root[data-layout="essencia-luminosa"]{
   color-scheme:light;
+  /* Não herdar a paisagem do Natural Sereno ou da Reintegração. A cena própria fica suspensa até haver fotografia exclusiva aprovada. */
+  --ep-scene:none;
+  --ep-scene-overlay:none;
   --layout-canvas:#FFFFF8;
   --layout-canvas-alt:#F7F3E8;
   --layout-bg:#FFFFF8;
