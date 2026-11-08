@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import React, { useMemo, useRef, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { useDialogFocus } from '../hooks/useDialogFocus';
 import { Check, ChevronDown, Crown, Sparkles, X, Tag, ShieldCheck } from 'lucide-react';
 import { UserProfile, SubscriptionPlanType } from '../types';
@@ -11,6 +11,7 @@ import { PAYMENT_PLANS } from '../lib/paymentCatalog';
 
 interface ProUpgradeModalProps {
   isOpen: boolean;
+  initialPlanId?: SubscriptionPlanType;
   onClose: () => void;
   userProfile: UserProfile;
   onUpgradeSuccess: (plan: SubscriptionPlanType, paymentMethod: 'pix' | 'card', price: number, couponCode?: string) => boolean | void | Promise<boolean | void>;
@@ -50,6 +51,21 @@ const PLANS: PlanItem[] = [
       'Orientação para identificar o protocolo mais adequado ao momento',
       'Escolha livre entre os protocolos disponíveis para 7 dias',
       'O ciclo de 7 dias preserva início, desenvolvimento, integração e fechamento',
+      'Anamnese Completa disponível por R$ 15,00 após o resultado compacto'
+    ]
+  },
+  {
+    id: 'jornada_21d',
+    title: 'Acesso avulso — 21 dias',
+    price: PAYMENT_PLANS.jornada_21d.cents / 100,
+    period: 'acesso 21 dias',
+    badge: 'Opção avulsa',
+    summary: ['Anamnese Compacta incluída', '21 dias de acesso', 'Anamnese Completa opcional por R$ 15'],
+    details: [
+      'Anamnese Compacta com resultado mostrado imediatamente',
+      'Orientação para identificar o protocolo mais adequado ao momento',
+      'Escolha livre entre os protocolos disponíveis para 21 dias',
+      'O ciclo de 21 dias preserva início, desenvolvimento, integração e fechamento',
       'Anamnese Completa disponível por R$ 15,00 após o resultado compacto'
     ]
   },
@@ -100,8 +116,11 @@ const COUPONS: Record<string, { discount: number; vip?: boolean }> = {
 
 const money = (value: number) => `R$ ${value.toFixed(2).replace('.', ',')}`;
 
-export default function ProUpgradeModal({ isOpen, onClose, onUpgradeSuccess }: ProUpgradeModalProps) {
-  const [selectedId, setSelectedId] = useState<SubscriptionPlanType>('trimestral');
+export default function ProUpgradeModal({ isOpen, initialPlanId, onClose, onUpgradeSuccess }: ProUpgradeModalProps) {
+  const [selectedId, setSelectedId] = useState<SubscriptionPlanType>(initialPlanId || 'trimestral');
+  useEffect(() => {
+    if (isOpen && initialPlanId) setSelectedId(initialPlanId);
+  }, [isOpen, initialPlanId]);
   const [expandedId, setExpandedId] = useState<SubscriptionPlanType | null>(null);
   const [coupon, setCoupon] = useState('');
   const [appliedCoupon, setAppliedCoupon] = useState<string | null>(null);
@@ -153,8 +172,8 @@ export default function ProUpgradeModal({ isOpen, onClose, onUpgradeSuccess }: P
     }
   };
 
-  const plans = PLANS.filter(plan => plan.id !== 'jornada_7d');
-  const standalone = PLANS.filter(plan => plan.id === 'jornada_7d');
+  const plans = PLANS.filter(plan => plan.id !== 'jornada_7d' && plan.id !== 'jornada_21d');
+  const standalone = PLANS.filter(plan => plan.id === 'jornada_7d' || plan.id === 'jornada_21d');
 
   return (
     <div ref={dialogRef} id="plans-modal" role="dialog" aria-modal="true" aria-labelledby="plans-title" className="fixed inset-0 z-[100] bg-[#1F2E27]/35 backdrop-blur-xl overflow-y-auto">

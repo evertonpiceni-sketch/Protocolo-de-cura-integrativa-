@@ -5,7 +5,7 @@
 
 import React, { useState, useEffect, useRef } from 'react';
 import { Sparkles, Calendar, BookOpen, Volume2, VolumeX, User, RefreshCw, Compass, Heart, Award, Info, X, Play, Clock, Smile, LogOut, Crown, Star, Check, Mic, Sliders, Activity, FileText, Globe, MessageCircle, Phone, Smartphone, Download, Leaf, Bell, Headphones, Video } from 'lucide-react';
-import { DayProgress, UserProfile, UserAccount, DAILY_INSIGHTS, JOURNEY_7D_INSIGHTS, PROTOCOL_STAGES, AnamnesisData, SpecificTreatment, SessionCheckIn, JourneyType } from './types';
+import { DayProgress, UserProfile, UserAccount, DAILY_INSIGHTS, JOURNEY_7D_INSIGHTS, PROTOCOL_STAGES, AnamnesisData, SpecificTreatment, SessionCheckIn, JourneyType, SubscriptionPlanType } from './types';
 import ProfileSetup from './components/ProfileSetup';
 import MeditationSession from './components/MeditationSession';
 import JournalLog from './components/JournalLog';
@@ -77,6 +77,11 @@ export default function App() {
   const [selectedDayDetail, setSelectedDayDetail] = useState<number | null>(null);
   const [showSettings, setShowSettings] = useState<boolean>(false);
   const [showProModal, setShowProModal] = useState<boolean>(false);
+  const [proModalInitialPlanId, setProModalInitialPlanId] = useState<SubscriptionPlanType | undefined>(undefined);
+  const closeProModal = () => {
+    setShowProModal(false);
+    setProModalInitialPlanId(undefined);
+  };
   const [showCertificateModal, setShowCertificateModal] = useState<boolean>(false);
   const [showAnamnesisModal, setShowAnamnesisModal] = useState<boolean>(false);
   const [showSpecificTreatmentModal, setShowSpecificTreatmentModal] = useState<boolean>(false);
@@ -848,8 +853,8 @@ export default function App() {
     return <ProfileSetup onComplete={handleOnboardingComplete} />;
   }
 
-  const subscriptionLabel = ({ teste_vip_7d: 'VIP7', jornada_7d: '7 DIAS', arcanjo_7d: '7 DIAS', semanal: 'SEMANAL', mensal: 'MENSAL', trimestral: 'TRIMESTRAL', semestral: 'SEMESTRAL', anual: 'ANUAL' } as const)[userProfile.subscriptionPlan!] || 'PRO';
-  const subscriptionPeriod = ({ teste_vip_7d: 'por 7 dias', jornada_7d: 'por 7 dias', arcanjo_7d: 'por 7 dias', semanal: 'semanal', mensal: 'mensal', trimestral: 'trimestral', semestral: 'semestral', anual: 'anual' } as const)[userProfile.subscriptionPlan!] || '';
+  const subscriptionLabel = ({ teste_vip_7d: 'VIP7', jornada_7d: '7 DIAS', jornada_21d: '21 DIAS', arcanjo_7d: '7 DIAS', semanal: 'SEMANAL', mensal: 'MENSAL', trimestral: 'TRIMESTRAL', semestral: 'SEMESTRAL', anual: 'ANUAL' } as const)[userProfile.subscriptionPlan!] || 'PRO';
+  const subscriptionPeriod = ({ teste_vip_7d: 'por 7 dias', jornada_7d: 'por 7 dias', jornada_21d: 'por 21 dias', arcanjo_7d: 'por 7 dias', semanal: 'semanal', mensal: 'mensal', trimestral: 'trimestral', semestral: 'semestral', anual: 'anual' } as const)[userProfile.subscriptionPlan!] || '';
 
   const selectedProgress = selectedDayDetail ? progress.find(p => p.dayNumber === selectedDayDetail) : null;
   const currentInsightsList = userProfile.selectedJourney === '7d' ? JOURNEY_7D_INSIGHTS : DAILY_INSIGHTS;
@@ -2320,7 +2325,8 @@ export default function App() {
       {showProModal && (
         <ProUpgradeModal
           isOpen={showProModal}
-          onClose={() => setShowProModal(false)}
+          initialPlanId={proModalInitialPlanId}
+          onClose={closeProModal}
           userProfile={userProfile}
           onUpgradeSuccess={async (plan, paymentMethod, price, couponCode) => {
             if (!isLoggedIn) {
@@ -2339,7 +2345,7 @@ export default function App() {
                 throw new Error(data.error || 'Não foi possível ativar a degustação agora.');
               }
               setUserProfile(data.user.profile);
-              setShowProModal(false);
+              closeProModal();
               setShowCertificateModal(true);
               return true;
             }
@@ -2366,7 +2372,7 @@ export default function App() {
             }
             if (data.status === 'paid' && data.user?.profile) {
               setUserProfile(data.user.profile);
-              setShowProModal(false);
+              closeProModal();
               if (plan === 'arcanjo_7d') setShowArcanjoView(true);
               else setShowCertificateModal(true);
               return true;
@@ -2374,7 +2380,7 @@ export default function App() {
             throw new Error('Aguardando confirmação segura do pagamento.');
           }}
           onOpenContact={() => {
-            setShowProModal(false);
+            closeProModal();
             setShowContactModal(true);
           }}
         />
@@ -2441,8 +2447,9 @@ export default function App() {
         <PlansValuesGuideModal
           isOpen={showPlansGuideModal}
           onClose={() => setShowPlansGuideModal(false)}
-          onOpenProModal={() => {
+          onOpenProModal={(planId) => {
             setShowPlansGuideModal(false);
+            setProModalInitialPlanId(planId as SubscriptionPlanType | undefined);
             setShowProModal(true);
           }}
           onOpenSpecificTreatment={() => {

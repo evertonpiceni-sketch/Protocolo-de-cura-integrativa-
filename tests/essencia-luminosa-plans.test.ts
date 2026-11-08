@@ -1,0 +1,57 @@
+import assert from 'node:assert/strict';
+import fs from 'node:fs';
+import test from 'node:test';
+import { PAYMENT_PLANS, paymentQuote } from '../src/lib/paymentCatalog';
+
+test('os acessos avulsos seguem os valores aprovados sem alterar os acompanhamentos individuais', () => {
+  assert.equal(PAYMENT_PLANS.jornada_7d.cents, 2500);
+  assert.equal(PAYMENT_PLANS.jornada_21d.cents, 5000);
+  assert.equal(paymentQuote('jornada_7d').cents, 2500);
+  assert.equal(paymentQuote('jornada_21d').cents, 5000);
+  const catalog = fs.readFileSync('src/lib/paymentCatalog.ts', 'utf8');
+  assert.ok(catalog.includes('7: 5990'));
+  assert.ok(catalog.includes('21: 9990'));
+});
+
+test('os dois acessos avulsos aparecem no guia e no checkout', () => {
+  const guide = fs.readFileSync('src/components/PlansValuesGuideModal.tsx', 'utf8');
+  const checkout = fs.readFileSync('src/components/ProUpgradeModal.tsx', 'utf8');
+  assert.ok(guide.includes("priceFormatted: 'R$ 25,00'"));
+  assert.ok(guide.includes("priceFormatted: 'R$ 50,00'"));
+  assert.ok(guide.includes("id: 'jornada_21d'"));
+  assert.ok(checkout.includes("id: 'jornada_21d'"));
+  assert.ok(checkout.includes('PAYMENT_PLANS.jornada_21d.cents / 100'));
+  assert.ok(checkout.includes("plan.id === 'jornada_7d' || plan.id === 'jornada_21d'"));
+});
+
+test('a seleção feita no guia chega ao checkout sem ser substituída pelo plano trimestral', () => {
+  const guide = fs.readFileSync('src/components/PlansValuesGuideModal.tsx', 'utf8');
+  const app = fs.readFileSync('src/App.tsx', 'utf8');
+  const checkout = fs.readFileSync('src/components/ProUpgradeModal.tsx', 'utf8');
+  assert.ok(guide.includes('onOpenProModal(plan.id)'));
+  assert.ok(app.includes('setProModalInitialPlanId(planId as SubscriptionPlanType | undefined)'));
+  assert.ok(app.includes('initialPlanId={proModalInitialPlanId}'));
+  assert.ok(checkout.includes('initialPlanId?: SubscriptionPlanType'));
+  assert.ok(checkout.includes('if (isOpen && initialPlanId) setSelectedId(initialPlanId)'));
+});
+
+test('o Estilo 3 aplica tokens próprios ao guia de planos sem alterar os demais estilos', () => {
+  const guide = fs.readFileSync('src/components/PlansValuesGuideModal.tsx', 'utf8');
+  const css = fs.readFileSync('src/essencia-luminosa-final-audit.css', 'utf8');
+  assert.ok(guide.includes('data-plan-card={plan.id}'));
+  assert.ok(guide.includes('data-plan-cta="true"'));
+  assert.ok(guide.includes('aria-pressed={filterCategory === value}'));
+  assert.ok(css.includes(':root[data-layout="essencia-luminosa"] #plans-values-guide-modal'));
+  assert.ok(css.includes('[data-plan-cta]'));
+  assert.ok(css.includes('var(--layout-gold-gradient)'));
+});
+
+test('jornada de 21 dias é reconhecida no tipo, no admin e no resumo do perfil', () => {
+  const types = fs.readFileSync('src/types.ts', 'utf8');
+  const server = fs.readFileSync('server.ts', 'utf8');
+  const app = fs.readFileSync('src/App.tsx', 'utf8');
+  assert.ok(types.includes("'jornada_21d'"));
+  assert.ok(server.includes('"jornada_21d"'));
+  assert.ok(app.includes("jornada_21d: '21 DIAS'"));
+  assert.ok(app.includes("jornada_21d: 'por 21 dias'"));
+});

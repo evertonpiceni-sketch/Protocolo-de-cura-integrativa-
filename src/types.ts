@@ -86,7 +86,7 @@ export interface AnamnesisData {
 
 export type JourneyType = '7d' | '21d' | 'arcanjo_7d';
 
-export type SubscriptionPlanType = 'teste_vip_7d' | 'jornada_7d' | 'arcanjo_7d' | 'semanal' | 'mensal' | 'trimestral' | 'semestral' | 'anual';
+export type SubscriptionPlanType = 'teste_vip_7d' | 'jornada_7d' | 'jornada_21d' | 'arcanjo_7d' | 'semanal' | 'mensal' | 'trimestral' | 'semestral' | 'anual';
 
 export interface AstralElementBalance {
   fire: number;   // Fogo %

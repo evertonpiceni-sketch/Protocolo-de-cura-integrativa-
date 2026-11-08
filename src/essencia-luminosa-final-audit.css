@@ -309,6 +309,69 @@
   outline-offset: 3px;
 }
 
+/* Guia de planos e valores — identidade exclusiva da Essência Luminosa. */
+:root[data-layout="essencia-luminosa"] #plans-values-guide-modal {
+  background: color-mix(in srgb, var(--layout-text) 18%, transparent) !important;
+}
+:root[data-layout="essencia-luminosa"] #plans-values-guide-modal > div {
+  background: linear-gradient(155deg, var(--layout-canvas), var(--layout-canvas-alt)) !important;
+  border-color: var(--layout-border-card) !important;
+  color: var(--layout-text) !important;
+}
+:root[data-layout="essencia-luminosa"] #plans-values-guide-modal [data-plan-card] {
+  background: var(--layout-card) !important;
+  border-color: var(--layout-border-card) !important;
+  box-shadow: 0 12px 30px rgba(112, 91, 58, .065) !important;
+}
+:root[data-layout="essencia-luminosa"] #plans-values-guide-modal :is([data-plan-card="jornada_7d"], [data-plan-card="jornada_21d"]) {
+  background: linear-gradient(145deg, color-mix(in srgb, var(--layout-gold-soft) 42%, var(--layout-card)), var(--layout-card)) !important;
+  border-color: var(--layout-gold-border) !important;
+}
+:root[data-layout="essencia-luminosa"] #plans-values-guide-modal [data-plan-filter][aria-pressed="true"] {
+  background: var(--layout-gold-soft) !important;
+  border-color: var(--layout-gold-border) !important;
+  color: var(--layout-text) !important;
+  box-shadow: 0 6px 16px var(--layout-gold-shadow) !important;
+}
+:root[data-layout="essencia-luminosa"] #plans-values-guide-modal [data-plan-filter][aria-pressed="false"] {
+  background: var(--layout-card) !important;
+  border-color: var(--layout-border-card) !important;
+  color: var(--layout-text-secondary) !important;
+}
+:root[data-layout="essencia-luminosa"] #plans-values-guide-modal [data-plan-cta] {
+  background: var(--layout-gold-gradient) !important;
+  border: 1px solid var(--layout-gold-border) !important;
+  color: var(--layout-text) !important;
+  box-shadow: 0 10px 24px var(--layout-gold-shadow) !important;
+}
+:root[data-layout="essencia-luminosa"] #plans-values-guide-modal [data-plan-cta]:hover {
+  filter: brightness(.98) saturate(.96);
+}
+:root[data-layout="essencia-luminosa"] #plans-values-guide-modal [class*="bg-[#E2B96B]"] {
+  background: color-mix(in srgb, var(--layout-gold-soft) 42%, var(--layout-card)) !important;
+}
+:root[data-layout="essencia-luminosa"] #plans-values-guide-modal [class*="border-[#C89D52]"] {
+  border-color: var(--layout-gold-border) !important;
+}
+:root[data-layout="essencia-luminosa"] #plans-values-guide-modal [class*="text-[#A87E37]"] {
+  color: var(--layout-gold-dark) !important;
+}
+:root[data-layout="essencia-luminosa"] #plans-values-guide-modal [class*="text-[#6B625B]"] {
+  color: var(--layout-text-secondary) !important;
+}
+:root[data-layout="essencia-luminosa"] #plans-values-guide-modal [class*="text-[#2A2421]"] {
+  color: var(--layout-text) !important;
+}
+:root[data-layout="essencia-luminosa"] #plans-values-guide-modal [class*="border-[#E8E0D5]"] {
+  border-color: var(--layout-border-card) !important;
+}
+:root[data-layout="essencia-luminosa"] #plans-values-guide-modal [class*="bg-[#FAF7F2]"] {
+  background: var(--layout-canvas) !important;
+}
+:root[data-layout="essencia-luminosa"] #plans-values-guide-modal [class*="text-[#FAF7F2]"] {
+  color: var(--layout-card) !important;
+}
+
 /* Ajustes de áudio: harmoniza os controles com o ouro suave aprovado. */
 :root[data-layout="essencia-luminosa"] #audio-settings-modal > div {
   background: var(--layout-card) !important;

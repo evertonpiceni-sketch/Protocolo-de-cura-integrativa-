@@ -42,9 +42,9 @@ export const ALL_PLANS_DATA: DetailedPlanInfo[] = [
     category: 'assinatura',
     title: 'Acesso avulso — 7 dias',
     badge: 'Opção avulsa',
-    priceFormatted: 'R$ 59,90',
+    priceFormatted: 'R$ 25,00',
     periodText: 'acesso por 7 dias',
-    priceNumeric: 59.9,
+    priceNumeric: 25,
     highlightBenefit: 'Um ciclo curto e completo, com Anamnese Compacta incluída.',
     features: [
       'Anamnese Compacta com resultado imediato',
@@ -55,6 +55,27 @@ export const ALL_PLANS_DATA: DetailedPlanInfo[] = [
     ],
     description: 'Você recebe a orientação primeiro e só depois escolhe o protocolo que deseja seguir durante os 7 dias.',
     ctaText: 'Escolher acesso de 7 dias',
+    accentColor: 'gold',
+    buttonClass: PREMIUM_BUTTON
+  },
+  {
+    id: 'jornada_21d',
+    category: 'assinatura',
+    title: 'Acesso avulso — 21 dias',
+    badge: 'Opção avulsa',
+    priceFormatted: 'R$ 50,00',
+    periodText: 'acesso por 21 dias',
+    priceNumeric: 50,
+    highlightBenefit: 'Um ciclo completo de 21 dias, com Anamnese Compacta incluída.',
+    features: [
+      'Anamnese Compacta com resultado imediato',
+      'Orientação para identificar o protocolo mais adequado ao seu momento',
+      'Escolha livre entre os protocolos disponíveis para 21 dias',
+      'Ciclo de 21 dias com começo, desenvolvimento, integração e fechamento',
+      'Anamnese Completa opcional por R$ 15,00'
+    ],
+    description: 'Você recebe a orientação primeiro e só depois escolhe o protocolo que deseja seguir durante os 21 dias.',
+    ctaText: 'Escolher acesso de 21 dias',
     accentColor: 'gold',
     buttonClass: PREMIUM_BUTTON
   },
@@ -126,11 +147,11 @@ export function PlansValuesGuideModal({ isOpen, onClose, onSelectPlan, onOpenPro
         <button onClick={onClose} className="absolute top-5 right-5 w-8 h-8 rounded-full bg-white/70 border border-[#E8E0D5] text-[#6B625B] flex items-center justify-center z-10" aria-label="Fechar"><X size={16} /></button>
         <div className="space-y-6">
           <div className="text-center space-y-2 px-8"><div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#E2B96B]/15 border border-[#C89D52]/30 text-[#A87E37] text-xs font-medium"><Crown size={14} /><span>PLANOS E VALORES</span></div><h2 className="text-2xl md:text-3xl font-display font-medium text-[#2A2421]">Escolha o formato que combina com o seu momento</h2><p className="text-xs md:text-sm text-[#6B625B] max-w-2xl mx-auto">Aqui você escolhe a forma de acesso. A Anamnese Compacta orienta o próximo passo e, depois do resultado, você escolhe livremente o protocolo e a duração disponíveis. A partir do trimestral, a Anamnese Completa já está incluída.</p></div>
-          <div className="flex flex-wrap items-center justify-center gap-2">{[['todos', `Todos (${ALL_PLANS_DATA.length})`],['assinatura', 'Acessos e planos'],['tratamento_individual', 'Acompanhamentos individuais']].map(([value,label]) => <button key={value} onClick={() => setFilterCategory(value as typeof filterCategory)} className={`px-3.5 py-1.5 rounded-xl text-xs font-semibold transition ${filterCategory === value ? 'bg-[#2A2421] text-[#FAF7F2] shadow-sm' : 'bg-white/70 text-[#6B625B] border border-[#E8E0D5]'}`}>{label}</button>)}</div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 items-stretch">{filteredPlans.map((plan) => <div key={plan.id} className={`p-5 rounded-3xl border flex h-full flex-col transition-all relative overflow-hidden ${plan.isPopular ? 'bg-[#E2B96B]/10 border-[#C89D52]/45 shadow-xl shadow-[#A87E37]/10' : 'bg-white/75 border-[#E8E0D5]'}`}>
+          <div className="flex flex-wrap items-center justify-center gap-2">{[['todos', `Todos (${ALL_PLANS_DATA.length})`],['assinatura', 'Acessos e planos'],['tratamento_individual', 'Acompanhamentos individuais']].map(([value,label]) => <button key={value} data-plan-filter={value} aria-pressed={filterCategory === value} onClick={() => setFilterCategory(value as typeof filterCategory)} className={`px-3.5 py-1.5 rounded-xl text-xs font-semibold transition ${filterCategory === value ? 'bg-[#2A2421] text-[#FAF7F2] shadow-sm' : 'bg-white/70 text-[#6B625B] border border-[#E8E0D5]'}`}>{label}</button>)}</div>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 items-stretch">{filteredPlans.map((plan) => <div key={plan.id} data-plan-card={plan.id} className={`p-5 rounded-3xl border flex h-full flex-col transition-all relative overflow-hidden ${plan.isPopular ? 'bg-[#E2B96B]/10 border-[#C89D52]/45 shadow-xl shadow-[#A87E37]/10' : 'bg-white/75 border-[#E8E0D5]'}`}>
             {plan.badge && <div className="mb-3"><span className={`px-2.5 py-1 rounded-full text-[10px] font-bold border inline-flex items-center gap-1 ${plan.isPopular ? 'bg-[#2A2421] text-[#FAF7F2] border-[#2A2421]' : 'bg-[#E2B96B]/15 text-[#A87E37] border-[#C89D52]/25'}`}>{plan.isPopular && <Star size={10} />}{plan.badge}</span></div>}
             <div className="space-y-3 flex-1"><div><h3 className="text-base font-bold text-[#2A2421] min-h-[2.5rem]">{plan.title}</h3><div className="flex items-baseline gap-1 mt-1"><strong className="text-2xl font-bold text-[#2A2421]">{plan.priceFormatted}</strong><span className="text-xs text-[#6B625B]">{plan.periodText}</span></div></div><p className="text-xs text-[#A87E37] font-medium leading-snug min-h-[2.6rem]">{plan.highlightBenefit}</p><p className="text-[11px] text-[#6B625B] leading-relaxed">{plan.description}</p><div className="pt-2 border-t border-[#E8E0D5] space-y-1.5"><span className="text-[10px] text-[#6B625B] uppercase tracking-wider block font-bold">O que está incluído</span>{plan.features.map((feature) => <div key={feature} className="flex items-start gap-1.5 text-xs text-[#6B625B]"><Check size={13} className="text-[#A87E37] shrink-0 mt-0.5" /><span className="leading-tight text-[11px]">{feature}</span></div>)}</div></div>
-            <div className="pt-4 mt-4 border-t border-[#E8E0D5]"><button type="button" onClick={() => plan.category === 'tratamento_individual' ? handleTriggerSpecificTreatment() : handleTriggerPlan(plan.id)} className={`w-full py-2.5 rounded-xl text-xs font-bold transition flex items-center justify-center gap-1.5 shadow-md ${plan.buttonClass}`}><span>{plan.ctaText}</span><ArrowRight size={13} /></button></div>
+            <div className="pt-4 mt-4 border-t border-[#E8E0D5]"><button type="button" data-plan-cta="true" onClick={() => plan.category === 'tratamento_individual' ? handleTriggerSpecificTreatment() : handleTriggerPlan(plan.id)} className={`w-full py-2.5 rounded-xl text-xs font-bold transition flex items-center justify-center gap-1.5 shadow-md ${plan.buttonClass}`}><span>{plan.ctaText}</span><ArrowRight size={13} /></button></div>
           </div>)}</div>
           <div className="p-4 rounded-2xl bg-white/70 border border-[#E8E0D5] text-center space-y-2"><p className="text-xs text-[#6B625B]">No avulso, a Anamnese Completa custa R$ 15,00. No mensal, custa R$ 10,00 com R$ 5,00 de desconto. A partir do trimestral, já vem incluída.</p><a href="https://wa.me/5551982215296?text=Ol%C3%A1%20%C3%89verton%2C%20gostaria%20de%20tirar%20d%C3%BAvidas%20sobre%20os%20planos." target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1.5 text-xs font-bold text-[#2A2421]"><MessageCircle size={14} /> Fale conosco</a></div>
         </div>

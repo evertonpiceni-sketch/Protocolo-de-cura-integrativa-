@@ -1,6 +1,7 @@
+/** Acessos avulsos aprovados: 7 dias = R$ 25,00; 21 dias = R$ 50,00. Tratamentos individuais têm catálogo próprio. */
 export const PAYMENT_PLANS = {
-  jornada_7d: { cents: 5990, days: 7, title: 'Acesso — 7 dias' },
-  jornada_21d: { cents: 9990, days: 21, title: 'Acesso — 21 dias' },
+  jornada_7d: { cents: 2500, days: 7, title: 'Acesso — 7 dias' },
+  jornada_21d: { cents: 5000, days: 21, title: 'Acesso — 21 dias' },
   mensal: { cents: 3990, days: 30, title: 'Plano Mensal' },
   trimestral: { cents: 6990, days: 90, title: 'Plano Trimestral' },
   semestral: { cents: 9990, days: 180, title: 'Plano Semestral' },

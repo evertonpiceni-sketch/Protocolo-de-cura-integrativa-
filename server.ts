@@ -77,7 +77,7 @@ export function createApp() {
     const { login } = req.params;
     const { plan, subscriptionPlan } = req.body || {};
     const allowedPlans = new Set(["free", "pro"]);
-    const allowedSubscriptions = new Set(["teste_vip_7d", "jornada_7d", "arcanjo_7d", "semanal", "mensal", "trimestral", "semestral", "anual"]);
+    const allowedSubscriptions = new Set(["teste_vip_7d", "jornada_7d", "jornada_21d", "arcanjo_7d", "semanal", "mensal", "trimestral", "semestral", "anual"]);
     if (!allowedPlans.has(plan)) return res.status(400).json({ error: "Plano inválido." });
     if (subscriptionPlan != null && !allowedSubscriptions.has(subscriptionPlan)) return res.status(400).json({ error: "Assinatura inválida." });
     const user = db.users.find(u => u.login === login);
