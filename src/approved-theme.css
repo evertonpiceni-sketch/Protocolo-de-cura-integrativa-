@@ -170,6 +170,20 @@
   --layout-text-muted:#7E8A7F;
   --layout-border:#E8E0D2;
   --layout-border-card:#EFE8DC;
+  --layout-text-soft:var(--layout-text-secondary);
+
+  /* Aliases semânticos legados também precisam acompanhar a paleta ativa.
+     Evita que futuras telas usem o sálvia/verde e o ouro globais por engano. */
+  --sage-subtle:var(--layout-accent-soft);
+  --sage-border:var(--layout-border);
+  --journey-bg-canvas:var(--layout-canvas);
+  --journey-bg-card:var(--layout-card);
+  --journey-sage:var(--layout-accent);
+  --journey-gold:var(--layout-gold);
+  --journey-gold-dark:var(--layout-gold-dark);
+  --journey-text:var(--layout-text);
+  --journey-text-secondary:var(--layout-text-secondary);
+  --journey-border:var(--layout-border);
 }
 
 :root[data-layout="mistico-moderno"]{
