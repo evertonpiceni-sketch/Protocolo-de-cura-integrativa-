@@ -249,7 +249,9 @@ export function paymentRoutes(authenticate: any, limiter: any, providerFetch: ty
         };
         const matchesRequestedStandardOrder = (candidate: PaymentOrder) => {
           if (candidate.cents !== quote.cents || candidate.method !== paymentMethod) return false;
-          if (productType === 'subscription') return candidate.planId === planId;
+          if (productType === 'subscription') {
+            return candidate.planId === planId && candidate.benefitChoice === benefitChoice;
+          }
           return matchesRequestedTreatmentIntent(candidate) &&
             candidate.treatment?.paymentMethod === treatment?.paymentMethod;
         };
