@@ -220,7 +220,8 @@ export function paymentRoutes(authenticate: any, limiter: any, providerFetch: ty
         const pendingStandardOrders = (db.paymentOrders || []).filter(candidate =>
           candidate.userId === req.userId &&
           (candidate.productType === productType ||
-            (productType === 'subscription' && candidate.productType == null && Boolean(candidate.planId))) &&
+            (candidate.productType == null && productType === 'subscription' && Boolean(candidate.planId)) ||
+            (candidate.productType == null && productType === 'specific_treatment' && Boolean(candidate.treatment))) &&
           !candidate.paidAt &&
           !candidate.failedAt
         );
@@ -324,9 +325,23 @@ export function paymentRoutes(authenticate: any, limiter: any, providerFetch: ty
       await saveCheckoutOrder();
       return res.json({ checkoutUrl: createdOrder.checkoutUrl, orderId: createdOrder.id });
     } catch {
-      if (order && !order.checkoutUrl && !providerRequestStarted && !recoveringExistingOrder) {
-        order.failedAt = new Date().toISOString();
-        try { await saveCheckoutOrder(); } catch { /* Mantém a tentativa bloqueada se a persistência falhar. */ }
+      if (order && !order.checkoutUrl && !providerRequestStarted && !recoveringExistingOrder && releaseStandardCheckoutLock) {
+        try {
+          // A limpeza também grava o snapshot inteiro: só pode ocorrer enquanto este request
+          // ainda possui o lock global e depois de recarregar o estado compartilhado.
+          await releaseStandardCheckoutLock.assertHeld();
+          await refreshDbFromPersistentStorage();
+          await releaseStandardCheckoutLock.assertHeld();
+          const persistedOrder = getDb().paymentOrders?.find(candidate => candidate.id === order?.id);
+          if (persistedOrder && !persistedOrder.checkoutUrl && !persistedOrder.paidAt && !persistedOrder.failedAt) {
+            persistedOrder.failedAt = new Date().toISOString();
+            await releaseStandardCheckoutLock.assertHeld();
+            await saveCheckoutOrder();
+          }
+        } catch {
+          // Sem posse comprovada do lock, não gravar um snapshot possivelmente obsoleto.
+          // A tentativa permanece pendente para recuperação segura ou conferência manual.
+        }
       }
       return res.status(503).json({ error: 'Não foi possível abrir o pagamento seguro. Tente novamente em instantes.' });
     } finally {
