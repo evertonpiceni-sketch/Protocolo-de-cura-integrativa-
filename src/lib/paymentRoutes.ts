@@ -3,33 +3,47 @@ import crypto from 'node:crypto';
 import { getDb, saveDb, hasPersistentDatabase, redisCommand } from '../db.js';
 
 import { PAYMENT_PLANS, paymentQuote, specificTreatmentQuote, type Plan } from './paymentCatalog.js';
-export type PaymentOrder = { id: string; userId: string; productType?: 'subscription' | 'specific_treatment' | 'numerology_full'; planId?: Plan; treatment?: import('../types.js').SpecificTreatment; cents: number; method: string; createdAt: string; paidAt?: string; transaction?: string; checkoutUrl?: string; failedAt?: string };
+export type InfinitePayCheckoutPayload = {
+  handle: string;
+  order_nsu: string;
+  redirect_url: string;
+  webhook_url: string;
+  items: Array<{ quantity: number; price: number; description: string }>;
+  options: { single_payment: true };
+};
+export type PaymentOrder = { id: string; userId: string; productType?: 'subscription' | 'specific_treatment' | 'numerology_full'; planId?: Plan; treatment?: import('../types.js').SpecificTreatment; cents: number; method: string; createdAt: string; paidAt?: string; transaction?: string; checkoutUrl?: string; checkoutPayload?: InfinitePayCheckoutPayload; failedAt?: string };
 const API = 'https://api.checkout.infinitepay.io';
 const localNumerologyCheckoutLocks = new Set<string>();
 export function paymentRoutes(authenticate: any, limiter: any, providerFetch: typeof fetch = fetch) {
   const router = Router();
   const handle = () => process.env.INFINITEPAY_HANDLE || 'evertonterapeutareiki';
+  const apiKey = () => process.env.INFINITEPAY_API_KEY?.trim() || '';
   const appUrl = () => {
     const url = new URL(process.env.PUBLIC_APP_URL || 'https://protocolo-de-cura-integrativa.vercel.app');
     if (url.protocol !== 'https:' || url.username || url.password) throw new Error('URL pública inválida.');
     return url.origin;
   };
   async function provider(path: string, body: unknown) {
-    const response = await providerFetch(API + path, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body), signal: AbortSignal.timeout(15000) });
+    const headers: Record<string, string> = { 'Content-Type': 'application/json' };
+    const key = apiKey();
+    if (key) headers['X-Api-Key'] = key;
+    const response = await providerFetch(API + path, { method: 'POST', headers, body: JSON.stringify(body), signal: AbortSignal.timeout(15000) });
     if (!response.ok) throw new Error('O provedor não conseguiu processar o pagamento agora.');
     return response.json();
   }
-  function buildCheckoutPayload(order: PaymentOrder, title: string, origin: string) {
+  function buildCheckoutPayload(order: PaymentOrder, title: string, origin: string): InfinitePayCheckoutPayload {
     return {
       handle: handle(),
       order_nsu: order.id,
       redirect_url: `${origin}/?payment_order=${order.id}`,
       webhook_url: `${origin}/api/webhooks/payment`,
-      items: [{ quantity: 1, price: order.cents, description: title }]
+      items: [{ quantity: 1, price: order.cents, description: title }],
+      options: { single_payment: true }
     };
   }
-  async function createCheckoutUrl(order: PaymentOrder, title: string, origin: string) {
-    const result = await provider('/links', buildCheckoutPayload(order, title, origin));
+  async function createCheckoutUrl(payload: InfinitePayCheckoutPayload) {
+    if (!apiKey()) throw new Error('A API Key da InfinitePay é necessária para criar links de pagamento único.');
+    const result = await provider('/links', payload);
     if (!result || typeof result.url !== 'string') throw new Error('O provedor não retornou um link válido.');
     const checkout = new URL(result.url);
     if (checkout.protocol !== 'https:' || !['checkout.infinitepay.io', 'invoice.infinitepay.io', 'pay.infinitepay.io'].includes(checkout.hostname) || checkout.username || checkout.password) {
@@ -95,6 +109,8 @@ export function paymentRoutes(authenticate: any, limiter: any, providerFetch: ty
       }
     } catch (error) { return res.status(400).json({ error: (error as Error).message }); }
 
+    if (!apiKey()) return res.status(503).json({ error: 'Pagamento temporariamente indisponível. A configuração segura do checkout precisa ser concluída.' });
+
     try {
       if (productType === 'numerology_full') {
         releaseNumerologyLock = await acquireNumerologyCheckoutLock(req.userId);
@@ -139,7 +155,16 @@ export function paymentRoutes(authenticate: any, limiter: any, providerFetch: ty
           )
           .sort((a, b) => Date.parse(b.createdAt) - Date.parse(a.createdAt));
 
-        const reusableOrder = pendingOrders.find(candidate => Boolean(candidate.checkoutUrl));
+        const legacyReusableOrder = pendingOrders.find(candidate =>
+          Boolean(candidate.checkoutUrl) && candidate.checkoutPayload?.options?.single_payment !== true
+        );
+        if (legacyReusableOrder) {
+          return res.status(503).json({ error: 'Existe uma tentativa anterior sem proteção de pagamento único que precisa ser conferida antes de abrir outro link.' });
+        }
+
+        const reusableOrder = pendingOrders.find(candidate =>
+          Boolean(candidate.checkoutUrl) && candidate.checkoutPayload?.options?.single_payment === true
+        );
         if (reusableOrder?.checkoutUrl) {
           if (hasPersistentDatabase()) {
             await redisCommand('set', [key, JSON.stringify({ orderId: reusableOrder.id, checkoutUrl: reusableOrder.checkoutUrl }), 'ex', '86400']);
@@ -149,10 +174,12 @@ export function paymentRoutes(authenticate: any, limiter: any, providerFetch: ty
 
         const preparingOrder = pendingOrders.find(candidate => !candidate.checkoutUrl);
         if (preparingOrder) {
-          // Reenvia exatamente o mesmo payload com o mesmo order_nsu. A InfinitePay
-          // documenta que uma requisição idêntica pode devolver o link já criado.
-          // Assim, uma interrupção após a criação não abandona o pedido nem gera outro NSU.
-          const checkoutUrl = await createCheckoutUrl(preparingOrder, quote.title, appUrl());
+          // Recupera somente com o payload original persistido antes da primeira chamada.
+          // Reconstruir com handle/URLs atuais pode criar um segundo link para o mesmo NSU.
+          if (!preparingOrder.checkoutPayload || preparingOrder.checkoutPayload.order_nsu !== preparingOrder.id) {
+            return res.status(503).json({ error: 'A tentativa anterior precisa de conferência antes de ser retomada.' });
+          }
+          const checkoutUrl = await createCheckoutUrl(preparingOrder.checkoutPayload);
           preparingOrder.checkoutUrl = checkoutUrl;
           await saveDb();
           if (hasPersistentDatabase()) {
@@ -170,11 +197,12 @@ export function paymentRoutes(authenticate: any, limiter: any, providerFetch: ty
       };
       order = createdOrder;
       const origin = appUrl();
+      createdOrder.checkoutPayload = buildCheckoutPayload(createdOrder, quote.title, origin);
       const db = getDb();
       (db.paymentOrders ||= []).push(createdOrder);
       await saveDb();
 
-      createdOrder.checkoutUrl = await createCheckoutUrl(createdOrder, quote.title, origin);
+      createdOrder.checkoutUrl = await createCheckoutUrl(createdOrder.checkoutPayload);
       await saveDb();
       if (productType === 'numerology_full' && hasPersistentDatabase()) {
         await redisCommand('set', [numerologyCheckoutKey(req.userId), JSON.stringify({ orderId: createdOrder.id, checkoutUrl: createdOrder.checkoutUrl }), 'ex', '86400']);
