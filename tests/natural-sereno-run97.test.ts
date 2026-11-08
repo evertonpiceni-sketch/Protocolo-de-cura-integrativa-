@@ -143,6 +143,7 @@ test('salvamentos compostos usam o mesmo snapshot atualizado de progresso', () =
   const progressStart = app.indexOf('const saveProgress', profileStart);
   const profileSaver = profileStart >= 0 && progressStart > profileStart ? app.slice(profileStart, progressStart) : '';
 
+  assert.ok(profileSaver.includes('setProgress(progressOverride)'));
   assert.ok(profileSaver.includes('updateLocalAccountCache(newProfile, progressOverride)'));
   assert.ok(profileSaver.includes('progress: progressOverride'));
 
@@ -154,4 +155,6 @@ test('salvamentos compostos usam o mesmo snapshot atualizado de progresso', () =
 
   assert.ok(systemic.includes('saveProfile(updatedProfile, updatedProgress)'));
   assert.ok(diary.includes('saveProfile(updatedProfile, updatedProgress)'));
+  assert.ok(systemic.includes('} else {\\n      saveProgress(updatedProgress);'));
+  assert.ok(diary.includes('} else {\\n      saveProgress(updatedProgress);'));
 });
