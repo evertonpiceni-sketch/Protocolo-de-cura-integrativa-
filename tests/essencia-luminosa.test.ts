@@ -607,7 +607,9 @@ test('Numerologia Completa respeita o benefício confirmado e não tenta checkou
   const plans = fs.readFileSync('src/components/ProUpgradeModal.tsx', 'utf8');
   const paymentRoutes = fs.readFileSync('src/lib/paymentRoutes.ts', 'utf8');
   const app = fs.readFileSync('src/App.tsx', 'utf8');
+  const server = fs.readFileSync('server.ts', 'utf8');
 
+  assert.ok(server.includes('numerologyPurchased: currentProfile.numerologyPurchased'));
   assert.ok(modal.includes('const isFullUnlocked = Boolean(userProfile.numerologyPurchased);'));
   assert.ok(!modal.includes("productType: 'numerology_full'"));
   assert.ok(!modal.includes('price: 90'));
