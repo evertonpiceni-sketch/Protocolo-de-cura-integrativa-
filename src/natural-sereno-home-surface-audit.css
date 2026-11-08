@@ -9,6 +9,13 @@
   color:#2A2421!important;
 }
 
+:root[data-layout="natural-sereno"]:root .ns-app[data-ns-screen="home"] .ns-home-content {
+  position:relative;
+  z-index:4;
+  padding:0 16px 28px!important;
+  background:linear-gradient(180deg,#FAF7F2 0%,#F3EDE4 70%,#FAF7F2 100%)!important;
+}
+
 :root[data-layout="natural-sereno"]:root .ns-app[data-ns-screen="home"] .ns-home-scene {
   color:#2A2421!important;
   background:
