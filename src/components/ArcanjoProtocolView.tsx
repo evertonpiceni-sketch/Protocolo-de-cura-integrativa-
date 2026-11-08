@@ -95,6 +95,7 @@ export default function ArcanjoProtocolView({ userProfile, onClose, onLogout, in
   const isEssenciaLuminosa = typeof document !== 'undefined' && document.documentElement.dataset.layout === 'essencia-luminosa';
   const isMisticoModerno = typeof document !== 'undefined' && document.documentElement.dataset.layout === 'mistico-moderno';
   const requiresNeuralVoice = isEleganciaProfunda || isEssenciaLuminosa || isMisticoModerno;
+  const requiresSavedProfileVoice = isEleganciaProfunda || isMisticoModerno;
   const [hasStarted, setHasStarted] = useState(false);
   const [elapsed, setElapsed] = useState(0);
   const [duration, setDuration] = useState(0);
@@ -209,7 +210,7 @@ export default function ArcanjoProtocolView({ userProfile, onClose, onLogout, in
 
   const start = () => {
     resetPlayback();
-    if (requiresNeuralVoice && !isElevenLabsVoiceId(userProfile.voiceId)) {
+    if (requiresSavedProfileVoice && !isElevenLabsVoiceId(userProfile.voiceId)) {
       setVoiceError(true);
       return;
     }
@@ -224,9 +225,11 @@ export default function ArcanjoProtocolView({ userProfile, onClose, onLogout, in
     void audioEngine.playGuidedMeditation(parts, {
       title: `Dia ${config.dia} — São Miguel, Chama Violeta e São Rafael`,
       subtitle: `${config.nome} • ${config.freq} Hz`,
-      voiceId: requiresNeuralVoice
+      voiceId: requiresSavedProfileVoice
         ? (isElevenLabsVoiceId(userProfile.voiceId) ? userProfile.voiceId : '')
-        : userProfile.voiceId || (userProfile.preferredVoiceGender === 'feminina' ? 'Rachel' : 'Marcus'),
+        : isEssenciaLuminosa
+          ? (isElevenLabsVoiceId(userProfile.voiceId) ? userProfile.voiceId : OFFICIAL_PROTOCOL_VOICE_ID)
+          : userProfile.voiceId || (userProfile.preferredVoiceGender === 'feminina' ? 'Rachel' : 'Marcus'),
       volume: userProfile.voiceVolume ?? 0.9,
       userName: userProfile.name,
       requireExplicitVoiceId: requiresNeuralVoice,
@@ -267,7 +270,7 @@ export default function ArcanjoProtocolView({ userProfile, onClose, onLogout, in
 
   const togglePlayback = () => {
     if (isPreparingAudio) return;
-    if (requiresNeuralVoice && !isElevenLabsVoiceId(userProfile.voiceId)) {
+    if (requiresSavedProfileVoice && !isElevenLabsVoiceId(userProfile.voiceId)) {
       setVoiceError(true);
       return;
     }
