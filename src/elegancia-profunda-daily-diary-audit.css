@@ -75,3 +75,38 @@
 :root[data-layout="elegancia-profunda"] #daily-diary-modal .text-emerald-500 {
   color: #b8cbb8 !important;
 }
+
+/* Correção de heranças do JSX compartilhado: âmbar saturado, roxo e slate
+   passam a usar champagne/bronze/verde profundo somente neste estilo. */
+:root[data-layout="elegancia-profunda"] #daily-diary-modal [class~="bg-amber-500/10"] {
+  background-color: rgba(212, 175, 55, 0.12) !important;
+}
+
+:root[data-layout="elegancia-profunda"] #daily-diary-modal [class~="bg-amber-50"] {
+  background-color: rgba(86, 62, 31, 0.38) !important;
+}
+
+:root[data-layout="elegancia-profunda"] #daily-diary-modal [class~="border-amber-200"] {
+  border-color: rgba(201, 164, 104, 0.38) !important;
+}
+
+:root[data-layout="elegancia-profunda"] #daily-diary-modal :is(
+  [class~="text-amber-300"],
+  [class~="text-amber-400"],
+  [class~="text-amber-700"]
+) {
+  color: #e3c990 !important;
+}
+
+:root[data-layout="elegancia-profunda"] #daily-diary-modal [class~="border-purple-500/20"] {
+  border-color: rgba(201, 164, 104, 0.30) !important;
+}
+
+:root[data-layout="elegancia-profunda"] #daily-diary-modal [class~="text-purple-400"] {
+  color: #e3c990 !important;
+}
+
+:root[data-layout="elegancia-profunda"] #daily-diary-modal button:hover[class~="hover:bg-slate-700"] {
+  background-color: color-mix(in srgb, var(--layout-gold) 14%, var(--layout-card)) !important;
+  color: var(--layout-text) !important;
+}
