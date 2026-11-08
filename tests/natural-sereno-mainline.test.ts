@@ -122,6 +122,7 @@ test('Arcanjo no Natural Sereno usa superfícies marfim/café sem recolorir os c
 test('o acesso permanece neutro até a escolha explícita e o Natural Sereno não vaza para a pré-seleção', () => {
   const css = read('src/natural-sereno-approved-overrides.css');
   const base = read('src/natural-sereno.css');
+  const refinement = read('src/natural-sereno-refinement.css');
   const profile = read('src/components/ProfileSetup.tsx');
   const theme = read('src/approved-theme.css');
   const main = read('src/main.tsx');
@@ -132,6 +133,7 @@ test('o acesso permanece neutro até a escolha explícita e o Natural Sereno nã
   assert.ok(!theme.includes('#profile-setup-view.ep-auth-prestyle .ep-auth-nature-bg{background-image:url'));
   assert.ok(!base.includes('#profile-setup-view.ep-auth-style-one'));
   assert.ok(!css.includes('#profile-setup-view.ep-auth-style-one'));
+  assert.ok(!refinement.includes('#profile-setup-view.ep-auth-style-one'));
   assert.ok(css.includes('.ns-app :is(button,a).ns-gold'));
   assert.ok(css.includes('.ns-welcome-brand'));
   assert.ok(css.includes('.ep-care-onboarding-card .ep-brand-signature'));
