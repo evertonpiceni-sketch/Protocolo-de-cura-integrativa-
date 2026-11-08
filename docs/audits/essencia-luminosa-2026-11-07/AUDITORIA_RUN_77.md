@@ -3,7 +3,8 @@
 **Data:** 7 de novembro de 2026  
 **Branch:** `main`  
 **Base da auditoria:** `2ef847a14a6edf26fe4d199c25a751e75504f3cb`  
-**HEAD de código/testes:** `b48ac195da74f80adc36410c1220a8bb93bd98e4`
+**HEAD final após alinhamento da política neural compartilhada:** `c7fbc1a0932dab51f1eb9c2da8f7b76590183c70`  
+**HEAD da correção visual do logo:** `b48ac195da74f80adc36410c1220a8bb93bd98e4`
 
 ## Corrigido
 
@@ -61,7 +62,7 @@ A conferência de páginas foi estática, por componentes, imports, CSS e testes
 - Logo oficial sem protagonismo, agora sem placa/fundo no Estilo 3.
 - Quatro estilos e confirmação explícita antes de aplicar o tema.
 - Voz neural ElevenLabs; IDs válidos continuam respeitados e não há fallback silencioso para voz robótica nos fluxos que exigem voz neural.
-- As oito frequências Solfeggio não tocam durante a narração ou prévia neural; ambiências não tonais continuam permitidas.
+- A política compartilhada de áudio neural aplica-se a Natural Sereno, Elegância Profunda e Essência Luminosa: as oito frequências Solfeggio não tocam durante narração/prévia neural; ambiências não tonais continuam permitidas. A asserção do teste do Estilo 3 foi alinhada à regra compartilhada.
 - Diário, player, animações e conteúdo terapêutico.
 - Checkout InfinitePay, validação server-side do valor e proteção contra reutilização de transação.
 - Estilos 1, 2 e 4: nenhum arquivo visual deles foi alterado.
@@ -74,12 +75,12 @@ Não foram reutilizadas imagens do Natural Sereno, da Reintegração da Vida ou 
 
 ## Validação técnica
 
-GitHub Actions — [run #42432947206](https://github.com/evertonpiceni-sketch/Protocolo-de-cura-integrativa-/actions/runs/42432947206), executado no HEAD `b48ac195da74f80adc36410c1220a8bb93bd98e4`:
+GitHub Actions — [run #42433302820](https://github.com/evertonpiceni-sketch/Protocolo-de-cura-integrativa-/actions/runs/42433302820), executado no HEAD final `c7fbc1a0932dab51f1eb9c2da8f7b76590183c70`:
 
 - `npm ci`: aprovado.
 - `npm audit --audit-level=moderate`: **0 vulnerabilidades**.
 - TypeScript: aprovado.
-- Testes: **109/109 aprovados**.
+- Testes: **110/110 aprovados**.
 - Build Vite + Express: aprovado.
 - Entry points Vercel, verificação de segredos, JWT fail-closed, proteção de administrador, smoke test e endpoints de pagamento: aprovados.
 
@@ -98,6 +99,6 @@ O status Vercel do commit continua em falha por `build-rate-limit`. O build de C
 
 - `0f5b1f0037bff88df71fceb9bda87d4730920bd7` — wrapper geral do logo transparente.
 - `e210d6962cdc490a7b52b80c1321c96c22b49eeb` — wrapper do cabeçalho transparente.
-- `b48ac195da74f80adc36410c1220a8bb93bd98e4` — teste de regressão do logo.
+- `b48ac195da74f80adc36410c1220a8bb93bd98e4` — teste de regressão do logo.\n- `c7fbc1a0932dab51f1eb9c2da8f7b76590183c70` — alinhamento do teste de Solfeggio do Estilo 3 à política neural compartilhada.
 
-**Conclusão:** o logo do Estilo 3 agora aparece sem placa, borda ou sombra, mantendo a imagem em opacidade discreta. A suíte completa passou, o build passou e o audit de dependências encontrou zero vulnerabilidades. Natureza fotográfica própria, homologação visual/runtime, teste real de pagamento e publicação continuam pendentes.
+**Conclusão:** o logo do Estilo 3 agora aparece sem placa, borda ou sombra, mantendo a imagem em opacidade discreta. A suíte completa passou (**110/110**), o build passou e o audit de dependências encontrou zero vulnerabilidades. Natureza fotográfica própria, homologação visual/runtime, teste real de pagamento e publicação continuam pendentes.
