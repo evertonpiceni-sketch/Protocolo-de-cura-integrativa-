@@ -94,7 +94,6 @@ import './natural-sereno-legacy-green-audit.css';
 // Keep this import last among Natural Sereno theme CSS so discarded green/amber/indigo
 // inheritance cannot regain precedence through cascade order.
 import './natural-sereno-approved-overrides.css';
-
 // Latest approved Essência Luminosa decisions must win over every older Style 3 audit layer.
 // Keep this scoped override last so later component/audit CSS cannot revive discarded inheritance.
 import './essencia-luminosa-approved-overrides.css';

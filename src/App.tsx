@@ -33,6 +33,7 @@ import { localNotificationManager } from './lib/notifications';
 import { OFFICIAL_LAYOUTS, isLayoutId } from './config/layouts';
 import { getLocalDateString } from './utils/date';
 import LayoutChoiceModal from './components/LayoutChoiceModal';
+import { syncUserState } from './lib/userSync';
 
 const AnamnesisModal = React.lazy(() => import('./components/AnamnesisModal'));
 const ChakrasGuideModal = React.lazy(() => import('./components/ChakrasGuideModal'));
@@ -128,6 +129,7 @@ export default function App() {
   const effectiveNeuralVoiceId = (isNaturalSereno || isEssenciaLuminosa) && !isElevenLabsVoiceId(savedNeuralVoiceId)
     ? OFFICIAL_PROTOCOL_VOICE_ID
     : savedNeuralVoiceId;
+  const hasArcanjoAccess = userProfile?.plan === 'pro' || userProfile?.subscriptionPlan === 'arcanjo_7d';
 
   // Initialize and register local notification daily checker
   useEffect(() => {
@@ -204,7 +206,8 @@ export default function App() {
   // Listen for OPEN_PROTOCOL_DAY to ensure ArcanjoProtocolView is shown
   useEffect(() => {
     const handleOpenProtocol = () => {
-      setShowArcanjoView(true);
+      if (hasArcanjoAccess) setShowArcanjoView(true);
+      else setShowProModal(true);
     };
     const handleOpenCertificate = () => {
       setShowCertificateModal(true);
@@ -215,7 +218,7 @@ export default function App() {
       window.removeEventListener('OPEN_PROTOCOL_DAY', handleOpenProtocol);
       window.removeEventListener('OPEN_CERTIFICATE', handleOpenCertificate);
     };
-  }, []);
+  }, [hasArcanjoAccess]);
 
   // Load available system voices for layouts that still use device speech.
   useEffect(() => {
@@ -496,13 +499,9 @@ export default function App() {
     setUserProfile(newProfile);
     updateLocalAccountCache(newProfile, progress);
     if (isLoggedIn) {
-      fetch('/api/user/sync', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ profile: newProfile, progress })
-      }).then(response => {
-        if (!response.ok) throw new Error(`Profile sync failed (HTTP ${response.status})`);
-      }).catch(error => console.error('Profile sync failed; changes may only be saved locally', error));
+      void syncUserState({ profile: newProfile }).catch(error => {
+        console.error('Profile sync failed after retry; changes remain in the local cache', error);
+      });
     }
   };
 
@@ -510,13 +509,9 @@ export default function App() {
     setProgress(newProgress);
     if (userProfile) updateLocalAccountCache(userProfile, newProgress);
     if (isLoggedIn) {
-      fetch('/api/user/sync', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ profile: userProfile, progress: newProgress })
-      }).then(response => {
-        if (!response.ok) throw new Error(`Progress sync failed (HTTP ${response.status})`);
-      }).catch(error => console.error('Progress sync failed; changes may only be saved locally', error));
+      void syncUserState({ progress: newProgress }).catch(error => {
+        console.error('Progress sync failed after retry; changes remain in the local cache', error);
+      });
     }
   };
 
@@ -611,11 +606,9 @@ export default function App() {
 
     // Save to backend
     if (isLoggedIn) {
-      fetch('/api/user/sync', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ profile: updatedProfile, progress: updatedProgress })
-      }).catch(console.error);
+      void syncUserState({ profile: updatedProfile, progress: updatedProgress }).catch(error => {
+        console.error('Session completion sync failed after retry', error);
+      });
     }
 
     // 3. Move to next day automatically or lock on 21
@@ -660,11 +653,9 @@ export default function App() {
 
         // Save to backend
         if (isLoggedIn) {
-          fetch('/api/user/sync', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ profile: updatedProfile, progress: defaultProgress })
-          }).catch(console.error);
+          void syncUserState({ profile: updatedProfile, progress: defaultProgress }).catch(error => {
+            console.error('Program reset sync failed after retry', error);
+          });
         }
       }
     }
@@ -869,12 +860,7 @@ export default function App() {
             const updatedProfile = { ...userProfile, visualLayout: layout };
             // Do not dismiss the chooser until the server accepts the preference.
             if (isLoggedIn) {
-              const response = await fetch('/api/user/sync', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ profile: updatedProfile, progress })
-              });
-              if (!response.ok) throw new Error(`Não foi possível salvar o estilo (HTTP ${response.status})`);
+              await syncUserState({ profile: updatedProfile, progress });
             }
             setUserProfile(updatedProfile);
             updateLocalAccountCache(updatedProfile, progress);
@@ -896,7 +882,7 @@ export default function App() {
             }
           })}
         />
-      ) : showArcanjoView || userProfile.subscriptionPlan === 'arcanjo_7d' ? (
+      ) : showArcanjoView ? (
         <ArcanjoProtocolView 
           userProfile={userProfile}
           onLogout={handleLogout}
@@ -1933,7 +1919,7 @@ export default function App() {
             onStartSession={setActiveSessionDay}
             onOpenJournal={() => setIsJournalOpen(true)}
             onOpenAnamnesis={() => setShowAnamnesisModal(true)}
-            onOpenArcanjo={() => userProfile.plan === 'pro' ? setShowArcanjoView(true) : setShowProModal(true)}
+            onOpenArcanjo={() => hasArcanjoAccess ? setShowArcanjoView(true) : setShowProModal(true)}
             onOpenChakras={() => setShowChakrasModal(true)}
             onOpenBaths={() => setShowHerbalBathsModal(true)}
             onOpenAstral={() => setShowAstralMapModal(true)}

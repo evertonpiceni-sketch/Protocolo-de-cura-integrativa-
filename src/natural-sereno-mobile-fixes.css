@@ -2,12 +2,12 @@
    Não redesenha o Natural Sereno: neutraliza apenas heranças e sobreposições. */
 
 :root[data-layout="natural-sereno"] {
-  --ns-mobile-ink: #26372a;
-  --ns-mobile-muted: #586454;
-  --ns-mobile-paper: #fffaf0;
-  --ns-mobile-line: #d9c58f;
-  --ns-mobile-gold: #b88736;
-  --ns-mobile-forest: #073b2b;
+  --ns-mobile-ink: #2A2421;
+  --ns-mobile-muted: #6B625B;
+  --ns-mobile-paper: #FAF7F2;
+  --ns-mobile-line: rgba(200,157,82,.28);
+  --ns-mobile-gold: #C89D52;
+  --ns-mobile-forest: #2A2421;
 }
 
 /* A regra antiga que transforma bg-[#B88736]/xx em sólido não pode atingir
@@ -59,8 +59,8 @@
   border-color: var(--ns-mobile-line) !important;
 }
 :root[data-layout="natural-sereno"] #numerology-modal [role="tab"][aria-selected="true"] {
-  background: #efe2bd !important;
-  border-color: #b88736 !important;
+  background: #F3EDE4 !important;
+  border-color: #C89D52 !important;
 }
 :root[data-layout="natural-sereno"] #numerology-modal :is(h1,h2,h3,h4,strong) {
   color: var(--ns-mobile-ink) !important;
@@ -96,12 +96,12 @@
 
 /* Admin: retirar vazamentos neon/legado e manter hierarquia Natural Sereno. */
 :root[data-layout="natural-sereno"] #admin-panel-modal {
-  --admin-paper: #fffaf0;
-  --admin-line: #d9c58f;
-  --admin-ink: #26372a;
-  --admin-muted: #586454;
-  --admin-gold: #b88736;
-  --admin-forest: #073b2b;
+  --admin-paper: #FAF7F2;
+  --admin-line: rgba(200,157,82,.28);
+  --admin-ink: #2A2421;
+  --admin-muted: #6B625B;
+  --admin-gold: #C89D52;
+  --admin-forest: #2A2421;
 }
 :root[data-layout="natural-sereno"] #admin-panel-modal > div {
   background: var(--admin-paper) !important;
@@ -121,8 +121,9 @@
   border-color: #cdaa57 !important;
 }
 :root[data-layout="natural-sereno"] #admin-panel-modal button[class*="bg-emerald"] {
-  background: var(--admin-forest) !important;
-  color: #fffbed !important;
+  background: linear-gradient(180deg,#E2B96B 0%,#C89D52 100%) !important;
+  color: #2A2421 !important;
+  border-color: rgba(168,126,55,.58) !important;
 }
 :root[data-layout="natural-sereno"] #admin-panel-modal button[class*="bg-emerald"] :is(span,svg) {
   color: inherit !important;
@@ -140,9 +141,10 @@
 }
 :root[data-layout="natural-sereno"] .ns-home-scene > .ns-gold,
 :root[data-layout="natural-sereno"] .ns-editorial-card > .ns-gold {
-  background: linear-gradient(180deg,#d7b45c,#a67a28) !important;
-  box-shadow: inset 0 1px 0 rgba(255,255,255,.36), 0 7px 18px rgba(116,83,24,.16) !important;
-  color: #073b2b !important;
+  background: linear-gradient(180deg,#E2B96B 0%,#C89D52 55%,#A87E37 100%) !important;
+  border-radius: 18px !important;
+  box-shadow: inset 0 1px rgba(255,255,255,.48), 0 8px 18px rgba(67,52,39,.09) !important;
+  color: #2A2421 !important;
 }
 
 @media (max-width: 639px) {
@@ -219,7 +221,7 @@
 }
 :root[data-layout="natural-sereno"] #meditation-session[data-session-phase="playing"] .ep-session-backdrop {
   position: fixed;
-  background: linear-gradient(180deg, rgba(3,26,19,.18), rgba(3,26,19,.56) 36%, rgba(3,26,19,.9) 78%);
+  background: linear-gradient(180deg,rgba(250,247,242,.06),rgba(250,247,242,.14) 58%,rgba(245,239,229,.32) 100%);
   overflow: hidden;
 }
 :root[data-layout="natural-sereno"] #meditation-session[data-session-phase="playing"] .ep-session-backdrop::before {
@@ -227,7 +229,7 @@
   position: absolute;
   inset: -3%;
   z-index: -1;
-  background: linear-gradient(180deg, rgba(3,26,19,.08), rgba(3,26,19,.5) 36%, rgba(3,26,19,.93) 78%), var(--ns-waterfall) center top / cover no-repeat;
+  background: linear-gradient(180deg,rgba(250,247,242,.16),rgba(250,247,242,.38) 36%,rgba(245,239,229,.62) 78%), var(--ns-waterfall) center top / cover no-repeat;
   animation: ns-journey-presence 24s ease-in-out infinite alternate;
   will-change: transform;
 }
@@ -259,15 +261,15 @@
 :root[data-layout="natural-sereno"] #meditation-session > header {
   gap: 10px;
   padding: calc(10px + env(safe-area-inset-top)) max(16px, env(safe-area-inset-right)) 10px max(16px, env(safe-area-inset-left));
-  background: rgba(3,26,19,.36) !important;
-  border-bottom: 1px solid rgba(239,223,183,.12);
+  background: rgba(250,247,242,.90) !important;
+  border-bottom: 1px solid rgba(200,157,82,.24);
 }
 :root[data-layout="natural-sereno"] #meditation-session > header > div:first-child { min-width: 0; gap: 8px; }
 :root[data-layout="natural-sereno"] #meditation-session > header > div:first-child > div:last-child { min-width: 0; }
 :root[data-layout="natural-sereno"] #meditation-session > header h1 { font-size: 12px; line-height: 1.4; letter-spacing: 0; }
 :root[data-layout="natural-sereno"] #meditation-session > header .tracking-widest { font: 9px/1.5 'Inter', sans-serif; letter-spacing: .08em; }
 :root[data-layout="natural-sereno"] #meditation-session > header > div:last-child { gap: 4px; flex-shrink: 0; }
-:root[data-layout="natural-sereno"] #meditation-session > header button { min-width: 44px; width: 44px; padding: 0; border-color: rgba(239,223,183,.2) !important; background: rgba(3,26,19,.28) !important; }
+:root[data-layout="natural-sereno"] #meditation-session > header button { min-width: 44px; width: 44px; padding: 0; border-color: rgba(200,157,82,.34) !important; background: rgba(255,253,248,.94) !important; }
 :root[data-layout="natural-sereno"] #meditation-session[data-session-phase="playing"] > main {
   flex: 1 0 auto;
   justify-content: center;
@@ -285,8 +287,8 @@
 :root[data-layout="natural-sereno"] #meditation-session[data-session-phase="playing"] .ep-breathing-guide > div:first-child { background: radial-gradient(circle,rgba(229,207,152,.12),rgba(6,46,32,.28)) !important; border-color: rgba(236,220,181,.35) !important; box-shadow: none; }
 :root[data-layout="natural-sereno"] #meditation-session[data-session-phase="playing"] > main .ep-breathing-guide span { font: 10px/1.5 'Inter',sans-serif; letter-spacing: .06em; max-width: 82px; }
 :root[data-layout="natural-sereno"] #meditation-session[data-session-phase="playing"] .ep-breathing-guide span:last-child { font-size: 11px; letter-spacing: 0; font-variant-numeric: tabular-nums; }
-:root[data-layout="natural-sereno"] #meditation-session[data-session-phase="playing"] > main .ep-session-mantra { width: 100%; max-width: none; margin-top: 24px; padding: 18px 20px !important; border-radius: 18px; background: rgba(5,38,28,.58) !important; border-color: rgba(234,217,178,.24) !important; font: italic 15px/1.7 'Lora',Georgia,serif; box-shadow: none; text-wrap: balance; }
-:root[data-layout="natural-sereno"] #meditation-session[data-session-phase="playing"] > footer { background: rgba(3,26,19,.38) !important; backdrop-filter: none; padding: 8px 20px calc(18px + env(safe-area-inset-bottom)); }
+:root[data-layout="natural-sereno"] #meditation-session[data-session-phase="playing"] > main .ep-session-mantra { width: 100%; max-width: none; margin-top: 24px; padding: 18px 20px !important; border-radius: 18px; background: rgba(250,247,242,.86) !important; border-color: rgba(200,157,82,.30) !important; font: italic 15px/1.7 'Lora',Georgia,serif; box-shadow: none; text-wrap: balance; }
+:root[data-layout="natural-sereno"] #meditation-session[data-session-phase="playing"] > footer { background: rgba(250,247,242,.94) !important; backdrop-filter: none; padding: 8px 20px calc(18px + env(safe-area-inset-bottom)); }
 :root[data-layout="natural-sereno"] #meditation-session[data-session-phase="playing"] > footer > div { padding: 0; }
 :root[data-layout="natural-sereno"] #meditation-session[data-session-phase="playing"] > footer > div > div:last-child { gap: 18px 12px; }
 :root[data-layout="natural-sereno"] #meditation-session[data-session-phase="playing"] > footer > div > div:last-child > div { width: 100%; justify-content: space-between; gap: 4px; }
@@ -331,16 +333,16 @@
 }
 /* The script remains readable when opened from the dark player. */
 :root[data-layout="natural-sereno"] #meditation-session[data-session-phase="playing"] [aria-label="Roteiro da sessão"] > .relative {
-  background: #fffaf0 !important;
-  color: #26372a !important;
+  background: #FAF7F2 !important;
+  color: #2A2421 !important;
   max-width: 560px;
 }
 :root[data-layout="natural-sereno"] #meditation-session[data-session-phase="playing"] [aria-label="Roteiro da sessão"] > .relative > div {
   border-radius: 0 !important;
-  background: #fffaf0 !important;
-  color: #26372a !important;
+  background: #FAF7F2 !important;
+  color: #2A2421 !important;
 }
-:root[data-layout="natural-sereno"] #meditation-session[data-session-phase="playing"] [aria-label="Roteiro da sessão"] :is(p,h3,h4) { color: #26372a !important; }
+:root[data-layout="natural-sereno"] #meditation-session[data-session-phase="playing"] [aria-label="Roteiro da sessão"] :is(p,h3,h4) { color: #2A2421 !important; }
 :root[data-layout="natural-sereno"] #meditation-session[data-session-phase="playing"] [aria-label="Roteiro da sessão"] > .relative > div:first-child {
   flex-shrink: 0;
   padding: calc(16px + env(safe-area-inset-top)) 16px 16px;
@@ -373,30 +375,34 @@
 
 /* Full-page audit: keep legacy panels within the approved Natural Sereno palette. */
 :root[data-layout="natural-sereno"] #settings-view [data-ns-status-card] {
-  background: linear-gradient(180deg, #fffaf0, #f1e7c8) !important;
-  border-color: #d9c58f !important;
+  background: linear-gradient(180deg, #FAF7F2, #f1e7c8) !important;
+  border-color: rgba(200,157,82,.28) !important;
 }
 :root[data-layout="natural-sereno"] #settings-view [data-ns-status-card] > div:first-child { flex-wrap: wrap; gap: 8px; }
-:root[data-layout="natural-sereno"] #settings-view [data-ns-status-card] :is(p,span,svg) { color: #26372a !important; }
+:root[data-layout="natural-sereno"] #settings-view [data-ns-status-card] :is(p,span,svg) { color: #2A2421 !important; }
 :root[data-layout="natural-sereno"] #specific-treatment-modal [class*="bg-gradient"]:not(.pointer-events-none) {
-  background: linear-gradient(180deg, #fffaf0, #efe2bd) !important;
-  border-color: #d9c58f !important;
+  background: linear-gradient(180deg, #FAF7F2, #F3EDE4) !important;
+  border-color: rgba(200,157,82,.28) !important;
 }
-:root[data-layout="natural-sereno"] #specific-treatment-modal :is([class*="text-emerald"],[class*="text-teal"],[class*="text-amber"],[class*="text-white"]) { color: #26372a !important; }
+:root[data-layout="natural-sereno"] #specific-treatment-modal :is([class*="text-emerald"],[class*="text-teal"],[class*="text-amber"],[class*="text-white"]) { color: #2A2421 !important; }
 :root[data-layout="natural-sereno"] #specific-treatment-modal .pointer-events-none[class*="blur"] { background: rgba(184,135,54,.055) !important; opacity: .42 !important; }
-:root[data-layout="natural-sereno"] #admin-panel-modal button[type="submit"] { background: linear-gradient(180deg, #e5c773, #b78d36) !important; color: #26372a !important; }
+:root[data-layout="natural-sereno"] #admin-panel-modal button[type="submit"] { background: linear-gradient(180deg,#E2B96B 0%,#C89D52 55%,#A87E37 100%) !important; color: #2A2421 !important; border-radius: 18px !important; }
 
-:root[data-layout="natural-sereno"] #astral-map-modal a[class*="bg-emerald"][class*="text-white"] { color: #fff9e8 !important; }
+:root[data-layout="natural-sereno"] #astral-map-modal a[class*="bg-emerald"][class*="text-white"] {
+  background: linear-gradient(180deg,#E2B96B 0%,#C89D52 100%) !important;
+  color: #2A2421 !important;
+  border-color: rgba(168,126,55,.58) !important;
+}
 :root[data-layout="natural-sereno"] #systemic-questions-modal > div > button[aria-label="Fechar reflexões sistêmicas"] { position: absolute !important; width: 44px; height: 44px; top: 16px; right: 16px; z-index: 3; }
 
 :root[data-layout="natural-sereno"] #contact-us-modal .pointer-events-none[class*="blur"] { background: rgba(184,135,54,.055) !important; opacity: .42 !important; }
 
-:root[data-layout="natural-sereno"] #progress-dashboard header h1 { color: #26372a; }
+:root[data-layout="natural-sereno"] #progress-dashboard header h1 { color: #2A2421; }
 :root[data-layout="natural-sereno"] #progress-dashboard header [class*="text-[#E4C573]"] { color: #71511c; }
 
 :root[data-layout="natural-sereno"] #daily-diary-modal .pointer-events-none[class*="blur"] { background: rgba(184,135,54,.055) !important; opacity: .42 !important; }
-:root[data-layout="natural-sereno"] #daily-diary-modal :is(div,span)[class*="bg-[#B88736]/"] { background: #f1e7c8 !important; color: #26372a !important; }
-:root[data-layout="natural-sereno"] #daily-diary-modal :is(div,span)[class*="bg-[#B88736]/"] :is(span,svg) { color: #26372a !important; }
+:root[data-layout="natural-sereno"] #daily-diary-modal :is(div,span)[class*="bg-[#B88736]/"] { background: #f1e7c8 !important; color: #2A2421 !important; }
+:root[data-layout="natural-sereno"] #daily-diary-modal :is(div,span)[class*="bg-[#B88736]/"] :is(span,svg) { color: #2A2421 !important; }
 
 :root[data-layout="natural-sereno"] #daily-diary-modal > div > .shrink-0 > div:first-child { padding-right: 48px !important; align-items: flex-start !important; }
 :root[data-layout="natural-sereno"] #daily-diary-modal > div > .shrink-0 > div:first-child > div { min-width: 0; max-width: 100%; }
@@ -411,16 +417,13 @@
   :root[data-layout="natural-sereno"] .ns-welcome-content { max-width: 920px; margin-inline: auto; }
   :root[data-layout="natural-sereno"]:has(.ns-app) #floating-whatsapp-btn { right: 16px !important; }
 }
-:root[data-layout="natural-sereno"] [data-ns-pix-card] { background: #f6efd9; border-color: #d8caa9; box-shadow: 0 3px 12px rgba(38,55,42,.07); }
-:root[data-layout="natural-sereno"] [data-ns-pix-card] :is(span,strong,svg) { color: #073b2b; }
-:root[data-layout="natural-sereno"] #plans-modal button[class*="bg-[#073B2B]"] { background: linear-gradient(180deg,#ead394,#c49b42 35%,#b68b36); color: #073b2b; border-color: #b68b36; }
-.ep-reintegration-running { overflow-x: clip; overflow-y: auto; }
-@media (max-width: 899px) and (max-height: 700px) {
-  .ep-reintegration-running .reintegration-presence-visual { width: clamp(60px,12dvh,100px); }
-}
+:root[data-layout="natural-sereno"] [data-ns-pix-card] { background: #F3EDE4; border-color: rgba(200,157,82,.28); box-shadow: 0 3px 12px rgba(67,52,39,.07); }
+:root[data-layout="natural-sereno"] [data-ns-pix-card] :is(span,strong,svg) { color: #2A2421; }
+:root[data-layout="natural-sereno"] #plans-modal button[class*="bg-[#073B2B]"] { background: linear-gradient(180deg,#E2B96B 0%,#C89D52 55%,#A87E37 100%); color: #2A2421; border-color: rgba(168,126,55,.58); }
+/* Shared Reintegração layout rules live in approved-theme.css. */
 @media (min-width: 900px) {
   :root[data-layout="natural-sereno"] .ns-welcome {
-    background: #063020;
+    background: #2A2421;
   }
   :root[data-layout="natural-sereno"] .ns-welcome::after {
     content: ''; position: absolute; inset: 0; z-index: -2; pointer-events: none;
@@ -428,7 +431,7 @@
     filter: blur(12px); opacity: .65;
   }
   :root[data-layout="natural-sereno"] .ns-welcome::before {
-    background: linear-gradient(180deg,rgba(2,31,19,.08),rgba(2,31,19,.2)), url('/brand/natural-sereno/acolhimento.webp') center / auto 100% no-repeat;
+    background: linear-gradient(180deg,rgba(42,36,33,.08),rgba(42,36,33,.2)), url('/brand/natural-sereno/acolhimento.webp') center / auto 100% no-repeat;
   }
 }
 @media (min-width: 900px) {
@@ -438,5 +441,5 @@
     -webkit-mask-image: linear-gradient(90deg, transparent, #000 18%, #000 82%, transparent);
   }
 }
-:root[data-layout="natural-sereno"] .ns-home-scene > .ns-gold { color: #073b2b; }
-:root[data-layout="natural-sereno"] .ep-home-has-anamnesis .ns-current-day > svg { color: #073b2b !important; }
+:root[data-layout="natural-sereno"] .ns-home-scene > .ns-gold { color: #2A2421; }
+:root[data-layout="natural-sereno"] .ep-home-has-anamnesis .ns-current-day > svg { color: #6F7B55 !important; }

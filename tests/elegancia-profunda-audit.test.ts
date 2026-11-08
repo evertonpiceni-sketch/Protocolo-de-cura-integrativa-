@@ -68,7 +68,6 @@ const extractCssSelectors = (css: string): string[] => {
   return selectors;
 };
 
-
 test('o seletor usa a prancha oficial do Estilo 2 e exige confirmação explícita', () => {
   const modal = read('src/components/LayoutChoiceModal.tsx');
   const board = read('public/brand/elegancia-profunda/prancha-oficial.svg');
@@ -89,17 +88,6 @@ test('o seletor usa a prancha oficial do Estilo 2 e exige confirmação explíci
   assert.ok(modal.includes('disabled={!selectedLayout || isSaving}'));
   assert.ok(app.includes('const [layoutConfirmedThisSession, setLayoutConfirmedThisSession] = useState(false)'));
   assert.ok(app.includes('{(!layoutConfirmedThisSession || layoutChoiceRequested) && ('));
-});
-
-test('erros ao copiar banho de ervas mantêm semântica sem superfície rosa-clara no Estilo 2', () => {
-  const component = read('src/components/HerbalBathsModal.tsx');
-  const css = read('src/elegancia-profunda-herbal-baths-audit.css');
-
-  assert.ok(component.includes('role="alert" className="rounded-xl border border-rose-200 bg-rose-50 px-3 py-2 text-xs text-rose-700"'));
-  assert.ok(css.includes(':root[data-layout="elegancia-profunda"] #herbal-baths-modal [role="alert"]'));
-  assert.ok(css.includes('background: rgba(91, 32, 40, .28) !important;'));
-  assert.ok(css.includes('border-color: rgba(169, 93, 102, .48) !important;'));
-  assert.ok(css.includes('color: #f1d9d8 !important;'));
 });
 
 test('o modal de prática individual mantém foco acessível também no Estilo 2', () => {
@@ -149,7 +137,10 @@ test('o pagamento continua no checkout InfinitePay sem cópia manual de PIX', ()
   const routes = read('src/lib/paymentRoutes.ts');
   const specific = read('src/components/SpecificTreatmentModal.tsx');
   const numerology = read('src/components/NumerologyModal.tsx');
-  assert.ok(routes.includes('https://api.infinitepay.io/invoices/public/checkout'));
+  assert.ok(routes.includes('https://api.checkout.infinitepay.io'));
+  assert.ok(routes.includes('options: { single_payment: true }'));
+  assert.ok(routes.includes("headers['X-Api-Key'] = key"));
+  assert.ok(routes.includes('if (!apiKey()) return res.status(503)'));
   assert.ok(routes.includes("router.post('/payment/create-checkout'"));
   assert.ok(routes.includes("provider('/payment_check'"));
   assert.ok(!specific.includes('handleCopyPix'));
@@ -204,7 +195,7 @@ test('a narração do Estilo 2 usa IDs ElevenLabs válidos e não cai na voz do 
   assert.ok(session.includes("activeLayout === 'elegancia-profunda' && !style2VoiceId"));
   assert.ok(anamnesis.includes('fallbackToSpeechSynthesis: false'));
   assert.ok(hooponopono.includes('fallbackToSpeechSynthesis: !(isEleganciaProfunda || isEssenciaLuminosa)'));
-  assert.ok(arcanjo.includes('requireExplicitVoiceId: isEleganciaProfunda || isEssenciaLuminosa'));
+  assert.ok(arcanjo.includes('requireExplicitVoiceId: isNaturalSereno || isEleganciaProfunda || isEssenciaLuminosa'));
   assert.ok(audio.includes('requireExplicitVoiceId?: boolean'));
   assert.ok(audio.includes('if (options.requireExplicitVoiceId && !isElevenLabsVoiceId(options.voiceId))'));
   assert.ok(systemic.includes('fallbackToSpeechSynthesis: false'));
@@ -274,7 +265,7 @@ test('o canvas do Estilo 2 usa verde profundo e dourado, sem herdar a paleta da 
   assert.ok(session.includes("const ELEGANCIA_PROFUNDA_CANVAS_THEME = {"));
   assert.ok(session.includes("glow: '#D4AF37'"));
   assert.ok(session.includes("accent: '#2E6B4F'"));
-  assert.ok(session.includes("colorTheme={isEleganciaProfunda ? ELEGANCIA_PROFUNDA_CANVAS_THEME"));
+  assert.ok(session.includes("colorTheme={isNaturalSereno ? NATURAL_SERENO_CANVAS_THEME : isEleganciaProfunda ? ELEGANCIA_PROFUNDA_CANVAS_THEME"));
   assert.ok(canvas.includes('goldSoft?: string;'));
   assert.ok(canvas.includes('sageSoft?: string;'));
   assert.ok(canvas.includes('goldSoft: colorTheme.goldSoft ||'));
@@ -521,7 +512,10 @@ test('os Ajustes de Áudio do Estilo 2 usam verde profundo, champagne e marfim',
   assert.ok(main.includes("import './elegancia-profunda-settings-final-audit.css';"));
   assert.ok(settings.includes('id="audio-settings-modal"'));
   assert.ok(settings.includes('id="bioactive-tuning-panel"'));
-  assert.ok(settings.includes('disabled={isTrackBlockedDuringVoicePreview}'));
+  assert.ok(settings.includes('const isStyle2SolfeggioBlocked = isEleganciaProfunda && isTestingVoice && isSolfeggioFrequency(track.id);'));
+  assert.ok(settings.includes('const isTrackDisabledDuringVoicePreview = isTrackBlockedDuringVoicePreview || isNaturalSerenoSolfeggioBlocked;'));
+  assert.ok(settings.includes('disabled={isTrackDisabledDuringVoicePreview}'));
+  assert.ok(settings.includes('if (isTrackDisabledDuringVoicePreview) return;'));
   assert.ok(css.includes(':root[data-layout="elegancia-profunda"] #audio-settings-modal > div'));
   assert.ok(css.includes('#audio-settings-modal #bioactive-tuning-panel'));
   assert.ok(css.includes('[class*="bg-[#FBF8F2]"]'));
@@ -530,4 +524,15 @@ test('os Ajustes de Áudio do Estilo 2 usam verde profundo, champagne e marfim',
   assert.ok(!css.includes('data-layout="essencia-luminosa"'));
   assert.ok(!css.includes('data-layout="natural-sereno"'));
   assert.ok(!css.includes('data-layout="mistico-moderno"'));
+});
+
+test('erros ao copiar banho de ervas mantêm semântica sem superfície rosa-clara no Estilo 2', () => {
+  const component = read('src/components/HerbalBathsModal.tsx');
+  const css = read('src/elegancia-profunda-herbal-baths-audit.css');
+
+  assert.ok(component.includes('role="alert" className="rounded-xl border border-rose-200 bg-rose-50 px-3 py-2 text-xs text-rose-700"'));
+  assert.ok(css.includes(':root[data-layout="elegancia-profunda"] #herbal-baths-modal [role="alert"]'));
+  assert.ok(css.includes('background: rgba(91, 32, 40, .28) !important;'));
+  assert.ok(css.includes('border-color: rgba(169, 93, 102, .48) !important;'));
+  assert.ok(css.includes('color: #f1d9d8 !important;'));
 });

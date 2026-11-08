@@ -15,7 +15,6 @@ export function isSolfeggioFrequency(bgMusicType: string): boolean {
   return SOLFEGGIO_FREQUENCY_PATTERN.test(bgMusicType.trim());
 }
 
-
 /**
  * During a neural voice preview, block only Solfeggio choices. Non-tonal
  * ambience (forest, rain, waves) and silence remain available to the listener.
