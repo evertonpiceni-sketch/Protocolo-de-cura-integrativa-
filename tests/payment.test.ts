@@ -101,7 +101,7 @@ test('checkout binds account, validates provider confirmation and grants only on
     const missingApiKeyCheckout = await call('payment/create-checkout', { productType: 'subscription', planId: 'jornada_7d', paymentMethod: 'pix' }, 'no-api-key-owner');
     assert.equal(missingApiKeyCheckout.status, 503);
     assert.equal(calls.length, providerCallsBeforeMissingKey, 'sem API Key não cria link reutilizável');
-    assert.equal(db.paymentOrders?.some(order => order.userId === 'no-api-key-owner'), false);
+    assert.equal(db.paymentOrders?.some(order => order.userId === 'no-api-key-owner') ?? false, false);
     process.env.INFINITEPAY_API_KEY = 'test-only-infinitepay-key';
 
     const checkout = await call('payment/create-checkout', { productType: 'subscription', planId: 'jornada_7d', paymentMethod: 'pix', price: .01, couponCode: 'PROMO20' });
