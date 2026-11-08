@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import test from 'node:test';
-import { shouldPlayProtocolSessionBackground } from '../src/lib/protocolSessionAudioPolicy';
+import { shouldBlockTrackDuringNeuralVoicePreview, shouldPlayProtocolSessionBackground } from '../src/lib/protocolSessionAudioPolicy';
 import { isNeuralVoicePreviewActive, setNeuralVoicePreviewActive } from '../src/lib/neuralVoicePreviewState';
 
 test('Estilo 3 usa a prancha oficial no card de prévia do seletor', () => {
@@ -67,6 +67,23 @@ test('o protocolo não reinicia Solfeggio como trilha de fundo', () => {
   assert.equal(shouldPlayProtocolSessionBackground('portal', 'waves'), false);
 });
 
+
+test('a prévia neural bloqueia apenas frequências Solfeggio e mantém ambiências disponíveis', () => {
+  const frequencies = ['396hz', '417hz', '432hz', '528hz', '639hz', '741hz', '852hz', '963hz'];
+  for (const frequency of frequencies) {
+    assert.equal(shouldBlockTrackDuringNeuralVoicePreview(true, true, frequency), true, frequency);
+  }
+  for (const ambience of ['florestazen', 'chuvaserena', 'waves', 'none']) {
+    assert.equal(shouldBlockTrackDuringNeuralVoicePreview(true, true, ambience), false, ambience);
+  }
+  assert.equal(shouldBlockTrackDuringNeuralVoicePreview(false, true, '528hz'), false);
+  assert.equal(shouldBlockTrackDuringNeuralVoicePreview(true, false, '528hz'), false);
+
+  const settings = fs.readFileSync('src/components/AudioSettingsModal.tsx', 'utf8');
+  assert.ok(settings.includes('shouldBlockTrackDuringNeuralVoicePreview(requiresNeuralVoice, isTestingVoice, track.id)'));
+  assert.ok(!settings.includes('(isEssenciaLuminosa && isTestingVoice)'));
+  assert.ok(!settings.includes('isStyle2SolfeggioBlocked'));
+});
 
 test('o player usa ouro suave e sálvia nas animações da Essência Luminosa', () => {
   const session = fs.readFileSync('src/components/MeditationSession.tsx', 'utf8');

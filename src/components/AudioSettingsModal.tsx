@@ -13,7 +13,7 @@ import {
 import { UserProfile } from '../types';
 import { audioEngine, OFFICIAL_PROTOCOL_VOICE_ID } from '../lib/audio';
 import { isElevenLabsVoiceId, type ElevenLabsVoiceOption } from '../lib/voiceSelection';
-import { isSolfeggioFrequency, shouldPlayProtocolSessionBackground } from '../lib/protocolSessionAudioPolicy';
+import { shouldBlockTrackDuringNeuralVoicePreview, shouldPlayProtocolSessionBackground } from '../lib/protocolSessionAudioPolicy';
 import { useDialogFocus } from '../hooks/useDialogFocus';
 import { setNeuralVoicePreviewActive } from '../lib/neuralVoicePreviewState';
 
@@ -360,8 +360,7 @@ export default function AudioSettingsModal({
             ].map(track => {
               const isLocked = track.pro && userProfile.plan !== 'pro';
               const isSelected = bgMusicType === track.id;
-              const isStyle2SolfeggioBlocked = isEleganciaProfunda && isTestingVoice && isSolfeggioFrequency(track.id);
-              const isTrackBlockedDuringVoicePreview = (isEssenciaLuminosa && isTestingVoice) || isStyle2SolfeggioBlocked;
+              const isTrackBlockedDuringVoicePreview = shouldBlockTrackDuringNeuralVoicePreview(requiresNeuralVoice, isTestingVoice, track.id);
 
               return (
                 <button
@@ -369,7 +368,7 @@ export default function AudioSettingsModal({
                   type="button"
                   disabled={isTrackBlockedDuringVoicePreview}
                   aria-disabled={isTrackBlockedDuringVoicePreview}
-                  title={isTrackBlockedDuringVoicePreview ? 'Aguarde a prévia da voz terminar para alterar a frequência.' : undefined}
+                  title={isTrackBlockedDuringVoicePreview ? 'Aguarde a prévia da voz terminar para alterar a frequência Solfeggio.' : undefined}
                   aria-pressed={isSelected}
                   onClick={() => {
                     if (isTrackBlockedDuringVoicePreview) return;
