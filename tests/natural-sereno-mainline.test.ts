@@ -103,9 +103,11 @@ test('Natural Sereno bloqueia Solfeggio durante a prévia neural sem bloquear am
   const policy = read('src/lib/protocolSessionAudioPolicy.ts');
 
   assert.ok(settings.includes('const isNaturalSerenoSolfeggioBlocked = isNaturalSereno && isTestingVoice && isSolfeggioFrequency(track.id);'));
-  assert.ok(settings.includes('const isTrackBlockedDuringVoicePreview = (isEssenciaLuminosa && isTestingVoice) || isStyle2SolfeggioBlocked || isNaturalSerenoSolfeggioBlocked;'));
-  assert.ok(settings.includes('disabled={isTrackBlockedDuringVoicePreview}'));
-  assert.ok(settings.includes('if (isTrackBlockedDuringVoicePreview) return;'));
+  assert.ok(settings.includes('const isStyle3SolfeggioBlocked = shouldBlockTrackDuringNeuralVoicePreview(isEssenciaLuminosa, isTestingVoice, track.id);'));
+  assert.ok(settings.includes('const isTrackBlockedDuringVoicePreview = isStyle3SolfeggioBlocked || isStyle2SolfeggioBlocked;'));
+  assert.ok(settings.includes('const isTrackDisabledDuringVoicePreview = isTrackBlockedDuringVoicePreview || isNaturalSerenoSolfeggioBlocked;'));
+  assert.ok(settings.includes('disabled={isTrackDisabledDuringVoicePreview}'));
+  assert.ok(settings.includes('if (isTrackDisabledDuringVoicePreview) return;'));
   assert.ok(policy.includes('export function isSolfeggioFrequency(bgMusicType: string): boolean'));
 });
 
