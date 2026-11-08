@@ -25,7 +25,15 @@ test('o Diário do Dia não herda âmbar saturado, roxo, índigo ou slate no Est
   }
 
   assert.ok(component.includes('hover:bg-slate-700'));
-  assert.ok(css.includes('button:hover[class~="hover:bg-slate-700"]'));
+  const slateHoverRule = css.match(/button:hover\[class~="hover:bg-slate-700"\]\s*\{([^}]+)\}/)?.[1] ?? '';
+  assert.ok(slateHoverRule.includes('background-color: color-mix(in srgb, var(--layout-gold) 14%, var(--layout-card)) !important;'));
+  assert.ok(slateHoverRule.includes('color: var(--layout-text) !important;'));
+
+  assert.ok(component.includes('focus:ring-indigo-400'));
+  const textareaFocusRule = css.match(/#daily-diary-modal textarea:focus,[\s\S]*?\{([^}]+)\}/)?.[1] ?? '';
+  assert.ok(textareaFocusRule.includes('box-shadow: 0 0 0 3px rgba(201, 164, 104, 0.14) !important;'));
+  assert.ok(!textareaFocusRule.toLowerCase().includes('indigo'));
+
   assert.ok(css.includes('#daily-diary-modal textarea:focus'));
   assert.ok(css.includes(':root[data-layout="elegancia-profunda"] #daily-diary-modal'));
   assert.ok(!/^\s*#daily-diary-modal/m.test(css), 'Nenhum override do Diário pode escapar do escopo Elegância Profunda.');
