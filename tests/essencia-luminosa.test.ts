@@ -656,3 +656,17 @@ test('Mapa Astral Completo só libera com benefício confirmado e as duas escolh
   assert.ok(server.includes('numerologyPurchased: currentProfile.numerologyPurchased'));
   assert.ok(server.includes('astralMapPurchased: currentProfile.astralMapPurchased'));
 });
+
+
+test('a apresentação do Estilo 3 não mantém CTA verde-claro com texto branco nem botão âmbar saturado', () => {
+  const css = fs.readFileSync('src/essencia-luminosa-promo-audit.css', 'utf8');
+  const modal = fs.readFileSync('src/components/PromoVideoModal.tsx', 'utf8');
+
+  assert.ok(modal.includes('bg-emerald-600 hover:bg-emerald-500 text-white'));
+  assert.ok(modal.includes('from-amber-500 to-amber-400'));
+  assert.ok(css.includes('#promo-video-modal button[class*="bg-emerald-600"]'));
+  assert.ok(css.includes('color:var(--layout-text)!important;'));
+  assert.ok(css.includes('#promo-video-modal button[class*="from-amber-500"][class*="to-amber-400"]'));
+  assert.ok(css.includes('background-image:var(--layout-gold-gradient)!important;'));
+  assert.ok(css.includes('#promo-video-modal [class*="bg-amber-400"]'));
+});
