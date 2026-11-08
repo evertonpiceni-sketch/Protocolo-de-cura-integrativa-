@@ -22,6 +22,6 @@ test('onboarding sends birth details and initial preferences in the registration
 test('user sync advertises its lock retry interval', () => {
   const server = fs.readFileSync('server.ts', 'utf8');
   const routeStart = server.indexOf('app.post("/api/user/sync"');
-  const route = server.slice(routeStart, server.indexOf('app.use(\'/api\', paymentRoutes', routeStart));
+  const route = server.slice(routeStart, routeStart + 1800);
   assert.ok(route.includes('res.setHeader("Retry-After", "1")'));
 });
