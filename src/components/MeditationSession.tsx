@@ -4,7 +4,7 @@
  */
 
 import React, { useState, useEffect, useLayoutEffect } from 'react';
-import { motion, AnimatePresence } from 'motion/react';
+import { motion, AnimatePresence, useReducedMotion } from 'motion/react';
 import {
   X, Sparkles, BookOpen, Volume2, VolumeX
 } from 'lucide-react';
@@ -63,6 +63,12 @@ const ELEGANCIA_PROFUNDA_CANVAS_THEME = {
   transparent: 'rgba(11,23,18,0)'
 };
 const ESSENCIA_LUMINOSA_CANVAS_THEME = { glow: '#C6A46A', accent: '#A6B49B' };
+const MISTICO_MODERNO_CANVAS_THEME = {
+  glow: '#D4AF37', accent: '#6C3FA0',
+  goldSoft: 'rgba(212,175,55,0.14)', goldGlow: 'rgba(212,175,55,0.24)', goldLine: 'rgba(212,175,55,0.38)',
+  sageSoft: 'rgba(108,63,160,0.12)', sageGlow: 'rgba(108,63,160,0.20)', sageLine: 'rgba(108,63,160,0.34)',
+  ivory: '#F4F1EB', transparent: 'rgba(10,15,24,0)'
+};
 
 export default function MeditationSession({
   dayNumber,
@@ -80,6 +86,9 @@ export default function MeditationSession({
   const activeLayout = typeof document !== 'undefined' ? document.documentElement.dataset.layout : undefined;
   const isEleganciaProfunda = activeLayout === 'elegancia-profunda';
   const isEssenciaLuminosa = activeLayout === 'essencia-luminosa';
+  const isMisticoModerno = activeLayout === 'mistico-moderno';
+  const prefersReducedMotion = useReducedMotion();
+  const shouldReduceMotion = isMisticoModerno && Boolean(prefersReducedMotion);
   const [sessionPhase, setSessionPhase] = useState<'portal' | 'checkin_before' | 'playing' | 'checkin_after' | 'completed'>('portal');
 
   useLayoutEffect(() => {
@@ -201,8 +210,9 @@ export default function MeditationSession({
     const selectedVoiceId = voiceId?.trim();
     const savedVoiceId = isElevenLabsVoiceId(selectedVoiceId) ? selectedVoiceId : OFFICIAL_PROTOCOL_VOICE_ID;
     const style2VoiceId = isElevenLabsVoiceId(selectedVoiceId) ? selectedVoiceId : '';
+    const misticoVoiceId = isElevenLabsVoiceId(selectedVoiceId) ? selectedVoiceId : '';
 
-    if (activeLayout === 'elegancia-profunda' && !style2VoiceId) {
+    if ((activeLayout === 'elegancia-profunda' && !style2VoiceId) || (isMisticoModerno && !misticoVoiceId)) {
       setIsPlaying(false);
       setVoiceError(true);
       return;
@@ -217,7 +227,9 @@ export default function MeditationSession({
           ? style2VoiceId
           : activeLayout === 'essencia-luminosa'
             ? savedVoiceId
-            : OFFICIAL_PROTOCOL_VOICE_ID,
+            : isMisticoModerno
+              ? misticoVoiceId
+              : OFFICIAL_PROTOCOL_VOICE_ID,
       speed: voiceRate,
       stageTitle: `Dia ${dayNumber} — ${currentInsight.title} — ${currentStage.title}`,
       dayNumber,
@@ -357,8 +369,8 @@ export default function MeditationSession({
     <div id="meditation-session" data-session-phase={sessionPhase} className="ep-session fixed inset-0 z-50 bg-[#FAF7F2] text-[#2A2420] flex flex-col justify-between overflow-hidden select-none min-h-dvh">
       <div className="ep-session-backdrop absolute inset-0 pointer-events-none">
         <SacredEnergyCanvas
-          dayNumber={['natural-sereno', 'elegancia-profunda', 'essencia-luminosa'].includes(activeLayout || '') ? dayNumber : undefined}
-          colorTheme={isEleganciaProfunda ? ELEGANCIA_PROFUNDA_CANVAS_THEME : isEssenciaLuminosa ? ESSENCIA_LUMINOSA_CANVAS_THEME : undefined}
+          dayNumber={['natural-sereno', 'elegancia-profunda', 'essencia-luminosa', 'mistico-moderno'].includes(activeLayout || '') ? dayNumber : undefined}
+          colorTheme={isEleganciaProfunda ? ELEGANCIA_PROFUNDA_CANVAS_THEME : isEssenciaLuminosa ? ESSENCIA_LUMINOSA_CANVAS_THEME : isMisticoModerno ? MISTICO_MODERNO_CANVAS_THEME : undefined}
           dayOneOpening={isEleganciaProfunda && dayNumber === 1}
           stageId={currentStage.id}
           isPlaying={isPlaying}
@@ -431,10 +443,10 @@ export default function MeditationSession({
         {sessionPhase === 'playing' && (
           <motion.div
             key={currentStage.id}
-            initial={{ opacity: 0, y: 12 }}
+            initial={shouldReduceMotion ? false : { opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -12 }}
-            transition={{ duration: 0.6 }}
+            exit={shouldReduceMotion ? undefined : { opacity: 0, y: -12 }}
+            transition={shouldReduceMotion ? { duration: 0 } : { duration: 0.6 }}
             className="ep-session-stage w-full flex flex-col items-center"
           >
             <div className="ns-session-title hidden">
@@ -457,13 +469,15 @@ export default function MeditationSession({
 
             <div className="ep-breathing-guide relative w-44 h-44 my-4 flex items-center justify-center">
               <motion.div
-                animate={{
-                  scale: isPlaying
-                    ? breathePhase === 'inhale' ? 1.25 : breathePhase === 'hold' ? 1.25 : 0.9
-                    : 1,
-                  opacity: isPlaying ? 0.7 : 0.4
-                }}
-                transition={{ duration: breathTransitionSeconds, ease: 'easeInOut' }}
+                animate={shouldReduceMotion
+                  ? { scale: 1, opacity: 0.4 }
+                  : {
+                      scale: isPlaying
+                        ? breathePhase === 'inhale' ? 1.25 : breathePhase === 'hold' ? 1.25 : 0.9
+                        : 1,
+                      opacity: isPlaying ? 0.7 : 0.4
+                    }}
+                transition={shouldReduceMotion ? { duration: 0 } : { duration: breathTransitionSeconds, ease: 'easeInOut' }}
                 className="absolute inset-0 rounded-full border border-[#B88736]/30 bg-radial from-[#D4AF37]/15 to-transparent shadow-lg"
               />
               <div className="relative z-10 flex flex-col items-center">
