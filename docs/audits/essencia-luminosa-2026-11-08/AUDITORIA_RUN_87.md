@@ -30,8 +30,23 @@ Branch: `main`
 5. **Benefício Semestral/Anual:** a escolha entre Mapa Astral Completo e Numerologia Completa ainda precisa de tela/rota de registro seguro; não foi inventada concessão automática.
 6. **Pagamento e publicação:** InfinitePay em sandbox e publicação Vercel continuam pendentes de homologação.
 
-## Validação desta rodada
+## Validação técnica
 
-- Correções limitadas a CSS do Estilo 3 e testes.
+Execução GitHub Actions: [Run 42465614689](https://github.com/evertonpiceni-sketch/Protocolo-de-cura-integrativa-/actions/runs/42465614689) — **sucesso** para o commit `98e068e9132c5216b7aeb900c6138db55aa2852f`.
+
+- npm audit: aprovado.
+- TypeScript: aprovado.
+- Testes de regressão: aprovados.
+- Build: aprovado.
+- Entry points Vercel/Express: aprovados.
+- Verificações de segredos e JWT: aprovadas.
+- Smoke test de saúde/cadastro: aprovado.
+- Endpoints de pagamento fail-closed: aprovados.
+
+A aprovação do CI não substitui homologação visual em navegador, teste físico de áudio, transação InfinitePay em sandbox ou publicação em produção.
+
+## Registro da correção
+
+- Commit de código/testes: `98e068e9132c5216b7aeb900c6138db55aa2852f`.
+- As correções ficaram restritas às folhas CSS do Estilo 3 e aos testes de regressão.
 - Nenhuma regra de conteúdo, cálculo, plano ou pagamento foi alterada.
-- A suíte e o build serão considerados aprovados somente após a execução do CI deste commit.
