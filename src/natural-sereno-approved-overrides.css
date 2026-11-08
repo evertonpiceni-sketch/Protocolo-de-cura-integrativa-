@@ -730,3 +730,56 @@
 :root[data-layout="natural-sereno"] #arcanjo-protocol-view [class*="from-[#021b13]"] {
   background-image:linear-gradient(to top,#2A2421 0%,rgba(42,36,33,.82) 58%,transparent 100%)!important;
 }
+
+
+/* RUN 38 — telas de entrada e assinaturas:
+   neutralizar o último CTA amarelo/pílula e as opacidades antigas do logo.
+   A fotografia natural permanece; os verdes ficam só como detalhe semântico. */
+#profile-setup-view.ep-auth-style-one .ep-auth-nature-bg {
+  background:linear-gradient(180deg,rgba(250,247,242,.24),rgba(42,36,33,.12)),url('/brand/natural-sereno/vale-amanhecer.webp') center / cover no-repeat #FAF7F2!important;
+}
+#profile-setup-view.ep-auth-style-one #onboarding-card.ep-auth-card {
+  box-shadow:0 12px 40px rgba(67,52,39,.10),inset 0 1px 2px #FBF8F2!important;
+}
+#profile-setup-view.ep-auth-style-one #onboarding-card::before {
+  opacity:.16!important;
+}
+#profile-setup-view.ep-auth-style-one #onboarding-card .ep-brand-signature-wrap {
+  opacity:1!important;background:transparent!important;border:0!important;box-shadow:none!important;
+}
+#profile-setup-view.ep-auth-style-one #onboarding-card .ep-brand-signature {
+  opacity:.30!important;filter:none!important;mix-blend-mode:multiply!important;
+}
+#profile-setup-view.ep-auth-style-one #onboarding-card :is(p,label,span) {
+  color:#6B625B!important;
+}
+#profile-setup-view.ep-auth-style-one #onboarding-card :is(#register-form,#login-form) button[type="submit"] {
+  border:1px solid rgba(168,126,55,.58)!important;
+  border-radius:18px!important;
+  background:linear-gradient(180deg,#E2B96B 0%,#C89D52 55%,#A87E37 100%)!important;
+  color:#2A2421!important;
+  box-shadow:inset 0 1px rgba(255,255,255,.48),0 10px 24px rgba(67,52,39,.12)!important;
+  text-shadow:none!important;
+}
+:root[data-layout="natural-sereno"] .ns-app :is(button,a).ns-gold {
+  border:1px solid rgba(168,126,55,.58)!important;
+  border-radius:18px!important;
+  background:linear-gradient(180deg,#E2B96B 0%,#C89D52 55%,#A87E37 100%)!important;
+  color:#2A2421!important;
+  box-shadow:inset 0 1px rgba(255,255,255,.48),0 8px 18px rgba(67,52,39,.10)!important;
+  text-shadow:none!important;
+}
+:root[data-layout="natural-sereno"] .ns-welcome-brand {
+  opacity:.30!important;mix-blend-mode:multiply!important;filter:none!important;
+}
+:root[data-layout="natural-sereno"] #auth-loading-view > div:first-child img {
+  opacity:.30!important;mix-blend-mode:multiply!important;filter:none!important;
+}
+:root[data-layout="natural-sereno"] .ep-care-onboarding-card .ep-brand-signature {
+  opacity:.30!important;mix-blend-mode:multiply!important;filter:none!important;
+}
+:root[data-layout="natural-sereno"] .ep-care-onboarding-card::before { opacity:.18!important; }
+:root[data-layout="natural-sereno"] .ep-care-onboarding-card::after { opacity:.12!important; }
+:root[data-layout="natural-sereno"] .ns-app:not([data-ns-screen="home"]):not([data-ns-screen="welcome"]):not([data-ns-screen="community"])::after {
+  opacity:.18!important;
+}
