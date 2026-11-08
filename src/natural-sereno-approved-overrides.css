@@ -453,3 +453,28 @@
 :root[data-layout="natural-sereno"] .ep-app-toast svg {
   color: #C89D52 !important;
 }
+
+
+/* RUN 96 — Primary Natural Sereno actions: refined gold, coffee text and
+   premium 18px corners. Prevent the retired yellow pill treatment from returning. */
+:root[data-layout="natural-sereno"] .ns-app .ns-gold {
+  border: 1px solid rgba(168,126,55,.58) !important;
+  border-radius: 18px !important;
+  background: linear-gradient(180deg,#E2B96B 0%,#C89D52 100%) !important;
+  color: #2A2421 !important;
+  box-shadow: 0 9px 20px rgba(67,52,39,.10) !important;
+  text-shadow: none !important;
+}
+:root[data-layout="natural-sereno"] .ns-app .ns-gold:hover:not(:disabled) {
+  background: linear-gradient(180deg,#E8C47D 0%,#A87E37 100%) !important;
+}
+
+/* RUN 98 — pequenos ícones de Mapa Astral e Numerologia usam sálvia suave,
+   não blocos verde-floresta herdados dos componentes compartilhados. */
+:root[data-layout="natural-sereno"] #astral-map-modal [class~="bg-[#073b2b]"],
+:root[data-layout="natural-sereno"] #numerology-modal [class~="bg-[#073b2b]"] {
+  background: rgba(111,123,85,.12) !important;
+  color: #6F7B55 !important;
+  border-color: rgba(200,157,82,.34) !important;
+  box-shadow: 0 6px 16px rgba(67,52,39,.06) !important;
+}
