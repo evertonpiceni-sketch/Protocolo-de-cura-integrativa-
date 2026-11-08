@@ -30,3 +30,18 @@ test('assinatura Arcanjo permite abertura manual, sem abrir o protocolo automati
   assert.ok(!app.includes("showArcanjoView || userProfile.subscriptionPlan === 'arcanjo_7d'"));
   assert.ok(app.includes("if (plan === 'arcanjo_7d') setShowArcanjoView(true);"));
 });
+
+test('Natural Sereno exige voz neural oficial no Arcanjo e nunca cai na voz do dispositivo', () => {
+  const arcanjo = read('src/components/ArcanjoProtocolView.tsx');
+  assert.ok(arcanjo.includes("const isNaturalSereno = typeof document !== 'undefined' && document.documentElement.dataset.layout === 'natural-sereno';"));
+  assert.ok(arcanjo.includes('const naturalSerenoVoiceId = isElevenLabsVoiceId(userProfile.voiceId)'));
+  assert.ok(arcanjo.includes('voiceId: isNaturalSereno\\n        ? naturalSerenoVoiceId'));
+  assert.ok(arcanjo.includes('requireExplicitVoiceId: isNaturalSereno || isEleganciaProfunda || isEssenciaLuminosa'));
+  const fallbackStart = arcanjo.indexOf('const startNativeFallback');
+  const fallbackCall = arcanjo.indexOf('audioEngine.speakWithElevenLabsOrFallback', fallbackStart);
+  const fallbackGuard = arcanjo.indexOf('if (isNaturalSereno || isEleganciaProfunda || isEssenciaLuminosa)', fallbackStart);
+  assert.ok(fallbackGuard > fallbackStart && fallbackGuard < fallbackCall, 'Natural Sereno deve interromper antes de qualquer fallback nativo.');
+  const guardedErrorPath = arcanjo.indexOf('if (isNaturalSereno || isEleganciaProfunda || isEssenciaLuminosa)', fallbackCall);
+  assert.ok(guardedErrorPath > fallbackCall, 'A falha da narração neural deve ser tratada sem voz do dispositivo.');
+  assert.ok(arcanjo.includes('O Natural Sereno não usará a voz do dispositivo.'));
+});
