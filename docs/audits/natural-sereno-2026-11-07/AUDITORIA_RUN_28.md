@@ -27,9 +27,18 @@
 - Links legados sem proteção de pagamento único continuam bloqueados para reutilização automática.
 
 ## Validação desta rodada
-- Código e testes foram gravados na branch do PR #62.
-- A execução de CI correspondente aos novos commits ainda não apareceu na consulta de workflow runs; portanto, os testes novos não são declarados aprovados nesta etapa.
-- Não houve criação de checkout, chamada financeira real, cobrança, estorno, merge ou deploy de produção.
+
+GitHub Actions — **Security Audit #1601**, execução `42437277124`, commit `e335050aa78c281dc0ca063f43d96771160c0a1b`:
+- `npm audit`: **0 vulnerabilidades**.
+- TypeScript: aprovado.
+- Testes: **122/122 aprovados** (inclui os dois novos testes da lease).
+- Build: aprovado.
+- Entry points Vercel, padrões de segredos, JWT, autenticação/admin, smoke tests e endpoints de pagamento fail-closed: aprovados.
+- Job completo: sucesso.
+
+A inspeção Vercel confirmou que o projeto continua sem `INFINITEPAY_API_KEY` nos ambientes listados; por isso, o checkout de pagamento único permanece bloqueado com segurança. A tentativa de criar uma prévia para o head atualizado foi recusada pelo limite diário `api-deployments-free-per-day` (mais de 100 deployments; nova tentativa somente após 24 horas). Nenhuma prévia foi criada.
+
+Não houve criação de checkout, chamada financeira real, cobrança, estorno, merge ou deploy de produção.
 
 ## Pendências para homologação
 1. Confirmar CI completo no head atualizado (TypeScript, testes, build, auditoria de dependências e verificações de segurança).
