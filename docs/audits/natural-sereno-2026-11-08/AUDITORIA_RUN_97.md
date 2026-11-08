@@ -38,7 +38,7 @@ Também foi encontrada uma divergência no CTA principal do seletor: o JSX ainda
 - Revisados os caminhos de voz neural, Solfeggio, Diário e confirmação de pagamento no código da `main`.
 - A branch anterior RUN 96 não contém commits exclusivos em relação à `main` atual; esta correção parte diretamente da linha principal vigente e não recupera a branch antiga.
 
-**Validação final do head:** GitHub Actions Security Audit #1879 / execução `42519159995` aprovada.
+**Validação final do head:** GitHub Actions Security Audit #1881 / execução `42519655706` aprovada.
 - `npm audit`: 0 vulnerabilidades.
 - TypeScript: aprovado.
 - Testes: **153/153 aprovados**, incluindo as duas novas regressões de logo e CTA.
