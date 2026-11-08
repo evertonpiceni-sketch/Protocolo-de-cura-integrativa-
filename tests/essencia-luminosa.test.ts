@@ -628,3 +628,18 @@ test('Numerologia Completa respeita o benefício confirmado e não tenta checkou
   assert.ok(astralBlock.includes('onSaveProfile={saveProfile}'));
   assert.ok(!numerologyBlock.includes('onSaveProfile={saveProfile}'));
 });
+
+
+test('CTAs herdados da Prática Individual e da Anamnese usam ouro suave no Estilo 3', () => {
+  const finalCss = fs.readFileSync('src/essencia-luminosa-final-audit.css', 'utf8');
+  const anamnesisCss = fs.readFileSync('src/essencia-luminosa-anamnesis-audit.css', 'utf8');
+  const specificTreatment = fs.readFileSync('src/components/SpecificTreatmentModal.tsx', 'utf8');
+  const anamnesis = fs.readFileSync('src/components/AnamnesisModal.tsx', 'utf8');
+
+  assert.ok(specificTreatment.includes('from-emerald-600 to-teal-600'));
+  assert.ok(finalCss.includes('#specific-treatment-modal button[class*="from-emerald-600"][class*="to-teal-600"]'));
+  assert.ok(finalCss.includes('background-image:var(--layout-gold-gradient)!important;'));
+  assert.ok(anamnesis.includes('from-emerald-600 to-indigo-600'));
+  assert.ok(anamnesisCss.includes('#anamnesis-modal button[class*="from-emerald-600"][class*="to-indigo-600"]'));
+  assert.ok(anamnesisCss.includes('background-image:linear-gradient(135deg,var(--el-gold),var(--el-gold-deep))!important;'));
+});
