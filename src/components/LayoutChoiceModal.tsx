@@ -164,7 +164,7 @@ export default function LayoutChoiceModal({ onSelect }: LayoutChoiceModalProps) 
     >
       <section className="my-2 w-full max-w-4xl rounded-[2rem] border border-[#E5DAC6] bg-[#FBF8F2] p-5 shadow-2xl sm:p-7">
         <div className="mx-auto max-w-xl text-center">
-          <p className="text-xs font-semibold uppercase tracking-[.2em] text-[#B88736]">4 estilos, uma mesma essência</p>
+          <p className="text-xs font-semibold uppercase tracking-[.2em] text-[#817460]">4 estilos, uma mesma essência</p>
           <h2 id="layout-choice-title" className="mt-2 font-display text-3xl text-[#2A2420]">Escolha o que mais toca você</h2>
           <p className="mt-2 text-sm leading-relaxed text-[#5C5248]">
             Veja a prévia de cada atmosfera, selecione uma opção e confirme. A jornada, os conteúdos e seus dados permanecem iguais.
