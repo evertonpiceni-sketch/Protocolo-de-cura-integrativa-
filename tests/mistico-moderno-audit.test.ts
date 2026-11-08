@@ -93,6 +93,8 @@ test('o Diário permanece persistente e a identidade visual fica restrita ao Mí
   assert.ok(saveHandler.includes('saveProgress(updatedProgress)'));
   assert.ok(saveHandler.includes('saveProfile(updatedProfile)'));
   assert.ok(modal.includes('saveEntryHandler(activeDay, finalJournalText, editingMood)'));
+  assert.ok(modal.includes('useReducedMotion'));
+  assert.ok(modal.includes('shouldReduceMotion'));
   assert.ok(css.includes('data-layout="mistico-moderno"'));
   assert.ok(css.includes('#daily-diary-modal'));
 });
