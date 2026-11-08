@@ -512,7 +512,10 @@ test('os Ajustes de Áudio do Estilo 2 usam verde profundo, champagne e marfim',
   assert.ok(main.includes("import './elegancia-profunda-settings-final-audit.css';"));
   assert.ok(settings.includes('id="audio-settings-modal"'));
   assert.ok(settings.includes('id="bioactive-tuning-panel"'));
-  assert.ok(settings.includes('disabled={isTrackBlockedDuringVoicePreview}'));
+  assert.ok(settings.includes('const isStyle2SolfeggioBlocked = isEleganciaProfunda && isTestingVoice && isSolfeggioFrequency(track.id);'));
+  assert.ok(settings.includes('const isTrackDisabledDuringVoicePreview = isTrackBlockedDuringVoicePreview || isNaturalSerenoSolfeggioBlocked;'));
+  assert.ok(settings.includes('disabled={isTrackDisabledDuringVoicePreview}'));
+  assert.ok(settings.includes('if (isTrackDisabledDuringVoicePreview) return;'));
   assert.ok(css.includes(':root[data-layout="elegancia-profunda"] #audio-settings-modal > div'));
   assert.ok(css.includes('#audio-settings-modal #bioactive-tuning-panel'));
   assert.ok(css.includes('[class*="bg-[#FBF8F2]"]'));
