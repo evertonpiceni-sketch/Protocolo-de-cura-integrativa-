@@ -24,6 +24,7 @@ test('a escolha dos quatro estilos continua explícita antes da aplicação', ()
   const modal = fs.readFileSync('src/components/LayoutChoiceModal.tsx', 'utf8');
   const app = fs.readFileSync('src/App.tsx', 'utf8');
   assert.ok(modal.includes('useState<LayoutId | null>(null)'));
+  assert.ok(modal.includes('text-[#817460]">4 estilos, uma mesma essência'), 'O cabeçalho do seletor deve permanecer neutro antes da confirmação.');
   assert.ok(modal.includes('disabled={!selectedLayout || isSaving}'));
   assert.ok(modal.includes('O estilo só será aplicado depois da sua confirmação.'));
   assert.ok(app.includes('useState(false)'));
@@ -375,6 +376,8 @@ test('o acesso neutro antes da escolha não mantém CTA, ícones ou foco verdes 
   assert.ok(!supportBlock.includes('#FFFAE7'));
   assert.ok(profile.includes('text-[#817460]'));
   assert.ok(profile.includes('focus:border-[#A99B84]'));
+  assert.ok(!/#(?:B88736|8F631E|e5c66f)/i.test(profile), 'O acesso neutro não deve manter dourado/amarelo saturado do tema antigo.');
+  assert.ok(profile.includes('bg-[#A99B84]') && profile.includes('hover:bg-[#817460]'), 'CTAs e estados ativos devem usar os tokens neutros antes da escolha.');
   assert.ok(theme.includes('a:not([data-access-support-link="true"])'));
   assert.ok(profile.includes('ep-auth-prestyle min-h-dvh text-[#302E2A]'));
   assert.ok(profile.includes('bg-[#F7F3E8] border border-[#E5DAC6] text-[#5C5248]'), 'O aviso de sucesso deve permanecer neutro antes da escolha.');
