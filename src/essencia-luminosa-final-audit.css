@@ -600,3 +600,18 @@
   outline-offset:3px;
   box-shadow:0 0 0 3px var(--layout-gold-soft)!important;
 }
+
+
+/* CTA da Prática Individual: o gradiente from/to não era alcançado pelos overrides bg-emerald. */
+:root[data-layout="essencia-luminosa"] #specific-treatment-modal button[class*="from-emerald-600"][class*="to-teal-600"]{
+  background:var(--layout-gold-gradient)!important;
+  background-image:var(--layout-gold-gradient)!important;
+  color:var(--layout-text)!important;
+  border:1px solid var(--layout-gold-border)!important;
+  box-shadow:0 10px 24px var(--layout-gold-shadow)!important;
+}
+:root[data-layout="essencia-luminosa"] #specific-treatment-modal button[class*="from-emerald-600"][class*="to-teal-600"]:hover{
+  background:var(--layout-gold-gradient)!important;
+  background-image:var(--layout-gold-gradient)!important;
+  filter:brightness(.98) saturate(.96);
+}
