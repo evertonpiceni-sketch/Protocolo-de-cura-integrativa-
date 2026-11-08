@@ -73,7 +73,7 @@ test('o pagamento continua no checkout InfinitePay sem cópia manual de PIX', ()
   const routes = read('src/lib/paymentRoutes.ts');
   const specific = read('src/components/SpecificTreatmentModal.tsx');
   const numerology = read('src/components/NumerologyModal.tsx');
-  assert.ok(routes.includes('https://api.infinitepay.io/invoices/public/checkout'));
+  assert.ok(routes.includes('https://api.checkout.infinitepay.io'));
   assert.ok(routes.includes("router.post('/payment/create-checkout'"));
   assert.ok(routes.includes("provider('/payment_check'"));
   assert.ok(!specific.includes('handleCopyPix'));
@@ -198,7 +198,7 @@ test('o canvas do Estilo 2 usa verde profundo e dourado, sem herdar a paleta da 
   assert.ok(session.includes("const ELEGANCIA_PROFUNDA_CANVAS_THEME = {"));
   assert.ok(session.includes("glow: '#D4AF37'"));
   assert.ok(session.includes("accent: '#2E6B4F'"));
-  assert.ok(session.includes("colorTheme={isEleganciaProfunda ? ELEGANCIA_PROFUNDA_CANVAS_THEME"));
+  assert.ok(session.includes("colorTheme={isNaturalSereno ? NATURAL_SERENO_CANVAS_THEME : isEleganciaProfunda ? ELEGANCIA_PROFUNDA_CANVAS_THEME"));
   assert.ok(canvas.includes('goldSoft?: string;'));
   assert.ok(canvas.includes('sageSoft?: string;'));
   assert.ok(canvas.includes('goldSoft: colorTheme.goldSoft ||'));
