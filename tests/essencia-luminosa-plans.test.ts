@@ -28,7 +28,8 @@ test('a seleção feita no guia chega ao checkout sem ser substituída pelo plan
   const guide = fs.readFileSync('src/components/PlansValuesGuideModal.tsx', 'utf8');
   const app = fs.readFileSync('src/App.tsx', 'utf8');
   const checkout = fs.readFileSync('src/components/ProUpgradeModal.tsx', 'utf8');
-  assert.ok(guide.includes('onOpenProModal(plan.id)'));
+  assert.ok(guide.includes('onOpenProModal(planId)'));
+  assert.ok(guide.includes('handleTriggerPlan(plan.id)'));
   assert.ok(app.includes('setProModalInitialPlanId(planId as SubscriptionPlanType | undefined)'));
   assert.ok(app.includes('initialPlanId={proModalInitialPlanId}'));
   assert.ok(checkout.includes('initialPlanId?: SubscriptionPlanType'));

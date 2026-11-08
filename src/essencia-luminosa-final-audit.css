@@ -371,6 +371,9 @@
 :root[data-layout="essencia-luminosa"] #plans-values-guide-modal [class*="text-[#FAF7F2]"] {
   color: var(--layout-card) !important;
 }
+:root[data-layout="essencia-luminosa"] #plans-values-guide-modal :is([data-plan-cta], [data-plan-filter][aria-pressed="true"]) {
+  color: var(--layout-text) !important;
+}
 
 /* Ajustes de áudio: harmoniza os controles com o ouro suave aprovado. */
 :root[data-layout="essencia-luminosa"] #audio-settings-modal > div {
