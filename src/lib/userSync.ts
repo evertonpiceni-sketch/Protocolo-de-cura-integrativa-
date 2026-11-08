@@ -11,20 +11,28 @@ export type UserSyncOptions = {
 
 const RETRYABLE_STATUSES = new Set([409, 423, 429, 500, 502, 503, 504]);
 const DEFAULT_MAX_ATTEMPTS = 8;
+const MAX_RETRY_AFTER_WAIT_MS = 5000;
 
 function defaultWait(milliseconds: number) {
   return new Promise<void>(resolve => setTimeout(resolve, milliseconds));
 }
 
-function retryDelay(response: Response | undefined, attempt: number) {
-  const backoff = Math.min(5000, 300 * (2 ** (attempt - 1)));
-  const retryAfter = response?.headers.get('Retry-After');
+function retryDelay(response: undefined, attempt: number): number;
+function retryDelay(response: Response, attempt: number): number | null;
+function retryDelay(response: Response | undefined, attempt: number): number | null {
+  const backoff = Math.min(MAX_RETRY_AFTER_WAIT_MS, 300 * (2 ** (attempt - 1)));
+  const retryAfter = response?.headers.get('Retry-After')?.trim();
   if (!retryAfter) return backoff;
 
   const seconds = Number(retryAfter);
-  if (Number.isFinite(seconds) && seconds >= 0) return Math.min(5000, Math.max(backoff, seconds * 1000));
+  if (Number.isFinite(seconds) && seconds >= 0) {
+    const requestedDelay = seconds * 1000;
+    return requestedDelay > MAX_RETRY_AFTER_WAIT_MS ? null : Math.max(backoff, requestedDelay);
+  }
+
   const dateDelay = Date.parse(retryAfter) - Date.now();
-  if (Number.isFinite(dateDelay) && dateDelay > 0) return Math.min(5000, Math.max(backoff, dateDelay));
+  if (Number.isFinite(dateDelay) && dateDelay > MAX_RETRY_AFTER_WAIT_MS) return null;
+  if (Number.isFinite(dateDelay) && dateDelay > 0) return Math.max(backoff, dateDelay);
   return backoff;
 }
 
@@ -62,7 +70,11 @@ export async function syncUserState(payload: UserSyncPayload, options: UserSyncO
     if (!RETRYABLE_STATUSES.has(response.status) || attempt >= maxAttempts) {
       throw new Error(`User sync failed (HTTP ${response.status}) after ${attempt} attempt(s).`);
     }
-    await wait(retryDelay(response, attempt));
+    const delay = retryDelay(response, attempt);
+    if (delay === null) {
+      throw new Error(`User sync deferred after HTTP ${response.status}: Retry-After exceeds the ${MAX_RETRY_AFTER_WAIT_MS}ms retry window.`);
+    }
+    await wait(delay);
   }
 
   throw new Error('User sync could not be completed.');
