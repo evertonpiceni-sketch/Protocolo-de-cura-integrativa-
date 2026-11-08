@@ -3,12 +3,14 @@
 Data: 08/11/2026  
 Branch: `audit/natural-sereno-run97-mainline-2026-11-08`  
 PR: #74  
-HEAD validado: `4867e6f5b45f330385d099d20dd796581d7eaaa5`
+HEAD de código/teste validado: `92b9df033a86c0bbaefa6d7f6f03ee01403365c4`
 
 ## Corrigido
 
 - **Home — cascata runtime:** removidas regras duplicadas e supersedidas que permaneciam no bloco CSS injetado: ocultação antiga de `.ns-home-message`, margem negativa de `-34px`, largura de saudação `84%` e altura móvel legada de `405px`. A camada efetiva aprovada foi mantida; os breakpoints reais de quick links e altura da cena foram preservados. `line-height: 1.55` e alinhamento do CTA foram mantidos explicitamente na regra canônica.
-- **Diário — preservação de dados:** `handleSaveDiaryDay` agora conserva `sensations` e `gratitudes` existentes quando a chamada não envia esses campos opcionais. Um valor explicitamente enviado, inclusive string vazia, continua podendo atualizá-los/limpá-los. Isso evita que o salvamento normal de texto e humor apague dados anteriores.
+- **Diário — preservação de dados:** `handleSaveDiaryDay` conserva `sensations` e `gratitudes` quando a chamada não envia esses campos opcionais. Valores explicitamente enviados, inclusive string vazia, continuam podendo atualizá-los/limpá-los.
+- **Sincronização atômica:** a revisão independente identificou que `saveProfile` podia reenviar o progresso antigo após `saveProgress`. Corrigido: `saveProfile` aceita `progressOverride`, atualiza estado/cache e envia perfil + progresso no mesmo snapshot. `handleSaveSystemicAnswer` e `handleSaveDiaryDay` fazem uma única sincronização composta quando há perfil; `saveProgress` fica apenas no ramo sem perfil.
+- **Anamnese e Cursos:** CTA da Anamnese alinhado a 18px, hover creme `#F5EFE4` e sombra dos cards de Cursos trocada de verde escuro para café. Testes cobrem esses valores.
 - **Regressões:** acrescentados testes para impedir o retorno das regras Home supersedidas e para garantir a preservação dos campos opcionais do Diário.
 - **Prancha oficial:** recuperado e inspecionado o arquivo exato `1001196520(2).png`, Library file ID `file_00000000317c820ebaad657dc3680de5`. A referência usada pelo seletor em `docs/visual-qa/natural-sereno/reference.jpg` mostra a mesma composição visual em JPEG otimizado; não é uma cópia byte a byte do PNG.
 
@@ -26,11 +28,11 @@ HEAD validado: `4867e6f5b45f330385d099d20dd796581d7eaaa5`
 
 ## Reauditoria técnica
 
-GitHub Actions **#42531966804**: concluída com sucesso.
+GitHub Actions **#42532849974**: concluída com sucesso no HEAD `92b9df033a86c0bbaefa6d7f6f03ee01403365c4`.
 
 - `npm audit`: 0 vulnerabilidades.
 - TypeScript: aprovado.
-- Testes: **163/163 aprovados**.
+- Testes: **165/165 aprovados**.
 - Build Vite: aprovado, 2.247 módulos transformados.
 - Entry points, JWT, autenticação/admin, smoke checks e endpoints de pagamento: aprovados.
 
@@ -44,4 +46,4 @@ GitHub Actions **#42531966804**: concluída com sucesso.
 
 ## Estado de entrega
 
-PR #74 permanece aberta, em rascunho e mergeable; 28 commits à frente da `main`, zero commits atrás. Não houve merge, publicação em produção ou cobrança real.
+PR #74 permanece aberta, em rascunho e mergeable; a branch está 38 commits à frente e 6 atrás por histórico. Revisei os seis commits recentes da `main`: a única alteração de conteúdo em `src/approved-theme.css` já está idêntica na branch; o relatório RUN 102 da Essência Luminosa permanece na `main` e suas decisões foram preservadas. Não houve merge, publicação em produção ou cobrança real.
