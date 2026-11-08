@@ -69,6 +69,19 @@ const extractCssSelectors = (css: string): string[] => {
 };
 
 
+test('a tipografia da Elegância Profunda segue a prancha oficial', () => {
+  const index = read('src/index.css');
+  const css = read('src/elegancia-profunda-approved-overrides.css');
+
+  assert.ok(index.includes('family=Montserrat:'));
+  assert.ok(index.includes('family=Playfair+Display:'));
+  assert.ok(css.includes('--font-display:"Playfair Display"'));
+  assert.ok(css.includes('--font-sans:"Montserrat"'));
+  assert.ok(css.includes('font-family:"Montserrat",ui-sans-serif,system-ui,sans-serif!important'));
+  assert.ok(css.includes('font-family:"Playfair Display",Georgia,serif!important'));
+  assert.ok(css.includes(':root[data-layout="elegancia-profunda"] :is(h1,h2,h3,.font-display,.font-serif)'));
+});
+
 test('o seletor usa a prancha oficial do Estilo 2 e exige confirmação explícita', () => {
   const modal = read('src/components/LayoutChoiceModal.tsx');
   const board = read('public/brand/elegancia-profunda/prancha-oficial.svg');
