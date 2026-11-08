@@ -45,7 +45,7 @@ Criado `tests/style2-daily-diary-palette.test.ts` com dois testes para:
 
 ## Validação técnica
 
-GitHub Actions #42460615081, no HEAD `000a881`:
+GitHub Actions #42460615081, no HEAD de código `000a881`, e #42460966345, no commit documental `c2170f9`:
 
 - npm audit: **0 vulnerabilidades**.
 - TypeScript: aprovado.
@@ -57,14 +57,14 @@ A execução #42460606213, referente à correção CSS, também concluiu com suc
 
 ## Publicação
 
-A implantação Vercel associada ao commit `000a881` foi consultada diretamente:
+A implantação Vercel associada ao commit de código `000a881` foi consultada diretamente:
 
 - ambiente: production;
 - estado: `ERROR`;
 - `errorCode`: `BUILD_FAILED`;
 - `errorMessage`: `Resource provisioning failed`.
 
-O CI do GitHub passou; o erro reportado pela Vercel é de provisionamento do recurso. Não considero a versão publicada ou homologada em produção. Não forcei novo deploy nem alterei configurações de conta.
+Para o commit documental `c2170f9`, a consulta de deployments não retornou implantação; o check Vercel do GitHub aponta para `upgradeToPro=build-rate-limit`. O CI do GitHub passou, mas a produção não foi publicada nem homologada. Os eventos de build da implantação com erro não retornaram logs adicionais. Não forcei novo deploy nem alterei configurações de conta.
 
 ## Pendente
 
