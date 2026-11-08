@@ -3,7 +3,7 @@
 **Data:** 08/11/2026 (horário local)  
 **Branch:** `fix/natural-sereno-mainline-2026-11-08-rebased`  
 **PR vigente:** #64 — aberto, sem merge  
-**Commit de código/testes desta rodada:** `c4b043bea1629471886b77f66f703e4d610dcb03`
+**Head atual após correções e relatório:** `ac0c9b656aab83cf98f0e9da494f9ca97c048d0e`
 
 ## Corrigido nesta rodada
 
@@ -23,6 +23,12 @@
 - Novo teste simula duas instâncias independentes compartilhando Redis e comprova que apenas uma adquire a trava de recuperação padrão.
 - Novo cenário simula interrupção inicial do provedor, falha da gravação prévia, ausência de incremento/URL adicional e recuperação posterior com o mesmo pedido/NSU.
 - Os testes existentes de heartbeat, perda de lease, Numerologia, pagamento único e recuperação pós-criação foram preservados.
+- Prévia do seletor: o CTA ilustrativo do card Natural Sereno também deixou o formato de pílula e passou a usar cantos de 18 px; os demais cards mantêm seu acabamento próprio. Foi adicionada asserção de regressão.
+
+## Verificação estática visual
+
+- As 175 regras do override aprovado e as 16 regras da camada de superfícies da Home permanecem escopadas a `data-layout="natural-sereno"`; não foi encontrado seletor global nessas duas folhas.
+- Valores de saída encontrados são creme/marfim, café, dourado e sálvia. Referências a classes antigas verdes/amarelas aparecem como seletores de captura e são remapeadas; não são cores de saída. O modelo de Home também permanece com seletores escopados e tokens atuais.
 
 ## Preservado
 - Prancha oficial Natural Sereno versionada no seletor, subordinada às decisões posteriores.
@@ -37,7 +43,7 @@
 ## Estado da validação
 
 - Última execução completa anterior às alterações desta rodada: Security Audit #1630 no commit documental `d91e763a00ef60cc29d0382a04500883b9808369`, sucesso; a execução de código #1629 registrou `npm audit` com zero vulnerabilidades, TypeScript/build aprovados e 125/125 testes.
-- Para o novo head `c4b043bea1629471886b77f66f703e4d610dcb03`, o conector ainda não retornou uma execução nova do GitHub Actions. Portanto, os novos testes e as alterações desta rodada **aguardam CI atualizado**.
+- Para o novo head `ac0c9b656aab83cf98f0e9da494f9ca97c048d0e`, o conector ainda não retornou uma execução nova do GitHub Actions. Portanto, os novos testes e as alterações desta rodada **aguardam CI atualizado**.
 - O status Vercel do novo commit está em falha com indicação `build-rate-limit`; não existe prévia navegável para capturas renderizadas página a página.
 - A consulta de metadados das variáveis Vercel (sem descriptografar valores) confirmou `INFINITEPAY_HANDLE` e `PUBLIC_APP_URL` em produção, mas não encontrou `INFINITEPAY_API_KEY` em produção nem em preview. A rota permanece fail-closed; nenhum checkout ou cobrança foi iniciado.
 - A variável antiga `UPSTASH_DB_KEY` de um preview legado continua sinalizada como `readable-secret`. Seu valor não foi lido nem alterado; exige revisão/rotação controlada separada.
