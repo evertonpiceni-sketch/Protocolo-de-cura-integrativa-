@@ -458,7 +458,7 @@ test('todos os fluxos de voz da Essência Luminosa preservam a voz neural e falh
   assert.ok(systemic.includes('audioEngine.previewVoice({'), 'A prévia nativa continua reservada aos estilos que não exigem voz neural.');
 
   assert.ok(arcanjo.includes('requireExplicitVoiceId: isEleganciaProfunda || isEssenciaLuminosa'));
-  assert.ok(arcanjo.includes('if (isEleganciaProfunda || isEssenciaLuminosa)'));
+  assert.ok(arcanjo.includes('if (isEleganciaProfunda || isEssenciaLuminosa || isMisticoModerno)'));
   assert.ok(arcanjo.includes('OFFICIAL_PROTOCOL_VOICE_ID'));
 
   assert.ok(hooponopono.includes('fallbackToSpeechSynthesis: !(isEleganciaProfunda || isEssenciaLuminosa)'));
