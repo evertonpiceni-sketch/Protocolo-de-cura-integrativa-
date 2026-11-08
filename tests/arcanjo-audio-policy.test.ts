@@ -51,6 +51,8 @@ test('Natural Sereno exige voz neural oficial no Arcanjo e nunca cai na voz do d
   const audio = read('src/lib/audio.ts');
   assert.ok(startup.includes("import './lib/naturalSerenoOfficialVoicePatch';"));
   assert.ok(voicePatch.includes('fallbackToSpeechSynthesis: false'));
-  assert.ok(voicePatch.includes('requireExplicitVoiceId: true'));
+  assert.ok(voicePatch.includes('normalizeLegacyVoiceId'));
+  assert.ok(voicePatch.includes('OFFICIAL_PROTOCOL_VOICE_ID'));
+  assert.ok(voicePatch.includes('preferElevenLabs: true'));
   assert.ok(audio.includes("export const OFFICIAL_PROTOCOL_VOICE_ID = 'mJqP14JQFEK0PojR5lfV';"));
 });
