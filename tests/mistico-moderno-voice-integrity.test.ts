@@ -125,3 +125,31 @@ test('Místico Moderno mantém a voz neural nas práticas legadas e suspende 639
   assert.match(archangelPrayer, /if \(\(isEleganciaProfunda \|\| isMisticoModerno\) && !isElevenLabsVoiceId/);
   assert.match(archangelPrayer, /fallbackToSpeechSynthesis: !\(isEleganciaProfunda \|\| isEssenciaLuminosa \|\| isMisticoModerno\)/);
 });
+
+
+test('Style 4 resumes Arcanjo Solfeggio only after the neural audio actually plays', () => {
+  const arcanjo = read('src/components/ArcanjoProtocolView.tsx');
+  const start = arcanjo.slice(arcanjo.indexOf('const start ='), arcanjo.indexOf('const togglePlayback'));
+  const resume = arcanjo.slice(arcanjo.indexOf('const togglePlayback'), arcanjo.indexOf('const selectDay'));
+  assert.match(start, /onStart: \(\) => \{[\\s\\S]*?audioEngine\\.startSynth[\\s\\S]*?setIsPlaying\\(true\\)/);
+  assert.match(resume, /audioEngine\\.resumeSpeech\\(\\);\\s*if \(!isMisticoModerno\)/);
+  assert.doesNotMatch(resume, /audioEngine\\.resumeSpeech\\(\\);\\s*audioEngine\\.startSynth/);
+});
+
+test('closing Anamnesis does not restart 639 Hz during teardown', () => {
+  const anamnesis = read('src/components/AnamnesisModal.tsx');
+  assert.match(anamnesis, /stopTherapeuticVoice\\(false\\)/);
+  assert.match(anamnesis, /const stopTherapeuticVoice = \\(resumeSolfeggio = true\\)/);
+  assert.match(anamnesis, /if \\(resumeSolfeggio\\) resumeStyle4AnamnesisSolfeggio\\(\\)/);
+});
+
+test('Style 4 selector uses the complete night palette from the official reference', () => {
+  const modal = read('src/components/LayoutChoiceModal.tsx');
+  const layouts = read('src/config/layouts.ts');
+  assert.match(modal, /const isMysticCard = layout\\.id === 'mistico-moderno'/);
+  assert.match(modal, /cardBackgroundClass = isMysticCard \\? 'bg-\\[#0A0F18\\]'/);
+  for (const color of ['#0A2742', '#2E3B73', '#1E6B5A', '#6C3FA0', '#D4AF37', '#E2B96B', '#F4F1EB', '#6F8F55']) {
+    assert.ok(modal.includes(color), `Missing Místico Moderno board color ${color}`);
+  }
+  assert.match(layouts, /swatches: \\['#0A2742', '#6C3FA0', '#D4AF37', '#141F30'\\]/);
+});

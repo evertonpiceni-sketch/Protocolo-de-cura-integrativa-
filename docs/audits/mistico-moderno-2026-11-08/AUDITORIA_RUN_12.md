@@ -1,34 +1,45 @@
-# Auditoria — Estilo 4 · Místico Moderno — Run 12
+# Auditoria — Estilo 4 · Místico Moderno — Run 12 (complemento)
 
 **Data:** 08/11/2026  
 **Branch:** `fix/mistico-moderno-current-main-2026-11-08-run12`  
-**Base:** linha principal atual do repositório  
-**Referência solicitada:** `1001196522.png` / `file_000000009978820eb49581883ae6340d`
+**Base:** `main` atual, sem alterações nos outros estilos.  
+**Referência visual oficial:** `1001196522.png` — recuperada da Biblioteca e inspecionada em **1536 × 1152 px (4:3)**.
 
-## Corrigido nesta rodada
+## Corrigido
 
-- O catálogo neural global do Estilo 4 agora reconhece somente a escolha confirmada e usa o ID ElevenLabs salvo no perfil. O identificador é normalizado com `trim()`; não há substituição por voz do navegador.
-- Ajustes de Áudio passam a exigir ID neural válido no Místico Moderno. A prévia bloqueia a troca para frequências Solfeggio enquanto a voz está tocando, sem bloquear ambiências não tonais.
-- Home e player principal passam a usar o ID neural salvo. Se estiver ausente ou inválido, a narração é interrompida com erro recuperável em vez de recorrer a voz robótica/local ou a um ID presumido.
-- Arcanjo passa a exigir voz neural explícita. O Solfeggio não começa antes do evento real de início da narração; pausa, erro, conclusão, troca de dia, reinício e saída interrompem o oscilador.
-- A tela Arcanjo recebeu camada noturna própria, escopada a `data-layout="mistico-moderno"`; o botão legado rosa de saída é neutralizado somente neste estilo.
-- As camadas de boas-vindas e Arcanjo foram carregadas no ponto de entrada do app.
-- Criados testes de regressão para voz neural, Solfeggio, seletor explícito, isolamento CSS, Diário e movimento reduzido.
+- A paleta do seletor foi reconciliada com a prancha: azul-noturno, índigo, esmeralda, violeta, dourado, âmbar, marfim e verde natural apenas como acento integrado à natureza. O cartão do Estilo 4 agora usa superfície noturna e texto marfim, sem herdar o cartão branco dos outros estilos.
+- O player do Arcanjo não liga o Solfeggio antecipadamente ao retomar: no Místico Moderno, a frequência volta somente pelo evento real de reprodução da mídia neural (`onStart`). Pausa, erro, reinício, troca de dia, conclusão e saída continuam interrompendo o oscilador.
+- O encerramento da Anamnese não reinicia 639 Hz durante o fechamento; a retomada da frequência permanece apenas para a pausa/encerramento normal da narração enquanto a tela continua aberta.
+- Home, player principal, Ajustes de Áudio, Arcanjo e práticas legadas continuam exigindo o ID neural salvo no perfil. ID ausente/inválido gera aviso; não há fallback para voz robótica/local nem troca silenciosa por voz presumida.
+- Camadas de boas-vindas e Arcanjo permanecem carregadas e escopadas ao Místico Moderno.
 
-## Varredura estática e preservado
+## Varredura estática por superfície
 
-- Seletor React dos quatro estilos: `selectedLayout` inicia em `null`; confirmar permanece desabilitado até uma escolha; o App não define `data-layout` antes da confirmação da sessão.
-- Foram inspecionados os **22 módulos CSS Místico já importados**: **303 seletores** identificados, todos escopados a `data-layout="mistico-moderno"`. As duas novas camadas (boas-vindas e Arcanjo) também são isoladas.
-- Logo oficial permanece assinatura discreta: 30% desktop e 26% em telas de até 640 px.
-- Diário permanece fechado por padrão; callbacks e persistência não foram alterados. O canvas e o Diário continuam respeitando `prefers-reduced-motion`.
-- Nenhum arquivo de pagamento foi alterado. Permanecem checkout InfinitePay e confirmação server-side por `/payment_check`, conferência do valor e proteção contra reutilização de transação. Catálogo atual preservado: acesso R$ 25,00/7 dias e R$ 50,00/21 dias; prática específica R$ 59,90/7 dias e R$ 99,90/21 dias; PROMO15/PROMO20; VIP7 somente como degustação de teste.
+A prancha apresenta 12 quadros de referência, conferidos como mapa de superfícies: **1)** splash/carregamento; **2)** boas-vindas com áudio; **3)** página inicial; **4)** menu principal; **5)** lista da jornada; **6)** player do dia; **7)** anamnese/teste; **8)** resultado; **9)** biblioteca integrativa; **10)** ferramentas de apoio; **11)** comunidade; **12)** perfil.
 
-## Pendente — sem substituições não aprovadas
+- O seletor continua com quatro opções sem pré-seleção; confirmar fica indisponível até uma escolha explícita. O tema só é aplicado após confirmação da sessão e o logout limpa a confirmação anterior.
+- Os **24 módulos CSS Místico** importados no ponto de entrada (22 camadas existentes + boas-vindas + Arcanjo) permanecem isolados por `data-layout="mistico-moderno"`; a varredura anterior contabilizou **303 seletores**, sem seletor global indevido.
+- Diário fechado por padrão; conteúdo, callbacks e persistência não foram reescritos. Canvas e Diário respeitam `prefers-reduced-motion`.
+- Logo oficial preservado como assinatura transparente: **30% desktop / 26% mobile**.
+- Nenhum arquivo de pagamento foi alterado. InfinitePay, catálogo vigente, cupons, confirmação server-side do valor exato, idempotência e comportamento fail-closed permanecem preservados.
 
-1. O PNG original `1001196522.png` não foi recuperado na conversa/Biblioteca nem na árvore atual do repositório. Não usei a derivação antiga de baixa resolução, não fiz upscale e não substituí por outra prancha. Por isso, o card do Estilo 4 continua sendo a prévia de paleta existente, não a prancha oficial.
-2. Capturas renderizadas e comparação visual de todas as páginas em desktop/mobile dependem de preview funcional. O último retorno Vercel do projeto registra bloqueio por `build-rate-limit`; não há nova implantação ou homologação de produção confirmada.
-3. Faltam teste auditivo com a voz neural realmente salva e credenciais ativas, reprodução/pausa/retomada do Solfeggio, teste físico do player/animações e verificação real da persistência do Diário.
-4. Falta checkout InfinitePay ponta a ponta em sandbox, incluindo webhook e liberação de acesso. Não foi feita cobrança real.
-5. A CI desta branch precisa concluir para validar os novos testes e o build sobre o HEAD atual.
+## Preservado
 
-**Status:** correções de código preparadas sobre a linha principal atual e protegidas por testes; não mesclado nem publicado. A homologação visual/funcional integral continua aberta.
+- Conteúdo terapêutico, roteiros, jornadas, dados e fluxos aprovados.
+- Estilos 1, 2 e 3 sem redesenho ou alteração de paleta.
+- Escolha explícita dos quatro estilos, Diário, player, animações e política de áudio.
+- InfinitePay e controles de segurança de pagamento; nenhuma cobrança real foi executada.
+
+## Pendente
+
+1. A prancha original foi localizada e inspecionada, mas **o PNG binário ainda não foi incorporado à árvore GitHub** nesta execução. Não reutilizei a derivação antiga de baixa resolução nem inventei substituto; o seletor mantém a prévia de paleta, agora alinhada à prancha. A incorporação literal do quadro 1536 × 1152 e sua exibição dentro do cartão continuam pendentes.
+2. A homologação renderizada página a página em desktop/mobile depende de preview navegável. Em **08/11/2026**, a tentativa Vercel foi bloqueada pelo limite diário de deployments (`api-deployments-free-per-day`); por isso não declaro comparação visual real nem publicação.
+3. Permanecem pendentes audição física da voz neural salva, reprodução/pausa/retomada do Solfeggio e teste do player/animações em navegador real.
+4. Falta validar a persistência do Diário em sessão real de navegador.
+5. Falta a homologação controlada do checkout/webhook InfinitePay com credenciais válidas. Não foi presumido sandbox transacional e nenhuma cobrança real foi feita.
+
+## Reauditoria automatizada
+
+GitHub Actions **Security Audit #1825** (commit anterior à presente correção): `npm audit`, TypeScript, testes de regressão, build, entrypoints, smoke tests e verificações fail-closed dos endpoints de pagamento concluídos com sucesso. A nova correção aguarda sua própria execução de CI. Vercel segue bloqueado pelo limite diário citado acima.
+
+**Status:** PR em rascunho, sem merge e sem publicação em produção. A referência visual foi recuperada; a integração binária literal e a homologação renderizada continuam pendentes.

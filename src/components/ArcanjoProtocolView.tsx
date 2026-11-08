@@ -283,8 +283,10 @@ export default function ArcanjoProtocolView({ userProfile, onClose, onLogout, in
       return;
     }
     audioEngine.resumeSpeech();
-    audioEngine.startSynth(`${config.freq}hz`);
-    setIsPlaying(true);
+    if (!isMisticoModerno) {
+      audioEngine.startSynth(`${config.freq}hz`);
+      setIsPlaying(true);
+    }
   };
 
   const selectDay = (day: number) => {

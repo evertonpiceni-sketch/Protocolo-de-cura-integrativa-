@@ -166,7 +166,7 @@ export default function AnamnesisModal({
   };
 
   const handleCloseModal = () => {
-    stopTherapeuticVoice();
+    stopTherapeuticVoice(false);
     if (audioEngine.getCurrentSynthType() === '639hz') {
       audioEngine.stopBG();
       if (userProfile.audioEnabled && userProfile.bgMusicType && userProfile.bgMusicType !== 'none' && userProfile.bgMusicType !== '639hz') {
@@ -183,7 +183,7 @@ export default function AnamnesisModal({
     }
   };
 
-  const stopTherapeuticVoice = () => {
+  const stopTherapeuticVoice = (resumeSolfeggio = true) => {
     if (isEleganciaProfunda || isEssenciaLuminosa || isMisticoModerno) audioEngine.stopSpeech();
     if (audioPlayerRef.current) {
       audioPlayerRef.current.pause();
@@ -194,7 +194,7 @@ export default function AnamnesisModal({
     }
     setIsPlayingTherapeuticVoice(false);
     setIsLoadingVoice(false);
-    resumeStyle4AnamnesisSolfeggio();
+    if (resumeSolfeggio) resumeStyle4AnamnesisSolfeggio();
   };
 
   const playTherapeuticVoice = async (text: string, overrideGender?: 'masculina' | 'feminina') => {
