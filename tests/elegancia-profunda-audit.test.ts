@@ -561,3 +561,13 @@ test('os Ajustes de Áudio do Estilo 2 usam verde profundo, champagne e marfim',
   assert.ok(!css.includes('data-layout="natural-sereno"'));
   assert.ok(!css.includes('data-layout="mistico-moderno"'));
 });
+
+
+test('Natural Sereno mantém CTAs dourados refinados e cantos premium de 18px', () => {
+  const css = read('src/natural-sereno-approved-overrides.css');
+  const modal = read('src/components/LayoutChoiceModal.tsx');
+  assert.match(css, /:root\\[data-layout="natural-sereno"\\] \.ns-app \.ns-gold\\s*\\{[\\s\\S]*?border-radius:\\s*18px/);
+  assert.match(css, /background:\\s*linear-gradient\\(180deg,#E2B96B 0%,#C89D52 100%\\)/);
+  assert.match(modal, /confirmButtonRadius = !selectedLayout \\|\\| selectedLayout === 'natural-sereno' \\? 'rounded-\\[18px\\]' : 'rounded-full'/);
+  assert.ok(modal.includes('${confirmButtonRadius}'));
+});
