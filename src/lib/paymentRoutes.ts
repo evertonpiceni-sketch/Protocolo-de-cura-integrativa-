@@ -225,17 +225,20 @@ export function paymentRoutes(authenticate: any, limiter: any, providerFetch: ty
           !candidate.paidAt &&
           !candidate.failedAt
         );
-        const matchesRequestedStandardOrder = (candidate: PaymentOrder) => {
-          if (candidate.cents !== quote.cents || candidate.method !== paymentMethod) return false;
-          if (productType === 'subscription') return candidate.planId === planId;
+        const matchesRequestedTreatmentIntent = (candidate: PaymentOrder) => {
           if (productType !== 'specific_treatment' || !candidate.treatment || !treatment) return false;
           const saved = candidate.treatment;
           return saved.durationDays === treatment.durationDays &&
             saved.category === treatment.category &&
             saved.title === treatment.title &&
             saved.patientDescription === treatment.patientDescription &&
-            JSON.stringify(saved.urgentPains || []) === JSON.stringify(treatment.urgentPains || []) &&
-            saved.paymentMethod === treatment.paymentMethod;
+            JSON.stringify(saved.urgentPains || []) === JSON.stringify(treatment.urgentPains || []);
+        };
+        const matchesRequestedStandardOrder = (candidate: PaymentOrder) => {
+          if (candidate.cents !== quote.cents || candidate.method !== paymentMethod) return false;
+          if (productType === 'subscription') return candidate.planId === planId;
+          return matchesRequestedTreatmentIntent(candidate) &&
+            candidate.treatment?.paymentMethod === treatment?.paymentMethod;
         };
         const preparingOrders = pendingStandardOrders.filter(candidate => !candidate.checkoutUrl);
         if (preparingOrders.length > 0) {
@@ -286,7 +289,13 @@ export function paymentRoutes(authenticate: any, limiter: any, providerFetch: ty
         }
 
         if (productType === 'specific_treatment' && pendingStandardOrders.some(candidate =>
-          candidate.productType == null && Boolean(candidate.treatment) && !matchesRequestedStandardOrder(candidate)
+          matchesRequestedTreatmentIntent(candidate) && !matchesRequestedStandardOrder(candidate)
+        )) {
+          return res.status(409).json({ error: 'Já existe um checkout pendente para esta prática com valor ou forma de pagamento diferente. Conclua ou solicite conferência antes de iniciar outro.' });
+        }
+
+        if (productType === 'specific_treatment' && pendingStandardOrders.some(candidate =>
+          candidate.productType == null && Boolean(candidate.treatment) && !matchesRequestedTreatmentIntent(candidate)
         )) {
           return res.status(409).json({ error: 'Existe uma prática individual legada pendente com dados diferentes. Conclua ou solicite conferência antes de iniciar outra.' });
         }
