@@ -35,7 +35,8 @@ test('Natural Sereno exige voz neural oficial no Arcanjo e nunca cai na voz do d
   const arcanjo = read('src/components/ArcanjoProtocolView.tsx');
   assert.ok(arcanjo.includes("const isNaturalSereno = typeof document !== 'undefined' && document.documentElement.dataset.layout === 'natural-sereno';"));
   assert.ok(arcanjo.includes('const naturalSerenoVoiceId = isElevenLabsVoiceId(userProfile.voiceId)'));
-  assert.ok(arcanjo.includes('voiceId: isNaturalSereno\\n        ? naturalSerenoVoiceId'));
+  assert.ok(arcanjo.includes(': OFFICIAL_PROTOCOL_VOICE_ID;'));
+  assert.ok(arcanjo.includes('voiceId: isNaturalSereno\n        ? naturalSerenoVoiceId'));
   assert.ok(arcanjo.includes('requireExplicitVoiceId: isNaturalSereno || isEleganciaProfunda || isEssenciaLuminosa'));
   const fallbackStart = arcanjo.indexOf('const startNativeFallback');
   const fallbackCall = arcanjo.indexOf('audioEngine.speakWithElevenLabsOrFallback', fallbackStart);
