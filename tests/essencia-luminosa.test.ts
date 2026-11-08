@@ -643,3 +643,16 @@ test('CTAs herdados da Prática Individual e da Anamnese usam ouro suave no Esti
   assert.ok(anamnesisCss.includes('#anamnesis-modal button[class*="from-emerald-600"][class*="to-indigo-600"]'));
   assert.ok(anamnesisCss.includes('background-image:linear-gradient(135deg,var(--el-gold),var(--el-gold-deep))!important;'));
 });
+
+
+test('Mapa Astral Completo só libera com benefício confirmado e as duas escolhas são protegidas no servidor', () => {
+  const modal = fs.readFileSync('src/components/AstralMapModal.tsx', 'utf8');
+  const server = fs.readFileSync('server.ts', 'utf8');
+
+  assert.ok(modal.includes('const hasAstralEntitlement = Boolean(userProfile.astralMapPurchased);'));
+  assert.ok(modal.includes("if (tab === 'planets' && !hasAstralEntitlement)"));
+  assert.ok(modal.includes("activeTab === 'planets' && hasAstralEntitlement"));
+  assert.ok(modal.includes('useDialogFocus(isOpen, dialogRef, onClose);'));
+  assert.ok(server.includes('numerologyPurchased: currentProfile.numerologyPurchased'));
+  assert.ok(server.includes('astralMapPurchased: currentProfile.astralMapPurchased'));
+});
