@@ -285,6 +285,12 @@ export function paymentRoutes(authenticate: any, limiter: any, providerFetch: ty
           return res.status(503).json({ error: 'Existe um link anterior sem proteção de pagamento único que precisa de conferência antes de abrir outro.' });
         }
 
+        if (productType === 'specific_treatment' && pendingStandardOrders.some(candidate =>
+          candidate.productType == null && Boolean(candidate.treatment) && !matchesRequestedStandardOrder(candidate)
+        )) {
+          return res.status(409).json({ error: 'Existe uma prática individual legada pendente com dados diferentes. Conclua ou solicite conferência antes de iniciar outra.' });
+        }
+
         if (productType === 'subscription' && pendingStandardOrders.some(candidate => !matchesRequestedStandardOrder(candidate))) {
           return res.status(409).json({ error: 'Já existe um checkout de assinatura pendente para outro plano. Conclua ou solicite conferência antes de iniciar outro.' });
         }
