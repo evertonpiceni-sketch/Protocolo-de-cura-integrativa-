@@ -780,8 +780,8 @@ export default function App() {
           ...d,
           journalText,
           mood: mood !== undefined ? mood : d.mood,
-          sensations,
-          gratitudes
+          sensations: sensations !== undefined ? sensations : d.sensations,
+          gratitudes: gratitudes !== undefined ? gratitudes : d.gratitudes
         };
       }
       return d;
