@@ -454,13 +454,14 @@ test('as páginas de reflexão e oração usam superfícies próprias da Essênc
   assert.ok(arcanjo.includes('id="arcanjo-protocol-view"'));
 });
 
-test('as telas de pagamento não reintroduzem PIX manual e usam o checkout InfinitePay', () => {
+test('Prática Individual usa InfinitePay e Numerologia não tenta checkout avulso não aprovado', () => {
   const specificTreatment = fs.readFileSync('src/components/SpecificTreatmentModal.tsx', 'utf8');
   const numerology = fs.readFileSync('src/components/NumerologyModal.tsx', 'utf8');
   const paymentRoutes = fs.readFileSync('src/lib/paymentRoutes.ts', 'utf8');
 
   assert.ok(specificTreatment.includes('/api/payment/create-checkout'));
-  assert.ok(numerology.includes('/api/payment/create-checkout'));
+  assert.ok(!numerology.includes('/api/payment/create-checkout'));
+  assert.ok(numerology.includes('Ver Planos PRO'));
   assert.ok(!/handleCopyPix|evertonpiceni@gmail\.com/.test(specificTreatment));
   assert.ok(!/handleCopyPix|evertonpiceni@gmail\.com/.test(numerology));
   assert.ok(paymentRoutes.includes('confirm'));
