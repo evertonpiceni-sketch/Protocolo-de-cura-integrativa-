@@ -20,7 +20,7 @@ function LayoutPreview({ layout }: { layout: LayoutDefinition }) {
   const foreground = layout.tone === 'dark' ? '#F4F1EB' : '#2A2420';
   const muted = layout.tone === 'dark' ? 'rgba(244,241,235,.68)' : 'rgba(42,36,32,.62)';
   const isNaturalSereno = layout.id === 'natural-sereno';
-  const previewBorder = layout.id === 'elegancia-profunda' ? 'rgba(212,175,119,.35)' : layout.id === 'mistico-moderno' ? 'rgba(108,63,160,.40)' : 'rgba(42,36,32,.10)';
+  const previewBorder = layout.id === 'elegancia-profunda' ? 'rgba(212,175,119,.35)' : layout.id === 'mistico-moderno' ? 'rgba(77,41,177,.40)' : 'rgba(42,36,32,.10)';
   if (isNaturalSereno) {
     return (
       <div
@@ -80,7 +80,7 @@ function LayoutPreview({ layout }: { layout: LayoutDefinition }) {
     return (
       <div
         className="mt-4 flex h-[184px] w-full items-center justify-center overflow-hidden rounded-2xl border shadow-inner"
-        style={{ backgroundColor: '#0A0F18', borderColor: 'rgba(108,63,160,.42)' }}
+        style={{ backgroundColor: '#00142D', borderColor: 'rgba(77,41,177,.42)' }}
         aria-hidden="true"
       >
         <img
@@ -94,7 +94,7 @@ function LayoutPreview({ layout }: { layout: LayoutDefinition }) {
       </div>
     );
   }
-  const innerBorder = layout.id === 'mistico-moderno' ? 'rgba(108,63,160,.28)' : 'rgba(42,36,32,.06)';
+  const innerBorder = layout.id === 'mistico-moderno' ? 'rgba(77,41,177,.28)' : 'rgba(42,36,32,.06)';
   const naturalIvory = '#F3EDE4';
   const previewBackground = isNaturalSereno
     ? `linear-gradient(145deg, ${canvas}, ${naturalIvory})`
@@ -227,7 +227,7 @@ export default function LayoutChoiceModal({ onSelect }: LayoutChoiceModalProps) 
                 onClick={() => { setSelectedLayout(layout.id); setSaveError(null); }}
                 disabled={isSaving}
                 aria-pressed={isSelected}
-                className={`group min-h-36 rounded-2xl border p-5 text-left transition hover:-translate-y-0.5 hover:shadow-lg focus-visible:outline-none focus-visible:ring-2 ${isMisticoCard ? 'bg-[#0D1726] text-[#F4F1EB]' : 'bg-white/85'} ${focusRingClass} ${selectionClasses}`}
+                className={`group min-h-36 rounded-2xl border p-5 text-left transition hover:-translate-y-0.5 hover:shadow-lg focus-visible:outline-none focus-visible:ring-2 ${isMisticoCard ? 'bg-[#00142D] text-[#EDDEC2]' : 'bg-white/85'} ${focusRingClass} ${selectionClasses}`}
               >
                 <div className="flex items-start justify-between gap-3">
                   <div>
