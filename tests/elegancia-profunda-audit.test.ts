@@ -96,6 +96,7 @@ test('o cadastro pré-seleção não reutiliza o antigo shell do Natural Sereno'
   for (const path of legacyFiles) {
     assert.ok(!read(path).includes('ep-auth-style-one'), `O shell antigo não deve permanecer em ${path}.`);
   }
+  assert.ok(!read('src/natural-sereno.css').includes('auth shell fixed to Natural Sereno'));
 });
 
 
@@ -560,4 +561,23 @@ test('os Ajustes de Áudio do Estilo 2 usam verde profundo, champagne e marfim',
   assert.ok(!css.includes('data-layout="essencia-luminosa"'));
   assert.ok(!css.includes('data-layout="natural-sereno"'));
   assert.ok(!css.includes('data-layout="mistico-moderno"'));
+});
+
+
+test('a camada aprovada da Elegância Profunda vence a cascata de todas as folhas de tema', () => {
+  const main = read('src/main.tsx');
+  const approvedImportLine = "import './elegancia-profunda-approved-overrides.css';";
+  const approvedImport = main.indexOf(approvedImportLine);
+  const style2AuditImports = main
+    .split('\\n')
+    .filter(line => line.startsWith("import './elegancia-profunda-") && !line.includes('approved-overrides'));
+  const lastStyle2AuditImport = Math.max(...style2AuditImports.map(line => main.indexOf(line)));
+  const naturalApproved = main.indexOf("import './natural-sereno-approved-overrides.css';");
+  const luminousApproved = main.indexOf("import './essencia-luminosa-approved-overrides.css';");
+  const errorBoundary = main.indexOf("import { ErrorBoundary");
+
+  assert.ok(approvedImport > lastStyle2AuditImport, 'A camada aprovada do Estilo 2 precisa vir depois de todas as suas folhas de auditoria.');
+  assert.ok(approvedImport > naturalApproved && approvedImport > luminousApproved, 'A camada aprovada do Estilo 2 deve ser a última folha CSS de tema.');
+  assert.ok(errorBoundary > approvedImport, 'Nenhuma folha CSS deve ser importada depois da camada aprovada.');
+  assert.equal((main.match(/import '\\.\/elegancia-profunda-approved-overrides\\.css';/g) || []).length, 1);
 });
