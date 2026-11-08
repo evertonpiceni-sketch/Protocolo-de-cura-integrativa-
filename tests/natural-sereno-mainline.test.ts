@@ -115,5 +115,5 @@ test('Arcanjo no Natural Sereno usa superfícies marfim/café sem recolorir os c
   assert.ok(css.includes(':root[data-layout="natural-sereno"] #arcanjo-protocol-view [class*="from-[#021b13]"]'));
   assert.ok(arcanjo.includes('config.corSecundaria'));
   assert.ok(arcanjo.includes('background:`radial-gradient(circle,${config.corSecundaria}cc'));
-  assert.ok(!/^\\s*#arcanjo-protocol-view/m.test(css), 'A correção deve permanecer exclusiva do Natural Sereno.');
+  assert.ok(!/^\s*#arcanjo-protocol-view/m.test(css), 'A correção deve permanecer exclusiva do Natural Sereno.');
 });
