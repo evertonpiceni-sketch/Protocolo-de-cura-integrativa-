@@ -1,456 +1,112 @@
-/* Approved, minimal overrides for Estilo 1 — Natural Sereno.
-   This file must not redesign frozen screens. It only fixes confirmed regressions
-   after the official Estilo 1 card and later approved decisions. */
+/* Natural Sereno — correção mínima da home.
+   Decisão posterior aprovada: base creme/marfim, café/marrom e dourado refinado;
+   verde somente como acento natural, nunca como chapa/CTA dominante.
+   A especificidade dupla é intencional para neutralizar o style runtime legado
+   de naturalSerenoHomeApprovedModel sem alterar os demais estilos. */
 
-/* Logo oficial: assinatura visual discreta; nunca elemento dominante. */
-:root[data-layout="natural-sereno"] #main-header .ep-brand-signature { opacity:.30!important; filter:none!important; object-fit:contain!important; border-color:transparent!important; }
-:root[data-layout="natural-sereno"] #main-header .ep-brand-signature:is(img) { max-width:100%; max-height:100%; }
-:root[data-layout="natural-sereno"] #main-header .border-indigo-500\/40 { border-color:rgba(184,135,54,.24)!important; background:rgba(251,248,242,.92)!important; box-shadow:0 6px 16px rgba(67,52,39,.06)!important; }
-#profile-setup-view.ep-auth-style-one #onboarding-card .ep-brand-signature-wrap { width:84px; height:84px; opacity:.30!important; }
-#profile-setup-view.ep-auth-style-one #onboarding-card .ep-brand-signature { opacity:1!important; filter:none!important; object-fit:contain!important; }
-
-/* Settings */
-:root[data-layout="natural-sereno"] #settings-view [data-ns-status-card="true"] { background:linear-gradient(145deg,rgba(255,253,248,.98),rgba(246,239,224,.96))!important; border-color:rgba(200,157,82,.34)!important; box-shadow:0 14px 34px rgba(67,52,39,.08)!important; }
-:root[data-layout="natural-sereno"] #settings-view [data-ns-status-card="true"] :is(h1,h2,h3,strong) { color:#2A2421!important; }
-:root[data-layout="natural-sereno"] #settings-view [data-ns-status-card="true"] :is(p,small) { color:#6B625B!important; }
-:root[data-layout="natural-sereno"] #settings-view [data-ns-status-card="true"] :is(.text-amber-300,.text-amber-400) { color:#8F631E!important; }
-:root[data-layout="natural-sereno"] #settings-view [data-ns-status-card="true"] .bg-amber-500\/20 { background:rgba(200,157,82,.10)!important; color:#8F631E!important; border-color:rgba(184,135,54,.24)!important; }
-:root[data-layout="natural-sereno"] #settings-view [data-ns-status-card="true"] button.bg-amber-500 { background:#B88736!important; color:#FFFDF8!important; border-color:#B88736!important; box-shadow:0 8px 18px rgba(67,52,39,.10)!important; }
-:root[data-layout="natural-sereno"] #settings-view [data-ns-status-card="true"] button.bg-amber-500:hover { background:#8F631E!important; }
-:root[data-layout="natural-sereno"] #settings-view [data-ns-status-card="true"] button.bg-amber-500\/10 { background:rgba(255,253,248,.88)!important; color:#6B4E2E!important; border-color:rgba(184,135,54,.30)!important; box-shadow:0 6px 16px rgba(67,52,39,.06)!important; }
-:root[data-layout="natural-sereno"] #settings-view [data-ns-status-card="true"] button.bg-amber-500\/10:hover { background:#F5EFE4!important; border-color:rgba(184,135,54,.44)!important; }
-:root[data-layout="natural-sereno"] #settings-view .text-indigo-300 { color:#6B625B!important; }
-:root[data-layout="natural-sereno"] #settings-view .focus\:border-indigo-500:focus { border-color:#B88736!important; }
-:root[data-layout="natural-sereno"] #settings-view button.bg-indigo-500\/20,
-:root[data-layout="natural-sereno"] #settings-view button.bg-indigo-600\/30 { background:rgba(184,135,54,.12)!important; color:#6B4E2E!important; border-color:rgba(184,135,54,.30)!important; box-shadow:0 8px 18px rgba(67,52,39,.06)!important; }
-:root[data-layout="natural-sereno"] #settings-view button.bg-indigo-500\/20:hover,
-:root[data-layout="natural-sereno"] #settings-view button.bg-indigo-600\/30:hover { background:rgba(184,135,54,.20)!important; color:#5A4026!important; border-color:rgba(184,135,54,.44)!important; }
-:root[data-layout="natural-sereno"] #settings-view .bg-indigo-500\/10 { background:rgba(200,157,82,.10)!important; color:#8F631E!important; border-color:rgba(184,135,54,.24)!important; }
-:root[data-layout="natural-sereno"] #settings-view .bg-emerald-500\/20 { background:rgba(111,123,85,.10)!important; color:#5E6948!important; border-color:rgba(111,123,85,.24)!important; }
-:root[data-layout="natural-sereno"] #settings-view .bg-amber-500\/20 { background:rgba(200,157,82,.10)!important; color:#8F631E!important; border-color:rgba(184,135,54,.24)!important; }
-:root[data-layout="natural-sereno"] #settings-view h3.text-emerald-400 { color:#2A2421!important; }
-
-/* Header actions */
-:root[data-layout="natural-sereno"] #header-btn-archangel,
-:root[data-layout="natural-sereno"] #header-btn-google-play { background:rgba(251,248,242,.94)!important; color:#5C5248!important; border-color:rgba(184,135,54,.28)!important; box-shadow:0 6px 16px rgba(67,52,39,.06)!important; }
-:root[data-layout="natural-sereno"] #header-btn-archangel:hover,
-:root[data-layout="natural-sereno"] #header-btn-google-play:hover { background:#F5EFE4!important; border-color:rgba(184,135,54,.42)!important; }
-:root[data-layout="natural-sereno"] #header-btn-archangel svg { color:#B88736!important; }
-:root[data-layout="natural-sereno"] #header-btn-google-play svg { color:#6F7B55!important; }
-
-/* VIP header chrome was still a saturated amber slab. Keep status hierarchy but
-   express it as premium ivory/gold, consistent with the approved Estilo 1 card. */
-:root[data-layout="natural-sereno"] #main-header button.bg-amber-500\/15,
-:root[data-layout="natural-sereno"] #main-header button.bg-gradient-to-r.from-amber-500 {
-  background:#FBF8F2!important;
-  background-image:linear-gradient(145deg,#FFFDF8,#F3E8D5)!important;
-  color:#5A4026!important;
-  border:1px solid rgba(184,135,54,.34)!important;
-  box-shadow:0 7px 18px rgba(67,52,39,.08)!important;
+:root[data-layout="natural-sereno"]:root .ns-app[data-ns-screen="home"] {
+  background:#FAF7F2!important;
+  color:#2A2421!important;
 }
-:root[data-layout="natural-sereno"] #main-header button.bg-amber-500\/15:hover,
-:root[data-layout="natural-sereno"] #main-header button.bg-gradient-to-r.from-amber-500:hover { background:#F5EFE4!important; background-image:none!important; border-color:rgba(184,135,54,.48)!important; }
-:root[data-layout="natural-sereno"] #main-header button.bg-amber-500\/15 svg,
-:root[data-layout="natural-sereno"] #main-header button.bg-gradient-to-r.from-amber-500 svg { color:#B88736!important; }
 
-/* Legacy floating dock */
-:root[data-layout="natural-sereno"] #bottom-action-dock button:not(#bottom-btn-logout) { background:rgba(251,248,242,.94)!important; color:#5C5248!important; border-color:rgba(184,135,54,.28)!important; box-shadow:0 6px 16px rgba(67,52,39,.06)!important; }
-:root[data-layout="natural-sereno"] #bottom-action-dock button:not(#bottom-btn-logout):hover { background:#F5EFE4!important; color:#2A2421!important; border-color:rgba(184,135,54,.44)!important; }
-:root[data-layout="natural-sereno"] #bottom-action-dock button:not(#bottom-btn-logout) svg { color:#B88736!important; }
-:root[data-layout="natural-sereno"] #bottom-action-dock #bottom-btn-specific-treatment svg,
-:root[data-layout="natural-sereno"] #bottom-action-dock #bottom-btn-herbal-baths svg,
-:root[data-layout="natural-sereno"] #bottom-action-dock #bottom-btn-systemic svg { color:#6F7B55!important; }
-:root[data-layout="natural-sereno"] #bottom-action-dock #bottom-btn-journal { background:rgba(200,157,82,.16)!important; color:#6B4E2E!important; }
+:root[data-layout="natural-sereno"]:root .ns-app[data-ns-screen="home"] .ns-home-content {
+  position:relative;
+  z-index:4;
+  padding:0 16px 28px!important;
+  background:linear-gradient(180deg,#FAF7F2 0%,#F3EDE4 70%,#FAF7F2 100%)!important;
+}
 
-/* Floating contact */
-:root[data-layout="natural-sereno"] #floating-whatsapp-btn { background:rgba(251,248,242,.96)!important; color:#5C5248!important; border-color:rgba(184,135,54,.34)!important; box-shadow:0 12px 28px rgba(67,52,39,.12)!important; }
-:root[data-layout="natural-sereno"] #floating-whatsapp-btn:hover { background:#F5EFE4!important; color:#2A2421!important; border-color:rgba(184,135,54,.48)!important; }
-:root[data-layout="natural-sereno"] #floating-whatsapp-btn svg { color:#6F7B55!important; }
+:root[data-layout="natural-sereno"]:root .ns-app[data-ns-screen="home"] .ep-home-continue {
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  min-height:52px;
+  margin-top:14px;
+  border:1px solid rgba(168,126,55,.38);
+  border-radius:18px;
+  color:#2A2421!important;
+  background: linear-gradient(180deg,#E2B96B 0%,#C89D52 100%)!important;
+  box-shadow:inset 0 1px rgba(255,255,255,.58),0 8px 22px rgba(67,52,39,.10);
+}
 
-/* Diário */
-:root[data-layout="natural-sereno"] #daily-diary-modal .bg-emerald-50 { background:rgba(111,123,85,.09)!important; }
-:root[data-layout="natural-sereno"] #daily-diary-modal .border-emerald-200 { border-color:rgba(111,123,85,.24)!important; }
-:root[data-layout="natural-sereno"] #daily-diary-modal .text-emerald-700,
-:root[data-layout="natural-sereno"] #daily-diary-modal .text-emerald-400 { color:#5E6948!important; }
-:root[data-layout="natural-sereno"] #daily-diary-modal .bg-emerald-400 { background:#6F7B55!important; }
-:root[data-layout="natural-sereno"] #daily-diary-modal .bg-amber-50 { background:rgba(200,157,82,.09)!important; }
-:root[data-layout="natural-sereno"] #daily-diary-modal .border-amber-200,
-:root[data-layout="natural-sereno"] #daily-diary-modal .border-purple-500\/20 { border-color:rgba(184,135,54,.24)!important; }
-:root[data-layout="natural-sereno"] #daily-diary-modal :is(.text-amber-700,.text-amber-400,.text-amber-300,.text-purple-400) { color:#8F631E!important; }
-:root[data-layout="natural-sereno"] #daily-diary-modal .focus\:ring-indigo-400:focus { --tw-ring-color:rgba(184,135,54,.35)!important; }
-:root[data-layout="natural-sereno"] #daily-diary-modal .hover\:bg-slate-700:hover { background:#EEE4D3!important; color:#2A2421!important; }
+:root[data-layout="natural-sereno"]:root .ns-app[data-ns-screen="home"] .ns-home-scene {
+  color:#2A2421!important;
+  background:
+    linear-gradient(180deg,rgba(250,247,242,.96) 0%,rgba(250,247,242,.72) 28%,rgba(250,247,242,.10) 58%,rgba(250,247,242,.20) 100%),
+    var(--ns-valley) center 56% / cover no-repeat!important;
+}
 
-/* Mapa do Momento / Anamnese: the enabled feedback action was still a saturated
-   emerald slab. Keep green as a small semantic accent, not the dominant button. */
-:root[data-layout="natural-sereno"] #anamnesis-modal button.bg-emerald-600 {
-  background:#B88736!important;
+:root[data-layout="natural-sereno"]:root .ns-app[data-ns-screen="home"] .ns-home-scene::after {
+  display:none!important;
+  background:none!important;
+}
+
+:root[data-layout="natural-sereno"]:root .ns-app[data-ns-screen="home"] .ns-home-menu {
+  color:#6B4E2E!important;
+  background:rgba(250,247,242,.88)!important;
+  border:1px solid rgba(200,157,82,.30)!important;
+  box-shadow:0 8px 22px rgba(67,52,39,.08)!important;
+}
+
+:root[data-layout="natural-sereno"]:root .ns-app[data-ns-screen="home"] .ns-home-scene > .ns-gold,
+:root[data-layout="natural-sereno"]:root .ns-app[data-ns-screen="home"] .ep-home-anamnesis-card .ns-gold {
   color:#FFFDF8!important;
-  border-color:#B88736!important;
-  box-shadow:0 9px 20px rgba(67,52,39,.10)!important;
+  background:#B88736!important;
+  background-image:linear-gradient(180deg,#D8B86A 0%,#C89D52 42%,#A87E37 100%)!important;
+  border:1px solid rgba(168,126,55,.72)!important;
+  box-shadow:inset 0 1px rgba(255,255,255,.46),0 9px 22px rgba(67,52,39,.13)!important;
 }
-:root[data-layout="natural-sereno"] #anamnesis-modal button.bg-emerald-600:hover { background:#8F631E!important; }
-:root[data-layout="natural-sereno"] #anamnesis-modal button.bg-emerald-600 svg { color:#F5EFE4!important; }
 
-/* Presentation/video */
-:root[data-layout="natural-sereno"] #promo-video-modal { background:rgba(42,36,33,.72)!important; }
-:root[data-layout="natural-sereno"] #promo-video-modal [class*="from-[#0a412d]"],
-:root[data-layout="natural-sereno"] #promo-video-modal [class*="from-[#0c4a34]"],
-:root[data-layout="natural-sereno"] #promo-video-modal [class*="from-[#123f2f]"],
-:root[data-layout="natural-sereno"] #promo-video-modal [class*="from-[#174c38]"] { background-image:linear-gradient(145deg,#FAF7F2 0%,#F4EBDD 58%,#EDE2D1 100%)!important; }
-:root[data-layout="natural-sereno"] #promo-video-modal .bg-purple-500\/20 { background:rgba(111,123,85,.10)!important; }
-:root[data-layout="natural-sereno"] #promo-video-modal :is(.text-purple-400,.text-indigo-400) { color:#B88736!important; }
-:root[data-layout="natural-sereno"] #promo-video-modal .bg-indigo-400,
-:root[data-layout="natural-sereno"] #promo-video-modal .bg-purple-400 { background:#C89D52!important; }
-:root[data-layout="natural-sereno"] #promo-video-modal .bg-emerald-400 { background:#6F7B55!important; }
-:root[data-layout="natural-sereno"] #promo-video-modal .text-emerald-400 { color:#6F7B55!important; }
-:root[data-layout="natural-sereno"] #promo-video-modal .from-indigo-500 { --tw-gradient-from:#C89D52 var(--tw-gradient-from-position)!important; --tw-gradient-to:rgba(200,157,82,0) var(--tw-gradient-to-position)!important; }
-:root[data-layout="natural-sereno"] #promo-video-modal button.bg-emerald-600 { background:#B88736!important; color:#fffdf8!important; box-shadow:0 10px 24px rgba(67,52,39,.12)!important; }
-:root[data-layout="natural-sereno"] #promo-video-modal button.bg-emerald-600:hover { background:#8F631E!important; }
-
-/* Reauditoria: uma camada antiga ainda convertia CTAs emerald do Mapa Astral e
-   Ajustes em verde-floresta opaco. No Natural Sereno, verde não pode virar chapa. */
-:root[data-layout="natural-sereno"] #astral-map-modal :is(button,a)[class*="bg-emerald"],
-:root[data-layout="natural-sereno"] #settings-view :is(button,a)[class*="bg-emerald"]:not([class*="/20"]) {
-  background:#FBF8F2!important;
-  background-image:linear-gradient(145deg,#FFFDF8,#F3E8D5)!important;
-  color:#5A4026!important;
-  border:1px solid rgba(184,135,54,.34)!important;
-  box-shadow:0 8px 18px rgba(67,52,39,.08)!important;
-}
-:root[data-layout="natural-sereno"] #astral-map-modal :is(button,a)[class*="bg-emerald"]:hover,
-:root[data-layout="natural-sereno"] #settings-view :is(button,a)[class*="bg-emerald"]:not([class*="/20"]):hover {
-  background:#F5EFE4!important;
+:root[data-layout="natural-sereno"]:root .ns-app[data-ns-screen="home"] .ns-home-scene > .ns-gold:hover,
+:root[data-layout="natural-sereno"]:root .ns-app[data-ns-screen="home"] .ep-home-anamnesis-card .ns-gold:hover {
+  background:#A87E37!important;
   background-image:none!important;
-  border-color:rgba(184,135,54,.48)!important;
-}
-:root[data-layout="natural-sereno"] #astral-map-modal :is(button,a)[class*="bg-emerald"] :is(span,svg),
-:root[data-layout="natural-sereno"] #settings-view :is(button,a)[class*="bg-emerald"]:not([class*="/20"]) :is(span,svg) { color:#B88736!important; }
-
-/* Prática individual: remove heranças esmeralda/índigo/âmbar saturado ainda
-   presentes no modal sem alterar lógica, conteúdo ou fluxo de pagamento. */
-:root[data-layout="natural-sereno"] #specific-treatment-modal [class*="bg-emerald-500/10"],
-:root[data-layout="natural-sereno"] #specific-treatment-modal [class*="bg-emerald-500/20"] { background:rgba(111,123,85,.09)!important; }
-:root[data-layout="natural-sereno"] #specific-treatment-modal [class*="border-emerald"] { border-color:rgba(111,123,85,.26)!important; }
-:root[data-layout="natural-sereno"] #specific-treatment-modal :is(.text-emerald-300,.text-emerald-400) { color:#5E6948!important; }
-:root[data-layout="natural-sereno"] #specific-treatment-modal [class*="from-indigo-950"] { background-image:linear-gradient(145deg,#FFFDF8 0%,#F5EFE4 58%,#EEE4D3 100%)!important; }
-:root[data-layout="natural-sereno"] #specific-treatment-modal :is(.text-amber-200\/90,.text-amber-300,.text-amber-400) { color:#8F631E!important; }
-:root[data-layout="natural-sereno"] #specific-treatment-modal [class*="bg-amber-950"] { background:rgba(200,157,82,.08)!important; border-color:rgba(184,135,54,.24)!important; }
-:root[data-layout="natural-sereno"] #specific-treatment-modal :is(button,a)[class*="bg-emerald-6"],
-:root[data-layout="natural-sereno"] #specific-treatment-modal :is(button,a)[class*="bg-emerald-9"] { background:#B88736!important; color:#FFFDF8!important; border-color:#B88736!important; box-shadow:0 9px 20px rgba(67,52,39,.10)!important; }
-:root[data-layout="natural-sereno"] #specific-treatment-modal :is(button,a)[class*="bg-emerald-6"]:hover,
-:root[data-layout="natural-sereno"] #specific-treatment-modal :is(button,a)[class*="bg-emerald-9"]:hover { background:#8F631E!important; }
-:root[data-layout="natural-sereno"] #specific-treatment-modal .hover\:bg-slate-700:hover { background:#EEE4D3!important; color:#2A2421!important; }
-
-@media (max-width:640px) { :root[data-layout="natural-sereno"] #main-header .ep-brand-signature { opacity:.26!important; } }
-/* Reauditoria 2026-11-07 — Comunidade:
-   manter a fotografia real, retirar o véu verde-floresta dominante e devolver
-   superfícies marfim/café; o verde fica apenas em pequenos sinais semânticos. */
-:root[data-layout="natural-sereno"] .ns-app[data-ns-screen="community"] {
-  color: #2A2421 !important;
-  background: var(--ns-waterfall) center 42% / cover no-repeat #FAF7F2 !important;
-}
-:root[data-layout="natural-sereno"] .ns-app[data-ns-screen="community"]::before {
-  background: linear-gradient(180deg, rgba(250,247,242,.84) 0%, rgba(250,247,242,.90) 100%) !important;
-}
-:root[data-layout="natural-sereno"] .ns-app[data-ns-screen="community"] .ns-page-heading {
-  color: #2A2421 !important;
-  background: rgba(250,247,242,.70) !important;
-}
-:root[data-layout="natural-sereno"] .ns-app[data-ns-screen="community"] .ns-page-heading :is(h1,h2,p,button) {
-  color: #2A2421 !important;
-}
-:root[data-layout="natural-sereno"] .ns-app[data-ns-screen="community"] .ns-community .ns-filter button {
-  background: rgba(250,247,242,.94) !important;
-  color: #6B4E2E !important;
-  border: 1px solid rgba(200,157,82,.34) !important;
-  box-shadow: 0 5px 14px rgba(67,52,39,.05) !important;
-}
-:root[data-layout="natural-sereno"] .ns-app[data-ns-screen="community"] .ns-community .ns-filter button[aria-pressed="true"] {
-  background: linear-gradient(180deg,#E2B96B,#C89D52) !important;
-  color: #2A2421 !important;
-  border-color: rgba(168,126,55,.58) !important;
-}
-:root[data-layout="natural-sereno"] .ns-app[data-ns-screen="community"] .ns-community :is(.ns-gold,button.ns-gold) {
-  background: linear-gradient(180deg,#E2B96B,#C89D52) !important;
-  color: #2A2421 !important;
-  border: 1px solid rgba(168,126,55,.58) !important;
-  box-shadow: 0 8px 18px rgba(67,52,39,.10) !important;
-}
-:root[data-layout="natural-sereno"] .ns-app[data-ns-screen="community"] .ns-community :is(.ns-secondary,button.ns-secondary) {
-  background: #FBF8F2 !important;
-  color: #6B4E2E !important;
-  border: 1px solid rgba(200,157,82,.30) !important;
-}
-:root[data-layout="natural-sereno"] .ns-app[data-ns-screen="community"] .ns-community textarea {
-  background: rgba(255,253,248,.96) !important;
-  color: #2A2421 !important;
-  border-color: rgba(200,157,82,.34) !important;
-}
-:root[data-layout="natural-sereno"] .ns-app[data-ns-screen="community"] .ns-community textarea:focus-visible {
-  outline-color: #C89D52 !important;
-}
-:root[data-layout="natural-sereno"] .ns-app[data-ns-screen="community"] .ns-community :is(.ns-community-post,.ns-community-composer) {
-  box-shadow: 0 10px 26px rgba(67,52,39,.07) !important;
 }
 
-/* Reauditoria do player:
-   remover o split antigo de 50% no desktop, recuperar a cachoeira como paisagem
-   contínua e clarear o overlay sem tocar na lógica do áudio ou nas animações. */
-:root[data-layout="natural-sereno"] #meditation-session.ep-session {
-  background-color: #FAF7F2 !important;
-  background-image:
-    linear-gradient(180deg,rgba(250,247,242,.70) 0%,rgba(250,247,242,.56) 54%,rgba(245,239,229,.78) 100%),
-    var(--ns-waterfall) !important;
-  background-position: center, center 18% !important;
-  background-size: 100% 100%, cover !important;
-  background-repeat: no-repeat !important;
+:root[data-layout="natural-sereno"]:root .ns-app[data-ns-screen="home"] .ep-home-has-anamnesis .ns-current-day,
+:root[data-layout="natural-sereno"]:root .ns-app[data-ns-screen="home"] .ep-home-has-anamnesis .ns-current-day .ns-row-copy,
+:root[data-layout="natural-sereno"]:root .ns-app[data-ns-screen="home"] .ep-home-has-anamnesis .ns-current-day .ns-row-copy strong,
+:root[data-layout="natural-sereno"]:root .ns-app[data-ns-screen="home"] .ep-home-has-anamnesis .ns-current-day > svg,
+:root[data-layout="natural-sereno"]:root .ns-app[data-ns-screen="home"] .ep-home-continue {
+  color:#2A2421!important;
 }
-:root[data-layout="natural-sereno"] #meditation-session.ep-session[data-session-phase="playing"] {
-  padding-left: 0 !important;
+
+:root[data-layout="natural-sereno"]:root .ns-app[data-ns-screen="home"] .ep-home-has-anamnesis .ns-current-day {
+  background:#FFFDF8!important;
+  border-color:rgba(200,157,82,.28)!important;
+  box-shadow:0 16px 38px rgba(67,52,39,.08)!important;
 }
-:root[data-layout="natural-sereno"] #meditation-session.ep-session[data-session-phase="playing"]::before {
-  display: none !important;
-  content: none !important;
+
+:root[data-layout="natural-sereno"]:root .ns-app[data-ns-screen="home"] .ep-home-closing {
+  background:#F3EDE4!important;
+  background-image:linear-gradient(180deg,#FAF7F2 0%,#F3EDE4 100%)!important;
+  border-top:1px solid rgba(200,157,82,.24)!important;
 }
-:root[data-layout="natural-sereno"] #meditation-session.ep-session .ep-session-backdrop {
-  background: linear-gradient(180deg,rgba(250,247,242,.06) 0%,rgba(250,247,242,.14) 58%,rgba(245,239,229,.32) 100%) !important;
+
+:root[data-layout="natural-sereno"]:root .ns-app[data-ns-screen="home"] .ep-home-closing h2 {
+  color:#2A2421!important;
 }
-:root[data-layout="natural-sereno"] #meditation-session.ep-session > header {
-  background: rgba(250,247,242,.90) !important;
-  border-bottom: 1px solid rgba(200,157,82,.24) !important;
-  box-shadow: 0 5px 18px rgba(67,52,39,.05) !important;
+
+:root[data-layout="natural-sereno"]:root .ns-app[data-ns-screen="home"] .ep-home-closing p {
+  color:#8F631E!important;
 }
-:root[data-layout="natural-sereno"] #meditation-session.ep-session > header :is(h1,p,span) {
-  color: #2A2421 !important;
-  text-shadow: none !important;
+
+/* Verde natural fica reservado a pequenos acentos semânticos. */
+:root[data-layout="natural-sereno"]:root .ns-app[data-ns-screen="home"] .ep-home-has-anamnesis .ns-current-day > svg {
+  color:#6F7B55!important;
 }
-:root[data-layout="natural-sereno"] #meditation-session.ep-session > header button {
-  background: rgba(255,253,248,.94) !important;
-  color: #6B4E2E !important;
-  border: 1px solid rgba(200,157,82,.34) !important;
-  box-shadow: 0 5px 14px rgba(67,52,39,.06) !important;
-}
-:root[data-layout="natural-sereno"] #meditation-session.ep-session .ns-session-title :is(h2,p) {
-  color: #2A2421 !important;
-  text-shadow: none !important;
-}
-:root[data-layout="natural-sereno"] #meditation-session.ep-session .ep-stage-title {
-  color: #2A2421 !important;
-  text-shadow: none !important;
-}
-:root[data-layout="natural-sereno"] #meditation-session.ep-session .ep-stage-subtitle {
-  color: #6B625B !important;
-  text-shadow: none !important;
-}
-:root[data-layout="natural-sereno"] #meditation-session.ep-session .ep-session-mantra {
-  background: rgba(250,247,242,.86) !important;
-  color: #5C5248 !important;
-  border: 1px solid rgba(200,157,82,.30) !important;
-  box-shadow: 0 8px 22px rgba(67,52,39,.06) !important;
-  text-shadow: none !important;
-}
-:root[data-layout="natural-sereno"] #meditation-session.ep-session .ep-breathing-guide > div:first-child {
-  background: radial-gradient(circle,rgba(226,185,107,.22),rgba(250,247,242,.74)) !important;
-  border-color: rgba(200,157,82,.42) !important;
-  box-shadow: 0 0 0 1px rgba(200,157,82,.12),0 10px 28px rgba(67,52,39,.06) !important;
-}
-:root[data-layout="natural-sereno"] #meditation-session.ep-session .ep-breathing-guide span {
-  color: #6B4E2E !important;
-  text-shadow: none !important;
-}
-:root[data-layout="natural-sereno"] #meditation-session.ep-session > footer {
-  background: rgba(250,247,242,.94) !important;
-  border-top: 1px solid rgba(200,157,82,.26) !important;
-  box-shadow: 0 -8px 24px rgba(67,52,39,.05) !important;
-  backdrop-filter: blur(12px);
-}
-:root[data-layout="natural-sereno"] #meditation-session.ep-session > footer button:not(.ns-play-toggle) {
-  background: rgba(255,253,248,.94) !important;
-  color: #6B4E2E !important;
-  border: 1px solid rgba(200,157,82,.30) !important;
-  box-shadow: 0 5px 14px rgba(67,52,39,.05) !important;
-}
-:root[data-layout="natural-sereno"] #meditation-session.ep-session > footer button:not(.ns-play-toggle) svg {
-  color: #A87E37 !important;
-}
-:root[data-layout="natural-sereno"] #meditation-session.ep-session .ns-play-toggle {
-  background: linear-gradient(180deg,#E2B96B,#C89D52) !important;
-  color: #2A2421 !important;
-  border: 1px solid rgba(168,126,55,.62) !important;
-  box-shadow: inset 0 1px rgba(255,255,255,.48),0 8px 20px rgba(67,52,39,.12) !important;
-}
-:root[data-layout="natural-sereno"] #meditation-session.ep-session .ns-play-toggle svg {
-  color: #2A2421 !important;
-}
-@media (max-width: 899px) {
-  :root[data-layout="natural-sereno"] #meditation-session.ep-session {
-    background-position: center, center 48% !important;
-  }
-}
-@media (min-width: 900px) {
-  :root[data-layout="natural-sereno"] #meditation-session.ep-session {
-    background-position: center, center 18% !important;
+
+/* A paisagem acompanha a composição sem altura fixa excessiva em telas largas. */
+@media (min-width:768px) {
+  :root[data-layout="natural-sereno"]:root .ns-app[data-ns-screen="home"] .ns-home-scene {
+    min-height:clamp(480px,62vh,680px)!important;
+    background-position:center 52%!important;
   }
 }
 
-/* Numerologia: PIX continua no checkout InfinitePay; somente o estado selecionado
-   deixa de herdar o verde saturado e passa a usar o dourado/café do Estilo 1. */
-:root[data-layout="natural-sereno"] #numerology-modal [role="tabpanel"] [role="radiogroup"] [role="radio"][aria-checked="true"] {
-  background: rgba(200,157,82,.12) !important;
-  border-color: rgba(184,135,54,.56) !important;
-  color: #6B4E2E !important;
-  box-shadow: inset 0 0 0 1px rgba(200,157,82,.08) !important;
-}
-:root[data-layout="natural-sereno"] #numerology-modal [role="tabpanel"] [role="radiogroup"] [role="radio"][aria-checked="true"] svg {
-  color: #A87E37 !important;
-}
-:root[data-layout="natural-sereno"] #numerology-modal [role="tabpanel"] .text-emerald-700 {
-  color: #8F631E !important;
-}
-:root[data-layout="natural-sereno"] #numerology-modal [role="tabpanel"] [class*="border-amber-300"] {
-  border-color: rgba(200,157,82,.30) !important;
-}
-:root[data-layout="natural-sereno"] #numerology-modal [role="tabpanel"] [class*="text-amber-800"] {
-  color: #8F631E !important;
-}
-
-/* Reauditoria 2026-11-07 — checkout e prática individual:
-   retirar superfícies verde-floresta/amarelo antigo sem alterar os fluxos
-   de checkout InfinitePay, cupons, valores ou liberação de acesso. */
-:root[data-layout="natural-sereno"] #plans-modal {
-  background: rgba(42,36,33,.46) !important;
-  color: #2A2421 !important;
-}
-:root[data-layout="natural-sereno"] #plans-modal > div {
-  background: linear-gradient(180deg,#FAF7F2 0%,#F4EDE3 100%) !important;
-  color: #2A2421 !important;
-}
-:root[data-layout="natural-sereno"] #plans-modal header {
-  background: rgba(250,247,242,.96) !important;
-  border-color: rgba(200,157,82,.28) !important;
-  box-shadow: 0 8px 22px rgba(67,52,39,.05) !important;
-}
-:root[data-layout="natural-sereno"] #plans-modal :is(h1,h2,h3,h4) {
-  color: #2A2421 !important;
-}
-:root[data-layout="natural-sereno"] #plans-modal [class*="text-[#26372A]"],
-:root[data-layout="natural-sereno"] #plans-modal [class*="text-[#073B2B]"] {
-  color: #2A2421 !important;
-}
-:root[data-layout="natural-sereno"] #plans-modal [class*="text-[#5F6857]"],
-:root[data-layout="natural-sereno"] #plans-modal [class*="text-[#6A725F]"] {
-  color: #6B625B !important;
-}
-:root[data-layout="natural-sereno"] #plans-modal [class*="text-[#9C7429]"],
-:root[data-layout="natural-sereno"] #plans-modal [class*="text-[#7C5A1D]"] {
-  color: #8F631E !important;
-}
-:root[data-layout="natural-sereno"] #plans-modal [class*="text-[#2F6B50]"] {
-  color: #6B7A4B !important;
-}
-:root[data-layout="natural-sereno"] #plans-modal [class*="border-[#D8B867]"] {
-  border-color: rgba(200,157,82,.30) !important;
-}
-:root[data-layout="natural-sereno"] #plans-modal [class*="bg-[#FFF9E8]"] {
-  background: #FBF8F2 !important;
-}
-:root[data-layout="natural-sereno"] #plans-modal [class*="bg-[#F7E5AA]"] {
-  background: rgba(200,157,82,.12) !important;
-}
-:root[data-layout="natural-sereno"] #plans-modal article {
-  background: linear-gradient(180deg,#FFFDF8 0%,#F5EFE4 100%) !important;
-  border-color: rgba(200,157,82,.32) !important;
-  box-shadow: 0 10px 28px rgba(67,52,39,.07) !important;
-}
-:root[data-layout="natural-sereno"] #plans-modal article span[class*="bg-[#073B2B]"] {
-  background: rgba(200,157,82,.14) !important;
-  color: #8F631E !important;
-  border: 1px solid rgba(200,157,82,.28) !important;
-}
-:root[data-layout="natural-sereno"] #plans-modal #checkout-planos {
-  background: rgba(255,253,248,.96) !important;
-  border-color: rgba(200,157,82,.34) !important;
-  box-shadow: 0 14px 34px rgba(67,52,39,.08) !important;
-}
-:root[data-layout="natural-sereno"] #plans-modal #checkout-planos > div:nth-child(2) {
-  background: rgba(200,157,82,.08) !important;
-  border-color: rgba(200,157,82,.24) !important;
-}
-:root[data-layout="natural-sereno"] #plans-modal button[class*="bg-[#073B2B]"] {
-  background: linear-gradient(180deg,#E2B96B 0%,#C89D52 100%) !important;
-  color: #2A2421 !important;
-  border-color: rgba(168,126,55,.58) !important;
-  box-shadow: 0 9px 20px rgba(67,52,39,.10) !important;
-}
-:root[data-layout="natural-sereno"] #plans-modal button[class*="bg-[#073B2B]"]:hover {
-  background: linear-gradient(180deg,#E8C47D 0%,#A87E37 100%) !important;
-}
-:root[data-layout="natural-sereno"] #plans-modal button[class*="border-[#073B2B]"] {
-  background: #FBF8F2 !important;
-  color: #6B4E2E !important;
-  border-color: rgba(200,157,82,.34) !important;
-}
-:root[data-layout="natural-sereno"] #plans-modal button[class*="border-[#073B2B]"]:hover {
-  background: #F5EFE4 !important;
-}
-:root[data-layout="natural-sereno"] #plans-modal input {
-  background: #FFFDF8 !important;
-  color: #2A2421 !important;
-  border-color: rgba(200,157,82,.34) !important;
-}
-:root[data-layout="natural-sereno"] #plans-modal input:focus {
-  border-color: #C89D52 !important;
-  box-shadow: 0 0 0 2px rgba(200,157,82,.12) !important;
-}
-
-/* Prática Individual: os estados selecionados continuam claros; o verde fica
-   restrito a pequenos indicadores semânticos e não ocupa cartões ou CTAs. */
-:root[data-layout="natural-sereno"] #specific-treatment-modal [class*="from-emerald-950"] {
-  background: linear-gradient(145deg,#FFFDF8 0%,#F5EFE4 100%) !important;
-  border-color: rgba(200,157,82,.34) !important;
-  box-shadow: 0 10px 24px rgba(67,52,39,.07) !important;
-}
-:root[data-layout="natural-sereno"] #specific-treatment-modal [class*="bg-emerald-950/40"] {
-  background: rgba(200,157,82,.09) !important;
-  border-color: rgba(200,157,82,.42) !important;
-  color: #2A2421 !important;
-  box-shadow: 0 8px 18px rgba(67,52,39,.06) !important;
-}
-:root[data-layout="natural-sereno"] #specific-treatment-modal [class*="border-emerald-500"] {
-  border-color: rgba(200,157,82,.46) !important;
-}
-:root[data-layout="natural-sereno"] #specific-treatment-modal [class*="text-emerald-200"] {
-  color: #6B4E2E !important;
-}
-:root[data-layout="natural-sereno"] #specific-treatment-modal button[class*="from-emerald-600"] {
-  background: linear-gradient(180deg,#E2B96B 0%,#C89D52 100%) !important;
-  color: #2A2421 !important;
-  border: 1px solid rgba(168,126,55,.58) !important;
-  box-shadow: 0 10px 22px rgba(67,52,39,.10) !important;
-}
-:root[data-layout="natural-sereno"] #specific-treatment-modal button[class*="from-emerald-600"]:hover {
-  background: linear-gradient(180deg,#E8C47D 0%,#A87E37 100%) !important;
-}
-:root[data-layout="natural-sereno"] #specific-treatment-modal button[class*="from-emerald-600"] :is(span,svg) {
-  color: #2A2421 !important;
-}
-:root[data-layout="natural-sereno"] #specific-treatment-modal [class*="shadow-emerald"] {
-  --tw-shadow-color: rgba(67,52,39,.08) !important;
-}
-
-/* Toasts antigos em índigo/violeta passam a usar a mesma superfície marfim. */
-:root[data-layout="natural-sereno"] .ep-app-toast {
-  background: linear-gradient(145deg,#FFFDF8 0%,#F4EDE3 100%) !important;
-  border: 1px solid rgba(200,157,82,.34) !important;
-  color: #2A2421 !important;
-  box-shadow: 0 14px 34px rgba(67,52,39,.12) !important;
-}
-:root[data-layout="natural-sereno"] .ep-app-toast h4 {
-  color: #2A2421 !important;
-}
-:root[data-layout="natural-sereno"] .ep-app-toast p {
-  color: #6B625B !important;
-}
-:root[data-layout="natural-sereno"] .ep-app-toast svg {
-  color: #C89D52 !important;
+@media (max-width:767px) {
+  :root[data-layout="natural-sereno"]:root .ns-app[data-ns-screen="home"] .ns-home-scene {
+    min-height:clamp(520px,72vh,700px)!important;
+    background-position:center 54%!important;
+  }
 }
