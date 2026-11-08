@@ -1,11 +1,12 @@
 import React, { useRef, useState } from 'react';
+import misticoModernoPranchaBase64 from '../assets/mistico-moderno-prancha-oficial.b64?raw';
 import { useDialogFocus } from '../hooks/useDialogFocus';
 import { Check } from 'lucide-react';
 import { OFFICIAL_LAYOUTS, LayoutDefinition, LayoutId } from '../config/layouts';
 
 // Referências visuais oficiais dos quatro estilos; paletas e tratamentos seguem as decisões aprovadas mais recentes.
 const NATURAL_SERENO_OFFICIAL_BOARD = new URL('../../docs/visual-qa/natural-sereno/reference.jpg', import.meta.url).href;
-const MISTICO_MODERNO_OFFICIAL_BOARD = '/brand/mistico-moderno/prancha-oficial.webp';
+const MISTICO_MODERNO_OFFICIAL_BOARD = `data:image/webp;base64,${misticoModernoPranchaBase64.trim()}`;
 
 interface LayoutChoiceModalProps {
   onSelect: (layout: LayoutId) => void | Promise<void>;
