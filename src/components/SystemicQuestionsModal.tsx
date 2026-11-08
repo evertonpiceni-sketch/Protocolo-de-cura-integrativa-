@@ -132,6 +132,7 @@ export default function SystemicQuestionsModal({
         setIsReadingVoice(false);
         return;
       }
+      setIsReadingVoice(true);
       void audioEngine.speakWithElevenLabsOrFallback(
         speechText,
         userProfile?.voiceVolume ?? 0.9,
