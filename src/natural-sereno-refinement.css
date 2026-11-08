@@ -207,16 +207,7 @@
 /* Preserve the approved mark without the compounded dimming of older shells. */
 :root[data-layout="natural-sereno"] #main-header .ep-brand-signature-wrap { opacity: .9 !important; }
 :root[data-layout="natural-sereno"] #main-header .ep-brand-signature { opacity: 1 !important; filter: none !important; }
-#profile-setup-view.ep-auth-style-one #onboarding-card .ep-brand-signature-wrap { width: 84px; height: 84px; opacity: .9 !important; }
-#profile-setup-view.ep-auth-style-one #onboarding-card .ep-brand-signature { opacity: 1; filter: none; }
 
-#profile-setup-view.ep-auth-style-one #auth-forgot-password { color: #71511c !important; min-height: 44px; }
-
-/* The auth card stays narrow on desktop: field layout follows its width. */
-#profile-setup-view.ep-auth-style-one #register-form > .grid { grid-template-columns: minmax(0, 1fr); }
-#profile-setup-view.ep-auth-style-one #register-form > .grid > div { grid-column: auto; min-width: 0; }
-#profile-setup-view.ep-auth-style-one :is(#register-form, #login-form) input { font-family: 'Inter', sans-serif; }
-#profile-setup-view.ep-auth-style-one #register-form label[for="lgpd-consent"] a { color: #71511c !important; }
 
 /* Contrast for controls introduced by the latest shared component updates. */
 :root[data-layout="natural-sereno"] #chakras-guide-modal button[aria-label] > span { color: #26372a !important; }
