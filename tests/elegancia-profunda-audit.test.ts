@@ -9,7 +9,7 @@ test('o seletor usa a prancha oficial do Estilo 2 e exige confirmação explíci
   const board = read('public/brand/elegancia-profunda/prancha-oficial.svg');
   const app = read('src/App.tsx');
   assert.ok(modal.includes('/brand/elegancia-profunda/prancha-oficial.svg'));
-  assert.ok(board.includes('width="240" height="180" viewBox="0 0 240 180"'));
+  assert.ok(board.includes('width="384" height="288" viewBox="0 0 384 288"'));
   assert.ok(board.includes('data:image/webp;base64,'));
   const payload = board.match(/data:image\/webp;base64,([A-Za-z0-9+/=]+)"/)?.[1] ?? '';
   assert.ok(payload.length > 0 && payload.length % 4 === 0, 'A prévia oficial deve conter base64 completo.');
@@ -18,8 +18,8 @@ test('o seletor usa a prancha oficial do Estilo 2 e exige confirmação explíci
   assert.equal(webp.subarray(8, 12).toString('ascii'), 'WEBP');
   assert.equal(webp.subarray(12, 16).toString('ascii'), 'VP8 ');
   assert.equal(webp.readUInt32LE(4) + 8, webp.length, 'O RIFF deve corresponder ao tamanho integral do arquivo.');
-  assert.equal(webp.readUInt16LE(26) & 0x3fff, 240, 'A prévia deve ter 240 px de largura real.');
-  assert.equal(webp.readUInt16LE(28) & 0x3fff, 180, 'A prévia deve ter 180 px de altura real.');
+  assert.equal(webp.readUInt16LE(26) & 0x3fff, 384, 'A prévia deve ter 384 px de largura real.');
+  assert.equal(webp.readUInt16LE(28) & 0x3fff, 288, 'A prévia deve ter 288 px de altura real.');
   assert.ok(modal.includes('useState<LayoutId | null>(null)'));
   assert.ok(modal.includes('disabled={!selectedLayout || isSaving}'));
   assert.ok(app.includes('const [layoutConfirmedThisSession, setLayoutConfirmedThisSession] = useState(false)'));
