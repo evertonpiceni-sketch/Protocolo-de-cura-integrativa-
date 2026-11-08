@@ -66,7 +66,8 @@ test('pagamento mantém apenas produtos atuais e checkout InfinitePay fail-close
   assert.ok(routes.includes("options: { single_payment: true }"));
   assert.ok(routes.includes("headers['X-Api-Key'] = key"));
   assert.ok(routes.includes("if (!apiKey()) return res.status(503)"));
-  assert.ok(routes.includes('acquireCheckoutCreationLock(`standard:${req.userId}:${productType}`)'));
+  assert.ok(routes.includes('acquireCheckoutCreationLock(PAYMENT_DATABASE_WRITE_LOCK_SCOPE)'));
+  assert.ok(!routes.includes('`standard:${req.userId}:${productType}`'));
   assert.ok(routes.includes('checkoutRecoveryAttempts'));
   assert.ok(routes.includes('order.checkoutPayload?.handle || handle()'));
   assert.ok(routes.includes("paymentQuote(planId, couponCode || '')"));
