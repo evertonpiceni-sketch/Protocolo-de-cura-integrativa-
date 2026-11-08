@@ -3,10 +3,14 @@ import { useDialogFocus } from '../hooks/useDialogFocus';
 import { Check } from 'lucide-react';
 import { OFFICIAL_LAYOUTS, LayoutDefinition, LayoutId } from '../config/layouts';
 import misticoBoardBase64 from '../assets/mistico-moderno-prancha.b64?raw';
+import misticoBoardBase64Part2 from '../assets/mistico-moderno-prancha-2.b64?raw';
+import misticoBoardBase64Part3 from '../assets/mistico-moderno-prancha-3.b64?raw';
+import misticoBoardBase64Part4 from '../assets/mistico-moderno-prancha-4.b64?raw';
+import misticoBoardBase64Part5 from '../assets/mistico-moderno-prancha-5.b64?raw';
 
 // Pranchas oficiais usadas somente como referência visual no seletor.
 const NATURAL_SERENO_OFFICIAL_BOARD = new URL('../../docs/visual-qa/natural-sereno/reference.jpg', import.meta.url).href;
-const MISTICO_MODERNO_OFFICIAL_BOARD = `data:image/webp;base64,${misticoBoardBase64.trim()}`;
+const MISTICO_MODERNO_OFFICIAL_BOARD = `data:image/webp;base64,${[misticoBoardBase64, misticoBoardBase64Part2, misticoBoardBase64Part3, misticoBoardBase64Part4, misticoBoardBase64Part5].map(part => part.trim()).join('')}`;
 
 interface LayoutChoiceModalProps {
   onSelect: (layout: LayoutId) => void | Promise<void>;
@@ -17,8 +21,8 @@ function LayoutPreview({ layout }: { layout: LayoutDefinition }) {
   const isEssenciaLuminosa = layout.id === 'essencia-luminosa';
   const isMisticoModerno = layout.id === 'mistico-moderno';
   const [canvas, accent, gold, surface] = layout.swatches;
-  const foreground = layout.tone === 'dark' ? '#F4F1EB' : '#2A2420';
-  const muted = layout.tone === 'dark' ? 'rgba(244,241,235,.68)' : 'rgba(42,36,32,.62)';
+  const foreground = layout.id === 'mistico-moderno' ? '#EDDEC2' : layout.tone === 'dark' ? '#F4F1EB' : '#2A2420';
+  const muted = layout.id === 'mistico-moderno' ? 'rgba(237,222,194,.68)' : layout.tone === 'dark' ? 'rgba(244,241,235,.68)' : 'rgba(42,36,32,.62)';
   const isNaturalSereno = layout.id === 'natural-sereno';
   const previewBorder = layout.id === 'elegancia-profunda' ? 'rgba(212,175,119,.35)' : layout.id === 'mistico-moderno' ? 'rgba(77,41,177,.40)' : 'rgba(42,36,32,.10)';
   if (isNaturalSereno) {
