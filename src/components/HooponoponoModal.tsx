@@ -187,7 +187,7 @@ export default function HooponoponoModal({ isOpen, onClose, userName = 'Buscador
           <section className="mt-5 space-y-4">
             <div className="whitespace-pre-line rounded-3xl border border-[#B88736]/20 bg-white/80 p-5 text-center font-serif text-xs italic leading-relaxed text-[#2A2420] shadow-sm sm:p-6 sm:text-sm">{MORRNAH_PRAYER}</div>
             <div className="grid grid-cols-2 gap-2 sm:grid-cols-4">
-              {PHRASES.map(item => <div key={item.text} className="rounded-2xl border border-[#E5DAC6] bg-white/75 p-3 text-center"><strong className="block text-xs" style={{ color: item.tone }}>{item.text}</strong><span className="mt-1 block text-[10px] leading-tight text-[#5C5248]">{item.desc}</span></div>)}
+              {PHRASES.map((item, index) => <div key={item.text} data-phrase-tone={index} className="rounded-2xl border border-[#E5DAC6] bg-white/75 p-3 text-center"><strong className="block text-xs" style={{ color: item.tone }}>{item.text}</strong><span className="mt-1 block text-[10px] leading-tight text-[#5C5248]">{item.desc}</span></div>)}
             </div>
             <div className="flex flex-wrap gap-2 sm:justify-between">
               <button type="button" onClick={toggleAudio} className="min-h-11 rounded-xl bg-[#B88736] px-4 py-2.5 text-xs font-semibold text-white hover:bg-[#8F631E] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B88736]/35">{isPlayingAudio ? <Pause size={15} className="mr-2 inline" /> : <Play size={15} className="mr-2 inline" />}{isPlayingAudio ? 'Pausar áudio' : 'Ouvir oração'}</button>

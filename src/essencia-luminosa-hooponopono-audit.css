@@ -22,3 +22,18 @@
 :root[data-layout="essencia-luminosa"] #hooponopono-modal button:hover{box-shadow:0 8px 18px rgba(112,91,58,.07);}
 :root[data-layout="essencia-luminosa"] #hooponopono-modal :focus-visible{outline:none!important;box-shadow:0 0 0 3px color-mix(in srgb,var(--layout-gold) 22%,transparent)!important;}
 :root[data-layout="essencia-luminosa"] #hooponopono-modal{-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;}
+
+
+/* Tons inline das quatro frases: preserva a distinção sem trazer rosa/verde escuro do tema-base. */
+:root[data-layout="essencia-luminosa"] #hooponopono-modal [data-phrase-tone="0"] strong {
+  color: var(--layout-gold-dark) !important;
+}
+:root[data-layout="essencia-luminosa"] #hooponopono-modal [data-phrase-tone="1"] strong {
+  color: color-mix(in srgb, var(--layout-accent) 78%, var(--layout-text)) !important;
+}
+:root[data-layout="essencia-luminosa"] #hooponopono-modal [data-phrase-tone="2"] strong {
+  color: var(--layout-text-secondary) !important;
+}
+:root[data-layout="essencia-luminosa"] #hooponopono-modal [data-phrase-tone="3"] strong {
+  color: var(--layout-accent) !important;
+}
