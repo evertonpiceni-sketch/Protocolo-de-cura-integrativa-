@@ -53,18 +53,13 @@ export default function SystemicQuestionsModal({
       audioEngine.setBGVolume(0.38);
       audioEngine.startBG('639hz');
     } else {
-      if (audioEngine.getCurrentSynthType() === '639hz') {
+      if (audioEngine.getCurrentSynthType() === '639hz' || (isMisticoModerno && isReadingVoice)) {
         audioEngine.stopBG();
       }
     }
 
     return () => {
-      if (audioEngine.getCurrentSynthType() === '639hz') {
-        audioEngine.stopBG();
-        if (userProfile?.audioEnabled && userProfile?.bgMusicType && userProfile?.bgMusicType !== 'none' && userProfile?.bgMusicType !== '639hz') {
-          audioEngine.startBG(userProfile.bgMusicType);
-        }
-      }
+      if (audioEngine.getCurrentSynthType() === '639hz') audioEngine.stopBG();
     };
   }, [isOpen, is639HzActive, isReadingVoice, isMisticoModerno, userProfile?.audioEnabled, userProfile?.bgMusicType]);
 
