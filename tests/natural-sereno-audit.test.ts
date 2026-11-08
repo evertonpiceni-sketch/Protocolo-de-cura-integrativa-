@@ -22,6 +22,7 @@ test('o seletor apresenta os quatro estilos e exige confirmação antes de aplic
   assert.ok(modal.includes('O estilo só será aplicado depois da sua confirmação.'));
   assert.ok(modal.includes('../../docs/visual-qa/natural-sereno/reference.jpg'));
   assert.ok(modal.includes("selectedLayout === 'natural-sereno' ? 'rounded-2xl' : 'rounded-full'"));
+  assert.ok(modal.includes("isNaturalSereno ? 'rounded-[18px]' : 'rounded-full'"), 'a prévia do Natural Sereno também usa CTA premium sem formato de pílula');
   assert.ok(fs.existsSync('docs/visual-qa/natural-sereno/reference.jpg'));
 });
 
