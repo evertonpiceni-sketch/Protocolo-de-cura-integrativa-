@@ -425,7 +425,7 @@ test('o seletor permanece neutro até a escolha explícita e só então revela o
   const modal = read('src/components/LayoutChoiceModal.tsx');
   const profile = read('src/components/ProfileSetup.tsx');
   const app = read('src/App.tsx');
-  const preselectionTone = modal.match(/const confirmButtonTone = !selectedLayout\\s*\\?\\s*'([^']+)'/)?.[1] ?? '';
+  const preselectionTone = modal.match(/const confirmButtonTone = !selectedLayout\s*\?\s*'([^']+)'/)?.[1] ?? '';
 
   assert.ok(preselectionTone.includes('from-[#A99B84]'));
   assert.ok(preselectionTone.includes('to-[#817460]'));
@@ -436,5 +436,5 @@ test('o seletor permanece neutro até a escolha explícita e só então revela o
   assert.ok(profile.includes('bg-[#A99B84]'));
   assert.ok(!/#(?:B88736|8F631E|e5c66f)/i.test(profile));
   assert.ok(app.includes('const selected = layoutConfirmedThisSession ? OFFICIAL_LAYOUTS.find(layout => layout.id === userProfile?.visualLayout) : undefined;'));
-  assert.ok(app.includes('if (!selected) {\\n      delete document.documentElement.dataset.layout;'));
+  assert.ok(app.includes('if (!selected) {\n      delete document.documentElement.dataset.layout;'));
 });
