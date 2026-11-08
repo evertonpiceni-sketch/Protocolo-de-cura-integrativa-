@@ -208,13 +208,13 @@ export default function ProfileSetup({ onComplete }: ProfileSetupProps) {
 
       <div className="ep-auth-card w-full max-w-xl rounded-[1.9rem] p-5 sm:p-7 md:p-8 space-y-6 relative overflow-hidden" id="onboarding-card">
         {/* Decorative corner glow */}
-        <div className="absolute -top-12 -right-12 w-24 h-24 bg-[#B88736]/10 rounded-full blur-xl pointer-events-none" />
+        <div className="absolute -top-12 -right-12 w-24 h-24 bg-[#A99B84]/10 rounded-full blur-xl pointer-events-none" />
 
         <div className="text-center space-y-2">
           <div className="ep-brand-signature-wrap w-16 h-16 rounded-full overflow-hidden mx-auto mb-5 flex items-center justify-center">
             <img src={APPROVED_LOGO_DATA_URI} alt="Everton Piceni — Terapias Holísticas e Bem-Estar" className="ep-brand-signature w-full h-full object-contain" style={{ opacity: 0.3 }} />
           </div>
-          <span className="text-xs font-sans tracking-widest text-[#e5c66f] uppercase font-semibold">Terapias Holísticas e Bem-Estar</span>
+          <span className="text-xs font-sans tracking-widest text-[#817460] uppercase font-semibold">Terapias Holísticas e Bem-Estar</span>
           <h1 className="text-xl md:text-2xl font-display font-medium text-[#2A2420] leading-tight">
             Que bom ter você aqui.<br />Este é o seu momento de transformação
           </h1>
@@ -234,7 +234,7 @@ export default function ProfileSetup({ onComplete }: ProfileSetupProps) {
             }}
             className={`min-h-11 py-2 text-sm font-medium rounded-lg flex items-center justify-center gap-1.5 transition cursor-pointer ${
               activeTab === 'register'
-                ? 'bg-[#B88736] text-white shadow'
+                ? 'bg-[#A99B84] text-white shadow'
                 : 'text-[#5C5248] hover:text-[#2A2420]'
             }`}
           >
@@ -250,7 +250,7 @@ export default function ProfileSetup({ onComplete }: ProfileSetupProps) {
             }}
             className={`min-h-11 py-2 text-sm font-medium rounded-lg flex items-center justify-center gap-1.5 transition cursor-pointer ${
               activeTab === 'login' || activeTab === 'forgot'
-                ? 'bg-[#B88736] text-white shadow'
+                ? 'bg-[#A99B84] text-white shadow'
                 : 'text-[#5C5248] hover:text-[#2A2420]'
             }`}
           >
@@ -295,7 +295,7 @@ export default function ProfileSetup({ onComplete }: ProfileSetupProps) {
                   value={fullName}
                   onChange={(e) => setFullName(e.target.value)}
                   placeholder="Seu nome completo para o decreto"
-                  className="w-full bg-white border border-[#E5DAC6]/80 focus:border-[#B88736] focus:ring-1 focus:ring-[#B88736]/30 text-[#2A2420] rounded-xl py-2.5 pl-10 pr-4 text-xs transition duration-150 outline-none placeholder-slate-600"
+                  className="w-full bg-white border border-[#E5DAC6]/80 focus:border-[#A99B84] focus:ring-1 focus:ring-[#A99B84]/30 text-[#2A2420] rounded-xl py-2.5 pl-10 pr-4 text-xs transition duration-150 outline-none placeholder-slate-600"
                 />
               </div>
             </div>
@@ -317,7 +317,7 @@ export default function ProfileSetup({ onComplete }: ProfileSetupProps) {
                     max={getLocalDateString()}
                     value={birthDate}
                     onChange={(e) => setBirthDate(e.target.value)}
-                    className="w-full bg-white border border-[#E5DAC6]/80 focus:border-[#B88736] focus:ring-1 focus:ring-[#B88736]/30 text-[#2A2420] rounded-xl py-2.5 pl-10 pr-4 text-xs transition duration-150 outline-none [color-scheme:light]"
+                    className="w-full bg-white border border-[#E5DAC6]/80 focus:border-[#A99B84] focus:ring-1 focus:ring-[#A99B84]/30 text-[#2A2420] rounded-xl py-2.5 pl-10 pr-4 text-xs transition duration-150 outline-none [color-scheme:light]"
                   />
                 </div>
               </div>
@@ -338,7 +338,7 @@ export default function ProfileSetup({ onComplete }: ProfileSetupProps) {
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     placeholder="exemplo@email.com"
-                    className="w-full bg-white border border-[#E5DAC6]/80 focus:border-[#B88736] focus:ring-1 focus:ring-[#B88736]/30 text-[#2A2420] rounded-xl py-2.5 pl-10 pr-4 text-xs transition duration-150 outline-none placeholder-slate-600"
+                    className="w-full bg-white border border-[#E5DAC6]/80 focus:border-[#A99B84] focus:ring-1 focus:ring-[#A99B84]/30 text-[#2A2420] rounded-xl py-2.5 pl-10 pr-4 text-xs transition duration-150 outline-none placeholder-slate-600"
                   />
                 </div>
               </div>
@@ -373,14 +373,14 @@ export default function ProfileSetup({ onComplete }: ProfileSetupProps) {
                 <label htmlFor="reg-login" className="block text-xs font-sans text-[#5C5248] uppercase tracking-wider">Nome de usuário</label>
                 <div className="relative">
                   <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-[#817460]/80"><User size={16} /></div>
-                  <input id="reg-login" type="text" required autoComplete="username" value={regLogin} onChange={(e) => setRegLogin(e.target.value)} placeholder="ex: joaosilva" className="w-full min-h-12 bg-white border border-[#E5DAC6] focus:border-[#B88736] focus:ring-1 focus:ring-[#B88736]/30 text-[#2A2420] rounded-xl pl-10 pr-4 text-base transition outline-none placeholder-slate-600" />
+                  <input id="reg-login" type="text" required autoComplete="username" value={regLogin} onChange={(e) => setRegLogin(e.target.value)} placeholder="ex: joaosilva" className="w-full min-h-12 bg-white border border-[#E5DAC6] focus:border-[#A99B84] focus:ring-1 focus:ring-[#A99B84]/30 text-[#2A2420] rounded-xl pl-10 pr-4 text-base transition outline-none placeholder-slate-600" />
                 </div>
               </div>
               <div className="space-y-1.5">
                 <label htmlFor="reg-password" className="block text-xs font-sans text-[#5C5248] uppercase tracking-wider">Senha</label>
                 <div className="relative">
                   <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-[#85786C]"><Lock size={16} /></div>
-                  <input id="reg-password" type="password" required minLength={6} autoComplete="new-password" value={regPassword} onChange={(e) => setRegPassword(e.target.value)} placeholder="Mínimo 6 caracteres" className="w-full min-h-12 bg-white border border-[#E5DAC6] focus:border-[#B88736] focus:ring-1 focus:ring-[#B88736]/30 text-[#2A2420] rounded-xl pl-10 pr-4 text-base transition outline-none placeholder-slate-600" />
+                  <input id="reg-password" type="password" required minLength={6} autoComplete="new-password" value={regPassword} onChange={(e) => setRegPassword(e.target.value)} placeholder="Mínimo 6 caracteres" className="w-full min-h-12 bg-white border border-[#E5DAC6] focus:border-[#A99B84] focus:ring-1 focus:ring-[#A99B84]/30 text-[#2A2420] rounded-xl pl-10 pr-4 text-base transition outline-none placeholder-slate-600" />
                 </div>
               </div>
             </div>
@@ -421,7 +421,7 @@ export default function ProfileSetup({ onComplete }: ProfileSetupProps) {
                       type="time"
                       value={birthTime}
                       onChange={(e) => setBirthTime(e.target.value)}
-                      className="w-full bg-white border border-[#E5DAC6]/80 focus:border-[#B88736] focus:ring-1 focus:ring-[#B88736]/30 text-[#2A2420] rounded-xl py-2 pl-9 pr-3 text-xs transition duration-150 outline-none [color-scheme:light]"
+                      className="w-full bg-white border border-[#E5DAC6]/80 focus:border-[#A99B84] focus:ring-1 focus:ring-[#A99B84]/30 text-[#2A2420] rounded-xl py-2 pl-9 pr-3 text-xs transition duration-150 outline-none [color-scheme:light]"
                     />
                   </div>
                 </div>
@@ -440,7 +440,7 @@ export default function ProfileSetup({ onComplete }: ProfileSetupProps) {
                       value={birthCity}
                       onChange={(e) => setBirthCity(e.target.value)}
                       placeholder="ex: Porto Alegre - RS"
-                      className="w-full bg-white border border-[#E5DAC6]/80 focus:border-[#B88736] focus:ring-1 focus:ring-[#B88736]/30 text-[#2A2420] rounded-xl py-2 pl-9 pr-3 text-xs transition duration-150 outline-none placeholder-slate-600"
+                      className="w-full bg-white border border-[#E5DAC6]/80 focus:border-[#A99B84] focus:ring-1 focus:ring-[#A99B84]/30 text-[#2A2420] rounded-xl py-2 pl-9 pr-3 text-xs transition duration-150 outline-none placeholder-slate-600"
                     />
                   </div>
                 </div>
@@ -555,7 +555,7 @@ export default function ProfileSetup({ onComplete }: ProfileSetupProps) {
                     onClick={() => setMusicType(opt.id as any)}
                     className={`p-2 rounded-xl border text-left transition duration-150 cursor-pointer ${
                       musicType === opt.id
-                        ? 'bg-[#B88736]/10 border-[#B88736] text-[#2A2420] shadow-sm'
+                        ? 'bg-[#A99B84]/10 border-[#A99B84] text-[#2A2420] shadow-sm'
                         : 'bg-white border-[#E5DAC6] text-[#5C5248] hover:border-[#E5DAC6]'
                     }`}
                   >
@@ -573,7 +573,7 @@ export default function ProfileSetup({ onComplete }: ProfileSetupProps) {
                 type="checkbox" 
                 id="lgpd-consent" 
                 required 
-                className="mt-0.5 shrink-0 bg-[#FBF8F2] border-[#E5DAC6] rounded text-[#817460] focus:ring-[#B88736]" 
+                className="mt-0.5 shrink-0 bg-[#FBF8F2] border-[#E5DAC6] rounded text-[#817460] focus:ring-[#A99B84]" 
               />
               <label htmlFor="lgpd-consent" className="text-xs text-[#5C5248] leading-relaxed">
                 Declaro que li e concordo com os <a href="/termos.html" target="_blank" rel="noreferrer" className="text-[#817460] underline underline-offset-2">Termos de Uso</a> e a <a href="/privacidade.html" target="_blank" rel="noreferrer" className="text-[#817460] underline underline-offset-2">Política de Privacidade</a>.
@@ -585,7 +585,7 @@ export default function ProfileSetup({ onComplete }: ProfileSetupProps) {
             <button
               type="submit"
               disabled={isSubmitting}
-              className="w-full min-h-12 bg-[#B88736] hover:bg-[#8F631E] disabled:cursor-wait disabled:opacity-70 text-white font-semibold py-3 rounded-xl transition duration-200 shadow-md text-sm tracking-wide cursor-pointer border-none mt-4"
+              className="w-full min-h-12 bg-[#A99B84] hover:bg-[#817460] disabled:cursor-wait disabled:opacity-70 text-white font-semibold py-3 rounded-xl transition duration-200 shadow-md text-sm tracking-wide cursor-pointer border-none mt-4"
               id="btn-complete-setup"
             >
               {isSubmitting ? <span className="flex items-center justify-center gap-2"><Loader2 size={18} className="animate-spin" /> Criando sua conta...</span> : 'Criar conta e começar'}
@@ -610,7 +610,7 @@ export default function ProfileSetup({ onComplete }: ProfileSetupProps) {
                   value={logLogin}
                   onChange={(e) => setLogLogin(e.target.value)}
                   placeholder="Insira seu login ou e-mail cadastrado"
-                  className="w-full bg-white border border-[#E5DAC6]/80 focus:border-[#B88736] focus:ring-1 focus:ring-[#B88736]/30 text-[#2A2420] rounded-xl py-3 pl-10 pr-4 text-xs transition duration-150 outline-none placeholder-slate-600"
+                  className="w-full bg-white border border-[#E5DAC6]/80 focus:border-[#A99B84] focus:ring-1 focus:ring-[#A99B84]/30 text-[#2A2420] rounded-xl py-3 pl-10 pr-4 text-xs transition duration-150 outline-none placeholder-slate-600"
                 />
               </div>
             </div>
@@ -643,7 +643,7 @@ export default function ProfileSetup({ onComplete }: ProfileSetupProps) {
                   value={logPassword}
                   onChange={(e) => setLogPassword(e.target.value)}
                   placeholder="Insira sua senha"
-                  className="w-full bg-white border border-[#E5DAC6]/80 focus:border-[#B88736] focus:ring-1 focus:ring-[#B88736]/30 text-[#2A2420] rounded-xl py-3 pl-10 pr-4 text-xs transition duration-150 outline-none placeholder-slate-600"
+                  className="w-full bg-white border border-[#E5DAC6]/80 focus:border-[#A99B84] focus:ring-1 focus:ring-[#A99B84]/30 text-[#2A2420] rounded-xl py-3 pl-10 pr-4 text-xs transition duration-150 outline-none placeholder-slate-600"
                 />
               </div>
             </div>
@@ -651,7 +651,7 @@ export default function ProfileSetup({ onComplete }: ProfileSetupProps) {
             <button
               type="submit"
               disabled={isSubmitting}
-              className="w-full min-h-12 bg-[#B88736] hover:bg-[#8F631E] disabled:cursor-wait disabled:opacity-70 text-white font-semibold py-3 rounded-xl transition duration-200 shadow-md text-sm tracking-wide cursor-pointer border-none mt-4"
+              className="w-full min-h-12 bg-[#A99B84] hover:bg-[#817460] disabled:cursor-wait disabled:opacity-70 text-white font-semibold py-3 rounded-xl transition duration-200 shadow-md text-sm tracking-wide cursor-pointer border-none mt-4"
               id="btn-login-submit"
             >
               {isSubmitting ? <span className="flex items-center justify-center gap-2"><Loader2 size={18} className="animate-spin" /> Entrando...</span> : 'Entrar'}
