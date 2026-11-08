@@ -69,4 +69,9 @@
 - Testes: 167/168 aprovados. A única falha foi uma asserção antiga de `tests/natural-sereno-mainline.test.ts` que proibia qualquer ocorrência de `numerologyPurchased`.
 - A decisão posterior da main permite esse entitlement exclusivamente quando o plano Semestral/Anual tem escolha explícita e o pagamento é confirmado. O checkout avulso `numerology_full` continua removido.
 - Atualizada a asserção para verificar a origem restrita do entitlement e manter a proibição do produto avulso.
-- Nova execução CI aguardando após este commit.
+- Execução #1774, no head `5777147f7528e8f6a288b9069bb862df36758531`: **168/168 testes aprovados**, `npm audit` com zero vulnerabilidades, TypeScript e build aprovados. Entry points Vercel, padrões de segredo, JWT fail-closed, proteção administrativa, smoke tests e endpoints de pagamento fail-closed também passaram. A falha isolada do #1773 ficou corrigida.
+
+
+## Evidência CI
+
+- [GitHub Actions #1774 — 168/168 testes, build e verificações de segurança aprovados](https://github.com/evertonpiceni-sketch/Protocolo-de-cura-integrativa-/actions/runs/42482242935).
