@@ -4,9 +4,8 @@ import { getDb, saveDb, hasPersistentDatabase, redisCommand } from '../db.js';
 
 import { PAYMENT_PLANS, paymentQuote, specificTreatmentQuote, type Plan } from './paymentCatalog.js';
 export type PaymentOrder = { id: string; userId: string; productType?: 'subscription' | 'specific_treatment' | 'numerology_full'; planId?: Plan; treatment?: import('../types.js').SpecificTreatment; cents: number; method: string; createdAt: string; paidAt?: string; transaction?: string; checkoutUrl?: string; failedAt?: string };
-const API = 'https://api.infinitepay.io/invoices/public/checkout';
+const API = 'https://api.checkout.infinitepay.io';
 const localNumerologyCheckoutLocks = new Set<string>();
-const NUMEROLOGY_PENDING_CHECKOUT_STALE_MS = 5 * 60 * 1000;
 export function paymentRoutes(authenticate: any, limiter: any, providerFetch: typeof fetch = fetch) {
   const router = Router();
   const handle = () => process.env.INFINITEPAY_HANDLE || 'evertonterapeutareiki';
@@ -19,6 +18,24 @@ export function paymentRoutes(authenticate: any, limiter: any, providerFetch: ty
     const response = await providerFetch(API + path, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body), signal: AbortSignal.timeout(15000) });
     if (!response.ok) throw new Error('O provedor não conseguiu processar o pagamento agora.');
     return response.json();
+  }
+  function buildCheckoutPayload(order: PaymentOrder, title: string, origin: string) {
+    return {
+      handle: handle(),
+      order_nsu: order.id,
+      redirect_url: `${origin}/?payment_order=${order.id}`,
+      webhook_url: `${origin}/api/webhooks/payment`,
+      items: [{ quantity: 1, price: order.cents, description: title }]
+    };
+  }
+  async function createCheckoutUrl(order: PaymentOrder, title: string, origin: string) {
+    const result = await provider('/links', buildCheckoutPayload(order, title, origin));
+    if (!result || typeof result.url !== 'string') throw new Error('O provedor não retornou um link válido.');
+    const checkout = new URL(result.url);
+    if (checkout.protocol !== 'https:' || !['checkout.infinitepay.io', 'invoice.infinitepay.io', 'pay.infinitepay.io'].includes(checkout.hostname) || checkout.username || checkout.password) {
+      throw new Error('Endereço de pagamento inválido.');
+    }
+    return checkout.href;
   }
   const numerologyCheckoutKey = (userId: string) => `cura_integrada:numerology-checkout:${userId}`;
   async function acquireNumerologyCheckoutLock(userId: string): Promise<(() => Promise<void>) | null> {
@@ -130,21 +147,18 @@ export function paymentRoutes(authenticate: any, limiter: any, providerFetch: ty
           return res.json({ checkoutUrl: reusableOrder.checkoutUrl, orderId: reusableOrder.id, reused: true });
         }
 
-        const isStaleNoLinkOrder = (candidate: PaymentOrder) => {
-          const createdAt = Date.parse(candidate.createdAt);
-          return !Number.isFinite(createdAt) || Date.now() - createdAt >= NUMEROLOGY_PENDING_CHECKOUT_STALE_MS;
-        };
-        const stalePendingOrders = pendingOrders.filter(candidate => !candidate.checkoutUrl && isStaleNoLinkOrder(candidate));
-        if (stalePendingOrders.length) {
-          const failedAt = new Date().toISOString();
-          for (const staleOrder of stalePendingOrders) staleOrder.failedAt = failedAt;
-          await saveDb();
-          if (hasPersistentDatabase()) await redisCommand('del', [key]);
-        }
-
-        const preparingOrder = pendingOrders.find(candidate => !candidate.checkoutUrl && !isStaleNoLinkOrder(candidate));
+        const preparingOrder = pendingOrders.find(candidate => !candidate.checkoutUrl);
         if (preparingOrder) {
-          return res.status(409).json({ error: 'Já existe um checkout de Numerologia em preparação. Aguarde a conclusão antes de tentar novamente.' });
+          // Reenvia exatamente o mesmo payload com o mesmo order_nsu. A InfinitePay
+          // documenta que uma requisição idêntica pode devolver o link já criado.
+          // Assim, uma interrupção após a criação não abandona o pedido nem gera outro NSU.
+          const checkoutUrl = await createCheckoutUrl(preparingOrder, quote.title, appUrl());
+          preparingOrder.checkoutUrl = checkoutUrl;
+          await saveDb();
+          if (hasPersistentDatabase()) {
+            await redisCommand('set', [key, JSON.stringify({ orderId: preparingOrder.id, checkoutUrl }), 'ex', '86400']);
+          }
+          return res.json({ checkoutUrl, orderId: preparingOrder.id, reused: true, recovered: true });
         }
       }
 
@@ -160,20 +174,14 @@ export function paymentRoutes(authenticate: any, limiter: any, providerFetch: ty
       (db.paymentOrders ||= []).push(createdOrder);
       await saveDb();
 
-      const result = await provider('/links', { handle: handle(), order_nsu: createdOrder.id,
-        redirect_url: `${origin}/?payment_order=${createdOrder.id}`, webhook_url: `${origin}/api/webhooks/payment`,
-        items: [{ quantity: 1, price: createdOrder.cents, description: quote.title }] });
-      const checkout = new URL(result.url);
-      if (checkout.protocol !== 'https:' || !['checkout.infinitepay.io', 'invoice.infinitepay.io', 'pay.infinitepay.io'].includes(checkout.hostname) || checkout.username || checkout.password) throw new Error('Endereço de pagamento inválido.');
-
-      createdOrder.checkoutUrl = checkout.href;
+      createdOrder.checkoutUrl = await createCheckoutUrl(createdOrder, quote.title, origin);
       await saveDb();
       if (productType === 'numerology_full' && hasPersistentDatabase()) {
         await redisCommand('set', [numerologyCheckoutKey(req.userId), JSON.stringify({ orderId: createdOrder.id, checkoutUrl: checkout.href }), 'ex', '86400']);
       }
       return res.json({ checkoutUrl: checkout.href, orderId: createdOrder.id });
     } catch {
-      if (order && !order.checkoutUrl) {
+      if (order && !order.checkoutUrl && productType !== 'numerology_full') {
         order.failedAt = new Date().toISOString();
         try { await saveDb(); } catch { /* Mantém a tentativa bloqueada se a persistência falhar. */ }
       }
