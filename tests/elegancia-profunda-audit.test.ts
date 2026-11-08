@@ -232,12 +232,12 @@ test('a narração do Estilo 2 usa IDs ElevenLabs válidos e não cai na voz do 
   assert.ok(audio.includes('failWithoutNativeVoice'));
   assert.ok(app.includes('Voz neural (ElevenLabs)'));
   assert.ok(settings.includes('Voz neural (ElevenLabs)'));
-  assert.ok(home.includes('const requiresNeuralVoice = isNaturalSereno || isEleganciaProfunda || isEssenciaLuminosa;'));
+  assert.ok(home.includes('const requiresNeuralVoice = isNaturalSereno || isEleganciaProfunda || isEssenciaLuminosa || isMisticoModerno;'));
   assert.ok(home.includes('fallbackToSpeechSynthesis: !requiresNeuralVoice'));
   assert.ok(session.includes("activeLayout === 'elegancia-profunda' && !style2VoiceId"));
   assert.ok(anamnesis.includes('fallbackToSpeechSynthesis: false'));
-  assert.ok(hooponopono.includes('fallbackToSpeechSynthesis: !(isEleganciaProfunda || isEssenciaLuminosa)'));
-  assert.ok(arcanjo.includes('requireExplicitVoiceId: isEleganciaProfunda || isEssenciaLuminosa'));
+  assert.ok(hooponopono.includes('fallbackToSpeechSynthesis: !(isEleganciaProfunda || isEssenciaLuminosa || isMisticoModerno)'));
+  assert.ok(arcanjo.includes('requireExplicitVoiceId: isEleganciaProfunda || isEssenciaLuminosa || isMisticoModerno'));
   assert.ok(audio.includes('requireExplicitVoiceId?: boolean'));
   assert.ok(audio.includes('if (options.requireExplicitVoiceId && !isElevenLabsVoiceId(options.voiceId))'));
   assert.ok(systemic.includes('fallbackToSpeechSynthesis: false'));
