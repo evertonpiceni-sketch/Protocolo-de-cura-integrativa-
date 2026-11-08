@@ -569,7 +569,7 @@ test('a camada aprovada da Elegância Profunda vence a cascata de todas as folha
   const approvedImportLine = "import './elegancia-profunda-approved-overrides.css';";
   const approvedImport = main.indexOf(approvedImportLine);
   const style2AuditImports = main
-    .split('\\n')
+    .split('\n')
     .filter(line => line.startsWith("import './elegancia-profunda-") && !line.includes('approved-overrides'));
   const lastStyle2AuditImport = Math.max(...style2AuditImports.map(line => main.indexOf(line)));
   const naturalApproved = main.indexOf("import './natural-sereno-approved-overrides.css';");
@@ -579,5 +579,5 @@ test('a camada aprovada da Elegância Profunda vence a cascata de todas as folha
   assert.ok(approvedImport > lastStyle2AuditImport, 'A camada aprovada do Estilo 2 precisa vir depois de todas as suas folhas de auditoria.');
   assert.ok(approvedImport > naturalApproved && approvedImport > luminousApproved, 'A camada aprovada do Estilo 2 deve ser a última folha CSS de tema.');
   assert.ok(errorBoundary > approvedImport, 'Nenhuma folha CSS deve ser importada depois da camada aprovada.');
-  assert.equal((main.match(/import '\\.\/elegancia-profunda-approved-overrides\\.css';/g) || []).length, 1);
+  assert.equal(main.split(approvedImportLine).length - 1, 1);
 });
