@@ -65,6 +65,7 @@ test('Semestral e Anual exigem escolha explícita e o servidor registra somente 
   const server = fs.readFileSync('server.ts', 'utf8');
   const css = fs.readFileSync('src/essencia-luminosa-final-audit.css', 'utf8');
   assert.ok(checkout.includes('requiresBenefitChoice && !benefitChoice'));
+  assert.ok(checkout.includes('if (isOpen) {\n      setBenefitChoice(null);'));
   assert.ok(checkout.includes('data-benefit-choice="astral_map"'));
   assert.ok(checkout.includes('data-benefit-choice="numerology"'));
   assert.ok(app.includes('benefitChoice'));

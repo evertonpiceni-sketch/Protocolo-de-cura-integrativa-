@@ -132,6 +132,12 @@ export default function ProUpgradeModal({ isOpen, initialPlanId, onClose, onUpgr
   useEffect(() => {
     if (selectedId !== 'semestral' && selectedId !== 'anual') setBenefitChoice(null);
   }, [selectedId]);
+  useEffect(() => {
+    if (isOpen) {
+      setBenefitChoice(null);
+      setCheckoutError(null);
+    }
+  }, [isOpen, initialPlanId]);
 
   const selectedPlan = PLANS.find(plan => plan.id === selectedId) || PLANS.find(plan => plan.id === 'trimestral') || PLANS[0];
   const couponRule = appliedCoupon ? COUPONS[appliedCoupon] : undefined;
