@@ -142,3 +142,26 @@ test('o acesso permanece neutro até a escolha explícita e o Natural Sereno nã
   assert.ok(css.includes('.ep-care-onboarding-card .ep-brand-signature'));
   assert.ok(main.indexOf("import './natural-sereno-approved-overrides.css';") > main.indexOf("import './natural-sereno.css';"));
 });
+
+test('tokens compartilhados do Natural Sereno usam marfim, café, dourado refinado e sálvia', () => {
+  const theme = read('src/approved-theme.css');
+  const match = theme.match(/:root\\[data-layout="natural-sereno"\\]\\{([\\s\\S]*?)\\n\\}/);
+  assert.ok(match, 'bloco de tokens exclusivo do Natural Sereno ausente');
+  const tokens = match[1];
+  for (const approved of [
+    '--layout-canvas:#FAF7F2;',
+    '--layout-canvas-alt:#E8E0D5;',
+    '--layout-accent:#6F7B55;',
+    '--layout-accent-light:#8A9670;',
+    '--layout-gold:#C89D52;',
+    '--layout-gold-light:#E2B96B;',
+    '--layout-gold-dark:#A87E37;',
+    '--layout-text:#2A2421;',
+    '--layout-text-secondary:#6B625B;',
+    '--layout-text-muted:#85786C;'
+  ]) {
+    assert.ok(tokens.includes(approved), `token Natural Sereno divergente: ${approved}`);
+  }
+  assert.ok(!tokens.includes('#2D4A3E'), 'não pode reintroduzir verde-floresta como acento estrutural');
+  assert.ok(!tokens.includes('#202D24'), 'o texto estrutural deve permanecer café, não verde');
+});
