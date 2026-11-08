@@ -28,7 +28,6 @@ import './mistico-moderno-video-studio-audit.css';
 import './mistico-moderno-bottom-nav-audit.css';
 import './mistico-moderno-mobile-install-audit.css';
 import './mistico-moderno-audio-settings-audit.css';
-import './essencia-luminosa-approved-overrides.css';
 import './elegancia-profunda-approved-overrides.css';
 import './elegancia-profunda-modal-audit.css';
 import './elegancia-profunda-anamnesis-audit.css';
@@ -95,6 +94,9 @@ import './natural-sereno-legacy-green-audit.css';
 // Keep this import last among Natural Sereno theme CSS so discarded green/amber/indigo
 // inheritance cannot regain precedence through cascade order.
 import './natural-sereno-approved-overrides.css';
+// Latest approved Essência Luminosa decisions must win over every older Style 3 audit layer.
+// Keep this scoped override last so later component/audit CSS cannot revive discarded inheritance.
+import './essencia-luminosa-approved-overrides.css';
 import { ErrorBoundary } from './ErrorBoundary.tsx';
 
 createRoot(document.getElementById('root')!).render(
