@@ -178,3 +178,15 @@ test('Natural Sereno neutraliza os últimos acentos verdes saturados e amarelos 
   assert.ok(css.includes('#C89D52'));
   assert.ok(css.includes('#FAF7F2'));
 });
+
+
+test('Natural Sereno mobile player não conserva overlays verde-floresta legados', () => {
+  const mobile = read('src/natural-sereno-mobile-fixes.css');
+  const approved = read('src/natural-sereno-approved-overrides.css');
+
+  assert.ok(!/rgba\\(\\s*(?:3\\s*,\\s*26\\s*,\\s*19|5\\s*,\\s*38\\s*,\\s*28)/i.test(mobile));
+  assert.ok(mobile.includes('rgba(250,247,242,.90)'));
+  assert.ok(mobile.includes('rgba(250,247,242,.86)'));
+  assert.ok(mobile.includes('rgba(250,247,242,.94)'));
+  assert.ok(approved.includes('/* Player: fotografia continua visível, mas sem véu verde-floresta herdado. */'));
+});
