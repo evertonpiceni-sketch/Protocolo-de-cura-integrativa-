@@ -8,7 +8,7 @@
 
 ### Identidade visual e superfícies
 - Removidos os dois últimos resíduos identificados na Home: sombra com tonalidade verde-escura e contorno amarelo-pálido do cartão do dia. Ambos agora usam café/marrom e dourado refinado.
-- Varredura estática de 152 regras em `natural-sereno-approved-overrides.css` e 23 regras em `natural-sereno-home-surface-audit.css`: 175/175 regras permanecem escopadas a `data-layout="natural-sereno"`; nenhum seletor global foi encontrado.
+- Varredura estática de 152 regras em `natural-sereno-approved-overrides.css` e 23 regras em `natural-sereno-home-surface-audit.css`: 175/175 regras permanecem escopadas a `data-layout="natural-sereno"`; nenhum seletor global foi encontrado. As 327 declarações CSS verificadas não contêm valores verde-floresta ou amarelo-pálido como cor de saída.
 - Referências hexadecimais verde/amarelo que ainda aparecem no override são somente seletores de classes legadas que precisam ser capturadas e remapeadas; os valores de saída dessas regras são creme/marfim, café, dourado ou sálvia.
 - Home mantém fotografia de natureza realista, `cover` e recortes próprios: desktop em 52%, mobile em 54%. O card do seletor continua ligado à prancha versionada `docs/visual-qa/natural-sereno/reference.jpg`; a imagem de natureza da prévia usa `/brand/natural-sereno/vale-amanhecer.webp`.
 - Botões principais da Home e confirmação do Natural Sereno mantêm acabamento retangular premium de 18 px. A escolha de outro estilo não recebe essa alteração.
@@ -41,7 +41,7 @@
 
 ## Validação concluída
 
-GitHub Actions — **Security Audit #1582**, execução `42435877934`, commit `86e9baa809821fb6ea9b73393e4a037361d64ea6`:
+GitHub Actions — **Security Audit #1583**, execução `42435999026`, commit `540e4316d0c5f0a3a256e84e44a899b648cdfb43`:
 - `npm audit`: **0 vulnerabilidades**.
 - TypeScript: aprovado.
 - Testes: **120/120 aprovados**.
