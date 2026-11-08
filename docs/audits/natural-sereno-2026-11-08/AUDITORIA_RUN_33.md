@@ -13,10 +13,13 @@
 - Nenhuma versão antiga das PRs #64/#65 ou da branch divergente #66 foi usada como base.
 
 ### InfinitePay — bloqueio de links simultâneos
+- Corrigido também o achado P1 de concorrência entre instâncias Vercel: após adquirir o lock Redis, a rota agora recarrega o snapshot persistente antes de consultar pedidos pendentes.
+- A renovação/validação do lock é repetida após a leitura remota; falha de Redis interrompe o checkout em modo fail-closed, sem chamar o provedor.
+- Isso impede que uma instância aquecida deduplique usando uma cópia antiga e sobrescreva o pedido criado pela instância anterior.
 - Corrigido o achado P1 da revisão independente: uma assinatura pendente de um plano agora impede criar um segundo link para outro plano.
 - O mesmo plano reutiliza o link único já existente.
 - Pedidos legados sem `productType`, mas com `planId`, também são reconhecidos como assinaturas pendentes e não podem ser contornados.
-- Adicionados testes de regressão para plano diferente, repetição do mesmo plano e registro legado.
+- Adicionados testes de regressão para plano diferente, repetição do mesmo plano, registro legado e atualização do snapshot Redis sob o lock.
 - Mantidos lock Redis distribuído, persistência do payload original, recuperação idempotente e `single_payment: true`.
 
 ### Heranças visuais finais identificadas e neutralizadas

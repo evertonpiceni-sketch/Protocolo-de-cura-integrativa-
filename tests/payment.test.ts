@@ -175,3 +175,13 @@ test('checkout binds account, validates provider confirmation and grants only on
     await new Promise<void>(r => server.close(() => r())); process.chdir(cwd); fs.rmSync(folder, { recursive: true, force: true });
   }
 });
+
+
+test('checkout atualiza o snapshot Redis depois do lock e antes de deduplicar pedidos', () => {
+  const routes = fs.readFileSync('src/lib/paymentRoutes.ts', 'utf8');
+  const checkoutRoute = routes.slice(routes.indexOf("router.post('/payment/create-checkout'"));
+  const lock = checkoutRoute.indexOf('await acquireCheckoutCreationLock');
+  const refresh = checkoutRoute.indexOf('await refreshDbFromPersistentStorage()');
+  const pending = checkoutRoute.indexOf('const pendingStandardOrders');
+  assert.ok(lock >= 0 && refresh > lock && pending > refresh, 'a deduplicação deve usar o snapshot lido sob o lock');
+});

@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import crypto from 'node:crypto';
-import { getDb, saveDb, hasPersistentDatabase, redisCommand } from '../db.js';
+import { getDb, saveDb, hasPersistentDatabase, redisCommand, refreshDbFromPersistentStorage } from '../db.js';
 
 import { PAYMENT_PLANS, paymentQuote, specificTreatmentQuote, type Plan } from './paymentCatalog.js';
 export type InfinitePayCheckoutPayload = {
@@ -193,6 +193,10 @@ export function paymentRoutes(authenticate: any, limiter: any, providerFetch: ty
       {
         releaseStandardCheckoutLock = await acquireCheckoutCreationLock(`standard:${req.userId}:${productType}`);
         if (!releaseStandardCheckoutLock) return res.status(409).json({ error: 'Já existe uma tentativa de checkout em andamento. Aguarde alguns segundos e tente novamente.' });
+        await releaseStandardCheckoutLock.assertHeld();
+        // Cada instância Vercel pode ter um snapshot local antigo. Recarrega o estado compartilhado
+        // enquanto o lock está ativo antes de deduplicar ou gravar qualquer pedido.
+        await refreshDbFromPersistentStorage();
         await releaseStandardCheckoutLock.assertHeld();
 
         const db = getDb();
