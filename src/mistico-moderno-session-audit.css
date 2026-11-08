@@ -61,3 +61,34 @@
   border:1px solid rgba(244,211,139,.5)!important;
   box-shadow:0 10px 28px rgba(197,155,77,.18)!important;
 }
+
+
+/* Místico Moderno — remove o véu claro legado do player e mantém superfícies noturnas. */
+:root[data-layout="mistico-moderno"] #meditation-session .ep-session-light-overlay{
+  background:
+    radial-gradient(circle at 50% 42%,rgba(108,63,160,.10),transparent 42%),
+    linear-gradient(180deg,rgba(10,15,24,.08),rgba(8,11,22,.88))!important;
+  opacity:.78!important;
+}
+:root[data-layout="mistico-moderno"] #meditation-session .ep-session-mantra{
+  background:linear-gradient(145deg,rgba(20,31,48,.92),rgba(10,15,24,.92))!important;
+  border-color:rgba(108,63,160,.34)!important;
+  color:#D8D1C5!important;
+  box-shadow:0 14px 32px rgba(0,0,0,.24)!important;
+}
+:root[data-layout="mistico-moderno"] #meditation-session .ep-stage-subtitle,
+:root[data-layout="mistico-moderno"] #meditation-session .ep-breathing-guide span{
+  color:#B9C2D0!important;
+}
+:root[data-layout="mistico-moderno"] #meditation-session .ep-breathing-guide>div:first-child{
+  border-color:rgba(212,175,55,.30)!important;
+  background:radial-gradient(circle,rgba(108,63,160,.18),rgba(10,15,24,0) 72%)!important;
+  box-shadow:0 0 34px rgba(108,63,160,.12)!important;
+}
+@media (prefers-reduced-motion:reduce){
+  :root[data-layout="mistico-moderno"] #meditation-session :is(.animate-pulse,.transition-all,.transition-opacity){
+    animation:none!important;
+    transition-duration:.01ms!important;
+    transition-delay:0ms!important;
+  }
+}
