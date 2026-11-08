@@ -190,7 +190,7 @@
 
 :root[data-layout="elegancia-profunda"] #audio-settings-modal input[type="range"] {
   accent-color: #e2b96b !important;
-  background-color: rgba(212, 175, 119, .18) !important;
+  background: rgba(212, 175, 119, .18) !important;
 }
 
 :root[data-layout="elegancia-profunda"] #audio-settings-modal :is(h1, h2, h3, h4, label, strong) {
