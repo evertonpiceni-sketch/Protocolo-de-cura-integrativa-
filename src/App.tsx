@@ -492,14 +492,14 @@ export default function App() {
   };
 
   // Save profile state whenever it changes
-  const saveProfile = (newProfile: UserProfile) => {
+  const saveProfile = (newProfile: UserProfile, progressOverride: DayProgress[] = progress) => {
     setUserProfile(newProfile);
-    updateLocalAccountCache(newProfile, progress);
+    updateLocalAccountCache(newProfile, progressOverride);
     if (isLoggedIn) {
       fetch('/api/user/sync', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ profile: newProfile, progress })
+        body: JSON.stringify({ profile: newProfile, progress: progressOverride })
       }).then(response => {
         if (!response.ok) throw new Error(`Profile sync failed (HTTP ${response.status})`);
       }).catch(error => console.error('Profile sync failed; changes may only be saved locally', error));
@@ -768,7 +768,7 @@ export default function App() {
         ...userProfile,
         unlockedAchievements: unlocked.unlockedIds
       };
-      saveProfile(updatedProfile);
+      saveProfile(updatedProfile, updatedProgress);
     }
   };
 
@@ -795,7 +795,7 @@ export default function App() {
         ...userProfile,
         unlockedAchievements: unlocked.unlockedIds
       };
-      saveProfile(updatedProfile);
+      saveProfile(updatedProfile, updatedProgress);
     }
   };
 
