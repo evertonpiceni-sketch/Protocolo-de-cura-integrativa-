@@ -164,7 +164,7 @@ export default function LayoutChoiceModal({ onSelect }: LayoutChoiceModalProps) 
     >
       <section className="my-2 w-full max-w-4xl rounded-[2rem] border border-[#E5DAC6] bg-[#FBF8F2] p-5 shadow-2xl sm:p-7">
         <div className="mx-auto max-w-xl text-center">
-          <p className="text-xs font-semibold uppercase tracking-[.2em] text-[#817460]">4 estilos, uma mesma essência</p>
+          <p className="text-xs font-semibold uppercase tracking-[.2em] text-[#B88736]">4 estilos, uma mesma essência</p>
           <h2 id="layout-choice-title" className="mt-2 font-display text-3xl text-[#2A2420]">Escolha o que mais toca você</h2>
           <p className="mt-2 text-sm leading-relaxed text-[#5C5248]">
             Veja a prévia de cada atmosfera, selecione uma opção e confirme. A jornada, os conteúdos e seus dados permanecem iguais.
@@ -224,7 +224,7 @@ export default function LayoutChoiceModal({ onSelect }: LayoutChoiceModalProps) 
             type="button"
             disabled={!selectedLayout || isSaving}
             onClick={confirmSelection}
-            className={`min-h-12 w-full max-w-sm rounded-full ${selectedLayout === 'essencia-luminosa' ? 'bg-gradient-to-r from-[#D8C59B] via-[#C6A46A] to-[#E9DCC4] focus-visible:ring-[#C6A46A]/40' : 'bg-gradient-to-r from-[#C89D52] via-[#D9B66D] to-[#A87E37] focus-visible:ring-[#B88736]/40'} px-6 py-3 text-sm font-bold uppercase tracking-[.12em] text-[#2A2420] shadow-lg transition hover:-translate-y-0.5 hover:shadow-xl disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:translate-y-0 disabled:hover:shadow-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2`}
+            className={`min-h-12 w-full max-w-sm ${selectedLayout === 'natural-sereno' ? 'rounded-2xl' : 'rounded-full'} ${selectedLayout === 'essencia-luminosa' ? 'bg-gradient-to-r from-[#D8C59B] via-[#C6A46A] to-[#E9DCC4] focus-visible:ring-[#C6A46A]/40' : 'bg-gradient-to-r from-[#C89D52] via-[#D9B66D] to-[#A87E37] focus-visible:ring-[#B88736]/40'} px-6 py-3 text-sm font-bold uppercase tracking-[.12em] text-[#2A2420] shadow-lg transition hover:-translate-y-0.5 hover:shadow-xl disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:translate-y-0 disabled:hover:shadow-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2`}
           >
             {isSaving ? 'Salvando escolha…' : selectedDefinition ? `Confirmar ${selectedDefinition.name}` : 'Selecione um estilo'}
           </button>
