@@ -71,7 +71,7 @@ test('o protocolo não reinicia Solfeggio como trilha de fundo', () => {
 test('o player usa ouro suave e sálvia nas animações da Essência Luminosa', () => {
   const session = fs.readFileSync('src/components/MeditationSession.tsx', 'utf8');
   const canvas = fs.readFileSync('src/components/session/SacredEnergyCanvas.tsx', 'utf8');
-  assert.ok(session.includes("colorTheme={isNaturalSereno ? NATURAL_SERENO_CANVAS_THEME : isEleganciaProfunda ? ELEGANCIA_PROFUNDA_CANVAS_THEME : isEssenciaLuminosa ? ESSENCIA_LUMINOSA_CANVAS_THEME : undefined}"));
+  assert.ok(session.includes("colorTheme={isEleganciaProfunda ? ELEGANCIA_PROFUNDA_CANVAS_THEME : isEssenciaLuminosa ? ESSENCIA_LUMINOSA_CANVAS_THEME : undefined}"));
   assert.ok(session.includes("'essencia-luminosa'].includes(activeLayout || '')"));
   assert.ok(canvas.includes('const palette = colorTheme ?'));
   assert.ok(canvas.includes('rgba(198, 164, 106'));
@@ -686,4 +686,36 @@ test('contato flutuante não herda verde esmeralda no Estilo 3', () => {
   assert.ok(rule.includes('#floating-whatsapp-btn svg'));
   assert.ok(rule.includes('fill:transparent!important;'));
   assert.ok(!/data-layout="(natural-sereno|elegancia-profunda|mistico-moderno)"/.test(rule));
+});
+
+
+test('o logo no acolhimento da Essência Luminosa permanece assinatura transparente, sem disco ou moldura', () => {
+  const css = fs.readFileSync('src/essencia-luminosa-onboarding-audit.css', 'utf8');
+  const wrapperStart = css.indexOf(':root[data-layout="essencia-luminosa"] .ep-care-onboarding-card .ep-brand-signature-wrap');
+  assert.ok(wrapperStart >= 0, 'O wrapper do logo no acolhimento precisa de regra específica.');
+  const wrapperRule = css.slice(wrapperStart, css.indexOf('}', wrapperStart));
+  assert.ok(wrapperRule.includes('background: transparent !important;'));
+  assert.ok(wrapperRule.includes('border: 0 !important;'));
+  assert.ok(wrapperRule.includes('border-color: transparent !important;'));
+  assert.ok(wrapperRule.includes('box-shadow: none !important;'));
+  const logoStart = css.indexOf(':root[data-layout="essencia-luminosa"] .ep-care-onboarding-card .ep-brand-signature {');
+  assert.ok(logoStart >= 0);
+  assert.ok(css.slice(logoStart, css.indexOf('}', logoStart)).includes('opacity: .30 !important;'));
+});
+
+test('as quatro frases do Ho’oponopono usam apenas os acentos aprovados na Essência Luminosa', () => {
+  const component = fs.readFileSync('src/components/HooponoponoModal.tsx', 'utf8');
+  const css = fs.readFileSync('src/essencia-luminosa-hooponopono-audit.css', 'utf8');
+  const main = fs.readFileSync('src/main.tsx', 'utf8');
+  assert.ok(main.includes("import './essencia-luminosa-hooponopono-audit.css';"));
+  assert.ok(component.includes('data-phrase-tone={index}'));
+  for (const index of [0, 1, 2, 3]) {
+    assert.ok(css.includes(`#hooponopono-modal [data-phrase-tone="${index}"] strong`));
+  }
+  assert.ok(css.includes('var(--layout-gold-dark)'));
+  assert.ok(css.includes('var(--layout-accent)'));
+  assert.ok(css.includes('var(--layout-text-secondary)'));
+  assert.ok(!css.includes(':root[data-layout="natural-sereno"]'));
+  assert.ok(!css.includes(':root[data-layout="elegancia-profunda"]'));
+  assert.ok(!css.includes(':root[data-layout="mistico-moderno"]'));
 });
