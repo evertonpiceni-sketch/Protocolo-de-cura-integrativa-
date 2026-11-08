@@ -20,8 +20,8 @@ test('o seletor exige escolha explícita antes de aplicar qualquer estilo', () =
 
 test('a assinatura oficial permanece em 30% e sem fundo, moldura ou sombra no Estilo 2', () => {
   const css = read('src/elegancia-profunda-approved-overrides.css');
-  const logoRule = css.match(/:root\\[data-layout="elegancia-profunda"\\] \\.ep-brand-signature,[\\s\\S]*?\\{([^}]+)\\}/)?.[1] ?? '';
-  const wrapperRule = css.match(/:root\\[data-layout="elegancia-profunda"\\] \\.ep-brand-signature-wrap\\s*\\{([^}]+)\\}/)?.[1] ?? '';
+  const logoRule = css.match(/:root\[data-layout="elegancia-profunda"\] \.ep-brand-signature,[\s\S]*?\{([^}]+)\}/)?.[1] ?? '';
+  const wrapperRule = css.match(/:root\[data-layout="elegancia-profunda"\] \.ep-brand-signature-wrap\s*\{([^}]+)\}/)?.[1] ?? '';
 
   assert.ok(logoRule.includes('opacity:.30 !important;'));
   assert.ok(wrapperRule.includes('background:transparent!important;'));
@@ -36,13 +36,13 @@ test('o CTA estrutural do vídeo usa ouro e o estado mudo não herda rosa no Est
   assert.ok(component.includes('bg-emerald-600 hover:bg-emerald-500 text-white'));
   assert.ok(component.includes('bg-rose-500/10 border-rose-500/30 text-rose-400'));
 
-  const goldCtaRule = css.match(/:root\\[data-layout="elegancia-profunda"\\] #promo-video-modal button\\[class\\*="bg-emerald-600"\\]\\s*\\{([^}]+)\\}/)?.[1] ?? '';
+  const goldCtaRule = css.match(/:root\[data-layout="elegancia-profunda"\] #promo-video-modal button\[class\*="bg-emerald-600"\]\s*\{([^}]+)\}/)?.[1] ?? '';
   assert.ok(goldCtaRule.includes('linear-gradient'));
   assert.ok(goldCtaRule.includes('var(--layout-gold)'));
   assert.ok(!/emerald|rose/i.test(goldCtaRule));
   assert.ok(css.includes('button[class*="bg-emerald-600"]:hover'));
 
-  const mutedRule = css.match(/:root\\[data-layout="elegancia-profunda"\\] #promo-video-modal button\\[class\\*="bg-rose-500"\\]\\s*\\{([^}]+)\\}/)?.[1] ?? '';
+  const mutedRule = css.match(/:root\[data-layout="elegancia-profunda"\] #promo-video-modal button\[class\*="bg-rose-500"\]\s*\{([^}]+)\}/)?.[1] ?? '';
   assert.ok(mutedRule.includes('var(--layout-card)'));
   assert.ok(mutedRule.includes('var(--layout-gold)'));
   assert.ok(!/rose|pink/i.test(mutedRule));
@@ -60,7 +60,7 @@ test('as 21 folhas CSS ativas do Estilo 2 permanecem isoladas e a folha legada n
     const file = entry.match(/'\.\/(.+)'/)?.[1];
     assert.ok(file);
     const css = read(`src/${file}`);
-    const selectors = [...css.matchAll(/([^{}]+)\\{/g)]
+    const selectors = [...css.matchAll(/([^{}]+)\{/g)]
       .map(match => match[1].trim())
       .filter(selector => selector && !selector.startsWith('@') && !selector.startsWith('/*'));
     const unscoped = selectors.filter(selector => !selector.includes('data-layout="elegancia-profunda"'));
