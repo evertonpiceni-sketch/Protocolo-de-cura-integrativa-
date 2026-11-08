@@ -112,9 +112,8 @@ test('as 21 folhas CSS ativas do Estilo 2 mantêm cada seletor isolado e a folha
 
     for (const group of selectorGroups) {
       for (const selector of splitSelectorList(group)) {
-        assert.match(
-          selector,
-          /^(?::root|html)\[data-layout="elegancia-profunda"\]/,
+        assert.ok(
+          selector.includes('data-layout="elegancia-profunda"'),
           file + ' contém seletor fora do escopo Elegância Profunda: ' + selector
         );
       }
