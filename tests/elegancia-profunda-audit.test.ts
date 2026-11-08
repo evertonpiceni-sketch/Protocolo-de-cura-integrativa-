@@ -564,7 +564,7 @@ test('os Ajustes de Áudio do Estilo 2 usam verde profundo, champagne e marfim',
 });
 
 
-test('a camada aprovada da Elegância Profunda vence a cascata de todas as folhas de tema', () => {
+test('a camada aprovada da Elegância Profunda sucede suas auditorias e permanece isolada da camada final do Estilo 3', () => {
   const main = read('src/main.tsx');
   const approvedImportLine = "import './elegancia-profunda-approved-overrides.css';";
   const approvedImport = main.indexOf(approvedImportLine);
@@ -575,9 +575,14 @@ test('a camada aprovada da Elegância Profunda vence a cascata de todas as folha
   const naturalApproved = main.indexOf("import './natural-sereno-approved-overrides.css';");
   const luminousApproved = main.indexOf("import './essencia-luminosa-approved-overrides.css';");
   const errorBoundary = main.indexOf("import { ErrorBoundary");
+  const style2Overrides = read('src/elegancia-profunda-approved-overrides.css');
+  const style3Overrides = read('src/essencia-luminosa-approved-overrides.css');
 
   assert.ok(approvedImport > lastStyle2AuditImport, 'A camada aprovada do Estilo 2 precisa vir depois de todas as suas folhas de auditoria.');
-  assert.ok(approvedImport > naturalApproved && approvedImport > luminousApproved, 'A camada aprovada do Estilo 2 deve ser a última folha CSS de tema.');
-  assert.ok(errorBoundary > approvedImport, 'Nenhuma folha CSS deve ser importada depois da camada aprovada.');
+  assert.ok(approvedImport > naturalApproved, 'A camada aprovada do Estilo 2 deve suceder a camada final do Estilo 1.');
+  assert.ok(luminousApproved > approvedImport, 'A camada final do Estilo 3 deve vir depois, sem alterar o escopo do Estilo 2.');
+  assert.ok(errorBoundary > luminousApproved, 'Nenhuma folha CSS deve ser importada depois da camada final do Estilo 3.');
+  assert.ok(!style2Overrides.includes(':root[data-layout="essencia-luminosa"]'), 'O override do Estilo 2 não pode atingir o Estilo 3.');
+  assert.ok(!style3Overrides.includes(':root[data-layout="elegancia-profunda"]'), 'O override do Estilo 3 não pode atingir o Estilo 2.');
   assert.equal(main.split(approvedImportLine).length - 1, 1);
 });
