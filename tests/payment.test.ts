@@ -71,6 +71,10 @@ test('checkout binds account, validates provider confirmation and grants only on
   const provider = async (url: any, options: any) => {
     const body = JSON.parse(options.body);
     calls.push({ url, body, headers: options.headers });
+    if (String(url).endsWith('/links')) {
+      const persistedOrder = db.paymentOrders?.find(order => order.id === body.order_nsu);
+      assert.deepEqual(persistedOrder?.checkoutPayload, body, 'o payload é persistido antes da primeira chamada ao provedor');
+    }
     if (String(url).endsWith('/links') && body.items?.[0]?.description === 'Mapa Numerológico Cabalístico Completo') {
       if (failNextNumerologyLink) {
         failNextNumerologyLink = false;
