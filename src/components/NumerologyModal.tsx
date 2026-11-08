@@ -7,8 +7,7 @@ import { useDialogFocus } from '../hooks/useDialogFocus';
 import React, { useRef, useState } from 'react';
 import { motion } from 'motion/react';
 import {
-  Sparkles, X, Hash, Heart, Shield, Crown, CheckCircle2,
-  QrCode, CreditCard, Award, Printer, Lock,
+  Sparkles, X, Hash, Heart, Shield, Crown, Award, Printer, Lock,
   Sun, Compass, Star, Eye, Zap, MessageSquare
 } from 'lucide-react';
 import { UserProfile, NumerologyData } from '../types';
@@ -18,7 +17,6 @@ interface NumerologyModalProps {
   isOpen: boolean;
   onClose: () => void;
   userProfile: UserProfile;
-  onSaveProfile?: (updatedProfile: UserProfile) => void;
   onOpenProModal?: () => void;
   onOpenContact?: () => void;
 }
@@ -29,18 +27,14 @@ export default function NumerologyModal({
   isOpen,
   onClose,
   userProfile,
-  onSaveProfile,
   onOpenProModal,
   onOpenContact
 }: NumerologyModalProps) {
   const printRef = useRef<HTMLDivElement>(null);
   const [activeTab, setActiveTab] = useState<NumerologyTab>('compact');
-  const [selectedPaymentMethod, setSelectedPaymentMethod] = useState<'pix' | 'card'>('pix');
-  const [isCheckoutProcessing, setIsCheckoutProcessing] = useState(false);
-  const [checkoutError, setCheckoutError] = useState<string | null>(null);
 
   const dialogRef = React.useRef<HTMLDivElement | null>(null);
-  useDialogFocus(isOpen && document.documentElement.dataset.layout === 'natural-sereno', dialogRef, onClose);
+  useDialogFocus(isOpen, dialogRef, onClose);
 
   if (!isOpen) return null;
 
@@ -49,46 +43,12 @@ export default function NumerologyModal({
     userProfile.birthDate
   );
 
-  const isPro = userProfile.plan === 'pro';
-  const isFullUnlocked = isPro || Boolean(userProfile.numerologyPurchased);
+  // Acesso completo exige o benefício de Numerologia explicitamente confirmado na conta.
+  const isFullUnlocked = Boolean(userProfile.numerologyPurchased);
 
   const handlePrint = () => {
     if (!isFullUnlocked) return;
     window.print();
-  };
-
-  const handleConfirmPurchase = async () => {
-    if (isCheckoutProcessing) return;
-    setCheckoutError(null);
-    setIsCheckoutProcessing(true);
-    try {
-      const response = await fetch('/api/payment/create-checkout', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        credentials: 'same-origin',
-        body: JSON.stringify({
-          productType: 'numerology_full',
-          paymentMethod: selectedPaymentMethod,
-          price: 90
-        })
-      });
-      const data = await response.json().catch(() => ({}));
-      if (!response.ok) throw new Error(data.error || 'Pagamento ainda não está disponível.');
-      if (data.checkoutUrl) {
-        window.location.assign(data.checkoutUrl);
-        return;
-      }
-      if (data.status === 'paid' && data.user?.profile?.numerologyPurchased) {
-        onSaveProfile?.(data.user.profile);
-        setActiveTab('complete');
-        return;
-      }
-      throw new Error('Aguardando confirmação segura do pagamento.');
-    } catch (error) {
-      setCheckoutError(error instanceof Error ? error.message : 'Não foi possível iniciar o pagamento.');
-    } finally {
-      setIsCheckoutProcessing(false);
-    }
   };
 
   const selectComplete = () => setActiveTab(isFullUnlocked ? 'complete' : 'payment');
@@ -129,7 +89,7 @@ export default function NumerologyModal({
           <button role="tab" aria-selected={activeTab === 'compact'} onClick={() => setActiveTab('compact')} className={tabClass(activeTab === 'compact')}><Sparkles size={13} className="text-[#B88736]" /><span>Versão Compacta</span></button>
           <button role="tab" aria-selected={activeTab === 'complete' || activeTab === 'payment'} onClick={selectComplete} className={tabClass(activeTab === 'complete' || activeTab === 'payment')}>
             {isFullUnlocked ? <Crown size={13} className="text-[#B88736]" /> : <Lock size={13} className="text-[#B88736]" />}
-            <span>Versão Completa (R$ 90,00)</span>
+            <span>Versão Completa</span>
           </button>
         </div>
 
@@ -150,7 +110,7 @@ export default function NumerologyModal({
 
               {!isFullUnlocked && (
                 <div className="p-5 rounded-3xl bg-[#F5EFE4] border border-[#B88736]/40 shadow-sm flex flex-col sm:flex-row items-center justify-between gap-4">
-                  <div className="space-y-1 text-center sm:text-left"><div className="flex items-center justify-center sm:justify-start gap-2"><Crown size={16} className="text-[#B88736]" /><span className="text-xs font-mono uppercase tracking-widest text-[#8F631E] font-bold">Versão completa</span></div><h4 className="text-base font-display font-medium text-[#2A2420]">Mapa Numerológico Cabalístico Completo</h4><p className="text-xs text-[#5C5248] max-w-lg">Inclui Expressão, Personalidade, Lições Cármicas, Ano Pessoal, cristais, cores e demais leituras previstas no mapa completo. O acesso individual é de <strong>R$ 90,00</strong> ou conforme seu entitlement PRO confirmado pelo servidor.</p></div>
+                  <div className="space-y-1 text-center sm:text-left"><div className="flex items-center justify-center sm:justify-start gap-2"><Crown size={16} className="text-[#B88736]" /><span className="text-xs font-mono uppercase tracking-widest text-[#8F631E] font-bold">Versão completa</span></div><h4 className="text-base font-display font-medium text-[#2A2420]">Mapa Numerológico Cabalístico Completo</h4><p className="text-xs text-[#5C5248] max-w-lg">Inclui Expressão, Personalidade, Lições Cármicas, Ano Pessoal, cristais, cores e demais leituras previstas no mapa completo. O acesso individual é de <strong></strong> ou conforme seu entitlement PRO confirmado pelo servidor.</p></div>
                   <button type="button" onClick={() => setActiveTab('payment')} className="min-h-11 px-5 py-3 rounded-xl bg-[#B88736] hover:bg-[#8F631E] text-white font-bold text-xs flex items-center gap-2 transition cursor-pointer shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B88736]/35"><Crown size={14} /><span>Ver opções de acesso</span></button>
                 </div>
               )}
@@ -211,30 +171,30 @@ export default function NumerologyModal({
 
           {activeTab === 'payment' && !isFullUnlocked && (
             <div className="space-y-5" role="tabpanel">
-              <div className="p-5 rounded-3xl bg-white border border-amber-300 space-y-4">
-                <div className="flex items-center justify-between gap-3 border-b border-[#E5DAC6] pb-3"><div><span className="text-[10px] font-mono uppercase tracking-widest text-amber-800 font-bold">Acesso individual</span><h3 className="text-base font-display font-medium text-[#2A2420]">Mapa Numerológico Completo de {userProfile.fullName || userProfile.name}</h3></div><div className="text-right"><span className="text-xl font-bold font-mono text-emerald-700">R$ 90,00</span></div></div>
-
-                <div className="grid grid-cols-2 gap-3" role="radiogroup" aria-label="Forma de pagamento">
-                  <button type="button" role="radio" aria-checked={selectedPaymentMethod === 'pix'} onClick={() => setSelectedPaymentMethod('pix')} className={`min-h-11 p-3 rounded-2xl border flex items-center justify-center gap-2 text-xs font-mono font-bold transition cursor-pointer ${selectedPaymentMethod === 'pix' ? 'bg-emerald-50 border-emerald-500 text-emerald-800' : 'bg-[#FBF8F2] border-[#E5DAC6] text-[#5C5248]'}`}><QrCode size={16} /><span>PIX</span></button>
-                  <button type="button" role="radio" aria-checked={selectedPaymentMethod === 'card'} onClick={() => setSelectedPaymentMethod('card')} className={`min-h-11 p-3 rounded-2xl border flex items-center justify-center gap-2 text-xs font-mono font-bold transition cursor-pointer ${selectedPaymentMethod === 'card' ? 'bg-[#F5EFE4] border-[#B88736] text-[#8F631E]' : 'bg-[#FBF8F2] border-[#E5DAC6] text-[#5C5248]'}`}><CreditCard size={16} /><span>Cartão</span></button>
+              <section className="p-5 rounded-3xl bg-white border border-[#E5DAC6] space-y-4">
+                <div className="flex items-center gap-3 border-b border-[#E5DAC6] pb-3">
+                  <Lock size={16} className="text-[#8F631E]" />
+                  <div>
+                    <span className="text-[10px] font-mono uppercase tracking-widest text-[#8F631E] font-bold">Benefício de plano</span>
+                    <h3 className="text-base font-display font-medium text-[#2A2420]">Mapa Numerológico Completo de {userProfile.fullName || userProfile.name}</h3>
+                  </div>
                 </div>
-
-                {selectedPaymentMethod === 'pix' && (
-                  <div className="p-4 rounded-2xl bg-[#FBF8F2] border border-[#E5DAC6] space-y-2 text-center"><p className="text-xs text-[#5C5248]">O PIX será processado exclusivamente no checkout seguro da InfinitePay. Nenhuma chave PIX manual é exibida ou copiada pelo aplicativo.</p><p className="text-[11px] text-[#85786C]">O acesso só é liberado após a confirmação do pagamento pelo servidor.</p></div>
-                )}
-
-                {selectedPaymentMethod === 'card' && (
-                  <div className="p-4 rounded-2xl bg-[#FBF8F2] border border-[#E5DAC6] space-y-3 text-xs text-[#5C5248]"><p>Os dados de cartão não são coletados pelo aplicativo. O pagamento é iniciado no checkout seguro do provedor.</p>{onOpenContact && <button type="button" onClick={onOpenContact} className="w-full min-h-11 py-2.5 rounded-xl bg-[#B88736] hover:bg-[#8F631E] text-white font-bold text-xs flex items-center justify-center gap-2 cursor-pointer transition"><MessageSquare size={14} /><span>Falar com o suporte</span></button>}</div>
-                )}
-
-                <div className="pt-2 space-y-2">
-                  {checkoutError && <p role="alert" className="rounded-xl border border-rose-200 bg-rose-50 px-3 py-2 text-xs text-rose-700">{checkoutError}</p>}
-                  <button type="button" onClick={handleConfirmPurchase} disabled={isCheckoutProcessing} className="w-full min-h-11 py-3.5 rounded-2xl bg-[#B88736] hover:bg-[#8F631E] disabled:opacity-60 disabled:cursor-not-allowed text-white font-bold text-xs sm:text-sm flex items-center justify-center gap-2 transition cursor-pointer shadow-sm"><CheckCircle2 size={16} /><span>{isCheckoutProcessing ? 'Iniciando pagamento...' : 'Iniciar pagamento seguro'}</span></button>
-                  <p className="text-[11px] text-[#85786C] text-center">O mapa completo só é liberado depois da confirmação do pagamento pelo servidor.</p>
+                <p className="text-sm leading-relaxed text-[#5C5248]">
+                  Nos planos Semestral e Anual, você pode escolher entre Mapa Astral Completo e Numerologia Completa. O acesso é liberado depois que a escolha por Numerologia estiver registrada e confirmada na sua conta.
+                </p>
+                <div className="flex flex-col sm:flex-row gap-2">
+                  {onOpenProModal && (
+                    <button type="button" onClick={() => { onClose(); onOpenProModal(); }} className="w-full min-h-11 py-3 rounded-xl bg-[#B88736] hover:bg-[#8F631E] text-white font-bold text-xs sm:text-sm transition cursor-pointer">
+                      Ver Planos PRO
+                    </button>
+                  )}
+                  {onOpenContact && (
+                    <button type="button" onClick={onOpenContact} className="w-full min-h-11 py-3 rounded-xl bg-[#F5EFE4] border border-[#E5DAC6] text-[#5C5248] font-semibold text-xs sm:text-sm transition cursor-pointer">
+                      Falar com suporte
+                    </button>
+                  )}
                 </div>
-              </div>
-
-              <div className="p-4 rounded-2xl bg-[#F5EFE4] border border-[#B88736]/20 flex items-center justify-between gap-3 text-xs text-[#5C5248]"><span>O Plano PRO também pode incluir acesso ao mapa completo quando esse entitlement estiver confirmado na sua conta.</span><button type="button" onClick={() => { onClose(); onOpenProModal?.(); }} className="min-h-11 px-2 text-[#8F631E] hover:text-[#5C5248] underline font-mono text-xs whitespace-nowrap cursor-pointer">Ver Planos PRO</button></div>
+              </section>
             </div>
           )}
         </div>
