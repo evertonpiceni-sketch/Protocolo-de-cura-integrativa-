@@ -16,21 +16,8 @@ function addStyles() {
     }
 
     :root[data-layout="natural-sereno"] .ns-home-scene {
-      min-height: clamp(520px,72vh,700px) !important;
-      padding: 26px 22px 24px !important;
-      background:
-        linear-gradient(180deg,rgba(250,247,242,.18) 0%,rgba(250,247,242,.08) 42%,rgba(42,36,33,.12) 100%),
-        var(--ns-valley) center 56% / cover no-repeat !important;
-      color: #2A2421;
       position: relative;
       overflow: hidden;
-    }
-
-    :root[data-layout="natural-sereno"] .ns-home-scene::after {
-      min-height: clamp(520px,72vh,700px) !important;
-      padding: 25px 18px 17px !important;
-      background: linear-gradient(180deg,rgba(250,247,242,.96),rgba(250,247,242,.78) 30%,transparent 60%),var(--ns-valley) center / cover no-repeat !important;
-      color: #2A2421;
     }
 
     :root[data-layout="natural-sereno"] .ns-home-scene > * {
@@ -38,51 +25,7 @@ function addStyles() {
       z-index: 1;
     }
 
-    :root[data-layout="natural-sereno"] .ns-home-menu {
-      color: #6B4E2E !important;
-      border: 1px solid rgba(200,157,82,.34) !important;
-      background: rgba(250,247,242,.88) !important;
-      backdrop-filter: blur(8px);
-      box-shadow: 0 8px 22px rgba(67,52,39,.08);
-    }
 
-    :root[data-layout="natural-sereno"] .ns-greeting {
-      max-width: 78% !important;
-      padding-top: 56px;
-      text-shadow: 0 2px 12px rgba(0,0,0,.28);
-    }
-
-    :root[data-layout="natural-sereno"] .ns-greeting h1 {
-      color: #2A2421 !important;
-      font-size: clamp(36px,10vw,52px) !important;
-      line-height: 1.05 !important;
-      font-weight: 500 !important;
-      letter-spacing: -.035em !important;
-      margin-bottom: 14px !important;
-    }
-
-    :root[data-layout="natural-sereno"] .ns-greeting p {
-      color: rgba(42,36,33,.92) !important;
-      font-size: 15px !important;
-      line-height: 1.55 !important;
-      margin: 0 0 10px !important;
-    }
-
-    :root[data-layout="natural-sereno"] .ns-home-message {
-      display: none !important;
-    }
-
-    :root[data-layout="natural-sereno"] .ns-home-scene > .ns-gold {
-      margin-top: auto;
-      width: min(100%,330px) !important;
-      align-self: center;
-      min-height: 54px !important;
-      border-radius: 18px !important;
-      color: #2A2421 !important;
-      background: linear-gradient(180deg,#E2B96B 0%,#C89D52 100%) !important;
-      border: 1px solid rgba(168,126,55,.58) !important;
-      box-shadow: 0 9px 20px rgba(67,52,39,.10) !important;
-    }
 
     :root[data-layout="natural-sereno"] .ep-home-needs-anamnesis .ns-home-scene > .ns-gold {
       display: none !important;
@@ -93,12 +36,6 @@ function addStyles() {
       z-index: 4;
       padding: 0 16px 28px !important;
       background: linear-gradient(180deg,#FAF7F2 0%,#F3EDE4 70%,#FAF7F2 100%);
-    }
-
-    :root[data-layout="natural-sereno"] .ep-home-needs-anamnesis .ns-home-content,
-    :root[data-layout="natural-sereno"] .ep-home-has-anamnesis .ns-home-content {
-      margin-top: -34px;
-      padding-top: 0 !important;
     }
 
     :root[data-layout="natural-sereno"] .ep-home-needs-anamnesis .ns-current-day {
@@ -329,16 +266,6 @@ function addStyles() {
     }
 
     @media (max-width: 390px) {
-      :root[data-layout="natural-sereno"] .ns-home-scene { min-height: 405px !important; }
-      :root[data-layout="natural-sereno"] .ns-greeting { max-width: 84% !important; padding-top: 48px; }
-      :root[data-layout="natural-sereno"] .ns-greeting h1 {
-      color: #2A2421 !important;
-      font-size: 35px !important;
-      font-weight: 700 !important;
-      line-height: 1.15 !important;
-      margin-bottom: 7px !important;
-      letter-spacing: normal !important;
-    }
       :root[data-layout="natural-sereno"] .ep-home-quicklinks { grid-template-columns: repeat(2, minmax(0,1fr)); }
       :root[data-layout="natural-sereno"] .ep-home-quicklinks button { min-height: 88px; }
     }
@@ -374,6 +301,7 @@ function addStyles() {
       color: #2A2421 !important;
       font-family: 'Lora',Georgia,serif;
       font-size: 15px !important;
+      line-height: 1.55 !important;
       margin: 3px 0 !important;
     }
     :root[data-layout="natural-sereno"] .ns-home-message { display: block !important; color: #2A2421; }
@@ -381,6 +309,7 @@ function addStyles() {
     :root[data-layout="natural-sereno"] .ns-home-scene > .ns-gold {
       margin-top: 0;
       width: 100% !important;
+      align-self: center;
       min-height: 70px !important;
       font-size: 20px;
       border-radius: 18px !important;
