@@ -39,7 +39,9 @@ A documentação oficial informa que:
 
 Por isso, a aplicação faz apenas um replay idêntico e, depois dele, exige conciliação manual. Links antigos potencialmente multiuso precisam ser conferidos na conta InfinitePay.
 
-Referência: https://ajuda.infinitepay.io/pt-BR/articles/10766888-como-usar-o-checkout-integrado-da-infinitepay
+A documentação também informa que `single_payment` e `valid_until` exigem API Key; não há sandbox, e o teste de API cria um link real. Como não existe período de validade aprovado, `valid_until` não foi inventado nesta rodada.
+
+Referência: https://www.infinitepay.io/checkout-documentacao
 
 ## Validação e pendências
 
