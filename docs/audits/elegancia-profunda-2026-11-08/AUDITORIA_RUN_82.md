@@ -2,15 +2,22 @@
 
 Data: 08/11/2026  
 Branch: `main`  
-HEAD-base auditado: `8bdb210c65ae2f388350f152ea5506b1e61136c5`
+HEAD-base auditado: `8bdb210c65ae2f388350f152ea5506b1e61136c5`  
+Commit das correções: `ec9f7f403e04e54f0ada0abd4f56f75ae2f8e920`
 
 ## Escopo e evidências
 
-- Comparação da RUN 80 com o HEAD atual: 17 commits posteriores; nenhuma das 21 folhas CSS do Estilo 2 foi modificada.
+- Comparação da RUN 80 com o HEAD-base: 17 commits posteriores; nenhuma das 21 folhas CSS do Estilo 2 foi modificada nesse intervalo.
 - `src/main.tsx` mantém as 21 folhas `elegancia-profunda-*.css` ativas. `elegancia-profunda-welcome-audit.css` permanece fora dos imports.
 - O seletor continua com `selectedLayout = null`, CTA desabilitado antes da escolha e aplicação condicionada à confirmação explícita e à persistência.
 - O fluxo ativo continua sendo `OnboardingFlow`; o antigo `WelcomeModal` não foi reativado.
-- A última execução concluída antes desta correção foi GitHub Actions #42445132846: npm audit, TypeScript, 121 testes, build e verificações de segurança aprovados. O status Vercel do HEAD permanece `failure` com `build-rate-limit`.
+- Reauditoria após as correções: GitHub Actions #42448129610, no commit `ec9f7f4`, concluída com sucesso:
+  - npm audit: 0 vulnerabilidades;
+  - TypeScript: aprovado;
+  - testes: 123/123 aprovados;
+  - build Vite: aprovado;
+  - entrypoints Express, verificações de segredos, JWT, proteção administrativa, smoke tests e endpoints de pagamento: aprovados.
+- O status combinado do GitHub para o commit continua apontando o check Vercel como `failure`. Portanto, o build do CI não equivale a publicação ou homologação de produção.
 
 ## Corrigido nesta rodada
 
@@ -36,7 +43,7 @@ HEAD-base auditado: `8bdb210c65ae2f388350f152ea5506b1e61136c5`
 3. Comparação visual real de todas as páginas em desktop e celular.
 4. Testes físicos de voz, Solfeggio, ambiências, animações, Diário e player.
 5. Teste controlado InfinitePay, webhook e liberação do acesso.
-6. Resolver o bloqueio Vercel `build-rate-limit` e confirmar implantação de produção.
+6. Resolver o check Vercel em falha e confirmar implantação de produção.
 
 ## Critério de continuidade
 
