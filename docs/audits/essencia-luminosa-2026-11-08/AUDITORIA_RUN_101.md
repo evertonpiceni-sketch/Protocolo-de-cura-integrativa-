@@ -45,4 +45,6 @@ Base auditada: `940da0c8341d116da8338ecf9bcb160c36ba5793`
 - Confirmação da publicação Vercel; o histórico recente apresentou rate limit de implantação.
 - Conferência final da legibilidade da fotografia em todos os cartões e modais.
 
+A primeira execução CI do commit de implementação apontou apenas sintaxe de aspas nas novas asserções do teste; as três ocorrências foram corrigidas neste commit de acompanhamento. A reexecução do CI permanece pendente.
+
 A varredura de código não equivale a homologação visual em navegador. Nenhuma página aprovada foi reconstruída.

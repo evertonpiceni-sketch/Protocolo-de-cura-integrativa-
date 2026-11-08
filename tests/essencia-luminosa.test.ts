@@ -292,7 +292,7 @@ test('as telas secundárias da Essência Luminosa usam tokens atuais sem paleta 
 
 test('a Home da Essência Luminosa não herda fotografia de outro estilo ou da Reintegração', () => {
   const css = fs.readFileSync('src/essencia-luminosa-final-audit.css', 'utf8');
-  assert.ok(css.includes('--ep-scene: url('https://images.unsplash.com/photo-1617359073337-ba0fa2b80df4?auto=format&fit=crop&w=1600&h=900&q=80');'));
+  assert.ok(css.includes("--ep-scene: url('https://images.unsplash.com/photo-1617359073337-ba0fa2b80df4?auto=format&fit=crop&w=1600&h=900&q=80');"));
   assert.ok(css.includes('var(--ep-scene) center 56%/cover fixed no-repeat'));
   assert.ok(!css.includes('/brand/natural-sereno/'));
   assert.ok(!css.includes('/brand/reintegracao-presenca-arte.png'));
@@ -537,7 +537,7 @@ test('o Estilo 3 não herda a cena da Reintegração e suaviza o selo recomendad
     style3Blocks.length > 0 && style3Blocks.every(block => !block.includes('--ep-scene:url(')),
     'A Essência Luminosa não pode herdar a imagem da Reintegração da Vida.'
   );
-  assert.ok(finalCss.includes('--ep-scene: url('https://images.unsplash.com/photo-1617359073337-ba0fa2b80df4?auto=format&fit=crop&w=1600&h=900&q=80');'));
+  assert.ok(finalCss.includes("--ep-scene: url('https://images.unsplash.com/photo-1617359073337-ba0fa2b80df4?auto=format&fit=crop&w=1600&h=900&q=80');"));
   assert.ok(finalCss.includes(':root[data-layout="essencia-luminosa"] #specific-treatment-modal .ep-treatment-recommended-badge'));
   assert.ok(finalCss.includes('var(--layout-gold-soft)'));
   assert.ok(finalCss.includes('var(--layout-gold-dark)'));
@@ -822,7 +822,7 @@ test('a cena efetiva da Home do Estilo 3 usa fotografia costeira própria e over
 
   assert.ok(theme.includes('--ep-scene:none;'));
   assert.ok(theme.includes('--ep-scene-overlay:none;'));
-  assert.ok(finalCss.includes('--ep-scene: url('https://images.unsplash.com/photo-1617359073337-ba0fa2b80df4?auto=format&fit=crop&w=1600&h=900&q=80');'));
+  assert.ok(finalCss.includes("--ep-scene: url('https://images.unsplash.com/photo-1617359073337-ba0fa2b80df4?auto=format&fit=crop&w=1600&h=900&q=80');"));
   assert.ok(finalCss.includes('--ep-scene-overlay: linear-gradient(180deg, rgba(255,255,248,.52), rgba(255,255,248,.32) 46%, rgba(247,243,232,.66));'));
   assert.ok(finalCss.includes('var(--ep-scene-overlay)'));
   assert.ok(finalCss.includes('var(--ep-scene)'));
