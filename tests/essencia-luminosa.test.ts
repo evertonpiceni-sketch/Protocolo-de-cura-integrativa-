@@ -111,6 +111,9 @@ test('os tokens ativos do Estilo 3 correspondem à paleta aprovada mais recente'
   assert.ok(block.includes('--layout-bg:#FFFFF8;'));
   assert.ok(block.includes('--layout-accent-soft:rgba(166,180,155,.18);'));
   assert.ok(block.includes('--layout-gold-soft:rgba(198,164,106,.18);'));
+  assert.ok(block.includes('--ep-scene:none;'), 'Essência Luminosa não pode herdar a cena fotográfica de outro estilo.');
+  assert.ok(block.includes('--ep-scene-overlay:none;'), 'A camada de cena também deve permanecer neutra até existir foto própria aprovada.');
+  assert.doesNotMatch(block, /natural-sereno|reintegracao-presenca-arte/i);
   assert.ok(!block.includes('#C29648'));
   assert.ok(!block.includes('#7E9680'));
 });
