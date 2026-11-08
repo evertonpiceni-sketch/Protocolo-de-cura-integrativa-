@@ -113,6 +113,21 @@ export async function acquireCheckoutCreationLock(
   };
 }
 
+/** Acquire the one lock shared by every route that persists the whole database snapshot. */
+export async function acquireSharedDatabaseWriteLock(): Promise<CheckoutCreationLock | null> {
+  const lock = await acquireCheckoutCreationLock(PAYMENT_DATABASE_WRITE_LOCK_SCOPE);
+  if (!lock) return null;
+  try {
+    await lock.assertHeld();
+    await refreshDbFromPersistentStorage();
+    await lock.assertHeld();
+    return lock;
+  } catch (error) {
+    await lock.release();
+    throw error;
+  }
+}
+
 export function paymentRoutes(authenticate: any, limiter: any, providerFetch: typeof fetch = fetch, saveCheckoutOrder: typeof saveDb = saveDb) {
   const router = Router();
   const handle = () => process.env.INFINITEPAY_HANDLE || 'evertonterapeutareiki';
@@ -157,11 +172,8 @@ export function paymentRoutes(authenticate: any, limiter: any, providerFetch: ty
     let user: any;
     let previous: { plan: any; profile: any } | undefined;
     try {
-      releasePaymentDatabaseLock = await acquireCheckoutCreationLock(PAYMENT_DATABASE_WRITE_LOCK_SCOPE);
-      if (!releasePaymentDatabaseLock) return res.status(409).json({ error: 'Há outra atualização de pagamento em andamento. Tente novamente em instantes.' });
-      await releasePaymentDatabaseLock.assertHeld();
-      await refreshDbFromPersistentStorage();
-      await releasePaymentDatabaseLock.assertHeld();
+      releasePaymentDatabaseLock = await acquireSharedDatabaseWriteLock();
+      if (!releasePaymentDatabaseLock) return res.status(409).json({ error: 'Há outra atualização de dados em andamento. Tente novamente.' });
       user = getDb().users.find(u => u.id === req.userId);
       if (!user) return res.sendStatus(401);
       if (user.profile?.trial7dRedeemedAt || user.plan === 'pro') return res.status(409).json({ error: 'A degustação já foi utilizada ou há um acesso ativo.' });
@@ -208,13 +220,8 @@ export function paymentRoutes(authenticate: any, limiter: any, providerFetch: ty
 
     try {
       {
-        releaseStandardCheckoutLock = await acquireCheckoutCreationLock(PAYMENT_DATABASE_WRITE_LOCK_SCOPE);
-        if (!releaseStandardCheckoutLock) return res.status(409).json({ error: 'Já existe uma tentativa de checkout em andamento. Aguarde alguns segundos e tente novamente.' });
-        await releaseStandardCheckoutLock.assertHeld();
-        // Cada instância Vercel pode ter um snapshot local antigo. Recarrega o estado compartilhado
-        // enquanto o lock está ativo antes de deduplicar ou gravar qualquer pedido.
-        await refreshDbFromPersistentStorage();
-        await releaseStandardCheckoutLock.assertHeld();
+        releaseStandardCheckoutLock = await acquireSharedDatabaseWriteLock();
+        if (!releaseStandardCheckoutLock) return res.status(409).json({ error: 'Já existe uma atualização de dados em andamento. Aguarde alguns segundos e tente novamente.' });
 
         const db = getDb();
         const pendingStandardOrders = (db.paymentOrders || []).filter(candidate =>
@@ -368,13 +375,10 @@ export function paymentRoutes(authenticate: any, limiter: any, providerFetch: ty
     const slug = body?.slug || body?.invoice_slug;
     if (![order_nsu, transaction_nsu, slug].every(v => typeof v === 'string' && v.length > 0 && v.length < 250)) return { status: 400, data: { error: 'Confirmação inválida.' } };
 
-    const releasePaymentDatabaseLock = await acquireCheckoutCreationLock(PAYMENT_DATABASE_WRITE_LOCK_SCOPE);
-    if (!releasePaymentDatabaseLock) return { status: 409, data: { error: 'Há outra atualização de pagamento em andamento. Tente novamente em instantes.' } };
+    const releasePaymentDatabaseLock = await acquireSharedDatabaseWriteLock();
+    if (!releasePaymentDatabaseLock) return { status: 409, data: { error: 'Há outra atualização de dados em andamento. Tente novamente.' } };
 
     try {
-      await releasePaymentDatabaseLock.assertHeld();
-      await refreshDbFromPersistentStorage();
-      await releasePaymentDatabaseLock.assertHeld();
 
       const db = getDb();
       const order = db.paymentOrders?.find(o => o.id === order_nsu && (!userId || o.userId === userId));
