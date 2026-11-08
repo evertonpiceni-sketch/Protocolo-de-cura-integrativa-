@@ -117,3 +117,20 @@ test('Arcanjo no Natural Sereno usa superfícies marfim/café sem recolorir os c
   assert.ok(arcanjo.includes('background:`radial-gradient(circle,${config.corSecundaria}cc'));
   assert.ok(!/^\s*#arcanjo-protocol-view/m.test(css), 'A correção deve permanecer exclusiva do Natural Sereno.');
 });
+
+
+test('telas de entrada do Natural Sereno preservam logo discreto e botões premium', () => {
+  const css = read('src/natural-sereno-approved-overrides.css');
+  const base = read('src/natural-sereno.css');
+  const main = read('src/main.tsx');
+
+  assert.ok(css.includes('#profile-setup-view.ep-auth-style-one #onboarding-card .ep-brand-signature'));
+  assert.ok(css.includes('opacity:.30!important'));
+  assert.ok(css.includes('border-radius:18px!important'));
+  assert.ok(css.includes('linear-gradient(180deg,#E2B96B 0%,#C89D52 55%,#A87E37 100%)'));
+  assert.ok(css.includes('.ns-app :is(button,a).ns-gold'));
+  assert.ok(css.includes('.ns-welcome-brand'));
+  assert.ok(css.includes('.ep-care-onboarding-card .ep-brand-signature'));
+  assert.ok(base.includes('#profile-setup-view.ep-auth-style-one'));
+  assert.ok(main.indexOf("import './natural-sereno-approved-overrides.css';") > main.indexOf("import './natural-sereno.css';"));
+});
