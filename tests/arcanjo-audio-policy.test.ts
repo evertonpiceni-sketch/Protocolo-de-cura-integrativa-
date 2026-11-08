@@ -45,4 +45,12 @@ test('Natural Sereno exige voz neural oficial no Arcanjo e nunca cai na voz do d
   const guardedErrorPath = arcanjo.indexOf('if (isNaturalSereno || isEleganciaProfunda || isEssenciaLuminosa)', fallbackCall);
   assert.ok(guardedErrorPath > fallbackCall, 'A falha da narração neural deve ser tratada sem voz do dispositivo.');
   assert.ok(arcanjo.includes('O Natural Sereno não usará a voz do dispositivo.'));
+
+  const startup = read('src/main.tsx');
+  const voicePatch = read('src/lib/naturalSerenoOfficialVoicePatch.ts');
+  const audio = read('src/lib/audio.ts');
+  assert.ok(startup.includes("import './lib/naturalSerenoOfficialVoicePatch';"));
+  assert.ok(voicePatch.includes('fallbackToSpeechSynthesis: false'));
+  assert.ok(voicePatch.includes('requireExplicitVoiceId: true'));
+  assert.ok(audio.includes("export const OFFICIAL_PROTOCOL_VOICE_ID = 'mJqP14JQFEK0PojR5lfV';"));
 });
