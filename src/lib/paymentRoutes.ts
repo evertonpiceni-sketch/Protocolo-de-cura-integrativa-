@@ -11,7 +11,7 @@ export type InfinitePayCheckoutPayload = {
   items: Array<{ quantity: number; price: number; description: string }>;
   options: { single_payment: true };
 };
-export type PaymentOrder = { id: string; userId: string; productType?: 'subscription' | 'specific_treatment' | 'numerology_full'; planId?: Plan; treatment?: import('../types.js').SpecificTreatment; cents: number; method: string; createdAt: string; paidAt?: string; transaction?: string; checkoutUrl?: string; checkoutPayload?: InfinitePayCheckoutPayload; failedAt?: string };
+export type PaymentOrder = { id: string; userId: string; productType?: 'subscription' | 'specific_treatment' | 'numerology_full'; planId?: Plan; treatment?: import('../types.js').SpecificTreatment; cents: number; method: string; createdAt: string; paidAt?: string; transaction?: string; checkoutUrl?: string; checkoutPayload?: InfinitePayCheckoutPayload; checkoutRecoveryAttempts?: number; failedAt?: string };
 const API = 'https://api.checkout.infinitepay.io';
 const localNumerologyCheckoutLocks = new Set<string>();
 const NUMEROLOGY_CHECKOUT_LOCK_TTL_MS = 30_000;
@@ -322,8 +322,17 @@ export function paymentRoutes(authenticate: any, limiter: any, providerFetch: ty
           if (!payload || payload.order_nsu !== preparing.id || payload.options?.single_payment !== true || payload.items?.[0]?.price !== preparing.cents) {
             return res.status(503).json({ error: 'A tentativa anterior não contém o payload original protegido e precisa de conferência.' });
           }
+          const recoveryAttempts = Number.isInteger(preparing.checkoutRecoveryAttempts)
+            ? Math.max(0, preparing.checkoutRecoveryAttempts || 0)
+            : 0;
+          if (recoveryAttempts >= 1) {
+            return res.status(503).json({ error: 'A recuperação automática já foi utilizada. É necessária conferência manual para evitar links duplicados.' });
+          }
           order = preparing;
           providerRequestStarted = true;
+          preparing.checkoutRecoveryAttempts = recoveryAttempts + 1;
+          await saveCheckoutOrder();
+          // A InfinitePay não oferece consulta por order_nsu; uma única repetição idêntica pode devolver o mesmo link.
           const checkoutUrl = await createCheckoutUrl(payload);
           preparing.checkoutUrl = checkoutUrl;
           await saveCheckoutOrder();
