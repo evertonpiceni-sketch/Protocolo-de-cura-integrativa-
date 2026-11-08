@@ -581,3 +581,13 @@ test('a camada aprovada da Elegância Profunda vence a cascata de todas as folha
   assert.ok(errorBoundary > approvedImport, 'Nenhuma folha CSS deve ser importada depois da camada aprovada.');
   assert.equal(main.split(approvedImportLine).length - 1, 1);
 });
+
+test('Natural Sereno mantém CTAs dourados refinados e cantos premium de 18px', () => {
+  const css = read('src/natural-sereno-approved-overrides.css');
+  const modal = read('src/components/LayoutChoiceModal.tsx');
+  assert.ok(css.includes(':root[data-layout="natural-sereno"] .ns-app .ns-gold {'));
+  assert.ok(css.includes('border-radius: 18px !important;'));
+  assert.ok(css.includes('background: linear-gradient(180deg,#E2B96B 0%,#C89D52 100%) !important;'));
+  assert.ok(modal.includes("const confirmButtonRadius = !selectedLayout || selectedLayout === 'natural-sereno' ? 'rounded-[18px]' : 'rounded-full';"));
+  assert.ok(modal.includes('${confirmButtonRadius}'));
+});
