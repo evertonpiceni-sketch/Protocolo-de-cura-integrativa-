@@ -25,7 +25,7 @@ test('Místico Moderno uses the saved neural voice in every narration entry poin
   assert.match(settings, /if \(requiresNeuralVoice && !isElevenLabsVoiceId\(voiceId\)\)/);
 
   assert.match(home, /requiresNeuralVoice = isNaturalSereno \|\| isEleganciaProfunda \|\| isEssenciaLuminosa \|\| isMisticoModerno/);
-  assert.match(home, /approvedVoiceId = isEleganciaProfunda \|\| isMisticoModerno/);
+  assert.match(home, /approvedVoiceId = isEleganciaProfunda[\s\S]*?: isMisticoModerno/);
   assert.match(home, /fallbackToSpeechSynthesis: !requiresNeuralVoice/);
 
   assert.match(player, /const style4VoiceId = isElevenLabsVoiceId\(selectedVoiceId\) \? selectedVoiceId : ''/);
