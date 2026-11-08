@@ -1,5 +1,7 @@
 import type { LayoutId } from './config/layouts';
 
+export type SubscriptionBenefitChoice = 'astral_map' | 'numerology';
+
 /**
  * @license
  * SPDX-License-Identifier: Apache-2.0
@@ -223,6 +225,7 @@ export interface UserProfile {
   binauralCustomCarrier?: number; // Hz
   plan?: 'free' | 'pro';
   subscriptionPlan?: SubscriptionPlanType;
+  subscriptionBenefitChoice?: SubscriptionBenefitChoice;
   subscriptionExpiresAt?: string;
   subscriptionPrice?: number;
   subscriptionPaymentMethod?: 'pix' | 'card' | 'cupom_vip';

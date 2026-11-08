@@ -644,3 +644,21 @@
   outline:2px solid color-mix(in srgb,var(--layout-gold) 62%,white)!important;
   outline-offset:3px!important;
 }
+
+
+/* Benefício Semestral/Anual: seleção explícita com o acabamento da Essência Luminosa. */
+:root[data-layout="essencia-luminosa"] #plans-modal #plan-benefit-choice {
+  background: linear-gradient(145deg, color-mix(in srgb, var(--layout-gold-soft) 48%, var(--layout-card)), var(--layout-card)) !important;
+  border-color: var(--layout-gold-border) !important;
+}
+:root[data-layout="essencia-luminosa"] #plans-modal [data-benefit-choice] {
+  background: color-mix(in srgb, var(--layout-card) 94%, var(--layout-accent-soft)) !important;
+  border-color: var(--layout-border-card) !important;
+  color: var(--layout-text-secondary) !important;
+}
+:root[data-layout="essencia-luminosa"] #plans-modal [data-benefit-choice][aria-pressed="true"] {
+  background: var(--layout-gold-gradient) !important;
+  border-color: var(--layout-gold) !important;
+  color: var(--layout-text) !important;
+  box-shadow: 0 8px 20px var(--layout-gold-shadow) !important;
+}

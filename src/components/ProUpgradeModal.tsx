@@ -6,7 +6,7 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { useDialogFocus } from '../hooks/useDialogFocus';
 import { Check, ChevronDown, Crown, Sparkles, X, Tag, ShieldCheck } from 'lucide-react';
-import { UserProfile, SubscriptionPlanType } from '../types';
+import { UserProfile, SubscriptionPlanType, SubscriptionBenefitChoice } from '../types';
 import { PAYMENT_PLANS } from '../lib/paymentCatalog';
 
 interface ProUpgradeModalProps {
@@ -14,7 +14,7 @@ interface ProUpgradeModalProps {
   initialPlanId?: SubscriptionPlanType;
   onClose: () => void;
   userProfile: UserProfile;
-  onUpgradeSuccess: (plan: SubscriptionPlanType, paymentMethod: 'pix' | 'card', price: number, couponCode?: string) => boolean | void | Promise<boolean | void>;
+  onUpgradeSuccess: (plan: SubscriptionPlanType, paymentMethod: 'pix' | 'card', price: number, couponCode?: string, benefitChoice?: SubscriptionBenefitChoice) => boolean | void | Promise<boolean | void>;
   onOpenContact?: () => void;
 }
 
@@ -72,7 +72,7 @@ const PLANS: PlanItem[] = [
   {
     id: 'mensal',
     title: 'Plano Mensal',
-    price: 39.9,
+    price: PAYMENT_PLANS.mensal.cents / 100,
     period: '/ mês',
     badge: 'R$ 5 de desconto na análise completa',
     summary: ['Anamnese Compacta incluída', 'Anamnese Completa por R$ 10', 'Acesso por 30 dias'],
@@ -81,7 +81,7 @@ const PLANS: PlanItem[] = [
   {
     id: 'trimestral',
     title: 'Plano Trimestral',
-    price: 69.9,
+    price: PAYMENT_PLANS.trimestral.cents / 100,
     period: '/ 3 meses',
     badge: 'Anamnese Completa incluída',
     highlight: true,
@@ -91,19 +91,19 @@ const PLANS: PlanItem[] = [
   {
     id: 'semestral',
     title: 'Plano Semestral',
-    price: 99.9,
+    price: PAYMENT_PLANS.semestral.cents / 100,
     period: '/ 6 meses',
     badge: 'Anamnese Completa incluída',
-    summary: ['Anamnese Completa incluída', '6 meses de acesso', 'Acompanhamento prolongado'],
+    summary: ['Anamnese Completa incluída', '6 meses de acesso', 'Escolha 1: Mapa Astral ou Numerologia'],
     details: [...PRO_COMMON, 'Anamnese Completa incluída sem cobrança adicional', '1 áudio personalizado de 7 dias', 'Escolha 1: Mapa Astral Completo OU Numerologia Completa']
   },
   {
     id: 'anual',
     title: 'Plano Anual',
-    price: 159.9,
+    price: PAYMENT_PLANS.anual.cents / 100,
     period: '/ ano',
     badge: 'Anamnese Completa incluída',
-    summary: ['Anamnese Completa incluída', '12 meses de acesso', 'Histórico preservado'],
+    summary: ['Anamnese Completa incluída', '12 meses de acesso', 'Escolha 1: Mapa Astral ou Numerologia'],
     details: [...PRO_COMMON, 'Anamnese Completa incluída sem cobrança adicional', 'Escolha 1: Mapa Astral Completo OU Numerologia Completa', 'Acesso por 12 meses']
   }
 ];
@@ -128,9 +128,14 @@ export default function ProUpgradeModal({ isOpen, initialPlanId, onClose, onUpgr
   const [paymentMethod, setPaymentMethod] = useState<'pix' | 'card'>('pix');
   const [isProcessing, setIsProcessing] = useState(false);
   const [checkoutError, setCheckoutError] = useState<string | null>(null);
+  const [benefitChoice, setBenefitChoice] = useState<SubscriptionBenefitChoice | null>(null);
+  useEffect(() => {
+    if (selectedId !== 'semestral' && selectedId !== 'anual') setBenefitChoice(null);
+  }, [selectedId]);
 
   const selectedPlan = PLANS.find(plan => plan.id === selectedId) || PLANS.find(plan => plan.id === 'trimestral') || PLANS[0];
   const couponRule = appliedCoupon ? COUPONS[appliedCoupon] : undefined;
+  const requiresBenefitChoice = !couponRule?.vip && (selectedPlan.id === 'semestral' || selectedPlan.id === 'anual');
   const finalPrice = useMemo(() => {
     if (!couponRule || couponRule.vip) return couponRule?.vip ? 0 : selectedPlan.price;
     return Math.max(0, selectedPlan.price * (1 - couponRule.discount / 100));
@@ -160,10 +165,14 @@ export default function ProUpgradeModal({ isOpen, initialPlanId, onClose, onUpgr
   const finish = async () => {
     if (isProcessing) return;
     setCheckoutError(null);
+    if (requiresBenefitChoice && !benefitChoice) {
+      setCheckoutError('Escolha Mapa Astral Completo ou Numerologia Completa antes de continuar.');
+      return;
+    }
     setIsProcessing(true);
     try {
       if (couponRule?.vip) await onUpgradeSuccess('teste_vip_7d', paymentMethod, 0);
-      else await onUpgradeSuccess(selectedPlan.id, paymentMethod, finalPrice, appliedCoupon || undefined);
+      else await onUpgradeSuccess(selectedPlan.id, paymentMethod, finalPrice, appliedCoupon || undefined, requiresBenefitChoice ? benefitChoice || undefined : undefined);
     } catch (e) {
       console.error(e);
       setCheckoutError(e instanceof Error ? e.message : 'Não foi possível iniciar o pagamento.');
@@ -185,6 +194,20 @@ export default function ProUpgradeModal({ isOpen, initialPlanId, onClose, onUpgr
           <section><div className="mb-4 flex items-end justify-between gap-4"><div><div className="flex items-center gap-2"><Crown className="text-[#B88736]" size={22} /><h3 className="font-serif text-2xl text-[#26372A]">Planos</h3></div><p className="text-sm text-[#5F6857] mt-1">No mensal, a Anamnese Completa tem R$ 5 de desconto. A partir do trimestral, ela já está incluída.</p></div></div><div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 items-stretch">{plans.map(plan => <PlanCard key={plan.id} plan={plan} expanded={expandedId === plan.id} onToggle={() => setExpandedId(expandedId === plan.id ? null : plan.id)} onChoose={() => choosePlan(plan)} />)}</div></section>
           <section id="checkout-planos" className="max-w-2xl mx-auto rounded-3xl border border-[#D8B867]/30 bg-white/80 p-5 md:p-7 shadow-xl shadow-[#6A5425]/10">
             <div className="flex items-center justify-between gap-4 mb-5"><div><p className="text-xs text-[#6A725F]">Selecionado</p><h3 className="font-serif text-2xl text-[#26372A]">{selectedPlan.title}</h3></div><div className="text-right"><strong className="text-2xl text-[#073B2B]">{money(finalPrice)}</strong><p className="text-xs text-[#6A725F]">{couponRule?.vip ? '7 dias' : selectedPlan.period}</p></div></div>
+            {requiresBenefitChoice && (
+              <div id="plan-benefit-choice" className="rounded-2xl border border-[#D8B867]/20 bg-[#FFF9E8] p-4 mb-4">
+                <p className="text-xs font-bold text-[#5F6857]">Benefício adicional incluído</p>
+                <p className="mt-1 text-xs leading-relaxed text-[#6A725F]">Escolha uma opção. Apenas o benefício selecionado será registrado após a confirmação do pagamento.</p>
+                <div className="mt-3 grid grid-cols-1 sm:grid-cols-2 gap-2">
+                  <button type="button" data-benefit-choice="astral_map" aria-pressed={benefitChoice === 'astral_map'} disabled={isProcessing} onClick={() => { setBenefitChoice('astral_map'); setCheckoutError(null); }} className="min-h-12 rounded-xl border border-[#D8B867]/25 bg-white/80 px-3 py-3 text-sm font-semibold text-[#5F6857] transition">
+                    Mapa Astral Completo
+                  </button>
+                  <button type="button" data-benefit-choice="numerology" aria-pressed={benefitChoice === 'numerology'} disabled={isProcessing} onClick={() => { setBenefitChoice('numerology'); setCheckoutError(null); }} className="min-h-12 rounded-xl border border-[#D8B867]/25 bg-white/80 px-3 py-3 text-sm font-semibold text-[#5F6857] transition">
+                    Numerologia Completa
+                  </button>
+                </div>
+              </div>
+            )}
             <div className="rounded-2xl border border-[#D8B867]/20 bg-[#FFF9E8] p-4 mb-4"><label className="text-xs font-bold text-[#5F6857] flex items-center gap-2 mb-2"><Tag size={14} /> Tem um cupom?</label><div className="flex gap-2"><input value={coupon} onChange={e => setCoupon(e.target.value)} placeholder="Digite o código" className="min-w-0 flex-1 rounded-xl bg-white border border-[#D8B867]/25 px-3 py-3 outline-none focus:border-[#B88736]" /><button onClick={applyCoupon} className="rounded-xl bg-[#073B2B] text-[#FFF9E8] font-bold px-4">Aplicar</button></div>{couponMessage && <p className={`text-xs mt-2 ${appliedCoupon ? 'text-[#2F6B50]' : 'text-rose-700'}`}>{couponMessage}</p>}</div>
             <div className="grid grid-cols-2 gap-2 mb-4"><button onClick={() => setPaymentMethod('pix')} className={`rounded-xl border p-3 text-sm font-bold ${paymentMethod === 'pix' ? 'border-[#B88736] bg-[#F7E5AA]/35 text-[#26372A]' : 'border-[#D8B867]/20 text-[#5F6857]'}`}>PIX</button><button onClick={() => setPaymentMethod('card')} className={`rounded-xl border p-3 text-sm font-bold ${paymentMethod === 'card' ? 'border-[#B88736] bg-[#F7E5AA]/35 text-[#26372A]' : 'border-[#D8B867]/20 text-[#5F6857]'}`}>Cartão</button></div>
             {checkoutError && <p role="alert" className="mb-3 rounded-xl border border-rose-200 bg-rose-50 px-3 py-2 text-xs text-rose-700">{checkoutError}</p>}
