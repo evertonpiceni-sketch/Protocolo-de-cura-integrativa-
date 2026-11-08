@@ -257,6 +257,39 @@ test('checkout binds account, validates provider confirmation and grants only on
     assert.equal(legacyPreparingAttempt.status, 503);
     assert.equal(calls.length, callsBeforeLegacyPreparing, 'pedido antigo sem payload original não é reconstruído com variáveis atuais');
 
+    db.users.push({ id: 'multiple-pending-owner', plan: 'free', profile: {} });
+    const multiplePendingPayload: import('../src/lib/paymentRoutes').InfinitePayCheckoutPayload = {
+      handle: 'original-handle',
+      order_nsu: 'multiple-pending-link',
+      redirect_url: 'https://original.example/?payment_order=multiple-pending-link',
+      webhook_url: 'https://original.example/api/webhooks/payment',
+      items: [{ quantity: 1, price: 9000, description: 'Mapa Numerológico Cabalístico Completo' }],
+      options: { single_payment: true }
+    };
+    db.paymentOrders.push({
+      id: 'multiple-pending-link',
+      userId: 'multiple-pending-owner',
+      productType: 'numerology_full',
+      cents: 9000,
+      method: 'pix',
+      createdAt: new Date().toISOString(),
+      checkoutUrl: 'https://checkout.infinitepay.io/one',
+      checkoutPayload: multiplePendingPayload
+    });
+    db.paymentOrders.push({
+      id: 'multiple-pending-preparing',
+      userId: 'multiple-pending-owner',
+      productType: 'numerology_full',
+      cents: 9000,
+      method: 'pix',
+      createdAt: new Date().toISOString(),
+      checkoutPayload: { ...multiplePendingPayload, order_nsu: 'multiple-pending-preparing' }
+    });
+    const callsBeforeMultiplePending = calls.length;
+    const ambiguousNumerology = await call('payment/create-checkout', { productType: 'numerology_full', paymentMethod: 'pix' }, 'multiple-pending-owner');
+    assert.equal(ambiguousNumerology.status, 503);
+    assert.equal(calls.length, callsBeforeMultiplePending, 'tentativas pendentes múltiplas não escolhem nem criam links automaticamente');
+
     db.users.push({ id: 'trial-account', plan: 'free', profile: {} });
     const trial = { planId: 'teste_vip_7d', paymentMethod: 'trial', couponCode: 'VIP7' };
     assert.equal((await call('user/upgrade', trial, 'trial-account')).status, 200);
