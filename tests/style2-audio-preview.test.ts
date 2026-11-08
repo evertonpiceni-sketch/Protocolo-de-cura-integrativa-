@@ -5,6 +5,20 @@ import { isSolfeggioFrequency, shouldPlayProtocolSessionBackground } from '../sr
 
 const read = (path: string) => fs.readFileSync(path, 'utf8');
 
+test('o Estilo 2 identifica waves como ambiência de ondas, não como sinos ou tigelas', () => {
+  const app = read('src/App.tsx');
+  const settings = read('src/components/AudioSettingsModal.tsx');
+  const audioEngine = read('src/lib/audio.ts');
+
+  assert.ok(app.includes("const isEleganciaProfunda = layoutConfirmedThisSession && userProfile?.visualLayout === 'elegancia-profunda';"));
+  assert.ok(settings.includes("const isEleganciaProfunda = typeof document !== 'undefined' && document.documentElement.dataset.layout === 'elegancia-profunda';"));
+  assert.ok(app.includes("{ id: 'waves', title: isEssenciaLuminosa || isEleganciaProfunda ? 'Ondas do Mar' : 'Sinos & Brisa Tibetana', subtitle: isEssenciaLuminosa || isEleganciaProfunda ? 'Maré suave e brisa costeira' : 'Atmosfera de Templo Sagrado', isPro: false }"));
+  assert.ok(settings.includes("{ id: 'waves', name: isEssenciaLuminosa || isEleganciaProfunda ? 'Ondas do Mar' : 'Sinos Zen', desc: isEssenciaLuminosa || isEleganciaProfunda ? 'Maré suave e brisa costeira' : 'Tigelas Tibetanas', pro: false }"));
+  assert.ok(audioEngine.includes("type === 'waves' || type === 'florestazen' || type === 'chuvaserena'"));
+  assert.ok(audioEngine.includes("this.noiseFilter.type = 'lowpass';"));
+  assert.ok(audioEngine.includes("const noiseMix = type === 'chuvaserena' ? 0.03 : 0.015;"));
+});
+
 test('o Estilo 2 suspende Solfeggio durante prévias neurais e restaura apenas ambiência não tonal', () => {
   for (const frequency of ['396hz', '417hz', '432hz', '528hz', '639hz', '741hz', '852hz', '963hz']) {
     assert.equal(isSolfeggioFrequency(frequency), true);
