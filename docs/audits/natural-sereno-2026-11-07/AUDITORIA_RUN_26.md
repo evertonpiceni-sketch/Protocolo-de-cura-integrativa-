@@ -30,7 +30,7 @@
 2. Capturas renderizadas página a página em desktop e mobile. A verificação de CSS/testes estáticos não substitui homologação visual no navegador; o limite de deployments da Vercel havia bloqueado prévias anteriores.
 3. Escuta real da voz aprovada e da transição entre narração e ambiência no navegador.
 4. Checkout, retorno e webhook InfinitePay em sandbox, sem cobrança real.
-5. Verificar na configuração de ambiente da Vercel se há API Key InfinitePay disponível. A opção `single_payment` da documentação exige API Key; não foi ativada nem presumida nesta rodada.
+5. **API Key / pagamento único:** a listagem de metadados das variáveis de produção da Vercel contém `INFINITEPAY_HANDLE` e `PUBLIC_APP_URL`, mas não contém `INFINITEPAY_API_KEY` nem outra chave com nome InfinitePay. A consulta foi feita sem descriptografar segredos. Portanto, `single_payment` não pode ser ativado com a configuração atual; será necessário cadastrar a API Key oficial antes de prometer link de uso único.
 
 ## Referência técnica
 
