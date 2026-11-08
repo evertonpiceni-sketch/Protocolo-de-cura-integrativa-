@@ -214,6 +214,16 @@ test('checkout binds account, validates provider confirmation and grants only on
     assert.equal(calls.filter(c => String(c.url).endsWith('/links')).length, linksBeforeRecovery + 2);
     assert.equal(db.paymentOrders?.filter(o => o.userId === 'preparing-owner' && o.productType === 'numerology_full').length, 1);
 
+    const recoveredConfirmationStart = calls.length;
+    const recoveredConfirmation = await call('payment/confirm', {
+      order_nsu: pendingNumerologyOrder.id,
+      transaction_nsu: 'recovered-transaction',
+      slug: 'recovered-numerology'
+    }, 'preparing-owner');
+    assert.equal(recoveredConfirmation.status, 200);
+    const recoveredPaymentCheck = calls.slice(recoveredConfirmationStart).find(c => String(c.url).endsWith('/payment_check'));
+    assert.equal(recoveredPaymentCheck?.body.handle, 'original-handle', 'a confirmação usa a handle persistida do checkout original');
+
     db.users.push({ id: 'legacy-link-owner', plan: 'free', profile: {} });
     db.paymentOrders.push({
       id: 'legacy-multi-use-link',
