@@ -136,7 +136,8 @@ export function paymentRoutes(authenticate: any, limiter: any, providerFetch: ty
                   candidate.productType === 'numerology_full' &&
                   !candidate.paidAt &&
                   !candidate.failedAt &&
-                  candidate.checkoutUrl === saved.checkoutUrl
+                  candidate.checkoutUrl === saved.checkoutUrl &&
+                  candidate.checkoutPayload?.options?.single_payment === true
                 )
               : undefined;
             if (cachedOrder?.checkoutUrl) {
