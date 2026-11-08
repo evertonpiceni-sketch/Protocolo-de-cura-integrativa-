@@ -94,13 +94,13 @@ import './natural-sereno-legacy-green-audit.css';
 // inheritance cannot regain precedence through cascade order.
 import './natural-sereno-approved-overrides.css';
 
-// Latest approved Essência Luminosa decisions must win over every older Style 3 audit layer.
-// Keep this scoped override last so later component/audit CSS cannot revive discarded inheritance.
-import './essencia-luminosa-approved-overrides.css';
-
-// Latest approved Elegância Profunda decisions must win over every earlier theme/audit layer.
-// Keep this scoped layer last so legacy colors and treatments cannot regain cascade precedence.
+// Latest approved Elegância Profunda decisions must follow every Style 2 audit layer.
+// This layer stays scoped to Elegância Profunda; the final Style 3 layer below is independent.
 import './elegancia-profunda-approved-overrides.css';
+
+// Latest approved Essência Luminosa decisions must win over every earlier Style 3 audit layer
+// and all other theme layers. Keep this scoped override as the final theme CSS import.
+import './essencia-luminosa-approved-overrides.css';
 import { ErrorBoundary } from './ErrorBoundary.tsx';
 
 createRoot(document.getElementById('root')!).render(
