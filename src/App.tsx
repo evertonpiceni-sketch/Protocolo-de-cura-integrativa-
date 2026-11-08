@@ -263,8 +263,8 @@ export default function App() {
                          activeSessionDay === null &&
                          !showPersonalJourney &&
                          !showArcanjoView &&
-                         (!isEssenciaLuminosa || !isPlayingVoiceTest ||
-                           shouldPlayProtocolSessionBackground('playing', userProfile.bgMusicType)); // Keep Solfeggio out of spoken Style 3 previews
+                         (!usesNeuralVoiceCatalog || !isPlayingVoiceTest ||
+                           shouldPlayProtocolSessionBackground('playing', userProfile.bgMusicType)); // Keep Solfeggio out of neural voice previews in all neural-voice layouts
 
       if (shouldPlay) {
         audioEngine.startBG(userProfile.bgMusicType);
@@ -287,6 +287,7 @@ export default function App() {
     showArcanjoView,
     userProfile?.subscriptionPlan,
     layoutConfirmedThisSession,
+    usesNeuralVoiceCatalog,
     isPlayingVoiceTest
   ]);
 
@@ -308,7 +309,7 @@ export default function App() {
                            activeSessionDay === null &&
                            !showPersonalJourney &&
                            !showArcanjoView &&
-                           (!isEssenciaLuminosa || !isPlayingVoiceTest ||
+                           (!usesNeuralVoiceCatalog || !isPlayingVoiceTest ||
                              shouldPlayProtocolSessionBackground('playing', userProfile.bgMusicType));
                            
         if (shouldPlay) {
