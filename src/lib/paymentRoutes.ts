@@ -231,7 +231,7 @@ export function paymentRoutes(authenticate: any, limiter: any, providerFetch: ty
     const subscriptionPlan = order.planId ? PAYMENT_PLANS[order.planId] : undefined;
     if (!order.treatment && order.productType !== 'numerology_full' && !subscriptionPlan) return { status: 409, data: { error: 'Compra sem produto ou plano válido.' } };
     if (!order.paidAt) {
-      const verified = await provider('/payment_check', { handle: handle(), order_nsu, transaction_nsu, slug });
+      const verified = await provider('/payment_check', { handle: order.checkoutPayload?.handle || handle(), order_nsu, transaction_nsu, slug });
       if (verified.success !== true || verified.paid !== true || verified.amount !== order.cents) return { status: 202, data: { status: 'pending' } };
       if (order.paidAt) return { status: 200, data: userId ? { status: 'paid', user: { profile: user.profile } } : { success: true } };
       if (db.paymentOrders?.some(o => o.id !== order.id && o.transaction === transaction_nsu)) return { status: 409, data: { error: 'Transação já utilizada.' } };
