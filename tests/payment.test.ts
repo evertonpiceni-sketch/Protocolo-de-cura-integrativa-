@@ -153,7 +153,7 @@ test('checkout binds account, validates provider confirmation and grants only on
     db.users.push({ id: 'coupon-owner', plan: 'free', profile: {} });
     assert.equal((await call('payment/create-checkout', { productType: 'numerology_full', paymentMethod: 'pix', couponCode: 'PROMO20' }, 'coupon-owner')).status, 400);
     db.users.push({ id: 'preparing-owner', plan: 'free', profile: {} });
-    const pendingNumerologyOrder = {
+    const pendingNumerologyOrder: import('../src/lib/paymentRoutes').PaymentOrder = {
       id: 'numerology-pending-without-link',
       userId: 'preparing-owner',
       productType: 'numerology_full' as const,
