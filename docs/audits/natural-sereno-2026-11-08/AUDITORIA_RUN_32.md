@@ -3,7 +3,7 @@
 **Data:** 08/11/2026  
 **Branch:** `fix/natural-sereno-mainline-2026-11-08-run32b`  
 **Base:** `main` em `b622872f166e5a43b3eebba2b7301da4c69e700e`  
-**Estado:** correções reaplicadas diretamente sobre a main atual; CI desta nova base aguardando.
+**Estado:** correções reaplicadas sobre a linha atual; CI de integração aprovado. PR aberta, sem merge.
 
 ## Corrigido
 
@@ -45,11 +45,11 @@ Na branch de integração anterior, com os mesmos arquivos e correções, GitHub
 - build Vite/servidor: aprovado;
 - entrypoints Express, segredos, JWT, proteção administrativa, smoke tests e endpoints de pagamento: aprovados.
 
-Esta branch foi reaplicada sobre a main mais recente após essa execução; o CI precisa repetir na nova base antes de qualquer merge.
+A integração desta PR com a main mais recente concluiu no GitHub Actions #1662: npm audit com 0 vulnerabilidades, TypeScript aprovado, 133/133 testes, build Vite/servidor, entrypoints Express, verificações de segredos/JWT, proteção administrativa, smoke tests e endpoints de pagamento aprovados.
 
 ## Pendente
 
-1. CI completo no head desta branch recém-rebaseada.
+1. Revisão de código independente e confirmação de mergeability da PR. O CI de integração já está verde.
 2. Preview navegável e capturas reais página a página em desktop/mobile. A última tentativa Vercel foi bloqueada por `api-deployments-free-per-day` (mais de 100 deployments; aguardar janela de 24h).
 3. Escuta real da voz selecionada e das transições narração/Solfeggio/ambiência.
 4. Cadastrar a `INFINITEPAY_API_KEY` oficial no ambiente Vercel correto. A última consulta de metadados não a encontrou; enquanto ausente, o checkout fica bloqueado por segurança.
