@@ -111,6 +111,23 @@ test('os tokens ativos do Estilo 3 correspondem à paleta aprovada mais recente'
   assert.ok(block.includes('--layout-bg:#FFFFF8;'));
   assert.ok(block.includes('--layout-accent-soft:rgba(166,180,155,.18);'));
   assert.ok(block.includes('--layout-gold-soft:rgba(198,164,106,.18);'));
+  assert.ok(block.includes('--layout-text-soft:var(--layout-text-secondary);'));
+  const semanticAliases: Array<[string, string]> = [
+    ['--sage-subtle', 'var(--layout-accent-soft)'],
+    ['--sage-border', 'var(--layout-border)'],
+    ['--journey-bg-canvas', 'var(--layout-canvas)'],
+    ['--journey-bg-card', 'var(--layout-card)'],
+    ['--journey-sage', 'var(--layout-accent)'],
+    ['--journey-gold', 'var(--layout-gold)'],
+    ['--journey-gold-dark', 'var(--layout-gold-dark)'],
+    ['--journey-text', 'var(--layout-text)'],
+    ['--journey-text-secondary', 'var(--layout-text-secondary)'],
+    ['--journey-border', 'var(--layout-border)']
+  ];
+  for (const [token, value] of semanticAliases) {
+    assert.ok(block.includes(`${token}:${value};`), `${token} deve acompanhar a paleta da Essência Luminosa.`);
+  }
+  assert.doesNotMatch(block, /#5E7153|#B88736|#8F631E/);
   assert.ok(block.includes('--ep-scene:none;'), 'Essência Luminosa não pode herdar a cena fotográfica de outro estilo.');
   assert.ok(block.includes('--ep-scene-overlay:none;'), 'A camada de cena também deve permanecer neutra até existir foto própria aprovada.');
   assert.doesNotMatch(block, /natural-sereno|reintegracao-presenca-arte/i);
