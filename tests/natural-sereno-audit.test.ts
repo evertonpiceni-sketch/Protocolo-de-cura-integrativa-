@@ -194,6 +194,8 @@ test('a recuperação do checkout Numerologia repete o mesmo pedido sem criar no
   assert.ok(routes.includes("if (!apiKey()) return res.status(503)"));
   assert.ok(routes.includes('createCheckoutUrl(preparingOrder.checkoutPayload)'));
   assert.ok(routes.includes('order.checkoutPayload?.handle || handle()'), 'a confirmação usa a handle original do pedido recuperado');
+  assert.ok(routes.includes('pendingOrders.length > 1'), 'tentativas múltiplas ficam bloqueadas para conciliação');
+  assert.ok(routes.includes('pendingNumerologyCount > 1'));
   assert.ok(routes.includes('preparingOrder.checkoutPayload.order_nsu !== preparingOrder.id'));
   assert.ok(routes.includes('candidate.checkoutPayload?.options?.single_payment === true'));
   assert.ok(routes.includes('candidate.checkoutPayload?.options?.single_payment !== true'));
