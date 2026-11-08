@@ -77,7 +77,8 @@ test('botão de feedback do Natural Sereno atende contraste WCAG AA', () => {
   const ruleStart = css.indexOf(':root[data-layout="natural-sereno"] #anamnesis-modal #anamnesis-feedback-area button[class*="bg-emerald"] {');
   const ruleEnd = ruleStart >= 0 ? css.indexOf('}', ruleStart) : -1;
   const buttonRule = ruleStart >= 0 && ruleEnd >= 0 ? css.slice(ruleStart, ruleEnd + 1) : '';
-  const background = css.split('--ns-modal-forest:')[1]?.trim().slice(0, 7) ?? '';
+  const backgroundLine = css.split('\n').find(line => line.includes('--ns-modal-forest: #'));
+  const background = backgroundLine?.split(':').at(-1)?.trim().slice(0, 7) ?? '';
   const foreground = buttonRule.split('color:')[1]?.trim().slice(0, 7) ?? '';
 
   assert.equal(foreground.toUpperCase(), '#FFFFFF');
