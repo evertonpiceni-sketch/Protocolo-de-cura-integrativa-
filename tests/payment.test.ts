@@ -346,32 +346,20 @@ test('checkout binds account, validates provider confirmation and grants only on
     db.users.push({ id: 'coupon-owner', plan: 'free', profile: {} });
     assert.equal((await call('payment/create-checkout', { productType: 'numerology_full', paymentMethod: 'pix', couponCode: 'PROMO20' }, 'coupon-owner')).status, 400);
     db.users.push({ id: 'preparing-owner', plan: 'free', profile: {} });
-    const pendingNumerologyOrder: import('../src/lib/paymentRoutes').PaymentOrder = {
-      id: 'numerology-pending-without-link',
-      userId: 'preparing-owner',
-      productType: 'numerology_full' as const,
-      cents: 9000,
-      method: 'pix',
-      createdAt: new Date(Date.now() - 6 * 60 * 1000).toISOString(),
-      checkoutPayload: {
-        handle: 'original-handle',
-        order_nsu: 'numerology-pending-without-link',
-        redirect_url: 'https://original.example/?payment_order=numerology-pending-without-link',
-        webhook_url: 'https://original.example/api/webhooks/payment',
-        items: [{ quantity: 1, price: 9000, description: 'Mapa Numerológico Cabalístico Completo' }],
-        options: { single_payment: true }
-      }
-    };
-    (db.paymentOrders ||= []).push(pendingNumerologyOrder);
-    const originalPayload = structuredClone(pendingNumerologyOrder.checkoutPayload);
-    process.env.INFINITEPAY_HANDLE = 'changed-handle';
-    process.env.PUBLIC_APP_URL = 'https://changed.example';
+    process.env.INFINITEPAY_HANDLE = 'original-handle';
+    process.env.PUBLIC_APP_URL = 'https://original.example';
     const linksBeforeRecovery = calls.filter(c => String(c.url).endsWith('/links')).length;
     failNextNumerologyLink = true;
-    const interruptedRecovery = await call('payment/create-checkout', { productType: 'numerology_full', paymentMethod: 'pix' }, 'preparing-owner');
-    assert.equal(interruptedRecovery.status, 503);
+    const interruptedInitial = await call('payment/create-checkout', { productType: 'numerology_full', paymentMethod: 'pix' }, 'preparing-owner');
+    assert.equal(interruptedInitial.status, 503);
+    const pendingNumerologyOrder = db.paymentOrders?.find(order => order.userId === 'preparing-owner' && order.productType === 'numerology_full') as import('../src/lib/paymentRoutes').PaymentOrder | undefined;
+    assert.ok(pendingNumerologyOrder);
     assert.equal(pendingNumerologyOrder.failedAt, undefined, 'uma falha de resposta não encerra o pedido nem cria outro NSU');
     assert.equal(pendingNumerologyOrder.checkoutUrl, undefined);
+    assert.ok(pendingNumerologyOrder.checkoutPayload);
+    const originalPayload = structuredClone(pendingNumerologyOrder.checkoutPayload!);
+    process.env.INFINITEPAY_HANDLE = 'changed-handle';
+    process.env.PUBLIC_APP_URL = 'https://changed.example';
 
     const recoveredRetry = await call('payment/create-checkout', { productType: 'numerology_full', paymentMethod: 'pix' }, 'preparing-owner');
     assert.equal(recoveredRetry.status, 200);
@@ -380,13 +368,30 @@ test('checkout binds account, validates provider confirmation and grants only on
     assert.equal(recoveredData.reused, true);
     assert.equal(recoveredData.recovered, true);
     assert.equal(pendingNumerologyOrder.checkoutUrl, 'https://checkout.infinitepay.io/test');
+    assert.equal(pendingNumerologyOrder.checkoutRecoveryAttempts, 1);
     const recoveryRequests = calls.filter(c => c.body.order_nsu === pendingNumerologyOrder.id);
     assert.equal(recoveryRequests.length, 2);
-    assert.deepEqual(recoveryRequests[0].body, originalPayload, 'a recuperação usa os valores persistidos, mesmo após mudança de ambiente');
-    assert.deepEqual(recoveryRequests[1].body, originalPayload, 'a nova tentativa repete exatamente o payload original');
+    assert.deepEqual(recoveryRequests[0].body, originalPayload, 'a chamada inicial persiste o payload original');
+    assert.deepEqual(recoveryRequests[1].body, originalPayload, 'a recuperação repete exatamente o payload original');
     assert.equal(recoveryRequests[0].url, 'https://api.checkout.infinitepay.io/links');
     assert.equal(calls.filter(c => String(c.url).endsWith('/links')).length, linksBeforeRecovery + 2);
     assert.equal(db.paymentOrders?.filter(o => o.userId === 'preparing-owner' && o.productType === 'numerology_full').length, 1);
+
+    db.users.push({ id: 'numerology-recovery-limit-owner', plan: 'free', profile: {} });
+    const recoveryLimitBody = { productType: 'numerology_full', paymentMethod: 'pix' };
+    failNextNumerologyLink = true;
+    const initialLimitFailure = await call('payment/create-checkout', recoveryLimitBody, 'numerology-recovery-limit-owner');
+    assert.equal(initialLimitFailure.status, 503);
+    const recoveryLimitOrder = db.paymentOrders?.find(order => order.userId === 'numerology-recovery-limit-owner' && order.productType === 'numerology_full') as import('../src/lib/paymentRoutes').PaymentOrder | undefined;
+    assert.ok(recoveryLimitOrder);
+    failNextNumerologyLink = true;
+    const firstRecoveryFailure = await call('payment/create-checkout', recoveryLimitBody, 'numerology-recovery-limit-owner');
+    assert.equal(firstRecoveryFailure.status, 503);
+    assert.equal(recoveryLimitOrder.checkoutRecoveryAttempts, 1);
+    const recoveryLimitCalls = calls.filter(c => c.body.order_nsu === recoveryLimitOrder.id).length;
+    const blockedSecondRecovery = await call('payment/create-checkout', recoveryLimitBody, 'numerology-recovery-limit-owner');
+    assert.equal(blockedSecondRecovery.status, 503);
+    assert.equal(calls.filter(c => c.body.order_nsu === recoveryLimitOrder.id).length, recoveryLimitCalls, 'a Numerologia não cria novos links após o único replay automático permitido');
 
     const recoveredConfirmationStart = calls.length;
     const recoveredConfirmation = await call('payment/confirm', {
