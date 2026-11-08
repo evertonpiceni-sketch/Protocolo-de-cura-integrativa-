@@ -75,8 +75,8 @@ A varredura é estática do CSS/import graph; não substitui captura renderizada
 
 ## CI e publicação
 
-- GitHub Actions **#42513185979**, no HEAD documental `c69a9da`: **success**.
-- O job de auditoria confirmou **151 testes aprovados, 0 falhas**, `npm audit` com **0 vulnerabilidades**, TypeScript e build aprovados, além de entrypoints Express, segredos, JWT, controles administrativos, smoke tests e verificações de pagamento.
+- GitHub Actions **#42513185979**, no HEAD de código `c7be65d` (antes do registro documental): **success**.
+- Após registrar este relatório, a execução **#42515122585**, no commit documental `1221a11`, também terminou em **success**. O log confirmou **151 testes aprovados, 0 falhas**, `npm audit` com **0 vulnerabilidades**, TypeScript e build aprovados, além de entrypoints Express, segredos, JWT, controles administrativos, smoke tests e verificações de pagamento.
 - O check Vercel associado ao HEAD continua em falha `build-rate-limit`. Não há comprovação de deployment de produção bem-sucedido para o código atual; produção não homologada.
 
 ## Pendente
