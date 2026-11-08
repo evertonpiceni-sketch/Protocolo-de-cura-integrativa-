@@ -501,6 +501,7 @@ test('o Mapa Astral da Essência Luminosa não mantém verde profundo nem dourad
 test('o logo da Essência Luminosa neutraliza o destaque compartilhado no hero e no acolhimento', () => {
   const shared = fs.readFileSync('src/approved-theme.css', 'utf8');
   const css = fs.readFileSync('src/essencia-luminosa-final-audit.css', 'utf8');
+  const overrides = fs.readFileSync('src/essencia-luminosa-approved-overrides.css', 'utf8');
   const main = fs.readFileSync('src/main.tsx', 'utf8');
   const home = fs.readFileSync('src/components/TransformationHome.tsx', 'utf8');
 
@@ -516,6 +517,23 @@ test('o logo da Essência Luminosa neutraliza o destaque compartilhado no hero e
   assert.ok(style3Rule.includes(':root[data-layout="essencia-luminosa"] .ep-welcome-audio .ep-brand-signature-wrap'));
   assert.ok(style3Rule.includes(':root[data-layout="essencia-luminosa"] .ep-welcome-audio .ep-brand-signature'));
   assert.ok(style3Rule.includes('opacity: .30 !important;'));
+  assert.ok(style3Rule.includes('background: transparent !important;'));
+  assert.ok(style3Rule.includes('border: 0 !important;'));
+  assert.ok(style3Rule.includes('box-shadow: none !important;'));
+
+  const genericWrapperStart = overrides.indexOf(':root[data-layout="essencia-luminosa"] .ep-brand-signature-wrap{');
+  assert.ok(genericWrapperStart >= 0, 'Todos os wrappers do logo precisam ter regra própria no Estilo 3.');
+  const genericWrapperRule = overrides.slice(genericWrapperStart, genericWrapperStart + 320);
+  assert.ok(genericWrapperRule.includes('background:transparent!important;'));
+  assert.ok(genericWrapperRule.includes('border-color:transparent!important;'));
+  assert.ok(genericWrapperRule.includes('box-shadow:none!important;'));
+
+  const headerWrapperStart = css.indexOf(':root[data-layout="essencia-luminosa"] #main-header div:has(> .ep-brand-signature)');
+  assert.ok(headerWrapperStart >= 0, 'O wrapper do cabeçalho precisa ser neutralizado.');
+  const headerWrapperRule = css.slice(headerWrapperStart, headerWrapperStart + 300);
+  assert.ok(headerWrapperRule.includes('background:transparent!important;'));
+  assert.ok(headerWrapperRule.includes('border-color:transparent!important;'));
+  assert.ok(headerWrapperRule.includes('box-shadow:none!important;'));
 
   const mobileRuleStart = css.indexOf('@media (max-width: 640px)');
   assert.ok(mobileRuleStart >= 0, 'O override mobile do logo precisa existir.');
