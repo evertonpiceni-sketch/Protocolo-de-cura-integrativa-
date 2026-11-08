@@ -10,14 +10,24 @@ test('Estilo 4 usa a prancha oficial no card e uma superfície noturna própria'
   assert.ok(modal.includes("misticoBoardBase64 from '../assets/mistico-moderno-prancha.b64?raw'"));
   assert.ok(modal.includes('MISTICO_MODERNO_OFFICIAL_BOARD'));
   assert.ok(modal.includes('src={MISTICO_MODERNO_OFFICIAL_BOARD}'));
-  assert.ok(modal.includes("bg-[#0D1726] text-[#F4F1EB]"));
+  assert.ok(modal.includes("backgroundColor: '#00142D'"));
+  const theme = fs.readFileSync('src/approved-theme.css', 'utf8');
+  const layouts = fs.readFileSync('src/config/layouts.ts', 'utf8');
+  assert.ok(theme.includes('--layout-indigo:#0D0D3F;'));
+  assert.ok(theme.includes('--layout-emerald:#003F2C;'));
+  assert.ok(theme.includes('--layout-violet:#4D29B1;'));
+  assert.ok(theme.includes('--layout-amber:#DB6C12;'));
+  assert.ok(theme.includes('--layout-text:#EDDEC2;'));
+  assert.ok(layouts.includes("swatches: ['#00142D', '#4D29B1', '#E8AA3B', '#003F2C']"));
+  assert.ok(modal.includes("bg-[#00142D] text-[#EDDEC2]"));
   assert.ok(board.startsWith('UklGR'), 'a referência deve ser um WebP real, não um placeholder');
-  assert.ok(board.length > 30000, 'a prancha não pode ser substituída por uma miniatura vazia');
+  assert.ok(board.length > 60000, 'a prancha oficial otimizada deve manter resolução suficiente para o card');
 });
 
 test('os quatro estilos exigem escolha e confirmação explícitas nesta sessão', () => {
   const modal = fs.readFileSync('src/components/LayoutChoiceModal.tsx', 'utf8');
   const app = fs.readFileSync('src/App.tsx', 'utf8');
+  const main = fs.readFileSync('src/main.tsx', 'utf8');
   assert.ok(modal.includes('useState<LayoutId | null>(null)'));
   assert.ok(modal.includes('disabled={!selectedLayout || isSaving}'));
   assert.ok(modal.includes('O estilo só será aplicado depois da sua confirmação.'));
@@ -66,6 +76,7 @@ test('o Místico respeita a voz neural salva sem forçar Marianne, Rachel, Marcu
   assert.ok(prayer.includes('fallbackToSpeechSynthesis: !requiresNeuralVoice'));
   assert.ok(guard.includes('fallbackToSpeechSynthesis: false'));
   assert.ok(guard.includes('requireExplicitVoiceId: true'));
+  assert.ok(main.includes("import './lib/misticoModernoOfficialVoicePatch';"));
   assert.ok(!guard.includes('OFFICIAL_PROTOCOL_VOICE_ID'));
   assert.ok(!guard.includes("voiceId === 'Rachel'"));
 });
