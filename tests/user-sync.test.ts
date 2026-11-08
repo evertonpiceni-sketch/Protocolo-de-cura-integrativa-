@@ -101,11 +101,19 @@ test('user sync rejects an empty payload before making a request', async () => {
   assert.equal(calls, 0);
 });
 
-test('App syncs profile-only and progress-only changes separately, with one atomic snapshot when both change', () => {
+test('active profile, progress, onboarding and Natural Sereno journey paths use the retry helper', () => {
   const app = readFileSync('src/App.tsx', 'utf8');
+  const setup = readFileSync('src/components/ProfileSetup.tsx', 'utf8');
+  const journey = readFileSync('src/lib/naturalSerenoHomeJourneyStateFix.ts', 'utf8');
+
   assert.match(app, /const saveProfile = \(newProfile: UserProfile, progressOverride\?: DayProgress\[\]\) =>/);
   assert.match(app, /const syncPayload = progressOverride \? \{ profile: newProfile, progress: progressOverride \} : \{ profile: newProfile \};/);
   assert.match(app, /void syncUserState\(syncPayload\)/);
   assert.match(app, /void syncUserState\(\{ progress: newProgress \}\)/);
   assert.match(app, /await syncUserState\(\{ profile: updatedProfile \}\)/);
+  assert.doesNotMatch(app, /fetch\(['"]\/api\/user\/sync/);
+  assert.match(setup, /syncUserState\(/);
+  assert.doesNotMatch(setup, /fetch\(['"]\/api\/user\/sync/);
+  assert.match(journey, /syncUserState\(\{ profile, progress \}\)/);
+  assert.doesNotMatch(journey, /fetch\(['"]\/api\/user\/sync/);
 });
