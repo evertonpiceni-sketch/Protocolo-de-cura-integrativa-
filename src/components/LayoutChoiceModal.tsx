@@ -37,7 +37,7 @@ function LayoutPreview({ layout }: { layout: LayoutDefinition }) {
     );
   }
   if (layout.id === 'elegancia-profunda') {
-    // A prancha 1001194194.png orienta atmosfera e composição; decisões posteriores prevalecem: 21 dias, corpo neutro e logo discreto como assinatura.
+    // A prancha oficial do Estilo 2 é referência visual; a jornada funcional aprovada permanece com 21 dias.
     return (
       <div
         className="mt-4 flex h-[184px] w-full items-center justify-center overflow-hidden rounded-2xl border shadow-inner"
@@ -116,7 +116,7 @@ function LayoutPreview({ layout }: { layout: LayoutDefinition }) {
             />
           )}
           <span
-            className="mt-3 inline-flex rounded-full px-3 py-1 text-[8px] font-bold uppercase tracking-[.12em] shadow-sm"
+            className={`mt-3 inline-flex ${isNaturalSereno ? 'rounded-[18px]' : 'rounded-full'} px-3 py-1 text-[8px] font-bold uppercase tracking-[.12em] shadow-sm`}
             style={{ background: actionBackground, color: '#2A2420' }}
           >
             Iniciar jornada
@@ -230,7 +230,7 @@ export default function LayoutChoiceModal({ onSelect }: LayoutChoiceModalProps) 
             type="button"
             disabled={!selectedLayout || isSaving}
             onClick={confirmSelection}
-            className={`min-h-12 w-full max-w-sm rounded-full ${confirmButtonTone} px-6 py-3 text-sm font-bold uppercase tracking-[.12em] text-[#2A2420] shadow-lg transition hover:-translate-y-0.5 hover:shadow-xl disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:translate-y-0 disabled:hover:shadow-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2`}
+            className={`min-h-12 w-full max-w-sm ${selectedLayout === 'natural-sereno' ? 'rounded-[18px]' : 'rounded-full'} ${confirmButtonTone} px-6 py-3 text-sm font-bold uppercase tracking-[.12em] text-[#2A2420] shadow-lg transition hover:-translate-y-0.5 hover:shadow-xl disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:translate-y-0 disabled:hover:shadow-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2`}
           >
             {isSaving ? 'Salvando escolha…' : selectedDefinition ? `Confirmar ${selectedDefinition.name}` : 'Selecione um estilo'}
           </button>

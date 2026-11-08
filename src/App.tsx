@@ -128,6 +128,7 @@ export default function App() {
   const effectiveNeuralVoiceId = (isNaturalSereno || isEssenciaLuminosa) && !isElevenLabsVoiceId(savedNeuralVoiceId)
     ? OFFICIAL_PROTOCOL_VOICE_ID
     : savedNeuralVoiceId;
+  const hasArcanjoAccess = userProfile?.plan === 'pro' || userProfile?.subscriptionPlan === 'arcanjo_7d';
 
   // Initialize and register local notification daily checker
   useEffect(() => {
@@ -204,7 +205,8 @@ export default function App() {
   // Listen for OPEN_PROTOCOL_DAY to ensure ArcanjoProtocolView is shown
   useEffect(() => {
     const handleOpenProtocol = () => {
-      setShowArcanjoView(true);
+      if (hasArcanjoAccess) setShowArcanjoView(true);
+      else setShowProModal(true);
     };
     const handleOpenCertificate = () => {
       setShowCertificateModal(true);
@@ -215,7 +217,7 @@ export default function App() {
       window.removeEventListener('OPEN_PROTOCOL_DAY', handleOpenProtocol);
       window.removeEventListener('OPEN_CERTIFICATE', handleOpenCertificate);
     };
-  }, []);
+  }, [hasArcanjoAccess]);
 
   // Load available system voices for layouts that still use device speech.
   useEffect(() => {
@@ -896,7 +898,7 @@ export default function App() {
             }
           })}
         />
-      ) : showArcanjoView || userProfile.subscriptionPlan === 'arcanjo_7d' ? (
+      ) : showArcanjoView ? (
         <ArcanjoProtocolView 
           userProfile={userProfile}
           onLogout={handleLogout}
@@ -1933,7 +1935,7 @@ export default function App() {
             onStartSession={setActiveSessionDay}
             onOpenJournal={() => setIsJournalOpen(true)}
             onOpenAnamnesis={() => setShowAnamnesisModal(true)}
-            onOpenArcanjo={() => userProfile.plan === 'pro' ? setShowArcanjoView(true) : setShowProModal(true)}
+            onOpenArcanjo={() => hasArcanjoAccess ? setShowArcanjoView(true) : setShowProModal(true)}
             onOpenChakras={() => setShowChakrasModal(true)}
             onOpenBaths={() => setShowHerbalBathsModal(true)}
             onOpenAstral={() => setShowAstralMapModal(true)}
