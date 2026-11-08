@@ -92,6 +92,17 @@ html[data-layout="essencia-luminosa"] #journal-dashboard-view [class*="text-[#85
   color: var(--layout-text-muted) !important;
 }
 
+/* Humor baixo: mantém a informação sem introduzir rosa fora da paleta do Estilo 3. */
+html[data-layout="essencia-luminosa"] #journal-dashboard-view [class*="border-rose-200"] {
+  border-color: var(--layout-border-card) !important;
+}
+html[data-layout="essencia-luminosa"] #journal-dashboard-view [class*="bg-rose-50"] {
+  background: color-mix(in srgb, var(--layout-canvas-alt) 76%, var(--layout-card)) !important;
+}
+html[data-layout="essencia-luminosa"] #journal-dashboard-view [class*="text-rose-700"] {
+  color: var(--layout-text-secondary) !important;
+}
+
 @media (max-width: 640px) {
   html[data-layout="essencia-luminosa"] #journal-dashboard-view {
     padding-inline: 1rem;

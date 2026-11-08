@@ -213,6 +213,26 @@ test('os overlays compartilhados do Estilo 3 não herdam índigo, verde escuro o
 });
 
 
+test('o Guia dos Chakras mantém cores simbólicas e usa areia no estado informativo de desequilíbrio', () => {
+  const component = fs.readFileSync('src/components/ChakrasGuideModal.tsx', 'utf8');
+  const css = fs.readFileSync('src/essencia-luminosa-chakras-guide-audit.css', 'utf8');
+  assert.ok(component.includes('Quando percebido em desequilíbrio'));
+  assert.ok(css.includes('section article:nth-child(3)'));
+  assert.ok(css.includes('var(--layout-canvas-alt)'));
+  assert.ok(css.includes('section article:nth-child(3) > span'));
+  assert.ok(!css.includes('#FBF4F0') && !css.includes('#EADBD5'));
+});
+
+test('o Diário de Reconexão mantém humor baixo em areia/grafite, sem rosa estrutural', () => {
+  const component = fs.readFileSync('src/components/JournalLog.tsx', 'utf8');
+  const css = fs.readFileSync('src/essencia-luminosa-journal-dashboard-audit.css', 'utf8');
+  assert.ok(component.includes('border-rose-200 bg-rose-50 text-rose-700'));
+  assert.ok(css.includes('[class*="border-rose-200"]'));
+  assert.ok(css.includes('[class*="bg-rose-50"]'));
+  assert.ok(css.includes('[class*="text-rose-700"]'));
+  assert.ok(css.includes('var(--layout-canvas-alt)'));
+});
+
 test('as telas secundárias da Essência Luminosa usam tokens atuais sem paleta verde/ouro legada', () => {
   const files = [
     'src/essencia-luminosa-journal-dashboard-audit.css',
