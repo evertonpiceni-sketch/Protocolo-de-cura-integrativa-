@@ -84,7 +84,7 @@
   font-family: 'Lora', Georgia, serif;
   font-size: 14px;
   background: linear-gradient(180deg, #E2B96B, #C89D52 55%, #8F631E);
-  box-shadow: inset 0 1px 2px #ffedb9, 0 3px 10px rgba(85, 60, 11, .2);
+  box-shadow: inset 0 1px 2px rgba(255,253,248,.72), 0 3px 10px rgba(85, 60, 11, .2);
   transition: filter .18s, transform .18s;
 }
 :root[data-layout="natural-sereno"] .ns-gold:hover { filter: brightness(1.07); }
@@ -162,9 +162,9 @@
   width: 43px;
   height: 43px;
   border-radius: 50%;
-  color: #e9d296;
+  color: #E2B96B;
   background: var(--ns-forest);
-  box-shadow: inset 0 1px 3px rgba(255, 247, 198, .2);
+  box-shadow: inset 0 1px 3px rgba(255,253,248,.18);
 }
 :root[data-layout="natural-sereno"] .ns-row-copy { flex: 1; min-width: 0; }
 :root[data-layout="natural-sereno"] .ns-row-copy strong { display: block; font-size: 13px; font-weight: 500; line-height: 1.35; }
@@ -173,7 +173,7 @@
 :root[data-layout="natural-sereno"] .ns-signature { margin: 26px 8px 6px; text-align: center; font: italic 20px/1.35 'Cormorant Garamond', Georgia, serif; }
 :root[data-layout="natural-sereno"] .ns-journey-intro p { font-size: 12px; line-height: 1.65; margin-bottom: 15px; }
 :root[data-layout="natural-sereno"] .ns-day { min-height: 69px; gap: 10px; }
-:root[data-layout="natural-sereno"] .ns-day-number { display: grid; place-items: center; width: 31px; height: 31px; flex-shrink: 0; border-radius: 50%; background: var(--ns-forest); color: #fff7db; font-size: 15px; }
+:root[data-layout="natural-sereno"] .ns-day-number { display: grid; place-items: center; width: 31px; height: 31px; flex-shrink: 0; border-radius: 50%; background: var(--ns-forest); color: #FAF7F2; font-size: 15px; }
 :root[data-layout="natural-sereno"] .ns-row > img { width: 47px; height: 48px; border-radius: 7px; object-fit: cover; flex-shrink: 0; }
 :root[data-layout="natural-sereno"] .ns-search { display: flex; align-items: center; gap: 8px; background: var(--ns-paper); border: 1px solid var(--ns-line); border-radius: 9px; min-height: 44px; padding: 8px 12px; font-size: 12px; }
 :root[data-layout="natural-sereno"] .ns-search input { min-width: 0; flex: 1; background: transparent; }
@@ -193,7 +193,7 @@
 :root[data-layout="natural-sereno"] .ns-profile-progress h3 { font-size: 20px; }
 :root[data-layout="natural-sereno"] .ns-profile-progress span { grid-column: 2; font-size: 11px; }
 :root[data-layout="natural-sereno"] .ns-profile-progress progress { display: block; appearance: none; width: calc(100% - 36px); height: 8px; margin-top: 12px; border-radius: 6px; overflow: hidden; }
-:root[data-layout="natural-sereno"] .ns-profile-progress progress::-webkit-progress-bar { background: #e6ddbc; }
+:root[data-layout="natural-sereno"] .ns-profile-progress progress::-webkit-progress-bar { background: #E8E0D5; }
 :root[data-layout="natural-sereno"] .ns-profile-progress progress::-webkit-progress-value { background: var(--ns-forest); }
 :root[data-layout="natural-sereno"] .ns-profile-progress progress::-moz-progress-bar { background: var(--ns-forest); }
 :root[data-layout="natural-sereno"] .ns-profile-progress > small { position: absolute; right: 12px; bottom: 12px; font-size: 10px; }
@@ -251,13 +251,13 @@
 :root[data-layout="natural-sereno"] #anamnesis-modal [class*="from-indigo-500"] { background: linear-gradient(180deg,#E2B96B,#C89D52) !important; color: #2A2421 !important; }
 :root[data-layout="natural-sereno"] #anamnesis-modal button[class*="bg-[#B88736]"],
 :root[data-layout="natural-sereno"] #anamnesis-modal button[class*="from-emerald-600"] { background: linear-gradient(180deg, #E2B96B, #C89D52) !important; border-radius: 18px; color: #2A2421 !important; }
-:root[data-layout="natural-sereno"] #anamnesis-modal [class*="hover:bg-slate"]:hover { background: #eee5c9 !important; }
+:root[data-layout="natural-sereno"] #anamnesis-modal [class*="hover:bg-slate"]:hover { background: #F3EDE4 !important; }
 :root[data-layout="natural-sereno"] #courses-modal h2 { font-size: 28px; }
 
 /* These stable component selectors cannot restyle unrelated dialogs or the
    frozen PersonalJourney21 player, unlike the earlier utility-class matching. */
 :root[data-layout="natural-sereno"] #meditation-session {
-  color: #fff8e6 !important;
+  color: #FAF7F2 !important;
   background: var(--ns-waterfall) center / cover no-repeat #2A2421 !important;
   overflow-y: auto;
 }
@@ -268,7 +268,7 @@
 :root[data-layout="natural-sereno"] #meditation-session > header :is(h1, div, span) { color: #2A2421 !important; }
 :root[data-layout="natural-sereno"] #meditation-session > header button { background: rgba(251,248,242,.94) !important; border-color: rgba(200,157,82,.34) !important; color: #6B4E2E !important; }
 :root[data-layout="natural-sereno"] #meditation-session > main { justify-content: flex-end; min-height: 390px; max-width: 480px; padding: 150px 20px 16px; }
-:root[data-layout="natural-sereno"] #meditation-session > main :is(h2, p, span) { color: #fff8e6 !important; }
+:root[data-layout="natural-sereno"] #meditation-session > main :is(h2, p, span) { color: #FAF7F2 !important; }
 :root[data-layout="natural-sereno"] #meditation-session > main h2 { font-size: 31px !important; }
 :root[data-layout="natural-sereno"] #meditation-session > main p { font-size: 13px; }
 :root[data-layout="natural-sereno"] #meditation-session > main .relative.w-44.h-44 { width: 110px !important; height: 110px !important; margin: 8px 0 !important; }
@@ -319,7 +319,7 @@
 :root[data-layout="natural-sereno"] .ns-community-empty p { font-size: 13px; line-height: 1.65; }
 :root[data-layout="natural-sereno"] #main-header > div > div:first-child > div:first-child { opacity: .6; background: transparent !important; border: 0; box-shadow: none; }
 :root[data-layout="natural-sereno"] #auth-loading-view { background: linear-gradient(180deg, rgba(42,36,33,.12), rgba(42,36,33,.68)), var(--ns-waterfall) center / cover no-repeat #FAF7F2 !important; }
-:root[data-layout="natural-sereno"] #auth-loading-view :is(h2, p) { color: #fff8e6 !important; }
+:root[data-layout="natural-sereno"] #auth-loading-view :is(h2, p) { color: #FAF7F2 !important; }
 :root[data-layout="natural-sereno"] #auth-loading-view > div { background: transparent !important; border: 0; box-shadow: none; opacity: .65; }
 :root[data-layout="natural-sereno"] #anamnesis-modal div[class*="bg-[#B88736]/"] { background: rgba(182, 139, 54, .1) !important; }
 :root[data-layout="natural-sereno"] #anamnesis-modal > div > div.absolute { opacity: .25; }
@@ -416,11 +416,11 @@
   display: block;
   width: 65%;
   height: 100%;
-  background: #e6c66e;
+  background: #C89D52;
   border-radius: inherit;
   animation: ns-loading 1.8s ease-in-out infinite alternate;
 }
-:root[data-layout="natural-sereno"] .ns-loading-details small { font-size: 12px; color: #fff8e6; margin-top: 14px; line-height: 1.5; }
+:root[data-layout="natural-sereno"] .ns-loading-details small { font-size: 12px; color: #FAF7F2; margin-top: 14px; line-height: 1.5; }
 @keyframes ns-loading { from { transform: translateX(-65%); } to { transform: translateX(90%); } }
 :root[data-layout="natural-sereno"] .ns-welcome {
   background: url('/brand/natural-sereno/acolhimento.webp') center / cover no-repeat #2A2421;
@@ -453,7 +453,7 @@
 :root[data-layout="natural-sereno"] .ns-result-item > div { flex: 1; min-width: 0; }
 :root[data-layout="natural-sereno"] .ns-result-symbol { display: grid; place-items: center; flex-shrink: 0; width: 46px; height: 46px; border: 1px solid rgba(200,157,82,.34); border-radius: 50%; background: #F5EFE5; }
 :root[data-layout="natural-sereno"] .ns-result-symbol svg { margin: 0; color: #8F631E; }
-:root[data-layout="natural-sereno"] .ns-result-item:nth-of-type(3) .ns-result-symbol { color: #297241; background: #edf1d8; }
+:root[data-layout="natural-sereno"] .ns-result-item:nth-of-type(3) .ns-result-symbol { color: #5E6948; background: rgba(111,123,85,.10); }
 :root[data-layout="natural-sereno"] .ns-result-item small { font-size: 12px; }
 :root[data-layout="natural-sereno"] .ns-result-item strong { font-size: 15px; line-height: 1.4; }
 :root[data-layout="natural-sereno"] .ns-dock svg { width: 25px; height: 25px; stroke-width: 1.8; }
@@ -510,8 +510,8 @@
 :root[data-layout="natural-sereno"] #anamnesis-modal .ep-anamnesis-frequency { background: var(--ns-paper) !important; border-color: var(--ns-line); border-radius: 12px; }
 :root[data-layout="natural-sereno"] #anamnesis-modal .ep-anamnesis-frequency [class*="text-emerald"] { color: var(--ns-forest) !important; }
 :root[data-layout="natural-sereno"] #anamnesis-modal .ep-anamnesis-frequency [class*="bg-emerald"] { background: rgba(200,157,82,.12) !important; border-color: var(--ns-line) !important; }
-:root[data-layout="natural-sereno"] #anamnesis-modal .ep-anamnesis-frequency > div > div:first-child { background: var(--ns-forest) !important; color: #e9d296 !important; }
-:root[data-layout="natural-sereno"] #anamnesis-modal .ep-anamnesis-frequency > div > div:first-child > svg { color: #e9d296 !important; }
+:root[data-layout="natural-sereno"] #anamnesis-modal .ep-anamnesis-frequency > div > div:first-child { background: var(--ns-forest) !important; color: #E2B96B !important; }
+:root[data-layout="natural-sereno"] #anamnesis-modal .ep-anamnesis-frequency > div > div:first-child > svg { color: #E2B96B !important; }
 /* Six library rows fit below search and filters at the approved phone scale. */
 :root[data-layout="natural-sereno"] .ns-library-row { min-height: 74px; padding: 8px 12px; margin-bottom: 6px; }
 :root[data-layout="natural-sereno"] .ns-search { font-size: 14px; }
@@ -745,7 +745,7 @@
   :root[data-layout="natural-sereno"] .ns-home-scene { position: sticky; top: 0; align-self: start; }
 }
 :root[data-layout="natural-sereno"] :is(#courses-modal, #anamnesis-modal, #astral-map-modal) > div { font-family: 'Inter', sans-serif; }
-:root[data-layout="natural-sereno"] #courses-modal .ep-courses-grid > div { box-shadow: 0 3px 12px rgba(7,59,43,.07); --tw-ring-color: #a8b697; }
+:root[data-layout="natural-sereno"] #courses-modal .ep-courses-grid > div { box-shadow: 0 3px 12px rgba(7,59,43,.07); --tw-ring-color: #6F7B55; }
 :root[data-layout="natural-sereno"] #courses-modal :is(p, button) { font-family: 'Inter', sans-serif; }
 :root[data-layout="natural-sereno"] #courses-modal [class*="text-[9px]"] { font-size: 11px; color: #8F631E; background: #F5EFE5; }
 :root[data-layout="natural-sereno"] #anamnesis-modal .ep-assessment-heading > div:first-child { padding-right: 56px; flex-wrap: wrap; gap: 8px; }
