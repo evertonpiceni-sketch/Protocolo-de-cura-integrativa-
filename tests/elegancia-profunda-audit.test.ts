@@ -4,6 +4,71 @@ import test from 'node:test';
 
 const read = (path: string) => fs.readFileSync(path, 'utf8');
 
+const splitSelectorList = (value: string): string[] => {
+  const selectors: string[] = [];
+  let start = 0;
+  let parentheses = 0;
+  let brackets = 0;
+  let quote = '';
+
+  for (let index = 0; index < value.length; index += 1) {
+    const character = value[index];
+    if (quote) {
+      if (character === quote && value[index - 1] !== '\\') quote = '';
+      continue;
+    }
+    if (character === '"' || character === "'") {
+      quote = character;
+      continue;
+    }
+    if (character === '(') parentheses += 1;
+    else if (character === ')') parentheses -= 1;
+    else if (character === '[') brackets += 1;
+    else if (character === ']') brackets -= 1;
+    else if (character === ',' && parentheses === 0 && brackets === 0) {
+      selectors.push(value.slice(start, index).trim());
+      start = index + 1;
+    }
+  }
+
+  selectors.push(value.slice(start).trim());
+  return selectors.filter(Boolean);
+};
+
+const extractCssSelectors = (css: string): string[] => {
+  const source = css.replace(/\/\*[\s\S]*?\*\//g, '');
+  const selectors: string[] = [];
+  let start = 0;
+  let depth = 0;
+  let quote = '';
+
+  for (let index = 0; index < source.length; index += 1) {
+    const character = source[index];
+    if (quote) {
+      if (character === quote && source[index - 1] !== '\\') quote = '';
+      continue;
+    }
+    if (character === '"' || character === "'") {
+      quote = character;
+      continue;
+    }
+    if (character === '{') {
+      const prelude = source.slice(start, index).trim();
+      if (prelude && !prelude.startsWith('@')) selectors.push(...splitSelectorList(prelude));
+      depth += 1;
+      start = index + 1;
+    } else if (character === '}') {
+      depth = Math.max(0, depth - 1);
+      start = index + 1;
+    } else if (character === ';' && depth === 0) {
+      start = index + 1;
+    }
+  }
+
+  return selectors;
+};
+
+
 test('o seletor usa a prancha oficial do Estilo 2 e exige confirmação explícita', () => {
   const modal = read('src/components/LayoutChoiceModal.tsx');
   const board = read('public/brand/elegancia-profunda/prancha-oficial.svg');
@@ -331,10 +396,8 @@ test('todas as folhas CSS do Estilo 2 permanecem isoladas do restante do sistema
   assert.equal(styleSheets.length, 21, 'A auditoria deve cobrir todas as folhas CSS ativas do Estilo 2.');
 
   for (const file of styleSheets) {
-    const css = read('src/' + file).replace(/\/\*[\s\S]*?\*\//g, '');
-    const selectors = [...css.matchAll(/(?:^|})\s*([^{}@]+)\s*\{/g)]
-      .map(match => match[1].trim())
-      .filter(Boolean);
+    const css = read('src/' + file);
+    const selectors = extractCssSelectors(css);
 
     for (const selector of selectors) {
       if (/^(from|to|\d+%)(\s*,\s*(from|to|\d+%))*$/.test(selector)) continue;
