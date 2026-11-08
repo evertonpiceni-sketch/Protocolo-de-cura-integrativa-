@@ -7,7 +7,7 @@ import { useDialogFocus } from '../hooks/useDialogFocus';
 import React, { useRef, useState } from 'react';
 import { motion } from 'motion/react';
 import {
-  Sparkles, X, Hash, Heart, Shield, Crown, Award, Printer, Lock,
+  Sparkles, X, Hash, Heart, Shield, Crown, CheckCircle2, Award, Printer, Lock,
   Sun, Compass, Star, Eye, Zap, MessageSquare
 } from 'lucide-react';
 import { UserProfile, NumerologyData } from '../types';
