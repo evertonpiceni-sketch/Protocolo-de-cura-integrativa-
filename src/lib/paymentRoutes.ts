@@ -149,25 +149,6 @@ export function paymentRoutes(authenticate: any, limiter: any, providerFetch: ty
     return checkout.href;
   }
   const numerologyCheckoutKey = (userId: string) => `cura_integrada:numerology-checkout:${userId}`;
-  async function acquireNumerologyCheckoutLock(userId: string): Promise<(() => Promise<void>) | null> {
-    const key = `cura_integrada:numerology-checkout-lock:${userId}`;
-    const token = crypto.randomUUID();
-    if (hasPersistentDatabase()) {
-      const acquired = await redisCommand('set', [key, token, 'nx', 'px', '30000']);
-      if (acquired !== 'OK') return null;
-      return async () => {
-        try {
-          await redisCommand('eval', [
-            'if redis.call("get", KEYS[1]) == ARGV[1] then return redis.call("del", KEYS[1]) else return 0 end',
-            '1', key, token
-          ]);
-        } catch { /* O TTL do lock é a proteção final caso a liberação falhe. */ }
-      };
-    }
-    if (localNumerologyCheckoutLocks.has(userId)) return null;
-    localNumerologyCheckoutLocks.add(userId);
-    return async () => { localNumerologyCheckoutLocks.delete(userId); };
-  }
   router.post('/user/upgrade', authenticate, limiter, async (req: any, res) => {
     if (req.body?.planId !== 'teste_vip_7d' || req.body?.couponCode !== 'VIP7' || req.body?.paymentMethod !== 'trial') return res.status(400).json({ error: 'Ativação inválida.' });
     const user = getDb().users.find(u => u.id === req.userId);
