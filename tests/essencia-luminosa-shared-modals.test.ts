@@ -42,5 +42,5 @@ test('A seleção de frequências fica bloqueada durante a prévia neural da Ess
   assert.ok(settings.includes('disabled={isTrackBlockedDuringVoicePreview}'));
   assert.ok(settings.includes('aria-disabled={isTrackBlockedDuringVoicePreview}'));
   assert.ok(settings.includes('if (isTrackBlockedDuringVoicePreview) return;'));
-  assert.ok(settings.includes('Aguarde a prévia da voz terminar para alterar a frequência.'));
+  assert.ok(settings.includes('Aguarde a prévia da voz terminar para alterar a frequência Solfeggio.'));
 });
