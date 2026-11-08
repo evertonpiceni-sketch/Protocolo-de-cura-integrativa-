@@ -275,9 +275,18 @@ export function paymentRoutes(authenticate: any, limiter: any, providerFetch: ty
           if (!preparingOrder.checkoutPayload || preparingOrder.checkoutPayload.order_nsu !== preparingOrder.id || preparingOrder.checkoutPayload.options?.single_payment !== true) {
             return res.status(503).json({ error: 'A tentativa anterior precisa de conferência antes de ser retomada.' });
           }
+          const recoveryAttempts = Number.isInteger(preparingOrder.checkoutRecoveryAttempts)
+            ? Math.max(0, preparingOrder.checkoutRecoveryAttempts || 0)
+            : 0;
+          if (recoveryAttempts >= 1) {
+            return res.status(503).json({ error: 'A recuperação automática da Numerologia já foi utilizada. É necessária conferência manual para evitar links duplicados.' });
+          }
           await releaseNumerologyLock.assertHeld();
           order = preparingOrder;
           providerRequestStarted = true;
+          preparingOrder.checkoutRecoveryAttempts = recoveryAttempts + 1;
+          await saveCheckoutOrder();
+          await releaseNumerologyLock.assertHeld();
           const checkoutUrl = await createCheckoutUrl(preparingOrder.checkoutPayload);
           await releaseNumerologyLock.assertHeld();
           preparingOrder.checkoutUrl = checkoutUrl;
