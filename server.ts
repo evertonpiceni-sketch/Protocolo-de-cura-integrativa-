@@ -85,7 +85,10 @@ export function createApp() {
     let previous: { plan: any; profile: any } | undefined;
     try {
       lock = await acquireSharedDatabaseWriteLock();
-      if (!lock) return res.status(409).json({ error: "Há outra atualização de dados em andamento. Tente novamente." });
+      if (!lock) {
+        res.setHeader("Retry-After", "1");
+        return res.status(409).json({ error: "Há outra atualização de dados em andamento. Tente novamente." });
+      }
       await lock.assertHeld();
       const db = getDb();
       const currentAdmin = db.users.find(u => u.id === req.userId);
