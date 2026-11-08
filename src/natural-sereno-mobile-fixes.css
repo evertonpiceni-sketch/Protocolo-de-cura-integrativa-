@@ -2,12 +2,12 @@
    Não redesenha o Natural Sereno: neutraliza apenas heranças e sobreposições. */
 
 :root[data-layout="natural-sereno"] {
-  --ns-mobile-ink: #26372a;
-  --ns-mobile-muted: #586454;
-  --ns-mobile-paper: #fffaf0;
-  --ns-mobile-line: #d9c58f;
-  --ns-mobile-gold: #b88736;
-  --ns-mobile-forest: #073b2b;
+  --ns-mobile-ink: #2A2421;
+  --ns-mobile-muted: #6B625B;
+  --ns-mobile-paper: #FAF7F2;
+  --ns-mobile-line: #E8E0D5;
+  --ns-mobile-gold: #C89D52;
+  --ns-mobile-forest: #6F7B55;
 }
 
 /* A regra antiga que transforma bg-[#B88736]/xx em sólido não pode atingir
@@ -59,8 +59,8 @@
   border-color: var(--ns-mobile-line) !important;
 }
 :root[data-layout="natural-sereno"] #numerology-modal [role="tab"][aria-selected="true"] {
-  background: #efe2bd !important;
-  border-color: #b88736 !important;
+  background: #F3EDE4 !important;
+  border-color: #C89D52 !important;
 }
 :root[data-layout="natural-sereno"] #numerology-modal :is(h1,h2,h3,h4,strong) {
   color: var(--ns-mobile-ink) !important;
@@ -87,21 +87,21 @@
 /* Cursos: etiquetas legíveis e sem dourado chapado sobre texto. */
 :root[data-layout="natural-sereno"] #courses-modal [class*="bg-amber-500/10"],
 :root[data-layout="natural-sereno"] #courses-modal [class*="bg-[#B88736]/"] {
-  background: #f1e7c8 !important;
-  color: #61491e !important;
+  background: #F5EFE4 !important;
+  color: #6B4E2E !important;
 }
 :root[data-layout="natural-sereno"] #courses-modal :is([class*="text-amber-300"],[class*="text-amber-400"]) {
-  color: #71511c !important;
+  color: #8F631E !important;
 }
 
 /* Admin: retirar vazamentos neon/legado e manter hierarquia Natural Sereno. */
 :root[data-layout="natural-sereno"] #admin-panel-modal {
-  --admin-paper: #fffaf0;
-  --admin-line: #d9c58f;
-  --admin-ink: #26372a;
-  --admin-muted: #586454;
-  --admin-gold: #b88736;
-  --admin-forest: #073b2b;
+  --admin-paper: #FAF7F2;
+  --admin-line: #E8E0D5;
+  --admin-ink: #2A2421;
+  --admin-muted: #6B625B;
+  --admin-gold: #C89D52;
+  --admin-forest: #6F7B55;
 }
 :root[data-layout="natural-sereno"] #admin-panel-modal > div {
   background: var(--admin-paper) !important;
@@ -114,10 +114,10 @@
   color: var(--admin-muted) !important;
 }
 :root[data-layout="natural-sereno"] #admin-panel-modal :is([class*="text-emerald"],[class*="text-amber-300"],[class*="text-amber-400"]) {
-  color: #71511c !important;
+  color: #8F631E !important;
 }
 :root[data-layout="natural-sereno"] #admin-panel-modal :is([class*="bg-amber-500/10"],[class*="bg-amber-500/20"],[class*="bg-[#B88736]/"]) {
-  background: #f1e7c8 !important;
+  background: #F5EFE4 !important;
   border-color: #cdaa57 !important;
 }
 :root[data-layout="natural-sereno"] #admin-panel-modal button[class*="bg-emerald"] {
@@ -142,7 +142,7 @@
 :root[data-layout="natural-sereno"] .ns-editorial-card > .ns-gold {
   background: linear-gradient(180deg,#d7b45c,#a67a28) !important;
   box-shadow: inset 0 1px 0 rgba(255,255,255,.36), 0 7px 18px rgba(116,83,24,.16) !important;
-  color: #073b2b !important;
+  color: #2A2421 !important;
 }
 
 @media (max-width: 639px) {
@@ -331,16 +331,16 @@
 }
 /* The script remains readable when opened from the dark player. */
 :root[data-layout="natural-sereno"] #meditation-session[data-session-phase="playing"] [aria-label="Roteiro da sessão"] > .relative {
-  background: #fffaf0 !important;
-  color: #26372a !important;
+  background: #FAF7F2 !important;
+  color: #2A2421 !important;
   max-width: 560px;
 }
 :root[data-layout="natural-sereno"] #meditation-session[data-session-phase="playing"] [aria-label="Roteiro da sessão"] > .relative > div {
   border-radius: 0 !important;
-  background: #fffaf0 !important;
-  color: #26372a !important;
+  background: #FAF7F2 !important;
+  color: #2A2421 !important;
 }
-:root[data-layout="natural-sereno"] #meditation-session[data-session-phase="playing"] [aria-label="Roteiro da sessão"] :is(p,h3,h4) { color: #26372a !important; }
+:root[data-layout="natural-sereno"] #meditation-session[data-session-phase="playing"] [aria-label="Roteiro da sessão"] :is(p,h3,h4) { color: #2A2421 !important; }
 :root[data-layout="natural-sereno"] #meditation-session[data-session-phase="playing"] [aria-label="Roteiro da sessão"] > .relative > div:first-child {
   flex-shrink: 0;
   padding: calc(16px + env(safe-area-inset-top)) 16px 16px;
@@ -373,30 +373,30 @@
 
 /* Full-page audit: keep legacy panels within the approved Natural Sereno palette. */
 :root[data-layout="natural-sereno"] #settings-view [data-ns-status-card] {
-  background: linear-gradient(180deg, #fffaf0, #f1e7c8) !important;
-  border-color: #d9c58f !important;
+  background: linear-gradient(180deg, #FAF7F2, #F5EFE4) !important;
+  border-color: #E8E0D5 !important;
 }
 :root[data-layout="natural-sereno"] #settings-view [data-ns-status-card] > div:first-child { flex-wrap: wrap; gap: 8px; }
-:root[data-layout="natural-sereno"] #settings-view [data-ns-status-card] :is(p,span,svg) { color: #26372a !important; }
+:root[data-layout="natural-sereno"] #settings-view [data-ns-status-card] :is(p,span,svg) { color: #2A2421 !important; }
 :root[data-layout="natural-sereno"] #specific-treatment-modal [class*="bg-gradient"]:not(.pointer-events-none) {
-  background: linear-gradient(180deg, #fffaf0, #efe2bd) !important;
-  border-color: #d9c58f !important;
+  background: linear-gradient(180deg,#FAF7F2,#F3EDE4) !important;
+  border-color: #E8E0D5 !important;
 }
-:root[data-layout="natural-sereno"] #specific-treatment-modal :is([class*="text-emerald"],[class*="text-teal"],[class*="text-amber"],[class*="text-white"]) { color: #26372a !important; }
+:root[data-layout="natural-sereno"] #specific-treatment-modal :is([class*="text-emerald"],[class*="text-teal"],[class*="text-amber"],[class*="text-white"]) { color: #2A2421 !important; }
 :root[data-layout="natural-sereno"] #specific-treatment-modal .pointer-events-none[class*="blur"] { background: rgba(184,135,54,.055) !important; opacity: .42 !important; }
-:root[data-layout="natural-sereno"] #admin-panel-modal button[type="submit"] { background: linear-gradient(180deg, #e5c773, #b78d36) !important; color: #26372a !important; }
+:root[data-layout="natural-sereno"] #admin-panel-modal button[type="submit"] { background: linear-gradient(180deg,#E2B96B,#C89D52) !important; color: #2A2421 !important; border-color: #A87E37 !important; }
 
-:root[data-layout="natural-sereno"] #astral-map-modal a[class*="bg-emerald"][class*="text-white"] { color: #fff9e8 !important; }
+:root[data-layout="natural-sereno"] #astral-map-modal a[class*="bg-emerald"][class*="text-white"] { color: #6B4E2E !important; }
 :root[data-layout="natural-sereno"] #systemic-questions-modal > div > button[aria-label="Fechar reflexões sistêmicas"] { position: absolute !important; width: 44px; height: 44px; top: 16px; right: 16px; z-index: 3; }
 
 :root[data-layout="natural-sereno"] #contact-us-modal .pointer-events-none[class*="blur"] { background: rgba(184,135,54,.055) !important; opacity: .42 !important; }
 
-:root[data-layout="natural-sereno"] #progress-dashboard header h1 { color: #26372a; }
-:root[data-layout="natural-sereno"] #progress-dashboard header [class*="text-[#E4C573]"] { color: #71511c; }
+:root[data-layout="natural-sereno"] #progress-dashboard header h1 { color: #2A2421; }
+:root[data-layout="natural-sereno"] #progress-dashboard header [class*="text-[#E4C573]"] { color: #8F631E; }
 
 :root[data-layout="natural-sereno"] #daily-diary-modal .pointer-events-none[class*="blur"] { background: rgba(184,135,54,.055) !important; opacity: .42 !important; }
-:root[data-layout="natural-sereno"] #daily-diary-modal :is(div,span)[class*="bg-[#B88736]/"] { background: #f1e7c8 !important; color: #26372a !important; }
-:root[data-layout="natural-sereno"] #daily-diary-modal :is(div,span)[class*="bg-[#B88736]/"] :is(span,svg) { color: #26372a !important; }
+:root[data-layout="natural-sereno"] #daily-diary-modal :is(div,span)[class*="bg-[#B88736]/"] { background: #F5EFE4 !important; color: #2A2421 !important; }
+:root[data-layout="natural-sereno"] #daily-diary-modal :is(div,span)[class*="bg-[#B88736]/"] :is(span,svg) { color: #2A2421 !important; }
 
 :root[data-layout="natural-sereno"] #daily-diary-modal > div > .shrink-0 > div:first-child { padding-right: 48px !important; align-items: flex-start !important; }
 :root[data-layout="natural-sereno"] #daily-diary-modal > div > .shrink-0 > div:first-child > div { min-width: 0; max-width: 100%; }
@@ -411,24 +411,24 @@
   :root[data-layout="natural-sereno"] .ns-welcome-content { max-width: 920px; margin-inline: auto; }
   :root[data-layout="natural-sereno"]:has(.ns-app) #floating-whatsapp-btn { right: 16px !important; }
 }
-:root[data-layout="natural-sereno"] [data-ns-pix-card] { background: #f6efd9; border-color: #d8caa9; box-shadow: 0 3px 12px rgba(38,55,42,.07); }
-:root[data-layout="natural-sereno"] [data-ns-pix-card] :is(span,strong,svg) { color: #073b2b; }
-:root[data-layout="natural-sereno"] #plans-modal button[class*="bg-[#073B2B]"] { background: linear-gradient(180deg,#ead394,#c49b42 35%,#b68b36); color: #073b2b; border-color: #b68b36; }
+:root[data-layout="natural-sereno"] [data-ns-pix-card] { background: #F5EFE4; border-color: #E8E0D5; box-shadow: 0 3px 12px rgba(67,52,39,.07); }
+:root[data-layout="natural-sereno"] [data-ns-pix-card] :is(span,strong,svg) { color: #2A2421; }
+:root[data-layout="natural-sereno"] #plans-modal button[class*="bg-[#073B2B]"] { background: linear-gradient(180deg,#E2B96B,#C89D52); color: #2A2421; border-color: #A87E37; }
 .ep-reintegration-running { overflow-x: clip; overflow-y: auto; }
 @media (max-width: 899px) and (max-height: 700px) {
   .ep-reintegration-running .reintegration-presence-visual { width: clamp(60px,12dvh,100px); }
 }
 @media (min-width: 900px) {
   :root[data-layout="natural-sereno"] .ns-welcome {
-    background: #063020;
+    background: #FAF7F2;
   }
   :root[data-layout="natural-sereno"] .ns-welcome::after {
     content: ''; position: absolute; inset: 0; z-index: -2; pointer-events: none;
     background: url('/brand/natural-sereno/acolhimento.webp') center / cover no-repeat;
-    filter: blur(12px); opacity: .65;
+    filter: blur(12px); opacity: .22;
   }
   :root[data-layout="natural-sereno"] .ns-welcome::before {
-    background: linear-gradient(180deg,rgba(2,31,19,.08),rgba(2,31,19,.2)), url('/brand/natural-sereno/acolhimento.webp') center / auto 100% no-repeat;
+    background: linear-gradient(180deg,rgba(42,36,33,.08),rgba(42,36,33,.20)), url('/brand/natural-sereno/acolhimento.webp') center / auto 100% no-repeat;
   }
 }
 @media (min-width: 900px) {
@@ -438,5 +438,5 @@
     -webkit-mask-image: linear-gradient(90deg, transparent, #000 18%, #000 82%, transparent);
   }
 }
-:root[data-layout="natural-sereno"] .ns-home-scene > .ns-gold { color: #073b2b; }
-:root[data-layout="natural-sereno"] .ep-home-has-anamnesis .ns-current-day > svg { color: #073b2b !important; }
+:root[data-layout="natural-sereno"] .ns-home-scene > .ns-gold { color: #2A2421 !important; border-radius: 18px !important; }
+:root[data-layout="natural-sereno"] .ep-home-has-anamnesis .ns-current-day > svg { color: #6F7B55 !important; }
