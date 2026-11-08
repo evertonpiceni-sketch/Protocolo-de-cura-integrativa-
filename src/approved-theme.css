@@ -40,25 +40,25 @@
    A troca altera somente a camada visual; lógica, conteúdo e estrutura permanecem iguais. */
 :root[data-layout="natural-sereno"]{
   color-scheme:light;
-  --layout-canvas:#F5EFE6;
-  --layout-canvas-alt:#EBE3D7;
+  --layout-canvas:#FAF7F2;
+  --layout-canvas-alt:#E8E0D5;
   --layout-card:rgba(255,255,255,.92);
   --layout-card-hover:#FFFFFF;
-  --layout-card-subtle:#FAF6F0;
-  --layout-input:#EFE8DD;
-  --layout-accent:#2D4A3E;
-  --layout-accent-light:#4A6E5F;
-  --layout-gold:#B38634;
-  --layout-gold-light:#C5A059;
-  --layout-gold-dark:#8F631E;
-  --layout-gold-border:rgba(179,134,52,.35);
-  --layout-gold-gradient:linear-gradient(135deg,#C5A059 0%,#B38634 50%,#8F631E 100%);
-  --layout-gold-shadow:rgba(179,134,52,.22);
-  --layout-text:#202D24;
-  --layout-text-secondary:#5C6A60;
-  --layout-text-muted:#7A887E;
-  --layout-border:#D8CEBE;
-  --layout-border-card:#E2D7C7;
+  --layout-card-subtle:#FBF8F2;
+  --layout-input:#F3EDE4;
+  --layout-accent:#6F7B55;
+  --layout-accent-light:#8A9670;
+  --layout-gold:#C89D52;
+  --layout-gold-light:#E2B96B;
+  --layout-gold-dark:#A87E37;
+  --layout-gold-border:rgba(200,157,82,.30);
+  --layout-gold-gradient:linear-gradient(135deg,#E2B96B 0%,#C89D52 55%,#A87E37 100%);
+  --layout-gold-shadow:rgba(200,157,82,.18);
+  --layout-text:#2A2421;
+  --layout-text-secondary:#6B625B;
+  --layout-text-muted:#85786C;
+  --layout-border:#E8E0D5;
+  --layout-border-card:#E8E0D5;
 }
 
 /* Estado neutro de pré-seleção: nenhum dos quatro estilos oficiais fica ativo por padrão.
