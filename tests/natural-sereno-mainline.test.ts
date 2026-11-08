@@ -166,3 +166,13 @@ test('tokens compartilhados do Natural Sereno usam marfim, café, dourado refina
   assert.ok(!tokens.includes('#2D4A3E'), 'não pode reintroduzir verde-floresta como acento estrutural');
   assert.ok(!tokens.includes('#202D24'), 'o texto estrutural deve permanecer café, não verde');
 });
+
+test('Natural Sereno neutraliza os últimos acentos verdes saturados e amarelos antigos', () => {
+  const css = read('src/natural-sereno.css');
+  for (const rejected of ['#297241', '#edf1d8', '#e6c66e', '#ffedb9', '#e9d296', '#fff7db', '#eee5c9', '#fff8e6', '#e6ddbc', '#a8b697']) {
+    assert.equal(css.toLowerCase().includes(rejected), false, `cor legada não deve voltar: ${rejected}`);
+  }
+  assert.ok(css.includes('#5E6948'));
+  assert.ok(css.includes('#C89D52'));
+  assert.ok(css.includes('#FAF7F2'));
+});
