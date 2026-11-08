@@ -30,7 +30,8 @@
 - `LayoutChoiceModal.tsx` preserva a versão atual da main e acrescenta apenas o raio de 18px ao CTA neutro/Natural Sereno.
 - `src/index.css` foi mantido integralmente da main; nenhuma camada global antiga de cadastro foi recuperada.
 - Seis folhas CSS e o modelo runtime do Natural Sereno foram examinados estaticamente. Valores legados permanecem em seletores de compatibilidade que recebem neutralização escopada; não foram promovidos como cores visuais.
-- Security Audit #1904 do head integrado anterior concluiu com sucesso. A nova execução após esta atualização confirma o head final.
+- Security Audit #1904 passou no código e nos testes do head `cded945`: npm audit, TypeScript, regressões, build, entrypoints, JWT, autenticação/admin, smoke tests e endpoints de pagamento.
+- O head final `ac2befcc` sincronizou apenas documentação já aprovada da main e este relatório; nenhum arquivo de código ou teste mudou depois da execução #1904.
 - Nenhum checkout ou pagamento foi iniciado.
 
 ## Pendente
