@@ -163,7 +163,15 @@ export default function ArcanjoProtocolView({ userProfile, onClose, onLogout, in
   };
 
   const startNativeFallback = (runId: number) => {
-    if (isEleganciaProfunda || isEssenciaLuminosa || isMisticoModerno) {
+    if (isEleganciaProfunda || isEssenciaLuminosa) {
+      audioEngine.stopSynth();
+      setIsPreparingAudio(false);
+      setIsPlaying(false);
+      setHasStarted(false);
+      setVoiceError(true);
+      return;
+    }
+    if (isMisticoModerno) {
       audioEngine.stopSynth();
       setIsPreparingAudio(false);
       setIsPlaying(false);
