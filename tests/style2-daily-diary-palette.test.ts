@@ -30,7 +30,7 @@ test('o Diário do Dia não herda âmbar saturado, roxo, índigo ou slate no Est
   assert.ok(slateHoverRule.includes('color: var(--layout-text) !important;'));
 
   assert.ok(component.includes('focus:ring-indigo-400'));
-  const textareaFocusRule = css.match(/#daily-diary-modal textarea:focus\s*\{([^}]+)\}/)?.[1] ?? '';
+  const textareaFocusRule = css.match(/#daily-diary-modal textarea:focus,[\s\S]*?\{([^}]+)\}/)?.[1] ?? '';
   assert.ok(textareaFocusRule.includes('box-shadow: 0 0 0 3px rgba(201, 164, 104, 0.14) !important;'));
   assert.ok(!textareaFocusRule.toLowerCase().includes('indigo'));
 
