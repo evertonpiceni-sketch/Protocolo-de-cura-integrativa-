@@ -38,3 +38,29 @@
   outline: 2px solid var(--layout-gold) !important;
   outline-offset: 3px;
 }
+
+
+/* CTAs e visualizador: remove o âmbar saturado e corrige o contraste do botão sálvia. */
+:root[data-layout="essencia-luminosa"] #promo-video-modal [class*="bg-amber-400"]{
+  background:var(--layout-gold)!important;
+}
+:root[data-layout="essencia-luminosa"] #promo-video-modal button[class*="bg-emerald-600"]{
+  background:linear-gradient(105deg,color-mix(in srgb,var(--layout-accent) 72%,#fff),color-mix(in srgb,var(--layout-gold) 58%,var(--layout-accent)))!important;
+  background-image:linear-gradient(105deg,color-mix(in srgb,var(--layout-accent) 72%,#fff),color-mix(in srgb,var(--layout-gold) 58%,var(--layout-accent)))!important;
+  color:var(--layout-text)!important;
+  border:1px solid var(--layout-gold-border)!important;
+  box-shadow:0 10px 24px var(--layout-gold-shadow)!important;
+}
+:root[data-layout="essencia-luminosa"] #promo-video-modal button[class*="bg-emerald-600"]:hover{
+  filter:brightness(.98) saturate(.96);
+}
+:root[data-layout="essencia-luminosa"] #promo-video-modal button[class*="from-amber-500"][class*="to-amber-400"]{
+  background:var(--layout-gold-gradient)!important;
+  background-image:var(--layout-gold-gradient)!important;
+  color:var(--layout-text)!important;
+  border:1px solid var(--layout-gold-border)!important;
+  box-shadow:0 10px 24px var(--layout-gold-shadow)!important;
+}
+:root[data-layout="essencia-luminosa"] #promo-video-modal button[class*="from-amber-500"][class*="to-amber-400"]:hover{
+  filter:brightness(.98) saturate(.96);
+}
