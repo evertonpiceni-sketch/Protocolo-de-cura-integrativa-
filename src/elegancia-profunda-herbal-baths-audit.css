@@ -75,6 +75,13 @@
   border-color: color-mix(in srgb, var(--layout-accent) 30%, transparent) !important;
 }
 
+/* O erro de cópia continua semântico, mas usa vinho profundo em vez de cartão rosa-claro. */
+:root[data-layout="elegancia-profunda"] #herbal-baths-modal [role="alert"] {
+  background: rgba(91, 32, 40, .28) !important;
+  border-color: rgba(169, 93, 102, .48) !important;
+  color: #f1d9d8 !important;
+}
+
 @media (max-width: 640px) {
   :root[data-layout="elegancia-profunda"] #herbal-baths-modal > div {
     border-radius: 1.1rem !important;
