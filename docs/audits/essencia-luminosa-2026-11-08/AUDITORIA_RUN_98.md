@@ -8,6 +8,7 @@
 
 - A prancha original `1001196521.png` / `file_0000000019d0820eb7a70b6c982619d6` foi reaberta e inspecionada (1536 × 1152 px).
 - O card React continua apontando para `/brand/essencia-luminosa/prancha-oficial.webp`. O WebP versionado foi inspecionado: é uma prancha composta de telas, não uma fotografia de fundo.
+- O derivado atualmente versionado mede 320 × 240 px (14.512 bytes), enquanto a fonte original mede 1536 × 1152 px. Foi preparada uma nova derivação WebP 768 × 576 px, por redução direta da fonte e sem alteração de conteúdo; ela ainda não substitui o ativo do repositório. A prévia de baixa resolução permanece como pendência de incorporação binária.
 - A prancha orienta a atmosfera e a composição do card. Textos, valores, telas demonstrativas e escolhas antigas nela representadas não substituem decisões posteriores aprovadas.
 - Paleta ativa preservada: marfim `#FFFFF8`, champagne `#F7F3E8`, ouro suave `#C6A46A`, sálvia `#A6B49B`, ouro escuro `#A87E37`, areia e oliva clara como acentos.
 - Logo oficial preservado como assinatura discreta/transparente; não foi aumentado nem transformado em elemento dominante.
