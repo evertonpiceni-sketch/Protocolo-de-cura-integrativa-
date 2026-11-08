@@ -69,7 +69,7 @@ test('pagamento mantém apenas produtos atuais e checkout InfinitePay fail-close
   assert.ok(routes.includes('acquireCheckoutCreationLock(`standard:${req.userId}:${productType}`)'));
   assert.ok(routes.includes('checkoutRecoveryAttempts'));
   assert.ok(routes.includes('order.checkoutPayload?.handle || handle()'));
-  assert.ok(routes.includes('paymentQuote(planId, couponCode || '')'));
+  assert.ok(routes.includes("paymentQuote(planId, couponCode || '')"));
   assert.ok(routes.includes('specificTreatmentQuote(durationDays, code)'));
   assert.ok(!routes.includes('numerology_full'));
   assert.ok(!routes.includes('numerologyPurchased'));
