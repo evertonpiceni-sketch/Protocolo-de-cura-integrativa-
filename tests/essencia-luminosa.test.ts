@@ -619,5 +619,10 @@ test('Numerologia Completa respeita o benefício confirmado e não tenta checkou
   assert.ok(modal.includes('onOpenContact'));
   assert.ok(plans.includes('Escolha 1: Mapa Astral Completo OU Numerologia Completa'));
   assert.ok(!paymentRoutes.includes("'numerology_full'"));
-  assert.ok(!app.includes('onSaveProfile={saveProfile}'));
+  const astralStart = app.indexOf('<AstralMapModal');
+  const numerologyStart = app.indexOf('<NumerologyModal');
+  const astralBlock = app.slice(astralStart, numerologyStart);
+  const numerologyBlock = app.slice(numerologyStart, app.indexOf('/>', numerologyStart) + 2);
+  assert.ok(astralBlock.includes('onSaveProfile={saveProfile}'));
+  assert.ok(!numerologyBlock.includes('onSaveProfile={saveProfile}'));
 });
