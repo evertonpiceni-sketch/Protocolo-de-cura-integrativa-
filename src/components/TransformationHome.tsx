@@ -71,7 +71,7 @@ export default function TransformationHome(props: TransformationHomeProps) {
     : isMisticoModerno
       ? (isElevenLabsVoiceId(savedVoiceId) ? savedVoiceId : '')
       : (isNaturalSereno || isEssenciaLuminosa)
-        ? (isElevenLabsVoiceId(savedVoiceId) ? savedVoiceId : OFFICIAL_PROTOCOL_VOICE_ID)
+      ? (isElevenLabsVoiceId(savedVoiceId) ? savedVoiceId : OFFICIAL_PROTOCOL_VOICE_ID)
         : savedVoiceId && !['Rachel', 'Marcus', 'masculina', 'feminina'].includes(savedVoiceId)
           ? savedVoiceId
           : OFFICIAL_PROTOCOL_VOICE_ID;
