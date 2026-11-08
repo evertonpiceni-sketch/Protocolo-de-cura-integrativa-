@@ -78,6 +78,8 @@ export default function AnamnesisModal({
   const naturalSereno = document.documentElement.dataset.layout === 'natural-sereno';
   const isEleganciaProfunda = document.documentElement.dataset.layout === 'elegancia-profunda';
   const isEssenciaLuminosa = document.documentElement.dataset.layout === 'essencia-luminosa';
+  const isMisticoModerno = document.documentElement.dataset.layout === 'mistico-moderno';
+  const requiresNeuralVoice = isEleganciaProfunda || isEssenciaLuminosa || isMisticoModerno;
   useDialogFocus(isOpen && naturalSereno, dialogRef, () => handleCloseModal());
   React.useLayoutEffect(() => {
     if (isOpen && naturalSereno) {
@@ -175,7 +177,7 @@ export default function AnamnesisModal({
   };
 
   const stopTherapeuticVoice = () => {
-    if (isEleganciaProfunda || isEssenciaLuminosa) audioEngine.stopSpeech();
+    if (requiresNeuralVoice) audioEngine.stopSpeech();
     if (audioPlayerRef.current) {
       audioPlayerRef.current.pause();
       audioPlayerRef.current = null;
@@ -194,7 +196,7 @@ export default function AnamnesisModal({
       return;
     }
 
-    if (isEleganciaProfunda || isEssenciaLuminosa) {
+    if (requiresNeuralVoice) {
       const neuralVoiceId = isElevenLabsVoiceId(userProfile.voiceId)
         ? userProfile.voiceId
         : isEssenciaLuminosa ? OFFICIAL_PROTOCOL_VOICE_ID : '';
@@ -549,7 +551,7 @@ export default function AnamnesisModal({
                   </div>
                 </div>
 
-                {!isEleganciaProfunda && !isEssenciaLuminosa ? (
+                {!requiresNeuralVoice ? (
                   <div className="flex items-center gap-1.5 p-1 bg-white/80 rounded-xl border border-[#E5DAC6] self-start sm:self-auto">
                     <button
                       type="button"
@@ -581,10 +583,10 @@ export default function AnamnesisModal({
                     </button>
                   </div>
                 ) : (
-                  <span className="text-xs text-[#B88736]">{isEssenciaLuminosa ? 'Voz neural escolhida em Ajustes de áudio' : 'Voz neural selecionada no perfil'}</span>
+                  <span className="text-xs text-[#B88736]">{isEssenciaLuminosa ? 'Voz neural escolhida em Ajustes de áudio' : isMisticoModerno ? 'Voz neural salva no perfil' : 'Voz neural selecionada no perfil'}</span>
                 )}
               </div>
-              {voiceError && <p role="alert" className="ep-voice-error rounded-xl px-3 py-2 text-xs">{isEssenciaLuminosa ? 'A narração neural está indisponível. A voz do dispositivo não será usada.' : 'Selecione uma voz neural válida em Ajustes de áudio. O Estilo 2 não usará a voz do dispositivo.'}</p>}
+              {voiceError && <p role="alert" className="ep-voice-error rounded-xl px-3 py-2 text-xs">{isEssenciaLuminosa || isMisticoModerno ? 'A narração neural está indisponível. A voz do dispositivo não será usada.' : 'Selecione uma voz neural válida em Ajustes de áudio. O Estilo 2 não usará a voz do dispositivo.'}</p>}
 
               {/* Player Controls & Waveform */}
               <div className="p-4 rounded-2xl bg-white/80 border border-[#E5DAC6] space-y-3">
