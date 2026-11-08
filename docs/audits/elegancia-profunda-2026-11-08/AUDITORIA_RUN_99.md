@@ -2,22 +2,24 @@
 
 **Data:** 08/11/2026  
 **Branch:** `main`  
-**HEAD documental consultado:** `331bb0686a69e434091d70af2dbe2f63c853ac44`  
-**HEAD de código auditado:** `c7be65d32469505f1fe9e53e874ac43650dced54`
+**HEAD de código/teste auditado:** `85f1d2c5d95292bf96f26cfb5d748da9164f28c7`  
+**HEAD documental anterior ao RUN 99:** `ab84dc1aabd03c187fbad049c5318e0253141a69`  
+**Commit deste relatório:** `73426ba2b55124871465937665693438eeb22edf`
 
 ## Resultado
 
-Não foi encontrada regressão nova de produção desde a RUN 98. A comparação de `c7be65d...main` confirma que os commits posteriores acrescentaram somente documentação das auditorias RUN 98 dos Estilos 2 e 3; nenhum arquivo de produção ou teste foi alterado. Por isso, não foram criadas sobrescritas nem modificações de código sem evidência de defeito.
+Não foi encontrada regressão nova no Estilo 2. A comparação desde a RUN 98 identificou uma alteração de código compartilhado e um teste, ambos exclusivos da Essência Luminosa (Estilo 3). A alteração de `src/approved-theme.css` está dentro do bloco `:root[data-layout="essencia-luminosa"]`; o teste alterado pertence a `tests/essencia-luminosa.test.ts`. Nenhuma folha, componente ou teste do Estilo 2 foi modificado. Não foram criadas sobrescritas sem evidência de defeito.
 
 ## Corrigido / confirmado
 
 - Confirmada a ordem de imports em `src/main.tsx`: as 21 folhas CSS do Estilo 2 permanecem ativas; `elegancia-profunda-approved-overrides.css` sucede as folhas de auditoria do próprio estilo. A camada final do Estilo 3 vem depois, mas permanece isolada em `data-layout="essencia-luminosa"`.
 - A última varredura estática disponível continua válida: 21 folhas do Estilo 2, 657 seletores individuais e zero seletores fora de `data-layout="elegancia-profunda"`. A camada final do Estilo 3 tinha 76 seletores, todos isolados.
+- Reexaminada a alteração recente em `src/approved-theme.css`: os aliases `--sage-*` e `--journey-*` adicionados pertencem exclusivamente ao bloco da Essência Luminosa. Não alteram tokens do Estilo 2.
 - Confirmado o fluxo do seletor: estado inicial sem estilo selecionado; botão de confirmação desabilitado até a escolha; persistência bem-sucedida antes de aplicar o tema; confirmação de sessão reiniciada após logout.
 - `LayoutChoiceModal` permanece o único seletor React ativo. `OnboardingFlow` permanece o acolhimento ativo; o antigo `WelcomeModal` e o seletor DOM legado não são montados.
 - `ProfileSetup` continua neutro com `ep-auth-prestyle`, sem herdar o shell do Natural Sereno.
 - A camada de decisões aprovadas do Estilo 2 continua mantendo logo oficial como assinatura sutil (30% de opacidade), wrapper transparente e sem moldura/sombra dominante.
-- Voz neural, bloqueio de Solfeggio durante prévia neural, ambiências não tonais, Diário, player, jornada de 21 dias e corpo neutro permanecem sem alteração desde a última auditoria de código.
+- Voz neural, bloqueio de Solfeggio durante prévia neural, ambiências não tonais, Diário, player, jornada de 21 dias e corpo neutro permanecem preservados.
 - Rotas InfinitePay continuam com confirmação server-side, consulta `/payment_check`, validação do valor em centavos e rejeição de reutilização de `transaction_nsu`.
 
 ## Prancha oficial — fonte recuperada e inspecionada
@@ -53,7 +55,7 @@ A inspeção é estática do import graph e dos seletores CSS. Ela não substitu
 
 ## CI e publicação
 
-- GitHub Actions **#42515122585**: job `audit` concluído com sucesso.
+- GitHub Actions **#42517290451**, no commit deste relatório: job `audit` concluído com sucesso.
 - Log confirma **151 testes aprovados, 0 falhas**.
 - `npm audit`: **0 vulnerabilidades**.
 - TypeScript e build Vite: aprovados.
@@ -71,4 +73,4 @@ A inspeção é estática do import graph e dos seletores CSS. Ela não substitu
 
 ## Conclusão
 
-A base de código do Estilo 2 permanece inalterada e sem regressão nova desde a RUN 98. A fonte visual original foi efetivamente recuperada e inspecionada nesta execução; o card versionado, porém, ainda usa a prévia de 240 × 180 px. As decisões posteriores de 21 dias, corpo neutro e logo discreto prevalecem sobre os mockups antigos da prancha. A CI mais recente segue verde com 151 testes, zero vulnerabilidades e build aprovado; a produção continua bloqueada pelo check Vercel.
+A base do Estilo 2 permanece sem regressão nova. As alterações recentes em tokens compartilhados foram conferidas e estão estritamente limitadas à Essência Luminosa. A fonte visual original foi efetivamente recuperada e inspecionada nesta execução; o card versionado, porém, ainda usa a prévia de 240 × 180 px. As decisões posteriores de 21 dias, corpo neutro e logo discreto prevalecem sobre os mockups antigos da prancha. A CI do commit deste relatório está verde com 151 testes, zero vulnerabilidades e build aprovado; a produção continua bloqueada pelo check Vercel.
