@@ -47,6 +47,83 @@ test('specific treatments use only the fixed approved 7-day and 21-day prices', 
   assert.ok(!modal.includes('Sessão Única'));
 });
 
+test('Numerology checkout lock renews its distributed Redis lease until release', async () => {
+  const { acquireNumerologyCheckoutLock } = await import('../src/lib/paymentRoutes');
+  let activeToken: string | undefined;
+  let expiresAt = 0;
+  const fakeRedisCommand = async (command: string, args: string[]) => {
+    if (command === 'set') {
+      const [, token, nx, px, ttl] = args;
+      assert.equal(nx, 'nx');
+      assert.equal(px, 'px');
+      if (activeToken && expiresAt > Date.now()) return null;
+      activeToken = token;
+      expiresAt = Date.now() + Number(ttl);
+      return 'OK';
+    }
+    if (command === 'eval') {
+      const [script, , , token, ttl] = args;
+      if (activeToken !== token) return 0;
+      if (script.includes('pexpire')) {
+        if (expiresAt <= Date.now()) return 0;
+        expiresAt = Date.now() + Number(ttl);
+        return 1;
+      }
+      if (script.includes('del')) {
+        activeToken = undefined;
+        expiresAt = 0;
+        return 1;
+      }
+    }
+    throw new Error(`Unexpected Redis command: ${command}`);
+  };
+
+  const lock = await acquireNumerologyCheckoutLock('renewal-test', {
+    hasPersistentDatabase: () => true,
+    redisCommand: fakeRedisCommand as any,
+    ttlMs: 75,
+    renewIntervalMs: 15
+  });
+  assert.ok(lock);
+  await new Promise(resolve => setTimeout(resolve, 125));
+  assert.ok(expiresAt > Date.now(), 'o heartbeat renova o TTL antes de o lock expirar');
+  await lock.assertHeld();
+  await lock.release();
+  assert.equal(activeToken, undefined, 'a liberação remove somente o lock adquirido');
+});
+
+test('Numerology checkout lock fails closed after losing its Redis lease', async () => {
+  const { acquireNumerologyCheckoutLock } = await import('../src/lib/paymentRoutes');
+  let activeToken: string | undefined;
+  let allowRenewal = true;
+  const fakeRedisCommand = async (command: string, args: string[]) => {
+    if (command === 'set') {
+      const [, token] = args;
+      activeToken = token;
+      return 'OK';
+    }
+    if (command === 'eval') {
+      const [script, , , token] = args;
+      if (activeToken !== token) return 0;
+      if (script.includes('pexpire')) return allowRenewal ? 1 : 0;
+      if (script.includes('del')) { activeToken = undefined; return 1; }
+    }
+    throw new Error(`Unexpected Redis command: ${command}`);
+  };
+
+  const lock = await acquireNumerologyCheckoutLock('lost-lease-test', {
+    hasPersistentDatabase: () => true,
+    redisCommand: fakeRedisCommand as any,
+    ttlMs: 300,
+    renewIntervalMs: 1000
+  });
+  assert.ok(lock);
+  allowRenewal = false;
+  await assert.rejects(lock.assertHeld(), /proteção do checkout expirou/i);
+  await lock.release();
+  assert.equal(activeToken, undefined);
+});
+
 test('checkout binds account, validates provider confirmation and grants only once', async () => {
   const cwd = process.cwd(); const folder = fs.mkdtempSync(path.join(os.tmpdir(), 'payment-test-'));
   const originalEnv = {
