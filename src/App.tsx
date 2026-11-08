@@ -2465,6 +2465,7 @@ export default function App() {
           isOpen={showAstralMapModal}
           onClose={() => setShowAstralMapModal(false)}
           userProfile={userProfile}
+          onSaveProfile={saveProfile}
           onOpenProModal={() => {
             setShowAstralMapModal(false);
             setShowProModal(true);
@@ -2478,7 +2479,6 @@ export default function App() {
           isOpen={showNumerologyModal}
           onClose={() => setShowNumerologyModal(false)}
           userProfile={userProfile}
-          onSaveProfile={saveProfile}
           onOpenProModal={() => {
             setShowNumerologyModal(false);
             setShowProModal(true);
