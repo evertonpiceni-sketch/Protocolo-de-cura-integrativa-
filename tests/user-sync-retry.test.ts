@@ -74,3 +74,47 @@ test('App e jornada Natural Sereno usam sincronização resiliente e enviam apen
   assert.ok(journey.includes("import { syncUserState } from './userSync';"));
   assert.ok(journey.includes('await syncUserState({ profile, progress })'));
 });
+
+
+test('user sync does not retry before a numeric Retry-After longer than the bounded wait', async () => {
+  let calls = 0;
+  const delays: number[] = [];
+  await assert.rejects(
+    syncUserState({ profile: { reminderTime: '08:30' } }, {
+      fetcher: async () => {
+        calls += 1;
+        return new Response(JSON.stringify({ error: 'rate limited' }), {
+          status: 429,
+          headers: { 'Retry-After': '10' },
+        });
+      },
+      wait: async milliseconds => { delays.push(milliseconds); },
+      maxAttempts: 8,
+    }),
+    /Retry-After exceeds the 5000ms retry window/
+  );
+  assert.equal(calls, 1);
+  assert.deepEqual(delays, []);
+});
+
+test('user sync does not retry before a future HTTP-date Retry-After beyond the bounded wait', async () => {
+  let calls = 0;
+  const delays: number[] = [];
+  const retryAfter = new Date(Date.now() + 15_000).toUTCString();
+  await assert.rejects(
+    syncUserState({ progress: [{ dayNumber: 1, completed: true }] }, {
+      fetcher: async () => {
+        calls += 1;
+        return new Response(JSON.stringify({ error: 'rate limited' }), {
+          status: 429,
+          headers: { 'Retry-After': retryAfter },
+        });
+      },
+      wait: async milliseconds => { delays.push(milliseconds); },
+      maxAttempts: 8,
+    }),
+    /Retry-After exceeds the 5000ms retry window/
+  );
+  assert.equal(calls, 1);
+  assert.deepEqual(delays, []);
+});
