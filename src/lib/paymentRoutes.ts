@@ -141,7 +141,16 @@ export function paymentRoutes(authenticate: any, limiter: any, providerFetch: ty
                   candidate.checkoutPayload?.options?.single_payment === true
                 )
               : undefined;
-            if (cachedOrder?.checkoutUrl) {
+            const pendingNumerologyCount = (db.paymentOrders || []).filter(candidate =>
+              candidate.userId === req.userId &&
+              candidate.productType === 'numerology_full' &&
+              !candidate.paidAt &&
+              !candidate.failedAt
+            ).length;
+            if (pendingNumerologyCount > 1) {
+              return res.status(503).json({ error: 'Há mais de uma tentativa de pagamento pendente. É necessária uma conferência antes de continuar.' });
+            }
+            if (cachedOrder?.checkoutUrl && pendingNumerologyCount === 1) {
               return res.json({ checkoutUrl: cachedOrder.checkoutUrl, orderId: cachedOrder.id, reused: true });
             }
             await redisCommand('del', [key]);
@@ -156,6 +165,10 @@ export function paymentRoutes(authenticate: any, limiter: any, providerFetch: ty
             !candidate.failedAt
           )
           .sort((a, b) => Date.parse(b.createdAt) - Date.parse(a.createdAt));
+
+        if (pendingOrders.length > 1) {
+          return res.status(503).json({ error: 'Há mais de uma tentativa de pagamento pendente. É necessária uma conferência antes de continuar.' });
+        }
 
         const legacyReusableOrder = pendingOrders.find(candidate =>
           Boolean(candidate.checkoutUrl) && candidate.checkoutPayload?.options?.single_payment !== true
