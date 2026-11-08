@@ -93,6 +93,9 @@ export default function ArcanjoProtocolView({ userProfile, onClose, onLogout, in
   const [voiceError, setVoiceError] = useState(false);
   const isEleganciaProfunda = typeof document !== 'undefined' && document.documentElement.dataset.layout === 'elegancia-profunda';
   const isEssenciaLuminosa = typeof document !== 'undefined' && document.documentElement.dataset.layout === 'essencia-luminosa';
+  const isMisticoModerno = typeof document !== 'undefined' && document.documentElement.dataset.layout === 'mistico-moderno';
+  const requiresNeuralVoice = isEleganciaProfunda || isEssenciaLuminosa || isMisticoModerno;
+  const requiresSavedProfileVoice = isEleganciaProfunda || isMisticoModerno;
   const [hasStarted, setHasStarted] = useState(false);
   const [elapsed, setElapsed] = useState(0);
   const [duration, setDuration] = useState(0);
@@ -162,7 +165,7 @@ export default function ArcanjoProtocolView({ userProfile, onClose, onLogout, in
   };
 
   const startNativeFallback = (runId: number) => {
-    if (isEleganciaProfunda || isEssenciaLuminosa) {
+    if (requiresNeuralVoice) {
       audioEngine.stopSynth();
       setIsPreparingAudio(false);
       setIsPlaying(false);
@@ -207,7 +210,7 @@ export default function ArcanjoProtocolView({ userProfile, onClose, onLogout, in
 
   const start = () => {
     resetPlayback();
-    if (isEleganciaProfunda && !isElevenLabsVoiceId(userProfile.voiceId)) {
+    if (requiresSavedProfileVoice && !isElevenLabsVoiceId(userProfile.voiceId)) {
       setVoiceError(true);
       return;
     }
@@ -222,14 +225,14 @@ export default function ArcanjoProtocolView({ userProfile, onClose, onLogout, in
     void audioEngine.playGuidedMeditation(parts, {
       title: `Dia ${config.dia} — São Miguel, Chama Violeta e São Rafael`,
       subtitle: `${config.nome} • ${config.freq} Hz`,
-      voiceId: isEleganciaProfunda
-        ? userProfile.voiceId
+      voiceId: requiresSavedProfileVoice
+        ? (isElevenLabsVoiceId(userProfile.voiceId) ? userProfile.voiceId : '')
         : isEssenciaLuminosa
           ? (isElevenLabsVoiceId(userProfile.voiceId) ? userProfile.voiceId : OFFICIAL_PROTOCOL_VOICE_ID)
           : userProfile.voiceId || (userProfile.preferredVoiceGender === 'feminina' ? 'Rachel' : 'Marcus'),
       volume: userProfile.voiceVolume ?? 0.9,
       userName: userProfile.name,
-      requireExplicitVoiceId: isEleganciaProfunda || isEssenciaLuminosa,
+      requireExplicitVoiceId: requiresNeuralVoice,
       onStart: () => {
         if (runId !== narrationRunRef.current) return;
         audioEngine.startSynth(`${config.freq}hz`);
@@ -252,7 +255,7 @@ export default function ArcanjoProtocolView({ userProfile, onClose, onLogout, in
       onError: () => {
         if (runId !== narrationRunRef.current) return;
         audioEngine.stopSpeech();
-        if (isEleganciaProfunda || isEssenciaLuminosa) {
+        if (requiresNeuralVoice) {
           audioEngine.stopSynth();
           setIsPreparingAudio(false);
           setIsPlaying(false);
@@ -267,7 +270,7 @@ export default function ArcanjoProtocolView({ userProfile, onClose, onLogout, in
 
   const togglePlayback = () => {
     if (isPreparingAudio) return;
-    if (isEleganciaProfunda && !isElevenLabsVoiceId(userProfile.voiceId)) {
+    if (requiresSavedProfileVoice && !isElevenLabsVoiceId(userProfile.voiceId)) {
       setVoiceError(true);
       return;
     }
@@ -350,7 +353,7 @@ export default function ArcanjoProtocolView({ userProfile, onClose, onLogout, in
             <button disabled={!hasKnownDuration} className="flex h-11 w-11 items-center justify-center rounded-xl text-[#d7e2d8] disabled:opacity-30" aria-label="Avançar dez segundos" onClick={()=>seek(10)}><RotateCw/></button>
           </div>
 
-          {voiceError && <p role="alert" className="ep-voice-error mt-4 rounded-xl px-4 py-3 text-xs">{isEssenciaLuminosa ? 'A narração neural está indisponível. A voz do dispositivo não será usada.' : 'Selecione uma voz neural válida em Ajustes de áudio. O Estilo 2 não usará a voz do dispositivo.'}</p>}
+          {voiceError && <p role="alert" className="ep-voice-error mt-4 rounded-xl px-4 py-3 text-xs">{isEssenciaLuminosa || isMisticoModerno ? 'A narração neural está indisponível. A voz do dispositivo não será usada.' : 'Selecione uma voz neural válida em Ajustes de áudio. O Estilo 2 não usará a voz do dispositivo.'}</p>}
           <div className="mt-4 flex items-center justify-center gap-2 text-center text-sm text-[#bad0c4]">
             <Volume2 size={17}/>
             <span>{isPreparingAudio ? 'Preparando narração aprovada…' : isPlaying ? `Voz humana + Solfeggio ${config.freq} Hz ativos` : hasStarted ? `Pausado — Solfeggio ${config.freq} Hz interrompido` : `Pronto — Solfeggio ${config.freq} Hz será reproduzido junto com a narração`}</span>

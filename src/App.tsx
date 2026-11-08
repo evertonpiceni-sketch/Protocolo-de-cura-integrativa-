@@ -117,7 +117,8 @@ export default function App() {
   const isNaturalSereno = layoutConfirmedThisSession && userProfile?.visualLayout === 'natural-sereno';
   const isEleganciaProfunda = layoutConfirmedThisSession && userProfile?.visualLayout === 'elegancia-profunda';
   const isEssenciaLuminosa = layoutConfirmedThisSession && userProfile?.visualLayout === 'essencia-luminosa';
-  const usesNeuralVoiceCatalog = isNaturalSereno || isEleganciaProfunda || isEssenciaLuminosa;
+  const isMisticoModerno = layoutConfirmedThisSession && userProfile?.visualLayout === 'mistico-moderno';
+  const usesNeuralVoiceCatalog = isNaturalSereno || isEleganciaProfunda || isEssenciaLuminosa || isMisticoModerno;
   const savedNeuralVoiceId = userProfile?.voiceId || '';
   const effectiveNeuralVoiceId = (isNaturalSereno || isEssenciaLuminosa) && !isElevenLabsVoiceId(savedNeuralVoiceId)
     ? OFFICIAL_PROTOCOL_VOICE_ID
@@ -224,7 +225,7 @@ export default function App() {
     }
   }, []);
 
-  // Natural Sereno, Elegância Profunda and Essência Luminosa use actual ElevenLabs IDs, never browser SpeechSynthesis names/URIs.
+  // Os quatro estilos com catálogo neural usam IDs ElevenLabs; o Místico respeita a voz salva no perfil.
   useEffect(() => {
     if (!isLoggedIn || !usesNeuralVoiceCatalog || (!showSettings && !showAudioSettingsModal)) return;
     let cancelled = false;
@@ -1308,7 +1309,7 @@ export default function App() {
                       >
                         {effectiveNeuralVoiceId && !elevenLabsVoices.some(voice => voice.voice_id === effectiveNeuralVoiceId) && (
                           <option value={effectiveNeuralVoiceId} disabled>
-                            {effectiveNeuralVoiceId === OFFICIAL_PROTOCOL_VOICE_ID ? 'Marianne — Meditação (voz oficial)' : isElevenLabsVoiceId(effectiveNeuralVoiceId) ? 'Voz salva — não listada no catálogo' : 'Seleção anterior do dispositivo — escolha uma voz neural'}
+                            {effectiveNeuralVoiceId === OFFICIAL_PROTOCOL_VOICE_ID ? 'Marianne — Meditação (voz oficial)' : isElevenLabsVoiceId(effectiveNeuralVoiceId) ? 'Voz salva — não listada no catálogo' : effectiveNeuralVoiceId ? 'Seleção anterior do dispositivo — escolha uma voz neural' : 'Escolha uma voz neural do catálogo'}
                           </option>
                         )}
                         <option value="">Selecione uma voz neural</option>

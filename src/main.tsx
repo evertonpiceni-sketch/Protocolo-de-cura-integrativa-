@@ -12,6 +12,7 @@ import './mistico-moderno-dashboard-audit.css';
 import './mistico-moderno-header-audit.css';
 import './mistico-moderno-guides-audit.css';
 import './mistico-moderno-session-audit.css';
+import './mistico-moderno-arcanjo-audit.css';
 import './mistico-moderno-courses-audit.css';
 import './mistico-moderno-maps-audit.css';
 import './mistico-moderno-achievements-audit.css';
