@@ -70,3 +70,27 @@ test('logo, voz neural, Solfeggio, Diário e respiração do player preservam os
   assert.ok(diary.includes('saveEntryHandler(activeDay, finalJournalText, editingMood)'));
   assert.ok(player.includes("const breathTransitionSeconds = breathePhase === 'inhale' ? 4 : breathePhase === 'hold' ? 3 : 5;"));
 });
+
+
+test('botão de feedback do Natural Sereno atende contraste WCAG AA', () => {
+  const css = read('src/natural-sereno-refinement.css');
+  const buttonRule = css.match(
+    /:root\\[data-layout="natural-sereno"\\] #anamnesis-modal #anamnesis-feedback-area button\\[class\\*="bg-emerald"\\] \\{[\\s\\S]*?\\}/
+  )?.[0] ?? '';
+  const background = css.match(/--ns-modal-forest:\\s*(#[0-9A-Fa-f]{6})/)?.[1] ?? '';
+  const foreground = buttonRule.match(/color:\\s*(#[0-9A-Fa-f]{6})\\s*!important/)?.[1] ?? '';
+
+  assert.equal(foreground.toUpperCase(), '#FFFFFF');
+  assert.ok(background, 'A cor de fundo sálvia precisa estar definida no escopo do modal.');
+
+  const luminance = (hex: string) => {
+    const channels = [0, 2, 4].map(index => parseInt(hex.slice(index, index + 2), 16) / 255);
+    const linear = channels.map(value => value <= 0.04045 ? value / 12.92 : ((value + 0.055) / 1.055) ** 2.4);
+    return 0.2126 * linear[0] + 0.7152 * linear[1] + 0.0722 * linear[2];
+  };
+  const first = luminance(foreground);
+  const second = luminance(background);
+  const contrast = (Math.max(first, second) + 0.05) / (Math.min(first, second) + 0.05);
+
+  assert.ok(contrast >= 4.5, `Contraste do botão de feedback: ${contrast.toFixed(2)}:1 (mínimo 4.5:1).`);
+});
