@@ -36,8 +36,8 @@ test('Ajustes de Áudio do Estilo 3 usam tokens atuais em vez do ouro antigo', (
 test('A seleção de frequências fica bloqueada durante a prévia neural da Essência Luminosa', () => {
   const settings = read('src/components/AudioSettingsModal.tsx');
 
-  assert.ok(settings.includes('disabled={isEssenciaLuminosa && isTestingVoice}'));
-  assert.ok(settings.includes('aria-disabled={isEssenciaLuminosa && isTestingVoice}'));
-  assert.ok(settings.includes('if (isEssenciaLuminosa && isTestingVoice) return;'));
+  assert.ok(settings.includes('disabled={requiresNeuralVoice && isTestingVoice}'));
+  assert.ok(settings.includes('aria-disabled={requiresNeuralVoice && isTestingVoice}'));
+  assert.ok(settings.includes('if (requiresNeuralVoice && isTestingVoice) return;'));
   assert.ok(settings.includes('Aguarde a prévia da voz terminar para alterar a frequência.'));
 });
