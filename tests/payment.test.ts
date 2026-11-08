@@ -271,6 +271,52 @@ test('checkout binds account, validates provider confirmation and grants only on
     assert.equal(differentLegacyRetry.status, 409);
     assert.equal(calls.length, callsBeforeDifferentLegacyRetry, 'não abrir novo link enquanto houver prática legada diferente pendente');
 
+    // Pedido tipado pendente para a mesma prática não pode ganhar um segundo link
+    // quando o usuário troca/remove o cupom e o preço calculado muda.
+    db.users.push({ id: 'typed-treatment-coupon-owner', plan: 'free', profile: {} });
+    (db.paymentOrders ||= []).push({
+      id: 'typed-treatment-pending-order',
+      userId: 'typed-treatment-coupon-owner',
+      productType: 'specific_treatment',
+      treatment: {
+        id: 'typed-treatment-pending-id',
+        requestedAt: new Date().toISOString(),
+        durationDays: 7,
+        category: 'outro',
+        title: 'Prática individual — 7 dias',
+        patientDescription: 'Texto sintético privado.',
+        urgentPains: [],
+        status: 'pendente',
+        price: 59.9,
+        paymentMethod: 'pix'
+      },
+      cents: 5990,
+      method: 'pix',
+      createdAt: new Date().toISOString(),
+      checkoutUrl: 'https://checkout.infinitepay.io/typed-treatment-pending',
+      checkoutPayload: {
+        handle: 'evertonterapeutareiki',
+        order_nsu: 'typed-treatment-pending-order',
+        redirect_url: 'https://example.com/?payment_order=typed-treatment-pending-order',
+        webhook_url: 'https://example.com/api/webhooks/payment',
+        items: [{ quantity: 1, price: 5990, description: 'Prática individual — 7 dias' }],
+        options: { single_payment: true }
+      }
+    });
+    const callsBeforeTypedCouponRetry = calls.length;
+    const typedTreatmentCouponRetry = await call('payment/create-checkout', {
+      productType: 'specific_treatment',
+      paymentMethod: 'pix',
+      durationDays: 7,
+      category: 'outro',
+      patientDescription: 'Texto sintético privado.',
+      urgentPains: [],
+      couponCode: 'PROMO15'
+    }, 'typed-treatment-coupon-owner');
+    assert.equal(typedTreatmentCouponRetry.status, 409);
+    assert.equal(calls.length, callsBeforeTypedCouponRetry, 'trocar o cupom não pode criar um segundo link para a mesma prática');
+    assert.equal(db.paymentOrders?.filter(order => order.userId === 'typed-treatment-coupon-owner').length, 1);
+
     const body = { order_nsu: orderId, transaction_nsu: 'transaction', slug: 'slug' };
     assert.equal((await call('payment/confirm', body, 'other')).status, 404);
     assert.equal((await call('payment/confirm', body)).status, 202);
