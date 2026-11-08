@@ -28,7 +28,6 @@ test('Estilo 4 usa a prancha oficial no card e uma superfície noturna própria'
 test('os quatro estilos exigem escolha e confirmação explícitas nesta sessão', () => {
   const modal = fs.readFileSync('src/components/LayoutChoiceModal.tsx', 'utf8');
   const app = fs.readFileSync('src/App.tsx', 'utf8');
-  const main = fs.readFileSync('src/main.tsx', 'utf8');
   assert.ok(modal.includes('useState<LayoutId | null>(null)'));
   assert.ok(modal.includes('disabled={!selectedLayout || isSaving}'));
   assert.ok(modal.includes('O estilo só será aplicado depois da sua confirmação.'));
@@ -52,6 +51,7 @@ test('os módulos visuais do Místico estão carregados e isolados por data-layo
 
 test('o Místico respeita a voz neural salva sem forçar Marianne, Rachel, Marcus ou Web Speech', () => {
   const app = fs.readFileSync('src/App.tsx', 'utf8');
+  const main = fs.readFileSync('src/main.tsx', 'utf8');
   const home = fs.readFileSync('src/components/TransformationHome.tsx', 'utf8');
   const settings = fs.readFileSync('src/components/AudioSettingsModal.tsx', 'utf8');
   const session = fs.readFileSync('src/components/MeditationSession.tsx', 'utf8');
