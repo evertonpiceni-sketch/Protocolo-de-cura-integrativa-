@@ -42,6 +42,7 @@ export function paymentRoutes(authenticate: any, limiter: any, providerFetch: ty
     };
   }
   async function createCheckoutUrl(payload: InfinitePayCheckoutPayload) {
+    if (payload.options?.single_payment !== true) throw new Error('O checkout precisa estar configurado para um único pagamento.');
     if (!apiKey()) throw new Error('A API Key da InfinitePay é necessária para criar links de pagamento único.');
     const result = await provider('/links', payload);
     if (!result || typeof result.url !== 'string') throw new Error('O provedor não retornou um link válido.');
@@ -177,7 +178,7 @@ export function paymentRoutes(authenticate: any, limiter: any, providerFetch: ty
         if (preparingOrder) {
           // Recupera somente com o payload original persistido antes da primeira chamada.
           // Reconstruir com handle/URLs atuais pode criar um segundo link para o mesmo NSU.
-          if (!preparingOrder.checkoutPayload || preparingOrder.checkoutPayload.order_nsu !== preparingOrder.id) {
+          if (!preparingOrder.checkoutPayload || preparingOrder.checkoutPayload.order_nsu !== preparingOrder.id || preparingOrder.checkoutPayload.options?.single_payment !== true) {
             return res.status(503).json({ error: 'A tentativa anterior precisa de conferência antes de ser retomada.' });
           }
           const checkoutUrl = await createCheckoutUrl(preparingOrder.checkoutPayload);
