@@ -138,18 +138,13 @@ export default function AnamnesisModal({
       audioEngine.setBGVolume(0.40);
       audioEngine.startBG('639hz');
     } else {
-      if (audioEngine.getCurrentSynthType() === '639hz') {
+      if (audioEngine.getCurrentSynthType() === '639hz' || (isMisticoModerno && (isPlayingTherapeuticVoice || isLoadingVoice))) {
         audioEngine.stopBG();
       }
     }
 
     return () => {
-      if (audioEngine.getCurrentSynthType() === '639hz') {
-        audioEngine.stopBG();
-        if (userProfile.audioEnabled && userProfile.bgMusicType && userProfile.bgMusicType !== 'none' && userProfile.bgMusicType !== '639hz') {
-          audioEngine.startBG(userProfile.bgMusicType);
-        }
-      }
+      if (audioEngine.getCurrentSynthType() === '639hz') audioEngine.stopBG();
     };
   }, [isOpen, isEditing, is639HzActive, isPlayingTherapeuticVoice, isLoadingVoice, isMisticoModerno, userProfile.audioEnabled, userProfile.bgMusicType]);
 
