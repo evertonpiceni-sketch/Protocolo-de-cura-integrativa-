@@ -43,13 +43,14 @@ Referência: https://ajuda.infinitepay.io/pt-BR/articles/10766888-como-usar-o-ch
 
 ## Validação e pendências
 
-GitHub Actions — **Security Audit #1622**, execução `42439181713`, head `6bfd10a38b0d8f547dd201b7d3d561fbdf77916a`:
+GitHub Actions — **Security Audit #1623**, execução `42439280797`, head `1e6ebb6d9d7c58e4e7bb4d6d62b703ba1a200581`:
 - `npm audit`: **0 vulnerabilidades**.
 - TypeScript: aprovado.
 - Testes: **123/123 aprovados**, incluindo lock renovável, recuperação pós-falha de persistência, assinatura, prática específica e bloqueio após o único replay automático.
 - Build: aprovado.
 - Entry points Vercel, verificações de segredos/JWT/autenticação, smoke tests e endpoints de pagamento fail-closed: aprovados.
 - Job completo: sucesso.
+- Varredura das duas folhas CSS do Natural Sereno: 175 regras na folha de overrides e 16 na folha da Home; **0 seletores globais** e **0 valores de saída** nas tonalidades antigas de verde-floresta/amarelo.
 
 Pendências externas:
 - A Vercel recusou nova prévia por `api-deployments-free-per-day` (mais de 100 deployments; retry após 24h).
