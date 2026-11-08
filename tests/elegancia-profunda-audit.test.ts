@@ -438,3 +438,22 @@ test('o seletor permanece neutro até a escolha explícita e só então revela o
   assert.ok(app.includes('const selected = layoutConfirmedThisSession ? OFFICIAL_LAYOUTS.find(layout => layout.id === userProfile?.visualLayout) : undefined;'));
   assert.ok(app.includes('if (!selected) {\n      delete document.documentElement.dataset.layout;'));
 });
+
+test('os Ajustes de Áudio do Estilo 2 usam verde profundo, champagne e marfim', () => {
+  const css = read('src/elegancia-profunda-settings-final-audit.css');
+  const settings = read('src/components/AudioSettingsModal.tsx');
+  const main = read('src/main.tsx');
+
+  assert.ok(main.includes("import './elegancia-profunda-settings-final-audit.css';"));
+  assert.ok(settings.includes('id="audio-settings-modal"'));
+  assert.ok(settings.includes('id="bioactive-tuning-panel"'));
+  assert.ok(settings.includes('disabled={isTrackBlockedDuringVoicePreview}'));
+  assert.ok(css.includes(':root[data-layout="elegancia-profunda"] #audio-settings-modal > div'));
+  assert.ok(css.includes('#audio-settings-modal #bioactive-tuning-panel'));
+  assert.ok(css.includes('[class*="bg-[#FBF8F2]"]'));
+  assert.ok(css.includes('button[class~="bg-[#B88736]"]'));
+  assert.ok(css.includes('accent-color: #e2b96b !important;'));
+  assert.ok(!css.includes('data-layout="essencia-luminosa"'));
+  assert.ok(!css.includes('data-layout="natural-sereno"'));
+  assert.ok(!css.includes('data-layout="mistico-moderno"'));
+});
