@@ -138,6 +138,96 @@ test('checkout binds account, validates provider confirmation and grants only on
     }, 'legacy-pending-owner');
     assert.equal(legacyDifferentPlan.status, 409, 'assinaturas legadas pendentes também bloqueiam outro plano');
 
+    // Checkout legado de prática individual sem productType deve ser reconciliado
+    // e reutilizado, em vez de criar um segundo link ainda pagável.
+    db.users.push({ id: 'legacy-treatment-owner', plan: 'free', profile: {} });
+    const legacyTreatmentOrderId = 'legacy-treatment-order';
+    (db.paymentOrders ||= []).push({
+      id: legacyTreatmentOrderId,
+      userId: 'legacy-treatment-owner',
+      treatment: {
+        id: 'legacy-treatment-id',
+        requestedAt: new Date().toISOString(),
+        durationDays: 7,
+        category: 'outro',
+        title: 'Prática individual — 7 dias',
+        patientDescription: 'Texto sintético privado.',
+        urgentPains: [],
+        status: 'pendente',
+        price: 59.9,
+        paymentMethod: 'pix'
+      },
+      cents: 5990,
+      method: 'pix',
+      createdAt: new Date().toISOString(),
+      checkoutUrl: 'https://checkout.infinitepay.io/legacy-treatment',
+      checkoutPayload: {
+        handle: 'evertonterapeutareiki',
+        order_nsu: legacyTreatmentOrderId,
+        redirect_url: 'https://example.com/?payment_order=legacy-treatment-order',
+        webhook_url: 'https://example.com/api/webhooks/payment',
+        items: [{ quantity: 1, price: 5990, description: 'Prática individual — 7 dias' }],
+        options: { single_payment: true }
+      }
+    });
+    const callsBeforeLegacyTreatmentRetry = calls.length;
+    const legacyTreatmentRetry = await call('payment/create-checkout', {
+      productType: 'specific_treatment',
+      paymentMethod: 'pix',
+      durationDays: 7,
+      category: 'outro',
+      patientDescription: 'Texto sintético privado.',
+      urgentPains: []
+    }, 'legacy-treatment-owner');
+    assert.equal(legacyTreatmentRetry.status, 200);
+    const legacyTreatmentRetryBody = await legacyTreatmentRetry.json();
+    assert.equal(legacyTreatmentRetryBody.orderId, legacyTreatmentOrderId);
+    assert.equal(legacyTreatmentRetryBody.reused, true);
+    assert.equal(calls.length, callsBeforeLegacyTreatmentRetry, 'retry legado não pode criar outro link InfinitePay');
+    assert.equal(db.paymentOrders?.filter(order => order.userId === 'legacy-treatment-owner').length, 1);
+
+    // Link legado sem garantia de pagamento único deve bloquear nova tentativa.
+    db.users.push({ id: 'unsafe-legacy-treatment-owner', plan: 'free', profile: {} });
+    (db.paymentOrders ||= []).push({
+      id: 'unsafe-legacy-treatment-order',
+      userId: 'unsafe-legacy-treatment-owner',
+      treatment: {
+        id: 'unsafe-legacy-treatment-id',
+        requestedAt: new Date().toISOString(),
+        durationDays: 7,
+        category: 'outro',
+        title: 'Prática individual — 7 dias',
+        patientDescription: 'Texto sintético privado.',
+        urgentPains: [],
+        status: 'pendente',
+        price: 59.9,
+        paymentMethod: 'pix'
+      },
+      cents: 5990,
+      method: 'pix',
+      createdAt: new Date().toISOString(),
+      checkoutUrl: 'https://checkout.infinitepay.io/unsafe-legacy-treatment',
+      checkoutPayload: {
+        handle: 'evertonterapeutareiki',
+        order_nsu: 'unsafe-legacy-treatment-order',
+        redirect_url: 'https://example.com/?payment_order=unsafe-legacy-treatment-order',
+        webhook_url: 'https://example.com/api/webhooks/payment',
+        items: [{ quantity: 1, price: 5990, description: 'Prática individual — 7 dias' }],
+        options: { single_payment: false }
+      }
+    });
+    const callsBeforeUnsafeLegacyRetry = calls.length;
+    const unsafeLegacyRetry = await call('payment/create-checkout', {
+      productType: 'specific_treatment',
+      paymentMethod: 'pix',
+      durationDays: 7,
+      category: 'outro',
+      patientDescription: 'Texto sintético privado.',
+      urgentPains: []
+    }, 'unsafe-legacy-treatment-owner');
+    assert.equal(unsafeLegacyRetry.status, 503);
+    assert.equal(calls.length, callsBeforeUnsafeLegacyRetry, 'link legado sem pagamento único não deve ser duplicado');
+
     const body = { order_nsu: orderId, transaction_nsu: 'transaction', slug: 'slug' };
     assert.equal((await call('payment/confirm', body, 'other')).status, 404);
     assert.equal((await call('payment/confirm', body)).status, 202);
@@ -184,4 +274,20 @@ test('checkout atualiza o snapshot Redis depois do lock e antes de deduplicar pe
   const refresh = checkoutRoute.indexOf('await refreshDbFromPersistentStorage()');
   const pending = checkoutRoute.indexOf('const pendingStandardOrders');
   assert.ok(lock >= 0 && refresh > lock && pending > refresh, 'a deduplicação deve usar o snapshot lido sob o lock');
+});
+
+
+test('checkout failure cleanup never writes a stale snapshot after losing the shared lock', () => {
+  const routes = fs.readFileSync('src/lib/paymentRoutes.ts', 'utf8');
+  const catchStart = routes.indexOf("} catch {\\n      if (order && !order.checkoutUrl");
+  assert.ok(catchStart >= 0, 'cleanup do checkout deve permanecer identificável');
+  const finallyStart = routes.indexOf('    } finally {', catchStart);
+  const cleanup = routes.slice(catchStart, finallyStart);
+  const heldBeforeRefresh = cleanup.indexOf('await releaseStandardCheckoutLock.assertHeld();');
+  const refresh = cleanup.indexOf('await refreshDbFromPersistentStorage();');
+  const persistedLookup = cleanup.indexOf('getDb().paymentOrders?.find');
+  const save = cleanup.indexOf('await saveCheckoutOrder();');
+  assert.ok(heldBeforeRefresh >= 0 && refresh > heldBeforeRefresh && persistedLookup > refresh && save > persistedLookup);
+  assert.ok(cleanup.includes('if (order && !order.checkoutUrl && !providerRequestStarted && !recoveringExistingOrder && releaseStandardCheckoutLock)'));
+  assert.ok(cleanup.includes('Sem posse comprovada do lock'));
 });
