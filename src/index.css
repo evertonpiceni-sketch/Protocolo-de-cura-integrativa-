@@ -353,10 +353,10 @@ input::placeholder,textarea::placeholder{color:#9E9080!important}
   border-color:rgba(168,126,55,.42)!important;
   box-shadow:0 7px 18px rgba(112,73,20,.14),inset 0 1px 0 rgba(255,255,255,.35)!important;
 }
-:root:not([data-layout]) #profile-setup-view.ep-auth-prestyle :is(.text-indigo-300,.text-indigo-400,.text-indigo-500,.text-purple-300,.text-purple-200,.text-amber-400,.text-amber-500\\/80){
+:root:not([data-layout]) #profile-setup-view.ep-auth-prestyle :is(.text-indigo-300,.text-indigo-400,.text-indigo-500,.text-purple-300,.text-purple-200,.text-amber-400,.text-amber-500\/80){
   color:#8F6B34!important;
 }
-:root:not([data-layout]) #profile-setup-view.ep-auth-prestyle :is(.bg-indigo-600,.hover\\:bg-indigo-500:hover){
+:root:not([data-layout]) #profile-setup-view.ep-auth-prestyle :is(.bg-indigo-600,.hover\:bg-indigo-500:hover){
   background:linear-gradient(135deg,#E2B96B,#C89D52 58%,#A87E37)!important;
   color:#2A2421!important;
 }
