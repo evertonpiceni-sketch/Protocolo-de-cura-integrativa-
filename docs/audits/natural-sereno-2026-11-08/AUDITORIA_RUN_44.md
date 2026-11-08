@@ -41,3 +41,15 @@
 - Nenhuma publicação em produção.
 - Nenhuma cobrança, reembolso ou chamada real à InfinitePay.
 - Não foram removidos materiais aprovados nem substituídas as referências visuais.
+
+
+## Correção complementar — player mobile
+
+A varredura das cinco folhas CSS específicas do Natural Sereno encontrou regras antigas de overlay verde-floresta no player mobile. Embora a última camada aprovada já as neutralizasse, elas permaneciam no arquivo responsivo e poderiam reaparecer se a ordem de importação mudasse.
+
+- Substituídos os cinco fundos/overlays escuros por superfícies creme/marfim e café, com bordas douradas refinadas.
+- Mantidos os enquadramentos da fotografia, a animação da camada de fundo e a estrutura responsiva.
+- Adicionado teste de regressão para impedir o retorno de `rgba(3,26,19)` e `rgba(5,38,28)`.
+- Corrigida a expressão regular do teste após a primeira execução TypeScript apontar erro sintático; a validação completa foi disparada novamente no head seguinte.
+
+A reauditoria estática das cinco folhas específicas encontrou 911 regras/seletores analisados, sem seletores globais indevidos (o único token não escopado detectado foi `to`, pertencente a keyframe) e sem os valores de verde-floresta examinados.
