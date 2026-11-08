@@ -134,11 +134,13 @@ test('checkout binds account, validates provider confirmation and grants only on
   process.chdir(folder); process.env.NODE_ENV = 'test';
   process.env.INFINITEPAY_API_KEY = 'test-only-infinitepay-key';
   for (const key of Object.keys(process.env)) if (/UPSTASH|KV_REST/.test(key)) delete process.env[key];
-  const { getDb, initializeDb } = await import('../src/db');
+  const { getDb, initializeDb, saveDb } = await import('../src/db');
   const { paymentRoutes } = await import('../src/lib/paymentRoutes');
   await initializeDb(); const db = getDb();
   db.users.push({ id: 'owner', plan: 'free', profile: {} });
   let amount = paymentQuote('jornada_7d', 'PROMO20').cents; let paid = false; const calls: any[] = [];
+  let providerLinkCreated = false;
+  let failNextPostProviderSave = false;
   let holdNumerologyLink = false;
   let failNextNumerologyLink = false;
   let signalNumerologyLink: (() => void) | undefined;
@@ -162,13 +164,21 @@ test('checkout binds account, validates provider confirmation and grants only on
         await numerologyLinkGate;
       }
     }
+    if (String(url).endsWith('/links')) providerLinkCreated = true;
     return new Response(JSON.stringify(String(url).endsWith('/links') ? { url: 'https://checkout.infinitepay.io/test' } : { success: true, paid, amount }), { status: 200 });
+  };
+  const saveCheckoutOrder = async () => {
+    if (providerLinkCreated && failNextPostProviderSave) {
+      failNextPostProviderSave = false;
+      throw new Error('simulated persistence outage after provider returned checkout URL');
+    }
+    await saveDb();
   };
   const app = express(); app.use(express.json());
   app.use('/api', paymentRoutes((req: any, res: any, next: any) => {
     if (!req.headers['x-account']) return res.sendStatus(401);
     req.userId = req.headers['x-account']; next();
-  }, (_req: any, _res: any, next: any) => next(), provider as typeof fetch));
+  }, (_req: any, _res: any, next: any) => next(), provider as typeof fetch, saveCheckoutOrder));
   const server = app.listen(0, '127.0.0.1'); await new Promise<void>(r => server.once('listening', r));
   const address = server.address(); assert.ok(address && typeof address !== 'string');
   const call = (route: string, body: any, account = 'owner') => fetch(`http://127.0.0.1:${address.port}/api/${route}`, { method: 'POST', headers: { 'content-type': 'application/json', ...(account ? { 'x-account': account } : {}) }, body: JSON.stringify(body) });
@@ -217,6 +227,67 @@ test('checkout binds account, validates provider confirmation and grants only on
     const fixedSevenDay = await call('payment/create-checkout', { productType: 'specific_treatment', paymentMethod: 'pix', durationDays: 7, category: 'outro', patientDescription: 'Texto sintético privado.', urgentPains: [], couponCode: 'PROMO15', price: .01 });
     assert.equal(fixedSevenDay.status, 200);
     assert.equal(calls.at(-1).body.items[0].price, 5092);
+
+    // Uma URL criada pelo provedor não pode virar um pedido órfão se a gravação final falhar.
+    db.users.push({ id: 'retry-subscription-owner', plan: 'free', profile: {} });
+    const retrySubscriptionBody = { productType: 'subscription', planId: 'jornada_7d', paymentMethod: 'pix', couponCode: 'PROMO15' };
+    providerLinkCreated = false;
+    failNextPostProviderSave = true;
+    const failedSubscriptionSave = await call('payment/create-checkout', retrySubscriptionBody, 'retry-subscription-owner');
+    assert.equal(failedSubscriptionSave.status, 503);
+    const retrySubscriptionOrder = db.paymentOrders?.find(order => order.userId === 'retry-subscription-owner' && order.productType === 'subscription');
+    assert.ok(retrySubscriptionOrder);
+    assert.equal(retrySubscriptionOrder.failedAt, undefined, 'não marca como falha após o provedor já ter criado a URL');
+    assert.ok(retrySubscriptionOrder.checkoutPayload);
+    delete retrySubscriptionOrder.checkoutUrl; // simula a instância seguinte lendo o snapshot persistido antes da URL.
+    const subscriptionCallsBeforeRecovery = calls.filter(entry => entry.body.order_nsu === retrySubscriptionOrder.id).length;
+    const recoveredSubscription = await call('payment/create-checkout', retrySubscriptionBody, 'retry-subscription-owner');
+    assert.equal(recoveredSubscription.status, 200);
+    const recoveredSubscriptionData = await recoveredSubscription.json();
+    assert.equal(recoveredSubscriptionData.orderId, retrySubscriptionOrder.id);
+    assert.equal(recoveredSubscriptionData.recovered, true);
+    assert.equal(calls.filter(entry => entry.body.order_nsu === retrySubscriptionOrder.id).length, subscriptionCallsBeforeRecovery + 1);
+    assert.equal(db.paymentOrders?.filter(order => order.userId === 'retry-subscription-owner' && order.productType === 'subscription').length, 1);
+    const subscriptionCallsAfterRecovery = calls.length;
+    const repeatedSubscription = await call('payment/create-checkout', retrySubscriptionBody, 'retry-subscription-owner');
+    assert.equal(repeatedSubscription.status, 200);
+    assert.equal((await repeatedSubscription.json()).orderId, retrySubscriptionOrder.id);
+    assert.equal(calls.length, subscriptionCallsAfterRecovery, 'a URL já persistida é reutilizada sem criar outro link');
+
+    db.users.push({ id: 'retry-treatment-owner', plan: 'free', profile: {} });
+    const retryTreatmentBody = {
+      productType: 'specific_treatment', paymentMethod: 'pix', durationDays: 7,
+      category: 'outro', patientDescription: 'Mesmo pedido de teste de recuperação.',
+      urgentPains: ['dor de cabeça'], title: 'Recuperação de teste', couponCode: 'PROMO15'
+    };
+    providerLinkCreated = false;
+    failNextPostProviderSave = true;
+    const failedTreatmentSave = await call('payment/create-checkout', retryTreatmentBody, 'retry-treatment-owner');
+    assert.equal(failedTreatmentSave.status, 503);
+    const retryTreatmentOrder = db.paymentOrders?.find(order => order.userId === 'retry-treatment-owner' && order.productType === 'specific_treatment');
+    assert.ok(retryTreatmentOrder);
+    assert.equal(retryTreatmentOrder.failedAt, undefined);
+    assert.ok(retryTreatmentOrder.checkoutPayload);
+    delete retryTreatmentOrder.checkoutUrl;
+    const treatmentCallsBeforeRecovery = calls.filter(entry => entry.body.order_nsu === retryTreatmentOrder.id).length;
+    const recoveredTreatment = await call('payment/create-checkout', retryTreatmentBody, 'retry-treatment-owner');
+    assert.equal(recoveredTreatment.status, 200);
+    const recoveredTreatmentData = await recoveredTreatment.json();
+    assert.equal(recoveredTreatmentData.orderId, retryTreatmentOrder.id);
+    assert.equal(recoveredTreatmentData.recovered, true);
+    assert.equal(calls.filter(entry => entry.body.order_nsu === retryTreatmentOrder.id).length, treatmentCallsBeforeRecovery + 1);
+    assert.equal(db.paymentOrders?.filter(order => order.userId === 'retry-treatment-owner' && order.productType === 'specific_treatment').length, 1);
+
+    db.users.push({ id: 'legacy-standard-owner', plan: 'free', profile: {} });
+    db.paymentOrders?.push({
+      id: 'legacy-standard-link', userId: 'legacy-standard-owner', productType: 'subscription',
+      planId: 'jornada_7d', cents: paymentQuote('jornada_7d').cents, method: 'pix',
+      createdAt: new Date().toISOString(), checkoutUrl: 'https://checkout.infinitepay.io/legacy-standard'
+    });
+    const beforeLegacyStandard = calls.length;
+    const legacyStandardAttempt = await call('payment/create-checkout', { productType: 'subscription', planId: 'jornada_7d', paymentMethod: 'pix' }, 'legacy-standard-owner');
+    assert.equal(legacyStandardAttempt.status, 503);
+    assert.equal(calls.length, beforeLegacyStandard, 'link legado sem single_payment exige conciliação e não é substituído automaticamente');
 
     db.users.push({ id: 'numerology-owner', plan: 'free', profile: {} });
     paid = false; amount = 9000; holdNumerologyLink = true;
