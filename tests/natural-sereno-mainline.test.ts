@@ -146,7 +146,7 @@ test('o acesso permanece neutro até a escolha explícita e o Natural Sereno nã
 test('tokens compartilhados do Natural Sereno usam marfim, café, dourado refinado e sálvia', () => {
   const theme = read('src/approved-theme.css');
   const start = theme.indexOf(':root[data-layout="natural-sereno"]{');
-  const end = theme.indexOf('\\n}', start);
+  const end = theme.indexOf('}', start);
   assert.ok(start >= 0 && end > start, 'bloco de tokens exclusivo do Natural Sereno ausente');
   const tokens = theme.slice(start, end);
   for (const approved of [
