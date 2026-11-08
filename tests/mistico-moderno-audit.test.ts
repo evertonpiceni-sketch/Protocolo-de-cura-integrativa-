@@ -6,8 +6,9 @@ import { specificTreatmentQuote } from '../src/lib/paymentCatalog';
 
 test('Estilo 4 usa a prancha oficial no card e uma superfície noturna própria', () => {
   const modal = fs.readFileSync('src/components/LayoutChoiceModal.tsx', 'utf8');
-  const board = fs.readFileSync('src/assets/mistico-moderno-prancha.b64', 'utf8').trim();
+  const board = ['mistico-moderno-prancha.b64', 'mistico-moderno-prancha-2.b64', 'mistico-moderno-prancha-3.b64', 'mistico-moderno-prancha-4.b64', 'mistico-moderno-prancha-5.b64'].map(file => fs.readFileSync(`src/assets/${file}`, 'utf8').trim()).join('');
   assert.ok(modal.includes("misticoBoardBase64 from '../assets/mistico-moderno-prancha.b64?raw'"));
+  assert.ok(modal.includes("misticoBoardBase64Part5 from '../assets/mistico-moderno-prancha-5.b64?raw'"));
   assert.ok(modal.includes('MISTICO_MODERNO_OFFICIAL_BOARD'));
   assert.ok(modal.includes('src={MISTICO_MODERNO_OFFICIAL_BOARD}'));
   assert.ok(modal.includes("backgroundColor: '#00142D'"));
@@ -21,7 +22,7 @@ test('Estilo 4 usa a prancha oficial no card e uma superfície noturna própria'
   assert.ok(layouts.includes("swatches: ['#00142D', '#4D29B1', '#E8AA3B', '#003F2C']"));
   assert.ok(modal.includes("bg-[#00142D] text-[#EDDEC2]"));
   assert.ok(board.startsWith('UklGR'), 'a referência deve ser um WebP real, não um placeholder');
-  assert.ok(board.length > 60000, 'a prancha oficial otimizada deve manter resolução suficiente para o card');
+  assert.ok(board.length === 44388, 'a prancha oficial WebP 384×288 deve permanecer íntegra ao ser montada em partes');
 });
 
 test('os quatro estilos exigem escolha e confirmação explícitas nesta sessão', () => {
