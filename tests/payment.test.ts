@@ -356,13 +356,19 @@ test('checkout binds account, validates provider confirmation and grants only on
 });
 
 
-test('checkout atualiza o snapshot Redis depois do lock e antes de deduplicar pedidos', () => {
+test('checkout atualiza o snapshot Redis pelo helper compartilhado antes de deduplicar pedidos', () => {
   const routes = fs.readFileSync('src/lib/paymentRoutes.ts', 'utf8');
+  const helperStart = routes.indexOf('export async function acquireSharedDatabaseWriteLock');
+  const helperEnd = routes.indexOf('export function paymentRoutes', helperStart);
+  const helper = routes.slice(helperStart, helperEnd);
+  const acquire = helper.indexOf('await acquireCheckoutCreationLock(PAYMENT_DATABASE_WRITE_LOCK_SCOPE)');
+  const refresh = helper.indexOf('await refreshDbFromPersistentStorage()');
+  const confirm = helper.lastIndexOf('await lock.assertHeld()');
   const checkoutRoute = routes.slice(routes.indexOf("router.post('/payment/create-checkout'"));
-  const lock = checkoutRoute.indexOf('await acquireCheckoutCreationLock');
-  const refresh = checkoutRoute.indexOf('await refreshDbFromPersistentStorage()');
+  const lockCall = checkoutRoute.indexOf('await acquireSharedDatabaseWriteLock()');
   const pending = checkoutRoute.indexOf('const pendingStandardOrders');
-  assert.ok(lock >= 0 && refresh > lock && pending > refresh, 'a deduplicação deve usar o snapshot lido sob o lock');
+  assert.ok(acquire >= 0 && refresh > acquire && confirm > refresh && lockCall >= 0 && pending > lockCall,
+    'a deduplicação deve ocorrer somente depois de adquirir o lock e recarregar o snapshot compartilhado');
 });
 
 
