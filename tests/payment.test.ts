@@ -124,6 +124,53 @@ test('Numerology checkout lock fails closed after losing its Redis lease', async
   assert.equal(activeToken, undefined);
 });
 
+test('standard checkout recovery lock serializes requests across independent instances', async () => {
+  const { acquireCheckoutCreationLock } = await import('../src/lib/paymentRoutes');
+  const records = new Map<string, { token: string; expiresAt: number }>();
+  const fakeRedisCommand = async (command: string, args: string[]) => {
+    if (command === 'set') {
+      const [key, token, nx, px, ttl] = args;
+      assert.equal(nx, 'nx');
+      assert.equal(px, 'px');
+      const current = records.get(key);
+      if (current && current.expiresAt > Date.now()) return null;
+      records.set(key, { token, expiresAt: Date.now() + Number(ttl) });
+      return 'OK';
+    }
+    if (command === 'eval') {
+      const [script, , key, token, ttl] = args;
+      const current = records.get(key);
+      if (!current || current.token !== token || current.expiresAt <= Date.now()) return 0;
+      if (script.includes('pexpire')) {
+        current.expiresAt = Date.now() + Number(ttl);
+        return 1;
+      }
+      if (script.includes('del')) {
+        records.delete(key);
+        return 1;
+      }
+    }
+    throw new Error(`Unexpected Redis command: ${command}`);
+  };
+
+  const dependencies = {
+    hasPersistentDatabase: () => true,
+    redisCommand: fakeRedisCommand as any,
+    ttlMs: 300,
+    renewIntervalMs: 40
+  };
+  // Each call represents a separate serverless instance sharing the same Redis.
+  const firstInstance = await acquireCheckoutCreationLock('standard:parallel-owner:subscription', dependencies);
+  assert.ok(firstInstance);
+  const secondInstance = await acquireCheckoutCreationLock('standard:parallel-owner:subscription', dependencies);
+  assert.equal(secondInstance, null, 'Redis NX prevents a second instance from claiming the same order recovery');
+  await firstInstance.assertHeld();
+  await firstInstance.release();
+  const nextInstance = await acquireCheckoutCreationLock('standard:parallel-owner:subscription', dependencies);
+  assert.ok(nextInstance, 'the next instance can acquire the lock after release');
+  await nextInstance.release();
+});
+
 test('checkout binds account, validates provider confirmation and grants only once', async () => {
   const cwd = process.cwd(); const folder = fs.mkdtempSync(path.join(os.tmpdir(), 'payment-test-'));
   const originalEnv = {
@@ -141,6 +188,8 @@ test('checkout binds account, validates provider confirmation and grants only on
   let amount = paymentQuote('jornada_7d', 'PROMO20').cents; let paid = false; const calls: any[] = [];
   let providerLinkCreated = false;
   let failNextPostProviderSave = false;
+  let failNextPreProviderSave = false;
+  let failNextStandardLink = false;
   let holdNumerologyLink = false;
   let failNextNumerologyLink = false;
   let signalNumerologyLink: (() => void) | undefined;
@@ -153,6 +202,10 @@ test('checkout binds account, validates provider confirmation and grants only on
     if (String(url).endsWith('/links')) {
       const persistedOrder = db.paymentOrders?.find(order => order.id === body.order_nsu);
       assert.deepEqual(persistedOrder?.checkoutPayload, body, 'o payload é persistido antes da primeira chamada ao provedor');
+    }
+    if (String(url).endsWith('/links') && body.items?.[0]?.description !== 'Mapa Numerológico Cabalístico Completo' && failNextStandardLink) {
+      failNextStandardLink = false;
+      throw new Error('simulated standard provider interruption before URL response');
     }
     if (String(url).endsWith('/links') && body.items?.[0]?.description === 'Mapa Numerológico Cabalístico Completo') {
       if (failNextNumerologyLink) {
@@ -168,6 +221,10 @@ test('checkout binds account, validates provider confirmation and grants only on
     return new Response(JSON.stringify(String(url).endsWith('/links') ? { url: 'https://checkout.infinitepay.io/test' } : { success: true, paid, amount }), { status: 200 });
   };
   const saveCheckoutOrder = async () => {
+    if (failNextPreProviderSave) {
+      failNextPreProviderSave = false;
+      throw new Error('simulated persistence outage before provider recovery replay');
+    }
     if (providerLinkCreated && failNextPostProviderSave) {
       failNextPostProviderSave = false;
       throw new Error('simulated persistence outage after provider returned checkout URL');
@@ -227,6 +284,35 @@ test('checkout binds account, validates provider confirmation and grants only on
     const fixedSevenDay = await call('payment/create-checkout', { productType: 'specific_treatment', paymentMethod: 'pix', durationDays: 7, category: 'outro', patientDescription: 'Texto sintético privado.', urgentPains: [], couponCode: 'PROMO15', price: .01 });
     assert.equal(fixedSevenDay.status, 200);
     assert.equal(calls.at(-1).body.items[0].price, 5092);
+
+    // A falha da persistência prévia não consome o único replay nem encerra o pedido pendente.
+    db.users.push({ id: 'precall-save-owner', plan: 'free', profile: {} });
+    const precallSaveBody = { productType: 'subscription', planId: 'jornada_7d', paymentMethod: 'pix' };
+    providerLinkCreated = false;
+    failNextStandardLink = true;
+    const interruptedStandardLink = await call('payment/create-checkout', precallSaveBody, 'precall-save-owner');
+    assert.equal(interruptedStandardLink.status, 503);
+    const precallOrder = db.paymentOrders?.find(order => order.userId === 'precall-save-owner' && order.productType === 'subscription');
+    assert.ok(precallOrder);
+    assert.equal(precallOrder.failedAt, undefined);
+    assert.equal(precallOrder.checkoutUrl, undefined);
+    assert.equal(precallOrder.checkoutRecoveryAttempts, undefined);
+    const callsBeforePrecallPersistenceFailure = calls.filter(entry => entry.body.order_nsu === precallOrder.id).length;
+
+    failNextPreProviderSave = true;
+    const failedPrecallPersistence = await call('payment/create-checkout', precallSaveBody, 'precall-save-owner');
+    assert.equal(failedPrecallPersistence.status, 503);
+    assert.equal(precallOrder.checkoutRecoveryAttempts, undefined, 'a tentativa é revertida se a gravação prévia falhar');
+    assert.equal(precallOrder.failedAt, undefined, 'o pedido existente permanece recuperável');
+    assert.equal(calls.filter(entry => entry.body.order_nsu === precallOrder.id).length, callsBeforePrecallPersistenceFailure, 'o provedor não é chamado quando a gravação prévia falha');
+
+    const recoveredAfterPrecallFailure = await call('payment/create-checkout', precallSaveBody, 'precall-save-owner');
+    assert.equal(recoveredAfterPrecallFailure.status, 200);
+    const recoveredAfterPrecallData = await recoveredAfterPrecallFailure.json();
+    assert.equal(recoveredAfterPrecallData.orderId, precallOrder.id);
+    assert.equal(precallOrder.checkoutRecoveryAttempts, 1);
+    assert.equal(calls.filter(entry => entry.body.order_nsu === precallOrder.id).length, callsBeforePrecallPersistenceFailure + 1);
+    assert.equal(db.paymentOrders?.filter(order => order.userId === 'precall-save-owner' && order.productType === 'subscription').length, 1);
 
     // Uma URL criada pelo provedor não pode virar um pedido órfão se a gravação final falhar.
     db.users.push({ id: 'retry-subscription-owner', plan: 'free', profile: {} });
