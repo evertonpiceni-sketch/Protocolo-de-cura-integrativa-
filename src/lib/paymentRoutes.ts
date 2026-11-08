@@ -110,7 +110,7 @@ export async function acquireNumerologyCheckoutLock(
   };
 }
 
-export function paymentRoutes(authenticate: any, limiter: any, providerFetch: typeof fetch = fetch) {
+export function paymentRoutes(authenticate: any, limiter: any, providerFetch: typeof fetch = fetch, saveCheckoutOrder: typeof saveDb = saveDb) {
   const router = Router();
   const handle = () => process.env.INFINITEPAY_HANDLE || 'evertonterapeutareiki';
   const apiKey = () => process.env.INFINITEPAY_API_KEY?.trim() || '';
@@ -169,6 +169,7 @@ export function paymentRoutes(authenticate: any, limiter: any, providerFetch: ty
     let treatment: import('../types.js').SpecificTreatment | undefined;
     let releaseNumerologyLock: NumerologyCheckoutLock | undefined;
     let order: PaymentOrder | undefined;
+    let providerRequestStarted = false;
 
     try {
       if (!['subscription', 'specific_treatment', 'numerology_full'].includes(productType) || !['pix', 'card', 'credit', 'debit'].includes(paymentMethod) || (productType === 'subscription' && typeof planId !== 'string') || (productType !== 'subscription' && planId != null) || (couponCode != null && typeof couponCode !== 'string')) throw new Error('Compra inválida.');
@@ -275,14 +276,79 @@ export function paymentRoutes(authenticate: any, limiter: any, providerFetch: ty
             return res.status(503).json({ error: 'A tentativa anterior precisa de conferência antes de ser retomada.' });
           }
           await releaseNumerologyLock.assertHeld();
+          order = preparingOrder;
+          providerRequestStarted = true;
           const checkoutUrl = await createCheckoutUrl(preparingOrder.checkoutPayload);
           await releaseNumerologyLock.assertHeld();
           preparingOrder.checkoutUrl = checkoutUrl;
-          await saveDb();
+          await saveCheckoutOrder();
           if (hasPersistentDatabase()) {
             await redisCommand('set', [key, JSON.stringify({ orderId: preparingOrder.id, checkoutUrl }), 'ex', '86400']);
           }
           return res.json({ checkoutUrl, orderId: preparingOrder.id, reused: true, recovered: true });
+        }
+      }
+
+      if (productType !== 'numerology_full') {
+        const db = getDb();
+        const pendingStandardOrders = (db.paymentOrders || []).filter(candidate =>
+          candidate.userId === req.userId &&
+          candidate.productType === productType &&
+          !candidate.paidAt &&
+          !candidate.failedAt
+        );
+        const matchesRequestedStandardOrder = (candidate: PaymentOrder) => {
+          if (candidate.cents !== quote.cents || candidate.method !== paymentMethod) return false;
+          if (productType === 'subscription') return candidate.planId === planId;
+          if (productType !== 'specific_treatment' || !candidate.treatment || !treatment) return false;
+          const saved = candidate.treatment;
+          return saved.durationDays === treatment.durationDays &&
+            saved.category === treatment.category &&
+            saved.title === treatment.title &&
+            saved.patientDescription === treatment.patientDescription &&
+            JSON.stringify(saved.urgentPains || []) === JSON.stringify(treatment.urgentPains || []) &&
+            saved.paymentMethod === treatment.paymentMethod;
+        };
+        const preparingOrders = pendingStandardOrders.filter(candidate => !candidate.checkoutUrl);
+        if (preparingOrders.length > 0) {
+          if (preparingOrders.length !== 1 || pendingStandardOrders.length !== 1) {
+            return res.status(503).json({ error: 'Há tentativas de pagamento em preparação que precisam de conferência antes de continuar.' });
+          }
+          const preparing = preparingOrders[0];
+          const payload = preparing.checkoutPayload;
+          if (!matchesRequestedStandardOrder(preparing)) {
+            return res.status(409).json({ error: 'Existe uma tentativa de pagamento diferente ainda em preparação. Conclua ou solicite conferência antes de iniciar outra.' });
+          }
+          if (!payload || payload.order_nsu !== preparing.id || payload.options?.single_payment !== true || payload.items?.[0]?.price !== preparing.cents) {
+            return res.status(503).json({ error: 'A tentativa anterior não contém o payload original protegido e precisa de conferência.' });
+          }
+          order = preparing;
+          providerRequestStarted = true;
+          const checkoutUrl = await createCheckoutUrl(payload);
+          preparing.checkoutUrl = checkoutUrl;
+          await saveCheckoutOrder();
+          return res.json({ checkoutUrl, orderId: preparing.id, reused: true, recovered: true });
+        }
+
+        const matchingLinkedOrders = pendingStandardOrders.filter(candidate =>
+          Boolean(candidate.checkoutUrl) && matchesRequestedStandardOrder(candidate)
+        );
+        if (matchingLinkedOrders.length > 1) {
+          return res.status(503).json({ error: 'Há mais de um link pendente para esta compra. É necessária uma conferência antes de continuar.' });
+        }
+        if (matchingLinkedOrders.length === 1) {
+          const matching = matchingLinkedOrders[0];
+          const payload = matching.checkoutPayload;
+          if (!payload || payload.order_nsu !== matching.id || payload.options?.single_payment !== true || payload.items?.[0]?.price !== matching.cents) {
+            return res.status(503).json({ error: 'O link anterior não comprova pagamento único e precisa de conferência antes de ser reutilizado.' });
+          }
+          return res.json({ checkoutUrl: matching.checkoutUrl, orderId: matching.id, reused: true });
+        }
+        const legacyLinkedOrder = pendingStandardOrders.find(candidate =>
+          Boolean(candidate.checkoutUrl) && candidate.checkoutPayload?.options?.single_payment !== true
+        );
+        if (legacyLinkedOrder) {
+          return res.status(503).json({ error: 'Existe um link anterior sem proteção de pagamento único que precisa de conferência antes de abrir outro.' });
         }
       }
 
@@ -298,20 +364,21 @@ export function paymentRoutes(authenticate: any, limiter: any, providerFetch: ty
       if (releaseNumerologyLock) await releaseNumerologyLock.assertHeld();
       const db = getDb();
       (db.paymentOrders ||= []).push(createdOrder);
-      await saveDb();
+      await saveCheckoutOrder();
 
       if (releaseNumerologyLock) await releaseNumerologyLock.assertHeld();
+      providerRequestStarted = true;
       createdOrder.checkoutUrl = await createCheckoutUrl(createdOrder.checkoutPayload);
       if (releaseNumerologyLock) await releaseNumerologyLock.assertHeld();
-      await saveDb();
+      await saveCheckoutOrder();
       if (productType === 'numerology_full' && hasPersistentDatabase()) {
         await redisCommand('set', [numerologyCheckoutKey(req.userId), JSON.stringify({ orderId: createdOrder.id, checkoutUrl: createdOrder.checkoutUrl }), 'ex', '86400']);
       }
       return res.json({ checkoutUrl: createdOrder.checkoutUrl, orderId: createdOrder.id });
     } catch {
-      if (order && !order.checkoutUrl && productType !== 'numerology_full') {
+      if (order && !order.checkoutUrl && productType !== 'numerology_full' && !providerRequestStarted) {
         order.failedAt = new Date().toISOString();
-        try { await saveDb(); } catch { /* Mantém a tentativa bloqueada se a persistência falhar. */ }
+        try { await saveCheckoutOrder(); } catch { /* Mantém a tentativa bloqueada se a persistência falhar. */ }
       }
       return res.status(503).json({ error: 'Não foi possível abrir o pagamento seguro. Tente novamente em instantes.' });
     } finally {
