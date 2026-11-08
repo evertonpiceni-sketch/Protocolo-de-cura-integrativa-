@@ -70,3 +70,16 @@ O primeiro CI após a limpeza do player encontrou um erro de escape na expressã
 ## Registro posterior da Elegância Profunda
 
 A auditoria RUN 94 da Elegância Profunda, publicada depois da segunda integração, também foi incorporada à branch. O documento registra que a correção recente de rótulo `waves` afeta somente os Estilos 2 e 3; Natural Sereno e Místico Moderno permanecem inalterados. A branch agora inclui esse registro sem reintroduzir componentes ou cores de outro estilo no Natural Sereno.
+
+
+## CI do HEAD validado
+
+A execução GitHub Actions `42497160339` concluiu com sucesso no HEAD `048fa0b51af275b7981fc8292d243b52d5ce58fe`:
+
+- `npm audit`: zero vulnerabilidades.
+- TypeScript: aprovado.
+- Testes: **177/177 aprovados**.
+- Build Vite: aprovado; 2.249 módulos transformados.
+- Entry points Vercel, verificação de segredos, JWT, autenticação/admin, smoke tests e endpoints de pagamento fail-closed: aprovados.
+
+O check Vercel permanece em falha `build-rate-limit`; por isso ainda não há preview navegável nem homologação visual/auditiva real.
