@@ -83,3 +83,10 @@ A execução GitHub Actions `42497160339` concluiu com sucesso no HEAD `048fa0b5
 - Entry points Vercel, verificação de segredos, JWT, autenticação/admin, smoke tests e endpoints de pagamento fail-closed: aprovados.
 
 O check Vercel permanece em falha `build-rate-limit`; por isso ainda não há preview navegável nem homologação visual/auditiva real.
+
+
+## Referência visual localizada na Library
+
+A busca recuperou um painel chamado `Painel UX_UI Natural Sereno.png`, com o título visual “ESTILO 1 NATURAL SERENO” e a composição de telas do estilo. A imagem foi inspecionada. O identificador original informado na solicitação (`file_00000000317c820ebaad657dc3680de5`) não apareceu como correspondência exata; portanto, o painel localizado foi tratado como referência corroborativa, não como substituto comprovado do arquivo original. A prancha já versionada no repositório foi mantida.
+
+A própria composição visual contém escolhas antigas de verde escuro e ouro mais saturado. Elas permanecem subordinadas às decisões posteriores aprovadas: base clara creme/marfim, café/marrom, dourado refinado e verde somente como acento natural.
