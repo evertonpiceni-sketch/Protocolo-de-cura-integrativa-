@@ -1,14 +1,16 @@
 import { audioEngine } from './audio';
+import { shouldBlockArcanjoBackground } from './arcanjoAudioPolicy';
 
 /**
- * Arcanjo/Solfeggio owns the audio surface while its full-screen protocol is mounted.
- * This guard prevents the app-level background player (including gesture unlock)
- * from restarting underneath the protocol until App.tsx carries the same ownership
- * rule directly. It is intentionally narrow and does not alter narration/synth audio.
+ * Arcanjo owns the audio surface while its full-screen protocol is mounted.
+ * Block the app-level startBG path without calling stopBG on every attempted
+ * restart: stopBG also stops the protocol oscillator. The protocol's own
+ * seven Solfeggio tones are started independently through audioEngine.startSynth.
  */
 const ARCANJO_VIEW_MARKER = 'img[alt="Pessoa em meditação com os sete chakras"]';
 const DASHBOARD_MARKER = '#progress-dashboard';
 const ARCANJO_OPENING_GUARD_MS = 5000;
+let arcanjoWasMounted = false;
 let arcanjoOpening = false;
 let openingGuardTimer: number | null = null;
 
@@ -23,10 +25,7 @@ const arcanjoOwnsAudio = () => arcanjoOpening || isArcanjoViewMounted();
 
 const originalStartBG = audioEngine.startBG.bind(audioEngine);
 audioEngine.startBG = ((type: Parameters<typeof audioEngine.startBG>[0]) => {
-  if (arcanjoOwnsAudio()) {
-    audioEngine.stopBG();
-    return;
-  }
+  if (shouldBlockArcanjoBackground(type, arcanjoOwnsAudio())) return;
   return originalStartBG(type);
 }) as typeof audioEngine.startBG;
 
@@ -39,24 +38,30 @@ const releaseOpeningGuard = () => {
 };
 
 if (typeof window !== 'undefined') {
-  // OPEN_PROTOCOL_DAY fires before React has mounted the full-screen protocol.
-  // Claim ownership immediately so a gesture/autoplay effect cannot restart the
-  // global background while slower devices are still mounting the protocol view.
+  // Claim ownership before React mounts the protocol so global audio cannot restart.
   window.addEventListener('OPEN_PROTOCOL_DAY', () => {
     arcanjoOpening = true;
     audioEngine.stopBG();
 
     if (openingGuardTimer !== null) window.clearTimeout(openingGuardTimer);
-    openingGuardTimer = window.setTimeout(() => {
-      releaseOpeningGuard();
-      if (isArcanjoViewMounted()) audioEngine.stopBG();
-    }, ARCANJO_OPENING_GUARD_MS);
+    // The observer stops global audio on mount. Do not stop it again at timeout:
+    // by then the protocol-owned Solfeggio oscillator may already be playing.
+    openingGuardTimer = window.setTimeout(releaseOpeningGuard, ARCANJO_OPENING_GUARD_MS);
   });
 }
 
 if (typeof document !== 'undefined' && typeof MutationObserver !== 'undefined') {
   const observer = new MutationObserver(() => {
-    if (isArcanjoViewMounted()) {
+    const mounted = isArcanjoViewMounted();
+    if (!mounted) {
+      arcanjoWasMounted = false;
+      return;
+    }
+
+    // Stop global audio once on entry. Later React mutations must not interrupt
+    // the Solfeggio oscillator started by the Arcanjo player.
+    if (!arcanjoWasMounted) {
+      arcanjoWasMounted = true;
       releaseOpeningGuard();
       audioEngine.stopBG();
     }
@@ -65,7 +70,11 @@ if (typeof document !== 'undefined' && typeof MutationObserver !== 'undefined') 
   const startObserving = () => {
     if (!document.body) return;
     observer.observe(document.body, { childList: true, subtree: true });
-    if (isArcanjoViewMounted()) audioEngine.stopBG();
+    arcanjoWasMounted = isArcanjoViewMounted();
+    if (arcanjoWasMounted) {
+      releaseOpeningGuard();
+      audioEngine.stopBG();
+    }
   };
 
   if (document.body) startObserving();
