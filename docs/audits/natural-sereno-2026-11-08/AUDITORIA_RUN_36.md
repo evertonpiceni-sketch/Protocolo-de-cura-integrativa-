@@ -2,8 +2,8 @@
 
 **Data:** 08/11/2026  
 **Branch:** `fix/natural-sereno-mainline-2026-11-08-run33`  
-**Base main:** `1219158a78e354a3bf98111badf85ae5463fb2ae`  
-**Head auditado:** `3db4795a9c47f01ea94e496246ff7c87ba21c3d0`  
+**Base main integrada:** `000a8818ed895fc2be0f0dc4933a6848ed5b8af4`  
+**Head auditado após integração:** `aeb8dae038432d2a7b6e883dbaf81e65aaaed483`  
 **PR:** #67 — aberta, mergeável, sem merge e sem publicação.
 
 ## Corrigido e confirmado nesta rodada
@@ -52,12 +52,20 @@ Se a posse não puder ser comprovada, não grava um snapshot possivelmente obsol
 - Ownership do áudio do Arcanjo interrompe a trilha global uma única vez na entrada, sem parar repetidamente o Solfeggio próprio.
 - Diário, sincronização, seis etapas, animações, respiração 4–3–5 e preferência de movimento reduzido permanecem preservados.
 
-## Reauditoria técnica — GitHub Actions #1698
+## Integração das decisões posteriores da main
 
-Executada no head atual `3db4795a9c47f01ea94e496246ff7c87ba21c3d0`:
+Depois da primeira validação, a main recebeu dois commits posteriores do Estilo 2:
+- `3a721a838ad76a6d93407d02a0fd4a5236ecd381`: remove heranças de cor no Diário da Elegância Profunda.
+- `000a8818ed895fc2be0f0dc4933a6848ed5b8af4`: acrescenta testes de isolamento da paleta do Diário.
+
+Ambos foram integrados sem conflito no merge commit `aeb8dae038432d2a7b6e883dbaf81e65aaaed483`. A branch voltou a ficar **0 commits atrás da main**, preservando as duas atualizações posteriores sem alterar o Natural Sereno.
+
+## Reauditoria técnica — GitHub Actions #1702
+
+Executada no merge commit atual `aeb8dae038432d2a7b6e883dbaf81e65aaaed483`:
 - `npm audit`: **0 vulnerabilidades**.
 - TypeScript: aprovado.
-- Testes: **140/140 aprovados** (0 falhas, 0 ignorados).
+- Testes: **142/142 aprovados** (0 falhas, 0 ignorados).
 - Build Vite e bundle Express: aprovado.
 - Entry points Vercel: aprovados.
 - Verificações de padrões de segredos/JWT: aprovadas.
@@ -83,4 +91,4 @@ Executada no head atual `3db4795a9c47f01ea94e496246ff7c87ba21c3d0`:
 - Estilos 2, 3 e 4 e suas decisões posteriores, sem redesenho nesta rodada.
 - Catálogo atual de preços/cupons e entitlement de Numerologia; checkout avulso obsoleto `numerology_full` não foi recuperado.
 
-**Conclusão:** o código do head atual passou em 140/140 testes, build e auditoria de dependências. O achado P1 de checkout duplicado para a mesma prática está coberto por código e teste. A homologação visual/auditiva e a ativação do checkout real continuam pendentes por bloqueios externos. Sem merge, sem deploy de produção e sem transação financeira.
+**Conclusão:** o merge commit atual passou em 142/142 testes, build e auditoria de dependências. O achado P1 de checkout duplicado para a mesma prática está coberto por código e teste. A homologação visual/auditiva e a ativação do checkout real continuam pendentes por bloqueios externos. Sem merge, sem deploy de produção e sem transação financeira.
