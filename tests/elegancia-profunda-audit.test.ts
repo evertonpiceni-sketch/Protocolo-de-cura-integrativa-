@@ -419,3 +419,22 @@ test('splash e cadastro mantêm o logo oficial como assinatura, sem moldura ou p
   assert.ok(profile.includes('ep-brand-signature w-full h-full object-contain'));
   assert.ok(profile.includes('style={{ opacity: 0.3 }}'));
 });
+
+
+test('o seletor permanece neutro até a escolha explícita e só então revela o CTA do estilo', () => {
+  const modal = read('src/components/LayoutChoiceModal.tsx');
+  const profile = read('src/components/ProfileSetup.tsx');
+  const app = read('src/App.tsx');
+  const preselectionTone = modal.match(/const confirmButtonTone = !selectedLayout\\s*\\?\\s*'([^']+)'/)?.[1] ?? '';
+
+  assert.ok(preselectionTone.includes('from-[#A99B84]'));
+  assert.ok(preselectionTone.includes('to-[#817460]'));
+  assert.ok(!/#(?:B88736|C89D52|D9B66D|A87E37|D4AF37|E2B96B|C6A46A)/i.test(preselectionTone));
+  assert.ok(modal.includes("selectedLayout === 'essencia-luminosa'"));
+  assert.ok(modal.includes('from-[#C89D52] via-[#D9B66D] to-[#A87E37]'));
+  assert.ok(modal.includes('disabled={!selectedLayout || isSaving}'));
+  assert.ok(profile.includes('bg-[#A99B84]'));
+  assert.ok(!/#(?:B88736|8F631E|e5c66f)/i.test(profile));
+  assert.ok(app.includes('const selected = layoutConfirmedThisSession ? OFFICIAL_LAYOUTS.find(layout => layout.id === userProfile?.visualLayout) : undefined;'));
+  assert.ok(app.includes('if (!selected) {\\n      delete document.documentElement.dataset.layout;'));
+});
