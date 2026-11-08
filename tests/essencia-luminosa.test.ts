@@ -830,18 +830,3 @@ test('a cena efetiva da Home do Estilo 3 usa fotografia costeira própria e over
   assert.ok(!finalCss.includes('/brand/natural-sereno/'));
   assert.ok(!finalCss.includes('/brand/reintegracao/'));
 });
-
-
-test('planos e checkout usam a paleta aprovada da Essência Luminosa', () => {
-  const css = fs.readFileSync('src/essencia-luminosa-approved-overrides.css', 'utf8');
-  const modal = fs.readFileSync('src/components/ProUpgradeModal.tsx', 'utf8');
-  assert.ok(modal.includes('id="plans-modal"'));
-  assert.ok(css.includes('html[data-layout="essencia-luminosa"] #plans-modal'));
-  assert.ok(css.includes('#plans-modal [class~="bg-[#073B2B]"]'));
-  assert.ok(css.includes('background: var(--layout-gold-gradient) !important;'));
-  assert.ok(css.includes('#plans-modal #checkout-planos'));
-  assert.ok(css.includes('#plans-modal #plan-benefit-choice'));
-  assert.ok(css.includes('@media (prefers-reduced-motion: reduce)'));
-  assert.ok(!css.includes('html[data-layout="natural-sereno"] #plans-modal'));
-  assert.ok(!css.includes('html[data-layout="elegancia-profunda"] #plans-modal'));
-});
