@@ -1,0 +1,160 @@
+/* Estilo 3 — Essência Luminosa | modais compartilhados.
+   Harmoniza Mapa Astral e Ajustes de Áudio sem alterar conteúdo, cálculos,
+   regras de pagamento ou a identidade dos outros estilos. */
+
+:root[data-layout="essencia-luminosa"] :is(#astral-map-modal,#audio-settings-modal) {
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* Mapa Astral — superfícies claras, ouro suave e sálvia clara. */
+:root[data-layout="essencia-luminosa"] #astral-map-modal > div {
+  background:
+    radial-gradient(circle at 92% 7%, color-mix(in srgb,var(--layout-gold-soft) 78%,transparent), transparent 19rem),
+    linear-gradient(180deg,var(--layout-canvas),var(--layout-canvas-alt)) !important;
+  border-color: var(--layout-gold-border) !important;
+  color: var(--layout-text) !important;
+  box-shadow: 0 24px 64px rgba(112,91,58,.10) !important;
+}
+
+/* Ícone principal: elimina o bloco verde profundo e o amarelo claro herdados. */
+:root[data-layout="essencia-luminosa"] #astral-map-modal [class*="bg-[#073b2b]"] {
+  background: color-mix(in srgb,var(--layout-accent-soft) 78%,var(--layout-card)) !important;
+  color: var(--layout-text) !important;
+  border-color: var(--layout-gold-border) !important;
+  box-shadow: 0 8px 20px rgba(112,91,58,.06) !important;
+}
+:root[data-layout="essencia-luminosa"] #astral-map-modal [class*="text-[#f2dda4]"] {
+  color: var(--layout-text) !important;
+}
+
+/* Ouro antigo do componente-base passa aos tokens atuais. */
+:root[data-layout="essencia-luminosa"] #astral-map-modal [class*="text-[#B88736]"] {
+  color: var(--layout-gold) !important;
+}
+:root[data-layout="essencia-luminosa"] #astral-map-modal [class*="text-[#8F631E]"] {
+  color: var(--layout-gold-dark) !important;
+}
+:root[data-layout="essencia-luminosa"] #astral-map-modal [class*="bg-[#B88736]/"] {
+  background-color: var(--layout-gold-soft) !important;
+}
+:root[data-layout="essencia-luminosa"] #astral-map-modal [class*="border-[#B88736]"] {
+  border-color: var(--layout-gold-border) !important;
+}
+:root[data-layout="essencia-luminosa"] #astral-map-modal button[class~="bg-[#B88736]"] {
+  background: var(--layout-gold-gradient) !important;
+  color: var(--layout-text) !important;
+  border-color: var(--layout-gold-border) !important;
+  box-shadow: 0 10px 24px var(--layout-gold-shadow) !important;
+}
+
+/* Amber representa fogo/ênfase; permanece em ouro suave, nunca amarelo saturado. */
+:root[data-layout="essencia-luminosa"] #astral-map-modal [class*="bg-amber-"] {
+  background-color: color-mix(in srgb,var(--layout-gold-soft) 82%,var(--layout-card)) !important;
+}
+:root[data-layout="essencia-luminosa"] #astral-map-modal [class*="border-amber-"] {
+  border-color: var(--layout-gold-border) !important;
+}
+:root[data-layout="essencia-luminosa"] #astral-map-modal [class*="text-amber-"] {
+  color: var(--layout-gold-dark) !important;
+}
+:root[data-layout="essencia-luminosa"] #astral-map-modal .bg-amber-500 {
+  background-color: var(--layout-gold) !important;
+}
+
+/* Emerald representa terra/estado positivo; vira sálvia clara, não verdão. */
+:root[data-layout="essencia-luminosa"] #astral-map-modal [class*="bg-emerald-"] {
+  background-color: color-mix(in srgb,var(--layout-accent-soft) 74%,var(--layout-card)) !important;
+}
+:root[data-layout="essencia-luminosa"] #astral-map-modal [class*="border-emerald-"] {
+  border-color: color-mix(in srgb,var(--layout-accent) 34%,var(--layout-border-card)) !important;
+}
+:root[data-layout="essencia-luminosa"] #astral-map-modal [class*="text-emerald-"] {
+  color: color-mix(in srgb,var(--layout-accent) 68%,var(--layout-text)) !important;
+}
+:root[data-layout="essencia-luminosa"] #astral-map-modal .bg-emerald-600 {
+  background-color: var(--layout-accent) !important;
+}
+:root[data-layout="essencia-luminosa"] #astral-map-modal a[class*="bg-emerald-700"] {
+  background: linear-gradient(105deg,
+    color-mix(in srgb,var(--layout-accent) 70%,white),
+    color-mix(in srgb,var(--layout-gold) 58%,var(--layout-accent))) !important;
+  color: var(--layout-text) !important;
+  border-color: var(--layout-gold-border) !important;
+  box-shadow: 0 10px 24px rgba(112,91,58,.08) !important;
+}
+:root[data-layout="essencia-luminosa"] #astral-map-modal a[class*="bg-emerald-700"]:hover {
+  filter: brightness(.98) saturate(.96);
+}
+:root[data-layout="essencia-luminosa"] #astral-map-modal [role="status"] {
+  background: color-mix(in srgb,var(--layout-accent-soft) 72%,var(--layout-card)) !important;
+  border-color: color-mix(in srgb,var(--layout-accent) 34%,var(--layout-border-card)) !important;
+  color: var(--layout-text) !important;
+}
+:root[data-layout="essencia-luminosa"] #astral-map-modal :is(input,select,textarea):focus-visible,
+:root[data-layout="essencia-luminosa"] #astral-map-modal button:focus-visible {
+  outline: 2px solid color-mix(in srgb,var(--layout-gold) 62%,transparent) !important;
+  outline-offset: 3px !important;
+  border-color: var(--layout-gold) !important;
+}
+
+/* Ajustes de Áudio — remove o ouro antigo #B88736 e o champagne amarelado antigo. */
+:root[data-layout="essencia-luminosa"] #audio-settings-modal > div {
+  background: linear-gradient(180deg,var(--layout-canvas),var(--layout-canvas-alt)) !important;
+  border-color: var(--layout-gold-border) !important;
+  color: var(--layout-text) !important;
+  box-shadow: 0 24px 64px rgba(112,91,58,.10) !important;
+}
+:root[data-layout="essencia-luminosa"] #audio-settings-modal [class*="text-[#B88736]"] {
+  color: var(--layout-gold) !important;
+}
+:root[data-layout="essencia-luminosa"] #audio-settings-modal [class*="text-[#8F631E]"] {
+  color: var(--layout-gold-dark) !important;
+}
+:root[data-layout="essencia-luminosa"] #audio-settings-modal [class*="text-[#85786C]"] {
+  color: var(--layout-text-muted) !important;
+}
+:root[data-layout="essencia-luminosa"] #audio-settings-modal [class*="border-[#B88736]"] {
+  border-color: var(--layout-gold-border) !important;
+}
+:root[data-layout="essencia-luminosa"] #audio-settings-modal [class*="bg-[#B88736]/"],
+:root[data-layout="essencia-luminosa"] #audio-settings-modal [class*="bg-[#EAD5A8]"] {
+  background-color: var(--layout-gold-soft) !important;
+}
+:root[data-layout="essencia-luminosa"] #audio-settings-modal [class*="bg-[#FAF4E8]"],
+:root[data-layout="essencia-luminosa"] #audio-settings-modal [class*="bg-[#F5EFE4]"] {
+  background-color: var(--layout-canvas-alt) !important;
+}
+:root[data-layout="essencia-luminosa"] #audio-settings-modal [class*="bg-[#FBF8F2]"] {
+  background-color: var(--layout-card) !important;
+}
+:root[data-layout="essencia-luminosa"] #audio-settings-modal #bioactive-tuning-panel {
+  background: linear-gradient(145deg,var(--layout-canvas),color-mix(in srgb,var(--layout-gold-soft) 48%,var(--layout-card))) !important;
+  border-color: var(--layout-gold-border) !important;
+}
+:root[data-layout="essencia-luminosa"] #audio-settings-modal button[class~="bg-[#B88736]"] {
+  background: var(--layout-gold-gradient) !important;
+  color: var(--layout-text) !important;
+  border-color: var(--layout-gold-border) !important;
+  box-shadow: 0 10px 24px var(--layout-gold-shadow) !important;
+}
+:root[data-layout="essencia-luminosa"] #audio-settings-modal button[class*="bg-[#B88736]/"] {
+  background: var(--layout-gold-soft) !important;
+  color: var(--layout-text) !important;
+}
+:root[data-layout="essencia-luminosa"] #audio-settings-modal :is(input,select,textarea):focus-visible,
+:root[data-layout="essencia-luminosa"] #audio-settings-modal button:focus-visible {
+  outline: 2px solid color-mix(in srgb,var(--layout-gold) 62%,transparent) !important;
+  outline-offset: 3px !important;
+  border-color: var(--layout-gold) !important;
+}
+:root[data-layout="essencia-luminosa"] #audio-settings-modal input[type="range"] {
+  accent-color: var(--layout-gold) !important;
+}
+:root[data-layout="essencia-luminosa"] #audio-settings-modal button:not([disabled]):hover {
+  border-color: color-mix(in srgb,var(--layout-gold) 42%,var(--layout-border-card));
+}
+:root[data-layout="essencia-luminosa"] #audio-settings-modal button:disabled {
+  cursor: not-allowed !important;
+  opacity: .52 !important;
+}

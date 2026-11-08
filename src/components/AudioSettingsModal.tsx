@@ -365,8 +365,12 @@ export default function AudioSettingsModal({
                 <button
                   key={track.id}
                   type="button"
+                  disabled={isEssenciaLuminosa && isTestingVoice}
+                  aria-disabled={isEssenciaLuminosa && isTestingVoice}
+                  title={isEssenciaLuminosa && isTestingVoice ? 'Aguarde a prévia da voz terminar para alterar a frequência.' : undefined}
                   aria-pressed={isSelected}
                   onClick={() => {
+                    if (isEssenciaLuminosa && isTestingVoice) return;
                     if (isLocked && onOpenProModal) {
                       onOpenProModal();
                       return;
@@ -380,7 +384,7 @@ export default function AudioSettingsModal({
                       }
                     }
                   }}
-                  className={`p-2.5 rounded-xl text-left border transition cursor-pointer relative overflow-hidden ${
+                  className={`p-2.5 rounded-xl text-left border transition cursor-pointer disabled:cursor-not-allowed disabled:opacity-50 relative overflow-hidden ${
                     isSelected
                       ? 'bg-[#B88736]/12 border-[#B88736] text-[#8F631E]'
                       : 'bg-[#FBF8F2] border-[#E5DAC6] text-[#5C5248] hover:text-[#2A2420] hover:border-[#E5DAC6]'
