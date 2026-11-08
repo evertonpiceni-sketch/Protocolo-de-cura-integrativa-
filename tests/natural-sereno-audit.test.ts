@@ -183,7 +183,7 @@ test('as camadas aprovadas de marcos, guias, contato e diário estão carregadas
 test('a recuperação do checkout Numerologia não reutiliza cache órfão e libera pedidos sem link após o prazo', () => {
   const routes = read('src/lib/paymentRoutes.ts');
   assert.ok(routes.includes('NUMEROLOGY_PENDING_CHECKOUT_STALE_MS'));
-  assert.ok(routes.includes('const cachedOrder = db.paymentOrders?.find'));
+  assert.ok(routes.includes('candidate.checkoutUrl === saved.checkoutUrl'));
   assert.ok(routes.includes('isStaleNoLinkOrder'));
   assert.ok(routes.includes('staleOrder.failedAt = failedAt'));
 });
