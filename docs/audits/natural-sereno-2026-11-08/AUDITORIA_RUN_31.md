@@ -3,7 +3,7 @@
 **Data:** 08/11/2026 (horário local)  
 **Branch:** `fix/natural-sereno-mainline-2026-11-08-rebased`  
 **PR vigente:** #64 — aberto, sem merge  
-**Head atual após correções e relatório:** `ac0c9b656aab83cf98f0e9da494f9ca97c048d0e`
+**Commit de código/testes mais recente:** `ac0c9b656aab83cf98f0e9da494f9ca97c048d0e`
 
 ## Corrigido nesta rodada
 
@@ -43,17 +43,18 @@
 ## Estado da validação
 
 - Última execução completa anterior às alterações desta rodada: Security Audit #1630 no commit documental `d91e763a00ef60cc29d0382a04500883b9808369`, sucesso; a execução de código #1629 registrou `npm audit` com zero vulnerabilidades, TypeScript/build aprovados e 125/125 testes.
-- Para o novo head `ac0c9b656aab83cf98f0e9da494f9ca97c048d0e`, o conector ainda não retornou uma execução nova do GitHub Actions. Portanto, os novos testes e as alterações desta rodada **aguardam CI atualizado**.
+- Para o head atual da PR (que inclui os commits de código, testes e relatório), o conector ainda não retornou uma execução nova do GitHub Actions. Portanto, os novos testes e as alterações desta rodada **aguardam CI atualizado**.
 - O status Vercel do novo commit está em falha com indicação `build-rate-limit`; não existe prévia navegável para capturas renderizadas página a página.
 - A consulta de metadados das variáveis Vercel (sem descriptografar valores) confirmou `INFINITEPAY_HANDLE` e `PUBLIC_APP_URL` em produção, mas não encontrou `INFINITEPAY_API_KEY` em produção nem em preview. A rota permanece fail-closed; nenhum checkout ou cobrança foi iniciado.
 - A variável antiga `UPSTASH_DB_KEY` de um preview legado continua sinalizada como `readable-secret`. Seu valor não foi lido nem alterado; exige revisão/rotação controlada separada.
 
 ## Pendente
-1. CI completo no head atual, incluindo TypeScript, suíte de testes, build e `npm audit`.
-2. Capturas reais página a página em desktop e mobile e conferência da prancha no navegador.
-3. Escuta real da voz selecionada e da transição entre narração, Solfeggio e ambiência.
-4. Cadastrar a API Key oficial da InfinitePay no ambiente correto e homologar retorno/webhook; até lá, o checkout continua bloqueado por segurança.
-5. Revisar a variável de preview legada sinalizada pela Vercel, sem expor seu valor.
-6. Nova revisão dos dois threads P2 do PR #64 após CI atualizado.
+1. **Atualização segura da branch:** a comparação com `main` mostrou divergência: a PR está 7 commits atrás e 40 à frente do merge-base (`c6eb1bba`). Os 7 commits novos de `main` incluem decisões aprovadas de Estilo 2 (CTA neutro antes da escolha) e Estilo 3 (acessos avulsos de 7/21 dias por R$ 25/R$ 50, novo tipo `jornada_21d` e pré-seleção do plano no checkout). Há sobreposição em `App.tsx`, `LayoutChoiceModal.tsx` e testes de pagamento. A PR está marcada `mergeable: false`; **não mesclar nem forçar atualização** até reaplicar as correções do Natural Sereno sobre a `main` atual e revalidar os arquivos compartilhados.
+2. CI completo no head atualizado, incluindo TypeScript, suíte de testes, build e `npm audit`.
+3. Capturas reais página a página em desktop e mobile e conferência da prancha no navegador.
+4. Escuta real da voz selecionada e da transição entre narração, Solfeggio e ambiência.
+5. Cadastrar a API Key oficial da InfinitePay no ambiente correto e homologar retorno/webhook; até lá, o checkout continua bloqueado por segurança.
+6. Revisar a variável de preview legada sinalizada pela Vercel, sem expor seu valor.
+7. Nova revisão dos dois threads P2 do PR #64 após CI atualizado.
 
-**Status:** os dois achados P2 foram corrigidos no código e cobertos por regressões; a homologação integral permanece pendente de CI, preview visual/auditivo e configuração segura da InfinitePay. Nenhum merge, deploy de produção ou pagamento foi realizado.
+**Status:** os dois achados P2 e o acabamento de pílula da prévia foram corrigidos no código e cobertos por regressões. A PR não pode ser mesclada com segurança enquanto estiver divergente da `main`; a atualização precisa preservar as decisões aprovadas recentes dos Estilos 2 e 3. A homologação integral também depende de CI, preview visual/auditivo e configuração segura da InfinitePay. Nenhum merge, deploy de produção ou pagamento foi realizado.
