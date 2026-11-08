@@ -114,6 +114,29 @@ test('checkout binds account, validates provider confirmation and grants only on
     assert.equal(samePendingPlanBody.orderId, pendingSubscriptionBody.orderId, 'a repetição do mesmo plano reutiliza o link existente');
     assert.equal(calls.length, callsAfterPendingSubscription, 'a repetição do mesmo plano não cria um segundo link');
 
+    // A escolha de benefício Semestral/Anual faz parte da identidade do checkout pendente.
+    db.users.push({ id: 'pending-benefit-owner', plan: 'free', profile: {} });
+    const pendingBenefitCheckout = await call('payment/create-checkout', {
+      productType: 'subscription', planId: 'semestral', paymentMethod: 'pix', benefitChoice: 'astral_map'
+    }, 'pending-benefit-owner');
+    assert.equal(pendingBenefitCheckout.status, 200);
+    const pendingBenefitBody = await pendingBenefitCheckout.json();
+    const callsAfterPendingBenefit = calls.length;
+    const changedBenefitCheckout = await call('payment/create-checkout', {
+      productType: 'subscription', planId: 'semestral', paymentMethod: 'pix', benefitChoice: 'numerology'
+    }, 'pending-benefit-owner');
+    assert.equal(changedBenefitCheckout.status, 409, 'trocar o benefício não pode reutilizar um link criado para outra escolha');
+    assert.equal(calls.length, callsAfterPendingBenefit, 'uma escolha diferente não pode criar outro link enquanto o anterior estiver pendente');
+    assert.equal(db.paymentOrders?.filter(order => order.userId === 'pending-benefit-owner').length, 1);
+    const sameBenefitRetry = await call('payment/create-checkout', {
+      productType: 'subscription', planId: 'semestral', paymentMethod: 'pix', benefitChoice: 'astral_map'
+    }, 'pending-benefit-owner');
+    assert.equal(sameBenefitRetry.status, 200);
+    const sameBenefitBody = await sameBenefitRetry.json();
+    assert.equal(sameBenefitBody.orderId, pendingBenefitBody.orderId, 'a mesma escolha reutiliza somente o link correspondente');
+    assert.equal(sameBenefitBody.reused, true);
+    assert.equal(calls.length, callsAfterPendingBenefit, 'a mesma escolha não cria outro link');
+
     // Pedidos legados sem productType também são reconhecidos como assinaturas pendentes.
     db.users.push({ id: 'legacy-pending-owner', plan: 'free', profile: {} });
     (db.paymentOrders ||= []).push({
