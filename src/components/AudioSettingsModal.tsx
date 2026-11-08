@@ -70,7 +70,8 @@ export default function AudioSettingsModal({
   const isNaturalSereno = typeof document !== 'undefined' && document.documentElement.dataset.layout === 'natural-sereno';
   const isEleganciaProfunda = typeof document !== 'undefined' && document.documentElement.dataset.layout === 'elegancia-profunda';
   const isEssenciaLuminosa = typeof document !== 'undefined' && document.documentElement.dataset.layout === 'essencia-luminosa';
-  const requiresNeuralVoice = isNaturalSereno || isEleganciaProfunda || isEssenciaLuminosa;
+  const isMisticoModerno = typeof document !== 'undefined' && document.documentElement.dataset.layout === 'mistico-moderno';
+  const requiresNeuralVoice = isNaturalSereno || isEleganciaProfunda || isEssenciaLuminosa || isMisticoModerno;
   React.useEffect(() => {
     if (!isOpen) return;
     return () => {
@@ -211,7 +212,7 @@ export default function AudioSettingsModal({
     if (allowBackgroundPlayback && shouldPlayVoiceBackground) {
       audioEngine.startBG(bgMusicType);
     } else if (allowBackgroundPlayback && requiresNeuralVoice) {
-      // Frequências Solfeggio não devem tocar junto com narração neural em nenhum dos três estilos.
+      // Frequências Solfeggio não devem tocar junto com prévias de voz neural nos quatro estilos.
       setIsPlayingBioactivePreview(false);
       audioEngine.stopBG();
     }

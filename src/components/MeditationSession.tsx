@@ -80,6 +80,7 @@ export default function MeditationSession({
   const activeLayout = typeof document !== 'undefined' ? document.documentElement.dataset.layout : undefined;
   const isEleganciaProfunda = activeLayout === 'elegancia-profunda';
   const isEssenciaLuminosa = activeLayout === 'essencia-luminosa';
+  const isMisticoModerno = activeLayout === 'mistico-moderno';
   const [sessionPhase, setSessionPhase] = useState<'portal' | 'checkin_before' | 'playing' | 'checkin_after' | 'completed'>('portal');
 
   useLayoutEffect(() => {
@@ -201,8 +202,14 @@ export default function MeditationSession({
     const selectedVoiceId = voiceId?.trim();
     const savedVoiceId = isElevenLabsVoiceId(selectedVoiceId) ? selectedVoiceId : OFFICIAL_PROTOCOL_VOICE_ID;
     const style2VoiceId = isElevenLabsVoiceId(selectedVoiceId) ? selectedVoiceId : '';
+    const style4VoiceId = isElevenLabsVoiceId(selectedVoiceId) ? selectedVoiceId : '';
 
     if (activeLayout === 'elegancia-profunda' && !style2VoiceId) {
+      setIsPlaying(false);
+      setVoiceError(true);
+      return;
+    }
+    if (isMisticoModerno && !style4VoiceId) {
       setIsPlaying(false);
       setVoiceError(true);
       return;
@@ -213,11 +220,13 @@ export default function MeditationSession({
       text: personalizedText,
       voiceId: activeLayout === 'natural-sereno'
         ? savedVoiceId
-        : activeLayout === 'elegancia-profunda'
+        : isEleganciaProfunda
           ? style2VoiceId
-          : activeLayout === 'essencia-luminosa'
+          : isEssenciaLuminosa
             ? savedVoiceId
-            : OFFICIAL_PROTOCOL_VOICE_ID,
+            : isMisticoModerno
+              ? style4VoiceId
+              : OFFICIAL_PROTOCOL_VOICE_ID,
       speed: voiceRate,
       stageTitle: `Dia ${dayNumber} — ${currentInsight.title} — ${currentStage.title}`,
       dayNumber,
