@@ -1,8 +1,9 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { acquireCheckoutCreationLock } from '../src/lib/paymentRoutes';
+import fs from 'node:fs';
+import { acquireCheckoutCreationLock, PAYMENT_DATABASE_WRITE_LOCK_SCOPE } from '../src/lib/paymentRoutes';
 
-test('checkout lock serializa duas instâncias independentes via Redis e libera por token', async () => {
+test('lock global serializa snapshots de checkout de usuários e produtos diferentes via Redis', async () => {
   const records = new Map<string, { token: string; expiresAt: number }>();
   const fakeRedisCommand = async (command: string, args: string[]) => {
     if (command === 'set') {
@@ -35,13 +36,18 @@ test('checkout lock serializa duas instâncias independentes via Redis e libera 
     ttlMs: 1000,
     renewIntervalMs: 10_000
   };
-  const first = await acquireCheckoutCreationLock('standard:parallel-owner:subscription', dependencies);
+  const routes = fs.readFileSync('src/lib/paymentRoutes.ts', 'utf8');
+  assert.equal((routes.match(/acquireCheckoutCreationLock\\(PAYMENT_DATABASE_WRITE_LOCK_SCOPE\\)/g) || []).length, 3, 'checkout, confirmação e degustação devem compartilhar o mesmo lock global');
+  assert.ok(!routes.includes('`standard:${req.userId}:${productType}`'), 'não pode haver lock separado por usuário/produto');
+
+  // Simula usuário A em assinatura e usuário B em prática individual: ambos usam a mesma chave.
+  const first = await acquireCheckoutCreationLock(PAYMENT_DATABASE_WRITE_LOCK_SCOPE, dependencies);
   assert.ok(first);
-  const second = await acquireCheckoutCreationLock('standard:parallel-owner:subscription', dependencies);
+  const second = await acquireCheckoutCreationLock(PAYMENT_DATABASE_WRITE_LOCK_SCOPE, dependencies);
   assert.equal(second, null);
   await first.assertHeld();
   await first.release();
-  const next = await acquireCheckoutCreationLock('standard:parallel-owner:subscription', dependencies);
+  const next = await acquireCheckoutCreationLock(PAYMENT_DATABASE_WRITE_LOCK_SCOPE, dependencies);
   assert.ok(next);
   await next.release();
 });
