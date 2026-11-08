@@ -560,15 +560,15 @@ test('a prévia de voz da Essência Luminosa não toca Solfeggio durante a narra
     2,
     'a reprodução global e o desbloqueio por gesto devem respeitar a prévia de voz'
   );
-  assert.ok(app.includes('!isEssenciaLuminosa || !isPlayingVoiceTest'));
-  assert.ok(app.includes('layoutConfirmedThisSession,\n    isPlayingVoiceTest\n  ]);'));
+  assert.ok(app.includes('!usesNeuralVoiceCatalog || !isPlayingVoiceTest'));
+  assert.ok(app.includes('layoutConfirmedThisSession,\n    usesNeuralVoiceCatalog,\n    isPlayingVoiceTest\n  ]);'));
   assert.ok(app.includes('layoutConfirmedThisSession, isPlayingVoiceTest]);'));
 
-  assert.ok(settings.includes('const shouldPlayVoiceBackground = !isEssenciaLuminosa'));
+  assert.ok(settings.includes('const shouldPlayVoiceBackground = !requiresNeuralVoice'));
   assert.ok(settings.includes("audioEnabled && shouldPlayProtocolSessionBackground('playing', bgMusicType)"));
-  assert.ok(settings.includes('else if (allowBackgroundPlayback && isEssenciaLuminosa)'));
+  assert.ok(settings.includes('else if (allowBackgroundPlayback && requiresNeuralVoice)'));
   assert.ok(settings.includes('setIsPlayingBioactivePreview(false)'));
   assert.ok(settings.includes('const restoreBackgroundAfterVoiceTest = () =>'));
-  assert.ok(settings.includes("if (isEssenciaLuminosa && audioEnabled && bgMusicType !== 'none')"));
+  assert.ok(settings.includes("if (requiresNeuralVoice && audioEnabled && shouldPlayProtocolSessionBackground('playing', bgMusicType))"));
   assert.ok(settings.includes('restoreBackgroundAfterVoiceTest();'));
 });
