@@ -708,3 +708,25 @@
   accent-color: #C89D52 !important;
   background: linear-gradient(90deg,#C89D52 0%,#A87E37 var(--ep-progress),#E8E0D5 var(--ep-progress),#E8E0D5 100%) !important;
 }
+
+/* RUN 37 — Arcanjo dentro do Natural Sereno:
+   conservar a fotografia e as cores semânticas dos chakras, mas retirar
+   chapas verde-floresta dos painéis e do fundo do corpo. */
+:root[data-layout="natural-sereno"] #arcanjo-protocol-view .ep-forest-panel {
+  background:linear-gradient(145deg,#FFFDF8,#F3E8D5)!important;
+  border-color:rgba(184,135,54,.28)!important;
+  box-shadow:0 18px 42px rgba(67,52,39,.10),inset 0 1px 0 rgba(255,255,255,.8)!important;
+  color:#2A2421!important;
+}
+:root[data-layout="natural-sereno"] #arcanjo-protocol-view .ep-forest-panel :is(.text-\\[\\#d9e6dc\\],.text-\\[\\#c8d9cd\\],.text-\\[\\#bad0c4\\],.text-\\[\\#d7e2d8\\]) {
+  color:#6B625B!important;
+}
+:root[data-layout="natural-sereno"] #arcanjo-protocol-view .ep-forest-panel :is(.text-\\[\\#B88736\\],.text-\\[\\#f5e8bd\\]) {
+  color:#8F631E!important;
+}
+:root[data-layout="natural-sereno"] #arcanjo-protocol-view [class*="bg-[#021b13]"] {
+  background-color:#2A2421!important;
+}
+:root[data-layout="natural-sereno"] #arcanjo-protocol-view [class*="from-[#021b13]"] {
+  background-image:linear-gradient(to top,#2A2421 0%,rgba(42,36,33,.82) 58%,transparent 100%)!important;
+}
