@@ -365,12 +365,12 @@ export default function AudioSettingsModal({
                 <button
                   key={track.id}
                   type="button"
-                  disabled={isEssenciaLuminosa && isTestingVoice}
-                  aria-disabled={isEssenciaLuminosa && isTestingVoice}
-                  title={isEssenciaLuminosa && isTestingVoice ? 'Aguarde a prévia da voz terminar para alterar a frequência.' : undefined}
+                  disabled={requiresNeuralVoice && isTestingVoice}
+                  aria-disabled={requiresNeuralVoice && isTestingVoice}
+                  title={requiresNeuralVoice && isTestingVoice ? 'Aguarde a prévia da voz terminar para alterar a frequência.' : undefined}
                   aria-pressed={isSelected}
                   onClick={() => {
-                    if (isEssenciaLuminosa && isTestingVoice) return;
+                    if (requiresNeuralVoice && isTestingVoice) return;
                     if (isLocked && onOpenProModal) {
                       onOpenProModal();
                       return;
