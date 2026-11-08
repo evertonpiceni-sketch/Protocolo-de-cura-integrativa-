@@ -204,7 +204,12 @@ export default function MeditationSession({
     const style2VoiceId = isElevenLabsVoiceId(selectedVoiceId) ? selectedVoiceId : '';
     const style4VoiceId = isElevenLabsVoiceId(selectedVoiceId) ? selectedVoiceId : '';
 
-    if ((isEleganciaProfunda && !style2VoiceId) || (isMisticoModerno && !style4VoiceId)) {
+    if (activeLayout === 'elegancia-profunda' && !style2VoiceId) {
+      setIsPlaying(false);
+      setVoiceError(true);
+      return;
+    }
+    if (isMisticoModerno && !style4VoiceId) {
       setIsPlaying(false);
       setVoiceError(true);
       return;
