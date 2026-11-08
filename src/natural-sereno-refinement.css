@@ -135,7 +135,7 @@
 
 :root[data-layout="natural-sereno"] #anamnesis-modal #anamnesis-feedback-area button[class*="bg-emerald"] {
   background: var(--ns-modal-forest) !important;
-  color: #2A2421 !important;
+  color: #FFFFFF !important;
 }
 
 :root[data-layout="natural-sereno"] #anamnesis-modal #anamnesis-feedback-area [class*="text-emerald"] {
