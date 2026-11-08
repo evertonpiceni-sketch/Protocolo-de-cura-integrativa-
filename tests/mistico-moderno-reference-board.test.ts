@@ -44,7 +44,7 @@ test('Místico Moderno não herda a arte de fundo da Reintegração', () => {
 
 test('a paleta-base do Estilo 4 permanece noturna, violeta, dourada e marfim', () => {
   const theme = read('src/approved-theme.css');
-  const style4Tokens = theme.match(/:root\\[data-layout="mistico-moderno"\\]\\s*\\{[^}]*--layout-canvas:[^}]*\\}/)?.[0] ?? '';
+  const style4Tokens = theme.match(/:root\[data-layout="mistico-moderno"\]\s*\{[^}]*--layout-canvas:[^}]*\}/)?.[0] ?? '';
 
   assert.ok(style4Tokens, 'Os tokens-base do Estilo 4 devem existir.');
   assert.match(style4Tokens, /--layout-canvas:#0A0F18/);
