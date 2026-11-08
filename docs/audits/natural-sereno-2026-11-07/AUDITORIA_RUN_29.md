@@ -16,7 +16,7 @@
 - O pedido padrão (assinatura ou prática específica) é persistido com o payload original antes da chamada à InfinitePay.
 - Se a resposta do provedor trouxer a URL mas a gravação final falhar, o pedido não é marcado como falho nem substituído por um novo NSU.
 - Uma nova tentativa igual localiza o pedido pendente, compara produto/preço/método e, para prática específica, duração/categoria/título/descrição/demandas; então reenvia exatamente o payload original.
-- O contador `checkoutRecoveryAttempts` é persistido antes do replay. É permitido apenas um replay automático; se a recuperação também falhar, o sistema bloqueia novas tentativas e exige conciliação manual para não multiplicar links.
+- O contador `checkoutRecoveryAttempts` é persistido antes do replay em assinaturas, práticas específicas e Numerologia. É permitido apenas um replay automático por pedido; se a recuperação também falhar, o sistema bloqueia novas tentativas e exige conciliação manual para não multiplicar links.
 - Links legados sem `single_payment` permanecem bloqueados para reutilização ou substituição automática.
 - A injeção de persistência no handler permite testar a falha exatamente depois de o provedor devolver a URL.
 
@@ -45,7 +45,7 @@ Referência: https://www.infinitepay.io/checkout-documentacao
 
 ## Validação e pendências
 
-GitHub Actions — **Security Audit #1623**, execução `42439280797`, head `1e6ebb6d9d7c58e4e7bb4d6d62b703ba1a200581`:
+GitHub Actions — **Security Audit #1627**, execução `42439558283`, head `6abb27ce9a820ab1056cad1f325c5d8450662df2`:
 - `npm audit`: **0 vulnerabilidades**.
 - TypeScript: aprovado.
 - Testes: **123/123 aprovados**, incluindo lock renovável, recuperação pós-falha de persistência, assinatura, prática específica e bloqueio após o único replay automático.
