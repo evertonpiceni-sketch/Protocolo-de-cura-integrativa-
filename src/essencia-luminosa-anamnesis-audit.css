@@ -50,3 +50,16 @@
 :root[data-layout="essencia-luminosa"] #anamnesis-modal .ep-chakra-option {
   filter:saturate(.86) brightness(1.03);
 }
+
+
+/* CTA final da Anamnese: impede texto branco sobre o gradiente claro de fundo. */
+:root[data-layout="essencia-luminosa"] #anamnesis-modal button[class*="from-emerald-600"][class*="to-indigo-600"]{
+  background:linear-gradient(135deg,var(--el-gold),var(--el-gold-deep))!important;
+  background-image:linear-gradient(135deg,var(--el-gold),var(--el-gold-deep))!important;
+  color:#221D17!important;
+  border-color:color-mix(in srgb,var(--el-gold) 38%,transparent)!important;
+  box-shadow:0 12px 28px rgba(111,91,56,.18)!important;
+}
+:root[data-layout="essencia-luminosa"] #anamnesis-modal button[class*="from-emerald-600"][class*="to-indigo-600"]:hover{
+  filter:brightness(.98);
+}
