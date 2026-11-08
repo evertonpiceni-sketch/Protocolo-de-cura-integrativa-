@@ -78,6 +78,7 @@ export default function AnamnesisModal({
   const naturalSereno = document.documentElement.dataset.layout === 'natural-sereno';
   const isEleganciaProfunda = document.documentElement.dataset.layout === 'elegancia-profunda';
   const isEssenciaLuminosa = document.documentElement.dataset.layout === 'essencia-luminosa';
+  const isMisticoModerno = document.documentElement.dataset.layout === 'mistico-moderno';
   useDialogFocus(isOpen && naturalSereno, dialogRef, () => handleCloseModal());
   React.useLayoutEffect(() => {
     if (isOpen && naturalSereno) {
@@ -152,6 +153,7 @@ export default function AnamnesisModal({
   }, [isOpen, isEditing, is639HzActive, userProfile.audioEnabled, userProfile.bgMusicType]);
 
   const handleToggle639Hz = () => {
+    if (isMisticoModerno && isPlayingTherapeuticVoice && !is639HzActive) return;
     if (is639HzActive) {
       audioEngine.stopBG();
       setIs639HzActive(false);
@@ -174,8 +176,15 @@ export default function AnamnesisModal({
     onClose();
   };
 
+  const resumeStyle4AnamnesisSolfeggio = () => {
+    if (isMisticoModerno && isOpen && isEditing && is639HzActive && audioEngine.getCurrentSynthType() !== '639hz') {
+      audioEngine.setBGVolume(0.40);
+      audioEngine.startBG('639hz');
+    }
+  };
+
   const stopTherapeuticVoice = () => {
-    if (isEleganciaProfunda || isEssenciaLuminosa) audioEngine.stopSpeech();
+    if (isEleganciaProfunda || isEssenciaLuminosa || isMisticoModerno) audioEngine.stopSpeech();
     if (audioPlayerRef.current) {
       audioPlayerRef.current.pause();
       audioPlayerRef.current = null;
@@ -185,6 +194,7 @@ export default function AnamnesisModal({
     }
     setIsPlayingTherapeuticVoice(false);
     setIsLoadingVoice(false);
+    resumeStyle4AnamnesisSolfeggio();
   };
 
   const playTherapeuticVoice = async (text: string, overrideGender?: 'masculina' | 'feminina') => {
@@ -194,7 +204,7 @@ export default function AnamnesisModal({
       return;
     }
 
-    if (isEleganciaProfunda || isEssenciaLuminosa) {
+    if (isEleganciaProfunda || isEssenciaLuminosa || isMisticoModerno) {
       const neuralVoiceId = isElevenLabsVoiceId(userProfile.voiceId)
         ? userProfile.voiceId
         : isEssenciaLuminosa ? OFFICIAL_PROTOCOL_VOICE_ID : '';
@@ -203,13 +213,14 @@ export default function AnamnesisModal({
         setIsLoadingVoice(false);
         return;
       }
+      if (isMisticoModerno && audioEngine.getCurrentSynthType() === '639hz') audioEngine.stopBG();
       setVoiceError(false);
       setIsLoadingVoice(true);
       void audioEngine.speakWithElevenLabsOrFallback(
         text,
         userProfile.voiceVolume ?? 0.9,
         () => { setIsPlayingTherapeuticVoice(true); setIsLoadingVoice(false); },
-        () => { setIsPlayingTherapeuticVoice(false); setIsLoadingVoice(false); },
+        () => { setIsPlayingTherapeuticVoice(false); setIsLoadingVoice(false); resumeStyle4AnamnesisSolfeggio(); },
         undefined,
         undefined,
         {
@@ -226,6 +237,7 @@ export default function AnamnesisModal({
             setIsPlayingTherapeuticVoice(false);
             setIsLoadingVoice(false);
             setVoiceError(true);
+            resumeStyle4AnamnesisSolfeggio();
           }
         }
       );
@@ -549,7 +561,7 @@ export default function AnamnesisModal({
                   </div>
                 </div>
 
-                {!isEleganciaProfunda && !isEssenciaLuminosa ? (
+                {!isEleganciaProfunda && !isEssenciaLuminosa && !isMisticoModerno ? (
                   <div className="flex items-center gap-1.5 p-1 bg-white/80 rounded-xl border border-[#E5DAC6] self-start sm:self-auto">
                     <button
                       type="button"
@@ -584,7 +596,7 @@ export default function AnamnesisModal({
                   <span className="text-xs text-[#B88736]">{isEssenciaLuminosa ? 'Voz neural escolhida em Ajustes de áudio' : 'Voz neural selecionada no perfil'}</span>
                 )}
               </div>
-              {voiceError && <p role="alert" className="ep-voice-error rounded-xl px-3 py-2 text-xs">{isEssenciaLuminosa ? 'A narração neural está indisponível. A voz do dispositivo não será usada.' : 'Selecione uma voz neural válida em Ajustes de áudio. O Estilo 2 não usará a voz do dispositivo.'}</p>}
+              {voiceError && <p role="alert" className="ep-voice-error rounded-xl px-3 py-2 text-xs">{isMisticoModerno ? 'A voz neural escolhida está indisponível. O Místico Moderno não usará a voz do dispositivo.' : isEssenciaLuminosa ? 'A narração neural está indisponível. A voz do dispositivo não será usada.' : 'Selecione uma voz neural válida em Ajustes de áudio. O Estilo 2 não usará a voz do dispositivo.'}</p>}
 
               {/* Player Controls & Waveform */}
               <div className="p-4 rounded-2xl bg-white/80 border border-[#E5DAC6] space-y-3">
