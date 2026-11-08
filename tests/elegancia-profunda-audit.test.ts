@@ -4,6 +4,70 @@ import test from 'node:test';
 
 const read = (path: string) => fs.readFileSync(path, 'utf8');
 
+const splitSelectorList = (value: string): string[] => {
+  const selectors: string[] = [];
+  let start = 0;
+  let parentheses = 0;
+  let brackets = 0;
+  let quote = '';
+
+  for (let index = 0; index < value.length; index += 1) {
+    const character = value[index];
+    if (quote) {
+      if (character === quote && value[index - 1] !== '\\') quote = '';
+      continue;
+    }
+    if (character === '"' || character === "'") {
+      quote = character;
+      continue;
+    }
+    if (character === '(') parentheses += 1;
+    else if (character === ')') parentheses -= 1;
+    else if (character === '[') brackets += 1;
+    else if (character === ']') brackets -= 1;
+    else if (character === ',' && parentheses === 0 && brackets === 0) {
+      selectors.push(value.slice(start, index).trim());
+      start = index + 1;
+    }
+  }
+
+  selectors.push(value.slice(start).trim());
+  return selectors.filter(Boolean);
+};
+
+const extractCssSelectors = (css: string): string[] => {
+  const source = css.replace(/\/\*[\s\S]*?\*\//g, '');
+  const selectors: string[] = [];
+  let start = 0;
+  let depth = 0;
+  let quote = '';
+
+  for (let index = 0; index < source.length; index += 1) {
+    const character = source[index];
+    if (quote) {
+      if (character === quote && source[index - 1] !== '\\') quote = '';
+      continue;
+    }
+    if (character === '"' || character === "'") {
+      quote = character;
+      continue;
+    }
+    if (character === '{') {
+      const prelude = source.slice(start, index).trim();
+      if (prelude && !prelude.startsWith('@')) selectors.push(...splitSelectorList(prelude));
+      depth += 1;
+      start = index + 1;
+    } else if (character === '}') {
+      depth = Math.max(0, depth - 1);
+      start = index + 1;
+    } else if (character === ';' && depth === 0) {
+      start = index + 1;
+    }
+  }
+
+  return selectors;
+};
+
 test('o seletor usa a prancha oficial do Estilo 2 e exige confirmação explícita', () => {
   const modal = read('src/components/LayoutChoiceModal.tsx');
   const board = read('public/brand/elegancia-profunda/prancha-oficial.svg');
@@ -334,10 +398,8 @@ test('todas as folhas CSS do Estilo 2 permanecem isoladas do restante do sistema
   assert.equal(styleSheets.length, 21, 'A auditoria deve cobrir todas as folhas CSS ativas do Estilo 2.');
 
   for (const file of styleSheets) {
-    const css = read('src/' + file).replace(/\/\*[\s\S]*?\*\//g, '');
-    const selectors = [...css.matchAll(/(?:^|})\s*([^{}@]+)\s*\{/g)]
-      .map(match => match[1].trim())
-      .filter(Boolean);
+    const css = read('src/' + file);
+    const selectors = extractCssSelectors(css);
 
     for (const selector of selectors) {
       if (/^(from|to|\d+%)(\s*,\s*(from|to|\d+%))*$/.test(selector)) continue;
@@ -440,4 +502,23 @@ test('o seletor permanece neutro até a escolha explícita e só então revela o
   assert.ok(!/#(?:B88736|8F631E|e5c66f)/i.test(profile));
   assert.ok(app.includes('const selected = layoutConfirmedThisSession ? OFFICIAL_LAYOUTS.find(layout => layout.id === userProfile?.visualLayout) : undefined;'));
   assert.ok(app.includes('if (!selected) {\n      delete document.documentElement.dataset.layout;'));
+});
+
+test('os Ajustes de Áudio do Estilo 2 usam verde profundo, champagne e marfim', () => {
+  const css = read('src/elegancia-profunda-settings-final-audit.css');
+  const settings = read('src/components/AudioSettingsModal.tsx');
+  const main = read('src/main.tsx');
+
+  assert.ok(main.includes("import './elegancia-profunda-settings-final-audit.css';"));
+  assert.ok(settings.includes('id="audio-settings-modal"'));
+  assert.ok(settings.includes('id="bioactive-tuning-panel"'));
+  assert.ok(settings.includes('disabled={isTrackBlockedDuringVoicePreview}'));
+  assert.ok(css.includes(':root[data-layout="elegancia-profunda"] #audio-settings-modal > div'));
+  assert.ok(css.includes('#audio-settings-modal #bioactive-tuning-panel'));
+  assert.ok(css.includes('[class*="bg-[#FBF8F2]"]'));
+  assert.ok(css.includes('button[class~="bg-[#B88736]"]'));
+  assert.ok(css.includes('accent-color: #e2b96b !important;'));
+  assert.ok(!css.includes('data-layout="essencia-luminosa"'));
+  assert.ok(!css.includes('data-layout="natural-sereno"'));
+  assert.ok(!css.includes('data-layout="mistico-moderno"'));
 });
