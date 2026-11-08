@@ -15,6 +15,7 @@ import { audioEngine, OFFICIAL_PROTOCOL_VOICE_ID } from '../lib/audio';
 import { isElevenLabsVoiceId, type ElevenLabsVoiceOption } from '../lib/voiceSelection';
 import { shouldPlayProtocolSessionBackground } from '../lib/protocolSessionAudioPolicy';
 import { useDialogFocus } from '../hooks/useDialogFocus';
+import { setNeuralVoicePreviewActive } from '../lib/neuralVoicePreviewState';
 
 interface AudioSettingsModalProps {
   isOpen: boolean;
@@ -41,6 +42,7 @@ export default function AudioSettingsModal({
 }: AudioSettingsModalProps) {
   const dialogRef = useRef<HTMLDivElement>(null);
   const closeWithoutSaving = () => {
+    setNeuralVoicePreviewActive(false);
     audioEngine.stopSpeech();
     // Preview playback belongs to this dialog; do not leave its temporary
     // frequency or binaural settings running after a cancelled edit.
@@ -69,6 +71,13 @@ export default function AudioSettingsModal({
   const isEleganciaProfunda = typeof document !== 'undefined' && document.documentElement.dataset.layout === 'elegancia-profunda';
   const isEssenciaLuminosa = typeof document !== 'undefined' && document.documentElement.dataset.layout === 'essencia-luminosa';
   const requiresNeuralVoice = isNaturalSereno || isEleganciaProfunda || isEssenciaLuminosa;
+  React.useEffect(() => {
+    if (!isOpen) return;
+    return () => {
+      setNeuralVoicePreviewActive(false);
+      audioEngine.stopSpeech();
+    };
+  }, [isOpen]);
   const savedVoiceId = userProfile.voiceId?.trim() || '';
   const initialVoiceId = (isNaturalSereno || isEssenciaLuminosa) && !isElevenLabsVoiceId(savedVoiceId)
     ? OFFICIAL_PROTOCOL_VOICE_ID
@@ -141,7 +150,7 @@ export default function AudioSettingsModal({
   };
 
   const toggleBioactivePreview = () => {
-    if (!allowBackgroundPlayback) return;
+    if (!allowBackgroundPlayback || (requiresNeuralVoice && isTestingVoice)) return;
     audioEngine.unlock();
     if (isPlayingBioactivePreview) {
       audioEngine.stopBG();
@@ -164,20 +173,22 @@ export default function AudioSettingsModal({
   };
 
   const restoreBackgroundAfterVoiceTest = () => {
-    if (!allowBackgroundPlayback) return;
-    if (requiresNeuralVoice && audioEnabled && shouldPlayProtocolSessionBackground('playing', bgMusicType)) {
-      audioEngine.startBG(bgMusicType);
-    } else {
+    if (!allowBackgroundPlayback || !audioEnabled || bgMusicType === 'none') {
       audioEngine.stopBG();
+      return;
     }
+    // The selected frequency may resume only after the neural voice preview ends.
+    if (requiresNeuralVoice) audioEngine.startBG(bgMusicType);
+    else audioEngine.stopBG();
   };
 
   const handleTestVoice = () => {
     audioEngine.unlock();
     if (isTestingVoice) {
       audioEngine.stopSpeech();
-      restoreBackgroundAfterVoiceTest();
+      if (requiresNeuralVoice) setNeuralVoicePreviewActive(false);
       setIsTestingVoice(false);
+      restoreBackgroundAfterVoiceTest();
       return;
     }
 
@@ -188,6 +199,10 @@ export default function AudioSettingsModal({
     }
 
     setIsTestingVoice(true);
+    if (requiresNeuralVoice) {
+      setNeuralVoicePreviewActive(true);
+      setIsPlayingBioactivePreview(false);
+    }
     const testPhrase = `Olá, ${userProfile.name}. Esta é uma prévia da voz escolhida para acompanhar suas práticas com calma e presença.`;
 
     const shouldPlayVoiceBackground = !requiresNeuralVoice
@@ -206,6 +221,7 @@ export default function AudioSettingsModal({
       voiceVolume,
       () => setIsTestingVoice(true),
       () => {
+        if (requiresNeuralVoice) setNeuralVoicePreviewActive(false);
         setIsTestingVoice(false);
         restoreBackgroundAfterVoiceTest();
       },
@@ -223,8 +239,9 @@ export default function AudioSettingsModal({
         fallbackToSpeechSynthesis: !requiresNeuralVoice,
         onError: requiresNeuralVoice
           ? () => {
-              restoreBackgroundAfterVoiceTest();
+              setNeuralVoicePreviewActive(false);
               setIsTestingVoice(false);
+              restoreBackgroundAfterVoiceTest();
               setVoiceTestError(true);
             }
           : undefined
@@ -237,6 +254,7 @@ export default function AudioSettingsModal({
       setVoiceTestError(true);
       return;
     }
+    setNeuralVoicePreviewActive(false);
     audioEngine.stopSpeech();
     setIsTestingVoice(false);
     if (isPlayingBioactivePreview) {
@@ -609,7 +627,10 @@ export default function AudioSettingsModal({
               <button
                 type="button"
                 onClick={toggleBioactivePreview}
-                className={`w-full py-2.5 rounded-xl border font-mono text-xs flex items-center justify-center gap-2 transition cursor-pointer ${
+                disabled={!allowBackgroundPlayback || (requiresNeuralVoice && isTestingVoice)}
+                aria-disabled={!allowBackgroundPlayback || (requiresNeuralVoice && isTestingVoice)}
+                title={requiresNeuralVoice && isTestingVoice ? 'Pause a prévia da voz antes de testar a frequência.' : undefined}
+                className={`w-full py-2.5 rounded-xl border font-mono text-xs flex items-center justify-center gap-2 transition cursor-pointer disabled:cursor-not-allowed disabled:opacity-45 ${
                   isPlayingBioactivePreview
                     ? 'bg-[#B88736] text-white border-[#B88736] shadow-sm'
                     : 'bg-white hover:bg-[#FAF4E8] border-[#E5DAC6] text-[#8F631E]'

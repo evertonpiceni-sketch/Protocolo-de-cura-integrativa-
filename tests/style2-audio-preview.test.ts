@@ -17,7 +17,10 @@ test('o Estilo 2 suspende Solfeggio durante prévias neurais e restaura apenas a
   const gates = app.match(/\(!usesNeuralVoiceCatalog \|\| !isPlayingVoiceTest \|\|/g) ?? [];
   assert.equal(gates.length, 2, 'A sincronização global e o desbloqueio por gesto devem aplicar a mesma política aos estilos de voz neural.');
   assert.ok(settings.includes('const shouldPlayVoiceBackground = !requiresNeuralVoice'));
-  assert.ok(settings.includes('if (requiresNeuralVoice && audioEnabled && shouldPlayProtocolSessionBackground'));
+  assert.ok(settings.includes('if (requiresNeuralVoice) audioEngine.startBG(bgMusicType);'));
   assert.ok(settings.includes('else if (allowBackgroundPlayback && requiresNeuralVoice)'));
   assert.ok(settings.includes('fallbackToSpeechSynthesis: !requiresNeuralVoice'));
+  assert.ok(settings.includes('if (!allowBackgroundPlayback || (requiresNeuralVoice && isTestingVoice)) return;'));
+  assert.ok(settings.includes('setNeuralVoicePreviewActive(true)'));
+  assert.ok(settings.includes('setNeuralVoicePreviewActive(false)'));
 });

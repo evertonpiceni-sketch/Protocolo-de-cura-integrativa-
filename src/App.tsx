@@ -24,6 +24,7 @@ import { APPROVED_LOGO_DATA_URI } from './components/ApprovedBrand';
 import { calculateAstralMap } from './utils/astrology';
 import { audioEngine, OFFICIAL_PROTOCOL_VOICE_ID } from './lib/audio';
 import { shouldPlayProtocolSessionBackground } from './lib/protocolSessionAudioPolicy';
+import { setNeuralVoicePreviewActive } from './lib/neuralVoicePreviewState';
 import { isElevenLabsVoiceId, type ElevenLabsVoiceOption } from './lib/voiceSelection';
 import { evaluateAchievements } from './lib/achievementsData';
 import { AppLanguage, SUPPORTED_LANGUAGES, UI_TRANSLATIONS } from './lib/i18n';
@@ -292,6 +293,13 @@ export default function App() {
   ]);
 
   // Reintegração da Vida owns its audio while open: stop global music and speech to prevent overlap.
+  useEffect(() => {
+    if (showSettings || !isPlayingVoiceTest) return;
+    audioEngine.stopSpeech();
+    setNeuralVoicePreviewActive(false);
+    setIsPlayingVoiceTest(false);
+  }, [showSettings, isPlayingVoiceTest]);
+
   useEffect(() => {
     if (!showPersonalJourney) return;
     audioEngine.stopSpeech();
@@ -659,7 +667,10 @@ export default function App() {
 
   // Log out the current user
   const handleLogout = async () => {
+    audioEngine.stopSpeech();
     audioEngine.stopBG();
+    setNeuralVoicePreviewActive(false);
+    setIsPlayingVoiceTest(false);
     try {
       await fetch('/api/auth/logout', { method: 'POST' });
     } catch (e) {
@@ -1384,6 +1395,7 @@ export default function App() {
                       onClick={() => {
                         if (isPlayingVoiceTest) {
                           audioEngine.stopSpeech();
+                          setNeuralVoicePreviewActive(false);
                           setIsPlayingVoiceTest(false);
                           return;
                         }
@@ -1393,12 +1405,19 @@ export default function App() {
                             setVoicePreviewError(true);
                             return;
                           }
+                          setNeuralVoicePreviewActive(true);
+                          if (userProfile.audioEnabled === false || !shouldPlayProtocolSessionBackground('playing', userProfile.bgMusicType)) {
+                            audioEngine.stopBG();
+                          }
                           setIsPlayingVoiceTest(true);
                           void audioEngine.speakWithElevenLabsOrFallback(
                             `Olá, ${userProfile.name}. Respire profundamente. Sinta a paz se expandir em todo o seu ser agora.`,
                             userProfile.voiceVolume ?? 0.85,
                             () => setIsPlayingVoiceTest(true),
-                            () => setIsPlayingVoiceTest(false),
+                            () => {
+                              setNeuralVoicePreviewActive(false);
+                              setIsPlayingVoiceTest(false);
+                            },
                             undefined,
                             undefined,
                             {
@@ -1412,6 +1431,7 @@ export default function App() {
                               userName: userProfile.name,
                               fallbackToSpeechSynthesis: false,
                               onError: () => {
+                                setNeuralVoicePreviewActive(false);
                                 setIsPlayingVoiceTest(false);
                                 setVoicePreviewError(true);
                               }
@@ -1419,6 +1439,7 @@ export default function App() {
                           );
                           return;
                         }
+                        setNeuralVoicePreviewActive(false);
                         setIsPlayingVoiceTest(true);
                         audioEngine.previewVoice({
                           text: `Olá, ${userProfile.name}. Respire profundamente. Sinta a paz se expandir em todo o seu ser agora.`,
@@ -1898,6 +1919,9 @@ export default function App() {
             voiceVolume={userProfile.voiceVolume}
             voiceRate={userProfile.voiceRate}
             voicePitch={userProfile.voicePitch}
+            bgMusicType={userProfile.bgMusicType}
+            audioEnabled={userProfile.audioEnabled !== false}
+            allowBackgroundPlayback={activeSessionDay === null && !showPersonalJourney && !showArcanjoView}
             currentDay={currentDay}
             progress={progress}
             anamnesis={userProfile.anamnesis}

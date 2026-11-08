@@ -1,10 +1,12 @@
 import React, { useMemo, useState } from 'react';
 import { Award, BookOpen, ChevronRight, Flower2, GraduationCap, Headphones, Heart, Leaf, MessageCircle, Pause, Play, Sliders, Sparkles, Sun, Users, Waves } from 'lucide-react';
-import { AnamnesisData, DAILY_INSIGHTS, DayProgress } from '../types';
+import { AnamnesisData, DAILY_INSIGHTS, DayProgress, UserProfile } from '../types';
 import { APPROVED_LOGO_DATA_URI } from './ApprovedBrand';
 import { evaluateBestTreatmentFromAnamnesis } from '../lib/anamnesisTreatmentEngine';
 import { audioEngine, OFFICIAL_PROTOCOL_VOICE_ID } from '../lib/audio';
 import { isElevenLabsVoiceId } from '../lib/voiceSelection';
+import { setNeuralVoicePreviewActive } from '../lib/neuralVoicePreviewState';
+import { shouldPlayProtocolSessionBackground } from '../lib/protocolSessionAudioPolicy';
 import { LayoutId } from '../config/layouts';
 import NaturalSerenoHome from './NaturalSerenoHome';
 
@@ -15,6 +17,9 @@ export type TransformationHomeProps = {
   voiceVolume?: number;
   voiceRate?: number;
   voicePitch?: number;
+  bgMusicType?: UserProfile['bgMusicType'];
+  audioEnabled?: boolean;
+  allowBackgroundPlayback?: boolean;
   currentDay: number;
   progress: DayProgress[];
   anamnesis?: AnamnesisData;
@@ -75,18 +80,60 @@ export default function TransformationHome(props: TransformationHomeProps) {
   const narrationVolume = usesSavedVoiceSettings ? props.voiceVolume ?? 1 : 1;
   const narrationRate = usesSavedVoiceSettings ? props.voiceRate ?? .82 : .82;
   const narrationPitch = usesSavedVoiceSettings ? props.voicePitch ?? .92 : .92;
+  const restoreBackgroundAfterNeuralNarration = () => {
+    setNeuralVoicePreviewActive(false);
+    if (
+      props.allowBackgroundPlayback !== false &&
+      props.audioEnabled !== false &&
+      props.bgMusicType &&
+      props.bgMusicType !== 'none'
+    ) {
+      audioEngine.startBG(props.bgMusicType);
+    } else {
+      audioEngine.stopBG();
+    }
+  };
+  const stopCurrentNarration = (restoreBackground = true) => {
+    audioEngine.stopSpeech();
+    setIsSpeaking(false);
+    if (requiresNeuralVoice) {
+      if (restoreBackground) restoreBackgroundAfterNeuralNarration();
+      else setNeuralVoicePreviewActive(false);
+    }
+  };
+  React.useEffect(() => () => {
+    if (requiresNeuralVoice) {
+      audioEngine.stopSpeech();
+      setNeuralVoicePreviewActive(false);
+    }
+  }, [requiresNeuralVoice]);
+
   const playNarration = (text: string) => {
     setVoiceError(false);
+    if (requiresNeuralVoice) setNeuralVoicePreviewActive(false);
     if (requiresNeuralVoice && !isElevenLabsVoiceId(narrationVoiceId)) {
       setVoiceError(true);
       setIsSpeaking(false);
+      restoreBackgroundAfterNeuralNarration();
       return;
+    }
+    if (requiresNeuralVoice) {
+      setNeuralVoicePreviewActive(true);
+      const canPlayBackground =
+        props.allowBackgroundPlayback !== false &&
+        props.audioEnabled !== false &&
+        shouldPlayProtocolSessionBackground('playing', props.bgMusicType || 'none');
+      if (canPlayBackground && props.bgMusicType) audioEngine.startBG(props.bgMusicType);
+      else audioEngine.stopBG();
     }
     void audioEngine.speakWithElevenLabsOrFallback(
       text,
       narrationVolume,
       () => setIsSpeaking(true),
-      () => setIsSpeaking(false),
+      () => {
+        setIsSpeaking(false);
+        if (requiresNeuralVoice) restoreBackgroundAfterNeuralNarration();
+      },
       undefined,
       undefined,
       {
@@ -101,15 +148,18 @@ export default function TransformationHome(props: TransformationHomeProps) {
         pitch: narrationPitch,
         fallbackToSpeechSynthesis: !requiresNeuralVoice,
         onError: requiresNeuralVoice
-          ? () => { setIsSpeaking(false); setVoiceError(true); }
+          ? () => {
+              setIsSpeaking(false);
+              setVoiceError(true);
+              restoreBackgroundAfterNeuralNarration();
+            }
           : undefined
       }
     );
   };
   const toggleWelcome = () => {
     if (isSpeaking) {
-      audioEngine.stopSpeech();
-      setIsSpeaking(false);
+      stopCurrentNarration();
       return;
     }
     playNarration(welcomeText);
@@ -118,6 +168,8 @@ export default function TransformationHome(props: TransformationHomeProps) {
     if (!recommendation) return;
     const text = `Olá, ${firstName}. Seu resultado personalizado indica ${recommendation.categoryLabel}. ${recommendation.summaryDiagnosis}. A frequência recomendada é ${recommendation.frequencyLabel}. O chakra em foco é ${recommendation.primaryChakraFocus}. O floral recomendado é ${recommendation.recommendedFloral}. A aromaterapia recomendada é ${recommendation.recommendedAromatherapy}. Estamos juntos neste processo.`;
     audioEngine.stopSpeech();
+    setIsSpeaking(false);
+    if (requiresNeuralVoice) setNeuralVoicePreviewActive(false);
     playNarration(text);
   };
 
@@ -131,8 +183,7 @@ export default function TransformationHome(props: TransformationHomeProps) {
       onSpeakResult={speakResult}
       recommendation={recommendation}
       onEnterJourney={() => {
-        audioEngine.stopSpeech();
-        setIsSpeaking(false);
+        stopCurrentNarration(false);
         sessionStorage.setItem('transformation_journey_entered_v2', 'true');
         setJourneyEntered(true);
       }}
@@ -140,7 +191,7 @@ export default function TransformationHome(props: TransformationHomeProps) {
   }
 
   if (!journeyEntered) {
-    const enterJourney = () => { audioEngine.stopSpeech(); setIsSpeaking(false); sessionStorage.setItem('transformation_journey_entered_v2', 'true'); setJourneyEntered(true); };
+    const enterJourney = () => { stopCurrentNarration(false); sessionStorage.setItem('transformation_journey_entered_v2', 'true'); setJourneyEntered(true); };
     return <div className="mx-auto w-full max-w-[520px] px-4 py-4 sm:py-6">
       <section className="ep-welcome-audio ep-home-hero relative w-full overflow-hidden rounded-[2rem] border border-[#B88736]/28 px-6 py-8 text-center">
         <div className="absolute inset-x-0 top-0 h-48 bg-[radial-gradient(circle_at_50%_0,rgba(214,167,86,.13),transparent_75%)]" />

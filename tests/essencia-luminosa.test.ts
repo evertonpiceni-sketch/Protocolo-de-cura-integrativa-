@@ -2,6 +2,7 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import test from 'node:test';
 import { shouldPlayProtocolSessionBackground } from '../src/lib/protocolSessionAudioPolicy';
+import { isNeuralVoicePreviewActive, setNeuralVoicePreviewActive } from '../src/lib/neuralVoicePreviewState';
 
 test('Estilo 3 usa a prancha oficial no card de prévia do seletor', () => {
   const modal = fs.readFileSync('src/components/LayoutChoiceModal.tsx', 'utf8');
@@ -569,6 +570,30 @@ test('a prévia de voz da Essência Luminosa não toca Solfeggio durante a narra
   assert.ok(settings.includes('else if (allowBackgroundPlayback && requiresNeuralVoice)'));
   assert.ok(settings.includes('setIsPlayingBioactivePreview(false)'));
   assert.ok(settings.includes('const restoreBackgroundAfterVoiceTest = () =>'));
-  assert.ok(settings.includes("if (requiresNeuralVoice && audioEnabled && shouldPlayProtocolSessionBackground('playing', bgMusicType))"));
+  assert.ok(settings.includes("if (requiresNeuralVoice) audioEngine.startBG(bgMusicType);)"));
   assert.ok(settings.includes('restoreBackgroundAfterVoiceTest();'));
+  assert.ok(settings.includes('setNeuralVoicePreviewActive(true)'));
+  assert.ok(settings.includes('setNeuralVoicePreviewActive(false)'));
+  assert.ok(settings.includes('if (!allowBackgroundPlayback || (requiresNeuralVoice && isTestingVoice)) return;'));
+  assert.ok(settings.includes('disabled={!allowBackgroundPlayback || (requiresNeuralVoice && isTestingVoice)}'));
+
+  const audioPatch = fs.readFileSync('src/lib/audioIntegrityPatch.ts', 'utf8');
+  assert.ok(audioPatch.includes('isNeuralVoicePreviewActive()'));
+  assert.ok(audioPatch.includes('solfeggioTone.stop();'));
+
+  const home = fs.readFileSync('src/components/TransformationHome.tsx', 'utf8');
+  assert.ok(home.includes('setNeuralVoicePreviewActive(true)'));
+  assert.ok(home.includes("shouldPlayProtocolSessionBackground('playing', props.bgMusicType || 'none')"));
+  assert.ok(home.includes('restoreBackgroundAfterNeuralNarration'));
+
+  assert.ok(app.includes('setNeuralVoicePreviewActive(true)'));
+  assert.ok(app.includes('setNeuralVoicePreviewActive(false)'));
+});
+
+
+test('o estado compartilhado da prévia neural pode ser encerrado em qualquer fluxo', () => {
+  setNeuralVoicePreviewActive(true);
+  assert.equal(isNeuralVoicePreviewActive(), true);
+  setNeuralVoicePreviewActive(false);
+  assert.equal(isNeuralVoicePreviewActive(), false);
 });

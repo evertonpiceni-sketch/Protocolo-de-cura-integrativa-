@@ -1,5 +1,6 @@
 import { audioEngine } from './audio';
 import { solfeggioTone } from './solfeggioTone';
+import { isNeuralVoicePreviewActive } from './neuralVoicePreviewState';
 
 /**
  * Compatibility layer for the current protocol player.
@@ -41,6 +42,12 @@ if (!engine.__naturalSerenoAudioIntegrityPatch) {
   engine.startBG = (type: any) => {
     const match = typeof type === 'string' ? type.match(SOLFEGGIO_PATTERN) : null;
     if (match) {
+      if (isNeuralVoicePreviewActive()) {
+        exactBackgroundType = null;
+        solfeggioTone.stop();
+        originalStopBG();
+        return;
+      }
       if (exactBackgroundType === type.toLowerCase() && solfeggioTone.getFrequency() === Number(match[1])) return;
       originalStopBG();
       exactBackgroundType = type.toLowerCase();
