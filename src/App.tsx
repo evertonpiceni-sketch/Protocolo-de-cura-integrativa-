@@ -23,6 +23,7 @@ import { APPROVED_LOGO_DATA_URI } from './components/ApprovedBrand';
 
 import { calculateAstralMap } from './utils/astrology';
 import { audioEngine, OFFICIAL_PROTOCOL_VOICE_ID } from './lib/audio';
+import { syncUserState } from './lib/userSync';
 import { shouldPlayProtocolSessionBackground } from './lib/protocolSessionAudioPolicy';
 import { setNeuralVoicePreviewActive } from './lib/neuralVoicePreviewState';
 import { isElevenLabsVoiceId, type ElevenLabsVoiceOption } from './lib/voiceSelection';
@@ -491,19 +492,20 @@ export default function App() {
     }
   };
 
-  // Save profile state whenever it changes
-  const saveProfile = (newProfile: UserProfile, progressOverride: DayProgress[] = progress) => {
+  // Profile and progress are synced independently unless both were computed from
+  // the same snapshot (for example, saving a diary entry and its achievements).
+  const saveProfile = (newProfile: UserProfile, progressOverride?: DayProgress[]) => {
+    const nextProgress = progressOverride ?? progress;
     setUserProfile(newProfile);
-    setProgress(progressOverride);
-    updateLocalAccountCache(newProfile, progressOverride);
+    if (progressOverride) setProgress(progressOverride);
+    updateLocalAccountCache(newProfile, nextProgress);
     if (isLoggedIn) {
-      fetch('/api/user/sync', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ profile: newProfile, progress: progressOverride })
-      }).then(response => {
-        if (!response.ok) throw new Error(`Profile sync failed (HTTP ${response.status})`);
-      }).catch(error => console.error('Profile sync failed; changes may only be saved locally', error));
+      const syncPayload = progressOverride
+        ? { profile: newProfile, progress: progressOverride }
+        : { profile: newProfile };
+      void syncUserState(syncPayload).catch(error => {
+        console.error('Profile sync failed after retry; changes remain in the local cache', error);
+      });
     }
   };
 
@@ -511,13 +513,9 @@ export default function App() {
     setProgress(newProgress);
     if (userProfile) updateLocalAccountCache(userProfile, newProgress);
     if (isLoggedIn) {
-      fetch('/api/user/sync', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ profile: userProfile, progress: newProgress })
-      }).then(response => {
-        if (!response.ok) throw new Error(`Progress sync failed (HTTP ${response.status})`);
-      }).catch(error => console.error('Progress sync failed; changes may only be saved locally', error));
+      void syncUserState({ progress: newProgress }).catch(error => {
+        console.error('Progress sync failed after retry; changes remain in the local cache', error);
+      });
     }
   };
 
@@ -870,12 +868,11 @@ export default function App() {
             const updatedProfile = { ...userProfile, visualLayout: layout };
             // Do not dismiss the chooser until the server accepts the preference.
             if (isLoggedIn) {
-              const response = await fetch('/api/user/sync', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ profile: updatedProfile, progress })
-              });
-              if (!response.ok) throw new Error(`Não foi possível salvar o estilo (HTTP ${response.status})`);
+              try {
+                await syncUserState({ profile: updatedProfile });
+              } catch (error) {
+                throw new Error('Não foi possível salvar o estilo após novas tentativas.', { cause: error });
+              }
             }
             setUserProfile(updatedProfile);
             updateLocalAccountCache(updatedProfile, progress);
