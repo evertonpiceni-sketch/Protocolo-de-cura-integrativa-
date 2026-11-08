@@ -12,6 +12,9 @@ test('Elegância Profunda harmoniza os acentos dos modais de Mapa e Numerologia'
   assert.ok(css.includes(':root[data-layout="elegancia-profunda"]'));
   assert.ok(css.includes('[class*="bg-amber-50"]'));
   assert.ok(css.includes('[class*="text-emerald-"]'));
+  const numerology = read('src/components/NumerologyModal.tsx');
+  assert.ok(numerology.includes('text-rose-700'));
+  assert.ok(css.includes(':root[data-layout="elegancia-profunda"] #numerology-modal [class*="text-rose-"]'));
   assert.ok(css.includes('var(--layout-gold-light)'));
   assert.ok(css.includes('var(--layout-accent)'));
   assert.ok(css.includes('#astral-map-modal a[class~="bg-emerald-700"]'));
