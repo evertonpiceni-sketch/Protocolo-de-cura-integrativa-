@@ -183,7 +183,14 @@ test('as camadas aprovadas de marcos, guias, contato e diário estão carregadas
 test('a recuperação do checkout Numerologia repete o mesmo pedido sem criar nova cobrança', () => {
   const routes = read('src/lib/paymentRoutes.ts');
   assert.ok(routes.includes('candidate.checkoutUrl === saved.checkoutUrl'));
-  assert.ok(routes.includes('createCheckoutUrl(preparingOrder, quote.title, appUrl())'));
+  assert.ok(routes.includes('checkoutPayload?: InfinitePayCheckoutPayload'));
+  assert.ok(routes.includes('options: { single_payment: true }'));
+  assert.ok(routes.includes("headers['X-Api-Key'] = key"));
+  assert.ok(routes.includes("if (!apiKey()) return res.status(503)"));
+  assert.ok(routes.includes('createCheckoutUrl(preparingOrder.checkoutPayload)'));
+  assert.ok(routes.includes('preparingOrder.checkoutPayload.order_nsu !== preparingOrder.id'));
+  assert.ok(routes.includes('candidate.checkoutPayload?.options?.single_payment === true'));
+  assert.ok(routes.includes('candidate.checkoutPayload?.options?.single_payment !== true'));
   assert.ok(routes.includes('reused: true, recovered: true'));
   assert.ok(routes.includes("productType !== 'numerology_full'"));
   assert.ok(routes.includes("https://api.checkout.infinitepay.io"));
