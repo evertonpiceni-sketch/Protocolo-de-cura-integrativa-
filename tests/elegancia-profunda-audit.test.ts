@@ -73,7 +73,7 @@ test('o pagamento continua no checkout InfinitePay sem cópia manual de PIX', ()
   const routes = read('src/lib/paymentRoutes.ts');
   const specific = read('src/components/SpecificTreatmentModal.tsx');
   const numerology = read('src/components/NumerologyModal.tsx');
-  assert.ok(routes.includes('https://api.infinitepay.io/invoices/public/checkout'));
+  assert.ok(routes.includes('https://api.checkout.infinitepay.io'));
   assert.ok(routes.includes("router.post('/payment/create-checkout'"));
   assert.ok(routes.includes("provider('/payment_check'"));
   assert.ok(!specific.includes('handleCopyPix'));
