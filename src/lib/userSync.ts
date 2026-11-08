@@ -17,14 +17,15 @@ function defaultWait(milliseconds: number) {
 }
 
 function retryDelay(response: Response | undefined, attempt: number) {
+  const backoff = Math.min(5000, 300 * (2 ** (attempt - 1)));
   const retryAfter = response?.headers.get('Retry-After');
-  if (retryAfter) {
-    const seconds = Number(retryAfter);
-    if (Number.isFinite(seconds) && seconds >= 0) return Math.min(5000, Math.max(200, seconds * 1000));
-    const dateDelay = Date.parse(retryAfter) - Date.now();
-    if (Number.isFinite(dateDelay) && dateDelay > 0) return Math.min(5000, Math.max(200, dateDelay));
-  }
-  return Math.min(5000, 300 * (2 ** (attempt - 1)));
+  if (!retryAfter) return backoff;
+
+  const seconds = Number(retryAfter);
+  if (Number.isFinite(seconds) && seconds >= 0) return Math.min(5000, Math.max(backoff, seconds * 1000));
+  const dateDelay = Date.parse(retryAfter) - Date.now();
+  if (Number.isFinite(dateDelay) && dateDelay > 0) return Math.min(5000, Math.max(backoff, dateDelay));
+  return backoff;
 }
 
 /**
