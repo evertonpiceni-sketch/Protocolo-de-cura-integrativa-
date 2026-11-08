@@ -59,7 +59,7 @@ A inspeção é estática do import graph e dos seletores CSS. Ela não substitu
 - `npm audit`: **0 vulnerabilidades**.
 - TypeScript e build Vite: aprovados.
 - Entry points Express, verificação de segredos, JWT fail-closed, controles administrativos, smoke tests e verificações dos endpoints de pagamento: aprovados.
-- Check Vercel no HEAD documental: **failure**, com indicação `build-rate-limit`. Não há comprovação de deployment de produção bem-sucedido para o código atual. Produção permanece não homologada.
+- Check Vercel no HEAD documental: **failure**, com indicação `build-rate-limit`. A consulta somente de leitura à API Vercel também retornou **403** para o escopo da equipe `evertonpiceni-sketch`, exigindo autorização de acesso à equipe; por isso, os detalhes do deployment/logs não puderam ser inspecionados nesta execução. Nenhuma implantação ou configuração foi alterada. Não há comprovação de deployment de produção bem-sucedido; produção permanece não homologada.
 
 ## Pendente
 
