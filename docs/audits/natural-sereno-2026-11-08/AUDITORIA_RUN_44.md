@@ -53,3 +53,15 @@ A varredura das cinco folhas CSS específicas do Natural Sereno encontrou regras
 - Corrigida a expressão regular do teste após a primeira execução TypeScript apontar erro sintático; a validação completa foi disparada novamente no head seguinte.
 
 A reauditoria estática das cinco folhas específicas encontrou 911 regras/seletores analisados, sem seletores globais indevidos (o único token não escopado detectado foi `to`, pertencente a keyframe) e sem os valores de verde-floresta examinados.
+
+
+## Reconciliação posterior da main
+
+A `main` recebeu mais quatro commits após a primeira integração, todos relativos à identificação correta da ambiência `waves` nos Estilos 2 e 3. Eles foram incorporados por um segundo merge commit.
+
+- Elegância Profunda e Essência Luminosa agora exibem “Ondas do Mar” nos dois pontos de seleção.
+- Natural Sereno conserva os rótulos próprios aprovados (“Sinos & Brisa Tibetana” e “Sinos Zen”); não foi alterado por essa decisão dos outros estilos.
+- Atualizados os testes de regressão dos Estilos 2 e 3 e preservados os testes adicionais do Natural Sereno.
+- A branch voltou a incluir a `main` atual sem commits atrasados.
+
+O primeiro CI após a limpeza do player encontrou um erro de escape na expressão regular do teste; a sintaxe foi corrigida. O CI do HEAD seguinte deve ser tratado como fonte de verdade para a validação final.
