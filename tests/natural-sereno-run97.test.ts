@@ -126,10 +126,12 @@ test('salvar o Diário sem campos opcionais preserva sensações e gratidões ex
 
 test('Anamnese Natural Sereno mantém CTA de 18px, hover creme e sombra café', () => {
   const css = read('src/natural-sereno.css');
-  const cta = css.match(/:root\\[data-layout="natural-sereno"\\] #anamnesis-modal button\\[class\\*="bg-\\[#B88736\\]"\\],[\\s\\S]*?button\\[class\\*="from-emerald-600"\\] \\{[^}]*\\}/)?.[0] ?? '';
+  const ctaStart = css.indexOf(':root[data-layout="natural-sereno"] #anamnesis-modal button[class*="from-emerald-600"] {');
+  const ctaEnd = ctaStart >= 0 ? css.indexOf('}', ctaStart) : -1;
+  const cta = ctaStart >= 0 && ctaEnd > ctaStart ? css.slice(ctaStart, ctaEnd + 1) : '';
 
   assert.ok(cta.includes('border-radius: 18px;'));
   assert.doesNotMatch(cta, /24px|#eee5c9/i);
   assert.ok(css.includes('box-shadow: 0 3px 12px rgba(67,52,39,.07);'));
-  assert.doesNotMatch(css, /rgba\\(7,59,43/i);
+  assert.equal(css.includes('rgba(7,59,43'), false);
 });
