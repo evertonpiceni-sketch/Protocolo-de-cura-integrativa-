@@ -46,7 +46,7 @@ A revisão independente foi solicitada novamente para o HEAD atual; o resultado 
 ## Estado de entrega
 
 - PR #74 aberta em rascunho, baseada na `main`.
-- Última comparação após o registro deste relatório: 22 commits à frente, zero atrás.
+- A branch permanece reconciliada com a main, sem commits atrasados na última comparação.
 - Vercel: falha externa por limite diário.
 - Sem merge na `main`, sem publicação em produção e sem cobrança real.
 
