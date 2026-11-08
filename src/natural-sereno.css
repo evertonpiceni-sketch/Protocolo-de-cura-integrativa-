@@ -250,8 +250,8 @@
 :root[data-layout="natural-sereno"] #anamnesis-modal button[class*="border-[#B88736]"] { background: #F5EFE5 !important; color: var(--ns-ink) !important; border-color: rgba(200,157,82,.38) !important; }
 :root[data-layout="natural-sereno"] #anamnesis-modal [class*="from-indigo-500"] { background: linear-gradient(180deg,#E2B96B,#C89D52) !important; color: #2A2421 !important; }
 :root[data-layout="natural-sereno"] #anamnesis-modal button[class*="bg-[#B88736]"],
-:root[data-layout="natural-sereno"] #anamnesis-modal button[class*="from-emerald-600"] { background: linear-gradient(180deg, #E2B96B, #A87E37) !important; border-radius: 24px; color: #2A2421 !important; }
-:root[data-layout="natural-sereno"] #anamnesis-modal [class*="hover:bg-slate"]:hover { background: #eee5c9 !important; }
+:root[data-layout="natural-sereno"] #anamnesis-modal button[class*="from-emerald-600"] { background: linear-gradient(180deg, #E2B96B, #A87E37) !important; border-radius: 18px; color: #2A2421 !important; }
+:root[data-layout="natural-sereno"] #anamnesis-modal [class*="hover:bg-slate"]:hover { background: #F5EFE4 !important; }
 :root[data-layout="natural-sereno"] #courses-modal h2 { font-size: 28px; }
 
 /* These stable component selectors cannot restyle unrelated dialogs or the
@@ -747,7 +747,7 @@
   :root[data-layout="natural-sereno"] .ns-home-scene { position: sticky; top: 0; align-self: start; }
 }
 :root[data-layout="natural-sereno"] :is(#courses-modal, #anamnesis-modal, #astral-map-modal) > div { font-family: 'Inter', sans-serif; }
-:root[data-layout="natural-sereno"] #courses-modal .ep-courses-grid > div { box-shadow: 0 3px 12px rgba(7,59,43,.07); --tw-ring-color: #a8b697; }
+:root[data-layout="natural-sereno"] #courses-modal .ep-courses-grid > div { box-shadow: 0 3px 12px rgba(67,52,39,.07); --tw-ring-color: #a8b697; }
 :root[data-layout="natural-sereno"] #courses-modal :is(p, button) { font-family: 'Inter', sans-serif; }
 :root[data-layout="natural-sereno"] #courses-modal [class*="text-[9px]"] { font-size: 11px; color: #8F631E; background: #F5EFE5; }
 :root[data-layout="natural-sereno"] #anamnesis-modal .ep-assessment-heading > div:first-child { padding-right: 56px; flex-wrap: wrap; gap: 8px; }
