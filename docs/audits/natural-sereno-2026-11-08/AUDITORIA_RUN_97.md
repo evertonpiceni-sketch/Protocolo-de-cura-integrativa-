@@ -46,11 +46,23 @@ Também foi encontrada uma divergência no CTA principal do seletor: o JSX ainda
 - Entry points Vercel/Express, padrões de segredos, JWT fail-closed, cadastro/admin, smoke tests e endpoints de pagamento fail-closed: aprovados.
 - Check externo Vercel: continua em falha `build-rate-limit`; preview READY não disponível.
 
+## Infraestrutura e pagamentos — verificação de metadados
+
+Consulta somente de leitura ao projeto Vercel vinculado ao repositório; valores sensíveis não foram descriptografados.
+
+- `INFINITEPAY_HANDLE` e `PUBLIC_APP_URL`: configurados em produção.
+- A implementação atual em `src/lib/paymentRoutes.ts` usa essas duas variáveis e o endpoint público de checkout; não referencia `INFINITEPAY_API_KEY`. Essa chave não aparece na lista de variáveis, mas sua ausência **não é tratada como bloqueio pelo código atual**.
+- Não há configuração específica de `PUBLIC_APP_URL`/handle para a branch desta PR em Preview; a configuração de Preview encontrada pertence somente à branch antiga `audit/natural-sereno-infinitepay-2026-10-13`.
+- `ELEVENLABS_API_KEY` e `ELEVENLABS_VOICE_ID` estão cadastradas em Production e Preview; os valores não foram lidos. A reprodução real da voz ainda precisa de teste auditivo.
+- A variável antiga `UPSTASH_DB_KEY` permanece como plain/readable-secret, restrita à branch antiga de auditoria. Não foi alterada por estar fora da branch vigente e exigir revisão própria.
+- Não há deployment Vercel para o HEAD final desta PR. A tentativa anterior da branch terminou com `BUILD_FAILED / Resource provisioning failed`; o check atual do GitHub aponta `build-rate-limit`.
+- Nenhum checkout ou pagamento foi iniciado nesta rodada.
+
 ## Pendente
 
 1. Preview Vercel READY e capturas reais página a página em desktop/mobile.
 2. Escuta da voz escolhida com conta autenticada e teste real das transições narração/Solfeggio/ambiência.
-3. Verificação da variável de ambiente InfinitePay e homologação financeira segura; nenhuma credencial foi lida ou alterada nesta rodada.
+3. Homologação de checkout/webhook em ambiente de teste seguro; os metadados de produção estão configurados, mas o Preview desta branch não tem URL/handle próprios e não houve transação.
 4. Confirmar que o arquivo original `1001196520.png` / `file_00000000317c820ebaad657dc3680de5` corresponde à prancha versionada no repositório. A busca na conversa/Biblioteca não recuperou esse identificador exato; nenhuma imagem alternativa foi promovida a referência oficial.
 
 **Segurança:** sem merge, publicação em produção, alteração de credenciais ou cobrança real.
