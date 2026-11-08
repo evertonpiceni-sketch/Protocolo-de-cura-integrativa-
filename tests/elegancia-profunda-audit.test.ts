@@ -82,6 +82,23 @@ test('a tipografia da Elegância Profunda segue a prancha oficial', () => {
   assert.ok(css.includes(':root[data-layout="elegancia-profunda"] :is(h1,h2,h3,.font-display,.font-serif)'));
 });
 
+test('o cadastro pré-seleção não reutiliza o antigo shell do Natural Sereno', () => {
+  const profile = read('src/components/ProfileSetup.tsx');
+  const legacyFiles = [
+    'src/natural-sereno.css',
+    'src/natural-sereno-refinement.css',
+    'src/natural-sereno-approved-overrides.css',
+    'src/approved-theme.css'
+  ];
+
+  assert.ok(profile.includes('ep-auth-prestyle'));
+  assert.ok(!profile.includes('ep-auth-style-one'));
+  for (const path of legacyFiles) {
+    assert.ok(!read(path).includes('ep-auth-style-one'), `O shell antigo não deve permanecer em ${path}.`);
+  }
+});
+
+
 test('o seletor usa a prancha oficial do Estilo 2 e exige confirmação explícita', () => {
   const modal = read('src/components/LayoutChoiceModal.tsx');
   const board = read('public/brand/elegancia-profunda/prancha-oficial.svg');
