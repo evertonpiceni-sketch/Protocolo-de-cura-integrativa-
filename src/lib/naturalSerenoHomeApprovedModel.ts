@@ -84,7 +84,7 @@ function addStyles() {
       color: #2A2421 !important;
       background: linear-gradient(180deg,#D8B86A 0%,#C89D52 100%) !important;
       border: 1px solid rgba(168,126,55,.58) !important;
-      box-shadow: 0 14px 30px rgba(3,31,22,.28), inset 0 1px rgba(255,255,255,.10) !important;
+      box-shadow: 0 14px 30px rgba(67,52,39,.12), inset 0 1px rgba(255,255,255,.10) !important;
     }
 
     :root[data-layout="natural-sereno"] .ep-home-needs-anamnesis .ns-home-scene > .ns-gold {
@@ -169,7 +169,7 @@ function addStyles() {
       width: 76px !important;
       height: 76px !important;
       border-radius: 50% !important;
-      border: 2px solid rgba(246,223,154,.55);
+      border: 2px solid rgba(200,157,82,.34);
       box-shadow: 0 8px 22px rgba(0,0,0,.20);
     }
 
