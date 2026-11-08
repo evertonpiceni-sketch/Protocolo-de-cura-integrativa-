@@ -135,3 +135,23 @@ test('Anamnese Natural Sereno mantém CTA de 18px, hover creme e sombra café', 
   assert.ok(css.includes('box-shadow: 0 3px 12px rgba(67,52,39,.07);'));
   assert.equal(css.includes('rgba(7,59,43'), false);
 });
+
+
+test('salvamentos compostos usam o mesmo snapshot atualizado de progresso', () => {
+  const app = read('src/App.tsx');
+  const profileStart = app.indexOf('const saveProfile = (newProfile: UserProfile, progressOverride: DayProgress[] = progress)');
+  const progressStart = app.indexOf('const saveProgress', profileStart);
+  const profileSaver = profileStart >= 0 && progressStart > profileStart ? app.slice(profileStart, progressStart) : '';
+
+  assert.ok(profileSaver.includes('updateLocalAccountCache(newProfile, progressOverride)'));
+  assert.ok(profileSaver.includes('progress: progressOverride'));
+
+  const systemicStart = app.indexOf('const handleSaveSystemicAnswer');
+  const diaryStart = app.indexOf('// Save detailed diary entry', systemicStart);
+  const treatmentStart = app.indexOf('// Save treatment expectations', diaryStart);
+  const systemic = systemicStart >= 0 && diaryStart > systemicStart ? app.slice(systemicStart, diaryStart) : '';
+  const diary = diaryStart >= 0 && treatmentStart > diaryStart ? app.slice(diaryStart, treatmentStart) : '';
+
+  assert.ok(systemic.includes('saveProfile(updatedProfile, updatedProgress)'));
+  assert.ok(diary.includes('saveProfile(updatedProfile, updatedProgress)'));
+});
