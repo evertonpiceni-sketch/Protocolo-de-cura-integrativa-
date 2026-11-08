@@ -154,11 +154,13 @@ test('o modelo legado da Home conserva a lógica, mas não mantém superfícies 
   const model = read('src/lib/naturalSerenoHomeApprovedModel.ts');
   assert.ok(model.includes('function applyHomeModel()'));
   assert.ok(model.includes('function addQuickLinks('));
-  for (const discarded of ['background: #073b2b', 'rgba(7,59,43', '#fff9e8', '#f7e5aa', '#ead394', '#052f22']) {
+  for (const discarded of ['background: #073b2b', 'rgba(7,59,43', '#fff9e8', '#f7e5aa', '#ead394', '#052f22', 'rgba(3,31,22', 'rgba(246,223,154']) {
     assert.ok(!model.includes(discarded), `herança visual antiga ainda presente: ${discarded}`);
   }
   assert.ok(model.includes('#FAF7F2'));
   assert.ok(model.includes('#C89D52'));
+  assert.ok(model.includes('rgba(67,52,39,.12)'));
+  assert.ok(model.includes('rgba(200,157,82,.34)'));
 });
 
 test('as camadas aprovadas de marcos, guias, contato e diário estão carregadas antes do override final', () => {
