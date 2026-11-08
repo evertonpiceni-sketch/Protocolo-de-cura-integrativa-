@@ -96,3 +96,29 @@ test('botão de feedback do Natural Sereno atende contraste WCAG AA', () => {
 
   assert.ok(contrast >= 4.5, `Contraste do botão de feedback: ${contrast.toFixed(2)}:1 (mínimo 4.5:1).`);
 });
+
+
+test('Home Natural Sereno não mantém regras runtime antigas contraditórias', () => {
+  const model = read('src/lib/naturalSerenoHomeApprovedModel.ts');
+  const count = (selector: string) => model.split(selector).length - 1;
+
+  assert.equal(count(':root[data-layout="natural-sereno"] .ns-home-scene::after {'), 1);
+  assert.equal(count(':root[data-layout="natural-sereno"] .ns-home-menu {'), 1);
+  assert.equal(count(':root[data-layout="natural-sereno"] .ns-greeting {'), 1);
+  assert.equal(count(':root[data-layout="natural-sereno"] .ns-greeting h1 {'), 1);
+  assert.equal(count(':root[data-layout="natural-sereno"] .ns-greeting p {'), 1);
+  assert.equal(count(':root[data-layout="natural-sereno"] .ns-home-message {'), 1);
+  assert.doesNotMatch(model, /margin-top:\\s*-34px|max-width:\\s*84%|min-height:\\s*405px/);
+  assert.match(model, /line-height:\\s*1\\.55 !important/);
+  assert.match(model, /align-self:\\s*center/);
+});
+
+test('salvar o Diário sem campos opcionais preserva sensações e gratidões existentes', () => {
+  const app = read('src/App.tsx');
+  const start = app.indexOf('const handleSaveDiaryDay');
+  const end = app.indexOf('// Save treatment expectations', start);
+  const handler = start >= 0 && end > start ? app.slice(start, end) : '';
+
+  assert.ok(handler.includes('sensations: sensations !== undefined ? sensations : d.sensations'));
+  assert.ok(handler.includes('gratitudes: gratitudes !== undefined ? gratitudes : d.gratitudes'));
+});
