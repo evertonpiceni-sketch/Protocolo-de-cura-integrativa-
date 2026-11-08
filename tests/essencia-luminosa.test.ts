@@ -739,3 +739,22 @@ test('as quatro frases do Ho’oponopono usam apenas os acentos aprovados na Ess
   assert.ok(!css.includes(':root[data-layout="elegancia-profunda"]'));
   assert.ok(!css.includes(':root[data-layout="mistico-moderno"]'));
 });
+
+
+test('Ajustes da Essência Luminosa neutralizam heranças cromáticas sem alterar a confirmação dos estilos', () => {
+  const css = fs.readFileSync('src/essencia-luminosa-settings-audit.css', 'utf8');
+  const main = fs.readFileSync('src/main.tsx', 'utf8');
+  const app = fs.readFileSync('src/App.tsx', 'utf8');
+  assert.ok(main.includes("import './essencia-luminosa-settings-audit.css';"));
+  assert.ok(css.includes(':root[data-layout="essencia-luminosa"] #settings-view'));
+  assert.ok(css.includes('#settings-view [data-ns-status-card]'));
+  assert.ok(css.includes('#settings-view .ep-layout-choice[aria-pressed="true"]'));
+  assert.ok(css.includes('[class*="bg-indigo-"]'));
+  assert.ok(css.includes('[class*="bg-purple-"]'));
+  assert.ok(css.includes('[class*="bg-emerald-"]'));
+  assert.ok(css.includes('[class*="bg-amber-"]'));
+  assert.ok(css.includes('[class*="text-[#B88736]"]'));
+  assert.ok(app.includes('onClick={() => setLayoutChoiceRequested(true)}'));
+  assert.ok(app.includes('layoutConfirmedThisSession && userProfile.visualLayout === layout.id'));
+  assert.ok(!css.includes('data-layout="natural-sereno"'));
+});

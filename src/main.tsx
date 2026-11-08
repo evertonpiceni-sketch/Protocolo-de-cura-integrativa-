@@ -83,6 +83,7 @@ import './lib/naturalSerenoPublicCatalogGuard';
 // The React LayoutChoiceModal in App.tsx is the single authoritative chooser.
 // Do not mount the legacy DOM chooser: it can overlap the React modal.
 import './natural-sereno-final-audit.css';
+import './essencia-luminosa-settings-audit.css';
 import './natural-sereno-home-latest-approved.css';
 import './natural-sereno-milestone-audit.css';
 import './natural-sereno-journal-dashboard-audit.css';

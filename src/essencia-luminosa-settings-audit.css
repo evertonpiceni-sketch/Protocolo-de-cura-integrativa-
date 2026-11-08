@@ -1,0 +1,72 @@
+/* Estilo 3 — Essência Luminosa | Ajustes da Prática.
+   Corrige somente a camada visual do painel; não altera preferências nem ações. */
+:root[data-layout="essencia-luminosa"] #settings-view { color-scheme: light; }
+
+:root[data-layout="essencia-luminosa"] #settings-view .ep-layout-choice {
+  background: linear-gradient(145deg, var(--layout-card), color-mix(in srgb, var(--layout-canvas-alt) 72%, white)) !important;
+  border-color: var(--layout-border-card) !important;
+  color: var(--layout-text) !important;
+  box-shadow: 0 5px 16px rgba(112,91,58,.055), inset 0 1px 0 rgba(255,255,255,.82) !important;
+}
+:root[data-layout="essencia-luminosa"] #settings-view .ep-layout-choice:hover {
+  background: linear-gradient(145deg, var(--layout-card), color-mix(in srgb, var(--layout-gold-soft) 34%, var(--layout-card))) !important;
+  border-color: color-mix(in srgb, var(--layout-gold) 48%, var(--layout-border-card)) !important;
+}
+:root[data-layout="essencia-luminosa"] #settings-view .ep-layout-choice[aria-pressed="true"] {
+  background: linear-gradient(145deg, color-mix(in srgb, var(--layout-gold-soft) 62%, var(--layout-card)), var(--layout-card)) !important;
+  border-color: var(--layout-gold) !important;
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--layout-gold) 17%, transparent), 0 8px 20px rgba(112,91,58,.07) !important;
+}
+:root[data-layout="essencia-luminosa"] #settings-view .ep-layout-choice:focus-visible,
+:root[data-layout="essencia-luminosa"] #settings-view button:focus-visible {
+  outline: 2px solid color-mix(in srgb, var(--layout-gold) 76%, white) !important;
+  outline-offset: 2px;
+}
+
+:root[data-layout="essencia-luminosa"] #settings-view [data-ns-status-card] {
+  background: linear-gradient(135deg, color-mix(in srgb, var(--layout-card) 94%, var(--layout-gold-soft)), color-mix(in srgb, var(--layout-card) 86%, var(--layout-accent-soft))) !important;
+  border-color: var(--layout-gold-border) !important;
+  color: var(--layout-text) !important;
+  box-shadow: 0 10px 26px rgba(89,70,43,.075), inset 0 1px 0 rgba(255,255,255,.88) !important;
+}
+:root[data-layout="essencia-luminosa"] #settings-view [data-ns-status-card] p { color: var(--layout-text-secondary) !important; }
+
+:root[data-layout="essencia-luminosa"] #settings-view :is([class*="bg-indigo-"],[class*="bg-purple-"],[class*="bg-teal-"],[class*="bg-sky-"],[class*="bg-emerald-"]) {
+  background-color: var(--layout-accent-soft) !important;
+  background-image: none !important;
+}
+:root[data-layout="essencia-luminosa"] #settings-view :is([class*="bg-amber-"],[class*="bg-[#B88736]"]) {
+  background-color: var(--layout-gold-soft) !important;
+  background-image: none !important;
+}
+:root[data-layout="essencia-luminosa"] #settings-view :is([class*="text-indigo-"],[class*="text-purple-"],[class*="text-teal-"],[class*="text-sky-"]) {
+  color: var(--layout-text-secondary) !important;
+}
+:root[data-layout="essencia-luminosa"] #settings-view [class*="text-emerald-"] {
+  color: color-mix(in srgb, var(--layout-accent) 72%, var(--layout-text)) !important;
+}
+:root[data-layout="essencia-luminosa"] #settings-view :is([class*="text-amber-"],[class*="text-[#B88736]"],[class*="text-[#8F631E]"]) {
+  color: var(--layout-gold-dark) !important;
+}
+:root[data-layout="essencia-luminosa"] #settings-view :is([class*="border-indigo-"],[class*="border-purple-"],[class*="border-teal-"],[class*="border-sky-"]) {
+  border-color: var(--layout-border-card) !important;
+}
+:root[data-layout="essencia-luminosa"] #settings-view [class*="border-emerald-"] {
+  border-color: color-mix(in srgb, var(--layout-accent) 34%, var(--layout-border-card)) !important;
+}
+:root[data-layout="essencia-luminosa"] #settings-view :is([class*="border-amber-"],[class*="border-[#B88736]"]) {
+  border-color: var(--layout-gold-border) !important;
+}
+:root[data-layout="essencia-luminosa"] #settings-view :is(button[class*="bg-indigo-"],button[class*="bg-purple-"],button[class*="bg-emerald-"],button[class*="bg-amber-500"],button[class*="bg-[#B88736]"]) {
+  background: var(--layout-gold-gradient) !important;
+  border-color: var(--layout-gold-border) !important;
+  color: var(--layout-text) !important;
+  box-shadow: 0 5px 14px rgba(112,91,58,.11), inset 0 1px 0 rgba(255,255,255,.35) !important;
+}
+:root[data-layout="essencia-luminosa"] #settings-view :is([class*="accent-[#B88736]"],input[type="range"]) {
+  accent-color: var(--layout-gold) !important;
+}
+:root[data-layout="essencia-luminosa"] #settings-view :is(input,select,textarea):focus {
+  border-color: var(--layout-gold) !important;
+  box-shadow: 0 0 0 3px var(--layout-gold-soft) !important;
+}
