@@ -73,7 +73,29 @@ function LayoutPreview({ layout }: { layout: LayoutDefinition }) {
       </div>
     );
   }
-  const innerBorder = layout.id === 'mistico-moderno' ? 'rgba(108,63,160,.28)' : 'rgba(42,36,32,.06)';
+  if (layout.id === 'mistico-moderno') {
+    return (
+      <div
+        className="mt-4 flex h-[184px] w-full items-center justify-center overflow-hidden rounded-2xl border shadow-inner"
+        style={{
+          backgroundColor: '#0A0F18',
+          borderColor: 'rgba(212,175,55,.32)',
+          boxShadow: 'inset 0 1px 0 rgba(255,255,255,.04), 0 12px 28px rgba(0,0,0,.22)'
+        }}
+        aria-hidden="true"
+      >
+        <img
+          src="/brand/mistico-moderno/prancha-oficial.jpg"
+          alt=""
+          loading="eager"
+          decoding="async"
+          draggable={false}
+          className="h-full w-full object-contain"
+        />
+      </div>
+    );
+  }
+  const innerBorder = 'rgba(42,36,32,.06)';
   const naturalIvory = '#F3EDE4';
   const previewBackground = isNaturalSereno
     ? `linear-gradient(145deg, ${canvas}, ${naturalIvory})`
@@ -180,15 +202,24 @@ export default function LayoutChoiceModal({ onSelect }: LayoutChoiceModalProps) 
         <div className="mt-6 grid grid-cols-1 gap-3 sm:grid-cols-2">
           {OFFICIAL_LAYOUTS.map(layout => {
             const isSelected = selectedLayout === layout.id;
+            const isMysticCard = layout.id === 'mistico-moderno';
             const isEssenciaCard = layout.id === 'essencia-luminosa';
-            const selectionClasses = isEssenciaCard
+            const selectionClasses = isMysticCard
               ? isSelected
-                ? 'border-[#C6A46A] ring-2 ring-[#C6A46A]/20 shadow-lg'
-                : 'border-[#E5DAC6] hover:border-[#C6A46A]/60'
-              : isSelected
-                ? 'border-[#B88736] ring-2 ring-[#B88736]/20 shadow-lg'
-                : 'border-[#E5DAC6] hover:border-[#B88736]/60';
-            const focusRingClass = isEssenciaCard ? 'focus-visible:ring-[#C6A46A]/35' : 'focus-visible:ring-[#B88736]/35';
+                ? 'border-[#D4AF37] ring-2 ring-[#D4AF37]/25 shadow-lg'
+                : 'border-[#6C3FA0]/45 hover:border-[#D4AF37]/60'
+              : isEssenciaCard
+                ? isSelected
+                  ? 'border-[#C6A46A] ring-2 ring-[#C6A46A]/20 shadow-lg'
+                  : 'border-[#E5DAC6] hover:border-[#C6A46A]/60'
+                : isSelected
+                  ? 'border-[#B88736] ring-2 ring-[#B88736]/20 shadow-lg'
+                  : 'border-[#E5DAC6] hover:border-[#B88736]/60';
+            const focusRingClass = isMysticCard
+              ? 'focus-visible:ring-[#D4AF37]/40'
+              : isEssenciaCard
+                ? 'focus-visible:ring-[#C6A46A]/35'
+                : 'focus-visible:ring-[#B88736]/35';
             return (
               <button
                 key={layout.id}
@@ -196,15 +227,17 @@ export default function LayoutChoiceModal({ onSelect }: LayoutChoiceModalProps) 
                 onClick={() => { setSelectedLayout(layout.id); setSaveError(null); }}
                 disabled={isSaving}
                 aria-pressed={isSelected}
-                className={`group min-h-36 rounded-2xl border bg-white/85 p-5 text-left transition hover:-translate-y-0.5 hover:shadow-lg focus-visible:outline-none focus-visible:ring-2 ${focusRingClass} ${selectionClasses}`}
+                className={`group min-h-36 rounded-2xl border p-5 text-left transition hover:-translate-y-0.5 hover:shadow-lg focus-visible:outline-none focus-visible:ring-2 ${isMysticCard ? 'bg-[#0A0F18]' : 'bg-white/85'} ${focusRingClass} ${selectionClasses}`}
               >
                 <div className="flex items-start justify-between gap-3">
                   <div>
-                    <h3 className="font-display text-xl font-semibold text-[#2A2420]">{layout.name}</h3>
-                    <p className="mt-1 text-xs leading-relaxed text-[#5C5248]">{layout.description}</p>
+                    <h3 className={`font-display text-xl font-semibold ${isMysticCard ? 'text-[#F4F1EB]' : 'text-[#2A2420]'}`}>{layout.name}</h3>
+                    <p className={`mt-1 text-xs leading-relaxed ${isMysticCard ? 'text-[#C8D0DC]' : 'text-[#5C5248]'}`}>{layout.description}</p>
                   </div>
-                  <span className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-full border transition ${isSelected ? (isEssenciaCard ? 'border-[#C6A46A] bg-[#C6A46A] text-white opacity-100' : 'border-[#B88736] bg-[#B88736] text-white opacity-100') : (isEssenciaCard ? 'border-[#E5DAC6] text-[#C6A46A] opacity-0 group-hover:opacity-100' : 'border-[#E5DAC6] text-[#B88736] opacity-0 group-hover:opacity-100')}`} aria-hidden="true">
-                    <Check size={16} />
+                  <span className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-full border transition ${isSelected
+                    ? (isMysticCard ? 'border-[#D4AF37] bg-[#D4AF37] text-[#0A0F18] opacity-100' : isEssenciaCard ? 'border-[#C6A46A] bg-[#C6A46A] text-white opacity-100' : 'border-[#B88736] bg-[#B88736] text-white opacity-100')
+                    : (isMysticCard ? 'border-[#6C3FA0]/70 text-[#D4AF37] opacity-100' : isEssenciaCard ? 'border-[#E5DAC6] text-[#C6A46A] opacity-0 group-hover:opacity-100' : 'border-[#E5DAC6] text-[#B88736] opacity-0 group-hover:opacity-100')}`} aria-hidden="true">
+                    {isSelected || !isMysticCard ? <Check size={16} /> : null}
                   </span>
                 </div>
                 <LayoutPreview layout={layout} />
@@ -215,7 +248,7 @@ export default function LayoutChoiceModal({ onSelect }: LayoutChoiceModalProps) 
                       ? ['#FFFFF8', '#C6A46A', '#F7F3E8', '#A6B49B']
                       : layout.id === 'elegancia-profunda'
                         ? ['#0B1712', '#2E6B4F', '#D4AF37', '#E5D3B1', '#8A5D3B', '#F4F1EB']
-                        : layout.swatches
+                        : isMysticCard ? ['#0A2742', '#2E3B73', '#1E6B5A', '#6C3FA0', '#D4AF37', '#E2B96B', '#F4F1EB', '#6F8F55'] : layout.swatches
                   ).map((color, index) => (
                     <span key={index} className="h-3 flex-1 rounded-full border shadow-inner" style={{ backgroundColor: color, borderColor: layout.id === 'elegancia-profunda' ? 'rgba(212,175,119,.35)' : layout.id === 'mistico-moderno' ? 'rgba(108,63,160,.40)' : 'rgba(42,36,32,.10)' }} />
                   ))}
