@@ -2465,7 +2465,6 @@ export default function App() {
           isOpen={showAstralMapModal}
           onClose={() => setShowAstralMapModal(false)}
           userProfile={userProfile}
-          onSaveProfile={saveProfile}
           onOpenProModal={() => {
             setShowAstralMapModal(false);
             setShowProModal(true);
