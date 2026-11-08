@@ -120,7 +120,8 @@ test('Diary stays closed by default, the official logo remains subtle, and legac
   assert.match(app, /const \[showDailyDiaryModal, setShowDailyDiaryModal\] = useState<boolean>\(false\)/);
   assert.match(app, /import\('\.\/components\/OnboardingFlow'\)/);
   assert.match(app, /<OnboardingFlow/);
-  assert.doesNotMatch(main, /legacy DOM chooser/);
+  assert.match(main, /The React LayoutChoiceModal in App\\.tsx is the single authoritative chooser/);
+  assert.doesNotMatch(main, /import ['\"]\\.\\/lib\\/(legacyLayoutChoice|layoutSettingsExplicitConfirmation)/);
   assert.match(css, /\.ep-brand-signature\{opacity:\.30!important/);
   assert.match(css, /\.ep-brand-signature\{opacity:\.26!important/);
 });
