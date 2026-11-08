@@ -123,8 +123,9 @@ export default function App() {
   const isNaturalSereno = layoutConfirmedThisSession && userProfile?.visualLayout === 'natural-sereno';
   const isEleganciaProfunda = layoutConfirmedThisSession && userProfile?.visualLayout === 'elegancia-profunda';
   const isEssenciaLuminosa = layoutConfirmedThisSession && userProfile?.visualLayout === 'essencia-luminosa';
-  const usesNeuralVoiceCatalog = isNaturalSereno || isEleganciaProfunda || isEssenciaLuminosa;
-  const savedNeuralVoiceId = userProfile?.voiceId || '';
+  const isMisticoModerno = layoutConfirmedThisSession && userProfile?.visualLayout === 'mistico-moderno';
+  const usesNeuralVoiceCatalog = isNaturalSereno || isEleganciaProfunda || isEssenciaLuminosa || isMisticoModerno;
+  const savedNeuralVoiceId = userProfile?.voiceId?.trim() || '';
   const effectiveNeuralVoiceId = (isNaturalSereno || isEssenciaLuminosa) && !isElevenLabsVoiceId(savedNeuralVoiceId)
     ? OFFICIAL_PROTOCOL_VOICE_ID
     : savedNeuralVoiceId;
@@ -1093,27 +1094,41 @@ export default function App() {
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                   {OFFICIAL_LAYOUTS.map(layout => {
                     const selected = layoutConfirmedThisSession && userProfile.visualLayout === layout.id;
+                    const isMysticCard = layout.id === 'mistico-moderno';
+                    const cardState = isMysticCard
+                      ? selected
+                        ? 'border-[#D4AF37] bg-[#0A0F18] shadow-lg shadow-[#0A0F18]/35'
+                        : 'border-[#6C3FA0]/40 bg-[#0A0F18] hover:border-[#D4AF37]/70'
+                      : selected
+                        ? 'border-[#B88736] bg-[#B88736]/8 shadow-sm'
+                        : 'border-[#E5DAC6] bg-white/80 hover:border-[#B88736]/45';
                     return (
                       <button
                         key={layout.id}
                         type="button"
                         aria-pressed={selected}
                         onClick={() => setLayoutChoiceRequested(true)}
-                        className={`ep-layout-choice min-h-24 rounded-2xl border p-4 text-left transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B88736]/35 ${
-                          selected
-                            ? 'border-[#B88736] bg-[#B88736]/8 shadow-sm'
-                            : 'border-[#E5DAC6] bg-white/80 hover:border-[#B88736]/45'
-                        }`}
+                        className={`ep-layout-choice min-h-24 rounded-2xl border p-4 text-left transition focus-visible:outline-none focus-visible:ring-2 ${isMysticCard ? 'focus-visible:ring-[#D4AF37]/45' : 'focus-visible:ring-[#B88736]/35'} ${cardState}`}
                       >
                         <div className="flex items-center justify-between gap-3">
-                          <span className="text-sm font-semibold text-[#2A2420]">{layout.name}</span>
+                          <span className={`text-sm font-semibold ${isMysticCard ? 'text-[#F4F1EB]' : 'text-[#2A2420]'}`}>{layout.name}</span>
                           <span className="flex gap-1" aria-hidden="true">
                             {layout.swatches.map(color => (
-                              <span key={color} className="h-4 w-4 rounded-full border" style={{ backgroundColor: color, borderColor: layout.id === 'elegancia-profunda' ? 'rgba(212,175,119,.35)' : layout.id === 'mistico-moderno' ? 'rgba(108,63,160,.40)' : 'rgba(42,36,32,.10)' }} />
+                              <span key={color} className="h-4 w-4 rounded-full border" style={{ backgroundColor: color, borderColor: isMysticCard ? 'rgba(212,175,55,.35)' : layout.id === 'elegancia-profunda' ? 'rgba(212,175,119,.35)' : 'rgba(42,36,32,.10)' }} />
                             ))}
                           </span>
                         </div>
-                        <p className="mt-2 text-[11px] leading-relaxed text-[#5C5248]">{layout.description}</p>
+                        <p className={`mt-2 text-[11px] leading-relaxed ${isMysticCard ? 'text-[#D5DCE7]' : 'text-[#5C5248]'}`}>{layout.description}</p>
+                        {isMysticCard && (
+                          <img
+                            src="/brand/mistico-moderno/prancha-oficial.avif"
+                            alt="Prancha visual oficial do Estilo 4 — Místico Moderno"
+                            loading="lazy"
+                            decoding="async"
+                            draggable={false}
+                            className="mt-3 h-20 w-full rounded-xl border border-[#D4AF37]/25 bg-[#0A0F18] object-contain"
+                          />
+                        )}
                       </button>
                     );
                   })}
@@ -1464,7 +1479,7 @@ export default function App() {
                   </div>
                   {voicePreviewError && (
                     <p role="alert" className="ep-voice-error rounded-xl px-3 py-2 text-xs">
-                      Selecione uma voz neural válida do catálogo. Natural Sereno, Elegância Profunda e Essência Luminosa não usam a voz do dispositivo.
+                      Selecione uma voz neural válida do catálogo. Natural Sereno, Elegância Profunda, Essência Luminosa e Místico Moderno não usam a voz do dispositivo.
                     </p>
                   )}
                 </div>
