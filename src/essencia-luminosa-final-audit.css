@@ -615,3 +615,32 @@
   background-image:var(--layout-gold-gradient)!important;
   filter:brightness(.98) saturate(.96);
 }
+
+
+
+/* Estilo 3 — Contato flutuante: substitui o verde esmeralda global por acabamento sálvia/champagne. */
+:root[data-layout="essencia-luminosa"] #floating-whatsapp-btn{
+  background:linear-gradient(135deg,
+    color-mix(in srgb,var(--layout-accent) 24%,var(--layout-card)) 0%,
+    color-mix(in srgb,var(--layout-gold) 18%,var(--layout-card)) 100%)!important;
+  color:var(--layout-text)!important;
+  border-color:var(--layout-gold-border)!important;
+  box-shadow:0 12px 28px rgba(112,91,58,.12)!important;
+}
+:root[data-layout="essencia-luminosa"] #floating-whatsapp-btn:hover{
+  background:linear-gradient(135deg,
+    color-mix(in srgb,var(--layout-accent) 18%,var(--layout-card)) 0%,
+    color-mix(in srgb,var(--layout-gold) 26%,var(--layout-card)) 100%)!important;
+  border-color:color-mix(in srgb,var(--layout-gold) 52%,var(--layout-border-card))!important;
+}
+:root[data-layout="essencia-luminosa"] #floating-whatsapp-btn svg{
+  color:var(--layout-gold-dark)!important;
+  fill:transparent!important;
+}
+:root[data-layout="essencia-luminosa"] #floating-whatsapp-btn span{
+  color:var(--layout-text)!important;
+}
+:root[data-layout="essencia-luminosa"] #floating-whatsapp-btn:focus-visible{
+  outline:2px solid color-mix(in srgb,var(--layout-gold) 62%,white)!important;
+  outline-offset:3px!important;
+}

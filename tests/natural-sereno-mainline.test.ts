@@ -93,3 +93,15 @@ test('a última camada neutraliza botões antigos e o véu verde do player no Na
   assert.ok(css.includes('.ep-protocol-progress'));
   assert.ok(!css.includes('rgba(3,26,19'));
 });
+
+
+test('Natural Sereno bloqueia Solfeggio durante a prévia neural sem bloquear ambiência não tonal', () => {
+  const settings = read('src/components/AudioSettingsModal.tsx');
+  const policy = read('src/lib/protocolSessionAudioPolicy.ts');
+
+  assert.ok(settings.includes('const isNaturalSerenoSolfeggioBlocked = isNaturalSereno && isTestingVoice && isSolfeggioFrequency(track.id);'));
+  assert.ok(settings.includes('const isTrackBlockedDuringVoicePreview = (isEssenciaLuminosa && isTestingVoice) || isStyle2SolfeggioBlocked || isNaturalSerenoSolfeggioBlocked;'));
+  assert.ok(settings.includes('disabled={isTrackBlockedDuringVoicePreview}'));
+  assert.ok(settings.includes('if (isTrackBlockedDuringVoicePreview) return;'));
+  assert.ok(policy.includes('export function isSolfeggioFrequency(bgMusicType: string): boolean'));
+});

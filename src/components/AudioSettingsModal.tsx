@@ -13,7 +13,7 @@ import {
 import { UserProfile } from '../types';
 import { audioEngine, OFFICIAL_PROTOCOL_VOICE_ID } from '../lib/audio';
 import { isElevenLabsVoiceId, type ElevenLabsVoiceOption } from '../lib/voiceSelection';
-import { shouldPlayProtocolSessionBackground } from '../lib/protocolSessionAudioPolicy';
+import { isSolfeggioFrequency, shouldPlayProtocolSessionBackground } from '../lib/protocolSessionAudioPolicy';
 import { useDialogFocus } from '../hooks/useDialogFocus';
 import { setNeuralVoicePreviewActive } from '../lib/neuralVoicePreviewState';
 
@@ -360,17 +360,20 @@ export default function AudioSettingsModal({
             ].map(track => {
               const isLocked = track.pro && userProfile.plan !== 'pro';
               const isSelected = bgMusicType === track.id;
+              const isNaturalSerenoSolfeggioBlocked = isNaturalSereno && isTestingVoice && isSolfeggioFrequency(track.id);
+              const isStyle2SolfeggioBlocked = isEleganciaProfunda && isTestingVoice && isSolfeggioFrequency(track.id);
+              const isTrackBlockedDuringVoicePreview = (isEssenciaLuminosa && isTestingVoice) || isStyle2SolfeggioBlocked || isNaturalSerenoSolfeggioBlocked;
 
               return (
                 <button
                   key={track.id}
                   type="button"
-                  disabled={requiresNeuralVoice && isTestingVoice}
-                  aria-disabled={requiresNeuralVoice && isTestingVoice}
-                  title={requiresNeuralVoice && isTestingVoice ? 'Aguarde a prévia da voz terminar para alterar a frequência.' : undefined}
+                  disabled={isTrackBlockedDuringVoicePreview}
+                  aria-disabled={isTrackBlockedDuringVoicePreview}
+                  title={isTrackBlockedDuringVoicePreview ? 'Aguarde a prévia da voz terminar para alterar a frequência.' : undefined}
                   aria-pressed={isSelected}
                   onClick={() => {
-                    if (requiresNeuralVoice && isTestingVoice) return;
+                    if (isTrackBlockedDuringVoicePreview) return;
                     if (isLocked && onOpenProModal) {
                       onOpenProModal();
                       return;

@@ -11,11 +11,14 @@ export type ProtocolSessionPhase =
  * During spoken protocol playback and neural voice previews, Solfeggio belongs
  * to the global listening state and must stay stopped. Non-tonal ambience may continue.
  */
+export function isSolfeggioFrequency(bgMusicType: string): boolean {
+  return SOLFEGGIO_FREQUENCY_PATTERN.test(bgMusicType.trim());
+}
+
 export function shouldPlayProtocolSessionBackground(
   sessionPhase: ProtocolSessionPhase,
   bgMusicType: string
 ): boolean {
   const type = bgMusicType.trim().toLowerCase();
-  const isSolfeggioFrequency = SOLFEGGIO_FREQUENCY_PATTERN.test(type);
-  return sessionPhase === 'playing' && type !== 'none' && !isSolfeggioFrequency;
+  return sessionPhase === 'playing' && type !== 'none' && !isSolfeggioFrequency(type);
 }
