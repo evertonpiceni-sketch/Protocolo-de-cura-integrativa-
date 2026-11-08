@@ -363,18 +363,19 @@ export default function AudioSettingsModal({
               const isNaturalSerenoSolfeggioBlocked = isNaturalSereno && isTestingVoice && isSolfeggioFrequency(track.id);
               const isStyle2SolfeggioBlocked = isEleganciaProfunda && isTestingVoice && isSolfeggioFrequency(track.id);
               const isStyle3SolfeggioBlocked = shouldBlockTrackDuringNeuralVoicePreview(isEssenciaLuminosa, isTestingVoice, track.id);
-              const isTrackBlockedDuringVoicePreview = isStyle3SolfeggioBlocked || isStyle2SolfeggioBlocked || isNaturalSerenoSolfeggioBlocked;
+              const isTrackBlockedDuringVoicePreview = isStyle3SolfeggioBlocked || isStyle2SolfeggioBlocked;
+              const isTrackDisabledDuringVoicePreview = isTrackBlockedDuringVoicePreview || isNaturalSerenoSolfeggioBlocked;
 
               return (
                 <button
                   key={track.id}
                   type="button"
-                  disabled={isTrackBlockedDuringVoicePreview}
-                  aria-disabled={isTrackBlockedDuringVoicePreview}
-                  title={isTrackBlockedDuringVoicePreview ? 'Aguarde a prévia da voz terminar para alterar a frequência Solfeggio.' : undefined}
+                  disabled={isTrackDisabledDuringVoicePreview}
+                  aria-disabled={isTrackDisabledDuringVoicePreview}
+                  title={isTrackDisabledDuringVoicePreview ? 'Aguarde a prévia da voz terminar para alterar a frequência Solfeggio.' : undefined}
                   aria-pressed={isSelected}
                   onClick={() => {
-                    if (isTrackBlockedDuringVoicePreview) return;
+                    if (isTrackDisabledDuringVoicePreview) return;
                     if (isLocked && onOpenProModal) {
                       onOpenProModal();
                       return;
