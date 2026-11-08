@@ -279,9 +279,10 @@ test('checkout atualiza o snapshot Redis depois do lock e antes de deduplicar pe
 
 test('checkout failure cleanup never writes a stale snapshot after losing the shared lock', () => {
   const routes = fs.readFileSync('src/lib/paymentRoutes.ts', 'utf8');
-  const catchStart = routes.indexOf("} catch {\\n      if (order && !order.checkoutUrl");
-  assert.ok(catchStart >= 0, 'cleanup do checkout deve permanecer identificável');
-  const finallyStart = routes.indexOf('    } finally {', catchStart);
+  const cleanupMarker = routes.indexOf('if (order && !order.checkoutUrl && !providerRequestStarted && !recoveringExistingOrder && releaseStandardCheckoutLock)');
+  assert.ok(cleanupMarker >= 0, 'cleanup do checkout deve permanecer identificável');
+  const catchStart = routes.lastIndexOf('} catch {', cleanupMarker);
+  const finallyStart = routes.indexOf('    } finally {', cleanupMarker);
   const cleanup = routes.slice(catchStart, finallyStart);
   const heldBeforeRefresh = cleanup.indexOf('await releaseStandardCheckoutLock.assertHeld();');
   const refresh = cleanup.indexOf('await refreshDbFromPersistentStorage();');
