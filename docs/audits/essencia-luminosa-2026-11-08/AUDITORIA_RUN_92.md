@@ -7,8 +7,8 @@ HEAD auditado antes da correção: `972fee8f19c15cca74f8c30eb334121f69825858`
 ## Corrigido
 
 - Reauditada a política de áudio neural. O seletor de trilhas do Ajustes de Áudio desabilitava **todas** as trilhas durante a prévia de voz na Essência Luminosa, embora a decisão vigente permita ambiências não tonais.
-- Criada a função `shouldBlockTrackDuringNeuralVoicePreview`: durante a prévia neural, bloqueia somente as oito frequências Solfeggio (396, 417, 432, 528, 639, 741, 852 e 963 Hz).
-- Floresta, chuva, ondas e silêncio continuam selecionáveis. A reprodução de Solfeggio continua impedida durante a narração pelo mecanismo global existente.
+- Criada a função `shouldBlockTrackDuringNeuralVoicePreview`: no Estilo 3, durante a prévia neural, bloqueia somente as oito frequências Solfeggio (396, 417, 432, 528, 639, 741, 852 e 963 Hz).
+- Floresta, chuva, ondas e silêncio continuam selecionáveis. A regra já existente do Estilo 2 foi mantida sem alteração; os Estilos 1 e 4 também não receberam mudança. A reprodução de Solfeggio continua impedida durante a narração pelo mecanismo global existente.
 - Adicionado teste de regressão para as oito frequências, quatro opções não tonais/silêncio e estados sem voz neural ou sem prévia ativa.
 
 ## Preservado

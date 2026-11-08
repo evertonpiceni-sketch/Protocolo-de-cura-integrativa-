@@ -80,9 +80,10 @@ test('a prévia neural bloqueia apenas frequências Solfeggio e mantém ambiênc
   assert.equal(shouldBlockTrackDuringNeuralVoicePreview(true, false, '528hz'), false);
 
   const settings = fs.readFileSync('src/components/AudioSettingsModal.tsx', 'utf8');
-  assert.ok(settings.includes('shouldBlockTrackDuringNeuralVoicePreview(requiresNeuralVoice, isTestingVoice, track.id)'));
+  assert.ok(settings.includes('shouldBlockTrackDuringNeuralVoicePreview(isEssenciaLuminosa, isTestingVoice, track.id)'));
+  assert.ok(settings.includes('const isStyle2SolfeggioBlocked = isEleganciaProfunda && isTestingVoice && isSolfeggioFrequency(track.id);'));
+  assert.ok(settings.includes('const isTrackBlockedDuringVoicePreview = isStyle3SolfeggioBlocked || isStyle2SolfeggioBlocked;'));
   assert.ok(!settings.includes('(isEssenciaLuminosa && isTestingVoice)'));
-  assert.ok(!settings.includes('isStyle2SolfeggioBlocked'));
 });
 
 test('o player usa ouro suave e sálvia nas animações da Essência Luminosa', () => {

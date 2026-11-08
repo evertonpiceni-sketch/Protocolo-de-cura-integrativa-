@@ -13,7 +13,7 @@ import {
 import { UserProfile } from '../types';
 import { audioEngine, OFFICIAL_PROTOCOL_VOICE_ID } from '../lib/audio';
 import { isElevenLabsVoiceId, type ElevenLabsVoiceOption } from '../lib/voiceSelection';
-import { shouldBlockTrackDuringNeuralVoicePreview, shouldPlayProtocolSessionBackground } from '../lib/protocolSessionAudioPolicy';
+import { isSolfeggioFrequency, shouldBlockTrackDuringNeuralVoicePreview, shouldPlayProtocolSessionBackground } from '../lib/protocolSessionAudioPolicy';
 import { useDialogFocus } from '../hooks/useDialogFocus';
 import { setNeuralVoicePreviewActive } from '../lib/neuralVoicePreviewState';
 
@@ -360,7 +360,9 @@ export default function AudioSettingsModal({
             ].map(track => {
               const isLocked = track.pro && userProfile.plan !== 'pro';
               const isSelected = bgMusicType === track.id;
-              const isTrackBlockedDuringVoicePreview = shouldBlockTrackDuringNeuralVoicePreview(requiresNeuralVoice, isTestingVoice, track.id);
+              const isStyle2SolfeggioBlocked = isEleganciaProfunda && isTestingVoice && isSolfeggioFrequency(track.id);
+              const isStyle3SolfeggioBlocked = shouldBlockTrackDuringNeuralVoicePreview(isEssenciaLuminosa, isTestingVoice, track.id);
+              const isTrackBlockedDuringVoicePreview = isStyle3SolfeggioBlocked || isStyle2SolfeggioBlocked;
 
               return (
                 <button
