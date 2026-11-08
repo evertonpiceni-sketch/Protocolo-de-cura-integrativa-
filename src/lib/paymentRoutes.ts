@@ -34,15 +34,17 @@ type CheckoutCreationLockDependencies = {
 
 export async function acquireCheckoutCreationLock(
   scope: string,
-  dependencies: CheckoutCreationLockDependencies = {}
+  dependencies: CheckoutCreationLockDependencies = {},
+  keyPrefix = 'cura_integrada:checkout-lock:'
 ): Promise<CheckoutCreationLock | null> {
   const persistent = dependencies.hasPersistentDatabase ?? hasPersistentDatabase;
+  const lockIdentity = `${keyPrefix}${scope}`;
   const runRedisCommand = dependencies.redisCommand ?? redisCommand;
   const ttlMs = dependencies.ttlMs ?? CHECKOUT_LOCK_TTL_MS;
   const renewIntervalMs = dependencies.renewIntervalMs ?? CHECKOUT_LOCK_RENEW_INTERVAL_MS;
 
   if (persistent()) {
-    const key = `cura_integrada:checkout-lock:${scope}`;
+    const key = lockIdentity;
     const token = crypto.randomUUID();
     const acquired = await runRedisCommand('set', [key, token, 'nx', 'px', String(ttlMs)]);
     if (acquired !== 'OK') return null;
@@ -94,19 +96,19 @@ export async function acquireCheckoutCreationLock(
     };
   }
 
-  if (localPaymentCheckoutLocks.has(scope)) return null;
-  localPaymentCheckoutLocks.add(scope);
+  if (localPaymentCheckoutLocks.has(lockIdentity)) return null;
+  localPaymentCheckoutLocks.add(lockIdentity);
   let released = false;
   return {
     assertHeld: async () => {
-      if (released || !localPaymentCheckoutLocks.has(scope)) {
+      if (released || !localPaymentCheckoutLocks.has(lockIdentity)) {
         throw new Error('A proteção do checkout expirou. Tente novamente.');
       }
     },
     release: async () => {
       if (released) return;
       released = true;
-      localPaymentCheckoutLocks.delete(scope);
+      localPaymentCheckoutLocks.delete(lockIdentity);
     }
   };
 }
@@ -115,7 +117,7 @@ export async function acquireNumerologyCheckoutLock(
   userId: string,
   dependencies: CheckoutCreationLockDependencies = {}
 ): Promise<NumerologyCheckoutLock | null> {
-  return acquireCheckoutCreationLock(`numerology:${userId}`, dependencies);
+  return acquireCheckoutCreationLock(userId, dependencies, 'cura_integrada:numerology-checkout-lock:');
 }
 
 export function paymentRoutes(authenticate: any, limiter: any, providerFetch: typeof fetch = fetch, saveCheckoutOrder: typeof saveDb = saveDb) {
