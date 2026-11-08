@@ -28,8 +28,9 @@ test('o Estilo 2 suspende Solfeggio durante prévias neurais e restaura apenas a
   assert.ok(settings.includes('fallbackToSpeechSynthesis: !requiresNeuralVoice'));
   assert.ok(settings.includes('if (!allowBackgroundPlayback || (requiresNeuralVoice && isTestingVoice)) return;'));
   assert.ok(settings.includes('const isStyle2SolfeggioBlocked = isEleganciaProfunda && isTestingVoice && isSolfeggioFrequency(track.id);'));
-  assert.ok(settings.includes('const isStyle3SolfeggioBlocked = shouldBlockTrackDuringNeuralVoicePreview(isEssenciaLuminosa, isTestingVoice, track.id);
-  assert.ok(settings.includes('const isTrackBlockedDuringVoicePreview = isStyle3SolfeggioBlocked || isStyle2SolfeggioBlocked || isNaturalSerenoSolfeggioBlocked;'));'));
+  assert.ok(settings.includes('const isStyle3SolfeggioBlocked = shouldBlockTrackDuringNeuralVoicePreview(isEssenciaLuminosa, isTestingVoice, track.id);'));
+  assert.ok(settings.includes('const isNaturalSerenoSolfeggioBlocked = isNaturalSereno && isTestingVoice && isSolfeggioFrequency(track.id);'));
+  assert.ok(settings.includes('const isTrackBlockedDuringVoicePreview = isStyle3SolfeggioBlocked || isStyle2SolfeggioBlocked || isNaturalSerenoSolfeggioBlocked;'));
   assert.ok(settings.includes('disabled={isTrackBlockedDuringVoicePreview}'));
   assert.ok(settings.includes('if (isTrackBlockedDuringVoicePreview) return;'));
   assert.ok(settings.includes('setNeuralVoicePreviewActive(true)'));
