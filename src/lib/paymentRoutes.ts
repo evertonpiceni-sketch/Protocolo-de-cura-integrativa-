@@ -177,9 +177,9 @@ export function paymentRoutes(authenticate: any, limiter: any, providerFetch: ty
       createdOrder.checkoutUrl = await createCheckoutUrl(createdOrder, quote.title, origin);
       await saveDb();
       if (productType === 'numerology_full' && hasPersistentDatabase()) {
-        await redisCommand('set', [numerologyCheckoutKey(req.userId), JSON.stringify({ orderId: createdOrder.id, checkoutUrl: checkout.href }), 'ex', '86400']);
+        await redisCommand('set', [numerologyCheckoutKey(req.userId), JSON.stringify({ orderId: createdOrder.id, checkoutUrl: createdOrder.checkoutUrl }), 'ex', '86400']);
       }
-      return res.json({ checkoutUrl: checkout.href, orderId: createdOrder.id });
+      return res.json({ checkoutUrl: createdOrder.checkoutUrl, orderId: createdOrder.id });
     } catch {
       if (order && !order.checkoutUrl && productType !== 'numerology_full') {
         order.failedAt = new Date().toISOString();
