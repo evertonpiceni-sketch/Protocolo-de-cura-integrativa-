@@ -608,13 +608,14 @@ export default function App() {
 
     setProgress(updatedProgress);
 
-    // Save to backend
+    // Persist the profile and progress from this same completed-session snapshot.
     if (isLoggedIn) {
-      fetch('/api/user/sync', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ profile: updatedProfile, progress: updatedProgress })
-      }).catch(console.error);
+      const syncPayload = updatedProfile
+        ? { profile: updatedProfile, progress: updatedProgress }
+        : { progress: updatedProgress };
+      void syncUserState(syncPayload).catch(error => {
+        console.error('Session completion sync failed after retry', error);
+      });
     }
 
     // 3. Move to next day automatically or lock on 21
@@ -657,13 +658,11 @@ export default function App() {
         };
         setUserProfile(updatedProfile);
 
-        // Save to backend
+        // Persist the reset as one consistent profile/progress snapshot.
         if (isLoggedIn) {
-          fetch('/api/user/sync', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ profile: updatedProfile, progress: defaultProgress })
-          }).catch(console.error);
+          void syncUserState({ profile: updatedProfile, progress: defaultProgress }).catch(error => {
+            console.error('Program reset sync failed after retry', error);
+          });
         }
       }
     }
