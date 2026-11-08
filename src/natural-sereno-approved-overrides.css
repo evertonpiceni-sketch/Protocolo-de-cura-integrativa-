@@ -453,3 +453,17 @@
 :root[data-layout="natural-sereno"] .ep-app-toast svg {
   color: #C89D52 !important;
 }
+
+
+/* RUN 97 — onboarding logo: a more specific legacy rule set opacity:1 and
+   defeated the broad final-audit signature rule. Keep the official mark subtle. */
+:root[data-layout="natural-sereno"] .ep-care-onboarding-card .ep-brand-signature {
+  opacity:.30!important;
+  mix-blend-mode:normal!important;
+  filter:none!important;
+}
+@media (max-width:640px) {
+  :root[data-layout="natural-sereno"] .ep-care-onboarding-card .ep-brand-signature {
+    opacity:.26!important;
+  }
+}
