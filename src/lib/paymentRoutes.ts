@@ -3,6 +3,7 @@ import crypto from 'node:crypto';
 import { getDb, saveDb, hasPersistentDatabase, redisCommand, refreshDbFromPersistentStorage } from '../db.js';
 
 import { PAYMENT_PLANS, paymentQuote, specificTreatmentQuote, type Plan } from './paymentCatalog.js';
+import type { SubscriptionBenefitChoice } from '../types.js';
 export type InfinitePayCheckoutPayload = {
   handle: string;
   order_nsu: string;
@@ -11,7 +12,7 @@ export type InfinitePayCheckoutPayload = {
   items: Array<{ quantity: number; price: number; description: string }>;
   options: { single_payment: true };
 };
-export type PaymentOrder = { id: string; userId: string; productType?: 'subscription' | 'specific_treatment'; planId?: Plan; treatment?: import('../types.js').SpecificTreatment; cents: number; method: string; createdAt: string; paidAt?: string; transaction?: string; checkoutUrl?: string; checkoutPayload?: InfinitePayCheckoutPayload; checkoutRecoveryAttempts?: number; failedAt?: string };
+export type PaymentOrder = { id: string; userId: string; productType?: 'subscription' | 'specific_treatment'; planId?: Plan; treatment?: import('../types.js').SpecificTreatment; benefitChoice?: SubscriptionBenefitChoice; cents: number; method: string; createdAt: string; paidAt?: string; transaction?: string; checkoutUrl?: string; checkoutPayload?: InfinitePayCheckoutPayload; checkoutRecoveryAttempts?: number; failedAt?: string };
 const API = 'https://api.checkout.infinitepay.io';
 export const PAYMENT_DATABASE_WRITE_LOCK_SCOPE = 'payment:shared-database-write';
 const localPaymentCheckoutLocks = new Set<string>();
@@ -194,7 +195,7 @@ export function paymentRoutes(authenticate: any, limiter: any, providerFetch: ty
     }
   });
   router.post('/payment/create-checkout', authenticate, limiter, async (req: any, res) => {
-    const { planId, paymentMethod, couponCode, productType } = req.body || {};
+    const { planId, paymentMethod, couponCode, productType, benefitChoice } = req.body || {};
     let quote: { cents: number; title: string };
     let treatment: import('../types.js').SpecificTreatment | undefined;
     let releaseStandardCheckoutLock: CheckoutCreationLock | undefined;
@@ -204,8 +205,13 @@ export function paymentRoutes(authenticate: any, limiter: any, providerFetch: ty
 
     try {
       if (!['subscription', 'specific_treatment'].includes(productType) || !['pix', 'card', 'credit', 'debit'].includes(paymentMethod) || (productType === 'subscription' && typeof planId !== 'string') || (productType !== 'subscription' && planId != null) || (couponCode != null && typeof couponCode !== 'string')) throw new Error('Compra inválida.');
-      if (productType === 'subscription') quote = paymentQuote(planId, couponCode || '');
-      else {
+      if (productType === 'subscription') {
+        quote = paymentQuote(planId, couponCode || '');
+        const requiresBenefitChoice = planId === 'semestral' || planId === 'anual';
+        if (requiresBenefitChoice && !['astral_map', 'numerology'].includes(benefitChoice)) throw new Error('Escolha Mapa Astral Completo ou Numerologia Completa para este plano.');
+        if (!requiresBenefitChoice && benefitChoice != null) throw new Error('Este plano não inclui escolha de benefício adicional.');
+      } else {
+        if (benefitChoice != null) throw new Error('Benefício adicional inválido para prática individual.');
         const { durationDays, category, patientDescription, urgentPains, title } = req.body;
         if (![7,21].includes(durationDays) || !['saude_fisica','prosperidade','liberacao_emocional','relacionamentos','limpeza_espiritual','outro'].includes(category) || typeof patientDescription !== 'string' || !patientDescription.trim() || patientDescription.length > 10000 || (title != null && (typeof title !== 'string' || title.length > 200)) || !Array.isArray(urgentPains) || urgentPains.length > 30 || urgentPains.some((v: unknown) => typeof v !== 'string' || v.length > 200)) throw new Error('Dados da prática inválidos.');
         const code = (couponCode || '').trim().toUpperCase();
@@ -332,6 +338,7 @@ export function paymentRoutes(authenticate: any, limiter: any, providerFetch: ty
         id: crypto.randomUUID(), userId: req.userId, productType,
         ...(productType === 'subscription' ? { planId: planId as Plan } : {}),
         ...(treatment ? { treatment } : {}),
+        ...(benefitChoice ? { benefitChoice: benefitChoice as SubscriptionBenefitChoice } : {}),
         cents: quote.cents, method: paymentMethod, createdAt: new Date().toISOString()
       };
       order = createdOrder;
@@ -400,7 +407,12 @@ export function paymentRoutes(authenticate: any, limiter: any, providerFetch: ty
           user.profile = { ...user.profile, specificTreatments: [...(user.profile?.specificTreatments || []), order.treatment] };
         } else {
           user.plan = 'pro';
-          user.profile = { ...user.profile, plan: 'pro', subscriptionPlan: order.planId,
+          const benefitProfilePatch = order.benefitChoice === 'astral_map'
+            ? { astralMapPurchased: true, subscriptionBenefitChoice: order.benefitChoice }
+            : order.benefitChoice === 'numerology'
+              ? { numerologyPurchased: true, subscriptionBenefitChoice: order.benefitChoice }
+              : {};
+          user.profile = { ...user.profile, ...benefitProfilePatch, plan: 'pro', subscriptionPlan: order.planId,
             subscriptionPrice: order.cents / 100, subscriptionPaymentMethod: order.method,
             proActiveSince: now.toISOString(), subscriptionExpiresAt: new Date(now.getTime() + subscriptionPlan!.days * 86400000).toISOString() };
         }

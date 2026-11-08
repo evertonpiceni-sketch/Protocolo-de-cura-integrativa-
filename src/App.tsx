@@ -2314,7 +2314,7 @@ export default function App() {
           initialPlanId={proModalInitialPlanId}
           onClose={closeProModal}
           userProfile={userProfile}
-          onUpgradeSuccess={async (plan, paymentMethod, price, couponCode) => {
+          onUpgradeSuccess={async (plan, paymentMethod, price, couponCode, benefitChoice) => {
             if (!isLoggedIn) {
               throw new Error('Entre na sua conta para iniciar uma compra ou ativar a degustação.');
             }
@@ -2345,7 +2345,8 @@ export default function App() {
                 planId: plan,
                 paymentMethod,
                 couponCode,
-                price
+                price,
+                benefitChoice
               })
             });
             const data = await res.json().catch(() => ({}));

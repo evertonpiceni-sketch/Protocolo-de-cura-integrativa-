@@ -10,7 +10,8 @@ export type UserSyncOptions = {
 };
 
 const RETRYABLE_STATUSES = new Set([409, 423, 429, 500, 502, 503, 504]);
-const DEFAULT_MAX_ATTEMPTS = 8;
+// The shared DB lock may remain held through the provider's 15s timeout; keep sync pending well beyond that window.
+const DEFAULT_MAX_ATTEMPTS = 24;
 const MAX_RETRY_AFTER_WAIT_MS = 5000;
 
 function defaultWait(milliseconds: number) {

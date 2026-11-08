@@ -56,3 +56,34 @@ test('jornada de 21 dias é reconhecida no tipo, no admin e no resumo do perfil'
   assert.ok(app.includes("jornada_21d: '21 DIAS'"));
   assert.ok(app.includes("jornada_21d: 'por 21 dias'"));
 });
+
+
+test('Semestral e Anual exigem escolha explícita e o servidor registra somente o benefício selecionado', () => {
+  const checkout = fs.readFileSync('src/components/ProUpgradeModal.tsx', 'utf8');
+  const app = fs.readFileSync('src/App.tsx', 'utf8');
+  const routes = fs.readFileSync('src/lib/paymentRoutes.ts', 'utf8');
+  const server = fs.readFileSync('server.ts', 'utf8');
+  const css = fs.readFileSync('src/essencia-luminosa-final-audit.css', 'utf8');
+  assert.ok(checkout.includes('requiresBenefitChoice && !benefitChoice'));
+  assert.ok(checkout.includes('if (isOpen) {\n      setBenefitChoice(null);'));
+  assert.ok(checkout.includes('data-benefit-choice="astral_map"'));
+  assert.ok(checkout.includes('data-benefit-choice="numerology"'));
+  assert.ok(app.includes('benefitChoice'));
+  assert.ok(routes.includes("planId === 'semestral' || planId === 'anual'"));
+  assert.ok(routes.includes('astralMapPurchased: true'));
+  assert.ok(routes.includes('numerologyPurchased: true'));
+  assert.ok(server.includes('subscriptionBenefitChoice: currentProfile.subscriptionBenefitChoice'));
+  assert.ok(css.includes(':root[data-layout="essencia-luminosa"] #plans-modal [data-benefit-choice]'));
+  assert.ok(css.includes('[data-benefit-choice][aria-pressed="true"]'));
+});
+
+test('todos os preços de assinatura exibidos no checkout derivam do catálogo server-side', () => {
+  const checkout = fs.readFileSync('src/components/ProUpgradeModal.tsx', 'utf8');
+  for (const id of ['mensal', 'trimestral', 'semestral', 'anual']) {
+    assert.ok(checkout.includes(`PAYMENT_PLANS.${id}.cents / 100`));
+  }
+  assert.equal(paymentQuote('mensal').cents, 3990);
+  assert.equal(paymentQuote('trimestral').cents, 6990);
+  assert.equal(paymentQuote('semestral').cents, 9990);
+  assert.equal(paymentQuote('anual').cents, 15990);
+});

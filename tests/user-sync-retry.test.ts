@@ -118,3 +118,25 @@ test('user sync does not retry before a future HTTP-date Retry-After beyond the 
   assert.equal(calls, 1);
   assert.deepEqual(delays, []);
 });
+
+
+test('user sync permanece pendente durante o timeout do provedor e conclui após a liberação do lock', async () => {
+  let calls = 0;
+  const delays: number[] = [];
+  const profile = { reminderTime: '08:30' };
+  const response = await syncUserState({ profile }, {
+    fetcher: async () => {
+      calls += 1;
+      return calls <= 16
+        ? new Response(JSON.stringify({ error: 'shared database lock busy' }), { status: 409, headers: { 'Retry-After': '1' } })
+        : new Response(JSON.stringify({ success: true }), { status: 200 });
+    },
+    wait: async milliseconds => { delays.push(milliseconds); },
+  });
+
+  assert.equal(response.status, 200);
+  assert.equal(calls, 17);
+  assert.equal(delays.length, 16);
+  assert.ok(delays.reduce((total, delay) => total + delay, 0) >= 15_000,
+    'a sincronização deve continuar aguardando além do timeout de 15s do provedor');
+});

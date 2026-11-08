@@ -223,6 +223,7 @@ export function createApp() {
           trial7dRedeemedAt: currentProfile.trial7dRedeemedAt,
           numerologyPurchased: currentProfile.numerologyPurchased,
           astralMapPurchased: currentProfile.astralMapPurchased,
+          subscriptionBenefitChoice: currentProfile.subscriptionBenefitChoice,
           specificTreatments: currentProfile.specificTreatments
         };
       }

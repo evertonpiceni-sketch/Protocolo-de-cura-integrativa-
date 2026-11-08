@@ -112,7 +112,7 @@ export const ALL_PLANS_DATA: DetailedPlanInfo[] = [
     id: 'anual', category: 'assinatura', title: 'Plano Anual', badge: 'Anamnese Completa incluída',
     priceFormatted: 'R$ 159,90', periodText: 'por 12 meses', priceNumeric: 159.9,
     highlightBenefit: 'Acesso contínuo por um ano com Anamnese Completa incluída.',
-    features: ['Anamnese Compacta e Anamnese Completa incluídas','Acesso às jornadas e recursos disponíveis por 12 meses','Histórico e acompanhamento preservados','Benefícios adicionais do plano anual'],
+    features: ['Anamnese Compacta e Anamnese Completa incluídas','Acesso às jornadas e recursos disponíveis por 12 meses','Histórico e acompanhamento preservados','Mapa Astral Completo OU Numerologia Completa'],
     description: 'Para quem prefere manter um espaço contínuo de acompanhamento ao longo do ano.', ctaText: 'Escolher Anual', accentColor: 'gold', buttonClass: PREMIUM_BUTTON
   },
   {
