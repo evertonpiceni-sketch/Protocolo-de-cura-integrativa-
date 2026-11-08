@@ -85,7 +85,8 @@ test('botão de feedback do Natural Sereno atende contraste WCAG AA', () => {
   assert.match(background, /^#[0-9A-Fa-f]{6}$/);
 
   const luminance = (hex: string) => {
-    const channels = [0, 2, 4].map(index => parseInt(hex.slice(index, index + 2), 16) / 255);
+    const normalized = hex.replace('#', '');
+    const channels = [0, 2, 4].map(index => parseInt(normalized.slice(index, index + 2), 16) / 255);
     const linear = channels.map(value => value <= 0.04045 ? value / 12.92 : ((value + 0.055) / 1.055) ** 2.4);
     return 0.2126 * linear[0] + 0.7152 * linear[1] + 0.0722 * linear[2];
   };
