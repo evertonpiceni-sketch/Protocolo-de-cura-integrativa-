@@ -33,6 +33,7 @@ import { localNotificationManager } from './lib/notifications';
 import { OFFICIAL_LAYOUTS, isLayoutId } from './config/layouts';
 import { getLocalDateString } from './utils/date';
 import LayoutChoiceModal from './components/LayoutChoiceModal';
+import { syncUserState } from './lib/userSync';
 
 const AnamnesisModal = React.lazy(() => import('./components/AnamnesisModal'));
 const ChakrasGuideModal = React.lazy(() => import('./components/ChakrasGuideModal'));
@@ -498,13 +499,9 @@ export default function App() {
     setUserProfile(newProfile);
     updateLocalAccountCache(newProfile, progress);
     if (isLoggedIn) {
-      fetch('/api/user/sync', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ profile: newProfile, progress })
-      }).then(response => {
-        if (!response.ok) throw new Error(`Profile sync failed (HTTP ${response.status})`);
-      }).catch(error => console.error('Profile sync failed; changes may only be saved locally', error));
+      void syncUserState({ profile: newProfile }).catch(error => {
+        console.error('Profile sync failed after retry; changes remain in the local cache', error);
+      });
     }
   };
 
@@ -512,13 +509,9 @@ export default function App() {
     setProgress(newProgress);
     if (userProfile) updateLocalAccountCache(userProfile, newProgress);
     if (isLoggedIn) {
-      fetch('/api/user/sync', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ profile: userProfile, progress: newProgress })
-      }).then(response => {
-        if (!response.ok) throw new Error(`Progress sync failed (HTTP ${response.status})`);
-      }).catch(error => console.error('Progress sync failed; changes may only be saved locally', error));
+      void syncUserState({ progress: newProgress }).catch(error => {
+        console.error('Progress sync failed after retry; changes remain in the local cache', error);
+      });
     }
   };
 
@@ -613,11 +606,9 @@ export default function App() {
 
     // Save to backend
     if (isLoggedIn) {
-      fetch('/api/user/sync', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ profile: updatedProfile, progress: updatedProgress })
-      }).catch(console.error);
+      void syncUserState({ profile: updatedProfile, progress: updatedProgress }).catch(error => {
+        console.error('Session completion sync failed after retry', error);
+      });
     }
 
     // 3. Move to next day automatically or lock on 21
@@ -662,11 +653,9 @@ export default function App() {
 
         // Save to backend
         if (isLoggedIn) {
-          fetch('/api/user/sync', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ profile: updatedProfile, progress: defaultProgress })
-          }).catch(console.error);
+          void syncUserState({ profile: updatedProfile, progress: defaultProgress }).catch(error => {
+            console.error('Program reset sync failed after retry', error);
+          });
         }
       }
     }
@@ -871,12 +860,7 @@ export default function App() {
             const updatedProfile = { ...userProfile, visualLayout: layout };
             // Do not dismiss the chooser until the server accepts the preference.
             if (isLoggedIn) {
-              const response = await fetch('/api/user/sync', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ profile: updatedProfile, progress })
-              });
-              if (!response.ok) throw new Error(`Não foi possível salvar o estilo (HTTP ${response.status})`);
+              await syncUserState({ profile: updatedProfile, progress });
             }
             setUserProfile(updatedProfile);
             updateLocalAccountCache(updatedProfile, progress);
