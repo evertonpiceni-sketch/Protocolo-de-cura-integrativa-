@@ -4,7 +4,6 @@
 **Branch:** `main`  
 **HEAD de código/teste auditado:** `85f1d2c5d95292bf96f26cfb5d748da9164f28c7`  
 **HEAD documental anterior ao RUN 99:** `ab84dc1aabd03c187fbad049c5318e0253141a69`  
-**Commit deste relatório:** `73426ba2b55124871465937665693438eeb22edf`
 
 ## Resultado
 
@@ -55,7 +54,7 @@ A inspeção é estática do import graph e dos seletores CSS. Ela não substitu
 
 ## CI e publicação
 
-- GitHub Actions **#42517290451**, no commit deste relatório: job `audit` concluído com sucesso.
+- GitHub Actions **#42517518879**, após o registro da RUN 99: job `audit` concluído com sucesso.
 - Log confirma **151 testes aprovados, 0 falhas**.
 - `npm audit`: **0 vulnerabilidades**.
 - TypeScript e build Vite: aprovados.
