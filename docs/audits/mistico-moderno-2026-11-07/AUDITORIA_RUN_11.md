@@ -17,7 +17,7 @@ Branch: fix/mistico-moderno-run11b-2026-11-07
 
 - As 22 camadas CSS já existentes do Místico permanecem; todas foram verificadas como escopadas ao Estilo 4. A nova camada Arcanjo eleva o conjunto a 23 módulos carregados.
 - Os módulos específicos dos Estilos 1, 2 e 3 foram inspecionados: não foi identificado vazamento de seletores para as telas do Místico. As regras globais restantes pertencem ao shell/base e ao onboarding; os tokens Místico definem o fundo noturno, violeta, dourado e marfim.
-- O Diário continua salvando o progresso e o perfil, com cache local e sincronização server-side.
+- O Diário continua salvando o progresso e o perfil, com cache local e sincronização server-side; a abertura/fechamento do modal também respeita prefers-reduced-motion.
 - Logo oficial discreto preservado: assinatura em 30% no desktop e 26% no mobile.
 - Conteúdos, roteiros, controles de sessão e política de Solfeggio do protocolo preservados.
 - InfinitePay, validação server-side, preços de tratamentos de 7/21 dias (R$ 59,90/R$ 99,90) e cupons PROMO15/PROMO20 preservados; a suíte existente de pagamentos permanece intacta.
