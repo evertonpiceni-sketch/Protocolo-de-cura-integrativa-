@@ -119,7 +119,7 @@ export function createApp() {
   });
 
   const registrationProfileSchema = z.object({
-    birthDate: z.string().regex(/^\\d{4}-\\d{2}-\\d{2}$/).refine(value => {
+    birthDate: z.string().regex(/^\d{4}-\d{2}-\d{2}$/).refine(value => {
       const parsed = new Date(`${value}T12:00:00-03:00`);
       const parts = new Intl.DateTimeFormat("en-US", {
         timeZone: "America/Sao_Paulo", year: "numeric", month: "2-digit", day: "2-digit"
@@ -127,7 +127,7 @@ export function createApp() {
       const today = `${parts.find(part => part.type === "year")?.value}-${parts.find(part => part.type === "month")?.value}-${parts.find(part => part.type === "day")?.value}`;
       return Number.isFinite(parsed.getTime()) && parsed.toISOString().slice(0, 10) === value && value <= today;
     }, "Data de nascimento inválida.").optional(),
-    birthTime: z.string().regex(/^$|^\\d{2}:\\d{2}$/).optional(),
+    birthTime: z.string().regex(/^$|^\d{2}:\d{2}$/).optional(),
     birthCity: z.string().trim().max(150).optional(),
     phone: z.string().max(30).optional(),
     bgMusicType: z.enum(["528hz", "432hz", "963hz", "741hz", "waves", "none"]).optional(),
