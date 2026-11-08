@@ -91,6 +91,17 @@ test('o seletor usa a prancha oficial do Estilo 2 e exige confirmação explíci
   assert.ok(app.includes('{(!layoutConfirmedThisSession || layoutChoiceRequested) && ('));
 });
 
+test('erros ao copiar banho de ervas mantêm semântica sem superfície rosa-clara no Estilo 2', () => {
+  const component = read('src/components/HerbalBathsModal.tsx');
+  const css = read('src/elegancia-profunda-herbal-baths-audit.css');
+
+  assert.ok(component.includes('role="alert" className="rounded-xl border border-rose-200 bg-rose-50 px-3 py-2 text-xs text-rose-700"'));
+  assert.ok(css.includes(':root[data-layout="elegancia-profunda"] #herbal-baths-modal [role="alert"]'));
+  assert.ok(css.includes('background: rgba(91, 32, 40, .28) !important;'));
+  assert.ok(css.includes('border-color: rgba(169, 93, 102, .48) !important;'));
+  assert.ok(css.includes('color: #f1d9d8 !important;'));
+});
+
 test('o modal de prática individual mantém foco acessível também no Estilo 2', () => {
   const modal = read('src/components/SpecificTreatmentModal.tsx');
   assert.ok(modal.includes('useDialogFocus(isOpen, dialogRef, onClose)'));
