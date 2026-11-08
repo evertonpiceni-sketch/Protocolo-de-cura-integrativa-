@@ -57,6 +57,7 @@ test('checkout binds account, validates provider confirmation and grants only on
   db.users.push({ id: 'owner', plan: 'free', profile: {} });
   let amount = paymentQuote('jornada_7d', 'PROMO20').cents; let paid = false; const calls: any[] = [];
   let holdNumerologyLink = false;
+  let failNextNumerologyLink = false;
   let signalNumerologyLink: (() => void) | undefined;
   let releaseNumerologyLink: (() => void) | undefined;
   const numerologyLinkStarted = new Promise<void>(resolve => { signalNumerologyLink = resolve; });
@@ -64,9 +65,15 @@ test('checkout binds account, validates provider confirmation and grants only on
   const provider = async (url: any, options: any) => {
     const body = JSON.parse(options.body);
     calls.push({ url, body });
-    if (holdNumerologyLink && String(url).endsWith('/links') && body.items?.[0]?.description === 'Mapa Numerológico Cabalístico Completo') {
-      signalNumerologyLink?.();
-      await numerologyLinkGate;
+    if (String(url).endsWith('/links') && body.items?.[0]?.description === 'Mapa Numerológico Cabalístico Completo') {
+      if (failNextNumerologyLink) {
+        failNextNumerologyLink = false;
+        throw new Error('simulated response interruption after request dispatch');
+      }
+      if (holdNumerologyLink) {
+        signalNumerologyLink?.();
+        await numerologyLinkGate;
+      }
     }
     return new Response(JSON.stringify(String(url).endsWith('/links') ? { url: 'https://checkout.infinitepay.io/test' } : { success: true, paid, amount }), { status: 200 });
   };
@@ -146,29 +153,35 @@ test('checkout binds account, validates provider confirmation and grants only on
     db.users.push({ id: 'coupon-owner', plan: 'free', profile: {} });
     assert.equal((await call('payment/create-checkout', { productType: 'numerology_full', paymentMethod: 'pix', couponCode: 'PROMO20' }, 'coupon-owner')).status, 400);
     db.users.push({ id: 'preparing-owner', plan: 'free', profile: {} });
-    (db.paymentOrders ||= []).push({ id: 'numerology-pending-without-link', userId: 'preparing-owner', productType: 'numerology_full', cents: 9000, method: 'pix', createdAt: new Date().toISOString() });
-    const linksBeforePendingRetry = calls.filter(c => String(c.url).endsWith('/links')).length;
-    assert.equal((await call('payment/create-checkout', { productType: 'numerology_full', paymentMethod: 'pix' }, 'preparing-owner')).status, 409);
-    assert.equal(calls.filter(c => String(c.url).endsWith('/links')).length, linksBeforePendingRetry);
-
-    db.users.push({ id: 'stale-owner', plan: 'free', profile: {} });
-    const staleNumerologyOrder = {
-      id: 'numerology-stale-without-link',
-      userId: 'stale-owner',
+    const pendingNumerologyOrder = {
+      id: 'numerology-pending-without-link',
+      userId: 'preparing-owner',
       productType: 'numerology_full' as const,
       cents: 9000,
       method: 'pix',
       createdAt: new Date(Date.now() - 6 * 60 * 1000).toISOString()
     };
-    (db.paymentOrders ||= []).push(staleNumerologyOrder);
-    const linksBeforeStaleRetry = calls.filter(c => String(c.url).endsWith('/links')).length;
-    const staleRetry = await call('payment/create-checkout', { productType: 'numerology_full', paymentMethod: 'pix' }, 'stale-owner');
-    assert.equal(staleRetry.status, 200);
-    const staleRetryData = await staleRetry.json();
-    assert.ok(staleNumerologyOrder.failedAt, 'o pedido antigo sem link deve ser encerrado após o prazo de recuperação');
-    assert.notEqual(staleRetryData.orderId, staleNumerologyOrder.id);
-    assert.equal(calls.filter(c => String(c.url).endsWith('/links')).length, linksBeforeStaleRetry + 1);
-    assert.equal(calls.at(-1).body.items[0].price, 9000);
+    (db.paymentOrders ||= []).push(pendingNumerologyOrder);
+    const linksBeforeRecovery = calls.filter(c => String(c.url).endsWith('/links')).length;
+    failNextNumerologyLink = true;
+    const interruptedRecovery = await call('payment/create-checkout', { productType: 'numerology_full', paymentMethod: 'pix' }, 'preparing-owner');
+    assert.equal(interruptedRecovery.status, 503);
+    assert.equal(pendingNumerologyOrder.failedAt, undefined, 'uma falha de resposta não encerra o pedido nem cria outro NSU');
+    assert.equal(pendingNumerologyOrder.checkoutUrl, undefined);
+
+    const recoveredRetry = await call('payment/create-checkout', { productType: 'numerology_full', paymentMethod: 'pix' }, 'preparing-owner');
+    assert.equal(recoveredRetry.status, 200);
+    const recoveredData = await recoveredRetry.json();
+    assert.equal(recoveredData.orderId, pendingNumerologyOrder.id);
+    assert.equal(recoveredData.reused, true);
+    assert.equal(recoveredData.recovered, true);
+    assert.equal(pendingNumerologyOrder.checkoutUrl, 'https://checkout.infinitepay.io/test');
+    const recoveryRequests = calls.filter(c => c.body.order_nsu === pendingNumerologyOrder.id);
+    assert.equal(recoveryRequests.length, 2);
+    assert.deepEqual(recoveryRequests[0].body, recoveryRequests[1].body, 'a recuperação repete exatamente o payload original');
+    assert.equal(recoveryRequests[0].url, 'https://api.checkout.infinitepay.io/links');
+    assert.equal(calls.filter(c => String(c.url).endsWith('/links')).length, linksBeforeRecovery + 2);
+    assert.equal(db.paymentOrders?.filter(o => o.userId === 'preparing-owner' && o.productType === 'numerology_full').length, 1);
 
     db.users.push({ id: 'trial-account', plan: 'free', profile: {} });
     const trial = { planId: 'teste_vip_7d', paymentMethod: 'trial', couponCode: 'VIP7' };
