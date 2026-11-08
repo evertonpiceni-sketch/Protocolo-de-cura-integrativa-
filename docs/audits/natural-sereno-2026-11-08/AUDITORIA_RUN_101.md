@@ -41,7 +41,7 @@ GitHub Actions **#42534455478**:
 
 ## Pendências
 
-1. Não há deployment/preview para o HEAD validado. O último deployment disponível de um commit anterior da branch terminou com `BUILD_FAILED — Resource provisioning failed`; sem preview não é possível homologar visualmente todas as páginas em desktop e mobile.
+1. Não há deployment/preview para o HEAD validado. O último deployment disponível de um commit anterior da branch terminou com `BUILD_FAILED — Resource provisioning failed`. Uma nova tentativa de preview foi recusada pelo limite gratuito de 100 deployments/dia (`api-deployments-free-per-day`), com janela de 24 horas. Sem preview não é possível homologar visualmente todas as páginas em desktop e mobile.
 2. A reprodução real da voz escolhida e as transições entre narração, Solfeggio e ambiência ainda precisam ser escutadas em navegador.
 3. A configuração `INFINITEPAY_API_KEY` não aparece entre as variáveis do projeto; `INFINITEPAY_HANDLE` e `PUBLIC_APP_URL` estão presentes em produção. O checkout permanece fail-closed; sandbox e webhook pendentes.
 4. A variável antiga `UPSTASH_DB_KEY` permanece limitada a uma branch de auditoria antiga e marcada como `readable-secret`; não foi alterada.
