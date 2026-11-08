@@ -28,6 +28,7 @@ PR: #61 — permanece em rascunho; sem merge na `main` e sem deploy de produçã
 - A montagem do ativo foi conferida: segmentos `[9000, 9000, 9000, 9000, 8388]`, total 44.388 caracteres; assinatura inicial `UklGR` e sufixo final conferidos.
 - A execução Security Audit `42433048197` registrou `npm audit` com **0 vulnerabilidades**. O TypeScript parou por uma variável `main` fora do escopo em `tests/mistico-moderno-audit.test.ts`; a variável foi movida para o teste de voz no commit `d8e5b299`. Testes de regressão e build foram pulados naquela execução.
 - **Não há ainda uma execução CI posterior ao commit `d8e5b299`**. Portanto, não declaro TypeScript, suíte de testes ou build aprovados nesta rodada.
+- O GitHub reporta o PR #61 como `mergeable_state=dirty` contra a `main`; não tentei mesclar. A reconciliação do conflito com a linha principal é pré-requisito para qualquer merge.
 - Ainda pendem: CI completa no head atual; conferência renderizada página a página em desktop/celular; audição real com ID ElevenLabs válido salvo no perfil; teste de Solfeggio/pausa/retomada/encerramento; persistência do Diário em navegador; checkout e webhook InfinitePay em sandbox; preview Vercel.
 
 ## Estado
