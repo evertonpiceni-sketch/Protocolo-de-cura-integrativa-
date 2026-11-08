@@ -9,7 +9,7 @@
 /* O wrapper do logo no App ainda carrega border/shadow indigo do componente-base.
    Neutraliza somente no Estilo 3 e mantém o logo como assinatura sutil. */
 :root[data-layout="essencia-luminosa"] #main-header .ep-brand-signature{opacity:.30!important;filter:saturate(.86) contrast(.96)!important;}
-:root[data-layout="essencia-luminosa"] #main-header div:has(> .ep-brand-signature){background:color-mix(in srgb,var(--layout-card) 72%,transparent)!important;border-color:color-mix(in srgb,var(--layout-gold) 22%,var(--layout-border-card))!important;box-shadow:0 8px 24px rgba(112,91,58,.07)!important;}
+:root[data-layout="essencia-luminosa"] #main-header div:has(> .ep-brand-signature){background:transparent!important;border-color:transparent!important;box-shadow:none!important;}
 
 /* Remove resíduos cromáticos explícitos do header sem atingir estados semânticos fora dele. */
 :root[data-layout="essencia-luminosa"] #main-header :is([class*="border-indigo-"],[class*="border-purple-"],[class*="border-amber-"]){border-color:color-mix(in srgb,var(--layout-gold) 22%,var(--layout-border-card))!important;}
