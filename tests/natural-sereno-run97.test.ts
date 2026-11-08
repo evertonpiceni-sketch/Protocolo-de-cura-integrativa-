@@ -74,14 +74,14 @@ test('logo, voz neural, Solfeggio, Diário e respiração do player preservam os
 
 test('botão de feedback do Natural Sereno atende contraste WCAG AA', () => {
   const css = read('src/natural-sereno-refinement.css');
-  const buttonRule = css.match(
-    /:root\\[data-layout="natural-sereno"\\] #anamnesis-modal #anamnesis-feedback-area button\\[class\\*="bg-emerald"\\] \\{[\\s\\S]*?\\}/
-  )?.[0] ?? '';
-  const background = css.match(/--ns-modal-forest:\\s*(#[0-9A-Fa-f]{6})/)?.[1] ?? '';
-  const foreground = buttonRule.match(/color:\\s*(#[0-9A-Fa-f]{6})\\s*!important/)?.[1] ?? '';
+  const ruleStart = css.indexOf(':root[data-layout="natural-sereno"] #anamnesis-modal #anamnesis-feedback-area button[class*="bg-emerald"] {');
+  const ruleEnd = ruleStart >= 0 ? css.indexOf('}', ruleStart) : -1;
+  const buttonRule = ruleStart >= 0 && ruleEnd >= 0 ? css.slice(ruleStart, ruleEnd + 1) : '';
+  const background = css.split('--ns-modal-forest:')[1]?.trim().slice(0, 7) ?? '';
+  const foreground = buttonRule.split('color:')[1]?.trim().slice(0, 7) ?? '';
 
   assert.equal(foreground.toUpperCase(), '#FFFFFF');
-  assert.ok(background, 'A cor de fundo sálvia precisa estar definida no escopo do modal.');
+  assert.match(background, /^#[0-9A-Fa-f]{6}$/);
 
   const luminance = (hex: string) => {
     const channels = [0, 2, 4].map(index => parseInt(hex.slice(index, index + 2), 16) / 255);
