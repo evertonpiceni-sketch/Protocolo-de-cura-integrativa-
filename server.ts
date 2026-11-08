@@ -118,14 +118,37 @@ export function createApp() {
     }
   });
 
-  const registerSchema = z.object({ login: z.string().min(3).max(50), password: z.string().min(6).max(100), fullName: z.string().max(100).optional(), email: z.string().email().max(100).optional().or(z.literal('')) });
+  const registrationProfileSchema = z.object({
+    birthDate: z.string().regex(/^\\d{4}-\\d{2}-\\d{2}$/).refine(value => {
+      const parsed = new Date(`${value}T12:00:00-03:00`);
+      const parts = new Intl.DateTimeFormat("en-US", {
+        timeZone: "America/Sao_Paulo", year: "numeric", month: "2-digit", day: "2-digit"
+      }).formatToParts(new Date());
+      const today = `${parts.find(part => part.type === "year")?.value}-${parts.find(part => part.type === "month")?.value}-${parts.find(part => part.type === "day")?.value}`;
+      return Number.isFinite(parsed.getTime()) && parsed.toISOString().slice(0, 10) === value && value <= today;
+    }, "Data de nascimento inválida.").optional(),
+    birthTime: z.string().regex(/^$|^\\d{2}:\\d{2}$/).optional(),
+    birthCity: z.string().trim().max(150).optional(),
+    phone: z.string().max(30).optional(),
+    bgMusicType: z.enum(["528hz", "432hz", "963hz", "741hz", "waves", "none"]).optional(),
+    voiceType: z.enum(["masculina", "feminina"]).optional(),
+    preferredVoiceGender: z.enum(["masculina", "feminina"]).optional(),
+    coupon: z.string().max(50).optional()
+  }).strict();
+  const registerSchema = z.object({
+    login: z.string().min(3).max(50),
+    password: z.string().min(6).max(100),
+    fullName: z.string().max(100).optional(),
+    email: z.string().email().max(100).optional().or(z.literal('')),
+    profile: registrationProfileSchema.optional()
+  });
   const loginSchema = z.object({ login: z.string().min(3).max(50), password: z.string().min(6).max(100) });
   app.post("/api/auth/register", authLimiter, async (req, res) => {
     let lock: Awaited<ReturnType<typeof acquireSharedDatabaseWriteLock>> = null;
     let db: ReturnType<typeof getDb> | undefined;
     let newUser: any;
     try {
-      const { login, password, fullName, email } = registerSchema.parse(req.body);
+      const { login, password, fullName, email, profile } = registerSchema.parse(req.body);
       const normalizedLogin = login.trim().toLowerCase();
       const salt = await bcrypt.genSalt(10);
       const hashedPassword = await bcrypt.hash(password, salt);
@@ -138,7 +161,15 @@ export function createApp() {
       newUser = {
         id: Date.now().toString(), login: normalizedLogin, password: hashedPassword,
         fullName: fullName || normalizedLogin, email: email || "", plan: "free", role: "user",
-        profile: { name: fullName || normalizedLogin, email: email || "", audioEnabled: true, bgMusicVolume: 0.5, bgMusicType: '528hz', plan: "free" },
+        profile: {
+          name: fullName || normalizedLogin,
+          email: email || "",
+          audioEnabled: true,
+          bgMusicVolume: 0.5,
+          bgMusicType: profile?.bgMusicType || "528hz",
+          ...(profile || {}),
+          plan: "free"
+        },
         progress: Array.from({ length: 21 }, (_, index) => ({ dayNumber: index + 1, completed: false }))
       };
       db.users.push(newUser);
@@ -172,7 +203,10 @@ export function createApp() {
     let previous: { profile: any; progress: any } | undefined;
     try {
       lock = await acquireSharedDatabaseWriteLock();
-      if (!lock) return res.status(409).json({ error: "Há outra atualização de dados em andamento. Tente novamente." });
+      if (!lock) {
+        res.setHeader("Retry-After", "1");
+        return res.status(409).json({ error: "Há outra atualização de dados em andamento. Tente novamente." });
+      }
       await lock.assertHeld();
       const db = getDb();
       user = db.users.find(u => u.id === req.userId);
