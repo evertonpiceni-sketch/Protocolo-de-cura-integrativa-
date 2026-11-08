@@ -81,11 +81,11 @@ test('Numerology checkout lock renews its distributed Redis lease until release'
   const lock = await acquireNumerologyCheckoutLock('renewal-test', {
     hasPersistentDatabase: () => true,
     redisCommand: fakeRedisCommand as any,
-    ttlMs: 75,
-    renewIntervalMs: 15
+    ttlMs: 300,
+    renewIntervalMs: 40
   });
   assert.ok(lock);
-  await new Promise(resolve => setTimeout(resolve, 125));
+  await new Promise(resolve => setTimeout(resolve, 650));
   assert.ok(expiresAt > Date.now(), 'o heartbeat renova o TTL antes de o lock expirar');
   await lock.assertHeld();
   await lock.release();
