@@ -37,7 +37,7 @@ function LayoutPreview({ layout }: { layout: LayoutDefinition }) {
     );
   }
   if (layout.id === 'elegancia-profunda') {
-    // A prancha oficial do Estilo 2 é referência visual; a jornada funcional aprovada permanece com 21 dias.
+    // A prancha 1001194194.png orienta atmosfera e composição; decisões posteriores prevalecem: 21 dias, corpo neutro e logo discreto como assinatura.
     return (
       <div
         className="mt-4 flex h-[184px] w-full items-center justify-center overflow-hidden rounded-2xl border shadow-inner"
