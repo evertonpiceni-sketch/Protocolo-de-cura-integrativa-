@@ -185,7 +185,7 @@ test('as camadas aprovadas de marcos, guias, contato e diário estão carregadas
 test('a recuperação do checkout Numerologia repete o mesmo pedido sem criar nova cobrança', () => {
   const routes = read('src/lib/paymentRoutes.ts');
   assert.ok(routes.includes('candidate.checkoutUrl === saved.checkoutUrl'));
-  assert.ok((routes.match(/candidate\\.checkoutPayload\\?\\.options\\?\\.single_payment === true/g) || []).length >= 2, 'cache e reutilização só aceitam links de pagamento único');
+  assert.ok((routes.match(/candidate\.checkoutPayload\?\.options\?\.single_payment === true/g) || []).length >= 2, 'cache e reutilização só aceitam links de pagamento único');
   assert.ok(routes.includes('checkoutPayload?: InfinitePayCheckoutPayload'));
   assert.ok(routes.includes('options: { single_payment: true }'));
   assert.ok(routes.includes("headers['X-Api-Key'] = key"));
