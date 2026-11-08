@@ -566,8 +566,9 @@ test('os Ajustes de Áudio do Estilo 2 usam verde profundo, champagne e marfim',
 test('Natural Sereno mantém CTAs dourados refinados e cantos premium de 18px', () => {
   const css = read('src/natural-sereno-approved-overrides.css');
   const modal = read('src/components/LayoutChoiceModal.tsx');
-  assert.match(css, /:root\\[data-layout="natural-sereno"\\] \.ns-app \.ns-gold\\s*\\{[\\s\\S]*?border-radius:\\s*18px/);
-  assert.match(css, /background:\\s*linear-gradient\\(180deg,#E2B96B 0%,#C89D52 100%\\)/);
-  assert.match(modal, /confirmButtonRadius = !selectedLayout \\|\\| selectedLayout === 'natural-sereno' \\? 'rounded-\\[18px\\]' : 'rounded-full'/);
+  assert.ok(css.includes(':root[data-layout="natural-sereno"] .ns-app .ns-gold {'));
+  assert.ok(css.includes('border-radius: 18px !important;'));
+  assert.ok(css.includes('background: linear-gradient(180deg,#E2B96B 0%,#C89D52 100%) !important;'));
+  assert.ok(modal.includes("const confirmButtonRadius = !selectedLayout || selectedLayout === 'natural-sereno' ? 'rounded-[18px]' : 'rounded-full';"));
   assert.ok(modal.includes('${confirmButtonRadius}'));
 });
