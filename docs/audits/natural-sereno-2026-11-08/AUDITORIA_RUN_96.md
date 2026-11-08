@@ -8,8 +8,11 @@
 ## Corrigido nesta rodada
 
 - Removidos dois seletores órfãos de `ep-auth-style-one` em `src/natural-sereno.css`.
+- Corrigido o acabamento dos CTAs `.ns-gold` do Natural Sereno: deixaram o raio de pílula de 999px e o gradiente amarelo antigo; agora usam cantos de 18px, dourado refinado (`#E2B96B` → `#C89D52`), texto café e sombra discreta.
+- Corrigido também o CTA de confirmação do seletor: estado neutro e Natural Sereno usam 18px; os estilos 2, 3 e 4 mantêm seu acabamento anterior.
 - Esses seletores ainda tentavam estilizar o antigo shell de cadastro/login, mas `ProfileSetup` já usa `ep-auth-prestyle`. Portanto, não eram necessários para a interface atual e contrariavam o teste de regressão recém-adicionado em `tests/elegancia-profunda-audit.test.ts`.
 - A remoção foi restrita às duas regras sem correspondência. O componente `ProfileSetup`, os campos, a escolha de voz, os handlers e a autenticação não foram alterados.
+- Adicionado teste de regressão para impedir o retorno do botão amarelo em formato de pílula no Natural Sereno e garantir os 18px no CTA do seletor.
 - Conferido que `src/natural-sereno-refinement.css`, `src/natural-sereno-approved-overrides.css` e `src/approved-theme.css` já não contêm o antigo shell `ep-auth-style-one` na linha atual.
 
 ## Varredura estática
