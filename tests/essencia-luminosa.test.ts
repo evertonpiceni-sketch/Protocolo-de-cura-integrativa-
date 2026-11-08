@@ -671,3 +671,19 @@ test('a apresentação do Estilo 3 não mantém CTA verde-claro com texto branco
   assert.ok(css.includes('background-image:var(--layout-gold-gradient)!important;'));
   assert.ok(css.includes('#promo-video-modal [class*="bg-amber-400"]'));
 });
+
+
+test('contato flutuante não herda verde esmeralda no Estilo 3', () => {
+  const app = fs.readFileSync('src/App.tsx', 'utf8');
+  const css = fs.readFileSync('src/essencia-luminosa-final-audit.css', 'utf8');
+  const start = css.indexOf(':root[data-layout="essencia-luminosa"] #floating-whatsapp-btn{');
+  assert.ok(app.includes('id="floating-whatsapp-btn"'));
+  assert.ok(start >= 0, 'O contato flutuante precisa de override próprio no Estilo 3.');
+  const rule = css.slice(start, start + 1800);
+  assert.ok(rule.includes('var(--layout-accent)'));
+  assert.ok(rule.includes('var(--layout-gold)'));
+  assert.ok(rule.includes('border-color:var(--layout-gold-border)!important;'));
+  assert.ok(rule.includes('#floating-whatsapp-btn svg'));
+  assert.ok(rule.includes('fill:transparent!important;'));
+  assert.ok(!/data-layout="(natural-sereno|elegancia-profunda|mistico-moderno)"/.test(rule));
+});
