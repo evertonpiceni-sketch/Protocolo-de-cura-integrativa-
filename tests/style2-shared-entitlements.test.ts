@@ -29,3 +29,21 @@ test('o acesso à Numerologia Completa descreve o benefício confirmado sem pre�
   assert.ok(!modal.includes('entitlement PRO confirmado pelo servidor'));
   assert.ok(modal.includes('Ver Planos PRO'));
 });
+
+test('checkout compartilhado recebe acabamento próprio da Elegância Profunda', () => {
+  const css = read('src/elegancia-profunda-modal-audit.css');
+  const main = read('src/main.tsx');
+  const checkout = read('src/components/ProUpgradeModal.tsx');
+
+  assert.ok(main.includes("import './elegancia-profunda-modal-audit.css';"));
+  assert.ok(checkout.includes('id="plans-modal"'));
+  assert.ok(checkout.includes('id="plan-benefit-choice"'));
+  assert.ok(css.includes(':root[data-layout="elegancia-profunda"] #plans-modal > div'));
+  assert.ok(css.includes('#plans-modal #plan-benefit-choice'));
+  assert.ok(css.includes('#plans-modal [data-benefit-choice]'));
+  assert.ok(css.includes('[data-benefit-choice][aria-pressed="true"]'));
+  assert.ok(css.includes('#plans-modal article > button:last-child'));
+  assert.ok(!css.includes('data-layout="essencia-luminosa"'));
+  assert.ok(!css.includes('data-layout="natural-sereno"'));
+  assert.ok(!css.includes('data-layout="mistico-moderno"'));
+});
