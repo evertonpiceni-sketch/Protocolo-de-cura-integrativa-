@@ -155,6 +155,10 @@ test('salvamentos compostos usam o mesmo snapshot atualizado de progresso', () =
 
   assert.ok(systemic.includes('saveProfile(updatedProfile, updatedProgress)'));
   assert.ok(diary.includes('saveProfile(updatedProfile, updatedProgress)'));
-  assert.ok(systemic.includes('} else {\\n      saveProgress(updatedProgress);'));
-  assert.ok(diary.includes('} else {\\n      saveProgress(updatedProgress);'));
+  const systemicElse = systemic.indexOf('} else {');
+  const systemicFallback = systemic.indexOf('saveProgress(updatedProgress);');
+  assert.ok(systemicElse >= 0 && systemicFallback > systemicElse);
+  const diaryElse = diary.indexOf('} else {');
+  const diaryFallback = diary.indexOf('saveProgress(updatedProgress);');
+  assert.ok(diaryElse >= 0 && diaryFallback > diaryElse);
 });
