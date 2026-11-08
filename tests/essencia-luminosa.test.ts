@@ -208,7 +208,7 @@ test('os overlays compartilhados do Estilo 3 não herdam índigo, verde escuro o
   assert.ok(milestoneCss.includes('button[class*="bg-[#B88736]"]'));
   assert.ok(app.includes("fetch('/api/payment/create-checkout'"));
   assert.ok(app.includes('data.checkoutUrl'));
-  assert.ok(plans.includes('onUpgradeSuccess(selectedPlan.id, paymentMethod, finalPrice, appliedCoupon || undefined)'));
+  assert.ok(plans.includes('onUpgradeSuccess(selectedPlan.id, paymentMethod, finalPrice, appliedCoupon || undefined, requiresBenefitChoice ? benefitChoice || undefined : undefined)'));
   assert.ok(!/chave PIX manual|copiar chave PIX/i.test(plans));
 });
 
