@@ -600,3 +600,24 @@ test('o estado compartilhado da prévia neural pode ser encerrado em qualquer fl
   setNeuralVoicePreviewActive(false);
   assert.equal(isNeuralVoicePreviewActive(), false);
 });
+
+
+test('Numerologia Completa respeita o benefício confirmado e não tenta checkout avulso sem preço aprovado', () => {
+  const modal = fs.readFileSync('src/components/NumerologyModal.tsx', 'utf8');
+  const plans = fs.readFileSync('src/components/ProUpgradeModal.tsx', 'utf8');
+  const paymentRoutes = fs.readFileSync('src/lib/paymentRoutes.ts', 'utf8');
+  const app = fs.readFileSync('src/App.tsx', 'utf8');
+
+  assert.ok(modal.includes('const isFullUnlocked = Boolean(userProfile.numerologyPurchased);'));
+  assert.ok(!modal.includes("productType: 'numerology_full'"));
+  assert.ok(!modal.includes('price: 90'));
+  assert.ok(!modal.includes('R$ 90,00'));
+  assert.ok(!modal.includes('isPro || Boolean(userProfile.numerologyPurchased)'));
+  assert.ok(modal.includes('useDialogFocus(isOpen, dialogRef, onClose);'));
+  assert.ok(modal.includes('Nos planos Semestral e Anual'));
+  assert.ok(modal.includes('onOpenProModal'));
+  assert.ok(modal.includes('onOpenContact'));
+  assert.ok(plans.includes('Escolha 1: Mapa Astral Completo OU Numerologia Completa'));
+  assert.ok(!paymentRoutes.includes("'numerology_full'"));
+  assert.ok(!app.includes('onSaveProfile={saveProfile}'));
+});
