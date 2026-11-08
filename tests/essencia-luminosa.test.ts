@@ -570,7 +570,7 @@ test('a prévia de voz da Essência Luminosa não toca Solfeggio durante a narra
   assert.ok(settings.includes('else if (allowBackgroundPlayback && requiresNeuralVoice)'));
   assert.ok(settings.includes('setIsPlayingBioactivePreview(false)'));
   assert.ok(settings.includes('const restoreBackgroundAfterVoiceTest = () =>'));
-  assert.ok(settings.includes("if (requiresNeuralVoice) audioEngine.startBG(bgMusicType);)"));
+  assert.ok(settings.includes("if (requiresNeuralVoice) audioEngine.startBG(bgMusicType);"));
   assert.ok(settings.includes('restoreBackgroundAfterVoiceTest();'));
   assert.ok(settings.includes('setNeuralVoicePreviewActive(true)'));
   assert.ok(settings.includes('setNeuralVoicePreviewActive(false)'));
