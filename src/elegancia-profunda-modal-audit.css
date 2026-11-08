@@ -100,6 +100,13 @@
   box-shadow: 0 12px 28px rgba(0,0,0,.28) !important;
 }
 
+/* Erros continuam semanticamente vinho/vermelho, mas sem superfície rosa-clara incompatível com o painel profundo. */
+:root[data-layout="elegancia-profunda"] #specific-treatment-modal [role="alert"] {
+  background: rgba(91, 32, 40, .28) !important;
+  border-color: rgba(169, 93, 102, .48) !important;
+  color: #f1d9d8 !important;
+}
+
 /* Relatório/Certificado PRO: remove herança clara apenas na interface.
    A impressão fica fora deste bloco para preservar o documento imprimível. */
 @media screen {
