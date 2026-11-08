@@ -28,7 +28,7 @@ test('o Estilo 2 suspende Solfeggio durante prévias neurais e restaura apenas a
   assert.ok(settings.includes('fallbackToSpeechSynthesis: !requiresNeuralVoice'));
   assert.ok(settings.includes('if (!allowBackgroundPlayback || (requiresNeuralVoice && isTestingVoice)) return;'));
   assert.ok(settings.includes('const isStyle2SolfeggioBlocked = isEleganciaProfunda && isTestingVoice && isSolfeggioFrequency(track.id);'));
-  assert.ok(settings.includes('const isTrackBlockedDuringVoicePreview = (isEssenciaLuminosa && isTestingVoice) || isStyle2SolfeggioBlocked;'));
+  assert.ok(settings.includes('const isTrackBlockedDuringVoicePreview = (isEssenciaLuminosa && isTestingVoice) || isStyle2SolfeggioBlocked || isNaturalSerenoSolfeggioBlocked;'));
   assert.ok(settings.includes('disabled={isTrackBlockedDuringVoicePreview}'));
   assert.ok(settings.includes('if (isTrackBlockedDuringVoicePreview) return;'));
   assert.ok(settings.includes('setNeuralVoicePreviewActive(true)'));
