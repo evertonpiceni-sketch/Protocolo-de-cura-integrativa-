@@ -40,7 +40,7 @@ export const OFFICIAL_LAYOUTS: LayoutDefinition[] = [
     id: 'mistico-moderno',
     name: 'Místico Moderno',
     description: 'Espiritualidade com tecnologia, fundo noturno sofisticado, azul-noturno/índigo, violeta e esmeralda integrados, dourado/âmbar como acentos e marfim para leitura.',
-    swatches: ['#0A2742', '#2E3B73', '#1E6B5A', '#6C3FA0', '#D4AF37', '#E2B96B', '#F4F1EB', '#6F8F55'],
+    swatches: ['#0A2742', '#6C3FA0', '#D4AF37', '#141F30'],
     tone: 'dark'
   }
 ];
