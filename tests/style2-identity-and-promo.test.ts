@@ -3,6 +3,13 @@ import fs from 'node:fs';
 import test from 'node:test';
 
 const read = (path: string) => fs.readFileSync(path, 'utf8');
+const ruleBody = (source: string, selector: string) => {
+  const start = source.indexOf(selector);
+  if (start < 0) return '';
+  const open = source.indexOf('{', start);
+  const close = source.indexOf('}', open + 1);
+  return open >= 0 && close >= 0 ? source.slice(open + 1, close) : '';
+};
 
 test('o seletor exige escolha explícita antes de aplicar qualquer estilo', () => {
   const app = read('src/App.tsx');
@@ -20,8 +27,8 @@ test('o seletor exige escolha explícita antes de aplicar qualquer estilo', () =
 
 test('a assinatura oficial permanece em 30% e sem fundo, moldura ou sombra no Estilo 2', () => {
   const css = read('src/elegancia-profunda-approved-overrides.css');
-  const logoRule = css.match(/:root\[data-layout="elegancia-profunda"\] \.ep-brand-signature,[\s\S]*?\{([^}]+)\}/)?.[1] ?? '';
-  const wrapperRule = css.match(/:root\[data-layout="elegancia-profunda"\] \.ep-brand-signature-wrap\s*\{([^}]+)\}/)?.[1] ?? '';
+  const logoRule = ruleBody(css, ':root[data-layout="elegancia-profunda"] .ep-brand-signature,');
+  const wrapperRule = ruleBody(css, ':root[data-layout="elegancia-profunda"] .ep-brand-signature-wrap');
 
   assert.ok(logoRule.includes('opacity:.30 !important;'));
   assert.ok(wrapperRule.includes('background:transparent!important;'));
@@ -36,13 +43,13 @@ test('o CTA estrutural do vídeo usa ouro e o estado mudo não herda rosa no Est
   assert.ok(component.includes('bg-emerald-600 hover:bg-emerald-500 text-white'));
   assert.ok(component.includes('bg-rose-500/10 border-rose-500/30 text-rose-400'));
 
-  const goldCtaRule = css.match(/:root\[data-layout="elegancia-profunda"\] #promo-video-modal button\[class\*="bg-emerald-600"\]\s*\{([^}]+)\}/)?.[1] ?? '';
+  const goldCtaRule = ruleBody(css, ':root[data-layout="elegancia-profunda"] #promo-video-modal button[class*="bg-emerald-600"]');
   assert.ok(goldCtaRule.includes('linear-gradient'));
   assert.ok(goldCtaRule.includes('var(--layout-gold)'));
   assert.ok(!/emerald|rose/i.test(goldCtaRule));
   assert.ok(css.includes('button[class*="bg-emerald-600"]:hover'));
 
-  const mutedRule = css.match(/:root\[data-layout="elegancia-profunda"\] #promo-video-modal button\[class\*="bg-rose-500"\]\s*\{([^}]+)\}/)?.[1] ?? '';
+  const mutedRule = ruleBody(css, ':root[data-layout="elegancia-profunda"] #promo-video-modal button[class*="bg-rose-500"]');
   assert.ok(mutedRule.includes('var(--layout-card)'));
   assert.ok(mutedRule.includes('var(--layout-gold)'));
   assert.ok(!/rose|pink/i.test(mutedRule));
