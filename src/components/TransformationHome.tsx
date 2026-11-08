@@ -66,13 +66,15 @@ export default function TransformationHome(props: TransformationHomeProps) {
   const isEssenciaLuminosa = props.visualLayout === 'essencia-luminosa';
   const isMisticoModerno = props.visualLayout === 'mistico-moderno';
   const requiresNeuralVoice = isNaturalSereno || isEleganciaProfunda || isEssenciaLuminosa || isMisticoModerno;
-  const approvedVoiceId = isEleganciaProfunda || isMisticoModerno
+  const approvedVoiceId = isEleganciaProfunda
     ? (isElevenLabsVoiceId(savedVoiceId) ? savedVoiceId : '')
-    : (isNaturalSereno || isEssenciaLuminosa)
-      ? (isElevenLabsVoiceId(savedVoiceId) ? savedVoiceId : OFFICIAL_PROTOCOL_VOICE_ID)
-      : savedVoiceId && !['Rachel', 'Marcus', 'masculina', 'feminina'].includes(savedVoiceId)
-        ? savedVoiceId
-        : OFFICIAL_PROTOCOL_VOICE_ID;
+    : isMisticoModerno
+      ? (isElevenLabsVoiceId(savedVoiceId) ? savedVoiceId : '')
+      : (isNaturalSereno || isEssenciaLuminosa)
+        ? (isElevenLabsVoiceId(savedVoiceId) ? savedVoiceId : OFFICIAL_PROTOCOL_VOICE_ID)
+        : savedVoiceId && !['Rachel', 'Marcus', 'masculina', 'feminina'].includes(savedVoiceId)
+          ? savedVoiceId
+          : OFFICIAL_PROTOCOL_VOICE_ID;
   // Os quatro estilos com voz neural respeitam os ajustes salvos; Místico Moderno não usa voz substituta.
   const usesSavedVoiceSettings = requiresNeuralVoice;
   const narrationVoiceId = usesSavedVoiceSettings ? approvedVoiceId : 'Marcus';
