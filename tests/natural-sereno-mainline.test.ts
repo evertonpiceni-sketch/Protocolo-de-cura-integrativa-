@@ -78,3 +78,17 @@ test('pagamento mantém apenas produtos atuais e checkout InfinitePay fail-close
   assert.ok(catalog.includes('5990'));
   assert.ok(catalog.includes('9990'));
 });
+
+
+test('a última camada neutraliza botões antigos e o véu verde do player no Natural Sereno', () => {
+  const css = read('src/natural-sereno-approved-overrides.css');
+  assert.ok(css.includes('.ns-app .ns-gold'));
+  assert.ok(css.includes('--ns-modal-forest: #2A2421'));
+  assert.ok(css.includes('--ns-destination-forest: #2A2421'));
+  assert.ok(css.includes('--admin-forest: #2A2421'));
+  assert.ok(css.includes('#meditation-session.ep-session[data-session-phase="playing"] .ep-session-backdrop::before'));
+  assert.ok(css.includes('#meditation-session.ep-session[data-session-phase="playing"] > footer'));
+  assert.ok(css.includes('.ns-play-toggle'));
+  assert.ok(css.includes('.ep-protocol-progress'));
+  assert.ok(!css.includes('rgba(3,26,19'));
+});

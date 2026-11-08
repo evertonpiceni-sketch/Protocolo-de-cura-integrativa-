@@ -19,6 +19,13 @@
 - Adicionados testes de regressão para plano diferente, repetição do mesmo plano e registro legado.
 - Mantidos lock Redis distribuído, persistência do payload original, recuperação idempotente e `single_payment: true`.
 
+### Heranças visuais finais identificadas e neutralizadas
+- A varredura da cascata ativa encontrou o gradiente amarelo antigo do CTA de acolhimento/Editorial, o texto verde do CTA editorial e o véu verde-floresta do pseudo-elemento do player.
+- A regra antiga do rodapé do player tinha especificidade maior que a correção genérica de footer; foi substituída por uma regra final escopada ao Natural Sereno.
+- Variáveis locais antigas de modal, cursos, Numerologia e Administração foram normalizadas para café/marrom, creme/marfim e dourado refinado; sálvia permanece apenas em pequenos sinais naturais.
+- O botão principal do player e a barra de progresso receberam acabamento dourado refinado, sem alterar a lógica de áudio.
+- Teste de regressão cobre CTA, variáveis e player.
+
 ## Preservado
 
 - Prancha oficial do Natural Sereno versionada em `docs/visual-qa/natural-sereno/reference.jpg`, subordinada às decisões posteriores.

@@ -624,3 +624,87 @@
   color: #5E6948 !important;
   border-color: rgba(111,123,85,.24) !important;
 }
+
+
+/* RUN 33 — últimas heranças visuais encontradas na varredura de cascata. */
+/* CTAs gerais da Home e acolhimento: dourado refinado, sem o gradiente amarelo antigo. */
+:root[data-layout="natural-sereno"] .ns-app .ns-gold {
+  border-radius: 18px !important;
+  border: 1px solid rgba(168,126,55,.58) !important;
+  background: linear-gradient(180deg,#E2B96B 0%,#C89D52 55%,#A87E37 100%) !important;
+  color: #2A2421 !important;
+  box-shadow: inset 0 1px rgba(255,255,255,.48),0 8px 18px rgba(67,52,39,.09) !important;
+  text-shadow: none !important;
+}
+:root[data-layout="natural-sereno"] .ns-app .ns-gold :is(span,svg) {
+  color: #2A2421 !important;
+  fill: currentColor !important;
+}
+:root[data-layout="natural-sereno"] .ns-app[data-ns-screen="welcome"] .ns-gold {
+  background: linear-gradient(180deg,#E2B96B 0%,#C89D52 55%,#A87E37 100%) !important;
+  color: #2A2421 !important;
+}
+
+/* Variáveis legadas: café/marrom para texto; sálvia permanece somente em acentos. */
+:root[data-layout="natural-sereno"] {
+  --layout-text-muted: #6B625B;
+  --text-muted: #6B625B;
+  --ns-mobile-ink: #2A2421;
+  --ns-mobile-muted: #6B625B;
+  --ns-mobile-paper: #FAF7F2;
+  --ns-mobile-line: rgba(200,157,82,.28);
+  --ns-mobile-gold: #C89D52;
+  --ns-mobile-forest: #2A2421;
+}
+:root[data-layout="natural-sereno"] #anamnesis-modal {
+  --ns-modal-ink: #2A2421;
+  --ns-modal-muted: #6B625B;
+  --ns-modal-paper: #FAF7F2;
+  --ns-modal-paper-strong: #FFFDF8;
+  --ns-modal-line: rgba(200,157,82,.28);
+  --ns-modal-forest: #2A2421;
+  --ns-modal-gold: #C89D52;
+}
+:root[data-layout="natural-sereno"] :is(#courses-modal,#astral-map-modal,#audio-settings-modal,#settings-view) {
+  --ns-destination-paper: #FAF7F2;
+  --ns-destination-line: rgba(200,157,82,.28);
+  --ns-destination-ink: #2A2421;
+  --ns-destination-forest: #2A2421;
+}
+:root[data-layout="natural-sereno"] #admin-panel-modal {
+  --admin-paper: #FAF7F2;
+  --admin-line: rgba(200,157,82,.28);
+  --admin-ink: #2A2421;
+  --admin-muted: #6B625B;
+  --admin-gold: #C89D52;
+  --admin-forest: #2A2421;
+}
+:root[data-layout="natural-sereno"] #courses-modal .ep-courses-grid > div {
+  box-shadow: 0 3px 12px rgba(67,52,39,.07) !important;
+}
+
+/* Player: fotografia continua visível, mas sem véu verde-floresta herdado. */
+:root[data-layout="natural-sereno"] #meditation-session.ep-session[data-session-phase="playing"] .ep-session-backdrop::before {
+  background: linear-gradient(180deg,rgba(250,247,242,.16),rgba(250,247,242,.38) 36%,rgba(245,239,229,.62) 78%),var(--ns-waterfall) center top / cover no-repeat !important;
+}
+:root[data-layout="natural-sereno"] #meditation-session.ep-session[data-session-phase="playing"] > footer {
+  background: rgba(250,247,242,.94) !important;
+  color: #2A2421 !important;
+  border-top: 1px solid rgba(200,157,82,.28) !important;
+  box-shadow: 0 -8px 24px rgba(67,52,39,.06) !important;
+  backdrop-filter: blur(10px);
+}
+:root[data-layout="natural-sereno"] #meditation-session.ep-session .ns-play-toggle {
+  background: linear-gradient(180deg,#E2B96B 0%,#C89D52 55%,#A87E37 100%) !important;
+  color: #2A2421 !important;
+  border: 1px solid rgba(168,126,55,.58) !important;
+  box-shadow: inset 0 1px rgba(255,255,255,.48),0 8px 18px rgba(67,52,39,.10) !important;
+}
+:root[data-layout="natural-sereno"] #meditation-session.ep-session .ns-play-toggle svg {
+  color: #2A2421 !important;
+  fill: #2A2421 !important;
+}
+:root[data-layout="natural-sereno"] #meditation-session.ep-session .ep-protocol-progress {
+  accent-color: #C89D52 !important;
+  background: linear-gradient(90deg,#C89D52 0%,#A87E37 var(--ep-progress),#E8E0D5 var(--ep-progress),#E8E0D5 100%) !important;
+}
