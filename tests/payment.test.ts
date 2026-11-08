@@ -246,6 +246,7 @@ test('checkout binds account, validates provider confirmation and grants only on
     const recoveredSubscriptionData = await recoveredSubscription.json();
     assert.equal(recoveredSubscriptionData.orderId, retrySubscriptionOrder.id);
     assert.equal(recoveredSubscriptionData.recovered, true);
+    assert.equal(retrySubscriptionOrder.checkoutRecoveryAttempts, 1);
     assert.equal(calls.filter(entry => entry.body.order_nsu === retrySubscriptionOrder.id).length, subscriptionCallsBeforeRecovery + 1);
     assert.equal(db.paymentOrders?.filter(order => order.userId === 'retry-subscription-owner' && order.productType === 'subscription').length, 1);
     const subscriptionCallsAfterRecovery = calls.length;
@@ -253,6 +254,26 @@ test('checkout binds account, validates provider confirmation and grants only on
     assert.equal(repeatedSubscription.status, 200);
     assert.equal((await repeatedSubscription.json()).orderId, retrySubscriptionOrder.id);
     assert.equal(calls.length, subscriptionCallsAfterRecovery, 'a URL já persistida é reutilizada sem criar outro link');
+
+    db.users.push({ id: 'retry-limit-owner', plan: 'free', profile: {} });
+    const retryLimitBody = { productType: 'subscription', planId: 'jornada_7d', paymentMethod: 'pix', couponCode: 'PROMO15' };
+    providerLinkCreated = false;
+    failNextPostProviderSave = true;
+    const firstLimitFailure = await call('payment/create-checkout', retryLimitBody, 'retry-limit-owner');
+    assert.equal(firstLimitFailure.status, 503);
+    const retryLimitOrder = db.paymentOrders?.find(order => order.userId === 'retry-limit-owner' && order.productType === 'subscription');
+    assert.ok(retryLimitOrder);
+    delete retryLimitOrder.checkoutUrl;
+    providerLinkCreated = false;
+    failNextPostProviderSave = true;
+    const failedRecoverySave = await call('payment/create-checkout', retryLimitBody, 'retry-limit-owner');
+    assert.equal(failedRecoverySave.status, 503);
+    assert.equal(retryLimitOrder.checkoutRecoveryAttempts, 1);
+    delete retryLimitOrder.checkoutUrl;
+    const retryLimitCalls = calls.filter(entry => entry.body.order_nsu === retryLimitOrder.id).length;
+    const blockedRepeatedRecovery = await call('payment/create-checkout', retryLimitBody, 'retry-limit-owner');
+    assert.equal(blockedRepeatedRecovery.status, 503);
+    assert.equal(calls.filter(entry => entry.body.order_nsu === retryLimitOrder.id).length, retryLimitCalls, 'não cria novas URLs depois do único replay automático permitido');
 
     db.users.push({ id: 'retry-treatment-owner', plan: 'free', profile: {} });
     const retryTreatmentBody = {
@@ -275,6 +296,7 @@ test('checkout binds account, validates provider confirmation and grants only on
     const recoveredTreatmentData = await recoveredTreatment.json();
     assert.equal(recoveredTreatmentData.orderId, retryTreatmentOrder.id);
     assert.equal(recoveredTreatmentData.recovered, true);
+    assert.equal(retryTreatmentOrder.checkoutRecoveryAttempts, 1);
     assert.equal(calls.filter(entry => entry.body.order_nsu === retryTreatmentOrder.id).length, treatmentCallsBeforeRecovery + 1);
     assert.equal(db.paymentOrders?.filter(order => order.userId === 'retry-treatment-owner' && order.productType === 'specific_treatment').length, 1);
 
