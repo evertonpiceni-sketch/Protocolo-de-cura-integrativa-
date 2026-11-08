@@ -68,11 +68,12 @@ export default function AudioSettingsModal({
   const isNaturalSereno = typeof document !== 'undefined' && document.documentElement.dataset.layout === 'natural-sereno';
   const isEleganciaProfunda = typeof document !== 'undefined' && document.documentElement.dataset.layout === 'elegancia-profunda';
   const isEssenciaLuminosa = typeof document !== 'undefined' && document.documentElement.dataset.layout === 'essencia-luminosa';
-  const requiresNeuralVoice = isNaturalSereno || isEleganciaProfunda || isEssenciaLuminosa;
+  const isMisticoModerno = typeof document !== 'undefined' && document.documentElement.dataset.layout === 'mistico-moderno';
+  const requiresNeuralVoice = isNaturalSereno || isEleganciaProfunda || isEssenciaLuminosa || isMisticoModerno;
   const savedVoiceId = userProfile.voiceId?.trim() || '';
   const initialVoiceId = (isNaturalSereno || isEssenciaLuminosa) && !isElevenLabsVoiceId(savedVoiceId)
     ? OFFICIAL_PROTOCOL_VOICE_ID
-    : savedVoiceId;
+    : isMisticoModerno && !isElevenLabsVoiceId(savedVoiceId) ? '' : savedVoiceId;
   const [voiceId, setVoiceId] = useState(initialVoiceId);
   const [audioEnabled, setAudioEnabled] = useState(userProfile.audioEnabled !== false);
   const [isTestingVoice, setIsTestingVoice] = useState(false);
@@ -165,7 +166,9 @@ export default function AudioSettingsModal({
 
   const restoreBackgroundAfterVoiceTest = () => {
     if (!allowBackgroundPlayback) return;
-    if (requiresNeuralVoice && audioEnabled && shouldPlayProtocolSessionBackground('playing', bgMusicType)) {
+    if ((isEssenciaLuminosa || isMisticoModerno) && audioEnabled && bgMusicType !== 'none') {
+      audioEngine.startBG(bgMusicType);
+    } else if (requiresNeuralVoice && audioEnabled && shouldPlayProtocolSessionBackground('playing', bgMusicType)) {
       audioEngine.startBG(bgMusicType);
     } else {
       audioEngine.stopBG();
@@ -190,13 +193,14 @@ export default function AudioSettingsModal({
     setIsTestingVoice(true);
     const testPhrase = `Olá, ${userProfile.name}. Esta é uma prévia da voz escolhida para acompanhar suas práticas com calma e presença.`;
 
-    const shouldPlayVoiceBackground = !requiresNeuralVoice
+    const avoidsTonalVoiceOverlap = isEssenciaLuminosa || isMisticoModerno;
+    const shouldPlayVoiceBackground = !avoidsTonalVoiceOverlap
       ? bgMusicType !== 'none'
       : audioEnabled && shouldPlayProtocolSessionBackground('playing', bgMusicType);
     if (allowBackgroundPlayback && shouldPlayVoiceBackground) {
       audioEngine.startBG(bgMusicType);
-    } else if (allowBackgroundPlayback && requiresNeuralVoice) {
-      // Frequências Solfeggio não devem tocar junto com narração neural em nenhum dos três estilos.
+    } else if (allowBackgroundPlayback && avoidsTonalVoiceOverlap) {
+      // Frequências tonais ficam pausadas durante a prévia neural nos Estilos 3 e 4.
       setIsPlayingBioactivePreview(false);
       audioEngine.stopBG();
     }
@@ -649,7 +653,7 @@ export default function AudioSettingsModal({
               >
                 {voiceId && !neuralVoices.some(voice => voice.voice_id === voiceId) && (
                   <option value={voiceId} disabled>
-                    {voiceId === OFFICIAL_PROTOCOL_VOICE_ID ? 'Marianne — Meditação (voz oficial)' : isElevenLabsVoiceId(voiceId) ? 'Voz salva — não listada no catálogo' : 'Seleção anterior do dispositivo — escolha uma voz neural'}
+                    {voiceId === OFFICIAL_PROTOCOL_VOICE_ID ? 'Marianne — Meditação (voz oficial)' : isElevenLabsVoiceId(voiceId) ? 'Voz salva — não listada no catálogo' : voiceId ? 'Seleção anterior do dispositivo — escolha uma voz neural' : 'Escolha uma voz neural do catálogo'}
                   </option>
                 )}
                 <option value="">Selecione uma voz neural</option>
