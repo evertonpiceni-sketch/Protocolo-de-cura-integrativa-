@@ -180,10 +180,13 @@ test('as camadas aprovadas de marcos, guias, contato e diário estão carregadas
   assert.ok(journal.includes('#journal-dashboard-view'));
 });
 
-test('a recuperação do checkout Numerologia não reutiliza cache órfão e libera pedidos sem link após o prazo', () => {
+test('a recuperação do checkout Numerologia repete o mesmo pedido sem criar nova cobrança', () => {
   const routes = read('src/lib/paymentRoutes.ts');
-  assert.ok(routes.includes('NUMEROLOGY_PENDING_CHECKOUT_STALE_MS'));
   assert.ok(routes.includes('candidate.checkoutUrl === saved.checkoutUrl'));
-  assert.ok(routes.includes('isStaleNoLinkOrder'));
-  assert.ok(routes.includes('staleOrder.failedAt = failedAt'));
+  assert.ok(routes.includes('createCheckoutUrl(preparingOrder, quote.title, appUrl())'));
+  assert.ok(routes.includes('reused: true, recovered: true'));
+  assert.ok(routes.includes("productType !== 'numerology_full'"));
+  assert.ok(routes.includes("https://api.checkout.infinitepay.io"));
+  assert.ok(!routes.includes('NUMEROLOGY_PENDING_CHECKOUT_STALE_MS'));
+  assert.ok(!routes.includes('staleOrder.failedAt = failedAt'));
 });
