@@ -355,7 +355,7 @@ export default function AudioSettingsModal({
               { id: '741hz', name: '741Hz', desc: 'Clareza & foco', pro: true },
               { id: 'florestazen', name: 'Floresta Zen', desc: 'Pássaros & Vento', pro: false },
               { id: 'chuvaserena', name: 'Chuva Serena', desc: 'Água Calmante', pro: false },
-              { id: 'waves', name: 'Sinos Zen', desc: 'Tigelas Tibetanas', pro: false },
+              { id: 'waves', name: isEssenciaLuminosa ? 'Ondas do Mar' : 'Sinos Zen', desc: isEssenciaLuminosa ? 'Maré suave e brisa costeira' : 'Tigelas Tibetanas', pro: false },
               { id: 'none', name: 'Sem Trilha', desc: 'Silêncio Absoluto', pro: false }
             ].map(track => {
               const isLocked = track.pro && userProfile.plan !== 'pro';

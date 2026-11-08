@@ -88,3 +88,116 @@
     min-height: 44px;
   }
 }
+
+/* Ajustes de Áudio — acabamento próprio da Elegância Profunda.
+   Mantém os controles e a lógica compartilhados; neutraliza superfícies claras/âmbar
+   somente quando o tema 2 foi confirmado. */
+:root[data-layout="elegancia-profunda"] #audio-settings-modal {
+  background: rgba(3, 12, 9, .90) !important;
+}
+
+:root[data-layout="elegancia-profunda"] #audio-settings-modal > div {
+  background: linear-gradient(155deg, #10271d 0%, #0a1b14 58%, #07140f 100%) !important;
+  border: 1px solid rgba(212, 175, 119, .34) !important;
+  color: var(--layout-text) !important;
+  box-shadow: 0 30px 78px rgba(0, 0, 0, .48), inset 0 1px 0 rgba(255, 255, 255, .035) !important;
+}
+
+:root[data-layout="elegancia-profunda"] #audio-settings-modal > div > .absolute.top-0.right-0 {
+  background: radial-gradient(circle, rgba(212, 175, 119, .14), transparent 70%) !important;
+}
+
+:root[data-layout="elegancia-profunda"] #audio-settings-modal > div > div[class*="border-b"] {
+  border-color: rgba(212, 175, 119, .28) !important;
+}
+
+:root[data-layout="elegancia-profunda"] #audio-settings-modal > div > div[class*="bg-white"],
+:root[data-layout="elegancia-profunda"] #audio-settings-modal #bioactive-tuning-panel {
+  background: linear-gradient(145deg, rgba(19, 42, 31, .96), rgba(8, 24, 17, .98)) !important;
+  border-color: rgba(212, 175, 119, .28) !important;
+  color: var(--layout-text) !important;
+}
+
+:root[data-layout="elegancia-profunda"] #audio-settings-modal [class*="bg-[#FBF8F2]"],
+:root[data-layout="elegancia-profunda"] #audio-settings-modal [class*="bg-[#F5EFE4]"],
+:root[data-layout="elegancia-profunda"] #audio-settings-modal [class*="bg-[#FAF4E8]"],
+:root[data-layout="elegancia-profunda"] #audio-settings-modal [class*="bg-[#FDFBF7]"],
+:root[data-layout="elegancia-profunda"] #audio-settings-modal [class*="bg-[#F7F2E7]"],
+:root[data-layout="elegancia-profunda"] #audio-settings-modal [class*="bg-white/"] {
+  background: linear-gradient(145deg, rgba(16, 41, 30, .94), rgba(8, 24, 17, .98)) !important;
+  border-color: rgba(212, 175, 119, .24) !important;
+  color: var(--layout-text) !important;
+}
+
+:root[data-layout="elegancia-profunda"] #audio-settings-modal [class*="bg-[#EAD5A8]"],
+:root[data-layout="elegancia-profunda"] #audio-settings-modal [class*="bg-[#B88736]/10"] {
+  background-color: rgba(212, 175, 119, .13) !important;
+}
+
+:root[data-layout="elegancia-profunda"] #audio-settings-modal [class*="border-[#E5DAC6]"],
+:root[data-layout="elegancia-profunda"] #audio-settings-modal [class*="border-[#B88736]"] {
+  border-color: rgba(212, 175, 119, .30) !important;
+}
+
+:root[data-layout="elegancia-profunda"] #audio-settings-modal [class*="text-[#2A2420]"] {
+  color: var(--layout-text) !important;
+}
+
+:root[data-layout="elegancia-profunda"] #audio-settings-modal :is(
+  [class*="text-[#5C5248]"],
+  [class*="text-[#85786C]"]
+) {
+  color: var(--layout-text-secondary) !important;
+}
+
+:root[data-layout="elegancia-profunda"] #audio-settings-modal :is(
+  [class*="text-[#B88736]"],
+  [class*="text-[#8F631E]"]
+) {
+  color: #e3c990 !important;
+}
+
+:root[data-layout="elegancia-profunda"] #audio-settings-modal button[class*="bg-[#B88736]/"] {
+  background: linear-gradient(145deg, rgba(212, 175, 55, .20), rgba(16, 41, 30, .98)) !important;
+  border-color: rgba(227, 201, 144, .62) !important;
+  color: var(--layout-text) !important;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, .20) !important;
+}
+
+:root[data-layout="elegancia-profunda"] #audio-settings-modal button[class~="bg-[#B88736]"] {
+  background: linear-gradient(135deg, #e2b96b 0%, #c89d52 56%, #a87e37 100%) !important;
+  border: 1px solid rgba(244, 235, 221, .38) !important;
+  color: #14251c !important;
+  box-shadow: 0 11px 26px rgba(0, 0, 0, .28) !important;
+}
+
+:root[data-layout="elegancia-profunda"] #audio-settings-modal button:not([class*="bg-[#B88736]"]):hover:not(:disabled) {
+  background: linear-gradient(145deg, rgba(28, 58, 44, .96), rgba(12, 31, 22, .98)) !important;
+  border-color: rgba(227, 201, 144, .58) !important;
+  color: var(--layout-text) !important;
+}
+
+:root[data-layout="elegancia-profunda"] #audio-settings-modal :is(select, input:not([type="range"])) {
+  background: #081c17 !important;
+  border-color: rgba(212, 175, 119, .34) !important;
+  color: var(--layout-text) !important;
+}
+
+:root[data-layout="elegancia-profunda"] #audio-settings-modal select option {
+  background: #0b1712 !important;
+  color: #f4f1eb !important;
+}
+
+:root[data-layout="elegancia-profunda"] #audio-settings-modal input[type="range"] {
+  accent-color: #e2b96b !important;
+  background: rgba(212, 175, 119, .18) !important;
+}
+
+:root[data-layout="elegancia-profunda"] #audio-settings-modal :is(h1, h2, h3, h4, label, strong) {
+  color: var(--layout-text) !important;
+}
+
+:root[data-layout="elegancia-profunda"] #audio-settings-modal [role="alert"] {
+  /* Erros continuam semanticamente identificáveis; apenas preserva contraste no painel escuro. */
+  color: #f1d9d8 !important;
+}

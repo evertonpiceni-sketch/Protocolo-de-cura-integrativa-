@@ -36,6 +36,7 @@ test('Ajustes de Áudio do Estilo 3 usam tokens atuais em vez do ouro antigo', (
 test('A seleção de frequências fica bloqueada durante a prévia neural da Essência Luminosa', () => {
   const settings = read('src/components/AudioSettingsModal.tsx');
 
+  assert.ok(settings.includes('const isStyle2SolfeggioBlocked = isEleganciaProfunda && isTestingVoice && isSolfeggioFrequency(track.id);'));
   assert.ok(settings.includes('const isStyle3SolfeggioBlocked = shouldBlockTrackDuringNeuralVoicePreview(isEssenciaLuminosa, isTestingVoice, track.id);'));
   assert.ok(settings.includes('const isNaturalSerenoSolfeggioBlocked = isNaturalSereno && isTestingVoice && isSolfeggioFrequency(track.id);'));
   assert.ok(settings.includes('const isStyle3SolfeggioBlocked = shouldBlockTrackDuringNeuralVoicePreview(isEssenciaLuminosa, isTestingVoice, track.id);'));

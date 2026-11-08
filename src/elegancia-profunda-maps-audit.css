@@ -63,6 +63,11 @@
   color: var(--layout-gold-light) !important;
 }
 
+/* O rótulo de desafios cármicos usa champagne no Estilo 2, não o rosa genérico do JSX compartilhado. */
+:root[data-layout="elegancia-profunda"] #numerology-modal [class*="text-rose-"] {
+  color: var(--layout-gold-light) !important;
+}
+
 :root[data-layout="elegancia-profunda"] :is(#astral-map-modal,#numerology-modal) [class*="text-[#2A2420]"] {
   color: var(--layout-text) !important;
 }

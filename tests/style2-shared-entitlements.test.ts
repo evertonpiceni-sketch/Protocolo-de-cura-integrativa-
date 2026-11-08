@@ -12,12 +12,26 @@ test('Elegância Profunda harmoniza os acentos dos modais de Mapa e Numerologia'
   assert.ok(css.includes(':root[data-layout="elegancia-profunda"]'));
   assert.ok(css.includes('[class*="bg-amber-50"]'));
   assert.ok(css.includes('[class*="text-emerald-"]'));
+  const numerology = read('src/components/NumerologyModal.tsx');
+  assert.ok(numerology.includes('text-rose-700'));
+  assert.ok(css.includes(':root[data-layout="elegancia-profunda"] #numerology-modal [class*="text-rose-"]'));
   assert.ok(css.includes('var(--layout-gold-light)'));
   assert.ok(css.includes('var(--layout-accent)'));
   assert.ok(css.includes('#astral-map-modal a[class~="bg-emerald-700"]'));
   assert.ok(!css.includes('data-layout="essencia-luminosa"'));
   assert.ok(!css.includes('data-layout="natural-sereno"'));
   assert.ok(!css.includes('data-layout="mistico-moderno"'));
+});
+
+test('erros da Prática Individual mantêm semântica de alerta sem superfície rosa-clara no Estilo 2', () => {
+  const css = read('src/elegancia-profunda-modal-audit.css');
+  const component = read('src/components/SpecificTreatmentModal.tsx');
+
+  assert.ok(component.includes('role="alert" className="rounded-xl border border-rose-200 bg-rose-50 px-3 py-2 text-xs text-rose-700"'));
+  assert.ok(css.includes(':root[data-layout="elegancia-profunda"] #specific-treatment-modal [role="alert"]'));
+  assert.ok(css.includes('background: rgba(91, 32, 40, .28) !important;'));
+  assert.ok(css.includes('border-color: rgba(169, 93, 102, .48) !important;'));
+  assert.ok(css.includes('color: #f1d9d8 !important;'));
 });
 
 test('o acesso à Numerologia Completa descreve o benefício confirmado sem preço vazio ou PRO genérico', () => {
