@@ -165,7 +165,7 @@ export default function AudioSettingsModal({
 
   const restoreBackgroundAfterVoiceTest = () => {
     if (!allowBackgroundPlayback) return;
-    if (isEssenciaLuminosa && audioEnabled && bgMusicType !== 'none') {
+    if (requiresNeuralVoice && audioEnabled && shouldPlayProtocolSessionBackground('playing', bgMusicType)) {
       audioEngine.startBG(bgMusicType);
     } else {
       audioEngine.stopBG();
@@ -190,13 +190,13 @@ export default function AudioSettingsModal({
     setIsTestingVoice(true);
     const testPhrase = `Olá, ${userProfile.name}. Esta é uma prévia da voz escolhida para acompanhar suas práticas com calma e presença.`;
 
-    const shouldPlayVoiceBackground = !isEssenciaLuminosa
+    const shouldPlayVoiceBackground = !requiresNeuralVoice
       ? bgMusicType !== 'none'
       : audioEnabled && shouldPlayProtocolSessionBackground('playing', bgMusicType);
     if (allowBackgroundPlayback && shouldPlayVoiceBackground) {
       audioEngine.startBG(bgMusicType);
-    } else if (allowBackgroundPlayback && isEssenciaLuminosa) {
-      // A frequência tonal não deve tocar junto com a narração neural.
+    } else if (allowBackgroundPlayback && requiresNeuralVoice) {
+      // Frequências Solfeggio não devem tocar junto com narração neural em nenhum dos três estilos.
       setIsPlayingBioactivePreview(false);
       audioEngine.stopBG();
     }
