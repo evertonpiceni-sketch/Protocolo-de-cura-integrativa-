@@ -145,7 +145,7 @@
 
 :root[data-layout="essencia-luminosa"]{
   color-scheme:light;
-  /* Não herdar a paisagem do Natural Sereno ou da Reintegração. A cena própria fica suspensa até haver fotografia exclusiva aprovada. */
+  /* Não herdar a paisagem de outros estilos: a cena base fica neutra e a fotografia costeira exclusiva é aplicada pela camada final da Essência Luminosa. */
   --ep-scene:none;
   --ep-scene-overlay:none;
   --layout-canvas:#FFFFF8;
