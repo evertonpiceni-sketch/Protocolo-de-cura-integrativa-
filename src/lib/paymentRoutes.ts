@@ -13,6 +13,7 @@ export type InfinitePayCheckoutPayload = {
 };
 export type PaymentOrder = { id: string; userId: string; productType?: 'subscription' | 'specific_treatment'; planId?: Plan; treatment?: import('../types.js').SpecificTreatment; cents: number; method: string; createdAt: string; paidAt?: string; transaction?: string; checkoutUrl?: string; checkoutPayload?: InfinitePayCheckoutPayload; checkoutRecoveryAttempts?: number; failedAt?: string };
 const API = 'https://api.checkout.infinitepay.io';
+export const PAYMENT_DATABASE_WRITE_LOCK_SCOPE = 'payment:shared-database-write';
 const localPaymentCheckoutLocks = new Set<string>();
 const CHECKOUT_LOCK_TTL_MS = 30_000;
 const CHECKOUT_LOCK_RENEW_INTERVAL_MS = 10_000;
@@ -152,17 +153,33 @@ export function paymentRoutes(authenticate: any, limiter: any, providerFetch: ty
   }
   router.post('/user/upgrade', authenticate, limiter, async (req: any, res) => {
     if (req.body?.planId !== 'teste_vip_7d' || req.body?.couponCode !== 'VIP7' || req.body?.paymentMethod !== 'trial') return res.status(400).json({ error: 'Ativação inválida.' });
-    const user = getDb().users.find(u => u.id === req.userId);
-    if (!user) return res.sendStatus(401);
-    if (user.profile?.trial7dRedeemedAt || user.plan === 'pro') return res.status(409).json({ error: 'A degustação já foi utilizada ou há um acesso ativo.' });
-    const previous = { plan: user.plan, profile: user.profile };
-    const now = new Date();
-    user.plan = 'pro';
-    user.profile = { ...user.profile, plan: 'pro', subscriptionPlan: 'teste_vip_7d',
-      trial7dRedeemedAt: now.toISOString(), proActiveSince: now.toISOString(),
-      subscriptionExpiresAt: new Date(now.getTime() + 7 * 86400000).toISOString() };
-    try { await saveDb(); return res.json({ user: { profile: user.profile } }); }
-    catch { user.plan = previous.plan; user.profile = previous.profile; return res.status(503).json({ error: 'Não foi possível ativar a degustação agora.' }); }
+    let releasePaymentDatabaseLock: CheckoutCreationLock | undefined;
+    let user: any;
+    let previous: { plan: any; profile: any } | undefined;
+    try {
+      releasePaymentDatabaseLock = await acquireCheckoutCreationLock(PAYMENT_DATABASE_WRITE_LOCK_SCOPE);
+      if (!releasePaymentDatabaseLock) return res.status(409).json({ error: 'Há outra atualização de pagamento em andamento. Tente novamente em instantes.' });
+      await releasePaymentDatabaseLock.assertHeld();
+      await refreshDbFromPersistentStorage();
+      await releasePaymentDatabaseLock.assertHeld();
+      user = getDb().users.find(u => u.id === req.userId);
+      if (!user) return res.sendStatus(401);
+      if (user.profile?.trial7dRedeemedAt || user.plan === 'pro') return res.status(409).json({ error: 'A degustação já foi utilizada ou há um acesso ativo.' });
+      previous = { plan: user.plan, profile: user.profile };
+      const now = new Date();
+      user.plan = 'pro';
+      user.profile = { ...user.profile, plan: 'pro', subscriptionPlan: 'teste_vip_7d',
+        trial7dRedeemedAt: now.toISOString(), proActiveSince: now.toISOString(),
+        subscriptionExpiresAt: new Date(now.getTime() + 7 * 86400000).toISOString() };
+      await releasePaymentDatabaseLock.assertHeld();
+      await saveDb();
+      return res.json({ user: { profile: user.profile } });
+    } catch {
+      if (user && previous) { user.plan = previous.plan; user.profile = previous.profile; }
+      return res.status(503).json({ error: 'Não foi possível ativar a degustação agora.' });
+    } finally {
+      if (releasePaymentDatabaseLock) await releasePaymentDatabaseLock.release();
+    }
   });
   router.post('/payment/create-checkout', authenticate, limiter, async (req: any, res) => {
     const { planId, paymentMethod, couponCode, productType } = req.body || {};
@@ -191,7 +208,7 @@ export function paymentRoutes(authenticate: any, limiter: any, providerFetch: ty
 
     try {
       {
-        releaseStandardCheckoutLock = await acquireCheckoutCreationLock(`standard:${req.userId}:${productType}`);
+        releaseStandardCheckoutLock = await acquireCheckoutCreationLock(PAYMENT_DATABASE_WRITE_LOCK_SCOPE);
         if (!releaseStandardCheckoutLock) return res.status(409).json({ error: 'Já existe uma tentativa de checkout em andamento. Aguarde alguns segundos e tente novamente.' });
         await releaseStandardCheckoutLock.assertHeld();
         // Cada instância Vercel pode ter um snapshot local antigo. Recarrega o estado compartilhado
@@ -320,32 +337,50 @@ export function paymentRoutes(authenticate: any, limiter: any, providerFetch: ty
     const { order_nsu, transaction_nsu } = body || {};
     const slug = body?.slug || body?.invoice_slug;
     if (![order_nsu, transaction_nsu, slug].every(v => typeof v === 'string' && v.length > 0 && v.length < 250)) return { status: 400, data: { error: 'Confirmação inválida.' } };
-    const db = getDb();
-    const order = db.paymentOrders?.find(o => o.id === order_nsu && (!userId || o.userId === userId));
-    if (!order) return { status: 404, data: { error: 'Compra não encontrada.' } };
-    const user = db.users.find(u => u.id === order.userId);
-    if (!user) return { status: 404, data: { error: 'Conta não encontrada.' } };
-    const subscriptionPlan = order.planId ? PAYMENT_PLANS[order.planId] : undefined;
-    if (!order.treatment && !subscriptionPlan) return { status: 409, data: { error: 'Compra sem produto ou plano válido.' } };
-    if (!order.paidAt) {
-      const verified = await provider('/payment_check', { handle: order.checkoutPayload?.handle || handle(), order_nsu, transaction_nsu, slug });
-      if (verified.success !== true || verified.paid !== true || verified.amount !== order.cents) return { status: 202, data: { status: 'pending' } };
-      if (order.paidAt) return { status: 200, data: userId ? { status: 'paid', user: { profile: user.profile } } : { success: true } };
-      if (db.paymentOrders?.some(o => o.id !== order.id && o.transaction === transaction_nsu)) return { status: 409, data: { error: 'Transação já utilizada.' } };
-      const previous = { plan: user.plan, profile: user.profile };
-      const now = new Date();
-      order.paidAt = now.toISOString(); order.transaction = transaction_nsu;
-      if (order.treatment) {
-        user.profile = { ...user.profile, specificTreatments: [...(user.profile?.specificTreatments || []), order.treatment] };
-      } else {
-        user.plan = 'pro';
-        user.profile = { ...user.profile, plan: 'pro', subscriptionPlan: order.planId,
-          subscriptionPrice: order.cents / 100, subscriptionPaymentMethod: order.method,
-          proActiveSince: now.toISOString(), subscriptionExpiresAt: new Date(now.getTime() + subscriptionPlan!.days * 86400000).toISOString() };
+
+    const releasePaymentDatabaseLock = await acquireCheckoutCreationLock(PAYMENT_DATABASE_WRITE_LOCK_SCOPE);
+    if (!releasePaymentDatabaseLock) return { status: 409, data: { error: 'Há outra atualização de pagamento em andamento. Tente novamente em instantes.' } };
+
+    try {
+      await releasePaymentDatabaseLock.assertHeld();
+      await refreshDbFromPersistentStorage();
+      await releasePaymentDatabaseLock.assertHeld();
+
+      const db = getDb();
+      const order = db.paymentOrders?.find(o => o.id === order_nsu && (!userId || o.userId === userId));
+      if (!order) return { status: 404, data: { error: 'Compra não encontrada.' } };
+      const user = db.users.find(u => u.id === order.userId);
+      if (!user) return { status: 404, data: { error: 'Conta não encontrada.' } };
+      const subscriptionPlan = order.planId ? PAYMENT_PLANS[order.planId] : undefined;
+      if (!order.treatment && !subscriptionPlan) return { status: 409, data: { error: 'Compra sem produto ou plano válido.' } };
+      if (!order.paidAt) {
+        const verified = await provider('/payment_check', { handle: order.checkoutPayload?.handle || handle(), order_nsu, transaction_nsu, slug });
+        await releasePaymentDatabaseLock.assertHeld();
+        if (verified.success !== true || verified.paid !== true || verified.amount !== order.cents) return { status: 202, data: { status: 'pending' } };
+        if (order.paidAt) return { status: 200, data: userId ? { status: 'paid', user: { profile: user.profile } } : { success: true } };
+        if (db.paymentOrders?.some(o => o.id !== order.id && o.transaction === transaction_nsu)) return { status: 409, data: { error: 'Transação já utilizada.' } };
+        const previous = { plan: user.plan, profile: user.profile };
+        const now = new Date();
+        order.paidAt = now.toISOString(); order.transaction = transaction_nsu;
+        if (order.treatment) {
+          user.profile = { ...user.profile, specificTreatments: [...(user.profile?.specificTreatments || []), order.treatment] };
+        } else {
+          user.plan = 'pro';
+          user.profile = { ...user.profile, plan: 'pro', subscriptionPlan: order.planId,
+            subscriptionPrice: order.cents / 100, subscriptionPaymentMethod: order.method,
+            proActiveSince: now.toISOString(), subscriptionExpiresAt: new Date(now.getTime() + subscriptionPlan!.days * 86400000).toISOString() };
+        }
+        try {
+          await releasePaymentDatabaseLock.assertHeld();
+          await saveDb();
+        } catch (error) {
+          user.plan = previous.plan; user.profile = previous.profile; delete order.paidAt; delete order.transaction; throw error;
+        }
       }
-      try { await saveDb(); } catch (error) { user.plan = previous.plan; user.profile = previous.profile; delete order.paidAt; delete order.transaction; throw error; }
+      return { status: 200, data: userId ? { status: 'paid', user: { profile: user.profile } } : { success: true } };
+    } finally {
+      await releasePaymentDatabaseLock.release();
     }
-    return { status: 200, data: userId ? { status: 'paid', user: { profile: user.profile } } : { success: true } };
   }
   router.post('/payment/confirm', authenticate, limiter, async (req: any, res) => {
     try { const result = await confirm(req.body, req.userId); return res.status(result.status).json(result.data); }
