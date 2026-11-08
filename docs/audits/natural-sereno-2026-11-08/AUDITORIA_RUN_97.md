@@ -15,6 +15,8 @@ A revisão cruzada do CSS encontrou uma regressão real no logo do acolhimento:
 
 Foi criado `tests/natural-sereno-logo-audit.test.ts` para impedir o retorno da opacidade total e confirmar a ordem de importação das camadas.
 
+Também foi encontrada uma divergência no CTA principal do seletor: o JSX ainda aplicava `rounded-full` diretamente, apesar do registro anterior de raio 18px. A correção agora é efetiva no componente: estado neutro e Natural Sereno usam `rounded-[18px]`; Elegância Profunda, Essência Luminosa e Místico Moderno mantêm o formato aprovado. O teste `tests/natural-sereno-selector-audit.test.ts` protege essa separação.
+
 ## Preservado
 
 - Prancha e referência versionada existentes; nenhuma imagem foi substituída ou recriada.
@@ -36,12 +38,9 @@ Foi criado `tests/natural-sereno-logo-audit.test.ts` para impedir o retorno da o
 - Revisados os caminhos de voz neural, Solfeggio, Diário e confirmação de pagamento no código da `main`.
 - A branch anterior RUN 96 não contém commits exclusivos em relação à `main` atual; esta correção parte diretamente da linha principal vigente e não recupera a branch antiga.
 
-**CI GitHub Actions #1876 — execução `42518553276`: aprovada.**
-- `npm audit`: 0 vulnerabilidades.
-- TypeScript: aprovado.
-- Testes: **152/152 aprovados**, incluindo o novo teste do logo no onboarding.
-- Build Vite: aprovado; 2.247 módulos transformados.
-- Entry points Vercel/Express, padrões de segredos, JWT fail-closed, cadastro/admin, smoke tests e endpoints de pagamento fail-closed: aprovados.
+**Validação anterior:** GitHub Actions #1877 / execução `42518771200` aprovou 152/152 testes, TypeScript, npm audit (0 vulnerabilidades), build (2.247 módulos) e gates de segurança.
+
+**Nova validação do head com a correção do CTA:** pendente de execução. Não transfiro o resultado anterior para este commit.
 - Check externo Vercel: continua em falha `build-rate-limit`; preview READY não disponível.
 
 ## Pendente
