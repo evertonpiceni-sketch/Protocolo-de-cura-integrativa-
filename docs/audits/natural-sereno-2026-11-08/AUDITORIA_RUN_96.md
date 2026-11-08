@@ -62,8 +62,8 @@ Os seletores globais encontrados em `natural-sereno-mobile-fixes.css` pertencem 
 
 ## Pendente
 
-1. CI do novo commit/PR ainda precisa terminar; a validação RUN 95 pertence ao HEAD anterior `b456799`, não a esta correção.
-2. Vercel: o status do commit mais recente da linha principal ainda mostra falha `build-rate-limit`; não há preview READY confirmado.
+1. **CI do head atualizado aprovado:** GitHub Actions Security Audit #1842 / execução `42503975548` concluiu com sucesso; `npm audit` encontrou zero vulnerabilidades, TypeScript aprovado, **151/151 testes**, build Vite (2.247 módulos), entrypoints Vercel/Express, verificações de segredos/JWT, autenticação/admin, smoke tests e endpoints de pagamento fail-closed aprovados.
+2. **Vercel:** o status continua em falha `build-rate-limit`; não há preview READY confirmado.
 3. Capturas reais e homologação renderizada página a página em desktop e mobile.
 4. Escuta real da voz escolhida e teste de transições narração/Solfeggio/ambiência.
 5. Revalidar a configuração da API Key InfinitePay e concluir a homologação financeira segura.
