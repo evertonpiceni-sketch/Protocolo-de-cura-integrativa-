@@ -139,12 +139,12 @@ test('Anamnese Natural Sereno mantém CTA de 18px, hover creme e sombra café', 
 
 test('salvamentos compostos usam o mesmo snapshot atualizado de progresso', () => {
   const app = read('src/App.tsx');
-  const profileStart = app.indexOf('const saveProfile = (newProfile: UserProfile, progressOverride: DayProgress[] = progress)');
+  const profileStart = app.indexOf('const saveProfile = (newProfile: UserProfile, progressOverride?: DayProgress[])');
   const progressStart = app.indexOf('const saveProgress', profileStart);
   const profileSaver = profileStart >= 0 && progressStart > profileStart ? app.slice(profileStart, progressStart) : '';
 
   assert.ok(profileSaver.includes('setProgress(progressOverride)'));
-  assert.ok(profileSaver.includes('updateLocalAccountCache(newProfile, progressOverride)'));
+  assert.ok(profileSaver.includes('updateLocalAccountCache(newProfile, nextProgress)'));
   assert.ok(profileSaver.includes('progress: progressOverride'));
 
   const systemicStart = app.indexOf('const handleSaveSystemicAnswer');
