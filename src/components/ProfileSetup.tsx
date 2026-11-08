@@ -66,13 +66,24 @@ export default function ProfileSetup({ onComplete }: ProfileSetupProps) {
     if (!cleanLogin || cleanLogin.length < 3) return setError('O login deve ter pelo menos 3 caracteres.');
     if (!regPassword || regPassword.length < 6) return setError('A senha deve ter pelo menos 6 caracteres.');
 
+    const registrationProfile = {
+      birthDate,
+      birthTime,
+      birthCity: birthCity.trim(),
+      phone: phone.trim(),
+      bgMusicType: musicType,
+      voiceType: voiceChoice,
+      preferredVoiceGender: voiceChoice,
+      coupon: regCoupon.trim()
+    };
+
     let registrationSucceeded = false;
     try {
       setIsSubmitting(true);
       const res = await fetch('/api/auth/register', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ login: cleanLogin, password: regPassword, fullName, email: cleanEmail })
+        body: JSON.stringify({ login: cleanLogin, password: regPassword, fullName, email: cleanEmail, profile: registrationProfile })
       });
       const data = await res.json().catch(() => ({}));
       if (!res.ok) {
@@ -81,17 +92,9 @@ export default function ProfileSetup({ onComplete }: ProfileSetupProps) {
         return;
       }
       
-      const profileData = {
-         ...data.user.profile,
-         birthDate,
-         birthTime,
-         birthCity,
-         phone,
-         bgMusicType: musicType,
-         voiceType: voiceChoice,
-         preferredVoiceGender: voiceChoice,
-         coupon: regCoupon
-      };
+      // Birth details and initial preferences were saved by the same locked
+      // registration transaction; there is no second-request persistence gap.
+      const profileData = { ...data.user.profile, ...registrationProfile };
       
       const newAccount = {
         login: data.user.login,
@@ -102,32 +105,7 @@ export default function ProfileSetup({ onComplete }: ProfileSetupProps) {
         specificTreatments: []
       } as any;
       
-      // The account already exists at this point. A transient profile-sync
-      // failure must not force the user to register again with the same login.
-      let profileSynced = false;
-      for (let attempt = 1; attempt <= 3 && !profileSynced; attempt += 1) {
-        try {
-          const syncResponse = await fetch('/api/user/sync', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ profile: profileData, progress: data.user.progress })
-          });
-          profileSynced = syncResponse.ok;
-        } catch (syncError) {
-          console.warn(`Profile sync attempt ${attempt} failed after registration`, syncError);
-        }
-
-        if (!profileSynced && attempt < 3) {
-          await new Promise(resolve => window.setTimeout(resolve, 300 * attempt));
-        }
-      }
-
-      if (profileSynced) {
-        setSuccessMsg('Conta criada com sucesso! Iniciando seu portal...');
-      } else {
-        console.warn('Account created, but profile sync is temporarily unavailable.');
-        setSuccessMsg('Conta criada com sucesso. Alguns dados do perfil ainda serão sincronizados.');
-      }
+      setSuccessMsg('Conta criada com sucesso! Iniciando seu portal...');
       registrationSucceeded = true;
       setTimeout(() => { onComplete(newAccount); setIsSubmitting(false); }, 1500);
       return;
