@@ -96,7 +96,7 @@ export default function SystemicQuestionsModal({
       if (userProfile?.audioEnabled && userProfile?.bgMusicType && userProfile?.bgMusicType !== 'none' && userProfile?.bgMusicType !== '639hz') {
         audioEngine.startBG(userProfile.bgMusicType);
       }
-    } else if (isMisticoModerno && userProfile?.audioEnabled && userProfile?.bgMusicType && userProfile.bgMusicType !== 'none' && !/^\\d+hz$/i.test(userProfile.bgMusicType)) {
+    } else if (isMisticoModerno && userProfile?.audioEnabled && userProfile?.bgMusicType && userProfile.bgMusicType !== 'none' && !/^\d+hz$/i.test(userProfile.bgMusicType)) {
       audioEngine.startBG(userProfile.bgMusicType);
     }
     onClose();
