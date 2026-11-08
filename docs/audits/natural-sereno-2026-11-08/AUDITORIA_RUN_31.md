@@ -49,11 +49,11 @@
 - A variável antiga `UPSTASH_DB_KEY` de um preview legado continua sinalizada como `readable-secret`. Seu valor não foi lido nem alterado; exige revisão/rotação controlada separada.
 
 ## Pendente
-1. **Atualização segura da branch:** a comparação com `main` mostrou divergência: a PR está 7 commits atrás e 40 à frente do merge-base (`c6eb1bba`). Os 7 commits novos de `main` incluem decisões aprovadas de Estilo 2 (CTA neutro antes da escolha) e Estilo 3 (acessos avulsos de 7/21 dias por R$ 25/R$ 50, novo tipo `jornada_21d` e pré-seleção do plano no checkout). Há sobreposição em `App.tsx`, `LayoutChoiceModal.tsx` e testes de pagamento. A PR está marcada `mergeable: false`; **não mesclar nem forçar atualização** até reaplicar as correções do Natural Sereno sobre a `main` atual e revalidar os arquivos compartilhados.
+1. **Atualização segura da branch:** a comparação com `main` mostrou divergência: a PR está 13 commits atrás de `main` e divergente do merge-base (`c6eb1bba`). Os 13 commits novos de `main` incluem decisões aprovadas de Estilo 2 (CTA neutro antes da escolha) e Estilo 3 (acessos avulsos de 7/21 dias por R$ 25/R$ 50, novo tipo `jornada_21d` e pré-seleção do plano no checkout). A `main` também retirou o checkout avulso de Numerologia de R$ 90,00: `NumerologyModal` agora libera o mapa completo somente quando `numerologyPurchased` está confirmado, e `paymentRoutes` não aceita `numerology_full`. A branch #64 ainda contém esse fluxo antigo; ele deve ser descartado durante a atualização, nunca reintroduzido. Há sobreposição em `App.tsx`, `LayoutChoiceModal.tsx`, `paymentRoutes.ts` e testes compartilhados. A PR está marcada `mergeable: false`; **não mesclar nem forçar atualização** até reaplicar as correções do Natural Sereno sobre a `main` atual e revalidar os arquivos compartilhados.
 2. CI completo no head atualizado, incluindo TypeScript, suíte de testes, build e `npm audit`.
 3. Capturas reais página a página em desktop e mobile e conferência da prancha no navegador.
 4. Escuta real da voz selecionada e da transição entre narração, Solfeggio e ambiência.
-5. Cadastrar a API Key oficial da InfinitePay no ambiente correto e homologar retorno/webhook; até lá, o checkout continua bloqueado por segurança.
+5. Cadastrar a API Key oficial da InfinitePay no ambiente correto e homologar retorno/webhook dos produtos ainda aprovados; o checkout de Numerologia avulsa de R$ 90,00 permanece descartado conforme a `main` atual.
 6. Revisar a variável de preview legada sinalizada pela Vercel, sem expor seu valor.
 7. Nova revisão dos dois threads P2 do PR #64 após CI atualizado.
 
