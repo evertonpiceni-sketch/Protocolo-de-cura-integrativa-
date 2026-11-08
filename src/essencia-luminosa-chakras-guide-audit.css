@@ -47,9 +47,13 @@ html[data-layout="essencia-luminosa"] #chakras-guide-modal section article:nth-c
 html[data-layout="essencia-luminosa"] #chakras-guide-modal section article:nth-child(2) > span {
   color: color-mix(in srgb, var(--layout-accent) 72%, var(--layout-text));
 }
+/* O estado de desequilíbrio é informativo, não uma cor estrutural rosa. */
 html[data-layout="essencia-luminosa"] #chakras-guide-modal section article:nth-child(3) {
-  background: color-mix(in srgb, #FBF4F0 78%, var(--layout-card));
-  border-color: #EADBD5;
+  background: color-mix(in srgb, var(--layout-canvas-alt) 76%, var(--layout-card));
+  border-color: var(--layout-border-card);
+}
+html[data-layout="essencia-luminosa"] #chakras-guide-modal section article:nth-child(3) > span {
+  color: var(--layout-gold-dark);
 }
 html[data-layout="essencia-luminosa"] #chakras-guide-modal section article:nth-child(4) {
   background: color-mix(in srgb, var(--layout-gold-soft) 42%, var(--layout-card));
