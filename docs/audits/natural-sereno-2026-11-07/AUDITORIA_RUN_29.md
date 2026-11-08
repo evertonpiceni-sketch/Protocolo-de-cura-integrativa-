@@ -42,11 +42,20 @@ Por isso, a aplicação faz apenas um replay idêntico e, depois dele, exige con
 Referência: https://ajuda.infinitepay.io/pt-BR/articles/10766888-como-usar-o-checkout-integrado-da-infinitepay
 
 ## Validação e pendências
-- O CI anterior do código de lock (Security Audit #1601) aprovou 122/122 testes e `npm audit` sem vulnerabilidades.
-- O CI da branch rebased está em execução após os novos testes de falha de persistência; não declarar homologação até o job completo ficar verde.
+
+GitHub Actions — **Security Audit #1622**, execução `42439181713`, head `6bfd10a38b0d8f547dd201b7d3d561fbdf77916a`:
+- `npm audit`: **0 vulnerabilidades**.
+- TypeScript: aprovado.
+- Testes: **123/123 aprovados**, incluindo lock renovável, recuperação pós-falha de persistência, assinatura, prática específica e bloqueio após o único replay automático.
+- Build: aprovado.
+- Entry points Vercel, verificações de segredos/JWT/autenticação, smoke tests e endpoints de pagamento fail-closed: aprovados.
+- Job completo: sucesso.
+
+Pendências externas:
 - A Vercel recusou nova prévia por `api-deployments-free-per-day` (mais de 100 deployments; retry após 24h).
 - `INFINITEPAY_API_KEY` continua ausente nos metadados do projeto Vercel; o checkout permanece fail-closed.
 - Sem prévia, ainda faltam capturas reais de todas as páginas desktop/mobile e escuta da voz/ambiência no navegador.
+- A revisão automática solicitada para o head final ainda não retornou; o P2 anterior foi corrigido e seu thread está resolvido.
 - Não houve checkout real, cobrança, estorno, merge ou deploy de produção.
 
-**Status:** correções de código e regressões preparadas no PR #64. A homologação visual/auditiva e financeira permanece pendente.
+**Status:** código e regressões aprovados pelo CI no PR #64. A homologação visual/auditiva e financeira permanece pendente.
