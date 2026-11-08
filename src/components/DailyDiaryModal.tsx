@@ -5,7 +5,7 @@ import { useDialogFocus } from '../hooks/useDialogFocus';
  */
 
 import React, { useState } from 'react';
-import { motion, AnimatePresence } from 'motion/react';
+import { motion, AnimatePresence, useReducedMotion } from 'motion/react';
 import {
   BookOpen, Calendar, Smile, Heart, Sparkles, Download, ArrowLeft,
   X, Check, CheckCircle2, ChevronRight, ChevronLeft, Activity, GitBranch, Edit3, Target
@@ -38,6 +38,9 @@ export default function DailyDiaryModal({
 }: DailyDiaryModalProps) {
   const saveEntryHandler = onSaveEntry || onUpdateDayJournal || (() => {});
   const saveExpectationsHandler = onSaveExpectations || onUpdateTreatmentExpectations || (() => {});
+  const isMisticoModerno = typeof document !== 'undefined' && document.documentElement.dataset.layout === 'mistico-moderno';
+  const prefersReducedMotion = useReducedMotion();
+  const shouldReduceMotion = isMisticoModerno && Boolean(prefersReducedMotion);
   const [activeDay, setActiveDay] = useState<number>(Math.min(Math.max(currentDay || 1, 1), 21));
   const [editingDayText, setEditingDayText] = useState<string>('');
   const [editingMood, setEditingMood] = useState<number>(5);
@@ -162,9 +165,10 @@ export default function DailyDiaryModal({
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4 bg-[#2A2420]/30 backdrop-blur-md overflow-y-auto overscroll-contain" ref={dialogRef} id="daily-diary-modal" role="dialog" aria-modal="true" aria-label="Diário de Reconexão">
       <motion.div
-        initial={{ opacity: 0, scale: 0.95, y: 15 }}
+        initial={shouldReduceMotion ? false : { opacity: 0, scale: 0.95, y: 15 }}
         animate={{ opacity: 1, scale: 1, y: 0 }}
-        exit={{ opacity: 0, scale: 0.95 }}
+        exit={shouldReduceMotion ? undefined : { opacity: 0, scale: 0.95 }}
+        transition={shouldReduceMotion ? { duration: 0 } : { duration: 0.24 }}
         className="w-full max-w-4xl bg-[#FBF8F2] border border-[#B88736]/30 rounded-2xl sm:rounded-3xl p-4 sm:p-7 shadow-2xl relative overflow-hidden my-1 sm:my-4 max-h-[calc(100dvh-1rem)] sm:max-h-[92dvh] flex flex-col"
       >
         {/* Glow Effects */}

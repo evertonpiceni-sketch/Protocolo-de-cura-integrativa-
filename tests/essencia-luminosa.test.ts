@@ -7,7 +7,7 @@ test('Estilo 3 usa a prancha oficial no card de prévia do seletor', () => {
   const modal = fs.readFileSync('src/components/LayoutChoiceModal.tsx', 'utf8');
   const boardPath = 'public/brand/essencia-luminosa/prancha-oficial.webp';
   assert.ok(modal.includes('src="/brand/essencia-luminosa/prancha-oficial.webp"'));
-  assert.ok(modal.includes('A prévia do Estilo 3 usa a prancha oficial'));
+  assert.ok(modal.includes('As prévias dos Estilos 3 e 4 usam suas pranchas oficiais'));
   assert.ok(!modal.includes('A prévia do Estilo 2 usa a prancha oficial'));
   assert.ok(fs.existsSync(boardPath));
   assert.ok(fs.statSync(boardPath).size > 10000, 'a prévia deve conter a prancha visual, não um placeholder vazio');
@@ -32,7 +32,7 @@ test('a escolha dos quatro estilos continua explícita antes da aplicação', ()
 
 test('a Home da Essência Luminosa respeita a voz neural salva e não cai em Web Speech', () => {
   const home = fs.readFileSync('src/components/TransformationHome.tsx', 'utf8');
-  assert.ok(home.includes('const requiresNeuralVoice = isNaturalSereno || isEleganciaProfunda || isEssenciaLuminosa;'));
+  assert.ok(home.includes('const requiresNeuralVoice = isNaturalSereno || isEleganciaProfunda || isEssenciaLuminosa || isMisticoModerno;'));
   assert.ok(home.includes('isElevenLabsVoiceId(savedVoiceId) ? savedVoiceId : OFFICIAL_PROTOCOL_VOICE_ID'));
   assert.ok(home.includes('const narrationVoiceId = usesSavedVoiceSettings'));
   assert.ok(home.includes('fallbackToSpeechSynthesis: !requiresNeuralVoice'));
@@ -69,8 +69,8 @@ test('o protocolo não reinicia Solfeggio como trilha de fundo', () => {
 test('o player usa ouro suave e sálvia nas animações da Essência Luminosa', () => {
   const session = fs.readFileSync('src/components/MeditationSession.tsx', 'utf8');
   const canvas = fs.readFileSync('src/components/session/SacredEnergyCanvas.tsx', 'utf8');
-  assert.ok(session.includes("colorTheme={isEleganciaProfunda ? ELEGANCIA_PROFUNDA_CANVAS_THEME : isEssenciaLuminosa ? ESSENCIA_LUMINOSA_CANVAS_THEME : undefined}"));
-  assert.ok(session.includes("'essencia-luminosa'].includes(activeLayout || '')"));
+  assert.ok(session.includes("colorTheme={isEleganciaProfunda ? ELEGANCIA_PROFUNDA_CANVAS_THEME : isEssenciaLuminosa ? ESSENCIA_LUMINOSA_CANVAS_THEME : isMisticoModerno ? MISTICO_MODERNO_CANVAS_THEME : undefined}"));
+  assert.ok(session.includes("'essencia-luminosa', 'mistico-moderno'].includes(activeLayout || '')"));
   assert.ok(canvas.includes('const palette = colorTheme ?'));
   assert.ok(canvas.includes('rgba(198, 164, 106'));
   assert.ok(canvas.includes('rgba(166, 180, 155'));
@@ -99,10 +99,10 @@ test('os Ajustes de Áudio do Estilo 3 oferecem vozes neurais e preservam Marian
   const settings = fs.readFileSync('src/components/AudioSettingsModal.tsx', 'utf8');
   const app = fs.readFileSync('src/App.tsx', 'utf8');
   assert.ok(settings.includes("const isEssenciaLuminosa = typeof document !== 'undefined' && document.documentElement.dataset.layout === 'essencia-luminosa';"));
-  assert.ok(settings.includes('const requiresNeuralVoice = isNaturalSereno || isEleganciaProfunda || isEssenciaLuminosa;'));
+  assert.ok(settings.includes('const requiresNeuralVoice = isNaturalSereno || isEleganciaProfunda || isEssenciaLuminosa || isMisticoModerno;'));
   assert.ok(settings.includes('const initialVoiceId = (isNaturalSereno || isEssenciaLuminosa) && !isElevenLabsVoiceId(savedVoiceId)'));
   assert.ok(settings.includes('fallbackToSpeechSynthesis: !requiresNeuralVoice'));
-  assert.ok(app.includes('const usesNeuralVoiceCatalog = isNaturalSereno || isEleganciaProfunda || isEssenciaLuminosa;'));
+  assert.ok(app.includes('const usesNeuralVoiceCatalog = isNaturalSereno || isEleganciaProfunda || isEssenciaLuminosa || isMisticoModerno;'));
   assert.ok(app.includes('!usesNeuralVoiceCatalog'));
 });
 
@@ -426,7 +426,7 @@ test('todos os fluxos de voz da Essência Luminosa preservam a voz neural e falh
   assert.ok(anamnesis.includes('isEleganciaProfunda || isEssenciaLuminosa'));
   assert.ok(anamnesis.includes('isEssenciaLuminosa ? OFFICIAL_PROTOCOL_VOICE_ID'));
   assert.ok(anamnesis.includes('fallbackToSpeechSynthesis: false'));
-  assert.ok(anamnesis.includes('!isEleganciaProfunda && !isEssenciaLuminosa ? ('));
+  assert.ok(anamnesis.includes('!isEleganciaProfunda && !isEssenciaLuminosa && !isMisticoModerno ? ('));
 
   assert.ok(systemic.includes('isEleganciaProfunda || isEssenciaLuminosa'));
   assert.ok(systemic.includes('voiceId: neuralVoiceId'));
@@ -564,7 +564,7 @@ test('a prévia de voz da Essência Luminosa não toca Solfeggio durante a narra
   assert.ok(app.includes('layoutConfirmedThisSession,\n    isPlayingVoiceTest\n  ]);'));
   assert.ok(app.includes('layoutConfirmedThisSession, isPlayingVoiceTest]);'));
 
-  assert.ok(settings.includes('const shouldPlayVoiceBackground = !isEssenciaLuminosa'));
+  assert.ok(settings.includes('const avoidsTonalVoiceOverlap = isEssenciaLuminosa || isMisticoModerno'));
   assert.ok(settings.includes("audioEnabled && shouldPlayProtocolSessionBackground('playing', bgMusicType)"));
   assert.ok(settings.includes('else if (allowBackgroundPlayback && isEssenciaLuminosa)'));
   assert.ok(settings.includes('setIsPlayingBioactivePreview(false)'));
