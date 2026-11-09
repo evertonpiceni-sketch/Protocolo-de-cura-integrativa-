@@ -47,5 +47,5 @@ Arquivos alterados:
 ## Estado da entrega
 
 - PR #79 aberta e em rascunho.
-- Branch: **108 commits à frente e 9 atrás** de `main`; `mergeable=false`.
+- Branch: **115 commits à frente e 9 atrás** de `main`; `mergeable=false`.
 - Sem merge, publicação em produção ou cobrança real.
