@@ -91,8 +91,14 @@ export default function ArcanjoProtocolView({ userProfile, onClose, onLogout, in
   const [isPlaying, setIsPlaying] = useState(false);
   const [isPreparingAudio, setIsPreparingAudio] = useState(false);
   const [voiceError, setVoiceError] = useState(false);
+  const isNaturalSereno = typeof document !== 'undefined' && document.documentElement.dataset.layout === 'natural-sereno';
   const isEleganciaProfunda = typeof document !== 'undefined' && document.documentElement.dataset.layout === 'elegancia-profunda';
   const isEssenciaLuminosa = typeof document !== 'undefined' && document.documentElement.dataset.layout === 'essencia-luminosa';
+  const requiresNeuralVoice = isNaturalSereno || isEleganciaProfunda || isEssenciaLuminosa;
+  const savedVoiceId = userProfile.voiceId?.trim() || '';
+  const effectiveVoiceId = (isNaturalSereno || isEssenciaLuminosa) && !isElevenLabsVoiceId(savedVoiceId)
+    ? OFFICIAL_PROTOCOL_VOICE_ID
+    : savedVoiceId || (userProfile.preferredVoiceGender === 'feminina' ? 'Rachel' : 'Marcus');
   const [hasStarted, setHasStarted] = useState(false);
   const [elapsed, setElapsed] = useState(0);
   const [duration, setDuration] = useState(0);
@@ -162,7 +168,7 @@ export default function ArcanjoProtocolView({ userProfile, onClose, onLogout, in
   };
 
   const startNativeFallback = (runId: number) => {
-    if (isEleganciaProfunda || isEssenciaLuminosa) {
+    if (requiresNeuralVoice) {
       audioEngine.stopSynth();
       setIsPreparingAudio(false);
       setIsPlaying(false);
@@ -207,13 +213,12 @@ export default function ArcanjoProtocolView({ userProfile, onClose, onLogout, in
 
   const start = () => {
     resetPlayback();
-    if (isEleganciaProfunda && !isElevenLabsVoiceId(userProfile.voiceId)) {
+    if (requiresNeuralVoice && !isElevenLabsVoiceId(effectiveVoiceId)) {
       setVoiceError(true);
       return;
     }
     setVoiceError(false);
     audioEngine.unlock();
-    audioEngine.startSynth(`${config.freq}hz`);
     setIsPreparingAudio(true);
     setHasStarted(true);
     const runId = narrationRunRef.current;
@@ -222,14 +227,10 @@ export default function ArcanjoProtocolView({ userProfile, onClose, onLogout, in
     void audioEngine.playGuidedMeditation(parts, {
       title: `Dia ${config.dia} — São Miguel, Chama Violeta e São Rafael`,
       subtitle: `${config.nome} • ${config.freq} Hz`,
-      voiceId: isEleganciaProfunda
-        ? userProfile.voiceId
-        : isEssenciaLuminosa
-          ? (isElevenLabsVoiceId(userProfile.voiceId) ? userProfile.voiceId : OFFICIAL_PROTOCOL_VOICE_ID)
-          : userProfile.voiceId || (userProfile.preferredVoiceGender === 'feminina' ? 'Rachel' : 'Marcus'),
+      voiceId: effectiveVoiceId,
       volume: userProfile.voiceVolume ?? 0.9,
       userName: userProfile.name,
-      requireExplicitVoiceId: isEleganciaProfunda || isEssenciaLuminosa,
+      requireExplicitVoiceId: requiresNeuralVoice,
       onStart: () => {
         if (runId !== narrationRunRef.current) return;
         audioEngine.startSynth(`${config.freq}hz`);
@@ -252,7 +253,7 @@ export default function ArcanjoProtocolView({ userProfile, onClose, onLogout, in
       onError: () => {
         if (runId !== narrationRunRef.current) return;
         audioEngine.stopSpeech();
-        if (isEleganciaProfunda || isEssenciaLuminosa) {
+        if (requiresNeuralVoice) {
           audioEngine.stopSynth();
           setIsPreparingAudio(false);
           setIsPlaying(false);
@@ -267,7 +268,7 @@ export default function ArcanjoProtocolView({ userProfile, onClose, onLogout, in
 
   const togglePlayback = () => {
     if (isPreparingAudio) return;
-    if (isEleganciaProfunda && !isElevenLabsVoiceId(userProfile.voiceId)) {
+    if (requiresNeuralVoice && !isElevenLabsVoiceId(effectiveVoiceId)) {
       setVoiceError(true);
       return;
     }
@@ -281,9 +282,9 @@ export default function ArcanjoProtocolView({ userProfile, onClose, onLogout, in
       setIsPlaying(false);
       return;
     }
+    // The narration's onStart callback fires from the audio element's actual onplay event.
+    // It also restarts Solfeggio after a pause; never start the frequency optimistically here.
     audioEngine.resumeSpeech();
-    audioEngine.startSynth(`${config.freq}hz`);
-    setIsPlaying(true);
   };
 
   const selectDay = (day: number) => {

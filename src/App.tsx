@@ -23,6 +23,9 @@ import { APPROVED_LOGO_DATA_URI } from './components/ApprovedBrand';
 
 import { calculateAstralMap } from './utils/astrology';
 import { audioEngine, OFFICIAL_PROTOCOL_VOICE_ID } from './lib/audio';
+import { CURRENT_LOGIN_STORAGE_KEY, clearCurrentAccountLogin, getCurrentAccountLogin, setCurrentAccountLogin } from './lib/authSession';
+import { syncUserState } from './lib/userSync';
+import { clearPendingProfileSync, readPendingProfileSync } from './lib/pendingProfileSync';
 import { shouldPlayProtocolSessionBackground } from './lib/protocolSessionAudioPolicy';
 import { setNeuralVoicePreviewActive } from './lib/neuralVoicePreviewState';
 import { isElevenLabsVoiceId, type ElevenLabsVoiceOption } from './lib/voiceSelection';
@@ -55,7 +58,7 @@ const ArchangelMichaelPrayerModal = React.lazy(() => import('./components/Archan
 const VideoStudioModal = React.lazy(() => import('./components/VideoStudioLightModal'));
 const OnboardingFlow = React.lazy(() => import('./components/OnboardingFlow'));
 
-const LOCAL_STORAGE_KEY_CURRENT_LOGIN = 'cura_integrada_logged_in_user_v1';
+const LOCAL_STORAGE_KEY_CURRENT_LOGIN = CURRENT_LOGIN_STORAGE_KEY;
 const LOCAL_STORAGE_KEY_ACCOUNTS = 'cura_integrada_accounts_v1';
 
 
@@ -120,6 +123,7 @@ export default function App() {
   const [isLoadingElevenLabsVoices, setIsLoadingElevenLabsVoices] = useState(false);
   const [isPlayingVoiceTest, setIsPlayingVoiceTest] = useState<boolean>(false);
   const [voicePreviewError, setVoicePreviewError] = useState(false);
+  const pendingProfileSyncInFlight = useRef<string | null>(null);
   const isNaturalSereno = layoutConfirmedThisSession && userProfile?.visualLayout === 'natural-sereno';
   const isEleganciaProfunda = layoutConfirmedThisSession && userProfile?.visualLayout === 'elegancia-profunda';
   const isEssenciaLuminosa = layoutConfirmedThisSession && userProfile?.visualLayout === 'essencia-luminosa';
@@ -399,7 +403,12 @@ export default function App() {
           const data = await res.json();
           if (!active) return;
           const account = data.user;
-          const profileWithAdmin = { ...account.profile, isAdmin: account.role === 'admin' };
+          setCurrentAccountLogin(account.login);
+          const pendingProfile = readPendingProfileSync(account.login);
+          const profileWithPending = pendingProfile
+            ? { ...account.profile, ...pendingProfile.profilePatch }
+            : account.profile;
+          const profileWithAdmin = { ...profileWithPending, login: account.login, isAdmin: account.role === 'admin' };
           setUserProfile(profileWithAdmin);
           setProgress(account.progress || []);
           
@@ -419,6 +428,7 @@ export default function App() {
                 if (localAccount) {
                   const offlineProfile: UserProfile = {
                     ...localAccount.profile,
+                    login: localAccount.login,
                     isAdmin: false,
                     plan: 'free',
                     subscriptionPlan: undefined,
@@ -465,10 +475,42 @@ export default function App() {
     };
   }, []);
 
+  // Retry profile fields left pending by a successful registration whose first
+  // database sync was temporarily unavailable. The server merges this patch,
+  // so existing subscription/progress data is not overwritten.
+  useEffect(() => {
+    if (!isLoggedIn || !userProfile) return;
+    const login = userProfile.login?.trim().toLowerCase() || '';
+    if (!login || getCurrentAccountLogin() !== login) return;
+
+    let active = true;
+    const flushPendingProfileSync = () => {
+      if (!active || pendingProfileSyncInFlight.current === login) return;
+      const pending = readPendingProfileSync(login);
+      if (!pending) return;
+      pendingProfileSyncInFlight.current = login;
+      void syncUserState({ profile: { ...pending.profilePatch, login } }, { accountKey: login })
+        .then(() => clearPendingProfileSync(login))
+        .catch(error => console.warn('Pending registration profile sync remains queued', error))
+        .finally(() => {
+          if (pendingProfileSyncInFlight.current === login) pendingProfileSyncInFlight.current = null;
+        });
+    };
+
+    flushPendingProfileSync();
+    window.addEventListener('online', flushPendingProfileSync);
+    return () => {
+      active = false;
+      window.removeEventListener('online', flushPendingProfileSync);
+    };
+  }, [isLoggedIn, userProfile]);
+
   const updateLocalAccountCache = (profileToCache: UserProfile, progressToCache: DayProgress[]) => {
     try {
-      const localLogin = profileToCache.login || localStorage.getItem(LOCAL_STORAGE_KEY_CURRENT_LOGIN);
-      if (!localLogin) return;
+      const activeLogin = getCurrentAccountLogin();
+      const profileLogin = profileToCache.login?.trim().toLowerCase() || null;
+      if (!activeLogin || !profileLogin || activeLogin !== profileLogin) return;
+      const localLogin = profileLogin;
       const rawAccounts = localStorage.getItem(LOCAL_STORAGE_KEY_ACCOUNTS);
       const accounts: UserAccount[] = rawAccounts ? JSON.parse(rawAccounts) : [];
       const index = accounts.findIndex(account => account.login === localLogin);
@@ -485,24 +527,25 @@ export default function App() {
       if (index >= 0) accounts[index] = cachedAccount;
       else accounts.push(cachedAccount);
       localStorage.setItem(LOCAL_STORAGE_KEY_ACCOUNTS, JSON.stringify(accounts));
-      localStorage.setItem(LOCAL_STORAGE_KEY_CURRENT_LOGIN, localLogin);
     } catch (error) {
       console.warn('Local profile cache update failed', error);
     }
   };
 
-  // Save profile state whenever it changes
-  const saveProfile = (newProfile: UserProfile) => {
+  // Profile and progress are synced independently unless both were computed from
+  // the same snapshot (for example, saving a diary entry and its achievements).
+  const saveProfile = (newProfile: UserProfile, progressOverride?: DayProgress[]) => {
+    const nextProgress = progressOverride ?? progress;
     setUserProfile(newProfile);
-    updateLocalAccountCache(newProfile, progress);
+    if (progressOverride) setProgress(progressOverride);
+    updateLocalAccountCache(newProfile, nextProgress);
     if (isLoggedIn) {
-      fetch('/api/user/sync', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ profile: newProfile, progress })
-      }).then(response => {
-        if (!response.ok) throw new Error(`Profile sync failed (HTTP ${response.status})`);
-      }).catch(error => console.error('Profile sync failed; changes may only be saved locally', error));
+      const syncPayload = progressOverride
+        ? { profile: newProfile, progress: progressOverride }
+        : { profile: newProfile };
+      void syncUserState(syncPayload, { accountKey: newProfile.login }).catch(error => {
+        console.error('Profile sync failed after retry; changes remain in the local cache', error);
+      });
     }
   };
 
@@ -510,36 +553,37 @@ export default function App() {
     setProgress(newProgress);
     if (userProfile) updateLocalAccountCache(userProfile, newProgress);
     if (isLoggedIn) {
-      fetch('/api/user/sync', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ profile: userProfile, progress: newProgress })
-      }).then(response => {
-        if (!response.ok) throw new Error(`Progress sync failed (HTTP ${response.status})`);
-      }).catch(error => console.error('Progress sync failed; changes may only be saved locally', error));
+      void syncUserState({ progress: newProgress }, { accountKey: userProfile?.login }).catch(error => {
+        console.error('Progress sync failed after retry; changes remain in the local cache', error);
+      });
     }
   };
 
 
   // Profile Onboarding complete (Register or Login complete)
   const handleOnboardingComplete = (account: UserAccount) => {
-    localStorage.setItem(LOCAL_STORAGE_KEY_CURRENT_LOGIN, account.login);
+    const accountWithLogin: UserAccount = {
+      ...account,
+      profile: { ...account.profile, login: account.login }
+    };
+    setCurrentAccountLogin(accountWithLogin.login);
     try {
       const rawAccounts = localStorage.getItem(LOCAL_STORAGE_KEY_ACCOUNTS);
       const accounts: UserAccount[] = rawAccounts ? JSON.parse(rawAccounts) : [];
-      const idx = accounts.findIndex(a => a.login === account.login);
+      const idx = accounts.findIndex(a => a.login === accountWithLogin.login);
       if (idx >= 0) {
-        accounts[idx] = account;
+        accounts[idx] = accountWithLogin;
       } else {
-        accounts.push(account);
+        accounts.push(accountWithLogin);
       }
       localStorage.setItem(LOCAL_STORAGE_KEY_ACCOUNTS, JSON.stringify(accounts));
     } catch (e) {}
 
-    setUserProfile({ ...account.profile, isAdmin: account.isAdmin === true });
-    setProgress(account.progress);
+    setUserProfile({ ...accountWithLogin.profile, login: accountWithLogin.login, isAdmin: accountWithLogin.isAdmin === true });
+    setProgress(accountWithLogin.progress);
+    setIsLoggedIn(true);
     
-    const nextUncompleted = account.progress.find(p => !p.completed);
+    const nextUncompleted = accountWithLogin.progress.find(p => !p.completed);
     setCurrentDay(nextUncompleted ? nextUncompleted.dayNumber : 21);
 
     // The central background-audio effect owns playback after login.
@@ -609,13 +653,14 @@ export default function App() {
 
     setProgress(updatedProgress);
 
-    // Save to backend
+    // Persist the profile and progress from this same completed-session snapshot.
     if (isLoggedIn) {
-      fetch('/api/user/sync', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ profile: updatedProfile, progress: updatedProgress })
-      }).catch(console.error);
+      const syncPayload = updatedProfile
+        ? { profile: updatedProfile, progress: updatedProgress }
+        : { progress: updatedProgress };
+      void syncUserState(syncPayload, { accountKey: updatedProfile?.login ?? userProfile?.login }).catch(error => {
+        console.error('Session completion sync failed after retry', error);
+      });
     }
 
     // 3. Move to next day automatically or lock on 21
@@ -658,13 +703,11 @@ export default function App() {
         };
         setUserProfile(updatedProfile);
 
-        // Save to backend
+        // Persist the reset as one consistent profile/progress snapshot.
         if (isLoggedIn) {
-          fetch('/api/user/sync', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ profile: updatedProfile, progress: defaultProgress })
-          }).catch(console.error);
+          void syncUserState({ profile: updatedProfile, progress: defaultProgress }, { accountKey: updatedProfile.login }).catch(error => {
+            console.error('Program reset sync failed after retry', error);
+          });
         }
       }
     }
@@ -676,12 +719,13 @@ export default function App() {
     audioEngine.stopBG();
     setNeuralVoicePreviewActive(false);
     setIsPlayingVoiceTest(false);
+    // Cancel queued retries before the server session is cleared.
+    clearCurrentAccountLogin();
     try {
       await fetch('/api/auth/logout', { method: 'POST' });
     } catch (e) {
       console.warn("Server logout request completed with offline status");
     }
-    localStorage.removeItem(LOCAL_STORAGE_KEY_CURRENT_LOGIN);
     // A nova sessão precisa confirmar explicitamente um dos quatro estilos.
     setLayoutConfirmedThisSession(false);
     setLayoutChoiceRequested(false);
@@ -760,15 +804,15 @@ export default function App() {
       return d;
     });
 
-    saveProgress(updatedProgress);
-
     if (userProfile) {
       const unlocked = evaluateAchievements(userProfile, updatedProgress);
       const updatedProfile: UserProfile = {
         ...userProfile,
         unlockedAchievements: unlocked.unlockedIds
       };
-      saveProfile(updatedProfile);
+      saveProfile(updatedProfile, updatedProgress);
+    } else {
+      saveProgress(updatedProgress);
     }
   };
 
@@ -780,14 +824,12 @@ export default function App() {
           ...d,
           journalText,
           mood: mood !== undefined ? mood : d.mood,
-          sensations,
-          gratitudes
+          sensations: sensations !== undefined ? sensations : d.sensations,
+          gratitudes: gratitudes !== undefined ? gratitudes : d.gratitudes
         };
       }
       return d;
     });
-
-    saveProgress(updatedProgress);
 
     if (userProfile) {
       const unlocked = evaluateAchievements(userProfile, updatedProgress);
@@ -795,7 +837,9 @@ export default function App() {
         ...userProfile,
         unlockedAchievements: unlocked.unlockedIds
       };
-      saveProfile(updatedProfile);
+      saveProfile(updatedProfile, updatedProgress);
+    } else {
+      saveProgress(updatedProgress);
     }
   };
 
@@ -869,12 +913,11 @@ export default function App() {
             const updatedProfile = { ...userProfile, visualLayout: layout };
             // Do not dismiss the chooser until the server accepts the preference.
             if (isLoggedIn) {
-              const response = await fetch('/api/user/sync', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ profile: updatedProfile, progress })
-              });
-              if (!response.ok) throw new Error(`Não foi possível salvar o estilo (HTTP ${response.status})`);
+              try {
+                await syncUserState({ profile: updatedProfile }, { accountKey: updatedProfile.login });
+              } catch (error) {
+                throw new Error('Não foi possível salvar o estilo após novas tentativas.', { cause: error });
+              }
             }
             setUserProfile(updatedProfile);
             updateLocalAccountCache(updatedProfile, progress);

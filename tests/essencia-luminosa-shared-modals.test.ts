@@ -38,7 +38,7 @@ test('A seleção de frequências fica bloqueada durante a prévia neural da Ess
 
   assert.ok(settings.includes('const isStyle3SolfeggioBlocked = shouldBlockTrackDuringNeuralVoicePreview(isEssenciaLuminosa, isTestingVoice, track.id);'));
   assert.ok(settings.includes('const isStyle2SolfeggioBlocked = isEleganciaProfunda && isTestingVoice && isSolfeggioFrequency(track.id);'));
-  assert.ok(settings.includes('const isTrackBlockedDuringVoicePreview = isStyle3SolfeggioBlocked || isStyle2SolfeggioBlocked;'));
+  assert.ok(settings.includes('const isTrackBlockedDuringVoicePreview = isStyle1SolfeggioBlocked || isStyle2SolfeggioBlocked || isStyle3SolfeggioBlocked;'));
   assert.ok(settings.includes('disabled={isTrackBlockedDuringVoicePreview}'));
   assert.ok(settings.includes('aria-disabled={isTrackBlockedDuringVoicePreview}'));
   assert.ok(settings.includes('if (isTrackBlockedDuringVoicePreview) return;'));
