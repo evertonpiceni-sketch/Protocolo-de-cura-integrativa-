@@ -127,7 +127,7 @@ export function createApp() {
     const profileLogin = typeof profile?.login === "string" ? profile.login.trim().toLowerCase() : "";
     if (profile && (!profileLogin || profileLogin !== authenticatedLogin)) {
       return res.status(403).json({
-        error: "O perfil enviado pertence a outra conta.",
+        error: "O perfil enviado não corresponde à conta autenticada.",
         code: "ACCOUNT_SESSION_MISMATCH"
       });
     }
