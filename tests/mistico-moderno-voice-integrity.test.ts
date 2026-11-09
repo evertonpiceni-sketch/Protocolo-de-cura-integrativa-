@@ -389,3 +389,16 @@ test('Místico Moderno applies premium styling and readable contrast to global f
   assert.ok(css.includes(':root[data-layout="mistico-moderno"] .ep-app-toast p'));
   assert.ok(css.includes('color: #CBD5E1 !important'));
 });
+
+
+test('Místico Moderno neutraliza a névoa sálvia global sem remover o esmeralda integrado à natureza', () => {
+  const css = read('src/mistico-moderno-final-audit.css');
+  const start = css.indexOf(':root[data-layout="mistico-moderno"] body::before');
+  const end = css.indexOf('}', start);
+  assert.ok(start >= 0 && end > start, 'O override de atmosfera do Estilo 4 deve existir.');
+  const rule = css.slice(start, end);
+  assert.match(rule, /rgba\(108,63,160,\.10\)/);
+  assert.match(rule, /rgba\(212,175,55,\.06\)/);
+  assert.doesNotMatch(rule, /94,\s*113,\s*83/, 'A névoa sálvia global não pode reaparecer no Estilo 4.');
+  assert.match(css, /--ep-scene-overlay:[\s\S]*rgba\(30,107,90,\.07\)/, 'O esmeralda permanece apenas como acento integrado à composição natural.');
+});

@@ -23,6 +23,8 @@ A branch do Místico Moderno estava **67 commits à frente e 1 atrás da main**,
 
 ## Varredura e preservação
 
+- Revarridos os 25 módulos CSS específicos do Místico Moderno: 523 seletores de topo examinados, zero regras sem escopo `data-layout="mistico-moderno"`.
+- Encontrada e neutralizada uma névoa sálvia residual no `body::before` global do tema aprovado; no Estilo 4 ela agora usa violeta/índigo e dourado suave. O esmeralda permanece somente no overlay da cena, integrado à natureza.
 - Mantidos os 25 módulos CSS específicos do Místico Moderno e seus escopos `data-layout="mistico-moderno"`.
 - Seletor dos quatro estilos continua sem pré-seleção e exige confirmação antes de aplicar tema.
 - Preservados Estilos 1–3, jornada de 21 dias, corpo neutro, logo oficial sutil/transparente, Diário fechado por padrão, player e movimento reduzido.
@@ -47,6 +49,6 @@ A branch do Místico Moderno estava **67 commits à frente e 1 atrás da main**,
 2. Fotografia realista aprovada para substituir a ilustração do corpo/chakras.
 3. Audição real da voz escolhida e teste do Solfeggio em dispositivo.
 4. Homologação do checkout e webhook InfinitePay em ambiente seguro; nenhuma cobrança real foi feita.
-5. CI do novo merge commit e preview Vercel READY.
+5. CI do HEAD final e preview Vercel READY.
 
 **Sem merge na main, sem publicação em produção e sem cobrança real.**

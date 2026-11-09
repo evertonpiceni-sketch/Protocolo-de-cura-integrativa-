@@ -125,3 +125,13 @@
   text-rendering: optimizeLegibility;
 }
  
+
+
+/* O tema global aprovado ainda desenhava uma névoa sálvia fixa no body.
+   No Místico Moderno, a atmosfera periférica deve ser índigo/violeta; o esmeralda
+   permanece apenas nos pontos integrados à natureza e na própria composição. */
+:root[data-layout="mistico-moderno"] body::before {
+  background:
+    radial-gradient(ellipse at -8% 24%, rgba(108,63,160,.10), transparent 24%),
+    radial-gradient(ellipse at 108% 34%, rgba(212,175,55,.06), transparent 24%);
+}
