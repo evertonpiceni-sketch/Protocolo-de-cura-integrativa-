@@ -27,8 +27,6 @@ function defaultWait(milliseconds: number) {
   return new Promise<void>(resolve => setTimeout(resolve, milliseconds));
 }
 
-function retryDelay(response: undefined, attempt: number): number;
-function retryDelay(response: Response, attempt: number): number | null;
 function retryDelay(response: Response | undefined, attempt: number): number | null {
   const backoff = Math.min(MAX_RETRY_AFTER_WAIT_MS, 300 * (2 ** (attempt - 1)));
   const retryAfter = response?.headers.get('Retry-After')?.trim();
@@ -88,7 +86,7 @@ async function performUserSync(
       });
     } catch (error) {
       if (attempt >= maxAttempts) throw error;
-      await wait(retryDelay(undefined, attempt));
+      await wait(retryDelay(undefined, attempt) ?? MAX_RETRY_AFTER_WAIT_MS);
       continue;
     }
 
@@ -144,7 +142,7 @@ export function syncUserState(payload: UserSyncPayload, options: UserSyncOptions
 
   // Snapshot the payload at call time. The per-account queue preserves invocation
   // order, allowing the latest save to reach the server after an older retry.
-  const body = JSON.stringify(payload);
+  const body = JSON.stringify(payload) ?? '{}';
   const queueKey = currentAtStart ? `account:${currentAtStart}` : UNSCOPED_QUEUE_KEY;
   const previous = syncQueues.get(queueKey) ?? Promise.resolve();
   const operation = previous
