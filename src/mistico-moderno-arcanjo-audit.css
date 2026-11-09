@@ -1,0 +1,114 @@
+/* Estilo 4 — Místico Moderno: Arcanjo/Solfeggio.
+   Escopo exclusivo do protocolo Arcanjo; os demais estilos preservam suas identidades. */
+:root[data-layout="mistico-moderno"] #arcanjo-protocol-view {
+  background: #0A2742 !important;
+  color: #F4F1EB !important;
+}
+
+:root[data-layout="mistico-moderno"] #arcanjo-protocol-backdrop {
+  background:
+    radial-gradient(circle at 86% 8%, rgba(108, 63, 160, 0.16), transparent 30rem),
+    radial-gradient(circle at 12% 88%, rgba(46, 59, 115, 0.18), transparent 28rem),
+    radial-gradient(circle at 88% 84%, rgba(30, 107, 90, 0.08), transparent 24rem),
+    linear-gradient(180deg, #0A2742 0%, #101827 58%, #080D16 100%) !important;
+}
+
+:root[data-layout="mistico-moderno"] #arcanjo-protocol-view > header {
+  background: rgba(10, 15, 24, 0.94) !important;
+  border-color: rgba(212, 175, 55, 0.20) !important;
+  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.32) !important;
+}
+
+:root[data-layout="mistico-moderno"] #arcanjo-protocol-view header h1 {
+  color: #F5F0E6 !important;
+}
+
+:root[data-layout="mistico-moderno"] #arcanjo-protocol-view main {
+  color: #F4F1EB !important;
+}
+
+:root[data-layout="mistico-moderno"] #arcanjo-protocol-view [class*="text-[#5C6A60]"] {
+  color: #BAC3D1 !important;
+}
+
+:root[data-layout="mistico-moderno"] #arcanjo-protocol-view .ep-forest-panel {
+  background:
+    radial-gradient(circle at 92% 0%, rgba(108, 63, 160, 0.13), transparent 22rem),
+    linear-gradient(145deg, rgba(20, 31, 48, 0.97), rgba(10, 15, 24, 0.98)) !important;
+  border: 1px solid rgba(108, 63, 160, 0.28) !important;
+  box-shadow:
+    0 18px 48px rgba(0, 0, 0, 0.30),
+    inset 0 1px 0 rgba(255, 255, 255, 0.035) !important;
+  color: #F4F1EB !important;
+}
+
+:root[data-layout="mistico-moderno"] #arcanjo-chakra-stage {
+  background:
+    radial-gradient(circle at 50% 42%, rgba(108, 63, 160, 0.17), transparent 48%),
+    linear-gradient(160deg, #141F30, #0A2742) !important;
+  border-color: rgba(212, 175, 55, 0.28) !important;
+  box-shadow: 0 24px 70px rgba(0, 0, 0, 0.48) !important;
+}
+
+:root[data-layout="mistico-moderno"] #arcanjo-chakra-caption {
+  background: linear-gradient(
+    to top,
+    rgba(10, 15, 24, 0.98),
+    rgba(20, 31, 48, 0.84) 62%,
+    transparent
+  ) !important;
+}
+
+:root[data-layout="mistico-moderno"] #arcanjo-protocol-view .ep-forest-panel
+  :is([class*="text-[#5C6A60]"], [class*="text-[#e9f1e9]"], [class*="text-[#c8d8cc]"], [class*="text-[#c8d9cd]"], [class*="text-[#bad0c4]"], [class*="text-[#d7e2d8]"]) {
+  color: #BAC3D1 !important;
+}
+
+:root[data-layout="mistico-moderno"] #arcanjo-protocol-view .ep-forest-panel [class*="bg-black/20"] {
+  background: rgba(10, 15, 24, 0.76) !important;
+}
+
+:root[data-layout="mistico-moderno"] #arcanjo-protocol-view .ep-forest-panel button:not(.ep-gold-button) {
+  background-color: rgba(20, 31, 48, 0.72) !important;
+  border-color: rgba(108, 63, 160, 0.34) !important;
+  color: #F4F1EB !important;
+}
+
+:root[data-layout="mistico-moderno"] #arcanjo-protocol-view .ep-forest-panel button:not(.ep-gold-button):hover {
+  background-color: rgba(31, 43, 69, 0.90) !important;
+  border-color: rgba(212, 175, 55, 0.44) !important;
+}
+
+:root[data-layout="mistico-moderno"] #arcanjo-protocol-view button.ep-gold-button {
+  background: linear-gradient(135deg, #B88736, #E2B96B) !important;
+  border: 1px solid rgba(226, 185, 107, 0.48) !important;
+  color: #0A0F18 !important;
+  box-shadow: 0 12px 28px rgba(184, 135, 54, 0.18) !important;
+}
+
+:root[data-layout="mistico-moderno"] #arcanjo-protocol-view button[title="Encerrar sessão e sair da conta"] {
+  background: rgba(20, 31, 48, 0.78) !important;
+  border: 1px solid rgba(212, 175, 55, 0.30) !important;
+  color: #E2BD78 !important;
+  box-shadow: 0 8px 22px rgba(0, 0, 0, 0.24) !important;
+}
+
+:root[data-layout="mistico-moderno"] #arcanjo-protocol-view button[title="Encerrar sessão e sair da conta"] svg {
+  color: #E2BD78 !important;
+}
+
+:root[data-layout="mistico-moderno"] #arcanjo-protocol-view button[title="Encerrar sessão e sair da conta"]:hover {
+  background: rgba(31, 43, 69, 0.92) !important;
+  border-color: rgba(212, 175, 55, 0.50) !important;
+}
+
+:root[data-layout="mistico-moderno"] #arcanjo-protocol-view .ep-voice-error {
+  background: rgba(92, 42, 55, 0.22) !important;
+  border: 1px solid rgba(222, 143, 157, 0.30) !important;
+  color: #F1C9D0 !important;
+}
+
+:root[data-layout="mistico-moderno"] #arcanjo-protocol-view button:focus-visible {
+  outline: 2px solid rgba(226, 189, 120, 0.78) !important;
+  outline-offset: 3px;
+}

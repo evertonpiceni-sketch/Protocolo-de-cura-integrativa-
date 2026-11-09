@@ -146,10 +146,9 @@
 
 /* OnboardingFlow ativo — paisagem e superfícies próprias do Estilo 2. */
 :root[data-layout="elegancia-profunda"] .ep-care-onboarding {
-  /* Reutiliza a fotografia e o véu aprovados do Estilo 2 também no acolhimento inicial. */
   background:
-    var(--ep-scene-overlay),
-    var(--ep-scene) center/cover fixed no-repeat!important;
+    radial-gradient(ellipse at 50% 0,rgba(212,175,55,.12),transparent 24rem),
+    linear-gradient(180deg,#0b1c14 0%,#07150f 56%,#06110c 100%)!important;
   color:var(--layout-text)!important;
 }
 :root[data-layout="elegancia-profunda"] .ep-care-onboarding-card {

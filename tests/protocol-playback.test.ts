@@ -71,7 +71,7 @@ test('all Hz-labelled audio entrypoints use the exact Solfeggio oscillator', () 
   const integrity = fs.readFileSync('src/lib/audioIntegrityPatch.ts', 'utf8');
   const tone = fs.readFileSync('src/lib/solfeggioTone.ts', 'utf8');
   assert.ok(arcanjo.includes('DISTANCE_TREATMENT_SCRIPT'));
-  assert.ok(arcanjo.includes('audioEngine.startSynth(`${config.freq}hz`)'));
+  assert.ok(arcanjo.includes('startArcanjoOwnedSolfeggio(`${config.freq}hz`)'));
   assert.ok(arcanjo.includes('APPROVED_SECTIONS.map(section => section.ttsScript)'));
   assert.ok(integrity.includes('engine.startBG = (type: any) =>'));
   assert.ok(integrity.includes('engine.startSynth = (type: any) =>'));

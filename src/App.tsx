@@ -123,11 +123,15 @@ export default function App() {
   const isNaturalSereno = layoutConfirmedThisSession && userProfile?.visualLayout === 'natural-sereno';
   const isEleganciaProfunda = layoutConfirmedThisSession && userProfile?.visualLayout === 'elegancia-profunda';
   const isEssenciaLuminosa = layoutConfirmedThisSession && userProfile?.visualLayout === 'essencia-luminosa';
-  const usesNeuralVoiceCatalog = isNaturalSereno || isEleganciaProfunda || isEssenciaLuminosa;
-  const savedNeuralVoiceId = userProfile?.voiceId || '';
+  const isMisticoModerno = layoutConfirmedThisSession && userProfile?.visualLayout === 'mistico-moderno';
+  const usesNeuralVoiceCatalog = isNaturalSereno || isEleganciaProfunda || isEssenciaLuminosa || isMisticoModerno;
+  const savedNeuralVoiceId = userProfile?.voiceId?.trim() || '';
   const effectiveNeuralVoiceId = (isNaturalSereno || isEssenciaLuminosa) && !isElevenLabsVoiceId(savedNeuralVoiceId)
     ? OFFICIAL_PROTOCOL_VOICE_ID
     : savedNeuralVoiceId;
+
+  // The 7-day subscription mounts ArcanjoProtocolView even when the explicit navigation flag is false.
+  const isArcanjoViewActive = showArcanjoView || userProfile?.subscriptionPlan === 'arcanjo_7d';
 
   // Initialize and register local notification daily checker
   useEffect(() => {
@@ -230,7 +234,7 @@ export default function App() {
     }
   }, []);
 
-  // Natural Sereno, Elegância Profunda and Essência Luminosa use actual ElevenLabs IDs, never browser SpeechSynthesis names/URIs.
+  // The four confirmed styles use actual ElevenLabs IDs, never browser SpeechSynthesis names/URIs.
   useEffect(() => {
     if (!isLoggedIn || !usesNeuralVoiceCatalog || (!showSettings && !showAudioSettingsModal)) return;
     let cancelled = false;
@@ -268,13 +272,15 @@ export default function App() {
                          userProfile.bgMusicType !== 'none' && 
                          activeSessionDay === null &&
                          !showPersonalJourney &&
-                         !showArcanjoView &&
+                         !isArcanjoViewActive &&
                          (!usesNeuralVoiceCatalog || !isPlayingVoiceTest ||
                            shouldPlayProtocolSessionBackground('playing', userProfile.bgMusicType)); // Keep Solfeggio out of neural voice previews in all neural-voice layouts
 
       if (shouldPlay) {
         audioEngine.startBG(userProfile.bgMusicType);
-      } else {
+      } else if (!isArcanjoViewActive) {
+        // OPEN_PROTOCOL_DAY and the Arcanjo ownership guard stop global audio on entry.
+        // Do not stop the protocol-owned Solfeggio on unrelated profile changes.
         audioEngine.stopBG();
       }
     } else {
@@ -290,8 +296,7 @@ export default function App() {
     userProfile?.binauralCarrierMode,
     activeSessionDay,
     showPersonalJourney,
-    showArcanjoView,
-    userProfile?.subscriptionPlan,
+    isArcanjoViewActive,
     layoutConfirmedThisSession,
     usesNeuralVoiceCatalog,
     isPlayingVoiceTest
@@ -321,8 +326,8 @@ export default function App() {
                            userProfile.bgMusicType !== 'none' && 
                            activeSessionDay === null &&
                            !showPersonalJourney &&
-                           !showArcanjoView &&
-                           (!usesNeuralVoiceCatalog || !isPlayingVoiceTest ||
+                           !isArcanjoViewActive &&
+                             (!usesNeuralVoiceCatalog || !isPlayingVoiceTest ||
                              shouldPlayProtocolSessionBackground('playing', userProfile.bgMusicType));
                            
         if (shouldPlay) {
@@ -341,7 +346,7 @@ export default function App() {
       window.removeEventListener('click', handleGesture);
       window.removeEventListener('touchstart', handleGesture);
     };
-  }, [userProfile, activeSessionDay, showPersonalJourney, showArcanjoView, layoutConfirmedThisSession, isPlayingVoiceTest]);
+  }, [userProfile, activeSessionDay, showPersonalJourney, isArcanjoViewActive, layoutConfirmedThisSession, isPlayingVoiceTest]);
 
   useEffect(() => {
     if (!userProfile?.reminderTime || typeof Notification === 'undefined' || Notification.permission !== 'granted') return;
@@ -896,7 +901,7 @@ export default function App() {
             }
           })}
         />
-      ) : showArcanjoView || userProfile.subscriptionPlan === 'arcanjo_7d' ? (
+      ) : isArcanjoViewActive ? (
         <ArcanjoProtocolView 
           userProfile={userProfile}
           onLogout={handleLogout}
@@ -1464,7 +1469,7 @@ export default function App() {
                   </div>
                   {voicePreviewError && (
                     <p role="alert" className="ep-voice-error rounded-xl px-3 py-2 text-xs">
-                      Selecione uma voz neural válida do catálogo. Natural Sereno, Elegância Profunda e Essência Luminosa não usam a voz do dispositivo.
+                      Selecione uma voz neural válida do catálogo. Natural Sereno, Elegância Profunda, Essência Luminosa e Místico Moderno não usam a voz do dispositivo.
                     </p>
                   )}
                 </div>
@@ -1926,7 +1931,7 @@ export default function App() {
             voicePitch={userProfile.voicePitch}
             bgMusicType={userProfile.bgMusicType}
             audioEnabled={userProfile.audioEnabled !== false}
-            allowBackgroundPlayback={activeSessionDay === null && !showPersonalJourney && !showArcanjoView}
+            allowBackgroundPlayback={activeSessionDay === null && !showPersonalJourney && !isArcanjoViewActive}
             currentDay={currentDay}
             progress={progress}
             anamnesis={userProfile.anamnesis}
@@ -2551,7 +2556,7 @@ export default function App() {
       {showAudioSettingsModal && userProfile && (
         <AudioSettingsModal
           isOpen={showAudioSettingsModal}
-          allowBackgroundPlayback={activeSessionDay === null && !showPersonalJourney && !showArcanjoView}
+          allowBackgroundPlayback={activeSessionDay === null && !showPersonalJourney && !isArcanjoViewActive}
           onClose={() => setShowAudioSettingsModal(false)}
           userProfile={userProfile}
           onSaveProfile={saveProfile}
