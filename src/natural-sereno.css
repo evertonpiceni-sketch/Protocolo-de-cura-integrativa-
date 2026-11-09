@@ -162,7 +162,7 @@
   width: 43px;
   height: 43px;
   border-radius: 50%;
-  color: #e9d296;
+  color: #FFFDF8;
   background: var(--ns-forest);
   box-shadow: inset 0 1px 3px rgba(255, 247, 198, .2);
 }
@@ -511,8 +511,8 @@
 :root[data-layout="natural-sereno"] #anamnesis-modal .ep-anamnesis-frequency { background: var(--ns-paper) !important; border-color: var(--ns-line); border-radius: 12px; }
 :root[data-layout="natural-sereno"] #anamnesis-modal .ep-anamnesis-frequency [class*="text-emerald"] { color: var(--ns-forest) !important; }
 :root[data-layout="natural-sereno"] #anamnesis-modal .ep-anamnesis-frequency [class*="bg-emerald"] { background: rgba(200,157,82,.12) !important; border-color: var(--ns-line) !important; }
-:root[data-layout="natural-sereno"] #anamnesis-modal .ep-anamnesis-frequency > div > div:first-child { background: var(--ns-forest) !important; color: #e9d296 !important; }
-:root[data-layout="natural-sereno"] #anamnesis-modal .ep-anamnesis-frequency > div > div:first-child > svg { color: #e9d296 !important; }
+:root[data-layout="natural-sereno"] #anamnesis-modal .ep-anamnesis-frequency > div > div:first-child { background: var(--ns-forest) !important; color: #FFFDF8 !important; }
+:root[data-layout="natural-sereno"] #anamnesis-modal .ep-anamnesis-frequency > div > div:first-child > svg { color: #FFFDF8 !important; }
 /* Six library rows fit below search and filters at the approved phone scale. */
 :root[data-layout="natural-sereno"] .ns-library-row { min-height: 74px; padding: 8px 12px; margin-bottom: 6px; }
 :root[data-layout="natural-sereno"] .ns-search { font-size: 14px; }
@@ -683,7 +683,7 @@
 :root[data-layout="natural-sereno"] .ep-care-onboarding-card {
   max-width: 640px; margin-block: 16px; padding: clamp(24px, 5vw, 40px);
   background: #FAF7F2;
-  border: 1px solid #d8caa9; border-radius: 24px;
+  border: 1px solid rgba(200,157,82,.30); border-radius: 24px;
   box-shadow: 0 12px 36px rgba(38,55,42,.12); backdrop-filter: none;
   font-family: 'Inter', sans-serif;
 }
@@ -700,7 +700,7 @@
 }
 :root[data-layout="natural-sereno"] .ep-care-onboarding-card .ep-brand-signature { opacity: 1; mix-blend-mode: multiply; filter: none; }
 :root[data-layout="natural-sereno"] .ep-care-onboarding-card button { min-height: 48px; font-family: 'Inter', sans-serif; color: #2A2421 !important; }
-:root[data-layout="natural-sereno"] .ep-care-onboarding-card button[aria-pressed] { background: #FBF8F2; border-color: #d8caa9; }
+:root[data-layout="natural-sereno"] .ep-care-onboarding-card button[aria-pressed] { background: #FBF8F2; border-color: rgba(200,157,82,.30); }
 :root[data-layout="natural-sereno"] .ep-care-onboarding-card button[aria-pressed="true"] { background: rgba(200,157,82,.12); border-color: rgba(200,157,82,.56); }
 :root[data-layout="natural-sereno"] .ep-care-onboarding-card button:focus-visible { outline: 2px solid #C89D52; outline-offset: 3px; }
 @media (max-width: 540px) {
@@ -763,9 +763,9 @@
 /* Plan presentation only: amounts, eligibility and checkout handlers are intact. */
 :root[data-layout="natural-sereno"] #plans-modal { background: #FAF7F2; color: #2A2421; }
 :root[data-layout="natural-sereno"] #plans-modal > div { background: #FAF7F2; }
-:root[data-layout="natural-sereno"] #plans-modal header { background: #FAF7F2; border-color: #d8caa9; }
+:root[data-layout="natural-sereno"] #plans-modal header { background: #FAF7F2; border-color: rgba(200,157,82,.30); }
 :root[data-layout="natural-sereno"] #plans-modal :is(.text-white, [class*="text-amber-100"], [class*="text-amber-200"], [class*="text-amber-300"], [class*="text-violet-300"]) { color: #2A2421; }
-:root[data-layout="natural-sereno"] #plans-modal [class*="bg-violet"] { background: #efefdf; border-color: #d8caa9; }
+:root[data-layout="natural-sereno"] #plans-modal [class*="bg-violet"] { background: #FBF8F2; border-color: rgba(200,157,82,.30); }
 :root[data-layout="natural-sereno"] #plans-modal button { min-height: 44px; }
 :root[data-layout="natural-sereno"] #plans-modal button[class*="text-amber-200"] { border-color: #C89D52; }
 :root[data-layout="natural-sereno"] #plans-modal button[class*="bg-amber-300"] { background: linear-gradient(180deg,#E2B96B,#A87E37); }
@@ -774,4 +774,4 @@
   :root[data-layout="natural-sereno"] #plans-modal [class*="lg:grid-cols-5"] { grid-template-columns: repeat(3,minmax(0,1fr)); }
 }
 :root[data-layout="natural-sereno"] #plans-modal button[class*="to-yellow-300"] { background: linear-gradient(180deg,#E2B96B,#C89D52); color: #2A2421; }
-:root[data-layout="natural-sereno"] #plans-modal article { border-color: #d8caa9; }
+:root[data-layout="natural-sereno"] #plans-modal article { border-color: rgba(200,157,82,.30); }
