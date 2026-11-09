@@ -182,3 +182,97 @@ test('o inventário das 24 folhas CSS mantém a âncora de escopo do Estilo 3', 
     );
   }
 });
+
+
+function splitCssSelectorGroups(value: string): string[] {
+  const groups: string[] = [];
+  let current = '';
+  let parentheses = 0;
+  let brackets = 0;
+  let quote: string | null = null;
+  let escaped = false;
+
+  for (const char of value) {
+    if (escaped) {
+      current += char;
+      escaped = false;
+      continue;
+    }
+    if (char === '\\\\') {
+      current += char;
+      escaped = true;
+      continue;
+    }
+    if (quote) {
+      current += char;
+      if (char === quote) quote = null;
+      continue;
+    }
+    if (char === '"' || char === "'") {
+      quote = char;
+      current += char;
+      continue;
+    }
+    if (char === '(') parentheses++;
+    else if (char === ')') parentheses = Math.max(0, parentheses - 1);
+    else if (char === '[') brackets++;
+    else if (char === ']') brackets = Math.max(0, brackets - 1);
+
+    if (char === ',' && parentheses === 0 && brackets === 0) {
+      if (current.trim()) groups.push(current.trim());
+      current = '';
+    } else {
+      current += char;
+    }
+  }
+
+  if (current.trim()) groups.push(current.trim());
+  return groups;
+}
+
+function extractStyle3Selectors(css: string): string[] {
+  const source = css.replace(/\\/\\*[\\s\\S]*?\\*\\//g, '');
+  const preludes = [...source.matchAll(/([^{}]+)\\{/g)].map(match => match[1].trim());
+  return preludes
+    .filter(prelude =>
+      prelude &&
+      !prelude.startsWith('@') &&
+      !/^(from|to|\\d+(?:\\.\\d+)?%)$/i.test(prelude)
+    )
+    .flatMap(splitCssSelectorGroups);
+}
+
+test('cada seletor das 24 folhas CSS permanece isolado à Essência Luminosa', () => {
+  const files = fs.readdirSync('src').filter(name =>
+    name.startsWith('essencia-luminosa-') && name.endsWith('.css')
+  );
+  assert.equal(files.length, 24, 'inventário de folhas CSS do Estilo 3 mudou; revisar a cobertura');
+
+  let selectorCount = 0;
+  for (const file of files) {
+    const selectors = extractStyle3Selectors(read('src/' + file));
+    assert.ok(selectors.length > 0, file + ': nenhum seletor CSS foi auditado');
+    selectorCount += selectors.length;
+
+    for (const selector of selectors) {
+      assert.match(
+        selector,
+        /:root\\[data-layout=(["'])essencia-luminosa\\1\\]/,
+        file + ': seletor sem escopo exclusivo da Essência Luminosa: ' + selector
+      );
+    }
+  }
+
+  assert.ok(selectorCount >= 500, 'a cobertura de seletores caiu inesperadamente: ' + selectorCount);
+});
+
+test('a moldura da Celebração usa tokens suaves mesmo quando a etapa-base declara rosa', () => {
+  const component = read('src/components/MilestoneCelebrationModal.tsx');
+  const css = read('src/essencia-luminosa-milestone-audit.css');
+  assert.ok(component.includes('border-rose-500/40'));
+  const parentRule = css.match(
+    /:root\\[data-layout="essencia-luminosa"\\] \\[aria-label="Celebração de progresso"\\] > div\\s*\\{([^}]*)\\}/
+  );
+  assert.ok(parentRule, 'A superfície principal da celebração precisa de regra própria no Estilo 3.');
+  assert.ok(parentRule[1].includes('border-color: color-mix(in srgb, var(--layout-gold-soft) 42%, var(--layout-border)) !important;'));
+});
