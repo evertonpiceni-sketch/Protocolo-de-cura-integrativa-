@@ -647,7 +647,12 @@ test('a fotografia oficial da Elegância Profunda compõe o shell e os heros sem
     return css.slice(open + 1, close);
   };
 
-  const shell = ruleBody(':root[data-layout="elegancia-profunda"] #cura-main-layout');
+  const shellSelector = ':root[data-layout="elegancia-profunda"] #cura-main-layout';
+  const shellStart = css.indexOf(shellSelector);
+  const shellOpen = css.indexOf('{', shellStart);
+  const shellClose = css.indexOf('}', shellOpen);
+  assert.ok(shellStart >= 0 && shellOpen > shellStart && shellClose > shellOpen, 'Regra do shell principal ausente.');
+  const shell = css.slice(shellOpen + 1, shellClose);
   assert.ok(shell.includes('var(--ep-scene-overlay)'));
   assert.ok(shell.includes('var(--ep-scene) center 48%/cover fixed no-repeat'));
   assert.ok(shell.includes('var(--layout-canvas)'));
