@@ -188,6 +188,7 @@
 
 :root[data-layout="mistico-moderno"]{
   color-scheme:dark;
+  --layout-bg:#0A2742;
   --layout-canvas:#0A2742;
   --layout-canvas-alt:#141F30;
   --layout-card:rgba(20,31,48,.85);
@@ -196,10 +197,12 @@
   --layout-input:#121B2B;
   --layout-accent:#6C3FA0;
   --layout-accent-light:#8E5CC8;
+  --layout-accent-soft:rgba(108,63,160,.16);
   --layout-indigo:#2E3B73;
   --layout-emerald:#1E6B5A;
   --layout-violet:#6C3FA0;
   --layout-gold:#D4AF37;
+  --layout-gold-soft:rgba(212,175,55,.16);
   --layout-gold-light:#F2D06B;
   --layout-gold-dark:#A47D1C;
   --layout-gold-border:rgba(212,175,55,.40);
@@ -207,9 +210,22 @@
   --layout-gold-shadow:rgba(108,63,160,.30);
   --layout-text:#F4F1EB;
   --layout-text-secondary:#CBD5E1;
+  --layout-text-soft:var(--layout-text-secondary);
   --layout-text-muted:#8E9DB2;
   --layout-border:rgba(108,63,160,.30);
   --layout-border-card:rgba(108,63,160,.35);
+
+  /* Aliases semânticos legados: componentes compartilhados não herdam sálvia/café do Natural Sereno. */
+  --sage-subtle:var(--layout-accent-soft);
+  --sage-border:var(--layout-border);
+  --journey-bg-canvas:var(--layout-canvas);
+  --journey-bg-card:var(--layout-card);
+  --journey-sage:var(--layout-accent);
+  --journey-gold:var(--layout-gold);
+  --journey-gold-dark:var(--layout-gold-dark);
+  --journey-text:var(--layout-text);
+  --journey-text-secondary:var(--layout-text-secondary);
+  --journey-border:var(--layout-border);
 }
 
 :root[data-layout]{
