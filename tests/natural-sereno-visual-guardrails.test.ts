@@ -58,7 +58,7 @@ test('o player Natural Sereno usa um único canvas flexível, sem offsets ou cha
 test('ícones, números do dia e progresso usam superfícies claras e dourado, com sálvia só como acento', () => {
   const base = read('src/natural-sereno.css');
   assert.match(base, /\.ns-row-icon \{[\s\S]*?color: #6F7B55;[\s\S]*?background: #FBF8F2;/);
-  assert.match(base, /\\.ns-day-number \\{[\\s\\S]*?background:\\s*#C89D52;[\\s\\S]*?color:\\s*#2A2421;/);
+  assert.match(base, /\.ns-day-number \{[\s\S]*?background:\s*#C89D52;[\s\S]*?color:\s*#2A2421;/);
   assert.ok(base.includes('progress::-webkit-progress-value { background: #C89D52; }'));
   assert.ok(base.includes('progress::-moz-progress-bar { background: #C89D52; }'));
   assert.match(base, /\.ns-profile-identity \{[^}]*color: var\(--ns-ink\)/);
