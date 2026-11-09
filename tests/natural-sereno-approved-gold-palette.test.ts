@@ -29,6 +29,9 @@ test('as doze camadas Natural Sereno não mantêm ouro antigo, amarelo saturado 
       `${path} ainda contém um token visual antigo em uma declaração ativa.`
     );
   }
+  const mobile = read('src/natural-sereno-mobile-fixes.css');
+  assert.match(mobile, /#admin-panel-modal button\\[class\\*="bg-emerald"\\] \\{[\\s\\S]*?background: linear-gradient\\(180deg,#E2B96B,#C89D52\\) !important;[\\s\\S]*?color: #2A2421 !important;/);
+  assert.doesNotMatch(mobile, /#admin-panel-modal button\\[class\\*="bg-emerald"\\] \\{[^}]*background: var\\(--admin-forest\\)/);
 });
 
 test('a camada final mantém os dourados refinados e o texto café nos CTAs premium', () => {

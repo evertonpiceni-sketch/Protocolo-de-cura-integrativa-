@@ -6,7 +6,7 @@
 
 ## Achado e correção
 
-A varredura das 12 folhas CSS encontrou declarações ativas ainda usando o dourado antigo `#B88736`, o âmbar escuro `#8F631E` e variantes RGB antigas. Parte delas estava justamente na camada final `natural-sereno-approved-overrides.css`, portanto não era apenas resíduo histórico: alguns botões, bordas, ícones e textos ainda poderiam renderizar com a tonalidade anterior.
+A varredura das 12 folhas CSS encontrou declarações ativas ainda usando o dourado antigo `#B88736`, o âmbar escuro `#8F631E`, o dourado amarelado `#CDAA57` e variantes RGB antigas. Parte delas estava justamente na camada final `natural-sereno-approved-overrides.css`, portanto não era apenas resíduo histórico: alguns botões, bordas, ícones e textos ainda poderiam renderizar com a tonalidade anterior.
 
 Atualizei sete folhas que continham declarações ativas: `natural-sereno.css`, `natural-sereno-refinement.css`, `natural-sereno-mobile-fixes.css`, `natural-sereno-milestone-audit.css`, `natural-sereno-legacy-green-audit.css`, `natural-sereno-approved-overrides.css` e `natural-sereno-home-surface-audit.css`.
 
@@ -15,9 +15,9 @@ Atualizei sete folhas que continham declarações ativas: `natural-sereno.css`, 
 - Bordas e brilhos sutis passaram ao dourado refinado `rgba(200,157,82,...)`.
 - Os seletores que procuram classes antigas como `bg-[#B88736]` ou `text-[#B88736]` foram preservados para neutralizar componentes legados; somente valores de declarações foram atualizados.
 
-Também corrigi o texto secundário da Home, que ainda usava `#8F631E`, e incluí a folha `natural-sereno-home-surface-audit.css` na correção.
+Também corrigi o texto secundário da Home, que ainda usava `#8F631E`, e incluí a folha `natural-sereno-home-surface-audit.css` na correção. No painel administrativo, o botão de ação ainda herdava fundo sálvia sólido; ele passou a usar o gradiente dourado premium, texto café e borda refinada. O contorno antigo `#CDAA57` também foi substituído.
 
-Adicionei `tests/natural-sereno-approved-gold-palette.test.ts`, que percorre as 12 folhas e impede que tokens antigos voltem a aparecer em declarações CSS ativas.
+Adicionei `tests/natural-sereno-approved-gold-palette.test.ts`, que percorre as 12 folhas, verifica o CTA do painel administrativo e impede que tokens antigos voltem a aparecer em declarações CSS ativas.
 
 ## Referência visual
 
