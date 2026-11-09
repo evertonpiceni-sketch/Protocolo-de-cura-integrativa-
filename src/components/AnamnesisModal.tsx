@@ -194,6 +194,7 @@ export default function AnamnesisModal({
         audioEngine.startBG(userProfile.bgMusicType);
       }
     }
+    if (isEssenciaLuminosa) setIs639HzActive(false);
     onClose();
   };
 
@@ -210,6 +211,14 @@ export default function AnamnesisModal({
     setIsPlayingTherapeuticVoice(false);
     setIsLoadingVoice(false);
   };
+
+  React.useEffect(() => () => {
+    if (isEssenciaLuminosa) {
+      setNeuralVoicePreviewActive(false);
+      audioEngine.stopSpeech();
+      audioPlayerRef.current?.pause();
+    }
+  }, [isEssenciaLuminosa]);
 
   const playTherapeuticVoice = async (text: string, overrideGender?: 'masculina' | 'feminina') => {
     const gender = overrideGender || selectedVoiceGender;
