@@ -364,3 +364,20 @@ test('Místico Moderno mantém as duas superfícies do Diário na paleta noturna
   assert.ok(css.includes('#daily-diary-modal [class*="bg-[#B88736]/"]'), 'Translucent gold badges must use a subtle surface.');
   assert.ok(!css.includes('#daily-diary-modal [class*="bg-[#B88736]"] {'), 'Broad gold selector would overpaint non-button badges.');
 });
+
+
+test('Místico Moderno applies premium styling and readable contrast to global floating actions', () => {
+  const app = read('src/App.tsx');
+  const css = read('src/mistico-moderno-final-audit.css');
+  const main = read('src/main.tsx');
+
+  assert.match(main, /import '\\.\/mistico-moderno-final-audit\\.css';/);
+  assert.match(app, /id="floating-whatsapp-btn"\\s+aria-label="Fale Conosco"/);
+  assert.match(css, /:root\\[data-layout="mistico-moderno"\\] #floating-whatsapp-btn/);
+  assert.match(css, /border-radius: 1rem !important/);
+  assert.match(css, /background: linear-gradient\\(145deg, #141F30 0%, #0A2742 100%\\) !important/);
+  assert.match(css, /#floating-whatsapp-btn svg \\{[\\s\\S]*?color: #E2B96B !important/);
+  assert.match(css, /:root\\[data-layout="mistico-moderno"\\] \\.ep-app-toast h4[\\s\\S]*?color: #F4F1EB !important/);
+  assert.match(css, /:root\\[data-layout="mistico-moderno"\\] \\.ep-app-toast p[\\s\\S]*?color: #CBD5E1 !important/);
+  assert.match(css, /:root\\[data-layout="mistico-moderno"\\] \\.ep-app-toast button[\\s\\S]*?color: #E2B96B !important/);
+});
