@@ -10,7 +10,7 @@ export function paymentRoutes(
   authenticate: any,
   limiter: any,
   providerFetch: typeof fetch = fetch,
-  environment: Pick<NodeJS.ProcessEnv, 'VERCEL_ENV'> = process.env
+  environment: { VERCEL_ENV?: string } = process.env
 ) {
   const router = Router();
   // InfinitePay currently points to the live public checkout API. Until a real
