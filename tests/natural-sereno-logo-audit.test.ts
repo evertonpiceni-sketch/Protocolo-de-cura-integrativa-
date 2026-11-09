@@ -32,16 +32,7 @@ test('o logo da tela de carregamento respeita 30% desktop e 26% mobile apesar da
   const base = read('src/natural-sereno.css');
   const overrides = read('src/natural-sereno-approved-overrides.css');
 
-  assert.match(
-    base,
-    /:root\\[data-layout="natural-sereno"\\] #auth-loading-view img \\{ opacity: \\.9 !important; mix-blend-mode: normal !important; \\}/
-  );
-  assert.match(
-    overrides,
-    /:root\\[data-layout="natural-sereno"\\] #auth-loading-view img \\{\\s*opacity:\\.30!important;\\s*mix-blend-mode:normal!important;\\s*filter:none!important;\\s*\\}/
-  );
-  assert.match(
-    overrides,
-    /@media\\(max-width:640px\\) \\{\\s*:root\\[data-layout="natural-sereno"\\] #auth-loading-view img \\{\\s*opacity:\\.26!important;\\s*\\}/
-  );
+  assert.ok(base.includes(':root[data-layout="natural-sereno"] #auth-loading-view img { opacity: .9 !important; mix-blend-mode: normal !important; }'));
+  assert.ok(overrides.includes(':root[data-layout="natural-sereno"] #auth-loading-view img {\n  opacity:.30!important;\n  mix-blend-mode:normal!important;\n  filter:none!important;\n}'));
+  assert.ok(overrides.includes('@media(max-width:640px) {\n  :root[data-layout="natural-sereno"] #auth-loading-view img {\n    opacity:.26!important;\n  }\n}'));
 });
