@@ -58,3 +58,13 @@ test('the neutral chooser layer does not alter the approved public Reintegraçã
   assert.doesNotMatch(css, /ep-reintegration|reintegration21|#arcanjo-protocol-view|#plans-modal/);
   assert.match(css, /#main-header \.ep-brand-signature[\s\S]*?opacity: \.30/);
 });
+
+test('the Místico Moderno preview keeps natural sage out of standalone palette swatches', () => {
+  const modal = read('src/components/LayoutChoiceModal.tsx');
+
+  assert.doesNotMatch(modal, /#6F8F55/i,
+    'Natural Sereno sage may appear only inside approved nature imagery, not as a standalone Style 4 swatch.');
+  assert.equal((modal.match(/#141F30/g) || []).length, 2,
+    'Both Style 4 swatch rows must use the approved deep-night tone instead of the sage remnant.');
+  assert.match(modal, /'#0A2742', '#2E3B73', '#1E6B5A', '#6C3FA0', '#D4AF37', '#E2B96B', '#F4F1EB', '#141F30'/);
+});
