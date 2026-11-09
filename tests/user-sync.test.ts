@@ -109,13 +109,13 @@ test('active profile, progress, onboarding and Natural Sereno journey paths use 
   assert.match(app, /const saveProfile = \(newProfile: UserProfile, progressOverride\?: DayProgress\[\]\) =>/);
   const normalizedApp = app.replace(/\s+/g, ' ');
   assert.ok(normalizedApp.includes('const syncPayload = progressOverride ? { profile: newProfile, progress: progressOverride } : { profile: newProfile };'));
-  assert.match(app, /void syncUserState\(syncPayload\)/);
-  assert.match(app, /void syncUserState\(\{ progress: newProgress \}\)/);
-  assert.match(app, /await syncUserState\(\{ profile: updatedProfile \}\)/);
+  assert.match(app, /void syncUserState\(syncPayload, \{ accountKey: newProfile\.login \}\)/);
+  assert.match(app, /void syncUserState\(\{ progress: newProgress \}, \{ accountKey: userProfile\?\.login \}\)/);
+  assert.match(app, /await syncUserState\(\{ profile: updatedProfile \}, \{ accountKey: updatedProfile\.login \}\)/);
   assert.doesNotMatch(app, /fetch\(['"]\/api\/user\/sync/);
   assert.match(setup, /syncUserState\(/);
   assert.doesNotMatch(setup, /fetch\(['"]\/api\/user\/sync/);
-  assert.match(journey, /syncUserState\(\{ profile, progress \}\)/);
+  assert.match(journey, /syncUserState\(\{ profile, progress \}, \{ accountKey:/);
   assert.doesNotMatch(journey, /fetch\(['"]\/api\/user\/sync/);
 });
 
