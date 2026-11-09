@@ -238,6 +238,10 @@ test('Arcanjo ownership blocks global audio without stopping its own Solfeggio',
   const wrapperEnd = guard.indexOf('const releaseOpeningGuard', wrapperStart);
   const globalStartGuard = guard.slice(wrapperStart, wrapperEnd);
 
+  assert.match(guard, /const ARCANJO_VIEW_MARKER = '#arcanjo-protocol-view'/);
+  assert.match(guard, /document\.querySelector\(ARCANJO_VIEW_MARKER\) !== null/);
+  assert.doesNotMatch(guard, /img\[alt=/);
+  assert.match(arcanjo, /id="arcanjo-protocol-view"/);
   assert.match(guard, /export const startArcanjoOwnedSolfeggio/);
   assert.match(guard, /originalStartBG\(type\)/);
   assert.match(globalStartGuard, /if \(arcanjoOwnsAudio\(\)\) return;/);
