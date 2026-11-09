@@ -1194,3 +1194,24 @@
   min-height: 44px;
   border-radius: 18px !important;
 }
+
+/* RUN 132 — preservar transparência dos fundos dourados legados.
+   O bridge compartilhado de approved-theme.css traduz os tokens #B88736 para
+   o dourado ativo, mas o seletor amplo também alcançava variantes /8, /10,
+   /12, /15 e /20, tornando fundos que deveriam ser translúcidos em chapas
+   douradas opacas. Corrigir somente no Natural Sereno e manter cada alpha. */
+:root[data-layout="natural-sereno"] [class~="bg-[#B88736]/8"] {
+  background-color: rgba(200,157,82,.08) !important;
+}
+:root[data-layout="natural-sereno"] [class~="bg-[#B88736]/10"] {
+  background-color: rgba(200,157,82,.10) !important;
+}
+:root[data-layout="natural-sereno"] [class~="bg-[#B88736]/12"] {
+  background-color: rgba(200,157,82,.12) !important;
+}
+:root[data-layout="natural-sereno"] [class~="bg-[#B88736]/15"] {
+  background-color: rgba(200,157,82,.15) !important;
+}
+:root[data-layout="natural-sereno"] [class~="bg-[#B88736]/20"] {
+  background-color: rgba(200,157,82,.20) !important;
+}
