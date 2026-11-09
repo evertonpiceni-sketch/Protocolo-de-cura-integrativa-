@@ -159,3 +159,31 @@ test('InfinitePay exige confirmação do valor exato e preserva as escolhas come
   assert.ok(tests.includes("call('webhooks/payment'"));
   assert.ok(tests.includes("call('payment/confirm'"));
 });
+
+
+test('o logo do acolhimento permanece transparente e discreto em desktop e celular', () => {
+  const css = read('src/essencia-luminosa-welcome-audit.css');
+  assert.ok(css.includes('#welcome-modal .ep-brand-signature-wrap'));
+  assert.ok(css.includes('opacity: .30'));
+  assert.ok(css.includes('opacity: .26'));
+  assert.ok(css.includes('background: transparent'));
+});
+
+test('as 24 folhas CSS da Essência Luminosa permanecem isoladas ao layout ativo', () => {
+  const files = fs.readdirSync('src').filter(name => /^essencia-luminosa-.*\\.css$/.test(name));
+  assert.equal(files.length, 24, 'inventário de folhas CSS do Estilo 3 mudou; revisar a cobertura');
+  const unscoped: string[] = [];
+  for (const file of files) {
+    const css = fs.readFileSync(`src/${file}`, 'utf8').replace(/\\/\\*[\\s\\S]*?\\*\\//g, '');
+    for (const match of css.matchAll(/([^{}]+)\\{/g)) {
+      const selector = match[1].trim().replace(/\\s+/g, ' ');
+      if (!selector || selector.startsWith('@') || /^(from|to|[0-9.]+%)/.test(selector)) continue;
+      for (const part of selector.split(',')) {
+        if (!/(?:\\:root|html)\\[data-layout=["']essencia-luminosa["']\\]/.test(part.trim())) {
+          unscoped.push(`${file}: ${part.trim()}`);
+        }
+      }
+    }
+  }
+  assert.deepEqual(unscoped, [], 'seletor CSS do Estilo 3 sem isolamento encontrado');
+});
