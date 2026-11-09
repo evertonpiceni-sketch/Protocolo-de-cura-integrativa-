@@ -152,7 +152,8 @@ test('a entrada ativa usa OnboardingFlow e recebe tratamento visual isolado do E
   assert.ok(app.includes('<OnboardingFlow'));
   assert.ok(onboarding.includes('ep-care-onboarding'));
   assert.ok(css.includes(':root[data-layout="elegancia-profunda"] .ep-care-onboarding'));
-  assert.ok(css.includes(`--ep-scene:url('https://images.unsplash.com/photo-1788699779752-4d6473417203?auto=format&fit=crop&w=1920&q=80')`));
+  assert.ok(css.includes(`--ep-scene:url('https://images.unsplash.com/photo-1788699626335-906b2c4ae2d8?auto=format&fit=crop&w=1920&q=85')`));
+  assert.ok(css.includes('https://unsplash.com/photos/pine-forest-reflecting-in-lake-Fo9GeFThXsI'), 'A camada aprovada deve registrar a fonte original da fotografia.');
   assert.ok(css.includes('rgba(10,27,20,.42)'));
   assert.ok(!css.includes('/brand/natural-sereno/'));
   assert.ok(!css.includes('reintegracao-presenca-arte.png'));
@@ -201,7 +202,7 @@ test('o player respeita o contexto de dia do Estilo 2 sem herdar a cena da Reint
   const session = read('src/components/MeditationSession.tsx');
   const css = read('src/elegancia-profunda-approved-overrides.css');
   assert.ok(session.includes("['natural-sereno', 'elegancia-profunda', 'essencia-luminosa'].includes(activeLayout || '') ? dayNumber : undefined"));
-  assert.ok(css.includes(`--ep-scene:url('https://images.unsplash.com/photo-1788699779752-4d6473417203?auto=format&fit=crop&w=1920&q=80')`));
+  assert.ok(css.includes(`--ep-scene:url('https://images.unsplash.com/photo-1788699626335-906b2c4ae2d8?auto=format&fit=crop&w=1920&q=85')`));
   assert.ok(!css.includes('var(--ep-scene)'), 'O player mantém sua própria cena e não recebe o fundo global.');
   assert.ok(css.includes('#meditation-session .ep-session-backdrop > div:last-child'));
 });
@@ -423,7 +424,8 @@ test('o Estilo 2 não herda a imagem de fundo da Reintegração no tema comparti
   const theme = read('src/approved-theme.css');
   const style2SceneBlock = theme.match(/:root\[data-layout="elegancia-profunda"\]\s*\{[^}]*--ep-scene:[^}]*\}/)?.[0] ?? '';
   assert.ok(style2SceneBlock, 'O bloco de cena do Estilo 2 deve existir.');
-  assert.ok(style2SceneBlock.includes(`--ep-scene:url('https://images.unsplash.com/photo-1788699779752-4d6473417203?auto=format&fit=crop&w=1920&q=80');`));
+  assert.ok(style2SceneBlock.includes(`--ep-scene:url('https://images.unsplash.com/photo-1788699626335-906b2c4ae2d8?auto=format&fit=crop&w=1920&q=85');`));
+  assert.ok(style2SceneBlock.includes('https://unsplash.com/photos/pine-forest-reflecting-in-lake-Fo9GeFThXsI'), 'A cena deve manter fonte e autoria rastreáveis.');
   assert.ok(style2SceneBlock.includes('rgba(10,27,20,.42)'));
   assert.ok(!style2SceneBlock.includes('reintegracao-presenca-arte.png'));
   assert.ok(!style2SceneBlock.includes('/brand/natural-sereno/'));
