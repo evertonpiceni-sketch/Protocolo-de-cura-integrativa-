@@ -40,25 +40,28 @@
    A troca altera somente a camada visual; lógica, conteúdo e estrutura permanecem iguais. */
 :root[data-layout="natural-sereno"]{
   color-scheme:light;
-  --layout-canvas:#F5EFE6;
-  --layout-canvas-alt:#EBE3D7;
-  --layout-card:rgba(255,255,255,.92);
-  --layout-card-hover:#FFFFFF;
-  --layout-card-subtle:#FAF6F0;
-  --layout-input:#EFE8DD;
-  --layout-accent:#2D4A3E;
-  --layout-accent-light:#4A6E5F;
-  --layout-gold:#B38634;
-  --layout-gold-light:#C5A059;
-  --layout-gold-dark:#8F631E;
-  --layout-gold-border:rgba(179,134,52,.35);
-  --layout-gold-gradient:linear-gradient(135deg,#C5A059 0%,#B38634 50%,#8F631E 100%);
-  --layout-gold-shadow:rgba(179,134,52,.22);
-  --layout-text:#202D24;
-  --layout-text-secondary:#5C6A60;
-  --layout-text-muted:#7A887E;
-  --layout-border:#D8CEBE;
-  --layout-border-card:#E2D7C7;
+  --layout-canvas:#FAF7F2;
+  --layout-canvas-alt:#F5EFE5;
+  --layout-card:rgba(255,253,248,.94);
+  --layout-card-hover:#FFFDF8;
+  --layout-card-subtle:#FBF8F2;
+  --layout-input:#F5EFE4;
+  --layout-accent:#6F7B55;
+  --layout-accent-light:#87936F;
+  --layout-accent-soft:rgba(111,123,85,.10);
+  --layout-gold:#C89D52;
+  --layout-gold-soft:rgba(200,157,82,.12);
+  --layout-gold-light:#E2B96B;
+  --layout-gold-dark:#A87E37;
+  --layout-gold-border:rgba(200,157,82,.34);
+  --layout-gold-gradient:linear-gradient(135deg,#E2B96B 0%,#C89D52 55%,#A87E37 100%);
+  --layout-gold-shadow:rgba(67,52,39,.10);
+  --layout-text:#2A2421;
+  --layout-text-secondary:#6B625B;
+  --layout-text-muted:#6B625B;
+  --layout-border:#E8E0D5;
+  --layout-border-card:#E8E0D5;
+  --layout-text-soft:#6B625B;
 }
 
 /* Estado neutro de pré-seleção: nenhum dos quatro estilos oficiais fica ativo por padrão.
@@ -474,11 +477,11 @@ body::before{
    ======================================================================== */
 
 :root[data-layout="natural-sereno"]{
-  --ep-scene:url('/brand/reintegracao-presenca-arte.png');
-  --ep-scene-overlay:linear-gradient(180deg,rgba(245,239,230,.22),rgba(6,42,31,.08) 44%,rgba(5,35,26,.32));
-  --ep-panel:rgba(255,250,238,.90);
-  --ep-panel-strong:rgba(255,252,244,.96);
-  --ep-panel-text:#20382d;
+  --ep-scene:var(--ns-valley);
+  --ep-scene-overlay:linear-gradient(180deg,rgba(250,247,242,.12),rgba(250,247,242,.34) 46%,rgba(245,239,229,.72));
+  --ep-panel:rgba(255,253,248,.94);
+  --ep-panel-strong:#FFFDF8;
+  --ep-panel-text:#2A2421;
 }
 :root[data-layout="essencia-luminosa"]{
   --ep-scene: none;
