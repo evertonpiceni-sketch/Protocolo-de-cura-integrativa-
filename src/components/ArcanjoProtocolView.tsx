@@ -317,7 +317,7 @@ export default function ArcanjoProtocolView({ userProfile, onClose, onLogout, in
             <button disabled={!hasKnownDuration} className="flex h-11 w-11 items-center justify-center rounded-xl text-[#d7e2d8] disabled:opacity-30" aria-label="Avançar dez segundos" onClick={()=>seek(10)}><RotateCw/></button>
           </div>
 
-          {voiceError && <p role="alert" className="ep-voice-error mt-4 rounded-xl px-4 py-3 text-xs">{isEssenciaLuminosa ? 'A narração neural está indisponível. A voz do dispositivo não será usada.' : 'A narração neural está indisponível. Verifique a voz selecionada em Ajustes de áudio; a voz do dispositivo não será usada.'}</p>}
+          {voiceError && <p role="alert" className="ep-voice-error mt-4 rounded-xl px-4 py-3 text-xs">{isEssenciaLuminosa ? 'A narração neural está indisponível. A voz do dispositivo não será usada.' : 'A narração neural está indisponível. Verifique a voz selecionada em Ajustes de áudio. A voz do dispositivo não será usada.'}</p>}
           <div className="mt-4 flex items-center justify-center gap-2 text-center text-sm text-[#bad0c4]">
             <Volume2 size={17}/>
             <span>{isPreparingAudio ? 'Preparando narração aprovada…' : isPlaying ? `Voz humana + Solfeggio ${config.freq} Hz ativos` : hasStarted ? `Pausado — Solfeggio ${config.freq} Hz interrompido` : `Pronto — Solfeggio ${config.freq} Hz será reproduzido junto com a narração`}</span>
