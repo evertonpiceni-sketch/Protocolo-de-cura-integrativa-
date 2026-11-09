@@ -70,6 +70,6 @@ A suíte e o build geraram apenas o aviso não bloqueante de chunk JavaScript ac
 - Escuta real da voz, Solfeggio e ambiência permanece pendente.
 - Checkout, confirmação e webhook InfinitePay em sandbox permanecem pendentes.
 - A resposta técnica ao apontamento P1 foi publicada na própria thread e a thread foi resolvida após a correção e as evidências de teste/runtime. O Codex informou limite de uso para uma segunda revisão automatizada; por isso não há parecer independente novo do HEAD final.
-- A branch está **152 commits à frente e 23 atrás** da `main`. A inspeção confirmou que a `main` já contém uma fotografia própria mais recente da Elegância Profunda (`photo-1788699626335-906b2c4ae2d8`), ausente desta branch, além de tokens compartilhados diferentes. Não fiz merge automático: a reconciliação precisa incorporar essa decisão posterior dos Estilos 2/3/4 sem substituir a paleta aprovada do Natural Sereno nem recuperar componentes rejeitados.
+- A branch está **152 commits à frente e 23 atrás** da `main`. A inspeção confirmou que a `main` já contém uma fotografia própria mais recente da Elegância Profunda (`photo-1788699626335-906b2c4ae2d8`), ausente desta branch, além de tokens compartilhados diferentes. Não fiz merge automático: a reconciliação precisa incorporar essa decisão posterior dos Estilos 2/3/4 sem substituir a paleta aprovada do Natural Sereno nem recuperar componentes rejeitados. Como não houve merge, a correção P1 está registrada na PR #74 e ainda não foi aplicada à `main`/produção.
 
 **Sem merge, publicação em produção ou cobrança real.**
