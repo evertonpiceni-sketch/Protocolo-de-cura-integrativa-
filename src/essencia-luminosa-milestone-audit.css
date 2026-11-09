@@ -76,3 +76,26 @@
   color: var(--layout-text) !important;
   border-color: var(--layout-gold-border) !important;
 }
+
+/* O componente compartilhado usa um BUTTON verde para a ação externa;
+   a regra antiga cobria apenas <a>, por isso o verde saturado escapava no Estilo 3. */
+:root[data-layout="essencia-luminosa"] [aria-label="Celebração de progresso"] button.bg-emerald-600 {
+  background: linear-gradient(
+    135deg,
+    color-mix(in srgb, var(--layout-accent-soft) 64%, var(--layout-card)),
+    color-mix(in srgb, var(--layout-accent) 28%, var(--layout-card))
+  ) !important;
+  color: var(--layout-text) !important;
+  border: 1px solid color-mix(in srgb, var(--layout-accent) 32%, var(--layout-border)) !important;
+  box-shadow: 0 10px 24px color-mix(in srgb, var(--layout-accent) 12%, transparent) !important;
+}
+:root[data-layout="essencia-luminosa"] [aria-label="Celebração de progresso"] button.bg-emerald-600:hover {
+  background: linear-gradient(
+    135deg,
+    color-mix(in srgb, var(--layout-accent-soft) 52%, var(--layout-card)),
+    color-mix(in srgb, var(--layout-accent) 38%, var(--layout-card))
+  ) !important;
+}
+:root[data-layout="essencia-luminosa"] [aria-label="Celebração de progresso"] [class*="text-rose-"] {
+  color: var(--layout-accent) !important;
+}
