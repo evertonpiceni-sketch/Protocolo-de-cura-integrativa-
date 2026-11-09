@@ -312,6 +312,8 @@ export default function ArcanjoProtocolView({ userProfile, onClose, onLogout, in
       audioEngine.pauseSpeech();
       return;
     }
+    // Ao retomar a voz neural, interrompe novamente a frequência restaurada na pausa.
+    if (requiresNeuralVoice) stopProtocolFrequency();
     audioEngine.resumeSpeech();
     if (!requiresNeuralVoice) {
       playProtocolFrequency();
