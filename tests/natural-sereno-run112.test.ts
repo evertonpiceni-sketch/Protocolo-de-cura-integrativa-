@@ -76,5 +76,8 @@ test('cross-tab account changes invalidate a stale private view', () => {
   assert.ok(handler.includes('audioEngine.stopSpeech()'));
   assert.ok(handler.includes('audioEngine.stopBG()'));
   assert.ok(handler.includes('setNeuralVoicePreviewActive(false)'));
-  assert.ok(handler.includes('window.location.reload()'));
+  assert.ok(handler.includes('setUserProfile(null)'));
+  assert.ok(handler.includes('setProgress([])'));
+  assert.ok(handler.includes('setIsLoggedIn(false)'));
+  assert.ok(handler.includes('if (event.newValue?.trim()) window.location.reload()'));
 });
