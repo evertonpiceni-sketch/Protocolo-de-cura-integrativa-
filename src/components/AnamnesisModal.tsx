@@ -137,7 +137,7 @@ export default function AnamnesisModal({
   });
   const is639HzAudible = isEssenciaLuminosa
     ? canPlayEssenciaLuminosaSolfeggio()
-    : isOpen && isEditing && is639HzActive;
+    : is639HzActive;
   const ensureAnamnesisSolfeggio = () => {
     const allowed = isEssenciaLuminosa ? canPlayEssenciaLuminosaSolfeggio() : is639HzActive;
     if (allowed && audioEngine.getCurrentSynthType() !== '639hz') {
@@ -170,11 +170,15 @@ export default function AnamnesisModal({
         }
       }
     };
-  }, [isOpen, isEditing, is639HzActive, userProfile.audioEnabled, userProfile.bgMusicType, isLoadingVoice, isPlayingTherapeuticVoice]);
+  }, [isOpen, isEditing, is639HzActive, userProfile.audioEnabled, userProfile.bgMusicType, isEssenciaLuminosa ? isLoadingVoice : false, isEssenciaLuminosa ? isPlayingTherapeuticVoice : false]);
 
   const handleToggle639Hz = () => {
     if (is639HzActive) {
-      if (audioEngine.getCurrentSynthType() === '639hz') audioEngine.stopBG();
+      if (isEssenciaLuminosa) {
+        if (audioEngine.getCurrentSynthType() === '639hz') audioEngine.stopBG();
+      } else {
+        audioEngine.stopBG();
+      }
       setIs639HzActive(false);
     } else {
       if (!isEssenciaLuminosa) {
