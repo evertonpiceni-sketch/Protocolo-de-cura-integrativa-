@@ -39,3 +39,37 @@ test('Anamnese e Perguntas Sistêmicas cedem o áudio ao preview neural sem fall
   assert.ok(!systemic.includes('setTimeout(() => setIsReadingVoice(false), 12000)'));
   assert.ok(systemic.includes('is639HzAudible'));
 });
+
+test('Arcanjo/São Miguel interrompe Solfeggio durante narração neural e retoma após pausa, término ou falha', () => {
+  const arcanjo = read('src/components/ArcanjoProtocolView.tsx');
+  const block = (start: string, end: string) => {
+    const from = arcanjo.indexOf(start);
+    const to = arcanjo.indexOf(end, from + start.length);
+    assert.ok(from >= 0 && to > from, `Bloco não encontrado: ${start}`);
+    return arcanjo.slice(from, to);
+  };
+
+  const startFrequency = block('const startSolfeggio = () => {', 'const stopSolfeggio = () => {');
+  assert.ok(startFrequency.includes('userProfile.audioEnabled === false'));
+  assert.ok(startFrequency.includes('audioEngine.startSynth(`${config.freq}hz`)'));
+
+  const onStart = block('onStart: () => {', 'onPause: () => {');
+  assert.ok(onStart.includes('stopSolfeggio();'));
+  assert.ok(!onStart.includes('startSolfeggio();'));
+
+  const onPause = block('onPause: () => {', 'onTimeUpdate:');
+  assert.ok(onPause.includes('startSolfeggio();'));
+
+  const completion = block('const complete = () => {', 'const startNativeFallback =');
+  assert.ok(completion.includes('resetPlayback();'));
+  assert.ok(completion.includes('startSolfeggio();'));
+
+  const onError = block('onError: () => {', '    });');
+  assert.ok(onError.includes('startSolfeggio();'));
+
+  const toggle = block('const togglePlayback = () => {', 'const selectDay =');
+  assert.ok(toggle.indexOf('stopSolfeggio();') < toggle.indexOf('audioEngine.resumeSpeech();'));
+
+  assert.ok(arcanjo.includes('Narração neural ativa — Solfeggio'));
+  assert.ok(arcanjo.includes('Solfeggio ${config.freq} Hz ativo — narração pausada ou encerrada'));
+});

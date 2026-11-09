@@ -48,6 +48,7 @@ export default function ArcanjoProtocolView({ userProfile, onClose, onLogout, in
   const [isPlaying, setIsPlaying] = useState(false);
   const [isPreparingAudio, setIsPreparingAudio] = useState(false);
   const [voiceError, setVoiceError] = useState(false);
+  const [isSolfeggioActive, setIsSolfeggioActive] = useState(false);
   const isNaturalSereno = typeof document !== 'undefined' && document.documentElement.dataset.layout === 'natural-sereno';
   const isEleganciaProfunda = typeof document !== 'undefined' && document.documentElement.dataset.layout === 'elegancia-profunda';
   const isEssenciaLuminosa = typeof document !== 'undefined' && document.documentElement.dataset.layout === 'essencia-luminosa';
@@ -68,6 +69,22 @@ export default function ArcanjoProtocolView({ userProfile, onClose, onLogout, in
   const hasKnownDuration = Number.isFinite(duration) && duration > 0;
   const progressPercent = hasKnownDuration ? Math.min(100, Math.max(0, elapsed / duration * 100)) : null;
   const activeSection = APPROVED_SECTIONS[Math.min(activeSectionIndex, APPROVED_SECTIONS.length - 1)];
+
+  // Solfeggio never overlaps neural narration and always respects the user's audio setting.
+  const startSolfeggio = () => {
+    if (userProfile.audioEnabled === false) {
+      audioEngine.stopSynth();
+      setIsSolfeggioActive(false);
+      return;
+    }
+    audioEngine.startSynth(`${config.freq}hz`);
+    setIsSolfeggioActive(true);
+  };
+
+  const stopSolfeggio = () => {
+    audioEngine.stopSynth();
+    setIsSolfeggioActive(false);
+  };
 
   useEffect(() => {
     let done: number[] = [];
@@ -106,7 +123,7 @@ export default function ArcanjoProtocolView({ userProfile, onClose, onLogout, in
     if (fallbackTimerRef.current) window.clearInterval(fallbackTimerRef.current);
     fallbackTimerRef.current = null;
     audioEngine.stopSpeech();
-    audioEngine.stopSynth();
+    stopSolfeggio();
     setIsPlaying(false);
     setIsPreparingAudio(false);
     setHasStarted(false);
@@ -122,6 +139,8 @@ export default function ArcanjoProtocolView({ userProfile, onClose, onLogout, in
     setCompletedDays(next);
     onCompletedDaysChange?.(next);
     resetPlayback();
+    // After completion the spoken narration is over, so the configured frequency may resume.
+    startSolfeggio();
   };
 
   const startNativeFallback = (runId: number) => {
@@ -207,14 +226,14 @@ export default function ArcanjoProtocolView({ userProfile, onClose, onLogout, in
         : undefined,
       onStart: () => {
         if (runId !== narrationRunRef.current) return;
-        audioEngine.startSynth(`${config.freq}hz`);
+        stopSolfeggio();
         setIsPreparingAudio(false);
         setIsPlaying(true);
       },
       onPause: () => {
         if (runId !== narrationRunRef.current) return;
         setIsPlaying(false);
-        audioEngine.stopSynth();
+        startSolfeggio();
       },
       onTimeUpdate: (seconds, realDuration) => {
         if (runId !== narrationRunRef.current) return;
@@ -233,6 +252,7 @@ export default function ArcanjoProtocolView({ userProfile, onClose, onLogout, in
           setIsPlaying(false);
           setHasStarted(false);
           setVoiceError(true);
+          startSolfeggio();
           return;
         }
         startNativeFallback(runId);
@@ -252,12 +272,11 @@ export default function ArcanjoProtocolView({ userProfile, onClose, onLogout, in
     }
     if (isPlaying) {
       audioEngine.pauseSpeech();
-      audioEngine.stopSynth();
       setIsPlaying(false);
       return;
     }
-    // The narration's onStart callback fires from the audio element's actual onplay event.
-    // It also restarts Solfeggio after a pause; never start the frequency optimistically here.
+    // Stop the frequency before resuming speech; onStart confirms the actual audio playback.
+    stopSolfeggio();
     audioEngine.resumeSpeech();
   };
 
@@ -328,7 +347,7 @@ export default function ArcanjoProtocolView({ userProfile, onClose, onLogout, in
           {voiceError && <p role="alert" className="ep-voice-error mt-4 rounded-xl px-4 py-3 text-xs">{isEssenciaLuminosa ? 'A narração neural está indisponível. A voz do dispositivo não será usada.' : 'A narração neural está indisponível. Verifique a voz selecionada em Ajustes de áudio. A voz do dispositivo não será usada.'}</p>}
           <div className="mt-4 flex items-center justify-center gap-2 text-center text-sm text-[#bad0c4]">
             <Volume2 size={17}/>
-            <span>{isPreparingAudio ? 'Preparando narração aprovada…' : isPlaying ? `Voz humana + Solfeggio ${config.freq} Hz ativos` : hasStarted ? `Pausado — Solfeggio ${config.freq} Hz interrompido` : `Pronto — Solfeggio ${config.freq} Hz será reproduzido junto com a narração`}</span>
+            <span>{isPreparingAudio ? 'Preparando narração aprovada…' : isPlaying ? `Narração neural ativa — Solfeggio ${config.freq} Hz pausado` : userProfile.audioEnabled === false ? 'Áudio desativado nas configurações' : isSolfeggioActive ? `Solfeggio ${config.freq} Hz ativo — narração pausada ou encerrada` : hasStarted ? `Narração pausada — Solfeggio ${config.freq} Hz aguardando retomada` : `Pronto — Solfeggio ${config.freq} Hz só toca fora da narração`}</span>
           </div>
         </div>
 
