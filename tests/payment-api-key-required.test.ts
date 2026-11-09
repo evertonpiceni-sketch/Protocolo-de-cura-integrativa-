@@ -18,7 +18,9 @@ test('InfinitePay exige API Key para links single_payment e falha fechado sem cr
     kvUrl: process.env.KV_REST_API_URL,
     kvToken: process.env.KV_REST_API_TOKEN,
     upstashKvUrl: process.env.UPSTASH_REDIS_REST_KV_REST_API_URL,
-    upstashKvToken: process.env.UPSTASH_REDIS_REST_KV_REST_API_TOKEN
+    upstashKvToken: process.env.UPSTASH_REDIS_REST_KV_REST_API_TOKEN,
+    upstashRestUrl: process.env.UPSTASH_REDIS_REST_REST_API_URL,
+    upstashRestToken: process.env.UPSTASH_REDIS_REST_REST_API_TOKEN
   };
   let server: any;
   process.chdir(folder);
@@ -30,6 +32,8 @@ test('InfinitePay exige API Key para links single_payment e falha fechado sem cr
   delete process.env.KV_REST_API_TOKEN;
   delete process.env.UPSTASH_REDIS_REST_KV_REST_API_URL;
   delete process.env.UPSTASH_REDIS_REST_KV_REST_API_TOKEN;
+  delete process.env.UPSTASH_REDIS_REST_REST_API_URL;
+  delete process.env.UPSTASH_REDIS_REST_REST_API_TOKEN;
   process.env.INFINITEPAY_HANDLE = 'evertonterapeutareiki';
   let providerCalls = 0;
   try {
@@ -74,5 +78,7 @@ test('InfinitePay exige API Key para links single_payment e falha fechado sem cr
     if (previous.kvToken === undefined) delete process.env.KV_REST_API_TOKEN; else process.env.KV_REST_API_TOKEN = previous.kvToken;
     if (previous.upstashKvUrl === undefined) delete process.env.UPSTASH_REDIS_REST_KV_REST_API_URL; else process.env.UPSTASH_REDIS_REST_KV_REST_API_URL = previous.upstashKvUrl;
     if (previous.upstashKvToken === undefined) delete process.env.UPSTASH_REDIS_REST_KV_REST_API_TOKEN; else process.env.UPSTASH_REDIS_REST_KV_REST_API_TOKEN = previous.upstashKvToken;
+    if (previous.upstashRestUrl === undefined) delete process.env.UPSTASH_REDIS_REST_REST_API_URL; else process.env.UPSTASH_REDIS_REST_REST_API_URL = previous.upstashRestUrl;
+    if (previous.upstashRestToken === undefined) delete process.env.UPSTASH_REDIS_REST_REST_API_TOKEN; else process.env.UPSTASH_REDIS_REST_REST_API_TOKEN = previous.upstashRestToken;
   }
 });
