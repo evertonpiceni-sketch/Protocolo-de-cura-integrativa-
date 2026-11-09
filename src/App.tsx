@@ -270,7 +270,6 @@ export default function App() {
                          activeSessionDay === null &&
                          !showPersonalJourney &&
                          !showArcanjoView &&
-                         userProfile.subscriptionPlan !== 'arcanjo_7d' &&
                          (!usesNeuralVoiceCatalog || !isPlayingVoiceTest ||
                            shouldPlayProtocolSessionBackground('playing', userProfile.bgMusicType)); // Keep Solfeggio out of neural voice previews in all neural-voice layouts
 
@@ -324,8 +323,7 @@ export default function App() {
                            activeSessionDay === null &&
                            !showPersonalJourney &&
                            !showArcanjoView &&
-                           userProfile.subscriptionPlan !== 'arcanjo_7d' &&
-                           (!usesNeuralVoiceCatalog || !isPlayingVoiceTest ||
+                             (!usesNeuralVoiceCatalog || !isPlayingVoiceTest ||
                              shouldPlayProtocolSessionBackground('playing', userProfile.bgMusicType));
                            
         if (shouldPlay) {
