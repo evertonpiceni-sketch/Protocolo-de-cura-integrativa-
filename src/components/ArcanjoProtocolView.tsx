@@ -204,7 +204,16 @@ export default function ArcanjoProtocolView({ userProfile, onClose, onLogout, in
           pitch: userProfile.voicePitch ?? 1,
           lang: 'pt-BR',
           preferElevenLabs: false,
-          userName: userProfile.name
+          userName: userProfile.name,
+          onError: () => {
+            if (runId !== narrationRunRef.current) return;
+            audioEngine.stopSpeech();
+            audioEngine.stopSynth();
+            setIsPlaying(false);
+            setIsPreparingAudio(false);
+            setHasStarted(false);
+            setVoiceError(true);
+          }
         }
       );
     };
