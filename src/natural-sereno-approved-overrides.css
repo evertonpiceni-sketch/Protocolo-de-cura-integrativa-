@@ -867,3 +867,44 @@
     object-position: center 16%;
   }
 }
+
+/* RUN 119 — acolhimento mobile.
+   A tela de boas-vindas é um fluxo ativo do Natural Sereno. No mobile ainda
+   herdava a cachoeira escura e um véu café pesado, enquanto o desktop usava
+   a paisagem de acolhimento sobre base clara. Unificar a fotografia da página
+   e manter creme/marfim como superfície dominante, sem apagar a natureza. */
+@media (max-width: 899px) {
+  :root[data-layout="natural-sereno"] .ns-app[data-ns-screen="welcome"] {
+    background: #FAF7F2 !important;
+    color: #2A2421 !important;
+  }
+
+  :root[data-layout="natural-sereno"] .ns-app[data-ns-screen="welcome"]::before {
+    background:
+      linear-gradient(180deg, rgba(250,247,242,.72) 0%, rgba(250,247,242,.86) 100%),
+      url('/brand/natural-sereno/acolhimento.webp') center 46% / cover no-repeat !important;
+  }
+
+  :root[data-layout="natural-sereno"] .ns-welcome-content {
+    position: relative;
+    z-index: 1;
+    color: #2A2421 !important;
+  }
+
+  :root[data-layout="natural-sereno"] .ns-welcome-content h1 {
+    color: #2A2421 !important;
+    text-shadow: none !important;
+  }
+
+  :root[data-layout="natural-sereno"] .ns-welcome-content p {
+    color: #6B625B !important;
+    text-shadow: none !important;
+  }
+
+  :root[data-layout="natural-sereno"] .ns-welcome-play {
+    background: rgba(250,247,242,.94) !important;
+    color: #8F631E !important;
+    border-color: rgba(200,157,82,.72) !important;
+    box-shadow: 0 8px 22px rgba(67,52,39,.10) !important;
+  }
+}
