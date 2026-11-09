@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
-import { acquireCheckoutCreationLock, PAYMENT_DATABASE_WRITE_LOCK_SCOPE } from '../src/lib/paymentRoutes';
+import { acquireCheckoutCreationLock, PAYMENT_DATABASE_WRITE_LOCK_SCOPE } from '../src/lib/paymentRoutes.js';
 
 test('lock global serializa snapshots de checkout de usuários e produtos diferentes via Redis', async () => {
   const records = new Map<string, { token: string; expiresAt: number }>();
