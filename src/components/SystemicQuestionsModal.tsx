@@ -14,6 +14,8 @@ import { DayProgress, UserProfile, SystemicQuestionItem } from '../types';
 import { SYSTEMIC_QUESTIONS_21D } from '../lib/systemicData';
 import { audioEngine, OFFICIAL_PROTOCOL_VOICE_ID } from '../lib/audio';
 import { isElevenLabsVoiceId } from '../lib/voiceSelection';
+import { setNeuralVoicePreviewActive } from '../lib/neuralVoicePreviewState';
+import { shouldPlayEssenciaLuminosaInlineSolfeggio } from '../lib/essenciaLuminosaAudioPolicy';
 
 interface SystemicQuestionsModalProps {
   isOpen: boolean;
@@ -42,19 +44,31 @@ export default function SystemicQuestionsModal({
   const isEssenciaLuminosa = typeof document !== 'undefined' && document.documentElement.dataset.layout === 'essencia-luminosa';
   const [copiedSentence, setCopiedSentence] = useState<boolean>(false);
   const [is639HzActive, setIs639HzActive] = useState<boolean>(true);
+  const canPlayEssenciaLuminosaSolfeggio = () => shouldPlayEssenciaLuminosaInlineSolfeggio({
+    isOpen,
+    enabled: is639HzActive,
+    audioEnabled: userProfile?.audioEnabled,
+    voiceLoading: isReadingVoice,
+    voicePlaying: isReadingVoice,
+  });
+  const is639HzAudible = isEssenciaLuminosa
+    ? canPlayEssenciaLuminosaSolfeggio()
+    : is639HzActive;
 
-  // 639 Hz Solfeggio frequency: melhora a compreensão, tolerância e relações interpessoais enquanto o usuário responde
+  // A Essência Luminosa respeita o áudio global e pausa 639 Hz durante a voz neural.
   useEffect(() => {
     if (!isOpen) return;
 
-    if (is639HzActive) {
+    const shouldPlayFrequency = isEssenciaLuminosa
+      ? canPlayEssenciaLuminosaSolfeggio()
+      : is639HzActive;
+
+    if (shouldPlayFrequency) {
       audioEngine.unlock();
       audioEngine.setBGVolume(0.38);
-      audioEngine.startBG('639hz');
-    } else {
-      if (audioEngine.getCurrentSynthType() === '639hz') {
-        audioEngine.stopBG();
-      }
+      if (audioEngine.getCurrentSynthType() !== '639hz') audioEngine.startBG('639hz');
+    } else if (audioEngine.getCurrentSynthType() === '639hz') {
+      audioEngine.stopBG();
     }
 
     return () => {
@@ -65,21 +79,28 @@ export default function SystemicQuestionsModal({
         }
       }
     };
-  }, [isOpen, is639HzActive, userProfile?.audioEnabled, userProfile?.bgMusicType]);
+  }, [isOpen, is639HzActive, userProfile?.audioEnabled, userProfile?.bgMusicType, isReadingVoice]);
 
   const handleToggle639 = () => {
     if (is639HzActive) {
-      audioEngine.stopBG();
+      if (audioEngine.getCurrentSynthType() === '639hz') audioEngine.stopBG();
       setIs639HzActive(false);
     } else {
-      audioEngine.unlock();
-      audioEngine.setBGVolume(0.38);
-      audioEngine.startBG('639hz');
+      if (!isEssenciaLuminosa) {
+        audioEngine.unlock();
+        audioEngine.setBGVolume(0.38);
+        audioEngine.startBG('639hz');
+      }
       setIs639HzActive(true);
     }
   };
 
   const handleCloseModal = () => {
+    if (isEssenciaLuminosa) {
+      setNeuralVoicePreviewActive(false);
+      audioEngine.stopSpeech();
+      setIsReadingVoice(false);
+    }
     if (audioEngine.getCurrentSynthType() === '639hz') {
       audioEngine.stopBG();
       if (userProfile?.audioEnabled && userProfile?.bgMusicType && userProfile?.bgMusicType !== 'none' && userProfile?.bgMusicType !== '639hz') {
@@ -95,6 +116,14 @@ export default function SystemicQuestionsModal({
     setCurrentAnswer(dayProgress?.systemicAnswer || '');
     setIsSavedRecently(false);
   }, [activeDay, progress]);
+
+  useEffect(() => () => {
+    if (isEssenciaLuminosa) {
+      setNeuralVoicePreviewActive(false);
+      audioEngine.stopSpeech();
+      if (audioEngine.getCurrentSynthType() === '639hz') audioEngine.stopBG();
+    }
+  }, [isEssenciaLuminosa]);
 
   const dialogRef = React.useRef<HTMLDivElement | null>(null);
   useDialogFocus(isOpen, dialogRef, () => handleCloseModal());
@@ -112,6 +141,13 @@ export default function SystemicQuestionsModal({
   };
 
   const handleReadVoice = () => {
+    if (isEssenciaLuminosa && isReadingVoice) {
+      audioEngine.stopSpeech();
+      setNeuralVoicePreviewActive(false);
+      setIsReadingVoice(false);
+      return;
+    }
+
     const speechText = `Pergunta Sistêmica do Dia ${activeDay}: ${currentQuestionItem.theme}. ` +
       `${currentQuestionItem.question} ` +
       `Reflexão guiada: ${currentQuestionItem.guidedReflection} ` +
@@ -127,11 +163,19 @@ export default function SystemicQuestionsModal({
         setIsReadingVoice(false);
         return;
       }
+      if (isEssenciaLuminosa) {
+        setNeuralVoicePreviewActive(true);
+        setIsReadingVoice(true);
+        if (audioEngine.getCurrentSynthType() === '639hz') audioEngine.stopBG();
+      }
       void audioEngine.speakWithElevenLabsOrFallback(
         speechText,
         userProfile?.voiceVolume ?? 0.9,
         () => setIsReadingVoice(true),
-        () => setIsReadingVoice(false),
+        () => {
+          if (isEssenciaLuminosa) setNeuralVoicePreviewActive(false);
+          setIsReadingVoice(false);
+        },
         undefined,
         undefined,
         {
@@ -144,7 +188,11 @@ export default function SystemicQuestionsModal({
           enableBreathingPauses: true,
           userName: userProfile?.name,
           fallbackToSpeechSynthesis: false,
-          onError: () => { setIsReadingVoice(false); setVoiceError(true); }
+          onError: () => {
+            if (isEssenciaLuminosa) setNeuralVoicePreviewActive(false);
+            setIsReadingVoice(false);
+            setVoiceError(true);
+          }
         }
       );
       return;
@@ -212,11 +260,11 @@ export default function SystemicQuestionsModal({
           <div className="p-3 rounded-2xl bg-[#F5EFE4] border border-[#E5DAC6] flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2.5">
             <div className="flex items-center gap-2.5">
               <div className="relative w-8 h-8 rounded-xl bg-[#B88736]/10 border border-[#B88736]/25 flex items-center justify-center text-[#B88736] shrink-0">
-                <Heart size={16} className={is639HzActive ? 'scale-105 text-[#B88736]' : 'opacity-60'} />
-                {is639HzActive && (
+                <Heart size={16} className={is639HzAudible ? 'scale-105 text-[#B88736]' : 'opacity-60'} />
+                {is639HzAudible && (
                   <span className="absolute -top-1 -right-1 flex h-2.5 w-2.5">
                     <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-                    <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500"></span>
+                    <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-[#C89D52]"></span>
                   </span>
                 )}
               </div>
@@ -234,14 +282,20 @@ export default function SystemicQuestionsModal({
             <button
               type="button"
               onClick={handleToggle639}
-              className={`px-3 py-1.5 rounded-xl text-xs font-medium flex items-center gap-1.5 transition cursor-pointer border shrink-0 self-end sm:self-center ${
-                is639HzActive
-                  ? 'bg-[#B88736] border-[#B88736] text-white hover:bg-[#8F631E]'
+              disabled={isEssenciaLuminosa && (userProfile?.audioEnabled === false || isReadingVoice)}
+              title={isEssenciaLuminosa && userProfile?.audioEnabled === false ? 'O áudio está desativado nos ajustes.' : isEssenciaLuminosa && isReadingVoice ? 'A frequência fica pausada durante a narração.' : undefined}
+              className={`px-3 py-1.5 rounded-xl text-xs font-medium flex items-center gap-1.5 transition cursor-pointer border shrink-0 self-end sm:self-center disabled:cursor-not-allowed disabled:opacity-50 ${
+                is639HzAudible
+                  ? 'bg-[#B88736] border-[#A87E37] text-white hover:bg-[#8F631E]'
                   : 'bg-[#F5EFE4] border-[#E5DAC6] text-[#5C5248] hover:text-[#2A2420]'
               }`}
             >
-              {is639HzActive ? <Volume2 size={13} /> : <VolumeX size={13} />}
-              <span>{is639HzActive ? '639 Hz ligado' : 'Ativar 639 Hz'}</span>
+              {is639HzAudible ? <Volume2 size={13} /> : <VolumeX size={13} />}
+              <span>
+                {isEssenciaLuminosa
+                  ? userProfile?.audioEnabled === false ? 'Áudio desativado' : isReadingVoice ? 'Pausado na narração' : is639HzActive ? '639 Hz ligado' : 'Ativar 639 Hz'
+                  : is639HzActive ? '639 Hz ligado' : 'Ativar 639 Hz'}
+              </span>
             </button>
           </div>
 
