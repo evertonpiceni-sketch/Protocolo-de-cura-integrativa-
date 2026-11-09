@@ -577,7 +577,7 @@ export const JOURNEY_21D_INSIGHTS = DAILY_INSIGHTS;
 export const JOURNEY_7D_INSIGHTS: DailyInsight[] = [
   {
     day: 1,
-    title: "Chakra Raiz (Muladhara) • Aterramento & Segurança Primordial",
+    title: "Segurança e Aterramento",
     description: "Conexão profunda com a Mãe Terra, dissolução do medo da escassez e ancoragem do sentimento de segurança absoluta.",
     focus: "Visualizar raízes vermelhas e douradas descendo dos pés até o centro cristalino da Terra.",
     quote: "Quando você está perfeitamente enraizado na sua verdade cósmica, nenhuma tempestade do mundo pode abalar a sua paz.",
@@ -585,7 +585,7 @@ export const JOURNEY_7D_INSIGHTS: DailyInsight[] = [
   },
   {
     day: 2,
-    title: "Chakra Sacral (Svadhisthana) • Purificação das Águas & Fluidez",
+    title: "Fluidez e Vitalidade",
     description: "Liberação de culpas antigas, desbloqueio da criatividade e restauração da alegria de sentir e viver plenamente.",
     focus: "Sentir uma cascata de águas sagradas alaranjadas lavando o baixo-ventre e purificando emoções reprimidas.",
     quote: "Permita que o passado escorra como um rio cristalino. Cada mágoa liberada abre espaço para a sua verdadeira luz.",
@@ -593,7 +593,7 @@ export const JOURNEY_7D_INSIGHTS: DailyInsight[] = [
   },
   {
     day: 3,
-    title: "Chakra Plexo Solar (Manipura) • Fogo Sagrado & Poder Pessoal",
+    title: "Autoconfiança e Poder Pessoal",
     description: "Despertar do sol dourado interno, transmutação da insegurança e reconexão com a força de realização e merecimento.",
     focus: "Ativar o fogo solar no centro do abdômen, dissolvendo a autossabotagem e a ansiedade.",
     quote: "O fogo sagrado que habita em você transmuta qualquer dúvida em certeza inabalável e merecimento infinito.",
@@ -601,7 +601,7 @@ export const JOURNEY_7D_INSIGHTS: DailyInsight[] = [
   },
   {
     day: 4,
-    title: "Chakra Cardíaco (Anahata) • Bálsamo do Amor & Acolhimento",
+    title: "Acolhimento e Amor",
     description: "Abertura do coração para o amor incondicional, acolhimento de dores afetivas e irradiação de compaixão e autoaceitação.",
     focus: "Expandir uma luz rosa-quartzo e esmeralda a partir do peito, envolvendo simbolicamente todo o seu ser.",
     quote: "O amor incondicional por si mesmo pode ser um lugar sagrado de acolhimento. Honre sua história com carinho.",
@@ -609,7 +609,7 @@ export const JOURNEY_7D_INSIGHTS: DailyInsight[] = [
   },
   {
     day: 5,
-    title: "Chakra Laríngeo (Vishuddha) • Expressão Sagrada & Verdade",
+    title: "Expressão e Verdade",
     description: "Desbloqueio da garganta, liberação de palavras não ditas e alinhamento do verbo criador com a vontade divina.",
     focus: "Inalar a névoa azul celeste, dissolvendo nós e tensões acumuladas na garganta e ombros.",
     quote: "Sua voz é um canal sagrado da Criação. Expresse a sua verdade com pureza, doçura, firmeza e sabedoria.",
@@ -617,7 +617,7 @@ export const JOURNEY_7D_INSIGHTS: DailyInsight[] = [
   },
   {
     day: 6,
-    title: "Chakra Frontal (Ajna) • Terceiro Olho & Despertar Intuitivo",
+    title: "Clareza e Intuição",
     description: "Convite ao silêncio entre os pensamentos, à visão sutil e à clareza mental por meio da atenção contemplativa.",
     focus: "Fixar a atenção no ponto luminoso índigo entre as sobrancelhas e repousar na quietude do silêncio interior.",
     quote: "No silêncio da mente serena, a intuição pode se revelar tão cristalina quanto a luz da alvorada.",
@@ -625,10 +625,10 @@ export const JOURNEY_7D_INSIGHTS: DailyInsight[] = [
   },
   {
     day: 7,
-    title: "Chakra Coronário (Sahasrara) • Integração Cósmica & Soberania",
+    title: "Integração e Presença",
     description: "Integração simbólica dos 7 centros de força, cascata de ouro líquido do cosmos e celebração da soberania espiritual.",
     focus: "Contemplar a comunhão com a Fonte Criadora e receber simbolicamente a bênção de encerramento da jornada.",
-    quote: "Você completou a jornada dos 7 chakras. Leve sua luz, sua autonomia e a intenção de paz para os próximos passos.",
+    quote: "Você completou esta jornada. Leve sua luz, sua autonomia e a intenção de paz para os próximos passos."
     quoteAuthor: "Éverton Rodrigo Piceni"
   }
 ];
