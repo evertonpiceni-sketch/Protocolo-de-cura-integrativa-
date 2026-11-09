@@ -201,7 +201,7 @@ test('o pagamento continua no checkout InfinitePay sem cópia manual de PIX', ()
 test('o player respeita o contexto de dia do Estilo 2 sem herdar a cena da Reintegração', () => {
   const session = read('src/components/MeditationSession.tsx');
   const css = read('src/elegancia-profunda-approved-overrides.css');
-  assert.ok(session.includes("['natural-sereno', 'elegancia-profunda', 'essencia-luminosa'].includes(activeLayout || '') ? dayNumber : undefined"));
+  assert.ok(session.includes("['elegancia-profunda', 'essencia-luminosa'].includes(activeLayout || '') ? dayNumber : undefined"));
   assert.ok(css.includes(`--ep-scene:url('https://images.unsplash.com/photo-1788699626335-906b2c4ae2d8?auto=format&fit=crop&w=1920&q=85')`));
   assert.ok(!css.includes('var(--ep-scene)'), 'O player mantém sua própria cena e não recebe o fundo global.');
   assert.ok(css.includes('#meditation-session .ep-session-backdrop > div:last-child'));
