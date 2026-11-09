@@ -197,6 +197,14 @@ export default function ArcanjoProtocolView({ userProfile, onClose, onLogout, in
       volume: userProfile.voiceVolume ?? 0.9,
       userName: userProfile.name,
       requireExplicitVoiceId: requiresNeuralVoice,
+      // Natural Sereno uses neutral app artwork in system media controls;
+      // the retired chakra-body illustration must not leak into this style.
+      artwork: isNaturalSereno
+        ? [
+            { src: '/icon-192.svg', sizes: '192x192', type: 'image/svg+xml' },
+            { src: '/icon-512.svg', sizes: '512x512', type: 'image/svg+xml' }
+          ]
+        : undefined,
       onStart: () => {
         if (runId !== narrationRunRef.current) return;
         audioEngine.startSynth(`${config.freq}hz`);
