@@ -287,3 +287,22 @@ test('Style 4 preserves the 4:3 official board preview, premium CTA and reduced-
   assert.match(finalCss, /animation-duration: 0\.01ms !important/);
   assert.match(finalCss, /transition-duration: 0\.01ms !important/);
 });
+
+test('Style 4 remaps shared semantic theme tokens and cannot inherit Natural Sereno sage values', () => {
+  const theme = read('src/approved-theme.css');
+  const start = theme.indexOf(':root[data-layout="mistico-moderno"]{');
+  const end = theme.indexOf('\\n}\\n\\n:root[data-layout]{', start);
+  assert.ok(start >= 0 && end > start, 'The Style 4 token block must exist.');
+
+  const style4Tokens = theme.slice(start, end);
+  assert.match(style4Tokens, /--layout-bg:#0A2742/);
+  assert.match(style4Tokens, /--layout-accent-soft:rgba\\(108,63,160,.16\\)/);
+  assert.match(style4Tokens, /--layout-gold-soft:rgba\\(212,175,55,.16\\)/);
+  assert.match(style4Tokens, /--layout-text-soft:var\\(--layout-text-secondary\\)/);
+  assert.match(style4Tokens, /--sage-subtle:var\\(--layout-accent-soft\\)/);
+  assert.match(style4Tokens, /--sage-border:var\\(--layout-border\\)/);
+  assert.match(style4Tokens, /--journey-sage:var\\(--layout-accent\\)/);
+  assert.match(style4Tokens, /--journey-gold:var\\(--layout-gold\\)/);
+  assert.match(style4Tokens, /--journey-bg-canvas:var\\(--layout-canvas\\)/);
+  assert.doesNotMatch(style4Tokens, /#5E7153|#7E9473|#D5DDD1|#8F631E/);
+});
