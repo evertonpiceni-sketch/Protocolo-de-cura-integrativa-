@@ -107,7 +107,7 @@ function LayoutPreview({ layout }: { layout: LayoutDefinition }) {
   const previewSwatches = isNaturalSereno
     ? layout.swatches
     : isMysticCard
-      ? ['#0A2742', '#2E3B73', '#1E6B5A', '#6C3FA0', '#D4AF37', '#E2B96B', '#F4F1EB', '#6F8F55']
+      ? ['#0A2742', '#2E3B73', '#1E6B5A', '#6C3FA0', '#D4AF37', '#E2B96B', '#F4F1EB', '#141F30']
       : [canvas, gold, surface, accent];
 
   return (
@@ -252,7 +252,7 @@ export default function LayoutChoiceModal({ onSelect }: LayoutChoiceModalProps) 
                       : layout.id === 'elegancia-profunda'
                         ? ['#0B1712', '#2E6B4F', '#D4AF37', '#E5D3B1', '#8A5D3B', '#F4F1EB']
                         : layout.id === 'mistico-moderno'
-                          ? ['#0A2742', '#2E3B73', '#1E6B5A', '#6C3FA0', '#D4AF37', '#E2B96B', '#F4F1EB', '#6F8F55']
+                          ? ['#0A2742', '#2E3B73', '#1E6B5A', '#6C3FA0', '#D4AF37', '#E2B96B', '#F4F1EB', '#141F30']
                           : layout.swatches
                   ).map((color, index) => (
                     <span key={index} className="h-3 flex-1 rounded-full border shadow-inner" style={{ backgroundColor: color, borderColor: layout.id === 'elegancia-profunda' ? 'rgba(212,175,119,.35)' : layout.id === 'mistico-moderno' ? 'rgba(212,175,55,.35)' : 'rgba(42,36,32,.10)' }} />
