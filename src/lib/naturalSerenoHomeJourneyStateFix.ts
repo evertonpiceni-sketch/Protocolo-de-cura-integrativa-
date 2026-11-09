@@ -265,7 +265,7 @@ async function persistProtocolChoice(protocolId: string, duration: '7d' | '21d')
   const accountLogin = normalizeAccountLogin(
     typeof baseProfile?.login === 'string' ? baseProfile.login : null,
   );
-  if (!accountLogin || getCurrentAccountLogin() !== accountLogin) return false;
+  if (!baseProfile || !accountLogin || getCurrentAccountLogin() !== accountLogin) return false;
 
   const progress = state.progress || readLocalState().progress || [];
   const profile = { ...baseProfile, login: accountLogin, selectedProtocolId: protocolId, selectedJourney: duration };
