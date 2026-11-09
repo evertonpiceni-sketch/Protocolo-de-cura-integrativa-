@@ -670,3 +670,38 @@
 :root[data-layout="natural-sereno"] #numerology-modal :is(.text-amber-800,.text-amber-900) {
   color:#8F631E!important;
 }
+
+
+/* RUN 107 — bridge final da paleta Natural Sereno.
+   O tema compartilhado ainda declarava tokens antigos verde-profundo para o
+   layout 1. Neutralizar aqui, na última camada específica, sem tocar nos
+   tokens dos Estilos 2, 3 e 4 nem na Reintegração da Vida. */
+:root[data-layout="natural-sereno"] {
+  --layout-canvas: #FAF7F2;
+  --layout-canvas-alt: #F5EFE5;
+  --layout-card: rgba(255,253,248,.94);
+  --layout-card-hover: #FFFDF8;
+  --layout-card-subtle: #FBF8F2;
+  --layout-input: #F5EFE4;
+  --layout-accent: #6F7B55;
+  --layout-accent-light: #87936F;
+  --layout-accent-soft: rgba(111,123,85,.10);
+  --layout-gold: #C89D52;
+  --layout-gold-soft: rgba(200,157,82,.12);
+  --layout-gold-light: #E2B96B;
+  --layout-gold-dark: #A87E37;
+  --layout-gold-border: rgba(200,157,82,.34);
+  --layout-gold-gradient: linear-gradient(135deg,#E2B96B 0%,#C89D52 55%,#A87E37 100%);
+  --layout-gold-shadow: rgba(67,52,39,.10);
+  --layout-text: #2A2421;
+  --layout-text-secondary: #6B625B;
+  --layout-text-muted: #6B625B;
+  --layout-border: #E8E0D5;
+  --layout-border-card: #E8E0D5;
+  --layout-text-soft: #6B625B;
+  --ep-scene: var(--ns-valley);
+  --ep-scene-overlay: linear-gradient(180deg,rgba(250,247,242,.12),rgba(250,247,242,.34) 46%,rgba(245,239,229,.72));
+  --ep-panel: rgba(255,253,248,.94);
+  --ep-panel-strong: #FFFDF8;
+  --ep-panel-text: #2A2421;
+}
