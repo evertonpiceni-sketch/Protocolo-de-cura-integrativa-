@@ -3,6 +3,7 @@
 **Data:** 09/11/2026  
 **Branch:** `fix/mistico-moderno-run15-mainline-2026-11-09`  
 **HEAD anterior:** `7e75758d1f0e7ab85be2050f89ef5d12ea7b2832`  
+**HEAD de código validado:** `7e1192f0dfe37a07087442cbe3c3dafd4ecd8e42`  
 **Main incorporada:** `bd62eadd2bdd2421213f395f2ffef57c3cf4b811`  
 **PR:** #77 — aberto, em rascunho, sem merge.
 
@@ -23,7 +24,7 @@ A branch do Místico Moderno estava **67 commits à frente e 1 atrás da main**,
 
 ## Varredura e preservação
 
-- Revarridos os 25 módulos CSS específicos do Místico Moderno: 523 seletores de topo examinados, zero regras sem escopo `data-layout="mistico-moderno"`.
+- Revarridos os 25 módulos CSS específicos do Místico Moderno: 524 seletores de topo examinados, zero regras sem escopo `data-layout="mistico-moderno"`.
 - Encontrada e neutralizada uma névoa sálvia residual no `body::before` global do tema aprovado; no Estilo 4 ela agora usa violeta/índigo e dourado suave. O esmeralda permanece somente no overlay da cena, integrado à natureza.
 - Mantidos os 25 módulos CSS específicos do Místico Moderno e seus escopos `data-layout="mistico-moderno"`.
 - Seletor dos quatro estilos continua sem pré-seleção e exige confirmação antes de aplicar tema.
@@ -34,8 +35,9 @@ A branch do Místico Moderno estava **67 commits à frente e 1 atrás da main**,
 
 - Última CI completa aprovada antes desta reconciliação: Security Audit #42677226091 — 186 testes aprovados, zero falhas, zero vulnerabilidades; TypeScript, build, segurança, smoke tests e endpoints financeiros fail-closed aprovados.
 - As primeiras execuções da reconciliação identificaram expectativas antigas nos testes do Solfeggio do Estilo 4 e uma duplicação de testes visuais na suíte de áudio. As asserções foram atualizadas para a política de ownership atual e os testes visuais ficaram apenas na suíte de auditoria do Estilo 2; nenhuma verificação foi removida.
-- A CI do HEAD atualizado precisa concluir antes de declarar a branch validada.
-- A prévia Vercel continua sem deployment READY; a execução anterior falhou por provisionamento/limite de deployments. Não foi forçada nova publicação.
+- Security Audit #2210: sucesso no HEAD de código 7e1192f0dfe37a07087442cbe3c3dafd4ecd8e42 — 193 testes aprovados, 0 falhas, 0 vulnerabilidades no npm audit; TypeScript, regressões, build, entrypoints, JWT/admin, smoke test e endpoints de pagamento fail-closed aprovados.
+- As execuções intermediárias detectaram asserções antigas, uma duplicação sintática e um escopo incorreto em um novo teste; cada ponto foi corrigido e a execução final passou. Nenhum teste foi removido ou enfraquecido.
+- A prévia Vercel continua sem deployment READY: o check retorna build-rate-limit. Não foi forçada nova publicação.
 
 ## Referência visual
 
@@ -49,6 +51,6 @@ A branch do Místico Moderno estava **67 commits à frente e 1 atrás da main**,
 2. Fotografia realista aprovada para substituir a ilustração do corpo/chakras.
 3. Audição real da voz escolhida e teste do Solfeggio em dispositivo.
 4. Homologação do checkout e webhook InfinitePay em ambiente seguro; nenhuma cobrança real foi feita.
-5. CI do HEAD final e preview Vercel READY.
+5. Preview Vercel READY; o CI do HEAD de código já está aprovado.
 
-**Sem merge na main, sem publicação em produção e sem cobrança real.**
+**Estado após o registro:** PR #77 em rascunho, mergeable, 76 commits à frente e 0 atrás da main; 46 arquivos no PR. Sem merge na main, sem publicação em produção e sem cobrança real.
