@@ -531,6 +531,22 @@ export default function App() {
     }
   };
 
+  // Persist profile and progress together so a stale full-snapshot request cannot overwrite a diary update.
+  const saveProfileAndProgress = (newProfile: UserProfile, newProgress: DayProgress[]) => {
+    setUserProfile(newProfile);
+    setProgress(newProgress);
+    updateLocalAccountCache(newProfile, newProgress);
+    if (isLoggedIn) {
+      fetch('/api/user/sync', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ profile: newProfile, progress: newProgress })
+      }).then(response => {
+        if (!response.ok) throw new Error(`Profile/progress sync failed (HTTP ${response.status})`);
+      }).catch(error => console.error('Profile/progress sync failed; changes may only be saved locally', error));
+    }
+  };
+
 
   // Profile Onboarding complete (Register or Login complete)
   const handleOnboardingComplete = (account: UserAccount) => {
@@ -771,15 +787,15 @@ export default function App() {
       return d;
     });
 
-    saveProgress(updatedProgress);
-
     if (userProfile) {
       const unlocked = evaluateAchievements(userProfile, updatedProgress);
       const updatedProfile: UserProfile = {
         ...userProfile,
         unlockedAchievements: unlocked.unlockedIds
       };
-      saveProfile(updatedProfile);
+      saveProfileAndProgress(updatedProfile, updatedProgress);
+    } else {
+      saveProgress(updatedProgress);
     }
   };
 
