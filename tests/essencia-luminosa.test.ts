@@ -486,7 +486,7 @@ test('todos os fluxos de voz da Essência Luminosa preservam a voz neural e falh
   assert.ok(voicePatch.includes('requireExplicitVoiceId: true'));
 
   assert.ok(anamnesis.includes('isEleganciaProfunda || isEssenciaLuminosa'));
-  assert.ok(anamnesis.includes('isEssenciaLuminosa ? OFFICIAL_PROTOCOL_VOICE_ID'));
+  assert.ok(anamnesis.includes('(naturalSereno || isEssenciaLuminosa) ? OFFICIAL_PROTOCOL_VOICE_ID : \'\''));
   assert.ok(anamnesis.includes('fallbackToSpeechSynthesis: false'));
   assert.ok(anamnesis.includes('!isEleganciaProfunda && !isEssenciaLuminosa ? ('));
 
@@ -500,8 +500,10 @@ test('todos os fluxos de voz da Essência Luminosa preservam a voz neural e falh
   assert.ok(arcanjo.includes('if (requiresNeuralVoice)'));
   assert.ok(arcanjo.includes('OFFICIAL_PROTOCOL_VOICE_ID'));
 
-  assert.ok(hooponopono.includes('fallbackToSpeechSynthesis: !(isEleganciaProfunda || isEssenciaLuminosa)'));
-  assert.ok(archangelPrayer.includes('fallbackToSpeechSynthesis: !(isEleganciaProfunda || isEssenciaLuminosa)'));
+  assert.ok(hooponopono.includes('const requiresNeuralVoice = isNaturalSereno || isEleganciaProfunda || isEssenciaLuminosa;'));
+  assert.ok(hooponopono.includes('fallbackToSpeechSynthesis: !requiresNeuralVoice'));
+  assert.ok(archangelPrayer.includes('const requiresNeuralVoice = isNaturalSereno || isEleganciaProfunda || isEssenciaLuminosa;'));
+  assert.ok(archangelPrayer.includes('fallbackToSpeechSynthesis: !requiresNeuralVoice'));
 });
 
 test('as páginas de reflexão e oração usam superfícies próprias da Essência Luminosa', () => {
