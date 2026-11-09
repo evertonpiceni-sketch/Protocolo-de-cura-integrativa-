@@ -31,9 +31,11 @@ const focusGuards: Array<[string, string[]]> = [
     'useDialogFocus(isEssenciaLuminosa, dialogRef, onClose)',
     'ref={dialogRef}'
   ]],
-  ['src/components/WelcomeModal.tsx', [
-    'useDialogFocus(isOpen && isEssenciaLuminosa, dialogRef, handleClose)',
-    'ref={dialogRef}'
+  ['src/components/OnboardingFlow.tsx', [
+    'useDialogFocus(true, dialogRef, null)',
+    'useReducedMotion() ?? false',
+    'initial={shouldReduceMotion ? false : { opacity: 0, y: 18 }}',
+    'transition={{ duration: shouldReduceMotion ? 0 : 0.18 }}'
   ]],
   ['src/components/MilestoneCelebrationModal.tsx', [
     'useDialogFocus(isOpen && isEssenciaLuminosa, dialogRef, onClose)',
@@ -61,11 +63,14 @@ test('todos os diálogos compartilhados mantêm foco gerenciado na Essência Lum
   }
 });
 
-test('o acolhimento usa a marca oficial discreta e não a imagem legada', () => {
-  const welcome = read('src/components/WelcomeModal.tsx');
-  assert.ok(welcome.includes('APPROVED_LOGO_DATA_URI'));
-  assert.ok(welcome.includes('ep-brand-signature'));
-  assert.ok(!welcome.includes('/cura_integrada_brand_portal.png'));
+test('o acolhimento ativo usa a marca oficial e mantém WelcomeModal fora do fluxo', () => {
+  const app = read('src/App.tsx');
+  const onboarding = read('src/components/OnboardingFlow.tsx');
+  assert.ok(app.includes("const OnboardingFlow = React.lazy(() => import('./components/OnboardingFlow'))"));
+  assert.ok(app.includes('<OnboardingFlow'));
+  assert.ok(!app.includes("import('./components/WelcomeModal')"));
+  assert.ok(onboarding.includes('APPROVED_LOGO_DATA_URI'));
+  assert.ok(onboarding.includes('ep-brand-signature'));
 });
 
 test('o seletor mantém escolha explícita e a prancha oficial do Estilo 3', () => {
@@ -105,10 +110,13 @@ test('player, sessão e diálogos respeitam prefers-reduced-motion', () => {
   const session = read('src/components/MeditationSession.tsx');
   const dailyTip = read('src/components/DailyTipModal.tsx');
   const milestone = read('src/components/MilestoneCelebrationModal.tsx');
+  const onboarding = read('src/components/OnboardingFlow.tsx');
   assert.ok(player.includes('motion-reduce:animate-none'));
   assert.ok(session.includes('motion-reduce:animate-none'));
   assert.ok(dailyTip.includes('motion-reduce:animate-none'));
   assert.ok((milestone.match(/motion-reduce:animate-none/g) || []).length >= 3);
+  assert.ok(onboarding.includes('useReducedMotion()'));
+  assert.ok(onboarding.includes('transition={{ duration: shouldReduceMotion ? 0 : 0.18 }}'));
 });
 
 test('a voz oficial e a propriedade do áudio do Arcanjo permanecem protegidas no Estilo 3', () => {
@@ -161,9 +169,10 @@ test('InfinitePay exige confirmação do valor exato e preserva as escolhas come
 });
 
 
-test('o logo do acolhimento permanece transparente e discreto em desktop e celular', () => {
-  const css = read('src/essencia-luminosa-welcome-audit.css');
-  assert.ok(css.includes('#welcome-modal .ep-brand-signature-wrap'));
+test('o logo do onboarding ativo permanece transparente e discreto em desktop e celular', () => {
+  const css = read('src/essencia-luminosa-onboarding-audit.css');
+  assert.ok(css.includes('.ep-care-onboarding-card .ep-brand-signature-wrap'));
+  assert.ok(css.includes('.ep-care-onboarding-card .ep-brand-signature'));
   assert.ok(css.includes('opacity: .30'));
   assert.ok(css.includes('opacity: .26'));
   assert.ok(css.includes('background: transparent'));
