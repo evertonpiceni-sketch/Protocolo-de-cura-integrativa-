@@ -489,7 +489,7 @@ export default function App() {
       const pending = readPendingProfileSync(login);
       if (!pending) return;
       pendingProfileSyncInFlight.current = login;
-      void syncUserState({ profile: pending.profilePatch }, { accountKey: login })
+      void syncUserState({ profile: { ...pending.profilePatch, login } }, { accountKey: login })
         .then(() => clearPendingProfileSync(login))
         .catch(error => console.warn('Pending registration profile sync remains queued', error))
         .finally(() => {
