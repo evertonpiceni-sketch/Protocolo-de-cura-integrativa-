@@ -130,10 +130,12 @@ test('Místico Moderno mantém a voz neural nas práticas legadas e suspende 639
 
 test('Style 4 resumes Arcanjo Solfeggio only after the neural audio actually plays', () => {
   const arcanjo = read('src/components/ArcanjoProtocolView.tsx');
+  const audio = read('src/lib/audio.ts');
   const start = arcanjo.slice(arcanjo.indexOf('const start ='), arcanjo.indexOf('const togglePlayback'));
   const resume = arcanjo.slice(arcanjo.indexOf('const togglePlayback'), arcanjo.indexOf('const selectDay'));
   assert.match(start, /onStart: \(\) => \{[\s\S]*?startArcanjoOwnedSolfeggio[\s\S]*?setIsPlaying\(true\)/);
-  assert.match(resume, /audioEngine\.resumeSpeech\(\);\s*if \(!isMisticoModerno\)/);
+  assert.match(audio, /audio\.onplay = \(\) => \{[\s\S]*?options\.onStart\?\.\(\)/);
+  assert.match(resume, /audioEngine\.resumeSpeech\(\)/);
   assert.doesNotMatch(resume, /audioEngine\.resumeSpeech\(\);\s*audioEngine\.startSynth/);
 });
 
@@ -161,6 +163,7 @@ test('Style 4 selector displays the official board thumbnail from the exact refe
   const image = readFileSync(resolve(root, 'public/brand/mistico-moderno/prancha-oficial-card.webp'));
   assert.match(modal, /MISTICO_MODERNO_OFFICIAL_BOARD = '\/brand\/mistico-moderno\/prancha-oficial-card\.webp'/);
   assert.match(modal, /src=\{MISTICO_MODERNO_OFFICIAL_BOARD\}/);
+  assert.match(modal, /src=\{MISTICO_MODERNO_OFFICIAL_BOARD\}[\s\S]*?className="h-full w-full object-contain p-1"/);
   assert.ok(image.byteLength > 10000, 'The official Style 4 board thumbnail must be present.');
 });
 
@@ -175,9 +178,14 @@ test('Arcanjo view owns its audio without disabling global ambience for the whol
     app.indexOf('  // ', app.indexOf('// Handle autoplay block browser policy unlock on first interaction') + 5)
   );
 
-  assert.match(globalAudioSection, /!showArcanjoView/);
-  assert.match(globalAudioSection, /else if \(!showArcanjoView\)/);
-  assert.match(gestureSection, /!showArcanjoView/);
+  assert.match(app, /const isArcanjoViewActive = showArcanjoView \|\| userProfile\?\.subscriptionPlan === 'arcanjo_7d'/);
+  assert.match(globalAudioSection, /!isArcanjoViewActive/);
+  assert.match(globalAudioSection, /else if \(!isArcanjoViewActive\)/);
+  assert.match(globalAudioSection, /isArcanjoViewActive/);
+  assert.match(gestureSection, /!isArcanjoViewActive/);
+  assert.match(gestureSection, /isArcanjoViewActive/);
+  assert.match(app, /\) : isArcanjoViewActive \? \(\s*<ArcanjoProtocolView/);
+  assert.equal((app.match(/allowBackgroundPlayback=\{activeSessionDay === null && !showPersonalJourney && !isArcanjoViewActive\}/g) || []).length, 2);
   assert.doesNotMatch(globalAudioSection, /subscriptionPlan.*arcanjo_7d/);
   assert.doesNotMatch(gestureSection, /subscriptionPlan.*arcanjo_7d/);
 });
@@ -233,4 +241,39 @@ test('Místico Moderno uses only the saved valid neural voice and never substitu
   assert.match(settings, /const initialVoiceId = \(isNaturalSereno \|\| isEssenciaLuminosa\) && !isElevenLabsVoiceId\(savedVoiceId\)/);
   assert.match(settings, /if \(requiresNeuralVoice && !isElevenLabsVoiceId\(voiceId\)\)/);
   assert.doesNotMatch(settings, /isMisticoModerno[^\n]*OFFICIAL_PROTOCOL_VOICE_ID/);
+});
+
+
+test('every session requires explicit style confirmation and Appearance never persists a card click', () => {
+  const app = read('src/App.tsx');
+  const logoutStart = app.indexOf('const handleLogout = async () =>');
+  const logoutEnd = app.indexOf('// Retrieve mood description text', logoutStart);
+  const appearanceStart = app.indexOf('/* Settings view */');
+  const appearanceEnd = app.indexOf('/* PRO VIP Status Card */', appearanceStart);
+  const themeStart = app.indexOf('// Never activate a visual theme before the user explicitly confirms a choice.');
+  const themeEnd = app.indexOf('// Initialize and load saved state from backend on mount', themeStart);
+  const logout = app.slice(logoutStart, logoutEnd);
+  const appearance = app.slice(appearanceStart, appearanceEnd);
+  const themeEffect = app.slice(themeStart, themeEnd);
+
+  assert.match(app, /const \[layoutConfirmedThisSession, setLayoutConfirmedThisSession\] = useState\(false\)/);
+  assert.match(app, /\(!layoutConfirmedThisSession \|\| layoutChoiceRequested\)/);
+  assert.match(logout, /setLayoutConfirmedThisSession\(false\)/);
+  assert.match(appearance, /onClick=\{\(\) => setLayoutChoiceRequested\(true\)\}/);
+  assert.doesNotMatch(appearance, /saveProfile\(\{[\s\S]*?visualLayout/);
+  assert.match(themeEffect, /layoutConfirmedThisSession \? OFFICIAL_LAYOUTS\.find/);
+});
+
+test('Místico Moderno exposes only the saved ElevenLabs voice and never offers device speech as fallback', () => {
+  const settings = read('src/components/AudioSettingsModal.tsx');
+  const neuralBranchStart = settings.indexOf('{requiresNeuralVoice ? (');
+  const neuralBranchEnd = settings.indexOf(') : voices.length > 0 && (', neuralBranchStart);
+  assert.ok(neuralBranchStart >= 0 && neuralBranchEnd > neuralBranchStart, 'Neural voice selector branch must exist.');
+
+  const neuralBranch = settings.slice(neuralBranchStart, neuralBranchEnd);
+  assert.match(settings, /const requiresNeuralVoice = isNaturalSereno \|\| isEleganciaProfunda \|\| isEssenciaLuminosa \|\| isMisticoModerno/);
+  assert.match(neuralBranch, /Voz neural \(ElevenLabs\)/);
+  assert.doesNotMatch(neuralBranch, /Timbre da Voz|Voz Padrão do Sistema|Automática/);
+  assert.match(settings, /fallbackToSpeechSynthesis: !requiresNeuralVoice/);
+  assert.match(settings, /if \(requiresNeuralVoice && !isElevenLabsVoiceId\(voiceId\)\)/);
 });
