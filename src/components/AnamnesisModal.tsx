@@ -585,7 +585,7 @@ export default function AnamnesisModal({
                   <span className="text-xs text-[#B88736]">{isEssenciaLuminosa ? 'Voz neural escolhida em Ajustes de áudio' : 'Voz neural selecionada no perfil'}</span>
                 )}
               </div>
-              {voiceError && <p role="alert" className="ep-voice-error rounded-xl px-3 py-2 text-xs">{isEssenciaLuminosa ? 'A narração neural está indisponível. A voz do dispositivo não será usada.' : 'Selecione uma voz neural válida em Ajustes de áudio. O Estilo 2 não usará a voz do dispositivo.'}</p>}
+              {voiceError && <p role="alert" className="ep-voice-error rounded-xl px-3 py-2 text-xs">{naturalSereno || isEssenciaLuminosa ? 'A narração neural está indisponível. A voz do dispositivo não será usada.' : 'Selecione uma voz neural válida em Ajustes de áudio. O Estilo 2 não usará a voz do dispositivo.'}</p>}
 
               {/* Player Controls & Waveform */}
               <div className="p-4 rounded-2xl bg-white/80 border border-[#E5DAC6] space-y-3">
