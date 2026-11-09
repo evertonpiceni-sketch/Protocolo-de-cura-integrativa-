@@ -92,7 +92,7 @@ test('pausar a narração neural do Arcanjo restaura Solfeggio apenas pelo event
   const arcanjo = read('src/components/ArcanjoProtocolView.tsx');
   const toggleStart = arcanjo.indexOf('const togglePlayback');
   const pauseStart = arcanjo.indexOf('if (isPlaying) {', toggleStart);
-  const pauseEnd = arcanjo.indexOf('\\n    }', pauseStart);
+  const pauseEnd = arcanjo.indexOf('\n    }', pauseStart);
   const pauseBranch = arcanjo.slice(pauseStart, pauseEnd);
   assert.ok(pauseStart >= 0 && pauseEnd > pauseStart);
   assert.ok(pauseBranch.includes('audioEngine.pauseSpeech();'));
