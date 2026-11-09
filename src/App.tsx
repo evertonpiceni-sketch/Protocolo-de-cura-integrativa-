@@ -23,6 +23,7 @@ import { APPROVED_LOGO_DATA_URI } from './components/ApprovedBrand';
 
 import { calculateAstralMap } from './utils/astrology';
 import { audioEngine, OFFICIAL_PROTOCOL_VOICE_ID } from './lib/audio';
+import { CURRENT_LOGIN_STORAGE_KEY, clearCurrentAccountLogin, setCurrentAccountLogin } from './lib/authSession';
 import { syncUserState } from './lib/userSync';
 import { clearPendingProfileSync, readPendingProfileSync } from './lib/pendingProfileSync';
 import { shouldPlayProtocolSessionBackground } from './lib/protocolSessionAudioPolicy';
@@ -57,7 +58,7 @@ const ArchangelMichaelPrayerModal = React.lazy(() => import('./components/Archan
 const VideoStudioModal = React.lazy(() => import('./components/VideoStudioLightModal'));
 const OnboardingFlow = React.lazy(() => import('./components/OnboardingFlow'));
 
-const LOCAL_STORAGE_KEY_CURRENT_LOGIN = 'cura_integrada_logged_in_user_v1';
+const LOCAL_STORAGE_KEY_CURRENT_LOGIN = CURRENT_LOGIN_STORAGE_KEY;
 const LOCAL_STORAGE_KEY_ACCOUNTS = 'cura_integrada_accounts_v1';
 
 
@@ -402,7 +403,7 @@ export default function App() {
           const data = await res.json();
           if (!active) return;
           const account = data.user;
-          try { localStorage.setItem(LOCAL_STORAGE_KEY_CURRENT_LOGIN, account.login); } catch { /* auth remains valid when storage is restricted */ }
+          setCurrentAccountLogin(account.login);
           const pendingProfile = readPendingProfileSync(account.login);
           const profileWithPending = pendingProfile
             ? { ...account.profile, ...pendingProfile.profilePatch }
@@ -564,7 +565,7 @@ export default function App() {
 
   // Profile Onboarding complete (Register or Login complete)
   const handleOnboardingComplete = (account: UserAccount) => {
-    localStorage.setItem(LOCAL_STORAGE_KEY_CURRENT_LOGIN, account.login);
+    setCurrentAccountLogin(account.login);
     try {
       const rawAccounts = localStorage.getItem(LOCAL_STORAGE_KEY_ACCOUNTS);
       const accounts: UserAccount[] = rawAccounts ? JSON.parse(rawAccounts) : [];
@@ -717,12 +718,13 @@ export default function App() {
     audioEngine.stopBG();
     setNeuralVoicePreviewActive(false);
     setIsPlayingVoiceTest(false);
+    // Cancel queued retries before the server session is cleared.
+    clearCurrentAccountLogin();
     try {
       await fetch('/api/auth/logout', { method: 'POST' });
     } catch (e) {
       console.warn("Server logout request completed with offline status");
     }
-    localStorage.removeItem(LOCAL_STORAGE_KEY_CURRENT_LOGIN);
     // A nova sessão precisa confirmar explicitamente um dos quatro estilos.
     setLayoutConfirmedThisSession(false);
     setLayoutChoiceRequested(false);
