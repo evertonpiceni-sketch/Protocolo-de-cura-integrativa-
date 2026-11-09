@@ -26,13 +26,12 @@ export default function WelcomeModal({ isOpen, onClose, userName, onStartFirstSe
   const [dontShowAgain, setDontShowAgain] = useState(false);
   const dialogRef = React.useRef<HTMLDivElement | null>(null);
   const isEssenciaLuminosa = typeof document !== 'undefined' && document.documentElement.dataset.layout === 'essencia-luminosa';
-  useDialogFocus(isOpen && isEssenciaLuminosa, dialogRef, onClose);
-  if (!isOpen) return null;
-
   const handleClose = () => {
     if (dontShowAgain) localStorage.setItem('cura_integrada_welcome_seen_v1', 'true');
     onClose();
   };
+  useDialogFocus(isOpen && isEssenciaLuminosa, dialogRef, handleClose);
+  if (!isOpen) return null;
 
   const handleStart = () => {
     if (dontShowAgain) localStorage.setItem('cura_integrada_welcome_seen_v1', 'true');
