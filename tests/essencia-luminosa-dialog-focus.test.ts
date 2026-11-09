@@ -90,3 +90,11 @@ test('o detalhe do dia não herda índigo, verde esmeralda ou âmbar saturado no
   assert.ok(css.includes('#day-detail-modal [class*="text-amber-"]'));
   assert.ok(css.includes('#day-detail-modal button[class*="bg-[#B88736]"]'));
 });
+
+
+test('a celebração não deixa o botão emerald ou o ícone rose escaparem no Estilo 3', () => {
+  const css = read('src/essencia-luminosa-milestone-audit.css');
+  assert.ok(css.includes('[aria-label="Celebração de progresso"] button.bg-emerald-600'));
+  assert.ok(css.includes('[aria-label="Celebração de progresso"] button.bg-emerald-600:hover'));
+  assert.ok(css.includes('[aria-label="Celebração de progresso"] [class*="text-rose-"]'));
+});
