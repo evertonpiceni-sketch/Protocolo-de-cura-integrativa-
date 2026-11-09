@@ -4,6 +4,13 @@
 
 /* Logo oficial: assinatura visual discreta; nunca elemento dominante. */
 :root[data-layout="natural-sereno"] #main-header .ep-brand-signature { opacity:.30!important; filter:none!important; object-fit:contain!important; border-color:transparent!important; }
+
+/* O logo do acolhimento é assinatura, não selo: remover o disco branco e a moldura legados. */
+:root[data-layout="natural-sereno"] .ep-care-onboarding-card .ep-brand-signature-wrap {
+  background:transparent!important;
+  border:0!important;
+  box-shadow:none!important;
+}
 :root[data-layout="natural-sereno"] #main-header .ep-brand-signature:is(img) { max-width:100%; max-height:100%; }
 :root[data-layout="natural-sereno"] #main-header .border-indigo-500\/40 { border-color:rgba(184,135,54,.24)!important; background:rgba(251,248,242,.92)!important; box-shadow:0 6px 16px rgba(67,52,39,.06)!important; }
 
