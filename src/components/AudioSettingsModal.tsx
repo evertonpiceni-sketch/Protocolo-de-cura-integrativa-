@@ -360,9 +360,10 @@ export default function AudioSettingsModal({
             ].map(track => {
               const isLocked = track.pro && userProfile.plan !== 'pro';
               const isSelected = bgMusicType === track.id;
+              const isStyle1SolfeggioBlocked = isNaturalSereno && isTestingVoice && isSolfeggioFrequency(track.id);
               const isStyle2SolfeggioBlocked = isEleganciaProfunda && isTestingVoice && isSolfeggioFrequency(track.id);
               const isStyle3SolfeggioBlocked = shouldBlockTrackDuringNeuralVoicePreview(isEssenciaLuminosa, isTestingVoice, track.id);
-              const isTrackBlockedDuringVoicePreview = isStyle3SolfeggioBlocked || isStyle2SolfeggioBlocked;
+              const isTrackBlockedDuringVoicePreview = isStyle1SolfeggioBlocked || isStyle2SolfeggioBlocked || isStyle3SolfeggioBlocked;
 
               return (
                 <button
