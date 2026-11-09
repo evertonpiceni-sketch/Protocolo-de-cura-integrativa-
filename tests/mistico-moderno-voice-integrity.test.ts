@@ -42,11 +42,12 @@ test('Místico Moderno uses the saved neural voice in every narration entry poin
 test('Style 4 never starts Arcanjo Solfeggio before the neural narration begins', () => {
   const arcanjo = read('src/components/ArcanjoProtocolView.tsx');
   const start = arcanjo.slice(arcanjo.indexOf('const start ='), arcanjo.indexOf('const togglePlayback'));
-  assert.match(start, /if \(!isMisticoModerno\) startArcanjoOwnedSolfeggio/);
-  assert.match(start, /onStart: \(\) => \{[\s\S]*?startArcanjoOwnedSolfeggio/);
+  assert.match(start, /if \(isMisticoModerno\) stopProtocolFrequency\(\)/);
+  assert.match(start, /onStart: \(\) => \{[\s\S]*?prepareFrequencyForNarration/);
   assert.match(start, /onPause: \(\) => \{[\s\S]*?audioEngine\.stopSynth/);
   assert.match(start, /if \(isEleganciaProfunda \|\| isEssenciaLuminosa \|\| isMisticoModerno\)[\s\S]*?audioEngine\.stopSynth/);
-  assert.match(arcanjo, /const resetPlayback = \(\) => \{[\s\S]*?audioEngine\.stopSynth/);
+  assert.match(arcanjo, /const resetPlayback = \(restoreFrequency = false\) => \{[\s\S]*?audioEngine\.stopSynth/);
+  assert.match(arcanjo, /const playProtocolFrequency = \(\) => \{[\s\S]*?startArcanjoOwnedSolfeggio/);
 });
 
 test('the four-style selector requires explicit confirmation before applying a theme', () => {
@@ -133,7 +134,9 @@ test('Style 4 resumes Arcanjo Solfeggio only after the neural audio actually pla
   const audio = read('src/lib/audio.ts');
   const start = arcanjo.slice(arcanjo.indexOf('const start ='), arcanjo.indexOf('const togglePlayback'));
   const resume = arcanjo.slice(arcanjo.indexOf('const togglePlayback'), arcanjo.indexOf('const selectDay'));
-  assert.match(start, /onStart: \(\) => \{[\s\S]*?startArcanjoOwnedSolfeggio[\s\S]*?setIsPlaying\(true\)/);
+  assert.match(start, /onStart: \(\) => \{[\s\S]*?prepareFrequencyForNarration[\s\S]*?setIsPlaying\(true\)/);
+  assert.match(arcanjo, /const prepareFrequencyForNarration = \(\) => \{[\s\S]*?else playProtocolFrequency\(\)/);
+  assert.match(arcanjo, /const playProtocolFrequency = \(\) => \{[\s\S]*?startArcanjoOwnedSolfeggio/);
   assert.match(audio, /audio\.onplay = \(\) => \{[\s\S]*?options\.onStart\?\.\(\)/);
   assert.match(resume, /audioEngine\.resumeSpeech\(\)/);
   assert.doesNotMatch(resume, /audioEngine\.resumeSpeech\(\);\s*audioEngine\.startSynth/);
