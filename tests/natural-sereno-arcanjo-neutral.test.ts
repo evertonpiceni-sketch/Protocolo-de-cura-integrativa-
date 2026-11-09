@@ -80,9 +80,9 @@ test('player Natural Sereno usa paisagem real e microanimação neutra; os demai
   assert.ok(session.includes('<SacredEnergyCanvas'));
   assert.ok(session.includes('getNaturalSerenoVisualFocus'));
   assert.ok(session.includes('ep-session-natural-sereno-overlay'));
-  assert.doesNotMatch(sevenDayInsights, /title:\\s*"Chakra/i);
+  assert.doesNotMatch(sevenDayInsights, /title:\s*"Chakra/i);
   assert.doesNotMatch(sevenDayInsights, /jornada dos 7 chakras/i);
-  assert.match(sevenDayInsights, /title:\\s*"Segurança e Aterramento"/);
+  assert.match(sevenDayInsights, /title:\s*"Segurança e Aterramento"/);
 });
 
 
