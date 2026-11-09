@@ -74,6 +74,19 @@ test('o seletor mantém escolha explícita e a prancha oficial do Estilo 3', () 
   assert.ok(modal.includes('useState<LayoutId | null>(null)'));
   assert.ok(modal.includes('disabled={!selectedLayout || isSaving}'));
   assert.ok(modal.includes('/brand/essencia-luminosa/prancha-oficial.webp'));
-  assert.ok(app.includes('useState(false)'));
+  assert.ok(app.includes('const [layoutConfirmedThisSession, setLayoutConfirmedThisSession] = useState(false);'));
   assert.ok(app.includes('A persisted preference is not consent to apply a theme in this session.'));
+});
+
+
+test('o detalhe do dia não herda índigo, verde esmeralda ou âmbar saturado no Estilo 3', () => {
+  const app = read('src/App.tsx');
+  const css = read('src/essencia-luminosa-approved-overrides.css');
+  assert.ok(app.includes('id="day-detail-modal"'));
+  assert.ok(css.includes(':root[data-layout="essencia-luminosa"] #day-detail-modal'));
+  assert.ok(css.includes('#day-detail-modal [class*="bg-indigo-"]'));
+  assert.ok(css.includes('#day-detail-modal [class*="bg-emerald-"]'));
+  assert.ok(css.includes('#day-detail-modal [class*="text-emerald-"]'));
+  assert.ok(css.includes('#day-detail-modal [class*="text-amber-"]'));
+  assert.ok(css.includes('#day-detail-modal button[class*="bg-[#B88736]"]'));
 });
