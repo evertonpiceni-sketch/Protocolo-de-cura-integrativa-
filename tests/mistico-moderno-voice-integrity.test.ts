@@ -406,3 +406,18 @@ test('Místico Moderno neutraliza a névoa sálvia global sem remover o esmerald
   const style4Theme = theme.slice(style4Start, style4End);
   assert.match(style4Theme, /--ep-scene-overlay:[\s\S]*rgba\(30,107,90,\.07\)/, 'O esmeralda permanece apenas como acento integrado à composição natural.');
 });
+
+
+test('Místico Moderno Arcanjo status identifies neural narration with concurrent Solfeggio', () => {
+  const arcanjo = read('src/components/ArcanjoProtocolView.tsx');
+  const statusStart = arcanjo.indexOf('role="status" aria-live="polite"');
+  const statusEnd = arcanjo.indexOf('</span>', statusStart);
+  const status = arcanjo.slice(statusStart, statusEnd);
+
+  assert.match(arcanjo, /const suspendsSolfeggioDuringNeuralNarration = isEleganciaProfunda \\|\\| isEssenciaLuminosa/);
+  assert.match(status, /isMisticoModerno[\\s\\S]*?Preparando narração neural — Solfeggio/);
+  assert.match(status, /Narração neural \\+ Solfeggio/);
+  assert.match(status, /Narração pausada — Solfeggio/);
+  assert.match(status, /será ativado somente quando a narração neural começar/);
+  assert.doesNotMatch(status, /Voz humana \\+ Solfeggio/);
+});

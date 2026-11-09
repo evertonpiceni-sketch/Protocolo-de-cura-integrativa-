@@ -106,7 +106,9 @@ export default function ArcanjoProtocolView({ userProfile, onClose, onLogout, in
   const fallbackTimerRef = useRef<number | null>(null);
   const narrationRunRef = useRef(0);
   const config = DADOS_PROTOCOLO[diaAtual];
-  const requiresNeuralVoice = isEleganciaProfunda || isEssenciaLuminosa;
+  // Estilos 2 e 3 suspendem o Solfeggio durante a narração neural.
+  // O Estilo 4 usa voz neural com Solfeggio simultâneo; mantenha essa política separada.
+  const suspendsSolfeggioDuringNeuralNarration = isEleganciaProfunda || isEssenciaLuminosa;
   const stopProtocolFrequency = () => {
     if (isSolfeggioFrequency(audioEngine.getCurrentSynthType())) {
       audioEngine.stopBG();
@@ -123,7 +125,7 @@ export default function ArcanjoProtocolView({ userProfile, onClose, onLogout, in
     setIsProtocolFrequencyActive(true);
   };
   const prepareFrequencyForNarration = () => {
-    if (requiresNeuralVoice) stopProtocolFrequency();
+    if (suspendsSolfeggioDuringNeuralNarration) stopProtocolFrequency();
     else playProtocolFrequency();
   };
   const hasKnownDuration = Number.isFinite(duration) && duration > 0;
@@ -167,7 +169,7 @@ export default function ArcanjoProtocolView({ userProfile, onClose, onLogout, in
     if (fallbackTimerRef.current) window.clearInterval(fallbackTimerRef.current);
     fallbackTimerRef.current = null;
     audioEngine.stopSpeech();
-    if (requiresNeuralVoice) {
+    if (suspendsSolfeggioDuringNeuralNarration) {
       if (restoreFrequency) playProtocolFrequency();
       else stopProtocolFrequency();
     } else {
@@ -188,12 +190,12 @@ export default function ArcanjoProtocolView({ userProfile, onClose, onLogout, in
     const next = [...new Set([...completedDays, diaAtual])].sort((a,b) => a-b);
     setCompletedDays(next);
     onCompletedDaysChange?.(next);
-    resetPlayback(requiresNeuralVoice);
+    resetPlayback(suspendsSolfeggioDuringNeuralNarration);
   };
 
   const startNativeFallback = (runId: number) => {
     if (isEleganciaProfunda || isEssenciaLuminosa || isMisticoModerno) {
-      if (requiresNeuralVoice) playProtocolFrequency();
+      if (suspendsSolfeggioDuringNeuralNarration) playProtocolFrequency();
       else {
         audioEngine.stopSynth();
         setIsProtocolFrequencyActive(false);
@@ -243,7 +245,7 @@ export default function ArcanjoProtocolView({ userProfile, onClose, onLogout, in
     resetPlayback(false);
     if ((isEleganciaProfunda || isMisticoModerno) && !isElevenLabsVoiceId(userProfile.voiceId)) {
       setVoiceError(true);
-      if (requiresNeuralVoice) playProtocolFrequency();
+      if (suspendsSolfeggioDuringNeuralNarration) playProtocolFrequency();
       return;
     }
     setVoiceError(false);
@@ -276,7 +278,7 @@ export default function ArcanjoProtocolView({ userProfile, onClose, onLogout, in
       onPause: () => {
         if (runId !== narrationRunRef.current) return;
         setIsPlaying(false);
-        if (requiresNeuralVoice) playProtocolFrequency();
+        if (suspendsSolfeggioDuringNeuralNarration) playProtocolFrequency();
         else {
           audioEngine.stopSynth();
           setIsProtocolFrequencyActive(false);
@@ -294,7 +296,7 @@ export default function ArcanjoProtocolView({ userProfile, onClose, onLogout, in
         if (runId !== narrationRunRef.current) return;
         audioEngine.stopSpeech();
         if (isEleganciaProfunda || isEssenciaLuminosa || isMisticoModerno) {
-          if (requiresNeuralVoice) playProtocolFrequency();
+          if (suspendsSolfeggioDuringNeuralNarration) playProtocolFrequency();
           else {
             audioEngine.stopSynth();
             setIsProtocolFrequencyActive(false);
@@ -322,7 +324,7 @@ export default function ArcanjoProtocolView({ userProfile, onClose, onLogout, in
     }
     if (isPlaying) {
       audioEngine.pauseSpeech();
-      if (!requiresNeuralVoice && !isMisticoModerno) {
+      if (!suspendsSolfeggioDuringNeuralNarration && !isMisticoModerno) {
         // Native fallback has no HTMLAudio onpause callback.
         audioEngine.stopSynth();
         setIsProtocolFrequencyActive(false);
@@ -331,7 +333,7 @@ export default function ArcanjoProtocolView({ userProfile, onClose, onLogout, in
       return;
     }
     audioEngine.resumeSpeech();
-    if (!requiresNeuralVoice && !isMisticoModerno) {
+    if (!suspendsSolfeggioDuringNeuralNarration && !isMisticoModerno) {
       // Native fallback has no HTMLAudio onplay callback.
       playProtocolFrequency();
       setIsPlaying(true);
@@ -408,23 +410,33 @@ export default function ArcanjoProtocolView({ userProfile, onClose, onLogout, in
             <span>
               {userProfile.audioEnabled === false
                 ? 'Áudio desativado — nenhuma frequência será reproduzida.'
-                : requiresNeuralVoice
-                  ? isPreparingAudio
-                    ? `Preparando narração neural — Solfeggio ${config.freq} Hz suspenso.`
-                    : isPlaying
-                      ? `Narração neural ativa — Solfeggio ${config.freq} Hz suspenso.`
-                      : isProtocolFrequencyActive
-                        ? `Solfeggio ${config.freq} Hz ativo durante a pausa ou após a narração.`
+                : isMisticoModerno
+                  ? voiceError
+                    ? `Voz neural indisponível — Solfeggio ${config.freq} Hz não foi iniciado.`
+                    : isPreparingAudio
+                      ? `Preparando narração neural — Solfeggio ${config.freq} Hz aguardando o início da voz.`
+                      : isPlaying
+                        ? `Narração neural + Solfeggio ${config.freq} Hz ativos`
                         : hasStarted
-                          ? `Narração pausada — Solfeggio ${config.freq} Hz suspenso.`
-                          : `Pronto — Solfeggio ${config.freq} Hz será ativado somente durante pausas ou após a narração.`
-                  : isPreparingAudio
-                    ? 'Preparando narração aprovada…'
-                    : isPlaying
-                      ? `Voz humana + Solfeggio ${config.freq} Hz ativos`
-                      : hasStarted
-                        ? `Pausado — Solfeggio ${config.freq} Hz interrompido`
-                        : `Pronto — Solfeggio ${config.freq} Hz será reproduzido junto com a narração`}
+                          ? `Narração pausada — Solfeggio ${config.freq} Hz interrompido.`
+                          : `Pronto — Solfeggio ${config.freq} Hz será ativado somente quando a narração neural começar.`
+                  : suspendsSolfeggioDuringNeuralNarration
+                    ? isPreparingAudio
+                      ? `Preparando narração neural — Solfeggio ${config.freq} Hz suspenso.`
+                      : isPlaying
+                        ? `Narração neural ativa — Solfeggio ${config.freq} Hz suspenso.`
+                        : isProtocolFrequencyActive
+                          ? `Solfeggio ${config.freq} Hz ativo durante a pausa ou após a narração.`
+                          : hasStarted
+                            ? `Narração pausada — Solfeggio ${config.freq} Hz suspenso.`
+                            : `Pronto — Solfeggio ${config.freq} Hz será ativado somente durante pausas ou após a narração.`
+                    : isPreparingAudio
+                      ? 'Preparando narração aprovada…'
+                      : isPlaying
+                        ? `Voz humana + Solfeggio ${config.freq} Hz ativos`
+                        : hasStarted
+                          ? `Pausado — Solfeggio ${config.freq} Hz interrompido`
+                          : `Pronto — Solfeggio ${config.freq} Hz será reproduzido junto com a narração`}
             </span>
           </div>
         </div>
