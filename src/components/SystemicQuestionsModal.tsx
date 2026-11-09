@@ -79,11 +79,15 @@ export default function SystemicQuestionsModal({
         }
       }
     };
-  }, [isOpen, is639HzActive, userProfile?.audioEnabled, userProfile?.bgMusicType, isReadingVoice]);
+  }, [isOpen, is639HzActive, userProfile?.audioEnabled, userProfile?.bgMusicType, isEssenciaLuminosa ? isReadingVoice : false]);
 
   const handleToggle639 = () => {
     if (is639HzActive) {
-      if (audioEngine.getCurrentSynthType() === '639hz') audioEngine.stopBG();
+      if (isEssenciaLuminosa) {
+        if (audioEngine.getCurrentSynthType() === '639hz') audioEngine.stopBG();
+      } else {
+        audioEngine.stopBG();
+      }
       setIs639HzActive(false);
     } else {
       if (!isEssenciaLuminosa) {
@@ -265,7 +269,7 @@ export default function SystemicQuestionsModal({
                 {is639HzAudible && (
                   <span className="absolute -top-1 -right-1 flex h-2.5 w-2.5">
                     <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-                    <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-[#C89D52]"></span>
+                    <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500"></span>
                   </span>
                 )}
               </div>
@@ -287,7 +291,7 @@ export default function SystemicQuestionsModal({
               title={isEssenciaLuminosa && userProfile?.audioEnabled === false ? 'O áudio está desativado nos ajustes.' : isEssenciaLuminosa && isReadingVoice ? 'A frequência fica pausada durante a narração.' : undefined}
               className={`px-3 py-1.5 rounded-xl text-xs font-medium flex items-center gap-1.5 transition cursor-pointer border shrink-0 self-end sm:self-center disabled:cursor-not-allowed disabled:opacity-50 ${
                 is639HzAudible
-                  ? 'bg-[#B88736] border-[#A87E37] text-white hover:bg-[#8F631E]'
+                  ? 'bg-[#B88736] border-[#B88736] text-white hover:bg-[#8F631E]'
                   : 'bg-[#F5EFE4] border-[#E5DAC6] text-[#5C5248] hover:text-[#2A2420]'
               }`}
             >
