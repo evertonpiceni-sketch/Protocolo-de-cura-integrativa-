@@ -67,7 +67,7 @@ export default function MilestoneCelebrationModal({
     badgeText = 'Jornada dos 21 Dias Concluída';
     themeBg = 'from-amber-950 via-[#FBF8F2] to-indigo-950';
     themeBorder = 'border-amber-500/60';
-    icon = <Crown className="w-9 h-9 text-amber-400 animate-bounce" />;
+    icon = <Crown className="w-9 h-9 text-amber-400 animate-bounce motion-reduce:animate-none" />;
     mainMessage = `Você assumiu o seu Trono: parabéns pela conclusão do seu Protocolo da Transformação!\n\nQuerido(a) ${userName},\n\nHoje é o ápice da sua jornada de 21 dias. Com a bênção e o simbolismo do empoderamento de Ganesha, você encerra este ciclo levando consigo as intenções, reflexões e práticas cultivadas ao longo do caminho.\n\nQue este momento marque presença, autonomia, amor e paz na sua caminhada.\n\nCom profunda gratidão,\nÉverton Rodrigo Piceni`;
   }
 
