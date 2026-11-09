@@ -41,8 +41,8 @@ A inspeção desta execução é estática e baseada no código, testes e pranch
 
 ## Pendente
 
-- Executar CI deste novo branch (TypeScript, testes, build e auditoria de dependências).
-- Homologar em navegador desktop/mobile as 12 superfícies, imagens reais, alinhamento, nitidez tipográfica, animações e opacidade do logo.
+- CI Security Audit #42550535825 concluído com sucesso: npm audit, TypeScript, testes de regressão, build, entrypoints Vercel, varredura de segredos, JWT fail-closed, cadastro, smoke test e endpoints de pagamento.
+- Homologar em navegador desktop/mobile as 12 superfícies, imagens reais, alinhamento, nitidez tipográfica, animações e opacidade do logo. O preview Vercel não ficou disponível: o deployment associado ao branch terminou em `BUILD_FAILED / Resource provisioning failed`, e o status do PR indica limite de builds do plano.
 - Ouvir a voz neural selecionada e testar Solfeggio em reprodução real.
 - Validar checkout e webhook InfinitePay em sandbox. Nenhuma cobrança real foi feita.
 - A miniatura é uma derivação leve para o card; o arquivo original 1536 × 1152 permanece a fonte de referência.
