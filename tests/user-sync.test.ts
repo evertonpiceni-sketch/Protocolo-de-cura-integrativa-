@@ -247,6 +247,7 @@ test('a profile payload cannot be sent under a different active account after a 
 
 test('authenticated app and Natural Sereno journey writes pass the originating account key', () => {
   const app = readFileSync('src/App.tsx', 'utf8');
+  const setup = readFileSync('src/components/ProfileSetup.tsx', 'utf8');
   const journey = readFileSync('src/lib/naturalSerenoHomeJourneyStateFix.ts', 'utf8');
 
   assert.match(app, /const profileWithAdmin = \{ \.\.\.profileWithPending, login: account\.login, isAdmin: account\.role === 'admin' \}/);
