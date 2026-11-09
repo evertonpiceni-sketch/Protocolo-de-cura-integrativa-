@@ -164,12 +164,7 @@ test('Style 4 selector displays the official board thumbnail from the exact refe
   assert.ok(image.byteLength > 10000, 'The official Style 4 board thumbnail must be present.');
 });
 
-test('Arcanjo subscription keeps global background audio from starting outside its own player', () => {
-  const app = read('src/App.tsx');
-  assert.equal((app.match(/userProfile\.subscriptionPlan !== 'arcanjo_7d'/g) || []).length, 2);
-});
-
-test('Arcanjo 7-day access does not disable global background audio outside the Arcanjo player', () => {
+test('Arcanjo view owns its audio without disabling global ambience for the whole 7-day plan', () => {
   const app = read('src/App.tsx');
   const globalAudioSection = app.slice(
     app.indexOf('// Synchronize global audio player'),
