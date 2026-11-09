@@ -2,14 +2,14 @@
 
 **Data:** 09/11/2026  
 **Branch:** `fix/natural-sereno-mainline-run111-2026-11-09`  
-**HEAD de código auditado:** `ecce61e60872a9c8c3ca14c64ecc70469c490c7b`  
+**HEAD de código auditado:** `784ced54429eb428b76a18e2cb4a35c4277506ea`  
 **PR:** #79 — aberta, em rascunho, `mergeable=false`.
 
 ## Corrigido
 
 1. **Fundos dourados que estavam ficando opacos.** O bridge compartilhado de `approved-theme.css` usa o seletor amplo `[class*="bg-[#B88736]"]`; ele também alcançava classes com alpha (`/8`, `/10`, `/12`, `/15`, `/20`) e podia transformar realces translúcidos em chapas sólidas. A camada final do Natural Sereno agora preserva cada transparência com o dourado aprovado `#C89D52`, sem alterar os outros estilos.
 2. **Teste visual desatualizado.** `natural-sereno-visual-guardrails.test.ts` ainda exigia `#B88736` e texto branco no marcador do dia, embora o CSS vigente já use `#C89D52` e texto café `#2A2421`. Atualizei a expectativa e acrescentei um teste para os cinco níveis de alpha.
-3. **CTAs compartilhados.** Os botões ativos de `AudioSettingsModal` e das configurações ainda herdavam texto branco, raio de 12px e hover `#8F631E`. No Natural Sereno, agora usam gradiente `#E2B96B → #C89D52`, texto café, raio de 18px e hover `#A87E37`.
+3. **CTAs compartilhados.** Os botões ativos de `AudioSettingsModal` e das configurações ainda herdavam texto branco, raio de 12px e hover `#8F631E`. No Natural Sereno, agora usam gradiente `#E2B96B → #C89D52`, texto café, raio de 18px e hover `#A87E37`. As variantes de borda com alpha (`/15` a `/55`) e o texto `/60` também preservam a transparência original, em vez de virarem ouro opaco pelo bridge global.
 
 Arquivos alterados:
 - `src/natural-sereno-approved-overrides.css`
@@ -29,7 +29,7 @@ Arquivos alterados:
 
 ## Reauditoria desta rodada
 
-- Conferência estática dos novos seletores, dos cinco níveis de transparência, do marcador do dia, dos CTAs de áudio/configurações e da ordem de imports: aprovada.
+- Conferência estática dos novos seletores, dos cinco níveis de transparência de fundo, quatorze níveis de transparência de borda, marcador do dia, CTAs de áudio/configurações e ordem de imports: aprovada.
 - Os arquivos de paisagem, ícones neutros e a prancha JPEG versionada existem na branch.
 - O fluxo de seleção remove `data-layout` até a confirmação explícita.
 - A narração do Arcanjo usa `requireExplicitVoiceId`; se a voz neural não estiver disponível, informa erro e não inicia a voz nativa.
