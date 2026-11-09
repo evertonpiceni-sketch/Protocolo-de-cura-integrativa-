@@ -258,7 +258,7 @@ test('cada seletor das 24 folhas CSS permanece isolado à Essência Luminosa', (
     for (const selector of selectors) {
       assert.match(
         selector,
-        /:root\[data-layout=(["'])essencia-luminosa\1\]/,
+        /(?:html|:root)\[data-layout=(["'])essencia-luminosa\1\]/,
         file + ': seletor sem escopo exclusivo da Essência Luminosa: ' + selector
       );
     }
