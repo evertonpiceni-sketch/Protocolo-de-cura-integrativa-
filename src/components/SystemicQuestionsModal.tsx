@@ -100,6 +100,7 @@ export default function SystemicQuestionsModal({
       setNeuralVoicePreviewActive(false);
       audioEngine.stopSpeech();
       setIsReadingVoice(false);
+      setIs639HzActive(false);
     }
     if (audioEngine.getCurrentSynthType() === '639hz') {
       audioEngine.stopBG();
