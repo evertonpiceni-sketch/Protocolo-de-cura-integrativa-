@@ -10,6 +10,7 @@ type HomeJourneyState = {
   selectedJourney?: string;
   selectedProtocolId?: string;
   subscriptionPlan?: string;
+  subscriptionExpiresAt?: string;
   startedAt?: string;
   profile?: Record<string, unknown>;
   progress?: unknown[];
@@ -17,6 +18,7 @@ type HomeJourneyState = {
 
 let remoteState: HomeJourneyState | null = null;
 let remoteStateRequested = false;
+let expiryRefreshTimer: number | null = null;
 let bypassNextProtocolClick = false;
 
 function textOf(element: Element | null) {
@@ -168,6 +170,7 @@ function readLocalState(): HomeJourneyState {
     selectedJourney: account?.profile?.selectedJourney,
     selectedProtocolId: account?.profile?.selectedProtocolId,
     subscriptionPlan: account?.profile?.subscriptionPlan,
+    subscriptionExpiresAt: account?.profile?.subscriptionExpiresAt,
     startedAt: account?.profile?.startedAt,
     profile: account?.profile ? { ...account.profile, login: account.login } : undefined,
     progress: account?.progress,
@@ -188,6 +191,7 @@ function requestRemoteState(force = false) {
           selectedJourney: profileWithLogin.selectedJourney,
           selectedProtocolId: profileWithLogin.selectedProtocolId,
           subscriptionPlan: profileWithLogin.subscriptionPlan,
+          subscriptionExpiresAt: profileWithLogin.subscriptionExpiresAt,
           startedAt: profileWithLogin.startedAt,
           profile: profileWithLogin,
           progress: data?.user?.progress || [],
@@ -204,14 +208,37 @@ function getJourneyState(): HomeJourneyState {
   return remoteState || readLocalState();
 }
 
+function scheduleExpiryRefresh(state: HomeJourneyState) {
+  if (expiryRefreshTimer !== null) {
+    window.clearTimeout(expiryRefreshTimer);
+    expiryRefreshTimer = null;
+  }
+
+  if (typeof window === 'undefined' || !state.subscriptionExpiresAt) return;
+  const expiresAt = Date.parse(state.subscriptionExpiresAt);
+  if (!Number.isFinite(expiresAt) || expiresAt <= Date.now()) return;
+
+  // Recheck at most every 24.8 days so long plans also refresh before expiry.
+  const delay = Math.min(expiresAt - Date.now() + 50, 2_147_000_000);
+  expiryRefreshTimer = window.setTimeout(() => {
+    expiryRefreshTimer = null;
+    remoteStateRequested = false;
+    requestRemoteState(true);
+    queueApply();
+  }, delay);
+}
+
 function hasExplicitJourney(state: HomeJourneyState) {
   const validDuration = state.selectedJourney === '7d' || state.selectedJourney === '21d';
   return Boolean(state.selectedProtocolId && validDuration);
 }
 
-function hasCommercialAccess(state: HomeJourneyState) {
-  if (!state.subscriptionPlan) return false;
-  return state.subscriptionPlan !== 'teste_vip_7d';
+export function hasCommercialAccess(state: HomeJourneyState, now = Date.now()) {
+  if (!state.subscriptionPlan || state.subscriptionPlan === 'teste_vip_7d') return false;
+  // Preserve legacy/admin grants without an expiry; enforce every explicit expiry.
+  if (!state.subscriptionExpiresAt) return true;
+  const expiresAt = Date.parse(state.subscriptionExpiresAt);
+  return Number.isFinite(expiresAt) && expiresAt > now;
 }
 
 function isWithinFreeDay(state: HomeJourneyState) {
@@ -261,6 +288,7 @@ function updateLocalProtocol(protocolId: string, duration: '7d' | '21d', expecte
 
 async function persistProtocolChoice(protocolId: string, duration: '7d' | '21d'): Promise<boolean> {
   const state = getJourneyState();
+  if (!hasCommercialAccess(state)) return false;
   const baseProfile = state.profile || readLocalState().profile;
   const accountLogin = normalizeAccountLogin(
     typeof baseProfile?.login === 'string' ? baseProfile.login : null,
@@ -414,13 +442,14 @@ function installProtocolCapture() {
     }
 
     const state = getJourneyState();
-    const activeJourney = hasExplicitJourney(state);
+    const hasAccess = hasCommercialAccess(state);
+    const activeJourney = hasAccess && hasExplicitJourney(state);
     if (activeJourney) return;
 
     event.preventDefault();
     event.stopPropagation();
 
-    if (!hasCommercialAccess(state)) {
+    if (!hasAccess) {
       findPlanTrigger()?.click();
       return;
     }
@@ -448,6 +477,7 @@ function applyFlowState() {
     .find(card => textOf(card.querySelector('h2')).includes('Como você está de verdade'));
   const hasAnamnesis = !anamnesisCard;
   const journeyState = getJourneyState();
+  scheduleExpiryRefresh(journeyState);
   const hasAccess = hasCommercialAccess(journeyState);
   const activeJourney = hasAnamnesis && hasAccess && hasExplicitJourney(journeyState);
   const needsProtocol = hasAnamnesis && hasAccess && !activeJourney;
