@@ -492,3 +492,24 @@
     opacity:.26!important;
   }
 }
+
+
+/* RUN 104 — assinatura oficial em todas as superfícies do Natural Sereno.
+   A marca compõe a cena; não compete com fotografia, mensagem ou conteúdo. */
+:root[data-layout="natural-sereno"] :is(.approved-brand,[data-approved-brand],.ep-brand-signature,.ns-welcome-brand) {
+  opacity:.30!important;
+  filter:none!important;
+  mix-blend-mode:normal!important;
+  object-fit:contain!important;
+}
+:root[data-layout="natural-sereno"] #auth-loading-view .ep-brand-signature-wrap {
+  opacity:1!important;
+  background:transparent!important;
+  border:0!important;
+  box-shadow:none!important;
+}
+@media(max-width:640px) {
+  :root[data-layout="natural-sereno"] :is(.approved-brand,[data-approved-brand],.ep-brand-signature,.ns-welcome-brand) {
+    opacity:.26!important;
+  }
+}
