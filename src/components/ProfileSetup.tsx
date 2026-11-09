@@ -97,7 +97,7 @@ export default function ProfileSetup({ onComplete }: ProfileSetupProps) {
         preferredVoiceGender: voiceChoice,
         coupon: regCoupon
       };
-      const profileData = { ...data.user.profile, ...profilePatch };
+      const profileData = { ...data.user.profile, ...profilePatch, login: data.user.login };
       
       const newAccount = {
         login: data.user.login,
