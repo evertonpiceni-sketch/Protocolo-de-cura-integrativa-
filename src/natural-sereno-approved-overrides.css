@@ -1215,3 +1215,24 @@
 :root[data-layout="natural-sereno"] [class~="bg-[#B88736]/20"] {
   background-color: rgba(200,157,82,.20) !important;
 }
+
+
+/* RUN 132 — CTAs compartilhados de áudio e configurações.
+   Os componentes ainda trazem o token antigo e texto branco; no Natural Sereno,
+   a ação deve usar dourado refinado, texto café e cantos premium. */
+:root[data-layout="natural-sereno"] #audio-settings-modal button[class~="bg-[#B88736]"],
+:root[data-layout="natural-sereno"] #settings-view button[class~="bg-[#B88736]"] {
+  background-color: #C89D52 !important;
+  background-image: linear-gradient(180deg,#E2B96B,#C89D52) !important;
+  color: #2A2421 !important;
+  border: 1px solid #A87E37 !important;
+  border-radius: 18px !important;
+  box-shadow: 0 8px 18px rgba(67,52,39,.10) !important;
+}
+:root[data-layout="natural-sereno"] #audio-settings-modal button[class~="bg-[#B88736]"]:not(:disabled):hover,
+:root[data-layout="natural-sereno"] #settings-view button[class~="bg-[#B88736]"]:not(:disabled):hover {
+  background-color: #A87E37 !important;
+  background-image: none !important;
+  color: #2A2421 !important;
+  border-color: #A87E37 !important;
+}
