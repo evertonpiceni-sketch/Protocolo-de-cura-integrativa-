@@ -180,3 +180,27 @@ test('Arcanjo view owns its audio without disabling global ambience for the whol
   assert.doesNotMatch(globalAudioSection, /subscriptionPlan.*arcanjo_7d/);
   assert.doesNotMatch(gestureSection, /subscriptionPlan.*arcanjo_7d/);
 });
+
+test('Anamnesis never restarts Solfeggio or selection chimes over Style 4 neural narration', () => {
+  const anamnesis = read('src/components/AnamnesisModal.tsx');
+  assert.match(anamnesis, /if \(isMisticoModerno && \(isPlayingTherapeuticVoice \|\| isLoadingVoice\)\) return;/);
+  assert.match(anamnesis, /const style4VoiceOwnsAudio = isMisticoModerno && \(isPlayingTherapeuticVoice \|\| isLoadingVoice\)/);
+  assert.match(anamnesis, /isOpenRef\.current && isEditingRef\.current && is639HzActiveRef\.current/);
+  assert.match(anamnesis, /disabled=\{isMisticoModerno && \(isPlayingTherapeuticVoice \|\| isLoadingVoice\)\}/);
+  assert.match(anamnesis, /else if \(isMisticoModerno && userProfile\.audioEnabled/);
+});
+
+test('Systemic reflections lock Solfeggio for the full neural voice request and resume only while open', () => {
+  const systemic = read('src/components/SystemicQuestionsModal.tsx');
+  assert.match(systemic, /if \(isMisticoModerno && isReadingVoice\) return;/);
+  assert.match(systemic, /setIsReadingVoice\(true\);\s+void audioEngine\.speakWithElevenLabsOrFallback/);
+  assert.match(systemic, /isOpenRef\.current && is639HzActiveRef\.current/);
+  assert.match(systemic, /disabled=\{isMisticoModerno && isReadingVoice\}/);
+});
+
+test('Style 4 Anamnesis and Systemic frequency accents stay in the night-and-gold palette', () => {
+  const css = read('src/mistico-moderno-guides-audit.css');
+  assert.match(css, /:root\[data-layout="mistico-moderno"\] #anamnesis-modal \.ep-anamnesis-frequency/);
+  assert.match(css, /linear-gradient\(145deg,rgba\(20,31,48/);
+  assert.match(css, /:root\[data-layout="mistico-moderno"\] #systemic-questions-modal \[class\*="bg-emerald-50"\]/);
+});
