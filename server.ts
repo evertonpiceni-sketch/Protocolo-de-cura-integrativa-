@@ -125,7 +125,7 @@ export function createApp() {
       return res.status(400).json({ error: "Dados de perfil inválidos." });
     }
     const profileLogin = typeof profile?.login === "string" ? profile.login.trim().toLowerCase() : "";
-    if (profileLogin && profileLogin !== authenticatedLogin) {
+    if (profile && (!profileLogin || profileLogin !== authenticatedLogin)) {
       return res.status(403).json({
         error: "O perfil enviado pertence a outra conta.",
         code: "ACCOUNT_SESSION_MISMATCH"
