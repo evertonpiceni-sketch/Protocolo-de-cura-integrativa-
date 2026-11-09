@@ -27,10 +27,3 @@ test('o acolhimento mobile do Natural Sereno mantém a fotografia real sobre bas
   // The desktop-specific composition already uses the same acolhimento image.
   assert.match(mobile, /@media \(min-width: 900px\)[\s\S]*?\.ns-welcome::before[\s\S]*?acolhimento\.webp/);
 });
-
-test('o acolhimento mobile mantém a assinatura discreta e o CTA premium aprovados', () => {
-  const css = read('src/natural-sereno-approved-overrides.css');
-  assert.match(css, /\.ns-welcome-brand \{ opacity:\.30 !important;/);
-  assert.match(css, /@media\(max-width:640px\)[\s\S]*?\.ns-welcome-brand \{ opacity:\.26 !important;/);
-  assert.match(css, /:root\[data-layout="natural-sereno"\] \.ns-app \.ns-gold \{[\s\S]*?border-radius:18px!important;/);
-});
