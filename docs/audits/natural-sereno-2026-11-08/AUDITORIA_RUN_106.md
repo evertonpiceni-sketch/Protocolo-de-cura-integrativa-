@@ -57,6 +57,7 @@ Não foi adicionada uma nova camada de override para esconder a regra antiga.
   - Testes: **184/184 aprovados**.
   - Build: aprovado, **2.249 módulos transformados**.
   - Entry points Vercel/Express, JWT, autenticação administrativa, smoke tests e endpoints de pagamento: aprovados.
+- Security Audit **#1978** — execução **42550335693**, no commit documental: **184/184 testes**, zero vulnerabilidades, TypeScript, build e verificações de segurança aprovados.
 
 ## Pendências
 
@@ -64,7 +65,7 @@ Não foi adicionada uma nova camada de override para esconder a regra antiga.
 2. Falta ouvir a voz realmente selecionada e testar em navegador as transições entre narração, Solfeggio e ambiência. A proteção contra fallback robótico foi validada no código, não por escuta real.
 3. Falta homologar InfinitePay em sandbox, incluindo confirmação e webhook. Nenhuma cobrança foi feita.
 4. A Library retornou e permitiu inspecionar `Painel UX_UI Natural Sereno.png`, visualmente correspondente à prancha do Estilo 1. A busca não retornou o identificador exato `file_00000000317c820ebaad657dc3680de5`; por isso, não afirmo identidade binária. A referência versionada `docs/visual-qa/natural-sereno/reference.jpg` foi preservada e não substituída.
-5. A branch está **87 commits à frente e 10 atrás** da `main`. Os 10 commits posteriores foram comparados: incluem documentação dos Estilos 2/3, `src/approved-theme.css` (idêntico na branch) e ajustes de teste da Essência Luminosa; a branch contém as expectativas mais recentes de voz/Solfeggio. Não foi feito merge; manter a revisão de integração antes de publicar.
+5. A branch está **89 commits à frente e 10 atrás** da `main`. Os 10 commits posteriores foram comparados: incluem documentação dos Estilos 2/3, `src/approved-theme.css` (idêntico na branch) e ajustes de teste da Essência Luminosa; a branch contém as expectativas mais recentes de voz/Solfeggio. Não foi feito merge; manter a revisão de integração antes de publicar.
 6. Solicitar revisão independente do HEAD atualizado.
 
 ## Publicação
