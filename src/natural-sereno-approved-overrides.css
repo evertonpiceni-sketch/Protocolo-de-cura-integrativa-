@@ -908,3 +908,25 @@
     box-shadow: 0 8px 22px rgba(67,52,39,.10) !important;
   }
 }
+
+
+/* RUN 125 — Arcanjo: alinhar cabeçalho e véu à paleta Natural Sereno aprovada.
+   A estrutura compartilhada ainda carregava o dourado anterior (#B88736)
+   no cabeçalho; esta correção é exclusiva do Estilo 1. */
+:root[data-layout="natural-sereno"] #arcanjo-protocol-view.ep-arcanjo-natural > .fixed.inset-0 {
+  background:
+    radial-gradient(circle at 50% 0, rgba(200,157,82,.08), transparent 30rem),
+    linear-gradient(180deg, #FAF7F2 0%, #F5EFE5 100%) !important;
+}
+:root[data-layout="natural-sereno"] #arcanjo-protocol-view.ep-arcanjo-natural > header {
+  background: rgba(250,247,242,.96) !important;
+  border-bottom-color: rgba(200,157,82,.20) !important;
+  color: #2A2421 !important;
+}
+:root[data-layout="natural-sereno"] #arcanjo-protocol-view.ep-arcanjo-natural > header [class*="text-[#B88736]"],
+:root[data-layout="natural-sereno"] #arcanjo-protocol-view.ep-arcanjo-natural > header button {
+  color: #A87E37 !important;
+}
+:root[data-layout="natural-sereno"] #arcanjo-protocol-view.ep-arcanjo-natural > header [class*="border-[#B88736]"] {
+  border-color: rgba(200,157,82,.20) !important;
+}

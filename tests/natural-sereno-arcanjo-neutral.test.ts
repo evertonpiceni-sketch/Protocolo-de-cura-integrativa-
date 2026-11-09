@@ -101,3 +101,20 @@ test('seletor dos quatro estilos continua obrigatório e o modal promocional leg
   assert.ok(existsSync(new URL('../docs/visual-qa/natural-sereno/reference.jpg', import.meta.url)));
   assert.doesNotMatch(app, /PromoVideoModal|showPromoVideoModal|bottom-btn-promo-video/);
 });
+
+
+test('cabeçalho do Arcanjo Natural Sereno usa marfim e dourado refinado, sem o token antigo', () => {
+  const player = read('src/components/ArcanjoProtocolView.tsx');
+  const css = read('src/natural-sereno-approved-overrides.css');
+  const main = read('src/main.tsx');
+
+  assert.ok(player.includes('id="arcanjo-protocol-view"'));
+  assert.ok(player.includes('text-[#B88736]'), 'O teste deve proteger a classe antiga compartilhada contra vazamento visual.');
+  const run125 = css.slice(css.lastIndexOf('/* RUN 125 — Arcanjo:'));
+  assert.ok(run125.includes('#arcanjo-protocol-view.ep-arcanjo-natural > header'));
+  assert.ok(run125.includes('background: rgba(250,247,242,.96) !important;'));
+  assert.ok(run125.includes('border-bottom-color: rgba(200,157,82,.20) !important;'));
+  assert.ok(run125.includes('color: #A87E37 !important;'));
+  assert.ok(run125.includes('rgba(200,157,82,.08)'));
+  assert.ok(main.indexOf("import './natural-sereno-approved-overrides.css';") > main.indexOf("import './natural-sereno.css';"));
+});
