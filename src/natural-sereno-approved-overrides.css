@@ -724,3 +724,49 @@
 :root[data-layout="natural-sereno"] #meditation-session .animate-pulse.rounded-full.bg-gradient-to-r {
   background: linear-gradient(90deg,rgba(168,126,55,.12),rgba(200,157,82,.42),rgba(168,126,55,.12)) !important;
 }
+
+
+/* RUN 113 — Anamnese: retirar os últimos vazamentos índigo/púrpura e âmbar
+   saturado do player/indicador; preservar estados semânticos pequenos e handlers. */
+:root[data-layout="natural-sereno"] #anamnesis-modal .ep-anamnesis-progress-fill {
+  background-color: #C89D52 !important;
+  background-image: linear-gradient(90deg,#A87E37 0%,#C89D52 58%,#E2B96B 100%) !important;
+  box-shadow: 0 1px 5px rgba(67,52,39,.12) !important;
+}
+:root[data-layout="natural-sereno"] #anamnesis-modal .ep-anamnesis-waveform > div[class*="from-indigo-500"] {
+  background-color: #C89D52 !important;
+  background-image: linear-gradient(to top,#A87E37,#E2B96B) !important;
+  box-shadow: 0 1px 5px rgba(67,52,39,.08) !important;
+}
+:root[data-layout="natural-sereno"] #anamnesis-modal .ep-assessment-actions :is(button,a)[class*="from-amber-500"] {
+  background: linear-gradient(180deg,#E2B96B,#C89D52) !important;
+  background-image: linear-gradient(180deg,#E2B96B,#C89D52) !important;
+  color: #2A2421 !important;
+  border: 1px solid rgba(168,126,55,.58) !important;
+  border-radius: 18px !important;
+  box-shadow: 0 9px 20px rgba(67,52,39,.10) !important;
+  text-shadow: none !important;
+}
+:root[data-layout="natural-sereno"] #anamnesis-modal .ep-assessment-actions :is(button,a)[class*="from-amber-500"]:hover {
+  background: linear-gradient(180deg,#E8C47D,#A87E37) !important;
+  background-image: linear-gradient(180deg,#E8C47D,#A87E37) !important;
+}
+:root[data-layout="natural-sereno"] #anamnesis-modal .ep-assessment-actions :is(button,a)[class*="bg-emerald-600"] {
+  background: linear-gradient(180deg,#FBF8F2,#F3E8D5) !important;
+  background-image: linear-gradient(180deg,#FBF8F2,#F3E8D5) !important;
+  color: #5A4026 !important;
+  border: 1px solid rgba(184,135,54,.34) !important;
+  border-radius: 18px !important;
+  box-shadow: 0 8px 18px rgba(67,52,39,.08) !important;
+}
+:root[data-layout="natural-sereno"] #anamnesis-modal .ep-assessment-actions :is(button,a)[class*="bg-emerald-600"]:hover {
+  background: linear-gradient(180deg,#F5EFE4,#EEE4D3) !important;
+  background-image: linear-gradient(180deg,#F5EFE4,#EEE4D3) !important;
+}
+:root[data-layout="natural-sereno"] #anamnesis-modal .ep-assessment-actions :is(button,a):focus-visible {
+  outline: 2px solid #C89D52 !important;
+  outline-offset: 3px !important;
+}
+:root[data-layout="natural-sereno"] #anamnesis-modal [role="status"][class*="bg-[#FAF4E8]"] {
+  color: #6F7B55 !important;
+}
