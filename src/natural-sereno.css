@@ -258,7 +258,7 @@
    frozen PersonalJourney21 player, unlike the earlier utility-class matching. */
 :root[data-layout="natural-sereno"] #meditation-session {
   color: #fff8e6 !important;
-  background: var(--ns-waterfall) center / cover no-repeat #063020 !important;
+  background: var(--ns-waterfall) center / cover no-repeat #2A2421 !important;
   overflow-y: auto;
 }
 :root[data-layout="natural-sereno"] #meditation-session .ep-session-backdrop { background: linear-gradient(180deg, rgba(250,247,242,.08), rgba(250,247,242,.30) 78%); }
@@ -383,7 +383,7 @@
   position: relative;
   justify-content: flex-start;
   padding: 54px 24px 28px;
-  background: url('/brand/natural-sereno/presenca.webp') center / cover no-repeat #063020 !important;
+  background: linear-gradient(180deg, rgba(42,36,33,.12), rgba(42,36,33,.68)), url('/brand/natural-sereno/presenca.webp') center / cover no-repeat #2A2421 !important;
   font-family: 'Lora', Georgia, serif;
 }
 :root[data-layout="natural-sereno"] #auth-loading-view > div:first-child { width: 74px; height: 74px; margin-bottom: 8px; }
@@ -417,17 +417,17 @@
   display: block;
   width: 65%;
   height: 100%;
-  background: #e6c66e;
+  background: #C89D52;
   border-radius: inherit;
   animation: ns-loading 1.8s ease-in-out infinite alternate;
 }
 :root[data-layout="natural-sereno"] .ns-loading-details small { font-size: 12px; color: #fff8e6; margin-top: 14px; line-height: 1.5; }
 @keyframes ns-loading { from { transform: translateX(-65%); } to { transform: translateX(90%); } }
 :root[data-layout="natural-sereno"] .ns-welcome {
-  background: url('/brand/natural-sereno/acolhimento.webp') center / cover no-repeat #063020;
+  background: url('/brand/natural-sereno/acolhimento.webp') center / cover no-repeat #2A2421;
   padding: 44px 24px 30px;
 }
-:root[data-layout="natural-sereno"] .ns-welcome::before { background: rgba(2, 31, 19, .15); }
+:root[data-layout="natural-sereno"] .ns-welcome::before { background: linear-gradient(180deg, rgba(42,36,33,.12), rgba(42,36,33,.58) 55%, rgba(42,36,33,.72)); }
 :root[data-layout="natural-sereno"] .ns-welcome-content { display: flex; flex-direction: column; align-items: center; min-height: calc(100dvh - 74px); }
 :root[data-layout="natural-sereno"] .ns-welcome-brand { width: 64px; height: 64px; object-fit: contain; opacity: .6; margin-bottom: 70px; }
 :root[data-layout="natural-sereno"] .ns-welcome h1 { font-size: 39px; }
@@ -454,7 +454,7 @@
 :root[data-layout="natural-sereno"] .ns-result-item > div { flex: 1; min-width: 0; }
 :root[data-layout="natural-sereno"] .ns-result-symbol { display: grid; place-items: center; flex-shrink: 0; width: 46px; height: 46px; border: 1px solid rgba(200,157,82,.34); border-radius: 50%; background: #F5EFE5; }
 :root[data-layout="natural-sereno"] .ns-result-symbol svg { margin: 0; color: #8F631E; }
-:root[data-layout="natural-sereno"] .ns-result-item:nth-of-type(3) .ns-result-symbol { color: #297241; background: #edf1d8; }
+:root[data-layout="natural-sereno"] .ns-result-item:nth-of-type(3) .ns-result-symbol { color: #5E6948; background: rgba(111,123,85,.10); }
 :root[data-layout="natural-sereno"] .ns-result-item small { font-size: 12px; }
 :root[data-layout="natural-sereno"] .ns-result-item strong { font-size: 15px; line-height: 1.4; }
 :root[data-layout="natural-sereno"] .ns-dock svg { width: 25px; height: 25px; stroke-width: 1.8; }
