@@ -162,9 +162,10 @@
   width: 43px;
   height: 43px;
   border-radius: 50%;
-  color: #FFFDF8;
-  background: var(--ns-forest);
-  box-shadow: inset 0 1px 3px rgba(255, 247, 198, .2);
+  color: #6F7B55;
+  background: #FBF8F2;
+  border: 1px solid rgba(111,123,85,.24);
+  box-shadow: 0 6px 16px rgba(67,52,39,.06);
 }
 :root[data-layout="natural-sereno"] .ns-row-copy { flex: 1; min-width: 0; }
 :root[data-layout="natural-sereno"] .ns-row-copy strong { display: block; font-size: 13px; font-weight: 500; line-height: 1.35; }
@@ -173,7 +174,7 @@
 :root[data-layout="natural-sereno"] .ns-signature { margin: 26px 8px 6px; text-align: center; font: italic 20px/1.35 'Cormorant Garamond', Georgia, serif; }
 :root[data-layout="natural-sereno"] .ns-journey-intro p { font-size: 12px; line-height: 1.65; margin-bottom: 15px; }
 :root[data-layout="natural-sereno"] .ns-day { min-height: 69px; gap: 10px; }
-:root[data-layout="natural-sereno"] .ns-day-number { display: grid; place-items: center; width: 31px; height: 31px; flex-shrink: 0; border-radius: 50%; background: var(--ns-forest); color: #fff7db; font-size: 15px; }
+:root[data-layout="natural-sereno"] .ns-day-number { display: grid; place-items: center; width: 31px; height: 31px; flex-shrink: 0; border-radius: 50%; background: #B88736; color: #FFFDF8; box-shadow: 0 5px 12px rgba(67,52,39,.10); font-size: 15px; }
 :root[data-layout="natural-sereno"] .ns-row > img { width: 47px; height: 48px; border-radius: 7px; object-fit: cover; flex-shrink: 0; }
 :root[data-layout="natural-sereno"] .ns-search { display: flex; align-items: center; gap: 8px; background: var(--ns-paper); border: 1px solid var(--ns-line); border-radius: 9px; min-height: 44px; padding: 8px 12px; font-size: 12px; }
 :root[data-layout="natural-sereno"] .ns-search input { min-width: 0; flex: 1; background: transparent; }
@@ -186,7 +187,7 @@
 :root[data-layout="natural-sereno"] .ns-editorial-card p { font-size: 12px; line-height: 1.7; margin: 8px 0 14px; }
 :root[data-layout="natural-sereno"] .ns-editorial-card > small { font-size: 10px; color: var(--ns-muted); }
 :root[data-layout="natural-sereno"] .ns-editorial-card blockquote { font-size: 13px; line-height: 1.65; font-style: italic; border-left: 2px solid var(--ns-gold); padding-left: 10px; }
-:root[data-layout="natural-sereno"] .ns-profile-identity { display: flex; flex-direction: column; align-items: center; gap: 12px; padding-bottom: 22px; color: var(--ns-forest); }
+:root[data-layout="natural-sereno"] .ns-profile-identity { display: flex; flex-direction: column; align-items: center; gap: 12px; padding-bottom: 22px; color: var(--ns-ink); }
 :root[data-layout="natural-sereno"] .ns-profile-identity h2 { font-size: 27px; }
 :root[data-layout="natural-sereno"] .ns-profile-progress { position: relative; padding: 14px; margin-bottom: 12px; background: var(--ns-paper); border: 1px solid var(--ns-line); border-radius: 10px; }
 :root[data-layout="natural-sereno"] .ns-profile-progress > div { display: grid; grid-template-columns: 29px 1fr; align-items: center; }
@@ -194,8 +195,8 @@
 :root[data-layout="natural-sereno"] .ns-profile-progress span { grid-column: 2; font-size: 11px; }
 :root[data-layout="natural-sereno"] .ns-profile-progress progress { display: block; appearance: none; width: calc(100% - 36px); height: 8px; margin-top: 12px; border-radius: 6px; overflow: hidden; }
 :root[data-layout="natural-sereno"] .ns-profile-progress progress::-webkit-progress-bar { background: #e6ddbc; }
-:root[data-layout="natural-sereno"] .ns-profile-progress progress::-webkit-progress-value { background: var(--ns-forest); }
-:root[data-layout="natural-sereno"] .ns-profile-progress progress::-moz-progress-bar { background: var(--ns-forest); }
+:root[data-layout="natural-sereno"] .ns-profile-progress progress::-webkit-progress-value { background: #C89D52; }
+:root[data-layout="natural-sereno"] .ns-profile-progress progress::-moz-progress-bar { background: #C89D52; }
 :root[data-layout="natural-sereno"] .ns-profile-progress > small { position: absolute; right: 12px; bottom: 12px; font-size: 10px; }
 :root[data-layout="natural-sereno"] .ns-result > svg { margin: 0 auto 14px; color: var(--ns-gold); }
 :root[data-layout="natural-sereno"] .ns-result > p { font-size: 14px; line-height: 1.75; margin-bottom: 20px; }
@@ -257,18 +258,18 @@
 /* These stable component selectors cannot restyle unrelated dialogs or the
    frozen PersonalJourney21 player, unlike the earlier utility-class matching. */
 :root[data-layout="natural-sereno"] #meditation-session {
-  color: #fff8e6 !important;
-  background: var(--ns-waterfall) center / cover no-repeat #2A2421 !important;
-  overflow-y: auto;
+  color: #2A2421 !important;
+  background: linear-gradient(180deg, rgba(250,247,242,.96), rgba(245,239,229,.94)) !important;
+  overflow: hidden !important;
 }
 :root[data-layout="natural-sereno"] #meditation-session .ep-session-backdrop { background: linear-gradient(180deg, rgba(250,247,242,.08), rgba(250,247,242,.30) 78%); }
 :root[data-layout="natural-sereno"] #meditation-session .ep-session-backdrop canvas { opacity: .18; }
 :root[data-layout="natural-sereno"] #meditation-session .ep-session-backdrop > div:last-child { background: transparent !important; }
 :root[data-layout="natural-sereno"] #meditation-session > header { flex-shrink: 0; border: 0; padding: 14px 16px; background: rgba(250,247,242,.90) !important; box-shadow: 0 5px 18px rgba(67,52,39,.05) !important; }
-:root[data-layout="natural-sereno"] #meditation-session > header :is(h1, div, span) { color: #fff8e6 !important; }
+:root[data-layout="natural-sereno"] #meditation-session > header :is(h1, div, span) { color: #2A2421 !important; }
 :root[data-layout="natural-sereno"] #meditation-session > header button { background: rgba(251,248,242,.94) !important; border-color: rgba(200,157,82,.34) !important; color: #6B4E2E !important; }
-:root[data-layout="natural-sereno"] #meditation-session > main { justify-content: flex-end; min-height: 390px; max-width: 480px; padding: 150px 20px 16px; }
-:root[data-layout="natural-sereno"] #meditation-session > main :is(h2, p, span) { color: #fff8e6 !important; }
+/* Main player sizing is owned by natural-sereno-final-audit.css; do not restore the old 150px offset. */
+:root[data-layout="natural-sereno"] #meditation-session > main :is(h2, p, span) { color: #2A2421 !important; }
 :root[data-layout="natural-sereno"] #meditation-session > main h2 { font-size: 31px !important; }
 :root[data-layout="natural-sereno"] #meditation-session > main p { font-size: 13px; }
 :root[data-layout="natural-sereno"] #meditation-session > main .relative.w-44.h-44 { width: 110px !important; height: 110px !important; margin: 8px 0 !important; }
@@ -317,10 +318,10 @@
 :root[data-layout="natural-sereno"] .ns-community-empty svg { color: var(--ns-forest); }
 :root[data-layout="natural-sereno"] .ns-community-empty h2 { font-size: 29px; }
 :root[data-layout="natural-sereno"] .ns-community-empty p { font-size: 13px; line-height: 1.65; }
-:root[data-layout="natural-sereno"] #main-header > div > div:first-child > div:first-child { opacity: .6; background: transparent !important; border: 0; box-shadow: none; }
+:root[data-layout="natural-sereno"] #main-header > div > div:first-child > div:first-child { opacity: 1; background: transparent !important; border: 0; box-shadow: none; }
 :root[data-layout="natural-sereno"] #auth-loading-view { background: linear-gradient(180deg, rgba(42,36,33,.12), rgba(42,36,33,.68)), var(--ns-waterfall) center / cover no-repeat #FAF7F2 !important; }
 :root[data-layout="natural-sereno"] #auth-loading-view :is(h2, p) { color: #fff8e6 !important; }
-:root[data-layout="natural-sereno"] #auth-loading-view > div { background: transparent !important; border: 0; box-shadow: none; opacity: .65; }
+:root[data-layout="natural-sereno"] #auth-loading-view > div { background: transparent !important; border: 0; box-shadow: none; opacity: 1; }
 :root[data-layout="natural-sereno"] #anamnesis-modal div[class*="bg-[#B88736]/"] { background: rgba(182, 139, 54, .1) !important; }
 :root[data-layout="natural-sereno"] #anamnesis-modal > div > div.absolute { opacity: .25; }
 :root[data-layout="natural-sereno"] #meditation-session[data-session-phase^="checkin"] > main { display: none; }
@@ -429,7 +430,7 @@
 }
 :root[data-layout="natural-sereno"] .ns-welcome::before { background: linear-gradient(180deg, rgba(42,36,33,.12), rgba(42,36,33,.58) 55%, rgba(42,36,33,.72)); }
 :root[data-layout="natural-sereno"] .ns-welcome-content { display: flex; flex-direction: column; align-items: center; min-height: calc(100dvh - 74px); }
-:root[data-layout="natural-sereno"] .ns-welcome-brand { width: 64px; height: 64px; object-fit: contain; opacity: .6; margin-bottom: 70px; }
+:root[data-layout="natural-sereno"] .ns-welcome-brand { width: 64px; height: 64px; object-fit: contain; opacity: .30; margin-bottom: 70px; }
 :root[data-layout="natural-sereno"] .ns-welcome h1 { font-size: 39px; }
 :root[data-layout="natural-sereno"] .ns-welcome-content > p:first-of-type { max-width: 320px; margin: 18px 0 35px; }
 :root[data-layout="natural-sereno"] .ns-welcome-audio { position: relative; width: 100%; padding: 25px 0; }
@@ -485,7 +486,7 @@
 :root[data-layout="natural-sereno"] .ns-profile .ns-row-icon { width: 38px; height: 38px; border-radius: 0; background: transparent; box-shadow: none; color: #6F7B55; }
 :root[data-layout="natural-sereno"] .ns-profile-identity > svg { width: 62px; height: 62px; border: 1px solid var(--ns-line); border-radius: 50%; padding: 12px; background: var(--ns-paper); }
 :root[data-layout="natural-sereno"] #auth-loading-view > div:first-child { opacity: 1; animation: none; }
-:root[data-layout="natural-sereno"] #auth-loading-view > div:first-child img { opacity: .6; }
+:root[data-layout="natural-sereno"] #auth-loading-view > div:first-child img { opacity: .30; }
 :root[data-layout="natural-sereno"] .ns-app:not([data-ns-screen="home"]):not([data-ns-screen="welcome"]):not([data-ns-screen="community"])::after { background-size: 100% 100dvh; }
 :root[data-layout="natural-sereno"] .ns-welcome-audio .ns-audio-wave { position: absolute; top: 50%; left: 0; width: 100%; height: auto; transform: translateY(-50%); pointer-events: none; }
 :root[data-layout="natural-sereno"] #auth-loading-view { background-size: auto calc(100dvh + 90px) !important; background-position: center bottom !important; padding-bottom: 55px; }
@@ -571,11 +572,7 @@
 :root[data-layout="natural-sereno"] .ns-welcome-play { box-shadow: inset 0 0 0 5px rgba(232, 207, 137, .12), 0 0 0 6px rgba(230, 205, 130, .13), 0 0 22px rgba(226, 197, 105, .32); }
 :root[data-layout="natural-sereno"] .ns-app:is([data-ns-screen="library"], [data-ns-screen="tools"]) .ns-page-heading { padding-left: 18px; padding-right: 18px; }
 :root[data-layout="natural-sereno"] .ns-app:is([data-ns-screen="library"], [data-ns-screen="tools"]) .ns-page-heading h1 { font-size: 34px; }
-/* Let the waterfall stay visible behind the retained player controls. */
-:root[data-layout="natural-sereno"] #meditation-session > header { background: rgba(4, 38, 26, .12) !important; backdrop-filter: none; }
-:root[data-layout="natural-sereno"] #meditation-session > main { flex: none; min-height: 0; padding-top: 90px !important; }
-:root[data-layout="natural-sereno"] #meditation-session > footer { background: rgba(3, 35, 24, .65) !important; }
-:root[data-layout="natural-sereno"] #meditation-session[data-session-phase="playing"] { justify-content: flex-start; }
+/* RUN 117: obsolete forest-green surfaces and the old top-offset player layout were removed. */
 /* The welcome board uses a larger audio ring with the waveform behind it. */
 :root[data-layout="natural-sereno"] .ns-welcome-brand { margin-bottom: 50px; }
 :root[data-layout="natural-sereno"] .ns-welcome-content > p:first-of-type { margin: 12px 0 15px; }
@@ -629,14 +626,7 @@
   :root[data-layout="natural-sereno"] .ns-home-content { padding: 24px; }
   :root[data-layout="natural-sereno"] .ns-app:not([data-ns-screen="home"]):not([data-ns-screen="welcome"]) .ns-list { max-width: 820px; margin-inline: auto; }
   :root[data-layout="natural-sereno"] .ns-app[data-ns-screen="welcome"] { max-width: 680px; }
-  :root[data-layout="natural-sereno"] #meditation-session[data-session-phase="playing"] { background-image: none !important; padding-left: 50%; }
-  :root[data-layout="natural-sereno"] #meditation-session[data-session-phase="playing"]::before { content: ''; position: absolute; top: 0; bottom: 0; left: 0; width: 50%; background: var(--ns-waterfall) center / cover no-repeat; }
-  :root[data-layout="natural-sereno"] #meditation-session[data-session-phase="playing"] > header { position: absolute; top: 0; left: 0; right: 0; }
-  :root[data-layout="natural-sereno"] #meditation-session[data-session-phase="playing"] > main { padding-top: 84px !important; padding-bottom: 6px; max-width: 560px; }
-  :root[data-layout="natural-sereno"] #meditation-session .ns-session-title { margin-bottom: 8px; }
-  :root[data-layout="natural-sereno"] #meditation-session .ep-stage-badge { margin-bottom: 10px; }
-  :root[data-layout="natural-sereno"] #meditation-session .ep-session-mantra { margin-top: 10px; }
-  :root[data-layout="natural-sereno"] #meditation-session > footer { padding-top: 6px; padding-bottom: 10px; max-width: 560px; }
+  /* The responsive player is a single canvas; sizing lives in the final audit layer. */
   :root[data-layout="natural-sereno"]:has(.ns-app) #floating-whatsapp-btn { right: max(12px, calc((100vw - 960px) / 2 - 68px)) !important; }
 }
 @media (max-height: 700px) and (min-width: 900px) {
@@ -648,20 +638,19 @@
 @media (min-width: 900px) {
   :root[data-layout="natural-sereno"] .ns-home-scene { min-height: 0; height: calc(100dvh - 144px); max-height: 720px; }
   :root[data-layout="natural-sereno"] .ns-home-message { min-height: 110px; margin-bottom: 12px; }
-  :root[data-layout="natural-sereno"] #meditation-session[data-session-phase="playing"]::before { background-position: center top; }
-  :root[data-layout="natural-sereno"] #meditation-session .ep-session-backdrop canvas { left: 50%; width: 50%; }
+  /* No split canvas or half-width legacy artwork in Natural Sereno. */
 }
 @media (max-width: 899px) {
   :root[data-layout="natural-sereno"]:has(.ns-app[data-ns-screen="home"]) #floating-whatsapp-btn { display: none !important; }
 }
 :root[data-layout="natural-sereno"] .ns-gold { color: var(--ns-ink); }
 :root[data-layout="natural-sereno"] .ns-community textarea { background: #FBF8F2 !important; color: var(--ns-ink) !important; }
-:root[data-layout="natural-sereno"] #main-header .ep-brand-signature-wrap { opacity: .9 !important; }
+:root[data-layout="natural-sereno"] #main-header .ep-brand-signature-wrap { opacity: 1 !important; }
 :root[data-layout="natural-sereno"] #main-header .ep-brand-signature-wrap + div > :first-child { color: #8F631E !important; }
-:root[data-layout="natural-sereno"] .ns-welcome-brand { opacity: .9 !important; mix-blend-mode: normal !important; }
-:root[data-layout="natural-sereno"] #auth-loading-view img { opacity: .9 !important; mix-blend-mode: normal !important; }
+:root[data-layout="natural-sereno"] .ns-welcome-brand { opacity: .30 !important; mix-blend-mode: normal !important; }
+:root[data-layout="natural-sereno"] #auth-loading-view img { opacity: .30 !important; mix-blend-mode: normal !important; }
 :root[data-layout="natural-sereno"] #main-header .tracking-widest { color: #8F631E !important; }
-:root[data-layout="natural-sereno"] #main-header div:has(> .ep-brand-signature) { background: transparent !important; border: 0 !important; box-shadow: none !important; opacity: .9 !important; }
+:root[data-layout="natural-sereno"] #main-header div:has(> .ep-brand-signature) { background: transparent !important; border: 0 !important; box-shadow: none !important; opacity: 1 !important; }
 :root[data-layout="natural-sereno"] #main-header div:has(> .ep-brand-signature) { width: 52px; height: 52px; opacity: 1 !important; }
 :root[data-layout="natural-sereno"] #main-header { padding-block: 8px; }
 :root[data-layout="natural-sereno"] #main-header :is(button, select) { background: var(--ns-paper) !important; border-color: var(--ns-line) !important; color: var(--ns-ink) !important; box-shadow: none !important; }
@@ -698,7 +687,7 @@
 :root[data-layout="natural-sereno"] .ep-care-onboarding-card .ep-brand-signature-wrap {
   width: 108px; height: 108px; background: transparent; border: 0; border-radius: 0; box-shadow: none; margin-bottom: 20px;
 }
-:root[data-layout="natural-sereno"] .ep-care-onboarding-card .ep-brand-signature { opacity: 1; mix-blend-mode: multiply; filter: none; }
+:root[data-layout="natural-sereno"] .ep-care-onboarding-card .ep-brand-signature { opacity: .30; mix-blend-mode: normal; filter: none; }
 :root[data-layout="natural-sereno"] .ep-care-onboarding-card button { min-height: 48px; font-family: 'Inter', sans-serif; color: #2A2421 !important; }
 :root[data-layout="natural-sereno"] .ep-care-onboarding-card button[aria-pressed] { background: #FBF8F2; border-color: rgba(200,157,82,.30); }
 :root[data-layout="natural-sereno"] .ep-care-onboarding-card button[aria-pressed="true"] { background: rgba(200,157,82,.12); border-color: rgba(200,157,82,.56); }
@@ -734,7 +723,7 @@
 :root[data-layout="natural-sereno"] #anamnesis-modal .ep-assessment-actions { display: grid; grid-template-columns: 1fr; align-items: stretch; }
 :root[data-layout="natural-sereno"] #anamnesis-modal .ep-assessment-actions button { min-height: 52px; white-space: normal; }
 :root[data-layout="natural-sereno"] #anamnesis-modal .ep-assessment-actions svg { flex-shrink: 0; }
-:root[data-layout="natural-sereno"] .ns-welcome-brand { width: 104px; height: 104px; margin-bottom: 24px; opacity: 1 !important; }
+:root[data-layout="natural-sereno"] .ns-welcome-brand { width: 104px; height: 104px; margin-bottom: 24px; opacity: .30 !important; }
 @container (min-width: 600px) {
   :root[data-layout="natural-sereno"] #courses-modal .ep-courses-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   :root[data-layout="natural-sereno"] #anamnesis-modal .ep-assessment-actions { grid-template-columns: repeat(3, minmax(0, 1fr)); }
