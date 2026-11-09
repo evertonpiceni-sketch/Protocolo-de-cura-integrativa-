@@ -401,7 +401,7 @@ test('Místico Moderno neutraliza a névoa sálvia global sem remover o esmerald
   assert.match(rule, /rgba\(108,63,160,\.10\)/);
   assert.match(rule, /rgba\(212,175,55,\.06\)/);
   assert.doesNotMatch(rule, /94,\s*113,\s*83/, 'A névoa sálvia global não pode reaparecer no Estilo 4.');
-  const style4Start = theme.indexOf(':root[data-layout="mistico-moderno"]{');
+  const style4Start = theme.lastIndexOf(':root[data-layout="mistico-moderno"]{');
   const style4End = theme.indexOf('\n}', style4Start);
   const style4Theme = theme.slice(style4Start, style4End);
   assert.match(style4Theme, /--ep-scene-overlay:[\s\S]*rgba\(30,107,90,\.07\)/, 'O esmeralda permanece apenas como acento integrado à composição natural.');
