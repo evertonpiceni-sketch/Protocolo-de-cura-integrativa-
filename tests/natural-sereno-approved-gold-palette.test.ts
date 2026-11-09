@@ -20,18 +20,22 @@ const naturalSerenoCss = [
 ];
 
 test('as doze camadas Natural Sereno não mantêm ouro antigo, amarelo saturado ou verde-floresta em declarações ativas', () => {
+  const legacyTokens = /#B88736\b|#8F631E\b|#CDAA57\b|#DFC57F\b|#D7B45C\b|#A67A28\b|#B68B36\b|#71511C\b|#61491E\b|#6E5620\b|rgba\(\s*184\s*,\s*135\s*,\s*54|rgba\(\s*182\s*,\s*139\s*,\s*54|#E4C573\b|#E5C66F\b|#FACC15\b|#EAB308\b|#CA8A04\b|#2D4A3E\b|#073B2B\b/i;
   for (const path of naturalSerenoCss) {
     const source = read(path).replace(/\/\*[\s\S]*?\*\//g, '');
     const declarations = [...source.matchAll(/\{([^{}]*)\}/g)].map(match => match[1]).join('\n');
-    assert.doesNotMatch(
-      declarations,
-      /#B88736\b|#8F631E\b|rgba\(\s*184\s*,\s*135\s*,\s*54|rgba\(\s*182\s*,\s*139\s*,\s*54|#E4C573\b|#E5C66F\b|#FACC15\b|#EAB308\b|#CA8A04\b|#2D4A3E\b|#073B2B\b/i,
-      `${path} ainda contém um token visual antigo em uma declaração ativa.`
-    );
+    assert.doesNotMatch(declarations, legacyTokens, `${path} ainda contém um token visual antigo em uma declaração ativa.`);
   }
+
   const mobile = read('src/natural-sereno-mobile-fixes.css');
-  assert.match(mobile, /#admin-panel-modal button\\[class\\*="bg-emerald"\\] \\{[\\s\\S]*?background: linear-gradient\\(180deg,#E2B96B,#C89D52\\) !important;[\\s\\S]*?color: #2A2421 !important;/);
-  assert.doesNotMatch(mobile, /#admin-panel-modal button\\[class\\*="bg-emerald"\\] \\{[^}]*background: var\\(--admin-forest\\)/);
+  const selector = ':root[data-layout="natural-sereno"] #admin-panel-modal button[class*="bg-emerald"] {';
+  const start = mobile.indexOf(selector);
+  const end = mobile.indexOf('}', start);
+  assert.ok(start >= 0 && end > start, 'O CTA administrativo deve ter regra própria.');
+  const adminButtonRule = mobile.slice(start, end);
+  assert.ok(adminButtonRule.includes('background: linear-gradient(180deg,#E2B96B,#C89D52) !important;'));
+  assert.ok(adminButtonRule.includes('color: #2A2421 !important;'));
+  assert.doesNotMatch(adminButtonRule, /background:\s*var\(--admin-forest\)/);
 });
 
 test('a camada final mantém os dourados refinados e o texto café nos CTAs premium', () => {
