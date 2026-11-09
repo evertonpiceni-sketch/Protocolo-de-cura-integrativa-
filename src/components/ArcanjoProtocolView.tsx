@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { X, Play, Pause, RotateCcw, RotateCw, Volume2, BookOpen, ChevronLeft, Leaf, ShieldCheck, Heart, Loader2, LogOut } from 'lucide-react';
 import { UserProfile } from '../types';
 import { audioEngine, OFFICIAL_PROTOCOL_VOICE_ID } from '../lib/audio';
+import { startArcanjoOwnedSolfeggio } from '../lib/arcanjoAudioOwnershipPatch';
 import { isElevenLabsVoiceId } from '../lib/voiceSelection';
 import { DISTANCE_TREATMENT_SCRIPT } from '../data/protocol_scripts';
 
@@ -214,7 +215,7 @@ export default function ArcanjoProtocolView({ userProfile, onClose, onLogout, in
     }
     setVoiceError(false);
     audioEngine.unlock();
-    if (!isMisticoModerno) audioEngine.startSynth(`${config.freq}hz`);
+    if (!isMisticoModerno) startArcanjoOwnedSolfeggio(`${config.freq}hz`);
     setIsPreparingAudio(true);
     setHasStarted(true);
     const runId = narrationRunRef.current;
@@ -233,7 +234,7 @@ export default function ArcanjoProtocolView({ userProfile, onClose, onLogout, in
       requireExplicitVoiceId: isEleganciaProfunda || isEssenciaLuminosa || isMisticoModerno,
       onStart: () => {
         if (runId !== narrationRunRef.current) return;
-        audioEngine.startSynth(`${config.freq}hz`);
+        startArcanjoOwnedSolfeggio(`${config.freq}hz`);
         setIsPreparingAudio(false);
         setIsPlaying(true);
       },
@@ -284,7 +285,7 @@ export default function ArcanjoProtocolView({ userProfile, onClose, onLogout, in
     }
     audioEngine.resumeSpeech();
     if (!isMisticoModerno) {
-      audioEngine.startSynth(`${config.freq}hz`);
+      startArcanjoOwnedSolfeggio(`${config.freq}hz`);
       setIsPlaying(true);
     }
   };
