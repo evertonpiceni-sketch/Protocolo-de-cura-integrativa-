@@ -315,3 +315,27 @@ test('planos, checkout e páginas secundárias respeitam a paleta Natural Sereno
   assert.ok(plans.includes('onUpgradeSuccess(selectedPlan.id, paymentMethod, finalPrice'));
   assert.ok(plans.includes('INICIAR PAGAMENTO SEGURO'));
 });
+
+
+test('tokens compartilhados do Estilo 1 ficam na paleta Natural Sereno e não herdam a cena da Reintegração', () => {
+  const approved = read('src/natural-sereno-approved-overrides.css');
+  const main = read('src/main.tsx');
+  const blocks = [...approved.matchAll(/:root\\[data-layout="natural-sereno"\\]\\s*\\{([\\s\\S]*?)\\}/g)];
+  const finalBlock = blocks.at(-1)?.[1] ?? '';
+
+  assert.ok(finalBlock.includes('--layout-canvas: #FAF7F2;'));
+  assert.ok(finalBlock.includes('--layout-canvas-alt: #F5EFE5;'));
+  assert.ok(finalBlock.includes('--layout-accent: #6F7B55;'));
+  assert.ok(finalBlock.includes('--layout-gold: #C89D52;'));
+  assert.ok(finalBlock.includes('--layout-gold-light: #E2B96B;'));
+  assert.ok(finalBlock.includes('--layout-gold-dark: #A87E37;'));
+  assert.ok(finalBlock.includes('--layout-text: #2A2421;'));
+  assert.ok(finalBlock.includes('--layout-text-secondary: #6B625B;'));
+  assert.ok(finalBlock.includes('--layout-border: #E8E0D5;'));
+  assert.ok(finalBlock.includes('--ep-scene: var(--ns-valley);'));
+  assert.ok(finalBlock.includes('--ep-panel-text: #2A2421;'));
+  assert.doesNotMatch(finalBlock, /reintegracao-presenca-arte|rgba\\(6,42,31|rgba\\(5,35,26|#2D4A3E|#202D24/);
+
+  assert.ok(main.indexOf("import './approved-theme.css';") < main.indexOf("import './natural-sereno-approved-overrides.css';"));
+  assert.ok(main.indexOf("import './natural-sereno-approved-overrides.css';") > main.indexOf("import './natural-sereno.css';"));
+});
