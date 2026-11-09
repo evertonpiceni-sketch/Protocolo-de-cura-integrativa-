@@ -1,5 +1,6 @@
 import app from "../server.js";
 import { initializeDb, getDb, saveDb } from "../src/db.js";
+import { acquireSharedDatabaseWriteLock } from "../src/lib/paymentRoutes.js";
 import { REINTEGRATION_DAYS } from "../src/data/reintegrationJourneyPublic.js";
 import { ElevenLabsClient } from "elevenlabs";
 import bcrypt from "bcryptjs";
@@ -130,24 +131,47 @@ export default async function handler(req: any, res: any) {
       if (typeof secret !== "string" || secret !== configuredSecret) return res.status(403).json({ error: "Código de ativação inválido." });
       if (typeof password !== "string" || password.length < 10 || password.length > 100) return res.status(400).json({ error: "A senha deve ter entre 10 e 100 caracteres." });
 
-      const db = getDb();
-      const existingAdmin = db.users.find((user: any) => user.role === "admin");
-      if (existingAdmin) return res.status(409).json({ error: "O administrador já foi ativado. Entre normalmente com seu login." });
       const login = "everton.admin";
       const passwordHash = await bcrypt.hash(password, 12);
-      const existing = db.users.find((user: any) => user.login === login);
-      if (existing) {
-        existing.password = passwordHash; existing.role = "admin"; existing.plan = "pro"; existing.fullName = existing.fullName || "Everton Piceni";
-        existing.profile = { ...(existing.profile || {}), name: existing.profile?.name || "Everton Piceni", plan: "pro" };
-      } else {
-        db.users.push({
-          id: `admin-${Date.now()}`, login, password: passwordHash, fullName: "Everton Piceni", email: "", plan: "pro", role: "admin",
-          profile: { name: "Everton Piceni", email: "", audioEnabled: true, bgMusicVolume: 0.5, bgMusicType: "528hz", plan: "pro" },
-          progress: Array.from({ length: 21 }, (_, index) => ({ dayNumber: index + 1, completed: false }))
-        });
+      const lock = await acquireSharedDatabaseWriteLock();
+      if (!lock) return res.status(409).json({ error: "Há outra atualização de dados em andamento. Tente novamente." });
+      let existing: any;
+      let createdUser: any;
+      let previous: any;
+      const db = getDb();
+      try {
+        await lock.assertHeld();
+        const existingAdmin = db.users.find((user: any) => user.role === "admin");
+        if (existingAdmin) return res.status(409).json({ error: "O administrador já foi ativado. Entre normalmente com seu login." });
+        existing = db.users.find((user: any) => user.login === login);
+        if (existing) {
+          previous = { password: existing.password, role: existing.role, plan: existing.plan, fullName: existing.fullName, profile: existing.profile };
+          existing.password = passwordHash; existing.role = "admin"; existing.plan = "pro"; existing.fullName = existing.fullName || "Everton Piceni";
+          existing.profile = { ...(existing.profile || {}), name: existing.profile?.name || "Everton Piceni", plan: "pro" };
+        } else {
+          createdUser = {
+            id: `admin-${Date.now()}`, login, password: passwordHash, fullName: "Everton Piceni", email: "", plan: "pro", role: "admin",
+            profile: { name: "Everton Piceni", email: "", audioEnabled: true, bgMusicVolume: 0.5, bgMusicType: "528hz", plan: "pro" },
+            progress: Array.from({ length: 21 }, (_, index) => ({ dayNumber: index + 1, completed: false }))
+          };
+          db.users.push(createdUser);
+        }
+        await lock.assertHeld();
+        await saveDb();
+        return res.status(201).json({ success: true, login, message: "Administrador ativado com segurança." });
+      } catch (error) {
+        if (existing && previous) {
+          existing.password = previous.password; existing.role = previous.role; existing.plan = previous.plan;
+          existing.fullName = previous.fullName; existing.profile = previous.profile;
+        }
+        if (createdUser) {
+          const index = db.users.indexOf(createdUser);
+          if (index >= 0) db.users.splice(index, 1);
+        }
+        throw error;
+      } finally {
+        await lock.release();
       }
-      await saveDb();
-      return res.status(201).json({ success: true, login, message: "Administrador ativado com segurança." });
     }
     return app(req, res);
   } catch (error) {
