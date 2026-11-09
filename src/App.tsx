@@ -4,6 +4,7 @@
  */
 
 import React, { useState, useEffect, useRef } from 'react';
+import { useDialogFocus } from './hooks/useDialogFocus';
 import { Sparkles, Calendar, BookOpen, Volume2, VolumeX, User, RefreshCw, Compass, Heart, Award, Info, X, Play, Clock, Smile, LogOut, Crown, Star, Check, Mic, Sliders, Activity, FileText, Globe, MessageCircle, Phone, Smartphone, Download, Leaf, Bell, Headphones, Video } from 'lucide-react';
 import { DayProgress, UserProfile, UserAccount, DAILY_INSIGHTS, JOURNEY_7D_INSIGHTS, PROTOCOL_STAGES, AnamnesisData, SpecificTreatment, SessionCheckIn, JourneyType, SubscriptionPlanType } from './types';
 import ProfileSetup from './components/ProfileSetup';
