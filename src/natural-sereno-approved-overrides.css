@@ -1217,6 +1217,25 @@
 }
 
 
+/* RUN 132 — preservar alpha também em bordas e texto de acento.
+   O bridge global de tokens antigos alcança variantes de opacidade de borda
+   e texto; manter a transparência original no Natural Sereno. */
+:root[data-layout="natural-sereno"] [class~="border-[#B88736]/15"] { border-color: rgba(200,157,82,.15) !important; }
+:root[data-layout="natural-sereno"] [class~="border-[#B88736]/16"] { border-color: rgba(200,157,82,.16) !important; }
+:root[data-layout="natural-sereno"] [class~="border-[#B88736]/18"] { border-color: rgba(200,157,82,.18) !important; }
+:root[data-layout="natural-sereno"] [class~="border-[#B88736]/20"] { border-color: rgba(200,157,82,.20) !important; }
+:root[data-layout="natural-sereno"] [class~="border-[#B88736]/22"] { border-color: rgba(200,157,82,.22) !important; }
+:root[data-layout="natural-sereno"] [class~="border-[#B88736]/24"] { border-color: rgba(200,157,82,.24) !important; }
+:root[data-layout="natural-sereno"] [class~="border-[#B88736]/25"] { border-color: rgba(200,157,82,.25) !important; }
+:root[data-layout="natural-sereno"] [class~="border-[#B88736]/28"] { border-color: rgba(200,157,82,.28) !important; }
+:root[data-layout="natural-sereno"] [class~="border-[#B88736]/30"] { border-color: rgba(200,157,82,.30) !important; }
+:root[data-layout="natural-sereno"] [class~="border-[#B88736]/35"] { border-color: rgba(200,157,82,.35) !important; }
+:root[data-layout="natural-sereno"] [class~="border-[#B88736]/40"] { border-color: rgba(200,157,82,.40) !important; }
+:root[data-layout="natural-sereno"] [class~="border-[#B88736]/45"] { border-color: rgba(200,157,82,.45) !important; }
+:root[data-layout="natural-sereno"] [class~="border-[#B88736]/50"] { border-color: rgba(200,157,82,.50) !important; }
+:root[data-layout="natural-sereno"] [class~="border-[#B88736]/55"] { border-color: rgba(200,157,82,.55) !important; }
+:root[data-layout="natural-sereno"] [class~="text-[#B88736]/60"] { color: rgba(200,157,82,.60) !important; }
+
 /* RUN 132 — CTAs compartilhados de áudio e configurações.
    Os componentes ainda trazem o token antigo e texto branco; no Natural Sereno,
    a ação deve usar dourado refinado, texto café e cantos premium. */
