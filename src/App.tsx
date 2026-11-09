@@ -408,7 +408,7 @@ export default function App() {
           const profileWithPending = pendingProfile
             ? { ...account.profile, ...pendingProfile.profilePatch }
             : account.profile;
-          const profileWithAdmin = { ...profileWithPending, isAdmin: account.role === 'admin' };
+          const profileWithAdmin = { ...profileWithPending, login: account.login, isAdmin: account.role === 'admin' };
           setUserProfile(profileWithAdmin);
           setProgress(account.progress || []);
           
@@ -428,6 +428,7 @@ export default function App() {
                 if (localAccount) {
                   const offlineProfile: UserProfile = {
                     ...localAccount.profile,
+                    login: localAccount.login,
                     isAdmin: false,
                     plan: 'free',
                     subscriptionPlan: undefined,
@@ -479,13 +480,8 @@ export default function App() {
   // so existing subscription/progress data is not overwritten.
   useEffect(() => {
     if (!isLoggedIn || !userProfile) return;
-    let login = '';
-    try {
-      login = localStorage.getItem(LOCAL_STORAGE_KEY_CURRENT_LOGIN)?.trim().toLowerCase() || '';
-    } catch {
-      return;
-    }
-    if (!login) return;
+    const login = userProfile.login?.trim().toLowerCase() || '';
+    if (!login || getCurrentAccountLogin() !== login) return;
 
     let active = true;
     const flushPendingProfileSync = () => {
@@ -513,9 +509,8 @@ export default function App() {
     try {
       const activeLogin = getCurrentAccountLogin();
       const profileLogin = profileToCache.login?.trim().toLowerCase() || null;
-      if (activeLogin && profileLogin && activeLogin !== profileLogin) return;
-      const localLogin = profileLogin || activeLogin;
-      if (!localLogin) return;
+      if (!activeLogin || !profileLogin || activeLogin !== profileLogin) return;
+      const localLogin = profileLogin;
       const rawAccounts = localStorage.getItem(LOCAL_STORAGE_KEY_ACCOUNTS);
       const accounts: UserAccount[] = rawAccounts ? JSON.parse(rawAccounts) : [];
       const index = accounts.findIndex(account => account.login === localLogin);
@@ -567,24 +562,28 @@ export default function App() {
 
   // Profile Onboarding complete (Register or Login complete)
   const handleOnboardingComplete = (account: UserAccount) => {
-    setCurrentAccountLogin(account.login);
+    const accountWithLogin: UserAccount = {
+      ...account,
+      profile: { ...account.profile, login: account.login }
+    };
+    setCurrentAccountLogin(accountWithLogin.login);
     try {
       const rawAccounts = localStorage.getItem(LOCAL_STORAGE_KEY_ACCOUNTS);
       const accounts: UserAccount[] = rawAccounts ? JSON.parse(rawAccounts) : [];
-      const idx = accounts.findIndex(a => a.login === account.login);
+      const idx = accounts.findIndex(a => a.login === accountWithLogin.login);
       if (idx >= 0) {
-        accounts[idx] = account;
+        accounts[idx] = accountWithLogin;
       } else {
-        accounts.push(account);
+        accounts.push(accountWithLogin);
       }
       localStorage.setItem(LOCAL_STORAGE_KEY_ACCOUNTS, JSON.stringify(accounts));
     } catch (e) {}
 
-    setUserProfile({ ...account.profile, isAdmin: account.isAdmin === true });
-    setProgress(account.progress);
+    setUserProfile({ ...accountWithLogin.profile, login: accountWithLogin.login, isAdmin: accountWithLogin.isAdmin === true });
+    setProgress(accountWithLogin.progress);
     setIsLoggedIn(true);
     
-    const nextUncompleted = account.progress.find(p => !p.completed);
+    const nextUncompleted = accountWithLogin.progress.find(p => !p.completed);
     setCurrentDay(nextUncompleted ? nextUncompleted.dayNumber : 21);
 
     // The central background-audio effect owns playback after login.
