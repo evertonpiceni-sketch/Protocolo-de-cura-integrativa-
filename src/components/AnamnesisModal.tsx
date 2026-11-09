@@ -78,6 +78,7 @@ export default function AnamnesisModal({
   const naturalSereno = document.documentElement.dataset.layout === 'natural-sereno';
   const isEleganciaProfunda = document.documentElement.dataset.layout === 'elegancia-profunda';
   const isEssenciaLuminosa = document.documentElement.dataset.layout === 'essencia-luminosa';
+  const requiresNeuralVoice = naturalSereno || isEleganciaProfunda || isEssenciaLuminosa;
   useDialogFocus(isOpen && naturalSereno, dialogRef, () => handleCloseModal());
   React.useLayoutEffect(() => {
     if (isOpen && naturalSereno) {
@@ -175,7 +176,7 @@ export default function AnamnesisModal({
   };
 
   const stopTherapeuticVoice = () => {
-    if (isEleganciaProfunda || isEssenciaLuminosa) audioEngine.stopSpeech();
+    if (requiresNeuralVoice) audioEngine.stopSpeech();
     if (audioPlayerRef.current) {
       audioPlayerRef.current.pause();
       audioPlayerRef.current = null;
@@ -194,10 +195,10 @@ export default function AnamnesisModal({
       return;
     }
 
-    if (isEleganciaProfunda || isEssenciaLuminosa) {
+    if (requiresNeuralVoice) {
       const neuralVoiceId = isElevenLabsVoiceId(userProfile.voiceId)
         ? userProfile.voiceId
-        : isEssenciaLuminosa ? OFFICIAL_PROTOCOL_VOICE_ID : '';
+        : (naturalSereno || isEssenciaLuminosa) ? OFFICIAL_PROTOCOL_VOICE_ID : '';
       if (!neuralVoiceId) {
         setVoiceError(true);
         setIsLoadingVoice(false);
