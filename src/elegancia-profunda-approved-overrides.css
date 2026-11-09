@@ -1,7 +1,7 @@
-/* Fotografia de natureza exclusiva do Estilo 2: Kristians Greckis, Unsplash.
-   Publicada em 06/09/2026 e disponibilizada sob a Unsplash License; a cena é decorativa e permanece sob véu verde profundo. */
+/* Fotografia de natureza exclusiva do Estilo 2: “A dense pine forest reflecting in the calm water of a forest lake”, Kristians Greckis.
+   Unsplash License, publicada em 06/09/2026 UTC. Fonte verificável: https://unsplash.com/photos/pine-forest-reflecting-in-lake-Fo9GeFThXsI. A cena permanece sob véu verde profundo. */
 :root[data-layout="elegancia-profunda"] {
-  --ep-scene:url('https://images.unsplash.com/photo-1788699779752-4d6473417203?auto=format&fit=crop&w=1920&q=80');
+  --ep-scene:url('https://images.unsplash.com/photo-1788699626335-906b2c4ae2d8?auto=format&fit=crop&w=1920&q=85');
   --font-display:"Playfair Display",Georgia,serif;
   --font-sans:"Montserrat",ui-sans-serif,system-ui,sans-serif;
   --ep-scene-overlay:
