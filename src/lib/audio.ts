@@ -6,6 +6,11 @@
 import { speechElapsedSeconds } from './speechElapsed';
 import { isElevenLabsVoiceId, type ElevenLabsVoiceOption } from './voiceSelection';
 
+const getProtocolMediaArtwork = () =>
+  typeof document !== 'undefined' && document.documentElement.dataset.layout === 'essencia-luminosa'
+    ? '/brand/chakra-body-neutral.svg'
+    : '/brand/chakra-body.svg';
+
 export interface BioactiveBinauralConfig {
   enabled: boolean;
   waveType: 'delta' | 'theta' | 'alpha' | 'beta' | 'gamma';
@@ -1405,7 +1410,7 @@ class CalmingAudioEngine {
           title: options.title,
           artist: 'Everton Piceni — Protocolo da Transformação',
           album: options.subtitle,
-          artwork: [{ src: '/brand/chakra-body.svg', sizes: 'any', type: 'image/svg+xml' }]
+          artwork: [{ src: getProtocolMediaArtwork(), sizes: 'any', type: 'image/svg+xml' }]
         });
         setHandler('play', () => { if (isCurrent()) this.resumeSpeech(); });
         setHandler('pause', () => { if (isCurrent()) this.pauseSpeech(); });
