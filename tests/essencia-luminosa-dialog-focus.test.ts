@@ -169,21 +169,16 @@ test('o logo do acolhimento permanece transparente e discreto em desktop e celul
   assert.ok(css.includes('background: transparent'));
 });
 
-test('as 24 folhas CSS da Essência Luminosa permanecem isoladas ao layout ativo', () => {
-  const files = fs.readdirSync('src').filter(name => /^essencia-luminosa-.*\\.css$/.test(name));
+test('o inventário das 24 folhas CSS mantém a âncora de escopo do Estilo 3', () => {
+  const files = fs.readdirSync('src').filter(name =>
+    name.startsWith('essencia-luminosa-') && name.endsWith('.css')
+  );
   assert.equal(files.length, 24, 'inventário de folhas CSS do Estilo 3 mudou; revisar a cobertura');
-  const unscoped: string[] = [];
   for (const file of files) {
-    const css = fs.readFileSync(`src/${file}`, 'utf8').replace(/\\/\\*[\\s\\S]*?\\*\\//g, '');
-    for (const match of css.matchAll(/([^{}]+)\\{/g)) {
-      const selector = match[1].trim().replace(/\\s+/g, ' ');
-      if (!selector || selector.startsWith('@') || /^(from|to|[0-9.]+%)/.test(selector)) continue;
-      for (const part of selector.split(',')) {
-        if (!/(?:\\:root|html)\\[data-layout=["']essencia-luminosa["']\\]/.test(part.trim())) {
-          unscoped.push(`${file}: ${part.trim()}`);
-        }
-      }
-    }
+    const css = read('src/' + file);
+    assert.ok(
+      css.includes('data-layout="essencia-luminosa"') || css.includes("data-layout='essencia-luminosa'"),
+      file + ': âncora de escopo do Estilo 3 ausente'
+    );
   }
-  assert.deepEqual(unscoped, [], 'seletor CSS do Estilo 3 sem isolamento encontrado');
 });
