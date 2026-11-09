@@ -136,15 +136,13 @@ export default function SystemicQuestionsModal({
       `Frase de integração: ${currentQuestionItem.healingSentence}`;
 
     setVoiceError(false);
-    if (requiresNeuralVoice) {
-      const neuralVoiceId = isElevenLabsVoiceId(userProfile?.voiceId)
-        ? userProfile?.voiceId
-        : (isNaturalSereno || isEssenciaLuminosa) ? OFFICIAL_PROTOCOL_VOICE_ID : '';
-      if (!neuralVoiceId) {
-        setVoiceError(true);
-        setIsReadingVoice(false);
-        return;
-      }
+    const neuralVoiceId = isElevenLabsVoiceId(userProfile?.voiceId)
+      ? userProfile?.voiceId
+      : (isNaturalSereno || isEssenciaLuminosa) ? OFFICIAL_PROTOCOL_VOICE_ID : '';
+    if (requiresNeuralVoice && !neuralVoiceId) {
+      setVoiceError(true);
+      setIsReadingVoice(false);
+      return;
     }
 
     if (audioEngine.getCurrentSynthType() === '639hz') audioEngine.stopBG();
@@ -164,9 +162,7 @@ export default function SystemicQuestionsModal({
         undefined,
         undefined,
         {
-          voiceId: isElevenLabsVoiceId(userProfile?.voiceId)
-            ? userProfile?.voiceId
-            : OFFICIAL_PROTOCOL_VOICE_ID,
+          voiceId: neuralVoiceId,
           rate: userProfile?.voiceRate ?? 0.82,
           pitch: userProfile?.voicePitch ?? 1.0,
           lang: 'pt-BR',
