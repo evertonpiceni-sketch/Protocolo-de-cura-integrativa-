@@ -1097,8 +1097,9 @@ class CalmingAudioEngine {
         URL.revokeObjectURL(this.voiceAudioUrl);
         this.voiceAudioUrl = null;
       }
+      // onEnd is reserved for successful completion. A neural-voice failure
+      // must not advance a multi-part protocol as if the audio had finished.
       options?.onError?.(error);
-      onEnd();
     };
 
     if (!allowNativeFallback && !isElevenLabsVoiceId(options?.voiceId)) {
