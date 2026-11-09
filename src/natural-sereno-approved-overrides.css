@@ -705,3 +705,15 @@
   --ep-panel-strong: #FFFDF8;
   --ep-panel-text: #2A2421;
 }
+
+
+/* RUN 107 — o controle de progresso compartilhado ainda trazia amarelo legado
+   inline. Neutralizar somente no player do Natural Sereno, sem alterar os
+   controles dos Estilos 2, 3 e 4. */
+:root[data-layout="natural-sereno"] #meditation-session .ep-protocol-progress {
+  accent-color: #C89D52 !important;
+  background: linear-gradient(90deg,#A87E37 0%,#C89D52 var(--ep-progress),#E8E0D5 var(--ep-progress),#E8E0D5 100%) !important;
+}
+:root[data-layout="natural-sereno"] #meditation-session .animate-pulse.rounded-full.bg-gradient-to-r {
+  background: linear-gradient(90deg,rgba(168,126,55,.12),rgba(200,157,82,.42),rgba(168,126,55,.12)) !important;
+}
