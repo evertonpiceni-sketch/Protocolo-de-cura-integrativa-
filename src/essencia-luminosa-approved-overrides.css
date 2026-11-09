@@ -283,3 +283,33 @@
     will-change: auto !important;
   }
 }
+
+
+/* RUN 127 — neutraliza o botão de saída legado no cabeçalho do Arcanjo.
+   O estado de sair continua visível e acessível, mas não introduz rosa/vermelho
+   na identidade clara da Essência Luminosa. */
+:root[data-layout="essencia-luminosa"] #arcanjo-protocol-view > header button[class*="bg-rose-"] {
+  background: linear-gradient(
+    145deg,
+    var(--layout-card),
+    color-mix(in srgb, var(--layout-accent-soft) 40%, var(--layout-card))
+  ) !important;
+  border-color: color-mix(in srgb, var(--layout-gold) 30%, var(--layout-border-card)) !important;
+  color: var(--layout-text-secondary) !important;
+  box-shadow: 0 8px 20px rgba(112,91,58,.07) !important;
+}
+:root[data-layout="essencia-luminosa"] #arcanjo-protocol-view > header button[class*="bg-rose-"]:hover {
+  background: linear-gradient(
+    145deg,
+    var(--layout-card),
+    color-mix(in srgb, var(--layout-gold-soft) 42%, var(--layout-card))
+  ) !important;
+  border-color: var(--layout-gold-border) !important;
+}
+:root[data-layout="essencia-luminosa"] #arcanjo-protocol-view > header button[class*="bg-rose-"] :is(svg, span) {
+  color: var(--layout-gold-dark) !important;
+}
+:root[data-layout="essencia-luminosa"] #arcanjo-protocol-view > header button[class*="bg-rose-"]:focus-visible {
+  outline: 2px solid color-mix(in srgb, var(--layout-gold) 62%, transparent) !important;
+  outline-offset: 3px !important;
+}
