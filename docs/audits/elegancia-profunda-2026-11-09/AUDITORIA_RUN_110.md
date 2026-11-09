@@ -42,3 +42,11 @@ Base auditada: `59abff893d556a368c3f3511b1c45d5b2238b04f`
 - Resolver o provisionamento Vercel e homologar a versão publicada.
 
 Conclusão: a fotografia da Elegância Profunda agora é consumida pelo shell principal e pelos heros da Home, não apenas pelo modal de acolhimento. A alteração permanece isolada no Estilo 2 e preserva o cenário próprio do player e as decisões posteriores aprovadas.
+
+
+## Ajuste da primeira execução pós-commit
+
+- A primeira CI do commit `c18aacccfdd73427c4c8551e80e0cdf275e68f80` (`42590757150`) executou 156 testes: 155 passaram e 1 falhou por um detalhe do próprio teste novo.
+- O helper usava `lastIndexOf` para localizar a regra do shell e acabava selecionando a regra mobile posterior, que contém apenas `background-attachment`, em vez da regra principal com a fotografia.
+- Corrigido o teste para localizar a primeira regra principal do shell; nenhuma regra de produção foi alterada nessa correção.
+- A CI do commit seguinte deve ser consultada para confirmar os 156 testes e o build antes da homologação.
