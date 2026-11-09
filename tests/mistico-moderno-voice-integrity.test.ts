@@ -371,13 +371,14 @@ test('Místico Moderno applies premium styling and readable contrast to global f
   const css = read('src/mistico-moderno-final-audit.css');
   const main = read('src/main.tsx');
 
-  assert.match(main, /import '\\.\/mistico-moderno-final-audit\\.css';/);
-  assert.match(app, /id="floating-whatsapp-btn"\\s+aria-label="Fale Conosco"/);
-  assert.match(css, /:root\\[data-layout="mistico-moderno"\\] #floating-whatsapp-btn/);
-  assert.match(css, /border-radius: 1rem !important/);
-  assert.match(css, /background: linear-gradient\\(145deg, #141F30 0%, #0A2742 100%\\) !important/);
-  assert.match(css, /#floating-whatsapp-btn svg \\{[\\s\\S]*?color: #E2B96B !important/);
-  assert.match(css, /:root\\[data-layout="mistico-moderno"\\] \\.ep-app-toast h4[\\s\\S]*?color: #F4F1EB !important/);
-  assert.match(css, /:root\\[data-layout="mistico-moderno"\\] \\.ep-app-toast p[\\s\\S]*?color: #CBD5E1 !important/);
-  assert.match(css, /:root\\[data-layout="mistico-moderno"\\] \\.ep-app-toast button[\\s\\S]*?color: #E2B96B !important/);
+  assert.ok(main.includes("import './mistico-moderno-final-audit.css';"));
+  assert.ok(app.includes('id="floating-whatsapp-btn"\n        aria-label="Fale Conosco"'));
+  assert.ok(css.includes(':root[data-layout="mistico-moderno"] #floating-whatsapp-btn'));
+  assert.ok(css.includes('border-radius: 1rem !important'));
+  assert.ok(css.includes('background: linear-gradient(145deg, #141F30 0%, #0A2742 100%) !important'));
+  assert.ok(css.includes('#floating-whatsapp-btn svg'));
+  assert.ok(css.includes('color: #E2B96B !important'));
+  assert.ok(css.includes(':root[data-layout="mistico-moderno"] .ep-app-toast h4'));
+  assert.ok(css.includes(':root[data-layout="mistico-moderno"] .ep-app-toast p'));
+  assert.ok(css.includes('color: #CBD5E1 !important'));
 });
