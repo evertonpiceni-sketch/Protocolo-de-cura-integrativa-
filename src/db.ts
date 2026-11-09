@@ -129,6 +129,29 @@ export async function initializeDb() {
   return initializationPromise;
 }
 
+export async function refreshDbFromPersistentStorage(): Promise<Database> {
+  await initializeDb();
+  requireProductionPersistence();
+  if (!UPSTASH_URL || !UPSTASH_TOKEN) return db;
+
+  const remote = await redisCommand('get', [DB_KEY]);
+  if (typeof remote !== 'string' || !remote.trim()) return db;
+
+  let parsed: Database;
+  try {
+    parsed = JSON.parse(remote) as Database;
+  } catch {
+    throw new Error('Persistent database contains invalid JSON.');
+  }
+  if (!parsed || !Array.isArray(parsed.users) || (parsed.paymentOrders != null && !Array.isArray(parsed.paymentOrders))) {
+    throw new Error('Persistent database contains an invalid schema.');
+  }
+
+  db = parsed;
+  initialized = true;
+  return db;
+}
+
 export function getDb() {
   return db;
 }
