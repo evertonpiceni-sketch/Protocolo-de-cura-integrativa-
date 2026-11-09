@@ -165,7 +165,7 @@ export default function PromoVideoModal({
   }, [isOpen, isPlaying, isMuted, scene.frequency]);
 
   const dialogRef = React.useRef<HTMLDivElement | null>(null);
-  useDialogFocus(isOpen && document.documentElement.dataset.layout === 'natural-sereno', dialogRef, () => { audioEngine.stopBG(); onClose(); });
+  useDialogFocus(isOpen && ['natural-sereno', 'essencia-luminosa'].includes(document.documentElement.dataset.layout || ''), dialogRef, () => { audioEngine.stopBG(); onClose(); });
 
   if (!isOpen) return null;
 
