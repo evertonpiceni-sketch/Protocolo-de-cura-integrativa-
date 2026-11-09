@@ -29,7 +29,7 @@
 
 ## Pendente
 
-1. **CI no novo HEAD:** não foi retornada execução Security Audit associada ao HEAD d04310d. O último Security Audit concluído, #2156, passou com 181 testes no HEAD anterior c28793d; ele não valida esta alteração nova. A reexecução automatizada no HEAD atual permanece pendente.
+1. **CI no novo HEAD:** Security Audit #42650507578 concluído com sucesso no HEAD c99378589f3b1ef0de9254a66b87b0a39271a934. npm audit encontrou 0 vulnerabilidades; 181 testes passaram e 0 falharam; TypeScript, build, entry points Vercel/Express, verificações de segredos/JWT/admin, smoke test e endpoints de pagamento fail-closed passaram.
 2. **Vercel:** o status combinado do HEAD atual registra falha no check Vercel. Não foi criada implantação manual nem publicação.
 3. **Visual:** homologação renderizada das 12 superfícies em desktop e mobile; alinhamento, tipografia, imagens, botões e animações não podem ser declarados aprovados sem preview.
 4. **Imagens:** falta fotografia realista aprovada para substituir o modelo ilustrado atual; nenhuma imagem rejeitada ou de outro estilo foi reutilizada.
