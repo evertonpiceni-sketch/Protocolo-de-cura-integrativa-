@@ -204,3 +204,47 @@ test('Arcanjo no Natural Sereno exige voz neural e não permite fallback nativo'
   assert.ok(fallback.includes('if (requiresNeuralVoice)'));
   assert.ok(fallback.indexOf('if (requiresNeuralVoice)') < fallback.indexOf('setIsPlaying(true)'));
 });
+
+
+test('Natural Sereno exige voz neural nos caminhos de Anamnese, Reflexão Sistêmica, Ho’oponopono e oração', () => {
+  const anamnesis = read('src/components/AnamnesisModal.tsx');
+  const systemic = read('src/components/SystemicQuestionsModal.tsx');
+  const hooponopono = read('src/components/HooponoponoModal.tsx');
+  const archangelPrayer = read('src/components/ArchangelMichaelPrayerModal.tsx');
+
+  assert.ok(anamnesis.includes('const requiresNeuralVoice = naturalSereno || isEleganciaProfunda || isEssenciaLuminosa;'));
+  assert.ok(anamnesis.includes('voiceId: neuralVoiceId,'));
+  assert.ok(anamnesis.includes('fallbackToSpeechSynthesis: false'));
+  assert.ok(anamnesis.indexOf('if (requiresNeuralVoice)') < anamnesis.indexOf('window.speechSynthesis.speak(utterance)'));
+
+  assert.ok(systemic.includes('const requiresNeuralVoice = isNaturalSereno || isEleganciaProfunda || isEssenciaLuminosa;'));
+  assert.ok(systemic.includes('fallbackToSpeechSynthesis: false'));
+  assert.ok(systemic.indexOf('if (requiresNeuralVoice)') < systemic.indexOf('audioEngine.previewVoice({'));
+
+  assert.ok(hooponopono.includes('const requiresNeuralVoice = isNaturalSereno || isEleganciaProfunda || isEssenciaLuminosa;'));
+  assert.ok(hooponopono.includes('fallbackToSpeechSynthesis: !requiresNeuralVoice'));
+  assert.ok(hooponopono.includes('voiceId: requiresNeuralVoice'));
+
+  assert.ok(archangelPrayer.includes('const requiresNeuralVoice = isNaturalSereno || isEleganciaProfunda || isEssenciaLuminosa;'));
+  assert.ok(archangelPrayer.includes('fallbackToSpeechSynthesis: !requiresNeuralVoice'));
+  assert.ok(archangelPrayer.includes('voiceId: effectiveVoiceId'));
+});
+
+test('o player mobile do Natural Sereno não mantém overlay verde-floresta ou dourado saturado legado', () => {
+  const mobile = read('src/natural-sereno-mobile-fixes.css');
+  assert.doesNotMatch(mobile, /rgba\\(3,26,19|rgba\\(5,38,28|rgba\\(6,46,32|rgba\\(38,80,58|rgba\\(15,49,36|#d7b45c|#a67a28|#d8bd7a|#ead8a6|#ebd7a0|#fff4d8/i);
+  assert.ok(mobile.includes('var(--ns-waterfall) center top / cover no-repeat'));
+  assert.ok(mobile.includes('rgba(250,247,242,.28) 36%'));
+  assert.ok(mobile.includes('linear-gradient(180deg,#E2B96B 0%,#C89D52 100%) !important;'));
+  assert.ok(mobile.includes('rgba(200,157,82,.24)'));
+});
+
+test('Anamnese e planos Natural Sereno usam creme, café e dourado refinado, sem painel amarelo legado', () => {
+  const base = read('src/natural-sereno.css');
+  const refinement = read('src/natural-sereno-refinement.css');
+  assert.doesNotMatch(base, /#e9d296|#efefdf|#d8caa9/i);
+  assert.doesNotMatch(refinement, /#315d3d|#fbf3dc|#dcc58b|#6e5620/i);
+  assert.ok(refinement.includes('#FBF8F2'));
+  assert.ok(refinement.includes('rgba(200,157,82,.30)'));
+  assert.ok(base.includes('#plans-modal [class*="bg-violet"] { background: #FBF8F2;'));
+});
