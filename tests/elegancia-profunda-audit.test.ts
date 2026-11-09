@@ -339,6 +339,22 @@ test('a Reintegração libera e readquire o Wake Lock ao pausar, concluir ou vol
   assert.match(journey, /if \(playing\) \{[\s\S]*?releaseWakeLock\(\);/);
 });
 
+test('o acolhimento inicial só é montado depois da confirmação explícita do estilo', () => {
+  const app = read('src/App.tsx');
+  const selectorCondition = '{(!layoutConfirmedThisSession || layoutChoiceRequested) && (';
+  const welcomeCondition = '{showWelcomeModal && userProfile && layoutConfirmedThisSession && !layoutChoiceRequested && (';
+
+  assert.ok(app.includes(selectorCondition), 'O seletor continua obrigatório antes da aplicação do tema.');
+  assert.ok(app.includes(welcomeCondition), 'O acolhimento não deve ser montado enquanto o seletor estiver aberto.');
+  assert.ok(app.includes("const seenWelcome = localStorage.getItem('cura_integrada_welcome_seen_v1')"));
+  assert.ok(app.includes("localStorage.setItem('cura_integrada_welcome_seen_v1', 'true')"));
+
+  const selector = read('src/components/LayoutChoiceModal.tsx');
+  const onboarding = read('src/components/OnboardingFlow.tsx');
+  assert.ok(selector.includes('useDialogFocus(true, dialogRef, null)'));
+  assert.ok(onboarding.includes('useDialogFocus(true, dialogRef, null)'));
+});
+
 test('o onboarding antigo permanece inativo e o fluxo ativo continua sendo OnboardingFlow', () => {
   const app = read('src/App.tsx');
   const main = read('src/main.tsx');
@@ -619,4 +635,42 @@ test('a camada aprovada da Elegância Profunda sucede suas auditorias e permanec
   assert.ok(!style2Overrides.includes(':root[data-layout="essencia-luminosa"]'), 'O override do Estilo 2 não pode atingir o Estilo 3.');
   assert.ok(!style3Overrides.includes(':root[data-layout="elegancia-profunda"]'), 'O override do Estilo 3 não pode atingir o Estilo 2.');
   assert.equal(main.split(approvedImportLine).length - 1, 1);
+});
+
+test('a fotografia oficial da Elegância Profunda compõe o shell e os heros sem contaminar o player ou outros estilos', () => {
+  const css = read('src/elegancia-profunda-approved-overrides.css');
+  const ruleBody = (selector: string) => {
+    const start = css.lastIndexOf(selector);
+    const open = css.indexOf('{', start);
+    const close = css.indexOf('}', open);
+    assert.ok(start >= 0 && open > start && close > open, 'Regra ausente: ' + selector);
+    return css.slice(open + 1, close);
+  };
+
+  const shellSelector = ':root[data-layout="elegancia-profunda"] #cura-main-layout';
+  const shellStart = css.indexOf(shellSelector);
+  const shellOpen = css.indexOf('{', shellStart);
+  const shellClose = css.indexOf('}', shellOpen);
+  assert.ok(shellStart >= 0 && shellOpen > shellStart && shellClose > shellOpen, 'Regra do shell principal ausente.');
+  const shell = css.slice(shellOpen + 1, shellClose);
+  assert.ok(shell.includes('var(--ep-scene-overlay)'));
+  assert.ok(shell.includes('var(--ep-scene) center 48%/cover fixed no-repeat'));
+  assert.ok(shell.includes('var(--layout-canvas)'));
+
+  const homeHero = ruleBody(':root[data-layout="elegancia-profunda"] .ep-home-hero');
+  assert.ok(homeHero.includes('var(--ep-scene-overlay)'));
+  assert.ok(homeHero.includes('var(--ep-scene) center 48%/cover no-repeat'));
+
+  const welcomeHero = ruleBody(':root[data-layout="elegancia-profunda"] .ep-welcome-audio.ep-home-hero');
+  assert.ok(welcomeHero.includes('var(--ep-scene-overlay)'));
+  assert.ok(welcomeHero.includes('var(--ep-scene) center 48%/cover no-repeat'));
+
+  assert.match(css, /@media\(max-width:640px\)[\s\S]*:root\[data-layout="elegancia-profunda"\] #cura-main-layout\s*\{\s*background-attachment:scroll!important;/);
+
+  const player = read('src/elegancia-profunda-player-audit.css');
+  assert.ok(player.includes('#meditation-session'));
+  assert.ok(!player.includes('var(--ep-scene)'), 'O player deve manter o cenário próprio da sessão.');
+
+  const style3 = read('src/essencia-luminosa-final-audit.css');
+  assert.ok(!style3.includes('data-layout="elegancia-profunda"'), 'A fotografia do Estilo 2 não pode contaminar a Essência Luminosa.');
 });
