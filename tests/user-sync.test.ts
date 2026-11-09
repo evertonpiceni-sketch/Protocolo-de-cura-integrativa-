@@ -249,10 +249,16 @@ test('authenticated app and Natural Sereno journey writes pass the originating a
   const app = readFileSync('src/App.tsx', 'utf8');
   const journey = readFileSync('src/lib/naturalSerenoHomeJourneyStateFix.ts', 'utf8');
 
+  assert.match(app, /const profileWithAdmin = \{ \.\.\.profileWithPending, login: account\.login, isAdmin: account\.role === 'admin' \}/);
+  assert.match(app, /login: localAccount\.login/);
+  assert.match(app, /const accountWithLogin: UserAccount =/);
+  assert.match(app, /profile: \{ \.\.\.account\.profile, login: account\.login \}/);
   assert.match(app, /syncUserState\(syncPayload, \{ accountKey: newProfile\.login \}\)/);
   assert.match(app, /syncUserState\(\{ progress: newProgress \}, \{ accountKey: userProfile\?\.login \}\)/);
   assert.match(app, /accountKey: updatedProfile\?\.login \?\? userProfile\?\.login/);
-  assert.match(journey, /accountKey: typeof baseProfile\.login === 'string' \? baseProfile\.login : readLocalAccount\(\)\?\.login/);
+  assert.match(journey, /accountKey: accountLogin/);
+  assert.doesNotMatch(journey, /readLocalAccount\(\)\?\.login/);
+  assert.match(journey, /profile: profileWithLogin/);
 });
 
 
@@ -265,6 +271,77 @@ test('a stale profile callback cannot overwrite the active account in the local 
     : '';
 
   assert.ok(cacheBlock.includes('const activeLogin = getCurrentAccountLogin();'));
-  assert.ok(cacheBlock.includes('if (activeLogin && profileLogin && activeLogin !== profileLogin) return;'));
+  assert.ok(cacheBlock.includes('if (!activeLogin || !profileLogin || activeLogin !== profileLogin) return;'));
   assert.doesNotMatch(cacheBlock, /setItem\(LOCAL_STORAGE_KEY_CURRENT_LOGIN/);
+});
+
+
+test('browser user sync fails closed instead of adopting the shared local account key', async () => {
+  let calls = 0;
+  await assert.rejects(
+    syncUserState(
+      { profile: { privateDiaryOwner: 'account-a' } },
+      {
+        requireAccountKey: true,
+        getCurrentAccountKey: () => 'account-b',
+        fetcher: async () => {
+          calls += 1;
+          return new Response('{"success":true}', { status: 200 });
+        },
+      },
+    ),
+    /active account could not be identified/,
+  );
+  assert.equal(calls, 0, 'a missing origin identity must never be inferred from another tab');
+});
+
+test('user sync rejects a profile whose declared account differs from the captured origin', async () => {
+  let calls = 0;
+  await assert.rejects(
+    syncUserState(
+      { profile: { login: 'account-a', privateDiaryOwner: 'account-a' } },
+      {
+        accountKey: 'account-b',
+        requireAccountKey: true,
+        getCurrentAccountKey: () => 'account-b',
+        fetcher: async () => {
+          calls += 1;
+          return new Response('{"success":true}', { status: 200 });
+        },
+      },
+    ),
+    /payload account does not match/,
+  );
+  assert.equal(calls, 0);
+});
+
+test('user sync sends the captured account identity for server-side cookie binding', async () => {
+  let sentBody = '';
+  await syncUserState(
+    { profile: { login: 'account-a' }, progress: [{ dayNumber: 1, completed: true }] },
+    {
+      accountKey: 'account-a',
+      getCurrentAccountKey: () => 'account-a',
+      fetcher: async (_input, init) => {
+        sentBody = String(init?.body || '');
+        return new Response('{"success":true}', { status: 200 });
+      },
+    },
+  );
+  assert.deepEqual(JSON.parse(sentBody), {
+    profile: { login: 'account-a' },
+    progress: [{ dayNumber: 1, completed: true }],
+    accountLogin: 'account-a',
+  });
+});
+
+test('server sync endpoint binds every write to the authenticated account', () => {
+  const server = readFileSync('server.ts', 'utf8');
+  const helper = readFileSync('src/lib/userSync.ts', 'utf8');
+
+  assert.match(helper, /accountLogin: currentAtStart/);
+  assert.match(server, /const \{ profile, progress, accountLogin \} = req\.body \|\| \{\}/);
+  assert.match(server, /originatingLogin !== authenticatedLogin/);
+  assert.match(server, /profileLogin && profileLogin !== authenticatedLogin/);
+  assert.match(server, /login: authenticatedLogin/);
 });
