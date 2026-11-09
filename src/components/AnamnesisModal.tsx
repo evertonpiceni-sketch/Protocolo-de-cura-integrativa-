@@ -79,6 +79,13 @@ export default function AnamnesisModal({
   const isEleganciaProfunda = document.documentElement.dataset.layout === 'elegancia-profunda';
   const isEssenciaLuminosa = document.documentElement.dataset.layout === 'essencia-luminosa';
   const requiresNeuralVoice = naturalSereno || isEleganciaProfunda || isEssenciaLuminosa;
+  const neuralVoiceLabel = isElevenLabsVoiceId(userProfile.voiceId)
+    ? userProfile.voiceId === OFFICIAL_PROTOCOL_VOICE_ID
+      ? 'Marianne — Meditação'
+      : 'Voz neural selecionada no perfil'
+    : (naturalSereno || isEssenciaLuminosa)
+      ? 'Marianne — Meditação (voz oficial)'
+      : 'Selecione uma voz neural em Ajustes de áudio';
   useDialogFocus(isOpen && naturalSereno, dialogRef, () => handleCloseModal());
   React.useLayoutEffect(() => {
     if (isOpen && naturalSereno) {
@@ -550,7 +557,7 @@ export default function AnamnesisModal({
                   </div>
                 </div>
 
-                {!isEleganciaProfunda && !isEssenciaLuminosa ? (
+                {!requiresNeuralVoice ? (
                   <div className="flex items-center gap-1.5 p-1 bg-white/80 rounded-xl border border-[#E5DAC6] self-start sm:self-auto">
                     <button
                       type="button"
@@ -582,7 +589,7 @@ export default function AnamnesisModal({
                     </button>
                   </div>
                 ) : (
-                  <span className="text-xs text-[#B88736]">{isEssenciaLuminosa ? 'Voz neural escolhida em Ajustes de áudio' : 'Voz neural selecionada no perfil'}</span>
+                  <span className="text-xs text-[#B88736]">{neuralVoiceLabel}</span>
                 )}
               </div>
               {voiceError && <p role="alert" className="ep-voice-error rounded-xl px-3 py-2 text-xs">{naturalSereno || isEssenciaLuminosa ? 'A narração neural está indisponível. A voz do dispositivo não será usada.' : 'Selecione uma voz neural válida em Ajustes de áudio. O Estilo 2 não usará a voz do dispositivo.'}</p>}
@@ -626,7 +633,7 @@ export default function AnamnesisModal({
                             : "Ouvir Mapa do Momento Personalizado"}
                         </span>
                         <span className="text-[11px] font-mono text-[#B88736]">
-                          {selectedVoiceGender === 'masculina' ? 'Voz Masculina (Éverton Piceni)' : 'Voz Feminina (Acolhimento da Alma)'}
+                          {requiresNeuralVoice ? neuralVoiceLabel : selectedVoiceGender === 'masculina' ? 'Voz Masculina (Éverton Piceni)' : 'Voz Feminina (Acolhimento da Alma)'}
                         </span>
                       </div>
                       <p className="text-[11px] text-[#5C5248] line-clamp-1 mt-0.5">
