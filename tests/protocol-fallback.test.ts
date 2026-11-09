@@ -57,6 +57,34 @@ test('protocol narration fails closed without a robotic browser-voice fallback',
       assert.equal(spoken.length, 0);
       assert.equal(errors, 1);
     });
+    await t.test('falha de voz neural informa erro sem disparar conclusão bem-sucedida', async () => {
+      Object.defineProperty(globalThis, 'fetch', {
+        configurable: true,
+        value: async () => new Response(JSON.stringify({ error: 'TTS indisponível' }), {
+          status: 503,
+          headers: { 'Content-Type': 'application/json' }
+        })
+      });
+      spoken.length = 0;
+      let errors = 0;
+      let completions = 0;
+      await audioEngine.speakWithElevenLabsOrFallback(
+        'Texto de teste.',
+        0.9,
+        () => undefined,
+        () => { completions += 1; },
+        undefined,
+        undefined,
+        {
+          voiceId: 'mJqP14JQFEK0PojR5lfV',
+          fallbackToSpeechSynthesis: false,
+          onError: () => { errors += 1; }
+        }
+      );
+      assert.equal(errors, 1);
+      assert.equal(completions, 0);
+      assert.equal(spoken.length, 0);
+    });
   } finally {
     audioEngine.stopSpeech();
     audioEngine.setMainVolume(1);
