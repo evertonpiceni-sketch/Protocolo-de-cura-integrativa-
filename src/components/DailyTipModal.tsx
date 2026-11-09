@@ -33,7 +33,7 @@ export default function DailyTipModal({ onClose, userName }: DailyTipModalProps)
     <div
       id="daily-tip-modal"
       ref={dialogRef}
-      className={`fixed inset-0 z-[100] flex items-center justify-center overflow-y-auto overscroll-contain p-2 sm:p-4 backdrop-blur-sm animate-fade-in ${isMystic ? 'bg-[#04070D]/75' : isElegant ? 'bg-[#07130F]/72' : 'bg-[#2A2420]/25'}`}
+      className={`fixed inset-0 z-[100] flex items-center justify-center overflow-y-auto overscroll-contain p-2 sm:p-4 backdrop-blur-sm animate-fade-in motion-reduce:animate-none ${isMystic ? 'bg-[#04070D]/75' : isElegant ? 'bg-[#07130F]/72' : 'bg-[#2A2420]/25'}`}
       role="dialog"
       aria-modal="true"
       aria-labelledby="daily-tip-title"
