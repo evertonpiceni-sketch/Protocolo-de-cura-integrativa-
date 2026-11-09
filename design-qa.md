@@ -1,3 +1,8 @@
+> **Nota de vigência — este arquivo é um registro histórico da comparação inicial, não a especificação visual atual.**
+> A prancha `1001196520.jpg` (derivada da prancha original enviada) continua sendo a referência oficial de composição do card, mas seus tratamentos antigos de verde-floresta, dourado saturado, chapas escuras, botões e logo dominante não devem ser reproduzidos. As decisões posteriores aprovadas prevalecem: creme/marfim `#FAF7F2` / `#F5EFE5`, café `#2A2421`, texto secundário `#6B625B`, dourado refinado `#E2B96B` / `#C89D52` / `#A87E37`, sálvia `#6F7B55` apenas como acento, CTAs de 18px e logo discreto (30% desktop / 26% mobile).
+> Para a implementação vigente, consultar `src/approved-theme.css`, `src/natural-sereno-approved-overrides.css` e os relatórios RUN 107/108. Não recuperar as cores ou os componentes descritos abaixo como referência atual.
+
+---
 # Natural Sereno — auditoria da implementação
 
 final result: blocked
