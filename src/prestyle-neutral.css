@@ -5,6 +5,13 @@
   background: linear-gradient(180deg, #F8F7F3 0%, #F2F0EA 100%) !important;
 }
 
+:root:not([data-layout]) #cura-main-layout :is(.ep-premium-surface, .ep-forest-panel, .ep-premium-card, .ep-luxury-card) {
+  background: linear-gradient(145deg, rgba(255, 255, 255, .94), rgba(247, 246, 242, .96)) !important;
+  border-color: #E3DFD6 !important;
+  color: #302E2A !important;
+  box-shadow: 0 12px 30px rgba(48, 46, 42, .06) !important;
+}
+
 :root:not([data-layout]) #cura-main-layout #main-header {
   color: #302E2A !important;
   background: rgba(249, 248, 244, .96) !important;
