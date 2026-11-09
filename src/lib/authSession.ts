@@ -33,3 +33,19 @@ export function clearCurrentAccountLogin(): void {
     // A restricted browser storage context must not prevent server logout.
   }
 }
+
+/**
+ * A different tab shares the same auth cookie and localStorage account key.
+ * Reload a tab holding another account's private UI when that key changes or
+ * is cleared elsewhere; this also handles localStorage.clear() (key === null).
+ */
+export function shouldReloadForAccountChange(
+  changedStorageKey: string | null,
+  currentProfileLogin: string | null | undefined,
+  nextStoredLogin: string | null | undefined,
+): boolean {
+  if (changedStorageKey !== null && changedStorageKey !== CURRENT_LOGIN_STORAGE_KEY) return false;
+  const currentLogin = normalizeAccountLogin(currentProfileLogin);
+  if (!currentLogin) return false;
+  return currentLogin !== normalizeAccountLogin(nextStoredLogin);
+}
