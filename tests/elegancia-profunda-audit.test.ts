@@ -98,6 +98,10 @@ test('o cadastro pré-seleção não reutiliza o antigo shell do Natural Sereno'
     assert.ok(!read(path).includes('ep-auth-style-one'), `O shell antigo não deve permanecer em ${path}.`);
   }
   assert.ok(!read('src/natural-sereno.css').includes('auth shell fixed to Natural Sereno'));
+  const sharedTheme = read('src/approved-theme.css');
+  assert.ok(sharedTheme.includes('Cadastro/login permanece neutro até a escolha explícita'));
+  assert.ok(!sharedTheme.includes('Cadastro/login permanece sempre Natural Sereno'));
+
 });
 
 
