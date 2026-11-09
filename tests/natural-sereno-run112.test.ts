@@ -81,3 +81,11 @@ test('cross-tab account changes invalidate a stale private view', () => {
   assert.ok(handler.includes('setIsLoggedIn(false)'));
   assert.ok(handler.includes('if (event.newValue?.trim()) window.location.reload()'));
 });
+
+test('protocol TTS stream requires an authenticated, rate-limited session', () => {
+  const server = readFileSync(new URL('../server.ts', import.meta.url), 'utf8');
+  const routeStart = server.indexOf('app.post("/api/tts/stream"');
+  assert.notEqual(routeStart, -1);
+  const routeHeader = server.slice(routeStart, routeStart + 100);
+  assert.match(routeHeader, /app\.post\("\/api\/tts\/stream", authenticate, apiLimiter,/);
+});
