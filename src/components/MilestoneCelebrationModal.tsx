@@ -59,7 +59,7 @@ export default function MilestoneCelebrationModal({
     badgeText = 'Portal do Raio Rosa';
     themeBg = 'from-rose-950 via-[#FBF8F2] to-indigo-950';
     themeBorder = 'border-rose-500/40';
-    icon = <Heart className="w-8 h-8 text-rose-400 animate-pulse" />;
+    icon = <Heart className="w-8 h-8 text-rose-400 animate-pulse motion-reduce:animate-none" />;
     mainMessage = `Querido(a) ${userName},\n\nParabéns por chegar ao 15º Dia! Você acaba de ancorar na fase do Raio Rosa e no amor incondicional da egrégora crística e dos mestres ascensos.\n\nDeixe o passado ir embora com ternura. Permita que esta etapa represente acolhimento, ternura e abertura para uma sensação maior de paz.\n\nCom luz e acolhimento,\nÉverton Rodrigo Piceni`;
   } else if (isDay21) {
     title = 'Você assumiu o seu Trono!';
