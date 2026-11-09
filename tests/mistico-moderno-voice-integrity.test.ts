@@ -303,7 +303,8 @@ test('Style 4 preserves the 4:3 official board preview, premium CTA and reduced-
   const modal = read('src/components/LayoutChoiceModal.tsx');
   const finalCss = read('src/mistico-moderno-final-audit.css');
   assert.match(modal, /aspect-\[4\/3\]/);
-  assert.match(modal, /selectedLayout === 'mistico-moderno' \? 'rounded-2xl' : 'rounded-full'/);
+  assert.match(modal, /max-w-sm rounded-xl/);
+  assert.doesNotMatch(modal, /rounded-full/, 'O CTA compartilhado não deve recuperar o formato de pílula.');
   assert.match(finalCss, /@media \(prefers-reduced-motion: reduce\)/);
   assert.match(finalCss, /animation-duration: 0\.01ms !important/);
   assert.match(finalCss, /transition-duration: 0\.01ms !important/);
