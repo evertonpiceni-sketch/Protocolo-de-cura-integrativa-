@@ -115,7 +115,7 @@ export default function ProfileSetup({ onComplete }: ProfileSetupProps) {
       try {
         await syncUserState(
           { profile: profileData, progress: data.user.progress },
-          { maxAttempts: 3 },
+          { maxAttempts: 3, accountKey: data.user.login },
         );
         clearPendingProfileSync(data.user.login);
         profileSynced = true;
