@@ -644,7 +644,7 @@ export default function AnamnesisModal({
                 </div>
 
                 {/* Animated Waveform Bars */}
-                <div className="flex items-center gap-1.5 h-7 pt-1 px-1">
+                <div className="ep-anamnesis-waveform flex items-center gap-1.5 h-7 pt-1 px-1">
                   {Array.from({ length: 32 }).map((_, idx) => {
                     const height = isPlayingTherapeuticVoice
                       ? Math.max(25, Math.abs(Math.sin((idx * 0.45) + (Date.now() / 300))) * 95)
