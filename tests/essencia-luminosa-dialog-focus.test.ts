@@ -286,3 +286,18 @@ test('a moldura da Celebração usa tokens suaves mesmo quando a etapa-base decl
   assert.ok(parentRule, 'A superfície principal da celebração precisa de regra própria no Estilo 3.');
   assert.ok(parentRule[1].includes('border-color: color-mix(in srgb, var(--layout-gold-soft) 42%, var(--layout-border)) !important;'));
 });
+
+test('o tema só é aplicado após a confirmação persistida e antes de montar o acolhimento', () => {
+  const app = read('src/App.tsx');
+  const start = app.indexOf('onSelect={async (layout) => {');
+  assert.ok(start >= 0, 'O seletor React deve ser o único ponto de confirmação.');
+  const end = app.indexOf('        />', start);
+  assert.ok(end > start, 'O bloco de confirmação do seletor deve estar completo.');
+  const selection = app.slice(start, end);
+  const persistenceGuard = selection.indexOf('if (!response.ok) throw new Error');
+  const applyConfirmedTheme = selection.indexOf('document.documentElement.dataset.layout = layout;');
+  const updateProfile = selection.indexOf('setUserProfile(updatedProfile);');
+  assert.ok(persistenceGuard >= 0, 'Falha de persistência deve impedir a aplicação do estilo.');
+  assert.ok(applyConfirmedTheme > persistenceGuard, 'O tema só pode ser aplicado depois da persistência bem-sucedida.');
+  assert.ok(updateProfile > applyConfirmedTheme, 'O atributo visual deve estar pronto antes do render do acolhimento.');
+});
