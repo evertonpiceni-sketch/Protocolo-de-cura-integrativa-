@@ -930,3 +930,267 @@
 :root[data-layout="natural-sereno"] #arcanjo-protocol-view.ep-arcanjo-natural > header [class*="border-[#B88736]"] {
   border-color: rgba(200,157,82,.20) !important;
 }
+
+
+/* RUN 129 — neutralizar heranças de ouro antigo, âmbar e azul nas telas compartilhadas.
+   Escopo exclusivo do Natural Sereno; conteúdo, handlers e estados dos outros estilos ficam intactos. */
+:root[data-layout="natural-sereno"] :is(
+  #anamnesis-modal,
+  #systemic-questions-modal,
+  #daily-diary-modal,
+  #hooponopono-modal,
+  #archangel-prayer-modal
+) [class*="text-[#B88736]"],
+:root[data-layout="natural-sereno"] :is(
+  #anamnesis-modal,
+  #systemic-questions-modal,
+  #daily-diary-modal,
+  #hooponopono-modal,
+  #archangel-prayer-modal
+) [class*="text-[#8F631E]"] {
+  color: #A87E37 !important;
+}
+
+:root[data-layout="natural-sereno"] :is(
+  #anamnesis-modal,
+  #systemic-questions-modal,
+  #daily-diary-modal,
+  #hooponopono-modal,
+  #archangel-prayer-modal
+) [class*="bg-[#B88736]/"] {
+  background-color: rgba(200,157,82,.12) !important;
+  background-image: none !important;
+}
+
+:root[data-layout="natural-sereno"] :is(
+  #anamnesis-modal,
+  #systemic-questions-modal,
+  #daily-diary-modal,
+  #hooponopono-modal,
+  #archangel-prayer-modal
+) [class~="bg-[#B88736]"] {
+  background-color: #C89D52 !important;
+  background-image: linear-gradient(180deg,#E2B96B,#C89D52) !important;
+  color: #2A2421 !important;
+  border-color: #A87E37 !important;
+  box-shadow: 0 8px 18px rgba(67,52,39,.09) !important;
+  text-shadow: none !important;
+}
+
+:root[data-layout="natural-sereno"] :is(
+  #anamnesis-modal,
+  #systemic-questions-modal,
+  #daily-diary-modal,
+  #hooponopono-modal,
+  #archangel-prayer-modal
+) :is(button,a,[role="button"])[class~="bg-[#B88736]"]:hover {
+  background-color: #A87E37 !important;
+  background-image: linear-gradient(180deg,#E8C47D,#A87E37) !important;
+  color: #2A2421 !important;
+}
+
+:root[data-layout="natural-sereno"] :is(
+  #anamnesis-modal,
+  #systemic-questions-modal,
+  #daily-diary-modal,
+  #hooponopono-modal,
+  #archangel-prayer-modal
+) [class*="border-[#B88736]"],
+:root[data-layout="natural-sereno"] :is(
+  #anamnesis-modal,
+  #systemic-questions-modal,
+  #daily-diary-modal,
+  #hooponopono-modal,
+  #archangel-prayer-modal
+) [class*="border-[#8F631E]"] {
+  border-color: rgba(200,157,82,.32) !important;
+}
+
+:root[data-layout="natural-sereno"] :is(
+  #anamnesis-modal,
+  #systemic-questions-modal,
+  #daily-diary-modal,
+  #hooponopono-modal,
+  #archangel-prayer-modal
+) [class*="bg-[#FBF8F2]"] {
+  background-color: #FAF7F2 !important;
+}
+
+:root[data-layout="natural-sereno"] :is(
+  #anamnesis-modal,
+  #systemic-questions-modal,
+  #daily-diary-modal,
+  #hooponopono-modal,
+  #archangel-prayer-modal
+) [class*="bg-[#F5EFE4]"] {
+  background-color: #F5EFE5 !important;
+}
+
+:root[data-layout="natural-sereno"] :is(
+  #anamnesis-modal,
+  #systemic-questions-modal,
+  #daily-diary-modal,
+  #hooponopono-modal,
+  #archangel-prayer-modal
+) [class*="border-[#E5DAC6]"] {
+  border-color: #E8E0D5 !important;
+}
+
+:root[data-layout="natural-sereno"] :is(
+  #anamnesis-modal,
+  #systemic-questions-modal,
+  #daily-diary-modal,
+  #hooponopono-modal,
+  #archangel-prayer-modal
+) [class*="text-[#5C5248]"] {
+  color: #6B625B !important;
+}
+
+:root[data-layout="natural-sereno"] :is(
+  #anamnesis-modal,
+  #systemic-questions-modal,
+  #daily-diary-modal,
+  #hooponopono-modal,
+  #archangel-prayer-modal
+) [class*="text-[#2A2420]"] {
+  color: #2A2421 !important;
+}
+
+:root[data-layout="natural-sereno"] :is(
+  #anamnesis-modal,
+  #systemic-questions-modal,
+  #daily-diary-modal,
+  #hooponopono-modal,
+  #archangel-prayer-modal
+) button[class*="bg-amber-500"] {
+  background-color: #C89D52 !important;
+  background-image: linear-gradient(180deg,#E2B96B,#C89D52) !important;
+  color: #2A2421 !important;
+  border: 1px solid #A87E37 !important;
+  box-shadow: 0 8px 18px rgba(67,52,39,.09) !important;
+}
+
+:root[data-layout="natural-sereno"] :is(
+  #anamnesis-modal,
+  #systemic-questions-modal,
+  #daily-diary-modal,
+  #hooponopono-modal,
+  #archangel-prayer-modal
+) [class*="bg-amber-50"],
+:root[data-layout="natural-sereno"] :is(
+  #anamnesis-modal,
+  #systemic-questions-modal,
+  #daily-diary-modal,
+  #hooponopono-modal,
+  #archangel-prayer-modal
+) [class*="bg-purple-"] {
+  background-color: #F5EFE5 !important;
+}
+
+:root[data-layout="natural-sereno"] :is(
+  #anamnesis-modal,
+  #systemic-questions-modal,
+  #daily-diary-modal,
+  #hooponopono-modal,
+  #archangel-prayer-modal
+) :is([class*="text-amber-"],[class*="text-purple-"]) {
+  color: #A87E37 !important;
+}
+
+:root[data-layout="natural-sereno"] :is(
+  #anamnesis-modal,
+  #systemic-questions-modal,
+  #daily-diary-modal,
+  #hooponopono-modal,
+  #archangel-prayer-modal
+) :is([class*="border-amber-"],[class*="border-purple-"]) {
+  border-color: rgba(200,157,82,.28) !important;
+}
+
+:root[data-layout="natural-sereno"] :is(
+  #anamnesis-modal,
+  #systemic-questions-modal,
+  #daily-diary-modal,
+  #hooponopono-modal,
+  #archangel-prayer-modal
+) :is([class*="text-emerald-"]) {
+  color: #6F7B55 !important;
+}
+
+:root[data-layout="natural-sereno"] :is(
+  #anamnesis-modal,
+  #systemic-questions-modal,
+  #daily-diary-modal,
+  #hooponopono-modal,
+  #archangel-prayer-modal
+) :is([class*="bg-emerald-50"]) {
+  background-color: rgba(111,123,85,.09) !important;
+}
+
+:root[data-layout="natural-sereno"] :is(
+  #anamnesis-modal,
+  #systemic-questions-modal,
+  #daily-diary-modal,
+  #hooponopono-modal,
+  #archangel-prayer-modal
+) :is([class*="border-emerald-"]) {
+  border-color: rgba(111,123,85,.24) !important;
+}
+
+:root[data-layout="natural-sereno"] :is(
+  #anamnesis-modal,
+  #systemic-questions-modal,
+  #daily-diary-modal,
+  #hooponopono-modal,
+  #archangel-prayer-modal
+) :is([class*="bg-emerald-400"],[class*="bg-emerald-500"]) {
+  background-color: #6F7B55 !important;
+}
+
+:root[data-layout="natural-sereno"] :is(
+  #anamnesis-modal,
+  #systemic-questions-modal,
+  #daily-diary-modal,
+  #hooponopono-modal,
+  #archangel-prayer-modal
+) :is([class*="shadow-amber-"],[class*="shadow-indigo-"],[class*="shadow-purple-"]) {
+  box-shadow: 0 6px 18px rgba(67,52,39,.08) !important;
+}
+
+:root[data-layout="natural-sereno"] :is(
+  #anamnesis-modal,
+  #systemic-questions-modal,
+  #daily-diary-modal,
+  #hooponopono-modal,
+  #archangel-prayer-modal
+) button:focus-visible {
+  outline: 2px solid #C89D52 !important;
+  outline-offset: 3px !important;
+  box-shadow: none !important;
+}
+
+/* The prayer modal's blue accent belongs to an older visual treatment. */
+:root[data-layout="natural-sereno"] #archangel-prayer-modal .ep-archangel-prayer {
+  background: linear-gradient(180deg,#FAF7F2 0%,#F5EFE5 100%) !important;
+  border-color: #E8E0D5 !important;
+  color: #2A2421 !important;
+}
+
+:root[data-layout="natural-sereno"] #archangel-prayer-modal [class*="bg-[#315C85]"] {
+  background-color: rgba(200,157,82,.12) !important;
+  background-image: none !important;
+}
+
+:root[data-layout="natural-sereno"] #archangel-prayer-modal [class*="border-[#315C85]"] {
+  border-color: rgba(200,157,82,.30) !important;
+}
+
+:root[data-layout="natural-sereno"] #archangel-prayer-modal [class*="text-[#315C85]"] {
+  color: #A87E37 !important;
+}
+
+/* The 639 Hz control is a primary action, not a legacy amber pill. */
+:root[data-layout="natural-sereno"] #anamnesis-modal .ep-anamnesis-frequency button[class~="bg-[#B88736]"] {
+  min-height: 44px;
+  border-radius: 18px !important;
+}

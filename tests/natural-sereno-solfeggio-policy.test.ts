@@ -35,7 +35,10 @@ test('Anamnese e Perguntas Sistêmicas cedem o áudio ao preview neural sem fall
 
   assert.ok(anamnesis.includes('userProfile.audioEnabled !== false'));
   assert.ok(systemic.includes('userProfile?.audioEnabled !== false'));
-  assert.ok(anamnesis.includes("bg-[#B88736] border-[#A87E37] text-[#FFFDF8]"));
+  const approvedOverrides = read('src/natural-sereno-approved-overrides.css');
+  assert.ok(approvedOverrides.includes('#anamnesis-modal .ep-anamnesis-frequency button[class~="bg-[#B88736]"]'));
+  assert.ok(approvedOverrides.includes('background-image: linear-gradient(180deg,#E2B96B,#C89D52) !important;'));
+  assert.ok(approvedOverrides.includes('color: #2A2421 !important;'));
   assert.ok(!systemic.includes('setTimeout(() => setIsReadingVoice(false), 12000)'));
   assert.ok(systemic.includes('is639HzAudible'));
 });
