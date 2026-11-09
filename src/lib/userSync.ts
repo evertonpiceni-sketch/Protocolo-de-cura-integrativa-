@@ -121,29 +121,30 @@ export function syncUserState(payload: UserSyncPayload, options: UserSyncOptions
   }
 
   const getCurrentAccountKey = options.getCurrentAccountKey ?? getCurrentAccountLogin;
-  let currentAtStart: string | null = null;
-  try {
-    const profileLogin = payload.profile && typeof payload.profile === 'object'
-      ? (payload.profile as { login?: unknown }).login
-      : undefined;
-    const profileAccountKey = normalizeAccountLogin(
-      typeof profileLogin === 'string' ? profileLogin : null,
-    );
-    const explicitAccountKey = options.accountKey !== undefined
-      ? normalizeAccountLogin(options.accountKey)
-      : null;
-
-    if (options.accountKey !== undefined && profileAccountKey && explicitAccountKey !== profileAccountKey) {
-      throw new Error('User sync cancelled: the payload account does not match the originating account.');
-    }
-
-    // Never infer ownership from shared localStorage: another tab may already
-    // have replaced the auth cookie while this component still holds stale data.
-    currentAtStart = options.accountKey !== undefined ? explicitAccountKey : profileAccountKey;
-  } catch {
-    currentAtStart = null;
-  }
   const requireAccountKey = options.requireAccountKey ?? typeof window !== 'undefined';
+  const hasProfilePayload = Object.prototype.hasOwnProperty.call(payload, 'profile')
+    && payload.profile !== undefined
+    && payload.profile !== null;
+  const profileLogin = payload.profile && typeof payload.profile === 'object'
+    ? (payload.profile as { login?: unknown }).login
+    : undefined;
+  const profileAccountKey = normalizeAccountLogin(
+    typeof profileLogin === 'string' ? profileLogin : null,
+  );
+  const explicitAccountKey = options.accountKey !== undefined
+    ? normalizeAccountLogin(options.accountKey)
+    : null;
+
+  if (requireAccountKey && hasProfilePayload && !profileAccountKey) {
+    return Promise.reject(new Error('User sync cancelled: the profile origin identity is missing.'));
+  }
+  if (options.accountKey !== undefined && profileAccountKey && explicitAccountKey !== profileAccountKey) {
+    return Promise.reject(new Error('User sync cancelled: the payload account does not match the originating account.'));
+  }
+
+  // Never infer ownership from shared localStorage: another tab may already
+  // have replaced the auth cookie while this component still holds stale data.
+  const currentAtStart = options.accountKey !== undefined ? explicitAccountKey : profileAccountKey;
   if (requireAccountKey && !currentAtStart) {
     return Promise.reject(new Error('User sync cancelled: the active account could not be identified.'));
   }
