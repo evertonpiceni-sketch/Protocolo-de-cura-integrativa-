@@ -186,6 +186,9 @@ test('Anamnesis never restarts Solfeggio or selection chimes over Style 4 neural
   const anamnesis = read('src/components/AnamnesisModal.tsx');
   assert.match(anamnesis, /if \(isMisticoModerno && \(isPlayingTherapeuticVoice \|\| isLoadingVoice\)\) return;/);
   assert.match(anamnesis, /const style4VoiceOwnsAudio = isMisticoModerno && \(isPlayingTherapeuticVoice \|\| isLoadingVoice\)/);
+  assert.match(anamnesis, /const playAnamnesisSelectionSound = \(\) =>/);
+  assert.equal((anamnesis.match(/audioEngine\.playHeartSelectionChime\(\)/g) || []).length, 1);
+  assert.ok((anamnesis.match(/playAnamnesisSelectionSound\(\)/g) || []).length >= 5);
   assert.match(anamnesis, /isOpenRef\.current && isEditingRef\.current && is639HzActiveRef\.current/);
   assert.match(anamnesis, /disabled=\{isMisticoModerno && \(isPlayingTherapeuticVoice \|\| isLoadingVoice\)\}/);
   assert.match(anamnesis, /else if \(isMisticoModerno && userProfile\.audioEnabled/);
