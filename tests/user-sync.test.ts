@@ -225,3 +225,32 @@ test('login and logout update the active account key before another sync retry c
   const logoutRequest = app.indexOf("fetch('/api/auth/logout'", logoutStart);
   assert.ok(logoutStart >= 0 && clearKey > logoutStart && logoutRequest > clearKey);
 });
+
+
+test('a profile payload cannot be sent under a different active account after a stale callback', async () => {
+  let calls = 0;
+  await assert.rejects(
+    syncUserState(
+      { profile: { login: 'account-a', privateDiaryOwner: 'account-a' } },
+      {
+        getCurrentAccountKey: () => 'account-b',
+        fetcher: async () => {
+          calls += 1;
+          return new Response('{"success":true}', { status: 200 });
+        },
+      },
+    ),
+    /active account changed/,
+  );
+  assert.equal(calls, 0, 'the stale account payload must be rejected before fetch');
+});
+
+test('authenticated app and Natural Sereno journey writes pass the originating account key', () => {
+  const app = readFileSync('src/App.tsx', 'utf8');
+  const journey = readFileSync('src/lib/naturalSerenoHomeJourneyStateFix.ts', 'utf8');
+
+  assert.match(app, /syncUserState\(syncPayload, \{ accountKey: newProfile\.login \}\)/);
+  assert.match(app, /syncUserState\(\{ progress: newProgress \}, \{ accountKey: userProfile\?\.login \}\)/);
+  assert.match(app, /accountKey: updatedProfile\?\.login \?\? userProfile\?\.login/);
+  assert.match(journey, /accountKey: typeof baseProfile\.login === 'string' \? baseProfile\.login : readLocalAccount\(\)\?\.login/);
+});
