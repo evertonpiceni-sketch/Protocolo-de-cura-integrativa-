@@ -332,6 +332,7 @@ export default function ArcanjoProtocolView({ userProfile, onClose, onLogout, in
       }
       return;
     }
+    if (suspendsSolfeggioDuringNeuralNarration) stopProtocolFrequency();
     audioEngine.resumeSpeech();
     if (!suspendsSolfeggioDuringNeuralNarration && !isMisticoModerno) {
       // Native fallback has no HTMLAudio onplay callback.

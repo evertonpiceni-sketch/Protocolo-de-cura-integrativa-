@@ -66,16 +66,16 @@ test('o Estilo 2 suspende Solfeggio durante prévias neurais e restaura apenas a
 test('o Arcanjo suspende Solfeggio durante narração neural e respeita o áudio global', () => {
   const arcanjo = read('src/components/ArcanjoProtocolView.tsx');
   assert.ok(arcanjo.includes("import { isSolfeggioFrequency } from '../lib/protocolSessionAudioPolicy';"));
-  assert.ok(arcanjo.includes('const requiresNeuralVoice = isEleganciaProfunda || isEssenciaLuminosa;'));
+  assert.ok(arcanjo.includes('const suspendsSolfeggioDuringNeuralNarration = isEleganciaProfunda || isEssenciaLuminosa;'));
   assert.ok(arcanjo.includes('if (isSolfeggioFrequency(audioEngine.getCurrentSynthType())) {'));
   assert.ok(arcanjo.includes('if (userProfile.audioEnabled === false) {'));
-  assert.ok(arcanjo.includes('if (requiresNeuralVoice) stopProtocolFrequency();'));
+  assert.ok(arcanjo.includes('if (suspendsSolfeggioDuringNeuralNarration) stopProtocolFrequency();'));
   assert.ok(arcanjo.includes('if (restoreFrequency) playProtocolFrequency();'));
-  assert.ok(arcanjo.includes('resetPlayback(requiresNeuralVoice);'));
-  assert.ok(arcanjo.includes('if (requiresNeuralVoice) playProtocolFrequency();'));
+  assert.ok(arcanjo.includes('resetPlayback(suspendsSolfeggioDuringNeuralNarration);'));
+  assert.ok(arcanjo.includes('if (suspendsSolfeggioDuringNeuralNarration) playProtocolFrequency();'));
   assert.ok(arcanjo.includes('startArcanjoOwnedSolfeggio(`${config.freq}hz`);'));
-  assert.ok(arcanjo.includes('audioEngine.resumeSpeech();'));
-  assert.ok(arcanjo.includes('if (!requiresNeuralVoice && !isMisticoModerno)'));
+  assert.ok(arcanjo.includes('if (suspendsSolfeggioDuringNeuralNarration) stopProtocolFrequency();\\n    audioEngine.resumeSpeech();'), 'A frequência deve ser suspensa antes de retomar a narração neural.');
+  assert.ok(arcanjo.includes('if (!suspendsSolfeggioDuringNeuralNarration && !isMisticoModerno)'));
   assert.equal((arcanjo.match(/audioEngine\.startSynth\(/g) ?? []).length, 0, 'A frequência do Arcanjo deve passar pelo helper de ownership, não pelo startBG bloqueado.');
 });
 
@@ -101,7 +101,7 @@ test('pausar a narração neural do Arcanjo restaura Solfeggio apenas pelo event
   assert.ok(pauseBranch.includes('audioEngine.pauseSpeech();'));
   assert.ok(!pauseBranch.includes('playProtocolFrequency()'), 'O botão não deve reiniciar a frequência além do callback de pausa.');
   assert.ok(arcanjo.includes('onPause: () => {'));
-  assert.ok(arcanjo.includes('if (requiresNeuralVoice) playProtocolFrequency();'));
+  assert.ok(arcanjo.includes('if (suspendsSolfeggioDuringNeuralNarration) playProtocolFrequency();'));
 });
 
 
@@ -119,13 +119,13 @@ test('Místico Moderno inicia o Solfeggio apenas no início real da narração e
   assert.ok(onPauseBlock.includes('audioEngine.stopSynth();'));
   assert.ok(onPauseBlock.includes('setIsProtocolFrequencyActive(false);'));
   assert.ok(startBlock.includes('requireExplicitVoiceId: isEleganciaProfunda || isEssenciaLuminosa || isMisticoModerno'));
-  assert.ok(startBlock.includes('if (requiresNeuralVoice) playProtocolFrequency();'));
+  assert.ok(startBlock.includes('if (suspendsSolfeggioDuringNeuralNarration) playProtocolFrequency();'));
   assert.ok(startBlock.includes('complete();'));
   const toggleStart = arcanjo.indexOf('const togglePlayback');
   const selectDayStart = arcanjo.indexOf('const selectDay', toggleStart);
   const toggleBlock = arcanjo.slice(toggleStart, selectDayStart);
   assert.ok(toggleBlock.includes('audioEngine.resumeSpeech();'));
-  assert.ok(toggleBlock.includes('if (!requiresNeuralVoice && !isMisticoModerno)'));
+  assert.ok(toggleBlock.includes('if (!suspendsSolfeggioDuringNeuralNarration && !isMisticoModerno)'));
   const resetStart = arcanjo.indexOf('const resetPlayback');
   const resetEnd = arcanjo.indexOf('const complete', resetStart);
   const resetBlock = arcanjo.slice(resetStart, resetEnd);
