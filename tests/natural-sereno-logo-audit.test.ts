@@ -20,6 +20,11 @@ test('o logo do acolhimento Natural Sereno permanece assinatura discreta em desk
     overrides,
     /@media \(max-width:640px\) \{\s*:root\[data-layout="natural-sereno"\] \.ep-care-onboarding-card \.ep-brand-signature \{\s*opacity:\.26!important;\s*\}/
   );
+  assert.match(
+    overrides,
+    /:root\[data-layout="natural-sereno"\] \.ep-care-onboarding-card \.ep-brand-signature-wrap \{\s*background:transparent!important;\s*border:0!important;\s*box-shadow:none!important;\s*\}/
+  );
+
   assert.ok(
     entry.indexOf("import './natural-sereno.css'") <
     entry.indexOf("import './natural-sereno-approved-overrides.css'"),
