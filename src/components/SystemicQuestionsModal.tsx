@@ -43,6 +43,10 @@ export default function SystemicQuestionsModal({
   const isMisticoModerno = typeof document !== 'undefined' && document.documentElement.dataset.layout === 'mistico-moderno';
   const [copiedSentence, setCopiedSentence] = useState<boolean>(false);
   const [is639HzActive, setIs639HzActive] = useState<boolean>(true);
+  const is639HzActiveRef = React.useRef(is639HzActive);
+  const isOpenRef = React.useRef(isOpen);
+  is639HzActiveRef.current = is639HzActive;
+  isOpenRef.current = isOpen;
 
   // 639 Hz Solfeggio frequency: melhora a compreensão, tolerância e relações interpessoais enquanto o usuário responde
   useEffect(() => {
@@ -69,7 +73,7 @@ export default function SystemicQuestionsModal({
   }, [isOpen, is639HzActive, userProfile?.audioEnabled, userProfile?.bgMusicType]);
 
   const handleToggle639 = () => {
-    if (isMisticoModerno && isReadingVoice && !is639HzActive) return;
+    if (isMisticoModerno && isReadingVoice) return;
     if (is639HzActive) {
       audioEngine.stopBG();
       setIs639HzActive(false);
@@ -82,7 +86,7 @@ export default function SystemicQuestionsModal({
   };
 
   const resumeStyle4SystemicSolfeggio = () => {
-    if (isMisticoModerno && isOpen && is639HzActive && audioEngine.getCurrentSynthType() !== '639hz') {
+    if (isMisticoModerno && isOpenRef.current && is639HzActiveRef.current && audioEngine.getCurrentSynthType() !== '639hz') {
       audioEngine.setBGVolume(0.38);
       audioEngine.startBG('639hz');
     }
@@ -149,6 +153,7 @@ export default function SystemicQuestionsModal({
         return;
       }
       if (isMisticoModerno && audioEngine.getCurrentSynthType() === '639hz') audioEngine.stopBG();
+      setIsReadingVoice(true);
       void audioEngine.speakWithElevenLabsOrFallback(
         speechText,
         userProfile?.voiceVolume ?? 0.9,
@@ -235,7 +240,7 @@ export default function SystemicQuestionsModal({
             <div className="flex items-center gap-2.5">
               <div className="relative w-8 h-8 rounded-xl bg-[#B88736]/10 border border-[#B88736]/25 flex items-center justify-center text-[#B88736] shrink-0">
                 <Heart size={16} className={is639HzActive ? 'scale-105 text-[#B88736]' : 'opacity-60'} />
-                {is639HzActive && (
+                {is639HzActive && !(isMisticoModerno && isReadingVoice) && (
                   <span className="absolute -top-1 -right-1 flex h-2.5 w-2.5">
                     <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
                     <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500"></span>
@@ -256,14 +261,15 @@ export default function SystemicQuestionsModal({
             <button
               type="button"
               onClick={handleToggle639}
-              className={`px-3 py-1.5 rounded-xl text-xs font-medium flex items-center gap-1.5 transition cursor-pointer border shrink-0 self-end sm:self-center ${
+              disabled={isMisticoModerno && isReadingVoice}
+              className={`px-3 py-1.5 rounded-xl text-xs font-medium flex items-center gap-1.5 transition cursor-pointer border shrink-0 self-end sm:self-center disabled:opacity-50 disabled:cursor-not-allowed ${
                 is639HzActive
                   ? 'bg-[#B88736] border-[#B88736] text-white hover:bg-[#8F631E]'
                   : 'bg-[#F5EFE4] border-[#E5DAC6] text-[#5C5248] hover:text-[#2A2420]'
               }`}
             >
-              {is639HzActive ? <Volume2 size={13} /> : <VolumeX size={13} />}
-              <span>{is639HzActive ? '639 Hz ligado' : 'Ativar 639 Hz'}</span>
+              {is639HzActive && !(isMisticoModerno && isReadingVoice) ? <Volume2 size={13} /> : <VolumeX size={13} />}
+              <span>{isMisticoModerno && isReadingVoice ? 'Solfeggio pausado' : is639HzActive ? '639 Hz ligado' : 'Ativar 639 Hz'}</span>
             </button>
           </div>
 
