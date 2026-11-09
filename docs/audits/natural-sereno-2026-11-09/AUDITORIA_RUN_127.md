@@ -8,12 +8,14 @@
 
 A varredura das 12 folhas CSS encontrou declarações ativas ainda usando o dourado antigo `#B88736`, o âmbar escuro `#8F631E` e variantes RGB antigas. Parte delas estava justamente na camada final `natural-sereno-approved-overrides.css`, portanto não era apenas resíduo histórico: alguns botões, bordas, ícones e textos ainda poderiam renderizar com a tonalidade anterior.
 
-Atualizei seis folhas que continham declarações ativas: `natural-sereno.css`, `natural-sereno-refinement.css`, `natural-sereno-mobile-fixes.css`, `natural-sereno-milestone-audit.css`, `natural-sereno-legacy-green-audit.css` e `natural-sereno-approved-overrides.css`.
+Atualizei sete folhas que continham declarações ativas: `natural-sereno.css`, `natural-sereno-refinement.css`, `natural-sereno-mobile-fixes.css`, `natural-sereno-milestone-audit.css`, `natural-sereno-legacy-green-audit.css` e `natural-sereno-approved-overrides.css`.
 
 - CTAs que ainda tinham fundo antigo passaram a usar gradiente `#E2B96B → #C89D52`, texto café `#2A2421` e borda `#A87E37`.
 - Textos/ícones de destaque passaram ao dourado escuro `#A87E37`.
 - Bordas e brilhos sutis passaram ao dourado refinado `rgba(200,157,82,...)`.
 - Os seletores que procuram classes antigas como `bg-[#B88736]` ou `text-[#B88736]` foram preservados para neutralizar componentes legados; somente valores de declarações foram atualizados.
+
+Também corrigi o texto secundário da Home, que ainda usava `#8F631E`, e incluí a folha `natural-sereno-home-surface-audit.css` na correção.
 
 Adicionei `tests/natural-sereno-approved-gold-palette.test.ts`, que percorre as 12 folhas e impede que tokens antigos voltem a aparecer em declarações CSS ativas.
 
