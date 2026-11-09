@@ -2640,6 +2640,7 @@ export default function App() {
         className="fixed bottom-6 right-6 z-40 bg-emerald-500 hover:bg-emerald-400 text-[#2A2420] p-3.5 rounded-full shadow-2xl shadow-emerald-500/40 flex items-center gap-2 group transition-all duration-300 hover:scale-105 cursor-pointer border border-emerald-300/40"
         title="Fale Conosco"
         id="floating-whatsapp-btn"
+        aria-label="Fale Conosco"
       >
         <MessageCircle size={22} className="fill-slate-950 text-[#2A2420]" />
         <span className="max-w-0 overflow-hidden whitespace-nowrap group-hover:max-w-xs transition-all duration-300 text-xs font-bold text-[#2A2420]">
