@@ -51,3 +51,13 @@ test('o seletor continua sem pré-seleção e só confirma após escolha explíc
   assert.ok(chooser.includes('disabled={!selectedLayout || isSaving}'));
   assert.ok(chooser.includes('O estilo só será aplicado depois da sua confirmação.'));
 });
+
+test('Arcanjo interrompe a sequência e expõe erro quando um bloco neural falha', () => {
+  const arcanjo = readFileSync(new URL('../src/components/ArcanjoProtocolView.tsx', import.meta.url), 'utf8');
+  const start = arcanjo.indexOf('const playChunk');
+  const end = arcanjo.indexOf('const start = () =>', start);
+  const handler = start >= 0 && end > start ? arcanjo.slice(start, end) : '';
+  assert.ok(handler.includes('onError: () =>'));
+  assert.ok(handler.includes('setVoiceError(true)'));
+  assert.ok(handler.includes('setIsPlaying(false)'));
+});
