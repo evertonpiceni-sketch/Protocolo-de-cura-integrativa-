@@ -2500,7 +2500,7 @@ export default function App() {
       )}
 
       {/* Onboarding Flow Substitution */}
-      {showWelcomeModal && userProfile && (
+      {showWelcomeModal && userProfile && layoutConfirmedThisSession && !layoutChoiceRequested && (
         <OnboardingFlow
           onComplete={() => {
             localStorage.setItem('cura_integrada_welcome_seen_v1', 'true');

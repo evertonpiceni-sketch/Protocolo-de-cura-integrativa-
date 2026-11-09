@@ -339,6 +339,22 @@ test('a Reintegração libera e readquire o Wake Lock ao pausar, concluir ou vol
   assert.match(journey, /if \(playing\) \{[\s\S]*?releaseWakeLock\(\);/);
 });
 
+test('o acolhimento inicial só é montado depois da confirmação explícita do estilo', () => {
+  const app = read('src/App.tsx');
+  const selectorCondition = '{(!layoutConfirmedThisSession || layoutChoiceRequested) && (';
+  const welcomeCondition = '{showWelcomeModal && userProfile && layoutConfirmedThisSession && !layoutChoiceRequested && (';
+
+  assert.ok(app.includes(selectorCondition), 'O seletor continua obrigatório antes da aplicação do tema.');
+  assert.ok(app.includes(welcomeCondition), 'O acolhimento não deve ser montado enquanto o seletor estiver aberto.');
+  assert.ok(app.includes("const seenWelcome = localStorage.getItem('cura_integrada_welcome_seen_v1')"));
+  assert.ok(app.includes("localStorage.setItem('cura_integrada_welcome_seen_v1', 'true')"));
+
+  const selector = read('src/components/LayoutChoiceModal.tsx');
+  const onboarding = read('src/components/OnboardingFlow.tsx');
+  assert.ok(selector.includes('useDialogFocus(true, dialogRef, null)'));
+  assert.ok(onboarding.includes('useDialogFocus(true, dialogRef, null)'));
+});
+
 test('o onboarding antigo permanece inativo e o fluxo ativo continua sendo OnboardingFlow', () => {
   const app = read('src/App.tsx');
   const main = read('src/main.tsx');
