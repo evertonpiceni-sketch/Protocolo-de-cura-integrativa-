@@ -92,3 +92,19 @@ test('fundos dourados translúcidos mantêm seu alpha no Natural Sereno', () => 
     assert.ok(overrides.includes(`rgba(200,157,82,${opacity})`), `Transparência aprovada ${opacity} ausente`);
   }
 });
+
+
+test('CTAs compartilhados do áudio e configurações usam dourado premium e texto café', () => {
+  const overrides = read('src/natural-sereno-approved-overrides.css');
+  const audio = read('src/components/AudioSettingsModal.tsx');
+  const app = read('src/App.tsx');
+
+  assert.ok(audio.includes('bg-[#B88736]'));
+  assert.ok(app.includes('bg-[#B88736]'));
+  assert.ok(overrides.includes('#audio-settings-modal button[class~="bg-[#B88736]"]'));
+  assert.ok(overrides.includes('#settings-view button[class~="bg-[#B88736]"]'));
+  assert.ok(overrides.includes('background-image: linear-gradient(180deg,#E2B96B,#C89D52) !important;'));
+  assert.ok(overrides.includes('color: #2A2421 !important;'));
+  assert.ok(overrides.includes('border-radius: 18px !important;'));
+  assert.ok(overrides.includes('background-color: #A87E37 !important;'));
+});
