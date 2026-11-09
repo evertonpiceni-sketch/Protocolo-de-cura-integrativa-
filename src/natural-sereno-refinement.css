@@ -93,18 +93,18 @@
 }
 
 :root[data-layout="natural-sereno"] #anamnesis-modal #anamnesis-audio-player-card [class*="from-indigo-500"] {
-  background: linear-gradient(180deg, #d8bd6b, #896923) !important;
+  background: linear-gradient(180deg, #E2B96B, #C89D52) !important;
 }
 
 :root[data-layout="natural-sereno"] #anamnesis-modal #anamnesis-audio-player-card button[id="btn-play-diagnosis-audio"] {
-  background: linear-gradient(180deg, #e5c773, #a8812e) !important;
+  background: linear-gradient(180deg, #E2B96B, #C89D52) !important;
   color: #2A2421 !important;
-  border: 1px solid #efd896 !important;
-  box-shadow: inset 0 1px 2px #fff0b3, 0 3px 10px rgba(86,64,16,.2) !important;
+  border: 1px solid rgba(168,126,55,.38) !important;
+  box-shadow: 0 3px 10px rgba(67,52,39,.08) !important;
 }
 
 :root[data-layout="natural-sereno"] #anamnesis-modal #anamnesis-audio-player-card .bg-gradient-to-t.from-indigo-500.to-purple-400 {
-  background: linear-gradient(to top, #6d7c55, #c3a557) !important;
+  background: linear-gradient(to top, #5E6948, #C89D52) !important;
 }
 
 :root[data-layout="natural-sereno"] #anamnesis-modal textarea,
