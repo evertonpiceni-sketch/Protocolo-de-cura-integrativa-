@@ -1,6 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
+import { CURRENT_LOGIN_STORAGE_KEY, shouldReloadForAccountChange } from '../src/lib/authSession';
 
 const app = readFileSync(new URL('../src/App.tsx', import.meta.url), 'utf8');
 const chooser = readFileSync(new URL('../src/components/LayoutChoiceModal.tsx', import.meta.url), 'utf8');
@@ -63,11 +64,17 @@ test('Arcanjo interrompe a sequência e expõe erro quando um bloco neural falha
 });
 
 test('cross-tab account changes invalidate a stale private view', () => {
-  const authSession = readFileSync(new URL('../src/lib/authSession.ts', import.meta.url), 'utf8');
-  assert.match(authSession, /shouldReloadForAccountChange/);
-  assert.match(authSession, /changedStorageKey !== null && changedStorageKey !== CURRENT_LOGIN_STORAGE_KEY/);
-  assert.match(authSession, /currentLogin !== normalizeAccountLogin\(nextStoredLogin\)/);
-  assert.match(app, /window\.addEventListener\('storage', handleAccountStorageChange\)/);
-  assert.match(app, /window\.location\.reload\(\)/);
-  assert.match(app, /audioEngine\.stopSpeech\(\)[\s\S]*audioEngine\.stopBG\(\)[\s\S]*setNeuralVoicePreviewActive\(false\)/);
+  assert.equal(shouldReloadForAccountChange(CURRENT_LOGIN_STORAGE_KEY, 'account-a', 'account-b'), true);
+  assert.equal(shouldReloadForAccountChange(CURRENT_LOGIN_STORAGE_KEY, 'account-a', null), true);
+  assert.equal(shouldReloadForAccountChange(null, 'account-a', null), true, 'localStorage.clear() must invalidate the old account view');
+  assert.equal(shouldReloadForAccountChange('unrelated-key', 'account-a', 'account-b'), false);
+  assert.equal(shouldReloadForAccountChange(CURRENT_LOGIN_STORAGE_KEY, null, 'account-b'), false);
+  assert.equal(shouldReloadForAccountChange(CURRENT_LOGIN_STORAGE_KEY, 'Account-A', 'account-a'), false);
+
+  const handler = section(app, 'const handleAccountStorageChange', "window.addEventListener('storage'");
+  assert.ok(handler.includes('shouldReloadForAccountChange(event.key, userProfile?.login, event.newValue)'));
+  assert.ok(handler.includes('audioEngine.stopSpeech()'));
+  assert.ok(handler.includes('audioEngine.stopBG()'));
+  assert.ok(handler.includes('setNeuralVoicePreviewActive(false)'));
+  assert.ok(handler.includes('window.location.reload()'));
 });
