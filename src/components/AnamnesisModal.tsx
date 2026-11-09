@@ -1093,8 +1093,8 @@ export default function AnamnesisModal({
             <div className="ep-anamnesis-frequency p-3 rounded-2xl bg-gradient-to-r from-emerald-50 via-[#FBF8F2] to-[#F3EBDD] border border-emerald-200 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2.5">
               <div className="flex items-center gap-2.5">
                 <div className="relative w-8 h-8 rounded-xl bg-emerald-500/20 border border-emerald-500/40 flex items-center justify-center text-emerald-700 shrink-0">
-                  <Heart size={16} className={is639HzActive ? 'scale-110 text-emerald-400 animate-pulse' : 'opacity-60'} />
-                  {is639HzActive && (
+                  <Heart size={16} className={is639HzActive && !(isMisticoModerno && (isPlayingTherapeuticVoice || isLoadingVoice)) ? 'scale-110 text-emerald-400 animate-pulse' : 'opacity-60'} />
+                  {is639HzActive && !(isMisticoModerno && (isPlayingTherapeuticVoice || isLoadingVoice)) && (
                     <span className="absolute -top-1 -right-1 flex h-2.5 w-2.5">
                       <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
                       <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500"></span>
@@ -1103,7 +1103,7 @@ export default function AnamnesisModal({
                 </div>
                 <div>
                   <div className="flex items-center gap-2">
-                    <span className="text-xs font-semibold text-emerald-700">Frequência Solfeggio 639 Hz Ativa</span>
+                    <span className="text-xs font-semibold text-emerald-700">{isMisticoModerno && (isPlayingTherapeuticVoice || isLoadingVoice) ? 'Solfeggio pausado durante a narração' : is639HzActive ? 'Frequência Solfeggio 639 Hz Ativa' : 'Frequência Solfeggio 639 Hz Desativada'}</span>
                     <span className="text-[10px] px-1.5 py-0.5 rounded-full bg-emerald-500/20 border border-emerald-500/30 text-emerald-700 font-mono">Chakra Cardíaco</span>
                   </div>
                   <p className="text-[11px] text-[#5C5248] leading-snug">
@@ -1117,13 +1117,13 @@ export default function AnamnesisModal({
                 onClick={handleToggle639Hz}
                 disabled={isMisticoModerno && (isPlayingTherapeuticVoice || isLoadingVoice)}
                 className={`px-3 py-1.5 rounded-xl text-xs font-medium flex items-center gap-1.5 transition cursor-pointer border shrink-0 self-end sm:self-center disabled:opacity-50 disabled:cursor-not-allowed ${
-                  is639HzActive
+                  is639HzActive && !(isMisticoModerno && (isPlayingTherapeuticVoice || isLoadingVoice))
                     ? 'bg-emerald-600/30 border-emerald-500/50 text-emerald-200 hover:bg-emerald-600/50'
                     : 'bg-[#F5EFE4] border-[#E5DAC6] text-[#5C5248] hover:text-[#2A2420]'
                 }`}
               >
-                {is639HzActive ? <Volume2 size={13} className="text-emerald-400 animate-pulse" /> : <VolumeX size={13} />}
-                <span>{is639HzActive ? '639 Hz Ativo' : 'Ativar 639 Hz'}</span>
+                {is639HzActive && !(isMisticoModerno && (isPlayingTherapeuticVoice || isLoadingVoice)) ? <Volume2 size={13} className="text-emerald-400 animate-pulse" /> : <VolumeX size={13} />}
+                <span>{isMisticoModerno && (isPlayingTherapeuticVoice || isLoadingVoice) ? 'Solfeggio pausado' : is639HzActive ? '639 Hz Ativo' : 'Ativar 639 Hz'}</span>
               </button>
             </div>
 
