@@ -3,7 +3,7 @@
 **Data:** 09/11/2026  
 **Projeto:** `evertonpiceni-sketch/Protocolo-de-cura-integrativa-`  
 **Branch:** `audit/natural-sereno-run97-mainline-2026-11-08`  
-**HEAD desta rodada:** `0e9053343ca52f4f20fb438667c94682e3a14930`  
+**HEAD de código/testes:** `ef9b95e0e75fc356d8358268aa083eafdad3b4c0`  
 **PR:** #74 — aberta, draft, não mergeable.
 
 ## Achado crítico corrigido — P1: identidade da conta ausente
@@ -22,6 +22,7 @@ A revisão independente encontrou um risco real de isolamento entre contas. O en
 2. **`src/App.tsx`**
    - O perfil recebido em `/api/auth/me` recebe obrigatoriamente `login: account.login`, depois da mesclagem dos dados pendentes.
    - O perfil offline recebe `login: localAccount.login`.
+   - O cadastro e o reenvio de campos pendentes também incluem o login de origem no perfil enviado.
    - O onboarding persiste e ativa um perfil com o login externo da conta.
    - A fila de perfil pendente usa a identidade do perfil ativo e confirma que ela ainda corresponde à sessão.
    - O cache local só grava quando identidade ativa e identidade do perfil existem e coincidem; não rotula mais um perfil sem login com a conta atual.
@@ -35,11 +36,11 @@ A revisão independente encontrou um risco real de isolamento entre contas. O en
 4. **`server.ts`**
    - `/api/user/sync` compara `accountLogin` com o usuário autenticado pelo cookie.
    - Ausência ou divergência retorna 403 `ACCOUNT_SESSION_MISMATCH`.
-   - Se o perfil trouxer um login diferente do usuário autenticado, a API também rejeita a gravação.
+   - Se o perfil trouxer login ausente ou divergente do usuário autenticado, a API rejeita a gravação.
    - O servidor grava o login autenticado no perfil persistido.
 
 5. **Testes**
-   - Acrescentados quatro cenários: ausência de identidade, divergência entre perfil e origem, envio de `accountLogin` e validação server-side.
+   - Acrescentados cinco cenários: ausência de identidade, perfil sem login mesmo com chave de aba, divergência entre perfil e origem, envio de `accountLogin` e validação server-side.
    - Atualizada a expectativa da fila serializada para confirmar que todos os retries carregam a mesma identidade de origem.
 
 ## Preservado
