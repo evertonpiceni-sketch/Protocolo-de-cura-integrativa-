@@ -352,3 +352,39 @@ test('o progresso do player Natural Sereno neutraliza o dourado amarelo legado d
   assert.ok(overrides.includes(':root[data-layout="natural-sereno"] #meditation-session .animate-pulse.rounded-full.bg-gradient-to-r'));
   assert.ok(overrides.includes('linear-gradient(90deg,rgba(168,126,55,.12),rgba(200,157,82,.42),rgba(168,126,55,.12)) !important'));
 });
+
+test('tokens de origem do Natural Sereno não recuperam verde profundo nem a cena da Reintegração', () => {
+  const theme = read('src/approved-theme.css');
+  const paletteStart = theme.indexOf(':root[data-layout="natural-sereno"]{');
+  const paletteEnd = theme.indexOf('\n}', paletteStart);
+  const palette = paletteStart >= 0 && paletteEnd > paletteStart ? theme.slice(paletteStart, paletteEnd) : '';
+  assert.ok(palette.includes('--layout-canvas:#FAF7F2;'));
+  assert.ok(palette.includes('--layout-accent:#6F7B55;'));
+  assert.ok(palette.includes('--layout-gold:#C89D52;'));
+  assert.ok(palette.includes('--layout-gold-light:#E2B96B;'));
+  assert.ok(palette.includes('--layout-text:#2A2421;'));
+  assert.doesNotMatch(palette, /#2D4A3E|#B38634|#202D24/);
+
+  const sceneStart = theme.indexOf(':root[data-layout="natural-sereno"]{', paletteEnd + 2);
+  const sceneEnd = theme.indexOf('\n}', sceneStart);
+  const scene = sceneStart >= 0 && sceneEnd > sceneStart ? theme.slice(sceneStart, sceneEnd) : '';
+  assert.ok(scene.includes('--ep-scene:var(--ns-valley);'));
+  assert.ok(scene.includes('--ep-panel-text:#2A2421;'));
+  assert.doesNotMatch(scene, /reintegracao-presenca-arte|rgba\(6,42,31|rgba\(5,35,26/);
+});
+
+test('Solfeggio do Arcanjo só começa no onStart da narração neural', () => {
+  const arcanjo = read('src/components/ArcanjoProtocolView.tsx');
+  const startIndex = arcanjo.indexOf('const start = () => {');
+  const toggleIndex = arcanjo.indexOf('const togglePlayback = () => {', startIndex);
+  const startBlock = startIndex >= 0 && toggleIndex > startIndex ? arcanjo.slice(startIndex, toggleIndex) : '';
+  const onStartIndex = startBlock.indexOf('onStart: () => {');
+  const onPauseIndex = startBlock.indexOf('onPause: () => {', onStartIndex);
+  const beforeNarration = onStartIndex >= 0 ? startBlock.slice(0, onStartIndex) : startBlock;
+  const onStart = onStartIndex >= 0 && onPauseIndex > onStartIndex ? startBlock.slice(onStartIndex, onPauseIndex) : '';
+  assert.ok(startBlock.includes('audioEngine.unlock();'));
+  assert.doesNotMatch(beforeNarration, /audioEngine\.startSynth\(/);
+  assert.ok(onStart.includes('audioEngine.startSynth(`' + '${config.freq}hz' + '`)'));
+  assert.ok(onStart.includes('setIsPlaying(true)'));
+  assert.ok(startBlock.includes('audioEngine.stopSynth();'));
+});
