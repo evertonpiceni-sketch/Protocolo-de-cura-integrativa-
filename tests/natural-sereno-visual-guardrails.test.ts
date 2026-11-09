@@ -40,3 +40,34 @@ test('player e Arcanjo usam superfícies claras, mantendo o verde apenas em acen
   assert.ok(overrides.includes('.ep-forest-panel {'));
   assert.ok(overrides.includes('background: linear-gradient(145deg,#FFFDF8 0%,#F5EFE5 100%) !important;'));
 });
+
+
+test('o player Natural Sereno usa um único canvas flexível, sem offsets ou chapas verdes legadas', () => {
+  const base = read('src/natural-sereno.css');
+  const finalAudit = read('src/natural-sereno-final-audit.css');
+  const overrides = read('src/natural-sereno-approved-overrides.css');
+
+  assert.match(base, /#meditation-session \{\s*color: #2A2421 !important;\s*background: linear-gradient\(180deg, rgba\(250,247,242,\.96\), rgba\(245,239,229,\.94\)\) !important;\s*overflow: hidden !important;/);
+  assert.doesNotMatch(base, /rgba\(4,\s*38,\s*26|rgba\(3,\s*35,\s*24|padding-left:\s*50%|#meditation-session\[data-session-phase="playing"\]::before/);
+  assert.match(finalAudit, /justify-content: space-between !important;/);
+  assert.match(finalAudit, /flex: 1 1 auto !important;/);
+  assert.match(overrides, /object-position: center 52%/);
+  assert.match(overrides, /opacity: \.56/);
+});
+
+test('ícones, números do dia e progresso usam superfícies claras e dourado, com sálvia só como acento', () => {
+  const base = read('src/natural-sereno.css');
+  assert.match(base, /\.ns-row-icon \{[\s\S]*?color: #6F7B55;[\s\S]*?background: #FBF8F2;/);
+  assert.match(base, /\.ns-day-number \{[\s\S]*?background: #B88736;[\s\S]*?color: #FFFDF8;/);
+  assert.ok(base.includes('progress::-webkit-progress-value { background: #C89D52; }'));
+  assert.ok(base.includes('progress::-moz-progress-bar { background: #C89D52; }'));
+  assert.match(base, /\.ns-profile-identity \{[^}]*color: var\(--ns-ink\)/);
+});
+
+test('o seletor só aplica um tema após escolha e confirmação explícitas', () => {
+  const modal = read('src/components/LayoutChoiceModal.tsx');
+  const app = read('src/App.tsx');
+  assert.match(modal, /useState<LayoutId \| null>\(null\)/);
+  assert.match(app, /const selected = layoutConfirmedThisSession \? OFFICIAL_LAYOUTS\.find/);
+  assert.match(app, /setLayoutConfirmedThisSession\(true\)/);
+});
