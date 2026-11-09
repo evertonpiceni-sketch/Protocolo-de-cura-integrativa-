@@ -35,14 +35,16 @@ test('auth prestyle stays neutral until the user explicitly confirms a layout', 
   );
 
   const approvedTheme = read('src/approved-theme.css');
-  assert.doesNotMatch(
-    approvedTheme,
-    /(^|\\n)#profile-setup-view\\s*\\{/,
+  assert.ok(
+    !approvedTheme.includes('#profile-setup-view{') && !approvedTheme.includes('#profile-setup-view {'),
     'The onboarding view must not override neutral tokens with a style-specific palette.'
   );
-  assert.match(
-    approvedTheme,
-    /:root:not\\(\\[data-layout\\]\\)\\s*\\{[\\s\\S]*?--layout-accent:#85847B;[\\s\\S]*?--layout-gold:#A99B84;/,
+  const neutralRootStart = approvedTheme.indexOf(':root:not([data-layout]){');
+  const neutralRootEnd = approvedTheme.indexOf('\\n}', neutralRootStart);
+  assert.ok(neutralRootStart >= 0 && neutralRootEnd > neutralRootStart, 'The neutral root token block must exist.');
+  const neutralRoot = approvedTheme.slice(neutralRootStart, neutralRootEnd);
+  assert.ok(
+    neutralRoot.includes('--layout-accent:#85847B;') && neutralRoot.includes('--layout-gold:#A99B84;'),
     'The preselection state must inherit the dedicated neutral palette.'
   );
 
