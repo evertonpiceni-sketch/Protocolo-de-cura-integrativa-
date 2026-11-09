@@ -29,3 +29,17 @@ test('seletor começa sem estilo marcado e só aplica após confirmação explí
   assert.match(modal, /if \(!selectedLayout \|\| isSaving\) return;/);
   assert.match(modal, /onClick=\{confirmSelection\}/);
 });
+
+test('Natural Sereno usa o dourado aprovado nos seletores inicial e de aparência', () => {
+  const modal = read('src/components/LayoutChoiceModal.tsx');
+  const app = read('src/App.tsx');
+
+  assert.ok(modal.includes("const isNaturalSerenoCard = layout.id === 'natural-sereno';"));
+  assert.ok(modal.includes("'border-[#C89D52] ring-2 ring-[#C89D52]/20 shadow-lg'"));
+  assert.ok(modal.includes("'focus-visible:ring-[#C89D52]/35'"));
+  assert.ok(modal.includes("focus-visible:ring-[#C89D52]/40"));
+
+  assert.ok(app.includes("const isNaturalSerenoChoice = layout.id === 'natural-sereno';"));
+  assert.ok(app.includes("'border-[#C89D52] bg-[#C89D52]/8 shadow-sm'"));
+  assert.ok(app.includes("'focus-visible:ring-[#C89D52]/35'"));
+});
