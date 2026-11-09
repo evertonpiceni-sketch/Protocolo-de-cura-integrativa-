@@ -37,7 +37,7 @@ html[data-layout="mistico-moderno"] #daily-diary-modal [class*="text-[#B88736]"]
   color: #d8b56a !important;
 }
 
-html[data-layout="mistico-moderno"] #daily-diary-modal [class*="bg-[#B88736]"] {
+html[data-layout="mistico-moderno"] #daily-diary-modal button[class*="bg-[#B88736]"] {
   background: linear-gradient(135deg, #b88a3c, #d2a85b) !important;
   color: #0c112b !important;
   box-shadow: 0 10px 28px rgba(190, 145, 62, 0.18) !important;
@@ -61,4 +61,64 @@ html[data-layout="mistico-moderno"] #daily-diary-modal textarea:focus-visible,
 html[data-layout="mistico-moderno"] #daily-diary-modal input:focus-visible {
   outline: 2px solid rgba(216, 181, 106, 0.72) !important;
   outline-offset: 2px;
+}
+
+
+/* Estados semânticos do Diário: esmeralda profundo, âmbar e violeta
+   permanecem acentos do Místico Moderno; não usar pastéis legados. */
+html[data-layout="mistico-moderno"] #daily-diary-modal [class~="bg-emerald-50"] {
+  background: rgba(30, 107, 90, .22) !important;
+}
+html[data-layout="mistico-moderno"] #daily-diary-modal [class~="border-emerald-200"] {
+  border-color: rgba(73, 190, 158, .34) !important;
+}
+html[data-layout="mistico-moderno"] #daily-diary-modal [class~="text-emerald-700"],
+html[data-layout="mistico-moderno"] #daily-diary-modal [class~="text-emerald-400"] {
+  color: #A9E2CF !important;
+}
+html[data-layout="mistico-moderno"] #daily-diary-modal [class~="bg-emerald-400"] {
+  background-color: #49BE9E !important;
+  box-shadow: 0 0 0 2px rgba(73, 190, 158, .16) !important;
+}
+
+html[data-layout="mistico-moderno"] #daily-diary-modal [class~="bg-amber-50"] {
+  background: rgba(212, 175, 55, .10) !important;
+}
+html[data-layout="mistico-moderno"] #daily-diary-modal [class~="border-amber-200"] {
+  border-color: rgba(212, 175, 55, .32) !important;
+}
+html[data-layout="mistico-moderno"] #daily-diary-modal [class~="text-amber-300"],
+html[data-layout="mistico-moderno"] #daily-diary-modal [class~="text-amber-400"],
+html[data-layout="mistico-moderno"] #daily-diary-modal [class~="text-amber-700"] {
+  color: #E2B96B !important;
+}
+html[data-layout="mistico-moderno"] #daily-diary-modal [class~="bg-amber-500/10"] {
+  background-color: rgba(212, 175, 55, .08) !important;
+}
+
+html[data-layout="mistico-moderno"] #daily-diary-modal [class~="border-purple-500/20"] {
+  border-color: rgba(108, 63, 160, .36) !important;
+}
+html[data-layout="mistico-moderno"] #daily-diary-modal [class~="text-purple-400"] {
+  color: #C7A6ED !important;
+}
+
+/* Badges translúcidos ficam discretos; somente CTAs recebem o gradiente dourado. */
+html[data-layout="mistico-moderno"] #daily-diary-modal [class*="bg-[#B88736]/"] {
+  background: rgba(212, 175, 55, .12) !important;
+  color: #E2B96B !important;
+  box-shadow: none !important;
+}
+html[data-layout="mistico-moderno"] #daily-diary-modal [class*="border-[#B88736]"] {
+  border-color: rgba(212, 175, 55, .30) !important;
+}
+html[data-layout="mistico-moderno"] #daily-diary-modal button[class~="hover:bg-slate-700"]:hover {
+  background: rgba(108, 63, 160, .22) !important;
+  color: #F4F1EB !important;
+}
+html[data-layout="mistico-moderno"] #daily-diary-modal textarea:focus {
+  border-color: rgba(212, 175, 55, .58) !important;
+  outline: 2px solid rgba(212, 175, 55, .20) !important;
+  outline-offset: 2px;
+  box-shadow: 0 0 0 2px rgba(212, 175, 55, .12) !important;
 }

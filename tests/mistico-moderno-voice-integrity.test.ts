@@ -334,3 +334,33 @@ test('Místico Moderno keeps Arcanjo progress markers in the night palette', () 
   assert.match(css, /button\[data-completed="true"\][\s\S]*?background: #6C3FA0/);
   assert.match(css, /button\[data-current="true"\][\s\S]*?background: #D4AF37/);
 });
+
+
+test('Místico Moderno mantém as duas superfícies do Diário na paleta noturna sem gradiente dourado em badges', () => {
+  const css = read('src/mistico-moderno-daily-diary-audit.css');
+  const main = read('src/main.tsx');
+  const diary = read('src/components/DailyDiaryModal.tsx');
+
+  assert.match(main, /import '\.\/mistico-moderno-daily-diary-audit\.css';/);
+  assert.match(main, /import '\.\/mistico-moderno-journal-audit\.css';/);
+  assert.match(diary, /id="daily-diary-modal"/);
+
+  for (const selector of [
+    'html[data-layout="mistico-moderno"] #daily-diary-modal [class~="bg-emerald-50"]',
+    'html[data-layout="mistico-moderno"] #daily-diary-modal [class~="border-emerald-200"]',
+    'html[data-layout="mistico-moderno"] #daily-diary-modal [class~="text-emerald-700"]',
+    'html[data-layout="mistico-moderno"] #daily-diary-modal [class~="bg-amber-50"]',
+    'html[data-layout="mistico-moderno"] #daily-diary-modal [class~="border-amber-200"]',
+    'html[data-layout="mistico-moderno"] #daily-diary-modal [class~="text-amber-700"]',
+    'html[data-layout="mistico-moderno"] #daily-diary-modal [class~="border-purple-500/20"]',
+    'html[data-layout="mistico-moderno"] #daily-diary-modal [class~="text-purple-400"]',
+    'html[data-layout="mistico-moderno"] #daily-diary-modal button[class~="hover:bg-slate-700"]:hover',
+    'html[data-layout="mistico-moderno"] #daily-diary-modal textarea:focus'
+  ]) {
+    assert.ok(css.includes(selector), 'Missing scoped Diário treatment: ' + selector);
+  }
+
+  assert.ok(css.includes('button[class*="bg-[#B88736]"]'), 'Gold gradient must be limited to CTA buttons.');
+  assert.ok(css.includes('#daily-diary-modal [class*="bg-[#B88736]/"]'), 'Translucent gold badges must use a subtle surface.');
+  assert.ok(!css.includes('#daily-diary-modal [class*="bg-[#B88736]"] {'), 'Broad gold selector would overpaint non-button badges.');
+});
