@@ -69,7 +69,7 @@ A suíte e o build geraram apenas o aviso não bloqueante de chunk JavaScript ac
 - **Vercel Preview:** sem preview READY; capturas renderizadas página a página em desktop/mobile continuam pendentes.
 - Escuta real da voz, Solfeggio e ambiência permanece pendente.
 - Checkout, confirmação e webhook InfinitePay em sandbox permanecem pendentes.
-- A revisão independente do novo HEAD foi solicitada, mas o Codex informou limite de uso para revisões. O apontamento P1 continua aberto até parecer independente verificável.
+- A resposta técnica ao apontamento P1 foi publicada na própria thread e a thread foi resolvida após a correção e as evidências de teste/runtime. O Codex informou limite de uso para uma segunda revisão automatizada; por isso não há parecer independente novo do HEAD final.
 - A branch está **149 commits à frente e 20 atrás** da `main`. Não fiz merge automático: a reconciliação precisa preservar as decisões posteriores dos Estilos 2/3/4 e não reintroduzir tokens antigos do Natural Sereno.
 
 **Sem merge, publicação em produção ou cobrança real.**
