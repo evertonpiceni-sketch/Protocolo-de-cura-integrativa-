@@ -118,3 +118,91 @@ test('active profile, progress, onboarding and Natural Sereno journey paths use 
   assert.match(journey, /syncUserState\(\{ profile, progress \}\)/);
   assert.doesNotMatch(journey, /fetch\(['"]\/api\/user\/sync/);
 });
+
+
+test('user sync cancels a retry when the authenticated account changes', async () => {
+  let currentAccount = 'account-a';
+  let calls = 0;
+  let releaseWait!: () => void;
+  let markStarted!: () => void;
+  const waitGate = new Promise<void>(resolve => { releaseWait = resolve; });
+  const started = new Promise<void>(resolve => { markStarted = resolve; });
+
+  const request = syncUserState(
+    { profile: { privateDiaryOwner: 'account-a' } },
+    {
+      accountKey: 'account-a',
+      getCurrentAccountKey: () => currentAccount,
+      maxAttempts: 3,
+      wait: () => waitGate,
+      fetcher: async () => {
+        calls += 1;
+        markStarted();
+        return new Response('{"error":"busy"}', { status: 503 });
+      },
+    },
+  );
+
+  await started;
+  currentAccount = 'account-b';
+  releaseWait();
+
+  await assert.rejects(request, /active account changed/);
+  assert.equal(calls, 1, 'the old account payload must not be retried with the new account cookie');
+});
+
+test('user sync serializes writes per account so a newer progress snapshot wins after an older retry', async () => {
+  const currentAccount = 'account-sequenced';
+  let calls = 0;
+  let releaseWait!: () => void;
+  let markFirstStarted!: () => void;
+  const waitGate = new Promise<void>(resolve => { releaseWait = resolve; });
+  const firstStarted = new Promise<void>(resolve => { markFirstStarted = resolve; });
+  const sentPayloads: unknown[] = [];
+
+  const fetcher: typeof fetch = async (_input, init) => {
+    calls += 1;
+    sentPayloads.push(JSON.parse(String(init?.body || '{}')));
+    if (calls === 1) {
+      markFirstStarted();
+      return new Response('{"error":"busy"}', { status: 503 });
+    }
+    return new Response('{"success":true}', { status: 200 });
+  };
+
+  const first = syncUserState(
+    { progress: [{ dayNumber: 1, completed: true }] },
+    {
+      accountKey: currentAccount,
+      getCurrentAccountKey: () => currentAccount,
+      maxAttempts: 2,
+      wait: () => waitGate,
+      fetcher,
+    },
+  );
+
+  await firstStarted;
+  const second = syncUserState(
+    { progress: [{ dayNumber: 2, completed: true }] },
+    {
+      accountKey: currentAccount,
+      getCurrentAccountKey: () => currentAccount,
+      maxAttempts: 1,
+      wait: async () => undefined,
+      fetcher,
+    },
+  );
+
+  assert.equal(calls, 1, 'the second write waits while the first account write is retrying');
+  releaseWait();
+  await Promise.all([first, second]);
+
+  assert.deepEqual(
+    sentPayloads,
+    [
+      { progress: [{ dayNumber: 1, completed: true }] },
+      { progress: [{ dayNumber: 1, completed: true }] },
+      { progress: [{ dayNumber: 2, completed: true }] },
+    ],
+  );
+});
