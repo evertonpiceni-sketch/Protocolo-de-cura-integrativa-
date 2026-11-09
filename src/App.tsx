@@ -1939,7 +1939,7 @@ export default function App() {
             onStartSession={setActiveSessionDay}
             onOpenJournal={() => setIsJournalOpen(true)}
             onOpenAnamnesis={() => setShowAnamnesisModal(true)}
-            onOpenArcanjo={() => userProfile.plan === 'pro' ? setShowArcanjoView(true) : setShowProModal(true)}
+            onOpenArcanjo={() => (userProfile.plan === 'pro' || userProfile.subscriptionPlan === 'arcanjo_7d') ? setShowArcanjoView(true) : setShowProModal(true)}
             onOpenChakras={() => setShowChakrasModal(true)}
             onOpenBaths={() => setShowHerbalBathsModal(true)}
             onOpenAstral={() => setShowAstralMapModal(true)}
