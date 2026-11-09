@@ -25,7 +25,7 @@
 :root[data-layout="essencia-luminosa"] .ep-brand-signature,
 :root[data-layout="essencia-luminosa"] img[src*="logo" i],
 :root[data-layout="essencia-luminosa"] img[alt*="logo" i]{opacity:.30!important;filter:saturate(.86) contrast(.96);border-color:transparent!important;}
-:root[data-layout="essencia-luminosa"] .ep-brand-signature-wrap{background:transparent!important;border-color:transparent!important;box-shadow:none!important;}
+:root[data-layout="essencia-luminosa"] .ep-brand-signature-wrap{opacity:1!important;background:transparent!important;border-color:transparent!important;box-shadow:none!important;}
 
 :root[data-layout="essencia-luminosa"] #main-header{background:color-mix(in srgb,var(--layout-canvas) 92%,transparent)!important;border-color:var(--layout-border-card)!important;}
 :root[data-layout="essencia-luminosa"] #main-header .ep-brand-signature{box-shadow:none!important;}
