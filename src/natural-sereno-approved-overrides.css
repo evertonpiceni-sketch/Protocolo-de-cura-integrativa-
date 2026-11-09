@@ -839,12 +839,12 @@
 
 /* RUN 114 — player Natural Sereno: paisagem real e microanimação corporal neutra. */
 :root[data-layout="natural-sereno"] #meditation-session .ep-session-natural-sereno-scene {
-  opacity: .38;
+  opacity: .52;
   object-position: center 16%;
   filter: saturate(.88) contrast(.96);
 }
 :root[data-layout="natural-sereno"] #meditation-session .ep-session-natural-sereno-overlay {
-  background: linear-gradient(180deg,rgba(250,247,242,.72) 0%,rgba(250,247,242,.56) 44%,rgba(250,247,242,.91) 100%) !important;
+  background: linear-gradient(180deg,rgba(250,247,242,.64) 0%,rgba(250,247,242,.46) 44%,rgba(250,247,242,.86) 100%) !important;
 }
 :root[data-layout="natural-sereno"] #meditation-session .ep-session-neutral-visual {
   opacity: .94;
@@ -854,7 +854,7 @@
 }
 @media (max-width: 640px) {
   :root[data-layout="natural-sereno"] #meditation-session .ep-session-natural-sereno-scene {
-    opacity: .32;
+    opacity: .46;
     object-position: center 52%;
   }
   :root[data-layout="natural-sereno"] #meditation-session .ep-neutral-body-progress--canvas {
@@ -863,7 +863,7 @@
 }
 @media (min-width: 641px) {
   :root[data-layout="natural-sereno"] #meditation-session .ep-session-natural-sereno-scene {
-    opacity: .42;
+    opacity: .56;
     object-position: center 16%;
   }
 }
