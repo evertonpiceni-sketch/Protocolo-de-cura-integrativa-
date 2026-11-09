@@ -1,4 +1,6 @@
 import { setStableText } from './stableDomText';
+import { getCurrentAccountLogin, normalizeAccountLogin } from './authSession';
+import { syncUserState } from './userSync';
 
 const HOME_FLOW_STYLE_ID = 'ep-natural-sereno-home-flow-state-fix';
 const CURRENT_LOGIN_KEY = 'cura_integrada_logged_in_user_v1';
@@ -8,6 +10,7 @@ type HomeJourneyState = {
   selectedJourney?: string;
   selectedProtocolId?: string;
   subscriptionPlan?: string;
+  subscriptionExpiresAt?: string;
   startedAt?: string;
   profile?: Record<string, unknown>;
   progress?: unknown[];
@@ -15,6 +18,7 @@ type HomeJourneyState = {
 
 let remoteState: HomeJourneyState | null = null;
 let remoteStateRequested = false;
+let expiryRefreshTimer: number | null = null;
 let bypassNextProtocolClick = false;
 
 function textOf(element: Element | null) {
@@ -166,8 +170,9 @@ function readLocalState(): HomeJourneyState {
     selectedJourney: account?.profile?.selectedJourney,
     selectedProtocolId: account?.profile?.selectedProtocolId,
     subscriptionPlan: account?.profile?.subscriptionPlan,
+    subscriptionExpiresAt: account?.profile?.subscriptionExpiresAt,
     startedAt: account?.profile?.startedAt,
-    profile: account?.profile,
+    profile: account?.profile ? { ...account.profile, login: account.login } : undefined,
     progress: account?.progress,
   };
 }
@@ -179,16 +184,21 @@ function requestRemoteState(force = false) {
     .then(response => response.ok ? response.json() : null)
     .then(data => {
       const profile = data?.user?.profile;
-      if (profile) {
+      const login = normalizeAccountLogin(data?.user?.login);
+      if (profile && login && getCurrentAccountLogin() === login) {
+        const profileWithLogin = { ...profile, login };
         remoteState = {
-          selectedJourney: profile.selectedJourney,
-          selectedProtocolId: profile.selectedProtocolId,
-          subscriptionPlan: profile.subscriptionPlan,
-          startedAt: profile.startedAt,
-          profile,
+          selectedJourney: profileWithLogin.selectedJourney,
+          selectedProtocolId: profileWithLogin.selectedProtocolId,
+          subscriptionPlan: profileWithLogin.subscriptionPlan,
+          subscriptionExpiresAt: profileWithLogin.subscriptionExpiresAt,
+          startedAt: profileWithLogin.startedAt,
+          profile: profileWithLogin,
           progress: data?.user?.progress || [],
         };
         queueApply();
+      } else {
+        remoteState = null;
       }
     })
     .catch(() => undefined);
@@ -198,14 +208,37 @@ function getJourneyState(): HomeJourneyState {
   return remoteState || readLocalState();
 }
 
+function scheduleExpiryRefresh(state: HomeJourneyState) {
+  if (expiryRefreshTimer !== null) {
+    window.clearTimeout(expiryRefreshTimer);
+    expiryRefreshTimer = null;
+  }
+
+  if (typeof window === 'undefined' || !state.subscriptionExpiresAt) return;
+  const expiresAt = Date.parse(state.subscriptionExpiresAt);
+  if (!Number.isFinite(expiresAt) || expiresAt <= Date.now()) return;
+
+  // Recheck at most every 24.8 days so long plans also refresh before expiry.
+  const delay = Math.min(expiresAt - Date.now() + 50, 2_147_000_000);
+  expiryRefreshTimer = window.setTimeout(() => {
+    expiryRefreshTimer = null;
+    remoteStateRequested = false;
+    requestRemoteState(true);
+    queueApply();
+  }, delay);
+}
+
 function hasExplicitJourney(state: HomeJourneyState) {
   const validDuration = state.selectedJourney === '7d' || state.selectedJourney === '21d';
   return Boolean(state.selectedProtocolId && validDuration);
 }
 
-function hasCommercialAccess(state: HomeJourneyState) {
-  if (!state.subscriptionPlan) return false;
-  return state.subscriptionPlan !== 'teste_vip_7d';
+export function hasCommercialAccess(state: HomeJourneyState, now = Date.now()) {
+  if (!state.subscriptionPlan || state.subscriptionPlan === 'teste_vip_7d') return false;
+  // Preserve legacy/admin grants without an expiry; enforce every explicit expiry.
+  if (!state.subscriptionExpiresAt) return true;
+  const expiresAt = Date.parse(state.subscriptionExpiresAt);
+  return Number.isFinite(expiresAt) && expiresAt > now;
 }
 
 function isWithinFreeDay(state: HomeJourneyState) {
@@ -226,54 +259,56 @@ function findPlanTrigger(): HTMLButtonElement | null {
   return null;
 }
 
-function updateLocalProtocol(protocolId: string, duration: '7d' | '21d') {
+function updateLocalProtocol(protocolId: string, duration: '7d' | '21d', expectedLogin: string): boolean {
   try {
-    const login = localStorage.getItem(CURRENT_LOGIN_KEY);
+    const login = normalizeAccountLogin(getCurrentAccountLogin());
+    if (!expectedLogin || !login || login !== expectedLogin) return false;
     const raw = localStorage.getItem(ACCOUNTS_KEY);
-    if (!login || !raw) return;
+    if (!raw) return false;
     const accounts = JSON.parse(raw);
-    if (!Array.isArray(accounts)) return;
+    if (!Array.isArray(accounts)) return false;
     const index = accounts.findIndex((item: any) => item?.login === login || item?.profile?.login === login);
-    if (index < 0) return;
+    if (index < 0) return false;
     accounts[index] = {
       ...accounts[index],
       profile: {
         ...accounts[index].profile,
+        login,
         selectedProtocolId: protocolId,
         selectedJourney: duration,
       },
     };
     localStorage.setItem(ACCOUNTS_KEY, JSON.stringify(accounts));
+    return true;
   } catch {
     // Local cache is only a resilience layer; remote sync remains authoritative when available.
+    return false;
   }
 }
 
-async function persistProtocolChoice(protocolId: string, duration: '7d' | '21d') {
+async function persistProtocolChoice(protocolId: string, duration: '7d' | '21d'): Promise<boolean> {
   const state = getJourneyState();
+  if (!hasCommercialAccess(state)) return false;
   const baseProfile = state.profile || readLocalState().profile;
-  const progress = state.progress || readLocalState().progress || [];
-  if (!baseProfile) {
-    updateLocalProtocol(protocolId, duration);
-    remoteState = { ...state, selectedProtocolId: protocolId, selectedJourney: duration };
-    return;
-  }
+  const accountLogin = normalizeAccountLogin(
+    typeof baseProfile?.login === 'string' ? baseProfile.login : null,
+  );
+  if (!baseProfile || !accountLogin || getCurrentAccountLogin() !== accountLogin) return false;
 
-  const profile = { ...baseProfile, selectedProtocolId: protocolId, selectedJourney: duration };
-  updateLocalProtocol(protocolId, duration);
-  remoteState = { ...state, profile, progress, selectedProtocolId: protocolId, selectedJourney: duration };
+  const progress = state.progress || readLocalState().progress || [];
+  const profile = { ...baseProfile, login: accountLogin, selectedProtocolId: protocolId, selectedJourney: duration };
 
   try {
-    const response = await fetch('/api/user/sync', {
-      method: 'POST',
-      credentials: 'same-origin',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ profile, progress }),
-    });
-    if (!response.ok) throw new Error('Falha ao sincronizar escolha');
+    await syncUserState({ profile, progress }, { accountKey: accountLogin });
   } catch {
-    // The local choice remains available offline and will be reconciled by the normal profile sync.
+    // Keep the offline fallback only while the originating account is still active.
+    if (getCurrentAccountLogin() !== accountLogin) return false;
   }
+
+  if (getCurrentAccountLogin() !== accountLogin) return false;
+  if (!updateLocalProtocol(protocolId, duration, accountLogin)) return false;
+  remoteState = { ...state, profile, progress, selectedProtocolId: protocolId, selectedJourney: duration };
+  return true;
 }
 
 function setGatedControls(root: HTMLElement, activeJourney: boolean) {
@@ -345,7 +380,8 @@ function ensureProtocolChoice(root: HTMLElement, recommendationRow: HTMLElement 
       const duration = button.dataset.epSelectDuration as '7d' | '21d' | undefined;
       if (!protocolId || !duration) return;
       button.disabled = true;
-      await persistProtocolChoice(protocolId, duration);
+      const saved = await persistProtocolChoice(protocolId, duration);
+      if (!saved) return;
       queueApply();
       openSelectedProtocol(protocolId);
     }, { once: true });
@@ -406,13 +442,14 @@ function installProtocolCapture() {
     }
 
     const state = getJourneyState();
-    const activeJourney = hasExplicitJourney(state);
+    const hasAccess = hasCommercialAccess(state);
+    const activeJourney = hasAccess && hasExplicitJourney(state);
     if (activeJourney) return;
 
     event.preventDefault();
     event.stopPropagation();
 
-    if (!hasCommercialAccess(state)) {
+    if (!hasAccess) {
       findPlanTrigger()?.click();
       return;
     }
@@ -420,7 +457,8 @@ function installProtocolCapture() {
     const protocolId = target.dataset.epProtocolId;
     const duration = target.dataset.epProtocolDuration as '7d' | '21d' | undefined;
     if (!protocolId || !duration) return;
-    void persistProtocolChoice(protocolId, duration).then(() => {
+    void persistProtocolChoice(protocolId, duration).then(saved => {
+      if (!saved) return;
       queueApply();
       bypassNextProtocolClick = true;
       target.click();
@@ -439,6 +477,7 @@ function applyFlowState() {
     .find(card => textOf(card.querySelector('h2')).includes('Como você está de verdade'));
   const hasAnamnesis = !anamnesisCard;
   const journeyState = getJourneyState();
+  scheduleExpiryRefresh(journeyState);
   const hasAccess = hasCommercialAccess(journeyState);
   const activeJourney = hasAnamnesis && hasAccess && hasExplicitJourney(journeyState);
   const needsProtocol = hasAnamnesis && hasAccess && !activeJourney;

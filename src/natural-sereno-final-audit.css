@@ -16,10 +16,14 @@
 
 /* Protocol player: remove inherited split/offset composition and keep one balanced canvas. */
 :root[data-layout="natural-sereno"] #meditation-session.ep-session {
-  background: linear-gradient(180deg, rgba(250,247,242,.96), rgba(245,239,229,.94));
-  color: var(--ns-final-coffee);
-  min-height: 100dvh;
-  height: 100dvh;
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: space-between !important;
+  background: linear-gradient(180deg, rgba(250,247,242,.96), rgba(245,239,229,.94)) !important;
+  color: var(--ns-final-coffee) !important;
+  min-height: 100dvh !important;
+  height: 100dvh !important;
+  overflow: hidden !important;
 }
 
 :root[data-layout="natural-sereno"] #meditation-session .ep-session-backdrop {
@@ -32,7 +36,7 @@
 
 :root[data-layout="natural-sereno"] #meditation-session > header {
   width: 100%;
-  flex: 0 0 auto;
+  flex: 0 0 auto !important;
   background: rgba(250,247,242,.88) !important;
   border-color: rgba(200,157,82,.20) !important;
 }
@@ -40,6 +44,7 @@
 :root[data-layout="natural-sereno"] #meditation-session main {
   width: min(100%, 920px) !important;
   max-width: 920px !important;
+  flex: 1 1 auto !important;
   min-height: 0 !important;
   margin-inline: auto !important;
   padding-inline: clamp(20px, 5vw, 64px) !important;
@@ -83,7 +88,7 @@
 :root[data-layout="natural-sereno"] #meditation-session footer {
   width: min(100%, 760px) !important;
   max-width: 760px !important;
-  flex: 0 0 auto;
+  flex: 0 0 auto !important;
   margin-inline: auto !important;
   background: rgba(250,247,242,.92) !important;
   border-color: rgba(200,157,82,.22) !important;

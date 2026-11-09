@@ -4,6 +4,13 @@
 
 /* Logo oficial: assinatura visual discreta; nunca elemento dominante. */
 :root[data-layout="natural-sereno"] #main-header .ep-brand-signature { opacity:.30!important; filter:none!important; object-fit:contain!important; border-color:transparent!important; }
+
+/* O logo do acolhimento é assinatura, não selo: remover o disco branco e a moldura legados. */
+:root[data-layout="natural-sereno"] .ep-care-onboarding-card .ep-brand-signature-wrap {
+  background:transparent!important;
+  border:0!important;
+  box-shadow:none!important;
+}
 :root[data-layout="natural-sereno"] #main-header .ep-brand-signature:is(img) { max-width:100%; max-height:100%; }
 :root[data-layout="natural-sereno"] #main-header .border-indigo-500\/40 { border-color:rgba(184,135,54,.24)!important; background:rgba(251,248,242,.92)!important; box-shadow:0 6px 16px rgba(67,52,39,.06)!important; }
 
@@ -62,7 +69,7 @@
 :root[data-layout="natural-sereno"] #bottom-action-dock #bottom-btn-journal { background:rgba(200,157,82,.16)!important; color:#6B4E2E!important; }
 
 /* Floating contact */
-:root[data-layout="natural-sereno"] #floating-whatsapp-btn { background:rgba(251,248,242,.96)!important; color:#5C5248!important; border-color:rgba(184,135,54,.34)!important; box-shadow:0 12px 28px rgba(67,52,39,.12)!important; }
+:root[data-layout="natural-sereno"] #floating-whatsapp-btn { background:rgba(251,248,242,.96)!important; color:#5C5248!important; border-color:rgba(184,135,54,.34)!important; box-shadow:0 12px 28px rgba(67,52,39,.12)!important; border-radius:18px!important; }
 :root[data-layout="natural-sereno"] #floating-whatsapp-btn:hover { background:#F5EFE4!important; color:#2A2421!important; border-color:rgba(184,135,54,.48)!important; }
 :root[data-layout="natural-sereno"] #floating-whatsapp-btn svg { color:#6F7B55!important; }
 
@@ -452,4 +459,474 @@
 }
 :root[data-layout="natural-sereno"] .ep-app-toast svg {
   color: #C89D52 !important;
+}
+
+
+/* RUN 96 — Primary Natural Sereno actions: refined gold, coffee text and
+   premium 18px corners. Prevent the retired yellow pill treatment from returning. */
+:root[data-layout="natural-sereno"] .ns-app .ns-gold {
+  border: 1px solid rgba(168,126,55,.58) !important;
+  border-radius: 18px !important;
+  background: linear-gradient(180deg,#E2B96B 0%,#C89D52 100%) !important;
+  color: #2A2421 !important;
+  box-shadow: 0 9px 20px rgba(67,52,39,.10) !important;
+  text-shadow: none !important;
+}
+:root[data-layout="natural-sereno"] .ns-app .ns-gold:hover:not(:disabled) {
+  background: linear-gradient(180deg,#E8C47D 0%,#A87E37 100%) !important;
+}
+
+/* RUN 98 — pequenos ícones de Mapa Astral e Numerologia usam sálvia suave,
+   não blocos verde-floresta herdados dos componentes compartilhados. */
+:root[data-layout="natural-sereno"] #astral-map-modal [class~="bg-[#073b2b]"],
+:root[data-layout="natural-sereno"] #numerology-modal [class~="bg-[#073b2b]"] {
+  background: rgba(111,123,85,.12) !important;
+  color: #6F7B55 !important;
+  border-color: rgba(200,157,82,.34) !important;
+  box-shadow: 0 6px 16px rgba(67,52,39,.06) !important;
+}
+
+
+/* RUN 98 — assinatura oficial discreta também no acolhimento.
+   Corrige a regra legada mais específica sem alterar o wrapper transparente. */
+:root[data-layout="natural-sereno"] .ep-care-onboarding-card .ep-brand-signature {
+  opacity:.30!important;
+  mix-blend-mode:normal!important;
+  filter:none!important;
+}
+@media (max-width:640px) {
+  :root[data-layout="natural-sereno"] .ep-care-onboarding-card .ep-brand-signature {
+    opacity:.26!important;
+  }
+}
+
+
+/* RUN 104 — assinatura oficial em todas as superfícies do Natural Sereno.
+   A marca compõe a cena; não compete com fotografia, mensagem ou conteúdo. */
+:root[data-layout="natural-sereno"] :is(.approved-brand,[data-approved-brand],.ep-brand-signature,.ns-welcome-brand) {
+  opacity:.30!important;
+  filter:none!important;
+  mix-blend-mode:normal!important;
+  object-fit:contain!important;
+}
+:root[data-layout="natural-sereno"] #auth-loading-view .ep-brand-signature-wrap {
+  opacity:1!important;
+  background:transparent!important;
+  border:0!important;
+  box-shadow:none!important;
+}
+@media(max-width:640px) {
+  :root[data-layout="natural-sereno"] :is(.approved-brand,[data-approved-brand],.ep-brand-signature,.ns-welcome-brand) {
+    opacity:.26!important;
+  }
+}
+
+
+/* RUN 105 — a folha-base declara #auth-loading-view img com ID e !important.
+   Repetir a mesma especificidade depois da folha-base garante a assinatura
+   discreta também no carregamento: 30% desktop e 26% mobile. */
+:root[data-layout="natural-sereno"] #auth-loading-view img {
+  opacity:.30!important;
+  mix-blend-mode:normal!important;
+  filter:none!important;
+}
+@media(max-width:640px) {
+  :root[data-layout="natural-sereno"] #auth-loading-view img {
+    opacity:.26!important;
+  }
+}
+
+
+/* RUN 105 — planos/checkout Natural Sereno.
+   O modal de pagamento é compartilhado; esta camada corrige apenas o tema 1,
+   sem tocar catálogo, preços, benefícios, InfinitePay ou comportamento. */
+:root[data-layout="natural-sereno"] #plans-modal {
+  background-color:rgba(42,36,33,.28)!important;
+}
+:root[data-layout="natural-sereno"] #plans-modal > div {
+  background:linear-gradient(180deg,#FAF7F2 0%,#F3EDE4 100%)!important;
+  color:#2A2421!important;
+}
+:root[data-layout="natural-sereno"] #plans-modal header {
+  background:rgba(250,247,242,.94)!important;
+  border-color:rgba(200,157,82,.30)!important;
+}
+:root[data-layout="natural-sereno"] #plans-modal :is(h1,h2,h3,h4) {
+  color:#2A2421!important;
+}
+:root[data-layout="natural-sereno"] #plans-modal :is([class*="bg-[#FFF9E8]"],[class*="bg-[#FFF6D9]"],[class*="bg-[#F7E5AA]"]) {
+  background:#FBF8F2!important;
+  background-image:none!important;
+}
+:root[data-layout="natural-sereno"] #plans-modal [class*="border-[#D8B867]"] {
+  border-color:rgba(200,157,82,.30)!important;
+}
+:root[data-layout="natural-sereno"] #plans-modal :is([class*="text-[#26372A]"],[class*="text-[#073B2B]"]) {
+  color:#2A2421!important;
+}
+:root[data-layout="natural-sereno"] #plans-modal :is([class*="text-[#5F6857]"],[class*="text-[#6A725F]"]) {
+  color:#5C5248!important;
+}
+:root[data-layout="natural-sereno"] #plans-modal [class*="text-[#2F6B50]"] {
+  color:#5E6948!important;
+}
+:root[data-layout="natural-sereno"] #plans-modal article {
+  background:linear-gradient(180deg,#FFFDF8 0%,#F5EFE4 100%)!important;
+  border-color:rgba(200,157,82,.30)!important;
+  box-shadow:0 10px 24px rgba(67,52,39,.08)!important;
+  color:#2A2421!important;
+}
+:root[data-layout="natural-sereno"] #plans-modal article[class*="from-[#FFF6D9]"] {
+  background:linear-gradient(180deg,#FBF8F2 0%,#F1E7D7 100%)!important;
+}
+:root[data-layout="natural-sereno"] #plans-modal article [class*="bg-[#073B2B]"] {
+  background:linear-gradient(180deg,#E2B96B,#C89D52)!important;
+  color:#2A2421!important;
+}
+:root[data-layout="natural-sereno"] #plans-modal article strong {
+  color:#2A2421!important;
+}
+:root[data-layout="natural-sereno"] #plans-modal article li svg {
+  color:#6F7B55!important;
+}
+:root[data-layout="natural-sereno"] #plans-modal article button:last-child,
+:root[data-layout="natural-sereno"] #plans-modal button[class*="bg-[#073B2B]"] {
+  min-height:44px;
+  border:1px solid #A87E37!important;
+  border-radius:18px!important;
+  background:linear-gradient(180deg,#E2B96B 0%,#C89D52 100%)!important;
+  color:#2A2421!important;
+  box-shadow:0 7px 16px rgba(67,52,39,.09)!important;
+}
+:root[data-layout="natural-sereno"] #plans-modal article button:last-child:hover,
+:root[data-layout="natural-sereno"] #plans-modal button[class*="bg-[#073B2B]"]:hover {
+  background:linear-gradient(180deg,#E8C47D 0%,#A87E37 100%)!important;
+}
+:root[data-layout="natural-sereno"] #plans-modal #checkout-planos {
+  background:#FFFDF8!important;
+  border-color:rgba(200,157,82,.34)!important;
+  box-shadow:0 12px 28px rgba(67,52,39,.08)!important;
+}
+:root[data-layout="natural-sereno"] #plans-modal #checkout-planos [class*="bg-[#FFF9E8]"] {
+  background:#FBF8F2!important;
+}
+:root[data-layout="natural-sereno"] #plans-modal #checkout-planos button[data-benefit-choice] {
+  min-height:48px;
+  border-color:rgba(200,157,82,.34)!important;
+  border-radius:14px!important;
+  background:#FBF8F2!important;
+  color:#2A2421!important;
+}
+:root[data-layout="natural-sereno"] #plans-modal #checkout-planos button[data-benefit-choice][aria-pressed="true"] {
+  background:linear-gradient(180deg,#E2B96B,#C89D52)!important;
+  color:#2A2421!important;
+  border-color:#A87E37!important;
+}
+:root[data-layout="natural-sereno"] #plans-modal #checkout-planos input {
+  border-color:rgba(200,157,82,.34)!important;
+  color:#2A2421!important;
+}
+:root[data-layout="natural-sereno"] #plans-modal #checkout-planos input:focus {
+  border-color:#C89D52!important;
+  box-shadow:0 0 0 3px rgba(200,157,82,.14)!important;
+}
+
+/* RUN 105 — Banhos, Mapa Astral e Numerologia.
+   Preserva cores simbólicas dos gráficos e deixa o verde apenas como acento. */
+:root[data-layout="natural-sereno"] #herbal-baths-modal > div > div:first-child {
+  background:linear-gradient(90deg,#FBF8F2 0%,#F5EFE4 100%)!important;
+}
+:root[data-layout="natural-sereno"] #herbal-baths-modal :is([class*="bg-emerald-50"],[class*="bg-emerald-100"]) {
+  background:rgba(111,123,85,.10)!important;
+}
+:root[data-layout="natural-sereno"] #herbal-baths-modal [class*="border-emerald"] {
+  border-color:rgba(111,123,85,.25)!important;
+}
+:root[data-layout="natural-sereno"] #herbal-baths-modal :is(.text-emerald-700,.text-emerald-800,.text-emerald-900) {
+  color:#5E6948!important;
+}
+:root[data-layout="natural-sereno"] #herbal-baths-modal :is([class*="bg-amber-50"],[class*="bg-amber-100"]) {
+  background:#FBF8F2!important;
+}
+:root[data-layout="natural-sereno"] #herbal-baths-modal [class*="border-amber"] {
+  border-color:rgba(200,157,82,.30)!important;
+}
+:root[data-layout="natural-sereno"] #herbal-baths-modal :is(.text-amber-800,.text-amber-900) {
+  color:#8F631E!important;
+}
+:root[data-layout="natural-sereno"] #herbal-baths-modal button[class*="bg-[#073b2b]"] {
+  background:linear-gradient(180deg,#E2B96B,#C89D52)!important;
+  border-color:#A87E37!important;
+  color:#2A2421!important;
+}
+:root[data-layout="natural-sereno"] #astral-map-modal :is([class*="bg-amber-50"],[class*="bg-amber-50/70"]) {
+  background:#FBF8F2!important;
+}
+:root[data-layout="natural-sereno"] #astral-map-modal [class*="border-amber"] {
+  border-color:rgba(200,157,82,.28)!important;
+}
+:root[data-layout="natural-sereno"] #astral-map-modal :is(.text-amber-800,.text-amber-900) {
+  color:#8F631E!important;
+}
+:root[data-layout="natural-sereno"] #numerology-modal [class*="bg-amber-50"] {
+  background:#FBF8F2!important;
+}
+:root[data-layout="natural-sereno"] #numerology-modal [class*="border-amber"] {
+  border-color:rgba(200,157,82,.28)!important;
+}
+:root[data-layout="natural-sereno"] #numerology-modal :is(.text-amber-800,.text-amber-900) {
+  color:#8F631E!important;
+}
+
+
+/* RUN 107 — bridge final da paleta Natural Sereno.
+   O tema compartilhado ainda declarava tokens antigos verde-profundo para o
+   layout 1. Neutralizar aqui, na última camada específica, sem tocar nos
+   tokens dos Estilos 2, 3 e 4 nem na Reintegração da Vida. */
+:root[data-layout="natural-sereno"] {
+  --layout-canvas: #FAF7F2;
+  --layout-canvas-alt: #F5EFE5;
+  --layout-card: rgba(255,253,248,.94);
+  --layout-card-hover: #FFFDF8;
+  --layout-card-subtle: #FBF8F2;
+  --layout-input: #F5EFE4;
+  --layout-accent: #6F7B55;
+  --layout-accent-light: #87936F;
+  --layout-accent-soft: rgba(111,123,85,.10);
+  --layout-gold: #C89D52;
+  --layout-gold-soft: rgba(200,157,82,.12);
+  --layout-gold-light: #E2B96B;
+  --layout-gold-dark: #A87E37;
+  --layout-gold-border: rgba(200,157,82,.34);
+  --layout-gold-gradient: linear-gradient(135deg,#E2B96B 0%,#C89D52 55%,#A87E37 100%);
+  --layout-gold-shadow: rgba(67,52,39,.10);
+  --layout-text: #2A2421;
+  --layout-text-secondary: #6B625B;
+  --layout-text-muted: #6B625B;
+  --layout-border: #E8E0D5;
+  --layout-border-card: #E8E0D5;
+  --layout-text-soft: #6B625B;
+  --ep-scene: var(--ns-valley);
+  --ep-scene-overlay: linear-gradient(180deg,rgba(250,247,242,.12),rgba(250,247,242,.34) 46%,rgba(245,239,229,.72));
+  --ep-panel: rgba(255,253,248,.94);
+  --ep-panel-strong: #FFFDF8;
+  --ep-panel-text: #2A2421;
+}
+
+
+/* RUN 107 — o controle de progresso compartilhado ainda trazia amarelo legado
+   inline. Neutralizar somente no player do Natural Sereno, sem alterar os
+   controles dos Estilos 2, 3 e 4. */
+:root[data-layout="natural-sereno"] #meditation-session .ep-protocol-progress {
+  accent-color: #C89D52 !important;
+  background: linear-gradient(90deg,#A87E37 0%,#C89D52 var(--ep-progress),#E8E0D5 var(--ep-progress),#E8E0D5 100%) !important;
+}
+:root[data-layout="natural-sereno"] #meditation-session .animate-pulse.rounded-full.bg-gradient-to-r {
+  background: linear-gradient(90deg,rgba(168,126,55,.12),rgba(200,157,82,.42),rgba(168,126,55,.12)) !important;
+}
+
+
+/* RUN 113 — Anamnese: retirar os últimos vazamentos índigo/púrpura e âmbar
+   saturado do player/indicador; preservar estados semânticos pequenos e handlers. */
+:root[data-layout="natural-sereno"] #anamnesis-modal .ep-anamnesis-progress-fill {
+  background-color: #C89D52 !important;
+  background-image: linear-gradient(90deg,#A87E37 0%,#C89D52 58%,#E2B96B 100%) !important;
+  box-shadow: 0 1px 5px rgba(67,52,39,.12) !important;
+}
+:root[data-layout="natural-sereno"] #anamnesis-modal .ep-anamnesis-waveform > div[class*="from-indigo-500"] {
+  background-color: #C89D52 !important;
+  background-image: linear-gradient(to top,#A87E37,#E2B96B) !important;
+  box-shadow: 0 1px 5px rgba(67,52,39,.08) !important;
+}
+:root[data-layout="natural-sereno"] #anamnesis-modal .ep-assessment-actions :is(button,a)[class*="from-amber-500"] {
+  background: linear-gradient(180deg,#E2B96B,#C89D52) !important;
+  background-image: linear-gradient(180deg,#E2B96B,#C89D52) !important;
+  color: #2A2421 !important;
+  border: 1px solid rgba(168,126,55,.58) !important;
+  border-radius: 18px !important;
+  box-shadow: 0 9px 20px rgba(67,52,39,.10) !important;
+  text-shadow: none !important;
+}
+:root[data-layout="natural-sereno"] #anamnesis-modal .ep-assessment-actions :is(button,a)[class*="from-amber-500"]:hover {
+  background: linear-gradient(180deg,#E8C47D,#A87E37) !important;
+  background-image: linear-gradient(180deg,#E8C47D,#A87E37) !important;
+}
+:root[data-layout="natural-sereno"] #anamnesis-modal .ep-assessment-actions :is(button,a)[class*="bg-emerald-600"] {
+  background: linear-gradient(180deg,#FBF8F2,#F3E8D5) !important;
+  background-image: linear-gradient(180deg,#FBF8F2,#F3E8D5) !important;
+  color: #5A4026 !important;
+  border: 1px solid rgba(184,135,54,.34) !important;
+  border-radius: 18px !important;
+  box-shadow: 0 8px 18px rgba(67,52,39,.08) !important;
+}
+:root[data-layout="natural-sereno"] #anamnesis-modal .ep-assessment-actions :is(button,a)[class*="bg-emerald-600"]:hover {
+  background: linear-gradient(180deg,#F5EFE4,#EEE4D3) !important;
+  background-image: linear-gradient(180deg,#F5EFE4,#EEE4D3) !important;
+}
+:root[data-layout="natural-sereno"] #anamnesis-modal .ep-assessment-actions :is(button,a):focus-visible {
+  outline: 2px solid #C89D52 !important;
+  outline-offset: 3px !important;
+}
+:root[data-layout="natural-sereno"] #anamnesis-modal [role="status"][class*="bg-[#FAF4E8]"] {
+  color: #6F7B55 !important;
+}
+
+
+/* RUN 114 — Arcanjo no Natural Sereno: retirar grandes superfícies de floresta
+   sem alterar roteiro, áudio, progresso ou comportamento dos controles. */
+:root[data-layout="natural-sereno"] #arcanjo-protocol-view.ep-arcanjo-natural {
+  background: #FAF7F2 !important;
+  color: #2A2421 !important;
+}
+:root[data-layout="natural-sereno"] #arcanjo-protocol-view.ep-arcanjo-natural .ep-forest-panel {
+  background: linear-gradient(145deg,#FFFDF8 0%,#F5EFE5 100%) !important;
+  background-image: linear-gradient(145deg,#FFFDF8 0%,#F5EFE5 100%) !important;
+  border: 1px solid #E8E0D5 !important;
+  box-shadow: 0 14px 34px rgba(67,52,39,.08), inset 0 1px 0 rgba(255,255,255,.82) !important;
+  color: #2A2421 !important;
+  backdrop-filter: none !important;
+}
+:root[data-layout="natural-sereno"] #arcanjo-protocol-view.ep-arcanjo-natural .ep-forest-panel :is(p,span,h2,h3,div) {
+  color: #2A2421 !important;
+  text-shadow: none !important;
+}
+:root[data-layout="natural-sereno"] #arcanjo-protocol-view.ep-arcanjo-natural .ep-forest-panel [class*="text-[#B88736]"],
+:root[data-layout="natural-sereno"] #arcanjo-protocol-view.ep-arcanjo-natural .ep-forest-panel [class*="text-[#A87E37]"] {
+  color: #A87E37 !important;
+}
+:root[data-layout="natural-sereno"] #arcanjo-protocol-view.ep-arcanjo-natural .ep-forest-panel [class*="bg-black/30"] {
+  background: #E8E0D5 !important;
+}
+:root[data-layout="natural-sereno"] #arcanjo-protocol-view.ep-arcanjo-natural .ep-forest-panel [class*="bg-black/20"] {
+  background: #F5EFE5 !important;
+}
+:root[data-layout="natural-sereno"] #arcanjo-protocol-view.ep-arcanjo-natural .ep-forest-panel button:not(.ep-gold-button) {
+  border-color: rgba(168,126,55,.34) !important;
+  background: #FBF8F2 !important;
+  color: #5A4026 !important;
+  border-radius: 18px !important;
+  box-shadow: 0 6px 16px rgba(67,52,39,.06) !important;
+}
+:root[data-layout="natural-sereno"] #arcanjo-protocol-view.ep-arcanjo-natural .ep-gold-button {
+  background: linear-gradient(135deg,#E2B96B 0%,#C89D52 58%,#A87E37 100%) !important;
+  background-image: linear-gradient(135deg,#E2B96B 0%,#C89D52 58%,#A87E37 100%) !important;
+  border: 1px solid rgba(168,126,55,.52) !important;
+  color: #2A2421 !important;
+  box-shadow: 0 9px 22px rgba(67,52,39,.12), inset 0 1px 0 rgba(255,255,255,.55) !important;
+}
+:root[data-layout="natural-sereno"] #arcanjo-protocol-view.ep-arcanjo-natural .ep-gold-button:not(.ep-arcanjo-play-toggle) {
+  border-radius: 18px !important;
+}
+:root[data-layout="natural-sereno"] #arcanjo-protocol-view.ep-arcanjo-natural .ep-arcanjo-play-toggle {
+  border-radius: 999px !important;
+}
+:root[data-layout="natural-sereno"] #arcanjo-protocol-view.ep-arcanjo-natural [class*="text-[#5C6A60]"],
+:root[data-layout="natural-sereno"] #arcanjo-protocol-view.ep-arcanjo-natural [class*="text-[#bad0c4]"],
+:root[data-layout="natural-sereno"] #arcanjo-protocol-view.ep-arcanjo-natural [class*="text-[#c8d9cd]"],
+:root[data-layout="natural-sereno"] #arcanjo-protocol-view.ep-arcanjo-natural [class*="text-[#d7e2d8]"],
+:root[data-layout="natural-sereno"] #arcanjo-protocol-view.ep-arcanjo-natural [class*="text-[#d9e6dc]"],
+:root[data-layout="natural-sereno"] #arcanjo-protocol-view.ep-arcanjo-natural [class*="text-[#e9f1e9]"],
+:root[data-layout="natural-sereno"] #arcanjo-protocol-view.ep-arcanjo-natural [class*="text-[#e6eee8]"],
+:root[data-layout="natural-sereno"] #arcanjo-protocol-view.ep-arcanjo-natural [class*="text-[#f5e8bd]"] {
+  color: #6B625B !important;
+}
+:root[data-layout="natural-sereno"] #arcanjo-protocol-view.ep-arcanjo-natural .ep-voice-error {
+  background: #F5EFE5 !important;
+  border: 1px solid #E8E0D5 !important;
+  color: #2A2421 !important;
+}
+
+
+/* RUN 114 — player Natural Sereno: paisagem real e microanimação corporal neutra. */
+:root[data-layout="natural-sereno"] #meditation-session .ep-session-natural-sereno-scene {
+  opacity: .52;
+  object-position: center 16%;
+  filter: saturate(.88) contrast(.96);
+}
+:root[data-layout="natural-sereno"] #meditation-session .ep-session-natural-sereno-overlay {
+  background: linear-gradient(180deg,rgba(250,247,242,.64) 0%,rgba(250,247,242,.46) 44%,rgba(250,247,242,.86) 100%) !important;
+}
+:root[data-layout="natural-sereno"] #meditation-session .ep-session-neutral-visual {
+  opacity: .94;
+}
+:root[data-layout="natural-sereno"] #meditation-session .ep-neutral-body-progress--canvas {
+  width: min(42vw,380px,58vh) !important;
+}
+@media (max-width: 640px) {
+  :root[data-layout="natural-sereno"] #meditation-session .ep-session-natural-sereno-scene {
+    opacity: .46;
+    object-position: center 52%;
+  }
+  :root[data-layout="natural-sereno"] #meditation-session .ep-neutral-body-progress--canvas {
+    width: min(70vw,300px,48vh) !important;
+  }
+}
+@media (min-width: 641px) {
+  :root[data-layout="natural-sereno"] #meditation-session .ep-session-natural-sereno-scene {
+    opacity: .56;
+    object-position: center 16%;
+  }
+}
+
+/* RUN 119 — acolhimento mobile.
+   A tela de boas-vindas é um fluxo ativo do Natural Sereno. No mobile ainda
+   herdava a cachoeira escura e um véu café pesado, enquanto o desktop usava
+   a paisagem de acolhimento sobre base clara. Unificar a fotografia da página
+   e manter creme/marfim como superfície dominante, sem apagar a natureza. */
+@media (max-width: 899px) {
+  :root[data-layout="natural-sereno"] .ns-app[data-ns-screen="welcome"] {
+    background: #FAF7F2 !important;
+    color: #2A2421 !important;
+  }
+
+  :root[data-layout="natural-sereno"] .ns-app[data-ns-screen="welcome"]::before {
+    background:
+      linear-gradient(180deg, rgba(250,247,242,.72) 0%, rgba(250,247,242,.86) 100%),
+      url('/brand/natural-sereno/acolhimento.webp') center 46% / cover no-repeat !important;
+  }
+
+  :root[data-layout="natural-sereno"] .ns-welcome-content {
+    position: relative;
+    z-index: 1;
+    color: #2A2421 !important;
+  }
+
+  :root[data-layout="natural-sereno"] .ns-welcome-content h1 {
+    color: #2A2421 !important;
+    text-shadow: none !important;
+  }
+
+  :root[data-layout="natural-sereno"] .ns-welcome-content p {
+    color: #6B625B !important;
+    text-shadow: none !important;
+  }
+
+  :root[data-layout="natural-sereno"] .ns-welcome-play {
+    background: rgba(250,247,242,.94) !important;
+    color: #8F631E !important;
+    border-color: rgba(200,157,82,.72) !important;
+    box-shadow: 0 8px 22px rgba(67,52,39,.10) !important;
+  }
+}
+
+
+/* RUN 125 — Arcanjo: alinhar cabeçalho e véu à paleta Natural Sereno aprovada.
+   A estrutura compartilhada ainda carregava o dourado anterior (#B88736)
+   no cabeçalho; esta correção é exclusiva do Estilo 1. */
+:root[data-layout="natural-sereno"] #arcanjo-protocol-view.ep-arcanjo-natural > .fixed.inset-0 {
+  background:
+    radial-gradient(circle at 50% 0, rgba(200,157,82,.08), transparent 30rem),
+    linear-gradient(180deg, #FAF7F2 0%, #F5EFE5 100%) !important;
+}
+:root[data-layout="natural-sereno"] #arcanjo-protocol-view.ep-arcanjo-natural > header {
+  background: rgba(250,247,242,.96) !important;
+  border-bottom-color: rgba(200,157,82,.20) !important;
+  color: #2A2421 !important;
+}
+:root[data-layout="natural-sereno"] #arcanjo-protocol-view.ep-arcanjo-natural > header [class*="text-[#B88736]"],
+:root[data-layout="natural-sereno"] #arcanjo-protocol-view.ep-arcanjo-natural > header button {
+  color: #A87E37 !important;
+}
+:root[data-layout="natural-sereno"] #arcanjo-protocol-view.ep-arcanjo-natural > header [class*="border-[#B88736]"] {
+  border-color: rgba(200,157,82,.20) !important;
 }

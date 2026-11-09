@@ -1,154 +1,131 @@
 import { useDialogFocus } from '../hooks/useDialogFocus';
-import React, { useMemo, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { DayProgress, UserProfile } from '../types';
+import { ARCANJO_PROTOCOL_DAYS } from '../data/arcanjoProtocolDays';
+import NeutralBodyLightProgress from './NeutralBodyLightProgress';
 import { ArrowLeft, Flame, Lock, Play, CheckCircle2, Award, Sparkles } from 'lucide-react';
 
-const CHAKRAS_DATA = [
-  { day: 7, name: 'Chakra Coronário', sanskrit: 'Sahasrara', color: '#a855f7', glow: 'rgba(168,85,247,.72)', yPos: '10%' },
-  { day: 6, name: 'Chakra Frontal', sanskrit: 'Ajna', color: '#6366f1', glow: 'rgba(99,102,241,.72)', yPos: '22%' },
-  { day: 5, name: 'Chakra Laríngeo', sanskrit: 'Vishuddha', color: '#38bdf8', glow: 'rgba(56,189,248,.72)', yPos: '34%' },
-  { day: 4, name: 'Chakra Cardíaco', sanskrit: 'Anahata', color: '#22c55e', glow: 'rgba(34,197,94,.72)', yPos: '48%' },
-  { day: 3, name: 'Chakra Plexo Solar', sanskrit: 'Manipura', color: '#facc15', glow: 'rgba(250,204,21,.72)', yPos: '62%' },
-  { day: 2, name: 'Chakra Esplênico', sanskrit: 'Svadhisthana', color: '#fb923c', glow: 'rgba(251,146,60,.72)', yPos: '75%' },
-  { day: 1, name: 'Chakra Básico', sanskrit: 'Muladhara', color: '#ef4444', glow: 'rgba(239,68,68,.72)', yPos: '88%' },
-];
-
-export default function DashboardCura({ onClose, progress, userProfile }: { onClose: () => void; progress: DayProgress[], userProfile?: UserProfile }) {
+/** Mantém o nome do componente por compatibilidade com o App; o conteúdo não é mais chakra-led. */
+export default function DashboardCura({ onClose, progress, userProfile }: { onClose: () => void; progress: DayProgress[]; userProfile?: UserProfile }) {
   const [completedDays, setCompletedDays] = useState<number[]>([]);
   const dialogRef = React.useRef<HTMLDivElement | null>(null);
+  const activeDay = ARCANJO_PROTOCOL_DAYS[Math.min(completedDays.length, ARCANJO_PROTOCOL_DAYS.length - 1)];
+  const totalCompleted = completedDays.length;
+  const percentage = Math.round((totalCompleted / ARCANJO_PROTOCOL_DAYS.length) * 100);
+  const nextAvailableDay = Math.min(totalCompleted + 1, ARCANJO_PROTOCOL_DAYS.length);
+  const journeyCompleted = totalCompleted === ARCANJO_PROTOCOL_DAYS.length;
+  const streak = completedDays.length;
+
+  // A prop pertence ao dashboard geral da jornada de 21 dias; este painel acompanha
+  // separadamente o progresso do protocolo Arcanjo de sete dias.
+  void progress;
   useDialogFocus(document.documentElement.dataset.layout === 'natural-sereno', dialogRef, onClose);
 
   useEffect(() => {
     const profileCompleted = userProfile?.journeyProgress?.arcanjo7CompletedDays;
     if (Array.isArray(profileCompleted)) {
-      setCompletedDays([...new Set(profileCompleted)].filter(day => day >= 1 && day <= 7).sort((a,b) => a-b));
+      setCompletedDays([...new Set(profileCompleted)].filter(day => day >= 1 && day <= ARCANJO_PROTOCOL_DAYS.length).sort((a, b) => a - b));
       return;
     }
     const localCompleted: number[] = [];
-    for (let i = 1; i <= 7; i += 1) {
-      if (localStorage.getItem(`reiki_arcanjo_dia_${i}`) === 'true') localCompleted.push(i);
+    for (let day = 1; day <= ARCANJO_PROTOCOL_DAYS.length; day += 1) {
+      if (localStorage.getItem(`reiki_arcanjo_dia_${day}`) === 'true') localCompleted.push(day);
     }
     setCompletedDays(localCompleted);
   }, [userProfile?.journeyProgress?.arcanjo7CompletedDays]);
 
-  const totalCompleted = completedDays.length;
-  const percentage = Math.round((totalCompleted / 7) * 100);
-  const nextAvailableDay = Math.min(totalCompleted + 1, 7);
-  const journeyCompleted = totalCompleted === 7;
-  
-  // Calculate Streak (consecutive days completed up to current day)
-  // For simplicity, we assume streak equals total completed in this 7-day flow, 
-  // or we can calculate based on consecutive days completed from day 1.
-  const streak = completedDays.length; 
-
   const handlePlayDay = (day: number) => {
-    // In a real flow, this could navigate to the specific day in the ArcanjoProtocolView
-    onClose(); 
-    // Triggering a custom event or you would pass a callback to open the specific day
+    onClose();
     window.dispatchEvent(new CustomEvent('OPEN_PROTOCOL_DAY', { detail: { day } }));
   };
 
   return (
-    <div ref={dialogRef} id="progress-dashboard" role="dialog" aria-modal="true" aria-label="Dashboard de Progresso Analítico" className="fixed inset-0 z-[100] flex flex-col bg-[#F8F4EC] text-[#2A2420] font-sans selection:bg-[#E4C573]/30 overflow-y-auto">
-      {/* Background Gradient */}
-      <div className="fixed inset-0 pointer-events-none bg-[radial-gradient(circle_at_50%_0,rgba(214,167,86,.12),transparent_30rem),linear-gradient(180deg,#FBF8F2,#F8F4EC)]" />
+    <div
+      ref={dialogRef}
+      id="progress-dashboard"
+      role="dialog"
+      aria-modal="true"
+      aria-label="Dashboard de progresso do protocolo Arcanjo"
+      className="ep-arcanjo-progress-dashboard fixed inset-0 z-[100] flex flex-col overflow-y-auto font-sans selection:bg-[#C89D52]/20"
+      style={{ background: 'var(--layout-canvas, #FAF7F2)', color: 'var(--layout-text, #2A2421)' }}
+    >
+      <div className="pointer-events-none fixed inset-0" style={{ background: 'linear-gradient(180deg,var(--layout-canvas,#FAF7F2),var(--layout-canvas-alt,#F5EFE5))' }} />
 
-      {/* Header */}
       <header className="relative z-10 mx-auto w-full max-w-lg px-5 py-6">
         <button
           onClick={onClose}
-          className="mb-4 flex items-center gap-2 text-sm text-[#5C5248] hover:text-[#2A2420] transition"
+          className="mb-4 flex min-h-11 items-center gap-2 rounded-[18px] px-3 text-sm transition"
+          style={{ color: 'var(--layout-text-secondary, #6B625B)' }}
         >
           <ArrowLeft size={18} /> Voltar
         </button>
 
         <div className="flex items-center justify-between gap-4">
           <div>
-            <h1 className="text-xl sm:text-2xl font-serif font-bold text-white">
+            <h1 className="font-serif text-xl font-bold sm:text-2xl" style={{ color: 'var(--layout-text, #2A2421)' }}>
               Olá, {userProfile?.name?.split(' ')[0] || 'Viajante'}
             </h1>
-            <p className="mt-1 text-sm text-[#5C5248]">
+            <p className="mt-1 text-sm" style={{ color: 'var(--layout-text-secondary, #6B625B)' }}>
               Equilíbrio hoje, um amanhã mais leve.
             </p>
           </div>
-          <div className="flex shrink-0 flex-col items-center justify-center rounded-2xl border border-[#E4C573]/35 bg-white/80 px-4 py-2.5 shadow-[0_0_15px_rgba(228,197,115,0.12)]">
-            <Flame className="text-[#E4C573] mb-1" size={24} />
-            <div className="text-lg font-bold text-[#2A2420] leading-none">{streak}</div>
-            <div className="text-[9px] uppercase tracking-wider text-[#5C5248] mt-1">Dias Seguidos</div>
+          <div
+            className="flex shrink-0 flex-col items-center justify-center rounded-2xl border bg-white/70 px-4 py-2.5 shadow-sm"
+            style={{ borderColor: 'var(--layout-gold-border, #E8E0D5)', background: 'var(--layout-card, #FFFDF8)' }}
+          >
+            <Flame className="mb-1" size={24} style={{ color: 'var(--layout-gold, #C89D52)' }} />
+            <div className="text-lg font-bold leading-none" style={{ color: 'var(--layout-text, #2A2421)' }}>{streak}</div>
+            <div className="mt-1 text-[9px] uppercase tracking-wider" style={{ color: 'var(--layout-text-muted, #6B625B)' }}>Dias Seguidos</div>
           </div>
         </div>
 
-        {/* Progress Bar */}
         <div className="mt-7">
-          <div className="flex items-end justify-between mb-2">
-            <span className="text-sm font-semibold text-[#E4C573]">{percentage}% Concluído</span>
-            <span className="text-xs text-[#5C5248]">{totalCompleted} de 7 Dias</span>
+          <div className="mb-2 flex items-end justify-between">
+            <span className="text-sm font-semibold" style={{ color: 'var(--layout-gold-dark, #A87E37)' }}>{percentage}% Concluído</span>
+            <span className="text-xs" style={{ color: 'var(--layout-text-secondary, #6B625B)' }}>{totalCompleted} de 7 dias</span>
           </div>
-          <div className="h-1.5 w-full overflow-hidden rounded-full bg-[#E5DAC6]">
+          <div className="h-1.5 w-full overflow-hidden rounded-full" style={{ background: 'var(--layout-border, #E8E0D5)' }}>
             <div
-              className="h-full rounded-full bg-gradient-to-r from-[#B89845] to-[#E4C573] shadow-[0_0_10px_rgba(228,197,115,0.6)] transition-all duration-1000 ease-out"
-              style={{ width: `${percentage}%` }}
+              className="h-full rounded-full transition-all duration-1000 ease-out"
+              style={{ width: `${percentage}%`, background: 'var(--layout-gold-gradient, linear-gradient(90deg,#E2B96B,#C89D52,#A87E37))' }}
             />
           </div>
         </div>
       </header>
 
       <main className="relative z-10 mx-auto w-full max-w-lg flex-1 px-5 pb-12">
-        {/* Central Energy Visualizer */}
-        <div className="relative mx-auto my-8 aspect-[4/5] w-full max-w-[360px] rounded-[2rem] border border-[#E4C573]/30 bg-white/75 shadow-[0_22px_60px_rgba(0,0,0,.38)] overflow-hidden">
-          <img src="/brand/human-chakra-model.jpg" alt="Pessoa em meditação com os sete chakras" className="absolute inset-0 h-full w-full object-cover" />
-          <div className="absolute inset-0 bg-gradient-to-t from-[#F8F4EC]/70 via-transparent to-transparent" />
-          
-          {CHAKRAS_DATA.map((chakra) => {
-            const isCompleted = completedDays.includes(chakra.day);
-            return (
-              <div
-                key={chakra.name}
-                className="absolute left-1/2 -translate-x-1/2 flex flex-col items-center gap-1 w-full pointer-events-none"
-                style={{ top: chakra.yPos }}
-              >
-                <div 
-                  className={`relative flex h-8 w-8 items-center justify-center rounded-full transition-all duration-1000 ${
-                    isCompleted ? 'scale-110' : chakra.day === nextAvailableDay ? 'scale-110 animate-pulse' : 'scale-90 opacity-25 grayscale'
-                  }`}
-                >
-                  <div
-                    className="absolute inset-0 rounded-full blur-md"
-                    style={{ background: isCompleted ? chakra.color : 'transparent', opacity: 0.6 }}
-                  />
-                  <div
-                    className="relative h-4 w-4 rounded-full border-2"
-                    style={{
-                      borderColor: isCompleted ? '#fff' : '#64748b',
-                      background: isCompleted || chakra.day === nextAvailableDay ? chakra.color : '#365849',
-                      boxShadow: isCompleted || chakra.day === nextAvailableDay ? `0 0 18px 6px ${chakra.color}` : 'none'
-                    }}
-                  />
-                </div>
-                {/* Optional floating labels for the chakras */}
-                {/* <span className={`text-[9px] uppercase tracking-wider ${isCompleted ? 'text-[#5C5248]' : 'text-[#85786C]'}`}>{chakra.sanskrit}</span> */}
-              </div>
-            );
-          })}
-        </div>
+        <section aria-label="Progresso visual do protocolo">
+          <NeutralBodyLightProgress
+            progress={percentage}
+            active={false}
+            focusPosition={activeDay.posicaoLuz}
+            focusLabel={activeDay.local}
+            className="my-8"
+          />
+        </section>
 
-        {/* 7 Days Timeline Cards */}
-        <div className="space-y-4">
-          {[1, 2, 3, 4, 5, 6, 7].map((day) => {
-            const chakra = [...CHAKRAS_DATA].reverse()[day - 1]; // Reverse because CHAKRAS_DATA is top-to-bottom (7 to 1)
+        <section className="space-y-4" aria-label="Etapas do protocolo Arcanjo">
+          {ARCANJO_PROTOCOL_DAYS.map((dayConfig) => {
+            const day = dayConfig.dia;
             const isCompleted = completedDays.includes(day);
-            const isCurrent = day === nextAvailableDay;
+            const isCurrent = day === nextAvailableDay && !isCompleted;
             const isLocked = day > nextAvailableDay;
 
             if (isCompleted) {
               return (
-                <button type="button" key={day} onClick={() => handlePlayDay(day)} className="relative flex w-full text-left cursor-pointer items-center justify-between rounded-2xl border border-[#E4C573]/50 bg-[#E4C573]/5 px-5 py-4 transition hover:bg-[#E4C573]/10">
-                  <div className="absolute left-0 top-0 h-full w-2 rounded-l-2xl" style={{ backgroundColor: chakra.color, opacity: 0.8 }} />
+                <button
+                  type="button"
+                  key={day}
+                  onClick={() => handlePlayDay(day)}
+                  className="relative flex w-full items-center justify-between rounded-[18px] border px-5 py-4 text-left transition hover:-translate-y-0.5"
+                  style={{ borderColor: 'var(--layout-gold-border, #E8E0D5)', background: 'var(--layout-card, #FFFDF8)' }}
+                >
+                  <div className="absolute bottom-0 left-0 top-0 w-1.5 rounded-l-[18px]" style={{ background: 'var(--layout-gold, #C89D52)' }} />
                   <div className="ml-3">
-                    <h3 className="font-serif text-[15px] font-semibold text-[#E4C573]">Dia {day}: {chakra.name}</h3>
-                    <p className="text-xs text-[#5C5248] mt-0.5">Concluído</p>
+                    <h3 className="font-serif text-[15px] font-semibold" style={{ color: 'var(--layout-gold-dark, #A87E37)' }}>Dia {day}: {dayConfig.nome}</h3>
+                    <p className="mt-0.5 text-xs" style={{ color: 'var(--layout-text-secondary, #6B625B)' }}>Concluído</p>
                   </div>
-                  <div className="flex h-8 w-8 items-center justify-center rounded-full bg-[#E4C573]/20 text-[#E4C573]">
+                  <div className="flex h-8 w-8 items-center justify-center rounded-full" style={{ background: 'var(--layout-gold-soft, rgba(200,157,82,.12))', color: 'var(--layout-gold-dark, #A87E37)' }}>
                     <CheckCircle2 size={18} />
                   </div>
                 </button>
@@ -157,74 +134,84 @@ export default function DashboardCura({ onClose, progress, userProfile }: { onCl
 
             if (isCurrent) {
               return (
-                <div key={day} className="relative overflow-hidden rounded-2xl border border-[#E4C573]/35 bg-white/90 shadow-lg">
-                  {/* Pulsating glow in chakra color */}
-                  <div className="absolute inset-0 opacity-20 mix-blend-screen animate-pulse" style={{ background: `radial-gradient(circle at center, ${chakra.color} 0%, transparent 70%)` }} />
-                  <div className="absolute left-0 top-0 h-full w-2 rounded-l-2xl" style={{ backgroundColor: chakra.color }} />
-                  
-                  <div className="relative flex items-center justify-between px-5 py-5 ml-2">
+                <div
+                  key={day}
+                  className="relative overflow-hidden rounded-[18px] border shadow-sm"
+                  style={{ borderColor: 'var(--layout-gold-border, #E8E0D5)', background: 'var(--layout-card, #FFFDF8)' }}
+                >
+                  <div className="absolute inset-0 opacity-40" style={{ background: 'radial-gradient(circle at 90% 50%,var(--layout-gold-soft,rgba(200,157,82,.12)),transparent 60%)' }} />
+                  <div className="relative flex items-center justify-between gap-4 px-5 py-5">
                     <div>
-                      <h3 className="font-serif text-[16px] font-bold text-[#2A2420]">Dia {day}: {chakra.name}</h3>
-                      <p className="text-[13px] text-[#5C5248] mt-1">Pronto para iniciar (15 min)</p>
+                      <h3 className="font-serif text-base font-bold" style={{ color: 'var(--layout-text, #2A2421)' }}>Dia {day}: {dayConfig.nome}</h3>
+                      <p className="mt-1 text-[13px]" style={{ color: 'var(--layout-text-secondary, #6B625B)' }}>{dayConfig.subtitulo}</p>
                     </div>
-                    <button 
+                    <button
+                      type="button"
                       onClick={() => handlePlayDay(day)}
-                      aria-label={`Iniciar dia ${day}: ${chakra.name}`} className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full shadow-lg transition-transform hover:scale-105 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B88736]/30"
-                      style={{ background: `linear-gradient(135deg, ${chakra.color}, #09090E)` }}
+                      aria-label={`Iniciar dia ${day}: ${dayConfig.nome}`}
+                      className="flex h-12 w-12 shrink-0 items-center justify-center rounded-[18px] shadow-sm transition hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2"
+                      style={{ background: 'var(--layout-gold-gradient, linear-gradient(135deg,#E2B96B,#C89D52))', color: 'var(--layout-text, #2A2421)' }}
                     >
-                      <Play size={22} className="ml-1 text-white" fill="white" />
+                      <Play size={21} className="ml-0.5" fill="currentColor" />
                     </button>
                   </div>
                 </div>
               );
             }
 
-            // Locked
             return (
-              <div key={day} className="flex items-center justify-between rounded-2xl border border-[#E4C573]/12 bg-[#F5EFE4] px-5 py-4 opacity-60">
+              <div
+                key={day}
+                className="flex items-center justify-between rounded-[18px] border px-5 py-4"
+                style={{ borderColor: 'var(--layout-border, #E8E0D5)', background: 'var(--layout-card-subtle, #F5EFE5)', opacity: isLocked ? 0.68 : 1 }}
+              >
                 <div className="ml-1">
-                  <h3 className="font-serif text-[15px] font-medium text-[#85786C]">Dia {day}: {chakra.name}</h3>
-                  <p className="text-xs text-[#85786C] mt-0.5">
+                  <h3 className="font-serif text-[15px] font-medium" style={{ color: 'var(--layout-text-muted, #6B625B)' }}>Dia {day}: {dayConfig.nome}</h3>
+                  <p className="mt-0.5 text-xs" style={{ color: 'var(--layout-text-muted, #6B625B)' }}>
                     {day === nextAvailableDay + 1 ? 'Disponível amanhã' : 'Bloqueado'}
                   </p>
                 </div>
-                <div className="flex h-8 w-8 items-center justify-center rounded-full bg-[#F5EFE4] text-[#85786C]">
+                <div className="flex h-8 w-8 items-center justify-center rounded-full" style={{ background: 'var(--layout-card, #FFFDF8)', color: 'var(--layout-text-muted, #6B625B)' }}>
                   <Lock size={16} />
                 </div>
               </div>
             );
           })}
-        </div>
+        </section>
 
-        {/* Footer: Certificate Section */}
-        <div className="mt-10">
+        <section className="mt-10">
           {journeyCompleted ? (
-            <div className="flex flex-col items-center justify-center rounded-3xl border border-[#E4C573]/40 bg-gradient-to-br from-[#E4C573]/20 to-[#B89845]/5 px-6 py-8 text-center shadow-[0_0_30px_rgba(228,197,115,0.15)] relative overflow-hidden">
-               <div className="absolute inset-0 opacity-50 bg-[radial-gradient(circle_at_center,#E4C573_0%,transparent_70%)] blur-2xl pointer-events-none" />
-               <Sparkles className="text-[#E4C573] mb-3 relative z-10" size={32} />
-               <h3 className="font-serif text-xl font-bold text-[#2A2420] relative z-10 mb-5">Jornada Concluída</h3>
-               <button 
-                 onClick={() => {
-                   onClose();
-                   window.dispatchEvent(new CustomEvent('OPEN_CERTIFICATE'));
-                 }}
-                 className="relative z-10 w-full rounded-full bg-gradient-to-r from-[#E4C573] to-[#B89845] py-[16px] text-[15px] font-bold text-[#09090E] shadow-[0_5px_15px_rgba(228,197,115,0.3)] transition hover:brightness-110"
-               >
-                 Resgatar Meu Certificado de Luz
-               </button>
+            <div
+              className="relative flex flex-col items-center justify-center overflow-hidden rounded-[24px] border px-6 py-8 text-center shadow-sm"
+              style={{ borderColor: 'var(--layout-gold-border, #E8E0D5)', background: 'var(--layout-card, #FFFDF8)' }}
+            >
+              <Sparkles className="relative z-10 mb-3" size={32} style={{ color: 'var(--layout-gold, #C89D52)' }} />
+              <h3 className="relative z-10 mb-5 font-serif text-xl font-bold" style={{ color: 'var(--layout-text, #2A2421)' }}>Protocolo concluído</h3>
+              <button
+                onClick={() => {
+                  onClose();
+                  window.dispatchEvent(new CustomEvent('OPEN_CERTIFICATE'));
+                }}
+                className="relative z-10 w-full rounded-[18px] px-5 py-4 text-[15px] font-bold shadow-sm transition hover:-translate-y-0.5"
+                style={{ background: 'var(--layout-gold-gradient, linear-gradient(135deg,#E2B96B,#C89D52))', color: 'var(--layout-text, #2A2421)' }}
+              >
+                Resgatar meu certificado
+              </button>
             </div>
           ) : (
-            <div className="flex flex-col items-center justify-center rounded-3xl border border-[#E5DAC6] bg-white/80 px-6 py-6 text-center">
-              <div className="flex h-12 w-12 items-center justify-center rounded-full bg-[#161824] text-[#85786C] mb-3">
+            <div
+              className="flex flex-col items-center justify-center rounded-[24px] border px-6 py-6 text-center"
+              style={{ borderColor: 'var(--layout-border, #E8E0D5)', background: 'var(--layout-card, #FFFDF8)' }}
+            >
+              <div className="mb-3 flex h-12 w-12 items-center justify-center rounded-full" style={{ background: 'var(--layout-card-subtle, #F5EFE5)', color: 'var(--layout-gold-dark, #A87E37)' }}>
                 <Award size={24} />
               </div>
-              <p className="text-[13px] leading-relaxed text-[#5C5248]">
-                Conclua todos os 7 dias para desbloquear seu Certificado de Alinhamento Espiritual.
+              <p className="text-[13px] leading-relaxed" style={{ color: 'var(--layout-text-secondary, #6B625B)' }}>
+                Conclua os sete dias do protocolo para desbloquear seu certificado.
               </p>
             </div>
           )}
-        </div>
-
+        </section>
       </main>
     </div>
   );

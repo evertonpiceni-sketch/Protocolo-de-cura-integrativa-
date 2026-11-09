@@ -106,7 +106,58 @@ export function createApp() {
   app.post("/api/auth/login", authLimiter, async (req, res) => { try { const { login, password } = loginSchema.parse(req.body); const normalizedLogin = login.trim().toLowerCase(); const db = getDb(); const user = db.users.find(u => u.login === normalizedLogin || (u.email && u.email.toLowerCase() === normalizedLogin)); if (!user || !(await bcrypt.compare(password, user.password))) return res.status(400).json({ error: "Credenciais inválidas." }); const token = jwt.sign({ userId: user.id }, EFFECTIVE_JWT_SECRET, { expiresIn: '7d' }); res.cookie("token", token, { httpOnly: true, secure: process.env.NODE_ENV === "production", sameSite: "lax" }); const { password: _, ...userWithoutPassword } = user; return res.json({ user: userWithoutPassword }); } catch { return res.status(400).json({ error: "Dados de login inválidos." }); } });
   app.post("/api/auth/logout", (req, res) => { res.clearCookie("token"); res.json({ success: true }); });
   app.get("/api/auth/me", authenticate, (req: any, res: any) => { const db = getDb(); const user = db.users.find(u => u.id === req.userId); if (!user) return res.status(404).json({ error: "Usuário não encontrado." }); const { password: _, ...userWithoutPassword } = user; res.json({ user: userWithoutPassword }); });
-  app.post("/api/user/sync", authenticate, async (req: any, res: any) => { const db = getDb(); const userIndex = db.users.findIndex(u => u.id === req.userId); if (userIndex === -1) return res.status(404).json({ error: "Usuário não encontrado." }); const { profile, progress } = req.body; if (profile) { const currentProfile = db.users[userIndex].profile || {}; db.users[userIndex].profile = { ...currentProfile, ...profile, plan: db.users[userIndex].plan, subscriptionPlan: currentProfile.subscriptionPlan, subscriptionExpiresAt: currentProfile.subscriptionExpiresAt, proActiveSince: currentProfile.proActiveSince, trial7dRedeemedAt: currentProfile.trial7dRedeemedAt, numerologyPurchased: currentProfile.numerologyPurchased, astralMapPurchased: currentProfile.astralMapPurchased, subscriptionBenefitChoice: currentProfile.subscriptionBenefitChoice, specificTreatments: currentProfile.specificTreatments }; } if (progress) db.users[userIndex].progress = progress; try { await saveDb(); return res.json({ success: true }); } catch (err) { console.error("Error syncing user:", err); return res.status(503).json({ error: "Não foi possível salvar o perfil agora.", code: "PERSISTENCE_UNAVAILABLE" }); } });
+  app.post("/api/user/sync", authenticate, async (req: any, res: any) => {
+    const db = getDb();
+    const userIndex = db.users.findIndex(u => u.id === req.userId);
+    if (userIndex === -1) return res.status(404).json({ error: "Usuário não encontrado." });
+
+    const { profile, progress, accountLogin } = req.body || {};
+    const authenticatedLogin = String(db.users[userIndex].login || "").trim().toLowerCase();
+    const originatingLogin = typeof accountLogin === "string" ? accountLogin.trim().toLowerCase() : "";
+    if (!authenticatedLogin || !originatingLogin || originatingLogin !== authenticatedLogin) {
+      return res.status(403).json({
+        error: "A sessão não corresponde à conta que iniciou a sincronização.",
+        code: "ACCOUNT_SESSION_MISMATCH"
+      });
+    }
+
+    if (profile !== undefined && profile !== null && (typeof profile !== "object" || Array.isArray(profile))) {
+      return res.status(400).json({ error: "Dados de perfil inválidos." });
+    }
+    const profileLogin = typeof profile?.login === "string" ? profile.login.trim().toLowerCase() : "";
+    if (profile && (!profileLogin || profileLogin !== authenticatedLogin)) {
+      return res.status(403).json({
+        error: "O perfil enviado não corresponde à conta autenticada.",
+        code: "ACCOUNT_SESSION_MISMATCH"
+      });
+    }
+
+    if (profile) {
+      const currentProfile = db.users[userIndex].profile || {};
+      db.users[userIndex].profile = {
+        ...currentProfile,
+        ...profile,
+        login: authenticatedLogin,
+        plan: db.users[userIndex].plan,
+        subscriptionPlan: currentProfile.subscriptionPlan,
+        subscriptionExpiresAt: currentProfile.subscriptionExpiresAt,
+        proActiveSince: currentProfile.proActiveSince,
+        trial7dRedeemedAt: currentProfile.trial7dRedeemedAt,
+        numerologyPurchased: currentProfile.numerologyPurchased,
+        astralMapPurchased: currentProfile.astralMapPurchased,
+        subscriptionBenefitChoice: currentProfile.subscriptionBenefitChoice,
+        specificTreatments: currentProfile.specificTreatments
+      };
+    }
+    if (progress) db.users[userIndex].progress = progress;
+    try {
+      await saveDb();
+      return res.json({ success: true });
+    } catch (err) {
+      console.error("Error syncing user:", err);
+      return res.status(503).json({ error: "Não foi possível salvar o perfil agora.", code: "PERSISTENCE_UNAVAILABLE" });
+    }
+  });
   app.use('/api', paymentRoutes(authenticate, apiLimiter));
 
   app.post("/api/anamnese", authenticate, apiLimiter, handleProcessAnamnese); app.post("/api/anamnesis", authenticate, apiLimiter, handleProcessAnamnese);
@@ -167,7 +218,7 @@ export function createApp() {
   app.post("/api/elevenlabs/tts", authenticate, apiLimiter, async (req, res) => { try { const { text, voiceId = process.env.ELEVENLABS_VOICE_ID || "Marcus", stability = 0.5, similarityBoost = 0.75, style = 0, speed = 0.92, useSpeakerBoost = true, enableBreathingPauses = true, cacheKey } = req.body; if (!text || typeof text !== "string" || text.trim().length === 0) return res.status(400).json({ error: "Texto para sintetizar é obrigatório." }); const safeStability = Math.max(0.35, Math.min(0.7, Number(stability))); const safeSimilarity = Math.max(0.5, Math.min(0.9, Number(similarityBoost))); const safeStyle = Math.max(0, Math.min(0.2, Number(style))); const safeSpeed = Math.max(0.82, Math.min(1.05, Number(speed))); const effectiveCacheKey = cacheKey || `${voiceId}_${safeStability}_${safeSimilarity}_${safeStyle}_${safeSpeed}_${text.slice(0, 100)}_${text.length}`; if (audioCache.has(effectiveCacheKey)) { const cached = audioCache.get(effectiveCacheKey)!; res.setHeader("Content-Type", cached.contentType); res.setHeader("X-Audio-Cache", "HIT"); return res.send(cached.buffer); } const client = getElevenLabs(); if (!client) return res.status(503).json({ error: "ELEVENLABS_API_KEY não configurada no servidor.", fallbackToNativeTTS: true, message: "Configure sua chave." }); const formattedText = enableBreathingPauses ? prepareTherapeuticSSML(text) : text; let resolvedVoiceId = voiceId; if (['masculina','male','everton','Marcus'].includes(voiceId)) resolvedVoiceId = process.env.ELEVENLABS_MALE_VOICE_ID || "nPczCjzI2devNBz1zQrb"; else if (['feminina','female','sofia','Rachel'].includes(voiceId)) resolvedVoiceId = "21m00Tcm4TlvDq8ikWAM"; const audioStream = await client.generate({ voice: resolvedVoiceId, model_id: "eleven_multilingual_v2", text: formattedText, voice_settings: { stability: safeStability, similarity_boost: safeSimilarity, style: safeStyle, speed: safeSpeed, use_speaker_boost: useSpeakerBoost } } as any); const chunks: Buffer[] = []; for await (const chunk of audioStream as any) chunks.push(Buffer.isBuffer(chunk) ? chunk : Buffer.from(chunk)); const audioBuffer = Buffer.concat(chunks); if (audioCache.size > 50) { const firstKey = audioCache.keys().next().value; if (firstKey) audioCache.delete(firstKey); } audioCache.set(effectiveCacheKey, { buffer: audioBuffer, contentType: "audio/mpeg" }); res.setHeader("Content-Type", "audio/mpeg"); res.setHeader("Content-Length", audioBuffer.length); res.setHeader("X-Audio-Cache", "MISS"); return res.send(audioBuffer); } catch (error: any) { console.error("Erro na geração de áudio ElevenLabs:", error); return res.status(500).json({ error: error.message || "Falha ao sintetizar áudio", fallbackToNativeTTS: true }); } });
 
   // Dedicated Continuous Stream for Protocol Stages (Marianne voice official)
-  app.post("/api/tts/stream", async (req, res) => {
+  app.post("/api/tts/stream", authenticate, apiLimiter, async (req, res) => {
     try {
       const { text, voiceId = OFFICIAL_PROTOCOL_VOICE_ID, speed = 0.85 } = req.body;
       if (!text || typeof text !== "string") {

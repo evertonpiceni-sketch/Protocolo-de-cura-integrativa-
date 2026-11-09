@@ -1097,8 +1097,9 @@ class CalmingAudioEngine {
         URL.revokeObjectURL(this.voiceAudioUrl);
         this.voiceAudioUrl = null;
       }
+      // onEnd is reserved for successful completion. A neural-voice failure
+      // must not advance a multi-part protocol as if the audio had finished.
       options?.onError?.(error);
-      onEnd();
     };
 
     if (!allowNativeFallback && !isElevenLabsVoiceId(options?.voiceId)) {
@@ -1351,6 +1352,8 @@ class CalmingAudioEngine {
       onEnd?: () => void;
       onError?: () => void;
       requireExplicitVoiceId?: boolean;
+      /** Optional per-layout artwork for the operating-system media session. */
+      artwork?: Array<{ src: string; sizes?: string; type?: string }>;
     }
   ) {
     this.stopSpeech();
@@ -1405,7 +1408,7 @@ class CalmingAudioEngine {
           title: options.title,
           artist: 'Everton Piceni — Protocolo da Transformação',
           album: options.subtitle,
-          artwork: [{ src: '/brand/chakra-body.svg', sizes: 'any', type: 'image/svg+xml' }]
+          artwork: options.artwork ?? [{ src: '/brand/chakra-body.svg', sizes: 'any', type: 'image/svg+xml' }]
         });
         setHandler('play', () => { if (isCurrent()) this.resumeSpeech(); });
         setHandler('pause', () => { if (isCurrent()) this.pauseSpeech(); });

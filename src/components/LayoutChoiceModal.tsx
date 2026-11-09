@@ -19,20 +19,65 @@ function LayoutPreview({ layout }: { layout: LayoutDefinition }) {
   const isNaturalSereno = layout.id === 'natural-sereno';
   const previewBorder = layout.id === 'elegancia-profunda' ? 'rgba(212,175,119,.35)' : layout.id === 'mistico-moderno' ? 'rgba(108,63,160,.40)' : 'rgba(42,36,32,.10)';
   if (isNaturalSereno) {
+    // A prancha oficial permanece como referência de composição. A prévia principal
+    // mostra a identidade vigente; cores e componentes antigos da prancha não prevalecem.
     return (
       <div
-        className="mt-4 flex h-[184px] w-full items-center justify-center overflow-hidden rounded-2xl border shadow-inner"
-        style={{ backgroundColor: '#FAF7F2', borderColor: 'rgba(200,157,82,.34)' }}
+        className="mt-4 h-[184px] w-full overflow-hidden rounded-2xl border border-[#E8E0D5] bg-[#FAF7F2] shadow-inner"
         aria-hidden="true"
       >
-        <img
-          src={NATURAL_SERENO_OFFICIAL_BOARD}
-          alt=""
-          loading="lazy"
-          decoding="async"
-          draggable={false}
-          className="h-full w-full object-contain p-1"
-        />
+        <div className="relative h-[120px] overflow-hidden">
+          <img
+            src="/brand/natural-sereno/vale-amanhecer.webp"
+            alt=""
+            loading="lazy"
+            decoding="async"
+            draggable={false}
+            className="absolute inset-0 h-full w-full object-cover"
+            style={{ objectPosition: 'center 35%' }}
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-[#FAF7F2] via-[#FAF7F2]/35 to-transparent" />
+          <span className="absolute left-3 top-3 rounded-lg border border-[#E8E0D5] bg-[#FAF7F2]/90 px-2 py-1 text-[8px] font-semibold uppercase tracking-[.14em] text-[#6B625B]">
+            Natureza realista
+          </span>
+          <div className="absolute bottom-3 left-3 right-3 flex items-end justify-between gap-2">
+            <div className="min-w-0">
+              <span className="block text-[9px] font-semibold uppercase tracking-[.12em] text-[#6B625B]">
+                Natural Sereno
+              </span>
+              <span className="block truncate font-display text-sm font-medium text-[#2A2421]">
+                Um lugar para voltar para si
+              </span>
+            </div>
+            <span className="shrink-0 rounded-[18px] border border-[#A87E37] bg-gradient-to-b from-[#E2B96B] to-[#C89D52] px-3 py-2 text-[8px] font-bold uppercase tracking-[.08em] text-[#2A2421] shadow-sm">
+              Iniciar jornada
+            </span>
+          </div>
+        </div>
+        <div className="flex h-[64px] items-center justify-between gap-2 border-t border-[#E8E0D5] px-2">
+          <div className="flex min-w-0 items-center gap-2">
+            <img
+              src={NATURAL_SERENO_OFFICIAL_BOARD}
+              alt=""
+              loading="lazy"
+              decoding="async"
+              draggable={false}
+              className="h-10 w-12 shrink-0 rounded-lg border border-[#E8E0D5] object-cover object-top"
+            />
+            <span className="max-w-[112px] text-[8px] leading-tight text-[#6B625B]">
+              Prancha oficial de referência. Decisões posteriores prevalecem.
+            </span>
+          </div>
+          <div className="flex shrink-0 items-center gap-1" aria-hidden="true">
+            {['#FAF7F2', '#F5EFE5', '#2A2421', '#C89D52', '#6F7B55'].map((color, index) => (
+              <span
+                key={`${color}-${index}`}
+                className="h-3.5 w-3.5 rounded-full border border-[#E8E0D5]"
+                style={{ backgroundColor: color }}
+              />
+            ))}
+          </div>
+        </div>
       </div>
     );
   }
@@ -153,6 +198,7 @@ export default function LayoutChoiceModal({ onSelect }: LayoutChoiceModalProps) 
   // Selection is mandatory: trap keyboard focus without allowing Escape to bypass confirmation.
   useDialogFocus(true, dialogRef, null);
   const selectedDefinition = OFFICIAL_LAYOUTS.find(layout => layout.id === selectedLayout);
+  const confirmButtonRadius = !selectedLayout || selectedLayout === 'natural-sereno' ? 'rounded-[18px]' : 'rounded-full';
   // Antes da escolha, o CTA permanece neutro. A cor do estilo só aparece após seleção explícita.
   const confirmButtonTone = !selectedLayout
     ? 'bg-gradient-to-r from-[#A99B84] via-[#B7AD9D] to-[#817460] focus-visible:ring-[#817460]/40'
@@ -230,7 +276,7 @@ export default function LayoutChoiceModal({ onSelect }: LayoutChoiceModalProps) 
             type="button"
             disabled={!selectedLayout || isSaving}
             onClick={confirmSelection}
-            className={`min-h-12 w-full max-w-sm rounded-full ${confirmButtonTone} px-6 py-3 text-sm font-bold uppercase tracking-[.12em] text-[#2A2420] shadow-lg transition hover:-translate-y-0.5 hover:shadow-xl disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:translate-y-0 disabled:hover:shadow-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2`}
+            className={`min-h-12 w-full max-w-sm ${confirmButtonRadius} ${confirmButtonTone} px-6 py-3 text-sm font-bold uppercase tracking-[.12em] text-[#2A2420] shadow-lg transition hover:-translate-y-0.5 hover:shadow-xl disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:translate-y-0 disabled:hover:shadow-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2`}
           >
             {isSaving ? 'Salvando escolha…' : selectedDefinition ? `Confirmar ${selectedDefinition.name}` : 'Selecione um estilo'}
           </button>

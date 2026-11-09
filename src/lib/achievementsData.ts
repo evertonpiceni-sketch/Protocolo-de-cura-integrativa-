@@ -9,7 +9,7 @@ export const ALL_ACHIEVEMENTS: AchievementItem[] = [
   { id: 'primeiro_passo', title: 'Primeiro Passo', description: 'Concluiu o primeiro momento do Protocolo da Transformação.', category: 'jornada', icon: 'Sparkles', points: 50, requirementText: 'Completar o Dia 01 da Jornada' },
   { id: 'foco_sagrado', title: 'Presença', description: 'Reservou 3 dias para práticas de presença e conexão interior.', category: 'constancia', icon: 'Flame', points: 100, requirementText: 'Registrar 3 dias de prática' },
   { id: 'meditador_constante', title: 'Sete Momentos', description: 'Reservou sete momentos para meditação e autocuidado.', category: 'constancia', icon: 'Calendar', points: 200, requirementText: 'Completar 7 dias na jornada' },
-  { id: 'mestre_dos_chakras', title: 'Jornada dos 7 Chakras', description: 'Concluiu a experiência de atenção aos 7 centros energéticos da jornada.', category: 'jornada', icon: 'Sun', points: 250, requirementText: 'Completar a Jornada dos 7 Chakras' },
+  { id: 'mestre_dos_chakras', title: 'Sete Dias de Presença', description: 'Concluiu os sete dias do protocolo Arcanjo, respeitando o foco e a intenção de cada prática.', category: 'jornada', icon: 'Sun', points: 250, requirementText: 'Completar os 7 dias do protocolo Arcanjo' },
   { id: 'guarda_de_miguel', title: 'Momento com Miguel', description: 'Reservou um momento para a prática espiritual dedicada ao Arcanjo Miguel.', category: 'espiritual', icon: 'Shield', points: 150, requirementText: 'Realizar a prática do Arcanjo Miguel' },
   { id: 'coracao_puro', title: 'Ho’oponopono', description: 'Reservou um momento para a prática contemplativa do Ho’oponopono.', category: 'espiritual', icon: 'Heart', points: 150, requirementText: 'Realizar a sessão de Ho’oponopono de 108 repetições' },
   { id: 'auto_observador', title: 'Olhar para Mim', description: 'Registrou sentimentos, sensações ou reflexões no Diário de Reconexão.', category: 'autoconhecimento', icon: 'BookOpen', points: 100, requirementText: 'Preencher pelo menos uma anotação no diário' },
@@ -38,8 +38,8 @@ export function evaluateUserAchievements(profile: UserProfile | null | undefined
   const hasSystemicAnswer = progress.some(item => Boolean(item.systemicAnswer?.trim()));
   const hasAnamnesis = Boolean(profile?.anamnesis?.mainComplaints?.length);
   const hasAstralMap = Boolean(profile?.astralMap);
-  const sevenChakraDays = profile?.journeyProgress?.arcanjo7CompletedDays;
-  const hasSevenChakraJourney = Array.isArray(sevenChakraDays) && new Set(sevenChakraDays.filter(day => day >= 1 && day <= 7)).size >= 7;
+  const arcanjoProtocolDays = profile?.journeyProgress?.arcanjo7CompletedDays;
+  const hasArcanjoProtocolJourney = Array.isArray(arcanjoProtocolDays) && new Set(arcanjoProtocolDays.filter(day => day >= 1 && day <= 7)).size >= 7;
   const hasArchangel = Boolean(profile?.archangelPrayerCompletedDays?.length);
   const hasHooponopono = Number(profile?.hooponoponoPracticedCount || 0) > 0;
 
@@ -47,7 +47,7 @@ export function evaluateUserAchievements(profile: UserProfile | null | undefined
   if (completedCount >= 1) unlockedIds.add('primeiro_passo');
   if (maxStreak >= 3 || completedCount >= 3) unlockedIds.add('foco_sagrado');
   if (completedCount >= 7 || maxStreak >= 7) unlockedIds.add('meditador_constante');
-  if (hasSevenChakraJourney) unlockedIds.add('mestre_dos_chakras');
+  if (hasArcanjoProtocolJourney) unlockedIds.add('mestre_dos_chakras');
   if (hasArchangel) unlockedIds.add('guarda_de_miguel');
   if (hasHooponopono) unlockedIds.add('coracao_puro');
   if (hasJournalEntry) unlockedIds.add('auto_observador');

@@ -8,32 +8,16 @@ function addStyles() {
   style.id = HOME_PATCH_STYLE_ID;
   style.textContent = `
     :root[data-layout="natural-sereno"] .ns-app[data-ns-screen="home"] {
-      background: #fff9e8;
+      background: #FAF7F2;
     }
 
     :root[data-layout="natural-sereno"] .ns-app[data-ns-screen="home"]::before {
-      background: rgba(255,249,232,.30);
+      background: rgba(250,247,242,.28);
     }
 
     :root[data-layout="natural-sereno"] .ns-home-scene {
-      min-height: 430px !important;
-      padding: 26px 22px 24px !important;
-      background:
-        linear-gradient(180deg, rgba(7,59,43,.16) 0%, rgba(7,59,43,.06) 42%, rgba(7,59,43,.72) 100%),
-        var(--ns-valley) center 56% / cover no-repeat !important;
-      color: #fff9e8;
       position: relative;
       overflow: hidden;
-    }
-
-    :root[data-layout="natural-sereno"] .ns-home-scene::after {
-      content: '';
-      position: absolute;
-      inset: auto 0 0;
-      height: 130px;
-      background: linear-gradient(180deg, transparent, rgba(7,59,43,.78));
-      pointer-events: none;
-      z-index: 0;
     }
 
     :root[data-layout="natural-sereno"] .ns-home-scene > * {
@@ -41,51 +25,7 @@ function addStyles() {
       z-index: 1;
     }
 
-    :root[data-layout="natural-sereno"] .ns-home-menu {
-      color: #f6df9a !important;
-      border: 1px solid rgba(246,223,154,.34) !important;
-      background: rgba(7,59,43,.62) !important;
-      backdrop-filter: blur(10px);
-      box-shadow: 0 8px 24px rgba(0,0,0,.14);
-    }
 
-    :root[data-layout="natural-sereno"] .ns-greeting {
-      max-width: 78% !important;
-      padding-top: 56px;
-      text-shadow: 0 2px 12px rgba(0,0,0,.28);
-    }
-
-    :root[data-layout="natural-sereno"] .ns-greeting h1 {
-      color: #fff9e8 !important;
-      font-size: clamp(36px, 10vw, 52px) !important;
-      line-height: .98 !important;
-      font-weight: 500 !important;
-      letter-spacing: -.035em !important;
-      margin-bottom: 14px !important;
-    }
-
-    :root[data-layout="natural-sereno"] .ns-greeting p {
-      color: rgba(255,249,232,.94) !important;
-      font-size: 15px !important;
-      line-height: 1.55 !important;
-      margin: 0 0 10px !important;
-    }
-
-    :root[data-layout="natural-sereno"] .ns-home-message {
-      display: none !important;
-    }
-
-    :root[data-layout="natural-sereno"] .ns-home-scene > .ns-gold {
-      margin-top: auto;
-      width: min(100%, 330px) !important;
-      align-self: center;
-      min-height: 54px !important;
-      border-radius: 999px !important;
-      color: #073b2b !important;
-      background: #073b2b !important;
-      border: 1px solid rgba(246,223,154,.58) !important;
-      box-shadow: 0 14px 30px rgba(3,31,22,.28), inset 0 1px rgba(255,255,255,.10) !important;
-    }
 
     :root[data-layout="natural-sereno"] .ep-home-needs-anamnesis .ns-home-scene > .ns-gold {
       display: none !important;
@@ -95,13 +35,7 @@ function addStyles() {
       position: relative;
       z-index: 4;
       padding: 0 16px 28px !important;
-      background: linear-gradient(180deg, #fff9e8 0%, #fbf4e5 70%, #fff9e8 100%);
-    }
-
-    :root[data-layout="natural-sereno"] .ep-home-needs-anamnesis .ns-home-content,
-    :root[data-layout="natural-sereno"] .ep-home-has-anamnesis .ns-home-content {
-      margin-top: -34px;
-      padding-top: 0 !important;
+      background: linear-gradient(180deg,#FAF7F2 0%,#F3EDE4 70%,#FAF7F2 100%);
     }
 
     :root[data-layout="natural-sereno"] .ep-home-needs-anamnesis .ns-current-day {
@@ -112,15 +46,15 @@ function addStyles() {
       margin: 0 0 18px !important;
       padding: 24px 22px 22px !important;
       border-radius: 28px !important;
-      border: 1px solid rgba(182,139,54,.28) !important;
-      background: rgba(255,250,238,.96) !important;
-      box-shadow: 0 18px 42px rgba(82,60,22,.12) !important;
+      border: 1px solid rgba(200,157,82,.28) !important;
+      background: rgba(255,253,248,.96) !important;
+      box-shadow: 0 18px 42px rgba(67,52,39,.08) !important;
     }
 
     :root[data-layout="natural-sereno"] .ep-home-anamnesis-card > small {
       display: inline-block;
       margin-bottom: 7px;
-      color: #9c7429 !important;
+      color: #8F631E !important;
       font-size: 10px !important;
       font-weight: 700;
       letter-spacing: .12em;
@@ -128,14 +62,14 @@ function addStyles() {
     }
 
     :root[data-layout="natural-sereno"] .ep-home-anamnesis-card h2 {
-      color: #26372a !important;
+      color: #2A2421 !important;
       font-size: 30px !important;
       line-height: 1.02 !important;
       margin: 0 0 12px !important;
     }
 
     :root[data-layout="natural-sereno"] .ep-home-anamnesis-card p {
-      color: #5f6857 !important;
+      color: #6B625B !important;
       font-size: 14px !important;
       line-height: 1.6 !important;
       margin: 0 0 18px !important;
@@ -143,11 +77,11 @@ function addStyles() {
 
     :root[data-layout="natural-sereno"] .ep-home-anamnesis-card .ns-gold {
       min-height: 56px !important;
-      border-radius: 999px !important;
-      background: linear-gradient(180deg,#ead394,#c49b42 35%,#b68b36) !important;
-      border-color: #b68b36 !important;
-      color: #073b2b !important;
-      box-shadow: 0 4px 12px rgba(85,60,11,.12) !important;
+      border-radius: 18px !important;
+      background: linear-gradient(180deg,#E2B96B 0%,#C89D52 100%) !important;
+      border: 1px solid rgba(168,126,55,.58) !important;
+      color: #2A2421 !important;
+      box-shadow: 0 9px 20px rgba(67,52,39,.10) !important;
     }
 
     :root[data-layout="natural-sereno"] .ep-home-has-anamnesis .ns-current-day {
@@ -157,10 +91,10 @@ function addStyles() {
       padding: 22px !important;
       overflow: hidden;
       border-radius: 28px !important;
-      border: 1px solid rgba(183,141,54,.3) !important;
-      background: #fff9e8 !important;
-      box-shadow: 0 18px 44px rgba(7,59,43,.08) !important;
-      color: #073b2b !important;
+      border: 1px solid rgba(200,157,82,.30) !important;
+      background: #FFFDF8 !important;
+      box-shadow: 0 18px 44px rgba(67,52,39,.08) !important;
+      color: #2A2421 !important;
       align-items: flex-start !important;
       flex-wrap: wrap;
     }
@@ -169,17 +103,17 @@ function addStyles() {
       width: 76px !important;
       height: 76px !important;
       border-radius: 50% !important;
-      border: 2px solid rgba(246,223,154,.55);
-      box-shadow: 0 8px 22px rgba(0,0,0,.20);
+      border: 2px solid rgba(200,157,82,.42);
+      box-shadow: 0 8px 22px rgba(67,52,39,.10);
     }
 
     :root[data-layout="natural-sereno"] .ep-home-has-anamnesis .ns-current-day .ns-row-copy {
-      color: #073b2b !important;
+      color: #2A2421 !important;
       padding-right: 8px;
     }
 
     :root[data-layout="natural-sereno"] .ep-home-has-anamnesis .ns-current-day .ns-row-copy small {
-      color: #806522 !important;
+      color: #8F631E !important;
       font-size: 10px !important;
       text-transform: uppercase;
       letter-spacing: .12em;
@@ -187,8 +121,8 @@ function addStyles() {
     }
 
     :root[data-layout="natural-sereno"] .ep-home-has-anamnesis .ns-current-day .ns-row-copy strong {
-      color: #073b2b !important;
-      font-family: 'Cormorant Garamond', Georgia, serif;
+      color: #2A2421 !important;
+      font-family: 'Cormorant Garamond',Georgia,serif;
       font-size: 27px !important;
       line-height: 1 !important;
       font-weight: 500 !important;
@@ -196,7 +130,7 @@ function addStyles() {
     }
 
     :root[data-layout="natural-sereno"] .ep-home-has-anamnesis .ns-current-day > svg {
-      color: #073b2b !important;
+      color: #6F7B55 !important;
       margin-left: auto;
       margin-top: 8px;
     }
@@ -208,19 +142,20 @@ function addStyles() {
       justify-content: center;
       min-height: 52px;
       margin-top: 14px;
-      border-radius: 999px;
-      color: #073b2b;
-      font-family: 'Lora', Georgia, serif;
+      border-radius: 18px;
+      color: #2A2421;
+      font-family: 'Lora',Georgia,serif;
       font-size: 15px;
-      background: linear-gradient(180deg, #f7e5aa, #d8b867);
-      box-shadow: inset 0 1px rgba(255,255,255,.72), 0 8px 22px rgba(0,0,0,.12);
+      background: linear-gradient(180deg,#E2B96B,#C89D52);
+      border: 1px solid rgba(168,126,55,.58);
+      box-shadow: 0 9px 20px rgba(67,52,39,.10);
     }
 
     :root[data-layout="natural-sereno"] .ep-home-moment-card {
       border-radius: 22px !important;
       padding: 16px !important;
       margin-bottom: 16px !important;
-      background: rgba(255,250,238,.96) !important;
+      background: rgba(255,253,248,.96) !important;
       border-color: rgba(182,139,54,.26) !important;
       box-shadow: 0 10px 26px rgba(70,54,25,.07) !important;
     }
@@ -230,16 +165,16 @@ function addStyles() {
       overflow: hidden;
       margin: 18px 0 !important;
       padding: 24px 20px 22px !important;
-      border: 1px solid rgba(182,139,54,.20) !important;
+      border: 1px solid rgba(200,157,82,.24) !important;
       border-radius: 24px !important;
       background:
-        linear-gradient(90deg, rgba(255,249,232,.92), rgba(255,249,232,.80)),
+        linear-gradient(90deg,rgba(250,247,242,.92),rgba(250,247,242,.84)),
         var(--ns-valley) center 72% / cover no-repeat !important;
-      box-shadow: 0 12px 30px rgba(72,57,28,.08) !important;
+      box-shadow: 0 12px 30px rgba(67,52,39,.08) !important;
     }
 
     :root[data-layout="natural-sereno"] .ns-insight > small {
-      color: #9a742d !important;
+      color: #8F631E !important;
       font-weight: 700;
       letter-spacing: .16em;
       text-transform: uppercase;
@@ -258,8 +193,8 @@ function addStyles() {
       border: 0 !important;
       padding: 0 !important;
       text-align: center;
-      color: #26372a !important;
-      font-family: 'Cormorant Garamond', Georgia, serif;
+      color: #2A2421 !important;
+      font-family: 'Cormorant Garamond',Georgia,serif;
       font-size: 24px !important;
       line-height: 1.22 !important;
       font-style: normal !important;
@@ -275,11 +210,11 @@ function addStyles() {
     :root[data-layout="natural-sereno"] .ep-home-quicklinks button {
       min-height: 104px;
       padding: 14px 8px 12px;
-      border: 1px solid rgba(182,139,54,.22);
+      border: 1px solid rgba(200,157,82,.24);
       border-radius: 18px;
-      background: rgba(255,250,238,.94);
-      color: #26372a;
-      box-shadow: 0 8px 22px rgba(69,53,24,.05);
+      background: rgba(255,253,248,.94);
+      color: #2A2421;
+      box-shadow: 0 8px 22px rgba(67,52,39,.06);
     }
 
     :root[data-layout="natural-sereno"] .ep-home-quicklinks button:disabled {
@@ -296,7 +231,7 @@ function addStyles() {
 
     :root[data-layout="natural-sereno"] .ep-home-quicklinks small {
       display: block;
-      color: #6a725f;
+      color: #6B625B;
       font-size: 9px;
       line-height: 1.35;
     }
@@ -307,20 +242,20 @@ function addStyles() {
       border: 0 !important;
       border-radius: 0 !important;
       text-align: center;
-      background: linear-gradient(180deg, rgba(7,59,43,.96), #052f22) !important;
+      background: linear-gradient(180deg,#FAF7F2 0%,#F3EDE4 100%) !important;
       box-shadow: none !important;
     }
 
     :root[data-layout="natural-sereno"] .ep-home-closing h2 {
-      color: #fff9e8 !important;
+      color: #2A2421 !important;
       font-size: 27px !important;
       font-weight: 400 !important;
       margin: 0 0 8px !important;
     }
 
     :root[data-layout="natural-sereno"] .ep-home-closing p {
-      color: #d7b75d !important;
-      font-family: 'Cormorant Garamond', Georgia, serif;
+      color: #8F631E !important;
+      font-family: 'Cormorant Garamond',Georgia,serif;
       font-size: 27px !important;
       line-height: 1.1 !important;
       margin: 0 !important;
@@ -331,9 +266,6 @@ function addStyles() {
     }
 
     @media (max-width: 390px) {
-      :root[data-layout="natural-sereno"] .ns-home-scene { min-height: 405px !important; }
-      :root[data-layout="natural-sereno"] .ns-greeting { max-width: 84% !important; padding-top: 48px; }
-      :root[data-layout="natural-sereno"] .ns-greeting h1 { font-size: 38px !important; }
       :root[data-layout="natural-sereno"] .ep-home-quicklinks { grid-template-columns: repeat(2, minmax(0,1fr)); }
       :root[data-layout="natural-sereno"] .ep-home-quicklinks button { min-height: 88px; }
     }
@@ -341,31 +273,60 @@ function addStyles() {
   // Restore the approved Natural Sereno visual while retaining current journey gates.
   style.textContent += `
     :root[data-layout="natural-sereno"] .ns-home-scene {
-      min-height: 700px !important;
+      min-height: clamp(520px,72vh,700px) !important;
       padding: 25px 18px 17px !important;
-      background: linear-gradient(180deg, rgba(255,249,232,.96), rgba(255,249,232,.7) 30%, transparent 60%), var(--ns-valley) center / cover no-repeat !important;
-      color: #26372a;
+      background: linear-gradient(180deg, rgba(250,247,242,.96), rgba(250,247,242,.78) 30%, transparent 60%), var(--ns-valley) center 35% / cover no-repeat !important;
+      color: #2A2421;
+    }
+    @media (max-width: 767px) {
+      :root[data-layout="natural-sereno"] .ns-home-scene {
+        background-position: center, center 38% !important;
+      }
     }
     :root[data-layout="natural-sereno"] .ns-home-scene::after { display: none; }
     :root[data-layout="natural-sereno"] .ns-home-menu {
-      position: absolute !important; z-index: 2 !important; top: 11px; right: 12px; left: auto; width: 44px; height: 44px; display: grid; place-items: center;
-      color: #073b2b !important; background: rgba(255,250,231,.7) !important;
-      border: 0 !important; box-shadow: none; backdrop-filter: none;
+      position: absolute !important;
+      z-index: 2 !important;
+      top: 11px;
+      right: 12px;
+      left: auto;
+      width: 44px;
+      height: 44px;
+      display: grid;
+      place-items: center;
+      color: #6B4E2E !important;
+      background: rgba(250,247,242,.88) !important;
+      border: 1px solid rgba(200,157,82,.30) !important;
+      box-shadow: 0 8px 22px rgba(67,52,39,.08);
+      backdrop-filter: blur(8px);
     }
     :root[data-layout="natural-sereno"] .ns-greeting { max-width: 350px !important; padding-top: 0; text-shadow: none; }
-    :root[data-layout="natural-sereno"] .ns-greeting h1 { color: #26372a !important; font-size: 35px !important; font-weight: 700 !important; line-height: 1.15 !important; margin-bottom: 7px !important; letter-spacing: normal !important; }
-    :root[data-layout="natural-sereno"] .ns-greeting p { color: #26372a !important; font-family: 'Lora', Georgia, serif; font-size: 15px !important; margin: 3px 0 !important; }
-    :root[data-layout="natural-sereno"] .ns-home-message { display: block !important; color: #26372a; }
+    :root[data-layout="natural-sereno"] .ns-greeting h1 { color: #2A2421 !important; font-size: 35px !important; font-weight: 700 !important; line-height: 1.15 !important; margin-bottom: 7px !important; letter-spacing: normal !important; }
+    :root[data-layout="natural-sereno"] .ns-greeting p {
+      color: #2A2421 !important;
+      font-family: 'Lora',Georgia,serif;
+      font-size: 15px !important;
+      line-height: 1.55 !important;
+      margin: 3px 0 !important;
+    }
+    :root[data-layout="natural-sereno"] .ns-home-message { display: block !important; color: #2A2421; }
     :root[data-layout="natural-sereno"] .ns-home-message span { font-family: 'Lora', Georgia, serif; }
     :root[data-layout="natural-sereno"] .ns-home-scene > .ns-gold {
-      margin-top: 0; width: 100% !important; min-height: 70px !important; font-size: 20px;
-      background: linear-gradient(180deg, #ead394 0%, #c49b42 25%, #aa7d25 58%, #98701f 78%, #d7b55e 100%) !important;
-      color: #073b2b !important; box-shadow: inset 0 2px 5px rgba(255,247,203,.85), inset 0 -2px 4px rgba(92,61,12,.4), 0 0 0 2px rgba(236,207,135,.17), 0 3px 12px rgba(86,64,16,.28) !important;
+      margin-top: 0;
+      width: 100% !important;
+      align-self: center;
+      min-height: 70px !important;
+      font-size: 20px;
+      border-radius: 18px !important;
+      background: linear-gradient(180deg,#E2B96B 0%,#C89D52 100%) !important;
+      color: #2A2421 !important;
+      border: 1px solid rgba(168,126,55,.58) !important;
+      box-shadow: 0 9px 20px rgba(67,52,39,.10) !important;
     }
     :root[data-layout="natural-sereno"] .ep-home-needs-anamnesis .ns-home-content,
     :root[data-layout="natural-sereno"] .ep-home-has-anamnesis .ns-home-content { margin-top: 0 !important; padding-top: 13px !important; }
     @media (min-width: 768px) {
-      :root[data-layout="natural-sereno"] .ns-home-scene { min-height: 540px !important; padding: 24px !important; }
+      :root[data-layout="natural-sereno"] .ns-home-scene { min-height: clamp(480px,62vh,680px) !important; padding: 24px !important; }
       :root[data-layout="natural-sereno"] .ns-home-scene > .ns-gold { min-height: 52px !important; font-size: 17px; }
     }
     @media (max-height: 700px) and (max-width: 767px) {

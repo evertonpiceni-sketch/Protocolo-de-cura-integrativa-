@@ -18,6 +18,7 @@ import { AppLanguage, STAGE_AUDIO_TRANSLATIONS } from '../lib/i18n';
 import { resolveProtocolScript } from '../lib/protocolScript';
 
 import { SacredEnergyCanvas } from './session/SacredEnergyCanvas';
+import NeutralBodyLightProgress from './NeutralBodyLightProgress';
 import { ProtocolAcceptancePortal } from './session/ProtocolAcceptancePortal';
 import { SessionCheckInModal } from './session/SessionCheckInModal';
 import { SecondaryScriptDrawer } from './session/SecondaryScriptDrawer';
@@ -64,6 +65,36 @@ const ELEGANCIA_PROFUNDA_CANVAS_THEME = {
 };
 const ESSENCIA_LUMINOSA_CANVAS_THEME = { glow: '#C6A46A', accent: '#A6B49B' };
 
+function getNaturalSerenoVisualFocus(focus: string, stageText: string) {
+  const primary = (focus || '').toLocaleLowerCase('pt-BR');
+  const secondary = (stageText || '').toLocaleLowerCase('pt-BR');
+  const source = primary || secondary;
+  if (source.includes('pés') || source.includes('pernas') || source.includes('raízes') || source.includes('solas')) {
+    return { label: 'Pés e base de sustentação', position: 82 };
+  }
+  if (source.includes('testa') || source.includes('cabeça') || source.includes('olhos') || source.includes('pensamentos') || source.includes('mente')) {
+    return { label: 'Cabeça e testa', position: 22 };
+  }
+  if (source.includes('peito') || source.includes('coração') || source.includes('esterno') || source.includes('tórax')) {
+    return { label: 'Centro do peito', position: 46 };
+  }
+  if (source.includes('garganta') || source.includes('pescoço')) {
+    return { label: 'Garganta e pescoço', position: 34 };
+  }
+  if (source.includes('abdômen') || source.includes('ventre') || source.includes('umbigo') || source.includes('estômago')) {
+    return { label: 'Centro do abdômen', position: 58 };
+  }
+  if (source.includes('coluna') || source.includes('vértebra') || source.includes('costas')) {
+    return { label: 'Coluna e eixo corporal', position: 60 };
+  }
+  const stage = secondary;
+  if (stage.includes('pés') || stage.includes('pernas') || stage.includes('sola')) return { label: 'Pés e base de sustentação', position: 82 };
+  if (stage.includes('peito') || stage.includes('coração') || stage.includes('tórax')) return { label: 'Centro do peito', position: 46 };
+  if (stage.includes('garganta') || stage.includes('pescoço')) return { label: 'Garganta e pescoço', position: 34 };
+  if (stage.includes('cabeça') || stage.includes('testa') || stage.includes('mente')) return { label: 'Cabeça e testa', position: 22 };
+  return { label: 'Corpo e respiração', position: 50 };
+}
+
 export default function MeditationSession({
   dayNumber,
   userName,
@@ -78,6 +109,7 @@ export default function MeditationSession({
   onClose,
 }: MeditationSessionProps) {
   const activeLayout = typeof document !== 'undefined' ? document.documentElement.dataset.layout : undefined;
+  const isNaturalSereno = activeLayout === 'natural-sereno';
   const isEleganciaProfunda = activeLayout === 'elegancia-profunda';
   const isEssenciaLuminosa = activeLayout === 'essencia-luminosa';
   const [sessionPhase, setSessionPhase] = useState<'portal' | 'checkin_before' | 'playing' | 'checkin_after' | 'completed'>('portal');
@@ -111,6 +143,10 @@ export default function MeditationSession({
   const currentInsight = journeyType === '7d'
     ? JOURNEY_7D_INSIGHTS[dayNumber - 1] || JOURNEY_7D_INSIGHTS[0]
     : DAILY_INSIGHTS[dayNumber - 1] || DAILY_INSIGHTS[0];
+  const naturalSerenoVisualFocus = getNaturalSerenoVisualFocus(currentInsight.focus, currentStage.text);
+  const naturalSerenoVisualProgress = duration > 0
+    ? Math.min(100, Math.max(0, (currentTime / duration) * 100))
+    : null;
 
   useEffect(() => {
     if (!isPlaying) return;
@@ -356,16 +392,42 @@ export default function MeditationSession({
   return (
     <div id="meditation-session" data-session-phase={sessionPhase} className="ep-session fixed inset-0 z-50 bg-[#FAF7F2] text-[#2A2420] flex flex-col justify-between overflow-hidden select-none min-h-dvh">
       <div className="ep-session-backdrop absolute inset-0 pointer-events-none">
-        <SacredEnergyCanvas
-          dayNumber={['natural-sereno', 'elegancia-profunda', 'essencia-luminosa'].includes(activeLayout || '') ? dayNumber : undefined}
-          colorTheme={isEleganciaProfunda ? ELEGANCIA_PROFUNDA_CANVAS_THEME : isEssenciaLuminosa ? ESSENCIA_LUMINOSA_CANVAS_THEME : undefined}
-          dayOneOpening={isEleganciaProfunda && dayNumber === 1}
-          stageId={currentStage.id}
-          isPlaying={isPlaying}
-          breathePhase={breathePhase}
-          elapsedSeconds={currentTime}
-        />
-        <div className="ep-session-light-overlay absolute inset-0 bg-radial from-transparent via-[#FAF7F2]/40 to-[#F4EFE6] pointer-events-none" />
+        {isNaturalSereno ? (
+          <>
+            <img
+              src="/brand/natural-sereno/cachoeira.webp"
+              alt=""
+              aria-hidden="true"
+              className="ep-session-natural-sereno-scene absolute inset-0 h-full w-full object-cover object-center"
+            />
+            <div className="ep-session-neutral-visual absolute inset-0 flex items-center justify-center">
+              <NeutralBodyLightProgress
+                variant="canvas"
+                showLabel={false}
+                progress={naturalSerenoVisualProgress}
+                active={isPlaying}
+                focusPosition={naturalSerenoVisualFocus.position}
+                focusLabel={naturalSerenoVisualFocus.label}
+                labelTitle="Foco corporal"
+                lightSoft={currentStage.colorTheme.glow}
+                movementDescription={currentInsight.description}
+                breathePhase={breathePhase}
+                className="ep-session-neutral-body"
+              />
+            </div>
+          </>
+        ) : (
+          <SacredEnergyCanvas
+            dayNumber={['elegancia-profunda', 'essencia-luminosa'].includes(activeLayout || '') ? dayNumber : undefined}
+            colorTheme={isEleganciaProfunda ? ELEGANCIA_PROFUNDA_CANVAS_THEME : isEssenciaLuminosa ? ESSENCIA_LUMINOSA_CANVAS_THEME : undefined}
+            dayOneOpening={isEleganciaProfunda && dayNumber === 1}
+            stageId={currentStage.id}
+            isPlaying={isPlaying}
+            breathePhase={breathePhase}
+            elapsedSeconds={currentTime}
+          />
+        )}
+        <div className={"ep-session-light-overlay absolute inset-0 bg-radial from-transparent via-[#FAF7F2]/40 to-[#F4EFE6] pointer-events-none " + (isNaturalSereno ? "ep-session-natural-sereno-overlay" : "")} />
       </div>
 
       <header className="relative z-20 flex items-center justify-between px-6 py-4 border-b border-[#E5DAC6] bg-[#FAF7F2]/90 backdrop-blur-md">
