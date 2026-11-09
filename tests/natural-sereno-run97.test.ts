@@ -339,3 +339,16 @@ test('tokens compartilhados do Estilo 1 ficam na paleta Natural Sereno e não he
   assert.ok(main.indexOf("import './approved-theme.css';") < main.indexOf("import './natural-sereno-approved-overrides.css';"));
   assert.ok(main.indexOf("import './natural-sereno-approved-overrides.css';") > main.indexOf("import './natural-sereno.css';"));
 });
+
+
+test('o progresso do player Natural Sereno neutraliza o dourado amarelo legado do componente compartilhado', () => {
+  const controls = read('src/components/session/MinimalPlayerControls.tsx');
+  const overrides = read('src/natural-sereno-approved-overrides.css');
+  const progressRule = overrides.match(/:root\\[data-layout="natural-sereno"\\] #meditation-session \\.ep-protocol-progress\\s*\\{([^}]*)\\}/)?.[1] ?? '';
+
+  assert.ok(controls.includes('className="ep-protocol-progress block w-full h-8 cursor-pointer accent-[#B88736]"'));
+  assert.ok(progressRule.includes('accent-color: #C89D52 !important;'));
+  assert.ok(progressRule.includes('background: linear-gradient(90deg,#A87E37 0%,#C89D52 var(--ep-progress),#E8E0D5 var(--ep-progress),#E8E0D5 100%) !important;'));
+  assert.ok(overrides.includes(':root[data-layout="natural-sereno"] #meditation-session .animate-pulse.rounded-full.bg-gradient-to-r'));
+  assert.ok(overrides.includes('linear-gradient(90deg,rgba(168,126,55,.12),rgba(200,157,82,.42),rgba(168,126,55,.12)) !important'));
+});
