@@ -151,7 +151,7 @@ test('Style 4 selector uses the complete night palette from the official referen
   const layouts = read('src/config/layouts.ts');
   assert.match(modal, /const isMysticCard = layout\.id === 'mistico-moderno'/);
   assert.match(modal, /cardBackgroundClass = isMysticCard \? 'bg-\[#0A2742\]'/);
-  for (const color of ['#0A2742', '#2E3B73', '#1E6B5A', '#6C3FA0', '#D4AF37', '#E2B96B', '#F4F1EB', '#6F8F55']) {
+  for (const color of ['#0A2742', '#2E3B73', '#1E6B5A', '#6C3FA0', '#D4AF37', '#E2B96B', '#F4F1EB', '#141F30']) {
     assert.ok(modal.includes(color), 'Missing Místico Moderno board color ' + color);
   }
   assert.match(layouts, /swatches: \['#0A2742', '#6C3FA0', '#D4AF37', '#141F30'\]/);
