@@ -392,6 +392,17 @@ export default function App() {
     };
   }, [userProfile?.visualLayout, layoutConfirmedThisSession]);
 
+  useEffect(() => {
+    // O navegador acompanha a superfície do estilo somente após a confirmação explícita.
+    const selected = layoutConfirmedThisSession
+      ? OFFICIAL_LAYOUTS.find(layout => layout.id === userProfile?.visualLayout)
+      : undefined;
+    const metaThemeColor = document.querySelector<HTMLMetaElement>('meta[name="theme-color"]');
+    if (!metaThemeColor) return;
+    const themeColor = selected?.swatches[0] ?? '#F8F4EC';
+    metaThemeColor.setAttribute('content', themeColor);
+  }, [userProfile?.visualLayout, layoutConfirmedThisSession]);
+
   // Initialize and load saved state from backend on mount
   useEffect(() => {
     const controller = new AbortController();
