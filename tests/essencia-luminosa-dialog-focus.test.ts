@@ -301,3 +301,13 @@ test('o tema só é aplicado após a confirmação persistida e antes de montar 
   assert.ok(applyConfirmedTheme > persistenceGuard, 'O tema só pode ser aplicado depois da persistência bem-sucedida.');
   assert.ok(updateProfile > applyConfirmedTheme, 'O atributo visual deve estar pronto antes do render do acolhimento.');
 });
+
+
+test('as cores semânticas dos sete chakras são preservadas na Essência Luminosa', () => {
+  const component = read('src/components/AnamnesisModal.tsx');
+  const css = read('src/essencia-luminosa-anamnesis-audit.css');
+  assert.ok(component.includes('ep-chakra-option p-3 rounded-2xl'));
+  assert.ok(css.includes('.bg-emerald-50):not(.ep-chakra-option)'));
+  assert.ok(css.includes('.text-emerald-400):not(.ep-chakra-option)'));
+  assert.ok(css.includes('#anamnesis-modal .ep-chakra-option'));
+});

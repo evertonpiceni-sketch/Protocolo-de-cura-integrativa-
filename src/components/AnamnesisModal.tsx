@@ -1308,7 +1308,7 @@ export default function AnamnesisModal({
                       <div
                         key={chakra.id}
                         onClick={() => toggleItem(chakraImbalance, setChakraImbalance, chakra.id)}
-                        className={`p-3 rounded-2xl border cursor-pointer transition flex items-start gap-3 ${
+                        className={`ep-chakra-option p-3 rounded-2xl border cursor-pointer transition flex items-start gap-3 ${
                           isSel
                             ? `${chakra.color} shadow-sm`
                             : 'bg-white/40 border-[#E5DAC6] text-[#5C5248] hover:border-[#E5DAC6]'

@@ -23,11 +23,11 @@
   box-shadow:0 12px 28px rgba(111,91,56,.18)!important;
 }
 
-:root[data-layout="essencia-luminosa"] #anamnesis-modal :is(.bg-indigo-500\/10,.bg-purple-500\/10,.bg-violet-500\/10,.bg-emerald-500\/10,.bg-indigo-50,.bg-purple-50,.bg-violet-50,.bg-emerald-50) {
+:root[data-layout="essencia-luminosa"] #anamnesis-modal :is(.bg-indigo-500\/10,.bg-purple-500\/10,.bg-violet-500\/10,.bg-emerald-500\/10,.bg-indigo-50,.bg-purple-50,.bg-violet-50,.bg-emerald-50):not(.ep-chakra-option) {
   background:color-mix(in srgb,var(--el-champagne) 72%,transparent)!important;
 }
 
-:root[data-layout="essencia-luminosa"] #anamnesis-modal :is(.text-indigo-700,.text-indigo-600,.text-indigo-400,.text-purple-700,.text-purple-600,.text-purple-400,.text-violet-700,.text-violet-600,.text-violet-400,.text-emerald-700,.text-emerald-600,.text-emerald-400) {
+:root[data-layout="essencia-luminosa"] #anamnesis-modal :is(.text-indigo-700,.text-indigo-600,.text-indigo-400,.text-purple-700,.text-purple-600,.text-purple-400,.text-violet-700,.text-violet-600,.text-violet-400,.text-emerald-700,.text-emerald-600,.text-emerald-400):not(.ep-chakra-option) {
   color:var(--el-olive)!important;
 }
 
