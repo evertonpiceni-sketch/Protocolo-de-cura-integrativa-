@@ -51,7 +51,7 @@ export default function MilestoneCelebrationModal({
     badgeText = 'Portal Karuna Ki';
     themeBg = 'from-violet-950 via-[#FBF8F2] to-purple-950';
     themeBorder = 'border-violet-500/40';
-    icon = <Flame className="w-8 h-8 text-violet-400 animate-pulse" />;
+    icon = <Flame className="w-8 h-8 text-violet-400 animate-pulse motion-reduce:animate-none" />;
     mainMessage = `Querido(a) ${userName},\n\nHoje você inicia o 8º Dia da sua Jornada! Esta etapa convida ao trabalho simbólico com os símbolos sagrados do Karuna Ki (Zonar e Halu) e com a Chama Violeta, acolhendo lembranças e sentimentos antigos com presença.\n\nVocê não está sozinho. Respire fundo, celebre sua constância e continue firme no seu trono de poder pessoal.\n\nCom amor e bênçãos,\nÉverton Rodrigo Piceni`;
   } else if (isDay15) {
     title = 'Dia 15: O Bálsamo do Raio Rosa';
