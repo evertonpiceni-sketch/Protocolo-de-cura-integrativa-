@@ -40,6 +40,7 @@ export default function ArchangelMichaelPrayerModal({
   const [voiceError, setVoiceError] = useState(false);
   const isEleganciaProfunda = typeof document !== 'undefined' && document.documentElement.dataset.layout === 'elegancia-profunda';
   const isEssenciaLuminosa = typeof document !== 'undefined' && document.documentElement.dataset.layout === 'essencia-luminosa';
+  const isMisticoModerno = typeof document !== 'undefined' && document.documentElement.dataset.layout === 'mistico-moderno';
   const [currentSectionIndex, setCurrentSectionIndex] = useState(0);
   const [completedDays, setCompletedDays] = useState<number[]>([]);
   const [completedToday, setCompletedToday] = useState(false);
@@ -101,7 +102,7 @@ export default function ArchangelMichaelPrayerModal({
       return;
     }
 
-    if (isEleganciaProfunda && !isElevenLabsVoiceId(voiceId)) {
+    if ((isEleganciaProfunda || isMisticoModerno) && !isElevenLabsVoiceId(voiceId)) {
       setVoiceError(true);
       return;
     }
@@ -124,8 +125,8 @@ export default function ArchangelMichaelPrayerModal({
         similarityBoost: 0.75,
         enableBreathingPauses: true,
         userName,
-        fallbackToSpeechSynthesis: !(isEleganciaProfunda || isEssenciaLuminosa),
-        onError: isEleganciaProfunda || isEssenciaLuminosa
+        fallbackToSpeechSynthesis: !(isEleganciaProfunda || isEssenciaLuminosa || isMisticoModerno),
+        onError: isEleganciaProfunda || isEssenciaLuminosa || isMisticoModerno
           ? () => { setIsPlaying(false); setVoiceError(true); }
           : undefined
       }
@@ -292,7 +293,7 @@ export default function ArchangelMichaelPrayerModal({
               {isPlaying ? <Pause size={16} className="mr-2 inline" /> : <Play size={16} className="mr-2 inline" />}
               {isPlaying ? 'Pausar áudio' : 'Ouvir esta parte'}
             </button>
-            {voiceError && <p role="alert" className="ep-voice-error rounded-xl px-3 py-2 text-xs">{isEssenciaLuminosa ? 'A narração neural está indisponível. A voz do dispositivo não será usada.' : 'Selecione uma voz neural válida em Ajustes de áudio. O Estilo 2 não usará a voz do dispositivo.'}</p>}
+            {voiceError && <p role="alert" className="ep-voice-error rounded-xl px-3 py-2 text-xs">{isMisticoModerno ? 'A voz neural escolhida está indisponível. O Místico Moderno não usará a voz do dispositivo.' : isEssenciaLuminosa ? 'A narração neural está indisponível. A voz do dispositivo não será usada.' : 'Selecione uma voz neural válida em Ajustes de áudio. O Estilo 2 não usará a voz do dispositivo.'}</p>}
           </div>
 
           <button

@@ -2,14 +2,15 @@ import { audioEngine } from './audio';
 
 /**
  * Arcanjo/Solfeggio owns the audio surface while its full-screen protocol is mounted.
- * This guard prevents the app-level background player (including gesture unlock)
- * from restarting underneath the protocol until App.tsx carries the same ownership
- * rule directly. It is intentionally narrow and does not alter narration/synth audio.
+ * This guard blocks app-level/global background starts while the full-screen protocol
+ * owns the audio surface. The protocol's own Solfeggio must use the explicit bypass
+ * exported below; ordinary startBG calls remain blocked while the view is mounted.
  */
 const ARCANJO_VIEW_MARKER = 'img[alt="Pessoa em meditação com os sete chakras"]';
 const DASHBOARD_MARKER = '#progress-dashboard';
 const ARCANJO_OPENING_GUARD_MS = 5000;
 let arcanjoOpening = false;
+let arcanjoWasMounted = false;
 let openingGuardTimer: number | null = null;
 
 const isArcanjoViewMounted = () => {
@@ -22,11 +23,15 @@ const isArcanjoViewMounted = () => {
 const arcanjoOwnsAudio = () => arcanjoOpening || isArcanjoViewMounted();
 
 const originalStartBG = audioEngine.startBG.bind(audioEngine);
+
+/** Explicitly starts the protocol-owned Solfeggio while the Arcanjo view is mounted. */
+export const startArcanjoOwnedSolfeggio = (type: Parameters<typeof audioEngine.startBG>[0]) => {
+  if (!isArcanjoViewMounted()) return;
+  originalStartBG(type);
+};
+
 audioEngine.startBG = ((type: Parameters<typeof audioEngine.startBG>[0]) => {
-  if (arcanjoOwnsAudio()) {
-    audioEngine.stopBG();
-    return;
-  }
+  if (arcanjoOwnsAudio()) return;
   return originalStartBG(type);
 }) as typeof audioEngine.startBG;
 
@@ -49,23 +54,27 @@ if (typeof window !== 'undefined') {
     if (openingGuardTimer !== null) window.clearTimeout(openingGuardTimer);
     openingGuardTimer = window.setTimeout(() => {
       releaseOpeningGuard();
-      if (isArcanjoViewMounted()) audioEngine.stopBG();
     }, ARCANJO_OPENING_GUARD_MS);
   });
 }
 
 if (typeof document !== 'undefined' && typeof MutationObserver !== 'undefined') {
   const observer = new MutationObserver(() => {
-    if (isArcanjoViewMounted()) {
+    const mounted = isArcanjoViewMounted();
+    if (mounted && !arcanjoWasMounted) {
+      arcanjoWasMounted = true;
       releaseOpeningGuard();
       audioEngine.stopBG();
+    } else if (!mounted && arcanjoWasMounted) {
+      arcanjoWasMounted = false;
     }
   });
 
   const startObserving = () => {
     if (!document.body) return;
     observer.observe(document.body, { childList: true, subtree: true });
-    if (isArcanjoViewMounted()) audioEngine.stopBG();
+    arcanjoWasMounted = isArcanjoViewMounted();
+    if (arcanjoWasMounted) audioEngine.stopBG();
   };
 
   if (document.body) startObserving();

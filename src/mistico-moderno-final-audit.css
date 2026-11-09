@@ -1,0 +1,16 @@
+/* Estilo 4 — assinatura oficial discreta. Escopo exclusivo do Místico Moderno. */
+:root[data-layout="mistico-moderno"] .ep-brand-signature-wrap,
+:root[data-layout="mistico-moderno"] #main-header div:has(> img.ep-brand-signature){
+  background:transparent!important;
+  border-color:transparent!important;
+  box-shadow:none!important;
+}
+:root[data-layout="mistico-moderno"] .ep-brand-signature{
+  opacity:.30!important;
+  filter:saturate(.90) contrast(.97);
+}
+@media (max-width:767px){
+  :root[data-layout="mistico-moderno"] .ep-brand-signature{
+    opacity:.26!important;
+  }
+}
