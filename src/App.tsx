@@ -686,6 +686,8 @@ export default function App() {
     }
     localStorage.removeItem(LOCAL_STORAGE_KEY_CURRENT_LOGIN);
     // A nova sessão precisa confirmar explicitamente um dos quatro estilos.
+    // Remova também o tema do DOM para que ele não continue vazando para o ProfileSetup.
+    delete document.documentElement.dataset.layout;
     setLayoutConfirmedThisSession(false);
     setLayoutChoiceRequested(false);
     setUserProfile(null);
