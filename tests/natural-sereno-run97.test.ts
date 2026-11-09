@@ -232,7 +232,21 @@ test('Natural Sereno exige voz neural nos caminhos de Anamnese, Reflexão Sistê
 
 test('o player mobile do Natural Sereno não mantém overlay verde-floresta ou dourado saturado legado', () => {
   const mobile = read('src/natural-sereno-mobile-fixes.css');
-  assert.doesNotMatch(mobile, /rgba\\(3,26,19|rgba\\(5,38,28|rgba\\(6,46,32|rgba\\(38,80,58|rgba\\(15,49,36|#d7b45c|#a67a28|#d8bd7a|#ead8a6|#ebd7a0|#fff4d8/i);
+  for (const legacy of [
+    'rgba(3,26,19',
+    'rgba(5,38,28',
+    'rgba(6,46,32',
+    'rgba(38,80,58',
+    'rgba(15,49,36',
+    '#d7b45c',
+    '#a67a28',
+    '#d8bd7a',
+    '#ead8a6',
+    '#ebd7a0',
+    '#fff4d8'
+  ]) {
+    assert.equal(mobile.includes(legacy), false, `Player mobile ainda contém ${legacy}`);
+  }
   assert.ok(mobile.includes('var(--ns-waterfall) center top / cover no-repeat'));
   assert.ok(mobile.includes('rgba(250,247,242,.28) 36%'));
   assert.ok(mobile.includes('linear-gradient(180deg,#E2B96B 0%,#C89D52 100%) !important;'));
