@@ -260,6 +260,7 @@ test('authenticated app and Natural Sereno journey writes pass the originating a
   assert.match(app, /syncUserState\(\{ progress: newProgress \}, \{ accountKey: userProfile\?\.login \}\)/);
   assert.match(app, /accountKey: updatedProfile\?\.login \?\? userProfile\?\.login/);
   assert.match(journey, /accountKey: accountLogin/);
+  assert.match(journey, /if \(!baseProfile \|\| !accountLogin \|\| getCurrentAccountLogin\(\) !== accountLogin\) return false/);
   assert.doesNotMatch(journey, /readLocalAccount\(\)\?\.login/);
   assert.match(journey, /profile: profileWithLogin/);
 });
