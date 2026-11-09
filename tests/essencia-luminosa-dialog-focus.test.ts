@@ -335,3 +335,26 @@ test('o logout remove o tema anterior antes de exigir uma nova escolha explícit
   assert.ok(clearDomTheme < resetSessionConsent, 'Remover o tema deve preceder a limpeza da confirmação da sessão.');
   assert.ok(resetSessionConsent < clearProfile, 'A confirmação deve ser resetada antes de limpar o perfil.');
 });
+
+test('as folhas específicas das superfícies ativas do Estilo 3 estão carregadas sem reativar WelcomeModal', () => {
+  const main = read('src/main.tsx');
+  const activeSheets = [
+    "import './essencia-luminosa-achievements-audit.css';",
+    "import './essencia-luminosa-chakras-guide-audit.css';",
+    "import './essencia-luminosa-contact-audit.css';",
+    "import './essencia-luminosa-courses-audit.css';",
+    "import './essencia-luminosa-herbal-baths-audit.css';",
+    "import './essencia-luminosa-onboarding-audit.css'"
+  ];
+  for (const marker of activeSheets) {
+    assert.ok(main.includes(marker), 'Folha ativa do Estilo 3 não carregada: ' + marker);
+  }
+  assert.ok(!main.includes("import './essencia-luminosa-welcome-audit.css'"), 'A folha do WelcomeModal legado não deve ser reativada.');
+  const finalApproved = main.indexOf("import './essencia-luminosa-approved-overrides.css';");
+  const lastActiveSheet = main.indexOf(activeSheets[activeSheets.length - 1]);
+  assert.ok(finalApproved > lastActiveSheet, 'A camada final aprovada deve continuar depois das folhas específicas.');
+  const onboarding = read('src/components/OnboardingFlow.tsx');
+  const onboardingCss = read('src/essencia-luminosa-onboarding-audit.css');
+  assert.ok(onboarding.includes('ep-care-onboarding-card'));
+  assert.ok(onboardingCss.includes('.ep-care-onboarding-card'));
+});
