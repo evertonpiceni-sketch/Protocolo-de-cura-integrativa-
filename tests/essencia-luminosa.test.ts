@@ -129,7 +129,7 @@ test('os tokens ativos do Estilo 3 correspondem à paleta aprovada mais recente'
   }
   assert.doesNotMatch(block, /#5E7153|#B88736|#8F631E/);
   assert.ok(block.includes('--ep-scene:none;'), 'Essência Luminosa não pode herdar a cena fotográfica de outro estilo.');
-  assert.ok(block.includes('--ep-scene-overlay:none;'), 'A camada de cena também deve permanecer neutra até existir foto própria aprovada.');
+  assert.ok(block.includes('--ep-scene-overlay:none;'), 'A base permanece neutra para evitar herança; a fotografia do Estilo 3 é aplicada pela folha final.');
   assert.doesNotMatch(block, /natural-sereno|reintegracao-presenca-arte/i);
   assert.ok(!block.includes('#C29648'));
   assert.ok(!block.includes('#7E9680'));

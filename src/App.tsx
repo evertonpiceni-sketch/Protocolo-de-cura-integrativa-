@@ -24,6 +24,7 @@ import { APPROVED_LOGO_DATA_URI } from './components/ApprovedBrand';
 import { calculateAstralMap } from './utils/astrology';
 import { audioEngine, OFFICIAL_PROTOCOL_VOICE_ID } from './lib/audio';
 import { syncUserState } from './lib/userSync';
+import { clearPendingProfileSync, readPendingProfileSync } from './lib/pendingProfileSync';
 import { shouldPlayProtocolSessionBackground } from './lib/protocolSessionAudioPolicy';
 import { setNeuralVoicePreviewActive } from './lib/neuralVoicePreviewState';
 import { isElevenLabsVoiceId, type ElevenLabsVoiceOption } from './lib/voiceSelection';
@@ -121,6 +122,7 @@ export default function App() {
   const [isLoadingElevenLabsVoices, setIsLoadingElevenLabsVoices] = useState(false);
   const [isPlayingVoiceTest, setIsPlayingVoiceTest] = useState<boolean>(false);
   const [voicePreviewError, setVoicePreviewError] = useState(false);
+  const pendingProfileSyncInFlight = useRef<string | null>(null);
   const isNaturalSereno = layoutConfirmedThisSession && userProfile?.visualLayout === 'natural-sereno';
   const isEleganciaProfunda = layoutConfirmedThisSession && userProfile?.visualLayout === 'elegancia-profunda';
   const isEssenciaLuminosa = layoutConfirmedThisSession && userProfile?.visualLayout === 'essencia-luminosa';
@@ -400,7 +402,12 @@ export default function App() {
           const data = await res.json();
           if (!active) return;
           const account = data.user;
-          const profileWithAdmin = { ...account.profile, isAdmin: account.role === 'admin' };
+          localStorage.setItem(LOCAL_STORAGE_KEY_CURRENT_LOGIN, account.login);
+          const pendingProfile = readPendingProfileSync(account.login);
+          const profileWithPending = pendingProfile
+            ? { ...account.profile, ...pendingProfile.profilePatch }
+            : account.profile;
+          const profileWithAdmin = { ...profileWithPending, isAdmin: account.role === 'admin' };
           setUserProfile(profileWithAdmin);
           setProgress(account.progress || []);
           
@@ -465,6 +472,41 @@ export default function App() {
       controller.abort();
     };
   }, []);
+
+  // Retry profile fields left pending by a successful registration whose first
+  // database sync was temporarily unavailable. The server merges this patch,
+  // so existing subscription/progress data is not overwritten.
+  useEffect(() => {
+    if (!isLoggedIn) return;
+    let login = '';
+    try {
+      login = localStorage.getItem(LOCAL_STORAGE_KEY_CURRENT_LOGIN)?.trim().toLowerCase() || '';
+    } catch {
+      return;
+    }
+    if (!login) return;
+
+    let active = true;
+    const flushPendingProfileSync = () => {
+      if (!active || pendingProfileSyncInFlight.current === login) return;
+      const pending = readPendingProfileSync(login);
+      if (!pending) return;
+      pendingProfileSyncInFlight.current = login;
+      void syncUserState({ profile: pending.profilePatch })
+        .then(() => clearPendingProfileSync(login))
+        .catch(error => console.warn('Pending registration profile sync remains queued', error))
+        .finally(() => {
+          if (pendingProfileSyncInFlight.current === login) pendingProfileSyncInFlight.current = null;
+        });
+    };
+
+    flushPendingProfileSync();
+    window.addEventListener('online', flushPendingProfileSync);
+    return () => {
+      active = false;
+      window.removeEventListener('online', flushPendingProfileSync);
+    };
+  }, [isLoggedIn, userProfile]);
 
   const updateLocalAccountCache = (profileToCache: UserProfile, progressToCache: DayProgress[]) => {
     try {
@@ -537,6 +579,7 @@ export default function App() {
 
     setUserProfile({ ...account.profile, isAdmin: account.isAdmin === true });
     setProgress(account.progress);
+    setIsLoggedIn(true);
     
     const nextUncompleted = account.progress.find(p => !p.completed);
     setCurrentDay(nextUncompleted ? nextUncompleted.dayNumber : 21);
