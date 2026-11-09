@@ -292,7 +292,6 @@ export default function App() {
     activeSessionDay,
     showPersonalJourney,
     showArcanjoView,
-    userProfile?.subscriptionPlan,
     layoutConfirmedThisSession,
     usesNeuralVoiceCatalog,
     isPlayingVoiceTest
