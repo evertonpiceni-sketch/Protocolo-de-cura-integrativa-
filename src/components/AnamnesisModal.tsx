@@ -1307,8 +1307,16 @@ export default function AnamnesisModal({
                     return (
                       <div
                         key={chakra.id}
+                        role="button"
+                        tabIndex={0}
+                        aria-pressed={isSel}
                         onClick={() => toggleItem(chakraImbalance, setChakraImbalance, chakra.id)}
-                        className={`ep-chakra-option p-3 rounded-2xl border cursor-pointer transition flex items-start gap-3 ${
+                        onKeyDown={(event) => {
+                          if ((event.key !== 'Enter' && event.key !== ' ') || event.repeat) return;
+                          event.preventDefault();
+                          toggleItem(chakraImbalance, setChakraImbalance, chakra.id);
+                        }}
+                        className={`ep-chakra-option p-3 rounded-2xl border cursor-pointer transition flex items-start gap-3 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#C6A46A]/55 focus-visible:ring-offset-2 ${
                           isSel
                             ? `${chakra.color} shadow-sm`
                             : 'bg-white/40 border-[#E5DAC6] text-[#5C5248] hover:border-[#E5DAC6]'
