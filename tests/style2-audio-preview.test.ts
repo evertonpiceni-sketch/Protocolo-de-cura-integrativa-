@@ -74,7 +74,7 @@ test('o Arcanjo suspende Solfeggio durante narração neural e respeita o áudio
   assert.ok(arcanjo.includes('resetPlayback(suspendsSolfeggioDuringNeuralNarration);'));
   assert.ok(arcanjo.includes('if (suspendsSolfeggioDuringNeuralNarration) playProtocolFrequency();'));
   assert.ok(arcanjo.includes('startArcanjoOwnedSolfeggio(`${config.freq}hz`);'));
-  assert.ok(arcanjo.includes('if (suspendsSolfeggioDuringNeuralNarration) stopProtocolFrequency();\\n    audioEngine.resumeSpeech();'), 'A frequência deve ser suspensa antes de retomar a narração neural.');
+  assert.ok(arcanjo.includes('if (suspendsSolfeggioDuringNeuralNarration) stopProtocolFrequency();\n    audioEngine.resumeSpeech();'), 'A frequência deve ser suspensa antes de retomar a narração neural.');
   assert.ok(arcanjo.includes('if (!suspendsSolfeggioDuringNeuralNarration && !isMisticoModerno)'));
   assert.equal((arcanjo.match(/audioEngine\.startSynth\(/g) ?? []).length, 0, 'A frequência do Arcanjo deve passar pelo helper de ownership, não pelo startBG bloqueado.');
 });

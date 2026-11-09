@@ -414,10 +414,10 @@ test('Místico Moderno Arcanjo status identifies neural narration with concurren
   const statusEnd = arcanjo.indexOf('</span>', statusStart);
   const status = arcanjo.slice(statusStart, statusEnd);
 
-  assert.match(arcanjo, /const suspendsSolfeggioDuringNeuralNarration = isEleganciaProfunda \\|\\| isEssenciaLuminosa/);
-  assert.match(status, /isMisticoModerno[\\s\\S]*?Preparando narração neural — Solfeggio/);
-  assert.match(status, /Narração neural \\+ Solfeggio/);
+  assert.match(arcanjo, /const suspendsSolfeggioDuringNeuralNarration = isEleganciaProfunda \|\| isEssenciaLuminosa/);
+  assert.match(status, /isMisticoModerno[\s\S]*?Preparando narração neural — Solfeggio/);
+  assert.match(status, /Narração neural \+ Solfeggio/);
   assert.match(status, /Narração pausada — Solfeggio/);
   assert.match(status, /será ativado somente quando a narração neural começar/);
-  assert.doesNotMatch(status, /Voz humana \\+ Solfeggio/);
+  assert.doesNotMatch(status, /Voz humana \+ Solfeggio/);
 });
