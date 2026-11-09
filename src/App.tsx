@@ -93,6 +93,7 @@ export default function App() {
   const [showMobileInstallModal, setShowMobileInstallModal] = useState<boolean>(false);
   const [showWelcomeModal, setShowWelcomeModal] = useState<boolean>(false);
   const [showArcanjoView, setShowArcanjoView] = useState<boolean>(false);
+  const isArcanjoViewActive = showArcanjoView || userProfile?.subscriptionPlan === 'arcanjo_7d';
   const [showArchangelModal, setShowArchangelModal] = useState<boolean>(false);
   const [showHooponoponoModal, setShowHooponoponoModal] = useState<boolean>(false);
   const [showAudioSettingsModal, setShowAudioSettingsModal] = useState<boolean>(false);
@@ -268,13 +269,13 @@ export default function App() {
                          userProfile.bgMusicType !== 'none' && 
                          activeSessionDay === null &&
                          !showPersonalJourney &&
-                         !showArcanjoView &&
+                         !isArcanjoViewActive &&
                          (!usesNeuralVoiceCatalog || !isPlayingVoiceTest ||
                            shouldPlayProtocolSessionBackground('playing', userProfile.bgMusicType)); // Keep Solfeggio out of neural voice previews in all neural-voice layouts
 
       if (shouldPlay) {
         audioEngine.startBG(userProfile.bgMusicType);
-      } else {
+      } else if (!isArcanjoViewActive) {
         audioEngine.stopBG();
       }
     } else {
@@ -290,8 +291,7 @@ export default function App() {
     userProfile?.binauralCarrierMode,
     activeSessionDay,
     showPersonalJourney,
-    showArcanjoView,
-    userProfile?.subscriptionPlan,
+    isArcanjoViewActive,
     layoutConfirmedThisSession,
     usesNeuralVoiceCatalog,
     isPlayingVoiceTest
@@ -321,7 +321,7 @@ export default function App() {
                            userProfile.bgMusicType !== 'none' && 
                            activeSessionDay === null &&
                            !showPersonalJourney &&
-                           !showArcanjoView &&
+                           !isArcanjoViewActive &&
                            (!usesNeuralVoiceCatalog || !isPlayingVoiceTest ||
                              shouldPlayProtocolSessionBackground('playing', userProfile.bgMusicType));
                            
@@ -341,7 +341,7 @@ export default function App() {
       window.removeEventListener('click', handleGesture);
       window.removeEventListener('touchstart', handleGesture);
     };
-  }, [userProfile, activeSessionDay, showPersonalJourney, showArcanjoView, layoutConfirmedThisSession, isPlayingVoiceTest]);
+  }, [userProfile, activeSessionDay, showPersonalJourney, isArcanjoViewActive, layoutConfirmedThisSession, isPlayingVoiceTest]);
 
   useEffect(() => {
     if (!userProfile?.reminderTime || typeof Notification === 'undefined' || Notification.permission !== 'granted') return;
@@ -896,7 +896,7 @@ export default function App() {
             }
           })}
         />
-      ) : showArcanjoView || userProfile.subscriptionPlan === 'arcanjo_7d' ? (
+      ) : isArcanjoViewActive ? (
         <ArcanjoProtocolView 
           userProfile={userProfile}
           onLogout={handleLogout}
@@ -1926,7 +1926,7 @@ export default function App() {
             voicePitch={userProfile.voicePitch}
             bgMusicType={userProfile.bgMusicType}
             audioEnabled={userProfile.audioEnabled !== false}
-            allowBackgroundPlayback={activeSessionDay === null && !showPersonalJourney && !showArcanjoView}
+            allowBackgroundPlayback={activeSessionDay === null && !showPersonalJourney && !isArcanjoViewActive}
             currentDay={currentDay}
             progress={progress}
             anamnesis={userProfile.anamnesis}
@@ -2551,7 +2551,7 @@ export default function App() {
       {showAudioSettingsModal && userProfile && (
         <AudioSettingsModal
           isOpen={showAudioSettingsModal}
-          allowBackgroundPlayback={activeSessionDay === null && !showPersonalJourney && !showArcanjoView}
+          allowBackgroundPlayback={activeSessionDay === null && !showPersonalJourney && !isArcanjoViewActive}
           onClose={() => setShowAudioSettingsModal(false)}
           userProfile={userProfile}
           onSaveProfile={saveProfile}
