@@ -674,3 +674,17 @@ test('a fotografia oficial da Elegância Profunda compõe o shell e os heros sem
   const style3 = read('src/essencia-luminosa-final-audit.css');
   assert.ok(!style3.includes('data-layout="elegancia-profunda"'), 'A fotografia do Estilo 2 não pode contaminar a Essência Luminosa.');
 });
+
+
+test('a cor da barra do navegador acompanha apenas o estilo explicitamente confirmado', () => {
+  const app = read('src/App.tsx');
+  const layouts = read('src/config/layouts.ts');
+  const html = read('index.html');
+  assert.ok(html.includes('<meta name="theme-color" content="#F8F4EC" />'), 'O shell permanece neutro antes da escolha.');
+  assert.ok(app.includes("document.querySelector<HTMLMetaElement>('meta[name=\"theme-color\"]')"));
+  assert.ok(app.includes("const themeColor = selected?.swatches[0] ?? '#F8F4EC';"));
+  assert.ok(app.includes("metaThemeColor.setAttribute('content', themeColor);"));
+  assert.ok(app.includes('const selected = layoutConfirmedThisSession'));
+  assert.ok(layouts.includes("id: 'elegancia-profunda'"));
+  assert.ok(layouts.includes("swatches: ['#0B1712', '#2E6B4F', '#D4AF37', '#132A1F']"));
+});
