@@ -55,3 +55,20 @@
   outline: 2px solid color-mix(in srgb, var(--layout-gold, #C6A46A) 54%, transparent) !important;
   outline-offset: 2px;
 }
+
+ 
+/* Assinatura oficial no acolhimento: transparente, sem moldura e subordinada ao conteúdo. */
+:root[data-layout="essencia-luminosa"] #welcome-modal .ep-brand-signature-wrap {
+  background: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+}
+:root[data-layout="essencia-luminosa"] #welcome-modal .ep-brand-signature {
+  opacity: .30 !important;
+  filter: saturate(.86) contrast(.96) !important;
+}
+@media (max-width: 640px) {
+  :root[data-layout="essencia-luminosa"] #welcome-modal .ep-brand-signature {
+    opacity: .26 !important;
+  }
+}
