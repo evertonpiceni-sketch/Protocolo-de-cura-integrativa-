@@ -275,8 +275,13 @@ function addStyles() {
     :root[data-layout="natural-sereno"] .ns-home-scene {
       min-height: clamp(520px,72vh,700px) !important;
       padding: 25px 18px 17px !important;
-      background: linear-gradient(180deg, rgba(250,247,242,.96), rgba(250,247,242,.78) 30%, transparent 60%), var(--ns-valley) center / cover no-repeat !important;
+      background: linear-gradient(180deg, rgba(250,247,242,.96), rgba(250,247,242,.78) 30%, transparent 60%), var(--ns-valley) center 35% / cover no-repeat !important;
       color: #2A2421;
+    }
+    @media (max-width: 767px) {
+      :root[data-layout="natural-sereno"] .ns-home-scene {
+        background-position: center, center 38% !important;
+      }
     }
     :root[data-layout="natural-sereno"] .ns-home-scene::after { display: none; }
     :root[data-layout="natural-sereno"] .ns-home-menu {
