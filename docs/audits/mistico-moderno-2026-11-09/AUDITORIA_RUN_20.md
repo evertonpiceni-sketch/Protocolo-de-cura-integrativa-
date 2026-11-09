@@ -64,3 +64,19 @@ A última varredura estática registrada nas 25 folhas CSS Místico identificou 
 - A primeira execução no merge commit encontrou 2 falhas em regressões da Elegância Profunda. A causa foi identificada: a sobreposição inicial da branch de auditoria havia levado uma versão anterior de `src/elegancia-profunda-approved-overrides.css`, sem a regra aprovada do onboarding fotográfico que já estava na main.
 - Restaurado o blob exato da main atual para esse arquivo, preservando a fotografia e o véu aprovados do Estilo 2. Nenhuma regra Místico foi alterada nessa correção.
 - As duas regressões do Estilo 2 permanecem ativas; não foram removidas nem enfraquecidas. O CI será reexecutado no novo HEAD.
+
+
+## Resultado final da reauditoria pós-reconciliação
+
+- A primeira CI do merge manual identificou duas regressões do Estilo 2 porque uma versão anterior de sua folha de overrides havia sido sobreposta. O arquivo foi restaurado ao blob atual da main (`d3300668eed78486757f085254b8539aff388c42`); as regressões foram mantidas e voltaram a passar.
+- **Security Audit #2072** no commit de código `7bf9606cc5de1b1954cac2589608dd3dd32f535e`: **sucesso**.
+  - `npm audit`: 0 vulnerabilidades.
+  - TypeScript: aprovado.
+  - Testes: **175/175 aprovados**, 0 falhas.
+  - Build Vite: aprovado.
+  - Entry points, JWT, autenticação/admin, smoke tests e endpoints de pagamento fail-closed: aprovados.
+- Comparação com a main após a reconciliação: **18 commits à frente, 0 atrás** no commit de código; PR tecnicamente integrável e ainda em rascunho.
+- A consulta de deployments para o SHA de código não retornou preview. O comentário mais recente da Vercel no PR continua indicando limite `api-deployments-free-per-day`; nenhum novo deployment foi forçado.
+- A miniatura versionada `public/brand/mistico-moderno/prancha-oficial-card.webp` foi lida como WebP válido, **320 × 240 px (4:3)**. O PNG original informado não foi localizado na Library nesta execução, então não declaro comparação pixel a pixel.
+
+**Status final:** base técnica aprovada; homologação visual renderizada, teste auditivo real e teste controlado de checkout/webhook continuam pendentes. Sem merge, publicação em produção ou cobrança real.
