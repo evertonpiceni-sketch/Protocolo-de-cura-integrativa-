@@ -9,6 +9,7 @@ test('a Essência Luminosa usa uma representação corporal neutra e clara nas s
   const arcanjo = read('src/components/ArcanjoProtocolView.tsx');
   const dashboard = read('src/components/DashboardCura.tsx');
   const home = read('src/components/TransformationHome.tsx');
+  const audio = read('src/lib/audio.ts');
 
   assert.ok(illustration.includes('Silhueta abstrata sem características de gênero'));
   assert.ok(illustration.includes('viewBox="0 0 800 1000"'));
@@ -20,6 +21,10 @@ test('a Essência Luminosa usa uma representação corporal neutra e clara nas s
   assert.ok(dashboard.includes("isEssenciaLuminosa ? '/brand/chakra-body-neutral.svg' : '/brand/human-chakra-model.jpg'"));
   assert.ok(home.includes("isEssenciaLuminosa ? '/brand/chakra-body-neutral.svg' : '/brand/chakra-body.svg'"));
   assert.ok(home.includes('Representação corporal neutra em meditação'));
+  assert.ok(audio.includes("document.documentElement.dataset.layout === 'essencia-luminosa'"));
+  assert.ok(audio.includes("? '/brand/chakra-body-neutral.svg'"));
+  assert.ok(audio.includes(": '/brand/chakra-body.svg'"));
+  assert.ok(audio.includes('src: getProtocolMediaArtwork()'));
 });
 
 test('as imagens históricas continuam preservadas para os estilos que não são Essência Luminosa', () => {
