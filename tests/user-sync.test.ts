@@ -254,3 +254,17 @@ test('authenticated app and Natural Sereno journey writes pass the originating a
   assert.match(app, /accountKey: updatedProfile\?\.login \?\? userProfile\?\.login/);
   assert.match(journey, /accountKey: typeof baseProfile\.login === 'string' \? baseProfile\.login : readLocalAccount\(\)\?\.login/);
 });
+
+
+test('a stale profile callback cannot overwrite the active account in the local cache', () => {
+  const app = readFileSync('src/App.tsx', 'utf8');
+  const cacheStart = app.indexOf('const updateLocalAccountCache =');
+  const cacheEnd = app.indexOf('// Profile and progress are synced independently', cacheStart);
+  const cacheBlock = cacheStart >= 0 && cacheEnd > cacheStart
+    ? app.slice(cacheStart, cacheEnd)
+    : '';
+
+  assert.ok(cacheBlock.includes('const activeLogin = getCurrentAccountLogin();'));
+  assert.ok(cacheBlock.includes('if (activeLogin && profileLogin && activeLogin !== profileLogin) return;'));
+  assert.doesNotMatch(cacheBlock, /setItem\(LOCAL_STORAGE_KEY_CURRENT_LOGIN/);
+});
