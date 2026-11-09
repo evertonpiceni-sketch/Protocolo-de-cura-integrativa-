@@ -45,7 +45,7 @@ Os testes estáticos existentes continuam verificando o isolamento das folhas CS
 
 ## Validação e pendências
 
-- A execução atual `Security Audit #42559031582`, no head `f26d0cc93f6b07ffa7987b4376daa2fdb88e7657`, concluiu com sucesso: npm audit, TypeScript, regressões, build, segurança, smoke tests e endpoints de pagamento fail-closed.
+- A execução atual `Security Audit #42559031582`, no head de código `f26d0cc93f6b07ffa7987b4376daa2fdb88e7657`, concluiu com sucesso: `npm audit` encontrou 0 vulnerabilidades; 172 testes passaram e 0 falharam; TypeScript, build, smoke tests, verificações de segurança e endpoints de pagamento fail-closed também passaram.
 - O novo head passou pela CI completa; o resultado foi confirmado nos passos de npm audit, TypeScript, testes de regressão, build e verificações de segurança/pagamento.
 - O check Vercel anterior retornou `build-rate-limit`; não forcei novo deployment.
 - **Pendente:** inspeção visual renderizada das 12 superfícies em desktop e celular, incluindo alinhamento, nitidez, imagens, botões e animações.
