@@ -48,7 +48,7 @@ test('registration queues unsynced profile fields and the authenticated app retr
   const onboarding = onboardingStart >= 0 && sessionStart > onboardingStart ? app.slice(onboardingStart, sessionStart) : '';
   assert.ok(onboarding.includes('setIsLoggedIn(true);'), 'login/cadastro precisa ativar a sessão autenticada sem recarregar a página');
   assert.ok(app.includes('readPendingProfileSync(account.login)'));
-  assert.ok(app.includes('syncUserState({ profile: pending.profilePatch }, { accountKey: login })'));
+  assert.ok(app.includes('syncUserState({ profile: { ...pending.profilePatch, login } }, { accountKey: login })'));
   assert.ok(app.includes("window.addEventListener('online', flushPendingProfileSync)"));
   assert.ok(app.includes('clearPendingProfileSync(login)'));
 });
