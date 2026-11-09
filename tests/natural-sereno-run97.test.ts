@@ -171,7 +171,14 @@ test('Natural Sereno não reintroduz fallback verde-floresta nem amarelo saturad
   }
   assert.ok(css.includes("presenca.webp') center / cover no-repeat #2A2421"));
   assert.ok(css.includes("acolhimento.webp') center / cover no-repeat #2A2421"));
-  assert.ok(css.includes('var(--ns-waterfall) center / cover no-repeat #2A2421'));
+  assert.ok(css.includes("--ns-waterfall: url('/brand/natural-sereno/cachoeira.webp')"));
+  const finalPlayerCss = read('src/natural-sereno-final-audit.css');
+  const playerComponent = read('src/components/MeditationSession.tsx');
+  assert.ok(finalPlayerCss.includes('#meditation-session.ep-session'));
+  assert.ok(finalPlayerCss.includes('background: linear-gradient(180deg, rgba(250,247,242,.96), rgba(245,239,229,.94)) !important;'));
+  assert.ok(!finalPlayerCss.includes('var(--ns-waterfall) center / cover no-repeat #063020'));
+  assert.ok(playerComponent.includes('src="/brand/natural-sereno/cachoeira.webp"'));
+  assert.ok(playerComponent.includes('ep-session-natural-sereno-scene'));
   assert.ok(css.includes('#5E6948; background: rgba(111,123,85,.10)'));
   assert.ok(css.includes('background: #C89D52;'));
 });
