@@ -652,6 +652,7 @@ export default function App() {
     }
 
     setProgress(updatedProgress);
+    if (updatedProfile) updateLocalAccountCache(updatedProfile, updatedProgress);
 
     // Persist the profile and progress from this same completed-session snapshot.
     if (isLoggedIn) {
@@ -702,6 +703,7 @@ export default function App() {
           longestStreak: 0
         };
         setUserProfile(updatedProfile);
+        updateLocalAccountCache(updatedProfile, defaultProgress);
 
         // Persist the reset as one consistent profile/progress snapshot.
         if (isLoggedIn) {
