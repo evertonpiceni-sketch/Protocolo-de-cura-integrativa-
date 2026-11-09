@@ -98,3 +98,15 @@ test('a celebração não deixa o botão emerald ou o ícone rose escaparem no E
   assert.ok(css.includes('[aria-label="Celebração de progresso"] button.bg-emerald-600:hover'));
   assert.ok(css.includes('[aria-label="Celebração de progresso"] [class*="text-rose-"]'));
 });
+
+
+test('as animações CSS do player e dos diálogos respeitam prefers-reduced-motion', () => {
+  const player = read('src/components/session/MinimalPlayerControls.tsx');
+  const session = read('src/components/MeditationSession.tsx');
+  const dailyTip = read('src/components/DailyTipModal.tsx');
+  const milestone = read('src/components/MilestoneCelebrationModal.tsx');
+  assert.ok(player.includes('motion-reduce:animate-none'));
+  assert.ok(session.includes('motion-reduce:animate-none'));
+  assert.ok(dailyTip.includes('motion-reduce:animate-none'));
+  assert.ok((milestone.match(/motion-reduce:animate-none/g) || []).length >= 3);
+});
