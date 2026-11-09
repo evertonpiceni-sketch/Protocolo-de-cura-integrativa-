@@ -33,6 +33,23 @@ GitHub Actions **Security Audit #2174: sucesso** no commit de código `64b8403a0
 
 Execução: https://github.com/evertonpiceni-sketch/Protocolo-de-cura-integrativa-/actions/runs/42668092823
 
+## Varredura página por página — 12 superfícies
+
+| # | Superfície | Conferência estrutural | Homologação visual |
+|---|---|---|---|
+| 1 | Splash / carregamento | Estado sem tema e carregamento preservados | Pendente |
+| 2 | Boas-vindas / áudio | Catálogo neural e bloqueio de fallback preservados | Pendente |
+| 3 | Página inicial / Home | Hero, ações, dock e camadas noturnas conferidos | Pendente |
+| 4 | Cabeçalho / menu | Header, navegação e assinatura discreta conferidos | Pendente |
+| 5 | Jornada / lista de dias | Conteúdo de 21 dias e progresso preservados | Pendente |
+| 6 | Player do dia | ID neural salvo exigido; sem voz robótica substituta | Pendente |
+| 7 | Anamnese | Narração neural e suspensão de 639 Hz durante a fala | Pendente |
+| 8 | Resultado | Estrutura e dados preservados; camadas de tema escopadas | Pendente |
+| 9 | Biblioteca / cursos / mapas | Componentes e conteúdo preservados | Pendente |
+| 10 | Ferramentas | Chakras, banhos, numerologia, Ho'oponopono e Arcanjo conferidos estruturalmente | Pendente |
+| 11 | Comunidade / contato / vídeo | Componentes e camadas próprias preservados | Pendente |
+| 12 | Perfil / Ajustes / Diário | Seletor, voz, Diário fechado por padrão e preferências conferidos | Pendente |
+
 ## Pendente
 
 1. Vercel: o check do HEAD continua em falha por `build-rate-limit`; sem preview renderizada para homologar as 12 superfícies em desktop e celular.
