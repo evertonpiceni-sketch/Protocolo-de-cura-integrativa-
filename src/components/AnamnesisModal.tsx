@@ -171,6 +171,16 @@ export default function AnamnesisModal({
     }
   };
 
+  const playAnamnesisSelectionSound = () => {
+    const style4VoiceOwnsAudio = isMisticoModerno && (isPlayingTherapeuticVoice || isLoadingVoice);
+    if (style4VoiceOwnsAudio) return;
+    audioEngine.unlock();
+    audioEngine.playHeartSelectionChime();
+    if (is639HzActive && audioEngine.getCurrentSynthType() !== '639hz') {
+      audioEngine.startBG('639hz');
+    }
+  };
+
   const handleCloseModal = () => {
     stopTherapeuticVoice(false);
     if (audioEngine.getCurrentSynthType() === '639hz') {
@@ -350,12 +360,7 @@ export default function AnamnesisModal({
   if (!isOpen) return null;
 
   const toggleItem = (list: string[], setList: React.Dispatch<React.SetStateAction<string[]>>, item: string) => {
-    audioEngine.unlock();
-    const style4VoiceOwnsAudio = isMisticoModerno && (isPlayingTherapeuticVoice || isLoadingVoice);
-    if (!style4VoiceOwnsAudio) audioEngine.playHeartSelectionChime();
-    if (is639HzActive && !style4VoiceOwnsAudio && audioEngine.getCurrentSynthType() !== '639hz') {
-      audioEngine.startBG('639hz');
-    }
+    playAnamnesisSelectionSound();
     if (list.includes(item)) {
       setList(list.filter(i => i !== item));
     } else {
@@ -1190,11 +1195,7 @@ export default function AnamnesisModal({
                     max="10"
                     value={stressLevel}
                     onChange={(e) => {
-                      audioEngine.unlock();
-                      audioEngine.playHeartSelectionChime();
-                      if (is639HzActive && audioEngine.getCurrentSynthType() !== '639hz') {
-                        audioEngine.startBG('639hz');
-                      }
+                      playAnamnesisSelectionSound();
                       setStressLevel(parseInt(e.target.value));
                     }}
                     className="w-full h-2 bg-[#FBF8F2] rounded-lg appearance-none cursor-pointer accent-indigo-500 focus:outline-none"
@@ -1215,11 +1216,7 @@ export default function AnamnesisModal({
                         key={q}
                         type="button"
                         onClick={() => {
-                          audioEngine.unlock();
-                          audioEngine.playHeartSelectionChime();
-                          if (is639HzActive && audioEngine.getCurrentSynthType() !== '639hz') {
-                            audioEngine.startBG('639hz');
-                          }
+                          playAnamnesisSelectionSound();
                           setSleepQuality(q);
                         }}
                         className={`py-2 px-1 rounded-xl text-xs font-medium capitalize border text-center transition cursor-pointer ${
@@ -1318,11 +1315,7 @@ export default function AnamnesisModal({
                         key={g}
                         type="button"
                         onClick={() => {
-                          audioEngine.unlock();
-                          audioEngine.playHeartSelectionChime();
-                          if (is639HzActive && audioEngine.getCurrentSynthType() !== '639hz') {
-                            audioEngine.startBG('639hz');
-                          }
+                          playAnamnesisSelectionSound();
                           setPrimaryGoal(g);
                         }}
                         className={`w-full p-3 rounded-2xl border text-left text-xs font-medium transition cursor-pointer flex items-center justify-between ${
@@ -1352,11 +1345,7 @@ export default function AnamnesisModal({
                         key={t.id}
                         type="button"
                         onClick={() => {
-                          audioEngine.unlock();
-                          audioEngine.playHeartSelectionChime();
-                          if (is639HzActive && audioEngine.getCurrentSynthType() !== '639hz') {
-                            audioEngine.startBG('639hz');
-                          }
+                          playAnamnesisSelectionSound();
                           setDailyTimeAvailable(t.id as any);
                         }}
                         className={`p-3 rounded-2xl border text-center transition cursor-pointer ${
