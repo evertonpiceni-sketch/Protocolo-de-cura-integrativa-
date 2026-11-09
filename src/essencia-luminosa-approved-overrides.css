@@ -121,3 +121,52 @@
   filter:brightness(1.035);
   box-shadow:0 14px 28px rgba(112,91,58,.15),inset 0 1px 0 rgba(255,255,255,.65)!important;
 }
+
+/* Detalhe do dia: remove índigo/emerald/amber herdados do componente compartilhado.
+   A regra é exclusiva da Essência Luminosa e preserva os estados semânticos em sálvia/champagne. */
+:root[data-layout="essencia-luminosa"] #day-detail-modal {
+  background: color-mix(in srgb, var(--layout-text) 14%, transparent) !important;
+}
+:root[data-layout="essencia-luminosa"] #day-detail-modal > div {
+  background: linear-gradient(145deg, var(--layout-card), color-mix(in srgb, var(--layout-gold-soft) 8%, var(--layout-canvas))) !important;
+  border-color: var(--layout-border-card) !important;
+  color: var(--layout-text) !important;
+  box-shadow: 0 24px 64px rgba(112, 91, 58, .10) !important;
+}
+:root[data-layout="essencia-luminosa"] #day-detail-modal :is(h1, h2, h3, h4, strong) {
+  color: var(--layout-text) !important;
+}
+:root[data-layout="essencia-luminosa"] #day-detail-modal :is(p, small) {
+  color: var(--layout-text-secondary) !important;
+}
+:root[data-layout="essencia-luminosa"] #day-detail-modal [class*="bg-indigo-"] {
+  background: color-mix(in srgb, var(--layout-accent-soft) 44%, var(--layout-card)) !important;
+}
+:root[data-layout="essencia-luminosa"] #day-detail-modal [class*="border-indigo-"] {
+  border-color: color-mix(in srgb, var(--layout-gold) 26%, var(--layout-border-card)) !important;
+}
+:root[data-layout="essencia-luminosa"] #day-detail-modal [class*="text-emerald-"] {
+  color: color-mix(in srgb, var(--layout-accent) 72%, var(--layout-text)) !important;
+}
+:root[data-layout="essencia-luminosa"] #day-detail-modal [class*="bg-emerald-"] {
+  background: color-mix(in srgb, var(--layout-accent-soft) 55%, var(--layout-card)) !important;
+}
+:root[data-layout="essencia-luminosa"] #day-detail-modal [class*="border-emerald-"] {
+  border-color: color-mix(in srgb, var(--layout-accent) 30%, var(--layout-border-card)) !important;
+}
+:root[data-layout="essencia-luminosa"] #day-detail-modal [class*="text-amber-"] {
+  color: var(--layout-gold-dark) !important;
+}
+:root[data-layout="essencia-luminosa"] #day-detail-modal button {
+  border-color: color-mix(in srgb, var(--layout-gold) 28%, var(--layout-border-card)) !important;
+}
+:root[data-layout="essencia-luminosa"] #day-detail-modal button[class*="bg-[#B88736]"] {
+  background: var(--layout-gold-gradient) !important;
+  border-color: var(--layout-gold-border) !important;
+  color: var(--layout-text) !important;
+  box-shadow: 0 10px 24px var(--layout-gold-shadow) !important;
+}
+:root[data-layout="essencia-luminosa"] #day-detail-modal button:focus-visible {
+  outline: 2px solid color-mix(in srgb, var(--layout-gold) 58%, white) !important;
+  outline-offset: 3px;
+}

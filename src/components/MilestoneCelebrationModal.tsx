@@ -4,6 +4,7 @@
  */
 
 import React from 'react';
+import { useDialogFocus } from '../hooks/useDialogFocus';
 import { motion, AnimatePresence } from 'motion/react';
 import { Crown, Sparkles, Heart, Flame, Shield, CheckCircle2, MessageCircle, X, Send, Award, Share2 } from 'lucide-react';
 import { UserProfile } from '../types';
@@ -24,6 +25,9 @@ export default function MilestoneCelebrationModal({
   userProfile,
   onOpenCertificate
 }: MilestoneCelebrationModalProps) {
+  const dialogRef = React.useRef<HTMLDivElement | null>(null);
+  const isEssenciaLuminosa = typeof document !== 'undefined' && document.documentElement.dataset.layout === 'essencia-luminosa';
+  useDialogFocus(isOpen && isEssenciaLuminosa, dialogRef, onClose);
   if (!isOpen) return null;
 
   const isDay21 = dayNumber === 21;
@@ -95,7 +99,7 @@ export default function MilestoneCelebrationModal({
 
   return (
     <AnimatePresence>
-      <div className="fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4 bg-[#2A2420]/30 backdrop-blur-md overflow-y-auto overscroll-contain" role="dialog" aria-modal="true" aria-label="Celebração de progresso">
+      <div ref={dialogRef} className="fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4 bg-[#2A2420]/30 backdrop-blur-md overflow-y-auto overscroll-contain" role="dialog" aria-modal="true" aria-label="Celebração de progresso">
         <motion.div
           initial={{ opacity: 0, scale: 0.94, y: 15 }}
           animate={{ opacity: 1, scale: 1, y: 0 }}

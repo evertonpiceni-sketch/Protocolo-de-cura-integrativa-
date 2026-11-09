@@ -4,11 +4,13 @@
  */
 
 import React, { useState } from 'react';
+import { useDialogFocus } from '../hooks/useDialogFocus';
 import { motion } from 'motion/react';
 import { Headphones, Compass, Shield, ArrowRight, X } from 'lucide-react';
 import '../elegancia-profunda-welcome-audit.css';
 import '../mistico-moderno-welcome-audit.css';
 import '../essencia-luminosa-welcome-audit.css';
+import { APPROVED_LOGO_DATA_URI } from './ApprovedBrand';
 
 interface WelcomeModalProps {
   isOpen: boolean;
@@ -22,12 +24,14 @@ interface WelcomeModalProps {
 
 export default function WelcomeModal({ isOpen, onClose, userName, onStartFirstSession, onStartJourney }: WelcomeModalProps) {
   const [dontShowAgain, setDontShowAgain] = useState(false);
-  if (!isOpen) return null;
-
+  const dialogRef = React.useRef<HTMLDivElement | null>(null);
+  const isEssenciaLuminosa = typeof document !== 'undefined' && document.documentElement.dataset.layout === 'essencia-luminosa';
   const handleClose = () => {
     if (dontShowAgain) localStorage.setItem('cura_integrada_welcome_seen_v1', 'true');
     onClose();
   };
+  useDialogFocus(isOpen && isEssenciaLuminosa, dialogRef, handleClose);
+  if (!isOpen) return null;
 
   const handleStart = () => {
     if (dontShowAgain) localStorage.setItem('cura_integrada_welcome_seen_v1', 'true');
@@ -37,18 +41,15 @@ export default function WelcomeModal({ isOpen, onClose, userName, onStartFirstSe
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4 bg-[#2A2420]/30 backdrop-blur-md overflow-y-auto overscroll-contain" id="welcome-modal" role="dialog" aria-modal="true" aria-label="Boas-vindas">
+    <div ref={dialogRef} className="fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4 bg-[#2A2420]/30 backdrop-blur-md overflow-y-auto overscroll-contain" id="welcome-modal" role="dialog" aria-modal="true" aria-label="Boas-vindas">
       <motion.div initial={{ opacity: 0, scale: 0.95, y: 20 }} animate={{ opacity: 1, scale: 1, y: 0 }} exit={{ opacity: 0, scale: 0.95, y: 20 }} className="w-full max-w-xl bg-[#FBF8F2] border border-[#E5DAC6] rounded-2xl sm:rounded-3xl p-4 sm:p-8 shadow-2xl space-y-6 relative overflow-hidden my-1 sm:my-4 max-h-[calc(100dvh-1rem)] sm:max-h-[92dvh] overflow-y-auto overscroll-contain">
         <div className="absolute top-0 right-0 w-72 h-72 bg-[#C89D52]/10 rounded-full blur-3xl pointer-events-none" />
         <div className="absolute bottom-0 left-0 w-72 h-72 bg-[#6F7B55]/8 rounded-full blur-3xl pointer-events-none" />
         <button onClick={handleClose} aria-label="Fechar" className="absolute top-4 right-4 w-11 h-11 text-[#5C5248] hover:text-[#2A2420] rounded-xl bg-[#F5EFE4]/80 hover:bg-[#EFE4D3] transition cursor-pointer border border-[#E5DAC6] flex items-center justify-center focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B88736]/30"><X size={18} /></button>
 
         <div className="text-center space-y-3 pt-1">
-          <div className="relative w-full h-36 sm:h-44 rounded-2xl overflow-hidden border border-[#B88736]/30 shadow-xl group">
-            <img src="/cura_integrada_brand_portal.png" alt="Identidade visual Everton Piceni" referrerPolicy="no-referrer" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
-            <div className="absolute inset-0 bg-gradient-to-t from-[#2A2420]/65 via-[#FBF8F2]/20 to-transparent flex items-end justify-center pb-2">
-              <span className="text-[10px] font-mono text-[#8F631E] uppercase tracking-widest font-bold bg-[#FFFDF8]/88 px-3 py-1 rounded-full border border-[#B88736]/35 backdrop-blur-sm shadow-md">PROTOCOLO DA TRANSFORMAÇÃO</span>
-            </div>
+          <div className="ep-brand-signature-wrap mx-auto mb-2 flex h-16 w-16 items-center justify-center overflow-hidden rounded-full">
+            <img src={APPROVED_LOGO_DATA_URI} alt="Everton Piceni" className="ep-brand-signature h-full w-full object-contain" />
           </div>
           <h2 className="text-xl sm:text-2xl font-display font-medium text-[#2A2420]">Olá, {userName || 'seja bem-vindo'}.</h2>
           <p className="text-sm text-[#5C5248] max-w-md mx-auto leading-relaxed font-medium">Aqui, ninguém precisa estar bem para ser bem-vindo.</p>
