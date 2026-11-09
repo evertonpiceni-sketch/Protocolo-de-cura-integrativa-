@@ -1,13 +1,13 @@
-/* O Estilo 2 não reutiliza a arte de fundo da Reintegração da Vida.
-   Até existir uma fotografia de natureza aprovada e própria do estilo, mantém profundidade verde sem improvisar imagem. */
+/* Fotografia de natureza exclusiva do Estilo 2: Kristians Greckis, Unsplash.
+   Publicada em 06/09/2026 e disponibilizada sob a Unsplash License; a cena é decorativa e permanece sob véu verde profundo. */
 :root[data-layout="elegancia-profunda"] {
-  --ep-scene:none;
+  --ep-scene:url('https://images.unsplash.com/photo-1788699779752-4d6473417203?auto=format&fit=crop&w=1920&q=80');
   --font-display:"Playfair Display",Georgia,serif;
   --font-sans:"Montserrat",ui-sans-serif,system-ui,sans-serif;
   --ep-scene-overlay:
-    radial-gradient(ellipse at 16% 12%,rgba(212,175,55,.12),transparent 28rem),
-    radial-gradient(ellipse at 88% 34%,rgba(30,84,58,.26),transparent 34rem),
-    linear-gradient(180deg,#0a1b14 0%,#07140f 56%,#06110c 100%);
+    radial-gradient(ellipse at 16% 12%,rgba(212,175,55,.14),transparent 28rem),
+    radial-gradient(ellipse at 88% 34%,rgba(30,84,58,.22),transparent 34rem),
+    linear-gradient(180deg,rgba(10,27,20,.42) 0%,rgba(7,20,15,.62) 56%,rgba(6,17,12,.84) 100%);
 }
 
 /* Elegância Profunda — camada visual aprovada.
