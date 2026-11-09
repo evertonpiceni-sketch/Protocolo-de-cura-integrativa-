@@ -29,7 +29,7 @@ import { setNeuralVoicePreviewActive } from './lib/neuralVoicePreviewState';
 import { isElevenLabsVoiceId, type ElevenLabsVoiceOption } from './lib/voiceSelection';
 import { evaluateAchievements } from './lib/achievementsData';
 import { AppLanguage, SUPPORTED_LANGUAGES, UI_TRANSLATIONS } from './lib/i18n';
-import { AnimatePresence } from "motion/react";
+import { AnimatePresence, MotionConfig } from "motion/react";
 import { localNotificationManager } from './lib/notifications';
 import { OFFICIAL_LAYOUTS, isLayoutId } from './config/layouts';
 import { getLocalDateString } from './utils/date';
@@ -866,7 +866,8 @@ export default function App() {
   const selectedInsight = selectedDayDetail ? currentInsightsList[selectedDayDetail - 1] : null;
 
   return (
-    <React.Suspense fallback={loadingScreen}>
+    <MotionConfig reducedMotion={isEssenciaLuminosa ? 'user' : undefined}>
+      <React.Suspense fallback={loadingScreen}>
     <>
       {(!layoutConfirmedThisSession || layoutChoiceRequested) && (
         <LayoutChoiceModal
@@ -2725,6 +2726,7 @@ export default function App() {
         </div>
       )}
     </>
-    </React.Suspense>
+      </React.Suspense>
+    </MotionConfig>
   );
 }
