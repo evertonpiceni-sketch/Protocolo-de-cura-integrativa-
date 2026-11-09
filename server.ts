@@ -14,7 +14,7 @@ import rateLimit from "express-rate-limit";
 import { z } from "zod";
 import { getDb, saveDb, initializeDb } from "./src/db.js";
 import { normalizeBrazilianNationalPhone, toBrazilianWhatsAppNumber } from "./src/utils/phone.js";
-import { paymentRoutes } from './src/lib/paymentRoutes.js';
+import { paymentRoutes, acquireSharedDatabaseWriteLock } from './src/lib/paymentRoutes.js';
 import { communityRoutes } from "./src/lib/communityRoutes.js";
 import { prepareTherapeuticSSML, protocolAudioCacheKey } from './src/lib/ttsText.js';
 
@@ -73,40 +73,159 @@ export function createApp() {
   app.get("/api/admin/status", authenticate, authenticateAdmin, (_req, res) => res.json({ geminiConfigured: !!process.env.GEMINI_API_KEY && process.env.GEMINI_API_KEY.length > 5, elevenlabsConfigured: !!process.env.ELEVENLABS_API_KEY && process.env.ELEVENLABS_API_KEY.length > 5 }));
   app.get("/api/admin/users", authenticate, authenticateAdmin, (_req, res) => { const db = getDb(); res.json({ users: db.users.map(u => ({ login: u.login, email: u.email, fullName: u.fullName, role: u.role, plan: u.plan, profile: u.profile, progress: u.progress })) }); });
   app.post("/api/admin/users/:login/plan", authenticate, authenticateAdmin, async (req: any, res: any) => {
-    const db = getDb();
     const { login } = req.params;
     const { plan, subscriptionPlan } = req.body || {};
     const allowedPlans = new Set(["free", "pro"]);
     const allowedSubscriptions = new Set(["teste_vip_7d", "jornada_7d", "jornada_21d", "arcanjo_7d", "semanal", "mensal", "trimestral", "semestral", "anual"]);
     if (!allowedPlans.has(plan)) return res.status(400).json({ error: "Plano inválido." });
     if (subscriptionPlan != null && !allowedSubscriptions.has(subscriptionPlan)) return res.status(400).json({ error: "Assinatura inválida." });
-    const user = db.users.find(u => u.login === login);
-    if (!user) return res.status(404).json({ error: "Usuário não encontrado" });
-    user.plan = plan;
-    user.profile = { ...(user.profile || {}), plan };
-    if (plan === "free") {
-      user.profile.subscriptionPlan = undefined;
-      user.profile.subscriptionExpiresAt = undefined;
-      user.profile.proActiveSince = undefined;
-    } else if (subscriptionPlan) {
-      user.profile.subscriptionPlan = subscriptionPlan;
-    }
+
+    let lock: Awaited<ReturnType<typeof acquireSharedDatabaseWriteLock>> = null;
+    let user: any;
+    let previous: { plan: any; profile: any } | undefined;
     try {
+      lock = await acquireSharedDatabaseWriteLock();
+      if (!lock) {
+        res.setHeader("Retry-After", "1");
+        return res.status(409).json({ error: "Há outra atualização de dados em andamento. Tente novamente." });
+      }
+      await lock.assertHeld();
+      const db = getDb();
+      const currentAdmin = db.users.find(u => u.id === req.userId);
+      if (!currentAdmin || currentAdmin.role !== "admin") return res.status(403).json({ error: "Acesso administrativo negado." });
+      user = db.users.find(u => u.login === login);
+      if (!user) return res.status(404).json({ error: "Usuário não encontrado" });
+
+      previous = { plan: user.plan, profile: user.profile };
+      user.plan = plan;
+      user.profile = { ...(user.profile || {}), plan };
+      if (plan === "free") {
+        user.profile.subscriptionPlan = undefined;
+        user.profile.subscriptionExpiresAt = undefined;
+        user.profile.proActiveSince = undefined;
+      } else if (subscriptionPlan) {
+        user.profile.subscriptionPlan = subscriptionPlan;
+      }
+      await lock.assertHeld();
       await saveDb();
       return res.json({ success: true });
     } catch (err) {
+      if (user && previous) { user.plan = previous.plan; user.profile = previous.profile; }
       console.error("Error saving admin plan change:", err);
       return res.status(503).json({ error: "Não foi possível salvar a alteração.", code: "PERSISTENCE_UNAVAILABLE" });
+    } finally {
+      if (lock) await lock.release();
     }
   });
 
   const registerSchema = z.object({ login: z.string().min(3).max(50), password: z.string().min(6).max(100), fullName: z.string().max(100).optional(), email: z.string().email().max(100).optional().or(z.literal('')) });
   const loginSchema = z.object({ login: z.string().min(3).max(50), password: z.string().min(6).max(100) });
-  app.post("/api/auth/register", authLimiter, async (req, res) => { try { const { login, password, fullName, email } = registerSchema.parse(req.body); const normalizedLogin = login.trim().toLowerCase(); const db = getDb(); if (db.users.find(u => u.login === normalizedLogin)) return res.status(400).json({ error: "Usuário já existe." }); const salt = await bcrypt.genSalt(10); const hashedPassword = await bcrypt.hash(password, salt); const newUser = { id: Date.now().toString(), login: normalizedLogin, password: hashedPassword, fullName: fullName || normalizedLogin, email: email || "", plan: "free", role: "user", profile: { name: fullName || normalizedLogin, email: email || "", audioEnabled: true, bgMusicVolume: 0.5, bgMusicType: '528hz', plan: "free" }, progress: Array.from({ length: 21 }, (_, index) => ({ dayNumber: index + 1, completed: false })) }; db.users.push(newUser); await saveDb(); const token = jwt.sign({ userId: newUser.id }, EFFECTIVE_JWT_SECRET, { expiresIn: '7d' }); res.cookie("token", token, { httpOnly: true, secure: process.env.NODE_ENV === "production", sameSite: "lax" }); const { password: _, ...userWithoutPassword } = newUser; return res.json({ user: userWithoutPassword }); } catch (e) { console.error("Registration failed:", e); if (res.headersSent) return; if (e instanceof z.ZodError) return res.status(400).json({ error: "Dados de registro inválidos." }); return res.status(503).json({ error: "Não foi possível concluir o cadastro agora.", code: "PERSISTENCE_UNAVAILABLE" }); } });
+  app.post("/api/auth/register", authLimiter, async (req, res) => {
+    let lock: Awaited<ReturnType<typeof acquireSharedDatabaseWriteLock>> = null;
+    let db: ReturnType<typeof getDb> | undefined;
+    let newUser: any;
+    try {
+      const { login, password, fullName, email } = registerSchema.parse(req.body);
+      const normalizedLogin = login.trim().toLowerCase();
+      const salt = await bcrypt.genSalt(10);
+      const hashedPassword = await bcrypt.hash(password, salt);
+      lock = await acquireSharedDatabaseWriteLock();
+      if (!lock) {
+        res.setHeader("Retry-After", "1");
+        return res.status(409).json({ error: "Há outra atualização de dados em andamento. Tente novamente." });
+      }
+      await lock.assertHeld();
+      db = getDb();
+      if (db.users.find(u => u.login === normalizedLogin)) return res.status(400).json({ error: "Usuário já existe." });
+
+      newUser = {
+        id: Date.now().toString(),
+        login: normalizedLogin,
+        password: hashedPassword,
+        fullName: fullName || normalizedLogin,
+        email: email || "",
+        plan: "free",
+        role: "user",
+        profile: {
+          name: fullName || normalizedLogin,
+          email: email || "",
+          audioEnabled: true,
+          bgMusicVolume: 0.5,
+          bgMusicType: "528hz",
+          plan: "free"
+        },
+        progress: Array.from({ length: 21 }, (_, index) => ({ dayNumber: index + 1, completed: false }))
+      };
+      db.users.push(newUser);
+      const token = jwt.sign({ userId: newUser.id }, EFFECTIVE_JWT_SECRET, { expiresIn: "7d" });
+      try {
+        await lock.assertHeld();
+        await saveDb();
+      } catch (error) {
+        const index = db.users.findIndex(u => u.id === newUser.id);
+        if (index >= 0) db.users.splice(index, 1);
+        throw error;
+      }
+      res.cookie("token", token, { httpOnly: true, secure: process.env.NODE_ENV === "production", sameSite: "lax" });
+      const { password: _, ...userWithoutPassword } = newUser;
+      return res.json({ user: userWithoutPassword });
+    } catch (e) {
+      console.error("Registration failed:", e);
+      if (res.headersSent) return;
+      if (e instanceof z.ZodError) return res.status(400).json({ error: "Dados de registro inválidos." });
+      return res.status(503).json({ error: "Não foi possível concluir o cadastro agora.", code: "PERSISTENCE_UNAVAILABLE" });
+    } finally {
+      if (lock) await lock.release();
+    }
+  });
   app.post("/api/auth/login", authLimiter, async (req, res) => { try { const { login, password } = loginSchema.parse(req.body); const normalizedLogin = login.trim().toLowerCase(); const db = getDb(); const user = db.users.find(u => u.login === normalizedLogin || (u.email && u.email.toLowerCase() === normalizedLogin)); if (!user || !(await bcrypt.compare(password, user.password))) return res.status(400).json({ error: "Credenciais inválidas." }); const token = jwt.sign({ userId: user.id }, EFFECTIVE_JWT_SECRET, { expiresIn: '7d' }); res.cookie("token", token, { httpOnly: true, secure: process.env.NODE_ENV === "production", sameSite: "lax" }); const { password: _, ...userWithoutPassword } = user; return res.json({ user: userWithoutPassword }); } catch { return res.status(400).json({ error: "Dados de login inválidos." }); } });
   app.post("/api/auth/logout", (req, res) => { res.clearCookie("token"); res.json({ success: true }); });
   app.get("/api/auth/me", authenticate, (req: any, res: any) => { const db = getDb(); const user = db.users.find(u => u.id === req.userId); if (!user) return res.status(404).json({ error: "Usuário não encontrado." }); const { password: _, ...userWithoutPassword } = user; res.json({ user: userWithoutPassword }); });
-  app.post("/api/user/sync", authenticate, async (req: any, res: any) => { const db = getDb(); const userIndex = db.users.findIndex(u => u.id === req.userId); if (userIndex === -1) return res.status(404).json({ error: "Usuário não encontrado." }); const { profile, progress } = req.body; if (profile) { const currentProfile = db.users[userIndex].profile || {}; db.users[userIndex].profile = { ...currentProfile, ...profile, plan: db.users[userIndex].plan, subscriptionPlan: currentProfile.subscriptionPlan, subscriptionExpiresAt: currentProfile.subscriptionExpiresAt, proActiveSince: currentProfile.proActiveSince, trial7dRedeemedAt: currentProfile.trial7dRedeemedAt, numerologyPurchased: currentProfile.numerologyPurchased, astralMapPurchased: currentProfile.astralMapPurchased, subscriptionBenefitChoice: currentProfile.subscriptionBenefitChoice, specificTreatments: currentProfile.specificTreatments }; } if (progress) db.users[userIndex].progress = progress; try { await saveDb(); return res.json({ success: true }); } catch (err) { console.error("Error syncing user:", err); return res.status(503).json({ error: "Não foi possível salvar o perfil agora.", code: "PERSISTENCE_UNAVAILABLE" }); } });
+  app.post("/api/user/sync", authenticate, async (req: any, res: any) => {
+    let lock: Awaited<ReturnType<typeof acquireSharedDatabaseWriteLock>> = null;
+    let user: any;
+    let previous: { profile: any; progress: any } | undefined;
+    try {
+      lock = await acquireSharedDatabaseWriteLock();
+      if (!lock) {
+        res.setHeader("Retry-After", "1");
+        return res.status(409).json({ error: "Há outra atualização de dados em andamento. Tente novamente." });
+      }
+      await lock.assertHeld();
+      const db = getDb();
+      const userIndex = db.users.findIndex(u => u.id === req.userId);
+      if (userIndex === -1) return res.status(404).json({ error: "Usuário não encontrado." });
+      user = db.users[userIndex];
+      previous = { profile: user.profile, progress: user.progress };
+      const { profile, progress } = req.body || {};
+      if (profile) {
+        const currentProfile = user.profile || {};
+        user.profile = {
+          ...currentProfile,
+          ...profile,
+          plan: user.plan,
+          subscriptionPlan: currentProfile.subscriptionPlan,
+          subscriptionExpiresAt: currentProfile.subscriptionExpiresAt,
+          proActiveSince: currentProfile.proActiveSince,
+          trial7dRedeemedAt: currentProfile.trial7dRedeemedAt,
+          numerologyPurchased: currentProfile.numerologyPurchased,
+          astralMapPurchased: currentProfile.astralMapPurchased,
+          subscriptionBenefitChoice: currentProfile.subscriptionBenefitChoice,
+          specificTreatments: currentProfile.specificTreatments
+        };
+      }
+      if (progress) user.progress = progress;
+      await lock.assertHeld();
+      await saveDb();
+      return res.json({ success: true });
+    } catch (err) {
+      if (user && previous) { user.profile = previous.profile; user.progress = previous.progress; }
+      console.error("Error syncing user:", err);
+      return res.status(503).json({ error: "Não foi possível salvar o perfil agora.", code: "PERSISTENCE_UNAVAILABLE" });
+    } finally {
+      if (lock) await lock.release();
+    }
+  });
   app.use('/api', paymentRoutes(authenticate, apiLimiter));
 
   app.post("/api/anamnese", authenticate, apiLimiter, handleProcessAnamnese); app.post("/api/anamnesis", authenticate, apiLimiter, handleProcessAnamnese);
