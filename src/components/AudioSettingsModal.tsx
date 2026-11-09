@@ -212,7 +212,7 @@ export default function AudioSettingsModal({
     if (allowBackgroundPlayback && shouldPlayVoiceBackground) {
       audioEngine.startBG(bgMusicType);
     } else if (allowBackgroundPlayback && requiresNeuralVoice) {
-      // Frequências Solfeggio não devem tocar junto com narração neural em nenhum dos três estilos.
+      // Frequências Solfeggio não devem tocar junto com narração neural em nenhum dos estilos com voz neural.
       setIsPlayingBioactivePreview(false);
       audioEngine.stopBG();
     }
