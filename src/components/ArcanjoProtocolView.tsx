@@ -189,7 +189,7 @@ export default function ArcanjoProtocolView({ userProfile, onClose, onLogout, in
   };
 
   const startNativeFallback = (runId: number) => {
-    if (requiresNeuralVoice) {
+    if (isEleganciaProfunda || isEssenciaLuminosa) {
       playProtocolFrequency();
       setIsPreparingAudio(false);
       setIsPlaying(false);
