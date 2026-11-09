@@ -168,3 +168,20 @@ test('Arcanjo subscription keeps global background audio from starting outside i
   const app = read('src/App.tsx');
   assert.equal((app.match(/userProfile\.subscriptionPlan !== 'arcanjo_7d'/g) || []).length, 2);
 });
+
+test('Arcanjo 7-day access does not disable global background audio outside the Arcanjo player', () => {
+  const app = read('src/App.tsx');
+  const globalAudioSection = app.slice(
+    app.indexOf('// Synchronize global audio player'),
+    app.indexOf('// Reintegração da Vida owns its audio')
+  );
+  const gestureSection = app.slice(
+    app.indexOf('// Handle autoplay block browser policy unlock on first interaction'),
+    app.indexOf('  // ', app.indexOf('// Handle autoplay block browser policy unlock on first interaction') + 5)
+  );
+
+  assert.match(globalAudioSection, /!showArcanjoView/);
+  assert.match(gestureSection, /!showArcanjoView/);
+  assert.doesNotMatch(globalAudioSection, /subscriptionPlan.*arcanjo_7d/);
+  assert.doesNotMatch(gestureSection, /subscriptionPlan.*arcanjo_7d/);
+});
