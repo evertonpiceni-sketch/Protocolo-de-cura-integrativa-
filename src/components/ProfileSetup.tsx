@@ -1,4 +1,5 @@
 import { ACCESS_SUPPORT_URL } from '../lib/accessRecoveryPatch';
+import { setCurrentAccountLogin } from '../lib/authSession';
 import { syncUserState } from '../lib/userSync';
 import { clearPendingProfileSync, queuePendingProfileSync } from '../lib/pendingProfileSync';
 import React, { useState } from 'react';
@@ -83,6 +84,9 @@ export default function ProfileSetup({ onComplete }: ProfileSetupProps) {
         return;
       }
       
+      // The auth cookie now belongs to this account; update the session key before any retry can run.
+      setCurrentAccountLogin(data.user.login);
+
       const profilePatch = {
         birthDate,
         birthTime,
@@ -185,7 +189,9 @@ export default function ProfileSetup({ onComplete }: ProfileSetupProps) {
         progress: data.user.progress || [],
         isAdmin: data.user.role === 'admin'
       };
-      
+
+      // Login has already replaced the server cookie; invalidate the previous account's retries now.
+      setCurrentAccountLogin(account.login);
       setSuccessMsg(`Que bom ter você de volta, ${account.fullName || account.login}!`);
       loginSucceeded = true;
       setTimeout(() => {
