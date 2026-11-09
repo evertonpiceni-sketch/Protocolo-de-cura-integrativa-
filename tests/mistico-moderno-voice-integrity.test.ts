@@ -176,6 +176,7 @@ test('Arcanjo view owns its audio without disabling global ambience for the whol
   );
 
   assert.match(globalAudioSection, /!showArcanjoView/);
+  assert.match(globalAudioSection, /else if \(!showArcanjoView\)/);
   assert.match(gestureSection, /!showArcanjoView/);
   assert.doesNotMatch(globalAudioSection, /subscriptionPlan.*arcanjo_7d/);
   assert.doesNotMatch(gestureSection, /subscriptionPlan.*arcanjo_7d/);
@@ -203,4 +204,20 @@ test('Style 4 Anamnesis and Systemic frequency accents stay in the night-and-gol
   assert.match(css, /:root\[data-layout="mistico-moderno"\] #anamnesis-modal \.ep-anamnesis-frequency/);
   assert.match(css, /linear-gradient\(145deg,rgba\(20,31,48/);
   assert.match(css, /:root\[data-layout="mistico-moderno"\] #systemic-questions-modal \[class\*="bg-emerald-50"\]/);
+});
+
+test('Arcanjo ownership blocks global audio without stopping its own Solfeggio', () => {
+  const guard = read('src/lib/arcanjoAudioOwnershipPatch.ts');
+  const arcanjo = read('src/components/ArcanjoProtocolView.tsx');
+  const wrapperStart = guard.indexOf('audioEngine.startBG =');
+  const wrapperEnd = guard.indexOf('const releaseOpeningGuard', wrapperStart);
+  const globalStartGuard = guard.slice(wrapperStart, wrapperEnd);
+
+  assert.match(guard, /export const startArcanjoOwnedSolfeggio/);
+  assert.match(guard, /originalStartBG\(type\)/);
+  assert.match(globalStartGuard, /if \(arcanjoOwnsAudio\(\)\) return;/);
+  assert.doesNotMatch(globalStartGuard, /audioEngine\.stopBG\(\)/);
+  assert.match(guard, /if \(mounted && !arcanjoWasMounted\)/);
+  assert.match(arcanjo, /startArcanjoOwnedSolfeggio/);
+  assert.doesNotMatch(arcanjo, /audioEngine\.startSynth/);
 });
