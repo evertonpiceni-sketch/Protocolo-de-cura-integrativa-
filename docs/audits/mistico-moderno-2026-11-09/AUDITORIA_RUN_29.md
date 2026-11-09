@@ -60,5 +60,5 @@ Execução: https://github.com/evertonpiceni-sketch/Protocolo-de-cura-integrativ
 ## Estado
 
 - PR #77 aberto, em rascunho e tecnicamente integrável.
-- 60 commits à frente e 0 atrás da `main` no momento do registro.
+- 62 commits à frente e 0 atrás da `main` no momento do registro.
 - Sem merge, sem publicação em produção e sem cobrança real.
