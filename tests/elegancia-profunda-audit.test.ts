@@ -576,6 +576,20 @@ test('os Ajustes de Áudio do Estilo 2 usam verde profundo, champagne e marfim',
 });
 
 
+test('o acolhimento inicial da Elegância Profunda integra a fotografia oficial sem perder legibilidade mobile', () => {
+  const css = read('src/elegancia-profunda-approved-overrides.css');
+  const start = css.indexOf(':root[data-layout="elegancia-profunda"] .ep-care-onboarding {');
+  const end = css.indexOf('\n}', start);
+  assert.ok(start >= 0 && end > start, 'O fundo do acolhimento deve ter um bloco próprio do Estilo 2.');
+  const block = css.slice(start, end);
+  assert.ok(block.includes('var(--ep-scene-overlay)'), 'O acolhimento deve reutilizar o véu aprovado da fotografia.');
+  assert.ok(block.includes('var(--ep-scene) center/cover fixed no-repeat!important'), 'A fotografia deve preencher o fundo sem distorção.');
+  assert.ok(css.includes('rgba(8,42,30,.92)'), 'O cartão deve continuar escuro e legível sobre a paisagem.');
+  assert.match(css, /@media\(max-width:640px\)[\s\S]*:root\[data-layout="elegancia-profunda"\] \.ep-care-onboarding \{ background-attachment:scroll!important; \}/);
+  const style3 = read('src/essencia-luminosa-onboarding-audit.css');
+  assert.ok(!style3.includes('data-layout="elegancia-profunda"'), 'O ajuste do Estilo 2 não pode contaminar a Essência Luminosa.');
+});
+
 test('a camada aprovada da Elegância Profunda sucede suas auditorias e permanece isolada da camada final do Estilo 3', () => {
   const main = read('src/main.tsx');
   const approvedImportLine = "import './elegancia-profunda-approved-overrides.css';";
