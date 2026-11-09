@@ -71,13 +71,14 @@ const CHAKRA_POSITIONS: Record<number, string> = {
   7: '50% 15%',
 };
 
-function ChakraBody({ config, progress, active }: { config: ProtocolConfig; progress: number | null; active: boolean }) {
+function ChakraBody({ config, progress, active, neutral }: { config: ProtocolConfig; progress: number | null; active: boolean; neutral: boolean }) {
   const illumination = progress === null ? (active ? 0.22 : 0.08) : Math.max(0.08, Math.min(1, progress / 100));
   const position = CHAKRA_POSITIONS[config.dia];
   const glowSize = 34 + illumination * 38;
+  const bodyImage = neutral ? '/brand/chakra-body-neutral.svg' : '/brand/human-chakra-model.jpg';
   return <div className="relative mx-auto aspect-[4/5] w-full max-w-[430px] overflow-hidden rounded-[2rem] border border-[#B88736]/30 bg-[#021b13] shadow-[0_24px_70px_rgba(0,0,0,.38)]">
-    <img src="/brand/human-chakra-model.jpg" alt="Pessoa em meditação com os sete chakras" className="absolute inset-0 h-full w-full object-cover" style={{filter:'brightness(.34) saturate(.48)',transition:'filter 1.2s ease'}} />
-    <img src="/brand/human-chakra-model.jpg" alt="" aria-hidden="true" className="absolute inset-0 h-full w-full object-cover transition-opacity duration-1000" style={{opacity:.2 + illumination * .8,WebkitMaskImage:`radial-gradient(circle ${glowSize}px at ${position}, black 0%, rgba(0,0,0,.95) 42%, transparent 100%)`,maskImage:`radial-gradient(circle ${glowSize}px at ${position}, black 0%, rgba(0,0,0,.95) 42%, transparent 100%)`}} />
+    <img src={bodyImage} alt={neutral ? 'Representação corporal neutra em meditação com sete centros de energia' : 'Pessoa em meditação com os sete chakras'} className="absolute inset-0 h-full w-full object-cover" style={{filter:neutral?'brightness(.98) saturate(.9)':'brightness(.34) saturate(.48)',transition:'filter 1.2s ease'}} />
+    <img src={bodyImage} alt="" aria-hidden="true" className="absolute inset-0 h-full w-full object-cover transition-opacity duration-1000" style={{opacity:.2 + illumination * .8,WebkitMaskImage:`radial-gradient(circle ${glowSize}px at ${position}, black 0%, rgba(0,0,0,.95) 42%, transparent 100%)`,maskImage:`radial-gradient(circle ${glowSize}px at ${position}, black 0%, rgba(0,0,0,.95) 42%, transparent 100%)`}} />
     <div className={`absolute h-20 w-20 -translate-x-1/2 -translate-y-1/2 rounded-full transition-all duration-1000 ${active ? 'animate-pulse' : ''}`} style={{left:position.split(' ')[0],top:position.split(' ')[1],opacity:.12 + illumination * .88,transform:`translate(-50%,-50%) scale(${.72 + illumination * .42})`,background:`radial-gradient(circle,${config.corSecundaria}cc 0%,${config.cor}66 35%,transparent 72%)`,boxShadow:`0 0 ${12 + illumination * 34}px ${4 + illumination * 13}px ${config.cor}`}} aria-hidden="true" />
     <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-[#021b13] via-[#021b13]/82 to-transparent px-5 pb-5 pt-20 text-center">
       <p className="font-display text-3xl text-[#f5e8bd]">{config.freq} Hz</p>
@@ -358,7 +359,7 @@ export default function ArcanjoProtocolView({ userProfile, onClose, onLogout, in
     <main className="relative z-10 mx-auto w-full max-w-[500px] space-y-5 px-4 py-6 pb-16">
       <section>
         <div className="mb-4 flex flex-wrap items-center justify-center gap-2 text-sm text-[#5C6A60]"><ShieldCheck size={18} className="text-[#B88736]"/><span>Dia {config.dia} de 7</span><span className="text-[#B88736]/60">•</span><span>Solfeggio {config.freq} Hz</span></div>
-        <ChakraBody config={config} progress={progressPercent} active={isPlaying}/>
+        <ChakraBody config={config} progress={progressPercent} active={isPlaying} neutral={isEssenciaLuminosa}/>
       </section>
 
       <section className="space-y-5">
