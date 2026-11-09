@@ -476,14 +476,56 @@ export default function App() {
   }, []);
 
   // A login/logout in another tab changes the shared cookie and localStorage key.
-  // Reload this tab before it can continue displaying the previous account's private diary.
+  // Clear the old account's private UI immediately; only reload when a new login
+  // is present, because logout removes this key before its server request finishes.
   useEffect(() => {
     const handleAccountStorageChange = (event: StorageEvent) => {
       if (!shouldReloadForAccountChange(event.key, userProfile?.login, event.newValue)) return;
+
       audioEngine.stopSpeech();
       audioEngine.stopBG();
       setNeuralVoicePreviewActive(false);
-      window.location.reload();
+      setIsPlayingVoiceTest(false);
+      setLayoutConfirmedThisSession(false);
+      setLayoutChoiceRequested(false);
+      setUserProfile(null);
+      setProgress([]);
+      setCurrentDay(1);
+      setIsLoggedIn(false);
+      setActiveSessionDay(null);
+      setIsJournalOpen(false);
+      setSelectedDayDetail(null);
+      setShowSettings(false);
+      setShowProModal(false);
+      setShowCertificateModal(false);
+      setShowAnamnesisModal(false);
+      setShowSpecificTreatmentModal(false);
+      setShowChakrasModal(false);
+      setShowHerbalBathsModal(false);
+      setShowPlansGuideModal(false);
+      setShowAstralMapModal(false);
+      setShowNumerologyModal(false);
+      setShowMobileInstallModal(false);
+      setShowWelcomeModal(false);
+      setShowArcanjoView(false);
+      setShowArchangelModal(false);
+      setShowHooponoponoModal(false);
+      setShowAudioSettingsModal(false);
+      setShowCoursesModal(false);
+      setShowAdminModal(false);
+      setShowVideoStudioModal(false);
+      setShowAchievementsModal(false);
+      setShowSystemicQuestionsModal(false);
+      setShowDailyDiaryModal(false);
+      setShowContactModal(false);
+      setShowPromoVideoModal(false);
+      setShowMilestoneModal(false);
+      setShowDashboardCura(false);
+      setShowDailyTip(false);
+      setShowPersonalJourney(false);
+      setInAppToast(null);
+
+      if (event.newValue?.trim()) window.location.reload();
     };
 
     window.addEventListener('storage', handleAccountStorageChange);
