@@ -31,6 +31,8 @@ test('Anamnese e Perguntas Sistêmicas conectam a política de áudio exclusiva 
   assert.ok(anamnesis.includes('ensureAnamnesisSolfeggio();'));
   assert.ok(anamnesis.includes('setNeuralVoicePreviewActive(true)'));
   assert.ok(anamnesis.includes('fallbackToSpeechSynthesis: false'));
+  assert.ok(anamnesis.includes(': is639HzActive;'));
+  assert.ok(anamnesis.includes('isEssenciaLuminosa ? isLoadingVoice : false'));
 
   assert.ok(systemic.includes('shouldPlayEssenciaLuminosaInlineSolfeggio'));
   assert.ok(systemic.includes('audioEnabled: userProfile?.audioEnabled'));
@@ -40,4 +42,11 @@ test('Anamnese e Perguntas Sistêmicas conectam a política de áudio exclusiva 
   assert.ok(systemic.includes('setNeuralVoicePreviewActive(false)'));
   assert.ok(systemic.includes('fallbackToSpeechSynthesis: false'));
   assert.ok(systemic.includes('disabled={isEssenciaLuminosa && (userProfile?.audioEnabled === false || isReadingVoice)}'));
+  assert.ok(systemic.includes(': is639HzActive;'));
+  assert.ok(systemic.includes('isEssenciaLuminosa ? isReadingVoice : false'));
+
+  const anamnesisCss = fs.readFileSync('src/essencia-luminosa-anamnesis-audit.css', 'utf8');
+  const systemicCss = fs.readFileSync('src/essencia-luminosa-final-audit.css', 'utf8');
+  assert.ok(anamnesisCss.includes(':root[data-layout="essencia-luminosa"] #anamnesis-modal'));
+  assert.ok(systemicCss.includes(':root[data-layout="essencia-luminosa"] #systemic-questions-modal [class*="bg-emerald-"]'));
 });
