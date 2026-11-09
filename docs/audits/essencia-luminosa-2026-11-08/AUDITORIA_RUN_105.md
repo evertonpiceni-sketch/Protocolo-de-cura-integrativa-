@@ -73,3 +73,7 @@ O bloqueio de provisionamento não está isolado ao código do Estilo 3:
 ## Estado concorrente do repositório
 
 Durante esta execução, outra auditoria publicou em `main` o commit `cbb6f0acae6aea90daabfbc7b38b64e5eb62df03`, que adiciona somente `docs/audits/elegancia-profunda-2026-11-08/AUDITORIA_RUN_105.md`. A branch desta correção parte de `36ca2cad`, permanece 2 commits à frente e 1 atrás de `main`; a diferença concorrente é documental, sem conflito de código. Não foi feito merge nem atualização de `main` nesta rodada.
+
+## Alias de produção
+
+A consulta direta aos dois aliases Vercel do projeto confirmou que ambos ainda apontam para o deployment READY `dpl_87ANQ2b6G3738g7CxA6uekoaN1Du`, commit `5bd202e30f6459a0862ba38796912c0025c6af5a` (correção anterior de contraste em CTA). Os cinco deployments de produção mais recentes consultados, incluindo o deployment Style 3 de `f2bff9f`, estão em `ERROR`. Assim, a produção não contém esta correção de foco nem o código mais recente da branch `main`.
