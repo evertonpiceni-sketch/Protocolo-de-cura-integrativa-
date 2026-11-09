@@ -166,6 +166,8 @@ test('o logo permanece assinatura transparente e o hero não herda opacidade de 
   assert.ok(heroLogoRule.includes(':root[data-layout="elegancia-profunda"] .ep-welcome-audio .ep-brand-signature'));
   assert.ok(heroLogoRule.includes('opacity:.30!important;'));
   assert.ok(sharedTheme.includes('opacity:.72!important'), 'A camada compartilhada contém a regra mais forte que precisa ser neutralizada no Estilo 2.');
+  assert.ok(sharedTheme.includes('Cadastro/login permanece neutro até a escolha explícita'));
+  assert.ok(!sharedTheme.includes('Cadastro/login permanece sempre Natural Sereno'));
   assert.match(css, /#main-header div:has\(> \.ep-brand-signature\)[^\n]*background:transparent!important/);
 });
 
