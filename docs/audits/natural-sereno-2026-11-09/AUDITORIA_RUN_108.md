@@ -37,7 +37,7 @@
 - Sem preview, continuam pendentes capturas renderizadas página a página em desktop/mobile e escuta real da voz, Solfeggio, ambiência e player.
 - InfinitePay: sandbox, confirmação e webhook ainda não foram homologados.
 - `UPSTASH_DB_KEY` permanece restrita a uma branch antiga de preview e sinalizada pela Vercel como `readable-secret`. Não foi lida, alterada nem removida nesta rodada; revisar/rotacionar depois de confirmar que a branch antiga não será reutilizada.
-- Comparação atual: branch **105 commits à frente e 19 atrás** da `main`, com divergência em arquivos compartilhados (`App.tsx`, `ArcanjoProtocolView`, modais de áudio/cadastro e testes). A correção pontual de pré-seleção da main foi incorporada, mas a integração completa exige reconciliação cuidadosa. Não fazer merge.
+- Comparação atual: branch **107 commits à frente e 19 atrás** da `main`, com divergência em arquivos compartilhados (`App.tsx`, `ArcanjoProtocolView`, modais de áudio/cadastro e testes). A correção pontual de pré-seleção da main foi incorporada, mas a integração completa exige reconciliação cuidadosa. Não fazer merge.
 
 ## Estado
 
