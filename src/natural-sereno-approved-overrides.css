@@ -835,3 +835,35 @@
   border: 1px solid #E8E0D5 !important;
   color: #2A2421 !important;
 }
+
+
+/* RUN 114 — player Natural Sereno: paisagem real e microanimação corporal neutra. */
+:root[data-layout="natural-sereno"] #meditation-session .ep-session-natural-sereno-scene {
+  opacity: .38;
+  object-position: center 46%;
+  filter: saturate(.88) contrast(.96);
+}
+:root[data-layout="natural-sereno"] #meditation-session .ep-session-natural-sereno-overlay {
+  background: linear-gradient(180deg,rgba(250,247,242,.72) 0%,rgba(250,247,242,.56) 44%,rgba(250,247,242,.91) 100%) !important;
+}
+:root[data-layout="natural-sereno"] #meditation-session .ep-session-neutral-visual {
+  opacity: .94;
+}
+:root[data-layout="natural-sereno"] #meditation-session .ep-neutral-body-progress--canvas {
+  width: min(42vw,380px,58vh) !important;
+}
+@media (max-width: 640px) {
+  :root[data-layout="natural-sereno"] #meditation-session .ep-session-natural-sereno-scene {
+    opacity: .32;
+    object-position: center 52%;
+  }
+  :root[data-layout="natural-sereno"] #meditation-session .ep-neutral-body-progress--canvas {
+    width: min(70vw,300px,48vh) !important;
+  }
+}
+@media (min-width: 641px) {
+  :root[data-layout="natural-sereno"] #meditation-session .ep-session-natural-sereno-scene {
+    opacity: .42;
+    object-position: center 44%;
+  }
+}
