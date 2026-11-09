@@ -23,7 +23,7 @@ import { APPROVED_LOGO_DATA_URI } from './components/ApprovedBrand';
 
 import { calculateAstralMap } from './utils/astrology';
 import { audioEngine, OFFICIAL_PROTOCOL_VOICE_ID } from './lib/audio';
-import { CURRENT_LOGIN_STORAGE_KEY, clearCurrentAccountLogin, getCurrentAccountLogin, setCurrentAccountLogin } from './lib/authSession';
+import { CURRENT_LOGIN_STORAGE_KEY, clearCurrentAccountLogin, getCurrentAccountLogin, setCurrentAccountLogin, shouldReloadForAccountChange } from './lib/authSession';
 import { syncUserState } from './lib/userSync';
 import { clearPendingProfileSync, readPendingProfileSync } from './lib/pendingProfileSync';
 import { shouldPlayProtocolSessionBackground } from './lib/protocolSessionAudioPolicy';
@@ -474,6 +474,21 @@ export default function App() {
       controller.abort();
     };
   }, []);
+
+  // A login/logout in another tab changes the shared cookie and localStorage key.
+  // Reload this tab before it can continue displaying the previous account's private diary.
+  useEffect(() => {
+    const handleAccountStorageChange = (event: StorageEvent) => {
+      if (!shouldReloadForAccountChange(event.key, userProfile?.login, event.newValue)) return;
+      audioEngine.stopSpeech();
+      audioEngine.stopBG();
+      setNeuralVoicePreviewActive(false);
+      window.location.reload();
+    };
+
+    window.addEventListener('storage', handleAccountStorageChange);
+    return () => window.removeEventListener('storage', handleAccountStorageChange);
+  }, [userProfile?.login]);
 
   // Retry profile fields left pending by a successful registration whose first
   // database sync was temporarily unavailable. The server merges this patch,
