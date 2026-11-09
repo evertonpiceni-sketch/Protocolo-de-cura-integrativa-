@@ -14,7 +14,11 @@ test('InfinitePay exige API Key para links single_payment e falha fechado sem cr
     handle: process.env.INFINITEPAY_HANDLE,
     appUrl: process.env.PUBLIC_APP_URL,
     upstashUrl: process.env.UPSTASH_REDIS_REST_URL,
-    upstashToken: process.env.UPSTASH_REDIS_REST_TOKEN
+    upstashToken: process.env.UPSTASH_REDIS_REST_TOKEN,
+    kvUrl: process.env.KV_REST_API_URL,
+    kvToken: process.env.KV_REST_API_TOKEN,
+    upstashKvUrl: process.env.UPSTASH_REDIS_REST_KV_REST_API_URL,
+    upstashKvToken: process.env.UPSTASH_REDIS_REST_KV_REST_API_TOKEN
   };
   let server: any;
   process.chdir(folder);
@@ -22,11 +26,15 @@ test('InfinitePay exige API Key para links single_payment e falha fechado sem cr
   delete process.env.INFINITEPAY_API_KEY;
   delete process.env.UPSTASH_REDIS_REST_URL;
   delete process.env.UPSTASH_REDIS_REST_TOKEN;
+  delete process.env.KV_REST_API_URL;
+  delete process.env.KV_REST_API_TOKEN;
+  delete process.env.UPSTASH_REDIS_REST_KV_REST_API_URL;
+  delete process.env.UPSTASH_REDIS_REST_KV_REST_API_TOKEN;
   process.env.INFINITEPAY_HANDLE = 'evertonterapeutareiki';
   let providerCalls = 0;
   try {
-    const { initializeDb, getDb } = await import('../src/db');
-    const { paymentRoutes } = await import('../src/lib/paymentRoutes');
+    const { initializeDb, getDb } = await import('../src/db.js');
+    const { paymentRoutes } = await import('../src/lib/paymentRoutes.js');
     await initializeDb();
     getDb().users.push({ id: 'owner', plan: 'free', profile: {} });
     const provider = async () => {
@@ -62,5 +70,9 @@ test('InfinitePay exige API Key para links single_payment e falha fechado sem cr
     if (previous.appUrl === undefined) delete process.env.PUBLIC_APP_URL; else process.env.PUBLIC_APP_URL = previous.appUrl;
     if (previous.upstashUrl === undefined) delete process.env.UPSTASH_REDIS_REST_URL; else process.env.UPSTASH_REDIS_REST_URL = previous.upstashUrl;
     if (previous.upstashToken === undefined) delete process.env.UPSTASH_REDIS_REST_TOKEN; else process.env.UPSTASH_REDIS_REST_TOKEN = previous.upstashToken;
+    if (previous.kvUrl === undefined) delete process.env.KV_REST_API_URL; else process.env.KV_REST_API_URL = previous.kvUrl;
+    if (previous.kvToken === undefined) delete process.env.KV_REST_API_TOKEN; else process.env.KV_REST_API_TOKEN = previous.kvToken;
+    if (previous.upstashKvUrl === undefined) delete process.env.UPSTASH_REDIS_REST_KV_REST_API_URL; else process.env.UPSTASH_REDIS_REST_KV_REST_API_URL = previous.upstashKvUrl;
+    if (previous.upstashKvToken === undefined) delete process.env.UPSTASH_REDIS_REST_KV_REST_API_TOKEN; else process.env.UPSTASH_REDIS_REST_KV_REST_API_TOKEN = previous.upstashKvToken;
   }
 });
