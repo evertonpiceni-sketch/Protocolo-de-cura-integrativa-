@@ -181,6 +181,7 @@ test('Arcanjo opens only after explicit navigation or successful 7-day checkout'
   assert.match(app, /const \[showArcanjoView, setShowArcanjoView\] = useState<boolean>\(false\)/);
   assert.match(app, /const isArcanjoViewActive = showArcanjoView;/);
   assert.match(app, /if \(plan === 'arcanjo_7d'\) setShowArcanjoView\(true\);/);
+  assert.match(app, /onOpenArcanjo=\{\(\) => \(userProfile\.plan === 'pro' \|\| userProfile\.subscriptionPlan === 'arcanjo_7d'\) \? setShowArcanjoView\(true\) : setShowProModal\(true\)\}/);
   assert.match(globalAudioSection, /!isArcanjoViewActive/);
   assert.match(globalAudioSection, /else if \(!isArcanjoViewActive\)/);
   assert.match(globalAudioSection, /isArcanjoViewActive/);
