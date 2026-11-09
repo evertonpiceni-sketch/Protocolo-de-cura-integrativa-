@@ -224,3 +224,13 @@ test('Arcanjo ownership blocks global audio without stopping its own Solfeggio',
   assert.match(arcanjo, /startArcanjoOwnedSolfeggio/);
   assert.doesNotMatch(arcanjo, /audioEngine\.startSynth/);
 });
+
+test('Místico Moderno uses only the saved valid neural voice and never substitutes a legacy alias', () => {
+  const main = read('src/main.tsx');
+  const settings = read('src/components/AudioSettingsModal.tsx');
+  assert.doesNotMatch(main, /misticoModernoOfficialVoicePatch/);
+  assert.match(settings, /const savedVoiceId = userProfile\.voiceId\?\.trim\(\) \|\| ''/);
+  assert.match(settings, /const initialVoiceId = \(isNaturalSereno \|\| isEssenciaLuminosa\) && !isElevenLabsVoiceId\(savedVoiceId\)/);
+  assert.match(settings, /if \(requiresNeuralVoice && !isElevenLabsVoiceId\(voiceId\)\)/);
+  assert.doesNotMatch(settings, /isMisticoModerno[^\n]*OFFICIAL_PROTOCOL_VOICE_ID/);
+});
