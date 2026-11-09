@@ -320,7 +320,7 @@ test('planos, checkout e páginas secundárias respeitam a paleta Natural Sereno
 test('tokens compartilhados do Estilo 1 ficam na paleta Natural Sereno e não herdam a cena da Reintegração', () => {
   const approved = read('src/natural-sereno-approved-overrides.css');
   const main = read('src/main.tsx');
-  const blocks = [...approved.matchAll(/:root\\[data-layout="natural-sereno"\\]\\s*\\{([\\s\\S]*?)\\}/g)];
+  const blocks = [...approved.matchAll(/:root\[data-layout="natural-sereno"\]\s*\{([\s\S]*?)\}/g)];
   const finalBlock = blocks.at(-1)?.[1] ?? '';
 
   assert.ok(finalBlock.includes('--layout-canvas: #FAF7F2;'));
@@ -334,7 +334,7 @@ test('tokens compartilhados do Estilo 1 ficam na paleta Natural Sereno e não he
   assert.ok(finalBlock.includes('--layout-border: #E8E0D5;'));
   assert.ok(finalBlock.includes('--ep-scene: var(--ns-valley);'));
   assert.ok(finalBlock.includes('--ep-panel-text: #2A2421;'));
-  assert.doesNotMatch(finalBlock, /reintegracao-presenca-arte|rgba\\(6,42,31|rgba\\(5,35,26|#2D4A3E|#202D24/);
+  assert.doesNotMatch(finalBlock, /reintegracao-presenca-arte|rgba\(6,42,31|rgba\(5,35,26|#2D4A3E|#202D24/);
 
   assert.ok(main.indexOf("import './approved-theme.css';") < main.indexOf("import './natural-sereno-approved-overrides.css';"));
   assert.ok(main.indexOf("import './natural-sereno-approved-overrides.css';") > main.indexOf("import './natural-sereno.css';"));
