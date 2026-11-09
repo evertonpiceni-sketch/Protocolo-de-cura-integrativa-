@@ -840,7 +840,7 @@
 /* RUN 114 — player Natural Sereno: paisagem real e microanimação corporal neutra. */
 :root[data-layout="natural-sereno"] #meditation-session .ep-session-natural-sereno-scene {
   opacity: .38;
-  object-position: center 46%;
+  object-position: center 16%;
   filter: saturate(.88) contrast(.96);
 }
 :root[data-layout="natural-sereno"] #meditation-session .ep-session-natural-sereno-overlay {
@@ -864,6 +864,6 @@
 @media (min-width: 641px) {
   :root[data-layout="natural-sereno"] #meditation-session .ep-session-natural-sereno-scene {
     opacity: .42;
-    object-position: center 44%;
+    object-position: center 16%;
   }
 }
