@@ -49,7 +49,6 @@ const AchievementsModal = React.lazy(() => import('./components/AchievementsModa
 const SystemicQuestionsModal = React.lazy(() => import('./components/SystemicQuestionsModal'));
 const DailyDiaryModal = React.lazy(() => import('./components/DailyDiaryModal'));
 const ContactModal = React.lazy(() => import('./components/ContactModal'));
-const PromoVideoModal = React.lazy(() => import('./components/PromoVideoModal'));
 const DashboardCura = React.lazy(() => import('./components/DashboardCura'));
 const MobileInstallModal = React.lazy(() => import('./components/MobileInstallModal'));
 const DailyTipModal = React.lazy(() => import('./components/DailyTipModal'));
@@ -108,7 +107,6 @@ export default function App() {
   const [showDailyDiaryModal, setShowDailyDiaryModal] = useState<boolean>(false);
   const [dailyDiaryModalDay, setDailyDiaryModalDay] = useState<number>(1);
   const [showContactModal, setShowContactModal] = useState<boolean>(false);
-  const [showPromoVideoModal, setShowPromoVideoModal] = useState<boolean>(false);
   const [showMilestoneModal, setShowMilestoneModal] = useState<boolean>(false);
   const [showDashboardCura, setShowDashboardCura] = useState<boolean>(false);
   const [showDailyTip, setShowDailyTip] = useState<boolean>(false);
@@ -518,7 +516,6 @@ export default function App() {
       setShowSystemicQuestionsModal(false);
       setShowDailyDiaryModal(false);
       setShowContactModal(false);
-      setShowPromoVideoModal(false);
       setShowMilestoneModal(false);
       setShowDashboardCura(false);
       setShowDailyTip(false);
@@ -2056,18 +2053,6 @@ export default function App() {
       <aside className="hidden" id="bottom-action-dock" aria-hidden="true">
         <div className="max-w-5xl mx-auto bg-white/90 backdrop-blur-xl border border-[#E5DAC6] rounded-2xl p-2 shadow-2xl shadow-[#B88736]/10 pointer-events-auto flex items-center justify-between sm:justify-center gap-1.5 sm:gap-2 overflow-x-auto no-scrollbar">
           
-          {/* Vídeo Apresentação do App */}
-          <button
-            onClick={() => setShowPromoVideoModal(true)}
-            className="px-2.5 sm:px-3 py-2 rounded-xl text-xs font-semibold flex items-center gap-1.5 transition cursor-pointer shrink-0 bg-gradient-to-r from-amber-500/20 to-indigo-950/60 hover:from-amber-500/30 border border-amber-500/40 text-amber-200 shadow-sm"
-            title="Assistir Vídeo de Apresentação e Propaganda do Protocolo"
-            id="bottom-btn-promo-video"
-          >
-            <Play size={14} fill="currentColor" className="text-amber-400 shrink-0" />
-            <span className="hidden sm:inline">Apresentação</span>
-            <span className="sm:hidden">Vídeo</span>
-          </button>
-
           {/* Conquistas / Emblemas */}
           <button
             onClick={() => setShowAchievementsModal(true)}
@@ -2602,7 +2587,7 @@ export default function App() {
       )}
 
       {/* Onboarding Flow Substitution */}
-      {showWelcomeModal && userProfile && (
+      {showWelcomeModal && userProfile && layoutConfirmedThisSession && !layoutChoiceRequested && (
         <OnboardingFlow
           onComplete={() => {
             localStorage.setItem('cura_integrada_welcome_seen_v1', 'true');
@@ -2748,22 +2733,6 @@ export default function App() {
           isOpen={showContactModal}
           onClose={() => setShowContactModal(false)}
           userProfile={userProfile || undefined}
-        />
-      )}
-
-      {/* Vídeo Apresentação & Propaganda do Protocolo */}
-      {showPromoVideoModal && (
-        <PromoVideoModal
-          isOpen={showPromoVideoModal}
-          onClose={() => setShowPromoVideoModal(false)}
-          onOpenProModal={() => {
-            setShowPromoVideoModal(false);
-            setShowProModal(true);
-          }}
-          onOpenContact={() => {
-            setShowPromoVideoModal(false);
-            setShowContactModal(true);
-          }}
         />
       )}
 
