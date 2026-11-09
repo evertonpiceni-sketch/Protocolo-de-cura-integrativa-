@@ -493,7 +493,7 @@ export default function App() {
       const pending = readPendingProfileSync(login);
       if (!pending) return;
       pendingProfileSyncInFlight.current = login;
-      void syncUserState({ profile: pending.profilePatch })
+      void syncUserState({ profile: pending.profilePatch }, { accountKey: login })
         .then(() => clearPendingProfileSync(login))
         .catch(error => console.warn('Pending registration profile sync remains queued', error))
         .finally(() => {
@@ -546,7 +546,7 @@ export default function App() {
       const syncPayload = progressOverride
         ? { profile: newProfile, progress: progressOverride }
         : { profile: newProfile };
-      void syncUserState(syncPayload).catch(error => {
+      void syncUserState(syncPayload, { accountKey: newProfile.login }).catch(error => {
         console.error('Profile sync failed after retry; changes remain in the local cache', error);
       });
     }
@@ -556,7 +556,7 @@ export default function App() {
     setProgress(newProgress);
     if (userProfile) updateLocalAccountCache(userProfile, newProgress);
     if (isLoggedIn) {
-      void syncUserState({ progress: newProgress }).catch(error => {
+      void syncUserState({ progress: newProgress }, { accountKey: userProfile?.login }).catch(error => {
         console.error('Progress sync failed after retry; changes remain in the local cache', error);
       });
     }
@@ -657,7 +657,7 @@ export default function App() {
       const syncPayload = updatedProfile
         ? { profile: updatedProfile, progress: updatedProgress }
         : { progress: updatedProgress };
-      void syncUserState(syncPayload).catch(error => {
+      void syncUserState(syncPayload, { accountKey: updatedProfile?.login ?? userProfile?.login }).catch(error => {
         console.error('Session completion sync failed after retry', error);
       });
     }
@@ -704,7 +704,7 @@ export default function App() {
 
         // Persist the reset as one consistent profile/progress snapshot.
         if (isLoggedIn) {
-          void syncUserState({ profile: updatedProfile, progress: defaultProgress }).catch(error => {
+          void syncUserState({ profile: updatedProfile, progress: defaultProgress }, { accountKey: updatedProfile.login }).catch(error => {
             console.error('Program reset sync failed after retry', error);
           });
         }
@@ -913,7 +913,7 @@ export default function App() {
             // Do not dismiss the chooser until the server accepts the preference.
             if (isLoggedIn) {
               try {
-                await syncUserState({ profile: updatedProfile });
+                await syncUserState({ profile: updatedProfile }, { accountKey: updatedProfile.login });
               } catch (error) {
                 throw new Error('Não foi possível salvar o estilo após novas tentativas.', { cause: error });
               }
