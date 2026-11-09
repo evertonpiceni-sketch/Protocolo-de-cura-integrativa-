@@ -60,3 +60,18 @@ test('o Estilo 2 suspende Solfeggio durante prévias neurais e restaura apenas a
   assert.ok(home.includes('setNeuralVoicePreviewActive(true)'));
   assert.ok(home.includes('restoreBackgroundAfterNeuralNarration'));
 });
+
+
+test('o Arcanjo suspende Solfeggio durante narração neural e respeita o áudio global', () => {
+  const arcanjo = read('src/components/ArcanjoProtocolView.tsx');
+  assert.ok(arcanjo.includes("import { isSolfeggioFrequency } from '../lib/protocolSessionAudioPolicy';"));
+  assert.ok(arcanjo.includes('const requiresNeuralVoice = isEleganciaProfunda || isEssenciaLuminosa;'));
+  assert.ok(arcanjo.includes('if (isSolfeggioFrequency(audioEngine.getCurrentSynthType())) {'));
+  assert.ok(arcanjo.includes('if (userProfile.audioEnabled === false) {'));
+  assert.ok(arcanjo.includes('if (requiresNeuralVoice) stopProtocolFrequency();'));
+  assert.ok(arcanjo.includes('if (restoreFrequency) playProtocolFrequency();'));
+  assert.ok(arcanjo.includes('resetPlayback(requiresNeuralVoice);'));
+  assert.ok(arcanjo.includes('if (requiresNeuralVoice) playProtocolFrequency();'));
+  assert.ok(arcanjo.includes('audioEngine.resumeSpeech();\n    if (!requiresNeuralVoice) playProtocolFrequency();'));
+  assert.equal((arcanjo.match(/audioEngine\\.startSynth\\(/g) ?? []).length, 1, 'A frequência diária deve ser iniciada somente pelo helper que respeita audioEnabled.');
+});
