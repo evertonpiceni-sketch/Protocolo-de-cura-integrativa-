@@ -236,13 +236,15 @@ test('a narração do Estilo 2 usa IDs ElevenLabs válidos e não cai na voz do 
   assert.ok(home.includes('fallbackToSpeechSynthesis: !requiresNeuralVoice'));
   assert.ok(session.includes("activeLayout === 'elegancia-profunda' && !style2VoiceId"));
   assert.ok(anamnesis.includes('fallbackToSpeechSynthesis: false'));
-  assert.ok(hooponopono.includes('fallbackToSpeechSynthesis: !(isEleganciaProfunda || isEssenciaLuminosa)'));
+  assert.ok(hooponopono.includes('const requiresNeuralVoice = isNaturalSereno || isEleganciaProfunda || isEssenciaLuminosa;'));
+  assert.ok(hooponopono.includes('fallbackToSpeechSynthesis: !requiresNeuralVoice'));
   assert.ok(arcanjo.includes('const requiresNeuralVoice = isNaturalSereno || isEleganciaProfunda || isEssenciaLuminosa;'));
   assert.ok(arcanjo.includes('requireExplicitVoiceId: requiresNeuralVoice'));
   assert.ok(audio.includes('requireExplicitVoiceId?: boolean'));
   assert.ok(audio.includes('if (options.requireExplicitVoiceId && !isElevenLabsVoiceId(options.voiceId))'));
   assert.ok(systemic.includes('fallbackToSpeechSynthesis: false'));
-  assert.ok(archangelPrayer.includes('fallbackToSpeechSynthesis: !(isEleganciaProfunda || isEssenciaLuminosa)'));
+  assert.ok(archangelPrayer.includes('const requiresNeuralVoice = isNaturalSereno || isEleganciaProfunda || isEssenciaLuminosa;'));
+  assert.ok(archangelPrayer.includes('fallbackToSpeechSynthesis: !requiresNeuralVoice'));
   assert.ok(app.includes('userProfile={userProfile || undefined}'));
   assert.ok(app.includes('voiceId={userProfile?.voiceId}'));
 });
