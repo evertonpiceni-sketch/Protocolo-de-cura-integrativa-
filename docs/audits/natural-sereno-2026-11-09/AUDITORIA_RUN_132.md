@@ -47,5 +47,5 @@ Arquivos alterados:
 ## Estado da entrega
 
 - PR #79 aberta e em rascunho.
-- Branch: **115 commits à frente e 9 atrás** de `main`; `mergeable=false`.
+- Branch divergida: **9 commits atrás de `main`**; a reconciliação permanece bloqueada até revisão condicional dos arquivos compartilhados.; `mergeable=false`.
 - Sem merge, publicação em produção ou cobrança real.
