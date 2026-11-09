@@ -204,9 +204,11 @@ export default function LayoutChoiceModal({ onSelect }: LayoutChoiceModalProps) 
   // Antes da escolha, o CTA permanece neutro. A cor do estilo só aparece após seleção explícita.
   const confirmButtonTone = !selectedLayout
     ? 'bg-gradient-to-r from-[#A99B84] via-[#B7AD9D] to-[#817460] focus-visible:ring-[#817460]/40'
-    : selectedLayout === 'essencia-luminosa'
-      ? 'bg-gradient-to-r from-[#D8C59B] via-[#C6A46A] to-[#E9DCC4] focus-visible:ring-[#C6A46A]/40'
-      : 'bg-gradient-to-r from-[#C89D52] via-[#D9B66D] to-[#A87E37] focus-visible:ring-[#B88736]/40';
+    : selectedLayout === 'natural-sereno'
+      ? 'bg-gradient-to-r from-[#E2B96B] via-[#C89D52] to-[#A87E37] focus-visible:ring-[#C89D52]/40'
+      : selectedLayout === 'essencia-luminosa'
+        ? 'bg-gradient-to-r from-[#D8C59B] via-[#C6A46A] to-[#E9DCC4] focus-visible:ring-[#C6A46A]/40'
+        : 'bg-gradient-to-r from-[#C89D52] via-[#D9B66D] to-[#A87E37] focus-visible:ring-[#B88736]/40';
 
   return (
     <div
@@ -228,15 +230,24 @@ export default function LayoutChoiceModal({ onSelect }: LayoutChoiceModalProps) 
         <div className="mt-6 grid grid-cols-1 gap-3 sm:grid-cols-2">
           {OFFICIAL_LAYOUTS.map(layout => {
             const isSelected = selectedLayout === layout.id;
+            const isNaturalSerenoCard = layout.id === 'natural-sereno';
             const isEssenciaCard = layout.id === 'essencia-luminosa';
-            const selectionClasses = isEssenciaCard
+            const selectionClasses = isNaturalSerenoCard
               ? isSelected
-                ? 'border-[#C6A46A] ring-2 ring-[#C6A46A]/20 shadow-lg'
-                : 'border-[#E5DAC6] hover:border-[#C6A46A]/60'
-              : isSelected
-                ? 'border-[#B88736] ring-2 ring-[#B88736]/20 shadow-lg'
-                : 'border-[#E5DAC6] hover:border-[#B88736]/60';
-            const focusRingClass = isEssenciaCard ? 'focus-visible:ring-[#C6A46A]/35' : 'focus-visible:ring-[#B88736]/35';
+                ? 'border-[#C89D52] ring-2 ring-[#C89D52]/20 shadow-lg'
+                : 'border-[#E8E0D5] hover:border-[#C89D52]/60'
+              : isEssenciaCard
+                ? isSelected
+                  ? 'border-[#C6A46A] ring-2 ring-[#C6A46A]/20 shadow-lg'
+                  : 'border-[#E5DAC6] hover:border-[#C6A46A]/60'
+                : isSelected
+                  ? 'border-[#B88736] ring-2 ring-[#B88736]/20 shadow-lg'
+                  : 'border-[#E5DAC6] hover:border-[#B88736]/60';
+            const focusRingClass = isNaturalSerenoCard
+              ? 'focus-visible:ring-[#C89D52]/35'
+              : isEssenciaCard
+                ? 'focus-visible:ring-[#C6A46A]/35'
+                : 'focus-visible:ring-[#B88736]/35';
             return (
               <button
                 key={layout.id}
@@ -251,7 +262,7 @@ export default function LayoutChoiceModal({ onSelect }: LayoutChoiceModalProps) 
                     <h3 className="font-display text-xl font-semibold text-[#2A2420]">{layout.name}</h3>
                     <p className="mt-1 text-xs leading-relaxed text-[#5C5248]">{layout.description}</p>
                   </div>
-                  <span className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-full border transition ${isSelected ? (isEssenciaCard ? 'border-[#C6A46A] bg-[#C6A46A] text-white opacity-100' : 'border-[#B88736] bg-[#B88736] text-white opacity-100') : (isEssenciaCard ? 'border-[#E5DAC6] text-[#C6A46A] opacity-0 group-hover:opacity-100' : 'border-[#E5DAC6] text-[#B88736] opacity-0 group-hover:opacity-100')}`} aria-hidden="true">
+                  <span className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-full border transition ${isSelected ? (isNaturalSerenoCard ? 'border-[#A87E37] bg-[#C89D52] text-[#2A2421] opacity-100' : isEssenciaCard ? 'border-[#C6A46A] bg-[#C6A46A] text-white opacity-100' : 'border-[#B88736] bg-[#B88736] text-white opacity-100') : (isNaturalSerenoCard ? 'border-[#E8E0D5] text-[#A87E37] opacity-0 group-hover:opacity-100' : isEssenciaCard ? 'border-[#E5DAC6] text-[#C6A46A] opacity-0 group-hover:opacity-100' : 'border-[#E5DAC6] text-[#B88736] opacity-0 group-hover:opacity-100')}`} aria-hidden="true">
                     <Check size={16} />
                   </span>
                 </div>
