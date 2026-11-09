@@ -448,7 +448,7 @@ export default function MeditationSession({
             </div>
 
             <div className="ep-stage-badge inline-flex items-center gap-2 px-3.5 py-1 rounded-full border border-[#B88736]/30 bg-[#FAF4E8] text-xs font-serif text-[#8F631E] mb-6 shadow-xs font-medium">
-              <span className="w-1.5 h-1.5 rounded-full bg-[#8F631E] animate-pulse" />
+              <span className="w-1.5 h-1.5 rounded-full bg-[#8F631E] animate-pulse motion-reduce:animate-none" />
               <span>Etapa {currentStageIndex + 1} de {stages.length}: {currentStage.title}</span>
             </div>
 
