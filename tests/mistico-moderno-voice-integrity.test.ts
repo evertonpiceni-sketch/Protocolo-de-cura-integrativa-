@@ -320,3 +320,17 @@ test('Style 4 remaps shared semantic theme tokens and cannot inherit Natural Ser
   assert.match(style4Tokens, /--journey-bg-canvas:var\(--layout-canvas\)/);
   assert.doesNotMatch(style4Tokens, /#5E7153|#7E9473|#D5DDD1|#8F631E/);
 });
+
+
+test('Místico Moderno keeps Arcanjo progress markers in the night palette', () => {
+  const arcanjo = read('src/components/ArcanjoProtocolView.tsx');
+  const css = read('src/mistico-moderno-arcanjo-audit.css');
+
+  assert.match(arcanjo, /data-arcanjo-day-marker/);
+  assert.match(arcanjo, /data-current=\{diaAtual===day \? 'true' : 'false'\}/);
+  assert.match(arcanjo, /data-completed=\{done \? 'true' : 'false'\}/);
+  assert.match(css, /arcanjo-chakra-caption[\s\S]*?text-\[#c8d9cd\][\s\S]*?color: #BAC3D1/);
+  assert.match(css, /button\[aria-label\^="Abrir dia"\][\s\S]*?background: #2E3B73/);
+  assert.match(css, /button\[data-completed="true"\][\s\S]*?background: #6C3FA0/);
+  assert.match(css, /button\[data-current="true"\][\s\S]*?background: #D4AF37/);
+});
