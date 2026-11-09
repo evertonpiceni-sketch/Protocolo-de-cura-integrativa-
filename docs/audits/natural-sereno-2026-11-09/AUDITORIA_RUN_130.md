@@ -27,7 +27,7 @@
 
 A inspeção estática cobriu a ordem de importação das folhas CSS, o fluxo do seletor, as superfícies próprias do Natural Sereno e os componentes compartilhados de Anamnese, Perguntas Sistêmicas, Diário, Ho'oponopono, oração, Arcanjo, Ajustes de Áudio, player, Mapa Astral, Numerologia, Banhos, Prática Individual, planos/checkout e contato.
 
-**A reconciliação com `main` não deve ser feita por atualização cega.** A branch está **97 commits à frente e 9 atrás** (antes do commit documental RUN 130; o número de commits à frente aumentou com esta auditoria). Os nove commits posteriores de `main` incluem mudanças compartilhadas em `App.tsx` e `ArcanjoProtocolView.tsx`:
+**A reconciliação com `main` não deve ser feita por atualização cega.** A branch está **100 commits à frente e 9 atrás** de `main` após os commits de correção e documentação desta rodada. Os nove commits posteriores de `main` incluem mudanças compartilhadas em `App.tsx` e `ArcanjoProtocolView.tsx`:
 - `main` remove os guardas de sincronização por conta presentes nesta branch (`authSession`, `userSync`, `pendingProfileSync`).
 - A versão de `main` do Arcanjo volta a montar `ChakraBody` e deixa de exigir voz neural para Natural Sereno; esta branch preserva corpo neutro e voz neural sem fallback para o Estilo 1.
 
