@@ -4,6 +4,8 @@ import { Check } from 'lucide-react';
 import { OFFICIAL_LAYOUTS, LayoutDefinition, LayoutId } from '../config/layouts';
 
 // Referências visuais oficiais dos quatro estilos; paletas e tratamentos seguem as decisões aprovadas mais recentes.
+// Verified against the Library original 1001196520.png (file_id: file_00000000317c820ebaad657dc3680de5).
+// The repository asset is a visually matched JPEG derivative; later approved palette/body/logo decisions prevail.
 const NATURAL_SERENO_OFFICIAL_BOARD = new URL('../../docs/visual-qa/natural-sereno/reference.jpg', import.meta.url).href;
 
 interface LayoutChoiceModalProps {
@@ -62,7 +64,7 @@ function LayoutPreview({ layout }: { layout: LayoutDefinition }) {
               loading="lazy"
               decoding="async"
               draggable={false}
-              className="h-10 w-12 shrink-0 rounded-lg border border-[#E8E0D5] object-cover object-top"
+              className="h-14 w-16 shrink-0 rounded-lg border border-[#E8E0D5] bg-[#FAF7F2] p-0.5 object-contain"
             />
             <span className="max-w-[112px] text-[8px] leading-tight text-[#6B625B]">
               Prancha oficial de referência. Decisões posteriores prevalecem.
