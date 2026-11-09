@@ -2,7 +2,8 @@
 
 Data: 9 de novembro de 2026  
 Projeto: `evertonpiceni-sketch/Protocolo-de-cura-integrativa-`  
-Branch: `fix/natural-sereno-mainline-run111-2026-11-09`
+Branch: `fix/natural-sereno-mainline-run111-2026-11-09`  
+HEAD de código: `00ae155cb4a74a490e52724842289084ffd115a9`
 
 ## Corrigido
 
@@ -24,8 +25,8 @@ Branch: `fix/natural-sereno-mainline-run111-2026-11-09`
 
 ## Pendente
 
-- CI do novo commit: aguardando execução; não declarar aprovação antes do resultado.
-- Vercel: último estado consultado sem deployment READY; provisionamento limitado por quota diária. Nenhum deployment manual foi forçado.
+- CI #2142 / run `42631652560`, no HEAD `00ae155`: **success**. `npm audit`: 0 vulnerabilidades; TypeScript aprovado; **243/243 testes aprovados**; build Vite + Express aprovado, 2.251 módulos transformados. A primeira execução #2141 falhou apenas porque um teste estático da Essência Luminosa esperava a variável local `neuralVoiceId`; preservei esse contrato sem mudar o comportamento do Estilo 3 e a execução seguinte passou.
+- Vercel: deployment do novo HEAD `00ae155` (`dpl_8zGGAkJaPexJ7H7QrBGcBCixXZTY`) terminou em `ERROR`; o projeto permanece `live:false`. O comentário da Vercel informa limite de 100 deployments/dia e tentativa novamente em 24 horas. Nenhum deployment manual foi forçado.
 - Homologação visual renderizada, página por página em desktop/mobile.
 - Escuta real da voz, Solfeggio, ambiência e retomadas em navegador/dispositivo.
 - Sandbox InfinitePay, confirmação e webhook.
