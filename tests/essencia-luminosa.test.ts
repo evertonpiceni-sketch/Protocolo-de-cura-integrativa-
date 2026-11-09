@@ -180,7 +180,7 @@ test('o onboarding ativo do Estilo 3 usa superfície clara e logo como assinatur
   const app = fs.readFileSync('src/App.tsx', 'utf8');
   const flow = fs.readFileSync('src/components/OnboardingFlow.tsx', 'utf8');
   const css = fs.readFileSync('src/essencia-luminosa-onboarding-audit.css', 'utf8');
-  assert.ok(app.includes('{showWelcomeModal && userProfile && ('));
+  assert.ok(app.includes('{showWelcomeModal && userProfile && layoutConfirmedThisSession && !layoutChoiceRequested && ('));
   assert.ok(app.includes('<OnboardingFlow'));
   assert.ok(flow.includes("import '../essencia-luminosa-onboarding-audit.css';"));
   assert.ok(css.includes(':root[data-layout="essencia-luminosa"] .ep-care-onboarding-card'));
