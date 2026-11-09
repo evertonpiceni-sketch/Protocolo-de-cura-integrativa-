@@ -15,6 +15,19 @@ export function isSolfeggioFrequency(bgMusicType: string): boolean {
   return SOLFEGGIO_FREQUENCY_PATTERN.test(bgMusicType.trim());
 }
 
+/** Inline Solfeggio is allowed only while the modal is open, audio is enabled,
+ * and no voice is loading or playing. */
+export function shouldPlayInlineSolfeggio(input: {
+  isOpen: boolean;
+  enabled: boolean;
+  audioEnabled?: boolean;
+  voiceLoading: boolean;
+  voicePlaying: boolean;
+}): boolean {
+  return input.isOpen && input.enabled && input.audioEnabled !== false &&
+    !input.voiceLoading && !input.voicePlaying;
+}
+
 
 /**
  * During a neural voice preview, block only Solfeggio choices. Non-tonal
