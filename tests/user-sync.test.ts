@@ -251,6 +251,8 @@ test('authenticated app and Natural Sereno journey writes pass the originating a
 
   assert.match(app, /const profileWithAdmin = \{ \.\.\.profileWithPending, login: account\.login, isAdmin: account\.role === 'admin' \}/);
   assert.match(app, /login: localAccount\.login/);
+  assert.match(app, /profile: \{ \.\.\.pending\.profilePatch, login \}/);
+  assert.match(setup, /const profileData = \{ \.\.\.data\.user\.profile, \.\.\.profilePatch, login: data\.user\.login \}/);
   assert.match(app, /const accountWithLogin: UserAccount =/);
   assert.match(app, /profile: \{ \.\.\.account\.profile, login: account\.login \}/);
   assert.match(app, /syncUserState\(syncPayload, \{ accountKey: newProfile\.login \}\)/);
@@ -342,6 +344,27 @@ test('server sync endpoint binds every write to the authenticated account', () =
   assert.match(helper, /accountLogin: currentAtStart/);
   assert.match(server, /const \{ profile, progress, accountLogin \} = req\.body \|\| \{\}/);
   assert.match(server, /originatingLogin !== authenticatedLogin/);
-  assert.match(server, /profileLogin && profileLogin !== authenticatedLogin/);
+  assert.match(server, /profile && \(!profileLogin \|\| profileLogin !== authenticatedLogin\)/);
   assert.match(server, /login: authenticatedLogin/);
+});
+
+
+test('browser profile sync rejects a missing profile identity even when a tab key is supplied', async () => {
+  let calls = 0;
+  await assert.rejects(
+    syncUserState(
+      { profile: { privateDiaryOwner: 'account-a' } },
+      {
+        accountKey: 'account-b',
+        requireAccountKey: true,
+        getCurrentAccountKey: () => 'account-b',
+        fetcher: async () => {
+          calls += 1;
+          return new Response('{"success":true}', { status: 200 });
+        },
+      },
+    ),
+    /profile origin identity is missing/,
+  );
+  assert.equal(calls, 0, 'a shared tab key cannot stand in for the profile origin identity');
 });
