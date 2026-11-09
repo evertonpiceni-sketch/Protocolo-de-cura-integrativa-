@@ -157,7 +157,11 @@ test('a entrada ativa usa OnboardingFlow e recebe tratamento visual isolado do E
   assert.ok(css.includes('rgba(10,27,20,.42)'));
   assert.ok(!css.includes('/brand/natural-sereno/'));
   assert.ok(!css.includes('reintegracao-presenca-arte.png'));
-  assert.ok(!css.includes('var(--ep-scene)'));
+  const onboardingStart = css.indexOf(':root[data-layout="elegancia-profunda"] .ep-care-onboarding {');
+  const onboardingEnd = css.indexOf('\n}', onboardingStart);
+  const onboardingBlock = css.slice(onboardingStart, onboardingEnd);
+  assert.ok(onboardingBlock.includes('var(--ep-scene-overlay)'));
+  assert.ok(onboardingBlock.includes('var(--ep-scene) center/cover fixed no-repeat!important'));
 });
 
 test('o logo permanece assinatura transparente e o hero não herda opacidade de 72%', () => {
@@ -203,7 +207,11 @@ test('o player respeita o contexto de dia do Estilo 2 sem herdar a cena da Reint
   const css = read('src/elegancia-profunda-approved-overrides.css');
   assert.ok(session.includes("['natural-sereno', 'elegancia-profunda', 'essencia-luminosa'].includes(activeLayout || '') ? dayNumber : undefined"));
   assert.ok(css.includes(`--ep-scene:url('https://images.unsplash.com/photo-1788699626335-906b2c4ae2d8?auto=format&fit=crop&w=1920&q=85')`));
-  assert.ok(!css.includes('var(--ep-scene)'), 'O player mantém sua própria cena e não recebe o fundo global.');
+  const playerBackdropStart = css.indexOf(':root[data-layout="elegancia-profunda"] #meditation-session .ep-session-backdrop > div:last-child {');
+  const playerBackdropEnd = css.indexOf('\n}', playerBackdropStart);
+  assert.ok(playerBackdropStart >= 0 && playerBackdropEnd > playerBackdropStart, 'O backdrop do player deve ter uma regra própria.');
+  const playerBackdropRule = css.slice(playerBackdropStart, playerBackdropEnd);
+  assert.ok(!playerBackdropRule.includes('var(--ep-scene)'), 'O player mantém sua própria cena e não recebe o fundo global.');
   assert.ok(css.includes('#meditation-session .ep-session-backdrop > div:last-child'));
 });
 

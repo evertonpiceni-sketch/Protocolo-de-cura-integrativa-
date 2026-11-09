@@ -27,7 +27,8 @@ Base auditada: `41724715950186ba1715b61e1e921a2dcd30a7d6`
 ## Validação técnica
 
 - A última CI anterior à correção passou com 153 testes, npm audit sem vulnerabilidades, TypeScript e build aprovados (run `42564687773`, commit base `41724715950186ba1715b61e1e921a2dcd30a7d6`).
-- A nova CI deste commit deve ser conferida no GitHub Actions antes de declarar a correção validada em execução.
+- A primeira CI do commit inicial da correção encontrou duas asserções antigas excessivamente amplas: elas proibiam `var(--ep-scene)` em todo o CSS, inclusive no acolhimento que agora deve usar a fotografia, e não isolavam a regra específica do player.
+- Corrigidos os testes para validar a fotografia no bloco de acolhimento e verificar separadamente que o backdrop do player não consome a cena global. A nova CI deste commit precisa concluir antes de declarar a validação final.
 
 ## Pendente
 
@@ -46,3 +47,8 @@ Base auditada: `41724715950186ba1715b61e1e921a2dcd30a7d6`
 - Eventos detalhados de build retornaram vazios. Nenhuma configuração financeira ou de plano foi alterada.
 
 Conclusão: a fotografia de natureza agora também aparece no acolhimento inicial da Elegância Profunda, sem modificar conteúdo, lógica, seleção de estilo ou outros temas. A homologação visual e a publicação continuam pendentes.
+
+
+## Ajuste de testes após a primeira CI
+
+A execução `42575154567` executou 154 testes: 152 passaram e 2 falharam por asserções de escopo antigas, não por falha de build ou TypeScript. As duas asserções foram atualizadas para distinguir a cena do acolhimento da cena própria do player. A execução seguinte deve confirmar o resultado final.
