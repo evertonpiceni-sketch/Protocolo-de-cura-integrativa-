@@ -358,3 +358,11 @@ test('as folhas específicas das superfícies ativas do Estilo 3 estão carregad
   assert.ok(onboarding.includes('ep-care-onboarding-card'));
   assert.ok(onboardingCss.includes('.ep-care-onboarding-card'));
 });
+
+test('Framer Motion respeita movimento reduzido somente após confirmação da Essência Luminosa', () => {
+  const app = read('src/App.tsx');
+  assert.ok(app.includes("const isEssenciaLuminosa = layoutConfirmedThisSession && userProfile?.visualLayout === 'essencia-luminosa';"));
+  assert.ok(app.includes('import { AnimatePresence, MotionConfig } from "motion/react";'));
+  assert.ok(app.includes("<MotionConfig reducedMotion={isEssenciaLuminosa ? 'user' : undefined}>"));
+  assert.ok(app.includes('</MotionConfig>'));
+});
