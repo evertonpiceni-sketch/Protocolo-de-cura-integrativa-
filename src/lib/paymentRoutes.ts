@@ -6,8 +6,24 @@ import { PAYMENT_PLANS, paymentQuote, specificTreatmentQuote, type Plan } from '
 import type { SubscriptionBenefitChoice } from '../types.js';
 export type PaymentOrder = { id: string; userId: string; planId: Plan; treatment?: import('../types.js').SpecificTreatment; benefitChoice?: SubscriptionBenefitChoice; cents: number; method: string; createdAt: string; paidAt?: string; transaction?: string };
 const API = 'https://api.infinitepay.io/invoices/public/checkout';
-export function paymentRoutes(authenticate: any, limiter: any, providerFetch: typeof fetch = fetch) {
+export function paymentRoutes(
+  authenticate: any,
+  limiter: any,
+  providerFetch: typeof fetch = fetch,
+  environment: Pick<NodeJS.ProcessEnv, 'VERCEL_ENV'> = process.env
+) {
   const router = Router();
+  // InfinitePay currently points to the live public checkout API. Until a real
+  // sandbox is configured, only Vercel production may create or process orders.
+  const requireProductionPaymentEnvironment = (_req: any, res: any, next: any) => {
+    if (environment.VERCEL_ENV !== 'production') {
+      return res.status(503).json({
+        error: 'Pagamentos reais ficam desativados fora da produção até a homologação sandbox.',
+        code: 'PAYMENTS_PRODUCTION_ONLY'
+      });
+    }
+    return next();
+  };
   const handle = () => process.env.INFINITEPAY_HANDLE || 'evertonterapeutareiki';
   const appUrl = () => {
     const url = new URL(process.env.PUBLIC_APP_URL || 'https://protocolo-de-cura-integrativa.vercel.app');
@@ -19,7 +35,7 @@ export function paymentRoutes(authenticate: any, limiter: any, providerFetch: ty
     if (!response.ok) throw new Error('O provedor não conseguiu processar o pagamento agora.');
     return response.json();
   }
-  router.post('/user/upgrade', authenticate, limiter, async (req: any, res) => {
+  router.post('/user/upgrade', authenticate, limiter, requireProductionPaymentEnvironment, async (req: any, res) => {
     if (req.body?.planId !== 'teste_vip_7d' || req.body?.couponCode !== 'VIP7' || req.body?.paymentMethod !== 'trial') return res.status(400).json({ error: 'Ativação inválida.' });
     const user = getDb().users.find(u => u.id === req.userId);
     if (!user) return res.sendStatus(401);
@@ -33,7 +49,7 @@ export function paymentRoutes(authenticate: any, limiter: any, providerFetch: ty
     try { await saveDb(); return res.json({ user: { profile: user.profile } }); }
     catch { user.plan = previous.plan; user.profile = previous.profile; return res.status(503).json({ error: 'Não foi possível ativar a degustação agora.' }); }
   });
-  router.post('/payment/create-checkout', authenticate, limiter, async (req: any, res) => {
+  router.post('/payment/create-checkout', authenticate, limiter, requireProductionPaymentEnvironment, async (req: any, res) => {
     const { planId, paymentMethod, couponCode, productType, benefitChoice } = req.body || {};
     let quote;
     let treatment: import('../types.js').SpecificTreatment | undefined;
@@ -103,11 +119,11 @@ export function paymentRoutes(authenticate: any, limiter: any, providerFetch: ty
     }
     return { status: 200, data: userId ? { status: 'paid', user: { profile: user.profile } } : { success: true } };
   }
-  router.post('/payment/confirm', authenticate, limiter, async (req: any, res) => {
+  router.post('/payment/confirm', authenticate, limiter, requireProductionPaymentEnvironment, async (req: any, res) => {
     try { const result = await confirm(req.body, req.userId); return res.status(result.status).json(result.data); }
     catch { return res.status(503).json({ error: 'Não foi possível confirmar o pagamento agora.' }); }
   });
-  router.post('/webhooks/payment', limiter, async (req, res) => {
+  router.post('/webhooks/payment', limiter, requireProductionPaymentEnvironment, async (req, res) => {
     try { const result = await confirm(req.body); return res.status(result.status).json(result.data); }
     catch { return res.status(503).json({ error: 'Confirmação temporariamente indisponível.' }); }
   });
