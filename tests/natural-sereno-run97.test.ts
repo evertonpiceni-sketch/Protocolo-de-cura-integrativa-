@@ -230,6 +230,24 @@ test('Natural Sereno exige voz neural nos caminhos de Anamnese, Reflexão Sistê
   assert.ok(archangelPrayer.includes('voiceId: effectiveVoiceId'));
 });
 
+test('Anamnese Natural Sereno mostra a voz neural real e usa apenas dourado refinado no player', () => {
+  const anamnesis = read('src/components/AnamnesisModal.tsx');
+  const refinement = read('src/natural-sereno-refinement.css');
+  const lowerRefinement = refinement.toLowerCase();
+
+  assert.ok(anamnesis.includes('const neuralVoiceLabel = isElevenLabsVoiceId(userProfile.voiceId)'));
+  assert.ok(anamnesis.includes('{!requiresNeuralVoice ? ('));
+  assert.ok(anamnesis.includes('{requiresNeuralVoice ? neuralVoiceLabel : selectedVoiceGender ==='));
+  assert.ok(anamnesis.includes('Marianne — Meditação (voz oficial)'));
+
+  for (const legacyGold of ['#d8bd6b', '#896923', '#e5c773', '#a8812e', '#efd896', '#fff0b3', '#c3a557']) {
+    assert.ok(!lowerRefinement.includes(legacyGold), `cor antiga ${legacyGold} não deve voltar ao player da Anamnese`);
+  }
+  assert.ok(refinement.includes('linear-gradient(180deg, #E2B96B, #C89D52)'));
+  assert.ok(refinement.includes('linear-gradient(to top, #5E6948, #C89D52)'));
+});
+
+
 test('o player mobile do Natural Sereno não mantém overlay verde-floresta ou dourado saturado legado', () => {
   const mobile = read('src/natural-sereno-mobile-fixes.css');
   for (const legacy of [
