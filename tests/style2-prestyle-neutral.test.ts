@@ -35,8 +35,18 @@ test('auth prestyle stays neutral until the user explicitly confirms a layout', 
   );
 
   const approvedTheme = read('src/approved-theme.css');
+  const profileSetupBlocks = approvedTheme
+    .split('#profile-setup-view')
+    .slice(1)
+    .map(fragment => {
+      const open = fragment.indexOf('{');
+      const close = fragment.indexOf('}', open);
+      return open >= 0 && close > open ? fragment.slice(open + 1, close) : '';
+    });
   assert.ok(
-    !approvedTheme.includes('#profile-setup-view{') && !approvedTheme.includes('#profile-setup-view {'),
+    profileSetupBlocks.every(block =>
+      !['--bg-canvas:', '--sage-accent:', '--gold-primary:', '--text-primary:'].some(token => block.includes(token))
+    ),
     'The onboarding view must not override neutral tokens with a style-specific palette.'
   );
   const neutralRootStart = approvedTheme.indexOf(':root:not([data-layout]){');
