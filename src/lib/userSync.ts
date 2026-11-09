@@ -76,7 +76,7 @@ async function performUserSync(
   for (let attempt = 1; attempt <= maxAttempts; attempt += 1) {
     assertAccountStillCurrent(expectedAccountKey, getCurrentAccountKey, requireAccountKey);
 
-    let response: Response | undefined;
+    let response: Response;
     try {
       response = await fetcher('/api/user/sync', {
         method: 'POST',
