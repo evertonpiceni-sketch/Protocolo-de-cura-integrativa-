@@ -82,7 +82,7 @@ test('a prévia neural bloqueia apenas frequências Solfeggio e mantém ambiênc
   const settings = fs.readFileSync('src/components/AudioSettingsModal.tsx', 'utf8');
   assert.ok(settings.includes('shouldBlockTrackDuringNeuralVoicePreview(isEssenciaLuminosa, isTestingVoice, track.id)'));
   assert.ok(settings.includes('const isStyle2SolfeggioBlocked = isEleganciaProfunda && isTestingVoice && isSolfeggioFrequency(track.id);'));
-  assert.ok(settings.includes('const isTrackBlockedDuringVoicePreview = isStyle3SolfeggioBlocked || isStyle2SolfeggioBlocked;'));
+  assert.ok(settings.includes('const isTrackBlockedDuringVoicePreview = isStyle1SolfeggioBlocked || isStyle2SolfeggioBlocked || isStyle3SolfeggioBlocked;'));
   assert.ok(!settings.includes('(isEssenciaLuminosa && isTestingVoice)'));
 });
 
@@ -495,8 +495,9 @@ test('todos os fluxos de voz da Essência Luminosa preservam a voz neural e falh
   assert.ok(systemic.includes('audioEngine.speakWithElevenLabsOrFallback'));
   assert.ok(systemic.includes('audioEngine.previewVoice({'), 'A prévia nativa continua reservada aos estilos que não exigem voz neural.');
 
-  assert.ok(arcanjo.includes('requireExplicitVoiceId: isEleganciaProfunda || isEssenciaLuminosa'));
-  assert.ok(arcanjo.includes('if (isEleganciaProfunda || isEssenciaLuminosa)'));
+  assert.ok(arcanjo.includes('const requiresNeuralVoice = isNaturalSereno || isEleganciaProfunda || isEssenciaLuminosa;'));
+  assert.ok(arcanjo.includes('requireExplicitVoiceId: requiresNeuralVoice'));
+  assert.ok(arcanjo.includes('if (requiresNeuralVoice)'));
   assert.ok(arcanjo.includes('OFFICIAL_PROTOCOL_VOICE_ID'));
 
   assert.ok(hooponopono.includes('fallbackToSpeechSynthesis: !(isEleganciaProfunda || isEssenciaLuminosa)'));
