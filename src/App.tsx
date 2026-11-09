@@ -130,8 +130,9 @@ export default function App() {
     ? OFFICIAL_PROTOCOL_VOICE_ID
     : savedNeuralVoiceId;
 
-  // The 7-day subscription mounts ArcanjoProtocolView even when the explicit navigation flag is false.
-  const isArcanjoViewActive = showArcanjoView || userProfile?.subscriptionPlan === 'arcanjo_7d';
+  // Open the Arcanjo screen only after explicit navigation or the successful checkout flow.
+  // A persisted 7-day subscription must not reopen the protocol on every later login.
+  const isArcanjoViewActive = showArcanjoView;
 
   // Initialize and register local notification daily checker
   useEffect(() => {
