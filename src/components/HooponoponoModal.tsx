@@ -201,7 +201,7 @@ export default function HooponoponoModal({ isOpen, onClose, userName = 'Buscador
                 <button type="button" onClick={markDone} className={`min-h-11 rounded-xl border px-3 py-2.5 text-xs font-semibold ${prayedToday ? 'border-emerald-200 bg-emerald-50 text-emerald-700' : 'border-[#E5DAC6] bg-white text-[#5C5248]'}`}><CheckCircle2 size={14} className="mr-1.5 inline" />{prayedToday ? 'Praticado hoje' : 'Marcar como feito'}</button>
               </div>
             </div>
-            {voiceError && <p role="alert" className="ep-voice-error rounded-xl px-3 py-2 text-xs">{isEssenciaLuminosa ? 'A narração neural está indisponível. A voz do dispositivo não será usada.' : 'Selecione uma voz neural válida em Ajustes de áudio. O Estilo 2 não usará a voz do dispositivo.'}</p>}
+            {voiceError && <p role="alert" className="ep-voice-error rounded-xl px-3 py-2 text-xs">{isNaturalSereno || isEssenciaLuminosa ? 'A narração neural está indisponível. A voz do dispositivo não será usada.' : 'Selecione uma voz neural válida em Ajustes de áudio. O Estilo 2 não usará a voz do dispositivo.'}</p>}
           </section>
         )}
 
