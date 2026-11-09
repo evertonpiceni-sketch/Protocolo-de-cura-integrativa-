@@ -206,3 +206,22 @@ test('user sync serializes writes per account so a newer progress snapshot wins 
     ],
   );
 });
+
+
+test('login and logout update the active account key before another sync retry can run', () => {
+  const setup = readFileSync('src/components/ProfileSetup.tsx', 'utf8');
+  const app = readFileSync('src/App.tsx', 'utf8');
+
+  const registrationKey = setup.indexOf('setCurrentAccountLogin(data.user.login);');
+  const registrationSync = setup.indexOf('await syncUserState(', registrationKey);
+  assert.ok(registrationKey >= 0 && registrationSync > registrationKey);
+
+  const loginKey = setup.indexOf('setCurrentAccountLogin(account.login);');
+  const loginTransition = setup.indexOf('setTimeout(() => {', loginKey);
+  assert.ok(loginKey >= 0 && loginTransition > loginKey);
+
+  const logoutStart = app.indexOf('const handleLogout = async () => {');
+  const clearKey = app.indexOf('clearCurrentAccountLogin();', logoutStart);
+  const logoutRequest = app.indexOf("fetch('/api/auth/logout'", logoutStart);
+  assert.ok(logoutStart >= 0 && clearKey > logoutStart && logoutRequest > clearKey);
+});
