@@ -313,6 +313,7 @@ export default function ArcanjoProtocolView({ userProfile, onClose, onLogout, in
       audioEngine.pauseSpeech();
       return;
     }
+    if (requiresNeuralVoice) stopProtocolFrequency();
     audioEngine.resumeSpeech();
     if (!requiresNeuralVoice) {
       playProtocolFrequency();
