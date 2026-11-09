@@ -674,3 +674,38 @@ test('a fotografia oficial da Elegância Profunda compõe o shell e os heros sem
   const style3 = read('src/essencia-luminosa-final-audit.css');
   assert.ok(!style3.includes('data-layout="elegancia-profunda"'), 'A fotografia do Estilo 2 não pode contaminar a Essência Luminosa.');
 });
+
+
+test('a cor da barra do navegador acompanha apenas o estilo explicitamente confirmado', () => {
+  const app = read('src/App.tsx');
+  const layouts = read('src/config/layouts.ts');
+  const html = read('index.html');
+  assert.ok(html.includes('<meta name="theme-color" content="#F8F4EC" />'), 'O shell permanece neutro antes da escolha.');
+  assert.ok(app.includes("document.querySelector<HTMLMetaElement>('meta[name=\"theme-color\"]')"));
+  assert.ok(app.includes("const themeColor = selected?.swatches[0] ?? '#F8F4EC';"));
+  assert.ok(app.includes("metaThemeColor.setAttribute('content', themeColor);"));
+  assert.ok(app.includes('const selected = layoutConfirmedThisSession'));
+  assert.ok(layouts.includes("id: 'elegancia-profunda'"));
+  assert.ok(layouts.includes("swatches: ['#0B1712', '#2E6B4F', '#D4AF37', '#132A1F']"));
+});
+
+
+test('a tela completa do Arcanjo usa o shell profundo da Elegância Profunda', () => {
+  const css = read('src/elegancia-profunda-prayer-audit.css');
+  const component = read('src/components/ArcanjoProtocolView.tsx');
+  const main = read('src/main.tsx');
+  assert.ok(main.includes("import './elegancia-profunda-prayer-audit.css';"));
+  assert.ok(component.includes('id="arcanjo-protocol-view"'));
+  assert.ok(css.includes(':root[data-layout="elegancia-profunda"] #arcanjo-protocol-view {'));
+  assert.ok(css.includes(':root[data-layout="elegancia-profunda"] #arcanjo-protocol-view > .fixed.inset-0'));
+  assert.ok(css.includes(':root[data-layout="elegancia-profunda"] #arcanjo-protocol-view > header'));
+  assert.ok(css.includes('#arcanjo-protocol-view > header button[class*="bg-rose-"]'));
+  assert.ok(css.includes('#arcanjo-protocol-view .ep-forest-panel'));
+  assert.ok(css.includes('#arcanjo-protocol-view main > section:last-child > p'));
+  const selectors = extractCssSelectors(css);
+  assert.ok(selectors.length > 0);
+  assert.ok(
+    selectors.every(selector => selector.startsWith(':root[data-layout="elegancia-profunda"]')),
+    'Todas as regras da oração e da tela do Arcanjo devem permanecer exclusivas do Estilo 2.'
+  );
+});

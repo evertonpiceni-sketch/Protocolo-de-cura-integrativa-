@@ -60,3 +60,43 @@ test('o Estilo 2 suspende Solfeggio durante prévias neurais e restaura apenas a
   assert.ok(home.includes('setNeuralVoicePreviewActive(true)'));
   assert.ok(home.includes('restoreBackgroundAfterNeuralNarration'));
 });
+
+
+test('o Arcanjo suspende Solfeggio durante narração neural e respeita o áudio global', () => {
+  const arcanjo = read('src/components/ArcanjoProtocolView.tsx');
+  assert.ok(arcanjo.includes("import { isSolfeggioFrequency } from '../lib/protocolSessionAudioPolicy';"));
+  assert.ok(arcanjo.includes('const requiresNeuralVoice = isEleganciaProfunda || isEssenciaLuminosa;'));
+  assert.ok(arcanjo.includes('if (isSolfeggioFrequency(audioEngine.getCurrentSynthType())) {'));
+  assert.ok(arcanjo.includes('if (userProfile.audioEnabled === false) {'));
+  assert.ok(arcanjo.includes('if (requiresNeuralVoice) stopProtocolFrequency();'));
+  assert.ok(arcanjo.includes('if (restoreFrequency) playProtocolFrequency();'));
+  assert.ok(arcanjo.includes('resetPlayback(requiresNeuralVoice);'));
+  assert.ok(arcanjo.includes('if (requiresNeuralVoice) playProtocolFrequency();'));
+  assert.ok(arcanjo.includes('audioEngine.resumeSpeech();\n    if (!requiresNeuralVoice) {\n      playProtocolFrequency();\n      setIsPlaying(true);\n    }'));
+  assert.equal((arcanjo.match(/audioEngine\.startSynth\(/g) ?? []).length, 1, 'A frequência diária deve ser iniciada somente pelo helper que respeita audioEnabled.');
+});
+
+
+test('o player informa o estado real do Solfeggio no Arcanjo', () => {
+  const arcanjo = read('src/components/ArcanjoProtocolView.tsx');
+  assert.ok(arcanjo.includes('const [isProtocolFrequencyActive, setIsProtocolFrequencyActive] = useState(false);'));
+  assert.ok(arcanjo.includes('Narração neural ativa — Solfeggio ${config.freq} Hz suspenso.'));
+  assert.ok(arcanjo.includes('Solfeggio ${config.freq} Hz ativo durante a pausa ou após a narração.'));
+  assert.ok(arcanjo.includes('Áudio desativado — nenhuma frequência será reproduzida.'));
+  assert.ok(arcanjo.includes('role="status" aria-live="polite"'));
+  assert.ok(arcanjo.includes('audioEngine.resumeSpeech();\n    if (!requiresNeuralVoice) {\n      playProtocolFrequency();\n      setIsPlaying(true);\n    }'));
+});
+
+
+test('pausar a narração neural do Arcanjo restaura Solfeggio apenas pelo evento onpause', () => {
+  const arcanjo = read('src/components/ArcanjoProtocolView.tsx');
+  const toggleStart = arcanjo.indexOf('const togglePlayback');
+  const pauseStart = arcanjo.indexOf('if (isPlaying) {', toggleStart);
+  const pauseEnd = arcanjo.indexOf('\n    }', pauseStart);
+  const pauseBranch = arcanjo.slice(pauseStart, pauseEnd);
+  assert.ok(pauseStart >= 0 && pauseEnd > pauseStart);
+  assert.ok(pauseBranch.includes('audioEngine.pauseSpeech();'));
+  assert.ok(!pauseBranch.includes('playProtocolFrequency()'), 'O botão não deve reiniciar a frequência além do callback de pausa.');
+  assert.ok(arcanjo.includes('onPause: () => {'));
+  assert.ok(arcanjo.includes('if (requiresNeuralVoice) playProtocolFrequency();'));
+});
