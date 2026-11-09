@@ -69,3 +69,7 @@ O bloqueio de provisionamento não está isolado ao código do Estilo 3:
 8. Resolver o provisionamento da Vercel, depois publicar e conferir o alias de produção.
 
 **Conclusão:** foi corrigida uma regressão real de acessibilidade em sete diálogos, com teste de proteção acrescentado. A correção está isolada em branch própria e não altera a identidade visual nem os fluxos comerciais. Não declaro CI, homologação visual, áudio real, sandbox ou produção aprovados enquanto essas etapas não forem executadas.
+
+## Estado concorrente do repositório
+
+Durante esta execução, outra auditoria publicou em `main` o commit `cbb6f0acae6aea90daabfbc7b38b64e5eb62df03`, que adiciona somente `docs/audits/elegancia-profunda-2026-11-08/AUDITORIA_RUN_105.md`. A branch desta correção parte de `36ca2cad`, permanece 2 commits à frente e 1 atrás de `main`; a diferença concorrente é documental, sem conflito de código. Não foi feito merge nem atualização de `main` nesta rodada.
