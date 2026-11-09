@@ -1045,7 +1045,7 @@ class CalmingAudioEngine {
   /**
    * Generates or streams voice audio via ElevenLabs backend with therapeutic stability (0.45)
    * and automatic breathing pauses. Native Web Speech fallback is opt-in per caller;
-   * Elegância Profunda disables it so an unverified device voice cannot replace the selected neural voice.
+   * neural-only layouts disable it so an unverified device voice cannot replace the selected neural voice.
    */
   public async speakWithElevenLabsOrFallback(
     text: string,
