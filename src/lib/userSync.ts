@@ -126,12 +126,20 @@ export function syncUserState(payload: UserSyncPayload, options: UserSyncOptions
     const profileLogin = payload.profile && typeof payload.profile === 'object'
       ? (payload.profile as { login?: unknown }).login
       : undefined;
-    const payloadAccountKey = typeof profileLogin === 'string' ? profileLogin : undefined;
-    currentAtStart = normalizeAccountLogin(
-      options.accountKey !== undefined
-        ? options.accountKey
-        : payloadAccountKey ?? getCurrentAccountKey(),
+    const profileAccountKey = normalizeAccountLogin(
+      typeof profileLogin === 'string' ? profileLogin : null,
     );
+    const explicitAccountKey = options.accountKey !== undefined
+      ? normalizeAccountLogin(options.accountKey)
+      : null;
+
+    if (options.accountKey !== undefined && profileAccountKey && explicitAccountKey !== profileAccountKey) {
+      throw new Error('User sync cancelled: the payload account does not match the originating account.');
+    }
+
+    // Never infer ownership from shared localStorage: another tab may already
+    // have replaced the auth cookie while this component still holds stale data.
+    currentAtStart = options.accountKey !== undefined ? explicitAccountKey : profileAccountKey;
   } catch {
     currentAtStart = null;
   }
@@ -142,7 +150,9 @@ export function syncUserState(payload: UserSyncPayload, options: UserSyncOptions
 
   // Snapshot the payload at call time. The per-account queue preserves invocation
   // order, allowing the latest save to reach the server after an older retry.
-  const body = JSON.stringify(payload) ?? '{}';
+  const body = JSON.stringify(
+    currentAtStart ? { ...payload, accountLogin: currentAtStart } : payload,
+  ) ?? '{}';
   const queueKey = currentAtStart ? `account:${currentAtStart}` : UNSCOPED_QUEUE_KEY;
   const previous = syncQueues.get(queueKey) ?? Promise.resolve();
   const operation = previous
