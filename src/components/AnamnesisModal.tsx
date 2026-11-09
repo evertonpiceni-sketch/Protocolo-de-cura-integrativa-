@@ -78,7 +78,8 @@ export default function AnamnesisModal({
   const naturalSereno = document.documentElement.dataset.layout === 'natural-sereno';
   const isEleganciaProfunda = document.documentElement.dataset.layout === 'elegancia-profunda';
   const isEssenciaLuminosa = document.documentElement.dataset.layout === 'essencia-luminosa';
-  useDialogFocus(isOpen && naturalSereno, dialogRef, () => handleCloseModal());
+  const managedDialogFocus = naturalSereno || isEssenciaLuminosa;
+  useDialogFocus(isOpen && managedDialogFocus, dialogRef, () => handleCloseModal());
   React.useLayoutEffect(() => {
     if (isOpen && naturalSereno) {
       if (cardRef.current) cardRef.current.scrollTop = 0;

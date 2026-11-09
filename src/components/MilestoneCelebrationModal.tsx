@@ -4,6 +4,7 @@
  */
 
 import React from 'react';
+import { useDialogFocus } from '../hooks/useDialogFocus';
 import { motion, AnimatePresence } from 'motion/react';
 import { Crown, Sparkles, Heart, Flame, Shield, CheckCircle2, MessageCircle, X, Send, Award, Share2 } from 'lucide-react';
 import { UserProfile } from '../types';
@@ -24,6 +25,9 @@ export default function MilestoneCelebrationModal({
   userProfile,
   onOpenCertificate
 }: MilestoneCelebrationModalProps) {
+  const isEssenciaLuminosa = typeof document !== 'undefined' && document.documentElement.dataset.layout === 'essencia-luminosa';
+  const dialogRef = React.useRef<HTMLDivElement | null>(null);
+  useDialogFocus(isOpen && isEssenciaLuminosa, dialogRef, onClose);
   if (!isOpen) return null;
 
   const isDay21 = dayNumber === 21;
@@ -47,7 +51,7 @@ export default function MilestoneCelebrationModal({
     badgeText = 'Portal Karuna Ki';
     themeBg = 'from-violet-950 via-[#FBF8F2] to-purple-950';
     themeBorder = 'border-violet-500/40';
-    icon = <Flame className="w-8 h-8 text-violet-400 animate-pulse" />;
+    icon = <Flame className="w-8 h-8 text-violet-400 animate-pulse motion-reduce:animate-none" />;
     mainMessage = `Querido(a) ${userName},\n\nHoje você inicia o 8º Dia da sua Jornada! Esta etapa convida ao trabalho simbólico com os símbolos sagrados do Karuna Ki (Zonar e Halu) e com a Chama Violeta, acolhendo lembranças e sentimentos antigos com presença.\n\nVocê não está sozinho. Respire fundo, celebre sua constância e continue firme no seu trono de poder pessoal.\n\nCom amor e bênçãos,\nÉverton Rodrigo Piceni`;
   } else if (isDay15) {
     title = 'Dia 15: O Bálsamo do Raio Rosa';
@@ -55,7 +59,7 @@ export default function MilestoneCelebrationModal({
     badgeText = 'Portal do Raio Rosa';
     themeBg = 'from-rose-950 via-[#FBF8F2] to-indigo-950';
     themeBorder = 'border-rose-500/40';
-    icon = <Heart className="w-8 h-8 text-rose-400 animate-pulse" />;
+    icon = <Heart className="w-8 h-8 text-rose-400 animate-pulse motion-reduce:animate-none" />;
     mainMessage = `Querido(a) ${userName},\n\nParabéns por chegar ao 15º Dia! Você acaba de ancorar na fase do Raio Rosa e no amor incondicional da egrégora crística e dos mestres ascensos.\n\nDeixe o passado ir embora com ternura. Permita que esta etapa represente acolhimento, ternura e abertura para uma sensação maior de paz.\n\nCom luz e acolhimento,\nÉverton Rodrigo Piceni`;
   } else if (isDay21) {
     title = 'Você assumiu o seu Trono!';
@@ -63,7 +67,7 @@ export default function MilestoneCelebrationModal({
     badgeText = 'Jornada dos 21 Dias Concluída';
     themeBg = 'from-amber-950 via-[#FBF8F2] to-indigo-950';
     themeBorder = 'border-amber-500/60';
-    icon = <Crown className="w-9 h-9 text-amber-400 animate-bounce" />;
+    icon = <Crown className="w-9 h-9 text-amber-400 animate-bounce motion-reduce:animate-none" />;
     mainMessage = `Você assumiu o seu Trono: parabéns pela conclusão do seu Protocolo da Transformação!\n\nQuerido(a) ${userName},\n\nHoje é o ápice da sua jornada de 21 dias. Com a bênção e o simbolismo do empoderamento de Ganesha, você encerra este ciclo levando consigo as intenções, reflexões e práticas cultivadas ao longo do caminho.\n\nQue este momento marque presença, autonomia, amor e paz na sua caminhada.\n\nCom profunda gratidão,\nÉverton Rodrigo Piceni`;
   }
 
@@ -95,7 +99,7 @@ export default function MilestoneCelebrationModal({
 
   return (
     <AnimatePresence>
-      <div className="fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4 bg-[#2A2420]/30 backdrop-blur-md overflow-y-auto overscroll-contain" role="dialog" aria-modal="true" aria-label="Celebração de progresso">
+      <div ref={dialogRef} className="fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4 bg-[#2A2420]/30 backdrop-blur-md overflow-y-auto overscroll-contain" role="dialog" aria-modal="true" aria-label="Celebração de progresso">
         <motion.div
           initial={{ opacity: 0, scale: 0.94, y: 15 }}
           animate={{ opacity: 1, scale: 1, y: 0 }}

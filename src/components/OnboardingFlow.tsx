@@ -1,7 +1,7 @@
 import React, { useRef, useState } from 'react';
 import '../essencia-luminosa-onboarding-audit.css';
 import { useDialogFocus } from '../hooks/useDialogFocus';
-import { motion, AnimatePresence } from 'motion/react';
+import { motion, AnimatePresence, useReducedMotion } from 'motion/react';
 import { ArrowRight, ShieldCheck } from 'lucide-react';
 import { APPROVED_LOGO_DATA_URI } from './ApprovedBrand';
 
@@ -12,6 +12,7 @@ const intentions = ['Ter mais paz', 'Voltar a me sentir bem', 'Reconectar comigo
 
 export default function OnboardingFlow({ onComplete }: OnboardingFlowProps) {
   const dialogRef = useRef<HTMLDivElement>(null);
+  const shouldReduceMotion = useReducedMotion() ?? false;
   useDialogFocus(true, dialogRef, null);
   const [step, setStep] = useState(1);
   const [feeling, setFeeling] = useState('');
@@ -21,7 +22,7 @@ export default function OnboardingFlow({ onComplete }: OnboardingFlowProps) {
   return <div ref={dialogRef} role="dialog" aria-modal="true" aria-labelledby="care-onboarding-title" className="ep-care-onboarding fixed inset-0 z-[100] min-h-dvh overflow-y-auto overscroll-contain bg-[radial-gradient(circle_at_50%_0,rgba(214,174,82,.14),transparent_28rem),linear-gradient(180deg,#FBF8F2,#F8F4EC)] text-[#2A2420]">
     <div className="min-h-full flex items-center justify-center p-5">
       <AnimatePresence mode="wait">
-        <motion.main onAnimationComplete={() => { dialogRef.current?.scrollTo({ top: 0 }); dialogRef.current?.querySelector<HTMLElement>('#care-onboarding-title')?.focus({ preventScroll: true }); }} key={step} initial={{opacity:0,y:18}} animate={{opacity:1,y:0}} exit={{opacity:0,y:-14}}
+        <motion.main onAnimationComplete={() => { dialogRef.current?.scrollTo({ top: 0 }); dialogRef.current?.querySelector<HTMLElement>('#care-onboarding-title')?.focus({ preventScroll: true }); }} key={step} initial={shouldReduceMotion ? false : { opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }} exit={shouldReduceMotion ? { opacity: 1, y: 0 } : { opacity: 0, y: -14 }} transition={{ duration: shouldReduceMotion ? 0 : 0.18 }}
           className="ep-care-onboarding-card relative w-full max-w-md overflow-hidden rounded-[2rem] border border-[#B88736]/28 bg-[linear-gradient(145deg,rgba(7,52,38,.97),rgba(3,27,19,.98))] p-7 shadow-[0_28px_80px_rgba(0,0,0,.42)] backdrop-blur-xl">
           <div className="pointer-events-none absolute inset-x-0 top-0 h-40 bg-[radial-gradient(circle_at_50%_0,rgba(239,215,143,.13),transparent_70%)]" />
           <div className="ep-brand-signature-wrap relative mx-auto mb-7 flex h-20 w-20 items-center justify-center overflow-hidden rounded-full border border-[#B88736]/24 bg-white/65"><img src={APPROVED_LOGO_DATA_URI} alt="Everton Piceni — Terapias Holísticas e Bem-Estar" className="ep-brand-signature h-full w-full object-contain" /></div>

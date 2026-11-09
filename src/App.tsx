@@ -4,6 +4,7 @@
  */
 
 import React, { useState, useEffect, useRef } from 'react';
+import { useDialogFocus } from './hooks/useDialogFocus';
 import { Sparkles, Calendar, BookOpen, Volume2, VolumeX, User, RefreshCw, Compass, Heart, Award, Info, X, Play, Clock, Smile, LogOut, Crown, Star, Check, Mic, Sliders, Activity, FileText, Globe, MessageCircle, Phone, Smartphone, Download, Leaf, Bell, Headphones, Video } from 'lucide-react';
 import { DayProgress, UserProfile, UserAccount, DAILY_INSIGHTS, JOURNEY_7D_INSIGHTS, PROTOCOL_STAGES, AnamnesisData, SpecificTreatment, SessionCheckIn, JourneyType, SubscriptionPlanType } from './types';
 import ProfileSetup from './components/ProfileSetup';
@@ -75,6 +76,7 @@ export default function App() {
   const [activeSessionDay, setActiveSessionDay] = useState<number | null>(null);
   const [isJournalOpen, setIsJournalOpen] = useState<boolean>(false);
   const [selectedDayDetail, setSelectedDayDetail] = useState<number | null>(null);
+  const dayDetailDialogRef = React.useRef<HTMLDivElement | null>(null);
   const [showSettings, setShowSettings] = useState<boolean>(false);
   const [showProModal, setShowProModal] = useState<boolean>(false);
   const [proModalInitialPlanId, setProModalInitialPlanId] = useState<SubscriptionPlanType | undefined>(undefined);
@@ -123,6 +125,7 @@ export default function App() {
   const isNaturalSereno = layoutConfirmedThisSession && userProfile?.visualLayout === 'natural-sereno';
   const isEleganciaProfunda = layoutConfirmedThisSession && userProfile?.visualLayout === 'elegancia-profunda';
   const isEssenciaLuminosa = layoutConfirmedThisSession && userProfile?.visualLayout === 'essencia-luminosa';
+  useDialogFocus(selectedDayDetail !== null && isEssenciaLuminosa, dayDetailDialogRef, () => setSelectedDayDetail(null));
   const usesNeuralVoiceCatalog = isNaturalSereno || isEleganciaProfunda || isEssenciaLuminosa;
   const savedNeuralVoiceId = userProfile?.voiceId || '';
   const effectiveNeuralVoiceId = (isNaturalSereno || isEssenciaLuminosa) && !isElevenLabsVoiceId(savedNeuralVoiceId)
@@ -2186,7 +2189,7 @@ export default function App() {
 
       {/* 21-Day Detail Modal Overlays */}
       {selectedDayDetail !== null && selectedInsight && (
-        <div className="fixed inset-0 z-50 bg-white/80 backdrop-blur-sm flex items-center justify-center p-2 sm:p-4 overflow-y-auto overscroll-contain" id="day-detail-modal" role="dialog" aria-modal="true" aria-label="Detalhes do dia">
+        <div className="fixed inset-0 z-50 bg-white/80 backdrop-blur-sm flex items-center justify-center p-2 sm:p-4 overflow-y-auto overscroll-contain" id="day-detail-modal" ref={dayDetailDialogRef} role="dialog" aria-modal="true" aria-label="Detalhes do dia">
           <div className="w-full max-w-xl bg-[#FBF8F2] border border-[#E5DAC6] rounded-2xl sm:rounded-3xl p-4 sm:p-6 md:p-8 shadow-2xl relative overflow-hidden space-y-6 max-h-[calc(100dvh-1rem)] sm:max-h-[90dvh] overflow-y-auto overscroll-contain">
             
             {/* Modal Header */}
