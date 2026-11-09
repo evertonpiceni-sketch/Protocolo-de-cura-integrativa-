@@ -68,7 +68,7 @@ test('checkout binds account, validates provider confirmation and grants only on
   app.use('/api', paymentRoutes((req: any, res: any, next: any) => {
     if (!req.headers['x-account']) return res.sendStatus(401);
     req.userId = req.headers['x-account']; next();
-  }, (_req: any, _res: any, next: any) => next(), provider as typeof fetch));
+  }, (_req: any, _res: any, next: any) => next(), provider as typeof fetch, { VERCEL_ENV: 'production' }));
   const server = app.listen(0, '127.0.0.1'); await new Promise<void>(r => server.once('listening', r));
   const address = server.address(); assert.ok(address && typeof address !== 'string');
   const call = (route: string, body: any, account = 'owner') => fetch(`http://127.0.0.1:${address.port}/api/${route}`, { method: 'POST', headers: { 'content-type': 'application/json', ...(account ? { 'x-account': account } : {}) }, body: JSON.stringify(body) });
@@ -133,4 +133,37 @@ test('checkout binds account, validates provider confirmation and grants only on
     assert.equal((await call('payment/confirm', body)).status, 200);
     assert.equal(db.users[0].profile.subscriptionExpiresAt, expires);
   } finally { await new Promise<void>(r => server.close(() => r())); process.chdir(cwd); fs.rmSync(folder, { recursive: true, force: true }); }
+});
+
+
+test('preview payment routes fail closed before touching the live provider or account data', async () => {
+  const { paymentRoutes } = await import('../src/lib/paymentRoutes');
+  const calls: any[] = [];
+  const provider = async (...args: any[]) => {
+    calls.push(args);
+    return new Response(JSON.stringify({ url: 'https://checkout.infinitepay.io/should-not-run' }), { status: 200 });
+  };
+  const app = express(); app.use(express.json());
+  app.use('/api', paymentRoutes(
+    (req: any, _res: any, next: any) => { req.userId = 'preview-account'; next(); },
+    (_req: any, _res: any, next: any) => next(),
+    provider as typeof fetch,
+    { VERCEL_ENV: 'preview' }
+  ));
+  const server = app.listen(0, '127.0.0.1'); await new Promise<void>(resolve => server.once('listening', resolve));
+  const address = server.address(); assert.ok(address && typeof address !== 'string');
+  const call = (route: string, body: any = {}) => fetch(`http://127.0.0.1:${address.port}/api/${route}`, {
+    method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify(body)
+  });
+  try {
+    const checkout = await call('payment/create-checkout', { productType: 'subscription', planId: 'jornada_7d', paymentMethod: 'pix' });
+    assert.equal(checkout.status, 503);
+    assert.equal((await checkout.json()).code, 'PAYMENTS_PRODUCTION_ONLY');
+    assert.equal((await call('payment/confirm', { order_nsu: 'order', transaction_nsu: 'transaction', slug: 'slug' })).status, 503);
+    assert.equal((await call('webhooks/payment', { order_nsu: 'order', transaction_nsu: 'transaction', slug: 'slug' })).status, 503);
+    assert.equal((await call('user/upgrade', { planId: 'teste_vip_7d', couponCode: 'VIP7', paymentMethod: 'trial' })).status, 503);
+    assert.equal(calls.length, 0);
+  } finally {
+    await new Promise<void>(resolve => server.close(() => resolve()));
+  }
 });
