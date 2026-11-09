@@ -63,9 +63,13 @@ test('os diálogos do Estilo 3 mantêm foco gerenciado sem remover o suporte exi
 
 test('o acolhimento usa a marca oficial discreta e não a imagem legada inexistente', () => {
   const welcome = read('src/components/WelcomeModal.tsx');
+  const css = read('src/essencia-luminosa-approved-overrides.css');
   assert.ok(welcome.includes('APPROVED_LOGO_DATA_URI'));
   assert.ok(welcome.includes('ep-brand-signature'));
   assert.ok(!welcome.includes('/cura_integrada_brand_portal.png'));
+  assert.ok(css.includes('.ep-brand-signature-wrap{opacity:1!important;'));
+  assert.ok(css.includes('img[alt*="logo" i]{opacity:.30!important;'));
+  assert.ok(css.includes('img[alt*="logo" i]{opacity:.26!important;'));
 });
 
 test('o seletor mantém escolha explícita e a prancha oficial do Estilo 3', () => {
