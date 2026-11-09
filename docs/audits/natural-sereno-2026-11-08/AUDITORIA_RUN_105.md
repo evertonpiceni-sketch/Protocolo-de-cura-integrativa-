@@ -95,11 +95,11 @@ A verificação é estática. Ela não substitui a inspeção visual renderizada
 
 ## Validação técnica
 
-GitHub Actions **#42548232858** — concluída com sucesso:
+GitHub Actions **#42548232858** (HEAD de código `949788c`) — concluída com sucesso. Após o commit documental `2bc163b`, a CI **#42548520499** também passou integralmente com os mesmos resultados:
 
 - `npm audit`: **0 vulnerabilidades**.
 - TypeScript: aprovado.
-- Testes: **183 aprovados, 0 falhas**.
+- Testes: **183 aprovados, 0 falhas** nas duas execuções.
 - Build Vite: aprovado; 2.249 módulos transformados.
 - Entry points Vercel/Express: aprovados.
 - Verificações de segredos e JWT: aprovadas.
