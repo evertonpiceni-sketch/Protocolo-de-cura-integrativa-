@@ -34,7 +34,7 @@ O hook existente mantém foco inicial, contenção de Tab/Shift+Tab, fechamento 
 
 O `WelcomeModal` apontava para `/cura_integrada_brand_portal.png`, arquivo que não existe na raiz de `public/`. Substituí a referência quebrada pelo `APPROVED_LOGO_DATA_URI` e pelo wrapper `ep-brand-signature-wrap` / `ep-brand-signature`.
 
-A camada aprovada do Estilo 3 mantém a assinatura com baixa opacidade (30% desktop / 26% mobile), sem fundo ou moldura dominante. O texto do acolhimento foi preservado.
+A camada aprovada do Estilo 3 mantém a imagem da assinatura em 30% desktop / 26% mobile e o wrapper em opacidade 1, sem fundo ou moldura dominante. Isso evita a redução dupla causada pela opacidade global do wrapper. O texto do acolhimento foi preservado.
 
 ### 3. Vazamento de cores em componentes compartilhados
 
