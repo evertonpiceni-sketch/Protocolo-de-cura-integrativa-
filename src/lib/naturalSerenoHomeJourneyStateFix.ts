@@ -1,4 +1,5 @@
 import { setStableText } from './stableDomText';
+import { syncUserState } from './userSync';
 
 const HOME_FLOW_STYLE_ID = 'ep-natural-sereno-home-flow-state-fix';
 const CURRENT_LOGIN_KEY = 'cura_integrada_logged_in_user_v1';
@@ -264,15 +265,9 @@ async function persistProtocolChoice(protocolId: string, duration: '7d' | '21d')
   remoteState = { ...state, profile, progress, selectedProtocolId: protocolId, selectedJourney: duration };
 
   try {
-    const response = await fetch('/api/user/sync', {
-      method: 'POST',
-      credentials: 'same-origin',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ profile, progress }),
-    });
-    if (!response.ok) throw new Error('Falha ao sincronizar escolha');
+    await syncUserState({ profile, progress });
   } catch {
-    // The local choice remains available offline and will be reconciled by the normal profile sync.
+    // The local choice remains available offline; transient failures are retried first.
   }
 }
 

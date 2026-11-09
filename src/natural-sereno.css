@@ -78,13 +78,13 @@
   min-height: 48px;
   width: 100%;
   padding: 10px 16px;
-  border: 1px solid rgba(200,157,82,.62);
-  border-radius: 16px;
+  border: 1px solid rgba(168,126,55,.58);
+  border-radius: 18px;
   color: #2A2421;
   font-family: 'Lora', Georgia, serif;
   font-size: 14px;
-  background: linear-gradient(180deg, #E2B96B, #C89D52 55%, #8F631E);
-  box-shadow: inset 0 1px 2px #ffedb9, 0 3px 10px rgba(85, 60, 11, .2);
+  background: linear-gradient(180deg, #E2B96B 0%, #C89D52 100%);
+  box-shadow: 0 9px 20px rgba(67,52,39,.10);
   transition: filter .18s, transform .18s;
 }
 :root[data-layout="natural-sereno"] .ns-gold:hover { filter: brightness(1.07); }
@@ -162,7 +162,7 @@
   width: 43px;
   height: 43px;
   border-radius: 50%;
-  color: #e9d296;
+  color: #FFFDF8;
   background: var(--ns-forest);
   box-shadow: inset 0 1px 3px rgba(255, 247, 198, .2);
 }
@@ -250,15 +250,15 @@
 :root[data-layout="natural-sereno"] #anamnesis-modal button[class*="border-[#B88736]"] { background: #F5EFE5 !important; color: var(--ns-ink) !important; border-color: rgba(200,157,82,.38) !important; }
 :root[data-layout="natural-sereno"] #anamnesis-modal [class*="from-indigo-500"] { background: linear-gradient(180deg,#E2B96B,#C89D52) !important; color: #2A2421 !important; }
 :root[data-layout="natural-sereno"] #anamnesis-modal button[class*="bg-[#B88736]"],
-:root[data-layout="natural-sereno"] #anamnesis-modal button[class*="from-emerald-600"] { background: linear-gradient(180deg, #E2B96B, #A87E37) !important; border-radius: 24px; color: #2A2421 !important; }
-:root[data-layout="natural-sereno"] #anamnesis-modal [class*="hover:bg-slate"]:hover { background: #eee5c9 !important; }
+:root[data-layout="natural-sereno"] #anamnesis-modal button[class*="from-emerald-600"] { background: linear-gradient(180deg, #E2B96B, #A87E37) !important; border-radius: 18px; color: #2A2421 !important; }
+:root[data-layout="natural-sereno"] #anamnesis-modal [class*="hover:bg-slate"]:hover { background: #F5EFE4 !important; }
 :root[data-layout="natural-sereno"] #courses-modal h2 { font-size: 28px; }
 
 /* These stable component selectors cannot restyle unrelated dialogs or the
    frozen PersonalJourney21 player, unlike the earlier utility-class matching. */
 :root[data-layout="natural-sereno"] #meditation-session {
   color: #fff8e6 !important;
-  background: var(--ns-waterfall) center / cover no-repeat #063020 !important;
+  background: var(--ns-waterfall) center / cover no-repeat #2A2421 !important;
   overflow-y: auto;
 }
 :root[data-layout="natural-sereno"] #meditation-session .ep-session-backdrop { background: linear-gradient(180deg, rgba(250,247,242,.08), rgba(250,247,242,.30) 78%); }
@@ -282,7 +282,7 @@
 :root[data-layout="natural-sereno"] #meditation-session .ep-acceptance-portal > div { color: var(--ns-ink) !important; background: rgba(250, 247, 242, .96) !important; border: 1px solid rgba(200,157,82,.36) !important; border-radius: 16px !important; box-shadow: 0 12px 40px rgba(0, 29, 17, .2) !important; padding: 28px 22px; }
 :root[data-layout="natural-sereno"] #meditation-session .ep-acceptance-portal :is(h2, p) { color: var(--ns-ink) !important; }
 :root[data-layout="natural-sereno"] #meditation-session .ep-acceptance-portal .bg-\[\#F4EFE6\] { background: #F5EFE5 !important; }
-:root[data-layout="natural-sereno"] #meditation-session .ep-acceptance-portal button:last-child { border-radius: 24px; background: linear-gradient(180deg, #E2B96B, #A87E37) !important; }
+:root[data-layout="natural-sereno"] #meditation-session .ep-acceptance-portal button:last-child { border-radius: 18px; background: linear-gradient(180deg, #E2B96B, #A87E37) !important; }
 @media (min-width: 640px) {
   :root[data-layout="natural-sereno"] .ns-app { border-left: 1px solid var(--ns-line); border-right: 1px solid var(--ns-line); }
   :root[data-layout="natural-sereno"] :is(#anamnesis-modal, #courses-modal) { padding: 24px; }
@@ -353,7 +353,8 @@
 :root[data-layout="natural-sereno"] .ns-home-message { min-height: 177px; padding: 22px 18px; margin-bottom: 20px; }
 :root[data-layout="natural-sereno"] .ns-home-message p { font-size: 32px; }
 :root[data-layout="natural-sereno"] .ns-home-message span { font-size: 15px; margin-top: 12px; line-height: 1.5; }
-:root[data-layout="natural-sereno"] .ns-gold { min-height: 55px; font-size: 17px; }
+:root[data-layout="natural-sereno"] .ns-gold {
+  color: #2A2421; min-height: 55px; font-size: 17px; }
 :root[data-layout="natural-sereno"] .ns-page-heading { min-height: 147px; padding-top: 30px; }
 :root[data-layout="natural-sereno"] .ns-page-heading h1 { font-size: 38px; }
 :root[data-layout="natural-sereno"] .ns-page-heading p { font-size: 14px; }
@@ -382,7 +383,7 @@
   position: relative;
   justify-content: flex-start;
   padding: 54px 24px 28px;
-  background: url('/brand/natural-sereno/presenca.webp') center / cover no-repeat #063020 !important;
+  background: linear-gradient(180deg, rgba(42,36,33,.12), rgba(42,36,33,.68)), url('/brand/natural-sereno/presenca.webp') center / cover no-repeat #2A2421 !important;
   font-family: 'Lora', Georgia, serif;
 }
 :root[data-layout="natural-sereno"] #auth-loading-view > div:first-child { width: 74px; height: 74px; margin-bottom: 8px; }
@@ -416,17 +417,17 @@
   display: block;
   width: 65%;
   height: 100%;
-  background: #e6c66e;
+  background: #C89D52;
   border-radius: inherit;
   animation: ns-loading 1.8s ease-in-out infinite alternate;
 }
 :root[data-layout="natural-sereno"] .ns-loading-details small { font-size: 12px; color: #fff8e6; margin-top: 14px; line-height: 1.5; }
 @keyframes ns-loading { from { transform: translateX(-65%); } to { transform: translateX(90%); } }
 :root[data-layout="natural-sereno"] .ns-welcome {
-  background: url('/brand/natural-sereno/acolhimento.webp') center / cover no-repeat #063020;
+  background: url('/brand/natural-sereno/acolhimento.webp') center / cover no-repeat #2A2421;
   padding: 44px 24px 30px;
 }
-:root[data-layout="natural-sereno"] .ns-welcome::before { background: rgba(2, 31, 19, .15); }
+:root[data-layout="natural-sereno"] .ns-welcome::before { background: linear-gradient(180deg, rgba(42,36,33,.12), rgba(42,36,33,.58) 55%, rgba(42,36,33,.72)); }
 :root[data-layout="natural-sereno"] .ns-welcome-content { display: flex; flex-direction: column; align-items: center; min-height: calc(100dvh - 74px); }
 :root[data-layout="natural-sereno"] .ns-welcome-brand { width: 64px; height: 64px; object-fit: contain; opacity: .6; margin-bottom: 70px; }
 :root[data-layout="natural-sereno"] .ns-welcome h1 { font-size: 39px; }
@@ -453,7 +454,7 @@
 :root[data-layout="natural-sereno"] .ns-result-item > div { flex: 1; min-width: 0; }
 :root[data-layout="natural-sereno"] .ns-result-symbol { display: grid; place-items: center; flex-shrink: 0; width: 46px; height: 46px; border: 1px solid rgba(200,157,82,.34); border-radius: 50%; background: #F5EFE5; }
 :root[data-layout="natural-sereno"] .ns-result-symbol svg { margin: 0; color: #8F631E; }
-:root[data-layout="natural-sereno"] .ns-result-item:nth-of-type(3) .ns-result-symbol { color: #297241; background: #edf1d8; }
+:root[data-layout="natural-sereno"] .ns-result-item:nth-of-type(3) .ns-result-symbol { color: #5E6948; background: rgba(111,123,85,.10); }
 :root[data-layout="natural-sereno"] .ns-result-item small { font-size: 12px; }
 :root[data-layout="natural-sereno"] .ns-result-item strong { font-size: 15px; line-height: 1.4; }
 :root[data-layout="natural-sereno"] .ns-dock svg { width: 25px; height: 25px; stroke-width: 1.8; }
@@ -510,8 +511,8 @@
 :root[data-layout="natural-sereno"] #anamnesis-modal .ep-anamnesis-frequency { background: var(--ns-paper) !important; border-color: var(--ns-line); border-radius: 12px; }
 :root[data-layout="natural-sereno"] #anamnesis-modal .ep-anamnesis-frequency [class*="text-emerald"] { color: var(--ns-forest) !important; }
 :root[data-layout="natural-sereno"] #anamnesis-modal .ep-anamnesis-frequency [class*="bg-emerald"] { background: rgba(200,157,82,.12) !important; border-color: var(--ns-line) !important; }
-:root[data-layout="natural-sereno"] #anamnesis-modal .ep-anamnesis-frequency > div > div:first-child { background: var(--ns-forest) !important; color: #e9d296 !important; }
-:root[data-layout="natural-sereno"] #anamnesis-modal .ep-anamnesis-frequency > div > div:first-child > svg { color: #e9d296 !important; }
+:root[data-layout="natural-sereno"] #anamnesis-modal .ep-anamnesis-frequency > div > div:first-child { background: var(--ns-forest) !important; color: #FFFDF8 !important; }
+:root[data-layout="natural-sereno"] #anamnesis-modal .ep-anamnesis-frequency > div > div:first-child > svg { color: #FFFDF8 !important; }
 /* Six library rows fit below search and filters at the approved phone scale. */
 :root[data-layout="natural-sereno"] .ns-library-row { min-height: 74px; padding: 8px 12px; margin-bottom: 6px; }
 :root[data-layout="natural-sereno"] .ns-search { font-size: 14px; }
@@ -536,14 +537,15 @@
    and phone-scale spacing. Every rule remains inside Natural Sereno. */
 :root[data-layout="natural-sereno"] .ns-app :is(h1, h2, h3) { font-weight: 700; }
 :root[data-layout="natural-sereno"] .ns-greeting h1 { font-size: 36px; }
-:root[data-layout="natural-sereno"] .ns-home-message { min-height: 195px; margin-bottom: 28px; background: rgba(250, 247, 242, .94); box-shadow: inset 0 1px 3px #FBF8F2, 0 4px 14px rgba(29, 52, 30, .15); }
+:root[data-layout="natural-sereno"] .ns-home-message { min-height: 195px; margin-bottom: 28px; background: rgba(250, 247, 242, .94); box-shadow: inset 0 1px 3px rgba(255,255,255,.72), 0 8px 22px rgba(67,52,39,.08); }
 :root[data-layout="natural-sereno"] .ns-home-message p { font-size: 35px; font-weight: 700; }
 :root[data-layout="natural-sereno"] .ns-gold {
-  border: 2px solid #efd896;
-  border-radius: 999px;
-  background: linear-gradient(180deg, #ead394 0%, #c49b42 25%, #aa7d25 58%, #98701f 78%, #d7b55e 100%);
-  box-shadow: inset 0 2px 5px rgba(255, 247, 203, .85), inset 0 -2px 4px rgba(92, 61, 12, .4), 0 0 0 2px rgba(236, 207, 135, .17), 0 3px 12px rgba(86, 64, 16, .28);
-  text-shadow: 0 1px 1px rgba(84, 59, 11, .3);
+  border: 1px solid rgba(168,126,55,.58);
+  border-radius: 18px;
+  background: linear-gradient(180deg,#E2B96B 0%,#C89D52 100%);
+  color: #2A2421;
+  box-shadow: 0 9px 20px rgba(67,52,39,.10);
+  text-shadow: none;
 }
 :root[data-layout="natural-sereno"] .ns-home-scene > .ns-gold { min-height: 70px; font-size: 20px; }
 :root[data-layout="natural-sereno"] .ns-page-heading p { font-size: 15px; }
@@ -681,7 +683,7 @@
 :root[data-layout="natural-sereno"] .ep-care-onboarding-card {
   max-width: 640px; margin-block: 16px; padding: clamp(24px, 5vw, 40px);
   background: #FAF7F2;
-  border: 1px solid #d8caa9; border-radius: 24px;
+  border: 1px solid rgba(200,157,82,.30); border-radius: 24px;
   box-shadow: 0 12px 36px rgba(38,55,42,.12); backdrop-filter: none;
   font-family: 'Inter', sans-serif;
 }
@@ -698,7 +700,7 @@
 }
 :root[data-layout="natural-sereno"] .ep-care-onboarding-card .ep-brand-signature { opacity: 1; mix-blend-mode: multiply; filter: none; }
 :root[data-layout="natural-sereno"] .ep-care-onboarding-card button { min-height: 48px; font-family: 'Inter', sans-serif; color: #2A2421 !important; }
-:root[data-layout="natural-sereno"] .ep-care-onboarding-card button[aria-pressed] { background: #FBF8F2; border-color: #d8caa9; }
+:root[data-layout="natural-sereno"] .ep-care-onboarding-card button[aria-pressed] { background: #FBF8F2; border-color: rgba(200,157,82,.30); }
 :root[data-layout="natural-sereno"] .ep-care-onboarding-card button[aria-pressed="true"] { background: rgba(200,157,82,.12); border-color: rgba(200,157,82,.56); }
 :root[data-layout="natural-sereno"] .ep-care-onboarding-card button:focus-visible { outline: 2px solid #C89D52; outline-offset: 3px; }
 @media (max-width: 540px) {
@@ -745,7 +747,7 @@
   :root[data-layout="natural-sereno"] .ns-home-scene { position: sticky; top: 0; align-self: start; }
 }
 :root[data-layout="natural-sereno"] :is(#courses-modal, #anamnesis-modal, #astral-map-modal) > div { font-family: 'Inter', sans-serif; }
-:root[data-layout="natural-sereno"] #courses-modal .ep-courses-grid > div { box-shadow: 0 3px 12px rgba(7,59,43,.07); --tw-ring-color: #a8b697; }
+:root[data-layout="natural-sereno"] #courses-modal .ep-courses-grid > div { box-shadow: 0 3px 12px rgba(67,52,39,.07); --tw-ring-color: #a8b697; }
 :root[data-layout="natural-sereno"] #courses-modal :is(p, button) { font-family: 'Inter', sans-serif; }
 :root[data-layout="natural-sereno"] #courses-modal [class*="text-[9px]"] { font-size: 11px; color: #8F631E; background: #F5EFE5; }
 :root[data-layout="natural-sereno"] #anamnesis-modal .ep-assessment-heading > div:first-child { padding-right: 56px; flex-wrap: wrap; gap: 8px; }
@@ -761,9 +763,9 @@
 /* Plan presentation only: amounts, eligibility and checkout handlers are intact. */
 :root[data-layout="natural-sereno"] #plans-modal { background: #FAF7F2; color: #2A2421; }
 :root[data-layout="natural-sereno"] #plans-modal > div { background: #FAF7F2; }
-:root[data-layout="natural-sereno"] #plans-modal header { background: #FAF7F2; border-color: #d8caa9; }
+:root[data-layout="natural-sereno"] #plans-modal header { background: #FAF7F2; border-color: rgba(200,157,82,.30); }
 :root[data-layout="natural-sereno"] #plans-modal :is(.text-white, [class*="text-amber-100"], [class*="text-amber-200"], [class*="text-amber-300"], [class*="text-violet-300"]) { color: #2A2421; }
-:root[data-layout="natural-sereno"] #plans-modal [class*="bg-violet"] { background: #efefdf; border-color: #d8caa9; }
+:root[data-layout="natural-sereno"] #plans-modal [class*="bg-violet"] { background: #FBF8F2; border-color: rgba(200,157,82,.30); }
 :root[data-layout="natural-sereno"] #plans-modal button { min-height: 44px; }
 :root[data-layout="natural-sereno"] #plans-modal button[class*="text-amber-200"] { border-color: #C89D52; }
 :root[data-layout="natural-sereno"] #plans-modal button[class*="bg-amber-300"] { background: linear-gradient(180deg,#E2B96B,#A87E37); }
@@ -772,4 +774,4 @@
   :root[data-layout="natural-sereno"] #plans-modal [class*="lg:grid-cols-5"] { grid-template-columns: repeat(3,minmax(0,1fr)); }
 }
 :root[data-layout="natural-sereno"] #plans-modal button[class*="to-yellow-300"] { background: linear-gradient(180deg,#E2B96B,#C89D52); color: #2A2421; }
-:root[data-layout="natural-sereno"] #plans-modal article { border-color: #d8caa9; }
+:root[data-layout="natural-sereno"] #plans-modal article { border-color: rgba(200,157,82,.30); }

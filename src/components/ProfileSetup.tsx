@@ -1,4 +1,6 @@
 import { ACCESS_SUPPORT_URL } from '../lib/accessRecoveryPatch';
+import { syncUserState } from '../lib/userSync';
+import { clearPendingProfileSync, queuePendingProfileSync } from '../lib/pendingProfileSync';
 import React, { useState } from 'react';
 import { User, Sparkles, Shield, Heart, Lock, Mail, Calendar as CalendarIcon, LogIn, UserPlus, KeyRound, CheckCircle2, ArrowLeft, Clock, MapPin, Tag, Phone, Volume2, Loader2 } from 'lucide-react';
 import { UserAccount } from '../types';
@@ -81,17 +83,17 @@ export default function ProfileSetup({ onComplete }: ProfileSetupProps) {
         return;
       }
       
-      const profileData = {
-         ...data.user.profile,
-         birthDate,
-         birthTime,
-         birthCity,
-         phone,
-         bgMusicType: musicType,
-         voiceType: voiceChoice,
-         preferredVoiceGender: voiceChoice,
-         coupon: regCoupon
+      const profilePatch = {
+        birthDate,
+        birthTime,
+        birthCity,
+        phone,
+        bgMusicType: musicType,
+        voiceType: voiceChoice,
+        preferredVoiceGender: voiceChoice,
+        coupon: regCoupon
       };
+      const profileData = { ...data.user.profile, ...profilePatch };
       
       const newAccount = {
         login: data.user.login,
@@ -105,28 +107,26 @@ export default function ProfileSetup({ onComplete }: ProfileSetupProps) {
       // The account already exists at this point. A transient profile-sync
       // failure must not force the user to register again with the same login.
       let profileSynced = false;
-      for (let attempt = 1; attempt <= 3 && !profileSynced; attempt += 1) {
-        try {
-          const syncResponse = await fetch('/api/user/sync', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ profile: profileData, progress: data.user.progress })
-          });
-          profileSynced = syncResponse.ok;
-        } catch (syncError) {
-          console.warn(`Profile sync attempt ${attempt} failed after registration`, syncError);
-        }
-
-        if (!profileSynced && attempt < 3) {
-          await new Promise(resolve => window.setTimeout(resolve, 300 * attempt));
-        }
+      let pendingProfileQueued = false;
+      try {
+        await syncUserState(
+          { profile: profileData, progress: data.user.progress },
+          { maxAttempts: 3 },
+        );
+        clearPendingProfileSync(data.user.login);
+        profileSynced = true;
+      } catch (syncError) {
+        console.warn('Profile sync failed after registration retries', syncError);
+        pendingProfileQueued = queuePendingProfileSync(data.user.login, profilePatch);
       }
 
       if (profileSynced) {
         setSuccessMsg('Conta criada com sucesso! Iniciando seu portal...');
+      } else if (pendingProfileQueued) {
+        setSuccessMsg('Conta criada. Os dados complementares ficaram salvos neste dispositivo e serão reenviados quando a conexão permitir.');
       } else {
-        console.warn('Account created, but profile sync is temporarily unavailable.');
-        setSuccessMsg('Conta criada com sucesso. Alguns dados do perfil ainda serão sincronizados.');
+        console.warn('Account created, but pending profile data could not be queued locally.');
+        setSuccessMsg('Conta criada, mas os dados complementares ainda não foram confirmados no servidor. Mantenha esta sessão aberta até recuperar a conexão.');
       }
       registrationSucceeded = true;
       setTimeout(() => { onComplete(newAccount); setIsSubmitting(false); }, 1500);
