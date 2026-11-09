@@ -31,10 +31,7 @@ export const startArcanjoOwnedSolfeggio = (type: Parameters<typeof audioEngine.s
 };
 
 audioEngine.startBG = ((type: Parameters<typeof audioEngine.startBG>[0]) => {
-  if (arcanjoOwnsAudio()) {
-    audioEngine.stopBG();
-    return;
-  }
+  if (arcanjoOwnsAudio()) return;
   return originalStartBG(type);
 }) as typeof audioEngine.startBG;
 
