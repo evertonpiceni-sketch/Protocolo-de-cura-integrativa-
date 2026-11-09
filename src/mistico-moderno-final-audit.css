@@ -26,3 +26,38 @@
     scroll-behavior: auto !important;
   }
 }
+
+
+/* Home: neutraliza os CTAs claros herdados do dashboard compartilhado.
+   O escopo é restrito ao Místico Moderno e mantém os acentos dourados. */
+:root[data-layout="mistico-moderno"] .ep-home #journey-choices > button {
+  background: linear-gradient(145deg, rgba(20,31,48,.96), rgba(10,15,24,.94)) !important;
+  border-color: rgba(108,63,160,.34) !important;
+  color: var(--text-primary) !important;
+  box-shadow: 0 14px 34px rgba(0,0,0,.28), inset 0 1px 0 rgba(255,255,255,.04) !important;
+}
+:root[data-layout="mistico-moderno"] .ep-home #journey-choices > button strong {
+  color: var(--text-primary) !important;
+}
+:root[data-layout="mistico-moderno"] .ep-home #journey-choices > button small {
+  color: var(--text-secondary) !important;
+}
+:root[data-layout="mistico-moderno"] .ep-home #journey-choices > button:hover {
+  border-color: var(--gold-border) !important;
+  transform: translateY(-1px);
+}
+:root[data-layout="mistico-moderno"] .ep-home .ep-home-dock {
+  background: rgba(20,31,48,.94) !important;
+  border-color: rgba(108,63,160,.28) !important;
+  box-shadow: 0 12px 30px rgba(0,0,0,.28), inset 0 1px 0 rgba(255,255,255,.04) !important;
+}
+:root[data-layout="mistico-moderno"] .ep-home .ep-home-dock button {
+  color: var(--text-secondary) !important;
+}
+:root[data-layout="mistico-moderno"] .ep-home .ep-home-dock button svg {
+  color: var(--layout-gold-light) !important;
+}
+:root[data-layout="mistico-moderno"] .ep-home .ep-home-dock button:hover {
+  background: rgba(108,63,160,.14) !important;
+  color: var(--text-primary) !important;
+}
