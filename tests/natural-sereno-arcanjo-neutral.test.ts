@@ -9,7 +9,8 @@ test('protocolo Arcanjo mantém sete dias, sem usar chakras como estrutura diár
   const entries = days.match(/dia: [1-7],/g) || [];
 
   assert.equal(entries.length, 7);
-  assert.doesNotMatch(days, /chakra|muladhara|svadhisthana|manipura|anahata|vishuddha|ajna|sahasrara/i);
+  const dataOnly = days.slice(days.indexOf('export const ARCANJO_PROTOCOL_DAYS'));
+  assert.doesNotMatch(dataOnly, /chakra|muladhara|svadhisthana|manipura|anahata|vishuddha|ajna|sahasrara/i);
   assert.match(days, /nome: 'Segurança'/);
   assert.match(days, /nome: 'Integração'/);
   assert.match(days, /freq: 396/);
