@@ -84,3 +84,15 @@ test('player Natural Sereno usa paisagem real e microanimação neutra; os demai
   assert.doesNotMatch(sevenDayInsights, /jornada dos 7 chakras/i);
   assert.match(sevenDayInsights, /title:\\s*"Segurança e Aterramento"/);
 });
+
+
+test('seletor dos quatro estilos continua obrigatório e o modal promocional legado não é montado', () => {
+  const app = read('src/App.tsx');
+  const selector = read('src/components/LayoutChoiceModal.tsx');
+
+  assert.ok(app.includes('{(!layoutConfirmedThisSession || layoutChoiceRequested) && ('));
+  assert.ok(app.includes('{showWelcomeModal && userProfile && layoutConfirmedThisSession && !layoutChoiceRequested && ('));
+  assert.ok(selector.includes('selectedStyle'));
+  assert.ok(selector.includes('onConfirm'));
+  assert.doesNotMatch(app, /PromoVideoModal|showPromoVideoModal|bottom-btn-promo-video/);
+});
