@@ -112,3 +112,31 @@
   outline: 2px solid rgba(226, 189, 120, 0.78) !important;
   outline-offset: 3px;
 }
+
+
+/* Neutraliza resíduos do verde-floresta no protocolo compartilhado.
+   O Místico Moderno usa índigo/violeta para estados de progresso e marfim-azulado para leitura. */
+:root[data-layout="mistico-moderno"] #arcanjo-chakra-caption [class*="text-[#c8d9cd]"] {
+  color: #BAC3D1 !important;
+}
+
+:root[data-layout="mistico-moderno"] #arcanjo-protocol-view .ep-forest-panel
+  button[aria-label^="Abrir dia"] [data-arcanjo-day-marker] {
+  background: #2E3B73 !important;
+  border: 1px solid rgba(108, 63, 160, 0.42) !important;
+  color: #F4F1EB !important;
+}
+
+:root[data-layout="mistico-moderno"] #arcanjo-protocol-view .ep-forest-panel
+  button[data-completed="true"] [data-arcanjo-day-marker] {
+  background: #6C3FA0 !important;
+  border-color: rgba(212, 175, 55, 0.38) !important;
+  color: #F4F1EB !important;
+}
+
+:root[data-layout="mistico-moderno"] #arcanjo-protocol-view .ep-forest-panel
+  button[data-current="true"] [data-arcanjo-day-marker] {
+  background: #D4AF37 !important;
+  border-color: rgba(226, 185, 107, 0.72) !important;
+  color: #0A0F18 !important;
+}
