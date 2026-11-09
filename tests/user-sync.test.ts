@@ -283,7 +283,7 @@ test('browser user sync fails closed instead of adopting the shared local accoun
   let calls = 0;
   await assert.rejects(
     syncUserState(
-      { profile: { privateDiaryOwner: 'account-a' } },
+      { progress: [{ dayNumber: 1, privateDiaryOwner: 'account-a' }] },
       {
         requireAccountKey: true,
         getCurrentAccountKey: () => 'account-b',
