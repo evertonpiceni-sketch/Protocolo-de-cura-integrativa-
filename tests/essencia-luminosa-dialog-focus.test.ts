@@ -321,3 +321,17 @@ test('as opções de chakra da Anamnese são acessíveis por teclado e expõem o
   assert.ok(component.includes('event.repeat'));
   assert.ok(component.includes('focus-visible:ring-2 focus-visible:ring-[#C6A46A]/55'));
 });
+
+test('o logout remove o tema anterior antes de exigir uma nova escolha explícita', () => {
+  const app = read('src/App.tsx');
+  const start = app.indexOf('const handleLogout = async () => {');
+  const end = app.indexOf('\n  };', start);
+  assert.ok(start >= 0 && end > start, 'O fluxo de logout deve existir.');
+  const logout = app.slice(start, end);
+  const clearDomTheme = logout.indexOf('delete document.documentElement.dataset.layout;');
+  const resetSessionConsent = logout.indexOf('setLayoutConfirmedThisSession(false);');
+  const clearProfile = logout.indexOf('setUserProfile(null);');
+  assert.ok(clearDomTheme >= 0, 'O tema anterior precisa ser removido do DOM no logout.');
+  assert.ok(clearDomTheme < resetSessionConsent, 'Remover o tema deve preceder a limpeza da confirmação da sessão.');
+  assert.ok(resetSessionConsent < clearProfile, 'A confirmação deve ser resetada antes de limpar o perfil.');
+});
