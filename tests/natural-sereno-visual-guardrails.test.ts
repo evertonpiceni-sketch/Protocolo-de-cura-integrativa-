@@ -91,6 +91,28 @@ test('fundos dourados translúcidos mantêm seu alpha no Natural Sereno', () => 
     assert.ok(overrides.includes(`[class~="${token}"]`), `Alpha ${opacity} não protegido no tema Natural Sereno`);
     assert.ok(overrides.includes(`rgba(200,157,82,${opacity})`), `Transparência aprovada ${opacity} ausente`);
   }
+
+  const borderSources = [
+    audio,
+    app,
+    read('src/components/TransformationHome.tsx'),
+    read('src/components/ArcanjoProtocolView.tsx'),
+    read('src/lib/universalAnamnesisDiaryAccessPatch.ts'),
+  ].join('\\n');
+  const borderVariants = [
+    ['15', '.15'], ['16', '.16'], ['18', '.18'], ['20', '.20'],
+    ['22', '.22'], ['24', '.24'], ['25', '.25'], ['28', '.28'],
+    ['30', '.30'], ['35', '.35'], ['40', '.40'], ['45', '.45'],
+    ['50', '.50'], ['55', '.55'],
+  ];
+  for (const [alpha, opacity] of borderVariants) {
+    const token = `border-[#B88736]/${alpha}`;
+    assert.ok(borderSources.includes(token), `Uso atual da variante ${token} não encontrado`);
+    assert.ok(overrides.includes(`[class~="${token}"]`), `Alpha de borda ${opacity} não protegido`);
+    assert.ok(overrides.includes(`rgba(200,157,82,${opacity})`), `Transparência de borda ${opacity} ausente`);
+  }
+  assert.ok(overrides.includes('[class~="text-[#B88736]/60"]'));
+  assert.ok(overrides.includes('color: rgba(200,157,82,.60) !important;'));
 });
 
 
