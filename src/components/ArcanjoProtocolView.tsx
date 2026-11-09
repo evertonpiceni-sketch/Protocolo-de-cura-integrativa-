@@ -219,7 +219,6 @@ export default function ArcanjoProtocolView({ userProfile, onClose, onLogout, in
     }
     setVoiceError(false);
     audioEngine.unlock();
-    audioEngine.startSynth(`${config.freq}hz`);
     setIsPreparingAudio(true);
     setHasStarted(true);
     const runId = narrationRunRef.current;
