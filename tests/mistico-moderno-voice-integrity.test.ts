@@ -167,7 +167,7 @@ test('Style 4 selector displays the official board thumbnail from the exact refe
   assert.ok(image.byteLength > 10000, 'The official Style 4 board thumbnail must be present.');
 });
 
-test('Arcanjo view owns its audio without disabling global ambience for the whole 7-day plan', () => {
+test('Arcanjo opens only after explicit navigation or successful 7-day checkout', () => {
   const app = read('src/App.tsx');
   const globalAudioSection = app.slice(
     app.indexOf('// Synchronize global audio player'),
@@ -178,7 +178,9 @@ test('Arcanjo view owns its audio without disabling global ambience for the whol
     app.indexOf('  // ', app.indexOf('// Handle autoplay block browser policy unlock on first interaction') + 5)
   );
 
-  assert.match(app, /const isArcanjoViewActive = showArcanjoView \|\| userProfile\?\.subscriptionPlan === 'arcanjo_7d'/);
+  assert.match(app, /const \[showArcanjoView, setShowArcanjoView\] = useState<boolean>\(false\)/);
+  assert.match(app, /const isArcanjoViewActive = showArcanjoView;/);
+  assert.match(app, /if \(plan === 'arcanjo_7d'\) setShowArcanjoView\(true\);/);
   assert.match(globalAudioSection, /!isArcanjoViewActive/);
   assert.match(globalAudioSection, /else if \(!isArcanjoViewActive\)/);
   assert.match(globalAudioSection, /isArcanjoViewActive/);
