@@ -230,6 +230,15 @@ test('Natural Sereno exige voz neural nos caminhos de Anamnese, Reflexão Sistê
   assert.ok(archangelPrayer.includes('voiceId: effectiveVoiceId'));
 });
 
+test('CTA de entrada do player Natural Sereno mantém cantos premium de 18px', () => {
+  const css = read('src/natural-sereno.css');
+  const portal = read('src/components/session/ProtocolAcceptancePortal.tsx');
+  assert.ok(css.includes('#meditation-session .ep-acceptance-portal button:last-child { border-radius: 18px;'));
+  assert.ok(!css.includes('#meditation-session .ep-acceptance-portal button:last-child { border-radius: 24px;'));
+  assert.ok(portal.includes('rounded-xl'));
+});
+
+
 test('Anamnese Natural Sereno mostra a voz neural real e usa apenas dourado refinado no player', () => {
   const anamnesis = read('src/components/AnamnesisModal.tsx');
   const refinement = read('src/natural-sereno-refinement.css');
