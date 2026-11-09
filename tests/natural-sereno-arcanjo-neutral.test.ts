@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { readFileSync } from 'node:fs';
+import { existsSync, readFileSync } from 'node:fs';
 
 const read = (path: string) => readFileSync(new URL(`../${path}`, import.meta.url), 'utf8');
 
@@ -96,5 +96,8 @@ test('seletor dos quatro estilos continua obrigatório e o modal promocional leg
   assert.ok(selector.includes('await onSelect(selectedLayout)'));
   assert.ok(selector.includes('disabled={!selectedLayout || isSaving}'));
   assert.ok(selector.includes('O estilo só será aplicado depois da sua confirmação.'));
+  assert.ok(selector.includes('NATURAL_SERENO_OFFICIAL_BOARD'));
+  assert.ok(selector.includes('src={NATURAL_SERENO_OFFICIAL_BOARD}'));
+  assert.ok(existsSync(new URL('../docs/visual-qa/natural-sereno/reference.jpg', import.meta.url)));
   assert.doesNotMatch(app, /PromoVideoModal|showPromoVideoModal|bottom-btn-promo-video/);
 });
