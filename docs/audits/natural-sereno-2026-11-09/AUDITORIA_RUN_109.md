@@ -3,7 +3,7 @@
 **Data:** 09/11/2026  
 **Projeto:** `evertonpiceni-sketch/Protocolo-de-cura-integrativa-`  
 **Branch:** `audit/natural-sereno-run97-mainline-2026-11-08`  
-**HEAD de código/testes:** `e7cbb989619d69ff72a9d6ed6a0c6f2d53c382ae`  
+**HEAD de código/testes:** `8680afc6d78774b4802e3a4f2844d84116ff65cf`  
 **PR:** #74 — aberta, draft, não mergeable.
 
 ## Corrigido nesta rodada
@@ -14,6 +14,7 @@ A revisão independente da PR #74 havia deixado três apontamentos abertos. Os t
    - Criado `src/lib/authSession.ts` para centralizar a chave de sessão local.
    - Cadastro e login atualizam a identidade ativa imediatamente após a resposta bem-sucedida do endpoint, antes de qualquer sincronização ou transição atrasada da interface.
    - Logout invalida a identidade local antes de aguardar a chamada ao servidor, cancelando retries antigos.
+   - O cache local também recusa gravar um perfil cujo login não corresponde à conta ativa; callbacks antigos não conseguem trocar a chave de sessão para outra conta.
    - `syncUserState` captura a conta de origem, compara a identidade antes de cada tentativa e depois da resposta; se a conta mudar, interrompe o envio.
    - Payloads de perfil usam também o login declarado no próprio perfil. Os fluxos autenticados do App e da jornada Natural Sereno passam explicitamente a conta de origem.
 
@@ -34,6 +35,7 @@ A revisão independente da PR #74 havia deixado três apontamentos abertos. Os t
 - Rejeição de callback antigo cujo perfil pertence a outra conta.
 - Ordem de persistência: snapshot antigo/retry primeiro, snapshot novo por último.
 - Identidade atualizada antes de sincronizar cadastro/login e invalidada antes do logout.
+- Cache local protegido contra callbacks de perfil de outra conta.
 - Solfeggio retomado somente pelo callback de reprodução real da narração.
 
 **Importante:** os testes foram adicionados, mas ainda não há execução de CI associada ao HEAD desta rodada. Não declaro aprovação de testes, TypeScript ou build sem uma execução verificável.
