@@ -34,6 +34,20 @@ test('auth prestyle stays neutral until the user explicitly confirms a layout', 
     'The logo wrapper must stay transparent and visually quiet.'
   );
 
+  const approvedTheme = read('src/approved-theme.css');
+  assert.ok(
+    !approvedTheme.includes('#profile-setup-view{') && !approvedTheme.includes('#profile-setup-view {'),
+    'The onboarding view must not override neutral tokens with a style-specific palette.'
+  );
+  const neutralRootStart = approvedTheme.indexOf(':root:not([data-layout]){');
+  const neutralRootEnd = approvedTheme.indexOf('\\n}', neutralRootStart);
+  assert.ok(neutralRootStart >= 0 && neutralRootEnd > neutralRootStart, 'The neutral root token block must exist.');
+  const neutralRoot = approvedTheme.slice(neutralRootStart, neutralRootEnd);
+  assert.ok(
+    neutralRoot.includes('--layout-accent:#85847B;') && neutralRoot.includes('--layout-gold:#A99B84;'),
+    'The preselection state must inherit the dedicated neutral palette.'
+  );
+
   const modal = read('src/components/LayoutChoiceModal.tsx');
   assert.match(modal, /const \[selectedLayout, setSelectedLayout\] = useState<LayoutId \| null>\(null\)/);
   assert.match(modal, /disabled=\{!selectedLayout \|\| isSaving\}/);
