@@ -308,13 +308,8 @@ export default function ArcanjoProtocolView({ userProfile, onClose, onLogout, in
       return;
     }
     if (isPlaying) {
+      // The guided-audio onpause callback restores the daily frequency exactly once.
       audioEngine.pauseSpeech();
-      if (requiresNeuralVoice) playProtocolFrequency();
-      else {
-        audioEngine.stopSynth();
-        setIsProtocolFrequencyActive(false);
-      }
-      setIsPlaying(false);
       return;
     }
     audioEngine.resumeSpeech();
