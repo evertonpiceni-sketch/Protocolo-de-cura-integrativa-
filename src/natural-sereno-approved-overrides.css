@@ -528,3 +528,145 @@
     opacity:.26!important;
   }
 }
+
+
+/* RUN 105 — planos/checkout Natural Sereno.
+   O modal de pagamento é compartilhado; esta camada corrige apenas o tema 1,
+   sem tocar catálogo, preços, benefícios, InfinitePay ou comportamento. */
+:root[data-layout="natural-sereno"] #plans-modal {
+  background-color:rgba(42,36,33,.28)!important;
+}
+:root[data-layout="natural-sereno"] #plans-modal > div {
+  background:linear-gradient(180deg,#FAF7F2 0%,#F3EDE4 100%)!important;
+  color:#2A2421!important;
+}
+:root[data-layout="natural-sereno"] #plans-modal header {
+  background:rgba(250,247,242,.94)!important;
+  border-color:rgba(200,157,82,.30)!important;
+}
+:root[data-layout="natural-sereno"] #plans-modal :is(h1,h2,h3,h4) {
+  color:#2A2421!important;
+}
+:root[data-layout="natural-sereno"] #plans-modal :is([class*="bg-[#FFF9E8]"],[class*="bg-[#FFF6D9]"],[class*="bg-[#F7E5AA]"]) {
+  background:#FBF8F2!important;
+  background-image:none!important;
+}
+:root[data-layout="natural-sereno"] #plans-modal [class*="border-[#D8B867]"] {
+  border-color:rgba(200,157,82,.30)!important;
+}
+:root[data-layout="natural-sereno"] #plans-modal :is([class*="text-[#26372A]"],[class*="text-[#073B2B]"]) {
+  color:#2A2421!important;
+}
+:root[data-layout="natural-sereno"] #plans-modal :is([class*="text-[#5F6857]"],[class*="text-[#6A725F]"]) {
+  color:#5C5248!important;
+}
+:root[data-layout="natural-sereno"] #plans-modal [class*="text-[#2F6B50]"] {
+  color:#5E6948!important;
+}
+:root[data-layout="natural-sereno"] #plans-modal article {
+  background:linear-gradient(180deg,#FFFDF8 0%,#F5EFE4 100%)!important;
+  border-color:rgba(200,157,82,.30)!important;
+  box-shadow:0 10px 24px rgba(67,52,39,.08)!important;
+  color:#2A2421!important;
+}
+:root[data-layout="natural-sereno"] #plans-modal article[class*="from-[#FFF6D9]"] {
+  background:linear-gradient(180deg,#FBF8F2 0%,#F1E7D7 100%)!important;
+}
+:root[data-layout="natural-sereno"] #plans-modal article [class*="bg-[#073B2B]"] {
+  background:linear-gradient(180deg,#E2B96B,#C89D52)!important;
+  color:#2A2421!important;
+}
+:root[data-layout="natural-sereno"] #plans-modal article strong {
+  color:#2A2421!important;
+}
+:root[data-layout="natural-sereno"] #plans-modal article li svg {
+  color:#6F7B55!important;
+}
+:root[data-layout="natural-sereno"] #plans-modal article button:last-child,
+:root[data-layout="natural-sereno"] #plans-modal button[class*="bg-[#073B2B]"] {
+  min-height:44px;
+  border:1px solid #A87E37!important;
+  border-radius:18px!important;
+  background:linear-gradient(180deg,#E2B96B 0%,#C89D52 100%)!important;
+  color:#2A2421!important;
+  box-shadow:0 7px 16px rgba(67,52,39,.09)!important;
+}
+:root[data-layout="natural-sereno"] #plans-modal article button:last-child:hover,
+:root[data-layout="natural-sereno"] #plans-modal button[class*="bg-[#073B2B]"]:hover {
+  background:linear-gradient(180deg,#E8C47D 0%,#A87E37 100%)!important;
+}
+:root[data-layout="natural-sereno"] #plans-modal #checkout-planos {
+  background:#FFFDF8!important;
+  border-color:rgba(200,157,82,.34)!important;
+  box-shadow:0 12px 28px rgba(67,52,39,.08)!important;
+}
+:root[data-layout="natural-sereno"] #plans-modal #checkout-planos [class*="bg-[#FFF9E8]"] {
+  background:#FBF8F2!important;
+}
+:root[data-layout="natural-sereno"] #plans-modal #checkout-planos button[data-benefit-choice] {
+  min-height:48px;
+  border-color:rgba(200,157,82,.34)!important;
+  border-radius:14px!important;
+  background:#FBF8F2!important;
+  color:#2A2421!important;
+}
+:root[data-layout="natural-sereno"] #plans-modal #checkout-planos button[data-benefit-choice][aria-pressed="true"] {
+  background:linear-gradient(180deg,#E2B96B,#C89D52)!important;
+  color:#2A2421!important;
+  border-color:#A87E37!important;
+}
+:root[data-layout="natural-sereno"] #plans-modal #checkout-planos input {
+  border-color:rgba(200,157,82,.34)!important;
+  color:#2A2421!important;
+}
+:root[data-layout="natural-sereno"] #plans-modal #checkout-planos input:focus {
+  border-color:#C89D52!important;
+  box-shadow:0 0 0 3px rgba(200,157,82,.14)!important;
+}
+
+/* RUN 105 — Banhos, Mapa Astral e Numerologia.
+   Preserva cores simbólicas dos gráficos e deixa o verde apenas como acento. */
+:root[data-layout="natural-sereno"] #herbal-baths-modal > div > div:first-child {
+  background:linear-gradient(90deg,#FBF8F2 0%,#F5EFE4 100%)!important;
+}
+:root[data-layout="natural-sereno"] #herbal-baths-modal :is([class*="bg-emerald-50"],[class*="bg-emerald-100"]) {
+  background:rgba(111,123,85,.10)!important;
+}
+:root[data-layout="natural-sereno"] #herbal-baths-modal [class*="border-emerald"] {
+  border-color:rgba(111,123,85,.25)!important;
+}
+:root[data-layout="natural-sereno"] #herbal-baths-modal :is(.text-emerald-700,.text-emerald-800,.text-emerald-900) {
+  color:#5E6948!important;
+}
+:root[data-layout="natural-sereno"] #herbal-baths-modal :is([class*="bg-amber-50"],[class*="bg-amber-100"]) {
+  background:#FBF8F2!important;
+}
+:root[data-layout="natural-sereno"] #herbal-baths-modal [class*="border-amber"] {
+  border-color:rgba(200,157,82,.30)!important;
+}
+:root[data-layout="natural-sereno"] #herbal-baths-modal :is(.text-amber-800,.text-amber-900) {
+  color:#8F631E!important;
+}
+:root[data-layout="natural-sereno"] #herbal-baths-modal button[class*="bg-[#073b2b]"] {
+  background:linear-gradient(180deg,#E2B96B,#C89D52)!important;
+  border-color:#A87E37!important;
+  color:#2A2421!important;
+}
+:root[data-layout="natural-sereno"] #astral-map-modal :is([class*="bg-amber-50"],[class*="bg-amber-50/70"]) {
+  background:#FBF8F2!important;
+}
+:root[data-layout="natural-sereno"] #astral-map-modal [class*="border-amber"] {
+  border-color:rgba(200,157,82,.28)!important;
+}
+:root[data-layout="natural-sereno"] #astral-map-modal :is(.text-amber-800,.text-amber-900) {
+  color:#8F631E!important;
+}
+:root[data-layout="natural-sereno"] #numerology-modal [class*="bg-amber-50"] {
+  background:#FBF8F2!important;
+}
+:root[data-layout="natural-sereno"] #numerology-modal [class*="border-amber"] {
+  border-color:rgba(200,157,82,.28)!important;
+}
+:root[data-layout="natural-sereno"] #numerology-modal :is(.text-amber-800,.text-amber-900) {
+  color:#8F631E!important;
+}
