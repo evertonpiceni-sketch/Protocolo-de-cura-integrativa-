@@ -6,8 +6,7 @@ import { audioEngine } from './audio';
  * owns the audio surface. The protocol's own Solfeggio must use the explicit bypass
  * exported below; ordinary startBG calls remain blocked while the view is mounted.
  */
-const ARCANJO_VIEW_MARKER = 'img[alt="Pessoa em meditação com os sete chakras"]';
-const DASHBOARD_MARKER = '#progress-dashboard';
+const ARCANJO_VIEW_MARKER = '#arcanjo-protocol-view';
 const ARCANJO_OPENING_GUARD_MS = 5000;
 let arcanjoOpening = false;
 let arcanjoWasMounted = false;
@@ -15,9 +14,7 @@ let openingGuardTimer: number | null = null;
 
 const isArcanjoViewMounted = () => {
   if (typeof document === 'undefined') return false;
-  return Array.from(document.querySelectorAll(ARCANJO_VIEW_MARKER)).some(
-    marker => !marker.closest(DASHBOARD_MARKER)
-  );
+  return document.querySelector(ARCANJO_VIEW_MARKER) !== null;
 };
 
 const arcanjoOwnsAudio = () => arcanjoOpening || isArcanjoViewMounted();
