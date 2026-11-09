@@ -58,7 +58,7 @@ test('o player Natural Sereno usa um único canvas flexível, sem offsets ou cha
 test('ícones, números do dia e progresso usam superfícies claras e dourado, com sálvia só como acento', () => {
   const base = read('src/natural-sereno.css');
   assert.match(base, /\.ns-row-icon \{[\s\S]*?color: #6F7B55;[\s\S]*?background: #FBF8F2;/);
-  assert.match(base, /\.ns-day-number \{[\s\S]*?background: #B88736;[\s\S]*?color: #FFFDF8;/);
+  assert.match(base, /\\.ns-day-number \\{[\\s\\S]*?background:\\s*#C89D52;[\\s\\S]*?color:\\s*#2A2421;/);
   assert.ok(base.includes('progress::-webkit-progress-value { background: #C89D52; }'));
   assert.ok(base.includes('progress::-moz-progress-bar { background: #C89D52; }'));
   assert.match(base, /\.ns-profile-identity \{[^}]*color: var\(--ns-ink\)/);
@@ -70,4 +70,25 @@ test('o seletor só aplica um tema após escolha e confirmação explícitas', (
   assert.match(modal, /useState<LayoutId \| null>\(null\)/);
   assert.match(app, /const selected = layoutConfirmedThisSession \? OFFICIAL_LAYOUTS\.find/);
   assert.match(app, /setLayoutConfirmedThisSession\(true\)/);
+});
+
+
+test('fundos dourados translúcidos mantêm seu alpha no Natural Sereno', () => {
+  const overrides = read('src/natural-sereno-approved-overrides.css');
+  const audio = read('src/components/AudioSettingsModal.tsx');
+  const app = read('src/App.tsx');
+  const variants = [
+    ['8', '.08'],
+    ['10', '.10'],
+    ['12', '.12'],
+    ['15', '.15'],
+    ['20', '.20'],
+  ];
+
+  for (const [alpha, opacity] of variants) {
+    const token = `bg-[#B88736]/${alpha}`;
+    assert.ok(audio.includes(token) || app.includes(token), `Uso atual da variante ${token} não encontrado`);
+    assert.ok(overrides.includes(`[class~="${token}"]`), `Alpha ${opacity} não protegido no tema Natural Sereno`);
+    assert.ok(overrides.includes(`rgba(200,157,82,${opacity})`), `Transparência aprovada ${opacity} ausente`);
+  }
 });
