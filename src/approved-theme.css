@@ -188,7 +188,7 @@
 
 :root[data-layout="mistico-moderno"]{
   color-scheme:dark;
-  --layout-canvas:#0A0F18;
+  --layout-canvas:#0A2742;
   --layout-canvas-alt:#141F30;
   --layout-card:rgba(20,31,48,.85);
   --layout-card-hover:rgba(28,44,68,.92);
@@ -196,6 +196,9 @@
   --layout-input:#121B2B;
   --layout-accent:#6C3FA0;
   --layout-accent-light:#8E5CC8;
+  --layout-indigo:#2E3B73;
+  --layout-emerald:#1E6B5A;
+  --layout-violet:#6C3FA0;
   --layout-gold:#D4AF37;
   --layout-gold-light:#F2D06B;
   --layout-gold-dark:#A47D1C;
@@ -500,8 +503,12 @@ body::before{
   --ep-panel-text:#F7F1E4;
 }
 :root[data-layout="mistico-moderno"]{
-  --ep-scene:url('/brand/reintegracao-presenca-arte.png');
-  --ep-scene-overlay:linear-gradient(180deg,rgba(10,15,24,.14),rgba(10,15,24,.58) 48%,rgba(4,9,16,.88));
+  --ep-scene:none;
+  --ep-scene-overlay:
+    radial-gradient(circle at 84% 8%,rgba(108,63,160,.16),transparent 30rem),
+    radial-gradient(circle at 18% 84%,rgba(46,59,115,.18),transparent 28rem),
+    radial-gradient(circle at 88% 88%,rgba(30,107,90,.07),transparent 22rem),
+    linear-gradient(180deg,rgba(10,39,66,.92),rgba(10,15,24,.98));
   --ep-panel:rgba(11,24,38,.84);
   --ep-panel-strong:rgba(8,20,33,.94);
   --ep-panel-text:#F4F1EB;

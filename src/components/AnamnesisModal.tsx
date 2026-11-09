@@ -78,6 +78,7 @@ export default function AnamnesisModal({
   const naturalSereno = document.documentElement.dataset.layout === 'natural-sereno';
   const isEleganciaProfunda = document.documentElement.dataset.layout === 'elegancia-profunda';
   const isEssenciaLuminosa = document.documentElement.dataset.layout === 'essencia-luminosa';
+  const isMisticoModerno = document.documentElement.dataset.layout === 'mistico-moderno';
   useDialogFocus(isOpen && naturalSereno, dialogRef, () => handleCloseModal());
   React.useLayoutEffect(() => {
     if (isOpen && naturalSereno) {
@@ -124,6 +125,12 @@ export default function AnamnesisModal({
   const [feedbackSubmitted, setFeedbackSubmitted] = useState<boolean>(false);
   const [is639HzActive, setIs639HzActive] = useState<boolean>(true);
   const audioPlayerRef = React.useRef<HTMLAudioElement | null>(null);
+  const is639HzActiveRef = React.useRef(is639HzActive);
+  const isEditingRef = React.useRef(isEditing);
+  const isOpenRef = React.useRef(isOpen);
+  is639HzActiveRef.current = is639HzActive;
+  isEditingRef.current = isEditing;
+  isOpenRef.current = isOpen;
 
   // Manage 639Hz Solfeggio frequency: melhora a compreensão, tolerância e relações interpessoais enquanto o usuário escolhe as respostas
   React.useEffect(() => {
@@ -152,6 +159,7 @@ export default function AnamnesisModal({
   }, [isOpen, isEditing, is639HzActive, userProfile.audioEnabled, userProfile.bgMusicType]);
 
   const handleToggle639Hz = () => {
+    if (isMisticoModerno && (isPlayingTherapeuticVoice || isLoadingVoice)) return;
     if (is639HzActive) {
       audioEngine.stopBG();
       setIs639HzActive(false);
@@ -163,19 +171,38 @@ export default function AnamnesisModal({
     }
   };
 
+  const playAnamnesisSelectionSound = () => {
+    const style4VoiceOwnsAudio = isMisticoModerno && (isPlayingTherapeuticVoice || isLoadingVoice);
+    if (style4VoiceOwnsAudio) return;
+    audioEngine.unlock();
+    audioEngine.playHeartSelectionChime();
+    if (is639HzActive && audioEngine.getCurrentSynthType() !== '639hz') {
+      audioEngine.startBG('639hz');
+    }
+  };
+
   const handleCloseModal = () => {
-    stopTherapeuticVoice();
+    stopTherapeuticVoice(false);
     if (audioEngine.getCurrentSynthType() === '639hz') {
       audioEngine.stopBG();
       if (userProfile.audioEnabled && userProfile.bgMusicType && userProfile.bgMusicType !== 'none' && userProfile.bgMusicType !== '639hz') {
         audioEngine.startBG(userProfile.bgMusicType);
       }
+    } else if (isMisticoModerno && userProfile.audioEnabled && userProfile.bgMusicType && userProfile.bgMusicType !== 'none' && !/^\\d+hz$/i.test(userProfile.bgMusicType)) {
+      audioEngine.startBG(userProfile.bgMusicType);
     }
     onClose();
   };
 
-  const stopTherapeuticVoice = () => {
-    if (isEleganciaProfunda || isEssenciaLuminosa) audioEngine.stopSpeech();
+  const resumeStyle4AnamnesisSolfeggio = () => {
+    if (isMisticoModerno && isOpenRef.current && isEditingRef.current && is639HzActiveRef.current && audioEngine.getCurrentSynthType() !== '639hz') {
+      audioEngine.setBGVolume(0.40);
+      audioEngine.startBG('639hz');
+    }
+  };
+
+  const stopTherapeuticVoice = (resumeSolfeggio = true) => {
+    if (isEleganciaProfunda || isEssenciaLuminosa || isMisticoModerno) audioEngine.stopSpeech();
     if (audioPlayerRef.current) {
       audioPlayerRef.current.pause();
       audioPlayerRef.current = null;
@@ -185,16 +212,17 @@ export default function AnamnesisModal({
     }
     setIsPlayingTherapeuticVoice(false);
     setIsLoadingVoice(false);
+    if (resumeSolfeggio) resumeStyle4AnamnesisSolfeggio();
   };
 
   const playTherapeuticVoice = async (text: string, overrideGender?: 'masculina' | 'feminina') => {
     const gender = overrideGender || selectedVoiceGender;
-    if (isPlayingTherapeuticVoice) {
+    if (isPlayingTherapeuticVoice || (isMisticoModerno && isLoadingVoice)) {
       stopTherapeuticVoice();
       return;
     }
 
-    if (isEleganciaProfunda || isEssenciaLuminosa) {
+    if (isEleganciaProfunda || isEssenciaLuminosa || isMisticoModerno) {
       const neuralVoiceId = isElevenLabsVoiceId(userProfile.voiceId)
         ? userProfile.voiceId
         : isEssenciaLuminosa ? OFFICIAL_PROTOCOL_VOICE_ID : '';
@@ -203,13 +231,14 @@ export default function AnamnesisModal({
         setIsLoadingVoice(false);
         return;
       }
+      if (isMisticoModerno && audioEngine.getCurrentSynthType() === '639hz') audioEngine.stopBG();
       setVoiceError(false);
       setIsLoadingVoice(true);
       void audioEngine.speakWithElevenLabsOrFallback(
         text,
         userProfile.voiceVolume ?? 0.9,
         () => { setIsPlayingTherapeuticVoice(true); setIsLoadingVoice(false); },
-        () => { setIsPlayingTherapeuticVoice(false); setIsLoadingVoice(false); },
+        () => { setIsPlayingTherapeuticVoice(false); setIsLoadingVoice(false); resumeStyle4AnamnesisSolfeggio(); },
         undefined,
         undefined,
         {
@@ -226,6 +255,7 @@ export default function AnamnesisModal({
             setIsPlayingTherapeuticVoice(false);
             setIsLoadingVoice(false);
             setVoiceError(true);
+            resumeStyle4AnamnesisSolfeggio();
           }
         }
       );
@@ -330,11 +360,7 @@ export default function AnamnesisModal({
   if (!isOpen) return null;
 
   const toggleItem = (list: string[], setList: React.Dispatch<React.SetStateAction<string[]>>, item: string) => {
-    audioEngine.unlock();
-    audioEngine.playHeartSelectionChime();
-    if (is639HzActive && audioEngine.getCurrentSynthType() !== '639hz') {
-      audioEngine.startBG('639hz');
-    }
+    playAnamnesisSelectionSound();
     if (list.includes(item)) {
       setList(list.filter(i => i !== item));
     } else {
@@ -549,7 +575,7 @@ export default function AnamnesisModal({
                   </div>
                 </div>
 
-                {!isEleganciaProfunda && !isEssenciaLuminosa ? (
+                {!isEleganciaProfunda && !isEssenciaLuminosa && !isMisticoModerno ? (
                   <div className="flex items-center gap-1.5 p-1 bg-white/80 rounded-xl border border-[#E5DAC6] self-start sm:self-auto">
                     <button
                       type="button"
@@ -584,7 +610,7 @@ export default function AnamnesisModal({
                   <span className="text-xs text-[#B88736]">{isEssenciaLuminosa ? 'Voz neural escolhida em Ajustes de áudio' : 'Voz neural selecionada no perfil'}</span>
                 )}
               </div>
-              {voiceError && <p role="alert" className="ep-voice-error rounded-xl px-3 py-2 text-xs">{isEssenciaLuminosa ? 'A narração neural está indisponível. A voz do dispositivo não será usada.' : 'Selecione uma voz neural válida em Ajustes de áudio. O Estilo 2 não usará a voz do dispositivo.'}</p>}
+              {voiceError && <p role="alert" className="ep-voice-error rounded-xl px-3 py-2 text-xs">{isMisticoModerno ? 'A voz neural escolhida está indisponível. O Místico Moderno não usará a voz do dispositivo.' : isEssenciaLuminosa ? 'A narração neural está indisponível. A voz do dispositivo não será usada.' : 'Selecione uma voz neural válida em Ajustes de áudio. O Estilo 2 não usará a voz do dispositivo.'}</p>}
 
               {/* Player Controls & Waveform */}
               <div className="p-4 rounded-2xl bg-white/80 border border-[#E5DAC6] space-y-3">
@@ -1072,8 +1098,8 @@ export default function AnamnesisModal({
             <div className="ep-anamnesis-frequency p-3 rounded-2xl bg-gradient-to-r from-emerald-50 via-[#FBF8F2] to-[#F3EBDD] border border-emerald-200 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2.5">
               <div className="flex items-center gap-2.5">
                 <div className="relative w-8 h-8 rounded-xl bg-emerald-500/20 border border-emerald-500/40 flex items-center justify-center text-emerald-700 shrink-0">
-                  <Heart size={16} className={is639HzActive ? 'scale-110 text-emerald-400 animate-pulse' : 'opacity-60'} />
-                  {is639HzActive && (
+                  <Heart size={16} className={is639HzActive && !(isMisticoModerno && (isPlayingTherapeuticVoice || isLoadingVoice)) ? 'scale-110 text-emerald-400 animate-pulse' : 'opacity-60'} />
+                  {is639HzActive && !(isMisticoModerno && (isPlayingTherapeuticVoice || isLoadingVoice)) && (
                     <span className="absolute -top-1 -right-1 flex h-2.5 w-2.5">
                       <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
                       <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500"></span>
@@ -1082,7 +1108,7 @@ export default function AnamnesisModal({
                 </div>
                 <div>
                   <div className="flex items-center gap-2">
-                    <span className="text-xs font-semibold text-emerald-700">Frequência Solfeggio 639 Hz Ativa</span>
+                    <span className="text-xs font-semibold text-emerald-700">{isMisticoModerno && (isPlayingTherapeuticVoice || isLoadingVoice) ? 'Solfeggio pausado durante a narração' : is639HzActive ? 'Frequência Solfeggio 639 Hz Ativa' : 'Frequência Solfeggio 639 Hz Desativada'}</span>
                     <span className="text-[10px] px-1.5 py-0.5 rounded-full bg-emerald-500/20 border border-emerald-500/30 text-emerald-700 font-mono">Chakra Cardíaco</span>
                   </div>
                   <p className="text-[11px] text-[#5C5248] leading-snug">
@@ -1094,14 +1120,15 @@ export default function AnamnesisModal({
               <button
                 type="button"
                 onClick={handleToggle639Hz}
-                className={`px-3 py-1.5 rounded-xl text-xs font-medium flex items-center gap-1.5 transition cursor-pointer border shrink-0 self-end sm:self-center ${
-                  is639HzActive
+                disabled={isMisticoModerno && (isPlayingTherapeuticVoice || isLoadingVoice)}
+                className={`px-3 py-1.5 rounded-xl text-xs font-medium flex items-center gap-1.5 transition cursor-pointer border shrink-0 self-end sm:self-center disabled:opacity-50 disabled:cursor-not-allowed ${
+                  is639HzActive && !(isMisticoModerno && (isPlayingTherapeuticVoice || isLoadingVoice))
                     ? 'bg-emerald-600/30 border-emerald-500/50 text-emerald-200 hover:bg-emerald-600/50'
                     : 'bg-[#F5EFE4] border-[#E5DAC6] text-[#5C5248] hover:text-[#2A2420]'
                 }`}
               >
-                {is639HzActive ? <Volume2 size={13} className="text-emerald-400 animate-pulse" /> : <VolumeX size={13} />}
-                <span>{is639HzActive ? '639 Hz Ativo' : 'Ativar 639 Hz'}</span>
+                {is639HzActive && !(isMisticoModerno && (isPlayingTherapeuticVoice || isLoadingVoice)) ? <Volume2 size={13} className="text-emerald-400 animate-pulse" /> : <VolumeX size={13} />}
+                <span>{isMisticoModerno && (isPlayingTherapeuticVoice || isLoadingVoice) ? 'Solfeggio pausado' : is639HzActive ? '639 Hz Ativo' : 'Ativar 639 Hz'}</span>
               </button>
             </div>
 
@@ -1168,11 +1195,7 @@ export default function AnamnesisModal({
                     max="10"
                     value={stressLevel}
                     onChange={(e) => {
-                      audioEngine.unlock();
-                      audioEngine.playHeartSelectionChime();
-                      if (is639HzActive && audioEngine.getCurrentSynthType() !== '639hz') {
-                        audioEngine.startBG('639hz');
-                      }
+                      playAnamnesisSelectionSound();
                       setStressLevel(parseInt(e.target.value));
                     }}
                     className="w-full h-2 bg-[#FBF8F2] rounded-lg appearance-none cursor-pointer accent-indigo-500 focus:outline-none"
@@ -1193,11 +1216,7 @@ export default function AnamnesisModal({
                         key={q}
                         type="button"
                         onClick={() => {
-                          audioEngine.unlock();
-                          audioEngine.playHeartSelectionChime();
-                          if (is639HzActive && audioEngine.getCurrentSynthType() !== '639hz') {
-                            audioEngine.startBG('639hz');
-                          }
+                          playAnamnesisSelectionSound();
                           setSleepQuality(q);
                         }}
                         className={`py-2 px-1 rounded-xl text-xs font-medium capitalize border text-center transition cursor-pointer ${
@@ -1296,11 +1315,7 @@ export default function AnamnesisModal({
                         key={g}
                         type="button"
                         onClick={() => {
-                          audioEngine.unlock();
-                          audioEngine.playHeartSelectionChime();
-                          if (is639HzActive && audioEngine.getCurrentSynthType() !== '639hz') {
-                            audioEngine.startBG('639hz');
-                          }
+                          playAnamnesisSelectionSound();
                           setPrimaryGoal(g);
                         }}
                         className={`w-full p-3 rounded-2xl border text-left text-xs font-medium transition cursor-pointer flex items-center justify-between ${
@@ -1330,11 +1345,7 @@ export default function AnamnesisModal({
                         key={t.id}
                         type="button"
                         onClick={() => {
-                          audioEngine.unlock();
-                          audioEngine.playHeartSelectionChime();
-                          if (is639HzActive && audioEngine.getCurrentSynthType() !== '639hz') {
-                            audioEngine.startBG('639hz');
-                          }
+                          playAnamnesisSelectionSound();
                           setDailyTimeAvailable(t.id as any);
                         }}
                         className={`p-3 rounded-2xl border text-center transition cursor-pointer ${
