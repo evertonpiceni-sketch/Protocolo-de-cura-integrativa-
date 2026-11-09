@@ -4,7 +4,7 @@ Data: 09/11/2026
 Branch de trabalho: `fix/natural-sereno-mainline-run111-2026-11-09`  
 PR: #79  
 HEAD de código/testes desta rodada: `e33f0995fe6dc9b70b79411a0a4fea3cd7bce0db`  
-Base `main) consultada: `2d632fd8b274b80057e2e63616767d6fad92111e`
+Base `main` consultada: `2d632fd8b274b80057e2e63616767d6fad92111e`
 
 ## Referência e precedência
 
