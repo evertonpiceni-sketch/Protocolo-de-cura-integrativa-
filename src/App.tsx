@@ -132,6 +132,7 @@ export default function App() {
 
   // Open the Arcanjo screen only after explicit navigation or the successful checkout flow.
   // A persisted 7-day subscription must not reopen the protocol on every later login.
+  // Subscribers retain manual access through the home action; subscription alone is not navigation.
   const isArcanjoViewActive = showArcanjoView;
 
   // Initialize and register local notification daily checker
