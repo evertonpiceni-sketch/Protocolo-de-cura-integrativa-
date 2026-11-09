@@ -45,8 +45,8 @@ Os testes estáticos existentes continuam verificando o isolamento das folhas CS
 
 ## Validação e pendências
 
-- A execução anterior `Security Audit #42556657999` concluiu com sucesso: npm audit, TypeScript, regressões, build, segurança, smoke tests e endpoints de pagamento fail-closed.
-- Este Run 17 adiciona um novo commit e testes; a CI do novo head precisa concluir antes de qualquer revisão final.
+- A execução atual `Security Audit #42559031582`, no head `f26d0cc93f6b07ffa7987b4376daa2fdb88e7657`, concluiu com sucesso: npm audit, TypeScript, regressões, build, segurança, smoke tests e endpoints de pagamento fail-closed.
+- O novo head passou pela CI completa; o resultado foi confirmado nos passos de npm audit, TypeScript, testes de regressão, build e verificações de segurança/pagamento.
 - O check Vercel anterior retornou `build-rate-limit`; não forcei novo deployment.
 - **Pendente:** inspeção visual renderizada das 12 superfícies em desktop e celular, incluindo alinhamento, nitidez, imagens, botões e animações.
 - **Pendente:** audição real da voz salva no perfil e teste de início/pausa/retomada/encerramento do Solfeggio e player em navegador/dispositivo.
