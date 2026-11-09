@@ -125,8 +125,14 @@ export function syncUserState(payload: UserSyncPayload, options: UserSyncOptions
   const getCurrentAccountKey = options.getCurrentAccountKey ?? getCurrentAccountLogin;
   let currentAtStart: string | null = null;
   try {
+    const profileLogin = payload.profile && typeof payload.profile === 'object'
+      ? (payload.profile as { login?: unknown }).login
+      : undefined;
+    const payloadAccountKey = typeof profileLogin === 'string' ? profileLogin : undefined;
     currentAtStart = normalizeAccountLogin(
-      options.accountKey !== undefined ? options.accountKey : getCurrentAccountKey(),
+      options.accountKey !== undefined
+        ? options.accountKey
+        : payloadAccountKey ?? getCurrentAccountKey(),
     );
   } catch {
     currentAtStart = null;
