@@ -620,3 +620,51 @@ test('a camada aprovada da Elegância Profunda sucede suas auditorias e permanec
   assert.ok(!style3Overrides.includes(':root[data-layout="elegancia-profunda"]'), 'O override do Estilo 3 não pode atingir o Estilo 2.');
   assert.equal(main.split(approvedImportLine).length - 1, 1);
 });
+
+test('Natural Sereno mantém CTAs dourados refinados e cantos premium de 18px', () => {
+  const css = read('src/natural-sereno-approved-overrides.css');
+  const modal = read('src/components/LayoutChoiceModal.tsx');
+  assert.ok(css.includes(':root[data-layout="natural-sereno"] .ns-app .ns-gold {'));
+  assert.ok(css.includes('border-radius: 18px !important;'));
+  assert.ok(css.includes('background: linear-gradient(180deg,#E2B96B 0%,#C89D52 100%) !important;'));
+  assert.ok(modal.includes("const confirmButtonRadius = !selectedLayout || selectedLayout === 'natural-sereno' ? 'rounded-[18px]' : 'rounded-full';"));
+  assert.ok(modal.includes('${confirmButtonRadius}'));
+});
+
+test('Natural Sereno remove as heranças de verdão, amarelão e pílula na Home injetada', () => {
+  const model = read('src/lib/naturalSerenoHomeApprovedModel.ts');
+  const surface = read('src/natural-sereno-home-surface-audit.css');
+  assert.ok(model.includes('background: linear-gradient(180deg,#FAF7F2 0%,#F3EDE4 100%) !important;'));
+  assert.ok(model.includes('background: linear-gradient(180deg,#E2B96B 0%,#C89D52 100%) !important;'));
+  assert.ok(model.includes('border-radius: 18px !important;'));
+  assert.doesNotMatch(model, /#073b2b|#052f22|rgba\(7,59,43|#fff9e8|#ead394|#c49b42|#aa7d25|#98701f|#d7b55e|border-radius:\s*999px/i);
+  assert.ok(surface.includes('.ns-home-scene > .ns-gold'));
+  assert.ok(surface.includes('border-radius:18px!important;'));
+});
+
+test('Natural Sereno mantém a lateral desktop do acolhimento em creme e o overlay fotográfico neutro', () => {
+  const css = read('src/natural-sereno-mobile-fixes.css');
+  assert.ok(css.includes(':root[data-layout="natural-sereno"] .ns-welcome {\n    background: #FAF7F2;'));
+  assert.ok(css.includes('rgba(42,36,33,.20)'));
+  assert.ok(!css.includes('background: #063020;'));
+  assert.ok(!/--(?:ns-mobile|admin)-forest:\s*#073b2b/i.test(css));
+});
+
+test('Natural Sereno mantém modais auxiliares em creme, café e dourado refinado', () => {
+  const refinement = read('src/natural-sereno-refinement.css');
+  const approved = read('src/natural-sereno-approved-overrides.css');
+  assert.doesNotMatch(refinement, /#073b2b|#174b37|#dfc57f|#21563c/i);
+  assert.ok(refinement.includes('rgba(200,157,82,.16)'));
+  assert.ok(approved.includes('#astral-map-modal [class~="bg-[#073b2b]"]'));
+  assert.ok(approved.includes('#numerology-modal [class~="bg-[#073b2b]"]'));
+  assert.ok(approved.includes('background: rgba(111,123,85,.12) !important;'));
+});
+
+test('a camada base Natural Sereno não reintroduz CTA amarelo em formato de pílula', () => {
+  const css = read('src/natural-sereno.css');
+  const goldBlock = css.match(/:root\[data-layout="natural-sereno"\] \.ns-gold \{([\s\S]*?)\n\}/)?.[1] ?? '';
+  assert.ok(goldBlock.includes('border-radius: 18px;'));
+  assert.ok(goldBlock.includes('linear-gradient(180deg,#E2B96B 0%,#C89D52 100%)'));
+  assert.ok(goldBlock.includes('color: #2A2421;'));
+  assert.doesNotMatch(goldBlock, /999px|#ead394|#c49b42|#aa7d25|#98701f|#d7b55e/i);
+});
