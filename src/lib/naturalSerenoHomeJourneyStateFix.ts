@@ -265,7 +265,7 @@ async function persistProtocolChoice(protocolId: string, duration: '7d' | '21d')
   remoteState = { ...state, profile, progress, selectedProtocolId: protocolId, selectedJourney: duration };
 
   try {
-    await syncUserState({ profile, progress });
+    await syncUserState({ profile, progress }, { accountKey: typeof baseProfile.login === 'string' ? baseProfile.login : readLocalAccount()?.login });
   } catch {
     // The local choice remains available offline; transient failures are retried first.
   }
