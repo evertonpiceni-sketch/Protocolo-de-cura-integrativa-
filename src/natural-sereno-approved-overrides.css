@@ -69,7 +69,7 @@
 :root[data-layout="natural-sereno"] #bottom-action-dock #bottom-btn-journal { background:rgba(200,157,82,.16)!important; color:#6B4E2E!important; }
 
 /* Floating contact */
-:root[data-layout="natural-sereno"] #floating-whatsapp-btn { background:rgba(251,248,242,.96)!important; color:#5C5248!important; border-color:rgba(184,135,54,.34)!important; box-shadow:0 12px 28px rgba(67,52,39,.12)!important; }
+:root[data-layout="natural-sereno"] #floating-whatsapp-btn { background:rgba(251,248,242,.96)!important; color:#5C5248!important; border-color:rgba(184,135,54,.34)!important; box-shadow:0 12px 28px rgba(67,52,39,.12)!important; border-radius:18px!important; }
 :root[data-layout="natural-sereno"] #floating-whatsapp-btn:hover { background:#F5EFE4!important; color:#2A2421!important; border-color:rgba(184,135,54,.48)!important; }
 :root[data-layout="natural-sereno"] #floating-whatsapp-btn svg { color:#6F7B55!important; }
 
