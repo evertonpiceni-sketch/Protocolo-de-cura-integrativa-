@@ -200,9 +200,9 @@ test('user sync serializes writes per account so a newer progress snapshot wins 
   assert.deepEqual(
     sentPayloads,
     [
-      { progress: [{ dayNumber: 1, completed: true }] },
-      { progress: [{ dayNumber: 1, completed: true }] },
-      { progress: [{ dayNumber: 2, completed: true }] },
+      { progress: [{ dayNumber: 1, completed: true }], accountLogin: currentAccount },
+      { progress: [{ dayNumber: 1, completed: true }], accountLogin: currentAccount },
+      { progress: [{ dayNumber: 2, completed: true }], accountLogin: currentAccount },
     ],
   );
 });
