@@ -118,3 +118,20 @@ test('cabeçalho do Arcanjo Natural Sereno usa marfim e dourado refinado, sem o 
   assert.ok(run125.includes('rgba(200,157,82,.08)'));
   assert.ok(main.indexOf("import './natural-sereno-approved-overrides.css';") > main.indexOf("import './natural-sereno.css';"));
 });
+
+
+test('ao retomar a narração neural do Arcanjo, Solfeggio é interrompido antes do áudio', () => {
+  const player = read('src/components/ArcanjoProtocolView.tsx');
+  const toggleStart = player.indexOf('const togglePlayback = () => {');
+  const resumeIndex = player.indexOf('audioEngine.resumeSpeech();', toggleStart);
+  const stopIndex = player.lastIndexOf('stopSolfeggio();', resumeIndex);
+  assert.ok(toggleStart >= 0 && resumeIndex > toggleStart, 'Retomada do player não encontrada');
+  assert.ok(stopIndex > toggleStart && stopIndex < resumeIndex, 'Solfeggio deve parar antes da retomada da narração');
+  const pauseStart = player.indexOf('onPause: () => {');
+  const pauseEnd = player.indexOf('onTimeUpdate:', pauseStart);
+  assert.ok(pauseStart >= 0 && pauseEnd > pauseStart);
+  assert.ok(player.slice(pauseStart, pauseEnd).includes('startSolfeggio();'), 'A frequência pode retornar durante a pausa');
+  const frequencyStart = player.indexOf('const startSolfeggio = () => {');
+  const audioGuard = player.indexOf('if (userProfile.audioEnabled === false)', frequencyStart);
+  assert.ok(frequencyStart >= 0 && audioGuard > frequencyStart, 'A frequência deve respeitar a configuração global de áudio');
+});

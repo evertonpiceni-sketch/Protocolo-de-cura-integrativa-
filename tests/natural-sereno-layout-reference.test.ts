@@ -43,3 +43,15 @@ test('Natural Sereno usa o dourado aprovado nos seletores inicial e de aparênci
   assert.ok(app.includes("'border-[#C89D52] bg-[#C89D52]/8 shadow-sm'"));
   assert.ok(app.includes("'focus-visible:ring-[#C89D52]/35'"));
 });
+
+
+test('a barra do navegador só acompanha o estilo depois da confirmação explícita', () => {
+  const app = read('src/App.tsx');
+  const effectStart = app.indexOf('// Keep browser chrome neutral until the visitor explicitly confirms');
+  const effectEnd = app.indexOf('}, [userProfile?.visualLayout, layoutConfirmedThisSession]);', effectStart);
+  assert.ok(effectStart >= 0 && effectEnd > effectStart, 'Efeito de theme-color não encontrado');
+  const effect = app.slice(effectStart, effectEnd);
+  assert.ok(effect.includes('const selected = layoutConfirmedThisSession'));
+  assert.ok(effect.includes("const themeColor = selected?.swatches[0] ?? '#F8F4EC';"));
+  assert.ok(effect.includes("metaThemeColor.setAttribute('content', themeColor);"));
+});
