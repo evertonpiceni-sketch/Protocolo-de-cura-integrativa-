@@ -428,3 +428,27 @@ input::placeholder,textarea::placeholder{color:#9E9080!important}
     transition: none !important;
   }
 }
+
+
+.ep-neutral-body-progress__breath {
+  transform-box: fill-box;
+  transform-origin: center;
+}
+.ep-neutral-body-progress--canvas {
+  width: min(64vw, 360px, 52vh) !important;
+  max-width: 430px !important;
+  max-height: 65vh !important;
+  padding: 0 !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+.ep-neutral-body-progress--canvas .ep-neutral-body-progress__svg {
+  max-height: 60vh;
+}
+@media (prefers-reduced-motion: reduce) {
+  .ep-neutral-body-progress__breath {
+    transform: none !important;
+  }
+}
