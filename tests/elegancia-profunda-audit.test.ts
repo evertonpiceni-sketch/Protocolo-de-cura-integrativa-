@@ -193,9 +193,12 @@ test('o pagamento continua no checkout InfinitePay sem cópia manual de PIX', ()
   const routes = read('src/lib/paymentRoutes.ts');
   const specific = read('src/components/SpecificTreatmentModal.tsx');
   const numerology = read('src/components/NumerologyModal.tsx');
-  assert.ok(routes.includes('https://api.infinitepay.io/invoices/public/checkout'));
+  assert.ok(routes.includes("const API = 'https://api.checkout.infinitepay.io'"), 'O Estilo 2 deve usar a base atual oficial do Checkout Integrado.');
+  assert.ok(routes.includes("headers['X-Api-Key'] = key"), 'A API Key deve permanecer somente no servidor.');
+  assert.ok(routes.includes("options: { single_payment: true }"), 'Cada link novo deve aceitar somente um pagamento.');
   assert.ok(routes.includes("router.post('/payment/create-checkout'"));
   assert.ok(routes.includes("provider('/payment_check'"));
+  assert.ok(!routes.includes('https://api.infinitepay.io/invoices/public/checkout'), 'A rota legada não deve voltar.');
   assert.ok(!specific.includes('handleCopyPix'));
   assert.ok(!specific.includes('navigator.clipboard.writeText'));
   assert.ok(!numerology.includes('handleCopyPix'));
