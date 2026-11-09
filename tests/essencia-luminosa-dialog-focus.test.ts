@@ -184,6 +184,7 @@ test('o inventário das 24 folhas CSS mantém a âncora de escopo do Estilo 3', 
 });
 
 
+
 function splitCssSelectorGroups(value: string): string[] {
   const groups: string[] = [];
   let current = '';
@@ -198,7 +199,7 @@ function splitCssSelectorGroups(value: string): string[] {
       escaped = false;
       continue;
     }
-    if (char === '\\\\') {
+    if (char === '\\') {
       current += char;
       escaped = true;
       continue;
@@ -231,13 +232,13 @@ function splitCssSelectorGroups(value: string): string[] {
 }
 
 function extractStyle3Selectors(css: string): string[] {
-  const source = css.replace(/\\/\\*[\\s\\S]*?\\*\\//g, '');
-  const preludes = [...source.matchAll(/([^{}]+)\\{/g)].map(match => match[1].trim());
+  const source = css.replace(/\/\*[\s\S]*?\*\//g, '');
+  const preludes = [...source.matchAll(/([^{}]+)\{/g)].map(match => match[1].trim());
   return preludes
     .filter(prelude =>
       prelude &&
       !prelude.startsWith('@') &&
-      !/^(from|to|\\d+(?:\\.\\d+)?%)$/i.test(prelude)
+      !/^(from|to|\d+(?:\.\d+)?%)$/i.test(prelude)
     )
     .flatMap(splitCssSelectorGroups);
 }
@@ -257,7 +258,7 @@ test('cada seletor das 24 folhas CSS permanece isolado à Essência Luminosa', (
     for (const selector of selectors) {
       assert.match(
         selector,
-        /:root\\[data-layout=(["'])essencia-luminosa\\1\\]/,
+        /:root\[data-layout=(["'])essencia-luminosa\1\]/,
         file + ': seletor sem escopo exclusivo da Essência Luminosa: ' + selector
       );
     }
@@ -271,7 +272,7 @@ test('a moldura da Celebração usa tokens suaves mesmo quando a etapa-base decl
   const css = read('src/essencia-luminosa-milestone-audit.css');
   assert.ok(component.includes('border-rose-500/40'));
   const parentRule = css.match(
-    /:root\\[data-layout="essencia-luminosa"\\] \\[aria-label="Celebração de progresso"\\] > div\\s*\\{([^}]*)\\}/
+    /:root\[data-layout="essencia-luminosa"\] \[aria-label="Celebração de progresso"\] > div\s*\{([^}]*)\}/
   );
   assert.ok(parentRule, 'A superfície principal da celebração precisa de regra própria no Estilo 3.');
   assert.ok(parentRule[1].includes('border-color: color-mix(in srgb, var(--layout-gold-soft) 42%, var(--layout-border)) !important;'));
