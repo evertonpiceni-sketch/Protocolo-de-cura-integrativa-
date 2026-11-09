@@ -814,15 +814,15 @@ export default function App() {
       return d;
     });
 
-    saveProgress(updatedProgress);
-
     if (userProfile) {
       const unlocked = evaluateAchievements(userProfile, updatedProgress);
       const updatedProfile: UserProfile = {
         ...userProfile,
         unlockedAchievements: unlocked.unlockedIds
       };
-      saveProfile(updatedProfile);
+      saveProfileAndProgress(updatedProfile, updatedProgress);
+    } else {
+      saveProgress(updatedProgress);
     }
   };
 
