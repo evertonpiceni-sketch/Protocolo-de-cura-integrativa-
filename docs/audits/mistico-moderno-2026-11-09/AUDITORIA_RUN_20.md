@@ -57,3 +57,10 @@ A última varredura estática registrada nas 25 folhas CSS Místico identificou 
 4. Recuperar a prancha PNG original na Library para comparação pixel a pixel; por ora, a derivação versionada do repositório é mantida sem alteração.
 
 **Publicação:** PR permanece em rascunho. Sem merge em main, sem deploy de produção e sem cobrança real.
+
+
+## Ajuste após a primeira CI da reconciliação
+
+- A primeira execução no merge commit encontrou 2 falhas em regressões da Elegância Profunda. A causa foi identificada: a sobreposição inicial da branch de auditoria havia levado uma versão anterior de `src/elegancia-profunda-approved-overrides.css`, sem a regra aprovada do onboarding fotográfico que já estava na main.
+- Restaurado o blob exato da main atual para esse arquivo, preservando a fotografia e o véu aprovados do Estilo 2. Nenhuma regra Místico foi alterada nessa correção.
+- As duas regressões do Estilo 2 permanecem ativas; não foram removidas nem enfraquecidas. O CI será reexecutado no novo HEAD.
