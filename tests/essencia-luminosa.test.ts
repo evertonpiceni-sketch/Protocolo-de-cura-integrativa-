@@ -488,7 +488,7 @@ test('todos os fluxos de voz da Essência Luminosa preservam a voz neural e falh
   assert.ok(anamnesis.includes('isEleganciaProfunda || isEssenciaLuminosa'));
   assert.ok(anamnesis.includes('(naturalSereno || isEssenciaLuminosa) ? OFFICIAL_PROTOCOL_VOICE_ID : \'\''));
   assert.ok(anamnesis.includes('fallbackToSpeechSynthesis: false'));
-  assert.ok(anamnesis.includes('!isEleganciaProfunda && !isEssenciaLuminosa ? ('));
+  assert.ok(anamnesis.includes('{!requiresNeuralVoice ? ('));
 
   assert.ok(systemic.includes('isEleganciaProfunda || isEssenciaLuminosa'));
   assert.ok(systemic.includes('voiceId: neuralVoiceId'));
