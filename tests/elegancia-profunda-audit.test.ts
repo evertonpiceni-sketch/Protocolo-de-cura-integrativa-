@@ -247,16 +247,16 @@ test('a narração do Estilo 2 usa IDs ElevenLabs válidos e não cai na voz do 
   assert.ok(audio.includes('failWithoutNativeVoice'));
   assert.ok(app.includes('Voz neural (ElevenLabs)'));
   assert.ok(settings.includes('Voz neural (ElevenLabs)'));
-  assert.ok(home.includes('const requiresNeuralVoice = isNaturalSereno || isEleganciaProfunda || isEssenciaLuminosa || isMisticoModerno;'));
+  assert.ok(home.includes('const requiresNeuralVoice = isNaturalSereno || isEleganciaProfunda || isEssenciaLuminosa;'));
   assert.ok(home.includes('fallbackToSpeechSynthesis: !requiresNeuralVoice'));
   assert.ok(session.includes("activeLayout === 'elegancia-profunda' && !style2VoiceId"));
   assert.ok(anamnesis.includes('fallbackToSpeechSynthesis: false'));
-  assert.ok(hooponopono.includes('fallbackToSpeechSynthesis: !(isEleganciaProfunda || isEssenciaLuminosa || isMisticoModerno)'));
-  assert.ok(arcanjo.includes('requireExplicitVoiceId: isEleganciaProfunda || isEssenciaLuminosa || isMisticoModerno'));
+  assert.ok(hooponopono.includes('fallbackToSpeechSynthesis: !(isEleganciaProfunda || isEssenciaLuminosa)'));
+  assert.ok(arcanjo.includes('requireExplicitVoiceId: isEleganciaProfunda || isEssenciaLuminosa'));
   assert.ok(audio.includes('requireExplicitVoiceId?: boolean'));
   assert.ok(audio.includes('if (options.requireExplicitVoiceId && !isElevenLabsVoiceId(options.voiceId))'));
   assert.ok(systemic.includes('fallbackToSpeechSynthesis: false'));
-  assert.ok(archangelPrayer.includes('fallbackToSpeechSynthesis: !(isEleganciaProfunda || isEssenciaLuminosa || isMisticoModerno)'));
+  assert.ok(archangelPrayer.includes('fallbackToSpeechSynthesis: !(isEleganciaProfunda || isEssenciaLuminosa)'));
   assert.ok(app.includes('userProfile={userProfile || undefined}'));
   assert.ok(app.includes('voiceId={userProfile?.voiceId}'));
 });
@@ -287,7 +287,7 @@ test('o Estilo 2 não substitui silenciosamente a voz neural escolhida por uma v
   const home = read('src/components/TransformationHome.tsx');
   const settings = read('src/components/AudioSettingsModal.tsx');
   assert.ok(home.includes("const approvedVoiceId = isEleganciaProfunda\n    ? (isElevenLabsVoiceId(savedVoiceId) ? savedVoiceId : '')"));
-  assert.ok(home.includes(": (isNaturalSereno || isEssenciaLuminosa)\n        ? (isElevenLabsVoiceId(savedVoiceId) ? savedVoiceId : OFFICIAL_PROTOCOL_VOICE_ID)"));
+  assert.ok(home.includes("(isNaturalSereno || isEssenciaLuminosa)\n      ? (isElevenLabsVoiceId(savedVoiceId) ? savedVoiceId : OFFICIAL_PROTOCOL_VOICE_ID)"));
   assert.ok(settings.includes('if (requiresNeuralVoice && !isElevenLabsVoiceId(voiceId))'));
 });
 
@@ -337,6 +337,22 @@ test('a Reintegração libera e readquire o Wake Lock ao pausar, concluir ou vol
   assert.match(journey, /setActionHandler\('pause',[\s\S]*?releaseWakeLock\(\);/);
   assert.match(journey, /setActionHandler\('play',[\s\S]*?requestWakeLock\(\);/);
   assert.match(journey, /if \(playing\) \{[\s\S]*?releaseWakeLock\(\);/);
+});
+
+test('o acolhimento inicial só é montado depois da confirmação explícita do estilo', () => {
+  const app = read('src/App.tsx');
+  const selectorCondition = '{(!layoutConfirmedThisSession || layoutChoiceRequested) && (';
+  const welcomeCondition = '{showWelcomeModal && userProfile && layoutConfirmedThisSession && !layoutChoiceRequested && (';
+
+  assert.ok(app.includes(selectorCondition), 'O seletor continua obrigatório antes da aplicação do tema.');
+  assert.ok(app.includes(welcomeCondition), 'O acolhimento não deve ser montado enquanto o seletor estiver aberto.');
+  assert.ok(app.includes("const seenWelcome = localStorage.getItem('cura_integrada_welcome_seen_v1')"));
+  assert.ok(app.includes("localStorage.setItem('cura_integrada_welcome_seen_v1', 'true')"));
+
+  const selector = read('src/components/LayoutChoiceModal.tsx');
+  const onboarding = read('src/components/OnboardingFlow.tsx');
+  assert.ok(selector.includes('useDialogFocus(true, dialogRef, null)'));
+  assert.ok(onboarding.includes('useDialogFocus(true, dialogRef, null)'));
 });
 
 test('o onboarding antigo permanece inativo e o fluxo ativo continua sendo OnboardingFlow', () => {
