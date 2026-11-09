@@ -879,6 +879,9 @@ export default function App() {
               });
               if (!response.ok) throw new Error(`Não foi possível salvar o estilo (HTTP ${response.status})`);
             }
+            // Apply the explicitly confirmed, persisted style before rendering the onboarding flow.
+            // This prevents a one-frame flash of the shared component's legacy palette.
+            document.documentElement.dataset.layout = layout;
             setUserProfile(updatedProfile);
             updateLocalAccountCache(updatedProfile, progress);
             setLayoutConfirmedThisSession(true);
