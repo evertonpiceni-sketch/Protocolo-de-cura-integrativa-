@@ -171,3 +171,115 @@
   outline: 2px solid color-mix(in srgb, var(--layout-gold) 58%, white) !important;
   outline-offset: 3px;
 }
+
+
+/* RUN 126 — Arcanjo 7 dias: remove superfícies e textos verdes herdados no Estilo 3.
+   As cores individuais dos sete chakras permanecem sem alteração semântica. */
+:root[data-layout="essencia-luminosa"] #arcanjo-protocol-view > header {
+  background: color-mix(in srgb, var(--layout-card) 96%, transparent) !important;
+  border-color: var(--layout-border-card) !important;
+  color: var(--layout-text) !important;
+  box-shadow: 0 10px 28px rgba(112,91,58,.06) !important;
+}
+:root[data-layout="essencia-luminosa"] #arcanjo-protocol-view > header h1 {
+  color: var(--layout-text) !important;
+}
+:root[data-layout="essencia-luminosa"] #arcanjo-protocol-view > header button,
+:root[data-layout="essencia-luminosa"] #arcanjo-protocol-view > header button svg {
+  color: var(--layout-gold) !important;
+}
+:root[data-layout="essencia-luminosa"] #arcanjo-protocol-view > main > section:first-child > div:first-child {
+  color: var(--layout-text-secondary) !important;
+}
+:root[data-layout="essencia-luminosa"] #arcanjo-protocol-view > main > section:first-child > div:first-child svg {
+  color: var(--layout-gold) !important;
+}
+:root[data-layout="essencia-luminosa"] #arcanjo-protocol-view [class*="text-[#B88736]"] {
+  color: var(--layout-gold) !important;
+}
+:root[data-layout="essencia-luminosa"] #arcanjo-protocol-view [class*="border-[#B88736]"] {
+  border-color: var(--layout-border-card) !important;
+}
+:root[data-layout="essencia-luminosa"] #arcanjo-protocol-view [class*="text-[#5C6A60]"] {
+  color: var(--layout-text-secondary) !important;
+}
+:root[data-layout="essencia-luminosa"] #arcanjo-protocol-view .ep-forest-panel {
+  background: linear-gradient(145deg, var(--layout-card), var(--layout-canvas-alt)) !important;
+  border-color: var(--layout-border-card) !important;
+  color: var(--layout-text) !important;
+  box-shadow: 0 18px 48px rgba(112,91,58,.08), inset 0 1px 0 rgba(255,255,255,.72) !important;
+}
+:root[data-layout="essencia-luminosa"] #arcanjo-protocol-view .ep-forest-panel :is(
+  [class*="text-[#d9e6dc]"],
+  [class*="text-[#e9f1e9]"],
+  [class*="text-[#bad0c4]"],
+  [class*="text-[#d7e2d8]"],
+  [class*="text-[#c8d9cd]"],
+  [class*="text-[#c8d8cc]"],
+  [class*="text-[#e6eee8]"]
+) {
+  color: var(--layout-text-secondary) !important;
+}
+:root[data-layout="essencia-luminosa"] #arcanjo-protocol-view .ep-forest-panel [class*="text-[#f5e8bd]"] {
+  color: var(--layout-text) !important;
+}
+:root[data-layout="essencia-luminosa"] #arcanjo-protocol-view .ep-forest-panel [class*="text-[#f0d989]"] {
+  color: var(--layout-text-secondary) !important;
+}
+:root[data-layout="essencia-luminosa"] #arcanjo-protocol-view .ep-forest-panel [class*="bg-black/30"] {
+  background: var(--layout-border-card) !important;
+}
+:root[data-layout="essencia-luminosa"] #arcanjo-protocol-view .ep-forest-panel :is([class*="bg-black/20"], [class*="bg-black/10"]) {
+  background: var(--layout-canvas-alt) !important;
+}
+:root[data-layout="essencia-luminosa"] #arcanjo-protocol-view .ep-forest-panel [class*="border-[#B88736]"] {
+  border-color: var(--layout-border-card) !important;
+}
+:root[data-layout="essencia-luminosa"] #arcanjo-protocol-view .ep-gold-button {
+  background: var(--layout-gold-gradient) !important;
+  color: var(--layout-text) !important;
+  border-color: color-mix(in srgb, var(--layout-gold) 34%, var(--layout-border-card)) !important;
+  box-shadow: 0 10px 24px rgba(112,91,58,.10) !important;
+}
+:root[data-layout="essencia-luminosa"] #arcanjo-protocol-view [class*="aspect-[4/5]"] {
+  background: var(--layout-card) !important;
+  border-color: var(--layout-border-card) !important;
+  box-shadow: 0 18px 48px rgba(112,91,58,.10) !important;
+}
+:root[data-layout="essencia-luminosa"] #arcanjo-protocol-view [class*="aspect-[4/5]"] > img:first-of-type {
+  filter: brightness(.86) saturate(.82) !important;
+}
+:root[data-layout="essencia-luminosa"] #arcanjo-protocol-view [class*="aspect-[4/5]"] > div[class*="bottom-0"] {
+  background: linear-gradient(
+    to top,
+    color-mix(in srgb, var(--layout-card) 96%, transparent),
+    color-mix(in srgb, var(--layout-card) 82%, transparent) 58%,
+    transparent
+  ) !important;
+}
+:root[data-layout="essencia-luminosa"] #arcanjo-protocol-view [class*="aspect-[4/5]"] [class*="text-[#f5e8bd]"] {
+  color: var(--layout-text) !important;
+}
+:root[data-layout="essencia-luminosa"] #arcanjo-protocol-view [class*="aspect-[4/5]"] [class*="text-[#c8d9cd]"] {
+  color: var(--layout-text-secondary) !important;
+}
+:root[data-layout="essencia-luminosa"] #arcanjo-protocol-view [data-day-state="upcoming"] {
+  background: var(--layout-accent) !important;
+  color: var(--layout-text) !important;
+}
+:root[data-layout="essencia-luminosa"] #arcanjo-protocol-view [class*="bg-[#e5c66f]"] {
+  background: var(--layout-gold-soft) !important;
+}
+:root[data-layout="essencia-luminosa"] #arcanjo-protocol-view [class*="via-[#d4af37]"] {
+  background-image: linear-gradient(to right, transparent, var(--layout-gold), transparent) !important;
+}
+@media (prefers-reduced-motion: reduce) {
+  :root[data-layout="essencia-luminosa"] #arcanjo-protocol-view *,
+  :root[data-layout="essencia-luminosa"] #arcanjo-protocol-view *::before,
+  :root[data-layout="essencia-luminosa"] #arcanjo-protocol-view *::after {
+    animation: none !important;
+    transition: none !important;
+    scroll-behavior: auto !important;
+    will-change: auto !important;
+  }
+}
