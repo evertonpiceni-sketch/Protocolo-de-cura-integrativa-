@@ -72,7 +72,7 @@ test('o Arcanjo suspende Solfeggio durante narração neural e respeita o áudio
   assert.ok(arcanjo.includes('if (restoreFrequency) playProtocolFrequency();'));
   assert.ok(arcanjo.includes('resetPlayback(requiresNeuralVoice);'));
   assert.ok(arcanjo.includes('if (requiresNeuralVoice) playProtocolFrequency();'));
-  assert.ok(arcanjo.includes('audioEngine.resumeSpeech();\n    if (!requiresNeuralVoice) {\n      playProtocolFrequency();\n      setIsPlaying(true);\n    }'));
+  assert.ok(arcanjo.includes('if (requiresNeuralVoice) stopProtocolFrequency();\n    audioEngine.resumeSpeech();\n    if (!requiresNeuralVoice) {\n      playProtocolFrequency();\n      setIsPlaying(true);\n    }'), 'A frequência deve ser suspensa antes de retomar a narração neural.');
   assert.equal((arcanjo.match(/audioEngine\.startSynth\(/g) ?? []).length, 1, 'A frequência diária deve ser iniciada somente pelo helper que respeita audioEnabled.');
 });
 
@@ -84,7 +84,7 @@ test('o player informa o estado real do Solfeggio no Arcanjo', () => {
   assert.ok(arcanjo.includes('Solfeggio ${config.freq} Hz ativo durante a pausa ou após a narração.'));
   assert.ok(arcanjo.includes('Áudio desativado — nenhuma frequência será reproduzida.'));
   assert.ok(arcanjo.includes('role="status" aria-live="polite"'));
-  assert.ok(arcanjo.includes('audioEngine.resumeSpeech();\n    if (!requiresNeuralVoice) {\n      playProtocolFrequency();\n      setIsPlaying(true);\n    }'));
+  assert.ok(arcanjo.includes('if (requiresNeuralVoice) stopProtocolFrequency();\n    audioEngine.resumeSpeech();\n    if (!requiresNeuralVoice) {\n      playProtocolFrequency();\n      setIsPlaying(true);\n    }'), 'A frequência deve ser suspensa antes de retomar a narração neural.');
 });
 
 
