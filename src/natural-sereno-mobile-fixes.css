@@ -21,7 +21,7 @@
   #herbal-baths-modal,
   #astral-map-modal
 ) .pointer-events-none[class*="blur"] {
-  background: rgba(184,135,54,.055) !important;
+  background: rgba(200,157,82,.055) !important;
   opacity: .42 !important;
 }
 
@@ -91,7 +91,7 @@
   color: #6B4E2E !important;
 }
 :root[data-layout="natural-sereno"] #courses-modal :is([class*="text-amber-300"],[class*="text-amber-400"]) {
-  color: #8F631E !important;
+  color: #A87E37 !important;
 }
 
 /* Admin: retirar vazamentos neon/legado e manter hierarquia Natural Sereno. */
@@ -114,7 +114,7 @@
   color: var(--admin-muted) !important;
 }
 :root[data-layout="natural-sereno"] #admin-panel-modal :is([class*="text-emerald"],[class*="text-amber-300"],[class*="text-amber-400"]) {
-  color: #8F631E !important;
+  color: #A87E37 !important;
 }
 :root[data-layout="natural-sereno"] #admin-panel-modal :is([class*="bg-amber-500/10"],[class*="bg-amber-500/20"],[class*="bg-[#B88736]/"]) {
   background: #F5EFE4 !important;
@@ -383,18 +383,18 @@
   border-color: #E8E0D5 !important;
 }
 :root[data-layout="natural-sereno"] #specific-treatment-modal :is([class*="text-emerald"],[class*="text-teal"],[class*="text-amber"],[class*="text-white"]) { color: #2A2421 !important; }
-:root[data-layout="natural-sereno"] #specific-treatment-modal .pointer-events-none[class*="blur"] { background: rgba(184,135,54,.055) !important; opacity: .42 !important; }
+:root[data-layout="natural-sereno"] #specific-treatment-modal .pointer-events-none[class*="blur"] { background: rgba(200,157,82,.055) !important; opacity: .42 !important; }
 :root[data-layout="natural-sereno"] #admin-panel-modal button[type="submit"] { background: linear-gradient(180deg,#E2B96B,#C89D52) !important; color: #2A2421 !important; border-color: #A87E37 !important; }
 
 :root[data-layout="natural-sereno"] #astral-map-modal a[class*="bg-emerald"][class*="text-white"] { color: #6B4E2E !important; }
 :root[data-layout="natural-sereno"] #systemic-questions-modal > div > button[aria-label="Fechar reflexões sistêmicas"] { position: absolute !important; width: 44px; height: 44px; top: 16px; right: 16px; z-index: 3; }
 
-:root[data-layout="natural-sereno"] #contact-us-modal .pointer-events-none[class*="blur"] { background: rgba(184,135,54,.055) !important; opacity: .42 !important; }
+:root[data-layout="natural-sereno"] #contact-us-modal .pointer-events-none[class*="blur"] { background: rgba(200,157,82,.055) !important; opacity: .42 !important; }
 
 :root[data-layout="natural-sereno"] #progress-dashboard header h1 { color: #2A2421; }
-:root[data-layout="natural-sereno"] #progress-dashboard header [class*="text-[#E4C573]"] { color: #8F631E; }
+:root[data-layout="natural-sereno"] #progress-dashboard header [class*="text-[#E4C573]"] { color: #A87E37; }
 
-:root[data-layout="natural-sereno"] #daily-diary-modal .pointer-events-none[class*="blur"] { background: rgba(184,135,54,.055) !important; opacity: .42 !important; }
+:root[data-layout="natural-sereno"] #daily-diary-modal .pointer-events-none[class*="blur"] { background: rgba(200,157,82,.055) !important; opacity: .42 !important; }
 :root[data-layout="natural-sereno"] #daily-diary-modal :is(div,span)[class*="bg-[#B88736]/"] { background: #F5EFE4 !important; color: #2A2421 !important; }
 :root[data-layout="natural-sereno"] #daily-diary-modal :is(div,span)[class*="bg-[#B88736]/"] :is(span,svg) { color: #2A2421 !important; }
 
