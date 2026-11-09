@@ -92,7 +92,9 @@ test('seletor dos quatro estilos continua obrigatório e o modal promocional leg
 
   assert.ok(app.includes('{(!layoutConfirmedThisSession || layoutChoiceRequested) && ('));
   assert.ok(app.includes('{showWelcomeModal && userProfile && layoutConfirmedThisSession && !layoutChoiceRequested && ('));
-  assert.ok(selector.includes('selectedStyle'));
-  assert.ok(selector.includes('onConfirm'));
+  assert.ok(selector.includes('const [selectedLayout, setSelectedLayout] = useState<LayoutId | null>(null)'));
+  assert.ok(selector.includes('await onSelect(selectedLayout)'));
+  assert.ok(selector.includes('disabled={!selectedLayout || isSaving}'));
+  assert.ok(selector.includes('O estilo só será aplicado depois da sua confirmação.'));
   assert.doesNotMatch(app, /PromoVideoModal|showPromoVideoModal|bottom-btn-promo-video/);
 });
