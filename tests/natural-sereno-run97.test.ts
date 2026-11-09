@@ -162,3 +162,45 @@ test('salvamentos compostos usam o mesmo snapshot atualizado de progresso', () =
   const diaryFallback = diary.indexOf('saveProgress(updatedProgress);');
   assert.ok(diaryElse >= 0 && diaryFallback > diaryElse);
 });
+
+
+test('Natural Sereno não reintroduz fallback verde-floresta nem amarelo saturado nas cenas', () => {
+  const css = read('src/natural-sereno.css');
+  for (const legacyColor of ['#063020', 'rgba(2, 31, 19, .15)', '#297241', '#edf1d8', '#e6c66e']) {
+    assert.equal(css.includes(legacyColor), false, `Cor legada encontrada: ${legacyColor}`);
+  }
+  assert.ok(css.includes("presenca.webp') center / cover no-repeat #2A2421"));
+  assert.ok(css.includes("acolhimento.webp') center / cover no-repeat #2A2421"));
+  assert.ok(css.includes('var(--ns-waterfall) center / cover no-repeat #2A2421'));
+  assert.ok(css.includes('#5E6948; background: rgba(111,123,85,.10)'));
+  assert.ok(css.includes('background: #C89D52;'));
+});
+
+test('logo oficial do Natural Sereno permanece sutil em desktop e mobile', () => {
+  const css = read('src/natural-sereno-approved-overrides.css');
+  assert.ok(css.includes('.ns-welcome-brand'));
+  assert.ok(css.includes('opacity:.30!important'));
+  assert.ok(css.includes('#auth-loading-view .ep-brand-signature-wrap'));
+  assert.ok(css.includes('@media(max-width:640px)'));
+  assert.ok(css.includes('opacity:.26!important'));
+});
+
+test('Natural Sereno bloqueia frequências Solfeggio durante a prévia da voz neural', () => {
+  const settings = read('src/components/AudioSettingsModal.tsx');
+  assert.ok(settings.includes('const isStyle1SolfeggioBlocked = isNaturalSereno && isTestingVoice && isSolfeggioFrequency(track.id);'));
+  assert.ok(settings.includes('const isTrackBlockedDuringVoicePreview = isStyle1SolfeggioBlocked || isStyle2SolfeggioBlocked || isStyle3SolfeggioBlocked;'));
+});
+
+test('Arcanjo no Natural Sereno exige voz neural e não permite fallback nativo', () => {
+  const arcanjo = read('src/components/ArcanjoProtocolView.tsx');
+  assert.ok(arcanjo.includes("const isNaturalSereno = typeof document !== 'undefined' && document.documentElement.dataset.layout === 'natural-sereno';"));
+  assert.ok(arcanjo.includes('const requiresNeuralVoice = isNaturalSereno || isEleganciaProfunda || isEssenciaLuminosa;'));
+  assert.ok(arcanjo.includes('const effectiveVoiceId = (isNaturalSereno || isEssenciaLuminosa)'));
+  assert.ok(arcanjo.includes('voiceId: effectiveVoiceId,'));
+  assert.ok(arcanjo.includes('requireExplicitVoiceId: requiresNeuralVoice,'));
+  const fallbackStart = arcanjo.indexOf('const startNativeFallback');
+  const startStart = arcanjo.indexOf('const start =', fallbackStart);
+  const fallback = fallbackStart >= 0 && startStart > fallbackStart ? arcanjo.slice(fallbackStart, startStart) : '';
+  assert.ok(fallback.includes('if (requiresNeuralVoice)'));
+  assert.ok(fallback.indexOf('if (requiresNeuralVoice)') < fallback.indexOf('setIsPlaying(true)'));
+});
