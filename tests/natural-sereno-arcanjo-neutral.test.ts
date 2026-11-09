@@ -61,3 +61,26 @@ test('Natural Sereno substitui chapas verdes do player Arcanjo por superfícies 
   assert.ok(baseCss.includes('@media (prefers-reduced-motion: reduce)'));
   assert.ok(main.indexOf("import './natural-sereno-approved-overrides.css';") > main.indexOf("import './natural-sereno.css';"));
 });
+
+
+test('player Natural Sereno usa paisagem real e microanimação neutra; os demais estilos mantêm seu canvas', () => {
+  const session = read('src/components/MeditationSession.tsx');
+  const conditionalStart = session.indexOf('{isNaturalSereno ? (');
+  const otherStylesStart = session.indexOf(') : (', conditionalStart);
+  const naturalBranch = session.slice(conditionalStart, otherStylesStart);
+  const insights = read('src/types.ts');
+  const sevenDayInsights = insights.slice(insights.indexOf('export const JOURNEY_7D_INSIGHTS'));
+
+  assert.ok(conditionalStart >= 0 && otherStylesStart > conditionalStart);
+  assert.ok(naturalBranch.includes('NeutralBodyLightProgress'));
+  assert.ok(naturalBranch.includes('/brand/natural-sereno/cachoeira.webp'));
+  assert.ok(naturalBranch.includes('lightSoft={currentStage.colorTheme.glow}'));
+  assert.ok(naturalBranch.includes('breathePhase={breathePhase}'));
+  assert.ok(!naturalBranch.includes('SacredEnergyCanvas'));
+  assert.ok(session.includes('<SacredEnergyCanvas'));
+  assert.ok(session.includes('getNaturalSerenoVisualFocus'));
+  assert.ok(session.includes('ep-session-natural-sereno-overlay'));
+  assert.doesNotMatch(sevenDayInsights, /title:\\s*"Chakra/i);
+  assert.doesNotMatch(sevenDayInsights, /jornada dos 7 chakras/i);
+  assert.match(sevenDayInsights, /title:\\s*"Segurança e Aterramento"/);
+});
