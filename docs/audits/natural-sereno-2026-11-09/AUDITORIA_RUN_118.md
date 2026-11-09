@@ -61,7 +61,7 @@ A execução anterior #2129 foi corrigida sem alterar o runtime; a nova execuç�
 ## Estado da entrega
 
 - PR #79 aberta, em rascunho e mergeable.
-- 70 commits à frente / 7 atrás da main.
+- 7 commits posteriores da main ainda precisam ser preservados na reconciliação.
 - Sem merge, publicação em produção ou cobrança real.
 - O código e os testes desta rodada estão validados; a homologação visual/auditiva/financeira permanece pendente.
 
