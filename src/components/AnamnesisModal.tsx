@@ -125,6 +125,12 @@ export default function AnamnesisModal({
   const [feedbackSubmitted, setFeedbackSubmitted] = useState<boolean>(false);
   const [is639HzActive, setIs639HzActive] = useState<boolean>(true);
   const audioPlayerRef = React.useRef<HTMLAudioElement | null>(null);
+  const is639HzActiveRef = React.useRef(is639HzActive);
+  const isEditingRef = React.useRef(isEditing);
+  const isOpenRef = React.useRef(isOpen);
+  is639HzActiveRef.current = is639HzActive;
+  isEditingRef.current = isEditing;
+  isOpenRef.current = isOpen;
 
   // Manage 639Hz Solfeggio frequency: melhora a compreensão, tolerância e relações interpessoais enquanto o usuário escolhe as respostas
   React.useEffect(() => {
@@ -153,7 +159,7 @@ export default function AnamnesisModal({
   }, [isOpen, isEditing, is639HzActive, userProfile.audioEnabled, userProfile.bgMusicType]);
 
   const handleToggle639Hz = () => {
-    if (isMisticoModerno && isPlayingTherapeuticVoice && !is639HzActive) return;
+    if (isMisticoModerno && (isPlayingTherapeuticVoice || isLoadingVoice)) return;
     if (is639HzActive) {
       audioEngine.stopBG();
       setIs639HzActive(false);
@@ -172,12 +178,14 @@ export default function AnamnesisModal({
       if (userProfile.audioEnabled && userProfile.bgMusicType && userProfile.bgMusicType !== 'none' && userProfile.bgMusicType !== '639hz') {
         audioEngine.startBG(userProfile.bgMusicType);
       }
+    } else if (isMisticoModerno && userProfile.audioEnabled && userProfile.bgMusicType && userProfile.bgMusicType !== 'none' && !/^\\d+hz$/i.test(userProfile.bgMusicType)) {
+      audioEngine.startBG(userProfile.bgMusicType);
     }
     onClose();
   };
 
   const resumeStyle4AnamnesisSolfeggio = () => {
-    if (isMisticoModerno && isOpen && isEditing && is639HzActive && audioEngine.getCurrentSynthType() !== '639hz') {
+    if (isMisticoModerno && isOpenRef.current && isEditingRef.current && is639HzActiveRef.current && audioEngine.getCurrentSynthType() !== '639hz') {
       audioEngine.setBGVolume(0.40);
       audioEngine.startBG('639hz');
     }
@@ -199,7 +207,7 @@ export default function AnamnesisModal({
 
   const playTherapeuticVoice = async (text: string, overrideGender?: 'masculina' | 'feminina') => {
     const gender = overrideGender || selectedVoiceGender;
-    if (isPlayingTherapeuticVoice) {
+    if (isPlayingTherapeuticVoice || (isMisticoModerno && isLoadingVoice)) {
       stopTherapeuticVoice();
       return;
     }
@@ -343,8 +351,9 @@ export default function AnamnesisModal({
 
   const toggleItem = (list: string[], setList: React.Dispatch<React.SetStateAction<string[]>>, item: string) => {
     audioEngine.unlock();
-    audioEngine.playHeartSelectionChime();
-    if (is639HzActive && audioEngine.getCurrentSynthType() !== '639hz') {
+    const style4VoiceOwnsAudio = isMisticoModerno && (isPlayingTherapeuticVoice || isLoadingVoice);
+    if (!style4VoiceOwnsAudio) audioEngine.playHeartSelectionChime();
+    if (is639HzActive && !style4VoiceOwnsAudio && audioEngine.getCurrentSynthType() !== '639hz') {
       audioEngine.startBG('639hz');
     }
     if (list.includes(item)) {
@@ -1106,7 +1115,8 @@ export default function AnamnesisModal({
               <button
                 type="button"
                 onClick={handleToggle639Hz}
-                className={`px-3 py-1.5 rounded-xl text-xs font-medium flex items-center gap-1.5 transition cursor-pointer border shrink-0 self-end sm:self-center ${
+                disabled={isMisticoModerno && (isPlayingTherapeuticVoice || isLoadingVoice)}
+                className={`px-3 py-1.5 rounded-xl text-xs font-medium flex items-center gap-1.5 transition cursor-pointer border shrink-0 self-end sm:self-center disabled:opacity-50 disabled:cursor-not-allowed ${
                   is639HzActive
                     ? 'bg-emerald-600/30 border-emerald-500/50 text-emerald-200 hover:bg-emerald-600/50'
                     : 'bg-[#F5EFE4] border-[#E5DAC6] text-[#5C5248] hover:text-[#2A2420]'
