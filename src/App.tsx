@@ -402,7 +402,7 @@ export default function App() {
           const data = await res.json();
           if (!active) return;
           const account = data.user;
-          localStorage.setItem(LOCAL_STORAGE_KEY_CURRENT_LOGIN, account.login);
+          try { localStorage.setItem(LOCAL_STORAGE_KEY_CURRENT_LOGIN, account.login); } catch { /* auth remains valid when storage is restricted */ }
           const pendingProfile = readPendingProfileSync(account.login);
           const profileWithPending = pendingProfile
             ? { ...account.profile, ...pendingProfile.profilePatch }
@@ -477,7 +477,7 @@ export default function App() {
   // database sync was temporarily unavailable. The server merges this patch,
   // so existing subscription/progress data is not overwritten.
   useEffect(() => {
-    if (!isLoggedIn) return;
+    if (!isLoggedIn || !userProfile) return;
     let login = '';
     try {
       login = localStorage.getItem(LOCAL_STORAGE_KEY_CURRENT_LOGIN)?.trim().toLowerCase() || '';

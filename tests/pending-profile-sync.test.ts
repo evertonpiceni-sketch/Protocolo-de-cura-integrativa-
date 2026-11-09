@@ -43,7 +43,10 @@ test('registration queues unsynced profile fields and the authenticated app retr
   assert.ok(setup.includes('clearPendingProfileSync(data.user.login)'));
   assert.ok(setup.includes('Os dados complementares ficaram salvos neste dispositivo'));
 
-  assert.ok(app.includes('setIsLoggedIn(true);'));
+  const onboardingStart = app.indexOf('const handleOnboardingComplete');
+  const sessionStart = app.indexOf('// Complete a meditation session', onboardingStart);
+  const onboarding = onboardingStart >= 0 && sessionStart > onboardingStart ? app.slice(onboardingStart, sessionStart) : '';
+  assert.ok(onboarding.includes('setIsLoggedIn(true);'), 'login/cadastro precisa ativar a sessão autenticada sem recarregar a página');
   assert.ok(app.includes('readPendingProfileSync(account.login)'));
   assert.ok(app.includes('syncUserState({ profile: pending.profilePatch })'));
   assert.ok(app.includes("window.addEventListener('online', flushPendingProfileSync)"));
