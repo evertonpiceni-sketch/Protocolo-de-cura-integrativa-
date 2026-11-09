@@ -42,8 +42,8 @@ test('Místico Moderno uses the saved neural voice in every narration entry poin
 test('Style 4 never starts Arcanjo Solfeggio before the neural narration begins', () => {
   const arcanjo = read('src/components/ArcanjoProtocolView.tsx');
   const start = arcanjo.slice(arcanjo.indexOf('const start ='), arcanjo.indexOf('const togglePlayback'));
-  assert.match(start, /if \(!isMisticoModerno\) audioEngine\.startSynth/);
-  assert.match(start, /onStart: \(\) => \{[\s\S]*?audioEngine\.startSynth/);
+  assert.match(start, /if \(!isMisticoModerno\) startArcanjoOwnedSolfeggio/);
+  assert.match(start, /onStart: \(\) => \{[\s\S]*?startArcanjoOwnedSolfeggio/);
   assert.match(start, /onPause: \(\) => \{[\s\S]*?audioEngine\.stopSynth/);
   assert.match(start, /if \(isEleganciaProfunda \|\| isEssenciaLuminosa \|\| isMisticoModerno\)[\s\S]*?audioEngine\.stopSynth/);
   assert.match(arcanjo, /const resetPlayback = \(\) => \{[\s\S]*?audioEngine\.stopSynth/);
@@ -132,7 +132,7 @@ test('Style 4 resumes Arcanjo Solfeggio only after the neural audio actually pla
   const arcanjo = read('src/components/ArcanjoProtocolView.tsx');
   const start = arcanjo.slice(arcanjo.indexOf('const start ='), arcanjo.indexOf('const togglePlayback'));
   const resume = arcanjo.slice(arcanjo.indexOf('const togglePlayback'), arcanjo.indexOf('const selectDay'));
-  assert.match(start, /onStart: \(\) => \{[\s\S]*?audioEngine\.startSynth[\s\S]*?setIsPlaying\(true\)/);
+  assert.match(start, /onStart: \(\) => \{[\s\S]*?startArcanjoOwnedSolfeggio[\s\S]*?setIsPlaying\(true\)/);
   assert.match(resume, /audioEngine\.resumeSpeech\(\);\s*if \(!isMisticoModerno\)/);
   assert.doesNotMatch(resume, /audioEngine\.resumeSpeech\(\);\s*audioEngine\.startSynth/);
 });
