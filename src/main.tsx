@@ -71,7 +71,6 @@ import './lib/audioIntegrityPatch';
 import './lib/arcanjoAudioOwnershipPatch';
 import './lib/naturalSerenoOfficialVoicePatch';
 import './lib/essenciaLuminosaOfficialVoicePatch';
-import './lib/misticoModernoOfficialVoicePatch';
 import './lib/reintegrationPublicNarrationPatch';
 import './lib/backgroundMediaPatch';
 import './lib/noDecorativeEmojiPatch';
