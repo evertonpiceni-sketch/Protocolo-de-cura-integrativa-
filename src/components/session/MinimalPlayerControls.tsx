@@ -76,7 +76,7 @@ export const MinimalPlayerControls: React.FC<MinimalPlayerControlsProps> = ({
             aria-valuetext="Duração ainda não disponível"
             className="relative h-2 w-full overflow-hidden rounded-full bg-[#E5DAC6]"
           >
-            <div className="absolute inset-y-0 left-0 w-1/3 animate-pulse rounded-full bg-gradient-to-r from-[#B88736]/15 via-[#D4AF37]/55 to-[#B88736]/15" />
+            <div className="absolute inset-y-0 left-0 w-1/3 animate-pulse motion-reduce:animate-none rounded-full bg-gradient-to-r from-[#B88736]/15 via-[#D4AF37]/55 to-[#B88736]/15" />
           </div>
         )}
 
