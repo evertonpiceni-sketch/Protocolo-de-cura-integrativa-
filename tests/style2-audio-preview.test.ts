@@ -86,3 +86,13 @@ test('o player informa o estado real do Solfeggio no Arcanjo', () => {
   assert.ok(arcanjo.includes('role="status" aria-live="polite"'));
   assert.ok(arcanjo.includes('audioEngine.resumeSpeech();\n    if (!requiresNeuralVoice) {\n      playProtocolFrequency();\n      setIsPlaying(true);\n    }'));
 });
+
+
+test('pausar a narração neural do Arcanjo restaura Solfeggio apenas pelo evento onpause', () => {
+  const arcanjo = read('src/components/ArcanjoProtocolView.tsx');
+  const pauseBranch = arcanjo.match(/if \(isPlaying\) \{([\\s\\S]*?)\\n    \}/)?.[1] ?? '';
+  assert.ok(pauseBranch.includes('audioEngine.pauseSpeech();'));
+  assert.ok(!pauseBranch.includes('playProtocolFrequency()'), 'O botão não deve reiniciar a frequência além do callback de pausa.');
+  assert.ok(arcanjo.includes('onPause: () => {'));
+  assert.ok(arcanjo.includes('if (requiresNeuralVoice) playProtocolFrequency();'));
+});
