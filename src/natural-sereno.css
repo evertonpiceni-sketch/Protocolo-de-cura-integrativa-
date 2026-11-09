@@ -282,7 +282,7 @@
 :root[data-layout="natural-sereno"] #meditation-session .ep-acceptance-portal > div { color: var(--ns-ink) !important; background: rgba(250, 247, 242, .96) !important; border: 1px solid rgba(200,157,82,.36) !important; border-radius: 16px !important; box-shadow: 0 12px 40px rgba(0, 29, 17, .2) !important; padding: 28px 22px; }
 :root[data-layout="natural-sereno"] #meditation-session .ep-acceptance-portal :is(h2, p) { color: var(--ns-ink) !important; }
 :root[data-layout="natural-sereno"] #meditation-session .ep-acceptance-portal .bg-\[\#F4EFE6\] { background: #F5EFE5 !important; }
-:root[data-layout="natural-sereno"] #meditation-session .ep-acceptance-portal button:last-child { border-radius: 24px; background: linear-gradient(180deg, #E2B96B, #A87E37) !important; }
+:root[data-layout="natural-sereno"] #meditation-session .ep-acceptance-portal button:last-child { border-radius: 18px; background: linear-gradient(180deg, #E2B96B, #A87E37) !important; }
 @media (min-width: 640px) {
   :root[data-layout="natural-sereno"] .ns-app { border-left: 1px solid var(--ns-line); border-right: 1px solid var(--ns-line); }
   :root[data-layout="natural-sereno"] :is(#anamnesis-modal, #courses-modal) { padding: 24px; }
