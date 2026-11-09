@@ -76,3 +76,10 @@
   color: var(--layout-text) !important;
   border-color: var(--layout-gold-border) !important;
 }
+
+ 
+/* O símbolo do Raio Rosa mantém o significado da etapa sem introduzir rosa
+   como cor dominante fora da paleta aprovada do Estilo 3. */
+:root[data-layout="essencia-luminosa"] [aria-label="Celebração de progresso"] [class*="text-rose-"] {
+  color: var(--layout-accent) !important;
+}
