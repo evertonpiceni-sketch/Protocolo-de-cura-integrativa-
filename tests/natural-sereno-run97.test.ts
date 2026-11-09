@@ -262,3 +262,29 @@ test('Anamnese e planos Natural Sereno usam creme, café e dourado refinado, sem
   assert.ok(refinement.includes('rgba(200,157,82,.30)'));
   assert.ok(base.includes('#plans-modal [class*="bg-violet"] { background: #FBF8F2;'));
 });
+
+
+test('planos, checkout e páginas secundárias respeitam a paleta Natural Sereno sem alterar a lógica financeira', () => {
+  const approved = read('src/natural-sereno-approved-overrides.css');
+  const plans = read('src/components/ProUpgradeModal.tsx');
+  const baths = read('src/components/HerbalBathsModal.tsx');
+  const astral = read('src/components/AstralMapModal.tsx');
+  const numerology = read('src/components/NumerologyModal.tsx');
+
+  assert.ok(plans.includes('id="plans-modal"'));
+  assert.ok(approved.includes(':root[data-layout="natural-sereno"] #plans-modal > div {'));
+  assert.ok(approved.includes('#plans-modal article button:last-child'));
+  assert.ok(approved.includes('#plans-modal #checkout-planos button[data-benefit-choice][aria-pressed="true"]'));
+  assert.ok(approved.includes('background:linear-gradient(180deg,#E2B96B 0%,#C89D52 100%)!important;'));
+
+  assert.ok(baths.includes('id="herbal-baths-modal"'));
+  assert.ok(approved.includes(':root[data-layout="natural-sereno"] #herbal-baths-modal'));
+  assert.ok(approved.includes(':root[data-layout="natural-sereno"] #astral-map-modal'));
+  assert.ok(approved.includes(':root[data-layout="natural-sereno"] #numerology-modal'));
+  assert.ok(astral.includes('bg-amber-50/70'));
+  assert.ok(numerology.includes('bg-amber-50'));
+
+  assert.ok(plans.includes('requiresBenefitChoice ? benefitChoice || undefined : undefined'));
+  assert.ok(plans.includes('onUpgradeSuccess(selectedPlan.id, paymentMethod, finalPrice'));
+  assert.ok(plans.includes('INICIAR PAGAMENTO SEGURO'));
+});
