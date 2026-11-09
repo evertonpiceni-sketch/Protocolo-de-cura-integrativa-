@@ -26,9 +26,12 @@ Base auditada: `41724715950186ba1715b61e1e921a2dcd30a7d6`
 
 ## Validação técnica
 
-- A última CI anterior à correção passou com 153 testes, npm audit sem vulnerabilidades, TypeScript e build aprovados (run `42564687773`, commit base `41724715950186ba1715b61e1e921a2dcd30a7d6`).
-- A primeira CI do commit inicial da correção encontrou duas asserções antigas excessivamente amplas: elas proibiam `var(--ep-scene)` em todo o CSS, inclusive no acolhimento que agora deve usar a fotografia, e não isolavam a regra específica do player.
-- Corrigidos os testes para validar a fotografia no bloco de acolhimento e verificar separadamente que o backdrop do player não consome a cena global. A nova CI deste commit precisa concluir antes de declarar a validação final.
+- CI final do código corrigido: run `42575326307`, commit `166ac80d920b90cd5f694aca0e33c81060a0dfb3` — concluída com sucesso.
+- 154 testes aprovados, 0 falhas.
+- `npm audit`: sem vulnerabilidades.
+- TypeScript, build Vite, verificações de segurança/autenticação, smoke tests e endpoints de pagamento aprovados.
+- A primeira CI do commit de implementação (`42575154567`) encontrou duas asserções antigas excessivamente amplas: elas proibiam `var(--ep-scene)` em todo o CSS e não isolavam a regra específica do player.
+- Corrigidos os testes para validar a fotografia no bloco de acolhimento e verificar separadamente que o backdrop do player não consome a cena global. A segunda execução confirmou a correção.
 
 ## Pendente
 
@@ -42,6 +45,7 @@ Base auditada: `41724715950186ba1715b61e1e921a2dcd30a7d6`
 ## Publicação
 
 - A última implantação de produção associada ao `main` disponível no histórico consultado corresponde ao commit `801755b6dba612b9168ea4f2bc24ce678f86d115` e terminou em `ERROR / BUILD_FAILED / Resource provisioning failed`.
+- O deployment do commit corrigido `166ac80d920b90cd5f694aca0e33c81060a0dfb3` também terminou em `ERROR / BUILD_FAILED / Resource provisioning failed` (deployment `dpl_8iPWrqKNTqKTmNcfcNfRDE7khQKT`).
 - O HEAD base `41724715950186ba1715b61e1e921a2dcd30a7d6` não possui deployment válido identificado.
 - A Vercel também mostra falhas de provisionamento em deployments recentes de outras branches; esses registros não foram tratados como alterações do Estilo 2.
 - Eventos detalhados de build retornaram vazios. Nenhuma configuração financeira ou de plano foi alterada.
@@ -51,4 +55,4 @@ Conclusão: a fotografia de natureza agora também aparece no acolhimento inicia
 
 ## Ajuste de testes após a primeira CI
 
-A execução `42575154567` executou 154 testes: 152 passaram e 2 falharam por asserções de escopo antigas, não por falha de build ou TypeScript. As duas asserções foram atualizadas para distinguir a cena do acolhimento da cena própria do player. A execução seguinte deve confirmar o resultado final.
+A execução `42575154567` executou 154 testes: 152 passaram e 2 falharam por asserções de escopo antigas, não por falha de build ou TypeScript. As duas asserções foram atualizadas para distinguir a cena do acolhimento da cena própria do player. A execução seguinte, `42575326307`, passou com 154/154 testes e build aprovado.
