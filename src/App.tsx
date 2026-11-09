@@ -275,7 +275,9 @@ export default function App() {
 
       if (shouldPlay) {
         audioEngine.startBG(userProfile.bgMusicType);
-      } else {
+      } else if (!showArcanjoView) {
+        // OPEN_PROTOCOL_DAY and the Arcanjo ownership guard stop global audio on entry.
+        // Do not stop the protocol-owned Solfeggio on unrelated profile changes.
         audioEngine.stopBG();
       }
     } else {
