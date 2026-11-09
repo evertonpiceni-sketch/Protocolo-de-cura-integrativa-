@@ -139,7 +139,7 @@
 }
 
 :root[data-layout="natural-sereno"] #anamnesis-modal #anamnesis-feedback-area [class*="text-emerald"] {
-  color: #315d3d !important;
+  color: #5E6948 !important;
 }
 
 :root[data-layout="natural-sereno"] #anamnesis-modal button {
@@ -154,13 +154,13 @@
 }
 
 :root[data-layout="natural-sereno"] #anamnesis-modal [class*="bg-amber-50"] {
-  background: #fbf3dc !important;
-  border-color: #dcc58b !important;
+  background: #FBF8F2 !important;
+  border-color: rgba(200,157,82,.30) !important;
 }
 
 :root[data-layout="natural-sereno"] #anamnesis-modal [class*="text-amber-9"],
 :root[data-layout="natural-sereno"] #anamnesis-modal [class*="text-amber-8"] {
-  color: #6e5620 !important;
+  color: #8F631E !important;
 }
 
 @media (max-width: 639px) {
