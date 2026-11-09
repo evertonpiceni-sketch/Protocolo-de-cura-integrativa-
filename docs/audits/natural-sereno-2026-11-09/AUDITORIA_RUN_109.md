@@ -3,7 +3,7 @@
 **Data:** 09/11/2026  
 **Projeto:** `evertonpiceni-sketch/Protocolo-de-cura-integrativa-`  
 **Branch:** `audit/natural-sereno-run97-mainline-2026-11-08`  
-**HEAD de código/testes:** `8680afc6d78774b4802e3a4f2844d84116ff65cf`  
+**HEAD de código/testes:** `b0f62173f534d3dd4da3bf8fc7512c9288352fed`  
 **PR:** #74 — aberta, draft, não mergeable.
 
 ## Corrigido nesta rodada
@@ -50,6 +50,7 @@ A revisão independente da PR #74 havia deixado três apontamentos abertos. Os t
 - Diário, campos opcionais, seis etapas do player, animações, Media Session e respiração 4–3–5.
 - InfinitePay, preços, cupons, validação server-side e confirmação financeira; nenhuma regra comercial foi modificada.
 - Identidades visuais dos Estilos 2, 3 e 4; nenhuma tela deles foi redesenhada.
+- Assertions de pré-seleção neutra da auditoria mais recente da Elegância Profunda foram incorporadas ao teste compartilhado; os guardrails de voz mais abrangentes do Estilo 1 + Estilos 2/3 foram mantidos.
 
 ## Reauditoria e limitações
 
