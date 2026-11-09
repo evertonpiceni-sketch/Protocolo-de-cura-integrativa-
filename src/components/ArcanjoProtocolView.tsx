@@ -282,9 +282,9 @@ export default function ArcanjoProtocolView({ userProfile, onClose, onLogout, in
       setIsPlaying(false);
       return;
     }
+    // The narration's onStart callback fires from the audio element's actual onplay event.
+    // It also restarts Solfeggio after a pause; never start the frequency optimistically here.
     audioEngine.resumeSpeech();
-    audioEngine.startSynth(`${config.freq}hz`);
-    setIsPlaying(true);
   };
 
   const selectDay = (day: number) => {
