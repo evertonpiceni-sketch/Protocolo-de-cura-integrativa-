@@ -1192,17 +1192,24 @@ export default function App() {
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                   {OFFICIAL_LAYOUTS.map(layout => {
                     const selected = layoutConfirmedThisSession && userProfile.visualLayout === layout.id;
+                    const isNaturalSerenoChoice = layout.id === 'natural-sereno';
+                    const choiceFocusRing = isNaturalSerenoChoice
+                      ? 'focus-visible:ring-[#C89D52]/35'
+                      : 'focus-visible:ring-[#B88736]/35';
+                    const choiceSelection = isNaturalSerenoChoice
+                      ? selected
+                        ? 'border-[#C89D52] bg-[#C89D52]/8 shadow-sm'
+                        : 'border-[#E8E0D5] bg-white/80 hover:border-[#C89D52]/45'
+                      : selected
+                        ? 'border-[#B88736] bg-[#B88736]/8 shadow-sm'
+                        : 'border-[#E5DAC6] bg-white/80 hover:border-[#B88736]/45';
                     return (
                       <button
                         key={layout.id}
                         type="button"
                         aria-pressed={selected}
                         onClick={() => setLayoutChoiceRequested(true)}
-                        className={`ep-layout-choice min-h-24 rounded-2xl border p-4 text-left transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B88736]/35 ${
-                          selected
-                            ? 'border-[#B88736] bg-[#B88736]/8 shadow-sm'
-                            : 'border-[#E5DAC6] bg-white/80 hover:border-[#B88736]/45'
-                        }`}
+                        className={`ep-layout-choice min-h-24 rounded-2xl border p-4 text-left transition focus-visible:outline-none focus-visible:ring-2 ${choiceFocusRing} ${choiceSelection}`}
                       >
                         <div className="flex items-center justify-between gap-3">
                           <span className="text-sm font-semibold text-[#2A2420]">{layout.name}</span>
