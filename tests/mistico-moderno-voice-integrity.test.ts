@@ -167,6 +167,17 @@ test('Style 4 selector displays the official board thumbnail from the exact refe
   assert.ok(image.byteLength > 10000, 'The official Style 4 board thumbnail must be present.');
 });
 
+test('Style 4 home actions and dock stay within the night palette', () => {
+  const home = read('src/components/TransformationHome.tsx');
+  const css = read('src/mistico-moderno-final-audit.css');
+  assert.match(home, /id="journey-choices"/);
+  assert.match(home, /className="ep-home-dock[\s\S]*?bg-white\/88/);
+  assert.match(css, /:root\[data-layout="mistico-moderno"\] \.ep-home #journey-choices > button/);
+  assert.match(css, /:root\[data-layout="mistico-moderno"\] \.ep-home \.ep-home-dock/);
+  assert.match(css, /background: linear-gradient\(145deg, rgba\(20,31,48/);
+  assert.match(css, /color: var\(--text-primary\) !important/);
+});
+
 test('Arcanjo opens only after explicit navigation or successful 7-day checkout', () => {
   const app = read('src/App.tsx');
   const globalAudioSection = app.slice(
