@@ -34,7 +34,7 @@ function LayoutPreview({ layout }: { layout: LayoutDefinition }) {
             decoding="async"
             draggable={false}
             className="absolute inset-0 h-full w-full object-cover"
-            style={{ objectPosition: 'center 55%' }}
+            style={{ objectPosition: 'center 35%' }}
           />
           <div className="absolute inset-0 bg-gradient-to-t from-[#FAF7F2] via-[#FAF7F2]/35 to-transparent" />
           <span className="absolute left-3 top-3 rounded-lg border border-[#E8E0D5] bg-[#FAF7F2]/90 px-2 py-1 text-[8px] font-semibold uppercase tracking-[.14em] text-[#6B625B]">
