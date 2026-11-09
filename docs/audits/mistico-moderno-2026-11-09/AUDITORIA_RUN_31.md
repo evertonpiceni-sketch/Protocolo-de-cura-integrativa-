@@ -30,8 +30,9 @@ A branch do Místico Moderno estava **67 commits à frente e 1 atrás da main**,
 
 ## Reauditoria técnica
 
-- Última CI completa disponível antes desta reconciliação: Security Audit #42677226091 — 186 testes aprovados, zero falhas, zero vulnerabilidades; TypeScript, build, segurança, smoke tests e endpoints financeiros fail-closed aprovados.
-- A nova CI do merge commit desta rodada precisa concluir antes de declarar a branch validada.
+- Última CI completa aprovada antes desta reconciliação: Security Audit #42677226091 — 186 testes aprovados, zero falhas, zero vulnerabilidades; TypeScript, build, segurança, smoke tests e endpoints financeiros fail-closed aprovados.
+- As primeiras execuções da reconciliação identificaram expectativas antigas nos testes do Solfeggio do Estilo 4 e uma duplicação de testes visuais na suíte de áudio. As asserções foram atualizadas para a política de ownership atual e os testes visuais ficaram apenas na suíte de auditoria do Estilo 2; nenhuma verificação foi removida.
+- A CI do HEAD atualizado precisa concluir antes de declarar a branch validada.
 - A prévia Vercel continua sem deployment READY; a execução anterior falhou por provisionamento/limite de deployments. Não foi forçada nova publicação.
 
 ## Referência visual
