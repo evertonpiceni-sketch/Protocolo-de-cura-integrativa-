@@ -3,7 +3,7 @@
 **Data:** 09/11/2026  
 **Projeto:** `evertonpiceni-sketch/Protocolo-de-cura-integrativa-`  
 **Branch:** `audit/natural-sereno-run97-mainline-2026-11-08`  
-**HEAD de código/testes:** `ef9b95e0e75fc356d8358268aa083eafdad3b4c0`  
+**HEAD de código/testes:** `1a4bc679b23207caae2a152306cf2d5be7cb3be0`  
 **PR:** #74 — aberta, draft, não mergeable.
 
 ## Achado crítico corrigido — P1: identidade da conta ausente
@@ -55,13 +55,21 @@ A revisão independente encontrou um risco real de isolamento entre contas. O en
 
 ## Reauditoria e limitações
 
-- A inspeção de conteúdo confirmou que os cinco arquivos alterados contêm as novas proteções e que o fallback inseguro foi removido.
-- **Não há execução de CI associada ao HEAD desta rodada.** Não declaro testes, TypeScript ou build aprovados.
-- O status externo disponível continua sendo Vercel `build-rate-limit`; não há preview READY.
-- A tentativa de clonar o repositório para rodar a suíte local falhou por indisponibilidade de resolução DNS de `github.com` neste ambiente.
-- Capturas renderizadas página a página em desktop/mobile e escuta real da voz, Solfeggio e ambiência permanecem pendentes.
+Validação executada em sandbox isolado Vercel, Node 22, no HEAD de código/testes `1a4bc679b23207caae2a152306cf2d5be7cb3be0`:
+
+- `npm test`: **201/201 aprovados**.
+- `npm run lint`: `tsc --noEmit` aprovado, sem erros.
+- `npm run build`: Vite + esbuild aprovados; **2.250 módulos transformados**.
+- `npm audit --audit-level=low`: **zero vulnerabilidades**.
+- Integração HTTP isolada de `/api/user/sync`: cookie da conta B com identidade/payload da conta A retornou **403 ACCOUNT_SESSION_MISMATCH**; gravação da própria conta retornou **200**; perfil sem login retornou **403**. Nenhum dado ou usuário de produção foi usado.
+
+A suíte e o build geraram apenas o aviso não bloqueante de chunk JavaScript acima de 500 kB. A execução local em sandbox não substitui um check oficial de CI.
+
+- **GitHub Actions:** não há execução associada ao HEAD; o status externo disponível continua sendo Vercel `build-rate-limit`.
+- **Vercel Preview:** sem preview READY; capturas renderizadas página a página em desktop/mobile continuam pendentes.
+- Escuta real da voz, Solfeggio e ambiência permanece pendente.
 - Checkout, confirmação e webhook InfinitePay em sandbox permanecem pendentes.
-- A revisão independente do novo HEAD foi solicitada; o apontamento P1 permanece aberto até parecer verificável.
-- A branch está **137 commits à frente e 20 atrás** da `main`. Não fiz merge automático: a reconciliação precisa preservar as decisões posteriores dos Estilos 2/3/4 e não reintroduzir tokens antigos do Natural Sereno.
+- A revisão independente do novo HEAD foi solicitada, mas o Codex informou limite de uso para revisões. O apontamento P1 continua aberto até parecer independente verificável.
+- A branch está **149 commits à frente e 20 atrás** da `main`. Não fiz merge automático: a reconciliação precisa preservar as decisões posteriores dos Estilos 2/3/4 e não reintroduzir tokens antigos do Natural Sereno.
 
 **Sem merge, publicação em produção ou cobrança real.**
