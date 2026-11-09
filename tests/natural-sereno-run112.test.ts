@@ -61,3 +61,13 @@ test('Arcanjo interrompe a sequência e expõe erro quando um bloco neural falha
   assert.ok(handler.includes('setVoiceError(true)'));
   assert.ok(handler.includes('setIsPlaying(false)'));
 });
+
+test('cross-tab account changes invalidate a stale private view', () => {
+  const authSession = readFileSync(new URL('../src/lib/authSession.ts', import.meta.url), 'utf8');
+  assert.match(authSession, /shouldReloadForAccountChange/);
+  assert.match(authSession, /changedStorageKey !== null && changedStorageKey !== CURRENT_LOGIN_STORAGE_KEY/);
+  assert.match(authSession, /currentLogin !== normalizeAccountLogin\(nextStoredLogin\)/);
+  assert.match(app, /window\.addEventListener\('storage', handleAccountStorageChange\)/);
+  assert.match(app, /window\.location\.reload\(\)/);
+  assert.match(app, /audioEngine\.stopSpeech\(\)[\s\S]*audioEngine\.stopBG\(\)[\s\S]*setNeuralVoicePreviewActive\(false\)/);
+});
