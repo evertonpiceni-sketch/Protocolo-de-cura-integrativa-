@@ -388,3 +388,38 @@ test('Solfeggio do Arcanjo só começa no onStart da narração neural', () => {
   assert.ok(onStart.includes('setIsPlaying(true)'));
   assert.ok(startBlock.includes('audioEngine.stopSynth();'));
 });
+
+
+test('Solfeggio só retoma quando a narração neural realmente dispara onplay', () => {
+  const arcanjo = read('src/components/ArcanjoProtocolView.tsx');
+  const audio = read('src/lib/audio.ts');
+  const toggleStart = arcanjo.indexOf('const togglePlayback = () => {');
+  const selectDay = arcanjo.indexOf('const selectDay = (day: number) => {', toggleStart);
+  const toggle = toggleStart >= 0 && selectDay > toggleStart
+    ? arcanjo.slice(toggleStart, selectDay)
+    : '';
+
+  assert.ok(toggle.includes('audioEngine.resumeSpeech();'));
+  assert.doesNotMatch(
+    toggle.slice(toggle.indexOf('audioEngine.resumeSpeech();')),
+    /audioEngine\.startSynth\(|setIsPlaying\(true\)/,
+    'O caminho de retomada não pode iniciar a frequência antes da narração.',
+  );
+
+  const startIndex = arcanjo.indexOf('const start = () => {');
+  const startBlock = startIndex >= 0 && toggleStart > startIndex
+    ? arcanjo.slice(startIndex, toggleStart)
+    : '';
+  const onStartIndex = startBlock.indexOf('onStart: () => {');
+  const onPauseIndex = startBlock.indexOf('onPause: () => {', onStartIndex);
+  const onStart = onStartIndex >= 0 && onPauseIndex > onStartIndex
+    ? startBlock.slice(onStartIndex, onPauseIndex)
+    : '';
+  assert.ok(onStart.includes('audioEngine.startSynth('));
+  assert.ok(onStart.includes('setIsPlaying(true)'));
+
+  const guidedPlayback = audio.slice(audio.indexOf('public async playGuidedMeditation('));
+  assert.ok(guidedPlayback.includes('audio.onplay = () => {'));
+  assert.ok(guidedPlayback.includes('options.onStart?.();'));
+  assert.ok(audio.includes('this.voiceAudioElement.play().catch(() => {});'));
+});
