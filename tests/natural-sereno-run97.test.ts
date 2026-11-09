@@ -380,51 +380,49 @@ test('tokens de origem do Natural Sereno não recuperam verde profundo nem a cen
   assert.doesNotMatch(scene, /reintegracao-presenca-arte|rgba\(6,42,31|rgba\(5,35,26/);
 });
 
-test('Solfeggio do Arcanjo só começa no onStart da narração neural', () => {
+
+test('Solfeggio do Arcanjo fica suspenso enquanto a narração neural está ativa', () => {
   const arcanjo = read('src/components/ArcanjoProtocolView.tsx');
   const startIndex = arcanjo.indexOf('const start = () => {');
   const toggleIndex = arcanjo.indexOf('const togglePlayback = () => {', startIndex);
   const startBlock = startIndex >= 0 && toggleIndex > startIndex ? arcanjo.slice(startIndex, toggleIndex) : '';
   const onStartIndex = startBlock.indexOf('onStart: () => {');
   const onPauseIndex = startBlock.indexOf('onPause: () => {', onStartIndex);
-  const beforeNarration = onStartIndex >= 0 ? startBlock.slice(0, onStartIndex) : startBlock;
   const onStart = onStartIndex >= 0 && onPauseIndex > onStartIndex ? startBlock.slice(onStartIndex, onPauseIndex) : '';
+  const onPause = onPauseIndex >= 0 ? startBlock.slice(onPauseIndex, startBlock.indexOf('onTimeUpdate:', onPauseIndex)) : '';
   assert.ok(startBlock.includes('audioEngine.unlock();'));
-  assert.doesNotMatch(beforeNarration, /audioEngine\.startSynth\(/);
-  assert.ok(onStart.includes('audioEngine.startSynth(`' + '${config.freq}hz' + '`)'));
+  assert.ok(onStart.includes('stopSolfeggio();'));
+  assert.doesNotMatch(onStart, /audioEngine\.startSynth\(|startSolfeggio\(/);
   assert.ok(onStart.includes('setIsPlaying(true)'));
-  assert.ok(startBlock.includes('audioEngine.stopSynth();'));
+  assert.ok(onPause.includes('startSolfeggio();'));
 });
 
 
-test('Solfeggio só retoma quando a narração neural realmente dispara onplay', () => {
+test('Solfeggio retoma após pausa, conclusão ou falha; a retomada da voz o interrompe antes do onplay', () => {
   const arcanjo = read('src/components/ArcanjoProtocolView.tsx');
   const audio = read('src/lib/audio.ts');
   const toggleStart = arcanjo.indexOf('const togglePlayback = () => {');
   const selectDay = arcanjo.indexOf('const selectDay = (day: number) => {', toggleStart);
-  const toggle = toggleStart >= 0 && selectDay > toggleStart
-    ? arcanjo.slice(toggleStart, selectDay)
-    : '';
+  const toggle = toggleStart >= 0 && selectDay > toggleStart ? arcanjo.slice(toggleStart, selectDay) : '';
 
-  assert.ok(toggle.includes('audioEngine.resumeSpeech();'));
-  assert.doesNotMatch(
-    toggle.slice(toggle.indexOf('audioEngine.resumeSpeech();')),
-    /audioEngine\.startSynth\(|setIsPlaying\(true\)/,
-    'O caminho de retomada não pode iniciar a frequência antes da narração.',
-  );
+  assert.ok(toggle.includes('stopSolfeggio();'));
+  assert.ok(toggle.indexOf('stopSolfeggio();') < toggle.indexOf('audioEngine.resumeSpeech();'));
 
   const startIndex = arcanjo.indexOf('const start = () => {');
-  const startBlock = startIndex >= 0 && toggleStart > startIndex
-    ? arcanjo.slice(startIndex, toggleStart)
-    : '';
+  const startBlock = startIndex >= 0 && toggleStart > startIndex ? arcanjo.slice(startIndex, toggleStart) : '';
   const onStartIndex = startBlock.indexOf('onStart: () => {');
   const onPauseIndex = startBlock.indexOf('onPause: () => {', onStartIndex);
-  const onStart = onStartIndex >= 0 && onPauseIndex > onStartIndex
-    ? startBlock.slice(onStartIndex, onPauseIndex)
-    : '';
-  assert.ok(onStart.includes('audioEngine.startSynth('));
+  const onStart = onStartIndex >= 0 && onPauseIndex > onStartIndex ? startBlock.slice(onStartIndex, onPauseIndex) : '';
+  assert.ok(onStart.includes('stopSolfeggio();'));
+  assert.doesNotMatch(onStart, /audioEngine\.startSynth\(|startSolfeggio\(/);
   assert.ok(onStart.includes('setIsPlaying(true)'));
 
+  const completionStart = arcanjo.indexOf('const complete = () => {');
+  const completionEnd = arcanjo.indexOf('const startNativeFallback =', completionStart);
+  const completion = completionStart >= 0 && completionEnd > completionStart ? arcanjo.slice(completionStart, completionEnd) : '';
+  assert.ok(completion.includes('startSolfeggio();'));
+
+  assert.ok(startBlock.includes('startSolfeggio();'), 'A falha neural deve devolver o controle ao Solfeggio quando o áudio está habilitado.');
   const guidedPlayback = audio.slice(audio.indexOf('public async playGuidedMeditation('));
   assert.ok(guidedPlayback.includes('audio.onplay = () => {'));
   assert.ok(guidedPlayback.includes('options.onStart?.();'));
