@@ -237,7 +237,8 @@ test('a narração do Estilo 2 usa IDs ElevenLabs válidos e não cai na voz do 
   assert.ok(session.includes("activeLayout === 'elegancia-profunda' && !style2VoiceId"));
   assert.ok(anamnesis.includes('fallbackToSpeechSynthesis: false'));
   assert.ok(hooponopono.includes('fallbackToSpeechSynthesis: !(isEleganciaProfunda || isEssenciaLuminosa)'));
-  assert.ok(arcanjo.includes('requireExplicitVoiceId: isEleganciaProfunda || isEssenciaLuminosa'));
+  assert.ok(arcanjo.includes('const requiresNeuralVoice = isNaturalSereno || isEleganciaProfunda || isEssenciaLuminosa;'));
+  assert.ok(arcanjo.includes('requireExplicitVoiceId: requiresNeuralVoice'));
   assert.ok(audio.includes('requireExplicitVoiceId?: boolean'));
   assert.ok(audio.includes('if (options.requireExplicitVoiceId && !isElevenLabsVoiceId(options.voiceId))'));
   assert.ok(systemic.includes('fallbackToSpeechSynthesis: false'));
