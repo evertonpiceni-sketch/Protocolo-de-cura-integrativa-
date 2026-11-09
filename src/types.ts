@@ -628,7 +628,7 @@ export const JOURNEY_7D_INSIGHTS: DailyInsight[] = [
     title: "Integração e Presença",
     description: "Integração simbólica dos 7 centros de força, cascata de ouro líquido do cosmos e celebração da soberania espiritual.",
     focus: "Contemplar a comunhão com a Fonte Criadora e receber simbolicamente a bênção de encerramento da jornada.",
-    quote: "Você completou esta jornada. Leve sua luz, sua autonomia e a intenção de paz para os próximos passos."
+    quote: "Você completou esta jornada. Leve sua luz, sua autonomia e a intenção de paz para os próximos passos.",
     quoteAuthor: "Éverton Rodrigo Piceni"
   }
 ];
