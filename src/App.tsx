@@ -23,7 +23,7 @@ import { APPROVED_LOGO_DATA_URI } from './components/ApprovedBrand';
 
 import { calculateAstralMap } from './utils/astrology';
 import { audioEngine, OFFICIAL_PROTOCOL_VOICE_ID } from './lib/audio';
-import { CURRENT_LOGIN_STORAGE_KEY, clearCurrentAccountLogin, setCurrentAccountLogin } from './lib/authSession';
+import { CURRENT_LOGIN_STORAGE_KEY, clearCurrentAccountLogin, getCurrentAccountLogin, setCurrentAccountLogin } from './lib/authSession';
 import { syncUserState } from './lib/userSync';
 import { clearPendingProfileSync, readPendingProfileSync } from './lib/pendingProfileSync';
 import { shouldPlayProtocolSessionBackground } from './lib/protocolSessionAudioPolicy';
@@ -511,7 +511,10 @@ export default function App() {
 
   const updateLocalAccountCache = (profileToCache: UserProfile, progressToCache: DayProgress[]) => {
     try {
-      const localLogin = profileToCache.login || localStorage.getItem(LOCAL_STORAGE_KEY_CURRENT_LOGIN);
+      const activeLogin = getCurrentAccountLogin();
+      const profileLogin = profileToCache.login?.trim().toLowerCase() || null;
+      if (activeLogin && profileLogin && activeLogin !== profileLogin) return;
+      const localLogin = profileLogin || activeLogin;
       if (!localLogin) return;
       const rawAccounts = localStorage.getItem(LOCAL_STORAGE_KEY_ACCOUNTS);
       const accounts: UserAccount[] = rawAccounts ? JSON.parse(rawAccounts) : [];
@@ -529,7 +532,6 @@ export default function App() {
       if (index >= 0) accounts[index] = cachedAccount;
       else accounts.push(cachedAccount);
       localStorage.setItem(LOCAL_STORAGE_KEY_ACCOUNTS, JSON.stringify(accounts));
-      localStorage.setItem(LOCAL_STORAGE_KEY_CURRENT_LOGIN, localLogin);
     } catch (error) {
       console.warn('Local profile cache update failed', error);
     }
