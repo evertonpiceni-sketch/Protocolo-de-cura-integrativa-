@@ -410,14 +410,19 @@ test('Místico Moderno neutraliza a névoa sálvia global sem remover o esmerald
 
 test('Místico Moderno Arcanjo status identifies neural narration with concurrent Solfeggio', () => {
   const arcanjo = read('src/components/ArcanjoProtocolView.tsx');
+  const arcanjo = read('src/components/ArcanjoProtocolView.tsx');
   const statusStart = arcanjo.indexOf('role="status" aria-live="polite"');
   const statusEnd = arcanjo.indexOf('</span>', statusStart);
   const status = arcanjo.slice(statusStart, statusEnd);
+  const style4Start = status.indexOf(': isMisticoModerno');
+  const style4End = status.indexOf(': suspendsSolfeggioDuringNeuralNarration', style4Start);
+  const style4Status = status.slice(style4Start, style4End);
 
   assert.match(arcanjo, /const suspendsSolfeggioDuringNeuralNarration = isEleganciaProfunda \|\| isEssenciaLuminosa/);
-  assert.match(status, /isMisticoModerno[\s\S]*?Preparando narração neural — Solfeggio/);
-  assert.match(status, /Narração neural \+ Solfeggio/);
-  assert.match(status, /Narração pausada — Solfeggio/);
-  assert.match(status, /será ativado somente quando a narração neural começar/);
-  assert.doesNotMatch(status, /Voz humana \+ Solfeggio/);
+  assert.ok(style4Start >= 0 && style4End > style4Start, 'O ramo de status do Místico Moderno deve ser isolado.');
+  assert.match(style4Status, /Preparando narração neural — Solfeggio/);
+  assert.match(style4Status, /Narração neural \+ Solfeggio/);
+  assert.match(style4Status, /Narração pausada — Solfeggio/);
+  assert.match(style4Status, /será ativado somente quando a narração neural começar/);
+  assert.doesNotMatch(style4Status, /Voz humana \+ Solfeggio/);
 });
