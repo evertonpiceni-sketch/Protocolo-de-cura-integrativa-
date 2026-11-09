@@ -311,3 +311,13 @@ test('as cores semânticas dos sete chakras são preservadas na Essência Lumino
   assert.ok(css.includes('.text-emerald-400):not(.ep-chakra-option)'));
   assert.ok(css.includes('#anamnesis-modal .ep-chakra-option'));
 });
+
+test('as opções de chakra da Anamnese são acessíveis por teclado e expõem o estado selecionado', () => {
+  const component = read('src/components/AnamnesisModal.tsx');
+  assert.ok(component.includes('role="button"'));
+  assert.ok(component.includes('tabIndex={0}'));
+  assert.ok(component.includes('aria-pressed={isSel}'));
+  assert.ok(component.includes("event.key !== 'Enter' && event.key !== ' '"));
+  assert.ok(component.includes('event.repeat'));
+  assert.ok(component.includes('focus-visible:ring-2 focus-visible:ring-[#C6A46A]/55'));
+});
