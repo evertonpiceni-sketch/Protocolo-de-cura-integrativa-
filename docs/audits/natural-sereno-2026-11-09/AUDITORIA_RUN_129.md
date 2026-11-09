@@ -2,7 +2,8 @@
 
 **Data:** 09/11/2026  
 **Branch:** `fix/natural-sereno-mainline-run111-2026-11-09`  
-**HEAD de partida:** `93a71129223ec60ee7f685a8c27b64cc1ceefa79`
+**HEAD de partida:** `93a71129223ec60ee7f685a8c27b64cc1ceefa79`  
+**HEAD final de código:** `9ec163af904fff29e430836d07d9e4ef2ff62369`
 
 ## Achado e correção
 
