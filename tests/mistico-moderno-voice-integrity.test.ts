@@ -410,7 +410,6 @@ test('Místico Moderno neutraliza a névoa sálvia global sem remover o esmerald
 
 test('Místico Moderno Arcanjo status identifies neural narration with concurrent Solfeggio', () => {
   const arcanjo = read('src/components/ArcanjoProtocolView.tsx');
-  const arcanjo = read('src/components/ArcanjoProtocolView.tsx');
   const statusStart = arcanjo.indexOf('role="status" aria-live="polite"');
   const statusEnd = arcanjo.indexOf('</span>', statusStart);
   const status = arcanjo.slice(statusStart, statusEnd);
