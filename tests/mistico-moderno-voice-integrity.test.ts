@@ -545,3 +545,12 @@ test('o player do Místico Moderno respeita áudio global desligado e não carre
   assert.ok(policy.includes('audioEnabled = true'));
   assert.ok(policy.includes("return audioEnabled && sessionPhase === 'playing'"));
 });
+
+test('Místico Moderno preserves the global audio-off preference when Anamnesis is saved', () => {
+  const app = read('src/App.tsx');
+  const start = app.indexOf('const handleSaveAnamnesis');
+  const end = app.indexOf('// Save purchased / requested specific individual treatment', start);
+  assert.ok(start >= 0 && end > start, 'Expected the Anamnesis save handler to be present.');
+  const handler = app.slice(start, end);
+  assert.match(handler, /audioEnabled:\s*isMisticoModerno\s*\?\s*userProfile\.audioEnabled !== false\s*:\s*true/);
+});
