@@ -396,7 +396,7 @@ export default function App() {
       : undefined;
     const metaThemeColor = document.querySelector<HTMLMetaElement>('meta[name="theme-color"]');
     if (!metaThemeColor) return;
-    const themeColor = selected?.swatches[0] ?? '#F8F4EC';
+    const themeColor = selected?.swatches[0] ?? '#FAF7F2';
     metaThemeColor.setAttribute('content', themeColor);
   }, [userProfile?.visualLayout, layoutConfirmedThisSession]);
 
