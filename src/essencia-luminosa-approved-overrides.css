@@ -399,7 +399,7 @@
   [class*="text-violet-"], [class*="text-[#315C85]"], [class*="text-[#2F6B50]"],
   [class*="text-[#2D4A3E]"], [class*="text-[#5E7153]"], [class*="text-[#A6B49B]"]
 ) {
-  color: var(--layout-text) !important;
+  color: var(--layout-text-secondary) !important;
 }
 
 :root[data-layout="essencia-luminosa"] :is(
