@@ -19,3 +19,14 @@ test('o callback da Anamnese aplica a frequência sem reativar o áudio global n
   assert.ok(callback.includes('resolveAudioEnabledAfterFrequencySelection(isEssenciaLuminosa, userProfile.audioEnabled)'));
   assert.doesNotMatch(callback, /audioEnabled:\s*true/);
 });
+
+test('trocar a trilha durante a sessão preserva o silêncio global no Estilo 3 sem alterar os outros estilos', () => {
+  const app = fs.readFileSync('src/App.tsx', 'utf8');
+  const start = app.indexOf('onChangeBgMusic={(bgType) => {');
+  const end = app.indexOf('\n          }}', start);
+  assert.ok(start >= 0 && end > start, 'Callback de trilha da sessão deve existir.');
+  const callback = app.slice(start, end);
+  assert.ok(callback.includes('isEssenciaLuminosa ? resolveAudioEnabledAfterFrequencySelection(isEssenciaLuminosa, userProfile.audioEnabled)'));
+  assert.ok(callback.includes(": bgType !== 'none' ? true : userProfile.audioEnabled"));
+  assert.doesNotMatch(callback, /audioEnabled:\\s*bgType !== 'none'\\s*\\?\\s*true/);
+});
