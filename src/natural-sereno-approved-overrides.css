@@ -1304,3 +1304,10 @@
 :root[data-layout="natural-sereno"] #meditation-session .ep-breathing-guide > div {
   background-image: radial-gradient(circle, rgba(200,157,82,.15), transparent 70%) !important;
 }
+
+
+/* RUN 136 — o brilho de carregamento do Arcanjo ainda herdava o amarelo legado.
+   No Natural Sereno, manter o mesmo dourado refinado do restante do player. */
+:root[data-layout="natural-sereno"] #arcanjo-protocol-view.ep-arcanjo-natural .ep-forest-panel [class*="via-[#d4af37]"] {
+  background-image: linear-gradient(90deg, transparent, rgba(200,157,82,.72), transparent) !important;
+}
