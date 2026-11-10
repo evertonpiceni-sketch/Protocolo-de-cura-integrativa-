@@ -47,12 +47,18 @@ export default function SystemicQuestionsModal({
   const isOpenRef = React.useRef(isOpen);
   is639HzActiveRef.current = is639HzActive;
   isOpenRef.current = isOpen;
+  const audioEnabledRef = React.useRef(userProfile?.audioEnabled);
+  const bgMusicTypeRef = React.useRef(userProfile?.bgMusicType);
+  audioEnabledRef.current = userProfile?.audioEnabled;
+  bgMusicTypeRef.current = userProfile?.bgMusicType;
+  const isStyle4AudioDisabled = isMisticoModerno && userProfile?.audioEnabled === false;
+  const is639HzAudible = is639HzActive && !isStyle4AudioDisabled && !(isMisticoModerno && isReadingVoice);
 
   // 639 Hz Solfeggio frequency: melhora a compreensão, tolerância e relações interpessoais enquanto o usuário responde
   useEffect(() => {
     if (!isOpen) return;
 
-    if (is639HzActive) {
+    if (is639HzActive && !isStyle4AudioDisabled) {
       audioEngine.unlock();
       audioEngine.setBGVolume(0.38);
       audioEngine.startBG('639hz');
@@ -65,15 +71,17 @@ export default function SystemicQuestionsModal({
     return () => {
       if (audioEngine.getCurrentSynthType() === '639hz') {
         audioEngine.stopBG();
-        if (userProfile?.audioEnabled && userProfile?.bgMusicType && userProfile?.bgMusicType !== 'none' && userProfile?.bgMusicType !== '639hz') {
-          audioEngine.startBG(userProfile.bgMusicType);
+        const audioEnabled = isMisticoModerno ? audioEnabledRef.current : userProfile?.audioEnabled;
+        const bgMusicType = isMisticoModerno ? bgMusicTypeRef.current : userProfile?.bgMusicType;
+        if (audioEnabled && bgMusicType && bgMusicType !== 'none' && bgMusicType !== '639hz') {
+          audioEngine.startBG(bgMusicType);
         }
       }
     };
   }, [isOpen, is639HzActive, userProfile?.audioEnabled, userProfile?.bgMusicType]);
 
   const handleToggle639 = () => {
-    if (isMisticoModerno && isReadingVoice) return;
+    if ((isMisticoModerno && isReadingVoice) || isStyle4AudioDisabled) return;
     if (is639HzActive) {
       audioEngine.stopBG();
       setIs639HzActive(false);
@@ -86,7 +94,7 @@ export default function SystemicQuestionsModal({
   };
 
   const resumeStyle4SystemicSolfeggio = () => {
-    if (isMisticoModerno && isOpenRef.current && is639HzActiveRef.current && audioEngine.getCurrentSynthType() !== '639hz') {
+    if (isMisticoModerno && !isStyle4AudioDisabled && isOpenRef.current && is639HzActiveRef.current && audioEngine.getCurrentSynthType() !== '639hz') {
       audioEngine.setBGVolume(0.38);
       audioEngine.startBG('639hz');
     }
@@ -239,8 +247,8 @@ export default function SystemicQuestionsModal({
           <div className="p-3 rounded-2xl bg-[#F5EFE4] border border-[#E5DAC6] flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2.5">
             <div className="flex items-center gap-2.5">
               <div className="relative w-8 h-8 rounded-xl bg-[#B88736]/10 border border-[#B88736]/25 flex items-center justify-center text-[#B88736] shrink-0">
-                <Heart size={16} className={is639HzActive ? 'scale-105 text-[#B88736]' : 'opacity-60'} />
-                {is639HzActive && !(isMisticoModerno && isReadingVoice) && (
+                <Heart size={16} className={is639HzAudible ? 'scale-105 text-[#B88736]' : 'opacity-60'} />
+                {is639HzAudible && (
                   <span className="absolute -top-1 -right-1 flex h-2.5 w-2.5">
                     <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
                     <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500"></span>
@@ -261,15 +269,16 @@ export default function SystemicQuestionsModal({
             <button
               type="button"
               onClick={handleToggle639}
-              disabled={isMisticoModerno && isReadingVoice}
+              disabled={isStyle4AudioDisabled || (isMisticoModerno && isReadingVoice)}
+              title={isStyle4AudioDisabled ? 'Ative o áudio nas configurações para usar o Solfeggio.' : undefined}
               className={`px-3 py-1.5 rounded-xl text-xs font-medium flex items-center gap-1.5 transition cursor-pointer border shrink-0 self-end sm:self-center disabled:opacity-50 disabled:cursor-not-allowed ${
-                is639HzActive
+                is639HzAudible
                   ? 'bg-[#B88736] border-[#B88736] text-white hover:bg-[#8F631E]'
                   : 'bg-[#F5EFE4] border-[#E5DAC6] text-[#5C5248] hover:text-[#2A2420]'
               }`}
             >
-              {is639HzActive && !(isMisticoModerno && isReadingVoice) ? <Volume2 size={13} /> : <VolumeX size={13} />}
-              <span>{isMisticoModerno && isReadingVoice ? 'Solfeggio pausado' : is639HzActive ? '639 Hz ligado' : 'Ativar 639 Hz'}</span>
+              {is639HzAudible ? <Volume2 size={13} /> : <VolumeX size={13} />}
+              <span>{isStyle4AudioDisabled ? 'Áudio desativado' : isMisticoModerno && isReadingVoice ? 'Solfeggio pausado' : is639HzActive ? '639 Hz ligado' : 'Ativar 639 Hz'}</span>
             </button>
           </div>
 
