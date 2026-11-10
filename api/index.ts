@@ -10,7 +10,7 @@ const bootstrapAttempts = new Map<string, { count: number; resetAt: number }>();
 const reintegrationAudioCache = new Map<string, Buffer>();
 const reintegrationVoiceAttempts = new Map<string, { count: number; resetAt: number }>();
 const reintegrationCues = new Set(REINTEGRATION_DAYS.flatMap(day => day.audioCues.map(cue => cue.text.trim())));
-const REINTEGRATION_VOICE_ID = "21m00Tcm4TlvDq8ikWAM";
+const REINTEGRATION_VOICE_ID = "mJqP14JQFEK0PojR5lfV"; // Marianne — voz oficial aprovada
 
 function allowBootstrapAttempt(req: any) {
   const key = String(req.headers?.["x-forwarded-for"] || req.socket?.remoteAddress || "unknown").split(",")[0].trim();
