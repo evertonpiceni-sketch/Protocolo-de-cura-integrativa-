@@ -53,15 +53,17 @@ test('specific treatments use only the fixed approved 7-day and 21-day prices', 
 
 test('checkout binds account, validates provider confirmation and grants only once', async () => {
   const cwd = process.cwd(); const folder = fs.mkdtempSync(path.join(os.tmpdir(), 'payment-test-'));
+  const originalApiKey = process.env.INFINITEPAY_API_KEY;
   process.chdir(folder); process.env.NODE_ENV = 'test';
   for (const key of Object.keys(process.env)) if (/UPSTASH|KV_REST/.test(key)) delete process.env[key];
+  process.env.INFINITEPAY_API_KEY = 'test-api-key';
   const { getDb, initializeDb } = await import('../src/db');
   const { paymentRoutes } = await import('../src/lib/paymentRoutes');
   await initializeDb(); const db = getDb();
   db.users.push({ id: 'owner', plan: 'free', profile: {} });
   let amount = paymentQuote('jornada_7d', 'PROMO20').cents; let paid = false; const calls: any[] = [];
   const provider = async (url: any, options: any) => {
-    calls.push({ url, body: JSON.parse(options.body) });
+    calls.push({ url, body: JSON.parse(options.body), headers: options.headers });
     return new Response(JSON.stringify(String(url).endsWith('/links') ? { url: 'https://checkout.infinitepay.io/test' } : { success: true, paid, amount }), { status: 200 });
   };
   const app = express(); app.use(express.json());
@@ -77,6 +79,9 @@ test('checkout binds account, validates provider confirmation and grants only on
     assert.equal((await call('payment/create-checkout', { productType: 'subscription', planId: '__proto__', paymentMethod: 'pix' })).status, 400);
     const checkout = await call('payment/create-checkout', { productType: 'subscription', planId: 'jornada_7d', paymentMethod: 'pix', price: .01, couponCode: 'PROMO20' });
     assert.equal(checkout.status, 200); const { orderId } = await checkout.json();
+    assert.equal(String(calls[0].url), 'https://api.checkout.infinitepay.io/links');
+    assert.equal(calls[0].headers['X-Api-Key'], 'test-api-key');
+    assert.equal(calls[0].body.options.single_payment, true);
     assert.equal(calls[0].body.handle, 'evertonterapeutareiki');
     assert.equal(calls[0].body.items[0].price, paymentQuote('jornada_7d', 'PROMO20').cents);
     assert.equal(db.users[0].plan, 'free');
@@ -132,7 +137,7 @@ test('checkout binds account, validates provider confirmation and grants only on
     const expires = db.users[0].profile.subscriptionExpiresAt;
     assert.equal((await call('payment/confirm', body)).status, 200);
     assert.equal(db.users[0].profile.subscriptionExpiresAt, expires);
-  } finally { await new Promise<void>(r => server.close(() => r())); process.chdir(cwd); fs.rmSync(folder, { recursive: true, force: true }); }
+  } finally { await new Promise<void>(r => server.close(() => r())); process.chdir(cwd); fs.rmSync(folder, { recursive: true, force: true }); if (originalApiKey === undefined) delete process.env.INFINITEPAY_API_KEY; else process.env.INFINITEPAY_API_KEY = originalApiKey; }
 });
 
 
