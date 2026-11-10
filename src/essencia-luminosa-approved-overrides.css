@@ -457,7 +457,7 @@
 }
 :root[data-layout="essencia-luminosa"] #hooponopono-modal [data-phrase-tone="1"] strong,
 :root[data-layout="essencia-luminosa"] #hooponopono-modal [data-phrase-tone="3"] strong {
-  color: var(--layout-accent-text) !important;
+  color: var(--layout-text-secondary) !important;
 }
 :root[data-layout="essencia-luminosa"] #hooponopono-modal [data-phrase-tone="2"] strong {
   color: var(--layout-text-secondary) !important;
@@ -558,7 +558,7 @@
 :root[data-layout="essencia-luminosa"] [data-ep-reintegration="true"] .ep-reintegration-day-button[data-completed="true"]:not([aria-pressed="true"]) {
   background: color-mix(in srgb, var(--layout-accent-soft) 58%, var(--layout-card)) !important;
   border-color: color-mix(in srgb, var(--layout-accent) 48%, var(--layout-border-card)) !important;
-  color: var(--layout-accent-text) !important;
+  color: var(--layout-text-secondary) !important;
 }
 
 :root[data-layout="essencia-luminosa"] [data-ep-reintegration="true"] .ep-reintegration-day-button:not([aria-pressed="true"]):not([data-completed="true"]) {
