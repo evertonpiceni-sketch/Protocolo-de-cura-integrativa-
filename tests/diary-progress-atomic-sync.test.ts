@@ -7,7 +7,7 @@ const source = fs.readFileSync('src/App.tsx', 'utf8');
 function section(startMarker: string, endMarker: string) {
   const start = source.indexOf(startMarker);
   const end = source.indexOf(endMarker, start + startMarker.length);
-  assert.ok(start >= 0 && end > start, `Seção não encontrada: ${startMarker}`);
+  assert.ok(start >= 0 && end > start, \`Seção não encontrada: \${startMarker}\`);
   return source.slice(start, end);
 }
 
@@ -17,7 +17,7 @@ test('Diário e resposta sistêmica persistem perfil e progresso no mesmo snapsh
   assert.ok(helper.includes('setProgress(newProgress)'));
   assert.ok(helper.includes('updateLocalAccountCache(newProfile, newProgress)'));
   assert.ok(helper.includes('body: JSON.stringify({ profile: newProfile, progress: newProgress })'));
-  assert.equal((helper.match(/fetch\\('\/api\/user\/sync'/g) || []).length, 1);
+  assert.equal((helper.match(/fetch\\('\\/api\\/user\\/sync'/g) || []).length, 1);
 
   const handlers = [
     section('const handleSaveSystemicAnswer =', '// Save detailed diary entry for a day'),
