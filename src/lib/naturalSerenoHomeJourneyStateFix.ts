@@ -76,7 +76,7 @@ function addFlowStyles() {
     :root[data-layout="natural-sereno"] .ep-home-protocol-choice small {
       display: inline-block;
       margin-bottom: 8px;
-      color: #8F631E;
+      color: #A87E37;
       font-size: 10px;
       font-weight: 700;
       letter-spacing: .14em;
@@ -122,7 +122,7 @@ function addFlowStyles() {
     :root[data-layout="natural-sereno"] .ep-home-protocol-choice button span {
       display: block;
       margin-top: 3px;
-      color: #8F631E;
+      color: #A87E37;
       font-family: system-ui, sans-serif;
       font-size: 9px;
       letter-spacing: .08em;
@@ -136,7 +136,7 @@ function addFlowStyles() {
     :root[data-layout="natural-sereno"] .ep-home-recommended-label {
       display: block;
       margin-bottom: 7px;
-      color: #8F631E;
+      color: #A87E37;
       font-size: 9px;
       font-weight: 700;
       letter-spacing: .13em;
