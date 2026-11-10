@@ -134,8 +134,21 @@ export function paymentRoutes(authenticate: any, limiter: any, providerFetch: ty
   const handle = () => process.env.INFINITEPAY_HANDLE || 'evertonterapeutareiki';
   const apiKey = () => process.env.INFINITEPAY_API_KEY?.trim() || '';
   const appUrl = () => {
-    const url = new URL(process.env.PUBLIC_APP_URL || 'https://protocolo-de-cura-integrativa.vercel.app');
+    const configuredUrl = process.env.PUBLIC_APP_URL?.trim();
+    if (process.env.VERCEL_ENV === 'preview' && !configuredUrl) {
+      throw new Error('PUBLIC_APP_URL precisa ser configurada para o ambiente Preview antes de iniciar o checkout.');
+    }
+    const url = new URL(configuredUrl || 'https://protocolo-de-cura-integrativa.vercel.app');
     if (url.protocol !== 'https:' || url.username || url.password) throw new Error('URL pública inválida.');
+    if (process.env.VERCEL_ENV === 'preview') {
+      const productionHost = (process.env.VERCEL_PROJECT_PRODUCTION_URL || 'protocolo-de-cura-integrativa.vercel.app')
+        .replace(/^https?:\\/\\//i, '')
+        .split('/')[0]
+        .toLowerCase();
+      if (url.hostname.toLowerCase() === productionHost) {
+        throw new Error('O checkout de Preview não pode redirecionar para a origem de Production.');
+      }
+    }
     return url.origin;
   };
   async function provider(path: string, body: unknown) {
