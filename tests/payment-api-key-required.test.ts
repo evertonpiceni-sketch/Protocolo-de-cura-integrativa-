@@ -13,6 +13,8 @@ test('InfinitePay exige API Key para links single_payment e falha fechado sem cr
     apiKey: process.env.INFINITEPAY_API_KEY,
     handle: process.env.INFINITEPAY_HANDLE,
     appUrl: process.env.PUBLIC_APP_URL,
+    vercelEnv: process.env.VERCEL_ENV,
+    vercelProductionUrl: process.env.VERCEL_PROJECT_PRODUCTION_URL,
     upstashUrl: process.env.UPSTASH_REDIS_REST_URL,
     upstashToken: process.env.UPSTASH_REDIS_REST_TOKEN,
     kvUrl: process.env.KV_REST_API_URL,
@@ -64,6 +66,31 @@ test('InfinitePay exige API Key para links single_payment e falha fechado sem cr
     assert.equal(response.status, 503);
     assert.equal(providerCalls, 0);
     assert.equal(getDb().paymentOrders?.length || 0, 0);
+
+    // Even if a shared Preview API key is later added, checkout must not
+    // silently reuse the production redirect/webhook origin.
+    process.env.INFINITEPAY_API_KEY = 'test-only-infinitepay-key';
+    process.env.VERCEL_ENV = 'preview';
+    process.env.VERCEL_PROJECT_PRODUCTION_URL = 'protocolo-de-cura-integrativa.vercel.app';
+    delete process.env.PUBLIC_APP_URL;
+    const missingPreviewOrigin = await fetch(`http://127.0.0.1:${address.port}/api/payment/create-checkout`, {
+      method: 'POST',
+      headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({ productType: 'subscription', planId: 'jornada_7d', paymentMethod: 'pix' })
+    });
+    assert.equal(missingPreviewOrigin.status, 503);
+    assert.equal(providerCalls, 0);
+    assert.equal(getDb().paymentOrders?.length || 0, 0);
+
+    process.env.PUBLIC_APP_URL = 'https://protocolo-de-cura-integrativa.vercel.app';
+    const productionOriginInPreview = await fetch(`http://127.0.0.1:${address.port}/api/payment/create-checkout`, {
+      method: 'POST',
+      headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({ productType: 'subscription', planId: 'jornada_7d', paymentMethod: 'pix' })
+    });
+    assert.equal(productionOriginInPreview.status, 503);
+    assert.equal(providerCalls, 0);
+    assert.equal(getDb().paymentOrders?.length || 0, 0);
   } finally {
     if (server) await new Promise<void>(resolve => server.close(resolve));
     process.chdir(cwd);
@@ -72,6 +99,8 @@ test('InfinitePay exige API Key para links single_payment e falha fechado sem cr
     if (previous.apiKey === undefined) delete process.env.INFINITEPAY_API_KEY; else process.env.INFINITEPAY_API_KEY = previous.apiKey;
     if (previous.handle === undefined) delete process.env.INFINITEPAY_HANDLE; else process.env.INFINITEPAY_HANDLE = previous.handle;
     if (previous.appUrl === undefined) delete process.env.PUBLIC_APP_URL; else process.env.PUBLIC_APP_URL = previous.appUrl;
+    if (previous.vercelEnv === undefined) delete process.env.VERCEL_ENV; else process.env.VERCEL_ENV = previous.vercelEnv;
+    if (previous.vercelProductionUrl === undefined) delete process.env.VERCEL_PROJECT_PRODUCTION_URL; else process.env.VERCEL_PROJECT_PRODUCTION_URL = previous.vercelProductionUrl;
     if (previous.upstashUrl === undefined) delete process.env.UPSTASH_REDIS_REST_URL; else process.env.UPSTASH_REDIS_REST_URL = previous.upstashUrl;
     if (previous.upstashToken === undefined) delete process.env.UPSTASH_REDIS_REST_TOKEN; else process.env.UPSTASH_REDIS_REST_TOKEN = previous.upstashToken;
     if (previous.kvUrl === undefined) delete process.env.KV_REST_API_URL; else process.env.KV_REST_API_URL = previous.kvUrl;
