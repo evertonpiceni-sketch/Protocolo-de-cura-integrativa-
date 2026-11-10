@@ -310,7 +310,7 @@ test('Místico Moderno exposes only the saved ElevenLabs voice and never offers 
 test('Style 4 preserves the 4:3 official board preview, premium CTA and reduced-motion preference', () => {
   const modal = read('src/components/LayoutChoiceModal.tsx');
   const finalCss = read('src/mistico-moderno-final-audit.css');
-  assert.match(modal, /aspect-\[4\/3\]/);
+  assert.ok(modal.includes('className="mt-4 flex h-[184px] w-full items-center justify-center overflow-hidden rounded-2xl border shadow-inner"'));
   assert.match(modal, /max-w-sm rounded-xl/);
   const confirmButton = modal.split('\n').find(line => line.includes('className={`min-h-12 w-full max-w-sm'));
   assert.ok(confirmButton?.includes('rounded-xl'));
@@ -614,13 +614,16 @@ test('Místico Moderno neutralizes inherited light dashboard backdrop and progre
 
 test('Místico Moderno does not mark the Arcanjo day complete when neural narration fails', () => {
   const arcanjo = read('src/components/ArcanjoProtocolView.tsx');
+  const audio = read('src/lib/audio.ts');
   const start = arcanjo.slice(arcanjo.indexOf('const start ='), arcanjo.indexOf('const togglePlayback'));
   const errorStart = start.indexOf('onError: () => {');
-  const endStart = start.indexOf('onEnd: () => {', errorStart);
+  const endStart = start.indexOf('\n      }\n    });', errorStart);
   const errorBlock = start.slice(errorStart, endStart);
+  const endBlock = start.slice(start.indexOf('onEnd: () => {'), errorStart);
 
   assert.ok(errorStart >= 0 && endStart > errorStart);
   assert.match(errorBlock, /if \(isMisticoModerno\) narrationRunRef\.current \+= 1;/);
   assert.ok(errorBlock.indexOf('narrationRunRef.current += 1;') < errorBlock.indexOf('audioEngine.stopSpeech();'));
-  assert.match(start, /onEnd: \(\) => \{\s*if \(runId === narrationRunRef\.current\) complete\(\);/);
+  assert.match(endBlock, /if \(runId === narrationRunRef\.current\) complete\(\);/);
+  assert.match(audio, /options\?\.onError\?\.\(error\);\s*onEnd\(\);/);
 });
