@@ -469,3 +469,16 @@ test('Místico Moderno mantém a sessão noturna em check-in, aceite, roteiro, p
   assert.match(css, /div\[role="dialog"\]\[aria-label="Acesso à jornada completa"\] \[class\*="bg-\[#FAF4E8\]"\]/);
   assert.doesNotMatch(css, /background:\s*(?:#FAF7F2|#F4EFE6|white)/i);
 });
+
+test('Anamnesis excludes every Solfeggio frequency when restoring background audio', () => {
+  const anamnesis = read('src/components/AnamnesisModal.tsx');
+  assert.ok(anamnesis.includes("!/^\\d+hz$/i.test(userProfile.bgMusicType)"));
+  assert.equal(anamnesis.includes("!/^\\\\d+hz$/i.test(userProfile.bgMusicType)"), false);
+});
+
+test('Místico Moderno passes the current day to the session canvas for its Day 1 opening', () => {
+  const session = read('src/components/MeditationSession.tsx');
+  const canvas = read('src/components/session/SacredEnergyCanvas.tsx');
+  assert.match(session, /dayNumber=\\{\\['natural-sereno', 'elegancia-profunda', 'essencia-luminosa', 'mistico-moderno'\\]\\.includes\\(activeLayout \\|\\| ''\\) \\? dayNumber : undefined\\}/);
+  assert.match(canvas, /dayNumber === 1 \\? 0 : 8/);
+});
