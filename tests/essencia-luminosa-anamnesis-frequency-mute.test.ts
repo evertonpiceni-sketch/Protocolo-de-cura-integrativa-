@@ -26,7 +26,6 @@ test('trocar a trilha durante a sessão preserva o silêncio global no Estilo 3 
   const end = app.indexOf('\n          }}', start);
   assert.ok(start >= 0 && end > start, 'Callback de trilha da sessão deve existir.');
   const callback = app.slice(start, end);
-  assert.ok(callback.includes('isEssenciaLuminosa ? resolveAudioEnabledAfterFrequencySelection(isEssenciaLuminosa, userProfile.audioEnabled)'));
-  assert.ok(callback.includes(": bgType !== 'none' ? true : userProfile.audioEnabled"));
-  assert.doesNotMatch(callback, /audioEnabled:\\s*bgType !== 'none'\\s*\\?\\s*true/);
+  assert.match(callback, /audioEnabled:\s*isEssenciaLuminosa\s*\?\s*resolveAudioEnabledAfterFrequencySelection\(isEssenciaLuminosa,\s*userProfile\.audioEnabled\)\s*:\s*bgType !== 'none'\s*\?\s*true\s*:\s*userProfile\.audioEnabled/);
+  assert.doesNotMatch(callback, /audioEnabled:\s*bgType !== 'none'\s*\?\s*true/);
 });
