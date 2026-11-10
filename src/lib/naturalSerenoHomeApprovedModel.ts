@@ -156,7 +156,7 @@ function addStyles() {
       padding: 16px !important;
       margin-bottom: 16px !important;
       background: rgba(255,253,248,.96) !important;
-      border-color: rgba(182,139,54,.26) !important;
+      border-color: rgba(200,157,82,.26) !important;
       box-shadow: 0 10px 26px rgba(70,54,25,.07) !important;
     }
 
