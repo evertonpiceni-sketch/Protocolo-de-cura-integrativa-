@@ -65,3 +65,50 @@
 :root[data-layout="mistico-moderno"] #welcome-modal img + div {
   background: linear-gradient(to top, rgba(5, 10, 24, .92), rgba(12, 20, 38, .22), transparent) !important;
 }
+/* Tela de acolhimento exibida antes da Home.
+   O componente compartilhado ainda contém tokens marfim/café; no Estilo 4,
+   esta superfície precisa manter contraste noturno sem alterar os outros estilos. */
+:root[data-layout="mistico-moderno"] .ep-welcome-audio {
+  color: #F4F1EB !important;
+}
+
+:root[data-layout="mistico-moderno"] .ep-welcome-audio :is(h1, h2, h3, strong) {
+  color: #F4F1EB !important;
+}
+
+:root[data-layout="mistico-moderno"] .ep-welcome-audio :is(p, span) {
+  color: #CBD5E1 !important;
+}
+
+:root[data-layout="mistico-moderno"] .ep-welcome-audio :is(p, span)[class*="text-[#B88736]"] {
+  color: #E2B96B !important;
+}
+
+:root[data-layout="mistico-moderno"] .ep-welcome-audio button:not(.ep-gold-button) {
+  background: linear-gradient(145deg, rgba(20, 31, 48, .94), rgba(10, 15, 24, .96)) !important;
+  border-color: rgba(108, 63, 160, .38) !important;
+  color: #E2B96B !important;
+  box-shadow: 0 10px 28px rgba(0, 0, 0, .24), inset 0 1px 0 rgba(255, 255, 255, .04) !important;
+}
+
+:root[data-layout="mistico-moderno"] .ep-welcome-audio button:not(.ep-gold-button) :is(svg, span) {
+  color: #E2B96B !important;
+}
+
+:root[data-layout="mistico-moderno"] .ep-welcome-audio .ep-gold-button,
+:root[data-layout="mistico-moderno"] .ep-welcome-audio .ep-gold-button span {
+  background: var(--gold-gradient) !important;
+  border-color: var(--gold-border) !important;
+  color: #0A0F18 !important;
+}
+
+:root[data-layout="mistico-moderno"] .ep-welcome-audio .ep-voice-error {
+  background: rgba(92, 42, 55, .22) !important;
+  border: 1px solid rgba(222, 143, 157, .30) !important;
+  color: #F1C9D0 !important;
+}
+
+:root[data-layout="mistico-moderno"] .ep-welcome-audio button:focus-visible {
+  outline: 2px solid rgba(226, 185, 107, .82) !important;
+  outline-offset: 3px;
+}
