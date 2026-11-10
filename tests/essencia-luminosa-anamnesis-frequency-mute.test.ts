@@ -17,7 +17,7 @@ test('o callback da Anamnese aplica a frequência sem reativar o áudio global n
   assert.ok(start >= 0 && end > start, 'Callback de frequência da Anamnese deve existir.');
   const callback = app.slice(start, end);
   assert.ok(callback.includes('resolveAudioEnabledAfterFrequencySelection(isEssenciaLuminosa, userProfile.audioEnabled)'));
-  assert.doesNotMatch(callback, /audioEnabled:\\s*true/);
+  assert.doesNotMatch(callback, /audioEnabled:\s*true/);
 });
 
 test('o seletor de trilha dos Ajustes respeita o silêncio global no Estilo 3', () => {
