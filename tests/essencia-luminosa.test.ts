@@ -608,6 +608,16 @@ test('o logo da Essência Luminosa neutraliza o destaque compartilhado no hero e
   assert.ok(home.includes('ep-welcome-audio ep-home-hero'));
 });
 
+test('o áudio de fundo da Essência Luminosa respeita o interruptor global nos Ajustes', () => {
+  const settings = fs.readFileSync('src/components/AudioSettingsModal.tsx', 'utf8');
+  assert.ok(settings.includes('if (allowBackgroundPlayback && (!isEssenciaLuminosa || audioEnabled))'));
+  assert.ok(settings.includes('if (!isOpen || !isEssenciaLuminosa || audioEnabled) return;'));
+  assert.ok(settings.includes('if (isEssenciaLuminosa && !audioEnabled) return;'));
+  assert.ok(settings.includes('isEssenciaLuminosa && !audioEnabled && !isPlayingBioactivePreview'));
+  assert.ok(settings.includes('Ative o áudio global para ouvir a prévia binaural.'));
+  assert.ok(settings.includes('setIsPlayingBioactivePreview(false);'));
+});
+
 test('a prévia de voz da Essência Luminosa não toca Solfeggio durante a narração', () => {
   const app = fs.readFileSync('src/App.tsx', 'utf8');
   const settings = fs.readFileSync('src/components/AudioSettingsModal.tsx', 'utf8');
@@ -637,7 +647,11 @@ test('a prévia de voz da Essência Luminosa não toca Solfeggio durante a narra
   assert.ok(settings.includes('setNeuralVoicePreviewActive(true)'));
   assert.ok(settings.includes('setNeuralVoicePreviewActive(false)'));
   assert.ok(settings.includes('if (!allowBackgroundPlayback || (requiresNeuralVoice && isTestingVoice)) return;'));
-  assert.ok(settings.includes('disabled={!allowBackgroundPlayback || (requiresNeuralVoice && isTestingVoice)}'));
+  assert.ok(settings.includes('disabled={!allowBackgroundPlayback || (requiresNeuralVoice && isTestingVoice) || (isEssenciaLuminosa && !audioEnabled && !isPlayingBioactivePreview)}'));
+  assert.ok(settings.includes('if (allowBackgroundPlayback && (!isEssenciaLuminosa || audioEnabled))'));
+  assert.ok(settings.includes('if (!isOpen || !isEssenciaLuminosa || audioEnabled) return;'));
+  assert.ok(settings.includes('if (isEssenciaLuminosa && !audioEnabled) return;'));
+  assert.ok(settings.includes('Ative o áudio global para ouvir a prévia binaural.'));
 
   const audioPatch = fs.readFileSync('src/lib/audioIntegrityPatch.ts', 'utf8');
   assert.ok(audioPatch.includes('isNeuralVoicePreviewActive()'));
