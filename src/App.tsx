@@ -2481,8 +2481,15 @@ export default function App() {
             if (data.status === 'paid' && data.user?.profile) {
               setUserProfile(data.user.profile);
               closeProModal();
-              if (plan === 'arcanjo_7d') setShowArcanjoView(true);
-              else setShowCertificateModal(true);
+              if (plan === 'arcanjo_7d') {
+                setInAppToast({
+                  title: 'Acesso ao Arcanjo liberado',
+                  body: 'Seu acesso está ativo. Abra o protocolo quando desejar pelo botão Arcanjo no painel.'
+                });
+                window.setTimeout(() => setInAppToast(null), 8000);
+              } else {
+                setShowCertificateModal(true);
+              }
               return true;
             }
             throw new Error('Aguardando confirmação segura do pagamento.');
