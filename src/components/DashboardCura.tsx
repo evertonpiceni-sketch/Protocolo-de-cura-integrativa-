@@ -51,7 +51,7 @@ export default function DashboardCura({ onClose, progress, userProfile }: { onCl
   };
 
   return (
-    <div ref={dialogRef} id="progress-dashboard" role="dialog" aria-modal="true" aria-label="Dashboard de Progresso Analítico" className={`fixed inset-0 z-[100] flex flex-col bg-[#F8F4EC] text-[#2A2420] font-sans ${isEssenciaLuminosa ? 'selection:bg-[#C6A46A]/25' : 'selection:bg-[#E4C573]/30'} overflow-y-auto`}>
+    <div ref={dialogRef} id="progress-dashboard" role="dialog" aria-modal="true" aria-label="Dashboard de Progresso Analítico" className={`fixed inset-0 z-[100] flex flex-col ${isEssenciaLuminosa ? 'bg-[#FFFFF8]' : 'bg-[#F8F4EC]'} text-[#2A2420] font-sans ${isEssenciaLuminosa ? 'selection:bg-[#C6A46A]/25' : 'selection:bg-[#E4C573]/30'} overflow-y-auto`}>
       {/* Background Gradient */}
       <div className={`fixed inset-0 pointer-events-none ${isEssenciaLuminosa ? 'bg-[radial-gradient(circle_at_50%_0,rgba(198,164,106,.10),transparent_30rem),linear-gradient(180deg,#FFFFF8,#F7F3E8)]' : 'bg-[radial-gradient(circle_at_50%_0,rgba(214,167,86,.12),transparent_30rem),linear-gradient(180deg,#FBF8F2,#F8F4EC)]'}`} />
 
@@ -171,7 +171,7 @@ export default function DashboardCura({ onClose, progress, userProfile }: { onCl
                     </div>
                     <button 
                       onClick={() => handlePlayDay(day)}
-                      aria-label={`Iniciar dia ${day}: ${chakra.name}`} className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full shadow-lg transition-transform hover:scale-105 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B88736]/30"
+                      aria-label={`Iniciar dia ${day}: ${chakra.name}`} className={`flex h-12 w-12 shrink-0 items-center justify-center rounded-full shadow-lg transition-transform hover:scale-105 focus-visible:outline-none focus-visible:ring-2 ${isEssenciaLuminosa ? 'focus-visible:ring-[#C6A46A]/40' : 'focus-visible:ring-[#B88736]/30'}`}
                       style={{ background: isEssenciaLuminosa ? `linear-gradient(135deg, ${chakra.color}, #A87E37)` : `linear-gradient(135deg, ${chakra.color}, #09090E)` }}
                     >
                       <Play size={22} className={`ml-1 ${isEssenciaLuminosa ? 'text-[#2A2420]' : 'text-white'}`} fill="currentColor" />
@@ -202,7 +202,7 @@ export default function DashboardCura({ onClose, progress, userProfile }: { onCl
         <div className="mt-10">
           {journeyCompleted ? (
             <div className={`relative flex flex-col items-center justify-center rounded-3xl border px-6 py-8 text-center overflow-hidden ${isEssenciaLuminosa ? 'border-[#E5DAC6] bg-gradient-to-br from-[#F7F3E8] to-[#FFFFF8] shadow-[0_16px_40px_rgba(112,91,58,.08)]' : 'border-[#E4C573]/40 bg-gradient-to-br from-[#E4C573]/20 to-[#B89845]/5 shadow-[0_0_30px_rgba(228,197,115,0.15)]'}`}>
-               <div className="absolute inset-0 opacity-50 bg-[radial-gradient(circle_at_center,#E4C573_0%,transparent_70%)] blur-2xl pointer-events-none" />
+               <div className={`absolute inset-0 opacity-50 blur-2xl pointer-events-none ${isEssenciaLuminosa ? 'bg-[radial-gradient(circle_at_center,#C6A46A_0%,transparent_70%)]' : 'bg-[radial-gradient(circle_at_center,#E4C573_0%,transparent_70%)]'}`} />
                <Sparkles className={`mb-3 relative z-10 ${isEssenciaLuminosa ? 'text-[#A87E37]' : 'text-[#E4C573]'}`} size={32} />
                <h3 className="font-serif text-xl font-bold text-[#2A2420] relative z-10 mb-5">Jornada Concluída</h3>
                <button 
