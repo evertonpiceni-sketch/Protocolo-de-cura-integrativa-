@@ -18,7 +18,7 @@ test('CTA flutuante global recebe acabamento Natural Sereno sem formato de pílu
   assert.ok(rule.includes('background:rgba(251,248,242,.96)!important;'));
   assert.ok(rule.includes('color:#5C5248!important;'));
   assert.ok(rule.includes('border-color:rgba(200,157,82,.34)!important;'));
-  assert.doesNotMatch(rule, /rgba\\(184,135,54,\\.34\\)/);
+  assert.ok(!rule.includes('rgba(184,135,54,.34)'));
   assert.ok(rule.includes('border-radius:18px!important;'));
   assert.ok(!rule.includes('border-radius:999px'));
 
@@ -53,14 +53,14 @@ test('a primeira escolha dos quatro estilos mantém o shell neutro até a confir
   const shell = read('src/layout-choice-neutral-shell.css');
   const entry = read('src/main.tsx');
 
-  assert.match(app, /layoutConfirmedThisSession, setLayoutConfirmedThisSession\\] = useState\\(false\\)/);
+  assert.ok(app.includes('const [layoutConfirmedThisSession, setLayoutConfirmedThisSession] = useState(false);'));
   assert.ok(app.includes('(!layoutConfirmedThisSession || layoutChoiceRequested)'));
   assert.ok(modal.includes('aria-labelledby="layout-choice-title"'));
   assert.ok(shell.includes(':root:not([data-layout]) #cura-main-layout'));
   assert.ok(shell.includes('linear-gradient(180deg,#FBF8F2 0%,#FAF7F2 58%,#F5EFE5 100%)'));
   assert.ok(shell.includes(':root:not([data-layout]) [role="dialog"][aria-labelledby="layout-choice-title"]'));
   assert.ok(shell.includes('background: rgba(250,247,242,.96) !important;'));
-  assert.doesNotMatch(shell, /:root\\[data-layout=/);
+  assert.ok(!shell.includes(':root[data-layout='));
 
   const neutralLayer = entry.indexOf("import './layout-choice-neutral-shell.css';");
   const finalThemeLayer = entry.indexOf("import './essencia-luminosa-approved-overrides.css';");
