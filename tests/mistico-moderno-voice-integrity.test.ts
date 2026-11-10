@@ -561,3 +561,20 @@ test('Místico Moderno preserves the global audio-off preference when Anamnesis 
   const handler = app.slice(start, end);
   assert.match(handler, /audioEnabled:\s*isMisticoModerno\s*\?\s*userProfile\.audioEnabled !== false\s*:\s*true/);
 });
+
+test('Místico Moderno welcome-audio surface overrides inherited light text and button styling', () => {
+  const home = read('src/components/TransformationHome.tsx');
+  const css = read('src/mistico-moderno-welcome-audit.css');
+  const start = home.indexOf('ep-welcome-audio');
+  const end = home.indexOf('return <div className="ep-home', start);
+  assert.ok(start >= 0 && end > start, 'Expected the pre-journey welcome-audio surface.');
+  const welcomeMarkup = home.slice(start, end);
+
+  assert.match(welcomeMarkup, /text-\[#2A2420\]/);
+  assert.match(welcomeMarkup, /text-\[#5C5248\]/);
+  assert.match(css, /:root\[data-layout="mistico-moderno"\] \.ep-welcome-audio/);
+  assert.match(css, /\.ep-welcome-audio :is\(h1, h2, h3, strong\)/);
+  assert.match(css, /\.ep-welcome-audio :is\(p, span\)/);
+  assert.match(css, /\.ep-welcome-audio button:not\(\.ep-gold-button\)/);
+  assert.match(css, /\.ep-welcome-audio \.ep-gold-button/);
+});
