@@ -8,6 +8,8 @@ test('Essência Luminosa keeps dashboard headings and progress readable on light
   assert.match(source, /isEssenciaLuminosa \? 'text-\[#2A2420\]' : 'text-white'/);
   assert.match(source, /isEssenciaLuminosa \? 'text-\[#A87E37\]' : 'text-\[#E4C573\]'/);
   assert.match(source, /linear-gradient\(90deg, #C6A46A, #A87E37\)/);
+  assert.match(source, /focus-visible:ring-\\[#C6A46A\\]\\/40/);
+  assert.match(source, /bg-\\[radial-gradient\\(circle_at_center,#C6A46A_0%,transparent_70%\\)\\]/);
 });
 
 test('Essência Luminosa dashboard uses its light premium surfaces and non-pill primary CTA', () => {
