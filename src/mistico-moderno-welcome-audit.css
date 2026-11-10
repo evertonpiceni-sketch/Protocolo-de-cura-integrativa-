@@ -95,10 +95,15 @@
   color: #E2B96B !important;
 }
 
-:root[data-layout="mistico-moderno"] .ep-welcome-audio .ep-gold-button,
-:root[data-layout="mistico-moderno"] .ep-welcome-audio .ep-gold-button span {
+:root[data-layout="mistico-moderno"] .ep-welcome-audio .ep-gold-button {
   background: var(--gold-gradient) !important;
   border-color: var(--gold-border) !important;
+  color: #0A0F18 !important;
+}
+
+:root[data-layout="mistico-moderno"] .ep-welcome-audio .ep-gold-button span {
+  background: transparent !important;
+  border: 0 !important;
   color: #0A0F18 !important;
 }
 
