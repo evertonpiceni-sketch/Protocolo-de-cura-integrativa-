@@ -16,7 +16,8 @@ const CHAKRAS_DATA = [
 export default function DashboardCura({ onClose, progress, userProfile }: { onClose: () => void; progress: DayProgress[], userProfile?: UserProfile }) {
   const [completedDays, setCompletedDays] = useState<number[]>([]);
   const dialogRef = React.useRef<HTMLDivElement | null>(null);
-  useDialogFocus(document.documentElement.dataset.layout === 'natural-sereno', dialogRef, onClose);
+  // This surface is a modal in every layout; contain keyboard focus and restore it on close.
+  useDialogFocus(true, dialogRef, onClose);
   const isMisticoModerno = document.documentElement.dataset.layout === 'mistico-moderno';
   const bodyImage = isMisticoModerno ? '/brand/chakra-body.svg' : '/brand/human-chakra-model.jpg';
 
