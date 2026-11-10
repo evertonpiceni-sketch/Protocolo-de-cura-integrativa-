@@ -170,7 +170,7 @@ test('Style 4 selector displays the verified official 4:3 board preview without 
   assert.match(modal, /src=\{MISTICO_MODERNO_OFFICIAL_BOARD\}[\s\S]*?className="h-full w-full object-contain p-1"/);
   assert.match(image, /width="384" height="288" viewBox="0 0 384 288"/);
   assert.match(image, /preserveAspectRatio="xMidYMid meet"/);
-  const embeddedWebp = image.match(/href="data:image\\/webp;base64,([^"]+)"/)?.[1] ?? '';
+  const embeddedWebp = image.match(/href="data:image\/webp;base64,([^"]+)"/)?.[1] ?? '';
   assert.ok(embeddedWebp.length > 10000, 'The verified official Style 4 board preview must be present.');
   assert.equal(embeddedWebp.length % 4, 0, 'The embedded WebP data URI must contain valid base64.');
   const decodedWebp = Buffer.from(embeddedWebp, 'base64');
