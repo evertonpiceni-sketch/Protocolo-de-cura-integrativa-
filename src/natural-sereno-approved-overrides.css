@@ -1311,3 +1311,38 @@
 :root[data-layout="natural-sereno"] #arcanjo-protocol-view.ep-arcanjo-natural .ep-forest-panel [class*="via-[#d4af37]"] {
   background-image: linear-gradient(90deg, transparent, rgba(200,157,82,.72), transparent) !important;
 }
+
+
+/* RUN 138 — finalizar a neutralização da Prática Individual no Natural Sereno.
+   O badge âmbar, o painel índigo e o foco esmeralda ainda escapavam dos
+   overrides anteriores. A correção é limitada a este modal e a este tema. */
+:root[data-layout="natural-sereno"] #specific-treatment-modal [class*="bg-amber-400"] {
+  background: linear-gradient(180deg,#E2B96B,#C89D52) !important;
+  color: #2A2421 !important;
+  border: 1px solid #A87E37 !important;
+  box-shadow: 0 6px 16px rgba(67,52,39,.08) !important;
+}
+:root[data-layout="natural-sereno"] #specific-treatment-modal [class*="text-slate-950"] {
+  color: #2A2421 !important;
+}
+:root[data-layout="natural-sereno"] #specific-treatment-modal [class*="bg-indigo-950/30"] {
+  background: linear-gradient(145deg,#FFFDF8 0%,#F5EFE5 100%) !important;
+  border-color: rgba(200,157,82,.28) !important;
+}
+:root[data-layout="natural-sereno"] #specific-treatment-modal [class*="text-indigo-200"] {
+  color: #6B625B !important;
+}
+:root[data-layout="natural-sereno"] #specific-treatment-modal [class*="via-slate-950/40"] {
+  background-image: linear-gradient(to top,rgba(245,239,229,.96),rgba(245,239,229,.46),transparent) !important;
+}
+:root[data-layout="natural-sereno"] #specific-treatment-modal [class*="focus:border-emerald-500"]:focus {
+  border-color: #C89D52 !important;
+  box-shadow: 0 0 0 2px rgba(200,157,82,.12) !important;
+}
+:root[data-layout="natural-sereno"] #specific-treatment-modal [class*="text-emerald-500"] {
+  color: #6F7B55 !important;
+}
+:root[data-layout="natural-sereno"] #specific-treatment-modal [class*="shadow-emerald"] {
+  --tw-shadow-color: rgba(67,52,39,.08) !important;
+  box-shadow: 0 8px 18px rgba(67,52,39,.08) !important;
+}
