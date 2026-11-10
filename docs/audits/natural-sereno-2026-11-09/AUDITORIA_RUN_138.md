@@ -48,3 +48,14 @@ Foi acrescentado teste em `tests/natural-sereno-visual-guardrails.test.ts` cobri
 - A branch permanece divergida da main em 154 commits à frente e 12 atrás; não foi feita reconciliação cega porque há alterações compartilhadas dos Estilos 2/3 e mudanças de pagamento/diário que exigem merge por arquivo.
 
 **Sem merge, publicação em produção ou cobrança real.**
+
+
+## Revisão controlada dos 12 commits da main
+
+A comparação por arquivo confirmou três decisões importantes antes de qualquer reconciliação:
+
+- **Seletor:** a branch já contém o CTA de confirmação com `rounded-xl` e o teste `tests/layout-choice-premium-cta.test.ts`. A correção de botão premium do commit `0eb29ad` já está preservada; não foi necessário copiá-la novamente.
+- **Diário:** a branch persiste perfil e progresso no mesmo snapshot por `saveProfile(updatedProfile, updatedProgress)`, usando `syncUserState`, validação de conta, fila/retry e preservação de `sensations`/`gratitudes` quando os campos não são enviados. A main usa um helper mais simples em seu commit `783aacc`; não substituí a implementação mais completa da branch.
+- **InfinitePay:** a branch já contém API Key obrigatória para link de pagamento único, `single_payment: true`, bloqueio de pagamentos fora de produção até sandbox e lock compartilhado com refresh do banco. Esses controles foram preservados.
+
+Os commits posteriores da main que alteram o Arcanjo e a experiência da Elegância Profunda ainda exigem reconciliação conjunta: a branch contém a versão com corpo neutro e política de áudio do Natural Sereno, enquanto a main acrescenta mudanças próprias do Estilo 2. Nenhum arquivo compartilhado foi sobrescrito nesta rodada.
