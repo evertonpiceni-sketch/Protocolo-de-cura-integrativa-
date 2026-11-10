@@ -145,7 +145,7 @@ export default function AnamnesisModal({
       return;
     }
 
-    if (isEditing && is639HzActive && !isStyle4AudioDisabled) {
+    if (isEditing && is639HzActive && !isStyle4AudioDisabled && !isStyle4VoiceActive) {
       audioEngine.unlock();
       audioEngine.setBGVolume(0.40);
       audioEngine.startBG('639hz');
@@ -165,7 +165,7 @@ export default function AnamnesisModal({
         }
       }
     };
-  }, [isOpen, isEditing, is639HzActive, userProfile.audioEnabled, userProfile.bgMusicType]);
+  }, [isOpen, isEditing, is639HzActive, isStyle4VoiceActive, userProfile.audioEnabled, userProfile.bgMusicType]);
 
   const handleToggle639Hz = () => {
     if (isStyle4VoiceActive || isStyle4AudioDisabled) return;
@@ -203,7 +203,7 @@ export default function AnamnesisModal({
   };
 
   const resumeStyle4AnamnesisSolfeggio = () => {
-    if (isMisticoModerno && !isStyle4AudioDisabled && isOpenRef.current && isEditingRef.current && is639HzActiveRef.current && audioEngine.getCurrentSynthType() !== '639hz') {
+    if (isMisticoModerno && !isStyle4AudioDisabled && isOpenRef.current && isEditingRef.current && is639HzActiveRef.current && audioEnabledRef.current !== false && audioEngine.getCurrentSynthType() !== '639hz') {
       audioEngine.setBGVolume(0.40);
       audioEngine.startBG('639hz');
     }
