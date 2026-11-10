@@ -12,12 +12,13 @@ test('acolhimento desktop Natural Sereno usa paisagem realista e superfície cla
   const welcomeSurface = base.slice(welcomeStart, welcomeEnd);
 
   assert.ok(welcomeStart >= 0 && welcomeEnd > welcomeStart, 'regras de acolhimento precisam existir');
-  assert.match(welcomeSurface, /acolhimento\.webp[^;]*center 42%[^;]*#FAF7F2[^;]*color: #2A2421/s);
+  assert.ok(welcomeSurface.includes("background: url('/brand/natural-sereno/acolhimento.webp') center 42% / cover no-repeat #FAF7F2;"));
+  assert.ok(welcomeSurface.includes('color: #2A2421;'));
   assert.match(welcomeSurface, /rgba\(250,247,242,\.72\)[^}]*rgba\(250,247,242,\.86\)/s);
   assert.doesNotMatch(welcomeSurface, /rgba\(42,36,33,\.58\)|rgba\(42,36,33,\.72\)/);
   assert.match(base, /\.ns-welcome h1 \{[^}]*color: #2A2421/);
   assert.match(base, /\.ns-welcome p \{[^}]*color: #6B625B/);
-  assert.match(base, /\.ns-welcome-play \{[^}]*background: rgba\(250,247,242,\.94\)[^}]*color: #A87E37[^}]*box-shadow: 0 8px 22px rgba\(67,52,39,\.10\)/s);
+  assert.ok(base.includes('color: #A87E37; background: rgba(250,247,242,.94); box-shadow: 0 8px 22px rgba(67,52,39,.10);'));
   assert.ok(mobile.includes("url('/brand/natural-sereno/acolhimento.webp') center 46% / cover no-repeat"));
   assert.ok(mobile.includes('background: rgba(250,247,242,.94) !important;'));
 });
