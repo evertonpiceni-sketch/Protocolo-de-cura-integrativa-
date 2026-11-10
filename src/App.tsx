@@ -939,11 +939,11 @@ export default function App() {
   }
 
   const loadingScreen = (
-      <div id="auth-loading-view" className="min-h-screen bg-[#F8F4EC] text-[#2A2420] flex flex-col items-center justify-center p-6 text-center">
+      <div id="auth-loading-view" className="min-h-screen bg-[#FAF7F2] text-[#2A2421] flex flex-col items-center justify-center p-6 text-center">
         <div className="ep-brand-signature-wrap w-14 h-14 rounded-full overflow-hidden flex items-center justify-center mb-4">
           <img src={APPROVED_LOGO_DATA_URI} alt="Everton Piceni" className="ep-brand-signature h-full w-full object-contain" style={{ opacity: 0.3 }} />
         </div>
-        <p className="text-[11px] font-mono tracking-widest text-[#8F631E] uppercase font-bold mb-1">
+        <p className="text-[11px] font-mono tracking-widest text-[#A87E37] uppercase font-bold mb-1">
           Éverton Rodrigo Piceni • Terapias Holísticas
         </p>
         <h2 className="text-xl font-display font-medium text-[#2A2420] mb-2">
