@@ -31,3 +31,13 @@ test('as sete cores dos chakras do Arcanjo permanecem semânticas e os dias futu
   assert.ok(!css.includes('#arcanjo-protocol-view [data-day-state="current"]'));
   assert.ok(!css.includes('#arcanjo-protocol-view [data-day-state="completed"]'));
 });
+
+test('ownership de áudio reconhece a arte corporal neutra da Essência Luminosa', () => {
+  const component = read('src/components/ArcanjoProtocolView.tsx');
+  const ownership = read('src/lib/arcanjoAudioOwnershipPatch.ts');
+
+  assert.ok(component.includes("alt={neutral ? 'Representação corporal neutra em meditação com sete centros de energia' : 'Pessoa em meditação com os sete chakras'}"));
+  assert.ok(ownership.includes('img[alt="Pessoa em meditação com os sete chakras"]'));
+  assert.ok(ownership.includes('img[alt="Representação corporal neutra em meditação com sete centros de energia"]'));
+  assert.ok(ownership.includes('marker => !marker.closest(DASHBOARD_MARKER)'));
+});
