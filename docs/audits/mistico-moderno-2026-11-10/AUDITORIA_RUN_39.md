@@ -33,4 +33,4 @@
 
 ## Reauditoria
 
-A primeira execução do GitHub Actions encontrou apenas uma asserção de teste com escapes duplicados; a verificação foi simplificada para comparações literais, sem alterar o código funcional. A execução seguinte deve confirmar TypeScript, testes, build, segurança e smoke tests. Não foi feito merge, deploy em produção ou cobrança real.
+A primeira execução do GitHub Actions encontrou apenas uma asserção de teste com escapes duplicados; a verificação foi simplificada para comparações literais, sem alterar o código funcional. A execução seguinte foi aprovada: 212 testes passaram, zero falhas, npm audit encontrou zero vulnerabilidades, TypeScript e build passaram (2.250 módulos transformados), assim como entrypoints Vercel, JWT, autenticação, smoke test e verificações de pagamento fail-closed. O check Vercel de preview continua em falha por build-rate-limit. Não foi feito merge, deploy em produção ou cobrança real.
