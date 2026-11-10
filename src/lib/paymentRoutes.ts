@@ -142,7 +142,8 @@ export function paymentRoutes(authenticate: any, limiter: any, providerFetch: ty
     if (url.protocol !== 'https:' || url.username || url.password) throw new Error('URL pública inválida.');
     if (process.env.VERCEL_ENV === 'preview') {
       const productionHost = (process.env.VERCEL_PROJECT_PRODUCTION_URL || 'protocolo-de-cura-integrativa.vercel.app')
-        .replace(/^https?:\\/\\//i, '')
+        .replace('https://', '')
+        .replace('http://', '')
         .split('/')[0]
         .toLowerCase();
       if (url.hostname.toLowerCase() === productionHost) {
