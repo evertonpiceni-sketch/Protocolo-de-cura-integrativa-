@@ -764,7 +764,9 @@ export default function App() {
       bgMusicType: (newAnamnesis.recommendedFrequency === '963hz' || newAnamnesis.recommendedFrequency === '741hz') && userProfile.plan !== 'pro'
         ? userProfile.bgMusicType
         : newAnamnesis.recommendedFrequency,
-      audioEnabled: true
+      // No Místico Moderno, salvar a Anamnese não pode reativar áudio que o usuário desligou.
+      // Nos demais estilos, preserva-se o comportamento vigente de ativar a frequência recomendada.
+      audioEnabled: isMisticoModerno ? userProfile.audioEnabled !== false : true
     };
     // Saving the profile triggers the guarded background-audio effect.
     // Avoid bypassing active protocol/journey playback restrictions.
