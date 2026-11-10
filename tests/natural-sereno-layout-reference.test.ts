@@ -52,8 +52,19 @@ test('a barra do navegador só acompanha o estilo depois da confirmação explí
   assert.ok(effectStart >= 0 && effectEnd > effectStart, 'Efeito de theme-color não encontrado');
   const effect = app.slice(effectStart, effectEnd);
   assert.ok(effect.includes('const selected = layoutConfirmedThisSession'));
-  assert.ok(effect.includes("const themeColor = selected?.swatches[0] ?? '#F8F4EC';"));
+  assert.ok(effect.includes("const themeColor = selected?.swatches[0] ?? '#FAF7F2';"));
   assert.ok(effect.includes("metaThemeColor.setAttribute('content', themeColor);"));
+});
+
+test('o shell inicial e a instalação PWA usam o marfim aprovado antes da escolha', () => {
+  const html = read('index.html');
+  const manifest = read('public/manifest.json');
+
+  assert.ok(html.includes('<meta name="theme-color" content="#FAF7F2" />'));
+  assert.ok(html.includes('color="#A87E37"'));
+  assert.ok(html.includes('class="bg-[#FAF7F2] text-[#2A2421]'));
+  assert.ok(manifest.includes('"background_color": "#FAF7F2"'));
+  assert.ok(manifest.includes('"theme_color": "#FAF7F2"'));
 });
 
 test('o atributo data-layout permanece neutro até a confirmação explícita do estilo', () => {
