@@ -433,3 +433,29 @@
 :root[data-layout="elegancia-profunda"] #journey-choices .grid.grid-cols-2 > button strong {
   color:var(--ep-panel-text)!important;
 }
+
+
+/* RUN 110 — fotografia oficial no shell e nos heros; escopo exclusivo da Elegância Profunda. */
+:root[data-layout="elegancia-profunda"] #cura-main-layout {
+  background:
+    var(--ep-scene-overlay),
+    var(--ep-scene) center 48%/cover fixed no-repeat,
+    var(--layout-canvas)!important;
+}
+:root[data-layout="elegancia-profunda"] .ep-home-hero {
+  background:
+    var(--ep-scene-overlay),
+    var(--ep-scene) center 48%/cover no-repeat,
+    var(--layout-canvas)!important;
+}
+:root[data-layout="elegancia-profunda"] .ep-welcome-audio.ep-home-hero {
+  background:
+    var(--ep-scene-overlay),
+    var(--ep-scene) center 48%/cover no-repeat,
+    var(--layout-canvas)!important;
+}
+@media(max-width:640px) {
+  :root[data-layout="elegancia-profunda"] #cura-main-layout {
+    background-attachment:scroll!important;
+  }
+}
