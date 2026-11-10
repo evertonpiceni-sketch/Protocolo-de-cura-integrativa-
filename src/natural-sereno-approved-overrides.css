@@ -1851,3 +1851,27 @@
 :root[data-layout="natural-sereno"] [data-ep-reintegration-running="true"] .ep-reintegration-running-cta:hover {
   background: #A87E37 !important;
 }
+
+
+/* CTAs da Home: dourado refinado, texto café e cantos retangulares premium. */
+:root[data-layout="natural-sereno"] :is(.ep-home,.ep-welcome-audio) .ep-gold-button {
+  color: #2A2421 !important;
+  background: linear-gradient(135deg,#E2B96B,#C89D52) !important;
+  border: 1px solid rgba(168,126,55,.48) !important;
+  border-radius: 18px !important;
+  box-shadow: 0 9px 20px rgba(67,52,39,.10),inset 0 1px 0 rgba(255,255,255,.42) !important;
+}
+:root[data-layout="natural-sereno"] :is(.ep-home,.ep-welcome-audio) .ep-gold-button:hover {
+  background: #A87E37 !important;
+  color: #FFFDF8 !important;
+}
+:root[data-layout="natural-sereno"] .ep-welcome-audio button:not(.ep-gold-button) {
+  color: #6B4E2E !important;
+  background: rgba(251,248,242,.94) !important;
+  border-color: rgba(200,157,82,.30) !important;
+  box-shadow: 0 7px 18px rgba(67,52,39,.06) !important;
+}
+:root[data-layout="natural-sereno"] :is(.ep-home,.ep-welcome-audio) [class~="text-[#B88736]"],
+:root[data-layout="natural-sereno"] :is(.ep-home,.ep-welcome-audio) [class~="text-[#8F631E]"] {
+  color: #A87E37 !important;
+}
