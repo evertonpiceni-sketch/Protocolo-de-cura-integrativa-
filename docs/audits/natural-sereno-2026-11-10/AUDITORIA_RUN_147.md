@@ -17,7 +17,7 @@ A revisão da tela do Arcanjo identificou pequenos acentos antigos que permaneci
 
 Foram acrescentados overrides exclusivamente sob:
 
-` :root[data-layout="natural-sereno"] #arcanjo-protocol-view.ep-arcanjo-natural `
+`:root[data-layout="natural-sereno"] #arcanjo-protocol-view.ep-arcanjo-natural`
 
 Os acentos foram alinhados ao dourado refinado `#A87E37`, `#C89D52` e ao creme `#FBF8F2`. O componente compartilhado não foi alterado, evitando regressões nos outros estilos.
 
@@ -27,7 +27,7 @@ Commits:
 - CSS: `35f4104dd1084476e93b8cbba00c8690d9ffb2b7`
 - Teste: `20ac586a818e6d72e56a64080037c387f4a0438c`
 
-## Preservado e reaud itado
+## Preservado e reauditado
 
 - Prancha do Estilo 1 permanece representada no card pela derivação versionada `docs/visual-qa/natural-sereno/reference.jpg`, com `object-contain`. A comparação pixel a pixel com o PNG original não foi repetida nesta rodada.
 - Paleta creme/marfim, café/marrom, dourado refinado e verde-sálvia discreto.
