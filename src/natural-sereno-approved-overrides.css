@@ -1924,3 +1924,66 @@
   background: #F5EFE5 !important;
   border-color: rgba(200,157,82,.48) !important;
 }
+
+
+/* RUN 156 — últimos resíduos ativos no cabeçalho e no Diário.
+   Correções exclusivas do Natural Sereno; não alteram os outros estilos,
+   a semântica dos estados nem o conteúdo registrado. */
+
+/* O logo do cabeçalho permanece como assinatura: sem disco, moldura ou halo. */
+:root[data-layout="natural-sereno"] #header-profile-avatar {
+  background: transparent !important;
+  border-color: transparent !important;
+  box-shadow: none !important;
+}
+:root[data-layout="natural-sereno"] #main-header [class*="text-[#e5c66f]"] {
+  color: #A87E37 !important;
+}
+
+/* O atalho Arcanjo ainda carregava o azul de uma implementação anterior. */
+:root[data-layout="natural-sereno"] #header-btn-archangel {
+  color: #6B625B !important;
+  background: #FBF8F2 !important;
+  border: 1px solid rgba(200,157,82,.30) !important;
+  border-radius: 14px !important;
+  box-shadow: 0 6px 16px rgba(67,52,39,.06) !important;
+}
+:root[data-layout="natural-sereno"] #header-btn-archangel:hover {
+  color: #2A2421 !important;
+  background: #F5EFE4 !important;
+  border-color: rgba(200,157,82,.48) !important;
+}
+:root[data-layout="natural-sereno"] #header-btn-archangel svg {
+  color: #A87E37 !important;
+}
+
+/* No Diário, o estado "Como estou agora" usava uma chapa esmeralda.
+   A informação continua destacada, mas em superfície marfim e sálvia discreta. */
+:root[data-layout="natural-sereno"] #journal-dashboard-view section[class*="bg-emerald-50/65"] {
+  color: #2A2421 !important;
+  background: linear-gradient(145deg,#FFFDF8,#F5EFE4) !important;
+  border-color: rgba(200,157,82,.24) !important;
+  box-shadow: 0 8px 22px rgba(67,52,39,.05) !important;
+}
+:root[data-layout="natural-sereno"] #journal-dashboard-view section[class*="bg-emerald-50/65"] [class*="text-emerald-700"] {
+  color: #6F7B55 !important;
+}
+:root[data-layout="natural-sereno"] #journal-dashboard-view section[class*="bg-emerald-50/65"] [class*="text-emerald-800"] {
+  color: #2A2421 !important;
+}
+:root[data-layout="natural-sereno"] #journal-dashboard-view section[class*="bg-emerald-50/65"] [class*="border-emerald-200"] {
+  border-color: rgba(111,123,85,.24) !important;
+}
+
+/* Exportar mantém hierarquia premium com texto café, sem branco sobre dourado. */
+:root[data-layout="natural-sereno"] #btn-export-journal {
+  color: #2A2421 !important;
+  background: linear-gradient(135deg,#E2B96B,#C89D52) !important;
+  border: 1px solid rgba(168,126,55,.48) !important;
+  border-radius: 14px !important;
+  box-shadow: 0 8px 18px rgba(67,52,39,.08) !important;
+}
+:root[data-layout="natural-sereno"] #btn-export-journal:hover {
+  color: #FFFDF8 !important;
+  background: #A87E37 !important;
+}
