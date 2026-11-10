@@ -527,3 +527,17 @@ test('Style 4 never restarts 639 Hz over neural narration or after audio is disa
   assert.ok(systemicResumeStart >= 0 && systemicResumeEnd > systemicResumeStart);
   assert.match(systemic.slice(systemicResumeStart, systemicResumeEnd), /audioEnabledRef\.current !== false/);
 });
+
+
+test('o player do Místico Moderno respeita áudio global desligado e não carrega o mute para a próxima tela', () => {
+  const app = read('src/App.tsx');
+  const session = read('src/components/MeditationSession.tsx');
+  const policy = read('src/lib/protocolSessionAudioPolicy.ts');
+
+  assert.match(app, /<MeditationSession[\\s\\S]*?audioEnabled=\\{userProfile\\.audioEnabled !== false\\}/);
+  assert.match(session, /audioEnabled\\?: boolean/);
+  assert.match(session, /shouldPlayProtocolSessionBackground\\(sessionPhase, bgMusicType, audioEnabled\\)/);
+  assert.match(session, /audioEngine\\.setMasterVolume\\(1\\.0\\)/);
+  assert.match(policy, /audioEnabled = true/);
+  assert.match(policy, /return audioEnabled && sessionPhase === 'playing'/);
+});

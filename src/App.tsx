@@ -950,6 +950,7 @@ export default function App() {
           dayNumber={activeSessionDay}
           userName={userProfile.name}
           bgMusicType={userProfile.bgMusicType}
+          audioEnabled={userProfile.audioEnabled !== false}
           voiceId={userProfile.voiceId}
           voiceGender={userProfile.preferredVoiceGender || (userProfile.voiceType === 'everton' ? 'masculina' : userProfile.voiceType)}
           voiceRate={userProfile.voiceRate}

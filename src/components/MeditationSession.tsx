@@ -27,6 +27,7 @@ interface MeditationSessionProps {
   dayNumber: number;
   userName: string;
   bgMusicType: '528hz' | '432hz' | '963hz' | '741hz' | 'waves' | 'none';
+  audioEnabled?: boolean;
   voiceId?: string;
   voiceGender?: 'masculina' | 'feminina';
   voiceRate?: number;
@@ -89,6 +90,7 @@ export default function MeditationSession({
   dayNumber,
   userName,
   bgMusicType,
+  audioEnabled = true,
   voiceId,
   voiceRate = 0.82,
   userPlan = 'free',
@@ -162,13 +164,15 @@ export default function MeditationSession({
     return () => {
       audioEngine.stopSpeech();
       audioEngine.stopSynth();
+      // The mute control is local to this session; do not leak it into the next screen.
+      audioEngine.setMasterVolume(1.0);
     };
   }, []);
 
   useEffect(() => {
     // A trilha global já é interrompida ao abrir o protocolo. Não a reinicie
     // aqui quando ela for uma frequência Solfeggio; mantenha apenas ambiência não tonal.
-    if (shouldPlayProtocolSessionBackground(sessionPhase, bgMusicType)) {
+    if (shouldPlayProtocolSessionBackground(sessionPhase, bgMusicType, audioEnabled)) {
       audioEngine.startSynth(bgMusicType);
     } else {
       audioEngine.stopSynth();
@@ -176,7 +180,7 @@ export default function MeditationSession({
     return () => {
       audioEngine.stopSynth();
     };
-  }, [sessionPhase, bgMusicType]);
+  }, [sessionPhase, bgMusicType, audioEnabled]);
 
   const dailyStageContext = (stageId = currentStage.id) => {
     if (journeyType !== '21d') return '';

@@ -132,3 +132,11 @@ test('Místico Moderno inicia o Solfeggio apenas no início real da narração e
   assert.ok(resetBlock.includes('audioEngine.stopSynth();'));
   assert.ok(resetBlock.includes('setIsProtocolFrequencyActive(false);'));
 });
+
+
+test('o player respeita o áudio global desligado sem alterar a política das ambiências', () => {
+  assert.equal(shouldPlayProtocolSessionBackground('playing', 'waves', false), false);
+  assert.equal(shouldPlayProtocolSessionBackground('playing', 'florestazen', false), false);
+  assert.equal(shouldPlayProtocolSessionBackground('playing', 'waves', true), true);
+  assert.equal(shouldPlayProtocolSessionBackground('playing', '528hz', false), false);
+});
