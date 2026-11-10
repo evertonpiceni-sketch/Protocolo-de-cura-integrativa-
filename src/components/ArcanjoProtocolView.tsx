@@ -158,6 +158,7 @@ export default function ArcanjoProtocolView({ userProfile, onClose, onLogout, in
     if (!Number.isInteger(initialDay) || initialDay! < 1 || initialDay! > 7) return;
     narrationRunRef.current += 1;
     audioEngine.stopSpeech();
+    stopProtocolFrequency();
     audioEngine.stopSynth();
     if (fallbackTimerRef.current) window.clearInterval(fallbackTimerRef.current);
     fallbackTimerRef.current = null;
