@@ -7,15 +7,18 @@ const read = (path: string) => readFileSync(new URL(`../${path}`, import.meta.ur
 test('a Reintegração usa a voz oficial Marianne e nunca a voz Rachel legada', () => {
   const audio = read('src/lib/audio.ts');
   const server = read('server.ts');
-  const endpoint = read('api/reintegration-tts.ts');
+  const endpoint = read('api/index.ts');
+  const standaloneEndpoint = read('api/reintegration-tts.ts');
   const player = read('src/components/PersonalJourney21.tsx');
 
   const officialVoiceId = 'mJqP14JQFEK0PojR5lfV';
   assert.ok(audio.includes(`OFFICIAL_PROTOCOL_VOICE_ID = '${officialVoiceId}'`));
   assert.ok(server.includes(`OFFICIAL_PROTOCOL_VOICE_ID = "${officialVoiceId}"`));
-  assert.ok(endpoint.includes(`voiceId: '${officialVoiceId}'`));
+  assert.ok(endpoint.includes(`REINTEGRATION_VOICE_ID = \\\"${officialVoiceId}\\\"`));
+  assert.ok(standaloneEndpoint.includes(`voiceId: '${officialVoiceId}'`));
   assert.doesNotMatch(endpoint, /21m00Tcm4TlvDq8ikWAM/);
-  assert.ok(endpoint.includes('fallbackToSpeechSynthesis: false'));
+  assert.doesNotMatch(standaloneEndpoint, /21m00Tcm4TlvDq8ikWAM/);
+  assert.ok(standaloneEndpoint.includes('fallbackToSpeechSynthesis: false'));
   assert.ok(player.includes("fetch('/api/reintegration-tts'"));
   assert.doesNotMatch(player, /SpeechSynthesisUtterance|window\.speechSynthesis/);
 });
