@@ -9,7 +9,7 @@
 - Atualizado `tests/natural-sereno-arcanjo-explicit-open.test.ts` para proteger esse comportamento e garantir que as duas chamadas restantes de abertura correspondam somente ao evento explícito e ao botão do painel.
 - Criado no Vercel um `UPSTASH_DB_KEY` exclusivo para Preview desta branch: `cura_integrada:database:preview:natural-sereno:2026-11-10`. A branch não tinha namespace próprio e poderia cair no namespace padrão compartilhado com Production. A nova variável isola os dados de homologação.
 
-## Preservado e reaud itado
+## Preservado e reauditado
 
 - Seletor sem estilo pré-selecionado; a aplicação depende de escolha e confirmação explícitas.
 - Paleta Natural Sereno: creme/marfim, café, dourado refinado e verde-sálvia apenas como acento.
