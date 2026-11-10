@@ -36,5 +36,5 @@ test('o seletor de trilha dos Ajustes respeita o silêncio global no Estilo 3', 
   assert.ok(saveStart >= 0 && saveEnd > saveStart, 'Salvar ajustes de áudio deve existir.');
   const save = settings.slice(saveStart, saveEnd);
   assert.ok(save.includes('audioEnabled,'));
-  assert.match(save, /if \\(allowBackgroundPlayback && audioEnabled && bgMusicType !== 'none'\\)/);
+  assert.ok(save.includes("if (allowBackgroundPlayback && audioEnabled && bgMusicType !== 'none')"));
 });
