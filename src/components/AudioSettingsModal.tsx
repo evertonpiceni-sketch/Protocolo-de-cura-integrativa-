@@ -170,21 +170,19 @@ export default function AudioSettingsModal({
     }
     if (isEssenciaLuminosa && !audioEnabled) return;
     audioEngine.unlock();
-    {
-      setIsPlayingBioactivePreview(true);
-      const effectiveType = bgMusicType !== 'none' ? bgMusicType : '528hz';
-      if (bgMusicType === 'none') {
-        setBgMusicType('528hz');
-      }
-      audioEngine.setBioactiveConfig({
-        enabled: true,
-        waveType: binauralWaveType,
-        intensity: binauralIntensity,
-        carrierMode: binauralCarrierMode
-      });
-      setBioactiveBinauralEnabled(true);
-      audioEngine.startBG(effectiveType);
+    setIsPlayingBioactivePreview(true);
+    const effectiveType = bgMusicType !== 'none' ? bgMusicType : '528hz';
+    if (bgMusicType === 'none') {
+      setBgMusicType('528hz');
     }
+    audioEngine.setBioactiveConfig({
+      enabled: true,
+      waveType: binauralWaveType,
+      intensity: binauralIntensity,
+      carrierMode: binauralCarrierMode
+    });
+    setBioactiveBinauralEnabled(true);
+    audioEngine.startBG(effectiveType);
   };
 
   const restoreBackgroundAfterVoiceTest = () => {
