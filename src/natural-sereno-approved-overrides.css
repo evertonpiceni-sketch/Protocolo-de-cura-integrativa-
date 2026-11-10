@@ -1346,3 +1346,219 @@
   --tw-shadow-color: rgba(67,52,39,.08) !important;
   box-shadow: 0 8px 18px rgba(67,52,39,.08) !important;
 }
+
+
+/* RUN 144 — harmonizar os subcomponentes internos da sessão no Natural Sereno.
+   A varredura encontrou tokens antigos ainda ativos no portal de entrada,
+   check-in, roteiro secundário e estados finais do player. As regras abaixo
+   são estritamente escopadas ao Estilo 1; não alteram áudio, conteúdo ou fluxo. */
+
+/* Portal de entrada: retirar o brilho amarelo e o CTA antigo com texto branco. */
+:root[data-layout="natural-sereno"] #meditation-session .ep-acceptance-portal > div {
+  background: linear-gradient(145deg,#FFFDF8 0%,#F5EFE5 100%) !important;
+  border-color: #E8E0D5 !important;
+  box-shadow: 0 18px 42px rgba(67,52,39,.08) !important;
+}
+:root[data-layout="natural-sereno"] #meditation-session .ep-acceptance-portal [class~="bg-[#D4AF37]/10"] {
+  background-color: rgba(200,157,82,.08) !important;
+}
+:root[data-layout="natural-sereno"] #meditation-session .ep-acceptance-portal [class~="text-[#8F631E]"] {
+  color: #A87E37 !important;
+}
+:root[data-layout="natural-sereno"] #meditation-session .ep-acceptance-portal [class~="text-[#8F631E]/20"] {
+  color: rgba(168,126,55,.20) !important;
+}
+:root[data-layout="natural-sereno"] #meditation-session .ep-acceptance-portal [class~="border-[#B88736]/40"] {
+  border-color: rgba(200,157,82,.40) !important;
+}
+:root[data-layout="natural-sereno"] #meditation-session .ep-acceptance-portal button {
+  border-radius: 18px !important;
+}
+:root[data-layout="natural-sereno"] #meditation-session .ep-acceptance-portal button[class*="from-[#B88736]"] {
+  background-color: #C89D52 !important;
+  background-image: linear-gradient(180deg,#E2B96B,#C89D52) !important;
+  color: #2A2421 !important;
+  border: 1px solid #A87E37 !important;
+  box-shadow: 0 8px 18px rgba(67,52,39,.11) !important;
+}
+:root[data-layout="natural-sereno"] #meditation-session .ep-acceptance-portal button[class*="from-[#B88736]"]:hover {
+  background-image: linear-gradient(180deg,#E8C47D,#A87E37) !important;
+  color: #2A2421 !important;
+}
+
+/* Check-in: seleção em dourado/café, sem o antigo botão marrom com texto branco. */
+:root[data-layout="natural-sereno"] #meditation-session .ep-session-checkin > div {
+  background: linear-gradient(145deg,#FFFDF8 0%,#F5EFE5 100%) !important;
+  border-color: #E8E0D5 !important;
+  box-shadow: 0 18px 42px rgba(67,52,39,.08) !important;
+}
+:root[data-layout="natural-sereno"] #meditation-session .ep-session-checkin [class~="text-[#8F631E]"] {
+  color: #A87E37 !important;
+}
+:root[data-layout="natural-sereno"] #meditation-session .ep-session-checkin [class~="bg-[#FAF4E8]"] {
+  background: rgba(200,157,82,.09) !important;
+  border-color: rgba(200,157,82,.28) !important;
+}
+:root[data-layout="natural-sereno"] #meditation-session .ep-session-checkin [class~="border-[#B88736]/25"] {
+  border-color: rgba(200,157,82,.28) !important;
+}
+:root[data-layout="natural-sereno"] #meditation-session .ep-session-checkin button[aria-pressed="true"] {
+  background-color: #C89D52 !important;
+  background-image: linear-gradient(180deg,#E2B96B,#C89D52) !important;
+  color: #2A2421 !important;
+  border-color: #A87E37 !important;
+  box-shadow: 0 5px 12px rgba(67,52,39,.10) !important;
+}
+:root[data-layout="natural-sereno"] #meditation-session .ep-session-checkin button[aria-pressed="true"] :is(svg,span) {
+  color: #2A2421 !important;
+  fill: #2A2421 !important;
+}
+:root[data-layout="natural-sereno"] #meditation-session .ep-session-checkin button[aria-pressed="false"]:hover {
+  border-color: rgba(168,126,55,.48) !important;
+}
+:root[data-layout="natural-sereno"] #meditation-session .ep-session-checkin textarea:focus {
+  border-color: #C89D52 !important;
+  box-shadow: 0 0 0 3px rgba(200,157,82,.12) !important;
+}
+:root[data-layout="natural-sereno"] #meditation-session .ep-session-checkin button[class*="from-[#B88736]"] {
+  background-color: #C89D52 !important;
+  background-image: linear-gradient(180deg,#E2B96B,#C89D52) !important;
+  color: #2A2421 !important;
+  border: 1px solid #A87E37 !important;
+  border-radius: 18px !important;
+  box-shadow: 0 8px 18px rgba(67,52,39,.11) !important;
+}
+:root[data-layout="natural-sereno"] #meditation-session .ep-session-checkin button[class*="from-[#B88736]"]:hover {
+  background-image: linear-gradient(180deg,#E8C47D,#A87E37) !important;
+  color: #2A2421 !important;
+}
+
+/* Drawer do roteiro: superfícies claras e estados ativos na paleta vigente. */
+:root[data-layout="natural-sereno"] .ep-secondary-script-drawer__panel {
+  background: #FAF7F2 !important;
+  border-color: #E8E0D5 !important;
+  color: #2A2421 !important;
+}
+:root[data-layout="natural-sereno"] .ep-secondary-script-drawer__panel > div:first-child,
+:root[data-layout="natural-sereno"] .ep-secondary-script-drawer__panel > div:last-child {
+  background: #F5EFE5 !important;
+  border-color: #E8E0D5 !important;
+}
+:root[data-layout="natural-sereno"] .ep-secondary-script-drawer__panel [class~="text-[#8F631E]"] {
+  color: #A87E37 !important;
+}
+:root[data-layout="natural-sereno"] .ep-secondary-script-drawer__panel [class~="border-[#8F631E]"] {
+  border-color: #A87E37 !important;
+}
+:root[data-layout="natural-sereno"] .ep-secondary-script-drawer__panel [class~="ring-[#8F631E]/30"] {
+  --tw-ring-color: rgba(200,157,82,.30) !important;
+}
+:root[data-layout="natural-sereno"] .ep-secondary-script-drawer__panel [class~="bg-[#8F631E]"] {
+  background-color: #C89D52 !important;
+  background-image: linear-gradient(180deg,#E2B96B,#C89D52) !important;
+  color: #2A2421 !important;
+  border-color: #A87E37 !important;
+}
+:root[data-layout="natural-sereno"] .ep-secondary-script-drawer__panel [class~="bg-[#FAF4E8]"] {
+  background: rgba(200,157,82,.09) !important;
+}
+:root[data-layout="natural-sereno"] .ep-secondary-script-drawer__panel [class~="border-[#B88736]/30"],
+:root[data-layout="natural-sereno"] .ep-secondary-script-drawer__panel [class~="border-[#B88736]/25"] {
+  border-color: rgba(200,157,82,.28) !important;
+}
+:root[data-layout="natural-sereno"] .ep-secondary-script-drawer__panel button {
+  border-radius: 18px !important;
+}
+:root[data-layout="natural-sereno"] .ep-secondary-script-drawer__panel button:focus-visible {
+  --tw-ring-color: rgba(200,157,82,.48) !important;
+}
+:root[data-layout="natural-sereno"] .ep-secondary-script-drawer__panel button[class~="bg-[#8F631E]"] {
+  box-shadow: 0 8px 18px rgba(67,52,39,.10) !important;
+}
+
+/* Player: completar a correção dos acentos, da etapa ativa e dos controles. */
+:root[data-layout="natural-sereno"] #meditation-session .ep-stage-badge {
+  background: rgba(255,253,248,.94) !important;
+  border-color: rgba(200,157,82,.38) !important;
+  color: #A87E37 !important;
+  border-radius: 18px !important;
+}
+:root[data-layout="natural-sereno"] #meditation-session .ep-stage-badge > span:first-child {
+  background: #C89D52 !important;
+}
+:root[data-layout="natural-sereno"] #meditation-session > header button[aria-label="Ver roteiro sagrado da etapa"] {
+  border-radius: 18px !important;
+  color: #6B4E2E !important;
+}
+:root[data-layout="natural-sereno"] #meditation-session > header button[aria-label="Ver roteiro sagrado da etapa"] svg {
+  color: #A87E37 !important;
+}
+:root[data-layout="natural-sereno"] #meditation-session [aria-label="Etapas do protocolo"] [class~="bg-[#8F631E]"] {
+  background: #A87E37 !important;
+}
+:root[data-layout="natural-sereno"] #meditation-session [aria-label="Etapas do protocolo"] [class~="bg-[#8F631E]/50"] {
+  background: rgba(168,126,55,.50) !important;
+}
+:root[data-layout="natural-sereno"] #meditation-session footer [class~="text-[#8F631E]"] {
+  color: #A87E37 !important;
+}
+:root[data-layout="natural-sereno"] #meditation-session footer button[aria-label="Ler roteiro completo"] {
+  border-radius: 18px !important;
+  color: #6B4E2E !important;
+}
+:root[data-layout="natural-sereno"] #meditation-session footer button[aria-label="Ler roteiro completo"] svg {
+  color: #A87E37 !important;
+}
+:root[data-layout="natural-sereno"] #meditation-session footer .ns-play-toggle {
+  border-radius: 18px !important;
+  color: #2A2421 !important;
+}
+:root[data-layout="natural-sereno"] #meditation-session footer .ns-play-toggle svg {
+  color: #2A2421 !important;
+  fill: #2A2421 !important;
+}
+:root[data-layout="natural-sereno"] #meditation-session footer button:focus-visible,
+:root[data-layout="natural-sereno"] #meditation-session > header button:focus-visible {
+  --tw-ring-color: rgba(200,157,82,.48) !important;
+}
+
+/* Estados de acesso e conclusão: remover o último marrom antigo #8F631E. */
+:root[data-layout="natural-sereno"] .ep-session-access-card > div:first-child {
+  background: rgba(200,157,82,.10) !important;
+  border-color: rgba(200,157,82,.30) !important;
+  color: #A87E37 !important;
+}
+:root[data-layout="natural-sereno"] .ep-session-access-card > div:first-child svg {
+  color: #A87E37 !important;
+}
+:root[data-layout="natural-sereno"] .ep-session-access-card button[class*="bg-[#8F631E]"] {
+  background-color: #C89D52 !important;
+  background-image: linear-gradient(180deg,#E2B96B,#C89D52) !important;
+  color: #2A2421 !important;
+  border: 1px solid #A87E37 !important;
+  border-radius: 18px !important;
+}
+:root[data-layout="natural-sereno"] #meditation-session [role="dialog"][aria-label="Sessão concluída"] > div {
+  background: linear-gradient(145deg,#FFFDF8 0%,#F5EFE5 100%) !important;
+  border-color: #E8E0D5 !important;
+  box-shadow: 0 18px 42px rgba(67,52,39,.10) !important;
+}
+:root[data-layout="natural-sereno"] #meditation-session [role="dialog"][aria-label="Sessão concluída"] .w-16.h-16 {
+  background: rgba(200,157,82,.10) !important;
+  border-color: rgba(200,157,82,.30) !important;
+}
+:root[data-layout="natural-sereno"] #meditation-session [role="dialog"][aria-label="Sessão concluída"] .w-16.h-16 svg {
+  color: #A87E37 !important;
+}
+:root[data-layout="natural-sereno"] #meditation-session [role="dialog"][aria-label="Sessão concluída"] button[class*="bg-[#8F631E]"] {
+  background-color: #C89D52 !important;
+  background-image: linear-gradient(180deg,#E2B96B,#C89D52) !important;
+  color: #2A2421 !important;
+  border: 1px solid #A87E37 !important;
+  border-radius: 18px !important;
+  box-shadow: 0 8px 18px rgba(67,52,39,.11) !important;
+}
+:root[data-layout="natural-sereno"] #meditation-session [role="dialog"][aria-label="Sessão concluída"] button[class*="bg-[#8F631E]"]:hover {
+  background-image: linear-gradient(180deg,#E8C47D,#A87E37) !important;
+  color: #2A2421 !important;
+}

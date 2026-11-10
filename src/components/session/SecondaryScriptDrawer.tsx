@@ -35,7 +35,7 @@ export const SecondaryScriptDrawer: React.FC<SecondaryScriptDrawerProps> = ({
   return (
     <AnimatePresence>
       {isOpen && (
-        <div ref={dialogRef} className="fixed inset-0 z-50 flex justify-end" role="dialog" aria-modal="true" aria-label="Roteiro da sessão">
+        <div ref={dialogRef} className="ep-secondary-script-drawer fixed inset-0 z-50 flex justify-end" role="dialog" aria-modal="true" aria-label="Roteiro da sessão">
           {/* Backdrop */}
           <motion.div
             initial={{ opacity: 0 }}
@@ -51,7 +51,7 @@ export const SecondaryScriptDrawer: React.FC<SecondaryScriptDrawerProps> = ({
             animate={{ x: 0 }}
             exit={{ x: '100%' }}
             transition={{ type: 'spring', damping: 30, stiffness: 300 }}
-            className="relative z-10 w-full max-w-xl bg-[#FAF7F2] border-l border-[#E5DAC6] shadow-2xl flex flex-col h-dvh text-[#2A2420]"
+            className="ep-secondary-script-drawer__panel relative z-10 w-full max-w-xl bg-[#FAF7F2] border-l border-[#E5DAC6] shadow-2xl flex flex-col h-dvh text-[#2A2420]"
           >
             {/* Drawer Header */}
             <div className="px-6 py-5 border-b border-[#E5DAC6] flex items-center justify-between bg-[#F4EFE6]">
