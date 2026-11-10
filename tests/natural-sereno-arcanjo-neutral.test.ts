@@ -76,7 +76,7 @@ test('player Natural Sereno usa paisagem real e microanimação neutra; os demai
   assert.ok(naturalBranch.includes('/brand/natural-sereno/cachoeira.webp'));
   assert.ok(session.includes("const NATURAL_SERENO_BODY_GLOW = 'rgba(200,157,82,.16)'"));
   assert.ok(naturalBranch.includes('lightSoft={NATURAL_SERENO_BODY_GLOW}'));
-  assert.doesNotMatch(naturalBranch, /currentStage\\.colorTheme\\.glow/);
+  assert.doesNotMatch(naturalBranch, /currentStage\.colorTheme\.glow/);
   assert.ok(naturalBranch.includes('breathePhase={breathePhase}'));
   assert.ok(!naturalBranch.includes('SacredEnergyCanvas'));
   assert.ok(session.includes('<SacredEnergyCanvas'));
