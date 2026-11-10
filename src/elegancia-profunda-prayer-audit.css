@@ -49,3 +49,50 @@
   border-color:rgba(212,175,55,.38)!important;
   color:var(--layout-gold-light)!important;
 }
+
+
+/* RUN 121 — tela completa do Protocolo do Arcanjo.
+   A oração em modal já tinha tratamento próprio; esta regra corrige a página
+   de sete dias, cujo shell ainda carregava o fundo claro compartilhado. */
+:root[data-layout="elegancia-profunda"] #arcanjo-protocol-view {
+  background:linear-gradient(180deg,#0B1712 0%,#07130E 100%)!important;
+  color:var(--layout-text)!important;
+}
+:root[data-layout="elegancia-profunda"] #arcanjo-protocol-view > .fixed.inset-0 {
+  background:
+    radial-gradient(ellipse at 50% 0,rgba(212,175,119,.13),transparent 30rem),
+    linear-gradient(180deg,#0B1C14 0%,#07130E 100%)!important;
+}
+:root[data-layout="elegancia-profunda"] #arcanjo-protocol-view > header {
+  background:linear-gradient(145deg,rgba(18,43,31,.96),rgba(7,21,15,.98))!important;
+  border-color:rgba(212,175,119,.30)!important;
+  color:var(--layout-text)!important;
+  box-shadow:0 12px 32px rgba(0,0,0,.24)!important;
+}
+:root[data-layout="elegancia-profunda"] #arcanjo-protocol-view > header h1 {
+  color:var(--layout-text)!important;
+}
+:root[data-layout="elegancia-profunda"] #arcanjo-protocol-view > header button[class*="bg-rose-"] {
+  background:linear-gradient(145deg,#183b2d,#0d2118)!important;
+  border-color:rgba(212,175,119,.38)!important;
+  color:var(--layout-text-secondary)!important;
+  box-shadow:0 8px 22px rgba(0,0,0,.18)!important;
+}
+:root[data-layout="elegancia-profunda"] #arcanjo-protocol-view > header button[class*="bg-rose-"] :is(svg,span) {
+  color:var(--layout-gold-light)!important;
+}
+:root[data-layout="elegancia-profunda"] #arcanjo-protocol-view main > section:first-child > div:first-child {
+  color:var(--layout-text-secondary)!important;
+}
+:root[data-layout="elegancia-profunda"] #arcanjo-protocol-view main > section:first-child > div:first-child svg {
+  color:var(--layout-gold-light)!important;
+}
+:root[data-layout="elegancia-profunda"] #arcanjo-protocol-view .ep-forest-panel {
+  background:linear-gradient(145deg,rgba(16,41,30,.97),rgba(7,21,15,.99))!important;
+  border-color:rgba(212,175,119,.30)!important;
+  color:var(--layout-text)!important;
+  box-shadow:0 20px 54px rgba(0,0,0,.30),inset 0 1px 0 rgba(255,255,255,.035)!important;
+}
+:root[data-layout="elegancia-profunda"] #arcanjo-protocol-view main > section:last-child > p {
+  color:var(--layout-text-secondary)!important;
+}
