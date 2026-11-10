@@ -629,7 +629,7 @@ test('a fotografia oficial da Elegância Profunda compõe o shell e os heros sem
   assert.ok(welcomeHero.includes('var(--ep-scene-overlay)'));
   assert.ok(welcomeHero.includes('var(--ep-scene) center 48%/cover no-repeat'));
 
-  assert.match(css, /@media\\(max-width:640px\\)[\\s\\S]*:root\\[data-layout="elegancia-profunda"\\] #cura-main-layout\\s*\\{\\s*background-attachment:scroll!important;/);
+  assert.match(css, /@media\(max-width:640px\)[\s\S]*:root\[data-layout="elegancia-profunda"\] #cura-main-layout\s*\{\s*background-attachment:scroll!important;/);
 
   const player = read('src/elegancia-profunda-player-audit.css');
   assert.ok(player.includes('#meditation-session'));
