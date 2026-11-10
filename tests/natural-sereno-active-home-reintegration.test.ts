@@ -99,3 +99,11 @@ test('CTAs da Home ativa usam dourado refinado e texto café, sem o ocre legado'
   assert.ok(overrides.includes('[class~="text-[#B88736]"]'));
   assert.ok(overrides.includes('color: #A87E37 !important;'));
 });
+
+
+test('controles da sessão imersiva evitam botões em formato de pílula', () => {
+  const overrides = read('src/natural-sereno-approved-overrides.css');
+  assert.ok(overrides.includes('.ep-reintegration-running-script-button,'));
+  assert.ok(overrides.includes('.ep-reintegration-running-control {\n  border-radius: 14px !important;'));
+  assert.ok(overrides.includes('.ep-reintegration-running-cta {\n  border-radius: 18px !important;'));
+});
