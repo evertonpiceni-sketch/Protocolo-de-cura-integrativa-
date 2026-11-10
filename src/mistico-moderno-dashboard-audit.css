@@ -8,6 +8,7 @@
 
 :root[data-layout="mistico-moderno"] #progress-dashboard [class*="bg-[#F8F4EC]"],
 :root[data-layout="mistico-moderno"] #progress-dashboard [class*="bg-[#FBF8F2]"],
+:root[data-layout="mistico-moderno"] #progress-dashboard [class*="bg-[#F5EFE4]"],
 :root[data-layout="mistico-moderno"] #progress-dashboard [class*="bg-white"] {
   background-color: rgba(15, 20, 43, .88) !important;
 }
