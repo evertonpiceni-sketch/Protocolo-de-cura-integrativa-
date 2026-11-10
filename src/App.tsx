@@ -25,6 +25,7 @@ import { APPROVED_LOGO_DATA_URI } from './components/ApprovedBrand';
 import { calculateAstralMap } from './utils/astrology';
 import { audioEngine, OFFICIAL_PROTOCOL_VOICE_ID } from './lib/audio';
 import { shouldPlayProtocolSessionBackground } from './lib/protocolSessionAudioPolicy';
+import { resolveAudioEnabledAfterAnamnesisSave } from './lib/essenciaLuminosaAudioPolicy';
 import { setNeuralVoicePreviewActive } from './lib/neuralVoicePreviewState';
 import { isElevenLabsVoiceId, type ElevenLabsVoiceOption } from './lib/voiceSelection';
 import { evaluateAchievements } from './lib/achievementsData';
@@ -761,7 +762,7 @@ export default function App() {
       bgMusicType: (newAnamnesis.recommendedFrequency === '963hz' || newAnamnesis.recommendedFrequency === '741hz') && userProfile.plan !== 'pro'
         ? userProfile.bgMusicType
         : newAnamnesis.recommendedFrequency,
-      audioEnabled: true
+      audioEnabled: resolveAudioEnabledAfterAnamnesisSave(isEssenciaLuminosa, userProfile.audioEnabled)
     };
     // Saving the profile triggers the guarded background-audio effect.
     // Avoid bypassing active protocol/journey playback restrictions.
