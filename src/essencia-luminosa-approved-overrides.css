@@ -8,8 +8,7 @@
     radial-gradient(ellipse at 108% 34%,color-mix(in srgb,var(--layout-gold) 8%,transparent),transparent 24%)!important;
 }
 
-:root[data-layout="essencia-luminosa"] .ep-home-hero,
-:root[data-layout="essencia-luminosa"] .ep-home>section,
+:root[data-layout="essencia-luminosa"] .ep-home>section:not(.ep-home-hero),
 :root[data-layout="essencia-luminosa"] .ep-forest-panel,
 :root[data-layout="essencia-luminosa"] .ep-premium-surface,
 :root[data-layout="essencia-luminosa"] .ep-luxury-card{
