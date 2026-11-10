@@ -627,3 +627,12 @@ test('Místico Moderno does not mark the Arcanjo day complete when neural narrat
   assert.match(endBlock, /if \(runId === narrationRunRef\.current\) complete\(\);/);
   assert.match(audio, /options\?\.onError\?\.\(error\);\s*onEnd\(\);/);
 });
+
+test('Místico Moderno desativa animações e transições quando o sistema pede movimento reduzido', () => {
+  const css = read('src/mistico-moderno-final-audit.css');
+  assert.match(css, /@media \(prefers-reduced-motion: reduce\)/);
+  assert.match(css, /:root\[data-layout="mistico-moderno"\] \*::before/);
+  assert.match(css, /animation: none !important/);
+  assert.match(css, /transition: none !important/);
+  assert.match(css, /scroll-behavior: auto !important/);
+});
