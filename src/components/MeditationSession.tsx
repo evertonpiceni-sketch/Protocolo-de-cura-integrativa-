@@ -51,6 +51,8 @@ interface MeditationSessionProps {
   onChangeBgMusic?: (bgMusicType: '528hz' | '432hz' | '963hz' | '741hz' | 'waves' | 'none') => void;
 }
 
+const NATURAL_SERENO_BODY_GLOW = 'rgba(200,157,82,.16)';
+
 const ELEGANCIA_PROFUNDA_CANVAS_THEME = {
   glow: '#D4AF37',
   accent: '#2E6B4F',
@@ -409,7 +411,7 @@ export default function MeditationSession({
                 focusPosition={naturalSerenoVisualFocus.position}
                 focusLabel={naturalSerenoVisualFocus.label}
                 labelTitle="Foco corporal"
-                lightSoft={currentStage.colorTheme.glow}
+                lightSoft={NATURAL_SERENO_BODY_GLOW}
                 movementDescription={currentInsight.description}
                 breathePhase={breathePhase}
                 className="ep-session-neutral-body"
