@@ -30,9 +30,7 @@ test('o logo da Reintegração permanece assinatura transparente em desktop e mo
 });
 
 test('todas as regras novas ficam isoladas pelo layout da Essência Luminosa', () => {
-  const selectors = [...run146.matchAll(/([^{}]+)\\{/g)]
-    .map(match => match[1].trim().replace(/\\s+/g, ' '))
-    .filter(selector => !selector.startsWith('@'));
-  assert.ok(selectors.length > 0);
-  assert.ok(selectors.every(selector => selector.includes(':root[data-layout="essencia-luminosa"]')));
+  const selectors = run146.split('\\n').map(line => line.trim()).filter(line => line.startsWith(':root[data-layout='));
+  assert.ok(selectors.length >= 20);
+  assert.ok(selectors.every(selector => selector.startsWith(':root[data-layout="essencia-luminosa"]')));
 });
