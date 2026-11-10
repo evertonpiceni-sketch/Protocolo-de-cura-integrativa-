@@ -507,3 +507,23 @@ test('Style 4 respects the global audio-disabled setting in Anamnesis and System
   assert.match(systemic, /audioEnabledRef\.current/);
   assert.match(systemic, /bgMusicTypeRef\.current/);
 });
+
+
+test('Style 4 never restarts 639 Hz over neural narration or after audio is disabled mid-request', () => {
+  const anamnesis = read('src/components/AnamnesisModal.tsx');
+  const systemic = read('src/components/SystemicQuestionsModal.tsx');
+
+  assert.match(anamnesis, /isEditing && is639HzActive && !isStyle4AudioDisabled && !isStyle4VoiceActive/);
+  assert.match(anamnesis, /\[isOpen, isEditing, is639HzActive, isStyle4VoiceActive, userProfile\.audioEnabled, userProfile\.bgMusicType\]/);
+  const anamnesisResumeStart = anamnesis.indexOf('const resumeStyle4AnamnesisSolfeggio');
+  const anamnesisResumeEnd = anamnesis.indexOf('const stopTherapeuticVoice', anamnesisResumeStart);
+  assert.ok(anamnesisResumeStart >= 0 && anamnesisResumeEnd > anamnesisResumeStart);
+  assert.match(anamnesis.slice(anamnesisResumeStart, anamnesisResumeEnd), /audioEnabledRef\.current !== false/);
+
+  assert.match(systemic, /is639HzActive && !isStyle4AudioDisabled && !\(isMisticoModerno && isReadingVoice\)/);
+  assert.match(systemic, /\[isOpen, is639HzActive, isReadingVoice, userProfile\?\.audioEnabled, userProfile\?\.bgMusicType\]/);
+  const systemicResumeStart = systemic.indexOf('const resumeStyle4SystemicSolfeggio');
+  const systemicResumeEnd = systemic.indexOf('const handleCloseModal', systemicResumeStart);
+  assert.ok(systemicResumeStart >= 0 && systemicResumeEnd > systemicResumeStart);
+  assert.match(systemic.slice(systemicResumeStart, systemicResumeEnd), /audioEnabledRef\.current !== false/);
+});
