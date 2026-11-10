@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import test from 'node:test';
-import { shouldPlayEssenciaLuminosaInlineSolfeggio } from '../src/lib/essenciaLuminosaAudioPolicy';
+import { shouldPlayEssenciaLuminosaInlineSolfeggio, resolveAudioEnabledAfterAnamnesisSave } from '../src/lib/essenciaLuminosaAudioPolicy';
 
 test('639 Hz inline só toca com modal aberto, áudio habilitado e sem narração neural', () => {
   const base = {
@@ -49,4 +49,17 @@ test('Anamnese e Perguntas Sistêmicas conectam a política de áudio exclusiva 
   const systemicCss = fs.readFileSync('src/essencia-luminosa-final-audit.css', 'utf8');
   assert.ok(anamnesisCss.includes(':root[data-layout="essencia-luminosa"] #anamnesis-modal'));
   assert.ok(systemicCss.includes(':root[data-layout="essencia-luminosa"] #systemic-questions-modal [class*="bg-emerald-"]'));
+});
+
+
+test('salvar Anamnese não reativa o áudio global desligado na Essência Luminosa', () => {
+  assert.equal(resolveAudioEnabledAfterAnamnesisSave(true, false), false);
+  assert.equal(resolveAudioEnabledAfterAnamnesisSave(true, true), true);
+  assert.equal(resolveAudioEnabledAfterAnamnesisSave(true, undefined), true);
+
+  // Preserve the existing behavior of the other visual styles.
+  assert.equal(resolveAudioEnabledAfterAnamnesisSave(false, false), true);
+
+  const app = fs.readFileSync('src/App.tsx', 'utf8');
+  assert.ok(app.includes('audioEnabled: resolveAudioEnabledAfterAnamnesisSave(isEssenciaLuminosa, userProfile.audioEnabled)'));
 });
