@@ -524,6 +524,7 @@ export default function MeditationSession({
         <footer className="relative z-20 px-6 py-4 border-t border-[#E5DAC6] bg-[#FAF7F2]/95 backdrop-blur-md max-w-2xl mx-auto w-full">
           <MinimalPlayerControls
             isPlaying={isPlaying}
+            isEssenciaLuminosa={isEssenciaLuminosa}
             currentTime={currentTime}
             duration={duration}
             onTogglePlay={handleTogglePlay}
