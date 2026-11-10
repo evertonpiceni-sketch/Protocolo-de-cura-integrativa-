@@ -25,6 +25,13 @@ test('a Essência Luminosa usa uma representação corporal neutra e clara nas s
   assert.ok(audio.includes("? '/brand/chakra-body-neutral.svg'"));
   assert.ok(audio.includes(": '/brand/chakra-body.svg'"));
   assert.ok(audio.includes('src: getProtocolMediaArtwork()'));
+  assert.ok(audio.includes('const getProtocolStageMediaArtwork = () => isEssenciaLuminosaLayout()'));
+  assert.ok(audio.includes('artwork: getProtocolStageMediaArtwork()'));
+  assert.ok(audio.includes("{ src: '/icon-192.svg', sizes: '192x192', type: 'image/svg+xml' }"), 'outros estilos preservam o artwork genérico do aplicativo');
+
+  const approvedOverrides = read('src/essencia-luminosa-approved-overrides.css');
+  assert.ok(approvedOverrides.includes('#arcanjo-protocol-view [class*="aspect-[4/5]"]'));
+  assert.ok(approvedOverrides.includes('background: var(--layout-card) !important;'), 'o quadro corporal não pode exibir o fundo verde herdado');
 });
 
 test('as imagens históricas continuam preservadas para os estilos que não são Essência Luminosa', () => {
