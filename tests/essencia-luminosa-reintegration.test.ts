@@ -13,6 +13,7 @@ test('a jornada de 21 dias recebe superfícies claras apenas na Essência Lumino
   assert.ok(run146.includes(':root[data-layout="essencia-luminosa"] [data-ep-reintegration="true"] .ep-reintegration-card'));
   assert.ok(run146.includes('var(--layout-card)'));
   assert.ok(run146.includes('var(--layout-canvas-alt)'));
+  assert.ok(!run146.includes('var(--layout-accent-text)'));
 });
 
 test('o player da Reintegração preserva a fotografia natural e remove o azul-noturno no Estilo 3', () => {
