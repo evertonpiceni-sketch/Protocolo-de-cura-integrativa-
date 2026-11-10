@@ -170,8 +170,12 @@ test('Style 4 selector displays the verified official 4:3 board preview without 
   assert.match(modal, /src=\{MISTICO_MODERNO_OFFICIAL_BOARD\}[\s\S]*?className="h-full w-full object-contain p-1"/);
   assert.match(image, /width="384" height="288" viewBox="0 0 384 288"/);
   assert.match(image, /preserveAspectRatio="xMidYMid meet"/);
-  assert.match(image, /data:image\/webp;base64,/);
-  assert.ok(Buffer.byteLength(image, 'utf8') > 10000, 'The verified official Style 4 board preview must be present.');
+  const embeddedWebp = image.match(/href="data:image\\/webp;base64,([^"]+)"/)?.[1] ?? '';
+  assert.ok(embeddedWebp.length > 10000, 'The verified official Style 4 board preview must be present.');
+  assert.equal(embeddedWebp.length % 4, 0, 'The embedded WebP data URI must contain valid base64.');
+  const decodedWebp = Buffer.from(embeddedWebp, 'base64');
+  assert.equal(decodedWebp.toString('ascii', 0, 4), 'RIFF', 'The preview payload must be a WebP container.');
+  assert.equal(decodedWebp.toString('ascii', 8, 12), 'WEBP', 'The preview payload must be a WebP image.');
 });
 
 test('Style 4 home actions and dock stay within the night palette', () => {
