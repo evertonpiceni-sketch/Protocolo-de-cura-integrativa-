@@ -24,7 +24,7 @@ Commits:
 
 - Seletor React oficial, sem pré-seleção, com escolha e confirmação explícitas dos quatro estilos.
 - Aplicação do tema somente após confirmação, por `document.documentElement.dataset.layout`.
-- Prancha Natural Sereno referenciada por `docs/visual-qa/natural-sereno/reference.jpg`, em `object-contain`; a miniatura não é recortada. O arquivo original da conversa não foi recuperado nesta busca, portanto não houve nova comparação visual pixel a pixel.
+- Prancha original `1001196520.png` (`file_00000000317c820ebaad657dc3680de5`) recuperada e inspecionada diretamente. A derivação `docs/visual-qa/natural-sereno/reference.jpg` do repositório apresenta visualmente a mesma prancha e permanece em `object-contain`, sem recorte no card do seletor. A prancha ainda contém elementos de uma versão anterior — chapas verde-floresta, dourados/amarelos mais fortes, corpo com chakras e componentes antigos. Esses elementos são referências históricas e NÃO devem ser reintroduzidos: prevalecem as decisões posteriores de base creme/marfim, verde apenas como acento natural, dourado refinado, corpo neutro e logo oficial sutil/transparente. A comparação foi visual; igualdade binária/pixel a pixel não foi medida.
 - Paleta Natural Sereno, paisagens, enquadramentos, tipografia, CTAs e assinatura oficial discreta preservados.
 - Corpo neutro, player e animações preservados.
 - Código de voz neural/Marianne mantém `fallbackToSpeechSynthesis: false` no Natural Sereno.
@@ -44,7 +44,7 @@ A reauditoria desta rodada foi estática, por leitura dos arquivos e testes. Nã
 4. Escuta real da Marianne, ambiência, Solfeggio, pausa e retomada.
 5. Diário ponta a ponta com persistência por conta.
 6. InfinitePay sandbox, checkout, confirmação e webhook. A RUN 152 registrou ausência de `INFINITEPAY_API_KEY` no inventário do Vercel; essa variável não foi reconsultada nesta rodada.
-7. Recuperar o PNG original `1001196520.png` para comparação pixel a pixel; a busca por nome e ID não o localizou, e a derivação JPEG versionada continua como referência do repositório.
+7. Se necessário, fazer comparação automatizada de pixels entre o PNG original e a derivação JPEG; a inspeção visual já confirmou que representam a mesma prancha, mas não foi medida igualdade binária.
 8. Reconciliação seletiva dos 12 commits posteriores da `main`. Não fazer merge/rebase automático: preservar as decisões aprovadas e revisar os conflitos de segurança, áudio e abertura explícita.
 
 ## Estado da entrega
