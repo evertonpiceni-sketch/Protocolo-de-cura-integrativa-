@@ -54,6 +54,18 @@ export const MinimalPlayerControls: React.FC<MinimalPlayerControlsProps> = ({
   const progressStartColor = isEssenciaLuminosa ? '#C6A46A' : '#B88736';
   const progressPeakColor = isEssenciaLuminosa ? '#A87E37' : '#D4AF37';
 
+  const focusRingClass = isEssenciaLuminosa
+    ? 'focus-visible:ring-[#C6A46A]/45'
+    : 'focus-visible:ring-[#B88736]/35';
+  const playButtonClass = isEssenciaLuminosa
+    ? 'ns-play-toggle w-14 h-14 rounded-2xl bg-gradient-to-tr from-[#F7F3E8] via-[#C6A46A] to-[#A87E37] text-[#2A2420] flex items-center justify-center shadow-[0_4px_20px_rgba(112,91,58,0.12)] hover:shadow-[0_6px_25px_rgba(112,91,58,0.16)] hover:scale-105 active:scale-95 transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#C6A46A]/45'
+    : 'ns-play-toggle w-14 h-14 rounded-2xl bg-gradient-to-tr from-[#B88736] via-[#D4AF37] to-[#C5A059] text-white flex items-center justify-center shadow-[0_4px_20px_rgba(184,135,54,0.3)] hover:shadow-[0_6px_25px_rgba(184,135,54,0.45)] hover:scale-105 active:scale-95 transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B88736]/40';
+  const mutedStateClass = isMuted
+    ? isEssenciaLuminosa
+      ? 'text-[#8F631E] bg-[#F7F3E8] border border-[#E5DAC6]'
+      : 'text-rose-500 bg-rose-50'
+    : 'text-[#5C5248] hover:text-[#2A2420] hover:bg-[#E5DAC6]/40';
+
   return (
     <div className="w-full max-w-xl mx-auto px-4 pb-6 pt-2 select-none">
       <div className="space-y-1.5 mb-4">
@@ -93,11 +105,11 @@ export const MinimalPlayerControls: React.FC<MinimalPlayerControlsProps> = ({
       <div className="flex items-center justify-between gap-2">
         <button
           onClick={onOpenScriptDrawer}
-          className="flex min-h-11 items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-serif text-[#5C5248] hover:text-[#2A2420] hover:bg-[#E5DAC6]/40 border border-transparent hover:border-[#E5DAC6] transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B88736]/35"
+          className={`flex min-h-11 items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-serif text-[#5C5248] hover:text-[#2A2420] hover:bg-[#E5DAC6]/40 border border-transparent hover:border-[#E5DAC6] transition-all focus-visible:outline-none focus-visible:ring-2 ${focusRingClass}`}
           title="Ler roteiro completo"
           aria-label="Ler roteiro completo"
         >
-          <BookOpen size={16} className="text-[#8F631E]" />
+          <BookOpen size={16} className={isEssenciaLuminosa ? 'text-[#A87E37]' : 'text-[#8F631E]'} />
           <span className="hidden sm:inline">Roteiro</span>
         </button>
 
@@ -105,7 +117,7 @@ export const MinimalPlayerControls: React.FC<MinimalPlayerControlsProps> = ({
           <button
             onClick={onPrevStage}
             disabled={!hasPrevStage}
-            className="min-h-11 min-w-11 rounded-xl text-[#5C5248] hover:text-[#2A2420] disabled:opacity-30 disabled:hover:text-[#5C5248] hover:bg-[#E5DAC6]/40 transition-colors flex items-center justify-center focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B88736]/35"
+            className={`min-h-11 min-w-11 rounded-xl text-[#5C5248] hover:text-[#2A2420] disabled:opacity-30 disabled:hover:text-[#5C5248] hover:bg-[#E5DAC6]/40 transition-colors flex items-center justify-center focus-visible:outline-none focus-visible:ring-2 ${focusRingClass}`}
             title="Etapa anterior"
             aria-label="Etapa anterior"
           >
@@ -115,7 +127,7 @@ export const MinimalPlayerControls: React.FC<MinimalPlayerControlsProps> = ({
           <button
             onClick={onSeekBackward}
             disabled={!hasKnownDuration}
-            className="min-h-11 min-w-11 rounded-xl text-[#5C5248] hover:text-[#2A2420] hover:bg-[#E5DAC6]/40 transition-colors flex items-center justify-center relative disabled:opacity-30 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B88736]/35"
+            className={`min-h-11 min-w-11 rounded-xl text-[#5C5248] hover:text-[#2A2420] hover:bg-[#E5DAC6]/40 transition-colors flex items-center justify-center relative disabled:opacity-30 focus-visible:outline-none focus-visible:ring-2 ${focusRingClass}`}
             title={hasKnownDuration ? 'Voltar 15 segundos' : 'A duração ainda não está disponível'}
             aria-label="Voltar 15 segundos"
           >
@@ -125,21 +137,21 @@ export const MinimalPlayerControls: React.FC<MinimalPlayerControlsProps> = ({
 
           <button
             onClick={onTogglePlay}
-            className="ns-play-toggle w-14 h-14 rounded-2xl bg-gradient-to-tr from-[#B88736] via-[#D4AF37] to-[#C5A059] text-white flex items-center justify-center shadow-[0_4px_20px_rgba(184,135,54,0.3)] hover:shadow-[0_6px_25px_rgba(184,135,54,0.45)] hover:scale-105 active:scale-95 transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B88736]/40"
+            className={playButtonClass}
             title={isPlaying ? 'Pausar sessão' : 'Iniciar sessão'}
             aria-label={isPlaying ? 'Pausar sessão' : 'Iniciar sessão'}
           >
             {isPlaying ? (
-              <Pause size={22} className="fill-white" />
+              <Pause size={22} className={isEssenciaLuminosa ? 'fill-[#2A2420]' : 'fill-white'} />
             ) : (
-              <Play size={22} className="fill-white ml-0.5" />
+              <Play size={22} className={`ml-0.5 ${isEssenciaLuminosa ? 'fill-[#2A2420]' : 'fill-white'}`} />
             )}
           </button>
 
           <button
             onClick={onSeekForward}
             disabled={!hasKnownDuration}
-            className="min-h-11 min-w-11 rounded-xl text-[#5C5248] hover:text-[#2A2420] hover:bg-[#E5DAC6]/40 transition-colors flex items-center justify-center relative disabled:opacity-30 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B88736]/35"
+            className={`min-h-11 min-w-11 rounded-xl text-[#5C5248] hover:text-[#2A2420] hover:bg-[#E5DAC6]/40 transition-colors flex items-center justify-center relative disabled:opacity-30 focus-visible:outline-none focus-visible:ring-2 ${focusRingClass}`}
             title={hasKnownDuration ? 'Avançar 15 segundos' : 'A duração ainda não está disponível'}
             aria-label="Avançar 15 segundos"
           >
@@ -150,7 +162,7 @@ export const MinimalPlayerControls: React.FC<MinimalPlayerControlsProps> = ({
           <button
             onClick={onNextStage}
             disabled={!hasNextStage}
-            className="min-h-11 min-w-11 rounded-xl text-[#5C5248] hover:text-[#2A2420] disabled:opacity-30 disabled:hover:text-[#5C5248] hover:bg-[#E5DAC6]/40 transition-colors flex items-center justify-center focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B88736]/35"
+            className={`min-h-11 min-w-11 rounded-xl text-[#5C5248] hover:text-[#2A2420] disabled:opacity-30 disabled:hover:text-[#5C5248] hover:bg-[#E5DAC6]/40 transition-colors flex items-center justify-center focus-visible:outline-none focus-visible:ring-2 ${focusRingClass}`}
             title="Próxima etapa"
             aria-label="Próxima etapa"
           >
@@ -160,11 +172,7 @@ export const MinimalPlayerControls: React.FC<MinimalPlayerControlsProps> = ({
 
         <button
           onClick={onToggleMute}
-          className={`min-h-11 min-w-11 rounded-xl transition-colors flex items-center justify-center focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B88736]/35 ${
-            isMuted
-              ? 'text-rose-500 bg-rose-50'
-              : 'text-[#5C5248] hover:text-[#2A2420] hover:bg-[#E5DAC6]/40'
-          }`}
+          className={`min-h-11 min-w-11 rounded-xl transition-colors flex items-center justify-center focus-visible:outline-none focus-visible:ring-2 ${focusRingClass} ${mutedStateClass}`}
           title={isMuted ? 'Ativar som' : 'Silenciar voz'}
           aria-label={isMuted ? 'Ativar som' : 'Silenciar voz'}
         >
