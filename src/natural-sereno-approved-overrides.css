@@ -1987,3 +1987,35 @@
   color: #FFFDF8 !important;
   background: #A87E37 !important;
 }
+
+/* RUN 157 — refinar os controles de áudio do cabeçalho.
+   O JSX ainda usa fundo âmbar/ocre legado nos botões de som e nos ícones do cabeçalho.
+   A correção permanece exclusiva do Natural Sereno. */
+:root[data-layout="natural-sereno"] #main-header [class*="text-[#8F631E]"],
+:root[data-layout="natural-sereno"] #main-header [class*="text-[#B88736]"] {
+  color: #A87E37 !important;
+}
+
+:root[data-layout="natural-sereno"] #header-audio-quick-control button {
+  color: #6B625B !important;
+  background: #FBF8F2 !important;
+  border-color: rgba(200,157,82,.30) !important;
+  border-radius: 14px !important;
+  box-shadow: 0 5px 14px rgba(67,52,39,.05) !important;
+}
+
+:root[data-layout="natural-sereno"] #header-audio-quick-control button:hover {
+  color: #2A2421 !important;
+  background: #F5EFE5 !important;
+  border-color: rgba(200,157,82,.46) !important;
+}
+
+:root[data-layout="natural-sereno"] #header-audio-quick-control button svg {
+  color: #A87E37 !important;
+}
+
+/* O CTA do Diário mantém texto café também no hover; não alternar para branco. */
+:root[data-layout="natural-sereno"] #btn-export-journal:hover {
+  color: #2A2421 !important;
+  background: #A87E37 !important;
+}
