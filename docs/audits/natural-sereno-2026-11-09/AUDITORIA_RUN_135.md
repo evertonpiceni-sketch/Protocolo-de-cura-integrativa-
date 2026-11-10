@@ -7,7 +7,8 @@ Data: 2026-11-09 (America/Sao_Paulo)
 - A tela de sessão (MeditationSession) ainda trazia, na barreira de acesso dos dias PRO, um CTA com fundo sólido legado #8F631E, texto branco e hover #7A5318.
 - Foi adicionada uma regra final e isolada em src/natural-sereno-approved-overrides.css, limitada a :root[data-layout="natural-sereno"] .ep-session-access-gate.
 - O CTA agora usa gradiente dourado refinado #E2B96B → #C89D52, texto café #2A2421, borda #A87E37, raio de 18px e hover dourado escuro.
-- Criado tests/natural-sereno-session-access-gate.test.ts para proteger o escopo e as cores contra regressão.
+- O halo animado do guia de respiração ainda usava #D4AF37; a camada final substitui o amarelo forte por um radial suave em #C89D52, mantendo a animação e o movimento.
+- Criado tests/natural-sereno-session-access-gate.test.ts para proteger o escopo, as cores do CTA e o halo refinado contra regressão.
 
 ## Preservado e rechecado
 
@@ -22,16 +23,16 @@ Data: 2026-11-09 (America/Sao_Paulo)
 
 ## Limitações / pendências
 
-- O teste novo foi adicionado, mas não há execução GitHub Actions associada ao HEAD atual 8e32ef1ad942eb6f7d9c8851da94033e1f9daef2. A última CI confirmada é a run #2183, anterior a este commit; portanto, não declarar suíte, TypeScript ou build aprovados nesta rodada.
+- O teste novo foi adicionado, mas não há execução GitHub Actions associada ao HEAD atual 6e333aa2e5f25759c47fde865fc889065e3e361b. A última CI confirmada é a run #2183, anterior a este commit; portanto, não declarar suíte, TypeScript ou build aprovados nesta rodada.
 - O único status atual no HEAD é Vercel em falha por build-rate-limit; não há preview READY. Sem prévia, a inspeção pixel a pixel de todas as páginas em desktop/mobile e a escuta real de Marianne/Solfeggio/ambiência continuam pendentes.
 - InfinitePay ainda requer homologação sandbox de checkout, confirmação e webhook.
 - A busca na Biblioteca encontrou uma prancha chamada Painel UX_UI Natural Sereno.png com a mesma composição geral de 12 telas; não foi possível confirmar que o identificador interno é exatamente o arquivo original 1001196520.png / file_00000000317c820ebaad657dc3680de5. A cópia versionada no repositório não foi substituída.
-- A PR está divergida da main: 143 commits à frente e 12 atrás, mergeable=false. As alterações posteriores dos estilos 2/3 e de infraestrutura devem ser reconciliadas por partes, preservando o que já foi aprovado; não foi feito merge.
+- A PR está divergida da main: 146 commits à frente e 12 atrás, mergeable=false. As alterações posteriores dos estilos 2/3 e de infraestrutura devem ser reconciliadas por partes, preservando o que já foi aprovado; não foi feito merge.
 
 ## Evidências
 
-- Correção CSS: commit 7747beef5a334731922fb0cb7529850b89243c10.
-- Teste de regressão: commit 8e32ef1ad942eb6f7d9c8851da94033e1f9daef2.
+- Correção CSS do CTA: commit 7747beef5a334731922fb0cb7529850b89243c10; ajuste do halo: commit 0311ac56b4e6087b23ff7189a6948ee23f96e4c5.
+- Teste de regressão: commit 6e333aa2e5f25759c47fde865fc889065e3e361b.
 - PR: https://github.com/evertonpiceni-sketch/Protocolo-de-cura-integrativa-/pull/79
 - Última CI aprovada antes desta rodada: https://github.com/evertonpiceni-sketch/Protocolo-de-cura-integrativa-/actions/runs/42677230012
 
