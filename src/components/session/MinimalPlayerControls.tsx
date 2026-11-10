@@ -6,6 +6,7 @@ import {
 
 interface MinimalPlayerControlsProps {
   isPlaying: boolean;
+  isEssenciaLuminosa?: boolean;
   onTogglePlay: () => void;
   onPrevStage: () => void;
   onNextStage: () => void;
@@ -30,6 +31,7 @@ function formatTime(seconds: number): string {
 
 export const MinimalPlayerControls: React.FC<MinimalPlayerControlsProps> = ({
   isPlaying,
+  isEssenciaLuminosa = false,
   onTogglePlay,
   onPrevStage,
   onNextStage,
@@ -49,6 +51,8 @@ export const MinimalPlayerControls: React.FC<MinimalPlayerControlsProps> = ({
   const progressPercent = hasKnownDuration
     ? Math.min(100, Math.max(0, (safeCurrentTime / duration) * 100))
     : 0;
+  const progressStartColor = isEssenciaLuminosa ? '#C6A46A' : '#B88736';
+  const progressPeakColor = isEssenciaLuminosa ? '#A87E37' : '#D4AF37';
 
   return (
     <div className="w-full max-w-xl mx-auto px-4 pb-6 pt-2 select-none">
@@ -63,10 +67,10 @@ export const MinimalPlayerControls: React.FC<MinimalPlayerControlsProps> = ({
             onChange={event => onSeekTo(Number(event.target.value))}
             aria-label="Posição da narração"
             aria-valuetext={`${formatTime(safeCurrentTime)} de ${formatTime(duration)}`}
-            className="ep-protocol-progress block w-full h-8 cursor-pointer accent-[#B88736]"
+            className={`ep-protocol-progress block w-full h-8 cursor-pointer ${isEssenciaLuminosa ? 'accent-[#C6A46A]' : 'accent-[#B88736]'}`}
             style={{
               '--ep-progress': `${progressPercent}%`,
-              background: `linear-gradient(90deg, #B88736 0%, #D4AF37 ${progressPercent}%, #E5DAC6 ${progressPercent}%, #E5DAC6 100%)`
+              background: `linear-gradient(90deg, ${progressStartColor} 0%, ${progressPeakColor} ${progressPercent}%, #E5DAC6 ${progressPercent}%, #E5DAC6 100%)`
             } as React.CSSProperties}
           />
         ) : (
@@ -76,7 +80,7 @@ export const MinimalPlayerControls: React.FC<MinimalPlayerControlsProps> = ({
             aria-valuetext="Duração ainda não disponível"
             className="relative h-2 w-full overflow-hidden rounded-full bg-[#E5DAC6]"
           >
-            <div className="absolute inset-y-0 left-0 w-1/3 animate-pulse motion-reduce:animate-none rounded-full bg-gradient-to-r from-[#B88736]/15 via-[#D4AF37]/55 to-[#B88736]/15" />
+            <div className={`absolute inset-y-0 left-0 w-1/3 animate-pulse motion-reduce:animate-none rounded-full bg-gradient-to-r ${isEssenciaLuminosa ? 'from-[#C6A46A]/15 via-[#A87E37]/40 to-[#C6A46A]/15' : 'from-[#B88736]/15 via-[#D4AF37]/55 to-[#B88736]/15'}`} />
           </div>
         )}
 
