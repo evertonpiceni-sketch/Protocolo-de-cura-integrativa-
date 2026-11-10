@@ -611,3 +611,16 @@ test('Místico Moderno neutralizes inherited light dashboard backdrop and progre
   assert.match(css, /opacity: \.30 !important/);
   assert.match(css, /opacity: \.26 !important/);
 });
+
+test('Místico Moderno does not mark the Arcanjo day complete when neural narration fails', () => {
+  const arcanjo = read('src/components/ArcanjoProtocolView.tsx');
+  const start = arcanjo.slice(arcanjo.indexOf('const start ='), arcanjo.indexOf('const togglePlayback'));
+  const errorStart = start.indexOf('onError: () => {');
+  const endStart = start.indexOf('onEnd: () => {', errorStart);
+  const errorBlock = start.slice(errorStart, endStart);
+
+  assert.ok(errorStart >= 0 && endStart > errorStart);
+  assert.match(errorBlock, /if \(isMisticoModerno\) narrationRunRef\.current \+= 1;/);
+  assert.ok(errorBlock.indexOf('narrationRunRef.current += 1;') < errorBlock.indexOf('audioEngine.stopSpeech();'));
+  assert.match(start, /onEnd: \(\) => \{\s*if \(runId === narrationRunRef\.current\) complete\(\);/);
+});
