@@ -156,3 +156,18 @@ test('Prática Individual remove âmbar saturado, painel índigo e foco esmerald
   assert.ok(overrides.includes('border-color: #C89D52 !important;'));
   assert.ok(overrides.includes('box-shadow: 0 8px 18px rgba(67,52,39,.08) !important;'));
 });
+
+test('Home Natural Sereno usa somente o dourado refinado nos pequenos acentos', () => {
+  const homeModel = read('src/lib/naturalSerenoHomeApprovedModel.ts');
+
+  assert.doesNotMatch(homeModel, /#8F631E/i, 'O ocre legado não pode reaparecer nos textos de acento da Home');
+  assert.equal((homeModel.match(/#A87E37/gi) || []).length >= 4, true);
+  for (const selector of [
+    '.ep-home-anamnesis-card > small',
+    '.ns-current-day .ns-row-copy small',
+    '.ns-insight > small',
+    '.ep-home-closing p',
+  ]) {
+    assert.ok(homeModel.includes(selector), `Seletor da Home não encontrado: ${selector}`);
+  }
+});
