@@ -27,7 +27,7 @@ Data: 2026-11-09 (America/Sao_Paulo)
 - O único status atual no HEAD é Vercel em falha por build-rate-limit; não há preview READY. Sem prévia, a inspeção pixel a pixel de todas as páginas em desktop/mobile e a escuta real de Marianne/Solfeggio/ambiência continuam pendentes.
 - InfinitePay ainda requer homologação sandbox de checkout, confirmação e webhook.
 - A busca na Biblioteca encontrou uma prancha chamada Painel UX_UI Natural Sereno.png com a mesma composição geral de 12 telas; não foi possível confirmar que o identificador interno é exatamente o arquivo original 1001196520.png / file_00000000317c820ebaad657dc3680de5. A cópia versionada no repositório não foi substituída.
-- A PR está divergida da main: 146 commits à frente e 12 atrás, mergeable=false. As alterações posteriores dos estilos 2/3 e de infraestrutura devem ser reconciliadas por partes, preservando o que já foi aprovado; não foi feito merge.
+- A PR está divergida da main: 147 commits à frente e 12 atrás, mergeable=false. As alterações posteriores dos estilos 2/3 e de infraestrutura devem ser reconciliadas por partes, preservando o que já foi aprovado; não foi feito merge.
 
 ## Evidências
 
