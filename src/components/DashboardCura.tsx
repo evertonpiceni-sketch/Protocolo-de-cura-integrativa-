@@ -17,6 +17,8 @@ export default function DashboardCura({ onClose, progress, userProfile }: { onCl
   const [completedDays, setCompletedDays] = useState<number[]>([]);
   const dialogRef = React.useRef<HTMLDivElement | null>(null);
   useDialogFocus(document.documentElement.dataset.layout === 'natural-sereno', dialogRef, onClose);
+  const isMisticoModerno = document.documentElement.dataset.layout === 'mistico-moderno';
+  const bodyImage = isMisticoModerno ? '/brand/chakra-body.svg' : '/brand/human-chakra-model.jpg';
 
   useEffect(() => {
     const profileCompleted = userProfile?.journeyProgress?.arcanjo7CompletedDays;
@@ -96,8 +98,8 @@ export default function DashboardCura({ onClose, progress, userProfile }: { onCl
       <main className="relative z-10 mx-auto w-full max-w-lg flex-1 px-5 pb-12">
         {/* Central Energy Visualizer */}
         <div className="relative mx-auto my-8 aspect-[4/5] w-full max-w-[360px] rounded-[2rem] border border-[#E4C573]/30 bg-white/75 shadow-[0_22px_60px_rgba(0,0,0,.38)] overflow-hidden">
-          <img src="/brand/human-chakra-model.jpg" alt="Pessoa em meditação com os sete chakras" className="absolute inset-0 h-full w-full object-cover" />
-          <div className="absolute inset-0 bg-gradient-to-t from-[#F8F4EC]/70 via-transparent to-transparent" />
+          <img src={bodyImage} alt={isMisticoModerno ? "Silhueta neutra em meditação com os sete centros luminosos" : "Pessoa em meditação com os sete chakras"} data-mistico-body-image className="absolute inset-0 h-full w-full object-cover" />
+          <div data-mistico-body-overlay className="absolute inset-0 bg-gradient-to-t from-[#F8F4EC]/70 via-transparent to-transparent" />
           
           {CHAKRAS_DATA.map((chakra) => {
             const isCompleted = completedDays.includes(chakra.day);

@@ -31,3 +31,13 @@
   opacity: .34 !important;
   filter: saturate(.88) contrast(.96);
 }
+
+
+/* O Estilo 4 usa a silhueta neutra já aprovada no projeto e mantém o rodapé da imagem em azul-noturno. */
+:root[data-layout="mistico-moderno"] #progress-dashboard [data-mistico-body-image] {
+  filter: saturate(.76) brightness(.86) contrast(1.02);
+}
+
+:root[data-layout="mistico-moderno"] #progress-dashboard [data-mistico-body-overlay] {
+  background: linear-gradient(to top, rgba(10, 15, 24, .78), rgba(10, 15, 24, 0) 72%) !important;
+}

@@ -578,3 +578,22 @@ test('Místico Moderno welcome-audio surface overrides inherited light text and 
   assert.match(css, /\.ep-welcome-audio button:not\(\.ep-gold-button\)/);
   assert.match(css, /\.ep-welcome-audio \.ep-gold-button/);
 });
+
+
+test('Místico Moderno usa a silhueta neutra nas superfícies Arcanjo e Dashboard', () => {
+  const arcanjo = read('src/components/ArcanjoProtocolView.tsx');
+  const dashboard = read('src/components/DashboardCura.tsx');
+  const dashboardCss = read('src/mistico-moderno-dashboard-audit.css');
+  const neutralBody = read('public/brand/chakra-body.svg');
+  const expectedBodySource = "const bodyImage = isMisticoModerno ? '/brand/chakra-body.svg' : '/brand/human-chakra-model.jpg';";
+
+  assert.ok(arcanjo.includes(expectedBodySource));
+  assert.ok(arcanjo.includes('isMisticoModerno={isMisticoModerno}'));
+  assert.ok(dashboard.includes(expectedBodySource));
+  assert.ok(dashboard.includes('data-mistico-body-image'));
+  assert.ok(dashboard.includes('data-mistico-body-overlay'));
+  assert.ok(dashboardCss.includes('#progress-dashboard [data-mistico-body-image]'));
+  assert.ok(dashboardCss.includes('#progress-dashboard [data-mistico-body-overlay]'));
+  assert.ok(neutralBody.includes('Figura em posição de lótus'));
+  assert.doesNotMatch(neutralBody, /female|male|feminina|masculina/i);
+});
