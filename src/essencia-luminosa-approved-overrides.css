@@ -462,3 +462,43 @@
 :root[data-layout="essencia-luminosa"] #hooponopono-modal [data-phrase-tone="2"] strong {
   color: var(--layout-text-secondary) !important;
 }
+
+/* RUN 142 — harmoniza o CTA flutuante e torna inequívoca a seleção atual nas Configurações.
+   A regra só existe sob data-layout da Essência Luminosa; os outros estilos mantêm o verde de contato aprovado. */
+:root[data-layout="essencia-luminosa"] #floating-whatsapp-btn {
+  background: linear-gradient(145deg, color-mix(in srgb, var(--layout-accent-soft) 62%, var(--layout-card)), var(--layout-card)) !important;
+  color: var(--layout-text) !important;
+  border-color: color-mix(in srgb, var(--layout-accent) 38%, var(--layout-border-card)) !important;
+  box-shadow: 0 14px 34px rgba(112, 91, 58, .12) !important;
+}
+:root[data-layout="essencia-luminosa"] #floating-whatsapp-btn:hover {
+  background: linear-gradient(145deg, var(--layout-gold-soft), var(--layout-card)) !important;
+  border-color: var(--layout-gold-border) !important;
+  box-shadow: 0 16px 38px rgba(112, 91, 58, .14) !important;
+}
+:root[data-layout="essencia-luminosa"] #floating-whatsapp-btn svg {
+  color: var(--layout-gold-dark) !important;
+  fill: color-mix(in srgb, var(--layout-accent-soft) 54%, var(--layout-card)) !important;
+}
+:root[data-layout="essencia-luminosa"] #floating-whatsapp-btn span {
+  color: var(--layout-text) !important;
+}
+:root[data-layout="essencia-luminosa"] #settings-view .ep-layout-choice[aria-pressed="true"] {
+  border-color: var(--layout-gold) !important;
+  background: linear-gradient(145deg, color-mix(in srgb, var(--layout-gold-soft) 42%, var(--layout-card)), var(--layout-card)) !important;
+  box-shadow: 0 0 0 1px color-mix(in srgb, var(--layout-gold) 22%, transparent), 0 10px 28px rgba(112, 91, 58, .10) !important;
+}
+:root[data-layout="essencia-luminosa"] #settings-view .ep-layout-choice[aria-pressed="false"] {
+  border-color: var(--layout-border-card) !important;
+  background: var(--layout-card) !important;
+}
+:root[data-layout="essencia-luminosa"] #settings-view .ep-layout-choice:focus-visible {
+  outline: 2px solid color-mix(in srgb, var(--layout-gold) 58%, white) !important;
+  outline-offset: 3px;
+}
+@media (prefers-reduced-motion: reduce) {
+  :root[data-layout="essencia-luminosa"] #floating-whatsapp-btn {
+    transition: none !important;
+    transform: none !important;
+  }
+}
