@@ -25,7 +25,7 @@ import { APPROVED_LOGO_DATA_URI } from './components/ApprovedBrand';
 import { calculateAstralMap } from './utils/astrology';
 import { audioEngine, OFFICIAL_PROTOCOL_VOICE_ID } from './lib/audio';
 import { shouldPlayProtocolSessionBackground } from './lib/protocolSessionAudioPolicy';
-import { resolveAudioEnabledAfterAnamnesisSave } from './lib/essenciaLuminosaAudioPolicy';
+import { resolveAudioEnabledAfterAnamnesisSave, resolveAudioEnabledAfterFrequencySelection } from './lib/essenciaLuminosaAudioPolicy';
 import { setNeuralVoicePreviewActive } from './lib/neuralVoicePreviewState';
 import { isElevenLabsVoiceId, type ElevenLabsVoiceOption } from './lib/voiceSelection';
 import { evaluateAchievements } from './lib/achievementsData';
@@ -2459,7 +2459,7 @@ export default function App() {
               saveProfile({
                 ...userProfile,
                 bgMusicType: freq,
-                audioEnabled: true
+                audioEnabled: resolveAudioEnabledAfterFrequencySelection(isEssenciaLuminosa, userProfile.audioEnabled)
               });
             }
           }}
