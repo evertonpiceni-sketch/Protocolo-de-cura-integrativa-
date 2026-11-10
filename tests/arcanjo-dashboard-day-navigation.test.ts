@@ -23,6 +23,8 @@ test('the day selected in the progress dashboard opens that same Arcanjo day', (
   assert.match(arcanjo, /initialDay\?: number;/);
   assert.match(arcanjo, /if \(!Number\.isInteger\(initialDay\) \|\| initialDay! < 1 \|\| initialDay! > 7\) return;/);
   assert.match(arcanjo, /setDiaAtual\(initialDay!\)/);
+  assert.match(arcanjo, /audioEngine\.stopSpeech\(\);\s*stopProtocolFrequency\(\);\s*audioEngine\.stopSynth\(\);/, 
+    'Changing days must stop the previous Arcanjo-owned Solfeggio before loading the new day.');
 
   const progressHydration = arcanjo.indexOf('setDiaAtual([1,2,3,4,5,6,7].find');
   const explicitSelection = arcanjo.indexOf('setDiaAtual(initialDay!)');
