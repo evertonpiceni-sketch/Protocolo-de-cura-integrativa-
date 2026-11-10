@@ -162,13 +162,16 @@ test('Style 4 selector uses the complete night palette from the official referen
 });
 
 
-test('Style 4 selector displays the official board thumbnail from the exact reference', () => {
+test('Style 4 selector displays the verified official 4:3 board preview without cropping', () => {
   const modal = read('src/components/LayoutChoiceModal.tsx');
-  const image = readFileSync(resolve(root, 'public/brand/mistico-moderno/prancha-oficial-card.webp'));
-  assert.match(modal, /MISTICO_MODERNO_OFFICIAL_BOARD = '\/brand\/mistico-moderno\/prancha-oficial-card\.webp'/);
+  const image = read('public/brand/mistico-moderno/prancha-oficial-card.svg');
+  assert.match(modal, /MISTICO_MODERNO_OFFICIAL_BOARD = '\/brand\/mistico-moderno\/prancha-oficial-card\.svg'/);
   assert.match(modal, /src=\{MISTICO_MODERNO_OFFICIAL_BOARD\}/);
   assert.match(modal, /src=\{MISTICO_MODERNO_OFFICIAL_BOARD\}[\s\S]*?className="h-full w-full object-contain p-1"/);
-  assert.ok(image.byteLength > 10000, 'The official Style 4 board thumbnail must be present.');
+  assert.match(image, /width="384" height="288" viewBox="0 0 384 288"/);
+  assert.match(image, /preserveAspectRatio="xMidYMid meet"/);
+  assert.match(image, /data:image\/webp;base64,/);
+  assert.ok(Buffer.byteLength(image, 'utf8') > 10000, 'The verified official Style 4 board preview must be present.');
 });
 
 test('Style 4 home actions and dock stay within the night palette', () => {
