@@ -11,6 +11,7 @@ interface ArcanjoProtocolViewProps {
   userProfile: UserProfile;
   onLogout: () => void;
   onClose?: () => void;
+  initialDay?: number;
   initialCompletedDays?: number[];
   onCompletedDaysChange?: (days: number[]) => void;
 }
@@ -89,7 +90,7 @@ function ChakraBody({ config, progress, active, isMisticoModerno }: { config: Pr
   </div>;
 }
 
-export default function ArcanjoProtocolView({ userProfile, onClose, onLogout, initialCompletedDays, onCompletedDaysChange }: ArcanjoProtocolViewProps) {
+export default function ArcanjoProtocolView({ userProfile, onClose, onLogout, initialDay, initialCompletedDays, onCompletedDaysChange }: ArcanjoProtocolViewProps) {
   const [diaAtual, setDiaAtual] = useState(1);
   const [isPlaying, setIsPlaying] = useState(false);
   const [isPreparingAudio, setIsPreparingAudio] = useState(false);
@@ -149,6 +150,28 @@ export default function ArcanjoProtocolView({ userProfile, onClose, onLogout, in
       audioEngine.stopSynth();
     };
   }, [initialCompletedDays]);
+
+  // A day explicitly selected from the progress dashboard takes precedence on entry.
+  // Keep this separate from progress hydration so later completion updates can advance
+  // to the next unfinished day without reapplying the original dashboard selection.
+  useEffect(() => {
+    if (!Number.isInteger(initialDay) || initialDay! < 1 || initialDay! > 7) return;
+    narrationRunRef.current += 1;
+    audioEngine.stopSpeech();
+    audioEngine.stopSynth();
+    if (fallbackTimerRef.current) window.clearInterval(fallbackTimerRef.current);
+    fallbackTimerRef.current = null;
+    setDiaAtual(initialDay!);
+    setHasStarted(false);
+    setIsPlaying(false);
+    setIsPreparingAudio(false);
+    setVoiceError(false);
+    setIsProtocolFrequencyActive(false);
+    setElapsed(0);
+    setDuration(0);
+    setActiveSectionIndex(0);
+    setShowRoteiro(false);
+  }, [initialDay]);
 
   useEffect(() => {
     if (!isPlaying || hasKnownDuration || !hasStarted) {
