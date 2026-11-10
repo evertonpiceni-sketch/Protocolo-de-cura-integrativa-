@@ -46,7 +46,10 @@ test('o fundo de reserva do corpo neutro usa grafite quente no player da Essênc
 
 test('a Reintegração usa Marianne na Essência Luminosa e preserva a voz dos demais estilos', () => {
   assert.equal(getReintegrationVoice('essencia-luminosa').voiceId, 'mJqP14JQFEK0PojR5lfV');
+  // Only Style 3 changes voice; the other three approved styles retain their existing voice.
+  assert.equal(getReintegrationVoice('natural-sereno').voiceId, '21m00Tcm4TlvDq8ikWAM');
   assert.equal(getReintegrationVoice('elegancia-profunda').voiceId, '21m00Tcm4TlvDq8ikWAM');
+  assert.equal(getReintegrationVoice('mistico-moderno').voiceId, '21m00Tcm4TlvDq8ikWAM');
   assert.ok(journey.includes("layout: isEssenciaLuminosa ? 'essencia-luminosa' : 'default'"));
   assert.ok(reintegrationTts.includes('fallbackToSpeechSynthesis: false'));
 });
