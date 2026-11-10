@@ -135,3 +135,18 @@
     radial-gradient(ellipse at -8% 24%, rgba(108,63,160,.10), transparent 24%),
     radial-gradient(ellipse at 108% 34%, rgba(212,175,55,.06), transparent 24%);
 }
+
+/* O Estilo 4 respeita a preferência de movimento reduzido em todas as superfícies,
+   inclusive animações Tailwind e transições definidas inline no player do Arcanjo. */
+@media (prefers-reduced-motion: reduce) {
+  :root[data-layout="mistico-moderno"] *,
+  :root[data-layout="mistico-moderno"] *::before,
+  :root[data-layout="mistico-moderno"] *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+
+  :root[data-layout="mistico-moderno"] {
+    scroll-behavior: auto !important;
+  }
+}
