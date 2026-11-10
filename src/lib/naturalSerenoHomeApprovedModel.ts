@@ -54,7 +54,7 @@ function addStyles() {
     :root[data-layout="natural-sereno"] .ep-home-anamnesis-card > small {
       display: inline-block;
       margin-bottom: 7px;
-      color: #8F631E !important;
+      color: #A87E37 !important;
       font-size: 10px !important;
       font-weight: 700;
       letter-spacing: .12em;
@@ -113,7 +113,7 @@ function addStyles() {
     }
 
     :root[data-layout="natural-sereno"] .ep-home-has-anamnesis .ns-current-day .ns-row-copy small {
-      color: #8F631E !important;
+      color: #A87E37 !important;
       font-size: 10px !important;
       text-transform: uppercase;
       letter-spacing: .12em;
@@ -174,7 +174,7 @@ function addStyles() {
     }
 
     :root[data-layout="natural-sereno"] .ns-insight > small {
-      color: #8F631E !important;
+      color: #A87E37 !important;
       font-weight: 700;
       letter-spacing: .16em;
       text-transform: uppercase;
@@ -254,7 +254,7 @@ function addStyles() {
     }
 
     :root[data-layout="natural-sereno"] .ep-home-closing p {
-      color: #8F631E !important;
+      color: #A87E37 !important;
       font-family: 'Cormorant Garamond',Georgia,serif;
       font-size: 27px !important;
       line-height: 1.1 !important;
