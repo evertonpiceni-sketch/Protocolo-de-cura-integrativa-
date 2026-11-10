@@ -5,7 +5,8 @@ import { OFFICIAL_LAYOUTS, LayoutDefinition, LayoutId } from '../config/layouts'
 
 // Referências visuais oficiais dos quatro estilos; paletas e tratamentos seguem as decisões aprovadas mais recentes.
 const NATURAL_SERENO_OFFICIAL_BOARD = new URL('../../docs/visual-qa/natural-sereno/reference.jpg', import.meta.url).href;
-const MISTICO_MODERNO_OFFICIAL_BOARD = '/brand/mistico-moderno/prancha-oficial-card.webp';
+// Derived from the verified 1536×1152 official board; 4:3 and displayed without cropping.
+const MISTICO_MODERNO_OFFICIAL_BOARD = '/brand/mistico-moderno/prancha-oficial-card.svg';
 
 interface LayoutChoiceModalProps {
   onSelect: (layout: LayoutId) => void | Promise<void>;
