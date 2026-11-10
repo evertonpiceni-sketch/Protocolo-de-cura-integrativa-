@@ -399,7 +399,7 @@
   [class*="text-violet-"], [class*="text-[#315C85]"], [class*="text-[#2F6B50]"],
   [class*="text-[#2D4A3E]"], [class*="text-[#5E7153]"], [class*="text-[#A6B49B]"]
 ) {
-  color: var(--layout-accent-text) !important;
+  color: var(--layout-text) !important;
 }
 
 :root[data-layout="essencia-luminosa"] :is(
@@ -682,4 +682,18 @@
     animation: none !important;
     transition: none !important;
   }
+}
+
+
+/* Mantém os pequenos rótulos dourados e o acento sálvia sem saturação. */
+:root[data-layout="essencia-luminosa"] [data-ep-reintegration="true"] .ep-reintegration-luminous [class*="text-[#B88736]"],
+:root[data-layout="essencia-luminosa"] [data-ep-reintegration="true"] .ep-reintegration-card [class*="text-[#B88736]"],
+:root[data-layout="essencia-luminosa"] [data-ep-reintegration="true"] .ep-reintegration-player-voice-card [class*="text-[#B88736]"] {
+  color: var(--layout-gold-dark) !important;
+}
+
+:root[data-layout="essencia-luminosa"] [data-ep-reintegration="true"] .ep-reintegration-top-actions > div > .ep-reintegration-top-button:last-child {
+  background: color-mix(in srgb, var(--layout-accent-soft) 62%, var(--layout-card)) !important;
+  border-color: color-mix(in srgb, var(--layout-accent) 42%, var(--layout-border-card)) !important;
+  color: var(--layout-text-secondary) !important;
 }
