@@ -58,3 +58,33 @@ test('Ajustes > Aparência usa somente o seletor React oficial, sem a confirmaç
   assert.ok(!main.includes('layoutSettingsExplicitConfirmationPatch'));
   assert.ok(!app.includes('layoutSettingsExplicitConfirmationPatch'));
 });
+
+
+test('assinatura do cabeçalho não recebe moldura dominante no Estilo 3', () => {
+  const app = read('src/App.tsx');
+  const css = read('src/essencia-luminosa-header-semantic-audit.css');
+  const approved = read('src/essencia-luminosa-approved-overrides.css');
+
+  assert.ok(app.includes('id="header-profile-avatar"'));
+  assert.ok(app.includes('className="ep-brand-signature'));
+  assert.ok(css.includes('#header-profile-avatar'));
+  assert.ok(css.includes('background:transparent!important'));
+  assert.ok(css.includes('border-color:transparent!important'));
+  assert.ok(css.includes('box-shadow:none!important'));
+  assert.ok(approved.includes('opacity:.30!important'));
+  assert.ok(approved.includes('opacity:.26!important'));
+});
+
+test('logout do cabeçalho mantém a ação acessível sem rosa/vermelho na Essência Luminosa', () => {
+  const app = read('src/App.tsx');
+  const css = read('src/essencia-luminosa-header-semantic-audit.css');
+
+  assert.ok(app.includes('id="header-btn-logout"'));
+  assert.ok(app.includes('aria-label="Sair da conta"'));
+  assert.ok(css.includes('#header-btn-logout{'));
+  assert.ok(css.includes('#header-btn-logout:hover'));
+  assert.ok(css.includes('#header-btn-logout:active'));
+  assert.ok(css.includes('var(--layout-gold-soft)'));
+  assert.ok(css.includes('var(--layout-text-secondary)'));
+  assert.ok(css.includes('#header-btn-logout svg'));
+});
