@@ -63,3 +63,23 @@
 :root[data-layout="essencia-luminosa"] #anamnesis-modal button[class*="from-emerald-600"][class*="to-indigo-600"]:hover{
   filter:brightness(.98);
 }
+
+/* A faixa 639 Hz é um estado funcional da Anamnese, não uma identidade verde.
+   Converte todas as variantes emerald (inclusive opacidades e hover) em sálvia/oliva
+   clara, preservando os cartões cromáticos próprios dos chakras fora desta faixa. */
+:root[data-layout="essencia-luminosa"] #anamnesis-modal .ep-anamnesis-frequency {
+  background:linear-gradient(135deg,
+    color-mix(in srgb,var(--el-sage) 14%,var(--el-ivory)),
+    color-mix(in srgb,var(--el-champagne) 86%,white))!important;
+  border-color:color-mix(in srgb,var(--el-sage) 34%,var(--layout-border-card))!important;
+}
+:root[data-layout="essencia-luminosa"] #anamnesis-modal .ep-anamnesis-frequency [class*="bg-emerald-"] {
+  background-color:color-mix(in srgb,var(--el-sage) 20%,var(--el-champagne))!important;
+  background-image:none!important;
+}
+:root[data-layout="essencia-luminosa"] #anamnesis-modal .ep-anamnesis-frequency [class*="border-emerald-"] {
+  border-color:color-mix(in srgb,var(--el-sage) 40%,var(--layout-border-card))!important;
+}
+:root[data-layout="essencia-luminosa"] #anamnesis-modal .ep-anamnesis-frequency [class*="text-emerald-"] {
+  color:color-mix(in srgb,var(--el-sage) 72%,var(--el-ink))!important;
+}
