@@ -147,3 +147,19 @@ test('o brilho de carregamento do Arcanjo usa dourado refinado no Natural Sereno
   assert.ok(run136.includes('#arcanjo-protocol-view.ep-arcanjo-natural .ep-forest-panel [class*="via-[#d4af37]"]'));
   assert.ok(run136.includes('linear-gradient(90deg, transparent, rgba(200,157,82,.72), transparent) !important;'));
 });
+
+
+test('Arcanjo Natural Sereno neutraliza amarelo antigo nos controles e na seleção dos dias', () => {
+  const player = read('src/components/ArcanjoProtocolView.tsx');
+  const css = read('src/natural-sereno-approved-overrides.css');
+  const run147 = css.slice(css.lastIndexOf('/* RUN 147 — Arcanjo Natural Sereno:'));
+
+  assert.ok(player.includes('text-[#f0d989]'));
+  assert.ok(player.includes('bg-[#e5c66f]/12'));
+  assert.ok(run147.includes(':root[data-layout="natural-sereno"] #arcanjo-protocol-view.ep-arcanjo-natural'));
+  assert.ok(run147.includes('[class*="text-[#f0d989]"]'));
+  assert.ok(run147.includes('color: #A87E37 !important;'));
+  assert.ok(run147.includes('[class*="bg-[#e5c66f]/12"]'));
+  assert.ok(run147.includes('background-color: rgba(200,157,82,.12) !important;'));
+  assert.ok(run147.includes('border-color: rgba(200,157,82,.30) !important;'));
+});
