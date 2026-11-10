@@ -7,7 +7,7 @@
 
 ## Corrigido
 
-1. **Voz da Reintegração:** `api/reintegration-tts.ts` utilizava o ID `21m00Tcm4TlvDq8ikWAM` (Rachel), enquanto o ID oficial do projeto é `mJqP14JQFEK0PojR5lfV` (Marianne). O endpoint agora usa o ID oficial. Como a assinatura da voz participa da chave de cache, o áudio antigo não é reutilizado. A política continua neural-only, sem fallback para voz do dispositivo.
+1. **Voz da Reintegração:** a rota efetivamente ativa é `api/index.ts`, pois `vercel.json` reescreve `/api/:path*` para a função `/api`. Ela utilizava o ID `21m00Tcm4TlvDq8ikWAM` (Rachel), enquanto a voz oficial aprovada é `mJqP14JQFEK0PojR5lfV` (Marianne). Corrigi a rota ativa e alinhei também o handler standalone `api/reintegration-tts.ts` para evitar divergência. A chave de cache inclui o ID da voz, portanto o áudio antigo não é reutilizado. O fluxo permanece neural-only, sem fallback para voz do dispositivo.
 2. **Shell de carregamento:** a tela anterior à escolha usava o fundo legado `#F8F4EC` e o ocre `#8F631E`. Corrigidos para creme `#FAF7F2` e dourado refinado `#A87E37`.
 3. **Toast da aplicação:** o componente `.ep-app-toast` combinava fundo índigo/roxo escuro com texto café, criando contraste inadequado e uma chapa de outro estilo. A nova superfície marfim/café/dourado está isolada em `:root[data-layout="natural-sereno"]`; as demais identidades não são alteradas.
 
