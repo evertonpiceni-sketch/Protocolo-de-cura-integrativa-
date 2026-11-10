@@ -26,3 +26,13 @@ export function resolveAudioEnabledAfterAnamnesisSave(
 ): boolean {
   return isEssenciaLuminosa ? currentAudioEnabled !== false : true;
 }
+
+/** Selecting a frequency inside Anamnese must not undo an explicit global mute in Style 3.
+ * Other styles keep their existing frequency-selection activation behavior.
+ */
+export function resolveAudioEnabledAfterFrequencySelection(
+  isEssenciaLuminosa: boolean,
+  currentAudioEnabled?: boolean
+): boolean {
+  return isEssenciaLuminosa ? currentAudioEnabled !== false : true;
+}
