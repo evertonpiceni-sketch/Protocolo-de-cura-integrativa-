@@ -1562,3 +1562,24 @@
   background-image: linear-gradient(180deg,#E2B96B,#A87E37) !important;
   color: #2A2421 !important;
 }
+
+
+/* RUN 147 — Arcanjo Natural Sereno: neutralizar os últimos acentos amarelos do seletor diário.
+   O componente é compartilhado; estas regras atuam somente quando Natural Sereno está confirmado. */
+:root[data-layout="natural-sereno"] #arcanjo-protocol-view.ep-arcanjo-natural [class*="text-[#B88736]"],
+:root[data-layout="natural-sereno"] #arcanjo-protocol-view.ep-arcanjo-natural [class*="text-[#f0d989]"] {
+  color: #A87E37 !important;
+}
+:root[data-layout="natural-sereno"] #arcanjo-protocol-view.ep-arcanjo-natural [class*="border-[#B88736]"] {
+  border-color: rgba(200,157,82,.30) !important;
+}
+:root[data-layout="natural-sereno"] #arcanjo-protocol-view.ep-arcanjo-natural .ep-forest-panel [class*="bg-[#e5c66f]/12"] {
+  background-color: rgba(200,157,82,.12) !important;
+  background-image: none !important;
+}
+:root[data-layout="natural-sereno"] #arcanjo-protocol-view.ep-arcanjo-natural .ep-forest-panel button[class*="bg-black/10"] {
+  background: #FBF8F2 !important;
+  border-color: rgba(200,157,82,.30) !important;
+  color: #6B625B !important;
+  box-shadow: 0 6px 16px rgba(67,52,39,.06) !important;
+}
