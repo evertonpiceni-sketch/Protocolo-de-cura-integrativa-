@@ -1583,3 +1583,75 @@
   color: #6B625B !important;
   box-shadow: 0 6px 16px rgba(67,52,39,.06) !important;
 }
+
+
+/* RUN 149 — acolhimento do Natural Sereno: remover o painel verde-escuro herdado do onboarding compartilhado. */
+:root[data-layout="natural-sereno"] .ep-care-onboarding {
+  background:
+    radial-gradient(circle at 12% 0%, rgba(200,157,82,.10), transparent 26rem),
+    linear-gradient(180deg, #FBF8F2 0%, #F8F4EC 100%) !important;
+  color: #2A2421 !important;
+}
+
+:root[data-layout="natural-sereno"] .ep-care-onboarding-card {
+  background: linear-gradient(145deg, #FFFDF8 0%, #FAF7F2 60%, #F0E7D9 100%) !important;
+  border-color: rgba(200,157,82,.34) !important;
+  color: #2A2421 !important;
+  box-shadow: 0 24px 70px rgba(67,52,39,.12), inset 0 1px 0 rgba(255,255,255,.86) !important;
+}
+
+:root[data-layout="natural-sereno"] .ep-care-onboarding-card > .pointer-events-none {
+  background: radial-gradient(circle at 50% 0, rgba(200,157,82,.12), transparent 70%) !important;
+}
+
+:root[data-layout="natural-sereno"] .ep-care-onboarding-card :is(h1, h2, h3) {
+  color: #2A2421 !important;
+}
+
+:root[data-layout="natural-sereno"] .ep-care-onboarding-card :is(p, small) {
+  color: #6B625B !important;
+}
+
+:root[data-layout="natural-sereno"] .ep-care-onboarding-card [class*="text-[#eee6d4]"] {
+  color: #6B625B !important;
+}
+
+:root[data-layout="natural-sereno"] .ep-care-onboarding-card :is([class*="text-[#d5ba78]"], [class*="text-[#e1c171]"]) {
+  color: #A87E37 !important;
+}
+
+:root[data-layout="natural-sereno"] .ep-care-onboarding-card [class*="text-[#cbbf9f]"] {
+  color: #6B625B !important;
+}
+
+:root[data-layout="natural-sereno"] .ep-care-onboarding-card .ep-gold-button {
+  background: linear-gradient(180deg, #E2B96B 0%, #C89D52 100%) !important;
+  background-image: linear-gradient(180deg, #E2B96B 0%, #C89D52 100%) !important;
+  color: #2A2421 !important;
+  border: 1px solid #A87E37 !important;
+  box-shadow: 0 10px 24px rgba(67,52,39,.12), inset 0 1px 0 rgba(255,255,255,.48) !important;
+}
+
+:root[data-layout="natural-sereno"] .ep-care-onboarding-card button:not(.ep-gold-button):not([aria-pressed]) {
+  background: #F5EFE4 !important;
+  border-color: rgba(200,157,82,.38) !important;
+  color: #6B4E2E !important;
+  box-shadow: 0 8px 18px rgba(67,52,39,.07) !important;
+}
+
+:root[data-layout="natural-sereno"] .ep-care-onboarding-card button[aria-pressed="true"] {
+  background: rgba(200,157,82,.16) !important;
+  border-color: rgba(168,126,55,.62) !important;
+  color: #2A2421 !important;
+}
+
+:root[data-layout="natural-sereno"] .ep-care-onboarding-card button[aria-pressed="false"] {
+  background: rgba(255,253,248,.92) !important;
+  border-color: #E8E0D5 !important;
+  color: #6B625B !important;
+}
+
+:root[data-layout="natural-sereno"] .ep-care-onboarding-card button:focus-visible {
+  outline: 2px solid rgba(168,126,55,.72) !important;
+  outline-offset: 3px !important;
+}
