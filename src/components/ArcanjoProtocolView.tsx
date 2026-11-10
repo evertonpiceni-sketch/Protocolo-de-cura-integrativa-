@@ -295,6 +295,9 @@ export default function ArcanjoProtocolView({ userProfile, onClose, onLogout, in
       },
       onError: () => {
         if (runId !== narrationRunRef.current) return;
+        // playGuidedMeditation may invoke onEnd after onError on fail-closed paths.
+        // Invalidate this run so a voice failure never marks the day as completed.
+        if (isMisticoModerno) narrationRunRef.current += 1;
         audioEngine.stopSpeech();
         if (isEleganciaProfunda || isEssenciaLuminosa || isMisticoModerno) {
           if (suspendsSolfeggioDuringNeuralNarration) playProtocolFrequency();
