@@ -209,22 +209,22 @@ test('Arcanjo opens only after explicit navigation or successful 7-day checkout'
 
 test('Anamnesis never restarts Solfeggio or selection chimes over Style 4 neural narration', () => {
   const anamnesis = read('src/components/AnamnesisModal.tsx');
-  assert.match(anamnesis, /if \(isMisticoModerno && \(isPlayingTherapeuticVoice \|\| isLoadingVoice\)\) return;/);
-  assert.match(anamnesis, /const style4VoiceOwnsAudio = isMisticoModerno && \(isPlayingTherapeuticVoice \|\| isLoadingVoice\)/);
+  assert.match(anamnesis, /if \(isStyle4VoiceActive \|\| isStyle4AudioDisabled\) return;/);
+  assert.match(anamnesis, /const isStyle4VoiceActive = isMisticoModerno && \(isPlayingTherapeuticVoice \|\| isLoadingVoice\)/);
   assert.match(anamnesis, /const playAnamnesisSelectionSound = \(\) =>/);
   assert.equal((anamnesis.match(/audioEngine\.playHeartSelectionChime\(\)/g) || []).length, 1);
   assert.ok((anamnesis.match(/playAnamnesisSelectionSound\(\)/g) || []).length >= 5);
   assert.match(anamnesis, /isOpenRef\.current && isEditingRef\.current && is639HzActiveRef\.current/);
-  assert.match(anamnesis, /disabled=\{isMisticoModerno && \(isPlayingTherapeuticVoice \|\| isLoadingVoice\)\}/);
+  assert.match(anamnesis, /disabled=\{isStyle4AudioDisabled \|\| isStyle4VoiceActive\}/);
   assert.match(anamnesis, /else if \(isMisticoModerno && userProfile\.audioEnabled/);
 });
 
 test('Systemic reflections lock Solfeggio for the full neural voice request and resume only while open', () => {
   const systemic = read('src/components/SystemicQuestionsModal.tsx');
-  assert.match(systemic, /if \(isMisticoModerno && isReadingVoice\) return;/);
+  assert.match(systemic, /if \(\(isMisticoModerno && isReadingVoice\) \|\| isStyle4AudioDisabled\) return;/);
   assert.match(systemic, /setIsReadingVoice\(true\);\s+void audioEngine\.speakWithElevenLabsOrFallback/);
   assert.match(systemic, /isOpenRef\.current && is639HzActiveRef\.current/);
-  assert.match(systemic, /disabled=\{isMisticoModerno && isReadingVoice\}/);
+  assert.match(systemic, /disabled=\{isStyle4AudioDisabled \|\| \(isMisticoModerno && isReadingVoice\)\}/);
 });
 
 test('Style 4 Anamnesis and Systemic frequency accents stay in the night-and-gold palette', () => {
