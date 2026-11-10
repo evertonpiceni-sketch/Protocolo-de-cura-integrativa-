@@ -428,3 +428,19 @@ test('Místico Moderno Arcanjo status identifies neural narration with concurren
   assert.match(style4Status, /será ativado somente quando a narração neural começar/);
   assert.doesNotMatch(style4Status, /Voz humana \+ Solfeggio/);
 });
+
+
+test('Místico Moderno aplica paleta noturna própria à animação da sessão e remove o véu marfim herdado', () => {
+  const session = read('src/components/MeditationSession.tsx');
+  const canvas = read('src/components/session/SacredEnergyCanvas.tsx');
+  const css = read('src/mistico-moderno-session-audit.css');
+
+  assert.match(session, /const MISTICO_MODERNO_CANVAS_THEME = \{/);
+  assert.match(session, /isMisticoModerno \? MISTICO_MODERNO_CANVAS_THEME : undefined/);
+  assert.match(canvas, /colorTheme\?\.violetGlow \?\? palette\?\.goldGlow/);
+  assert.match(canvas, /colorTheme\?\.indigoGlow \?\? palette\?\.sageGlow/);
+  assert.match(canvas, /colorTheme\?\.emeraldLine \?\? palette\?\.goldLine/);
+  assert.match(css, /:root\[data-layout="mistico-moderno"\] #meditation-session \.ep-session-light-overlay/);
+  assert.match(css, /rgba\(108,63,160,\.14\)/);
+  assert.doesNotMatch(css, /#FAF7F2|#F4EFE6/, 'O véu claro do player compartilhado não pode reaparecer no Estilo 4.');
+});
