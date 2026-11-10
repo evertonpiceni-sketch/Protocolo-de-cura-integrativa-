@@ -130,3 +130,29 @@ test('CTAs compartilhados do áudio e configurações usam dourado premium e tex
   assert.ok(overrides.includes('border-radius: 18px !important;'));
   assert.ok(overrides.includes('background-color: #A87E37 !important;'));
 });
+
+
+test('Prática Individual remove âmbar saturado, painel índigo e foco esmeralda no Natural Sereno', () => {
+  const modal = read('src/components/SpecificTreatmentModal.tsx');
+  const overrides = read('src/natural-sereno-approved-overrides.css');
+  const scope = ':root[data-layout="natural-sereno"] #specific-treatment-modal';
+
+  for (const token of [
+    'bg-amber-400',
+    'text-slate-950',
+    'bg-indigo-950/30',
+    'text-indigo-200',
+    'via-slate-950/40',
+    'focus:border-emerald-500',
+    'text-emerald-500',
+    'shadow-emerald',
+  ]) {
+    assert.ok(modal.includes(token), `O componente deve manter o token legado identificável: ${token}`);
+    assert.ok(overrides.includes(`${scope} [class*="${token}"]`), `Falta neutralização específica para ${token}`);
+  }
+
+  assert.ok(overrides.includes('background: linear-gradient(180deg,#E2B96B,#C89D52) !important;'));
+  assert.ok(overrides.includes('background: linear-gradient(145deg,#FFFDF8 0%,#F5EFE5 100%) !important;'));
+  assert.ok(overrides.includes('border-color: #C89D52 !important;'));
+  assert.ok(overrides.includes('box-shadow: 0 8px 18px rgba(67,52,39,.08) !important;'));
+});
