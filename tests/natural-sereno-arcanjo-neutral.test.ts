@@ -74,7 +74,9 @@ test('player Natural Sereno usa paisagem real e microanimação neutra; os demai
   assert.ok(conditionalStart >= 0 && otherStylesStart > conditionalStart);
   assert.ok(naturalBranch.includes('NeutralBodyLightProgress'));
   assert.ok(naturalBranch.includes('/brand/natural-sereno/cachoeira.webp'));
-  assert.ok(naturalBranch.includes('lightSoft={currentStage.colorTheme.glow}'));
+  assert.ok(session.includes("const NATURAL_SERENO_BODY_GLOW = 'rgba(200,157,82,.16)'"));
+  assert.ok(naturalBranch.includes('lightSoft={NATURAL_SERENO_BODY_GLOW}'));
+  assert.doesNotMatch(naturalBranch, /currentStage\\.colorTheme\\.glow/);
   assert.ok(naturalBranch.includes('breathePhase={breathePhase}'));
   assert.ok(!naturalBranch.includes('SacredEnergyCanvas'));
   assert.ok(session.includes('<SacredEnergyCanvas'));
@@ -134,4 +136,14 @@ test('ao retomar a narração neural do Arcanjo, Solfeggio é interrompido antes
   const frequencyStart = player.indexOf('const startSolfeggio = () => {');
   const audioGuard = player.indexOf('if (userProfile.audioEnabled === false)', frequencyStart);
   assert.ok(frequencyStart >= 0 && audioGuard > frequencyStart, 'A frequência deve respeitar a configuração global de áudio');
+});
+
+
+test('o brilho de carregamento do Arcanjo usa dourado refinado no Natural Sereno', () => {
+  const player = read('src/components/ArcanjoProtocolView.tsx');
+  const css = read('src/natural-sereno-approved-overrides.css');
+  assert.ok(player.includes('via-[#d4af37]'), 'O teste protege a classe legada compartilhada');
+  const run136 = css.slice(css.lastIndexOf('/* RUN 136 —'));
+  assert.ok(run136.includes('#arcanjo-protocol-view.ep-arcanjo-natural .ep-forest-panel [class*="via-[#d4af37]"]'));
+  assert.ok(run136.includes('linear-gradient(90deg, transparent, rgba(200,157,82,.72), transparent) !important;'));
 });
