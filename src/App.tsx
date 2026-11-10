@@ -476,21 +476,25 @@ export default function App() {
     };
   }, []);
 
-  const updateLocalAccountCache = (profileToCache: UserProfile, progressToCache: DayProgress[]) => {
+  const updateLocalAccountCache = (profileToCache?: UserProfile, progressToCache?: DayProgress[]) => {
     try {
-      const localLogin = profileToCache.login || localStorage.getItem(LOCAL_STORAGE_KEY_CURRENT_LOGIN);
+      const localLogin = profileToCache?.login || localStorage.getItem(LOCAL_STORAGE_KEY_CURRENT_LOGIN);
       if (!localLogin) return;
       const rawAccounts = localStorage.getItem(LOCAL_STORAGE_KEY_ACCOUNTS);
       const accounts: UserAccount[] = rawAccounts ? JSON.parse(rawAccounts) : [];
       const index = accounts.findIndex(account => account.login === localLogin);
+      const existingAccount = index >= 0 ? accounts[index] : undefined;
+      const resolvedProfile = profileToCache ?? existingAccount?.profile ?? userProfile;
+      if (!resolvedProfile) return;
+      const resolvedProgress = progressToCache ?? existingAccount?.progress ?? progress;
       const cachedAccount: UserAccount = {
-        ...(index >= 0 ? accounts[index] : {} as UserAccount),
+        ...(existingAccount ?? {} as UserAccount),
         login: localLogin,
-        email: profileToCache.email || '',
-        fullName: profileToCache.fullName || profileToCache.name || '',
-        birthDate: profileToCache.birthDate || '',
-        profile: { ...profileToCache, isAdmin: false },
-        progress: progressToCache,
+        email: resolvedProfile.email || existingAccount?.email || '',
+        fullName: resolvedProfile.fullName || resolvedProfile.name || existingAccount?.fullName || '',
+        birthDate: resolvedProfile.birthDate || existingAccount?.birthDate || '',
+        profile: { ...resolvedProfile, isAdmin: false },
+        progress: resolvedProgress,
         isAdmin: false
       };
       if (index >= 0) accounts[index] = cachedAccount;
@@ -505,12 +509,12 @@ export default function App() {
   // Save profile state whenever it changes
   const saveProfile = (newProfile: UserProfile) => {
     setUserProfile(newProfile);
-    updateLocalAccountCache(newProfile, progress);
+    updateLocalAccountCache(newProfile, undefined);
     if (isLoggedIn) {
       fetch('/api/user/sync', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ profile: newProfile, progress })
+        body: JSON.stringify({ profile: newProfile })
       }).then(response => {
         if (!response.ok) throw new Error(`Profile sync failed (HTTP ${response.status})`);
       }).catch(error => console.error('Profile sync failed; changes may only be saved locally', error));
@@ -519,12 +523,12 @@ export default function App() {
 
   const saveProgress = (newProgress: DayProgress[]) => {
     setProgress(newProgress);
-    if (userProfile) updateLocalAccountCache(userProfile, newProgress);
+    updateLocalAccountCache(undefined, newProgress);
     if (isLoggedIn) {
       fetch('/api/user/sync', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ profile: userProfile, progress: newProgress })
+        body: JSON.stringify({ progress: newProgress })
       }).then(response => {
         if (!response.ok) throw new Error(`Progress sync failed (HTTP ${response.status})`);
       }).catch(error => console.error('Progress sync failed; changes may only be saved locally', error));
@@ -899,12 +903,12 @@ export default function App() {
               const response = await fetch('/api/user/sync', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ profile: updatedProfile, progress })
+                body: JSON.stringify({ profile: updatedProfile })
               });
               if (!response.ok) throw new Error(`Não foi possível salvar o estilo (HTTP ${response.status})`);
             }
             setUserProfile(updatedProfile);
-            updateLocalAccountCache(updatedProfile, progress);
+            updateLocalAccountCache(updatedProfile, undefined);
             setLayoutConfirmedThisSession(true);
             setLayoutChoiceRequested(false);
           }}
