@@ -35,3 +35,27 @@ test('Diário e resposta sistêmica persistem perfil e progresso no mesmo snapsh
     assert.ok(handler.includes('saveProgress(updatedProgress)'), 'Sem perfil, o salvamento local continua disponível.');
   }
 });
+
+test('salvamentos isolados preservam o outro recurso e não enviam snapshots antigos', () => {
+  const cache = section('const updateLocalAccountCache =', '// Save profile state whenever it changes');
+  assert.ok(cache.includes('profileToCache?: UserProfile'));
+  assert.ok(cache.includes('progressToCache?: DayProgress[]'));
+  assert.ok(cache.includes('const existingAccount ='));
+  assert.ok(cache.includes('existingAccount?.profile'));
+  assert.ok(cache.includes('existingAccount?.progress'));
+
+  const profileSave = section('const saveProfile =', 'const saveProgress =');
+  assert.ok(profileSave.includes('updateLocalAccountCache(newProfile, undefined)'));
+  assert.ok(profileSave.includes('body: JSON.stringify({ profile: newProfile })'));
+  assert.ok(!profileSave.includes('progress })'));
+
+  const progressSave = section('const saveProgress =', '// Persist profile and progress together');
+  assert.ok(progressSave.includes('updateLocalAccountCache(undefined, newProgress)'));
+  assert.ok(progressSave.includes('body: JSON.stringify({ progress: newProgress })'));
+  assert.ok(!progressSave.includes('profile: userProfile'));
+
+  const layoutChoice = section('{(!layoutConfirmedThisSession || layoutChoiceRequested) && (', '{showPersonalJourney ? (');
+  assert.ok(layoutChoice.includes('body: JSON.stringify({ profile: updatedProfile })'));
+  assert.ok(layoutChoice.includes('updateLocalAccountCache(updatedProfile, undefined)'));
+  assert.ok(!layoutChoice.includes('progress })'));
+});
