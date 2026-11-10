@@ -33,4 +33,4 @@
 
 ## Reauditoria
 
-O código desta rodada foi atualizado no PR #77. A aprovação final depende do novo GitHub Actions (TypeScript, testes, build, segurança e smoke tests). Não foi feito merge, deploy em produção ou cobrança real.
+A primeira execução do GitHub Actions encontrou apenas uma asserção de teste com escapes duplicados; a verificação foi simplificada para comparações literais, sem alterar o código funcional. A execução seguinte deve confirmar TypeScript, testes, build, segurança e smoke tests. Não foi feito merge, deploy em produção ou cobrança real.

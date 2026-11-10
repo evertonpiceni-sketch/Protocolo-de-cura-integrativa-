@@ -534,10 +534,14 @@ test('o player do Místico Moderno respeita áudio global desligado e não carre
   const session = read('src/components/MeditationSession.tsx');
   const policy = read('src/lib/protocolSessionAudioPolicy.ts');
 
-  assert.match(app, /<MeditationSession[\\s\\S]*?audioEnabled=\\{userProfile\\.audioEnabled !== false\\}/);
-  assert.match(session, /audioEnabled\\?: boolean/);
-  assert.match(session, /shouldPlayProtocolSessionBackground\\(sessionPhase, bgMusicType, audioEnabled\\)/);
-  assert.match(session, /audioEngine\\.setMasterVolume\\(1\\.0\\)/);
-  assert.match(policy, /audioEnabled = true/);
-  assert.match(policy, /return audioEnabled && sessionPhase === 'playing'/);
+  const sessionStart = app.indexOf('<MeditationSession');
+  const sessionEnd = app.indexOf('/>', sessionStart);
+  assert.ok(sessionStart >= 0 && sessionEnd > sessionStart);
+  assert.ok(app.slice(sessionStart, sessionEnd).includes('audioEnabled={userProfile.audioEnabled !== false}'));
+  assert.ok(session.includes('audioEnabled?: boolean'));
+  assert.ok(session.includes('audioEnabled = true'));
+  assert.ok(session.includes('shouldPlayProtocolSessionBackground(sessionPhase, bgMusicType, audioEnabled)'));
+  assert.ok(session.includes('audioEngine.setMasterVolume(1.0)'));
+  assert.ok(policy.includes('audioEnabled = true'));
+  assert.ok(policy.includes("return audioEnabled && sessionPhase === 'playing'"));
 });
