@@ -313,3 +313,37 @@
   outline: 2px solid color-mix(in srgb, var(--layout-gold) 62%, transparent) !important;
   outline-offset: 3px !important;
 }
+
+/* RUN 136 — ações de saída do App também precisam respeitar a assinatura clara.
+   O rosa/vermelho continua intacto nos outros estilos; na Essência Luminosa,
+   sair é uma ação discreta, com superfície marfim/champagne e texto grafite. */
+:root[data-layout="essencia-luminosa"] :is(#header-btn-logout, #bottom-btn-logout) {
+  background: linear-gradient(135deg, var(--layout-card), var(--layout-canvas-alt)) !important;
+  border-color: var(--layout-border-card) !important;
+  color: var(--layout-text-secondary) !important;
+  box-shadow: 0 6px 18px rgba(112,91,58,.07) !important;
+}
+:root[data-layout="essencia-luminosa"] :is(#header-btn-logout, #bottom-btn-logout) :is(svg, span) {
+  color: var(--layout-text-secondary) !important;
+}
+:root[data-layout="essencia-luminosa"] :is(#header-btn-logout, #bottom-btn-logout):is(:hover, :active) {
+  background: linear-gradient(135deg, color-mix(in srgb, var(--layout-gold-soft) 34%, var(--layout-card)), var(--layout-card)) !important;
+  border-color: color-mix(in srgb, var(--layout-gold) 34%, var(--layout-border-card)) !important;
+}
+:root[data-layout="essencia-luminosa"] :is(#header-btn-logout, #bottom-btn-logout):focus-visible {
+  outline: 2px solid color-mix(in srgb, var(--layout-gold) 62%, white) !important;
+  outline-offset: 3px;
+}
+:root[data-layout="essencia-luminosa"] #settings-view button.bg-rose-600 {
+  background: linear-gradient(135deg, var(--layout-card), var(--layout-canvas-alt)) !important;
+  border-color: var(--layout-border-card) !important;
+  color: var(--layout-text-secondary) !important;
+  box-shadow: 0 6px 18px rgba(112,91,58,.07) !important;
+}
+:root[data-layout="essencia-luminosa"] #settings-view button.bg-rose-600 :is(svg, span) {
+  color: var(--layout-text-secondary) !important;
+}
+:root[data-layout="essencia-luminosa"] #settings-view button.bg-rose-600:hover {
+  background: linear-gradient(135deg, color-mix(in srgb, var(--layout-gold-soft) 34%, var(--layout-card)), var(--layout-card)) !important;
+  border-color: color-mix(in srgb, var(--layout-gold) 34%, var(--layout-border-card)) !important;
+}
