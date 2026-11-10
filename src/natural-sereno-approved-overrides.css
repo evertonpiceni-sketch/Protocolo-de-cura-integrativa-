@@ -1298,3 +1298,9 @@
   color: #2A2421 !important;
   border-color: #A87E37 !important;
 }
+
+/* RUN 135 — o halo da respiração ainda usava o dourado amarelo #D4AF37.
+   Manter o movimento aprovado, mas com o dourado suave #C89D52 do Natural Sereno. */
+:root[data-layout="natural-sereno"] #meditation-session .ep-breathing-guide > div {
+  background-image: radial-gradient(circle, rgba(200,157,82,.15), transparent 70%) !important;
+}
