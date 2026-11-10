@@ -1,6 +1,7 @@
 import { useDialogFocus } from '../hooks/useDialogFocus';
 import React, { useMemo, useEffect, useState } from 'react';
 import { DayProgress, UserProfile } from '../types';
+import { getArcanjoProgressState } from '../lib/arcanjoProgress';
 import { ArrowLeft, Flame, Lock, Play, CheckCircle2, Award, Sparkles } from 'lucide-react';
 
 const CHAKRAS_DATA = [
@@ -34,15 +35,13 @@ export default function DashboardCura({ onClose, progress, userProfile }: { onCl
     setCompletedDays(localCompleted);
   }, [userProfile?.journeyProgress?.arcanjo7CompletedDays]);
 
-  const totalCompleted = completedDays.length;
+  const {
+    totalCompleted,
+    nextAvailableDay,
+    consecutiveCompletedDays: streak,
+    journeyCompleted
+  } = getArcanjoProgressState(completedDays);
   const percentage = Math.round((totalCompleted / 7) * 100);
-  const nextAvailableDay = Math.min(totalCompleted + 1, 7);
-  const journeyCompleted = totalCompleted === 7;
-  
-  // Calculate Streak (consecutive days completed up to current day)
-  // For simplicity, we assume streak equals total completed in this 7-day flow, 
-  // or we can calculate based on consecutive days completed from day 1.
-  const streak = completedDays.length; 
 
   const handlePlayDay = (day: number) => {
     // In a real flow, this could navigate to the specific day in the ArcanjoProtocolView
