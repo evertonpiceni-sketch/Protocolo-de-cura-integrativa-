@@ -5,8 +5,12 @@ import { audioEngine } from './audio';
  * This guard prevents the app-level background player (including gesture unlock)
  * from restarting underneath the protocol until App.tsx carries the same ownership
  * rule directly. It is intentionally narrow and does not alter narration/synth audio.
+ *
+ * Use the protocol root as the stable marker. The Natural Sereno implementation
+ * deliberately replaced the retired chakra-body image with a neutral canvas, so
+ * audio ownership must never depend on that image or its alt text.
  */
-const ARCANJO_VIEW_MARKER = 'img[alt="Pessoa em meditação com os sete chakras"]';
+const ARCANJO_VIEW_MARKER = '#arcanjo-protocol-view';
 const DASHBOARD_MARKER = '#progress-dashboard';
 const ARCANJO_OPENING_GUARD_MS = 5000;
 let arcanjoOpening = false;
@@ -14,9 +18,8 @@ let openingGuardTimer: number | null = null;
 
 const isArcanjoViewMounted = () => {
   if (typeof document === 'undefined') return false;
-  return Array.from(document.querySelectorAll(ARCANJO_VIEW_MARKER)).some(
-    marker => !marker.closest(DASHBOARD_MARKER)
-  );
+  const protocolRoot = document.querySelector(ARCANJO_VIEW_MARKER);
+  return Boolean(protocolRoot && !protocolRoot.closest(DASHBOARD_MARKER));
 };
 
 const arcanjoOwnsAudio = () => arcanjoOpening || isArcanjoViewMounted();
