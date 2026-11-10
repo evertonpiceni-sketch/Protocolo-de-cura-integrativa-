@@ -86,3 +86,16 @@ test('o escopo da correção da Home e Reintegração é exclusivo do Natural Se
   assert.doesNotMatch(run154, /:root(?!\[data-layout="natural-sereno"\])/);
   assert.doesNotMatch(run154, /:root\[data-layout="(?:elegancia-profunda|essencia-luminosa|mistico-moderno)"\]/);
 });
+
+
+test('CTAs da Home ativa usam dourado refinado e texto café, sem o ocre legado', () => {
+  const home = read('src/components/TransformationHome.tsx');
+  const overrides = read('src/natural-sereno-approved-overrides.css');
+  assert.ok(home.includes('ep-gold-button'));
+  assert.ok(home.includes('text-[#B88736]'));
+  assert.ok(overrides.includes(':root[data-layout="natural-sereno"] :is(.ep-home,.ep-welcome-audio) .ep-gold-button'));
+  assert.ok(overrides.includes('background: linear-gradient(135deg,#E2B96B,#C89D52) !important;'));
+  assert.ok(overrides.includes('border-radius: 18px !important;'));
+  assert.ok(overrides.includes('[class~="text-[#B88736]"]'));
+  assert.ok(overrides.includes('color: #A87E37 !important;'));
+});
