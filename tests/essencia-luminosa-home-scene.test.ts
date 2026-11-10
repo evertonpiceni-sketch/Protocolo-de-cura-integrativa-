@@ -10,8 +10,9 @@ test('a camada final mantém a fotografia costeira aprovada visível no hero da 
   const surfaceStart = approved.indexOf(':root[data-layout="essencia-luminosa"] .ep-home>section:not(.ep-home-hero)');
   const surfaceEnd = approved.indexOf('}', surfaceStart);
   assert.ok(surfaceStart >= 0 && surfaceEnd > surfaceStart, 'as superfícies internas da Home devem continuar harmonizadas');
-  const surfaceRule = approved.slice(surfaceStart, surfaceEnd);
-  assert.ok(!surfaceRule.includes('.ep-home-hero'), 'o hero não pode ser coberto pelo fundo sólido das demais seções');
+  const selectorText = approved.slice(surfaceStart, approved.indexOf('{', surfaceStart));
+  const selectors = selectorText.split(',').map(selector => selector.trim());
+  assert.ok(!selectors.some(selector => selector.endsWith('.ep-home-hero')), 'o hero não pode ser alvo do fundo sólido das demais seções');
   assert.ok(finalTheme.includes("--ep-scene: url('https://images.unsplash.com/photo-1617359073337-ba0fa2b80df4?auto=format&fit=crop&w=1600&h=900&q=80')"));
   assert.ok(finalTheme.includes('var(--ep-scene) center 56%/cover no-repeat !important;'));
 });
