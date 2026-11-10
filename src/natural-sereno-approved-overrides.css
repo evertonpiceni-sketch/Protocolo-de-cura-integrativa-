@@ -1875,3 +1875,12 @@
 :root[data-layout="natural-sereno"] :is(.ep-home,.ep-welcome-audio) [class~="text-[#8F631E]"] {
   color: #A87E37 !important;
 }
+
+
+:root[data-layout="natural-sereno"] [data-ep-reintegration-running="true"] .ep-reintegration-running-script-button,
+:root[data-layout="natural-sereno"] [data-ep-reintegration-running="true"] .ep-reintegration-running-control {
+  border-radius: 14px !important;
+}
+:root[data-layout="natural-sereno"] [data-ep-reintegration-running="true"] .ep-reintegration-running-cta {
+  border-radius: 18px !important;
+}
