@@ -29,6 +29,6 @@
 - Sem Preview READY, não foi possível fazer QA renderizado página a página em desktop/mobile nem testar áudio real, Diário ponta a ponta ou InfinitePay sandbox.
 - A variável `INFINITEPAY_API_KEY` não existe no inventário de ambientes Vercel do projeto. `INFINITEPAY_HANDLE` está configurada em Production, mas não substitui a API Key. `PUBLIC_APP_URL` específica para Preview também não está configurada; não executei checkout.
 - A busca pela Library nesta rodada não recuperou o PNG original `1001196520.png`; a derivação versionada do repositório permanece como referência do card. Não foi feita nova comparação pixel a pixel.
-- Reconciliação seletiva com a `main` pendente: branch divergente, 193 commits à frente e 12 atrás.
+- Reconciliação seletiva com a `main` pendente: branch divergente e 12 commits atrás. A contagem de commits à frente é dinâmica e inclui os próprios registros de auditoria; consultar os metadados atuais da PR.
 
 Nenhum merge, publicação em Production, checkout ou pagamento real foi realizado.
