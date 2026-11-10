@@ -1655,3 +1655,199 @@
   outline: 2px solid rgba(168,126,55,.72) !important;
   outline-offset: 3px !important;
 }
+
+
+/* RUN 154 — superfícies realmente montadas pela Home aprovada.
+   TransformationHome usa .ep-home-hero/.ep-luxury-card/.ep-subcard; as regras
+   globais antigas do index.css ainda os pintavam de verde-floresta, com texto café.
+   Esta correção existe somente após a confirmação do Natural Sereno. */
+:root[data-layout="natural-sereno"] .ep-welcome-audio {
+  color: #2A2421 !important;
+  background-color: #FAF7F2 !important;
+  background-image:
+    linear-gradient(180deg,rgba(250,247,242,.76) 0%,rgba(250,247,242,.86) 58%,rgba(245,239,229,.94) 100%),
+    var(--ns-valley) !important;
+  background-position: center, center 38% !important;
+  background-size: cover, cover !important;
+  background-repeat: no-repeat !important;
+  border-color: rgba(200,157,82,.28) !important;
+  box-shadow: 0 18px 48px rgba(67,52,39,.08),inset 0 1px 0 rgba(255,255,255,.82) !important;
+}
+:root[data-layout="natural-sereno"] .ep-home .ep-home-hero {
+  color: #2A2421 !important;
+  background-color: #FAF7F2 !important;
+  background-image:
+    linear-gradient(180deg,rgba(250,247,242,.76) 0%,rgba(250,247,242,.86) 58%,rgba(245,239,229,.94) 100%),
+    var(--ns-valley) !important;
+  background-position: center, center 38% !important;
+  background-size: cover, cover !important;
+  background-repeat: no-repeat !important;
+  border-color: rgba(200,157,82,.30) !important;
+  box-shadow: 0 18px 48px rgba(67,52,39,.08),inset 0 1px 0 rgba(255,255,255,.82) !important;
+}
+@media (max-width:640px) {
+  :root[data-layout="natural-sereno"] .ep-welcome-audio,
+  :root[data-layout="natural-sereno"] .ep-home .ep-home-hero {
+    background-position: center, center 44% !important;
+  }
+}
+
+/* O logo é assinatura transparente: retirar o disco branco/moldura da Home
+   e manter baixa opacidade real na imagem, em desktop e celular. */
+:root[data-layout="natural-sereno"] :is(.ep-home,.ep-welcome-audio) .ep-brand-signature-wrap {
+  opacity: 1 !important;
+  background: transparent !important;
+  border-color: transparent !important;
+  box-shadow: none !important;
+}
+:root[data-layout="natural-sereno"] :is(.ep-home,.ep-welcome-audio) .ep-brand-signature {
+  opacity: .30 !important;
+  filter: none !important;
+}
+
+/* Cards de progresso, afirmação e atalhos: eliminar as chapas verde-floresta
+   herdadas do index.css e corrigir o contraste do texto da afirmação. */
+:root[data-layout="natural-sereno"] .ep-home .ep-luxury-card {
+  color: #2A2421 !important;
+  background: linear-gradient(145deg,rgba(255,253,248,.98),rgba(246,239,224,.98)) !important;
+  border: 1px solid rgba(200,157,82,.28) !important;
+  box-shadow: 0 14px 34px rgba(67,52,39,.08),inset 0 1px 0 rgba(255,255,255,.88) !important;
+}
+:root[data-layout="natural-sereno"] .ep-home .ep-luxury-card::before {
+  background: linear-gradient(135deg,rgba(255,255,255,.34),transparent 42%,transparent 72%,rgba(200,157,82,.035)) !important;
+}
+:root[data-layout="natural-sereno"] .ep-home .ep-subcard {
+  color: #2A2421 !important;
+  background: linear-gradient(145deg,#FFFDF8,#F5EFE4) !important;
+  border: 1px solid rgba(200,157,82,.24) !important;
+  box-shadow: 0 8px 22px rgba(67,52,39,.06),inset 0 1px 0 rgba(255,255,255,.86) !important;
+}
+:root[data-layout="natural-sereno"] .ep-home .ep-subcard:hover {
+  background: #F5EFE4 !important;
+  border-color: rgba(200,157,82,.42) !important;
+}
+:root[data-layout="natural-sereno"] .ep-home .ep-progress-card .bg-black\/25 {
+  background: #E8E0D5 !important;
+}
+:root[data-layout="natural-sereno"] .ep-home .ep-progress-card .bg-gradient-to-r {
+  background-image: linear-gradient(90deg,#A87E37,#E2B96B) !important;
+  box-shadow: 0 0 12px rgba(200,157,82,.18) !important;
+}
+:root[data-layout="natural-sereno"] .ep-home .ep-luxury-card > p:first-child + h3 + p + div {
+  color: #6B625B !important;
+  background: #F5EFE4 !important;
+  border-color: rgba(200,157,82,.22) !important;
+}
+
+/* Reintegração da Vida — 21 dias: remover os painéis verdes globais e o
+   player azul-noturno herdado; manter arte do dia, corpo neutro e animações. */
+:root[data-layout="natural-sereno"] [data-ep-reintegration="true"] .ep-reintegration-panel {
+  color: #2A2421 !important;
+  background: linear-gradient(145deg,#FFFDF8 0%,#FAF7F2 58%,#F3EBDD 100%) !important;
+  border: 1px solid rgba(200,157,82,.30) !important;
+  box-shadow: 0 18px 48px rgba(67,52,39,.08),inset 0 1px 0 rgba(255,255,255,.88) !important;
+}
+:root[data-layout="natural-sereno"] [data-ep-reintegration="true"] .ep-reintegration-card {
+  color: #2A2421 !important;
+  background: linear-gradient(145deg,#FFFDF8,#F5EFE4) !important;
+  border-color: rgba(200,157,82,.24) !important;
+  box-shadow: 0 10px 26px rgba(67,52,39,.06),inset 0 1px 0 rgba(255,255,255,.82) !important;
+}
+:root[data-layout="natural-sereno"] [data-ep-reintegration="true"] .ep-reintegration-day-button[aria-pressed="true"] {
+  color: #2A2421 !important;
+  background: linear-gradient(135deg,#E2B96B,#C89D52) !important;
+  border-color: #A87E37 !important;
+  box-shadow: 0 7px 18px rgba(112,73,20,.12) !important;
+}
+:root[data-layout="natural-sereno"] [data-ep-reintegration="true"] .ep-reintegration-day-button[data-completed="true"]:not([aria-pressed="true"]) {
+  color: #6B625B !important;
+  background: rgba(200,157,82,.12) !important;
+  border-color: rgba(200,157,82,.34) !important;
+}
+:root[data-layout="natural-sereno"] [data-ep-reintegration="true"] .reintegration-presence-visual {
+  background: #FAF7F2 !important;
+}
+:root[data-layout="natural-sereno"] [data-ep-reintegration="true"] .ep-reintegration-top-button,
+:root[data-layout="natural-sereno"] [data-ep-reintegration="true"] .ep-reintegration-nav-button,
+:root[data-layout="natural-sereno"] [data-ep-reintegration="true"] .ep-reintegration-footer .ep-gold-button {
+  border-radius: 14px !important;
+}
+:root[data-layout="natural-sereno"] [data-ep-reintegration="true"] .ep-reintegration-top-button,
+:root[data-layout="natural-sereno"] [data-ep-reintegration="true"] .ep-reintegration-nav-button {
+  color: #6B625B !important;
+  background: #FBF8F2 !important;
+  border-color: rgba(200,157,82,.28) !important;
+  box-shadow: 0 6px 16px rgba(67,52,39,.05) !important;
+}
+:root[data-layout="natural-sereno"] [data-ep-reintegration="true"] .ep-reintegration-cta,
+:root[data-layout="natural-sereno"] [data-ep-reintegration="true"] .ep-reintegration-footer .ep-gold-button {
+  color: #2A2421 !important;
+  background: linear-gradient(135deg,#E2B96B,#C89D52) !important;
+  border: 1px solid rgba(168,126,55,.48) !important;
+  box-shadow: 0 9px 20px rgba(67,52,39,.10) !important;
+}
+:root[data-layout="natural-sereno"] [data-ep-reintegration="true"] .ep-reintegration-cta:hover,
+:root[data-layout="natural-sereno"] [data-ep-reintegration="true"] .ep-reintegration-footer .ep-gold-button:hover {
+  background: #A87E37 !important;
+}
+
+/* Sessão imersiva da Reintegração: preservar a fotografia dinâmica de cada dia,
+   clarear a camada de leitura e substituir azul-marinho/amarelo vivo por marfim,
+   café e dourado refinado. */
+:root[data-layout="natural-sereno"] [data-ep-reintegration-running="true"] {
+  color: #2A2421 !important;
+  background: #FAF7F2 !important;
+}
+:root[data-layout="natural-sereno"] [data-ep-reintegration-running="true"] .ep-reintegration-running-backdrop {
+  opacity: .24 !important;
+  filter: blur(12px) saturate(.88) brightness(1.08) !important;
+}
+:root[data-layout="natural-sereno"] [data-ep-reintegration-running="true"] .ep-reintegration-running-glow {
+  background:
+    radial-gradient(circle at 50% 32%,rgba(200,157,82,.12),transparent 34%),
+    linear-gradient(180deg,rgba(250,247,242,.10),rgba(250,247,242,.54) 62%,rgba(250,247,242,.96)) !important;
+}
+:root[data-layout="natural-sereno"] [data-ep-reintegration-running="true"] .ep-reintegration-running-close {
+  color: #6B625B !important;
+  background: rgba(251,248,242,.94) !important;
+  border-color: rgba(200,157,82,.36) !important;
+  box-shadow: 0 8px 22px rgba(67,52,39,.08) !important;
+}
+:root[data-layout="natural-sereno"] [data-ep-reintegration-running="true"] .ep-reintegration-running-footer {
+  background-image: linear-gradient(180deg,rgba(250,247,242,0) 0%,rgba(250,247,242,.82) 24%,#FAF7F2 100%) !important;
+}
+:root[data-layout="natural-sereno"] [data-ep-reintegration-running="true"] .ep-reintegration-running-footer p:nth-of-type(1) {
+  color: #A87E37 !important;
+}
+:root[data-layout="natural-sereno"] [data-ep-reintegration-running="true"] .ep-reintegration-running-footer p:nth-of-type(2) {
+  color: #2A2421 !important;
+}
+:root[data-layout="natural-sereno"] [data-ep-reintegration-running="true"] .ep-reintegration-running-footer p:nth-of-type(3) {
+  color: #6B625B !important;
+}
+:root[data-layout="natural-sereno"] [data-ep-reintegration-running="true"] .ep-reintegration-running-script-button,
+:root[data-layout="natural-sereno"] [data-ep-reintegration-running="true"] .ep-reintegration-running-control {
+  color: #6B625B !important;
+  background: rgba(251,248,242,.96) !important;
+  border: 1px solid rgba(200,157,82,.32) !important;
+  box-shadow: 0 7px 18px rgba(67,52,39,.06) !important;
+}
+:root[data-layout="natural-sereno"] [data-ep-reintegration-running="true"] .ep-reintegration-running-progress-track {
+  background: #E8E0D5 !important;
+}
+:root[data-layout="natural-sereno"] [data-ep-reintegration-running="true"] .ep-reintegration-running-progress-fill {
+  background: linear-gradient(90deg,#A87E37,#E2B96B) !important;
+  box-shadow: 0 0 12px rgba(200,157,82,.20) !important;
+}
+:root[data-layout="natural-sereno"] [data-ep-reintegration-running="true"] .ep-reintegration-running-progress .text-xs {
+  color: #6B625B !important;
+}
+:root[data-layout="natural-sereno"] [data-ep-reintegration-running="true"] .ep-reintegration-running-cta {
+  color: #2A2421 !important;
+  background: linear-gradient(135deg,#E2B96B,#C89D52) !important;
+  border: 1px solid rgba(168,126,55,.48) !important;
+  box-shadow: 0 9px 22px rgba(67,52,39,.10) !important;
+}
+:root[data-layout="natural-sereno"] [data-ep-reintegration-running="true"] .ep-reintegration-running-cta:hover {
+  background: #A87E37 !important;
+}
