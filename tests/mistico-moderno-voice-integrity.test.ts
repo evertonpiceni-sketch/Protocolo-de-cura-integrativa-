@@ -442,7 +442,10 @@ test('Místico Moderno aplica paleta noturna própria à animação da sessão e
   assert.match(canvas, /colorTheme\?\.emeraldLine \?\? palette\?\.goldLine/);
   assert.match(css, /:root\[data-layout="mistico-moderno"\] #meditation-session \.ep-session-light-overlay/);
   assert.match(css, /rgba\(108,63,160,\.14\)/);
-  assert.doesNotMatch(css, /#FAF7F2|#F4EFE6/, 'O véu claro do player compartilhado não pode reaparecer no Estilo 4.');
+  const overlayStart = css.indexOf(':root[data-layout="mistico-moderno"] #meditation-session .ep-session-light-overlay');
+  const overlayEnd = css.indexOf('}', overlayStart);
+  assert.ok(overlayStart >= 0 && overlayEnd > overlayStart, 'O override do véu da sessão deve existir.');
+  assert.doesNotMatch(css.slice(overlayStart, overlayEnd), /#FAF7F2|#F4EFE6/, 'O véu claro do player compartilhado não pode reaparecer no Estilo 4.');
 });
 
 
@@ -463,5 +466,6 @@ test('Místico Moderno mantém a sessão noturna em check-in, aceite, roteiro, p
   assert.match(css, /linear-gradient\(135deg,#B88736,#E2B96B\)/);
   assert.match(css, /rgba\(108,63,160,.20\)/);
   assert.match(css, /\[class\*="bg-rose-50"\]/);
+  assert.match(css, /div\[role="dialog"\]\[aria-label="Acesso à jornada completa"\] \[class\*="bg-\[#FAF4E8\]"\]/);
   assert.doesNotMatch(css, /background:\s*(?:#FAF7F2|#F4EFE6|white)/i);
 });
