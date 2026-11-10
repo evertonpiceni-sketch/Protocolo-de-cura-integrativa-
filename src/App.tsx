@@ -970,7 +970,9 @@ export default function App() {
             saveProfile({
               ...userProfile,
               bgMusicType: bgType,
-              audioEnabled: bgType !== 'none' ? true : userProfile.audioEnabled
+              audioEnabled: isEssenciaLuminosa
+                ? resolveAudioEnabledAfterFrequencySelection(isEssenciaLuminosa, userProfile.audioEnabled)
+                : bgType !== 'none' ? true : userProfile.audioEnabled
             });
           }}
         />
