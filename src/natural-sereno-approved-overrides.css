@@ -389,7 +389,7 @@
   box-shadow: 0 9px 20px rgba(67,52,39,.10) !important;
 }
 :root[data-layout="natural-sereno"] #plans-modal button[class*="bg-[#073B2B]"]:hover {
-  background: linear-gradient(180deg,#E8C47D 0%,#A87E37 100%) !important;
+  background: linear-gradient(180deg,#E2B96B 0%,#A87E37 100%) !important;
 }
 :root[data-layout="natural-sereno"] #plans-modal button[class*="border-[#073B2B]"] {
   background: #FBF8F2 !important;
@@ -435,7 +435,7 @@
   box-shadow: 0 10px 22px rgba(67,52,39,.10) !important;
 }
 :root[data-layout="natural-sereno"] #specific-treatment-modal button[class*="from-emerald-600"]:hover {
-  background: linear-gradient(180deg,#E8C47D 0%,#A87E37 100%) !important;
+  background: linear-gradient(180deg,#E2B96B 0%,#A87E37 100%) !important;
 }
 :root[data-layout="natural-sereno"] #specific-treatment-modal button[class*="from-emerald-600"] :is(span,svg) {
   color: #2A2421 !important;
@@ -473,7 +473,7 @@
   text-shadow: none !important;
 }
 :root[data-layout="natural-sereno"] .ns-app .ns-gold:hover:not(:disabled) {
-  background: linear-gradient(180deg,#E8C47D 0%,#A87E37 100%) !important;
+  background: linear-gradient(180deg,#E2B96B 0%,#A87E37 100%) !important;
 }
 
 /* RUN 98 — pequenos ícones de Mapa Astral e Numerologia usam sálvia suave,
@@ -600,7 +600,7 @@
 }
 :root[data-layout="natural-sereno"] #plans-modal article button:last-child:hover,
 :root[data-layout="natural-sereno"] #plans-modal button[class*="bg-[#073B2B]"]:hover {
-  background:linear-gradient(180deg,#E8C47D 0%,#A87E37 100%)!important;
+  background:linear-gradient(180deg,#E2B96B 0%,#A87E37 100%)!important;
 }
 :root[data-layout="natural-sereno"] #plans-modal #checkout-planos {
   background:#FFFDF8!important;
@@ -748,8 +748,8 @@
   text-shadow: none !important;
 }
 :root[data-layout="natural-sereno"] #anamnesis-modal .ep-assessment-actions :is(button,a)[class*="from-amber-500"]:hover {
-  background: linear-gradient(180deg,#E8C47D,#A87E37) !important;
-  background-image: linear-gradient(180deg,#E8C47D,#A87E37) !important;
+  background: linear-gradient(180deg,#E2B96B,#A87E37) !important;
+  background-image: linear-gradient(180deg,#E2B96B,#A87E37) !important;
 }
 :root[data-layout="natural-sereno"] #anamnesis-modal .ep-assessment-actions :is(button,a)[class*="bg-emerald-600"] {
   background: linear-gradient(180deg,#FBF8F2,#F3E8D5) !important;
@@ -985,7 +985,7 @@
   #archangel-prayer-modal
 ) :is(button,a,[role="button"])[class~="bg-[#B88736]"]:hover {
   background-color: #A87E37 !important;
-  background-image: linear-gradient(180deg,#E8C47D,#A87E37) !important;
+  background-image: linear-gradient(180deg,#E2B96B,#A87E37) !important;
   color: #2A2421 !important;
 }
 
@@ -1274,7 +1274,7 @@
 }
 :root[data-layout="natural-sereno"] #anamnesis-modal #anamnesis-feedback-area button[class*="bg-emerald"]:not(:disabled):hover {
   background-color: #A87E37 !important;
-  background-image: linear-gradient(180deg,#E8C47D,#A87E37) !important;
+  background-image: linear-gradient(180deg,#E2B96B,#A87E37) !important;
   color: #2A2421 !important;
   border-color: #A87E37 !important;
 }
@@ -1294,7 +1294,7 @@
 }
 :root[data-layout="natural-sereno"] .ep-session-access-gate button[class*="bg-[#8F631E]"]:not(:disabled):hover {
   background-color: #A87E37 !important;
-  background-image: linear-gradient(180deg,#E8C47D,#A87E37) !important;
+  background-image: linear-gradient(180deg,#E2B96B,#A87E37) !important;
   color: #2A2421 !important;
   border-color: #A87E37 !important;
 }
@@ -1382,7 +1382,7 @@
   box-shadow: 0 8px 18px rgba(67,52,39,.11) !important;
 }
 :root[data-layout="natural-sereno"] #meditation-session .ep-acceptance-portal button[class*="from-[#B88736]"]:hover {
-  background-image: linear-gradient(180deg,#E8C47D,#A87E37) !important;
+  background-image: linear-gradient(180deg,#E2B96B,#A87E37) !important;
   color: #2A2421 !important;
 }
 
@@ -1429,7 +1429,7 @@
   box-shadow: 0 8px 18px rgba(67,52,39,.11) !important;
 }
 :root[data-layout="natural-sereno"] #meditation-session .ep-session-checkin button[class*="from-[#B88736]"]:hover {
-  background-image: linear-gradient(180deg,#E8C47D,#A87E37) !important;
+  background-image: linear-gradient(180deg,#E2B96B,#A87E37) !important;
   color: #2A2421 !important;
 }
 
@@ -1559,6 +1559,6 @@
   box-shadow: 0 8px 18px rgba(67,52,39,.11) !important;
 }
 :root[data-layout="natural-sereno"] #meditation-session [role="dialog"][aria-label="Sessão concluída"] button[class*="bg-[#8F631E]"]:hover {
-  background-image: linear-gradient(180deg,#E8C47D,#A87E37) !important;
+  background-image: linear-gradient(180deg,#E2B96B,#A87E37) !important;
   color: #2A2421 !important;
 }

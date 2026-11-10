@@ -194,7 +194,7 @@
 :root[data-layout="natural-sereno"] .ns-profile-progress h3 { font-size: 20px; }
 :root[data-layout="natural-sereno"] .ns-profile-progress span { grid-column: 2; font-size: 11px; }
 :root[data-layout="natural-sereno"] .ns-profile-progress progress { display: block; appearance: none; width: calc(100% - 36px); height: 8px; margin-top: 12px; border-radius: 6px; overflow: hidden; }
-:root[data-layout="natural-sereno"] .ns-profile-progress progress::-webkit-progress-bar { background: #e6ddbc; }
+:root[data-layout="natural-sereno"] .ns-profile-progress progress::-webkit-progress-bar { background: #E8E0D5; }
 :root[data-layout="natural-sereno"] .ns-profile-progress progress::-webkit-progress-value { background: #C89D52; }
 :root[data-layout="natural-sereno"] .ns-profile-progress progress::-moz-progress-bar { background: #C89D52; }
 :root[data-layout="natural-sereno"] .ns-profile-progress > small { position: absolute; right: 12px; bottom: 12px; font-size: 10px; }
@@ -221,14 +221,14 @@
 }
 :root[data-layout="natural-sereno"] .ns-dock button { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 5px; color: var(--ns-muted); font: 10px/1.3 'Inter', sans-serif; min-height: 48px; }
 :root[data-layout="natural-sereno"] .ns-dock button[aria-current="page"] { color: var(--ns-forest); }
-:root[data-layout="natural-sereno"] .ns-welcome { display: flex; min-height: calc(100dvh - 76px); align-items: center; padding: 24px 26px; background: var(--ns-waterfall) center / cover no-repeat #FAF7F2; color: #FAF7F2; }
-:root[data-layout="natural-sereno"] .ns-welcome::before { background: linear-gradient(180deg, rgba(42,36,33,.12), rgba(42,36,33,.58) 55%, rgba(42,36,33,.72)); }
-:root[data-layout="natural-sereno"] .ns-welcome-content { width: 100%; text-align: center; }
-:root[data-layout="natural-sereno"] .ns-welcome h1 { font-size: 34px; }
-:root[data-layout="natural-sereno"] .ns-welcome p { font-size: 14px; line-height: 1.7; margin: 20px 0; }
+:root[data-layout="natural-sereno"] .ns-welcome { display: flex; min-height: calc(100dvh - 76px); align-items: center; padding: 24px 26px; background: url('/brand/natural-sereno/acolhimento.webp') center 42% / cover no-repeat #FAF7F2; color: #2A2421; }
+:root[data-layout="natural-sereno"] .ns-welcome::before { background: linear-gradient(180deg, rgba(250,247,242,.72) 0%, rgba(250,247,242,.86) 100%); }
+:root[data-layout="natural-sereno"] .ns-welcome-content { width: 100%; text-align: center; color: #2A2421; }
+:root[data-layout="natural-sereno"] .ns-welcome h1 { font-size: 34px; color: #2A2421; text-shadow: none; }
+:root[data-layout="natural-sereno"] .ns-welcome p { font-size: 14px; line-height: 1.7; margin: 20px 0; color: #6B625B; text-shadow: none; }
 :root[data-layout="natural-sereno"] .ns-audio-lines { margin: 22px auto 8px; color: #A87E37; }
-:root[data-layout="natural-sereno"] .ns-welcome-play { display: grid; place-items: center; width: 86px; height: 86px; margin: 0 auto; border: 2px solid #C89D52; border-radius: 50%; color: #E2B96B; background: rgba(42,36,33,.52); box-shadow: 0 0 0 6px rgba(200,157,82,.13), 0 0 20px rgba(200,157,82,.18); }
-:root[data-layout="natural-sereno"] .ns-welcome .ns-welcome-status { font-size: 12px; margin: 14px 0 30px; }
+:root[data-layout="natural-sereno"] .ns-welcome-play { display: grid; place-items: center; width: 86px; height: 86px; margin: 0 auto; border: 2px solid #C89D52; border-radius: 50%; color: #A87E37; background: rgba(250,247,242,.94); box-shadow: 0 8px 22px rgba(67,52,39,.10); }
+:root[data-layout="natural-sereno"] .ns-welcome .ns-welcome-status { font-size: 12px; margin: 14px 0 30px; color: #6B625B; }
 
 /* Existing assessment and course data remain intact; only their Natural Sereno
    typography, surfaces, selected states and mobile density are adapted. */
@@ -568,8 +568,8 @@
 :root[data-layout="natural-sereno"] .ns-profile .ns-row { min-height: 58px; margin-bottom: 5px; }
 :root[data-layout="natural-sereno"] .ns-profile .ns-row-icon { box-shadow: none; }
 :root[data-layout="natural-sereno"] .ns-profile .ns-row-copy small { font-size: 12px; }
-:root[data-layout="natural-sereno"] .ns-tools .ns-row-icon { box-shadow: none; background: #FAF7F2; border-color: rgba(200,157,82,.34); color: #a4833e; }
-:root[data-layout="natural-sereno"] .ns-welcome-play { box-shadow: inset 0 0 0 5px rgba(232, 207, 137, .12), 0 0 0 6px rgba(230, 205, 130, .13), 0 0 22px rgba(226, 197, 105, .32); }
+:root[data-layout="natural-sereno"] .ns-tools .ns-row-icon { box-shadow: none; background: #FAF7F2; border-color: rgba(200,157,82,.34); color: #A87E37; }
+:root[data-layout="natural-sereno"] .ns-welcome-play { box-shadow: 0 8px 22px rgba(67,52,39,.10); }
 :root[data-layout="natural-sereno"] .ns-app:is([data-ns-screen="library"], [data-ns-screen="tools"]) .ns-page-heading { padding-left: 18px; padding-right: 18px; }
 :root[data-layout="natural-sereno"] .ns-app:is([data-ns-screen="library"], [data-ns-screen="tools"]) .ns-page-heading h1 { font-size: 34px; }
 /* RUN 117: obsolete forest-green surfaces and the old top-offset player layout were removed. */

@@ -1,29 +1,39 @@
-import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
+import test from 'node:test';
 
-const read = (path: string) => readFileSync(new URL(`../${path}`, import.meta.url), 'utf8');
+const read = (path: string) => readFileSync(new URL('../' + path, import.meta.url), 'utf8');
 
-test('o acolhimento mobile do Natural Sereno mantém a fotografia real sobre base creme', () => {
-  const home = read('src/components/NaturalSerenoHome.tsx');
-  const transformation = read('src/components/TransformationHome.tsx');
-  const css = read('src/natural-sereno-approved-overrides.css');
-  const mobile = read('src/natural-sereno-mobile-fixes.css');
+test('acolhimento desktop Natural Sereno usa paisagem realista e superfície clara aprovada', () => {
+  const base = read('src/natural-sereno.css');
+  const mobile = read('src/natural-sereno-approved-overrides.css');
+  const welcomeStart = base.indexOf(':root[data-layout="natural-sereno"] .ns-welcome {');
+  const welcomeEnd = base.indexOf(':root[data-layout="natural-sereno"] .ns-welcome-content {', welcomeStart);
+  const welcomeSurface = base.slice(welcomeStart, welcomeEnd);
 
-  assert.match(transformation, /props\.visualLayout === 'natural-sereno'[\s\S]*?<NaturalSerenoHome/);
-  assert.match(home, /className="ns-app ns-welcome" data-ns-screen="welcome"/);
+  assert.ok(welcomeStart >= 0 && welcomeEnd > welcomeStart, 'regras de acolhimento precisam existir');
+  assert.match(welcomeSurface, /acolhimento\.webp[^;]*center 42%[^;]*#FAF7F2[^;]*color: #2A2421/s);
+  assert.match(welcomeSurface, /rgba\(250,247,242,\.72\)[^}]*rgba\(250,247,242,\.86\)/s);
+  assert.doesNotMatch(welcomeSurface, /rgba\(42,36,33,\.58\)|rgba\(42,36,33,\.72\)/);
+  assert.match(base, /\.ns-welcome h1 \{[^}]*color: #2A2421/);
+  assert.match(base, /\.ns-welcome p \{[^}]*color: #6B625B/);
+  assert.match(base, /\.ns-welcome-play \{[^}]*background: rgba\(250,247,242,\.94\)[^}]*color: #A87E37[^}]*box-shadow: 0 8px 22px rgba\(67,52,39,\.10\)/s);
+  assert.ok(mobile.includes("url('/brand/natural-sereno/acolhimento.webp') center 46% / cover no-repeat"));
+  assert.ok(mobile.includes('background: rgba(250,247,242,.94) !important;'));
+});
 
-  const run119 = css.slice(css.lastIndexOf('/* RUN 119 — acolhimento mobile.'));
-  assert.ok(run119.includes('@media (max-width: 899px)'));
-  assert.ok(run119.includes('background: #FAF7F2 !important;'));
-  assert.ok(run119.includes("url('/brand/natural-sereno/acolhimento.webp')"));
-  assert.ok(run119.includes('rgba(250,247,242,.72)'));
-  assert.ok(run119.includes('rgba(250,247,242,.86)'));
-  assert.ok(run119.includes('color: #2A2421 !important;'));
-  assert.ok(run119.includes('color: #6B625B !important;'));
-  assert.ok(run119.includes('background: rgba(250,247,242,.94) !important;'));
-  assert.doesNotMatch(run119, /var\(--ns-waterfall\)|rgba\(42,36,33,\.58\)|rgba\(42,36,33,\.72\)/);
+test('ícones de Ferramentas e trilha de progresso usam tokens neutros aprovados', () => {
+  const base = read('src/natural-sereno.css');
+  assert.match(base, /\.ns-tools \.ns-row-icon \{[^}]*color: #A87E37/);
+  assert.match(base, /\.ns-profile-progress progress::-webkit-progress-bar \{ background: #E8E0D5; \}/);
+  assert.doesNotMatch(base, /#a4833e|#e6ddbc/i);
+});
 
-  // The desktop-specific composition already uses the same acolhimento image.
-  assert.match(mobile, /@media \(min-width: 900px\)[\s\S]*?\.ns-welcome::before[\s\S]*?acolhimento\.webp/);
+test('os estados hover do Natural Sereno usam o dourado claro aprovado, sem o amarelo anterior', () => {
+  const overrides = read('src/natural-sereno-approved-overrides.css');
+  const finalAudit = read('src/natural-sereno-final-audit.css');
+  assert.doesNotMatch(overrides, /#E8C47D/i);
+  assert.doesNotMatch(finalAudit, /#E8C47D/i);
+  assert.ok(overrides.includes('#E2B96B'));
+  assert.ok(finalAudit.includes('#E2B96B'));
 });

@@ -110,7 +110,7 @@
 }
 
 :root[data-layout="natural-sereno"] button.bg-indigo-600\/30:hover {
-  background: linear-gradient(180deg, #E8C47D, #C89D52) !important;
+  background: linear-gradient(180deg, #E2B96B, #C89D52) !important;
 }
 
 :root[data-layout="natural-sereno"] .text-emerald-400 {
@@ -194,7 +194,7 @@
 :root[data-layout="natural-sereno"] #specific-treatment-modal .hover\:bg-slate-700:hover,
 :root[data-layout="natural-sereno"] #specific-treatment-modal .hover\:bg-emerald-900:hover,
 :root[data-layout="natural-sereno"] #specific-treatment-modal .hover\:bg-emerald-500:hover {
-  background: linear-gradient(180deg, #E8C47D, #C89D52) !important;
+  background: linear-gradient(180deg, #E2B96B, #C89D52) !important;
   color: var(--ns-final-coffee) !important;
 }
 
