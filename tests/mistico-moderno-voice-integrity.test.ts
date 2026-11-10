@@ -444,3 +444,24 @@ test('Místico Moderno aplica paleta noturna própria à animação da sessão e
   assert.match(css, /rgba\(108,63,160,\.14\)/);
   assert.doesNotMatch(css, /#FAF7F2|#F4EFE6/, 'O véu claro do player compartilhado não pode reaparecer no Estilo 4.');
 });
+
+
+test('Místico Moderno mantém a sessão noturna em check-in, aceite, roteiro, player e conclusão', () => {
+  const css = read('src/mistico-moderno-session-audit.css');
+  for (const selector of [
+    '#meditation-session footer',
+    '.ep-session-checkin > div',
+    '.ep-acceptance-portal > div',
+    '[role="dialog"][aria-label="Roteiro da sessão"] > div:last-child',
+    '[role="dialog"][aria-label="Sessão concluída"] > div',
+    '.ns-play-toggle',
+    '.ep-protocol-progress',
+    'button[aria-pressed="true"]'
+  ]) {
+    assert.ok(css.includes(selector), `Missing Style 4 session treatment: ${selector}`);
+  }
+  assert.match(css, /linear-gradient\(135deg,#B88736,#E2B96B\)/);
+  assert.match(css, /rgba\(108,63,160,.20\)/);
+  assert.match(css, /\[class\*="bg-rose-50"\]/);
+  assert.doesNotMatch(css, /background:\s*(?:#FAF7F2|#F4EFE6|white)/i);
+});
