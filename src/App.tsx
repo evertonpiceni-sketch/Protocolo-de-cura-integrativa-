@@ -93,6 +93,7 @@ export default function App() {
   const [showMobileInstallModal, setShowMobileInstallModal] = useState<boolean>(false);
   const [showWelcomeModal, setShowWelcomeModal] = useState<boolean>(false);
   const [showArcanjoView, setShowArcanjoView] = useState<boolean>(false);
+  const [requestedArcanjoDay, setRequestedArcanjoDay] = useState<number | null>(null);
   const [showArchangelModal, setShowArchangelModal] = useState<boolean>(false);
   const [showHooponoponoModal, setShowHooponoponoModal] = useState<boolean>(false);
   const [showAudioSettingsModal, setShowAudioSettingsModal] = useState<boolean>(false);
@@ -209,7 +210,13 @@ export default function App() {
 
   // Listen for OPEN_PROTOCOL_DAY to ensure ArcanjoProtocolView is shown
   useEffect(() => {
-    const handleOpenProtocol = () => {
+    const handleOpenProtocol = (event: Event) => {
+      const requestedDay = (event as CustomEvent<{ day?: number }>).detail?.day;
+      setRequestedArcanjoDay(
+        Number.isInteger(requestedDay) && requestedDay! >= 1 && requestedDay! <= 7
+          ? requestedDay!
+          : null
+      );
       setShowArcanjoView(true);
     };
     const handleOpenCertificate = () => {
@@ -937,7 +944,11 @@ export default function App() {
         <ArcanjoProtocolView 
           userProfile={userProfile}
           onLogout={handleLogout}
-          onClose={() => setShowArcanjoView(false)}
+          onClose={() => {
+            setShowArcanjoView(false);
+            setRequestedArcanjoDay(null);
+          }}
+          initialDay={requestedArcanjoDay ?? undefined}
           initialCompletedDays={userProfile.journeyProgress?.arcanjo7CompletedDays}
           onCompletedDaysChange={(days) => saveProfile({
             ...userProfile,
