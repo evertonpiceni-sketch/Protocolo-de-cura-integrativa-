@@ -1,0 +1,71 @@
+/* Neutral pre-selection shell.
+   The four-style chooser is a gate: no legacy forest/amber theme may show through
+   before the visitor explicitly selects and confirms one of the four styles.
+   These rules stop applying as soon as App.tsx sets documentElement.dataset.layout. */
+
+:root:not([data-layout]) #cura-main-layout {
+  color: #2A2421 !important;
+  background: linear-gradient(180deg,#FBF8F2 0%,#FAF7F2 58%,#F5EFE5 100%) !important;
+}
+
+:root:not([data-layout]) #main-header {
+  color: #2A2421 !important;
+  background: linear-gradient(180deg,rgba(251,248,242,.98),rgba(245,239,229,.96)) !important;
+  border-color: #E8E0D5 !important;
+  box-shadow: 0 10px 28px rgba(42,36,33,.06) !important;
+}
+
+:root:not([data-layout]) #main-header #header-profile-avatar {
+  border-color: #E8E0D5 !important;
+  box-shadow: 0 4px 14px rgba(42,36,33,.06) !important;
+}
+
+:root:not([data-layout]) #main-header [class*="text-[#e5c66f]"] {
+  color: #6B625B !important;
+}
+
+:root:not([data-layout]) #main-header button {
+  color: #6B625B !important;
+  background: #FBF8F2 !important;
+  border-color: rgba(200,157,82,.28) !important;
+  box-shadow: 0 5px 14px rgba(67,52,39,.05) !important;
+}
+
+:root:not([data-layout]) #main-header button svg {
+  color: #A87E37 !important;
+}
+
+:root:not([data-layout]) #main-header .ep-brand-signature {
+  opacity: .30 !important;
+  filter: none !important;
+}
+
+:root:not([data-layout]) #bottom-action-dock > div {
+  background: rgba(251,248,242,.97) !important;
+  border-color: #E8E0D5 !important;
+  box-shadow: 0 12px 28px rgba(42,36,33,.08) !important;
+}
+
+:root:not([data-layout]) #bottom-action-dock button {
+  color: #6B625B !important;
+  background: transparent !important;
+  border-color: transparent !important;
+  box-shadow: none !important;
+}
+
+:root:not([data-layout]) #bottom-action-dock button svg {
+  color: #A87E37 !important;
+}
+
+/* Keep the choice gate itself on a calm ivory canvas, hiding the unconfirmed
+   dashboard theme beneath it without changing any of the four preview cards. */
+:root:not([data-layout]) [role="dialog"][aria-labelledby="layout-choice-title"] {
+  background: rgba(250,247,242,.96) !important;
+  backdrop-filter: blur(10px) !important;
+}
+
+:root:not([data-layout]) [role="dialog"][aria-labelledby="layout-choice-title"] > section {
+  background: #FBF8F2 !important;
+  border-color: #E8E0D5 !important;
+  box-shadow: 0 18px 48px rgba(42,36,33,.12) !important;
+}

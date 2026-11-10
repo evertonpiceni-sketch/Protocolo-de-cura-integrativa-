@@ -101,6 +101,8 @@ import './elegancia-profunda-approved-overrides.css';
 // Latest approved Essência Luminosa decisions must win over every earlier Style 3 audit layer
 // and all other theme layers. Keep this scoped override as the final theme CSS import.
 import './essencia-luminosa-approved-overrides.css';
+// Neutral shell is visible only before the user confirms one of the four styles.
+import './layout-choice-neutral-shell.css';
 import { ErrorBoundary } from './ErrorBoundary.tsx';
 
 createRoot(document.getElementById('root')!).render(
