@@ -1,5 +1,6 @@
 import app from "../server.js";
 import { getDb, initializeDb, saveDb } from "../src/db.js";
+import { acquireSharedDatabaseWriteLock } from "../src/lib/paymentRoutes.js";
 import jwt from "jsonwebtoken";
 
 const FREE_TRIAL_PLAN = "teste_vip_7d";
@@ -14,39 +15,59 @@ function getCookie(req: any, name: string) {
   return undefined;
 }
 
-function getAuthenticatedUser(req: any) {
+function getAuthenticatedUserId(req: any): string | null {
   const secret = process.env.JWT_SECRET;
   const token = getCookie(req, "token");
   if (!secret || secret.length < 32 || !token) return null;
   try {
     const decoded = jwt.verify(token, secret) as { userId?: string };
-    if (!decoded.userId) return null;
-    return getDb().users.find((user: any) => user.id === decoded.userId) || null;
+    return typeof decoded.userId === "string" && decoded.userId ? decoded.userId : null;
   } catch {
     return null;
   }
 }
 
 async function expireTrialIfNeeded(req: any) {
-  const user = getAuthenticatedUser(req);
-  if (!user || user.profile?.subscriptionPlan !== FREE_TRIAL_PLAN) return;
-  const expiresAt = user.profile?.subscriptionExpiresAt;
-  if (!expiresAt || Date.now() < new Date(expiresAt).getTime()) return;
+  const userId = getAuthenticatedUserId(req);
+  if (!userId) return;
+  const cachedUser = getDb().users.find((candidate: any) => candidate.id === userId);
+  if (!cachedUser || cachedUser.profile?.subscriptionPlan !== FREE_TRIAL_PLAN) return;
+  const cachedExpiry = cachedUser.profile?.subscriptionExpiresAt;
+  if (!cachedExpiry || Date.now() < new Date(cachedExpiry).getTime()) return;
 
-  user.plan = "free";
-  user.profile = {
-    ...user.profile,
-    plan: "free",
-    subscriptionPlan: undefined,
-    subscriptionExpiresAt: undefined,
-    proActiveSince: undefined,
-  };
-  await saveDb();
+  const lock = await acquireSharedDatabaseWriteLock();
+  if (!lock) throw new Error("Database write lock is busy while expiring VIP7.");
+  let user: any;
+  let previous: { plan: any; profile: any } | undefined;
+  try {
+    await lock.assertHeld();
+    user = getDb().users.find((candidate: any) => candidate.id === userId);
+    if (!user || user.profile?.subscriptionPlan !== FREE_TRIAL_PLAN) return;
+    const expiresAt = user.profile?.subscriptionExpiresAt;
+    if (!expiresAt || Date.now() < new Date(expiresAt).getTime()) return;
+
+    previous = { plan: user.plan, profile: user.profile };
+    user.plan = "free";
+    user.profile = {
+      ...user.profile,
+      plan: "free",
+      subscriptionPlan: undefined,
+      subscriptionExpiresAt: undefined,
+      proActiveSince: undefined,
+    };
+    await lock.assertHeld();
+    await saveDb();
+  } catch (error) {
+    if (user && previous) { user.plan = previous.plan; user.profile = previous.profile; }
+    throw error;
+  } finally {
+    await lock.release();
+  }
 }
 
 async function redeemFreeTrial(req: any, res: any) {
-  const user = getAuthenticatedUser(req);
-  if (!user) return res.status(401).json({ error: "Não autorizado." });
+  const userId = getAuthenticatedUserId(req);
+  if (!userId) return res.status(401).json({ error: "Não autorizado." });
 
   const { planId, price, couponCode } = req.body || {};
   if (
@@ -57,34 +78,47 @@ async function redeemFreeTrial(req: any, res: any) {
     return res.status(403).json({ error: "Degustação VIP7 inválida." });
   }
 
-  if (user.profile?.trial7dRedeemedAt) {
-    return res.status(409).json({ error: "A degustação VIP de 7 dias já foi utilizada nesta conta." });
-  }
-
-  const redeemedCount = getDb().users.filter((candidate: any) => Boolean(candidate.profile?.trial7dRedeemedAt)).length;
-  if (redeemedCount >= 20) {
-    return res.status(410).json({ error: "A campanha VIP7 atingiu o limite de 20 resgates." });
-  }
-
-  const activatedAt = new Date();
-  const expiresAt = new Date(activatedAt.getTime() + FREE_TRIAL_DAYS * 24 * 60 * 60 * 1000);
-  user.plan = "pro";
-  user.profile = {
-    ...user.profile,
-    plan: "pro",
-    subscriptionPlan: FREE_TRIAL_PLAN,
-    proActiveSince: activatedAt.toISOString(),
-    subscriptionExpiresAt: expiresAt.toISOString(),
-    trial7dRedeemedAt: activatedAt.toISOString(),
-  };
-
+  let lock: Awaited<ReturnType<typeof acquireSharedDatabaseWriteLock>> = null;
+  let user: any;
+  let previous: { plan: any; profile: any } | undefined;
   try {
+    lock = await acquireSharedDatabaseWriteLock();
+    if (!lock) return res.status(409).json({ error: "Há outra atualização de dados em andamento. Tente novamente." });
+    await lock.assertHeld();
+    const db = getDb();
+    user = db.users.find((candidate: any) => candidate.id === userId);
+    if (!user) return res.status(401).json({ error: "Não autorizado." });
+    if (user.profile?.trial7dRedeemedAt) {
+      return res.status(409).json({ error: "A degustação VIP de 7 dias já foi utilizada nesta conta." });
+    }
+    const redeemedCount = db.users.filter((candidate: any) => Boolean(candidate.profile?.trial7dRedeemedAt)).length;
+    if (redeemedCount >= 20) {
+      return res.status(410).json({ error: "A campanha VIP7 atingiu o limite de 20 resgates." });
+    }
+
+    previous = { plan: user.plan, profile: user.profile };
+    const activatedAt = new Date();
+    const expiresAt = new Date(activatedAt.getTime() + FREE_TRIAL_DAYS * 24 * 60 * 60 * 1000);
+    user.plan = "pro";
+    user.profile = {
+      ...user.profile,
+      plan: "pro",
+      subscriptionPlan: FREE_TRIAL_PLAN,
+      proActiveSince: activatedAt.toISOString(),
+      subscriptionExpiresAt: expiresAt.toISOString(),
+      trial7dRedeemedAt: activatedAt.toISOString(),
+    };
+
+    await lock.assertHeld();
     await saveDb();
     const { password: _password, ...safeUser } = user;
     return res.json({ success: true, user: safeUser, expiresAt: expiresAt.toISOString() });
   } catch (error) {
+    if (user && previous) { user.plan = previous.plan; user.profile = previous.profile; }
     console.error("Failed to persist VIP trial:", error);
     return res.status(503).json({ error: "Não foi possível ativar a degustação agora.", code: "PERSISTENCE_UNAVAILABLE" });
+  } finally {
+    if (lock) await lock.release();
   }
 }
 
