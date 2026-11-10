@@ -643,12 +643,12 @@ test('the progress dashboard keeps modal keyboard focus contained in every layou
   const focusHook = read('src/hooks/useDialogFocus.ts');
 
   assert.match(dashboard, /role="dialog" aria-modal="true"/);
-  assert.match(dashboard, /useDialogFocus\\(true,\\s*dialogRef,\\s*onClose\\)/);
-  assert.doesNotMatch(dashboard, /useDialogFocus\\(document\\.documentElement\\.dataset\\.layout === 'natural-sereno'/);
+  assert.match(dashboard, /useDialogFocus\(true,\s*dialogRef,\s*onClose\)/);
+  assert.doesNotMatch(dashboard, /useDialogFocus\(document\.documentElement\.dataset\.layout === 'natural-sereno'/);
 
-  assert.match(focusHook, /if \\(!open \\|\\| !ref\\.current\\) return/);
-  assert.match(focusHook, /if \\(event\\.key !== 'Tab'\\) return/);
-  assert.match(focusHook, /first\\.focus\\(\\)/);
-  assert.match(focusHook, /last\\.focus\\(\\)/);
-  assert.match(focusHook, /if \\(previous\\?\\.isConnected\\) previous\\.focus\\(\\)/);
+  assert.match(focusHook, /if \(!open \|\| !ref\.current\) return/);
+  assert.match(focusHook, /if \(event\.key !== 'Tab'\) return/);
+  assert.match(focusHook, /first\.focus\(\)/);
+  assert.match(focusHook, /last\.focus\(\)/);
+  assert.match(focusHook, /if \(previous\?\.isConnected\) previous\.focus\(\)/);
 });
