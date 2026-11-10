@@ -55,7 +55,7 @@ A ordem de imports em `src/main.tsx` foi conferida: `natural-sereno-approved-ove
 
 A branch está 180 commits à frente e 12 atrás de `main`; a PR permanece `mergeable=false`.
 
-A comparação confirmou mudanças posteriores na `main` que precisam ser reconciliadas seletivamente. Há alterações de outros estilos e testes financeiros que não devem ser perdidas; ao mesmo tempo, a versão atual da `main` reintroduz no Arcanjo o corpo com chakras e não preserva a prévia composta atual do seletor. Não foi feito merge, rebase ou substituição integral de arquivos.
+A comparação confirmou mudanças posteriores na `main` que precisam ser reconciliadas seletivamente. A versão da `main` reintroduz no Arcanjo o corpo com chakras, em conflito com a decisão aprovada de corpo neutro. O seletor da `main` mantém a imagem da prancha, mas reduz a prévia do Natural Sereno à prancha isolada; a branch desta PR preserva a prévia composta com paisagem, identidade vigente, CTA, paleta e miniatura da prancha. A `main` também contém a integração de `PromoVideoModal`, novos ajustes da Elegância Profunda e uma suíte de pagamento mais extensa; esses itens devem ser portados seletivamente, sem substituir os componentes neutros, a prévia composta, as proteções de conta e os locks financeiros da branch. Não foi feito merge, rebase ou substituição integral de arquivos.
 
 ## Estado
 
