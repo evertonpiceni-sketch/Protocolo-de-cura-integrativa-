@@ -607,6 +607,8 @@ test('Místico Moderno neutralizes inherited light dashboard backdrop and progre
   assert.match(dashboard, /data-mistico-progress-track/);
   assert.ok(css.includes('#progress-dashboard [data-mistico-dashboard-backdrop]'));
   assert.ok(css.includes('#progress-dashboard [data-mistico-progress-track]'));
+  assert.ok(css.includes('#progress-dashboard [class*="bg-[#F5EFE4]"]'));
+  assert.ok(css.includes('background-color: rgba(15, 20, 43, .88) !important;'));
   assert.ok(css.includes('linear-gradient(180deg, #080b18 0%, #0b1024 48%, #10142b 100%)'));
   assert.match(css, /opacity: \.30 !important/);
   assert.match(css, /opacity: \.26 !important/);
