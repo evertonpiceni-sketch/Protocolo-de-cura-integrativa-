@@ -480,5 +480,5 @@ test('Místico Moderno passes the current day to the session canvas for its Day 
   const session = read('src/components/MeditationSession.tsx');
   const canvas = read('src/components/session/SacredEnergyCanvas.tsx');
   assert.ok(session.includes("dayNumber={['natural-sereno', 'elegancia-profunda', 'essencia-luminosa', 'mistico-moderno'].includes(activeLayout || '') ? dayNumber : undefined}"));
-  assert.match(canvas, /dayNumber === 1 \\? 0 : 8/);
+  assert.ok(canvas.includes('dayNumber === 1 ? 0 : 8'));
 });
