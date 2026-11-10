@@ -6,10 +6,20 @@
 import { speechElapsedSeconds } from './speechElapsed';
 import { isElevenLabsVoiceId, type ElevenLabsVoiceOption } from './voiceSelection';
 
-const getProtocolMediaArtwork = () =>
-  typeof document !== 'undefined' && document.documentElement.dataset.layout === 'essencia-luminosa'
-    ? '/brand/chakra-body-neutral.svg'
-    : '/brand/chakra-body.svg';
+const isEssenciaLuminosaLayout = () => typeof document !== 'undefined' &&
+  document.documentElement.dataset.layout === 'essencia-luminosa';
+
+const getProtocolMediaArtwork = () => isEssenciaLuminosaLayout()
+  ? '/brand/chakra-body-neutral.svg'
+  : '/brand/chakra-body.svg';
+
+// Keep the existing generic app artwork for other layouts; Style 3 uses its neutral body illustration.
+const getProtocolStageMediaArtwork = () => isEssenciaLuminosaLayout()
+  ? [{ src: getProtocolMediaArtwork(), sizes: 'any', type: 'image/svg+xml' }]
+  : [
+      { src: '/icon-192.svg', sizes: '192x192', type: 'image/svg+xml' },
+      { src: '/icon-512.svg', sizes: '512x512', type: 'image/svg+xml' }
+    ];
 
 export interface BioactiveBinauralConfig {
   enabled: boolean;
@@ -1667,10 +1677,7 @@ class CalmingAudioEngine {
           title: stageTitle,
           artist: 'Éverton Rodrigo Piceni - Cura Integrada',
           album: `Protocolo 21 Dias - Dia ${dayNumber}`,
-          artwork: [
-            { src: '/icon-192.svg', sizes: '192x192', type: 'image/svg+xml' },
-            { src: '/icon-512.svg', sizes: '512x512', type: 'image/svg+xml' }
-          ]
+          artwork: getProtocolStageMediaArtwork()
         });
 
         setAction('play', () => {
