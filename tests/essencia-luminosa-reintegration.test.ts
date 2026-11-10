@@ -75,3 +75,18 @@ test('a tela inicial da Reintegração usa fundo claro e a luz transiciona sem a
   assert.ok(reducedMotion.includes(frameSelector));
   assert.ok(reducedMotion.includes('transition: none !important;'));
 });
+
+
+test('o preview humano do Estúdio de Vídeos não herda o fundo verde global no Estilo 3', () => {
+  const videoStudio = fs.readFileSync('src/components/VideoStudioLightModal.tsx', 'utf8');
+  const baseCss = fs.readFileSync('src/index.css', 'utf8');
+  const frameSelector = ':root[data-layout="essencia-luminosa"] #video-studio-modal .visual-studio-human-frame';
+  const visualSelector = ':root[data-layout="essencia-luminosa"] #video-studio-modal .visual-studio-human-frame .reintegration-presence-visual';
+
+  assert.ok(videoStudio.includes('<div className="visual-studio-human-frame"'));
+  assert.ok(videoStudio.includes('<ReintegrationPresenceVisual day={day} elapsedSeconds={0}/>'));
+  assert.ok(baseCss.includes('background: #132b2a'), 'documenta o fundo global legado neutralizado no preview');
+  assert.ok(css.includes(frameSelector));
+  assert.ok(css.includes(visualSelector));
+  assert.ok(css.includes('background: linear-gradient(180deg, var(--layout-canvas-alt), var(--layout-card)) !important;'));
+});
