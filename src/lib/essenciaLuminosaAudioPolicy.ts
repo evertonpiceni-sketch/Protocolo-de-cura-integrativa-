@@ -16,3 +16,13 @@ export function shouldPlayEssenciaLuminosaInlineSolfeggio(
     !state.voiceLoading &&
     !state.voicePlaying;
 }
+
+/** Saving anamnesis must not override an explicit global mute in Essência Luminosa.
+ * Other styles retain their existing post-anamnesis activation behavior.
+ */
+export function resolveAudioEnabledAfterAnamnesisSave(
+  isEssenciaLuminosa: boolean,
+  currentAudioEnabled?: boolean
+): boolean {
+  return isEssenciaLuminosa ? currentAudioEnabled !== false : true;
+}
