@@ -18,16 +18,17 @@ test('card Natural Sereno usa a prancha oficial inteira, sem recortar a referên
   const referenceEnd = preview.indexOf('/>', referenceStart);
   assert.ok(referenceStart >= 0 && referenceEnd > referenceStart, 'Imagem da prancha oficial não encontrada');
   const referenceImage = preview.slice(referenceStart, referenceEnd);
-  assert.match(referenceImage, /h-14 w-16[\\s\\S]*object-contain/);
-  assert.doesNotMatch(referenceImage, /object-cover|object-top/);
+  assert.ok(referenceImage.includes('h-14 w-16'));
+  assert.ok(referenceImage.includes('object-contain'));
+  assert.ok(!referenceImage.includes('object-cover') && !referenceImage.includes('object-top'));
   assert.ok(preview.includes('Prancha oficial de referência. Decisões posteriores prevalecem.'));
 });
 
 test('seletor começa sem estilo marcado e só aplica após confirmação explícita', () => {
   const modal = read('src/components/LayoutChoiceModal.tsx');
-  assert.match(modal, /useState<LayoutId \\| null>\\(null\\)/);
-  assert.match(modal, /if \\(!selectedLayout \\|\\| isSaving\\) return;/);
-  assert.match(modal, /onClick=\\{confirmSelection\\}/);
+  assert.ok(modal.includes('useState<LayoutId | null>(null)'));
+  assert.ok(modal.includes('if (!selectedLayout || isSaving) return;'));
+  assert.ok(modal.includes('onClick={confirmSelection}'));
 });
 
 test('Natural Sereno usa o dourado aprovado nos seletores inicial e de aparência', () => {
