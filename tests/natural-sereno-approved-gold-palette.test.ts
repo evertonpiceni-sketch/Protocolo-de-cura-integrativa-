@@ -45,3 +45,15 @@ test('a camada final mantém os dourados refinados e o texto café nos CTAs prem
   assert.ok(approved.includes('#A87E37'));
   assert.ok(approved.includes('color:#2A2421'));
 });
+
+test('o modelo dinâmico da Home usa o dourado aprovado no cartão de momento', () => {
+  const model = read('src/lib/naturalSerenoHomeApprovedModel.ts');
+  const styleStart = model.indexOf('style.textContent = `');
+  const styleEnd = model.indexOf('`;\n  document.head.appendChild(style)', styleStart);
+  assert.ok(styleStart >= 0 && styleEnd > styleStart, 'Bloco dinâmico da Home não encontrado.');
+
+  const dynamicStyles = model.slice(styleStart, styleEnd);
+  assert.ok(dynamicStyles.includes('.ep-home-moment-card'));
+  assert.ok(dynamicStyles.includes('border-color: rgba(200,157,82,.26) !important;'));
+  assert.doesNotMatch(dynamicStyles, /rgba\\(\\s*182\\s*,\\s*139\\s*,\\s*54/i);
+});
