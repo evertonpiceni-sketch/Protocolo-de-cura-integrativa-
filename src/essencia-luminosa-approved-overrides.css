@@ -721,3 +721,14 @@
     transition: none !important;
   }
 }
+
+
+/* RUN 153 — o preview humano do Estúdio de Vídeos também usa o canvas claro do Estilo 3.
+   O sprite aprovado permanece intacto; neutraliza somente o fundo verde global #132b2a. */
+:root[data-layout="essencia-luminosa"] #video-studio-modal .visual-studio-human-frame {
+  background: var(--layout-canvas-alt) !important;
+  border-color: var(--layout-border-card) !important;
+}
+:root[data-layout="essencia-luminosa"] #video-studio-modal .visual-studio-human-frame .reintegration-presence-visual {
+  background: linear-gradient(180deg, var(--layout-canvas-alt), var(--layout-card)) !important;
+}
