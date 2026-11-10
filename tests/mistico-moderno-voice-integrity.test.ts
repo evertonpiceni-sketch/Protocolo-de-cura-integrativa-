@@ -482,3 +482,27 @@ test('Místico Moderno passes the current day to the session canvas for its Day 
   assert.ok(session.includes("dayNumber={['natural-sereno', 'elegancia-profunda', 'essencia-luminosa', 'mistico-moderno'].includes(activeLayout || '') ? dayNumber : undefined}"));
   assert.ok(canvas.includes('dayNumber === 1 ? 0 : 8'));
 });
+
+
+test('Style 4 respects the global audio-disabled setting in Anamnesis and Systemic Solfeggio', () => {
+  const anamnesis = read('src/components/AnamnesisModal.tsx');
+  const systemic = read('src/components/SystemicQuestionsModal.tsx');
+
+  assert.match(anamnesis, /isStyle4AudioDisabled = isMisticoModerno && userProfile\.audioEnabled === false/);
+  assert.match(anamnesis, /isEditing && is639HzActive && !isStyle4AudioDisabled/);
+  assert.match(anamnesis, /if \(isStyle4VoiceActive \|\| isStyle4AudioDisabled\) return/);
+  assert.match(anamnesis, /!isStyle4AudioDisabled && isOpenRef\.current && isEditingRef\.current/);
+  assert.match(anamnesis, /disabled=\{isStyle4AudioDisabled \|\| isStyle4VoiceActive\}/);
+  assert.match(anamnesis, /Áudio desativado nas configurações/);
+  assert.match(anamnesis, /audioEnabledRef\.current/);
+  assert.match(anamnesis, /bgMusicTypeRef\.current/);
+
+  assert.match(systemic, /isStyle4AudioDisabled = isMisticoModerno && userProfile\?\.audioEnabled === false/);
+  assert.match(systemic, /is639HzActive && !isStyle4AudioDisabled/);
+  assert.match(systemic, /\(\(isMisticoModerno && isReadingVoice\) \|\| isStyle4AudioDisabled\) return/);
+  assert.match(systemic, /!isStyle4AudioDisabled && isOpenRef\.current/);
+  assert.match(systemic, /disabled=\{isStyle4AudioDisabled \|\| \(isMisticoModerno && isReadingVoice\)\}/);
+  assert.match(systemic, /Áudio desativado nas configurações/);
+  assert.match(systemic, /audioEnabledRef\.current/);
+  assert.match(systemic, /bgMusicTypeRef\.current/);
+});
