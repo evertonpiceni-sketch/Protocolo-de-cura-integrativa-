@@ -53,7 +53,7 @@ export default function DashboardCura({ onClose, progress, userProfile }: { onCl
   return (
     <div ref={dialogRef} id="progress-dashboard" role="dialog" aria-modal="true" aria-label="Dashboard de Progresso Analítico" className="fixed inset-0 z-[100] flex flex-col bg-[#F8F4EC] text-[#2A2420] font-sans selection:bg-[#E4C573]/30 overflow-y-auto">
       {/* Background Gradient */}
-      <div className="fixed inset-0 pointer-events-none bg-[radial-gradient(circle_at_50%_0,rgba(214,167,86,.12),transparent_30rem),linear-gradient(180deg,#FBF8F2,#F8F4EC)]" />
+      <div data-mistico-dashboard-backdrop className="fixed inset-0 pointer-events-none bg-[radial-gradient(circle_at_50%_0,rgba(214,167,86,.12),transparent_30rem),linear-gradient(180deg,#FBF8F2,#F8F4EC)]" />
 
       {/* Header */}
       <header className="relative z-10 mx-auto w-full max-w-lg px-5 py-6">
@@ -86,7 +86,7 @@ export default function DashboardCura({ onClose, progress, userProfile }: { onCl
             <span className="text-sm font-semibold text-[#E4C573]">{percentage}% Concluído</span>
             <span className="text-xs text-[#5C5248]">{totalCompleted} de 7 Dias</span>
           </div>
-          <div className="h-1.5 w-full overflow-hidden rounded-full bg-[#E5DAC6]">
+          <div data-mistico-progress-track className="h-1.5 w-full overflow-hidden rounded-full bg-[#E5DAC6]">
             <div
               className="h-full rounded-full bg-gradient-to-r from-[#B89845] to-[#E4C573] shadow-[0_0_10px_rgba(228,197,115,0.6)] transition-all duration-1000 ease-out"
               style={{ width: `${percentage}%` }}
