@@ -68,3 +68,15 @@ test('the Místico Moderno preview keeps natural sage out of standalone palette 
     'Both Style 4 swatch rows must use the approved deep-night tone instead of the sage remnant.');
   assert.match(modal, /'#0A2742', '#2E3B73', '#1E6B5A', '#6C3FA0', '#D4AF37', '#E2B96B', '#F4F1EB', '#141F30'/);
 });
+
+test('the Místico Moderno chooser uses the verified official 4:3 board preview asset', () => {
+  const modal = read('src/components/LayoutChoiceModal.tsx');
+  const board = read('public/brand/mistico-moderno/prancha-oficial-card.svg');
+
+  assert.match(modal, /const MISTICO_MODERNO_OFFICIAL_BOARD = '\/brand\/mistico-moderno\/prancha-oficial-card\.svg';/);
+  assert.doesNotMatch(modal, /prancha-oficial-card\.webp/);
+  assert.match(modal, /className="h-full w-full object-contain p-1"/);
+  assert.match(board, /width="384" height="288" viewBox="0 0 384 288"/);
+  assert.match(board, /preserveAspectRatio="xMidYMid meet"/);
+  assert.match(board, /data:image\/webp;base64,/);
+});
