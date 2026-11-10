@@ -597,3 +597,17 @@ test('Místico Moderno usa a silhueta neutra nas superfícies Arcanjo e Dashboar
   assert.ok(neutralBody.includes('Figura em posição de lótus'));
   assert.doesNotMatch(neutralBody, /female|male|feminina|masculina/i);
 });
+
+
+test('Místico Moderno neutralizes inherited light dashboard backdrop and progress track', () => {
+  const dashboard = read('src/components/DashboardCura.tsx');
+  const css = read('src/mistico-moderno-dashboard-audit.css');
+
+  assert.match(dashboard, /data-mistico-dashboard-backdrop/);
+  assert.match(dashboard, /data-mistico-progress-track/);
+  assert.match(css, /#progress-dashboard \\[data-mistico-dashboard-backdrop\\]/);
+  assert.match(css, /#progress-dashboard \\[data-mistico-progress-track\\]/);
+  assert.match(css, /linear-gradient\\(180deg, #080b18 0%, #0b1024 48%, #10142b 100%\\)/);
+  assert.match(css, /opacity: \.30 !important/);
+  assert.match(css, /opacity: \.26 !important/);
+});
