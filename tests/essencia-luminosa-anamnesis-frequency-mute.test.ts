@@ -38,3 +38,12 @@ test('o seletor de trilha dos Ajustes respeita o silêncio global no Estilo 3', 
   assert.ok(save.includes('audioEnabled,'));
   assert.ok(save.includes("if (allowBackgroundPlayback && audioEnabled && bgMusicType !== 'none')"));
 });
+
+test('a faixa 639 Hz usa sálvia/oliva no Estilo 3 sem recolorir os cartões dos chakras', () => {
+  const css = fs.readFileSync('src/essencia-luminosa-anamnesis-audit.css', 'utf8');
+  assert.match(css, /#anamnesis-modal \.ep-anamnesis-frequency/);
+  assert.match(css, /\.ep-anamnesis-frequency \[class\*="bg-emerald-"\]/);
+  assert.match(css, /\.ep-anamnesis-frequency \[class\*="border-emerald-"\]/);
+  assert.match(css, /\.ep-anamnesis-frequency \[class\*="text-emerald-"\]/);
+  assert.match(css, /#anamnesis-modal \.ep-chakra-option/);
+});
