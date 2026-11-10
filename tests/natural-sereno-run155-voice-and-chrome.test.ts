@@ -9,12 +9,15 @@ test('a Reintegração usa a voz oficial Marianne e nunca a voz Rachel legada', 
   const server = read('server.ts');
   const endpoint = read('api/index.ts');
   const standaloneEndpoint = read('api/reintegration-tts.ts');
+  const routing = read('vercel.json');
   const player = read('src/components/PersonalJourney21.tsx');
 
   const officialVoiceId = 'mJqP14JQFEK0PojR5lfV';
   assert.ok(audio.includes(`OFFICIAL_PROTOCOL_VOICE_ID = '${officialVoiceId}'`));
   assert.ok(server.includes(`OFFICIAL_PROTOCOL_VOICE_ID = "${officialVoiceId}"`));
-  assert.ok(endpoint.includes(`REINTEGRATION_VOICE_ID = \\\"${officialVoiceId}\\\"`));
+  assert.ok(endpoint.includes(`REINTEGRATION_VOICE_ID = "${officialVoiceId}"`));
+  assert.ok(endpoint.includes('pathname === "/api/reintegration-tts"'));
+  assert.ok(routing.includes('"destination": "/api?path=:path*"'));
   assert.ok(standaloneEndpoint.includes(`voiceId: '${officialVoiceId}'`));
   assert.doesNotMatch(endpoint, /21m00Tcm4TlvDq8ikWAM/);
   assert.doesNotMatch(standaloneEndpoint, /21m00Tcm4TlvDq8ikWAM/);
