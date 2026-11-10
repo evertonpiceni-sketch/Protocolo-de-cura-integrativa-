@@ -502,3 +502,184 @@
     transform: none !important;
   }
 }
+
+
+/* RUN 146 — Essência Luminosa: Reintegração da Vida */
+/* A jornada de 21 dias é uma superfície ativa do Estilo 3. Neutraliza apenas aqui
+   os painéis verde-escuros e o azul-noturno herdados do tema global; conteúdo,
+   arte diária, corpo neutro, áudio e estrutura da jornada permanecem intactos. */
+:root[data-layout="essencia-luminosa"] [data-ep-reintegration="true"] {
+  background:
+    radial-gradient(circle at 12% 0%, color-mix(in srgb, var(--layout-gold-soft) 22%, transparent), transparent 25rem),
+    radial-gradient(circle at 100% 28%, color-mix(in srgb, var(--layout-accent-soft) 28%, transparent), transparent 28rem),
+    linear-gradient(180deg, var(--layout-canvas), var(--layout-canvas-alt)) !important;
+  color: var(--layout-text) !important;
+}
+
+:root[data-layout="essencia-luminosa"] [data-ep-reintegration="true"] .ep-reintegration-panel {
+  background: linear-gradient(145deg, var(--layout-card), color-mix(in srgb, var(--layout-canvas-alt) 82%, var(--layout-card))) !important;
+  border-color: var(--layout-border-card) !important;
+  box-shadow: 0 18px 48px rgba(112, 91, 58, .09) !important;
+}
+
+:root[data-layout="essencia-luminosa"] [data-ep-reintegration="true"] .ep-reintegration-card {
+  background: linear-gradient(145deg, var(--layout-card), color-mix(in srgb, var(--layout-canvas-alt) 72%, var(--layout-card))) !important;
+  border-color: var(--layout-border-card) !important;
+  color: var(--layout-text) !important;
+  box-shadow: 0 10px 26px rgba(112, 91, 58, .06) !important;
+}
+
+:root[data-layout="essencia-luminosa"] [data-ep-reintegration="true"] .ep-reintegration-card :is(p, span, small, summary, strong, b) {
+  color: var(--layout-text-secondary) !important;
+}
+
+:root[data-layout="essencia-luminosa"] [data-ep-reintegration="true"] .ep-reintegration-card :is(h1, h2, h3) {
+  color: var(--layout-text) !important;
+}
+
+:root[data-layout="essencia-luminosa"] [data-ep-reintegration="true"] .ep-reintegration-luminous::before {
+  background:
+    radial-gradient(circle at 50% 18%, color-mix(in srgb, var(--layout-gold-soft) 18%, transparent), transparent 42%),
+    radial-gradient(circle at 88% 72%, color-mix(in srgb, var(--layout-accent-soft) 24%, transparent), transparent 38%) !important;
+}
+
+:root[data-layout="essencia-luminosa"] [data-ep-reintegration="true"] .ep-reintegration-logo img {
+  opacity: .30 !important;
+  filter: saturate(.86) contrast(.96) !important;
+}
+
+:root[data-layout="essencia-luminosa"] [data-ep-reintegration="true"] .ep-reintegration-day-button[aria-pressed="true"] {
+  background: var(--layout-gold-gradient) !important;
+  border-color: var(--layout-gold) !important;
+  color: var(--layout-text) !important;
+  box-shadow: 0 7px 18px rgba(112, 91, 58, .12) !important;
+}
+
+:root[data-layout="essencia-luminosa"] [data-ep-reintegration="true"] .ep-reintegration-day-button[data-completed="true"]:not([aria-pressed="true"]) {
+  background: color-mix(in srgb, var(--layout-accent-soft) 58%, var(--layout-card)) !important;
+  border-color: color-mix(in srgb, var(--layout-accent) 48%, var(--layout-border-card)) !important;
+  color: var(--layout-accent-text) !important;
+}
+
+:root[data-layout="essencia-luminosa"] [data-ep-reintegration="true"] .ep-reintegration-day-button:not([aria-pressed="true"]):not([data-completed="true"]) {
+  background: var(--layout-card) !important;
+  border-color: var(--layout-border-card) !important;
+  color: var(--layout-text-muted) !important;
+}
+
+:root[data-layout="essencia-luminosa"] [data-ep-reintegration="true"] .ep-reintegration-player-card {
+  background: var(--layout-card) !important;
+  border-color: var(--layout-border-card) !important;
+  box-shadow: 0 18px 44px rgba(112, 91, 58, .08) !important;
+}
+
+:root[data-layout="essencia-luminosa"] [data-ep-reintegration="true"] .ep-reintegration-player-stage {
+  background: linear-gradient(180deg, var(--layout-card), var(--layout-canvas-alt)) !important;
+}
+
+:root[data-layout="essencia-luminosa"] [data-ep-reintegration="true"] .ep-reintegration-player-glow {
+  background: radial-gradient(circle at center, color-mix(in srgb, var(--layout-gold-soft) 18%, transparent), transparent 44%) !important;
+}
+
+:root[data-layout="essencia-luminosa"] [data-ep-reintegration="true"] .ep-reintegration-player-voice-card {
+  background: color-mix(in srgb, var(--layout-card) 94%, var(--layout-canvas-alt)) !important;
+  border-color: var(--layout-border-card) !important;
+}
+
+:root[data-layout="essencia-luminosa"] [data-ep-reintegration="true"] .ep-reintegration-progress-track {
+  background: var(--layout-border-card) !important;
+}
+
+:root[data-layout="essencia-luminosa"] [data-ep-reintegration="true"] .ep-reintegration-progress-fill,
+:root[data-layout="essencia-luminosa"] [data-ep-reintegration="true"] .ep-reintegration-cta {
+  background: var(--layout-gold-gradient) !important;
+  color: var(--layout-text) !important;
+  border-color: var(--layout-gold-border) !important;
+  box-shadow: 0 10px 26px rgba(112, 91, 58, .10) !important;
+}
+
+:root[data-layout="essencia-luminosa"] [data-ep-reintegration="true"] .ep-reintegration-top-button,
+:root[data-layout="essencia-luminosa"] [data-ep-reintegration="true"] .ep-reintegration-nav-button {
+  background: color-mix(in srgb, var(--layout-card) 92%, var(--layout-canvas-alt)) !important;
+  border-color: var(--layout-border-card) !important;
+  color: var(--layout-text-secondary) !important;
+  box-shadow: 0 8px 22px rgba(112, 91, 58, .06) !important;
+}
+
+:root[data-layout="essencia-luminosa"] [data-ep-reintegration="true"] .ep-reintegration-footer {
+  border-color: var(--layout-border-card) !important;
+}
+
+:root[data-layout="essencia-luminosa"] [data-ep-reintegration="true"] button:focus-visible,
+:root[data-layout="essencia-luminosa"] [data-ep-reintegration-modal="true"] button:focus-visible {
+  outline: 2px solid color-mix(in srgb, var(--layout-gold) 62%, white) !important;
+  outline-offset: 3px;
+}
+
+/* O player em execução permanece imersivo, mas usa grafite quente e champagne,
+   nunca azul-noturno/índigo; a fotografia natural continua visível ao fundo. */
+:root[data-layout="essencia-luminosa"] [data-ep-reintegration-running="true"] {
+  background:
+    radial-gradient(circle at 50% 12%, color-mix(in srgb, var(--layout-gold-soft) 16%, transparent), transparent 26rem),
+    linear-gradient(180deg, #2A2420, #39322B) !important;
+  color: var(--layout-canvas) !important;
+}
+
+:root[data-layout="essencia-luminosa"] [data-ep-reintegration-running="true"] .ep-reintegration-running-backdrop {
+  opacity: .52 !important;
+  filter: saturate(.88) brightness(.86) blur(9px) !important;
+}
+
+:root[data-layout="essencia-luminosa"] [data-ep-reintegration-running="true"] .ep-reintegration-running-footer {
+  background: linear-gradient(180deg, transparent 0%, rgba(42, 36, 32, .82) 24%, rgba(42, 36, 32, .98) 100%) !important;
+  color: var(--layout-canvas) !important;
+}
+
+:root[data-layout="essencia-luminosa"] [data-ep-reintegration-running="true"] .ep-reintegration-running-footer p:first-child {
+  color: var(--layout-gold-soft) !important;
+}
+
+:root[data-layout="essencia-luminosa"] [data-ep-reintegration-running="true"] .ep-reintegration-running-footer p:nth-child(2) {
+  color: var(--layout-canvas) !important;
+}
+
+:root[data-layout="essencia-luminosa"] [data-ep-reintegration-running="true"] .ep-reintegration-running-footer p:nth-child(3) {
+  color: var(--layout-canvas-alt) !important;
+}
+
+:root[data-layout="essencia-luminosa"] [data-ep-reintegration-running="true"] :is(.ep-reintegration-running-close, .ep-reintegration-running-script-button, .ep-reintegration-running-control) {
+  background: rgba(255, 255, 248, .09) !important;
+  border-color: color-mix(in srgb, var(--layout-gold-soft) 62%, transparent) !important;
+  color: var(--layout-canvas) !important;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, .18) !important;
+}
+
+:root[data-layout="essencia-luminosa"] [data-ep-reintegration-running="true"] .ep-reintegration-running-progress-track {
+  background: rgba(255, 255, 248, .20) !important;
+}
+
+:root[data-layout="essencia-luminosa"] [data-ep-reintegration-running="true"] .ep-reintegration-running-progress-fill {
+  background: linear-gradient(90deg, var(--layout-gold-soft), var(--layout-gold-dark)) !important;
+  box-shadow: 0 0 12px rgba(198, 164, 106, .22) !important;
+}
+
+:root[data-layout="essencia-luminosa"] [data-ep-reintegration-running="true"] .ep-reintegration-running-cta {
+  background: var(--layout-gold-gradient) !important;
+  border: 1px solid var(--layout-gold-border) !important;
+  color: var(--layout-text) !important;
+  box-shadow: 0 8px 26px rgba(112, 91, 58, .18) !important;
+}
+
+@media (max-width: 640px) {
+  :root[data-layout="essencia-luminosa"] [data-ep-reintegration="true"] .ep-reintegration-logo img {
+    opacity: .26 !important;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root[data-layout="essencia-luminosa"] [data-ep-reintegration="true"] .ep-reintegration-luminous::before,
+  :root[data-layout="essencia-luminosa"] [data-ep-reintegration-running="true"] .ep-reintegration-running-backdrop {
+    animation: none !important;
+    transition: none !important;
+  }
+}
