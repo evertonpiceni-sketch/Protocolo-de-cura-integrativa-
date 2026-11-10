@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict';
-import { readFileSync } from 'node:fs';
+import { existsSync, readFileSync } from 'node:fs';
 import test from 'node:test';
 
 const read = (path: string) => readFileSync(new URL(`../${path}`, import.meta.url), 'utf8');
@@ -8,6 +8,7 @@ test('Natural Sereno renders the active welcome onboarding on a light approved s
   const app = read('src/App.tsx');
   const onboarding = read('src/components/OnboardingFlow.tsx');
   const css = read('src/natural-sereno-approved-overrides.css');
+  const style3Css = read('src/essencia-luminosa-onboarding-audit.css');
   const marker = '/* RUN 149 — acolhimento do Natural Sereno: remover o painel verde-escuro herdado do onboarding compartilhado. */';
   const start = css.lastIndexOf(marker);
   assert.ok(start >= 0, 'O override específico do acolhimento Natural Sereno deve existir.');
@@ -24,4 +25,16 @@ test('Natural Sereno renders the active welcome onboarding on a light approved s
   assert.match(block, /\.ep-gold-button/);
   assert.doesNotMatch(block, /rgba\(7,52,38|rgba\(3,27,19|#073b2b|#0c4a34/i);
   assert.ok(css.includes(':root[data-layout="natural-sereno"] .ep-care-onboarding-card .ep-brand-signature {'));
+  assert.match(css, /:root\[data-layout="natural-sereno"\] \.ep-care-onboarding-card \.ep-brand-signature \{\s*opacity:\.30!important;/);
+  assert.match(css, /@media \(max-width:640px\) \{\s*:root\[data-layout="natural-sereno"\] \.ep-care-onboarding-card \.ep-brand-signature \{\s*opacity:\.26!important;/);
+
+  const scopedSelectors = block.split('\n').map(line => line.trim()).filter(line => line.startsWith(':root'));
+  assert.ok(scopedSelectors.length >= 10);
+  assert.ok(scopedSelectors.every(line => line.startsWith(':root[data-layout="natural-sereno"]')));
+
+  assert.ok(style3Css.includes(':root[data-layout="essencia-luminosa"] .ep-care-onboarding-card'));
+  assert.ok(existsSync(new URL('../docs/visual-qa/natural-sereno/reference.jpg', import.meta.url)));
+  assert.ok(existsSync(new URL('../public/brand/natural-sereno/vale-amanhecer.webp', import.meta.url)));
+  assert.ok(existsSync(new URL('../public/brand/natural-sereno/acolhimento.webp', import.meta.url)));
+  assert.ok(existsSync(new URL('../public/brand/natural-sereno/cachoeira.webp', import.meta.url)));
 });
