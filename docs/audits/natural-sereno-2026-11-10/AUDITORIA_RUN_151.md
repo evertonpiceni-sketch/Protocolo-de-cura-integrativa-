@@ -20,7 +20,7 @@
 - Política Solfeggio sem sobreposição com narração; teste de sincronização atômica do Diário presente.
 - InfinitePay continua exigindo API Key e `single_payment: true`; locks e confirmação server-side preservados.
 
-**Verificação estática:** 14/14 invariantes consultados nesta rodada confirmados. Isso não substitui a execução da suíte automatizada nem a homologação renderizada.
+**Verificação estática:** 16/16 invariantes consultados nesta rodada confirmados. Isso não substitui a execução da suíte automatizada nem a homologação renderizada.
 
 ## Pendente
 
