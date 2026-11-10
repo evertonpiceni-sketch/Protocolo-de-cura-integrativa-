@@ -30,7 +30,7 @@ Foi acrescentado teste em `tests/natural-sereno-visual-guardrails.test.ts` cobri
 
 ## Preservado
 
-- Card e prancha JPEG versionada, sem recorte; o PNG original ainda não foi recuperado em bytes independentes.
+- A prancha original `1001196520(2).png` foi localizada na Biblioteca pelo `file_id` informado e inspecionada visualmente (1536×1404). O card do repositório continua usando a derivação JPEG versionada com `object-contain`; não foi afirmada equivalência byte a byte. Elementos antigos visíveis na prancha (chapas verde-escuras, corpo com chakras e botões arredondados) são referência histórica, não instruções para reintrodução: paleta creme/marfim, corpo neutro, botões premium e logo discreto das aprovações posteriores prevalecem.
 - Seletor dos quatro estilos sem pré-seleção, com escolha e confirmação explícitas.
 - Paleta creme/marfim, café/marrom, dourado refinado e sálvia como acento.
 - Paisagens, corpo neutro, logo discreto/transparente, player e animações.
@@ -59,3 +59,8 @@ A comparação por arquivo confirmou três decisões importantes antes de qualqu
 - **InfinitePay:** a branch já contém API Key obrigatória para link de pagamento único, `single_payment: true`, bloqueio de pagamentos fora de produção até sandbox e lock compartilhado com refresh do banco. Esses controles foram preservados.
 
 Os commits posteriores da main que alteram o Arcanjo e a experiência da Elegância Profunda ainda exigem reconciliação conjunta: a branch contém a versão com corpo neutro e política de áudio do Natural Sereno, enquanto a main acrescenta mudanças próprias do Estilo 2. Nenhum arquivo compartilhado foi sobrescrito nesta rodada.
+
+
+## Confirmação da prancha original
+
+O arquivo original foi recuperado da Biblioteca: `1001196520(2).png`, `file_id=file_00000000317c820ebaad657dc3680de5`, 1536×1404. A prancha foi inspecionada. Ela documenta a composição histórica do Estilo 1, incluindo elementos verdes escuros, corpo com chakras e botões arredondados. Esses elementos não devem ser reproduzidos quando contrariados pelas decisões posteriores aprovadas. O card continua mostrando a derivação JPEG versionada em `object-contain`, enquanto a prévia funcional mantém a identidade Natural Sereno vigente.
