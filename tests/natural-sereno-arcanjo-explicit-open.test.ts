@@ -17,3 +17,24 @@ test('Arcanjo não abre automaticamente apenas porque a assinatura é arcanjo_7d
   assert.ok(openHandlerStart >= 0 && openHandlerEnd > openHandlerStart);
   assert.ok(app.slice(openHandlerStart, openHandlerEnd).includes('setShowArcanjoView(true)'));
 });
+
+test('a confirmação de compra do Arcanjo libera o acesso sem abrir o protocolo automaticamente', () => {
+  const app = read('src/App.tsx');
+  const paidStart = app.indexOf("if (data.status === 'paid' && data.user?.profile) {");
+  const paidEnd = app.indexOf("throw new Error('Aguardando confirmação segura do pagamento.');", paidStart);
+  assert.ok(paidStart >= 0 && paidEnd > paidStart, 'ramo de pagamento confirmado não encontrado');
+
+  const paidBranch = app.slice(paidStart, paidEnd);
+  assert.ok(paidBranch.includes('closeProModal();'));
+  assert.ok(paidBranch.includes('setInAppToast({'));
+  assert.ok(paidBranch.includes('Acesso ao Arcanjo liberado'));
+  assert.ok(paidBranch.includes('Abra o protocolo quando desejar'));
+  assert.doesNotMatch(paidBranch, /setShowArcanjoView\\(true\\)/);
+
+  // As duas aberturas restantes são intencionais: evento explícito e botão do painel.
+  assert.equal((app.match(/setShowArcanjoView\\(true\\)/g) || []).length, 2);
+  assert.ok(app.includes("onOpenArcanjo={() => userProfile.plan === 'pro' ? setShowArcanjoView(true) : setShowProModal(true)}"));
+
+  const naturalSerenoCss = read('src/natural-sereno-approved-overrides.css');
+  assert.ok(naturalSerenoCss.includes(':root[data-layout="natural-sereno"] .ep-app-toast'));
+});
