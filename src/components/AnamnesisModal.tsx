@@ -131,6 +131,13 @@ export default function AnamnesisModal({
   is639HzActiveRef.current = is639HzActive;
   isEditingRef.current = isEditing;
   isOpenRef.current = isOpen;
+  const audioEnabledRef = React.useRef(userProfile.audioEnabled);
+  const bgMusicTypeRef = React.useRef(userProfile.bgMusicType);
+  audioEnabledRef.current = userProfile.audioEnabled;
+  bgMusicTypeRef.current = userProfile.bgMusicType;
+  const isStyle4AudioDisabled = isMisticoModerno && userProfile.audioEnabled === false;
+  const isStyle4VoiceActive = isMisticoModerno && (isPlayingTherapeuticVoice || isLoadingVoice);
+  const is639HzAudible = is639HzActive && !isStyle4AudioDisabled && !isStyle4VoiceActive;
 
   // Manage 639Hz Solfeggio frequency: melhora a compreensão, tolerância e relações interpessoais enquanto o usuário escolhe as respostas
   React.useEffect(() => {
@@ -138,7 +145,7 @@ export default function AnamnesisModal({
       return;
     }
 
-    if (isEditing && is639HzActive) {
+    if (isEditing && is639HzActive && !isStyle4AudioDisabled) {
       audioEngine.unlock();
       audioEngine.setBGVolume(0.40);
       audioEngine.startBG('639hz');
@@ -151,15 +158,17 @@ export default function AnamnesisModal({
     return () => {
       if (audioEngine.getCurrentSynthType() === '639hz') {
         audioEngine.stopBG();
-        if (userProfile.audioEnabled && userProfile.bgMusicType && userProfile.bgMusicType !== 'none' && userProfile.bgMusicType !== '639hz') {
-          audioEngine.startBG(userProfile.bgMusicType);
+        const audioEnabled = isMisticoModerno ? audioEnabledRef.current : userProfile.audioEnabled;
+        const bgMusicType = isMisticoModerno ? bgMusicTypeRef.current : userProfile.bgMusicType;
+        if (audioEnabled && bgMusicType && bgMusicType !== 'none' && bgMusicType !== '639hz') {
+          audioEngine.startBG(bgMusicType);
         }
       }
     };
   }, [isOpen, isEditing, is639HzActive, userProfile.audioEnabled, userProfile.bgMusicType]);
 
   const handleToggle639Hz = () => {
-    if (isMisticoModerno && (isPlayingTherapeuticVoice || isLoadingVoice)) return;
+    if (isStyle4VoiceActive || isStyle4AudioDisabled) return;
     if (is639HzActive) {
       audioEngine.stopBG();
       setIs639HzActive(false);
@@ -172,8 +181,7 @@ export default function AnamnesisModal({
   };
 
   const playAnamnesisSelectionSound = () => {
-    const style4VoiceOwnsAudio = isMisticoModerno && (isPlayingTherapeuticVoice || isLoadingVoice);
-    if (style4VoiceOwnsAudio) return;
+    if (isStyle4VoiceActive || isStyle4AudioDisabled) return;
     audioEngine.unlock();
     audioEngine.playHeartSelectionChime();
     if (is639HzActive && audioEngine.getCurrentSynthType() !== '639hz') {
@@ -195,7 +203,7 @@ export default function AnamnesisModal({
   };
 
   const resumeStyle4AnamnesisSolfeggio = () => {
-    if (isMisticoModerno && isOpenRef.current && isEditingRef.current && is639HzActiveRef.current && audioEngine.getCurrentSynthType() !== '639hz') {
+    if (isMisticoModerno && !isStyle4AudioDisabled && isOpenRef.current && isEditingRef.current && is639HzActiveRef.current && audioEngine.getCurrentSynthType() !== '639hz') {
       audioEngine.setBGVolume(0.40);
       audioEngine.startBG('639hz');
     }
@@ -1098,8 +1106,8 @@ export default function AnamnesisModal({
             <div className="ep-anamnesis-frequency p-3 rounded-2xl bg-gradient-to-r from-emerald-50 via-[#FBF8F2] to-[#F3EBDD] border border-emerald-200 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2.5">
               <div className="flex items-center gap-2.5">
                 <div className="relative w-8 h-8 rounded-xl bg-emerald-500/20 border border-emerald-500/40 flex items-center justify-center text-emerald-700 shrink-0">
-                  <Heart size={16} className={is639HzActive && !(isMisticoModerno && (isPlayingTherapeuticVoice || isLoadingVoice)) ? 'scale-110 text-emerald-400 animate-pulse' : 'opacity-60'} />
-                  {is639HzActive && !(isMisticoModerno && (isPlayingTherapeuticVoice || isLoadingVoice)) && (
+                  <Heart size={16} className={is639HzAudible ? 'scale-110 text-emerald-400 animate-pulse' : 'opacity-60'} />
+                  {is639HzAudible && (
                     <span className="absolute -top-1 -right-1 flex h-2.5 w-2.5">
                       <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
                       <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500"></span>
@@ -1108,7 +1116,7 @@ export default function AnamnesisModal({
                 </div>
                 <div>
                   <div className="flex items-center gap-2">
-                    <span className="text-xs font-semibold text-emerald-700">{isMisticoModerno && (isPlayingTherapeuticVoice || isLoadingVoice) ? 'Solfeggio pausado durante a narração' : is639HzActive ? 'Frequência Solfeggio 639 Hz Ativa' : 'Frequência Solfeggio 639 Hz Desativada'}</span>
+                    <span className="text-xs font-semibold text-emerald-700">{isStyle4AudioDisabled ? 'Áudio desativado nas configurações' : isStyle4VoiceActive ? 'Solfeggio pausado durante a narração' : is639HzActive ? 'Frequência Solfeggio 639 Hz Ativa' : 'Frequência Solfeggio 639 Hz Desativada'}</span>
                     <span className="text-[10px] px-1.5 py-0.5 rounded-full bg-emerald-500/20 border border-emerald-500/30 text-emerald-700 font-mono">Chakra Cardíaco</span>
                   </div>
                   <p className="text-[11px] text-[#5C5248] leading-snug">
@@ -1120,15 +1128,16 @@ export default function AnamnesisModal({
               <button
                 type="button"
                 onClick={handleToggle639Hz}
-                disabled={isMisticoModerno && (isPlayingTherapeuticVoice || isLoadingVoice)}
+                disabled={isStyle4AudioDisabled || isStyle4VoiceActive}
+                title={isStyle4AudioDisabled ? 'Ative o áudio nas configurações para usar o Solfeggio.' : undefined}
                 className={`px-3 py-1.5 rounded-xl text-xs font-medium flex items-center gap-1.5 transition cursor-pointer border shrink-0 self-end sm:self-center disabled:opacity-50 disabled:cursor-not-allowed ${
-                  is639HzActive && !(isMisticoModerno && (isPlayingTherapeuticVoice || isLoadingVoice))
+                  is639HzAudible
                     ? 'bg-emerald-600/30 border-emerald-500/50 text-emerald-200 hover:bg-emerald-600/50'
                     : 'bg-[#F5EFE4] border-[#E5DAC6] text-[#5C5248] hover:text-[#2A2420]'
                 }`}
               >
-                {is639HzActive && !(isMisticoModerno && (isPlayingTherapeuticVoice || isLoadingVoice)) ? <Volume2 size={13} className="text-emerald-400 animate-pulse" /> : <VolumeX size={13} />}
-                <span>{isMisticoModerno && (isPlayingTherapeuticVoice || isLoadingVoice) ? 'Solfeggio pausado' : is639HzActive ? '639 Hz Ativo' : 'Ativar 639 Hz'}</span>
+                {is639HzAudible ? <Volume2 size={13} className="text-emerald-400 animate-pulse" /> : <VolumeX size={13} />}
+                <span>{isStyle4AudioDisabled ? 'Áudio desativado' : isStyle4VoiceActive ? 'Solfeggio pausado' : is639HzActive ? '639 Hz Ativo' : 'Ativar 639 Hz'}</span>
               </button>
             </div>
 
