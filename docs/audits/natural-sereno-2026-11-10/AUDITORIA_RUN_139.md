@@ -40,7 +40,7 @@ A inspeção dos arquivos correspondentes mostrou que uma cópia cega da `main` 
 ## Validação e pendências
 
 - GitHub Actions associados ao HEAD consultado: nenhum.
-- Status combinado: somente Vercel `failure`, com destino de limite diário de deployments; não há preview READY.
+- Status combinado: somente Vercel `failure`. O deployment do HEAD documental `2bd3e60914c79adbe9fa2d9b353db4732a3334ea` está em `ERROR / BUILD_FAILED`, com `errorMessage: Resource provisioning failed` (deployment `dpl_3fPQhsk7vjNu2mkQ3j8dFMdfX8rN`). A consulta de eventos de build retornou lista vazia; não há preview READY e não foi possível determinar a causa mais específica.
 - A inspeção foi estática no repositório. Não equivale a homologação visual renderizada em desktop/mobile.
 - Pendente: reconciliação seletiva dos 12 commits da main; CI completa no HEAD reconciliado; preview e inspeção visual página por página; escuta real de Marianne/ambiência/Solfeggio; homologação InfinitePay em sandbox (checkout, confirmação e webhook).
 
