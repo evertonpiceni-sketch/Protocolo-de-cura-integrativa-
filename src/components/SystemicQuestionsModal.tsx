@@ -58,7 +58,7 @@ export default function SystemicQuestionsModal({
   useEffect(() => {
     if (!isOpen) return;
 
-    if (is639HzActive && !isStyle4AudioDisabled) {
+    if (is639HzActive && !isStyle4AudioDisabled && !(isMisticoModerno && isReadingVoice)) {
       audioEngine.unlock();
       audioEngine.setBGVolume(0.38);
       audioEngine.startBG('639hz');
@@ -78,7 +78,7 @@ export default function SystemicQuestionsModal({
         }
       }
     };
-  }, [isOpen, is639HzActive, userProfile?.audioEnabled, userProfile?.bgMusicType]);
+  }, [isOpen, is639HzActive, isReadingVoice, userProfile?.audioEnabled, userProfile?.bgMusicType]);
 
   const handleToggle639 = () => {
     if ((isMisticoModerno && isReadingVoice) || isStyle4AudioDisabled) return;
@@ -94,7 +94,7 @@ export default function SystemicQuestionsModal({
   };
 
   const resumeStyle4SystemicSolfeggio = () => {
-    if (isMisticoModerno && !isStyle4AudioDisabled && isOpenRef.current && is639HzActiveRef.current && audioEngine.getCurrentSynthType() !== '639hz') {
+    if (isMisticoModerno && !isStyle4AudioDisabled && isOpenRef.current && is639HzActiveRef.current && audioEnabledRef.current !== false && audioEngine.getCurrentSynthType() !== '639hz') {
       audioEngine.setBGVolume(0.38);
       audioEngine.startBG('639hz');
     }
