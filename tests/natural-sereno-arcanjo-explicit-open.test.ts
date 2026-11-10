@@ -29,10 +29,10 @@ test('a confirmação de compra do Arcanjo libera o acesso sem abrir o protocolo
   assert.ok(paidBranch.includes('setInAppToast({'));
   assert.ok(paidBranch.includes('Acesso ao Arcanjo liberado'));
   assert.ok(paidBranch.includes('Abra o protocolo quando desejar'));
-  assert.doesNotMatch(paidBranch, /setShowArcanjoView\\(true\\)/);
+  assert.ok(!paidBranch.includes('setShowArcanjoView(true)'));
 
   // As duas aberturas restantes são intencionais: evento explícito e botão do painel.
-  assert.equal((app.match(/setShowArcanjoView\\(true\\)/g) || []).length, 2);
+  assert.equal(app.split('setShowArcanjoView(true)').length - 1, 2);
   assert.ok(app.includes("onOpenArcanjo={() => userProfile.plan === 'pro' ? setShowArcanjoView(true) : setShowProModal(true)}"));
 
   const naturalSerenoCss = read('src/natural-sereno-approved-overrides.css');
