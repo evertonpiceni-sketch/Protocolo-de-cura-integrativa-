@@ -66,3 +66,20 @@ test('a primeira escolha dos quatro estilos mantém o shell neutro até a confir
   const finalThemeLayer = entry.indexOf("import './essencia-luminosa-approved-overrides.css';");
   assert.ok(neutralLayer > finalThemeLayer, 'A camada neutra deve vencer o shell legado antes da confirmação.');
 });
+
+
+test('o canvas anterior à escolha neutraliza o radial sálvia e a scrollbar verde legada', () => {
+  const shell = read('src/layout-choice-neutral-shell.css');
+
+  assert.ok(shell.includes(':root:not([data-layout]) body,'));
+  assert.ok(shell.includes('background: linear-gradient(180deg,#FBF8F2 0%,#FAF7F2 58%,#F5EFE5 100%) !important;'));
+  assert.ok(shell.includes(':root:not([data-layout]) body::before'));
+  assert.ok(shell.includes('rgba(200,157,82,.08)'));
+  assert.ok(shell.includes('rgba(200,157,82,.04)'));
+  assert.ok(shell.includes(':root:not([data-layout]) ::-webkit-scrollbar-track'));
+  assert.ok(shell.includes('background: #F5EFE5 !important;'));
+  assert.ok(shell.includes(':root:not([data-layout]) ::-webkit-scrollbar-thumb'));
+  assert.ok(!shell.includes('rgba(94,113,83'));
+  assert.ok(!shell.includes('rgba(2,17,13'));
+  assert.ok(!shell.includes(':root[data-layout='));
+});
