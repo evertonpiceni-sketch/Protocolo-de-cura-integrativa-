@@ -3,7 +3,7 @@
 Data: 2026-11-10  
 Repositório: `evertonpiceni-sketch/Protocolo-de-cura-integrativa-`  
 Branch: `fix/natural-sereno-mainline-run111-2026-11-09`  
-HEAD após as correções: `20ac586a818e6d72e56a64080037c387f4a0438c`  
+HEAD após as correções: `6b197d6303980d71f57baa1ac3166e1d5c62b146`  
 PR: #79
 
 ## Corrigido
@@ -47,13 +47,13 @@ A ordem de imports em `src/main.tsx` foi conferida: `natural-sereno-approved-ove
 
 - A reauditoria dos arquivos e dos seletores foi concluída após cada gravação.
 - O teste foi atualizado, mas não há execução GitHub Actions associada ao HEAD atual; não se declara teste, TypeScript ou build aprovados.
-- O check Vercel do HEAD continua em falha por `build-rate-limit`. O último deployment efetivamente criado para a branch ainda aponta para o commit documental anterior `749542c` e terminou em `BUILD_FAILED — Resource provisioning failed`; não há eventos de build nem Preview READY.
+- O deployment mais recente do HEAD (`dpl_C9ot3RRJiFDTNxiAqD6s9bovSmui`, commit `6b197d6`) terminou em `ERROR / BUILD_FAILED — Resource provisioning failed`. A consulta retornou eventos de build vazios e `target=null`; não há Preview READY. O check Vercel permanece em falha.
 - Sem preview, a inspeção visual renderizada de todas as páginas em desktop e mobile permanece pendente.
 - Voz, pausa/retomada, Diário ponta a ponta e InfinitePay sandbox ainda exigem homologação real.
 
 ## Reconciliação com main
 
-A branch está 180 commits à frente e 12 atrás de `main`; a PR permanece `mergeable=false`.
+A branch está 183 commits à frente e 12 atrás de `main`; a PR permanece `mergeable=false`.
 
 A comparação confirmou mudanças posteriores na `main` que precisam ser reconciliadas seletivamente. A versão da `main` reintroduz no Arcanjo o corpo com chakras, em conflito com a decisão aprovada de corpo neutro. O seletor da `main` mantém a imagem da prancha, mas reduz a prévia do Natural Sereno à prancha isolada; a branch desta PR preserva a prévia composta com paisagem, identidade vigente, CTA, paleta e miniatura da prancha. A `main` também contém a integração de `PromoVideoModal`, novos ajustes da Elegância Profunda e uma suíte de pagamento mais extensa; esses itens devem ser portados seletivamente, sem substituir os componentes neutros, a prévia composta, as proteções de conta e os locks financeiros da branch. Não foi feito merge, rebase ou substituição integral de arquivos.
 
