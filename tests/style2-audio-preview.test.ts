@@ -66,17 +66,16 @@ test('o Estilo 2 suspende Solfeggio durante prévias neurais e restaura apenas a
 test('o Arcanjo suspende Solfeggio durante narração neural e respeita o áudio global', () => {
   const arcanjo = read('src/components/ArcanjoProtocolView.tsx');
   assert.ok(arcanjo.includes("import { isSolfeggioFrequency } from '../lib/protocolSessionAudioPolicy';"));
-  assert.ok(arcanjo.includes('const suspendsSolfeggioDuringNeuralNarration = isEleganciaProfunda || isEssenciaLuminosa || isMisticoModerno;'));
+  assert.ok(arcanjo.includes('const suspendsSolfeggioDuringNeuralNarration = isEleganciaProfunda || isEssenciaLuminosa;'));
   assert.ok(arcanjo.includes('if (isSolfeggioFrequency(audioEngine.getCurrentSynthType())) {'));
   assert.ok(arcanjo.includes('if (userProfile.audioEnabled === false) {'));
   assert.ok(arcanjo.includes('if (suspendsSolfeggioDuringNeuralNarration) stopProtocolFrequency();'));
-  assert.ok(arcanjo.includes('if (restoreFrequencyAfterNeuralNarration) playProtocolFrequency();'));
-  assert.ok(arcanjo.includes('const restoreFrequencyAfterNeuralNarration = suspendsSolfeggioDuringNeuralNarration && !isMisticoModerno;'));
-  assert.ok(arcanjo.includes('resetPlayback(restoreFrequencyAfterNeuralNarration);'));
+  assert.ok(arcanjo.includes('if (restoreFrequency) playProtocolFrequency();'));
+  assert.ok(arcanjo.includes('resetPlayback(suspendsSolfeggioDuringNeuralNarration);'));
   assert.ok(arcanjo.includes('if (suspendsSolfeggioDuringNeuralNarration) playProtocolFrequency();'));
   assert.ok(arcanjo.includes('startArcanjoOwnedSolfeggio(`${config.freq}hz`);'));
   assert.ok(arcanjo.includes('if (suspendsSolfeggioDuringNeuralNarration) stopProtocolFrequency();\n    audioEngine.resumeSpeech();'), 'A frequência deve ser suspensa antes de retomar a narração neural.');
-  assert.ok(arcanjo.includes('if (!suspendsSolfeggioDuringNeuralNarration)'));
+  assert.ok(arcanjo.includes('if (!suspendsSolfeggioDuringNeuralNarration && !isMisticoModerno)'));
   assert.equal((arcanjo.match(/audioEngine\.startSynth\(/g) ?? []).length, 0, 'A frequência do Arcanjo deve passar pelo helper de ownership, não pelo startBG bloqueado.');
 });
 
@@ -86,9 +85,6 @@ test('o player informa o estado real do Solfeggio no Arcanjo', () => {
   assert.ok(arcanjo.includes('const [isProtocolFrequencyActive, setIsProtocolFrequencyActive] = useState(false);'));
   assert.ok(arcanjo.includes('Narração neural ativa — Solfeggio ${config.freq} Hz suspenso.'));
   assert.ok(arcanjo.includes('Solfeggio ${config.freq} Hz ativo durante a pausa ou após a narração.'));
-  assert.ok(arcanjo.includes('Solfeggio ${config.freq} Hz ativo durante a pausa da narração.'));
-  assert.ok(arcanjo.includes('Narração neural ativa — Solfeggio ${config.freq} Hz suspenso.'));
-  assert.ok(arcanjo.includes('Voz neural indisponível — Solfeggio ${config.freq} Hz interrompido.'));
   assert.ok(arcanjo.includes('Áudio desativado — nenhuma frequência será reproduzida.'));
   assert.ok(arcanjo.includes('role="status" aria-live="polite"'));
   assert.ok(arcanjo.includes('prepareFrequencyForNarration();'));
@@ -109,7 +105,7 @@ test('pausar a narração neural do Arcanjo restaura Solfeggio apenas pelo event
 });
 
 
-test('Místico Moderno não sobrepõe Solfeggio à narração neural e ativa a frequência somente na pausa real', () => {
+test('Místico Moderno inicia o Solfeggio apenas no início real da narração e o interrompe em pausa, erro, conclusão e saída', () => {
   const arcanjo = read('src/components/ArcanjoProtocolView.tsx');
   const startStart = arcanjo.indexOf('const start = () =>');
   const startEnd = arcanjo.indexOf('const togglePlayback', startStart);
@@ -118,23 +114,18 @@ test('Místico Moderno não sobrepõe Solfeggio à narração neural e ativa a f
   const onPauseStart = startBlock.indexOf('onPause: () => {', onStartStart);
   const onStartBlock = startBlock.slice(onStartStart, onPauseStart);
   const onPauseBlock = startBlock.slice(onPauseStart, startBlock.indexOf('onTimeUpdate:', onPauseStart));
-  assert.ok(arcanjo.includes('const suspendsSolfeggioDuringNeuralNarration = isEleganciaProfunda || isEssenciaLuminosa || isMisticoModerno;'));
-  assert.ok(arcanjo.includes('const restoreFrequencyAfterNeuralNarration = suspendsSolfeggioDuringNeuralNarration && !isMisticoModerno;'));
-  assert.ok(startBlock.includes('prepareFrequencyForNarration();'));
+  assert.ok(startBlock.includes('if (isMisticoModerno) stopProtocolFrequency();'));
   assert.ok(onStartBlock.includes('prepareFrequencyForNarration();'));
-  assert.ok(onPauseBlock.includes('if (suspendsSolfeggioDuringNeuralNarration) playProtocolFrequency();'));
-  assert.ok(startBlock.includes('if (restoreFrequencyAfterNeuralNarration) playProtocolFrequency();'));
-  assert.ok(startBlock.includes('if (isMisticoModerno) narrationRunRef.current += 1;'));
+  assert.ok(onPauseBlock.includes('audioEngine.stopSynth();'));
+  assert.ok(onPauseBlock.includes('setIsProtocolFrequencyActive(false);'));
   assert.ok(startBlock.includes('requireExplicitVoiceId: isEleganciaProfunda || isEssenciaLuminosa || isMisticoModerno'));
-  assert.ok(arcanjo.includes('resetPlayback(restoreFrequencyAfterNeuralNarration);'));
-  assert.ok(arcanjo.includes('Narração neural ativa — Solfeggio ${config.freq} Hz suspenso.'));
-  assert.ok(arcanjo.includes('Solfeggio ${config.freq} Hz ativo durante a pausa da narração.'));
-  assert.doesNotMatch(arcanjo, /Narração neural \+ Solfeggio \$\{config\.freq\} Hz ativos/);
+  assert.ok(startBlock.includes('if (suspendsSolfeggioDuringNeuralNarration) playProtocolFrequency();'));
+  assert.ok(startBlock.includes('complete();'));
   const toggleStart = arcanjo.indexOf('const togglePlayback');
   const selectDayStart = arcanjo.indexOf('const selectDay', toggleStart);
   const toggleBlock = arcanjo.slice(toggleStart, selectDayStart);
-  assert.ok(toggleBlock.includes('if (suspendsSolfeggioDuringNeuralNarration) stopProtocolFrequency();'));
   assert.ok(toggleBlock.includes('audioEngine.resumeSpeech();'));
+  assert.ok(toggleBlock.includes('if (!suspendsSolfeggioDuringNeuralNarration && !isMisticoModerno)'));
   const resetStart = arcanjo.indexOf('const resetPlayback');
   const resetEnd = arcanjo.indexOf('const complete', resetStart);
   const resetBlock = arcanjo.slice(resetStart, resetEnd);

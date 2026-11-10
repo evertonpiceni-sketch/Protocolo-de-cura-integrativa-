@@ -39,20 +39,13 @@ test('Místico Moderno uses the saved neural voice in every narration entry poin
   assert.match(arcanjo, /if \(\(isEleganciaProfunda \|\| isMisticoModerno\) && !isElevenLabsVoiceId\(userProfile\.voiceId\)\)/);
 });
 
-test('Style 4 never overlaps Arcanjo Solfeggio with neural narration and stops it on error/completion/exit', () => {
+test('Style 4 never starts Arcanjo Solfeggio before the neural narration begins', () => {
   const arcanjo = read('src/components/ArcanjoProtocolView.tsx');
   const start = arcanjo.slice(arcanjo.indexOf('const start ='), arcanjo.indexOf('const togglePlayback'));
-  assert.match(arcanjo, /const suspendsSolfeggioDuringNeuralNarration = isEleganciaProfunda \|\| isEssenciaLuminosa \|\| isMisticoModerno/);
-  assert.match(arcanjo, /const restoreFrequencyAfterNeuralNarration = suspendsSolfeggioDuringNeuralNarration && !isMisticoModerno/);
-  assert.match(start, /prepareFrequencyForNarration\(\);/);
+  assert.match(start, /if \(isMisticoModerno\) stopProtocolFrequency\(\)/);
   assert.match(start, /onStart: \(\) => \{[\s\S]*?prepareFrequencyForNarration/);
-  assert.match(start, /onPause: \(\) => \{[\s\S]*?if \(suspendsSolfeggioDuringNeuralNarration\) playProtocolFrequency\(\)/);
-  assert.match(start, /if \(restoreFrequencyAfterNeuralNarration\) playProtocolFrequency\(\);\s*else stopProtocolFrequency\(\);/);
-  assert.match(start, /if \(isMisticoModerno\) narrationRunRef\.current \+= 1/);
-  assert.match(arcanjo, /const complete = \(\) => \{[\s\S]*?resetPlayback\(restoreFrequencyAfterNeuralNarration\);/);
-  assert.match(arcanjo, /Narração neural ativa — Solfeggio ${config.freq} Hz suspenso\./);
-  assert.match(arcanjo, /Solfeggio ${config.freq} Hz ativo durante a pausa da narração\./);
-  assert.doesNotMatch(arcanjo, /Narração neural \+ Solfeggio \$\{config\.freq\} Hz ativos/);
+  assert.match(start, /onPause: \(\) => \{[\s\S]*?audioEngine\.stopSynth/);
+  assert.match(start, /if \(isEleganciaProfunda \|\| isEssenciaLuminosa \|\| isMisticoModerno\)[\s\S]*?audioEngine\.stopSynth/);
   assert.match(arcanjo, /const resetPlayback = \(restoreFrequency = false\) => \{[\s\S]*?audioEngine\.stopSynth/);
   assert.match(arcanjo, /const playProtocolFrequency = \(\) => \{[\s\S]*?startArcanjoOwnedSolfeggio/);
 });
