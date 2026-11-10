@@ -193,3 +193,17 @@
   border-color:rgba(212,175,55,.34)!important;
   box-shadow:0 0 38px rgba(108,63,160,.12)!important;
 }
+
+
+/* O ícone do gate de acesso também segue a superfície noturna do Estilo 4. */
+:root[data-layout="mistico-moderno"] div[role="dialog"][aria-label="Acesso à jornada completa"] [class*="bg-[#FAF4E8]"]{
+  background:rgba(20,31,48,.88)!important;
+  border-color:rgba(212,175,55,.34)!important;
+  color:#E2B96B!important;
+}
+:root[data-layout="mistico-moderno"] div[role="dialog"][aria-label="Acesso à jornada completa"] [class*="text-[#8F631E]"]{
+  color:#E2B96B!important;
+}
+:root[data-layout="mistico-moderno"] div[role="dialog"][aria-label="Acesso à jornada completa"] [class*="text-[#5C5248]"]{
+  color:#CBD5E1!important;
+}
