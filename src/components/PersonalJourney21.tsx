@@ -122,7 +122,7 @@ export default function PersonalJourney21({ onClose, initialCompletedDays, onCom
     try {
       const response = await fetch('/api/reintegration-tts', {
         method: 'POST', headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ text: cue.text, day }), signal: controller.signal
+        body: JSON.stringify({ text: cue.text, day, layout: isEssenciaLuminosa ? 'essencia-luminosa' : 'default' }), signal: controller.signal
       });
       if (!response.ok || !response.headers.get('content-type')?.includes('audio')) throw new Error(`voice ${response.status}`);
       const blob = await response.blob();

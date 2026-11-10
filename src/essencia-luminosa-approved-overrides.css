@@ -697,3 +697,10 @@
   border-color: color-mix(in srgb, var(--layout-accent) 42%, var(--layout-border-card)) !important;
   color: var(--layout-text-secondary) !important;
 }
+
+
+/* RUN 147 — o fundo de reserva do corpo neutro acompanha o grafite quente do player.
+   A arte/sprite aprovada permanece intacta; somente o fundo verde global é neutralizado no Estilo 3. */
+:root[data-layout="essencia-luminosa"] [data-ep-reintegration-running="true"] .reintegration-presence-visual {
+  background: linear-gradient(180deg, #39322B, #2A2420) !important;
+}
