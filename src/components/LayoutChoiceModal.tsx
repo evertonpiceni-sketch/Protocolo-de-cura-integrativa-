@@ -42,7 +42,7 @@ function LayoutPreview({ layout }: { layout: LayoutDefinition }) {
   if (isMysticCard) {
     return (
       <div
-        className="mt-4 flex aspect-[4/3] w-full items-center justify-center overflow-hidden rounded-2xl border shadow-inner"
+        className="mt-4 flex h-[184px] w-full items-center justify-center overflow-hidden rounded-2xl border shadow-inner"
         style={{ backgroundColor: '#0A2742', borderColor: 'rgba(212,175,55,.38)' }}
         aria-hidden="true"
       >
