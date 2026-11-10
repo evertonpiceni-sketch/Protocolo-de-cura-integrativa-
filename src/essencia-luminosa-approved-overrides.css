@@ -347,3 +347,26 @@
   background: linear-gradient(135deg, color-mix(in srgb, var(--layout-gold-soft) 34%, var(--layout-card)), var(--layout-card)) !important;
   border-color: color-mix(in srgb, var(--layout-gold) 34%, var(--layout-border-card)) !important;
 }
+
+
+/* RUN 137 — o toast global mantém o visual aprovado em cada estilo.
+   A superfície escura original continua nos outros estilos; a Essência Luminosa
+   recebe marfim/champagne e ouro suave sem alterar a estrutura compartilhada. */
+:root[data-layout="essencia-luminosa"] .ep-app-toast {
+  background: linear-gradient(145deg, var(--layout-card), var(--layout-canvas-alt)) !important;
+  border: 1px solid var(--layout-border-card) !important;
+  color: var(--layout-text) !important;
+  box-shadow: 0 14px 38px rgba(112,91,58,.12) !important;
+}
+:root[data-layout="essencia-luminosa"] .ep-app-toast > svg:first-child {
+  color: var(--layout-gold-dark) !important;
+  animation: none !important;
+}
+:root[data-layout="essencia-luminosa"] .ep-app-toast button {
+  color: var(--layout-text-secondary) !important;
+}
+@media (prefers-reduced-motion: reduce) {
+  :root[data-layout="essencia-luminosa"] .ep-app-toast {
+    animation: none !important;
+  }
+}

@@ -2740,11 +2740,9 @@ export default function App() {
         <div
           role="status"
           aria-live="polite"
-          className={`ep-app-toast fixed top-5 right-5 z-50 max-w-sm p-4 rounded-2xl animate-fade-in flex items-start gap-3 ${isEssenciaLuminosa
-            ? 'bg-[#FFFFF8] border border-[#E5DAC6] shadow-[0_14px_38px_rgba(112,91,58,.12)]'
-            : 'bg-gradient-to-br from-indigo-950 via-slate-900 to-purple-950 border-2 border-amber-500/50 shadow-2xl'}`}
+          className="ep-app-toast fixed top-5 right-5 z-50 max-w-sm p-4 rounded-2xl bg-gradient-to-br from-indigo-950 via-slate-900 to-purple-950 border-2 border-amber-500/50 shadow-2xl animate-fade-in flex items-start gap-3"
         >
-          <Sparkles className={`w-5 h-5 shrink-0 mt-0.5 ${isEssenciaLuminosa ? 'text-[#A87E37]' : 'text-amber-400 animate-pulse'}`} />
+          <Sparkles className="w-5 h-5 text-amber-400 shrink-0 mt-0.5 animate-pulse" />
           <div className="flex-1 space-y-1">
             <h4 className="text-xs font-bold text-[#2A2420]">{inAppToast.title}</h4>
             <p className="text-[11px] text-[#5C5248] leading-snug">{inAppToast.body}</p>
