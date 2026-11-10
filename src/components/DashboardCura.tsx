@@ -123,7 +123,11 @@ export default function DashboardCura({ onClose, progress, userProfile }: { onCl
                     className="relative h-4 w-4 rounded-full border-2"
                     style={{
                       borderColor: isCompleted ? '#fff' : '#64748b',
-                      background: isCompleted || chakra.day === nextAvailableDay ? chakra.color : '#365849',
+                      background: isCompleted || chakra.day === nextAvailableDay
+                        ? chakra.color
+                        : isMisticoModerno
+                          ? '#2E3B73'
+                          : '#365849',
                       boxShadow: isCompleted || chakra.day === nextAvailableDay ? `0 0 18px 6px ${chakra.color}` : 'none'
                     }}
                   />
