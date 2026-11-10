@@ -704,3 +704,20 @@
 :root[data-layout="essencia-luminosa"] [data-ep-reintegration-running="true"] .reintegration-presence-visual {
   background: linear-gradient(180deg, #39322B, #2A2420) !important;
 }
+
+/* RUN 152 — a tela inicial da Reintegração não herda o fundo verde global.
+   A sessão em execução mantém o grafite quente aprovado; a arte original permanece intacta. */
+:root[data-layout="essencia-luminosa"] [data-ep-reintegration="true"] > main .reintegration-presence-visual {
+  background: linear-gradient(180deg, var(--layout-canvas-alt), var(--layout-card)) !important;
+}
+
+/* A luz acompanha o relógio real do áudio com transições suaves entre os estados. */
+:root[data-layout="essencia-luminosa"] [data-ep-reintegration="true"] .reintegration-presence-frame {
+  transition: opacity 650ms ease, filter 650ms ease, mask-image 650ms ease, -webkit-mask-image 650ms ease;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root[data-layout="essencia-luminosa"] [data-ep-reintegration="true"] .reintegration-presence-frame {
+    transition: none !important;
+  }
+}
