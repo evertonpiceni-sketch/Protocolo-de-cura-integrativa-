@@ -140,3 +140,10 @@ test('o player respeita o áudio global desligado sem alterar a política das am
   assert.equal(shouldPlayProtocolSessionBackground('playing', 'waves', true), true);
   assert.equal(shouldPlayProtocolSessionBackground('playing', '528hz', false), false);
 });
+
+test('os quatro cards de estilo mantêm a mesma altura sem recortar a prancha 4:3 do Místico Moderno', () => {
+  const modal = read('src/components/LayoutChoiceModal.tsx');
+  assert.match(modal, /className="mt-4 flex h-\\[184px\\] w-full items-center justify-center overflow-hidden rounded-2xl border shadow-inner"/);
+  assert.match(modal, /src=\{MISTICO_MODERNO_OFFICIAL_BOARD\}[\s\S]*?className="h-full w-full object-contain p-1"/);
+  assert.doesNotMatch(modal, /aspect-\\[4\\/3\\] w-full items-center/);
+});
