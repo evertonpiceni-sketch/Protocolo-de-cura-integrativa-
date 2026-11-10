@@ -278,7 +278,7 @@ export default function SystemicQuestionsModal({
               }`}
             >
               {is639HzAudible ? <Volume2 size={13} /> : <VolumeX size={13} />}
-              <span>{isStyle4AudioDisabled ? 'Áudio desativado' : isMisticoModerno && isReadingVoice ? 'Solfeggio pausado' : is639HzActive ? '639 Hz ligado' : 'Ativar 639 Hz'}</span>
+              <span>{isStyle4AudioDisabled ? 'Áudio desativado nas configurações' : isMisticoModerno && isReadingVoice ? 'Solfeggio pausado' : is639HzActive ? '639 Hz ligado' : 'Ativar 639 Hz'}</span>
             </button>
           </div>
 
