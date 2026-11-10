@@ -1008,7 +1008,7 @@ export default function App() {
             }
           })}
         />
-      ) : showArcanjoView || userProfile.subscriptionPlan === 'arcanjo_7d' ? (
+      ) : showArcanjoView ? (
         <ArcanjoProtocolView 
           userProfile={userProfile}
           onLogout={handleLogout}
