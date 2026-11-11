@@ -18,6 +18,13 @@ test('o cartão semanal usa a saída escapada e não interpola texto livre diret
 });
 
 
+test('Fale Conosco usa dourado refinado e logo discreto no Natural Sereno', () => {
+  const css = readFileSync('src/natural-sereno-approved-overrides.css', 'utf8');
+  assert.match(css, /:root\[data-layout="natural-sereno"\] :is\(#contact-us-modal,#courses-modal\) \.ep-brand-signature\s*\{\s*opacity:\s*\.30\s*!important;\s*mix-blend-mode:\s*normal\s*!important;/);
+  assert.match(css, /:root\[data-layout="natural-sereno"\] #contact-us-modal button\[class\*="bg-\[#B88736\]"\][\s\S]*?background: linear-gradient\(180deg,#E2B96B 0%,#C89D52 100%\) !important;[\s\S]*?color: #2A2421 !important;/);
+  assert.ok(css.includes('#contact-us-modal :is(input,select,textarea):focus'));
+});
+
 test('o logo do cabeçalho permanece uma assinatura transparente no Natural Sereno', () => {
   const css = readFileSync('src/natural-sereno-approved-overrides.css', 'utf8');
   assert.match(
