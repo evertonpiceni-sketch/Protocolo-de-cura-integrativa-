@@ -9,7 +9,9 @@ test('RUN 159 — histórico do Diário usa acentos suaves no Natural Sereno', (
   const diary = read('src/components/JournalLog.tsx');
   const start = css.lastIndexOf('/* RUN 159 — Diário de histórico');
   assert.ok(start >= 0, 'bloco de correção do Diário ausente');
-  const block = css.slice(start);
+  const end = css.indexOf('/* RUN 161 — Reintegração', start);
+  assert.ok(end > start, 'limite do bloco RUN 159 ausente');
+  const block = css.slice(start, end);
 
   assert.ok(block.includes(':root[data-layout="natural-sereno"] #journal-dashboard-view'));
   assert.ok(block.includes('color: #A87E37 !important;'));
@@ -27,7 +29,7 @@ test('RUN 159 — histórico do Diário usa acentos suaves no Natural Sereno', (
     .map(line => line.trim())
     .filter(line => line.endsWith('{') && !line.startsWith('@'));
   assert.ok(selectors.length >= 4);
-  assert.ok(selectors.every(selector => selector.startsWith(':root[data-layout="natural-sereno"]')), selectors.join('\n'));
+  assert.ok(selectors.every(selector => selector.startsWith(':root[data-layout="natural-sereno"] #journal-dashboard-view')), selectors.join('\n'));
 
   // Keep the semantic mood categories and their labels intact.
   assert.ok(diary.includes('border-rose-200 bg-rose-50 text-rose-700'));
