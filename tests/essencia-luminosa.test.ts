@@ -877,3 +877,13 @@ test('a navegação inferior neutraliza as cores herdadas sem alterar o botão d
   assert.ok(bottomNav.includes('var(--layout-accent-soft)'));
   assert.ok(approvedOverrides.includes('#bottom-btn-logout'), 'O botão Sair mantém sua assinatura específica aprovada.');
 });
+
+test('a prancha oficial deixa explícitas as decisões atuais que substituem detalhes antigos da referência', () => {
+  const modal = fs.readFileSync('src/components/LayoutChoiceModal.tsx', 'utf8');
+  const style3Preview = modal.slice(modal.indexOf("if (isEssenciaLuminosa)"), modal.indexOf("const innerBorder"));
+  assert.ok(style3Preview.includes('data-essencia-reference-note="true"'));
+  assert.ok(style3Preview.includes('jornada de 21 dias'));
+  assert.ok(style3Preview.includes('corpo neutro'));
+  assert.ok(style3Preview.includes('logo-assinatura discreto/transparente'));
+  assert.ok(style3Preview.includes('/brand/essencia-luminosa/prancha-oficial.webp'));
+});
