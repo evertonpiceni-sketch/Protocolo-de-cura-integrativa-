@@ -969,3 +969,37 @@
   background: var(--layout-canvas-alt) !important;
   color: var(--layout-text) !important;
 }
+
+
+/* RUN 174 — remove os últimos estados verdes/âmbar residuais dos modais.
+   Preserva a função dos estados, suaviza os acentos e mantém tudo isolado no Estilo 3. */
+:root[data-layout="essencia-luminosa"] #plans-modal button[class*="hover:bg-[#073B2B]"]:hover {
+  background: color-mix(in srgb, var(--layout-accent-soft) 22%, var(--layout-card)) !important;
+  color: var(--layout-text) !important;
+  border-color: var(--layout-gold-border) !important;
+}
+:root[data-layout="essencia-luminosa"] #specific-treatment-modal button[class*="bg-[#B88736]"] {
+  background: var(--layout-gold-gradient) !important;
+  color: var(--layout-text) !important;
+  border-color: var(--layout-gold-border) !important;
+  box-shadow: 0 10px 24px var(--layout-gold-shadow) !important;
+}
+:root[data-layout="essencia-luminosa"] #specific-treatment-modal [class*="text-[#B88736]"] {
+  color: var(--layout-gold-dark) !important;
+}
+:root[data-layout="essencia-luminosa"] #specific-treatment-modal [class*="border-[#B88736]"] {
+  border-color: var(--layout-gold-border) !important;
+}
+/* O brilho decorativo do topo permanece translúcido; não vira uma mancha sálvia opaca. */
+:root[data-layout="essencia-luminosa"] #specific-treatment-modal > div > div.absolute[class*="bg-emerald-"] {
+  background-color: color-mix(in srgb, var(--layout-accent-soft) 10%, transparent) !important;
+}
+/* Links secundários deixam o hover verde escuro e passam a usar sálvia clara. */
+:root[data-layout="essencia-luminosa"] #specific-treatment-modal a[class*="hover:bg-emerald-"]:hover {
+  background: color-mix(in srgb, var(--layout-accent-soft) 24%, var(--layout-card)) !important;
+  color: var(--layout-text) !important;
+  border-color: var(--layout-border-card) !important;
+}
+:root[data-layout="essencia-luminosa"] #specific-treatment-modal [class*="shadow-emerald-"] {
+  box-shadow: 0 10px 24px var(--layout-gold-shadow) !important;
+}
