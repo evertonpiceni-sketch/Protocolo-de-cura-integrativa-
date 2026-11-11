@@ -48,7 +48,7 @@ function readCurrentAccount(): UserAccount | undefined {
     const raw = localStorage.getItem(ACCOUNTS_KEY);
     if (!raw) return undefined;
     const accounts = JSON.parse(raw) as UserAccount[];
-    return login ? accounts.find(item => item.login === login) : accounts[0];
+    return login ? accounts.find(item => item.login === login) : undefined;
   } catch {
     return undefined;
   }
@@ -103,19 +103,91 @@ function ensureStyles() {
   const style = document.createElement('style');
   style.id = 'ep-weekly-diary-analysis-styles';
   style.textContent = `
-    #ep-weekly-diary-analysis{position:relative;border:1px solid rgba(184,135,54,.28);background:linear-gradient(180deg,rgba(255,253,247,.98),rgba(248,241,224,.96));border-radius:20px;padding:16px;box-shadow:0 10px 28px rgba(68,55,35,.08);color:#2A2420}
-    #ep-weekly-diary-analysis .ep-week-kicker{font:700 10px/1.4 Inter,sans-serif;letter-spacing:.13em;text-transform:uppercase;color:#71511c;margin:0 0 5px}
-    #ep-weekly-diary-analysis h3{font:600 20px/1.2 Georgia,serif;color:#26372a;margin:0 0 8px}
-    #ep-weekly-diary-analysis p{font:400 12px/1.65 Inter,sans-serif;color:#5c5248;margin:0}
-    #ep-weekly-diary-analysis .ep-week-box{margin-top:10px;padding:11px 12px;border-radius:14px;background:rgba(255,255,255,.78);border:1px solid #e5dac6}
-    #ep-weekly-diary-analysis .ep-week-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px}
-    #ep-weekly-diary-analysis .ep-week-item{padding:11px;border-radius:14px;background:#fffaf0;border:1px solid #e5dac6}
-    #ep-weekly-diary-analysis .ep-week-item span{display:block;font:700 9px/1.3 Inter,sans-serif;letter-spacing:.08em;text-transform:uppercase;color:#71511c;margin-bottom:4px}
-    #ep-weekly-diary-analysis .ep-week-item strong{display:block;font:600 12px/1.45 Inter,sans-serif;color:#26372a}
-    #ep-weekly-diary-analysis .ep-week-note{margin-top:10px;font-size:10px;color:#6b6d61}
-    .ep-courses-locked{opacity:.66!important;cursor:not-allowed!important;position:relative!important}
-    .ep-courses-locked::after{content:'Em preparação';margin-left:auto;padding:4px 8px;border-radius:999px;border:1px solid #d9c58f;background:#fffaf0;color:#71511c;font:700 9px/1 Inter,sans-serif;letter-spacing:.06em;text-transform:uppercase}
-    @media(max-width:520px){#ep-weekly-diary-analysis .ep-week-grid{grid-template-columns:1fr}}
+    /* The weekly card is shared, but its appearance must follow only the
+       explicitly selected layout tokens. No style is applied before choice. */
+    :root[data-layout] #ep-weekly-diary-analysis {
+      position:relative;
+      border:1px solid var(--layout-border-card);
+      background:linear-gradient(145deg,var(--layout-card),var(--layout-canvas-alt));
+      border-radius:18px;
+      padding:16px;
+      box-shadow:0 10px 28px var(--layout-gold-shadow);
+      color:var(--layout-text);
+    }
+    :root[data-layout] #ep-weekly-diary-analysis .ep-week-kicker {
+      font:700 10px/1.4 Inter,sans-serif;
+      letter-spacing:.13em;
+      text-transform:uppercase;
+      color:var(--layout-gold);
+      margin:0 0 5px;
+    }
+    :root[data-layout] #ep-weekly-diary-analysis h3 {
+      font:600 20px/1.2 Georgia,serif;
+      color:var(--layout-text);
+      margin:0 0 8px;
+    }
+    :root[data-layout] #ep-weekly-diary-analysis p {
+      font:400 12px/1.65 Inter,sans-serif;
+      color:var(--layout-text-secondary);
+      margin:0;
+    }
+    :root[data-layout] #ep-weekly-diary-analysis .ep-week-box {
+      margin-top:10px;
+      padding:11px 12px;
+      border-radius:12px;
+      background:var(--layout-card-subtle);
+      border:1px solid var(--layout-border-card);
+    }
+    :root[data-layout] #ep-weekly-diary-analysis .ep-week-grid {
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:8px;
+      margin-top:10px;
+    }
+    :root[data-layout] #ep-weekly-diary-analysis .ep-week-item {
+      padding:11px;
+      border-radius:12px;
+      background:var(--layout-card-subtle);
+      border:1px solid var(--layout-border-card);
+    }
+    :root[data-layout] #ep-weekly-diary-analysis .ep-week-item span {
+      display:block;
+      font:700 9px/1.3 Inter,sans-serif;
+      letter-spacing:.08em;
+      text-transform:uppercase;
+      color:var(--layout-gold);
+      margin-bottom:4px;
+    }
+    :root[data-layout] #ep-weekly-diary-analysis .ep-week-item strong {
+      display:block;
+      font:600 12px/1.45 Inter,sans-serif;
+      color:var(--layout-text);
+    }
+    :root[data-layout] #ep-weekly-diary-analysis .ep-week-note {
+      margin-top:10px;
+      font-size:10px;
+      color:var(--layout-text-muted);
+    }
+    :root[data-layout="natural-sereno"] .ep-courses-locked {
+      opacity:.66!important;
+      cursor:not-allowed!important;
+      position:relative!important;
+    }
+    :root[data-layout="natural-sereno"] .ep-courses-locked::after {
+      content:'Em preparação';
+      margin-left:auto;
+      padding:4px 8px;
+      border-radius:10px;
+      border:1px solid var(--layout-gold-border);
+      background:var(--layout-card-subtle);
+      color:var(--layout-gold-dark);
+      font:700 9px/1 Inter,sans-serif;
+      letter-spacing:.06em;
+      text-transform:uppercase;
+    }
+    @media(max-width:520px) {
+      :root[data-layout] #ep-weekly-diary-analysis .ep-week-grid { grid-template-columns:1fr; }
+    }
   `;
   document.head.appendChild(style);
 }
@@ -143,8 +215,12 @@ function renderWeeklyDiaryAnalysis() {
   }
 
   const account = readCurrentAccount();
-  const profile: UserProfile | undefined = account?.profile;
-  const progress = account?.progress || [];
+  if (!account) {
+    card?.remove();
+    return;
+  }
+  const profile: UserProfile | undefined = account.profile;
+  const progress = account.progress || [];
   const startDay = activeDay - 6;
   const periodText = collectPeriodText(progress, startDay, activeDay);
   const patterns = countEmotionPatterns(periodText);
@@ -172,7 +248,7 @@ function renderWeeklyDiaryAnalysis() {
     ? 'Sem dados suficientes para calcular a média de humor.'
     : `${avgMood.toFixed(1).replace('.', ',')} / 5`;
 
-  card.innerHTML = `
+  const markup = `
     <p class="ep-week-kicker">Fechamento dos dias ${startDay}–${activeDay}</p>
     <h3>Minha semana emocional</h3>
     <p>Seu diário continua sendo um espaço livre para desabafar. A leitura abaixo só acontece neste marco de 7 dias e compara o que apareceu nos seus registros com o estado emocional inicial informado na anamnese.</p>
@@ -184,6 +260,9 @@ function renderWeeklyDiaryAnalysis() {
     </div>
     <div class="ep-week-note">Esta leitura resume palavras e emoções registradas por você. Não é diagnóstico e não interpreta cada desabafo individualmente.</div>
   `;
+  // The observer watches the whole app; only write when the content actually changed.
+  // This prevents the weekly card from observing and retriggering its own innerHTML update.
+  if (card.innerHTML !== markup) card.innerHTML = markup;
 }
 
 function lockCoursesInNaturalSereno() {
