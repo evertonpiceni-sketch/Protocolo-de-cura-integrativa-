@@ -12,9 +12,9 @@ test('Anamnese só toca o micro-chime após opt-in de áudio nesta sessão', () 
 
   const helper = source.slice(helperStart, helperEnd);
   assert.ok(helper.includes('if (!backgroundPlaybackRequested || userProfile.audioEnabled === false) return;'));
-  assert.equal((source.match(/audioEngine\\.playHeartSelectionChime\\(\\)/g) || []).length, 1,
+  assert.equal(source.split('audioEngine.playHeartSelectionChime()').length - 1, 1,
     'a chamada direta ao chime deve existir somente dentro do helper protegido');
-  assert.equal((source.match(/playSelectionChime\\(\\);/g) || []).length, 5,
+  assert.equal(source.split('playSelectionChime();').length - 1, 5,
     'todos os cinco controles de seleção devem usar o helper protegido');
 });
 
@@ -27,10 +27,10 @@ test('salvar a anamnese não reativa a trilha apenas porque a preferência ficou
 
   assert.ok(restore.includes('backgroundPlaybackRequested && userProfile.audioEnabled !== false'));
   assert.ok(restore.includes('audioEngine.startBG(userProfile.bgMusicType)'));
-  assert.equal((source.match(/audioEngine\\.startBG\\(userProfile\\.bgMusicType\\)/g) || []).length, 1,
+  assert.equal(source.split('audioEngine.startBG(userProfile.bgMusicType)').length - 1, 1,
     'a restauração da trilha deve existir somente no helper que exige consentimento da sessão');
-  assert.doesNotMatch(source, /if \\(userProfile\\.audioEnabled && userProfile\\.bgMusicType/);
-  assert.ok((source.match(/restoreUserBackground\\(\\);/g) || []).length >= 2,
+  assert.equal(source.includes('if (userProfile.audioEnabled && userProfile.bgMusicType'), false);
+  assert.ok(source.split('restoreUserBackground();').length - 1 >= 2,
     'os fluxos de salvamento devem reutilizar a restauração protegida');
 });
 
@@ -39,8 +39,9 @@ test('Solfeggio da Anamnese e das Perguntas Sistêmicas continua opt-in e cede �
   const systemic = read('src/components/SystemicQuestionsModal.tsx');
   const policy = read('src/lib/protocolSessionAudioPolicy.ts');
 
-  assert.match(anamnesis, /const \\[is639HzActive, setIs639HzActive\\] = useState<boolean>\\(false\\)/);
-  assert.match(systemic, /const \\[is639HzActive, setIs639HzActive\\] = useState<boolean>\\(false\\)/);
+  const optInState = 'const [is639HzActive, setIs639HzActive] = useState<boolean>(false);';
+  assert.ok(anamnesis.includes(optInState));
+  assert.ok(systemic.includes(optInState));
   for (const source of [anamnesis, systemic]) {
     assert.ok(source.includes('shouldPlayInlineSolfeggio'));
     assert.ok(source.includes('voiceLoading:'));
