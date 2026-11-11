@@ -47,7 +47,7 @@ test('a oração legada do Arcanjo suspende apenas Solfeggio durante a narraçã
   assert.ok(toggle.includes('onNarrationStateChange?.(false)'));
   assert.ok(prayerModal.includes('fallbackToSpeechSynthesis: !(isEleganciaProfunda || isEssenciaLuminosa)'));
 
-  assert.ok(app.includes('onNarrationStateChange={setIsArchangelNarrationActive}'));
+  assert.ok(app.includes('onNarrationStateChange={isEssenciaLuminosa ? setIsArchangelNarrationActive : undefined}'));
   assert.ok(app.includes('isEssenciaLuminosa && isArchangelNarrationActive && isSolfeggioFrequency(userProfile.bgMusicType)'));
-  assert.ok(app.includes('!showArchangelModal &&'));
+  assert.ok(app.includes('!(isEssenciaLuminosa && showArchangelModal) &&'));
 });
