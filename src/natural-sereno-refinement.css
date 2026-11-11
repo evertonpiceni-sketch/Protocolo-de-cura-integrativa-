@@ -207,9 +207,9 @@
 :root[data-layout="natural-sereno"] #settings-view button[class*="bg-emerald"]:not(.ep-layout-choice) > :is(span,svg) { color: #2A2421 !important; }
 :root[data-layout="natural-sereno"] #settings-view button[class~="bg-emerald-600"] > span:not([class*="text-amber"]):not([class*="text-rose"]):not([class*="text-emerald"]) { color: #2A2421 !important; }
 
-/* Preserve the approved mark without the compounded dimming of older shells. */
+/* Official logo signature: keep the wrapper transparent and the mark discreet at every cascade layer. */
 :root[data-layout="natural-sereno"] #main-header .ep-brand-signature-wrap { opacity: .9 !important; }
-:root[data-layout="natural-sereno"] #main-header .ep-brand-signature { opacity: 1 !important; filter: none !important; }
+:root[data-layout="natural-sereno"] #main-header .ep-brand-signature { opacity: .30 !important; filter: none !important; }
 
 
 /* Contrast for controls introduced by the latest shared component updates. */
