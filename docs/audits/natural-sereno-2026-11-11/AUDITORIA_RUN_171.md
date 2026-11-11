@@ -35,3 +35,10 @@
 - Teste de regressão: `b773e3ab1af8ac809b35745b837c544cf36f232a`.
 
 Nenhum merge, deployment de produção ou pagamento real foi realizado.
+
+## Reauditoria do teste
+
+- Foi corrigida a leitura linha a linha do teste RUN 171 para que a verificação de isolamento conte somente seletores CSS, sem falsos resultados causados pelo escape de newline.
+- O teste continua adicionado, mas não foi executado pelo runner; não há declaração de CI/build aprovado.
+
+- Correção do teste de isolamento: `5433d611013df7c266c4c610293c848142a9057f`.
