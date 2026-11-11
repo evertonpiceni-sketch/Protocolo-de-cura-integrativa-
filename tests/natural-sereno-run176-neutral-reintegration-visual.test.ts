@@ -16,6 +16,7 @@ test('Natural Sereno usa a silhueta neutra na Reintegração, sem a prancha corp
   assert.match(journey, /neutral=\{isNaturalSereno\} active=\{playing\}/);
   assert.equal((journey.match(/neutral=\{isNaturalSereno\} active=\{playing\}/g) || []).length, 2);
   assert.match(journey, /runningBackdropUrl = isNaturalSereno \? '\/brand\/natural-sereno\/cachoeira\.webp' : dayArtworkUrl/);
+  assert.ok(journey.indexOf('const isNaturalSereno') < journey.indexOf('const runningBackdropUrl'), 'A condição deve ser declarada antes de ser utilizada');
   assert.match(journey, /url\('\$\{runningBackdropUrl\}'\)/);
   assert.match(neutral, /showRoots\?: boolean/);
   assert.match(neutral, /M50 104 C49 109 45 113 40 118/);
