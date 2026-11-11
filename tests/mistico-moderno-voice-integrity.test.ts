@@ -481,7 +481,7 @@ test('Místico Moderno mantém a sessão noturna em check-in, aceite, roteiro, p
   ]) {
     assert.ok(css.includes(selector), `Missing Style 4 session treatment: ${selector}`);
   }
-  assert.match(css, /linear-gradient\(135deg,#B88736,#E2B96B\)/);
+  assert.match(css, /linear-gradient\(135deg,#A87E37,#E2B96B\)/);
   assert.match(css, /rgba\(108,63,160,.20\)/);
   assert.match(css, /\[class\*="bg-rose-50"\]/);
   assert.match(css, /div\[role="dialog"\]\[aria-label="Acesso à jornada completa"\] \[class\*="bg-\[#FAF4E8\]"\]/);
