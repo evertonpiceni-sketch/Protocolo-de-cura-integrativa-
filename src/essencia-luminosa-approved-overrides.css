@@ -732,3 +732,26 @@
 :root[data-layout="essencia-luminosa"] #video-studio-modal .visual-studio-human-frame .reintegration-presence-visual {
   background: linear-gradient(180deg, var(--layout-canvas-alt), var(--layout-card)) !important;
 }
+
+
+/* RUN 157 — o Estúdio de Vídeos neutraliza os verdes herdados também nos controles.
+   A regra vale somente para a Essência Luminosa; os demais estilos permanecem intactos. */
+:root[data-layout="essencia-luminosa"] #video-studio-modal button[aria-pressed="true"] {
+  background: linear-gradient(135deg, var(--layout-gold-soft), var(--layout-gold)) !important;
+  border-color: var(--layout-gold) !important;
+  color: var(--layout-text) !important;
+  box-shadow: 0 8px 20px rgba(112,91,58,.12) !important;
+}
+:root[data-layout="essencia-luminosa"] #video-studio-modal button[aria-pressed="true"] :is(span, svg) {
+  color: var(--layout-text) !important;
+}
+:root[data-layout="essencia-luminosa"] #video-studio-modal [class*="text-[#41503A]"],
+:root[data-layout="essencia-luminosa"] #video-studio-modal [class*="text-[#586454]"] {
+  color: var(--layout-text-secondary) !important;
+}
+:root[data-layout="essencia-luminosa"] #video-studio-modal [class*="border-[#5E7153]"] {
+  border-color: color-mix(in srgb, var(--layout-accent) 28%, var(--layout-border-card)) !important;
+}
+:root[data-layout="essencia-luminosa"] #video-studio-modal [class*="bg-[#5E7153]"] {
+  background-color: color-mix(in srgb, var(--layout-accent-soft) 72%, var(--layout-card)) !important;
+}
