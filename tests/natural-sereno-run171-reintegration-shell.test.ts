@@ -27,7 +27,7 @@ test('a correção do shell não altera os outros três estilos', () => {
   const css = read('src/natural-sereno-approved-overrides.css');
   const start = css.lastIndexOf(marker);
   const block = css.slice(start);
-  const selectors = block.split('\\n').map(line => line.trim()).filter(line => line.startsWith(':root'));
+  const selectors = block.split('\n').map(line => line.trim()).filter(line => line.startsWith(':root'));
 
   assert.ok(start >= 0);
   assert.equal(selectors.length, 1);
