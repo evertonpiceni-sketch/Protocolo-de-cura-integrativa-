@@ -245,6 +245,11 @@ export default function LayoutChoiceModal({ onSelect }: LayoutChoiceModalProps) 
                   </span>
                 </div>
                 <LayoutPreview layout={layout} />
+                {isMysticCard && (
+                  <p className="mt-2 text-[11px] leading-relaxed text-[#CBD5E1]">
+                    A prancha é referência de atmosfera e paleta; prevalecem as decisões aprovadas posteriores: jornada de 21 dias, corpo neutro e logo oficial discreto/transparente.
+                  </p>
+                )}
                 <div className="mt-4 flex gap-2" aria-hidden="true">
                   {(layout.id === 'natural-sereno'
                     ? layout.swatches
