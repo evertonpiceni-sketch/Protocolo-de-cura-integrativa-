@@ -23,6 +23,7 @@ interface SystemicQuestionsModalProps {
   currentDay: number;
   progress: DayProgress[];
   userProfile?: UserProfile;
+  backgroundPlaybackRequested?: boolean;
   userName?: string;
   onSaveAnswer: (dayNumber: number, answerText: string) => void;
 }
@@ -33,6 +34,7 @@ export default function SystemicQuestionsModal({
   currentDay,
   progress,
   userProfile,
+  backgroundPlaybackRequested = false,
   onSaveAnswer
 }: SystemicQuestionsModalProps) {
   const [activeDay, setActiveDay] = useState<number>(Math.min(Math.max(currentDay || 1, 1), 21));
@@ -45,7 +47,7 @@ export default function SystemicQuestionsModal({
   const isEssenciaLuminosa = typeof document !== 'undefined' && document.documentElement.dataset.layout === 'essencia-luminosa';
   const requiresNeuralVoice = isNaturalSereno || isEleganciaProfunda || isEssenciaLuminosa;
   const [copiedSentence, setCopiedSentence] = useState<boolean>(false);
-  const [is639HzActive, setIs639HzActive] = useState<boolean>(true);
+  const [is639HzActive, setIs639HzActive] = useState<boolean>(false);
   const canPlaySystemicSolfeggio = () => shouldPlayInlineSolfeggio({
     isOpen,
     enabled: is639HzActive,
@@ -56,7 +58,7 @@ export default function SystemicQuestionsModal({
   const is639HzAudible = canPlaySystemicSolfeggio();
 
   const restoreUserBackground = () => {
-    if (userProfile?.audioEnabled !== false && userProfile?.bgMusicType && userProfile.bgMusicType !== 'none' && userProfile.bgMusicType !== '639hz') {
+    if (backgroundPlaybackRequested && userProfile?.audioEnabled !== false && userProfile?.bgMusicType && userProfile.bgMusicType !== 'none' && userProfile.bgMusicType !== '639hz') {
       audioEngine.startBG(userProfile.bgMusicType);
     } else {
       audioEngine.stopBG();
