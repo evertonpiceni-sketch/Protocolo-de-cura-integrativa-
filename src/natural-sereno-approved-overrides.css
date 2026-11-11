@@ -2216,3 +2216,9 @@
   border-color: rgba(200,157,82,.26) !important;
   box-shadow: none !important;
 }
+
+/* RUN 165 — assinatura do logo no cabeçalho: a opacidade do wrapper não pode tornar a imagem dominante. */
+:root[data-layout="natural-sereno"] #main-header .ep-brand-signature {
+  opacity: .30 !important;
+  mix-blend-mode: normal !important;
+}
