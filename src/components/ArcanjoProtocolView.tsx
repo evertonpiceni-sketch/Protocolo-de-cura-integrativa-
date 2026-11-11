@@ -422,7 +422,7 @@ export default function ArcanjoProtocolView({ userProfile, onClose, onLogout, in
         <div className="ep-forest-panel rounded-[1.75rem] p-5 sm:p-7">
           <div className="mb-3 flex items-center justify-between gap-3 text-sm">
             <span style={{color:protocolAccent}}>{hasKnownDuration ? 'Narração aprovada em reprodução' : activeSection?.title || 'Roteiro aprovado'}</span>
-            <span className="font-mono text-[#d9e6dc]">{formatTime(elapsed)} / {hasKnownDuration ? formatTime(duration) : '--:--'}</span>
+            <span className={`font-mono ${isMisticoModerno ? 'text-[#BAC3D1]' : 'text-[#d9e6dc]'}`}>{formatTime(elapsed)} / {hasKnownDuration ? formatTime(duration) : '--:--'}</span>
           </div>
           {hasKnownDuration ? (
             <div className="h-2 overflow-hidden rounded-full bg-black/30" role="progressbar" aria-label="Progresso da narração" aria-valuemin={0} aria-valuemax={100} aria-valuenow={Math.round(progressPercent || 0)}>
@@ -480,26 +480,26 @@ export default function ArcanjoProtocolView({ userProfile, onClose, onLogout, in
         <div className="ep-forest-panel rounded-[1.75rem] p-5 sm:p-7">
           <div className={`flex items-center gap-2 ${isMisticoModerno ? 'text-[#D4AF37]' : 'text-[#B88736]'}`}><Leaf size={18}/><span className="text-xs uppercase tracking-[.2em]">Intenção do dia</span></div>
           <h2 className="mt-3 font-display text-3xl font-semibold" style={{color:isMisticoModerno ? '#E2B96B' : config.corSecundaria}}>{config.nome}</h2>
-          <p className="mt-2 text-base text-[#e9f1e9]">{config.subtitulo}</p>
+          <p className={`mt-2 text-base ${isMisticoModerno ? 'text-[#BAC3D1]' : 'text-[#e9f1e9]'}`}>{config.subtitulo}</p>
           <p className="mt-4 border-t border-[#B88736]/20 pt-4 text-center font-display text-xl italic leading-8 text-[#f5e8bd]">{config.intencao}.</p>
         </div>
 
         <div className="ep-forest-panel rounded-[1.75rem] p-5 sm:p-7">
           <div className="text-center">
             <p className="text-xs uppercase tracking-[.2em] text-[#B88736]">Roteiro aprovado reconectado</p>
-            <p className="mt-2 text-sm text-[#e9f1e9]">Reiki São Miguel • Chama Violeta • Raio de Ouro e Verde de São Rafael</p>
+            <p className={`mt-2 text-sm ${isMisticoModerno ? 'text-[#BAC3D1]' : 'text-[#e9f1e9]'}`}>Reiki São Miguel • Chama Violeta • Raio de Ouro e Verde de São Rafael</p>
           </div>
-          <button onClick={()=>setShowRoteiro(!showRoteiro)} className="mt-5 flex min-h-11 w-full items-center justify-center gap-2 rounded-xl border border-[#B88736]/35 px-4 py-3 text-sm text-[#f0d989]"><BookOpen size={17}/>{showRoteiro?'Ocultar roteiro':'Ler roteiro completo'}</button>
-          {showRoteiro&&<div className="mt-4 whitespace-pre-line rounded-2xl bg-black/20 p-5 text-base leading-7 text-[#e6eee8]">{approvedDisplayScript(config)}</div>}
+          <button onClick={()=>setShowRoteiro(!showRoteiro)} className={`mt-5 flex min-h-11 w-full items-center justify-center gap-2 rounded-xl border px-4 py-3 text-sm ${isMisticoModerno ? 'border-[#D4AF37]/35 text-[#E2B96B]' : 'border-[#B88736]/35 text-[#f0d989]'}`}><BookOpen size={17}/>{showRoteiro?'Ocultar roteiro':'Ler roteiro completo'}</button>
+          {showRoteiro&&<div className={`mt-4 whitespace-pre-line rounded-2xl bg-black/20 p-5 text-base leading-7 ${isMisticoModerno ? 'text-[#BAC3D1]' : 'text-[#e6eee8]'}`}>{approvedDisplayScript(config)}</div>}
         </div>
 
         <div className="ep-forest-panel rounded-[1.75rem] p-5 sm:p-7">
           <div className="mb-5 text-center"><h3 className="font-display text-2xl text-[#f5e8bd]">Seu progresso</h3><p className="mt-1 text-sm text-[#bad0c4]">Equilíbrio hoje, presença amanhã.</p></div>
-          <div className="grid grid-cols-7 gap-2">{[1,2,3,4,5,6,7].map(day=>{const dayConfig=DADOS_PROTOCOLO[day];const done=completedDays.includes(day);return <button key={day} onClick={()=>selectDay(day)} aria-label={`Abrir dia ${day}, ${dayConfig.nome}`} data-current={diaAtual===day ? 'true' : 'false'} data-completed={done ? 'true' : 'false'} className={`flex min-w-0 flex-col items-center gap-2 rounded-xl border px-1 py-3 ${diaAtual===day?'border-[#B88736] bg-[#e5c66f]/12':'border-[#B88736]/15 bg-black/10'}`}><span data-arcanjo-day-marker className="flex h-7 w-7 items-center justify-center rounded-full text-xs font-bold" style={{background:isMisticoModerno ? (done ? '#6C3FA0' : diaAtual===day ? '#D4AF37' : '#2E3B73') : (done||diaAtual===day?dayConfig.cor:'#214536'),color:isMisticoModerno && diaAtual===day ? '#0A0F18' : '#fff'}}>{done?'✓':day}</span><span className="hidden text-[11px] text-[#c8d8cc] sm:block">{dayConfig.nome.replace('Chakra ','')}</span></button>})}</div>
+          <div className="grid grid-cols-7 gap-2">{[1,2,3,4,5,6,7].map(day=>{const dayConfig=DADOS_PROTOCOLO[day];const done=completedDays.includes(day);return <button key={day} onClick={()=>selectDay(day)} aria-label={`Abrir dia ${day}, ${dayConfig.nome}`} data-current={diaAtual===day ? 'true' : 'false'} data-completed={done ? 'true' : 'false'} className={`flex min-w-0 flex-col items-center gap-2 rounded-xl border px-1 py-3 ${isMisticoModerno ? (diaAtual===day ? 'border-[#D4AF37] bg-[#D4AF37]/12' : done ? 'border-[#6C3FA0]/45 bg-[#0A0F18]/30' : 'border-[#2E3B73]/60 bg-[#0A0F18]/25') : (diaAtual===day ? 'border-[#B88736] bg-[#e5c66f]/12' : 'border-[#B88736]/15 bg-black/10')}`}><span data-arcanjo-day-marker className="flex h-7 w-7 items-center justify-center rounded-full text-xs font-bold" style={{background:isMisticoModerno ? (done ? '#6C3FA0' : diaAtual===day ? '#D4AF37' : '#2E3B73') : (done||diaAtual===day?dayConfig.cor:'#214536'),color:isMisticoModerno && diaAtual===day ? '#0A0F18' : '#fff'}}>{done?'✓':day}</span><span className={`hidden text-[11px] sm:block ${isMisticoModerno ? 'text-[#BAC3D1]' : 'text-[#c8d8cc]'}`}>{dayConfig.nome.replace('Chakra ','')}</span></button>})}</div>
         </div>
 
         <button className="ep-gold-button flex min-h-12 w-full items-center justify-center gap-2 rounded-2xl px-5 py-4 font-semibold" onClick={complete}><Heart size={18}/>Concluir o momento de hoje</button>
-        <p className="px-4 text-center text-xs leading-5 text-[#5C6A60]">Prática espiritual e integrativa. Não substitui cuidados médicos, psicológicos ou outros tratamentos de saúde.</p>
+        <p className={`px-4 text-center text-xs leading-5 ${isMisticoModerno ? 'text-[#BAC3D1]' : 'text-[#5C6A60]'}`}>Prática espiritual e integrativa. Não substitui cuidados médicos, psicológicos ou outros tratamentos de saúde.</p>
       </section>
     </main>
   </div>;
