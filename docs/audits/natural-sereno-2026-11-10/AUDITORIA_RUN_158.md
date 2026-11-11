@@ -40,7 +40,7 @@
 
 ## Referência visual
 
-A busca da Library não resolveu o ID exato `file_00000000317c820ebaad657dc3680de5` nesta execução. Foi localizada e inspecionada uma cópia da prancha intitulada `Painel UX_UI Natural Sereno.png`, visualmente correspondente ao card descrito; o repositório mantém a derivação `docs/visual-qa/natural-sereno/reference.jpg`. Não substituí a prancha por outra referência.
+A busca da Library não resolveu o ID exato `file_00000000317c820ebaad657dc3680de5` nesta execução. O índice retornou um item com o título `Painel UX_UI Natural Sereno.png`, mas o arquivo original não foi recuperado para comparação visual/pixel a pixel nesta rodada. O repositório mantém a derivação versionada `docs/visual-qa/natural-sereno/reference.jpg`; não substituí a referência por outra prancha.
 
 ## Estado
 
