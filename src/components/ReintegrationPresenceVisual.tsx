@@ -1,11 +1,10 @@
 import React from 'react';
 import { reintegrationPresenceWeights } from '../lib/reintegrationVisualTiming';
 import { getVisualDiaInstrucao } from '../data/visualMap21Dias';
+import NeutralBodyLightProgress from './NeutralBodyLightProgress';
 
-/** Use the five human figures from the approved artwork, with the audio clock
- * selecting their state. No repeated loop or reconstructed logo/body. */
-// Coordinates refer to the unchanged human model in the approved artwork.
-// These localized reveals are the fallback while each official MP4 is unavailable.
+/** Natural Sereno uses the approved neutral silhouette and a single gold light path.
+ * Other layouts retain their own existing artwork until their separate audit. */
 const regions: Record<number, [number, number][]> = {
   2: [[50,12],[50,24],[50,36],[50,49],[50,65],[50,84]],
   3: [[50,84],[50,70],[50,59],[50,49]],
@@ -25,16 +24,52 @@ const regions: Record<number, [number, number][]> = {
   20: [[16,60],[84,60],[35,84],[65,84],[50,14],[50,33],[50,49]],
   21: [[50,14],[50,33],[50,49],[50,67],[50,84]],
 };
-export default function ReintegrationPresenceVisual({ day = 1, elapsedSeconds }: { day?: number; elapsedSeconds: number }) {
+
+interface ReintegrationPresenceVisualProps {
+  day?: number;
+  elapsedSeconds: number;
+  neutral?: boolean;
+  active?: boolean;
+}
+
+export default function ReintegrationPresenceVisual({
+  day = 1,
+  elapsedSeconds,
+  neutral = false,
+  active = false
+}: ReintegrationPresenceVisualProps) {
   const weights = reintegrationPresenceWeights(elapsedSeconds);
   const instruction = getVisualDiaInstrucao(day);
   const progress = Math.max(0, Math.min(1, (elapsedSeconds - 360) / 540));
-  const points = regions[day] || regions[2];
+  const points = regions[day] || [[50,92]];
+
+  if (neutral) {
+    const stageProgress = weights.reduce((total, weight, index) => total + weight * index * 25, 0);
+    const neutralProgress = 20 + stageProgress * 0.8;
+    const focusPosition = day === 1 ? 92 : (points[points.length - 1]?.[1] ?? 50);
+
+    return (
+      <NeutralBodyLightProgress
+        variant="canvas"
+        showLabel={false}
+        progress={neutralProgress}
+        active={active}
+        focusPosition={focusPosition}
+        focusLabel={instruction.regiaoCorporal}
+        labelTitle="Movimento da luz"
+        movementDescription={instruction.movimentoLuz}
+        showRoots={day === 1}
+        className="reintegration-neutral-body-visual"
+      />
+    );
+  }
+
   const revealed = progress * points.length;
   const masks = points.map(([x,y], index) => {
     const amount = Math.max(0, Math.min(1, revealed - index));
     return `radial-gradient(ellipse ${10 + amount * 8}% ${5 + amount * 5}% at ${x}% ${y}%, rgba(0,0,0,${amount}) 0%, transparent 100%)`;
   }).join(',');
+
   return <div className="reintegration-presence-visual" data-day={day} data-visual-fallback="approved-human" role="img" aria-label={`Dia ${day}: ${instruction.titulo}. ${instruction.movimentoLuz}`}>
     {day === 1 ? [0, 1, 2, 3, 4].map(index => <div key={index} className="reintegration-presence-frame" style={{ backgroundPosition: `${index * 25}% 48%`, opacity: weights[index], filter: index === 0 ? 'brightness(.3)' : undefined }} />) : <>
       <div className="reintegration-presence-frame" style={{backgroundPosition:'0% 48%', filter:'brightness(.3)'}} />
