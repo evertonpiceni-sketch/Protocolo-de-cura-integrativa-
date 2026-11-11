@@ -584,8 +584,9 @@ export default function App() {
       const todayStr = getLocalDateString();
       const lastTipDate = localStorage.getItem('cura_integrada_last_tip_date');
       if (lastTipDate !== todayStr) {
+        // A dica fica pendente até a pessoa confirmar um dos quatro estilos.
+        // A data só é marcada quando a dica é fechada após a escolha.
         setShowDailyTip(true);
-        localStorage.setItem('cura_integrada_last_tip_date', todayStr);
       }
     }
   };
@@ -725,6 +726,7 @@ export default function App() {
     setSelectedDayDetail(null);
     setShowSettings(false);
     setShowArcanjoView(false);
+    setShowDailyTip(false);
     setActiveSessionDay(null);
     setIsLoggedIn(false);
   };
@@ -2726,10 +2728,13 @@ export default function App() {
       
       
       {/* Daily Tip Modal (Tip of the Day) */}
-      {showDailyTip && (
-        <DailyTipModal 
-          onClose={() => setShowDailyTip(false)} 
-          userName={userProfile?.name} 
+      {showDailyTip && layoutConfirmedThisSession && !layoutChoiceRequested && userProfile && (
+        <DailyTipModal
+          onClose={() => {
+            localStorage.setItem('cura_integrada_last_tip_date', getLocalDateString());
+            setShowDailyTip(false);
+          }}
+          userName={userProfile.name}
         />
       )}
 
