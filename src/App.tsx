@@ -273,6 +273,8 @@ export default function App() {
                          activeSessionDay === null &&
                          !showPersonalJourney &&
                          !showArcanjoView &&
+                         !showArchangelModal &&
+                         !showVideoStudioModal &&
                          (!usesNeuralVoiceCatalog || !isPlayingVoiceTest ||
                            shouldPlayProtocolSessionBackground('playing', userProfile.bgMusicType)); // Keep Solfeggio out of neural voice previews in all neural-voice layouts
 
@@ -295,6 +297,8 @@ export default function App() {
     activeSessionDay,
     showPersonalJourney,
     showArcanjoView,
+    showArchangelModal,
+    showVideoStudioModal,
     userProfile?.subscriptionPlan,
     layoutConfirmedThisSession,
     usesNeuralVoiceCatalog,
@@ -313,49 +317,16 @@ export default function App() {
   // Entrar em protocolo/jornada encerra a autorização temporária de trilha global.
   // Ao sair, a reprodução não reinicia sozinha: a pessoa precisa acioná-la novamente.
   useEffect(() => {
-    if (activeSessionDay !== null || showPersonalJourney || showArcanjoView) {
+    if (activeSessionDay !== null || showPersonalJourney || showArcanjoView || showArchangelModal || showVideoStudioModal) {
       setAudioPlaybackRequested(false);
     }
-  }, [activeSessionDay, showPersonalJourney, showArcanjoView]);
+  }, [activeSessionDay, showPersonalJourney, showArcanjoView, showArchangelModal, showVideoStudioModal]);
 
   useEffect(() => {
     if (!showPersonalJourney) return;
     audioEngine.stopSpeech();
     audioEngine.stopBG();
   }, [showPersonalJourney]);
-
-  // No listener global de click/touch: cada controle inicia áudio apenas no próprio gesto explícito.
-
-  useEffect(() => {
-    const handleGesture = () => {
-      audioEngine.unlock();
-
-      if (userProfile) {
-        const shouldPlay = layoutConfirmedThisSession && (userProfile.audioEnabled !== false) && 
-                           userProfile.bgMusicType !== 'none' && 
-                           activeSessionDay === null &&
-                           !showPersonalJourney &&
-                           !showArcanjoView &&
-                           (!usesNeuralVoiceCatalog || !isPlayingVoiceTest ||
-                             shouldPlayProtocolSessionBackground('playing', userProfile.bgMusicType));
-                           
-        if (shouldPlay) {
-          audioEngine.startBG(userProfile.bgMusicType);
-          // Successfully started, safe to remove listeners now
-          window.removeEventListener('click', handleGesture);
-          window.removeEventListener('touchstart', handleGesture);
-        }
-      }
-    };
-
-    window.addEventListener('click', handleGesture);
-    window.addEventListener('touchstart', handleGesture);
-
-    return () => {
-      window.removeEventListener('click', handleGesture);
-      window.removeEventListener('touchstart', handleGesture);
-    };
-  }, [userProfile, activeSessionDay, showPersonalJourney, showArcanjoView, layoutConfirmedThisSession, isPlayingVoiceTest]);
 
   useEffect(() => {
     if (!userProfile?.reminderTime || typeof Notification === 'undefined' || Notification.permission !== 'granted') return;
@@ -2051,7 +2022,7 @@ export default function App() {
             voicePitch={userProfile.voicePitch}
             bgMusicType={userProfile.bgMusicType}
             audioEnabled={userProfile.audioEnabled !== false}
-            allowBackgroundPlayback={audioPlaybackRequested && activeSessionDay === null && !showPersonalJourney && !showArcanjoView}
+            allowBackgroundPlayback={audioPlaybackRequested && activeSessionDay === null && !showPersonalJourney && !showArcanjoView && !showArchangelModal && !showVideoStudioModal}
             currentDay={currentDay}
             progress={progress}
             anamnesis={userProfile.anamnesis}
@@ -2459,7 +2430,8 @@ export default function App() {
               }
               setUserProfile(data.user.profile);
               closeProModal();
-              setShowCertificateModal(true);
+              setInAppToast({ title: 'Acesso Pro liberado', body: 'Seu acesso está ativo. Abra o certificado pelo botão Membro Pro quando desejar.' });
+              window.setTimeout(() => setInAppToast(null), 8000);
               return true;
             }
 
@@ -2494,7 +2466,8 @@ export default function App() {
                 });
                 window.setTimeout(() => setInAppToast(null), 8000);
               } else {
-                setShowCertificateModal(true);
+                setInAppToast({ title: 'Acesso Pro liberado', body: 'Seu acesso está ativo. Abra o certificado pelo botão Membro Pro quando desejar.' });
+                window.setTimeout(() => setInAppToast(null), 8000);
               }
               return true;
             }
@@ -2523,6 +2496,7 @@ export default function App() {
           isOpen={showAnamnesisModal}
           onClose={() => setShowAnamnesisModal(false)}
           userProfile={userProfile}
+          backgroundPlaybackRequested={audioPlaybackRequested}
           onSaveAnamnesis={handleSaveAnamnesis}
           onOpenSpecificTreatment={(_category) => {
             setShowAnamnesisModal(false);
@@ -2671,7 +2645,7 @@ export default function App() {
       {showAudioSettingsModal && userProfile && (
         <AudioSettingsModal
           isOpen={showAudioSettingsModal}
-          allowBackgroundPlayback={activeSessionDay === null && !showPersonalJourney && !showArcanjoView}
+          allowBackgroundPlayback={activeSessionDay === null && !showPersonalJourney && !showArcanjoView && !showArchangelModal && !showVideoStudioModal}
           backgroundPlaybackRequested={audioPlaybackRequested}
           onBackgroundPlaybackRequest={setAudioPlaybackRequested}
           onClose={() => setShowAudioSettingsModal(false)}
@@ -2730,6 +2704,7 @@ export default function App() {
           currentDay={systemicModalDay}
           progress={progress}
           userProfile={userProfile || undefined}
+          backgroundPlaybackRequested={audioPlaybackRequested}
           userName={userProfile?.name}
           onSaveAnswer={handleSaveSystemicAnswer}
         />
