@@ -379,12 +379,13 @@
    internal screens, where it starts before the bottom of the viewport. */
 :root[data-layout="natural-sereno"] #main-footer { z-index: 0; }
 
-/* Approved forest scenes: the splash, arrival and player have distinct art. */
+/* Approved landscape scenes: the splash, arrival and player use nature-only art. */
 :root[data-layout="natural-sereno"] #auth-loading-view {
   position: relative;
   justify-content: flex-start;
   padding: 54px 24px 28px;
-  background: linear-gradient(180deg, rgba(42,36,33,.12), rgba(42,36,33,.68)), url('/brand/natural-sereno/presenca.webp') center / cover no-repeat #2A2421 !important;
+  background: linear-gradient(180deg, rgba(250,247,242,.76), rgba(250,247,242,.90)), url('/brand/natural-sereno/vale-amanhecer.webp') center / cover no-repeat #FAF7F2 !important;
+  color: #2A2421 !important;
   font-family: 'Lora', Georgia, serif;
 }
 :root[data-layout="natural-sereno"] #auth-loading-view > div:first-child { width: 74px; height: 74px; margin-bottom: 8px; }
