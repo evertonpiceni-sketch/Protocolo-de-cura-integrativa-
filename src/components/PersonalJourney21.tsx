@@ -120,8 +120,11 @@ export default function PersonalJourney21({ onClose, initialCompletedDays, onCom
     const controller = new AbortController(); cueRequestRef.current = controller;
     try {
       const response = await fetch('/api/reintegration-tts', {
-        method: 'POST', headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ text: cue.text, day }), signal: controller.signal
+        method: 'POST',
+        credentials: 'same-origin',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ text: cue.text, day }),
+        signal: controller.signal
       });
       if (!response.ok || !response.headers.get('content-type')?.includes('audio')) throw new Error(`voice ${response.status}`);
       const blob = await response.blob();
