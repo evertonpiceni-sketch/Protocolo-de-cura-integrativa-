@@ -50,11 +50,11 @@
 }
 
 :root[data-layout="mistico-moderno"] #hooponopono-modal :is([class*="bg-emerald-50"],[class*="bg-emerald-500"]) {
-  background: rgba(37,126,98,.13) !important;
+  background: rgba(108,63,160,.14) !important;
 }
 
 :root[data-layout="mistico-moderno"] #hooponopono-modal :is([class*="text-emerald-700"],[class*="text-emerald-400"]) {
-  color: #78C6A5 !important;
+  color: #E2B96B !important;
 }
 
 :root[data-layout="mistico-moderno"] #hooponopono-modal button {
