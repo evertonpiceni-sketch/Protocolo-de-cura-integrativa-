@@ -43,7 +43,7 @@ test('Style 4 keeps Arcanjo Solfeggio off during neural narration and restores i
   const arcanjo = read('src/components/ArcanjoProtocolView.tsx');
   const start = arcanjo.slice(arcanjo.indexOf('const start ='), arcanjo.indexOf('const togglePlayback'));
   const prepare = arcanjo.slice(arcanjo.indexOf('const prepareFrequencyForNarration'), arcanjo.indexOf('const hasKnownDuration'));
-  const policy = arcanjo.match(/const suspendsSolfeggioDuringNeuralNarration =\\s*([^;]+);/)?.[1] ?? '';
+  const policy = arcanjo.match(/const suspendsSolfeggioDuringNeuralNarration =\s*([^;]+);/)?.[1] ?? '';
 
   assert.match(policy, /isEleganciaProfunda\s*\|\|\s*isEssenciaLuminosa\s*\|\|\s*isMisticoModerno/);
   assert.match(prepare, /if \(suspendsSolfeggioDuringNeuralNarration\) stopProtocolFrequency\(\)/);
