@@ -1,0 +1,435 @@
+/* Estilo 4 — Místico Moderno | proteção final de paleta.
+   Carregado depois de todas as camadas específicas do Estilo 4.
+   Verde fica restrito às imagens naturais aprovadas; estados de interface usam
+   índigo/violeta, dourado/âmbar e marfim. Não seleciona nem altera img/svg. */
+
+:root[data-layout="mistico-moderno"] :is(
+  #root,
+  #cura-main-layout,
+  #meditation-session,
+  #arcanjo-protocol-view,
+  #achievements-modal,
+  #specific-treatment-modal,
+  #daily-diary-modal,
+  #anamnesis-modal,
+  #systemic-questions-modal,
+  #journal-dashboard-view,
+  #hooponopono-modal,
+  #day-detail-modal,
+  #promo-video-modal,
+  #mobile-install-modal,
+  #video-studio-modal,
+  #astral-map-modal,
+  #numerology-modal,
+  #bottom-btn-specific-treatment,
+  [role="dialog"][aria-label="Celebração de progresso"]
+) :is(
+  [class*="text-emerald-"],
+  [class*="text-green-"],
+  [class*="text-teal-"]
+) {
+  color: #E2B96B !important;
+}
+
+:root[data-layout="mistico-moderno"] :is(
+  #root,
+  #cura-main-layout,
+  #meditation-session,
+  #arcanjo-protocol-view,
+  #achievements-modal,
+  #specific-treatment-modal,
+  #daily-diary-modal,
+  #anamnesis-modal,
+  #systemic-questions-modal,
+  #journal-dashboard-view,
+  #hooponopono-modal,
+  #day-detail-modal,
+  #promo-video-modal,
+  #mobile-install-modal,
+  #video-studio-modal,
+  #astral-map-modal,
+  #numerology-modal,
+  #bottom-btn-specific-treatment,
+  [role="dialog"][aria-label="Celebração de progresso"]
+) :is(
+  [class*="text-[#5E7153]"],
+  [class*="text-[#41503A]"],
+  [class*="text-[#586454]"],
+  [class*="text-[#9CB8AE]"]
+) {
+  color: #CBD5E1 !important;
+}
+
+:root[data-layout="mistico-moderno"] :is(
+  #root,
+  #cura-main-layout,
+  #meditation-session,
+  #arcanjo-protocol-view,
+  #achievements-modal,
+  #specific-treatment-modal,
+  #daily-diary-modal,
+  #anamnesis-modal,
+  #systemic-questions-modal,
+  #journal-dashboard-view,
+  #hooponopono-modal,
+  #day-detail-modal,
+  #promo-video-modal,
+  #mobile-install-modal,
+  #video-studio-modal,
+  #astral-map-modal,
+  #numerology-modal,
+  #bottom-btn-specific-treatment,
+  [role="dialog"][aria-label="Celebração de progresso"]
+) :is(
+  [class*="text-[#78C6A5]"],
+  [class*="text-[#A9E2CF]"],
+  [class*="text-[#49BE9E]"]
+) {
+  color: #E2B96B !important;
+}
+
+:root[data-layout="mistico-moderno"] :is(
+  #root,
+  #cura-main-layout,
+  #meditation-session,
+  #arcanjo-protocol-view,
+  #achievements-modal,
+  #specific-treatment-modal,
+  #daily-diary-modal,
+  #anamnesis-modal,
+  #systemic-questions-modal,
+  #journal-dashboard-view,
+  #hooponopono-modal,
+  #day-detail-modal,
+  #promo-video-modal,
+  #mobile-install-modal,
+  #video-studio-modal,
+  #astral-map-modal,
+  #numerology-modal,
+  #bottom-btn-specific-treatment,
+  [role="dialog"][aria-label="Celebração de progresso"]
+) :is(
+  [class*="bg-emerald-50"],
+  [class*="bg-emerald-100"],
+  [class*="bg-green-50"],
+  [class*="bg-green-100"],
+  [class*="bg-teal-50"],
+  [class*="bg-teal-100"],
+  [class*="bg-emerald-500/"],
+  [class*="bg-green-500/"],
+  [class*="bg-teal-500/"]
+) {
+  background: rgba(108, 63, 160, .14) !important;
+  border-color: rgba(108, 63, 160, .32) !important;
+}
+
+:root[data-layout="mistico-moderno"] :is(
+  #root,
+  #cura-main-layout,
+  #meditation-session,
+  #arcanjo-protocol-view,
+  #achievements-modal,
+  #specific-treatment-modal,
+  #daily-diary-modal,
+  #anamnesis-modal,
+  #systemic-questions-modal,
+  #journal-dashboard-view,
+  #hooponopono-modal,
+  #day-detail-modal,
+  #promo-video-modal,
+  #mobile-install-modal,
+  #video-studio-modal,
+  #astral-map-modal,
+  #numerology-modal,
+  #bottom-btn-specific-treatment,
+  [role="dialog"][aria-label="Celebração de progresso"]
+) :is(
+  [class~="bg-emerald-400"],
+  [class~="bg-emerald-500"],
+  [class~="bg-green-400"],
+  [class~="bg-green-500"],
+  [class~="bg-teal-400"],
+  [class~="bg-teal-500"]
+) {
+  background: #D4AF37 !important;
+  box-shadow: 0 0 0 2px rgba(212, 175, 55, .16) !important;
+}
+
+:root[data-layout="mistico-moderno"] :is(
+  #root,
+  #cura-main-layout,
+  #meditation-session,
+  #arcanjo-protocol-view,
+  #achievements-modal,
+  #specific-treatment-modal,
+  #daily-diary-modal,
+  #anamnesis-modal,
+  #systemic-questions-modal,
+  #journal-dashboard-view,
+  #hooponopono-modal,
+  #day-detail-modal,
+  #promo-video-modal,
+  #mobile-install-modal,
+  #video-studio-modal,
+  #astral-map-modal,
+  #numerology-modal,
+  #bottom-btn-specific-treatment,
+  [role="dialog"][aria-label="Celebração de progresso"]
+) :is(
+  [class~="bg-emerald-600"],
+  [class~="bg-green-600"],
+  [class~="bg-teal-600"]
+) {
+  background: linear-gradient(135deg, #D4AF37, #A87E37) !important;
+  border-color: rgba(212, 175, 55, .48) !important;
+  color: #0A0F18 !important;
+}
+
+:root[data-layout="mistico-moderno"] :is(
+  #root,
+  #cura-main-layout,
+  #meditation-session,
+  #arcanjo-protocol-view,
+  #achievements-modal,
+  #specific-treatment-modal,
+  #daily-diary-modal,
+  #anamnesis-modal,
+  #systemic-questions-modal,
+  #journal-dashboard-view,
+  #hooponopono-modal,
+  #day-detail-modal,
+  #promo-video-modal,
+  #mobile-install-modal,
+  #video-studio-modal,
+  #astral-map-modal,
+  #numerology-modal,
+  #bottom-btn-specific-treatment,
+  [role="dialog"][aria-label="Celebração de progresso"]
+) :is(
+  [class*="border-emerald-"],
+  [class*="border-green-"],
+  [class*="border-teal-"]
+) {
+  border-color: rgba(108, 63, 160, .34) !important;
+}
+
+:root[data-layout="mistico-moderno"] :is(
+  #root,
+  #cura-main-layout,
+  #meditation-session,
+  #arcanjo-protocol-view,
+  #achievements-modal,
+  #specific-treatment-modal,
+  #daily-diary-modal,
+  #anamnesis-modal,
+  #systemic-questions-modal,
+  #journal-dashboard-view,
+  #hooponopono-modal,
+  #day-detail-modal,
+  #promo-video-modal,
+  #mobile-install-modal,
+  #video-studio-modal,
+  #astral-map-modal,
+  #numerology-modal,
+  #bottom-btn-specific-treatment,
+  [role="dialog"][aria-label="Celebração de progresso"]
+) :is(
+  [class*="shadow-emerald"],
+  [class*="shadow-green"],
+  [class*="shadow-teal"]
+) {
+  box-shadow: 0 10px 24px rgba(108, 63, 160, .14) !important;
+}
+
+:root[data-layout="mistico-moderno"] :is(
+  #root,
+  #cura-main-layout,
+  #meditation-session,
+  #arcanjo-protocol-view,
+  #achievements-modal,
+  #specific-treatment-modal,
+  #daily-diary-modal,
+  #anamnesis-modal,
+  #systemic-questions-modal,
+  #journal-dashboard-view,
+  #hooponopono-modal,
+  #day-detail-modal,
+  #promo-video-modal,
+  #mobile-install-modal,
+  #video-studio-modal,
+  #astral-map-modal,
+  #numerology-modal,
+  #bottom-btn-specific-treatment,
+  [role="dialog"][aria-label="Celebração de progresso"]
+) :is(
+  [class*="ring-emerald"],
+  [class*="ring-green"],
+  [class*="ring-teal"]
+) {
+  --tw-ring-color: rgba(212, 175, 55, .42) !important;
+}
+
+:root[data-layout="mistico-moderno"] :is(
+  #root,
+  #cura-main-layout,
+  #meditation-session,
+  #arcanjo-protocol-view,
+  #achievements-modal,
+  #specific-treatment-modal,
+  #daily-diary-modal,
+  #anamnesis-modal,
+  #systemic-questions-modal,
+  #journal-dashboard-view,
+  #hooponopono-modal,
+  #day-detail-modal,
+  #promo-video-modal,
+  #mobile-install-modal,
+  #video-studio-modal,
+  #astral-map-modal,
+  #numerology-modal,
+  #bottom-btn-specific-treatment,
+  [role="dialog"][aria-label="Celebração de progresso"]
+) :is(
+  [class*="from-emerald-"],
+  [class*="via-emerald-"],
+  [class*="to-emerald-"],
+  [class*="from-green-"],
+  [class*="via-green-"],
+  [class*="to-green-"],
+  [class*="from-teal-"],
+  [class*="via-teal-"],
+  [class*="to-teal-"]
+) {
+  background-image: linear-gradient(135deg, #2E3B73, #6C3FA0) !important;
+}
+
+:root[data-layout="mistico-moderno"] :is(
+  #root,
+  #cura-main-layout,
+  #meditation-session,
+  #arcanjo-protocol-view,
+  #achievements-modal,
+  #specific-treatment-modal,
+  #daily-diary-modal,
+  #anamnesis-modal,
+  #systemic-questions-modal,
+  #journal-dashboard-view,
+  #hooponopono-modal,
+  #day-detail-modal,
+  #promo-video-modal,
+  #mobile-install-modal,
+  #video-studio-modal,
+  #astral-map-modal,
+  #numerology-modal,
+  #bottom-btn-specific-treatment,
+  [role="dialog"][aria-label="Celebração de progresso"]
+) :is(
+  [class*="from-emerald-600"],
+  [class*="from-green-600"],
+  [class*="from-teal-600"]
+) {
+  background-image: linear-gradient(135deg, #D4AF37, #A87E37) !important;
+  color: #0A0F18 !important;
+}
+
+:root[data-layout="mistico-moderno"] :is(
+  #root,
+  #cura-main-layout,
+  #meditation-session,
+  #arcanjo-protocol-view,
+  #achievements-modal,
+  #specific-treatment-modal,
+  #daily-diary-modal,
+  #anamnesis-modal,
+  #systemic-questions-modal,
+  #journal-dashboard-view,
+  #hooponopono-modal,
+  #day-detail-modal,
+  #promo-video-modal,
+  #mobile-install-modal,
+  #video-studio-modal,
+  #astral-map-modal,
+  #numerology-modal,
+  #bottom-btn-specific-treatment,
+  [role="dialog"][aria-label="Celebração de progresso"]
+) :is(
+  [class*="bg-[#174B37]"],
+  [class*="bg-[#5E7153]"]
+) {
+  background: linear-gradient(145deg, #141F30, #2E3B73) !important;
+  border-color: rgba(108, 63, 160, .34) !important;
+  color: #F4F1EB !important;
+}
+
+:root[data-layout="mistico-moderno"] :is(
+  #root,
+  #cura-main-layout,
+  #meditation-session,
+  #arcanjo-protocol-view,
+  #achievements-modal,
+  #specific-treatment-modal,
+  #daily-diary-modal,
+  #anamnesis-modal,
+  #systemic-questions-modal,
+  #journal-dashboard-view,
+  #hooponopono-modal,
+  #day-detail-modal,
+  #promo-video-modal,
+  #mobile-install-modal,
+  #video-studio-modal,
+  #astral-map-modal,
+  #numerology-modal,
+  #bottom-btn-specific-treatment,
+  [role="dialog"][aria-label="Celebração de progresso"]
+) :is([class*="border-[#5E7153]"]) {
+  border-color: rgba(108, 63, 160, .34) !important;
+}
+
+/* Fundos com névoa verde solta são substituídos por índigo/violeta/dourado.
+   A folhagem dentro de imagens naturais permanece intocada. */
+:root[data-layout="mistico-moderno"] #meditation-session {
+  background:
+    radial-gradient(circle at 50% 18%, rgba(93, 61, 145, .18), transparent 34%),
+    radial-gradient(circle at 18% 82%, rgba(108, 63, 160, .08), transparent 30%),
+    linear-gradient(180deg, #060914 0%, #0A1020 48%, #080B16 100%) !important;
+}
+
+:root[data-layout="mistico-moderno"] #arcanjo-protocol-backdrop {
+  background:
+    radial-gradient(circle at 86% 8%, rgba(108, 63, 160, .16), transparent 30rem),
+    radial-gradient(circle at 12% 88%, rgba(46, 59, 115, .18), transparent 28rem),
+    radial-gradient(circle at 88% 84%, rgba(212, 175, 55, .06), transparent 24rem),
+    linear-gradient(180deg, #0A2742 0%, #101827 58%, #080D16 100%) !important;
+}
+
+:root[data-layout="mistico-moderno"] #achievements-modal > div {
+  background:
+    radial-gradient(circle at 88% 8%, rgba(124, 58, 237, .13), transparent 34%),
+    radial-gradient(circle at 8% 92%, rgba(108, 63, 160, .08), transparent 30%),
+    linear-gradient(145deg, #080D1C 0%, #10132B 52%, #15122D 100%) !important;
+}
+
+:root[data-layout="mistico-moderno"] #specific-treatment-modal > div {
+  background:
+    radial-gradient(circle at 88% 8%, rgba(124, 58, 237, .13), transparent 34%),
+    radial-gradient(circle at 10% 90%, rgba(46, 59, 115, .12), transparent 32%),
+    linear-gradient(145deg, rgba(8, 15, 35, .98), rgba(17, 20, 52, .98) 55%, rgba(25, 18, 55, .97)) !important;
+}
+
+:root[data-layout="mistico-moderno"] #hooponopono-modal > div {
+  background:
+    radial-gradient(circle at 88% 0, rgba(108, 63, 160, .16), transparent 25rem),
+    radial-gradient(circle at 8% 100%, rgba(108, 63, 160, .08), transparent 23rem),
+    linear-gradient(145deg, #080D1C, #10132B 56%, #15122D) !important;
+}
+
+:root[data-layout="mistico-moderno"] #mobile-install-modal > div {
+  background:
+    radial-gradient(circle at 88% 8%, rgba(124, 58, 237, .14), transparent 34%),
+    radial-gradient(circle at 8% 92%, rgba(212, 175, 55, .06), transparent 32%),
+    linear-gradient(145deg, rgba(10, 16, 42, .98), rgba(20, 20, 58, .98)) !important;
+}
+
+:root[data-layout="mistico-moderno"] [role="dialog"][aria-label="Celebração de progresso"] > div {
+  background: linear-gradient(155deg, rgba(7, 15, 38, .98), rgba(23, 20, 58, .97) 55%, rgba(20, 31, 48, .96)) !important;
+}
