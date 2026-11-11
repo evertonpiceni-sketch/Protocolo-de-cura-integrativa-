@@ -67,6 +67,8 @@ export default function App() {
   // A persisted preference is not consent to apply a theme in this session.
   const [layoutConfirmedThisSession, setLayoutConfirmedThisSession] = useState(false);
   const [layoutChoiceRequested, setLayoutChoiceRequested] = useState(false);
+  // Audio só começa após ação explícita nesta sessão; preferências salvas não são consentimento de reprodução.
+  const [audioPlaybackRequested, setAudioPlaybackRequested] = useState(false);
   const [isLoadingAuth, setIsLoadingAuth] = useState<boolean>(true);
   const [progress, setProgress] = useState<DayProgress[]>([]);
   const [currentDay, setCurrentDay] = useState<number>(1);
@@ -266,7 +268,7 @@ export default function App() {
       });
 
       // Handle play/pause state
-      const shouldPlay = layoutConfirmedThisSession && (userProfile.audioEnabled !== false) && 
+      const shouldPlay = layoutConfirmedThisSession && audioPlaybackRequested && (userProfile.audioEnabled !== false) && 
                          userProfile.bgMusicType !== 'none' && 
                          activeSessionDay === null &&
                          !showPersonalJourney &&
@@ -296,7 +298,8 @@ export default function App() {
     userProfile?.subscriptionPlan,
     layoutConfirmedThisSession,
     usesNeuralVoiceCatalog,
-    isPlayingVoiceTest
+    isPlayingVoiceTest,
+    audioPlaybackRequested
   ]);
 
   // Reintegração da Vida owns its audio while open: stop global music and speech to prevent overlap.
@@ -307,13 +310,22 @@ export default function App() {
     setIsPlayingVoiceTest(false);
   }, [showSettings, isPlayingVoiceTest]);
 
+  // Entrar em protocolo/jornada encerra a autorização temporária de trilha global.
+  // Ao sair, a reprodução não reinicia sozinha: a pessoa precisa acioná-la novamente.
+  useEffect(() => {
+    if (activeSessionDay !== null || showPersonalJourney || showArcanjoView) {
+      setAudioPlaybackRequested(false);
+    }
+  }, [activeSessionDay, showPersonalJourney, showArcanjoView]);
+
   useEffect(() => {
     if (!showPersonalJourney) return;
     audioEngine.stopSpeech();
     audioEngine.stopBG();
   }, [showPersonalJourney]);
 
-  // Handle autoplay block browser policy unlock on first interaction
+  // No listener global de click/touch: cada controle inicia áudio apenas no próprio gesto explícito.
+
   useEffect(() => {
     const handleGesture = () => {
       audioEngine.unlock();
@@ -533,6 +545,7 @@ export default function App() {
       setShowDashboardCura(false);
       setShowDailyTip(false);
       setShowPersonalJourney(false);
+      setAudioPlaybackRequested(false);
       setInAppToast(null);
 
       if (event.newValue?.trim()) window.location.reload();
@@ -646,6 +659,7 @@ export default function App() {
       localStorage.setItem(LOCAL_STORAGE_KEY_ACCOUNTS, JSON.stringify(accounts));
     } catch (e) {}
 
+    setAudioPlaybackRequested(false);
     setUserProfile({ ...accountWithLogin.profile, login: accountWithLogin.login, isAdmin: accountWithLogin.isAdmin === true });
     setProgress(accountWithLogin.progress);
     setIsLoggedIn(true);
@@ -656,18 +670,8 @@ export default function App() {
     // The central background-audio effect owns playback after login.
     // Do not start a frequency here before session guards are evaluated.
 
-        // Check if welcome modal was seen
-    const seenWelcome = localStorage.getItem('cura_integrada_welcome_seen_v1');
-    if (!seenWelcome) {
-      setShowWelcomeModal(true);
-    } else {
-      const todayStr = getLocalDateString();
-      const lastTipDate = localStorage.getItem('cura_integrada_last_tip_date');
-      if (lastTipDate !== todayStr) {
-        setShowDailyTip(true);
-        localStorage.setItem('cura_integrada_last_tip_date', todayStr);
-      }
-    }
+    // Após login, somente o seletor obrigatório dos quatro estilos pode aparecer automaticamente.
+    // Acolhimento, dicas, protocolos, jornadas e áudio ficam reservados à ação explícita.
   };
 
   // Complete a meditation session
@@ -737,15 +741,9 @@ export default function App() {
       setCurrentDay(nextUncompleted.dayNumber);
     }
 
-    // Close players and open details or success alert
+    // Fechar o player sem abrir resumo ou celebração automaticamente.
+    // Detalhes e conquistas continuam acessíveis pelas ações próprias da interface.
     setActiveSessionDay(null);
-    setSelectedDayDetail(dayNum); // show summary modal
-
-    // Trigger milestone celebration for day 8 (Karuna Ki), 15 (Raio Rosa), and 21 (Conclusão & Assumir o Trono)
-    if (dayNum === 8 || dayNum === 15 || dayNum === 21) {
-      setMilestoneModalDay(dayNum);
-      setShowMilestoneModal(true);
-    }
   };
 
   // Factory reset utility for users wishing to restart their 21-day program
@@ -798,6 +796,7 @@ export default function App() {
     // A nova sessão precisa confirmar explicitamente um dos quatro estilos.
     setLayoutConfirmedThisSession(false);
     setLayoutChoiceRequested(false);
+    setAudioPlaybackRequested(false);
     setUserProfile(null);
     setProgress([]);
     setCurrentDay(1);
@@ -1095,24 +1094,31 @@ export default function App() {
               <div className="flex items-center gap-1 shrink-0" id="header-audio-quick-control">
                 <button
                   onClick={() => {
-                    const nextAudioEnabled = !userProfile.audioEnabled;
-                    const nextMusicType = nextAudioEnabled && userProfile.bgMusicType === 'none' 
-                      ? '528hz' 
+                    const nextPlaybackRequested = !audioPlaybackRequested;
+                    const nextMusicType = nextPlaybackRequested && userProfile.bgMusicType === 'none'
+                      ? '528hz'
                       : userProfile.bgMusicType;
+                    setAudioPlaybackRequested(nextPlaybackRequested);
+                    if (nextPlaybackRequested && nextMusicType !== 'none') {
+                      audioEngine.unlock();
+                      audioEngine.startBG(nextMusicType);
+                    } else {
+                      audioEngine.stopBG();
+                    }
                     saveProfile({
                       ...userProfile,
-                      audioEnabled: nextAudioEnabled,
+                      audioEnabled: nextPlaybackRequested,
                       bgMusicType: nextMusicType
                     });
                   }}
                   className={`p-1.5 sm:p-2 rounded-xl transition flex items-center justify-center border cursor-pointer ${
-                    userProfile.audioEnabled && userProfile.bgMusicType !== 'none'
+                    audioPlaybackRequested && userProfile.audioEnabled !== false && userProfile.bgMusicType !== 'none'
                       ? 'bg-amber-50 border-amber-300 text-[#8F631E]'
                       : 'bg-[#FBF8F2] border-[#E5DAC6] text-[#85786C]'
                   }`}
-                  title={userProfile.audioEnabled && userProfile.bgMusicType !== 'none' ? "Silenciar trilha de cura" : "Ativar trilha de cura"}
+                  title={audioPlaybackRequested ? "Silenciar trilha de cura" : "Ativar trilha de cura"}
                 >
-                  {userProfile.audioEnabled && userProfile.bgMusicType !== 'none' ? <Volume2 size={14} className="text-[#8F631E]" /> : <VolumeX size={14} />}
+                  {audioPlaybackRequested ? <Volume2 size={14} className="text-[#8F631E]" /> : <VolumeX size={14} />}
                 </button>
                 
                 {/* Botão de Ajuste Completo de Som */}
@@ -2045,7 +2051,7 @@ export default function App() {
             voicePitch={userProfile.voicePitch}
             bgMusicType={userProfile.bgMusicType}
             audioEnabled={userProfile.audioEnabled !== false}
-            allowBackgroundPlayback={activeSessionDay === null && !showPersonalJourney && !showArcanjoView}
+            allowBackgroundPlayback={audioPlaybackRequested && activeSessionDay === null && !showPersonalJourney && !showArcanjoView}
             currentDay={currentDay}
             progress={progress}
             anamnesis={userProfile.anamnesis}
@@ -2666,6 +2672,8 @@ export default function App() {
         <AudioSettingsModal
           isOpen={showAudioSettingsModal}
           allowBackgroundPlayback={activeSessionDay === null && !showPersonalJourney && !showArcanjoView}
+          backgroundPlaybackRequested={audioPlaybackRequested}
+          onBackgroundPlaybackRequest={setAudioPlaybackRequested}
           onClose={() => setShowAudioSettingsModal(false)}
           userProfile={userProfile}
           onSaveProfile={saveProfile}
