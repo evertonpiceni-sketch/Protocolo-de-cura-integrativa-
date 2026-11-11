@@ -1,7 +1,7 @@
 :root[data-layout="mistico-moderno"] #meditation-session{
   background:
     radial-gradient(circle at 50% 18%,rgba(93,61,145,.18),transparent 34%),
-    radial-gradient(circle at 18% 82%,rgba(16,112,93,.12),transparent 30%),
+    radial-gradient(circle at 18% 82%,rgba(46,59,115,.16),transparent 30%),
     linear-gradient(180deg,#060914 0%,#0a1020 48%,#080b16 100%)!important;
   color:#f3ecdf!important;
 }
