@@ -34,16 +34,18 @@ test('Místico Moderno labels the saved neural voice instead of the legacy gende
 test('Místico Moderno themes the plan guide and InfinitePay checkout surfaces', () => {
   const guide = read('src/components/PlansValuesGuideModal.tsx');
   const checkout = read('src/components/ProUpgradeModal.tsx');
+  const app = read('src/App.tsx');
   const styles = read('src/mistico-moderno-modal-audit.css');
 
   assert.match(guide, /id="plans-values-guide-modal"/);
   assert.match(guide, /data-plan-cta="true"/);
   assert.match(checkout, /id="plans-modal"/);
-  assert.match(checkout, /\/api\/payment\/create-checkout/);
+  assert.match(app, /fetch\('\/api\/payment\/create-checkout'/);
+  assert.match(app, /productType: 'subscription'/);
   assert.match(styles, /:root\[data-layout="mistico-moderno"\] #plans-values-guide-modal/);
   assert.match(styles, /button\[data-plan-cta="true"\]/);
   assert.match(styles, /:root\[data-layout="mistico-moderno"\] #plans-modal/);
-  assert.match(styles, /button\[class\*="bg-\[#073B2B\]"\]/);
+  assert.match(styles, /button\[class~="bg-\[#073B2B\]"\]/);
   assert.match(styles, /linear-gradient\(180deg, #0A2742 0%, #101827 100%\)/);
   assert.match(styles, /#D4AF37/);
   assert.match(styles, /#6C3FA0/);

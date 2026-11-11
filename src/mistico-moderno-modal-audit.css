@@ -165,12 +165,12 @@
   color: #D8B96C !important;
 }
 
-:root[data-layout="mistico-moderno"] #plans-modal [class*="bg-[#073B2B]"] {
+:root[data-layout="mistico-moderno"] #plans-modal [class~="bg-[#073B2B]"] {
   background: rgba(46, 59, 115, .46) !important;
   color: #F5F0E6 !important;
 }
 
-:root[data-layout="mistico-moderno"] #plans-modal button[class*="bg-[#073B2B]"] {
+:root[data-layout="mistico-moderno"] #plans-modal button[class~="bg-[#073B2B]"] {
   background: linear-gradient(135deg, #B88A36, #6C3FA0) !important;
   border-color: rgba(212, 175, 55, .36) !important;
   color: #FFF9EC !important;
@@ -209,4 +209,17 @@
 :root[data-layout="mistico-moderno"] #plans-modal button:disabled {
   opacity: .58;
   cursor: not-allowed !important;
+}
+
+
+:root[data-layout="mistico-moderno"] #plans-modal button[class*="border-[#073B2B]"] {
+  background: rgba(46, 59, 115, .12) !important;
+  border-color: rgba(108, 63, 160, .36) !important;
+  color: #C7D0EA !important;
+}
+
+:root[data-layout="mistico-moderno"] #plans-modal button[class*="border-[#073B2B]"]:hover {
+  background: rgba(46, 59, 115, .30) !important;
+  border-color: rgba(212, 175, 55, .40) !important;
+  color: #F5F0E6 !important;
 }
