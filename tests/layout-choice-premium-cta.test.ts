@@ -24,12 +24,14 @@ test('a prévia Natural Sereno usa CTA retangular premium, não formato de pílu
   const end = source.indexOf("if (layout.id === 'elegancia-profunda')", start);
   assert.ok(start >= 0 && end > start, 'prévia Natural Sereno não encontrada.');
   const preview = source.slice(start, end);
-  const cta = preview.match(/<span className="([^"]+)">\\s*Iniciar jornada\\s*<\\/span>/s);
+  const ctaStart = preview.indexOf('<span className="shrink-0');
+  const ctaEnd = preview.indexOf('>', ctaStart);
+  assert.ok(ctaStart >= 0 && ctaEnd > ctaStart, 'CTA da prévia Natural Sereno não encontrado.');
+  const ctaClass = preview.slice(ctaStart, ctaEnd);
 
-  assert.ok(cta, 'CTA da prévia Natural Sereno não encontrado.');
-  assert.ok(cta[1].includes('rounded-xl'), 'CTA da prévia deve ter cantos premium de 12px.');
-  assert.ok(!cta[1].includes('rounded-full') && !cta[1].includes('rounded-[18px]'), 'CTA da prévia não deve ser uma pílula.');
-  assert.ok(cta[1].includes('border-[#A87E37]'));
-  assert.ok(cta[1].includes('text-[#2A2421]'));
+  assert.ok(ctaClass.includes('rounded-xl'), 'CTA da prévia deve ter cantos premium de 12px.');
+  assert.ok(!ctaClass.includes('rounded-full') && !ctaClass.includes('rounded-[18px]'), 'CTA da prévia não deve ser uma pílula.');
+  assert.ok(ctaClass.includes('border-[#A87E37]'));
+  assert.ok(ctaClass.includes('text-[#2A2421]'));
   assert.ok(preview.includes('bg-gradient-to-b from-[#E2B96B] to-[#C89D52]'));
 });
