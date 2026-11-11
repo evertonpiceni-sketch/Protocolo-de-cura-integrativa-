@@ -483,7 +483,8 @@ test('Místico Moderno aplica paleta noturna própria à animação da sessão e
   assert.match(session, /isMisticoModerno \? MISTICO_MODERNO_CANVAS_THEME : undefined/);
   assert.match(canvas, /colorTheme\?\.violetGlow \?\? palette\?\.goldGlow/);
   assert.match(canvas, /colorTheme\?\.indigoGlow \?\? palette\?\.sageGlow/);
-  assert.match(canvas, /colorTheme\?\.emeraldLine \?\? palette\?\.goldLine/);
+  assert.doesNotMatch(canvas, /emeraldLine/, 'Místico Moderno não deve reintroduzir um traço esmeralda independente no campo energético.');
+  assert.match(session, /sageLine: 'rgba\\(82,100,164,0\\.40\\)'/);
   assert.match(css, /:root\[data-layout="mistico-moderno"\] #meditation-session \.ep-session-light-overlay/);
   assert.match(css, /rgba\(108,63,160,\.14\)/);
   const overlayStart = css.indexOf(':root[data-layout="mistico-moderno"] #meditation-session .ep-session-light-overlay');
