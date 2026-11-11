@@ -188,6 +188,20 @@ test('checkout binds account, validates provider confirmation and grants only on
     assert.ok(vercelUrlPreviewPayload.redirect_url.startsWith('https://style4-branch-preview.vercel.app/?payment_order='));
     assert.equal(vercelUrlPreviewPayload.webhook_url, 'https://style4-branch-preview.vercel.app/api/webhooks/payment');
 
+    // Production must accept its own public host; the Preview-only guard must not block live checkout.
+    db.users.push({ id: 'production-origin-owner', plan: 'free', profile: {} });
+    process.env.VERCEL_ENV = 'production';
+    process.env.PUBLIC_APP_URL = 'https://protocolo-de-cura-integrativa.vercel.app';
+    const callsBeforeProductionOriginCheckout = calls.length;
+    const productionOriginCheckout = await call('payment/create-checkout', {
+      productType: 'subscription', planId: 'jornada_7d', paymentMethod: 'pix'
+    }, 'production-origin-owner');
+    assert.equal(productionOriginCheckout.status, 200, 'Production deve aceitar seu próprio domínio público');
+    assert.equal(calls.length, callsBeforeProductionOriginCheckout + 1, 'Production deve chamar o provedor quando a configuração está completa');
+    const productionOriginPayload = calls[calls.length - 1].body;
+    assert.ok(productionOriginPayload.redirect_url.startsWith('https://protocolo-de-cura-integrativa.vercel.app/?payment_order='));
+    assert.equal(productionOriginPayload.webhook_url, 'https://protocolo-de-cura-integrativa.vercel.app/api/webhooks/payment');
+
     process.env.VERCEL_ENV = 'test';
     process.env.PUBLIC_APP_URL = 'https://payments.test.example';
 
