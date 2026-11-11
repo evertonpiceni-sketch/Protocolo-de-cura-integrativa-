@@ -844,3 +844,16 @@ test('a cena efetiva da Home do Estilo 3 usa fotografia costeira própria e over
   assert.ok(!finalCss.includes('/brand/natural-sereno/'));
   assert.ok(!finalCss.includes('/brand/reintegracao/'));
 });
+
+test('a dica diária aguarda a confirmação explícita do estilo e só marca a data ao fechar', () => {
+  const app = fs.readFileSync('src/App.tsx', 'utf8');
+  assert.ok(app.includes('{showDailyTip && layoutConfirmedThisSession && !layoutChoiceRequested && userProfile && ('));
+  assert.ok(app.includes("localStorage.setItem('cura_integrada_last_tip_date', getLocalDateString());"));
+  assert.ok(!app.includes("localStorage.setItem('cura_integrada_last_tip_date', todayStr)"));
+
+  const logoutMarker = 'localStorage.removeItem(LOCAL_STORAGE_KEY_CURRENT_LOGIN);';
+  const logoutStart = app.indexOf(logoutMarker);
+  const logoutEnd = app.indexOf('// Retrieve mood description text', logoutStart);
+  assert.ok(logoutStart >= 0 && logoutEnd > logoutStart);
+  assert.ok(app.slice(logoutStart, logoutEnd).includes('setShowDailyTip(false)'));
+});
