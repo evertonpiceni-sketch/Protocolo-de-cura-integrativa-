@@ -30,4 +30,17 @@ test('RUN 159 — histórico do Diário usa acentos suaves no Natural Sereno', (
   assert.ok(diary.includes('border-amber-200 bg-amber-50 text-amber-700'));
   assert.ok(diary.includes('border-emerald-200 bg-emerald-50 text-emerald-700'));
   assert.ok(diary.includes('moodLabel(finalMood)'));
+
+  // The larger "Como estou agora" panel was neutralized in the earlier scoped
+  // override; protect it as well as the small semantic mood badges.
+  const panelStart = css.indexOf('/* No Diário, o estado "Como estou agora"');
+  const panelEnd = css.indexOf('/* Exportar mantém hierarquia premium', panelStart);
+  assert.ok(panelStart >= 0 && panelEnd > panelStart, 'override do painel principal do histórico ausente.');
+  const panel = css.slice(panelStart, panelEnd);
+  assert.ok(panel.includes(':root[data-layout="natural-sereno"] #journal-dashboard-view section[class*="bg-emerald-50/65"]'));
+  assert.ok(panel.includes('background: linear-gradient(145deg,#FFFDF8,#F5EFE4) !important;'));
+  assert.ok(panel.includes('color: #6F7B55 !important;'));
+  assert.ok(panel.includes('color: #2A2421 !important;'));
+  assert.ok(panel.includes('border-color: rgba(111,123,85,.24) !important;'));
+  assert.ok(diary.includes('bg-emerald-50/65'));
 });
