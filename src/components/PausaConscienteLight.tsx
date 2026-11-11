@@ -1,4 +1,5 @@
 import React, { useState, useCallback } from "react";
+import { APPROVED_LOGO_DATA_URI } from "./ApprovedBrand";
 import { Clock, Armchair, CheckCircle2, X } from "lucide-react";
 
 interface Practice {
@@ -157,6 +158,7 @@ export const PausaConscienteLight: React.FC = () => {
       </main>
 
       <footer className="mx-auto w-full max-w-md border-t border-[#E8DFC8]/70 pt-4 text-center">
+        <img src={APPROVED_LOGO_DATA_URI} alt="" aria-hidden="true" className="ep-reintegration-brand-signature mx-auto mb-2 h-7 w-7 object-contain" />
         <div className="text-[11px] uppercase tracking-wider text-[#7A6D5E]">Everton Piceni • Terapias Holísticas e Bem-Estar</div>
       </footer>
     </div>
