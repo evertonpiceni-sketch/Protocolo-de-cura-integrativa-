@@ -80,3 +80,18 @@ test('the Místico Moderno chooser uses the verified official 4:3 board preview 
   assert.match(board, /preserveAspectRatio="xMidYMid meet"/);
   assert.match(board, /data:image\/webp;base64,/);
 });
+
+test('the React chooser shell stays neutral until an explicit style choice', () => {
+  const modal = read('src/components/LayoutChoiceModal.tsx');
+  const shellLine = modal.split('\\n').find(line => line.includes('data-layout-choice-shell="true"'));
+
+  assert.ok(shellLine, 'Expected an identifiable neutral chooser shell.');
+  assert.ok(shellLine.includes('border-[#E3DFD6]'));
+  assert.ok(shellLine.includes('bg-[#F8F7F3]'));
+  assert.doesNotMatch(shellLine, /FBF8F2|E5DAC6|2A2420/);
+  assert.ok(modal.includes('bg-[#302E2A]/35'));
+  assert.ok(modal.includes('text-[#302E2A]">Escolha o que mais toca você</h2>'));
+  assert.ok(modal.includes('text-[#625E56]">4 estilos, uma mesma essência</p>'));
+  assert.ok(modal.includes('from-[#D8D4CB] via-[#C7C1B6] to-[#AFA99D]'));
+  assert.ok(!modal.includes('from-[#A99B84] via-[#B7AD9D] to-[#817460]'));
+});
