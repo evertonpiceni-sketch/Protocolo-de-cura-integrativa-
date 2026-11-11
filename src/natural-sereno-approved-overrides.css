@@ -2264,3 +2264,16 @@
 :root[data-layout="natural-sereno"] #contact-us-modal .text-emerald-400 {
   color: #6F7B55 !important;
 }
+
+
+/* RUN 168 — Logo da Reintegração: assinatura discreta em cada estado, sem disputar espaço com controles. */
+:root[data-layout="natural-sereno"] [data-ep-reintegration="true"] .ep-reintegration-brand-signature,
+:root[data-layout="natural-sereno"] [data-ep-reintegration-running="true"] .ep-reintegration-brand-signature,
+:root[data-layout="natural-sereno"] [data-ep-reintegration-modal="true"] .ep-reintegration-brand-signature {
+  opacity: .30 !important;
+  filter: none !important;
+  object-fit: contain !important;
+  background: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+}
