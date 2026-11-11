@@ -26,7 +26,7 @@
 - 26 folhas CSS específicas do Místico Moderno permanecem importadas e isoladas por `data-layout="mistico-moderno"`; o teste de isolamento verifica os seletores das folhas carregadas.
 - As 12 superfícies continuam cobertas estruturalmente pela auditoria e pelos testes existentes. A inspeção visual renderizada em desktop/celular ainda não pode ser declarada concluída sem Preview READY.
 - O player de 21 dias já usa `shouldPlayProtocolSessionBackground`, que bloqueia as frequências Solfeggio durante a fase `playing` e permite trilhas não tonais. O teste novo protege esse contrato.
-- A última CI anterior à correção era Security Audit Run 2439 (SUCCESS). A nova execução após os commits desta rodada precisa concluir antes de declarar a reauditoria técnica aprovada.
+- A CI final após as correções foi **Security Audit Run 2445: SUCCESS** — **244 testes aprovados, 0 falhas, 0 vulnerabilidades npm**, TypeScript aprovado e build aprovado (2.253 módulos transformados). A primeira execução após o patch (Run 2443) apontou duas asserções de teste desatualizadas; corrigi os matchers e a execução seguinte passou integralmente.
 
 ## Pagamentos e implantação — estado observado
 
