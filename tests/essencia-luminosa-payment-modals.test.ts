@@ -38,3 +38,26 @@ test('the RUN 173 selectors remain isolated to Style 3 and preserve the approved
   assert.ok(catalog.includes("7: 5990"));
   assert.ok(catalog.includes("21: 9990"));
 });
+
+
+const run174 = css.slice(css.lastIndexOf('/* RUN 174 —'));
+
+test('RUN 174 removes residual green hover and saturated gold states from payment modals', () => {
+  assert.ok(plans.includes('hover:bg-[#073B2B]/5'));
+  assert.ok(treatment.includes('bg-[#B88736] text-white'));
+  assert.ok(run174.includes('#plans-modal button[class*="hover:bg-[#073B2B]"]:hover'));
+  assert.ok(run174.includes('#specific-treatment-modal button[class*="bg-[#B88736]"]'));
+  assert.ok(run174.includes('#specific-treatment-modal [class*="text-[#B88736]"]'));
+  assert.ok(run174.includes('#specific-treatment-modal > div > div.absolute[class*="bg-emerald-"]'));
+  assert.ok(run174.includes('#specific-treatment-modal a[class*="hover:bg-emerald-"]:hover'));
+  assert.ok(run174.includes('#specific-treatment-modal [class*="shadow-emerald-"]'));
+});
+
+test('RUN 174 remains fully scoped to Essência Luminosa', () => {
+  const selectorLines = run174.split('\\n').map(line => line.trim()).filter(line => line.endsWith('{'));
+  assert.ok(selectorLines.length >= 7);
+  assert.ok(selectorLines.every(line => line.startsWith(':root[data-layout="essencia-luminosa"]')));
+  assert.ok(!run174.includes('data-layout="natural-sereno"'));
+  assert.ok(!run174.includes('data-layout="elegancia-profunda"'));
+  assert.ok(!run174.includes('data-layout="mistico-moderno"'));
+});
