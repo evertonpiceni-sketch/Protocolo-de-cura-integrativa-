@@ -150,3 +150,27 @@
     scroll-behavior: auto !important;
   }
 }
+
+/* A camada compartilhada define .ep-home-hero .ep-brand-signature com
+   especificidade maior que a regra simples da assinatura. No Estilo 4,
+   reafirmamos a decisão congelada: moldura transparente e logo discreto. */
+:root[data-layout="mistico-moderno"] .ep-home-hero .ep-brand-signature-wrap,
+:root[data-layout="mistico-moderno"] .ep-welcome-audio .ep-brand-signature-wrap {
+  opacity: 1 !important;
+  background: transparent !important;
+  border-color: transparent !important;
+  box-shadow: none !important;
+}
+
+:root[data-layout="mistico-moderno"] .ep-home-hero .ep-brand-signature,
+:root[data-layout="mistico-moderno"] .ep-welcome-audio .ep-brand-signature {
+  opacity: .30 !important;
+  filter: saturate(.90) contrast(.97) !important;
+}
+
+@media (max-width: 767px) {
+  :root[data-layout="mistico-moderno"] .ep-home-hero .ep-brand-signature,
+  :root[data-layout="mistico-moderno"] .ep-welcome-audio .ep-brand-signature {
+    opacity: .26 !important;
+  }
+}
