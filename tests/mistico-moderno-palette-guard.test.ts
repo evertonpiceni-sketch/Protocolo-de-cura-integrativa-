@@ -58,6 +58,7 @@ test('the full-page Místico Moderno atmosphere no longer contains a detached gr
 });
 
 
+
 test('Místico Moderno reserves green for natural image assets, not interface color declarations', () => {
   const cssFiles = [
     'src/mistico-moderno-approved-overrides.css',
@@ -106,16 +107,16 @@ test('Místico Moderno reserves green for natural image assets, not interface co
   };
 
   for (const path of cssFiles) {
-    const css = read(path).replace(/\\/\*[\\s\\S]*?\\*\\//g, '');
-    for (const declaration of css.matchAll(/([-\\w]+)\\s*:\\s*([^;{}]+);/g)) {
+    const css = read(path).replace(/\/\*[\s\S]*?\*\//g, '');
+    for (const declaration of css.matchAll(/([-\w]+)\s*:\s*([^;{}]+);/g)) {
       const property = declaration[1];
       const value = declaration[2];
       const colors = [
-        ...[...value.matchAll(/#([0-9a-f]{6})\\b/gi)].map(match => {
+        ...[...value.matchAll(/#([0-9a-f]{6})\b/gi)].map(match => {
           const hex = Number.parseInt(match[1], 16);
           return { label: match[0], rgb: [(hex >> 16) & 255, (hex >> 8) & 255, hex & 255] };
         }),
-        ...[...value.matchAll(/rgba?\\(\\s*(\\d{1,3})\\s*,\\s*(\\d{1,3})\\s*,\\s*(\\d{1,3})/gi)].map(match => ({
+        ...[...value.matchAll(/rgba?\(\s*(\d{1,3})\s*,\s*(\d{1,3})\s*,\s*(\d{1,3})/gi)].map(match => ({
           label: match[0],
           rgb: [Number(match[1]), Number(match[2]), Number(match[3])],
         })),
@@ -127,7 +128,7 @@ test('Místico Moderno reserves green for natural image assets, not interface co
         }
       }
     }
-    assert.doesNotMatch(css, /var\\(--layout-emerald\\)/,
+    assert.doesNotMatch(css, /var\(--layout-emerald\)/,
       path + ' must not use the natural emerald token for interface surfaces.');
   }
 
