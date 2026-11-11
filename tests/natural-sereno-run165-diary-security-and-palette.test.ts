@@ -32,4 +32,7 @@ test('a análise semanal do Diário usa a paleta Natural Sereno sem chapas verde
   assert.ok(block.includes('background: linear-gradient(145deg,#FFFDF8 0%,#FAF7F2 58%,#F5EFE5 100%) !important;'));
   assert.doesNotMatch(block, /#(?:26372a|71511c|B88736|8F631E)/i);
   assert.doesNotMatch(block, /data-layout="(?:elegancia-profunda|essencia-luminosa|mistico-moderno)"/);
+  assert.ok(block.includes('#plans-modal [data-universal-core-benefit="true"]'));
+  assert.ok(block.includes('background: #FBF8F2 !important;'));
+  assert.ok(block.includes('border-color: rgba(200,157,82,.26) !important;'));
 });
