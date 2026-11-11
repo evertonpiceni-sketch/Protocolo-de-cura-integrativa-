@@ -2457,3 +2457,18 @@
   outline: 2px solid #A87E37 !important;
   outline-offset: 3px !important;
 }
+
+
+/* RUN 176 — Reintegração Natural Sereno: silhueta neutra, luz contínua e raízes do Dia 1. */
+:root[data-layout="natural-sereno"] .reintegration-neutral-body-visual {
+  width: min(82vw, 360px, 52vh) !important;
+  max-width: 360px !important;
+  max-height: 65vh !important;
+  aspect-ratio: 4 / 5 !important;
+  margin-inline: auto !important;
+  background: transparent !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  padding: 0 !important;
+}
