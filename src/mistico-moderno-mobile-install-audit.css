@@ -46,12 +46,12 @@
 
 /* Green is reserved for natural imagery; interface states use gold and violet. */
 :root[data-layout="mistico-moderno"] #mobile-install-modal :is([class*="text-[#5E7153]"],[class*="text-emerald-"]) {
-  color: #6fc8a0 !important;
+  color: #E2B96B !important;
 }
 
 :root[data-layout="mistico-moderno"] #mobile-install-modal [class*="bg-emerald-"] {
-  background-color: rgba(16, 185, 129, .10) !important;
-  border-color: rgba(111, 200, 160, .24) !important;
+  background-color: rgba(108, 63, 160, .14) !important;
+  border-color: rgba(212, 175, 55, .28) !important;
 }
 
 :root[data-layout="mistico-moderno"] #mobile-install-modal :focus-visible {
