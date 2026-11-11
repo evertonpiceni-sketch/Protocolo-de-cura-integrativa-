@@ -25,7 +25,6 @@ interface SacredEnergyCanvasProps {
     indigoGlow?: string;
     indigoLine?: string;
     indigoParticle?: string;
-    emeraldLine?: string;
     ivory?: string;
     transparent?: string;
   };
@@ -57,7 +56,6 @@ export const SacredEnergyCanvas: React.FC<SacredEnergyCanvasProps> = ({
     indigoGlow: colorTheme.indigoGlow || 'rgba(46, 59, 115, 0.20)',
     indigoLine: colorTheme.indigoLine || 'rgba(46, 59, 115, 0.36)',
     indigoParticle: colorTheme.indigoParticle || 'rgba(82, 100, 164, 0.60)',
-    emeraldLine: colorTheme.emeraldLine || colorTheme.sageLine || 'rgba(30, 107, 90, 0.34)',
     ivory: colorTheme.ivory || '#FFFFF8',
     transparent: colorTheme.transparent || 'rgba(255, 255, 248, 0)'
   } : null;
@@ -397,8 +395,8 @@ export const SacredEnergyCanvas: React.FC<SacredEnergyCanvasProps> = ({
           ctx.arc(cx, cy, heartPulse, 0, Math.PI * 2);
           ctx.stroke();
 
-          // São Rafael Emerald subtle cross of light
-          ctx.strokeStyle = colorTheme?.emeraldLine ?? palette?.goldLine ?? 'rgba(52, 211, 153, 0.35)';
+          // The configured style palette controls this cross; Style 4 supplies its approved gold line.
+          ctx.strokeStyle = palette?.goldLine ?? 'rgba(52, 211, 153, 0.35)';
           ctx.beginPath();
           ctx.moveTo(cx - 25, cy);
           ctx.lineTo(cx + 25, cy);
