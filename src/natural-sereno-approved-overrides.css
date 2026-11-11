@@ -2019,3 +2019,31 @@
   color: #2A2421 !important;
   background: #A87E37 !important;
 }
+
+
+/* RUN 159 — Diário de histórico: manter os estados sem ocre/emerald saturados.
+   Os tons continuam semânticos, mas passam a usar variações naturais e discretas
+   exclusivas do Natural Sereno. Nenhum registro ou classificação é alterado. */
+:root[data-layout="natural-sereno"] #journal-dashboard-view span[class*="bg-[#B88736]/10"] {
+  color: #A87E37 !important;
+  background: rgba(200,157,82,.10) !important;
+  border-color: rgba(200,157,82,.24) !important;
+}
+
+:root[data-layout="natural-sereno"] #journal-dashboard-view .border-rose-200.bg-rose-50.text-rose-700 {
+  color: #8A6258 !important;
+  background: #F7F0EC !important;
+  border-color: #E7D8D2 !important;
+}
+
+:root[data-layout="natural-sereno"] #journal-dashboard-view .border-amber-200.bg-amber-50.text-amber-700 {
+  color: #8A6B43 !important;
+  background: #F5EFE5 !important;
+  border-color: #E8E0D5 !important;
+}
+
+:root[data-layout="natural-sereno"] #journal-dashboard-view .border-emerald-200.bg-emerald-50.text-emerald-700 {
+  color: #5E6948 !important;
+  background: #F0F2EB !important;
+  border-color: #D9DDCF !important;
+}
