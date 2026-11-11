@@ -62,11 +62,10 @@ test('the neutral chooser layer does not alter the approved public Reintegraçã
 test('the Místico Moderno preview keeps natural sage out of standalone palette swatches', () => {
   const modal = read('src/components/LayoutChoiceModal.tsx');
 
-  assert.doesNotMatch(modal, /#6F8F55/i,
-    'Natural Sereno sage may appear only inside approved nature imagery, not as a standalone Style 4 swatch.');
-  assert.equal((modal.match(/#141F30/g) || []).length, 2,
-    'Both Style 4 swatch rows must use the approved deep-night tone instead of the sage remnant.');
-  assert.match(modal, /'#0A2742', '#2E3B73', '#1E6B5A', '#6C3FA0', '#D4AF37', '#E2B96B', '#F4F1EB', '#141F30'/);
+  assert.doesNotMatch(modal, /#6F8F55|#1E6B5A/i,
+    'Standalone sage/emerald swatches are not allowed in Style 4; emerald is reserved for natural imagery.');
+  assert.match(modal, /\['#0A2742', '#2E3B73', '#6C3FA0', '#D4AF37', '#E2B96B', '#F4F1EB', '#141F30'\]/,
+    'The Style 4 swatch row must use only the approved night, indigo, violet, gold, amber and ivory palette.');
 });
 
 test('the Místico Moderno chooser uses the verified official 4:3 board preview asset', () => {
