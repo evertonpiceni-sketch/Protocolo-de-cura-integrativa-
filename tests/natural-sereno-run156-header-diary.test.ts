@@ -14,9 +14,19 @@ test('RUN 156 — a barra do navegador usa o marfim da pré-seleção', () => {
   assert.match(app, /const themeColor = selected\?\.swatches\[0\] \?\? '#FAF7F2';/);
 });
 
-test('RUN 156 — o logo do cabeçalho permanece transparente e sem halo', () => {
+test('RUN 161 — o logo do cabeçalho permanece transparente e sem halo', () => {
   assert.match(app, /id="header-profile-avatar"/);
-  assert.match(css, /:root\[data-layout="natural-sereno"\] #header-profile-avatar\s*\{[^}]*background: transparent !important;[^}]*border-color: transparent !important;[^}]*box-shadow: none !important;/s);
+  assert.match(css, /:root\[data-layout="natural-sereno"\] #header-profile-avatar\s*\{[^}]*background: transparent !important;[^}]*border: 0 !important;[^}]*box-shadow: none !important;/s);
+});
+
+test('RUN 161 — a regra de maior especificidade não reintroduz disco, moldura ou halo no logo', () => {
+  const rule = css.match(/:root\[data-layout="natural-sereno"\] #main-header #header-profile-avatar\s*\{([^}]*)\}/s);
+  assert.ok(rule, 'regra específica do avatar do logo ausente');
+  assert.match(rule[1], /background:\s*transparent\s*!important/);
+  assert.match(rule[1], /border:\s*0\s*!important/);
+  assert.match(rule[1], /box-shadow:\s*none\s*!important/);
+  assert.doesNotMatch(css, /#main-header\s+\.border-indigo-500\\\/40\s*\{/);
+  assert.match(css, /#main-header \.ep-brand-signature\s*\{[^}]*opacity:\.30!important/s);
 });
 
 test('RUN 156 — o atalho Arcanjo não herda azul de outro estilo', () => {
