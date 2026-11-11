@@ -1983,11 +1983,6 @@
   border-radius: 14px !important;
   box-shadow: 0 8px 18px rgba(67,52,39,.08) !important;
 }
-:root[data-layout="natural-sereno"] #btn-export-journal:hover {
-  color: #FFFDF8 !important;
-  background: #A87E37 !important;
-}
-
 /* RUN 157 — refinar os controles de áudio do cabeçalho.
    O JSX ainda usa fundo âmbar/ocre legado nos botões de som e nos ícones do cabeçalho.
    A correção permanece exclusiva do Natural Sereno. */
