@@ -2123,3 +2123,63 @@
   outline: 2px solid rgba(168,126,55,.72) !important;
   outline-offset: 3px !important;
 }
+
+
+/* RUN 163 — Reintegração estática: remover resíduos de ouro antigo no Natural Sereno.
+   A tela de 21 dias já tinha shell, navegação e sessão imersiva corrigidos,
+   mas o cabeçalho interno, a barra de progresso, o cartão de voz, o aceite,
+   os detalhes e o roteiro ainda expunham utilitários antigos #B88736/#8F631E.
+   Esta camada altera somente a apresentação do Natural Sereno. */
+:root[data-layout="natural-sereno"] [data-ep-reintegration="true"] .ep-reintegration-luminous {
+  color: #2A2421 !important;
+  background: linear-gradient(145deg,#FFFDF8 0%,#FAF7F2 58%,#F3EBDD 100%) !important;
+}
+
+:root[data-layout="natural-sereno"] [data-ep-reintegration="true"] :is([class*="text-[#B88736]"],[class*="text-[#8F631E]"]) {
+  color: #A87E37 !important;
+}
+
+:root[data-layout="natural-sereno"] [data-ep-reintegration="true"] .ep-reintegration-luminous [class*="bg-[#B88736]"] {
+  background: linear-gradient(90deg,#A87E37,#E2B96B) !important;
+}
+
+:root[data-layout="natural-sereno"] [data-ep-reintegration="true"] .ep-reintegration-player-glow {
+  background: radial-gradient(circle at center,rgba(200,157,82,.12),transparent 42%) !important;
+}
+
+:root[data-layout="natural-sereno"] [data-ep-reintegration="true"] .ep-reintegration-player-voice-card {
+  color: #2A2421 !important;
+  background: rgba(255,253,248,.94) !important;
+  border-color: rgba(200,157,82,.28) !important;
+  box-shadow: 0 8px 22px rgba(67,52,39,.06) !important;
+}
+
+:root[data-layout="natural-sereno"] [data-ep-reintegration="true"] .ep-reintegration-progress-fill {
+  background: linear-gradient(90deg,#A87E37,#E2B96B) !important;
+}
+
+:root[data-layout="natural-sereno"] [data-ep-reintegration="true"] .ep-reintegration-acceptance input[type="checkbox"] {
+  accent-color: #C89D52 !important;
+}
+
+:root[data-layout="natural-sereno"] [data-ep-reintegration="true"] .ep-reintegration-details {
+  border-color: rgba(200,157,82,.24) !important;
+}
+
+:root[data-layout="natural-sereno"] [data-ep-reintegration="true"] .ep-reintegration-details [class*="border-[#B88736]"] {
+  border-color: rgba(200,157,82,.24) !important;
+}
+
+:root[data-layout="natural-sereno"] [data-ep-reintegration="true"] .ep-reintegration-footer {
+  border-top-color: rgba(200,157,82,.28) !important;
+}
+
+:root[data-layout="natural-sereno"] [data-ep-reintegration="true"] .ep-reintegration-script-card {
+  border-color: rgba(200,157,82,.24) !important;
+  background: rgba(255,253,248,.94) !important;
+}
+
+:root[data-layout="natural-sereno"] [data-ep-reintegration="true"] .ep-reintegration-script-card[aria-current="step"] {
+  border-color: #A87E37 !important;
+  background: #F5EFE5 !important;
+}
