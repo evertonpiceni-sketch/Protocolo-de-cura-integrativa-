@@ -9,6 +9,8 @@ test('assinatura oficial do Natural Sereno mantém opacidade aprovada de 30% em 
 
   assert.doesNotMatch(css, /opacity\s*:\s*\.26\b/);
   assert.ok(css.includes('opacity:.30!important;'));
+  assert.ok(css.includes(':root[data-layout="natural-sereno"] #main-header .ep-brand-signature-wrap {'));
+  assert.ok(css.includes('opacity:1!important;'));
   assert.ok(css.includes(':root[data-layout="natural-sereno"] #main-header .ep-brand-signature'));
   assert.ok(css.includes(':root[data-layout="natural-sereno"] .ep-care-onboarding-card .ep-brand-signature'));
   assert.ok(css.includes(':root[data-layout="natural-sereno"] :is(.approved-brand,[data-approved-brand],.ep-brand-signature,.ns-welcome-brand)'));
