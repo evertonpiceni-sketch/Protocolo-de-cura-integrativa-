@@ -54,7 +54,7 @@ test('RUN 174 removes residual green hover and saturated gold states from paymen
 });
 
 test('RUN 174 remains fully scoped to Essência Luminosa', () => {
-  const selectorLines = run174.split('\\n').map(line => line.trim()).filter(line => line.endsWith('{'));
+  const selectorLines = run174.split('\n').map(line => line.trim()).filter(line => line.endsWith('{'));
   assert.ok(selectorLines.length >= 7);
   assert.ok(selectorLines.every(line => line.startsWith(':root[data-layout="essencia-luminosa"]')));
   assert.ok(!run174.includes('data-layout="natural-sereno"'));
