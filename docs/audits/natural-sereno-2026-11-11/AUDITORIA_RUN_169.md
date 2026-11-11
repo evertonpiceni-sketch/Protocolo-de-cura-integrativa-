@@ -44,3 +44,10 @@
 - Reconciliação seletiva dos 12 commits divergentes da `main`; não fazer merge/rebase automático.
 
 Nenhum merge, deploy em Production, alteração de credenciais ou pagamento real foi realizado.
+
+
+## Verificações estáticas adicionais
+
+Após a intervenção, foram verificadas **18/18 condições de fonte**: camada final do acolhimento, fotografia, base creme/marfim, sobreposição clara, remoção do véu café escuro, enquadramento desktop, seletor sem pré-seleção, confirmação explícita, Home ativa, assinatura do logo, Marianne/autenticação/cache privado, política Solfeggio e ordem de importação das folhas CSS.
+
+Essas verificações inspecionam os arquivos versionados e **não substituem** a execução da suíte Node/TypeScript, TypeScript ou build, que continuam pendentes.
