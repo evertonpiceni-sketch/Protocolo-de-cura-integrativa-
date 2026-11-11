@@ -148,7 +148,7 @@
 :root[data-layout="natural-sereno"] #specific-treatment-modal :is(button,a)[class*="bg-emerald-9"]:hover { background:#A87E37!important; }
 :root[data-layout="natural-sereno"] #specific-treatment-modal .hover\:bg-slate-700:hover { background:#EEE4D3!important; color:#2A2421!important; }
 
-@media (max-width:640px) { :root[data-layout="natural-sereno"] #main-header .ep-brand-signature { opacity:.26!important; } }
+@media (max-width:640px) { :root[data-layout="natural-sereno"] #main-header .ep-brand-signature { opacity:.30!important; } }
 /* Reauditoria 2026-11-07 — Comunidade:
    manter a fotografia real, retirar o véu verde-floresta dominante e devolver
    superfícies marfim/café; o verde fica apenas em pequenos sinais semânticos. */
@@ -497,7 +497,7 @@
 }
 @media (max-width:640px) {
   :root[data-layout="natural-sereno"] .ep-care-onboarding-card .ep-brand-signature {
-    opacity:.26!important;
+    opacity:.30!important;
   }
 }
 
@@ -518,7 +518,7 @@
 }
 @media(max-width:640px) {
   :root[data-layout="natural-sereno"] :is(.approved-brand,[data-approved-brand],.ep-brand-signature,.ns-welcome-brand) {
-    opacity:.26!important;
+    opacity:.30!important;
   }
 }
 
@@ -533,7 +533,7 @@
 }
 @media(max-width:640px) {
   :root[data-layout="natural-sereno"] #auth-loading-view img {
-    opacity:.26!important;
+    opacity:.30!important;
   }
 }
 
