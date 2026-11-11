@@ -4,10 +4,10 @@ import test from 'node:test';
 import { PAYMENT_PLANS, paymentQuote } from '../src/lib/paymentCatalog';
 
 test('os acessos avulsos seguem os valores aprovados sem alterar os acompanhamentos individuais', () => {
-  assert.equal(PAYMENT_PLANS.jornada_7d.cents, 2500);
-  assert.equal(PAYMENT_PLANS.jornada_21d.cents, 5000);
-  assert.equal(paymentQuote('jornada_7d').cents, 2500);
-  assert.equal(paymentQuote('jornada_21d').cents, 5000);
+  assert.equal(PAYMENT_PLANS.jornada_7d.cents, 5990);
+  assert.equal(PAYMENT_PLANS.jornada_21d.cents, 9990);
+  assert.equal(paymentQuote('jornada_7d').cents, 5990);
+  assert.equal(paymentQuote('jornada_21d').cents, 9990);
   const catalog = fs.readFileSync('src/lib/paymentCatalog.ts', 'utf8');
   assert.ok(catalog.includes('7: 5990'));
   assert.ok(catalog.includes('21: 9990'));
@@ -16,8 +16,8 @@ test('os acessos avulsos seguem os valores aprovados sem alterar os acompanhamen
 test('os dois acessos avulsos aparecem no guia e no checkout', () => {
   const guide = fs.readFileSync('src/components/PlansValuesGuideModal.tsx', 'utf8');
   const checkout = fs.readFileSync('src/components/ProUpgradeModal.tsx', 'utf8');
-  assert.ok(guide.includes("priceFormatted: 'R$ 25,00'"));
-  assert.ok(guide.includes("priceFormatted: 'R$ 50,00'"));
+  assert.ok(guide.includes("priceFormatted: 'R$ 59,90'"));
+  assert.ok(guide.includes("priceFormatted: 'R$ 99,90'"));
   assert.ok(guide.includes("id: 'jornada_21d'"));
   assert.ok(checkout.includes("id: 'jornada_21d'"));
   assert.ok(checkout.includes('PAYMENT_PLANS.jornada_21d.cents / 100'));
