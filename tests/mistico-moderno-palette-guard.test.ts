@@ -48,6 +48,11 @@ test('the full-page Místico Moderno atmosphere no longer contains a detached gr
   const theme = read('src/approved-theme.css');
   const style4 = theme.match(/:root\[data-layout="mistico-moderno"\]\{([\s\S]*?)\n\}/)?.[1] ?? '';
 
-  assert.match(style4, /rgba\(108,63,160,\.08\)/);
-  assert.doesNotMatch(style4, /rgba\(30,107,90/i);
+  assert.match(style4, /--layout-accent-soft:rgba\(108,63,160,\.16\)/,
+    'The approved indigo-violet surface keeps its restrained violet accent.');
+  assert.match(style4, /--layout-indigo:#2E3B73/);
+  assert.match(style4, /--layout-gold:#D4AF37/);
+  assert.match(style4, /--layout-text:#F4F1EB/);
+  assert.doesNotMatch(style4, /rgba\(30,107,90/i,
+    'Emerald must not become a detached atmospheric wash.');
 });
