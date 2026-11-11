@@ -54,7 +54,13 @@ test('specific treatments use only the fixed approved 7-day and 21-day prices', 
 test('checkout binds account, validates provider confirmation and grants only once', async () => {
   const cwd = process.cwd(); const folder = fs.mkdtempSync(path.join(os.tmpdir(), 'payment-test-'));
   const originalApiKey = process.env.INFINITEPAY_API_KEY;
+  const originalVercelEnv = process.env.VERCEL_ENV;
+  const originalPublicAppUrl = process.env.PUBLIC_APP_URL;
+  const originalVercelProjectProductionUrl = process.env.VERCEL_PROJECT_PRODUCTION_URL;
   process.chdir(folder); process.env.NODE_ENV = 'test';
+  process.env.VERCEL_ENV = 'test';
+  process.env.PUBLIC_APP_URL = 'https://payments.test.example';
+  process.env.VERCEL_PROJECT_PRODUCTION_URL = 'protocolo-de-cura-integrativa.vercel.app';
   process.env.INFINITEPAY_API_KEY = 'test-only-infinitepay-key';
   for (const key of Object.keys(process.env)) if (/UPSTASH|KV_REST/.test(key)) delete process.env[key];
   const { getDb, initializeDb } = await import('../src/db');
@@ -91,6 +97,41 @@ test('checkout binds account, validates provider confirmation and grants only on
     assert.equal(calls[0].headers['X-Api-Key'], 'test-only-infinitepay-key');
     assert.equal(calls[0].body.items[0].price, paymentQuote('jornada_7d', 'PROMO20').cents);
     assert.equal(db.users[0].plan, 'free');
+
+    // Preview must never fall back to the production origin or send checkout callbacks there.
+    db.users.push({ id: 'missing-preview-url-owner', plan: 'free', profile: {} });
+    process.env.VERCEL_ENV = 'preview';
+    delete process.env.PUBLIC_APP_URL;
+    const callsBeforeMissingPreviewUrl = calls.length;
+    const missingPreviewUrl = await call('payment/create-checkout', {
+      productType: 'subscription', planId: 'jornada_7d', paymentMethod: 'pix'
+    }, 'missing-preview-url-owner');
+    assert.equal(missingPreviewUrl.status, 503);
+    assert.equal(calls.length, callsBeforeMissingPreviewUrl, 'Preview sem URL pública não chama a InfinitePay');
+    assert.equal(db.paymentOrders?.some(order => order.userId === 'missing-preview-url-owner') ?? false, false, 'Preview sem URL pública não cria pedido');
+
+    db.users.push({ id: 'production-origin-preview-owner', plan: 'free', profile: {} });
+    process.env.PUBLIC_APP_URL = 'https://protocolo-de-cura-integrativa.vercel.app';
+    const callsBeforeProductionOrigin = calls.length;
+    const productionOriginPreview = await call('payment/create-checkout', {
+      productType: 'subscription', planId: 'jornada_7d', paymentMethod: 'pix'
+    }, 'production-origin-preview-owner');
+    assert.equal(productionOriginPreview.status, 503);
+    assert.equal(calls.length, callsBeforeProductionOrigin, 'Preview apontando para Production não chama a InfinitePay');
+    assert.equal(db.paymentOrders?.some(order => order.userId === 'production-origin-preview-owner') ?? false, false, 'Preview apontando para Production não cria pedido');
+
+    db.users.push({ id: 'valid-preview-owner', plan: 'free', profile: {} });
+    process.env.PUBLIC_APP_URL = 'https://style4-preview.example.vercel.app';
+    const validPreviewCheckout = await call('payment/create-checkout', {
+      productType: 'subscription', planId: 'jornada_7d', paymentMethod: 'pix'
+    }, 'valid-preview-owner');
+    assert.equal(validPreviewCheckout.status, 200);
+    const validPreviewPayload = calls[calls.length - 1].body;
+    assert.ok(validPreviewPayload.redirect_url.startsWith('https://style4-preview.example.vercel.app/?payment_order='));
+    assert.equal(validPreviewPayload.webhook_url, 'https://style4-preview.example.vercel.app/api/webhooks/payment');
+
+    process.env.VERCEL_ENV = 'test';
+    process.env.PUBLIC_APP_URL = 'https://payments.test.example';
 
     // Um checkout de assinatura pendente não pode coexistir com um link de outro plano.
     db.users.push({ id: 'pending-owner', plan: 'free', profile: {} });
@@ -395,6 +436,12 @@ test('checkout binds account, validates provider confirmation and grants only on
   } finally {
     if (originalApiKey === undefined) delete process.env.INFINITEPAY_API_KEY;
     else process.env.INFINITEPAY_API_KEY = originalApiKey;
+    if (originalVercelEnv === undefined) delete process.env.VERCEL_ENV;
+    else process.env.VERCEL_ENV = originalVercelEnv;
+    if (originalPublicAppUrl === undefined) delete process.env.PUBLIC_APP_URL;
+    else process.env.PUBLIC_APP_URL = originalPublicAppUrl;
+    if (originalVercelProjectProductionUrl === undefined) delete process.env.VERCEL_PROJECT_PRODUCTION_URL;
+    else process.env.VERCEL_PROJECT_PRODUCTION_URL = originalVercelProjectProductionUrl;
     await new Promise<void>(r => server.close(() => r())); process.chdir(cwd); fs.rmSync(folder, { recursive: true, force: true });
   }
 });

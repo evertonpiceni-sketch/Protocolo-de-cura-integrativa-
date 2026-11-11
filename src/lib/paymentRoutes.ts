@@ -134,7 +134,26 @@ export function paymentRoutes(authenticate: any, limiter: any, providerFetch: ty
   const handle = () => process.env.INFINITEPAY_HANDLE || 'evertonterapeutareiki';
   const apiKey = () => process.env.INFINITEPAY_API_KEY?.trim() || '';
   const appUrl = () => {
-    const url = new URL(process.env.PUBLIC_APP_URL || 'https://protocolo-de-cura-integrativa.vercel.app');
+    const configured = process.env.PUBLIC_APP_URL?.trim();
+    const isPreview = process.env.VERCEL_ENV === 'preview';
+    if (isPreview && !configured) {
+      throw new Error('PUBLIC_APP_URL é obrigatória em Preview para impedir redirecionamento à Production.');
+    }
+    const url = new URL(configured || 'https://protocolo-de-cura-integrativa.vercel.app');
+    const configuredProductionHost = process.env.VERCEL_PROJECT_PRODUCTION_URL
+      ?.trim()
+      .replace(/^https?:\/\//i, '')
+      .split('/')[0]
+      .toLowerCase();
+    const productionHosts = new Set([
+      'protocolo-de-cura-integrativa.vercel.app',
+      'protocolodecuraintegrativa-evertonpiceni-sketch.vercel.app',
+      'protocolodecuraintegrativa-git-main-evertonpiceni-sketch.vercel.app',
+      configuredProductionHost
+    ].filter((host): host is string => Boolean(host)));
+    if (isPreview && productionHosts.has(url.hostname.toLowerCase())) {
+      throw new Error('Preview não pode usar o domínio de Production.');
+    }
     if (url.protocol !== 'https:' || url.username || url.password) throw new Error('URL pública inválida.');
     return url.origin;
   };
