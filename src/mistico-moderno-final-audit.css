@@ -174,3 +174,14 @@
     opacity: .26 !important;
   }
 }
+
+/* Resultado da anamnese: a borda inferior da fotografia permanece noturna,
+   sem o véu branco herdado do layout claro. */
+:root[data-layout="mistico-moderno"] .ep-home .ep-chakra-result-overlay {
+  background: linear-gradient(
+    to top,
+    rgba(10, 15, 24, 0.92) 0%,
+    rgba(10, 15, 24, 0.34) 48%,
+    rgba(10, 15, 24, 0) 100%
+  ) !important;
+}
