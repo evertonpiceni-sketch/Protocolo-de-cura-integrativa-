@@ -686,7 +686,7 @@ test('a cor da barra do navegador acompanha apenas o estilo explicitamente confi
   const html = read('index.html');
   assert.ok(html.includes('<meta name="theme-color" content="#F8F4EC" />'), 'O shell permanece neutro antes da escolha.');
   assert.ok(app.includes("document.querySelector<HTMLMetaElement>('meta[name=\"theme-color\"]')"));
-  assert.ok(app.includes("const themeColor = selected?.swatches[0] ?? '#F8F4EC';"));
+  assert.ok(app.includes("const themeColor = selected?.swatches[0] ?? '#F8F7F3';"));
   assert.ok(app.includes("metaThemeColor.setAttribute('content', themeColor);"));
   assert.ok(app.includes('const selected = layoutConfirmedThisSession'));
   assert.ok(layouts.includes("id: 'elegancia-profunda'"));
