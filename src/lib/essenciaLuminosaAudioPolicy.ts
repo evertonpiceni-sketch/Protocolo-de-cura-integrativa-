@@ -36,3 +36,18 @@ export function resolveAudioEnabledAfterFrequencySelection(
 ): boolean {
   return isEssenciaLuminosa ? currentAudioEnabled !== false : true;
 }
+
+
+/** Style 3 keeps its main-session ambience behind the global audio switch.
+ * Other layouts continue using their existing protocol-session policy.
+ */
+import type { ProtocolSessionPhase } from './protocolSessionAudioPolicy';
+import { shouldPlayProtocolSessionBackground } from './protocolSessionAudioPolicy';
+
+export function shouldPlayEssenciaLuminosaSessionBackground(
+  sessionPhase: ProtocolSessionPhase,
+  bgMusicType: string,
+  audioEnabled?: boolean
+): boolean {
+  return audioEnabled !== false && shouldPlayProtocolSessionBackground(sessionPhase, bgMusicType);
+}
