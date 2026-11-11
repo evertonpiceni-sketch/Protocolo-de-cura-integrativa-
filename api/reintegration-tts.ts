@@ -99,7 +99,7 @@ export default async function handler(req: any, res: any) {
 
     res.setHeader('Content-Type', 'audio/mpeg');
     res.setHeader('Content-Length', buffer.length);
-    // O CDN pode reutilizar o MP3 já sintetizado sem nova chamada ao TTS enquanto o texto e a voz forem idênticos.
+    // A resposta é privada e não pode ser armazenada em CDN; o cache permanece apenas em memória.
     res.setHeader('Cache-Control', 'private, no-store');
     res.setHeader('X-Reintegration-Voice', REINTEGRATION_VOICE.voiceId);
     res.setHeader('X-Reintegration-Audio-Cache', 'MISS');
