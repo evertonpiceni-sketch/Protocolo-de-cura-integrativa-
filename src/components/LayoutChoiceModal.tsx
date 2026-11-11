@@ -13,7 +13,7 @@ interface LayoutChoiceModalProps {
 }
 
 function LayoutPreview({ layout }: { layout: LayoutDefinition }) {
-  // A prévia do Estilo 3 usa a prancha oficial como referência visual aprovada.
+  // Cada estilo mantém sua própria prévia: Natural Sereno usa sua prancha sem recorte; os demais usam suas referências e paletas próprias.
   const isEssenciaLuminosa = layout.id === 'essencia-luminosa';
   const [canvas, accent, gold, surface] = layout.swatches;
   const foreground = layout.tone === 'dark' ? '#F4F1EB' : '#2A2420';
