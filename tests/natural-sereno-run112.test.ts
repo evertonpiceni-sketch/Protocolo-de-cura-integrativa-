@@ -33,9 +33,9 @@ test('prévia Natural Sereno mostra a paisagem e paleta atuais, mantendo a pranc
   assert.ok(preview.includes('/brand/natural-sereno/vale-amanhecer.webp'));
   assert.ok(preview.includes('NATURAL_SERENO_OFFICIAL_BOARD'));
   assert.ok(preview.includes('Prancha oficial de referência. Decisões posteriores prevalecem.'));
-  const actionStart = preview.indexOf('className="mt-3 inline-flex min-h-9 items-center rounded-[18px]');
-  const actionEnd = preview.indexOf('Iniciar jornada', actionStart);
-  const action = actionStart >= 0 && actionEnd > actionStart ? preview.slice(actionStart, actionEnd) : '';
+  const actionStart = chooser.indexOf('className="mt-3 inline-flex min-h-9 items-center rounded-[18px]');
+  const actionEnd = chooser.indexOf('Iniciar jornada', actionStart);
+  const action = actionStart >= 0 && actionEnd > actionStart ? chooser.slice(actionStart, actionEnd) : '';
   assert.ok(action, 'O CTA da prévia deve manter cantos premium de 18px.');
   assert.doesNotMatch(action, /rounded-full/);
   for (const color of ['#FAF7F2', '#F5EFE5', '#2A2421', '#C89D52', '#6F7B55']) {

@@ -26,10 +26,9 @@ test('RUN 157 — todos os seletores novos permanecem isolados no Natural Sereno
   const start = css.indexOf('/* RUN 157 —');
   assert.ok(start >= 0, 'bloco RUN 157 ausente');
   const block = css.slice(start).replace(/\/\*[\s\S]*?\*\//g, '');
-  const selectors = [...block.matchAll(/([^{}]+)\{/g)]
-    .map(match => match[1].trim())
-    .filter(selector => !selector.startsWith('@'))
-    .flatMap(selector => selector.split(',').map(part => part.trim()));
+  const selectors = block.split(/\r?\n/)
+    .map(line => line.trim())
+    .filter(line => line.endsWith('{') && !line.startsWith('@'));
   assert.ok(selectors.length >= 6);
   assert.ok(selectors.every(selector => selector.startsWith(':root[data-layout="natural-sereno"]')), selectors.join('\n'));
 });

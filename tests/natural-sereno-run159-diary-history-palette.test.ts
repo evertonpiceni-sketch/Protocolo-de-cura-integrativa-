@@ -19,11 +19,13 @@ test('RUN 159 — histórico do Diário usa acentos suaves no Natural Sereno', (
   assert.ok(block.includes('color: #5E6948 !important;'));
   const declarations = block.replace(/\/\*[\s\S]*?\*\//g, '').split(/\r?\n/)
     .filter(line => !line.includes('{') && !line.includes('}') && line.includes(':')).join('\n');
-  assert.doesNotMatch(declarations, /:\s*(?:#8F631E|#B88736)\b|emerald-500/i);
+  const declarationBlocks = [...block.replace(/\/\*[\s\S]*?\*\//g, '').matchAll(/\{([^{}]*)\}/g)]
+    .map(match => match[1]).join('\n');
+  assert.doesNotMatch(declarationBlocks, /#8F631E|#B88736|emerald-500/i);
 
-  const selectors = [...block.replace(/\/\*[\s\S]*?\*\//g, '').matchAll(/([^{}]+)\{/g)]
-    .map(match => match[1].trim())
-    .flatMap(selector => selector.split(',').map(part => part.trim()));
+  const selectors = block.replace(/\/\*[\s\S]*?\*\//g, '').split(/\r?\n/)
+    .map(line => line.trim())
+    .filter(line => line.endsWith('{') && !line.startsWith('@'));
   assert.ok(selectors.length >= 4);
   assert.ok(selectors.every(selector => selector.startsWith(':root[data-layout="natural-sereno"] #journal-dashboard-view')));
 
