@@ -63,3 +63,12 @@ O arquivo de teste foi revisado após a criação para corrigir a extração da 
 - Status checks: Vercel em `failure`; URL de status: https://vercel.com/evertonpiceni-sketch/protocolodecuraintegrativa/J1Rtmt67uoDE3M895dn5rbCr9eRp.
 - A verificação estática independente dos arquivos desta rodada passou em 10/10 condições de escopo/integração. Isso não substitui a execução da suíte Node/TypeScript, CI, build ou homologação renderizada.
 - A PR permanece aberta e em rascunho; nenhum merge, deploy de produção ou pagamento foi realizado.
+
+
+## Snapshot final após atualizar a PR
+
+- HEAD do registro: `fde73aeddc22b627fbe2de9eac1c7f984ffe6b61`.
+- PR #79: aberta, em rascunho, não mergeable; 267 commits à frente e 12 atrás de `main`.
+- GitHub Actions PR-triggered para o HEAD consultado: nenhuma execução.
+- Status combinado: Vercel `failure`, com destino indicando `build-rate-limit`.
+- A camada RUN 163 e os três testes estáticos permanecem no branch. Sem Preview READY confirmado.
