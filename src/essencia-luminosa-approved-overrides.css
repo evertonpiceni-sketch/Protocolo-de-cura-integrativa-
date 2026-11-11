@@ -1003,3 +1003,44 @@
 :root[data-layout="essencia-luminosa"] #specific-treatment-modal [class*="shadow-emerald-"] {
   box-shadow: 0 10px 24px var(--layout-gold-shadow) !important;
 }
+
+/* RUN 177 — Pausa Consciente, Ainda Há Algo em Mim e roteiro da Reintegração.
+   Os modais compartilhados mantêm sálvia como acento natural, mas não reintroduzem
+   o âmbar antigo #B88736 nem texto branco sobre ouro saturado no Estilo 3. */
+:root[data-layout="essencia-luminosa"] [data-ep-reintegration="true"] [data-ep-reintegration-modal="true"] [class*="text-[#B88736]"],
+:root[data-layout="essencia-luminosa"] [data-ep-reintegration="true"] [data-ep-reintegration-modal="true"] [class*="text-[#8F631E]"] {
+  color: var(--layout-gold-dark) !important;
+}
+:root[data-layout="essencia-luminosa"] [data-ep-reintegration="true"] [data-ep-reintegration-modal="true"] [class*="border-[#B88736]"] {
+  border-color: var(--layout-gold-border) !important;
+}
+:root[data-layout="essencia-luminosa"] [data-ep-reintegration="true"] [data-ep-reintegration-modal="true"] button[class*="bg-[#B88736]"],
+:root[data-layout="essencia-luminosa"] [data-ep-reintegration="true"] [data-ep-reintegration-modal="true"] button[class*="from-[#D6A756]"] {
+  background: var(--layout-gold-gradient) !important;
+  color: var(--layout-text) !important;
+  border-color: var(--layout-gold-border) !important;
+  box-shadow: 0 10px 24px var(--layout-gold-shadow) !important;
+}
+:root[data-layout="essencia-luminosa"] [data-ep-reintegration="true"] [data-ep-reintegration-modal="true"] [class*="shadow-[#B88736]"] {
+  box-shadow: 0 12px 28px var(--layout-gold-shadow) !important;
+}
+:root[data-layout="essencia-luminosa"] [data-ep-reintegration="true"] [data-ep-reintegration-modal="true"] :is(button,input,textarea):focus-visible {
+  outline: 2px solid color-mix(in srgb, var(--layout-gold) 62%, white) !important;
+  outline-offset: 3px;
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--layout-gold) 14%, transparent) !important;
+}
+:root[data-layout="essencia-luminosa"] [data-ep-reintegration="true"] [data-ep-reintegration-modal="true"] textarea:focus {
+  border-color: var(--layout-gold) !important;
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--layout-gold) 14%, transparent) !important;
+  outline: none !important;
+}
+:root[data-layout="essencia-luminosa"] [data-ep-reintegration="true"] [data-ep-reintegration-modal="true"] .ep-reintegration-script-card[aria-current="step"] {
+  border-color: var(--layout-gold-border) !important;
+  background: var(--layout-card) !important;
+}
+:root[data-layout="essencia-luminosa"] [data-ep-reintegration="true"] [data-ep-reintegration-modal="true"] .ep-reintegration-acceptance input[type="checkbox"] {
+  accent-color: var(--layout-gold) !important;
+}
+:root[data-layout="essencia-luminosa"] [data-ep-reintegration="true"] [data-ep-reintegration-modal="true"] .ep-reintegration-details > div > div[class*="border-[#B88736]"] {
+  border-color: var(--layout-gold-border) !important;
+}
