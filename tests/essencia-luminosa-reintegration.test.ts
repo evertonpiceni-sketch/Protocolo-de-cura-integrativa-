@@ -126,3 +126,28 @@ test('o botão Concluir dia neutraliza o verde e o dourado saturado globais na E
   assert.ok(rule.includes('border: 1px solid var(--layout-gold-border) !important;'));
   assert.doesNotMatch(rule, /#173d31|#f2dc98|#B88736/i);
 });
+
+test('os modais da Reintegração usam champagne suave e preservam sálvia no Estilo 3', () => {
+  const pause = fs.readFileSync('src/components/PausaConscienteLight.tsx', 'utf8');
+  const reflection = fs.readFileSync('src/components/AindaHaAlgoEmMimLight.tsx', 'utf8');
+  const selector = ':root[data-layout="essencia-luminosa"] [data-ep-reintegration="true"] [data-ep-reintegration-modal="true"]';
+  const run177 = css.slice(css.indexOf('/* RUN 177 —'));
+  assert.ok(journey.includes('<PausaConscienteLight />'));
+  assert.ok(journey.includes('<AindaHaAlgoEmMimLight onFinishReflection='));
+  assert.ok(pause.includes('bg-[#B88736]'));
+  assert.ok(reflection.includes('from-[#D6A756]'));
+  assert.ok(run177.includes(`${selector} [class*="text-[#B88736]"]`));
+  assert.ok(run177.includes(`${selector} [class*="border-[#B88736]"]`));
+  assert.ok(run177.includes(`${selector} button[class*="bg-[#B88736]"]`));
+  assert.ok(run177.includes(`${selector} button[class*="from-[#D6A756]"]`));
+  assert.ok(run177.includes(`${selector} :is(button,input,textarea):focus-visible`));
+  assert.ok(run177.includes(`${selector} textarea:focus`));
+  assert.ok(run177.includes(`${selector} .ep-reintegration-acceptance input[type="checkbox"]`));
+  assert.ok(run177.includes(`${selector} .ep-reintegration-script-card[aria-current="step"]`));
+  assert.ok(run177.includes(`${selector} .ep-reintegration-details > div > div[class*="border-[#B88736]"]`));
+  const scopedSelectors = run177.split('\n').map(line => line.trim()).filter(line => line.startsWith(':root[data-layout='));
+  assert.ok(scopedSelectors.length >= 8);
+  assert.ok(scopedSelectors.every(line => line.startsWith(':root[data-layout="essencia-luminosa"]')));
+  assert.ok(pause.includes('text-[#5E7153]'));
+  assert.ok(reflection.includes('text-[#5E7153]'));
+});
