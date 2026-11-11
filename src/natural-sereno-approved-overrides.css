@@ -2209,3 +2209,10 @@
   background: rgba(255,253,248,.92) !important;
   border-color: rgba(200,157,82,.22) !important;
 }
+
+:root[data-layout="natural-sereno"] #plans-modal [data-universal-core-benefit="true"] {
+  color: #6B625B !important;
+  background: #FBF8F2 !important;
+  border-color: rgba(200,157,82,.26) !important;
+  box-shadow: none !important;
+}
