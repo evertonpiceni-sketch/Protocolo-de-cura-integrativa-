@@ -24,7 +24,7 @@
 }
 
 :root[data-layout="mistico-moderno"] #pro-certificate-modal [class*="to-[#F3EBDD]"] {
-  --tw-gradient-to: rgba(8, 47, 50, .90) var(--tw-gradient-to-position) !important;
+  --tw-gradient-to: rgba(14, 24, 55, .90) var(--tw-gradient-to-position) !important;
 }
 
 :root[data-layout="mistico-moderno"] #pro-certificate-modal :is([class*="text-[#2A2420]"],[class*="text-[#5C5248]"]) {
