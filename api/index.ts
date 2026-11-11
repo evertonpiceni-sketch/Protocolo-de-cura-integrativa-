@@ -2,6 +2,7 @@ import app from "../server.js";
 import { initializeDb, getDb, saveDb } from "../src/db.js";
 import { acquireSharedDatabaseWriteLock } from "../src/lib/paymentRoutes.js";
 import { REINTEGRATION_DAYS } from "../src/data/reintegrationJourneyPublic.js";
+import { getReintegrationVoice } from "./reintegration-tts.js";
 import { ElevenLabsClient } from "elevenlabs";
 import bcrypt from "bcryptjs";
 import { protocolAudioCacheKey } from '../src/lib/ttsText.js';
@@ -10,7 +11,6 @@ const bootstrapAttempts = new Map<string, { count: number; resetAt: number }>();
 const reintegrationAudioCache = new Map<string, Buffer>();
 const reintegrationVoiceAttempts = new Map<string, { count: number; resetAt: number }>();
 const reintegrationCues = new Set(REINTEGRATION_DAYS.flatMap(day => day.audioCues.map(cue => cue.text.trim())));
-const REINTEGRATION_VOICE_ID = "21m00Tcm4TlvDq8ikWAM";
 
 function allowBootstrapAttempt(req: any) {
   const key = String(req.headers?.["x-forwarded-for"] || req.socket?.remoteAddress || "unknown").split(",")[0].trim();
@@ -61,12 +61,14 @@ async function serveReintegrationVoice(req: any, res: any) {
   // A Reintegração usa exclusivamente a voz neural oficial aprovada. Não oferecer
   // fallback de speechSynthesis/voz do dispositivo, que reintroduziria voz robótica.
   const spokenText = text;
-  const cacheKey = protocolAudioCacheKey(`reintegration_v5_${day}_${REINTEGRATION_VOICE_ID}`, 1, spokenText);
+  const voice = getReintegrationVoice(req.body?.layout);
+  // Inclui a voz no cache para nunca reutilizar Rachel em uma sessão da Essência Luminosa.
+  const cacheKey = protocolAudioCacheKey(`reintegration_v6_${day}_${voice.voiceId}`, 1, spokenText);
   const cached = reintegrationAudioCache.get(cacheKey);
   if (cached) {
     res.setHeader("Content-Type", "audio/mpeg");
     res.setHeader("Cache-Control", "public, max-age=31536000, s-maxage=31536000, immutable");
-    res.setHeader("X-Reintegration-Voice", REINTEGRATION_VOICE_ID);
+    res.setHeader("X-Reintegration-Voice", voice.voiceId);
     res.setHeader("X-Reintegration-Audio-Cache", "HIT");
     return res.send(cached);
   }
@@ -74,10 +76,15 @@ async function serveReintegrationVoice(req: any, res: any) {
   try {
     const client = new ElevenLabsClient({ apiKey });
     const audioStream = await client.generate({
-      voice: REINTEGRATION_VOICE_ID,
-      model_id: "eleven_multilingual_v2",
+      voice: voice.voiceId,
+      model_id: voice.modelId,
       text: prepareReintegrationText(spokenText),
-      voice_settings: { stability: 0.46, similarity_boost: 0.8, style: 0.08, use_speaker_boost: true }
+      voice_settings: {
+        stability: voice.stability,
+        similarity_boost: voice.similarityBoost,
+        style: voice.style,
+        use_speaker_boost: voice.useSpeakerBoost
+      }
     });
     const chunks: Buffer[] = [];
     for await (const chunk of audioStream as any) chunks.push(Buffer.isBuffer(chunk) ? chunk : Buffer.from(chunk));
@@ -88,7 +95,7 @@ async function serveReintegrationVoice(req: any, res: any) {
     res.setHeader("Content-Type", "audio/mpeg");
     res.setHeader("Content-Length", buffer.length);
     res.setHeader("Cache-Control", "public, max-age=31536000, s-maxage=31536000, immutable");
-    res.setHeader("X-Reintegration-Voice", REINTEGRATION_VOICE_ID);
+    res.setHeader("X-Reintegration-Voice", voice.voiceId);
     res.setHeader("X-Reintegration-Audio-Cache", "MISS");
     return res.send(buffer);
   } catch (error: any) {
