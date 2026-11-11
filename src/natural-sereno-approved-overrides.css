@@ -2343,3 +2343,12 @@
   background: linear-gradient(90deg,#C89D52,#A87E37) !important;
   border-radius: inherit !important;
 }
+
+
+/* RUN 171 — canvas externo da Reintegração: alinhar o shell ao marfim aprovado.
+   O conteúdo interno já tinha overrides; o contêiner de 21 dias ainda herdava
+   #F8F4EC do componente compartilhado. A regra é exclusiva do Natural Sereno. */
+:root[data-layout="natural-sereno"] [data-ep-reintegration="true"].ep-reintegration-shell {
+  color: #2A2421 !important;
+  background: #FAF7F2 !important;
+}
