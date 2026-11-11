@@ -38,13 +38,15 @@ test('InfinitePay exige API Key para links single_payment e falha fechado sem cr
   delete process.env.UPSTASH_REDIS_REST_REST_API_TOKEN;
   process.env.INFINITEPAY_HANDLE = 'evertonterapeutareiki';
   let providerCalls = 0;
+  let lastProviderPayload: any;
   try {
     const { initializeDb, getDb } = await import('../src/db.js');
     const { paymentRoutes } = await import('../src/lib/paymentRoutes.js');
     await initializeDb();
     getDb().users.push({ id: 'owner', plan: 'free', profile: {} });
-    const provider = async () => {
+    const provider = async (_input: any, init?: any) => {
       providerCalls += 1;
+      lastProviderPayload = JSON.parse(String(init?.body || '{}'));
       return new Response(JSON.stringify({ url: 'https://checkout.infinitepay.io/test' }), { status: 200 });
     };
     const app = express();
@@ -91,6 +93,32 @@ test('InfinitePay exige API Key para links single_payment e falha fechado sem cr
     assert.equal(productionOriginInPreview.status, 503);
     assert.equal(providerCalls, 0);
     assert.equal(getDb().paymentOrders?.length || 0, 0);
+
+    // Preview must not silently fall back to the production InfinitePay handle.
+    process.env.PUBLIC_APP_URL = 'https://essencia-luminosa-preview.vercel.app';
+    delete process.env.INFINITEPAY_HANDLE;
+    const missingPreviewHandle = await fetch(`http://127.0.0.1:${address.port}/api/payment/create-checkout`, {
+      method: 'POST',
+      headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({ productType: 'subscription', planId: 'jornada_7d', paymentMethod: 'pix' })
+    });
+    assert.equal(missingPreviewHandle.status, 503);
+    assert.equal(providerCalls, 0);
+    assert.equal(getDb().paymentOrders?.length || 0, 0);
+
+    // With an explicit Preview handle, redirect and webhook stay on the Preview origin.
+    process.env.INFINITEPAY_HANDLE = 'essencia-luminosa-preview';
+    const configuredPreviewHandle = await fetch(`http://127.0.0.1:${address.port}/api/payment/create-checkout`, {
+      method: 'POST',
+      headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({ productType: 'subscription', planId: 'jornada_7d', paymentMethod: 'pix' })
+    });
+    assert.equal(configuredPreviewHandle.status, 200);
+    assert.equal(providerCalls, 1);
+    assert.equal(lastProviderPayload.handle, 'essencia-luminosa-preview');
+    assert.ok(lastProviderPayload.redirect_url.startsWith('https://essencia-luminosa-preview.vercel.app/'));
+    assert.ok(lastProviderPayload.webhook_url.startsWith('https://essencia-luminosa-preview.vercel.app/'));
+    assert.equal(getDb().paymentOrders?.length, 1);
   } finally {
     if (server) await new Promise<void>(resolve => server.close(resolve));
     process.chdir(cwd);
