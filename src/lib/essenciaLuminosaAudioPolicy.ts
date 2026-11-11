@@ -1,3 +1,6 @@
+import type { ProtocolSessionPhase } from './protocolSessionAudioPolicy';
+import { shouldPlayProtocolSessionBackground } from './protocolSessionAudioPolicy';
+
 export interface EssenciaLuminosaInlineSolfeggioState {
   isOpen: boolean;
   enabled: boolean;
@@ -41,9 +44,6 @@ export function resolveAudioEnabledAfterFrequencySelection(
 /** Style 3 keeps its main-session ambience behind the global audio switch.
  * Other layouts continue using their existing protocol-session policy.
  */
-import type { ProtocolSessionPhase } from './protocolSessionAudioPolicy';
-import { shouldPlayProtocolSessionBackground } from './protocolSessionAudioPolicy';
-
 export function shouldPlayEssenciaLuminosaSessionBackground(
   sessionPhase: ProtocolSessionPhase,
   bgMusicType: string,
