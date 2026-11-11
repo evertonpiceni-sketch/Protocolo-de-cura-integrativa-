@@ -174,9 +174,20 @@ export function paymentRoutes(authenticate: any, limiter: any, providerFetch: ty
     if (url.protocol !== 'https:' || url.username || url.password) throw new Error('URL pública inválida.');
     return url.origin;
   };
+  const checkoutConfigReady = () => {
+    try {
+      apiKey();
+      handle();
+      appUrl();
+      return true;
+    } catch {
+      return false;
+    }
+  };
   async function provider(path: string, body: unknown) {
     const headers: Record<string, string> = { 'Content-Type': 'application/json' };
-    headers['X-Api-Key'] = apiKey();
+    const key = apiKey();
+    headers['X-Api-Key'] = key;
     const response = await providerFetch(API + path, { method: 'POST', headers, body: JSON.stringify(body), signal: AbortSignal.timeout(15000) });
     if (!response.ok) throw new Error('O provedor não conseguiu processar o pagamento agora.');
     return response.json();
@@ -257,7 +268,7 @@ export function paymentRoutes(authenticate: any, limiter: any, providerFetch: ty
       }
     } catch (error) { return res.status(400).json({ error: (error as Error).message }); }
 
-    if (!apiKey()) return res.status(503).json({ error: 'Pagamento temporariamente indisponível. A configuração segura do checkout precisa ser concluída.' });
+    if (!checkoutConfigReady()) return res.status(503).json({ error: 'Pagamento temporariamente indisponível. A configuração segura do checkout precisa ser concluída.' });
 
     try {
       {

@@ -4,7 +4,11 @@ import express from 'express';
 import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
+import { fileURLToPath } from 'node:url';
 import { paymentQuote, PAYMENT_PLANS, specificTreatmentCouponDiscount, specificTreatmentQuote } from '../src/lib/paymentCatalog';
+
+const repoRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
+const readRepoFile = (relativePath: string) => fs.readFileSync(path.join(repoRoot, relativePath), 'utf8');
 
 test('payment prices are authoritative for every approved plan and coupon', () => {
   assert.equal(PAYMENT_PLANS.jornada_7d.cents, 5990);
@@ -30,8 +34,8 @@ test('specific treatment coupons accept only the current approved promotional co
   for (const code of ['CURA10', 'PAZ10', 'PAZ20', 'CURA20', 'GRATIDAO', 'PROMO30', 'CURA30', 'PICENI50', 'VIP50', 'VIP7']) {
     assert.equal(specificTreatmentCouponDiscount(code), null);
   }
-  const modal = fs.readFileSync('src/components/SpecificTreatmentModal.tsx', 'utf8');
-  const routes = fs.readFileSync('src/lib/paymentRoutes.ts', 'utf8');
+  const modal = readRepoFile('src/components/SpecificTreatmentModal.tsx');
+  const routes = readRepoFile('src/lib/paymentRoutes.ts');
   assert.ok(modal.includes('specificTreatmentCouponDiscount(rawCode)'));
   assert.ok(modal.includes('Ex.: PROMO15, PROMO20'));
   assert.ok(routes.includes('specificTreatmentQuote(durationDays, code)'));
@@ -46,7 +50,7 @@ test('specific treatments use only the fixed approved 7-day and 21-day prices', 
   assert.equal(specificTreatmentQuote(21, 'PROMO20').cents, 7992);
   assert.throws(() => specificTreatmentQuote(1));
   assert.throws(() => specificTreatmentQuote(7, 'VIP7'));
-  const modal = fs.readFileSync('src/components/SpecificTreatmentModal.tsx', 'utf8');
+  const modal = readRepoFile('src/components/SpecificTreatmentModal.tsx');
   assert.ok(modal.includes('useState<7 | 21>(21)'));
   assert.ok(!modal.includes('isCustomPrice'));
   assert.ok(!modal.includes('customPriceInput'));
@@ -55,7 +59,10 @@ test('specific treatments use only the fixed approved 7-day and 21-day prices', 
 });
 
 test('checkout binds account, validates provider confirmation and grants only once', async () => {
-  const cwd = process.cwd(); const folder = fs.mkdtempSync(path.join(os.tmpdir(), 'payment-test-'));
+  const folder = fs.mkdtempSync(path.join(os.tmpdir(), 'payment-test-'));
+  const originalLocalDatabaseFile = process.env.LOCAL_DATABASE_FILE;
+  const originalNodeEnv = process.env.NODE_ENV;
+  const originalPersistenceEnv = Object.fromEntries(Object.entries(process.env).filter(([key]) => /UPSTASH|KV_REST/.test(key)));
   const originalApiKey = process.env.INFINITEPAY_API_KEY;
   const originalHandle = process.env.INFINITEPAY_HANDLE;
   const originalPreviewApiKey = process.env.INFINITEPAY_PREVIEW_API_KEY;
@@ -64,7 +71,8 @@ test('checkout binds account, validates provider confirmation and grants only on
   const originalPublicAppUrl = process.env.PUBLIC_APP_URL;
   const originalVercelUrl = process.env.VERCEL_URL;
   const originalVercelProjectProductionUrl = process.env.VERCEL_PROJECT_PRODUCTION_URL;
-  process.chdir(folder); process.env.NODE_ENV = 'test';
+  process.env.LOCAL_DATABASE_FILE = path.join(folder, 'database.json');
+  process.env.NODE_ENV = 'test';
   process.env.VERCEL_ENV = 'test';
   process.env.PUBLIC_APP_URL = 'https://payments.test.example';
   process.env.VERCEL_PROJECT_PRODUCTION_URL = 'protocolo-de-cura-integrativa.vercel.app';
@@ -109,10 +117,14 @@ test('checkout binds account, validates provider confirmation and grants only on
     assert.equal(calls[0].body.items[0].price, paymentQuote('jornada_7d', 'PROMO20').cents);
     assert.equal(db.users[0].plan, 'free');
 
-    // Preview must never fall back to the production origin or send checkout callbacks there.
-    db.users.push({ id: 'missing-preview-url-owner', plan: 'free', profile: {} });
+    // Preview must validate its own credentials and origin before creating any pending order.
     process.env.VERCEL_ENV = 'preview';
+    process.env.INFINITEPAY_PREVIEW_API_KEY = 'preview-only-infinitepay-key';
+    process.env.INFINITEPAY_PREVIEW_HANDLE = 'style4-preview-handle';
+
+    db.users.push({ id: 'missing-preview-url-owner', plan: 'free', profile: {} });
     delete process.env.PUBLIC_APP_URL;
+    delete process.env.VERCEL_URL;
     const callsBeforeMissingPreviewUrl = calls.length;
     const missingPreviewUrl = await call('payment/create-checkout', {
       productType: 'subscription', planId: 'jornada_7d', paymentMethod: 'pix'
@@ -133,6 +145,7 @@ test('checkout binds account, validates provider confirmation and grants only on
 
     db.users.push({ id: 'missing-preview-credentials-owner', plan: 'free', profile: {} });
     process.env.PUBLIC_APP_URL = 'https://style4-preview.example.vercel.app';
+    delete process.env.INFINITEPAY_PREVIEW_API_KEY;
     const callsBeforeMissingPreviewCredentials = calls.length;
     const missingPreviewCredentials = await call('payment/create-checkout', {
       productType: 'subscription', planId: 'jornada_7d', paymentMethod: 'pix'
@@ -141,9 +154,19 @@ test('checkout binds account, validates provider confirmation and grants only on
     assert.equal(calls.length, callsBeforeMissingPreviewCredentials, 'Preview sem credenciais próprias não chama a InfinitePay');
     assert.equal(db.paymentOrders?.some(order => order.userId === 'missing-preview-credentials-owner') ?? false, false, 'Preview sem credenciais próprias não cria pedido');
 
+    db.users.push({ id: 'missing-preview-handle-owner', plan: 'free', profile: {} });
+    process.env.INFINITEPAY_PREVIEW_API_KEY = 'preview-only-infinitepay-key';
+    delete process.env.INFINITEPAY_PREVIEW_HANDLE;
+    const callsBeforeMissingPreviewHandle = calls.length;
+    const missingPreviewHandle = await call('payment/create-checkout', {
+      productType: 'subscription', planId: 'jornada_7d', paymentMethod: 'pix'
+    }, 'missing-preview-handle-owner');
+    assert.equal(missingPreviewHandle.status, 503);
+    assert.equal(calls.length, callsBeforeMissingPreviewHandle, 'Preview sem handle próprio não chama a InfinitePay');
+    assert.equal(db.paymentOrders?.some(order => order.userId === 'missing-preview-handle-owner') ?? false, false, 'Preview sem handle próprio não cria pedido');
+
     db.users.push({ id: 'valid-preview-owner', plan: 'free', profile: {} });
     process.env.INFINITEPAY_PREVIEW_HANDLE = 'style4-preview-handle';
-    process.env.INFINITEPAY_PREVIEW_API_KEY = 'preview-only-infinitepay-key';
     const validPreviewCheckout = await call('payment/create-checkout', {
       productType: 'subscription', planId: 'jornada_7d', paymentMethod: 'pix'
     }, 'valid-preview-owner');
@@ -485,13 +508,18 @@ test('checkout binds account, validates provider confirmation and grants only on
     else process.env.VERCEL_URL = originalVercelUrl;
     if (originalVercelProjectProductionUrl === undefined) delete process.env.VERCEL_PROJECT_PRODUCTION_URL;
     else process.env.VERCEL_PROJECT_PRODUCTION_URL = originalVercelProjectProductionUrl;
-    await new Promise<void>(r => server.close(() => r())); process.chdir(cwd); fs.rmSync(folder, { recursive: true, force: true });
+    if (originalLocalDatabaseFile === undefined) delete process.env.LOCAL_DATABASE_FILE;
+    else process.env.LOCAL_DATABASE_FILE = originalLocalDatabaseFile;
+    if (originalNodeEnv === undefined) delete process.env.NODE_ENV; else process.env.NODE_ENV = originalNodeEnv;
+    for (const key of Object.keys(process.env)) if (/UPSTASH|KV_REST/.test(key)) delete process.env[key];
+    Object.assign(process.env, originalPersistenceEnv);
+    await new Promise<void>(r => server.close(() => r())); fs.rmSync(folder, { recursive: true, force: true });
   }
 });
 
 
 test('checkout atualiza o snapshot Redis pelo helper compartilhado antes de deduplicar pedidos', () => {
-  const routes = fs.readFileSync('src/lib/paymentRoutes.ts', 'utf8');
+  const routes = readRepoFile('src/lib/paymentRoutes.ts');
   const helperStart = routes.indexOf('export async function acquireSharedDatabaseWriteLock');
   const helperEnd = routes.indexOf('export function paymentRoutes', helperStart);
   const helper = routes.slice(helperStart, helperEnd);
@@ -507,7 +535,7 @@ test('checkout atualiza o snapshot Redis pelo helper compartilhado antes de dedu
 
 
 test('checkout failure cleanup never writes a stale snapshot after losing the shared lock', () => {
-  const routes = fs.readFileSync('src/lib/paymentRoutes.ts', 'utf8');
+  const routes = readRepoFile('src/lib/paymentRoutes.ts');
   const cleanupMarker = routes.indexOf('if (order && !order.checkoutUrl && !providerRequestStarted && !recoveringExistingOrder && releaseStandardCheckoutLock)');
   assert.ok(cleanupMarker >= 0, 'cleanup do checkout deve permanecer identificável');
   const catchStart = routes.lastIndexOf('} catch {', cleanupMarker);

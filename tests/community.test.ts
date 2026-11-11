@@ -13,11 +13,16 @@ test('community blocks contact information and generates initials without exposi
 });
 
 test('real publication requires consent, protects pending text, enforces moderation and ownership', async () => {
-  const originalCwd = process.cwd();
   const folder = fs.mkdtempSync(path.join(os.tmpdir(), 'entre-nos-test-'));
+  const originalEnv = {
+    vercel: process.env.VERCEL,
+    nodeEnv: process.env.NODE_ENV,
+    localDatabaseFile: process.env.LOCAL_DATABASE_FILE,
+    persistence: Object.fromEntries(Object.entries(process.env).filter(([key]) => /UPSTASH|KV_REST|JWT_SECRET/.test(key)))
+  };
   process.env.VERCEL = '1'; process.env.NODE_ENV = 'test';
   for (const key of Object.keys(process.env)) if (/UPSTASH|KV_REST|JWT_SECRET/.test(key)) delete process.env[key];
-  process.chdir(folder);
+  process.env.LOCAL_DATABASE_FILE = path.join(folder, 'database.json');
   const { initializeDb, getDb } = await import('../src/db');
   await initializeDb();
   const { createApp } = await import('../server');
@@ -63,6 +68,11 @@ test('real publication requires consent, protects pending text, enforces moderat
     assert.equal((await (await call('/api/community', 'GET', undefined, admin)).json()).posts.length, 0);
   } finally {
     await new Promise<void>((resolve, reject) => server.close(err => err ? reject(err) : resolve()));
-    process.chdir(originalCwd); fs.rmSync(folder, { recursive: true, force: true });
+    if (originalEnv.vercel === undefined) delete process.env.VERCEL; else process.env.VERCEL = originalEnv.vercel;
+    if (originalEnv.nodeEnv === undefined) delete process.env.NODE_ENV; else process.env.NODE_ENV = originalEnv.nodeEnv;
+    if (originalEnv.localDatabaseFile === undefined) delete process.env.LOCAL_DATABASE_FILE; else process.env.LOCAL_DATABASE_FILE = originalEnv.localDatabaseFile;
+    for (const key of Object.keys(process.env)) if (/UPSTASH|KV_REST|JWT_SECRET/.test(key)) delete process.env[key];
+    Object.assign(process.env, originalEnv.persistence);
+    fs.rmSync(folder, { recursive: true, force: true });
   }
 });
