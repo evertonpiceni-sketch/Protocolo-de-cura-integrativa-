@@ -12,7 +12,8 @@
   box-shadow:none!important;
 }
 :root[data-layout="natural-sereno"] #main-header .ep-brand-signature:is(img) { max-width:100%; max-height:100%; }
-:root[data-layout="natural-sereno"] #main-header .border-indigo-500\/40 { border-color:rgba(200,157,82,.24)!important; background:rgba(251,248,242,.92)!important; box-shadow:0 6px 16px rgba(67,52,39,.06)!important; }
+/* The approved logo is a transparent, low-opacity signature — never a badge or medallion. */
+:root[data-layout="natural-sereno"] #main-header #header-profile-avatar { background:transparent!important; border:0!important; box-shadow:none!important; }
 
 
 /* Settings */
@@ -1933,7 +1934,7 @@
 /* O logo do cabeçalho permanece como assinatura: sem disco, moldura ou halo. */
 :root[data-layout="natural-sereno"] #header-profile-avatar {
   background: transparent !important;
-  border-color: transparent !important;
+  border: 0 !important;
   box-shadow: none !important;
 }
 :root[data-layout="natural-sereno"] #main-header [class*="text-[#e5c66f]"] {
