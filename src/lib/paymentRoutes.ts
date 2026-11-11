@@ -168,7 +168,7 @@ export function paymentRoutes(authenticate: any, limiter: any, providerFetch: ty
       'protocolodecuraintegrativa-git-main-evertonpiceni-sketch.vercel.app',
       configuredProductionHost
     ].filter((host): host is string => Boolean(host)));
-    if (isPreview && productionHosts.has(url.hostname.toLowerCase())) {
+    if (isPreview() && productionHosts.has(url.hostname.toLowerCase())) {
       throw new Error('Preview não pode usar o domínio de Production.');
     }
     if (url.protocol !== 'https:' || url.username || url.password) throw new Error('URL pública inválida.');
