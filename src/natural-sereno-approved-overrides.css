@@ -2352,3 +2352,102 @@
   color: #2A2421 !important;
   background: #FAF7F2 !important;
 }
+
+
+/* RUN 174 — Onboarding de primeira entrada: remover a chapa verde herdada do Estilo 3.
+   O fluxo e seus seis passos permanecem intactos; somente a superfície visual do
+   Natural Sereno é harmonizada com creme/marfim, café e dourado. */
+:root[data-layout="natural-sereno"] .ep-care-onboarding {
+  background: linear-gradient(180deg,#FAF7F2 0%,#F4EDE3 100%) !important;
+  color: #2A2421 !important;
+}
+
+:root[data-layout="natural-sereno"] .ep-care-onboarding-card {
+  background: linear-gradient(145deg,#FFFDF8 0%,#F5EFE4 100%) !important;
+  border-color: #E8E0D5 !important;
+  color: #2A2421 !important;
+  box-shadow: 0 24px 60px rgba(67,52,39,.12) !important;
+}
+
+:root[data-layout="natural-sereno"] .ep-care-onboarding-card > .pointer-events-none {
+  background: radial-gradient(circle at 50% 0,rgba(200,157,82,.14),transparent 70%) !important;
+}
+
+:root[data-layout="natural-sereno"] .ep-care-onboarding-card .ep-brand-signature-wrap {
+  width: 48px !important;
+  height: 48px !important;
+  margin-bottom: 1.5rem !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  overflow: visible !important;
+}
+
+:root[data-layout="natural-sereno"] .ep-care-onboarding-card .ep-brand-signature {
+  opacity: .30 !important;
+  filter: none !important;
+  mix-blend-mode: normal !important;
+  object-fit: contain !important;
+}
+
+:root[data-layout="natural-sereno"] .ep-care-onboarding-card :is(h1,h2,h3,h4) {
+  color: #2A2421 !important;
+}
+
+:root[data-layout="natural-sereno"] .ep-care-onboarding-card :is(p,span,label) {
+  color: #5C5248 !important;
+}
+
+:root[data-layout="natural-sereno"] .ep-care-onboarding-card [class*="text-[#d5ba78]"],
+:root[data-layout="natural-sereno"] .ep-care-onboarding-card [class*="text-[#e1c171]"] {
+  color: #8A642E !important;
+}
+
+:root[data-layout="natural-sereno"] .ep-care-onboarding-card [class*="text-[#eee6d4]"] {
+  color: #5C5248 !important;
+}
+
+:root[data-layout="natural-sereno"] .ep-care-onboarding-card [class*="text-[#cbbf9f]"] {
+  color: #6B625B !important;
+}
+
+:root[data-layout="natural-sereno"] .ep-care-onboarding-card .ep-gold-button {
+  min-height: 48px !important;
+  border: 1px solid rgba(168,126,55,.52) !important;
+  border-radius: 14px !important;
+  background-color: #C89D52 !important;
+  background-image: linear-gradient(180deg,#E2B96B,#C89D52) !important;
+  color: #2A2421 !important;
+  box-shadow: 0 8px 18px rgba(67,52,39,.09),inset 0 1px 0 rgba(255,255,255,.36) !important;
+}
+
+:root[data-layout="natural-sereno"] .ep-care-onboarding-card .ep-gold-button:hover {
+  background-color: #A87E37 !important;
+  background-image: linear-gradient(180deg,#C89D52,#A87E37) !important;
+}
+
+:root[data-layout="natural-sereno"] .ep-care-onboarding-card button:not(.ep-gold-button) {
+  min-height: 44px !important;
+  border-color: rgba(200,157,82,.34) !important;
+  background: #FBF8F2 !important;
+  color: #5C5248 !important;
+  box-shadow: 0 4px 12px rgba(67,52,39,.045) !important;
+}
+
+:root[data-layout="natural-sereno"] .ep-care-onboarding-card button[aria-pressed="true"] {
+  border-color: rgba(168,126,55,.58) !important;
+  background: rgba(200,157,82,.16) !important;
+  color: #2A2421 !important;
+}
+
+:root[data-layout="natural-sereno"] .ep-care-onboarding-card button:disabled {
+  background: #F5EFE4 !important;
+  color: #8B8177 !important;
+  opacity: .65 !important;
+}
+
+:root[data-layout="natural-sereno"] .ep-care-onboarding-card button:focus-visible {
+  outline: 2px solid #A87E37 !important;
+  outline-offset: 3px !important;
+}
