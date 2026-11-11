@@ -298,7 +298,8 @@ test('a Reintegração mantém o áudio neural dedicado aprovado e não recupera
   const journey = read('src/components/PersonalJourney21.tsx');
   const api = read('api/index.ts');
   assert.ok(journey.includes("fetch('/api/reintegration-tts'"));
-  assert.ok(api.includes('const REINTEGRATION_VOICE_ID = "21m00Tcm4TlvDq8ikWAM";'));
+  assert.ok(api.includes('const voice = getReintegrationVoice(req.body?.layout);'));
+  assert.ok(api.includes('voice: voice.voiceId'));
   assert.ok(!journey.includes('speechSynthesis'));
   assert.ok(journey.includes('Voz neural dedicada'));
 });
