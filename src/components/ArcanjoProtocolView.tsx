@@ -115,9 +115,10 @@ export default function ArcanjoProtocolView({ userProfile, onClose, onLogout, in
   const progressAccent = isMisticoModerno ? '#D4AF37' : '#c69b3d';
   const progressAccentLight = isMisticoModerno ? '#E2B96B' : config.corSecundaria;
   const progressGlow = isMisticoModerno ? '#D4AF37' : config.cor;
-  // Estilos 2 e 3 suspendem o Solfeggio durante a narração neural.
-  // O Estilo 4 usa voz neural com Solfeggio simultâneo; mantenha essa política separada.
-  const suspendsSolfeggioDuringNeuralNarration = isEleganciaProfunda || isEssenciaLuminosa;
+  // A política aprovada para narração neural nos Estilos 2, 3 e 4:
+  // Solfeggio fica suspenso durante a fala e retorna apenas na pausa ou após a narração.
+  const suspendsSolfeggioDuringNeuralNarration =
+    isEleganciaProfunda || isEssenciaLuminosa || isMisticoModerno;
   const stopProtocolFrequency = () => {
     if (isSolfeggioFrequency(audioEngine.getCurrentSynthType())) {
       audioEngine.stopBG();
@@ -282,7 +283,7 @@ export default function ArcanjoProtocolView({ userProfile, onClose, onLogout, in
     }
     setVoiceError(false);
     audioEngine.unlock();
-    // Style 4 starts Solfeggio only when the neural audio actually begins.
+    // Style 4 keeps Solfeggio off during neural speech; pause/end callbacks restore it.
     if (isMisticoModerno) stopProtocolFrequency();
     else prepareFrequencyForNarration();
     setIsPreparingAudio(true);
@@ -448,14 +449,16 @@ export default function ArcanjoProtocolView({ userProfile, onClose, onLogout, in
                 ? 'Áudio desativado — nenhuma frequência será reproduzida.'
                 : isMisticoModerno
                   ? voiceError
-                    ? `Voz neural indisponível — Solfeggio ${config.freq} Hz não foi iniciado.`
+                    ? `Voz neural indisponível — Solfeggio ${config.freq} Hz disponível sem narração.`
                     : isPreparingAudio
-                      ? `Preparando narração neural — Solfeggio ${config.freq} Hz aguardando o início da voz.`
+                      ? `Preparando narração neural — Solfeggio ${config.freq} Hz suspenso.`
                       : isPlaying
-                        ? `Narração neural + Solfeggio ${config.freq} Hz ativos`
-                        : hasStarted
-                          ? `Narração pausada — Solfeggio ${config.freq} Hz interrompido.`
-                          : `Pronto — Solfeggio ${config.freq} Hz será ativado somente quando a narração neural começar.`
+                        ? `Narração neural ativa — Solfeggio ${config.freq} Hz suspenso.`
+                        : isProtocolFrequencyActive
+                          ? `Solfeggio ${config.freq} Hz ativo durante a pausa ou após a narração.`
+                          : hasStarted
+                            ? `Narração pausada — Solfeggio ${config.freq} Hz suspenso.`
+                            : `Pronto — Solfeggio ${config.freq} Hz será ativado somente durante pausas ou após a narração.`
                   : suspendsSolfeggioDuringNeuralNarration
                     ? isPreparingAudio
                       ? `Preparando narração neural — Solfeggio ${config.freq} Hz suspenso.`
