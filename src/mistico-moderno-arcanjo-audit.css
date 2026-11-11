@@ -9,7 +9,7 @@
   background:
     radial-gradient(circle at 86% 8%, rgba(108, 63, 160, 0.16), transparent 30rem),
     radial-gradient(circle at 12% 88%, rgba(46, 59, 115, 0.18), transparent 28rem),
-    radial-gradient(circle at 88% 84%, rgba(30, 107, 90, 0.08), transparent 24rem),
+    radial-gradient(circle at 88% 84%, rgba(46, 59, 115, 0.12), transparent 24rem),
     linear-gradient(180deg, #0A2742 0%, #101827 58%, #080D16 100%) !important;
 }
 
