@@ -6,7 +6,7 @@
   background:
     radial-gradient(ellipse at -8% 24%,rgba(108,63,160,.12),transparent 24%),
     radial-gradient(ellipse at 108% 34%,rgba(212,175,55,.08),transparent 24%),
-    radial-gradient(ellipse at 50% 108%,rgba(22,101,82,.08),transparent 28%);
+    radial-gradient(ellipse at 50% 108%,rgba(108,63,160,.08),transparent 28%);
 }
 
 :root[data-layout="mistico-moderno"] #main-header{
@@ -114,7 +114,7 @@
 :root[data-layout="mistico-moderno"] #day-detail-modal [class*="text-[#85786C]"]{color:var(--text-secondary)!important;}
 :root[data-layout="mistico-moderno"] #day-detail-modal [class*="border-[#E5DAC6]"]{border-color:var(--border-subtle)!important;}
 :root[data-layout="mistico-moderno"] #day-detail-modal button[class*="bg-[#B88736]"]{background:var(--gold-gradient)!important;border-color:var(--gold-border)!important;color:#0A0F18!important;box-shadow:0 10px 24px var(--gold-shadow)!important;}
-:root[data-layout="mistico-moderno"] #day-detail-modal [class*="bg-emerald-50"]{background:rgba(22,101,82,.12)!important;border-color:rgba(62,151,121,.24)!important;color:var(--text-secondary)!important;}
+:root[data-layout="mistico-moderno"] #day-detail-modal [class*="bg-emerald-50"]{background:rgba(108,63,160,.14)!important;border-color:rgba(212,175,55,.24)!important;color:var(--text-secondary)!important;}
 
 :root[data-layout="mistico-moderno"] .ep-gold-button,
 :root[data-layout="mistico-moderno"] .ep-gold-action{background:var(--gold-gradient)!important;border-color:var(--gold-border)!important;box-shadow:0 12px 28px var(--gold-shadow)!important;}
