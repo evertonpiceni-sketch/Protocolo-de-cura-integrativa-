@@ -78,7 +78,7 @@
 :root[data-layout="mistico-moderno"] #anamnesis-modal [class*="bg-emerald-50"],
 :root[data-layout="mistico-moderno"] #anamnesis-modal [class*="bg-emerald-100"]{background:rgba(46,59,115,.22)!important;border-color:rgba(212,175,55,.24)!important;}
 :root[data-layout="mistico-moderno"] #anamnesis-modal [class*="bg-emerald-500/"],
-:root[data-layout="mistico-moderno"] #anamnesis-modal [class*="bg-emerald-600/"]{background:rgba(30,107,90,.16)!important;border-color:rgba(212,175,55,.24)!important;}
+:root[data-layout="mistico-moderno"] #anamnesis-modal [class*="bg-emerald-600/"]{background:rgba(108,63,160,.14)!important;border-color:rgba(212,175,55,.24)!important;}
 :root[data-layout="mistico-moderno"] #anamnesis-modal [class*="bg-emerald-600"]{background:linear-gradient(135deg,#D4AF37,#A87E37)!important;color:#0A0F18!important;}
 :root[data-layout="mistico-moderno"] #anamnesis-modal [class*="text-emerald-"]{color:#D8B96C!important;}
 :root[data-layout="mistico-moderno"] #anamnesis-modal [class*="border-emerald-"]{border-color:rgba(212,175,55,.28)!important;}
@@ -86,7 +86,7 @@
 :root[data-layout="mistico-moderno"] #anamnesis-modal .ep-anamnesis-progress-fill{background:linear-gradient(90deg,#6C3FA0 0%,#2E3B73 42%,#D4AF37 100%)!important;}
 
 :root[data-layout="mistico-moderno"] #systemic-questions-modal [class*="bg-emerald-50"],
-:root[data-layout="mistico-moderno"] #systemic-questions-modal [class*="bg-emerald-100"]{background:rgba(30,107,90,.14)!important;border-color:rgba(212,175,55,.24)!important;color:#D8B96C!important;}
+:root[data-layout="mistico-moderno"] #systemic-questions-modal [class*="bg-emerald-100"]{background:rgba(46,59,115,.22)!important;border-color:rgba(212,175,55,.24)!important;color:#D8B96C!important;}
 :root[data-layout="mistico-moderno"] #systemic-questions-modal [class*="text-emerald-"]{color:#D8B96C!important;}
 :root[data-layout="mistico-moderno"] #systemic-questions-modal [class*="border-emerald-"]{border-color:rgba(212,175,55,.28)!important;}
 :root[data-layout="mistico-moderno"] #systemic-questions-modal :is(.animate-ping,[class*="bg-emerald-400"],[class*="bg-emerald-500"]){background:#E2B96B!important;}
