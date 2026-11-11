@@ -1,6 +1,8 @@
 import { createHash } from 'node:crypto';
 import { ElevenLabsClient } from 'elevenlabs';
 import { REINTEGRATION_DAYS } from '../src/data/reintegrationJourneyPublic.js';
+import { getDb, initializeDb } from '../src/db.js';
+import { getAuthenticatedUserId } from '../src/lib/requestAuth.js';
 
 // Voz oficial aprovada para a Jornada Reintegração da Vida.
 // Manter estes parâmetros fixos evita variações entre os 21 dias.
@@ -17,8 +19,8 @@ const cache = new Map<string, Buffer>();
 const requestAttempts = new Map<string, { count: number; resetAt: number }>();
 const allowedCues = new Set(REINTEGRATION_DAYS.flatMap(day => day.audioCues.map(cue => cue.text.trim())));
 
-function allowVoiceAttempt(req: any) {
-  const key = String(req.headers?.['x-forwarded-for'] || req.socket?.remoteAddress || 'unknown').split(',')[0].trim();
+function allowVoiceAttempt(userId: string) {
+  const key = userId;
   const now = Date.now();
   const current = requestAttempts.get(key);
   if (!current || current.resetAt <= now) {
@@ -45,8 +47,18 @@ const cacheKeyFor = (text: string) => {
 };
 
 export default async function handler(req: any, res: any) {
+  res.setHeader('Cache-Control', 'private, no-store');
   if (req.method !== 'POST') return res.status(405).json({ error: 'Método não permitido.' });
-  if (!allowVoiceAttempt(req)) return res.status(429).json({ error: 'Limite temporário de voz atingido.', fallbackToSpeechSynthesis: false });
+  try {
+    await initializeDb();
+  } catch {
+    return res.status(503).json({ error: 'Serviço temporariamente indisponível.' });
+  }
+  const userId = getAuthenticatedUserId(req);
+  if (!userId || !getDb().users.some((user: any) => user.id === userId)) {
+    return res.status(401).json({ error: 'Não autorizado.' });
+  }
+  if (!allowVoiceAttempt(userId)) return res.status(429).json({ error: 'Limite temporário de voz atingido.', fallbackToSpeechSynthesis: false });
   try {
     const text = typeof req.body?.text === 'string' ? req.body.text.trim() : '';
     if (!text || !allowedCues.has(text)) return res.status(403).json({ error: 'Trecho não autorizado para esta jornada.' });
@@ -55,7 +67,7 @@ export default async function handler(req: any, res: any) {
     const cached = cache.get(cacheKey);
     if (cached) {
       res.setHeader('Content-Type', 'audio/mpeg');
-      res.setHeader('Cache-Control', 'public, max-age=31536000, s-maxage=31536000, immutable');
+      res.setHeader('Cache-Control', 'private, no-store');
       res.setHeader('X-Reintegration-Voice', REINTEGRATION_VOICE.voiceId);
       res.setHeader('X-Reintegration-Audio-Cache', 'HIT');
       return res.send(cached);
@@ -88,7 +100,7 @@ export default async function handler(req: any, res: any) {
     res.setHeader('Content-Type', 'audio/mpeg');
     res.setHeader('Content-Length', buffer.length);
     // O CDN pode reutilizar o MP3 já sintetizado sem nova chamada ao TTS enquanto o texto e a voz forem idênticos.
-    res.setHeader('Cache-Control', 'public, max-age=31536000, s-maxage=31536000, immutable');
+    res.setHeader('Cache-Control', 'private, no-store');
     res.setHeader('X-Reintegration-Voice', REINTEGRATION_VOICE.voiceId);
     res.setHeader('X-Reintegration-Audio-Cache', 'MISS');
     return res.send(buffer);
