@@ -11,14 +11,14 @@ test('Anamnesis keeps keyboard focus inside its modal in every layout, including
   const modal = read('src/components/AnamnesisModal.tsx');
   const focusHook = read('src/hooks/useDialogFocus.ts');
 
-  assert.match(modal, /id="anamnesis-modal" role="dialog" aria-modal="true"/);
-  assert.match(modal, /useDialogFocus\\(isOpen,\\s*dialogRef,\\s*\\(\\) => handleCloseModal\\(\\)\\)/);
-  assert.doesNotMatch(modal, /useDialogFocus\\(isOpen && naturalSereno/);
+  assert.ok(modal.includes('id="anamnesis-modal" role="dialog" aria-modal="true"'));
+  assert.ok(modal.includes('useDialogFocus(isOpen, dialogRef, () => handleCloseModal());'));
+  assert.ok(!modal.includes('useDialogFocus(isOpen && naturalSereno'));
 
-  assert.match(focusHook, /if \\(!open \\|\\| !ref\\.current\\) return/);
-  assert.match(focusHook, /event\\.key === 'Escape'/);
-  assert.match(focusHook, /event\\.key !== 'Tab'/);
-  assert.match(focusHook, /first\\.focus\\(\\)/);
-  assert.match(focusHook, /last\\.focus\\(\\)/);
-  assert.match(focusHook, /previous\\?\\.isConnected/);
+  assert.ok(focusHook.includes('if (!open || !ref.current) return'));
+  assert.ok(focusHook.includes("if (event.key === 'Escape'"));
+  assert.ok(focusHook.includes("if (event.key !== 'Tab') return"));
+  assert.ok(focusHook.includes('first.focus()'));
+  assert.ok(focusHook.includes('last.focus()'));
+  assert.ok(focusHook.includes('previous?.isConnected'));
 });
