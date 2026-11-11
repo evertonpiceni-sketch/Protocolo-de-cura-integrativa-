@@ -83,7 +83,7 @@ test('the Místico Moderno chooser uses the verified official 4:3 board preview 
 
 test('the React chooser shell stays neutral until an explicit style choice', () => {
   const modal = read('src/components/LayoutChoiceModal.tsx');
-  const shellLine = modal.split('\\n').find(line => line.includes('data-layout-choice-shell="true"'));
+  const shellLine = modal.split('\n').find(line => line.includes('data-layout-choice-shell="true"'));
 
   assert.ok(shellLine, 'Expected an identifiable neutral chooser shell.');
   assert.ok(shellLine.includes('border-[#E3DFD6]'));
