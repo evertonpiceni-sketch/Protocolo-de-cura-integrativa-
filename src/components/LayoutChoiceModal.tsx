@@ -17,10 +17,10 @@ function LayoutPreview({ layout }: { layout: LayoutDefinition }) {
   const isEssenciaLuminosa = layout.id === 'essencia-luminosa';
   const isMysticCard = layout.id === 'mistico-moderno';
   const [canvas, accent, gold, surface] = layout.swatches;
-  const foreground = layout.tone === 'dark' ? '#F4F1EB' : '#2A2420';
+  const foreground = layout.tone === 'dark' ? '#F4F1EB' : '#302E2A';
   const muted = layout.tone === 'dark' ? 'rgba(244,241,235,.68)' : 'rgba(42,36,32,.62)';
   const isNaturalSereno = layout.id === 'natural-sereno';
-  const previewBorder = layout.id === 'elegancia-profunda' ? 'rgba(212,175,119,.35)' : layout.id === 'mistico-moderno' ? 'rgba(108,63,160,.40)' : 'rgba(42,36,32,.10)';
+  const previewBorder = layout.id === 'elegancia-profunda' ? 'rgba(212,175,119,.35)' : layout.id === 'mistico-moderno' ? 'rgba(108,63,160,.40)' : 'rgba(48,46,42,.10)';
   if (isNaturalSereno) {
     return (
       <div
@@ -140,7 +140,7 @@ function LayoutPreview({ layout }: { layout: LayoutDefinition }) {
           )}
           <span
             className="mt-3 inline-flex rounded-full px-3 py-1 text-[8px] font-bold uppercase tracking-[.12em] shadow-sm"
-            style={{ background: actionBackground, color: '#2A2420' }}
+            style={{ background: actionBackground, color: '#302E2A' }}
           >
             Iniciar jornada
           </span>
@@ -178,7 +178,7 @@ export default function LayoutChoiceModal({ onSelect }: LayoutChoiceModalProps) 
   const selectedDefinition = OFFICIAL_LAYOUTS.find(layout => layout.id === selectedLayout);
   // Antes da escolha, o CTA permanece neutro. A cor do estilo só aparece após seleção explícita.
   const confirmButtonTone = !selectedLayout
-    ? 'bg-gradient-to-r from-[#A99B84] via-[#B7AD9D] to-[#817460] focus-visible:ring-[#817460]/40'
+    ? 'bg-gradient-to-r from-[#D8D4CB] via-[#C7C1B6] to-[#AFA99D] focus-visible:ring-[#85847B]/40'
     : selectedLayout === 'essencia-luminosa'
       ? 'bg-gradient-to-r from-[#D8C59B] via-[#C6A46A] to-[#E9DCC4] focus-visible:ring-[#C6A46A]/40'
       : selectedLayout === 'mistico-moderno'
@@ -188,16 +188,16 @@ export default function LayoutChoiceModal({ onSelect }: LayoutChoiceModalProps) 
   return (
     <div
       ref={dialogRef}
-      className="fixed inset-0 z-[160] flex items-start justify-center overflow-y-auto overscroll-contain bg-[#2A2420]/35 p-2 sm:p-5 backdrop-blur-md"
+      className="fixed inset-0 z-[160] flex items-start justify-center overflow-y-auto overscroll-contain bg-[#302E2A]/35 p-2 sm:p-5 backdrop-blur-md"
       role="dialog"
       aria-modal="true"
       aria-labelledby="layout-choice-title"
     >
-      <section className="my-2 w-full max-w-4xl rounded-[2rem] border border-[#E5DAC6] bg-[#FBF8F2] p-5 shadow-2xl sm:p-7">
+      <section data-layout-choice-shell="true" className="my-2 w-full max-w-4xl rounded-[2rem] border border-[#E3DFD6] bg-[#F8F7F3] p-5 shadow-2xl sm:p-7">
         <div className="mx-auto max-w-xl text-center">
-          <p className="text-xs font-semibold uppercase tracking-[.2em] text-[#817460]">4 estilos, uma mesma essência</p>
-          <h2 id="layout-choice-title" className="mt-2 font-display text-3xl text-[#2A2420]">Escolha o que mais toca você</h2>
-          <p className="mt-2 text-sm leading-relaxed text-[#5C5248]">
+          <p className="text-xs font-semibold uppercase tracking-[.2em] text-[#85847B]">4 estilos, uma mesma essência</p>
+          <h2 id="layout-choice-title" className="mt-2 font-display text-3xl text-[#302E2A]">Escolha o que mais toca você</h2>
+          <p className="mt-2 text-sm leading-relaxed text-[#625E56]">
             Veja a prévia de cada atmosfera, selecione uma opção e confirme. A jornada, os conteúdos e seus dados permanecem iguais.
           </p>
         </div>
@@ -210,22 +210,22 @@ export default function LayoutChoiceModal({ onSelect }: LayoutChoiceModalProps) 
             const selectionClasses = isEssenciaCard
               ? isSelected
                 ? 'border-[#C6A46A] ring-2 ring-[#C6A46A]/20 shadow-lg'
-                : 'border-[#E5DAC6] hover:border-[#C6A46A]/60'
+                : 'border-[#E3DFD6] hover:border-[#C6A46A]/60'
               : isMysticCard
                 ? isSelected
                   ? 'border-[#D4AF37] ring-2 ring-[#6C3FA0]/35 shadow-lg shadow-[#0A0F18]/40'
                   : 'border-[#6C3FA0]/40 hover:border-[#D4AF37]/70'
                 : isSelected
                   ? 'border-[#B88736] ring-2 ring-[#B88736]/20 shadow-lg'
-                  : 'border-[#E5DAC6] hover:border-[#B88736]/60';
+                  : 'border-[#E3DFD6] hover:border-[#B88736]/60';
             const focusRingClass = isEssenciaCard
               ? 'focus-visible:ring-[#C6A46A]/35'
               : isMysticCard
                 ? 'focus-visible:ring-[#D4AF37]/45'
                 : 'focus-visible:ring-[#B88736]/35';
             const cardBackgroundClass = isMysticCard ? 'bg-[#0A2742]' : 'bg-white/85';
-            const cardHeadingClass = isMysticCard ? 'text-[#F4F1EB]' : 'text-[#2A2420]';
-            const cardDescriptionClass = isMysticCard ? 'text-[#D5DCE7]' : 'text-[#5C5248]';
+            const cardHeadingClass = isMysticCard ? 'text-[#F4F1EB]' : 'text-[#302E2A]';
+            const cardDescriptionClass = isMysticCard ? 'text-[#D5DCE7]' : 'text-[#625E56]';
             return (
               <button
                 key={layout.id}
@@ -240,7 +240,7 @@ export default function LayoutChoiceModal({ onSelect }: LayoutChoiceModalProps) 
                     <h3 className={`font-display text-xl font-semibold ${cardHeadingClass}`}>{layout.name}</h3>
                     <p className={`mt-1 text-xs leading-relaxed ${cardDescriptionClass}`}>{layout.description}</p>
                   </div>
-                  <span className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-full border transition ${isSelected ? (isEssenciaCard ? 'border-[#C6A46A] bg-[#C6A46A] text-white opacity-100' : isMysticCard ? 'border-[#D4AF37] bg-[#D4AF37] text-[#0A0F18] opacity-100' : 'border-[#B88736] bg-[#B88736] text-white opacity-100') : (isEssenciaCard ? 'border-[#E5DAC6] text-[#C6A46A] opacity-0 group-hover:opacity-100' : isMysticCard ? 'border-[#6C3FA0]/45 text-[#E2B96B] opacity-0 group-hover:opacity-100' : 'border-[#E5DAC6] text-[#B88736] opacity-0 group-hover:opacity-100')}`} aria-hidden="true">
+                  <span className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-full border transition ${isSelected ? (isEssenciaCard ? 'border-[#C6A46A] bg-[#C6A46A] text-white opacity-100' : isMysticCard ? 'border-[#D4AF37] bg-[#D4AF37] text-[#0A0F18] opacity-100' : 'border-[#B88736] bg-[#B88736] text-white opacity-100') : (isEssenciaCard ? 'border-[#E3DFD6] text-[#C6A46A] opacity-0 group-hover:opacity-100' : isMysticCard ? 'border-[#6C3FA0]/45 text-[#E2B96B] opacity-0 group-hover:opacity-100' : 'border-[#E3DFD6] text-[#B88736] opacity-0 group-hover:opacity-100')}`} aria-hidden="true">
                     <Check size={16} />
                   </span>
                 </div>
@@ -256,7 +256,7 @@ export default function LayoutChoiceModal({ onSelect }: LayoutChoiceModalProps) 
                           ? ['#0A2742', '#2E3B73', '#1E6B5A', '#6C3FA0', '#D4AF37', '#E2B96B', '#F4F1EB', '#141F30']
                           : layout.swatches
                   ).map((color, index) => (
-                    <span key={index} className="h-3 flex-1 rounded-full border shadow-inner" style={{ backgroundColor: color, borderColor: layout.id === 'elegancia-profunda' ? 'rgba(212,175,119,.35)' : layout.id === 'mistico-moderno' ? 'rgba(212,175,55,.35)' : 'rgba(42,36,32,.10)' }} />
+                    <span key={index} className="h-3 flex-1 rounded-full border shadow-inner" style={{ backgroundColor: color, borderColor: layout.id === 'elegancia-profunda' ? 'rgba(212,175,119,.35)' : layout.id === 'mistico-moderno' ? 'rgba(212,175,55,.35)' : 'rgba(48,46,42,.10)' }} />
                   ))}
                 </div>
               </button>
@@ -264,17 +264,17 @@ export default function LayoutChoiceModal({ onSelect }: LayoutChoiceModalProps) 
           })}
         </div>
 
-        <div className="mt-6 flex flex-col items-center gap-2 border-t border-[#E5DAC6] pt-5">
+        <div className="mt-6 flex flex-col items-center gap-2 border-t border-[#E3DFD6] pt-5">
           <button
             type="button"
             disabled={!selectedLayout || isSaving}
             onClick={confirmSelection}
-            className={`min-h-12 w-full max-w-sm rounded-xl ${confirmButtonTone} px-6 py-3 text-sm font-bold uppercase tracking-[.12em] ${selectedLayout === 'mistico-moderno' ? 'text-[#0A0F18]' : 'text-[#2A2420]'} shadow-lg transition hover:-translate-y-0.5 hover:shadow-xl disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:translate-y-0 disabled:hover:shadow-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2`}
+            className={`min-h-12 w-full max-w-sm rounded-xl ${confirmButtonTone} px-6 py-3 text-sm font-bold uppercase tracking-[.12em] ${selectedLayout === 'mistico-moderno' ? 'text-[#0A0F18]' : 'text-[#302E2A]'} shadow-lg transition hover:-translate-y-0.5 hover:shadow-xl disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:translate-y-0 disabled:hover:shadow-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2`}
           >
             {isSaving ? 'Salvando escolha…' : selectedDefinition ? `Confirmar ${selectedDefinition.name}` : 'Selecione um estilo'}
           </button>
           {saveError && <p role="alert" className="text-center text-sm font-medium text-red-800">{saveError}</p>}
-          <p className="text-center text-xs text-[#6B625B]">O estilo só será aplicado depois da sua confirmação.</p>
+          <p className="text-center text-xs text-[#625E56]">O estilo só será aplicado depois da sua confirmação.</p>
         </div>
       </section>
     </div>
