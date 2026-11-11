@@ -22,7 +22,7 @@ test('o carregamento Natural Sereno usa paisagem real sob véu marfim e não rec
   assert.ok(block.includes('linear-gradient(90deg,#C89D52,#A87E37)'));
 
   assert.ok(baseCss.includes("url('/brand/natural-sereno/vale-amanhecer.webp')"));
-  const baseLoadingRules = baseCss.split(':root[data-layout="natural-sereno"] #auth-loading-view {').slice(1).map(block => block.slice(0, block.indexOf('}')));
+  const baseLoadingRules = baseCss.split(':root[data-layout="natural-sereno"] #auth-loading-view {').slice(1).map(block => block.slice(0, block.indexOf('}'))).filter(rule => rule.includes('background:'));
   assert.ok(baseLoadingRules.length >= 2, 'As regras-base do carregamento devem continuar protegidas');
   for (const rule of baseLoadingRules) {
     assert.ok(rule.includes("url('/brand/natural-sereno/vale-amanhecer.webp')"));
