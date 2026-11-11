@@ -26,14 +26,14 @@ test('Místico Moderno treats the official board as atmosphere/palette and prese
 
 test('Místico Moderno keeps detached green UI accents out of the 27 style sheets', () => {
   const forbidden = [
-    ['src/mistico-moderno-daily-diary-audit.css', /rgba\\(18,\\s*112,\\s*103/],
-    ['src/mistico-moderno-milestone-audit.css', /rgba\\(8,\\s*42,\\s*43/],
-    ['src/mistico-moderno-report-certificate-audit.css', /rgba\\(8,\\s*47,\\s*50/],
-    ['src/mistico-moderno-video-studio-audit.css', /rgba\\(21,\\s*116,\\s*103|#12675f/i]
+    ['src/mistico-moderno-daily-diary-audit.css', /rgba\(18,\s*112,\s*103/],
+    ['src/mistico-moderno-milestone-audit.css', /rgba\(8,\s*42,\s*43/],
+    ['src/mistico-moderno-report-certificate-audit.css', /rgba\(8,\s*47,\s*50/],
+    ['src/mistico-moderno-video-studio-audit.css', /rgba\(21,\s*116,\s*103|#12675f/i]
   ] as const;
 
   for (const [path, pattern] of forbidden) {
-    const css = read(path).replace(/\\/\\*[\\s\\S]*?\\*\\//g, '');
+    const css = read(path).replace(/\/\*[\s\S]*?\*\//g, '');
     assert.doesNotMatch(css, pattern, 'Detached green UI color remains in ' + path + '.');
   }
 
