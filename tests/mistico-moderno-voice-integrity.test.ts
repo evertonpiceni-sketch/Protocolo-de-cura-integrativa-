@@ -39,14 +39,21 @@ test('Místico Moderno uses the saved neural voice in every narration entry poin
   assert.match(arcanjo, /if \(\(isEleganciaProfunda \|\| isMisticoModerno\) && !isElevenLabsVoiceId\(userProfile\.voiceId\)\)/);
 });
 
-test('Style 4 never starts Arcanjo Solfeggio before the neural narration begins', () => {
+test('Style 4 keeps Arcanjo Solfeggio off during neural narration and restores it outside speech', () => {
   const arcanjo = read('src/components/ArcanjoProtocolView.tsx');
   const start = arcanjo.slice(arcanjo.indexOf('const start ='), arcanjo.indexOf('const togglePlayback'));
+  const prepare = arcanjo.slice(arcanjo.indexOf('const prepareFrequencyForNarration'), arcanjo.indexOf('const hasKnownDuration'));
+  const policy = arcanjo.match(/const suspendsSolfeggioDuringNeuralNarration = ([^;]+);/)?.[1] ?? '';
+
+  assert.match(policy, /isEleganciaProfunda\s*\|\|\s*isEssenciaLuminosa\s*\|\|\s*isMisticoModerno/);
+  assert.match(prepare, /if \(suspendsSolfeggioDuringNeuralNarration\) stopProtocolFrequency\(\)/);
+  assert.doesNotMatch(prepare, /else playProtocolFrequency/);
   assert.match(start, /if \(isMisticoModerno\) stopProtocolFrequency\(\)/);
   assert.match(start, /onStart: \(\) => \{[\s\S]*?prepareFrequencyForNarration/);
-  assert.match(start, /onPause: \(\) => \{[\s\S]*?audioEngine\.stopSynth/);
-  assert.match(start, /if \(isEleganciaProfunda \|\| isEssenciaLuminosa \|\| isMisticoModerno\)[\s\S]*?audioEngine\.stopSynth/);
-  assert.match(arcanjo, /const resetPlayback = \(restoreFrequency = false\) => \{[\s\S]*?audioEngine\.stopSynth/);
+  assert.match(start, /onPause: \(\) => \{[\s\S]*?if \(suspendsSolfeggioDuringNeuralNarration\) playProtocolFrequency\(\)/);
+  assert.match(start, /onEnd: \(\) => \{[\s\S]*?complete\(\)/);
+  assert.match(start, /onError: \(\) => \{[\s\S]*?if \(suspendsSolfeggioDuringNeuralNarration\) playProtocolFrequency\(\)/);
+  assert.match(arcanjo, /resetPlayback\(suspendsSolfeggioDuringNeuralNarration\)/);
   assert.match(arcanjo, /const playProtocolFrequency = \(\) => \{[\s\S]*?startArcanjoOwnedSolfeggio/);
 });
 
@@ -129,17 +136,31 @@ test('Místico Moderno mantém a voz neural nas práticas legadas e suspende 639
 
 
 
-test('Style 4 resumes Arcanjo Solfeggio only after the neural audio actually plays', () => {
+test('Style 4 resumes Arcanjo Solfeggio on pause or completion, never during neural speech', () => {
   const arcanjo = read('src/components/ArcanjoProtocolView.tsx');
   const audio = read('src/lib/audio.ts');
   const start = arcanjo.slice(arcanjo.indexOf('const start ='), arcanjo.indexOf('const togglePlayback'));
   const resume = arcanjo.slice(arcanjo.indexOf('const togglePlayback'), arcanjo.indexOf('const selectDay'));
+  const complete = arcanjo.slice(arcanjo.indexOf('const complete ='), arcanjo.indexOf('const startNativeFallback'));
+
   assert.match(start, /onStart: \(\) => \{[\s\S]*?prepareFrequencyForNarration[\s\S]*?setIsPlaying\(true\)/);
-  assert.match(arcanjo, /const prepareFrequencyForNarration = \(\) => \{[\s\S]*?else playProtocolFrequency\(\)/);
+  assert.match(start, /onPause: \(\) => \{[\s\S]*?playProtocolFrequency\(\)/);
+  assert.match(start, /onEnd: \(\) => \{[\s\S]*?complete\(\)/);
+  assert.match(complete, /resetPlayback\(suspendsSolfeggioDuringNeuralNarration\)/);
+  assert.match(arcanjo, /const prepareFrequencyForNarration = \(\) => \{[\s\S]*?stopProtocolFrequency\(\)/);
   assert.match(arcanjo, /const playProtocolFrequency = \(\) => \{[\s\S]*?startArcanjoOwnedSolfeggio/);
   assert.match(audio, /audio\.onplay = \(\) => \{[\s\S]*?options\.onStart\?\.\(\)/);
   assert.match(resume, /audioEngine\.resumeSpeech\(\)/);
   assert.doesNotMatch(resume, /audioEngine\.resumeSpeech\(\);\s*audioEngine\.startSynth/);
+});
+
+test('21-day protocol player blocks Solfeggio while neural narration is active but allows non-tonal ambience', () => {
+  const policy = read('src/lib/protocolSessionAudioPolicy.ts');
+  const player = read('src/components/MeditationSession.tsx');
+
+  assert.match(policy, /return audioEnabled && sessionPhase === 'playing' && type !== 'none' && !isSolfeggioFrequency\(type\)/);
+  assert.match(policy, /396\|417\|432\|528\|639\|741\|852\|963/);
+  assert.match(player, /shouldPlayProtocolSessionBackground\(sessionPhase, bgMusicType, audioEnabled\)/);
 });
 
 test('closing Anamnesis does not restart 639 Hz during teardown', () => {
@@ -433,7 +454,7 @@ test('Místico Moderno neutraliza a névoa sálvia global sem remover o esmerald
 });
 
 
-test('Místico Moderno Arcanjo status identifies neural narration with concurrent Solfeggio', () => {
+test('Místico Moderno Arcanjo status reports Solfeggio suspended during neural speech', () => {
   const arcanjo = read('src/components/ArcanjoProtocolView.tsx');
   const statusStart = arcanjo.indexOf('role="status" aria-live="polite"');
   const statusEnd = arcanjo.indexOf('</span>', statusStart);
@@ -442,13 +463,14 @@ test('Místico Moderno Arcanjo status identifies neural narration with concurren
   const style4End = status.indexOf(': suspendsSolfeggioDuringNeuralNarration', style4Start);
   const style4Status = status.slice(style4Start, style4End);
 
-  assert.match(arcanjo, /const suspendsSolfeggioDuringNeuralNarration = isEleganciaProfunda \|\| isEssenciaLuminosa/);
+  assert.match(arcanjo, /const suspendsSolfeggioDuringNeuralNarration =\s*isEleganciaProfunda \|\| isEssenciaLuminosa \|\| isMisticoModerno/);
   assert.ok(style4Start >= 0 && style4End > style4Start, 'O ramo de status do Místico Moderno deve ser isolado.');
-  assert.match(style4Status, /Preparando narração neural — Solfeggio/);
-  assert.match(style4Status, /Narração neural \+ Solfeggio/);
-  assert.match(style4Status, /Narração pausada — Solfeggio/);
-  assert.match(style4Status, /será ativado somente quando a narração neural começar/);
-  assert.doesNotMatch(style4Status, /Voz humana \+ Solfeggio/);
+  assert.match(style4Status, /Preparando narração neural — Solfeggio [^\n]* suspenso/);
+  assert.match(style4Status, /Narração neural ativa — Solfeggio [^\n]* suspenso/);
+  assert.match(style4Status, /Solfeggio [^\n]* ativo durante a pausa ou após a narração/);
+  assert.match(style4Status, /Narração pausada — Solfeggio [^\n]* suspenso/);
+  assert.match(style4Status, /será ativado somente durante pausas ou após a narração/);
+  assert.doesNotMatch(style4Status, /Narração neural \+ Solfeggio/);
 });
 
 
