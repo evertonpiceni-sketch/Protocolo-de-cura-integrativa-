@@ -2043,3 +2043,31 @@
   background: #F0F2EB !important;
   border-color: #D9DDCF !important;
 }
+
+/* RUN 161 — Reintegração: harmonizar o shell/modal com o marfim aprovado.
+   O JSX mantém classes legadas para os demais estilos; estes overrides são
+   exclusivos do Natural Sereno e não alteram conteúdo, animações ou áudio. */
+:root[data-layout="natural-sereno"] [data-ep-reintegration="true"] {
+  background: #FAF7F2 !important;
+  color: #2A2421 !important;
+}
+
+:root[data-layout="natural-sereno"] [data-ep-reintegration="true"] [data-ep-reintegration-modal="true"] {
+  background: #FAF7F2 !important;
+  color: #2A2421 !important;
+}
+
+:root[data-layout="natural-sereno"] [data-ep-reintegration="true"] [data-ep-reintegration-modal="true"] > button,
+:root[data-layout="natural-sereno"] [data-ep-reintegration="true"] [data-ep-reintegration-modal="true"] .ep-reintegration-script-close {
+  min-height: 44px;
+  border-radius: 14px !important;
+  background: rgba(255,253,248,.96) !important;
+  color: #6B4E2E !important;
+  border: 1px solid rgba(200,157,82,.34) !important;
+  box-shadow: 0 7px 18px rgba(67,52,39,.06) !important;
+}
+
+:root[data-layout="natural-sereno"] [data-ep-reintegration-running="true"] .ep-reintegration-running-close {
+  border-radius: 14px !important;
+}
+
