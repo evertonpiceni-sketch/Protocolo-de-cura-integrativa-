@@ -17,6 +17,15 @@ test('o cartão semanal usa a saída escapada e não interpola texto livre diret
   assert.ok(!source.includes('${initialText}</p></div>'));
 });
 
+
+test('o logo do cabeçalho permanece uma assinatura transparente no Natural Sereno', () => {
+  const css = readFileSync('src/natural-sereno-approved-overrides.css', 'utf8');
+  assert.match(
+    css,
+    /:root\[data-layout="natural-sereno"\] #main-header \.ep-brand-signature\s*\{\s*opacity:\s*\.30\s*!important;\s*mix-blend-mode:\s*normal\s*!important;/
+  );
+});
+
 test('a análise semanal do Diário usa a paleta Natural Sereno sem chapas verdes ou ocre antigo', () => {
   const css = readFileSync('src/natural-sereno-approved-overrides.css', 'utf8');
   const marker = '/* RUN 165 — Diário: alinhar o fechamento semanal ao Natural Sereno e preservar texto de usuário como conteúdo. */';
