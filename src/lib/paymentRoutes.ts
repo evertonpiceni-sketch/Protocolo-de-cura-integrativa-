@@ -131,11 +131,31 @@ export async function acquireSharedDatabaseWriteLock(): Promise<CheckoutCreation
 
 export function paymentRoutes(authenticate: any, limiter: any, providerFetch: typeof fetch = fetch, saveCheckoutOrder: typeof saveDb = saveDb) {
   const router = Router();
-  const handle = () => process.env.INFINITEPAY_HANDLE || 'evertonterapeutareiki';
+  const handle = () => {
+    const configuredHandle = process.env.INFINITEPAY_HANDLE?.trim();
+    if (process.env.VERCEL_ENV === 'preview' && !configuredHandle) {
+      throw new Error('INFINITEPAY_HANDLE precisa ser configurado para o ambiente Preview antes de iniciar o checkout.');
+    }
+    return configuredHandle || 'evertonterapeutareiki';
+  };
   const apiKey = () => process.env.INFINITEPAY_API_KEY?.trim() || '';
   const appUrl = () => {
-    const url = new URL(process.env.PUBLIC_APP_URL || 'https://protocolo-de-cura-integrativa.vercel.app');
+    const configuredUrl = process.env.PUBLIC_APP_URL?.trim();
+    if (process.env.VERCEL_ENV === 'preview' && !configuredUrl) {
+      throw new Error('PUBLIC_APP_URL precisa ser configurada para o ambiente Preview antes de iniciar o checkout.');
+    }
+    const url = new URL(configuredUrl || 'https://protocolo-de-cura-integrativa.vercel.app');
     if (url.protocol !== 'https:' || url.username || url.password) throw new Error('URL pública inválida.');
+    if (process.env.VERCEL_ENV === 'preview') {
+      const productionHost = (process.env.VERCEL_PROJECT_PRODUCTION_URL || 'protocolo-de-cura-integrativa.vercel.app')
+        .replace('https://', '')
+        .replace('http://', '')
+        .split('/')[0]
+        .toLowerCase();
+      if (url.hostname.toLowerCase() === productionHost) {
+        throw new Error('O checkout de Preview não pode redirecionar para a origem de Production.');
+      }
+    }
     return url.origin;
   };
   async function provider(path: string, body: unknown) {

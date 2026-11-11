@@ -103,6 +103,18 @@ export default function AudioSettingsModal({
   );
   const [isPlayingBioactivePreview, setIsPlayingBioactivePreview] = useState<boolean>(false);
 
+  // No Estilo 3, o áudio de fundo respeita o interruptor global também dentro dos Ajustes.
+  React.useEffect(() => {
+    if (!isEssenciaLuminosa) return;
+    setAudioEnabled(userProfile.audioEnabled !== false);
+  }, [isEssenciaLuminosa, userProfile.audioEnabled]);
+
+  React.useEffect(() => {
+    if (!isOpen || !isEssenciaLuminosa || audioEnabled) return;
+    audioEngine.stopBG();
+    setIsPlayingBioactivePreview(false);
+  }, [isOpen, isEssenciaLuminosa, audioEnabled]);
+
   if (!isOpen) return null;
 
   const rawVoices = availableVoices && availableVoices.length > 0 
@@ -151,25 +163,26 @@ export default function AudioSettingsModal({
 
   const toggleBioactivePreview = () => {
     if (!allowBackgroundPlayback || (requiresNeuralVoice && isTestingVoice)) return;
-    audioEngine.unlock();
     if (isPlayingBioactivePreview) {
       audioEngine.stopBG();
       setIsPlayingBioactivePreview(false);
-    } else {
-      setIsPlayingBioactivePreview(true);
-      const effectiveType = bgMusicType !== 'none' ? bgMusicType : '528hz';
-      if (bgMusicType === 'none') {
-        setBgMusicType('528hz');
-      }
-      audioEngine.setBioactiveConfig({
-        enabled: true,
-        waveType: binauralWaveType,
-        intensity: binauralIntensity,
-        carrierMode: binauralCarrierMode
-      });
-      setBioactiveBinauralEnabled(true);
-      audioEngine.startBG(effectiveType);
+      return;
     }
+    if (isEssenciaLuminosa && !audioEnabled) return;
+    audioEngine.unlock();
+    setIsPlayingBioactivePreview(true);
+    const effectiveType = bgMusicType !== 'none' ? bgMusicType : '528hz';
+    if (bgMusicType === 'none') {
+      setBgMusicType('528hz');
+    }
+    audioEngine.setBioactiveConfig({
+      enabled: true,
+      waveType: binauralWaveType,
+      intensity: binauralIntensity,
+      carrierMode: binauralCarrierMode
+    });
+    setBioactiveBinauralEnabled(true);
+    audioEngine.startBG(effectiveType);
   };
 
   const restoreBackgroundAfterVoiceTest = () => {
@@ -379,12 +392,14 @@ export default function AudioSettingsModal({
                       return;
                     }
                     setBgMusicType(track.id as any);
-                    if (allowBackgroundPlayback) {
+                    if (allowBackgroundPlayback && (!isEssenciaLuminosa || audioEnabled)) {
                       if (track.id !== 'none') {
                         audioEngine.startBG(track.id as any);
                       } else {
                         audioEngine.stopBG();
                       }
+                    } else if (isEssenciaLuminosa && !audioEnabled) {
+                      audioEngine.stopBG();
                     }
                   }}
                   className={`p-2.5 rounded-xl text-left border transition cursor-pointer disabled:cursor-not-allowed disabled:opacity-50 relative overflow-hidden ${
@@ -634,9 +649,13 @@ export default function AudioSettingsModal({
               <button
                 type="button"
                 onClick={toggleBioactivePreview}
-                disabled={!allowBackgroundPlayback || (requiresNeuralVoice && isTestingVoice)}
-                aria-disabled={!allowBackgroundPlayback || (requiresNeuralVoice && isTestingVoice)}
-                title={requiresNeuralVoice && isTestingVoice ? 'Pause a prévia da voz antes de testar a frequência.' : undefined}
+                disabled={!allowBackgroundPlayback || (requiresNeuralVoice && isTestingVoice) || (isEssenciaLuminosa && !audioEnabled && !isPlayingBioactivePreview)}
+                aria-disabled={!allowBackgroundPlayback || (requiresNeuralVoice && isTestingVoice) || (isEssenciaLuminosa && !audioEnabled && !isPlayingBioactivePreview)}
+                title={isEssenciaLuminosa && !audioEnabled && !isPlayingBioactivePreview
+                  ? 'Ative o áudio global para ouvir a prévia binaural.'
+                  : requiresNeuralVoice && isTestingVoice
+                    ? 'Pause a prévia da voz antes de testar a frequência.'
+                    : undefined}
                 className={`w-full py-2.5 rounded-xl border font-mono text-xs flex items-center justify-center gap-2 transition cursor-pointer disabled:cursor-not-allowed disabled:opacity-45 ${
                   isPlayingBioactivePreview
                     ? 'bg-[#B88736] text-white border-[#B88736] shadow-sm'

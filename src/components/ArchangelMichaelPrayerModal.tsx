@@ -10,6 +10,7 @@ import { Shield, Play, Pause, CheckCircle2, X, Sparkles, Copy, Check } from 'luc
 import { ARCHANGEL_MICHAEL_PRAYER_FULL, ARCHANGEL_MICHAEL_FULL_TEXT } from '../data/archangel_prayer';
 import { audioEngine } from '../lib/audio';
 import { isElevenLabsVoiceId } from '../lib/voiceSelection';
+import { isSolfeggioFrequency } from '../lib/protocolSessionAudioPolicy';
 import { getLocalDateString } from '../utils/date';
 
 interface ArchangelMichaelPrayerModalProps {
@@ -20,6 +21,7 @@ interface ArchangelMichaelPrayerModalProps {
   voiceRate?: number;
   voicePitch?: number;
   voiceVolume?: number;
+  onNarrationStateChange?: (active: boolean) => void;
   onProgressChange?: (days: number[]) => void;
 }
 
@@ -34,6 +36,7 @@ export default function ArchangelMichaelPrayerModal({
   voiceRate = 0.84,
   voicePitch = 1.0,
   voiceVolume = 0.85,
+  onNarrationStateChange,
   onProgressChange
 }: ArchangelMichaelPrayerModalProps) {
   const [isPlaying, setIsPlaying] = useState(false);
@@ -65,10 +68,14 @@ export default function ArchangelMichaelPrayerModal({
     if (!isOpen) {
       audioEngine.stopSpeech();
       setIsPlaying(false);
+      onNarrationStateChange?.(false);
     }
-  }, [isOpen]);
+  }, [isOpen, onNarrationStateChange]);
 
-  useEffect(() => () => audioEngine.stopSpeech(), []);
+  useEffect(() => () => {
+    audioEngine.stopSpeech();
+    onNarrationStateChange?.(false);
+  }, [onNarrationStateChange]);
 
   const progressPercent = useMemo(
     () => Math.round((Math.min(completedDays.length, 21) / 21) * 100),
@@ -84,9 +91,16 @@ export default function ArchangelMichaelPrayerModal({
   const totalSections = ARCHANGEL_MICHAEL_PRAYER_FULL.length;
   const journeyComplete = completedDays.length >= 21;
 
+  const suspendEssenciaSolfeggio = () => {
+    if (isEssenciaLuminosa && isSolfeggioFrequency(audioEngine.getCurrentSynthType())) {
+      audioEngine.stopBG();
+    }
+  };
+
   const stopAudio = () => {
     audioEngine.stopSpeech();
     setIsPlaying(false);
+    onNarrationStateChange?.(false);
   };
 
   const handleClose = () => {
@@ -106,15 +120,17 @@ export default function ArchangelMichaelPrayerModal({
       return;
     }
     setVoiceError(false);
+    suspendEssenciaSolfeggio();
+    onNarrationStateChange?.(true);
     const textToSpeak = currentSection.text.replace(/\[NOME\]/g, userName || 'Filho de Deus');
     setIsPlaying(true);
     void audioEngine.speakWithElevenLabsOrFallback(
       textToSpeak,
       voiceVolume,
-      () => setIsPlaying(true),
-      () => setIsPlaying(false),
-      undefined,
-      undefined,
+      () => { setIsPlaying(true); onNarrationStateChange?.(true); },
+      () => { setIsPlaying(false); onNarrationStateChange?.(false); },
+      () => { setIsPlaying(false); onNarrationStateChange?.(false); },
+      () => { suspendEssenciaSolfeggio(); setIsPlaying(true); onNarrationStateChange?.(true); },
       {
         voiceId,
         rate: voiceRate,
@@ -126,7 +142,7 @@ export default function ArchangelMichaelPrayerModal({
         userName,
         fallbackToSpeechSynthesis: !(isEleganciaProfunda || isEssenciaLuminosa),
         onError: isEleganciaProfunda || isEssenciaLuminosa
-          ? () => { setIsPlaying(false); setVoiceError(true); }
+          ? () => { setIsPlaying(false); onNarrationStateChange?.(false); setVoiceError(true); }
           : undefined
       }
     );

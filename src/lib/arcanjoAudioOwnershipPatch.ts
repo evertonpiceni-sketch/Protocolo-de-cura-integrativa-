@@ -6,7 +6,8 @@ import { audioEngine } from './audio';
  * from restarting underneath the protocol until App.tsx carries the same ownership
  * rule directly. It is intentionally narrow and does not alter narration/synth audio.
  */
-const ARCANJO_VIEW_MARKER = 'img[alt="Pessoa em meditação com os sete chakras"]';
+// O Estilo 3 usa a arte corporal neutra; os demais mantêm a descrição histórica.
+const ARCANJO_VIEW_MARKER = 'img[alt="Pessoa em meditação com os sete chakras"], img[alt="Representação corporal neutra em meditação com sete centros de energia"]';
 const DASHBOARD_MARKER = '#progress-dashboard';
 const ARCANJO_OPENING_GUARD_MS = 5000;
 let arcanjoOpening = false;

@@ -15,8 +15,10 @@ const CHAKRAS_DATA = [
 
 export default function DashboardCura({ onClose, progress, userProfile }: { onClose: () => void; progress: DayProgress[], userProfile?: UserProfile }) {
   const [completedDays, setCompletedDays] = useState<number[]>([]);
+  const isEssenciaLuminosa = typeof document !== 'undefined' && document.documentElement.dataset.layout === 'essencia-luminosa';
+  const chakraBodyImage = isEssenciaLuminosa ? '/brand/chakra-body-neutral.svg' : '/brand/human-chakra-model.jpg';
   const dialogRef = React.useRef<HTMLDivElement | null>(null);
-  useDialogFocus(document.documentElement.dataset.layout === 'natural-sereno', dialogRef, onClose);
+  useDialogFocus(['natural-sereno', 'essencia-luminosa'].includes(document.documentElement.dataset.layout || ''), dialogRef, onClose);
 
   useEffect(() => {
     const profileCompleted = userProfile?.journeyProgress?.arcanjo7CompletedDays;
@@ -49,9 +51,9 @@ export default function DashboardCura({ onClose, progress, userProfile }: { onCl
   };
 
   return (
-    <div ref={dialogRef} id="progress-dashboard" role="dialog" aria-modal="true" aria-label="Dashboard de Progresso Analítico" className="fixed inset-0 z-[100] flex flex-col bg-[#F8F4EC] text-[#2A2420] font-sans selection:bg-[#E4C573]/30 overflow-y-auto">
+    <div ref={dialogRef} id="progress-dashboard" role="dialog" aria-modal="true" aria-label="Dashboard de Progresso Analítico" className={`fixed inset-0 z-[100] flex flex-col ${isEssenciaLuminosa ? 'bg-[#FFFFF8]' : 'bg-[#F8F4EC]'} text-[#2A2420] font-sans ${isEssenciaLuminosa ? 'selection:bg-[#C6A46A]/25' : 'selection:bg-[#E4C573]/30'} overflow-y-auto`}>
       {/* Background Gradient */}
-      <div className="fixed inset-0 pointer-events-none bg-[radial-gradient(circle_at_50%_0,rgba(214,167,86,.12),transparent_30rem),linear-gradient(180deg,#FBF8F2,#F8F4EC)]" />
+      <div className={`fixed inset-0 pointer-events-none ${isEssenciaLuminosa ? 'bg-[radial-gradient(circle_at_50%_0,rgba(198,164,106,.10),transparent_30rem),linear-gradient(180deg,#FFFFF8,#F7F3E8)]' : 'bg-[radial-gradient(circle_at_50%_0,rgba(214,167,86,.12),transparent_30rem),linear-gradient(180deg,#FBF8F2,#F8F4EC)]'}`} />
 
       {/* Header */}
       <header className="relative z-10 mx-auto w-full max-w-lg px-5 py-6">
@@ -64,15 +66,15 @@ export default function DashboardCura({ onClose, progress, userProfile }: { onCl
 
         <div className="flex items-center justify-between gap-4">
           <div>
-            <h1 className="text-xl sm:text-2xl font-serif font-bold text-white">
+            <h1 className={`text-xl sm:text-2xl font-serif font-bold ${isEssenciaLuminosa ? 'text-[#2A2420]' : 'text-white'}`}>
               Olá, {userProfile?.name?.split(' ')[0] || 'Viajante'}
             </h1>
             <p className="mt-1 text-sm text-[#5C5248]">
               Equilíbrio hoje, um amanhã mais leve.
             </p>
           </div>
-          <div className="flex shrink-0 flex-col items-center justify-center rounded-2xl border border-[#E4C573]/35 bg-white/80 px-4 py-2.5 shadow-[0_0_15px_rgba(228,197,115,0.12)]">
-            <Flame className="text-[#E4C573] mb-1" size={24} />
+          <div className={`flex shrink-0 flex-col items-center justify-center rounded-2xl border bg-white/80 px-4 py-2.5 ${isEssenciaLuminosa ? 'border-[#E5DAC6] shadow-[0_8px_24px_rgba(112,91,58,.08)]' : 'border-[#E4C573]/35 shadow-[0_0_15px_rgba(228,197,115,0.12)]'}`}>
+            <Flame className={`mb-1 ${isEssenciaLuminosa ? 'text-[#A87E37]' : 'text-[#E4C573]'}`} size={24} />
             <div className="text-lg font-bold text-[#2A2420] leading-none">{streak}</div>
             <div className="text-[9px] uppercase tracking-wider text-[#5C5248] mt-1">Dias Seguidos</div>
           </div>
@@ -81,13 +83,13 @@ export default function DashboardCura({ onClose, progress, userProfile }: { onCl
         {/* Progress Bar */}
         <div className="mt-7">
           <div className="flex items-end justify-between mb-2">
-            <span className="text-sm font-semibold text-[#E4C573]">{percentage}% Concluído</span>
+            <span className={`text-sm font-semibold ${isEssenciaLuminosa ? 'text-[#A87E37]' : 'text-[#E4C573]'}`}>{percentage}% Concluído</span>
             <span className="text-xs text-[#5C5248]">{totalCompleted} de 7 Dias</span>
           </div>
           <div className="h-1.5 w-full overflow-hidden rounded-full bg-[#E5DAC6]">
             <div
-              className="h-full rounded-full bg-gradient-to-r from-[#B89845] to-[#E4C573] shadow-[0_0_10px_rgba(228,197,115,0.6)] transition-all duration-1000 ease-out"
-              style={{ width: `${percentage}%` }}
+              className={`h-full rounded-full transition-all duration-1000 ease-out ${isEssenciaLuminosa ? 'shadow-[0_0_8px_rgba(168,126,55,.18)]' : 'bg-gradient-to-r from-[#B89845] to-[#E4C573] shadow-[0_0_10px_rgba(228,197,115,0.6)]'}`}
+              style={{ width: `${percentage}%`, ...(isEssenciaLuminosa ? { background: 'linear-gradient(90deg, #C6A46A, #A87E37)' } : {}) }}
             />
           </div>
         </div>
@@ -95,8 +97,8 @@ export default function DashboardCura({ onClose, progress, userProfile }: { onCl
 
       <main className="relative z-10 mx-auto w-full max-w-lg flex-1 px-5 pb-12">
         {/* Central Energy Visualizer */}
-        <div className="relative mx-auto my-8 aspect-[4/5] w-full max-w-[360px] rounded-[2rem] border border-[#E4C573]/30 bg-white/75 shadow-[0_22px_60px_rgba(0,0,0,.38)] overflow-hidden">
-          <img src="/brand/human-chakra-model.jpg" alt="Pessoa em meditação com os sete chakras" className="absolute inset-0 h-full w-full object-cover" />
+        <div className={`relative mx-auto my-8 aspect-[4/5] w-full max-w-[360px] rounded-[2rem] border bg-white/75 overflow-hidden ${isEssenciaLuminosa ? 'border-[#E5DAC6] shadow-[0_18px_48px_rgba(112,91,58,.10)]' : 'border-[#E4C573]/30 shadow-[0_22px_60px_rgba(0,0,0,.38)]'}`}>
+          <img src={chakraBodyImage} alt={isEssenciaLuminosa ? "Representação corporal neutra em meditação com sete centros de energia" : "Pessoa em meditação com os sete chakras"} className="absolute inset-0 h-full w-full object-cover" />
           <div className="absolute inset-0 bg-gradient-to-t from-[#F8F4EC]/70 via-transparent to-transparent" />
           
           {CHAKRAS_DATA.map((chakra) => {
@@ -142,13 +144,13 @@ export default function DashboardCura({ onClose, progress, userProfile }: { onCl
 
             if (isCompleted) {
               return (
-                <button type="button" key={day} onClick={() => handlePlayDay(day)} className="relative flex w-full text-left cursor-pointer items-center justify-between rounded-2xl border border-[#E4C573]/50 bg-[#E4C573]/5 px-5 py-4 transition hover:bg-[#E4C573]/10">
+                <button type="button" key={day} onClick={() => handlePlayDay(day)} className={`relative flex w-full text-left cursor-pointer items-center justify-between rounded-2xl border px-5 py-4 transition ${isEssenciaLuminosa ? 'border-[#C6A46A]/35 bg-[#F7F3E8]/70 hover:bg-[#F7F3E8]' : 'border-[#E4C573]/50 bg-[#E4C573]/5 hover:bg-[#E4C573]/10'}`}>
                   <div className="absolute left-0 top-0 h-full w-2 rounded-l-2xl" style={{ backgroundColor: chakra.color, opacity: 0.8 }} />
                   <div className="ml-3">
-                    <h3 className="font-serif text-[15px] font-semibold text-[#E4C573]">Dia {day}: {chakra.name}</h3>
+                    <h3 className={`font-serif text-[15px] font-semibold ${isEssenciaLuminosa ? 'text-[#A87E37]' : 'text-[#E4C573]'}`}>Dia {day}: {chakra.name}</h3>
                     <p className="text-xs text-[#5C5248] mt-0.5">Concluído</p>
                   </div>
-                  <div className="flex h-8 w-8 items-center justify-center rounded-full bg-[#E4C573]/20 text-[#E4C573]">
+                  <div className={`flex h-8 w-8 items-center justify-center rounded-full ${isEssenciaLuminosa ? 'bg-[#C6A46A]/15 text-[#A87E37]' : 'bg-[#E4C573]/20 text-[#E4C573]'}`}>
                     <CheckCircle2 size={18} />
                   </div>
                 </button>
@@ -157,7 +159,7 @@ export default function DashboardCura({ onClose, progress, userProfile }: { onCl
 
             if (isCurrent) {
               return (
-                <div key={day} className="relative overflow-hidden rounded-2xl border border-[#E4C573]/35 bg-white/90 shadow-lg">
+                <div key={day} className={`relative overflow-hidden rounded-2xl border bg-white/90 ${isEssenciaLuminosa ? 'border-[#C6A46A]/35 shadow-[0_12px_32px_rgba(112,91,58,.08)]' : 'border-[#E4C573]/35 shadow-lg'}`}>
                   {/* Pulsating glow in chakra color */}
                   <div className="absolute inset-0 opacity-20 mix-blend-screen animate-pulse" style={{ background: `radial-gradient(circle at center, ${chakra.color} 0%, transparent 70%)` }} />
                   <div className="absolute left-0 top-0 h-full w-2 rounded-l-2xl" style={{ backgroundColor: chakra.color }} />
@@ -169,10 +171,10 @@ export default function DashboardCura({ onClose, progress, userProfile }: { onCl
                     </div>
                     <button 
                       onClick={() => handlePlayDay(day)}
-                      aria-label={`Iniciar dia ${day}: ${chakra.name}`} className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full shadow-lg transition-transform hover:scale-105 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B88736]/30"
-                      style={{ background: `linear-gradient(135deg, ${chakra.color}, #09090E)` }}
+                      aria-label={`Iniciar dia ${day}: ${chakra.name}`} className={`flex h-12 w-12 shrink-0 items-center justify-center rounded-full shadow-lg transition-transform hover:scale-105 focus-visible:outline-none focus-visible:ring-2 ${isEssenciaLuminosa ? 'focus-visible:ring-[#C6A46A]/40' : 'focus-visible:ring-[#B88736]/30'}`}
+                      style={{ background: isEssenciaLuminosa ? `linear-gradient(135deg, ${chakra.color}, #A87E37)` : `linear-gradient(135deg, ${chakra.color}, #09090E)` }}
                     >
-                      <Play size={22} className="ml-1 text-white" fill="white" />
+                      <Play size={22} className={`ml-1 ${isEssenciaLuminosa ? 'text-[#2A2420]' : 'text-white'}`} fill="currentColor" />
                     </button>
                   </div>
                 </div>
@@ -181,7 +183,7 @@ export default function DashboardCura({ onClose, progress, userProfile }: { onCl
 
             // Locked
             return (
-              <div key={day} className="flex items-center justify-between rounded-2xl border border-[#E4C573]/12 bg-[#F5EFE4] px-5 py-4 opacity-60">
+              <div key={day} className={`flex items-center justify-between rounded-2xl border px-5 py-4 opacity-60 ${isEssenciaLuminosa ? 'border-[#E5DAC6] bg-[#F7F3E8]' : 'border-[#E4C573]/12 bg-[#F5EFE4]'}`}>
                 <div className="ml-1">
                   <h3 className="font-serif text-[15px] font-medium text-[#85786C]">Dia {day}: {chakra.name}</h3>
                   <p className="text-xs text-[#85786C] mt-0.5">
@@ -199,23 +201,23 @@ export default function DashboardCura({ onClose, progress, userProfile }: { onCl
         {/* Footer: Certificate Section */}
         <div className="mt-10">
           {journeyCompleted ? (
-            <div className="flex flex-col items-center justify-center rounded-3xl border border-[#E4C573]/40 bg-gradient-to-br from-[#E4C573]/20 to-[#B89845]/5 px-6 py-8 text-center shadow-[0_0_30px_rgba(228,197,115,0.15)] relative overflow-hidden">
-               <div className="absolute inset-0 opacity-50 bg-[radial-gradient(circle_at_center,#E4C573_0%,transparent_70%)] blur-2xl pointer-events-none" />
-               <Sparkles className="text-[#E4C573] mb-3 relative z-10" size={32} />
+            <div className={`relative flex flex-col items-center justify-center rounded-3xl border px-6 py-8 text-center overflow-hidden ${isEssenciaLuminosa ? 'border-[#E5DAC6] bg-gradient-to-br from-[#F7F3E8] to-[#FFFFF8] shadow-[0_16px_40px_rgba(112,91,58,.08)]' : 'border-[#E4C573]/40 bg-gradient-to-br from-[#E4C573]/20 to-[#B89845]/5 shadow-[0_0_30px_rgba(228,197,115,0.15)]'}`}>
+               <div className={`absolute inset-0 opacity-50 blur-2xl pointer-events-none ${isEssenciaLuminosa ? 'bg-[radial-gradient(circle_at_center,#C6A46A_0%,transparent_70%)]' : 'bg-[radial-gradient(circle_at_center,#E4C573_0%,transparent_70%)]'}`} />
+               <Sparkles className={`mb-3 relative z-10 ${isEssenciaLuminosa ? 'text-[#A87E37]' : 'text-[#E4C573]'}`} size={32} />
                <h3 className="font-serif text-xl font-bold text-[#2A2420] relative z-10 mb-5">Jornada Concluída</h3>
                <button 
                  onClick={() => {
                    onClose();
                    window.dispatchEvent(new CustomEvent('OPEN_CERTIFICATE'));
                  }}
-                 className="relative z-10 w-full rounded-full bg-gradient-to-r from-[#E4C573] to-[#B89845] py-[16px] text-[15px] font-bold text-[#09090E] shadow-[0_5px_15px_rgba(228,197,115,0.3)] transition hover:brightness-110"
+                 className={`relative z-10 w-full py-[16px] text-[15px] font-bold transition hover:brightness-105 ${isEssenciaLuminosa ? 'rounded-2xl bg-gradient-to-r from-[#C6A46A] to-[#A87E37] text-[#2A2420] shadow-[0_8px_20px_rgba(112,91,58,.12)]' : 'rounded-full bg-gradient-to-r from-[#E4C573] to-[#B89845] text-[#09090E] shadow-[0_5px_15px_rgba(228,197,115,0.3)]'}`}
                >
                  Resgatar Meu Certificado de Luz
                </button>
             </div>
           ) : (
             <div className="flex flex-col items-center justify-center rounded-3xl border border-[#E5DAC6] bg-white/80 px-6 py-6 text-center">
-              <div className="flex h-12 w-12 items-center justify-center rounded-full bg-[#161824] text-[#85786C] mb-3">
+              <div className={`mb-3 flex h-12 w-12 items-center justify-center rounded-full ${isEssenciaLuminosa ? 'border border-[#E5DAC6] bg-[#F7F3E8] text-[#A87E37]' : 'bg-[#161824] text-[#85786C]'}`}>
                 <Award size={24} />
               </div>
               <p className="text-[13px] leading-relaxed text-[#5C5248]">

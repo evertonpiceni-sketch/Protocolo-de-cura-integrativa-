@@ -8,8 +8,7 @@
     radial-gradient(ellipse at 108% 34%,color-mix(in srgb,var(--layout-gold) 8%,transparent),transparent 24%)!important;
 }
 
-:root[data-layout="essencia-luminosa"] .ep-home-hero,
-:root[data-layout="essencia-luminosa"] .ep-home>section,
+:root[data-layout="essencia-luminosa"] .ep-home>section:not(.ep-home-hero),
 :root[data-layout="essencia-luminosa"] .ep-forest-panel,
 :root[data-layout="essencia-luminosa"] .ep-premium-surface,
 :root[data-layout="essencia-luminosa"] .ep-luxury-card{
@@ -120,4 +119,935 @@
 :root[data-layout="essencia-luminosa"] #settings-view #settings-voice-preview:hover{
   filter:brightness(1.035);
   box-shadow:0 14px 28px rgba(112,91,58,.15),inset 0 1px 0 rgba(255,255,255,.65)!important;
+}
+
+ 
+/* Detalhe do dia — camada compartilhada alinhada à Essência Luminosa.
+   Mantém a semântica de progresso, mas remove índigo/esmeralda/âmbar saturados. */
+:root[data-layout="essencia-luminosa"] #day-detail-modal {
+  background: color-mix(in srgb, var(--layout-text) 14%, transparent) !important;
+}
+:root[data-layout="essencia-luminosa"] #day-detail-modal > div {
+  background: linear-gradient(145deg, var(--layout-card), color-mix(in srgb, var(--layout-gold-soft) 8%, var(--layout-canvas))) !important;
+  border-color: var(--layout-border-card) !important;
+  color: var(--layout-text) !important;
+  box-shadow: 0 24px 64px rgba(112, 91, 58, .10) !important;
+}
+:root[data-layout="essencia-luminosa"] #day-detail-modal :is(h1, h2, h3, h4, strong) {
+  color: var(--layout-text) !important;
+}
+:root[data-layout="essencia-luminosa"] #day-detail-modal :is(p, small) {
+  color: var(--layout-text-secondary) !important;
+}
+:root[data-layout="essencia-luminosa"] #day-detail-modal [class*="bg-indigo-"] {
+  background: color-mix(in srgb, var(--layout-accent-soft) 44%, var(--layout-card)) !important;
+}
+:root[data-layout="essencia-luminosa"] #day-detail-modal [class*="border-indigo-"] {
+  border-color: color-mix(in srgb, var(--layout-gold) 26%, var(--layout-border-card)) !important;
+}
+:root[data-layout="essencia-luminosa"] #day-detail-modal [class*="text-emerald-"] {
+  color: color-mix(in srgb, var(--layout-accent) 72%, var(--layout-text)) !important;
+}
+:root[data-layout="essencia-luminosa"] #day-detail-modal [class*="bg-emerald-"] {
+  background: color-mix(in srgb, var(--layout-accent-soft) 55%, var(--layout-card)) !important;
+}
+:root[data-layout="essencia-luminosa"] #day-detail-modal [class*="border-emerald-"] {
+  border-color: color-mix(in srgb, var(--layout-accent) 30%, var(--layout-border-card)) !important;
+}
+:root[data-layout="essencia-luminosa"] #day-detail-modal [class*="text-amber-"] {
+  color: var(--layout-gold-dark) !important;
+}
+:root[data-layout="essencia-luminosa"] #day-detail-modal button {
+  border-color: color-mix(in srgb, var(--layout-gold) 28%, var(--layout-border-card)) !important;
+}
+:root[data-layout="essencia-luminosa"] #day-detail-modal button[class*="bg-[#B88736]"] {
+  background: var(--layout-gold-gradient) !important;
+  border-color: var(--layout-gold-border) !important;
+  color: var(--layout-text) !important;
+  box-shadow: 0 10px 24px var(--layout-gold-shadow) !important;
+}
+:root[data-layout="essencia-luminosa"] #day-detail-modal button:focus-visible {
+  outline: 2px solid color-mix(in srgb, var(--layout-gold) 58%, white) !important;
+  outline-offset: 3px;
+}
+
+
+/* RUN 126 — Arcanjo 7 dias: remove superfícies e textos verdes herdados no Estilo 3.
+   As cores individuais dos sete chakras permanecem sem alteração semântica. */
+:root[data-layout="essencia-luminosa"] #arcanjo-protocol-view > header {
+  background: color-mix(in srgb, var(--layout-card) 96%, transparent) !important;
+  border-color: var(--layout-border-card) !important;
+  color: var(--layout-text) !important;
+  box-shadow: 0 10px 28px rgba(112,91,58,.06) !important;
+}
+:root[data-layout="essencia-luminosa"] #arcanjo-protocol-view > header h1 {
+  color: var(--layout-text) !important;
+}
+:root[data-layout="essencia-luminosa"] #arcanjo-protocol-view > header button,
+:root[data-layout="essencia-luminosa"] #arcanjo-protocol-view > header button svg {
+  color: var(--layout-gold) !important;
+}
+:root[data-layout="essencia-luminosa"] #arcanjo-protocol-view > main > section:first-child > div:first-child {
+  color: var(--layout-text-secondary) !important;
+}
+:root[data-layout="essencia-luminosa"] #arcanjo-protocol-view > main > section:first-child > div:first-child svg {
+  color: var(--layout-gold) !important;
+}
+:root[data-layout="essencia-luminosa"] #arcanjo-protocol-view [class*="text-[#B88736]"] {
+  color: var(--layout-gold) !important;
+}
+:root[data-layout="essencia-luminosa"] #arcanjo-protocol-view [class*="border-[#B88736]"] {
+  border-color: var(--layout-border-card) !important;
+}
+:root[data-layout="essencia-luminosa"] #arcanjo-protocol-view [class*="text-[#5C6A60]"] {
+  color: var(--layout-text-secondary) !important;
+}
+:root[data-layout="essencia-luminosa"] #arcanjo-protocol-view .ep-forest-panel {
+  background: linear-gradient(145deg, var(--layout-card), var(--layout-canvas-alt)) !important;
+  border-color: var(--layout-border-card) !important;
+  color: var(--layout-text) !important;
+  box-shadow: 0 18px 48px rgba(112,91,58,.08), inset 0 1px 0 rgba(255,255,255,.72) !important;
+}
+:root[data-layout="essencia-luminosa"] #arcanjo-protocol-view .ep-forest-panel :is(
+  [class*="text-[#d9e6dc]"],
+  [class*="text-[#e9f1e9]"],
+  [class*="text-[#bad0c4]"],
+  [class*="text-[#d7e2d8]"],
+  [class*="text-[#c8d9cd]"],
+  [class*="text-[#c8d8cc]"],
+  [class*="text-[#e6eee8]"]
+) {
+  color: var(--layout-text-secondary) !important;
+}
+:root[data-layout="essencia-luminosa"] #arcanjo-protocol-view .ep-forest-panel [class*="text-[#f5e8bd]"] {
+  color: var(--layout-text) !important;
+}
+:root[data-layout="essencia-luminosa"] #arcanjo-protocol-view .ep-forest-panel [class*="text-[#f0d989]"] {
+  color: var(--layout-text-secondary) !important;
+}
+:root[data-layout="essencia-luminosa"] #arcanjo-protocol-view .ep-forest-panel [class*="bg-black/30"] {
+  background: var(--layout-border-card) !important;
+}
+:root[data-layout="essencia-luminosa"] #arcanjo-protocol-view .ep-forest-panel :is([class*="bg-black/20"], [class*="bg-black/10"]) {
+  background: var(--layout-canvas-alt) !important;
+}
+:root[data-layout="essencia-luminosa"] #arcanjo-protocol-view .ep-forest-panel [class*="border-[#B88736]"] {
+  border-color: var(--layout-border-card) !important;
+}
+:root[data-layout="essencia-luminosa"] #arcanjo-protocol-view .ep-gold-button {
+  background: var(--layout-gold-gradient) !important;
+  color: var(--layout-text) !important;
+  border-color: color-mix(in srgb, var(--layout-gold) 34%, var(--layout-border-card)) !important;
+  box-shadow: 0 10px 24px rgba(112,91,58,.10) !important;
+}
+:root[data-layout="essencia-luminosa"] #arcanjo-protocol-view [class*="aspect-[4/5]"] {
+  background: var(--layout-card) !important;
+  border-color: var(--layout-border-card) !important;
+  box-shadow: 0 18px 48px rgba(112,91,58,.10) !important;
+}
+:root[data-layout="essencia-luminosa"] #arcanjo-protocol-view [class*="aspect-[4/5]"] > img:first-of-type {
+  filter: brightness(.86) saturate(.82) !important;
+}
+:root[data-layout="essencia-luminosa"] #arcanjo-protocol-view [class*="aspect-[4/5]"] > div[class*="bottom-0"] {
+  background: linear-gradient(
+    to top,
+    color-mix(in srgb, var(--layout-card) 96%, transparent),
+    color-mix(in srgb, var(--layout-card) 82%, transparent) 58%,
+    transparent
+  ) !important;
+}
+:root[data-layout="essencia-luminosa"] #arcanjo-protocol-view [class*="aspect-[4/5]"] [class*="text-[#f5e8bd]"] {
+  color: var(--layout-text) !important;
+}
+:root[data-layout="essencia-luminosa"] #arcanjo-protocol-view [class*="aspect-[4/5]"] [class*="text-[#c8d9cd]"] {
+  color: var(--layout-text-secondary) !important;
+}
+:root[data-layout="essencia-luminosa"] #arcanjo-protocol-view [data-day-state="upcoming"] {
+  background: var(--layout-accent) !important;
+  color: var(--layout-text) !important;
+}
+:root[data-layout="essencia-luminosa"] #arcanjo-protocol-view [class*="bg-[#e5c66f]"] {
+  background: var(--layout-gold-soft) !important;
+}
+:root[data-layout="essencia-luminosa"] #arcanjo-protocol-view [class*="via-[#d4af37]"] {
+  background-image: linear-gradient(to right, transparent, var(--layout-gold), transparent) !important;
+}
+@media (prefers-reduced-motion: reduce) {
+  :root[data-layout="essencia-luminosa"] #arcanjo-protocol-view *,
+  :root[data-layout="essencia-luminosa"] #arcanjo-protocol-view *::before,
+  :root[data-layout="essencia-luminosa"] #arcanjo-protocol-view *::after {
+    animation: none !important;
+    transition: none !important;
+    scroll-behavior: auto !important;
+    will-change: auto !important;
+  }
+}
+
+
+/* RUN 127 — neutraliza o botão de saída legado no cabeçalho do Arcanjo.
+   O estado de sair continua visível e acessível, mas não introduz rosa/vermelho
+   na identidade clara da Essência Luminosa. */
+:root[data-layout="essencia-luminosa"] #arcanjo-protocol-view > header button[class*="bg-rose-"] {
+  background: linear-gradient(
+    145deg,
+    var(--layout-card),
+    color-mix(in srgb, var(--layout-accent-soft) 40%, var(--layout-card))
+  ) !important;
+  border-color: color-mix(in srgb, var(--layout-gold) 30%, var(--layout-border-card)) !important;
+  color: var(--layout-text-secondary) !important;
+  box-shadow: 0 8px 20px rgba(112,91,58,.07) !important;
+}
+:root[data-layout="essencia-luminosa"] #arcanjo-protocol-view > header button[class*="bg-rose-"]:hover {
+  background: linear-gradient(
+    145deg,
+    var(--layout-card),
+    color-mix(in srgb, var(--layout-gold-soft) 42%, var(--layout-card))
+  ) !important;
+  border-color: var(--layout-gold-border) !important;
+}
+:root[data-layout="essencia-luminosa"] #arcanjo-protocol-view > header button[class*="bg-rose-"] :is(svg, span) {
+  color: var(--layout-gold-dark) !important;
+}
+:root[data-layout="essencia-luminosa"] #arcanjo-protocol-view > header button[class*="bg-rose-"]:focus-visible {
+  outline: 2px solid color-mix(in srgb, var(--layout-gold) 62%, transparent) !important;
+  outline-offset: 3px !important;
+}
+
+/* RUN 136 — o dock e o painel de ajustes também precisam respeitar a assinatura clara.
+   O cabeçalho já é coberto por essencia-luminosa-header-semantic-audit.css.
+   Rosa/vermelho permanece nos outros estilos e nos estados semânticos que não são logout. */
+:root[data-layout="essencia-luminosa"] #bottom-btn-logout {
+  background: linear-gradient(135deg, var(--layout-card), var(--layout-canvas-alt)) !important;
+  border-color: var(--layout-border-card) !important;
+  color: var(--layout-text-secondary) !important;
+  box-shadow: 0 6px 18px rgba(112,91,58,.07) !important;
+}
+:root[data-layout="essencia-luminosa"] #bottom-btn-logout :is(svg, span) {
+  color: var(--layout-text-secondary) !important;
+}
+:root[data-layout="essencia-luminosa"] #bottom-btn-logout:is(:hover, :active) {
+  background: linear-gradient(135deg, color-mix(in srgb, var(--layout-gold-soft) 34%, var(--layout-card)), var(--layout-card)) !important;
+  border-color: color-mix(in srgb, var(--layout-gold) 34%, var(--layout-border-card)) !important;
+}
+:root[data-layout="essencia-luminosa"] #bottom-btn-logout:focus-visible {
+  outline: 2px solid color-mix(in srgb, var(--layout-gold) 62%, white) !important;
+  outline-offset: 3px;
+}
+:root[data-layout="essencia-luminosa"] #settings-view button.bg-rose-600 {
+  background: linear-gradient(135deg, var(--layout-card), var(--layout-canvas-alt)) !important;
+  border-color: var(--layout-border-card) !important;
+  color: var(--layout-text-secondary) !important;
+  box-shadow: 0 6px 18px rgba(112,91,58,.07) !important;
+}
+:root[data-layout="essencia-luminosa"] #settings-view button.bg-rose-600 :is(svg, span) {
+  color: var(--layout-text-secondary) !important;
+}
+:root[data-layout="essencia-luminosa"] #settings-view button.bg-rose-600:hover {
+  background: linear-gradient(135deg, color-mix(in srgb, var(--layout-gold-soft) 34%, var(--layout-card)), var(--layout-card)) !important;
+  border-color: color-mix(in srgb, var(--layout-gold) 34%, var(--layout-border-card)) !important;
+}
+
+
+/* RUN 137 — o toast global mantém o visual aprovado em cada estilo.
+   A superfície escura original continua nos outros estilos; a Essência Luminosa
+   recebe marfim/champagne e ouro suave sem alterar a estrutura compartilhada. */
+:root[data-layout="essencia-luminosa"] .ep-app-toast {
+  background: linear-gradient(145deg, var(--layout-card), var(--layout-canvas-alt)) !important;
+  border: 1px solid var(--layout-border-card) !important;
+  color: var(--layout-text) !important;
+  box-shadow: 0 14px 38px rgba(112,91,58,.12) !important;
+}
+:root[data-layout="essencia-luminosa"] .ep-app-toast > svg:first-child {
+  color: var(--layout-gold-dark) !important;
+  animation: none !important;
+}
+:root[data-layout="essencia-luminosa"] .ep-app-toast button {
+  color: var(--layout-text-secondary) !important;
+}
+@media (prefers-reduced-motion: reduce) {
+  :root[data-layout="essencia-luminosa"] .ep-app-toast {
+    animation: none !important;
+  }
+}
+
+
+/* RUN 139 — contraste tipográfico final da Essência Luminosa.
+   Tons sálvia/ouro continuam presentes em ícones, fundos e bordas; texto pequeno
+   usa versões escurecidas com contraste AA nas superfícies marfim/champagne. */
+:root[data-layout="essencia-luminosa"] {
+  --layout-accent-text: color-mix(in srgb, var(--layout-accent) 50%, var(--layout-text));
+  --layout-gold-text: color-mix(in srgb, var(--layout-gold-dark) 60%, var(--layout-text));
+}
+
+/* A camada final neutraliza utilities herdadas somente nos elementos textuais.
+   SVGs decorativos permanecem livres para usar sálvia e ouro suave. */
+:root[data-layout="essencia-luminosa"] :is(
+  #cura-main-layout, #meditation-session, #arcanjo-protocol-view, #progress-dashboard,
+  #video-studio-modal, #pro-certificate-modal, #settings-view, #daily-diary-modal,
+  #daily-tip-modal, #journal-dashboard-view, #astral-map-modal, #numerology-modal,
+  #contact-us-modal, #promo-video-modal, #specific-treatment-modal,
+  #systemic-questions-modal, #archangel-prayer-modal, #mobile-install-modal,
+  #day-detail-modal, #plans-modal, #hooponopono-modal,
+  [aria-label="Celebração de progresso"], .ep-care-onboarding, .ep-home, .ep-app-toast
+) :is(
+  p, span, small, label, strong, b, em, h1, h2, h3, h4, h5, h6,
+  button, a, div, li, dt, dd, summary, figcaption, blockquote, output,
+  section, article, header, footer
+):is(
+  [class*="text-emerald-"], [class*="text-teal-"], [class*="text-sky-"],
+  [class*="text-blue-"], [class*="text-indigo-"], [class*="text-purple-"],
+  [class*="text-violet-"], [class*="text-[#315C85]"], [class*="text-[#2F6B50]"],
+  [class*="text-[#2D4A3E]"], [class*="text-[#5E7153]"], [class*="text-[#A6B49B]"]
+) {
+  color: var(--layout-text-secondary) !important;
+}
+
+:root[data-layout="essencia-luminosa"] :is(
+  #cura-main-layout, #meditation-session, #arcanjo-protocol-view, #progress-dashboard,
+  #video-studio-modal, #pro-certificate-modal, #settings-view, #daily-diary-modal,
+  #daily-tip-modal, #journal-dashboard-view, #astral-map-modal, #numerology-modal,
+  #contact-us-modal, #promo-video-modal, #specific-treatment-modal,
+  #systemic-questions-modal, #archangel-prayer-modal, #mobile-install-modal,
+  #day-detail-modal, #plans-modal, #hooponopono-modal,
+  [aria-label="Celebração de progresso"], .ep-care-onboarding, .ep-home, .ep-app-toast
+) :is(
+  p, span, small, label, strong, b, em, h1, h2, h3, h4, h5, h6,
+  button, a, div, li, dt, dd, summary, figcaption, blockquote, output,
+  section, article, header, footer
+):is(
+  [class*="text-amber-"], [class*="text-yellow-"], [class*="text-[#B88736]"],
+  [class*="text-[#8F631E]"], [class*="text-[#A87E37]"], [class*="text-[#C6A46A]"],
+  [class*="text-[#9C7429]"], [class*="text-[#7C5A1D]"],
+  [class*="text-[#d5ba78]"], [class*="text-[#e1c171]"]
+) {
+  color: var(--layout-gold-text) !important;
+}
+
+:root[data-layout="essencia-luminosa"] :is(
+  #cura-main-layout, #meditation-session, #arcanjo-protocol-view, #progress-dashboard,
+  #video-studio-modal, #pro-certificate-modal, #settings-view, #daily-diary-modal,
+  #daily-tip-modal, #journal-dashboard-view, #astral-map-modal, #numerology-modal,
+  #contact-us-modal, #promo-video-modal, #specific-treatment-modal,
+  #systemic-questions-modal, #archangel-prayer-modal, #mobile-install-modal,
+  #day-detail-modal, #plans-modal, #hooponopono-modal,
+  [aria-label="Celebração de progresso"], .ep-care-onboarding, .ep-home, .ep-app-toast
+) :is(
+  p, span, small, label, strong, b, em, h1, h2, h3, h4, h5, h6,
+  button, a, div, li, dt, dd, summary, figcaption, blockquote, output,
+  section, article, header, footer
+):is(
+  [class*="text-[#85786C]"], [class*="text-[#7E8A7F]"], [class*="text-[#cbbf9f]"]
+) {
+  color: var(--layout-text-secondary) !important;
+}
+
+/* Botões e rótulos específicos que recebem cor por regra semântica ou estilo inline. */
+:root[data-layout="essencia-luminosa"] .ep-home-hero button:not(.ep-gold-button) {
+  color: var(--layout-gold-text) !important;
+}
+:root[data-layout="essencia-luminosa"] #daily-tip-modal button:last-child,
+:root[data-layout="essencia-luminosa"] #daily-tip-modal button:last-child :is(svg, span) {
+  color: var(--layout-text) !important;
+}
+:root[data-layout="essencia-luminosa"] #specific-treatment-modal .ep-treatment-recommended-badge {
+  color: var(--layout-gold-text) !important;
+}
+:root[data-layout="essencia-luminosa"] #hooponopono-modal [data-phrase-tone="0"] strong {
+  color: var(--layout-gold-text) !important;
+}
+:root[data-layout="essencia-luminosa"] #hooponopono-modal [data-phrase-tone="1"] strong,
+:root[data-layout="essencia-luminosa"] #hooponopono-modal [data-phrase-tone="3"] strong {
+  color: var(--layout-text-secondary) !important;
+}
+:root[data-layout="essencia-luminosa"] #hooponopono-modal [data-phrase-tone="2"] strong {
+  color: var(--layout-text-secondary) !important;
+}
+
+/* RUN 142 — harmoniza o CTA flutuante e torna inequívoca a seleção atual nas Configurações.
+   A regra só existe sob data-layout da Essência Luminosa; os outros estilos mantêm o verde de contato aprovado. */
+:root[data-layout="essencia-luminosa"] #floating-whatsapp-btn {
+  background: linear-gradient(145deg, color-mix(in srgb, var(--layout-accent-soft) 62%, var(--layout-card)), var(--layout-card)) !important;
+  color: var(--layout-text) !important;
+  border-color: color-mix(in srgb, var(--layout-accent) 38%, var(--layout-border-card)) !important;
+  box-shadow: 0 14px 34px rgba(112, 91, 58, .12) !important;
+}
+:root[data-layout="essencia-luminosa"] #floating-whatsapp-btn:hover {
+  background: linear-gradient(145deg, var(--layout-gold-soft), var(--layout-card)) !important;
+  border-color: var(--layout-gold-border) !important;
+  box-shadow: 0 16px 38px rgba(112, 91, 58, .14) !important;
+}
+:root[data-layout="essencia-luminosa"] #floating-whatsapp-btn svg {
+  color: var(--layout-gold-dark) !important;
+  fill: color-mix(in srgb, var(--layout-accent-soft) 54%, var(--layout-card)) !important;
+}
+:root[data-layout="essencia-luminosa"] #floating-whatsapp-btn span {
+  color: var(--layout-text) !important;
+}
+:root[data-layout="essencia-luminosa"] #settings-view .ep-layout-choice[aria-pressed="true"] {
+  border-color: var(--layout-gold) !important;
+  background: linear-gradient(145deg, color-mix(in srgb, var(--layout-gold-soft) 42%, var(--layout-card)), var(--layout-card)) !important;
+  box-shadow: 0 0 0 1px color-mix(in srgb, var(--layout-gold) 22%, transparent), 0 10px 28px rgba(112, 91, 58, .10) !important;
+}
+:root[data-layout="essencia-luminosa"] #settings-view .ep-layout-choice[aria-pressed="false"] {
+  border-color: var(--layout-border-card) !important;
+  background: var(--layout-card) !important;
+}
+:root[data-layout="essencia-luminosa"] #settings-view .ep-layout-choice:focus-visible {
+  outline: 2px solid color-mix(in srgb, var(--layout-gold) 58%, white) !important;
+  outline-offset: 3px;
+}
+@media (prefers-reduced-motion: reduce) {
+  :root[data-layout="essencia-luminosa"] #floating-whatsapp-btn {
+    transition: none !important;
+    transform: none !important;
+  }
+}
+
+
+/* RUN 146 — Essência Luminosa: Reintegração da Vida */
+/* A jornada de 21 dias é uma superfície ativa do Estilo 3. Neutraliza apenas aqui
+   os painéis verde-escuros e o azul-noturno herdados do tema global; conteúdo,
+   arte diária, corpo neutro, áudio e estrutura da jornada permanecem intactos. */
+:root[data-layout="essencia-luminosa"] [data-ep-reintegration="true"] {
+  background:
+    radial-gradient(circle at 12% 0%, color-mix(in srgb, var(--layout-gold-soft) 22%, transparent), transparent 25rem),
+    radial-gradient(circle at 100% 28%, color-mix(in srgb, var(--layout-accent-soft) 28%, transparent), transparent 28rem),
+    linear-gradient(180deg, var(--layout-canvas), var(--layout-canvas-alt)) !important;
+  color: var(--layout-text) !important;
+}
+
+:root[data-layout="essencia-luminosa"] [data-ep-reintegration="true"] .ep-reintegration-panel {
+  background: linear-gradient(145deg, var(--layout-card), color-mix(in srgb, var(--layout-canvas-alt) 82%, var(--layout-card))) !important;
+  border-color: var(--layout-border-card) !important;
+  box-shadow: 0 18px 48px rgba(112, 91, 58, .09) !important;
+}
+
+:root[data-layout="essencia-luminosa"] [data-ep-reintegration="true"] .ep-reintegration-card {
+  background: linear-gradient(145deg, var(--layout-card), color-mix(in srgb, var(--layout-canvas-alt) 72%, var(--layout-card))) !important;
+  border-color: var(--layout-border-card) !important;
+  color: var(--layout-text) !important;
+  box-shadow: 0 10px 26px rgba(112, 91, 58, .06) !important;
+}
+
+:root[data-layout="essencia-luminosa"] [data-ep-reintegration="true"] .ep-reintegration-card :is(p, span, small, summary, strong, b) {
+  color: var(--layout-text-secondary) !important;
+}
+
+:root[data-layout="essencia-luminosa"] [data-ep-reintegration="true"] .ep-reintegration-card :is(h1, h2, h3) {
+  color: var(--layout-text) !important;
+}
+
+:root[data-layout="essencia-luminosa"] [data-ep-reintegration="true"] .ep-reintegration-luminous::before {
+  background:
+    radial-gradient(circle at 50% 18%, color-mix(in srgb, var(--layout-gold-soft) 18%, transparent), transparent 42%),
+    radial-gradient(circle at 88% 72%, color-mix(in srgb, var(--layout-accent-soft) 24%, transparent), transparent 38%) !important;
+}
+
+:root[data-layout="essencia-luminosa"] [data-ep-reintegration="true"] .ep-reintegration-logo img {
+  opacity: .30 !important;
+  filter: saturate(.86) contrast(.96) !important;
+}
+
+:root[data-layout="essencia-luminosa"] [data-ep-reintegration="true"] .ep-reintegration-day-button[aria-pressed="true"] {
+  background: var(--layout-gold-gradient) !important;
+  border-color: var(--layout-gold) !important;
+  color: var(--layout-text) !important;
+  box-shadow: 0 7px 18px rgba(112, 91, 58, .12) !important;
+}
+
+:root[data-layout="essencia-luminosa"] [data-ep-reintegration="true"] .ep-reintegration-day-button[data-completed="true"]:not([aria-pressed="true"]) {
+  background: color-mix(in srgb, var(--layout-accent-soft) 58%, var(--layout-card)) !important;
+  border-color: color-mix(in srgb, var(--layout-accent) 48%, var(--layout-border-card)) !important;
+  color: var(--layout-text-secondary) !important;
+}
+
+:root[data-layout="essencia-luminosa"] [data-ep-reintegration="true"] .ep-reintegration-day-button:not([aria-pressed="true"]):not([data-completed="true"]) {
+  background: var(--layout-card) !important;
+  border-color: var(--layout-border-card) !important;
+  color: var(--layout-text-muted) !important;
+}
+
+:root[data-layout="essencia-luminosa"] [data-ep-reintegration="true"] .ep-reintegration-player-card {
+  background: var(--layout-card) !important;
+  border-color: var(--layout-border-card) !important;
+  box-shadow: 0 18px 44px rgba(112, 91, 58, .08) !important;
+}
+
+:root[data-layout="essencia-luminosa"] [data-ep-reintegration="true"] .ep-reintegration-player-stage {
+  background: linear-gradient(180deg, var(--layout-card), var(--layout-canvas-alt)) !important;
+}
+
+:root[data-layout="essencia-luminosa"] [data-ep-reintegration="true"] .ep-reintegration-player-glow {
+  background: radial-gradient(circle at center, color-mix(in srgb, var(--layout-gold-soft) 18%, transparent), transparent 44%) !important;
+}
+
+:root[data-layout="essencia-luminosa"] [data-ep-reintegration="true"] .ep-reintegration-player-voice-card {
+  background: color-mix(in srgb, var(--layout-card) 94%, var(--layout-canvas-alt)) !important;
+  border-color: var(--layout-border-card) !important;
+}
+
+:root[data-layout="essencia-luminosa"] [data-ep-reintegration="true"] .ep-reintegration-progress-track {
+  background: var(--layout-border-card) !important;
+}
+
+:root[data-layout="essencia-luminosa"] [data-ep-reintegration="true"] .ep-reintegration-progress-fill,
+:root[data-layout="essencia-luminosa"] [data-ep-reintegration="true"] .ep-reintegration-cta {
+  background: var(--layout-gold-gradient) !important;
+  color: var(--layout-text) !important;
+  border-color: var(--layout-gold-border) !important;
+  box-shadow: 0 10px 26px rgba(112, 91, 58, .10) !important;
+}
+
+:root[data-layout="essencia-luminosa"] [data-ep-reintegration="true"] .ep-reintegration-top-button,
+:root[data-layout="essencia-luminosa"] [data-ep-reintegration="true"] .ep-reintegration-nav-button {
+  background: color-mix(in srgb, var(--layout-card) 92%, var(--layout-canvas-alt)) !important;
+  border-color: var(--layout-border-card) !important;
+  color: var(--layout-text-secondary) !important;
+  box-shadow: 0 8px 22px rgba(112, 91, 58, .06) !important;
+}
+
+:root[data-layout="essencia-luminosa"] [data-ep-reintegration="true"] .ep-reintegration-footer {
+  border-color: var(--layout-border-card) !important;
+}
+
+:root[data-layout="essencia-luminosa"] [data-ep-reintegration="true"] button:focus-visible,
+:root[data-layout="essencia-luminosa"] [data-ep-reintegration-modal="true"] button:focus-visible {
+  outline: 2px solid color-mix(in srgb, var(--layout-gold) 62%, white) !important;
+  outline-offset: 3px;
+}
+
+/* O player em execução permanece imersivo, mas usa grafite quente e champagne,
+   nunca azul-noturno/índigo; a fotografia natural continua visível ao fundo. */
+:root[data-layout="essencia-luminosa"] [data-ep-reintegration-running="true"] {
+  background:
+    radial-gradient(circle at 50% 12%, color-mix(in srgb, var(--layout-gold-soft) 16%, transparent), transparent 26rem),
+    linear-gradient(180deg, #2A2420, #39322B) !important;
+  color: var(--layout-canvas) !important;
+}
+
+:root[data-layout="essencia-luminosa"] [data-ep-reintegration-running="true"] .ep-reintegration-running-backdrop {
+  opacity: .52 !important;
+  filter: saturate(.88) brightness(.86) blur(9px) !important;
+}
+
+:root[data-layout="essencia-luminosa"] [data-ep-reintegration-running="true"] .ep-reintegration-running-footer {
+  background: linear-gradient(180deg, transparent 0%, rgba(42, 36, 32, .82) 24%, rgba(42, 36, 32, .98) 100%) !important;
+  color: var(--layout-canvas) !important;
+}
+
+:root[data-layout="essencia-luminosa"] [data-ep-reintegration-running="true"] .ep-reintegration-running-footer p:first-child {
+  color: var(--layout-gold-soft) !important;
+}
+
+:root[data-layout="essencia-luminosa"] [data-ep-reintegration-running="true"] .ep-reintegration-running-footer p:nth-child(2) {
+  color: var(--layout-canvas) !important;
+}
+
+:root[data-layout="essencia-luminosa"] [data-ep-reintegration-running="true"] .ep-reintegration-running-footer p:nth-child(3) {
+  color: var(--layout-canvas-alt) !important;
+}
+
+:root[data-layout="essencia-luminosa"] [data-ep-reintegration-running="true"] :is(.ep-reintegration-running-close, .ep-reintegration-running-script-button, .ep-reintegration-running-control) {
+  background: rgba(255, 255, 248, .09) !important;
+  border-color: color-mix(in srgb, var(--layout-gold-soft) 62%, transparent) !important;
+  color: var(--layout-canvas) !important;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, .18) !important;
+}
+
+:root[data-layout="essencia-luminosa"] [data-ep-reintegration-running="true"] .ep-reintegration-running-progress-track {
+  background: rgba(255, 255, 248, .20) !important;
+}
+
+:root[data-layout="essencia-luminosa"] [data-ep-reintegration-running="true"] .ep-reintegration-running-progress-fill {
+  background: linear-gradient(90deg, var(--layout-gold-soft), var(--layout-gold-dark)) !important;
+  box-shadow: 0 0 12px rgba(198, 164, 106, .22) !important;
+}
+
+:root[data-layout="essencia-luminosa"] [data-ep-reintegration-running="true"] .ep-reintegration-running-cta {
+  background: var(--layout-gold-gradient) !important;
+  border: 1px solid var(--layout-gold-border) !important;
+  color: var(--layout-text) !important;
+  box-shadow: 0 8px 26px rgba(112, 91, 58, .18) !important;
+}
+
+@media (max-width: 640px) {
+  :root[data-layout="essencia-luminosa"] [data-ep-reintegration="true"] .ep-reintegration-logo img {
+    opacity: .26 !important;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root[data-layout="essencia-luminosa"] [data-ep-reintegration="true"] .ep-reintegration-luminous::before,
+  :root[data-layout="essencia-luminosa"] [data-ep-reintegration-running="true"] .ep-reintegration-running-backdrop {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+
+
+/* Mantém os pequenos rótulos dourados e o acento sálvia sem saturação. */
+:root[data-layout="essencia-luminosa"] [data-ep-reintegration="true"] .ep-reintegration-luminous [class*="text-[#B88736]"],
+:root[data-layout="essencia-luminosa"] [data-ep-reintegration="true"] .ep-reintegration-card [class*="text-[#B88736]"],
+:root[data-layout="essencia-luminosa"] [data-ep-reintegration="true"] .ep-reintegration-player-voice-card [class*="text-[#B88736]"] {
+  color: var(--layout-gold-dark) !important;
+}
+
+:root[data-layout="essencia-luminosa"] [data-ep-reintegration="true"] .ep-reintegration-top-actions > div > .ep-reintegration-top-button:last-child {
+  background: color-mix(in srgb, var(--layout-accent-soft) 62%, var(--layout-card)) !important;
+  border-color: color-mix(in srgb, var(--layout-accent) 42%, var(--layout-border-card)) !important;
+  color: var(--layout-text-secondary) !important;
+}
+
+
+/* RUN 147 — o fundo de reserva do corpo neutro acompanha o grafite quente do player.
+   A arte/sprite aprovada permanece intacta; somente o fundo verde global é neutralizado no Estilo 3. */
+:root[data-layout="essencia-luminosa"] [data-ep-reintegration-running="true"] .reintegration-presence-visual {
+  background: linear-gradient(180deg, #39322B, #2A2420) !important;
+}
+
+/* RUN 152 — a tela inicial da Reintegração não herda o fundo verde global.
+   A sessão em execução mantém o grafite quente aprovado; a arte original permanece intacta. */
+:root[data-layout="essencia-luminosa"] [data-ep-reintegration="true"] > main .reintegration-presence-visual {
+  background: linear-gradient(180deg, var(--layout-canvas-alt), var(--layout-card)) !important;
+}
+
+/* A luz acompanha o relógio real do áudio com transições suaves entre os estados. */
+:root[data-layout="essencia-luminosa"] [data-ep-reintegration="true"] .reintegration-presence-frame {
+  transition: opacity 650ms ease, filter 650ms ease, mask-image 650ms ease, -webkit-mask-image 650ms ease;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root[data-layout="essencia-luminosa"] [data-ep-reintegration="true"] .reintegration-presence-frame {
+    transition: none !important;
+  }
+}
+
+
+/* RUN 153 — o preview humano do Estúdio de Vídeos também usa o canvas claro do Estilo 3.
+   O sprite aprovado permanece intacto; neutraliza somente o fundo verde global #132b2a. */
+:root[data-layout="essencia-luminosa"] #video-studio-modal .visual-studio-human-frame {
+  background: var(--layout-canvas-alt) !important;
+  border-color: var(--layout-border-card) !important;
+}
+:root[data-layout="essencia-luminosa"] #video-studio-modal .visual-studio-human-frame .reintegration-presence-visual {
+  background: linear-gradient(180deg, var(--layout-canvas-alt), var(--layout-card)) !important;
+}
+
+
+/* RUN 157 — o Estúdio de Vídeos neutraliza os verdes herdados também nos controles.
+   A regra vale somente para a Essência Luminosa; os demais estilos permanecem intactos. */
+:root[data-layout="essencia-luminosa"] #video-studio-modal button[aria-pressed="true"] {
+  background: linear-gradient(135deg, var(--layout-gold-soft), var(--layout-gold)) !important;
+  border-color: var(--layout-gold) !important;
+  color: var(--layout-text) !important;
+  box-shadow: 0 8px 20px rgba(112,91,58,.12) !important;
+}
+:root[data-layout="essencia-luminosa"] #video-studio-modal button[aria-pressed="true"] :is(span, svg) {
+  color: var(--layout-text) !important;
+}
+:root[data-layout="essencia-luminosa"] #video-studio-modal [class*="text-[#41503A]"],
+:root[data-layout="essencia-luminosa"] #video-studio-modal [class*="text-[#586454]"] {
+  color: var(--layout-text-secondary) !important;
+}
+:root[data-layout="essencia-luminosa"] #video-studio-modal [class*="border-[#5E7153]"] {
+  border-color: color-mix(in srgb, var(--layout-accent) 28%, var(--layout-border-card)) !important;
+}
+:root[data-layout="essencia-luminosa"] #video-studio-modal [class*="bg-[#5E7153]"] {
+  background-color: color-mix(in srgb, var(--layout-accent-soft) 72%, var(--layout-card)) !important;
+}
+
+
+/* RUN 158 — Perguntas Sistêmicas: estados de dia respondido/atual usam sálvia e champagne.
+   Neutraliza somente os indicadores emerald/amber herdados; conteúdo, estados e áudio permanecem iguais. */
+:root[data-layout="essencia-luminosa"] #systemic-questions-modal [class*="bg-emerald-50"] {
+  background: color-mix(in srgb, var(--layout-accent-soft) 68%, var(--layout-card)) !important;
+}
+:root[data-layout="essencia-luminosa"] #systemic-questions-modal [class*="border-emerald-200"] {
+  border-color: color-mix(in srgb, var(--layout-accent) 30%, var(--layout-border-card)) !important;
+}
+:root[data-layout="essencia-luminosa"] #systemic-questions-modal [class*="bg-emerald-400"],
+:root[data-layout="essencia-luminosa"] #systemic-questions-modal [class*="bg-emerald-500"] {
+  background-color: var(--layout-accent) !important;
+}
+:root[data-layout="essencia-luminosa"] #systemic-questions-modal [class*="bg-amber-50"] {
+  background: color-mix(in srgb, var(--layout-gold-soft) 72%, var(--layout-card)) !important;
+}
+:root[data-layout="essencia-luminosa"] #systemic-questions-modal [class*="border-amber-200"] {
+  border-color: var(--layout-gold-border) !important;
+}
+
+/* RUN 159 — Perguntas Sistêmicas: neutraliza também a cor do texto dos estados.
+   RUN 158 já tratava fundo e borda; sem estas regras, os rótulos continuavam verde/amarelo saturados. */
+:root[data-layout="essencia-luminosa"] #systemic-questions-modal [class*="text-emerald-700"] {
+  color: color-mix(in srgb, var(--layout-accent) 74%, var(--layout-text)) !important;
+}
+:root[data-layout="essencia-luminosa"] #systemic-questions-modal [class*="text-amber-700"] {
+  color: var(--layout-gold-dark) !important;
+}
+
+/* RUN 160 — o dia selecionado não pode manter o âmbar herdado nem texto branco de baixo contraste. */
+:root[data-layout="essencia-luminosa"] #systemic-questions-modal button[class*="bg-[#B88736]"] {
+  background: linear-gradient(135deg, var(--layout-gold-soft), var(--layout-gold)) !important;
+  color: var(--layout-text) !important;
+  border-color: color-mix(in srgb, var(--layout-gold-dark) 48%, var(--layout-border-card)) !important;
+  box-shadow: 0 6px 18px color-mix(in srgb, var(--layout-gold) 14%, transparent) !important;
+}
+:root[data-layout="essencia-luminosa"] #systemic-questions-modal button[class*="bg-[#B88736]"] :is(span, svg) {
+  color: var(--layout-text) !important;
+}
+:root[data-layout="essencia-luminosa"] #systemic-questions-modal button[class*="ring-[#B88736]"] {
+  --tw-ring-color: color-mix(in srgb, var(--layout-gold-dark) 28%, transparent) !important;
+}
+
+
+/* RUN 171 — o botão "Concluir dia" não pode herdar o texto verde e o dourado saturado globais.
+   Correção restrita à Reintegração da Essência Luminosa; os demais estilos permanecem intactos. */
+:root[data-layout="essencia-luminosa"] [data-ep-reintegration="true"] .ep-gold-button {
+  background: var(--layout-gold-gradient) !important;
+  color: var(--layout-text) !important;
+  border: 1px solid var(--layout-gold-border) !important;
+  box-shadow: 0 8px 22px var(--layout-gold-shadow) !important;
+}
+:root[data-layout="essencia-luminosa"] [data-ep-reintegration="true"] .ep-gold-button:hover:not(:disabled) {
+  filter: brightness(.985) saturate(.96) !important;
+  box-shadow: 0 10px 26px var(--layout-gold-shadow) !important;
+}
+
+
+/* RUN 173 — os modais financeiros também pertencem à identidade Essência Luminosa.
+   Neutraliza as superfícies verde-escuras/amarelas herdadas sem alterar preços,
+   cupons, checkout, confirmação server-side ou os outros três estilos. */
+:root[data-layout="essencia-luminosa"] #plans-modal {
+  background: rgba(42, 36, 32, .28) !important;
+  color: var(--layout-text) !important;
+}
+:root[data-layout="essencia-luminosa"] #plans-modal > div {
+  background:
+    radial-gradient(circle at 8% 10%, color-mix(in srgb, var(--layout-accent-soft) 24%, transparent), transparent 24rem),
+    radial-gradient(circle at 92% 18%, color-mix(in srgb, var(--layout-gold-soft) 18%, transparent), transparent 28rem),
+    linear-gradient(180deg, var(--layout-canvas), var(--layout-canvas-alt)) !important;
+  color: var(--layout-text) !important;
+}
+:root[data-layout="essencia-luminosa"] #plans-modal header {
+  background: color-mix(in srgb, var(--layout-card) 94%, transparent) !important;
+  border-color: var(--layout-border-card) !important;
+}
+:root[data-layout="essencia-luminosa"] #plans-modal :is(h1, h2, h3, h4),
+:root[data-layout="essencia-luminosa"] #plans-modal [class*="text-[#26372A]"] {
+  color: var(--layout-text) !important;
+}
+:root[data-layout="essencia-luminosa"] #plans-modal :is([class*="text-[#5F6857]"], [class*="text-[#6A725F]"]) {
+  color: var(--layout-text-secondary) !important;
+}
+:root[data-layout="essencia-luminosa"] #plans-modal :is([class*="text-[#073B2B]"]) {
+  color: var(--layout-text) !important;
+}
+:root[data-layout="essencia-luminosa"] #plans-modal [class*="text-[#2F6B50]"] {
+  color: color-mix(in srgb, var(--layout-accent) 42%, var(--layout-text)) !important;
+}
+:root[data-layout="essencia-luminosa"] #plans-modal :is([class*="text-[#9C7429]"], [class*="text-[#7C5A1D]"], [class*="text-[#B88736]"]) {
+  color: var(--layout-gold-dark) !important;
+}
+:root[data-layout="essencia-luminosa"] #plans-modal [class*="text-[#FFF9E8]"] {
+  color: var(--layout-text) !important;
+}
+:root[data-layout="essencia-luminosa"] #plans-modal [class*="bg-[#FFF9E8]"] {
+  background: color-mix(in srgb, var(--layout-gold-soft) 10%, var(--layout-card)) !important;
+}
+:root[data-layout="essencia-luminosa"] #plans-modal [class*="bg-[#F7E5AA]"] {
+  background: color-mix(in srgb, var(--layout-gold-soft) 34%, var(--layout-card)) !important;
+}
+:root[data-layout="essencia-luminosa"] #plans-modal [class*="bg-[#073B2B]"] {
+  background: var(--layout-gold-gradient) !important;
+  color: var(--layout-text) !important;
+}
+:root[data-layout="essencia-luminosa"] #plans-modal :is([class*="border-[#D8B867]"], [class*="border-[#073B2B]"]) {
+  border-color: var(--layout-gold-border) !important;
+}
+:root[data-layout="essencia-luminosa"] #plans-modal article[class*="from-[#FFF6D9]"] {
+  background: linear-gradient(180deg, color-mix(in srgb, var(--layout-gold-soft) 18%, var(--layout-card)), var(--layout-card)) !important;
+  border-color: var(--layout-gold-border) !important;
+}
+:root[data-layout="essencia-luminosa"] #plans-modal button[class*="bg-[#073B2B]"] {
+  background: var(--layout-gold-gradient) !important;
+  color: var(--layout-text) !important;
+  border: 1px solid var(--layout-gold-border) !important;
+  box-shadow: 0 10px 24px var(--layout-gold-shadow) !important;
+}
+:root[data-layout="essencia-luminosa"] #plans-modal button[class*="text-[#073B2B]"] {
+  background: color-mix(in srgb, var(--layout-accent-soft) 18%, var(--layout-card)) !important;
+  color: var(--layout-text) !important;
+  border-color: var(--layout-border-card) !important;
+}
+:root[data-layout="essencia-luminosa"] #plans-modal button[data-benefit-choice] {
+  background: color-mix(in srgb, var(--layout-card) 92%, var(--layout-canvas-alt)) !important;
+  color: var(--layout-text) !important;
+  border-color: var(--layout-border-card) !important;
+}
+:root[data-layout="essencia-luminosa"] #plans-modal button[aria-pressed="true"] {
+  background: var(--layout-gold-gradient) !important;
+  color: var(--layout-text) !important;
+  border-color: var(--layout-gold-border) !important;
+}
+:root[data-layout="essencia-luminosa"] #plans-modal button[aria-label="Fechar"] {
+  background: color-mix(in srgb, var(--layout-card) 90%, var(--layout-canvas-alt)) !important;
+  color: var(--layout-text) !important;
+  border-color: var(--layout-border-card) !important;
+}
+:root[data-layout="essencia-luminosa"] #plans-modal input:focus {
+  border-color: var(--layout-gold) !important;
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--layout-gold) 16%, transparent) !important;
+}
+:root[data-layout="essencia-luminosa"] #plans-modal :is([class*="shadow-[#073B2B]"], [class*="shadow-[#6A5425]"]) {
+  box-shadow: 0 12px 28px var(--layout-gold-shadow) !important;
+}
+
+/* Prática individual: sálvia/oliva clara para estados positivos e champagne
+   para seleção/ações; vermelho continua reservado a erros e avisos. */
+:root[data-layout="essencia-luminosa"] #specific-treatment-modal > div {
+  background: var(--layout-card) !important;
+  border-color: var(--layout-border-card) !important;
+  color: var(--layout-text) !important;
+  box-shadow: 0 18px 48px rgba(112, 91, 58, .10) !important;
+}
+:root[data-layout="essencia-luminosa"] #specific-treatment-modal [class*="bg-emerald-"] {
+  background-color: color-mix(in srgb, var(--layout-accent-soft) 62%, var(--layout-card)) !important;
+}
+:root[data-layout="essencia-luminosa"] #specific-treatment-modal [class*="border-emerald-"] {
+  border-color: color-mix(in srgb, var(--layout-accent) 38%, var(--layout-border-card)) !important;
+}
+:root[data-layout="essencia-luminosa"] #specific-treatment-modal [class*="text-emerald-"] {
+  color: color-mix(in srgb, var(--layout-accent) 42%, var(--layout-text)) !important;
+}
+:root[data-layout="essencia-luminosa"] #specific-treatment-modal [class*="bg-amber-"] {
+  background-color: color-mix(in srgb, var(--layout-gold-soft) 38%, var(--layout-card)) !important;
+}
+:root[data-layout="essencia-luminosa"] #specific-treatment-modal [class*="border-amber-"] {
+  border-color: var(--layout-gold-border) !important;
+}
+:root[data-layout="essencia-luminosa"] #specific-treatment-modal [class*="text-amber-"] {
+  color: var(--layout-gold-dark) !important;
+}
+:root[data-layout="essencia-luminosa"] #specific-treatment-modal [class*="bg-indigo-"] {
+  background-color: color-mix(in srgb, var(--layout-canvas-alt) 68%, var(--layout-card)) !important;
+}
+:root[data-layout="essencia-luminosa"] #specific-treatment-modal [class*="border-indigo-"] {
+  border-color: var(--layout-border-card) !important;
+}
+:root[data-layout="essencia-luminosa"] #specific-treatment-modal [class*="text-indigo-"] {
+  color: var(--layout-text-secondary) !important;
+}
+:root[data-layout="essencia-luminosa"] #specific-treatment-modal [class*="from-emerald-950"] {
+  background: linear-gradient(135deg, color-mix(in srgb, var(--layout-accent-soft) 34%, var(--layout-card)), var(--layout-card)) !important;
+}
+:root[data-layout="essencia-luminosa"] #specific-treatment-modal [class*="from-indigo-950"] {
+  background: linear-gradient(135deg, color-mix(in srgb, var(--layout-gold-soft) 16%, var(--layout-card)), var(--layout-card)) !important;
+}
+:root[data-layout="essencia-luminosa"] #specific-treatment-modal button[class*="from-emerald-600"],
+:root[data-layout="essencia-luminosa"] #specific-treatment-modal button[class*="bg-emerald-600"] {
+  background: var(--layout-gold-gradient) !important;
+  color: var(--layout-text) !important;
+  border-color: var(--layout-gold-border) !important;
+  box-shadow: 0 10px 24px var(--layout-gold-shadow) !important;
+}
+:root[data-layout="essencia-luminosa"] #specific-treatment-modal button[class*="bg-emerald-950"] {
+  background: color-mix(in srgb, var(--layout-accent-soft) 68%, var(--layout-card)) !important;
+  color: var(--layout-text) !important;
+  border-color: var(--layout-border-card) !important;
+}
+:root[data-layout="essencia-luminosa"] #specific-treatment-modal .ep-treatment-recommended-badge {
+  background: var(--layout-gold-gradient) !important;
+  color: var(--layout-text) !important;
+  border-color: var(--layout-gold-border) !important;
+}
+:root[data-layout="essencia-luminosa"] #specific-treatment-modal :is(input, textarea, select):focus {
+  border-color: var(--layout-gold) !important;
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--layout-gold) 16%, transparent) !important;
+  outline: none !important;
+}
+:root[data-layout="essencia-luminosa"] #specific-treatment-modal button[class*="hover:bg-slate-700"]:hover {
+  background: var(--layout-canvas-alt) !important;
+  color: var(--layout-text) !important;
+}
+
+
+/* RUN 174 — remove os últimos estados verdes/âmbar residuais dos modais.
+   Preserva a função dos estados, suaviza os acentos e mantém tudo isolado no Estilo 3. */
+:root[data-layout="essencia-luminosa"] #plans-modal button[class*="hover:bg-[#073B2B]"]:hover {
+  background: color-mix(in srgb, var(--layout-accent-soft) 22%, var(--layout-card)) !important;
+  color: var(--layout-text) !important;
+  border-color: var(--layout-gold-border) !important;
+}
+:root[data-layout="essencia-luminosa"] #specific-treatment-modal button[class*="bg-[#B88736]"] {
+  background: var(--layout-gold-gradient) !important;
+  color: var(--layout-text) !important;
+  border-color: var(--layout-gold-border) !important;
+  box-shadow: 0 10px 24px var(--layout-gold-shadow) !important;
+}
+:root[data-layout="essencia-luminosa"] #specific-treatment-modal [class*="text-[#B88736]"] {
+  color: var(--layout-gold-dark) !important;
+}
+:root[data-layout="essencia-luminosa"] #specific-treatment-modal [class*="border-[#B88736]"] {
+  border-color: var(--layout-gold-border) !important;
+}
+/* O brilho decorativo do topo permanece translúcido; não vira uma mancha sálvia opaca. */
+:root[data-layout="essencia-luminosa"] #specific-treatment-modal > div > div.absolute[class*="bg-emerald-"] {
+  background-color: color-mix(in srgb, var(--layout-accent-soft) 10%, transparent) !important;
+}
+/* Links secundários deixam o hover verde escuro e passam a usar sálvia clara. */
+:root[data-layout="essencia-luminosa"] #specific-treatment-modal a[class*="hover:bg-emerald-"]:hover {
+  background: color-mix(in srgb, var(--layout-accent-soft) 24%, var(--layout-card)) !important;
+  color: var(--layout-text) !important;
+  border-color: var(--layout-border-card) !important;
+}
+:root[data-layout="essencia-luminosa"] #specific-treatment-modal [class*="shadow-emerald-"] {
+  box-shadow: 0 10px 24px var(--layout-gold-shadow) !important;
+}
+
+/* RUN 177 — Pausa Consciente, Ainda Há Algo em Mim e detalhes da Reintegração.
+   Os modais compartilhados mantêm sálvia como acento natural, mas não reintroduzem
+   o âmbar antigo #B88736 nem texto branco sobre ouro saturado no Estilo 3. */
+:root[data-layout="essencia-luminosa"] [data-ep-reintegration="true"] [data-ep-reintegration-modal="true"] [class*="text-[#B88736]"],
+:root[data-layout="essencia-luminosa"] [data-ep-reintegration="true"] [data-ep-reintegration-modal="true"] [class*="text-[#8F631E]"] {
+  color: var(--layout-gold-dark) !important;
+}
+:root[data-layout="essencia-luminosa"] [data-ep-reintegration="true"] [data-ep-reintegration-modal="true"] [class*="border-[#B88736]"] {
+  border-color: var(--layout-gold-border) !important;
+}
+:root[data-layout="essencia-luminosa"] [data-ep-reintegration="true"] [data-ep-reintegration-modal="true"] button[class*="bg-[#B88736]"],
+:root[data-layout="essencia-luminosa"] [data-ep-reintegration="true"] [data-ep-reintegration-modal="true"] button[class*="from-[#D6A756]"] {
+  background: var(--layout-gold-gradient) !important;
+  color: var(--layout-text) !important;
+  border-color: var(--layout-gold-border) !important;
+  box-shadow: 0 10px 24px var(--layout-gold-shadow) !important;
+}
+:root[data-layout="essencia-luminosa"] [data-ep-reintegration="true"] [data-ep-reintegration-modal="true"] [class*="shadow-[#B88736]"] {
+  box-shadow: 0 12px 28px var(--layout-gold-shadow) !important;
+}
+:root[data-layout="essencia-luminosa"] [data-ep-reintegration="true"] [data-ep-reintegration-modal="true"] :is(button,input,textarea):focus-visible {
+  outline: 2px solid color-mix(in srgb, var(--layout-gold) 62%, white) !important;
+  outline-offset: 3px;
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--layout-gold) 14%, transparent) !important;
+}
+:root[data-layout="essencia-luminosa"] [data-ep-reintegration="true"] [data-ep-reintegration-modal="true"] textarea:focus {
+  border-color: var(--layout-gold) !important;
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--layout-gold) 14%, transparent) !important;
+  outline: none !important;
+}
+:root[data-layout="essencia-luminosa"] [data-ep-reintegration="true"] [data-ep-reintegration-modal="true"] .ep-reintegration-script-card[aria-current="step"] {
+  border-color: var(--layout-gold-border) !important;
+  background: var(--layout-card) !important;
+}
+/* Estes controles ficam na tela principal da jornada, fora dos modais. */
+:root[data-layout="essencia-luminosa"] [data-ep-reintegration="true"] svg[class*="text-[#B88736]"] {
+  color: var(--layout-gold-dark) !important;
+}
+:root[data-layout="essencia-luminosa"] [data-ep-reintegration="true"] .ep-reintegration-acceptance input[type="checkbox"] {
+  accent-color: var(--layout-gold) !important;
+}
+:root[data-layout="essencia-luminosa"] [data-ep-reintegration="true"] .ep-reintegration-details summary:focus-visible {
+  outline-color: var(--layout-gold) !important;
+}
+:root[data-layout="essencia-luminosa"] [data-ep-reintegration="true"] .ep-reintegration-details > div > div[class*="border-[#B88736]"] {
+  border-color: var(--layout-gold-border) !important;
 }

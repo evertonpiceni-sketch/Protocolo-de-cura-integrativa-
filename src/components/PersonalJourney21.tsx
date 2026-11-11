@@ -54,6 +54,7 @@ export default function PersonalJourney21({ onClose, initialCompletedDays, onCom
   // Asset names are zero-padded (dia-01.png … dia-21.png) in public/brand/days.
   const dayArtworkUrl = `/brand/days/dia-${String(day).padStart(2, '0')}.png`;
   const isEleganciaProfunda = typeof document !== 'undefined' && document.documentElement.dataset.layout === 'elegancia-profunda';
+  const isEssenciaLuminosa = typeof document !== 'undefined' && document.documentElement.dataset.layout === 'essencia-luminosa';
   const elapsedSeconds = musicRef.current?.currentTime || 0;
   const totalSeconds = musicRef.current?.duration || 1797;
   const formatTime = (seconds: number) => `${Math.floor(seconds / 60)}:${Math.floor(seconds % 60).toString().padStart(2, '0')}`;
@@ -121,7 +122,7 @@ export default function PersonalJourney21({ onClose, initialCompletedDays, onCom
     try {
       const response = await fetch('/api/reintegration-tts', {
         method: 'POST', headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ text: cue.text, day }), signal: controller.signal
+        body: JSON.stringify({ text: cue.text, day, layout: isEssenciaLuminosa ? 'essencia-luminosa' : 'default' }), signal: controller.signal
       });
       if (!response.ok || !response.headers.get('content-type')?.includes('audio')) throw new Error(`voice ${response.status}`);
       const blob = await response.blob();
@@ -334,8 +335,8 @@ export default function PersonalJourney21({ onClose, initialCompletedDays, onCom
       <AindaHaAlgoEmMimLight onFinishReflection={() => setShowReflexao(false)} />
     </section>}
     {started && <section data-ep-reintegration-running="true" className="ep-reintegration-running fixed inset-0 z-[120] flex min-h-[100dvh] flex-col overflow-hidden bg-[#031426] text-[#F8E8C2]" aria-label="Meditação guiada em andamento">
-      <div className="ep-reintegration-running-backdrop absolute inset-[-7%] scale-110 bg-cover bg-center opacity-45 blur-[12px]" style={{backgroundImage:`linear-gradient(180deg,${isEleganciaProfunda ? 'rgba(3,20,14,.38),rgba(3,20,14,.88)' : 'rgba(2,13,29,.38),rgba(2,13,29,.88)'}),url('${dayArtworkUrl}')`}}/>
-      <div className="ep-reintegration-running-glow absolute inset-0" style={isEleganciaProfunda ? {background:'radial-gradient(circle at 50% 32%,rgba(212,175,55,.20),transparent 34%),linear-gradient(180deg,rgba(3,20,14,.18),rgba(3,20,14,.72) 62%,rgba(2,12,9,.97))'} : {background:'radial-gradient(circle at 50% 32%,rgba(226,185,107,.22),transparent 34%),linear-gradient(180deg,rgba(1,14,32,.18),rgba(1,14,32,.72) 62%,rgba(1,10,24,.97))'}}/>
+      <div className="ep-reintegration-running-backdrop absolute inset-[-7%] scale-110 bg-cover bg-center opacity-45 blur-[12px]" style={{backgroundImage:`linear-gradient(180deg,${isEleganciaProfunda ? 'rgba(3,20,14,.38),rgba(3,20,14,.88)' : isEssenciaLuminosa ? 'rgba(42,36,32,.20),rgba(42,36,32,.82)' : 'rgba(2,13,29,.38),rgba(2,13,29,.88)'}),url('${dayArtworkUrl}')`}}/>
+      <div className="ep-reintegration-running-glow absolute inset-0" style={isEleganciaProfunda ? {background:'radial-gradient(circle at 50% 32%,rgba(212,175,55,.20),transparent 34%),linear-gradient(180deg,rgba(3,20,14,.18),rgba(3,20,14,.72) 62%,rgba(2,12,9,.97))'} : isEssenciaLuminosa ? {background:'radial-gradient(circle at 50% 32%,rgba(198,164,106,.20),transparent 34%),linear-gradient(180deg,rgba(42,36,32,.12),rgba(42,36,32,.72) 62%,rgba(42,36,32,.97))'} : {background:'radial-gradient(circle at 50% 32%,rgba(226,185,107,.22),transparent 34%),linear-gradient(180deg,rgba(1,14,32,.18),rgba(1,14,32,.72) 62%,rgba(1,10,24,.97))'}}/>
       <button onClick={()=>{stopSession();setStarted(false);}} className="ep-reintegration-running-close absolute right-4 top-[max(1rem,env(safe-area-inset-top))] z-20 rounded-full border border-[#D9B86C]/55 bg-[#06192B]/75 p-3 text-[#F7E7C0] shadow-[0_8px_28px_rgba(0,0,0,.3)] backdrop-blur-md" aria-label="Fechar meditação"><X size={22}/></button>
       <div className="relative z-10 flex flex-1 items-center justify-center pt-4">
         <div className="ep-reintegration-running-visual relative w-[82vw] max-w-[430px] drop-shadow-[0_0_28px_rgba(215,170,78,.16)]">

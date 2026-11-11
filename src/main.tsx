@@ -98,6 +98,15 @@ import './natural-sereno-approved-overrides.css';
 // This layer stays scoped to Elegância Profunda; the final Style 3 layer below is independent.
 import './elegancia-profunda-approved-overrides.css';
 
+// Reativa somente as folhas existentes das superfícies ativas do Estilo 3.
+// WelcomeModal continua legado e sua folha permanece fora do bundle.
+import './essencia-luminosa-achievements-audit.css';
+import './essencia-luminosa-chakras-guide-audit.css';
+import './essencia-luminosa-contact-audit.css';
+import './essencia-luminosa-courses-audit.css';
+import './essencia-luminosa-herbal-baths-audit.css';
+import './essencia-luminosa-onboarding-audit.css';
+
 // Latest approved Essência Luminosa decisions must win over every earlier Style 3 audit layer
 // and all other theme layers. Keep this scoped override as the final theme CSS import.
 import './essencia-luminosa-approved-overrides.css';

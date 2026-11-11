@@ -1,0 +1,116 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 1000" role="img" aria-labelledby="title desc">
+  <title id="title">Representação corporal neutra em meditação</title>
+  <desc id="desc">Silhueta abstrata sem características de gênero, sentada em posição de lótus, com sete centros de luz alinhados em uma paisagem natural clara.</desc>
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#FFFFF8"/>
+      <stop offset=".58" stop-color="#F7F3E8"/>
+      <stop offset="1" stop-color="#EDE5D6"/>
+    </linearGradient>
+    <radialGradient id="aura" cx="50%" cy="42%" r="58%">
+      <stop offset="0" stop-color="#FFFFFF" stop-opacity=".96"/>
+      <stop offset=".58" stop-color="#E9D7B6" stop-opacity=".48"/>
+      <stop offset="1" stop-color="#E9D7B6" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="figure" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#F5EBDD"/>
+      <stop offset=".52" stop-color="#E5D5BD"/>
+      <stop offset="1" stop-color="#CDBB9E"/>
+    </linearGradient>
+    <linearGradient id="robe" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#F3E9D9"/>
+      <stop offset="1" stop-color="#D8C7AA"/>
+    </linearGradient>
+    <linearGradient id="water" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#D9E2D5" stop-opacity=".72"/>
+      <stop offset="1" stop-color="#EDE4D5" stop-opacity=".18"/>
+    </linearGradient>
+    <filter id="softGlow" x="-80%" y="-80%" width="260%" height="260%">
+      <feGaussianBlur stdDeviation="12"/>
+    </filter>
+    <filter id="figureShadow" x="-40%" y="-30%" width="180%" height="180%">
+      <feGaussianBlur stdDeviation="18"/>
+    </filter>
+  </defs>
+
+  <rect width="800" height="1000" fill="url(#sky)"/>
+  <circle cx="400" cy="438" r="355" fill="url(#aura)"/>
+  <circle cx="400" cy="438" r="286" fill="none" stroke="#C6A46A" stroke-opacity=".22" stroke-width="2"/>
+  <circle cx="400" cy="438" r="244" fill="none" stroke="#C6A46A" stroke-opacity=".16" stroke-width="1.5"/>
+
+  <path d="M0 505 C108 431 208 438 310 493 C414 428 551 426 800 505 V1000 H0Z" fill="#E5E8DA"/>
+  <path d="M0 592 C124 515 237 545 365 602 C492 536 643 530 800 604 V1000 H0Z" fill="#D9E2D5" opacity=".84"/>
+  <path d="M0 695 C145 626 270 655 400 704 C533 653 675 641 800 700 V1000 H0Z" fill="#E9DDC9" opacity=".9"/>
+  <path d="M0 770 C180 726 291 753 400 780 C522 748 656 733 800 776 V1000 H0Z" fill="url(#water)"/>
+  <path d="M80 817 C210 796 300 808 400 824 C510 804 607 797 720 817" fill="none" stroke="#C6A46A" stroke-opacity=".2" stroke-width="3" stroke-linecap="round"/>
+
+  <g fill="none" stroke="#A6B49B" stroke-width="3" stroke-linecap="round" opacity=".48">
+    <path d="M62 868 C76 790 92 730 128 675"/>
+    <path d="M738 868 C724 790 708 730 672 675"/>
+  </g>
+  <g fill="#A6B49B" opacity=".26">
+    <ellipse cx="91" cy="790" rx="16" ry="39" transform="rotate(-38 91 790)"/>
+    <ellipse cx="111" cy="748" rx="15" ry="35" transform="rotate(35 111 748)"/>
+    <ellipse cx="132" cy="710" rx="13" ry="31" transform="rotate(-28 132 710)"/>
+    <ellipse cx="709" cy="790" rx="16" ry="39" transform="rotate(38 709 790)"/>
+    <ellipse cx="689" cy="748" rx="15" ry="35" transform="rotate(-35 689 748)"/>
+    <ellipse cx="668" cy="710" rx="13" ry="31" transform="rotate(28 668 710)"/>
+  </g>
+  <g fill="#C6A46A" opacity=".22">
+    <circle cx="70" cy="664" r="4"/><circle cx="92" cy="642" r="3"/>
+    <circle cx="730" cy="664" r="4"/><circle cx="708" cy="642" r="3"/>
+  </g>
+
+  <ellipse cx="400" cy="856" rx="224" ry="42" fill="#9C927F" opacity=".18" filter="url(#figureShadow)"/>
+
+  <!-- Silhueta deliberadamente abstrata: sem traços faciais ou anatomia sexualizada. -->
+  <g fill="url(#figure)" stroke="#B99A68" stroke-opacity=".5" stroke-width="3" stroke-linejoin="round">
+    <path d="M352 586 C304 596 249 620 204 659 C158 699 153 746 187 772 C222 799 277 786 322 760 C354 742 382 720 400 706 C418 720 446 742 478 760 C523 786 578 799 613 772 C647 746 642 699 596 659 C551 620 496 596 448 586 C431 613 369 613 352 586Z"/>
+    <path d="M365 246 C346 263 318 277 294 300 C270 323 268 360 280 402 C292 447 307 505 322 559 C333 597 358 620 400 626 C442 620 467 597 478 559 C493 505 508 447 520 402 C532 360 530 323 506 300 C482 277 454 263 435 246 C417 264 383 264 365 246Z" fill="url(#robe)"/>
+    <path d="M300 307 C272 319 248 346 225 383 C202 421 185 462 168 494 C155 519 166 538 188 539 C207 540 220 519 232 495 C252 455 277 418 312 383 C323 357 316 326 300 307Z"/>
+    <path d="M500 307 C528 319 552 346 575 383 C598 421 615 462 632 494 C645 519 634 538 612 539 C593 540 580 519 568 495 C548 455 523 418 488 383 C477 357 484 326 500 307Z"/>
+    <circle cx="400" cy="190" r="57"/>
+    <path d="M378 239 C382 256 382 267 376 281 L424 281 C418 267 418 256 422 239Z" stroke="none"/>
+  </g>
+
+  <path d="M400 145 C400 280 400 510 400 800" fill="none" stroke="#C6A46A" stroke-width="2" stroke-dasharray="4 13" opacity=".58"/>
+  <path d="M400 280 C356 355 344 492 400 620 C456 492 444 355 400 280Z" fill="none" stroke="#FFFFFF" stroke-opacity=".46" stroke-width="2"/>
+
+  <g>
+    <g transform="translate(400 150)">
+      <circle r="35" fill="#A58BB8" opacity=".18" filter="url(#softGlow)"/>
+      <circle r="16" fill="#A58BB8" fill-opacity=".88" stroke="#FFFFFF" stroke-opacity=".82" stroke-width="2"/>
+      <circle r="5" fill="#FFFFFF" fill-opacity=".92"/>
+    </g>
+    <g transform="translate(400 250)">
+      <circle r="32" fill="#8D8BB4" opacity=".17" filter="url(#softGlow)"/>
+      <circle r="15" fill="#8D8BB4" fill-opacity=".9" stroke="#FFFFFF" stroke-opacity=".82" stroke-width="2"/>
+      <circle r="5" fill="#FFFFFF" fill-opacity=".92"/>
+    </g>
+    <g transform="translate(400 360)">
+      <circle r="32" fill="#7FA8B8" opacity=".18" filter="url(#softGlow)"/>
+      <circle r="15" fill="#7FA8B8" fill-opacity=".9" stroke="#FFFFFF" stroke-opacity=".82" stroke-width="2"/>
+      <circle r="5" fill="#FFFFFF" fill-opacity=".92"/>
+    </g>
+    <g transform="translate(400 470)">
+      <circle r="35" fill="#85A98B" opacity=".18" filter="url(#softGlow)"/>
+      <circle r="17" fill="#85A98B" fill-opacity=".92" stroke="#FFFFFF" stroke-opacity=".84" stroke-width="2"/>
+      <circle r="5" fill="#FFFFFF" fill-opacity=".92"/>
+    </g>
+    <g transform="translate(400 580)">
+      <circle r="32" fill="#D3B46E" opacity=".18" filter="url(#softGlow)"/>
+      <circle r="15" fill="#D3B46E" fill-opacity=".92" stroke="#FFFFFF" stroke-opacity=".82" stroke-width="2"/>
+      <circle r="5" fill="#FFFFFF" fill-opacity=".92"/>
+    </g>
+    <g transform="translate(400 680)">
+      <circle r="32" fill="#D59A6D" opacity=".18" filter="url(#softGlow)"/>
+      <circle r="15" fill="#D59A6D" fill-opacity=".92" stroke="#FFFFFF" stroke-opacity=".82" stroke-width="2"/>
+      <circle r="5" fill="#FFFFFF" fill-opacity=".92"/>
+    </g>
+    <g transform="translate(400 780)">
+      <circle r="32" fill="#C97B75" opacity=".18" filter="url(#softGlow)"/>
+      <circle r="15" fill="#C97B75" fill-opacity=".92" stroke="#FFFFFF" stroke-opacity=".82" stroke-width="2"/>
+      <circle r="5" fill="#FFFFFF" fill-opacity=".92"/>
+    </g>
+  </g>
+</svg>

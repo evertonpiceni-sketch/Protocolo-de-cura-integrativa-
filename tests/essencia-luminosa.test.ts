@@ -608,6 +608,16 @@ test('o logo da Essência Luminosa neutraliza o destaque compartilhado no hero e
   assert.ok(home.includes('ep-welcome-audio ep-home-hero'));
 });
 
+test('o áudio de fundo da Essência Luminosa respeita o interruptor global nos Ajustes', () => {
+  const settings = fs.readFileSync('src/components/AudioSettingsModal.tsx', 'utf8');
+  assert.ok(settings.includes('if (allowBackgroundPlayback && (!isEssenciaLuminosa || audioEnabled))'));
+  assert.ok(settings.includes('if (!isOpen || !isEssenciaLuminosa || audioEnabled) return;'));
+  assert.ok(settings.includes('if (isEssenciaLuminosa && !audioEnabled) return;'));
+  assert.ok(settings.includes('isEssenciaLuminosa && !audioEnabled && !isPlayingBioactivePreview'));
+  assert.ok(settings.includes('Ative o áudio global para ouvir a prévia binaural.'));
+  assert.ok(settings.includes('setIsPlayingBioactivePreview(false);'));
+});
+
 test('a prévia de voz da Essência Luminosa não toca Solfeggio durante a narração', () => {
   const app = fs.readFileSync('src/App.tsx', 'utf8');
   const settings = fs.readFileSync('src/components/AudioSettingsModal.tsx', 'utf8');
@@ -624,8 +634,8 @@ test('a prévia de voz da Essência Luminosa não toca Solfeggio durante a narra
     'a sincronização global, o desbloqueio por gesto e o início da prévia neural devem respeitar a política Solfeggio'
   );
   assert.ok(app.includes('!usesNeuralVoiceCatalog || !isPlayingVoiceTest'));
-  assert.ok(app.includes('layoutConfirmedThisSession,\n    usesNeuralVoiceCatalog,\n    isPlayingVoiceTest\n  ]);'));
-  assert.ok(app.includes('layoutConfirmedThisSession, isPlayingVoiceTest]);'));
+  assert.ok(app.includes('layoutConfirmedThisSession,\n    usesNeuralVoiceCatalog,\n    isPlayingVoiceTest,\n    isEssenciaLuminosa,\n    isArchangelNarrationActive\n  ]);'));
+  assert.ok(app.includes('showArchangelModal, layoutConfirmedThisSession, isPlayingVoiceTest, isEssenciaLuminosa, isArchangelNarrationActive]);'));
 
   assert.ok(settings.includes('const shouldPlayVoiceBackground = !requiresNeuralVoice'));
   assert.ok(settings.includes("audioEnabled && shouldPlayProtocolSessionBackground('playing', bgMusicType)"));
@@ -637,7 +647,11 @@ test('a prévia de voz da Essência Luminosa não toca Solfeggio durante a narra
   assert.ok(settings.includes('setNeuralVoicePreviewActive(true)'));
   assert.ok(settings.includes('setNeuralVoicePreviewActive(false)'));
   assert.ok(settings.includes('if (!allowBackgroundPlayback || (requiresNeuralVoice && isTestingVoice)) return;'));
-  assert.ok(settings.includes('disabled={!allowBackgroundPlayback || (requiresNeuralVoice && isTestingVoice)}'));
+  assert.ok(settings.includes('disabled={!allowBackgroundPlayback || (requiresNeuralVoice && isTestingVoice) || (isEssenciaLuminosa && !audioEnabled && !isPlayingBioactivePreview)}'));
+  assert.ok(settings.includes('if (allowBackgroundPlayback && (!isEssenciaLuminosa || audioEnabled))'));
+  assert.ok(settings.includes('if (!isOpen || !isEssenciaLuminosa || audioEnabled) return;'));
+  assert.ok(settings.includes('if (isEssenciaLuminosa && !audioEnabled) return;'));
+  assert.ok(settings.includes('Ative o áudio global para ouvir a prévia binaural.'));
 
   const audioPatch = fs.readFileSync('src/lib/audioIntegrityPatch.ts', 'utf8');
   assert.ok(audioPatch.includes('isNeuralVoicePreviewActive()'));
@@ -829,4 +843,47 @@ test('a cena efetiva da Home do Estilo 3 usa fotografia costeira própria e over
   assert.ok(finalCss.includes('background-attachment: scroll, scroll !important;'));
   assert.ok(!finalCss.includes('/brand/natural-sereno/'));
   assert.ok(!finalCss.includes('/brand/reintegracao/'));
+});
+
+test('a dica diária aguarda a confirmação explícita do estilo e só marca a data ao fechar', () => {
+  const app = fs.readFileSync('src/App.tsx', 'utf8');
+  assert.ok(app.includes('{showDailyTip && layoutConfirmedThisSession && !layoutChoiceRequested && userProfile && ('));
+  assert.ok(app.includes("localStorage.setItem('cura_integrada_last_tip_date', getLocalDateString());"));
+  assert.ok(!app.includes("localStorage.setItem('cura_integrada_last_tip_date', todayStr)"));
+
+  const logoutMarker = 'localStorage.removeItem(LOCAL_STORAGE_KEY_CURRENT_LOGIN);';
+  const logoutStart = app.indexOf(logoutMarker);
+  const logoutEnd = app.indexOf('// Retrieve mood description text', logoutStart);
+  assert.ok(logoutStart >= 0 && logoutEnd > logoutStart);
+  assert.ok(app.slice(logoutStart, logoutEnd).includes('setShowDailyTip(false)'));
+});
+
+test('a navegação inferior neutraliza as cores herdadas sem alterar o botão de sair', () => {
+  const app = fs.readFileSync('src/App.tsx', 'utf8');
+  const bottomNav = fs.readFileSync('src/essencia-luminosa-bottom-nav-audit.css', 'utf8');
+  const approvedOverrides = fs.readFileSync('src/essencia-luminosa-approved-overrides.css', 'utf8');
+
+  const legacyActions = [
+    'bottom-btn-promo-video', 'bottom-btn-achievements', 'bottom-btn-systemic',
+    'bottom-btn-archangel', 'bottom-btn-hooponopono', 'bottom-btn-video-studio',
+    'bottom-btn-astral-map', 'bottom-btn-numerology', 'bottom-btn-specific-treatment',
+    'bottom-btn-courses', 'bottom-btn-chakras', 'bottom-btn-herbal-baths',
+    'bottom-btn-values-guide', 'bottom-btn-journal', 'bottom-btn-dashboard', 'bottom-btn-audio'
+  ];
+  for (const id of legacyActions) assert.ok(app.includes('id="' + id + '"'), 'Ação ausente: ' + id);
+
+  assert.ok(bottomNav.includes('html[data-layout="essencia-luminosa"] button[id^="bottom-btn-"]:not(#bottom-btn-logout)'));
+  assert.ok(bottomNav.includes('button#bottom-btn-journal[class*="bg-indigo-600"]'));
+  assert.ok(bottomNav.includes('var(--layout-accent-soft)'));
+  assert.ok(approvedOverrides.includes('#bottom-btn-logout'), 'O botão Sair mantém sua assinatura específica aprovada.');
+});
+
+test('a prancha oficial deixa explícitas as decisões atuais que substituem detalhes antigos da referência', () => {
+  const modal = fs.readFileSync('src/components/LayoutChoiceModal.tsx', 'utf8');
+  const style3Preview = modal.slice(modal.indexOf("if (isEssenciaLuminosa)"), modal.indexOf("const innerBorder"));
+  assert.ok(style3Preview.includes('data-essencia-reference-note="true"'));
+  assert.ok(style3Preview.includes('jornada de 21 dias'));
+  assert.ok(style3Preview.includes('corpo neutro'));
+  assert.ok(style3Preview.includes('logo-assinatura discreto/transparente'));
+  assert.ok(style3Preview.includes('/brand/essencia-luminosa/prancha-oficial.webp'));
 });

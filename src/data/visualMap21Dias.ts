@@ -49,7 +49,7 @@ export const REGUA_VISUAL_MUDANCA_5 = {
   criterioDeCorte: "Sem ouvir o áudio, consigo perceber visualmente o movimento interno proposto para este dia?",
   tresEstadosObrigatorios: [
     "Estado 1: Vídeo MP4 presente no servidor (/videos/dia-X.mp4) executando em loop sutil",
-    "Estado 2: Fallback sem MP4 (poster /artes/dia-X.png + silhueta SVG oficial com pulsação suave)",
+    "Estado 2: Fallback sem MP4 (poster /brand/days/dia-XX.png + silhueta SVG oficial com pulsação suave)",
     "Estado 3: Player ativo com áudio oficial sincronizado (29:57) e fases sonoras"
   ]
 } as const;
@@ -71,9 +71,9 @@ export const VISUAL_MAP_21_DIAS: readonly VisualDiaInstrucao[] = [
     estadoFinal: "Corpo firme, sustentado, enraizado e estável.",
     criterioAprovacao: "Percebo claramente a descida da luz e o enraizamento no chão?",
     arquivoVideoEsperado: "/videos/dia-1.mp4",
-    posterEsperado: "/artes/dia-1.png",
+    posterEsperado: "/brand/days/dia-01.png",
     videoPath: "/videos/dia-1.mp4",
-    posterPath: "/artes/dia-1.png"
+    posterPath: "/brand/days/dia-01.png"
   },
   {
     dia: 2,
@@ -87,9 +87,9 @@ export const VISUAL_MAP_21_DIAS: readonly VisualDiaInstrucao[] = [
     estadoFinal: "Silhueta corporal integralmente delineada por uma luz homogênea e serena, transmitindo a sensação de corpo habitado por inteiro.",
     criterioAprovacao: "Sem áudio, é possível acompanhar visualmente a varredura atenta descendo da cabeça aos pés e relaxando as tensões até habitar o corpo inteiro?",
     arquivoVideoEsperado: "/videos/dia-2.mp4",
-    posterEsperado: "/artes/dia-2.png",
+    posterEsperado: "/brand/days/dia-02.png",
     videoPath: "/videos/dia-2.mp4",
-    posterPath: "/artes/dia-2.png"
+    posterPath: "/brand/days/dia-02.png"
   },
   {
     dia: 3,
@@ -103,9 +103,9 @@ export const VISUAL_MAP_21_DIAS: readonly VisualDiaInstrucao[] = [
     estadoFinal: "Um ponto de luz quente aceso e pulsando suavemente no centro do abdômen, pronto para sustentar o menor gesto real.",
     criterioAprovacao: "Sem áudio, percebe-se que a animação mostra a ignição do menor passo viável (centelha contida que sobe da base ao centro), sem pirotecnia de luz?",
     arquivoVideoEsperado: "/videos/dia-3.mp4",
-    posterEsperado: "/artes/dia-3.png",
+    posterEsperado: "/brand/days/dia-03.png",
     videoPath: "/videos/dia-3.mp4",
-    posterPath: "/artes/dia-3.png"
+    posterPath: "/brand/days/dia-03.png"
   },
 
 
@@ -124,9 +124,9 @@ export const VISUAL_MAP_21_DIAS: readonly VisualDiaInstrucao[] = [
     estadoFinal: "Cavidade torácica aliviada, respirando com folga, preenchida por um brilho interno confortável de descanso.",
     criterioAprovacao: "Sem áudio, fica evidente a transição de um tórax defensivo/fechado para uma abertura delicada que aceita receber descanso e luz?",
     arquivoVideoEsperado: "/videos/dia-4.mp4",
-    posterEsperado: "/artes/dia-4.png",
+    posterEsperado: "/brand/days/dia-04.png",
     videoPath: "/videos/dia-4.mp4",
-    posterPath: "/artes/dia-4.png"
+    posterPath: "/brand/days/dia-04.png"
   },
   {
     dia: 5,
@@ -140,9 +140,9 @@ export const VISUAL_MAP_21_DIAS: readonly VisualDiaInstrucao[] = [
     estadoFinal: "Campo térmico reconfortante ao redor do tronco e das mãos, traduzindo visualmente o permanecer ao lado de si mesmo.",
     criterioAprovacao: "Sem áudio, é nítido o desenho de um envoltório protetor morno que abraça a silhueta cansada sem forçar postura ereta artificial?",
     arquivoVideoEsperado: "/videos/dia-5.mp4",
-    posterEsperado: "/artes/dia-5.png",
+    posterEsperado: "/brand/days/dia-05.png",
     videoPath: "/videos/dia-5.mp4",
-    posterPath: "/artes/dia-5.png"
+    posterPath: "/brand/days/dia-05.png"
   },
   {
     dia: 6,
@@ -156,9 +156,9 @@ export const VISUAL_MAP_21_DIAS: readonly VisualDiaInstrucao[] = [
     estadoFinal: "Silhueta relaxada e sensorialmente desperta, comunicando conforto e receptividade a pequenas sensações agradáveis.",
     criterioAprovacao: "Sem áudio, é evidente o despertar de uma sensação agradável e tátil na pele e respiração, sem euforia ou hiperestimulação?",
     arquivoVideoEsperado: "/videos/dia-6.mp4",
-    posterEsperado: "/artes/dia-6.png",
+    posterEsperado: "/brand/days/dia-06.png",
     videoPath: "/videos/dia-6.mp4",
-    posterPath: "/artes/dia-6.png"
+    posterPath: "/brand/days/dia-06.png"
   },
 
 
@@ -177,9 +177,9 @@ export const VISUAL_MAP_21_DIAS: readonly VisualDiaInstrucao[] = [
     estadoFinal: "Silhueta em repouso lúcido, com um intervalo sereno de observação sem julgamento ao redor.",
     criterioAprovacao: "Sem áudio, o observador consegue ver a desaceleração de um ciclo reativo e o surgimento de um espaço visível de pausa lúcida?",
     arquivoVideoEsperado: "/videos/dia-7.mp4",
-    posterEsperado: "/artes/dia-7.png",
+    posterEsperado: "/brand/days/dia-07.png",
     videoPath: "/videos/dia-7.mp4",
-    posterPath: "/artes/dia-7.png"
+    posterPath: "/brand/days/dia-07.png"
   },
   {
     dia: 8,
@@ -193,9 +193,9 @@ export const VISUAL_MAP_21_DIAS: readonly VisualDiaInstrucao[] = [
     estadoFinal: "Linha dos ombros desarmada e solta, clavículas abertas, postura rebaixada sem tensão de sobrecarga.",
     criterioAprovacao: "Sem áudio, o espectador consegue ver claramente o descarrego físico e luminoso dos ombros, que baixam e se livram do peso?",
     arquivoVideoEsperado: "/videos/dia-8.mp4",
-    posterEsperado: "/artes/dia-8.png",
+    posterEsperado: "/brand/days/dia-08.png",
     videoPath: "/videos/dia-8.mp4",
-    posterPath: "/artes/dia-8.png"
+    posterPath: "/brand/days/dia-08.png"
   },
   {
     dia: 9,
@@ -209,9 +209,9 @@ export const VISUAL_MAP_21_DIAS: readonly VisualDiaInstrucao[] = [
     estadoFinal: "Base plantada na nova direção respeitosa, transmitindo autonomia e tranquilidade para prosseguir.",
     criterioAprovacao: "Sem áudio, é nítido que o corpo e a luz realizam uma mudança sutil de direção e apoio nos pés, indicando uma nova escolha?",
     arquivoVideoEsperado: "/videos/dia-9.mp4",
-    posterEsperado: "/artes/dia-9.png",
+    posterEsperado: "/brand/days/dia-09.png",
     videoPath: "/videos/dia-9.mp4",
-    posterPath: "/artes/dia-9.png"
+    posterPath: "/brand/days/dia-09.png"
   },
 
 
@@ -230,9 +230,9 @@ export const VISUAL_MAP_21_DIAS: readonly VisualDiaInstrucao[] = [
     estadoFinal: "Tórax irradiando dourado nobre constante, silhueta descansando no próprio direito de existir.",
     criterioAprovacao: "Sem áudio, é claro que a luz dourada do peito surge do próprio centro (intrínseca) e não como um troféu ou faísca externa?",
     arquivoVideoEsperado: "/videos/dia-10.mp4",
-    posterEsperado: "/artes/dia-10.png",
+    posterEsperado: "/brand/days/dia-10.png",
     videoPath: "/videos/dia-10.mp4",
-    posterPath: "/artes/dia-10.png"
+    posterPath: "/brand/days/dia-10.png"
   },
   {
     dia: 11,
@@ -246,9 +246,9 @@ export const VISUAL_MAP_21_DIAS: readonly VisualDiaInstrucao[] = [
     estadoFinal: "Pescoço e mandíbula soltos, respiração desobstruída e postura corporal gentil consigo mesma.",
     criterioAprovacao: "Sem áudio, observa-se o amolecimento e descompressão evidente da região da garganta, mandíbula e ombros?",
     arquivoVideoEsperado: "/videos/dia-11.mp4",
-    posterEsperado: "/artes/dia-11.png",
+    posterEsperado: "/brand/days/dia-11.png",
     videoPath: "/videos/dia-11.mp4",
-    posterPath: "/artes/dia-11.png"
+    posterPath: "/brand/days/dia-11.png"
   },
   {
     dia: 12,
@@ -262,9 +262,9 @@ export const VISUAL_MAP_21_DIAS: readonly VisualDiaInstrucao[] = [
     estadoFinal: "Eixo vertical nítido e ereto sem rigidez, equilibrado com firmeza no próprio centro de gravidade.",
     criterioAprovacao: "Sem áudio, é evidente a reconexão e alinhamento de um eixo luminoso vertical único percorrendo o centro do corpo do topo aos pés?",
     arquivoVideoEsperado: "/videos/dia-12.mp4",
-    posterEsperado: "/artes/dia-12.png",
+    posterEsperado: "/brand/days/dia-12.png",
     videoPath: "/videos/dia-12.mp4",
-    posterPath: "/artes/dia-12.png"
+    posterPath: "/brand/days/dia-12.png"
   },
 
 
@@ -283,9 +283,9 @@ export const VISUAL_MAP_21_DIAS: readonly VisualDiaInstrucao[] = [
     estadoFinal: "Rosto iluminado por perspectiva pacífica, contemplando o mundo externo sem sobressaltos.",
     criterioAprovacao: "Sem áudio, percebe-se a abertura de uma fresta de luz frontal que toca o rosto e convida a olhar para o mundo?",
     arquivoVideoEsperado: "/videos/dia-13.mp4",
-    posterEsperado: "/artes/dia-13.png",
+    posterEsperado: "/brand/days/dia-13.png",
     videoPath: "/videos/dia-13.mp4",
-    posterPath: "/artes/dia-13.png"
+    posterPath: "/brand/days/dia-13.png"
   },
   {
     dia: 14,
@@ -299,9 +299,9 @@ export const VISUAL_MAP_21_DIAS: readonly VisualDiaInstrucao[] = [
     estadoFinal: "Fronteira corporal sadia: mãos abertas e peito acolhedor cercados por limite íntegro que protege a identidade.",
     criterioAprovacao: "Sem áudio, é visível que o corpo estabelece um campo de contato que aproxima o outro sem romper o espaço pessoal?",
     arquivoVideoEsperado: "/videos/dia-14.mp4",
-    posterEsperado: "/artes/dia-14.png",
+    posterEsperado: "/brand/days/dia-14.png",
     videoPath: "/videos/dia-14.mp4",
-    posterPath: "/artes/dia-14.png"
+    posterPath: "/brand/days/dia-14.png"
   },
   {
     dia: 15,
@@ -315,9 +315,9 @@ export const VISUAL_MAP_21_DIAS: readonly VisualDiaInstrucao[] = [
     estadoFinal: "Mãos e membros inferiores firmes e iluminados, transmitindo capacidade sustentada de realização contínua.",
     criterioAprovacao: "Sem áudio, é nítida a condução da energia para as mãos e pernas, demonstrando capacidade de executar um gesto real?",
     arquivoVideoEsperado: "/videos/dia-15.mp4",
-    posterEsperado: "/artes/dia-15.png",
+    posterEsperado: "/brand/days/dia-15.png",
     videoPath: "/videos/dia-15.mp4",
-    posterPath: "/artes/dia-15.png"
+    posterPath: "/brand/days/dia-15.png"
   },
 
 
@@ -336,9 +336,9 @@ export const VISUAL_MAP_21_DIAS: readonly VisualDiaInstrucao[] = [
     estadoFinal: "Testa aliviada e pés descansados no passo imediato, livres da necessidade de controlar todo o trajeto.",
     criterioAprovacao: "Sem áudio, fica evidente que apenas o próximo passo à frente dos pés é iluminado, desanuviando a mente da cobrança?",
     arquivoVideoEsperado: "/videos/dia-16.mp4",
-    posterEsperado: "/artes/dia-16.png",
+    posterEsperado: "/brand/days/dia-16.png",
     videoPath: "/videos/dia-16.mp4",
-    posterPath: "/artes/dia-16.png"
+    posterPath: "/brand/days/dia-16.png"
   },
   {
     dia: 17,
@@ -352,9 +352,9 @@ export const VISUAL_MAP_21_DIAS: readonly VisualDiaInstrucao[] = [
     estadoFinal: "Canais articulares livres, membros relaxados e corrente luminosa desimpedida da base ao topo.",
     criterioAprovacao: "Sem áudio, é perceptível a dissolução de nós/bloqueios articulares com o retorno do fluxo contínuo de luz pelos membros?",
     arquivoVideoEsperado: "/videos/dia-17.mp4",
-    posterEsperado: "/artes/dia-17.png",
+    posterEsperado: "/brand/days/dia-17.png",
     videoPath: "/videos/dia-17.mp4",
-    posterPath: "/artes/dia-17.png"
+    posterPath: "/brand/days/dia-17.png"
   },
   {
     dia: 18,
@@ -368,9 +368,9 @@ export const VISUAL_MAP_21_DIAS: readonly VisualDiaInstrucao[] = [
     estadoFinal: "Marcha tranquila e contínua, onde o suporte se cria a cada passo, em paz com a incerteza do caminho.",
     criterioAprovacao: "Sem áudio, vê-se claramente que o solo se ilumina conforme os pés tocam o chão, passo a passo, mostrando sustentação na incerteza?",
     arquivoVideoEsperado: "/videos/dia-18.mp4",
-    posterEsperado: "/artes/dia-18.png",
+    posterEsperado: "/brand/days/dia-18.png",
     videoPath: "/videos/dia-18.mp4",
-    posterPath: "/artes/dia-18.png"
+    posterPath: "/brand/days/dia-18.png"
   },
 
 
@@ -389,9 +389,9 @@ export const VISUAL_MAP_21_DIAS: readonly VisualDiaInstrucao[] = [
     estadoFinal: "Corpo permeado por pulsação dourada viva e serena, afirmando com clareza o compromisso de continuar.",
     criterioAprovacao: "Sem áudio, é perceptível o reacender gradual de uma chama no peito que irriga calmamente a coluna com vitalidade serena?",
     arquivoVideoEsperado: "/videos/dia-19.mp4",
-    posterEsperado: "/artes/dia-19.png",
+    posterEsperado: "/brand/days/dia-19.png",
     videoPath: "/videos/dia-19.mp4",
-    posterPath: "/artes/dia-19.png"
+    posterPath: "/brand/days/dia-19.png"
   },
   {
     dia: 20,
@@ -405,9 +405,9 @@ export const VISUAL_MAP_21_DIAS: readonly VisualDiaInstrucao[] = [
     estadoFinal: "Silhueta unificada, íntegra e acolhedora, onde nenhuma história precisou ser rejeitada para haver paz.",
     criterioAprovacao: "Sem áudio, vê-se a convergência e reintegração visível de múltiplos fragmentos de luz retornando e se acomodando no corpo central?",
     arquivoVideoEsperado: "/videos/dia-20.mp4",
-    posterEsperado: "/artes/dia-20.png",
+    posterEsperado: "/brand/days/dia-20.png",
     videoPath: "/videos/dia-20.mp4",
-    posterPath: "/artes/dia-20.png"
+    posterPath: "/brand/days/dia-20.png"
   },
   {
     dia: 21,
@@ -421,9 +421,9 @@ export const VISUAL_MAP_21_DIAS: readonly VisualDiaInstrucao[] = [
     estadoFinal: "Passagem serena e assentada para a vida real; a pessoa retorna ancorada em si mesma. 'Eu reintegro a vida.'",
     criterioAprovacao: "Sem áudio, o espectador testemunha o fechamento com o corpo inteiro iluminado harmonicamente e a transição serena para a vida cotidiana?",
     arquivoVideoEsperado: "/videos/dia-21.mp4",
-    posterEsperado: "/artes/dia-21.png",
+    posterEsperado: "/brand/days/dia-21.png",
     videoPath: "/videos/dia-21.mp4",
-    posterPath: "/artes/dia-21.png"
+    posterPath: "/brand/days/dia-21.png"
   }
 ] as const;
 

@@ -57,19 +57,27 @@ function LayoutPreview({ layout }: { layout: LayoutDefinition }) {
   }
   if (isEssenciaLuminosa) {
     return (
-      <div
-        className="mt-4 flex h-[184px] w-full items-center justify-center overflow-hidden rounded-2xl border shadow-inner"
-        style={{ backgroundColor: '#FFFFF8', borderColor: 'rgba(198,164,106,.32)' }}
-        aria-hidden="true"
-      >
-        <img
-          src="/brand/essencia-luminosa/prancha-oficial.webp"
-          alt=""
-          loading="lazy"
-          decoding="async"
-          draggable={false}
-          className="h-full w-full object-contain p-1"
-        />
+      <div className="mt-4 w-full">
+        <div
+          className="flex h-[184px] w-full items-center justify-center overflow-hidden rounded-2xl border shadow-inner"
+          style={{ backgroundColor: '#FFFFF8', borderColor: 'rgba(198,164,106,.32)' }}
+          aria-hidden="true"
+        >
+          <img
+            src="/brand/essencia-luminosa/prancha-oficial.webp"
+            alt=""
+            loading="lazy"
+            decoding="async"
+            draggable={false}
+            className="h-full w-full object-contain p-1"
+          />
+        </div>
+        <p
+          className="mt-2 px-1 text-[11px] leading-relaxed text-[#6B625B]"
+          data-essencia-reference-note="true"
+        >
+          Prancha oficial de referência visual. As decisões atuais prevalecem: jornada de 21 dias, corpo neutro e logo-assinatura discreto/transparente.
+        </p>
       </div>
     );
   }
@@ -153,6 +161,7 @@ export default function LayoutChoiceModal({ onSelect }: LayoutChoiceModalProps) 
   // Selection is mandatory: trap keyboard focus without allowing Escape to bypass confirmation.
   useDialogFocus(true, dialogRef, null);
   const selectedDefinition = OFFICIAL_LAYOUTS.find(layout => layout.id === selectedLayout);
+  const confirmButtonShape = selectedLayout === 'essencia-luminosa' ? 'rounded-2xl' : 'rounded-full';
   // Antes da escolha, o CTA permanece neutro. A cor do estilo só aparece após seleção explícita.
   const confirmButtonTone = !selectedLayout
     ? 'bg-gradient-to-r from-[#A99B84] via-[#B7AD9D] to-[#817460] focus-visible:ring-[#817460]/40'
@@ -230,7 +239,7 @@ export default function LayoutChoiceModal({ onSelect }: LayoutChoiceModalProps) 
             type="button"
             disabled={!selectedLayout || isSaving}
             onClick={confirmSelection}
-            className={`min-h-12 w-full max-w-sm rounded-xl ${confirmButtonTone} px-6 py-3 text-sm font-bold uppercase tracking-[.12em] text-[#2A2420] shadow-lg transition hover:-translate-y-0.5 hover:shadow-xl disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:translate-y-0 disabled:hover:shadow-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2`}
+            className={`min-h-12 w-full max-w-sm ${confirmButtonShape} ${confirmButtonTone} px-6 py-3 text-sm font-bold uppercase tracking-[.12em] text-[#2A2420] shadow-lg transition hover:-translate-y-0.5 hover:shadow-xl disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:translate-y-0 disabled:hover:shadow-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2`}
           >
             {isSaving ? 'Salvando escolha…' : selectedDefinition ? `Confirmar ${selectedDefinition.name}` : 'Selecione um estilo'}
           </button>

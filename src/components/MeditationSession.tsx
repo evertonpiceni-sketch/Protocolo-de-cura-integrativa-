@@ -4,6 +4,7 @@
  */
 
 import React, { useState, useEffect, useLayoutEffect } from 'react';
+import { useDialogFocus } from '../hooks/useDialogFocus';
 import { motion, AnimatePresence } from 'motion/react';
 import {
   X, Sparkles, BookOpen, Volume2, VolumeX
@@ -13,6 +14,7 @@ import { ORIGINAL_PROTOCOL_SCRIPTS } from '../data/protocol_scripts';
 import { audioEngine, OFFICIAL_PROTOCOL_VOICE_ID } from '../lib/audio';
 import { isElevenLabsVoiceId } from '../lib/voiceSelection';
 import { shouldPlayProtocolSessionBackground } from '../lib/protocolSessionAudioPolicy';
+import { shouldPlayEssenciaLuminosaSessionBackground } from '../lib/essenciaLuminosaAudioPolicy';
 import { requestWakeLock } from '../lib/wakeLockHelpers';
 import { AppLanguage, STAGE_AUDIO_TRANSLATIONS } from '../lib/i18n';
 import { resolveProtocolScript } from '../lib/protocolScript';
@@ -27,6 +29,7 @@ interface MeditationSessionProps {
   dayNumber: number;
   userName: string;
   bgMusicType: '528hz' | '432hz' | '963hz' | '741hz' | 'waves' | 'none';
+  audioEnabled?: boolean;
   voiceId?: string;
   voiceGender?: 'masculina' | 'feminina';
   voiceRate?: number;
@@ -68,6 +71,7 @@ export default function MeditationSession({
   dayNumber,
   userName,
   bgMusicType,
+  audioEnabled = true,
   voiceId,
   voiceRate = 0.82,
   userPlan = 'free',
@@ -81,6 +85,10 @@ export default function MeditationSession({
   const isEleganciaProfunda = activeLayout === 'elegancia-profunda';
   const isEssenciaLuminosa = activeLayout === 'essencia-luminosa';
   const [sessionPhase, setSessionPhase] = useState<'portal' | 'checkin_before' | 'playing' | 'checkin_after' | 'completed'>('portal');
+  const accessGateDialogRef = React.useRef<HTMLDivElement | null>(null);
+  const completedDialogRef = React.useRef<HTMLDivElement | null>(null);
+  useDialogFocus(isEssenciaLuminosa && userPlan === 'free' && dayNumber > 7, accessGateDialogRef, onClose);
+  useDialogFocus(isEssenciaLuminosa && sessionPhase === 'completed', completedDialogRef, onClose);
 
   useLayoutEffect(() => {
     if (document.documentElement.dataset.layout === 'natural-sereno') {
@@ -144,9 +152,12 @@ export default function MeditationSession({
   }, []);
 
   useEffect(() => {
-    // A trilha global já é interrompida ao abrir o protocolo. Não a reinicie
-    // aqui quando ela for uma frequência Solfeggio; mantenha apenas ambiência não tonal.
-    if (shouldPlayProtocolSessionBackground(sessionPhase, bgMusicType)) {
+    // A Essência Luminosa também respeita o interruptor global dentro da sessão.
+    // Os demais estilos mantêm a política anterior; frequências Solfeggio não entram na fala.
+    const shouldPlayBackground = isEssenciaLuminosa
+      ? shouldPlayEssenciaLuminosaSessionBackground(sessionPhase, bgMusicType, audioEnabled)
+      : shouldPlayProtocolSessionBackground(sessionPhase, bgMusicType);
+    if (shouldPlayBackground) {
       audioEngine.startSynth(bgMusicType);
     } else {
       audioEngine.stopSynth();
@@ -154,7 +165,7 @@ export default function MeditationSession({
     return () => {
       audioEngine.stopSynth();
     };
-  }, [sessionPhase, bgMusicType]);
+  }, [sessionPhase, bgMusicType, audioEnabled, isEssenciaLuminosa]);
 
   const dailyStageContext = (stageId = currentStage.id) => {
     if (journeyType !== '21d') return '';
@@ -329,7 +340,7 @@ export default function MeditationSession({
 
   if (userPlan === 'free' && dayNumber > 7) {
     return (
-      <div className="ep-session-access-gate fixed inset-0 z-50 bg-[#FAF7F2]/95 backdrop-blur-md text-[#2A2420] flex items-center justify-center p-3 sm:p-6 overflow-y-auto overscroll-contain" role="dialog" aria-modal="true" aria-label="Acesso à jornada completa">
+      <div ref={accessGateDialogRef} className="ep-session-access-gate fixed inset-0 z-50 bg-[#FAF7F2]/95 backdrop-blur-md text-[#2A2420] flex items-center justify-center p-3 sm:p-6 overflow-y-auto overscroll-contain" role="dialog" aria-modal="true" aria-label="Acesso à jornada completa">
         <div className="ep-session-access-card max-w-md w-full bg-white border border-[#E5DAC6] rounded-2xl sm:rounded-3xl p-5 sm:p-8 text-center shadow-xl">
           <div className="w-16 h-16 mx-auto mb-6 rounded-full bg-[#FAF4E8] border border-[#B88736]/30 flex items-center justify-center">
             <Sparkles className="w-8 h-8 text-[#8F631E]" />
@@ -443,7 +454,7 @@ export default function MeditationSession({
             </div>
 
             <div className="ep-stage-badge inline-flex items-center gap-2 px-3.5 py-1 rounded-full border border-[#B88736]/30 bg-[#FAF4E8] text-xs font-serif text-[#8F631E] mb-6 shadow-xs font-medium">
-              <span className="w-1.5 h-1.5 rounded-full bg-[#8F631E] animate-pulse" />
+              <span className="w-1.5 h-1.5 rounded-full bg-[#8F631E] animate-pulse motion-reduce:animate-none" />
               <span>Etapa {currentStageIndex + 1} de {stages.length}: {currentStage.title}</span>
             </div>
 
@@ -519,6 +530,7 @@ export default function MeditationSession({
         <footer className="relative z-20 px-6 py-4 border-t border-[#E5DAC6] bg-[#FAF7F2]/95 backdrop-blur-md max-w-2xl mx-auto w-full">
           <MinimalPlayerControls
             isPlaying={isPlaying}
+            isEssenciaLuminosa={isEssenciaLuminosa}
             currentTime={currentTime}
             duration={duration}
             onTogglePlay={handleTogglePlay}
@@ -593,7 +605,7 @@ export default function MeditationSession({
 
       <AnimatePresence>
         {sessionPhase === 'completed' && (
-          <div className="fixed inset-0 z-50 bg-[#FAF7F2]/95 backdrop-blur-md text-[#2A2420] flex items-center justify-center p-3 sm:p-6 overflow-y-auto overscroll-contain" role="dialog" aria-modal="true" aria-label="Sessão concluída">
+          <div ref={completedDialogRef} className="fixed inset-0 z-50 bg-[#FAF7F2]/95 backdrop-blur-md text-[#2A2420] flex items-center justify-center p-3 sm:p-6 overflow-y-auto overscroll-contain" role="dialog" aria-modal="true" aria-label="Sessão concluída">
             <motion.div
               initial={{ scale: 0.9, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}

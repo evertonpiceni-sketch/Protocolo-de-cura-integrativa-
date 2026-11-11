@@ -4,6 +4,7 @@
  */
 
 import React, { useState, useEffect, useRef } from 'react';
+import { useDialogFocus } from './hooks/useDialogFocus';
 import { Sparkles, Calendar, BookOpen, Volume2, VolumeX, User, RefreshCw, Compass, Heart, Award, Info, X, Play, Clock, Smile, LogOut, Crown, Star, Check, Mic, Sliders, Activity, FileText, Globe, MessageCircle, Phone, Smartphone, Download, Leaf, Bell, Headphones, Video } from 'lucide-react';
 import { DayProgress, UserProfile, UserAccount, DAILY_INSIGHTS, JOURNEY_7D_INSIGHTS, PROTOCOL_STAGES, AnamnesisData, SpecificTreatment, SessionCheckIn, JourneyType, SubscriptionPlanType } from './types';
 import ProfileSetup from './components/ProfileSetup';
@@ -23,12 +24,13 @@ import { APPROVED_LOGO_DATA_URI } from './components/ApprovedBrand';
 
 import { calculateAstralMap } from './utils/astrology';
 import { audioEngine, OFFICIAL_PROTOCOL_VOICE_ID } from './lib/audio';
-import { shouldPlayProtocolSessionBackground } from './lib/protocolSessionAudioPolicy';
+import { isSolfeggioFrequency, shouldPlayProtocolSessionBackground } from './lib/protocolSessionAudioPolicy';
+import { resolveAudioEnabledAfterAnamnesisSave, resolveAudioEnabledAfterFrequencySelection } from './lib/essenciaLuminosaAudioPolicy';
 import { setNeuralVoicePreviewActive } from './lib/neuralVoicePreviewState';
 import { isElevenLabsVoiceId, type ElevenLabsVoiceOption } from './lib/voiceSelection';
 import { evaluateAchievements } from './lib/achievementsData';
 import { AppLanguage, SUPPORTED_LANGUAGES, UI_TRANSLATIONS } from './lib/i18n';
-import { AnimatePresence } from "motion/react";
+import { AnimatePresence, MotionConfig } from "motion/react";
 import { localNotificationManager } from './lib/notifications';
 import { OFFICIAL_LAYOUTS, isLayoutId } from './config/layouts';
 import { getLocalDateString } from './utils/date';
@@ -75,6 +77,7 @@ export default function App() {
   const [activeSessionDay, setActiveSessionDay] = useState<number | null>(null);
   const [isJournalOpen, setIsJournalOpen] = useState<boolean>(false);
   const [selectedDayDetail, setSelectedDayDetail] = useState<number | null>(null);
+  const dayDetailDialogRef = React.useRef<HTMLDivElement | null>(null);
   const [showSettings, setShowSettings] = useState<boolean>(false);
   const [showProModal, setShowProModal] = useState<boolean>(false);
   const [proModalInitialPlanId, setProModalInitialPlanId] = useState<SubscriptionPlanType | undefined>(undefined);
@@ -94,6 +97,7 @@ export default function App() {
   const [showWelcomeModal, setShowWelcomeModal] = useState<boolean>(false);
   const [showArcanjoView, setShowArcanjoView] = useState<boolean>(false);
   const [showArchangelModal, setShowArchangelModal] = useState<boolean>(false);
+  const [isArchangelNarrationActive, setIsArchangelNarrationActive] = useState(false);
   const [showHooponoponoModal, setShowHooponoponoModal] = useState<boolean>(false);
   const [showAudioSettingsModal, setShowAudioSettingsModal] = useState<boolean>(false);
   const [showCoursesModal, setShowCoursesModal] = useState<boolean>(false);
@@ -123,6 +127,7 @@ export default function App() {
   const isNaturalSereno = layoutConfirmedThisSession && userProfile?.visualLayout === 'natural-sereno';
   const isEleganciaProfunda = layoutConfirmedThisSession && userProfile?.visualLayout === 'elegancia-profunda';
   const isEssenciaLuminosa = layoutConfirmedThisSession && userProfile?.visualLayout === 'essencia-luminosa';
+  useDialogFocus(selectedDayDetail !== null && isEssenciaLuminosa, dayDetailDialogRef, () => setSelectedDayDetail(null));
   const usesNeuralVoiceCatalog = isNaturalSereno || isEleganciaProfunda || isEssenciaLuminosa;
   const savedNeuralVoiceId = userProfile?.voiceId || '';
   const effectiveNeuralVoiceId = (isNaturalSereno || isEssenciaLuminosa) && !isElevenLabsVoiceId(savedNeuralVoiceId)
@@ -269,6 +274,7 @@ export default function App() {
                          activeSessionDay === null &&
                          !showPersonalJourney &&
                          !showArcanjoView &&
+                         !(isEssenciaLuminosa && isArchangelNarrationActive && isSolfeggioFrequency(userProfile.bgMusicType)) &&
                          (!usesNeuralVoiceCatalog || !isPlayingVoiceTest ||
                            shouldPlayProtocolSessionBackground('playing', userProfile.bgMusicType)); // Keep Solfeggio out of neural voice previews in all neural-voice layouts
 
@@ -294,7 +300,9 @@ export default function App() {
     userProfile?.subscriptionPlan,
     layoutConfirmedThisSession,
     usesNeuralVoiceCatalog,
-    isPlayingVoiceTest
+    isPlayingVoiceTest,
+    isEssenciaLuminosa,
+    isArchangelNarrationActive
   ]);
 
   // Reintegração da Vida owns its audio while open: stop global music and speech to prevent overlap.
@@ -322,6 +330,8 @@ export default function App() {
                            activeSessionDay === null &&
                            !showPersonalJourney &&
                            !showArcanjoView &&
+                           !(isEssenciaLuminosa && showArchangelModal) &&
+                           !(isEssenciaLuminosa && isArchangelNarrationActive && isSolfeggioFrequency(userProfile.bgMusicType)) &&
                            (!usesNeuralVoiceCatalog || !isPlayingVoiceTest ||
                              shouldPlayProtocolSessionBackground('playing', userProfile.bgMusicType));
                            
@@ -341,7 +351,7 @@ export default function App() {
       window.removeEventListener('click', handleGesture);
       window.removeEventListener('touchstart', handleGesture);
     };
-  }, [userProfile, activeSessionDay, showPersonalJourney, showArcanjoView, layoutConfirmedThisSession, isPlayingVoiceTest]);
+  }, [userProfile, activeSessionDay, showPersonalJourney, showArcanjoView, showArchangelModal, layoutConfirmedThisSession, isPlayingVoiceTest, isEssenciaLuminosa, isArchangelNarrationActive]);
 
   useEffect(() => {
     if (!userProfile?.reminderTime || typeof Notification === 'undefined' || Notification.permission !== 'granted') return;
@@ -531,6 +541,7 @@ export default function App() {
     }
   };
 
+
   // Persist profile and progress together so a stale full-snapshot request cannot overwrite a diary update.
   const saveProfileAndProgress = (newProfile: UserProfile, newProgress: DayProgress[]) => {
     setUserProfile(newProfile);
@@ -546,7 +557,6 @@ export default function App() {
       }).catch(error => console.error('Profile/progress sync failed; changes may only be saved locally', error));
     }
   };
-
 
   // Profile Onboarding complete (Register or Login complete)
   const handleOnboardingComplete = (account: UserAccount) => {
@@ -580,8 +590,9 @@ export default function App() {
       const todayStr = getLocalDateString();
       const lastTipDate = localStorage.getItem('cura_integrada_last_tip_date');
       if (lastTipDate !== todayStr) {
+        // A dica fica pendente até a pessoa confirmar um dos quatro estilos.
+        // A data só é marcada quando a dica é fechada após a escolha.
         setShowDailyTip(true);
-        localStorage.setItem('cura_integrada_last_tip_date', todayStr);
       }
     }
   };
@@ -710,6 +721,8 @@ export default function App() {
     }
     localStorage.removeItem(LOCAL_STORAGE_KEY_CURRENT_LOGIN);
     // A nova sessão precisa confirmar explicitamente um dos quatro estilos.
+    // Remova também o tema do DOM para que ele não continue vazando para o ProfileSetup.
+    delete document.documentElement.dataset.layout;
     setLayoutConfirmedThisSession(false);
     setLayoutChoiceRequested(false);
     setUserProfile(null);
@@ -719,6 +732,7 @@ export default function App() {
     setSelectedDayDetail(null);
     setShowSettings(false);
     setShowArcanjoView(false);
+    setShowDailyTip(false);
     setActiveSessionDay(null);
     setIsLoggedIn(false);
   };
@@ -756,7 +770,7 @@ export default function App() {
       bgMusicType: (newAnamnesis.recommendedFrequency === '963hz' || newAnamnesis.recommendedFrequency === '741hz') && userProfile.plan !== 'pro'
         ? userProfile.bgMusicType
         : newAnamnesis.recommendedFrequency,
-      audioEnabled: true
+      audioEnabled: resolveAudioEnabledAfterAnamnesisSave(isEssenciaLuminosa, userProfile.audioEnabled)
     };
     // Saving the profile triggers the guarded background-audio effect.
     // Avoid bypassing active protocol/journey playback restrictions.
@@ -888,7 +902,8 @@ export default function App() {
   const selectedInsight = selectedDayDetail ? currentInsightsList[selectedDayDetail - 1] : null;
 
   return (
-    <React.Suspense fallback={loadingScreen}>
+    <MotionConfig reducedMotion={isEssenciaLuminosa ? 'user' : undefined}>
+      <React.Suspense fallback={loadingScreen}>
     <>
       {(!layoutConfirmedThisSession || layoutChoiceRequested) && (
         <LayoutChoiceModal
@@ -903,6 +918,9 @@ export default function App() {
               });
               if (!response.ok) throw new Error(`Não foi possível salvar o estilo (HTTP ${response.status})`);
             }
+            // Apply the explicitly confirmed, persisted style before rendering the onboarding flow.
+            // This prevents a one-frame flash of the shared component's legacy palette.
+            document.documentElement.dataset.layout = layout;
             setUserProfile(updatedProfile);
             updateLocalAccountCache(updatedProfile, progress);
             setLayoutConfirmedThisSession(true);
@@ -923,7 +941,7 @@ export default function App() {
             }
           })}
         />
-      ) : showArcanjoView || userProfile.subscriptionPlan === 'arcanjo_7d' ? (
+      ) : showArcanjoView ? (
         <ArcanjoProtocolView 
           userProfile={userProfile}
           onLogout={handleLogout}
@@ -942,6 +960,7 @@ export default function App() {
           dayNumber={activeSessionDay}
           userName={userProfile.name}
           bgMusicType={userProfile.bgMusicType}
+          audioEnabled={userProfile.audioEnabled !== false}
           voiceId={userProfile.voiceId}
           voiceGender={userProfile.preferredVoiceGender || (userProfile.voiceType === 'everton' ? 'masculina' : userProfile.voiceType)}
           voiceRate={userProfile.voiceRate}
@@ -960,7 +979,9 @@ export default function App() {
             saveProfile({
               ...userProfile,
               bgMusicType: bgType,
-              audioEnabled: bgType !== 'none' ? true : userProfile.audioEnabled
+              audioEnabled: isEssenciaLuminosa
+                ? resolveAudioEnabledAfterFrequencySelection(isEssenciaLuminosa, userProfile.audioEnabled)
+                : bgType !== 'none' ? true : userProfile.audioEnabled
             });
           }}
         />
@@ -2213,7 +2234,7 @@ export default function App() {
 
       {/* 21-Day Detail Modal Overlays */}
       {selectedDayDetail !== null && selectedInsight && (
-        <div className="fixed inset-0 z-50 bg-white/80 backdrop-blur-sm flex items-center justify-center p-2 sm:p-4 overflow-y-auto overscroll-contain" id="day-detail-modal" role="dialog" aria-modal="true" aria-label="Detalhes do dia">
+        <div className="fixed inset-0 z-50 bg-white/80 backdrop-blur-sm flex items-center justify-center p-2 sm:p-4 overflow-y-auto overscroll-contain" id="day-detail-modal" ref={dayDetailDialogRef} role="dialog" aria-modal="true" aria-label="Detalhes do dia">
           <div className="w-full max-w-xl bg-[#FBF8F2] border border-[#E5DAC6] rounded-2xl sm:rounded-3xl p-4 sm:p-6 md:p-8 shadow-2xl relative overflow-hidden space-y-6 max-h-[calc(100dvh-1rem)] sm:max-h-[90dvh] overflow-y-auto overscroll-contain">
             
             {/* Modal Header */}
@@ -2401,8 +2422,16 @@ export default function App() {
             if (data.status === 'paid' && data.user?.profile) {
               setUserProfile(data.user.profile);
               closeProModal();
-              if (plan === 'arcanjo_7d') setShowArcanjoView(true);
-              else setShowCertificateModal(true);
+              if (plan === 'arcanjo_7d') {
+                // A compra libera o acesso, mas não inicia o protocolo automaticamente.
+                setInAppToast({
+                  title: 'Acesso liberado',
+                  body: 'Seu acesso ao Protocolo do Arcanjo está ativo. Você pode abri-lo quando desejar pela página inicial.'
+                });
+                window.setTimeout(() => setInAppToast(null), 8000);
+              } else {
+                setShowCertificateModal(true);
+              }
               return true;
             }
             throw new Error('Aguardando confirmação segura do pagamento.');
@@ -2441,7 +2470,7 @@ export default function App() {
               saveProfile({
                 ...userProfile,
                 bgMusicType: freq,
-                audioEnabled: true
+                audioEnabled: resolveAudioEnabledAfterFrequencySelection(isEssenciaLuminosa, userProfile.audioEnabled)
               });
             }
           }}
@@ -2546,6 +2575,7 @@ export default function App() {
           voiceRate={userProfile?.voiceRate}
           voicePitch={userProfile?.voicePitch}
           voiceVolume={userProfile?.voiceVolume}
+          onNarrationStateChange={isEssenciaLuminosa ? setIsArchangelNarrationActive : undefined}
           onProgressChange={(days) => {
             if (userProfile) saveProfile({ ...userProfile, archangelPrayerCompletedDays: days });
           }}
@@ -2706,10 +2736,13 @@ export default function App() {
       
       
       {/* Daily Tip Modal (Tip of the Day) */}
-      {showDailyTip && (
-        <DailyTipModal 
-          onClose={() => setShowDailyTip(false)} 
-          userName={userProfile?.name} 
+      {showDailyTip && layoutConfirmedThisSession && !layoutChoiceRequested && userProfile && (
+        <DailyTipModal
+          onClose={() => {
+            localStorage.setItem('cura_integrada_last_tip_date', getLocalDateString());
+            setShowDailyTip(false);
+          }}
+          userName={userProfile.name}
         />
       )}
 
@@ -2744,6 +2777,7 @@ export default function App() {
         </div>
       )}
     </>
-    </React.Suspense>
+      </React.Suspense>
+    </MotionConfig>
   );
 }
