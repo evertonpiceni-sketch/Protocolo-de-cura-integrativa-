@@ -32,7 +32,7 @@
 ## Pendências e bloqueios confirmados
 
 - **CI:** nenhuma execução GitHub Actions associada ao HEAD desta rodada. O workflow `Security Audit` contém `npm ci`, TypeScript, testes, build e smoke test, mas não há resultado para o novo HEAD. A tentativa de clonar o repositório para execução local foi bloqueada por indisponibilidade de DNS/rede neste ambiente; não declaro testes aprovados.
-- **Vercel:** projeto informa `live=false`. O último deployment conhecido da branch Natural Sereno foi o commit `cc5606d`, com `ERROR / BUILD_FAILED — Resource provisioning failed`; não há deployment para o HEAD desta rodada e não há Preview READY. Os eventos de build disponíveis vieram vazios.
+- **Vercel:** projeto informa `live=false`. O último deployment conhecido da branch Natural Sereno é o commit `6ff4d7e` (`dpl_Dmn7EdLfBP8dHqGsjWLo4EZbT4LH`), com `ERROR / BUILD_FAILED — Resource provisioning failed`; não há deployment para o HEAD final `6c624b0` e não há Preview READY. Os eventos de build vieram vazios. O status do commit atual informa `Deployment rate limited — retry in 24 hours`.
 - **InfinitePay:** `INFINITEPAY_API_KEY` não aparece no inventário de variáveis do projeto. `INFINITEPAY_HANDLE` está somente em Production e `PUBLIC_APP_URL` não está configurada para a branch Preview atual. Não há sandbox de pagamento pronto; nenhuma cobrança foi feita.
 - **Áudio real:** configuração de Marianne e política de Solfeggio conferidas no código, mas falta ouvir a voz e validar a transição em navegador/dispositivo.
 - **QA renderizado:** falta inspeção visual página por página em desktop e mobile, teste ponta a ponta do Diário e comparação pixel a pixel com a imagem original.
@@ -44,4 +44,4 @@ A busca da Library não resolveu o ID exato `file_00000000317c820ebaad657dc3680d
 
 ## Estado
 
-PR #79 permanece aberta e em rascunho. Não foi feito merge, publicação em Production, alteração de credenciais ou pagamento real. A branch continua divergente da `main`; a reconciliação deve ser seletiva, sem recuperar comportamentos rejeitados.
+PR #79 permanece aberta e em rascunho (`mergeable=false`). A branch está 233 commits à frente e 12 atrás da `main`. Não foi feito merge, publicação em Production, alteração de credenciais ou pagamento real. A reconciliação deve ser seletiva, sem recuperar comportamentos rejeitados.
