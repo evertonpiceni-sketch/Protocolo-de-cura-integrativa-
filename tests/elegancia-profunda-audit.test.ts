@@ -534,9 +534,11 @@ test('a narração do Estilo 2 não recorre à voz nativa e preserva os caminhos
   const payments = read('src/lib/paymentRoutes.ts');
   assert.ok(home.includes('fallbackToSpeechSynthesis: !requiresNeuralVoice'));
   assert.ok(settings.includes('fallbackToSpeechSynthesis: !requiresNeuralVoice'));
-  assert.ok(api.includes('REINTEGRATION_VOICE_ID = "21m00Tcm4TlvDq8ikWAM"'));
+  assert.ok(api.includes('getReintegrationVoice(req.body?.layout)'));
+  assert.ok(api.includes('import { getReintegrationVoice } from "./reintegration-tts.js";'));
   const legacyReintegrationRoute = api.slice(api.indexOf('async function serveReintegrationVoice'), api.indexOf('export default async function handler'));
-  assert.ok(legacyReintegrationRoute.includes('voice: REINTEGRATION_VOICE_ID'));
+  assert.ok(legacyReintegrationRoute.includes('const voice = getReintegrationVoice(req.body?.layout);'));
+  assert.ok(legacyReintegrationRoute.includes('voice: voice.voiceId'));
   assert.ok(!legacyReintegrationRoute.includes('fallbackToNativeTTS: true'));
   assert.ok(!legacyReintegrationRoute.includes('window.speechSynthesis'));
   assert.ok(reintegrationEndpoint.includes("voiceId: '21m00Tcm4TlvDq8ikWAM'"));
