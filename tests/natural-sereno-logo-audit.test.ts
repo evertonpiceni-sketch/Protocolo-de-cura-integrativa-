@@ -33,11 +33,11 @@ test('o logo do acolhimento Natural Sereno permanece assinatura discreta em desk
 });
 
 
-test('o logo da tela de carregamento respeita 30% desktop e 26% mobile apesar da regra legada com ID', () => {
+test('o logo da tela de carregamento respeita 30% em desktop e mobile apesar da regra legada com ID', () => {
   const base = read('src/natural-sereno.css');
   const overrides = read('src/natural-sereno-approved-overrides.css');
 
   assert.ok(base.includes(':root[data-layout="natural-sereno"] #auth-loading-view img { opacity: .30 !important; mix-blend-mode: normal !important; }'));
   assert.ok(overrides.includes(':root[data-layout="natural-sereno"] #auth-loading-view img {\n  opacity:.30!important;\n  mix-blend-mode:normal!important;\n  filter:none!important;\n}'));
-  assert.ok(overrides.includes('@media(max-width:640px) {\n  :root[data-layout="natural-sereno"] #auth-loading-view img {\n    opacity:.26!important;\n  }\n}'));
+  assert.ok(overrides.includes('@media(max-width:640px) {\n  :root[data-layout="natural-sereno"] #auth-loading-view img {\n    opacity:.30!important;\n  }\n}'));
 });
