@@ -115,7 +115,7 @@ test('a rota ativa da Reintegração usa Marianne na Essência Luminosa sem alte
 
 test('o botão Concluir dia neutraliza o verde e o dourado saturado globais na Essência Luminosa', () => {
   const selector = ':root[data-layout="essencia-luminosa"] [data-ep-reintegration="true"] .ep-gold-button';
-  const start = css.lastIndexOf(selector);
+  const start = css.indexOf(`${selector} {`);
   assert.ok(start >= 0, 'o botão Concluir dia precisa de override próprio do Estilo 3');
   const end = css.indexOf('}', start);
   const rule = css.slice(start, end + 1);
