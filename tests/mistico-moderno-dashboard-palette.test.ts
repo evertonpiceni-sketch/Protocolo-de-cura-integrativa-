@@ -42,3 +42,17 @@ test('Místico Moderno dashboard backdrop keeps emerald confined to the natural 
     'Emerald is reserved for foliage integrated into the neutral body artwork, not a detached dashboard glow.');
   assert.match(css, /rgba\(212,\s*175,\s*55,\s*\.07\)/);
 });
+
+test('Místico Moderno energy-field accents stay indigo/violet and reserve emerald for natural imagery', () => {
+  const session = read('src/components/MeditationSession.tsx');
+  const canvas = read('src/components/session/SacredEnergyCanvas.tsx');
+  const theme = session.match(/const MISTICO_MODERNO_CANVAS_THEME = \{([\s\S]*?)\n\};/)?.[1] ?? '';
+
+  assert.match(theme, /accent: '#5264A4'/);
+  assert.match(theme, /sageSoft: 'rgba\(46,59,115,0\.12\)'/);
+  assert.match(theme, /sageGlow: 'rgba\(108,63,160,0\.20\)'/);
+  assert.match(theme, /sageLine: 'rgba\(82,100,164,0\.40\)'/);
+  assert.doesNotMatch(theme, /#1E6B5A|rgba\(30,107,90|emeraldLine/);
+  assert.match(canvas, /case ProtocolStage\.ATERRAMENTO:[\s\S]*?palette\?\.sageGlow[\s\S]*?palette\?\.sageSoft[\s\S]*?palette\?\.sageLine/);
+  assert.doesNotMatch(canvas, /Sage Green aura|Sage green radial glow/);
+});

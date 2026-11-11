@@ -242,10 +242,10 @@ export const SacredEnergyCanvas: React.FC<SacredEnergyCanvasProps> = ({
         }
 
         case ProtocolStage.ATERRAMENTO: {
-          // Luminous Roots, Sage Green aura, descending anchor
+          // Luminous roots and descending anchor; the active layout supplies its own palette.
           const basePulse = Math.sin(time) * 6 + 70;
 
-          // Sage green radial glow
+          // Theme-colored radial glow
           const grad = ctx.createRadialGradient(cx, cy, 20, cx, cy, 140);
           grad.addColorStop(0, palette?.sageGlow ?? 'rgba(140, 168, 154, 0.28)');
           grad.addColorStop(0.5, palette?.sageSoft ?? 'rgba(11, 31, 24, 0.15)');

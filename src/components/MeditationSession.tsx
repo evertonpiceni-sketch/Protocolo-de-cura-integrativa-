@@ -66,13 +66,14 @@ const ELEGANCIA_PROFUNDA_CANVAS_THEME = {
 const ESSENCIA_LUMINOSA_CANVAS_THEME = { glow: '#C6A46A', accent: '#A6B49B' };
 const MISTICO_MODERNO_CANVAS_THEME = {
   glow: '#D4AF37',
-  accent: '#1E6B5A',
+  // Energy-field accents stay in indigo/violet; emerald is reserved for natural imagery.
+  accent: '#5264A4',
   goldSoft: 'rgba(212,175,55,0.10)',
   goldGlow: 'rgba(226,185,107,0.24)',
   goldLine: 'rgba(212,175,55,0.38)',
-  sageSoft: 'rgba(30,107,90,0.10)',
-  sageGlow: 'rgba(30,107,90,0.18)',
-  sageLine: 'rgba(30,107,90,0.34)',
+  sageSoft: 'rgba(46,59,115,0.12)',
+  sageGlow: 'rgba(108,63,160,0.20)',
+  sageLine: 'rgba(82,100,164,0.40)',
   violet: '#8B5CF6',
   violetGlow: 'rgba(108,63,160,0.22)',
   violetLine: 'rgba(108,63,160,0.42)',
@@ -81,7 +82,6 @@ const MISTICO_MODERNO_CANVAS_THEME = {
   indigoGlow: 'rgba(46,59,115,0.20)',
   indigoLine: 'rgba(46,59,115,0.36)',
   indigoParticle: 'rgba(82,100,164,0.60)',
-  emeraldLine: 'rgba(30,107,90,0.34)',
   ivory: '#F4F1EB',
   transparent: 'rgba(10,15,24,0)'
 };
