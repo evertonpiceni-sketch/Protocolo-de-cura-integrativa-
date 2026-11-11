@@ -1,4 +1,5 @@
 import React, { useState, useCallback } from "react";
+import { APPROVED_LOGO_DATA_URI } from "./ApprovedBrand";
 import { motion, AnimatePresence } from "motion/react";
 import { ArrowRight, ArrowLeft, Feather, ShieldCheck } from "lucide-react";
 
@@ -132,6 +133,7 @@ export const AindaHaAlgoEmMimLight: React.FC<Props> = ({ onFinishReflection }) =
       </main>
 
       <footer className="mx-auto w-full max-w-md border-t border-[#E8DFC8]/70 pt-4 text-center">
+        <img src={APPROVED_LOGO_DATA_URI} alt="" aria-hidden="true" className="ep-reintegration-brand-signature mx-auto mb-2 h-7 w-7 object-contain" />
         <div className="text-[11px] uppercase tracking-wider text-[#7A6D5E]">@terapiamorevida • Evoluir também é cuidar de si</div>
         <p className="mt-1 text-[10px] text-[#9E9080]">Se esta reflexão despertar sofrimento intenso, interrompa a prática e procure uma pessoa ou serviço de apoio adequado.</p>
       </footer>
