@@ -53,6 +53,7 @@ export default function PersonalJourney21({ onClose, initialCompletedDays, onCom
   const item = REINTEGRATION_DAYS[day - 1];
   // Asset names are zero-padded (dia-01.png … dia-21.png) in public/brand/days.
   const dayArtworkUrl = `/brand/days/dia-${String(day).padStart(2, '0')}.png`;
+  const runningBackdropUrl = isNaturalSereno ? '/brand/natural-sereno/cachoeira.webp' : dayArtworkUrl;
   const isNaturalSereno = typeof document !== 'undefined' && document.documentElement.dataset.layout === 'natural-sereno';
   const isEleganciaProfunda = typeof document !== 'undefined' && document.documentElement.dataset.layout === 'elegancia-profunda';
   const elapsedSeconds = musicRef.current?.currentTime || 0;
@@ -308,7 +309,7 @@ export default function PersonalJourney21({ onClose, initialCompletedDays, onCom
               <div className="ep-reintegration-player-glow absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(226,185,107,.18),transparent_42%)]" />
               <div className="relative z-10 flex w-full flex-col items-center">
                 <div className="relative mb-8 w-full max-w-sm">
-                  <ReintegrationPresenceVisual day={day} elapsedSeconds={elapsedSeconds} />
+                  <ReintegrationPresenceVisual day={day} elapsedSeconds={elapsedSeconds} neutral={isNaturalSereno} active={playing} />
                 </div>
                 <div className="ep-reintegration-player-voice-card w-full max-w-sm rounded-2xl border border-[#E5DAC6] bg-white/85 p-4 text-center shadow-sm backdrop-blur-md">
                   <p className="text-xs font-semibold uppercase tracking-[.18em] text-[#B88736]">{playing?'Meditação guiada em andamento':'Sua meditação guiada'}</p>
@@ -339,12 +340,12 @@ export default function PersonalJourney21({ onClose, initialCompletedDays, onCom
     </section>}
     {started && <section data-ep-reintegration-running="true" className="ep-reintegration-running fixed inset-0 z-[120] flex min-h-[100dvh] flex-col overflow-hidden bg-[#031426] text-[#F8E8C2]" aria-label="Meditação guiada em andamento">
       <img src={APPROVED_LOGO_DATA_URI} alt="" aria-hidden="true" className="ep-reintegration-brand-signature pointer-events-none absolute left-4 top-[max(1rem,env(safe-area-inset-top))] z-20 h-8 w-8 object-contain" />
-      <div className="ep-reintegration-running-backdrop absolute inset-[-7%] scale-110 bg-cover bg-center opacity-45 blur-[12px]" style={{backgroundImage:`linear-gradient(180deg,${isNaturalSereno ? 'rgba(250,247,242,.10),rgba(250,247,242,.58)' : isEleganciaProfunda ? 'rgba(3,20,14,.38),rgba(3,20,14,.88)' : 'rgba(2,13,29,.38),rgba(2,13,29,.88)'}),url('${dayArtworkUrl}')`}}/>
+      <div className="ep-reintegration-running-backdrop absolute inset-[-7%] scale-110 bg-cover bg-center opacity-45 blur-[12px]" style={{backgroundImage:`linear-gradient(180deg,${isNaturalSereno ? 'rgba(250,247,242,.10),rgba(250,247,242,.58)' : isEleganciaProfunda ? 'rgba(3,20,14,.38),rgba(3,20,14,.88)' : 'rgba(2,13,29,.38),rgba(2,13,29,.88)'}),url('${runningBackdropUrl}')`}}/>
       <div className="ep-reintegration-running-glow absolute inset-0" style={isEleganciaProfunda ? {background:'radial-gradient(circle at 50% 32%,rgba(212,175,55,.20),transparent 34%),linear-gradient(180deg,rgba(3,20,14,.18),rgba(3,20,14,.72) 62%,rgba(2,12,9,.97))'} : {background:'radial-gradient(circle at 50% 32%,rgba(226,185,107,.22),transparent 34%),linear-gradient(180deg,rgba(1,14,32,.18),rgba(1,14,32,.72) 62%,rgba(1,10,24,.97))'}}/>
       <button onClick={()=>{stopSession();setStarted(false);}} className="ep-reintegration-running-close absolute right-4 top-[max(1rem,env(safe-area-inset-top))] z-20 rounded-full border border-[#D9B86C]/55 bg-[#06192B]/75 p-3 text-[#F7E7C0] shadow-[0_8px_28px_rgba(0,0,0,.3)] backdrop-blur-md" aria-label="Fechar meditação"><X size={22}/></button>
       <div className="relative z-10 flex flex-1 items-center justify-center pt-4">
         <div className="ep-reintegration-running-visual relative w-[82vw] max-w-[430px] drop-shadow-[0_0_28px_rgba(215,170,78,.16)]">
-          <ReintegrationPresenceVisual day={day} elapsedSeconds={elapsedSeconds} />
+          <ReintegrationPresenceVisual day={day} elapsedSeconds={elapsedSeconds} neutral={isNaturalSereno} active={playing} />
         </div>
       </div>
       <div className="ep-reintegration-running-footer relative z-10 space-y-4 bg-gradient-to-t from-[#02101F] via-[#031426]/96 to-transparent px-6 pb-[max(1.5rem,env(safe-area-inset-bottom))] pt-12 text-center">
