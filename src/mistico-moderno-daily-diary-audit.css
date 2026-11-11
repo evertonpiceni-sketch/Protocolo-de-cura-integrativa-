@@ -64,21 +64,21 @@ html[data-layout="mistico-moderno"] #daily-diary-modal input:focus-visible {
 }
 
 
-/* Estados semânticos do Diário: esmeralda profundo, âmbar e violeta
-   permanecem acentos do Místico Moderno; não usar pastéis legados. */
+/* Estados semânticos do Diário: violeta, índigo e dourado são os acentos da interface.
+   Verde fica restrito à natureza integrada às imagens aprovadas. */
 html[data-layout="mistico-moderno"] #daily-diary-modal [class~="bg-emerald-50"] {
-  background: rgba(30, 107, 90, .22) !important;
+  background: rgba(108, 63, 160, .14) !important;
 }
 html[data-layout="mistico-moderno"] #daily-diary-modal [class~="border-emerald-200"] {
-  border-color: rgba(73, 190, 158, .34) !important;
+  border-color: rgba(212, 175, 55, .30) !important;
 }
 html[data-layout="mistico-moderno"] #daily-diary-modal [class~="text-emerald-700"],
 html[data-layout="mistico-moderno"] #daily-diary-modal [class~="text-emerald-400"] {
-  color: #A9E2CF !important;
+  color: #E2B96B !important;
 }
 html[data-layout="mistico-moderno"] #daily-diary-modal [class~="bg-emerald-400"] {
-  background-color: #49BE9E !important;
-  box-shadow: 0 0 0 2px rgba(73, 190, 158, .16) !important;
+  background-color: #D4AF37 !important;
+  box-shadow: 0 0 0 2px rgba(212, 175, 55, .16) !important;
 }
 
 html[data-layout="mistico-moderno"] #daily-diary-modal [class~="bg-amber-50"] {
