@@ -775,3 +775,12 @@
 :root[data-layout="essencia-luminosa"] #systemic-questions-modal [class*="border-amber-200"] {
   border-color: var(--layout-gold-border) !important;
 }
+
+/* RUN 159 — Perguntas Sistêmicas: neutraliza também a cor do texto dos estados.
+   RUN 158 já tratava fundo e borda; sem estas regras, os rótulos continuavam verde/amarelo saturados. */
+:root[data-layout="essencia-luminosa"] #systemic-questions-modal [class*="text-emerald-700"] {
+  color: color-mix(in srgb, var(--layout-accent) 74%, var(--layout-text)) !important;
+}
+:root[data-layout="essencia-luminosa"] #systemic-questions-modal [class*="text-amber-700"] {
+  color: var(--layout-gold-dark) !important;
+}
