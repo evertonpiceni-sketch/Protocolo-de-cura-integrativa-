@@ -531,7 +531,7 @@
 
 /* RUN 105 — a folha-base declara #auth-loading-view img com ID e !important.
    Repetir a mesma especificidade depois da folha-base garante a assinatura
-   discreta também no carregamento: 30% desktop e 26% mobile. */
+   discreta também no carregamento: 30% em desktop e mobile. */
 :root[data-layout="natural-sereno"] #auth-loading-view img {
   opacity:.30!important;
   mix-blend-mode:normal!important;
