@@ -51,11 +51,9 @@ const DailyDiaryModal = React.lazy(() => import('./components/DailyDiaryModal'))
 const ContactModal = React.lazy(() => import('./components/ContactModal'));
 const DashboardCura = React.lazy(() => import('./components/DashboardCura'));
 const MobileInstallModal = React.lazy(() => import('./components/MobileInstallModal'));
-const DailyTipModal = React.lazy(() => import('./components/DailyTipModal'));
 const MilestoneCelebrationModal = React.lazy(() => import('./components/MilestoneCelebrationModal'));
 const ArchangelMichaelPrayerModal = React.lazy(() => import('./components/ArchangelMichaelPrayerModal'));
 const VideoStudioModal = React.lazy(() => import('./components/VideoStudioLightModal'));
-const OnboardingFlow = React.lazy(() => import('./components/OnboardingFlow'));
 
 const LOCAL_STORAGE_KEY_CURRENT_LOGIN = CURRENT_LOGIN_STORAGE_KEY;
 const LOCAL_STORAGE_KEY_ACCOUNTS = 'cura_integrada_accounts_v1';
@@ -95,7 +93,6 @@ export default function App() {
   const [showAstralMapModal, setShowAstralMapModal] = useState<boolean>(false);
   const [showNumerologyModal, setShowNumerologyModal] = useState<boolean>(false);
   const [showMobileInstallModal, setShowMobileInstallModal] = useState<boolean>(false);
-  const [showWelcomeModal, setShowWelcomeModal] = useState<boolean>(false);
   const [showArcanjoView, setShowArcanjoView] = useState<boolean>(false);
   const [showArchangelModal, setShowArchangelModal] = useState<boolean>(false);
   const [showHooponoponoModal, setShowHooponoponoModal] = useState<boolean>(false);
@@ -111,7 +108,6 @@ export default function App() {
   const [showContactModal, setShowContactModal] = useState<boolean>(false);
   const [showMilestoneModal, setShowMilestoneModal] = useState<boolean>(false);
   const [showDashboardCura, setShowDashboardCura] = useState<boolean>(false);
-  const [showDailyTip, setShowDailyTip] = useState<boolean>(false);
   const [showPersonalJourney, setShowPersonalJourney] = useState<boolean>(false);
 
 
@@ -500,7 +496,6 @@ export default function App() {
       setShowAstralMapModal(false);
       setShowNumerologyModal(false);
       setShowMobileInstallModal(false);
-      setShowWelcomeModal(false);
       setShowArcanjoView(false);
       setShowArchangelModal(false);
       setShowHooponoponoModal(false);
@@ -514,7 +509,6 @@ export default function App() {
       setShowContactModal(false);
       setShowMilestoneModal(false);
       setShowDashboardCura(false);
-      setShowDailyTip(false);
       setShowPersonalJourney(false);
       setAudioPlaybackRequested(false);
       setInAppToast(null);
@@ -2593,16 +2587,6 @@ export default function App() {
         />
       )}
 
-      {/* Onboarding Flow Substitution */}
-      {showWelcomeModal && userProfile && layoutConfirmedThisSession && !layoutChoiceRequested && (
-        <OnboardingFlow
-          onComplete={() => {
-            localStorage.setItem('cura_integrada_welcome_seen_v1', 'true');
-            setShowWelcomeModal(false);
-          }}
-        />
-      )}
-
       {/* Oração de 21 Dias do Arcanjo Miguel (100% Grátis) */}
       {showArchangelModal && (
         <ArchangelMichaelPrayerModal
@@ -2754,16 +2738,6 @@ export default function App() {
           dayNumber={milestoneModalDay}
           userProfile={userProfile}
           onOpenCertificate={() => setShowCertificateModal(true)}
-        />
-      )}
-
-      
-      
-      {/* Daily Tip Modal (Tip of the Day) */}
-      {showDailyTip && (
-        <DailyTipModal 
-          onClose={() => setShowDailyTip(false)} 
-          userName={userProfile?.name} 
         />
       )}
 
