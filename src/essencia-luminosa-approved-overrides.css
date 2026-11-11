@@ -812,3 +812,160 @@
   filter: brightness(.985) saturate(.96) !important;
   box-shadow: 0 10px 26px var(--layout-gold-shadow) !important;
 }
+
+
+/* RUN 173 — os modais financeiros também pertencem à identidade Essência Luminosa.
+   Neutraliza as superfícies verde-escuras/amarelas herdadas sem alterar preços,
+   cupons, checkout, confirmação server-side ou os outros três estilos. */
+:root[data-layout="essencia-luminosa"] #plans-modal {
+  background: rgba(42, 36, 32, .28) !important;
+  color: var(--layout-text) !important;
+}
+:root[data-layout="essencia-luminosa"] #plans-modal > div {
+  background:
+    radial-gradient(circle at 8% 10%, color-mix(in srgb, var(--layout-accent-soft) 24%, transparent), transparent 24rem),
+    radial-gradient(circle at 92% 18%, color-mix(in srgb, var(--layout-gold-soft) 18%, transparent), transparent 28rem),
+    linear-gradient(180deg, var(--layout-canvas), var(--layout-canvas-alt)) !important;
+  color: var(--layout-text) !important;
+}
+:root[data-layout="essencia-luminosa"] #plans-modal header {
+  background: color-mix(in srgb, var(--layout-card) 94%, transparent) !important;
+  border-color: var(--layout-border-card) !important;
+}
+:root[data-layout="essencia-luminosa"] #plans-modal :is(h1, h2, h3, h4),
+:root[data-layout="essencia-luminosa"] #plans-modal [class*="text-[#26372A]"] {
+  color: var(--layout-text) !important;
+}
+:root[data-layout="essencia-luminosa"] #plans-modal :is([class*="text-[#5F6857]"], [class*="text-[#6A725F]"]) {
+  color: var(--layout-text-secondary) !important;
+}
+:root[data-layout="essencia-luminosa"] #plans-modal :is([class*="text-[#073B2B]"]) {
+  color: var(--layout-text) !important;
+}
+:root[data-layout="essencia-luminosa"] #plans-modal [class*="text-[#2F6B50]"] {
+  color: color-mix(in srgb, var(--layout-accent) 42%, var(--layout-text)) !important;
+}
+:root[data-layout="essencia-luminosa"] #plans-modal :is([class*="text-[#9C7429]"], [class*="text-[#7C5A1D]"], [class*="text-[#B88736]"]) {
+  color: var(--layout-gold-dark) !important;
+}
+:root[data-layout="essencia-luminosa"] #plans-modal [class*="text-[#FFF9E8]"] {
+  color: var(--layout-text) !important;
+}
+:root[data-layout="essencia-luminosa"] #plans-modal [class*="bg-[#FFF9E8]"] {
+  background: color-mix(in srgb, var(--layout-gold-soft) 10%, var(--layout-card)) !important;
+}
+:root[data-layout="essencia-luminosa"] #plans-modal [class*="bg-[#F7E5AA]"] {
+  background: color-mix(in srgb, var(--layout-gold-soft) 34%, var(--layout-card)) !important;
+}
+:root[data-layout="essencia-luminosa"] #plans-modal [class*="bg-[#073B2B]"] {
+  background: var(--layout-gold-gradient) !important;
+  color: var(--layout-text) !important;
+}
+:root[data-layout="essencia-luminosa"] #plans-modal :is([class*="border-[#D8B867]"], [class*="border-[#073B2B]"]) {
+  border-color: var(--layout-gold-border) !important;
+}
+:root[data-layout="essencia-luminosa"] #plans-modal article[class*="from-[#FFF6D9]"] {
+  background: linear-gradient(180deg, color-mix(in srgb, var(--layout-gold-soft) 18%, var(--layout-card)), var(--layout-card)) !important;
+  border-color: var(--layout-gold-border) !important;
+}
+:root[data-layout="essencia-luminosa"] #plans-modal button[class*="bg-[#073B2B]"] {
+  background: var(--layout-gold-gradient) !important;
+  color: var(--layout-text) !important;
+  border: 1px solid var(--layout-gold-border) !important;
+  box-shadow: 0 10px 24px var(--layout-gold-shadow) !important;
+}
+:root[data-layout="essencia-luminosa"] #plans-modal button[class*="text-[#073B2B]"] {
+  background: color-mix(in srgb, var(--layout-accent-soft) 18%, var(--layout-card)) !important;
+  color: var(--layout-text) !important;
+  border-color: var(--layout-border-card) !important;
+}
+:root[data-layout="essencia-luminosa"] #plans-modal button[data-benefit-choice] {
+  background: color-mix(in srgb, var(--layout-card) 92%, var(--layout-canvas-alt)) !important;
+  color: var(--layout-text) !important;
+  border-color: var(--layout-border-card) !important;
+}
+:root[data-layout="essencia-luminosa"] #plans-modal button[aria-pressed="true"] {
+  background: var(--layout-gold-gradient) !important;
+  color: var(--layout-text) !important;
+  border-color: var(--layout-gold-border) !important;
+}
+:root[data-layout="essencia-luminosa"] #plans-modal button[aria-label="Fechar"] {
+  background: color-mix(in srgb, var(--layout-card) 90%, var(--layout-canvas-alt)) !important;
+  color: var(--layout-text) !important;
+  border-color: var(--layout-border-card) !important;
+}
+:root[data-layout="essencia-luminosa"] #plans-modal input:focus {
+  border-color: var(--layout-gold) !important;
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--layout-gold) 16%, transparent) !important;
+}
+:root[data-layout="essencia-luminosa"] #plans-modal :is([class*="shadow-[#073B2B]"], [class*="shadow-[#6A5425]"]) {
+  box-shadow: 0 12px 28px var(--layout-gold-shadow) !important;
+}
+
+/* Prática individual: sálvia/oliva clara para estados positivos e champagne
+   para seleção/ações; vermelho continua reservado a erros e avisos. */
+:root[data-layout="essencia-luminosa"] #specific-treatment-modal > div {
+  background: var(--layout-card) !important;
+  border-color: var(--layout-border-card) !important;
+  color: var(--layout-text) !important;
+  box-shadow: 0 18px 48px rgba(112, 91, 58, .10) !important;
+}
+:root[data-layout="essencia-luminosa"] #specific-treatment-modal [class*="bg-emerald-"] {
+  background-color: color-mix(in srgb, var(--layout-accent-soft) 62%, var(--layout-card)) !important;
+}
+:root[data-layout="essencia-luminosa"] #specific-treatment-modal [class*="border-emerald-"] {
+  border-color: color-mix(in srgb, var(--layout-accent) 38%, var(--layout-border-card)) !important;
+}
+:root[data-layout="essencia-luminosa"] #specific-treatment-modal [class*="text-emerald-"] {
+  color: color-mix(in srgb, var(--layout-accent) 42%, var(--layout-text)) !important;
+}
+:root[data-layout="essencia-luminosa"] #specific-treatment-modal [class*="bg-amber-"] {
+  background-color: color-mix(in srgb, var(--layout-gold-soft) 38%, var(--layout-card)) !important;
+}
+:root[data-layout="essencia-luminosa"] #specific-treatment-modal [class*="border-amber-"] {
+  border-color: var(--layout-gold-border) !important;
+}
+:root[data-layout="essencia-luminosa"] #specific-treatment-modal [class*="text-amber-"] {
+  color: var(--layout-gold-dark) !important;
+}
+:root[data-layout="essencia-luminosa"] #specific-treatment-modal [class*="bg-indigo-"] {
+  background-color: color-mix(in srgb, var(--layout-canvas-alt) 68%, var(--layout-card)) !important;
+}
+:root[data-layout="essencia-luminosa"] #specific-treatment-modal [class*="border-indigo-"] {
+  border-color: var(--layout-border-card) !important;
+}
+:root[data-layout="essencia-luminosa"] #specific-treatment-modal [class*="text-indigo-"] {
+  color: var(--layout-text-secondary) !important;
+}
+:root[data-layout="essencia-luminosa"] #specific-treatment-modal [class*="from-emerald-950"] {
+  background: linear-gradient(135deg, color-mix(in srgb, var(--layout-accent-soft) 34%, var(--layout-card)), var(--layout-card)) !important;
+}
+:root[data-layout="essencia-luminosa"] #specific-treatment-modal [class*="from-indigo-950"] {
+  background: linear-gradient(135deg, color-mix(in srgb, var(--layout-gold-soft) 16%, var(--layout-card)), var(--layout-card)) !important;
+}
+:root[data-layout="essencia-luminosa"] #specific-treatment-modal button[class*="from-emerald-600"],
+:root[data-layout="essencia-luminosa"] #specific-treatment-modal button[class*="bg-emerald-600"] {
+  background: var(--layout-gold-gradient) !important;
+  color: var(--layout-text) !important;
+  border-color: var(--layout-gold-border) !important;
+  box-shadow: 0 10px 24px var(--layout-gold-shadow) !important;
+}
+:root[data-layout="essencia-luminosa"] #specific-treatment-modal button[class*="bg-emerald-950"] {
+  background: color-mix(in srgb, var(--layout-accent-soft) 68%, var(--layout-card)) !important;
+  color: var(--layout-text) !important;
+  border-color: var(--layout-border-card) !important;
+}
+:root[data-layout="essencia-luminosa"] #specific-treatment-modal .ep-treatment-recommended-badge {
+  background: var(--layout-gold-gradient) !important;
+  color: var(--layout-text) !important;
+  border-color: var(--layout-gold-border) !important;
+}
+:root[data-layout="essencia-luminosa"] #specific-treatment-modal :is(input, textarea, select):focus {
+  border-color: var(--layout-gold) !important;
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--layout-gold) 16%, transparent) !important;
+  outline: none !important;
+}
+:root[data-layout="essencia-luminosa"] #specific-treatment-modal button[class*="hover:bg-slate-700"]:hover {
+  background: var(--layout-canvas-alt) !important;
+  color: var(--layout-text) !important;
+}
