@@ -161,6 +161,13 @@ export default function AnamnesisModal({
     }
   };
 
+  // Selection chimes are session audio too: honor both the global switch and explicit playback opt-in.
+  const playSelectionChime = () => {
+    if (!backgroundPlaybackRequested || userProfile.audioEnabled === false) return;
+    audioEngine.unlock();
+    audioEngine.playHeartSelectionChime();
+  };
+
   // Solfeggio respects the global audio preference and yields to neural narration.
   React.useEffect(() => {
     if (canPlayAnamnesisSolfeggio()) {
@@ -379,8 +386,7 @@ export default function AnamnesisModal({
   if (!isOpen) return null;
 
   const toggleItem = (list: string[], setList: React.Dispatch<React.SetStateAction<string[]>>, item: string) => {
-    audioEngine.unlock();
-    audioEngine.playHeartSelectionChime();
+    playSelectionChime();
     ensureAnamnesisSolfeggio();
     if (list.includes(item)) {
       setList(list.filter(i => i !== item));
@@ -465,9 +471,7 @@ export default function AnamnesisModal({
       onSaveAnamnesis(newAnamnesis);
       if (audioEngine.getCurrentSynthType() === '639hz') {
         audioEngine.stopBG();
-        if (userProfile.audioEnabled && userProfile.bgMusicType && userProfile.bgMusicType !== 'none' && userProfile.bgMusicType !== '639hz') {
-          audioEngine.startBG(userProfile.bgMusicType);
-        }
+        restoreUserBackground();
       }
       setIsEditing(false);
     } catch (err) {
@@ -491,9 +495,7 @@ export default function AnamnesisModal({
       onSaveAnamnesis(newAnamnesis);
       if (audioEngine.getCurrentSynthType() === '639hz') {
         audioEngine.stopBG();
-        if (userProfile.audioEnabled && userProfile.bgMusicType && userProfile.bgMusicType !== 'none' && userProfile.bgMusicType !== '639hz') {
-          audioEngine.startBG(userProfile.bgMusicType);
-        }
+        restoreUserBackground();
       }
       setIsEditing(false);
     } finally {
@@ -1217,8 +1219,7 @@ export default function AnamnesisModal({
                     max="10"
                     value={stressLevel}
                     onChange={(e) => {
-                      audioEngine.unlock();
-                      audioEngine.playHeartSelectionChime();
+                      playSelectionChime();
                       ensureAnamnesisSolfeggio();
                       setStressLevel(parseInt(e.target.value));
                     }}
@@ -1240,8 +1241,7 @@ export default function AnamnesisModal({
                         key={q}
                         type="button"
                         onClick={() => {
-                          audioEngine.unlock();
-                          audioEngine.playHeartSelectionChime();
+                          playSelectionChime();
                           ensureAnamnesisSolfeggio();
                           setSleepQuality(q);
                         }}
@@ -1341,8 +1341,7 @@ export default function AnamnesisModal({
                         key={g}
                         type="button"
                         onClick={() => {
-                          audioEngine.unlock();
-                          audioEngine.playHeartSelectionChime();
+                          playSelectionChime();
                           ensureAnamnesisSolfeggio();
                           setPrimaryGoal(g);
                         }}
@@ -1373,8 +1372,7 @@ export default function AnamnesisModal({
                         key={t.id}
                         type="button"
                         onClick={() => {
-                          audioEngine.unlock();
-                          audioEngine.playHeartSelectionChime();
+                          playSelectionChime();
                           ensureAnamnesisSolfeggio();
                           setDailyTimeAvailable(t.id as any);
                         }}
