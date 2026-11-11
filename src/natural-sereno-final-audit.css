@@ -221,7 +221,7 @@
 :root[data-layout="natural-sereno"] .ns-welcome-brand,
 :root[data-layout="natural-sereno"] img[alt*="Éverton" i][src*="logo" i],
 :root[data-layout="natural-sereno"] img[alt*="Everton" i][src*="logo" i] {
-  opacity: .24 !important;
+  opacity: .30 !important;
   filter: none !important;
   object-fit: contain !important;
 }
