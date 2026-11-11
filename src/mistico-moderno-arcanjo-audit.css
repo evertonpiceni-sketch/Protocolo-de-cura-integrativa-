@@ -140,3 +140,125 @@
   border-color: rgba(226, 185, 107, 0.72) !important;
   color: #0A0F18 !important;
 }
+
+/* Estilo 4 — Oração de 21 Dias do Arcanjo Miguel.
+   A oração é uma superfície própria, fora do container do protocolo Arcanjo.
+   Neutraliza somente suas heranças claras/azul-floresta quando o Místico Moderno está confirmado. */
+:root[data-layout="mistico-moderno"] #archangel-prayer-modal {
+  background: rgba(4, 7, 13, .78) !important;
+  color: #F4F1EB !important;
+}
+
+:root[data-layout="mistico-moderno"] #archangel-prayer-modal > .ep-archangel-prayer {
+  background:
+    radial-gradient(circle at 88% 0, rgba(108, 63, 160, .15), transparent 24rem),
+    radial-gradient(circle at 8% 100%, rgba(46, 59, 115, .10), transparent 22rem),
+    linear-gradient(180deg, #0A2742 0%, #101827 100%) !important;
+  border-color: rgba(212, 175, 55, .24) !important;
+  color: #F4F1EB !important;
+  box-shadow: 0 22px 58px rgba(0, 0, 0, .42), inset 0 1px 0 rgba(255, 255, 255, .045) !important;
+}
+
+:root[data-layout="mistico-moderno"] #archangel-prayer-modal .ep-archangel-prayer
+  :is([class*="bg-[#FBF8F2]"], [class*="bg-[#F5EFE4]"], [class*="bg-white"]) {
+  background: linear-gradient(145deg, rgba(20, 31, 48, .92), rgba(13, 20, 34, .94)) !important;
+}
+
+:root[data-layout="mistico-moderno"] #archangel-prayer-modal .ep-archangel-prayer
+  [class*="border-[#E5DAC6]"] {
+  border-color: rgba(148, 126, 194, .24) !important;
+}
+
+:root[data-layout="mistico-moderno"] #archangel-prayer-modal .ep-archangel-prayer
+  :is([class*="text-[#2A2420]"], [class*="text-[#2A2421]"]) {
+  color: #F5F0E6 !important;
+}
+
+:root[data-layout="mistico-moderno"] #archangel-prayer-modal .ep-archangel-prayer
+  :is([class*="text-[#5C5248]"], [class*="text-[#85786C]"]) {
+  color: #B9C2D0 !important;
+}
+
+:root[data-layout="mistico-moderno"] #archangel-prayer-modal .ep-archangel-prayer
+  :is([class*="text-[#8F631E]"], [class*="text-[#B88736]"]) {
+  color: #D8B96C !important;
+}
+
+:root[data-layout="mistico-moderno"] #archangel-prayer-modal .ep-archangel-prayer
+  [class*="text-[#315C85]"] {
+  color: #C7D0EA !important;
+}
+
+:root[data-layout="mistico-moderno"] #archangel-prayer-modal .ep-archangel-prayer
+  [class*="bg-[#315C85]/"] {
+  background: rgba(46, 59, 115, .24) !important;
+}
+
+:root[data-layout="mistico-moderno"] #archangel-prayer-modal .ep-archangel-prayer
+  [class*="border-[#315C85]"] {
+  border-color: rgba(108, 63, 160, .34) !important;
+}
+
+:root[data-layout="mistico-moderno"] #archangel-prayer-modal .ep-archangel-prayer
+  button[class*="bg-[#315C85]"] {
+  background: linear-gradient(135deg, rgba(46, 59, 115, .96), rgba(108, 63, 160, .78)) !important;
+  border-color: rgba(212, 175, 55, .30) !important;
+  color: #F4F1EB !important;
+}
+
+:root[data-layout="mistico-moderno"] #archangel-prayer-modal .ep-archangel-prayer
+  [class*="bg-[#B88736]/"] {
+  background: rgba(212, 175, 55, .12) !important;
+}
+
+:root[data-layout="mistico-moderno"] #archangel-prayer-modal .ep-archangel-prayer
+  button[class*="bg-[#B88736]"] {
+  background: linear-gradient(135deg, #D4AF37, #E2B96B) !important;
+  border-color: rgba(212, 175, 55, .44) !important;
+  color: #0A0F18 !important;
+  box-shadow: 0 10px 24px rgba(212, 175, 55, .13) !important;
+}
+
+:root[data-layout="mistico-moderno"] #archangel-prayer-modal .ep-archangel-prayer
+  button[class*="bg-[#B88736]"]:hover {
+  background: linear-gradient(135deg, #E2B96B, #D4AF37) !important;
+}
+
+:root[data-layout="mistico-moderno"] #archangel-prayer-modal .ep-archangel-prayer
+  :is([class*="bg-emerald-"], [class*="bg-green-"]) {
+  background: rgba(108, 63, 160, .14) !important;
+}
+
+:root[data-layout="mistico-moderno"] #archangel-prayer-modal .ep-archangel-prayer
+  :is([class*="text-emerald-"], [class*="text-green-"]) {
+  color: #E2B96B !important;
+}
+
+:root[data-layout="mistico-moderno"] #archangel-prayer-modal .ep-archangel-prayer
+  :is([class*="border-emerald-"], [class*="border-green-"]) {
+  border-color: rgba(212, 175, 55, .30) !important;
+}
+
+:root[data-layout="mistico-moderno"] #archangel-prayer-modal .ep-archangel-prayer
+  button:not([class*="bg-[#B88736]"]):hover {
+  background: rgba(46, 59, 115, .36) !important;
+  border-color: rgba(212, 175, 55, .36) !important;
+}
+
+:root[data-layout="mistico-moderno"] #archangel-prayer-modal .ep-archangel-prayer button:disabled {
+  background: rgba(20, 31, 48, .72) !important;
+  border-color: rgba(148, 126, 194, .20) !important;
+  color: #8994A5 !important;
+  box-shadow: none !important;
+}
+
+:root[data-layout="mistico-moderno"] #archangel-prayer-modal .ep-archangel-prayer button:focus-visible {
+  outline: 2px solid rgba(212, 175, 55, .76) !important;
+  outline-offset: 3px;
+  box-shadow: none !important;
+}
+
+:root[data-layout="mistico-moderno"] #archangel-prayer-modal .ep-archangel-prayer button {
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
