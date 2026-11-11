@@ -24,7 +24,7 @@
 
 ## Pendências e limites
 
-- A busca da Library pelo ID exato `file_00000000317c820ebaad657dc3680de5` não retornou o arquivo. Foi encontrado e inspecionado um painel com título semelhante, mas ID diferente; ele não foi usado como substituto. A derivação `docs/visual-qa/natural-sereno/reference.jpg` continua referenciada no seletor. A comparação pixel a pixel com o arquivo original permanece pendente.
+- A prancha original `1001196520(2).png` foi recuperada pelo ID exato `file_00000000317c820ebaad657dc3680de5` e inspecionada. Ela contém a composição histórica com chapas verde-floresta e corpo com chakras; esses elementos permanecem somente na prancha de referência e não devem ser reintroduzidos no produto. O seletor continua usando a derivação versionada `docs/visual-qa/natural-sereno/reference.jpg`, subordinada às decisões posteriores. A comparação pixel a pixel entre a prancha e as páginas renderizadas continua pendente.
 - Não há Preview para o HEAD atual. A última implantação consultada da branch, no commit `3594cd832c38f6783f48baf3d3e7fd100648703c`, terminou em `BUILD_FAILED — Resource provisioning failed`; os eventos de build vieram vazios. Não foi encontrada implantação para o HEAD atual.
 - Não há execução GitHub Actions associada ao HEAD consultado; portanto, o teste novo, TypeScript e build não estão declarados como aprovados.
 - A homologação visual renderizada em desktop/mobile, a escuta de Marianne/Solfeggio e os testes ponta a ponta do Diário/player permanecem pendentes.
