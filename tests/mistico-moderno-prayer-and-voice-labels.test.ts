@@ -50,3 +50,14 @@ test('Místico Moderno themes the plan guide and InfinitePay checkout surfaces',
   assert.match(styles, /rgba\(212, 175, 55/);
   assert.match(styles, /rgba\(108, 63, 160/);
 });
+
+test('Místico Moderno keeps the logout action within the approved night palette', () => {
+  const app = read('src/App.tsx');
+  const styles = read('src/mistico-moderno-header-audit.css');
+
+  assert.match(app, /id="header-btn-logout"/);
+  assert.match(styles, /:root\\[data-layout="mistico-moderno"\\] #header-btn-logout\\{\\s*background:rgba\\(20,31,48/);
+  assert.match(styles, /#header-btn-logout svg\\{\\s*color:#E2B96B!important;/);
+  assert.match(styles, /#header-btn-logout:hover\\{\\s*background:rgba\\(33,43,72/);
+  assert.doesNotMatch(styles, /rgba\\(74,28,47|rgba\\(190,92,126|#F5DDE5/i);
+});
