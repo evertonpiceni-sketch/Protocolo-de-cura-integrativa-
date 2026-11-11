@@ -13,6 +13,7 @@ test('Natural Sereno usa a silhueta neutra na Reintegração, sem a prancha corp
   assert.match(visual, /neutral\?: boolean/);
   assert.match(visual, /if \(neutral\)[\s\S]*?<NeutralBodyLightProgress/);
   assert.match(visual, /showRoots=\{day === 1\}/);
+  assert.match(visual, /focusPosition = day === 1 \? 8 \+ stageProgress \* 0\.84/);
   assert.match(journey, /neutral=\{isNaturalSereno\} active=\{playing\}/);
   assert.equal((journey.match(/neutral=\{isNaturalSereno\} active=\{playing\}/g) || []).length, 2);
   assert.match(journey, /runningBackdropUrl = isNaturalSereno \? '\/brand\/natural-sereno\/cachoeira\.webp' : dayArtworkUrl/);
