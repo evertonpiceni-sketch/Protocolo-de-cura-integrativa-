@@ -98,7 +98,7 @@ export default function DashboardCura({ onClose, progress, userProfile }: { onCl
       <main className="relative z-10 mx-auto w-full max-w-lg flex-1 px-5 pb-12">
         {/* Central Energy Visualizer */}
         <div className="relative mx-auto my-8 aspect-[4/5] w-full max-w-[360px] rounded-[2rem] border border-[#E4C573]/30 bg-white/75 shadow-[0_22px_60px_rgba(0,0,0,.38)] overflow-hidden">
-          <img src={bodyImage} alt={isMisticoModerno ? "Silhueta neutra em meditação com os sete centros luminosos" : "Pessoa em meditação com os sete chakras"} data-mistico-body-image className="absolute inset-0 h-full w-full object-cover" />
+          <img src={bodyImage} alt={isMisticoModerno ? "Figura neutra de costas em meditação, com vestes amplas e marcadores de progresso sobrepostos" : "Pessoa em meditação com os sete chakras"} data-mistico-body-image className="absolute inset-0 h-full w-full object-cover" />
           <div data-mistico-body-overlay className="absolute inset-0 bg-gradient-to-t from-[#F8F4EC]/70 via-transparent to-transparent" />
           
           {CHAKRAS_DATA.map((chakra) => {

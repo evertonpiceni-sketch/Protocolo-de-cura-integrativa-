@@ -1,35 +1,87 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 1000" role="img" aria-labelledby="title desc">
-  <title id="title">Meditação e os sete chakras</title>
-  <desc id="desc">Figura em posição de lótus diante da floresta com sete centros luminosos alinhados.</desc>
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="1000" viewBox="0 0 800 1000" role="img" aria-labelledby="title desc">
+  <title id="title">Silhueta neutra em meditação</title>
+  <desc id="desc">Figura adulta vista de costas, com vestes amplas e neutras, sentada em meditação diante de uma paisagem noturna índigo. A vegetação esmeralda aparece apenas nas bordas da natureza.</desc>
   <defs>
-    <radialGradient id="bg" cx="50%" cy="38%" r="75%"><stop stop-color="#174c38"/><stop offset=".55" stop-color="#073326"/><stop offset="1" stop-color="#021b13"/></radialGradient>
-    <linearGradient id="body" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#173f31"/><stop offset="1" stop-color="#041d16"/></linearGradient>
-    <filter id="soft"><feGaussianBlur stdDeviation="14"/></filter>
-    <filter id="glow"><feGaussianBlur stdDeviation="5" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
-    <pattern id="stars" width="90" height="90" patternUnits="userSpaceOnUse"><circle cx="12" cy="18" r="1.2" fill="#e8cd7a" opacity=".35"/><circle cx="70" cy="54" r=".8" fill="#fff4c7" opacity=".25"/></pattern>
+    <linearGradient id="night" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#071525"/>
+      <stop offset=".58" stop-color="#0A2742"/>
+      <stop offset="1" stop-color="#11172D"/>
+    </linearGradient>
+    <radialGradient id="violet-haze" cx=".28" cy=".18" r=".68">
+      <stop offset="0" stop-color="#6C3FA0" stop-opacity=".28"/>
+      <stop offset="1" stop-color="#6C3FA0" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="robe" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#C7C9C9"/>
+      <stop offset=".42" stop-color="#8F9BA8"/>
+      <stop offset="1" stop-color="#536174"/>
+    </linearGradient>
+    <linearGradient id="robe-shadow" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#536174" stop-opacity=".12"/>
+      <stop offset="1" stop-color="#17263B" stop-opacity=".82"/>
+    </linearGradient>
+    <linearGradient id="gold-rim" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#D4AF37" stop-opacity="0"/>
+      <stop offset=".5" stop-color="#E2B96B" stop-opacity=".72"/>
+      <stop offset="1" stop-color="#D4AF37" stop-opacity="0"/>
+    </linearGradient>
+    <linearGradient id="water" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#0A2742" stop-opacity=".12"/>
+      <stop offset="1" stop-color="#071525" stop-opacity=".92"/>
+    </linearGradient>
+    <filter id="soft-glow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="18"/>
+    </filter>
+    <pattern id="stars" width="112" height="112" patternUnits="userSpaceOnUse">
+      <circle cx="14" cy="22" r="1.1" fill="#F4F1EB" opacity=".48"/>
+      <circle cx="78" cy="62" r=".8" fill="#E2B96B" opacity=".42"/>
+      <circle cx="48" cy="96" r=".65" fill="#F4F1EB" opacity=".28"/>
+    </pattern>
   </defs>
-  <rect width="800" height="1000" fill="url(#bg)"/><rect width="800" height="1000" fill="url(#stars)"/>
-  <g opacity=".28" fill="none" stroke="#d9b95c" stroke-width="2"><circle cx="400" cy="405" r="300"/><circle cx="400" cy="405" r="238"/><path d="M400 70 655 625 145 625Z"/><path d="M145 330 655 330 400 795Z"/></g>
-  <g opacity=".24" fill="#0e5a3e"><path d="M0 0h170C120 115 90 220 0 300Z"/><path d="M800 0H630c50 115 80 220 170 300Z"/><path d="M0 1000V690c95 52 145 150 170 310Z"/><path d="M800 1000V690c-95 52-145 150-170 310Z"/></g>
-  <ellipse cx="400" cy="920" rx="305" ry="48" fill="#020e0a" opacity=".75" filter="url(#soft)"/>
-  <g fill="url(#body)" stroke="#b99143" stroke-opacity=".35" stroke-width="2">
-    <circle cx="400" cy="235" r="82"/>
-    <path d="M320 305C290 380 278 515 300 655c25 50 175 50 200 0 22-140 10-275-20-350-42 32-118 32-160 0Z"/>
-    <path d="M315 350C245 375 194 500 145 645c-11 33 32 52 49 19l128-207Z"/>
-    <path d="M485 350c70 25 121 150 170 295 11 33-32 52-49 19L478 457Z"/>
-    <path d="M300 640C230 690 145 741 77 822c-24 29 1 63 39 51l287-94Z"/>
-    <path d="M500 640c70 50 155 101 223 182 24 29-1 63-39 51l-287-94Z"/>
-    <path d="M103 870c104 12 201-6 297-91 96 85 193 103 297 91-63 79-192 100-297 37-105 63-234 42-297-37Z"/>
+
+  <rect width="800" height="1000" fill="url(#night)"/>
+  <rect width="800" height="1000" fill="url(#violet-haze)"/>
+  <rect width="800" height="1000" fill="url(#stars)" opacity=".68"/>
+  <ellipse cx="400" cy="650" rx="300" ry="180" fill="#6C3FA0" opacity=".08" filter="url(#soft-glow)"/>
+
+  <path d="M0 610 112 522 205 576 310 486 405 565 520 474 642 566 724 505 800 548V1000H0Z" fill="#101C32" opacity=".88"/>
+  <path d="M0 700 126 628 230 672 355 602 470 676 590 612 710 674 800 625V1000H0Z" fill="#0B1B30" opacity=".9"/>
+  <path d="M0 760Q180 718 400 758T800 748V1000H0Z" fill="url(#water)"/>
+  <path d="M210 820Q400 790 590 820M250 862Q400 842 550 862M310 900Q400 890 490 900" fill="none" stroke="#D4AF37" stroke-opacity=".16" stroke-width="2"/>
+
+  <g id="natural-foliage" fill="#123D39" opacity=".54">
+    <path d="M0 0H115C82 78 58 160 0 238Z"/>
+    <path d="M0 190C58 160 94 112 130 55 119 150 76 226 0 286Z"/>
+    <path d="M800 0H685C718 78 742 160 800 238Z"/>
+    <path d="M800 190C742 160 706 112 670 55 681 150 724 226 800 286Z"/>
+    <path d="M0 1000V790C56 824 96 892 126 1000Z"/>
+    <path d="M800 1000V790C744 824 704 892 674 1000Z"/>
   </g>
-  <path d="M400 118v650" stroke="#f5dc91" stroke-width="2" stroke-dasharray="5 12" opacity=".65"/>
-  <g filter="url(#glow)" stroke="#fff" stroke-opacity=".8" stroke-width="1.2">
-    <g transform="translate(400 680)" fill="#ef4444"><circle r="27" opacity=".28"/><path d="M0-24C9-12 13-6 0 0 13 6 9 12 0 24-9 12-13 6 0 0-13-6-9-12 0-24Zm-24 0C-12-9-6-13 0 0 6-13 12-9 24 0 12 9 6 13 0 0-6 13-12 9-24 0Z"/></g>
-    <g transform="translate(400 592)" fill="#f97316"><circle r="25" opacity=".25"/><path d="M0-22 8-8 22-11 13 2 22 14 7 12 0 25-7 12-22 14-13 2-22-11-8-8Z"/></g>
-    <g transform="translate(400 505)" fill="#facc15"><circle r="24" opacity=".25"/><path d="M0-23 7-9 20-14 14 0 24 7 9 8 10 23 0 12-10 23-9 8-24 7-14 0-20-14-7-9Z"/></g>
-    <g transform="translate(400 418)" fill="#22c55e"><circle r="26" opacity=".25"/><path d="M0-25 7-9 18-18 15-3 29 0 15 7 20 20 5 15 0 29-7 15-20 20-15 5-29 0-15-7-18-18-5-9Z"/></g>
-    <g transform="translate(400 330)" fill="#38bdf8"><circle r="24" opacity=".25"/><path d="M0-23 7-8 19-14 14 0 24 7 9 9 10 23 0 13-10 23-9 9-24 7-14 0-19-14-7-8Z"/></g>
-    <g transform="translate(400 245)" fill="#6366f1"><circle r="24" opacity=".28"/><path d="M0-24C13-14 22-5 0 0 22 5 13 14 0 24-13 14-22 5 0 0-22-5-13-14 0-24Z"/></g>
-    <g transform="translate(400 136)" fill="#c084fc"><circle r="31" opacity=".25"/><path d="M0-34C10-18 13-9 0 0 19-13 30-10 31 0 15 3 9 8 0 0 13 18 8 29 0 33-8 29-13 18 0 0-9 8-15 3-31 0-30-10-19-13 0 0-13-9-10-18 0-34Z"/></g>
+
+  <ellipse cx="400" cy="884" rx="270" ry="42" fill="#020B16" opacity=".7" filter="url(#soft-glow)"/>
+
+  <g id="figure-cloak">
+    <!-- Hood and head are deliberately featureless; no hair, face or gender cues. -->
+    <path d="M343 298C327 270 330 222 357 194 370 180 386 174 400 174 414 174 430 180 443 194 470 222 473 270 457 298 432 326 368 326 343 298Z" fill="#26364A" stroke="#D4AF37" stroke-opacity=".24" stroke-width="2"/>
+    <path d="M356 270C354 225 372 197 400 194 428 197 446 225 444 270 433 298 367 298 356 270Z" fill="#17263B"/>
+
+    <!-- Loose, fully covering robe; the silhouette avoids anatomical or gendered detail. -->
+    <path d="M337 300C307 325 285 377 286 455 287 536 302 604 313 650 264 686 205 735 153 802 130 832 151 861 184 845 264 806 329 782 400 798 471 782 536 806 616 845 649 861 670 832 647 802 595 735 536 686 487 650 498 604 513 536 514 455 515 377 493 325 463 300 430 321 370 321 337 300Z" fill="url(#robe)" stroke="#E2B96B" stroke-opacity=".38" stroke-width="2"/>
+    <path d="M337 318C316 390 318 531 341 666M463 318C484 390 482 531 459 666" fill="none" stroke="#F4F1EB" stroke-opacity=".16" stroke-width="7" stroke-linecap="round"/>
+    <path d="M400 324C394 470 395 625 400 778" fill="none" stroke="url(#gold-rim)" stroke-width="3" opacity=".52"/>
+    <path d="M313 650C340 694 365 735 400 798 435 735 460 694 487 650" fill="none" stroke="#E2B96B" stroke-opacity=".22" stroke-width="3"/>
+
+    <!-- Sleeves and relaxed hands resting near the knees. -->
+    <path d="M320 350C274 369 239 434 207 541 196 576 189 605 176 630 165 651 183 670 204 653 229 632 245 593 261 553L350 436Z" fill="url(#robe)" stroke="#E2B96B" stroke-opacity=".26" stroke-width="2"/>
+    <path d="M480 350C526 369 561 434 593 541 604 576 611 605 624 630 635 651 617 670 596 653 571 632 555 593 539 553L450 436Z" fill="url(#robe)" stroke="#E2B96B" stroke-opacity=".26" stroke-width="2"/>
+    <path d="M176 630Q194 648 216 633M624 630Q606 648 584 633" fill="none" stroke="#F4F1EB" stroke-opacity=".28" stroke-width="3" stroke-linecap="round"/>
+    <path d="M286 455Q250 536 207 622M514 455Q550 536 593 622" fill="none" stroke="#17263B" stroke-opacity=".38" stroke-width="5" stroke-linecap="round"/>
+
+    <!-- Soft folds keep the garment natural without emphasizing body shape. -->
+    <path d="M356 354Q330 486 360 650M444 354Q470 486 440 650M250 760Q330 720 400 798 470 720 550 760" fill="none" stroke="#F4F1EB" stroke-opacity=".13" stroke-width="4" stroke-linecap="round"/>
+    <path d="M314 648Q400 700 486 648" fill="none" stroke="#D4AF37" stroke-opacity=".2" stroke-width="2"/>
   </g>
-  <g fill="none" stroke="#edd27d" opacity=".68"><ellipse cx="400" cy="136" rx="62" ry="22"/><ellipse cx="400" cy="136" rx="22" ry="62"/><ellipse cx="400" cy="136" rx="44" ry="44" transform="rotate(45 400 136)"/></g>
+
+  <path d="M125 902Q400 875 675 902" fill="none" stroke="#D4AF37" stroke-opacity=".22" stroke-width="2"/>
+  <path d="M190 928Q400 914 610 928" fill="none" stroke="#6C3FA0" stroke-opacity=".22" stroke-width="2"/>
 </svg>
