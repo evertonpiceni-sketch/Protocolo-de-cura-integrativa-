@@ -17,9 +17,14 @@ test('a prévia Natural Sereno enquadra o nascer do sol e mantém a prancha ofic
 test('o hero ajusta o enquadramento da paisagem separadamente para desktop e mobile', () => {
   const homeModel = read('src/lib/naturalSerenoHomeApprovedModel.ts');
 
-  assert.ok(homeModel.includes('var(--ns-valley) center 35% / cover no-repeat !important;'));
-  assert.ok(homeModel.includes('background-position: center, center 38% !important;'));
+  assert.ok(homeModel.includes('var(--ns-valley) center 52% / cover no-repeat !important;'));
+  assert.ok(homeModel.includes('background-position: center, center 48% !important;'));
+  assert.doesNotMatch(homeModel, /center 35%|center 38%/);
   assert.ok(homeModel.includes('@media (max-width: 767px)'));
+
+  const approvedHomeCss = read('src/natural-sereno-home-latest-approved.css');
+  assert.ok(approvedHomeCss.includes('background-position: center 52% !important;'));
+  assert.ok(approvedHomeCss.includes('background-position: center 48% !important;'));
 });
 
 test('o player mantém a cachoeira visível no desktop e preserva o enquadramento mobile', () => {
