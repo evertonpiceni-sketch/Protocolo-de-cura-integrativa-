@@ -27,6 +27,7 @@ interface AnamnesisModalProps {
   onOpenSpecificTreatment?: (category?: string) => void;
   onOpenContact?: () => void;
   onApplyFrequency?: (freq: '396hz' | '528hz' | '432hz' | '639hz' | '741hz' | '852hz' | '963hz' | '417hz' | 'waves' | 'florestazen' | 'chuvaserena' | 'none') => void;
+  backgroundPlaybackRequested?: boolean;
 }
 
 const COMPLAINTS_OPTIONS = [
@@ -67,6 +68,7 @@ export default function AnamnesisModal({
   isOpen,
   onClose,
   userProfile,
+  backgroundPlaybackRequested = false,
   onSaveAnamnesis,
   onOpenSpecificTreatment,
   onOpenContact,
@@ -132,7 +134,7 @@ export default function AnamnesisModal({
   const [feedbackReaction, setFeedbackReaction] = useState<string | null>(null);
   const [feedbackComment, setFeedbackComment] = useState<string>('');
   const [feedbackSubmitted, setFeedbackSubmitted] = useState<boolean>(false);
-  const [is639HzActive, setIs639HzActive] = useState<boolean>(true);
+  const [is639HzActive, setIs639HzActive] = useState<boolean>(false);
   const audioPlayerRef = React.useRef<HTMLAudioElement | null>(null);
 
   const canPlayAnamnesisSolfeggio = () => shouldPlayInlineSolfeggio({
@@ -152,7 +154,7 @@ export default function AnamnesisModal({
   };
 
   const restoreUserBackground = () => {
-    if (userProfile.audioEnabled !== false && userProfile.bgMusicType && userProfile.bgMusicType !== 'none' && userProfile.bgMusicType !== '639hz') {
+    if (backgroundPlaybackRequested && userProfile.audioEnabled !== false && userProfile.bgMusicType && userProfile.bgMusicType !== 'none' && userProfile.bgMusicType !== '639hz') {
       audioEngine.startBG(userProfile.bgMusicType);
     } else {
       audioEngine.stopBG();
