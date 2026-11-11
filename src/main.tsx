@@ -103,6 +103,7 @@ import './elegancia-profunda-approved-overrides.css';
 // and all other theme layers. Keep this scoped override as the final theme CSS import.
 import './essencia-luminosa-approved-overrides.css';
 import './mistico-moderno-final-audit.css';
+import './mistico-moderno-onboarding-audit.css';
 // Keep the chooser shell neutral until the user explicitly confirms one of the four styles.
 import './prestyle-neutral.css';
 import { ErrorBoundary } from './ErrorBoundary.tsx';
