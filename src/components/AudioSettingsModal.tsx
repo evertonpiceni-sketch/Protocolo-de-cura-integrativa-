@@ -213,9 +213,8 @@ export default function AudioSettingsModal({
     }
     const testPhrase = `Olá, ${userProfile.name}. Esta é uma prévia da voz escolhida para acompanhar suas práticas com calma e presença.`;
 
-    const shouldPlayVoiceBackground = playbackRequested && (!requiresNeuralVoice
-      ? bgMusicType !== 'none'
-      : audioEnabled && shouldPlayProtocolSessionBackground('playing', bgMusicType));
+    const shouldPlayVoiceBackground = playbackRequested && audioEnabled && bgMusicType !== 'none' &&
+      (!requiresNeuralVoice || shouldPlayProtocolSessionBackground('playing', bgMusicType));
     if (allowBackgroundPlayback && shouldPlayVoiceBackground) {
       audioEngine.startBG(bgMusicType);
     } else if (allowBackgroundPlayback && requiresNeuralVoice) {
