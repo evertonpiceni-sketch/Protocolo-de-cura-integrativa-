@@ -67,19 +67,19 @@
   transform: translateY(-1px);
 }
 
-/* “Como estou agora” mantém o significado positivo, mas integra o esmeralda à noite sofisticada. */
+/* “Como estou agora” mantém o significado positivo com índigo/violeta e dourado; verde fica reservado à natureza. */
 :root[data-layout="mistico-moderno"] #journal-dashboard-view [class*="border-emerald-200"][class*="bg-emerald-50"] {
-  background: linear-gradient(135deg, rgba(7, 69, 62, .30), rgba(17, 27, 58, .82)) !important;
-  border-color: rgba(73, 190, 158, .30) !important;
+  background: linear-gradient(135deg, rgba(108, 63, 160, .18), rgba(17, 27, 58, .82)) !important;
+  border-color: rgba(212, 175, 55, .28) !important;
 }
 
 :root[data-layout="mistico-moderno"] #journal-dashboard-view :is([class*="text-emerald-700"],[class*="text-emerald-800"]) {
-  color: #A9E2CF !important;
+  color: #E2B96B !important;
 }
 
 :root[data-layout="mistico-moderno"] #journal-dashboard-view [class*="border-emerald-200"][class*="bg-white"] {
-  background-color: rgba(9, 50, 49, .52) !important;
-  border-color: rgba(73, 190, 158, .26) !important;
+  background-color: rgba(46, 59, 115, .24) !important;
+  border-color: rgba(212, 175, 55, .24) !important;
 }
 
 @media (max-width: 640px) {
