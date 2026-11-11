@@ -47,6 +47,6 @@ test('Místico Moderno themes the plan guide and InfinitePay checkout surfaces',
   assert.match(styles, /:root\[data-layout="mistico-moderno"\] #plans-modal/);
   assert.match(styles, /button\[class~="bg-\[#073B2B\]"\]/);
   assert.match(styles, /linear-gradient\(180deg, #0A2742 0%, #101827 100%\)/);
-  assert.match(styles, /#D4AF37/);
-  assert.match(styles, /#6C3FA0/);
+  assert.match(styles, /rgba\(212, 175, 55/);
+  assert.match(styles, /rgba\(108, 63, 160/);
 });
