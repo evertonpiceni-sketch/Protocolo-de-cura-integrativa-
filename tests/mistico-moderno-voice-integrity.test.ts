@@ -176,7 +176,7 @@ test('Style 4 selector displays the verified official 4:3 board preview without 
   const decodedWebp = Buffer.from(embeddedWebp, 'base64');
   assert.equal(decodedWebp.toString('ascii', 0, 4), 'RIFF', 'The preview payload must be a WebP container.');
   assert.equal(decodedWebp.toString('ascii', 8, 12), 'WEBP', 'The preview payload must be a WebP image.');
-  const embeddedAvif = image.match(/href="data:image\\/avif;base64,([^"]+)"/)?.[1] ?? '';
+  const embeddedAvif = image.match(/href="data:image[.]avif;base64,([^"]+)"/)?.[1] ?? '';
   assert.ok(embeddedAvif.length > 15000, 'The official board must include the sharper AVIF preview layer.');
   assert.match(image, /data-source-file="1001196522.png" data-source-width="1536" data-source-height="1152" data-raster-width="512" data-raster-height="384"/);
   const decodedAvif = Buffer.from(embeddedAvif, 'base64');
