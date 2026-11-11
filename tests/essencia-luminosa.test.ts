@@ -24,7 +24,7 @@ test('a escolha dos quatro estilos continua explícita antes da aplicação', ()
   const modal = fs.readFileSync('src/components/LayoutChoiceModal.tsx', 'utf8');
   const app = fs.readFileSync('src/App.tsx', 'utf8');
   assert.ok(modal.includes('useState<LayoutId | null>(null)'));
-  assert.ok(modal.includes('text-[#817460]">4 estilos, uma mesma essência'), 'O cabeçalho do seletor deve permanecer neutro antes da confirmação.');
+  assert.ok(modal.includes('text-[#625E56]">4 estilos, uma mesma essência'), 'O cabeçalho do seletor deve permanecer neutro antes da confirmação.');
   assert.ok(modal.includes('disabled={!selectedLayout || isSaving}'));
   assert.ok(modal.includes('O estilo só será aplicado depois da sua confirmação.'));
   assert.ok(app.includes('useState(false)'));
