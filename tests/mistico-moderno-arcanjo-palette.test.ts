@@ -27,7 +27,9 @@ test('Místico Moderno Arcanjo progress, day markers and reading colors stay wit
   assert.match(source, /const progressGlow = isMisticoModerno \? '#D4AF37' : config\.cor/);
   assert.match(source, /linear-gradient\(90deg,\$\{progressAccent\},\$\{progressAccentLight\}\)/);
   assert.match(source, /color:isMisticoModerno \? '#E2B96B' : config\.corSecundaria/);
-  assert.match(source, /isMisticoModerno \? \(done \? '#6C3FA0' : diaAtual===day \? '#D4AF37' : '#2E3B73'\)/);
+  assert.ok(source.includes("isMisticoModerno ? (diaAtual===day ? 'border-[#D4AF37] bg-[#D4AF37]/12'"));
+  assert.ok(source.includes("done ? 'border-[#6C3FA0]/45 bg-[#0A0F18]/30'"));
+  assert.ok(source.includes("diaAtual===day ? 'border-[#B88736] bg-[#e5c66f]/12'"));
   assert.match(source, /isMisticoModerno \? 'bg-\[#0A2742\] text-\[#F4F1EB\]' : 'bg-\[#F8F4EC\] text-\[#2A2420\]'/);
   assert.match(source, /isMisticoModerno \? 'text-\[#BAC3D1\]' : 'text-\[#d9e6dc\]'/);
   assert.match(source, /isMisticoModerno \? 'text-\[#BAC3D1\]' : 'text-\[#e6eee8\]'/);
