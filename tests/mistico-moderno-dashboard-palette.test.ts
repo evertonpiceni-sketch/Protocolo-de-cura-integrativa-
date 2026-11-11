@@ -26,7 +26,7 @@ test('Místico Moderno dashboard image follows the night palette and keeps natur
   assert.match(dashboard, /const bodyImage = isMisticoModerno \? '\/brand\/chakra-body\.svg'/);
   assert.match(dashboard, /Figura neutra de costas em meditação/);
   assert.match(svg, /<title id="title">Silhueta neutra em meditação<\/title>/);
-  assert.match(svg, /fill="#071525"/);
+  assert.match(svg, /stop-color="#071525"/);
   assert.match(svg, /stop-color="#0A2742"/);
   assert.match(svg, /id="natural-foliage" fill="#123D39"/);
   assert.match(svg, /id="figure-cloak"/);
