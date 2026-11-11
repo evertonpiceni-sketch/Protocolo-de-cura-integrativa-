@@ -46,6 +46,6 @@ html[data-layout="mistico-moderno"] [role="dialog"][aria-label="Celebração de 
 }
 
 html[data-layout="mistico-moderno"] [role="dialog"][aria-label="Celebração de progresso"] a.bg-emerald-600 {
-  background: linear-gradient(135deg, #0D5A50, #16806D) !important;
-  box-shadow: 0 12px 30px rgba(22, 128, 109, 0.16) !important;
+  background: linear-gradient(135deg, #D4AF37, #A87E37) !important;
+  box-shadow: 0 12px 30px rgba(212, 175, 55, 0.18) !important;
 }
