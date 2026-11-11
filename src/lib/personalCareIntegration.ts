@@ -4,6 +4,19 @@ const CURRENT_LOGIN_KEY = 'cura_integrada_logged_in_user_v1';
 const ACCOUNTS_KEY = 'cura_integrada_accounts_v1';
 const WEEKLY_MILESTONES = [7, 14, 21] as const;
 
+const DIARY_HTML_ESCAPE: Record<string, string> = {
+  '&': '&amp;',
+  '<': '&lt;',
+  '>': '&gt;',
+  '"': '&quot;',
+  "'": '&#39;'
+};
+
+/** Escape user-authored anamnesis text before placing it in the weekly diary card HTML. */
+export function escapeDiaryAnalysisText(value: string): string {
+  return value.replace(/[&<>"']/g, character => DIARY_HTML_ESCAPE[character]);
+}
+
 type EmotionRule = {
   id: string;
   label: string;
@@ -163,7 +176,7 @@ function renderWeeklyDiaryAnalysis() {
     <p class="ep-week-kicker">Fechamento dos dias ${startDay}–${activeDay}</p>
     <h3>Minha semana emocional</h3>
     <p>Seu diário continua sendo um espaço livre para desabafar. A leitura abaixo só acontece neste marco de 7 dias e compara o que apareceu nos seus registros com o estado emocional inicial informado na anamnese.</p>
-    <div class="ep-week-box"><p><strong>Estado emocional inicial:</strong> ${initialText}</p></div>
+    <div class="ep-week-box"><p><strong>Estado emocional inicial:</strong> ${escapeDiaryAnalysisText(initialText)}</p></div>
     <div class="ep-week-grid">${patternMarkup}</div>
     <div class="ep-week-grid">
       <div class="ep-week-item"><span>Registros considerados</span><strong>${recordsInPeriod} de 7 dias</strong></div>
