@@ -16,3 +16,20 @@ test('o seletor dos quatro estilos mantém CTA premium sem formato de pílula', 
   assert.ok(!confirmButton.includes('rounded-full'), 'CTA não deve voltar ao formato de pílula.');
   assert.ok(confirmButton.includes('disabled={!selectedLayout || isSaving}'), 'Confirmação continua bloqueada antes da escolha explícita.');
 });
+
+
+test('a prévia Natural Sereno usa CTA retangular premium, não formato de pílula', () => {
+  const source = fs.readFileSync('src/components/LayoutChoiceModal.tsx', 'utf8');
+  const start = source.indexOf('if (isNaturalSereno)');
+  const end = source.indexOf("if (layout.id === 'elegancia-profunda')", start);
+  assert.ok(start >= 0 && end > start, 'prévia Natural Sereno não encontrada.');
+  const preview = source.slice(start, end);
+  const cta = preview.match(/<span className="([^"]+)">\\s*Iniciar jornada\\s*<\\/span>/s);
+
+  assert.ok(cta, 'CTA da prévia Natural Sereno não encontrado.');
+  assert.ok(cta[1].includes('rounded-xl'), 'CTA da prévia deve ter cantos premium de 12px.');
+  assert.ok(!cta[1].includes('rounded-full') && !cta[1].includes('rounded-[18px]'), 'CTA da prévia não deve ser uma pílula.');
+  assert.ok(cta[1].includes('border-[#A87E37]'));
+  assert.ok(cta[1].includes('text-[#2A2421]'));
+  assert.ok(preview.includes('bg-gradient-to-b from-[#E2B96B] to-[#C89D52]'));
+});
