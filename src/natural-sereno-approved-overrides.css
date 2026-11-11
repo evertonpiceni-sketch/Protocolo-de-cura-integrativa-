@@ -3,6 +3,12 @@
    after the official Estilo 1 card and later approved decisions. */
 
 /* Logo oficial: assinatura visual discreta; nunca elemento dominante. */
+:root[data-layout="natural-sereno"] #main-header .ep-brand-signature-wrap {
+  opacity:1!important;
+  background:transparent!important;
+  border:0!important;
+  box-shadow:none!important;
+}
 :root[data-layout="natural-sereno"] #main-header .ep-brand-signature { opacity:.30!important; filter:none!important; object-fit:contain!important; border-color:transparent!important; }
 
 /* O logo do acolhimento é assinatura, não selo: remover o disco branco e a moldura legados. */
