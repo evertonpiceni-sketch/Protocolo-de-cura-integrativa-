@@ -38,5 +38,7 @@ test('other styles retain their existing Arcanjo chakra colors and forest treatm
 
   assert.match(source, /isMisticoModerno \? '#D4AF37' : config\.cor/);
   assert.match(source, /isMisticoModerno \? '#E2B96B' : config\.corSecundaria/);
-  assert.match(source, /isMisticoModerno \? 'border-\[#D4AF37\] bg-\[#D4AF37\]\/12' : \(diaAtual===day \? 'border-\[#B88736\] bg-\[#e5c66f\]\/12'/);
+  assert.match(source, /diaAtual===day \\? 'border-\\[#D4AF37\\] bg-\\[#D4AF37\\]\\/12'/);
+  assert.match(source, /diaAtual===day \\? 'border-\\[#B88736\\] bg-\\[#e5c66f\\]\\/12'/);
+  assert.match(source, /done \\? 'border-\\[#6C3FA0\\]\\/45 bg-\\[#0A0F18\\]\\/30'/);
 });
