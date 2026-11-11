@@ -66,7 +66,7 @@ test('o Estilo 2 suspende Solfeggio durante prévias neurais e restaura apenas a
 test('o Arcanjo suspende Solfeggio durante narração neural e respeita o áudio global', () => {
   const arcanjo = read('src/components/ArcanjoProtocolView.tsx');
   assert.ok(arcanjo.includes("import { isSolfeggioFrequency } from '../lib/protocolSessionAudioPolicy';"));
-  assert.match(arcanjo, /const suspendsSolfeggioDuringNeuralNarration =\\s*isEleganciaProfunda \\|\\| isEssenciaLuminosa \\|\\| isMisticoModerno;/);
+  assert.match(arcanjo, /const suspendsSolfeggioDuringNeuralNarration =\s*isEleganciaProfunda \|\| isEssenciaLuminosa \|\| isMisticoModerno;/);
   assert.ok(arcanjo.includes('if (isSolfeggioFrequency(audioEngine.getCurrentSynthType())) {'));
   assert.ok(arcanjo.includes('if (userProfile.audioEnabled === false) {'));
   assert.ok(arcanjo.includes('if (suspendsSolfeggioDuringNeuralNarration) stopProtocolFrequency();'));
