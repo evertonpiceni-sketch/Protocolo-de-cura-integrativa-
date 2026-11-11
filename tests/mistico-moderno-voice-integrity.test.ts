@@ -47,7 +47,7 @@ test('Style 4 keeps Arcanjo Solfeggio off during neural narration and restores i
 
   assert.match(policy, /isEleganciaProfunda\s*\|\|\s*isEssenciaLuminosa\s*\|\|\s*isMisticoModerno/);
   assert.match(prepare, /if \(suspendsSolfeggioDuringNeuralNarration\) stopProtocolFrequency\(\)/);
-  assert.doesNotMatch(prepare, /else playProtocolFrequency/);
+  assert.match(prepare, /else playProtocolFrequency\(\)/);
   assert.match(start, /if \(isMisticoModerno\) stopProtocolFrequency\(\)/);
   assert.match(start, /onStart: \(\) => \{[\s\S]*?prepareFrequencyForNarration/);
   assert.match(start, /onPause: \(\) => \{[\s\S]*?if \(suspendsSolfeggioDuringNeuralNarration\) playProtocolFrequency\(\)/);
