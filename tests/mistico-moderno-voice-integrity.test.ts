@@ -425,7 +425,11 @@ test('Místico Moderno neutraliza a névoa sálvia global sem remover o esmerald
   const style4Start = theme.lastIndexOf(':root[data-layout="mistico-moderno"]{');
   const style4End = theme.indexOf('\n}', style4Start);
   const style4Theme = theme.slice(style4Start, style4End);
-  assert.match(style4Theme, /--ep-scene-overlay:[\s\S]*rgba\(30,107,90,\.07\)/, 'O esmeralda permanece apenas como acento integrado à composição natural.');
+  assert.match(style4Theme, /--ep-scene:none;/, 'A Home não deve inventar uma fotografia ausente nem aplicar uma névoa verde solta.');
+  assert.match(style4Theme, /--ep-scene-overlay:[\s\S]*rgba\(108,63,160,\.08\)/, 'A atmosfera usa violeta/índigo em vez de uma camada verde independente.');
+  assert.doesNotMatch(style4Theme, /--ep-scene-overlay:[\s\S]*rgba\(30,107,90/i, 'Esmeralda não pode ser usado como overlay independente.');
+  const body = read('public/brand/chakra-body.svg');
+  assert.match(body, /<g id="natural-foliage" fill="#123D39"/, 'O verde permanece apenas na folhagem natural integrada à ilustração corporal neutra.');
 });
 
 
