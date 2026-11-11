@@ -13,7 +13,7 @@
 - O conteúdo, as perguntas, a ordem das práticas e as animações dos componentes não foram alterados.
 - Adicionado teste de regressão para os dois modais e corrigida a verificação de escopo do teste para não usar expressão regular escapada incorretamente.
 
-## Preservado e reaud itado
+## Preservado e reauditado
 
 - O seletor React dos quatro estilos permanece obrigatório e sem pré-seleção. Em `App.tsx`, o tema só é aplicado depois de `layoutConfirmedThisSession`; antes disso, `data-layout` é removido e a barra do navegador permanece neutra.
 - Natural Sereno continua com creme/marfim, café, dourado refinado, natureza realista e verde apenas como acento.
