@@ -111,3 +111,18 @@ test('a rota ativa da Reintegração usa Marianne na Essência Luminosa sem alte
   assert.equal(getReintegrationVoice('essencia-luminosa').voiceId, 'mJqP14JQFEK0PojR5lfV');
   assert.equal(getReintegrationVoice('natural-sereno').voiceId, '21m00Tcm4TlvDq8ikWAM');
 });
+
+
+test('o botão Concluir dia neutraliza o verde e o dourado saturado globais na Essência Luminosa', () => {
+  const selector = ':root[data-layout="essencia-luminosa"] [data-ep-reintegration="true"] .ep-gold-button';
+  const start = css.lastIndexOf(selector);
+  assert.ok(start >= 0, 'o botão Concluir dia precisa de override próprio do Estilo 3');
+  const end = css.indexOf('}', start);
+  const rule = css.slice(start, end + 1);
+
+  assert.ok(journey.includes('className="ep-gold-button rounded-full px-5 py-3 text-sm font-bold"'));
+  assert.ok(rule.includes('background: var(--layout-gold-gradient) !important;'));
+  assert.ok(rule.includes('color: var(--layout-text) !important;'));
+  assert.ok(rule.includes('border: 1px solid var(--layout-gold-border) !important;'));
+  assert.doesNotMatch(rule, /#173d31|#f2dc98|#B88736/i);
+});
