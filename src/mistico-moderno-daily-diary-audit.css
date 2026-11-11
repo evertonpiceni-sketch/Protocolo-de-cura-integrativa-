@@ -8,7 +8,7 @@ html[data-layout="mistico-moderno"] #daily-diary-modal {
 html[data-layout="mistico-moderno"] #daily-diary-modal > div {
   background:
     radial-gradient(circle at 88% 8%, rgba(117, 75, 180, 0.15), transparent 32%),
-    radial-gradient(circle at 8% 92%, rgba(18, 112, 103, 0.10), transparent 30%),
+    radial-gradient(circle at 8% 92%, rgba(46, 59, 115, 0.12), transparent 30%),
     linear-gradient(145deg, rgba(12, 17, 43, 0.98), rgba(20, 18, 55, 0.98)) !important;
   border-color: rgba(212,175,55, 0.30) !important;
   box-shadow: 0 28px 90px rgba(0, 0, 0, 0.48), 0 0 0 1px rgba(126, 91, 180, 0.10) inset !important;
