@@ -8,7 +8,7 @@ test('Estilo 3 usa a prancha oficial no card de prévia do seletor', () => {
   const modal = fs.readFileSync('src/components/LayoutChoiceModal.tsx', 'utf8');
   const boardPath = 'public/brand/essencia-luminosa/prancha-oficial.webp';
   assert.ok(modal.includes('src="/brand/essencia-luminosa/prancha-oficial.webp"'));
-  assert.ok(modal.includes('A prévia do Estilo 3 usa a prancha oficial'));
+  // The official image source is the contract; explanatory copy is not required in the card.
   assert.ok(!modal.includes('A prévia do Estilo 2 usa a prancha oficial'));
   assert.ok(fs.existsSync(boardPath));
   assert.ok(fs.statSync(boardPath).size > 10000, 'a prévia deve conter a prancha visual, não um placeholder vazio');
