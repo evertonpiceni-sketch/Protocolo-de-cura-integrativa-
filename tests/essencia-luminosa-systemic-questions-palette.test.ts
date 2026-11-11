@@ -20,6 +20,10 @@ test('Perguntas Sistêmicas usa sálvia/champagne nos estados de dia somente na 
   assert.ok(css.includes(scope + ' [class*="bg-emerald-500"]'));
   assert.ok(css.includes(scope + ' [class*="bg-amber-50"]'));
   assert.ok(css.includes(scope + ' [class*="border-amber-200"]'));
+  assert.ok(css.includes(scope + ' [class*="text-emerald-700"]'));
+  assert.ok(css.includes(scope + ' [class*="text-amber-700"]'));
+  assert.ok(css.includes('color: color-mix(in srgb, var(--layout-accent) 74%, var(--layout-text)) !important;'));
+  assert.ok(css.includes('color: var(--layout-gold-dark) !important;'));
   assert.ok(css.includes('color-mix(in srgb, var(--layout-accent-soft) 68%, var(--layout-card))'));
   assert.ok(css.includes('color-mix(in srgb, var(--layout-gold-soft) 72%, var(--layout-card))'));
 
