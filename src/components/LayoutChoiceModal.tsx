@@ -195,7 +195,7 @@ export default function LayoutChoiceModal({ onSelect }: LayoutChoiceModalProps) 
     >
       <section data-layout-choice-shell="true" className="my-2 w-full max-w-4xl rounded-[2rem] border border-[#E3DFD6] bg-[#F8F7F3] p-5 shadow-2xl sm:p-7">
         <div className="mx-auto max-w-xl text-center">
-          <p className="text-xs font-semibold uppercase tracking-[.2em] text-[#85847B]">4 estilos, uma mesma essência</p>
+          <p className="text-xs font-semibold uppercase tracking-[.2em] text-[#625E56]">4 estilos, uma mesma essência</p>
           <h2 id="layout-choice-title" className="mt-2 font-display text-3xl text-[#302E2A]">Escolha o que mais toca você</h2>
           <p className="mt-2 text-sm leading-relaxed text-[#625E56]">
             Veja a prévia de cada atmosfera, selecione uma opção e confirme. A jornada, os conteúdos e seus dados permanecem iguais.
