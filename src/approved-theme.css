@@ -199,6 +199,7 @@
   --layout-accent-light:#8E5CC8;
   --layout-accent-soft:rgba(108,63,160,.16);
   --layout-indigo:#2E3B73;
+  /* Reservado à vegetação em imagens; não aplicar em superfícies, botões ou gradientes da interface. */
   --layout-emerald:#1E6B5A;
   --layout-violet:#6C3FA0;
   --layout-gold:#D4AF37;
