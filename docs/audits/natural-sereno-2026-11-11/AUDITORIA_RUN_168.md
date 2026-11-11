@@ -1,6 +1,7 @@
 # Auditoria RUN 168 — Estilo 1: Natural Sereno
 
 **Data:** 11/11/2026 — 07:37 BRT  
+**HEAD final:** `d4fd6a72c4db03dadbd603782b4a95f550cb20f2`  
 **Branch:** `fix/natural-sereno-mainline-run111-2026-11-09`  
 **Base verificada antes desta rodada:** `5d3dcafea92e7444cc60d4d80cd453a86a2034df`
 
@@ -40,7 +41,7 @@ O teste novo foi adicionado, mas **a suíte Node/TypeScript, TypeScript e build 
 
 ## Comparação seletiva com `main`
 
-A branch está **284 commits à frente e 12 atrás** de `main`. Não foi feito merge/rebase automático. A comparação dos arquivos mostrou regressões que não podem ser recuperadas:
+A branch está **290 commits à frente e 12 atrás** de `main`. Não foi feito merge/rebase automático. A comparação dos arquivos mostrou regressões que não podem ser recuperadas:
 - `api/index.ts` em `main` volta a Rachel (`21m00Tcm4TlvDq8ikWAM`), remove a autenticação da rota e torna o áudio público/cacheável por um ano; a branch preserva Marianne, sessão autenticada e cache privado.
 - `server.ts` em `main` remove a validação de identidade da conta na sincronização de perfil/progresso; a branch preserva a proteção contra gravação cruzada.
 - `ArcanjoProtocolView.tsx` em `main` reintroduz nomes, posições e visualização de chakras; a decisão posterior aprovada exige corpo neutro.
