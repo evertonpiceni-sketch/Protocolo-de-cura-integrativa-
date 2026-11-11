@@ -24,7 +24,7 @@ import { APPROVED_LOGO_DATA_URI } from './components/ApprovedBrand';
 
 import { calculateAstralMap } from './utils/astrology';
 import { audioEngine, OFFICIAL_PROTOCOL_VOICE_ID } from './lib/audio';
-import { shouldPlayProtocolSessionBackground } from './lib/protocolSessionAudioPolicy';
+import { isSolfeggioFrequency, shouldPlayProtocolSessionBackground } from './lib/protocolSessionAudioPolicy';
 import { resolveAudioEnabledAfterAnamnesisSave, resolveAudioEnabledAfterFrequencySelection } from './lib/essenciaLuminosaAudioPolicy';
 import { setNeuralVoicePreviewActive } from './lib/neuralVoicePreviewState';
 import { isElevenLabsVoiceId, type ElevenLabsVoiceOption } from './lib/voiceSelection';
@@ -97,6 +97,7 @@ export default function App() {
   const [showWelcomeModal, setShowWelcomeModal] = useState<boolean>(false);
   const [showArcanjoView, setShowArcanjoView] = useState<boolean>(false);
   const [showArchangelModal, setShowArchangelModal] = useState<boolean>(false);
+  const [isArchangelNarrationActive, setIsArchangelNarrationActive] = useState(false);
   const [showHooponoponoModal, setShowHooponoponoModal] = useState<boolean>(false);
   const [showAudioSettingsModal, setShowAudioSettingsModal] = useState<boolean>(false);
   const [showCoursesModal, setShowCoursesModal] = useState<boolean>(false);
@@ -273,6 +274,7 @@ export default function App() {
                          activeSessionDay === null &&
                          !showPersonalJourney &&
                          !showArcanjoView &&
+                         !(isEssenciaLuminosa && isArchangelNarrationActive && isSolfeggioFrequency(userProfile.bgMusicType)) &&
                          (!usesNeuralVoiceCatalog || !isPlayingVoiceTest ||
                            shouldPlayProtocolSessionBackground('playing', userProfile.bgMusicType)); // Keep Solfeggio out of neural voice previews in all neural-voice layouts
 
@@ -298,7 +300,9 @@ export default function App() {
     userProfile?.subscriptionPlan,
     layoutConfirmedThisSession,
     usesNeuralVoiceCatalog,
-    isPlayingVoiceTest
+    isPlayingVoiceTest,
+    isEssenciaLuminosa,
+    isArchangelNarrationActive
   ]);
 
   // Reintegração da Vida owns its audio while open: stop global music and speech to prevent overlap.
@@ -326,6 +330,8 @@ export default function App() {
                            activeSessionDay === null &&
                            !showPersonalJourney &&
                            !showArcanjoView &&
+                           !showArchangelModal &&
+                           !(isEssenciaLuminosa && isArchangelNarrationActive && isSolfeggioFrequency(userProfile.bgMusicType)) &&
                            (!usesNeuralVoiceCatalog || !isPlayingVoiceTest ||
                              shouldPlayProtocolSessionBackground('playing', userProfile.bgMusicType));
                            
@@ -345,7 +351,7 @@ export default function App() {
       window.removeEventListener('click', handleGesture);
       window.removeEventListener('touchstart', handleGesture);
     };
-  }, [userProfile, activeSessionDay, showPersonalJourney, showArcanjoView, layoutConfirmedThisSession, isPlayingVoiceTest]);
+  }, [userProfile, activeSessionDay, showPersonalJourney, showArcanjoView, showArchangelModal, layoutConfirmedThisSession, isPlayingVoiceTest, isEssenciaLuminosa, isArchangelNarrationActive]);
 
   useEffect(() => {
     if (!userProfile?.reminderTime || typeof Notification === 'undefined' || Notification.permission !== 'granted') return;
@@ -2569,6 +2575,7 @@ export default function App() {
           voiceRate={userProfile?.voiceRate}
           voicePitch={userProfile?.voicePitch}
           voiceVolume={userProfile?.voiceVolume}
+          onNarrationStateChange={setIsArchangelNarrationActive}
           onProgressChange={(days) => {
             if (userProfile) saveProfile({ ...userProfile, archangelPrayerCompletedDays: days });
           }}
