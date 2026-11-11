@@ -55,5 +55,5 @@ test('o modelo dinâmico da Home usa o dourado aprovado no cartão de momento', 
   const dynamicStyles = model.slice(styleStart, styleEnd);
   assert.ok(dynamicStyles.includes('.ep-home-moment-card'));
   assert.ok(dynamicStyles.includes('border-color: rgba(200,157,82,.26) !important;'));
-  assert.doesNotMatch(dynamicStyles, /rgba\\(\\s*182\\s*,\\s*139\\s*,\\s*54/i);
+  assert.doesNotMatch(dynamicStyles, /rgba\(\s*182\s*,\s*139\s*,\s*54/i);
 });
