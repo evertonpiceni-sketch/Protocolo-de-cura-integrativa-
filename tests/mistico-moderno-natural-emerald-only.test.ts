@@ -33,4 +33,12 @@ test('Místico Moderno keeps emerald inside natural imagery and uses the approve
 
   assert.match(boardCard, /data-source-file="1001196522.png"/);
   assert.match(boardCard, /data-source-width="1536" data-source-height="1152"/);
+  const home = read('src/components/TransformationHome.tsx');
+  const arcanjo = read('src/components/ArcanjoProtocolView.tsx');
+  const neutralBody = read('public/brand/chakra-body.svg');
+  assert.ok(home.includes('alt="Silhueta neutra em meditação diante de uma paisagem noturna"'));
+  assert.ok(arcanjo.includes("alt={isMisticoModerno ? 'Silhueta neutra em meditação diante de uma paisagem noturna'"));
+  assert.ok(neutralBody.includes('<title id="title">Silhueta neutra em meditação</title>'));
+  assert.ok(neutralBody.includes('A vegetação esmeralda aparece apenas nas bordas da natureza.'));
+
 });
