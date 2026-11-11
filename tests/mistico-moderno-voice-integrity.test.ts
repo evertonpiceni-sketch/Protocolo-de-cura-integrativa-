@@ -604,7 +604,9 @@ test('Místico Moderno usa a silhueta neutra nas superfícies Arcanjo e Dashboar
   assert.ok(dashboard.includes('data-mistico-body-overlay'));
   assert.ok(dashboardCss.includes('#progress-dashboard [data-mistico-body-image]'));
   assert.ok(dashboardCss.includes('#progress-dashboard [data-mistico-body-overlay]'));
-  assert.ok(neutralBody.includes('Figura em posição de lótus'));
+  assert.match(neutralBody, /<title id="title">Silhueta neutra em meditação<\/title>/);
+  assert.match(neutralBody, /<desc id="desc">Figura adulta vista de costas, com vestes amplas e neutras/);
+  assert.match(neutralBody, /no hair, face or gender cues/i);
   assert.doesNotMatch(neutralBody, /female|male|feminina|masculina/i);
 });
 
