@@ -106,3 +106,22 @@
   background: #D8D4CB;
   color: #302E2A;
 }
+
+
+/* O carregamento de autenticação é anterior à escolha: não deve antecipar o creme/café
+   do Natural Sereno nem deixar o logo competir com a assinatura discreta aprovada. */
+:root:not([data-layout]) #auth-loading-view {
+  background: linear-gradient(145deg, #F8F7F3 0%, #F0EEE8 100%) !important;
+  color: #302E2A !important;
+}
+:root:not([data-layout]) #auth-loading-view .ep-brand-signature-wrap {
+  opacity: 1 !important;
+  background: transparent !important;
+  border: 0 !important;
+  border-color: transparent !important;
+  box-shadow: none !important;
+}
+:root:not([data-layout]) #auth-loading-view .ep-brand-signature {
+  opacity: .30 !important;
+  filter: saturate(.82) contrast(.96) !important;
+}

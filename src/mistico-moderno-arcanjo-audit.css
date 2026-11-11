@@ -80,10 +80,10 @@
 }
 
 :root[data-layout="mistico-moderno"] #arcanjo-protocol-view button.ep-gold-button {
-  background: linear-gradient(135deg, #B88736, #E2B96B) !important;
+  background: linear-gradient(135deg, #A87E37, #E2B96B) !important;
   border: 1px solid rgba(226, 185, 107, 0.48) !important;
   color: #0A0F18 !important;
-  box-shadow: 0 12px 28px rgba(184, 135, 54, 0.18) !important;
+  box-shadow: 0 12px 28px rgba(212,175,55, 0.18) !important;
 }
 
 :root[data-layout="mistico-moderno"] #arcanjo-protocol-view button[title="Encerrar sessão e sair da conta"] {

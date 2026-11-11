@@ -48,8 +48,8 @@
 }
 
 :root[data-layout="mistico-moderno"] #welcome-modal button[class*="from-emerald-700"] {
-  background: linear-gradient(100deg, #243A73 0%, #6C3FA0 58%, #B88736 100%) !important;
-  color: #FFF9EC !important;
+  background: linear-gradient(135deg, #D4AF37 0%, #E2B96B 55%, #A87E37 100%) !important;
+  color: #0A0F18 !important;
   border: 1px solid rgba(212, 175, 55, .26) !important;
   box-shadow: 0 12px 32px rgba(8, 12, 28, .42), 0 0 20px rgba(108, 63, 160, .10) !important;
 }
@@ -116,4 +116,90 @@
 :root[data-layout="mistico-moderno"] .ep-welcome-audio button:focus-visible {
   outline: 2px solid rgba(226, 185, 107, .82) !important;
   outline-offset: 3px;
+}
+
+
+/* Acolhimento ativo: mantém o conteúdo aprovado, mas abandona o painel verde/creme
+   legado quando o usuário já confirmou o Místico Moderno. */
+:root[data-layout="mistico-moderno"] .ep-care-onboarding {
+  background:
+    radial-gradient(circle at 12% 0%, rgba(212,175,55,.10), transparent 28rem),
+    radial-gradient(circle at 100% 100%, rgba(108,63,160,.14), transparent 30rem),
+    linear-gradient(180deg, #0A2742 0%, #080D16 100%) !important;
+  color: #F4F1EB !important;
+}
+:root[data-layout="mistico-moderno"] .ep-care-onboarding-card {
+  background:
+    radial-gradient(circle at 90% 0%, rgba(108,63,160,.16), transparent 24rem),
+    linear-gradient(145deg, rgba(20,31,48,.98), rgba(10,15,24,.99)) !important;
+  border-color: rgba(212,175,55,.32) !important;
+  color: #F4F1EB !important;
+  box-shadow: 0 28px 80px rgba(0,0,0,.42), inset 0 1px 0 rgba(255,255,255,.04) !important;
+}
+:root[data-layout="mistico-moderno"] .ep-care-onboarding-card :is(h1,h2,h3,strong) {
+  color: #F4F1EB !important;
+}
+:root[data-layout="mistico-moderno"] .ep-care-onboarding-card :is(p,small,label,span) {
+  color: #CBD5E1 !important;
+}
+:root[data-layout="mistico-moderno"] .ep-care-onboarding-card :is([class*="text-[#5C5248]"],[class*="text-[#2A2420]"],[class*="text-[#eee6d4]"]) {
+  color: #CBD5E1 !important;
+}
+:root[data-layout="mistico-moderno"] .ep-care-onboarding-card :is([class*="text-[#d5ba78]"],[class*="text-[#e1c171]"]) {
+  color: #E2B96B !important;
+}
+:root[data-layout="mistico-moderno"] .ep-care-onboarding-card [class*="text-[#cbbf9f]"] {
+  color: #AAB4C5 !important;
+}
+:root[data-layout="mistico-moderno"] .ep-care-onboarding-card > .pointer-events-none {
+  background: radial-gradient(circle at 50% 0%, rgba(212,175,55,.10), transparent 70%) !important;
+}
+:root[data-layout="mistico-moderno"] .ep-care-onboarding-card > .ep-brand-signature-wrap {
+  opacity: 1 !important;
+  background: transparent !important;
+  border-color: transparent !important;
+  box-shadow: none !important;
+}
+:root[data-layout="mistico-moderno"] .ep-care-onboarding-card .ep-brand-signature {
+  opacity: .30 !important;
+  filter: saturate(.90) contrast(.97) !important;
+}
+:root[data-layout="mistico-moderno"] .ep-care-onboarding-card > div.relative.mb-7.h-px {
+  background: linear-gradient(90deg, transparent, #D4AF37, transparent) !important;
+}
+:root[data-layout="mistico-moderno"] .ep-care-onboarding-card button:not(.ep-gold-button) {
+  background: linear-gradient(145deg, rgba(20,31,48,.94), rgba(10,15,24,.96)) !important;
+  border-color: rgba(108,63,160,.38) !important;
+  color: #F4F1EB !important;
+}
+:root[data-layout="mistico-moderno"] .ep-care-onboarding-card button[aria-pressed="true"] {
+  background: rgba(108,63,160,.24) !important;
+  border-color: rgba(212,175,55,.58) !important;
+  color: #F4F1EB !important;
+}
+:root[data-layout="mistico-moderno"] .ep-care-onboarding-card button[aria-pressed="false"] {
+  background: rgba(20,31,48,.78) !important;
+  border-color: rgba(108,63,160,.30) !important;
+  color: #CBD5E1 !important;
+}
+:root[data-layout="mistico-moderno"] .ep-care-onboarding-card .ep-gold-button {
+  background: linear-gradient(135deg, #D4AF37 0%, #E2B96B 55%, #A87E37 100%) !important;
+  border: 1px solid rgba(212,175,55,.50) !important;
+  color: #0A0F18 !important;
+  box-shadow: 0 10px 24px rgba(212,175,55,.16) !important;
+}
+:root[data-layout="mistico-moderno"] .ep-care-onboarding-card button:focus-visible {
+  outline: 2px solid rgba(226,185,107,.82) !important;
+  outline-offset: 3px;
+}
+@media (max-width: 767px) {
+  :root[data-layout="mistico-moderno"] .ep-care-onboarding-card .ep-brand-signature {
+    opacity: .26 !important;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  :root[data-layout="mistico-moderno"] .ep-care-onboarding-card button {
+    transition: none !important;
+    transform: none !important;
+  }
 }

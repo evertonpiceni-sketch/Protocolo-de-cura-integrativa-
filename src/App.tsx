@@ -406,7 +406,7 @@ export default function App() {
       : undefined;
     const metaThemeColor = document.querySelector<HTMLMetaElement>('meta[name="theme-color"]');
     if (!metaThemeColor) return;
-    const themeColor = selected?.swatches[0] ?? '#F8F4EC';
+    const themeColor = selected?.swatches[0] ?? '#F8F7F3';
     metaThemeColor.setAttribute('content', themeColor);
   }, [userProfile?.visualLayout, layoutConfirmedThisSession]);
 
@@ -870,17 +870,17 @@ export default function App() {
   }
 
   const loadingScreen = (
-      <div id="auth-loading-view" className="min-h-screen bg-[#F8F4EC] text-[#2A2420] flex flex-col items-center justify-center p-6 text-center">
+      <div id="auth-loading-view" className="min-h-screen bg-[#F8F7F3] text-[#302E2A] flex flex-col items-center justify-center p-6 text-center">
         <div className="ep-brand-signature-wrap w-14 h-14 rounded-full overflow-hidden flex items-center justify-center mb-4">
           <img src={APPROVED_LOGO_DATA_URI} alt="Everton Piceni" className="ep-brand-signature h-full w-full object-contain" style={{ opacity: 0.3 }} />
         </div>
-        <p className="text-[11px] font-mono tracking-widest text-[#8F631E] uppercase font-bold mb-1">
+        <p className="text-[11px] font-mono tracking-widest text-[#625E56] uppercase font-bold mb-1">
           Éverton Rodrigo Piceni • Terapias Holísticas
         </p>
-        <h2 className="text-xl font-display font-medium text-[#2A2420] mb-2">
+        <h2 className="text-xl font-display font-medium text-[#302E2A] mb-2">
           Protocolo da Transformação
         </h2>
-        <p className="text-xs text-[#5C5248] max-w-xs leading-relaxed">
+        <p className="text-xs text-[#625E56] max-w-xs leading-relaxed">
           Preparando seu espaço de presença e acolhimento...
         </p>
         <div className="ns-loading-details hidden" role="status">

@@ -145,10 +145,10 @@
 :root[data-layout="mistico-moderno"] #meditation-session .ep-acceptance-portal button:last-child,
 :root[data-layout="mistico-moderno"] #meditation-session [role="dialog"][aria-label="Sessão concluída"] button,
 :root[data-layout="mistico-moderno"] #meditation-session [role="dialog"][aria-label="Roteiro da sessão"] > div:last-child button{
-  background:linear-gradient(135deg,#B88736,#E2B96B)!important;
+  background:linear-gradient(135deg,#A87E37,#E2B96B)!important;
   border:1px solid rgba(226,185,107,.52)!important;
   color:#0A0F18!important;
-  box-shadow:0 10px 26px rgba(184,135,54,.18)!important;
+  box-shadow:0 10px 26px rgba(212,175,55,.18)!important;
 }
 :root[data-layout="mistico-moderno"] #meditation-session .ep-acceptance-portal button:first-child{
   background:rgba(20,31,48,.84)!important;
@@ -164,14 +164,14 @@
 }
 
 :root[data-layout="mistico-moderno"] #meditation-session .ns-play-toggle{
-  background:linear-gradient(135deg,#B88736,#E2B96B)!important;
+  background:linear-gradient(135deg,#A87E37,#E2B96B)!important;
   border:1px solid rgba(226,185,107,.56)!important;
   color:#0A0F18!important;
-  box-shadow:0 10px 28px rgba(184,135,54,.22)!important;
+  box-shadow:0 10px 28px rgba(212,175,55,.22)!important;
 }
 :root[data-layout="mistico-moderno"] #meditation-session .ep-protocol-progress{
   accent-color:#D4AF37!important;
-  background:linear-gradient(90deg,#B88736 0%,#D4AF37 var(--ep-progress),rgba(108,63,160,.34) var(--ep-progress),rgba(108,63,160,.34) 100%)!important;
+  background:linear-gradient(90deg,#A87E37 0%,#D4AF37 var(--ep-progress),rgba(108,63,160,.34) var(--ep-progress),rgba(108,63,160,.34) 100%)!important;
 }
 :root[data-layout="mistico-moderno"] #meditation-session [role="progressbar"]{
   background:rgba(46,59,115,.34)!important;
