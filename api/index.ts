@@ -5,6 +5,7 @@ import { REINTEGRATION_DAYS } from "../src/data/reintegrationJourneyPublic.js";
 import { ElevenLabsClient } from "elevenlabs";
 import bcrypt from "bcryptjs";
 import { protocolAudioCacheKey } from '../src/lib/ttsText.js';
+import { getAuthenticatedUserId } from '../src/lib/requestAuth.js';
 
 const bootstrapAttempts = new Map<string, { count: number; resetAt: number }>();
 const reintegrationAudioCache = new Map<string, Buffer>();
@@ -25,8 +26,8 @@ function allowBootstrapAttempt(req: any) {
   return true;
 }
 
-function allowReintegrationVoiceAttempt(req: any) {
-  const key = String(req.headers?.["x-forwarded-for"] || req.socket?.remoteAddress || "unknown").split(",")[0].trim();
+function allowReintegrationVoiceAttempt(userId: string) {
+  const key = userId;
   const now = Date.now();
   const current = reintegrationVoiceAttempts.get(key);
   if (!current || current.resetAt <= now) {
@@ -47,9 +48,10 @@ const prepareReintegrationText = (text: string) => text
   .replace(/\s{2,}/g, ' ')
   .trim();
 
-async function serveReintegrationVoice(req: any, res: any) {
+async function serveReintegrationVoice(req: any, res: any, userId: string) {
+  res.setHeader("Cache-Control", "private, no-store");
   if (req.method !== "POST") return res.status(405).json({ error: "Método não permitido." });
-  if (!allowReintegrationVoiceAttempt(req)) {
+  if (!allowReintegrationVoiceAttempt(userId)) {
     return res.status(429).json({ error: "Limite temporário de voz atingido." });
   }
   const text = typeof req.body?.text === "string" ? req.body.text.trim() : "";
@@ -65,7 +67,7 @@ async function serveReintegrationVoice(req: any, res: any) {
   const cached = reintegrationAudioCache.get(cacheKey);
   if (cached) {
     res.setHeader("Content-Type", "audio/mpeg");
-    res.setHeader("Cache-Control", "public, max-age=31536000, s-maxage=31536000, immutable");
+    res.setHeader("Cache-Control", "private, no-store");
     res.setHeader("X-Reintegration-Voice", REINTEGRATION_VOICE_ID);
     res.setHeader("X-Reintegration-Audio-Cache", "HIT");
     return res.send(cached);
@@ -87,7 +89,7 @@ async function serveReintegrationVoice(req: any, res: any) {
     reintegrationAudioCache.set(cacheKey, buffer);
     res.setHeader("Content-Type", "audio/mpeg");
     res.setHeader("Content-Length", buffer.length);
-    res.setHeader("Cache-Control", "public, max-age=31536000, s-maxage=31536000, immutable");
+    res.setHeader("Cache-Control", "private, no-store");
     res.setHeader("X-Reintegration-Voice", REINTEGRATION_VOICE_ID);
     res.setHeader("X-Reintegration-Audio-Cache", "MISS");
     return res.send(buffer);
@@ -119,10 +121,17 @@ export default async function handler(req: any, res: any) {
 
   const pathname = (req.url || "").split("?")[0];
   if (pathname === "/api/health") return app(req, res);
-  if (pathname === "/api/reintegration-tts") return serveReintegrationVoice(req, res);
 
   try {
     await initializeDb();
+    if (pathname === "/api/reintegration-tts") {
+      res.setHeader("Cache-Control", "private, no-store");
+      const userId = getAuthenticatedUserId(req);
+      if (!userId || !getDb().users.some((user: any) => user.id === userId)) {
+        return res.status(401).json({ error: "Não autorizado." });
+      }
+      return serveReintegrationVoice(req, res, userId);
+    }
     if (pathname === "/api/admin/bootstrap" && req.method === "POST") {
       if (!allowBootstrapAttempt(req)) return res.status(429).json({ error: "Muitas tentativas. Aguarde alguns minutos e tente novamente." });
       const configuredSecret = process.env.ADMIN_BOOTSTRAP_SECRET;
