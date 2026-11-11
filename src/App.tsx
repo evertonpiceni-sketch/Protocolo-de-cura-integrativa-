@@ -809,10 +809,10 @@ export default function App() {
       ...userProfile,
       anamnesis: newAnamnesis,
       // If user hasn't set custom music yet or accepts recommended frequency:
+      // Saving an anamnesis updates the recommendation, not the user's audio consent.
       bgMusicType: (newAnamnesis.recommendedFrequency === '963hz' || newAnamnesis.recommendedFrequency === '741hz') && userProfile.plan !== 'pro'
         ? userProfile.bgMusicType
-        : newAnamnesis.recommendedFrequency,
-      audioEnabled: true
+        : newAnamnesis.recommendedFrequency
     };
     // Saving the profile triggers the guarded background-audio effect.
     // Avoid bypassing active protocol/journey playback restrictions.
