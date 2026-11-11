@@ -57,13 +57,21 @@ test('sacred animation remains semantically mapped to the six narrated protocol 
     ['ProtocolStage.ATERRAMENTO', 'Roots'],
     ['ProtocolStage.VITALIDADE', 'Kundalini'],
     ['ProtocolStage.TRANSMUTACAO', 'Violet Flame'],
-    ['ProtocolStage.BALSAMO', 'São Rafael'],
     ['ProtocolStage.SELAMENTO', 'Ganesha']
   ] as const;
   for (const [stage, visualCue] of expectations) {
     assert.ok(canvas.includes(stage), `missing visual branch for ${stage}`);
     assert.ok(canvas.toLowerCase().includes(visualCue.toLowerCase()), `missing visual cue ${visualCue}`);
   }
+
+  const balsamoStart = canvas.indexOf('case ProtocolStage.BALSAMO:');
+  const selamentoStart = canvas.indexOf('case ProtocolStage.SELAMENTO:', balsamoStart);
+  assert.ok(balsamoStart >= 0 && selamentoStart > balsamoStart, 'São Rafael must remain mapped to the BÁLSAMO stage.');
+  const balsamoStage = canvas.slice(balsamoStart, selamentoStart);
+  assert.match(balsamoStage, /São Rafael/);
+  assert.match(balsamoStage, /colorTheme\?\.violetGlow/);
+  assert.match(balsamoStage, /colorTheme\?\.indigoGlow/);
+  assert.match(balsamoStage, /palette\?\.goldLine/);
 });
 
 test('all Hz-labelled audio entrypoints use the exact Solfeggio oscillator', () => {
@@ -71,7 +79,7 @@ test('all Hz-labelled audio entrypoints use the exact Solfeggio oscillator', () 
   const integrity = fs.readFileSync('src/lib/audioIntegrityPatch.ts', 'utf8');
   const tone = fs.readFileSync('src/lib/solfeggioTone.ts', 'utf8');
   assert.ok(arcanjo.includes('DISTANCE_TREATMENT_SCRIPT'));
-  assert.ok(arcanjo.includes('audioEngine.startSynth(`${config.freq}hz`)'));
+  assert.ok(arcanjo.includes('startArcanjoOwnedSolfeggio(`${config.freq}hz`)'));
   assert.ok(arcanjo.includes('APPROVED_SECTIONS.map(section => section.ttsScript)'));
   assert.ok(integrity.includes('engine.startBG = (type: any) =>'));
   assert.ok(integrity.includes('engine.startSynth = (type: any) =>'));

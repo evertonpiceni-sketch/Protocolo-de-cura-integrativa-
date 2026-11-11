@@ -4,13 +4,17 @@ import express from 'express';
 import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
+import { fileURLToPath } from 'node:url';
 import { paymentQuote, PAYMENT_PLANS, specificTreatmentCouponDiscount, specificTreatmentQuote } from '../src/lib/paymentCatalog';
 
+const repoRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
+const readRepoFile = (relativePath: string) => fs.readFileSync(path.join(repoRoot, relativePath), 'utf8');
+
 test('payment prices are authoritative for every approved plan and coupon', () => {
-  assert.equal(PAYMENT_PLANS.jornada_7d.cents, 2500);
-  assert.equal(PAYMENT_PLANS.jornada_21d.cents, 5000);
-  assert.equal(paymentQuote('jornada_7d').cents, 2500);
-  assert.equal(paymentQuote('jornada_21d').cents, 5000);
+  assert.equal(PAYMENT_PLANS.jornada_7d.cents, 5990);
+  assert.equal(PAYMENT_PLANS.jornada_21d.cents, 9990);
+  assert.equal(paymentQuote('jornada_7d').cents, 5990);
+  assert.equal(paymentQuote('jornada_21d').cents, 9990);
   for (const [id, plan] of Object.entries(PAYMENT_PLANS)) {
     assert.equal(paymentQuote(id).cents, plan.cents);
     assert.equal(paymentQuote(id, 'promo15').cents, Math.round(plan.cents * .85));
@@ -18,6 +22,9 @@ test('payment prices are authoritative for every approved plan and coupon', () =
   }
   for (const id of ['__proto__', 'missing']) assert.throws(() => paymentQuote(id));
   assert.throws(() => paymentQuote('mensal', 'VIP7'));
+  assert.equal(paymentQuote('jornada_7d', 'PROMO15').cents, 5092);
+  assert.equal(paymentQuote('jornada_21d', 'PROMO20').cents, 7992);
+  assert.throws(() => paymentQuote('jornada_7d', 'VIP7'));
 });
 
 test('specific treatment coupons accept only the current approved promotional codes', () => {
@@ -27,8 +34,8 @@ test('specific treatment coupons accept only the current approved promotional co
   for (const code of ['CURA10', 'PAZ10', 'PAZ20', 'CURA20', 'GRATIDAO', 'PROMO30', 'CURA30', 'PICENI50', 'VIP50', 'VIP7']) {
     assert.equal(specificTreatmentCouponDiscount(code), null);
   }
-  const modal = fs.readFileSync('src/components/SpecificTreatmentModal.tsx', 'utf8');
-  const routes = fs.readFileSync('src/lib/paymentRoutes.ts', 'utf8');
+  const modal = readRepoFile('src/components/SpecificTreatmentModal.tsx');
+  const routes = readRepoFile('src/lib/paymentRoutes.ts');
   assert.ok(modal.includes('specificTreatmentCouponDiscount(rawCode)'));
   assert.ok(modal.includes('Ex.: PROMO15, PROMO20'));
   assert.ok(routes.includes('specificTreatmentQuote(durationDays, code)'));
@@ -43,7 +50,7 @@ test('specific treatments use only the fixed approved 7-day and 21-day prices', 
   assert.equal(specificTreatmentQuote(21, 'PROMO20').cents, 7992);
   assert.throws(() => specificTreatmentQuote(1));
   assert.throws(() => specificTreatmentQuote(7, 'VIP7'));
-  const modal = fs.readFileSync('src/components/SpecificTreatmentModal.tsx', 'utf8');
+  const modal = readRepoFile('src/components/SpecificTreatmentModal.tsx');
   assert.ok(modal.includes('useState<7 | 21>(21)'));
   assert.ok(!modal.includes('isCustomPrice'));
   assert.ok(!modal.includes('customPriceInput'));
@@ -52,10 +59,28 @@ test('specific treatments use only the fixed approved 7-day and 21-day prices', 
 });
 
 test('checkout binds account, validates provider confirmation and grants only once', async () => {
-  const cwd = process.cwd(); const folder = fs.mkdtempSync(path.join(os.tmpdir(), 'payment-test-'));
+  const folder = fs.mkdtempSync(path.join(os.tmpdir(), 'payment-test-'));
+  const originalLocalDatabaseFile = process.env.LOCAL_DATABASE_FILE;
+  const originalNodeEnv = process.env.NODE_ENV;
+  const originalPersistenceEnv = Object.fromEntries(Object.entries(process.env).filter(([key]) => /UPSTASH|KV_REST/.test(key)));
   const originalApiKey = process.env.INFINITEPAY_API_KEY;
-  process.chdir(folder); process.env.NODE_ENV = 'test';
+  const originalHandle = process.env.INFINITEPAY_HANDLE;
+  const originalPreviewApiKey = process.env.INFINITEPAY_PREVIEW_API_KEY;
+  const originalPreviewHandle = process.env.INFINITEPAY_PREVIEW_HANDLE;
+  const originalVercelEnv = process.env.VERCEL_ENV;
+  const originalPublicAppUrl = process.env.PUBLIC_APP_URL;
+  const originalVercelUrl = process.env.VERCEL_URL;
+  const originalVercelProjectProductionUrl = process.env.VERCEL_PROJECT_PRODUCTION_URL;
+  process.env.LOCAL_DATABASE_FILE = path.join(folder, 'database.json');
+  process.env.NODE_ENV = 'test';
+  process.env.VERCEL_ENV = 'test';
+  process.env.PUBLIC_APP_URL = 'https://payments.test.example';
+  process.env.VERCEL_PROJECT_PRODUCTION_URL = 'protocolo-de-cura-integrativa.vercel.app';
   process.env.INFINITEPAY_API_KEY = 'test-only-infinitepay-key';
+  process.env.INFINITEPAY_HANDLE = 'evertonterapeutareiki';
+  delete process.env.INFINITEPAY_PREVIEW_API_KEY;
+  delete process.env.INFINITEPAY_PREVIEW_HANDLE;
+  delete process.env.VERCEL_URL;
   for (const key of Object.keys(process.env)) if (/UPSTASH|KV_REST/.test(key)) delete process.env[key];
   const { getDb, initializeDb } = await import('../src/db');
   const { paymentRoutes } = await import('../src/lib/paymentRoutes');
@@ -91,6 +116,94 @@ test('checkout binds account, validates provider confirmation and grants only on
     assert.equal(calls[0].headers['X-Api-Key'], 'test-only-infinitepay-key');
     assert.equal(calls[0].body.items[0].price, paymentQuote('jornada_7d', 'PROMO20').cents);
     assert.equal(db.users[0].plan, 'free');
+
+    // Preview must validate its own credentials and origin before creating any pending order.
+    process.env.VERCEL_ENV = 'preview';
+    process.env.INFINITEPAY_PREVIEW_API_KEY = 'preview-only-infinitepay-key';
+    process.env.INFINITEPAY_PREVIEW_HANDLE = 'style4-preview-handle';
+
+    db.users.push({ id: 'missing-preview-url-owner', plan: 'free', profile: {} });
+    delete process.env.PUBLIC_APP_URL;
+    delete process.env.VERCEL_URL;
+    const callsBeforeMissingPreviewUrl = calls.length;
+    const missingPreviewUrl = await call('payment/create-checkout', {
+      productType: 'subscription', planId: 'jornada_7d', paymentMethod: 'pix'
+    }, 'missing-preview-url-owner');
+    assert.equal(missingPreviewUrl.status, 503);
+    assert.equal(calls.length, callsBeforeMissingPreviewUrl, 'Preview sem URL pública não chama a InfinitePay');
+    assert.equal(db.paymentOrders?.some(order => order.userId === 'missing-preview-url-owner') ?? false, false, 'Preview sem URL pública não cria pedido');
+
+    db.users.push({ id: 'production-origin-preview-owner', plan: 'free', profile: {} });
+    process.env.PUBLIC_APP_URL = 'https://protocolo-de-cura-integrativa.vercel.app';
+    const callsBeforeProductionOrigin = calls.length;
+    const productionOriginPreview = await call('payment/create-checkout', {
+      productType: 'subscription', planId: 'jornada_7d', paymentMethod: 'pix'
+    }, 'production-origin-preview-owner');
+    assert.equal(productionOriginPreview.status, 503);
+    assert.equal(calls.length, callsBeforeProductionOrigin, 'Preview apontando para Production não chama a InfinitePay');
+    assert.equal(db.paymentOrders?.some(order => order.userId === 'production-origin-preview-owner') ?? false, false, 'Preview apontando para Production não cria pedido');
+
+    db.users.push({ id: 'missing-preview-credentials-owner', plan: 'free', profile: {} });
+    process.env.PUBLIC_APP_URL = 'https://style4-preview.example.vercel.app';
+    delete process.env.INFINITEPAY_PREVIEW_API_KEY;
+    const callsBeforeMissingPreviewCredentials = calls.length;
+    const missingPreviewCredentials = await call('payment/create-checkout', {
+      productType: 'subscription', planId: 'jornada_7d', paymentMethod: 'pix'
+    }, 'missing-preview-credentials-owner');
+    assert.equal(missingPreviewCredentials.status, 503);
+    assert.equal(calls.length, callsBeforeMissingPreviewCredentials, 'Preview sem credenciais próprias não chama a InfinitePay');
+    assert.equal(db.paymentOrders?.some(order => order.userId === 'missing-preview-credentials-owner') ?? false, false, 'Preview sem credenciais próprias não cria pedido');
+
+    db.users.push({ id: 'missing-preview-handle-owner', plan: 'free', profile: {} });
+    process.env.INFINITEPAY_PREVIEW_API_KEY = 'preview-only-infinitepay-key';
+    delete process.env.INFINITEPAY_PREVIEW_HANDLE;
+    const callsBeforeMissingPreviewHandle = calls.length;
+    const missingPreviewHandle = await call('payment/create-checkout', {
+      productType: 'subscription', planId: 'jornada_7d', paymentMethod: 'pix'
+    }, 'missing-preview-handle-owner');
+    assert.equal(missingPreviewHandle.status, 503);
+    assert.equal(calls.length, callsBeforeMissingPreviewHandle, 'Preview sem handle próprio não chama a InfinitePay');
+    assert.equal(db.paymentOrders?.some(order => order.userId === 'missing-preview-handle-owner') ?? false, false, 'Preview sem handle próprio não cria pedido');
+
+    db.users.push({ id: 'valid-preview-owner', plan: 'free', profile: {} });
+    process.env.INFINITEPAY_PREVIEW_HANDLE = 'style4-preview-handle';
+    const validPreviewCheckout = await call('payment/create-checkout', {
+      productType: 'subscription', planId: 'jornada_7d', paymentMethod: 'pix'
+    }, 'valid-preview-owner');
+    assert.equal(validPreviewCheckout.status, 200);
+    const validPreviewPayload = calls[calls.length - 1].body;
+    assert.equal(validPreviewPayload.handle, 'style4-preview-handle');
+    assert.equal(calls[calls.length - 1].headers['X-Api-Key'], 'preview-only-infinitepay-key');
+    assert.ok(validPreviewPayload.redirect_url.startsWith('https://style4-preview.example.vercel.app/?payment_order='));
+    assert.equal(validPreviewPayload.webhook_url, 'https://style4-preview.example.vercel.app/api/webhooks/payment');
+
+    db.users.push({ id: 'vercel-url-preview-owner', plan: 'free', profile: {} });
+    delete process.env.PUBLIC_APP_URL;
+    process.env.VERCEL_URL = 'style4-branch-preview.vercel.app';
+    const vercelUrlPreviewCheckout = await call('payment/create-checkout', {
+      productType: 'subscription', planId: 'jornada_7d', paymentMethod: 'pix'
+    }, 'vercel-url-preview-owner');
+    assert.equal(vercelUrlPreviewCheckout.status, 200);
+    const vercelUrlPreviewPayload = calls[calls.length - 1].body;
+    assert.ok(vercelUrlPreviewPayload.redirect_url.startsWith('https://style4-branch-preview.vercel.app/?payment_order='));
+    assert.equal(vercelUrlPreviewPayload.webhook_url, 'https://style4-branch-preview.vercel.app/api/webhooks/payment');
+
+    // Production must accept its own public host; the Preview-only guard must not block live checkout.
+    db.users.push({ id: 'production-origin-owner', plan: 'free', profile: {} });
+    process.env.VERCEL_ENV = 'production';
+    process.env.PUBLIC_APP_URL = 'https://protocolo-de-cura-integrativa.vercel.app';
+    const callsBeforeProductionOriginCheckout = calls.length;
+    const productionOriginCheckout = await call('payment/create-checkout', {
+      productType: 'subscription', planId: 'jornada_7d', paymentMethod: 'pix'
+    }, 'production-origin-owner');
+    assert.equal(productionOriginCheckout.status, 200, 'Production deve aceitar seu próprio domínio público');
+    assert.equal(calls.length, callsBeforeProductionOriginCheckout + 1, 'Production deve chamar o provedor quando a configuração está completa');
+    const productionOriginPayload = calls[calls.length - 1].body;
+    assert.ok(productionOriginPayload.redirect_url.startsWith('https://protocolo-de-cura-integrativa.vercel.app/?payment_order='));
+    assert.equal(productionOriginPayload.webhook_url, 'https://protocolo-de-cura-integrativa.vercel.app/api/webhooks/payment');
+
+    process.env.VERCEL_ENV = 'test';
+    process.env.PUBLIC_APP_URL = 'https://payments.test.example';
 
     // Um checkout de assinatura pendente não pode coexistir com um link de outro plano.
     db.users.push({ id: 'pending-owner', plan: 'free', profile: {} });
@@ -395,13 +508,32 @@ test('checkout binds account, validates provider confirmation and grants only on
   } finally {
     if (originalApiKey === undefined) delete process.env.INFINITEPAY_API_KEY;
     else process.env.INFINITEPAY_API_KEY = originalApiKey;
-    await new Promise<void>(r => server.close(() => r())); process.chdir(cwd); fs.rmSync(folder, { recursive: true, force: true });
+    if (originalHandle === undefined) delete process.env.INFINITEPAY_HANDLE;
+    else process.env.INFINITEPAY_HANDLE = originalHandle;
+    if (originalPreviewApiKey === undefined) delete process.env.INFINITEPAY_PREVIEW_API_KEY;
+    else process.env.INFINITEPAY_PREVIEW_API_KEY = originalPreviewApiKey;
+    if (originalPreviewHandle === undefined) delete process.env.INFINITEPAY_PREVIEW_HANDLE;
+    else process.env.INFINITEPAY_PREVIEW_HANDLE = originalPreviewHandle;
+    if (originalVercelEnv === undefined) delete process.env.VERCEL_ENV;
+    else process.env.VERCEL_ENV = originalVercelEnv;
+    if (originalPublicAppUrl === undefined) delete process.env.PUBLIC_APP_URL;
+    else process.env.PUBLIC_APP_URL = originalPublicAppUrl;
+    if (originalVercelUrl === undefined) delete process.env.VERCEL_URL;
+    else process.env.VERCEL_URL = originalVercelUrl;
+    if (originalVercelProjectProductionUrl === undefined) delete process.env.VERCEL_PROJECT_PRODUCTION_URL;
+    else process.env.VERCEL_PROJECT_PRODUCTION_URL = originalVercelProjectProductionUrl;
+    if (originalLocalDatabaseFile === undefined) delete process.env.LOCAL_DATABASE_FILE;
+    else process.env.LOCAL_DATABASE_FILE = originalLocalDatabaseFile;
+    if (originalNodeEnv === undefined) delete process.env.NODE_ENV; else process.env.NODE_ENV = originalNodeEnv;
+    for (const key of Object.keys(process.env)) if (/UPSTASH|KV_REST/.test(key)) delete process.env[key];
+    Object.assign(process.env, originalPersistenceEnv);
+    await new Promise<void>(r => server.close(() => r())); fs.rmSync(folder, { recursive: true, force: true });
   }
 });
 
 
 test('checkout atualiza o snapshot Redis pelo helper compartilhado antes de deduplicar pedidos', () => {
-  const routes = fs.readFileSync('src/lib/paymentRoutes.ts', 'utf8');
+  const routes = readRepoFile('src/lib/paymentRoutes.ts');
   const helperStart = routes.indexOf('export async function acquireSharedDatabaseWriteLock');
   const helperEnd = routes.indexOf('export function paymentRoutes', helperStart);
   const helper = routes.slice(helperStart, helperEnd);
@@ -417,7 +549,7 @@ test('checkout atualiza o snapshot Redis pelo helper compartilhado antes de dedu
 
 
 test('checkout failure cleanup never writes a stale snapshot after losing the shared lock', () => {
-  const routes = fs.readFileSync('src/lib/paymentRoutes.ts', 'utf8');
+  const routes = readRepoFile('src/lib/paymentRoutes.ts');
   const cleanupMarker = routes.indexOf('if (order && !order.checkoutUrl && !providerRequestStarted && !recoveringExistingOrder && releaseStandardCheckoutLock)');
   assert.ok(cleanupMarker >= 0, 'cleanup do checkout deve permanecer identificável');
   const catchStart = routes.lastIndexOf('} catch {', cleanupMarker);

@@ -34,16 +34,24 @@
   background:#101827!important;
   color:#F4EFE4!important;
 }
-/* Logout remains semantically distinct, but loses the pale inherited treatment. */
+/* Logout remains clearly identifiable without leaving the approved night palette. */
 :root[data-layout="mistico-moderno"] #header-btn-logout{
-  background:rgba(74,28,47,.58)!important;
-  border-color:rgba(190,92,126,.42)!important;
-  color:#F5DDE5!important;
-  box-shadow:inset 0 1px 0 rgba(255,255,255,.04)!important;
+  background:rgba(20,31,48,.94)!important;
+  border:1px solid rgba(212,175,55,.32)!important;
+  color:#F4F1EB!important;
+  box-shadow:0 8px 22px rgba(0,0,0,.24),inset 0 1px 0 rgba(255,255,255,.04)!important;
+}
+:root[data-layout="mistico-moderno"] #header-btn-logout svg{
+  color:#E2B96B!important;
 }
 :root[data-layout="mistico-moderno"] #header-btn-logout:hover{
-  background:rgba(91,34,57,.72)!important;
-  border-color:rgba(212,175,55,.24)!important;
+  background:rgba(33,43,72,.94)!important;
+  border-color:rgba(212,175,55,.50)!important;
+  color:#F4F1EB!important;
+}
+:root[data-layout="mistico-moderno"] #header-btn-logout:active{
+  background:rgba(10,39,66,.96)!important;
+  border-color:rgba(226,185,107,.58)!important;
 }
 @media (max-width:640px){
   :root[data-layout="mistico-moderno"] #main-header .ep-brand-signature{opacity:.24!important;}

@@ -17,6 +17,14 @@ interface SacredEnergyCanvasProps {
     sageSoft?: string;
     sageGlow?: string;
     sageLine?: string;
+    violet?: string;
+    violetGlow?: string;
+    violetLine?: string;
+    violetParticle?: string;
+    indigo?: string;
+    indigoGlow?: string;
+    indigoLine?: string;
+    indigoParticle?: string;
     ivory?: string;
     transparent?: string;
   };
@@ -30,7 +38,7 @@ export const SacredEnergyCanvas: React.FC<SacredEnergyCanvasProps> = ({
   elapsedSeconds,
   colorTheme
 }) => {
-  // Style 2 and Style 3 pass explicit palettes; unconfigured styles retain their existing stage colors.
+  // Styles 2, 3 and 4 pass explicit palettes; unconfigured styles retain their existing stage colors.
   const palette = colorTheme ? {
     gold: colorTheme.glow || '#C6A46A',
     sage: colorTheme.accent || '#A6B49B',
@@ -40,6 +48,14 @@ export const SacredEnergyCanvas: React.FC<SacredEnergyCanvasProps> = ({
     sageSoft: colorTheme.sageSoft || 'rgba(166, 180, 155, 0.14)',
     sageGlow: colorTheme.sageGlow || 'rgba(166, 180, 155, 0.24)',
     sageLine: colorTheme.sageLine || 'rgba(166, 180, 155, 0.40)',
+    violet: colorTheme.violet || '#8B5CF6',
+    violetGlow: colorTheme.violetGlow || 'rgba(108, 63, 160, 0.22)',
+    violetLine: colorTheme.violetLine || 'rgba(108, 63, 160, 0.42)',
+    violetParticle: colorTheme.violetParticle || 'rgba(139, 92, 246, 0.68)',
+    indigo: colorTheme.indigo || '#5264A4',
+    indigoGlow: colorTheme.indigoGlow || 'rgba(46, 59, 115, 0.20)',
+    indigoLine: colorTheme.indigoLine || 'rgba(46, 59, 115, 0.36)',
+    indigoParticle: colorTheme.indigoParticle || 'rgba(82, 100, 164, 0.60)',
     ivory: colorTheme.ivory || '#FFFFF8',
     transparent: colorTheme.transparent || 'rgba(255, 255, 248, 0)'
   } : null;
@@ -224,10 +240,10 @@ export const SacredEnergyCanvas: React.FC<SacredEnergyCanvasProps> = ({
         }
 
         case ProtocolStage.ATERRAMENTO: {
-          // Luminous Roots, Sage Green aura, descending anchor
+          // Luminous roots and descending anchor; the active layout supplies its own palette.
           const basePulse = Math.sin(time) * 6 + 70;
 
-          // Sage green radial glow
+          // Theme-colored radial glow
           const grad = ctx.createRadialGradient(cx, cy, 20, cx, cy, 140);
           grad.addColorStop(0, palette?.sageGlow ?? 'rgba(140, 168, 154, 0.28)');
           grad.addColorStop(0.5, palette?.sageSoft ?? 'rgba(11, 31, 24, 0.15)');
@@ -271,7 +287,7 @@ export const SacredEnergyCanvas: React.FC<SacredEnergyCanvasProps> = ({
           const spineGrad = ctx.createLinearGradient(cx, startY, cx, startY - spineHeight);
           spineGrad.addColorStop(0, palette?.goldSoft ?? 'rgba(234, 179, 8, 0.15)');
           spineGrad.addColorStop(0.5, palette?.goldGlow ?? 'rgba(245, 158, 11, 0.4)');
-          spineGrad.addColorStop(1, palette?.sageGlow ?? 'rgba(147, 197, 253, 0.7)');
+          spineGrad.addColorStop(1, colorTheme?.indigoGlow ?? palette?.sageGlow ?? 'rgba(147, 197, 253, 0.7)');
 
           ctx.strokeStyle = spineGrad;
           ctx.lineWidth = 2.5;
@@ -283,7 +299,7 @@ export const SacredEnergyCanvas: React.FC<SacredEnergyCanvasProps> = ({
           // Kundalini double-helix waveforms
           ctx.lineWidth = 1.2;
           for (let side = -1; side <= 1; side += 2) {
-            ctx.strokeStyle = palette ? (side === 1 ? palette.goldLine : palette.sageLine) : (side === 1 ? 'rgba(245, 158, 11, 0.5)' : 'rgba(147, 197, 253, 0.5)');
+            ctx.strokeStyle = palette ? (side === 1 ? palette.goldLine : (colorTheme?.indigoLine ?? palette.sageLine)) : (side === 1 ? 'rgba(245, 158, 11, 0.5)' : 'rgba(147, 197, 253, 0.5)');
             ctx.beginPath();
             for (let y = 0; y <= spineHeight; y += 4) {
               const curY = startY - y;
@@ -298,8 +314,8 @@ export const SacredEnergyCanvas: React.FC<SacredEnergyCanvasProps> = ({
           // Light crystal points along the centers
           for (let node = 1; node <= 5; node++) {
             const ny = startY - (node * (spineHeight / 6));
-            ctx.fillStyle = palette ? (node > 3 ? palette.sage : palette.gold) : (node > 3 ? '#93c5fd' : '#fde68a');
-            ctx.shadowColor = palette ? (node > 3 ? palette.sage : palette.gold) : (node > 3 ? '#3b82f6' : '#d4af37');
+            ctx.fillStyle = palette ? (node > 3 ? (colorTheme?.indigo ?? palette.sage) : palette.gold) : (node > 3 ? '#93c5fd' : '#fde68a');
+            ctx.shadowColor = palette ? (node > 3 ? (colorTheme?.indigo ?? palette.sage) : palette.gold) : (node > 3 ? '#3b82f6' : '#d4af37');
             ctx.shadowBlur = 10;
             ctx.beginPath();
             ctx.arc(cx, ny, 3.5, 0, Math.PI * 2);
@@ -314,7 +330,7 @@ export const SacredEnergyCanvas: React.FC<SacredEnergyCanvasProps> = ({
           const domeRadius = 78;
 
           // Sapphire outer dome
-          ctx.strokeStyle = palette?.sageLine ?? 'rgba(59, 130, 246, 0.6)';
+          ctx.strokeStyle = colorTheme?.violetLine ?? palette?.sageLine ?? 'rgba(59, 130, 246, 0.6)';
           ctx.lineWidth = 1.8;
           ctx.beginPath();
           ctx.arc(cx, cy + 15, domeRadius, Math.PI * 0.9, Math.PI * 2.1);
@@ -322,8 +338,8 @@ export const SacredEnergyCanvas: React.FC<SacredEnergyCanvasProps> = ({
 
           // Soft violet inner glow
           const grad = ctx.createRadialGradient(cx, cy, 10, cx, cy, 75);
-          grad.addColorStop(0, palette?.goldGlow ?? 'rgba(168, 85, 247, 0.45)');
-          grad.addColorStop(0.6, palette?.sageGlow ?? 'rgba(139, 92, 246, 0.2)');
+          grad.addColorStop(0, colorTheme?.violetGlow ?? palette?.goldGlow ?? 'rgba(168, 85, 247, 0.45)');
+          grad.addColorStop(0.6, colorTheme?.indigoGlow ?? palette?.sageGlow ?? 'rgba(139, 92, 246, 0.2)');
           grad.addColorStop(1, palette?.transparent ?? 'rgba(6, 20, 16, 0)');
           ctx.fillStyle = grad;
           ctx.beginPath();
@@ -337,7 +353,9 @@ export const SacredEnergyCanvas: React.FC<SacredEnergyCanvasProps> = ({
             const px = cx + Math.cos(flameAngle) * dist;
             const py = cy + Math.sin(flameAngle) * (dist * 0.7) - ((time * 25 + idx * 10) % 65);
 
-            ctx.fillStyle = palette ? (idx % 2 === 0 ? 'rgba(198, 164, 106, 0.75)' : 'rgba(166, 180, 155, 0.72)') : (idx % 2 === 0 ? 'rgba(192, 132, 252, 0.75)' : 'rgba(96, 165, 250, 0.75)');
+            ctx.fillStyle = colorTheme?.violetParticle && colorTheme?.indigoParticle
+              ? (idx % 2 === 0 ? colorTheme.violetParticle : colorTheme.indigoParticle)
+              : palette ? (idx % 2 === 0 ? 'rgba(198, 164, 106, 0.75)' : 'rgba(166, 180, 155, 0.72)') : (idx % 2 === 0 ? 'rgba(192, 132, 252, 0.75)' : 'rgba(96, 165, 250, 0.75)');
             ctx.beginPath();
             ctx.arc(px, py, p.radius, 0, Math.PI * 2);
             ctx.fill();
@@ -346,13 +364,13 @@ export const SacredEnergyCanvas: React.FC<SacredEnergyCanvasProps> = ({
         }
 
         case ProtocolStage.BALSAMO: {
-          // Heart-centered expansion and golden light cascade.
+          // São Rafael restores and blesses: Style 4 renders this healing field in violet/indigo with a restrained golden cascade.
           const heartPulse = Math.sin(time * 1.8) * 8 + 68;
 
-          // Rose soft bloom
+          // The restorative bloom follows the active palette; Style 4 uses violet/indigo instead of a standalone emerald glow.
           const roseGrad = ctx.createRadialGradient(cx, cy, 10, cx, cy, heartPulse + 40);
-          roseGrad.addColorStop(0, palette?.goldGlow ?? 'rgba(244, 114, 182, 0.35)');
-          roseGrad.addColorStop(0.5, palette?.sageGlow ?? 'rgba(251, 113, 133, 0.15)');
+          roseGrad.addColorStop(0, colorTheme?.violetGlow ?? palette?.goldGlow ?? 'rgba(244, 114, 182, 0.35)');
+          roseGrad.addColorStop(0.5, colorTheme?.indigoGlow ?? palette?.sageGlow ?? 'rgba(251, 113, 133, 0.15)');
           roseGrad.addColorStop(1, palette?.transparent ?? 'rgba(6, 20, 16, 0)');
           ctx.fillStyle = roseGrad;
           ctx.beginPath();
@@ -372,12 +390,12 @@ export const SacredEnergyCanvas: React.FC<SacredEnergyCanvasProps> = ({
           }
 
           // Concentric rose rings
-          ctx.strokeStyle = palette?.sageLine ?? 'rgba(244, 114, 182, 0.45)';
+          ctx.strokeStyle = colorTheme?.violetLine ?? palette?.sageLine ?? 'rgba(244, 114, 182, 0.45)';
           ctx.beginPath();
           ctx.arc(cx, cy, heartPulse, 0, Math.PI * 2);
           ctx.stroke();
 
-          // São Rafael Emerald subtle cross of light
+          // The configured style palette controls this cross; Style 4 supplies its approved gold line.
           ctx.strokeStyle = palette?.goldLine ?? 'rgba(52, 211, 153, 0.35)';
           ctx.beginPath();
           ctx.moveTo(cx - 25, cy);
@@ -395,7 +413,7 @@ export const SacredEnergyCanvas: React.FC<SacredEnergyCanvasProps> = ({
           // Warm golden protective aura
           const grad = ctx.createRadialGradient(cx, cy, 15, cx, cy, sealRadius + 45);
           grad.addColorStop(0, palette?.goldGlow ?? 'rgba(230, 202, 101, 0.35)');
-          grad.addColorStop(0.6, palette?.sageSoft ?? 'rgba(197, 160, 89, 0.15)');
+          grad.addColorStop(0.6, colorTheme?.indigoGlow ?? palette?.sageSoft ?? 'rgba(197, 160, 89, 0.15)');
           grad.addColorStop(1, palette?.transparent ?? 'rgba(6, 20, 16, 0)');
           ctx.fillStyle = grad;
           ctx.beginPath();
@@ -416,7 +434,7 @@ export const SacredEnergyCanvas: React.FC<SacredEnergyCanvasProps> = ({
           }
 
           // Outer circle of final sealing
-          ctx.strokeStyle = palette?.sageLine ?? 'rgba(230, 202, 101, 0.5)';
+          ctx.strokeStyle = colorTheme?.indigoLine ?? palette?.sageLine ?? 'rgba(230, 202, 101, 0.5)';
           ctx.beginPath();
           ctx.arc(cx, cy, sealRadius, 0, Math.PI * 2);
           ctx.stroke();

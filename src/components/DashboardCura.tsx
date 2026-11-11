@@ -1,6 +1,7 @@
 import { useDialogFocus } from '../hooks/useDialogFocus';
 import React, { useMemo, useEffect, useState } from 'react';
 import { DayProgress, UserProfile } from '../types';
+import { getArcanjoProgressState } from '../lib/arcanjoProgress';
 import { ArrowLeft, Flame, Lock, Play, CheckCircle2, Award, Sparkles } from 'lucide-react';
 
 const CHAKRAS_DATA = [
@@ -16,7 +17,10 @@ const CHAKRAS_DATA = [
 export default function DashboardCura({ onClose, progress, userProfile }: { onClose: () => void; progress: DayProgress[], userProfile?: UserProfile }) {
   const [completedDays, setCompletedDays] = useState<number[]>([]);
   const dialogRef = React.useRef<HTMLDivElement | null>(null);
-  useDialogFocus(document.documentElement.dataset.layout === 'natural-sereno', dialogRef, onClose);
+  // This surface is a modal in every layout; contain keyboard focus and restore it on close.
+  useDialogFocus(true, dialogRef, onClose);
+  const isMisticoModerno = document.documentElement.dataset.layout === 'mistico-moderno';
+  const bodyImage = isMisticoModerno ? '/brand/chakra-body.svg' : '/brand/human-chakra-model.jpg';
 
   useEffect(() => {
     const profileCompleted = userProfile?.journeyProgress?.arcanjo7CompletedDays;
@@ -31,15 +35,13 @@ export default function DashboardCura({ onClose, progress, userProfile }: { onCl
     setCompletedDays(localCompleted);
   }, [userProfile?.journeyProgress?.arcanjo7CompletedDays]);
 
-  const totalCompleted = completedDays.length;
+  const {
+    totalCompleted,
+    nextAvailableDay,
+    consecutiveCompletedDays: streak,
+    journeyCompleted
+  } = getArcanjoProgressState(completedDays);
   const percentage = Math.round((totalCompleted / 7) * 100);
-  const nextAvailableDay = Math.min(totalCompleted + 1, 7);
-  const journeyCompleted = totalCompleted === 7;
-  
-  // Calculate Streak (consecutive days completed up to current day)
-  // For simplicity, we assume streak equals total completed in this 7-day flow, 
-  // or we can calculate based on consecutive days completed from day 1.
-  const streak = completedDays.length; 
 
   const handlePlayDay = (day: number) => {
     // In a real flow, this could navigate to the specific day in the ArcanjoProtocolView
@@ -51,7 +53,7 @@ export default function DashboardCura({ onClose, progress, userProfile }: { onCl
   return (
     <div ref={dialogRef} id="progress-dashboard" role="dialog" aria-modal="true" aria-label="Dashboard de Progresso Analítico" className="fixed inset-0 z-[100] flex flex-col bg-[#F8F4EC] text-[#2A2420] font-sans selection:bg-[#E4C573]/30 overflow-y-auto">
       {/* Background Gradient */}
-      <div className="fixed inset-0 pointer-events-none bg-[radial-gradient(circle_at_50%_0,rgba(214,167,86,.12),transparent_30rem),linear-gradient(180deg,#FBF8F2,#F8F4EC)]" />
+      <div data-mistico-dashboard-backdrop className="fixed inset-0 pointer-events-none bg-[radial-gradient(circle_at_50%_0,rgba(214,167,86,.12),transparent_30rem),linear-gradient(180deg,#FBF8F2,#F8F4EC)]" />
 
       {/* Header */}
       <header className="relative z-10 mx-auto w-full max-w-lg px-5 py-6">
@@ -84,7 +86,7 @@ export default function DashboardCura({ onClose, progress, userProfile }: { onCl
             <span className="text-sm font-semibold text-[#E4C573]">{percentage}% Concluído</span>
             <span className="text-xs text-[#5C5248]">{totalCompleted} de 7 Dias</span>
           </div>
-          <div className="h-1.5 w-full overflow-hidden rounded-full bg-[#E5DAC6]">
+          <div data-mistico-progress-track className="h-1.5 w-full overflow-hidden rounded-full bg-[#E5DAC6]">
             <div
               className="h-full rounded-full bg-gradient-to-r from-[#B89845] to-[#E4C573] shadow-[0_0_10px_rgba(228,197,115,0.6)] transition-all duration-1000 ease-out"
               style={{ width: `${percentage}%` }}
@@ -96,11 +98,15 @@ export default function DashboardCura({ onClose, progress, userProfile }: { onCl
       <main className="relative z-10 mx-auto w-full max-w-lg flex-1 px-5 pb-12">
         {/* Central Energy Visualizer */}
         <div className="relative mx-auto my-8 aspect-[4/5] w-full max-w-[360px] rounded-[2rem] border border-[#E4C573]/30 bg-white/75 shadow-[0_22px_60px_rgba(0,0,0,.38)] overflow-hidden">
-          <img src="/brand/human-chakra-model.jpg" alt="Pessoa em meditação com os sete chakras" className="absolute inset-0 h-full w-full object-cover" />
-          <div className="absolute inset-0 bg-gradient-to-t from-[#F8F4EC]/70 via-transparent to-transparent" />
+          <img src={bodyImage} alt={isMisticoModerno ? "Figura neutra de costas em meditação, com vestes amplas e marcadores de progresso sobrepostos" : "Pessoa em meditação com os sete chakras"} data-mistico-body-image className="absolute inset-0 h-full w-full object-cover" />
+          <div data-mistico-body-overlay className="absolute inset-0 bg-gradient-to-t from-[#F8F4EC]/70 via-transparent to-transparent" />
           
           {CHAKRAS_DATA.map((chakra) => {
             const isCompleted = completedDays.includes(chakra.day);
+            const isCurrent = chakra.day === nextAvailableDay;
+            const markerColor = isMisticoModerno ? '#D4AF37' : chakra.color;
+            const markerGlow = isMisticoModerno ? 'rgba(212,175,55,.46)' : chakra.glow;
+            const inactiveMarkerColor = isMisticoModerno ? '#2E3B73' : '#365849';
             return (
               <div
                 key={chakra.name}
@@ -114,14 +120,14 @@ export default function DashboardCura({ onClose, progress, userProfile }: { onCl
                 >
                   <div
                     className="absolute inset-0 rounded-full blur-md"
-                    style={{ background: isCompleted ? chakra.color : 'transparent', opacity: 0.6 }}
+                    style={{ background: isCompleted ? markerGlow : 'transparent', opacity: 0.6 }}
                   />
                   <div
                     className="relative h-4 w-4 rounded-full border-2"
                     style={{
                       borderColor: isCompleted ? '#fff' : '#64748b',
-                      background: isCompleted || chakra.day === nextAvailableDay ? chakra.color : '#365849',
-                      boxShadow: isCompleted || chakra.day === nextAvailableDay ? `0 0 18px 6px ${chakra.color}` : 'none'
+                      background: isCompleted || isCurrent ? markerColor : inactiveMarkerColor,
+                      boxShadow: isCompleted || isCurrent ? `0 0 18px 6px ${markerColor}` : 'none'
                     }}
                   />
                 </div>
@@ -139,11 +145,14 @@ export default function DashboardCura({ onClose, progress, userProfile }: { onCl
             const isCompleted = completedDays.includes(day);
             const isCurrent = day === nextAvailableDay;
             const isLocked = day > nextAvailableDay;
+            const completedAccent = isMisticoModerno ? '#6C3FA0' : chakra.color;
+            const currentAccent = isMisticoModerno ? '#D4AF37' : chakra.color;
+            const currentGlow = isMisticoModerno ? 'rgba(108,63,160,.24)' : chakra.glow;
 
             if (isCompleted) {
               return (
                 <button type="button" key={day} onClick={() => handlePlayDay(day)} className="relative flex w-full text-left cursor-pointer items-center justify-between rounded-2xl border border-[#E4C573]/50 bg-[#E4C573]/5 px-5 py-4 transition hover:bg-[#E4C573]/10">
-                  <div className="absolute left-0 top-0 h-full w-2 rounded-l-2xl" style={{ backgroundColor: chakra.color, opacity: 0.8 }} />
+                  <div className="absolute left-0 top-0 h-full w-2 rounded-l-2xl" style={{ backgroundColor: completedAccent, opacity: 0.8 }} />
                   <div className="ml-3">
                     <h3 className="font-serif text-[15px] font-semibold text-[#E4C573]">Dia {day}: {chakra.name}</h3>
                     <p className="text-xs text-[#5C5248] mt-0.5">Concluído</p>
@@ -159,8 +168,8 @@ export default function DashboardCura({ onClose, progress, userProfile }: { onCl
               return (
                 <div key={day} className="relative overflow-hidden rounded-2xl border border-[#E4C573]/35 bg-white/90 shadow-lg">
                   {/* Pulsating glow in chakra color */}
-                  <div className="absolute inset-0 opacity-20 mix-blend-screen animate-pulse" style={{ background: `radial-gradient(circle at center, ${chakra.color} 0%, transparent 70%)` }} />
-                  <div className="absolute left-0 top-0 h-full w-2 rounded-l-2xl" style={{ backgroundColor: chakra.color }} />
+                  <div className="absolute inset-0 opacity-20 mix-blend-screen animate-pulse" style={{ background: `radial-gradient(circle at center, ${currentGlow} 0%, transparent 70%)` }} />
+                  <div className="absolute left-0 top-0 h-full w-2 rounded-l-2xl" style={{ backgroundColor: currentAccent }} />
                   
                   <div className="relative flex items-center justify-between px-5 py-5 ml-2">
                     <div>
@@ -170,7 +179,7 @@ export default function DashboardCura({ onClose, progress, userProfile }: { onCl
                     <button 
                       onClick={() => handlePlayDay(day)}
                       aria-label={`Iniciar dia ${day}: ${chakra.name}`} className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full shadow-lg transition-transform hover:scale-105 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B88736]/30"
-                      style={{ background: `linear-gradient(135deg, ${chakra.color}, #09090E)` }}
+                      style={{ background: isMisticoModerno ? 'linear-gradient(135deg, #A87E37, #E2B96B)' : `linear-gradient(135deg, ${chakra.color}, #09090E)` }}
                     >
                       <Play size={22} className="ml-1 text-white" fill="white" />
                     </button>

@@ -1,7 +1,7 @@
 :root[data-layout="mistico-moderno"] #video-studio-modal {
   background:
     radial-gradient(circle at 16% 8%, rgba(84, 62, 150, .18), transparent 34%),
-    radial-gradient(circle at 84% 18%, rgba(21, 116, 103, .13), transparent 32%),
+    radial-gradient(circle at 84% 18%, rgba(46, 59, 115, .16), transparent 32%),
     linear-gradient(155deg, #070b1d 0%, #0b1230 48%, #11102f 100%) !important;
   color: #f5f0e6 !important;
 }
@@ -24,7 +24,7 @@
 }
 
 :root[data-layout="mistico-moderno"] #video-studio-modal button[aria-pressed="true"] {
-  background: linear-gradient(135deg, #2a2460, #12675f) !important;
+  background: linear-gradient(135deg, #2E3B73, #6C3FA0) !important;
   border-color: rgba(226, 185, 107, .72) !important;
   color: #fff8e8 !important;
   box-shadow: 0 10px 30px rgba(0,0,0,.28), 0 0 22px rgba(121, 92, 201, .14) !important;

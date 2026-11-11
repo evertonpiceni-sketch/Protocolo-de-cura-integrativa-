@@ -1,7 +1,7 @@
 :root[data-layout="mistico-moderno"] #meditation-session{
   background:
     radial-gradient(circle at 50% 18%,rgba(93,61,145,.18),transparent 34%),
-    radial-gradient(circle at 18% 82%,rgba(16,112,93,.12),transparent 30%),
+    radial-gradient(circle at 18% 82%,rgba(46,59,115,.16),transparent 30%),
     linear-gradient(180deg,#060914 0%,#0a1020 48%,#080b16 100%)!important;
   color:#f3ecdf!important;
 }
@@ -9,6 +9,12 @@
 :root[data-layout="mistico-moderno"] #meditation-session .ep-session-backdrop{
   opacity:.82;
   mix-blend-mode:screen;
+}
+
+/* A sessão usa fundo noturno; neutraliza o gradiente marfim herdado do player compartilhado. */
+:root[data-layout="mistico-moderno"] #meditation-session .ep-session-light-overlay{
+  background:radial-gradient(circle at 50% 22%,rgba(108,63,160,.14),transparent 42%)!important;
+  opacity:.78!important;
 }
 
 :root[data-layout="mistico-moderno"] #meditation-session header{
@@ -60,4 +66,144 @@
   color:#0b0e16!important;
   border:1px solid rgba(244,211,139,.5)!important;
   box-shadow:0 10px 28px rgba(197,155,77,.18)!important;
+}
+
+
+/* A sessão inteira mantém a identidade noturna, inclusive estados e subcomponentes compartilhados. */
+:root[data-layout="mistico-moderno"] #meditation-session footer{
+  background:rgba(7,11,24,.94)!important;
+  border-color:rgba(188,151,82,.22)!important;
+  box-shadow:0 -12px 32px rgba(0,0,0,.22)!important;
+}
+
+:root[data-layout="mistico-moderno"] #meditation-session [class*="bg-white"],
+:root[data-layout="mistico-moderno"] #meditation-session [class*="bg-[#FAF7F2]"],
+:root[data-layout="mistico-moderno"] #meditation-session [class*="bg-[#F4EFE6]"],
+:root[data-layout="mistico-moderno"] #meditation-session [class*="bg-[#FAF4E8]"]{
+  background:rgba(20,31,48,.88)!important;
+}
+
+:root[data-layout="mistico-moderno"] #meditation-session [class*="bg-[#E5DAC6]"]{
+  background:rgba(46,59,115,.34)!important;
+}
+
+:root[data-layout="mistico-moderno"] #meditation-session [class*="text-[#8F631E]"]{
+  color:#E2B96B!important;
+}
+:root[data-layout="mistico-moderno"] #meditation-session [class*="text-[#5C5248]"],
+:root[data-layout="mistico-moderno"] #meditation-session [class*="text-[#85786C]"],
+:root[data-layout="mistico-moderno"] #meditation-session [class*="text-[#3E3832]"],
+:root[data-layout="mistico-moderno"] #meditation-session [class*="text-[#2A2420]"]{
+  color:#F4F1EB!important;
+}
+:root[data-layout="mistico-moderno"] #meditation-session [class*="border-[#E5DAC6]"]{
+  border-color:rgba(108,63,160,.30)!important;
+}
+:root[data-layout="mistico-moderno"] #meditation-session [class*="border-[#B88736]"]{
+  border-color:rgba(212,175,55,.34)!important;
+}
+
+:root[data-layout="mistico-moderno"] #meditation-session .ep-session-mantra{
+  background:rgba(20,31,48,.88)!important;
+  border-color:rgba(108,63,160,.34)!important;
+  color:#CBD5E1!important;
+}
+
+:root[data-layout="mistico-moderno"] #meditation-session .ep-session-checkin > div,
+:root[data-layout="mistico-moderno"] #meditation-session .ep-acceptance-portal > div,
+:root[data-layout="mistico-moderno"] #meditation-session [role="dialog"][aria-label="Sessão concluída"] > div,
+:root[data-layout="mistico-moderno"] #meditation-session [role="dialog"][aria-label="Roteiro da sessão"] > div:last-child{
+  background:linear-gradient(145deg,rgba(20,31,48,.98),rgba(8,13,27,.99))!important;
+  border-color:rgba(108,63,160,.34)!important;
+  box-shadow:0 24px 64px rgba(0,0,0,.42),inset 0 1px 0 rgba(255,255,255,.04)!important;
+  color:#F4F1EB!important;
+}
+
+:root[data-layout="mistico-moderno"] #meditation-session [role="dialog"][aria-label="Roteiro da sessão"] > div:first-child{
+  background:rgba(4,7,15,.78)!important;
+}
+
+:root[data-layout="mistico-moderno"] #meditation-session .ep-session-checkin textarea{
+  background:rgba(10,15,24,.78)!important;
+  border-color:rgba(108,63,160,.38)!important;
+  color:#F4F1EB!important;
+}
+:root[data-layout="mistico-moderno"] #meditation-session .ep-session-checkin textarea::placeholder{
+  color:#AAB4C5!important;
+}
+:root[data-layout="mistico-moderno"] #meditation-session .ep-session-checkin button[aria-pressed="true"]{
+  background:linear-gradient(135deg,#6C3FA0,#2E3B73)!important;
+  border-color:rgba(212,175,55,.55)!important;
+  color:#F4F1EB!important;
+}
+:root[data-layout="mistico-moderno"] #meditation-session .ep-session-checkin button[aria-pressed="false"]{
+  background:rgba(20,31,48,.84)!important;
+  border-color:rgba(108,63,160,.30)!important;
+  color:#CBD5E1!important;
+}
+:root[data-layout="mistico-moderno"] #meditation-session .ep-session-checkin > div > button,
+:root[data-layout="mistico-moderno"] #meditation-session .ep-acceptance-portal button:last-child,
+:root[data-layout="mistico-moderno"] #meditation-session [role="dialog"][aria-label="Sessão concluída"] button,
+:root[data-layout="mistico-moderno"] #meditation-session [role="dialog"][aria-label="Roteiro da sessão"] > div:last-child button{
+  background:linear-gradient(135deg,#A87E37,#E2B96B)!important;
+  border:1px solid rgba(226,185,107,.52)!important;
+  color:#0A0F18!important;
+  box-shadow:0 10px 26px rgba(212,175,55,.18)!important;
+}
+:root[data-layout="mistico-moderno"] #meditation-session .ep-acceptance-portal button:first-child{
+  background:rgba(20,31,48,.84)!important;
+  border-color:rgba(108,63,160,.34)!important;
+  color:#F4F1EB!important;
+}
+
+:root[data-layout="mistico-moderno"] #meditation-session [role="dialog"][aria-label="Roteiro da sessão"] [class*="border-[#8F631E]"]{
+  border-color:rgba(212,175,55,.52)!important;
+}
+:root[data-layout="mistico-moderno"] #meditation-session [role="dialog"][aria-label="Roteiro da sessão"] [class*="ring-[#8F631E]"]{
+  --tw-ring-color:rgba(212,175,55,.34)!important;
+}
+
+:root[data-layout="mistico-moderno"] #meditation-session .ns-play-toggle{
+  background:linear-gradient(135deg,#A87E37,#E2B96B)!important;
+  border:1px solid rgba(226,185,107,.56)!important;
+  color:#0A0F18!important;
+  box-shadow:0 10px 28px rgba(212,175,55,.22)!important;
+}
+:root[data-layout="mistico-moderno"] #meditation-session .ep-protocol-progress{
+  accent-color:#D4AF37!important;
+  background:linear-gradient(90deg,#A87E37 0%,#D4AF37 var(--ep-progress),rgba(108,63,160,.34) var(--ep-progress),rgba(108,63,160,.34) 100%)!important;
+}
+:root[data-layout="mistico-moderno"] #meditation-session [role="progressbar"]{
+  background:rgba(46,59,115,.34)!important;
+}
+:root[data-layout="mistico-moderno"] #meditation-session [class*="bg-rose-50"]{
+  background:rgba(108,63,160,.20)!important;
+}
+:root[data-layout="mistico-moderno"] #meditation-session [class*="text-rose-500"]{
+  color:#B69AE8!important;
+}
+:root[data-layout="mistico-moderno"] #meditation-session [aria-label="Etapas do protocolo"] span[class*="bg-[#8F631E]"]{
+  background:#D4AF37!important;
+}
+:root[data-layout="mistico-moderno"] #meditation-session [aria-label="Etapas do protocolo"] span[class*="bg-[#E5DAC6]"]{
+  background:rgba(108,63,160,.36)!important;
+}
+:root[data-layout="mistico-moderno"] #meditation-session .ep-breathing-guide > div:first-child{
+  background:radial-gradient(circle at center,rgba(212,175,55,.12),rgba(108,63,160,.07) 58%,transparent 100%)!important;
+  border-color:rgba(212,175,55,.34)!important;
+  box-shadow:0 0 38px rgba(108,63,160,.12)!important;
+}
+
+
+/* O ícone do gate de acesso também segue a superfície noturna do Estilo 4. */
+:root[data-layout="mistico-moderno"] div[role="dialog"][aria-label="Acesso à jornada completa"] [class*="bg-[#FAF4E8]"]{
+  background:rgba(20,31,48,.88)!important;
+  border-color:rgba(212,175,55,.34)!important;
+  color:#E2B96B!important;
+}
+:root[data-layout="mistico-moderno"] div[role="dialog"][aria-label="Acesso à jornada completa"] [class*="text-[#8F631E]"]{
+  color:#E2B96B!important;
+}
+:root[data-layout="mistico-moderno"] div[role="dialog"][aria-label="Acesso à jornada completa"] [class*="text-[#5C5248]"]{
+  color:#CBD5E1!important;
 }

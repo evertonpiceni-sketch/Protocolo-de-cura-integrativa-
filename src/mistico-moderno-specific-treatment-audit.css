@@ -8,7 +8,7 @@ html[data-layout="mistico-moderno"] #specific-treatment-modal {
 html[data-layout="mistico-moderno"] #specific-treatment-modal > div {
   background:
     radial-gradient(circle at 88% 8%, rgba(124, 58, 237, .13), transparent 34%),
-    radial-gradient(circle at 10% 90%, rgba(5, 150, 105, .10), transparent 32%),
+    radial-gradient(circle at 10% 90%, rgba(46, 59, 115, .14), transparent 32%),
     linear-gradient(145deg, rgba(8, 15, 35, .98), rgba(17, 20, 52, .98) 55%, rgba(25, 18, 55, .97)) !important;
   border-color: rgba(214, 168, 74, .28) !important;
   box-shadow: 0 30px 80px rgba(0,0,0,.48), 0 0 0 1px rgba(129,140,248,.06) inset !important;
@@ -48,7 +48,7 @@ html[data-layout="mistico-moderno"] #specific-treatment-modal select:focus {
   outline: none;
 }
 
-/* Esmeralda permanece apenas em estados positivos/terapêuticos; dourado é o acento premium. */
+/* Estados positivos da interface usam violeta/índigo e dourado; verde fica reservado à natureza. */
 html[data-layout="mistico-moderno"] #specific-treatment-modal .text-\[\#B88736\] {
   color: #e0b866 !important;
 }

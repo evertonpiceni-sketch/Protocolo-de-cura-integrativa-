@@ -131,17 +131,63 @@ export async function acquireSharedDatabaseWriteLock(): Promise<CheckoutCreation
 
 export function paymentRoutes(authenticate: any, limiter: any, providerFetch: typeof fetch = fetch, saveCheckoutOrder: typeof saveDb = saveDb) {
   const router = Router();
-  const handle = () => process.env.INFINITEPAY_HANDLE || 'evertonterapeutareiki';
-  const apiKey = () => process.env.INFINITEPAY_API_KEY?.trim() || '';
+  const isPreview = () => process.env.VERCEL_ENV === 'preview';
+  const handle = () => {
+    const configured = (isPreview() ? process.env.INFINITEPAY_PREVIEW_HANDLE : process.env.INFINITEPAY_HANDLE)?.trim();
+    if (!configured) throw new Error(isPreview()
+      ? 'INFINITEPAY_PREVIEW_HANDLE é obrigatório; Preview não pode reutilizar o handle de Production.'
+      : 'INFINITEPAY_HANDLE é obrigatório para criar o checkout.');
+    return configured;
+  };
+  const apiKey = () => {
+    const configured = (isPreview() ? process.env.INFINITEPAY_PREVIEW_API_KEY : process.env.INFINITEPAY_API_KEY)?.trim();
+    if (!configured) throw new Error(isPreview()
+      ? 'INFINITEPAY_PREVIEW_API_KEY é obrigatória; Preview não pode reutilizar a credencial de Production.'
+      : 'INFINITEPAY_API_KEY é obrigatória para criar o checkout.');
+    return configured;
+  };
   const appUrl = () => {
-    const url = new URL(process.env.PUBLIC_APP_URL || 'https://protocolo-de-cura-integrativa.vercel.app');
+    const configured = process.env.PUBLIC_APP_URL?.trim();
+    const vercelUrl = process.env.VERCEL_URL?.trim();
+    const previewOrigin = vercelUrl
+      ? (vercelUrl.startsWith('http') ? vercelUrl : `https://${vercelUrl}`)
+      : '';
+    const resolved = configured || (isPreview() ? previewOrigin : 'https://protocolo-de-cura-integrativa.vercel.app');
+    if (isPreview() && !resolved) {
+      throw new Error('PUBLIC_APP_URL ou VERCEL_URL é obrigatória em Preview para impedir redirecionamento à Production.');
+    }
+    const url = new URL(resolved);
+    const configuredProductionHost = process.env.VERCEL_PROJECT_PRODUCTION_URL
+      ?.trim()
+      .replace(/^https?:\/\//i, '')
+      .split('/')[0]
+      .toLowerCase();
+    const productionHosts = new Set([
+      'protocolo-de-cura-integrativa.vercel.app',
+      'protocolodecuraintegrativa-evertonpiceni-sketch.vercel.app',
+      'protocolodecuraintegrativa-git-main-evertonpiceni-sketch.vercel.app',
+      configuredProductionHost
+    ].filter((host): host is string => Boolean(host)));
+    if (isPreview() && productionHosts.has(url.hostname.toLowerCase())) {
+      throw new Error('Preview não pode usar o domínio de Production.');
+    }
     if (url.protocol !== 'https:' || url.username || url.password) throw new Error('URL pública inválida.');
     return url.origin;
+  };
+  const checkoutConfigReady = () => {
+    try {
+      apiKey();
+      handle();
+      appUrl();
+      return true;
+    } catch {
+      return false;
+    }
   };
   async function provider(path: string, body: unknown) {
     const headers: Record<string, string> = { 'Content-Type': 'application/json' };
     const key = apiKey();
-    if (key) headers['X-Api-Key'] = key;
+    headers['X-Api-Key'] = key;
     const response = await providerFetch(API + path, { method: 'POST', headers, body: JSON.stringify(body), signal: AbortSignal.timeout(15000) });
     if (!response.ok) throw new Error('O provedor não conseguiu processar o pagamento agora.');
     return response.json();
@@ -158,7 +204,7 @@ export function paymentRoutes(authenticate: any, limiter: any, providerFetch: ty
   }
   async function createCheckoutUrl(payload: InfinitePayCheckoutPayload) {
     if (payload.options?.single_payment !== true) throw new Error('O checkout precisa estar configurado para um único pagamento.');
-    if (!apiKey()) throw new Error('A API Key da InfinitePay é necessária para criar links de pagamento único.');
+    apiKey(); // Validate the environment-specific credential before contacting the provider.
     const result = await provider('/links', payload);
     if (!result || typeof result.url !== 'string') throw new Error('O provedor não retornou um link válido.');
     const checkout = new URL(result.url);
@@ -222,7 +268,7 @@ export function paymentRoutes(authenticate: any, limiter: any, providerFetch: ty
       }
     } catch (error) { return res.status(400).json({ error: (error as Error).message }); }
 
-    if (!apiKey()) return res.status(503).json({ error: 'Pagamento temporariamente indisponível. A configuração segura do checkout precisa ser concluída.' });
+    if (!checkoutConfigReady()) return res.status(503).json({ error: 'Pagamento temporariamente indisponível. A configuração segura do checkout precisa ser concluída.' });
 
     try {
       {

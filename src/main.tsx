@@ -28,6 +28,8 @@ import './mistico-moderno-video-studio-audit.css';
 import './mistico-moderno-bottom-nav-audit.css';
 import './mistico-moderno-mobile-install-audit.css';
 import './mistico-moderno-audio-settings-audit.css';
+import './mistico-moderno-welcome-audit.css';
+import './mistico-moderno-arcanjo-audit.css';
 import './elegancia-profunda-modal-audit.css';
 import './elegancia-profunda-anamnesis-audit.css';
 import './elegancia-profunda-prayer-audit.css';
@@ -69,7 +71,6 @@ import './lib/audioIntegrityPatch';
 import './lib/arcanjoAudioOwnershipPatch';
 import './lib/naturalSerenoOfficialVoicePatch';
 import './lib/essenciaLuminosaOfficialVoicePatch';
-import './lib/misticoModernoOfficialVoicePatch';
 import './lib/reintegrationPublicNarrationPatch';
 import './lib/backgroundMediaPatch';
 import './lib/noDecorativeEmojiPatch';
@@ -101,6 +102,11 @@ import './elegancia-profunda-approved-overrides.css';
 // Latest approved Essência Luminosa decisions must win over every earlier Style 3 audit layer
 // and all other theme layers. Keep this scoped override as the final theme CSS import.
 import './essencia-luminosa-approved-overrides.css';
+import './mistico-moderno-final-audit.css';
+import './mistico-moderno-onboarding-audit.css';
+import './mistico-moderno-final-palette-guard.css';
+// Keep the chooser shell neutral until the user explicitly confirms one of the four styles.
+import './prestyle-neutral.css';
 import { ErrorBoundary } from './ErrorBoundary.tsx';
 
 createRoot(document.getElementById('root')!).render(

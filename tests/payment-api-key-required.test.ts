@@ -6,10 +6,13 @@ import os from 'node:os';
 import path from 'node:path';
 
 test('InfinitePay exige API Key para links single_payment e falha fechado sem criar pedido', async () => {
-  const cwd = process.cwd();
   const folder = fs.mkdtempSync(path.join(os.tmpdir(), 'payment-api-key-test-'));
   const previous = {
     nodeEnv: process.env.NODE_ENV,
+    localDatabaseFile: process.env.LOCAL_DATABASE_FILE,
+    vercelEnv: process.env.VERCEL_ENV,
+    previewApiKey: process.env.INFINITEPAY_PREVIEW_API_KEY,
+    previewHandle: process.env.INFINITEPAY_PREVIEW_HANDLE,
     apiKey: process.env.INFINITEPAY_API_KEY,
     handle: process.env.INFINITEPAY_HANDLE,
     appUrl: process.env.PUBLIC_APP_URL,
@@ -23,8 +26,9 @@ test('InfinitePay exige API Key para links single_payment e falha fechado sem cr
     upstashRestToken: process.env.UPSTASH_REDIS_REST_REST_API_TOKEN
   };
   let server: any;
-  process.chdir(folder);
+  process.env.LOCAL_DATABASE_FILE = path.join(folder, 'database.json');
   process.env.NODE_ENV = 'test';
+  process.env.VERCEL_ENV = 'production';
   delete process.env.INFINITEPAY_API_KEY;
   delete process.env.UPSTASH_REDIS_REST_URL;
   delete process.env.UPSTASH_REDIS_REST_TOKEN;
@@ -66,7 +70,10 @@ test('InfinitePay exige API Key para links single_payment e falha fechado sem cr
     assert.equal(getDb().paymentOrders?.length || 0, 0);
   } finally {
     if (server) await new Promise<void>(resolve => server.close(resolve));
-    process.chdir(cwd);
+    if (previous.localDatabaseFile === undefined) delete process.env.LOCAL_DATABASE_FILE; else process.env.LOCAL_DATABASE_FILE = previous.localDatabaseFile;
+    if (previous.vercelEnv === undefined) delete process.env.VERCEL_ENV; else process.env.VERCEL_ENV = previous.vercelEnv;
+    if (previous.previewApiKey === undefined) delete process.env.INFINITEPAY_PREVIEW_API_KEY; else process.env.INFINITEPAY_PREVIEW_API_KEY = previous.previewApiKey;
+    if (previous.previewHandle === undefined) delete process.env.INFINITEPAY_PREVIEW_HANDLE; else process.env.INFINITEPAY_PREVIEW_HANDLE = previous.previewHandle;
     fs.rmSync(folder, { recursive: true, force: true });
     if (previous.nodeEnv === undefined) delete process.env.NODE_ENV; else process.env.NODE_ENV = previous.nodeEnv;
     if (previous.apiKey === undefined) delete process.env.INFINITEPAY_API_KEY; else process.env.INFINITEPAY_API_KEY = previous.apiKey;

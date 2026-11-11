@@ -67,19 +67,19 @@
   transform: translateY(-1px);
 }
 
-/* “Como estou agora” mantém o significado positivo, mas integra o esmeralda à noite sofisticada. */
+/* “Como estou agora” mantém o significado positivo com índigo/violeta e dourado; verde fica reservado à natureza. */
 :root[data-layout="mistico-moderno"] #journal-dashboard-view [class*="border-emerald-200"][class*="bg-emerald-50"] {
-  background: linear-gradient(135deg, rgba(7, 69, 62, .30), rgba(17, 27, 58, .82)) !important;
-  border-color: rgba(73, 190, 158, .30) !important;
+  background: linear-gradient(135deg, rgba(108, 63, 160, .18), rgba(17, 27, 58, .82)) !important;
+  border-color: rgba(212, 175, 55, .28) !important;
 }
 
 :root[data-layout="mistico-moderno"] #journal-dashboard-view :is([class*="text-emerald-700"],[class*="text-emerald-800"]) {
-  color: #A9E2CF !important;
+  color: #E2B96B !important;
 }
 
 :root[data-layout="mistico-moderno"] #journal-dashboard-view [class*="border-emerald-200"][class*="bg-white"] {
-  background-color: rgba(9, 50, 49, .52) !important;
-  border-color: rgba(73, 190, 158, .26) !important;
+  background-color: rgba(46, 59, 115, .24) !important;
+  border-color: rgba(212, 175, 55, .24) !important;
 }
 
 @media (max-width: 640px) {
@@ -90,4 +90,24 @@
   :root[data-layout="mistico-moderno"] #journal-timeline-list > article {
     box-shadow: 0 14px 36px rgba(2, 6, 23, .22);
   }
+}
+
+/* Estados de humor baixo/intermediário: preserva a semântica sem trazer badges pastel
+   rosa/âmbar do tema claro para a superfície noturna do Místico Moderno. */
+:root[data-layout="mistico-moderno"] #journal-dashboard-view [class*="border-rose-200"][class*="bg-rose-50"] {
+  background: linear-gradient(135deg, rgba(76, 48, 112, .34), rgba(17, 27, 58, .86)) !important;
+  border-color: rgba(151, 112, 205, .34) !important;
+}
+
+:root[data-layout="mistico-moderno"] #journal-dashboard-view [class*="text-rose-700"] {
+  color: #D9C5F2 !important;
+}
+
+:root[data-layout="mistico-moderno"] #journal-dashboard-view [class*="border-amber-200"][class*="bg-amber-50"] {
+  background: linear-gradient(135deg, rgba(115, 82, 31, .24), rgba(17, 27, 58, .82)) !important;
+  border-color: rgba(212, 175, 55, .30) !important;
+}
+
+:root[data-layout="mistico-moderno"] #journal-dashboard-view [class*="text-amber-700"] {
+  color: #E2B96B !important;
 }

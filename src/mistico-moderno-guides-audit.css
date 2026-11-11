@@ -7,7 +7,7 @@
 }
 
 :root[data-layout="mistico-moderno"] :is(#chakras-guide-modal,#systemic-questions-modal,#anamnesis-modal)>div{
-  background:radial-gradient(circle at 88% 0,rgba(108,63,160,.14),transparent 24rem),radial-gradient(circle at 8% 100%,rgba(22,101,82,.07),transparent 22rem),linear-gradient(180deg,#0A0F18 0%,#101827 100%)!important;
+  background:radial-gradient(circle at 88% 0,rgba(108,63,160,.14),transparent 24rem),radial-gradient(circle at 8% 100%,rgba(46,59,115,.10),transparent 22rem),linear-gradient(180deg,#0A2742 0%,#101827 100%)!important;
   border-color:rgba(212,175,55,.22)!important;
   color:#F5F0E6!important;
   box-shadow:0 22px 58px rgba(0,0,0,.42),inset 0 1px 0 rgba(255,255,255,.045)!important;
@@ -59,3 +59,34 @@
   outline:none!important;
   box-shadow:0 0 0 2px rgba(212,175,55,.34)!important;
 }
+
+/* Anamnese e reflexões: estados positivos usam violeta/índigo e dourado.
+   O verde permanece reservado às imagens naturais integradas à composição. */
+:root[data-layout="mistico-moderno"] #anamnesis-modal .ep-anamnesis-frequency{
+  background:radial-gradient(circle at 100% 0,rgba(108,63,160,.14),transparent 16rem),linear-gradient(145deg,rgba(20,31,48,.96),rgba(10,39,66,.94))!important;
+  border-color:rgba(212,175,55,.30)!important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.05),0 12px 28px rgba(0,0,0,.20)!important;
+  color:#F5F0E6!important;
+}
+:root[data-layout="mistico-moderno"] #anamnesis-modal .ep-anamnesis-frequency :is(p,span){color:#D9DCE6!important;}
+:root[data-layout="mistico-moderno"] #anamnesis-modal .ep-anamnesis-frequency :is([class*="text-emerald-"],[class*="text-green-"]){color:#E2B96B!important;}
+:root[data-layout="mistico-moderno"] #anamnesis-modal .ep-anamnesis-frequency :is([class*="bg-emerald-"],[class*="bg-green-"]){background:rgba(108,63,160,.14)!important;border-color:rgba(212,175,55,.28)!important;}
+:root[data-layout="mistico-moderno"] #anamnesis-modal .ep-anamnesis-frequency :is([class*="border-emerald-"],[class*="border-green-"]){border-color:rgba(212,175,55,.32)!important;}
+:root[data-layout="mistico-moderno"] #anamnesis-modal .ep-anamnesis-frequency button{background:linear-gradient(135deg,#D4AF37,#E2B96B)!important;border-color:rgba(212,175,55,.48)!important;color:#0A0F18!important;box-shadow:0 9px 22px rgba(212,175,55,.12)!important;}
+:root[data-layout="mistico-moderno"] #anamnesis-modal .ep-anamnesis-frequency button :is(svg,span){color:#0A0F18!important;}
+:root[data-layout="mistico-moderno"] #anamnesis-modal .ep-anamnesis-frequency button:disabled{opacity:.58!important;cursor:not-allowed!important;}
+:root[data-layout="mistico-moderno"] #anamnesis-modal [class*="bg-emerald-50"],
+:root[data-layout="mistico-moderno"] #anamnesis-modal [class*="bg-emerald-100"]{background:rgba(46,59,115,.22)!important;border-color:rgba(212,175,55,.24)!important;}
+:root[data-layout="mistico-moderno"] #anamnesis-modal [class*="bg-emerald-500/"],
+:root[data-layout="mistico-moderno"] #anamnesis-modal [class*="bg-emerald-600/"]{background:rgba(108,63,160,.14)!important;border-color:rgba(212,175,55,.24)!important;}
+:root[data-layout="mistico-moderno"] #anamnesis-modal [class*="bg-emerald-600"]{background:linear-gradient(135deg,#D4AF37,#A87E37)!important;color:#0A0F18!important;}
+:root[data-layout="mistico-moderno"] #anamnesis-modal [class*="text-emerald-"]{color:#D8B96C!important;}
+:root[data-layout="mistico-moderno"] #anamnesis-modal [class*="border-emerald-"]{border-color:rgba(212,175,55,.28)!important;}
+:root[data-layout="mistico-moderno"] #anamnesis-modal [class*="shadow-emerald"]{box-shadow:0 10px 24px rgba(212,175,55,.12)!important;}
+:root[data-layout="mistico-moderno"] #anamnesis-modal .ep-anamnesis-progress-fill{background:linear-gradient(90deg,#6C3FA0 0%,#2E3B73 42%,#D4AF37 100%)!important;}
+
+:root[data-layout="mistico-moderno"] #systemic-questions-modal [class*="bg-emerald-50"],
+:root[data-layout="mistico-moderno"] #systemic-questions-modal [class*="bg-emerald-100"]{background:rgba(46,59,115,.22)!important;border-color:rgba(212,175,55,.24)!important;color:#D8B96C!important;}
+:root[data-layout="mistico-moderno"] #systemic-questions-modal [class*="text-emerald-"]{color:#D8B96C!important;}
+:root[data-layout="mistico-moderno"] #systemic-questions-modal [class*="border-emerald-"]{border-color:rgba(212,175,55,.28)!important;}
+:root[data-layout="mistico-moderno"] #systemic-questions-modal :is(.animate-ping,[class*="bg-emerald-400"],[class*="bg-emerald-500"]){background:#E2B96B!important;}

@@ -197,8 +197,8 @@ test('o pagamento continua no checkout InfinitePay sem cópia manual de PIX', ()
   assert.ok(routes.includes("headers['X-Api-Key'] = key"), 'A API Key deve permanecer somente no servidor.');
   assert.ok(routes.includes("options: { single_payment: true }"), 'Cada link novo deve aceitar somente um pagamento.');
   assert.ok(routes.includes("router.post('/payment/create-checkout'"));
-  assert.ok(routes.includes("provider('/payment_check'"));
   assert.ok(!routes.includes('https://api.infinitepay.io/invoices/public/checkout'), 'A rota legada não deve voltar.');
+  assert.ok(routes.includes("provider('/payment_check'"));
   assert.ok(!specific.includes('handleCopyPix'));
   assert.ok(!specific.includes('navigator.clipboard.writeText'));
   assert.ok(!numerology.includes('handleCopyPix'));
@@ -208,7 +208,7 @@ test('o pagamento continua no checkout InfinitePay sem cópia manual de PIX', ()
 test('o player respeita o contexto de dia do Estilo 2 sem herdar a cena da Reintegração', () => {
   const session = read('src/components/MeditationSession.tsx');
   const css = read('src/elegancia-profunda-approved-overrides.css');
-  assert.ok(session.includes("['natural-sereno', 'elegancia-profunda', 'essencia-luminosa'].includes(activeLayout || '') ? dayNumber : undefined"));
+  assert.ok(session.includes("['natural-sereno', 'elegancia-profunda', 'essencia-luminosa', 'mistico-moderno'].includes(activeLayout || '') ? dayNumber : undefined"));
   assert.ok(css.includes(`--ep-scene:url('https://images.unsplash.com/photo-1788699626335-906b2c4ae2d8?auto=format&fit=crop&w=1920&q=85')`));
   const playerBackdropStart = css.indexOf(':root[data-layout="elegancia-profunda"] #meditation-session .ep-session-backdrop > div:last-child {');
   const playerBackdropEnd = css.indexOf('\n}', playerBackdropStart);
@@ -250,16 +250,16 @@ test('a narração do Estilo 2 usa IDs ElevenLabs válidos e não cai na voz do 
   assert.ok(audio.includes('failWithoutNativeVoice'));
   assert.ok(app.includes('Voz neural (ElevenLabs)'));
   assert.ok(settings.includes('Voz neural (ElevenLabs)'));
-  assert.ok(home.includes('const requiresNeuralVoice = isNaturalSereno || isEleganciaProfunda || isEssenciaLuminosa;'));
+  assert.ok(home.includes('const requiresNeuralVoice = isNaturalSereno || isEleganciaProfunda || isEssenciaLuminosa || isMisticoModerno;'));
   assert.ok(home.includes('fallbackToSpeechSynthesis: !requiresNeuralVoice'));
   assert.ok(session.includes("activeLayout === 'elegancia-profunda' && !style2VoiceId"));
   assert.ok(anamnesis.includes('fallbackToSpeechSynthesis: false'));
-  assert.ok(hooponopono.includes('fallbackToSpeechSynthesis: !(isEleganciaProfunda || isEssenciaLuminosa)'));
-  assert.ok(arcanjo.includes('requireExplicitVoiceId: isEleganciaProfunda || isEssenciaLuminosa'));
+  assert.ok(hooponopono.includes('fallbackToSpeechSynthesis: !(isEleganciaProfunda || isEssenciaLuminosa || isMisticoModerno)'));
+  assert.ok(arcanjo.includes('requireExplicitVoiceId: isEleganciaProfunda || isEssenciaLuminosa || isMisticoModerno'));
   assert.ok(audio.includes('requireExplicitVoiceId?: boolean'));
   assert.ok(audio.includes('if (options.requireExplicitVoiceId && !isElevenLabsVoiceId(options.voiceId))'));
   assert.ok(systemic.includes('fallbackToSpeechSynthesis: false'));
-  assert.ok(archangelPrayer.includes('fallbackToSpeechSynthesis: !(isEleganciaProfunda || isEssenciaLuminosa)'));
+  assert.ok(archangelPrayer.includes('fallbackToSpeechSynthesis: !(isEleganciaProfunda || isEssenciaLuminosa || isMisticoModerno)'));
   assert.ok(app.includes('userProfile={userProfile || undefined}'));
   assert.ok(app.includes('voiceId={userProfile?.voiceId}'));
 });
@@ -290,7 +290,7 @@ test('o Estilo 2 não substitui silenciosamente a voz neural escolhida por uma v
   const home = read('src/components/TransformationHome.tsx');
   const settings = read('src/components/AudioSettingsModal.tsx');
   assert.ok(home.includes("const approvedVoiceId = isEleganciaProfunda\n    ? (isElevenLabsVoiceId(savedVoiceId) ? savedVoiceId : '')"));
-  assert.ok(home.includes("(isNaturalSereno || isEssenciaLuminosa)\n      ? (isElevenLabsVoiceId(savedVoiceId) ? savedVoiceId : OFFICIAL_PROTOCOL_VOICE_ID)"));
+  assert.ok(home.includes(": (isNaturalSereno || isEssenciaLuminosa)\n        ? (isElevenLabsVoiceId(savedVoiceId) ? savedVoiceId : OFFICIAL_PROTOCOL_VOICE_ID)"));
   assert.ok(settings.includes('if (requiresNeuralVoice && !isElevenLabsVoiceId(voiceId))'));
 });
 
@@ -571,8 +571,8 @@ test('o seletor permanece neutro até a escolha explícita e só então revela o
   const app = read('src/App.tsx');
   const preselectionTone = modal.match(/const confirmButtonTone = !selectedLayout\s*\?\s*'([^']+)'/)?.[1] ?? '';
 
-  assert.ok(preselectionTone.includes('from-[#A99B84]'));
-  assert.ok(preselectionTone.includes('to-[#817460]'));
+  assert.ok(preselectionTone.includes('from-[#D8D4CB]'));
+  assert.ok(preselectionTone.includes('to-[#AFA99D]'));
   assert.ok(!/#(?:B88736|C89D52|D9B66D|A87E37|D4AF37|E2B96B|C6A46A)/i.test(preselectionTone));
   assert.ok(modal.includes("selectedLayout === 'essencia-luminosa'"));
   assert.ok(modal.includes('from-[#C89D52] via-[#D9B66D] to-[#A87E37]'));
@@ -679,13 +679,14 @@ test('a fotografia oficial da Elegância Profunda compõe o shell e os heros sem
 });
 
 
+
 test('a cor da barra do navegador acompanha apenas o estilo explicitamente confirmado', () => {
   const app = read('src/App.tsx');
   const layouts = read('src/config/layouts.ts');
   const html = read('index.html');
   assert.ok(html.includes('<meta name="theme-color" content="#F8F4EC" />'), 'O shell permanece neutro antes da escolha.');
   assert.ok(app.includes("document.querySelector<HTMLMetaElement>('meta[name=\"theme-color\"]')"));
-  assert.ok(app.includes("const themeColor = selected?.swatches[0] ?? '#F8F4EC';"));
+  assert.ok(app.includes("const themeColor = selected?.swatches[0] ?? '#F8F7F3';"));
   assert.ok(app.includes("metaThemeColor.setAttribute('content', themeColor);"));
   assert.ok(app.includes('const selected = layoutConfirmedThisSession'));
   assert.ok(layouts.includes("id: 'elegancia-profunda'"));

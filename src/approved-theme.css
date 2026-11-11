@@ -188,7 +188,8 @@
 
 :root[data-layout="mistico-moderno"]{
   color-scheme:dark;
-  --layout-canvas:#0A0F18;
+  --layout-bg:#0A2742;
+  --layout-canvas:#0A2742;
   --layout-canvas-alt:#141F30;
   --layout-card:rgba(20,31,48,.85);
   --layout-card-hover:rgba(28,44,68,.92);
@@ -196,17 +197,36 @@
   --layout-input:#121B2B;
   --layout-accent:#6C3FA0;
   --layout-accent-light:#8E5CC8;
+  --layout-accent-soft:rgba(108,63,160,.16);
+  --layout-indigo:#2E3B73;
+  /* Reservado à vegetação em imagens; não aplicar em superfícies, botões ou gradientes da interface. */
+  --layout-emerald:#1E6B5A;
+  --layout-violet:#6C3FA0;
   --layout-gold:#D4AF37;
-  --layout-gold-light:#F2D06B;
-  --layout-gold-dark:#A47D1C;
+  --layout-gold-soft:rgba(212,175,55,.16);
+  --layout-gold-light:#E2B96B;
+  --layout-gold-dark:#A87E37;
   --layout-gold-border:rgba(212,175,55,.40);
-  --layout-gold-gradient:linear-gradient(135deg,#6C3FA0 0%,#4D2678 40%,#D4AF37 100%);
-  --layout-gold-shadow:rgba(108,63,160,.30);
+  --layout-gold-gradient:linear-gradient(135deg,#D4AF37 0%,#E2B96B 55%,#A87E37 100%);
+  --layout-gold-shadow:rgba(212,175,55,.18);
   --layout-text:#F4F1EB;
   --layout-text-secondary:#CBD5E1;
+  --layout-text-soft:var(--layout-text-secondary);
   --layout-text-muted:#8E9DB2;
   --layout-border:rgba(108,63,160,.30);
   --layout-border-card:rgba(108,63,160,.35);
+
+  /* Aliases semânticos legados: componentes compartilhados não herdam sálvia/café do Natural Sereno. */
+  --sage-subtle:var(--layout-accent-soft);
+  --sage-border:var(--layout-border);
+  --journey-bg-canvas:var(--layout-canvas);
+  --journey-bg-card:var(--layout-card);
+  --journey-sage:var(--layout-accent);
+  --journey-gold:var(--layout-gold);
+  --journey-gold-dark:var(--layout-gold-dark);
+  --journey-text:var(--layout-text);
+  --journey-text-secondary:var(--layout-text-secondary);
+  --journey-border:var(--layout-border);
 }
 
 :root[data-layout]{
@@ -500,8 +520,12 @@ body::before{
   --ep-panel-text:#F7F1E4;
 }
 :root[data-layout="mistico-moderno"]{
-  --ep-scene:url('/brand/reintegracao-presenca-arte.png');
-  --ep-scene-overlay:linear-gradient(180deg,rgba(10,15,24,.14),rgba(10,15,24,.58) 48%,rgba(4,9,16,.88));
+  --ep-scene:none;
+  --ep-scene-overlay:
+    radial-gradient(circle at 84% 8%,rgba(108,63,160,.16),transparent 30rem),
+    radial-gradient(circle at 18% 84%,rgba(46,59,115,.18),transparent 28rem),
+    radial-gradient(circle at 88% 88%,rgba(108,63,160,.08),transparent 22rem),
+    linear-gradient(180deg,rgba(10,39,66,.92),rgba(10,15,24,.98));
   --ep-panel:rgba(11,24,38,.84);
   --ep-panel-strong:rgba(8,20,33,.94);
   --ep-panel-text:#F4F1EB;

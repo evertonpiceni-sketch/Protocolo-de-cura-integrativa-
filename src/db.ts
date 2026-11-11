@@ -1,7 +1,8 @@
 import fs from 'fs';
 import path from 'path';
 
-const DB_FILE = path.join(process.cwd(), 'database.json');
+const localDatabaseFile = process.env.NODE_ENV === 'production' ? '' : process.env.LOCAL_DATABASE_FILE?.trim();
+const DB_FILE = localDatabaseFile ? path.resolve(localDatabaseFile) : path.join(process.cwd(), 'database.json');
 const DB_KEY = process.env.UPSTASH_DB_KEY || 'cura_integrada:database:v1';
 const upstashUrlCandidates = [
   process.env.UPSTASH_REDIS_REST_KV_REST_API_URL,

@@ -5,7 +5,7 @@
 :root[data-layout="mistico-moderno"] #mobile-install-modal > div {
   background:
     radial-gradient(circle at 88% 8%, rgba(124, 58, 237, .14), transparent 34%),
-    radial-gradient(circle at 8% 92%, rgba(16, 185, 129, .09), transparent 32%),
+    radial-gradient(circle at 8% 92%, rgba(212, 175, 55, .06), transparent 32%),
     linear-gradient(145deg, rgba(10, 16, 42, .98), rgba(20, 20, 58, .98)) !important;
   border-color: rgba(214, 171, 88, .28) !important;
   color: #f5f0e6 !important;
@@ -44,14 +44,14 @@
   filter: brightness(1.06);
 }
 
-/* Natural green remains semantic: success / trusted access only. */
+/* Green is reserved for natural imagery; interface states use gold and violet. */
 :root[data-layout="mistico-moderno"] #mobile-install-modal :is([class*="text-[#5E7153]"],[class*="text-emerald-"]) {
-  color: #6fc8a0 !important;
+  color: #E2B96B !important;
 }
 
 :root[data-layout="mistico-moderno"] #mobile-install-modal [class*="bg-emerald-"] {
-  background-color: rgba(16, 185, 129, .10) !important;
-  border-color: rgba(111, 200, 160, .24) !important;
+  background-color: rgba(108, 63, 160, .14) !important;
+  border-color: rgba(212, 175, 55, .28) !important;
 }
 
 :root[data-layout="mistico-moderno"] #mobile-install-modal :focus-visible {

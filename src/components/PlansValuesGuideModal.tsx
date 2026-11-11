@@ -42,9 +42,9 @@ export const ALL_PLANS_DATA: DetailedPlanInfo[] = [
     category: 'assinatura',
     title: 'Acesso avulso — 7 dias',
     badge: 'Opção avulsa',
-    priceFormatted: 'R$ 25,00',
+    priceFormatted: 'R$ 59,90',
     periodText: 'acesso por 7 dias',
-    priceNumeric: 25,
+    priceNumeric: 59.9,
     highlightBenefit: 'Um ciclo curto e completo, com Anamnese Compacta incluída.',
     features: [
       'Anamnese Compacta com resultado imediato',
@@ -63,9 +63,9 @@ export const ALL_PLANS_DATA: DetailedPlanInfo[] = [
     category: 'assinatura',
     title: 'Acesso avulso — 21 dias',
     badge: 'Opção avulsa',
-    priceFormatted: 'R$ 50,00',
+    priceFormatted: 'R$ 99,90',
     periodText: 'acesso por 21 dias',
-    priceNumeric: 50,
+    priceNumeric: 99.9,
     highlightBenefit: 'Um ciclo completo de 21 dias, com Anamnese Compacta incluída.',
     features: [
       'Anamnese Compacta com resultado imediato',

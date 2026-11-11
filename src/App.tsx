@@ -93,6 +93,7 @@ export default function App() {
   const [showMobileInstallModal, setShowMobileInstallModal] = useState<boolean>(false);
   const [showWelcomeModal, setShowWelcomeModal] = useState<boolean>(false);
   const [showArcanjoView, setShowArcanjoView] = useState<boolean>(false);
+  const [requestedArcanjoDay, setRequestedArcanjoDay] = useState<number | null>(null);
   const [showArchangelModal, setShowArchangelModal] = useState<boolean>(false);
   const [showHooponoponoModal, setShowHooponoponoModal] = useState<boolean>(false);
   const [showAudioSettingsModal, setShowAudioSettingsModal] = useState<boolean>(false);
@@ -123,11 +124,17 @@ export default function App() {
   const isNaturalSereno = layoutConfirmedThisSession && userProfile?.visualLayout === 'natural-sereno';
   const isEleganciaProfunda = layoutConfirmedThisSession && userProfile?.visualLayout === 'elegancia-profunda';
   const isEssenciaLuminosa = layoutConfirmedThisSession && userProfile?.visualLayout === 'essencia-luminosa';
-  const usesNeuralVoiceCatalog = isNaturalSereno || isEleganciaProfunda || isEssenciaLuminosa;
-  const savedNeuralVoiceId = userProfile?.voiceId || '';
+  const isMisticoModerno = layoutConfirmedThisSession && userProfile?.visualLayout === 'mistico-moderno';
+  const usesNeuralVoiceCatalog = isNaturalSereno || isEleganciaProfunda || isEssenciaLuminosa || isMisticoModerno;
+  const savedNeuralVoiceId = userProfile?.voiceId?.trim() || '';
   const effectiveNeuralVoiceId = (isNaturalSereno || isEssenciaLuminosa) && !isElevenLabsVoiceId(savedNeuralVoiceId)
     ? OFFICIAL_PROTOCOL_VOICE_ID
     : savedNeuralVoiceId;
+
+  // Open the Arcanjo screen only after explicit navigation or the successful checkout flow.
+  // A persisted 7-day subscription must not reopen the protocol on every later login.
+  // Subscribers retain manual access through the home action; subscription alone is not navigation.
+  const isArcanjoViewActive = showArcanjoView;
 
   // Initialize and register local notification daily checker
   useEffect(() => {
@@ -203,7 +210,13 @@ export default function App() {
 
   // Listen for OPEN_PROTOCOL_DAY to ensure ArcanjoProtocolView is shown
   useEffect(() => {
-    const handleOpenProtocol = () => {
+    const handleOpenProtocol = (event: Event) => {
+      const requestedDay = (event as CustomEvent<{ day?: number }>).detail?.day;
+      setRequestedArcanjoDay(
+        Number.isInteger(requestedDay) && requestedDay! >= 1 && requestedDay! <= 7
+          ? requestedDay!
+          : null
+      );
       setShowArcanjoView(true);
     };
     const handleOpenCertificate = () => {
@@ -230,7 +243,7 @@ export default function App() {
     }
   }, []);
 
-  // Natural Sereno, Elegância Profunda and Essência Luminosa use actual ElevenLabs IDs, never browser SpeechSynthesis names/URIs.
+  // The four confirmed styles use actual ElevenLabs IDs, never browser SpeechSynthesis names/URIs.
   useEffect(() => {
     if (!isLoggedIn || !usesNeuralVoiceCatalog || (!showSettings && !showAudioSettingsModal)) return;
     let cancelled = false;
@@ -268,13 +281,15 @@ export default function App() {
                          userProfile.bgMusicType !== 'none' && 
                          activeSessionDay === null &&
                          !showPersonalJourney &&
-                         !showArcanjoView &&
+                         !isArcanjoViewActive &&
                          (!usesNeuralVoiceCatalog || !isPlayingVoiceTest ||
                            shouldPlayProtocolSessionBackground('playing', userProfile.bgMusicType)); // Keep Solfeggio out of neural voice previews in all neural-voice layouts
 
       if (shouldPlay) {
         audioEngine.startBG(userProfile.bgMusicType);
-      } else {
+      } else if (!isArcanjoViewActive) {
+        // OPEN_PROTOCOL_DAY and the Arcanjo ownership guard stop global audio on entry.
+        // Do not stop the protocol-owned Solfeggio on unrelated profile changes.
         audioEngine.stopBG();
       }
     } else {
@@ -290,8 +305,7 @@ export default function App() {
     userProfile?.binauralCarrierMode,
     activeSessionDay,
     showPersonalJourney,
-    showArcanjoView,
-    userProfile?.subscriptionPlan,
+    isArcanjoViewActive,
     layoutConfirmedThisSession,
     usesNeuralVoiceCatalog,
     isPlayingVoiceTest
@@ -321,8 +335,8 @@ export default function App() {
                            userProfile.bgMusicType !== 'none' && 
                            activeSessionDay === null &&
                            !showPersonalJourney &&
-                           !showArcanjoView &&
-                           (!usesNeuralVoiceCatalog || !isPlayingVoiceTest ||
+                           !isArcanjoViewActive &&
+                             (!usesNeuralVoiceCatalog || !isPlayingVoiceTest ||
                              shouldPlayProtocolSessionBackground('playing', userProfile.bgMusicType));
                            
         if (shouldPlay) {
@@ -341,7 +355,7 @@ export default function App() {
       window.removeEventListener('click', handleGesture);
       window.removeEventListener('touchstart', handleGesture);
     };
-  }, [userProfile, activeSessionDay, showPersonalJourney, showArcanjoView, layoutConfirmedThisSession, isPlayingVoiceTest]);
+  }, [userProfile, activeSessionDay, showPersonalJourney, isArcanjoViewActive, layoutConfirmedThisSession, isPlayingVoiceTest]);
 
   useEffect(() => {
     if (!userProfile?.reminderTime || typeof Notification === 'undefined' || Notification.permission !== 'granted') return;
@@ -392,7 +406,7 @@ export default function App() {
       : undefined;
     const metaThemeColor = document.querySelector<HTMLMetaElement>('meta[name="theme-color"]');
     if (!metaThemeColor) return;
-    const themeColor = selected?.swatches[0] ?? '#F8F4EC';
+    const themeColor = selected?.swatches[0] ?? '#F8F7F3';
     metaThemeColor.setAttribute('content', themeColor);
   }, [userProfile?.visualLayout, layoutConfirmedThisSession]);
 
@@ -530,6 +544,7 @@ export default function App() {
       }).catch(error => console.error('Progress sync failed; changes may only be saved locally', error));
     }
   };
+
 
   // Persist profile and progress together so a stale full-snapshot request cannot overwrite a diary update.
   const saveProfileAndProgress = (newProfile: UserProfile, newProgress: DayProgress[]) => {
@@ -756,7 +771,9 @@ export default function App() {
       bgMusicType: (newAnamnesis.recommendedFrequency === '963hz' || newAnamnesis.recommendedFrequency === '741hz') && userProfile.plan !== 'pro'
         ? userProfile.bgMusicType
         : newAnamnesis.recommendedFrequency,
-      audioEnabled: true
+      // No Místico Moderno, salvar a Anamnese não pode reativar áudio que o usuário desligou.
+      // Nos demais estilos, preserva-se o comportamento vigente de ativar a frequência recomendada.
+      audioEnabled: isMisticoModerno ? userProfile.audioEnabled !== false : true
     };
     // Saving the profile triggers the guarded background-audio effect.
     // Avoid bypassing active protocol/journey playback restrictions.
@@ -853,17 +870,17 @@ export default function App() {
   }
 
   const loadingScreen = (
-      <div id="auth-loading-view" className="min-h-screen bg-[#F8F4EC] text-[#2A2420] flex flex-col items-center justify-center p-6 text-center">
+      <div id="auth-loading-view" className="min-h-screen bg-[#F8F7F3] text-[#302E2A] flex flex-col items-center justify-center p-6 text-center">
         <div className="ep-brand-signature-wrap w-14 h-14 rounded-full overflow-hidden flex items-center justify-center mb-4">
           <img src={APPROVED_LOGO_DATA_URI} alt="Everton Piceni" className="ep-brand-signature h-full w-full object-contain" style={{ opacity: 0.3 }} />
         </div>
-        <p className="text-[11px] font-mono tracking-widest text-[#8F631E] uppercase font-bold mb-1">
+        <p className="text-[11px] font-mono tracking-widest text-[#625E56] uppercase font-bold mb-1">
           Éverton Rodrigo Piceni • Terapias Holísticas
         </p>
-        <h2 className="text-xl font-display font-medium text-[#2A2420] mb-2">
+        <h2 className="text-xl font-display font-medium text-[#302E2A] mb-2">
           Protocolo da Transformação
         </h2>
-        <p className="text-xs text-[#5C5248] max-w-xs leading-relaxed">
+        <p className="text-xs text-[#625E56] max-w-xs leading-relaxed">
           Preparando seu espaço de presença e acolhimento...
         </p>
         <div className="ns-loading-details hidden" role="status">
@@ -923,11 +940,15 @@ export default function App() {
             }
           })}
         />
-      ) : showArcanjoView || userProfile.subscriptionPlan === 'arcanjo_7d' ? (
+      ) : isArcanjoViewActive ? (
         <ArcanjoProtocolView 
           userProfile={userProfile}
           onLogout={handleLogout}
-          onClose={() => setShowArcanjoView(false)}
+          onClose={() => {
+            setShowArcanjoView(false);
+            setRequestedArcanjoDay(null);
+          }}
+          initialDay={requestedArcanjoDay ?? undefined}
           initialCompletedDays={userProfile.journeyProgress?.arcanjo7CompletedDays}
           onCompletedDaysChange={(days) => saveProfile({
             ...userProfile,
@@ -942,6 +963,7 @@ export default function App() {
           dayNumber={activeSessionDay}
           userName={userProfile.name}
           bgMusicType={userProfile.bgMusicType}
+          audioEnabled={userProfile.audioEnabled !== false}
           voiceId={userProfile.voiceId}
           voiceGender={userProfile.preferredVoiceGender || (userProfile.voiceType === 'everton' ? 'masculina' : userProfile.voiceType)}
           voiceRate={userProfile.voiceRate}
@@ -1491,7 +1513,7 @@ export default function App() {
                   </div>
                   {voicePreviewError && (
                     <p role="alert" className="ep-voice-error rounded-xl px-3 py-2 text-xs">
-                      Selecione uma voz neural válida do catálogo. Natural Sereno, Elegância Profunda e Essência Luminosa não usam a voz do dispositivo.
+                      Selecione uma voz neural válida do catálogo. Natural Sereno, Elegância Profunda, Essência Luminosa e Místico Moderno não usam a voz do dispositivo.
                     </p>
                   )}
                 </div>
@@ -1953,14 +1975,14 @@ export default function App() {
             voicePitch={userProfile.voicePitch}
             bgMusicType={userProfile.bgMusicType}
             audioEnabled={userProfile.audioEnabled !== false}
-            allowBackgroundPlayback={activeSessionDay === null && !showPersonalJourney && !showArcanjoView}
+            allowBackgroundPlayback={activeSessionDay === null && !showPersonalJourney && !isArcanjoViewActive}
             currentDay={currentDay}
             progress={progress}
             anamnesis={userProfile.anamnesis}
             onStartSession={setActiveSessionDay}
             onOpenJournal={() => setIsJournalOpen(true)}
             onOpenAnamnesis={() => setShowAnamnesisModal(true)}
-            onOpenArcanjo={() => userProfile.plan === 'pro' ? setShowArcanjoView(true) : setShowProModal(true)}
+            onOpenArcanjo={() => (userProfile.plan === 'pro' || userProfile.subscriptionPlan === 'arcanjo_7d') ? setShowArcanjoView(true) : setShowProModal(true)}
             onOpenChakras={() => setShowChakrasModal(true)}
             onOpenBaths={() => setShowHerbalBathsModal(true)}
             onOpenAstral={() => setShowAstralMapModal(true)}
@@ -2578,7 +2600,7 @@ export default function App() {
       {showAudioSettingsModal && userProfile && (
         <AudioSettingsModal
           isOpen={showAudioSettingsModal}
-          allowBackgroundPlayback={activeSessionDay === null && !showPersonalJourney && !showArcanjoView}
+          allowBackgroundPlayback={activeSessionDay === null && !showPersonalJourney && !isArcanjoViewActive}
           onClose={() => setShowAudioSettingsModal(false)}
           userProfile={userProfile}
           onSaveProfile={saveProfile}
@@ -2660,6 +2682,7 @@ export default function App() {
         className="fixed bottom-6 right-6 z-40 bg-emerald-500 hover:bg-emerald-400 text-[#2A2420] p-3.5 rounded-full shadow-2xl shadow-emerald-500/40 flex items-center gap-2 group transition-all duration-300 hover:scale-105 cursor-pointer border border-emerald-300/40"
         title="Fale Conosco"
         id="floating-whatsapp-btn"
+        aria-label="Fale Conosco"
       >
         <MessageCircle size={22} className="fill-slate-950 text-[#2A2420]" />
         <span className="max-w-0 overflow-hidden whitespace-nowrap group-hover:max-w-xs transition-all duration-300 text-xs font-bold text-[#2A2420]">

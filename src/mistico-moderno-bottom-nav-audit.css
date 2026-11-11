@@ -47,14 +47,14 @@ html[data-layout="mistico-moderno"] #bottom-btn-chakras svg {
   filter: drop-shadow(0 0 8px rgba(221,179,95,.12));
 }
 
-/* Badges continuam semânticos: esmeralda apenas para estado positivo/natural. */
+/* Badges de interface usam índigo e dourado; verde fica restrito à natureza integrada. */
 html[data-layout="mistico-moderno"] #bottom-btn-video-studio span[class*="bg-[#B88736]"] {
   background: rgba(213,165,72,.14) !important;
   color: #efd18c !important;
   border-color: rgba(213,165,72,.28) !important;
 }
 html[data-layout="mistico-moderno"] #bottom-btn-specific-treatment span[class*="bg-emerald"] {
-  background: rgba(33,139,111,.16) !important;
-  color: #a9e2cf !important;
-  border-color: rgba(52,169,135,.28) !important;
+  background: rgba(108,63,160,.14) !important;
+  color: #E2B96B !important;
+  border-color: rgba(212,175,55,.28) !important;
 }

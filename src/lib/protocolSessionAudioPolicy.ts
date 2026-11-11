@@ -30,8 +30,9 @@ export function shouldBlockTrackDuringNeuralVoicePreview(
 
 export function shouldPlayProtocolSessionBackground(
   sessionPhase: ProtocolSessionPhase,
-  bgMusicType: string
+  bgMusicType: string,
+  audioEnabled = true
 ): boolean {
   const type = bgMusicType.trim().toLowerCase();
-  return sessionPhase === 'playing' && type !== 'none' && !isSolfeggioFrequency(type);
+  return audioEnabled && sessionPhase === 'playing' && type !== 'none' && !isSolfeggioFrequency(type);
 }

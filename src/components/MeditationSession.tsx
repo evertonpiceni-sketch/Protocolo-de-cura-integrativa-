@@ -27,6 +27,7 @@ interface MeditationSessionProps {
   dayNumber: number;
   userName: string;
   bgMusicType: '528hz' | '432hz' | '963hz' | '741hz' | 'waves' | 'none';
+  audioEnabled?: boolean;
   voiceId?: string;
   voiceGender?: 'masculina' | 'feminina';
   voiceRate?: number;
@@ -63,11 +64,33 @@ const ELEGANCIA_PROFUNDA_CANVAS_THEME = {
   transparent: 'rgba(11,23,18,0)'
 };
 const ESSENCIA_LUMINOSA_CANVAS_THEME = { glow: '#C6A46A', accent: '#A6B49B' };
+const MISTICO_MODERNO_CANVAS_THEME = {
+  glow: '#D4AF37',
+  // Energy-field accents stay in indigo/violet; emerald is reserved for natural imagery.
+  accent: '#5264A4',
+  goldSoft: 'rgba(212,175,55,0.10)',
+  goldGlow: 'rgba(226,185,107,0.24)',
+  goldLine: 'rgba(212,175,55,0.38)',
+  sageSoft: 'rgba(46,59,115,0.12)',
+  sageGlow: 'rgba(108,63,160,0.20)',
+  sageLine: 'rgba(82,100,164,0.40)',
+  violet: '#8B5CF6',
+  violetGlow: 'rgba(108,63,160,0.22)',
+  violetLine: 'rgba(108,63,160,0.42)',
+  violetParticle: 'rgba(139,92,246,0.68)',
+  indigo: '#5264A4',
+  indigoGlow: 'rgba(46,59,115,0.20)',
+  indigoLine: 'rgba(46,59,115,0.36)',
+  indigoParticle: 'rgba(82,100,164,0.60)',
+  ivory: '#F4F1EB',
+  transparent: 'rgba(10,15,24,0)'
+};
 
 export default function MeditationSession({
   dayNumber,
   userName,
   bgMusicType,
+  audioEnabled = true,
   voiceId,
   voiceRate = 0.82,
   userPlan = 'free',
@@ -80,6 +103,7 @@ export default function MeditationSession({
   const activeLayout = typeof document !== 'undefined' ? document.documentElement.dataset.layout : undefined;
   const isEleganciaProfunda = activeLayout === 'elegancia-profunda';
   const isEssenciaLuminosa = activeLayout === 'essencia-luminosa';
+  const isMisticoModerno = activeLayout === 'mistico-moderno';
   const [sessionPhase, setSessionPhase] = useState<'portal' | 'checkin_before' | 'playing' | 'checkin_after' | 'completed'>('portal');
 
   useLayoutEffect(() => {
@@ -140,13 +164,15 @@ export default function MeditationSession({
     return () => {
       audioEngine.stopSpeech();
       audioEngine.stopSynth();
+      // The mute control is local to this session; do not leak it into the next screen.
+      audioEngine.setMasterVolume(1.0);
     };
   }, []);
 
   useEffect(() => {
     // A trilha global já é interrompida ao abrir o protocolo. Não a reinicie
     // aqui quando ela for uma frequência Solfeggio; mantenha apenas ambiência não tonal.
-    if (shouldPlayProtocolSessionBackground(sessionPhase, bgMusicType)) {
+    if (shouldPlayProtocolSessionBackground(sessionPhase, bgMusicType, audioEnabled)) {
       audioEngine.startSynth(bgMusicType);
     } else {
       audioEngine.stopSynth();
@@ -154,7 +180,7 @@ export default function MeditationSession({
     return () => {
       audioEngine.stopSynth();
     };
-  }, [sessionPhase, bgMusicType]);
+  }, [sessionPhase, bgMusicType, audioEnabled]);
 
   const dailyStageContext = (stageId = currentStage.id) => {
     if (journeyType !== '21d') return '';
@@ -201,7 +227,13 @@ export default function MeditationSession({
     const selectedVoiceId = voiceId?.trim();
     const savedVoiceId = isElevenLabsVoiceId(selectedVoiceId) ? selectedVoiceId : OFFICIAL_PROTOCOL_VOICE_ID;
     const style2VoiceId = isElevenLabsVoiceId(selectedVoiceId) ? selectedVoiceId : '';
+    const style4VoiceId = isElevenLabsVoiceId(selectedVoiceId) ? selectedVoiceId : '';
 
+    if (isMisticoModerno && !style4VoiceId) {
+      setIsPlaying(false);
+      setVoiceError(true);
+      return;
+    }
     if (activeLayout === 'elegancia-profunda' && !style2VoiceId) {
       setIsPlaying(false);
       setVoiceError(true);
@@ -217,7 +249,9 @@ export default function MeditationSession({
           ? style2VoiceId
           : activeLayout === 'essencia-luminosa'
             ? savedVoiceId
-            : OFFICIAL_PROTOCOL_VOICE_ID,
+            : isMisticoModerno
+              ? style4VoiceId
+              : OFFICIAL_PROTOCOL_VOICE_ID,
       speed: voiceRate,
       stageTitle: `Dia ${dayNumber} — ${currentInsight.title} — ${currentStage.title}`,
       dayNumber,
@@ -357,8 +391,8 @@ export default function MeditationSession({
     <div id="meditation-session" data-session-phase={sessionPhase} className="ep-session fixed inset-0 z-50 bg-[#FAF7F2] text-[#2A2420] flex flex-col justify-between overflow-hidden select-none min-h-dvh">
       <div className="ep-session-backdrop absolute inset-0 pointer-events-none">
         <SacredEnergyCanvas
-          dayNumber={['natural-sereno', 'elegancia-profunda', 'essencia-luminosa'].includes(activeLayout || '') ? dayNumber : undefined}
-          colorTheme={isEleganciaProfunda ? ELEGANCIA_PROFUNDA_CANVAS_THEME : isEssenciaLuminosa ? ESSENCIA_LUMINOSA_CANVAS_THEME : undefined}
+          dayNumber={['natural-sereno', 'elegancia-profunda', 'essencia-luminosa', 'mistico-moderno'].includes(activeLayout || '') ? dayNumber : undefined}
+          colorTheme={isEleganciaProfunda ? ELEGANCIA_PROFUNDA_CANVAS_THEME : isEssenciaLuminosa ? ESSENCIA_LUMINOSA_CANVAS_THEME : isMisticoModerno ? MISTICO_MODERNO_CANVAS_THEME : undefined}
           dayOneOpening={isEleganciaProfunda && dayNumber === 1}
           stageId={currentStage.id}
           isPlaying={isPlaying}

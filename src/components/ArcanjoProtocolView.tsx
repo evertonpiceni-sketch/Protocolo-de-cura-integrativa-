@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { X, Play, Pause, RotateCcw, RotateCw, Volume2, BookOpen, ChevronLeft, Leaf, ShieldCheck, Heart, Loader2, LogOut } from 'lucide-react';
 import { UserProfile } from '../types';
 import { audioEngine, OFFICIAL_PROTOCOL_VOICE_ID } from '../lib/audio';
+import { startArcanjoOwnedSolfeggio } from '../lib/arcanjoAudioOwnershipPatch';
 import { isElevenLabsVoiceId } from '../lib/voiceSelection';
 import { isSolfeggioFrequency } from '../lib/protocolSessionAudioPolicy';
 import { DISTANCE_TREATMENT_SCRIPT } from '../data/protocol_scripts';
@@ -10,6 +11,7 @@ interface ArcanjoProtocolViewProps {
   userProfile: UserProfile;
   onLogout: () => void;
   onClose?: () => void;
+  initialDay?: number;
   initialCompletedDays?: number[];
   onCompletedDaysChange?: (days: number[]) => void;
 }
@@ -71,23 +73,27 @@ const CHAKRA_POSITIONS: Record<number, string> = {
   7: '50% 15%',
 };
 
-function ChakraBody({ config, progress, active }: { config: ProtocolConfig; progress: number | null; active: boolean }) {
+function ChakraBody({ config, progress, active, isMisticoModerno }: { config: ProtocolConfig; progress: number | null; active: boolean; isMisticoModerno: boolean }) {
   const illumination = progress === null ? (active ? 0.22 : 0.08) : Math.max(0.08, Math.min(1, progress / 100));
   const position = CHAKRA_POSITIONS[config.dia];
+  const bodyImage = isMisticoModerno ? '/brand/chakra-body.svg' : '/brand/human-chakra-model.jpg';
   const glowSize = 34 + illumination * 38;
-  return <div className="relative mx-auto aspect-[4/5] w-full max-w-[430px] overflow-hidden rounded-[2rem] border border-[#B88736]/30 bg-[#021b13] shadow-[0_24px_70px_rgba(0,0,0,.38)]">
-    <img src="/brand/human-chakra-model.jpg" alt="Pessoa em meditação com os sete chakras" className="absolute inset-0 h-full w-full object-cover" style={{filter:'brightness(.34) saturate(.48)',transition:'filter 1.2s ease'}} />
-    <img src="/brand/human-chakra-model.jpg" alt="" aria-hidden="true" className="absolute inset-0 h-full w-full object-cover transition-opacity duration-1000" style={{opacity:.2 + illumination * .8,WebkitMaskImage:`radial-gradient(circle ${glowSize}px at ${position}, black 0%, rgba(0,0,0,.95) 42%, transparent 100%)`,maskImage:`radial-gradient(circle ${glowSize}px at ${position}, black 0%, rgba(0,0,0,.95) 42%, transparent 100%)`}} />
-    <div className={`absolute h-20 w-20 -translate-x-1/2 -translate-y-1/2 rounded-full transition-all duration-1000 ${active ? 'animate-pulse' : ''}`} style={{left:position.split(' ')[0],top:position.split(' ')[1],opacity:.12 + illumination * .88,transform:`translate(-50%,-50%) scale(${.72 + illumination * .42})`,background:`radial-gradient(circle,${config.corSecundaria}cc 0%,${config.cor}66 35%,transparent 72%)`,boxShadow:`0 0 ${12 + illumination * 34}px ${4 + illumination * 13}px ${config.cor}`}} aria-hidden="true" />
-    <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-[#021b13] via-[#021b13]/82 to-transparent px-5 pb-5 pt-20 text-center">
+  // Style 4 keeps the seven-day progression within its approved gold/amber night palette.
+  const glowPrimary = isMisticoModerno ? '#D4AF37' : config.cor;
+  const glowSecondary = isMisticoModerno ? '#E2B96B' : config.corSecundaria;
+  return <div id="arcanjo-chakra-stage" className={`relative mx-auto aspect-[4/5] w-full max-w-[430px] overflow-hidden rounded-[2rem] border shadow-[0_24px_70px_rgba(0,0,0,.38)] ${isMisticoModerno ? 'border-[#D4AF37]/30 bg-[#0A2742]' : 'border-[#B88736]/30 bg-[#021b13]'}`}>
+    <img src={bodyImage} alt={isMisticoModerno ? 'Silhueta neutra em meditação diante de uma paisagem noturna' : 'Pessoa em meditação com os sete chakras'} className="absolute inset-0 h-full w-full object-cover" style={{filter:'brightness(.34) saturate(.48)',transition:'filter 1.2s ease'}} />
+    <img src={bodyImage} alt="" aria-hidden="true" className="absolute inset-0 h-full w-full object-cover transition-opacity duration-1000" style={{opacity:.2 + illumination * .8,WebkitMaskImage:`radial-gradient(circle ${glowSize}px at ${position}, black 0%, rgba(0,0,0,.95) 42%, transparent 100%)`,maskImage:`radial-gradient(circle ${glowSize}px at ${position}, black 0%, rgba(0,0,0,.95) 42%, transparent 100%)`}} />
+    <div className={`absolute h-20 w-20 -translate-x-1/2 -translate-y-1/2 rounded-full transition-all duration-1000 ${active ? 'animate-pulse' : ''}`} style={{left:position.split(' ')[0],top:position.split(' ')[1],opacity:.12 + illumination * .88,transform:`translate(-50%,-50%) scale(${.72 + illumination * .42})`,background:`radial-gradient(circle,${glowSecondary}cc 0%,${glowPrimary}66 35%,transparent 72%)`,boxShadow:`0 0 ${12 + illumination * 34}px ${4 + illumination * 13}px ${glowPrimary}`}} aria-hidden="true" />
+    <div id="arcanjo-chakra-caption" className={`absolute inset-x-0 bottom-0 bg-gradient-to-t ${isMisticoModerno ? 'from-[#080D16] via-[#141F30]/82' : 'from-[#021b13] via-[#021b13]/82'} to-transparent px-5 pb-5 pt-20 text-center`}>
       <p className="font-display text-3xl text-[#f5e8bd]">{config.freq} Hz</p>
-      <p className="mt-1 text-xs uppercase tracking-[.2em] text-[#B88736]">{config.nome}</p>
-      <p className="mt-2 text-xs text-[#c8d9cd]">{progress === null ? (active ? 'Prática em andamento' : 'Pronto para começar') : `${Math.round(progress)}% concluído`}</p>
+      <p className={`mt-1 text-xs uppercase tracking-[.2em] ${isMisticoModerno ? 'text-[#D4AF37]' : 'text-[#B88736]'}`}>{config.nome}</p>
+      <p className={`mt-2 text-xs ${isMisticoModerno ? 'text-[#BAC3D1]' : 'text-[#c8d9cd]'}`}>{progress === null ? (active ? 'Prática em andamento' : 'Pronto para começar') : `${Math.round(progress)}% concluído`}</p>
     </div>
   </div>;
 }
 
-export default function ArcanjoProtocolView({ userProfile, onClose, onLogout, initialCompletedDays, onCompletedDaysChange }: ArcanjoProtocolViewProps) {
+export default function ArcanjoProtocolView({ userProfile, onClose, onLogout, initialDay, initialCompletedDays, onCompletedDaysChange }: ArcanjoProtocolViewProps) {
   const [diaAtual, setDiaAtual] = useState(1);
   const [isPlaying, setIsPlaying] = useState(false);
   const [isPreparingAudio, setIsPreparingAudio] = useState(false);
@@ -95,6 +101,7 @@ export default function ArcanjoProtocolView({ userProfile, onClose, onLogout, in
   const [isProtocolFrequencyActive, setIsProtocolFrequencyActive] = useState(false);
   const isEleganciaProfunda = typeof document !== 'undefined' && document.documentElement.dataset.layout === 'elegancia-profunda';
   const isEssenciaLuminosa = typeof document !== 'undefined' && document.documentElement.dataset.layout === 'essencia-luminosa';
+  const isMisticoModerno = typeof document !== 'undefined' && document.documentElement.dataset.layout === 'mistico-moderno';
   const [hasStarted, setHasStarted] = useState(false);
   const [elapsed, setElapsed] = useState(0);
   const [duration, setDuration] = useState(0);
@@ -104,7 +111,14 @@ export default function ArcanjoProtocolView({ userProfile, onClose, onLogout, in
   const fallbackTimerRef = useRef<number | null>(null);
   const narrationRunRef = useRef(0);
   const config = DADOS_PROTOCOLO[diaAtual];
-  const requiresNeuralVoice = isEleganciaProfunda || isEssenciaLuminosa;
+  const protocolAccent = isMisticoModerno ? '#D4AF37' : '#B88736';
+  const progressAccent = isMisticoModerno ? '#D4AF37' : '#c69b3d';
+  const progressAccentLight = isMisticoModerno ? '#E2B96B' : config.corSecundaria;
+  const progressGlow = isMisticoModerno ? '#D4AF37' : config.cor;
+  // A política aprovada para narração neural nos Estilos 2, 3 e 4:
+  // Solfeggio fica suspenso durante a fala e retorna apenas na pausa ou após a narração.
+  const suspendsSolfeggioDuringNeuralNarration =
+    isEleganciaProfunda || isEssenciaLuminosa || isMisticoModerno;
   const stopProtocolFrequency = () => {
     if (isSolfeggioFrequency(audioEngine.getCurrentSynthType())) {
       audioEngine.stopBG();
@@ -116,11 +130,12 @@ export default function ArcanjoProtocolView({ userProfile, onClose, onLogout, in
       stopProtocolFrequency();
       return;
     }
-    audioEngine.startSynth(`${config.freq}hz`);
+    // The Arcanjo view owns the audio surface; use its explicit bypass for every style.
+    startArcanjoOwnedSolfeggio(`${config.freq}hz`);
     setIsProtocolFrequencyActive(true);
   };
   const prepareFrequencyForNarration = () => {
-    if (requiresNeuralVoice) stopProtocolFrequency();
+    if (suspendsSolfeggioDuringNeuralNarration) stopProtocolFrequency();
     else playProtocolFrequency();
   };
   const hasKnownDuration = Number.isFinite(duration) && duration > 0;
@@ -144,6 +159,29 @@ export default function ArcanjoProtocolView({ userProfile, onClose, onLogout, in
     };
   }, [initialCompletedDays]);
 
+  // A day explicitly selected from the progress dashboard takes precedence on entry.
+  // Keep this separate from progress hydration so later completion updates can advance
+  // to the next unfinished day without reapplying the original dashboard selection.
+  useEffect(() => {
+    if (!Number.isInteger(initialDay) || initialDay! < 1 || initialDay! > 7) return;
+    narrationRunRef.current += 1;
+    audioEngine.stopSpeech();
+    stopProtocolFrequency();
+    audioEngine.stopSynth();
+    if (fallbackTimerRef.current) window.clearInterval(fallbackTimerRef.current);
+    fallbackTimerRef.current = null;
+    setDiaAtual(initialDay!);
+    setHasStarted(false);
+    setIsPlaying(false);
+    setIsPreparingAudio(false);
+    setVoiceError(false);
+    setIsProtocolFrequencyActive(false);
+    setElapsed(0);
+    setDuration(0);
+    setActiveSectionIndex(0);
+    setShowRoteiro(false);
+  }, [initialDay]);
+
   useEffect(() => {
     if (!isPlaying || hasKnownDuration || !hasStarted) {
       if (fallbackTimerRef.current) window.clearInterval(fallbackTimerRef.current);
@@ -164,7 +202,7 @@ export default function ArcanjoProtocolView({ userProfile, onClose, onLogout, in
     if (fallbackTimerRef.current) window.clearInterval(fallbackTimerRef.current);
     fallbackTimerRef.current = null;
     audioEngine.stopSpeech();
-    if (requiresNeuralVoice) {
+    if (suspendsSolfeggioDuringNeuralNarration) {
       if (restoreFrequency) playProtocolFrequency();
       else stopProtocolFrequency();
     } else {
@@ -185,12 +223,16 @@ export default function ArcanjoProtocolView({ userProfile, onClose, onLogout, in
     const next = [...new Set([...completedDays, diaAtual])].sort((a,b) => a-b);
     setCompletedDays(next);
     onCompletedDaysChange?.(next);
-    resetPlayback(requiresNeuralVoice);
+    resetPlayback(suspendsSolfeggioDuringNeuralNarration);
   };
 
   const startNativeFallback = (runId: number) => {
-    if (isEleganciaProfunda || isEssenciaLuminosa) {
-      playProtocolFrequency();
+    if (isEleganciaProfunda || isEssenciaLuminosa || isMisticoModerno) {
+      if (suspendsSolfeggioDuringNeuralNarration) playProtocolFrequency();
+      else {
+        audioEngine.stopSynth();
+        setIsProtocolFrequencyActive(false);
+      }
       setIsPreparingAudio(false);
       setIsPlaying(false);
       setHasStarted(false);
@@ -234,14 +276,16 @@ export default function ArcanjoProtocolView({ userProfile, onClose, onLogout, in
 
   const start = () => {
     resetPlayback(false);
-    if (isEleganciaProfunda && !isElevenLabsVoiceId(userProfile.voiceId)) {
+    if ((isEleganciaProfunda || isMisticoModerno) && !isElevenLabsVoiceId(userProfile.voiceId)) {
       setVoiceError(true);
-      if (requiresNeuralVoice) playProtocolFrequency();
+      if (suspendsSolfeggioDuringNeuralNarration) playProtocolFrequency();
       return;
     }
     setVoiceError(false);
     audioEngine.unlock();
-    prepareFrequencyForNarration();
+    // Style 4 keeps Solfeggio off during neural speech; pause/end callbacks restore it.
+    if (isMisticoModerno) stopProtocolFrequency();
+    else prepareFrequencyForNarration();
     setIsPreparingAudio(true);
     setHasStarted(true);
     const runId = narrationRunRef.current;
@@ -250,14 +294,14 @@ export default function ArcanjoProtocolView({ userProfile, onClose, onLogout, in
     void audioEngine.playGuidedMeditation(parts, {
       title: `Dia ${config.dia} — São Miguel, Chama Violeta e São Rafael`,
       subtitle: `${config.nome} • ${config.freq} Hz`,
-      voiceId: isEleganciaProfunda
+      voiceId: (isEleganciaProfunda || isMisticoModerno)
         ? userProfile.voiceId
         : isEssenciaLuminosa
           ? (isElevenLabsVoiceId(userProfile.voiceId) ? userProfile.voiceId : OFFICIAL_PROTOCOL_VOICE_ID)
           : userProfile.voiceId || (userProfile.preferredVoiceGender === 'feminina' ? 'Rachel' : 'Marcus'),
       volume: userProfile.voiceVolume ?? 0.9,
       userName: userProfile.name,
-      requireExplicitVoiceId: isEleganciaProfunda || isEssenciaLuminosa,
+      requireExplicitVoiceId: isEleganciaProfunda || isEssenciaLuminosa || isMisticoModerno,
       onStart: () => {
         if (runId !== narrationRunRef.current) return;
         prepareFrequencyForNarration();
@@ -267,7 +311,7 @@ export default function ArcanjoProtocolView({ userProfile, onClose, onLogout, in
       onPause: () => {
         if (runId !== narrationRunRef.current) return;
         setIsPlaying(false);
-        if (requiresNeuralVoice) playProtocolFrequency();
+        if (suspendsSolfeggioDuringNeuralNarration) playProtocolFrequency();
         else {
           audioEngine.stopSynth();
           setIsProtocolFrequencyActive(false);
@@ -283,9 +327,16 @@ export default function ArcanjoProtocolView({ userProfile, onClose, onLogout, in
       },
       onError: () => {
         if (runId !== narrationRunRef.current) return;
+        // playGuidedMeditation may invoke onEnd after onError on fail-closed paths.
+        // Invalidate this run so a voice failure never marks the day as completed.
+        if (isMisticoModerno) narrationRunRef.current += 1;
         audioEngine.stopSpeech();
-        if (requiresNeuralVoice) {
-          playProtocolFrequency();
+        if (isEleganciaProfunda || isEssenciaLuminosa || isMisticoModerno) {
+          if (suspendsSolfeggioDuringNeuralNarration) playProtocolFrequency();
+          else {
+            audioEngine.stopSynth();
+            setIsProtocolFrequencyActive(false);
+          }
           setIsPreparingAudio(false);
           setIsPlaying(false);
           setHasStarted(false);
@@ -299,7 +350,7 @@ export default function ArcanjoProtocolView({ userProfile, onClose, onLogout, in
 
   const togglePlayback = () => {
     if (isPreparingAudio) return;
-    if (isEleganciaProfunda && !isElevenLabsVoiceId(userProfile.voiceId)) {
+    if ((isEleganciaProfunda || isMisticoModerno) && !isElevenLabsVoiceId(userProfile.voiceId)) {
       setVoiceError(true);
       return;
     }
@@ -308,14 +359,19 @@ export default function ArcanjoProtocolView({ userProfile, onClose, onLogout, in
       return;
     }
     if (isPlaying) {
-      // The guided-audio onpause callback restores the daily frequency exactly once.
       audioEngine.pauseSpeech();
+      if (!suspendsSolfeggioDuringNeuralNarration && !isMisticoModerno) {
+        // Native fallback has no HTMLAudio onpause callback.
+        audioEngine.stopSynth();
+        setIsProtocolFrequencyActive(false);
+        setIsPlaying(false);
+      }
       return;
     }
-    // Ao retomar a voz neural, interrompe novamente a frequência restaurada na pausa.
-    if (requiresNeuralVoice) stopProtocolFrequency();
+    if (suspendsSolfeggioDuringNeuralNarration) stopProtocolFrequency();
     audioEngine.resumeSpeech();
-    if (!requiresNeuralVoice) {
+    if (!suspendsSolfeggioDuringNeuralNarration && !isMisticoModerno) {
+      // Native fallback has no HTMLAudio onplay callback.
       playProtocolFrequency();
       setIsPlaying(true);
     }
@@ -332,13 +388,13 @@ export default function ArcanjoProtocolView({ userProfile, onClose, onLogout, in
     audioEngine.seekSpeech(offset);
   };
 
-  return <div id="arcanjo-protocol-view" className="fixed inset-0 z-[100] overflow-y-auto bg-[#F8F4EC] text-[#2A2420]">
-    <div className="fixed inset-0 bg-[radial-gradient(circle_at_50%_0,rgba(214,167,86,.12),transparent_30rem),linear-gradient(180deg,#FBF8F2,#F8F4EC)]" />
-    <header className="sticky top-0 z-20 border-b border-[#B88736]/20 bg-[#F8F4EC]/92 px-4 py-4 backdrop-blur-xl">
+  return <div id="arcanjo-protocol-view" className={`fixed inset-0 z-[100] overflow-y-auto ${isMisticoModerno ? 'bg-[#0A2742] text-[#F4F1EB]' : 'bg-[#F8F4EC] text-[#2A2420]'}`}>
+    <div id="arcanjo-protocol-backdrop" className="fixed inset-0 bg-[radial-gradient(circle_at_50%_0,rgba(214,167,86,.12),transparent_30rem),linear-gradient(180deg,#FBF8F2,#F8F4EC)]" />
+    <header className={`sticky top-0 z-20 border-b px-4 py-4 backdrop-blur-xl ${isMisticoModerno ? 'border-[#D4AF37]/20 bg-[#0A0F18]/95' : 'border-[#B88736]/20 bg-[#F8F4EC]/92'}`}>
       <div className="mx-auto flex w-full max-w-5xl items-center justify-between gap-2">
-        <button onClick={onClose} className="flex h-11 w-11 items-center justify-center text-[#B88736] shrink-0" aria-label="Voltar"><ChevronLeft size={25}/></button>
+        <button onClick={onClose} className={`flex h-11 w-11 shrink-0 items-center justify-center ${isMisticoModerno ? 'text-[#D4AF37]' : 'text-[#B88736]'}`} aria-label="Voltar"><ChevronLeft size={25}/></button>
         <div className="text-center min-w-0">
-          <div className="text-[10px] sm:text-xs uppercase tracking-[.22em] text-[#B88736] truncate">Protocolo da Transformação</div>
+          <div className={`text-[10px] sm:text-xs uppercase tracking-[.22em] truncate ${isMisticoModerno ? 'text-[#D4AF37]' : 'text-[#B88736]'}`}>Protocolo da Transformação</div>
           <h1 className="mt-0.5 font-display text-base sm:text-lg truncate">São Miguel • Chama Violeta • São Rafael</h1>
         </div>
         <div className="flex items-center gap-1.5 shrink-0">
@@ -352,26 +408,26 @@ export default function ArcanjoProtocolView({ userProfile, onClose, onLogout, in
               <span>Sair</span>
             </button>
           )}
-          <button onClick={onClose} className="flex h-11 w-11 items-center justify-center text-[#B88736]" aria-label="Fechar"><X size={23}/></button>
+          <button onClick={onClose} className={`flex h-11 w-11 items-center justify-center ${isMisticoModerno ? 'text-[#D4AF37]' : 'text-[#B88736]'}`} aria-label="Fechar"><X size={23}/></button>
         </div>
       </div>
     </header>
 
     <main className="relative z-10 mx-auto w-full max-w-[500px] space-y-5 px-4 py-6 pb-16">
       <section>
-        <div className="mb-4 flex flex-wrap items-center justify-center gap-2 text-sm text-[#5C6A60]"><ShieldCheck size={18} className="text-[#B88736]"/><span>Dia {config.dia} de 7</span><span className="text-[#B88736]/60">•</span><span>Solfeggio {config.freq} Hz</span></div>
-        <ChakraBody config={config} progress={progressPercent} active={isPlaying}/>
+        <div className={`mb-4 flex flex-wrap items-center justify-center gap-2 text-sm ${isMisticoModerno ? 'text-[#BAC3D1]' : 'text-[#5C6A60]'}`}><ShieldCheck size={18} style={{color:protocolAccent}}/><span>Dia {config.dia} de 7</span><span className={isMisticoModerno ? 'text-[#D4AF37]/60' : 'text-[#B88736]/60'}>•</span><span>Solfeggio {config.freq} Hz</span></div>
+        <ChakraBody config={config} progress={progressPercent} active={isPlaying} isMisticoModerno={isMisticoModerno}/>
       </section>
 
       <section className="space-y-5">
         <div className="ep-forest-panel rounded-[1.75rem] p-5 sm:p-7">
           <div className="mb-3 flex items-center justify-between gap-3 text-sm">
-            <span className="text-[#B88736]">{hasKnownDuration ? 'Narração aprovada em reprodução' : activeSection?.title || 'Roteiro aprovado'}</span>
-            <span className="font-mono text-[#d9e6dc]">{formatTime(elapsed)} / {hasKnownDuration ? formatTime(duration) : '--:--'}</span>
+            <span style={{color:protocolAccent}}>{hasKnownDuration ? 'Narração aprovada em reprodução' : activeSection?.title || 'Roteiro aprovado'}</span>
+            <span className={`font-mono ${isMisticoModerno ? 'text-[#BAC3D1]' : 'text-[#d9e6dc]'}`}>{formatTime(elapsed)} / {hasKnownDuration ? formatTime(duration) : '--:--'}</span>
           </div>
           {hasKnownDuration ? (
             <div className="h-2 overflow-hidden rounded-full bg-black/30" role="progressbar" aria-label="Progresso da narração" aria-valuemin={0} aria-valuemax={100} aria-valuenow={Math.round(progressPercent || 0)}>
-              <div className="h-full rounded-full transition-all duration-300" style={{width:`${progressPercent || 0}%`,background:`linear-gradient(90deg,#c69b3d,${config.corSecundaria})`,boxShadow:`0 0 12px ${config.cor}`}}/>
+              <div className="h-full rounded-full transition-all duration-300" style={{width:`${progressPercent || 0}%`,background:`linear-gradient(90deg,${progressAccent},${progressAccentLight})`,boxShadow:`0 0 12px ${progressGlow}`}}/>
             </div>
           ) : (
             <div className="h-2 overflow-hidden rounded-full bg-black/30" role="progressbar" aria-label="Duração da narração ainda não disponível">
@@ -380,61 +436,73 @@ export default function ArcanjoProtocolView({ userProfile, onClose, onLogout, in
           )}
 
           <div className="mt-6 flex items-center justify-center gap-5">
-            <button disabled={!hasKnownDuration} className="flex h-11 w-11 items-center justify-center rounded-xl text-[#d7e2d8] disabled:opacity-30" aria-label="Voltar dez segundos" onClick={()=>seek(-10)}><RotateCcw/></button>
+            <button disabled={!hasKnownDuration} className={`flex h-11 w-11 items-center justify-center rounded-xl disabled:opacity-30 ${isMisticoModerno ? 'text-[#BAC3D1]' : 'text-[#d7e2d8]'}`} aria-label="Voltar dez segundos" onClick={()=>seek(-10)}><RotateCcw/></button>
             <button onClick={togglePlayback} disabled={isPreparingAudio} className="ep-gold-button flex h-20 w-20 items-center justify-center rounded-full disabled:opacity-70" aria-label={isPreparingAudio?'Preparando voz humana':isPlaying?'Pausar':'Iniciar ou continuar'}>{isPreparingAudio?<Loader2 size={32} className="animate-spin"/>:isPlaying?<Pause size={34}/>:<Play size={35} className="ml-1"/>}</button>
-            <button disabled={!hasKnownDuration} className="flex h-11 w-11 items-center justify-center rounded-xl text-[#d7e2d8] disabled:opacity-30" aria-label="Avançar dez segundos" onClick={()=>seek(10)}><RotateCw/></button>
+            <button disabled={!hasKnownDuration} className={`flex h-11 w-11 items-center justify-center rounded-xl disabled:opacity-30 ${isMisticoModerno ? 'text-[#BAC3D1]' : 'text-[#d7e2d8]'}`} aria-label="Avançar dez segundos" onClick={()=>seek(10)}><RotateCw/></button>
           </div>
 
-          {voiceError && <p role="alert" className="ep-voice-error mt-4 rounded-xl px-4 py-3 text-xs">{isEssenciaLuminosa ? 'A narração neural está indisponível. A voz do dispositivo não será usada.' : 'Selecione uma voz neural válida em Ajustes de áudio. O Estilo 2 não usará a voz do dispositivo.'}</p>}
-          <div role="status" aria-live="polite" className="mt-4 flex items-center justify-center gap-2 text-center text-sm text-[#bad0c4]">
+          {voiceError && <p role="alert" className="ep-voice-error mt-4 rounded-xl px-4 py-3 text-xs">{isMisticoModerno ? 'A voz neural escolhida está indisponível. O Místico Moderno não usará a voz do dispositivo.' : isEssenciaLuminosa ? 'A narração neural está indisponível. A voz do dispositivo não será usada.' : 'Selecione uma voz neural válida em Ajustes de áudio. O Estilo 2 não usará a voz do dispositivo.'}</p>}
+          <div role="status" aria-live="polite" className={`mt-4 flex items-center justify-center gap-2 text-center text-sm ${isMisticoModerno ? 'text-[#BAC3D1]' : 'text-[#bad0c4]'}`}>
             <Volume2 size={17}/>
             <span>
-              {!userProfile.audioEnabled
+              {userProfile.audioEnabled === false
                 ? 'Áudio desativado — nenhuma frequência será reproduzida.'
-                : requiresNeuralVoice
-                  ? isPreparingAudio
-                    ? `Preparando narração neural — Solfeggio ${config.freq} Hz suspenso.`
-                    : isPlaying
-                      ? `Narração neural ativa — Solfeggio ${config.freq} Hz suspenso.`
-                      : isProtocolFrequencyActive
-                        ? `Solfeggio ${config.freq} Hz ativo durante a pausa ou após a narração.`
+                : isMisticoModerno
+                  ? voiceError
+                    ? `Voz neural indisponível — Solfeggio ${config.freq} Hz disponível sem narração.`
+                    : isPreparingAudio
+                      ? `Preparando narração neural — Solfeggio ${config.freq} Hz suspenso.`
+                      : isPlaying
+                        ? `Narração neural ativa — Solfeggio ${config.freq} Hz suspenso.`
+                        : isProtocolFrequencyActive
+                          ? `Solfeggio ${config.freq} Hz ativo durante a pausa ou após a narração.`
+                          : hasStarted
+                            ? `Narração pausada — Solfeggio ${config.freq} Hz suspenso.`
+                            : `Pronto — Solfeggio ${config.freq} Hz será ativado somente durante pausas ou após a narração.`
+                  : suspendsSolfeggioDuringNeuralNarration
+                    ? isPreparingAudio
+                      ? `Preparando narração neural — Solfeggio ${config.freq} Hz suspenso.`
+                      : isPlaying
+                        ? `Narração neural ativa — Solfeggio ${config.freq} Hz suspenso.`
+                        : isProtocolFrequencyActive
+                          ? `Solfeggio ${config.freq} Hz ativo durante a pausa ou após a narração.`
+                          : hasStarted
+                            ? `Narração pausada — Solfeggio ${config.freq} Hz suspenso.`
+                            : `Pronto — Solfeggio ${config.freq} Hz será ativado somente durante pausas ou após a narração.`
+                    : isPreparingAudio
+                      ? 'Preparando narração aprovada…'
+                      : isPlaying
+                        ? `Voz humana + Solfeggio ${config.freq} Hz ativos`
                         : hasStarted
-                          ? `Narração pausada — Solfeggio ${config.freq} Hz suspenso.`
-                          : `Pronto — Solfeggio ${config.freq} Hz será ativado somente durante pausas ou após a narração.`
-                  : isPreparingAudio
-                    ? 'Preparando narração aprovada…'
-                    : isPlaying
-                      ? `Voz humana + Solfeggio ${config.freq} Hz ativos`
-                      : hasStarted
-                        ? `Pausado — Solfeggio ${config.freq} Hz interrompido`
-                        : `Pronto — Solfeggio ${config.freq} Hz será reproduzido junto com a narração`}
+                          ? `Pausado — Solfeggio ${config.freq} Hz interrompido`
+                          : `Pronto — Solfeggio ${config.freq} Hz será reproduzido junto com a narração`}
             </span>
           </div>
         </div>
 
         <div className="ep-forest-panel rounded-[1.75rem] p-5 sm:p-7">
-          <div className="flex items-center gap-2 text-[#B88736]"><Leaf size={18}/><span className="text-xs uppercase tracking-[.2em]">Intenção do dia</span></div>
-          <h2 className="mt-3 font-display text-3xl font-semibold" style={{color:config.corSecundaria}}>{config.nome}</h2>
-          <p className="mt-2 text-base text-[#e9f1e9]">{config.subtitulo}</p>
-          <p className="mt-4 border-t border-[#B88736]/20 pt-4 text-center font-display text-xl italic leading-8 text-[#f5e8bd]">{config.intencao}.</p>
+          <div className={`flex items-center gap-2 ${isMisticoModerno ? 'text-[#D4AF37]' : 'text-[#B88736]'}`}><Leaf size={18}/><span className="text-xs uppercase tracking-[.2em]">Intenção do dia</span></div>
+          <h2 className="mt-3 font-display text-3xl font-semibold" style={{color:isMisticoModerno ? '#E2B96B' : config.corSecundaria}}>{config.nome}</h2>
+          <p className={`mt-2 text-base ${isMisticoModerno ? 'text-[#BAC3D1]' : 'text-[#e9f1e9]'}`}>{config.subtitulo}</p>
+          <p className={`mt-4 border-t pt-4 text-center font-display text-xl italic leading-8 text-[#f5e8bd] ${isMisticoModerno ? 'border-[#D4AF37]/20' : 'border-[#B88736]/20'}`}>{config.intencao}.</p>
         </div>
 
         <div className="ep-forest-panel rounded-[1.75rem] p-5 sm:p-7">
           <div className="text-center">
-            <p className="text-xs uppercase tracking-[.2em] text-[#B88736]">Roteiro aprovado reconectado</p>
-            <p className="mt-2 text-sm text-[#e9f1e9]">Reiki São Miguel • Chama Violeta • Raio de Ouro e Verde de São Rafael</p>
+            <p className={`text-xs uppercase tracking-[.2em] ${isMisticoModerno ? 'text-[#D4AF37]' : 'text-[#B88736]'}`}>Roteiro aprovado reconectado</p>
+            <p className={`mt-2 text-sm ${isMisticoModerno ? 'text-[#BAC3D1]' : 'text-[#e9f1e9]'}`}>Reiki São Miguel • Chama Violeta • Raio de Ouro e Verde de São Rafael</p>
           </div>
-          <button onClick={()=>setShowRoteiro(!showRoteiro)} className="mt-5 flex min-h-11 w-full items-center justify-center gap-2 rounded-xl border border-[#B88736]/35 px-4 py-3 text-sm text-[#f0d989]"><BookOpen size={17}/>{showRoteiro?'Ocultar roteiro':'Ler roteiro completo'}</button>
-          {showRoteiro&&<div className="mt-4 whitespace-pre-line rounded-2xl bg-black/20 p-5 text-base leading-7 text-[#e6eee8]">{approvedDisplayScript(config)}</div>}
+          <button onClick={()=>setShowRoteiro(!showRoteiro)} className={`mt-5 flex min-h-11 w-full items-center justify-center gap-2 rounded-xl border px-4 py-3 text-sm ${isMisticoModerno ? 'border-[#D4AF37]/35 text-[#E2B96B]' : 'border-[#B88736]/35 text-[#f0d989]'}`}><BookOpen size={17}/>{showRoteiro?'Ocultar roteiro':'Ler roteiro completo'}</button>
+          {showRoteiro&&<div className={`mt-4 whitespace-pre-line rounded-2xl bg-black/20 p-5 text-base leading-7 ${isMisticoModerno ? 'text-[#BAC3D1]' : 'text-[#e6eee8]'}`}>{approvedDisplayScript(config)}</div>}
         </div>
 
         <div className="ep-forest-panel rounded-[1.75rem] p-5 sm:p-7">
-          <div className="mb-5 text-center"><h3 className="font-display text-2xl text-[#f5e8bd]">Seu progresso</h3><p className="mt-1 text-sm text-[#bad0c4]">Equilíbrio hoje, presença amanhã.</p></div>
-          <div className="grid grid-cols-7 gap-2">{[1,2,3,4,5,6,7].map(day=>{const dayConfig=DADOS_PROTOCOLO[day];const done=completedDays.includes(day);return <button key={day} onClick={()=>selectDay(day)} aria-label={`Abrir dia ${day}, ${dayConfig.nome}`} className={`flex min-w-0 flex-col items-center gap-2 rounded-xl border px-1 py-3 ${diaAtual===day?'border-[#B88736] bg-[#e5c66f]/12':'border-[#B88736]/15 bg-black/10'}`}><span className="flex h-7 w-7 items-center justify-center rounded-full text-xs font-bold" style={{background:done||diaAtual===day?dayConfig.cor:'#214536',color:'#fff'}}>{done?'✓':day}</span><span className="hidden text-[11px] text-[#c8d8cc] sm:block">{dayConfig.nome.replace('Chakra ','')}</span></button>})}</div>
+          <div className="mb-5 text-center"><h3 className="font-display text-2xl text-[#f5e8bd]">Seu progresso</h3><p className={`mt-1 text-sm ${isMisticoModerno ? 'text-[#BAC3D1]' : 'text-[#bad0c4]'}`}>Equilíbrio hoje, presença amanhã.</p></div>
+          <div className="grid grid-cols-7 gap-2">{[1,2,3,4,5,6,7].map(day=>{const dayConfig=DADOS_PROTOCOLO[day];const done=completedDays.includes(day);return <button key={day} onClick={()=>selectDay(day)} aria-label={`Abrir dia ${day}, ${dayConfig.nome}`} data-current={diaAtual===day ? 'true' : 'false'} data-completed={done ? 'true' : 'false'} className={`flex min-w-0 flex-col items-center gap-2 rounded-xl border px-1 py-3 ${isMisticoModerno ? (diaAtual===day ? 'border-[#D4AF37] bg-[#D4AF37]/12' : done ? 'border-[#6C3FA0]/45 bg-[#0A0F18]/30' : 'border-[#2E3B73]/60 bg-[#0A0F18]/25') : (diaAtual===day ? 'border-[#B88736] bg-[#e5c66f]/12' : 'border-[#B88736]/15 bg-black/10')}`}><span data-arcanjo-day-marker className="flex h-7 w-7 items-center justify-center rounded-full text-xs font-bold" style={{background:isMisticoModerno ? (done ? '#6C3FA0' : diaAtual===day ? '#D4AF37' : '#2E3B73') : (done||diaAtual===day?dayConfig.cor:'#214536'),color:isMisticoModerno && diaAtual===day ? '#0A0F18' : '#fff'}}>{done?'✓':day}</span><span className={`hidden text-[11px] sm:block ${isMisticoModerno ? 'text-[#BAC3D1]' : 'text-[#c8d8cc]'}`}>{dayConfig.nome.replace('Chakra ','')}</span></button>})}</div>
         </div>
 
         <button className="ep-gold-button flex min-h-12 w-full items-center justify-center gap-2 rounded-2xl px-5 py-4 font-semibold" onClick={complete}><Heart size={18}/>Concluir o momento de hoje</button>
-        <p className="px-4 text-center text-xs leading-5 text-[#5C6A60]">Prática espiritual e integrativa. Não substitui cuidados médicos, psicológicos ou outros tratamentos de saúde.</p>
+        <p className={`px-4 text-center text-xs leading-5 ${isMisticoModerno ? 'text-[#BAC3D1]' : 'text-[#5C6A60]'}`}>Prática espiritual e integrativa. Não substitui cuidados médicos, psicológicos ou outros tratamentos de saúde.</p>
       </section>
     </main>
   </div>;

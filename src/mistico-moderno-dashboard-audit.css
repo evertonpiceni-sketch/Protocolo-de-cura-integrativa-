@@ -1,13 +1,14 @@
 :root[data-layout="mistico-moderno"] #progress-dashboard {
   background:
     radial-gradient(circle at 18% 10%, rgba(109, 40, 217, .16), transparent 34rem),
-    radial-gradient(circle at 84% 16%, rgba(5, 150, 105, .10), transparent 30rem),
+    radial-gradient(circle at 84% 16%, rgba(212, 175, 55, .07), transparent 30rem),
     linear-gradient(180deg, #080b18 0%, #0b1024 48%, #10142b 100%) !important;
   color: #f4efe4 !important;
 }
 
 :root[data-layout="mistico-moderno"] #progress-dashboard [class*="bg-[#F8F4EC]"],
 :root[data-layout="mistico-moderno"] #progress-dashboard [class*="bg-[#FBF8F2]"],
+:root[data-layout="mistico-moderno"] #progress-dashboard [class*="bg-[#F5EFE4]"],
 :root[data-layout="mistico-moderno"] #progress-dashboard [class*="bg-white"] {
   background-color: rgba(15, 20, 43, .88) !important;
 }
@@ -28,6 +29,37 @@
 }
 
 :root[data-layout="mistico-moderno"] #progress-dashboard .ep-brand-signature {
-  opacity: .34 !important;
+  opacity: .30 !important;
   filter: saturate(.88) contrast(.96);
+}
+
+
+/* O Estilo 4 usa a silhueta neutra já aprovada no projeto e mantém o rodapé da imagem em azul-noturno. */
+:root[data-layout="mistico-moderno"] #progress-dashboard [data-mistico-body-image] {
+  filter: saturate(.90) brightness(.98) contrast(1.02);
+}
+
+:root[data-layout="mistico-moderno"] #progress-dashboard [data-mistico-body-overlay] {
+  background: linear-gradient(to top, rgba(10, 15, 24, .78), rgba(10, 15, 24, 0) 72%) !important;
+}
+
+
+/* Neutraliza o gradiente claro herdado no backdrop interno do Dashboard. */
+:root[data-layout="mistico-moderno"] #progress-dashboard [data-mistico-dashboard-backdrop] {
+  background:
+    radial-gradient(circle at 18% 10%, rgba(109, 40, 217, .16), transparent 34rem),
+    radial-gradient(circle at 84% 16%, rgba(212, 175, 55, .07), transparent 30rem),
+    linear-gradient(180deg, #080b18 0%, #0b1024 48%, #10142b 100%) !important;
+}
+
+/* A trilha de progresso deixa de usar o bege do tema compartilhado. */
+:root[data-layout="mistico-moderno"] #progress-dashboard [data-mistico-progress-track] {
+  background-color: rgba(20, 31, 48, .92) !important;
+  border: 1px solid rgba(108, 63, 160, .24);
+}
+
+@media (max-width: 767px) {
+  :root[data-layout="mistico-moderno"] #progress-dashboard .ep-brand-signature {
+    opacity: .26 !important;
+  }
 }
