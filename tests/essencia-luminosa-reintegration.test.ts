@@ -6,6 +6,8 @@ import { getReintegrationVoice } from '../api/reintegration-tts';
 const journey = fs.readFileSync('src/components/PersonalJourney21.tsx', 'utf8');
 const css = fs.readFileSync('src/essencia-luminosa-approved-overrides.css', 'utf8');
 const reintegrationTts = fs.readFileSync('api/reintegration-tts.ts', 'utf8');
+const activeApi = fs.readFileSync('api/index.ts', 'utf8');
+const vercel = fs.readFileSync('vercel.json', 'utf8');
 const run146 = css.slice(css.indexOf('/* RUN 146 — Essência Luminosa: Reintegração da Vida */'));
 
 test('a jornada de 21 dias recebe superfícies claras apenas na Essência Luminosa', () => {
@@ -89,4 +91,23 @@ test('o preview humano do Estúdio de Vídeos não herda o fundo verde global no
   assert.ok(css.includes(frameSelector));
   assert.ok(css.includes(visualSelector));
   assert.ok(css.includes('background: linear-gradient(180deg, var(--layout-canvas-alt), var(--layout-card)) !important;'));
+});
+
+
+test('a rota ativa da Reintegração usa Marianne na Essência Luminosa sem alterar os demais estilos', () => {
+  const start = activeApi.indexOf('async function serveReintegrationVoice');
+  const end = activeApi.indexOf('export default async function handler', start);
+  const activeRoute = activeApi.slice(start, end);
+
+  assert.ok(activeApi.includes('import { getReintegrationVoice } from "./reintegration-tts.js";'));
+  assert.ok(activeRoute.includes('const voice = getReintegrationVoice(req.body?.layout);'));
+  assert.ok(activeRoute.includes('reintegration_v6_\u0024{day}_\u0024{voice.voiceId}'));
+  assert.ok(activeRoute.includes('voice: voice.voiceId'));
+  assert.ok(activeRoute.includes('X-Reintegration-Voice", voice.voiceId'));
+  assert.ok(!activeRoute.includes('REINTEGRATION_VOICE_ID'));
+  assert.ok(journey.includes("layout: isEssenciaLuminosa ? 'essencia-luminosa' : 'default'"));
+  assert.ok(vercel.includes('"source": "/api/:path*"'));
+  assert.ok(vercel.includes('"destination": "/api?path=:path*"'));
+  assert.equal(getReintegrationVoice('essencia-luminosa').voiceId, 'mJqP14JQFEK0PojR5lfV');
+  assert.equal(getReintegrationVoice('natural-sereno').voiceId, '21m00Tcm4TlvDq8ikWAM');
 });
