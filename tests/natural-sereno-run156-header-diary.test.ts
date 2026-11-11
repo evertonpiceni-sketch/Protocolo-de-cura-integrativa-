@@ -50,7 +50,9 @@ test('RUN 156 — exportação do Diário usa CTA dourado com texto café', () =
 test('RUN 156 — todas as novas regras estão isoladas no Natural Sereno', () => {
   const block = css.split('/* RUN 156 —')[1];
   assert.ok(block, 'bloco RUN 156 ausente');
-  const selectors = [...block.matchAll(/^([^\n{}]+)\{/gm)].map(match => match[1].trim());
+  const selectors = [...block.replace(/\/\*[\s\S]*?\*\//g, '').matchAll(/^([^\n{}]+)\{/gm)]
+    .map(match => match[1].trim())
+    .filter(selector => !selector.startsWith('@'));
   assert.ok(selectors.length >= 8, 'esperava pelo menos oito regras específicas');
   assert.ok(selectors.every(selector => selector.startsWith(':root[data-layout="natural-sereno"]')), selectors.join('\n'));
 });

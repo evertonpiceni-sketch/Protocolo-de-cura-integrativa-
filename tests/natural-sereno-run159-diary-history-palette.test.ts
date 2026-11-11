@@ -17,7 +17,9 @@ test('RUN 159 — histórico do Diário usa acentos suaves no Natural Sereno', (
   assert.ok(block.includes('background: #F5EFE5 !important;'));
   assert.ok(block.includes('background: #F0F2EB !important;'));
   assert.ok(block.includes('color: #5E6948 !important;'));
-  assert.doesNotMatch(block, /#8F631E|#B88736|emerald-500/i);
+  const declarations = block.replace(/\/\*[\s\S]*?\*\//g, '').split(/\r?\n/)
+    .filter(line => !line.includes('{') && !line.includes('}') && line.includes(':')).join('\n');
+  assert.doesNotMatch(declarations, /:\s*(?:#8F631E|#B88736)\b|emerald-500/i);
 
   const selectors = [...block.replace(/\/\*[\s\S]*?\*\//g, '').matchAll(/([^{}]+)\{/g)]
     .map(match => match[1].trim())

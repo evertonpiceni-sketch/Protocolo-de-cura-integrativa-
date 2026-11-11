@@ -28,6 +28,7 @@ test('RUN 157 — todos os seletores novos permanecem isolados no Natural Sereno
   const block = css.slice(start).replace(/\/\*[\s\S]*?\*\//g, '');
   const selectors = [...block.matchAll(/([^{}]+)\{/g)]
     .map(match => match[1].trim())
+    .filter(selector => !selector.startsWith('@'))
     .flatMap(selector => selector.split(',').map(part => part.trim()));
   assert.ok(selectors.length >= 6);
   assert.ok(selectors.every(selector => selector.startsWith(':root[data-layout="natural-sereno"]')), selectors.join('\n'));

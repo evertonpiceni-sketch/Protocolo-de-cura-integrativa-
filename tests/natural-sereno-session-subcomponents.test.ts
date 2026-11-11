@@ -10,7 +10,9 @@ test('Natural Sereno harmoniza os subcomponentes internos da sessão sem tocar n
   assert.ok(blockStart >= 0, 'o bloco RUN 144 precisa estar presente');
   const block = css.slice(blockStart);
 
-  const selectors = block.split(/\r?\n/).filter(line => line.trim().endsWith('{'));
+  const selectors = block.split(/\r?\n/)
+    .map(line => line.trim())
+    .filter(line => line.endsWith('{') && !line.startsWith('@'));
   assert.ok(selectors.length >= 30, 'o bloco precisa cobrir as superfícies auditadas');
   for (const selector of selectors) {
     assert.ok(

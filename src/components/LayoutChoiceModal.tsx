@@ -163,7 +163,7 @@ function LayoutPreview({ layout }: { layout: LayoutDefinition }) {
             />
           )}
           <span
-            className="mt-3 inline-flex rounded-full px-3 py-1 text-[8px] font-bold uppercase tracking-[.12em] shadow-sm"
+            className="mt-3 inline-flex min-h-9 items-center rounded-[18px] px-4 py-2 text-[8px] font-bold uppercase tracking-[.12em] shadow-sm"
             style={{ background: actionBackground, color: '#2A2420' }}
           >
             Iniciar jornada

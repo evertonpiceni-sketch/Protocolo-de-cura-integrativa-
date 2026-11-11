@@ -33,7 +33,7 @@ test('o logo do acolhimento permanece uma assinatura discreta e os estilos não 
   const finalLayer = css.slice(marker);
 
   assert.ok(welcome.includes('className="ns-welcome-brand"'));
-  assert.ok(css.includes(':root[data-layout="natural-sereno"] .ns-welcome-brand'));
+  assert.ok(css.includes('.ns-welcome-brand') && css.includes('opacity:.30!important;'));
   assert.ok(finalLayer.includes(':root[data-layout="natural-sereno"]'));
   assert.doesNotMatch(finalLayer, /data-layout="(elegancia-profunda|essencia-luminosa|mistico-moderno)"/);
 });

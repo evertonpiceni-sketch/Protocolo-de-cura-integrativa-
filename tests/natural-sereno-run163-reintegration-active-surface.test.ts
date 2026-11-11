@@ -51,8 +51,11 @@ test('a Reintegração mantém a assinatura discreta e a silhueta neutra aprovad
   const journey = read('src/components/PersonalJourney21.tsx');
   const visual = read('src/components/ReintegrationPresenceVisual.tsx');
   const neutralBody = read('src/components/NeutralBodyLightProgress.tsx');
+  const css = read('src/natural-sereno-approved-overrides.css');
 
-  assert.ok(journey.includes('className="h-full w-full object-contain opacity-30"'));
+  assert.ok(journey.includes('ep-reintegration-brand-signature'));
+  assert.ok(css.includes('[data-ep-reintegration="true"] .ep-reintegration-brand-signature'));
+  assert.ok(css.includes('opacity:.30!important;'));
   assert.ok(visual.includes('data-visual-fallback="approved-human"'));
   assert.ok(neutralBody.includes('Silhueta corporal neutra com um único percurso de luz.'));
   assert.ok(neutralBody.includes('sem chakras, mandalas ou marcadores coloridos'));

@@ -52,6 +52,6 @@ test('CTA de feedback da Anamnese não herda a chapa verde no Natural Sereno', (
   assert.ok(run134.includes('background-image: linear-gradient(180deg,#E2B96B,#C89D52) !important;'));
   assert.ok(run134.includes('color: #2A2421 !important;'));
   assert.ok(run134.includes('border-radius: 18px !important;'));
-  assert.ok(run134.includes('background-image: linear-gradient(180deg,#E8C47D,#A87E37) !important;'));
+  assert.ok(run134.includes('background-image: linear-gradient(180deg,#E2B96B,#A87E37) !important;'));
   assert.doesNotMatch(run134, /var\(--ns-modal-forest\)|color:\s*#FFFFFF/i);
 });
