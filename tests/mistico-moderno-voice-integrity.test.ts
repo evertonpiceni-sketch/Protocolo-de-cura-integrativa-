@@ -175,9 +175,10 @@ test('Style 4 selector uses the complete night palette from the official referen
   const layouts = read('src/config/layouts.ts');
   assert.match(modal, /const isMysticCard = layout\.id === 'mistico-moderno'/);
   assert.match(modal, /cardBackgroundClass = isMysticCard \? 'bg-\[#0A2742\]'/);
-  for (const color of ['#0A2742', '#2E3B73', '#1E6B5A', '#6C3FA0', '#D4AF37', '#E2B96B', '#F4F1EB', '#141F30']) {
-    assert.ok(modal.includes(color), 'Missing Místico Moderno board color ' + color);
+  for (const color of ['#0A2742', '#2E3B73', '#6C3FA0', '#D4AF37', '#E2B96B', '#F4F1EB', '#141F30']) {
+    assert.ok(modal.includes(color), 'Missing approved Místico Moderno interface color ' + color);
   }
+  assert.doesNotMatch(modal, /#1E6B5A/i, 'Emerald must not appear as a standalone Style 4 interface swatch.');
   assert.match(layouts, /swatches: \['#0A2742', '#6C3FA0', '#D4AF37', '#141F30'\]/);
   assert.match(layouts, /A prancha orienta apenas a atmosfera e a paleta; a jornada vigente permanece com 21 dias, corpo neutro e logo oficial discreto\/transparente como assinatura\./);
 });
@@ -484,7 +485,7 @@ test('Místico Moderno aplica paleta noturna própria à animação da sessão e
   assert.match(canvas, /colorTheme\?\.violetGlow \?\? palette\?\.goldGlow/);
   assert.match(canvas, /colorTheme\?\.indigoGlow \?\? palette\?\.sageGlow/);
   assert.doesNotMatch(canvas, /emeraldLine/, 'Místico Moderno não deve reintroduzir um traço esmeralda independente no campo energético.');
-  assert.match(session, /sageLine: 'rgba\\(82,100,164,0\\.40\\)'/);
+  assert.ok(session.includes("sageLine: 'rgba(82,100,164,0.40)'"), 'The Style 4 grounding line must use indigo.');
   assert.match(css, /:root\[data-layout="mistico-moderno"\] #meditation-session \.ep-session-light-overlay/);
   assert.match(css, /rgba\(108,63,160,\.14\)/);
   const overlayStart = css.indexOf(':root[data-layout="mistico-moderno"] #meditation-session .ep-session-light-overlay');
