@@ -1,7 +1,7 @@
 :root[data-layout="mistico-moderno"] #progress-dashboard {
   background:
     radial-gradient(circle at 18% 10%, rgba(109, 40, 217, .16), transparent 34rem),
-    radial-gradient(circle at 84% 16%, rgba(5, 150, 105, .10), transparent 30rem),
+    radial-gradient(circle at 84% 16%, rgba(212, 175, 55, .07), transparent 30rem),
     linear-gradient(180deg, #080b18 0%, #0b1024 48%, #10142b 100%) !important;
   color: #f4efe4 !important;
 }
@@ -48,7 +48,7 @@
 :root[data-layout="mistico-moderno"] #progress-dashboard [data-mistico-dashboard-backdrop] {
   background:
     radial-gradient(circle at 18% 10%, rgba(109, 40, 217, .16), transparent 34rem),
-    radial-gradient(circle at 84% 16%, rgba(5, 150, 105, .10), transparent 30rem),
+    radial-gradient(circle at 84% 16%, rgba(212, 175, 55, .07), transparent 30rem),
     linear-gradient(180deg, #080b18 0%, #0b1024 48%, #10142b 100%) !important;
 }
 
