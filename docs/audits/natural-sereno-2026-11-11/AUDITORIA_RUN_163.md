@@ -53,3 +53,13 @@ O arquivo de teste foi revisado após a criação para corrigir a extração da 
 
 - CSS da Reintegração: `5a01dd6c753ee600f176a82a3b499b3c7ceba647`
 - Teste e guarda: `ae36028de8a28647be2870cedd5e95c4765ad0ad`, seguido da correção do próprio teste `bc5f3fe0f00fe95fc257cf9167c7115dd9e1933d`
+
+
+## Snapshot após a primeira reauditoria do HEAD RUN 163
+
+- Commit consultado: `3db695849cae8546162bb355347201448dc38369`.
+- Comparação com `main`: 266 commits à frente e 12 atrás; histórico divergente. Nenhuma reconciliação automática.
+- GitHub Actions PR-triggered: nenhuma execução associada ao commit consultado.
+- Status checks: Vercel em `failure`; URL de status: https://vercel.com/evertonpiceni-sketch/protocolodecuraintegrativa/J1Rtmt67uoDE3M895dn5rbCr9eRp.
+- A verificação estática independente dos arquivos desta rodada passou em 10/10 condições de escopo/integração. Isso não substitui a execução da suíte Node/TypeScript, CI, build ou homologação renderizada.
+- A PR permanece aberta e em rascunho; nenhum merge, deploy de produção ou pagamento foi realizado.
