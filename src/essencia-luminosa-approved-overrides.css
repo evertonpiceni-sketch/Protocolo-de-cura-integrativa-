@@ -1004,7 +1004,7 @@
   box-shadow: 0 10px 24px var(--layout-gold-shadow) !important;
 }
 
-/* RUN 177 — Pausa Consciente, Ainda Há Algo em Mim e roteiro da Reintegração.
+/* RUN 177 — Pausa Consciente, Ainda Há Algo em Mim e detalhes da Reintegração.
    Os modais compartilhados mantêm sálvia como acento natural, mas não reintroduzem
    o âmbar antigo #B88736 nem texto branco sobre ouro saturado no Estilo 3. */
 :root[data-layout="essencia-luminosa"] [data-ep-reintegration="true"] [data-ep-reintegration-modal="true"] [class*="text-[#B88736]"],
@@ -1038,9 +1038,16 @@
   border-color: var(--layout-gold-border) !important;
   background: var(--layout-card) !important;
 }
-:root[data-layout="essencia-luminosa"] [data-ep-reintegration="true"] [data-ep-reintegration-modal="true"] .ep-reintegration-acceptance input[type="checkbox"] {
+/* Estes controles ficam na tela principal da jornada, fora dos modais. */
+:root[data-layout="essencia-luminosa"] [data-ep-reintegration="true"] svg[class*="text-[#B88736]"] {
+  color: var(--layout-gold-dark) !important;
+}
+:root[data-layout="essencia-luminosa"] [data-ep-reintegration="true"] .ep-reintegration-acceptance input[type="checkbox"] {
   accent-color: var(--layout-gold) !important;
 }
-:root[data-layout="essencia-luminosa"] [data-ep-reintegration="true"] [data-ep-reintegration-modal="true"] .ep-reintegration-details > div > div[class*="border-[#B88736]"] {
+:root[data-layout="essencia-luminosa"] [data-ep-reintegration="true"] .ep-reintegration-details summary:focus-visible {
+  outline-color: var(--layout-gold) !important;
+}
+:root[data-layout="essencia-luminosa"] [data-ep-reintegration="true"] .ep-reintegration-details > div > div[class*="border-[#B88736]"] {
   border-color: var(--layout-gold-border) !important;
 }
