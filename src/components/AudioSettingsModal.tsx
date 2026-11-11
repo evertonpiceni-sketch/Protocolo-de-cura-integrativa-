@@ -27,6 +27,8 @@ interface AudioSettingsModalProps {
   isLoadingElevenLabsVoices?: boolean;
   onOpenProModal?: () => void;
   allowBackgroundPlayback?: boolean;
+  backgroundPlaybackRequested?: boolean;
+  onBackgroundPlaybackRequest?: (requested: boolean) => void;
 }
 
 export default function AudioSettingsModal({
@@ -38,7 +40,9 @@ export default function AudioSettingsModal({
   elevenLabsVoices = [],
   isLoadingElevenLabsVoices = false,
   onOpenProModal,
-  allowBackgroundPlayback = true
+  allowBackgroundPlayback = true,
+  backgroundPlaybackRequested = false,
+  onBackgroundPlaybackRequest
 }: AudioSettingsModalProps) {
   const dialogRef = useRef<HTMLDivElement>(null);
   const closeWithoutSaving = () => {
@@ -54,9 +58,10 @@ export default function AudioSettingsModal({
       carrierMode: userProfile.binauralCarrierMode ?? 'sync'
     });
     audioEngine.setBGVolume(userProfile.bgMusicVolume ?? 0.5);
-    if (allowBackgroundPlayback && userProfile.audioEnabled !== false && userProfile.bgMusicType && userProfile.bgMusicType !== 'none') {
+    if (allowBackgroundPlayback && backgroundPlaybackRequested && userProfile.audioEnabled !== false && userProfile.bgMusicType && userProfile.bgMusicType !== 'none') {
       audioEngine.startBG(userProfile.bgMusicType);
     }
+    onBackgroundPlaybackRequest?.(backgroundPlaybackRequested);
     setIsTestingVoice(false);
     setIsPlayingBioactivePreview(false);
     onClose();
@@ -102,6 +107,7 @@ export default function AudioSettingsModal({
     userProfile.binauralCarrierMode ?? 'sync'
   );
   const [isPlayingBioactivePreview, setIsPlayingBioactivePreview] = useState<boolean>(false);
+  const [playbackRequested, setPlaybackRequested] = useState<boolean>(backgroundPlaybackRequested);
 
   if (!isOpen) return null;
 
@@ -154,9 +160,11 @@ export default function AudioSettingsModal({
     audioEngine.unlock();
     if (isPlayingBioactivePreview) {
       audioEngine.stopBG();
+      setPlaybackRequested(false);
       setIsPlayingBioactivePreview(false);
     } else {
       setIsPlayingBioactivePreview(true);
+      setPlaybackRequested(true);
       const effectiveType = bgMusicType !== 'none' ? bgMusicType : '528hz';
       if (bgMusicType === 'none') {
         setBgMusicType('528hz');
@@ -173,7 +181,7 @@ export default function AudioSettingsModal({
   };
 
   const restoreBackgroundAfterVoiceTest = () => {
-    if (!allowBackgroundPlayback || !audioEnabled || bgMusicType === 'none') {
+    if (!allowBackgroundPlayback || !playbackRequested || !audioEnabled || bgMusicType === 'none') {
       audioEngine.stopBG();
       return;
     }
@@ -205,9 +213,9 @@ export default function AudioSettingsModal({
     }
     const testPhrase = `Olá, ${userProfile.name}. Esta é uma prévia da voz escolhida para acompanhar suas práticas com calma e presença.`;
 
-    const shouldPlayVoiceBackground = !requiresNeuralVoice
+    const shouldPlayVoiceBackground = playbackRequested && (!requiresNeuralVoice
       ? bgMusicType !== 'none'
-      : audioEnabled && shouldPlayProtocolSessionBackground('playing', bgMusicType);
+      : audioEnabled && shouldPlayProtocolSessionBackground('playing', bgMusicType));
     if (allowBackgroundPlayback && shouldPlayVoiceBackground) {
       audioEngine.startBG(bgMusicType);
     } else if (allowBackgroundPlayback && requiresNeuralVoice) {
@@ -287,7 +295,9 @@ export default function AudioSettingsModal({
       carrierMode: binauralCarrierMode
     });
 
-    if (allowBackgroundPlayback && audioEnabled && bgMusicType !== 'none') {
+    const keepExplicitPlayback = allowBackgroundPlayback && playbackRequested && audioEnabled && bgMusicType !== 'none';
+    onBackgroundPlaybackRequest?.(keepExplicitPlayback);
+    if (keepExplicitPlayback) {
       audioEngine.startBG(bgMusicType);
     } else {
       audioEngine.stopBG();
@@ -380,12 +390,13 @@ export default function AudioSettingsModal({
                       return;
                     }
                     setBgMusicType(track.id as any);
-                    if (allowBackgroundPlayback) {
-                      if (track.id !== 'none') {
-                        audioEngine.startBG(track.id as any);
-                      } else {
-                        audioEngine.stopBG();
-                      }
+                    if (allowBackgroundPlayback && audioEnabled && track.id !== 'none') {
+                      audioEngine.unlock();
+                      setPlaybackRequested(true);
+                      audioEngine.startBG(track.id as any);
+                    } else {
+                      setPlaybackRequested(false);
+                      audioEngine.stopBG();
                     }
                   }}
                   className={`p-2.5 rounded-xl text-left border transition cursor-pointer disabled:cursor-not-allowed disabled:opacity-50 relative overflow-hidden ${
