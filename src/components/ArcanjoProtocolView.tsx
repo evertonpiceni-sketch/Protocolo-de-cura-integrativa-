@@ -414,7 +414,7 @@ export default function ArcanjoProtocolView({ userProfile, onClose, onLogout, in
 
     <main className="relative z-10 mx-auto w-full max-w-[500px] space-y-5 px-4 py-6 pb-16">
       <section>
-        <div className={`mb-4 flex flex-wrap items-center justify-center gap-2 text-sm ${isMisticoModerno ? 'text-[#BAC3D1]' : 'text-[#5C6A60]'}`}><ShieldCheck size={18} style={{color:protocolAccent}}/><span>Dia {config.dia} de 7</span><span className="text-[#B88736]/60">•</span><span>Solfeggio {config.freq} Hz</span></div>
+        <div className={`mb-4 flex flex-wrap items-center justify-center gap-2 text-sm ${isMisticoModerno ? 'text-[#BAC3D1]' : 'text-[#5C6A60]'}`}><ShieldCheck size={18} style={{color:protocolAccent}}/><span>Dia {config.dia} de 7</span><span className={isMisticoModerno ? 'text-[#D4AF37]/60' : 'text-[#B88736]/60'}>•</span><span>Solfeggio {config.freq} Hz</span></div>
         <ChakraBody config={config} progress={progressPercent} active={isPlaying} isMisticoModerno={isMisticoModerno}/>
       </section>
 
@@ -435,13 +435,13 @@ export default function ArcanjoProtocolView({ userProfile, onClose, onLogout, in
           )}
 
           <div className="mt-6 flex items-center justify-center gap-5">
-            <button disabled={!hasKnownDuration} className="flex h-11 w-11 items-center justify-center rounded-xl text-[#d7e2d8] disabled:opacity-30" aria-label="Voltar dez segundos" onClick={()=>seek(-10)}><RotateCcw/></button>
+            <button disabled={!hasKnownDuration} className={`flex h-11 w-11 items-center justify-center rounded-xl disabled:opacity-30 ${isMisticoModerno ? 'text-[#BAC3D1]' : 'text-[#d7e2d8]'}`} aria-label="Voltar dez segundos" onClick={()=>seek(-10)}><RotateCcw/></button>
             <button onClick={togglePlayback} disabled={isPreparingAudio} className="ep-gold-button flex h-20 w-20 items-center justify-center rounded-full disabled:opacity-70" aria-label={isPreparingAudio?'Preparando voz humana':isPlaying?'Pausar':'Iniciar ou continuar'}>{isPreparingAudio?<Loader2 size={32} className="animate-spin"/>:isPlaying?<Pause size={34}/>:<Play size={35} className="ml-1"/>}</button>
             <button disabled={!hasKnownDuration} className="flex h-11 w-11 items-center justify-center rounded-xl text-[#d7e2d8] disabled:opacity-30" aria-label="Avançar dez segundos" onClick={()=>seek(10)}><RotateCw/></button>
           </div>
 
           {voiceError && <p role="alert" className="ep-voice-error mt-4 rounded-xl px-4 py-3 text-xs">{isMisticoModerno ? 'A voz neural escolhida está indisponível. O Místico Moderno não usará a voz do dispositivo.' : isEssenciaLuminosa ? 'A narração neural está indisponível. A voz do dispositivo não será usada.' : 'Selecione uma voz neural válida em Ajustes de áudio. O Estilo 2 não usará a voz do dispositivo.'}</p>}
-          <div role="status" aria-live="polite" className="mt-4 flex items-center justify-center gap-2 text-center text-sm text-[#bad0c4]">
+          <div role="status" aria-live="polite" className={`mt-4 flex items-center justify-center gap-2 text-center text-sm ${isMisticoModerno ? 'text-[#BAC3D1]' : 'text-[#bad0c4]'}`}>
             <Volume2 size={17}/>
             <span>
               {userProfile.audioEnabled === false
@@ -481,12 +481,12 @@ export default function ArcanjoProtocolView({ userProfile, onClose, onLogout, in
           <div className={`flex items-center gap-2 ${isMisticoModerno ? 'text-[#D4AF37]' : 'text-[#B88736]'}`}><Leaf size={18}/><span className="text-xs uppercase tracking-[.2em]">Intenção do dia</span></div>
           <h2 className="mt-3 font-display text-3xl font-semibold" style={{color:isMisticoModerno ? '#E2B96B' : config.corSecundaria}}>{config.nome}</h2>
           <p className={`mt-2 text-base ${isMisticoModerno ? 'text-[#BAC3D1]' : 'text-[#e9f1e9]'}`}>{config.subtitulo}</p>
-          <p className="mt-4 border-t border-[#B88736]/20 pt-4 text-center font-display text-xl italic leading-8 text-[#f5e8bd]">{config.intencao}.</p>
+          <p className={`mt-4 border-t pt-4 text-center font-display text-xl italic leading-8 text-[#f5e8bd] ${isMisticoModerno ? 'border-[#D4AF37]/20' : 'border-[#B88736]/20'}`}>{config.intencao}.</p>
         </div>
 
         <div className="ep-forest-panel rounded-[1.75rem] p-5 sm:p-7">
           <div className="text-center">
-            <p className="text-xs uppercase tracking-[.2em] text-[#B88736]">Roteiro aprovado reconectado</p>
+            <p className={`text-xs uppercase tracking-[.2em] ${isMisticoModerno ? 'text-[#D4AF37]' : 'text-[#B88736]'}`}>Roteiro aprovado reconectado</p>
             <p className={`mt-2 text-sm ${isMisticoModerno ? 'text-[#BAC3D1]' : 'text-[#e9f1e9]'}`}>Reiki São Miguel • Chama Violeta • Raio de Ouro e Verde de São Rafael</p>
           </div>
           <button onClick={()=>setShowRoteiro(!showRoteiro)} className={`mt-5 flex min-h-11 w-full items-center justify-center gap-2 rounded-xl border px-4 py-3 text-sm ${isMisticoModerno ? 'border-[#D4AF37]/35 text-[#E2B96B]' : 'border-[#B88736]/35 text-[#f0d989]'}`}><BookOpen size={17}/>{showRoteiro?'Ocultar roteiro':'Ler roteiro completo'}</button>
@@ -494,7 +494,7 @@ export default function ArcanjoProtocolView({ userProfile, onClose, onLogout, in
         </div>
 
         <div className="ep-forest-panel rounded-[1.75rem] p-5 sm:p-7">
-          <div className="mb-5 text-center"><h3 className="font-display text-2xl text-[#f5e8bd]">Seu progresso</h3><p className="mt-1 text-sm text-[#bad0c4]">Equilíbrio hoje, presença amanhã.</p></div>
+          <div className="mb-5 text-center"><h3 className="font-display text-2xl text-[#f5e8bd]">Seu progresso</h3><p className={`mt-1 text-sm ${isMisticoModerno ? 'text-[#BAC3D1]' : 'text-[#bad0c4]'}`}>Equilíbrio hoje, presença amanhã.</p></div>
           <div className="grid grid-cols-7 gap-2">{[1,2,3,4,5,6,7].map(day=>{const dayConfig=DADOS_PROTOCOLO[day];const done=completedDays.includes(day);return <button key={day} onClick={()=>selectDay(day)} aria-label={`Abrir dia ${day}, ${dayConfig.nome}`} data-current={diaAtual===day ? 'true' : 'false'} data-completed={done ? 'true' : 'false'} className={`flex min-w-0 flex-col items-center gap-2 rounded-xl border px-1 py-3 ${isMisticoModerno ? (diaAtual===day ? 'border-[#D4AF37] bg-[#D4AF37]/12' : done ? 'border-[#6C3FA0]/45 bg-[#0A0F18]/30' : 'border-[#2E3B73]/60 bg-[#0A0F18]/25') : (diaAtual===day ? 'border-[#B88736] bg-[#e5c66f]/12' : 'border-[#B88736]/15 bg-black/10')}`}><span data-arcanjo-day-marker className="flex h-7 w-7 items-center justify-center rounded-full text-xs font-bold" style={{background:isMisticoModerno ? (done ? '#6C3FA0' : diaAtual===day ? '#D4AF37' : '#2E3B73') : (done||diaAtual===day?dayConfig.cor:'#214536'),color:isMisticoModerno && diaAtual===day ? '#0A0F18' : '#fff'}}>{done?'✓':day}</span><span className={`hidden text-[11px] sm:block ${isMisticoModerno ? 'text-[#BAC3D1]' : 'text-[#c8d8cc]'}`}>{dayConfig.nome.replace('Chakra ','')}</span></button>})}</div>
         </div>
 
