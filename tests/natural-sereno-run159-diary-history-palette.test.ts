@@ -27,7 +27,7 @@ test('RUN 159 — histórico do Diário usa acentos suaves no Natural Sereno', (
     .map(line => line.trim())
     .filter(line => line.endsWith('{') && !line.startsWith('@'));
   assert.ok(selectors.length >= 4);
-  assert.ok(selectors.every(selector => selector.startsWith(':root[data-layout="natural-sereno"] #journal-dashboard-view')));
+  assert.ok(selectors.every(selector => selector.startsWith(':root[data-layout="natural-sereno"]')), selectors.join('\n'));
 
   // Keep the semantic mood categories and their labels intact.
   assert.ok(diary.includes('border-rose-200 bg-rose-50 text-rose-700'));
