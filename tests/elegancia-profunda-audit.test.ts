@@ -571,8 +571,8 @@ test('o seletor permanece neutro até a escolha explícita e só então revela o
   const app = read('src/App.tsx');
   const preselectionTone = modal.match(/const confirmButtonTone = !selectedLayout\s*\?\s*'([^']+)'/)?.[1] ?? '';
 
-  assert.ok(preselectionTone.includes('from-[#A99B84]'));
-  assert.ok(preselectionTone.includes('to-[#817460]'));
+  assert.ok(preselectionTone.includes('from-[#D8D4CB]'));
+  assert.ok(preselectionTone.includes('to-[#AFA99D]'));
   assert.ok(!/#(?:B88736|C89D52|D9B66D|A87E37|D4AF37|E2B96B|C6A46A)/i.test(preselectionTone));
   assert.ok(modal.includes("selectedLayout === 'essencia-luminosa'"));
   assert.ok(modal.includes('from-[#C89D52] via-[#D9B66D] to-[#A87E37]'));
