@@ -784,3 +784,17 @@
 :root[data-layout="essencia-luminosa"] #systemic-questions-modal [class*="text-amber-700"] {
   color: var(--layout-gold-dark) !important;
 }
+
+/* RUN 160 — o dia selecionado não pode manter o âmbar herdado nem texto branco de baixo contraste. */
+:root[data-layout="essencia-luminosa"] #systemic-questions-modal button[class*="bg-[#B88736]"] {
+  background: linear-gradient(135deg, var(--layout-gold-soft), var(--layout-gold)) !important;
+  color: var(--layout-text) !important;
+  border-color: color-mix(in srgb, var(--layout-gold-dark) 48%, var(--layout-border-card)) !important;
+  box-shadow: 0 6px 18px color-mix(in srgb, var(--layout-gold) 14%, transparent) !important;
+}
+:root[data-layout="essencia-luminosa"] #systemic-questions-modal button[class*="bg-[#B88736]"] :is(span, svg) {
+  color: var(--layout-text) !important;
+}
+:root[data-layout="essencia-luminosa"] #systemic-questions-modal button[class*="ring-[#B88736]"] {
+  --tw-ring-color: color-mix(in srgb, var(--layout-gold-dark) 28%, transparent) !important;
+}
