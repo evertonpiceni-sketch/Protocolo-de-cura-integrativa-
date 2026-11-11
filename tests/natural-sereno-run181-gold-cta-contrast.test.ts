@@ -10,7 +10,9 @@ test('CTAs dourados do Natural Sereno mantêm texto café apesar do branco globa
   const entry = read('src/main.tsx');
 
   assert.ok(theme.includes('.ep-gold-button *,.ep-gold-action *{color:white!important}'));
+  assert.ok(overrides.includes(':root[data-layout="natural-sereno"] :is(.ep-gold-button,.ep-gold-action) {\n  color:#2A2421!important;\n}'));
   assert.ok(overrides.includes(':root[data-layout="natural-sereno"] :is(.ep-gold-button,.ep-gold-action) * {\n  color:#2A2421!important;\n}'));
+  assert.ok(overrides.includes(':root[data-layout="natural-sereno"] :is(.ep-gold-button,.ep-gold-action):hover {\n  color:#FFFDF8!important;\n}'));
   assert.ok(overrides.includes(':root[data-layout="natural-sereno"] :is(.ep-gold-button,.ep-gold-action):hover * {\n  color:#FFFDF8!important;\n}'));
 
   assert.ok(
