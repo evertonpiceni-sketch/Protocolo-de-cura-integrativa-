@@ -53,8 +53,8 @@ export default function PersonalJourney21({ onClose, initialCompletedDays, onCom
   const item = REINTEGRATION_DAYS[day - 1];
   // Asset names are zero-padded (dia-01.png … dia-21.png) in public/brand/days.
   const dayArtworkUrl = `/brand/days/dia-${String(day).padStart(2, '0')}.png`;
-  const runningBackdropUrl = isNaturalSereno ? '/brand/natural-sereno/cachoeira.webp' : dayArtworkUrl;
   const isNaturalSereno = typeof document !== 'undefined' && document.documentElement.dataset.layout === 'natural-sereno';
+  const runningBackdropUrl = isNaturalSereno ? '/brand/natural-sereno/cachoeira.webp' : dayArtworkUrl;
   const isEleganciaProfunda = typeof document !== 'undefined' && document.documentElement.dataset.layout === 'elegancia-profunda';
   const elapsedSeconds = musicRef.current?.currentTime || 0;
   const totalSeconds = musicRef.current?.duration || 1797;
