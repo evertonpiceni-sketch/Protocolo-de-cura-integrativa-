@@ -43,3 +43,4 @@ A PR #79 continua em rascunho. A comparação atual indica 243 commits à frente
 - `78623abb92d0cb722e0c07ab7b22c72a0c7c70bf` — `src/natural-sereno-approved-overrides.css`
 - `76a6dd0f4b58d6485b8734e7c75abb4336cdb311` — `tests/layout-choice-premium-cta.test.ts`
 - `10cbad3280b90bdc1c6809d273731ef6a5f11f1f` — `tests/natural-sereno-run159-diary-history-palette.test.ts`
+- `5b82169af264a485471ed2937153057edbeb86b2` — correção do teste do CTA da prévia: extração direta da classe, sem regex escapada.
