@@ -131,7 +131,13 @@ export async function acquireSharedDatabaseWriteLock(): Promise<CheckoutCreation
 
 export function paymentRoutes(authenticate: any, limiter: any, providerFetch: typeof fetch = fetch, saveCheckoutOrder: typeof saveDb = saveDb) {
   const router = Router();
-  const handle = () => process.env.INFINITEPAY_HANDLE || 'evertonterapeutareiki';
+  const handle = () => {
+    const configuredHandle = process.env.INFINITEPAY_HANDLE?.trim();
+    if (process.env.VERCEL_ENV === 'preview' && !configuredHandle) {
+      throw new Error('INFINITEPAY_HANDLE precisa ser configurado para o ambiente Preview antes de iniciar o checkout.');
+    }
+    return configuredHandle || 'evertonterapeutareiki';
+  };
   const apiKey = () => process.env.INFINITEPAY_API_KEY?.trim() || '';
   const appUrl = () => {
     const configuredUrl = process.env.PUBLIC_APP_URL?.trim();
