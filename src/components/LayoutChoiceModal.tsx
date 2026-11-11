@@ -57,19 +57,27 @@ function LayoutPreview({ layout }: { layout: LayoutDefinition }) {
   }
   if (isEssenciaLuminosa) {
     return (
-      <div
-        className="mt-4 flex h-[184px] w-full items-center justify-center overflow-hidden rounded-2xl border shadow-inner"
-        style={{ backgroundColor: '#FFFFF8', borderColor: 'rgba(198,164,106,.32)' }}
-        aria-hidden="true"
-      >
-        <img
-          src="/brand/essencia-luminosa/prancha-oficial.webp"
-          alt=""
-          loading="lazy"
-          decoding="async"
-          draggable={false}
-          className="h-full w-full object-contain p-1"
-        />
+      <div className="mt-4 w-full">
+        <div
+          className="flex h-[184px] w-full items-center justify-center overflow-hidden rounded-2xl border shadow-inner"
+          style={{ backgroundColor: '#FFFFF8', borderColor: 'rgba(198,164,106,.32)' }}
+          aria-hidden="true"
+        >
+          <img
+            src="/brand/essencia-luminosa/prancha-oficial.webp"
+            alt=""
+            loading="lazy"
+            decoding="async"
+            draggable={false}
+            className="h-full w-full object-contain p-1"
+          />
+        </div>
+        <p
+          className="mt-2 px-1 text-[11px] leading-relaxed text-[#6B625B]"
+          data-essencia-reference-note="true"
+        >
+          Prancha oficial de referência visual. As decisões atuais prevalecem: jornada de 21 dias, corpo neutro e logo-assinatura discreto/transparente.
+        </p>
       </div>
     );
   }
