@@ -798,3 +798,17 @@
 :root[data-layout="essencia-luminosa"] #systemic-questions-modal button[class*="ring-[#B88736]"] {
   --tw-ring-color: color-mix(in srgb, var(--layout-gold-dark) 28%, transparent) !important;
 }
+
+
+/* RUN 171 — o botão "Concluir dia" não pode herdar o texto verde e o dourado saturado globais.
+   Correção restrita à Reintegração da Essência Luminosa; os demais estilos permanecem intactos. */
+:root[data-layout="essencia-luminosa"] [data-ep-reintegration="true"] .ep-gold-button {
+  background: var(--layout-gold-gradient) !important;
+  color: var(--layout-text) !important;
+  border: 1px solid var(--layout-gold-border) !important;
+  box-shadow: 0 8px 22px var(--layout-gold-shadow) !important;
+}
+:root[data-layout="essencia-luminosa"] [data-ep-reintegration="true"] .ep-gold-button:hover:not(:disabled) {
+  filter: brightness(.985) saturate(.96) !important;
+  box-shadow: 0 10px 26px var(--layout-gold-shadow) !important;
+}
