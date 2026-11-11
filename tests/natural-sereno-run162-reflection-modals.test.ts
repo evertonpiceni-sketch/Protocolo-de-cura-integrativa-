@@ -33,8 +33,12 @@ test('filtros e CTAs da Reintegração deixam o ocre antigo, texto branco e form
 test('RUN 162 só afeta Natural Sereno e não altera os outros estilos', () => {
   const css = read('src/natural-sereno-approved-overrides.css');
   const block = css.slice(css.lastIndexOf('/* RUN 162 — Harmonizar Pausa Consciente e Ainda Há Algo em Mim no Natural Sereno.'));
+  const selectors = block.split('\n').map(line => line.trim()).filter(line => line.startsWith(':root'));
 
   assert.ok(block.length > 0);
-  assert.doesNotMatch(block, /:root(?!\\[data-layout="natural-sereno"\\])/);
-  assert.doesNotMatch(block, /data-layout="(?:elegancia-profunda|essencia-luminosa|mistico-moderno)"/);
+  assert.ok(selectors.length > 0);
+  assert.ok(selectors.every(selector => selector.startsWith(':root[data-layout="natural-sereno"]')));
+  assert.ok(!block.includes('data-layout="elegancia-profunda"'));
+  assert.ok(!block.includes('data-layout="essencia-luminosa"'));
+  assert.ok(!block.includes('data-layout="mistico-moderno"'));
 });
