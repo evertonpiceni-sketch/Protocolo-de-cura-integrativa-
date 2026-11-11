@@ -51,7 +51,7 @@ function LayoutPreview({ layout }: { layout: LayoutDefinition }) {
                 Um lugar para voltar para si
               </span>
             </div>
-            <span className="shrink-0 rounded-[18px] border border-[#A87E37] bg-gradient-to-b from-[#E2B96B] to-[#C89D52] px-3 py-2 text-[8px] font-bold uppercase tracking-[.08em] text-[#2A2421] shadow-sm">
+            <span className="shrink-0 rounded-xl border border-[#A87E37] bg-gradient-to-b from-[#E2B96B] to-[#C89D52] px-3 py-2 text-[8px] font-bold uppercase tracking-[.08em] text-[#2A2421] shadow-sm">
               Iniciar jornada
             </span>
           </div>
