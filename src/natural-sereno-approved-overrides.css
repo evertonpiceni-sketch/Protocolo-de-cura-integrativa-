@@ -2472,3 +2472,17 @@
   box-shadow: none !important;
   padding: 0 !important;
 }
+
+/* RUN 181 — texto dos CTAs dourados: contraste café no repouso e marfim no hover. */
+:root[data-layout="natural-sereno"] :is(.ep-gold-button,.ep-gold-action) {
+  color:#2A2421!important;
+}
+:root[data-layout="natural-sereno"] :is(.ep-gold-button,.ep-gold-action) * {
+  color:#2A2421!important;
+}
+:root[data-layout="natural-sereno"] :is(.ep-gold-button,.ep-gold-action):hover {
+  color:#FFFDF8!important;
+}
+:root[data-layout="natural-sereno"] :is(.ep-gold-button,.ep-gold-action):hover * {
+  color:#FFFDF8!important;
+}
