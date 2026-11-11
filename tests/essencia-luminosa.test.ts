@@ -634,7 +634,7 @@ test('a prévia de voz da Essência Luminosa não toca Solfeggio durante a narra
     'a sincronização global, o desbloqueio por gesto e o início da prévia neural devem respeitar a política Solfeggio'
   );
   assert.ok(app.includes('!usesNeuralVoiceCatalog || !isPlayingVoiceTest'));
-  assert.ok(app.includes('layoutConfirmedThisSession,\n    usesNeuralVoiceCatalog,\n    isPlayingVoiceTest\n  ]);'));
+  assert.ok(app.includes('layoutConfirmedThisSession,\n    usesNeuralVoiceCatalog,\n    isPlayingVoiceTest,\n    isEssenciaLuminosa,\n    isArchangelNarrationActive\n  ]);'));
   assert.ok(app.includes('layoutConfirmedThisSession, isPlayingVoiceTest]);'));
 
   assert.ok(settings.includes('const shouldPlayVoiceBackground = !requiresNeuralVoice'));
