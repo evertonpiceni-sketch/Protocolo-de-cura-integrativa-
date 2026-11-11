@@ -46,7 +46,7 @@ export default function ReintegrationPresenceVisual({
   if (neutral) {
     const stageProgress = weights.reduce((total, weight, index) => total + weight * index * 25, 0);
     const neutralProgress = 20 + stageProgress * 0.8;
-    const focusPosition = day === 1 ? 92 : (points[points.length - 1]?.[1] ?? 50);
+    const focusPosition = day === 1 ? 8 + stageProgress * 0.84 : (points[points.length - 1]?.[1] ?? 50);
 
     return (
       <NeutralBodyLightProgress
