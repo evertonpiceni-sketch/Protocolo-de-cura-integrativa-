@@ -50,7 +50,9 @@ test('a escolha dos quatro estilos permanece explícita e a prancha Natural Sere
   assert.ok(modal.includes("new URL('../../docs/visual-qa/natural-sereno/reference.jpg', import.meta.url).href"));
   assert.ok(modal.includes('src={NATURAL_SERENO_OFFICIAL_BOARD}'));
   assert.ok(modal.includes('useState<LayoutId | null>(null)'));
-  assert.ok(modal.includes("const confirmButtonRadius = !selectedLayout || selectedLayout === 'natural-sereno' ? 'rounded-[18px]' : 'rounded-full';"));
+  assert.ok(modal.includes('const confirmButtonTone = !selectedLayout'));
+  assert.ok(modal.includes('rounded-xl ${confirmButtonTone}'));
+  assert.ok(!modal.includes('confirmButtonRadius'));
   assert.ok(modal.includes('disabled={!selectedLayout || isSaving}'));
   assert.ok(app.includes('const [layoutConfirmedThisSession, setLayoutConfirmedThisSession] = useState(false);'));
   assert.ok(app.includes('{(!layoutConfirmedThisSession || layoutChoiceRequested) && ('));
@@ -169,8 +171,11 @@ test('Natural Sereno não reintroduz fallback verde-floresta nem amarelo saturad
   for (const legacyColor of ['#063020', 'rgba(2, 31, 19, .15)', '#297241', '#edf1d8', '#e6c66e']) {
     assert.equal(css.includes(legacyColor), false, `Cor legada encontrada: ${legacyColor}`);
   }
-  assert.ok(css.includes("presenca.webp') center / cover no-repeat #2A2421"));
-  assert.ok(css.includes("acolhimento.webp') center / cover no-repeat #2A2421"));
+  assert.ok(css.includes("vale-amanhecer.webp') center / cover no-repeat #FAF7F2"));
+  assert.ok(css.includes("acolhimento.webp') center / cover no-repeat #FAF7F2"));
+  assert.ok(css.includes('rgba(250,247,242,.86) 55%, rgba(250,247,242,.94)'));
+  assert.ok(!css.includes('rgba(42,36,33,.58) 55%'));
+  assert.ok(!css.includes('presenca.webp'));
   assert.ok(css.includes("--ns-waterfall: url('/brand/natural-sereno/cachoeira.webp')"));
   const finalPlayerCss = read('src/natural-sereno-final-audit.css');
   const playerComponent = read('src/components/MeditationSession.tsx');

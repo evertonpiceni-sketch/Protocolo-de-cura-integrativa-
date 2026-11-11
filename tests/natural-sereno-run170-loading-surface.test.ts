@@ -22,8 +22,17 @@ test('o carregamento Natural Sereno usa paisagem real sob véu marfim e não rec
   assert.ok(block.includes('linear-gradient(90deg,#C89D52,#A87E37)'));
 
   assert.ok(baseCss.includes("url('/brand/natural-sereno/vale-amanhecer.webp')"));
-  assert.ok(baseCss.includes('rgba(250,247,242,.76)'));
-  assert.ok(!baseCss.includes('rgba(42,36,33,.68)'), 'O véu escuro antigo não pode voltar ao CSS-base');
+  const baseLoadingRules = [...baseCss.matchAll(/:root\\[data-layout="natural-sereno"\\] #auth-loading-view\\s*\\{[^}]*\\}/g)].map(match => match[0]);
+  assert.ok(baseLoadingRules.length >= 2, 'As regras-base do carregamento devem continuar protegidas');
+  for (const rule of baseLoadingRules) {
+    assert.ok(rule.includes("url('/brand/natural-sereno/vale-amanhecer.webp')"));
+    assert.ok(rule.includes('rgba(250,247,242,.76)'));
+    assert.ok(!rule.includes('rgba(42,36,33,.68)'));
+    assert.ok(!rule.includes('var(--ns-waterfall)'));
+  }
+  assert.ok(baseCss.includes('#auth-loading-view :is(h2, p) { color: #2A2421 !important; }'));
+  assert.ok(baseCss.includes('.ns-loading-details small { font-size: 12px; color: #6B625B;'));
+  assert.ok(baseCss.includes('background: rgba(200,157,82,.16); border: 1px solid rgba(168,126,55,.24);'));
   assert.ok(!baseCss.includes('presenca.webp'));
   assert.ok(!approvedCss.includes('presenca.webp'), 'A arte antiga com chakras não pode voltar ao tema ativo');
 

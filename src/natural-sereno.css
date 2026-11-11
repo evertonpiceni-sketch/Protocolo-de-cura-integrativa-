@@ -319,8 +319,8 @@
 :root[data-layout="natural-sereno"] .ns-community-empty h2 { font-size: 29px; }
 :root[data-layout="natural-sereno"] .ns-community-empty p { font-size: 13px; line-height: 1.65; }
 :root[data-layout="natural-sereno"] #main-header > div > div:first-child > div:first-child { opacity: 1; background: transparent !important; border: 0; box-shadow: none; }
-:root[data-layout="natural-sereno"] #auth-loading-view { background: linear-gradient(180deg, rgba(42,36,33,.12), rgba(42,36,33,.68)), var(--ns-waterfall) center / cover no-repeat #FAF7F2 !important; }
-:root[data-layout="natural-sereno"] #auth-loading-view :is(h2, p) { color: #fff8e6 !important; }
+:root[data-layout="natural-sereno"] #auth-loading-view { background: linear-gradient(180deg, rgba(250,247,242,.76), rgba(250,247,242,.90)), url('/brand/natural-sereno/vale-amanhecer.webp') center / cover no-repeat #FAF7F2 !important; color: #2A2421 !important; }
+:root[data-layout="natural-sereno"] #auth-loading-view :is(h2, p) { color: #2A2421 !important; }
 :root[data-layout="natural-sereno"] #auth-loading-view > div { background: transparent !important; border: 0; box-shadow: none; opacity: 1; }
 :root[data-layout="natural-sereno"] #anamnesis-modal div[class*="bg-[#B88736]/"] { background: rgba(200,157,82, .1) !important; }
 :root[data-layout="natural-sereno"] #anamnesis-modal > div > div.absolute { opacity: .25; }
@@ -412,7 +412,7 @@
   width: 100%;
   height: 10px;
   border-radius: 8px;
-  background: rgba(249, 241, 209, .25);
+  background: rgba(200,157,82,.16); border: 1px solid rgba(168,126,55,.24);
   overflow: hidden;
 }
 :root[data-layout="natural-sereno"] .ns-loading-track > span {
@@ -423,13 +423,13 @@
   border-radius: inherit;
   animation: ns-loading 1.8s ease-in-out infinite alternate;
 }
-:root[data-layout="natural-sereno"] .ns-loading-details small { font-size: 12px; color: #fff8e6; margin-top: 14px; line-height: 1.5; }
+:root[data-layout="natural-sereno"] .ns-loading-details small { font-size: 12px; color: #6B625B; margin-top: 14px; line-height: 1.5; }
 @keyframes ns-loading { from { transform: translateX(-65%); } to { transform: translateX(90%); } }
 :root[data-layout="natural-sereno"] .ns-welcome {
-  background: url('/brand/natural-sereno/acolhimento.webp') center / cover no-repeat #2A2421;
+  background: url('/brand/natural-sereno/acolhimento.webp') center / cover no-repeat #FAF7F2;
   padding: 44px 24px 30px;
 }
-:root[data-layout="natural-sereno"] .ns-welcome::before { background: linear-gradient(180deg, rgba(42,36,33,.12), rgba(42,36,33,.58) 55%, rgba(42,36,33,.72)); }
+:root[data-layout="natural-sereno"] .ns-welcome::before { background: linear-gradient(180deg, rgba(250,247,242,.72), rgba(250,247,242,.86) 55%, rgba(250,247,242,.94)); }
 :root[data-layout="natural-sereno"] .ns-welcome-content { display: flex; flex-direction: column; align-items: center; min-height: calc(100dvh - 74px); }
 :root[data-layout="natural-sereno"] .ns-welcome-brand { width: 64px; height: 64px; object-fit: contain; opacity: .30; margin-bottom: 70px; }
 :root[data-layout="natural-sereno"] .ns-welcome h1 { font-size: 39px; }
