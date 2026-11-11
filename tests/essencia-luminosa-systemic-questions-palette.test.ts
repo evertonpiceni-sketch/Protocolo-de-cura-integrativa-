@@ -13,6 +13,12 @@ test('Perguntas Sistêmicas usa sálvia/champagne nos estados de dia somente na 
   assert.ok(component.includes("'bg-amber-50 border border-amber-200 text-amber-700'"));
   assert.ok(component.includes('bg-emerald-400'));
   assert.ok(component.includes('bg-emerald-500'));
+  assert.ok(component.includes("bg-[#B88736] text-white ring-2"));
+  assert.ok(css.includes(scope + ' button[class*="bg-[#B88736]"]'));
+  assert.ok(css.includes(scope + ' button[class*="bg-[#B88736]"] :is(span, svg)'));
+  assert.ok(css.includes('background: linear-gradient(135deg, var(--layout-gold-soft), var(--layout-gold)) !important;'));
+  assert.ok(css.includes('color: var(--layout-text) !important;'));
+
 
   assert.ok(css.includes(scope + ' [class*="bg-emerald-50"]'));
   assert.ok(css.includes(scope + ' [class*="border-emerald-200"]'));
