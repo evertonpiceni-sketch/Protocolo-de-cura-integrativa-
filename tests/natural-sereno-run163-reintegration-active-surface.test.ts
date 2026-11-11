@@ -17,7 +17,7 @@ test('RUN 163 cobre as superfícies ativas da Reintegração que ainda usavam o 
   assert.ok(journey.includes('className="ep-reintegration-progress-fill'));
   assert.ok(journey.includes('className="ep-reintegration-acceptance'));
   assert.ok(journey.includes('className="ep-reintegration-details'));
-  assert.ok(journey.includes('className="ep-reintegration-script-card'));
+  assert.ok(journey.includes('className={`ep-reintegration-script-card'));
 
   for (const selector of [
     '.ep-reintegration-luminous',
@@ -39,7 +39,7 @@ test('RUN 163 permanece estritamente isolada no Natural Sereno', () => {
   const css = read('src/natural-sereno-approved-overrides.css');
   const start = css.lastIndexOf(marker);
   const block = css.slice(start);
-  const selectors = block.split('\\n').map(line => line.trim()).filter(line => line.startsWith(':root'));
+  const selectors = block.split('\n').map(line => line.trim()).filter(line => line.startsWith(':root'));
 
   assert.ok(start >= 0);
   assert.ok(selectors.length >= 10);
