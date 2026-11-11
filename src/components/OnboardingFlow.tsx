@@ -14,15 +14,15 @@ export default function OnboardingFlow({ onComplete }: OnboardingFlowProps) {
   const dialogRef = useRef<HTMLDivElement>(null);
   const shouldReduceMotion = useReducedMotion();
   useDialogFocus(true, dialogRef, null);
+  const [step, setStep] = useState(1);
+  const [feeling, setFeeling] = useState('');
+  const [intention, setIntention] = useState('');
+  const next = () => step < 6 ? setStep(s => s + 1) : onComplete();
   React.useEffect(() => {
     if (!shouldReduceMotion) return;
     dialogRef.current?.scrollTo({ top: 0 });
     dialogRef.current?.querySelector<HTMLElement>('#care-onboarding-title')?.focus({ preventScroll: true });
   }, [step, shouldReduceMotion]);
-  const [step, setStep] = useState(1);
-  const [feeling, setFeeling] = useState('');
-  const [intention, setIntention] = useState('');
-  const next = () => step < 6 ? setStep(s => s + 1) : onComplete();
 
   return <div ref={dialogRef} role="dialog" aria-modal="true" aria-labelledby="care-onboarding-title" className="ep-care-onboarding fixed inset-0 z-[100] min-h-dvh overflow-y-auto overscroll-contain bg-[radial-gradient(circle_at_50%_0,rgba(214,174,82,.14),transparent_28rem),linear-gradient(180deg,#FBF8F2,#F8F4EC)] text-[#2A2420]">
     <div className="min-h-full flex items-center justify-center p-5">
