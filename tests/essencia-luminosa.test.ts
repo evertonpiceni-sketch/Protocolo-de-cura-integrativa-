@@ -857,3 +857,23 @@ test('a dica diária aguarda a confirmação explícita do estilo e só marca a 
   assert.ok(logoutStart >= 0 && logoutEnd > logoutStart);
   assert.ok(app.slice(logoutStart, logoutEnd).includes('setShowDailyTip(false)'));
 });
+
+test('a navegação inferior neutraliza as cores herdadas sem alterar o botão de sair', () => {
+  const app = fs.readFileSync('src/App.tsx', 'utf8');
+  const bottomNav = fs.readFileSync('src/essencia-luminosa-bottom-nav-audit.css', 'utf8');
+  const approvedOverrides = fs.readFileSync('src/essencia-luminosa-approved-overrides.css', 'utf8');
+
+  const legacyActions = [
+    'bottom-btn-promo-video', 'bottom-btn-achievements', 'bottom-btn-systemic',
+    'bottom-btn-archangel', 'bottom-btn-hooponopono', 'bottom-btn-video-studio',
+    'bottom-btn-astral-map', 'bottom-btn-numerology', 'bottom-btn-specific-treatment',
+    'bottom-btn-courses', 'bottom-btn-chakras', 'bottom-btn-herbal-baths',
+    'bottom-btn-values-guide', 'bottom-btn-journal', 'bottom-btn-dashboard', 'bottom-btn-audio'
+  ];
+  for (const id of legacyActions) assert.ok(app.includes('id="' + id + '"'), 'Ação ausente: ' + id);
+
+  assert.ok(bottomNav.includes('html[data-layout="essencia-luminosa"] button[id^="bottom-btn-"]:not(#bottom-btn-logout)'));
+  assert.ok(bottomNav.includes('button#bottom-btn-journal[class*="bg-indigo-600"]'));
+  assert.ok(bottomNav.includes('var(--layout-accent-soft)'));
+  assert.ok(approvedOverrides.includes('#bottom-btn-logout'), 'O botão Sair mantém sua assinatura específica aprovada.');
+});
