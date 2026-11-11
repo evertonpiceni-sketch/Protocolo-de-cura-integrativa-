@@ -364,10 +364,10 @@ export const SacredEnergyCanvas: React.FC<SacredEnergyCanvasProps> = ({
         }
 
         case ProtocolStage.BALSAMO: {
-          // Heart-centered expansion and golden light cascade.
+          // São Rafael restores and blesses: Style 4 renders this healing field in violet/indigo with a restrained golden cascade.
           const heartPulse = Math.sin(time * 1.8) * 8 + 68;
 
-          // Rose soft bloom
+          // The restorative bloom follows the active palette; Style 4 uses violet/indigo instead of a standalone emerald glow.
           const roseGrad = ctx.createRadialGradient(cx, cy, 10, cx, cy, heartPulse + 40);
           roseGrad.addColorStop(0, colorTheme?.violetGlow ?? palette?.goldGlow ?? 'rgba(244, 114, 182, 0.35)');
           roseGrad.addColorStop(0.5, colorTheme?.indigoGlow ?? palette?.sageGlow ?? 'rgba(251, 113, 133, 0.15)');
