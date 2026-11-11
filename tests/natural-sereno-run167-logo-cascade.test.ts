@@ -5,7 +5,8 @@ import test from 'node:test';
 const read = (path: string) => fs.readFileSync(path, 'utf8');
 
 function cssRule(source: string, selector: string, useLast = false) {
-  const start = useLast ? source.lastIndexOf(selector) : source.indexOf(selector);
+  const exactSelector = `${selector} {`;
+  const start = useLast ? source.lastIndexOf(exactSelector) : source.indexOf(exactSelector);
   assert.ok(start >= 0, `Regra não encontrada: ${selector}`);
   const open = source.indexOf('{', start);
   const close = source.indexOf('}', open + 1);
