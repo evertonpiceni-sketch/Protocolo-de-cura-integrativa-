@@ -14,6 +14,7 @@ import { ORIGINAL_PROTOCOL_SCRIPTS } from '../data/protocol_scripts';
 import { audioEngine, OFFICIAL_PROTOCOL_VOICE_ID } from '../lib/audio';
 import { isElevenLabsVoiceId } from '../lib/voiceSelection';
 import { shouldPlayProtocolSessionBackground } from '../lib/protocolSessionAudioPolicy';
+import { shouldPlayEssenciaLuminosaSessionBackground } from '../lib/essenciaLuminosaAudioPolicy';
 import { requestWakeLock } from '../lib/wakeLockHelpers';
 import { AppLanguage, STAGE_AUDIO_TRANSLATIONS } from '../lib/i18n';
 import { resolveProtocolScript } from '../lib/protocolScript';
@@ -28,6 +29,7 @@ interface MeditationSessionProps {
   dayNumber: number;
   userName: string;
   bgMusicType: '528hz' | '432hz' | '963hz' | '741hz' | 'waves' | 'none';
+  audioEnabled?: boolean;
   voiceId?: string;
   voiceGender?: 'masculina' | 'feminina';
   voiceRate?: number;
@@ -69,6 +71,7 @@ export default function MeditationSession({
   dayNumber,
   userName,
   bgMusicType,
+  audioEnabled = true,
   voiceId,
   voiceRate = 0.82,
   userPlan = 'free',
@@ -149,9 +152,12 @@ export default function MeditationSession({
   }, []);
 
   useEffect(() => {
-    // A trilha global já é interrompida ao abrir o protocolo. Não a reinicie
-    // aqui quando ela for uma frequência Solfeggio; mantenha apenas ambiência não tonal.
-    if (shouldPlayProtocolSessionBackground(sessionPhase, bgMusicType)) {
+    // A Essência Luminosa também respeita o interruptor global dentro da sessão.
+    // Os demais estilos mantêm a política anterior; frequências Solfeggio não entram na fala.
+    const shouldPlayBackground = isEssenciaLuminosa
+      ? shouldPlayEssenciaLuminosaSessionBackground(sessionPhase, bgMusicType, audioEnabled)
+      : shouldPlayProtocolSessionBackground(sessionPhase, bgMusicType);
+    if (shouldPlayBackground) {
       audioEngine.startSynth(bgMusicType);
     } else {
       audioEngine.stopSynth();
@@ -159,7 +165,7 @@ export default function MeditationSession({
     return () => {
       audioEngine.stopSynth();
     };
-  }, [sessionPhase, bgMusicType]);
+  }, [sessionPhase, bgMusicType, audioEnabled, isEssenciaLuminosa]);
 
   const dailyStageContext = (stageId = currentStage.id) => {
     if (journeyType !== '21d') return '';
