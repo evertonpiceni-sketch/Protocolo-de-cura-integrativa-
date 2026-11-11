@@ -39,7 +39,7 @@ export const OFFICIAL_LAYOUTS: LayoutDefinition[] = [
   {
     id: 'mistico-moderno',
     name: 'Místico Moderno',
-    description: 'Espiritualidade com tecnologia, fundo noturno sofisticado, azul-noturno/índigo, violeta e esmeralda integrados, dourado/âmbar como acentos e marfim para leitura. A prancha orienta apenas a atmosfera e a paleta; a jornada vigente permanece com 21 dias, corpo neutro e logo oficial discreto/transparente como assinatura.',
+    description: 'Espiritualidade com tecnologia, fundo noturno sofisticado, azul-noturno/índigo e violeta, esmeralda somente na vegetação natural integrada (nunca como acento independente de interface), dourado/âmbar como acentos e marfim para leitura. A prancha orienta apenas a atmosfera e a paleta; a jornada vigente permanece com 21 dias, corpo neutro e logo oficial discreto/transparente como assinatura.',
     swatches: ['#0A2742', '#6C3FA0', '#D4AF37', '#141F30'],
     tone: 'dark'
   }
