@@ -3,6 +3,8 @@ import fs from 'node:fs';
 import test from 'node:test';
 
 const arcanjo = fs.readFileSync('src/components/ArcanjoProtocolView.tsx', 'utf8');
+const prayerModal = fs.readFileSync('src/components/ArchangelMichaelPrayerModal.tsx', 'utf8');
+const app = fs.readFileSync('src/App.tsx', 'utf8');
 
 test('a retomada da narração neural suspende Solfeggio antes de reabrir a voz', () => {
   const start = arcanjo.indexOf('const togglePlayback');
@@ -27,4 +29,25 @@ test('a pausa restaura a frequência somente pelo callback e respeita o áudio g
   assert.ok(arcanjo.includes('if (requiresNeuralVoice) playProtocolFrequency();'));
   assert.ok(arcanjo.includes('if (userProfile.audioEnabled === false) {'));
   assert.ok(arcanjo.includes('if (isSolfeggioFrequency(audioEngine.getCurrentSynthType())) {'));
+});
+
+
+test('a oração legada do Arcanjo suspende apenas Solfeggio durante a narração neural no Estilo 3', () => {
+  const helperStart = prayerModal.indexOf('const suspendEssenciaSolfeggio');
+  const helperEnd = prayerModal.indexOf('const stopAudio', helperStart);
+  const helper = prayerModal.slice(helperStart, helperEnd);
+  assert.ok(helper.includes('isEssenciaLuminosa && isSolfeggioFrequency(audioEngine.getCurrentSynthType())'));
+  assert.ok(helper.includes('audioEngine.stopBG()'));
+
+  const playStart = prayerModal.indexOf('const handleTogglePlay');
+  const playEnd = prayerModal.indexOf('const handleCompleteToday', playStart);
+  const toggle = prayerModal.slice(playStart, playEnd);
+  assert.ok(toggle.indexOf('suspendEssenciaSolfeggio();') < toggle.indexOf('audioEngine.speakWithElevenLabsOrFallback('));
+  assert.ok(toggle.includes('onNarrationStateChange?.(true)'));
+  assert.ok(toggle.includes('onNarrationStateChange?.(false)'));
+  assert.ok(prayerModal.includes('fallbackToSpeechSynthesis: !(isEleganciaProfunda || isEssenciaLuminosa)'));
+
+  assert.ok(app.includes('onNarrationStateChange={setIsArchangelNarrationActive}'));
+  assert.ok(app.includes('isEssenciaLuminosa && isArchangelNarrationActive && isSolfeggioFrequency(userProfile.bgMusicType)'));
+  assert.ok(app.includes('!showArchangelModal &&'));
 });
