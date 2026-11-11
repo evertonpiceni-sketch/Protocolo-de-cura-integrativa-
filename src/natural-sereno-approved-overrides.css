@@ -2222,3 +2222,45 @@
   opacity: .30 !important;
   mix-blend-mode: normal !important;
 }
+
+/* RUN 165 — Fale Conosco e Cursos: assinatura discreta e controles alinhados ao Natural Sereno. */
+:root[data-layout="natural-sereno"] :is(#contact-us-modal,#courses-modal) .ep-brand-signature {
+  opacity: .30 !important;
+  mix-blend-mode: normal !important;
+}
+:root[data-layout="natural-sereno"] #contact-us-modal :is([class*="text-[#8F631E]"],[class*="text-[#B88736]"]) {
+  color: #A87E37 !important;
+}
+:root[data-layout="natural-sereno"] #contact-us-modal [class*="bg-[#B88736]/"] {
+  background-color: rgba(200,157,82,.10) !important;
+  background-image: none !important;
+}
+:root[data-layout="natural-sereno"] #contact-us-modal [class*="border-[#B88736]"] {
+  border-color: rgba(200,157,82,.28) !important;
+}
+:root[data-layout="natural-sereno"] #contact-us-modal button[class*="bg-[#B88736]"] {
+  min-height: 44px;
+  border: 1px solid #A87E37 !important;
+  border-radius: 14px !important;
+  background: linear-gradient(180deg,#E2B96B 0%,#C89D52 100%) !important;
+  color: #2A2421 !important;
+  box-shadow: 0 7px 16px rgba(67,52,39,.09) !important;
+  text-shadow: none !important;
+}
+:root[data-layout="natural-sereno"] #contact-us-modal button[class*="bg-[#B88736]"]:hover {
+  background: linear-gradient(180deg,#E2B96B 0%,#A87E37 100%) !important;
+  color: #2A2421 !important;
+}
+:root[data-layout="natural-sereno"] #contact-us-modal :is(input,select,textarea):focus {
+  border-color: #C89D52 !important;
+  box-shadow: 0 0 0 3px rgba(200,157,82,.14) !important;
+}
+:root[data-layout="natural-sereno"] #contact-us-modal .bg-emerald-500\/20 {
+  background: rgba(111,123,85,.12) !important;
+  border-color: rgba(111,123,85,.25) !important;
+  color: #5E6948 !important;
+  box-shadow: none !important;
+}
+:root[data-layout="natural-sereno"] #contact-us-modal .text-emerald-400 {
+  color: #6F7B55 !important;
+}
