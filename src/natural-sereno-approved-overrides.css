@@ -2071,3 +2071,55 @@
   border-radius: 14px !important;
 }
 
+
+
+/* RUN 162 — Harmonizar Pausa Consciente e Ainda Há Algo em Mim no Natural Sereno.
+   Os dois componentes compartilhados ainda traziam o canvas #F8F4EC, rótulos
+   em ouro antigo e CTAs âmbar com texto branco. Corrigir somente dentro dos
+   modais da Reintegração quando Natural Sereno estiver confirmado. */
+:root[data-layout="natural-sereno"] [data-ep-reintegration-modal="true"] > div[class*="bg-[#F8F4EC]"] {
+  background: #FAF7F2 !important;
+  color: #2A2421 !important;
+}
+
+:root[data-layout="natural-sereno"] [data-ep-reintegration-modal="true"] :is([class*="text-[#B88736]"], [class*="text-[#8F631E]"]) {
+  color: #8A642E !important;
+}
+
+:root[data-layout="natural-sereno"] [data-ep-reintegration-modal="true"] [aria-label="Filtrar pela duração"] button {
+  min-height: 44px !important;
+  border-radius: 12px !important;
+  border: 1px solid rgba(200,157,82,.34) !important;
+}
+
+:root[data-layout="natural-sereno"] [data-ep-reintegration-modal="true"] [aria-label="Filtrar pela duração"] button[aria-pressed="true"] {
+  color: #2A2421 !important;
+  background: linear-gradient(180deg,#E2B96B,#C89D52) !important;
+  border-color: #A87E37 !important;
+  box-shadow: 0 7px 16px rgba(67,52,39,.08) !important;
+}
+
+:root[data-layout="natural-sereno"] [data-ep-reintegration-modal="true"] [aria-label="Filtrar pela duração"] button[aria-pressed="false"] {
+  color: #6B4E2E !important;
+  background: #F5EFE4 !important;
+  border-color: rgba(200,157,82,.30) !important;
+}
+
+:root[data-layout="natural-sereno"] [data-ep-reintegration-modal="true"] button[class*="from-[#D6A756]"] {
+  min-height: 44px !important;
+  color: #2A2421 !important;
+  background: linear-gradient(180deg,#E2B96B,#C89D52) !important;
+  border: 1px solid rgba(168,126,55,.48) !important;
+  border-radius: 12px !important;
+  box-shadow: 0 9px 20px rgba(67,52,39,.10) !important;
+}
+
+:root[data-layout="natural-sereno"] [data-ep-reintegration-modal="true"] button[class*="from-[#D6A756]"]:hover {
+  color: #2A2421 !important;
+  background: #C89D52 !important;
+}
+
+:root[data-layout="natural-sereno"] [data-ep-reintegration-modal="true"] button:focus-visible {
+  outline: 2px solid rgba(168,126,55,.72) !important;
+  outline-offset: 3px !important;
+}
