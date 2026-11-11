@@ -69,7 +69,7 @@
 }
 
 /* Ações globais: remove o verde neon e o formato-pílula herdados no Estilo 4.
-   A cor esmeralda permanece apenas como acento discreto, nunca como bloco dominante. */
+   O botão usa superfície noturna e acento dourado; esmeralda fica restrita à natureza. */
 :root[data-layout="mistico-moderno"] #floating-whatsapp-btn {
   min-height: 3.25rem !important;
   padding: .85rem 1rem !important;
