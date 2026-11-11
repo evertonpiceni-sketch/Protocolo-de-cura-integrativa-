@@ -330,7 +330,7 @@ export default function App() {
                            activeSessionDay === null &&
                            !showPersonalJourney &&
                            !showArcanjoView &&
-                           !showArchangelModal &&
+                           !(isEssenciaLuminosa && showArchangelModal) &&
                            !(isEssenciaLuminosa && isArchangelNarrationActive && isSolfeggioFrequency(userProfile.bgMusicType)) &&
                            (!usesNeuralVoiceCatalog || !isPlayingVoiceTest ||
                              shouldPlayProtocolSessionBackground('playing', userProfile.bgMusicType));
@@ -2575,7 +2575,7 @@ export default function App() {
           voiceRate={userProfile?.voiceRate}
           voicePitch={userProfile?.voicePitch}
           voiceVolume={userProfile?.voiceVolume}
-          onNarrationStateChange={setIsArchangelNarrationActive}
+          onNarrationStateChange={isEssenciaLuminosa ? setIsArchangelNarrationActive : undefined}
           onProgressChange={(days) => {
             if (userProfile) saveProfile({ ...userProfile, archangelPrayerCompletedDays: days });
           }}
