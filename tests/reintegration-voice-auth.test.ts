@@ -77,7 +77,7 @@ test('Reintegração voice audio is user-scoped, never shared-cached, and sends 
   assert.ok(standalone.includes('allowVoiceAttempt(userId)'));
   assert.ok(apiIndex.includes('private, no-store'));
   assert.ok(standalone.includes('private, no-store'));
-  assert.doesNotMatch(apiIndex, /public,\\s*max-age|s-maxage=/i);
-  assert.doesNotMatch(standalone, /public,\\s*max-age|s-maxage=/i);
+  assert.doesNotMatch(apiIndex, /public,\s*max-age|s-maxage=/i);
+  assert.doesNotMatch(standalone, /public,\s*max-age|s-maxage=/i);
   assert.ok(player.includes("credentials: 'same-origin'"));
 });
