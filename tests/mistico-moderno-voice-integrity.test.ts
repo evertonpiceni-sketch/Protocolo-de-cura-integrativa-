@@ -179,7 +179,7 @@ test('Style 4 selector uses the complete night palette from the official referen
     assert.ok(modal.includes(color), 'Missing Místico Moderno board color ' + color);
   }
   assert.match(layouts, /swatches: \['#0A2742', '#6C3FA0', '#D4AF37', '#141F30'\]/);
-  assert.match(layouts, /A prancha orienta apenas a atmosfera e a paleta; a jornada vigente permanece com 21 dias e corpo neutro\./);
+  assert.match(layouts, /A prancha orienta apenas a atmosfera e a paleta; a jornada vigente permanece com 21 dias, corpo neutro e logo oficial discreto\/transparente como assinatura\./);
 });
 
 
