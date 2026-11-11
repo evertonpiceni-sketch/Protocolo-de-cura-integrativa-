@@ -755,3 +755,23 @@
 :root[data-layout="essencia-luminosa"] #video-studio-modal [class*="bg-[#5E7153]"] {
   background-color: color-mix(in srgb, var(--layout-accent-soft) 72%, var(--layout-card)) !important;
 }
+
+
+/* RUN 158 — Perguntas Sistêmicas: estados de dia respondido/atual usam sálvia e champagne.
+   Neutraliza somente os indicadores emerald/amber herdados; conteúdo, estados e áudio permanecem iguais. */
+:root[data-layout="essencia-luminosa"] #systemic-questions-modal [class*="bg-emerald-50"] {
+  background: color-mix(in srgb, var(--layout-accent-soft) 68%, var(--layout-card)) !important;
+}
+:root[data-layout="essencia-luminosa"] #systemic-questions-modal [class*="border-emerald-200"] {
+  border-color: color-mix(in srgb, var(--layout-accent) 30%, var(--layout-border-card)) !important;
+}
+:root[data-layout="essencia-luminosa"] #systemic-questions-modal [class*="bg-emerald-400"],
+:root[data-layout="essencia-luminosa"] #systemic-questions-modal [class*="bg-emerald-500"] {
+  background-color: var(--layout-accent) !important;
+}
+:root[data-layout="essencia-luminosa"] #systemic-questions-modal [class*="bg-amber-50"] {
+  background: color-mix(in srgb, var(--layout-gold-soft) 72%, var(--layout-card)) !important;
+}
+:root[data-layout="essencia-luminosa"] #systemic-questions-modal [class*="border-amber-200"] {
+  border-color: var(--layout-gold-border) !important;
+}
