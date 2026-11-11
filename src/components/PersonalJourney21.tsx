@@ -283,7 +283,6 @@ export default function PersonalJourney21({ onClose, initialCompletedDays, onCom
   };
 
   return <div data-ep-reintegration="true" data-journey-days="21" className="ep-reintegration-shell relative min-h-screen bg-[#F8F4EC] px-4 py-5 text-[#2A2420]">
-    <div className="ep-reintegration-logo pointer-events-none fixed right-4 top-4 z-20 h-14 w-14 sm:right-6 sm:top-6 sm:h-16 sm:w-16"><img src={APPROVED_LOGO_DATA_URI} alt="" aria-hidden="true" className="h-full w-full object-contain opacity-30" /></div>
     <audio ref={musicRef} src={REINTEGRATION_MUSIC_URL} preload="auto" playsInline
       onTimeUpdate={event => { const audio=event.currentTarget; if(Number.isFinite(audio.duration)&&audio.duration>0)setAudioProgress((audio.currentTime/audio.duration)*100); void playCueForTime(audio.currentTime); }}
       onEnded={() => { endedRef.current=true; clearVoice(); playingRef.current=false; setPlaying(false); setAudioProgress(100); releaseWakeLock(); if ('mediaSession' in navigator) navigator.mediaSession.playbackState='none'; }}/>
@@ -297,6 +296,7 @@ export default function PersonalJourney21({ onClose, initialCompletedDays, onCom
       </div>
       <section className="ep-reintegration-panel overflow-hidden rounded-[2rem]">
         <div className="ep-reintegration-luminous px-6 py-7 text-[#2A2420] bg-gradient-to-br from-[#FBF8F2] to-[#F3EBDD]">
+          <div className="mb-3 flex justify-end"><img src={APPROVED_LOGO_DATA_URI} alt="" aria-hidden="true" className="ep-reintegration-brand-signature h-8 w-8 object-contain" /></div>
           <p className="text-xs font-semibold uppercase tracking-[.2em] text-[#B88736]">21 Dias para Voltar para Mim</p><p className="mt-2 font-display text-xl italic">Reintegração da Vida</p><h1 className="mt-3 font-display text-3xl leading-tight">Dia {day}: {item.title}</h1><p className="mt-3 text-base leading-7 text-[#5C5248]">{item.cycle}</p>
           <div className="mt-5 h-2 overflow-hidden rounded-full bg-[#E5DAC6]"><div className="h-full rounded-full bg-[#B88736]" style={{width:`${Math.round((completed.length/21)*100)}%`}}/></div><p className="mt-2 text-xs text-[#85786C]">{completed.length} de 21 momentos concluídos</p>
         </div>
@@ -338,6 +338,7 @@ export default function PersonalJourney21({ onClose, initialCompletedDays, onCom
       <AindaHaAlgoEmMimLight onFinishReflection={() => setShowReflexao(false)} />
     </section>}
     {started && <section data-ep-reintegration-running="true" className="ep-reintegration-running fixed inset-0 z-[120] flex min-h-[100dvh] flex-col overflow-hidden bg-[#031426] text-[#F8E8C2]" aria-label="Meditação guiada em andamento">
+      <img src={APPROVED_LOGO_DATA_URI} alt="" aria-hidden="true" className="ep-reintegration-brand-signature pointer-events-none absolute left-4 top-[max(1rem,env(safe-area-inset-top))] z-20 h-8 w-8 object-contain" />
       <div className="ep-reintegration-running-backdrop absolute inset-[-7%] scale-110 bg-cover bg-center opacity-45 blur-[12px]" style={{backgroundImage:`linear-gradient(180deg,${isNaturalSereno ? 'rgba(250,247,242,.10),rgba(250,247,242,.58)' : isEleganciaProfunda ? 'rgba(3,20,14,.38),rgba(3,20,14,.88)' : 'rgba(2,13,29,.38),rgba(2,13,29,.88)'}),url('${dayArtworkUrl}')`}}/>
       <div className="ep-reintegration-running-glow absolute inset-0" style={isEleganciaProfunda ? {background:'radial-gradient(circle at 50% 32%,rgba(212,175,55,.20),transparent 34%),linear-gradient(180deg,rgba(3,20,14,.18),rgba(3,20,14,.72) 62%,rgba(2,12,9,.97))'} : {background:'radial-gradient(circle at 50% 32%,rgba(226,185,107,.22),transparent 34%),linear-gradient(180deg,rgba(1,14,32,.18),rgba(1,14,32,.72) 62%,rgba(1,10,24,.97))'}}/>
       <button onClick={()=>{stopSession();setStarted(false);}} className="ep-reintegration-running-close absolute right-4 top-[max(1rem,env(safe-area-inset-top))] z-20 rounded-full border border-[#D9B86C]/55 bg-[#06192B]/75 p-3 text-[#F7E7C0] shadow-[0_8px_28px_rgba(0,0,0,.3)] backdrop-blur-md" aria-label="Fechar meditação"><X size={22}/></button>
@@ -356,7 +357,7 @@ export default function PersonalJourney21({ onClose, initialCompletedDays, onCom
       </div>
     </section>}
     {showScript && <section ref={scriptRef} data-ep-reintegration-modal="true" role="dialog" aria-modal="true" aria-label={`Roteiro do Dia ${day}: ${item.title}`} className="ep-reintegration-script fixed inset-0 z-[150] overflow-y-auto bg-[#F8F4EC] p-6 text-[#2A2420]">
-      <div className="mx-auto max-w-2xl"><button autoFocus onClick={() => setShowScript(false)} className="ep-reintegration-script-close sticky top-0 float-right rounded-full border border-[#E5DAC6] bg-white px-4 py-3">Fechar roteiro</button><h2 className="mb-6 font-display text-2xl">Dia {day}: {item.title}</h2>
+      <div className="mx-auto max-w-2xl"><button autoFocus onClick={() => setShowScript(false)} className="ep-reintegration-script-close sticky top-0 float-right rounded-full border border-[#E5DAC6] bg-white px-4 py-3">Fechar roteiro</button><div className="mb-3 flex justify-center"><img src={APPROVED_LOGO_DATA_URI} alt="" aria-hidden="true" className="ep-reintegration-brand-signature h-7 w-7 object-contain" /></div><h2 className="mb-6 font-display text-2xl">Dia {day}: {item.title}</h2>
         {item.audioCues.map((cue, index) => <article key={cue.at} aria-current={index === activeCueIndex ? 'step' : undefined} className={`ep-reintegration-script-card mb-4 rounded-2xl border p-5 ${index === activeCueIndex ? 'border-[#B88736] bg-white' : 'border-[#E5DAC6]'}`}><time className="text-xs text-[#85786C]">{formatTime(cue.at)}</time><p className="mt-2 leading-7">{cue.text}</p></article>)}
       </div>
     </section>}
