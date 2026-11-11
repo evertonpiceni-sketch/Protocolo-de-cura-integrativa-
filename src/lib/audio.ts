@@ -131,8 +131,9 @@ class CalmingAudioEngine {
   }
 
   public unlock() {
+    // Unlocking the AudioContext is silent; do not create or play a keep-alive media item
+    // merely because the person tapped somewhere in the application.
     this.initCtx();
-    this.initKeepAlive();
   }
 
   private initKeepAlive() {
@@ -717,6 +718,8 @@ class CalmingAudioEngine {
       return;
     }
 
+    // The silent keep-alive is created only alongside an explicitly requested track.
+    this.initKeepAlive();
     this.startSynthesizedBG(type);
   }
 
