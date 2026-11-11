@@ -635,7 +635,7 @@ test('a prévia de voz da Essência Luminosa não toca Solfeggio durante a narra
   );
   assert.ok(app.includes('!usesNeuralVoiceCatalog || !isPlayingVoiceTest'));
   assert.ok(app.includes('layoutConfirmedThisSession,\n    usesNeuralVoiceCatalog,\n    isPlayingVoiceTest,\n    isEssenciaLuminosa,\n    isArchangelNarrationActive\n  ]);'));
-  assert.ok(app.includes('layoutConfirmedThisSession, isPlayingVoiceTest]);'));
+  assert.ok(app.includes('showArchangelModal, layoutConfirmedThisSession, isPlayingVoiceTest, isEssenciaLuminosa, isArchangelNarrationActive]);'));
 
   assert.ok(settings.includes('const shouldPlayVoiceBackground = !requiresNeuralVoice'));
   assert.ok(settings.includes("audioEnabled && shouldPlayProtocolSessionBackground('playing', bgMusicType)"));
