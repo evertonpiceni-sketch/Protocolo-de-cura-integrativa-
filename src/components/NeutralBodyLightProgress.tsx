@@ -13,6 +13,7 @@ interface NeutralBodyLightProgressProps {
   lightSoft?: string;
   movementDescription?: string;
   breathePhase?: 'inhale' | 'hold' | 'exhale';
+  showRoots?: boolean;
 }
 
 /**
@@ -31,7 +32,8 @@ export default function NeutralBodyLightProgress({
   lightColor = 'var(--layout-gold-light, #E2B96B)',
   lightSoft = 'var(--layout-gold-soft, rgba(200,157,82,.16))',
   movementDescription,
-  breathePhase
+  breathePhase,
+  showRoots = false
 }: NeutralBodyLightProgressProps) {
   const illumination = progress === null
     ? (active ? 0.22 : 0.08)
@@ -106,6 +108,28 @@ export default function NeutralBodyLightProgress({
               className="ep-neutral-body-progress__light-path"
               opacity={0.25 + illumination * 0.75}
             />
+
+            {showRoots && (
+              <g
+                className="ep-neutral-body-progress__roots"
+                opacity={Math.max(0, Math.min(1, (illumination - 0.72) / 0.28))}
+              >
+                <path
+                  d="M50 104 C49 109 45 113 40 118 M50 104 C51 109 55 113 60 118"
+                  fill="none"
+                  stroke={`url(#${gradientId}-light)`}
+                  strokeWidth="1.45"
+                  strokeLinecap="round"
+                />
+                <path
+                  d="M44 113 C39 113 36 115 33 118 M56 113 C61 113 64 115 67 118"
+                  fill="none"
+                  stroke={`url(#${gradientId}-light)`}
+                  strokeWidth="1.1"
+                  strokeLinecap="round"
+                />
+              </g>
+            )}
 
             <ellipse
               cx="50"
