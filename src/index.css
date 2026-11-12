@@ -391,22 +391,21 @@ input::placeholder,textarea::placeholder{color:#9E9080!important}
   :root:not([data-layout]) #profile-setup-view.ep-auth-prestyle input:not([type='checkbox']){font-size:1rem!important}
 }
 
-/* Reintegração: presentation correction requested in the audit. Its artwork,
-   soundtrack, acceptance and approved daily texts remain intact. */
-.reintegration-presence-visual { position: relative; width: 100%; aspect-ratio: 242 / 760; overflow: hidden; border-radius: 24px; background: #132b2a; }
-.reintegration-presence-frame { position: absolute; inset: 0; background-image: url('/brand/reintegracao-presenca-arte.png'); background-size: 500% 170%; background-repeat: no-repeat; }
-@media (prefers-reduced-motion: reduce) { .reintegration-presence-frame { transition: none; } }
+/* Reintegração: a silhueta neutra é compartilhada pelas quatro atmosferas.
+   O canvas adapta-se ao enquadramento do estúdio sem moldura corporal própria. */
 @media (min-width: 900px) {
   [aria-label="Meditação guiada em andamento"] { display: grid !important; grid-template-columns: 1fr 1fr; align-items: center; gap: 32px; padding: 28px; }
   [aria-label="Meditação guiada em andamento"] > .flex-1 { min-height: 0; height: calc(100dvh - 56px); }
-  [aria-label="Meditação guiada em andamento"] .reintegration-presence-visual { max-height: calc(100dvh - 56px); width: auto; margin: auto; }
   [aria-label="Meditação guiada em andamento"] > .space-y-4 { padding: 24px; }
 }
-.reintegration-presence-visual { width: clamp(100px, 12dvh, 180px); margin-inline: auto; }
-@media (min-width: 900px) { [aria-label="Meditação guiada em andamento"] .reintegration-presence-visual { width: calc(31.84dvh - 17.83px); } }
 
 .visual-studio-human-frame { display: flex; align-items: center; justify-content: center; overflow: hidden; border-radius: 24px; background: #f5efe4; }
-.visual-studio-human-frame .reintegration-presence-visual { height: 90%; width: auto; max-height: 460px; flex-shrink: 0; }
+.visual-studio-human-frame .ep-neutral-body-progress--canvas {
+  width: min(82%, 360px, 52vh) !important;
+  max-width: 360px !important;
+  max-height: 90% !important;
+  flex-shrink: 0;
+}
 
 
 /* Shared neutral-body light path: animated only when motion is permitted. */
