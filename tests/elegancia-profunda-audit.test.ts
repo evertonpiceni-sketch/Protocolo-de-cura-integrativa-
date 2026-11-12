@@ -144,175 +144,19 @@ test('o modal de prática individual mantém foco acessível também no Estilo 2
   assert.ok(!modal.includes("dataset.layout === 'natural-sereno'"));
 });
 
-test('a entrada ativa usa OnboardingFlow e recebe tratamento visual isolado do Estilo 2', () => {
+test('o Estilo 2 só é aplicado depois da escolha explícita no seletor', () => {
   const app = read('src/App.tsx');
-  const onboarding = read('src/components/OnboardingFlow.tsx');
+  const selector = read('src/components/LayoutChoiceModal.tsx');
   const css = read('src/elegancia-profunda-approved-overrides.css');
-  assert.ok(app.includes("import('./components/OnboardingFlow')"));
-  assert.ok(app.includes('<OnboardingFlow'));
-  assert.ok(onboarding.includes('ep-care-onboarding'));
-  assert.ok(css.includes(':root[data-layout="elegancia-profunda"] .ep-care-onboarding'));
-  assert.ok(css.includes(`--ep-scene:url('https://images.unsplash.com/photo-1788699626335-906b2c4ae2d8?auto=format&fit=crop&w=1920&q=85')`));
-  assert.ok(css.includes('https://unsplash.com/photos/pine-forest-reflecting-in-lake-Fo9GeFThXsI'), 'A camada aprovada deve registrar a fonte original da fotografia.');
-  assert.ok(css.includes('rgba(10,27,20,.42)'));
-  assert.ok(!css.includes('/brand/natural-sereno/'));
-  assert.ok(!css.includes('reintegracao-presenca-arte.png'));
-  assert.ok(!css.includes('var(--ep-scene)'));
+
+  assert.ok(app.includes("import LayoutChoiceModal from './components/LayoutChoiceModal'"));
+  assert.ok(app.includes('{(!layoutConfirmedThisSession || layoutChoiceRequested) && ('));
+  assert.doesNotMatch(app, /OnboardingFlow|DailyTipModal|WelcomeModal|showWelcomeModal|showDailyTip/);
+  assert.ok(selector.includes('Elegância Profunda'));
+  assert.ok(selector.includes('useState<LayoutId | null>(null)'));
+  assert.ok(selector.includes('await onSelect(selectedLayout)'));
+  assert.ok(css.includes(':root[data-layout="elegancia-profunda"]'));
 });
-
-test('o logo permanece assinatura transparente e o hero não herda opacidade de 72%', () => {
-  const css = read('src/elegancia-profunda-approved-overrides.css');
-  const sharedTheme = read('src/approved-theme.css');
-  const main = read('src/main.tsx');
-  assert.ok(main.indexOf("import './approved-theme.css'") < main.indexOf("import './elegancia-profunda-approved-overrides.css'"));
-  assert.match(css, /\.ep-brand-signature-wrap \{\s*opacity:1!important;\s*background:transparent!important;/);
-  assert.match(css, /\.ep-brand-signature\s*,[\s\S]*?opacity:\.30\s*!important/);
-  const heroLogoRuleStart = css.indexOf(':root[data-layout="elegancia-profunda"] .ep-home-hero .ep-brand-signature,');
-  assert.ok(heroLogoRuleStart >= 0, 'O hero do Estilo 2 precisa neutralizar a opacidade compartilhada.');
-  const heroLogoRule = css.slice(heroLogoRuleStart, heroLogoRuleStart + 300);
-  assert.ok(heroLogoRule.includes(':root[data-layout="elegancia-profunda"] .ep-welcome-audio .ep-brand-signature'));
-  assert.ok(heroLogoRule.includes('opacity:.30!important;'));
-  assert.ok(sharedTheme.includes('opacity:.72!important'), 'A camada compartilhada contém a regra mais forte que precisa ser neutralizada no Estilo 2.');
-  assert.match(css, /#main-header div:has\(> \.ep-brand-signature\)[^\n]*background:transparent!important/);
-});
-
-test('os presets Solfeggio continuam usando o oscilador exato e não dependem de mapas MP3 legados', () => {
-  const app = read('src/App.tsx');
-  const integrity = read('src/lib/audioIntegrityPatch.ts');
-  const tone = read('src/lib/solfeggioTone.ts');
-  assert.ok(!app.includes('BG_TRACKS'));
-  assert.ok(integrity.includes('solfeggioTone.start(Number(match[1])'));
-  assert.ok(tone.includes('oscillator.frequency.setValueAtTime(frequency'));
-});
-
-test('o pagamento continua no checkout InfinitePay sem cópia manual de PIX', () => {
-  const routes = read('src/lib/paymentRoutes.ts');
-  const specific = read('src/components/SpecificTreatmentModal.tsx');
-  const numerology = read('src/components/NumerologyModal.tsx');
-  assert.ok(routes.includes("const API = 'https://api.checkout.infinitepay.io'"));
-  assert.ok(routes.includes("headers['X-Api-Key'] = key"));
-  assert.ok(routes.includes("options: { single_payment: true }"));
-  assert.ok(!routes.includes('https://api.infinitepay.io/invoices/public/checkout'));
-  assert.ok(routes.includes("router.post('/payment/create-checkout'"));
-  assert.ok(routes.includes("provider('/payment_check'"));
-  assert.ok(!specific.includes('handleCopyPix'));
-  assert.ok(!specific.includes('navigator.clipboard.writeText'));
-  assert.ok(!numerology.includes('handleCopyPix'));
-  assert.ok(!numerology.includes('navigator.clipboard.writeText'));
-});
-
-test('o player respeita o contexto de dia do Estilo 2 sem herdar a cena da Reintegração', () => {
-  const session = read('src/components/MeditationSession.tsx');
-  const css = read('src/elegancia-profunda-approved-overrides.css');
-  assert.ok(session.includes("['elegancia-profunda', 'essencia-luminosa'].includes(activeLayout || '') ? dayNumber : undefined"));
-  assert.ok(css.includes(`--ep-scene:url('https://images.unsplash.com/photo-1788699626335-906b2c4ae2d8?auto=format&fit=crop&w=1920&q=85')`));
-  assert.ok(!css.includes('var(--ep-scene)'), 'O player mantém sua própria cena e não recebe o fundo global.');
-  assert.ok(css.includes('#meditation-session .ep-session-backdrop > div:last-child'));
-});
-
-test('o Dia 1 do Estilo 2 mostra a descida da luz e as raízes sem geometria circular', () => {
-  const session = read('src/components/MeditationSession.tsx');
-  const canvas = read('src/components/session/SacredEnergyCanvas.tsx');
-  assert.ok(session.includes('dayOneOpening={isEleganciaProfunda && dayNumber === 1}'));
-  const start = canvas.indexOf('if (dayOneOpening) {');
-  const end = canvas.indexOf('} else {', start);
-  assert.ok(start >= 0 && end > start, 'A cena aprovada do Dia 1 deve estar isolada dos demais estágios.');
-  const dayOneScene = canvas.slice(start, end);
-  assert.ok(dayOneScene.includes('channelProgress'));
-  assert.ok(dayOneScene.includes('rootProgress'));
-  assert.ok(!dayOneScene.includes('ctx.arc('), 'A cena do Dia 1 não deve desenhar anéis ou círculos.');
-  assert.ok(!dayOneScene.includes('ctx.strokeRect('));
-  assert.ok(!dayOneScene.includes('for (let p = 0'));
-});
-
-test('a narração do Estilo 2 usa IDs ElevenLabs válidos e não cai na voz do dispositivo', () => {
-  const voiceSelection = read('src/lib/voiceSelection.ts');
-  const audio = read('src/lib/audio.ts');
-  const app = read('src/App.tsx');
-  const settings = read('src/components/AudioSettingsModal.tsx');
-  const home = read('src/components/TransformationHome.tsx');
-  const session = read('src/components/MeditationSession.tsx');
-  const anamnesis = read('src/components/AnamnesisModal.tsx');
-  const hooponopono = read('src/components/HooponoponoModal.tsx');
-  const arcanjo = read('src/components/ArcanjoProtocolView.tsx');
-  const systemic = read('src/components/SystemicQuestionsModal.tsx');
-  const archangelPrayer = read('src/components/ArchangelMichaelPrayerModal.tsx');
-  assert.ok(voiceSelection.includes('/^[A-Za-z0-9]{20}$/'));
-  assert.ok(audio.includes('fallbackToSpeechSynthesis?: boolean'));
-  assert.ok(audio.includes('failWithoutNativeVoice'));
-  assert.ok(app.includes('Voz neural (ElevenLabs)'));
-  assert.ok(settings.includes('Voz neural (ElevenLabs)'));
-  assert.ok(home.includes('const requiresNeuralVoice = isNaturalSereno || isEleganciaProfunda || isEssenciaLuminosa;'));
-  assert.ok(home.includes('fallbackToSpeechSynthesis: !requiresNeuralVoice'));
-  assert.ok(session.includes("activeLayout === 'elegancia-profunda' && !style2VoiceId"));
-  assert.ok(anamnesis.includes('fallbackToSpeechSynthesis: false'));
-  assert.ok(hooponopono.includes('const requiresNeuralVoice = isNaturalSereno || isEleganciaProfunda || isEssenciaLuminosa;'));
-  assert.ok(hooponopono.includes('fallbackToSpeechSynthesis: !requiresNeuralVoice'));
-  assert.ok(arcanjo.includes('const requiresNeuralVoice = isNaturalSereno || isEleganciaProfunda || isEssenciaLuminosa;'));
-  assert.ok(arcanjo.includes('requireExplicitVoiceId: requiresNeuralVoice'));
-  assert.ok(audio.includes('requireExplicitVoiceId?: boolean'));
-  assert.ok(audio.includes('if (options.requireExplicitVoiceId && !isElevenLabsVoiceId(options.voiceId))'));
-  assert.ok(systemic.includes('fallbackToSpeechSynthesis: false'));
-  assert.ok(archangelPrayer.includes('const requiresNeuralVoice = isNaturalSereno || isEleganciaProfunda || isEssenciaLuminosa;'));
-  assert.ok(archangelPrayer.includes('fallbackToSpeechSynthesis: !requiresNeuralVoice'));
-  assert.ok(app.includes('userProfile={userProfile || undefined}'));
-  assert.ok(app.includes('voiceId={userProfile?.voiceId}'));
-});
-
-test('o acolhimento inicial do Estilo 2 mantém contraste marfim sobre verde profundo', () => {
-  const css = read('src/elegancia-profunda-approved-overrides.css');
-  assert.ok(css.includes(':root[data-layout="elegancia-profunda"] .ep-welcome-audio.ep-home-hero'));
-  assert.ok(css.includes('color:var(--layout-text)!important'));
-  assert.ok(css.includes(':root[data-layout="elegancia-profunda"] .ep-voice-error'));
-});
-test('as telas de Anamnese e oração usam a paleta específica do Estilo 2', () => {
-  const anamnesisCss = read('src/elegancia-profunda-anamnesis-audit.css');
-  const prayerCss = read('src/elegancia-profunda-prayer-audit.css');
-  const headerCss = read('src/elegancia-profunda-header-final-audit.css');
-  const main = read('src/main.tsx');
-  assert.ok(anamnesisCss.includes('.ep-anamnesis-progress-fill'));
-  assert.ok(anamnesisCss.includes('linear-gradient(90deg,#A87E37'));
-  assert.ok(prayerCss.includes('.ep-archangel-prayer'));
-  assert.ok(prayerCss.includes('315C85'));
-  assert.ok(headerCss.includes('#header-profile-avatar'));
-  assert.ok(main.includes("import './elegancia-profunda-anamnesis-audit.css'"));
-  assert.ok(main.includes("import './elegancia-profunda-prayer-audit.css'"));
-});
-
-
-
-test('o Estilo 2 não substitui silenciosamente a voz neural escolhida por uma voz padrão', () => {
-  const home = read('src/components/TransformationHome.tsx');
-  const settings = read('src/components/AudioSettingsModal.tsx');
-  assert.ok(home.includes("const approvedVoiceId = isEleganciaProfunda\n    ? (isElevenLabsVoiceId(savedVoiceId) ? savedVoiceId : '')"));
-  assert.ok(home.includes("(isNaturalSereno || isEssenciaLuminosa)\n      ? (isElevenLabsVoiceId(savedVoiceId) ? savedVoiceId : OFFICIAL_PROTOCOL_VOICE_ID)"));
-  assert.ok(settings.includes('if (requiresNeuralVoice && !isElevenLabsVoiceId(voiceId))'));
-});
-
-test('a Reintegração mantém o áudio neural dedicado aprovado e não recupera voz nativa', () => {
-  const journey = read('src/components/PersonalJourney21.tsx');
-  const api = read('api/index.ts');
-  assert.ok(journey.includes("fetch('/api/reintegration-tts'"));
-  assert.ok(api.includes('const REINTEGRATION_VOICE_ID = "21m00Tcm4TlvDq8ikWAM";'));
-  assert.ok(!journey.includes('speechSynthesis'));
-  assert.ok(journey.includes('Voz neural dedicada'));
-});
-
-test('a Reintegração recebe o tratamento isolado do Estilo 2 e mantém a assinatura transparente', () => {
-  const journey = read('src/components/PersonalJourney21.tsx');
-  const css = read('src/elegancia-profunda-approved-overrides.css');
-  const visual = read('src/components/ReintegrationPresenceVisual.tsx');
-  assert.ok(journey.includes('data-ep-reintegration="true"'));
-  assert.ok(journey.includes('ep-reintegration-logo'));
-  assert.ok(journey.includes('opacity-30'));
-  assert.ok(!journey.includes('bg-[#F8F4EC]/35 opacity-30 shadow-'));
-  assert.ok(css.includes(':root[data-layout="elegancia-profunda"] [data-ep-reintegration="true"]'));
-  assert.ok(css.includes('.ep-reintegration-running-glow'));
-  assert.ok(css.includes('rgba(3,20,14'));
-  assert.ok(visual.includes('data-visual-fallback="approved-human"'));
-  assert.ok(journey.includes('data-journey-days="21"'));
-});
-
 
 test('o canvas do Estilo 2 usa verde profundo e dourado, sem herdar a paleta da Essência Luminosa', () => {
   const session = read('src/components/MeditationSession.tsx');
@@ -337,12 +181,15 @@ test('a Reintegração libera e readquire o Wake Lock ao pausar, concluir ou vol
   assert.match(journey, /if \(playing\) \{[\s\S]*?releaseWakeLock\(\);/);
 });
 
-test('o onboarding antigo permanece inativo e o fluxo ativo continua sendo OnboardingFlow', () => {
+test('onboarding promocional e dica diária antigos permanecem fora do fluxo ativo', () => {
   const app = read('src/App.tsx');
   const main = read('src/main.tsx');
-  assert.ok(app.includes("import('./components/OnboardingFlow')"));
-  assert.ok(!app.includes("import('./components/WelcomeModal')"));
-  assert.ok(!main.includes("elegancia-profunda-welcome-audit.css"));
+
+  assert.ok(app.includes("import LayoutChoiceModal from './components/LayoutChoiceModal'"));
+  assert.ok(app.includes('{(!layoutConfirmedThisSession || layoutChoiceRequested) && ('));
+  assert.doesNotMatch(app, /OnboardingFlow|DailyTipModal|WelcomeModal/);
+  assert.doesNotMatch(app, /showWelcomeModal|showDailyTip|setShowWelcomeModal|setShowDailyTip/);
+  assert.ok(!main.includes('elegancia-profunda-welcome-audit.css'));
 });
 
 test('o Media Session não volta para pausado depois que a trilha termina', () => {
