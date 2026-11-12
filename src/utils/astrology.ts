@@ -526,7 +526,7 @@ export function calculateAstralMap(
     ascendantSign: ascSign.name,
     ascendantSignSymbol: ascSign.symbol,
     ascendantSignElement: ascSign.element,
-    ascendantSignMeaning: `Sua máscara sagrada e aura cósmica se expressam com a energia de ${ascSign.name} (${ascSign.element}). ${birthTimeStr ? `Calculado rigorosamente pelo horário das ${birthTimeStr}.` : 'Estimado pelo fluxo diário solar.'} O mundo sente sua presença com integridade, magnetismo e respeito.`,
+    ascendantSignMeaning: `Sua máscara sagrada e aura cósmica se expressam com a energia de ${ascSign.name} (${ascSign.element}). ${birthTimeStr ? `Estimativa simbólica associada ao horário informado (${birthTimeStr}), sem cálculo de coordenadas e fuso.` : 'Estimado pelo fluxo diário solar.'} O mundo sente sua presença com integridade, magnetismo e respeito.`,
     ascendantHouseLord: ascSign.ruler,
 
     moonSign: moonSign.name,

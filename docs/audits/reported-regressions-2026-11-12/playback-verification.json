@@ -1,0 +1,110 @@
+[
+  {
+    "layout": "natural-sereno",
+    "name": "Natural Sereno",
+    "screens": [
+      {
+        "screen": "music-error",
+        "path": "natural-sereno-music-error.jpg"
+      },
+      {
+        "screen": "voice-error",
+        "path": "natural-sereno-voice-error.jpg"
+      },
+      {
+        "screen": "playing",
+        "path": "natural-sereno-playing.jpg"
+      }
+    ],
+    "responsive": [],
+    "errors": [],
+    "requests": [
+      {
+        "path": "/api/user/sync",
+        "method": "POST"
+      }
+    ],
+    "passed": true
+  },
+  {
+    "layout": "elegancia-profunda",
+    "name": "Elegância Profunda",
+    "screens": [
+      {
+        "screen": "music-error",
+        "path": "elegancia-profunda-music-error.jpg"
+      },
+      {
+        "screen": "voice-error",
+        "path": "elegancia-profunda-voice-error.jpg"
+      },
+      {
+        "screen": "playing",
+        "path": "elegancia-profunda-playing.jpg"
+      }
+    ],
+    "responsive": [],
+    "errors": [],
+    "requests": [
+      {
+        "path": "/api/user/sync",
+        "method": "POST"
+      }
+    ],
+    "passed": true
+  },
+  {
+    "layout": "essencia-luminosa",
+    "name": "Essência Luminosa",
+    "screens": [
+      {
+        "screen": "music-error",
+        "path": "essencia-luminosa-music-error.jpg"
+      },
+      {
+        "screen": "voice-error",
+        "path": "essencia-luminosa-voice-error.jpg"
+      },
+      {
+        "screen": "playing",
+        "path": "essencia-luminosa-playing.jpg"
+      }
+    ],
+    "responsive": [],
+    "errors": [],
+    "requests": [
+      {
+        "path": "/api/user/sync",
+        "method": "POST"
+      }
+    ],
+    "passed": true
+  },
+  {
+    "layout": "mistico-moderno",
+    "name": "Místico Moderno",
+    "screens": [
+      {
+        "screen": "music-error",
+        "path": "mistico-moderno-music-error.jpg"
+      },
+      {
+        "screen": "voice-error",
+        "path": "mistico-moderno-voice-error.jpg"
+      },
+      {
+        "screen": "playing",
+        "path": "mistico-moderno-playing.jpg"
+      }
+    ],
+    "responsive": [],
+    "errors": [],
+    "requests": [
+      {
+        "path": "/api/user/sync",
+        "method": "POST"
+      }
+    ],
+    "passed": true
+  }
+]

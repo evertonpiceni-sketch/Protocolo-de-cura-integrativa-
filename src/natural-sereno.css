@@ -1,7 +1,6 @@
 /* Estilo 1 only. No selector in this sheet applies to the other official layouts
    or the frozen Reintegração experience. Account entry remains neutral until the
    user explicitly confirms one of the four layouts; do not add preselection styling here. */
-@import url('https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;0,600;1,400&display=swap');
 
 :root[data-layout="natural-sereno"] {
   --ns-forest: #6F7B55;

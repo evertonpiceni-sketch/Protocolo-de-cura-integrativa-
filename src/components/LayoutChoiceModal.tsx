@@ -13,9 +13,6 @@ interface LayoutChoiceModalProps {
 function LayoutPreview({ layout }: { layout: LayoutDefinition }) {
   // A prévia do Estilo 3 usa a prancha oficial como referência visual aprovada.
   const isEssenciaLuminosa = layout.id === 'essencia-luminosa';
-  const [canvas, accent, gold, surface] = layout.swatches;
-  const foreground = layout.tone === 'dark' ? '#F4F1EB' : '#2A2420';
-  const muted = layout.tone === 'dark' ? 'rgba(244,241,235,.68)' : 'rgba(42,36,32,.62)';
   const isNaturalSereno = layout.id === 'natural-sereno';
   const previewBorder = layout.id === 'elegancia-profunda' ? 'rgba(212,175,119,.35)' : layout.id === 'mistico-moderno' ? 'rgba(108,63,160,.40)' : 'rgba(42,36,32,.10)';
   if (isNaturalSereno) {
@@ -27,6 +24,7 @@ function LayoutPreview({ layout }: { layout: LayoutDefinition }) {
       >
         <img
           src={NATURAL_SERENO_OFFICIAL_BOARD}
+          srcSet="/brand/natural-sereno/prancha-modelo.jpg 1536w"
           alt=""
           loading="lazy"
           decoding="async"
@@ -46,6 +44,7 @@ function LayoutPreview({ layout }: { layout: LayoutDefinition }) {
       >
         <img
           src="/brand/elegancia-profunda/prancha-oficial.svg"
+          srcSet="/brand/elegancia-profunda/prancha-modelo.jpg 1536w"
           alt=""
           loading="lazy"
           decoding="async"
@@ -64,6 +63,7 @@ function LayoutPreview({ layout }: { layout: LayoutDefinition }) {
       >
         <img
           src="/brand/essencia-luminosa/prancha-oficial.webp"
+          srcSet="/brand/essencia-luminosa/prancha-modelo.jpg 1536w"
           alt=""
           loading="lazy"
           decoding="async"
@@ -73,63 +73,14 @@ function LayoutPreview({ layout }: { layout: LayoutDefinition }) {
       </div>
     );
   }
-  const innerBorder = layout.id === 'mistico-moderno' ? 'rgba(108,63,160,.28)' : 'rgba(42,36,32,.06)';
-  const naturalIvory = '#F3EDE4';
-  const previewBackground = isNaturalSereno
-    ? `linear-gradient(145deg, ${canvas}, ${naturalIvory})`
-    : `linear-gradient(145deg, ${canvas}, ${surface})`;
-  const previewSurface = isNaturalSereno ? 'rgba(255,255,255,.78)' : `${accent}33`;
-  // No Místico Moderno, o CTA deve permanecer dourado/âmbar e legível:
-  // mesclar dourado com violeta escurece a metade do botão sob texto escuro.
-  const actionBackground = isNaturalSereno
-    ? `linear-gradient(135deg, ${gold}, #A87E37)`
-    : `linear-gradient(135deg, ${gold}, #E2B96B)`;
-  const previewSwatches = isNaturalSereno
-    ? layout.swatches
-    : [canvas, gold, surface, accent];
-
-  return (
-    <div
-      className="mt-4 overflow-hidden rounded-2xl border shadow-inner"
-      style={{ background: previewBackground, color: foreground, borderColor: previewBorder }}
-      aria-hidden="true"
-    >
-      <div className="flex items-center justify-between border-b px-3 py-2" style={{ borderColor: innerBorder }}>
-        <span className="h-1.5 w-14 rounded-full" style={{ backgroundColor: gold, opacity: .75 }} />
-        <span className="h-4 w-4 rounded-full border" style={{ backgroundColor: isNaturalSereno ? '#E8E0D5' : accent, borderColor: innerBorder, opacity: 1 }} />
+  if (layout.id === 'mistico-moderno') {
+    return (
+      <div className="mt-4 flex h-[184px] w-full items-center justify-center overflow-hidden rounded-2xl border shadow-inner" style={{ backgroundColor: '#0A181C', borderColor: previewBorder }} aria-hidden="true">
+        <img src="/brand/mistico-moderno/prancha-modelo.jpg" alt="" loading="lazy" decoding="async" draggable={false} className="h-full w-full object-contain p-1" />
       </div>
-      <div className="p-3">
-        <div className="rounded-xl border p-3 shadow-sm" style={{ backgroundColor: previewSurface, borderColor: innerBorder }}>
-          <span className="block h-1.5 w-16 rounded-full" style={{ backgroundColor: gold }} />
-          <span className="mt-2 block h-2.5 w-3/4 rounded-full" style={{ backgroundColor: foreground, opacity: .9 }} />
-          <span className="mt-1.5 block h-1.5 w-1/2 rounded-full" style={{ backgroundColor: muted }} />
-          {isNaturalSereno && (
-            <span
-              className="mt-3 block h-20 w-full overflow-hidden rounded-lg border border-[#E8E0D5]"
-              style={{
-                backgroundImage: 'linear-gradient(180deg, rgba(250,247,242,.06), rgba(42,36,33,.14)), url("/brand/natural-sereno/vale-amanhecer.webp")',
-                backgroundPosition: 'center 55%',
-                backgroundSize: 'cover',
-                backgroundRepeat: 'no-repeat',
-                backgroundColor: naturalIvory
-              }}
-            />
-          )}
-          <span
-            className="mt-3 inline-flex rounded-full px-3 py-1 text-[8px] font-bold uppercase tracking-[.12em] shadow-sm"
-            style={{ background: actionBackground, color: '#2A2420' }}
-          >
-            Iniciar jornada
-          </span>
-        </div>
-        <div className="mt-2 grid grid-cols-4 gap-1.5">
-          {previewSwatches.map((color, index) => (
-            <span key={`${color}-${index}`} className="h-7 rounded-lg border" style={{ backgroundColor: color, borderColor: innerBorder }} />
-          ))}
-        </div>
-      </div>
-    </div>
-  );
+    );
+  }
+  return null;
 }
 
 export default function LayoutChoiceModal({ onSelect }: LayoutChoiceModalProps) {

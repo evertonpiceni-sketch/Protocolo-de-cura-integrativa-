@@ -1,0 +1,12 @@
+{
+  "checkedAt": "2026-11-12",
+  "endpoint": "https://protocolo-de-cura-integrativa.vercel.app/api/reintegration-tts",
+  "method": "POST",
+  "fixture": "Original first approved public cue, day 1",
+  "status": 503,
+  "response": {
+    "error": "Voz neural temporariamente indisponível.",
+    "fallbackToSpeechSynthesis": false
+  },
+  "interpretation": "Current handler maps ElevenLabs upstream 402 or 429 to this 503. Provider quota/billing or rate/concurrency limit needs confirmation in hosting logs; no credits purchased and no credentials modified."
+}

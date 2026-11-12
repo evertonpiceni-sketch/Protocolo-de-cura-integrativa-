@@ -250,6 +250,7 @@ export interface UserProfile {
   journeyProgress?: {
     reintegration21CompletedDays?: number[];
     arcanjo7CompletedDays?: number[];
+    integratedReiki21CompletedDays?: number[];
   };
 }
 

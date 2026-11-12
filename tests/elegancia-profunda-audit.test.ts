@@ -71,11 +71,11 @@ const extractCssSelectors = (css: string): string[] => {
 
 
 test('a tipografia da Elegância Profunda segue a prancha oficial', () => {
-  const index = read('src/index.css');
+  const fonts = read('src/reference-fonts.css');
   const css = read('src/elegancia-profunda-approved-overrides.css');
 
-  assert.ok(index.includes('family=Montserrat:'));
-  assert.ok(index.includes('family=Playfair+Display:'));
+  assert.ok(fonts.includes("font-family: 'Montserrat'"));
+  assert.ok(fonts.includes("font-family: 'Playfair Display'"));
   assert.ok(css.includes('--font-display:"Playfair Display"'));
   assert.ok(css.includes('--font-sans:"Montserrat"'));
   assert.ok(css.includes('font-family:"Montserrat",ui-sans-serif,system-ui,sans-serif!important'));
@@ -208,7 +208,7 @@ test('o pagamento continua no checkout InfinitePay sem cópia manual de PIX', ()
 test('o player respeita o contexto de dia do Estilo 2 sem herdar a cena da Reintegração', () => {
   const session = read('src/components/MeditationSession.tsx');
   const css = read('src/elegancia-profunda-approved-overrides.css');
-  assert.ok(session.includes("['natural-sereno', 'elegancia-profunda', 'essencia-luminosa'].includes(activeLayout || '') ? dayNumber : undefined"));
+  assert.ok(session.includes("<ReintegrationPresenceVisual"));
   assert.ok(css.includes(`--ep-scene:url('https://images.unsplash.com/photo-1788699626335-906b2c4ae2d8?auto=format&fit=crop&w=1920&q=85')`));
   const playerBackdropStart = css.indexOf(':root[data-layout="elegancia-profunda"] #meditation-session .ep-session-backdrop > div:last-child {');
   const playerBackdropEnd = css.indexOf('\n}', playerBackdropStart);
@@ -218,19 +218,11 @@ test('o player respeita o contexto de dia do Estilo 2 sem herdar a cena da Reint
   assert.ok(css.includes('#meditation-session .ep-session-backdrop > div:last-child'));
 });
 
-test('o Dia 1 do Estilo 2 mostra a descida da luz e as raízes sem geometria circular', () => {
+test('o protocolo compartilha o modelo humano aprovado sem canvas circular', () => {
   const session = read('src/components/MeditationSession.tsx');
-  const canvas = read('src/components/session/SacredEnergyCanvas.tsx');
-  assert.ok(session.includes('dayOneOpening={isEleganciaProfunda && dayNumber === 1}'));
-  const start = canvas.indexOf('if (dayOneOpening) {');
-  const end = canvas.indexOf('} else {', start);
-  assert.ok(start >= 0 && end > start, 'A cena aprovada do Dia 1 deve estar isolada dos demais estágios.');
-  const dayOneScene = canvas.slice(start, end);
-  assert.ok(dayOneScene.includes('channelProgress'));
-  assert.ok(dayOneScene.includes('rootProgress'));
-  assert.ok(!dayOneScene.includes('ctx.arc('), 'A cena do Dia 1 não deve desenhar anéis ou círculos.');
-  assert.ok(!dayOneScene.includes('ctx.strokeRect('));
-  assert.ok(!dayOneScene.includes('for (let p = 0'));
+  assert.ok(session.includes('<ReintegrationPresenceVisual'));
+  assert.ok(!session.includes('<SacredEnergyCanvas'));
+  assert.ok(session.includes('currentTime / duration'));
 });
 
 test('a narração do Estilo 2 usa IDs ElevenLabs válidos e não cai na voz do dispositivo', () => {
@@ -319,17 +311,8 @@ test('a Reintegração recebe o tratamento isolado do Estilo 2 e mantém a assin
 });
 
 
-test('o canvas do Estilo 2 usa verde profundo e dourado, sem herdar a paleta da Essência Luminosa', () => {
-  const session = read('src/components/MeditationSession.tsx');
-  const canvas = read('src/components/session/SacredEnergyCanvas.tsx');
-  assert.ok(session.includes("const ELEGANCIA_PROFUNDA_CANVAS_THEME = {"));
-  assert.ok(session.includes("glow: '#D4AF37'"));
-  assert.ok(session.includes("accent: '#2E6B4F'"));
-  assert.ok(session.includes("colorTheme={isEleganciaProfunda ? ELEGANCIA_PROFUNDA_CANVAS_THEME"));
-  assert.ok(canvas.includes('goldSoft?: string;'));
-  assert.ok(canvas.includes('sageSoft?: string;'));
-  assert.ok(canvas.includes('goldSoft: colorTheme.goldSoft ||'));
-  assert.ok(canvas.includes('sageSoft: colorTheme.sageSoft ||'));
+test('a arte da Reintegração não é usada como fundo global dos estilos', () => {
+  assert.ok(!read('src/approved-theme.css').includes('reintegracao-presenca-arte.png'));
 });
 
 test('a Reintegração libera e readquire o Wake Lock ao pausar, concluir ou voltar à aba', () => {

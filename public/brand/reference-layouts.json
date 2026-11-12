@@ -1,0 +1,47 @@
+{
+  "sourceCommit": "5b2789e79bf56039f4595a8b137e3e59cb453f33",
+  "boards": [
+    {
+      "layout": "natural-sereno",
+      "path": "public/brand/natural-sereno/prancha-modelo.jpg",
+      "source": "5b2789e:public/brand/official-themes/natural-sereno.png",
+      "sha256": "57fb02e51b34c32a3c5a416c2504b80933dac075c02cea96e2c0494f937f7a08",
+      "width": 1536,
+      "height": 1404,
+      "format": "JPEG"
+    },
+    {
+      "layout": "elegancia-profunda",
+      "path": "public/brand/elegancia-profunda/prancha-modelo.jpg",
+      "source": "5b2789e:public/brand/official-themes/elegancia-profunda.png",
+      "sha256": "710d453140dada6ce057d1ae1d481d37d1a0e7382ca08fca21345bb575ae72ff",
+      "width": 1536,
+      "height": 1152,
+      "format": "JPEG"
+    },
+    {
+      "layout": "essencia-luminosa",
+      "path": "public/brand/essencia-luminosa/prancha-modelo.jpg",
+      "source": "5b2789e:public/brand/official-themes/essencia-luminosa.png",
+      "sha256": "ccc00efcdf8ddc27a3cc5cc28eec23209b5d20e2c37babe66c3b8f584bafd471",
+      "width": 1536,
+      "height": 1152,
+      "format": "JPEG"
+    },
+    {
+      "layout": "mistico-moderno",
+      "path": "public/brand/mistico-moderno/prancha-modelo.jpg",
+      "source": "5b2789e:public/brand/official-themes/mistico-moderno.png",
+      "sha256": "65aadd31bf137fdd7f540c1385e370d794b4041197409975cb1f43d3e9ed749e",
+      "width": 1536,
+      "height": 1152,
+      "format": "JPEG"
+    }
+  ],
+  "reconstructedImages": [
+    "elegancia-profunda/acolhimento-modelo.webp",
+    "essencia-luminosa/acolhimento-modelo.webp",
+    "mistico-moderno/acolhimento-modelo.webp"
+  ],
+  "note": "Boards are original recovered repository bytes (JPEG despite the historic .png filenames). Clean scene assets are AI reconstructions, not original photographs; never consider them pixel-identical to the models."
+}

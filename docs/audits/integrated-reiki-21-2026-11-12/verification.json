@@ -1,0 +1,634 @@
+[
+  {
+    "layout": "natural-sereno",
+    "name": "Natural Sereno",
+    "screens": [
+      {
+        "screen": "day-1",
+        "path": "natural-sereno-day-1.jpg"
+      },
+      {
+        "screen": "day-7",
+        "path": "natural-sereno-day-7.jpg"
+      },
+      {
+        "screen": "day-8",
+        "path": "natural-sereno-day-8.jpg"
+      },
+      {
+        "screen": "day-14",
+        "path": "natural-sereno-day-14.jpg"
+      },
+      {
+        "screen": "day-15",
+        "path": "natural-sereno-day-15.jpg"
+      },
+      {
+        "screen": "day-21",
+        "path": "natural-sereno-day-21.jpg"
+      }
+    ],
+    "responsive": [],
+    "errors": [],
+    "requests": [
+      {
+        "path": "/api/user/sync",
+        "method": "POST"
+      },
+      {
+        "path": "/api/user/sync",
+        "method": "POST"
+      }
+    ],
+    "days": [
+      {
+        "day": 1,
+        "title": "Presença e chão",
+        "position": "9.09091% 20.1087%"
+      },
+      {
+        "day": 2,
+        "title": "O manto protetor",
+        "position": "23.9899% 20.1087%"
+      },
+      {
+        "day": 3,
+        "title": "Corte de excessos",
+        "position": "38.8889% 20.1087%"
+      },
+      {
+        "day": 4,
+        "title": "Purificação do campo",
+        "position": "53.7879% 20.1087%"
+      },
+      {
+        "day": 5,
+        "title": "Acolhimento do coração",
+        "position": "68.6869% 20.1087%"
+      },
+      {
+        "day": 6,
+        "title": "Coragem serena",
+        "position": "83.5859% 20.1087%"
+      },
+      {
+        "day": 7,
+        "title": "Selamento do primeiro ciclo",
+        "position": "98.4848% 20.1087%"
+      },
+      {
+        "day": 8,
+        "title": "Verdade interior",
+        "position": "9.09091% 50.444%"
+      },
+      {
+        "day": 9,
+        "title": "Soltar o passado",
+        "position": "23.9899% 50.444%"
+      },
+      {
+        "day": 10,
+        "title": "Reorganização interior",
+        "position": "38.8889% 50.444%"
+      },
+      {
+        "day": 11,
+        "title": "Autoperdão",
+        "position": "53.7879% 50.444%"
+      },
+      {
+        "day": 12,
+        "title": "Limpeza das preocupações",
+        "position": "68.6869% 50.444%"
+      },
+      {
+        "day": 13,
+        "title": "Desbloqueio de caminhos",
+        "position": "83.5859% 50.444%"
+      },
+      {
+        "day": 14,
+        "title": "Liberdade emocional",
+        "position": "98.4848% 50.444%"
+      },
+      {
+        "day": 15,
+        "title": "Centro e direção",
+        "position": "9.09091% 78.1498%"
+      },
+      {
+        "day": 16,
+        "title": "Vitalidade restaurada",
+        "position": "23.9899% 78.1498%"
+      },
+      {
+        "day": 17,
+        "title": "Confiança para agir",
+        "position": "38.8889% 78.1498%"
+      },
+      {
+        "day": 18,
+        "title": "Relação consigo",
+        "position": "53.7879% 78.1498%"
+      },
+      {
+        "day": 19,
+        "title": "Expansão tranquila",
+        "position": "68.6869% 78.1498%"
+      },
+      {
+        "day": 20,
+        "title": "Consagração da nova postura",
+        "position": "83.5859% 78.1498%"
+      },
+      {
+        "day": 21,
+        "title": "Eu volto para mim",
+        "position": "98.4848% 78.1498%"
+      }
+    ],
+    "narration": [
+      "Dia 21. Eu volto para mim. Arcanjo Rafael • Integração e recomeço. A frequência sonora escolhida para este dia é 963 hertz. Leve sua atenção para seu corpo e sua respiração. A intenção de hoje é O corpo se integra em luz",
+      "Olá. Seja muito bem-vindo, seja muito bem-vinda a esta sessão de alinhamento e transmutação energética à distância. Este áudio está programado para ativar no seu campo exatamente no momento em que você o escuta. Agora, p",
+      "Neste momento, abrimos o nosso canal energético e invocamos a presença, a proteção e a luz do Arcanjo Miguel e a frequência sagrada do Reiki São Miguel. Visualize ou sinta, no topo da sua cabeça, uma intensa luz azul-saf",
+      "Agora, ancoramos a frequência da Chama Violeta e a presença do Mestre Saint Germain. Imagine que, a partir da sola dos seus pés, uma chama de cor violeta intensa e brilhante começa a subir. Ela não queima, ela purifica. ",
+      "Com o campo limpo e transmutado, invocamos a presença do Arcanjo Rafael, do Mestre Hilarion e dos Raios de Ouro e Verde-Esmeralda. Uma chuva de luz dourada reluzente, entremeada com relâmpagos verde-esmeralda, começa a d",
+      "Para ancorar essa cura na Terra, visualize raízes de luz saindo da sola dos seus pés, descendo profundamente até o centro da Mãe Terra, fixando toda essa energia no seu dia a dia. Agradecemos ao Arcanjo Miguel, ao Arcanj"
+    ],
+    "passed": true
+  },
+  {
+    "layout": "elegancia-profunda",
+    "name": "Elegância Profunda",
+    "screens": [
+      {
+        "screen": "day-1",
+        "path": "elegancia-profunda-day-1.jpg"
+      },
+      {
+        "screen": "day-7",
+        "path": "elegancia-profunda-day-7.jpg"
+      },
+      {
+        "screen": "day-8",
+        "path": "elegancia-profunda-day-8.jpg"
+      },
+      {
+        "screen": "day-14",
+        "path": "elegancia-profunda-day-14.jpg"
+      },
+      {
+        "screen": "day-15",
+        "path": "elegancia-profunda-day-15.jpg"
+      },
+      {
+        "screen": "day-21",
+        "path": "elegancia-profunda-day-21.jpg"
+      }
+    ],
+    "responsive": [],
+    "errors": [],
+    "requests": [
+      {
+        "path": "/api/user/sync",
+        "method": "POST"
+      },
+      {
+        "path": "/api/user/sync",
+        "method": "POST"
+      }
+    ],
+    "days": [
+      {
+        "day": 1,
+        "title": "Presença e chão",
+        "position": "9.09091% 20.1087%"
+      },
+      {
+        "day": 2,
+        "title": "O manto protetor",
+        "position": "23.9899% 20.1087%"
+      },
+      {
+        "day": 3,
+        "title": "Corte de excessos",
+        "position": "38.8889% 20.1087%"
+      },
+      {
+        "day": 4,
+        "title": "Purificação do campo",
+        "position": "53.7879% 20.1087%"
+      },
+      {
+        "day": 5,
+        "title": "Acolhimento do coração",
+        "position": "68.6869% 20.1087%"
+      },
+      {
+        "day": 6,
+        "title": "Coragem serena",
+        "position": "83.5859% 20.1087%"
+      },
+      {
+        "day": 7,
+        "title": "Selamento do primeiro ciclo",
+        "position": "98.4848% 20.1087%"
+      },
+      {
+        "day": 8,
+        "title": "Verdade interior",
+        "position": "9.09091% 50.444%"
+      },
+      {
+        "day": 9,
+        "title": "Soltar o passado",
+        "position": "23.9899% 50.444%"
+      },
+      {
+        "day": 10,
+        "title": "Reorganização interior",
+        "position": "38.8889% 50.444%"
+      },
+      {
+        "day": 11,
+        "title": "Autoperdão",
+        "position": "53.7879% 50.444%"
+      },
+      {
+        "day": 12,
+        "title": "Limpeza das preocupações",
+        "position": "68.6869% 50.444%"
+      },
+      {
+        "day": 13,
+        "title": "Desbloqueio de caminhos",
+        "position": "83.5859% 50.444%"
+      },
+      {
+        "day": 14,
+        "title": "Liberdade emocional",
+        "position": "98.4848% 50.444%"
+      },
+      {
+        "day": 15,
+        "title": "Centro e direção",
+        "position": "9.09091% 78.1498%"
+      },
+      {
+        "day": 16,
+        "title": "Vitalidade restaurada",
+        "position": "23.9899% 78.1498%"
+      },
+      {
+        "day": 17,
+        "title": "Confiança para agir",
+        "position": "38.8889% 78.1498%"
+      },
+      {
+        "day": 18,
+        "title": "Relação consigo",
+        "position": "53.7879% 78.1498%"
+      },
+      {
+        "day": 19,
+        "title": "Expansão tranquila",
+        "position": "68.6869% 78.1498%"
+      },
+      {
+        "day": 20,
+        "title": "Consagração da nova postura",
+        "position": "83.5859% 78.1498%"
+      },
+      {
+        "day": 21,
+        "title": "Eu volto para mim",
+        "position": "98.4848% 78.1498%"
+      }
+    ],
+    "narration": [
+      "Dia 21. Eu volto para mim. Arcanjo Rafael • Integração e recomeço. A frequência sonora escolhida para este dia é 963 hertz. Leve sua atenção para seu corpo e sua respiração. A intenção de hoje é O corpo se integra em luz",
+      "Olá. Seja muito bem-vindo, seja muito bem-vinda a esta sessão de alinhamento e transmutação energética à distância. Este áudio está programado para ativar no seu campo exatamente no momento em que você o escuta. Agora, p",
+      "Neste momento, abrimos o nosso canal energético e invocamos a presença, a proteção e a luz do Arcanjo Miguel e a frequência sagrada do Reiki São Miguel. Visualize ou sinta, no topo da sua cabeça, uma intensa luz azul-saf",
+      "Agora, ancoramos a frequência da Chama Violeta e a presença do Mestre Saint Germain. Imagine que, a partir da sola dos seus pés, uma chama de cor violeta intensa e brilhante começa a subir. Ela não queima, ela purifica. ",
+      "Com o campo limpo e transmutado, invocamos a presença do Arcanjo Rafael, do Mestre Hilarion e dos Raios de Ouro e Verde-Esmeralda. Uma chuva de luz dourada reluzente, entremeada com relâmpagos verde-esmeralda, começa a d",
+      "Para ancorar essa cura na Terra, visualize raízes de luz saindo da sola dos seus pés, descendo profundamente até o centro da Mãe Terra, fixando toda essa energia no seu dia a dia. Agradecemos ao Arcanjo Miguel, ao Arcanj"
+    ],
+    "passed": true
+  },
+  {
+    "layout": "essencia-luminosa",
+    "name": "Essência Luminosa",
+    "screens": [
+      {
+        "screen": "day-1",
+        "path": "essencia-luminosa-day-1.jpg"
+      },
+      {
+        "screen": "day-7",
+        "path": "essencia-luminosa-day-7.jpg"
+      },
+      {
+        "screen": "day-8",
+        "path": "essencia-luminosa-day-8.jpg"
+      },
+      {
+        "screen": "day-14",
+        "path": "essencia-luminosa-day-14.jpg"
+      },
+      {
+        "screen": "day-15",
+        "path": "essencia-luminosa-day-15.jpg"
+      },
+      {
+        "screen": "day-21",
+        "path": "essencia-luminosa-day-21.jpg"
+      }
+    ],
+    "responsive": [],
+    "errors": [],
+    "requests": [
+      {
+        "path": "/api/user/sync",
+        "method": "POST"
+      },
+      {
+        "path": "/api/user/sync",
+        "method": "POST"
+      }
+    ],
+    "days": [
+      {
+        "day": 1,
+        "title": "Presença e chão",
+        "position": "9.09091% 20.1087%"
+      },
+      {
+        "day": 2,
+        "title": "O manto protetor",
+        "position": "23.9899% 20.1087%"
+      },
+      {
+        "day": 3,
+        "title": "Corte de excessos",
+        "position": "38.8889% 20.1087%"
+      },
+      {
+        "day": 4,
+        "title": "Purificação do campo",
+        "position": "53.7879% 20.1087%"
+      },
+      {
+        "day": 5,
+        "title": "Acolhimento do coração",
+        "position": "68.6869% 20.1087%"
+      },
+      {
+        "day": 6,
+        "title": "Coragem serena",
+        "position": "83.5859% 20.1087%"
+      },
+      {
+        "day": 7,
+        "title": "Selamento do primeiro ciclo",
+        "position": "98.4848% 20.1087%"
+      },
+      {
+        "day": 8,
+        "title": "Verdade interior",
+        "position": "9.09091% 50.444%"
+      },
+      {
+        "day": 9,
+        "title": "Soltar o passado",
+        "position": "23.9899% 50.444%"
+      },
+      {
+        "day": 10,
+        "title": "Reorganização interior",
+        "position": "38.8889% 50.444%"
+      },
+      {
+        "day": 11,
+        "title": "Autoperdão",
+        "position": "53.7879% 50.444%"
+      },
+      {
+        "day": 12,
+        "title": "Limpeza das preocupações",
+        "position": "68.6869% 50.444%"
+      },
+      {
+        "day": 13,
+        "title": "Desbloqueio de caminhos",
+        "position": "83.5859% 50.444%"
+      },
+      {
+        "day": 14,
+        "title": "Liberdade emocional",
+        "position": "98.4848% 50.444%"
+      },
+      {
+        "day": 15,
+        "title": "Centro e direção",
+        "position": "9.09091% 78.1498%"
+      },
+      {
+        "day": 16,
+        "title": "Vitalidade restaurada",
+        "position": "23.9899% 78.1498%"
+      },
+      {
+        "day": 17,
+        "title": "Confiança para agir",
+        "position": "38.8889% 78.1498%"
+      },
+      {
+        "day": 18,
+        "title": "Relação consigo",
+        "position": "53.7879% 78.1498%"
+      },
+      {
+        "day": 19,
+        "title": "Expansão tranquila",
+        "position": "68.6869% 78.1498%"
+      },
+      {
+        "day": 20,
+        "title": "Consagração da nova postura",
+        "position": "83.5859% 78.1498%"
+      },
+      {
+        "day": 21,
+        "title": "Eu volto para mim",
+        "position": "98.4848% 78.1498%"
+      }
+    ],
+    "narration": [
+      "Dia 21. Eu volto para mim. Arcanjo Rafael • Integração e recomeço. A frequência sonora escolhida para este dia é 963 hertz. Leve sua atenção para seu corpo e sua respiração. A intenção de hoje é O corpo se integra em luz",
+      "Olá. Seja muito bem-vindo, seja muito bem-vinda a esta sessão de alinhamento e transmutação energética à distância. Este áudio está programado para ativar no seu campo exatamente no momento em que você o escuta. Agora, p",
+      "Neste momento, abrimos o nosso canal energético e invocamos a presença, a proteção e a luz do Arcanjo Miguel e a frequência sagrada do Reiki São Miguel. Visualize ou sinta, no topo da sua cabeça, uma intensa luz azul-saf",
+      "Agora, ancoramos a frequência da Chama Violeta e a presença do Mestre Saint Germain. Imagine que, a partir da sola dos seus pés, uma chama de cor violeta intensa e brilhante começa a subir. Ela não queima, ela purifica. ",
+      "Com o campo limpo e transmutado, invocamos a presença do Arcanjo Rafael, do Mestre Hilarion e dos Raios de Ouro e Verde-Esmeralda. Uma chuva de luz dourada reluzente, entremeada com relâmpagos verde-esmeralda, começa a d",
+      "Para ancorar essa cura na Terra, visualize raízes de luz saindo da sola dos seus pés, descendo profundamente até o centro da Mãe Terra, fixando toda essa energia no seu dia a dia. Agradecemos ao Arcanjo Miguel, ao Arcanj"
+    ],
+    "passed": true
+  },
+  {
+    "layout": "mistico-moderno",
+    "name": "Místico Moderno",
+    "screens": [
+      {
+        "screen": "day-1",
+        "path": "mistico-moderno-day-1.jpg"
+      },
+      {
+        "screen": "day-7",
+        "path": "mistico-moderno-day-7.jpg"
+      },
+      {
+        "screen": "day-8",
+        "path": "mistico-moderno-day-8.jpg"
+      },
+      {
+        "screen": "day-14",
+        "path": "mistico-moderno-day-14.jpg"
+      },
+      {
+        "screen": "day-15",
+        "path": "mistico-moderno-day-15.jpg"
+      },
+      {
+        "screen": "day-21",
+        "path": "mistico-moderno-day-21.jpg"
+      }
+    ],
+    "responsive": [],
+    "errors": [],
+    "requests": [
+      {
+        "path": "/api/user/sync",
+        "method": "POST"
+      },
+      {
+        "path": "/api/user/sync",
+        "method": "POST"
+      }
+    ],
+    "days": [
+      {
+        "day": 1,
+        "title": "Presença e chão",
+        "position": "9.09091% 20.1087%"
+      },
+      {
+        "day": 2,
+        "title": "O manto protetor",
+        "position": "23.9899% 20.1087%"
+      },
+      {
+        "day": 3,
+        "title": "Corte de excessos",
+        "position": "38.8889% 20.1087%"
+      },
+      {
+        "day": 4,
+        "title": "Purificação do campo",
+        "position": "53.7879% 20.1087%"
+      },
+      {
+        "day": 5,
+        "title": "Acolhimento do coração",
+        "position": "68.6869% 20.1087%"
+      },
+      {
+        "day": 6,
+        "title": "Coragem serena",
+        "position": "83.5859% 20.1087%"
+      },
+      {
+        "day": 7,
+        "title": "Selamento do primeiro ciclo",
+        "position": "98.4848% 20.1087%"
+      },
+      {
+        "day": 8,
+        "title": "Verdade interior",
+        "position": "9.09091% 50.444%"
+      },
+      {
+        "day": 9,
+        "title": "Soltar o passado",
+        "position": "23.9899% 50.444%"
+      },
+      {
+        "day": 10,
+        "title": "Reorganização interior",
+        "position": "38.8889% 50.444%"
+      },
+      {
+        "day": 11,
+        "title": "Autoperdão",
+        "position": "53.7879% 50.444%"
+      },
+      {
+        "day": 12,
+        "title": "Limpeza das preocupações",
+        "position": "68.6869% 50.444%"
+      },
+      {
+        "day": 13,
+        "title": "Desbloqueio de caminhos",
+        "position": "83.5859% 50.444%"
+      },
+      {
+        "day": 14,
+        "title": "Liberdade emocional",
+        "position": "98.4848% 50.444%"
+      },
+      {
+        "day": 15,
+        "title": "Centro e direção",
+        "position": "9.09091% 78.1498%"
+      },
+      {
+        "day": 16,
+        "title": "Vitalidade restaurada",
+        "position": "23.9899% 78.1498%"
+      },
+      {
+        "day": 17,
+        "title": "Confiança para agir",
+        "position": "38.8889% 78.1498%"
+      },
+      {
+        "day": 18,
+        "title": "Relação consigo",
+        "position": "53.7879% 78.1498%"
+      },
+      {
+        "day": 19,
+        "title": "Expansão tranquila",
+        "position": "68.6869% 78.1498%"
+      },
+      {
+        "day": 20,
+        "title": "Consagração da nova postura",
+        "position": "83.5859% 78.1498%"
+      },
+      {
+        "day": 21,
+        "title": "Eu volto para mim",
+        "position": "98.4848% 78.1498%"
+      }
+    ],
+    "narration": [
+      "Dia 21. Eu volto para mim. Arcanjo Rafael • Integração e recomeço. A frequência sonora escolhida para este dia é 963 hertz. Leve sua atenção para seu corpo e sua respiração. A intenção de hoje é O corpo se integra em luz",
+      "Olá. Seja muito bem-vindo, seja muito bem-vinda a esta sessão de alinhamento e transmutação energética à distância. Este áudio está programado para ativar no seu campo exatamente no momento em que você o escuta. Agora, p",
+      "Neste momento, abrimos o nosso canal energético e invocamos a presença, a proteção e a luz do Arcanjo Miguel e a frequência sagrada do Reiki São Miguel. Visualize ou sinta, no topo da sua cabeça, uma intensa luz azul-saf",
+      "Agora, ancoramos a frequência da Chama Violeta e a presença do Mestre Saint Germain. Imagine que, a partir da sola dos seus pés, uma chama de cor violeta intensa e brilhante começa a subir. Ela não queima, ela purifica. ",
+      "Com o campo limpo e transmutado, invocamos a presença do Arcanjo Rafael, do Mestre Hilarion e dos Raios de Ouro e Verde-Esmeralda. Uma chuva de luz dourada reluzente, entremeada com relâmpagos verde-esmeralda, começa a d",
+      "Para ancorar essa cura na Terra, visualize raízes de luz saindo da sola dos seus pés, descendo profundamente até o centro da Mãe Terra, fixando toda essa energia no seu dia a dia. Agradecemos ao Arcanjo Miguel, ao Arcanj"
+    ],
+    "passed": true
+  }
+]
