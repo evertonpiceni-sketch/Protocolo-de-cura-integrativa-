@@ -93,7 +93,7 @@ test('seletor dos quatro estilos continua obrigatório e o modal promocional leg
   const selector = read('src/components/LayoutChoiceModal.tsx');
 
   assert.ok(app.includes('{(!layoutConfirmedThisSession || layoutChoiceRequested) && ('));
-  assert.ok(app.includes('{showWelcomeModal && userProfile && layoutConfirmedThisSession && !layoutChoiceRequested && ('));
+  assert.doesNotMatch(app, /OnboardingFlow|DailyTipModal|WelcomeModal|showWelcomeModal|showDailyTip/);
   assert.ok(selector.includes('const [selectedLayout, setSelectedLayout] = useState<LayoutId | null>(null)'));
   assert.ok(selector.includes('await onSelect(selectedLayout)'));
   assert.ok(selector.includes('disabled={!selectedLayout || isSaving}'));
