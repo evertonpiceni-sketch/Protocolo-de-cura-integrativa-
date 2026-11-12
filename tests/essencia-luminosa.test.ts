@@ -176,17 +176,18 @@ test('as camadas CSS do Estilo 3 não deixam tokens de layout sem definição ne
   }
 });
 
-test('o onboarding ativo do Estilo 3 usa superfície clara e logo como assinatura discreta', () => {
+test('a prévia da Essência Luminosa é escolhida explicitamente antes de aplicar o tema', () => {
   const app = fs.readFileSync('src/App.tsx', 'utf8');
-  const flow = fs.readFileSync('src/components/OnboardingFlow.tsx', 'utf8');
-  const css = fs.readFileSync('src/essencia-luminosa-onboarding-audit.css', 'utf8');
-  assert.ok(app.includes('{showWelcomeModal && userProfile && ('));
-  assert.ok(app.includes('<OnboardingFlow'));
-  assert.ok(flow.includes("import '../essencia-luminosa-onboarding-audit.css';"));
-  assert.ok(css.includes(':root[data-layout="essencia-luminosa"] .ep-care-onboarding-card'));
-  assert.ok(css.includes('var(--layout-canvas)'));
-  assert.ok(css.includes('opacity: .30'));
-  assert.ok(!css.includes('#073b2b'));
+  const selector = fs.readFileSync('src/components/LayoutChoiceModal.tsx', 'utf8');
+  const css = fs.readFileSync('src/essencia-luminosa-approved-overrides.css', 'utf8');
+
+  assert.ok(app.includes("import LayoutChoiceModal from './components/LayoutChoiceModal'"));
+  assert.ok(app.includes('{(!layoutConfirmedThisSession || layoutChoiceRequested) && ('));
+  assert.doesNotMatch(app, /OnboardingFlow|DailyTipModal|WelcomeModal|showWelcomeModal|showDailyTip/);
+  assert.ok(selector.includes('Essência Luminosa'));
+  assert.ok(selector.includes('useState<LayoutId | null>(null)'));
+  assert.ok(selector.includes('await onSelect(selectedLayout)'));
+  assert.ok(css.includes(':root[data-layout="essencia-luminosa"]'));
 });
 
 test('o Guia de Banhos do Estilo 3 usa sálvia clara e champagne sem verde escuro/amarelo saturado', () => {
@@ -372,13 +373,17 @@ test('os CTAs claros do Estilo 3 usam texto escuro e legível sobre champagne, s
   }
 });
 
-test('a escolha de estilo usa somente o fluxo React ativo e mantém seletores DOM legados inativos', () => {
+test('a escolha de estilo usa o seletor React ativo e não monta os componentes de entrada antigos', () => {
   const main = fs.readFileSync('src/main.tsx', 'utf8');
   const app = fs.readFileSync('src/App.tsx', 'utf8');
+  const selector = fs.readFileSync('src/components/LayoutChoiceModal.tsx', 'utf8');
 
-  assert.ok(app.includes("import LayoutChoiceModal from './components/LayoutChoiceModal';"));
-  assert.ok(app.includes('<OnboardingFlow'));
-  assert.doesNotMatch(app, /import WelcomeModal/);
+  assert.ok(app.includes("import LayoutChoiceModal from './components/LayoutChoiceModal'"));
+  assert.ok(app.includes('{(!layoutConfirmedThisSession || layoutChoiceRequested) && ('));
+  assert.doesNotMatch(app, /OnboardingFlow|DailyTipModal|WelcomeModal/);
+  assert.ok(selector.includes('useState<LayoutId | null>(null)'));
+  assert.ok(selector.includes('Essência Luminosa'));
+  assert.ok(main.includes("import './layout-choice-neutral-shell.css'"));
   assert.doesNotMatch(main, /requiredLayoutChoiceEntryPatch|layoutSettingsExplicitConfirmationPatch/);
 });
 
