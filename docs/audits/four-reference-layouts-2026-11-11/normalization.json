@@ -1,0 +1,34 @@
+{
+  "viewport": {
+    "width": 390,
+    "height": 844,
+    "deviceScaleFactor": 1
+  },
+  "homeReferenceCrops": {
+    "natural-sereno": [
+      535,
+      250,
+      743,
+      705
+    ],
+    "elegancia-profunda": [
+      602,
+      245,
+      774,
+      623
+    ],
+    "essencia-luminosa": [
+      538,
+      254,
+      727,
+      662
+    ],
+    "mistico-moderno": [
+      546,
+      224,
+      739,
+      635
+    ]
+  },
+  "note": "Reference crops exclude most device chrome and are normalized to 390x844 only for comparison; original source boards remain unchanged. Exact same content/account data is not available in the illustrative boards."
+}

@@ -173,7 +173,9 @@ export default function TransformationHome(props: TransformationHomeProps) {
     playNarration(text);
   };
 
-  if (props.visualLayout === 'natural-sereno') {
+  // The four approved boards share the same screen composition. Keep the
+  // working navigation and callbacks, with each board owning its visual theme.
+  if (props.visualLayout) {
     return <NaturalSerenoHome
       {...props}
       firstName={firstName}

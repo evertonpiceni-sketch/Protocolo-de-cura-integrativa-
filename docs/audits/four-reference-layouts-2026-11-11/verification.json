@@ -1,0 +1,1150 @@
+[
+  {
+    "layout": "natural-sereno",
+    "name": "Natural Sereno",
+    "screens": [
+      {
+        "screen": "home",
+        "path": "natural-sereno-home.png"
+      },
+      {
+        "screen": "home-desktop",
+        "path": "natural-sereno-home-desktop.png"
+      },
+      {
+        "screen": "menu",
+        "path": "natural-sereno-menu.png"
+      },
+      {
+        "screen": "tools",
+        "path": "natural-sereno-tools.png"
+      },
+      {
+        "screen": "resources",
+        "path": "natural-sereno-resources.png"
+      },
+      {
+        "screen": "resources-empty",
+        "path": "natural-sereno-resources-empty.png"
+      },
+      {
+        "screen": "community",
+        "path": "natural-sereno-community.png"
+      },
+      {
+        "screen": "profile",
+        "path": "natural-sereno-profile.png"
+      },
+      {
+        "screen": "anamnesis-summary",
+        "path": "natural-sereno-anamnesis-summary.png"
+      },
+      {
+        "screen": "anamnesis",
+        "path": "natural-sereno-anamnesis.png"
+      },
+      {
+        "screen": "result",
+        "path": "natural-sereno-result.png"
+      },
+      {
+        "screen": "journey",
+        "path": "natural-sereno-journey.png"
+      },
+      {
+        "screen": "player-portal",
+        "path": "natural-sereno-player-portal.png"
+      },
+      {
+        "screen": "checkin",
+        "path": "natural-sereno-checkin.png"
+      },
+      {
+        "screen": "player",
+        "path": "natural-sereno-player.png"
+      },
+      {
+        "screen": "settings",
+        "path": "natural-sereno-settings.png"
+      },
+      {
+        "screen": "welcome",
+        "path": "natural-sereno-welcome.png"
+      }
+    ],
+    "responsive": [
+      {
+        "width": 320,
+        "overflow": false,
+        "dock": [
+          {
+            "label": "Início",
+            "visible": true,
+            "uncovered": true
+          },
+          {
+            "label": "Jornada",
+            "visible": true,
+            "uncovered": true
+          },
+          {
+            "label": "Recursos",
+            "visible": true,
+            "uncovered": true
+          },
+          {
+            "label": "Comunidade",
+            "visible": true,
+            "uncovered": true
+          }
+        ]
+      },
+      {
+        "width": 390,
+        "overflow": false,
+        "dock": [
+          {
+            "label": "Início",
+            "visible": true,
+            "uncovered": true
+          },
+          {
+            "label": "Jornada",
+            "visible": true,
+            "uncovered": true
+          },
+          {
+            "label": "Recursos",
+            "visible": true,
+            "uncovered": true
+          },
+          {
+            "label": "Comunidade",
+            "visible": true,
+            "uncovered": true
+          }
+        ]
+      },
+      {
+        "width": 768,
+        "overflow": false,
+        "dock": [
+          {
+            "label": "Início",
+            "visible": true,
+            "uncovered": true
+          },
+          {
+            "label": "Jornada",
+            "visible": true,
+            "uncovered": true
+          },
+          {
+            "label": "Recursos",
+            "visible": true,
+            "uncovered": true
+          },
+          {
+            "label": "Comunidade",
+            "visible": true,
+            "uncovered": true
+          }
+        ]
+      },
+      {
+        "width": 1440,
+        "overflow": false,
+        "dock": [
+          {
+            "label": "Início",
+            "visible": true,
+            "uncovered": true
+          },
+          {
+            "label": "Jornada",
+            "visible": true,
+            "uncovered": true
+          },
+          {
+            "label": "Recursos",
+            "visible": true,
+            "uncovered": true
+          },
+          {
+            "label": "Comunidade",
+            "visible": true,
+            "uncovered": true
+          }
+        ]
+      }
+    ],
+    "errors": [],
+    "requests": [
+      {
+        "path": "/api/user/sync",
+        "method": "POST"
+      },
+      {
+        "path": "/api/elevenlabs/voices",
+        "method": "GET"
+      },
+      {
+        "path": "/api/user/sync",
+        "method": "POST"
+      }
+    ],
+    "playerGeometry": [
+      {
+        "tag": "DIV",
+        "class": "ep-session fixed inset-0 z-50 bg-[#FAF7F2] text-[#2A2420] flex flex-col justify-between overflow-hidden select-none min-h-dvh",
+        "rect": {
+          "x": 0,
+          "y": 0,
+          "width": 390,
+          "height": 844,
+          "top": 0,
+          "right": 390,
+          "bottom": 844,
+          "left": 0
+        },
+        "display": "flex",
+        "height": "844px",
+        "flex": "0 1 auto",
+        "position": "fixed",
+        "overflow": "hidden",
+        "scrollTop": 0
+      },
+      {
+        "tag": "MAIN",
+        "class": "relative z-10 flex-1 flex flex-col items-center justify-center px-6 max-w-xl mx-auto w-full text-center",
+        "rect": {
+          "x": 0,
+          "y": 69,
+          "width": 390,
+          "height": 518.703125,
+          "top": 69,
+          "right": 390,
+          "bottom": 587.703125,
+          "left": 0
+        },
+        "display": "flex",
+        "height": "518.703px",
+        "flex": "1 1 0%",
+        "position": "relative",
+        "overflow": "auto",
+        "scrollTop": 0
+      },
+      {
+        "tag": "DIV",
+        "class": "ep-session-stage w-full flex flex-col items-center",
+        "rect": {
+          "x": 20,
+          "y": 172.8125,
+          "width": 350,
+          "height": 311.078125,
+          "top": 172.8125,
+          "right": 370,
+          "bottom": 483.890625,
+          "left": 20
+        },
+        "display": "grid",
+        "height": "311.078px",
+        "flex": "0 0 auto",
+        "position": "static",
+        "overflow": "visible",
+        "scrollTop": 0
+      },
+      {
+        "tag": "FOOTER",
+        "class": "relative z-20 px-6 py-4 border-t border-[#E5DAC6] bg-[#FAF7F2]/95 backdrop-blur-md max-w-2xl mx-auto w-full",
+        "rect": {
+          "x": 0,
+          "y": 639.703125,
+          "width": 390,
+          "height": 204.296875,
+          "top": 639.703125,
+          "right": 390,
+          "bottom": 844,
+          "left": 0
+        },
+        "display": "block",
+        "height": "204.297px",
+        "flex": "0 0 auto",
+        "position": "relative",
+        "overflow": "visible",
+        "scrollTop": 0
+      }
+    ],
+    "passed": true
+  },
+  {
+    "layout": "elegancia-profunda",
+    "name": "Elegância Profunda",
+    "screens": [
+      {
+        "screen": "home",
+        "path": "elegancia-profunda-home.png"
+      },
+      {
+        "screen": "home-desktop",
+        "path": "elegancia-profunda-home-desktop.png"
+      },
+      {
+        "screen": "menu",
+        "path": "elegancia-profunda-menu.png"
+      },
+      {
+        "screen": "tools",
+        "path": "elegancia-profunda-tools.png"
+      },
+      {
+        "screen": "resources",
+        "path": "elegancia-profunda-resources.png"
+      },
+      {
+        "screen": "resources-empty",
+        "path": "elegancia-profunda-resources-empty.png"
+      },
+      {
+        "screen": "community",
+        "path": "elegancia-profunda-community.png"
+      },
+      {
+        "screen": "profile",
+        "path": "elegancia-profunda-profile.png"
+      },
+      {
+        "screen": "anamnesis-summary",
+        "path": "elegancia-profunda-anamnesis-summary.png"
+      },
+      {
+        "screen": "anamnesis",
+        "path": "elegancia-profunda-anamnesis.png"
+      },
+      {
+        "screen": "result",
+        "path": "elegancia-profunda-result.png"
+      },
+      {
+        "screen": "journey",
+        "path": "elegancia-profunda-journey.png"
+      },
+      {
+        "screen": "player-portal",
+        "path": "elegancia-profunda-player-portal.png"
+      },
+      {
+        "screen": "checkin",
+        "path": "elegancia-profunda-checkin.png"
+      },
+      {
+        "screen": "player",
+        "path": "elegancia-profunda-player.png"
+      },
+      {
+        "screen": "settings",
+        "path": "elegancia-profunda-settings.png"
+      },
+      {
+        "screen": "welcome",
+        "path": "elegancia-profunda-welcome.png"
+      }
+    ],
+    "responsive": [
+      {
+        "width": 320,
+        "overflow": false,
+        "dock": [
+          {
+            "label": "Escuta",
+            "visible": true,
+            "uncovered": true
+          },
+          {
+            "label": "Equilíbrio",
+            "visible": true,
+            "uncovered": true
+          },
+          {
+            "label": "Bem-estar",
+            "visible": true,
+            "uncovered": true
+          },
+          {
+            "label": "Transformação",
+            "visible": true,
+            "uncovered": true
+          }
+        ]
+      },
+      {
+        "width": 390,
+        "overflow": false,
+        "dock": [
+          {
+            "label": "Escuta",
+            "visible": true,
+            "uncovered": true
+          },
+          {
+            "label": "Equilíbrio",
+            "visible": true,
+            "uncovered": true
+          },
+          {
+            "label": "Bem-estar",
+            "visible": true,
+            "uncovered": true
+          },
+          {
+            "label": "Transformação",
+            "visible": true,
+            "uncovered": true
+          }
+        ]
+      },
+      {
+        "width": 768,
+        "overflow": false,
+        "dock": [
+          {
+            "label": "Escuta",
+            "visible": true,
+            "uncovered": true
+          },
+          {
+            "label": "Equilíbrio",
+            "visible": true,
+            "uncovered": true
+          },
+          {
+            "label": "Bem-estar",
+            "visible": true,
+            "uncovered": true
+          },
+          {
+            "label": "Transformação",
+            "visible": true,
+            "uncovered": true
+          }
+        ]
+      },
+      {
+        "width": 1440,
+        "overflow": false,
+        "dock": [
+          {
+            "label": "Escuta",
+            "visible": true,
+            "uncovered": true
+          },
+          {
+            "label": "Equilíbrio",
+            "visible": true,
+            "uncovered": true
+          },
+          {
+            "label": "Bem-estar",
+            "visible": true,
+            "uncovered": true
+          },
+          {
+            "label": "Transformação",
+            "visible": true,
+            "uncovered": true
+          }
+        ]
+      }
+    ],
+    "errors": [],
+    "requests": [
+      {
+        "path": "/api/user/sync",
+        "method": "POST"
+      },
+      {
+        "path": "/api/elevenlabs/voices",
+        "method": "GET"
+      },
+      {
+        "path": "/api/user/sync",
+        "method": "POST"
+      }
+    ],
+    "playerGeometry": [
+      {
+        "tag": "DIV",
+        "class": "ep-session fixed inset-0 z-50 bg-[#FAF7F2] text-[#2A2420] flex flex-col justify-between overflow-hidden select-none min-h-dvh",
+        "rect": {
+          "x": 0,
+          "y": 0,
+          "width": 390,
+          "height": 844,
+          "top": 0,
+          "right": 390,
+          "bottom": 844,
+          "left": 0
+        },
+        "display": "flex",
+        "height": "844px",
+        "flex": "0 1 auto",
+        "position": "fixed",
+        "overflow": "hidden",
+        "scrollTop": 0
+      },
+      {
+        "tag": "MAIN",
+        "class": "relative z-10 flex-1 flex flex-col items-center justify-center px-6 max-w-xl mx-auto w-full text-center",
+        "rect": {
+          "x": 0,
+          "y": 76.59375,
+          "width": 390,
+          "height": 512.3125,
+          "top": 76.59375,
+          "right": 390,
+          "bottom": 588.90625,
+          "left": 0
+        },
+        "display": "flex",
+        "height": "512.312px",
+        "flex": "1 1 0%",
+        "position": "relative",
+        "overflow": "auto",
+        "scrollTop": 0
+      },
+      {
+        "tag": "DIV",
+        "class": "ep-session-stage w-full flex flex-col items-center",
+        "rect": {
+          "x": 20,
+          "y": 149.140625,
+          "width": 350,
+          "height": 367.234375,
+          "top": 149.140625,
+          "right": 370,
+          "bottom": 516.375,
+          "left": 20
+        },
+        "display": "flex",
+        "height": "367.234px",
+        "flex": "0 0 auto",
+        "position": "static",
+        "overflow": "visible",
+        "scrollTop": 0
+      },
+      {
+        "tag": "FOOTER",
+        "class": "relative z-20 px-6 py-4 border-t border-[#E5DAC6] bg-[#FAF7F2]/95 backdrop-blur-md max-w-2xl mx-auto w-full",
+        "rect": {
+          "x": 0,
+          "y": 640.90625,
+          "width": 390,
+          "height": 203.09375,
+          "top": 640.90625,
+          "right": 390,
+          "bottom": 844,
+          "left": 0
+        },
+        "display": "block",
+        "height": "203.094px",
+        "flex": "0 0 auto",
+        "position": "relative",
+        "overflow": "visible",
+        "scrollTop": 0
+      }
+    ],
+    "passed": true
+  },
+  {
+    "layout": "essencia-luminosa",
+    "name": "Essência Luminosa",
+    "screens": [
+      {
+        "screen": "home",
+        "path": "essencia-luminosa-home.png"
+      },
+      {
+        "screen": "home-desktop",
+        "path": "essencia-luminosa-home-desktop.png"
+      },
+      {
+        "screen": "menu",
+        "path": "essencia-luminosa-menu.png"
+      },
+      {
+        "screen": "tools",
+        "path": "essencia-luminosa-tools.png"
+      },
+      {
+        "screen": "resources",
+        "path": "essencia-luminosa-resources.png"
+      },
+      {
+        "screen": "resources-empty",
+        "path": "essencia-luminosa-resources-empty.png"
+      },
+      {
+        "screen": "community",
+        "path": "essencia-luminosa-community.png"
+      },
+      {
+        "screen": "profile",
+        "path": "essencia-luminosa-profile.png"
+      },
+      {
+        "screen": "anamnesis-summary",
+        "path": "essencia-luminosa-anamnesis-summary.png"
+      },
+      {
+        "screen": "anamnesis",
+        "path": "essencia-luminosa-anamnesis.png"
+      },
+      {
+        "screen": "result",
+        "path": "essencia-luminosa-result.png"
+      },
+      {
+        "screen": "journey",
+        "path": "essencia-luminosa-journey.png"
+      },
+      {
+        "screen": "player-portal",
+        "path": "essencia-luminosa-player-portal.png"
+      },
+      {
+        "screen": "checkin",
+        "path": "essencia-luminosa-checkin.png"
+      },
+      {
+        "screen": "player",
+        "path": "essencia-luminosa-player.png"
+      },
+      {
+        "screen": "settings",
+        "path": "essencia-luminosa-settings.png"
+      },
+      {
+        "screen": "welcome",
+        "path": "essencia-luminosa-welcome.png"
+      }
+    ],
+    "responsive": [
+      {
+        "width": 320,
+        "overflow": false,
+        "dock": [
+          {
+            "label": "Início",
+            "visible": true,
+            "uncovered": true
+          },
+          {
+            "label": "Jornada",
+            "visible": true,
+            "uncovered": true
+          },
+          {
+            "label": "Recursos",
+            "visible": true,
+            "uncovered": true
+          },
+          {
+            "label": "Comunidade",
+            "visible": true,
+            "uncovered": true
+          },
+          {
+            "label": "Perfil",
+            "visible": true,
+            "uncovered": true
+          }
+        ]
+      },
+      {
+        "width": 390,
+        "overflow": false,
+        "dock": [
+          {
+            "label": "Início",
+            "visible": true,
+            "uncovered": true
+          },
+          {
+            "label": "Jornada",
+            "visible": true,
+            "uncovered": true
+          },
+          {
+            "label": "Recursos",
+            "visible": true,
+            "uncovered": true
+          },
+          {
+            "label": "Comunidade",
+            "visible": true,
+            "uncovered": true
+          },
+          {
+            "label": "Perfil",
+            "visible": true,
+            "uncovered": true
+          }
+        ]
+      },
+      {
+        "width": 768,
+        "overflow": false,
+        "dock": [
+          {
+            "label": "Início",
+            "visible": true,
+            "uncovered": true
+          },
+          {
+            "label": "Jornada",
+            "visible": true,
+            "uncovered": true
+          },
+          {
+            "label": "Recursos",
+            "visible": true,
+            "uncovered": true
+          },
+          {
+            "label": "Comunidade",
+            "visible": true,
+            "uncovered": true
+          },
+          {
+            "label": "Perfil",
+            "visible": true,
+            "uncovered": true
+          }
+        ]
+      },
+      {
+        "width": 1440,
+        "overflow": false,
+        "dock": [
+          {
+            "label": "Início",
+            "visible": true,
+            "uncovered": true
+          },
+          {
+            "label": "Jornada",
+            "visible": true,
+            "uncovered": true
+          },
+          {
+            "label": "Recursos",
+            "visible": true,
+            "uncovered": true
+          },
+          {
+            "label": "Comunidade",
+            "visible": true,
+            "uncovered": true
+          },
+          {
+            "label": "Perfil",
+            "visible": true,
+            "uncovered": true
+          }
+        ]
+      }
+    ],
+    "errors": [],
+    "requests": [
+      {
+        "path": "/api/user/sync",
+        "method": "POST"
+      },
+      {
+        "path": "/api/elevenlabs/voices",
+        "method": "GET"
+      },
+      {
+        "path": "/api/user/sync",
+        "method": "POST"
+      }
+    ],
+    "playerGeometry": [
+      {
+        "tag": "DIV",
+        "class": "ep-session fixed inset-0 z-50 bg-[#FAF7F2] text-[#2A2420] flex flex-col justify-between overflow-hidden select-none min-h-dvh",
+        "rect": {
+          "x": 0,
+          "y": 0,
+          "width": 390,
+          "height": 844,
+          "top": 0,
+          "right": 390,
+          "bottom": 844,
+          "left": 0
+        },
+        "display": "flex",
+        "height": "844px",
+        "flex": "0 1 auto",
+        "position": "fixed",
+        "overflow": "hidden",
+        "scrollTop": 0
+      },
+      {
+        "tag": "MAIN",
+        "class": "relative z-10 flex-1 flex flex-col items-center justify-center px-6 max-w-xl mx-auto w-full text-center",
+        "rect": {
+          "x": 0,
+          "y": 76.59375,
+          "width": 390,
+          "height": 512.3125,
+          "top": 76.59375,
+          "right": 390,
+          "bottom": 588.90625,
+          "left": 0
+        },
+        "display": "flex",
+        "height": "512.312px",
+        "flex": "1 1 0%",
+        "position": "relative",
+        "overflow": "auto",
+        "scrollTop": 0
+      },
+      {
+        "tag": "DIV",
+        "class": "ep-session-stage w-full flex flex-col items-center",
+        "rect": {
+          "x": 20,
+          "y": 149.140625,
+          "width": 350,
+          "height": 367.234375,
+          "top": 149.140625,
+          "right": 370,
+          "bottom": 516.375,
+          "left": 20
+        },
+        "display": "flex",
+        "height": "367.234px",
+        "flex": "0 0 auto",
+        "position": "static",
+        "overflow": "visible",
+        "scrollTop": 0
+      },
+      {
+        "tag": "FOOTER",
+        "class": "relative z-20 px-6 py-4 border-t border-[#E5DAC6] bg-[#FAF7F2]/95 backdrop-blur-md max-w-2xl mx-auto w-full",
+        "rect": {
+          "x": 0,
+          "y": 640.90625,
+          "width": 390,
+          "height": 203.09375,
+          "top": 640.90625,
+          "right": 390,
+          "bottom": 844,
+          "left": 0
+        },
+        "display": "block",
+        "height": "203.094px",
+        "flex": "0 0 auto",
+        "position": "relative",
+        "overflow": "visible",
+        "scrollTop": 0
+      }
+    ],
+    "passed": true
+  },
+  {
+    "layout": "mistico-moderno",
+    "name": "Místico Moderno",
+    "screens": [
+      {
+        "screen": "home",
+        "path": "mistico-moderno-home.png"
+      },
+      {
+        "screen": "home-desktop",
+        "path": "mistico-moderno-home-desktop.png"
+      },
+      {
+        "screen": "menu",
+        "path": "mistico-moderno-menu.png"
+      },
+      {
+        "screen": "tools",
+        "path": "mistico-moderno-tools.png"
+      },
+      {
+        "screen": "resources",
+        "path": "mistico-moderno-resources.png"
+      },
+      {
+        "screen": "resources-empty",
+        "path": "mistico-moderno-resources-empty.png"
+      },
+      {
+        "screen": "community",
+        "path": "mistico-moderno-community.png"
+      },
+      {
+        "screen": "profile",
+        "path": "mistico-moderno-profile.png"
+      },
+      {
+        "screen": "anamnesis-summary",
+        "path": "mistico-moderno-anamnesis-summary.png"
+      },
+      {
+        "screen": "anamnesis",
+        "path": "mistico-moderno-anamnesis.png"
+      },
+      {
+        "screen": "result",
+        "path": "mistico-moderno-result.png"
+      },
+      {
+        "screen": "journey",
+        "path": "mistico-moderno-journey.png"
+      },
+      {
+        "screen": "player-portal",
+        "path": "mistico-moderno-player-portal.png"
+      },
+      {
+        "screen": "checkin",
+        "path": "mistico-moderno-checkin.png"
+      },
+      {
+        "screen": "player",
+        "path": "mistico-moderno-player.png"
+      },
+      {
+        "screen": "settings",
+        "path": "mistico-moderno-settings.png"
+      },
+      {
+        "screen": "welcome",
+        "path": "mistico-moderno-welcome.png"
+      }
+    ],
+    "responsive": [
+      {
+        "width": 320,
+        "overflow": false,
+        "dock": [
+          {
+            "label": "Início",
+            "visible": true,
+            "uncovered": true
+          },
+          {
+            "label": "Jornada",
+            "visible": true,
+            "uncovered": true
+          },
+          {
+            "label": "Recursos",
+            "visible": true,
+            "uncovered": true
+          },
+          {
+            "label": "Comunidade",
+            "visible": true,
+            "uncovered": true
+          },
+          {
+            "label": "Mais",
+            "visible": true,
+            "uncovered": true
+          }
+        ]
+      },
+      {
+        "width": 390,
+        "overflow": false,
+        "dock": [
+          {
+            "label": "Início",
+            "visible": true,
+            "uncovered": true
+          },
+          {
+            "label": "Jornada",
+            "visible": true,
+            "uncovered": true
+          },
+          {
+            "label": "Recursos",
+            "visible": true,
+            "uncovered": true
+          },
+          {
+            "label": "Comunidade",
+            "visible": true,
+            "uncovered": true
+          },
+          {
+            "label": "Mais",
+            "visible": true,
+            "uncovered": true
+          }
+        ]
+      },
+      {
+        "width": 768,
+        "overflow": false,
+        "dock": [
+          {
+            "label": "Início",
+            "visible": true,
+            "uncovered": true
+          },
+          {
+            "label": "Jornada",
+            "visible": true,
+            "uncovered": true
+          },
+          {
+            "label": "Recursos",
+            "visible": true,
+            "uncovered": true
+          },
+          {
+            "label": "Comunidade",
+            "visible": true,
+            "uncovered": true
+          },
+          {
+            "label": "Mais",
+            "visible": true,
+            "uncovered": true
+          }
+        ]
+      },
+      {
+        "width": 1440,
+        "overflow": false,
+        "dock": [
+          {
+            "label": "Início",
+            "visible": true,
+            "uncovered": true
+          },
+          {
+            "label": "Jornada",
+            "visible": true,
+            "uncovered": true
+          },
+          {
+            "label": "Recursos",
+            "visible": true,
+            "uncovered": true
+          },
+          {
+            "label": "Comunidade",
+            "visible": true,
+            "uncovered": true
+          },
+          {
+            "label": "Mais",
+            "visible": true,
+            "uncovered": true
+          }
+        ]
+      }
+    ],
+    "errors": [],
+    "requests": [
+      {
+        "path": "/api/user/sync",
+        "method": "POST"
+      },
+      {
+        "path": "/api/user/sync",
+        "method": "POST"
+      }
+    ],
+    "playerGeometry": [
+      {
+        "tag": "DIV",
+        "class": "ep-session fixed inset-0 z-50 bg-[#FAF7F2] text-[#2A2420] flex flex-col justify-between overflow-hidden select-none min-h-dvh",
+        "rect": {
+          "x": 0,
+          "y": 0,
+          "width": 390,
+          "height": 844,
+          "top": 0,
+          "right": 390,
+          "bottom": 844,
+          "left": 0
+        },
+        "display": "flex",
+        "height": "844px",
+        "flex": "0 1 auto",
+        "position": "fixed",
+        "overflow": "hidden",
+        "scrollTop": 0
+      },
+      {
+        "tag": "MAIN",
+        "class": "relative z-10 flex-1 flex flex-col items-center justify-center px-6 max-w-xl mx-auto w-full text-center",
+        "rect": {
+          "x": 0,
+          "y": 76.59375,
+          "width": 390,
+          "height": 512.3125,
+          "top": 76.59375,
+          "right": 390,
+          "bottom": 588.90625,
+          "left": 0
+        },
+        "display": "flex",
+        "height": "512.312px",
+        "flex": "1 1 0%",
+        "position": "relative",
+        "overflow": "auto",
+        "scrollTop": 0
+      },
+      {
+        "tag": "DIV",
+        "class": "ep-session-stage w-full flex flex-col items-center",
+        "rect": {
+          "x": 20,
+          "y": 149.140625,
+          "width": 350,
+          "height": 367.234375,
+          "top": 149.140625,
+          "right": 370,
+          "bottom": 516.375,
+          "left": 20
+        },
+        "display": "flex",
+        "height": "367.234px",
+        "flex": "0 0 auto",
+        "position": "static",
+        "overflow": "visible",
+        "scrollTop": 0
+      },
+      {
+        "tag": "FOOTER",
+        "class": "relative z-20 px-6 py-4 border-t border-[#E5DAC6] bg-[#FAF7F2]/95 backdrop-blur-md max-w-2xl mx-auto w-full",
+        "rect": {
+          "x": 0,
+          "y": 640.90625,
+          "width": 390,
+          "height": 203.09375,
+          "top": 640.90625,
+          "right": 390,
+          "bottom": 844,
+          "left": 0
+        },
+        "display": "block",
+        "height": "203.094px",
+        "flex": "0 0 auto",
+        "position": "relative",
+        "overflow": "visible",
+        "scrollTop": 0
+      }
+    ],
+    "passed": true
+  }
+]

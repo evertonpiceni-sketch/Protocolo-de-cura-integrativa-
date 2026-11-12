@@ -46,7 +46,7 @@ function CareRow({ title, copy, icon: Icon, action, protocolId, protocolDuration
   </button>;
 }
 
-/** Natural Sereno owns presentation only. All care actions use the existing callbacks. */
+/** Shared screen composition from the four reference boards; care actions keep their existing callbacks. */
 export default function NaturalSerenoHome(props: Props) {
   useLayoutEffect(() => { if (props.journeyEntered) window.scrollTo(0, 0); }, [props.journeyEntered]);
   const [view, setView] = useState<View>('home');
@@ -57,6 +57,8 @@ export default function NaturalSerenoHome(props: Props) {
   const percentage = Math.min(100, Math.round(completed / total * 100));
   const insight = DAILY_INSIGHTS[Math.max(0, Math.min(DAILY_INSIGHTS.length - 1, props.currentDay - 1))];
   const recommendation = props.recommendation;
+  const isLandscapeHome = props.visualLayout === 'natural-sereno';
+  const homeMessage = <div className="ns-home-message"><p>Um novo capítulo<br />pode começar hoje.</p><span>Respire. Acolha. Transforme.<br />Você consegue.</span>{props.visualLayout === 'elegancia-profunda' && <button className="ns-gold ns-banner-action" data-ep-requires-active-journey="true" onClick={() => changeView('journey')}>Continuar minha jornada <ChevronRight size={18} /></button>}</div>;
   const changeView = (next: View) => {
     setView(next);
     window.scrollTo({ top: 0, behavior: 'instant' });
@@ -89,9 +91,10 @@ export default function NaturalSerenoHome(props: Props) {
     { title: 'Minha Comunidade', copy: 'Compartilhe e evolua', icon: Users, action: () => changeView('community') },
     { title: 'Meu Perfil', copy: 'Acompanhe seu progresso', icon: UserRound, action: () => changeView('profile') },
   ];
+  if (!isLandscapeHome && recommendation) menu.splice(menu.length - 1, 0, { title: 'Meu Resultado', copy: 'Olhar meu momento', icon: Sun, action: () => changeView('result') });
 
   if (!props.journeyEntered) {
-    return <div className="ns-app ns-welcome" data-ns-screen="welcome">
+    return <div className="ns-app ns-welcome reference-layout" data-reference-layout={props.visualLayout} data-ns-screen="welcome">
       <div className="ns-welcome-content">
         <img className="ns-welcome-brand" src={APPROVED_LOGO_DATA_URI} alt="Everton Piceni" />
         <h1>Um acolhimento para você</h1>
@@ -120,7 +123,42 @@ export default function NaturalSerenoHome(props: Props) {
     community: ['Juntos somos mais fortes', 'Um espaço seguro para trocar experiências'],
   };
 
-  return <div className="ns-app" data-ns-screen={view}>
+  const dockItems: [View, LucideIcon, string, boolean][] = [
+    ['home', Home, 'Início', false],
+    ['journey', Leaf, 'Jornada', true],
+    ['resources', BookOpen, 'Recursos', false],
+    ['community', Users, 'Comunidade', false],
+  ];
+  if (props.visualLayout === 'essencia-luminosa') dockItems.push(['profile', UserRound, 'Perfil', false]);
+  if (props.visualLayout === 'mistico-moderno') dockItems.push(['menu', Menu, 'Mais', false]);
+  const navigation = <nav className="ns-dock" aria-label="Navegação principal">
+    {dockItems.map(([destination, Icon, label, requiresActive]) => <button key={destination} data-ep-requires-active-journey={requiresActive ? 'true' : undefined} onClick={() => changeView(destination)} aria-current={view === destination ? 'page' : undefined}><Icon size={22} strokeWidth={1.5} /><span>{label}</span></button>)}
+  </nav>;
+  const homeShortcuts: [string, LucideIcon, () => void, boolean][] = props.visualLayout === 'elegancia-profunda'
+    ? [
+      ['Escuta', AudioLines, props.onToggleWelcome, false],
+      ['Equilíbrio', Waves, props.onOpenAnamnesis, false],
+      ['Bem-estar', Flower2, () => changeView('tools'), false],
+      ['Transformação', Leaf, () => changeView('journey'), true],
+    ]
+    : props.visualLayout === 'mistico-moderno'
+      ? [
+        ['Meditar', Flower2, () => props.onStartSession(props.currentDay), true],
+        ['Respirar', Waves, () => props.onStartSession(props.currentDay), true],
+        ['Equilíbrio', Sun, props.onOpenAnamnesis, false],
+        ['Transformação', Leaf, () => changeView('journey'), true],
+      ]
+      : [
+        ['Jornada', Leaf, () => changeView('journey'), true],
+        ['Meditação', Flower2, () => props.onStartSession(props.currentDay), true],
+        ['Recursos', BookOpen, () => changeView('resources'), false],
+        ['Ferramentas', Waves, () => changeView('tools'), false],
+      ];
+  const shortcuts = <nav className="ref-home-shortcuts" aria-label="Atalhos de cuidado">
+    {homeShortcuts.map(([label, Icon, action, requiresActive]) => <button key={label} onClick={action} data-ep-requires-active-journey={requiresActive ? 'true' : undefined}><Icon size={26} strokeWidth={1.4}/><span>{label}</span></button>)}
+  </nav>;
+
+  return <div className="ns-app reference-layout" data-reference-layout={props.visualLayout} data-ns-screen={view}>
     {view !== 'home' && <header className="ns-page-heading">
       <button onClick={() => changeView('home')} aria-label="Voltar ao início"><ArrowLeft size={20} /></button>
       <h1>{headings[view][0]}</h1><p>{headings[view][1]}</p>
@@ -129,15 +167,25 @@ export default function NaturalSerenoHome(props: Props) {
     {view === 'home' && <>
       <section className="ns-home-scene">
         <button className="ns-home-menu" onClick={() => changeView('menu')} aria-label="Abrir menu principal"><Menu size={22} /></button>
+        {!isLandscapeHome && <div className="ref-home-identity">
+          {props.visualLayout === 'elegancia-profunda'
+            ? <img src={APPROVED_LOGO_DATA_URI} alt="Everton Piceni" className="ep-brand-signature" />
+            : <button onClick={() => changeView('profile')} aria-label="Abrir meu perfil"><UserRound size={24} strokeWidth={1.3}/></button>}
+        </div>}
         <div className="ns-greeting"><h1>Olá, {props.firstName}.</h1><p>Que bom que você voltou para si.</p><p>Respire. Você não precisa fazer tudo hoje. Escolha apenas o cuidado que combina com o seu momento.</p></div>
-        <div className="ns-home-message"><p>Um novo capítulo<br />pode começar hoje.</p><span>Respire. Acolha. Transforme.<br />Você consegue.</span></div>
-        <button className="ns-gold" data-ep-requires-active-journey="true" onClick={() => changeView('journey')}>Continuar minha jornada <ChevronRight size={19} /></button>
+        {props.visualLayout === 'mistico-moderno' && <p className="ref-home-intention">A sua energia de hoje<br/>constrói o seu amanhã.</p>}
+        {(isLandscapeHome || props.visualLayout === 'essencia-luminosa') && homeMessage}
+        {isLandscapeHome && <button className="ns-gold" data-ep-requires-active-journey="true" onClick={() => changeView('journey')}>Continuar minha jornada <ChevronRight size={19} /></button>}
       </section>
       <div className="ns-home-content">
         <button className="ns-current-day ns-row" data-ep-requires-active-journey="true" onClick={() => props.onStartSession(props.currentDay)}>
           <img src={`/brand/natural-sereno/days/dia-${String(props.currentDay).padStart(2, '0')}.webp`} alt="" />
           <span className="ns-row-copy"><small>Dia {props.currentDay}</small><strong>{insight?.title}</strong></span><Play size={19} />
         </button>
+        {!isLandscapeHome && props.visualLayout === 'mistico-moderno' && shortcuts}
+        {!isLandscapeHome && props.visualLayout !== 'essencia-luminosa' && homeMessage}
+        {!isLandscapeHome && props.visualLayout !== 'mistico-moderno' && shortcuts}
+        {props.visualLayout === 'elegancia-profunda' && <p className="ref-home-quote">Pequenas escolhas de hoje<br/>transformam o seu amanhã.</p>}
         {!props.anamnesis ? <section className="ns-editorial-card">
           <small>Primeiro, vamos ouvir você</small><h2>Como você está de verdade?</h2>
           <p>Responda à Anamnese Compacta para receber seu resultado imediato e uma orientação para o próximo passo.</p>
@@ -207,13 +255,6 @@ export default function NaturalSerenoHome(props: Props) {
       <button className="ns-secondary" onClick={props.onOpenAnamnesis}>Ver ou refazer minha anamnese <ChevronRight size={18} /></button>
     </section>}
 
-    <nav className="ns-dock" aria-label="Navegação principal">
-      {([
-        ['home', Home, 'Início', false],
-        ['journey', Leaf, 'Jornada', true],
-        ['resources', BookOpen, 'Recursos', false],
-        ['community', Users, 'Comunidade', false],
-      ] as [View, LucideIcon, string, boolean][]).map(([destination, Icon, label, requiresActive]) => <button key={destination} data-ep-requires-active-journey={requiresActive ? 'true' : undefined} onClick={() => changeView(destination)} aria-current={view === destination ? 'page' : undefined}><Icon size={22} strokeWidth={1.5} /><span>{label}</span></button>)}
-    </nav>
+    {props.visualLayout !== 'elegancia-profunda' && navigation}
   </div>;
 }

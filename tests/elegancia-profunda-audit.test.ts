@@ -71,11 +71,11 @@ const extractCssSelectors = (css: string): string[] => {
 
 
 test('a tipografia da Elegância Profunda segue a prancha oficial', () => {
-  const index = read('src/index.css');
+  const fonts = read('src/reference-fonts.css');
   const css = read('src/elegancia-profunda-approved-overrides.css');
 
-  assert.ok(index.includes('family=Montserrat:'));
-  assert.ok(index.includes('family=Playfair+Display:'));
+  assert.ok(fonts.includes("font-family: 'Montserrat'"));
+  assert.ok(fonts.includes("font-family: 'Playfair Display'"));
   assert.ok(css.includes('--font-display:"Playfair Display"'));
   assert.ok(css.includes('--font-sans:"Montserrat"'));
   assert.ok(css.includes('font-family:"Montserrat",ui-sans-serif,system-ui,sans-serif!important'));

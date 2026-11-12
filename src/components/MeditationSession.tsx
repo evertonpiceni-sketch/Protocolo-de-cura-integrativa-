@@ -83,10 +83,10 @@ export default function MeditationSession({
   const [sessionPhase, setSessionPhase] = useState<'portal' | 'checkin_before' | 'playing' | 'checkin_after' | 'completed'>('portal');
 
   useLayoutEffect(() => {
-    if (document.documentElement.dataset.layout === 'natural-sereno') {
-      const session = document.getElementById('meditation-session');
-      if (session) session.scrollTop = 0;
-    }
+    // Acceptance and check-in can scroll the session container in every theme.
+    // Reset before painting playback so the header and stage remain visible.
+    const session = document.getElementById('meditation-session');
+    if (session) session.scrollTop = 0;
   }, [sessionPhase]);
 
   const [currentStageIndex, setCurrentStageIndex] = useState(0);
