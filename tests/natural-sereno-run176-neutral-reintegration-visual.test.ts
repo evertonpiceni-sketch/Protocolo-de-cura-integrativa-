@@ -4,33 +4,31 @@ import { readFileSync } from 'node:fs';
 
 const read = (path: string) => readFileSync(new URL(`../${path}`, import.meta.url), 'utf8');
 
-test('Natural Sereno usa a silhueta neutra na Reintegração, sem a prancha corporal legada', () => {
+test('a Reintegração usa silhueta neutra em todas as quatro atmosferas', () => {
   const visual = read('src/components/ReintegrationPresenceVisual.tsx');
   const journey = read('src/components/PersonalJourney21.tsx');
+  const videoStudio = read('src/components/VideoStudioLightModal.tsx');
   const neutral = read('src/components/NeutralBodyLightProgress.tsx');
-  const css = read('src/natural-sereno-approved-overrides.css');
+  const css = read('src/index.css');
 
-  assert.match(visual, /neutral\?: boolean/);
-  assert.match(visual, /if \(neutral\)[\s\S]*?<NeutralBodyLightProgress/);
-  assert.match(visual, /showRoots=\{day === 1\}/);
-  assert.match(visual, /focusPosition = day === 1 \? 8 \+ stageProgress \* 0\.84/);
-  assert.match(journey, /neutral=\{isNaturalSereno\} active=\{playing\}/);
-  assert.equal((journey.match(/neutral=\{isNaturalSereno\} active=\{playing\}/g) || []).length, 2);
-  assert.match(journey, /runningBackdropUrl = isNaturalSereno \? '\/brand\/natural-sereno\/cachoeira\.webp' : dayArtworkUrl/);
-  assert.ok(journey.indexOf('const isNaturalSereno') < journey.indexOf('const runningBackdropUrl'), 'A condição deve ser declarada antes de ser utilizada');
-  assert.match(journey, /url\('\$\{runningBackdropUrl\}'\)/);
-  assert.match(neutral, /showRoots\?: boolean/);
-  assert.match(neutral, /M50 104 C49 109 45 113 40 118/);
-  assert.match(css, /:root\[data-layout="natural-sereno"\] \.reintegration-neutral-body-visual/);
-  assert.match(css, /aspect-ratio: 4 \/ 5 !important/);
-  assert.doesNotMatch(visual.slice(visual.indexOf('if (neutral)'), visual.indexOf('const revealed')), /reintegracao-presenca-arte\.png|reintegration-presence-frame/);
+  assert.ok(visual.includes('NeutralBodyLightProgress'));
+  assert.ok(visual.includes('showRoots={day === 1}'));
+  assert.doesNotMatch(visual, /neutral\\?: boolean|if \\(neutral\\)|reintegracao-presenca-arte\\.png|reintegration-presence-frame|data-visual-fallback/);
+  assert.equal((journey.match(/<ReintegrationPresenceVisual day=\\{day\\} elapsedSeconds=\\{elapsedSeconds\\} active=\\{playing\\} \\/>/g) || []).length, 2);
+  assert.doesNotMatch(journey, /neutral=\\{isNaturalSereno\\}/);
+  assert.ok(videoStudio.includes('<ReintegrationPresenceVisual day={day} elapsedSeconds={0}/>'));
+  assert.ok(neutral.includes('Silhueta corporal neutra com um único percurso de luz.'));
+  assert.ok(neutral.includes('sem chakras, mandalas ou marcadores coloridos'));
+  assert.ok(neutral.includes('var(--layout-gold, #C89D52)'));
+  assert.ok(css.includes('.visual-studio-human-frame .ep-neutral-body-progress--canvas'));
+  assert.doesNotMatch(css, /\\.reintegration-presence-visual \\{[^}]*#132b2a/);
 });
 
-test('as artes antigas permanecem fora do caminho Natural Sereno e os outros estilos não recebem este override', () => {
+test('a neutralidade do corpo não troca as paisagens aprovadas de cada atmosfera', () => {
+  const journey = read('src/components/PersonalJourney21.tsx');
   const visual = read('src/components/ReintegrationPresenceVisual.tsx');
-  const css = read('src/natural-sereno-approved-overrides.css');
-  assert.ok(visual.includes('data-visual-fallback="approved-human"'));
-  const block = css.slice(css.lastIndexOf('/* RUN 176 — Reintegração Natural Sereno'));
-  assert.match(block, /^\n\/\* RUN 176[\s\S]*?:root\[data-layout="natural-sereno"\]/);
-  assert.doesNotMatch(block, /data-layout="(?:elegancia-profunda|essencia-luminosa|mistico-moderno)"/);
+
+  assert.ok(journey.includes("runningBackdropUrl = isNaturalSereno ? '/brand/natural-sereno/cachoeira.webp' : dayArtworkUrl"));
+  assert.ok(journey.includes("const isEleganciaProfunda = typeof document !== 'undefined' && document.documentElement.dataset.layout === 'elegancia-profunda'"));
+  assert.doesNotMatch(visual, /dataset\\.layout|data-layout/);
 });
