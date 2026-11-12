@@ -92,6 +92,7 @@ export default function App() {
   const [showNumerologyModal, setShowNumerologyModal] = useState<boolean>(false);
   const [showMobileInstallModal, setShowMobileInstallModal] = useState<boolean>(false);
   const [showWelcomeModal, setShowWelcomeModal] = useState<boolean>(false);
+  const [arcanjoInitialDay, setArcanjoInitialDay] = useState<number | undefined>();
   const [showArcanjoView, setShowArcanjoView] = useState<boolean>(false);
   const [showArchangelModal, setShowArchangelModal] = useState<boolean>(false);
   const [showHooponoponoModal, setShowHooponoponoModal] = useState<boolean>(false);
@@ -203,7 +204,9 @@ export default function App() {
 
   // Listen for OPEN_PROTOCOL_DAY to ensure ArcanjoProtocolView is shown
   useEffect(() => {
-    const handleOpenProtocol = () => {
+    const handleOpenProtocol = (event: Event) => {
+      const day = Number((event as CustomEvent).detail?.day);
+      setArcanjoInitialDay(Number.isInteger(day) && day >= 1 && day <= 21 ? day : undefined);
       setShowArcanjoView(true);
     };
     const handleOpenCertificate = () => {
@@ -928,12 +931,13 @@ export default function App() {
           userProfile={userProfile}
           onLogout={handleLogout}
           onClose={() => setShowArcanjoView(false)}
-          initialCompletedDays={userProfile.journeyProgress?.arcanjo7CompletedDays}
+          initialDay={arcanjoInitialDay}
+          initialCompletedDays={userProfile.journeyProgress?.integratedReiki21CompletedDays}
           onCompletedDaysChange={(days) => saveProfile({
             ...userProfile,
             journeyProgress: {
               ...userProfile.journeyProgress,
-              arcanjo7CompletedDays: days
+              integratedReiki21CompletedDays: days
             }
           })}
         />

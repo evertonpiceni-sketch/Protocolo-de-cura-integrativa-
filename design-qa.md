@@ -94,3 +94,7 @@ Ver `docs/audits/reported-regressions-2026-11-12/README.md`: contraste de planos
 ## Referência de Reiki recebida em 12/11
 
 O usuário forneceu a prancha única `public/brand/jornada-integrada-21-dias-aprovada.jpg`, preservada sem edição. Ela define 21 cenas em três ciclos de sete dias: São Miguel, Chama Violeta e Rafael. A hipótese anterior de três artes separadas está superada. A prancha foi incorporada à tela do percurso com acesso ao original ampliado. O player legado ainda contém sete dias de chakras; sua conversão ao roteiro integrado de 21 dias permanece pendente e não está homologada por esta inclusão da referência.
+
+## Adaptação do percurso integrado concluída na revisão
+
+A pendência de conversão do player de sete dias foi implementada: 21 cenas da prancha, três ciclos, intenções diárias na narração existente, progresso próprio e painel atualizado. Evidências em `docs/audits/integrated-reiki-21-2026-11-12/README.md`. A prancha substitui a hipótese de três artes separadas. Permanecem os limites globais de fidelidade das Homes e a indisponibilidade do provedor de voz em produção.

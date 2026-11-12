@@ -540,3 +540,13 @@
 :root[data-layout] :is(#numerology-modal,#astral-map-modal)[role="dialog"] .reading-chapter :is(h4,p,strong) {color:var(--layout-text)!important;background:none!important;}
 
 :root[data-layout] #plans-modal[role="dialog"] [data-universal-core-benefit="true"] {background:transparent!important;color:var(--layout-text)!important;border:0!important;border-top:1px solid var(--layout-border-card)!important;border-radius:0!important;padding:12px 0 0!important;font-weight:500;box-shadow:none!important;}
+
+/* Integrated Reiki uses its own approved day artwork, with readable theme chrome. */
+:root[data-layout] #arcanjo-protocol-view[data-integrated-reiki],
+:root[data-layout] #arcanjo-protocol-view[data-integrated-reiki] > .fixed.inset-0 {background:var(--layout-canvas)!important;color:var(--layout-text)!important;}
+:root[data-layout] #arcanjo-protocol-view[data-integrated-reiki] [data-reiki-art-day] :is(h2,p),
+:root[data-layout] #arcanjo-protocol-view[data-integrated-reiki] main > section > p,
+:root[data-layout] #arcanjo-protocol-view[data-integrated-reiki] main > section > div:first-child {color:var(--layout-text)!important;}
+:root[data-layout] #arcanjo-protocol-view[data-integrated-reiki] .ep-gold-button {background:#e4c67c!important;color:#17231d!important;}
+
+:root[data-layout] #arcanjo-protocol-view[data-integrated-reiki] .ep-gold-button svg {color:#17231d!important;}

@@ -1,17 +1,8 @@
+import { INTEGRATED_REIKI_DAYS, INTEGRATED_REIKI_ART } from '../data/integratedReikiJourney';
 import { useDialogFocus } from '../hooks/useDialogFocus';
 import React, { useMemo, useEffect, useState } from 'react';
 import { DayProgress, UserProfile } from '../types';
 import { ArrowLeft, Flame, Lock, Play, CheckCircle2, Award, Sparkles } from 'lucide-react';
-
-const CHAKRAS_DATA = [
-  { day: 7, name: 'Chakra Coronário', sanskrit: 'Sahasrara', color: '#a855f7', glow: 'rgba(168,85,247,.72)', yPos: '10%' },
-  { day: 6, name: 'Chakra Frontal', sanskrit: 'Ajna', color: '#6366f1', glow: 'rgba(99,102,241,.72)', yPos: '22%' },
-  { day: 5, name: 'Chakra Laríngeo', sanskrit: 'Vishuddha', color: '#38bdf8', glow: 'rgba(56,189,248,.72)', yPos: '34%' },
-  { day: 4, name: 'Chakra Cardíaco', sanskrit: 'Anahata', color: '#22c55e', glow: 'rgba(34,197,94,.72)', yPos: '48%' },
-  { day: 3, name: 'Chakra Plexo Solar', sanskrit: 'Manipura', color: '#facc15', glow: 'rgba(250,204,21,.72)', yPos: '62%' },
-  { day: 2, name: 'Chakra Esplênico', sanskrit: 'Svadhisthana', color: '#fb923c', glow: 'rgba(251,146,60,.72)', yPos: '75%' },
-  { day: 1, name: 'Chakra Básico', sanskrit: 'Muladhara', color: '#ef4444', glow: 'rgba(239,68,68,.72)', yPos: '88%' },
-];
 
 export default function DashboardCura({ onClose, progress, userProfile }: { onClose: () => void; progress: DayProgress[], userProfile?: UserProfile }) {
   const [completedDays, setCompletedDays] = useState<number[]>([]);
@@ -19,22 +10,22 @@ export default function DashboardCura({ onClose, progress, userProfile }: { onCl
   useDialogFocus(document.documentElement.dataset.layout === 'natural-sereno', dialogRef, onClose);
 
   useEffect(() => {
-    const profileCompleted = userProfile?.journeyProgress?.arcanjo7CompletedDays;
+    const profileCompleted = userProfile?.journeyProgress?.integratedReiki21CompletedDays;
     if (Array.isArray(profileCompleted)) {
-      setCompletedDays([...new Set(profileCompleted)].filter(day => day >= 1 && day <= 7).sort((a,b) => a-b));
+      setCompletedDays([...new Set(profileCompleted)].filter(day => day >= 1 && day <= 21).sort((a,b) => a-b));
       return;
     }
     const localCompleted: number[] = [];
-    for (let i = 1; i <= 7; i += 1) {
-      if (localStorage.getItem(`reiki_arcanjo_dia_${i}`) === 'true') localCompleted.push(i);
+    for (let i = 1; i <= 21; i += 1) {
+      if (localStorage.getItem(`reiki_integrada_21_dia_${i}`) === 'true') localCompleted.push(i);
     }
     setCompletedDays(localCompleted);
-  }, [userProfile?.journeyProgress?.arcanjo7CompletedDays]);
+  }, [userProfile?.journeyProgress?.integratedReiki21CompletedDays]);
 
   const totalCompleted = completedDays.length;
-  const percentage = Math.round((totalCompleted / 7) * 100);
-  const nextAvailableDay = Math.min(totalCompleted + 1, 7);
-  const journeyCompleted = totalCompleted === 7;
+  const percentage = Math.round((totalCompleted / 21) * 100);
+  const nextAvailableDay = INTEGRATED_REIKI_DAYS.find(day=>!completedDays.includes(day.dia))?.dia ?? 21;
+  const journeyCompleted = totalCompleted === 21;
   
   // Calculate Streak (consecutive days completed up to current day)
   // For simplicity, we assume streak equals total completed in this 7-day flow, 
@@ -82,7 +73,7 @@ export default function DashboardCura({ onClose, progress, userProfile }: { onCl
         <div className="mt-7">
           <div className="flex items-end justify-between mb-2">
             <span className="text-sm font-semibold text-[#E4C573]">{percentage}% Concluído</span>
-            <span className="text-xs text-[#5C5248]">{totalCompleted} de 7 Dias</span>
+            <span className="text-xs text-[#5C5248]">{totalCompleted} de 21 Dias</span>
           </div>
           <div className="h-1.5 w-full overflow-hidden rounded-full bg-[#E5DAC6]">
             <div
@@ -94,48 +85,13 @@ export default function DashboardCura({ onClose, progress, userProfile }: { onCl
       </header>
 
       <main className="relative z-10 mx-auto w-full max-w-lg flex-1 px-5 pb-12">
-        {/* Central Energy Visualizer */}
-        <div className="relative mx-auto my-8 aspect-[4/5] w-full max-w-[360px] rounded-[2rem] border border-[#E4C573]/30 bg-white/75 shadow-[0_22px_60px_rgba(0,0,0,.38)] overflow-hidden">
-          <img src="/brand/human-chakra-model.jpg" alt="Pessoa em meditação com os sete chakras" className="absolute inset-0 h-full w-full object-cover" />
-          <div className="absolute inset-0 bg-gradient-to-t from-[#F8F4EC]/70 via-transparent to-transparent" />
-          
-          {CHAKRAS_DATA.map((chakra) => {
-            const isCompleted = completedDays.includes(chakra.day);
-            return (
-              <div
-                key={chakra.name}
-                className="absolute left-1/2 -translate-x-1/2 flex flex-col items-center gap-1 w-full pointer-events-none"
-                style={{ top: chakra.yPos }}
-              >
-                <div 
-                  className={`relative flex h-8 w-8 items-center justify-center rounded-full transition-all duration-1000 ${
-                    isCompleted ? 'scale-110' : chakra.day === nextAvailableDay ? 'scale-110 animate-pulse' : 'scale-90 opacity-25 grayscale'
-                  }`}
-                >
-                  <div
-                    className="absolute inset-0 rounded-full blur-md"
-                    style={{ background: isCompleted ? chakra.color : 'transparent', opacity: 0.6 }}
-                  />
-                  <div
-                    className="relative h-4 w-4 rounded-full border-2"
-                    style={{
-                      borderColor: isCompleted ? '#fff' : '#64748b',
-                      background: isCompleted || chakra.day === nextAvailableDay ? chakra.color : '#365849',
-                      boxShadow: isCompleted || chakra.day === nextAvailableDay ? `0 0 18px 6px ${chakra.color}` : 'none'
-                    }}
-                  />
-                </div>
-                {/* Optional floating labels for the chakras */}
-                {/* <span className={`text-[9px] uppercase tracking-wider ${isCompleted ? 'text-[#5C5248]' : 'text-[#85786C]'}`}>{chakra.sanskrit}</span> */}
-              </div>
-            );
-          })}
-        </div>
+        <img src={INTEGRATED_REIKI_ART} alt="Jornada Integrada: São Miguel, Chama Violeta e Rafael, em 21 dias" className="my-6 w-full rounded-2xl" />
 
         {/* 7 Days Timeline Cards */}
         <div className="space-y-4">
-          {[1, 2, 3, 4, 5, 6, 7].map((day) => {
-            const chakra = [...CHAKRAS_DATA].reverse()[day - 1]; // Reverse because CHAKRAS_DATA is top-to-bottom (7 to 1)
+          {INTEGRATED_REIKI_DAYS.map((entry) => {
+            const day = entry.dia;
+            const chakra = {name:entry.nome,color:entry.cor};
             const isCompleted = completedDays.includes(day);
             const isCurrent = day === nextAvailableDay;
             const isLocked = day > nextAvailableDay;
@@ -219,7 +175,7 @@ export default function DashboardCura({ onClose, progress, userProfile }: { onCl
                 <Award size={24} />
               </div>
               <p className="text-[13px] leading-relaxed text-[#5C5248]">
-                Conclua todos os 7 dias para desbloquear seu Certificado de Alinhamento Espiritual.
+                Conclua todos os 21 dias para desbloquear seu Certificado de Alinhamento Espiritual.
               </p>
             </div>
           )}
