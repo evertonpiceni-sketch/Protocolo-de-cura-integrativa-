@@ -56,7 +56,7 @@ test('a Reintegração mantém a assinatura discreta e a silhueta neutra aprovad
   assert.ok(journey.includes('ep-reintegration-brand-signature'));
   assert.ok(css.includes('[data-ep-reintegration="true"] .ep-reintegration-brand-signature'));
   assert.ok(css.includes('opacity:.30!important;'));
-  assert.ok(visual.includes('data-visual-fallback="approved-human"'));
+  assert.ok(visual.includes('NeutralBodyLightProgress'));\n  assert.doesNotMatch(visual, /data-visual-fallback|reintegration-presence-frame|reintegracao-presenca-arte\\.png/);
   assert.ok(neutralBody.includes('Silhueta corporal neutra com um único percurso de luz.'));
   assert.ok(neutralBody.includes('sem chakras, mandalas ou marcadores coloridos'));
 });
