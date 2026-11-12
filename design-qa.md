@@ -90,3 +90,7 @@ O relatório anterior do Natural Sereno permanece recuperável no histórico em 
 ## Revisão das regressões de 12/11/2026
 
 Ver `docs/audits/reported-regressions-2026-11-12/README.md`: contraste de planos e numerologia, aprofundamento das leituras, remoção do corpo dos fundos da Home, modelo compartilhado no protocolo e tratamento de falhas da Reintegração. Testes locais de interface passaram nos quatro estilos. A chamada real de voz em produção retornou 503; restabelecer o serviço e confirmar modelos separados de Reiki continuam pendentes. O resultado global permanece **blocked**, sem equivalência integral certificada nem publicação.
+
+## Referência de Reiki recebida em 12/11
+
+O usuário forneceu a prancha única `public/brand/jornada-integrada-21-dias-aprovada.jpg`, preservada sem edição. Ela define 21 cenas em três ciclos de sete dias: São Miguel, Chama Violeta e Rafael. A hipótese anterior de três artes separadas está superada. A prancha foi incorporada à tela do percurso com acesso ao original ampliado. O player legado ainda contém sete dias de chakras; sua conversão ao roteiro integrado de 21 dias permanece pendente e não está homologada por esta inclusão da referência.

@@ -358,6 +358,14 @@ export default function ArcanjoProtocolView({ userProfile, onClose, onLogout, in
     </header>
 
     <main className="relative z-10 mx-auto w-full max-w-[500px] space-y-5 px-4 py-6 pb-16">
+      <section className="ep-forest-panel rounded-3xl p-4 space-y-3" aria-labelledby="integrated-journey-map-title">
+        <h2 id="integrated-journey-map-title" className="font-display text-xl">Jornada Integrada — Mapa Visual dos 21 Dias</h2>
+        <p className="text-sm leading-relaxed">São Miguel: presença e proteção, dias 1 a 7. Chama Violeta: transmutação e libertação, dias 8 a 14. Arcanjo Rafael: integração e recomeço, dias 15 a 21.</p>
+        <a href="/brand/jornada-integrada-21-dias-aprovada.jpg" target="_blank" rel="noopener noreferrer" className="block" aria-label="Ampliar o mapa visual completo dos 21 dias">
+          <img src="/brand/jornada-integrada-21-dias-aprovada.jpg" alt="Mapa aprovado dos 21 dias, organizado em três ciclos com figuras humanas e luz azul-dourada, violeta e verde-esmeralda." className="w-full h-auto rounded-xl" />
+          <span className="block mt-2 text-sm underline">Ampliar mapa dos 21 dias</span>
+        </a>
+      </section>
       <section>
         <div className="mb-4 flex flex-wrap items-center justify-center gap-2 text-sm text-[#5C6A60]"><ShieldCheck size={18} className="text-[#B88736]"/><span>Dia {config.dia} de 7</span><span className="text-[#B88736]/60">•</span><span>Solfeggio {config.freq} Hz</span></div>
         <ChakraBody config={config} progress={progressPercent} active={isPlaying}/>
