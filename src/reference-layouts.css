@@ -507,3 +507,36 @@
 :root[data-layout="elegancia-profunda"] #anamnesis-modal[data-assessment-editing="true"] .ep-anamnesis-frequency { background: #EAE2C8 !important; border-color: #CDBE96 !important; }
 :root[data-layout="elegancia-profunda"] #anamnesis-modal[data-assessment-editing="true"] .ep-anamnesis-frequency :is(h3,p,span) { color: #253B2C !important; }
 :root[data-layout="elegancia-profunda"] #anamnesis-modal[data-assessment-editing="true"] .ep-anamnesis-frequency button { background: #FFFDF2 !important; color: #253B2C !important; border-color: #CDBE96 !important; }
+
+/* Explicit surfaces prevent utility-color overrides from mixing light cards
+   with dark-theme text. Primary checkout actions use a solid, legible pair. */
+:root[data-layout] #numerology-modal[role="dialog"] .numerology-cycle {
+  background:var(--layout-card, #fbf8f2)!important;
+  border-color:var(--layout-border-card, #bca77f)!important;
+}
+:root[data-layout] #numerology-modal[role="dialog"] .numerology-cycle :is(p,h3,h4,strong,span,div) {
+  color:var(--layout-text, #2a2420)!important;
+}
+:root[data-layout] #numerology-modal[role="dialog"] .numerology-cycle :is(div,span)[class*="bg-white"] {
+  background:var(--layout-card, #fbf8f2)!important;
+}
+:root[data-layout] #plans-modal[role="dialog"] button.plan-primary-action,
+:root[data-layout] #plans-modal[role="dialog"] #checkout-planos button.plan-primary-action {
+  background:#e4c67c!important;
+  color:#17231d!important;
+  border:1px solid #b7974b!important;
+  box-shadow:0 4px 14px #0002!important;
+  min-height:48px;
+}
+:root[data-layout] #plans-modal[role="dialog"] button.plan-primary-action:hover {background:#f0d798!important;}
+:root[data-layout] #plans-modal[role="dialog"] button.plan-primary-action:focus-visible {outline:3px solid var(--layout-text);outline-offset:3px;}
+
+:root[data-layout] #meditation-session .ep-protocol-body { margin:12px auto; }
+:root[data-layout] #meditation-session .ep-protocol-body .reintegration-presence-visual {width:90px;height:280px;aspect-ratio:242/760;}
+:root[data-layout] #meditation-session .ep-breathing-guide {width:auto!important;height:auto!important;margin:4px!important;}
+:root[data-layout] #meditation-session .ep-breathing-guide > .absolute {display:none;}
+
+:root[data-layout] :is(#numerology-modal,#astral-map-modal)[role="dialog"] .reading-chapter {background:var(--layout-card)!important;color:var(--layout-text)!important;border-color:var(--layout-border-card)!important;}
+:root[data-layout] :is(#numerology-modal,#astral-map-modal)[role="dialog"] .reading-chapter :is(h4,p,strong) {color:var(--layout-text)!important;background:none!important;}
+
+:root[data-layout] #plans-modal[role="dialog"] [data-universal-core-benefit="true"] {background:transparent!important;color:var(--layout-text)!important;border:0!important;border-top:1px solid var(--layout-border-card)!important;border-radius:0!important;padding:12px 0 0!important;font-weight:500;box-shadow:none!important;}

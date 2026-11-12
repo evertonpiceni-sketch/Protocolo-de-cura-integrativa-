@@ -25,7 +25,7 @@ const regions: Record<number, [number, number][]> = {
   20: [[16,60],[84,60],[35,84],[65,84],[50,14],[50,33],[50,49]],
   21: [[50,14],[50,33],[50,49],[50,67],[50,84]],
 };
-export default function ReintegrationPresenceVisual({ day = 1, elapsedSeconds }: { day?: number; elapsedSeconds: number }) {
+export default function ReintegrationPresenceVisual({ day = 1, elapsedSeconds, label }: { day?: number; elapsedSeconds: number; label?: string }) {
   const weights = reintegrationPresenceWeights(elapsedSeconds);
   const instruction = getVisualDiaInstrucao(day);
   const progress = Math.max(0, Math.min(1, (elapsedSeconds - 360) / 540));
@@ -35,7 +35,7 @@ export default function ReintegrationPresenceVisual({ day = 1, elapsedSeconds }:
     const amount = Math.max(0, Math.min(1, revealed - index));
     return `radial-gradient(ellipse ${10 + amount * 8}% ${5 + amount * 5}% at ${x}% ${y}%, rgba(0,0,0,${amount}) 0%, transparent 100%)`;
   }).join(',');
-  return <div className="reintegration-presence-visual" data-day={day} data-visual-fallback="approved-human" role="img" aria-label={`Dia ${day}: ${instruction.titulo}. ${instruction.movimentoLuz}`}>
+  return <div className="reintegration-presence-visual" data-day={day} data-visual-fallback="approved-human" role="img" aria-label={label || `Dia ${day}: ${instruction.titulo}. ${instruction.movimentoLuz}`}>
     {day === 1 ? [0, 1, 2, 3, 4].map(index => <div key={index} className="reintegration-presence-frame" style={{ backgroundPosition: `${index * 25}% 48%`, opacity: weights[index], filter: index === 0 ? 'brightness(.3)' : undefined }} />) : <>
       <div className="reintegration-presence-frame" style={{backgroundPosition:'0% 48%', filter:'brightness(.3)'}} />
       <div className="reintegration-presence-frame" style={{backgroundPosition:'100% 48%', maskImage:masks, WebkitMaskImage:masks, opacity:progress > 0 ? 1 : 0}} />

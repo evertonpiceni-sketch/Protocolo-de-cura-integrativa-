@@ -17,7 +17,7 @@ import { requestWakeLock } from '../lib/wakeLockHelpers';
 import { AppLanguage, STAGE_AUDIO_TRANSLATIONS } from '../lib/i18n';
 import { resolveProtocolScript } from '../lib/protocolScript';
 
-import { SacredEnergyCanvas } from './session/SacredEnergyCanvas';
+import ReintegrationPresenceVisual from './ReintegrationPresenceVisual';
 import { ProtocolAcceptancePortal } from './session/ProtocolAcceptancePortal';
 import { SessionCheckInModal } from './session/SessionCheckInModal';
 import { SecondaryScriptDrawer } from './session/SecondaryScriptDrawer';
@@ -50,19 +50,6 @@ interface MeditationSessionProps {
   onChangeBgMusic?: (bgMusicType: '528hz' | '432hz' | '963hz' | '741hz' | 'waves' | 'none') => void;
 }
 
-const ELEGANCIA_PROFUNDA_CANVAS_THEME = {
-  glow: '#D4AF37',
-  accent: '#2E6B4F',
-  goldSoft: 'rgba(212,175,55,0.18)',
-  goldGlow: 'rgba(212,175,55,0.32)',
-  goldLine: 'rgba(212,175,55,0.46)',
-  sageSoft: 'rgba(46,107,79,0.14)',
-  sageGlow: 'rgba(46,107,79,0.24)',
-  sageLine: 'rgba(46,107,79,0.40)',
-  ivory: '#F4F1EB',
-  transparent: 'rgba(11,23,18,0)'
-};
-const ESSENCIA_LUMINOSA_CANVAS_THEME = { glow: '#C6A46A', accent: '#A6B49B' };
 
 export default function MeditationSession({
   dayNumber,
@@ -78,8 +65,6 @@ export default function MeditationSession({
   onClose,
 }: MeditationSessionProps) {
   const activeLayout = typeof document !== 'undefined' ? document.documentElement.dataset.layout : undefined;
-  const isEleganciaProfunda = activeLayout === 'elegancia-profunda';
-  const isEssenciaLuminosa = activeLayout === 'essencia-luminosa';
   const [sessionPhase, setSessionPhase] = useState<'portal' | 'checkin_before' | 'playing' | 'checkin_after' | 'completed'>('portal');
 
   useLayoutEffect(() => {
@@ -351,20 +336,9 @@ export default function MeditationSession({
     );
   }
 
-  const breathTransitionSeconds = breathePhase === 'inhale' ? 4 : breathePhase === 'hold' ? 3 : 5;
-
   return (
     <div id="meditation-session" data-session-phase={sessionPhase} className="ep-session fixed inset-0 z-50 bg-[#FAF7F2] text-[#2A2420] flex flex-col justify-between overflow-hidden select-none min-h-dvh">
       <div className="ep-session-backdrop absolute inset-0 pointer-events-none">
-        <SacredEnergyCanvas
-          dayNumber={['natural-sereno', 'elegancia-profunda', 'essencia-luminosa'].includes(activeLayout || '') ? dayNumber : undefined}
-          colorTheme={isEleganciaProfunda ? ELEGANCIA_PROFUNDA_CANVAS_THEME : isEssenciaLuminosa ? ESSENCIA_LUMINOSA_CANVAS_THEME : undefined}
-          dayOneOpening={isEleganciaProfunda && dayNumber === 1}
-          stageId={currentStage.id}
-          isPlaying={isPlaying}
-          breathePhase={breathePhase}
-          elapsedSeconds={currentTime}
-        />
         <div className="ep-session-light-overlay absolute inset-0 bg-radial from-transparent via-[#FAF7F2]/40 to-[#F4EFE6] pointer-events-none" />
       </div>
 
@@ -455,17 +429,10 @@ export default function MeditationSession({
               {currentStage.subtitle}
             </p>
 
+            <div className="ep-protocol-body">
+              <ReintegrationPresenceVisual elapsedSeconds={([0,240,360,900,1260,1620][currentStageIndex] || 0) + (duration > 0 ? Math.min(1,currentTime / duration) * 45 : 0)} label={`Protocolo ${dayNumber}: ${currentStage.title}. Silhueta humana com iluminação acompanhando a etapa da meditação.`} />
+            </div>
             <div className="ep-breathing-guide relative w-44 h-44 my-4 flex items-center justify-center">
-              <motion.div
-                animate={{
-                  scale: isPlaying
-                    ? breathePhase === 'inhale' ? 1.25 : breathePhase === 'hold' ? 1.25 : 0.9
-                    : 1,
-                  opacity: isPlaying ? 0.7 : 0.4
-                }}
-                transition={{ duration: breathTransitionSeconds, ease: 'easeInOut' }}
-                className="absolute inset-0 rounded-full border border-[#B88736]/30 bg-radial from-[#D4AF37]/15 to-transparent shadow-lg"
-              />
               <div className="relative z-10 flex flex-col items-center">
                 <span className="text-[10px] tracking-widest uppercase font-mono text-[#5C5248] mb-1 font-semibold">
                   {isPlaying ? (

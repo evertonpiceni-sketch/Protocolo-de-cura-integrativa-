@@ -26,7 +26,7 @@ test('production protocol player keeps 4-3-5 cadence and the startup audio integ
   const session = fs.readFileSync('src/components/MeditationSession.tsx', 'utf8');
   assert.ok(!session.includes('curr / 1000'), 'audio engine has already normalized native speech progress');
   assert.ok(session.includes("position < 4 ? 'inhale' : position < 7 ? 'hold' : 'exhale'"), 'breathing phase boundaries must remain 4-3-5');
-  assert.ok(session.includes("breathePhase === 'hold' ? 3 : 5"), 'visual transition must use a 3-second hold');
+  assert.ok(session.includes("Sustente por 3 segundos"), 'breathing instruction must use a 3-second hold');
   const main = fs.readFileSync('src/main.tsx', 'utf8');
   const integrity = fs.readFileSync('src/lib/audioIntegrityPatch.ts', 'utf8');
   assert.ok(main.includes("./lib/audioIntegrityPatch"), 'audio integrity patch must load before the app');

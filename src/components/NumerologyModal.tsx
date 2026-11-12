@@ -1,3 +1,4 @@
+import { NumerologyReading } from './ReflectiveReading';
 import { useDialogFocus } from '../hooks/useDialogFocus';
 /**
  * @license
@@ -97,9 +98,9 @@ export default function NumerologyModal({
           {activeTab === 'compact' && (
             <div className="space-y-4" role="tabpanel">
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-                <div className="p-4 rounded-2xl bg-[#F5EFE4] border border-[#B88736]/30 space-y-2"><div className="flex items-center justify-between"><span className="text-[10px] font-mono uppercase text-[#8F631E] font-bold">Caminho de Vida</span><span className="text-2xl font-mono font-black text-[#8F631E] bg-[#B88736]/10 px-2.5 py-0.5 rounded-lg border border-[#B88736]/30">{numerology.lifePathNumber}</span></div><h3 className="text-sm font-display font-bold text-[#2A2420]">{numerology.lifePathTitle}</h3><p className="text-xs text-[#5C5248] line-clamp-3 leading-relaxed">{numerology.lifePathMeaning}</p></div>
-                <div className="p-4 rounded-2xl bg-[#F5EFE4] border border-[#E5DAC6] space-y-2"><div className="flex items-center justify-between"><span className="text-[10px] font-mono uppercase text-[#8F631E] font-bold">Número da Alma</span><span className="text-2xl font-mono font-black text-[#8F631E] bg-white px-2.5 py-0.5 rounded-lg border border-[#E5DAC6]">{numerology.soulNumber}</span></div><h3 className="text-sm font-display font-bold text-[#2A2420]">Motivação Interior</h3><p className="text-xs text-[#5C5248] line-clamp-3 leading-relaxed">{numerology.soulMeaning}</p></div>
-                <div className="p-4 rounded-2xl bg-amber-50 border border-amber-200 space-y-2"><div className="flex items-center justify-between"><span className="text-[10px] font-mono uppercase text-amber-800 font-bold">Ano Pessoal {new Date().getFullYear()}</span><span className="text-2xl font-mono font-black text-amber-800 bg-white px-2.5 py-0.5 rounded-lg border border-amber-200">{numerology.personalYear}</span></div><h3 className="text-sm font-display font-bold text-[#2A2420]">Ciclo Vigente</h3><p className="text-xs text-[#5C5248] line-clamp-3 leading-relaxed">{numerology.personalYearMeaning}</p></div>
+                <div className="p-4 rounded-2xl bg-[#F5EFE4] border border-[#B88736]/30 space-y-2"><div className="flex items-center justify-between"><span className="text-[10px] font-mono uppercase text-[#8F631E] font-bold">Caminho de Vida</span><span className="text-2xl font-mono font-black text-[#8F631E] bg-[#B88736]/10 px-2.5 py-0.5 rounded-lg border border-[#B88736]/30">{numerology.lifePathNumber}</span></div><h3 className="text-sm font-display font-bold text-[#2A2420]">{numerology.lifePathTitle}</h3><p className="text-xs text-[#5C5248] leading-relaxed">{numerology.lifePathMeaning}</p></div>
+                <div className="p-4 rounded-2xl bg-[#F5EFE4] border border-[#E5DAC6] space-y-2"><div className="flex items-center justify-between"><span className="text-[10px] font-mono uppercase text-[#8F631E] font-bold">Número da Alma</span><span className="text-2xl font-mono font-black text-[#8F631E] bg-white px-2.5 py-0.5 rounded-lg border border-[#E5DAC6]">{numerology.soulNumber}</span></div><h3 className="text-sm font-display font-bold text-[#2A2420]">Motivação Interior</h3><p className="text-xs text-[#5C5248] leading-relaxed">{numerology.soulMeaning}</p></div>
+                <div className="numerology-cycle p-4 rounded-2xl bg-amber-50 border border-amber-200 space-y-2"><div className="flex items-center justify-between"><span className="text-[10px] font-mono uppercase text-amber-800 font-bold">Ano Pessoal {new Date().getFullYear()}</span><span className="text-2xl font-mono font-black text-amber-800 bg-white px-2.5 py-0.5 rounded-lg border border-amber-200">{numerology.personalYear}</span></div><h3 className="text-sm font-display font-bold text-[#2A2420]">Ciclo Vigente</h3><p className="text-xs text-[#5C5248] leading-relaxed">{numerology.personalYearMeaning}</p></div>
               </div>
 
               <div className="p-4 rounded-2xl bg-white/80 border border-[#E5DAC6] space-y-3">
@@ -108,6 +109,7 @@ export default function NumerologyModal({
                 <div className="pt-2 border-t border-[#E5DAC6]"><span className="text-[10px] font-mono text-[#5C5248] uppercase block mb-1">Decreto Numerológico Diário:</span><p className="text-xs text-[#2A2420] italic font-serif bg-[#F5EFE4] p-3 rounded-xl border border-[#B88736]/20">“{numerology.affirmation}”</p></div>
               </div>
 
+              <NumerologyReading data={numerology} />
               {!isFullUnlocked && (
                 <div className="p-5 rounded-3xl bg-[#F5EFE4] border border-[#B88736]/40 shadow-sm flex flex-col sm:flex-row items-center justify-between gap-4">
                   <div className="space-y-1 text-center sm:text-left"><div className="flex items-center justify-center sm:justify-start gap-2"><Crown size={16} className="text-[#B88736]" /><span className="text-xs font-mono uppercase tracking-widest text-[#8F631E] font-bold">Versão completa</span></div><h4 className="text-base font-display font-medium text-[#2A2420]">Mapa Numerológico Cabalístico Completo</h4><p className="text-xs text-[#5C5248] max-w-lg">Inclui Expressão, Personalidade, Lições Cármicas, Ano Pessoal, cristais, cores e demais leituras previstas no mapa completo. O acesso completo depende do benefício de Numerologia estar registrado e confirmado na sua conta. Consulte os planos PRO ou fale com o suporte para verificar as opções disponíveis.</p></div>
@@ -130,6 +132,7 @@ export default function NumerologyModal({
                 ))}
               </div>
 
+              <NumerologyReading data={numerology} full />
               <div className="p-5 rounded-2xl bg-white/80 border border-[#E5DAC6] space-y-4">
                 <h4 className="text-sm font-display font-medium text-[#8F631E] uppercase tracking-wide flex items-center gap-2 border-b border-[#E5DAC6] pb-2"><Sparkles size={16} /> Análise Aprofundada dos Ciclos, Alma & Maturidade</h4>
                 <div className="space-y-3 text-xs leading-relaxed text-[#5C5248]">
@@ -137,7 +140,7 @@ export default function NumerologyModal({
                   <div className="p-3 rounded-xl bg-[#FBF8F2] border border-[#E5DAC6]"><strong className="text-[#8F631E] block mb-1">Motivação da Alma:</strong><p>{numerology.soulMeaning}</p></div>
                   <div className="p-3 rounded-xl bg-[#FBF8F2] border border-[#E5DAC6]"><strong className="text-[#8F631E] block mb-1">Como o Mundo Percebe Sua Energia:</strong><p>{numerology.personalityMeaning}</p></div>
                   <div className="p-3 rounded-xl bg-[#FBF8F2] border border-[#E5DAC6]"><strong className="text-[#8F631E] block mb-1">Potencial de Expressão & Ferramentas Inatas:</strong><p>{numerology.expressionMeaning}</p></div>
-                  {numerology.maturityMeaning && <div className="p-3 rounded-xl bg-amber-50 border border-amber-200"><strong className="text-amber-800 block mb-1">Número de Maturidade:</strong><p>{numerology.maturityMeaning}</p></div>}
+                  {numerology.maturityMeaning && <div className="numerology-cycle p-3 rounded-xl bg-amber-50 border border-amber-200"><strong className="text-amber-800 block mb-1">Número de Maturidade:</strong><p>{numerology.maturityMeaning}</p></div>}
                 </div>
               </div>
 
@@ -160,7 +163,7 @@ export default function NumerologyModal({
                 <div className="p-5 rounded-3xl bg-white border border-[#B88736]/30 space-y-3"><h4 className="text-sm font-display font-medium text-[#2A2420] uppercase tracking-wide flex items-center gap-2 border-b border-[#E5DAC6] pb-2"><Compass size={16} className="text-[#B88736]" /> Atitudes Diárias do Seu Caminho de Vida</h4><div className="space-y-2">{numerology.practicalAttitudes.map((action, index) => <div key={index} className="p-2.5 rounded-xl bg-[#FBF8F2] border border-[#E5DAC6] text-xs text-[#5C5248]">{action}</div>)}</div></div>
               )}
 
-              <div className="p-5 rounded-2xl bg-amber-50 border border-amber-200 space-y-3"><div className="flex items-center gap-2"><Sun size={16} className="text-amber-700" /><h4 className="text-sm font-display font-medium text-amber-900">Leitura para o Ano Pessoal {numerology.personalYear} ({new Date().getFullYear()})</h4></div><p className="text-xs text-[#2A2420] leading-relaxed font-medium">{numerology.personalYearMeaning}</p><div className="p-3 rounded-xl bg-white border border-amber-200 text-xs text-[#5C5248]"><strong>Orientação de Éverton Piceni:</strong> {numerology.personalYearGuidance}</div></div>
+              <div className="numerology-cycle p-5 rounded-2xl bg-amber-50 border border-amber-200 space-y-3"><div className="flex items-center gap-2"><Sun size={16} className="text-amber-700" /><h4 className="text-sm font-display font-medium text-amber-900">Leitura para o Ano Pessoal {numerology.personalYear} ({new Date().getFullYear()})</h4></div><p className="text-xs text-[#2A2420] leading-relaxed font-medium">{numerology.personalYearMeaning}</p><div className="p-3 rounded-xl bg-white border border-amber-200 text-xs text-[#5C5248]"><strong>Orientação de Éverton Piceni:</strong> {numerology.personalYearGuidance}</div></div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                 <div className="p-4 rounded-2xl bg-white border border-[#E5DAC6] space-y-2"><span className="text-xs font-mono uppercase text-rose-700 font-bold block flex items-center gap-1.5"><Shield size={13} /> Lições & Desafios Cármicos</span><div className="space-y-1.5">{numerology.karmicLessons.map((lesson, index) => <p key={index} className="text-xs text-[#5C5248] bg-[#FBF8F2] p-2 rounded-lg border border-[#E5DAC6]">{lesson}</p>)}</div></div>

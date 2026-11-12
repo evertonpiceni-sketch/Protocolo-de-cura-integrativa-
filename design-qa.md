@@ -86,3 +86,7 @@ FOUR_LAYOUTS_OUT=/tmp/four-reference-layouts node scripts/verify-four-reference-
 O navegador desta verificação é o Chromium local do ambiente, não uma sessão conectada do usuário. A implementação está preparada para revisão em branch. Não houve merge nem publicação de produção.
 
 O relatório anterior do Natural Sereno permanece recuperável no histórico em `783aacc:design-qa.md`.
+
+## Revisão das regressões de 12/11/2026
+
+Ver `docs/audits/reported-regressions-2026-11-12/README.md`: contraste de planos e numerologia, aprofundamento das leituras, remoção do corpo dos fundos da Home, modelo compartilhado no protocolo e tratamento de falhas da Reintegração. Testes locais de interface passaram nos quatro estilos. A chamada real de voz em produção retornou 503; restabelecer o serviço e confirmar modelos separados de Reiki continuam pendentes. O resultado global permanece **blocked**, sem equivalência integral certificada nem publicação.

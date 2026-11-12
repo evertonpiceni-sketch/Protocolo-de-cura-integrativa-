@@ -1,0 +1,406 @@
+[
+  {
+    "layout": "natural-sereno",
+    "name": "Natural Sereno",
+    "screens": [
+      {
+        "screen": "home",
+        "path": "natural-sereno-home.jpg"
+      },
+      {
+        "screen": "numerology",
+        "path": "natural-sereno-numerology.jpg"
+      },
+      {
+        "screen": "astrology",
+        "path": "natural-sereno-astrology.jpg"
+      },
+      {
+        "screen": "plans",
+        "path": "natural-sereno-plans.jpg"
+      },
+      {
+        "screen": "checkout",
+        "path": "natural-sereno-checkout.jpg"
+      },
+      {
+        "screen": "numerology-complete",
+        "path": "natural-sereno-numerology-complete.jpg"
+      },
+      {
+        "screen": "astrology-complete",
+        "path": "natural-sereno-astrology-complete.jpg"
+      }
+    ],
+    "responsive": [],
+    "errors": [],
+    "requests": [
+      {
+        "path": "/api/user/sync",
+        "method": "POST"
+      },
+      {
+        "path": "/api/user/sync",
+        "method": "POST"
+      }
+    ],
+    "cycle": {
+      "background": "rgba(255, 255, 255, 0.92)",
+      "color": "rgb(32, 45, 36)"
+    },
+    "actions": [
+      {
+        "label": "Escolher",
+        "color": "rgb(23, 35, 29)",
+        "background": "rgb(228, 198, 124)",
+        "contrast": 9.784962971074485
+      },
+      {
+        "label": "Escolher",
+        "color": "rgb(23, 35, 29)",
+        "background": "rgb(228, 198, 124)",
+        "contrast": 9.784962971074485
+      },
+      {
+        "label": "Escolher",
+        "color": "rgb(23, 35, 29)",
+        "background": "rgb(228, 198, 124)",
+        "contrast": 9.784962971074485
+      },
+      {
+        "label": "Escolher",
+        "color": "rgb(23, 35, 29)",
+        "background": "rgb(228, 198, 124)",
+        "contrast": 9.784962971074485
+      },
+      {
+        "label": "Escolher",
+        "color": "rgb(23, 35, 29)",
+        "background": "rgb(228, 198, 124)",
+        "contrast": 9.784962971074485
+      },
+      {
+        "label": "Escolher",
+        "color": "rgb(23, 35, 29)",
+        "background": "rgb(228, 198, 124)",
+        "contrast": 9.784962971074485
+      },
+      {
+        "label": "Aplicar",
+        "color": "rgb(23, 35, 29)",
+        "background": "rgb(228, 198, 124)",
+        "contrast": 9.784962971074485
+      },
+      {
+        "label": "INICIAR PAGAMENTO SEGURO",
+        "color": "rgb(23, 35, 29)",
+        "background": "rgb(228, 198, 124)",
+        "contrast": 9.784962971074485
+      }
+    ],
+    "passed": true
+  },
+  {
+    "layout": "elegancia-profunda",
+    "name": "Elegância Profunda",
+    "screens": [
+      {
+        "screen": "home",
+        "path": "elegancia-profunda-home.jpg"
+      },
+      {
+        "screen": "numerology",
+        "path": "elegancia-profunda-numerology.jpg"
+      },
+      {
+        "screen": "astrology",
+        "path": "elegancia-profunda-astrology.jpg"
+      },
+      {
+        "screen": "plans",
+        "path": "elegancia-profunda-plans.jpg"
+      },
+      {
+        "screen": "checkout",
+        "path": "elegancia-profunda-checkout.jpg"
+      },
+      {
+        "screen": "numerology-complete",
+        "path": "elegancia-profunda-numerology-complete.jpg"
+      },
+      {
+        "screen": "astrology-complete",
+        "path": "elegancia-profunda-astrology-complete.jpg"
+      }
+    ],
+    "responsive": [],
+    "errors": [],
+    "requests": [
+      {
+        "path": "/api/user/sync",
+        "method": "POST"
+      },
+      {
+        "path": "/api/user/sync",
+        "method": "POST"
+      }
+    ],
+    "cycle": {
+      "background": "rgba(19, 42, 31, 0.82)",
+      "color": "rgb(244, 241, 235)"
+    },
+    "actions": [
+      {
+        "label": "Escolher",
+        "color": "rgb(23, 35, 29)",
+        "background": "rgb(228, 198, 124)",
+        "contrast": 9.784962971074485
+      },
+      {
+        "label": "Escolher",
+        "color": "rgb(23, 35, 29)",
+        "background": "rgb(228, 198, 124)",
+        "contrast": 9.784962971074485
+      },
+      {
+        "label": "Escolher",
+        "color": "rgb(23, 35, 29)",
+        "background": "rgb(228, 198, 124)",
+        "contrast": 9.784962971074485
+      },
+      {
+        "label": "Escolher",
+        "color": "rgb(23, 35, 29)",
+        "background": "rgb(228, 198, 124)",
+        "contrast": 9.784962971074485
+      },
+      {
+        "label": "Escolher",
+        "color": "rgb(23, 35, 29)",
+        "background": "rgb(228, 198, 124)",
+        "contrast": 9.784962971074485
+      },
+      {
+        "label": "Escolher",
+        "color": "rgb(23, 35, 29)",
+        "background": "rgb(228, 198, 124)",
+        "contrast": 9.784962971074485
+      },
+      {
+        "label": "Aplicar",
+        "color": "rgb(23, 35, 29)",
+        "background": "rgb(228, 198, 124)",
+        "contrast": 9.784962971074485
+      },
+      {
+        "label": "INICIAR PAGAMENTO SEGURO",
+        "color": "rgb(23, 35, 29)",
+        "background": "rgb(228, 198, 124)",
+        "contrast": 9.784962971074485
+      }
+    ],
+    "passed": true
+  },
+  {
+    "layout": "essencia-luminosa",
+    "name": "Essência Luminosa",
+    "screens": [
+      {
+        "screen": "home",
+        "path": "essencia-luminosa-home.jpg"
+      },
+      {
+        "screen": "numerology",
+        "path": "essencia-luminosa-numerology.jpg"
+      },
+      {
+        "screen": "astrology",
+        "path": "essencia-luminosa-astrology.jpg"
+      },
+      {
+        "screen": "plans",
+        "path": "essencia-luminosa-plans.jpg"
+      },
+      {
+        "screen": "checkout",
+        "path": "essencia-luminosa-checkout.jpg"
+      },
+      {
+        "screen": "numerology-complete",
+        "path": "essencia-luminosa-numerology-complete.jpg"
+      },
+      {
+        "screen": "astrology-complete",
+        "path": "essencia-luminosa-astrology-complete.jpg"
+      }
+    ],
+    "responsive": [],
+    "errors": [],
+    "requests": [
+      {
+        "path": "/api/user/sync",
+        "method": "POST"
+      },
+      {
+        "path": "/api/user/sync",
+        "method": "POST"
+      }
+    ],
+    "cycle": {
+      "background": "rgba(255, 255, 255, 0.96)",
+      "color": "rgb(42, 36, 32)"
+    },
+    "actions": [
+      {
+        "label": "Escolher",
+        "color": "rgb(23, 35, 29)",
+        "background": "rgb(228, 198, 124)",
+        "contrast": 9.784962971074485
+      },
+      {
+        "label": "Escolher",
+        "color": "rgb(23, 35, 29)",
+        "background": "rgb(228, 198, 124)",
+        "contrast": 9.784962971074485
+      },
+      {
+        "label": "Escolher",
+        "color": "rgb(23, 35, 29)",
+        "background": "rgb(228, 198, 124)",
+        "contrast": 9.784962971074485
+      },
+      {
+        "label": "Escolher",
+        "color": "rgb(23, 35, 29)",
+        "background": "rgb(228, 198, 124)",
+        "contrast": 9.784962971074485
+      },
+      {
+        "label": "Escolher",
+        "color": "rgb(23, 35, 29)",
+        "background": "rgb(228, 198, 124)",
+        "contrast": 9.784962971074485
+      },
+      {
+        "label": "Escolher",
+        "color": "rgb(23, 35, 29)",
+        "background": "rgb(228, 198, 124)",
+        "contrast": 9.784962971074485
+      },
+      {
+        "label": "Aplicar",
+        "color": "rgb(23, 35, 29)",
+        "background": "rgb(228, 198, 124)",
+        "contrast": 9.784962971074485
+      },
+      {
+        "label": "INICIAR PAGAMENTO SEGURO",
+        "color": "rgb(23, 35, 29)",
+        "background": "rgb(228, 198, 124)",
+        "contrast": 9.784962971074485
+      }
+    ],
+    "passed": true
+  },
+  {
+    "layout": "mistico-moderno",
+    "name": "Místico Moderno",
+    "screens": [
+      {
+        "screen": "home",
+        "path": "mistico-moderno-home.jpg"
+      },
+      {
+        "screen": "numerology",
+        "path": "mistico-moderno-numerology.jpg"
+      },
+      {
+        "screen": "astrology",
+        "path": "mistico-moderno-astrology.jpg"
+      },
+      {
+        "screen": "plans",
+        "path": "mistico-moderno-plans.jpg"
+      },
+      {
+        "screen": "checkout",
+        "path": "mistico-moderno-checkout.jpg"
+      },
+      {
+        "screen": "numerology-complete",
+        "path": "mistico-moderno-numerology-complete.jpg"
+      },
+      {
+        "screen": "astrology-complete",
+        "path": "mistico-moderno-astrology-complete.jpg"
+      }
+    ],
+    "responsive": [],
+    "errors": [],
+    "requests": [
+      {
+        "path": "/api/user/sync",
+        "method": "POST"
+      },
+      {
+        "path": "/api/user/sync",
+        "method": "POST"
+      }
+    ],
+    "cycle": {
+      "background": "rgba(20, 31, 48, 0.85)",
+      "color": "rgb(244, 241, 235)"
+    },
+    "actions": [
+      {
+        "label": "Escolher",
+        "color": "rgb(23, 35, 29)",
+        "background": "rgb(228, 198, 124)",
+        "contrast": 9.784962971074485
+      },
+      {
+        "label": "Escolher",
+        "color": "rgb(23, 35, 29)",
+        "background": "rgb(228, 198, 124)",
+        "contrast": 9.784962971074485
+      },
+      {
+        "label": "Escolher",
+        "color": "rgb(23, 35, 29)",
+        "background": "rgb(228, 198, 124)",
+        "contrast": 9.784962971074485
+      },
+      {
+        "label": "Escolher",
+        "color": "rgb(23, 35, 29)",
+        "background": "rgb(228, 198, 124)",
+        "contrast": 9.784962971074485
+      },
+      {
+        "label": "Escolher",
+        "color": "rgb(23, 35, 29)",
+        "background": "rgb(228, 198, 124)",
+        "contrast": 9.784962971074485
+      },
+      {
+        "label": "Escolher",
+        "color": "rgb(23, 35, 29)",
+        "background": "rgb(228, 198, 124)",
+        "contrast": 9.784962971074485
+      },
+      {
+        "label": "Aplicar",
+        "color": "rgb(23, 35, 29)",
+        "background": "rgb(228, 198, 124)",
+        "contrast": 9.784962971074485
+      },
+      {
+        "label": "INICIAR PAGAMENTO SEGURO",
+        "color": "rgb(23, 35, 29)",
+        "background": "rgb(228, 198, 124)",
+        "contrast": 9.784962971074485
+      }
+    ],
+    "passed": true
+  }
+]
