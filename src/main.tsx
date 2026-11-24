@@ -89,6 +89,8 @@ import './natural-sereno-contact-audit.css';
 import './natural-sereno-home-surface-audit.css';
 import './natural-sereno-guides-semantic-audit.css';
 import './natural-sereno-legacy-green-audit.css';
+import './reference-fonts.css';
+import './reference-layouts.css';
 // Latest approved Natural Sereno decisions must win over every older audit/refinement layer.
 // Keep this import last among Natural Sereno theme CSS so discarded green/amber/indigo
 // inheritance cannot regain precedence through cascade order.

@@ -28,6 +28,8 @@ export default function PersonalJourney21({ onClose, initialCompletedDays, onCom
   const lastCueRef = useRef(-1);
   const cuePendingRef = useRef(false);
   const cueRetryAtRef = useRef<Record<number, number>>({});
+  const [playbackError, setPlaybackError] = useState<string | null>(null);
+  const [voiceLoading, setVoiceLoading] = useState(false);
   const [activeCueIndex, setActiveCueIndex] = useState(-1);
   const [showScript, setShowScript] = useState(false);
   const pauseRef = useRef<HTMLElement | null>(null);
@@ -68,7 +70,7 @@ export default function PersonalJourney21({ onClose, initialCompletedDays, onCom
 
   const clearVoice = () => {
     cueRequestRef.current?.abort(); cueRequestRef.current = null;
-    if (voiceRef.current) { voiceRef.current.pause(); voiceRef.current.src = ''; voiceRef.current = null; }
+    if (voiceRef.current) { voiceRef.current.onended = null; voiceRef.current.onerror = null; voiceRef.current.pause(); voiceRef.current.src = ''; voiceRef.current = null; }
     if (voiceUrlRef.current) { URL.revokeObjectURL(voiceUrlRef.current); voiceUrlRef.current = null; }
     cuePendingRef.current = false;
   };
@@ -104,6 +106,14 @@ export default function PersonalJourney21({ onClose, initialCompletedDays, onCom
     } catch { /* music remains the authoritative clock */ }
   };
 
+  const musicPlaybackFailed = () => {
+    clearVoice();
+    playingRef.current = false; setPlaying(false); setVoiceLoading(false);
+    setPlaybackError('Não foi possível reproduzir a música. Verifique sua conexão e toque em Continuar para tentar novamente.');
+    releaseWakeLock();
+    if ('mediaSession' in navigator) navigator.mediaSession.playbackState = 'paused';
+  };
+
   const playCueForTime = async (currentTime: number) => {
     if (playingRef.current && isReintegrationAbsorption(currentTime)) {
       if (cuePendingRef.current || voiceRef.current) clearVoice();
@@ -116,8 +126,10 @@ export default function PersonalJourney21({ onClose, initialCompletedDays, onCom
     const cue = item.audioCues[dueCue];
 
     cuePendingRef.current = true;
+    setVoiceLoading(true);
     setActiveCueIndex(dueCue);
     const controller = new AbortController(); cueRequestRef.current = controller;
+    const timeout = window.setTimeout(() => controller.abort('timeout'), 25000);
     try {
       const response = await fetch('/api/reintegration-tts', {
         method: 'POST', headers: { 'Content-Type': 'application/json' },
@@ -136,22 +148,30 @@ export default function PersonalJourney21({ onClose, initialCompletedDays, onCom
         cuePendingRef.current = false; void playCueForTime(musicRef.current?.currentTime || 0);
       };
       voice.onerror = () => {
+        setPlaybackError('Não foi possível reproduzir a narração. Pause e toque em Continuar para tentar novamente.');
         if (voiceRef.current === voice) voiceRef.current = null;
         cueRetryAtRef.current[dueCue] = Date.now() + 5000;
         cuePendingRef.current = false;
       };
       await voice.play();
+      if (controller.signal.aborted || !sessionActiveRef.current || !playingRef.current) { voice.pause(); return; }
+      setPlaybackError(null);
       delete cueRetryAtRef.current[dueCue];
       lastCueRef.current = dueCue;
       if ('mediaSession' in navigator) navigator.mediaSession.playbackState = 'playing';
     } catch (error: any) {
       if (error?.name !== 'AbortError' && !controller.signal.aborted && currentReintegrationCue(item.audioCues, musicRef.current?.currentTime || 0, lastCueRef.current) === dueCue) {
-        console.warn('Reintegração: voz neural indisponível; nova tentativa será feita mantendo o player de mídia ativo.', error);
+        setPlaybackError('A narração não pôde ser carregada. Pause e toque em Continuar para tentar novamente.');
         cueRetryAtRef.current[dueCue] = Date.now() + 5000;
       }
     } finally {
-      if (cueRequestRef.current === controller) cueRequestRef.current = null;
-      if (!voiceRef.current || voiceRef.current.paused) cuePendingRef.current = false;
+      window.clearTimeout(timeout);
+      if (cueRequestRef.current === controller) {
+        if (controller.signal.reason === 'timeout') setPlaybackError('A narração demorou para responder. Pause e tente continuar novamente.');
+        setVoiceLoading(false);
+        cueRequestRef.current = null;
+        if (!voiceRef.current || voiceRef.current.paused) cuePendingRef.current = false;
+      }
     }
   };
 
@@ -162,7 +182,7 @@ export default function PersonalJourney21({ onClose, initialCompletedDays, onCom
     return () => stopSession();
   }, []);
   useEffect(() => {
-    stopSession(); setAccepted(false); setStarted(false); setAudioProgress(0);
+    stopSession(); setAccepted(false); setStarted(false); setAudioProgress(0); setPlaybackError(null); setVoiceLoading(false);
     lastCueRef.current = -1; cuePendingRef.current = false; cueRetryAtRef.current = {};
     setActiveCueIndex(-1); setShowScript(false);
     if (musicRef.current) musicRef.current.currentTime = 0;
@@ -179,7 +199,7 @@ export default function PersonalJourney21({ onClose, initialCompletedDays, onCom
       void requestWakeLock();
       const now = music.currentTime || 0;
       if (Number.isFinite(music.duration) && music.duration > 0) setAudioProgress((now / music.duration) * 100);
-      if (music.paused && now < (music.duration || 1797) - 1) void music.play().catch(() => undefined);
+      if (music.paused && now < (music.duration || 1797) - 1) void music.play().catch(musicPlaybackFailed);
       if (voiceRef.current?.paused && voiceRef.current.currentTime > 0) void voiceRef.current.play().catch(() => undefined);
       window.setTimeout(() => {
         if (voiceRef.current && !voiceRef.current.paused) return;
@@ -205,7 +225,7 @@ export default function PersonalJourney21({ onClose, initialCompletedDays, onCom
         endedRef.current = false;
         playingRef.current = true; setPlaying(true);
         void requestWakeLock();
-        void musicRef.current?.play().catch(() => undefined);
+        void musicRef.current?.play().catch(musicPlaybackFailed);
         if (voiceRef.current?.paused) void voiceRef.current.play().catch(() => undefined);
       });
       navigator.mediaSession.setActionHandler('pause', () => {
@@ -234,6 +254,8 @@ export default function PersonalJourney21({ onClose, initialCompletedDays, onCom
 
   const startGuidedMeditation = async () => {
     if (!accepted) return;
+    setPlaybackError(null);
+    cueRetryAtRef.current = {};
     endedRef.current = false;
     sessionActiveRef.current = true;
     // Defensive guard against global audio being reactivated by the same click/touch gesture.
@@ -246,7 +268,8 @@ export default function PersonalJourney21({ onClose, initialCompletedDays, onCom
     }
     if (started && audioProgress < 100) {
       playingRef.current = true; setPlaying(true);
-      await musicRef.current?.play().catch(() => undefined);
+      await musicRef.current?.play().catch(musicPlaybackFailed);
+      if (!playingRef.current) return;
       if (voiceRef.current?.paused) await voiceRef.current.play().catch(() => undefined);
       if ('mediaSession' in navigator) navigator.mediaSession.playbackState = 'playing';
       await requestWakeLock(); void playCueForTime(musicRef.current?.currentTime || 0); return;
@@ -257,7 +280,8 @@ export default function PersonalJourney21({ onClose, initialCompletedDays, onCom
     if (musicRef.current) { musicRef.current.volume = 0.22; musicRef.current.currentTime = 0; }
     // The first neural cue is requested immediately from the same user gesture as Play.
     void playCueForTime(0);
-    await musicRef.current?.play().catch(() => undefined);
+    await musicRef.current?.play().catch(musicPlaybackFailed);
+      if (!playingRef.current) return;
     if ('mediaSession' in navigator) navigator.mediaSession.playbackState = 'playing';
     await requestWakeLock();
   };
@@ -280,7 +304,7 @@ export default function PersonalJourney21({ onClose, initialCompletedDays, onCom
 
   return <div data-ep-reintegration="true" data-journey-days="21" className="ep-reintegration-shell relative min-h-screen bg-[#F8F4EC] px-4 py-5 text-[#2A2420]">
     <div className="ep-reintegration-logo pointer-events-none fixed right-4 top-4 z-20 h-14 w-14 sm:right-6 sm:top-6 sm:h-16 sm:w-16"><img src={APPROVED_LOGO_DATA_URI} alt="" aria-hidden="true" className="h-full w-full object-contain opacity-30" /></div>
-    <audio ref={musicRef} src={REINTEGRATION_MUSIC_URL} preload="auto" playsInline
+    <audio ref={musicRef} src={REINTEGRATION_MUSIC_URL} preload="auto" playsInline onError={() => { if (sessionActiveRef.current) musicPlaybackFailed(); }}
       onTimeUpdate={event => { const audio=event.currentTarget; if(Number.isFinite(audio.duration)&&audio.duration>0)setAudioProgress((audio.currentTime/audio.duration)*100); void playCueForTime(audio.currentTime); }}
       onEnded={() => { endedRef.current=true; clearVoice(); playingRef.current=false; setPlaying(false); setAudioProgress(100); releaseWakeLock(); if ('mediaSession' in navigator) navigator.mediaSession.playbackState='none'; }}/>
     <main className="mx-auto w-full max-w-[620px]">
@@ -314,6 +338,8 @@ export default function PersonalJourney21({ onClose, initialCompletedDays, onCom
               </div>
             </div></section>
           <label className="ep-reintegration-acceptance ep-reintegration-card flex cursor-pointer items-start gap-3 rounded-3xl border border-[#E5DAC6] bg-white/85 p-5 shadow-sm"><input type="checkbox" checked={accepted} onChange={e=>setAccepted(e.target.checked)} className="mt-1 h-5 w-5 accent-[#B88736]"/><span className="text-sm leading-6 text-[#2A2420]">{getReintegrationAcceptance(day)}</span></label>
+          {!started && playbackError && <p role="alert" className="rounded-xl border border-rose-300 bg-rose-50 p-4 text-sm text-rose-900">{playbackError}</p>}
+          {!started && voiceLoading && <p role="status" className="text-center text-sm">Preparando a narração…</p>}
           <button disabled={!accepted} onClick={startGuidedMeditation} className="ep-reintegration-cta flex w-full items-center justify-center gap-3 rounded-2xl bg-gradient-to-r from-[#D6A756] to-[#9E6E24] px-5 py-4 font-bold text-[#1F1B18] shadow-md shadow-[#B88736]/20 disabled:opacity-40">{playing?<Pause size={20}/>:started?<Play size={20}/>:<Headphones size={20}/>} {playing?'Pausar meditação':started?'Continuar meditação':'Iniciar meditação guiada'}</button>
           <details key={day} className="ep-reintegration-details ep-reintegration-card rounded-3xl border border-[#E5DAC6] bg-white/85 p-5 shadow-sm">
             <summary className="cursor-pointer text-sm font-semibold text-[#5C5248] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#B88736]">Conhecer as energias desta prática</summary>
@@ -343,6 +369,8 @@ export default function PersonalJourney21({ onClose, initialCompletedDays, onCom
         </div>
       </div>
       <div className="ep-reintegration-running-footer relative z-10 space-y-4 bg-gradient-to-t from-[#02101F] via-[#031426]/96 to-transparent px-6 pb-[max(1.5rem,env(safe-area-inset-bottom))] pt-12 text-center">
+        {playbackError && <p role="alert" className="rounded-xl border border-[#D9B86C] bg-[#06192B] p-3 text-sm text-[#FFF3D8]">{playbackError}</p>}
+        {voiceLoading && <p role="status" className="text-sm text-[#FFF3D8]">Preparando a narração…</p>}
         <p className="text-xs font-semibold uppercase tracking-[.22em] text-[#D9A84E]">Dia {day} · {item.title}</p>
         <p className="font-display text-2xl text-[#FFF3D8]">{playing?(elapsedSeconds>=1260&&elapsedSeconds<1620?'Absorção e silêncio':'Permaneça neste momento'):audioProgress>=100?'Meditação concluída':'Meditação pausada'}</p>
         <p className="mx-auto max-w-md text-base leading-7 text-[#E7E0D3]">{reflectionText}</p>

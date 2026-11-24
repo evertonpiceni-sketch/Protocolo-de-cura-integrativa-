@@ -1,3 +1,4 @@
+import { INTEGRATED_REIKI_DAYS, INTEGRATED_REIKI_ART, integratedReikiProgress } from '../data/integratedReikiJourney';
 import React, { useEffect, useRef, useState } from 'react';
 import { X, Play, Pause, RotateCcw, RotateCw, Volume2, BookOpen, ChevronLeft, Leaf, ShieldCheck, Heart, Loader2, LogOut } from 'lucide-react';
 import { UserProfile } from '../types';
@@ -11,21 +12,11 @@ interface ArcanjoProtocolViewProps {
   onLogout: () => void;
   onClose?: () => void;
   initialCompletedDays?: number[];
+  initialDay?: number;
   onCompletedDaysChange?: (days: number[]) => void;
 }
 
-type ProtocolConfig = {
-  dia: number;
-  nome: string;
-  subtitulo: string;
-  local: string;
-  foco: string;
-  cor: string;
-  corSecundaria: string;
-  freq: 396 | 417 | 528 | 639 | 741 | 852 | 963;
-  petals: number;
-  intencao: string;
-};
+type ProtocolConfig = typeof INTEGRATED_REIKI_DAYS[number];
 
 type ApprovedSection = {
   key: 'INTRO' | 'MIGUEL' | 'VIOLETA' | 'RAFAEL' | 'ANCORAMENTO';
@@ -34,15 +25,7 @@ type ApprovedSection = {
   ttsScript: string;
 };
 
-const DADOS_PROTOCOLO: Record<number, ProtocolConfig> = {
-  1: { dia: 1, nome: 'Chakra Básico', subtitulo: 'Raiz • Sobrevivência e Segurança', local: 'Base da coluna', foco: 'Aterramento físico e liberação do medo da escassez', cor: '#ef4444', corSecundaria: '#fca5a5', freq: 396, petals: 4, intencao: 'trazendo estabilidade, presença e segurança interior' },
-  2: { dia: 2, nome: 'Chakra Esplênico', subtitulo: 'Sacral • Vitalidade e Emoções', local: 'Abaixo do umbigo', foco: 'Liberação de bloqueios emocionais e resgate da força criativa', cor: '#f97316', corSecundaria: '#fdba74', freq: 417, petals: 6, intencao: 'liberando emoções e permitindo que a vitalidade e a criatividade voltem a fluir' },
-  3: { dia: 3, nome: 'Chakra Plexo Solar', subtitulo: 'Poder Pessoal e Autoconfiança', local: 'Boca do estômago', foco: 'Liberação de laços de ansiedade, insegurança e controle', cor: '#eab308', corSecundaria: '#fde047', freq: 528, petals: 10, intencao: 'resgatando autoconfiança, coragem e poder pessoal' },
-  4: { dia: 4, nome: 'Chakra Cardíaco', subtitulo: 'Coração • Amor e Aceitação', local: 'Centro do peito', foco: 'Transmutação simbólica de mágoas, rejeição e culpas', cor: '#22c55e', corSecundaria: '#86efac', freq: 639, petals: 12, intencao: 'abrindo espaço para amor próprio, acolhimento e perdão' },
-  5: { dia: 5, nome: 'Chakra Laríngeo', subtitulo: 'Garganta • Expressão e Verdade', local: 'Garganta', foco: 'Liberação simbólica de travas de comunicação e expressão', cor: '#0ea5e9', corSecundaria: '#7dd3fc', freq: 741, petals: 16, intencao: 'liberando sua expressão e permitindo que sua verdade seja comunicada com clareza' },
-  6: { dia: 6, nome: 'Chakra Frontal', subtitulo: 'Terceiro Olho • Mente e Intuição', local: 'Centro da testa', foco: 'Acalmar o excesso de estímulos e favorecer foco e clareza mental', cor: '#4f46e5', corSecundaria: '#a5b4fc', freq: 852, petals: 2, intencao: 'favorecendo silêncio interior, foco, discernimento e intuição' },
-  7: { dia: 7, nome: 'Chakra Coronário', subtitulo: 'Coroa • Conexão Espiritual', local: 'Topo da cabeça', foco: 'Integração, presença e conexão espiritual', cor: '#a855f7', corSecundaria: '#d8b4fe', freq: 963, petals: 24, intencao: 'aprofundando presença, integração e conexão espiritual' },
-};
+const DADOS_PROTOCOLO = Object.fromEntries(INTEGRATED_REIKI_DAYS.map(day=>[day.dia,day]));
 
 const APPROVED_SECTIONS: ApprovedSection[] = [
   { key: 'INTRO', ...DISTANCE_TREATMENT_SCRIPT.INTRO },
@@ -61,33 +44,15 @@ function approvedDisplayScript(config: ProtocolConfig) {
   return `INTENÇÃO DO DIA\n\n${dayIntroduction(config)}\n\n${sections}`;
 }
 
-const CHAKRA_POSITIONS: Record<number, string> = {
-  1: '50% 78%',
-  2: '50% 68%',
-  3: '50% 58%',
-  4: '50% 47%',
-  5: '50% 36%',
-  6: '50% 25%',
-  7: '50% 15%',
-};
-
-function ChakraBody({ config, progress, active }: { config: ProtocolConfig; progress: number | null; active: boolean }) {
-  const illumination = progress === null ? (active ? 0.22 : 0.08) : Math.max(0.08, Math.min(1, progress / 100));
-  const position = CHAKRA_POSITIONS[config.dia];
-  const glowSize = 34 + illumination * 38;
-  return <div className="relative mx-auto aspect-[4/5] w-full max-w-[430px] overflow-hidden rounded-[2rem] border border-[#B88736]/30 bg-[#021b13] shadow-[0_24px_70px_rgba(0,0,0,.38)]">
-    <img src="/brand/human-chakra-model.jpg" alt="Pessoa em meditação com os sete chakras" className="absolute inset-0 h-full w-full object-cover" style={{filter:'brightness(.34) saturate(.48)',transition:'filter 1.2s ease'}} />
-    <img src="/brand/human-chakra-model.jpg" alt="" aria-hidden="true" className="absolute inset-0 h-full w-full object-cover transition-opacity duration-1000" style={{opacity:.2 + illumination * .8,WebkitMaskImage:`radial-gradient(circle ${glowSize}px at ${position}, black 0%, rgba(0,0,0,.95) 42%, transparent 100%)`,maskImage:`radial-gradient(circle ${glowSize}px at ${position}, black 0%, rgba(0,0,0,.95) 42%, transparent 100%)`}} />
-    <div className={`absolute h-20 w-20 -translate-x-1/2 -translate-y-1/2 rounded-full transition-all duration-1000 ${active ? 'animate-pulse' : ''}`} style={{left:position.split(' ')[0],top:position.split(' ')[1],opacity:.12 + illumination * .88,transform:`translate(-50%,-50%) scale(${.72 + illumination * .42})`,background:`radial-gradient(circle,${config.corSecundaria}cc 0%,${config.cor}66 35%,transparent 72%)`,boxShadow:`0 0 ${12 + illumination * 34}px ${4 + illumination * 13}px ${config.cor}`}} aria-hidden="true" />
-    <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-[#021b13] via-[#021b13]/82 to-transparent px-5 pb-5 pt-20 text-center">
-      <p className="font-display text-3xl text-[#f5e8bd]">{config.freq} Hz</p>
-      <p className="mt-1 text-xs uppercase tracking-[.2em] text-[#B88736]">{config.nome}</p>
-      <p className="mt-2 text-xs text-[#c8d9cd]">{progress === null ? (active ? 'Prática em andamento' : 'Pronto para começar') : `${Math.round(progress)}% concluído`}</p>
-    </div>
-  </div>;
+function IntegratedDayArtwork({ config }: { config: ProtocolConfig }) {
+ const {x,y,width,height}=config.artwork;
+ return <figure className="mx-auto max-w-[230px] space-y-3" data-reiki-art-day={config.dia}>
+  <div role="img" aria-label={`Dia ${config.dia}: ${config.nome}. ${config.intencao}`} className="rounded-2xl border border-[#B88736]/30" style={{aspectRatio:`${width}/${height}`,backgroundImage:`url('${INTEGRATED_REIKI_ART}')`,backgroundSize:`${906/width*100}% ${1280/height*100}%`,backgroundPosition:`${x/(906-width)*100}% ${y/(1280-height)*100}%`,backgroundRepeat:'no-repeat'}} />
+  <figcaption className="text-center"><h2 className="font-display text-2xl">{config.nome}</h2><p className="mt-2 text-sm leading-relaxed">{config.intencao}</p></figcaption>
+ </figure>;
 }
 
-export default function ArcanjoProtocolView({ userProfile, onClose, onLogout, initialCompletedDays, onCompletedDaysChange }: ArcanjoProtocolViewProps) {
+export default function ArcanjoProtocolView({ userProfile, onClose, onLogout, initialCompletedDays, initialDay, onCompletedDaysChange }: ArcanjoProtocolViewProps) {
   const [diaAtual, setDiaAtual] = useState(1);
   const [isPlaying, setIsPlaying] = useState(false);
   const [isPreparingAudio, setIsPreparingAudio] = useState(false);
@@ -130,12 +95,12 @@ export default function ArcanjoProtocolView({ userProfile, onClose, onLogout, in
   useEffect(() => {
     let done: number[] = [];
     if (Array.isArray(initialCompletedDays)) {
-      done = [...new Set(initialCompletedDays)].filter(day => day >= 1 && day <= 7).sort((a,b) => a-b);
+      done = integratedReikiProgress(initialCompletedDays);
     } else {
-      for (let i = 1; i <= 7; i++) if (localStorage.getItem(`reiki_arcanjo_dia_${i}`) === 'true') done.push(i);
+      for (let i = 1; i <= 21; i++) if (localStorage.getItem(`reiki_integrada_21_dia_${i}`) === 'true') done.push(i);
     }
     setCompletedDays(done);
-    setDiaAtual([1,2,3,4,5,6,7].find(d => !done.includes(d)) || 1);
+    setDiaAtual(initialDay && DADOS_PROTOCOLO[initialDay] ? initialDay : INTEGRATED_REIKI_DAYS.map(day=>day.dia).find(d => !done.includes(d)) || 1);
     return () => {
       narrationRunRef.current += 1;
       if (fallbackTimerRef.current) window.clearInterval(fallbackTimerRef.current);
@@ -181,7 +146,7 @@ export default function ArcanjoProtocolView({ userProfile, onClose, onLogout, in
   };
 
   const complete = () => {
-    localStorage.setItem(`reiki_arcanjo_dia_${diaAtual}`, 'true');
+    localStorage.setItem(`reiki_integrada_21_dia_${diaAtual}`, 'true');
     const next = [...new Set([...completedDays, diaAtual])].sort((a,b) => a-b);
     setCompletedDays(next);
     onCompletedDaysChange?.(next);
@@ -323,6 +288,7 @@ export default function ArcanjoProtocolView({ userProfile, onClose, onLogout, in
 
   const selectDay = (day: number) => {
     resetPlayback();
+    if (!DADOS_PROTOCOLO[day]) return;
     setDiaAtual(day);
     setShowRoteiro(false);
   };
@@ -332,14 +298,14 @@ export default function ArcanjoProtocolView({ userProfile, onClose, onLogout, in
     audioEngine.seekSpeech(offset);
   };
 
-  return <div id="arcanjo-protocol-view" className="fixed inset-0 z-[100] overflow-y-auto bg-[#F8F4EC] text-[#2A2420]">
+  return <div id="arcanjo-protocol-view" data-integrated-reiki="true" className="fixed inset-0 z-[100] overflow-y-auto bg-[#F8F4EC] text-[#2A2420]">
     <div className="fixed inset-0 bg-[radial-gradient(circle_at_50%_0,rgba(214,167,86,.12),transparent_30rem),linear-gradient(180deg,#FBF8F2,#F8F4EC)]" />
     <header className="sticky top-0 z-20 border-b border-[#B88736]/20 bg-[#F8F4EC]/92 px-4 py-4 backdrop-blur-xl">
       <div className="mx-auto flex w-full max-w-5xl items-center justify-between gap-2">
         <button onClick={onClose} className="flex h-11 w-11 items-center justify-center text-[#B88736] shrink-0" aria-label="Voltar"><ChevronLeft size={25}/></button>
         <div className="text-center min-w-0">
-          <div className="text-[10px] sm:text-xs uppercase tracking-[.22em] text-[#B88736] truncate">Protocolo da Transformação</div>
-          <h1 className="mt-0.5 font-display text-base sm:text-lg truncate">São Miguel • Chama Violeta • São Rafael</h1>
+          <div className="text-[10px] sm:text-xs uppercase tracking-[.22em] text-[#B88736] truncate">21 dias</div>
+          <h1 className="mt-0.5 font-display text-base sm:text-lg truncate">Jornada Integrada</h1>
         </div>
         <div className="flex items-center gap-1.5 shrink-0">
           {onLogout && (
@@ -358,9 +324,19 @@ export default function ArcanjoProtocolView({ userProfile, onClose, onLogout, in
     </header>
 
     <main className="relative z-10 mx-auto w-full max-w-[500px] space-y-5 px-4 py-6 pb-16">
+      <details className="ep-forest-panel rounded-3xl p-4 space-y-3">
+        <summary className="cursor-pointer">Ver o mapa completo dos 21 dias</summary>
+        <h2 id="integrated-journey-map-title" className="font-display text-xl">Jornada Integrada — Mapa Visual dos 21 Dias</h2>
+        <p className="text-sm leading-relaxed">São Miguel: presença e proteção, dias 1 a 7. Chama Violeta: transmutação e libertação, dias 8 a 14. Arcanjo Rafael: integração e recomeço, dias 15 a 21.</p>
+        <a href="/brand/jornada-integrada-21-dias-aprovada.jpg" target="_blank" rel="noopener noreferrer" className="block" aria-label="Ampliar o mapa visual completo dos 21 dias">
+          <img src="/brand/jornada-integrada-21-dias-aprovada.jpg" alt="Mapa aprovado dos 21 dias, organizado em três ciclos com figuras humanas e luz azul-dourada, violeta e verde-esmeralda." className="w-full h-auto rounded-xl" />
+          <span className="block mt-2 text-sm underline">Ampliar mapa dos 21 dias</span>
+        </a>
+      </details>
       <section>
-        <div className="mb-4 flex flex-wrap items-center justify-center gap-2 text-sm text-[#5C6A60]"><ShieldCheck size={18} className="text-[#B88736]"/><span>Dia {config.dia} de 7</span><span className="text-[#B88736]/60">•</span><span>Solfeggio {config.freq} Hz</span></div>
-        <ChakraBody config={config} progress={progressPercent} active={isPlaying}/>
+        <div className="mb-4 flex flex-wrap items-center justify-center gap-2 text-sm text-[#5C6A60]"><ShieldCheck size={18} className="text-[#B88736]"/><span>Dia {config.dia} de 21</span><span className="text-[#B88736]/60">•</span><span>Solfeggio {config.freq} Hz</span></div>
+        <p className="mb-4 text-center font-display text-xl">{config.subtitulo}</p>
+        <IntegratedDayArtwork config={config}/>
       </section>
 
       <section className="space-y-5">
@@ -430,7 +406,7 @@ export default function ArcanjoProtocolView({ userProfile, onClose, onLogout, in
 
         <div className="ep-forest-panel rounded-[1.75rem] p-5 sm:p-7">
           <div className="mb-5 text-center"><h3 className="font-display text-2xl text-[#f5e8bd]">Seu progresso</h3><p className="mt-1 text-sm text-[#bad0c4]">Equilíbrio hoje, presença amanhã.</p></div>
-          <div className="grid grid-cols-7 gap-2">{[1,2,3,4,5,6,7].map(day=>{const dayConfig=DADOS_PROTOCOLO[day];const done=completedDays.includes(day);return <button key={day} onClick={()=>selectDay(day)} aria-label={`Abrir dia ${day}, ${dayConfig.nome}`} className={`flex min-w-0 flex-col items-center gap-2 rounded-xl border px-1 py-3 ${diaAtual===day?'border-[#B88736] bg-[#e5c66f]/12':'border-[#B88736]/15 bg-black/10'}`}><span className="flex h-7 w-7 items-center justify-center rounded-full text-xs font-bold" style={{background:done||diaAtual===day?dayConfig.cor:'#214536',color:'#fff'}}>{done?'✓':day}</span><span className="hidden text-[11px] text-[#c8d8cc] sm:block">{dayConfig.nome.replace('Chakra ','')}</span></button>})}</div>
+          <div className="grid grid-cols-7 gap-2" aria-label="21 dias da Jornada Integrada">{INTEGRATED_REIKI_DAYS.map(({dia:day})=>{const dayConfig=DADOS_PROTOCOLO[day];const done=completedDays.includes(day);return <button key={day} onClick={()=>selectDay(day)} aria-current={diaAtual===day ? 'step' : undefined} aria-label={`Abrir dia ${day}, ${dayConfig.nome}`} className={`flex min-w-0 flex-col items-center gap-2 rounded-xl border px-1 py-3 ${diaAtual===day?'border-[#B88736] bg-[#e5c66f]/12':'border-[#B88736]/15 bg-black/10'}`}><span className="flex h-7 w-7 items-center justify-center rounded-full text-xs font-bold" style={{background:done||diaAtual===day?dayConfig.cor:'#214536',color:'#fff'}}>{done?'✓':day}</span><span className="hidden text-[11px] text-[#c8d8cc] sm:block">{dayConfig.nome}</span></button>})}</div>
         </div>
 
         <button className="ep-gold-button flex min-h-12 w-full items-center justify-center gap-2 rounded-2xl px-5 py-4 font-semibold" onClick={complete}><Heart size={18}/>Concluir o momento de hoje</button>

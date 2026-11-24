@@ -52,7 +52,7 @@ const patchPlanPresentation = (root: ParentNode) => {
   ].filter(Boolean) as Element[];
 
   for (const planRoot of planRoots) {
-    const candidates = Array.from(planRoot.querySelectorAll('article, [class*="rounded-3xl"], [class*="rounded-2xl"]'));
+    const candidates = Array.from(planRoot.querySelectorAll('article, #checkout-planos'));
     for (const candidate of candidates) {
       const text = normalize(candidate.textContent || '');
       const looksLikePlan = /r\$|jornada|plano|tratamento|pro mensal|pro trimestral|pro semestral|pro anual/.test(text);

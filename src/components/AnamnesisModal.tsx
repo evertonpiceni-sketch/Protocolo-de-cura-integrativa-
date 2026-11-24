@@ -455,7 +455,7 @@ export default function AnamnesisModal({
   };
 
   return (
-    <div ref={dialogRef} className="fixed inset-0 z-50 flex items-start sm:items-center justify-center p-2 sm:p-4 bg-[#2A2420]/30 backdrop-blur-md overflow-y-auto overscroll-contain" id="anamnesis-modal" role="dialog" aria-modal="true" aria-label="Mapa do Momento">
+    <div ref={dialogRef} className="fixed inset-0 z-50 flex items-start sm:items-center justify-center p-2 sm:p-4 bg-[#2A2420]/30 backdrop-blur-md overflow-y-auto overscroll-contain" id="anamnesis-modal" data-assessment-editing={isEditing} data-assessment-step={currentStep} role="dialog" aria-modal="true" aria-label="Mapa do Momento">
       <motion.div
         ref={cardRef} tabIndex={0} aria-label="Conteúdo do Mapa do Momento"
         initial={{ opacity: 0, scale: 0.96 }}
@@ -1117,6 +1117,7 @@ export default function AnamnesisModal({
                         key={item.id}
                         type="button"
                         onClick={() => toggleItem(mainComplaints, setMainComplaints, item.id)}
+                        aria-pressed={isSelected}
                         className={`p-3 rounded-2xl border text-left flex items-center gap-3 transition cursor-pointer ${
                           isSelected
                             ? 'bg-[#F5EFE4] border-[#B88736] text-[#5C5248] shadow-md shadow-indigo-500/10'

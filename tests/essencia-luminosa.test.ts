@@ -86,17 +86,11 @@ test('a prévia neural bloqueia apenas frequências Solfeggio e mantém ambiênc
   assert.ok(!settings.includes('(isEssenciaLuminosa && isTestingVoice)'));
 });
 
-test('o player usa ouro suave e sálvia nas animações da Essência Luminosa', () => {
-  const session = fs.readFileSync('src/components/MeditationSession.tsx', 'utf8');
-  const canvas = fs.readFileSync('src/components/session/SacredEnergyCanvas.tsx', 'utf8');
-  assert.ok(session.includes("colorTheme={isEleganciaProfunda ? ELEGANCIA_PROFUNDA_CANVAS_THEME : isEssenciaLuminosa ? ESSENCIA_LUMINOSA_CANVAS_THEME : undefined}"));
-  assert.ok(session.includes("'essencia-luminosa'].includes(activeLayout || '')"));
-  assert.ok(canvas.includes('const palette = colorTheme ?'));
-  assert.ok(canvas.includes('rgba(198, 164, 106'));
-  assert.ok(canvas.includes('rgba(166, 180, 155'));
-  assert.ok(canvas.includes('rgba(255, 255, 248, 0)'));
+test('o player da Essência compartilha o modelo humano aprovado sem tingir a arte', () => {
+ const session = fs.readFileSync('src/components/MeditationSession.tsx', 'utf8');
+ assert.ok(session.includes('<ReintegrationPresenceVisual'));
+ assert.ok(!session.includes('colorTheme='));
 });
-
 
 test('os tokens ativos do Estilo 3 correspondem à paleta aprovada mais recente', () => {
   const theme = fs.readFileSync('src/approved-theme.css', 'utf8');

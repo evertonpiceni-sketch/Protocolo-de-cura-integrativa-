@@ -1,3 +1,4 @@
+import { AstrologyReading } from './ReflectiveReading';
 import { useDialogFocus } from '../hooks/useDialogFocus';
 /**
  * @license
@@ -148,7 +149,7 @@ export default function AstralMapModal({
         <div className="p-2.5 bg-white/80 border border-[#E5DAC6] rounded-2xl flex flex-wrap items-center justify-between gap-2 text-xs font-mono shrink-0 my-3">
           <div className="flex items-center gap-3 text-[#5C5248] flex-wrap">
             <span className="flex items-center gap-1.5 text-[#2A2420]"><Calendar size={13} className="text-[#B88736]" /> {formattedBirthDate}</span>
-            <span className="flex items-center gap-1.5 text-[#2A2420]"><Clock size={13} className="text-[#B88736]" /> {userProfile.birthTime ? `${userProfile.birthTime} (Ascendente calculado)` : astral ? '12:00 (aprox.)' : 'Horário não informado'}</span>
+            <span className="flex items-center gap-1.5 text-[#2A2420]"><Clock size={13} className="text-[#B88736]" /> {userProfile.birthTime ? `${userProfile.birthTime} (estimativa simbólica)` : astral ? '12:00 (aprox.)' : 'Horário não informado'}</span>
             {userProfile.birthCity && <span className="flex items-center gap-1.5 text-[#2A2420]"><MapPin size={13} className="text-[#B88736]" /> {userProfile.birthCity}</span>}
           </div>
           <button onClick={() => selectTab('edit')} className="min-h-11 px-2 text-[11px] text-[#8F631E] hover:text-[#5C5248] underline font-sans flex items-center gap-1 cursor-pointer ml-auto focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B88736]/30 rounded-lg">
@@ -173,6 +174,7 @@ export default function AstralMapModal({
         </div>
 
         <div ref={printRef} tabIndex={0} className="flex-1 overflow-y-auto overscroll-contain space-y-4 pr-1">
+          {astral && activeTab !== 'edit' && <p className="reading-chapter rounded-xl border p-3 text-xs leading-relaxed">Leitura simbólica: Lua, Ascendente, planetas e casas são estimativas. Esta versão não calcula efemérides, coordenadas e fuso histórico.</p>}
           {astral && activeTab === 'trinity' && (
             <div className="space-y-4" role="tabpanel">
               <div className="grid grid-cols-1 md:grid-cols-3 gap-3.5">
@@ -221,6 +223,7 @@ export default function AstralMapModal({
             </div>
           )}
 
+          {astral && activeTab !== 'edit' && <AstrologyReading data={astral} full={activeTab === 'planets' && hasAstralEntitlement} />}
           {astral && activeTab === 'planets' && hasAstralEntitlement && (
             <div className="space-y-3.5" role="tabpanel">
               {astral.midheavenMission && (

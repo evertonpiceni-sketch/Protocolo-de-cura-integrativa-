@@ -475,7 +475,7 @@ body::before{
    ======================================================================== */
 
 :root[data-layout="natural-sereno"]{
-  --ep-scene:url('/brand/reintegracao-presenca-arte.png');
+  --ep-scene:none;
   --ep-scene-overlay:linear-gradient(180deg,rgba(245,239,230,.22),rgba(6,42,31,.08) 44%,rgba(5,35,26,.32));
   --ep-panel:rgba(255,250,238,.90);
   --ep-panel-strong:rgba(255,252,244,.96);
@@ -500,7 +500,7 @@ body::before{
   --ep-panel-text:#F7F1E4;
 }
 :root[data-layout="mistico-moderno"]{
-  --ep-scene:url('/brand/reintegracao-presenca-arte.png');
+  --ep-scene:none;
   --ep-scene-overlay:linear-gradient(180deg,rgba(10,15,24,.14),rgba(10,15,24,.58) 48%,rgba(4,9,16,.88));
   --ep-panel:rgba(11,24,38,.84);
   --ep-panel-strong:rgba(8,20,33,.94);
@@ -697,7 +697,7 @@ body::before{
 .ep-reintegration-shell{
   background:
     linear-gradient(180deg,rgba(248,244,236,.94),rgba(248,244,236,.84)),
-    url('/brand/reintegracao-presenca-arte.png') center top/cover fixed no-repeat!important;
+    none!important;
 }
 .ep-reintegration-shell>.pointer-events-none.fixed{
   opacity:.18!important;
@@ -718,7 +718,7 @@ body::before{
 .fixed.inset-0.z-50.bg-\[\#FAF7F2\]{
   background:
     linear-gradient(180deg,rgba(2,26,18,.12),rgba(2,25,18,.82)),
-    url('/brand/reintegracao-presenca-arte.png') center/cover no-repeat!important;
+    none!important;
   color:#FFF9EC!important;
 }
 .fixed.inset-0.z-50.bg-\[\#FAF7F2\] header{
