@@ -1,3 +1,4 @@
+import { PAYMENT_PLANS } from '../lib/paymentCatalog';
 import { useDialogFocus } from '../hooks/useDialogFocus';
 /**
  * @license
@@ -42,9 +43,9 @@ export const ALL_PLANS_DATA: DetailedPlanInfo[] = [
     category: 'assinatura',
     title: 'Acesso avulso — 7 dias',
     badge: 'Opção avulsa',
-    priceFormatted: 'R$ 25,00',
+    priceFormatted: 'R$ ' + (PAYMENT_PLANS.jornada_7d.cents / 100).toFixed(2).replace('.', ','),
     periodText: 'acesso por 7 dias',
-    priceNumeric: 25,
+    priceNumeric: PAYMENT_PLANS.jornada_7d.cents / 100,
     highlightBenefit: 'Um ciclo curto e completo, com Anamnese Compacta incluída.',
     features: [
       'Anamnese Compacta com resultado imediato',
@@ -98,21 +99,21 @@ export const ALL_PLANS_DATA: DetailedPlanInfo[] = [
     id: 'trimestral', category: 'assinatura', title: 'Plano Trimestral', badge: 'Anamnese Completa incluída', isPopular: true,
     priceFormatted: 'R$ 69,90', periodText: 'por 3 meses', priceNumeric: 69.9,
     highlightBenefit: 'A partir do trimestral, a Anamnese Completa já faz parte do plano.',
-    features: ['Anamnese Compacta com resultado imediato','Anamnese Completa incluída sem cobrança adicional','Acesso às jornadas disponíveis de 7 e 21 dias por 90 dias','Diário privado e leituras de acompanhamento','Mais tempo para continuidade e integração'],
+    features: ['Anamnese Completa incluída sem cobrança adicional','Acesso às jornadas disponíveis de 7 e 21 dias por 90 dias','Diário privado e leituras de acompanhamento','Mais tempo para continuidade e integração'],
     description: 'O plano de continuidade com o aprofundamento completo já incluído.', ctaText: 'Escolher Trimestral', accentColor: 'gold', buttonClass: PREMIUM_BUTTON
   },
   {
     id: 'semestral', category: 'assinatura', title: 'Plano Semestral', badge: 'Anamnese Completa incluída',
     priceFormatted: 'R$ 99,90', periodText: 'por 6 meses', priceNumeric: 99.9,
     highlightBenefit: 'Seis meses de acesso com Anamnese Completa já incluída.',
-    features: ['Anamnese Compacta e Anamnese Completa incluídas','Acesso às jornadas disponíveis durante 180 dias','Diário privado e acompanhamento de longo prazo','1 áudio personalizado de 7 dias','Mapa Astral Completo OU Numerologia Completa'],
+    features: ['Anamnese Completa incluída sem cobrança adicional','Acesso às jornadas disponíveis durante 180 dias','Diário privado e acompanhamento de longo prazo','1 áudio personalizado de 7 dias','Mapa Astral Completo OU Numerologia Completa'],
     description: 'Para quem deseja sustentar a jornada por mais tempo, com benefícios adicionais.', ctaText: 'Escolher Semestral', accentColor: 'gold', buttonClass: PREMIUM_BUTTON
   },
   {
     id: 'anual', category: 'assinatura', title: 'Plano Anual', badge: 'Anamnese Completa incluída',
     priceFormatted: 'R$ 159,90', periodText: 'por 12 meses', priceNumeric: 159.9,
     highlightBenefit: 'Acesso contínuo por um ano com Anamnese Completa incluída.',
-    features: ['Anamnese Compacta e Anamnese Completa incluídas','Acesso às jornadas e recursos disponíveis por 12 meses','Histórico e acompanhamento preservados','Mapa Astral Completo OU Numerologia Completa'],
+    features: ['Anamnese Completa incluída sem cobrança adicional','Acesso às jornadas e recursos disponíveis por 12 meses','Histórico e acompanhamento preservados','Mapa Astral Completo OU Numerologia Completa'],
     description: 'Para quem prefere manter um espaço contínuo de acompanhamento ao longo do ano.', ctaText: 'Escolher Anual', accentColor: 'gold', buttonClass: PREMIUM_BUTTON
   },
   {
@@ -153,7 +154,7 @@ export function PlansValuesGuideModal({ isOpen, onClose, onSelectPlan, onOpenPro
             <div className="space-y-3 flex-1"><div><h3 className="text-base font-bold text-[#2A2421] min-h-[2.5rem]">{plan.title}</h3><div className="flex items-baseline gap-1 mt-1"><strong className="text-2xl font-bold text-[#2A2421]">{plan.priceFormatted}</strong><span className="text-xs text-[#6B625B]">{plan.periodText}</span></div></div><p className="text-xs text-[#A87E37] font-medium leading-snug min-h-[2.6rem]">{plan.highlightBenefit}</p><p className="text-[11px] text-[#6B625B] leading-relaxed">{plan.description}</p><div className="pt-2 border-t border-[#E8E0D5] space-y-1.5"><span className="text-[10px] text-[#6B625B] uppercase tracking-wider block font-bold">O que está incluído</span>{plan.features.map((feature) => <div key={feature} className="flex items-start gap-1.5 text-xs text-[#6B625B]"><Check size={13} className="text-[#A87E37] shrink-0 mt-0.5" /><span className="leading-tight text-[11px]">{feature}</span></div>)}</div></div>
             <div className="pt-4 mt-4 border-t border-[#E8E0D5]"><button type="button" data-plan-cta="true" onClick={() => plan.category === 'tratamento_individual' ? handleTriggerSpecificTreatment() : handleTriggerPlan(plan.id)} className={`w-full py-2.5 rounded-xl text-xs font-bold transition flex items-center justify-center gap-1.5 shadow-md ${plan.buttonClass}`}><span>{plan.ctaText}</span><ArrowRight size={13} /></button></div>
           </div>)}</div>
-          <div className="p-4 rounded-2xl bg-white/70 border border-[#E8E0D5] text-center space-y-2"><p className="text-xs text-[#6B625B]">No avulso, a Anamnese Completa custa R$ 15,00. No mensal, custa R$ 10,00 com R$ 5,00 de desconto. A partir do trimestral, já vem incluída.</p><a href="https://wa.me/5551982215296?text=Ol%C3%A1%20%C3%89verton%2C%20gostaria%20de%20tirar%20d%C3%BAvidas%20sobre%20os%20planos." target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1.5 text-xs font-bold text-[#2A2421]"><MessageCircle size={14} /> Fale conosco</a></div>
+          <div className="p-4 rounded-2xl bg-white/70 border border-[#E8E0D5] text-center space-y-2"><a href="https://wa.me/5551982215296?text=Ol%C3%A1%20%C3%89verton%2C%20gostaria%20de%20tirar%20d%C3%BAvidas%20sobre%20os%20planos." target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1.5 text-xs font-bold text-[#2A2421]"><MessageCircle size={14} /> Fale conosco</a></div>
         </div>
       </motion.div>
     </div>

@@ -542,7 +542,7 @@ test('splash e cadastro mantêm o logo oficial como assinatura, sem moldura ou p
   assert.ok(loading.includes('style={{ opacity: 0.3 }}'));
   assert.ok(!loading.includes('animate-pulse'));
   assert.ok(!loading.includes('shadow-md'));
-  assert.ok(profile.includes('ep-brand-signature-wrap w-16 h-16'));
+  assert.ok(profile.includes('ep-brand-signature-wrap w-16 h-20'));
   assert.ok(profile.includes('ep-brand-signature w-full h-full object-contain'));
   assert.ok(profile.includes('style={{ opacity: 0.3 }}'));
 });

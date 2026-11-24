@@ -211,7 +211,7 @@ export default function ProfileSetup({ onComplete }: ProfileSetupProps) {
         <div className="absolute -top-12 -right-12 w-24 h-24 bg-[#A99B84]/10 rounded-full blur-xl pointer-events-none" />
 
         <div className="text-center space-y-2">
-          <div className="ep-brand-signature-wrap w-16 h-16 rounded-full overflow-hidden mx-auto mb-5 flex items-center justify-center">
+          <div className="ep-brand-signature-wrap w-16 h-20 mx-auto mb-5 flex items-center justify-center">
             <img src={APPROVED_LOGO_DATA_URI} alt="Everton Piceni — Terapias Holísticas e Bem-Estar" className="ep-brand-signature w-full h-full object-contain" style={{ opacity: 0.3 }} />
           </div>
           <span className="text-xs font-sans tracking-widest text-[#817460] uppercase font-semibold">Terapias Holísticas e Bem-Estar</span>
