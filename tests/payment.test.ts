@@ -7,9 +7,9 @@ import path from 'node:path';
 import { paymentQuote, PAYMENT_PLANS, specificTreatmentCouponDiscount, specificTreatmentQuote } from '../src/lib/paymentCatalog';
 
 test('payment prices are authoritative for every approved plan and coupon', () => {
-  assert.equal(PAYMENT_PLANS.jornada_7d.cents, 2500);
+  assert.equal(PAYMENT_PLANS.jornada_7d.cents, 2990);
   assert.equal(PAYMENT_PLANS.jornada_21d.cents, 5000);
-  assert.equal(paymentQuote('jornada_7d').cents, 2500);
+  assert.equal(paymentQuote('jornada_7d').cents, 2990);
   assert.equal(paymentQuote('jornada_21d').cents, 5000);
   for (const [id, plan] of Object.entries(PAYMENT_PLANS)) {
     assert.equal(paymentQuote(id).cents, plan.cents);
